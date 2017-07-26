@@ -29,7 +29,15 @@ class Activity extends Component {
                   console.log('payment: ', payment)
                   return (
                     <li key={index} className={styles.activity}>
-                      hi
+                      <div className={styles.left}>
+                        <div className={styles.path}>{payment.path[0]}</div>
+                      </div>
+                      <div className={styles.center}>
+                        <div className={styles.date}>{payment.creation_date}</div>
+                      </div>
+                      <div className={styles.right}>
+                        <span className={styles.value}>{payment.value}</span>
+                      </div>
                     </li>
                   )
                 })

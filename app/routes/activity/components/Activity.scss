@@ -32,7 +32,7 @@
 	background: #F7F7F7;
 	
 	.header {
-	  width: 50%;
+	  width: 75%;
 	  margin: 0 auto;
 	  padding: 60px 0 20px 0;
 		background: #F7F7F7;
@@ -49,8 +49,35 @@
 	padding: 20px 0;
 	
 	.activityList {
-		width: 50%;
+		width: 75%;
 		margin: 0 auto;
 		background: #fff;
+	}
+}
+
+.activity {
+	padding: 35px 10px;
+	border-bottom: 1px solid #f2f2f2;
+
+	.left, .center, .right {
+		display: inline-block;
+		vertical-align: top;
+	}
+
+	.center, .right {
+		width: 10%;
+	}
+
+	.left {
+		width: 80%;
+		color: #000;
+	}
+
+	.center {
+		text-align: center;
+	}
+
+	.right {
+		text-align: right;
 	}
 }
