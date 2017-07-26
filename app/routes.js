@@ -2,12 +2,12 @@
 import React from 'react'
 import { Switch, Route } from 'react-router'
 import App from './routes/app'
-import Home from './routes/home'
+import Activity from './routes/activity'
 
 export default () => (
   <App>
     <Switch>
-      <Route path='/' component={Home} />
+      <Route path='/' component={Activity} />
     </Switch>
   </App>
 );

@@ -27,3 +27,30 @@
     font-size: 18px;
 	}
 }
+
+.transactions {
+	background: #F7F7F7;
+	
+	.header {
+	  width: 50%;
+	  margin: 0 auto;
+	  padding: 60px 0 20px 0;
+		background: #F7F7F7;
+		color: #999;
+		text-transform: uppercase;
+		font-size: 14px;
+	  font-weight: 400;
+	  letter-spacing: 1.6px;
+	}
+}
+
+.activityContainer {
+	background: #fff;
+	padding: 20px 0;
+	
+	.activityList {
+		width: 50%;
+		margin: 0 auto;
+		background: #fff;
+	}
+}
