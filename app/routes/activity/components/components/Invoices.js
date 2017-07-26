@@ -25,7 +25,7 @@ class Invoices extends Component {
           invoices.map((invoice, index) => (
               <li key={index} className={styles.invoice}>
                 <div className={styles.left}>
-                  <div className={styles.path}>{invoice.payment_request}</div>
+                  <div className={styles.path}>{`${invoice.payment_request.substring(0, 75)}...`}</div>
                 </div>
                 <div className={styles.center}>
                   <div>{invoice.memo}</div>

@@ -11,31 +11,29 @@
 }
 
 .info {
-	margin-bottom: 50%;
-	padding: 10px;
+	padding: 25px 10px 10px 10px;
 
 	.link {
 		display: inline-block;
 		vertical-align: top;
 		list-style-type: none;
-		width: 33.3%;
+		width: 50%;
 		cursor: pointer;
 	}
 }
 
 
 .currency {
-	margin: 0 5px;
+	margin: 0 1px;
 
-	&.usd {
+	&.active {
 		color: #ebb864;
-		font-weight: bold;
 	}
 }
 
 .logo {
 	text-align: center;
-	margin-top: 50px;
+	margin-bottom: 50%;
 
 	svg {
 		width: 100px;
@@ -43,9 +41,26 @@
 	}
 }
 
-.wallet {
+.balance {
 	text-align: right;
  	color: #ebb864;
+
+ 	p {
+ 		margin: 2px 0;
+
+ 		&:first-child {
+ 			font-size: 14px;
+ 		}
+
+ 		&:nth-child(2) {
+ 			font-size: 12px;
+ 		}
+
+ 		span {
+ 			display: inline-block;
+ 			vertical-align: top;
+ 		}
+ 	}
 }
 
 .links {

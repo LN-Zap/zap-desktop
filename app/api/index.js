@@ -32,3 +32,13 @@ export function callApis(endpoints) {
   const BASE_URL = 'http://localhost:3000/api/'
   return axios.all(endpoints.map(endpoint => callApi(endpoint)))
 }
+
+export function requestTicker() {
+  const BASE_URL = 'https://api.coinmarketcap.com/v1/ticker/bitcoin/'
+  return axios({
+    method: 'get',
+    url: BASE_URL
+  })
+  .then(response => response.data)
+  .catch(error => error)
+}

@@ -32,15 +32,15 @@ export const fetchActivity = () => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_ACTIVITY]: (state) => ({ ...state, isLoading: true }),
-  [RECEIVE_ACTIVITY]: (state, { payments, invoices }) => ({ ...state, isLoading: false, payments, invoices })
+  [GET_ACTIVITY]: (state) => ({ ...state, activityLoading: true }),
+  [RECEIVE_ACTIVITY]: (state, { payments, invoices }) => ({ ...state, activityLoading: false, payments, invoices })
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  isLoading: false,
+  activityLoading: false,
   payments: [],
   invoices: []
 }
