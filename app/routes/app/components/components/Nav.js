@@ -9,7 +9,6 @@ import styles from './Nav.scss'
 
 class Nav extends Component {
   render() {
-    console.log('props: ', this.props)
     const { ticker, balance } = this.props
     return (
       <nav className={styles.nav}>
@@ -23,11 +22,11 @@ class Nav extends Component {
             </span>
           </li>
           <li className={`${styles.balance} ${styles.link}`}>
-            <p>
+            <p data-hint='Wallet balance' className='hint--bottom-left'>
               <span>{ticker.current === 'btc' ? <FaBitcoin /> : <FaDollar />}</span>
               <span>{satoshisToBtc(balance.walletBalance)}</span>
             </p>
-            <p>
+            <p data-hint='Channel balance' className='hint--bottom-left'>
               <span>{ticker.current === 'btc' ? <FaBitcoin /> : <FaDollar />}</span>
               <span>{satoshisToBtc(balance.channelBalance)}</span>
             </p>
