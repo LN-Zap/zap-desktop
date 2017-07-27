@@ -64,7 +64,6 @@ class Form extends Component {
                     <h4>Connected Peers</h4>
                     {
                       peers.map(peer => {
-                        console.log('peer: ', peer)
                         return(
                           <li key={peer.pub_key} className={styles.peer} onClick={() => setPubkey(peer.pub_key)}>
                             <p className={styles.address}>{peer.address}</p>

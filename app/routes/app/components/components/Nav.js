@@ -9,25 +9,32 @@ import styles from './Nav.scss'
 
 class Nav extends Component {
   render() {
-    const { ticker, balance, formClicked } = this.props
+    const { ticker, balance, setCurrency, formClicked } = this.props
+    console.log('ticker: ', ticker)
     return (
       <nav className={styles.nav}>
         <ul className={styles.info}>
           <li className={`${styles.currencies} ${styles.link}`}>
-            <span className={`${styles.currency} ${ticker.current === 'btc' ? styles.active : ''}`}>
+            <span 
+              className={`${styles.currency} ${ticker.currency === 'btc' ? styles.active : ''}`}
+              onClick={() => setCurrency('btc')}
+            >
               <FaBitcoin />
             </span>
-            <span className={`${styles.currency} ${ticker.current === 'usd' ? styles.active : ''}`}>
+            <span
+              className={`${styles.currency} ${ticker.currency === 'usd' ? styles.active : ''}`}
+              onClick={() => setCurrency('usd')}
+            >
               <FaDollar />
             </span>
           </li>
           <li className={`${styles.balance} ${styles.link}`}>
             <p data-hint='Wallet balance' className='hint--bottom-left'>
-              <span>{ticker.current === 'btc' ? <FaBitcoin /> : <FaDollar />}</span>
+              <span>{ticker.currency === 'btc' ? <FaBitcoin /> : <FaDollar />}</span>
               <span>{satoshisToBtc(balance.walletBalance)}</span>
             </p>
             <p data-hint='Channel balance' className='hint--bottom-left'>
-              <span>{ticker.current === 'btc' ? <FaBitcoin /> : <FaDollar />}</span>
+              <span>{ticker.currency === 'btc' ? <FaBitcoin /> : <FaDollar />}</span>
               <span>{satoshisToBtc(balance.channelBalance)}</span>
             </p>
           </li>

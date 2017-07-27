@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import App from '../components/App'
-import { fetchTicker } from '../../../reducers/ticker'
+import { fetchTicker, setCurrency } from '../../../reducers/ticker'
 import { fetchBalance } from '../../../reducers/balance'
 import { fetchInfo } from '../../../reducers/info'
 import { fetchPeers } from '../../../reducers/peers'
@@ -8,6 +8,7 @@ import { setAmount, setMessage, setPubkey } from '../../../reducers/payment'
 
 const mapDispatchToProps = {
 	fetchTicker,
+	setCurrency,
 	fetchBalance,
 	fetchInfo,
 	fetchPeers,

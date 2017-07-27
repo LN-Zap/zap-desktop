@@ -27,8 +27,9 @@ class App extends Component {
       setMessage,
       setPubkey,
       payment,
-      fetchPeers,
       peers,
+      fetchPeers,
+      setCurrency,
       children
     } = this.props
 
@@ -47,6 +48,7 @@ class App extends Component {
         <Nav 
           ticker={ticker}
           balance={balance}
+          setCurrency={setCurrency}
           formClicked={(type) => this.setState({ form: true })} 
         />
         <div className={styles.content}>
