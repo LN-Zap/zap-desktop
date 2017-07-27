@@ -44,6 +44,7 @@ class App extends Component {
           payment={payment}
           fetchPeers={fetchPeers}
           peers={peers}
+          ticker={ticker}
         />
         <Nav 
           ticker={ticker}

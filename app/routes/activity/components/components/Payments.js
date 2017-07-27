@@ -2,12 +2,12 @@
 import React, { Component } from 'react'
 import Moment from 'react-moment'
 import 'moment-timezone'
-import { satoshisToBtc } from '../../../../utils/bitcoin'
+import { satoshisToBtc, satoshisToUsd } from '../../../../utils/bitcoin'
 import styles from './Payments.scss'
 
 class Payments extends Component {
 	render() {
-		const { payments } = this.props
+		const { payments, ticker } = this.props
 		return (
 			<ul className={styles.payments}>
         <li className={styles.paymentTitles}>
@@ -36,10 +36,24 @@ class Payments extends Component {
                   </div>
                 </div>
                 <div className={styles.right}>
-                  <span className={styles.fee}>{payment.fee === '0' ? '0' : satoshisToBtc(payment.fee, 2500)}</span>
+                  <span className={styles.fee}>
+                  {
+                    ticker.currency === 'btc' ?
+                      satoshisToBtc(payment.fee)
+                    :
+                      satoshisToUsd(payment.fee, ticker.btcTicker.price_usd) 
+                  }
+                  </span>
                 </div>
                 <div className={styles.right}>
-                  <span className={styles.value}>{satoshisToBtc(payment.value, 2500)}</span>
+                  <span className={styles.value}>
+                    {
+                      ticker.currency === 'btc' ?
+                        satoshisToBtc(payment.value)
+                      :
+                        satoshisToUsd(payment.value, ticker.btcTicker.price_usd) 
+                    }
+                  </span>
                 </div>
               </li>
             )

@@ -2,12 +2,12 @@
 import React, { Component } from 'react'
 import Moment from 'react-moment'
 import 'moment-timezone'
-import { satoshisToBtc } from '../../../../utils/bitcoin'
+import { satoshisToBtc, satoshisToUsd } from '../../../../utils/bitcoin'
 import styles from './Invoices.scss'
 
 class Invoices extends Component {
 	render() {
-		const { invoices } = this.props
+		const { invoices, ticker } = this.props
 		return (
 			<ul className={styles.invoices}>
         <li className={styles.invoiceTitles}>
@@ -31,7 +31,14 @@ class Invoices extends Component {
                   <div>{invoice.memo}</div>
                 </div>
                 <div className={styles.right}>
-                  <div className={invoice.settled ? styles.settled : null}>{satoshisToBtc(invoice.value, 2500)}</div>
+                  <div className={invoice.settled ? styles.settled : null}>
+                    {
+                      ticker.currency === 'btc' ?
+                        satoshisToBtc(invoice.value)
+                      :
+                        satoshisToUsd(invoice.value, ticker.btcTicker.price_usd) 
+                    }
+                  </div>
                 </div>
               </li>
             )

@@ -4,13 +4,12 @@ import { Link } from 'react-router-dom'
 import ReactSVG from 'react-svg'
 import { MdAccountBalanceWallet, MdSettings } from 'react-icons/lib/md'
 import { FaClockO, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
-import { satoshisToBtc } from '../../../../utils/bitcoin'
+import { satoshisToBtc, satoshisToUsd } from '../../../../utils/bitcoin'
 import styles from './Nav.scss'
 
 class Nav extends Component {
   render() {
     const { ticker, balance, setCurrency, formClicked } = this.props
-    console.log('ticker: ', ticker)
     return (
       <nav className={styles.nav}>
         <ul className={styles.info}>
@@ -31,11 +30,27 @@ class Nav extends Component {
           <li className={`${styles.balance} ${styles.link}`}>
             <p data-hint='Wallet balance' className='hint--bottom-left'>
               <span>{ticker.currency === 'btc' ? <FaBitcoin /> : <FaDollar />}</span>
-              <span>{satoshisToBtc(balance.walletBalance)}</span>
+              <span>
+                {
+                  ticker.currency === 'btc' ?
+                    satoshisToBtc(balance.walletBalance)
+                  :
+                    satoshisToUsd(balance.walletBalance, ticker.btcTicker.price_usd)
+                }
+              </span>
             </p>
             <p data-hint='Channel balance' className='hint--bottom-left'>
-              <span>{ticker.currency === 'btc' ? <FaBitcoin /> : <FaDollar />}</span>
-              <span>{satoshisToBtc(balance.channelBalance)}</span>
+              <span>
+                {ticker.currency === 'btc' ? <FaBitcoin /> : <FaDollar />}
+              </span>
+              <span>
+                {
+                  ticker.currency === 'btc' ?
+                    satoshisToBtc(balance.channelBalance)
+                  :
+                    satoshisToUsd(balance.channelBalance, ticker.btcTicker.price_usd)
+                }
+              </span>
             </p>
           </li>
         </ul>

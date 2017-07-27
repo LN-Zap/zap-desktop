@@ -16,6 +16,7 @@ class Form extends Component {
       setPubkey,
       payment: { amount, message, pubkey },
       peers: { peers },
+      ticker: { currency },
       isOpen,
       close
     } = this.props
@@ -29,7 +30,12 @@ class Form extends Component {
           <div className={styles.content}>
             <section className={styles.amountContainer}>
               <label>
-                <FaBitcoin />
+                {
+                  currency === 'btc' ?
+                    <FaBitcoin />
+                  :
+                    <FaDollar />
+                }
               </label>
               <input
                 type='text'

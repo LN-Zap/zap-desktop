@@ -20,7 +20,7 @@ class Activity extends Component {
 
   render() {
     const { tab } = this.state
-    const { activity: { activityLoading, payments, invoices } } = this.props
+    const { ticker, activity: { activityLoading, payments, invoices } } = this.props
     
     if (activityLoading) { return <div>Loading...</div> }
     return (
@@ -55,9 +55,9 @@ class Activity extends Component {
             >
               {
                 tab === 1 ?
-                  <Payments key={1} payments={payments} />
+                  <Payments key={1} payments={payments} ticker={ticker} />
                 :
-                  <Invoices key={2} invoices={invoices} />
+                  <Invoices key={2} invoices={invoices} ticker={ticker} />
               }
             </CSSTransitionGroup>
           </div>

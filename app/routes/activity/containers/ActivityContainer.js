@@ -7,7 +7,8 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = (state) => ({
-	activity: state.activity
+	activity: state.activity,
+	ticker: state.ticker
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity)
