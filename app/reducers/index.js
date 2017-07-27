@@ -4,6 +4,8 @@ import { routerReducer as router } from 'react-router-redux'
 import ticker from './ticker'
 import info from './info'
 import balance from './balance'
+import payment from './payment'
+import peers from './peers'
 import activity from './activity'
 
 const rootReducer = combineReducers({
@@ -11,6 +13,8 @@ const rootReducer = combineReducers({
   ticker,
   info,
   balance,
+  payment,
+  peers,
   activity
 })
 

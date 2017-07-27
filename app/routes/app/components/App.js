@@ -1,9 +1,17 @@
 // @flow
 import React, { Component } from 'react'
+import Form from './components/Form.js'
 import Nav from './components/Nav.js'
 import styles from './App.scss'
 
 class App extends Component {
+  constructor(props, context) {
+    super(props, context)
+    this.state = {
+      form: false
+    }
+  }
+
   componentWillMount() {
     const { fetchTicker, fetchBalance } = this.props
     
@@ -12,10 +20,35 @@ class App extends Component {
   }
 
   render() {
-    const { ticker, balance, children } = this.props
+    const {
+      ticker,
+      balance,
+      setAmount,
+      setMessage,
+      setPubkey,
+      payment,
+      fetchPeers,
+      peers,
+      children
+    } = this.props
+
     return (
       <div>
-        <Nav ticker={ticker} balance={balance} />
+        <Form
+          isOpen={this.state.form}
+          close={() => this.setState({ form: false })}
+          setAmount={setAmount}
+          setMessage={setMessage}
+          setPubkey={setPubkey}
+          payment={payment}
+          fetchPeers={fetchPeers}
+          peers={peers}
+        />
+        <Nav 
+          ticker={ticker}
+          balance={balance}
+          formClicked={(type) => this.setState({ form: true })} 
+        />
         <div className={styles.content}>
           {children}
         </div>

@@ -29,7 +29,7 @@ class Activity extends Component {
         	<label className={`${styles.label} ${styles.input}`}>
         		<MdSearch />
         	</label>
-        	<input className={`${styles.text} ${styles.input}`} placeholder='Search transactions by amount, pubkey, channel' type='text' />
+        	<input className={`${styles.text} ${styles.input}`} placeholder='Search transactions by amount, public key, channel' type='text' />
         </div>
 
         <div className={styles.activities}>

@@ -9,7 +9,7 @@ import styles from './Nav.scss'
 
 class Nav extends Component {
   render() {
-    const { ticker, balance } = this.props
+    const { ticker, balance, formClicked } = this.props
     return (
       <nav className={styles.nav}>
         <ul className={styles.info}>
@@ -52,11 +52,8 @@ class Nav extends Component {
           </li>
         </ul>  
         <div className={styles.buttons}>
-          <div className={styles.button}>
-            <span>Pay</span>
-          </div>
-          <div className={styles.button}>
-            <span>Request</span>
+          <div className={styles.button} onClick={formClicked}>
+            <span>New</span>
           </div>
         </div>
       </nav>
@@ -66,7 +63,8 @@ class Nav extends Component {
 
 Nav.propTypes = {
   ticker: React.PropTypes.object.isRequired,
-  balance: React.PropTypes.object.isRequired
+  balance: React.PropTypes.object.isRequired,
+  formClicked: React.PropTypes.func.isRequired
 }
 
 export default Nav
