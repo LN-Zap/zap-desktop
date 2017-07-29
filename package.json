@@ -187,6 +187,7 @@
     "electron-debug": "^1.2.0",
     "font-awesome": "^4.7.0",
     "history": "^4.6.3",
+    "js-search": "^1.4.2",
     "moment-timezone": "^0.5.13",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
