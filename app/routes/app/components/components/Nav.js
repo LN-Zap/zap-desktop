@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import ReactSVG from 'react-svg'
 import { MdAccountBalanceWallet, MdSettings } from 'react-icons/lib/md'
 import { FaClockO, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
-import { satoshisToBtc, satoshisToUsd } from '../../../../utils/bitcoin'
+import { btc } from '../../../../utils'
 import styles from './Nav.scss'
 
 class Nav extends Component {
@@ -38,9 +38,9 @@ class Nav extends Component {
               <span>
                 {
                   ticker.currency === 'btc' ?
-                    satoshisToBtc(balance.walletBalance)
+                    btc.satoshisToBtc(balance.walletBalance)
                   :
-                    satoshisToUsd(balance.walletBalance, ticker.btcTicker.price_usd)
+                    btc.satoshisToUsd(balance.walletBalance, ticker.btcTicker.price_usd)
                 }
               </span>
             </p>
@@ -51,9 +51,9 @@ class Nav extends Component {
               <span>
                 {
                   ticker.currency === 'btc' ?
-                    satoshisToBtc(balance.channelBalance)
+                    btc.satoshisToBtc(balance.channelBalance)
                   :
-                    satoshisToUsd(balance.channelBalance, ticker.btcTicker.price_usd)
+                    btc.satoshisToUsd(balance.channelBalance, ticker.btcTicker.price_usd)
                 }
               </span>
             </p>

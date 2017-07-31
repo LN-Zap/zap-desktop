@@ -5,7 +5,8 @@ import { fetchBalance } from '../../../reducers/balance'
 import { fetchInfo } from '../../../reducers/info'
 import { fetchPeers } from '../../../reducers/peers'
 import { setForm } from '../../../reducers/form'
-import { setAmount, setMessage, setPubkey } from '../../../reducers/payment'
+import { createInvoice } from '../../../reducers/invoice'
+import { setAmount, setMessage, setPubkey } from '../../../reducers/form'
 
 const mapDispatchToProps = {
 	fetchTicker,
@@ -16,7 +17,8 @@ const mapDispatchToProps = {
 	setAmount,
 	setMessage,
 	setPubkey,
-	setForm
+	setForm,
+	createInvoice
 }
 
 const mapStateToProps = (state) => ({

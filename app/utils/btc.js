@@ -21,3 +21,10 @@ export function satoshisToUsd(satoshis, price) {
 export function btcToUsd(btc, price) {
 	return parseFloat((btc * price).toFixed(2)).toLocaleString('en')
 }
+
+export default {
+	btcToSatoshis,
+	satoshisToBtc,
+	satoshisToUsd,
+	btcToUsd
+}

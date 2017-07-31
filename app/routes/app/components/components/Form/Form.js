@@ -11,15 +11,15 @@ class Form extends Component {
 
   render() {
     const { 
-      form: { formType },
+      form: { formType, amount, message, pubkey },
       setAmount,
       setMessage,
       setPubkey,
-      payment: { amount, message, pubkey },
       peers: { peers },
-      ticker: { currency },
+      ticker: { currency, btcTicker },
       isOpen,
-      close
+      close,
+      createInvoice
     } = this.props
 
     return (
@@ -102,7 +102,7 @@ class Form extends Component {
                 </section>
               :
                 <section className={styles.buttonGroup}>
-                  <div className={styles.button}>Request</div>
+                  <div className={styles.button} onClick={() => createInvoice(amount, message, currency, btcTicker.price_usd)}>Request</div>
                 </section>
             }
           </div>

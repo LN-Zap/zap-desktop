@@ -5,13 +5,6 @@ import Nav from './components/Nav.js'
 import styles from './App.scss'
 
 class App extends Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      form: false
-    }
-  }
-
   componentWillMount() {
     const { fetchTicker, fetchBalance } = this.props
     
@@ -32,6 +25,7 @@ class App extends Component {
       fetchPeers,
       setCurrency,
       setForm,
+      createInvoice,
       children
     } = this.props
 
@@ -48,6 +42,7 @@ class App extends Component {
           peers={peers}
           ticker={ticker}
           form={form}
+          createInvoice={createInvoice}
         />
         <Nav 
           ticker={ticker}

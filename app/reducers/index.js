@@ -7,6 +7,7 @@ import balance from './balance'
 import payment from './payment'
 import peers from './peers'
 import form from './form'
+import invoice from './invoice'
 import activity from './activity'
 
 const rootReducer = combineReducers({
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   payment,
   peers,
   form,
+  invoice,
   activity
 })
 

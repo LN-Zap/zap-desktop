@@ -2,7 +2,7 @@
 import React, { Component } from 'react'
 import Moment from 'react-moment'
 import 'moment-timezone'
-import { satoshisToBtc, satoshisToUsd } from '../../../../utils/bitcoin'
+import { btc } from '../../../../utils'
 import styles from './Payments.scss'
 
 class Payments extends Component {
@@ -39,9 +39,9 @@ class Payments extends Component {
                   <span className={styles.fee}>
                   {
                     ticker.currency === 'btc' ?
-                      satoshisToBtc(payment.fee)
+                      btc.satoshisToBtc(payment.fee)
                     :
-                      satoshisToUsd(payment.fee, ticker.btcTicker.price_usd) 
+                      btc.satoshisToUsd(payment.fee, ticker.btcTicker.price_usd) 
                   }
                   </span>
                 </div>
@@ -49,9 +49,9 @@ class Payments extends Component {
                   <span className={styles.value}>
                     {
                       ticker.currency === 'btc' ?
-                        satoshisToBtc(payment.value)
+                        btc.satoshisToBtc(payment.value)
                       :
-                        satoshisToUsd(payment.value, ticker.btcTicker.price_usd) 
+                        btc.satoshisToUsd(payment.value, ticker.btcTicker.price_usd) 
                     }
                   </span>
                 </div>

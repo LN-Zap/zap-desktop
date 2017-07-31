@@ -1,34 +1,45 @@
 import { callApi } from '../api'
-import { btcToSatoshis, btcToUsd } from '../utils/bitcoin'
+import { btc } from '../utils'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_AMOUNT = 'SET_AMOUNT'
-export const SET_MESSAGE = 'SET_MESSAGE'
-export const SET_PUBKEY = 'SET_PUBKEY'
+export const SEND_PAYMENT = 'SEND_PAYMENT'
+export const PAYMENT_SUCCESSFULL = 'PAYMENT_SUCCESSFULL'
+export const PAYMENT_FAILED = 'PAYMENT_FAILED'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function setAmount(amount) {
+export function sendPayment() {
   return {
-    type: SET_AMOUNT,
-    amount
+    type: SEND_PAYMENT
   }
 }
 
-export function setMessage(message) {
+export function paymentSuccessfull(data) {
   return {
-    type: SET_MESSAGE,
-    message
+    type: PAYMENT_SUCCESSFULL,
+    data
   }
 }
 
-export function setPubkey(pubkey) {
+export function paymentFailed() {
   return {
-    type: SET_PUBKEY,
-    pubkey
+    type: PAYMENT_FAILED
   }
+}
+
+export const makePayment = (dest_string, btc_amount) => async (dispatch) => {
+  const amt = btc.btcToSatoshis(btc_amount)
+
+  dispatch(sendPayment())
+  const payment = await callApi('payments', 'post', { dest_string, amt })
+  payment ?
+    dispatch(paymentSuccessfull(payment))
+  :
+    dispatch(paymentFailed())
+
+  return payment
 }
 
 
@@ -36,19 +47,13 @@ export function setPubkey(pubkey) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
-  [SET_MESSAGE]: (state, { message }) => ({ ...state, message }),
-  [SET_PUBKEY]: (state, { pubkey }) => ({ ...state, pubkey })
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  paymentLoading: false,
-  amount: '0',
-  message: '',
-  pubkey: ''
+  paymentLoading: false
 }
 
 export default function paymentReducer(state = initialState, action) {
