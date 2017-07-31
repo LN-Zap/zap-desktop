@@ -9,7 +9,12 @@ import styles from './Nav.scss'
 
 class Nav extends Component {
   render() {
-    const { ticker, balance, setCurrency, formClicked } = this.props
+    const { 
+      ticker,
+      balance,
+      setCurrency,
+      formClicked
+    } = this.props
     return (
       <nav className={styles.nav}>
         <ul className={styles.info}>
@@ -74,8 +79,11 @@ class Nav extends Component {
           </li>
         </ul>  
         <div className={styles.buttons}>
-          <div className={styles.button} onClick={formClicked}>
-            <span>New</span>
+          <div className={styles.button} onClick={() => formClicked('pay')}>
+            <span>Pay</span>
+          </div>
+          <div className={styles.button} onClick={() => formClicked('request')}>
+            <span>Request</span>
           </div>
         </div>
       </nav>

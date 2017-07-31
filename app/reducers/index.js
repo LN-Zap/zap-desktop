@@ -6,6 +6,7 @@ import info from './info'
 import balance from './balance'
 import payment from './payment'
 import peers from './peers'
+import form from './form'
 import activity from './activity'
 
 const rootReducer = combineReducers({
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   balance,
   payment,
   peers,
+  form,
   activity
 })
 

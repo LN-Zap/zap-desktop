@@ -5,11 +5,11 @@ export const SET_FORM = 'SET_FORM'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function setForm({ modalOpen, type }) {
+export function setForm({ modalOpen, formType }) {
   return {
-    type: TOGGLE_MODAL,
+    type: SET_FORM,
     modalOpen,
-    type
+    formType
   }
 }
 
@@ -17,7 +17,7 @@ export function setForm({ modalOpen, type }) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_FORM]: (state, { modalOpen, type }) => ({ ...state, modalOpen, type })
+  [SET_FORM]: (state, { modalOpen, formType }) => ({ ...state, modalOpen, formType })
 }
 
 // ------------------------------------
@@ -25,7 +25,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   modalOpen: false,
-  type: 'create'
+  formType: 'pay'
 }
 
 export default function formReducer(state = initialState, action) {
