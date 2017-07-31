@@ -17,8 +17,8 @@ export function getActivity() {
 export function receiveActvity(data) {
   return {
     type: RECEIVE_ACTIVITY,
-    payments: data[0].data.payments,
-    invoices: data[1].data.invoices 
+    payments: data[0].data.payments.reverse(),
+    invoices: data[1].data.invoices.reverse() 
   }
 }
 

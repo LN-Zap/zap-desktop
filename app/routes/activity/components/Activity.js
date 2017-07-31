@@ -15,14 +15,21 @@ class Activity extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchActivity()
+    const { fetchPayments, fetchInvoices } = this.props
+
+    fetchPayments()
+    fetchInvoices()
   }
 
   render() {
     const { tab } = this.state
-    const { ticker, activity: { activityLoading, payments, invoices } } = this.props
+    const { 
+      ticker,
+      invoice: { invoices, invoiceLoading },
+      payment: { payments, paymentLoading }
+    } = this.props
     
-    if (activityLoading) { return <div>Loading...</div> }
+    if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
     return (
       <div>
         <div className={styles.search}>

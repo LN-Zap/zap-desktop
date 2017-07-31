@@ -5,8 +5,13 @@ import { btc, usd } from '../utils'
 // ------------------------------------
 export const GET_INVOICE = 'GET_INVOICE'
 export const RECEIVE_INVOICE = 'RECEIVE_INVOICE'
+
+export const GET_INVOICES = 'GET_INVOICES'
+export const RECEIVE_INVOICES = 'RECEIVE_INVOICES'
+
 export const SEND_INVOICE = 'SEND_INVOICE'
 export const INVOICE_SUCCESSFUL = 'INVOICE_SUCCESSFUL'
+
 export const INVOICE_FAILED = 'INVOICE_FAILED'
 
 // ------------------------------------
@@ -25,6 +30,19 @@ export function receiveInvoice(data) {
   }
 }
 
+export function getInvoices() {
+  return {
+    type: GET_INVOICES
+  }
+}
+
+export function receiveInvoices(data) {
+  return {
+    type: RECEIVE_INVOICES,
+    invoices: data.invoices.reverse()
+  }
+}
+
 export function sendInvoice() {
   return {
     type: SEND_INVOICE
@@ -38,12 +56,6 @@ export function invoiceSuccessful(data) {
   }
 }
 
-export function invoiceFailed() {
-  return {
-    type: SEND_PAYMENT
-  }
-}
-
 export const fetchInvoice = (r_hash) => async (dispatch) => {
   dispatch(getInvoice())
   const invoice = await callApi(`invoice/${r_hash}`, 'get')
@@ -51,9 +63,20 @@ export const fetchInvoice = (r_hash) => async (dispatch) => {
   invoice ?
     dispatch(receiveInvoice(invoice.data))
   :
-    dispatch(invoiceFailed())
+    dispatch(invoicesFailed())
 
   return invoice
+}
+
+export const fetchInvoices = () => async (dispatch) => {
+  dispatch(getInvoice())
+  const invoices = await callApi('invoices')
+  invoices ?
+    dispatch(receiveInvoices(invoices.data))
+  :
+    dispatch(invoiceFailed())
+
+  return invoices
 }
 
 export const createInvoice = (amount, memo, currency, rate) => async (dispatch) => {
@@ -71,22 +94,34 @@ export const createInvoice = (amount, memo, currency, rate) => async (dispatch) 
   return invoice
 }
 
+
+export function invoiceFailed() {
+  return {
+    type: INVOICE_FAILED
+  }
+}
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_INVOICE]: (state) => ({ ...state, loading: true }),
-  [RECEIVE_INVOICE]: (state, { data }) => ({ ...state, loading: false, data }),
-  [SEND_INVOICE]: (state) => ({ ...state, loading: true }),
-  [INVOICE_SUCCESSFUL]: (state, { data }) => ({ ...state, loading: false, data }),
-  [INVOICE_FAILED]: (state) => ({ ...state, loading: false, data: null })
+  [GET_INVOICE]: (state) => ({ ...state, invoiceLoading: true }),
+  [RECEIVE_INVOICE]: (state, { data }) => ({ ...state, invoiceLoading: false, data }),
+
+  [GET_INVOICES]: (state) => ({ ...state, invoiceLoading: true }),
+  [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
+
+  [SEND_INVOICE]: (state) => ({ ...state, invoiceLoading: true }),
+  [INVOICE_SUCCESSFUL]: (state, { data }) => ({ ...state, invoiceLoading: false, data }),
+  [INVOICE_FAILED]: (state) => ({ ...state, invoiceLoading: false, data: null })
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  loading: false,
+  invoiceLoading: false,
+  invoices: [],
+  invoice: {},
   data: {}
 }
 

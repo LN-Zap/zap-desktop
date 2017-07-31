@@ -1,13 +1,17 @@
 import { connect } from 'react-redux'
-import { fetchActivity } from '../../../reducers/activity'
+import { fetchInvoices } from '../../../reducers/invoice'
+import { fetchPayments } from '../../../reducers/payment'
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
-	fetchActivity
+	fetchPayments,
+	fetchInvoices
 }
 
 const mapStateToProps = (state) => ({
 	activity: state.activity,
+	payment: state.payment,
+	invoice: state.invoice,
 	ticker: state.ticker
 })
 
