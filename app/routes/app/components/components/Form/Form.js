@@ -22,6 +22,11 @@ class Form extends Component {
       createInvoice
     } = this.props
 
+    const requestClicked = () => {
+      createInvoice(amount, message, currency, btcTicker.price_usd)
+      close()
+    }
+
     return (
       <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
         <div className={styles.container}>
@@ -102,7 +107,9 @@ class Form extends Component {
                 </section>
               :
                 <section className={styles.buttonGroup}>
-                  <div className={styles.button} onClick={() => createInvoice(amount, message, currency, btcTicker.price_usd)}>Request</div>
+                  <div  className={styles.button} onClick={requestClicked}>
+                    Request
+                  </div>
                 </section>
             }
           </div>
