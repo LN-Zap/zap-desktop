@@ -51,7 +51,7 @@ class Activity extends Component {
               className={`${styles.title} ${tab === 2 ? styles.active : null}`}
               onClick={() => this.setState({ tab: 2 })}
             >
-              Invoices
+              Requests
             </span>
           </header>
           <div className={styles.activityContainer}>
