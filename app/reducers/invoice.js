@@ -49,10 +49,10 @@ export function sendInvoice() {
   }
 }
 
-export function invoiceSuccessful(data) {
+export function invoiceSuccessful(invoice) {
   return {
     type: INVOICE_SUCCESSFUL,
-    data
+    invoice
   }
 }
 
@@ -84,9 +84,8 @@ export const createInvoice = (amount, memo, currency, rate) => async (dispatch) 
 
   dispatch(sendInvoice())
   const invoice = await callApi('addinvoice', 'post', { value, memo })
-  console.log('invoice: ', invoice.data)
   if (invoice) {
-    dispatch(invoiceSuccessful(invoice.data))
+    dispatch(invoiceSuccessful({ memo, value, payment_request: invoice.data.payment_request }))
   } else {
     dispatch(invoiceFailed())
   }
@@ -111,7 +110,7 @@ const ACTION_HANDLERS = {
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
 
   [SEND_INVOICE]: (state) => ({ ...state, invoiceLoading: true }),
-  [INVOICE_SUCCESSFUL]: (state, { data }) => ({ ...state, invoiceLoading: false, data }),
+  [INVOICE_SUCCESSFUL]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoices: [invoice, ...state.invoices] }),
   [INVOICE_FAILED]: (state) => ({ ...state, invoiceLoading: false, data: null })
 }
 
