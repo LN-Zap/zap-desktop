@@ -56,11 +56,12 @@ export const fetchPayments = () => async (dispatch) => {
   return payments
 }
 
-export const makePayment = (dest_string, btc_amount) => async (dispatch) => {
-  const amt = btc.btcToSatoshis(btc_amount)
-
+export const payInvoice = (payment_request) => async (dispatch) => {
   dispatch(sendPayment())
-  const payment = await callApi('payments', 'post', { dest_string, amt })
+  const payment = await callApi('sendpayment', 'post', { payment_request })
+  console.log('payment: ', payment)
+
+  return 
   payment ?
     dispatch(paymentSuccessfull(payment))
   :
@@ -75,7 +76,7 @@ export const makePayment = (dest_string, btc_amount) => async (dispatch) => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_PAYMENTS]: (state) => ({ ...state, paymentLoading: true }),
-  [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
+  [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments })
 }
 
 // ------------------------------------

@@ -60,12 +60,13 @@ export const fetchInvoice = (r_hash) => async (dispatch) => {
   dispatch(getInvoice())
   const invoice = await callApi(`invoice/${r_hash}`, 'get')
 
-  invoice ?
+  if (invoice) {
     dispatch(receiveInvoice(invoice.data))
-  :
+    return true
+  } else {
     dispatch(invoicesFailed())
-
-  return invoice
+    return false
+  }
 }
 
 export const fetchInvoices = () => async (dispatch) => {

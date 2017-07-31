@@ -5,17 +5,13 @@ import { MdArrowBack, MdClose } from 'react-icons/lib/md'
 import styles from './Form.scss'
 
 class Form extends Component {
-  componentWillMount() {
-    this.props.fetchPeers()
-  }
-
   render() {
     const { 
-      form: { formType, amount, message, pubkey },
+      form: { formType, amount, message, pubkey, payment_request },
       setAmount,
       setMessage,
       setPubkey,
-      peers: { peers },
+      setPaymentRequest,
       ticker: { currency, btcTicker },
       isOpen,
       close,
@@ -24,7 +20,9 @@ class Form extends Component {
 
     const requestClicked = () => {
       createInvoice(amount, message, currency, btcTicker.price_usd)
-      close()
+      .then(success => {
+        if (success) { close() }
+      })
     }
 
     return (
@@ -49,56 +47,30 @@ class Form extends Component {
                 style={{ width: `${(amount.length * 20) + 10}%`, fontSize: `${190 - (amount.length ** 2)}px` }}
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-              />
-            </section>
-            <section className={styles.inputContainer}>
-              <label>For:</label>
-              <input
-                type='text'
-                placeholder='Dinner, Rent, etc'
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                ref={input => input && input.focus()}
               />
             </section>
             {
               formType === 'pay' ?
                 <section className={styles.inputContainer}>
-                  <label>To:</label>
+                  <label>Request:</label>
                   <input
                     type='text'
-                    placeholder='Public key'
-                    value={pubkey}
-                    onChange={(e) => setPubkey(e.target.value)}
+                    placeholder='Payment Request'
+                    value={payment_request}
+                    onChange={(e) => setPaymentRequest(e.target.value)}
                   />
                 </section>
               :
-                null
-            }
-            {
-              formType === 'pay' ?
-                <section className={styles.peersContainer}>
-                  {
-                    peers.length ? 
-                      <ul className={styles.peers}>
-                        <h4>Connected Peers</h4>
-                        {
-                          peers.map(peer => {
-                            return(
-                              <li key={peer.pub_key} className={styles.peer} onClick={() => setPubkey(peer.pub_key)}>
-                                <p className={styles.address}>{peer.address}</p>
-                                <p className={styles.pubkey}>{peer.pub_key}</p>
-                                <MdArrowBack />
-                              </li>
-                            )
-                          })
-                        }
-                      </ul>
-                    :
-                      null
-                  }
+                <section className={styles.inputContainer}>
+                  <label>For:</label>
+                  <input
+                    type='text'
+                    placeholder='Dinner, Rent, etc'
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
                 </section>
-              :
-                null
             }
             {
               formType === 'pay' ? 

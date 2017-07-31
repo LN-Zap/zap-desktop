@@ -20,9 +20,9 @@ class App extends Component {
       setAmount,
       setMessage,
       setPubkey,
+      setPaymentRequest,
       payment,
       peers,
-      fetchPeers,
       setCurrency,
       setForm,
       createInvoice,
@@ -37,8 +37,8 @@ class App extends Component {
           setAmount={setAmount}
           setMessage={setMessage}
           setPubkey={setPubkey}
+          setPaymentRequest={setPaymentRequest}
           payment={payment}
-          fetchPeers={fetchPeers}
           peers={peers}
           ticker={ticker}
           form={form}

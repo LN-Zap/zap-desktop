@@ -4,6 +4,7 @@ export const SET_FORM = 'SET_FORM'
 export const SET_AMOUNT = 'SET_AMOUNT'
 export const SET_MESSAGE = 'SET_MESSAGE'
 export const SET_PUBKEY = 'SET_PUBKEY'
+export const SET_PAYMENT_REQUEST = 'SET_PAYMENT_REQUEST'
 export const RESET_FORM = 'RESET_FORM'
 
 // ------------------------------------
@@ -38,6 +39,13 @@ export function setPubkey(pubkey) {
   }
 }
 
+export function setPaymentRequest(payment_request) {
+  return {
+    type: SET_PAYMENT_REQUEST,
+    payment_request
+  }
+}
+
 export function resetForm() {
   return {
     type: RESET_FORM
@@ -52,6 +60,7 @@ const ACTION_HANDLERS = {
   [SET_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
   [SET_MESSAGE]: (state, { message }) => ({ ...state, message }),
   [SET_PUBKEY]: (state, { pubkey }) => ({ ...state, pubkey }),
+  [SET_PAYMENT_REQUEST]: (state, { payment_request }) => ({ ...state, payment_request }),
   [RESET_FORM]: () => (initialState)
 }
 
@@ -63,7 +72,8 @@ const initialState = {
   formType: 'pay',
   amount: '0',
   message: '',
-  pubkey: ''
+  pubkey: '',
+  payment_request: ''
 }
 
 export default function formReducer(state = initialState, action) {
