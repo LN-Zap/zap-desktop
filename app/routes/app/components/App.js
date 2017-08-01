@@ -29,7 +29,8 @@ class App extends Component {
       payInvoice,
       children
     } = this.props
-
+    
+    console.log('children: ', this.props.children)
     return (
       <div>
         <Form

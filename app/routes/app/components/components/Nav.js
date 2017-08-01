@@ -1,6 +1,6 @@
 // @flow
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import ReactSVG from 'react-svg'
 import { MdAccountBalanceWallet, MdSettings } from 'react-icons/lib/md'
 import { FaClockO, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
@@ -15,6 +15,7 @@ class Nav extends Component {
       setCurrency,
       formClicked
     } = this.props
+
     return (
       <nav className={styles.nav}>
         <ul className={styles.info}>
@@ -65,17 +66,23 @@ class Nav extends Component {
         </div>
 
         <ul className={styles.links}>
-          <li className={styles.link}>
-            <FaClockO />
-            <span>Activity</span>
+          <li>
+            <NavLink exact to='/' activeClassName={styles.active} className={styles.link}>
+              <FaClockO />
+              <span>Activity</span>
+            </NavLink>
           </li>
-          <li className={styles.link}>
-            <MdAccountBalanceWallet />
-            <span>Wallet</span>
+          <li>
+            <NavLink exact to='/wallet' activeClassName={styles.active} className={styles.link}>
+              <MdAccountBalanceWallet />
+              <span>Wallet</span>
+            </NavLink>
           </li>
-          <li className={styles.link}>
-            <MdSettings />
-            <span>Settings</span>
+          <li>
+            <NavLink to='/settings' activeClassName={styles.active} className={styles.link}>
+              <MdSettings />
+              <span>Settings</span>
+            </NavLink>
           </li>
         </ul>  
         <div className={styles.buttons}>

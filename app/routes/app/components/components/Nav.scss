@@ -70,13 +70,14 @@
 	margin: 0 auto;
 
 	.link {
+  	color: $main;
 	  margin-bottom: 20px;
 	  padding: 0 10px;
 	  opacity: 0.5;
 	  cursor: pointer;
+	  text-decoration: none;
 
-	  &:first-child {
-	  	color: $main;
+	  &.active {
 	  	opacity: 1.0;
 	  }
 
