@@ -10,7 +10,7 @@ class Activity extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      tab: 1
+      tab: 2
     }
   }
 
@@ -25,10 +25,14 @@ class Activity extends Component {
     const { tab } = this.state
     const { 
       ticker,
-      invoice: { invoices, invoiceLoading },
-      payment: { payments, paymentLoading }
+      invoice: { invoice, invoices, invoiceLoading },
+      payment: { payment, payments, paymentLoading },
+      setPayment,
+      setInvoice,
+      paymentModalOpen,
+      invoiceModalOpen
     } = this.props
-    
+
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
     return (
       <div>
@@ -62,9 +66,23 @@ class Activity extends Component {
             >
               {
                 tab === 1 ?
-                  <Payments key={1} payments={payments} ticker={ticker} />
+                  <Payments
+                    key={1}
+                    payment={payment}
+                    payments={payments}
+                    ticker={ticker}
+                    setPayment={setPayment}
+                    paymentModalOpen={paymentModalOpen}
+                  />
                 :
-                  <Invoices key={2} invoices={invoices} ticker={ticker} />
+                  <Invoices
+                    key={2}
+                    invoice={invoice}
+                    invoices={invoices}
+                    ticker={ticker}
+                    setInvoice={setInvoice}
+                    invoiceModalOpen={invoiceModalOpen}
+                  />
               }
             </CSSTransitionGroup>
           </div>

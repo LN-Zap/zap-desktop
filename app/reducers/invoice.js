@@ -1,8 +1,11 @@
+import { createSelector } from 'reselect'
 import { callApi } from '../api'
 import { btc, usd } from '../utils'
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const SET_INVOICE = 'SET_INVOICE'
+
 export const GET_INVOICE = 'GET_INVOICE'
 export const RECEIVE_INVOICE = 'RECEIVE_INVOICE'
 
@@ -17,6 +20,13 @@ export const INVOICE_FAILED = 'INVOICE_FAILED'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function setInvoice(invoice) {
+  return {
+    type: SET_INVOICE,
+    invoice
+  }
+}
+
 export function getInvoice() {
   return {
     type: GET_INVOICE
@@ -104,6 +114,8 @@ export function invoiceFailed() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
+
   [GET_INVOICE]: (state) => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICE]: (state, { data }) => ({ ...state, invoiceLoading: false, data }),
 
@@ -115,13 +127,23 @@ const ACTION_HANDLERS = {
   [INVOICE_FAILED]: (state) => ({ ...state, invoiceLoading: false, data: null })
 }
 
+const invoiceSelectors = {}
+const modalInvoiceSelector = state => state.invoice.invoice
+
+invoiceSelectors.invoiceModalOpen = createSelector(
+  modalInvoiceSelector,
+  invoice => invoice ? true : false
+)
+
+export { invoiceSelectors }
+
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
   invoiceLoading: false,
   invoices: [],
-  invoice: {},
+  invoice: null,
   data: {}
 }
 

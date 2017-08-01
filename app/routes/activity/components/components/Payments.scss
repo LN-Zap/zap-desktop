@@ -1,5 +1,48 @@
 @import '../../../../variables.scss';
 
+.paymentModal {
+	padding: 40px;
+
+	h1 {
+		text-align: center;
+		color: $main;
+		margin: 60px 30px 60px 0;
+
+		svg {
+			font-size: 30px;
+		}
+
+		.value {
+			font-size: 80px;
+		}
+	}
+
+	h3 {
+		font-size: 14px;
+		text-align: center;
+		color: $black;
+		font-weight: bold;
+	}
+
+	dt {
+		text-align: left;
+    float: left;
+    clear: left;
+    font-weight: 500;
+    padding: 20px 35px 19px 0;
+    color: $black;
+    font-weight: bold;
+	}
+
+	dd {
+		text-align: right;
+    font-weight: 400;
+    padding: 19px 0;
+    margin-left: 0;
+    border-top: 1px solid $darkgrey;
+	}
+}
+
 .payments {
 	width: 75%;
 	margin: 0 auto;

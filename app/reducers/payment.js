@@ -1,8 +1,11 @@
+import { createSelector } from 'reselect'
 import { callApi } from '../api'
 import { btc } from '../utils'
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const SET_PAYMENT = 'SET_PAYMENT'
+
 export const GET_PAYMENTS = 'GET_PAYMENTS'
 export const RECEIVE_PAYMENTS = 'RECEIVE_PAYMENTS'
 
@@ -13,6 +16,13 @@ export const PAYMENT_FAILED = 'PAYMENT_FAILED'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function setPayment(payment) {
+  return {
+    type: SET_PAYMENT,
+    payment
+  }
+}
+
 export function getPayments() {
   return {
     type: GET_PAYMENTS
@@ -76,16 +86,28 @@ export const payInvoice = (payment_request) => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
   [GET_PAYMENTS]: (state) => ({ ...state, paymentLoading: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments })
 }
+
+const paymentSelectors = {}
+const modalPaymentSelector = state => state.payment.payment
+
+paymentSelectors.paymentModalOpen = createSelector(
+  modalPaymentSelector,
+  payment => payment ? true : false
+)
+
+export { paymentSelectors }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
   paymentLoading: false,
-  payments: []
+  payments: [],
+  payment: null
 }
 
 export default function paymentReducer(state = initialState, action) {
