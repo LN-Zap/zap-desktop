@@ -57,6 +57,7 @@ export const fetchPayments = () => async (dispatch) => {
 }
 
 export const payInvoice = (payment_request) => async (dispatch) => {
+  console.log('payment_request: ', payment_request)
   dispatch(sendPayment())
   const payment = await callApi('sendpayment', 'post', { payment_request })
   console.log('payment: ', payment)

@@ -1,14 +1,16 @@
+@import '../../../../variables.scss';
+
 .payments {
 	width: 75%;
 	margin: 0 auto;
-	background: #fff;
+	background: $white;
 }
 
 .payment, .paymentTitles {
 	display: flex;
 	flex-direction: 'row';
 	padding: 35px 10px;
-	border-bottom: 1px solid #f2f2f2;
+	border-bottom: 1px solid $grey;
 	font-size: 14px;
 
 	.left, .center, .right {
@@ -29,9 +31,18 @@
 	border: none;
 
 	.left, .center, .right {
-		color: #000;
+		color: $black;
 		text-transform: uppercase;
 		font-size: 16px;
 		font-weight: bold;
+	}
+}
+
+
+.payment {
+	cursor: pointer;
+
+	&:hover {
+		background: lighten($grey, 5%);
 	}
 }

@@ -26,6 +26,7 @@ class App extends Component {
       setCurrency,
       setForm,
       createInvoice,
+      payInvoice,
       children
     } = this.props
 
@@ -43,6 +44,7 @@ class App extends Component {
           ticker={ticker}
           form={form}
           createInvoice={createInvoice}
+          payInvoice={payInvoice}
         />
         <Nav 
           ticker={ticker}

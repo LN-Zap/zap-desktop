@@ -15,11 +15,19 @@ class Form extends Component {
       ticker: { currency, btcTicker },
       isOpen,
       close,
-      createInvoice
+      createInvoice,
+      payInvoice
     } = this.props
 
     const requestClicked = () => {
       createInvoice(amount, message, currency, btcTicker.price_usd)
+      .then(success => {
+        if (success) { close() }
+      })
+    }
+
+    const payClicked = () => {
+      payInvoice(payment_request)
       .then(success => {
         if (success) { close() }
       })
@@ -47,7 +55,6 @@ class Form extends Component {
                 style={{ width: `${(amount.length * 20) + 10}%`, fontSize: `${190 - (amount.length ** 2)}px` }}
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                ref={input => input && input.focus()}
               />
             </section>
             {
@@ -75,7 +82,9 @@ class Form extends Component {
             {
               formType === 'pay' ? 
                 <section className={styles.buttonGroup}>
-                  <div className={styles.button}>Pay</div>
+                  <div className={styles.button} onClick={payClicked}>
+                    Pay
+                  </div>
                 </section>
               :
                 <section className={styles.buttonGroup}>

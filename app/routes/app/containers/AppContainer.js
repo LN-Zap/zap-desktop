@@ -5,6 +5,7 @@ import { fetchBalance } from '../../../reducers/balance'
 import { fetchInfo } from '../../../reducers/info'
 import { setForm } from '../../../reducers/form'
 import { createInvoice } from '../../../reducers/invoice'
+import { payInvoice } from '../../../reducers/payment'
 import { setAmount, setMessage, setPubkey, setPaymentRequest } from '../../../reducers/form'
 
 const mapDispatchToProps = {
@@ -17,7 +18,8 @@ const mapDispatchToProps = {
 	setPubkey,
 	setPaymentRequest,
 	setForm,
-	createInvoice
+	createInvoice,
+	payInvoice
 }
 
 const mapStateToProps = (state) => ({

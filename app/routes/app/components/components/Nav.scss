@@ -1,13 +1,15 @@
+@import '../../../../variables.scss';
+
 .nav {
 	display: inline-block;
 	vertical-align: top;
 	width: 20%;
 	font-size: 24px;
-	background: #1d1d1d;
+	background: $secondary;
 	height: 100vh;
 	position: relative;
 	min-width: 15%;
-	color: #ffffff;
+	color: $white;
 }
 
 .info {
@@ -27,7 +29,7 @@
 	margin: 0 1px;
 
 	&.active {
-		color: #ebb864;
+		color: $main;
 	}
 }
 
@@ -43,7 +45,7 @@
 
 .balance {
 	text-align: right;
- 	color: #ebb864;
+ 	color: $main;
 
  	p {
  		margin: 2px 0;
@@ -74,7 +76,7 @@
 	  cursor: pointer;
 
 	  &:first-child {
-	  	color: #ebb864;
+	  	color: $main;
 	  	opacity: 1.0;
 	  }
 
@@ -104,7 +106,7 @@
 .button {
 	text-align: center;
 	border-radius: 8px;
-	background: #ebb864;
+	background: $main;
 	margin-bottom: 20px;
 	padding: 20px 10px;
 	font-weight: bold;
@@ -113,7 +115,7 @@
 	letter-spacing: .2px;
 
 	&:hover {
-		background: lighten(#ebb864, 5%);
+		background: lighten($main, 5%);
 	}
 }
 
