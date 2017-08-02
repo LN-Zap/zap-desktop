@@ -4,6 +4,8 @@ import { btc, usd } from '../utils'
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const SEARCH_INVOICES = 'SEARCH_INVOICES'
+
 export const SET_INVOICE = 'SET_INVOICE'
 
 export const GET_INVOICE = 'GET_INVOICE'
@@ -20,6 +22,13 @@ export const INVOICE_FAILED = 'INVOICE_FAILED'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function searchInvoices(invoicesSearchText) {
+  return {
+    type: SEARCH_INVOICES,
+    invoicesSearchText
+  }
+}
+
 export function setInvoice(invoice) {
   return {
     type: SET_INVOICE,
@@ -114,6 +123,8 @@ export function invoiceFailed() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SEARCH_INVOICES]: (state, { invoicesSearchText }) => ({ ...state, invoicesSearchText }),
+
   [SET_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
 
   [GET_INVOICE]: (state) => ({ ...state, invoiceLoading: true }),
@@ -128,11 +139,19 @@ const ACTION_HANDLERS = {
 }
 
 const invoiceSelectors = {}
-const modalInvoiceSelector = state => state.invoice.invoice
+const invoiceSelector = state => state.invoice.invoice
+const invoicesSelector = state => state.invoice.invoices
+const invoicesSearchTextSelector = state => state.invoice.invoicesSearchText
 
 invoiceSelectors.invoiceModalOpen = createSelector(
-  modalInvoiceSelector,
+  invoiceSelector,
   invoice => invoice ? true : false
+)
+
+invoiceSelectors.invoices = createSelector(
+  invoicesSelector,
+  invoicesSearchTextSelector,
+  (invoices, invoicesSearchText) => invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
 )
 
 export { invoiceSelectors }
@@ -144,6 +163,7 @@ const initialState = {
   invoiceLoading: false,
   invoices: [],
   invoice: null,
+  invoicesSearchText: '',
   data: {}
 }
 

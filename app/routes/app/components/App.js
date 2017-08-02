@@ -30,7 +30,6 @@ class App extends Component {
       children
     } = this.props
     
-    console.log('children: ', this.props.children)
     return (
       <div>
         <Form

@@ -25,7 +25,9 @@ class Activity extends Component {
     const { tab } = this.state
     const { 
       ticker,
-      invoice: { invoice, invoices, invoiceLoading },
+      searchInvoices,
+      invoices,
+      invoice: { invoicesSearchText, invoice, invoiceLoading },
       payment: { payment, payments, paymentLoading },
       setPayment,
       setInvoice,
@@ -40,7 +42,13 @@ class Activity extends Component {
         	<label className={`${styles.label} ${styles.input}`}>
         		<MdSearch />
         	</label>
-        	<input className={`${styles.text} ${styles.input}`} placeholder='Search transactions by amount, public key, channel' type='text' />
+        	<input
+            value={invoicesSearchText}
+            onChange={event => tab === 1 ? null : searchInvoices(event.target.value)}
+            className={`${styles.text} ${styles.input}`}
+            placeholder={tab === 1 ? 'Search transactions by amount, public key, channel' : 'Search requests by memo'}
+            type='text'
+          />
         </div>
 
         <div className={styles.activities}>
@@ -91,6 +99,5 @@ class Activity extends Component {
     )
   }
 }
-
 
 export default Activity
