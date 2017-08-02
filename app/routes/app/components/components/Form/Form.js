@@ -52,7 +52,7 @@ class Form extends Component {
               <input
                 type='text'
                 size=''
-                style={{ width: `${(amount.length * 20) + 10}%`, fontSize: `${190 - (amount.length ** 2)}px` }}
+                style={{ width: `${amount.length > 1 ? (amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }}
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />

@@ -10,7 +10,7 @@ class Activity extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      tab: 2
+      tab: 1
     }
   }
 
@@ -43,7 +43,7 @@ class Activity extends Component {
         		<MdSearch />
         	</label>
         	<input
-            value={invoicesSearchText}
+            value={tab === 1 ? '' : invoicesSearchText}
             onChange={event => tab === 1 ? null : searchInvoices(event.target.value)}
             className={`${styles.text} ${styles.input}`}
             placeholder={tab === 1 ? 'Search transactions by amount, public key, channel' : 'Search requests by memo'}
