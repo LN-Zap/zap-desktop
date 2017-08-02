@@ -70,7 +70,7 @@
 	margin: 0 auto;
 
 	.link {
-  	color: $main;
+  	color: $darkestgrey;
 	  margin-bottom: 20px;
 	  padding: 0 10px;
 	  opacity: 0.5;
@@ -78,6 +78,7 @@
 	  text-decoration: none;
 
 	  &.active {
+	  	color: $main;
 	  	opacity: 1.0;
 	  }
 
