@@ -1,0 +1,15 @@
+@import '../../../../../variables.scss';
+
+.channels {
+		width: 75%;
+		margin: 50px auto;
+
+		h3 {
+			text-transform: uppercase;
+			color: $darkestgrey;
+			letter-spacing: 1.6px;
+			font-size: 14px;
+			font-weight: 400;
+			margin-bottom: 10px;
+		}
+	}

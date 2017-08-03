@@ -4,22 +4,22 @@ import ReactModal from 'react-modal'
 import Moment from 'react-moment'
 import 'moment-timezone'
 
-const customStyles = {
-  overlay: {
-    cursor: 'pointer'
-  },
-  content : {
-    top: 'auto',
-    left: '20%',
-    right: '0',
-    bottom: 'auto',
-    width: '40%',
-    margin: '50px auto'
-  }
-}
 
 class Modal extends Component {
-	render() {
+  render() {
+    const customStyles = {
+      overlay: {
+        cursor: 'pointer'
+      },
+      content : {
+        top: 'auto',
+        left: '20%',
+        right: '0',
+        bottom: 'auto',
+        width: '40%',
+        margin: '50px auto'
+      }
+    }
 		const {
       isOpen,
       resetObject,

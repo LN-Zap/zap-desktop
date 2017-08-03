@@ -1,13 +1,23 @@
+import { createSelector } from 'reselect'
 import { callApi } from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const SET_CHANNEL = 'SET_CHANNEL'
+
 export const GET_CHANNELS = 'GET_CHANNELS'
 export const RECEIVE_CHANNELS = 'RECEIVE_CHANNELS'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function setChannel(channel) {
+  return {
+    type: SET_CHANNEL,
+    channel
+  }
+}
+
 export function getChannels() {
   return {
     type: GET_CHANNELS
@@ -31,16 +41,29 @@ export const fetchChannels = () => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
+
   [GET_CHANNELS]: (state) => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels }) => ({ ...state, channelsLoading: false, channels })
 }
+
+const channelsSelectors = {}
+const channelSelector = state => state.channels.channel
+
+channelsSelectors.channelModalOpen = createSelector(
+  channelSelector,
+  channel => channel ? true : false
+)
+
+export { channelsSelectors }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
   channelsLoading: false,
-  channels: []
+  channels: [],
+  channel: null
 }
 
 export default function channelsReducer(state = initialState, action) {
