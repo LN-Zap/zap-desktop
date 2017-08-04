@@ -1,15 +1,45 @@
 @import '../../../../../variables.scss';
 
 .channels {
-		width: 75%;
-		margin: 50px auto;
+	width: 75%;
+	margin: 50px auto;
+
+	.header {
+		margin-bottom: 10px;
+
+		h3, .openChannel {
+			display: inline-block;
+		}
 
 		h3 {
-			text-transform: uppercase;
-			color: $darkestgrey;
-			letter-spacing: 1.6px;
-			font-size: 14px;
-			font-weight: 400;
-			margin-bottom: 10px;
+			text-align: left;
+		}
+
+		.openChannel {
+			float: right;
+			cursor: pointer;
+
+			svg {
+				padding: 3px;
+				border-radius: 50%;
+				border: 1px solid $main;
+				color: $main;
+				transition: all 0.25s;
+
+				&:hover {
+					border-color: darken($main, 10%);
+					color: darken($main, 10%);
+				}
+			}
 		}
 	}
+
+	h3 {
+		text-transform: uppercase;
+		color: $darkestgrey;
+		letter-spacing: 1.6px;
+		font-size: 14px;
+		font-weight: 400;
+		margin-bottom: 10px;
+	}
+}

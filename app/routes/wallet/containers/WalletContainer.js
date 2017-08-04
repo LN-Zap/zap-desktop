@@ -1,7 +1,12 @@
 import { connect } from 'react-redux'
 import { fetchInfo } from '../../../reducers/info'
 import { fetchPeers } from '../../../reducers/peers'
-import { fetchChannels, setChannel, channelsSelectors } from '../../../reducers/channels'
+import {
+	fetchChannels,
+	setChannel,
+	channelsSelectors,
+	setForm
+} from '../../../reducers/channels'
 import Wallet from '../components/Wallet'
 
 const mapDispatchToProps = {
@@ -10,7 +15,9 @@ const mapDispatchToProps = {
 	fetchPeers,
 	
 	fetchChannels,
-	setChannel
+	setChannel,
+
+	setForm
 }
 
 const mapStateToProps = (state) => ({

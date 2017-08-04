@@ -3,6 +3,8 @@ import { callApi } from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const SET_FORM = 'SET_FORM'
+
 export const SET_CHANNEL = 'SET_CHANNEL'
 
 export const GET_CHANNELS = 'GET_CHANNELS'
@@ -11,6 +13,14 @@ export const RECEIVE_CHANNELS = 'RECEIVE_CHANNELS'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function setForm(isOpen) {
+  return {
+    type: SET_FORM,
+    isOpen
+  }
+}
+
+
 export function setChannel(channel) {
   return {
     type: SET_CHANNEL,
@@ -41,6 +51,8 @@ export const fetchChannels = () => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_FORM]: (state, { isOpen }) => ({ ...state, form: { ...state.form, isOpen } }),
+
   [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
 
   [GET_CHANNELS]: (state) => ({ ...state, channelsLoading: true }),
@@ -63,7 +75,13 @@ export { channelsSelectors }
 const initialState = {
   channelsLoading: false,
   channels: [],
-  channel: null
+  channel: null,
+  form: {
+    isOpen: false,
+    node_key: '',
+    local_amt: '',
+    push_amt: ''
+  }
 }
 
 export default function channelsReducer(state = initialState, action) {

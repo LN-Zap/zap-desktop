@@ -18,9 +18,10 @@ class Wallet extends Component {
   	const {
   		info,
   		peers: { peersLoading, peers },
-  		channels: { channelsLoading, channels, channel },
+  		channels: { channelsLoading, channels, channel, form },
       channelModalOpen,
-      setChannel
+      setChannel,
+      setForm
   	} = this.props
 
     return (  
@@ -41,6 +42,8 @@ class Wallet extends Component {
               modalChannel={channel}
               setChannel={setChannel}
               channelModalOpen={channelModalOpen}
+              form={form}
+              setForm={setForm}
             />
         </section>
       </div>
