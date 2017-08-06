@@ -25,49 +25,49 @@ class ChannelForm extends Component {
     return (
       <div>
         <ReactModal
-	        isOpen={form.isOpen}
-	        contentLabel="No Overlay Click Modal"
-	        ariaHideApp={true}
-	        shouldCloseOnOverlayClick={true}
-	        onRequestClose={() => setForm(false)}
-	        parentSelector={() => document.body}
-	        style={customStyles}
-	      >
-	      	<div className={styles.form}>
-	      		<h1 className={styles.title}>Open a new channel</h1>
-	      		
-	      		<section className={styles.pubkey}>
-	      			<label>With</label>
-	      			<input
+          isOpen={form.isOpen}
+          contentLabel="No Overlay Click Modal"
+          ariaHideApp={true}
+          shouldCloseOnOverlayClick={true}
+          onRequestClose={() => setForm(false)}
+          parentSelector={() => document.body}
+          style={customStyles}
+        >
+          <div className={styles.form}>
+            <h1 className={styles.title}>Open a new channel</h1>
+            
+            <section className={styles.pubkey}>
+              <label>With</label>
+              <input
                 type='text'
                 size=''
                 placeholder='Public key'
               />
-	      		</section>
-	      		<section className={styles.local}>
-	      			<label>Local</label>
-	      			<input
+            </section>
+            <section className={styles.local}>
+              <label>$</label>
+              <input
                 type='text'
                 size=''
                 placeholder='Local amount'
               />
-	      		</section>
-	      		<section className={styles.push}>
-	      			<label>Push</label>
-	      			<input
+            </section>
+            <section className={styles.push}>
+              <label>$</label>
+              <input
                 type='text'
                 size=''
                 placeholder='Push amount'
               />
-	      		</section>
+            </section>
 
-	      		<div className={styles.buttonGroup}>
-	      			<div className={styles.button}>
-	      				Submit
-	      			</div>
-	      		</div>
-	      	</div>
-      	</ReactModal>
+            <div className={styles.buttonGroup}>
+              <div className={styles.button}>
+                Submit
+              </div>
+            </div>
+          </div>
+        </ReactModal>
       </div>
     )
   }

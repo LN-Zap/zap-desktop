@@ -9,6 +9,11 @@
 	justify-content: space-between;
 	border-top: 1px solid $black;
 	cursor: pointer;
+	transition: all 0.25s;
+
+	&:hover {
+		opacity: 0.75;
+	}
 
 	&:first-child {
 		border: none;

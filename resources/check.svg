@@ -1,0 +1,6 @@
+<svg viewBox="0 0 300 300">
+  <g>
+    <path d="M 150, 150 m -0, -150 a -150,-150 0 1,0 0,300 a -150,-150 0 1,0 0,-300" fill="none" stroke-width="19" class="circle animatable reverse" stroke-dashoffset="942.6107177734375" stroke-dasharray="942.6107177734375"></path>
+    <path fill="none" d="M 90,160 l 45,45 l 90,-95" stroke-width="19" class="check animatable" stroke-dashoffset="194.50213623046875" stroke-dasharray="194.50213623046875"></path>
+  </g>
+</svg>

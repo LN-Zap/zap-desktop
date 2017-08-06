@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import ReactSVG from 'react-svg'
 import { FaCircle } from 'react-icons/lib/fa'
+import Peers from './components/peers'
 import Channels from './components/channels'
 import styles from './Wallet.scss'
 
@@ -31,20 +32,19 @@ class Wallet extends Component {
         	<h1>{info.data.identity_pubkey}</h1>
         </section>
         <section className={styles.walletData}>
-        	<div className={styles.peers}>
-        		<h3>Connected Peers</h3>
-        		<ul>
-        		</ul>
-        	</div>
-            <Channels
-              channelsLoading={channelsLoading}
-              channels={channels}
-              modalChannel={channel}
-              setChannel={setChannel}
-              channelModalOpen={channelModalOpen}
-              form={form}
-              setForm={setForm}
-            />
+          <Peers
+            peersLoading={peersLoading}
+            peers={peers}
+          />
+          <Channels
+            channelsLoading={channelsLoading}
+            channels={channels}
+            modalChannel={channel}
+            setChannel={setChannel}
+            channelModalOpen={channelModalOpen}
+            form={form}
+            setForm={setForm}
+          />
         </section>
       </div>
     )

@@ -25,7 +25,7 @@ class Channels extends Component {
                 <h3>Channels</h3>
                 <div
                     className={`${styles.openChannel} hint--top`}
-                    data-hint='Open a new channel'
+                    data-hint='Open a channel'
                     onClick={() => setForm(true)}
                 >
                     <TiPlus />  
