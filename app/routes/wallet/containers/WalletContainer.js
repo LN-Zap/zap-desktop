@@ -3,13 +3,14 @@ import { fetchInfo } from '../../../reducers/info'
 import {
 	fetchPeers,
 	setPeer,
-	peersSelectors
+	peersSelectors,
+	setPeerForm
 } from '../../../reducers/peers'
 import {
 	fetchChannels,
 	setChannel,
 	channelsSelectors,
-	setForm
+	setChannelForm
 } from '../../../reducers/channels'
 import Wallet from '../components/Wallet'
 
@@ -22,7 +23,8 @@ const mapDispatchToProps = {
 	fetchChannels,
 	setChannel,
 
-	setForm
+	setPeerForm,
+	setChannelForm
 }
 
 const mapStateToProps = (state) => ({

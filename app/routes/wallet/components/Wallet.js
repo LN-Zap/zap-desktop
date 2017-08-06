@@ -18,16 +18,18 @@ class Wallet extends Component {
   render() {
   	const {
   		info,
-  		peers: { peersLoading, peers, peer },
-  		channels: { channelsLoading, channels, channel, form },
+  		peers: { peersLoading, peers, peer, peerForm },
+  		channels: { channelsLoading, channels, channel, channelForm },
       setPeer,
       setChannel,
       peerModalOpen,
       channelModalOpen,
-      setForm
+      setPeerForm,
+      setChannelForm
   	} = this.props
-    console.log('props: ', this.props)
-    return (  
+    console.log('setPeerForm: ', setPeerForm)
+    console.log('setChannelForm: ', setChannelForm)
+    return (
       <div className={styles.wallet}>
         <section className={styles.header}>
         	<ReactSVG path='../resources/zap_2.svg' />
@@ -40,6 +42,8 @@ class Wallet extends Component {
             modalPeer={peer}
             setPeer={setPeer}
             peerModalOpen={peerModalOpen}
+            peerForm={peerForm}
+            setPeerForm={setPeerForm}
           />
           <Channels
             channelsLoading={channelsLoading}
@@ -47,8 +51,8 @@ class Wallet extends Component {
             modalChannel={channel}
             setChannel={setChannel}
             channelModalOpen={channelModalOpen}
-            form={form}
-            setForm={setForm}
+            channelForm={channelForm}
+            setChannelForm={setChannelForm}
           />
         </section>
       </div>

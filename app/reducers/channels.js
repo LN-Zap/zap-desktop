@@ -3,7 +3,7 @@ import { callApi } from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_FORM = 'SET_FORM'
+export const SET_CHANNEL_FORM = 'SET_CHANNEL_FORM'
 
 export const SET_CHANNEL = 'SET_CHANNEL'
 
@@ -13,9 +13,9 @@ export const RECEIVE_CHANNELS = 'RECEIVE_CHANNELS'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function setForm(isOpen) {
+export function setChannelForm(isOpen) {
   return {
-    type: SET_FORM,
+    type: SET_CHANNEL_FORM,
     isOpen
   }
 }
@@ -51,7 +51,7 @@ export const fetchChannels = () => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_FORM]: (state, { isOpen }) => ({ ...state, form: { ...state.form, isOpen } }),
+  [SET_CHANNEL_FORM]: (state, { isOpen }) => ({ ...state, channelForm: { ...state.form, isOpen } }),
 
   [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
 
@@ -76,7 +76,7 @@ const initialState = {
   channelsLoading: false,
   channels: [],
   channel: null,
-  form: {
+  channelForm: {
     isOpen: false,
     node_key: '',
     local_amt: '',

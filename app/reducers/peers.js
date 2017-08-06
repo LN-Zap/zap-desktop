@@ -3,6 +3,8 @@ import { callApi } from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const SET_PEER_FORM = 'SET_PEER_FORM'
+
 export const SET_PEER = 'SET_PEER'
 
 export const GET_PEERS = 'GET_PEERS'
@@ -11,6 +13,13 @@ export const RECEIVE_PEERS = 'RECEIVE_PEERS'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function setPeerForm(isOpen) {
+  return {
+    type: SET_PEER_FORM,
+    isOpen
+  }
+}
+
 export function setPeer(peer) {
   return {
     type: SET_PEER,
@@ -41,6 +50,8 @@ export const fetchPeers = () => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_PEER_FORM]: (state, { isOpen }) => ({ ...state, peerForm: { ...state.form, isOpen } }),
+
   [SET_PEER]: (state, { peer }) => ({ ...state, peer }),
 
   [GET_PEERS]: (state) => ({ ...state, peersLoading: true }),
@@ -64,7 +75,7 @@ const initialState = {
   peersLoading: false,
   peers: [],
   peer: null,
-  form: {
+  peerForm: {
     isOpen: false,
     pub_key: '',
     address: ''

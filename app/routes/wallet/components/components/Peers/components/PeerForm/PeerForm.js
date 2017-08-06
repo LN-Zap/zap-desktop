@@ -25,7 +25,7 @@ class PeerForm extends Component {
     return (
       <div>
         <ReactModal
-          isOpen={fosrm.isOpen}
+          isOpen={form.isOpen}
           contentLabel="No Overlay Click Modal"
           ariaHideApp={true}
           shouldCloseOnOverlayClick={true}
@@ -33,7 +33,32 @@ class PeerForm extends Component {
           parentSelector={() => document.body}
           style={customStyles}
         >
-          <h1>Peer form</h1>
+          <div className={styles.form}>
+            <h1 className={styles.title}>Connect to a peer</h1>
+            
+            <section className={styles.pubkey}>
+              <label>Pubkey</label>
+              <input
+                type='text'
+                size=''
+                placeholder='Public key'
+              />
+            </section>
+            <section className={styles.local}>
+              <label>Address</label>
+              <input
+                type='text'
+                size=''
+                placeholder='Host address'
+              />
+            </section>
+            
+            <div className={styles.buttonGroup}>
+              <div className={styles.button}>
+                Submit
+              </div>
+            </div>
+          </div>
         </ReactModal>
       </div>
     )

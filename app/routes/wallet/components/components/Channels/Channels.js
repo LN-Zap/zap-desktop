@@ -14,19 +14,19 @@ class Channels extends Component {
         modalChannel,
         setChannel,
         channelModalOpen,
-        form,
-        setForm
+        channelForm,
+        setChannelForm
     } = this.props
     return (
         <div className={styles.channels}>
             <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
-            <ChannelForm form={form} setForm={setForm} />
+            <ChannelForm form={channelForm} setForm={setChannelForm} />
             <div className={styles.header}>
                 <h3>Channels</h3>
                 <div
                     className={`${styles.openChannel} hint--top`}
                     data-hint='Open a channel'
-                    onClick={() => setForm(true)}
+                    onClick={() => setChannelForm(true)}
                 >
                     <TiPlus />  
                 </div>
@@ -49,6 +49,5 @@ class Channels extends Component {
     )
   }
 }
-
 
 export default Channels
