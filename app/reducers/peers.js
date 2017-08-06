@@ -1,13 +1,23 @@
+import { createSelector } from 'reselect'
 import { callApi } from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const SET_PEER = 'SET_PEER'
+
 export const GET_PEERS = 'GET_PEERS'
 export const RECEIVE_PEERS = 'RECEIVE_PEERS'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function setPeer(peer) {
+  return {
+    type: SET_PEER,
+    peer
+  }
+}
+
 export function getPeers() {
   return {
     type: GET_PEERS
@@ -31,16 +41,34 @@ export const fetchPeers = () => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_PEER]: (state, { peer }) => ({ ...state, peer }),
+
   [GET_PEERS]: (state) => ({ ...state, peersLoading: true }),
   [RECEIVE_PEERS]: (state, { peers }) => ({ ...state, peersLoading: false, peers })
 }
+
+const peersSelectors = {}
+const peerSelector = state => state.peers.peer
+
+peersSelectors.peerModalOpen = createSelector(
+  peerSelector,
+  peer => peer ? true : false
+)
+
+export { peersSelectors }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
   peersLoading: false,
-  peers: []
+  peers: [],
+  peer: null,
+  form: {
+    isOpen: false,
+    pub_key: '',
+    address: ''
+  }
 }
 
 export default function peersReducer(state = initialState, action) {

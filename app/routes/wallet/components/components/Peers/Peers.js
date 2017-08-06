@@ -1,14 +1,23 @@
 // @flow
 import React, { Component } from 'react'
 import { TiPlus } from 'react-icons/lib/ti'
+import PeerModal from './components/PeerModal'
 import Peer from './components/Peer'
 import styles from './Peers.scss'
 
 class Peers extends Component {
   render() {
-    const { peersLoading, peers } = this.props
+    const { 
+        peersLoading,
+        peers,
+        peer,
+        setPeer,
+        modalPeer,
+        peerModalOpen
+    } = this.props
     return (
         <div className={styles.peers}>
+            <PeerModal isOpen={peerModalOpen} resetPeer={setPeer} peer={modalPeer} />
             <div className={styles.header}>
                 <h3>Peers</h3>
                 <div
@@ -21,7 +30,7 @@ class Peers extends Component {
             <ul>
                 {
                     !peersLoading && peers.length ? 
-                        peers.map(peer => <Peer key={peer.peer_id} peer={peer} />)
+                        peers.map(peer => <Peer key={peer.peer_id} peer={peer} setPeer={setPeer} />)
                     :
                         'Loading...'
                 }

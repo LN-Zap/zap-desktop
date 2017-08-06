@@ -18,13 +18,15 @@ class Wallet extends Component {
   render() {
   	const {
   		info,
-  		peers: { peersLoading, peers },
+  		peers: { peersLoading, peers, peer },
   		channels: { channelsLoading, channels, channel, form },
-      channelModalOpen,
+      setPeer,
       setChannel,
+      peerModalOpen,
+      channelModalOpen,
       setForm
   	} = this.props
-
+    console.log('props: ', this.props)
     return (  
       <div className={styles.wallet}>
         <section className={styles.header}>
@@ -35,6 +37,9 @@ class Wallet extends Component {
           <Peers
             peersLoading={peersLoading}
             peers={peers}
+            modalPeer={peer}
+            setPeer={setPeer}
+            peerModalOpen={peerModalOpen}
           />
           <Channels
             channelsLoading={channelsLoading}
