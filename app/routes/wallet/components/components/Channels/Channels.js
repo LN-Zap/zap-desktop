@@ -18,11 +18,11 @@ class Channels extends Component {
         channelForm,
         setChannelForm
     } = this.props
-    console.log('ticker: ', ticker)
+
     return (
         <div className={styles.channels}>
             <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
-            <ChannelForm form={channelForm} setForm={setChannelForm} />
+            <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} />
             <div className={styles.header}>
                 <h3>Channels</h3>
                 <div

@@ -1,6 +1,7 @@
 // @flow
 import React, { Component } from 'react'
 import ReactModal from 'react-modal'
+import { FaUser, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
 import styles from './ChannelForm.scss'
 
 class ChannelForm extends Component {
@@ -21,7 +22,8 @@ class ChannelForm extends Component {
       }
     }
     
-    const { form, setForm } = this.props
+    const { form, setForm, ticker } = this.props
+    console.log('ticker: ', ticker)
     return (
       <div>
         <ReactModal
@@ -37,15 +39,22 @@ class ChannelForm extends Component {
             <h1 className={styles.title}>Open a new channel</h1>
             
             <section className={styles.pubkey}>
-              <label>With</label>
+              <label><FaUser /></label>
               <input
                 type='text'
                 size=''
-                placeholder='Public key'
+                placeholder='Peer public key'
               />
             </section>
             <section className={styles.local}>
-              <label>$</label>
+              <label>
+                {
+                  ticker.currency === 'btc' ? 
+                    <FaBitcoin />
+                  :
+                    <FaDollar />
+                }
+              </label>
               <input
                 type='text'
                 size=''
@@ -53,7 +62,14 @@ class ChannelForm extends Component {
               />
             </section>
             <section className={styles.push}>
-              <label>$</label>
+              <label>
+                {
+                  ticker.currency === 'btc' ? 
+                    <FaBitcoin />
+                  :
+                    <FaDollar />
+                }
+              </label>
               <input
                 type='text'
                 size=''
