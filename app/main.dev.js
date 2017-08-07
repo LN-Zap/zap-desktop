@@ -25,6 +25,9 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
   const path = require('path');
   const p = path.join(__dirname, '..', 'app', 'node_modules');
   require('module').globalPaths.push(p);
+  
+  // set icon
+  app.dock.setIcon(`${path.join(__dirname, '..', 'resources')}/zap_2.png`)
 }
 
 const installExtensions = async () => {
@@ -63,6 +66,8 @@ app.on('ready', async () => {
     show: false,
     frame: false
   });
+
+  mainWindow.maximize();
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
 

@@ -5,6 +5,13 @@ import styles from './PeerModal.scss'
 
 class PeerModal extends Component {
   render() {
+    const disconnectClicked = () => {
+      const { peer, disconnect } = this.props
+
+      disconnect({ pubkey: peer.pub_key })
+      .then(success => success ? resetPeer(null) : null)
+    }
+
     const customStyles = {
       overlay: {
         cursor: 'pointer',
@@ -21,8 +28,8 @@ class PeerModal extends Component {
       }
     }
     
-    const { isOpen, resetPeer, peer } = this.props
-    console.log('peer: ', peer)
+    const { isOpen, resetPeer, peer, disconnect } = this.props
+
     return (
       <ReactModal
         isOpen={isOpen}
@@ -53,7 +60,7 @@ class PeerModal extends Component {
                   <dd>{peer.bytes_sent}</dd>
                 </dl>
               </div>
-              <div className={styles.close}>
+              <div className={styles.close} onClick={disconnectClicked}>
                 <div>Disconnect peer</div>
               </div>
             </div>

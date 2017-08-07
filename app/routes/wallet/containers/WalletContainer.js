@@ -4,7 +4,9 @@ import {
 	fetchPeers,
 	setPeer,
 	peersSelectors,
-	setPeerForm
+	setPeerForm,
+	connectRequest,
+	disconnectRequest
 } from '../../../reducers/peers'
 import {
 	fetchChannels,
@@ -19,6 +21,8 @@ const mapDispatchToProps = {
 	
 	fetchPeers,
 	setPeer,
+	connectRequest,
+	disconnectRequest,
 	
 	fetchChannels,
 	setChannel,

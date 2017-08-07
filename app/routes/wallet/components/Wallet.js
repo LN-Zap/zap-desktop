@@ -25,10 +25,11 @@ class Wallet extends Component {
       peerModalOpen,
       channelModalOpen,
       setPeerForm,
-      setChannelForm
+      setChannelForm,
+      connectRequest,
+      disconnectRequest
   	} = this.props
-    console.log('setPeerForm: ', setPeerForm)
-    console.log('setChannelForm: ', setChannelForm)
+
     return (
       <div className={styles.wallet}>
         <section className={styles.header}>
@@ -44,6 +45,8 @@ class Wallet extends Component {
             peerModalOpen={peerModalOpen}
             peerForm={peerForm}
             setPeerForm={setPeerForm}
+            connect={connectRequest}
+            disconnect={disconnectRequest}
           />
           <Channels
             channelsLoading={channelsLoading}

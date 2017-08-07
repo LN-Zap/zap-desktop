@@ -16,19 +16,21 @@ class Peers extends Component {
         modalPeer,
         peerModalOpen,
         peerForm,
-        setPeerForm
+        setPeerForm,
+        connect,
+        disconnect,
     } = this.props
 
     return (
         <div className={styles.peers}>
-            <PeerModal isOpen={peerModalOpen} resetPeer={setPeer} peer={modalPeer} />
-            <PeerForm form={peerForm} setForm={setPeerForm} />
+            <PeerModal isOpen={peerModalOpen} resetPeer={setPeer} peer={modalPeer} disconnect={disconnect} />
+            <PeerForm form={peerForm} setForm={setPeerForm} connect={connect} />
             <div className={styles.header}>
                 <h3>Peers</h3>
                 <div
                     className={`${styles.connectPeer} hint--top`}
                     data-hint='Connect to a peer'
-                    onClick={() => setPeerForm(true)}
+                    onClick={() => setPeerForm({ isOpen: true })}
                 >
                     <TiPlus />  
                 </div>
@@ -45,6 +47,5 @@ class Peers extends Component {
     )
   }
 }
-
 
 export default Peers
