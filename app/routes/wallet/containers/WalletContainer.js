@@ -10,9 +10,11 @@ import {
 } from '../../../reducers/peers'
 import {
 	fetchChannels,
+	fetchPendingChannels,
 	setChannel,
 	channelsSelectors,
-	setChannelForm
+	setChannelForm,
+	openChannel
 } from '../../../reducers/channels'
 import Wallet from '../components/Wallet'
 
@@ -25,7 +27,9 @@ const mapDispatchToProps = {
 	disconnectRequest,
 	
 	fetchChannels,
+	fetchPendingChannels,
 	setChannel,
+	openChannel,
 
 	setPeerForm,
 	setChannelForm
@@ -37,6 +41,8 @@ const mapStateToProps = (state) => ({
 	
 	peers: state.peers,
 	channels: state.channels,
+
+	allChannels: channelsSelectors.allChannels(state),
 
 	peerModalOpen: peersSelectors.peerModalOpen(state),
 	channelModalOpen: channelsSelectors.channelModalOpen(state),

@@ -20,7 +20,7 @@ class Wallet extends Component {
   		info,
       ticker,
   		peers: { peersLoading, peers, peer, peerForm },
-  		channels: { channelsLoading, channels, channel, channelForm },
+  		channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
       setPeer,
       setChannel,
       peerModalOpen,
@@ -28,7 +28,9 @@ class Wallet extends Component {
       setPeerForm,
       setChannelForm,
       connectRequest,
-      disconnectRequest
+      disconnectRequest,
+      allChannels,
+      openChannel
   	} = this.props
 
     return (
@@ -53,12 +55,15 @@ class Wallet extends Component {
             ticker={ticker}
             peers={peers}
             channelsLoading={channelsLoading}
+            allChannels={allChannels}
             channels={channels}
+            pendingChannels={pendingChannels}
             modalChannel={channel}
             setChannel={setChannel}
             channelModalOpen={channelModalOpen}
             channelForm={channelForm}
             setChannelForm={setChannelForm}
+            openChannel={openChannel}
           />
         </section>
       </div>

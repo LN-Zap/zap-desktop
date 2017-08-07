@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { callApi } from '../api'
+import { callApi, callApis } from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -10,8 +10,9 @@ export const SET_CHANNEL = 'SET_CHANNEL'
 export const GET_CHANNELS = 'GET_CHANNELS'
 export const RECEIVE_CHANNELS = 'RECEIVE_CHANNELS'
 
-export const GET_PENDING_CHANNELS = 'GET_PENDING_CHANNELS'
-export const RECEIVE_PENDING_CHANNELS = 'RECEIVE_PENDING_CHANNELS'
+export const OPENING_CHANNEL = 'OPENING_CHANNEL'
+export const OPENING_SUCCESSFUL = 'OPENING_SUCCESSFUL'
+export const OPENING_FAILURE = 'OPENING_FAILURE'
 
 // ------------------------------------
 // Actions
@@ -37,10 +38,11 @@ export function getChannels() {
   }
 }
 
-export function receiveChannels({ channels }) {
+export function receiveChannels(channels) {
   return {
     type: RECEIVE_CHANNELS,
-    channels
+    channels: channels[0].data.channels,
+    pendingChannels: channels[1].data
   }
 }
 
@@ -57,16 +59,25 @@ export function receivePendingChannels({ pendingChannels }) {
   }
 }
 
-export const fetchChannels = () => async (dispatch) => {
-  dispatch(getChannels())
-  const channels = await callApi('channels')
-  dispatch(receiveChannels(channels.data))
+export function openingChannel() {
+  return {
+    type: OPENING_CHANNEL
+  }
 }
 
-export const fetchPendingChannels = () => async (dispatch) => {
-  dispatch(getPendingChannels())
-  const channels = await callApi('pending_channels')
-  dispatch(receivePendingChannels(channels.data))
+export const fetchChannels = () => async (dispatch) => {
+  dispatch(getChannels())
+  const channels = await callApis(['channels', 'pending_channels'])
+  dispatch(receiveChannels(channels))
+}
+
+export const openChannel = () => async (dispatch) => {
+  const payload = {}
+  console.log('payload: ', payload)
+  return
+  dispatch(openingChannel())
+  // const channel = await callApi('addchannel', 'post', payload)
+  // dispatch(openingSuccessful(channel))
 }
 
 // ------------------------------------
@@ -78,18 +89,29 @@ const ACTION_HANDLERS = {
   [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
 
   [GET_CHANNELS]: (state) => ({ ...state, channelsLoading: true }),
-  [RECEIVE_CHANNELS]: (state, { channels }) => ({ ...state, channelsLoading: false, channels }),
+  [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => ({ ...state, channelsLoading: false, channels, pendingChannels }),
 
-  [GET_PENDING_CHANNELS]: (state) => ({ ...state, channelsLoading: true }),
-  [RECEIVE_PENDING_CHANNELS]: (state, { pendingChannels }) => ({ ...state, channelsLoading: false, pendingChannels })
+  [OPENING_CHANNEL]: (state) => ({ ...state, openingChannel: true }),
 }
 
 const channelsSelectors = {}
 const channelSelector = state => state.channels.channel
+const channelsSelector = state => state.channels.channels
+const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
+const pendingClosedChannelsSelector = state => state.channels.pendingChannels.pending_closing_channels
+const pendingForceClosedChannelsSelector = state => state.channels.pendingChannels.pending_force_closing_channels
 
 channelsSelectors.channelModalOpen = createSelector(
   channelSelector,
   channel => channel ? true : false
+)
+
+channelsSelectors.allChannels = createSelector(
+  channelsSelector,
+  pendingOpenChannelsSelector,
+  pendingClosedChannelsSelector,
+  pendingForceClosedChannelsSelector,
+  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels) => [...channels, ...pendingOpenChannels, ...pendingClosedChannels, ...pendingForcedClosedChannels]
 )
 
 export { channelsSelectors }
@@ -100,14 +122,31 @@ export { channelsSelectors }
 const initialState = {
   channelsLoading: false,
   channels: [],
-  pendingChannels: [],
+  pendingChannels: {
+    total_limbo_balance: '',
+    pending_open_channels: [],
+    pending_closing_channels: [
+      {
+        "channel": {
+          "remote_node_pub": "02ef6248210e27b0f0df4d11d876e63f56e04bcb0054d0d8b6ba6a1a3e90dc56e1",
+          "channel_point": "5f6c522970e81069075c27be8799d0e2fb16dd4975cbd84c07b1a8bc9ece9918:0",
+          "capacity": "10000",
+          "local_balance": "312",
+          "remote_balance": "0"
+        },
+        "closing_txid": "4c0a25b0955e9efca46065a317a9560c9e3618356d4985e1a905eeb662e40bdb"
+      }
+    ],
+    pending_force_closing_channels: []
+  },
   channel: null,
   channelForm: {
     isOpen: false,
     node_key: '',
     local_amt: '',
     push_amt: ''
-  }
+  },
+  openingChannel: false
 }
 
 export default function channelsReducer(state = initialState, action) {

@@ -4,6 +4,8 @@ import { TiPlus } from 'react-icons/lib/ti'
 import ChannelModal from './components/ChannelModal'
 import ChannelForm from './components/ChannelForm'
 import Channel from './components/Channel'
+import OpenPendingChannel from './components/OpenPendingChannel'
+import ClosedPendingChannel from './components/ClosedPendingChannel'
 import styles from './Channels.scss'
 
 class Channels extends Component {
@@ -17,13 +19,17 @@ class Channels extends Component {
         setChannel,
         channelModalOpen,
         channelForm,
-        setChannelForm
+        setChannelForm,
+        pendingChannels,
+        allChannels,
+        openChannel
     } = this.props
-
+    console.log('allChannels: ', allChannels)
+    console.log('openChannel: ', openChannel)
     return (
         <div className={styles.channels}>
             <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
-            <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} />
+            <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} openChannel={openChannel} />
             <div className={styles.header}>
                 <h3>Channels</h3>
                 <div
@@ -36,15 +42,27 @@ class Channels extends Component {
             </div>
             <ul>
                 {
-                    !channelsLoading && channels.length ? 
-                        channels.map(channel => 
-                            <Channel
-                                key={channel.chan_id}
-                                ticker={ticker}
-                                channel={channel}
-                                setChannel={setChannel}
-                            />
-                        )
+                    !channelsLoading && allChannels.length ? 
+                        allChannels.map(channel => {
+                            if (channel.hasOwnProperty('blocks_till_open')) {
+                                return (
+                                    <OpenPendingChannel />
+                                )
+                            } else if (channel.hasOwnProperty('closing_txid')) {
+                                return (
+                                    <ClosedPendingChannel />
+                                )
+                            } else {
+                                return (
+                                    <Channel
+                                        key={channel.chan_id}
+                                        ticker={ticker}
+                                        channel={channel}
+                                        setChannel={setChannel}
+                                    />
+                                )
+                            }
+                        })
                     :
                         'Loading...'
                 }

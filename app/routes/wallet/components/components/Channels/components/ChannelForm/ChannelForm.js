@@ -22,7 +22,7 @@ class ChannelForm extends Component {
       }
     }
     
-    const { form, setForm, ticker, peers } = this.props
+    const { form, setForm, ticker, peers, openChannel } = this.props
 
     return (
       <div>
@@ -109,6 +109,5 @@ class ChannelForm extends Component {
     )
   }
 }
-
 
 export default ChannelForm
