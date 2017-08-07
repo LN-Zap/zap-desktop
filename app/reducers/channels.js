@@ -10,13 +10,16 @@ export const SET_CHANNEL = 'SET_CHANNEL'
 export const GET_CHANNELS = 'GET_CHANNELS'
 export const RECEIVE_CHANNELS = 'RECEIVE_CHANNELS'
 
+export const GET_PENDING_CHANNELS = 'GET_PENDING_CHANNELS'
+export const RECEIVE_PENDING_CHANNELS = 'RECEIVE_PENDING_CHANNELS'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function setChannelForm(isOpen) {
+export function setChannelForm(form) {
   return {
     type: SET_CHANNEL_FORM,
-    isOpen
+    form
   }
 }
 
@@ -41,22 +44,44 @@ export function receiveChannels({ channels }) {
   }
 }
 
+export function getPendingChannels() {
+  return {
+    type: GET_PENDING_CHANNELS
+  }
+}
+
+export function receivePendingChannels({ pendingChannels }) {
+  return {
+    type: RECEIVE_PENDING_CHANNELS,
+    pendingChannels
+  }
+}
+
 export const fetchChannels = () => async (dispatch) => {
   dispatch(getChannels())
   const channels = await callApi('channels')
   dispatch(receiveChannels(channels.data))
 }
 
+export const fetchPendingChannels = () => async (dispatch) => {
+  dispatch(getPendingChannels())
+  const channels = await callApi('pending_channels')
+  dispatch(receivePendingChannels(channels.data))
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_CHANNEL_FORM]: (state, { isOpen }) => ({ ...state, channelForm: { ...state.form, isOpen } }),
+  [SET_CHANNEL_FORM]: (state, { form }) => ({ ...state, channelForm: Object.assign({}, state.channelForm, form) }),
 
   [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
 
   [GET_CHANNELS]: (state) => ({ ...state, channelsLoading: true }),
-  [RECEIVE_CHANNELS]: (state, { channels }) => ({ ...state, channelsLoading: false, channels })
+  [RECEIVE_CHANNELS]: (state, { channels }) => ({ ...state, channelsLoading: false, channels }),
+
+  [GET_PENDING_CHANNELS]: (state) => ({ ...state, channelsLoading: true }),
+  [RECEIVE_PENDING_CHANNELS]: (state, { pendingChannels }) => ({ ...state, channelsLoading: false, pendingChannels })
 }
 
 const channelsSelectors = {}
@@ -75,6 +100,7 @@ export { channelsSelectors }
 const initialState = {
   channelsLoading: false,
   channels: [],
+  pendingChannels: [],
   channel: null,
   channelForm: {
     isOpen: false,

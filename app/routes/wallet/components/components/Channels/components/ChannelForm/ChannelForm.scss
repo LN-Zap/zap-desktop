@@ -39,6 +39,51 @@
 	}
 }
 
+.peers {
+	margin-bottom: 50px;
+
+	h2 {
+		text-transform: uppercase;
+		font-weight: 200;
+		padding: 10px 0;
+		border-bottom: 1px solid $grey;
+		color: $darkestgrey;
+	}
+}
+
+.peer {
+	position: relative;
+	background: $white;
+	padding: 10px;
+	border-top: 1px solid $grey;
+	cursor: pointer;
+	transition: all 0.25s;
+
+	&:hover {
+		opacity: 0.5;
+	}
+
+	&:first-child {
+		border: none;
+	}
+
+	h4, h1 {
+		margin: 10px 0;
+	}
+
+	h4 {
+		font-size: 12px;
+		font-weight: bold;
+		color: $black;
+	}
+
+	h1 {
+		font-size: 14px;
+		font-weight: 200;
+		color: $main;
+	}
+}
+
 .buttonGroup {
 	width: 100%;
 	display: flex;

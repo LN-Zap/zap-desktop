@@ -22,8 +22,8 @@ class ChannelForm extends Component {
       }
     }
     
-    const { form, setForm, ticker } = this.props
-    console.log('ticker: ', ticker)
+    const { form, setForm, ticker, peers } = this.props
+
     return (
       <div>
         <ReactModal
@@ -31,7 +31,7 @@ class ChannelForm extends Component {
           contentLabel="No Overlay Click Modal"
           ariaHideApp={true}
           shouldCloseOnOverlayClick={true}
-          onRequestClose={() => setForm(false)}
+          onRequestClose={() => setForm({ isOpen: false })}
           parentSelector={() => document.body}
           style={customStyles}
         >
@@ -44,6 +44,8 @@ class ChannelForm extends Component {
                 type='text'
                 size=''
                 placeholder='Peer public key'
+                value={form.node_key}
+                onChange={(event) => setForm({ node_key: event.target.value })}
               />
             </section>
             <section className={styles.local}>
@@ -59,6 +61,8 @@ class ChannelForm extends Component {
                 type='text'
                 size=''
                 placeholder='Local amount'
+                value={form.local_amt}
+                onChange={(event) => setForm({ local_amt: event.target.value })}
               />
             </section>
             <section className={styles.push}>
@@ -74,8 +78,25 @@ class ChannelForm extends Component {
                 type='text'
                 size=''
                 placeholder='Push amount'
+                value={form.push_amt}
+                onChange={(event) => setForm({ push_amt: event.target.value })}
               />
             </section>
+
+            <ul className={styles.peers}>
+              <h2>Connected Peers</h2>
+              {
+                peers.length ?
+                  peers.map(peer =>
+                    <li key={peer.peer_id} className={styles.peer} onClick={() => setForm({ node_key: peer.pub_key })}>
+                        <h4>{peer.address}</h4>
+                        <h1>{peer.pub_key}</h1>
+                    </li>
+                  )
+                :
+                  null
+              }
+            </ul>
 
             <div className={styles.buttonGroup}>
               <div className={styles.button}>

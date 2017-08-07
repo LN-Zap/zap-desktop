@@ -10,6 +10,7 @@ class Channels extends Component {
   render() {
     const {
         ticker,
+        peers,
         channelsLoading,
         channels,
         modalChannel,
@@ -22,13 +23,13 @@ class Channels extends Component {
     return (
         <div className={styles.channels}>
             <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
-            <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} />
+            <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} />
             <div className={styles.header}>
                 <h3>Channels</h3>
                 <div
                     className={`${styles.openChannel} hint--top`}
                     data-hint='Open a channel'
-                    onClick={() => setChannelForm(true)}
+                    onClick={() => setChannelForm({ isOpen: true })}
                 >
                     <TiPlus />  
                 </div>

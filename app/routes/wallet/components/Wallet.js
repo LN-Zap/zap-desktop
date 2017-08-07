@@ -51,6 +51,7 @@ class Wallet extends Component {
           />
           <Channels
             ticker={ticker}
+            peers={peers}
             channelsLoading={channelsLoading}
             channels={channels}
             modalChannel={channel}
