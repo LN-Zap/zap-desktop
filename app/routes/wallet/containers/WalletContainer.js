@@ -33,6 +33,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = (state) => ({
 	info: state.info,
+	ticker: state.ticker,
 	
 	peers: state.peers,
 	channels: state.channels,

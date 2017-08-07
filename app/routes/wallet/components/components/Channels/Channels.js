@@ -9,6 +9,7 @@ import styles from './Channels.scss'
 class Channels extends Component {
   render() {
     const {
+        ticker,
         channelsLoading,
         channels,
         modalChannel,
@@ -17,6 +18,7 @@ class Channels extends Component {
         channelForm,
         setChannelForm
     } = this.props
+    console.log('ticker: ', ticker)
     return (
         <div className={styles.channels}>
             <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
@@ -37,8 +39,9 @@ class Channels extends Component {
                         channels.map(channel => 
                             <Channel
                                 key={channel.chan_id}
+                                ticker={ticker}
                                 channel={channel}
-                                setChannel={setChannel} 
+                                setChannel={setChannel}
                             />
                         )
                     :

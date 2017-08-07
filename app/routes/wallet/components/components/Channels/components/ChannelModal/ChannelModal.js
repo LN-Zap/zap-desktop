@@ -1,4 +1,5 @@
 // @flow
+import { shell } from 'electron'
 import React, { Component } from 'react'
 import ReactModal from 'react-modal'
 import styles from './ChannelModal.scss'
@@ -38,7 +39,13 @@ class ChannelModal extends Component {
             <div className={styles.channel}>
               <header className={styles.header}>
                 <h1 data-hint='Remote public key' className='hint--top-left'>{channel.remote_pubkey}</h1>
-                <h2 data-hint='Channel point' className='hint--top-left'>{channel.channel_point}</h2>
+                <h2
+                  data-hint='Channel point'
+                  className='hint--top-left'
+                  onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${channel.channel_point.split(':')[0]}`)}
+                >
+                  {channel.channel_point}
+                </h2>
               </header>
 
               <div className={styles.balances}>

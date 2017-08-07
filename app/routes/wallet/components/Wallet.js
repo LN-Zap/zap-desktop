@@ -18,6 +18,7 @@ class Wallet extends Component {
   render() {
   	const {
   		info,
+      ticker,
   		peers: { peersLoading, peers, peer, peerForm },
   		channels: { channelsLoading, channels, channel, channelForm },
       setPeer,
@@ -49,6 +50,7 @@ class Wallet extends Component {
             disconnect={disconnectRequest}
           />
           <Channels
+            ticker={ticker}
             channelsLoading={channelsLoading}
             channels={channels}
             modalChannel={channel}
