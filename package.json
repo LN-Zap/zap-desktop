@@ -203,6 +203,7 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "react-svg": "^2.1.21",
     "react-svg-morph": "^0.1.10",
+    "react-websocket": "^1.1.7",
     "redux": "^3.7.1",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",

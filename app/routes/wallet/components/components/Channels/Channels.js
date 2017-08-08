@@ -42,15 +42,15 @@ class Channels extends Component {
             </div>
             <ul>
                 {
-                    !channelsLoading && allChannels.length ? 
-                        allChannels.map(channel => {
+                    !channelsLoading ? 
+                        allChannels.map((channel, index) => {
                             if (channel.hasOwnProperty('blocks_till_open')) {
                                 return (
-                                    <OpenPendingChannel />
+                                    <OpenPendingChannel key={index} />
                                 )
                             } else if (channel.hasOwnProperty('closing_txid')) {
                                 return (
-                                    <ClosedPendingChannel />
+                                    <ClosedPendingChannel key={index} />
                                 )
                             } else {
                                 return (
