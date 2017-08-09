@@ -2,10 +2,22 @@
 import React, { Component } from 'react'
 import ReactModal from 'react-modal'
 import { FaUser, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
+import { usd, btc } from '../../../../../../../utils'
 import styles from './ChannelForm.scss'
 
 class ChannelForm extends Component {
   render() {
+    const submitClicked = () => {
+      const { form: { node_key, local_amt, push_amt }, openChannel, ticker } = this.props
+      console.log('ticker: ', ticker)
+      const localamt = ticker.currency === 'btc' ? btc.btcToSatoshis(local_amt) : btc.btcToSatoshis(usd.usdToBtc(local_amt, ticker.btcTicker.price_usd))
+      const pushamt = ticker.currency === 'btc' ? btc.btcToSatoshis(push_amt) : btc.btcToSatoshis(usd.usdToBtc(push_amt, ticker.btcTicker.price_usd))
+      
+      openChannel({ pubkey: node_key, localamt, pushamt }).then(channel => {
+        if (channel.data) { setForm({ isOpen: false }) }
+      })
+    }
+
   	const customStyles = {
       overlay: {
         cursor: 'pointer',
@@ -99,7 +111,7 @@ class ChannelForm extends Component {
             </ul>
 
             <div className={styles.buttonGroup}>
-              <div className={styles.button}>
+              <div className={styles.button} onClick={submitClicked}>
                 Submit
               </div>
             </div>

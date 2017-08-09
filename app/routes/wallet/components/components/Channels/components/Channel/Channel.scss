@@ -19,9 +19,21 @@
 		border: none;
 	}
 
+	.status {
+		color: $main;
+		position: absolute;
+		top: 0;
+		left: 10px;
+		padding: 10px;
+		text-transform: uppercase;
+		font-weight: bold;
+		font-size: 10px;
+	}
+
 	.left, .right {
 		padding: 0 10px;
 		margin-bottom: 5;
+		margin-top: 25px;
 		
 		section {
 			margin-bottom: 20px;

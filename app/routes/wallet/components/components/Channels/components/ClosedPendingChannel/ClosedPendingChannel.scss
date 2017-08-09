@@ -1,0 +1,95 @@
+@import '../../../../../../../variables.scss';
+
+.channel {
+	position: relative;
+	background: $white;
+	padding: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	border-top: 1px solid $grey;
+	cursor: pointer;
+	transition: all 0.25s;
+	opacity: 0.5;
+
+	&:hover {
+		opacity: 0.35;
+	}
+
+	&:first-child {
+		border: none;
+	}
+
+	.closing {
+		color: $red;
+		position: absolute;
+		top: 0;
+		left: 10px;
+		padding: 10px;
+		text-transform: uppercase;
+		font-weight: bold;
+		font-size: 10px;
+	}
+
+	.left, .right {
+		padding: 0 10px;
+		margin-bottom: 5;
+		margin-top: 25px;
+		
+		section {
+			margin-bottom: 20px;
+
+			span {
+				text-transform: uppercase;
+				letter-spacing: 1.6px;
+				color: $black;
+				font-size: 10px;
+				font-weight: bold;
+			}
+
+			h2 {
+				font-size: 30px;
+				padding: 5px 0;
+				color: $main;
+			}
+
+			h4 {
+				margin-top: 5px;
+			}
+		}
+	}
+
+	.left {
+		flex: 7;
+		border-right: 1px solid $grey;
+	}
+
+	.right {
+		flex: 3;
+
+		.capacity {
+			text-align: center;
+			border-bottom: 1px solid $grey;
+			margin-bottom: 10px;
+		}
+
+		.balances {
+			display: flex;
+			justify-content: space-between;
+
+			section {
+				flex: 5;
+				text-align: center;
+
+				h4 {
+					color: $main;
+					font-size: 16px;
+				}
+
+				&:first-child {
+					border-right: 1px solid $grey;
+				}
+			}
+		}
+	}
+}

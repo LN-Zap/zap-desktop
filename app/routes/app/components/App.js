@@ -1,9 +1,14 @@
 // @flow
 import React, { Component } from 'react'
-import Websocket from 'react-websocket'
 import Form from './components/Form'
 import Nav from './components/Nav.js'
+import Socket from './components/Socket.js'
 import styles from './App.scss'
+
+export const CHANNEL_DATA = 'CHANNEL_DATA'
+export const CHANNEL_END = 'CHANNEL_END'
+export const CHANNEL_ERROR = 'CHANNEL_ERROR'
+export const CHANNEL_STATUS = 'CHANNEL_STATUS'
 
 class App extends Component {
   componentWillMount() {
@@ -28,9 +33,10 @@ class App extends Component {
       setForm,
       createInvoice,
       payInvoice,
+      fetchChannels,
       children
     } = this.props
-    
+
     return (
       <div>
         <Form
@@ -57,11 +63,7 @@ class App extends Component {
           {children}
         </div>
         
-        <Websocket
-          debug
-          url='ws://localhost:3000/'
-          onMessage={(data) => console.log('data: ', data)}
-        />
+        <Socket fetchChannels={fetchChannels} />
       </div>
     )
   }

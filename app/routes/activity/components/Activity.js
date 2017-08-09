@@ -67,32 +67,26 @@ class Activity extends Component {
             </span>
           </header>
           <div className={styles.activityContainer}>
-            <CSSTransitionGroup 
-              transitionName='activity'
-              transitionEnterTimeout={500}
-              transitionLeaveTimeout={500}
-            >
-              {
-                tab === 1 ?
-                  <Payments
-                    key={1}
-                    payment={payment}
-                    payments={payments}
-                    ticker={ticker}
-                    setPayment={setPayment}
-                    paymentModalOpen={paymentModalOpen}
-                  />
-                :
-                  <Invoices
-                    key={2}
-                    invoice={invoice}
-                    invoices={invoices}
-                    ticker={ticker}
-                    setInvoice={setInvoice}
-                    invoiceModalOpen={invoiceModalOpen}
-                  />
-              }
-            </CSSTransitionGroup>
+            {
+              tab === 1 ?
+                <Payments
+                  key={1}
+                  payment={payment}
+                  payments={payments}
+                  ticker={ticker}
+                  setPayment={setPayment}
+                  paymentModalOpen={paymentModalOpen}
+                />
+              :
+                <Invoices
+                  key={2}
+                  invoice={invoice}
+                  invoices={invoices}
+                  ticker={ticker}
+                  setInvoice={setInvoice}
+                  invoiceModalOpen={invoiceModalOpen}
+                />
+            }
           </div>
         </div>
       </div>

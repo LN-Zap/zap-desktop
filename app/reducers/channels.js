@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { usd, btc } from '../utils'
 import { callApi, callApis } from '../api'
 // ------------------------------------
 // Constants
@@ -65,19 +66,33 @@ export function openingChannel() {
   }
 }
 
+export function openingSuccessful() {
+  return {
+    type: OPENING_SUCCESSFUL
+  }
+}
+
+export function openingFailure() {
+  return {
+    type: OPENING_FAILURE
+  }
+}
+
 export const fetchChannels = () => async (dispatch) => {
   dispatch(getChannels())
   const channels = await callApis(['channels', 'pending_channels'])
   dispatch(receiveChannels(channels))
 }
 
-export const openChannel = () => async (dispatch) => {
-  const payload = {}
-  console.log('payload: ', payload)
-  return
+export const openChannel = ({ pubkey, localamt, pushamt }) => async (dispatch) => {
+  const payload = { pubkey, localamt, pushamt }
   dispatch(openingChannel())
-  // const channel = await callApi('addchannel', 'post', payload)
-  // dispatch(openingSuccessful(channel))
+  const channel = await callApi('addchannel', 'post', payload)
+  console.log('channel: ', channel)
+  
+  channel.data ? dispatch(openingSuccessful()) : dispatch(openingFailure())
+
+  return channel
 }
 
 // ------------------------------------

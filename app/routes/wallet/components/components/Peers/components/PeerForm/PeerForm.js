@@ -4,17 +4,10 @@ import ReactModal from 'react-modal'
 import styles from './PeerForm.scss'
 
 class PeerForm extends Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      pubkey: '02ef6248210e27b0f0df4d11d876e63f56e04bcb0054d0d8b6ba6a1a3e90dc56e1',
-      host: 'lnd-testnet-2.mably.com'
-    }
-  }
-
   render() {
     const submit = () => {
-      const { pubkey, host } = this.state
+      const { form: { pubkey, host } } = this.props
+
       this.props.connect({ pubkey, host }).then(success => {
         if (success.data) { setForm({ isOpen: false }) }
       })
@@ -37,7 +30,6 @@ class PeerForm extends Component {
     }
     
     const { form, setForm, connect } = this.props
-    const { pubkey, host } = this.state
     return (
       <div>
         <ReactModal

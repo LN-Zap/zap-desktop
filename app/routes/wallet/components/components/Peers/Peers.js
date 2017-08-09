@@ -37,7 +37,7 @@ class Peers extends Component {
             </div>
             <ul>
                 {
-                    !peersLoading && peers.length ? 
+                    !peersLoading ? 
                         peers.map(peer => <Peer key={peer.peer_id} peer={peer} setPeer={setPeer} />)
                     :
                         'Loading...'

@@ -24,8 +24,7 @@ class Channels extends Component {
         allChannels,
         openChannel
     } = this.props
-    console.log('allChannels: ', allChannels)
-    console.log('openChannel: ', openChannel)
+
     return (
         <div className={styles.channels}>
             <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
@@ -46,11 +45,11 @@ class Channels extends Component {
                         allChannels.map((channel, index) => {
                             if (channel.hasOwnProperty('blocks_till_open')) {
                                 return (
-                                    <OpenPendingChannel key={index} />
+                                    <OpenPendingChannel key={index} channel={channel} ticker={ticker} />
                                 )
                             } else if (channel.hasOwnProperty('closing_txid')) {
                                 return (
-                                    <ClosedPendingChannel key={index} />
+                                    <ClosedPendingChannel key={index} channel={channel} ticker={ticker} />
                                 )
                             } else {
                                 return (

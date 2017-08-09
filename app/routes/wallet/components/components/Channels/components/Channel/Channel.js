@@ -8,6 +8,7 @@ class Channel extends Component {
     const { ticker, channel, setChannel } = this.props
     return (
         <li className={styles.channel} onClick={() => setChannel(channel)}>
+            <h1 className={styles.status}>Status: Open</h1>
             <div className={styles.left}>
                 <section className={styles.remotePubkey}>
                     <span>Remote Pubkey</span>
