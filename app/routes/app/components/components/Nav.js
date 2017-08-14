@@ -21,7 +21,8 @@ class Nav extends Component {
         <ul className={styles.info}>
           <li className={`${styles.currencies} ${styles.link}`}>
             <span 
-              className={`${styles.currency} ${ticker.currency === 'btc' ? styles.active : ''}`}
+              data-hint={ticker.btcTicker ? ticker.btcTicker.price_usd : null}
+              className={`${styles.currency} ${ticker.currency === 'btc' ? styles.active : ''} hint--bottom`}
               onClick={() => setCurrency('btc')}
             >
               <FaBitcoin />

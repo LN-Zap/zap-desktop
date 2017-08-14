@@ -22,6 +22,7 @@ class App extends Component {
     const {
       ticker,
       balance,
+      invoice: { formInvoice },
       form,
       setAmount,
       setMessage,
@@ -34,6 +35,7 @@ class App extends Component {
       createInvoice,
       payInvoice,
       fetchChannels,
+      fetchInvoice,
       children
     } = this.props
 
@@ -52,6 +54,8 @@ class App extends Component {
           form={form}
           createInvoice={createInvoice}
           payInvoice={payInvoice}
+          fetchInvoice={fetchInvoice}
+          formInvoice={formInvoice}
         />
         <Nav 
           ticker={ticker}

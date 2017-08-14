@@ -42,10 +42,10 @@ export function sendPayment() {
   }
 }
 
-export function paymentSuccessfull(data) {
+export function paymentSuccessfull(payment) {
   return {
     type: PAYMENT_SUCCESSFULL,
-    data
+    payment
   }
 }
 
@@ -72,9 +72,8 @@ export const payInvoice = (payment_request) => async (dispatch) => {
   const payment = await callApi('sendpayment', 'post', { payment_request })
   console.log('payment: ', payment)
 
-  return 
   payment ?
-    dispatch(paymentSuccessfull(payment))
+    dispatch(fetchPayments())
   :
     dispatch(paymentFailed())
 
@@ -88,7 +87,8 @@ export const payInvoice = (payment_request) => async (dispatch) => {
 const ACTION_HANDLERS = {
   [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
   [GET_PAYMENTS]: (state) => ({ ...state, paymentLoading: true }),
-  [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments })
+  [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
+  [PAYMENT_SUCCESSFULL]: (state, { payment }) => ({ ...state, paymentLoading: false, payments: [payment, ...state.payments] })
 }
 
 const paymentSelectors = {}

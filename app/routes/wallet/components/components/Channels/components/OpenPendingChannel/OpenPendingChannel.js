@@ -1,4 +1,5 @@
 // @flow
+import { shell } from 'electron'
 import React, { Component } from 'react'
 import { btc } from '../../../../../../../utils'
 import styles from './OpenPendingChannel.scss'
@@ -7,7 +8,7 @@ class OpenPendingChannel extends Component {
   render() {
     const { ticker, channel: { channel } } = this.props
     return (
-        <li className={styles.channel}>
+        <li className={styles.channel} onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${channel.channel_point.split(':')[0]}`)}>
       		<h1 className={styles.pending}>Status: Pending</h1>
           <div className={styles.left}>
               <section className={styles.remotePubkey}>

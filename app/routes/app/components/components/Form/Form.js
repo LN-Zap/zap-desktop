@@ -2,6 +2,7 @@
 import React, { Component } from 'react'
 import { FaDollar, FaBitcoin } from 'react-icons/lib/fa'
 import { MdArrowBack, MdClose } from 'react-icons/lib/md'
+import { btc } from '../../../../../utils'
 import styles from './Form.scss'
 
 class Form extends Component {
@@ -16,7 +17,9 @@ class Form extends Component {
       isOpen,
       close,
       createInvoice,
-      payInvoice
+      payInvoice,
+      fetchInvoice,
+      formInvoice
     } = this.props
 
     const requestClicked = () => {
@@ -29,9 +32,17 @@ class Form extends Component {
     const payClicked = () => {
       payInvoice(payment_request)
       .then(success => {
+        console.log('success: ', success)
         if (success) { close() }
       })
     }
+
+    const paymentRequestOnChange = (payreq) => {
+      setPaymentRequest(payreq)
+      if (payreq.length === 124) { fetchInvoice(payreq) }
+    }
+
+    const calculateAmount = (amount) => currency === 'btc' ? btc.satoshisToBtc(amount) : btc.satoshisToUsd(amount, btcTicker.price_usd)
 
     return (
       <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
@@ -52,9 +63,15 @@ class Form extends Component {
               <input
                 type='text'
                 size=''
-                style={{ width: `${amount.length > 1 ? (amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }}
-                value={amount}
-                onChange={(e) => setAmount(e.target.value)}
+                style={
+                  formType === 'pay' ?
+                    { width: '75%', fontSize: '100px' }
+                  :
+                    { width: `${amount.length > 1 ? (amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }
+                }
+                value={formType === 'pay' ? calculateAmount(formInvoice.amount) : amount}
+                onChange={(event) => setAmount(event.target.value)}
+                readOnly={formType === 'pay'}
               />
             </section>
             {
@@ -65,7 +82,7 @@ class Form extends Component {
                     type='text'
                     placeholder='Payment Request'
                     value={payment_request}
-                    onChange={(e) => setPaymentRequest(e.target.value)}
+                    onChange={(event) => paymentRequestOnChange(event.target.value)}
                   />
                 </section>
               :

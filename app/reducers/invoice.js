@@ -10,6 +10,7 @@ export const SET_INVOICE = 'SET_INVOICE'
 
 export const GET_INVOICE = 'GET_INVOICE'
 export const RECEIVE_INVOICE = 'RECEIVE_INVOICE'
+export const RECEIVE_FORM_INVOICE = 'RECEIVE_FORM_INVOICE'
 
 export const GET_INVOICES = 'GET_INVOICES'
 export const RECEIVE_INVOICES = 'RECEIVE_INVOICES'
@@ -42,10 +43,17 @@ export function getInvoice() {
   }
 }
 
-export function receiveInvoice(data) {
+export function receiveInvoice(invoice) {
   return {
     type: RECEIVE_INVOICE,
-    data
+    invoice
+  }
+}
+
+export function receiveFormInvoice(formInvoice) {
+  return {
+    type: RECEIVE_FORM_INVOICE,
+    formInvoice
   }
 }
 
@@ -75,12 +83,12 @@ export function invoiceSuccessful(invoice) {
   }
 }
 
-export const fetchInvoice = (r_hash) => async (dispatch) => {
+export const fetchInvoice = (payreq) => async (dispatch) => {
   dispatch(getInvoice())
-  const invoice = await callApi(`invoice/${r_hash}`, 'get')
+  const invoice = await callApi(`invoice/${payreq}`, 'get')
 
   if (invoice) {
-    dispatch(receiveInvoice(invoice.data))
+    dispatch(receiveFormInvoice(invoice.data))
     return true
   } else {
     dispatch(invoicesFailed())
@@ -128,7 +136,8 @@ const ACTION_HANDLERS = {
   [SET_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
 
   [GET_INVOICE]: (state) => ({ ...state, invoiceLoading: true }),
-  [RECEIVE_INVOICE]: (state, { data }) => ({ ...state, invoiceLoading: false, data }),
+  [RECEIVE_INVOICE]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoice }),
+  [RECEIVE_FORM_INVOICE]: (state, { formInvoice }) => ({ ...state, invoiceLoading: false, formInvoice }),
 
   [GET_INVOICES]: (state) => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
@@ -164,7 +173,12 @@ const initialState = {
   invoices: [],
   invoice: null,
   invoicesSearchText: '',
-  data: {}
+  data: {},
+  formInvoice: {
+    payreq: '',
+    r_hash: '',
+    amount: '0'
+  }
 }
 
 export default function invoiceReducer(state = initialState, action) {

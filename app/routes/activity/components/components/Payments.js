@@ -16,7 +16,7 @@ class Payments extends Component {
       setPayment,
       paymentModalOpen
     } = this.props
-
+    console.log('payments: ', payments)
 		return (
       <div>
         <Modal isOpen={paymentModalOpen} resetObject={setPayment}>
