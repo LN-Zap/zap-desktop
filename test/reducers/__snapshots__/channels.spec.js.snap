@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers channelsReducer should handle initial state 1`] = `
+Object {
+  "channel": null,
+  "channelForm": Object {
+    "isOpen": false,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [],
+  "channelsLoading": false,
+  "openingChannel": false,
+  "pendingChannels": Object {
+    "pending_closing_channels": Array [],
+    "pending_force_closing_channels": Array [],
+    "pending_open_channels": Array [],
+    "total_limbo_balance": "",
+  },
+}
+`;

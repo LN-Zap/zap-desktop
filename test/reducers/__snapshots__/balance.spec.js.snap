@@ -1,6 +1,30 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`reducers balanceReducer should handle DECREMENT_COUNTER 1`] = `
+Object {
+  "balanceLoading": false,
+  "channelBalance": undefined,
+  "walletBalance": undefined,
+}
+`;
+
+exports[`reducers balanceReducer should handle INCREMENT_COUNTER 1`] = `
+Object {
+  "balanceLoading": true,
+  "channelBalance": null,
+  "walletBalance": null,
+}
+`;
+
 exports[`reducers balanceReducer should handle initial state 1`] = `
+Object {
+  "balanceLoading": false,
+  "channelBalance": null,
+  "walletBalance": null,
+}
+`;
+
+exports[`reducers balanceReducer should handle unknown action type 1`] = `
 Object {
   "balanceLoading": false,
   "channelBalance": null,
