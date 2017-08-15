@@ -1,8 +1,8 @@
 {
-  "name": "bolt-desktop",
-  "productName": "ElectronReact",
+  "name": "zap-desktop",
+  "productName": "zap-desktop",
   "version": "0.0.1",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "description": "desktop application for the lightning network",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
     "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
@@ -194,8 +194,6 @@
     "react-addons-css-transition-group": "^15.6.0",
     "react-dom": "^15.6.1",
     "react-hot-loader": "3.0.0-beta.6",
-    "react-icons": "^2.2.5",
-    "react-inline-svg": "^1.1.0",
     "react-modal": "^2.2.2",
     "react-moment": "^0.6.0",
     "react-redux": "^5.0.5",

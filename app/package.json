@@ -1,8 +1,8 @@
 {
-  "name": "Zap Desktop",
-  "productName": "Zap Desktop",
+  "name": "zap-desktop",
+  "productName": "zap-desktop",
   "version": "0.0.1",
-  "description": "Electron application boilerplate based on React, React Router, Webpack, React Hot Loader for rapid application development",
+  "description": "desktop application for the lightning network",
   "main": "./main.prod.js",
   "author": {
     "name": "Jack Mallers",
@@ -14,5 +14,6 @@
   },
   "license": "MIT",
   "dependencies": {
+    "react-icons": "^2.2.5"
   }
 }

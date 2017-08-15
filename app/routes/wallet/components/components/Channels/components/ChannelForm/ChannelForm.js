@@ -73,7 +73,7 @@ const ChannelForm = ({ form, setForm, ticker, peers, openChannel }) => {
               placeholder='Local amount'
               value={form.local_amt}
               onChange={event => setForm({ local_amt: event.target.value })}
-              amount='localamount'
+              id='localamount'
             />
           </section>
           <section className={styles.push}>

@@ -66,7 +66,7 @@ const Payments = ({
       </li>
       {
         payments.map((paymentItem, index) =>
-          (<li key={index} className={styles.payment} onClick={() => setPayment(payment)}>
+          (<li key={index} className={styles.payment} onClick={() => setPayment(paymentItem)}>
             <div className={styles.left}>
               <div className={styles.path}>{paymentItem.path[0]}</div>
             </div>
