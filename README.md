@@ -15,15 +15,11 @@ First, clone the repo via git:
 git clone https://github.com/LN-Zap/zap-desktop.git
 ```
 
-And then install dependencies with yarn and npm.
+And then install dependencies with yarn
 
 ```bash
 $ cd zap-desktop
-$ yarn && npm install
-```
-```bash
-$ cd zap-desktop/app
-$ yarn && npm install
+$ yarn
 ```
 
 ## Current Todo List (Last updated August 15th)
