@@ -1,0 +1,46 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers paymentReducer should correctly getPayments 1`] = `
+Object {
+  "payment": null,
+  "paymentLoading": true,
+  "payments": Array [],
+}
+`;
+
+exports[`reducers paymentReducer should correctly paymentSuccessful 1`] = `
+Object {
+  "payment": null,
+  "paymentLoading": false,
+  "payments": Array [
+    "foo",
+  ],
+}
+`;
+
+exports[`reducers paymentReducer should correctly receivePayments 1`] = `
+Object {
+  "payment": null,
+  "paymentLoading": false,
+  "payments": Array [
+    1,
+    2,
+  ],
+}
+`;
+
+exports[`reducers paymentReducer should correctly sendPayment 1`] = `
+Object {
+  "payment": "foo",
+  "paymentLoading": false,
+  "payments": Array [],
+}
+`;
+
+exports[`reducers paymentReducer should handle initial state 1`] = `
+Object {
+  "payment": null,
+  "paymentLoading": false,
+  "payments": Array [],
+}
+`;

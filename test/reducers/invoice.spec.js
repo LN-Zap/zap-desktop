@@ -9,7 +9,7 @@ import invoiceReducer, {
   SEND_INVOICE,
   INVOICE_SUCCESSFUL,
   INVOICE_FAILED
-} from '../../app/reducers/info'
+} from '../../app/reducers/invoice'
 
 describe('reducers', () => {
   describe('invoiceReducer', () => {

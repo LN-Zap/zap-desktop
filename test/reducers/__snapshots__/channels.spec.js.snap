@@ -1,5 +1,69 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`reducers channelsReducer should correctly getChannels 1`] = `
+Object {
+  "channel": null,
+  "channelForm": Object {
+    "isOpen": false,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [],
+  "channelsLoading": true,
+  "openingChannel": false,
+  "pendingChannels": Object {
+    "pending_closing_channels": Array [],
+    "pending_force_closing_channels": Array [],
+    "pending_open_channels": Array [],
+    "total_limbo_balance": "",
+  },
+}
+`;
+
+exports[`reducers channelsReducer should correctly openingChannel 1`] = `
+Object {
+  "channel": null,
+  "channelForm": Object {
+    "isOpen": false,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [],
+  "channelsLoading": false,
+  "openingChannel": true,
+  "pendingChannels": Object {
+    "pending_closing_channels": Array [],
+    "pending_force_closing_channels": Array [],
+    "pending_open_channels": Array [],
+    "total_limbo_balance": "",
+  },
+}
+`;
+
+exports[`reducers channelsReducer should correctly receiveChannel 1`] = `
+Object {
+  "channel": null,
+  "channelForm": Object {
+    "isOpen": false,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [
+    1,
+    2,
+  ],
+  "channelsLoading": false,
+  "openingChannel": false,
+  "pendingChannels": Array [
+    3,
+    4,
+  ],
+}
+`;
+
 exports[`reducers channelsReducer should correctly setChannel 1`] = `
 Object {
   "channel": "channel",
