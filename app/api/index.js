@@ -24,12 +24,11 @@ export function callApi(endpoint, method = 'get', data = null) {
   }
 
   return axios(payload)
-  .then(response => response.data)
-  .catch(error => error)
+    .then(response => response.data)
+    .catch(error => error)
 }
 
 export function callApis(endpoints) {
-  const BASE_URL = 'http://localhost:3000/api/'
   return axios.all(endpoints.map(endpoint => callApi(endpoint)))
 }
 
@@ -39,6 +38,6 @@ export function requestTicker() {
     method: 'get',
     url: BASE_URL
   })
-  .then(response => response.data)
-  .catch(error => error)
+    .then(response => response.data)
+    .catch(error => error)
 }

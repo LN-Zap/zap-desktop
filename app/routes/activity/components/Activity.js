@@ -1,5 +1,5 @@
-// @flow
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { MdSearch } from 'react-icons/lib/md'
 import Payments from './components/Payments'
@@ -7,19 +7,19 @@ import Invoices from './components/Invoices'
 import styles from './Activity.scss'
 
 class Activity extends Component {
-  constructor(props, context) {
-    super(props, context)
-    this.state = {
-      tab: 1
-    }
+constructor(props, context) {
+  super(props, context)
+  this.state = {
+    tab: 1
   }
+}
 
-  componentWillMount() {
-    const { fetchPayments, fetchInvoices } = this.props
+componentWillMount() {
+  const { fetchPayments, fetchInvoices } = this.props
 
-    fetchPayments()
-    fetchInvoices()
-  }
+  fetchPayments()
+  fetchInvoices()
+}
 
   render() {
     const { tab } = this.state
@@ -39,10 +39,10 @@ class Activity extends Component {
     return (
       <div>
         <div className={styles.search}>
-        	<label className={`${styles.label} ${styles.input}`}>
-        		<MdSearch />
-        	</label>
-        	<input
+          <label className={`${styles.label} ${styles.input}`}>
+            <MdSearch />
+          </label>
+          <input
             value={tab === 1 ? '' : invoicesSearchText}
             onChange={event => tab === 1 ? null : searchInvoices(event.target.value)}
             className={`${styles.text} ${styles.input}`}
@@ -70,7 +70,6 @@ class Activity extends Component {
             {
               tab === 1 ?
                 <Payments
-                  key={1}
                   payment={payment}
                   payments={payments}
                   ticker={ticker}
@@ -79,7 +78,6 @@ class Activity extends Component {
                 />
               :
                 <Invoices
-                  key={2}
                   invoice={invoice}
                   invoices={invoices}
                   ticker={ticker}
@@ -92,6 +90,18 @@ class Activity extends Component {
       </div>
     )
   }
+}
+
+Activity.propTypes = {
+  ticker: PropTypes.object.isRequired,
+  searchInvoices: PropTypes.func.isRequired,
+  invoices: PropTypes.array.isRequired,
+  invoice: PropTypes.object.isRequired,
+  payment: PropTypes.object.isRequired,
+  setPayment: PropTypes.func.isRequired,
+  setInvoice: PropTypes.func.isRequired,
+  paymentModalOpen: PropTypes.bool.isRequired,
+  invoiceModalOpen: PropTypes.bool.isRequired
 }
 
 export default Activity

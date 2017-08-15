@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect'
 import { requestTicker } from '../api'
 // ------------------------------------
 // Constants
@@ -43,8 +42,10 @@ export const fetchTicker = () => async (dispatch) => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_CURRENCY]: (state, { currency }) => ({ ...state, currency }),
-  [GET_TICKER]: (state) => ({ ...state, tickerLoading: true }),
-  [RECIEVE_TICKER]: (state, { ticker }) => ({...state, tickerLoading: false, btcTicker: ticker[0] })
+  [GET_TICKER]: state => ({ ...state, tickerLoading: true }),
+  [RECIEVE_TICKER]: (state, { ticker }) => (
+    { ...state, tickerLoading: false, btcTicker: ticker[0] }
+  )
 }
 
 // ------------------------------------

@@ -1,51 +1,51 @@
 import { connect } from 'react-redux'
 import { fetchInfo } from '../../../reducers/info'
 import {
-	fetchPeers,
-	setPeer,
-	peersSelectors,
-	setPeerForm,
-	connectRequest,
-	disconnectRequest
+  fetchPeers,
+  setPeer,
+  peersSelectors,
+  setPeerForm,
+  connectRequest,
+  disconnectRequest
 } from '../../../reducers/peers'
 import {
-	fetchChannels,
-	fetchPendingChannels,
-	setChannel,
-	channelsSelectors,
-	setChannelForm,
-	openChannel
+  fetchChannels,
+  fetchPendingChannels,
+  setChannel,
+  channelsSelectors,
+  setChannelForm,
+  openChannel
 } from '../../../reducers/channels'
 import Wallet from '../components/Wallet'
 
 const mapDispatchToProps = {
-	fetchInfo,
-	
-	fetchPeers,
-	setPeer,
-	connectRequest,
-	disconnectRequest,
-	
-	fetchChannels,
-	fetchPendingChannels,
-	setChannel,
-	openChannel,
+  fetchInfo,
 
-	setPeerForm,
-	setChannelForm
+  fetchPeers,
+  setPeer,
+  connectRequest,
+  disconnectRequest,
+
+  fetchChannels,
+  fetchPendingChannels,
+  setChannel,
+  openChannel,
+
+  setPeerForm,
+  setChannelForm
 }
 
 const mapStateToProps = (state) => ({
-	info: state.info,
-	ticker: state.ticker,
-	
-	peers: state.peers,
-	channels: state.channels,
+  info: state.info,
+  ticker: state.ticker,
 
-	allChannels: channelsSelectors.allChannels(state),
+  peers: state.peers,
+  channels: state.channels,
 
-	peerModalOpen: peersSelectors.peerModalOpen(state),
-	channelModalOpen: channelsSelectors.channelModalOpen(state),
+  allChannels: channelsSelectors.allChannels(state),
+
+  peerModalOpen: peersSelectors.peerModalOpen(state),
+  channelModalOpen: channelsSelectors.channelModalOpen(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet)

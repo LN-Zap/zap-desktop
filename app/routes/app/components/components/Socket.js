@@ -1,26 +1,20 @@
-// @flow
-import React, { Component } from 'react'
+import React from 'react'
+import PropTypes from 'prop-types'
 import Websocket from 'react-websocket'
 
-class Socket extends Component {
-  render() {
-    const onMessage = ({ event, data }) => {
-      console.log('data: ', data)
-      this.props.fetchChannels()
-      // switch(data.event) {
-      //   case CHANNEL_DATA:
-      //     console.log('channel data')
-      //     if (data.update === 'chan_pending') {
-      //       let zapNotification = new Notification({
-
-      //       })
-      //     }
-      // }
-    }
-    return (
-      <Websocket debug url='ws://localhost:3000/' onMessage={onMessage} />
-    )
+const Socket = ({ fetchChannels }) => {
+  const onMessage = () => {
+    // TODO: Assumes only socket relationship is with channels. Actually flesh out socket logic
+    fetchChannels()
   }
+
+  return (
+    <Websocket debug url='ws://localhost:3000/' onMessage={onMessage} />
+  )
+}
+
+Socket.propTypes = {
+  fetchChannels: PropTypes.func.isRequired
 }
 
 export default Socket

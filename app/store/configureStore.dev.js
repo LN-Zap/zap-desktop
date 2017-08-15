@@ -35,7 +35,7 @@ const configureStore = (initialState?: counterStateType) => {
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
       // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
-      actionCreators,
+      actionCreators
     })
     : compose;
   /* eslint-enable no-underscore-dangle */

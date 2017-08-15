@@ -36,8 +36,8 @@ export default {
     extensions: ['.js', '.jsx', '.json'],
     modules: [
       path.join(__dirname, 'app'),
-      'node_modules',
-    ],
+      'node_modules'
+    ]
   },
 
   plugins: [
@@ -45,6 +45,6 @@ export default {
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
     }),
 
-    new webpack.NamedModulesPlugin(),
-  ],
-};
+    new webpack.NamedModulesPlugin()
+  ]
+}

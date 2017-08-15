@@ -1,3 +1,13 @@
+// Initial State
+const initialState = {
+  modalOpen: false,
+  formType: 'pay',
+  amount: '0',
+  message: '',
+  pubkey: '',
+  payment_request: ''
+}
+
 // Constants
 // ------------------------------------
 export const SET_FORM = 'SET_FORM'
@@ -39,10 +49,10 @@ export function setPubkey(pubkey) {
   }
 }
 
-export function setPaymentRequest(payment_request) {
+export function setPaymentRequest(paymentRequest) {
   return {
     type: SET_PAYMENT_REQUEST,
-    payment_request
+    paymentRequest
   }
 }
 
@@ -60,22 +70,15 @@ const ACTION_HANDLERS = {
   [SET_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
   [SET_MESSAGE]: (state, { message }) => ({ ...state, message }),
   [SET_PUBKEY]: (state, { pubkey }) => ({ ...state, pubkey }),
-  [SET_PAYMENT_REQUEST]: (state, { payment_request }) => ({ ...state, payment_request }),
+  [SET_PAYMENT_REQUEST]: (state, { paymentRequest }) => (
+    { ...state, payment_request: paymentRequest }
+  ),
   [RESET_FORM]: () => (initialState)
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  modalOpen: false,
-  formType: 'pay',
-  amount: '0',
-  message: '',
-  pubkey: '',
-  payment_request: ''
-}
-
 export default function formReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

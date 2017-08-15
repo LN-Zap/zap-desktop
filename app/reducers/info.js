@@ -31,7 +31,7 @@ export const fetchInfo = () => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_INFO]: (state) => ({ ...state, infoLoading: true }),
+  [GET_INFO]: state => ({ ...state, infoLoading: true }),
   [RECEIVE_INFO]: (state, { data }) => ({ ...state, infoLoading: false, data })
 }
 

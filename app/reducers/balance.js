@@ -32,8 +32,10 @@ export const fetchBalance = () => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_BALANCE]: (state) => ({ ...state, balanceLoading: true }),
-  [RECEIVE_BALANCE]: (state, { walletBalance, channelBalance }) => ({ ...state, balanceLoading: false, walletBalance, channelBalance })
+  [GET_BALANCE]: state => ({ ...state, balanceLoading: true }),
+  [RECEIVE_BALANCE]: (state, { walletBalance, channelBalance }) => (
+    { ...state, balanceLoading: false, walletBalance, channelBalance }
+  )
 }
 
 // ------------------------------------

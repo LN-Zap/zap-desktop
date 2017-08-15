@@ -18,7 +18,7 @@ export function receiveActvity(data) {
   return {
     type: RECEIVE_ACTIVITY,
     payments: data[0].data.payments.reverse(),
-    invoices: data[1].data.invoices.reverse() 
+    invoices: data[1].data.invoices.reverse()
   }
 }
 
@@ -32,8 +32,10 @@ export const fetchActivity = () => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_ACTIVITY]: (state) => ({ ...state, activityLoading: true }),
-  [RECEIVE_ACTIVITY]: (state, { payments, invoices }) => ({ ...state, activityLoading: false, payments, invoices })
+  [GET_ACTIVITY]: state => ({ ...state, activityLoading: true }),
+  [RECEIVE_ACTIVITY]: (state, { payments, invoices }) => (
+    { ...state, activityLoading: false, payments, invoices }
+  )
 }
 
 // ------------------------------------

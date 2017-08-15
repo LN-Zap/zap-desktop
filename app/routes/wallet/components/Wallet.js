@@ -1,26 +1,25 @@
-// @flow
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import ReactSVG from 'react-svg'
-import { FaCircle } from 'react-icons/lib/fa'
-import Peers from './components/peers'
-import Channels from './components/channels'
+import Peers from './components/Peers'
+import Channels from './components/Channels'
 import styles from './Wallet.scss'
 
 class Wallet extends Component {
-	componentWillMount() {
-		const { fetchInfo, fetchPeers, fetchChannels } = this.props
-		
-		fetchInfo()
-		fetchPeers()
-		fetchChannels()
-	}
+  componentWillMount() {
+    const { fetchInfo, fetchPeers, fetchChannels } = this.props
+
+    fetchInfo()
+    fetchPeers()
+    fetchChannels()
+  }
 
   render() {
-  	const {
-  		info,
+    const {
+      info,
       ticker,
-  		peers: { peersLoading, peers, peer, peerForm },
-  		channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
+      peers: { peersLoading, peers, peer, peerForm },
+      channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
       setPeer,
       setChannel,
       peerModalOpen,
@@ -31,13 +30,13 @@ class Wallet extends Component {
       disconnectRequest,
       allChannels,
       openChannel
-  	} = this.props
+    } = this.props
 
     return (
       <div className={styles.wallet}>
         <section className={styles.header}>
-        	<ReactSVG path='../resources/zap_2.svg' />
-        	<h1>{info.data.identity_pubkey}</h1>
+          <ReactSVG path='../resources/zap_2.svg' />
+          <h1>{info.data.identity_pubkey}</h1>
         </section>
         <section className={styles.walletData}>
           <Peers
@@ -69,6 +68,12 @@ class Wallet extends Component {
       </div>
     )
   }
+}
+
+Wallet.propTypes = {
+  fetchInfo: PropTypes.func.isRequired,
+  fetchPeers: PropTypes.func.isRequired,
+  fetchChannels: PropTypes.func.isRequired
 }
 
 

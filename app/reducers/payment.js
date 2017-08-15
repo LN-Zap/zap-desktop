@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { callApi } from '../api'
-import { btc } from '../utils'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -58,19 +58,19 @@ export function paymentFailed() {
 export const fetchPayments = () => async (dispatch) => {
   dispatch(getPayments())
   const payments = await callApi('payments')
-  payments ?
+
+  if (payments) {
     dispatch(receivePayments(payments.data))
-  :
+  } else {
     dispatch(paymentFailed())
+  }
 
   return payments
 }
 
-export const payInvoice = (payment_request) => async (dispatch) => {
-  console.log('payment_request: ', payment_request)
+export const payInvoice = (paymentRequest) => async (dispatch) => {
   dispatch(sendPayment())
-  const payment = await callApi('sendpayment', 'post', { payment_request })
-  console.log('payment: ', payment)
+  const payment = await callApi('sendpayment', 'post', { payment_request: paymentRequest })
 
   payment ?
     dispatch(fetchPayments())
@@ -86,9 +86,11 @@ export const payInvoice = (payment_request) => async (dispatch) => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
-  [GET_PAYMENTS]: (state) => ({ ...state, paymentLoading: true }),
+  [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
-  [PAYMENT_SUCCESSFULL]: (state, { payment }) => ({ ...state, paymentLoading: false, payments: [payment, ...state.payments] })
+  [PAYMENT_SUCCESSFULL]: (state, { payment }) => (
+    { ...state, paymentLoading: false, payments: [payment, ...state.payments] }
+  )
 }
 
 const paymentSelectors = {}
@@ -96,7 +98,7 @@ const modalPaymentSelector = state => state.payment.payment
 
 paymentSelectors.paymentModalOpen = createSelector(
   modalPaymentSelector,
-  payment => payment ? true : false
+  payment => (payment ? true : false)
 )
 
 export { paymentSelectors }

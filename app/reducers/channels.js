@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import { usd, btc } from '../utils'
 import { callApi, callApis } from '../api'
 // ------------------------------------
 // Constants
@@ -47,19 +46,6 @@ export function receiveChannels(channels) {
   }
 }
 
-export function getPendingChannels() {
-  return {
-    type: GET_PENDING_CHANNELS
-  }
-}
-
-export function receivePendingChannels({ pendingChannels }) {
-  return {
-    type: RECEIVE_PENDING_CHANNELS,
-    pendingChannels
-  }
-}
-
 export function openingChannel() {
   return {
     type: OPENING_CHANNEL
@@ -88,9 +74,12 @@ export const openChannel = ({ pubkey, localamt, pushamt }) => async (dispatch) =
   const payload = { pubkey, localamt, pushamt }
   dispatch(openingChannel())
   const channel = await callApi('addchannel', 'post', payload)
-  console.log('channel: ', channel)
   
-  channel.data ? dispatch(openingSuccessful()) : dispatch(openingFailure())
+  if (channel.data) {
+    dispatch(openingSuccessful())
+  } else {
+    dispatch(openingFailure())
+  }
 
   return channel
 }
@@ -99,12 +88,16 @@ export const openChannel = ({ pubkey, localamt, pushamt }) => async (dispatch) =
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_CHANNEL_FORM]: (state, { form }) => ({ ...state, channelForm: Object.assign({}, state.channelForm, form) }),
+  [SET_CHANNEL_FORM]: (state, { form }) => (
+    { ...state, channelForm: Object.assign({}, state.channelForm, form) }
+  ),
 
   [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
 
   [GET_CHANNELS]: (state) => ({ ...state, channelsLoading: true }),
-  [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => ({ ...state, channelsLoading: false, channels, pendingChannels }),
+  [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => (
+    { ...state, channelsLoading: false, channels, pendingChannels }
+  ),
 
   [OPENING_CHANNEL]: (state) => ({ ...state, openingChannel: true }),
 }
@@ -140,18 +133,7 @@ const initialState = {
   pendingChannels: {
     total_limbo_balance: '',
     pending_open_channels: [],
-    pending_closing_channels: [
-      {
-        "channel": {
-          "remote_node_pub": "02ef6248210e27b0f0df4d11d876e63f56e04bcb0054d0d8b6ba6a1a3e90dc56e1",
-          "channel_point": "5f6c522970e81069075c27be8799d0e2fb16dd4975cbd84c07b1a8bc9ece9918:0",
-          "capacity": "10000",
-          "local_balance": "312",
-          "remote_balance": "0"
-        },
-        "closing_txid": "4c0a25b0955e9efca46065a317a9560c9e3618356d4985e1a905eeb662e40bdb"
-      }
-    ],
+    pending_closing_channels: [],
     pending_force_closing_channels: []
   },
   channel: null,
