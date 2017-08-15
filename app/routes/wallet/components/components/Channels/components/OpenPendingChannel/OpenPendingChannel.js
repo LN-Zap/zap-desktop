@@ -25,7 +25,7 @@ const OpenPendingChannel = ({ ticker, channel: { channel } }) => (
           {
             ticker.currency === 'btc' ?
               btc.satoshisToBtc(channel.capacity)
-            :
+              :
               btc.satoshisToUsd(channel.capacity, ticker.btcTicker.price_usd)
           }
         </h2>
@@ -36,7 +36,7 @@ const OpenPendingChannel = ({ ticker, channel: { channel } }) => (
             {
               ticker.currency === 'btc' ?
                 btc.satoshisToBtc(channel.local_balance)
-              :
+                :
                 btc.satoshisToUsd(channel.local_balance, ticker.btcTicker.price_usd)
             }
           </h4>
@@ -47,7 +47,7 @@ const OpenPendingChannel = ({ ticker, channel: { channel } }) => (
             {
               ticker.currency === 'btc' ?
                 btc.satoshisToBtc(channel.remote_balance)
-              :
+                :
                 btc.satoshisToUsd(channel.remote_balance, ticker.btcTicker.price_usd)
             }
           </h4>

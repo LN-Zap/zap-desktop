@@ -15,7 +15,8 @@
     "indent": 2,
     "jsx-quotes": ["error", "prefer-single"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
-    "no-static-element-interactions": 0
+    "jsx-a11y/no-static-element-interactions": 0,
+    "react/forbid-prop-types": 0
   },
   "plugins": [
     "flowtype",

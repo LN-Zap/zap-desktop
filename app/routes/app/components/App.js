@@ -1,5 +1,5 @@
-// @flow
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import Form from './components/Form'
 import Nav from './components/Nav.js'
 import Socket from './components/Socket.js'
@@ -13,7 +13,7 @@ export const CHANNEL_STATUS = 'CHANNEL_STATUS'
 class App extends Component {
   componentWillMount() {
     const { fetchTicker, fetchBalance } = this.props
-    
+
     fetchTicker()
     fetchBalance()
   }
@@ -57,16 +57,16 @@ class App extends Component {
           fetchInvoice={fetchInvoice}
           formInvoice={formInvoice}
         />
-        <Nav 
+        <Nav
           ticker={ticker}
           balance={balance}
           setCurrency={setCurrency}
-          formClicked={(formType) => setForm({ modalOpen: true, formType })} 
+          formClicked={formType => setForm({ modalOpen: true, formType })}
         />
         <div className={styles.content}>
           {children}
         </div>
-        
+
         <Socket fetchChannels={fetchChannels} />
       </div>
     )
@@ -74,8 +74,23 @@ class App extends Component {
 }
 
 App.propTypes = {
-  ticker: React.PropTypes.object,
-  children: React.PropTypes.object
+  ticker: PropTypes.object.isRequired,
+  balance: PropTypes.object.isRequired,
+  invoice: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+  setAmount: PropTypes.func.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  setPubkey: PropTypes.func.isRequired,
+  setPaymentRequest: PropTypes.func.isRequired,
+  payment: PropTypes.object.isRequired,
+  peers: PropTypes.array,
+  setCurrency: PropTypes.func.isRequired,
+  setForm: PropTypes.func.isRequired,
+  createInvoice: PropTypes.func.isRequired,
+  payInvoice: PropTypes.func.isRequired,
+  fetchChannels: PropTypes.func.isRequired,
+  fetchInvoice: PropTypes.func.isRequired,
+  children: PropTypes.object.isRequired
 }
 
 export default App

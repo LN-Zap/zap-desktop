@@ -113,19 +113,19 @@ export const disconnectRequest = ({ pubkey }) => async (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [DISCONNECT_PEER]: (state) => ({ ...state, disconnecting: true }),
+  [DISCONNECT_PEER]: state => ({ ...state, disconnecting: true }),
   [DISCONNECT_SUCCESS]: (state, { pubkey }) => ({ ...state, disconnecting: false, peers: state.peers.filter(peer => peer.pub_key !== pubkey) }),
-  [DISCONNECT_FAILURE]: (state) => ({ ...state, disconnecting: false }),
+  [DISCONNECT_FAILURE]: state => ({ ...state, disconnecting: false }),
 
-  [CONNECT_PEER]: (state) => ({ ...state, connecting: true }),
+  [CONNECT_PEER]: state => ({ ...state, connecting: true }),
   [CONNECT_SUCCESS]: (state, { peer }) => ({ ...state, connecting: false, peers: [...state.peers, peer] }),
-  [CONNECT_FAILURE]: (state) => ({ ...state, connecting: false }),
+  [CONNECT_FAILURE]: state => ({ ...state, connecting: false }),
 
   [SET_PEER_FORM]: (state, { form }) => ({ ...state, peerForm: Object.assign({}, state.peerForm, form) }),
 
   [SET_PEER]: (state, { peer }) => ({ ...state, peer }),
 
-  [GET_PEERS]: (state) => ({ ...state, peersLoading: true }),
+  [GET_PEERS]: state => ({ ...state, peersLoading: true }),
   [RECEIVE_PEERS]: (state, { peers }) => ({ ...state, peersLoading: false, peers })
 }
 
@@ -134,7 +134,7 @@ const peerSelector = state => state.peers.peer
 
 peersSelectors.peerModalOpen = createSelector(
   peerSelector,
-  peer => peer ? true : false
+  peer => (!!peer)
 )
 
 export { peersSelectors }

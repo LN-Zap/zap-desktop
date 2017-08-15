@@ -9,7 +9,7 @@ class PeerModal extends Component {
       const { peer, disconnect } = this.props
 
       disconnect({ pubkey: peer.pub_key })
-      .then(success => success ? resetPeer(null) : null)
+        .then(success => (success ? resetPeer(null) : null))
     }
 
     const customStyles = {
@@ -17,7 +17,7 @@ class PeerModal extends Component {
         cursor: 'pointer',
         overflowY: 'auto'
       },
-      content : {
+      content: {
         top: 'auto',
         left: '20%',
         right: '0',
@@ -27,15 +27,15 @@ class PeerModal extends Component {
         padding: '40px'
       }
     }
-    
+
     const { isOpen, resetPeer, peer, disconnect } = this.props
 
     return (
       <ReactModal
         isOpen={isOpen}
-        contentLabel="No Overlay Click Modal"
-        ariaHideApp={true}
-        shouldCloseOnOverlayClick={true}
+        contentLabel='No Overlay Click Modal'
+        ariaHideApp
+        shouldCloseOnOverlayClick
         onRequestClose={() => resetPeer(null)}
         parentSelector={() => document.body}
         style={customStyles}
@@ -64,7 +64,7 @@ class PeerModal extends Component {
                 <div>Disconnect peer</div>
               </div>
             </div>
-          :
+            :
             null
         }
       </ReactModal>

@@ -9,7 +9,7 @@ const Modal = ({ isOpen, resetObject, children }) => {
     overlay: {
       cursor: 'pointer'
     },
-    content : {
+    content: {
       top: 'auto',
       left: '20%',
       right: '0',
@@ -22,9 +22,9 @@ const Modal = ({ isOpen, resetObject, children }) => {
   return (
     <ReactModal
       isOpen={isOpen}
-      contentLabel="No Overlay Click Modal"
-      ariaHideApp={true}
-      shouldCloseOnOverlayClick={true}
+      contentLabel='No Overlay Click Modal'
+      ariaHideApp
+      shouldCloseOnOverlayClick
       onRequestClose={() => resetObject(null)}
       parentSelector={() => document.body}
       style={customStyles}

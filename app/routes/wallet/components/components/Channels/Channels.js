@@ -8,7 +8,7 @@ import OpenPendingChannel from './components/OpenPendingChannel'
 import ClosedPendingChannel from './components/ClosedPendingChannel'
 import styles from './Channels.scss'
 
-const Channels = ({ 
+const Channels = ({
   ticker,
   peers,
   channelsLoading,
@@ -18,7 +18,7 @@ const Channels = ({
   channelForm,
   setChannelForm,
   allChannels,
-  openChannel 
+  openChannel
 }) => (
   <div className={styles.channels}>
     <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
@@ -30,12 +30,12 @@ const Channels = ({
         data-hint='Open a channel'
         onClick={() => setChannelForm({ isOpen: true })}
       >
-        <TiPlus />  
+        <TiPlus />
       </div>
     </div>
     <ul>
       {
-        !channelsLoading ? 
+        !channelsLoading ?
           allChannels.map((channel, index) => {
             if (channel.hasOwnProperty('blocks_till_open')) {
               return (
@@ -45,20 +45,19 @@ const Channels = ({
               return (
                 <ClosedPendingChannel key={index} channel={channel} ticker={ticker} />
               )
-            } else {
-              return (
-                <Channel
-                  key={channel.chan_id}
-                  ticker={ticker}
-                  channel={channel}
-                  setChannel={setChannel}
-                />
-              )
             }
+            return (
+              <Channel
+                key={channel.chan_id}
+                ticker={ticker}
+                channel={channel}
+                setChannel={setChannel}
+              />
+            )
           })
-        :
+          :
           'Loading...'
-        }
+      }
     </ul>
   </div>
 )

@@ -25,7 +25,7 @@ const mapDispatchToProps = {
   fetchInvoice
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   ticker: state.ticker,
   balance: state.balance,
   payment: state.payment,

@@ -47,12 +47,12 @@ const Form = ({
         </div>
         <div className={styles.content}>
           <section className={styles.amountContainer}>
-            <label>
+            <label htmlFor='amount'>
               {
                 currency === 'btc' ?
-                    <FaBitcoin />
+                  <FaBitcoin />
                   :
-                    <FaDollar />
+                  <FaDollar />
               }
             </label>
             <input
@@ -61,46 +61,49 @@ const Form = ({
               style={
                 formType === 'pay' ?
                   { width: '75%', fontSize: '100px' }
-                :
+                  :
                   { width: `${amount.length > 1 ? (amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }
               }
               value={formType === 'pay' ? calculateAmount(formInvoice.amount) : amount}
               onChange={event => setAmount(event.target.value)}
               readOnly={formType === 'pay'}
+              id='amount'
             />
           </section>
           {
             formType === 'pay' ?
               <section className={styles.inputContainer}>
-                <label>Request:</label>
+                <label htmlFor='paymentRequest'>Request:</label>
                 <input
                   type='text'
                   placeholder='Payment Request'
                   value={payment_request}
-                  onChange={(event) => paymentRequestOnChange(event.target.value)}
+                  onChange={event => paymentRequestOnChange(event.target.value)}
+                  id='paymentRequest'
                 />
               </section>
-            :
+              :
               <section className={styles.inputContainer}>
-                <label>For:</label>
+                <label htmlFor='message'>For:</label>
                 <input
                   type='text'
                   placeholder='Dinner, Rent, etc'
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={event => setMessage(event.target.value)}
+                  id='message'
                 />
               </section>
           }
           {
-            formType === 'pay' ? 
+            formType === 'pay' ?
               <section className={styles.buttonGroup}>
                 <div className={styles.button} onClick={payClicked}>
                   Pay
                 </div>
               </section>
-            :
+              :
               <section className={styles.buttonGroup}>
-                <div  className={styles.button} onClick={requestClicked}>
+                <div className={styles.button} onClick={requestClicked}>
                   Request
                 </div>
               </section>
@@ -114,7 +117,7 @@ const Form = ({
 Form.propTypes = {
   form: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
-  formType: PropTypes.string, 
+  formType: PropTypes.string,
   amount: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number

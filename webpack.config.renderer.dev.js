@@ -43,7 +43,7 @@ export default merge.smart(baseConfig, {
     'react-hot-loader/patch',
     `webpack-dev-server/client?http://localhost:${port}/`,
     'webpack/hot/only-dev-server',
-    path.join(__dirname, 'app/index.js'),
+    path.join(__dirname, 'app/index.js')
   ],
 
   output: {
@@ -66,7 +66,7 @@ export default merge.smart(baseConfig, {
               'transform-class-properties',
               'transform-es2015-classes',
               'react-hot-loader/babel'
-            ],
+            ]
           }
         }
       },
@@ -79,8 +79,8 @@ export default merge.smart(baseConfig, {
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
-            },
+              sourceMap: true
+            }
           }
         ]
       },
@@ -96,9 +96,9 @@ export default merge.smart(baseConfig, {
               modules: true,
               sourceMap: true,
               importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
+              localIdentName: '[name]__[local]__[hash:base64:5]'
             }
-          },
+          }
         ]
       },
       // Add SASS support  - compile all .global.scss files and pipe it to style.css
@@ -111,8 +111,8 @@ export default merge.smart(baseConfig, {
           {
             loader: 'css-loader',
             options: {
-              sourceMap: true,
-            },
+              sourceMap: true
+            }
           },
           {
             loader: 'sass-loader'
@@ -132,7 +132,7 @@ export default merge.smart(baseConfig, {
               modules: true,
               sourceMap: true,
               importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]',
+              localIdentName: '[name]__[local]__[hash:base64:5]'
             }
           },
           {
@@ -147,9 +147,9 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'application/font-woff',
+            mimetype: 'application/font-woff'
           }
-        },
+        }
       },
       // WOFF2 Font
       {
@@ -158,7 +158,7 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'application/font-woff',
+            mimetype: 'application/font-woff'
           }
         }
       },
@@ -176,7 +176,7 @@ export default merge.smart(baseConfig, {
       // EOT Font
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'file-loader',
+        use: 'file-loader'
       },
       // SVG Font
       {
@@ -185,14 +185,14 @@ export default merge.smart(baseConfig, {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'image/svg+xml',
+            mimetype: 'image/svg+xml'
           }
         }
       },
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: 'url-loader',
+        use: 'url-loader'
       }
     ]
   },
@@ -201,7 +201,7 @@ export default merge.smart(baseConfig, {
     new webpack.DllReferencePlugin({
       context: process.cwd(),
       manifest: require(manifest),
-      sourceType: 'var',
+      sourceType: 'var'
     }),
 
     /**
@@ -236,7 +236,7 @@ export default merge.smart(baseConfig, {
 
     new ExtractTextPlugin({
       filename: '[name].css'
-    }),
+    })
   ],
 
   node: {
@@ -262,7 +262,7 @@ export default merge.smart(baseConfig, {
     },
     historyApiFallback: {
       verbose: true,
-      disableDotRule: false,
+      disableDotRule: false
     },
     setup() {
       if (process.env.START_HOT) {
@@ -272,9 +272,9 @@ export default merge.smart(baseConfig, {
           ['run', 'start-main-dev'],
           { shell: true, env: process.env, stdio: 'inherit' }
         )
-        .on('close', code => process.exit(code))
-        .on('error', spawnError => console.error(spawnError));
+          .on('close', code => process.exit(code))
+          .on('error', spawnError => console.error(spawnError));
       }
     }
-  },
+  }
 });

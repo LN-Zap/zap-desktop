@@ -27,14 +27,14 @@ const Peers = ({
         data-hint='Connect to a peer'
         onClick={() => setPeerForm({ isOpen: true })}
       >
-        <TiPlus />  
+        <TiPlus />
       </div>
     </div>
     <ul>
       {
-        !peersLoading ? 
+        !peersLoading ?
           peers.map(peer => <Peer key={peer.peer_id} peer={peer} setPeer={setPeer} />)
-        :
+          :
           'Loading...'
       }
     </ul>

@@ -74,7 +74,7 @@ export const openChannel = ({ pubkey, localamt, pushamt }) => async (dispatch) =
   const payload = { pubkey, localamt, pushamt }
   dispatch(openingChannel())
   const channel = await callApi('addchannel', 'post', payload)
-  
+
   if (channel.data) {
     dispatch(openingSuccessful())
   } else {
@@ -94,12 +94,12 @@ const ACTION_HANDLERS = {
 
   [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
 
-  [GET_CHANNELS]: (state) => ({ ...state, channelsLoading: true }),
+  [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => (
     { ...state, channelsLoading: false, channels, pendingChannels }
   ),
 
-  [OPENING_CHANNEL]: (state) => ({ ...state, openingChannel: true }),
+  [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true })
 }
 
 const channelsSelectors = {}
@@ -111,7 +111,7 @@ const pendingForceClosedChannelsSelector = state => state.channels.pendingChanne
 
 channelsSelectors.channelModalOpen = createSelector(
   channelSelector,
-  channel => channel ? true : false
+  channel => (!!channel)
 )
 
 channelsSelectors.allChannels = createSelector(

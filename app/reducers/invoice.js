@@ -83,17 +83,16 @@ export function invoiceSuccessful(invoice) {
   }
 }
 
-export const fetchInvoice = (payreq) => async (dispatch) => {
+export const fetchInvoice = payreq => async (dispatch) => {
   dispatch(getInvoice())
   const invoice = await callApi(`invoice/${payreq}`, 'get')
 
   if (invoice) {
     dispatch(receiveFormInvoice(invoice.data))
     return true
-  } else {
-    dispatch(invoicesFailed())
-    return false
   }
+  dispatch(invoicesFailed())
+  return false
 }
 
 export const fetchInvoices = () => async (dispatch) => {
@@ -101,7 +100,7 @@ export const fetchInvoices = () => async (dispatch) => {
   const invoices = await callApi('invoices')
   invoices ?
     dispatch(receiveInvoices(invoices.data))
-  :
+    :
     dispatch(invoiceFailed())
 
   return invoices
@@ -135,16 +134,16 @@ const ACTION_HANDLERS = {
 
   [SET_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
 
-  [GET_INVOICE]: (state) => ({ ...state, invoiceLoading: true }),
+  [GET_INVOICE]: state => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICE]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoice }),
   [RECEIVE_FORM_INVOICE]: (state, { formInvoice }) => ({ ...state, invoiceLoading: false, formInvoice }),
 
-  [GET_INVOICES]: (state) => ({ ...state, invoiceLoading: true }),
+  [GET_INVOICES]: state => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
 
-  [SEND_INVOICE]: (state) => ({ ...state, invoiceLoading: true }),
+  [SEND_INVOICE]: state => ({ ...state, invoiceLoading: true }),
   [INVOICE_SUCCESSFUL]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoices: [invoice, ...state.invoices] }),
-  [INVOICE_FAILED]: (state) => ({ ...state, invoiceLoading: false, data: null })
+  [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null })
 }
 
 const invoiceSelectors = {}
@@ -154,7 +153,7 @@ const invoicesSearchTextSelector = state => state.invoice.invoicesSearchText
 
 invoiceSelectors.invoiceModalOpen = createSelector(
   invoiceSelector,
-  invoice => invoice ? true : false
+  invoice => (!!invoice)
 )
 
 invoiceSelectors.invoices = createSelector(

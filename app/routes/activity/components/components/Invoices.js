@@ -26,14 +26,14 @@ const Invoices = ({
               {
                 ticker.currency === 'btc' ?
                   <FaBitcoin style={{ verticalAlign: 'top' }} />
-                :
+                  :
                   <FaDollar style={{ verticalAlign: 'top' }} />
               }
               <span className={styles.value}>
                 {
                   ticker.currency === 'btc' ?
                     btc.satoshisToBtc(invoice.value)
-                  :
+                    :
                     btc.satoshisToUsd(invoice.value, ticker.btcTicker.price_usd)
                 }
               </span>
@@ -43,7 +43,7 @@ const Invoices = ({
               <input
                 readOnly
                 className={styles.paymentRequest}
-                onClick={(event) => event.target.select()}
+                onClick={event => event.target.select()}
                 defaultValue={invoice.payment_request}
               />
             </div>
@@ -51,7 +51,7 @@ const Invoices = ({
               {
                 invoice.settled ?
                   <p><MdCheck style={{ verticalAlign: 'top' }} /> Paid</p>
-                :
+                  :
                   <p>Not Paid</p>
               }
             </div>
@@ -60,7 +60,7 @@ const Invoices = ({
               <Moment format='MMM Do'>{invoice.creation_date * 1000}</Moment>
             </p>
           </div>
-        :
+          :
           null
       }
     </Modal>
@@ -78,7 +78,7 @@ const Invoices = ({
       </li>
       {
         invoices.map((invoice, index) =>
-          <li key={index} className={styles.invoice} onClick={() => setInvoice(invoice)}>
+          (<li key={index} className={styles.invoice} onClick={() => setInvoice(invoice)}>
             <div className={styles.left}>
               <div className={styles.path}>{`${invoice.payment_request.substring(0, 75)}...`}</div>
             </div>
@@ -88,14 +88,14 @@ const Invoices = ({
             <div className={styles.right}>
               <div className={invoice.settled ? styles.settled : null}>
                 {
-                ticker.currency === 'btc' ?
+                  ticker.currency === 'btc' ?
                     btc.satoshisToBtc(invoice.value)
-                  :
-                    btc.satoshisToUsd(invoice.value, ticker.btcTicker.price_usd) 
+                    :
+                    btc.satoshisToUsd(invoice.value, ticker.btcTicker.price_usd)
                 }
               </div>
             </div>
-          </li>
+          </li>)
         )
       }
     </ul>

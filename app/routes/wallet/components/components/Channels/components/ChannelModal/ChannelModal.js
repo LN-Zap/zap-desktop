@@ -11,7 +11,7 @@ class ChannelModal extends Component {
         cursor: 'pointer',
         overflowY: 'auto'
       },
-      content : {
+      content: {
         top: 'auto',
         left: '20%',
         right: '0',
@@ -21,21 +21,21 @@ class ChannelModal extends Component {
         padding: '40px'
       }
     }
-    
+
     const { isOpen, resetChannel, channel } = this.props
-    
+
     return (
       <ReactModal
         isOpen={isOpen}
-        contentLabel="No Overlay Click Modal"
-        ariaHideApp={true}
-        shouldCloseOnOverlayClick={true}
+        contentLabel='No Overlay Click Modal'
+        ariaHideApp
+        shouldCloseOnOverlayClick
         onRequestClose={() => resetChannel(null)}
         parentSelector={() => document.body}
         style={customStyles}
       >
         {
-          channel ?  
+          channel ?
             <div className={styles.channel}>
               <header className={styles.header}>
                 <h1 data-hint='Remote public key' className='hint--top-left'>{channel.remote_pubkey}</h1>
@@ -81,7 +81,7 @@ class ChannelModal extends Component {
                 <p>{channel.active ? 'Active' : 'Not active'}</p>
               </footer>
             </div>
-          :
+            :
             null
         }
       </ReactModal>

@@ -1,7 +1,7 @@
 import sb from 'satoshi-bitcoin'
 
 export function btcToSatoshis(btc) {
-	if (btc == undefined || btc === '') return
+  if (btc == undefined || btc === '') return
 
   return sb.toSatoshi(btc)
 }
@@ -19,12 +19,12 @@ export function satoshisToUsd(satoshis, price) {
 }
 
 export function btcToUsd(btc, price) {
-	return parseFloat((btc * price).toFixed(2)).toLocaleString('en')
+  return parseFloat((btc * price).toFixed(2)).toLocaleString('en')
 }
 
 export default {
-	btcToSatoshis,
-	satoshisToBtc,
-	satoshisToUsd,
-	btcToUsd
+  btcToSatoshis,
+  satoshisToBtc,
+  satoshisToUsd,
+  btcToUsd
 }

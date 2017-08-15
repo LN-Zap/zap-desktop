@@ -7,23 +7,23 @@ import Invoices from './components/Invoices'
 import styles from './Activity.scss'
 
 class Activity extends Component {
-constructor(props, context) {
-  super(props, context)
-  this.state = {
-    tab: 1
+  constructor(props, context) {
+    super(props, context)
+    this.state = {
+      tab: 1
+    }
   }
-}
 
-componentWillMount() {
-  const { fetchPayments, fetchInvoices } = this.props
+  componentWillMount() {
+    const { fetchPayments, fetchInvoices } = this.props
 
-  fetchPayments()
-  fetchInvoices()
-}
+    fetchPayments()
+    fetchInvoices()
+  }
 
   render() {
     const { tab } = this.state
-    const { 
+    const {
       ticker,
       searchInvoices,
       invoices,
@@ -44,7 +44,7 @@ componentWillMount() {
           </label>
           <input
             value={tab === 1 ? '' : invoicesSearchText}
-            onChange={event => tab === 1 ? null : searchInvoices(event.target.value)}
+            onChange={event => (tab === 1 ? null : searchInvoices(event.target.value))}
             className={`${styles.text} ${styles.input}`}
             placeholder={tab === 1 ? 'Search transactions by amount, public key, channel' : 'Search requests by memo'}
             type='text'
@@ -53,7 +53,7 @@ componentWillMount() {
 
         <div className={styles.activities}>
           <header className={styles.header}>
-            <span 
+            <span
               className={`${styles.title} ${tab === 1 ? styles.active : null}`}
               onClick={() => this.setState({ tab: 1 })}
             >
@@ -76,7 +76,7 @@ componentWillMount() {
                   setPayment={setPayment}
                   paymentModalOpen={paymentModalOpen}
                 />
-              :
+                :
                 <Invoices
                   invoice={invoice}
                   invoices={invoices}

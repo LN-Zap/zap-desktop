@@ -9,7 +9,7 @@ import styles from './Nav.scss'
 
 class Nav extends Component {
   render() {
-    const { 
+    const {
       ticker,
       balance,
       setCurrency,
@@ -20,7 +20,7 @@ class Nav extends Component {
       <nav className={styles.nav}>
         <ul className={styles.info}>
           <li className={`${styles.currencies} ${styles.link}`}>
-            <span 
+            <span
               data-hint={ticker.btcTicker ? ticker.btcTicker.price_usd : null}
               className={`${styles.currency} ${ticker.currency === 'btc' ? styles.active : ''} hint--bottom`}
               onClick={() => setCurrency('btc')}
@@ -41,7 +41,7 @@ class Nav extends Component {
                 {
                   ticker.currency === 'btc' ?
                     btc.satoshisToBtc(balance.walletBalance)
-                  :
+                    :
                     btc.satoshisToUsd(balance.walletBalance, ticker.btcTicker.price_usd)
                 }
               </span>
@@ -54,7 +54,7 @@ class Nav extends Component {
                 {
                   ticker.currency === 'btc' ?
                     btc.satoshisToBtc(balance.channelBalance)
-                  :
+                    :
                     btc.satoshisToUsd(balance.channelBalance, ticker.btcTicker.price_usd)
                 }
               </span>
@@ -85,7 +85,7 @@ class Nav extends Component {
               <span>Settings</span>
             </NavLink>
           </li>
-        </ul>  
+        </ul>
         <div className={styles.buttons}>
           <div className={styles.button} onClick={() => formClicked('pay')}>
             <span>Pay</span>

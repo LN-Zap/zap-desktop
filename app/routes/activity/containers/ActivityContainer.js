@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { 
+import {
   fetchInvoices,
   searchInvoices,
   setInvoice,
@@ -20,7 +20,7 @@ const mapDispatchToProps = {
   searchInvoices
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   activity: state.activity,
 
   payment: state.payment,

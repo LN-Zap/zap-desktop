@@ -8,7 +8,7 @@ class PeerForm extends Component {
     const submit = () => {
       const { form: { pubkey, host } } = this.props
 
-      this.props.connect({ pubkey, host }).then(success => {
+      this.props.connect({ pubkey, host }).then((success) => {
         if (success.data) { setForm({ isOpen: false }) }
       })
     }
@@ -18,7 +18,7 @@ class PeerForm extends Component {
         cursor: 'pointer',
         overflowY: 'auto'
       },
-      content : {
+      content: {
         top: 'auto',
         left: '20%',
         right: '0',
@@ -28,22 +28,22 @@ class PeerForm extends Component {
         padding: '40px'
       }
     }
-    
+
     const { form, setForm, connect } = this.props
     return (
       <div>
         <ReactModal
           isOpen={form.isOpen}
-          contentLabel="No Overlay Click Modal"
-          ariaHideApp={true}
-          shouldCloseOnOverlayClick={true}
+          contentLabel='No Overlay Click Modal'
+          ariaHideApp
+          shouldCloseOnOverlayClick
           onRequestClose={() => setForm({ isOpen: false })}
           parentSelector={() => document.body}
           style={customStyles}
         >
           <div className={styles.form}>
             <h1 className={styles.title}>Connect to a peer</h1>
-            
+
             <section className={styles.pubkey}>
               <label>Pubkey</label>
               <input
@@ -51,7 +51,7 @@ class PeerForm extends Component {
                 size=''
                 placeholder='Public key'
                 value={form.pubkey}
-                onChange={(event) => setForm({ pubkey: event.target.value })}
+                onChange={event => setForm({ pubkey: event.target.value })}
               />
             </section>
             <section className={styles.local}>
@@ -61,10 +61,10 @@ class PeerForm extends Component {
                 size=''
                 placeholder='Host address'
                 value={form.host}
-                onChange={(event) => setForm({ host: event.target.value })}
+                onChange={event => setForm({ host: event.target.value })}
               />
             </section>
-            
+
             <div className={styles.buttonGroup}>
               <div className={styles.button} onClick={submit}>
                 Submit

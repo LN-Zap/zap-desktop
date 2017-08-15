@@ -68,13 +68,13 @@ export const fetchPayments = () => async (dispatch) => {
   return payments
 }
 
-export const payInvoice = (paymentRequest) => async (dispatch) => {
+export const payInvoice = paymentRequest => async (dispatch) => {
   dispatch(sendPayment())
   const payment = await callApi('sendpayment', 'post', { payment_request: paymentRequest })
 
   payment ?
     dispatch(fetchPayments())
-  :
+    :
     dispatch(paymentFailed())
 
   return payment
@@ -98,7 +98,7 @@ const modalPaymentSelector = state => state.payment.payment
 
 paymentSelectors.paymentModalOpen = createSelector(
   modalPaymentSelector,
-  payment => (payment ? true : false)
+  payment => (!!payment)
 )
 
 export { paymentSelectors }

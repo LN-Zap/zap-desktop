@@ -35,7 +35,7 @@ const mapDispatchToProps = {
   setChannelForm
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = state => ({
   info: state.info,
   ticker: state.ticker,
 

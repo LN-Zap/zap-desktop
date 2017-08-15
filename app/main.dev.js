@@ -25,7 +25,7 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
   const path = require('path');
   const p = path.join(__dirname, '..', 'app', 'node_modules');
   require('module').globalPaths.push(p);
-  
+
   // set icon
   app.dock.setIcon(`${path.join(__dirname, '..', 'resources')}/zap_2.png`)
 }
