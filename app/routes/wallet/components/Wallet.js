@@ -73,7 +73,21 @@ class Wallet extends Component {
 Wallet.propTypes = {
   fetchInfo: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
-  fetchChannels: PropTypes.func.isRequired
+  fetchChannels: PropTypes.func.isRequired,
+  info: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  peers: PropTypes.object.isRequired,
+  channels: PropTypes.object.isRequired,
+  setPeer: PropTypes.func.isRequired,
+  setChannel: PropTypes.func.isRequired,
+  peerModalOpen: PropTypes.bool.isRequired,
+  channelModalOpen: PropTypes.bool.isRequired,
+  setPeerForm: PropTypes.func.isRequired,
+  setChannelForm: PropTypes.func.isRequired,
+  connectRequest: PropTypes.func.isRequired,
+  disconnectRequest: PropTypes.func.isRequired,
+  allChannels: PropTypes.array.isRequired,
+  openChannel: PropTypes.func.isRequired
 }
 
 

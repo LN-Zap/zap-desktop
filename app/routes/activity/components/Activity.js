@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup'
 import { MdSearch } from 'react-icons/lib/md'
 import Payments from './components/Payments'
 import Invoices from './components/Invoices'
@@ -39,7 +38,7 @@ class Activity extends Component {
     return (
       <div>
         <div className={styles.search}>
-          <label className={`${styles.label} ${styles.input}`}>
+          <label className={`${styles.label} ${styles.input}`} htmlFor='invoiceSearch'>
             <MdSearch />
           </label>
           <input
@@ -48,6 +47,7 @@ class Activity extends Component {
             className={`${styles.text} ${styles.input}`}
             placeholder={tab === 1 ? 'Search transactions by amount, public key, channel' : 'Search requests by memo'}
             type='text'
+            id='invoiceSearch'
           />
         </div>
 
@@ -93,6 +93,8 @@ class Activity extends Component {
 }
 
 Activity.propTypes = {
+  fetchPayments: PropTypes.func.isRequired,
+  fetchInvoices: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
   searchInvoices: PropTypes.func.isRequired,
   invoices: PropTypes.array.isRequired,

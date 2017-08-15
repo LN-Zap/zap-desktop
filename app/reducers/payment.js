@@ -68,14 +68,15 @@ export const fetchPayments = () => async (dispatch) => {
   return payments
 }
 
-export const payInvoice = paymentRequest => async (dispatch) => {
+export const payInvoice = payment_request => async (dispatch) => {
   dispatch(sendPayment())
-  const payment = await callApi('sendpayment', 'post', { payment_request: paymentRequest })
+  const payment = await callApi('sendpayment', 'post', { payment_request })
 
-  payment ?
+  if (payment) {
     dispatch(fetchPayments())
-    :
+  } else {
     dispatch(paymentFailed())
+  }
 
   return payment
 }

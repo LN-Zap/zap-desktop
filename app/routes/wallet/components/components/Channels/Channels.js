@@ -37,11 +37,11 @@ const Channels = ({
       {
         !channelsLoading ?
           allChannels.map((channel, index) => {
-            if (channel.hasOwnProperty('blocks_till_open')) {
+            if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
               return (
                 <OpenPendingChannel key={index} channel={channel} ticker={ticker} />
               )
-            } else if (channel.hasOwnProperty('closing_txid')) {
+            } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
               return (
                 <ClosedPendingChannel key={index} channel={channel} ticker={ticker} />
               )

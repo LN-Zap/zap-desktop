@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // @flow
 import { app, Menu, shell, BrowserWindow } from 'electron';
 

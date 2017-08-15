@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Form from './components/Form'
-import Nav from './components/Nav.js'
-import Socket from './components/Socket.js'
+import Nav from './components/Nav'
+import Socket from './components/Socket'
 import styles from './App.scss'
 
 export const CHANNEL_DATA = 'CHANNEL_DATA'
@@ -74,6 +74,8 @@ class App extends Component {
 }
 
 App.propTypes = {
+  fetchTicker: PropTypes.func.isRequired,
+  fetchBalance: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   invoice: PropTypes.object.isRequired,

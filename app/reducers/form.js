@@ -49,10 +49,10 @@ export function setPubkey(pubkey) {
   }
 }
 
-export function setPaymentRequest(paymentRequest) {
+export function setPaymentRequest(payment_request) {
   return {
     type: SET_PAYMENT_REQUEST,
-    paymentRequest
+    payment_request
   }
 }
 
@@ -70,9 +70,7 @@ const ACTION_HANDLERS = {
   [SET_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
   [SET_MESSAGE]: (state, { message }) => ({ ...state, message }),
   [SET_PUBKEY]: (state, { pubkey }) => ({ ...state, pubkey }),
-  [SET_PAYMENT_REQUEST]: (state, { paymentRequest }) => (
-    { ...state, payment_request: paymentRequest }
-  ),
+  [SET_PAYMENT_REQUEST]: (state, { payment_request }) => ({ ...state, payment_request }),
   [RESET_FORM]: () => (initialState)
 }
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { btc } from '../../../../../../../utils'
 import styles from './ClosedPendingChannel.scss'
 
-const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid }, setChannel }) => (
+const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid } }) => (
   <li className={styles.channel} onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${closing_txid}`)}>
     <h1 className={styles.closing}>Status: Closing</h1>
     <div className={styles.left}>
@@ -59,9 +59,7 @@ const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid }, setC
 
 ClosedPendingChannel.propTypes = {
   ticker: PropTypes.object.isRequired,
-  channel: PropTypes.object.isRequired,
-  closing_txid: PropTypes.string,
-  setChannel: PropTypes.func
+  channel: PropTypes.object.isRequired
 }
 
 export default ClosedPendingChannel

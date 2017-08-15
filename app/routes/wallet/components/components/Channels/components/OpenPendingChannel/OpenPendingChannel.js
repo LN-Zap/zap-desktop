@@ -1,4 +1,3 @@
-// @flow
 import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'

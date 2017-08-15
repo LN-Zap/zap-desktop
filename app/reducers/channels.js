@@ -119,7 +119,9 @@ channelsSelectors.allChannels = createSelector(
   pendingOpenChannelsSelector,
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
-  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels) => [...channels, ...pendingOpenChannels, ...pendingClosedChannels, ...pendingForcedClosedChannels]
+  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels) => (
+    [...channels, ...pendingOpenChannels, ...pendingClosedChannels, ...pendingForcedClosedChannels]
+  )
 )
 
 export { channelsSelectors }

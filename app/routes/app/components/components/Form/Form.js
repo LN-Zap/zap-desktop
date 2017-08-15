@@ -117,18 +117,9 @@ const Form = ({
 Form.propTypes = {
   form: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
-  formType: PropTypes.string,
-  amount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  message: PropTypes.string,
-  payment_request: PropTypes.string,
   setAmount: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
   setPaymentRequest: PropTypes.func.isRequired,
-  currency: PropTypes.string,
-  btcTicker: PropTypes.object,
   isOpen: PropTypes.bool.isRequired,
   close: PropTypes.func.isRequired,
   createInvoice: PropTypes.func.isRequired,

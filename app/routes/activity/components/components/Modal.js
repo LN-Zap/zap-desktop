@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
-import Moment from 'react-moment'
-import 'moment-timezone'
 
 const Modal = ({ isOpen, resetObject, children }) => {
   const customStyles = {

@@ -77,26 +77,26 @@ const Invoices = ({
         </div>
       </li>
       {
-        invoices.map((invoice, index) =>
-          (<li key={index} className={styles.invoice} onClick={() => setInvoice(invoice)}>
+        invoices.map((invoiceItem, index) => (
+          <li key={index} className={styles.invoice} onClick={() => setInvoice(invoiceItem)}>
             <div className={styles.left}>
-              <div className={styles.path}>{`${invoice.payment_request.substring(0, 75)}...`}</div>
+              <div className={styles.path}>{`${invoiceItem.payment_request.substring(0, 75)}...`}</div>
             </div>
             <div className={styles.center}>
-              <div>{invoice.memo}</div>
+              <div>{invoiceItem.memo}</div>
             </div>
             <div className={styles.right}>
-              <div className={invoice.settled ? styles.settled : null}>
+              <div className={invoiceItem.settled ? styles.settled : null}>
                 {
                   ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(invoice.value)
+                    btc.satoshisToBtc(invoiceItem.value)
                     :
-                    btc.satoshisToUsd(invoice.value, ticker.btcTicker.price_usd)
+                    btc.satoshisToUsd(invoiceItem.value, ticker.btcTicker.price_usd)
                 }
               </div>
             </div>
-          </li>)
-        )
+          </li>
+        ))
       }
     </ul>
   </div>

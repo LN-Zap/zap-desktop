@@ -83,6 +83,12 @@ export function invoiceSuccessful(invoice) {
   }
 }
 
+export function invoiceFailed() {
+  return {
+    type: INVOICE_FAILED
+  }
+}
+
 export const fetchInvoice = payreq => async (dispatch) => {
   dispatch(getInvoice())
   const invoice = await callApi(`invoice/${payreq}`, 'get')
@@ -91,17 +97,18 @@ export const fetchInvoice = payreq => async (dispatch) => {
     dispatch(receiveFormInvoice(invoice.data))
     return true
   }
-  dispatch(invoicesFailed())
+  dispatch(invoiceFailed())
   return false
 }
 
 export const fetchInvoices = () => async (dispatch) => {
   dispatch(getInvoice())
   const invoices = await callApi('invoices')
-  invoices ?
+  if (invoices) {
     dispatch(receiveInvoices(invoices.data))
-    :
+  } else {
     dispatch(invoiceFailed())
+  }
 
   return invoices
 }
@@ -119,13 +126,6 @@ export const createInvoice = (amount, memo, currency, rate) => async (dispatch) 
 
   return invoice
 }
-
-
-export function invoiceFailed() {
-  return {
-    type: INVOICE_FAILED
-  }
-}
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -136,13 +136,17 @@ const ACTION_HANDLERS = {
 
   [GET_INVOICE]: state => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICE]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoice }),
-  [RECEIVE_FORM_INVOICE]: (state, { formInvoice }) => ({ ...state, invoiceLoading: false, formInvoice }),
+  [RECEIVE_FORM_INVOICE]: (state, { formInvoice }) => (
+    { ...state, invoiceLoading: false, formInvoice }
+  ),
 
   [GET_INVOICES]: state => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
 
   [SEND_INVOICE]: state => ({ ...state, invoiceLoading: true }),
-  [INVOICE_SUCCESSFUL]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoices: [invoice, ...state.invoices] }),
+  [INVOICE_SUCCESSFUL]: (state, { invoice }) => (
+    { ...state, invoiceLoading: false, invoices: [invoice, ...state.invoices] }
+  ),
   [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null })
 }
 

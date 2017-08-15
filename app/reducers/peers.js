@@ -95,7 +95,11 @@ export const fetchPeers = () => async (dispatch) => {
 export const connectRequest = ({ pubkey, host }) => async (dispatch) => {
   dispatch(connectPeer())
   const success = await callApi('connect', 'post', { pubkey, host })
-  success.data ? dispatch(connectSuccess({ pub_key: pubkey, address: host, peer_id: success.data.peer_id })) : dispatch(connectFailure())
+  if (success.data) {
+    dispatch(connectSuccess({ pub_key: pubkey, address: host, peer_id: success.data.peer_id }))
+  } else {
+    dispatch(connectFailure())
+  }
 
   return success
 }
@@ -103,8 +107,11 @@ export const connectRequest = ({ pubkey, host }) => async (dispatch) => {
 export const disconnectRequest = ({ pubkey }) => async (dispatch) => {
   dispatch(disconnectPeer())
   const success = await callApi('disconnect', 'post', { pubkey })
-  console.log('success: ', success)
-  success ? dispatch(disconnectSuccess(pubkey)) : dispatch(disconnectFailure())
+  if (success) {
+    dispatch(disconnectSuccess(pubkey))
+  } else {
+    dispatch(disconnectFailure())
+  }
 
   return success
 }

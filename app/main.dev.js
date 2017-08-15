@@ -1,3 +1,4 @@
+/* eslint-disable */
 /* eslint global-require: 1, flowtype-errors/show-errors: 0 */
 
 /**
