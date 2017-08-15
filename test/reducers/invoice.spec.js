@@ -61,7 +61,7 @@ describe('reducers', () => {
       expect(invoiceReducer(undefined, { type: SEARCH_INVOICES, invoicesSearchText: 'foo' })).toMatchSnapshot()
     })
 
-    it('should correctly searchInvoices', () => {
+    it('should correctly setInvoice', () => {
       expect(invoiceReducer(undefined, { type: SET_INVOICE, invoice: 'foo' })).toMatchSnapshot()
     })
 

@@ -50,15 +50,15 @@ describe('reducers', () => {
       expect(channelsReducer(undefined, { type: SET_CHANNEL_FORM, form: { isOpen: true } })).toMatchSnapshot()
     })
 
-    it('should correctly setChannelForm', () => {
+    it('should correctly getChannels', () => {
       expect(channelsReducer(undefined, { type: GET_CHANNELS })).toMatchSnapshot()
     })
 
-    it('should correctly setChannelForm', () => {
+    it('should correctly receiveChannel', () => {
       expect(channelsReducer(undefined, { type: RECEIVE_CHANNELS, channels: [1, 2], pendingChannels: [3, 4] })).toMatchSnapshot()
     })
 
-    it('should correctly setChannelForm', () => {
+    it('should correctly openingChannel', () => {
       expect(channelsReducer(undefined, { type: OPENING_CHANNEL })).toMatchSnapshot()
     })
   })
