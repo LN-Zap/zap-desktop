@@ -43,7 +43,7 @@ $ npm run lint
 ```
 
 ## Contributing:
-Please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/CONTRIBUTING.md)
+Please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md)
 
 ## Todos (Last updated August 16th):
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) before tackling a todo to avoid duplicate work. This list will be updated daily to show what todos are being worked on
