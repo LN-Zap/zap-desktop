@@ -9,13 +9,13 @@
 Zap is a free Lightning Network wallet focused on user experience and ease of use, with the overall goal of helping the cryptocurrency community scale Bitcoin and other cryptocurrencies.
 
 Zap is built on top of [LND](https://github.com/lightningnetwork/lnd),
-uses a Node.js proxy and,
+uses a [Node.js](https://github.com/LN-Zap/zap-nodejs) proxy and,
 [Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs) for the UI.
 
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) to discuss development, design and product
 
 ## Install
-> For now Zap assumes you are running BTCD, LND and Zap Node.js (will change soon). Please see [installation](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) for LND and Zap Node.js to get that setup first
+> For now Zap assumes you are running BTCD, LND and Zap Node.js (will change soon). Please see [installation](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) for LND and installation for [Zap Node.js](https://github.com/LN-Zap/zap-nodejs) to get that setup first
 
 * **Note: requires a node version >= 7 and an npm version >= 4.**
 * **If you have installation or compilation issues, please file a Github issue**
