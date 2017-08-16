@@ -57,8 +57,44 @@ describe('reducers', () => {
       expect(RECEIVE_PEERS).toEqual('RECEIVE_PEERS')
     })
 
-    // it('should correctly sendPayment', () => {
-    //   expect(peersReducer(undefined, { type: SET_PAYMENT, payment: 'foo' })).toMatchSnapshot()
-    // })
+    it('should correctly disconnectPeer', () => {
+      expect(peersReducer(undefined, { type: DISCONNECT_PEER })).toMatchSnapshot()
+    })
+
+    it('should correctly disconnectSuccess', () => {
+      expect(peersReducer(undefined, { type: DISCONNECT_SUCCESS, pubkey: 'foo' })).toMatchSnapshot()
+    })
+
+    it('should correctly disconnectFailure', () => {
+      expect(peersReducer(undefined, { type: DISCONNECT_FAILURE })).toMatchSnapshot()
+    })
+
+    it('should correctly connectPeer', () => {
+      expect(peersReducer(undefined, { type: CONNECT_PEER })).toMatchSnapshot()
+    })
+
+    it('should correctly connectSuccess', () => {
+      expect(peersReducer(undefined, { type: CONNECT_SUCCESS, peer: 'foo' })).toMatchSnapshot()
+    })
+
+    it('should correctly connectFailure', () => {
+      expect(peersReducer(undefined, { type: CONNECT_FAILURE })).toMatchSnapshot()
+    })
+
+    it('should correctly setPeerForm', () => {
+      expect(peersReducer(undefined, { type: SET_PEER_FORM, form: 'foo' })).toMatchSnapshot()
+    })
+
+    it('should correctly setPeer', () => {
+      expect(peersReducer(undefined, { type: SET_PEER, peer: 'foo' })).toMatchSnapshot()
+    })
+
+    it('should correctly getPeers', () => {
+      expect(peersReducer(undefined, { type: GET_PEERS })).toMatchSnapshot()
+    })
+
+    it('should correctly connectFailure', () => {
+      expect(peersReducer(undefined, { type: RECEIVE_PEERS, peers: 'foo' })).toMatchSnapshot()
+    })
   })
 })
