@@ -78,6 +78,7 @@ app.on('ready', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined');
     }
+    
     mainWindow.show();
     mainWindow.focus();
   });
