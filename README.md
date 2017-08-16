@@ -32,6 +32,11 @@ $ cd zap-desktop
 $ yarn
 ```
 
+Then to start it:
+```bash
+$ npm run dev
+```
+
 ## Test
 ```bash
 $ npm run test
