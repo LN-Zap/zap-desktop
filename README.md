@@ -33,17 +33,18 @@ $ yarn
 ## Current Todo List (Last updated August 15th)
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) before tackling a todo to avoid duplicate work. This list will be updated daily to show what todos are being worked on
 
-## Refactor
+### Refactor
 - [ ] Move Node.js proxy to [ipcRenderer](https://electron.atom.io/docs/api/ipc-renderer/) (roasbeef recommendation)
 - [ ] Payments modal using selector
 - [ ] Invoices modal using selector
 - [ ] Use two package.json [structure](https://github.com/electron-userland/electron-builder/wiki/Two-package.json-Structure) 
 - [ ] General refactor (I know this TODO sucks but the code is a bit sloppy still, need to spend time refactoring)
 
-## Features
+### Features
 - [ ] Configurable BTCD + LN node connection (do not assume/rely on localhost)
 - [ ] Error handling
 - [ ] List on-chain transactions
+- [ ] Ability to search filter for payments
 - [ ] Websocket handling for transactions
 - [ ] Websocket handling for sendpayment
 - [ ] Channel notifications
@@ -53,10 +54,52 @@ Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUy
 - [ ] Litecoin UI
 - [ ] Settings route
 - [ ] describegraph UI to see current status of the Lightning Network
+- [ ] Support other currencies (EUR, JPY, etc)
 
-## Design
+### Design
 - [ ] Error handling
 - [ ] On-chain transactions list
 - [ ] Notifications
 - [ ] Litecoin UI (pick out a silver main color)
 - [ ] describegraph UI to see current status of the Lightning Network
+
+### Testing
+- [ ] Component tests
+- [ ] Container tests
+- [ ] API call tests
+
+## Q & A (Quality and Assurance)
+
+A good product not only has good software tests but also checks the quality of the UX/UI. Putting yourself in the shoes of the user will be very important for Zap.
+
+If you see issues please report with screenshots and/or how to reproduce the bug/error
+
+### Devices
+- Mac
+- Windows
+- Linux
+
+### Example user stories
+```
+User wants to connect to a peer
+```
+
+```
+User wants to open a channel
+```
+
+```
+User wants to create a payment request
+```
+
+```
+User wants to make a payment
+```
+
+```
+User wants to view the application in USD
+```
+
+```
+User wants to search for a payment request
+```
