@@ -15,21 +15,6 @@ Object {
 }
 `;
 
-exports[`reducers peersReducer should correctly connectFailure 2`] = `
-Object {
-  "connecting": false,
-  "disconnecting": false,
-  "peer": null,
-  "peerForm": Object {
-    "host": "",
-    "isOpen": false,
-    "pubkey": "",
-  },
-  "peers": "foo",
-  "peersLoading": false,
-}
-`;
-
 exports[`reducers peersReducer should correctly connectPeer 1`] = `
 Object {
   "connecting": true,

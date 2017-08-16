@@ -16,12 +16,12 @@ describe('API', () => {
   describe('balance', () => {
     it('returns wallet balance', async () => {
       const wallet_balances = await callApi('wallet_balance')
-      expect(typeof(wallet_balances.data.balance)).toEqual('string')
+      expect(typeof (wallet_balances.data.balance)).toEqual('string')
     })
 
     it('returns channel balance', async () => {
       const channel_balances = await callApi('channel_balance')
-      expect(typeof(channel_balances.data.balance)).toEqual('string')
+      expect(typeof (channel_balances.data.balance)).toEqual('string')
     })
   })
 
