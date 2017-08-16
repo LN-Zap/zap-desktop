@@ -12,7 +12,6 @@ uses a Node.js proxy and,
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) to discuss development, design and product
 
 ## Install
-
 > For now Zap assumes you are running BTCD and LND (will change soon). Please see [installation](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) to get that setup first
 
 * **Note: requires a node version >= 7 and an npm version >= 4.**
@@ -30,15 +29,23 @@ $ cd zap-desktop
 $ yarn
 ```
 
+## Test
+```bash
+$ npm run test
+```
+
+## Lint
+```bash
+$ npm run lint
+```
+
 ## Current Todo List (Last updated August 15th)
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) before tackling a todo to avoid duplicate work. This list will be updated daily to show what todos are being worked on
 
 ### Refactor
 - [ ] Move Node.js proxy to [ipcRenderer](https://electron.atom.io/docs/api/ipc-renderer/) (roasbeef recommendation)
-- [ ] Payments modal using selector
-- [ ] Invoices modal using selector
 - [ ] Use two package.json [structure](https://github.com/electron-userland/electron-builder/wiki/Two-package.json-Structure) 
-- [ ] General refactor (I know this TODO sucks but the code is a bit sloppy still, need to spend time refactoring)
+- [ ] General refactor (I know this TODO sucks but the code is a bit sloppy still)
 
 ### Features
 - [ ] Configurable BTCD + LN node connection (do not assume/rely on localhost)
@@ -67,6 +74,7 @@ Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUy
 - [ ] Component tests
 - [ ] Container tests
 - [ ] API call tests
+- [ ]
 
 ## Q & A (Quality and Assurance)
 

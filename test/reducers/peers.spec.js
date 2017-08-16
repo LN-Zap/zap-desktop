@@ -93,7 +93,7 @@ describe('reducers', () => {
       expect(peersReducer(undefined, { type: GET_PEERS })).toMatchSnapshot()
     })
 
-    it('should correctly connectFailure', () => {
+    it('should correctly receivePeers', () => {
       expect(peersReducer(undefined, { type: RECEIVE_PEERS, peers: 'foo' })).toMatchSnapshot()
     })
   })
