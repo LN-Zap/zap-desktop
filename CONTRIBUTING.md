@@ -1,4 +1,5 @@
 <h1 align='center'>Contributing</h1>
+(Even after a recent refactor the code is still a bit sloppy, in a bit of a segwit rush, apologize in advance for any "wtf is this?")
 
 ## Pull Requests
 The branch to be PR'd against will be master for the time being. This may change as the repo and contributors grow.
