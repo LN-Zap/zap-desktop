@@ -74,7 +74,6 @@ Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUy
 - [ ] Component tests
 - [ ] Container tests
 - [ ] API call tests
-- [ ]
 
 ## Q & A (Quality and Assurance)
 

@@ -122,6 +122,21 @@ Object {
 }
 `;
 
+exports[`reducers peersReducer should correctly receivePeers 1`] = `
+Object {
+  "connecting": false,
+  "disconnecting": false,
+  "peer": null,
+  "peerForm": Object {
+    "host": "",
+    "isOpen": false,
+    "pubkey": "",
+  },
+  "peers": "foo",
+  "peersLoading": false,
+}
+`;
+
 exports[`reducers peersReducer should correctly setPeer 1`] = `
 Object {
   "connecting": false,
