@@ -14,13 +14,20 @@ uses a [Node.js](https://github.com/LN-Zap/zap-nodejs) proxy and,
 
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) to discuss development, design and product
 
+## Requirements
+
+* **An up and running BTCD**
+* **An up and running LND** - see [install.md](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md)
+* **Zap Node.js** - see [Zap Node.js](https://github.com/LN-Zap/zap-nodejs)
+* **Node.js version >= 7 and npm version >= 4.**
+
+*For now Zap assumes you are running BTCD, LND and Zap Node.js (will change soon).*
+
 ## Install
-> For now Zap assumes you are running BTCD, LND and Zap Node.js (will change soon). Please see [installation](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) for LND and installation for [Zap Node.js](https://github.com/LN-Zap/zap-nodejs) to get that setup first
 
-* **Note: requires a node version >= 7 and an npm version >= 4.**
-* **If you have installation or compilation issues, please file a Github issue**
+**If you have installation or compilation issues, please file a Github issue**
 
-First, clone the repo via git:
+After installing the above requirements, clone the repo via git:
 ```bash
 git clone https://github.com/LN-Zap/zap-desktop.git
 ```
