@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron'
 import { callApi } from '../api'
 // ------------------------------------
 // Constants
@@ -23,8 +24,11 @@ export function receiveInfo(data) {
 
 export const fetchInfo = () => async (dispatch) => {
   dispatch(getInfo())
-  const info = await callApi('info')
-  dispatch(receiveInfo(info.data))
+  ipcRenderer.send('lnd', { msg: 'info' })
+  ipcRenderer.on('info', (event, info) => {
+    dispatch(receiveInfo(info))
+  })
+  // const info = await callApi('info')
 }
 
 // ------------------------------------

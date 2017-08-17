@@ -1,14 +1,10 @@
+import { ipcRenderer } from 'electron'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Form from './components/Form'
 import Nav from './components/Nav'
 import Socket from './components/Socket'
 import styles from './App.scss'
-
-export const CHANNEL_DATA = 'CHANNEL_DATA'
-export const CHANNEL_END = 'CHANNEL_END'
-export const CHANNEL_ERROR = 'CHANNEL_ERROR'
-export const CHANNEL_STATUS = 'CHANNEL_STATUS'
 
 class App extends Component {
   componentWillMount() {
