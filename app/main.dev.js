@@ -96,7 +96,12 @@ ipcMain.on('lnd', (event, { msg, data }) => {
   switch(msg) {
     case 'info':
       lnd.info()
-      .then(info => event.sender.send('receivedInfo', info))
+      .then(info => event.sender.send('receiveInfo', info))
+      .catch(error => console.log('info error: ', error))
+      break
+    case 'peers':
+      lnd.peers()
+      .then(peers => event.sender.send('receivePeers', peers))
       .catch(error => console.log('info error: ', error))
       break
     default:

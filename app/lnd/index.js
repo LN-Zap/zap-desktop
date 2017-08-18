@@ -13,6 +13,17 @@ export function info() {
   })
 }
 
+export function peers() {
+  return new Promise((resolve, reject) => {
+    lnd.listPeers({}, (err, data) => {
+      if (err) { reject(err) }
+
+      resolve(data)
+    })
+  })
+}
+
 export default {
-  info
+  info,
+  peers
 }

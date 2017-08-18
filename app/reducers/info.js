@@ -1,5 +1,4 @@
 import { ipcRenderer } from 'electron'
-import { callApi } from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -15,22 +14,14 @@ export function getInfo() {
   }
 }
 
-
-export function receiveInfo(data) {
-  return {
-    type: RECEIVE_INFO,
-    data
-  }
-}
-
-// Send IPC event for getifno
+// Send IPC event for getinfo
 export const fetchInfo = () => async (dispatch) => {
   dispatch(getInfo())
   ipcRenderer.send('lnd', { msg: 'info' })
 }
 
 // Receive IPC event for info
-export const receivedInfo = (event, data) => dispatch => dispatch({ type: RECEIVE_INFO, data })
+export const receiveInfo = (event, data) => dispatch => dispatch({ type: RECEIVE_INFO, data })
 
 // ------------------------------------
 // Action Handlers

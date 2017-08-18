@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { ipcRenderer } from 'electron'
 import { callApi } from '../api'
 // ------------------------------------
 // Constants
@@ -79,18 +80,14 @@ export function getPeers() {
   }
 }
 
-export function receivePeers({ peers }) {
-  return {
-    type: RECEIVE_PEERS,
-    peers
-  }
-}
-
+// Send IPC event for peers
 export const fetchPeers = () => async (dispatch) => {
   dispatch(getPeers())
-  const peers = await callApi('peers')
-  dispatch(receivePeers(peers.data))
+  ipcRenderer.send('lnd', { msg: 'peers' })
 }
+
+// Receive IPC event for peers
+export const receivePeers = (event, { peers }) => dispatch => dispatch({ type: RECEIVE_PEERS, peers })
 
 export const connectRequest = ({ pubkey, host }) => async (dispatch) => {
   dispatch(connectPeer())
