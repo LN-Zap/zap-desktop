@@ -206,6 +206,7 @@
     "react-svg-morph": "^0.1.10",
     "react-websocket": "^1.1.7",
     "redux": "^3.7.1",
+    "redux-electron-ipc": "^1.1.10",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "satoshi-bitcoin": "^1.0.4",

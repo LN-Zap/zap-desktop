@@ -15,6 +15,7 @@ export function getInfo() {
   }
 }
 
+
 export function receiveInfo(data) {
   return {
     type: RECEIVE_INFO,
@@ -22,14 +23,14 @@ export function receiveInfo(data) {
   }
 }
 
+// Send IPC event for getifno
 export const fetchInfo = () => async (dispatch) => {
   dispatch(getInfo())
   ipcRenderer.send('lnd', { msg: 'info' })
-  ipcRenderer.on('info', (event, info) => {
-    dispatch(receiveInfo(info))
-  })
-  // const info = await callApi('info')
 }
+
+// Receive IPC event for info
+export const receivedInfo = (event, data) => dispatch => dispatch({ type: RECEIVE_INFO, data })
 
 // ------------------------------------
 // Action Handlers

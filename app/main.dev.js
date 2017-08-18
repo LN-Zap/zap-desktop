@@ -96,7 +96,7 @@ ipcMain.on('lnd', (event, { msg, data }) => {
   switch(msg) {
     case 'info':
       lnd.info()
-      .then(data => event.sender.send('info', data))
+      .then(info => event.sender.send('receivedInfo', info))
       .catch(error => console.log('info error: ', error))
       break
     default:
