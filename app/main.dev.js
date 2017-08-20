@@ -100,8 +100,21 @@ ipcMain.on('lnd', (event, { msg, data }) => {
       .catch(error => console.log('info error: ', error))
       break
     case 'peers':
+      // Data looks like { peers: [] }
       lnd.peers()
       .then(peers => event.sender.send('receivePeers', peers))
+      .catch(error => console.log('info error: ', error))
+      break
+    case 'channels':
+      // Data looks like [ { channels: [channel, channel, channel] }, { total_limbo_balance: 0, pending_open_channels: [], pending_closing_channels: [], pending_force_closing_channels: [] } ]
+      lnd.allChannels()
+      .then(data => event.sender.send('receiveChannels', { channels: data[0].channels, pendingChannels: data[1] }))
+      .catch(error => console.log('info error: ', error))
+      break
+    case 'payments':
+      // Data looks like { payments: [] }
+      lnd.payments()
+      .then(payments => event.sender.send('receivePayments', payments))
       .catch(error => console.log('info error: ', error))
       break
     default:

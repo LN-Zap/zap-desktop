@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { ipcRenderer } from 'electron'
 import { callApi, callApis } from '../api'
 // ------------------------------------
 // Constants
@@ -38,14 +39,6 @@ export function getChannels() {
   }
 }
 
-export function receiveChannels(channels) {
-  return {
-    type: RECEIVE_CHANNELS,
-    channels: channels[0].data.channels,
-    pendingChannels: channels[1].data
-  }
-}
-
 export function openingChannel() {
   return {
     type: OPENING_CHANNEL
@@ -64,11 +57,14 @@ export function openingFailure() {
   }
 }
 
+// Send IPC event for peers
 export const fetchChannels = () => async (dispatch) => {
   dispatch(getChannels())
-  const channels = await callApis(['channels', 'pending_channels'])
-  dispatch(receiveChannels(channels))
+  ipcRenderer.send('lnd', { msg: 'channels' })
 }
+
+// Receive IPC event for channels
+export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 export const openChannel = ({ pubkey, localamt, pushamt }) => async (dispatch) => {
   const payload = { pubkey, localamt, pushamt }

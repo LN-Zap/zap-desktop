@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { ipcRenderer } from 'electron'
 import { callApi } from '../api'
 
 // ------------------------------------
@@ -29,13 +30,6 @@ export function getPayments() {
   }
 }
 
-export function receivePayments(data) {
-  return {
-    type: RECEIVE_PAYMENTS,
-    payments: data.payments.reverse()
-  }
-}
-
 export function sendPayment() {
   return {
     type: SEND_PAYMENT
@@ -55,18 +49,14 @@ export function paymentFailed() {
   }
 }
 
+// Send IPC event for peers
 export const fetchPayments = () => async (dispatch) => {
   dispatch(getPayments())
-  const payments = await callApi('payments')
-
-  if (payments) {
-    dispatch(receivePayments(payments.data))
-  } else {
-    dispatch(paymentFailed())
-  }
-
-  return payments
+  ipcRenderer.send('lnd', { msg: 'payments' })
 }
+
+// Receive IPC event for peers
+export const receivePayments = (event, { payments }) => dispatch => dispatch({ type: RECEIVE_PAYMENTS, payments })
 
 export const payInvoice = payment_request => async (dispatch) => {
   dispatch(sendPayment())
