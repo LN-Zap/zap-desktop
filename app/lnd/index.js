@@ -93,11 +93,23 @@ export function balance() {
   return Promise.all([walletBalance, channelBalance])
 }
 
+// LND Get Wallet + Channel Balance
+export function createInvoice({ memo, value }) {
+  return new Promise((resolve, reject) => {
+    lnd.addInvoice({ memo, value }, (err, data) => {
+      if (err) { reject(err) }
+      
+      resolve(data)
+    })
+  })
+}
+
 export default {
   info,
   peers,
   allChannels,
   payments,
   invoices,
-  balance
+  balance,
+  createInvoice
 }

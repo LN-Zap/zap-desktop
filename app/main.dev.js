@@ -129,6 +129,13 @@ ipcMain.on('lnd', (event, { msg, data }) => {
       .then(balance => event.sender.send('receiveBalance', { walletBalance: balance[0].balance, channelBalance: balance[1].balance }))
       .catch(error => console.log('info error: ', error))
       break
+    case 'createInvoice':
+      // Balance looks like { r_hash: Buffer, payment_request: '' }
+      const { memo, value } = data
+      lnd.createInvoice({ memo, value })
+      .then(invoice => event.sender.send('createdInvoice', Object.assign(invoice, { memo, value, r_hash: new Buffer(invoice.r_hash,'hex').toString('hex') })))
+      .catch(error => console.log('info error: ', error))
+      break
     default:
       return
   }

@@ -96,7 +96,7 @@ export const fetchInvoice = payreq => async (dispatch) => {
 }
 
 // Send IPC event for invoices
-export const fetchInvoices = () => async (dispatch) => {
+export const fetchInvoices = () => dispatch => {
   dispatch(getInvoices())
   ipcRenderer.send('lnd', { msg: 'invoices' })
 }
@@ -104,19 +104,15 @@ export const fetchInvoices = () => async (dispatch) => {
 // Receive IPC event for invoices
 export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ type: RECEIVE_INVOICES, invoices })
 
-export const createInvoice = (amount, memo, currency, rate) => async (dispatch) => {
+// Send IPC event for creating an invoice
+export const createInvoice = (amount, memo, currency, rate) => dispatch => {
   const value = currency === 'btc' ? btc.btcToSatoshis(amount) : btc.btcToSatoshis(usd.usdToBtc(amount, rate))
-
   dispatch(sendInvoice())
-  const invoice = await callApi('addinvoice', 'post', { value, memo })
-  if (invoice) {
-    dispatch(invoiceSuccessful({ memo, value, payment_request: invoice.data.payment_request }))
-  } else {
-    dispatch(invoiceFailed())
-  }
-
-  return invoice
+  ipcRenderer.send('lnd', { msg: 'createInvoice', data: { value, memo } })
 }
+
+// Receive IPC event for newly created invoice
+export const createdInvoice = (event, invoice) => dispatch => dispatch({ type: INVOICE_SUCCESSFUL, invoice })
 // ------------------------------------
 // Action Handlers
 // ------------------------------------

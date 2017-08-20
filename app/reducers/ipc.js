@@ -3,7 +3,7 @@ import { receiveInfo } from './info'
 import { receivePeers } from './peers'
 import { receiveChannels } from './channels'
 import { receivePayments } from './payment'
-import { receiveInvoices } from './invoice'
+import { receiveInvoices, createdInvoice } from './invoice'
 import { receiveBalance } from './balance'
 
 // Import all receiving IPC event handlers and pass them into createIpc
@@ -13,7 +13,8 @@ const ipc = createIpc({
   'receiveChannels': receiveChannels,
   'receivePayments': receivePayments,
   'receiveInvoices': receiveInvoices,
-  'receiveBalance': receiveBalance
+  'receiveBalance': receiveBalance,
+  'createdInvoice': createdInvoice
 })
 
 export default ipc
