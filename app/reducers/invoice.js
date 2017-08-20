@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { ipcRenderer } from 'electron'
 import { callApi } from '../api'
 import { btc, usd } from '../utils'
 // ------------------------------------
@@ -63,13 +64,6 @@ export function getInvoices() {
   }
 }
 
-export function receiveInvoices(data) {
-  return {
-    type: RECEIVE_INVOICES,
-    invoices: data.invoices.reverse()
-  }
-}
-
 export function sendInvoice() {
   return {
     type: SEND_INVOICE
@@ -101,17 +95,14 @@ export const fetchInvoice = payreq => async (dispatch) => {
   return false
 }
 
+// Send IPC event for invoices
 export const fetchInvoices = () => async (dispatch) => {
-  dispatch(getInvoice())
-  const invoices = await callApi('invoices')
-  if (invoices) {
-    dispatch(receiveInvoices(invoices.data))
-  } else {
-    dispatch(invoiceFailed())
-  }
-
-  return invoices
+  dispatch(getInvoices())
+  ipcRenderer.send('lnd', { msg: 'invoices' })
 }
+
+// Receive IPC event for invoices
+export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ type: RECEIVE_INVOICES, invoices })
 
 export const createInvoice = (amount, memo, currency, rate) => async (dispatch) => {
   const value = currency === 'btc' ? btc.btcToSatoshis(amount) : btc.btcToSatoshis(usd.usdToBtc(amount, rate))

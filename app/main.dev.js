@@ -117,6 +117,18 @@ ipcMain.on('lnd', (event, { msg, data }) => {
       .then(payments => event.sender.send('receivePayments', payments))
       .catch(error => console.log('info error: ', error))
       break
+    case 'invoices':
+      // Data looks like { invoices: [] }
+      lnd.invoices()
+      .then(invoices => event.sender.send('receiveInvoices', invoices))
+      .catch(error => console.log('info error: ', error))
+      break
+    case 'balance':
+      // Balance looks like [ { balance: '129477456' }, { balance: '243914' } ]
+      lnd.balance()
+      .then(balance => event.sender.send('receiveBalance', { walletBalance: balance[0].balance, channelBalance: balance[1].balance }))
+      .catch(error => console.log('info error: ', error))
+      break
     default:
       return
   }

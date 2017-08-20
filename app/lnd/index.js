@@ -59,9 +59,45 @@ export function payments() {
   })
 }
 
+// LND Get Invoices
+export function invoices() {
+  return new Promise((resolve, reject) => {
+    lnd.listInvoices({}, (err, data) => {
+      if (err) { reject(err) }
+      
+      resolve(data)
+    })
+  })
+}
+
+// LND Get Wallet Balance
+const walletBalance = new Promise((resolve, reject) => {
+  lnd.walletBalance({}, (err, data) => {
+    if (err) { reject(err) }
+
+    resolve(data)
+  })
+})
+
+// LND Get Channel Balance
+const channelBalance = new Promise((resolve, reject) => {
+  lnd.channelBalance({}, (err, data) => {
+    if (err) { reject(err) }
+
+    resolve(data)
+  })
+})
+
+// LND Get Wallet + Channel Balance
+export function balance() {
+  return Promise.all([walletBalance, channelBalance])
+}
+
 export default {
   info,
   peers,
   allChannels,
-  payments
+  payments,
+  invoices,
+  balance
 }

@@ -49,13 +49,13 @@ export function paymentFailed() {
   }
 }
 
-// Send IPC event for peers
+// Send IPC event for payments
 export const fetchPayments = () => async (dispatch) => {
   dispatch(getPayments())
   ipcRenderer.send('lnd', { msg: 'payments' })
 }
 
-// Receive IPC event for peers
+// Receive IPC event for payments
 export const receivePayments = (event, { payments }) => dispatch => dispatch({ type: RECEIVE_PAYMENTS, payments })
 
 export const payInvoice = payment_request => async (dispatch) => {

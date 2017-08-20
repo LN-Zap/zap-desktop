@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron'
 import { callApis } from '../api'
 // ------------------------------------
 // Constants
@@ -14,19 +15,13 @@ export function getBalance() {
   }
 }
 
-export function receiveBalance(data) {
-  return {
-    type: RECEIVE_BALANCE,
-    walletBalance: data[0].data.balance,
-    channelBalance: data[1].data.balance
-  }
-}
-
 export const fetchBalance = () => async (dispatch) => {
   dispatch(getBalance())
-  const balance = await callApis(['wallet_balance', 'channel_balance'])
-  dispatch(receiveBalance(balance))
+  ipcRenderer.send('lnd', { msg: 'balance' })
 }
+
+// Receive IPC event for peers
+export const receiveBalance = (event, { walletBalance, channelBalance }) => dispatch => dispatch({ type: RECEIVE_BALANCE, walletBalance, channelBalance  })
 
 // ------------------------------------
 // Action Handlers
