@@ -1,5 +1,6 @@
 import config from './config'
 import lightning from './lib/lightning'
+import { decodeInvoice } from './utils'
 
 const lnd = lightning(config.lightningRpc, config.lightningHost)
 
@@ -70,6 +71,13 @@ export function invoices() {
   })
 }
 
+// LND Get Invoice
+export function invoice(payreq) {
+  return new Promise((resolve, reject) => {
+    resolve(decodeInvoice(payreq))
+  })
+}
+
 // LND Get Wallet Balance
 const walletBalance = new Promise((resolve, reject) => {
   lnd.walletBalance({}, (err, data) => {
@@ -110,6 +118,7 @@ export default {
   allChannels,
   payments,
   invoices,
+  invoice,
   balance,
   createInvoice
 }

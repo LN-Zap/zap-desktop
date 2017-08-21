@@ -9271,6 +9271,10 @@ yauzl@2.4.1:
   dependencies:
     fd-slicer "~1.0.1"
 
+zbase32@^0.0.2:
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/zbase32/-/zbase32-0.0.2.tgz#169c6f2130a6c27a84247017538b56826a54b283"
+
 zip-stream@^1.1.0:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/zip-stream/-/zip-stream-1.1.1.tgz#5216b48bbb4d2651f64d5c6e6f09eb4a7399d557"

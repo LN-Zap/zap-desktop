@@ -51,13 +51,6 @@ export function receiveInvoice(invoice) {
   }
 }
 
-export function receiveFormInvoice(formInvoice) {
-  return {
-    type: RECEIVE_FORM_INVOICE,
-    formInvoice
-  }
-}
-
 export function getInvoices() {
   return {
     type: GET_INVOICES
@@ -70,30 +63,20 @@ export function sendInvoice() {
   }
 }
 
-export function invoiceSuccessful(invoice) {
-  return {
-    type: INVOICE_SUCCESSFUL,
-    invoice
-  }
-}
-
 export function invoiceFailed() {
   return {
     type: INVOICE_FAILED
   }
 }
 
-export const fetchInvoice = payreq => async (dispatch) => {
+// Send IPC event for a specific invoice
+export const fetchInvoice = payreq => dispatch => {
   dispatch(getInvoice())
-  const invoice = await callApi(`invoice/${payreq}`, 'get')
-
-  if (invoice) {
-    dispatch(receiveFormInvoice(invoice.data))
-    return true
-  }
-  dispatch(invoiceFailed())
-  return false
+  ipcRenderer.send('lnd', { msg: 'invoice', data: { payreq } })
 }
+
+// Receive IPC event for form invoice
+export const receiveFormInvoice = (event, formInvoice) => dispatch => dispatch({ type: RECEIVE_FORM_INVOICE, formInvoice })
 
 // Send IPC event for invoices
 export const fetchInvoices = () => dispatch => {

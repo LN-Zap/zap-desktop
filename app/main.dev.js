@@ -123,6 +123,15 @@ ipcMain.on('lnd', (event, { msg, data }) => {
       .then(invoices => event.sender.send('receiveInvoices', invoices))
       .catch(error => console.log('info error: ', error))
       break
+    case 'invoice':
+      // Data looks like { invoices: [] }
+      lnd.invoice(data.payreq)
+      .then(invoice => {
+        console.log('invoice: ', invoice)
+        event.sender.send('receiveInvoice', invoice)
+      })
+      .catch(error => console.log('info error: ', error))
+      break
     case 'balance':
       // Balance looks like [ { balance: '129477456' }, { balance: '243914' } ]
       lnd.balance()
