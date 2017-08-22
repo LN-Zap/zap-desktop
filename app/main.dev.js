@@ -93,60 +93,6 @@ app.on('ready', async () => {
 });
 
 ipcMain.on('lnd', (event, { msg, data }) => {
-  switch(msg) {
-    case 'info':
-      lnd.info()
-      .then(info => event.sender.send('receiveInfo', info))
-      .catch(error => console.log('info error: ', error))
-      break
-    case 'peers':
-      // Data looks like { peers: [] }
-      lnd.peers()
-      .then(peers => event.sender.send('receivePeers', peers))
-      .catch(error => console.log('info error: ', error))
-      break
-    case 'channels':
-      // Data looks like [ { channels: [channel, channel, channel] }, { total_limbo_balance: 0, pending_open_channels: [], pending_closing_channels: [], pending_force_closing_channels: [] } ]
-      lnd.allChannels()
-      .then(data => event.sender.send('receiveChannels', { channels: data[0].channels, pendingChannels: data[1] }))
-      .catch(error => console.log('info error: ', error))
-      break
-    case 'payments':
-      // Data looks like { payments: [] }
-      lnd.payments()
-      .then(payments => event.sender.send('receivePayments', payments))
-      .catch(error => console.log('info error: ', error))
-      break
-    case 'invoices':
-      // Data looks like { invoices: [] }
-      lnd.invoices()
-      .then(invoices => event.sender.send('receiveInvoices', invoices))
-      .catch(error => console.log('info error: ', error))
-      break
-    case 'invoice':
-      // Data looks like { invoices: [] }
-      lnd.invoice(data.payreq)
-      .then(invoice => {
-        console.log('invoice: ', invoice)
-        event.sender.send('receiveInvoice', invoice)
-      })
-      .catch(error => console.log('info error: ', error))
-      break
-    case 'balance':
-      // Balance looks like [ { balance: '129477456' }, { balance: '243914' } ]
-      lnd.balance()
-      .then(balance => event.sender.send('receiveBalance', { walletBalance: balance[0].balance, channelBalance: balance[1].balance }))
-      .catch(error => console.log('info error: ', error))
-      break
-    case 'createInvoice':
-      // Balance looks like { r_hash: Buffer, payment_request: '' }
-      const { memo, value } = data
-      lnd.createInvoice({ memo, value })
-      .then(invoice => event.sender.send('createdInvoice', Object.assign(invoice, { memo, value, r_hash: new Buffer(invoice.r_hash,'hex').toString('hex') })))
-      .catch(error => console.log('info error: ', error))
-      break
-    default:
-      return
-  }
+  lnd(event, msg, data)
 })
 

@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { callApi } from '../api'
 import { btc, usd } from '../utils'
 // ------------------------------------
 // Constants
