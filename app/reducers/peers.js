@@ -75,7 +75,7 @@ export const fetchPeers = () => async (dispatch) => {
 export const receivePeers = (event, { peers }) => dispatch => dispatch({ type: RECEIVE_PEERS, peers })
 
 // Send IPC event for connecting to a peer
-export const connectRequest = ({ pubkey, host }) => dispatch => {
+export const connectRequest = ({ pubkey, host }) => (dispatch) => {
   dispatch(connectPeer())
   ipcRenderer.send('lnd', { msg: 'connectPeer', data: { pubkey, host } })
 }
@@ -84,7 +84,7 @@ export const connectRequest = ({ pubkey, host }) => dispatch => {
 export const connectSuccess = (event, peer) => dispatch => dispatch({ type: CONNECT_SUCCESS, peer })
 
 // Send IPC send for disconnecting from a peer
-export const disconnectRequest = ({ pubkey }) => dispatch => {
+export const disconnectRequest = ({ pubkey }) => (dispatch) => {
   dispatch(disconnectPeer())
   ipcRenderer.send('lnd', { msg: 'disconnectPeer', data: { pubkey } })
 }
@@ -97,11 +97,15 @@ export const disconnectSuccess = (event, { pubkey }) => dispatch => dispatch({ t
 // ------------------------------------
 const ACTION_HANDLERS = {
   [DISCONNECT_PEER]: state => ({ ...state, disconnecting: true }),
-  [DISCONNECT_SUCCESS]: (state, { pubkey }) => ({ ...state, disconnecting: false, peer: null, peers: state.peers.filter(peer => peer.pub_key !== pubkey) }),
+  [DISCONNECT_SUCCESS]: (state, { pubkey }) => (
+    { ...state, disconnecting: false, peer: null, peers: state.peers.filter(peer => peer.pub_key !== pubkey) }
+  ),
   [DISCONNECT_FAILURE]: state => ({ ...state, disconnecting: false }),
 
   [CONNECT_PEER]: state => ({ ...state, connecting: true }),
-  [CONNECT_SUCCESS]: (state, { peer }) => ({ ...state, connecting: false, peerForm: { pubkey: '', host: '', isOpen: false }, peers: [...state.peers, peer] }),
+  [CONNECT_SUCCESS]: (state, { peer }) => (
+    { ...state, connecting: false, peerForm: { pubkey: '', host: '', isOpen: false }, peers: [...state.peers, peer] }
+  ),
   [CONNECT_FAILURE]: state => ({ ...state, connecting: false }),
 
   [SET_PEER_FORM]: (state, { form }) => ({ ...state, peerForm: Object.assign({}, state.peerForm, form) }),

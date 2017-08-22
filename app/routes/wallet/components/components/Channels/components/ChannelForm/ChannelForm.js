@@ -14,7 +14,6 @@ const ChannelForm = ({ form, setForm, ticker, peers, openChannel }) => {
 
     openChannel({ pubkey: node_key, localamt, pushamt })
     setForm({ isOpen: false })
-
   }
 
   const customStyles = {

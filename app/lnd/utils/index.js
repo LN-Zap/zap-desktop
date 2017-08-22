@@ -3,8 +3,8 @@ import zbase32 from 'zbase32'
 function convertBigEndianBufferToLong(longBuffer) {
   let longValue = 0
   const byteArray = Buffer.from(longBuffer).swap64()
-  
-  for (let i = byteArray.length - 1; i >= 0; i--) {
+
+  for (let i = byteArray.length - 1; i >= 0; i -= 1) {
     longValue = (longValue * 256) + byteArray[i]
   }
 
@@ -19,9 +19,6 @@ export function decodeInvoice(payreq) {
       + bufferHexRotated.substr(0, bufferHexRotated.length - 1)
   const buffer = Buffer.from(bufferHex, 'hex')
 
-  const pubKeyBuffer = buffer.slice(0, 33)
-  const pubKeyHex = pubKeyBuffer.toString('hex')
-
   const paymentHashBuffer = buffer.slice(33, 65)
   const paymentHashHex = paymentHashBuffer.toString('hex')
 
@@ -32,6 +29,10 @@ export function decodeInvoice(payreq) {
   return {
     payreq,
     amount,
-    r_hash: paymentHashHex,
+    r_hash: paymentHashHex
   }
+}
+
+export default {
+  decodeInvoice
 }

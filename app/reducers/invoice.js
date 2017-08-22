@@ -69,7 +69,7 @@ export function invoiceFailed() {
 }
 
 // Send IPC event for a specific invoice
-export const fetchInvoice = payreq => dispatch => {
+export const fetchInvoice = payreq => (dispatch) => {
   dispatch(getInvoice())
   ipcRenderer.send('lnd', { msg: 'invoice', data: { payreq } })
 }
@@ -78,7 +78,7 @@ export const fetchInvoice = payreq => dispatch => {
 export const receiveFormInvoice = (event, formInvoice) => dispatch => dispatch({ type: RECEIVE_FORM_INVOICE, formInvoice })
 
 // Send IPC event for invoices
-export const fetchInvoices = () => dispatch => {
+export const fetchInvoices = () => (dispatch) => {
   dispatch(getInvoices())
   ipcRenderer.send('lnd', { msg: 'invoices' })
 }
@@ -87,7 +87,7 @@ export const fetchInvoices = () => dispatch => {
 export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ type: RECEIVE_INVOICES, invoices })
 
 // Send IPC event for creating an invoice
-export const createInvoice = (amount, memo, currency, rate) => dispatch => {
+export const createInvoice = (amount, memo, currency, rate) => (dispatch) => {
   const value = currency === 'btc' ? btc.btcToSatoshis(amount) : btc.btcToSatoshis(usd.usdToBtc(amount, rate))
   dispatch(sendInvoice())
   ipcRenderer.send('lnd', { msg: 'createInvoice', data: { value, memo } })

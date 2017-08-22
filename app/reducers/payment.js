@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { callApi } from '../api'
 
 // ------------------------------------
 // Constants
@@ -50,7 +49,7 @@ export function paymentFailed() {
 }
 
 // Send IPC event for payments
-export const fetchPayments = () => dispatch => {
+export const fetchPayments = () => (dispatch) => {
   dispatch(getPayments())
   ipcRenderer.send('lnd', { msg: 'payments' })
 }
@@ -58,12 +57,13 @@ export const fetchPayments = () => dispatch => {
 // Receive IPC event for payments
 export const receivePayments = (event, { payments }) => dispatch => dispatch({ type: RECEIVE_PAYMENTS, payments })
 
-export const payInvoice = paymentRequest => dispatch => {
+export const payInvoice = paymentRequest => (dispatch) => {
   dispatch(sendPayment())
   ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
 }
 
 // Receive IPC event for successful payment
+// TODO: Add payment to state, not a total re-fetch
 export const paymentSuccessful = () => fetchPayments()
 
 

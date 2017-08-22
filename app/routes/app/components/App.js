@@ -1,4 +1,3 @@
-import { ipcRenderer } from 'electron'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Form from './components/Form'
@@ -29,7 +28,6 @@ class App extends Component {
       setForm,
       createInvoice,
       payInvoice,
-      fetchChannels,
       fetchInvoice,
       children
     } = this.props
@@ -83,7 +81,6 @@ App.propTypes = {
   setForm: PropTypes.func.isRequired,
   createInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
-  fetchChannels: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   children: PropTypes.object.isRequired
 }

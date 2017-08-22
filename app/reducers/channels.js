@@ -66,34 +66,34 @@ export const fetchChannels = () => async (dispatch) => {
 export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, localamt, pushamt }) => dispatch => {
+export const openChannel = ({ pubkey, localamt, pushamt }) => (dispatch) => {
   dispatch(openingChannel())
   ipcRenderer.send('lnd', { msg: 'openChannel', data: { pubkey, localamt, pushamt } })
 }
 
 // TODO: Decide how to handle streamed updates for channels
 // Receive IPC event for openChannel
-export const channelSuccessful = (event, { channel }) => dispatch => {
+export const channelSuccessful = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for updated channel
-export const pushchannelupdated = (event, data) => dispatch => {
+export const pushchannelupdated = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel end
-export const pushchannelend = (event, data) => dispatch => {
+export const pushchannelend = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel error
-export const pushchannelerror = (event, data) => dispatch => {
+export const pushchannelerror = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel status
-export const pushchannelstatus = (event, data) => dispatch => {
+export const pushchannelstatus = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
