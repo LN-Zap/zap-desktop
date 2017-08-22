@@ -60,16 +60,16 @@ export default function(lnd, event, msg, data) {
   case 'createInvoice':
     // Invoice looks like { r_hash: Buffer, payment_request: '' }
     // { memo, value } = data
-    createInvoice(lnd, data)
-    .then(invoice => event.sender.send('createdInvoice', Object.assign(invoice, { memo, value, r_hash: new Buffer(invoice.r_hash,'hex').toString('hex') })))
+    createinvoice(lnd, data)
+    .then(invoice => event.sender.send('createdInvoice', Object.assign(invoice, { memo: data.memo, value: data.value, r_hash: new Buffer(invoice.r_hash,'hex').toString('hex') })))
     .catch(error => console.log('createInvoice error: ', error))
     break
   case 'sendPayment':
     // Payment looks like { payment_preimage: Buffer, payment_route: Object }
     // { paymentRequest } = data
-    sendPayment(lnd, data)
-    .then(payment => event.sender.send('paymentSuccessful'))
-    .catch(error => console.log('sendPayment error: ', error))
+    payinvoice(lnd, data)
+    .then(({ payment_route }) => event.sender.send('paymentSuccessful', Object.assign(data, { payment_route })))
+    .catch(error => console.log('payinvoice error: ', error))
     break
   case 'openChannel':
     // Response is empty. Streaming updates on channel status and updates
