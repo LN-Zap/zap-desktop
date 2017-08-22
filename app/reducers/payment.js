@@ -58,19 +58,6 @@ export const fetchPayments = () => dispatch => {
 // Receive IPC event for payments
 export const receivePayments = (event, { payments }) => dispatch => dispatch({ type: RECEIVE_PAYMENTS, payments })
 
-// export const payInvoice = payment_request => async (dispatch) => {
-//   dispatch(sendPayment())
-//   const payment = await callApi('sendpayment', 'post', { payment_request })
-
-//   if (payment) {
-//     dispatch(fetchPayments())
-//   } else {
-//     dispatch(paymentFailed())
-//   }
-
-//   return payment
-// }
-
 export const payInvoice = paymentRequest => dispatch => {
   dispatch(sendPayment())
   ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })

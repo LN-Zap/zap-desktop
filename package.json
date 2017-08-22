@@ -184,6 +184,7 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "bitcore-lib": "^0.14.0",
     "devtron": "^1.4.0",
     "electron-debug": "^1.2.0",
     "font-awesome": "^4.7.0",

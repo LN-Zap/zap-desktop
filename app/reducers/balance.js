@@ -1,5 +1,4 @@
 import { ipcRenderer } from 'electron'
-import { callApis } from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------

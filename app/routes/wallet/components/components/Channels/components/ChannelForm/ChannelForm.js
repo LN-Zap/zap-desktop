@@ -12,9 +12,9 @@ const ChannelForm = ({ form, setForm, ticker, peers, openChannel }) => {
     const localamt = ticker.currency === 'btc' ? btc.btcToSatoshis(local_amt) : btc.btcToSatoshis(usd.usdToBtc(local_amt, ticker.btcTicker.price_usd))
     const pushamt = ticker.currency === 'btc' ? btc.btcToSatoshis(push_amt) : btc.btcToSatoshis(usd.usdToBtc(push_amt, ticker.btcTicker.price_usd))
 
-    openChannel({ pubkey: node_key, localamt, pushamt }).then((channel) => {
-      if (channel.data) { setForm({ isOpen: false }) }
-    })
+    openChannel({ pubkey: node_key, localamt, pushamt })
+    setForm({ isOpen: false })
+
   }
 
   const customStyles = {

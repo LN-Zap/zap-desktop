@@ -1,7 +1,14 @@
 import createIpc from 'redux-electron-ipc'
 import { receiveInfo } from './info'
-import { receivePeers } from './peers'
-import { receiveChannels } from './channels'
+import { receivePeers, connectSuccess, disconnectSuccess } from './peers'
+import {
+  receiveChannels,
+  channelSuccessful,
+  pushchannelupdated,
+  pushchannelend,
+  pushchannelerror,
+  pushchannelstatus
+} from './channels'
 import { receivePayments, paymentSuccessful } from './payment'
 import { receiveInvoices, createdInvoice, receiveFormInvoice } from './invoice'
 import { receiveBalance } from './balance'
@@ -16,7 +23,14 @@ const ipc = createIpc({
   'receiveInvoice': receiveFormInvoice,
   'receiveBalance': receiveBalance,
   'createdInvoice': createdInvoice,
-  'paymentSuccessful': paymentSuccessful
+  'paymentSuccessful': paymentSuccessful,
+  'channelSuccessful': channelSuccessful,
+  'pushchannelupdated': pushchannelupdated,
+  'pushchannelend': pushchannelend,
+  'pushchannelerror': pushchannelerror,
+  'pushchannelstatus': pushchannelstatus,
+  'connectSuccess': connectSuccess,
+  'disconnectSuccess': disconnectSuccess
 })
 
 export default ipc

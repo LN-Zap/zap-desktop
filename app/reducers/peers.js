@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { callApi } from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -28,13 +27,6 @@ export function connectPeer() {
   }
 }
 
-export function connectSuccess(peer) {
-  return {
-    type: CONNECT_SUCCESS,
-    peer
-  }
-}
-
 export function connectFailure() {
   return {
     type: CONNECT_FAILURE
@@ -44,13 +36,6 @@ export function connectFailure() {
 export function disconnectPeer() {
   return {
     type: DISCONNECT_PEER
-  }
-}
-
-export function disconnectSuccess(pubkey) {
-  return {
-    type: DISCONNECT_SUCCESS,
-    pubkey
   }
 }
 
@@ -89,40 +74,34 @@ export const fetchPeers = () => async (dispatch) => {
 // Receive IPC event for peers
 export const receivePeers = (event, { peers }) => dispatch => dispatch({ type: RECEIVE_PEERS, peers })
 
-export const connectRequest = ({ pubkey, host }) => async (dispatch) => {
+// Send IPC event for connecting to a peer
+export const connectRequest = ({ pubkey, host }) => dispatch => {
   dispatch(connectPeer())
-  const success = await callApi('connect', 'post', { pubkey, host })
-  if (success.data) {
-    dispatch(connectSuccess({ pub_key: pubkey, address: host, peer_id: success.data.peer_id }))
-  } else {
-    dispatch(connectFailure())
-  }
-
-  return success
+  ipcRenderer.send('lnd', { msg: 'connectPeer', data: { pubkey, host } })
 }
 
-export const disconnectRequest = ({ pubkey }) => async (dispatch) => {
+// Send IPC receive for successfully connecting to a peer
+export const connectSuccess = (event, peer) => dispatch => dispatch({ type: CONNECT_SUCCESS, peer })
+
+// Send IPC send for disconnecting from a peer
+export const disconnectRequest = ({ pubkey }) => dispatch => {
   dispatch(disconnectPeer())
-  const success = await callApi('disconnect', 'post', { pubkey })
-  if (success) {
-    dispatch(disconnectSuccess(pubkey))
-  } else {
-    dispatch(disconnectFailure())
-  }
-
-  return success
+  ipcRenderer.send('lnd', { msg: 'disconnectPeer', data: { pubkey } })
 }
+
+// Send IPC receive for successfully disconnecting from a peer
+export const disconnectSuccess = (event, { pubkey }) => dispatch => dispatch({ type: DISCONNECT_SUCCESS, pubkey })
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
   [DISCONNECT_PEER]: state => ({ ...state, disconnecting: true }),
-  [DISCONNECT_SUCCESS]: (state, { pubkey }) => ({ ...state, disconnecting: false, peers: state.peers.filter(peer => peer.pub_key !== pubkey) }),
+  [DISCONNECT_SUCCESS]: (state, { pubkey }) => ({ ...state, disconnecting: false, peer: null, peers: state.peers.filter(peer => peer.pub_key !== pubkey) }),
   [DISCONNECT_FAILURE]: state => ({ ...state, disconnecting: false }),
 
   [CONNECT_PEER]: state => ({ ...state, connecting: true }),
-  [CONNECT_SUCCESS]: (state, { peer }) => ({ ...state, connecting: false, peers: [...state.peers, peer] }),
+  [CONNECT_SUCCESS]: (state, { peer }) => ({ ...state, connecting: false, peerForm: { pubkey: '', host: '', isOpen: false }, peers: [...state.peers, peer] }),
   [CONNECT_FAILURE]: state => ({ ...state, connecting: false }),
 
   [SET_PEER_FORM]: (state, { form }) => ({ ...state, peerForm: Object.assign({}, state.peerForm, form) }),

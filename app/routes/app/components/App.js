@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Form from './components/Form'
 import Nav from './components/Nav'
-import Socket from './components/Socket'
 import styles from './App.scss'
 
 class App extends Component {
@@ -62,8 +61,6 @@ class App extends Component {
         <div className={styles.content}>
           {children}
         </div>
-
-        <Socket fetchChannels={fetchChannels} />
       </div>
     )
   }
