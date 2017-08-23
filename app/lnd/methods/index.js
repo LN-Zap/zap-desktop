@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */ // --> OFF
+
 import channelbalance from './channelbalance'
 import channels from './channels'
 import connectpeer from './connectpeer'
