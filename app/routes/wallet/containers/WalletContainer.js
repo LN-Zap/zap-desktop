@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { newAddress } from '../../../reducers/address'
 import { fetchInfo } from '../../../reducers/info'
 import {
   fetchPeers,
@@ -19,6 +20,8 @@ import {
 import Wallet from '../components/Wallet'
 
 const mapDispatchToProps = {
+  newAddress,
+  
   fetchInfo,
 
   fetchPeers,
@@ -37,6 +40,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   info: state.info,
+  address: state.address,
   ticker: state.ticker,
 
   peers: state.peers,

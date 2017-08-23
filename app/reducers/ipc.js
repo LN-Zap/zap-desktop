@@ -1,5 +1,6 @@
 import createIpc from 'redux-electron-ipc'
 import { receiveInfo } from './info'
+import { receiveAddress } from './address'
 import { receivePeers, connectSuccess, disconnectSuccess } from './peers'
 import {
   receiveChannels,
@@ -30,7 +31,8 @@ const ipc = createIpc({
   pushchannelerror,
   pushchannelstatus,
   connectSuccess,
-  disconnectSuccess
+  disconnectSuccess,
+  receiveAddress
 })
 
 export default ipc

@@ -7,16 +7,18 @@ import styles from './Wallet.scss'
 
 class Wallet extends Component {
   componentWillMount() {
-    const { fetchInfo, fetchPeers, fetchChannels } = this.props
+    const { fetchInfo, fetchPeers, fetchChannels, newAddress } = this.props
 
     fetchInfo()
     fetchPeers()
     fetchChannels()
+    newAddress('p2pkh')
   }
 
   render() {
     const {
       info,
+      address: { addressLoading, address },
       ticker,
       peers: { peersLoading, peers, peer, peerForm },
       channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
@@ -29,7 +31,8 @@ class Wallet extends Component {
       connectRequest,
       disconnectRequest,
       allChannels,
-      openChannel
+      openChannel,
+      newAddress
     } = this.props
 
     return (
@@ -38,13 +41,14 @@ class Wallet extends Component {
           <section className={styles.walletInfo}>
             <ReactSVG path='../resources/zap_2.svg' />
             <h1>{info.data.identity_pubkey}</h1>
-            <section className={styles.address}>
+            <section className={styles.addressContainer}>
               <span className={`${styles.addressButton} ${styles.newAddress}`}>New wallet address</span>
               <div className={styles.addressOptions}>
                 <span className={`${styles.addressButton} ${styles.p2wkh}`}>p2wkh</span>
                 <span className={`${styles.addressButton} ${styles.np2wkh}`}>np2wkh</span>
                 <span className={`${styles.addressButton} ${styles.p2pkh}`}>p2pkh</span>
               </div>
+              <div className={styles.address}>{address}</div>
             </section>
           </section>
         </section>
