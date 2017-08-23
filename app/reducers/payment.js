@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { callApi } from '../api'
+import { ipcRenderer } from 'electron'
 
 // ------------------------------------
 // Constants
@@ -29,13 +29,6 @@ export function getPayments() {
   }
 }
 
-export function receivePayments(data) {
-  return {
-    type: RECEIVE_PAYMENTS,
-    payments: data.payments.reverse()
-  }
-}
-
 export function sendPayment() {
   return {
     type: SEND_PAYMENT
@@ -55,31 +48,23 @@ export function paymentFailed() {
   }
 }
 
-export const fetchPayments = () => async (dispatch) => {
+// Send IPC event for payments
+export const fetchPayments = () => (dispatch) => {
   dispatch(getPayments())
-  const payments = await callApi('payments')
-
-  if (payments) {
-    dispatch(receivePayments(payments.data))
-  } else {
-    dispatch(paymentFailed())
-  }
-
-  return payments
+  ipcRenderer.send('lnd', { msg: 'payments' })
 }
 
-export const payInvoice = payment_request => async (dispatch) => {
+// Receive IPC event for payments
+export const receivePayments = (event, { payments }) => dispatch => dispatch({ type: RECEIVE_PAYMENTS, payments })
+
+export const payInvoice = paymentRequest => (dispatch) => {
   dispatch(sendPayment())
-  const payment = await callApi('sendpayment', 'post', { payment_request })
-
-  if (payment) {
-    dispatch(fetchPayments())
-  } else {
-    dispatch(paymentFailed())
-  }
-
-  return payment
+  ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
 }
+
+// Receive IPC event for successful payment
+// TODO: Add payment to state, not a total re-fetch
+export const paymentSuccessful = () => fetchPayments()
 
 
 // ------------------------------------

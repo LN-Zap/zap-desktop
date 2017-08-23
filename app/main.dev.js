@@ -11,8 +11,9 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import MenuBuilder from './menu'
+import lnd from './lnd'
 
 let mainWindow = null;
 
@@ -90,3 +91,8 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 });
+
+ipcMain.on('lnd', (event, { msg, data }) => {
+  lnd(event, msg, data)
+})
+

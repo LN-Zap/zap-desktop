@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { callApi, callApis } from '../api'
+import { ipcRenderer } from 'electron'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -38,14 +38,6 @@ export function getChannels() {
   }
 }
 
-export function receiveChannels(channels) {
-  return {
-    type: RECEIVE_CHANNELS,
-    channels: channels[0].data.channels,
-    pendingChannels: channels[1].data
-  }
-}
-
 export function openingChannel() {
   return {
     type: OPENING_CHANNEL
@@ -64,24 +56,45 @@ export function openingFailure() {
   }
 }
 
+// Send IPC event for peers
 export const fetchChannels = () => async (dispatch) => {
   dispatch(getChannels())
-  const channels = await callApis(['channels', 'pending_channels'])
-  dispatch(receiveChannels(channels))
+  ipcRenderer.send('lnd', { msg: 'channels' })
 }
 
-export const openChannel = ({ pubkey, localamt, pushamt }) => async (dispatch) => {
-  const payload = { pubkey, localamt, pushamt }
+// Receive IPC event for channels
+export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
+
+// Send IPC event for opening a channel
+export const openChannel = ({ pubkey, localamt, pushamt }) => (dispatch) => {
   dispatch(openingChannel())
-  const channel = await callApi('addchannel', 'post', payload)
+  ipcRenderer.send('lnd', { msg: 'openChannel', data: { pubkey, localamt, pushamt } })
+}
 
-  if (channel.data) {
-    dispatch(openingSuccessful())
-  } else {
-    dispatch(openingFailure())
-  }
+// TODO: Decide how to handle streamed updates for channels
+// Receive IPC event for openChannel
+export const channelSuccessful = () => (dispatch) => {
+  dispatch(fetchChannels())
+}
 
-  return channel
+// Receive IPC event for updated channel
+export const pushchannelupdated = () => (dispatch) => {
+  dispatch(fetchChannels())
+}
+
+// Receive IPC event for channel end
+export const pushchannelend = () => (dispatch) => {
+  dispatch(fetchChannels())
+}
+
+// Receive IPC event for channel error
+export const pushchannelerror = () => (dispatch) => {
+  dispatch(fetchChannels())
+}
+
+// Receive IPC event for channel status
+export const pushchannelstatus = () => (dispatch) => {
+  dispatch(fetchChannels())
 }
 
 // ------------------------------------

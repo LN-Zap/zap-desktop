@@ -1,9 +1,10 @@
-import { createStore, applyMiddleware, compose } from 'redux';
-import thunk from 'redux-thunk';
-import { createHashHistory } from 'history';
-import { routerMiddleware, routerActions } from 'react-router-redux';
-import { createLogger } from 'redux-logger';
-import rootReducer from '../reducers';
+import { createStore, applyMiddleware, compose } from 'redux'
+import thunk from 'redux-thunk'
+import { createHashHistory } from 'history'
+import { routerMiddleware, routerActions } from 'react-router-redux'
+import { createLogger } from 'redux-logger'
+import rootReducer from '../reducers'
+import ipc from '../reducers/ipc'
 
 const history = createHashHistory();
 
@@ -41,7 +42,7 @@ const configureStore = (initialState?: counterStateType) => {
   /* eslint-enable no-underscore-dangle */
 
   // Apply Middleware & Compose Enhancers
-  enhancers.push(applyMiddleware(...middleware));
+  enhancers.push(applyMiddleware(...middleware, ipc));
   const enhancer = composeEnhancers(...enhancers);
 
   // Create Store

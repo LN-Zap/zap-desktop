@@ -20,16 +20,12 @@ const Form = ({
 }) => {
   const requestClicked = () => {
     createInvoice(amount, message, currency, btcTicker.price_usd)
-      .then((success) => {
-        if (success) { close() }
-      })
+    close()
   }
 
   const payClicked = () => {
     payInvoice(payment_request)
-      .then((success) => {
-        if (success) { close() }
-      })
+    close()
   }
 
   const paymentRequestOnChange = (payreq) => {

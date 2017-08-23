@@ -137,6 +137,7 @@
     "electron": "^1.6.10",
     "electron-builder": "^19.8.0",
     "electron-devtools-installer": "^2.2.0",
+    "electron-rebuild": "^1.6.0",
     "enzyme": "^2.9.1",
     "enzyme-to-json": "^1.5.1",
     "eslint": "^4.4.1",
@@ -183,9 +184,11 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "bitcore-lib": "^0.14.0",
     "devtron": "^1.4.0",
     "electron-debug": "^1.2.0",
     "font-awesome": "^4.7.0",
+    "grpc": "^1.4.1",
     "history": "^4.6.3",
     "moment-timezone": "^0.5.13",
     "prop-types": "^15.5.10",
@@ -204,11 +207,13 @@
     "react-svg-morph": "^0.1.10",
     "react-websocket": "^1.1.7",
     "redux": "^3.7.1",
+    "redux-electron-ipc": "^1.1.10",
     "redux-thunk": "^2.2.0",
     "reselect": "^3.0.1",
     "satoshi-bitcoin": "^1.0.4",
     "source-map-support": "^0.4.15",
-    "xtend": "^4.0.1"
+    "xtend": "^4.0.1",
+    "zbase32": "^0.0.2"
   },
   "devEngines": {
     "node": ">=7.x",

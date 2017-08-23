@@ -2,13 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Form from './components/Form'
 import Nav from './components/Nav'
-import Socket from './components/Socket'
 import styles from './App.scss'
-
-export const CHANNEL_DATA = 'CHANNEL_DATA'
-export const CHANNEL_END = 'CHANNEL_END'
-export const CHANNEL_ERROR = 'CHANNEL_ERROR'
-export const CHANNEL_STATUS = 'CHANNEL_STATUS'
 
 class App extends Component {
   componentWillMount() {
@@ -34,7 +28,6 @@ class App extends Component {
       setForm,
       createInvoice,
       payInvoice,
-      fetchChannels,
       fetchInvoice,
       children
     } = this.props
@@ -66,8 +59,6 @@ class App extends Component {
         <div className={styles.content}>
           {children}
         </div>
-
-        <Socket fetchChannels={fetchChannels} />
       </div>
     )
   }
@@ -90,7 +81,6 @@ App.propTypes = {
   setForm: PropTypes.func.isRequired,
   createInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
-  fetchChannels: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   children: PropTypes.object.isRequired
 }

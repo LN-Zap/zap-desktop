@@ -6,10 +6,7 @@ import styles from './PeerForm.scss'
 const PeerForm = ({ form, setForm, connect }) => {
   const submit = () => {
     const { pubkey, host } = form
-
-    connect({ pubkey, host }).then((success) => {
-      if (success.data) { setForm({ isOpen: false }) }
-    })
+    connect({ pubkey, host })
   }
 
   const customStyles = {

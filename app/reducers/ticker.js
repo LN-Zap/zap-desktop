@@ -1,4 +1,4 @@
-import { requestTicker } from '../api'
+import requestTicker from '../api'
 // ------------------------------------
 // Constants
 // ------------------------------------
