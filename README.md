@@ -18,10 +18,9 @@ Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUy
 
 * **An up and running BTCD**
 * **An up and running LND** - see [install.md](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md)
-* **Zap Node.js** - see [Zap Node.js](https://github.com/LN-Zap/zap-nodejs)
 * **Node.js version >= 7 and npm version >= 4.**
 
-*For now Zap assumes you are running BTCD, LND and Zap Node.js (will change soon).*
+*For now Zap assumes you are running BTCD, LND*
 
 ## Install
 
@@ -30,6 +29,18 @@ Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUy
 After installing the above requirements, clone the repo via git:
 ```bash
 git clone https://github.com/LN-Zap/zap-desktop.git
+```
+
+After the repo is cloned, paste the path to your cert in app/lnd/config/index.js:
+```bash
+// Cert will be located depending on your machine
+// Mac OS X: /Users/{your_user_name}/Library/Application Support/Lnd/tls.cert
+// Linux: ~/.lnd/tls.cert
+// Windows: TODO find out where cert is located for windows machine
+export default {
+  ...,
+  cert: '/path/to/cert/tls.cert'
+}
 ```
 
 And then install dependencies with yarn
@@ -61,7 +72,7 @@ Please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/m
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) before tackling a todo to avoid duplicate work. This list will be updated daily to show what todos are being worked on
 
 ### Refactor
-- [ ] Move Node.js proxy to [ipcRenderer](https://electron.atom.io/docs/api/ipc-renderer/) (roasbeef recommendation)
+- [x] Move Node.js proxy to ipcRenderer. [Done](https://github.com/LN-Zap/zap-desktop/pull/4)
 - [ ] Use two package.json [structure](https://github.com/electron-userland/electron-builder/wiki/Two-package.json-Structure) 
 - [ ] General refactor (I know this TODO sucks but the code is a bit sloppy still)
 
