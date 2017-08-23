@@ -7,18 +7,56 @@
 .header {
 	background: $white;
 	padding: 80px 30px;
-	text-align: center;
 	border-bottom: 1px solid $darkgrey;
+	text-align: center;
+
+	.walletInfo {
+		width: 50%;
+		margin: 0 auto;
+	}
 
 	svg {
 		width: 100px;
 		height: 100px;
+		text-align: center;
 	}
 
 	h1 {
-		color: $black;
-		font-size: 20px;
 		margin: 20px 0;
+		font-weight: 200;
+		font-size: 20px;
+		color: $black;
+		text-align: left;
+	}
+
+	.address {
+		text-align: left;
+		margin-top: 30px;
+
+		.addressButton {
+			display: inline-block;
+			border: 1px solid $main;
+			border-radius: 7px;
+			font-size: 10px;
+			cursor: pointer;
+			padding: 10px;
+			color: $main;
+			transition: all 0.25s;
+			
+			&:hover {
+				color: $white;
+				background: $main;
+			}
+		}
+
+		.addressOptions {
+			display: inline-block;
+			margin-left: 30px;
+
+			span {
+				margin: 0 5px;
+			}
+		}
 	}
 }
 

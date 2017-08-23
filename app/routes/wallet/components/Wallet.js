@@ -35,8 +35,18 @@ class Wallet extends Component {
     return (
       <div className={styles.wallet}>
         <section className={styles.header}>
-          <ReactSVG path='../resources/zap_2.svg' />
-          <h1>{info.data.identity_pubkey}</h1>
+          <section className={styles.walletInfo}>
+            <ReactSVG path='../resources/zap_2.svg' />
+            <h1>{info.data.identity_pubkey}</h1>
+            <section className={styles.address}>
+              <span className={`${styles.addressButton} ${styles.newAddress}`}>New wallet address</span>
+              <div className={styles.addressOptions}>
+                <span className={`${styles.addressButton} ${styles.p2wkh}`}>p2wkh</span>
+                <span className={`${styles.addressButton} ${styles.np2wkh}`}>np2wkh</span>
+                <span className={`${styles.addressButton} ${styles.p2pkh}`}>p2pkh</span>
+              </div>
+            </section>
+          </section>
         </section>
         <section className={styles.walletData}>
           <Peers
