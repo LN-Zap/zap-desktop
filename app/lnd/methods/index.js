@@ -8,6 +8,7 @@ import disconnectpeer from './disconnectpeer'
 import info from './info'
 import invoice from './invoice'
 import invoices from './invoices'
+import newaddress from './newaddress'
 import openchannel from './openchannel'
 import payinvoice from './payinvoice'
 import payments from './payments'
@@ -21,6 +22,12 @@ export default function (lnd, event, msg, data) {
       info(lnd)
         .then(infoData => event.sender.send('receiveInfo', infoData))
         .catch(error => console.log('info error: ', error))
+      break
+    case 'newaddress':
+    // Data looks like { address: '' }
+      newaddress(lnd, data.type)
+        .then(({ address }) => event.sender.send('receiveAddress', address))
+        .catch(error => console.log('newaddress error: ', error))
       break
     case 'peers':
     // Data looks like { peers: [] }

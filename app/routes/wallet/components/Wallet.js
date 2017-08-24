@@ -7,16 +7,18 @@ import styles from './Wallet.scss'
 
 class Wallet extends Component {
   componentWillMount() {
-    const { fetchInfo, fetchPeers, fetchChannels } = this.props
+    const { fetchInfo, fetchPeers, fetchChannels, newAddress } = this.props
 
     fetchInfo()
     fetchPeers()
     fetchChannels()
+    newAddress('p2pkh')
   }
 
   render() {
     const {
       info,
+      address: { address },
       ticker,
       peers: { peersLoading, peers, peer, peerForm },
       channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
@@ -35,8 +37,17 @@ class Wallet extends Component {
     return (
       <div className={styles.wallet}>
         <section className={styles.header}>
-          <ReactSVG path='../resources/zap_2.svg' />
-          <h1>{info.data.identity_pubkey}</h1>
+          <section className={styles.walletInfo}>
+            <ReactSVG path='../resources/zap_2.svg' />
+            <h1 data-hint='Node identity public key' className='hint--top'>{info.data.identity_pubkey}</h1>
+            <h4 className={`${styles.address} hint--top`} data-hint='Wallet address'>
+              <input
+                type='text'
+                value={address}
+                readOnly
+              />
+            </h4>
+          </section>
         </section>
         <section className={styles.walletData}>
           <Peers
@@ -87,7 +98,9 @@ Wallet.propTypes = {
   connectRequest: PropTypes.func.isRequired,
   disconnectRequest: PropTypes.func.isRequired,
   allChannels: PropTypes.array.isRequired,
-  openChannel: PropTypes.func.isRequired
+  openChannel: PropTypes.func.isRequired,
+  newAddress: PropTypes.func.isRequired,
+  address: PropTypes.string.isRequired
 }
 
 

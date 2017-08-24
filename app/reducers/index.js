@@ -9,6 +9,7 @@ import peers from './peers'
 import channels from './channels'
 import form from './form'
 import invoice from './invoice'
+import address from './address'
 
 const rootReducer = combineReducers({
   router,
@@ -19,7 +20,8 @@ const rootReducer = combineReducers({
   peers,
   channels,
   form,
-  invoice
+  invoice,
+  address
 })
 
 export default rootReducer
