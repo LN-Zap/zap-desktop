@@ -24,6 +24,7 @@ export default function (lnd, event, msg, data) {
         .catch(error => console.log('info error: ', error))
       break
     case 'newaddress':
+    // Data looks like { address: '' }
       newaddress(lnd, data.type)
         .then(({ address }) => event.sender.send('receiveAddress', address))
         .catch(error => console.log('newaddress error: ', error))

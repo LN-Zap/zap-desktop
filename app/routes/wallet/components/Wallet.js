@@ -18,7 +18,7 @@ class Wallet extends Component {
   render() {
     const {
       info,
-      address: { addressLoading, address },
+      address: { address },
       ticker,
       peers: { peersLoading, peers, peer, peerForm },
       channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
@@ -31,8 +31,7 @@ class Wallet extends Component {
       connectRequest,
       disconnectRequest,
       allChannels,
-      openChannel,
-      newAddress
+      openChannel
     } = this.props
 
     return (
@@ -99,7 +98,9 @@ Wallet.propTypes = {
   connectRequest: PropTypes.func.isRequired,
   disconnectRequest: PropTypes.func.isRequired,
   allChannels: PropTypes.array.isRequired,
-  openChannel: PropTypes.func.isRequired
+  openChannel: PropTypes.func.isRequired,
+  newAddress: PropTypes.func.isRequired,
+  address: PropTypes.string.isRequired
 }
 
 

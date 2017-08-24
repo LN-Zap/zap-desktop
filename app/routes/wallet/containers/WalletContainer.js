@@ -21,7 +21,7 @@ import Wallet from '../components/Wallet'
 
 const mapDispatchToProps = {
   newAddress,
-  
+
   fetchInfo,
 
   fetchPeers,
