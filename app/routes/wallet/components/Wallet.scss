@@ -11,7 +11,7 @@
 	text-align: center;
 
 	.walletInfo {
-		width: 50%;
+		width: 75%;
 		margin: 0 auto;
 	}
 
@@ -22,47 +22,26 @@
 	}
 
 	h1 {
+		font-size: 20px;
 		margin: 20px 0;
-		font-weight: 200;
+		font-weight: bold;
 		color: $black;
-		text-align: left;
+		text-align: center;
 	}
 
-	.addressContainer {
-		text-align: left;
-		margin-top: 30px;
+	.address {
+		text-align: center;
+		margin-top: 10px;
 
-		.addressButton {
-			display: inline-block;
-			border: 1px solid $main;
-			border-radius: 7px;
-			font-size: 10px;
-			cursor: pointer;
-			padding: 10px;
-			color: $main;
-			transition: all 0.25s;
-			
-			&:hover {
-				color: $white;
-				background: $main;
-			}
-		}
-
-		.addressOptions {
-			display: inline-block;
-			margin-left: 30px;
-
-			span {
-				margin: 0 5px;
-			}
-		}
-
-		.address {
-			padding: 10px;
-			background: $darkgrey;
+		input[type=text] {
+			width: 50%;
 			text-align: center;
+			font-size: 14px;
+			font-weight: 200;
 			border-radius: 7px;
-			margin-top: 10px;
+			background: $lightgrey;
+			border: 1px solid $main;
+			padding: 10px;
 		}
 	}
 }

@@ -40,16 +40,14 @@ class Wallet extends Component {
         <section className={styles.header}>
           <section className={styles.walletInfo}>
             <ReactSVG path='../resources/zap_2.svg' />
-            <h1>{info.data.identity_pubkey}</h1>
-            <section className={styles.addressContainer}>
-              <span className={`${styles.addressButton} ${styles.newAddress}`}>New wallet address</span>
-              <div className={styles.addressOptions}>
-                <span className={`${styles.addressButton} ${styles.p2wkh}`}>p2wkh</span>
-                <span className={`${styles.addressButton} ${styles.np2wkh}`}>np2wkh</span>
-                <span className={`${styles.addressButton} ${styles.p2pkh}`}>p2pkh</span>
-              </div>
-              <div className={styles.address}>{address}</div>
-            </section>
+            <h1 data-hint='Node identity public key' className='hint--top'>{info.data.identity_pubkey}</h1>
+            <h4 className={`${styles.address} hint--top`} data-hint='Wallet address'>
+              <input
+                type='text'
+                value={address}
+                readOnly
+              />
+            </h4>
           </section>
         </section>
         <section className={styles.walletData}>
