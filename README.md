@@ -36,7 +36,7 @@ After the repo is cloned, paste the path to your cert in app/lnd/config/index.js
 // Cert will be located depending on your machine
 // Mac OS X: /Users/{your_user_name}/Library/Application Support/Lnd/tls.cert
 // Linux: ~/.lnd/tls.cert
-// Windows: TODO find out where cert is located for windows machine
+// Windows: C:\Users\{your_user_name}\AppData\Local\Lnd\tls.cert
 export default {
   ...,
   cert: '/path/to/cert/tls.cert'
