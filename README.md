@@ -31,12 +31,29 @@ After installing the above requirements, clone the repo via git:
 git clone https://github.com/LN-Zap/zap-desktop.git
 ```
 
-After the repo is cloned, paste the path to your cert in app/lnd/config/index.js:
+After the repo is cloned, you'll want to generate a Node.js compatible cert
+```bash
+# For Linux
+$ cd ~/.lnd
+# For Mac
+$ cd /Users/{your_user_name}/Library/Application Support/Lnd
+# For Windows
+$ cd \Users\{your_user_name}\AppData\Local\Lnd
+
+# Then generate the cert
+$ openssl ecparam -genkey -name prime256v1 -out tls.key
+$ openssl req -new -sha256 -key tls.key -out csr.csr -subj '/CN=localhost/O=lnd'
+$ openssl req -x509 -sha256 -days 3650 -key tls.key -in csr.csr -out tls.cert
+$ rm csr.csr
+```
+
+Once you've created the Node.js compatible cert, paste the path to your cert in app/lnd/config/index.js: 
 ```bash
 // Cert will be located depending on your machine
 // Mac OS X: /Users/{your_user_name}/Library/Application Support/Lnd/tls.cert
 // Linux: ~/.lnd/tls.cert
 // Windows: C:\Users\{your_user_name}\AppData\Local\Lnd\tls.cert
+
 export default {
   ...,
   cert: '/path/to/cert/tls.cert'
@@ -48,6 +65,12 @@ And then install dependencies with yarn
 ```bash
 $ cd zap-desktop
 $ yarn
+
+# For Mac & Linux
+$ ./node_modules/.bin/electron-rebuild
+
+# For Windows
+$ .\node_modules\.bin\electron-rebuild.cmd
 ```
 
 Then to start it:
