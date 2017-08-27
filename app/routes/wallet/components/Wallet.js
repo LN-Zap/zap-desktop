@@ -102,7 +102,7 @@ Wallet.propTypes = {
   allChannels: PropTypes.array.isRequired,
   openChannel: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
-  address: PropTypes.string.isRequired
+  address: PropTypes.object.isRequired
 }
 
 
