@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import { btc } from '../../../../../../../utils'
 import styles from './ClosedPendingChannel.scss'
 
-const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid } }) => (
+const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid }, currentTicker }) => (
   <li className={styles.channel} onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${closing_txid}`)}>
     <h1 className={styles.closing}>Status: Closing</h1>
     <div className={styles.left}>
@@ -25,7 +25,7 @@ const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid } }) =>
             ticker.currency === 'btc' ?
               btc.satoshisToBtc(channel.capacity)
               :
-              btc.satoshisToUsd(channel.capacity, ticker.btcTicker.price_usd)
+              btc.satoshisToUsd(channel.capacity, currentTicker.price_usd)
           }
         </h2>
       </section>
@@ -36,7 +36,7 @@ const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid } }) =>
               ticker.currency === 'btc' ?
                 btc.satoshisToBtc(channel.local_balance)
                 :
-                btc.satoshisToUsd(channel.local_balance, ticker.btcTicker.price_usd)
+                btc.satoshisToUsd(channel.local_balance, currentTicker.price_usd)
             }
           </h4>
           <span>Local</span>
@@ -47,7 +47,7 @@ const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid } }) =>
               ticker.currency === 'btc' ?
                 btc.satoshisToBtc(channel.remote_balance)
                 :
-                btc.satoshisToUsd(channel.remote_balance, ticker.btcTicker.price_usd)
+                btc.satoshisToUsd(channel.remote_balance, currentTicker.price_usd)
             }
           </h4>
           <span>Remote</span>

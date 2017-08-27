@@ -18,11 +18,12 @@ const Channels = ({
   channelForm,
   setChannelForm,
   allChannels,
-  openChannel
+  openChannel,
+  currentTicker
 }) => (
   <div className={styles.channels}>
     <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
-    <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} openChannel={openChannel} />
+    <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} openChannel={openChannel} currentTicker={currentTicker} />
     <div className={styles.header}>
       <h3>Channels</h3>
       <div
@@ -39,11 +40,21 @@ const Channels = ({
           allChannels.map((channel, index) => {
             if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
               return (
-                <OpenPendingChannel key={index} channel={channel} ticker={ticker} />
+                <OpenPendingChannel
+                  key={index}
+                  channel={channel}
+                  ticker={ticker}
+                  currentTicker={currentTicker}
+                />
               )
             } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
               return (
-                <ClosedPendingChannel key={index} channel={channel} ticker={ticker} />
+                <ClosedPendingChannel
+                  key={index}
+                  channel={channel}
+                  ticker={ticker}
+                  currentTicker={currentTicker}
+                />
               )
             }
             return (
@@ -52,6 +63,7 @@ const Channels = ({
                 ticker={ticker}
                 channel={channel}
                 setChannel={setChannel}
+                currentTicker={currentTicker}
               />
             )
           })

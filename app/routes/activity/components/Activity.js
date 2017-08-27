@@ -31,7 +31,8 @@ class Activity extends Component {
       setPayment,
       setInvoice,
       paymentModalOpen,
-      invoiceModalOpen
+      invoiceModalOpen,
+      currentTicker
     } = this.props
 
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
@@ -75,6 +76,7 @@ class Activity extends Component {
                   ticker={ticker}
                   setPayment={setPayment}
                   paymentModalOpen={paymentModalOpen}
+                  currentTicker={currentTicker}
                 />
                 :
                 <Invoices
@@ -83,6 +85,7 @@ class Activity extends Component {
                   ticker={ticker}
                   setInvoice={setInvoice}
                   invoiceModalOpen={invoiceModalOpen}
+                  currentTicker={currentTicker}
                 />
             }
           </div>

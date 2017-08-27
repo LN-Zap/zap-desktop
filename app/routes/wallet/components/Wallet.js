@@ -31,7 +31,8 @@ class Wallet extends Component {
       connectRequest,
       disconnectRequest,
       allChannels,
-      openChannel
+      openChannel,
+      currentTicker
     } = this.props
 
     return (
@@ -74,6 +75,7 @@ class Wallet extends Component {
             channelForm={channelForm}
             setChannelForm={setChannelForm}
             openChannel={openChannel}
+            currentTicker={currentTicker}
           />
         </section>
       </div>

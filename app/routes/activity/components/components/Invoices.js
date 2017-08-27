@@ -14,7 +14,8 @@ const Invoices = ({
   invoices,
   ticker,
   setInvoice,
-  invoiceModalOpen
+  invoiceModalOpen,
+  currentTicker
 }) => (
   <div>
     <Modal isOpen={invoiceModalOpen} resetObject={setInvoice}>
@@ -34,7 +35,7 @@ const Invoices = ({
                   ticker.currency === 'btc' ?
                     btc.satoshisToBtc(invoice.value)
                     :
-                    btc.satoshisToUsd(invoice.value, ticker.btcTicker.price_usd)
+                    btc.satoshisToUsd(invoice.value, currentTicker.price_usd)
                 }
               </span>
             </h1>
@@ -91,7 +92,7 @@ const Invoices = ({
                   ticker.currency === 'btc' ?
                     btc.satoshisToBtc(invoiceItem.value)
                     :
-                    btc.satoshisToUsd(invoiceItem.value, ticker.btcTicker.price_usd)
+                    btc.satoshisToUsd(invoiceItem.value, currentTicker.price_usd)
                 }
               </div>
             </div>

@@ -29,6 +29,7 @@ class App extends Component {
       createInvoice,
       payInvoice,
       fetchInvoice,
+      currentTicker,
       children
     } = this.props
 
@@ -49,12 +50,14 @@ class App extends Component {
           payInvoice={payInvoice}
           fetchInvoice={fetchInvoice}
           formInvoice={formInvoice}
+          currentTicker={currentTicker}
         />
         <Nav
           ticker={ticker}
           balance={balance}
           setCurrency={setCurrency}
           formClicked={formType => setForm({ modalOpen: true, formType })}
+          currentTicker={currentTicker}
         />
         <div className={styles.content}>
           {children}
