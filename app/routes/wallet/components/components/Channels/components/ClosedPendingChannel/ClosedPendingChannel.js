@@ -59,7 +59,8 @@ const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid }, curr
 
 ClosedPendingChannel.propTypes = {
   ticker: PropTypes.object.isRequired,
-  channel: PropTypes.object.isRequired
+  channel: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default ClosedPendingChannel

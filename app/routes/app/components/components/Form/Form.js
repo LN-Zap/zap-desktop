@@ -10,7 +10,7 @@ const Form = ({
   setAmount,
   setMessage,
   setPaymentRequest,
-  ticker: { currency, btcTicker },
+  ticker: { currency },
   isOpen,
   close,
   createInvoice,
@@ -122,7 +122,8 @@ Form.propTypes = {
   createInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
-  formInvoice: PropTypes.object.isRequired
+  formInvoice: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Form

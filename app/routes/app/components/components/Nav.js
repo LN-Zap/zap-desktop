@@ -92,7 +92,8 @@ Nav.propTypes = {
   ticker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   setCurrency: PropTypes.func.isRequired,
-  formClicked: PropTypes.func.isRequired
+  formClicked: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Nav

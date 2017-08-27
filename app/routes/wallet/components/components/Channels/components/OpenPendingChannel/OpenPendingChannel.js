@@ -59,7 +59,8 @@ const OpenPendingChannel = ({ ticker, channel: { channel }, currentTicker }) => 
 
 OpenPendingChannel.propTypes = {
   ticker: PropTypes.object.isRequired,
-  channel: PropTypes.object.isRequired
+  channel: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default OpenPendingChannel

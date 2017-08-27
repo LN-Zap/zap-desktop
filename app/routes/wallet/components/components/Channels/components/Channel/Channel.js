@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { btc } from '../../../../../../../utils'
 import styles from './Channel.scss'
 
-const Channel = ({ ticker, channel, setChannel }) => (
+const Channel = ({ ticker, channel, setChannel, currentTicker }) => (
   <li className={styles.channel} onClick={() => setChannel(channel)}>
     <h1 className={styles.status}>Status: Open</h1>
     <div className={styles.left}>
@@ -59,7 +59,8 @@ const Channel = ({ ticker, channel, setChannel }) => (
 Channel.propTypes = {
   ticker: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
-  setChannel: PropTypes.func.isRequired
+  setChannel: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Channel

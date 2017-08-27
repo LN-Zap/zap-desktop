@@ -1,6 +1,7 @@
 import createIpc from 'redux-electron-ipc'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
+import { receiveCryptocurrency } from './ticker'
 import { receivePeers, connectSuccess, disconnectSuccess } from './peers'
 import {
   receiveChannels,
@@ -32,7 +33,8 @@ const ipc = createIpc({
   pushchannelstatus,
   connectSuccess,
   disconnectSuccess,
-  receiveAddress
+  receiveAddress,
+  receiveCryptocurrency
 })
 
 export default ipc

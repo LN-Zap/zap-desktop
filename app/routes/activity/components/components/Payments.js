@@ -108,7 +108,8 @@ Payments.propTypes = {
   payments: PropTypes.array.isRequired,
   ticker: PropTypes.object.isRequired,
   setPayment: PropTypes.func.isRequired,
-  paymentModalOpen: PropTypes.bool.isRequired
+  paymentModalOpen: PropTypes.bool.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Payments

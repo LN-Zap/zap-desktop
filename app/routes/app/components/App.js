@@ -6,10 +6,11 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchBalance } = this.props
+    const { fetchTicker, fetchBalance, fetchInfo } = this.props
 
     fetchTicker()
     fetchBalance()
+    fetchInfo()
   }
 
   render() {
@@ -32,6 +33,8 @@ class App extends Component {
       currentTicker,
       children
     } = this.props
+
+    if (!currentTicker) { return <div>Loading...</div> }
 
     return (
       <div>
@@ -85,6 +88,8 @@ App.propTypes = {
   createInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
+  fetchInfo: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object,
   children: PropTypes.object.isRequired
 }
 

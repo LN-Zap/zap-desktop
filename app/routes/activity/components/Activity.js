@@ -106,7 +106,8 @@ Activity.propTypes = {
   setPayment: PropTypes.func.isRequired,
   setInvoice: PropTypes.func.isRequired,
   paymentModalOpen: PropTypes.bool.isRequired,
-  invoiceModalOpen: PropTypes.bool.isRequired
+  invoiceModalOpen: PropTypes.bool.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Activity

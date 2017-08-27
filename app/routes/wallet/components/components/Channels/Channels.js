@@ -84,7 +84,8 @@ Channels.propTypes = {
   channelForm: PropTypes.object.isRequired,
   setChannelForm: PropTypes.func.isRequired,
   allChannels: PropTypes.array.isRequired,
-  openChannel: PropTypes.func.isRequired
+  openChannel: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Channels

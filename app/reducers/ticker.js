@@ -45,7 +45,7 @@ export function recieveTickers({ btcTicker, ltcTicker }) {
   }
 }
 
-export const fetchTicker = (id) => async (dispatch) => {
+export const fetchTicker = () => async (dispatch) => {
   dispatch(getTickers())
   const tickers = await requestTickers(['bitcoin', 'litecoin'])
   dispatch(recieveTickers(tickers))
@@ -54,8 +54,7 @@ export const fetchTicker = (id) => async (dispatch) => {
 }
 
 // Receive IPC event for receiveCryptocurrency
-export const receiveCryptocurrency = (event, currency) => dispatch => {
-  console.log('currency: ', currency)
+export const receiveCryptocurrency = (event, currency) => (dispatch) => {
   dispatch({ type: SET_CURRENCY, currency: cryptoTickers[currency] })
   dispatch({ type: SET_CRYPTO, crypto: cryptoTickers[currency] })
 }
@@ -83,7 +82,7 @@ tickerSelectors.currentTicker = createSelector(
   cryptoSelector,
   bitcoinTickerSelector,
   litecoinTickerSelector,
-  (crypto, btcTicker, ltcTicker) => crypto === 'btc' ? btcTicker : ltcTicker
+  (crypto, btcTicker, ltcTicker) => (crypto === 'btc' ? btcTicker : ltcTicker)
 )
 
 export { tickerSelectors }
@@ -93,8 +92,8 @@ export { tickerSelectors }
 // ------------------------------------
 const initialState = {
   tickerLoading: false,
-  currency: 'btc',
-  crypto: 'btc',
+  currency: '',
+  crypto: '',
   btcTicker: null,
   ltcTicker: null
 }

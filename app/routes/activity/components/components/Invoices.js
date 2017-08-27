@@ -108,7 +108,8 @@ Invoices.propTypes = {
   invoices: PropTypes.array.isRequired,
   ticker: PropTypes.object.isRequired,
   setInvoice: PropTypes.func.isRequired,
-  invoiceModalOpen: PropTypes.bool.isRequired
+  invoiceModalOpen: PropTypes.bool.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Invoices

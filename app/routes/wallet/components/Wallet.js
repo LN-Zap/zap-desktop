@@ -7,9 +7,8 @@ import styles from './Wallet.scss'
 
 class Wallet extends Component {
   componentWillMount() {
-    const { fetchInfo, fetchPeers, fetchChannels, newAddress } = this.props
+    const { fetchPeers, fetchChannels, newAddress } = this.props
 
-    fetchInfo()
     fetchPeers()
     fetchChannels()
     newAddress('p2pkh')
@@ -84,7 +83,6 @@ class Wallet extends Component {
 }
 
 Wallet.propTypes = {
-  fetchInfo: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
   fetchChannels: PropTypes.func.isRequired,
   info: PropTypes.object.isRequired,
@@ -102,7 +100,8 @@ Wallet.propTypes = {
   allChannels: PropTypes.array.isRequired,
   openChannel: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
-  address: PropTypes.object.isRequired
+  address: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 

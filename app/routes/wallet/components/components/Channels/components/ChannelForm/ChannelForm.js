@@ -129,7 +129,8 @@ ChannelForm.propTypes = {
   setForm: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
   peers: PropTypes.array.isRequired,
-  openChannel: PropTypes.func.isRequired
+  openChannel: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default ChannelForm
