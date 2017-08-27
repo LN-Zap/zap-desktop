@@ -12,7 +12,8 @@ const Payments = ({
   payments,
   ticker,
   setPayment,
-  paymentModalOpen
+  paymentModalOpen,
+  currentTicker
 }) => (
   <div>
     <Modal isOpen={paymentModalOpen} resetObject={setPayment}>
@@ -32,7 +33,7 @@ const Payments = ({
                   ticker.currency === 'btc' ?
                     btc.satoshisToBtc(payment.value)
                     :
-                    btc.satoshisToUsd(payment.value, ticker.btcTicker.price_usd)
+                    btc.satoshisToUsd(payment.value, currentTicker.price_usd)
                 }
               </span>
             </h1>
@@ -81,7 +82,7 @@ const Payments = ({
                   ticker.currency === 'btc' ?
                     btc.satoshisToBtc(paymentItem.fee)
                     :
-                    btc.satoshisToUsd(paymentItem.fee, ticker.btcTicker.price_usd)
+                    btc.satoshisToUsd(paymentItem.fee, currentTicker.price_usd)
                 }
               </span>
             </div>
@@ -91,7 +92,7 @@ const Payments = ({
                   ticker.currency === 'btc' ?
                     btc.satoshisToBtc(paymentItem.value)
                     :
-                    btc.satoshisToUsd(paymentItem.value, ticker.btcTicker.price_usd)
+                    btc.satoshisToUsd(paymentItem.value, currentTicker.price_usd)
                 }
               </span>
             </div>
@@ -107,7 +108,8 @@ Payments.propTypes = {
   payments: PropTypes.array.isRequired,
   ticker: PropTypes.object.isRequired,
   setPayment: PropTypes.func.isRequired,
-  paymentModalOpen: PropTypes.bool.isRequired
+  paymentModalOpen: PropTypes.bool.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Payments

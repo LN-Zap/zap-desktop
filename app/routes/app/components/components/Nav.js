@@ -7,12 +7,12 @@ import { FaClockO, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
 import { btc } from '../../../../utils'
 import styles from './Nav.scss'
 
-const Nav = ({ ticker, balance, setCurrency, formClicked }) => (
+const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
   <nav className={styles.nav}>
     <ul className={styles.info}>
       <li className={`${styles.currencies} ${styles.link}`}>
         <span
-          data-hint={ticker.btcTicker ? ticker.btcTicker.price_usd : null}
+          data-hint={currentTicker ? currentTicker.price_usd : null}
           className={`${styles.currency} ${ticker.currency === 'btc' ? styles.active : ''} hint--bottom`}
           onClick={() => setCurrency('btc')}
         >
@@ -33,7 +33,7 @@ const Nav = ({ ticker, balance, setCurrency, formClicked }) => (
               ticker.currency === 'btc' ?
                 btc.satoshisToBtc(balance.walletBalance)
                 :
-                btc.satoshisToUsd(balance.walletBalance, ticker.btcTicker.price_usd)
+                btc.satoshisToUsd(balance.walletBalance, currentTicker.price_usd)
             }
           </span>
         </p>
@@ -46,7 +46,7 @@ const Nav = ({ ticker, balance, setCurrency, formClicked }) => (
               ticker.currency === 'btc' ?
                 btc.satoshisToBtc(balance.channelBalance)
                 :
-                btc.satoshisToUsd(balance.channelBalance, ticker.btcTicker.price_usd)
+                btc.satoshisToUsd(balance.channelBalance, currentTicker.price_usd)
             }
           </span>
         </p>
@@ -92,7 +92,8 @@ Nav.propTypes = {
   ticker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   setCurrency: PropTypes.func.isRequired,
-  formClicked: PropTypes.func.isRequired
+  formClicked: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Nav

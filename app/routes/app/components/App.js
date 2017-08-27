@@ -6,10 +6,11 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchBalance } = this.props
+    const { fetchTicker, fetchBalance, fetchInfo } = this.props
 
     fetchTicker()
     fetchBalance()
+    fetchInfo()
   }
 
   render() {
@@ -29,8 +30,11 @@ class App extends Component {
       createInvoice,
       payInvoice,
       fetchInvoice,
+      currentTicker,
       children
     } = this.props
+
+    if (!currentTicker) { return <div>Loading...</div> }
 
     return (
       <div>
@@ -49,12 +53,14 @@ class App extends Component {
           payInvoice={payInvoice}
           fetchInvoice={fetchInvoice}
           formInvoice={formInvoice}
+          currentTicker={currentTicker}
         />
         <Nav
           ticker={ticker}
           balance={balance}
           setCurrency={setCurrency}
           formClicked={formType => setForm({ modalOpen: true, formType })}
+          currentTicker={currentTicker}
         />
         <div className={styles.content}>
           {children}
@@ -82,6 +88,8 @@ App.propTypes = {
   createInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
+  fetchInfo: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object,
   children: PropTypes.object.isRequired
 }
 

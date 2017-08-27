@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { newAddress } from '../../../reducers/address'
-import { fetchInfo } from '../../../reducers/info'
+import { tickerSelectors } from '../../../reducers/ticker'
 import {
   fetchPeers,
   setPeer,
@@ -21,8 +21,6 @@ import Wallet from '../components/Wallet'
 
 const mapDispatchToProps = {
   newAddress,
-
-  fetchInfo,
 
   fetchPeers,
   setPeer,
@@ -49,7 +47,9 @@ const mapStateToProps = state => ({
   allChannels: channelsSelectors.allChannels(state),
 
   peerModalOpen: peersSelectors.peerModalOpen(state),
-  channelModalOpen: channelsSelectors.channelModalOpen(state)
+  channelModalOpen: channelsSelectors.channelModalOpen(state),
+
+  currentTicker: tickerSelectors.currentTicker(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet)

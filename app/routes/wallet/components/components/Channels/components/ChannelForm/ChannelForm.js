@@ -5,12 +5,12 @@ import { FaUser, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
 import { usd, btc } from '../../../../../../../utils'
 import styles from './ChannelForm.scss'
 
-const ChannelForm = ({ form, setForm, ticker, peers, openChannel }) => {
+const ChannelForm = ({ form, setForm, ticker, peers, openChannel, currentTicker }) => {
   const submitClicked = () => {
     const { node_key, local_amt, push_amt } = form
 
-    const localamt = ticker.currency === 'btc' ? btc.btcToSatoshis(local_amt) : btc.btcToSatoshis(usd.usdToBtc(local_amt, ticker.btcTicker.price_usd))
-    const pushamt = ticker.currency === 'btc' ? btc.btcToSatoshis(push_amt) : btc.btcToSatoshis(usd.usdToBtc(push_amt, ticker.btcTicker.price_usd))
+    const localamt = ticker.currency === 'btc' ? btc.btcToSatoshis(local_amt) : btc.btcToSatoshis(usd.usdToBtc(local_amt, currentTicker.price_usd))
+    const pushamt = ticker.currency === 'btc' ? btc.btcToSatoshis(push_amt) : btc.btcToSatoshis(usd.usdToBtc(push_amt, currentTicker.price_usd))
 
     openChannel({ pubkey: node_key, localamt, pushamt })
     setForm({ isOpen: false })
@@ -129,7 +129,8 @@ ChannelForm.propTypes = {
   setForm: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
   peers: PropTypes.array.isRequired,
-  openChannel: PropTypes.func.isRequired
+  openChannel: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default ChannelForm

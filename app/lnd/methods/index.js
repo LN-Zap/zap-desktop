@@ -20,7 +20,10 @@ export default function (lnd, event, msg, data) {
   switch (msg) {
     case 'info':
       info(lnd)
-        .then(infoData => event.sender.send('receiveInfo', infoData))
+        .then((infoData) => {
+          event.sender.send('receiveInfo', infoData)
+          event.sender.send('receiveCryptocurrency', infoData.chains[0])
+        })
         .catch(error => console.log('info error: ', error))
       break
     case 'newaddress':

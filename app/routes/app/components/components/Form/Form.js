@@ -10,16 +10,17 @@ const Form = ({
   setAmount,
   setMessage,
   setPaymentRequest,
-  ticker: { currency, btcTicker },
+  ticker: { currency },
   isOpen,
   close,
   createInvoice,
   payInvoice,
   fetchInvoice,
-  formInvoice
+  formInvoice,
+  currentTicker
 }) => {
   const requestClicked = () => {
-    createInvoice(amount, message, currency, btcTicker.price_usd)
+    createInvoice(amount, message, currency, currentTicker.price_usd)
     close()
   }
 
@@ -33,7 +34,7 @@ const Form = ({
     if (payreq.length === 124) { fetchInvoice(payreq) }
   }
 
-  const calculateAmount = value => (currency === 'btc' ? btc.satoshisToBtc(value) : btc.satoshisToUsd(value, btcTicker.price_usd))
+  const calculateAmount = value => (currency === 'btc' ? btc.satoshisToBtc(value) : btc.satoshisToUsd(value, currentTicker.price_usd))
 
   return (
     <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
@@ -121,7 +122,8 @@ Form.propTypes = {
   createInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
-  formInvoice: PropTypes.object.isRequired
+  formInvoice: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Form
