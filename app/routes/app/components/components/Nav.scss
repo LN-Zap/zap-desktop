@@ -75,6 +75,15 @@
  		span {
  			display: inline-block;
  			vertical-align: top;
+
+ 			svg[data-icon='ltc'] {
+ 				width: 10px;
+ 				height: 10px;
+
+ 				g {
+ 					transform: scale(1.75) translate(-5px, -5px);
+ 				}
+ 			}
  		}
  	}
 }

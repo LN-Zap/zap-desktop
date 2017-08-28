@@ -28,7 +28,7 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
       </li>
       <li className={`${styles.balance} ${styles.link}`}>
         <p data-hint='Wallet balance' className='hint--bottom-left'>
-          <span>{ticker.currency === 'btc' ? <FaBitcoin /> : <FaDollar />}</span>
+          <span>{ticker.currency === 'usd' ? <FaDollar /> : <CryptoIcon currency={ticker.crypto} />}</span>
           <span>
             {
               ticker.currency === 'btc' ?
@@ -39,9 +39,7 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
           </span>
         </p>
         <p data-hint='Channel balance' className='hint--bottom-left'>
-          <span>
-            {ticker.currency === 'btc' ? <FaBitcoin /> : <FaDollar />}
-          </span>
+          <span>{ticker.currency === 'usd' ? <FaDollar /> : <CryptoIcon currency={ticker.crypto} />}</span>
           <span>
             {
               ticker.currency === 'btc' ?
