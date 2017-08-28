@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import path from 'path'
 import { FaBitcoin } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
 
@@ -10,7 +11,7 @@ const CryptoIcon = ({ currency }) => {
       break
     case 'ltc':
       return (
-        <Isvg src='/Users/jmow/Projects/bolt/bolt-desktop/resources/litecoin.svg'></Isvg>
+        <Isvg src={path.join(__dirname, '..', 'resources/litecoin.svg')}></Isvg>
       )
       break
     default:
