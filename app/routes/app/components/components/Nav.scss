@@ -31,6 +31,20 @@
 	&.active {
 		color: $main;
 	}
+
+	span {
+		display: inline-block;
+		vertical-align: middle;
+
+		svg {
+			width: 24px;
+			height: 28px;
+
+			g {
+				transform: scale(1.75) translate(-5px, -5px);
+			}
+		}
+	}
 }
 
 .logo {

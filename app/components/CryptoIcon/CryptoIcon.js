@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FaBitcoin } from 'react-icons/lib/fa'
-// import Litecoin from '../resources/'
+import Isvg from 'react-inlinesvg'
 
 const CryptoIcon = ({ currency }) => {
   switch(currency) {
@@ -9,9 +9,13 @@ const CryptoIcon = ({ currency }) => {
       return (<FaBitcoin />)
       break
     case 'ltc':
-      return <span>LTC</span>
+      return (
+        <Isvg src='/Users/jmow/Projects/bolt/bolt-desktop/resources/litecoin.svg'></Isvg>
+      )
       break
     default:
       return <span></span>
   }
 }
+
+export default CryptoIcon

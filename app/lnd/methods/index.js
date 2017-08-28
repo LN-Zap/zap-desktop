@@ -21,6 +21,7 @@ export default function (lnd, event, msg, data) {
     case 'info':
       info(lnd)
         .then((infoData) => {
+          console.log('infoData: ', infoData)
           event.sender.send('receiveInfo', infoData)
           event.sender.send('receiveCryptocurrency', infoData.chains[0])
         })
