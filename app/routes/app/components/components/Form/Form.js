@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaDollar, FaBitcoin } from 'react-icons/lib/fa'
+import { FaDollar } from 'react-icons/lib/fa'
 import { MdClose } from 'react-icons/lib/md'
+import CryptoIcon from '../../../../../components/CryptoIcon'
 import { btc } from '../../../../../utils'
 import styles from './Form.scss'
 
@@ -10,7 +11,7 @@ const Form = ({
   setAmount,
   setMessage,
   setPaymentRequest,
-  ticker: { currency },
+  ticker: { currency, crypto },
   isOpen,
   close,
   createInvoice,
@@ -46,10 +47,10 @@ const Form = ({
           <section className={styles.amountContainer}>
             <label htmlFor='amount'>
               {
-                currency === 'btc' ?
-                  <FaBitcoin />
-                  :
+                currency === 'usd' ?
                   <FaDollar />
+                  :
+                  <CryptoIcon currency={crypto} />
               }
             </label>
             <input
@@ -57,7 +58,7 @@ const Form = ({
               size=''
               style={
                 formType === 'pay' ?
-                  { width: '75%', fontSize: '100px' }
+                  { width: '75%', fontSize: '85px' }
                   :
                   { width: `${amount.length > 1 ? (amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }
               }

@@ -73,9 +73,17 @@
 
 		label {
 			svg {
-				width: 100px;
-				height: 100px;
-			}	
+				width: 85px;
+				height: 85px;
+			}
+
+			svg[data-icon='ltc'] {
+				margin-right: 10px;
+
+				g {
+					transform: scale(1.75) translate(-5px, -5px);
+				}
+			}
 		}
 		
 		input[type=text] {
