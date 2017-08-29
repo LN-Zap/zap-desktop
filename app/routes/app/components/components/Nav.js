@@ -14,8 +14,8 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
       <li className={`${styles.currencies} ${styles.link}`}>
         <span
           data-hint={currentTicker ? currentTicker.price_usd : null}
-          className={`${styles.currency} ${ticker.currency === 'btc' ? styles.active : ''} hint--bottom`}
-          onClick={() => setCurrency('btc')}
+          className={`${styles.currency} ${ticker.currency === ticker.crypto ? styles.active : ''} hint--bottom`}
+          onClick={() => setCurrency(ticker.crypto)}
         >
           <CryptoIcon currency={ticker.crypto} />
         </span>
@@ -31,10 +31,10 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
           <span>{ticker.currency === 'usd' ? <FaDollar /> : <CryptoIcon currency={ticker.crypto} />}</span>
           <span>
             {
-              ticker.currency === 'btc' ?
-                btc.satoshisToBtc(balance.walletBalance)
-                :
+              ticker.currency === 'usd' ?
                 btc.satoshisToUsd(balance.walletBalance, currentTicker.price_usd)
+                :
+                btc.satoshisToBtc(balance.walletBalance)
             }
           </span>
         </p>
@@ -42,10 +42,10 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
           <span>{ticker.currency === 'usd' ? <FaDollar /> : <CryptoIcon currency={ticker.crypto} />}</span>
           <span>
             {
-              ticker.currency === 'btc' ?
-                btc.satoshisToBtc(balance.channelBalance)
-                :
+              ticker.currency === 'usd' ?
                 btc.satoshisToUsd(balance.channelBalance, currentTicker.price_usd)
+                :
+                btc.satoshisToBtc(balance.channelBalance)
             }
           </span>
         </p>
@@ -67,12 +67,6 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
         <NavLink exact to='/wallet' activeClassName={styles.active} className={styles.link}>
           <MdAccountBalanceWallet />
           <span>Wallet</span>
-        </NavLink>
-      </li>
-      <li>
-        <NavLink to='/settings' activeClassName={styles.active} className={styles.link}>
-          <MdSettings />
-          <span>Settings</span>
         </NavLink>
       </li>
     </ul>

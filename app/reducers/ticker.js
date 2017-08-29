@@ -56,8 +56,8 @@ export const fetchTicker = () => async (dispatch) => {
 // Receive IPC event for receiveCryptocurrency
 export const receiveCryptocurrency = (event, currency) => (dispatch) => {
   dispatch({ type: SET_CURRENCY, currency: cryptoTickers[currency] })
-  // dispatch({ type: SET_CRYPTO, crypto: cryptoTickers[currency] })
-  dispatch({ type: SET_CRYPTO, crypto: 'ltc' })
+  dispatch({ type: SET_CRYPTO, crypto: cryptoTickers[currency] })
+  // dispatch({ type: SET_CRYPTO, crypto: 'ltc' })
 }
 
 
