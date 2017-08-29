@@ -5,16 +5,18 @@ import { FaBitcoin } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
 
 const CryptoIcon = ({ currency }) => {
-  switch(currency) {
+  switch (currency) {
     case 'btc':
       return <FaBitcoin />
-      break
     case 'ltc':
-      return <Isvg src={path.join(__dirname, '..', 'resources/litecoin.svg')}></Isvg>
-      break
+      return <Isvg src={path.join(__dirname, '..', 'resources/litecoin.svg')} />
     default:
-      return <span></span>
+      return <span />
   }
+}
+
+CryptoIcon.propTypes = {
+  currency: PropTypes.string.isRequired
 }
 
 export default CryptoIcon

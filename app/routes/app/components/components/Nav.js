@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import ReactSVG from 'react-svg'
-import { MdAccountBalanceWallet, MdSettings } from 'react-icons/lib/md'
-import { FaClockO, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
+import { MdAccountBalanceWallet } from 'react-icons/lib/md'
+import { FaClockO, FaDollar } from 'react-icons/lib/fa'
+import CryptoIcon from '../../../../components/CryptoIcon'
 import { btc } from '../../../../utils'
-import CryptoIcon from 'components/CryptoIcon'
 import styles from './Nav.scss'
 
 const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (

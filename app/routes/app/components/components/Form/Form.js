@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaDollar, FaBitcoin } from 'react-icons/lib/fa'
+import { FaDollar } from 'react-icons/lib/fa'
 import { MdClose } from 'react-icons/lib/md'
-import CryptoIcon from 'components/CryptoIcon'
+import CryptoIcon from '../../../../../components/CryptoIcon'
 import { btc } from '../../../../../utils'
 import styles from './Form.scss'
 
