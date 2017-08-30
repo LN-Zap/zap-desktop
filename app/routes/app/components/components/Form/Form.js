@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaDollar } from 'react-icons/lib/fa'
 import { MdClose } from 'react-icons/lib/md'
-import CryptoIcon from '../../../../../components/CryptoIcon'
 import CurrencyIcon from '../../../../../components/CurrencyIcon'
 import { btc } from '../../../../../utils'
 import styles from './Form.scss'
@@ -37,7 +35,7 @@ const Form = ({
   }
 
   const calculateAmount = value => (currency === 'btc' ? btc.satoshisToBtc(value) : btc.satoshisToUsd(value, currentTicker.price_usd))
-  
+
   return (
     <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
       <div className={styles.container}>

@@ -3,12 +3,10 @@ import PropTypes from 'prop-types'
 import { FaDollar } from 'react-icons/lib/fa'
 import CryptoIcon from '../CryptoIcon'
 
-const CurrencyIcon = ({ currency, crypto }) => {
-  return currency === 'usd' ?
-    <FaDollar />
-    :
-    <CryptoIcon currency={crypto} />
-}
+const CurrencyIcon = ({ currency, crypto }) => (currency === 'usd' ?
+  <FaDollar />
+  :
+  <CryptoIcon currency={crypto} />)
 
 CurrencyIcon.propTypes = {
   currency: PropTypes.string.isRequired,
