@@ -5,6 +5,7 @@ import ReactSVG from 'react-svg'
 import { MdAccountBalanceWallet } from 'react-icons/lib/md'
 import { FaClockO, FaDollar } from 'react-icons/lib/fa'
 import CryptoIcon from '../../../../components/CryptoIcon'
+import CurrencyIcon from '../../../../components/CurrencyIcon'
 import { btc } from '../../../../utils'
 import styles from './Nav.scss'
 
@@ -28,7 +29,7 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
       </li>
       <li className={`${styles.balance} ${styles.link}`}>
         <p data-hint='Wallet balance' className='hint--bottom-left'>
-          <span>{ticker.currency === 'usd' ? <FaDollar /> : <CryptoIcon currency={ticker.crypto} />}</span>
+          <span><CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} /></span>
           <span>
             {
               ticker.currency === 'usd' ?
@@ -39,7 +40,7 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
           </span>
         </p>
         <p data-hint='Channel balance' className='hint--bottom-left'>
-          <span>{ticker.currency === 'usd' ? <FaDollar /> : <CryptoIcon currency={ticker.crypto} />}</span>
+          <span><CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} /></span>
           <span>
             {
               ticker.currency === 'usd' ?
