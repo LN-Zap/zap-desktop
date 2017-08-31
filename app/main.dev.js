@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
   require('module').globalPaths.push(p);
 
   // set icon
-  app.dock.setIcon(`${path.join(__dirname, '..', 'resources')}/zap_2.png`)
+  // app.dock.setIcon(`${path.join(__dirname, '..', 'resources')}/zap_2.png`)
 }
 
 const installExtensions = async () => {
