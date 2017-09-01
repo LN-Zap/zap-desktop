@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import { FaUser, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
+import CurrencyIcon from '../../../../../../../components/CurrencyIcon'
 import { usd, btc } from '../../../../../../../utils'
 import styles from './ChannelForm.scss'
 
@@ -9,8 +10,8 @@ const ChannelForm = ({ form, setForm, ticker, peers, openChannel, currentTicker 
   const submitClicked = () => {
     const { node_key, local_amt, push_amt } = form
 
-    const localamt = ticker.currency === 'btc' ? btc.btcToSatoshis(local_amt) : btc.btcToSatoshis(usd.usdToBtc(local_amt, currentTicker.price_usd))
-    const pushamt = ticker.currency === 'btc' ? btc.btcToSatoshis(push_amt) : btc.btcToSatoshis(usd.usdToBtc(push_amt, currentTicker.price_usd))
+    const localamt = ticker.currency === 'usd' ? btc.btcToSatoshis(usd.usdToBtc(local_amt, currentTicker.price_usd)) : btc.btcToSatoshis(local_amt)
+    const pushamt = ticker.currency === 'usd' ? btc.btcToSatoshis(usd.usdToBtc(push_amt, currentTicker.price_usd)) : btc.btcToSatoshis(push_amt)
 
     openChannel({ pubkey: node_key, localamt, pushamt })
     setForm({ isOpen: false })
@@ -59,12 +60,7 @@ const ChannelForm = ({ form, setForm, ticker, peers, openChannel, currentTicker 
           </section>
           <section className={styles.local}>
             <label htmlFor='localamount'>
-              {
-                ticker.currency === 'btc' ?
-                  <FaBitcoin />
-                  :
-                  <FaDollar />
-              }
+              <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} />
             </label>
             <input
               type='text'
@@ -77,12 +73,7 @@ const ChannelForm = ({ form, setForm, ticker, peers, openChannel, currentTicker 
           </section>
           <section className={styles.push}>
             <label htmlFor='pushamount'>
-              {
-                ticker.currency === 'btc' ?
-                  <FaBitcoin />
-                  :
-                  <FaDollar />
-              }
+              <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} />
             </label>
             <input
               type='text'
