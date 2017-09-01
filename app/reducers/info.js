@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 // ------------------------------------
 // Constants
@@ -38,6 +39,22 @@ const initialState = {
   infoLoading: false,
   data: {}
 }
+
+// Selectors
+const infoSelectors = {}
+const testnetSelector = state => state.info.data.testnet
+
+infoSelectors.isTestnet = createSelector(
+  testnetSelector,
+  isTestnet => (!!isTestnet)
+)
+
+infoSelectors.explorerLinkBase = createSelector(
+  infoSelectors.isTestnet,
+  isTestnet => isTestnet ? 'https://testnet.smartbit.com.au' : 'https://smartbit.com.au'
+)
+
+export { infoSelectors }
 
 export default function infoReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
