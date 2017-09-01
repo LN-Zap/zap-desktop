@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 import { btc } from '../../../../../../../utils'
 import styles from './OpenPendingChannel.scss'
 
-const OpenPendingChannel = ({ ticker, channel: { channel }, currentTicker }) => (
-  <li className={styles.channel} onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${channel.channel_point.split(':')[0]}`)}>
+const OpenPendingChannel = ({ ticker, channel: { channel }, currentTicker, explorerLinkBase }) => (
+  <li className={styles.channel} onClick={() => shell.openExternal(`${explorerLinkBase}/tx/${channel.channel_point.split(':')[0]}`)}>
     <h1 className={styles.pending}>Status: Pending</h1>
     <div className={styles.left}>
       <section className={styles.remotePubkey}>
@@ -60,7 +60,8 @@ const OpenPendingChannel = ({ ticker, channel: { channel }, currentTicker }) => 
 OpenPendingChannel.propTypes = {
   ticker: PropTypes.object.isRequired,
   channel: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired
+  currentTicker: PropTypes.object.isRequired,
+  explorerLinkBase: PropTypes.string.isRequired
 }
 
 export default OpenPendingChannel

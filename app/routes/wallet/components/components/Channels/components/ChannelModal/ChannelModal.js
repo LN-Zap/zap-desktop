@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import styles from './ChannelModal.scss'
 
-const ChannelModal = ({ isOpen, resetChannel, channel }) => {
+const ChannelModal = ({ isOpen, resetChannel, channel, explorerLinkBase }) => {
   const customStyles = {
     overlay: {
       cursor: 'pointer',
@@ -39,7 +39,7 @@ const ChannelModal = ({ isOpen, resetChannel, channel }) => {
               <h2
                 data-hint='Channel point'
                 className='hint--top-left'
-                onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${channel.channel_point.split(':')[0]}`)}
+                onClick={() => shell.openExternal(`${explorerLinkBase}/tx/${channel.channel_point.split(':')[0]}`)}
               >
                 {channel.channel_point}
               </h2>
@@ -88,7 +88,8 @@ const ChannelModal = ({ isOpen, resetChannel, channel }) => {
 ChannelModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   resetChannel: PropTypes.func.isRequired,
-  channel: PropTypes.object
+  channel: PropTypes.object,
+  explorerLinkBase: PropTypes.string.isRequired
 }
 
 export default ChannelModal

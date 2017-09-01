@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { infoSelectors } from '../../../reducers/info'
 import { newAddress } from '../../../reducers/address'
 import { tickerSelectors } from '../../../reducers/ticker'
 import {
@@ -49,7 +50,9 @@ const mapStateToProps = state => ({
   peerModalOpen: peersSelectors.peerModalOpen(state),
   channelModalOpen: channelsSelectors.channelModalOpen(state),
 
-  currentTicker: tickerSelectors.currentTicker(state)
+  currentTicker: tickerSelectors.currentTicker(state),
+
+  explorerLinkBase: infoSelectors.explorerLinkBase(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Wallet)

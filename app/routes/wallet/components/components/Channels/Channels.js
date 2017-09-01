@@ -19,10 +19,11 @@ const Channels = ({
   setChannelForm,
   allChannels,
   openChannel,
-  currentTicker
+  currentTicker,
+  explorerLinkBase
 }) => (
   <div className={styles.channels}>
-    <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
+    <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} explorerLinkBase={explorerLinkBase} />
     <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} openChannel={openChannel} currentTicker={currentTicker} />
     <div className={styles.header}>
       <h3>Channels</h3>
@@ -45,6 +46,7 @@ const Channels = ({
                   channel={channel}
                   ticker={ticker}
                   currentTicker={currentTicker}
+                  explorerLinkBase={explorerLinkBase}
                 />
               )
             } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
@@ -54,6 +56,7 @@ const Channels = ({
                   channel={channel}
                   ticker={ticker}
                   currentTicker={currentTicker}
+                  explorerLinkBase={explorerLinkBase}
                 />
               )
             }
@@ -85,7 +88,8 @@ Channels.propTypes = {
   setChannelForm: PropTypes.func.isRequired,
   allChannels: PropTypes.array.isRequired,
   openChannel: PropTypes.func.isRequired,
-  currentTicker: PropTypes.object.isRequired
+  currentTicker: PropTypes.object.isRequired,
+  explorerLinkBase: PropTypes.string.isRequired
 }
 
 export default Channels

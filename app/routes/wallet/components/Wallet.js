@@ -31,7 +31,8 @@ class Wallet extends Component {
       disconnectRequest,
       allChannels,
       openChannel,
-      currentTicker
+      currentTicker,
+      explorerLinkBase
     } = this.props
 
     return (
@@ -75,6 +76,7 @@ class Wallet extends Component {
             setChannelForm={setChannelForm}
             openChannel={openChannel}
             currentTicker={currentTicker}
+            explorerLinkBase={explorerLinkBase}
           />
         </section>
       </div>
@@ -101,7 +103,8 @@ Wallet.propTypes = {
   openChannel: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
   address: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired
+  currentTicker: PropTypes.object.isRequired,
+  explorerLinkBase: PropTypes.string.isRequired
 }
 
 
