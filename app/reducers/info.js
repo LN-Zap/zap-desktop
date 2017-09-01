@@ -51,7 +51,7 @@ infoSelectors.isTestnet = createSelector(
 
 infoSelectors.explorerLinkBase = createSelector(
   infoSelectors.isTestnet,
-  isTestnet => isTestnet ? 'https://testnet.smartbit.com.au' : 'https://smartbit.com.au'
+  isTestnet => (isTestnet ? 'https://testnet.smartbit.com.au' : 'https://smartbit.com.au')
 )
 
 export { infoSelectors }
