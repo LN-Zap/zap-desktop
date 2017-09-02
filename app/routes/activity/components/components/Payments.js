@@ -85,10 +85,10 @@ const Payments = ({
             <div className={styles.right}>
               <span className={styles.value}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(paymentItem.value)
-                    :
+                  ticker.currency === 'usd' ?
                     btc.satoshisToUsd(paymentItem.value, currentTicker.price_usd)
+                    :
+                    btc.satoshisToBtc(paymentItem.value)
                 }
               </span>
             </div>
