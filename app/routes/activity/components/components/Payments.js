@@ -69,7 +69,7 @@ const Payments = ({
             </div>
             <div className={styles.center}>
               <div className={styles.date}>
-                <Moment format='MMMM Do'>{paymentItem.creation_date * 1000}</Moment>
+                <Moment format='MMM Do'>{paymentItem.creation_date * 1000}</Moment>
               </div>
             </div>
             <div className={styles.right}>
