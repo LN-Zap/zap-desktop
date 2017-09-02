@@ -4,6 +4,7 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 import { FaBitcoin, FaDollar } from 'react-icons/lib/fa'
 import Modal from './Modal'
+import CurrencyIcon from '../../../../components/CurrencyIcon'
 import { btc } from '../../../../utils'
 import styles from './Payments.scss'
 
@@ -22,18 +23,13 @@ const Payments = ({
           <div className={styles.paymentModal}>
             <h3>{payment.payment_hash}</h3>
             <h1>
-              {
-                ticker.currency === 'btc' ?
-                  <FaBitcoin style={{ verticalAlign: 'top' }} />
-                  :
-                  <FaDollar style={{ verticalAlign: 'top' }} />
-              }
+              <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} styles={{ verticalAlign: 'top' }} />
               <span className={styles.value}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(payment.value)
-                    :
+                  ticker.currency === 'usd' ?
                     btc.satoshisToUsd(payment.value, currentTicker.price_usd)
+                    :
+                    btc.satoshisToBtc(payment.value)
                 }
               </span>
             </h1>
@@ -79,10 +75,10 @@ const Payments = ({
             <div className={styles.right}>
               <span className={styles.fee}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(paymentItem.fee)
-                    :
+                  ticker.currency === 'usd' ?
                     btc.satoshisToUsd(paymentItem.fee, currentTicker.price_usd)
+                    :
+                    btc.satoshisToBtc(paymentItem.fee)
                 }
               </span>
             </div>

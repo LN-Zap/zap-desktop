@@ -17,7 +17,18 @@
 		margin: 20px 20px 60px 0;
 
 		svg {
-			font-size: 20px;
+			font-size: 30px;
+			vertical-align: top;
+		}
+
+		span svg[data-icon='ltc'] {
+			width: 30px;
+			height: 30px;
+			vertical-align: top;
+
+			g {
+				transform: scale(1.75) translate(-5px, -5px);
+			}
 		}
 
 		.value {

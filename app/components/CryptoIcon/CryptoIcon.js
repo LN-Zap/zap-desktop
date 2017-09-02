@@ -4,12 +4,12 @@ import path from 'path'
 import { FaBitcoin } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
 
-const CryptoIcon = ({ currency }) => {
+const CryptoIcon = ({ currency, styles }) => {
   switch (currency) {
     case 'btc':
-      return <FaBitcoin />
+      return <FaBitcoin style={styles} />
     case 'ltc':
-      return <Isvg src={path.join(__dirname, '..', 'resources/litecoin.svg')} />
+      return <Isvg style={styles} src={path.join(__dirname, '..', 'resources/litecoin.svg')} />
     default:
       return <span />
   }

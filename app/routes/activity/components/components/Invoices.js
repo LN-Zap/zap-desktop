@@ -6,6 +6,7 @@ import { FaBitcoin, FaDollar } from 'react-icons/lib/fa'
 import { MdCheck } from 'react-icons/lib/md'
 import QRCode from 'qrcode.react'
 import Modal from './Modal'
+import CurrencyIcon from '../../../../components/CurrencyIcon'
 import { btc } from '../../../../utils'
 import styles from './Invoices.scss'
 
@@ -24,18 +25,13 @@ const Invoices = ({
           <div className={styles.invoiceModal}>
             <h3>{invoice.memo}</h3>
             <h1>
-              {
-                ticker.currency === 'btc' ?
-                  <FaBitcoin style={{ verticalAlign: 'top' }} />
-                  :
-                  <FaDollar style={{ verticalAlign: 'top' }} />
-              }
+              <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} styles={{ verticalAlign: 'top' }} />
               <span className={styles.value}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(invoice.value)
-                    :
+                  ticker.currency === 'usd' ?
                     btc.satoshisToUsd(invoice.value, currentTicker.price_usd)
+                    :
+                    btc.satoshisToBtc(invoice.value)
                 }
               </span>
             </h1>
@@ -89,10 +85,10 @@ const Invoices = ({
             <div className={styles.right}>
               <div className={invoiceItem.settled ? styles.settled : null}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(invoiceItem.value)
-                    :
+                  ticker.currency === 'usd' ?
                     btc.satoshisToUsd(invoiceItem.value, currentTicker.price_usd)
+                    :
+                    btc.satoshisToBtc(invoiceItem.value)
                 }
               </div>
             </div>
