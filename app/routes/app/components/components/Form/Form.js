@@ -34,7 +34,7 @@ const Form = ({
     if (payreq.length === 124) { fetchInvoice(payreq) }
   }
 
-  const calculateAmount = value => (currency === 'btc' ? btc.satoshisToBtc(value) : btc.satoshisToUsd(value, currentTicker.price_usd))
+  const calculateAmount = value => (currency === 'usd' ? btc.satoshisToUsd(value, currentTicker.price_usd) : btc.satoshisToBtc(value))
 
   return (
     <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
