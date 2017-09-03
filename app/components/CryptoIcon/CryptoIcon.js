@@ -16,7 +16,8 @@ const CryptoIcon = ({ currency, styles }) => {
 }
 
 CryptoIcon.propTypes = {
-  currency: PropTypes.string.isRequired
+  currency: PropTypes.string.isRequired,
+  styles: PropTypes.object.isRequired
 }
 
 export default CryptoIcon

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
-import { FaUser, FaBitcoin, FaDollar } from 'react-icons/lib/fa'
+import { FaUser } from 'react-icons/lib/fa'
 import CurrencyIcon from '../../../../../../../components/CurrencyIcon'
 import { usd, btc } from '../../../../../../../utils'
 import styles from './ChannelForm.scss'
