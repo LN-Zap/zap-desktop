@@ -2,6 +2,7 @@
 
 import channelbalance from './channelbalance'
 import channels from './channels'
+import closechannel from './closechannel'
 import connectpeer from './connectpeer'
 import createinvoice from './createinvoice'
 import disconnectpeer from './disconnectpeer'
@@ -99,6 +100,16 @@ export default function (lnd, event, msg, data) {
           event.sender.send('channelSuccessful', { channel })
         })
         .catch(error => console.log('openChannel error: ', error))
+      break
+    case 'closeChannel':
+    // Response is empty. Streaming updates on channel status and updates
+    // { channel_point, force } = data
+      closechannel(lnd, event, data)
+        .then((result) => {
+          console.log('CLOSE CHANNEL: ', result)
+          event.sender.send('closeChannelSuccessful')
+        })
+        .catch(error => console.log('closeChannel error: ', error))
       break
     case 'connectPeer':
     // Returns a peer_id. Pass the pubkey, host and peer_id so we can add a new peer to the list

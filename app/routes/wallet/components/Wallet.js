@@ -31,6 +31,7 @@ class Wallet extends Component {
       disconnectRequest,
       allChannels,
       openChannel,
+      closeChannel,
       currentTicker,
       explorerLinkBase
     } = this.props
@@ -75,6 +76,7 @@ class Wallet extends Component {
             channelForm={channelForm}
             setChannelForm={setChannelForm}
             openChannel={openChannel}
+            closeChannel={closeChannel}
             currentTicker={currentTicker}
             explorerLinkBase={explorerLinkBase}
           />
@@ -101,6 +103,7 @@ Wallet.propTypes = {
   disconnectRequest: PropTypes.func.isRequired,
   allChannels: PropTypes.array.isRequired,
   openChannel: PropTypes.func.isRequired,
+  closeChannel: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
   address: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,

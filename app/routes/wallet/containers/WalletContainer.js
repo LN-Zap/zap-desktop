@@ -16,7 +16,8 @@ import {
   setChannel,
   channelsSelectors,
   setChannelForm,
-  openChannel
+  openChannel,
+  closeChannel
 } from '../../../reducers/channels'
 import Wallet from '../components/Wallet'
 
@@ -32,6 +33,7 @@ const mapDispatchToProps = {
   fetchPendingChannels,
   setChannel,
   openChannel,
+  closeChannel,
 
   setPeerForm,
   setChannelForm
