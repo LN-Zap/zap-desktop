@@ -1,3 +1,7 @@
+export function formatUsd(usd) {
+  return `$${(+usd).toFixed(2)}`
+}
+
 export function usdToBtc(usd, rate) {
   if (usd === undefined || usd === null || usd === '') return null
 
@@ -5,5 +9,6 @@ export function usdToBtc(usd, rate) {
 }
 
 export default {
+  formatUsd,
   usdToBtc
 }
