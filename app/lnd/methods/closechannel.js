@@ -5,7 +5,7 @@ const BufferUtil = bitcore.util.buffer
 
 export default function closechannel(lnd, event, payload) {
   const tx = payload.channel_point.funding_txid.match(/.{2}/g).reverse().join('')
-  const res = { 
+  const res = {
     channel_point: {
       funding_txid: BufferUtil.hexToBuffer(tx),
       output_index: Number(payload.channel_point.output_index)

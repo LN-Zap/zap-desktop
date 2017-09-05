@@ -5,7 +5,7 @@ import { receiveCryptocurrency } from './ticker'
 import { receivePeers, connectSuccess, disconnectSuccess } from './peers'
 import {
   receiveChannels,
-  
+
   channelSuccessful,
   pushchannelupdated,
   pushchannelend,
@@ -16,7 +16,7 @@ import {
   pushclosechannelupdated,
   pushclosechannelend,
   pushclosechannelerror,
-  pushclosechannelstatus,
+  pushclosechannelstatus
 
 } from './channels'
 import { receivePayments, paymentSuccessful } from './payment'
@@ -38,7 +38,7 @@ const ipc = createIpc({
   createdInvoice,
 
   receiveBalance,
-  
+
   paymentSuccessful,
 
   channelSuccessful,
@@ -54,7 +54,7 @@ const ipc = createIpc({
 
   connectSuccess,
   disconnectSuccess,
-  
+
   receiveAddress,
   receiveCryptocurrency
 })

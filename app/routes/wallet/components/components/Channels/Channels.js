@@ -24,7 +24,13 @@ const Channels = ({
   explorerLinkBase
 }) => (
   <div className={styles.channels}>
-    <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} explorerLinkBase={explorerLinkBase} closeChannel={closeChannel} />
+    <ChannelModal
+      isOpen={channelModalOpen}
+      resetChannel={setChannel}
+      channel={modalChannel}
+      explorerLinkBase={explorerLinkBase}
+      closeChannel={closeChannel}
+    />
     <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} openChannel={openChannel} currentTicker={currentTicker} />
     <div className={styles.header}>
       <h3>Channels</h3>

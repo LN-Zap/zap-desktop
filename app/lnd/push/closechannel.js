@@ -10,7 +10,6 @@ export default function pushclosechannel(lnd, event, payload) {
 
       resolve(null, payload)
     } catch (error) {
-      console.log('error: ', error)
       reject(error, null)
     }
   })

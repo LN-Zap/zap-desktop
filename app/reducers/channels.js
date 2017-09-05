@@ -111,7 +111,19 @@ export const pushchannelstatus = () => (dispatch) => {
 export const closeChannel = ({ channel_point }) => (dispatch) => {
   dispatch(closingChannel())
   const channelPoint = channel_point.split(':')
-  ipcRenderer.send('lnd', { msg: 'closeChannel', data: { channel_point: { funding_txid: channelPoint[0], output_index: channelPoint[1] }, force: true } })
+  ipcRenderer.send(
+    'lnd',
+    {
+      msg: 'closeChannel',
+      data: {
+        channel_point: {
+          funding_txid: channelPoint[0],
+          output_index: channelPoint[1]
+        },
+        force: true
+      }
+    }
+  )
 }
 
 // TODO: Decide how to handle streamed updates for closing channels
@@ -203,7 +215,7 @@ const initialState = {
     push_amt: ''
   },
   openingChannel: false,
-  closeChannel: false
+  closingChannel: false
 }
 
 export default function channelsReducer(state = initialState, action) {
