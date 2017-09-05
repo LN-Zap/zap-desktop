@@ -6,7 +6,7 @@ import { MdAccountBalanceWallet } from 'react-icons/lib/md'
 import { FaClockO, FaDollar } from 'react-icons/lib/fa'
 import CryptoIcon from '../../../../components/CryptoIcon'
 import CurrencyIcon from '../../../../components/CurrencyIcon'
-import { btc } from '../../../../utils'
+import { btc, usd } from '../../../../utils'
 import styles from './Nav.scss'
 
 const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
@@ -14,7 +14,7 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
     <ul className={styles.info}>
       <li className={`${styles.currencies} ${styles.link}`}>
         <span
-          data-hint={currentTicker ? currentTicker.price_usd : null}
+          data-hint={currentTicker ? usd.formatUsd(currentTicker.price_usd) : null}
           className={`${styles.currency} ${ticker.currency === ticker.crypto ? styles.active : ''} hint--bottom`}
           onClick={() => setCurrency(ticker.crypto)}
         >
