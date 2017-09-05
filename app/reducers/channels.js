@@ -110,9 +110,8 @@ export const pushchannelstatus = () => (dispatch) => {
 // Send IPC event for opening a channel
 export const closeChannel = ({ channel_point }) => (dispatch) => {
   dispatch(closingChannel())
-  console.log('channel_point: ', channel_point)
   const channelPoint = channel_point.split(':')
-  ipcRenderer.send('lnd', { msg: 'closeChannel', data: { channel_point: { funding_txid_str: channelPoint[0], output_index: parseInt(channelPoint[1]) }, force: true } })
+  ipcRenderer.send('lnd', { msg: 'closeChannel', data: { channel_point: { funding_txid: channelPoint[0], output_index: channelPoint[1] }, force: true } })
 }
 
 // TODO: Decide how to handle streamed updates for closing channels

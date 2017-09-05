@@ -1,5 +1,4 @@
 export default function pushclosechannel(lnd, event, payload) {
-  console.log('here with payload: ', payload)
   return new Promise((resolve, reject) => {
     try {
       const call = lnd.closeChannel(payload)
@@ -9,7 +8,6 @@ export default function pushclosechannel(lnd, event, payload) {
       call.on('error', error => event.sender.send('pushclosechannelerror', { error }))
       call.on('status', status => event.sender.send('pushclosechannelstatus', { status }))
 
-      console.log('call: ', call)
       resolve(null, payload)
     } catch (error) {
       console.log('error: ', error)
