@@ -36,7 +36,7 @@ After the repo is cloned, you'll want to generate a Node.js compatible cert
 # For Linux
 $ cd ~/.lnd
 # For Mac
-$ cd /Users/{your_user_name}/Library/Application Support/Lnd
+$ cd ~/Library/Application\ Support/Lnd
 # For Windows
 $ cd \Users\{your_user_name}\AppData\Local\Lnd
 
