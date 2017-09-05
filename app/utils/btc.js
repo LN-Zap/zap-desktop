@@ -13,7 +13,8 @@ export function satoshisToBtc(satoshis) {
 }
 
 export function btcToUsd(btc, price) {
-  return parseFloat((btc * price).toFixed(2)).toLocaleString('en')
+  const amount = parseFloat(btc * price).toFixed(2)
+  return (btc > 0 && amount <= 0) ? '< 0.01' : amount.toLocaleString('en')
 }
 
 export function satoshisToUsd(satoshis, price) {
