@@ -19,11 +19,18 @@ const Channels = ({
   setChannelForm,
   allChannels,
   openChannel,
+  closeChannel,
   currentTicker,
   explorerLinkBase
 }) => (
   <div className={styles.channels}>
-    <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} explorerLinkBase={explorerLinkBase} />
+    <ChannelModal
+      isOpen={channelModalOpen}
+      resetChannel={setChannel}
+      channel={modalChannel}
+      explorerLinkBase={explorerLinkBase}
+      closeChannel={closeChannel}
+    />
     <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} openChannel={openChannel} currentTicker={currentTicker} />
     <div className={styles.header}>
       <h3>Channels</h3>
@@ -88,6 +95,7 @@ Channels.propTypes = {
   setChannelForm: PropTypes.func.isRequired,
   allChannels: PropTypes.array.isRequired,
   openChannel: PropTypes.func.isRequired,
+  closeChannel: PropTypes.func.isRequired,
   currentTicker: PropTypes.object.isRequired,
   explorerLinkBase: PropTypes.string.isRequired
 }

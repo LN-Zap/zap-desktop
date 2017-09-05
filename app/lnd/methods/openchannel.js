@@ -1,5 +1,5 @@
 import bitcore from 'bitcore-lib'
-import pushchannel from '../push/channel'
+import pushopenchannel from '../push/openchannel'
 
 const BufferUtil = bitcore.util.buffer
 
@@ -12,7 +12,7 @@ export default function openchannel(lnd, event, payload) {
   }
 
   return new Promise((resolve, reject) =>
-    pushchannel(lnd, event, res)
+    pushopenchannel(lnd, event, res)
       .then(data => resolve(data))
       .catch(error => reject(error))
   )

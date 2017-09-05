@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import styles from './ChannelModal.scss'
 
-const ChannelModal = ({ isOpen, resetChannel, channel, explorerLinkBase }) => {
+const ChannelModal = ({ isOpen, resetChannel, channel, explorerLinkBase, closeChannel }) => {
   const customStyles = {
     overlay: {
       cursor: 'pointer',
@@ -19,6 +19,11 @@ const ChannelModal = ({ isOpen, resetChannel, channel, explorerLinkBase }) => {
       margin: '50px auto',
       padding: '40px'
     }
+  }
+
+  const closeChannelClicked = () => {
+    closeChannel({ channel_point: channel.channel_point })
+    resetChannel(null)
   }
 
   return (
@@ -71,7 +76,7 @@ const ChannelModal = ({ isOpen, resetChannel, channel, explorerLinkBase }) => {
                 <dd>{channel.num_updates}</dd>
               </dl>
             </div>
-            <div className={styles.close}>
+            <div className={styles.close} onClick={closeChannelClicked}>
               <div>Close channel</div>
             </div>
             <footer className={styles.active}>
@@ -89,7 +94,8 @@ ChannelModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   resetChannel: PropTypes.func.isRequired,
   channel: PropTypes.object,
-  explorerLinkBase: PropTypes.string.isRequired
+  explorerLinkBase: PropTypes.string.isRequired,
+  closeChannel: PropTypes.func.isRequired
 }
 
 export default ChannelModal

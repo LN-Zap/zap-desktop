@@ -14,6 +14,10 @@ export const OPENING_CHANNEL = 'OPENING_CHANNEL'
 export const OPENING_SUCCESSFUL = 'OPENING_SUCCESSFUL'
 export const OPENING_FAILURE = 'OPENING_FAILURE'
 
+export const CLOSING_CHANNEL = 'CLOSING_CHANNEL'
+export const CLOSING_SUCCESSFUL = 'CLOSING_SUCCESSFUL'
+export const CLOSING_FAILURE = 'CLOSING_FAILURE'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -41,6 +45,12 @@ export function getChannels() {
 export function openingChannel() {
   return {
     type: OPENING_CHANNEL
+  }
+}
+
+export function closingChannel() {
+  return {
+    type: CLOSING_CHANNEL
   }
 }
 
@@ -97,6 +107,51 @@ export const pushchannelstatus = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
+// Send IPC event for opening a channel
+export const closeChannel = ({ channel_point }) => (dispatch) => {
+  dispatch(closingChannel())
+  const channelPoint = channel_point.split(':')
+  ipcRenderer.send(
+    'lnd',
+    {
+      msg: 'closeChannel',
+      data: {
+        channel_point: {
+          funding_txid: channelPoint[0],
+          output_index: channelPoint[1]
+        },
+        force: true
+      }
+    }
+  )
+}
+
+// TODO: Decide how to handle streamed updates for closing channels
+// Receive IPC event for closeChannel
+export const closeChannelSuccessful = () => (dispatch) => {
+  dispatch(fetchChannels())
+}
+
+// Receive IPC event for updated closing channel
+export const pushclosechannelupdated = () => (dispatch) => {
+  dispatch(fetchChannels())
+}
+
+// Receive IPC event for closing channel end
+export const pushclosechannelend = () => (dispatch) => {
+  dispatch(fetchChannels())
+}
+
+// Receive IPC event for closing channel error
+export const pushclosechannelerror = () => (dispatch) => {
+  dispatch(fetchChannels())
+}
+
+// Receive IPC event for closing channel status
+export const pushclosechannelstatus = () => (dispatch) => {
+  dispatch(fetchChannels())
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -112,7 +167,8 @@ const ACTION_HANDLERS = {
     { ...state, channelsLoading: false, channels, pendingChannels }
   ),
 
-  [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true })
+  [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
+  [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true })
 }
 
 const channelsSelectors = {}
@@ -158,7 +214,8 @@ const initialState = {
     local_amt: '',
     push_amt: ''
   },
-  openingChannel: false
+  openingChannel: false,
+  closingChannel: false
 }
 
 export default function channelsReducer(state = initialState, action) {
