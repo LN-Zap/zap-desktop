@@ -21,6 +21,11 @@ const ChannelModal = ({ isOpen, resetChannel, channel, explorerLinkBase, closeCh
     }
   }
 
+  const closeChannelClicked = () => {
+    closeChannel({ channel_point: channel.channel_point })
+    resetChannel(null)
+  }
+
   return (
     <ReactModal
       isOpen={isOpen}
@@ -71,7 +76,7 @@ const ChannelModal = ({ isOpen, resetChannel, channel, explorerLinkBase, closeCh
                 <dd>{channel.num_updates}</dd>
               </dl>
             </div>
-            <div className={styles.close} onClick={() => closeChannel({ channel_point: channel.channel_point })}>
+            <div className={styles.close} onClick={closeChannelClicked}>
               <div>Close channel</div>
             </div>
             <footer className={styles.active}>
