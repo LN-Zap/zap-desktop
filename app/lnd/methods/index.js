@@ -96,7 +96,10 @@ export default function (lnd, event, msg, data) {
     // Transaction looks like { txid: String }
     // { addr, amount } = data
       sendcoins(lnd, data)
-        .then((transaction) => event.sender.send('sendSuccessful', transaction)
+        .then((transaction) => {
+          console.log('transaction: ', transaction)
+          event.sender.send('sendSuccessful', { transaction })
+        })
         .catch(error => console.log('sendcoins error: ', error))
       break
     case 'openChannel':
