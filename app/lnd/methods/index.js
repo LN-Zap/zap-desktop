@@ -15,6 +15,7 @@ import payinvoice from './payinvoice'
 import payments from './payments'
 import peers from './peers'
 import pendingchannels from './pendingchannels'
+import sendcoins from './sendcoins'
 import walletbalance from './walletbalance'
 
 export default function (lnd, event, msg, data) {
@@ -90,6 +91,16 @@ export default function (lnd, event, msg, data) {
       payinvoice(lnd, data)
         .then(({ payment_route }) => event.sender.send('paymentSuccessful', Object.assign(data, { payment_route })))
         .catch(error => console.log('payinvoice error: ', error))
+      break
+    case 'sendCoins':
+    // Transaction looks like { txid: String }
+    // { addr, amount } = data
+      sendcoins(lnd, data)
+        .then((transaction) => {
+          console.log('transaction: ', transaction)
+          event.sender.send('sendSuccessful', { transaction })
+        })
+        .catch(error => console.log('sendcoins error: ', error))
       break
     case 'openChannel':
     // Response is empty. Streaming updates on channel status and updates
