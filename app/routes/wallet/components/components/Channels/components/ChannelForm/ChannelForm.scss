@@ -27,6 +27,15 @@
 		padding-top: 19px;
   	padding-bottom: 12px;
   	color: $traditionalgrey;
+
+    svg[data-icon='ltc'] {
+      width: 18px;
+      height: 16px;
+
+      g {
+        transform: scale(1.75) translate(-5px, -5px);
+      }
+    }
 	}
 
 	input[type=text] {

@@ -18,11 +18,20 @@ const Channels = ({
   channelForm,
   setChannelForm,
   allChannels,
-  openChannel
+  openChannel,
+  closeChannel,
+  currentTicker,
+  explorerLinkBase
 }) => (
   <div className={styles.channels}>
-    <ChannelModal isOpen={channelModalOpen} resetChannel={setChannel} channel={modalChannel} />
-    <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} openChannel={openChannel} />
+    <ChannelModal
+      isOpen={channelModalOpen}
+      resetChannel={setChannel}
+      channel={modalChannel}
+      explorerLinkBase={explorerLinkBase}
+      closeChannel={closeChannel}
+    />
+    <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} openChannel={openChannel} currentTicker={currentTicker} />
     <div className={styles.header}>
       <h3>Channels</h3>
       <div
@@ -39,11 +48,23 @@ const Channels = ({
           allChannels.map((channel, index) => {
             if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
               return (
-                <OpenPendingChannel key={index} channel={channel} ticker={ticker} />
+                <OpenPendingChannel
+                  key={index}
+                  channel={channel}
+                  ticker={ticker}
+                  currentTicker={currentTicker}
+                  explorerLinkBase={explorerLinkBase}
+                />
               )
             } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
               return (
-                <ClosedPendingChannel key={index} channel={channel} ticker={ticker} />
+                <ClosedPendingChannel
+                  key={index}
+                  channel={channel}
+                  ticker={ticker}
+                  currentTicker={currentTicker}
+                  explorerLinkBase={explorerLinkBase}
+                />
               )
             }
             return (
@@ -52,6 +73,7 @@ const Channels = ({
                 ticker={ticker}
                 channel={channel}
                 setChannel={setChannel}
+                currentTicker={currentTicker}
               />
             )
           })
@@ -72,7 +94,10 @@ Channels.propTypes = {
   channelForm: PropTypes.object.isRequired,
   setChannelForm: PropTypes.func.isRequired,
   allChannels: PropTypes.array.isRequired,
-  openChannel: PropTypes.func.isRequired
+  openChannel: PropTypes.func.isRequired,
+  closeChannel: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+  explorerLinkBase: PropTypes.string.isRequired
 }
 
 export default Channels

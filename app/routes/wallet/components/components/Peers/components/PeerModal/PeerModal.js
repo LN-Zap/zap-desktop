@@ -4,11 +4,6 @@ import ReactModal from 'react-modal'
 import styles from './PeerModal.scss'
 
 const PeerModal = ({ isOpen, resetPeer, peer, disconnect }) => {
-  const disconnectClicked = () => {
-    disconnect({ pubkey: peer.pub_key })
-      .then(success => (success ? resetPeer(null) : null))
-  }
-
   const customStyles = {
     overlay: {
       cursor: 'pointer',
@@ -55,7 +50,7 @@ const PeerModal = ({ isOpen, resetPeer, peer, disconnect }) => {
                 <dd>{peer.bytes_sent}</dd>
               </dl>
             </div>
-            <div className={styles.close} onClick={disconnectClicked}>
+            <div className={styles.close} onClick={() => disconnect({ pubkey: peer.pub_key })}>
               <div>Disconnect peer</div>
             </div>
           </div>

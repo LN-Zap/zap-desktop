@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import App from '../components/App'
-import { fetchTicker, setCurrency } from '../../../reducers/ticker'
+import { fetchTicker, setCurrency, tickerSelectors } from '../../../reducers/ticker'
 import { fetchBalance } from '../../../reducers/balance'
 import { fetchInfo } from '../../../reducers/info'
 import { createInvoice, fetchInvoice } from '../../../reducers/invoice'
@@ -35,7 +35,9 @@ const mapStateToProps = state => ({
   balance: state.balance,
   payment: state.payment,
   form: state.form,
-  invoice: state.invoice
+  invoice: state.invoice,
+
+  currentTicker: tickerSelectors.currentTicker(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

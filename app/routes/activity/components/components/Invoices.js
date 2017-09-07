@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import 'moment-timezone'
-import { FaBitcoin, FaDollar } from 'react-icons/lib/fa'
 import { MdCheck } from 'react-icons/lib/md'
 import QRCode from 'qrcode.react'
 import Modal from './Modal'
+import CurrencyIcon from '../../../../components/CurrencyIcon'
 import { btc } from '../../../../utils'
 import styles from './Invoices.scss'
 
@@ -14,7 +14,8 @@ const Invoices = ({
   invoices,
   ticker,
   setInvoice,
-  invoiceModalOpen
+  invoiceModalOpen,
+  currentTicker
 }) => (
   <div>
     <Modal isOpen={invoiceModalOpen} resetObject={setInvoice}>
@@ -23,18 +24,13 @@ const Invoices = ({
           <div className={styles.invoiceModal}>
             <h3>{invoice.memo}</h3>
             <h1>
-              {
-                ticker.currency === 'btc' ?
-                  <FaBitcoin style={{ verticalAlign: 'top' }} />
-                  :
-                  <FaDollar style={{ verticalAlign: 'top' }} />
-              }
+              <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} styles={{ verticalAlign: 'top' }} />
               <span className={styles.value}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(invoice.value)
+                  ticker.currency === 'usd' ?
+                    btc.satoshisToUsd(invoice.value, currentTicker.price_usd)
                     :
-                    btc.satoshisToUsd(invoice.value, ticker.btcTicker.price_usd)
+                    btc.satoshisToBtc(invoice.value)
                 }
               </span>
             </h1>
@@ -88,10 +84,10 @@ const Invoices = ({
             <div className={styles.right}>
               <div className={invoiceItem.settled ? styles.settled : null}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(invoiceItem.value)
+                  ticker.currency === 'usd' ?
+                    btc.satoshisToUsd(invoiceItem.value, currentTicker.price_usd)
                     :
-                    btc.satoshisToUsd(invoiceItem.value, ticker.btcTicker.price_usd)
+                    btc.satoshisToBtc(invoiceItem.value)
                 }
               </div>
             </div>
@@ -107,7 +103,8 @@ Invoices.propTypes = {
   invoices: PropTypes.array.isRequired,
   ticker: PropTypes.object.isRequired,
   setInvoice: PropTypes.func.isRequired,
-  invoiceModalOpen: PropTypes.bool.isRequired
+  invoiceModalOpen: PropTypes.bool.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Invoices

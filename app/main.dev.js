@@ -11,8 +11,9 @@
  *
  * @flow
  */
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, ipcMain } from 'electron'
 import MenuBuilder from './menu'
+import lnd from './lnd'
 
 let mainWindow = null;
 
@@ -28,7 +29,7 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
   require('module').globalPaths.push(p);
 
   // set icon
-  app.dock.setIcon(`${path.join(__dirname, '..', 'resources')}/zap_2.png`)
+  // app.dock.setIcon(`${path.join(__dirname, '..', 'resources')}/zap_2.png`)
 }
 
 const installExtensions = async () => {
@@ -90,3 +91,8 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 });
+
+ipcMain.on('lnd', (event, { msg, data }) => {
+  lnd(event, msg, data)
+})
+

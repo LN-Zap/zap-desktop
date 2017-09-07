@@ -18,10 +18,9 @@ Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUy
 
 * **An up and running BTCD**
 * **An up and running LND** - see [install.md](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md)
-* **Zap Node.js** - see [Zap Node.js](https://github.com/LN-Zap/zap-nodejs)
 * **Node.js version >= 7 and npm version >= 4.**
 
-*For now Zap assumes you are running BTCD, LND and Zap Node.js (will change soon).*
+*For now Zap assumes you are running BTCD, LND*
 
 ## Install
 
@@ -32,11 +31,46 @@ After installing the above requirements, clone the repo via git:
 git clone https://github.com/LN-Zap/zap-desktop.git
 ```
 
+After the repo is cloned, you'll want to generate a Node.js compatible cert
+```bash
+# For Linux
+$ cd ~/.lnd
+# For Mac
+$ cd ~/Library/Application\ Support/Lnd
+# For Windows
+$ cd \Users\{your_user_name}\AppData\Local\Lnd
+
+# Then generate the cert
+$ openssl ecparam -genkey -name prime256v1 -out tls.key
+$ openssl req -new -sha256 -key tls.key -out csr.csr -subj '/CN=localhost/O=lnd'
+$ openssl req -x509 -sha256 -days 3650 -key tls.key -in csr.csr -out tls.cert
+$ rm csr.csr
+```
+
+Once you've created the Node.js compatible cert, paste the path to your cert in app/lnd/config/index.js: 
+```bash
+// Cert will be located depending on your machine
+// Mac OS X: /Users/{your_user_name}/Library/Application Support/Lnd/tls.cert
+// Linux: ~/.lnd/tls.cert
+// Windows: C:\Users\{your_user_name}\AppData\Local\Lnd\tls.cert
+
+export default {
+  ...,
+  cert: '/path/to/cert/tls.cert'
+}
+```
+
 And then install dependencies with yarn
 
 ```bash
 $ cd zap-desktop
 $ yarn
+
+# For Mac & Linux
+$ ./node_modules/.bin/electron-rebuild
+
+# For Windows
+$ .\node_modules\.bin\electron-rebuild.cmd
 ```
 
 Then to start it:
@@ -61,7 +95,7 @@ Please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/m
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) before tackling a todo to avoid duplicate work. This list will be updated daily to show what todos are being worked on
 
 ### Refactor
-- [ ] Move Node.js proxy to [ipcRenderer](https://electron.atom.io/docs/api/ipc-renderer/) (roasbeef recommendation)
+- [x] Move Node.js proxy to ipcRenderer. [Done](https://github.com/LN-Zap/zap-desktop/pull/4)
 - [ ] Use two package.json [structure](https://github.com/electron-userland/electron-builder/wiki/Two-package.json-Structure) 
 - [ ] General refactor (I know this TODO sucks but the code is a bit sloppy still)
 

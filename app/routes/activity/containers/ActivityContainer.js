@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { tickerSelectors } from '../../../reducers/ticker'
 import {
   fetchInvoices,
   searchInvoices,
@@ -31,7 +32,9 @@ const mapStateToProps = state => ({
   ticker: state.ticker,
 
   paymentModalOpen: paymentSelectors.paymentModalOpen(state),
-  invoiceModalOpen: invoiceSelectors.invoiceModalOpen(state)
+  invoiceModalOpen: invoiceSelectors.invoiceModalOpen(state),
+
+  currentTicker: tickerSelectors.currentTicker(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity)

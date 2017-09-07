@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import 'moment-timezone'
-import { FaBitcoin, FaDollar } from 'react-icons/lib/fa'
 import Modal from './Modal'
+import CurrencyIcon from '../../../../components/CurrencyIcon'
 import { btc } from '../../../../utils'
 import styles from './Payments.scss'
 
@@ -12,7 +12,8 @@ const Payments = ({
   payments,
   ticker,
   setPayment,
-  paymentModalOpen
+  paymentModalOpen,
+  currentTicker
 }) => (
   <div>
     <Modal isOpen={paymentModalOpen} resetObject={setPayment}>
@@ -21,18 +22,13 @@ const Payments = ({
           <div className={styles.paymentModal}>
             <h3>{payment.payment_hash}</h3>
             <h1>
-              {
-                ticker.currency === 'btc' ?
-                  <FaBitcoin style={{ verticalAlign: 'top' }} />
-                  :
-                  <FaDollar style={{ verticalAlign: 'top' }} />
-              }
+              <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} styles={{ verticalAlign: 'top' }} />
               <span className={styles.value}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(payment.value)
+                  ticker.currency === 'usd' ?
+                    btc.satoshisToUsd(payment.value, currentTicker.price_usd)
                     :
-                    btc.satoshisToUsd(payment.value, ticker.btcTicker.price_usd)
+                    btc.satoshisToBtc(payment.value)
                 }
               </span>
             </h1>
@@ -72,26 +68,26 @@ const Payments = ({
             </div>
             <div className={styles.center}>
               <div className={styles.date}>
-                <Moment format='MMMM Do'>{paymentItem.creation_date * 1000}</Moment>
+                <Moment format='MMM Do'>{paymentItem.creation_date * 1000}</Moment>
               </div>
             </div>
             <div className={styles.right}>
               <span className={styles.fee}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(paymentItem.fee)
+                  ticker.currency === 'usd' ?
+                    btc.satoshisToUsd(paymentItem.fee, currentTicker.price_usd)
                     :
-                    btc.satoshisToUsd(paymentItem.fee, ticker.btcTicker.price_usd)
+                    btc.satoshisToBtc(paymentItem.fee)
                 }
               </span>
             </div>
             <div className={styles.right}>
               <span className={styles.value}>
                 {
-                  ticker.currency === 'btc' ?
-                    btc.satoshisToBtc(paymentItem.value)
+                  ticker.currency === 'usd' ?
+                    btc.satoshisToUsd(paymentItem.value, currentTicker.price_usd)
                     :
-                    btc.satoshisToUsd(paymentItem.value, ticker.btcTicker.price_usd)
+                    btc.satoshisToBtc(paymentItem.value)
                 }
               </span>
             </div>
@@ -107,7 +103,8 @@ Payments.propTypes = {
   payments: PropTypes.array.isRequired,
   ticker: PropTypes.object.isRequired,
   setPayment: PropTypes.func.isRequired,
-  paymentModalOpen: PropTypes.bool.isRequired
+  paymentModalOpen: PropTypes.bool.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Payments

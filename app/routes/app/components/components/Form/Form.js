@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaDollar, FaBitcoin } from 'react-icons/lib/fa'
 import { MdClose } from 'react-icons/lib/md'
+import CurrencyIcon from '../../../../../components/CurrencyIcon'
 import { btc } from '../../../../../utils'
 import styles from './Form.scss'
 
@@ -10,26 +10,23 @@ const Form = ({
   setAmount,
   setMessage,
   setPaymentRequest,
-  ticker: { currency, btcTicker },
+  ticker: { currency, crypto },
   isOpen,
   close,
   createInvoice,
   payInvoice,
   fetchInvoice,
-  formInvoice
+  formInvoice,
+  currentTicker
 }) => {
   const requestClicked = () => {
-    createInvoice(amount, message, currency, btcTicker.price_usd)
-      .then((success) => {
-        if (success) { close() }
-      })
+    createInvoice(amount, message, currency, currentTicker.price_usd)
+    close()
   }
 
   const payClicked = () => {
     payInvoice(payment_request)
-      .then((success) => {
-        if (success) { close() }
-      })
+    close()
   }
 
   const paymentRequestOnChange = (payreq) => {
@@ -37,7 +34,7 @@ const Form = ({
     if (payreq.length === 124) { fetchInvoice(payreq) }
   }
 
-  const calculateAmount = value => (currency === 'btc' ? btc.satoshisToBtc(value) : btc.satoshisToUsd(value, btcTicker.price_usd))
+  const calculateAmount = value => (currency === 'usd' ? btc.satoshisToUsd(value, currentTicker.price_usd) : btc.satoshisToBtc(value))
 
   return (
     <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
@@ -48,19 +45,14 @@ const Form = ({
         <div className={styles.content}>
           <section className={styles.amountContainer}>
             <label htmlFor='amount'>
-              {
-                currency === 'btc' ?
-                  <FaBitcoin />
-                  :
-                  <FaDollar />
-              }
+              <CurrencyIcon currency={currency} crypto={crypto} />
             </label>
             <input
               type='text'
               size=''
               style={
                 formType === 'pay' ?
-                  { width: '75%', fontSize: '100px' }
+                  { width: '75%', fontSize: '85px' }
                   :
                   { width: `${amount.length > 1 ? (amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }
               }
@@ -125,7 +117,8 @@ Form.propTypes = {
   createInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
-  formInvoice: PropTypes.object.isRequired
+  formInvoice: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Form

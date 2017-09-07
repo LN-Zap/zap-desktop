@@ -7,18 +7,42 @@
 .header {
 	background: $white;
 	padding: 80px 30px;
-	text-align: center;
 	border-bottom: 1px solid $darkgrey;
+	text-align: center;
+
+	.walletInfo {
+		width: 75%;
+		margin: 0 auto;
+	}
 
 	svg {
 		width: 100px;
 		height: 100px;
+		text-align: center;
 	}
 
 	h1 {
-		color: $black;
 		font-size: 20px;
 		margin: 20px 0;
+		font-weight: bold;
+		color: $black;
+		text-align: center;
+	}
+
+	.address {
+		text-align: center;
+		margin-top: 10px;
+
+		input[type=text] {
+			width: 50%;
+			text-align: center;
+			font-size: 14px;
+			font-weight: 200;
+			border-radius: 7px;
+			background: $lightgrey;
+			border: 1px solid $main;
+			padding: 10px;
+		}
 	}
 }
 

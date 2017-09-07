@@ -1,7 +1,8 @@
 import tickerReducer, {
   SET_CURRENCY,
-  GET_TICKER,
-  RECIEVE_TICKER
+  SET_CRYPTO,
+  GET_TICKERS,
+  RECIEVE_TICKERS
 } from '../../app/reducers/ticker'
 
 describe('reducers', () => {
@@ -14,24 +15,32 @@ describe('reducers', () => {
       expect(SET_CURRENCY).toEqual('SET_CURRENCY')
     })
 
+    it('should have SET_CRYPTO', () => {
+      expect(SET_CRYPTO).toEqual('SET_CRYPTO')
+    })
+
     it('should have GET_TICKER', () => {
-      expect(GET_TICKER).toEqual('GET_TICKER')
+      expect(GET_TICKERS).toEqual('GET_TICKERS')
     })
 
     it('should have RECIEVE_TICKER', () => {
-      expect(RECIEVE_TICKER).toEqual('RECIEVE_TICKER')
+      expect(RECIEVE_TICKERS).toEqual('RECIEVE_TICKERS')
     })
 
     it('should correctly setCurrency', () => {
       expect(tickerReducer(undefined, { type: SET_CURRENCY, currency: 'foo' })).toMatchSnapshot()
     })
 
+    it('should correctly setCrypto', () => {
+      expect(tickerReducer(undefined, { type: SET_CRYPTO, crypto: 'foo' })).toMatchSnapshot()
+    })
+
     it('should correctly getTicker', () => {
-      expect(tickerReducer(undefined, { type: GET_TICKER })).toMatchSnapshot()
+      expect(tickerReducer(undefined, { type: GET_TICKERS })).toMatchSnapshot()
     })
 
     it('should correctly receiveTicker', () => {
-      expect(tickerReducer(undefined, { type: RECIEVE_TICKER, ticker: 'foo' })).toMatchSnapshot()
+      expect(tickerReducer(undefined, { type: RECIEVE_TICKERS, ticker: 'foo' })).toMatchSnapshot()
     })
   })
 })

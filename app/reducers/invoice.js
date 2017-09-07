@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { callApi } from '../api'
+import { ipcRenderer } from 'electron'
 import { btc, usd } from '../utils'
 // ------------------------------------
 // Constants
@@ -50,23 +50,9 @@ export function receiveInvoice(invoice) {
   }
 }
 
-export function receiveFormInvoice(formInvoice) {
-  return {
-    type: RECEIVE_FORM_INVOICE,
-    formInvoice
-  }
-}
-
 export function getInvoices() {
   return {
     type: GET_INVOICES
-  }
-}
-
-export function receiveInvoices(data) {
-  return {
-    type: RECEIVE_INVOICES,
-    invoices: data.invoices.reverse()
   }
 }
 
@@ -76,56 +62,39 @@ export function sendInvoice() {
   }
 }
 
-export function invoiceSuccessful(invoice) {
-  return {
-    type: INVOICE_SUCCESSFUL,
-    invoice
-  }
-}
-
 export function invoiceFailed() {
   return {
     type: INVOICE_FAILED
   }
 }
 
-export const fetchInvoice = payreq => async (dispatch) => {
+// Send IPC event for a specific invoice
+export const fetchInvoice = payreq => (dispatch) => {
   dispatch(getInvoice())
-  const invoice = await callApi(`invoice/${payreq}`, 'get')
-
-  if (invoice) {
-    dispatch(receiveFormInvoice(invoice.data))
-    return true
-  }
-  dispatch(invoiceFailed())
-  return false
+  ipcRenderer.send('lnd', { msg: 'invoice', data: { payreq } })
 }
 
-export const fetchInvoices = () => async (dispatch) => {
-  dispatch(getInvoice())
-  const invoices = await callApi('invoices')
-  if (invoices) {
-    dispatch(receiveInvoices(invoices.data))
-  } else {
-    dispatch(invoiceFailed())
-  }
+// Receive IPC event for form invoice
+export const receiveFormInvoice = (event, formInvoice) => dispatch => dispatch({ type: RECEIVE_FORM_INVOICE, formInvoice })
 
-  return invoices
+// Send IPC event for invoices
+export const fetchInvoices = () => (dispatch) => {
+  dispatch(getInvoices())
+  ipcRenderer.send('lnd', { msg: 'invoices' })
 }
 
-export const createInvoice = (amount, memo, currency, rate) => async (dispatch) => {
+// Receive IPC event for invoices
+export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ type: RECEIVE_INVOICES, invoices })
+
+// Send IPC event for creating an invoice
+export const createInvoice = (amount, memo, currency, rate) => (dispatch) => {
   const value = currency === 'btc' ? btc.btcToSatoshis(amount) : btc.btcToSatoshis(usd.usdToBtc(amount, rate))
-
   dispatch(sendInvoice())
-  const invoice = await callApi('addinvoice', 'post', { value, memo })
-  if (invoice) {
-    dispatch(invoiceSuccessful({ memo, value, payment_request: invoice.data.payment_request }))
-  } else {
-    dispatch(invoiceFailed())
-  }
-
-  return invoice
+  ipcRenderer.send('lnd', { msg: 'createInvoice', data: { value, memo } })
 }
+
+// Receive IPC event for newly created invoice
+export const createdInvoice = (event, invoice) => dispatch => dispatch({ type: INVOICE_SUCCESSFUL, invoice })
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
