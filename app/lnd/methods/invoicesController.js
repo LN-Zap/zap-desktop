@@ -66,4 +66,19 @@ export function lookupInvoice(lnd, { rhash }) {
     })
   })
 }
-//TODO - SubscribeInvoice
+
+
+/**
+ * [subscribeInvoices description]
+ * @param  {[type]} lnd   [description]
+ * @param  {[type]} event [description]
+ * @return {[type]}       [description]
+ */
+export function subscribeInvoices(lnd, event) {
+  return new Promise((resolve, reject) => {
+
+    pushinvoices(lnd, event)
+    .then(data => resolve(data))
+    .catch(error => reject(error))
+  })
+}
