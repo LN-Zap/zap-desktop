@@ -5,5 +5,5 @@
 export default {
   lightningRpc: `${__dirname}/rpc.proto`,
   lightningHost: 'localhost:10009',
-  cert: '/Users/jmow/Library/Application Support/Lnd/tls.cert'
+  cert: '/Users/joaoalmeida/Library/Application\ Support/Lnd/tls.cert'
 }
