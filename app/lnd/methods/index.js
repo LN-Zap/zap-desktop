@@ -30,6 +30,9 @@ import * as networkController from './networkController'
 //TODO - DescribeGraph
 //TODO - GetNetworkInfo
 //TODO - QueryRoutes
+//TODO - DecodePayReq
+//TODO - SendPayment
+//TODO - DeleteAllPayments
 
 
 

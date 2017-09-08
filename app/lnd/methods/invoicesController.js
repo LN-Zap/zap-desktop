@@ -49,4 +49,21 @@ export function getInvoice(payreq) {
   })
 }
 
+
+/**
+ * [lookupInvoice description]
+ * @param  {[type]} lnd   [description]
+ * @param  {[type]} rhash [description]
+ * @return {[type]}       [description]
+ */
+export function lookupInvoice(lnd, { rhash }) {
+  return new Prommise ((resolve, reject) => {
+
+    lnd.lookupInvoice({r_hash: rhash}, (err, data) => {
+      if(err) { reject (err) }
+
+      resolve(data)
+    })
+  })
+}
 //TODO - SubscribeInvoice
