@@ -1,5 +1,5 @@
 /**
- * [connectpeer description]
+ * Attempts to establish a connection to a remote peer
  * @param  {[type]} lnd    [description]
  * @param  {[type]} pubkey [description]
  * @param  {[type]} host   [description]
@@ -18,7 +18,7 @@ export function connectPeer(lnd, { pubkey, host }) {
 
 
 /**
- * [disconnectpeer description]
+ * Attempts to disconnect one peer from another
  * @param  {[type]} lnd    [description]
  * @param  {[type]} pubkey [description]
  * @return {[type]}        [description]
@@ -36,7 +36,7 @@ export function disconnectPeer(lnd, { pubkey }) {
 
 
 /**
- * [peers description]
+ * Returns a verbose listing of all currently active peers
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */

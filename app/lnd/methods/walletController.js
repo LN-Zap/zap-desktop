@@ -1,5 +1,5 @@
 /**
- * [walletbalance description]
+ * Returns the sum of all confirmed unspent outputs under control by the wallet
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
@@ -16,7 +16,7 @@ export function walletBalance(lnd) {
 
 
 /**
- * [newAddress description]
+ * Creates a new address under control of the local wallet
  * @param  {[type]} lnd  [description]
  * @param  {[type]} type [description]
  * @return {[type]}      [description]
@@ -33,7 +33,7 @@ export function newAddress(lnd, type) {
 }
 
 /**
- * [newWitnessAddress description]
+ * Creates a new witness address under control of the local wallet
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
@@ -50,7 +50,7 @@ export function newWitnessAddress(lnd, { addr }) {
 
 
 /**
- * [getTransactions description]
+ * Returns a list describing all the known transactions relevant to the wallet
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
@@ -67,7 +67,7 @@ export function getTransactions(lnd) {
 
 
 /**
- * [sendcoins description]
+ * Executes a request to send coins to a particular address
  * @param  {[type]} lnd    [description]
  * @param  {[type]} addr   [description]
  * @param  {[type]} amount [description]

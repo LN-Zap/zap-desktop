@@ -16,7 +16,7 @@ export function getInfo(lnd) {
 
 
 /**
- * [getNodeInfo description]
+ * Returns general information concerning the lightning node
  * @param  {[type]} lnd    [description]
  * @param  {[type]} pubkey [description]
  * @return {[type]}        [description]
@@ -34,7 +34,7 @@ export function getNodeInfo(lnd, { pubkey }) {
 
 
 /**
- * [describeGraph description]
+ * Returns a description of the latest graph state from the point of view of the node
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
@@ -51,7 +51,7 @@ export function describeGraph(lnd) {
 
 
 /**
- * [queryRoutes description]
+ * Attempts to query the daemon’s Channel Router for a possible route to a target destination capable of carrying a specific amount of satoshis
  * @param  {[type]} lnd    [description]
  * @param  {[type]} pubkey [description]
  * @param  {[type]} amount [description]
@@ -70,7 +70,7 @@ export function queryRoutes(lnd, { pubkey, amount }) {
 
 
 /**
- * [getNetworkInfo description]
+ * Returns some basic stats about the known channel graph from the point of view of the node
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */

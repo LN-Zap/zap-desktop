@@ -5,6 +5,7 @@ import pushclosechannel from '../push/closechannel'
 const BufferUtil = bitcore.util.buffer
 
 /**
+ * Attempts to open a singly funded channel specified in the request to a remote peer.
  * @param  {[type]} lnd     [description]
  * @param  {[type]} event   [description]
  * @param  {[type]} payload [description]
@@ -28,7 +29,7 @@ export function openChannel(lnd, event, payload) {
 
 
 /**
- * [channelBalance description]
+ * Returns the total funds available across all open channels in satoshis
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
@@ -45,7 +46,7 @@ export function channelBalance(lnd) {
 
 
 /**
- * [listChannels description]
+ * Returns a description of all the open channels that this node is a participant in
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
@@ -62,7 +63,7 @@ export function listChannels(lnd) {
 
 
 /**
- * [closechannel description]
+ * Attempts to close an active channel identified by its channel outpoint (ChannelPoint)
  * @param  {[type]} lnd     [description]
  * @param  {[type]} event   [description]
  * @param  {[type]} payload [description]
@@ -87,7 +88,7 @@ export function closeChannel(lnd, event, payload) {
 
 
 /**
- * [pendingChannels description]
+ * Returns a list of all the channels that are currently considered “pending"
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
@@ -104,7 +105,7 @@ export function pendingChannels(lnd) {
 
 
 /**
- * [getChanInfo description]
+ * Returns the latest authenticated network announcement for the given channel
  * @param  {[type]} lnd       [description]
  * @param  {[type]} channelId [description]
  * @return {[type]}           [description]

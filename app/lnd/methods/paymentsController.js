@@ -1,5 +1,5 @@
 /**
- * [sendPaymentSync description]
+ * Dispatches a bi-directional streaming RPC for sending payments through the Lightning Network.
  * @param  {[type]} lnd            [description]
  * @param  {[type]} paymentRequest [description]
  * @return {[type]}                [description]
@@ -17,7 +17,7 @@ export function sendPaymentSync(lnd, { paymentRequest }) {
 
 
 /**
- * [sendPayment description]
+ * Synchronous non-streaming version of SendPayment
  * @param  {[type]} lnd            [description]
  * @param  {[type]} paymentRequest [description]
  * @return {[type]}                [description]
@@ -34,7 +34,7 @@ export function sendPayment(lnd, { paymentRequest }) {
 }
 
 /**
- * [decodePayReq description]
+ * Returns a full description of the conditions encoded within the payment request
  * @param  {[type]} lnd    [description]
  * @param  {[type]} payReq [description]
  * @return {[type]}        [description]
@@ -51,7 +51,7 @@ export function decodePayReq(lnd, { payReq }) {
 }
 
 /**
- * [listPayments description]
+ * Returns a list of all outgoing payments
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
@@ -66,7 +66,11 @@ export function listPayments(lnd) {
   })
 }
 
-
+/**
+ * Deletes all outgoing payments from DB.
+ * @param  {[type]} lnd [description]
+ * @return {[type]}     [description]
+ */
 export function deleteAllPayments(lnd) {
   return new Promise((resolve, reject) => {
 
