@@ -8,7 +8,8 @@ import { btc } from '../../../../../utils'
 import styles from './Form.scss'
 
 const Form = ({
-  form: { formType, amount, message, payment_request },
+  form: { formType, paymentType, amount, message, payment_request },
+  setPaymentType,
   setAmount,
   setMessage,
   setPaymentRequest,
@@ -31,6 +32,8 @@ const Form = ({
           {
             formType === 'pay' ?
               <Pay
+                paymentType={paymentType}
+                setPaymentType={setPaymentType}
                 amount={formInvoice.amount}
                 payment_request={payment_request}
                 setPaymentRequest={setPaymentRequest}
@@ -63,6 +66,7 @@ const Form = ({
 
 Form.propTypes = {
   form: PropTypes.object.isRequired,
+  setPaymentType: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
   setAmount: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,

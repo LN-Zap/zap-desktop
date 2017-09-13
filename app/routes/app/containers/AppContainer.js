@@ -8,6 +8,7 @@ import { payInvoice } from '../../../reducers/payment'
 import { fetchChannels } from '../../../reducers/channels'
 import {
   setForm,
+  setPaymentType,
   setAmount,
   setMessage,
   setPubkey,
@@ -24,6 +25,7 @@ const mapDispatchToProps = {
   setPubkey,
   setPaymentRequest,
   setForm,
+  setPaymentType,
   createInvoice,
   payInvoice,
   fetchChannels,
