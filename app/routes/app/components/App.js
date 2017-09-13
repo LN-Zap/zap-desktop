@@ -27,6 +27,7 @@ class App extends Component {
       peers,
       setCurrency,
       setForm,
+      setPaymentType,
       createInvoice,
       payInvoice,
       fetchInvoice,
@@ -41,6 +42,7 @@ class App extends Component {
         <Form
           isOpen={form.modalOpen}
           close={() => setForm({ modalOpen: false })}
+          setPaymentType={setPaymentType}
           setAmount={setAmount}
           setMessage={setMessage}
           setPubkey={setPubkey}

@@ -47,14 +47,54 @@
   }
 }
 
-.inputContainer {
+.onchain, .ln {
+  position: relative;
   width: 100%;
+  padding: 40px 0;
+  opacity: 0.25;
+  cursor: pointer;
+  transition: all 0.25s;
+
+  &.active {
+    opacity: 1;
+  }
+
+  .paymentIcon {
+    position: absolute;
+    width: 20%;
+    left: calc(-12.5% - 75px);
+    color: $main;
+    font-size: 50px;
+    text-align: center;
+
+    span {
+      text-transform: uppercase;
+      display: block;
+      font-size: 12px;
+      font-weight: 200;
+    }
+  }
+}
+
+.divider {
+  height: 1px;
+  background: $main;
+  width: 150%;
+}
+
+.onchain {
+}
+
+.ln {
+  margin-bottom: 20px;
+}
+
+.inputContainer {
   display: flex;
   justify-content: center;
   font-size: 18px;
   height: auto;
   min-height: 55px;
-  margin-bottom: 20px;
   border: 1px solid $traditionalgrey;
   border-radius: 6px;
   position: relative;
