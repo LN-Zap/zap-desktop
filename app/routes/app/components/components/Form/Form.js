@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { MdClose } from 'react-icons/lib/md'
+import Pay from './components/Pay'
+import Request from './components/Request'
 import CurrencyIcon from '../../../../../components/CurrencyIcon'
 import { btc } from '../../../../../utils'
 import styles from './Form.scss'
@@ -19,23 +21,6 @@ const Form = ({
   formInvoice,
   currentTicker
 }) => {
-  const requestClicked = () => {
-    createInvoice(amount, message, currency, currentTicker.price_usd)
-    close()
-  }
-
-  const payClicked = () => {
-    payInvoice(payment_request)
-    close()
-  }
-
-  const paymentRequestOnChange = (payreq) => {
-    setPaymentRequest(payreq)
-    if (payreq.length === 124) { fetchInvoice(payreq) }
-  }
-
-  const calculateAmount = value => (currency === 'usd' ? btc.satoshisToUsd(value, currentTicker.price_usd) : btc.satoshisToBtc(value))
-
   return (
     <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
       <div className={styles.container}>
@@ -43,62 +28,32 @@ const Form = ({
           <MdClose />
         </div>
         <div className={styles.content}>
-          <section className={styles.amountContainer}>
-            <label htmlFor='amount'>
-              <CurrencyIcon currency={currency} crypto={crypto} />
-            </label>
-            <input
-              type='text'
-              size=''
-              style={
-                formType === 'pay' ?
-                  { width: '75%', fontSize: '85px' }
-                  :
-                  { width: `${amount.length > 1 ? (amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }
-              }
-              value={formType === 'pay' ? calculateAmount(formInvoice.amount) : amount}
-              onChange={event => setAmount(event.target.value)}
-              readOnly={formType === 'pay'}
-              id='amount'
-            />
-          </section>
           {
             formType === 'pay' ?
-              <section className={styles.inputContainer}>
-                <label htmlFor='paymentRequest'>Request:</label>
-                <input
-                  type='text'
-                  placeholder='Payment Request'
-                  value={payment_request}
-                  onChange={event => paymentRequestOnChange(event.target.value)}
-                  id='paymentRequest'
-                />
-              </section>
+              <Pay
+                amount={formInvoice.amount}
+                payment_request={payment_request}
+                setPaymentRequest={setPaymentRequest}
+                fetchInvoice={fetchInvoice}
+                payInvoice={payInvoice}
+                currency={currency}
+                crypto={crypto}
+                close={close}
+              />
               :
-              <section className={styles.inputContainer}>
-                <label htmlFor='message'>For:</label>
-                <input
-                  type='text'
-                  placeholder='Dinner, Rent, etc'
-                  value={message}
-                  onChange={event => setMessage(event.target.value)}
-                  id='message'
-                />
-              </section>
-          }
-          {
-            formType === 'pay' ?
-              <section className={styles.buttonGroup}>
-                <div className={styles.button} onClick={payClicked}>
-                  Pay
-                </div>
-              </section>
-              :
-              <section className={styles.buttonGroup}>
-                <div className={styles.button} onClick={requestClicked}>
-                  Request
-                </div>
-              </section>
+              <Request
+                amount={amount}
+                setAmount={setAmount}
+                payment_request={payment_request}
+                setMessage={setMessage}
+                createInvoice={createInvoice}
+                message={message}
+                currentTicker={currentTicker}
+                currency={currency}
+                crypto={crypto}
+                close={close}
+              />
+            
           }
         </div>
       </div>

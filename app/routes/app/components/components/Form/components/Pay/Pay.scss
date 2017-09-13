@@ -1,0 +1,110 @@
+@import '../../../../../../../variables.scss';
+
+.container {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 75vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.amountContainer {
+  color: $main;
+  display: flex;
+  justify-content: center;
+  min-height: 120px;
+  margin-bottom: 20px;
+  
+  label, input[type=text] {
+    color: inherit;
+    display: inline-block;
+    vertical-align: top;
+    padding: 0;
+  }
+
+  label {
+    svg {
+      width: 85px;
+      height: 85px;
+    }
+
+    svg[data-icon='ltc'] {
+      margin-right: 10px;
+
+      g {
+        transform: scale(1.75) translate(-5px, -5px);
+      }
+    }
+  }
+  
+  input[type=text] {
+    width: 100px;
+    font-size: 180px;
+    border: none;
+    outline: 0;
+    -webkit-appearance: none;
+  }
+}
+
+.inputContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  height: auto;
+  min-height: 55px;
+  margin-bottom: 20px;
+  border: 1px solid $traditionalgrey;
+  border-radius: 6px;
+  position: relative;
+  padding: 0 20px;
+
+  label, input[type=text] {
+    font-size: inherit;
+  }
+
+  label {
+    padding-top: 19px;
+    padding-bottom: 12px;
+    color: $traditionalgrey;
+  }
+
+  input[type=text] {
+    width: 100%;
+    border: none;
+    outline: 0;
+    -webkit-appearance: none;
+    height: 55px;
+    padding: 0 10px;
+  }
+}
+
+.buttonGroup {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  border-radius: 6px;
+  overflow: hidden;
+
+  .button {
+    cursor: pointer;
+    height: 55px;
+    min-height: 55px;
+    text-transform: none;
+    font-size: 18px;
+    transition: opacity .2s ease-out;
+    background: $main;
+    color: $white;
+    border: none;
+    font-weight: 500;
+    padding: 0;
+    width: 100%;
+    text-align: center;
+    line-height: 55px;
+
+    &:first-child {
+      border-right: 1px solid lighten($main, 20%);
+    }
+  }
+}
