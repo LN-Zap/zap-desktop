@@ -128,67 +128,6 @@
 		}
 	}
 
-	.peersContainer {
-		width: 100%;
-    margin: 10px 0 50px 0;
-
-		h4 {
-			text-transform: uppercase;
-			color: $black;
-			letter-spacing: 2;
-			font-weight: bold;
-			margin-bottom: 20px;
-			padding: 10px 0;
-		}
-
-		.peers {
-			overflow-y: scroll;
-			width: 100%;
-		}
-
-		.peer {
-			position: relative;
-			width: 100%;
-			border-top: 1px solid $traditionalgrey;
-			border-right: 1px solid transparent;
-			border-bottom: 1px solid transparent;
-			border-left: 1px solid transparent;
-			padding: 5px;
-			cursor: pointer;
-			transition: all 0.25s;
-
-			&:hover {
-				background: lighten($main, 20%);
-				border-radius: 6px;
-				border: 1px solid $main;
-
-				svg {
-					visibility: visible;
-				}
-			}
-
-			p {
-				margin: 3px 0;
-			}
-
-			.address {
-				font-size: 18px;
-			}
-
-			.pubkey {
-				font-size: 12px;
-			}
-
-			svg {
-				visibility: hidden;
-				position: absolute;
-				top: calc(50% - 8px);
-				right: 5%;
-				color: $black;
-			}
-		}
-	}
-
 	.buttonGroup {
 		width: 100%;
 		display: flex;

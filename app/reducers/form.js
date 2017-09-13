@@ -1,6 +1,6 @@
 // Initial State
 const initialState = {
-  modalOpen: false,
+  modalOpen: true,
   formType: 'pay',
   amount: '0',
   message: '',
