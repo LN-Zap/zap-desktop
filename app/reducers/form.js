@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect'
+
 // Initial State
 const initialState = {
   modalOpen: false,
@@ -93,6 +95,25 @@ const ACTION_HANDLERS = {
   [SET_PAYMENT_REQUEST]: (state, { payment_request }) => ({ ...state, payment_request }),
   [RESET_FORM]: () => (initialState)
 }
+
+// ------------------------------------
+// Selector
+// ------------------------------------
+const formSelectors = {}
+const paymentRequestSelector = state => state.form.payment_request
+const paymentTypeSelector = state => state.form.paymentType
+
+formSelectors.isOnchain = createSelector(
+  paymentRequestSelector,
+  paymentRequest => paymentRequest.length === 42
+)
+
+formSelectors.isLn = createSelector(
+  paymentRequestSelector,
+  paymentRequest => paymentRequest.length === 124
+)
+
+export { formSelectors }
 
 // ------------------------------------
 // Reducer

@@ -13,7 +13,8 @@ import {
   setOnchainAmount,
   setMessage,
   setPubkey,
-  setPaymentRequest
+  setPaymentRequest,
+  formSelectors
 } from '../../../reducers/form'
 
 const mapDispatchToProps = {
@@ -41,7 +42,9 @@ const mapStateToProps = state => ({
   form: state.form,
   invoice: state.invoice,
 
-  currentTicker: tickerSelectors.currentTicker(state)
+  currentTicker: tickerSelectors.currentTicker(state),
+  isOnchain: formSelectors.isOnchain(state),
+  isLn: formSelectors.isLn(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(App)

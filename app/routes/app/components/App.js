@@ -33,6 +33,8 @@ class App extends Component {
       payInvoice,
       fetchInvoice,
       currentTicker,
+      isOnchain,
+      isLn,
       children
     } = this.props
 
@@ -58,6 +60,8 @@ class App extends Component {
           fetchInvoice={fetchInvoice}
           formInvoice={formInvoice}
           currentTicker={currentTicker}
+          isOnchain={isOnchain}
+          isLn={isLn}
         />
         <Nav
           ticker={ticker}
@@ -95,6 +99,8 @@ App.propTypes = {
   fetchInvoice: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
   currentTicker: PropTypes.object,
+  isOnchain: PropTypes.bool.isRequired,
+  isLn: PropTypes.bool.isRequired,
   children: PropTypes.object.isRequired
 }
 

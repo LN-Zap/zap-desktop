@@ -21,8 +21,11 @@ const Form = ({
   payInvoice,
   fetchInvoice,
   formInvoice,
-  currentTicker
+  currentTicker,
+  isOnchain,
+  isLn
 }) => {
+
   return (
     <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
       <div className={styles.container}>
@@ -45,6 +48,8 @@ const Form = ({
                 currency={currency}
                 crypto={crypto}
                 close={close}
+                isOnchain={isOnchain}
+                isLn={isLn}
               />
               :
               <Request
@@ -81,7 +86,9 @@ Form.propTypes = {
   payInvoice: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   formInvoice: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired
+  currentTicker: PropTypes.object.isRequired,
+  isOnchain: PropTypes.bool.isRequired,
+  isLn: PropTypes.bool.isRequired
 }
 
 export default Form

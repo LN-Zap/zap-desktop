@@ -15,7 +15,7 @@
   justify-content: center;
   min-height: 120px;
   margin-bottom: 20px;
-  transition: all 0.25s;
+  min-height: 175px;
 
   &.ln {
     opacity: 0.75;
@@ -57,7 +57,6 @@
   width: 100%;
   padding: 40px 0;
   cursor: pointer;
-  transition: all 0.25s;
 
   .info {
     margin-bottom: 10px;
