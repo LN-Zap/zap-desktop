@@ -11,6 +11,7 @@ export const GET_PAYMENTS = 'GET_PAYMENTS'
 export const RECEIVE_PAYMENTS = 'RECEIVE_PAYMENTS'
 
 export const SEND_PAYMENT = 'SEND_PAYMENT'
+
 export const PAYMENT_SUCCESSFULL = 'PAYMENT_SUCCESSFULL'
 export const PAYMENT_FAILED = 'PAYMENT_FAILED'
 
@@ -77,6 +78,8 @@ export const sendSuccessful = (event, { amount, addr, txid }) => dispatch => {
   console.log('amount: ', amount)
   console.log('addr: ', addr)
   console.log('txid: ', txid)
+  // TODO: Add successful on-chain payment to payments list once payments list supports on-chain and LN
+  // dispatch({ type: PAYMENT_SUCCESSFULL, payment: { amount, addr, txid, pending: true } })
 }
 
 
@@ -86,9 +89,10 @@ export const sendSuccessful = (event, { amount, addr, txid }) => dispatch => {
 const ACTION_HANDLERS = {
   [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
   [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
+  [SEND_PAYMENT]: state => ({ ...state, sendingPayment: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
   [PAYMENT_SUCCESSFULL]: (state, { payment }) => (
-    { ...state, paymentLoading: false, payments: [payment, ...state.payments] }
+    { ...state, sendingPayment: false, payments: [payment, ...state.payments] }
   )
 }
 
@@ -106,6 +110,7 @@ export { paymentSelectors }
 // Reducer
 // ------------------------------------
 const initialState = {
+  sendingPayment: false,
   paymentLoading: false,
   payments: [],
   payment: null

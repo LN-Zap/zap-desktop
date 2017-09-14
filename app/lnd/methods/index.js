@@ -97,10 +97,7 @@ export default function (lnd, event, msg, data) {
     // Transaction looks like { txid: String }
     // { amount, addr } = data
       walletController.sendCoins(lnd, data)
-        .then(({ txid }) => {
-          console.log('transactionId: ', transactionId)
-          event.sender.send('sendSuccessful', { amount: data.amount, addr: data.addr, txid })
-        })
+        .then(({ txid }) => event.sender.send('sendSuccessful', { amount: data.amount, addr: data.addr, txid }))
         .catch(error => console.log('sendcoins error: ', error))
       break
     case 'openChannel':

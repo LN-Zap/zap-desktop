@@ -70,11 +70,11 @@ class Pay extends Component {
             {(() => {
               if (isOnchain) {
                 return (
-                  <span>{`You're about to send ${onchainAmount} on-chain which should take around 10 minutes`}</span>
+                  <span>{`You're about to send ${onchainAmount} ${currency.toUpperCase()} on-chain which should take around 10 minutes`}</span>
                 )
               } else if (isLn) {
                 return (
-                  <span>{`You're about to send ${calculateAmount(invoiceAmount)} over the Lightning Network which will be instant`}</span>
+                  <span>{`You're about to send ${calculateAmount(invoiceAmount)} ${currency.toUpperCase()} over the Lightning Network which will be instant`}</span>
                 )
               } else {
                 return null
