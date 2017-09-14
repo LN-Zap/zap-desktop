@@ -8,9 +8,10 @@ import { btc } from '../../../../../utils'
 import styles from './Form.scss'
 
 const Form = ({
-  form: { formType, paymentType, amount, message, payment_request },
+  form: { formType, paymentType, amount, onchainAmount, message, payment_request },
   setPaymentType,
   setAmount,
+  setOnchainAmount,
   setMessage,
   setPaymentRequest,
   ticker: { currency, crypto },
@@ -35,8 +36,8 @@ const Form = ({
                 paymentType={paymentType}
                 setPaymentType={setPaymentType}
                 invoiceAmount={formInvoice.amount}
-                onchainAmount={amount}
-                setAmount={setAmount}
+                onchainAmount={onchainAmount}
+                setOnchainAmount={setOnchainAmount}
                 payment_request={payment_request}
                 setPaymentRequest={setPaymentRequest}
                 fetchInvoice={fetchInvoice}
@@ -71,6 +72,7 @@ Form.propTypes = {
   setPaymentType: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
   setAmount: PropTypes.func.isRequired,
+  setOnchainAmount: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
   setPaymentRequest: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,

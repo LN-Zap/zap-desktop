@@ -10,6 +10,7 @@ import {
   setForm,
   setPaymentType,
   setAmount,
+  setOnchainAmount,
   setMessage,
   setPubkey,
   setPaymentRequest
@@ -21,6 +22,7 @@ const mapDispatchToProps = {
   fetchBalance,
   fetchInfo,
   setAmount,
+  setOnchainAmount,
   setMessage,
   setPubkey,
   setPaymentRequest,

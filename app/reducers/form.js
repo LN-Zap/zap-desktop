@@ -4,6 +4,7 @@ const initialState = {
   formType: 'pay',
   paymentType: '',
   amount: '0',
+  onchainAmount: '0',
   message: '',
   pubkey: '',
   payment_request: ''
@@ -13,6 +14,7 @@ const initialState = {
 // ------------------------------------
 export const SET_FORM = 'SET_FORM'
 export const SET_AMOUNT = 'SET_AMOUNT'
+export const SET_ONCHAIN_AMOUNT = 'SET_ONCHAIN_AMOUNT'
 export const SET_MESSAGE = 'SET_MESSAGE'
 export const SET_PUBKEY = 'SET_PUBKEY'
 export const SET_PAYMENT_TYPE = 'SET_PAYMENT_TYPE'
@@ -41,6 +43,13 @@ export function setAmount(amount) {
   return {
     type: SET_AMOUNT,
     amount
+  }
+}
+
+export function setOnchainAmount(onchainAmount) {
+  return {
+    type: SET_ONCHAIN_AMOUNT,
+    onchainAmount
   }
 }
 
@@ -77,6 +86,7 @@ export function resetForm() {
 const ACTION_HANDLERS = {
   [SET_FORM]: (state, { modalOpen, formType }) => ({ ...state, modalOpen, formType }),
   [SET_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
+  [SET_ONCHAIN_AMOUNT]: (state, { onchainAmount }) => ({ ...state, onchainAmount }),
   [SET_MESSAGE]: (state, { message }) => ({ ...state, message }),
   [SET_PUBKEY]: (state, { pubkey }) => ({ ...state, pubkey }),
   [SET_PAYMENT_TYPE]: (state, { paymentType }) => ({ ...state, paymentType }),

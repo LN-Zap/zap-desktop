@@ -10,7 +10,7 @@ const Pay = ({
   setPaymentType,
   invoiceAmount,
   onchainAmount,
-  setAmount,
+  setOnchainAmount,
   payment_request,
   setPaymentRequest,
   fetchInvoice,
@@ -40,8 +40,6 @@ const Pay = ({
   
   const calculateAmount = value => (currency === 'usd' ? btc.satoshisToUsd(value, currentTicker.price_usd) : btc.satoshisToBtc(value))
 
-  console.log('paymentType: ', paymentType)
-  console.log('onchainAmount: ', onchainAmount)
   return (
     <div className={styles.container}>
       <section className={`${styles.amountContainer} ${paymentType === 'ln' ? styles.ln : ''}`}>
@@ -58,7 +56,7 @@ const Pay = ({
               { width: `${onchainAmount.length > 1 ? (onchainAmount.length * 15) - 5 : 25}%`, fontSize: `${190 - (onchainAmount.length ** 2)}px` }
           }
           value={paymentType === 'ln' ? calculateAmount(invoiceAmount) : onchainAmount}
-          onChange={event => setAmount(event.target.value)}
+          onChange={event => setOnchainAmount(event.target.value)}
           id='amount'
           readOnly={paymentType === 'ln'}
         />
@@ -126,6 +124,7 @@ Pay.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
+  setOnchainAmount: PropTypes.func.isRequired,
   setPaymentRequest: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,

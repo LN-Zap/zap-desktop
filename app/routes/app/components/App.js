@@ -20,6 +20,7 @@ class App extends Component {
       invoice: { formInvoice },
       form,
       setAmount,
+      setOnchainAmount,
       setMessage,
       setPubkey,
       setPaymentRequest,
@@ -44,6 +45,7 @@ class App extends Component {
           close={() => setForm({ modalOpen: false })}
           setPaymentType={setPaymentType}
           setAmount={setAmount}
+          setOnchainAmount={setOnchainAmount}
           setMessage={setMessage}
           setPubkey={setPubkey}
           setPaymentRequest={setPaymentRequest}
@@ -80,6 +82,7 @@ App.propTypes = {
   invoice: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   setAmount: PropTypes.func.isRequired,
+  setOnchainAmount: PropTypes.func.isRequired,
   setMessage: PropTypes.func.isRequired,
   setPubkey: PropTypes.func.isRequired,
   setPaymentRequest: PropTypes.func.isRequired,
