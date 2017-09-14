@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { btc, usd } from '../utils'
+import { setForm } from './form'
 
 // ------------------------------------
 // Constants
@@ -78,6 +79,7 @@ export const sendSuccessful = (event, { amount, addr, txid }) => dispatch => {
   console.log('amount: ', amount)
   console.log('addr: ', addr)
   console.log('txid: ', txid)
+  dispatch(setForm({ modalOpen: false }))
   // TODO: Add successful on-chain payment to payments list once payments list supports on-chain and LN
   // dispatch({ type: PAYMENT_SUCCESSFULL, payment: { amount, addr, txid, pending: true } })
 }

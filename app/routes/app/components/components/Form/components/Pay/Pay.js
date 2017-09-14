@@ -38,7 +38,6 @@ class Pay extends Component {
 
       if (isOnchain) { sendCoins({ value: onchainAmount, addr: payment_request, currency, crypto, rate: currentTicker.price_usd }) }
       if (isLn) { payInvoice(payment_request) }
-      close()
     }
     
     const calculateAmount = value => (currency === 'usd' ? btc.satoshisToUsd(value, currentTicker.price_usd) : btc.satoshisToBtc(value))
