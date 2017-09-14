@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { btc, usd } from '../utils'
 
 // ------------------------------------
 // Constants
@@ -62,9 +63,21 @@ export const payInvoice = paymentRequest => (dispatch) => {
   ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
 }
 
+export const sendCoins = ({ value, addr, currency, crypto, rate }) => dispatch => {
+  const amount = currency === 'usd' ? btc.btcToSatoshis(usd.usdToBtc(value, rate)) : btc.btcToSatoshis(value)
+  dispatch(sendPayment)
+  ipcRenderer.send('lnd', { msg: 'sendCoins', data: { amount, addr } })
+}
+
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch
 export const paymentSuccessful = () => fetchPayments()
+
+export const sendSuccessful = (event, { amount, addr, txid }) => dispatch => {
+  console.log('amount: ', amount)
+  console.log('addr: ', addr)
+  console.log('txid: ', txid)
+}
 
 
 // ------------------------------------

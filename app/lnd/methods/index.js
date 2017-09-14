@@ -95,11 +95,11 @@ export default function (lnd, event, msg, data) {
       break
     case 'sendCoins':
     // Transaction looks like { txid: String }
-    // { addr, amount } = data
+    // { amount, addr } = data
       walletController.sendCoins(lnd, data)
-        .then((transaction) => {
-          console.log('transaction: ', transaction)
-          event.sender.send('sendSuccessful', { transaction })
+        .then(({ txid }) => {
+          console.log('transactionId: ', transactionId)
+          event.sender.send('sendSuccessful', { amount: data.amount, addr: data.addr, txid })
         })
         .catch(error => console.log('sendcoins error: ', error))
       break

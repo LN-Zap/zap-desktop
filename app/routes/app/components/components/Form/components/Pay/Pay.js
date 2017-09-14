@@ -24,16 +24,19 @@ class Pay extends Component {
       setPaymentRequest,
       fetchInvoice,
       payInvoice,
+      sendCoins,
+      currentTicker,
       currency,
       crypto,
       close,
       isOnchain,
       isLn
     } = this.props
+    
     const payClicked = () => {
-      if (!isOnchain || !isLn) { return }
+      if (!isOnchain && !isLn) { return }
 
-      // if (isOnchain) { sendcoins() }
+      if (isOnchain) { sendCoins({ value: onchainAmount, addr: payment_request, currency, crypto, rate: currentTicker.price_usd }) }
       if (isLn) { payInvoice(payment_request) }
       close()
     }
@@ -130,6 +133,8 @@ Pay.propTypes = {
   setPaymentRequest: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
+  sendCoins: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired,
   crypto: PropTypes.string.isRequired,
   close: PropTypes.func.isRequired,

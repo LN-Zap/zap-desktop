@@ -31,6 +31,7 @@ class App extends Component {
       setPaymentType,
       createInvoice,
       payInvoice,
+      sendCoins,
       fetchInvoice,
       currentTicker,
       isOnchain,
@@ -57,6 +58,7 @@ class App extends Component {
           form={form}
           createInvoice={createInvoice}
           payInvoice={payInvoice}
+          sendCoins={sendCoins}
           fetchInvoice={fetchInvoice}
           formInvoice={formInvoice}
           currentTicker={currentTicker}
@@ -96,6 +98,7 @@ App.propTypes = {
   setForm: PropTypes.func.isRequired,
   createInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
+  sendCoins: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
   currentTicker: PropTypes.object,

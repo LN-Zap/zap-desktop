@@ -4,7 +4,7 @@ import { fetchTicker, setCurrency, tickerSelectors } from '../../../reducers/tic
 import { fetchBalance } from '../../../reducers/balance'
 import { fetchInfo } from '../../../reducers/info'
 import { createInvoice, fetchInvoice } from '../../../reducers/invoice'
-import { payInvoice } from '../../../reducers/payment'
+import { payInvoice, sendCoins } from '../../../reducers/payment'
 import { fetchChannels } from '../../../reducers/channels'
 import {
   setForm,
@@ -31,6 +31,7 @@ const mapDispatchToProps = {
   setPaymentType,
   createInvoice,
   payInvoice,
+  sendCoins,
   fetchChannels,
   fetchInvoice
 }

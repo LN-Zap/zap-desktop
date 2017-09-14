@@ -19,6 +19,7 @@ const Form = ({
   close,
   createInvoice,
   payInvoice,
+  sendCoins,
   fetchInvoice,
   formInvoice,
   currentTicker,
@@ -45,6 +46,8 @@ const Form = ({
                 setPaymentRequest={setPaymentRequest}
                 fetchInvoice={fetchInvoice}
                 payInvoice={payInvoice}
+                sendCoins={sendCoins}
+                currentTicker={currentTicker}
                 currency={currency}
                 crypto={crypto}
                 close={close}
@@ -84,6 +87,7 @@ Form.propTypes = {
   close: PropTypes.func.isRequired,
   createInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
+  sendCoins: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   formInvoice: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
