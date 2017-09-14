@@ -20,7 +20,6 @@ export function openChannel(lnd, event, payload) {
   }
 
   return new Promise((resolve, reject) =>
-
     pushopenchannel(lnd, event, res)
       .then(data => resolve(data))
       .catch(error => reject(error))
@@ -35,7 +34,6 @@ export function openChannel(lnd, event, payload) {
  */
 export function channelBalance(lnd) {
   return new Promise((resolve, reject) => {
-
     lnd.channelBalance({}, (err, data) => {
       if (err) { reject(err) }
 
@@ -52,7 +50,6 @@ export function channelBalance(lnd) {
  */
 export function listChannels(lnd) {
   return new Promise((resolve, reject) => {
-
     lnd.listChannels({}, (err, data) => {
       if (err) { reject(err) }
 
@@ -79,7 +76,6 @@ export function closeChannel(lnd, event, payload) {
   }
 
   return new Promise((resolve, reject) =>
-
     pushclosechannel(lnd, event, res)
       .then(data => resolve(data))
       .catch(error => reject(error))
@@ -94,7 +90,6 @@ export function closeChannel(lnd, event, payload) {
  */
 export function pendingChannels(lnd) {
   return new Promise((resolve, reject) => {
-
     lnd.pendingChannels({}, (err, data) => {
       if (err) { reject(err) }
 
@@ -110,9 +105,8 @@ export function pendingChannels(lnd) {
  * @param  {[type]} channelId [description]
  * @return {[type]}           [description]
  */
-export function getChanInfo(lnd, { chanId }){
+export function getChanInfo(lnd, { chanId }) {
   return new Promise((resolve, reject) => {
-
     lnd.getChanInfo({ chan_id: chanId }, (err, data) => {
       if (err) { reject(err) }
 

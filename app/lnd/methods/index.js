@@ -38,7 +38,7 @@ export default function (lnd, event, msg, data) {
     case 'peers':
     // Data looks like { peers: [] }
       peersController.listPeers(lnd)
-        .then(peersData => event.sender.send('listPeers', peersData))
+        .then(peersData => event.sender.send('receivePeers', peersData))
         .catch(error => console.log('peers error: ', error))
       break
     case 'channels':

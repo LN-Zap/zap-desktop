@@ -7,7 +7,6 @@
  */
 export function connectPeer(lnd, { pubkey, host }) {
   return new Promise((resolve, reject) => {
-
     lnd.connectPeer({ addr: { pubkey, host }, perm: true }, (err, data) => {
       if (err) { reject(err) }
 
@@ -25,7 +24,6 @@ export function connectPeer(lnd, { pubkey, host }) {
  */
 export function disconnectPeer(lnd, { pubkey }) {
   return new Promise((resolve, reject) => {
-
     lnd.disconnectPeer({ pub_key: pubkey }, (err, data) => {
       if (err) { reject(err) }
 
@@ -42,7 +40,6 @@ export function disconnectPeer(lnd, { pubkey }) {
  */
 export function listPeers(lnd) {
   return new Promise((resolve, reject) => {
-
     lnd.listPeers({}, (err, data) => {
       if (err) { reject(err) }
 
