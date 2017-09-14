@@ -1,8 +1,8 @@
 // Initial State
 const initialState = {
-  modalOpen: true,
+  modalOpen: false,
   formType: 'pay',
-  paymentType: 'onchain',
+  paymentType: '',
   amount: '0',
   message: '',
   pubkey: '',

@@ -34,7 +34,9 @@ const Form = ({
               <Pay
                 paymentType={paymentType}
                 setPaymentType={setPaymentType}
-                amount={formInvoice.amount}
+                invoiceAmount={formInvoice.amount}
+                onchainAmount={amount}
+                setAmount={setAmount}
                 payment_request={payment_request}
                 setPaymentRequest={setPaymentRequest}
                 fetchInvoice={fetchInvoice}

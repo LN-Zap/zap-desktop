@@ -8,7 +8,9 @@ import styles from './Pay.scss'
 const Pay = ({
   paymentType,
   setPaymentType,
-  amount,
+  invoiceAmount,
+  onchainAmount,
+  setAmount,
   payment_request,
   setPaymentRequest,
   fetchInvoice,
@@ -26,59 +28,84 @@ const Pay = ({
 
   const paymentRequestOnChange = payreq => {
     setPaymentRequest(payreq)
-    if (payreq.length === 124) { fetchInvoice(payreq) }
+    if (payreq.length === 124) {
+      setPaymentType('ln')
+      fetchInvoice(payreq) 
+    } else if (payreq.length === 42) {
+      setPaymentType('onchain')
+    } else {
+      setPaymentType('')
+    }
   }
   
   const calculateAmount = value => (currency === 'usd' ? btc.satoshisToUsd(value, currentTicker.price_usd) : btc.satoshisToBtc(value))
 
+  console.log('paymentType: ', paymentType)
+  console.log('onchainAmount: ', onchainAmount)
   return (
     <div className={styles.container}>
-      <section className={styles.amountContainer}>
+      <section className={`${styles.amountContainer} ${paymentType === 'ln' ? styles.ln : ''}`}>
         <label htmlFor='amount'>
           <CurrencyIcon currency={currency} crypto={crypto} />
         </label>
         <input
           type='text'
           size=''
-          style={{ width: '75%', fontSize: '85px' }}
-          value={calculateAmount(amount)}
+          style={
+            paymentType === 'ln' ?
+              { width: '75%', fontSize: '85px' }
+              :
+              { width: `${onchainAmount.length > 1 ? (onchainAmount.length * 15) - 5 : 25}%`, fontSize: `${190 - (onchainAmount.length ** 2)}px` }
+          }
+          value={paymentType === 'ln' ? calculateAmount(invoiceAmount) : onchainAmount}
+          onChange={event => setAmount(event.target.value)}
           id='amount'
-          readOnly
+          readOnly={paymentType === 'ln'}
         />
       </section>
-      <div
-        className={`${styles.onchain} ${paymentType === 'onchain' ? styles.active : null}`}
-        onClick={() => setPaymentType('onchain')}
-      >
-        <aside className={`${styles.paymentIcon} ${styles.chain}`}>
-          <span>on-chain</span>
-          <FaChain />
+      <div className={styles.inputContainer}>
+        <div className={styles.info}>
+          {(() => {
+            switch(paymentType) {
+              case 'onchain':
+                return (
+                  <span>{`You're about to send ${onchainAmount} on-chain which should take around 10 minutes`}</span>
+                )
+              case 'ln':
+                return (
+                  <span>{`You're about to send ${calculateAmount(invoiceAmount)} over the Lightning Network which will be instant`}</span>
+                )
+              default:
+                return null
+            }
+          })()}
+        </div>
+        <aside className={styles.paymentIcon}>
+          {(() => {
+            switch(paymentType) {
+              case 'onchain':
+                return (
+                  <i>
+                    <span>on-chain</span>
+                    <FaChain />
+                  </i>
+                )
+              case 'ln':
+                return (
+                  <i>
+                    <span>lightning network</span>
+                    <FaBolt />
+                  </i>
+                )
+              default:
+                return null
+            }
+          })()}
         </aside>
-        <section className={styles.inputContainer}>
-          <label htmlFor='paymentRequest'>Address:</label>
+        <section className={styles.input}>
           <input
             type='text'
-            placeholder='Bitcoin address'
-            value={payment_request}
-            onChange={event => paymentRequestOnChange(event.target.value)}
-            id='paymentRequest'
-          />
-        </section>
-      </div>
-      <div className={styles.divider} />
-      <div
-        className={`${styles.ln} ${paymentType === 'ln' ? styles.active : null}`}
-        onClick={() => setPaymentType('ln')}
-      >
-        <aside className={`${styles.paymentIcon} ${styles.bolt}`}>
-          <span>lightning network</span>
-          <FaBolt />
-        </aside>
-        <section className={styles.inputContainer}>
-          <label htmlFor='paymentRequest'>Request:</label>
-          <input
-            type='text'
-            placeholder='Payment Request'
+            placeholder='Payment request or bitcoin address'
             value={payment_request}
             onChange={event => paymentRequestOnChange(event.target.value)}
             id='paymentRequest'
@@ -95,7 +122,10 @@ const Pay = ({
 }
 
 Pay.propTypes = {
-  amount: PropTypes.string.isRequired,
+  amount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   setPaymentRequest: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
