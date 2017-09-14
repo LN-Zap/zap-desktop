@@ -101,7 +101,6 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const formSelectors = {}
 const paymentRequestSelector = state => state.form.payment_request
-const paymentTypeSelector = state => state.form.paymentType
 
 formSelectors.isOnchain = createSelector(
   paymentRequestSelector,

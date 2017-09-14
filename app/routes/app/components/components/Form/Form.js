@@ -42,6 +42,7 @@ const Form = ({
                 invoiceAmount={formInvoice.amount}
                 onchainAmount={onchainAmount}
                 setOnchainAmount={setOnchainAmount}
+                amount={formInvoice.amount}
                 payment_request={payment_request}
                 setPaymentRequest={setPaymentRequest}
                 fetchInvoice={fetchInvoice}
@@ -53,6 +54,9 @@ const Form = ({
                 close={close}
                 isOnchain={isOnchain}
                 isLn={isLn}
+                currency={currency}
+                crypto={crypto}
+                close={close}
               />
               :
               <Request

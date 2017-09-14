@@ -124,21 +124,13 @@ class Pay extends Component {
 }
 
 Pay.propTypes = {
-  amount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  setOnchainAmount: PropTypes.func.isRequired,
+  amount: PropTypes.string.isRequired,
   setPaymentRequest: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
-  sendCoins: PropTypes.func.isRequired,
-  currentTicker: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired,
   crypto: PropTypes.string.isRequired,
-  close: PropTypes.func.isRequired,
-  isOnchain: PropTypes.bool.isRequired,
-  isLn: PropTypes.bool.isRequired
+  close: PropTypes.func.isRequired
 }
 
 export default Pay

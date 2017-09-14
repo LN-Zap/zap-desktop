@@ -8,7 +8,11 @@
     "build-dll": "cross-env NODE_ENV=development node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
     "build-main": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
     "build-renderer": "cross-env NODE_ENV=production node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
+<<<<<<< HEAD
     "dev": "cross-env START_HOT=1 concurrently \"npm run start-renderer-dev\"",
+=======
+    "dev": "cross-env START_HOT=1 concurrently \"npm run start-renderer-dev\" \"npm run lnd\"",
+>>>>>>> dabc626d3c649201710eaa53f8caeda4f512a2a7
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
     "lint": "eslint --cache --format=node_modules/eslint-formatter-pretty .",
