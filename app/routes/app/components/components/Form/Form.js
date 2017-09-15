@@ -9,6 +9,7 @@ import styles from './Form.scss'
 
 const Form = ({
   form: { formType, paymentType, amount, onchainAmount, message, payment_request },
+  payment: { sendingPayment },
   setPaymentType,
   setAmount,
   setOnchainAmount,
@@ -37,6 +38,7 @@ const Form = ({
           {
             formType === 'pay' ?
               <Pay
+                sendingPayment={sendingPayment}
                 paymentType={paymentType}
                 setPaymentType={setPaymentType}
                 invoiceAmount={formInvoice.amount}
@@ -80,6 +82,7 @@ const Form = ({
 }
 
 Form.propTypes = {
+  payment: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   setPaymentType: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,

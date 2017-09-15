@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Form from './components/Form'
 import Nav from './components/Nav'
+import AnimatedCheckmark from '../../../components/AnimatedCheckmark'
 import styles from './App.scss'
 
 class App extends Component {

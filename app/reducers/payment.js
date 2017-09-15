@@ -67,7 +67,7 @@ export const payInvoice = paymentRequest => (dispatch) => {
 
 export const sendCoins = ({ value, addr, currency, crypto, rate }) => dispatch => {
   const amount = currency === 'usd' ? btc.btcToSatoshis(usd.usdToBtc(value, rate)) : btc.btcToSatoshis(value)
-  dispatch(sendPayment)
+  dispatch(sendPayment())
   ipcRenderer.send('lnd', { msg: 'sendCoins', data: { amount, addr } })
 }
 
@@ -79,6 +79,7 @@ export const sendSuccessful = (event, { amount, addr, txid }) => dispatch => {
   console.log('amount: ', amount)
   console.log('addr: ', addr)
   console.log('txid: ', txid)
+  // Close the form modal once the payment was succesful
   dispatch(setForm({ modalOpen: false }))
   // TODO: Add successful on-chain payment to payments list once payments list supports on-chain and LN
   // dispatch({ type: PAYMENT_SUCCESSFULL, payment: { amount, addr, txid, pending: true } })

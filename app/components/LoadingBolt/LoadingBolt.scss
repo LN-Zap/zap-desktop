@@ -1,0 +1,29 @@
+@import '../../variables.scss';
+
+.container {
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $white;
+  text-align: center;
+}
+
+.content {
+  position: relative;
+  top: calc(50% - 250px);
+  min-height: 250px;
+
+  .bolt svg {
+    height: 150px;
+    width: 150px;
+  }
+
+  h1 {
+    color: $main;
+    margin-top: 50px;
+    font-size: 25px;
+  }
+}
