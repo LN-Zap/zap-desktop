@@ -7,16 +7,15 @@ import * as peersController from './peersController'
 import * as paymentsController from './paymentsController'
 import * as networkController from './networkController'
 
-//TODO - GetChanInfo
-//TODO - GetTransactions
-//TODO - GetNodeInfo
-//TODO - DescribeGraph
-//TODO - GetNetworkInfo
-//TODO - QueryRoutes
-//TODO - DecodePayReq
-//TODO - SendPayment
-//TODO - DeleteAllPayments
-
+// TODO - GetChanInfo
+// TODO - GetTransactions
+// TODO - GetNodeInfo
+// TODO - DescribeGraph
+// TODO - GetNetworkInfo
+// TODO - QueryRoutes
+// TODO - DecodePayReq
+// TODO - SendPayment
+// TODO - DeleteAllPayments
 
 
 export default function (lnd, event, msg, data) {

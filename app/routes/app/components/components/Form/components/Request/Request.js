@@ -6,7 +6,6 @@ import styles from './Request.scss'
 const Request = ({
   amount,
   setAmount,
-  payment_request,
   setMessage,
   createInvoice,
   message,
@@ -54,6 +53,16 @@ const Request = ({
   )
 }
 
-Request.propTypes = {}
+Request.propTypes = {
+  amount: PropTypes.string.isRequired,
+  setAmount: PropTypes.func.isRequired,
+  setMessage: PropTypes.func.isRequired,
+  createInvoice: PropTypes.func.isRequired,
+  message: PropTypes.string.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+  currency: PropTypes.string.isRequired,
+  crypto: PropTypes.string.isRequired,
+  close: PropTypes.func.isRequired
+}
 
 export default Request

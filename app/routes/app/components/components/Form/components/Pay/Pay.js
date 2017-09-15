@@ -17,31 +17,27 @@ class Pay extends Component {
   render() {
     const {
       sendingPayment,
-      paymentType,
-      setPaymentType,
       invoiceAmount,
       onchainAmount,
       setOnchainAmount,
       payment_request,
       setPaymentRequest,
-      fetchInvoice,
       payInvoice,
       sendCoins,
       currentTicker,
       currency,
       crypto,
-      close,
       isOnchain,
       isLn
     } = this.props
-    
+
     const payClicked = () => {
       if (!isOnchain && !isLn) { return }
 
-      if (isOnchain) { sendCoins({ value: onchainAmount, addr: payment_request, currency, crypto, rate: currentTicker.price_usd }) }
+      if (isOnchain) { sendCoins({ value: onchainAmount, addr: payment_request, currency, rate: currentTicker.price_usd }) }
       if (isLn) { payInvoice(payment_request) }
     }
-    
+
     const calculateAmount = value => (currency === 'usd' ? btc.satoshisToUsd(value, currentTicker.price_usd) : btc.satoshisToBtc(value))
 
     return (
@@ -51,16 +47,16 @@ class Pay extends Component {
             <LoadingBolt />
             :
             null
-          
+
         }
         <div className={styles.container}>
-          <section className={`${styles.amountContainer} ${paymentType === 'ln' ? styles.ln : ''}`}>
+          <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''}`}>
             <label htmlFor='amount'>
               <CurrencyIcon currency={currency} crypto={crypto} />
             </label>
             <input
               type='text'
-              ref={(input) => this.amountInput = input}
+              ref={input => this.amountInput = input} // eslint-disable-line
               size=''
               style={
                 isLn ?
@@ -83,11 +79,10 @@ class Pay extends Component {
                   )
                 } else if (isLn) {
                   return (
-                    <span>{`You're about to send ${calculateAmount(invoiceAmount)} ${currency.toUpperCase()} over the Lightning Network which will be instant`}</span>
+                    <span>{`You're about to send ${calculateAmount(invoiceAmount)} ${currency.toUpperCase()} over the Lightning Network which will be instant`}</span> // eslint-disable-line
                   )
-                } else {
-                  return null
                 }
+                return null
               })()}
             </div>
             <aside className={styles.paymentIcon}>
@@ -106,9 +101,8 @@ class Pay extends Component {
                       <FaBolt />
                     </i>
                   )
-                } else {
-                  return null
                 }
+                return null
               })()}
               {
               }
@@ -136,13 +130,19 @@ class Pay extends Component {
 
 Pay.propTypes = {
   sendingPayment: PropTypes.bool.isRequired,
-  amount: PropTypes.string.isRequired,
+  invoiceAmount: PropTypes.string.isRequired,
+  onchainAmount: PropTypes.string.isRequired,
+  setOnchainAmount: PropTypes.func.isRequired,
+  payment_request: PropTypes.string.isRequired,
   setPaymentRequest: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
   payInvoice: PropTypes.func.isRequired,
+  sendCoins: PropTypes.func.isRequired,
+  currentTicker: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired,
   crypto: PropTypes.string.isRequired,
-  close: PropTypes.func.isRequired
+  isOnchain: PropTypes.bool.isRequired,
+  isLn: PropTypes.bool.isRequired
 }
 
 export default Pay

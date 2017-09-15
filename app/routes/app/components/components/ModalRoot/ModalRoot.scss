@@ -1,0 +1,42 @@
+@import '../../../../../variables.scss';
+
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  background: #fff;
+}
+
+.content {
+  position: relative;
+  height: 100vh;
+  margin: 5%;
+}
+
+.esc {
+  position: absolute;
+  top: 0;
+  right: 0;
+  color: $darkestgrey;
+  cursor: pointer;
+  padding: 20px;
+  border-radius: 50%;
+
+  &:hover {
+    color: $bluegrey;
+    background: $darkgrey;
+  }
+
+  &:active {
+    color: $white;
+    background: $main;
+  }
+
+  svg {
+    width: 32px;
+    height: 32px;
+  }
+}

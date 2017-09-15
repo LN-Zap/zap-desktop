@@ -4,7 +4,6 @@ import { createSelector } from 'reselect'
 const initialState = {
   modalOpen: false,
   formType: 'pay',
-  paymentType: '',
   amount: '0',
   onchainAmount: '0',
   message: '',
@@ -19,7 +18,6 @@ export const SET_AMOUNT = 'SET_AMOUNT'
 export const SET_ONCHAIN_AMOUNT = 'SET_ONCHAIN_AMOUNT'
 export const SET_MESSAGE = 'SET_MESSAGE'
 export const SET_PUBKEY = 'SET_PUBKEY'
-export const SET_PAYMENT_TYPE = 'SET_PAYMENT_TYPE'
 export const SET_PAYMENT_REQUEST = 'SET_PAYMENT_REQUEST'
 export const RESET_FORM = 'RESET_FORM'
 
@@ -31,13 +29,6 @@ export function setForm({ modalOpen, formType }) {
     type: SET_FORM,
     modalOpen,
     formType
-  }
-}
-
-export function setPaymentType(paymentType) {
-  return {
-    type: SET_PAYMENT_TYPE,
-    paymentType
   }
 }
 
@@ -91,7 +82,6 @@ const ACTION_HANDLERS = {
   [SET_ONCHAIN_AMOUNT]: (state, { onchainAmount }) => ({ ...state, onchainAmount }),
   [SET_MESSAGE]: (state, { message }) => ({ ...state, message }),
   [SET_PUBKEY]: (state, { pubkey }) => ({ ...state, pubkey }),
-  [SET_PAYMENT_TYPE]: (state, { paymentType }) => ({ ...state, paymentType }),
   [SET_PAYMENT_REQUEST]: (state, { payment_request }) => ({ ...state, payment_request }),
   [RESET_FORM]: () => (initialState)
 }

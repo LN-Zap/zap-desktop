@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import ModalRoot from './components/ModalRoot'
 import Form from './components/Form'
 import Nav from './components/Nav'
-import AnimatedCheckmark from '../../../components/AnimatedCheckmark'
 import styles from './App.scss'
 
 class App extends Component {
@@ -16,6 +16,8 @@ class App extends Component {
 
   render() {
     const {
+      modal: { modalType, modalProps },
+      hideModal,
       ticker,
       balance,
       invoice: { formInvoice },
@@ -29,7 +31,6 @@ class App extends Component {
       peers,
       setCurrency,
       setForm,
-      setPaymentType,
       createInvoice,
       payInvoice,
       sendCoins,
@@ -44,10 +45,16 @@ class App extends Component {
 
     return (
       <div>
+        <ModalRoot
+          modalType={modalType}
+          modalProps={modalProps}
+          hideModal={hideModal}
+          currentTicker={currentTicker}
+          currency={ticker.currency}
+        />
         <Form
           isOpen={form.modalOpen}
           close={() => setForm({ modalOpen: false })}
-          setPaymentType={setPaymentType}
           setAmount={setAmount}
           setOnchainAmount={setOnchainAmount}
           setMessage={setMessage}
@@ -82,6 +89,8 @@ class App extends Component {
 }
 
 App.propTypes = {
+  modal: PropTypes.object.isRequired,
+  hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,

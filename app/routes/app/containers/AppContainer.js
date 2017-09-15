@@ -4,6 +4,7 @@ import { fetchTicker, setCurrency, tickerSelectors } from '../../../reducers/tic
 import { fetchBalance } from '../../../reducers/balance'
 import { fetchInfo } from '../../../reducers/info'
 import { createInvoice, fetchInvoice } from '../../../reducers/invoice'
+import { hideModal } from '../../../reducers/modal'
 import { payInvoice, sendCoins } from '../../../reducers/payment'
 import { fetchChannels } from '../../../reducers/channels'
 import {
@@ -30,6 +31,7 @@ const mapDispatchToProps = {
   setForm,
   setPaymentType,
   createInvoice,
+  hideModal,
   payInvoice,
   sendCoins,
   fetchChannels,
@@ -42,6 +44,7 @@ const mapStateToProps = state => ({
   payment: state.payment,
   form: state.form,
   invoice: state.invoice,
+  modal: state.modal,
 
   currentTicker: tickerSelectors.currentTicker(state),
   isOnchain: formSelectors.isOnchain(state),
