@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import bitcoin from 'bitcoinjs-lib'
 
 // Initial State
 const initialState = {
@@ -94,7 +95,16 @@ const paymentRequestSelector = state => state.form.payment_request
 
 formSelectors.isOnchain = createSelector(
   paymentRequestSelector,
-  paymentRequest => paymentRequest.length === 42
+  paymentRequest => {
+    // TODO: work with bitcoin-js to fix p2wkh error and make testnet/mainnet dynamic
+    try {
+      bitcoin.address.toOutputScript(paymentRequest, bitcoin.networks.testnet)
+      return true
+    } catch (e) {
+      console.log('e: ', e)
+      return false
+    }
+  }
 )
 
 formSelectors.isLn = createSelector(
