@@ -101,7 +101,6 @@ formSelectors.isOnchain = createSelector(
       bitcoin.address.toOutputScript(paymentRequest, bitcoin.networks.testnet)
       return true
     } catch (e) {
-      console.log('e: ', e)
       return false
     }
   }

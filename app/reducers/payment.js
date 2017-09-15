@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { btc, usd } from '../utils'
-import { setForm } from './form'
+import { setForm, resetForm } from './form'
 import { showModal } from './modal'
 
 // ------------------------------------
@@ -79,9 +79,13 @@ export const paymentSuccessful = () => fetchPayments()
 export const sendSuccessful = (event, { amount, addr, txid }) => (dispatch) => {
   // Close the form modal once the payment was succesful
   dispatch(setForm({ modalOpen: false }))
+  // Show successful payment state
   dispatch(showModal('SUCCESSFUL_SEND_COINS', { txid, amount, addr }))
   // TODO: Add successful on-chain payment to payments list once payments list supports on-chain and LN
   // dispatch({ type: PAYMENT_SUCCESSFULL, payment: { amount, addr, txid, pending: true } })
+  dispatch({ type: PAYMENT_SUCCESSFULL })
+  // Reset the payment form
+  dispatch(resetForm())
 }
 
 
@@ -94,7 +98,7 @@ const ACTION_HANDLERS = {
   [SEND_PAYMENT]: state => ({ ...state, sendingPayment: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
   [PAYMENT_SUCCESSFULL]: (state, { payment }) => (
-    { ...state, sendingPayment: false, payments: [payment, ...state.payments] }
+    { ...state, sendingPayment: false }
   )
 }
 

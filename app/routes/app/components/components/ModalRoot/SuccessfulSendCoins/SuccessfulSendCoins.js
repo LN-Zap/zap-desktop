@@ -26,7 +26,7 @@ const SuccessfulSendCoins = ({ amount, addr, txid, hideModal, currentTicker, cur
 }
 
 SuccessfulSendCoins.propTypes = {
-  amount: PropTypes.oneOf([
+  amount: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
   ]).isRequired,
