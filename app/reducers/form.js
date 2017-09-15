@@ -107,6 +107,7 @@ formSelectors.isOnchain = createSelector(
   }
 )
 
+// TODO: Add more robust logic to detect a LN payment request
 formSelectors.isLn = createSelector(
   paymentRequestSelector,
   paymentRequest => paymentRequest.length === 124
