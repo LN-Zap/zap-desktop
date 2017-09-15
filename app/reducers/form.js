@@ -95,7 +95,7 @@ const paymentRequestSelector = state => state.form.payment_request
 
 formSelectors.isOnchain = createSelector(
   paymentRequestSelector,
-  paymentRequest => {
+  (paymentRequest) => {
     // TODO: work with bitcoin-js to fix p2wkh error and make testnet/mainnet dynamic
     try {
       bitcoin.address.toOutputScript(paymentRequest, bitcoin.networks.testnet)

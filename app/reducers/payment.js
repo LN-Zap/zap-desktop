@@ -97,9 +97,7 @@ const ACTION_HANDLERS = {
   [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
   [SEND_PAYMENT]: state => ({ ...state, sendingPayment: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
-  [PAYMENT_SUCCESSFULL]: (state, { payment }) => (
-    { ...state, sendingPayment: false }
-  )
+  [PAYMENT_SUCCESSFULL]: state => ({ ...state, sendingPayment: false })
 }
 
 const paymentSelectors = {}
