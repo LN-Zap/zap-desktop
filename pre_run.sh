@@ -7,7 +7,7 @@ if [ "$(uname)" == "Darwin" ]; then
       export PATH=$PATH:$GOPATH/bin
     else
       echo 'Installing go package.'
-      brew install go &&
+      brew install go
       export GOPATH=~/gocode
       export PATH=$PATH:$GOPATH/bin
       go get -u github.com/Masterminds/glide
