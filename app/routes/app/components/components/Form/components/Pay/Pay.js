@@ -104,8 +104,6 @@ class Pay extends Component {
                 }
                 return null
               })()}
-              {
-              }
             </aside>
             <section className={styles.input}>
               <input
