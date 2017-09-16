@@ -19,7 +19,7 @@ import {
   pushclosechannelstatus
 
 } from './channels'
-import { receivePayments, paymentSuccessful, sendSuccessful } from './payment'
+import { receivePayments, paymentSuccessful, sendSuccessful, sendCoinsError } from './payment'
 import { receiveInvoices, createdInvoice, receiveFormInvoice } from './invoice'
 import { receiveBalance } from './balance'
 
@@ -41,6 +41,7 @@ const ipc = createIpc({
 
   paymentSuccessful,
   sendSuccessful,
+  sendCoinsError,
 
   channelSuccessful,
   pushchannelupdated,

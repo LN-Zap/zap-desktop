@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { btc, usd } from '../utils'
 import { setForm, resetForm } from './form'
-import { showModal } from './modal'
+import { showModal, hideModal } from './modal'
 
 // ------------------------------------
 // Constants
@@ -88,6 +88,10 @@ export const sendSuccessful = (event, { amount, addr, txid }) => (dispatch) => {
   dispatch(resetForm())
 }
 
+export const sendCoinsError = (event, { error }) => (dispatch) => {
+  dispatch({ type: PAYMENT_FAILED })
+}
+
 
 // ------------------------------------
 // Action Handlers
@@ -97,7 +101,8 @@ const ACTION_HANDLERS = {
   [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
   [SEND_PAYMENT]: state => ({ ...state, sendingPayment: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
-  [PAYMENT_SUCCESSFULL]: state => ({ ...state, sendingPayment: false })
+  [PAYMENT_SUCCESSFULL]: state => ({ ...state, sendingPayment: false }),
+  [PAYMENT_FAILED]: state => ({ ...state, sendingPayment: false })
 }
 
 const paymentSelectors = {}

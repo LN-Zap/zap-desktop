@@ -97,7 +97,7 @@ export default function (lnd, event, msg, data) {
     // { amount, addr } = data
       walletController.sendCoins(lnd, data)
         .then(({ txid }) => event.sender.send('sendSuccessful', { amount: data.amount, addr: data.addr, txid }))
-        .catch(error => console.log('sendcoins error: ', error))
+        .catch(error => event.sender.send('sendCoinsError', { error }))
       break
     case 'openChannel':
     // Response is empty. Streaming updates on channel status and updates
