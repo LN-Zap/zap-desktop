@@ -1,0 +1,37 @@
+@import '../../../../../../variables.scss';
+
+.container {
+  position: relative;
+  min-height: 250px;
+  top: calc(50% - 250px);
+  text-align: center;
+
+  h1 {
+    font-size: 20px;
+    margin: 50px 0;
+
+    .link {
+      cursor: pointer;
+      color: $main;
+      text-decoration: underline;
+    }
+
+    .amount, .addr {
+      font-weight: bold;
+    }
+  }
+
+  .button {
+    text-align: center;
+    border-radius: 8px;
+    background: $main;
+    padding: 20px 10px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: .2px;
+    color: $white;
+    width: 15%;
+    margin: 0 auto;
+  }
+}

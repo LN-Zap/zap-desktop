@@ -7,16 +7,15 @@ import * as peersController from './peersController'
 import * as paymentsController from './paymentsController'
 import * as networkController from './networkController'
 
-//TODO - GetChanInfo
-//TODO - GetTransactions
-//TODO - GetNodeInfo
-//TODO - DescribeGraph
-//TODO - GetNetworkInfo
-//TODO - QueryRoutes
-//TODO - DecodePayReq
-//TODO - SendPayment
-//TODO - DeleteAllPayments
-
+// TODO - GetChanInfo
+// TODO - GetTransactions
+// TODO - GetNodeInfo
+// TODO - DescribeGraph
+// TODO - GetNetworkInfo
+// TODO - QueryRoutes
+// TODO - DecodePayReq
+// TODO - SendPayment
+// TODO - DeleteAllPayments
 
 
 export default function (lnd, event, msg, data) {
@@ -95,13 +94,10 @@ export default function (lnd, event, msg, data) {
       break
     case 'sendCoins':
     // Transaction looks like { txid: String }
-    // { addr, amount } = data
+    // { amount, addr } = data
       walletController.sendCoins(lnd, data)
-        .then((transaction) => {
-          console.log('transaction: ', transaction)
-          event.sender.send('sendSuccessful', { transaction })
-        })
-        .catch(error => console.log('sendcoins error: ', error))
+        .then(({ txid }) => event.sender.send('sendSuccessful', { amount: data.amount, addr: data.addr, txid }))
+        .catch(error => event.sender.send('sendCoinsError', { error }))
       break
     case 'openChannel':
     // Response is empty. Streaming updates on channel status and updates

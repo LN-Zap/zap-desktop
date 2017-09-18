@@ -62,36 +62,38 @@ const Payments = ({
       </li>
       {
         payments.map((paymentItem, index) =>
-          (<li key={index} className={styles.payment} onClick={() => setPayment(paymentItem)}>
-            <div className={styles.left}>
-              <div className={styles.path}>{paymentItem.path[0]}</div>
-            </div>
-            <div className={styles.center}>
-              <div className={styles.date}>
-                <Moment format='MMM Do'>{paymentItem.creation_date * 1000}</Moment>
+          (
+            <li key={index} className={styles.payment} onClick={() => setPayment(paymentItem)}>
+              <div className={styles.left}>
+                <div className={styles.path}>{paymentItem.path[0]}</div>
               </div>
-            </div>
-            <div className={styles.right}>
-              <span className={styles.fee}>
-                {
-                  ticker.currency === 'usd' ?
-                    btc.satoshisToUsd(paymentItem.fee, currentTicker.price_usd)
-                    :
-                    btc.satoshisToBtc(paymentItem.fee)
-                }
-              </span>
-            </div>
-            <div className={styles.right}>
-              <span className={styles.value}>
-                {
-                  ticker.currency === 'usd' ?
-                    btc.satoshisToUsd(paymentItem.value, currentTicker.price_usd)
-                    :
-                    btc.satoshisToBtc(paymentItem.value)
-                }
-              </span>
-            </div>
-          </li>)
+              <div className={styles.center}>
+                <div className={styles.date}>
+                  <Moment format='MMM Do'>{paymentItem.creation_date * 1000}</Moment>
+                </div>
+              </div>
+              <div className={styles.right}>
+                <span className={styles.fee}>
+                  {
+                    ticker.currency === 'usd' ?
+                      btc.satoshisToUsd(paymentItem.fee, currentTicker.price_usd)
+                      :
+                      btc.satoshisToBtc(paymentItem.fee)
+                  }
+                </span>
+              </div>
+              <div className={styles.right}>
+                <span className={styles.value}>
+                  {
+                    ticker.currency === 'usd' ?
+                      btc.satoshisToUsd(paymentItem.value, currentTicker.price_usd)
+                      :
+                      btc.satoshisToBtc(paymentItem.value)
+                  }
+                </span>
+              </div>
+            </li>
+          )
         )
       }
     </ul>

@@ -5,6 +5,7 @@ Object {
   "payment": null,
   "paymentLoading": true,
   "payments": Array [],
+  "sendingPayment": false,
 }
 `;
 
@@ -12,9 +13,8 @@ exports[`reducers paymentReducer should correctly paymentSuccessful 1`] = `
 Object {
   "payment": null,
   "paymentLoading": false,
-  "payments": Array [
-    "foo",
-  ],
+  "payments": Array [],
+  "sendingPayment": false,
 }
 `;
 
@@ -26,6 +26,7 @@ Object {
     1,
     2,
   ],
+  "sendingPayment": false,
 }
 `;
 
@@ -34,6 +35,7 @@ Object {
   "payment": "foo",
   "paymentLoading": false,
   "payments": Array [],
+  "sendingPayment": false,
 }
 `;
 
@@ -42,5 +44,6 @@ Object {
   "payment": null,
   "paymentLoading": false,
   "payments": Array [],
+  "sendingPayment": false,
 }
 `;

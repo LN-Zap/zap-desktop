@@ -2,6 +2,7 @@
 @import 'reset.scss';
 @import 'variables.scss';
 @import 'tooltip.scss';
+@import 'animated_checkmark.scss';
 
 @font-face {
   font-family: 'Roboto';
@@ -33,5 +34,36 @@ body {
 
   &--before-close {
     opacity: 0;
+  }
+}
+
+.load-draw-svg {
+  stroke-dasharray: 211;
+  stroke-dashoffset: 2110;
+  stroke-width: 2;
+  stroke-linecap: round;
+  animation: dash 15s linear infinite;
+  fill-opacity: 0;
+  stroke: $main;
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 2110;
+    opacity: 1;
+    stroke: $main;
+  }
+  15%{
+    opacity: 1;
+    stroke: $main;
+  }
+  70%{
+    opacity: 1;
+    stroke: $main;
+  }
+  100%{
+    stroke-dashoffset: 0;
+    opacity: 1;
+    stroke: darken($main, 10%);
   }
 }
