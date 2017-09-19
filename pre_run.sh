@@ -32,14 +32,7 @@ if [ "$(uname)" == "Darwin" ]; then
     openssl req -x509 -sha256 -days 3650 -key ~/Library/Application\ Support/Lnd/tls.key -in ~/Library/Application\ Support/Lnd/csr.csr -out ~/Library/Application\ Support/Lnd/tls.cert
     rm ~/Library/Application\ Support/Lnd/csr.csr
   fi
-
-  # Check if LND is running
-  if pgrep lnd > /dev/null && echo "LND running"; then
-    lncli stop
-  else
-    echo "lnd isn't running"
-  fi
-
+  
   #Start APP
   cross-env START_HOT=1 npm run start-renderer-dev
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then

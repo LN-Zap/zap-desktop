@@ -70,12 +70,6 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
           <span>Wallet</span>
         </NavLink>
       </li>
-      <li>
-        <NavLink exact to='/node' activeClassName={styles.active} className={styles.link}>
-          <FaTerminal />
-          <span>Node</span>
-        </NavLink>
-      </li>
     </ul>
     <div className={styles.buttons}>
       <div className={styles.button} onClick={() => formClicked('pay')}>

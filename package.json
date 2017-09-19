@@ -195,6 +195,7 @@
     "history": "^4.6.3",
     "moment-timezone": "^0.5.13",
     "prop-types": "^15.5.10",
+    "ps-node": "^0.1.6",
     "qrcode.react": "^0.7.1",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",
