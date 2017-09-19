@@ -22,9 +22,6 @@ if [ "$(uname)" == "Darwin" ]; then
     go install . ./cmd/...
   fi
 
-  DIR=$PWD
-  cd $DIR
-
   # Check for certs
   if [ ! -f ~/Library/Application\ Support/Lnd/tls.cert ]; then
     openssl ecparam -genkey -name prime256v1 -out ~/Library/Application\ Support/Lnd/tls.key
