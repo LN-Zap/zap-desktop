@@ -21,6 +21,7 @@ import {
 } from './channels'
 import { receivePayments, paymentSuccessful, sendSuccessful, sendCoinsError } from './payment'
 import { receiveInvoices, createdInvoice, receiveFormInvoice } from './invoice'
+import { receiveData } from './neutrino'
 import { receiveBalance } from './balance'
 
 // Import all receiving IPC event handlers and pass them into createIpc
@@ -58,7 +59,9 @@ const ipc = createIpc({
   disconnectSuccess,
 
   receiveAddress,
-  receiveCryptocurrency
+  receiveCryptocurrency,
+
+  neutrino: receiveData
 })
 
 export default ipc

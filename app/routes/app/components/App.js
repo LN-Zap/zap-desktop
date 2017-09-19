@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ModalRoot from './components/ModalRoot'
@@ -12,6 +13,10 @@ class App extends Component {
     fetchTicker()
     fetchBalance()
     fetchInfo()
+
+    ipcRenderer.on('neutrino', (event, data) => {
+      console.log('data: ', data)
+    })
   }
 
   render() {
