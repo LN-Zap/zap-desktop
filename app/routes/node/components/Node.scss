@@ -1,0 +1,38 @@
+.container {
+  height: 100vh;
+}
+
+.pageTerminal {
+  background: #000;
+  color: #fff;
+  width: 90%;
+  margin: 100px auto;
+  height: 500px;
+  max-height: 500px;
+  overflow-y: scroll;
+  overflow-x: scroll;
+}
+
+.data {
+  padding: 20px;
+
+  span {
+    padding: 20px;
+    margin: 10px 0;
+    font-family: Menlo,Monaco,Consolas,"Courier New",monospace;
+    font-weight: 400;
+    height: 216px;
+    font-size: 15px;
+  }
+
+  span:nth-child(1) {
+    width: 60px;
+    padding: 20px;
+    color: #ebb864;
+  }
+
+  span:nth-child(2) {
+    padding: 20px;
+    overflow-x: scroll;
+  }
+}

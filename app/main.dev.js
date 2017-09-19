@@ -13,6 +13,7 @@
  */
 import { app, BrowserWindow, ipcMain } from 'electron'
 import { spawn } from 'child_process'
+import { createInterface } from 'readline'
 import MenuBuilder from './menu'
 import lnd from './lnd'
 
@@ -91,30 +92,38 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+  
+  // Start LND
+  const prc = spawn(
+    'lnd',
+    [
+      '--bitcoin.active',
+      '--bitcoin.testnet',
+      '--debuglevel=debug',
+      '--neutrino.active',
+      '--neutrino.connect=faucet.lightning.community:18333',
+      '--no-macaroons'
+    ]
+  )
+
+  createInterface({
+    input: prc.stdout,
+    terminal: false
+  })
+  .on('line', line => mainWindow.webContents.send('neutrino' , line))
+  
+  prc.on('close', function (code) {
+    console.log('process exit code ' + code);
+  })
 });
 
-// Start LND
-const prc = spawn(
-  'lnd',
-  [
-    '--bitcoin.active',
-    '--bitcoin.testnet',
-    '--debuglevel=debug',
-    '--neutrino.active',
-    '--neutrino.connect=faucet.lightning.community:18333',
-    '--no-macaroons'
-  ]
-)
 
-prc.stdout.on('data', data => {
-  const lines = data.toString().split(/(\r?\n)/g)
-  console.log('lines: ', lines)
-  mainWindow.webContents.send('neutrino' , lines)
-})
+// prc.stdout.on('data', data => {
+//   const lines = data.toString().split(/(\r?\n)/g)
+//   console.log('lines: ', lines)
+//   mainWindow.webContents.send('neutrino' , lines)
+// })
 
-prc.on('close', function (code) {
-  console.log('process exit code ' + code);
-})
 
 ipcMain.on('lnd', (event, { msg, data }) => {
   lnd(event, msg, data)

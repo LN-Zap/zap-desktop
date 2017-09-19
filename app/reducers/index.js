@@ -10,6 +10,7 @@ import channels from './channels'
 import form from './form'
 import invoice from './invoice'
 import modal from './modal'
+import neutrino from './neutrino'
 import address from './address'
 
 const rootReducer = combineReducers({
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   form,
   invoice,
   modal,
+  neutrino,
   address
 })
 
