@@ -11,6 +11,7 @@ import form from './form'
 import invoice from './invoice'
 import modal from './modal'
 import address from './address'
+import transaction from './transaction'
 
 const rootReducer = combineReducers({
   router,
@@ -23,7 +24,8 @@ const rootReducer = combineReducers({
   form,
   invoice,
   modal,
-  address
+  address,
+  transaction
 })
 
 export default rootReducer

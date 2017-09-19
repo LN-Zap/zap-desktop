@@ -11,6 +11,7 @@ import {
   fetchPayments,
   paymentSelectors
 } from '../../../reducers/payment'
+import { fetchTransactions } from '../../../reducers/transaction'
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
@@ -18,6 +19,7 @@ const mapDispatchToProps = {
   setInvoice,
   fetchPayments,
   fetchInvoices,
+  fetchTransactions,
   searchInvoices
 }
 

@@ -49,6 +49,11 @@ export default function (lnd, event, msg, data) {
         )
         .catch(error => console.log('channels error: ', error))
       break
+    case 'transactions':
+    // Data looks like { transactions: [] }
+      walletController.getTransactions(lnd)
+        .then(transactionsData => event.sender.send('receiveTransactions', transactionsData))
+        .catch(error => console.log('transactions error: ', error))
     case 'payments':
     // Data looks like { payments: [] }
       paymentsController.listPayments(lnd)

@@ -14,10 +14,11 @@ class Activity extends Component {
   }
 
   componentWillMount() {
-    const { fetchPayments, fetchInvoices } = this.props
+    const { fetchPayments, fetchInvoices, fetchTransactions } = this.props
 
     fetchPayments()
     fetchInvoices()
+    fetchTransactions()
   }
 
   render() {
