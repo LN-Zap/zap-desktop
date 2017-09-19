@@ -33,9 +33,10 @@ class Activity extends Component {
       setInvoice,
       paymentModalOpen,
       invoiceModalOpen,
-      currentTicker
+      currentTicker,
+      sortedActivity
     } = this.props
-
+    console.log('sortedActivity: ', sortedActivity)
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
     return (
       <div>
