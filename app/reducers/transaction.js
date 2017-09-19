@@ -41,7 +41,7 @@ export const receiveTransactions = (event, { transactions }) => dispatch => disp
 
 export const sendCoins = ({ value, addr, currency, rate }) => (dispatch) => {
   const amount = currency === 'usd' ? btc.btcToSatoshis(usd.usdToBtc(value, rate)) : btc.btcToSatoshis(value)
-  dispatch(sendPayment())
+  dispatch(sendTransaction())
   ipcRenderer.send('lnd', { msg: 'sendCoins', data: { amount, addr } })
 }
 
@@ -81,7 +81,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  sendingtransaction: false,
+  sendingTransaction: false,
   transactionLoading: false,
   transactions: []
 }

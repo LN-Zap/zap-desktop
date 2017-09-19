@@ -28,6 +28,7 @@ class App extends Component {
       setPubkey,
       setPaymentRequest,
       payment,
+      transaction: { sendingTransaction },
       peers,
       setCurrency,
       setForm,
@@ -64,6 +65,7 @@ class App extends Component {
           peers={peers}
           ticker={ticker}
           form={form}
+          sendingTransaction={sendingTransaction}
           createInvoice={createInvoice}
           payInvoice={payInvoice}
           sendCoins={sendCoins}
@@ -103,6 +105,7 @@ App.propTypes = {
   setPubkey: PropTypes.func.isRequired,
   setPaymentRequest: PropTypes.func.isRequired,
   payment: PropTypes.object.isRequired,
+  transaction: PropTypes.object.isRequired,
   peers: PropTypes.array,
   setCurrency: PropTypes.func.isRequired,
   setForm: PropTypes.func.isRequired,

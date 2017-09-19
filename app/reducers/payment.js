@@ -66,31 +66,9 @@ export const payInvoice = paymentRequest => (dispatch) => {
   ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
 }
 
-export const sendCoins = ({ value, addr, currency, rate }) => (dispatch) => {
-  const amount = currency === 'usd' ? btc.btcToSatoshis(usd.usdToBtc(value, rate)) : btc.btcToSatoshis(value)
-  dispatch(sendPayment())
-  ipcRenderer.send('lnd', { msg: 'sendCoins', data: { amount, addr } })
-}
-
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch
 export const paymentSuccessful = () => fetchPayments()
-
-export const sendSuccessful = (event, { amount, addr, txid }) => (dispatch) => {
-  // Close the form modal once the payment was succesful
-  dispatch(setForm({ modalOpen: false }))
-  // Show successful payment state
-  dispatch(showModal('SUCCESSFUL_SEND_COINS', { txid, amount, addr }))
-  // TODO: Add successful on-chain payment to payments list once payments list supports on-chain and LN
-  // dispatch({ type: PAYMENT_SUCCESSFULL, payment: { amount, addr, txid, pending: true } })
-  dispatch({ type: PAYMENT_SUCCESSFULL })
-  // Reset the payment form
-  dispatch(resetForm())
-}
-
-export const sendCoinsError = () => (dispatch) => {
-  dispatch({ type: PAYMENT_FAILED })
-}
 
 
 // ------------------------------------

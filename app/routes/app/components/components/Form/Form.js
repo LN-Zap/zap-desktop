@@ -22,7 +22,8 @@ const Form = ({
   formInvoice,
   currentTicker,
   isOnchain,
-  isLn
+  isLn,
+  sendingTransaction
 }) => (
   <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
     <div className={styles.container}>
@@ -33,7 +34,7 @@ const Form = ({
         {
           formType === 'pay' ?
             <Pay
-              sendingPayment={sendingPayment}
+              sendingTransaction={sendingTransaction}
               invoiceAmount={formInvoice.amount}
               onchainAmount={onchainAmount}
               setOnchainAmount={setOnchainAmount}
@@ -87,7 +88,8 @@ Form.propTypes = {
   formInvoice: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   isOnchain: PropTypes.bool.isRequired,
-  isLn: PropTypes.bool.isRequired
+  isLn: PropTypes.bool.isRequired,
+  sendingTransaction: PropTypes.bool.isRequired
 }
 
 export default Form
