@@ -17,6 +17,8 @@ class Activity extends Component {
     this.state = {
       tab: 1
     }
+
+    this.renderActivity = this.renderActivity.bind(this)
   }
 
   componentWillMount() {
@@ -25,6 +27,21 @@ class Activity extends Component {
     fetchPayments()
     fetchInvoices()
     fetchTransactions()
+  }
+
+  renderActivity(activity) {
+    const { ticker, currentTicker } = this.props
+
+    if (activity.hasOwnProperty('block_hash')) {
+      // activity is an on-chain tx
+      return <Transaction transaction={activity} ticker={ticker} currentTicker={currentTicker} />
+    } else if (activity.hasOwnProperty('payment_request')) {
+      // activity is an LN invoice
+      return <Invoice invoice={activity} />
+    } else {
+      // activity is an LN payment
+      return <Payment payment={activity} />
+    }
   }
 
   render() {
@@ -77,16 +94,11 @@ class Activity extends Component {
           <ul className={styles.activityContainer}>
             {
               sortedActivity.map((activity, index) => {
-                if (activity.hasOwnProperty('block_hash')) {
-                  // activity is an on-chain tx
-                  return <Transaction transaction={activity} key={index} />
-                } else if (activity.hasOwnProperty('payment_request')) {
-                  // activity is an LN invoice
-                  return <Invoice invoice={activity} key={index} />
-                } else {
-                  // activity is an LN payment
-                  return <Payment payment={activity} key={index} />
-                }
+                return (
+                  <li className={styles.activity} key={index}>
+                    {this.renderActivity(activity)}
+                  </li>
+                )
               })
             }
           </ul>
