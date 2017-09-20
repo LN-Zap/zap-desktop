@@ -37,10 +37,11 @@ class Activity extends Component {
       return <Transaction transaction={activity} ticker={ticker} currentTicker={currentTicker} />
     } else if (activity.hasOwnProperty('payment_request')) {
       // activity is an LN invoice
-      return <Invoice invoice={activity} />
+      console.log('activity: ', activity)
+      return <Invoice invoice={activity} ticker={ticker} currentTicker={currentTicker} />
     } else {
       // activity is an LN payment
-      return <Payment payment={activity} />
+      return <Payment payment={activity} ticker={ticker} currentTicker={currentTicker} />
     }
   }
 

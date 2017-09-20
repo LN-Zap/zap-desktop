@@ -5,10 +5,20 @@ import 'moment-timezone'
 import { FaChain } from 'react-icons/lib/fa'
 import { btc } from '../../../../../utils'
 import CurrencyIcon from '../../../../../components/CurrencyIcon'
-import styles from './Transaction.scss'
+import styles from '../Activity.scss'
 
 const Transaction = ({ transaction, ticker, currentTicker }) => (
   <div className={styles.container}>
+    <div className={styles.label}>
+      <h3>
+        {
+          transaction.amount < 0 ?
+            'Sent'
+            :
+            'Received'
+        }
+      </h3>
+    </div>
     <i className={`${styles.icon} hint--top`} data-hint='On-chain transaction'>
       <FaChain />
     </i>
