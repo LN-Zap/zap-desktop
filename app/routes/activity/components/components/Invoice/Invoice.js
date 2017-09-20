@@ -9,15 +9,22 @@ import styles from '../Activity.scss'
 
 const Invoice = ({ invoice, ticker, currentTicker }) => (
   <div className={styles.container}>
-    <i className={`${styles.icon} hint--top`} data-hint='Lightning Network transaction'>
-      <FaBolt />
-    </i>
+    <div className={styles.label}>
+      <i className={`${styles.icon} hint--top`} data-hint='Lightning Network transaction'>
+        <FaBolt />
+      </i>
+      <h3>
+        {
+          invoice.settled ?
+            'Received'
+            :
+            'Requested'
+        }
+      </h3>
+    </div>
     <div className={styles.data}>
       <div className={styles.title}>
         {invoice.r_hash.toString('hex')}
-      </div>
-      <div className={styles.subtitle}>
-        {invoice.memo}
       </div>
     </div>
     <div className={styles.date}>

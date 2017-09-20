@@ -9,20 +9,17 @@ import styles from '../Activity.scss'
 
 const Payment = ({ payment, ticker, currentTicker }) => (
   <div className={styles.container}>
-    <i className={`${styles.icon} hint--top`} data-hint='Lightning Network transaction'>
-      <FaBolt />
-    </i>
+    <div className={styles.label}>
+      <i className={`${styles.icon} hint--top`} data-hint='Lightning Network transaction'>
+        <FaBolt />
+      </i>
+      <h3>
+        Sent
+      </h3>
+    </div>
     <div className={styles.data}>
       <div className={styles.title}>
         {payment.payment_hash}
-      </div>
-      <div className={styles.subtitle}>
-        {
-          payment.path.length > 1 ? 
-          `${payment.path.length} hops`
-          :
-          'Directly routed'
-        }
       </div>
     </div>
     <div className={styles.date}>

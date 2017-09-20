@@ -10,6 +10,9 @@ import styles from '../Activity.scss'
 const Transaction = ({ transaction, ticker, currentTicker }) => (
   <div className={styles.container}>
     <div className={styles.label}>
+      <i className={`${styles.icon} hint--top`} data-hint='On-chain transaction'>
+        <FaChain />
+      </i>
       <h3>
         {
           transaction.amount < 0 ?
@@ -19,15 +22,9 @@ const Transaction = ({ transaction, ticker, currentTicker }) => (
         }
       </h3>
     </div>
-    <i className={`${styles.icon} hint--top`} data-hint='On-chain transaction'>
-      <FaChain />
-    </i>
     <div className={styles.data}>
       <div className={styles.title}>
         {transaction.tx_hash}
-      </div>
-      <div className={styles.subtitle}>
-        {transaction.num_confirmations} confirmations
       </div>
     </div>
     <div className={styles.date}>
