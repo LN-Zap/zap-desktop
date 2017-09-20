@@ -1,0 +1,63 @@
+@import '../../../../../../variables.scss';
+
+.container {
+  padding: 40px;
+
+  h1 {
+    text-align: center;
+    color: $main;
+    margin: 60px 30px 60px 0;
+
+    svg {
+      font-size: 30px;
+      vertical-align: top;
+    }
+
+    span svg[data-icon='ltc'] {
+      width: 30px;
+      height: 30px;
+      vertical-align: top;
+
+      g {
+        transform: scale(1.75) translate(-5px, -5px);
+      }
+    }
+
+    .value {
+      font-size: 75px;
+    }
+  }
+
+  h3 {
+    font-size: 14px;
+    text-align: center;
+    color: $black;
+    font-weight: bold;
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 24px;
+  }
+
+  dt {
+    text-align: left;
+    float: left;
+    clear: left;
+    font-weight: 500;
+    padding: 20px 35px 19px 0;
+    color: $black;
+    font-weight: bold;
+  }
+
+  dd {
+    text-align: right;
+    font-weight: 400;
+    padding: 19px 0;
+    margin-left: 0;
+    border-top: 1px solid $darkgrey;
+  }
+}
