@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
-const Modal = ({ isOpen, resetObject, children }) => {
+const Modal = ({ modalType, modalProps, hideActivityModal }) => {
   const customStyles = {
     overlay: {
       cursor: 'pointer'
@@ -16,26 +16,26 @@ const Modal = ({ isOpen, resetObject, children }) => {
       margin: '50px auto'
     }
   }
+  
+  if (!modalType) { return null }
 
   return (
     <ReactModal
-      isOpen={isOpen}
-      contentLabel='No Overlay Click Modal'
+      isOpen
       ariaHideApp
       shouldCloseOnOverlayClick
-      onRequestClose={() => resetObject(null)}
+      contentLabel='No Overlay Click Modal'
+      onRequestClose={() => hideActivityModal()}
       parentSelector={() => document.body}
       style={customStyles}
     >
-      {children}
+      <h1>hi!</h1>
     </ReactModal>
   )
 }
 
 Modal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  resetObject: PropTypes.func.isRequired,
-  children: PropTypes.object
+  modalType: PropTypes.string
 }
 
 export default Modal

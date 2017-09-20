@@ -7,8 +7,8 @@ import { btc } from '../../../../../utils'
 import CurrencyIcon from '../../../../../components/CurrencyIcon'
 import styles from '../Activity.scss'
 
-const Invoice = ({ invoice, ticker, currentTicker }) => (
-  <div className={styles.container}>
+const Invoice = ({ invoice, ticker, currentTicker, showActivityModal }) => (
+  <div className={styles.container} onClick={() => showActivityModal('INVOICE', { invoice })}>
     <div className={styles.label}>
       <i className={`${styles.icon} hint--top`} data-hint='Lightning Network transaction'>
         <FaBolt />

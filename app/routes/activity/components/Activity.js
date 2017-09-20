@@ -9,6 +9,8 @@ import Invoice from './components/Invoice'
 import Payment from './components/Payment'
 import Transaction from './components/Transaction'
 
+import Modal from './components/Modal'
+
 import styles from './Activity.scss'
 
 class Activity extends Component {
@@ -30,18 +32,17 @@ class Activity extends Component {
   }
 
   renderActivity(activity) {
-    const { ticker, currentTicker } = this.props
+    const { ticker, currentTicker, showActivityModal } = this.props
 
     if (activity.hasOwnProperty('block_hash')) {
       // activity is an on-chain tx
-      return <Transaction transaction={activity} ticker={ticker} currentTicker={currentTicker} />
+      return <Transaction transaction={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
     } else if (activity.hasOwnProperty('payment_request')) {
       // activity is an LN invoice
-      console.log('activity: ', activity)
-      return <Invoice invoice={activity} ticker={ticker} currentTicker={currentTicker} />
+      return <Invoice invoice={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
     } else {
       // activity is an LN payment
-      return <Payment payment={activity} ticker={ticker} currentTicker={currentTicker} />
+      return <Payment payment={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
     }
   }
 
@@ -58,11 +59,17 @@ class Activity extends Component {
       paymentModalOpen,
       invoiceModalOpen,
       currentTicker,
-      sortedActivity
+      sortedActivity,
+      activity: { modal },
+      hideActivityModal
     } = this.props
+    
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
+
     return (
       <div>
+        <Modal modalType={modal.modalType} modalProps={modal.modalProps} hideActivityModal={hideActivityModal} />
+        
         <div className={styles.search}>
           <label className={`${styles.label} ${styles.input}`} htmlFor='invoiceSearch'>
             <MdSearch />

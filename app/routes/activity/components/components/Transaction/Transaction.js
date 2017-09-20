@@ -7,8 +7,8 @@ import { btc } from '../../../../../utils'
 import CurrencyIcon from '../../../../../components/CurrencyIcon'
 import styles from '../Activity.scss'
 
-const Transaction = ({ transaction, ticker, currentTicker }) => (
-  <div className={styles.container}>
+const Transaction = ({ transaction, ticker, currentTicker, showActivityModal }) => (
+  <div className={styles.container} onClick={() => showActivityModal('TRANSACTION', { transaction })}>
     <div className={styles.label}>
       <i className={`${styles.icon} hint--top`} data-hint='On-chain transaction'>
         <FaChain />
