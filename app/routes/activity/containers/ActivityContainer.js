@@ -24,7 +24,6 @@ const mapDispatchToProps = {
   searchInvoices
 }
 
-console.log('activitySelectors: ', activitySelectors)
 const mapStateToProps = state => ({
   activity: state.activity,
 

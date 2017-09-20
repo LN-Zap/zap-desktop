@@ -128,7 +128,10 @@ class Pay extends Component {
 
 Pay.propTypes = {
   sendingTransaction: PropTypes.bool.isRequired,
-  invoiceAmount: PropTypes.string.isRequired,
+  invoiceAmount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
   onchainAmount: PropTypes.string.isRequired,
   setOnchainAmount: PropTypes.func.isRequired,
   payment_request: PropTypes.string.isRequired,

@@ -1,8 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { MdSearch } from 'react-icons/lib/md'
+import { FaChain, FaBolt } from 'react-icons/lib/fa'
 import Payments from './components/Payments'
 import Invoices from './components/Invoices'
+
+import Invoice from './components/Invoice'
+import Payment from './components/Payment'
+import Transaction from './components/Transaction'
+
 import styles from './Activity.scss'
 
 class Activity extends Component {
@@ -36,7 +42,6 @@ class Activity extends Component {
       currentTicker,
       sortedActivity
     } = this.props
-    console.log('sortedActivity: ', sortedActivity)
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
     return (
       <div>
@@ -69,28 +74,22 @@ class Activity extends Component {
               Requests
             </span>
           </header>
-          <div className={styles.activityContainer}>
+          <ul className={styles.activityContainer}>
             {
-              tab === 1 ?
-                <Payments
-                  payment={payment}
-                  payments={payments}
-                  ticker={ticker}
-                  setPayment={setPayment}
-                  paymentModalOpen={paymentModalOpen}
-                  currentTicker={currentTicker}
-                />
-                :
-                <Invoices
-                  invoice={invoice}
-                  invoices={invoices}
-                  ticker={ticker}
-                  setInvoice={setInvoice}
-                  invoiceModalOpen={invoiceModalOpen}
-                  currentTicker={currentTicker}
-                />
+              sortedActivity.map((activity, index) => {
+                if (activity.hasOwnProperty('block_hash')) {
+                  // activity is an on-chain tx
+                  return <Transaction transaction={activity} key={index} />
+                } else if (activity.hasOwnProperty('payment_request')) {
+                  // activity is an LN invoice
+                  return <Invoice invoice={activity} key={index} />
+                } else {
+                  // activity is an LN payment
+                  return <Payment payment={activity} key={index} />
+                }
+              })
             }
-          </div>
+          </ul>
         </div>
       </div>
     )
