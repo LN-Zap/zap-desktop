@@ -53,8 +53,6 @@
 
 .activityContainer {
 	background: $white;
-	padding: 20px 0;
-	
 }
 
 .activityList {
@@ -65,6 +63,12 @@
 
 .activity {
 	padding: 0 100px;
+
+	&:hover {
+		background-color: #f0f0f0;
+    transition-delay: 0s;
+    outline: $grey solid 1px;
+	}
 
 	.left, .center, .right {
 		display: inline-block;
