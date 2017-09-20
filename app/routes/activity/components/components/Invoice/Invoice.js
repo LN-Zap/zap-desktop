@@ -29,12 +29,7 @@ const Invoice = ({ invoice, ticker, currentTicker }) => (
     </div>
     <div className={styles.date}>
       <Moment format='MMM Do'>
-        {
-          invoice.settled ?
-            invoice.settle_date * 1000
-            :
-            invoice.creation_date * 1000
-        }
+        {invoice.creation_date * 1000}
       </Moment>
     </div>
     <div className={`${styles.amount} ${invoice.settled ? styles.positive : styles.negative}`}>

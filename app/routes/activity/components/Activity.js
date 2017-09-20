@@ -71,7 +71,7 @@ class Activity extends Component {
             value={tab === 1 ? '' : invoicesSearchText}
             onChange={event => (tab === 1 ? null : searchInvoices(event.target.value))}
             className={`${styles.text} ${styles.input}`}
-            placeholder={tab === 1 ? 'Search transactions by amount, public key, channel' : 'Search requests by memo'}
+            placeholder={tab === 1 ? 'Search by amount, hash, memo, etc' : 'Search requests by memo'}
             type='text'
             id='invoiceSearch'
           />
@@ -79,18 +79,7 @@ class Activity extends Component {
 
         <div className={styles.activities}>
           <header className={styles.header}>
-            <span
-              className={`${styles.title} ${tab === 1 ? styles.active : null}`}
-              onClick={() => this.setState({ tab: 1 })}
-            >
-              Payments
-            </span>
-            <span
-              className={`${styles.title} ${tab === 2 ? styles.active : null}`}
-              onClick={() => this.setState({ tab: 2 })}
-            >
-              Requests
-            </span>
+            <h2>Activity</h2>
           </header>
           <ul className={styles.activityContainer}>
             {
