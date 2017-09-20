@@ -68,7 +68,13 @@ class Activity extends Component {
 
     return (
       <div>
-        <Modal modalType={modal.modalType} modalProps={modal.modalProps} hideActivityModal={hideActivityModal} />
+        <Modal
+          modalType={modal.modalType}
+          modalProps={modal.modalProps}
+          hideActivityModal={hideActivityModal}
+          ticker={ticker}
+          currentTicker={currentTicker}
+        />
         
         <div className={styles.search}>
           <label className={`${styles.label} ${styles.input}`} htmlFor='invoiceSearch'>

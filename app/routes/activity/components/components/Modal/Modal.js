@@ -2,7 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
-const Modal = ({ modalType, modalProps, hideActivityModal }) => {
+import Transaction from './Transaction'
+import Payment from './Payment'
+import Invoice from './Invoice'
+
+const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker }) => {
+  const MODAL_COMPONENTS = {
+    TRANSACTION: Transaction,
+    PAYMENT: Payment,
+    INVOICE: Invoice
+  
+  }
   const customStyles = {
     overlay: {
       cursor: 'pointer'
@@ -19,6 +29,8 @@ const Modal = ({ modalType, modalProps, hideActivityModal }) => {
   
   if (!modalType) { return null }
 
+  const SpecificModal = MODAL_COMPONENTS[modalType]
+
   return (
     <ReactModal
       isOpen
@@ -29,7 +41,7 @@ const Modal = ({ modalType, modalProps, hideActivityModal }) => {
       parentSelector={() => document.body}
       style={customStyles}
     >
-      <h1>hi!</h1>
+      <SpecificModal {...modalProps} ticker={ticker} currentTicker={currentTicker} />
     </ReactModal>
   )
 }
