@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { MdSearch } from 'react-icons/lib/md'
-import { FaChain, FaBolt } from 'react-icons/lib/fa'
+import { FaChain, FaBolt, FaAngleDown } from 'react-icons/lib/fa'
 
 import Invoice from './components/Invoice'
 import Payment from './components/Payment'
@@ -56,11 +56,15 @@ class Activity extends Component {
       paymentModalOpen,
       invoiceModalOpen,
       currentTicker,
-      activity: { modal },
+      activity: { modal, filter, filterPulldown },
       hideActivityModal,
+      changeFilter,
+      toggleFilterPulldown,
       currentActivity,
       nonActiveFilters
     } = this.props
+
+    const { pulldown } = this.state
 
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
 
@@ -90,21 +94,22 @@ class Activity extends Component {
 
         <div className={styles.activities}>
           <header className={styles.header}>
-            <h2 onClick={() => this.setState({ pulldown: true })}>Activity</h2>
-            <ul className={styles.filters}>
-              {
-                nonActiveFilters.map(filter => {
-                  console.log('filter: ', filter)
-                  return (
-                    <li key={filter.key}>
+            <section>
+              <h2 onClick={toggleFilterPulldown}>
+                {filter.name} <span className={filterPulldown ? styles.pulldown : ''}><FaAngleDown /></span>
+              </h2>
+              <ul className={`${styles.filters} ${filterPulldown ? styles.active : ''}`}>
+                {
+                  nonActiveFilters.map(filter => 
+                    <li key={filter.key} onClick={() => changeFilter(filter)}>
                       {filter.name}
                     </li>
                   )
-                })
-              }
-            </ul>
+                }
+              </ul>
+            </section>
           </header>
-          <ul className={styles.activityContainer}>
+          <ul className={`${styles.activityContainer} ${filterPulldown ? styles.pulldown : ''}`}>
             {
               currentActivity.map((activity, index) => {
                 return (

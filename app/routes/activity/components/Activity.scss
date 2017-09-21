@@ -36,24 +36,66 @@
 	.header {
 		padding: 60px 0 20px 0;
 	  margin: 0 auto;
-		
-		h2 {
+
+	  section {
+		  position: relative;
 			margin-left: auto;
 			margin-right: auto;
 			padding-left: 100px;
 			padding-right: 100px;
+			max-width: 964px;
+	  }
+
+	  h2, h2 span {
+	  	cursor: pointer;
+			transition: color 0.25s;
+
+	  	&:hover {
+	  		color: lighten($darkestgrey, 10%);
+	  	}
+	  }
+		
+		h2, .filters li {
 			text-transform: uppercase;
 			letter-spacing: 1.5px;
 			color: $darkestgrey;
 			font-size: 14px;
 			font-weight: 400;
-			max-width: 964px;
+		}
+
+		h2 span.pulldown {
+			color: $main;
+		}
+
+		.filters {
+			display: none;
+			
+			&.active {
+				display: block;
+				position: absolute;
+				bottom: -100px;
+				z-index: 10;
+
+				li {
+					margin: 5px 0;
+					cursor: pointer;
+
+					&:hover {
+						color: $main;
+					}
+				}
+			}
 		}
 	}
 }
 
 .activityContainer {
 	background: $white;
+	transition: opacity 0.25s;
+
+	&.pulldown {
+		opacity: 0.15;
+	}
 }
 
 .activityList {

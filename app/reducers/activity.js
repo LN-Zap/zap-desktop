@@ -4,13 +4,14 @@ import { createSelector } from 'reselect'
 // Initial State
 // ------------------------------------
 const initialState = {
-  filter: 'ALL_ACTIVITY',
+  filterPulldown: false,
+  filter: { key: 'ALL_ACTIVITY', name: 'Activity' },
   filters: [
-    { key: 'ALL_ACTIVITY', name: 'Activity'},
-    { key: 'LN_ACTIVITY', name: 'Lightning Network'},
-    { key: 'PAYMENT_ACTIVITY', name: 'Payments'},
-    { key: 'INVOICE_ACTIVITY', name: 'Invoices'},
-    { key: 'TRANSACTION_ACTIVITY', name: 'Transactions'}
+    { key: 'ALL_ACTIVITY', name: 'All Activity'},
+    { key: 'LN_ACTIVITY', name: 'LN Activity'},
+    { key: 'PAYMENT_ACTIVITY', name: 'LN Payments'},
+    { key: 'INVOICE_ACTIVITY', name: 'LN Invoices'},
+    { key: 'TRANSACTION_ACTIVITY', name: 'On-chain Activity'}
   ],
   modal: {
     modalType: null,
@@ -25,6 +26,8 @@ export const SHOW_ACTIVITY_MODAL = 'SHOW_ACTIVITY_MODAL'
 export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
 
 export const CHANGE_FILTER = 'CHANGE_FILTER'
+
+export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
 
 // ------------------------------------
 // Actions
@@ -44,8 +47,16 @@ export function hideActivityModal() {
 }
 
 export function changeFilter(filter) {
-  type: CHANGE_FILTER,
-  filter
+  return {
+    type: CHANGE_FILTER,
+    filter
+  }
+}
+
+export function toggleFilterPulldown() {
+  return {
+    type: TOGGLE_PULLDOWN
+  }
 }
 
 // ------------------------------------
@@ -54,7 +65,8 @@ export function changeFilter(filter) {
 const ACTION_HANDLERS = {
   [SHOW_ACTIVITY_MODAL]: (state, { modalType, modalProps }) => ({ ...state, modal: { modalType, modalProps } }),
   [HIDE_ACTIVITY_MODAL]: (state) => ({ ...state, modal: { modalType: null, modalProps: {} } }),
-  [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter })
+  [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
+  [TOGGLE_PULLDOWN]: (state) => ({ ...state, filterPulldown: !state.filterPulldown })
 }
 
 // ------------------------------------
@@ -111,13 +123,13 @@ const transactionActivity = createSelector(
 
 activitySelectors.currentActivity = createSelector(
   filterSelector,
-  filter => FILTERS[filter]
+  filter => FILTERS[filter.key]
 )
 
 activitySelectors.nonActiveFilters = createSelector(
   filtersSelector,
   filterSelector,
-  (filters, filter) => filters.filter(f => f.key !== filter)
+  (filters, filter) => filters.filter(f => f.key !== filter.key)
 )
 
 const FILTERS = {

@@ -12,7 +12,13 @@ import {
   paymentSelectors
 } from '../../../reducers/payment'
 import { fetchTransactions } from '../../../reducers/transaction'
-import { showActivityModal, hideActivityModal, activitySelectors } from '../../../reducers/activity'
+import {
+  showActivityModal,
+  hideActivityModal,
+  changeFilter,
+  toggleFilterPulldown,
+  activitySelectors
+} from '../../../reducers/activity'
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
@@ -23,7 +29,9 @@ const mapDispatchToProps = {
   fetchTransactions,
   searchInvoices,
   showActivityModal,
-  hideActivityModal
+  hideActivityModal,
+  changeFilter,
+  toggleFilterPulldown
 }
 
 const mapStateToProps = state => ({
