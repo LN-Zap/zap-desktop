@@ -54,6 +54,7 @@ export default function (lnd, event, msg, data) {
       walletController.getTransactions(lnd)
         .then(transactionsData => event.sender.send('receiveTransactions', transactionsData))
         .catch(error => console.log('transactions error: ', error))
+      break
     case 'payments':
     // Data looks like { payments: [] }
       paymentsController.listPayments(lnd)

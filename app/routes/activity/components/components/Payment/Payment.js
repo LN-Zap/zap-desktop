@@ -4,7 +4,6 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 import { FaBolt } from 'react-icons/lib/fa'
 import { btc } from '../../../../../utils'
-import CurrencyIcon from '../../../../../components/CurrencyIcon'
 import styles from '../Activity.scss'
 
 const Payment = ({ payment, ticker, currentTicker, showActivityModal }) => (
@@ -35,7 +34,7 @@ const Payment = ({ payment, ticker, currentTicker, showActivityModal }) => (
     </div>
     <div className={styles.amount}>
       <span className='hint--top' data-hint='Payment amount'>
-        - 
+        -
         {
           ticker.currency === 'usd' ?
             btc.satoshisToUsd(payment.value, currentTicker.price_usd)
@@ -56,7 +55,10 @@ const Payment = ({ payment, ticker, currentTicker, showActivityModal }) => (
 )
 
 Payment.propTypes = {
-  
+  payment: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+  showActivityModal: PropTypes.func.isRequired
 }
 
 export default Payment

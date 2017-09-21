@@ -4,7 +4,6 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 import { FaChain } from 'react-icons/lib/fa'
 import { btc } from '../../../../../utils'
-import CurrencyIcon from '../../../../../components/CurrencyIcon'
 import styles from '../Activity.scss'
 
 const Transaction = ({ transaction, ticker, currentTicker, showActivityModal }) => (
@@ -56,7 +55,10 @@ const Transaction = ({ transaction, ticker, currentTicker, showActivityModal }) 
 )
 
 Transaction.propTypes = {
-  
+  transaction: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+  showActivityModal: PropTypes.func.isRequired
 }
 
 export default Transaction

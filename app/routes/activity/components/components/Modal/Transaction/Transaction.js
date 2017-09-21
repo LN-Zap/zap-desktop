@@ -4,10 +4,6 @@ import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import 'moment-timezone'
 
-import QRCode from 'qrcode.react'
-
-import { MdCheck } from 'react-icons/lib/md'
-
 import CurrencyIcon from '../../../../../../components/CurrencyIcon'
 import { btc } from '../../../../../../utils'
 
@@ -50,6 +46,9 @@ const Transaction = ({ transaction, ticker, currentTicker }) => (
 )
 
 Transaction.propTypes = {
+  transaction: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Transaction

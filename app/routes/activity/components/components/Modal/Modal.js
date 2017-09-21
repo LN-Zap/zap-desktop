@@ -11,7 +11,7 @@ const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker
     TRANSACTION: Transaction,
     PAYMENT: Payment,
     INVOICE: Invoice
-  
+
   }
   const customStyles = {
     overlay: {
@@ -26,7 +26,7 @@ const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker
       margin: '50px auto'
     }
   }
-  
+
   if (!modalType) { return null }
 
   const SpecificModal = MODAL_COMPONENTS[modalType]
@@ -47,7 +47,11 @@ const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker
 }
 
 Modal.propTypes = {
-  modalType: PropTypes.string
+  modalType: PropTypes.string,
+  modalProps: PropTypes.object.isRequired,
+  hideActivityModal: PropTypes.func.isRequired,
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Modal

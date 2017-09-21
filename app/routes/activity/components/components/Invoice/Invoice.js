@@ -4,7 +4,6 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 import { FaBolt, FaClockO } from 'react-icons/lib/fa'
 import { btc } from '../../../../../utils'
-import CurrencyIcon from '../../../../../components/CurrencyIcon'
 import styles from '../Activity.scss'
 
 const Invoice = ({ invoice, ticker, currentTicker, showActivityModal }) => (
@@ -45,7 +44,7 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal }) => (
     </div>
     <div className={`${styles.amount} ${invoice.settled ? styles.positive : styles.negative}`}>
       <span className='hint--top' data-hint='Invoice amount'>
-        + 
+        +
         {
           ticker.currency === 'usd' ?
             btc.satoshisToUsd(invoice.value, currentTicker.price_usd)
@@ -66,7 +65,10 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal }) => (
 )
 
 Invoice.propTypes = {
-  
+  invoice: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+  showActivityModal: PropTypes.func.isRequired
 }
 
 export default Invoice

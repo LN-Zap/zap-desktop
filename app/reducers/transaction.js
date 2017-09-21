@@ -1,4 +1,3 @@
-import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { btc, usd } from '../utils'
 import { setForm, resetForm } from './form'
@@ -62,7 +61,7 @@ export const transactionSuccessful = (event, { amount, addr, txid }) => (dispatc
 }
 
 export const transactionError = () => (dispatch) => {
-  dispatch({ type: PAYMENT_FAILED })
+  dispatch({ type: TRANSACTION_FAILED })
 }
 
 

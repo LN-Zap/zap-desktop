@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { btc, usd } from '../utils'
 import { setForm, resetForm } from './form'
-import { showModal } from './modal'
 
 // ------------------------------------
 // Constants
@@ -68,7 +66,7 @@ export const payInvoice = paymentRequest => (dispatch) => {
 
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch
-export const paymentSuccessful = () => dispatch => {
+export const paymentSuccessful = () => (dispatch) => {
   // Close the form modal once the payment was succesful
   dispatch(setForm({ modalOpen: false }))
 

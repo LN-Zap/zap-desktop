@@ -53,6 +53,9 @@ const Invoice = ({ invoice, ticker, currentTicker }) => (
 )
 
 Invoice.propTypes = {
+  invoice: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired
 }
 
 export default Invoice
