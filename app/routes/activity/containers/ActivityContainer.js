@@ -41,7 +41,8 @@ const mapStateToProps = state => ({
 
   currentTicker: tickerSelectors.currentTicker(state),
 
-  currentActivity: activitySelectors.currentActivity(state)(state)
+  currentActivity: activitySelectors.currentActivity(state)(state),
+  nonActiveFilters: activitySelectors.nonActiveFilters(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity)

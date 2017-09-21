@@ -5,6 +5,13 @@ import { createSelector } from 'reselect'
 // ------------------------------------
 const initialState = {
   filter: 'ALL_ACTIVITY',
+  filters: [
+    { key: 'ALL_ACTIVITY', name: 'Activity'},
+    { key: 'LN_ACTIVITY', name: 'Lightning Network'},
+    { key: 'PAYMENT_ACTIVITY', name: 'Payments'},
+    { key: 'INVOICE_ACTIVITY', name: 'Invoices'},
+    { key: 'TRANSACTION_ACTIVITY', name: 'Transactions'}
+  ],
   modal: {
     modalType: null,
     modalProps: {}
@@ -54,6 +61,7 @@ const ACTION_HANDLERS = {
 // Selectors
 // ------------------------------------
 const activitySelectors = {}
+const filtersSelector = state => state.activity.filters
 const filterSelector = state => state.activity.filter
 const paymentsSelector = state => state.payment.payments
 const invoicesSelector = state => state.invoice.invoices
@@ -104,6 +112,12 @@ const transactionActivity = createSelector(
 activitySelectors.currentActivity = createSelector(
   filterSelector,
   filter => FILTERS[filter]
+)
+
+activitySelectors.nonActiveFilters = createSelector(
+  filtersSelector,
+  filterSelector,
+  (filters, filter) => filters.filter(f => f.key !== filter)
 )
 
 const FILTERS = {

@@ -15,7 +15,7 @@ class Activity extends Component {
   constructor(props, context) {
     super(props, context)
     this.state = {
-      tab: 1
+      pulldown: false
     }
 
     this.renderActivity = this.renderActivity.bind(this)
@@ -45,7 +45,6 @@ class Activity extends Component {
   }
 
   render() {
-    const { tab } = this.state
     const {
       ticker,
       searchInvoices,
@@ -59,9 +58,10 @@ class Activity extends Component {
       currentTicker,
       activity: { modal },
       hideActivityModal,
-      currentActivity
+      currentActivity,
+      nonActiveFilters
     } = this.props
-    
+
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
 
     return (
@@ -79,10 +79,10 @@ class Activity extends Component {
             <MdSearch />
           </label>
           <input
-            value={tab === 1 ? '' : invoicesSearchText}
-            onChange={event => (tab === 1 ? null : searchInvoices(event.target.value))}
+            value={invoicesSearchText}
+            onChange={event => searchInvoices(event.target.value)}
             className={`${styles.text} ${styles.input}`}
-            placeholder={tab === 1 ? 'Search by amount, hash, memo, etc' : 'Search requests by memo'}
+            placeholder='Search by amount, hash, memo, etc'
             type='text'
             id='invoiceSearch'
           />
@@ -90,7 +90,19 @@ class Activity extends Component {
 
         <div className={styles.activities}>
           <header className={styles.header}>
-            <h2>Activity</h2>
+            <h2 onClick={() => this.setState({ pulldown: true })}>Activity</h2>
+            <ul className={styles.filters}>
+              {
+                nonActiveFilters.map(filter => {
+                  console.log('filter: ', filter)
+                  return (
+                    <li key={filter.key}>
+                      {filter.name}
+                    </li>
+                  )
+                })
+              }
+            </ul>
           </header>
           <ul className={styles.activityContainer}>
             {
