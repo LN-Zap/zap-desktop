@@ -15,6 +15,8 @@ const initialState = {
 export const SHOW_ACTIVITY_MODAL = 'SHOW_ACTIVITY_MODAL'
 export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
 
+export const CHANGE_FILTER = 'CHANGE_FILTER'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -32,12 +34,18 @@ export function hideActivityModal() {
   }
 }
 
+export function changeFilter(filter) {
+  type: CHANGE_FILTER,
+  filter
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SHOW_ACTIVITY_MODAL]: (state, { modalType, modalProps }) => ({ ...state, modal: { modalType, modalProps } }),
-  [HIDE_ACTIVITY_MODAL]: (state) => ({ ...state, modal: { modalType: null, modalProps: {} } })
+  [HIDE_ACTIVITY_MODAL]: (state) => ({ ...state, modal: { modalType: null, modalProps: {} } }),
+  [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter })
 }
 
 // ------------------------------------
