@@ -12,8 +12,7 @@ import {
   paymentSelectors
 } from '../../../reducers/payment'
 import { fetchTransactions } from '../../../reducers/transaction'
-import { showActivityModal, hideActivityModal } from '../../../reducers/activity'
-import { activitySelectors } from '../../../selectors'
+import { showActivityModal, hideActivityModal, activitySelectors } from '../../../reducers/activity'
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
@@ -42,7 +41,7 @@ const mapStateToProps = state => ({
 
   currentTicker: tickerSelectors.currentTicker(state),
 
-  sortedActivity: activitySelectors.sortedActivity(state)
+  currentActivity: activitySelectors.currentActivity(state)(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity)

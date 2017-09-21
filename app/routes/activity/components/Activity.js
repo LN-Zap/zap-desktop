@@ -57,9 +57,9 @@ class Activity extends Component {
       paymentModalOpen,
       invoiceModalOpen,
       currentTicker,
-      sortedActivity,
       activity: { modal },
-      hideActivityModal
+      hideActivityModal,
+      currentActivity
     } = this.props
     
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
@@ -94,7 +94,7 @@ class Activity extends Component {
           </header>
           <ul className={styles.activityContainer}>
             {
-              sortedActivity.map((activity, index) => {
+              currentActivity.map((activity, index) => {
                 return (
                   <li className={styles.activity} key={index}>
                     {this.renderActivity(activity)}

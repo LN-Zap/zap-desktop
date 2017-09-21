@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -47,6 +49,73 @@ const ACTION_HANDLERS = {
   [HIDE_ACTIVITY_MODAL]: (state) => ({ ...state, modal: { modalType: null, modalProps: {} } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter })
 }
+
+// ------------------------------------
+// Selectors
+// ------------------------------------
+const activitySelectors = {}
+const filterSelector = state => state.activity.filter
+const paymentsSelector = state => state.payment.payments
+const invoicesSelector = state => state.invoice.invoices
+const transactionsSelector = state => state.transaction.transactions
+
+const allActivity = createSelector(
+  paymentsSelector,
+  invoicesSelector,
+  transactionsSelector,
+  (payments, invoices, transactions) => {
+    return [...payments, ...invoices, ...transactions].sort((a, b) => {
+      let aTimestamp = a.hasOwnProperty('time_stamp') ? a.time_stamp : a.creation_date
+      let bTimestamp = b.hasOwnProperty('time_stamp') ? b.time_stamp : b.creation_date
+
+      return bTimestamp - aTimestamp
+    })
+  }
+)
+
+const lnActivity = createSelector(
+  paymentsSelector,
+  invoicesSelector,
+  (payments, invoices) => {
+    return [...payments, ...invoices].sort((a, b) => {
+      let aTimestamp = a.hasOwnProperty('time_stamp') ? a.time_stamp : a.creation_date
+      let bTimestamp = b.hasOwnProperty('time_stamp') ? b.time_stamp : b.creation_date
+
+      return bTimestamp - aTimestamp
+    })
+  }
+)
+
+const paymentActivity = createSelector(
+  paymentsSelector,
+  payments => payments
+)
+
+const invoiceActivity = createSelector(
+  invoicesSelector,
+  invoices => invoices
+)
+
+const transactionActivity = createSelector(
+  transactionsSelector,
+  transactions => transactions
+)
+
+activitySelectors.currentActivity = createSelector(
+  filterSelector,
+  filter => FILTERS[filter]
+)
+
+const FILTERS = {
+  ALL_ACTIVITY: allActivity,
+  LN_ACTIVITY: lnActivity,
+  PAYMENT_ACTIVITY: paymentActivity,
+  INVOICE_ACTIVITY: invoiceActivity,
+  TRANSACTION_ACTIVITY: transactionActivity
+}
+
+export { activitySelectors }
+
 
 // ------------------------------------
 // Reducer
