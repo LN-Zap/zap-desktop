@@ -2,8 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { MdSearch } from 'react-icons/lib/md'
 import { FaChain, FaBolt } from 'react-icons/lib/fa'
-import Payments from './components/Payments'
-import Invoices from './components/Invoices'
 
 import Invoice from './components/Invoice'
 import Payment from './components/Payment'
