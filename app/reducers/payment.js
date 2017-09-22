@@ -71,7 +71,7 @@ export const paymentSuccessful = () => (dispatch) => {
   dispatch(setForm({ modalOpen: false }))
 
   // Refetch payments (TODO: dont do a full refetch, rather append new tx to list)
-  fetchPayments()
+  dispatch(fetchPayments())
 
   // Reset the payment form
   dispatch(resetForm())

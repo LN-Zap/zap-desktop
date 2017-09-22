@@ -5,7 +5,7 @@ import { createSelector } from 'reselect'
 // ------------------------------------
 const initialState = {
   filterPulldown: false,
-  filter: { key: 'ALL_ACTIVITY', name: 'Activity' },
+  filter: { key: 'ALL_ACTIVITY', name: 'All Activity' },
   filters: [
     { key: 'ALL_ACTIVITY', name: 'All Activity' },
     { key: 'LN_ACTIVITY', name: 'LN Activity' },
