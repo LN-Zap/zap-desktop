@@ -49,6 +49,12 @@ export default function (lnd, event, msg, data) {
         )
         .catch(error => console.log('channels error: ', error))
       break
+    case 'transactions':
+    // Data looks like { transactions: [] }
+      walletController.getTransactions(lnd)
+        .then(transactionsData => event.sender.send('receiveTransactions', transactionsData))
+        .catch(error => console.log('transactions error: ', error))
+      break
     case 'payments':
     // Data looks like { payments: [] }
       paymentsController.listPayments(lnd)
@@ -80,7 +86,12 @@ export default function (lnd, event, msg, data) {
         .then(newinvoice =>
           event.sender.send(
             'createdInvoice',
-            Object.assign(newinvoice, { memo: data.memo, value: data.value, r_hash: new Buffer(newinvoice.r_hash, 'hex').toString('hex') })
+            Object.assign(newinvoice, {
+              memo: data.memo,
+              value: data.value,
+              r_hash: new Buffer(newinvoice.r_hash, 'hex').toString('hex'),
+              creation_date: Date.now() / 1000
+            })
           )
         )
         .catch(error => console.log('addInvoice error: ', error))
@@ -96,8 +107,8 @@ export default function (lnd, event, msg, data) {
     // Transaction looks like { txid: String }
     // { amount, addr } = data
       walletController.sendCoins(lnd, data)
-        .then(({ txid }) => event.sender.send('sendSuccessful', { amount: data.amount, addr: data.addr, txid }))
-        .catch(error => event.sender.send('sendCoinsError', { error }))
+        .then(({ txid }) => event.sender.send('transactionSuccessful', { amount: data.amount, addr: data.addr, txid }))
+        .catch(error => event.sender.send('transactionError', { error }))
       break
     case 'openChannel':
     // Response is empty. Streaming updates on channel status and updates

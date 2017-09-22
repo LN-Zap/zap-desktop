@@ -16,7 +16,7 @@ class Pay extends Component {
 
   render() {
     const {
-      sendingPayment,
+      sendingTransaction,
       invoiceAmount,
       onchainAmount,
       setOnchainAmount,
@@ -43,7 +43,7 @@ class Pay extends Component {
     return (
       <div>
         {
-          sendingPayment ?
+          sendingTransaction ?
             <LoadingBolt />
             :
             null
@@ -127,8 +127,11 @@ class Pay extends Component {
 }
 
 Pay.propTypes = {
-  sendingPayment: PropTypes.bool.isRequired,
-  invoiceAmount: PropTypes.string.isRequired,
+  sendingTransaction: PropTypes.bool.isRequired,
+  invoiceAmount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
   onchainAmount: PropTypes.string.isRequired,
   setOnchainAmount: PropTypes.func.isRequired,
   payment_request: PropTypes.string.isRequired,

@@ -1,52 +1,80 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { MdSearch } from 'react-icons/lib/md'
-import Payments from './components/Payments'
-import Invoices from './components/Invoices'
+import { FaAngleDown } from 'react-icons/lib/fa'
+
+import Invoice from './components/Invoice'
+import Payment from './components/Payment'
+import Transaction from './components/Transaction'
+
+import Modal from './components/Modal'
+
 import styles from './Activity.scss'
 
 class Activity extends Component {
   constructor(props, context) {
     super(props, context)
-    this.state = {
-      tab: 1
-    }
+    this.renderActivity = this.renderActivity.bind(this)
   }
 
   componentWillMount() {
-    const { fetchPayments, fetchInvoices } = this.props
+    const { fetchPayments, fetchInvoices, fetchTransactions } = this.props
 
     fetchPayments()
     fetchInvoices()
+    fetchTransactions()
+  }
+
+  renderActivity(activity) {
+    const { ticker, currentTicker, showActivityModal } = this.props
+
+    if (Object.prototype.hasOwnProperty.call(activity, 'block_hash')) {
+      // activity is an on-chain tx
+      return <Transaction transaction={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
+    } else if (Object.prototype.hasOwnProperty.call(activity, 'payment_request')) {
+      // activity is an LN invoice
+      return <Invoice invoice={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
+    }
+    // activity is an LN payment
+    return <Payment payment={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
   }
 
   render() {
-    const { tab } = this.state
     const {
       ticker,
       searchInvoices,
-      invoices,
-      invoice: { invoicesSearchText, invoice, invoiceLoading },
-      payment: { payment, payments, paymentLoading },
-      setPayment,
-      setInvoice,
-      paymentModalOpen,
-      invoiceModalOpen,
-      currentTicker
+      invoice: { invoicesSearchText, invoiceLoading },
+      payment: { paymentLoading },
+      currentTicker,
+      activity: { modal, filter, filterPulldown },
+      hideActivityModal,
+      changeFilter,
+      toggleFilterPulldown,
+      currentActivity,
+      nonActiveFilters
     } = this.props
 
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
+
     return (
       <div>
+        <Modal
+          modalType={modal.modalType}
+          modalProps={modal.modalProps}
+          hideActivityModal={hideActivityModal}
+          ticker={ticker}
+          currentTicker={currentTicker}
+        />
+
         <div className={styles.search}>
           <label className={`${styles.label} ${styles.input}`} htmlFor='invoiceSearch'>
             <MdSearch />
           </label>
           <input
-            value={tab === 1 ? '' : invoicesSearchText}
-            onChange={event => (tab === 1 ? null : searchInvoices(event.target.value))}
+            value={invoicesSearchText}
+            onChange={event => searchInvoices(event.target.value)}
             className={`${styles.text} ${styles.input}`}
-            placeholder={tab === 1 ? 'Search transactions by amount, public key, channel' : 'Search requests by memo'}
+            placeholder='Search by amount, hash, memo, etc'
             type='text'
             id='invoiceSearch'
           />
@@ -54,41 +82,30 @@ class Activity extends Component {
 
         <div className={styles.activities}>
           <header className={styles.header}>
-            <span
-              className={`${styles.title} ${tab === 1 ? styles.active : null}`}
-              onClick={() => this.setState({ tab: 1 })}
-            >
-              Payments
-            </span>
-            <span
-              className={`${styles.title} ${tab === 2 ? styles.active : null}`}
-              onClick={() => this.setState({ tab: 2 })}
-            >
-              Requests
-            </span>
+            <section>
+              <h2 onClick={toggleFilterPulldown}>
+                {filter.name} <span className={filterPulldown ? styles.pulldown : ''}><FaAngleDown /></span>
+              </h2>
+              <ul className={`${styles.filters} ${filterPulldown ? styles.active : ''}`}>
+                {
+                  nonActiveFilters.map(f =>
+                    (<li key={f.key} onClick={() => changeFilter(f)}>
+                      {f.name}
+                    </li>)
+                  )
+                }
+              </ul>
+            </section>
           </header>
-          <div className={styles.activityContainer}>
+          <ul className={`${styles.activityContainer} ${filterPulldown ? styles.pulldown : ''}`}>
             {
-              tab === 1 ?
-                <Payments
-                  payment={payment}
-                  payments={payments}
-                  ticker={ticker}
-                  setPayment={setPayment}
-                  paymentModalOpen={paymentModalOpen}
-                  currentTicker={currentTicker}
-                />
-                :
-                <Invoices
-                  invoice={invoice}
-                  invoices={invoices}
-                  ticker={ticker}
-                  setInvoice={setInvoice}
-                  invoiceModalOpen={invoiceModalOpen}
-                  currentTicker={currentTicker}
-                />
+              currentActivity.map((activity, index) => (
+                <li className={styles.activity} key={index}>
+                  {this.renderActivity(activity)}
+                </li>
+              ))
             }
-          </div>
+          </ul>
         </div>
       </div>
     )
@@ -98,16 +115,19 @@ class Activity extends Component {
 Activity.propTypes = {
   fetchPayments: PropTypes.func.isRequired,
   fetchInvoices: PropTypes.func.isRequired,
+  fetchTransactions: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
   searchInvoices: PropTypes.func.isRequired,
-  invoices: PropTypes.array.isRequired,
   invoice: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
-  setPayment: PropTypes.func.isRequired,
-  setInvoice: PropTypes.func.isRequired,
-  paymentModalOpen: PropTypes.bool.isRequired,
-  invoiceModalOpen: PropTypes.bool.isRequired,
-  currentTicker: PropTypes.object.isRequired
+  currentTicker: PropTypes.object.isRequired,
+  showActivityModal: PropTypes.func.isRequired,
+  hideActivityModal: PropTypes.func.isRequired,
+  changeFilter: PropTypes.func.isRequired,
+  toggleFilterPulldown: PropTypes.func.isRequired,
+  activity: PropTypes.object.isRequired,
+  currentActivity: PropTypes.array.isRequired,
+  nonActiveFilters: PropTypes.array.isRequired
 }
 
 export default Activity

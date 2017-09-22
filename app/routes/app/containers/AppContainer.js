@@ -5,7 +5,8 @@ import { fetchBalance } from '../../../reducers/balance'
 import { fetchInfo } from '../../../reducers/info'
 import { createInvoice, fetchInvoice } from '../../../reducers/invoice'
 import { hideModal } from '../../../reducers/modal'
-import { payInvoice, sendCoins } from '../../../reducers/payment'
+import { payInvoice } from '../../../reducers/payment'
+import { sendCoins } from '../../../reducers/transaction'
 import { fetchChannels } from '../../../reducers/channels'
 import {
   setForm,
@@ -42,6 +43,7 @@ const mapStateToProps = state => ({
   ticker: state.ticker,
   balance: state.balance,
   payment: state.payment,
+  transaction: state.transaction,
   form: state.form,
   invoice: state.invoice,
   modal: state.modal,

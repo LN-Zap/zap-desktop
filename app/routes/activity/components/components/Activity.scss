@@ -1,0 +1,131 @@
+@import '../../../../variables.scss';
+
+.container {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  max-width: 960px;
+  margin: 0 auto;
+  height: 76px;
+  align-items: center;
+  border-bottom: 1px solid $grey;
+  font-size: 14px;
+  transition: background-color .1s linear;
+  transition-delay: .1s;
+  color: $darkestgrey;
+  position: relative;
+}
+
+.clock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: -100px;
+  width: 100px;
+  height: 77px;
+
+  svg {
+    font-size: 18px;
+  }
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 50px;
+
+  time {
+    text-transform: uppercase;
+
+    &:nth-child(1) {
+      display: flex;
+      align-items: center;
+      height: 38px;
+      font-size: 18px;
+      margin-bottom: 5px;
+    }
+
+    &:nth-child(2) {
+      font-size: 12px;
+    }
+   }
+}
+
+.data {
+  display: flex;
+  flex-direction: column;
+  flex: 6;
+  justify-content: space-evenly;
+
+  .title {
+    margin-bottom: 5px;
+  }
+
+  .icon, h3, span {
+    vertical-align: middle;
+  }
+
+  h3, span {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .icon {
+    display: inline-block;
+    flex: none;
+    position: relative;
+    width: 36px;
+    height: 36px;
+    border: 1px solid $darkestgrey;
+    border-radius: 50%;
+    margin-right: 15px;
+
+    svg {
+      color: $main;
+      font-size: 16px;
+      vertical-align: middle;
+      display: flex;
+      top: 0;
+      left: 50%;
+      height: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  h3 {
+    display: inline-block;
+
+    &:after {
+      content: " ";
+      display: inline-block;
+      width: 3px;
+    }
+  }
+
+  span {
+    text-transform: uppercase;
+  }
+}
+
+.amount {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  text-align: right;
+  font-size: 16px;
+
+  &.positive span:nth-child(1) {
+    font-weight: bold;
+    color: $main;
+  }
+
+  span {
+    &:nth-child(2) {
+      font-size: 12px;
+    }
+  }
+}

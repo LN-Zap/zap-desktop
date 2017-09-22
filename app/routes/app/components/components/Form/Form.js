@@ -7,7 +7,6 @@ import styles from './Form.scss'
 
 const Form = ({
   form: { formType, amount, onchainAmount, message, payment_request },
-  payment: { sendingPayment },
   setAmount,
   setOnchainAmount,
   setMessage,
@@ -22,7 +21,8 @@ const Form = ({
   formInvoice,
   currentTicker,
   isOnchain,
-  isLn
+  isLn,
+  sendingTransaction
 }) => (
   <div className={`${styles.formContainer} ${isOpen ? styles.open : ''}`}>
     <div className={styles.container}>
@@ -33,7 +33,7 @@ const Form = ({
         {
           formType === 'pay' ?
             <Pay
-              sendingPayment={sendingPayment}
+              sendingTransaction={sendingTransaction}
               invoiceAmount={formInvoice.amount}
               onchainAmount={onchainAmount}
               setOnchainAmount={setOnchainAmount}
@@ -71,7 +71,6 @@ const Form = ({
 )
 
 Form.propTypes = {
-  payment: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   setAmount: PropTypes.func.isRequired,
@@ -87,7 +86,8 @@ Form.propTypes = {
   formInvoice: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   isOnchain: PropTypes.bool.isRequired,
-  isLn: PropTypes.bool.isRequired
+  isLn: PropTypes.bool.isRequired,
+  sendingTransaction: PropTypes.bool.isRequired
 }
 
 export default Form

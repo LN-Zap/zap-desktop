@@ -11,6 +11,14 @@ import {
   fetchPayments,
   paymentSelectors
 } from '../../../reducers/payment'
+import { fetchTransactions } from '../../../reducers/transaction'
+import {
+  showActivityModal,
+  hideActivityModal,
+  changeFilter,
+  toggleFilterPulldown,
+  activitySelectors
+} from '../../../reducers/activity'
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
@@ -18,7 +26,12 @@ const mapDispatchToProps = {
   setInvoice,
   fetchPayments,
   fetchInvoices,
-  searchInvoices
+  fetchTransactions,
+  searchInvoices,
+  showActivityModal,
+  hideActivityModal,
+  changeFilter,
+  toggleFilterPulldown
 }
 
 const mapStateToProps = state => ({
@@ -34,7 +47,10 @@ const mapStateToProps = state => ({
   paymentModalOpen: paymentSelectors.paymentModalOpen(state),
   invoiceModalOpen: invoiceSelectors.invoiceModalOpen(state),
 
-  currentTicker: tickerSelectors.currentTicker(state)
+  currentTicker: tickerSelectors.currentTicker(state),
+
+  currentActivity: activitySelectors.currentActivity(state)(state),
+  nonActiveFilters: activitySelectors.nonActiveFilters(state)
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Activity)
