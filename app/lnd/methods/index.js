@@ -86,7 +86,12 @@ export default function (lnd, event, msg, data) {
         .then(newinvoice =>
           event.sender.send(
             'createdInvoice',
-            Object.assign(newinvoice, { memo: data.memo, value: data.value, r_hash: new Buffer(newinvoice.r_hash, 'hex').toString('hex'), creation_date: (Date.now() / 1000) })
+            Object.assign(newinvoice, {
+              memo: data.memo,
+              value: data.value,
+              r_hash: new Buffer(newinvoice.r_hash, 'hex').toString('hex'),
+              creation_date: Date.now() / 1000
+            })
           )
         )
         .catch(error => console.log('addInvoice error: ', error))
