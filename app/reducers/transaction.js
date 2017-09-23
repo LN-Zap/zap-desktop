@@ -1,4 +1,5 @@
 import { ipcRenderer } from 'electron'
+import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
 import { setForm, resetForm } from './form'
 import { showModal } from './modal'
@@ -69,6 +70,8 @@ export const transactionError = () => (dispatch) => {
 // Listener for when a new transaction is pushed from the subscriber
 export const newTransaction = (event, { transaction }) => (dispatch) => {
   dispatch({ type: ADD_TRANSACTION, transaction })
+
+  showNotification('New transaction!', 'You have a new transaction')
 }
 
 
