@@ -32,8 +32,8 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "ElectronReact",
-    "appId": "org.develar.ElectronReact",
+    "productName": "Zap",
+    "appId": "org.develar.Zap",
     "files": [
       "dist/",
       "node_modules/",
@@ -43,6 +43,7 @@
       "package.json"
     ],
     "dmg": {
+      "icon": "./resources/zap_2.icns",
       "contents": [
         {
           "x": 130,
@@ -57,6 +58,7 @@
       ]
     },
     "win": {
+      "icon": "./resources/zap_2.ico",
       "target": [
         "nsis"
       ]
@@ -74,12 +76,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chentsulin/electron-react-boilerplate.git"
+    "url": "git+https://github.com/LN-Zap/zap-desktop"
   },
-  "author": "C. T. Lin <chentsulin@gmail.com> (https://github.com/chentsulin)",
+  "author": "Jack Mallers <jimmymowschess@gmail.com> (https://github.com/chentsulin)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/chentsulin/electron-react-boilerplate/issues"
+    "url": "https://github.com/LN-Zap/zap-desktop/issues"
   },
   "keywords": [
     "electron",
@@ -92,7 +94,7 @@
     "hot",
     "reload"
   ],
-  "homepage": "https://github.com/chentsulin/electron-react-boilerplate#readme",
+  "homepage": "https://github.com/LN-Zap/zap-desktop#readme",
   "jest": {
     "moduleNameMapper": {
       "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js",
