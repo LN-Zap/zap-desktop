@@ -22,7 +22,8 @@
     "camelcase": 0,
     "react/require-default-props": 0,
     "max-len": ["error", 150],
-    "import/no-extraneous-dependencies": 0
+    "import/no-extraneous-dependencies": 0,
+    "no-new": 0
   },
   "plugins": [
     "flowtype",

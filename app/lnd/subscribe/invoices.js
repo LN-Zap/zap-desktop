@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 export default function subscribeToInvoices(mainWindow, lnd) {
   const call = lnd.subscribeInvoices({})
 

@@ -104,9 +104,9 @@ export const invoiceUpdate = (event, { invoice }) => (dispatch) => {
   dispatch({ type: UPDATE_INVOICE, invoice })
 
   // HTML 5 desktop notification for the invoice update
-  const notifTitle = `You've been Zapped`
-  const notifBody = `Congrats, someone just paid an invoice of yours`
-  
+  const notifTitle = 'You\'ve been Zapped'
+  const notifBody = 'Congrats, someone just paid an invoice of yours'
+
   showNotification(notifTitle, notifBody)
 }
 // ------------------------------------
@@ -131,9 +131,9 @@ const ACTION_HANDLERS = {
     { ...state, invoiceLoading: false, invoices: [invoice, ...state.invoices] }
   ),
   [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null }),
-  
+
   [UPDATE_INVOICE]: (state, action) => {
-    const updatedInvoices = state.invoices.map(invoice => {
+    const updatedInvoices = state.invoices.map((invoice) => {
       if (invoice.r_hash.toString('hex') !== action.invoice.r_hash.toString('hex')) { return invoice }
 
       return {
