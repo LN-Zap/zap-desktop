@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
 // ------------------------------------
 // Constants
@@ -19,6 +20,8 @@ export const SEND_INVOICE = 'SEND_INVOICE'
 export const INVOICE_SUCCESSFUL = 'INVOICE_SUCCESSFUL'
 
 export const INVOICE_FAILED = 'INVOICE_FAILED'
+
+export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 
 // ------------------------------------
 // Actions
@@ -95,6 +98,17 @@ export const createInvoice = (amount, memo, currency, rate) => (dispatch) => {
 
 // Receive IPC event for newly created invoice
 export const createdInvoice = (event, invoice) => dispatch => dispatch({ type: INVOICE_SUCCESSFUL, invoice })
+
+// Listen for invoice updates pushed from backend from subscribeToInvoices 
+export const invoiceUpdate = (event, { invoice }) => (dispatch) => {
+  dispatch({ type: UPDATE_INVOICE, invoice })
+
+  // HTML 5 desktop notification for the invoice update
+  const notifTitle = 'You\'ve been Zapped'
+  const notifBody = 'Congrats, someone just paid an invoice of yours'
+
+  showNotification(notifTitle, notifBody)
+}
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -116,7 +130,20 @@ const ACTION_HANDLERS = {
   [INVOICE_SUCCESSFUL]: (state, { invoice }) => (
     { ...state, invoiceLoading: false, invoices: [invoice, ...state.invoices] }
   ),
-  [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null })
+  [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null }),
+
+  [UPDATE_INVOICE]: (state, action) => {
+    const updatedInvoices = state.invoices.map((invoice) => {
+      if (invoice.r_hash.toString('hex') !== action.invoice.r_hash.toString('hex')) { return invoice }
+
+      return {
+        ...invoice,
+        ...action.invoice
+      }
+    })
+
+    return { ...state, invoices: updatedInvoices }
+  }
 }
 
 const invoiceSelectors = {}
