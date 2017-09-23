@@ -1,4 +1,5 @@
 import { ipcRenderer } from 'electron'
+import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
 import { setForm, resetForm } from './form'
 import { showModal } from './modal'
@@ -69,6 +70,12 @@ export const transactionError = () => (dispatch) => {
 // Listener for when a new transaction is pushed from the subscriber
 export const newTransaction = (event, { transaction }) => (dispatch) => {
   dispatch({ type: ADD_TRANSACTION, transaction })
+
+  // HTML 5 desktop notification for the new transaction
+  const notifTitle = transaction.amount > 0 ? `On-chain Transaction Received!` : `On-chain Transaction Sent!`
+  const notifBody = transaction.amount > 0 ? `Lucky you, you just received a new on-chain transaction. I'm jealous.` : `Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.`
+  
+  showNotification(notifTitle, notifBody)
 }
 
 
