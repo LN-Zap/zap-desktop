@@ -20,7 +20,7 @@ import {
 
 } from './channels'
 import { receivePayments, paymentSuccessful } from './payment'
-import { receiveInvoices, createdInvoice, receiveFormInvoice } from './invoice'
+import { receiveInvoices, createdInvoice, receiveFormInvoice, invoiceUpdate } from './invoice'
 import { receiveBalance } from './balance'
 import {
   receiveTransactions,
@@ -42,6 +42,7 @@ const ipc = createIpc({
   receiveInvoices,
   receiveInvoice: receiveFormInvoice,
   createdInvoice,
+  invoiceUpdate,
 
   receiveBalance,
 
