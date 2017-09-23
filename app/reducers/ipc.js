@@ -22,7 +22,12 @@ import {
 import { receivePayments, paymentSuccessful } from './payment'
 import { receiveInvoices, createdInvoice, receiveFormInvoice } from './invoice'
 import { receiveBalance } from './balance'
-import { receiveTransactions, transactionSuccessful, transactionError } from './transaction'
+import {
+  receiveTransactions,
+  transactionSuccessful,
+  transactionError,
+  newTransaction
+} from './transaction'
 
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
@@ -61,7 +66,8 @@ const ipc = createIpc({
 
   receiveTransactions,
   transactionSuccessful,
-  transactionError
+  transactionError,
+  newTransaction
 })
 
 export default ipc

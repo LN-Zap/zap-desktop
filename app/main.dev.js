@@ -13,7 +13,7 @@
  */
 import { app, BrowserWindow, ipcMain } from 'electron'
 import MenuBuilder from './menu'
-import lnd from './lnd'
+import { lndSubscribe, lndMethods } from './lnd'
 
 let mainWindow = null;
 
@@ -90,9 +90,12 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
+  
+  // Subscribe to LND events
+  lndSubscribe(mainWindow)
+
+  // LND CRUD methods
+  ipcMain.on('lnd', (event, { msg, data }) => {
+    lndMethods(event, msg, data)
+  })
 });
-
-ipcMain.on('lnd', (event, { msg, data }) => {
-  lnd(event, msg, data)
-})
-

@@ -14,6 +14,8 @@ export const SEND_TRANSACTION = 'SEND_TRANSACTION'
 export const TRANSACTION_SUCCESSFULL = 'TRANSACTION_SUCCESSFULL'
 export const TRANSACTION_FAILED = 'TRANSACTION_FAILED'
 
+export const ADD_TRANSACTION = 'ADD_TRANSACTION'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -48,7 +50,7 @@ export const sendCoins = ({ value, addr, currency, rate }) => (dispatch) => {
 // TODO: Add payment to state, not a total re-fetch
 export const transactionSuccessful = (event, { amount, addr, txid }) => (dispatch) => {
   // Get the new list of transactions (TODO dont do an entire new fetch)
-  fetchTransactions()
+  dispatch(fetchTransactions())
   // Close the form modal once the payment was succesful
   dispatch(setForm({ modalOpen: false }))
   // Show successful payment state
@@ -64,6 +66,11 @@ export const transactionError = () => (dispatch) => {
   dispatch({ type: TRANSACTION_FAILED })
 }
 
+// Listener for when a new transaction is pushed from the subscriber
+export const newTransaction = (event, { transaction }) => (dispatch) => {
+  dispatch({ type: ADD_TRANSACTION, transaction })
+}
+
 
 // ------------------------------------
 // Action Handlers
@@ -73,7 +80,8 @@ const ACTION_HANDLERS = {
   [SEND_TRANSACTION]: state => ({ ...state, sendingTransaction: true }),
   [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({ ...state, transactionLoading: false, transactions }),
   [TRANSACTION_SUCCESSFULL]: state => ({ ...state, sendingTransaction: false }),
-  [TRANSACTION_FAILED]: state => ({ ...state, sendingTransaction: false })
+  [TRANSACTION_FAILED]: state => ({ ...state, sendingTransaction: false }),
+  [ADD_TRANSACTION]: (state, { transaction }) => ({ ...state, transactions: [transaction, ...state.transactions] })
 }
 
 // ------------------------------------
