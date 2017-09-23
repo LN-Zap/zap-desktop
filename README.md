@@ -12,7 +12,7 @@ Zap is built on top of [LND](https://github.com/lightningnetwork/lnd),
 uses a [Node.js](https://github.com/LN-Zap/zap-nodejs) proxy and,
 [Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs) for the UI.
 
-Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) to discuss development, design and product
+Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjQ2NTg3NzA5NTkwLTRjNjNhMDc5ZmIyNTA4ZTJiNDNiYzlkM2E5NzhlOTU5ZTI5ZGIxYzQ4NWI5NTcyYjQxZDEzNTQwNmJkNzQ1NmE) to discuss development, design and product
 
 ## Requirements
 
