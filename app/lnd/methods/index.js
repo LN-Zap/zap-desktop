@@ -34,6 +34,12 @@ export default function (lnd, event, msg, data) {
         .then(({ address }) => event.sender.send('receiveAddress', address))
         .catch(error => console.log('newaddress error: ', error))
       break
+    case 'setAlias':
+    // Data looks like { new_alias: '' }
+      walletController.setAlias(lnd, data)
+        .then(() => event.sender.send('aliasSet'))
+        .catch(error => console.log('setAlias error: ', error))
+      break
     case 'peers':
     // Data looks like { peers: [] }
       peersController.listPeers(lnd)
