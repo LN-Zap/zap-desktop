@@ -78,3 +78,17 @@ export function sendCoins(lnd, { addr, amount }) {
     })
   })
 }
+
+/**
+ * Executes a request to set the alias for the node
+ * @param  {[type]} new_alias [description]
+ */
+export function setAlias(lnd, { new_alias }) {
+  return new Promise((resolve, reject) => {
+    lnd.setAlias({ new_alias }, (err, data) => {
+      if (err) { reject(err) }
+
+      resolve(data)
+    })
+  })
+}
