@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FaBolt, FaChain } from 'react-icons/lib/fa'
-import CurrencyIcon from '../../../../../../../components/CurrencyIcon'
-import LoadingBolt from '../../../../../../../components/LoadingBolt'
-import { btc } from '../../../../../../../utils'
+import CurrencyIcon from 'components/CurrencyIcon'
+import LoadingBolt from 'components/LoadingBolt'
+import { btc } from 'utils'
 import styles from './Pay.scss'
 
 class Pay extends Component {

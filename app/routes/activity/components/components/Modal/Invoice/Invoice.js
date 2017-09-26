@@ -8,8 +8,8 @@ import QRCode from 'qrcode.react'
 
 import { MdCheck } from 'react-icons/lib/md'
 
-import CurrencyIcon from '../../../../../../components/CurrencyIcon'
-import { btc } from '../../../../../../utils'
+import CurrencyIcon from 'components/CurrencyIcon'
+import { btc } from 'utils'
 
 import styles from './Invoice.scss'
 

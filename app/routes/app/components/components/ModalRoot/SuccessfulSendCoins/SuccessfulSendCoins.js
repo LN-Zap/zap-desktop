@@ -1,8 +1,8 @@
 import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
-import AnimatedCheckmark from '../../../../../../components/AnimatedCheckmark'
-import { btc } from '../../../../../../utils'
+import AnimatedCheckmark from 'components/AnimatedCheckmark'
+import { btc } from 'utils'
 import styles from './SuccessfulSendCoins.scss'
 
 const SuccessfulSendCoins = ({ amount, addr, txid, hideModal, currentTicker, currency }) => {

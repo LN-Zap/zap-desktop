@@ -1,7 +1,7 @@
 import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { btc } from '../../../../../../../utils'
+import { btc } from 'utils'
 import styles from './OpenPendingChannel.scss'
 
 const OpenPendingChannel = ({ ticker, channel: { channel }, currentTicker, explorerLinkBase }) => (

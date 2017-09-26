@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import CurrencyIcon from '../../../../../../../components/CurrencyIcon'
+import CurrencyIcon from 'components/CurrencyIcon'
 import styles from './Request.scss'
 
 const Request = ({

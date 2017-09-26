@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { btc } from '../../../../../../../utils'
+import { btc } from 'utils'
 import styles from './Channel.scss'
 
 const Channel = ({ ticker, channel, setChannel, currentTicker }) => (

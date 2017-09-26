@@ -1,24 +1,24 @@
 import { connect } from 'react-redux'
-import { tickerSelectors } from '../../../reducers/ticker'
+import { tickerSelectors } from 'reducers/ticker'
 import {
   fetchInvoices,
   searchInvoices,
   setInvoice,
   invoiceSelectors
-} from '../../../reducers/invoice'
+} from 'reducers/invoice'
 import {
   setPayment,
   fetchPayments,
   paymentSelectors
-} from '../../../reducers/payment'
-import { fetchTransactions } from '../../../reducers/transaction'
+} from 'reducers/payment'
+import { fetchTransactions } from 'reducers/transaction'
 import {
   showActivityModal,
   hideActivityModal,
   changeFilter,
   toggleFilterPulldown,
   activitySelectors
-} from '../../../reducers/activity'
+} from 'reducers/activity'
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {

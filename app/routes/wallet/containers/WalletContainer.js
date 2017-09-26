@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import { infoSelectors } from '../../../reducers/info'
-import { newAddress } from '../../../reducers/address'
-import { tickerSelectors } from '../../../reducers/ticker'
+import { infoSelectors } from 'reducers/info'
+import { newAddress } from 'reducers/address'
+import { tickerSelectors } from 'reducers/ticker'
 import {
   fetchPeers,
   setPeer,
@@ -9,7 +9,7 @@ import {
   setPeerForm,
   connectRequest,
   disconnectRequest
-} from '../../../reducers/peers'
+} from 'reducers/peers'
 import {
   fetchChannels,
   fetchPendingChannels,
@@ -18,7 +18,7 @@ import {
   setChannelForm,
   openChannel,
   closeChannel
-} from '../../../reducers/channels'
+} from 'reducers/channels'
 import Wallet from '../components/Wallet'
 
 const mapDispatchToProps = {
