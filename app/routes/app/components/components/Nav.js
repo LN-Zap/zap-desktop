@@ -4,9 +4,9 @@ import { NavLink } from 'react-router-dom'
 import ReactSVG from 'react-svg'
 import { MdAccountBalanceWallet } from 'react-icons/lib/md'
 import { FaClockO, FaDollar } from 'react-icons/lib/fa'
-import CryptoIcon from '../../../../components/CryptoIcon'
-import CurrencyIcon from '../../../../components/CurrencyIcon'
-import { btc, usd } from '../../../../utils'
+import CryptoIcon from 'components/CryptoIcon'
+import CurrencyIcon from 'components/CurrencyIcon'
+import { btc, usd } from 'utils'
 import styles from './Nav.scss'
 
 const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import 'moment-timezone'
 import { FaChain } from 'react-icons/lib/fa'
-import { btc } from '../../../../../utils'
+import { btc } from 'utils'
 import styles from '../Activity.scss'
 
 const Transaction = ({ transaction, ticker, currentTicker, showActivityModal }) => (

@@ -1,13 +1,12 @@
 import { connect } from 'react-redux'
-import App from '../components/App'
-import { fetchTicker, setCurrency, tickerSelectors } from '../../../reducers/ticker'
-import { fetchBalance } from '../../../reducers/balance'
-import { fetchInfo } from '../../../reducers/info'
-import { createInvoice, fetchInvoice } from '../../../reducers/invoice'
-import { hideModal } from '../../../reducers/modal'
-import { payInvoice } from '../../../reducers/payment'
-import { sendCoins } from '../../../reducers/transaction'
-import { fetchChannels } from '../../../reducers/channels'
+import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
+import { fetchBalance } from 'reducers/balance'
+import { fetchInfo } from 'reducers/info'
+import { createInvoice, fetchInvoice } from 'reducers/invoice'
+import { hideModal } from 'reducers/modal'
+import { payInvoice } from 'reducers/payment'
+import { sendCoins } from 'reducers/transaction'
+import { fetchChannels } from 'reducers/channels'
 import {
   setForm,
   setPaymentType,
@@ -17,7 +16,8 @@ import {
   setPubkey,
   setPaymentRequest,
   formSelectors
-} from '../../../reducers/form'
+} from 'reducers/form'
+import App from '../components/App'
 
 const mapDispatchToProps = {
   fetchTicker,

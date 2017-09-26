@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import { FaUser } from 'react-icons/lib/fa'
-import CurrencyIcon from '../../../../../../../components/CurrencyIcon'
-import { usd, btc } from '../../../../../../../utils'
+import CurrencyIcon from 'components/CurrencyIcon'
+import { usd, btc } from 'utils'
 import styles from './ChannelForm.scss'
 
 const ChannelForm = ({ form, setForm, ticker, peers, openChannel, currentTicker }) => {
