@@ -8,23 +8,21 @@
 
 Zap is a free Lightning Network wallet focused on user experience and ease of use, with the overall goal of helping the cryptocurrency community scale Bitcoin and other cryptocurrencies.
 
-Zap is built on top of [LND](https://github.com/lightningnetwork/lnd),
-uses a [Node.js](https://github.com/LN-Zap/zap-nodejs) proxy and,
+Zap is built on top of [LND](https://github.com/lightningnetwork/lnd), and uses
 [Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs) for the UI.
 
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjQ2NTg3NzA5NTkwLTRjNjNhMDc5ZmIyNTA4ZTJiNDNiYzlkM2E5NzhlOTU5ZTI5ZGIxYzQ4NWI5NTcyYjQxZDEzNTQwNmJkNzQ1NmE) to discuss development, design and product
 
 ## Requirements
 
-* **An up and running BTCD**
 * **An up and running LND** - see [install.md](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md)
 * **Node.js version >= 7 and npm version >= 4.**
 
-*For now Zap assumes you are running BTCD, LND*
+*For now Zap assumes you are running LND on your own*
 
 ## Install
 
-**If you have installation or compilation issues, please file a Github issue**
+**If you have installation or compilation issues, please file a Github issue or ping us in Slack**
 
 After installing the above requirements, clone the repo via git:
 ```bash
@@ -45,19 +43,6 @@ $ openssl ecparam -genkey -name prime256v1 -out tls.key
 $ openssl req -new -sha256 -key tls.key -out csr.csr -subj '/CN=localhost/O=lnd'
 $ openssl req -x509 -sha256 -days 3650 -key tls.key -in csr.csr -out tls.cert
 $ rm csr.csr
-```
-
-Once you've created the Node.js compatible cert, paste the path to your cert in app/lnd/config/index.js: 
-```bash
-// Cert will be located depending on your machine
-// Mac OS X: /Users/{your_user_name}/Library/Application Support/Lnd/tls.cert
-// Linux: ~/.lnd/tls.cert
-// Windows: C:\Users\{your_user_name}\AppData\Local\Lnd\tls.cert
-
-export default {
-  ...,
-  cert: '/path/to/cert/tls.cert'
-}
 ```
 
 And then install dependencies with yarn
@@ -92,36 +77,9 @@ $ npm run lint
 Please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md)
 
 ## Todos (Last updated August 16th):
-Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/MjI2MTY4NTcwMDUyLTE1MDI2OTA0ODAtNTRjMTY4YTNjNA) before tackling a todo to avoid duplicate work. This list will be updated daily to show what todos are being worked on
+Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjQ2NTg3NzA5NTkwLTRjNjNhMDc5ZmIyNTA4ZTJiNDNiYzlkM2E5NzhlOTU5ZTI5ZGIxYzQ4NWI5NTcyYjQxZDEzNTQwNmJkNzQ1NmE) before tackling a todo to avoid duplicate work. 
 
-### Refactor
-- [x] Move Node.js proxy to ipcRenderer. [Done](https://github.com/LN-Zap/zap-desktop/pull/4)
-- [ ] Use two package.json [structure](https://github.com/electron-userland/electron-builder/wiki/Two-package.json-Structure) 
-- [ ] General refactor (I know this TODO sucks but the code is a bit sloppy still)
-
-### Features
-- [ ] Configurable BTCD + LN node connection (do not assume/rely on localhost)
-- [ ] Error handling
-- [ ] More tests
-- [ ] List on-chain transactions
-- [ ] Ability to search filter for payments
-- [ ] Websocket handling for transactions
-- [ ] Websocket handling for sendpayment
-- [ ] Channel notifications
-- [ ] Payment notifications
-- [ ] Transaction notifications
-- [ ] Generate newaddress for the wallet deposit
-- [ ] Litecoin UI
-- [ ] Settings route
-- [ ] describegraph UI to see current status of the Lightning Network
-- [ ] Support other currencies (EUR, JPY, etc)
-
-### Design
-- [ ] Error handling
-- [ ] On-chain transactions list
-- [ ] Notifications
-- [ ] Litecoin UI (pick out a silver main color)
-- [ ] describegraph UI to see current status of the Lightning Network
+The old todo list was recently removed. Come on slack or check open Github issues to see what contributions are needed.
 
 ## Q & A (Quality and Assurance)
 
