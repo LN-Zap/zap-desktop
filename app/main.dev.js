@@ -91,13 +91,13 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow)
   menuBuilder.buildMenu()
 
-  // Check to see if LND is running. If not, start it. 
+  // Check to see if LND is running. If not, start it.
   lookup({ command: 'lnd' }, (err, results) => {
     if (err) { throw new Error( err ) }
 
     if (!results.length) {
       console.log('STARTING LND')
-      neutrino = spawn('lnd', ['--bitcoin.active', '--bitcoin.testnet', '--debuglevel=debug', '--neutrino.active', '--neutrino.connect=faucet.lightning.community:18333', '--no-macaroons']);
+      neutrino = spawn('lnd', ['--bitcoin.active', '--bitcoin.testnet', '--debuglevel=debug', '--neutrino.active', '--neutrino.connect=faucet.lightning.community:18333', '--no-macaroons', '--autopilot.active']);
       
       neutrino.on('close', code => console.log(`lnd shutting down ${code}`))
     } else {

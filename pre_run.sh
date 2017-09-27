@@ -1,4 +1,6 @@
 if [ "$(uname)" == "Darwin" ]; then
+  # Check for Homebrew
+  
   # Check for Go
   command -v go > /dev/null 2>&1 || { 
     echo "Installing Go"
@@ -36,7 +38,7 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   # Check for Go
   command -v go > /dev/null 2>&1 || { 
     echo "Installing Go"
-    brew install go
+    sudo apt-get install golang-1.8-go
     export GOPATH=~/go
     export PATH=$PATH:$GOPATH/bin
   }
