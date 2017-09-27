@@ -1,4 +1,4 @@
-@import '../../../../../../../variables.scss';
+@import '../../variables.scss';
 
 .channel {
 	position: relative;
@@ -10,10 +10,17 @@
 	border-top: 1px solid $grey;
 	cursor: pointer;
 	transition: all 0.25s;
-	opacity: 0.5;
 
-	.pending {
-		color: $green;
+	&:hover {
+		opacity: 0.75;
+	}
+
+	&:first-child {
+		border: none;
+	}
+
+	.status {
+		color: $main;
 		position: absolute;
 		top: 0;
 		left: 10px;
@@ -23,15 +30,11 @@
 		font-size: 10px;
 	}
 
-	&:first-child {
-		border: none;
-	}
-
 	.left, .right {
 		padding: 0 10px;
 		margin-bottom: 5;
 		margin-top: 25px;
-		
+
 		section {
 			margin-bottom: 20px;
 

@@ -1,4 +1,4 @@
-@import '../../../../../../../variables.scss';
+@import '../../variables.scss';
 
 .modalChannel {
 	padding: 40px;
@@ -21,7 +21,7 @@
 
 		&:hover {
 			color: $main;
-			text-decoration: underline; 
+			text-decoration: underline;
 		}
 	}
 }
