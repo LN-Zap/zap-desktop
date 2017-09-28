@@ -79,7 +79,7 @@ app.on('ready', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined')
     }
-    
+
     mainWindow.show()
     mainWindow.focus()
   })
@@ -98,7 +98,7 @@ app.on('ready', async () => {
     if (!results.length) {
       // Alert user that LND is starting
       console.log('STARTING LND')
-      
+
       // Start LND
       neutrino = spawn(
         'lnd',
@@ -106,7 +106,7 @@ app.on('ready', async () => {
           '--bitcoin.active',
           '--bitcoin.testnet',
           '--neutrino.active',
-          '--neutrino.connect=faucet.lightning.community:18333',
+          '--neutrino.connect=38.124.71.151:18333',
           '--autopilot.active',
           '--debuglevel=debug',
           '--no-macaroons'
@@ -125,4 +125,3 @@ app.on('ready', async () => {
 ipcMain.on('lnd', (event, { msg, data }) => {
   lnd(event, msg, data)
 })
-
