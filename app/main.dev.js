@@ -96,10 +96,26 @@ app.on('ready', async () => {
     if (err) { throw new Error( err ) }
 
     if (!results.length) {
+      // Alert user that LND is starting
       console.log('STARTING LND')
-      neutrino = spawn('lnd', ['--bitcoin.active', '--bitcoin.testnet', '--debuglevel=debug', '--neutrino.active', '--neutrino.connect=faucet.lightning.community:18333', '--no-macaroons', '--autopilot.active']);
       
+      // Start LND
+      neutrino = spawn(
+        'lnd',
+        [
+          '--bitcoin.active',
+          '--bitcoin.testnet',
+          '--neutrino.active',
+          '--neutrino.connect=faucet.lightning.community:18333',
+          '--autopilot.active',
+          '--debuglevel=debug',
+          '--no-macaroons'
+        ]
+      )
+
+      // Alert user when LND is shutting down
       neutrino.on('close', code => console.log(`lnd shutting down ${code}`))
+
     } else {
       console.log('LND ALREADY RUNNING')
     }

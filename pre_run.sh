@@ -1,20 +1,21 @@
 if [ "$(uname)" == "Darwin" ]; then
   # Check for Homebrew
-  
+  export GOPATH=~/gocode
+  export PATH=$PATH:$GOPATH/bin
+  #Check for Homebrew
+  command -v brew >/dev/null 2>&1 || {
+    /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  }
   # Check for Go
-  command -v go > /dev/null 2>&1 || { 
+  command -v go > /dev/null 2>&1 || {
     echo "Installing Go"
     brew install go
-    export GOPATH=~/go
-    export PATH=$PATH:$GOPATH/bin
   }
-
   # Check for Glide
   command -v glide > /dev/null 2>&1 || {
     echo "Installing Glide"
     go get -u github.com/Masterminds/glide
   }
-
   # Check if LND is installed
   if [ ! -d $GOPATH/src/github.com/lightningnetwork/lnd ]; then
     #Installing lnd
@@ -23,7 +24,6 @@ if [ "$(uname)" == "Darwin" ]; then
     glide $GOPATH/src/github.com/lightningnetwork/lnd install
     go install . ./cmd/...
   fi
-
   # Check for certs
   if [ ! -f ~/Library/Application\ Support/Lnd/tls.cert ]; then
     openssl ecparam -genkey -name prime256v1 -out ~/Library/Application\ Support/Lnd/tls.key
@@ -31,24 +31,22 @@ if [ "$(uname)" == "Darwin" ]; then
     openssl req -x509 -sha256 -days 3650 -key ~/Library/Application\ Support/Lnd/tls.key -in ~/Library/Application\ Support/Lnd/csr.csr -out ~/Library/Application\ Support/Lnd/tls.cert
     rm ~/Library/Application\ Support/Lnd/csr.csr
   fi
-  
   #Start APP
   cross-env START_HOT=1 npm run start-renderer-dev
+  
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
   # Check for Go
-  command -v go > /dev/null 2>&1 || { 
+  command -v go > /dev/null 2>&1 || {
     echo "Installing Go"
     sudo apt-get install golang-1.8-go
     export GOPATH=~/go
     export PATH=$PATH:$GOPATH/bin
   }
-
   # Check for Glide
   command -v glide > /dev/null 2>&1 || {
     echo "Installing Glide"
     go get -u github.com/Masterminds/glide
   }
-
   # Check if LND is installed
   if [ ! -d $GOPATH/src/github.com/lightningnetwork/lnd ]; then
     #Installing lnd
@@ -57,7 +55,6 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     glide $GOPATH/src/github.com/lightningnetwork/lnd install
     go install . ./cmd/...
   fi
-
   # Check for certs
   if [ ! -f ~/.lnd/tls.cert ]; then
     openssl ecparam -genkey -name prime256v1 -out ~/Library/Application\ Support/Lnd/tls.key
@@ -65,7 +62,6 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     openssl req -x509 -sha256 -days 3650 -key ~/Library/Application\ Support/Lnd/tls.key -in ~/Library/Application\ Support/Lnd/csr.csr -out ~/Library/Application\ Support/Lnd/tls.cert
     rm ~/Library/Application\ Support/Lnd/csr.csr
   fi
-  
   #Start APP
   cross-env START_HOT=1 npm run start-renderer-dev
 elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
