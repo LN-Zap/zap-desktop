@@ -66,7 +66,7 @@ app.on('ready', async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    frame: false
+    frame: true
   });
 
   mainWindow.maximize();
