@@ -48,7 +48,6 @@ class App extends Component {
       children
     } = this.props
 
-    console.log('formProps: ', this.props.formProps)
     if (!currentTicker) { return <div>Loading...</div> }
 
     return (

@@ -66,7 +66,7 @@ const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
   isOnchain: payFormSelectors.isOnchain(state),
   isLn: payFormSelectors.isLn(state),
-  inputCaption: payFormSelectors.isLn(state)
+  inputCaption: payFormSelectors.inputCaption(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {

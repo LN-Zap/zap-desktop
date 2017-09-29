@@ -20,6 +20,7 @@ class PayForm extends Component {
       onPaySubmit
     } = this.props
 
+    console.log('inputCaption: ', inputCaption)
     return (
       <div className={styles.container}>
         <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''}`}>
@@ -43,6 +44,9 @@ class PayForm extends Component {
           />
         </section>
         <div className={styles.inputContainer}>
+          <div className={styles.info}>
+            <span>{inputCaption}</span>
+          </div>
           <aside className={styles.paymentIcon}>
             {(() => {
               if (isOnchain) {

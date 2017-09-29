@@ -51,9 +51,9 @@ const ACTION_HANDLERS = {
 // Selector
 // ------------------------------------
 const payFormSelectors = {}
-const payAmountSelector = state => state.payform.payInput
+const payAmountSelector = state => state.payform.amount
 const payInputSelector = state => state.payform.payInput
-const currencySelector = state => state.ticker.currencySelector
+const currencySelector = state => state.ticker.currency
 
 payFormSelectors.isOnchain = createSelector(
   payInputSelector,
@@ -80,7 +80,11 @@ payFormSelectors.inputCaption = createSelector(
   payAmountSelector,
   currencySelector,
   (isOnchain, isLn, amount, currency) => {
-    if (!isOnchain || !isLn) { return }
+    console.log('isOnchain: ', isOnchain)
+    console.log('isLn: ', isLn)
+    console.log('amount: ', amount)
+    console.log('currency: ', currency)
+    if (!isOnchain && !isLn) { return }
 
     if (isOnchain) {
       return `You're about to send ${amount} ${currency.toUpperCase()} on-chain which should take around 10 minutes`
