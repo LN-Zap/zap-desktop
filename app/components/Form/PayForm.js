@@ -8,11 +8,15 @@ import styles from './PayForm.scss'
 
 class PayForm extends Component {
   componentDidUpdate(prevProps) {
-    const { isOnchain, isLn, payform: { payInput } } = this.props
+    const { isOnchain, isLn, payform: { payInput }, fetchInvoice } = this.props
 
+    console.log('prevProps: ', prevProps)
+    console.log('props: ', this.props)
+    // If on-chain, focus on amount to let user know it's editable
     if (isOnchain) { this.amountInput.focus() }
-    if ((prevProps.payInput !== payInput) && isLn) {
-      console.log('go get the invoice')
+    // If LN go retrieve invoice details
+    if ((prevProps.payform.payInput !== payInput) && isLn) {
+      fetchInvoice(payInput)
     }
   }
 
@@ -21,15 +25,17 @@ class PayForm extends Component {
       payform,
       currency,
       crypto,
+      
       isOnchain,
       isLn,
       inputCaption,
+
       setPayAmount,
       setPayInput,
+
       onPaySubmit
     } = this.props
 
-    console.log('inputCaption: ', inputCaption)
     return (
       <div className={styles.container}>
         <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''}`}>

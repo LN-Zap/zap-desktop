@@ -81,6 +81,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     setPayAmount: dispatchProps.setPayAmount,
     setPayInput: dispatchProps.setPayInput,
+    fetchInvoice: dispatchProps.fetchInvoice,
+
 
     onPaySubmit: () => {
       console.log('do submit stuff')
