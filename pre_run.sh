@@ -37,8 +37,6 @@ if [ "$(uname)" == "Darwin" ]; then
     rm ~/Library/Application\ Support/Lnd/csr.csr
   fi
 
-  #Start APP
-  #cross-env START_HOT=1 npm run start-renderer-dev
 
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 
@@ -74,8 +72,7 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     rm ~/.lnd/csr.csr
   fi
 
-  #Start APP
-  cross-env START_HOT=1 npm run start-renderer-dev
+
 elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     # Do something under 32 bits Windows NT platform
     echo 'win32'

@@ -112,7 +112,7 @@ app.on('ready', async () => {
           '--bitcoin.active',
           '--bitcoin.testnet',
           '--neutrino.active',
-          '--neutrino.connect=38.124.71.151:18333',
+          '--neutrino.connect=faucet.lightning.community:18333',
           '--autopilot.active',
           '--debuglevel=debug',
           '--no-macaroons'
