@@ -70,6 +70,34 @@ const mapStateToProps = state => ({
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const payFormProps = {
+    payform: stateProps.payform,
+    currency: stateProps.ticker.currency,
+    crypto: stateProps.ticker.crypto,
+
+    isOnchain: stateProps.isOnchain,
+    isLn: stateProps.isLn,
+    inputCaption: stateProps.inputCaption,
+
+    setPayAmount: dispatchProps.setPayAmount,
+    setPayInput: dispatchProps.setPayInput,
+
+    onPaySubmit: () => {
+      console.log('do submit stuff')
+    }
+  }
+
+  const requestFormProps = {
+
+  }
+
+  const formProps = (formType) => {
+    if (!formType) { return {} }
+
+    if (formType === 'PAY_FORM') { return payFormProps }
+    if (formType === 'REQUEST_FORM') { return requestFormProps }
+  }
+  
   return {
     ...stateProps,
     ...dispatchProps,
@@ -89,20 +117,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     },
 
     // Props to pass to the pay form
-    payFormProps: {
-      payform: stateProps.payform,
-
-      isOnchain: stateProps.isOnchain,
-      isLn: stateProps.isLn,
-      inputCaption: stateProps.inputCaption,
-
-      setPayAmount: dispatchProps.setPayAmount,
-      setPayInput: dispatchProps.setPayInput,
-
-      onPaySubmit: () => {
-        console.log('do submit stuff')
-      }
-    }
+    formProps: formProps(stateProps.form.formType)
   }
 }
 

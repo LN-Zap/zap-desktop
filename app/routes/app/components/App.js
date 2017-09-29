@@ -41,13 +41,14 @@ class App extends Component {
       isLn,
 
       openPayForm,
-      payFormProps,
+      formProps,
 
       closeForm,
 
       children
     } = this.props
 
+    console.log('formProps: ', this.props.formProps)
     if (!currentTicker) { return <div>Loading...</div> }
 
     return (
@@ -62,7 +63,7 @@ class App extends Component {
 
         <Form
           formType={form.formType}
-          payFormProps={payFormProps}
+          formProps={formProps}
           closeForm={closeForm}
         />
 
