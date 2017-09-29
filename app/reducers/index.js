@@ -7,7 +7,10 @@ import balance from './balance'
 import payment from './payment'
 import peers from './peers'
 import channels from './channels'
+
 import form from './form'
+import payform from './payform'
+
 import invoice from './invoice'
 import modal from './modal'
 import address from './address'
@@ -22,7 +25,10 @@ const rootReducer = combineReducers({
   payment,
   peers,
   channels,
+  
   form,
+  payform,
+
   invoice,
   modal,
   address,

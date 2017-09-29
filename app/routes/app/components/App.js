@@ -38,6 +38,11 @@ class App extends Component {
       currentTicker,
       isOnchain,
       isLn,
+
+      showModal,
+
+      payFormProps,
+
       children
     } = this.props
 
@@ -79,6 +84,9 @@ class App extends Component {
           setCurrency={setCurrency}
           formClicked={formType => setForm({ modalOpen: true, formType })}
           currentTicker={currentTicker}
+
+          showModal={showModal}
+          payFormProps={payFormProps}
         />
         <div className={styles.content}>
           {children}
