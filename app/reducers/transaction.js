@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
-import { setForm, resetForm } from './form'
+import { setForm, setFormType, resetForm } from './form'
 import { showModal } from './modal'
 
 // ------------------------------------
@@ -53,7 +53,7 @@ export const transactionSuccessful = (event, { amount, addr, txid }) => (dispatc
   // Get the new list of transactions (TODO dont do an entire new fetch)
   dispatch(fetchTransactions())
   // Close the form modal once the payment was succesful
-  dispatch(setForm({ modalOpen: false }))
+  dispatch(setFormType(null))
   // Show successful payment state
   dispatch(showModal('SUCCESSFUL_SEND_COINS', { txid, amount, addr }))
   // TODO: Add successful on-chain payment to payments list once payments list supports on-chain and LN
