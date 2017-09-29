@@ -66,7 +66,8 @@ const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
   isOnchain: payFormSelectors.isOnchain(state),
   isLn: payFormSelectors.isLn(state),
-  inputCaption: payFormSelectors.inputCaption(state)
+  currentAmount: payFormSelectors.currentAmount(state),
+  inputCaption: payFormSelectors.inputCaption(state),
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -77,6 +78,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     isOnchain: stateProps.isOnchain,
     isLn: stateProps.isLn,
+    currentAmount: stateProps.currentAmount,
     inputCaption: stateProps.inputCaption,
 
     setPayAmount: dispatchProps.setPayAmount,
@@ -85,7 +87,20 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
 
     onPaySubmit: () => {
-      console.log('do submit stuff')
+      if (!stateProps.isOnchain && !stateProps.isLn) { return }
+      
+      if (stateProps.isOnchain) {
+        dispatchProps.sendCoins({
+          value: stateProps.payform.amount,
+          addr: stateProps.payform.payInput,
+          currency: stateProps.ticker.currency,
+          rate: stateProps.currentTicker.price_usd
+        })
+      }
+
+      if (stateProps.isLn) {
+        dispatchProps.payInvoice(stateProps.payform.invoice.amount)
+      }
     }
   }
 

@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { setPayInvoice } from './payform'
 import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
 // ------------------------------------
@@ -78,7 +79,7 @@ export const fetchInvoice = payreq => (dispatch) => {
 }
 
 // Receive IPC event for form invoice
-export const receiveFormInvoice = (event, formInvoice) => dispatch => dispatch({ type: RECEIVE_FORM_INVOICE, formInvoice })
+export const receiveFormInvoice = (event, invoice) => dispatch => dispatch(setPayInvoice(invoice))
 
 // Send IPC event for invoices
 export const fetchInvoices = () => (dispatch) => {

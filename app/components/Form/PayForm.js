@@ -10,8 +10,6 @@ class PayForm extends Component {
   componentDidUpdate(prevProps) {
     const { isOnchain, isLn, payform: { payInput }, fetchInvoice } = this.props
 
-    console.log('prevProps: ', prevProps)
-    console.log('props: ', this.props)
     // If on-chain, focus on amount to let user know it's editable
     if (isOnchain) { this.amountInput.focus() }
     // If LN go retrieve invoice details
@@ -22,12 +20,13 @@ class PayForm extends Component {
 
   render() {
     const {
-      payform,
+      payform: { amount, payInput, invoice },
       currency,
       crypto,
       
       isOnchain,
       isLn,
+      currentAmount,
       inputCaption,
 
       setPayAmount,
@@ -43,16 +42,17 @@ class PayForm extends Component {
             <CurrencyIcon currency={currency} crypto={crypto} />
           </label>
           <input
-            type='text'
+            type='number'
+            min='0'
             ref={input => this.amountInput = input} // eslint-disable-line
             size=''
             style={
               isLn ?
                 { width: '75%', fontSize: '85px' }
                 :
-                { width: `${payform.amount.length > 1 ? (payform.amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (payform.amount.length ** 2)}px` }
+                { width: `${amount.length > 1 ? (amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }
             }
-            value={payform.amount}
+            value={currentAmount}
             onChange={event => setPayAmount(event.target.value)}
             id='amount'
             readOnly={isLn}
@@ -86,7 +86,7 @@ class PayForm extends Component {
             <input
               type='text'
               placeholder='Payment request or bitcoin address'
-              value={payform.payInput}
+              value={payInput}
               onChange={event => setPayInput(event.target.value)}
               id='paymentRequest'
             />

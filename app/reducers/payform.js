@@ -1,16 +1,25 @@
 import { createSelector } from 'reselect'
 import bitcoin from 'bitcoinjs-lib'
+import { tickerSelectors } from './ticker'
+import { btc } from '../utils'
 
 // Initial State
 const initialState = {
   amount: '0',
-  payInput: ''
+  payInput: '',
+
+  invoice: {
+    payreq: '',
+    r_hash: '',
+    amount: '0'
+  }
 }
 
 // Constants
 // ------------------------------------
 export const SET_PAY_AMOUNT = 'SET_PAY_AMOUNT'
 export const SET_PAY_INPUT = 'SET_PAY_INPUT'
+export const SET_PAY_INVOICE = 'SET_PAY_INVOICE'
 
 export const RESET_FORM = 'RESET_FORM'
 
@@ -25,10 +34,16 @@ export function setPayAmount(amount) {
 }
 
 export function setPayInput(payInput) {
-  console.log('payInput: ', payInput)
   return {
     type: SET_PAY_INPUT,
     payInput
+  }
+}
+
+export function setPayInvoice(invoice) {
+  return {
+    type: SET_PAY_INVOICE,
+    invoice
   }
 }
 
@@ -44,6 +59,8 @@ export function resetForm() {
 const ACTION_HANDLERS = {
   [SET_PAY_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
   [SET_PAY_INPUT]: (state, { payInput }) => ({ ...state, payInput }),
+  [SET_PAY_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
+  
   [RESET_FORM]: () => (initialState)
 }
 
@@ -53,6 +70,7 @@ const ACTION_HANDLERS = {
 const payFormSelectors = {}
 const payAmountSelector = state => state.payform.amount
 const payInputSelector = state => state.payform.payInput
+const payInvoiceSelector = state => state.payform.invoice
 const currencySelector = state => state.ticker.currency
 
 payFormSelectors.isOnchain = createSelector(
@@ -74,16 +92,27 @@ payFormSelectors.isLn = createSelector(
   input => input.length === 124
 )
 
+payFormSelectors.currentAmount = createSelector(
+  payFormSelectors.isLn,
+  payAmountSelector,
+  payInvoiceSelector,
+  currencySelector,
+  tickerSelectors.currentTicker,
+  (isLn, amount, invoice, currency, ticker) => {
+    if (isLn) {
+      return currency === 'usd' ? btc.satoshisToUsd(invoice.amount, ticker.price_usd) : btc.satoshisToBtc(invoice.amount)
+    }
+
+    return amount
+  }
+)
+
 payFormSelectors.inputCaption = createSelector(
   payFormSelectors.isOnchain,
   payFormSelectors.isLn,
   payAmountSelector,
   currencySelector,
   (isOnchain, isLn, amount, currency) => {
-    console.log('isOnchain: ', isOnchain)
-    console.log('isLn: ', isLn)
-    console.log('amount: ', amount)
-    console.log('currency: ', currency)
     if (!isOnchain && !isLn) { return }
 
     if (isOnchain) {
