@@ -12,7 +12,7 @@
  * @flow
  */
 import { app, BrowserWindow, ipcMain } from 'electron'
-import { spawn } from 'child_process'
+import { spawn, exec } from 'child_process'
 import { lookup } from 'ps-node'
 import MenuBuilder from './menu'
 import lnd from './lnd'
@@ -90,6 +90,12 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow)
   menuBuilder.buildMenu()
+
+
+  //Set ENV variables for go binaries
+  process.env.GOPATH = "~/gocode"
+  process.env.PATH = process.env.PATH + ":" + process.env.HOME + "/gocode/bin"
+  exec("chmod +x pre_run.sh & ./pre_run.sh")
 
   // Check to see if LND is running. If not, start it.
   lookup({ command: 'lnd' }, (err, results) => {
