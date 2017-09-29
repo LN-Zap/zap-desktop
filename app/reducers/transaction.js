@@ -1,7 +1,7 @@
 import { ipcRenderer } from 'electron'
 import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
-import { setForm, setFormType, resetForm } from './form'
+import { setFormType, resetForm } from './form'
 import { showModal } from './modal'
 
 // ------------------------------------

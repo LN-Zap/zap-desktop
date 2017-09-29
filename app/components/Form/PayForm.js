@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { FaBolt, FaChain } from 'react-icons/lib/fa'
+import LoadingBolt from 'components/LoadingBolt'
 import CurrencyIcon from 'components/CurrencyIcon'
 
 import styles from './PayForm.scss'
@@ -28,6 +29,7 @@ class PayForm extends Component {
       isLn,
       currentAmount,
       inputCaption,
+      showPayLoadingScreen,
 
       setPayAmount,
       setPayInput,
@@ -37,6 +39,7 @@ class PayForm extends Component {
 
     return (
       <div className={styles.container}>
+        {showPayLoadingScreen && <LoadingBolt />}
         <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''}`}>
           <label htmlFor='amount'>
             <CurrencyIcon currency={currency} crypto={crypto} />

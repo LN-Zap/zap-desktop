@@ -68,6 +68,7 @@ const mapStateToProps = state => ({
   isLn: payFormSelectors.isLn(state),
   currentAmount: payFormSelectors.currentAmount(state),
   inputCaption: payFormSelectors.inputCaption(state),
+  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -80,6 +81,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     isLn: stateProps.isLn,
     currentAmount: stateProps.currentAmount,
     inputCaption: stateProps.inputCaption,
+    showPayLoadingScreen: stateProps.showPayLoadingScreen,
 
     setPayAmount: dispatchProps.setPayAmount,
     setPayInput: dispatchProps.setPayInput,

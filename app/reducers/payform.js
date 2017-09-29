@@ -71,6 +71,14 @@ const payFormSelectors = {}
 const payAmountSelector = state => state.payform.amount
 const payInputSelector = state => state.payform.payInput
 const payInvoiceSelector = state => state.payform.invoice
+
+// transaction
+const sendingTransactionSelector = state => state.transaction.sendingTransaction
+
+// transaction
+const sendingPaymentSelector = state => state.payment.sendingPayment
+
+// ticker
 const currencySelector = state => state.ticker.currency
 
 payFormSelectors.isOnchain = createSelector(
@@ -123,6 +131,13 @@ payFormSelectors.inputCaption = createSelector(
       return `You're about to send ${amount} ${currency.toUpperCase()} over the Lightning Network which will be instant`
     }
   }
+)
+
+payFormSelectors.showPayLoadingScreen = createSelector(
+  sendingTransactionSelector,
+  sendingPaymentSelector,
+  (sendingTransaction, sendingPayment) => sendingTransaction || sendingPayment
+
 )
 
 export { payFormSelectors }
