@@ -7,6 +7,15 @@ import CurrencyIcon from 'components/CurrencyIcon'
 import styles from './PayForm.scss'
 
 class PayForm extends Component {
+  componentDidUpdate(prevProps) {
+    const { isOnchain, isLn, payform: { payInput } } = this.props
+
+    if (isOnchain) { this.amountInput.focus() }
+    if ((prevProps.payInput !== payInput) && isLn) {
+      console.log('go get the invoice')
+    }
+  }
+
   render() {
     const {
       payform,
