@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ModalRoot from './components/ModalRoot'
-import Form from './components/Form'
+import Form from 'components/Form'
+// import Form from './components/Form'
 import Nav from './components/Nav'
 import styles from './App.scss'
 
@@ -39,9 +40,10 @@ class App extends Component {
       isOnchain,
       isLn,
 
-      showModal,
-
+      openPayForm,
       payFormProps,
+
+      closeForm,
 
       children
     } = this.props
@@ -57,36 +59,20 @@ class App extends Component {
           currentTicker={currentTicker}
           currency={ticker.currency}
         />
+
         <Form
-          isOpen={form.modalOpen}
-          close={() => setForm({ modalOpen: false })}
-          setAmount={setAmount}
-          setOnchainAmount={setOnchainAmount}
-          setMessage={setMessage}
-          setPubkey={setPubkey}
-          setPaymentRequest={setPaymentRequest}
-          peers={peers}
-          ticker={ticker}
-          form={form}
-          sendingTransaction={sendingTransaction}
-          createInvoice={createInvoice}
-          payInvoice={payInvoice}
-          sendCoins={sendCoins}
-          fetchInvoice={fetchInvoice}
-          formInvoice={formInvoice}
-          currentTicker={currentTicker}
-          isOnchain={isOnchain}
-          isLn={isLn}
+          formType={form.formType}
+          payFormProps={payFormProps}
+          closeForm={closeForm}
         />
+
         <Nav
           ticker={ticker}
           balance={balance}
           setCurrency={setCurrency}
           formClicked={formType => setForm({ modalOpen: true, formType })}
           currentTicker={currentTicker}
-
-          showModal={showModal}
-          payFormProps={payFormProps}
+          openPayForm={openPayForm}
         />
         <div className={styles.content}>
           {children}

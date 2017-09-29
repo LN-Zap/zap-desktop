@@ -25,6 +25,7 @@ export function setPayAmount(amount) {
 }
 
 export function setPayInput(payInput) {
+  console.log('payInput: ', payInput)
   return {
     type: SET_PAY_INPUT,
     payInput
@@ -50,7 +51,9 @@ const ACTION_HANDLERS = {
 // Selector
 // ------------------------------------
 const payFormSelectors = {}
+const payAmountSelector = state => state.payform.payInput
 const payInputSelector = state => state.payform.payInput
+const currencySelector = state => state.ticker.currencySelector
 
 payFormSelectors.isOnchain = createSelector(
   payInputSelector,
@@ -69,6 +72,24 @@ payFormSelectors.isOnchain = createSelector(
 payFormSelectors.isLn = createSelector(
   payInputSelector,
   input => input.length === 124
+)
+
+payFormSelectors.inputCaption = createSelector(
+  payFormSelectors.isOnchain,
+  payFormSelectors.isLn,
+  payAmountSelector,
+  currencySelector,
+  (isOnchain, isLn, amount, currency) => {
+    if (!isOnchain || !isLn) { return }
+
+    if (isOnchain) {
+      return `You're about to send ${amount} ${currency.toUpperCase()} on-chain which should take around 10 minutes`
+    }
+
+    if (isLn) {
+      return `You're about to send ${amount} ${currency.toUpperCase()} over the Lightning Network which will be instant`
+    }
+  }
 )
 
 export { payFormSelectors }

@@ -3,8 +3,13 @@ import bitcoin from 'bitcoinjs-lib'
 
 // Initial State
 const initialState = {
+  formType: null,
+
+  
+
+
+  
   modalOpen: false,
-  formType: 'pay',
   amount: '0',
   onchainAmount: '0',
   message: '',
@@ -14,6 +19,9 @@ const initialState = {
 
 // Constants
 // ------------------------------------
+export const SET_FORM_TYPE = 'SET_FORM_TYPE'
+
+
 export const SET_FORM = 'SET_FORM'
 export const SET_AMOUNT = 'SET_AMOUNT'
 export const SET_ONCHAIN_AMOUNT = 'SET_ONCHAIN_AMOUNT'
@@ -25,6 +33,13 @@ export const RESET_FORM = 'RESET_FORM'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function setFormType(formType) {
+  return {
+    type: SET_FORM_TYPE,
+    formType
+  }
+}
+
 export function setForm({ modalOpen, formType }) {
   return {
     type: SET_FORM,
@@ -78,6 +93,9 @@ export function resetForm() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_FORM_TYPE]: (state, { formType }) => ({ ...state, formType }),
+
+
   [SET_FORM]: (state, { modalOpen, formType }) => ({ ...state, modalOpen, formType }),
   [SET_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
   [SET_ONCHAIN_AMOUNT]: (state, { onchainAmount }) => ({ ...state, onchainAmount }),

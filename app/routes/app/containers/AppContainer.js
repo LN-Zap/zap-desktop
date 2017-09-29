@@ -8,6 +8,8 @@ import { payInvoice } from 'reducers/payment'
 import { sendCoins } from 'reducers/transaction'
 import { fetchChannels } from 'reducers/channels'
 import {
+  setFormType,
+
   setForm,
   setPaymentType,
   setAmount,
@@ -18,7 +20,7 @@ import {
   formSelectors
 } from 'reducers/form'
 
-import { setPayAmount, setPayInput } from 'reducers/payform'
+import { setPayAmount, setPayInput, payFormSelectors } from 'reducers/payform'
 
 
 import App from '../components/App'
@@ -41,7 +43,12 @@ const mapDispatchToProps = {
   sendCoins,
   fetchChannels,
   fetchInvoice,
-  showModal
+  showModal,
+
+  setPayAmount,
+  setPayInput,
+
+  setFormType
 }
 
 const mapStateToProps = state => ({
@@ -51,29 +58,52 @@ const mapStateToProps = state => ({
   transaction: state.transaction,
   
   form: state.form,
+  payform: state.payform,
 
   invoice: state.invoice,
   modal: state.modal,
 
   currentTicker: tickerSelectors.currentTicker(state),
-  isOnchain: formSelectors.isOnchain(state),
-  isLn: formSelectors.isLn(state),
-
-  // Props to pass to the payment form modal
-  payFormProps: {
-    setPayAmount,
-    setPayInput,
-    onPaySubmit: () => {
-      const isOnchain = formSelectors.isOnchain(state)
-      const isLn = formSelectors.isLn(state)
-
-      console.log('isOnchain: ', isOnchain)
-      console.log('isLn: ', isLn)
-
-      console.log('amount: ', state.payform.amount)
-      console.log('inputField: ', state.payform.inputField)
-    }
-  }
+  isOnchain: payFormSelectors.isOnchain(state),
+  isLn: payFormSelectors.isLn(state),
+  inputCaption: payFormSelectors.isLn(state)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+
+    // action to open the pay form
+    openPayForm: () => {
+      dispatchProps.setFormType('PAY_FORM')
+    },
+    // action to open the request form
+    openRequestForm: () => {
+      dispatchProps.setFormType('REQUEST_FORM')
+    },
+    // action to close form
+    closeForm: () => {
+      dispatchProps.setFormType(null)
+    },
+
+    // Props to pass to the pay form
+    payFormProps: {
+      payform: stateProps.payform,
+
+      isOnchain: stateProps.isOnchain,
+      isLn: stateProps.isLn,
+      inputCaption: stateProps.inputCaption,
+
+      setPayAmount: dispatchProps.setPayAmount,
+      setPayInput: dispatchProps.setPayInput,
+
+      onPaySubmit: () => {
+        console.log('do submit stuff')
+      }
+    }
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(App)
