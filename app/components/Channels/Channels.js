@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TiPlus } from 'react-icons/lib/ti'
-import ChannelModal from './components/ChannelModal'
-import ChannelForm from './components/ChannelForm'
-import Channel from './components/Channel'
-import OpenPendingChannel from './components/OpenPendingChannel'
-import ClosedPendingChannel from './components/ClosedPendingChannel'
+import ChannelModal from './ChannelModal'
+import ChannelForm from './ChannelForm'
+import Channel from './Channel'
+import OpenPendingChannel from './OpenPendingChannel'
+import ClosedPendingChannel from './ClosedPendingChannel'
 import styles from './Channels.scss'
 
 const Channels = ({

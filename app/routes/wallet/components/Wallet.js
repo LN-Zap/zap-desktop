@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import ReactSVG from 'react-svg'
+import Channels from 'components/Channels'
 import Peers from './components/Peers'
-import Channels from './components/Channels'
 import styles from './Wallet.scss'
 
 class Wallet extends Component {
