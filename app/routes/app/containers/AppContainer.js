@@ -7,18 +7,7 @@ import { showModal, hideModal } from 'reducers/modal'
 import { payInvoice } from 'reducers/payment'
 import { sendCoins } from 'reducers/transaction'
 import { fetchChannels } from 'reducers/channels'
-import {
-  setFormType,
-
-  setForm,
-  setPaymentType,
-  setAmount,
-  setOnchainAmount,
-  setMessage,
-  setPubkey,
-  setPaymentRequest,
-  formSelectors
-} from 'reducers/form'
+import { setFormType } from 'reducers/form'
 
 import { setPayAmount, setPayInput, payFormSelectors } from 'reducers/payform'
 import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
@@ -31,13 +20,7 @@ const mapDispatchToProps = {
   setCurrency,
   fetchBalance,
   fetchInfo,
-  setAmount,
-  setOnchainAmount,
-  setMessage,
-  setPubkey,
-  setPaymentRequest,
-  setForm,
-  setPaymentType,
+
   createInvoice,
   hideModal,
   payInvoice,
