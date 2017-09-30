@@ -1,7 +1,8 @@
 import { ipcRenderer } from 'electron'
 import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
-import { setFormType, resetForm } from './form'
+import { setFormType } from './form'
+import { resetPayForm } from './payform'
 import { showModal } from './modal'
 
 // ------------------------------------
@@ -60,7 +61,7 @@ export const transactionSuccessful = (event, { amount, addr, txid }) => (dispatc
   // dispatch({ type: PAYMENT_SUCCESSFULL, payment: { amount, addr, txid, pending: true } })
   dispatch({ type: TRANSACTION_SUCCESSFULL })
   // Reset the payment form
-  dispatch(resetForm())
+  dispatch(resetPayForm())
 }
 
 export const transactionError = () => (dispatch) => {

@@ -47,7 +47,7 @@ export function setPayInvoice(invoice) {
   }
 }
 
-export function resetForm() {
+export function resetPayForm() {
   return {
     type: RESET_FORM
   }
@@ -137,7 +137,6 @@ payFormSelectors.showPayLoadingScreen = createSelector(
   sendingTransactionSelector,
   sendingPaymentSelector,
   (sendingTransaction, sendingPayment) => sendingTransaction || sendingPayment
-
 )
 
 export { payFormSelectors }

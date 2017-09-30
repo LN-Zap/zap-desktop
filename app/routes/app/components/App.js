@@ -41,6 +41,7 @@ class App extends Component {
       isLn,
 
       openPayForm,
+      openRequestForm,
       formProps,
 
       closeForm,
@@ -72,7 +73,9 @@ class App extends Component {
           setCurrency={setCurrency}
           formClicked={formType => setForm({ modalOpen: true, formType })}
           currentTicker={currentTicker}
+
           openPayForm={openPayForm}
+          openRequestForm={openRequestForm}
         />
         <div className={styles.content}>
           {children}

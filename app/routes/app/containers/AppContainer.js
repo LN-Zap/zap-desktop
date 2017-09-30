@@ -21,6 +21,7 @@ import {
 } from 'reducers/form'
 
 import { setPayAmount, setPayInput, payFormSelectors } from 'reducers/payform'
+import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
 
 
 import App from '../components/App'
@@ -48,6 +49,8 @@ const mapDispatchToProps = {
   setPayAmount,
   setPayInput,
 
+  setRequestAmount,setRequestMemo,
+
   setFormType
 }
 
@@ -59,6 +62,7 @@ const mapStateToProps = state => ({
   
   form: state.form,
   payform: state.payform,
+  requestform: state.requestform,
 
   invoice: state.invoice,
   modal: state.modal,
@@ -107,7 +111,21 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const requestFormProps = {
+    requestform: stateProps.requestform,
+    currency: stateProps.ticker.currency,
+    crypto: stateProps.ticker.crypto,
 
+    setRequestAmount: dispatchProps.setRequestAmount,
+    setRequestMemo: dispatchProps.setRequestMemo,
+
+    onRequestSubmit: () => {
+      dispatchProps.createInvoice(
+        stateProps.requestform.amount,
+        stateProps.requestform.memo,
+        stateProps.ticker.currency,
+        stateProps.currentTicker.price_usd
+      )
+    }
   }
 
   const formProps = (formType) => {

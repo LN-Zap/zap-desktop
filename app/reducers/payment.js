@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { setForm, setFormType, resetForm } from './form'
+import { setFormType } from './form'
+import { resetPayForm } from './payform'
 
 // ------------------------------------
 // Constants
@@ -74,7 +75,7 @@ export const paymentSuccessful = () => (dispatch) => {
   dispatch(fetchPayments())
 
   // Reset the payment form
-  dispatch(resetForm())
+  dispatch(resetPayForm())
 }
 
 

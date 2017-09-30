@@ -1,6 +1,10 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+
+import { setFormType } from './form'
 import { setPayInvoice } from './payform'
+import { resetRequestForm } from './requestform'
+
 import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
 // ------------------------------------
@@ -98,7 +102,16 @@ export const createInvoice = (amount, memo, currency, rate) => (dispatch) => {
 }
 
 // Receive IPC event for newly created invoice
-export const createdInvoice = (event, invoice) => dispatch => dispatch({ type: INVOICE_SUCCESSFUL, invoice })
+export const createdInvoice = (event, invoice) => dispatch => {
+  // Close the form modal once the payment was succesful
+  dispatch(setFormType(null))
+
+  // Add new invoice to invoices list
+  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
+
+  // Reset the payment form
+  dispatch(resetRequestForm())
+}
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices 
 export const invoiceUpdate = (event, { invoice }) => (dispatch) => {

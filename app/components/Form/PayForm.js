@@ -40,6 +40,7 @@ class PayForm extends Component {
     return (
       <div className={styles.container}>
         {showPayLoadingScreen && <LoadingBolt />}
+        
         <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''}`}>
           <label htmlFor='amount'>
             <CurrencyIcon currency={currency} crypto={crypto} />

@@ -10,6 +10,7 @@ import channels from './channels'
 
 import form from './form'
 import payform from './payform'
+import requestform from './requestform'
 
 import invoice from './invoice'
 import modal from './modal'
@@ -28,6 +29,7 @@ const rootReducer = combineReducers({
   
   form,
   payform,
+  requestform,
 
   invoice,
   modal,
