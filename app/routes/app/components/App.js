@@ -21,29 +21,13 @@ class App extends Component {
       hideModal,
       ticker,
       balance,
-      invoice: { formInvoice },
       form,
-      setAmount,
-      setOnchainAmount,
-      setMessage,
-      setPubkey,
-      setPaymentRequest,
-      transaction: { sendingTransaction },
-      peers,
       setCurrency,
-      setForm,
-      createInvoice,
-      payInvoice,
-      sendCoins,
-      fetchInvoice,
       currentTicker,
-      isOnchain,
-      isLn,
 
       openPayForm,
       openRequestForm,
       formProps,
-
       closeForm,
 
       children
@@ -82,30 +66,20 @@ class App extends Component {
 
 App.propTypes = {
   modal: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  balance: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+  payform: PropTypes.object.isRequired,
+  requestform: PropTypes.object.isRequired,
+  
+  fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
-  ticker: PropTypes.object.isRequired,
-  balance: PropTypes.object.isRequired,
-  invoice: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
-  setAmount: PropTypes.func.isRequired,
-  setOnchainAmount: PropTypes.func.isRequired,
-  setMessage: PropTypes.func.isRequired,
-  setPubkey: PropTypes.func.isRequired,
-  setPaymentRequest: PropTypes.func.isRequired,
-  transaction: PropTypes.object.isRequired,
-  peers: PropTypes.array,
   setCurrency: PropTypes.func.isRequired,
-  setForm: PropTypes.func.isRequired,
-  createInvoice: PropTypes.func.isRequired,
-  payInvoice: PropTypes.func.isRequired,
-  sendCoins: PropTypes.func.isRequired,
-  fetchInvoice: PropTypes.func.isRequired,
-  fetchInfo: PropTypes.func.isRequired,
+  
   currentTicker: PropTypes.object,
-  isOnchain: PropTypes.bool.isRequired,
-  isLn: PropTypes.bool.isRequired,
+  
   children: PropTypes.object.isRequired
 }
 
