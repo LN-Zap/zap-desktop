@@ -66,7 +66,9 @@ exports[`reducers invoiceReducer should correctly receiveFormInvoice 1`] = `
 Object {
   "data": Object {},
   "formInvoice": Object {
-    "payreq": "foo",
+    "amount": "0",
+    "payreq": "",
+    "r_hash": "",
   },
   "invoice": null,
   "invoiceLoading": false,
