@@ -121,7 +121,7 @@ payFormSelectors.inputCaption = createSelector(
   payAmountSelector,
   currencySelector,
   (isOnchain, isLn, amount, currency) => {
-    if (!isOnchain && !isLn) { return }
+    if (!isOnchain && !isLn) { return '' }
 
     if (isOnchain) {
       return `You're about to send ${amount} ${currency.toUpperCase()} on-chain which should take around 10 minutes`

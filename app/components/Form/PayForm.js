@@ -106,7 +106,23 @@ class PayForm extends Component {
 
 
 PayForm.propTypes = {
+  payform: PropTypes.object.isRequired,
+  currency: PropTypes.string.isRequired,
+  crypto: PropTypes.string.isRequired,
   
+  isOnchain: PropTypes.bool.isRequired,
+  isLn: PropTypes.bool.isRequired,
+  currentAmount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
+  inputCaption: PropTypes.string.isRequired,
+  showPayLoadingScreen: PropTypes.bool.isRequired,
+
+  setPayAmount: PropTypes.func.isRequired,
+  setPayInput: PropTypes.func.isRequired,
+
+  onPaySubmit: PropTypes.func.isRequired
 }
 
 export default PayForm

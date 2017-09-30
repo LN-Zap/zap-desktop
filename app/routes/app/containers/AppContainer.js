@@ -128,15 +128,15 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
+    // Props to pass to the pay form
+    formProps: formProps(stateProps.form.formType),
     // action to open the pay form
     openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
     // action to open the request form
     openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM'),
     // action to close form
-    closeForm: () => dispatchProps.setFormType(null),
+    closeForm: () => dispatchProps.setFormType(null)
 
-    // Props to pass to the pay form
-    formProps: formProps(stateProps.form.formType)
   }
 }
 

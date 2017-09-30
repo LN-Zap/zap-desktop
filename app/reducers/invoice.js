@@ -83,7 +83,10 @@ export const fetchInvoice = payreq => (dispatch) => {
 }
 
 // Receive IPC event for form invoice
-export const receiveFormInvoice = (event, invoice) => dispatch => dispatch(setPayInvoice(invoice))
+export const receiveFormInvoice = (event, invoice) => dispatch => {
+  dispatch(setPayInvoice(invoice))
+  dispatch({ type: RECEIVE_FORM_INVOICE })
+}
 
 // Send IPC event for invoices
 export const fetchInvoices = () => (dispatch) => {
@@ -133,9 +136,7 @@ const ACTION_HANDLERS = {
 
   [GET_INVOICE]: state => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICE]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoice }),
-  [RECEIVE_FORM_INVOICE]: (state, { formInvoice }) => (
-    { ...state, invoiceLoading: false, formInvoice }
-  ),
+  [RECEIVE_FORM_INVOICE]: state => ({ ...state, invoiceLoading: false }),
 
   [GET_INVOICES]: state => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),

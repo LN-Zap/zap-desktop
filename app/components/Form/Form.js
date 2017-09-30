@@ -34,7 +34,9 @@ const Form = ({ formType, formProps, closeForm }) => {
 
 
 Form.propTypes = {
-  
+  formType: PropTypes.string,
+  formProps: PropTypes.object.isRequired,
+  closeForm: PropTypes.func.isRequired
 }
 
 export default Form
