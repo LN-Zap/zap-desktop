@@ -1,16 +1,19 @@
 import { connect } from 'react-redux'
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
-import { fetchInfo } from 'reducers/info'
-import { createInvoice, fetchInvoice } from 'reducers/invoice'
-import { showModal, hideModal } from 'reducers/modal'
-import { payInvoice } from 'reducers/payment'
-import { sendCoins } from 'reducers/transaction'
-import { fetchChannels } from 'reducers/channels'
-import { setFormType } from 'reducers/form'
 
+import { fetchInfo } from 'reducers/info'
+
+import { showModal, hideModal } from 'reducers/modal'
+
+import { setFormType } from 'reducers/form'
 import { setPayAmount, setPayInput, payFormSelectors } from 'reducers/payform'
 import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
+
+import { sendCoins } from 'reducers/transaction'
+import { payInvoice } from 'reducers/payment'
+import { createInvoice, fetchInvoice } from 'reducers/invoice'
+
 
 
 import App from '../components/App'
@@ -19,22 +22,24 @@ const mapDispatchToProps = {
   fetchTicker,
   setCurrency,
   fetchBalance,
+
   fetchInfo,
 
-  createInvoice,
-  hideModal,
-  payInvoice,
-  sendCoins,
-  fetchChannels,
-  fetchInvoice,
   showModal,
-
+  hideModal,
+  
+  setFormType,
+  
   setPayAmount,
   setPayInput,
+  setRequestAmount,
+  setRequestMemo,
 
-  setRequestAmount,setRequestMemo,
 
-  setFormType
+  sendCoins,
+  payInvoice,
+  createInvoice,
+  fetchInvoice
 }
 
 const mapStateToProps = state => ({
@@ -101,14 +106,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     setRequestAmount: dispatchProps.setRequestAmount,
     setRequestMemo: dispatchProps.setRequestMemo,
 
-    onRequestSubmit: () => {
+    onRequestSubmit: () => (
       dispatchProps.createInvoice(
         stateProps.requestform.amount,
         stateProps.requestform.memo,
         stateProps.ticker.currency,
         stateProps.currentTicker.price_usd
       )
-    }
+    )
   }
 
   const formProps = (formType) => {
@@ -124,17 +129,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
 
     // action to open the pay form
-    openPayForm: () => {
-      dispatchProps.setFormType('PAY_FORM')
-    },
+    openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
     // action to open the request form
-    openRequestForm: () => {
-      dispatchProps.setFormType('REQUEST_FORM')
-    },
+    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM'),
     // action to close form
-    closeForm: () => {
-      dispatchProps.setFormType(null)
-    },
+    closeForm: () => dispatchProps.setFormType(null),
 
     // Props to pass to the pay form
     formProps: formProps(stateProps.form.formType)
