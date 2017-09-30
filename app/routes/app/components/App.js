@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ModalRoot from './components/ModalRoot'
+import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
-// import Form from './components/Form'
+import ModalRoot from './components/ModalRoot'
 import Nav from './components/Nav'
 import styles from './App.scss'
 
@@ -49,7 +49,7 @@ class App extends Component {
       children
     } = this.props
 
-    if (!currentTicker) { return <div>Loading...</div> }
+    if (!currentTicker) { return <LoadingBolt /> }
 
     return (
       <div>
@@ -61,22 +61,17 @@ class App extends Component {
           currency={ticker.currency}
         />
 
-        <Form
-          formType={form.formType}
-          formProps={formProps}
-          closeForm={closeForm}
-        />
+        <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
 
         <Nav
           ticker={ticker}
           balance={balance}
           setCurrency={setCurrency}
-          formClicked={formType => setForm({ modalOpen: true, formType })}
           currentTicker={currentTicker}
-
           openPayForm={openPayForm}
           openRequestForm={openRequestForm}
         />
+        
         <div className={styles.content}>
           {children}
         </div>
