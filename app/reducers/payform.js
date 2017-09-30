@@ -60,7 +60,7 @@ const ACTION_HANDLERS = {
   [SET_PAY_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
   [SET_PAY_INPUT]: (state, { payInput }) => ({ ...state, payInput }),
   [SET_PAY_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
-  
+
   [RESET_FORM]: () => (initialState)
 }
 
@@ -130,6 +130,8 @@ payFormSelectors.inputCaption = createSelector(
     if (isLn) {
       return `You're about to send ${amount} ${currency.toUpperCase()} over the Lightning Network which will be instant`
     }
+
+    return ''
   }
 )
 

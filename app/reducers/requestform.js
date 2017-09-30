@@ -1,6 +1,3 @@
-import { createSelector } from 'reselect'
-import bitcoin from 'bitcoinjs-lib'
-
 // Initial State
 const initialState = {
   amount: '0',
@@ -44,7 +41,7 @@ export function resetRequestForm() {
 const ACTION_HANDLERS = {
   [SET_REQUEST_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
   [SET_REQUEST_MEMO]: (state, { memo }) => ({ ...state, memo }),
-  
+
   [RESET_FORM]: () => (initialState)
 }
 

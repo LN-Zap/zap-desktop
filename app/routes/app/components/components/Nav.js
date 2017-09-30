@@ -86,7 +86,9 @@ Nav.propTypes = {
   ticker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   setCurrency: PropTypes.func.isRequired,
-  currentTicker: PropTypes.object.isRequired
+  currentTicker: PropTypes.object.isRequired,
+  openPayForm: PropTypes.func.isRequired,
+  openRequestForm: PropTypes.func.isRequired
 }
 
 export default Nav

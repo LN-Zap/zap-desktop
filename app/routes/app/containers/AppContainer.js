@@ -15,7 +15,6 @@ import { payInvoice } from 'reducers/payment'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
 
-
 import App from '../components/App'
 
 const mapDispatchToProps = {
@@ -27,9 +26,9 @@ const mapDispatchToProps = {
 
   showModal,
   hideModal,
-  
+
   setFormType,
-  
+
   setPayAmount,
   setPayInput,
   setRequestAmount,
@@ -47,7 +46,7 @@ const mapStateToProps = state => ({
   balance: state.balance,
   payment: state.payment,
   transaction: state.transaction,
-  
+
   form: state.form,
   payform: state.payform,
   requestform: state.requestform,
@@ -82,7 +81,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     onPaySubmit: () => {
       if (!stateProps.isOnchain && !stateProps.isLn) { return }
-      
+
       if (stateProps.isOnchain) {
         dispatchProps.sendCoins({
           value: stateProps.payform.amount,
@@ -121,8 +120,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     if (formType === 'PAY_FORM') { return payFormProps }
     if (formType === 'REQUEST_FORM') { return requestFormProps }
+
+    return {}
   }
-  
+
   return {
     ...stateProps,
     ...dispatchProps,

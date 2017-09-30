@@ -26,7 +26,7 @@ const rootReducer = combineReducers({
   payment,
   peers,
   channels,
-  
+
   form,
   payform,
   requestform,

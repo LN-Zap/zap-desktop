@@ -5,13 +5,7 @@ import formReducer, {
 // describe('reducers', () => {
 //   describe('formReducer', () => {
 
-//     it('should have SET_FORM_TYPE', () => {
-//       expect(SET_FORM_TYPE).toEqual('SET_FORM_TYPE')
-//     })
 
-//     it('should correctly setFormType', () => {
-//       expect(formReducer(undefined, { type: SET_FORM_TYPE, formType: 'FOO' })).toMatchSnapshot()
-//     })
 //   }
 // }
 
@@ -21,5 +15,12 @@ describe('reducers', () => {
       expect(formReducer(undefined, {})).toMatchSnapshot()
     })
 
+    it('should have SET_FORM_TYPE', () => {
+      expect(SET_FORM_TYPE).toEqual('SET_FORM_TYPE')
+    })
+
+    it('should correctly setFormType', () => {
+      expect(formReducer(undefined, { type: SET_FORM_TYPE, formType: 'FOO' })).toMatchSnapshot()
+    })
   })
 })

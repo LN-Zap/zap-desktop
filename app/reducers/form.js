@@ -1,6 +1,3 @@
-import { createSelector } from 'reselect'
-import bitcoin from 'bitcoinjs-lib'
-
 // Initial State
 const initialState = {
   formType: null

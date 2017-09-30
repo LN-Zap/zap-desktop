@@ -21,10 +21,10 @@ class PayForm extends Component {
 
   render() {
     const {
-      payform: { amount, payInput, invoice },
+      payform: { amount, payInput },
       currency,
       crypto,
-      
+
       isOnchain,
       isLn,
       currentAmount,
@@ -40,7 +40,7 @@ class PayForm extends Component {
     return (
       <div className={styles.container}>
         {showPayLoadingScreen && <LoadingBolt />}
-        
+
         <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''}`}>
           <label htmlFor='amount'>
             <CurrencyIcon currency={currency} crypto={crypto} />
@@ -109,7 +109,7 @@ PayForm.propTypes = {
   payform: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired,
   crypto: PropTypes.string.isRequired,
-  
+
   isOnchain: PropTypes.bool.isRequired,
   isLn: PropTypes.bool.isRequired,
   currentAmount: PropTypes.oneOfType([
@@ -121,6 +121,7 @@ PayForm.propTypes = {
 
   setPayAmount: PropTypes.func.isRequired,
   setPayInput: PropTypes.func.isRequired,
+  fetchInvoice: PropTypes.func.isRequired,
 
   onPaySubmit: PropTypes.func.isRequired
 }

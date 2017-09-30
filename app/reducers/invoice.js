@@ -83,7 +83,7 @@ export const fetchInvoice = payreq => (dispatch) => {
 }
 
 // Receive IPC event for form invoice
-export const receiveFormInvoice = (event, invoice) => dispatch => {
+export const receiveFormInvoice = (event, invoice) => (dispatch) => {
   dispatch(setPayInvoice(invoice))
   dispatch({ type: RECEIVE_FORM_INVOICE })
 }
@@ -105,7 +105,7 @@ export const createInvoice = (amount, memo, currency, rate) => (dispatch) => {
 }
 
 // Receive IPC event for newly created invoice
-export const createdInvoice = (event, invoice) => dispatch => {
+export const createdInvoice = (event, invoice) => (dispatch) => {
   // Close the form modal once the payment was succesful
   dispatch(setFormType(null))
 

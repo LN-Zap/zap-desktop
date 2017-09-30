@@ -55,7 +55,7 @@ class App extends Component {
           openPayForm={openPayForm}
           openRequestForm={openRequestForm}
         />
-        
+
         <div className={styles.content}>
           {children}
         </div>
@@ -69,17 +69,19 @@ App.propTypes = {
   ticker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
-  payform: PropTypes.object.isRequired,
-  requestform: PropTypes.object.isRequired,
-  
+  formProps: PropTypes.object.isRequired,
+  closeForm: PropTypes.func.isRequired,
+
   fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
   setCurrency: PropTypes.func.isRequired,
-  
+  openPayForm: PropTypes.func.isRequired,
+  openRequestForm: PropTypes.func.isRequired,
+
   currentTicker: PropTypes.object,
-  
+
   children: PropTypes.object.isRequired
 }
 
