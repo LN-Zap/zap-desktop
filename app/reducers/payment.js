@@ -69,7 +69,7 @@ export const payInvoice = paymentRequest => (dispatch) => {
 // TODO: Add payment to state, not a total re-fetch
 export const paymentSuccessful = () => (dispatch) => {
   // Dispatch successful payment to stop loading screen
-  dispatchs(paymentSuccessfull())
+  dispatch(paymentSuccessfull())
   // Close the form modal once the payment was succesful
   dispatch(setFormType(null))
 
