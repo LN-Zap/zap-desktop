@@ -68,6 +68,8 @@ export const payInvoice = paymentRequest => (dispatch) => {
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch
 export const paymentSuccessful = () => (dispatch) => {
+  // Dispatch successful payment to stop loading screen
+  dispatch(paymentSuccessfull())
   // Close the form modal once the payment was succesful
   dispatch(setFormType(null))
 
