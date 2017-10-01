@@ -97,7 +97,9 @@ payFormSelectors.isOnchain = createSelector(
 // TODO: Add more robust logic to detect a LN payment request
 payFormSelectors.isLn = createSelector(
   payInputSelector,
-  input => input.length === 124
+  input => {
+    return input.startsWith('ln')
+  }
 )
 
 payFormSelectors.currentAmount = createSelector(
@@ -108,7 +110,7 @@ payFormSelectors.currentAmount = createSelector(
   tickerSelectors.currentTicker,
   (isLn, amount, invoice, currency, ticker) => {
     if (isLn) {
-      return currency === 'usd' ? btc.satoshisToUsd(invoice.amount, ticker.price_usd) : btc.satoshisToBtc(invoice.amount)
+      return currency === 'usd' ? btc.satoshisToUsd((invoice.num_satoshis || 0), ticker.price_usd) : btc.satoshisToBtc((invoice.num_satoshis || 0))
     }
 
     return amount
@@ -118,7 +120,7 @@ payFormSelectors.currentAmount = createSelector(
 payFormSelectors.inputCaption = createSelector(
   payFormSelectors.isOnchain,
   payFormSelectors.isLn,
-  payAmountSelector,
+  payFormSelectors.currentAmount,
   currencySelector,
   (isOnchain, isLn, amount, currency) => {
     if (!isOnchain && !isLn) { return '' }

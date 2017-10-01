@@ -75,7 +75,7 @@ export default function (lnd, event, msg, data) {
       break
     case 'invoice':
     // Data looks like { invoices: [] }
-      invoicesController.getInvoice(data.payreq)
+      invoicesController.getInvoice(lnd, { pay_req: data.payreq })
         .then(invoiceData => event.sender.send('receiveInvoice', invoiceData))
         .catch(error => console.log('invoice error: ', error))
       break

@@ -92,7 +92,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       }
 
       if (stateProps.isLn) {
-        dispatchProps.payInvoice(stateProps.payform.invoice.amount)
+        dispatchProps.payInvoice(stateProps.payform.payInput)
       }
     }
   }
