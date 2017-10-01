@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import bitcoin from 'bitcoinjs-lib'
 import { tickerSelectors } from './ticker'
-import { btc } from '../utils'
+import { btc, bech32 } from '../utils'
 
 // Initial State
 const initialState = {
@@ -94,11 +94,17 @@ payFormSelectors.isOnchain = createSelector(
   }
 )
 
-// TODO: Add more robust logic to detect a LN payment request
 payFormSelectors.isLn = createSelector(
   payInputSelector,
   input => {
-    return input.startsWith('ln')
+    if (!input.startWith('ln')) { return }
+
+    try {
+      bech32.decode(input)
+      return true
+    } catch (e) {
+      return false
+    }
   }
 )
 
