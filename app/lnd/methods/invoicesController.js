@@ -1,4 +1,3 @@
-import { decodeInvoice } from '../utils'
 import pushinvoices from '../push/subscribeinvoice'
 
 /**
@@ -37,13 +36,13 @@ export function listInvoices(lnd) {
  * @param  {[type]} payreq [description]
  * @return {[type]}        [description]
  */
-export function getInvoice(payreq) {
+export function getInvoice(lnd, { pay_req }) {
   return new Promise((resolve, reject) => {
-    try {
-      resolve(decodeInvoice(payreq))
-    } catch (error) {
-      reject(error)
-    }
+    lnd.decodePayReq({ pay_req }, (err, data) => {
+      if (err) { reject(err) }
+
+      resolve(data)
+    })
   })
 }
 

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { setForm, resetForm } from './form'
+import { setFormType } from './form'
+import { resetPayForm } from './payform'
 
 // ------------------------------------
 // Constants
@@ -67,14 +68,16 @@ export const payInvoice = paymentRequest => (dispatch) => {
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch
 export const paymentSuccessful = () => (dispatch) => {
+  // Dispatch successful payment to stop loading screen
+  dispatch(paymentSuccessfull())
   // Close the form modal once the payment was succesful
-  dispatch(setForm({ modalOpen: false }))
+  dispatch(setFormType(null))
 
   // Refetch payments (TODO: dont do a full refetch, rather append new tx to list)
   dispatch(fetchPayments())
 
   // Reset the payment form
-  dispatch(resetForm())
+  dispatch(resetPayForm())
 }
 
 

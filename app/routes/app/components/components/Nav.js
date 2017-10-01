@@ -9,7 +9,7 @@ import CurrencyIcon from 'components/CurrencyIcon'
 import { btc, usd } from 'utils'
 import styles from './Nav.scss'
 
-const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
+const Nav = ({ ticker, balance, setCurrency, currentTicker, openPayForm, openRequestForm }) => (
   <nav className={styles.nav}>
     <ul className={styles.info}>
       <li className={`${styles.currencies} ${styles.link}`}>
@@ -72,10 +72,10 @@ const Nav = ({ ticker, balance, setCurrency, formClicked, currentTicker }) => (
       </li>
     </ul>
     <div className={styles.buttons}>
-      <div className={styles.button} onClick={() => formClicked('pay')}>
+      <div className={styles.button} onClick={openPayForm}>
         <span>Pay</span>
       </div>
-      <div className={styles.button} onClick={() => formClicked('request')}>
+      <div className={styles.button} onClick={openRequestForm}>
         <span>Request</span>
       </div>
     </div>
@@ -86,8 +86,9 @@ Nav.propTypes = {
   ticker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   setCurrency: PropTypes.func.isRequired,
-  formClicked: PropTypes.func.isRequired,
-  currentTicker: PropTypes.object.isRequired
+  currentTicker: PropTypes.object.isRequired,
+  openPayForm: PropTypes.func.isRequired,
+  openRequestForm: PropTypes.func.isRequired
 }
 
 export default Nav

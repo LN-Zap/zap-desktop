@@ -1,4 +1,4 @@
-@import '../../../../../../../variables.scss';
+@import '../../variables.scss';
 
 .container {
   margin: 0 auto;
@@ -21,7 +21,7 @@
     opacity: 0.75;
   }
   
-  label, input[type=text] {
+  label, input[type=number], input[type=text] {
     color: inherit;
     display: inline-block;
     vertical-align: top;
@@ -43,7 +43,7 @@
     }
   }
   
-  input[type=text] {
+  input[type=number],, input[type=text] {
     width: 100px;
     font-size: 180px;
     border: none;
@@ -92,7 +92,7 @@
   position: relative;
   padding: 0 20px;
 
-  label, input[type=text] {
+  label, input[type=number], input[type=text] {
     font-size: inherit;
   }
 

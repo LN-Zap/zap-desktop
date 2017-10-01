@@ -1,5 +1,10 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+
+import { setFormType } from './form'
+import { setPayInvoice } from './payform'
+import { resetRequestForm } from './requestform'
+
 import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
 // ------------------------------------
@@ -78,7 +83,10 @@ export const fetchInvoice = payreq => (dispatch) => {
 }
 
 // Receive IPC event for form invoice
-export const receiveFormInvoice = (event, formInvoice) => dispatch => dispatch({ type: RECEIVE_FORM_INVOICE, formInvoice })
+export const receiveFormInvoice = (event, invoice) => (dispatch) => {
+  dispatch(setPayInvoice(invoice))
+  dispatch({ type: RECEIVE_FORM_INVOICE })
+}
 
 // Send IPC event for invoices
 export const fetchInvoices = () => (dispatch) => {
@@ -97,7 +105,16 @@ export const createInvoice = (amount, memo, currency, rate) => (dispatch) => {
 }
 
 // Receive IPC event for newly created invoice
-export const createdInvoice = (event, invoice) => dispatch => dispatch({ type: INVOICE_SUCCESSFUL, invoice })
+export const createdInvoice = (event, invoice) => (dispatch) => {
+  // Close the form modal once the payment was succesful
+  dispatch(setFormType(null))
+
+  // Add new invoice to invoices list
+  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
+
+  // Reset the payment form
+  dispatch(resetRequestForm())
+}
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices 
 export const invoiceUpdate = (event, { invoice }) => (dispatch) => {
@@ -119,9 +136,7 @@ const ACTION_HANDLERS = {
 
   [GET_INVOICE]: state => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICE]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoice }),
-  [RECEIVE_FORM_INVOICE]: (state, { formInvoice }) => (
-    { ...state, invoiceLoading: false, formInvoice }
-  ),
+  [RECEIVE_FORM_INVOICE]: state => ({ ...state, invoiceLoading: false }),
 
   [GET_INVOICES]: state => ({ ...state, invoiceLoading: true }),
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),

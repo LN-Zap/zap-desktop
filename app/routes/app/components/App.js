@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import LoadingBolt from 'components/LoadingBolt'
+import Form from 'components/Form'
 import ModalRoot from './components/ModalRoot'
-import Form from './components/Form'
 import Nav from './components/Nav'
 import styles from './App.scss'
 
@@ -20,28 +21,19 @@ class App extends Component {
       hideModal,
       ticker,
       balance,
-      invoice: { formInvoice },
       form,
-      setAmount,
-      setOnchainAmount,
-      setMessage,
-      setPubkey,
-      setPaymentRequest,
-      transaction: { sendingTransaction },
-      peers,
       setCurrency,
-      setForm,
-      createInvoice,
-      payInvoice,
-      sendCoins,
-      fetchInvoice,
       currentTicker,
-      isOnchain,
-      isLn,
+
+      openPayForm,
+      openRequestForm,
+      formProps,
+      closeForm,
+
       children
     } = this.props
 
-    if (!currentTicker) { return <div>Loading...</div> }
+    if (!currentTicker) { return <LoadingBolt /> }
 
     return (
       <div>
@@ -52,34 +44,18 @@ class App extends Component {
           currentTicker={currentTicker}
           currency={ticker.currency}
         />
-        <Form
-          isOpen={form.modalOpen}
-          close={() => setForm({ modalOpen: false })}
-          setAmount={setAmount}
-          setOnchainAmount={setOnchainAmount}
-          setMessage={setMessage}
-          setPubkey={setPubkey}
-          setPaymentRequest={setPaymentRequest}
-          peers={peers}
-          ticker={ticker}
-          form={form}
-          sendingTransaction={sendingTransaction}
-          createInvoice={createInvoice}
-          payInvoice={payInvoice}
-          sendCoins={sendCoins}
-          fetchInvoice={fetchInvoice}
-          formInvoice={formInvoice}
-          currentTicker={currentTicker}
-          isOnchain={isOnchain}
-          isLn={isLn}
-        />
+
+        <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
+
         <Nav
           ticker={ticker}
           balance={balance}
           setCurrency={setCurrency}
-          formClicked={formType => setForm({ modalOpen: true, formType })}
           currentTicker={currentTicker}
+          openPayForm={openPayForm}
+          openRequestForm={openRequestForm}
         />
+
         <div className={styles.content}>
           {children}
         </div>
@@ -90,30 +66,22 @@ class App extends Component {
 
 App.propTypes = {
   modal: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  balance: PropTypes.object.isRequired,
+  form: PropTypes.object.isRequired,
+  formProps: PropTypes.object.isRequired,
+  closeForm: PropTypes.func.isRequired,
+
+  fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
-  ticker: PropTypes.object.isRequired,
-  balance: PropTypes.object.isRequired,
-  invoice: PropTypes.object.isRequired,
-  form: PropTypes.object.isRequired,
-  setAmount: PropTypes.func.isRequired,
-  setOnchainAmount: PropTypes.func.isRequired,
-  setMessage: PropTypes.func.isRequired,
-  setPubkey: PropTypes.func.isRequired,
-  setPaymentRequest: PropTypes.func.isRequired,
-  transaction: PropTypes.object.isRequired,
-  peers: PropTypes.array,
   setCurrency: PropTypes.func.isRequired,
-  setForm: PropTypes.func.isRequired,
-  createInvoice: PropTypes.func.isRequired,
-  payInvoice: PropTypes.func.isRequired,
-  sendCoins: PropTypes.func.isRequired,
-  fetchInvoice: PropTypes.func.isRequired,
-  fetchInfo: PropTypes.func.isRequired,
+  openPayForm: PropTypes.func.isRequired,
+  openRequestForm: PropTypes.func.isRequired,
+
   currentTicker: PropTypes.object,
-  isOnchain: PropTypes.bool.isRequired,
-  isLn: PropTypes.bool.isRequired,
+
   children: PropTypes.object.isRequired
 }
 
