@@ -96,7 +96,7 @@ payFormSelectors.isOnchain = createSelector(
 
 payFormSelectors.isLn = createSelector(
   payInputSelector,
-  input => {
+  (input) => {
     if (!input.startsWith('ln')) { return false }
 
     try {

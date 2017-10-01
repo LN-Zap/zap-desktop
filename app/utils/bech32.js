@@ -1,5 +1,7 @@
 // Using bech32 here just without the 90 char length: https://github.com/bitcoinjs/bech32/blob/master/index.js
 
+/* eslint-disable */
+
 'use strict'
 let ALPHABET = 'qpzry9x8gf2tvdw0s3jn54khce6mua7l'
 
