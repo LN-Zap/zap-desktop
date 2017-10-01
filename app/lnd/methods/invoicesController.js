@@ -1,4 +1,3 @@
-import { decodeInvoice } from '../utils'
 import pushinvoices from '../push/subscribeinvoice'
 
 /**
