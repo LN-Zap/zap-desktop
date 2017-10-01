@@ -97,7 +97,7 @@ payFormSelectors.isOnchain = createSelector(
 payFormSelectors.isLn = createSelector(
   payInputSelector,
   input => {
-    if (!input.startWith('ln')) { return }
+    if (!input.startsWith('ln')) { return false }
 
     try {
       bech32.decode(input)
