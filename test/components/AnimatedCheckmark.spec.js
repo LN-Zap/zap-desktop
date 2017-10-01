@@ -8,7 +8,7 @@ describe('component.AnimatedCheckmark', () => {
   describe('default', () => {
     it('should render default component', () => {
       const el = shallow(<AnimatedCheckmark />)
-      expect(el.find(Isvg)).toHaveLength(1)
+      expect(el.find(Isvg).props().src).toContain('checkmark.svg')
     })
   })
 })
