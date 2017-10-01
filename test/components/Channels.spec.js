@@ -1,6 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
+import { TiPlus } from 'react-icons/lib/ti'
 import Channels from '../../app/components/Channels'
 import ChannelModal from '../../app/components/Channels/ChannelModal'
 import ChannelForm from '../../app/components/Channels/ChannelForm'
@@ -71,6 +72,10 @@ describe('Channels', () => {
     it('should contain Modal and Form', () => {
       expect(el.find(ChannelModal)).toHaveLength(1)
       expect(el.find(ChannelForm)).toHaveLength(1)
+    })
+    it('should have Channels header, and plus button', () => {
+      expect(el.contains('Channels')).toBe(true)
+      expect(el.find(TiPlus)).toHaveLength(1)
     })
   })
 

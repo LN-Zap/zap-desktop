@@ -36,7 +36,7 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": ["app"]
+        "paths": ["app", "app/node_modules"]
       },
       "webpack": {
         "config": "webpack.config.eslint.js"

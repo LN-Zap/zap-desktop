@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { TiPlus } from 'react-icons/lib/ti'
-import PeerModal from './components/PeerModal'
-import PeerForm from './components/PeerForm'
-import Peer from './components/Peer'
+import PeerModal from './PeerModal'
+import PeerForm from './PeerForm'
+import Peer from './Peer'
 import styles from './Peers.scss'
 
 const Peers = ({
