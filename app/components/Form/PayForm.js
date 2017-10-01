@@ -67,24 +67,18 @@ class PayForm extends Component {
             <span>{inputCaption}</span>
           </div>
           <aside className={styles.paymentIcon}>
-            {(() => {
-              if (isOnchain) {
-                return (
-                  <i>
-                    <span>on-chain</span>
-                    <FaChain />
-                  </i>
-                )
-              } else if (isLn) {
-                return (
-                  <i>
-                    <span>lightning network</span>
-                    <FaBolt />
-                  </i>
-                )
-              }
-              return null
-            })()}
+            {isOnchain &&
+              <i>
+                <span>on-chain</span>
+                <FaChain />
+              </i>
+            }
+            {isLn &&
+              <i>
+                <span>lightning network</span>
+                <FaBolt />
+              </i>
+            }
           </aside>
           <section className={styles.input}>
             <input
