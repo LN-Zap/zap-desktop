@@ -14,7 +14,7 @@ describe('component.CurrencyIcon', () => {
   describe('currency is "usd"', () => {
     const props = { ...defaultProps, currency: 'usd' }
     const el = shallow(<CurrencyIcon {...props} />)
-    it('should show usd symbo', () => {
+    it('should show usd symbol', () => {
       expect(el.find(FaDollar)).toHaveLength(1)
     })
   })
