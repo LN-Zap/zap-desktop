@@ -83,12 +83,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     fetchInvoice: dispatchProps.fetchInvoice,
 
     onPayAmountBlur: () => {
-      // If the input is now valid and showErrors was on, turn it off
+      // If the amount is now valid and showErrors was on, turn it off
       if (stateProps.payFormIsValid.amountIsValid && stateProps.payform.showErrors.amount) {
         dispatchProps.updatePayErrors({ amount: false })
       }
 
-      // If the input is not valid and showErrors was off, turn it on
+      // If the amount is not valid and showErrors was off, turn it on
       if (!stateProps.payFormIsValid.amountIsValid && !stateProps.payform.showErrors.amount) {
         dispatchProps.updatePayErrors({ amount: true })
       }

@@ -165,9 +165,8 @@ payFormSelectors.payFormIsValid = createSelector(
   payFormSelectors.isOnchain,
   payFormSelectors.isLn,
   payAmountSelector,
-  payInputSelector,
-  (isOnchain, isLn, amount, invoice) => {
-    let errors = {}
+  (isOnchain, isLn, amount) => {
+    const errors = {}
 
     if (!isLn && amount <= 0) {
       errors.amount = 'Amount must be more than 0'
