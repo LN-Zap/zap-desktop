@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
-import Nav from './components/Nav'
+import Nav from 'components/Nav'
 import styles from './App.scss'
 
 class App extends Component {
