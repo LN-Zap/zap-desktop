@@ -15,9 +15,12 @@ const payFormProps = {
   currentAmount: '0',
   inputCaption: '',
   showPayLoadingScreen: false,
+  payFormIsValid: {},
 
   setPayAmount: () => {},
+  onPayAmountBlur: () => {},
   setPayInput: () => {},
+  onPayInputBlur: () => {},
   fetchInvoice: () => {},
 
 

@@ -10,15 +10,34 @@
 }
 
 .amountContainer {
+  position: relative;
   color: $main;
   display: flex;
   justify-content: center;
   min-height: 120px;
   margin-bottom: 20px;
   min-height: 175px;
+  border-bottom: 1px solid transparent;
 
   &.ln {
     opacity: 0.75;
+  }
+
+  &.error {
+    border-color: $red; 
+  }
+
+  .amountError {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    color: $red;
+    transition: all 0.25s ease;
+
+    &.active {
+      opacity: 1;
+    }
   }
   
   label, input[type=number], input[type=text] {
@@ -92,6 +111,10 @@
   position: relative;
   padding: 0 20px;
 
+  &.error {
+    border-color: $red;
+  }
+
   label, input[type=number], input[type=text] {
     font-size: inherit;
   }
@@ -112,6 +135,18 @@
   }
 }
 
+.payInputError {
+  margin: 10px 0;
+  min-height: 20px;
+  color: $red;
+  opacity: 0;
+  transition: all 0.25s ease;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
 .buttonGroup {
   width: 100%;
   display: flex;
@@ -120,7 +155,6 @@
   overflow: hidden;
 
   .button {
-    cursor: pointer;
     height: 55px;
     min-height: 55px;
     text-transform: none;
@@ -134,9 +168,16 @@
     width: 100%;
     text-align: center;
     line-height: 55px;
+    opacity: 0.5;
+    cursor: default;
 
     &:first-child {
       border-right: 1px solid lighten($main, 20%);
+    }
+
+    &.active {
+      opacity: 1;
+      cursor: pointer;
     }
   }
 }

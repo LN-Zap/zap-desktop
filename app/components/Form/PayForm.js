@@ -21,7 +21,7 @@ class PayForm extends Component {
 
   render() {
     const {
-      payform: { amount, payInput },
+      payform: { amount, payInput, showErrors },
       currency,
       crypto,
 
@@ -30,9 +30,13 @@ class PayForm extends Component {
       currentAmount,
       inputCaption,
       showPayLoadingScreen,
+      payFormIsValid: { errors, isValid },
 
       setPayAmount,
+      onPayAmountBlur,
+
       setPayInput,
+      onPayInputBlur,
 
       onPaySubmit
     } = this.props
@@ -41,7 +45,12 @@ class PayForm extends Component {
       <div className={styles.container}>
         {showPayLoadingScreen && <LoadingBolt />}
 
-        <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''}`}>
+        <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''} ${showErrors.amount && styles.error}`}>
+          <section className={`${styles.amountError} ${showErrors.amount && styles.active}`}>
+            {showErrors.amount &&
+              <span>{errors.amount}</span>
+            }
+          </section>
           <label htmlFor='amount'>
             <CurrencyIcon currency={currency} crypto={crypto} />
           </label>
@@ -58,6 +67,7 @@ class PayForm extends Component {
             }
             value={currentAmount}
             onChange={event => setPayAmount(event.target.value)}
+            onBlur={onPayAmountBlur}
             id='amount'
             readOnly={isLn}
           />
@@ -80,18 +90,24 @@ class PayForm extends Component {
               </i>
             }
           </aside>
-          <section className={styles.input}>
+          <section className={`${styles.input} ${showErrors.payInput && styles.error}`}>
             <input
               type='text'
               placeholder='Payment request or bitcoin address'
               value={payInput}
               onChange={event => setPayInput(event.target.value)}
+              onBlur={onPayInputBlur}
               id='paymentRequest'
             />
           </section>
+          <section className={`${styles.payInputError} ${showErrors.payInput && styles.active}`}>
+            {showErrors.payInput &&
+              <span>{errors.payInput}</span>
+            }
+          </section>
         </div>
         <section className={styles.buttonGroup}>
-          <div className={styles.button} onClick={onPaySubmit}>Pay</div>
+          <div className={`${styles.button} ${isValid && styles.active}`} onClick={onPaySubmit}>Pay</div>
         </section>
       </div>
     )
@@ -112,9 +128,12 @@ PayForm.propTypes = {
   ]).isRequired,
   inputCaption: PropTypes.string.isRequired,
   showPayLoadingScreen: PropTypes.bool.isRequired,
+  payFormIsValid: PropTypes.object.isRequired,
 
   setPayAmount: PropTypes.func.isRequired,
+  onPayAmountBlur: PropTypes.func.isRequired,
   setPayInput: PropTypes.func.isRequired,
+  onPayInputBlur: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
 
   onPaySubmit: PropTypes.func.isRequired
