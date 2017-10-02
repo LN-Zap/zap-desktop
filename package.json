@@ -195,6 +195,7 @@
     "font-awesome": "^4.7.0",
     "grpc": "^1.4.1",
     "history": "^4.6.3",
+    "lodash": "^4.17.4",
     "moment-timezone": "^0.5.13",
     "prop-types": "^15.5.10",
     "qrcode.react": "^0.7.1",

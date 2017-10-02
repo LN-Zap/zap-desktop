@@ -1,5 +1,8 @@
 import { createSelector } from 'reselect'
 import bitcoin from 'bitcoinjs-lib'
+
+import isEmpty from 'lodash/isEmpty'
+
 import { tickerSelectors } from './ticker'
 import { btc, bech32 } from '../utils'
 
@@ -12,6 +15,11 @@ const initialState = {
     payreq: '',
     r_hash: '',
     amount: '0'
+  },
+
+  showErrors: {
+    amount: false,
+    payInput: false
   }
 }
 
@@ -20,6 +28,8 @@ const initialState = {
 export const SET_PAY_AMOUNT = 'SET_PAY_AMOUNT'
 export const SET_PAY_INPUT = 'SET_PAY_INPUT'
 export const SET_PAY_INVOICE = 'SET_PAY_INVOICE'
+
+export const UPDATE_PAY_ERRORS = 'UPDATE_PAY_ERRORS'
 
 export const RESET_FORM = 'RESET_FORM'
 
@@ -47,9 +57,10 @@ export function setPayInvoice(invoice) {
   }
 }
 
-export function resetPayForm() {
+export function updatePayErrors(errorsObject) {
   return {
-    type: RESET_FORM
+    type: UPDATE_PAY_ERRORS,
+    errorsObject
   }
 }
 
@@ -57,9 +68,11 @@ export function resetPayForm() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_PAY_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
-  [SET_PAY_INPUT]: (state, { payInput }) => ({ ...state, payInput }),
-  [SET_PAY_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
+  [SET_PAY_AMOUNT]: (state, { amount }) => ({ ...state, amount, showErrors: Object.assign(state.showErrors, { amount: false }) }),
+  [SET_PAY_INPUT]: (state, { payInput }) => ({ ...state, payInput, showErrors: Object.assign(state.showErrors, { payInput: false }) }),
+  [SET_PAY_INVOICE]: (state, { invoice }) => ({ ...state, invoice, showErrors: Object.assign(state.showErrors, { amount: false }) }),
+
+  [UPDATE_PAY_ERRORS]: (state, { errorsObject }) => ({ ...state, showErrors: Object.assign(state.showErrors, errorsObject) }),
 
   [RESET_FORM]: () => (initialState)
 }
@@ -75,7 +88,7 @@ const payInvoiceSelector = state => state.payform.invoice
 // transaction
 const sendingTransactionSelector = state => state.transaction.sendingTransaction
 
-// transaction
+// payment
 const sendingPaymentSelector = state => state.payment.sendingPayment
 
 // ticker
@@ -84,7 +97,6 @@ const currencySelector = state => state.ticker.currency
 payFormSelectors.isOnchain = createSelector(
   payInputSelector,
   (input) => {
-    // TODO: work with bitcoin-js to fix p2wkh error and make testnet/mainnet dynamic
     try {
       bitcoin.address.toOutputScript(input, bitcoin.networks.testnet)
       return true
@@ -147,6 +159,31 @@ payFormSelectors.showPayLoadingScreen = createSelector(
   sendingTransactionSelector,
   sendingPaymentSelector,
   (sendingTransaction, sendingPayment) => sendingTransaction || sendingPayment
+)
+
+payFormSelectors.payFormIsValid = createSelector(
+  payFormSelectors.isOnchain,
+  payFormSelectors.isLn,
+  payAmountSelector,
+  payInputSelector,
+  (isOnchain, isLn, amount, invoice) => {
+    let errors = {}
+
+    if (!isLn && amount <= 0) {
+      errors.amount = 'Amount must be more than 0'
+    }
+
+    if (!isOnchain && !isLn) {
+      errors.payInput = 'Must be a valid BTC address or Lightning Network request'
+    }
+
+    return {
+      errors,
+      amountIsValid: isEmpty(errors.amount),
+      payInputIsValid: isEmpty(errors.payInput),
+      isValid: isEmpty(errors)
+    }
+  }
 )
 
 export { payFormSelectors }

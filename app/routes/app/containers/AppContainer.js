@@ -7,7 +7,7 @@ import { fetchInfo } from 'reducers/info'
 import { showModal, hideModal } from 'reducers/modal'
 
 import { setFormType } from 'reducers/form'
-import { setPayAmount, setPayInput, payFormSelectors } from 'reducers/payform'
+import { setPayAmount, setPayInput, updatePayErrors, payFormSelectors } from 'reducers/payform'
 import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
 
 import { sendCoins } from 'reducers/transaction'
@@ -31,6 +31,8 @@ const mapDispatchToProps = {
 
   setPayAmount,
   setPayInput,
+  updatePayErrors,
+
   setRequestAmount,
   setRequestMemo,
 
@@ -59,7 +61,8 @@ const mapStateToProps = state => ({
   isLn: payFormSelectors.isLn(state),
   currentAmount: payFormSelectors.currentAmount(state),
   inputCaption: payFormSelectors.inputCaption(state),
-  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state)
+  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
+  payFormIsValid: payFormSelectors.payFormIsValid(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -73,14 +76,45 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currentAmount: stateProps.currentAmount,
     inputCaption: stateProps.inputCaption,
     showPayLoadingScreen: stateProps.showPayLoadingScreen,
+    payFormIsValid: stateProps.payFormIsValid,
 
     setPayAmount: dispatchProps.setPayAmount,
     setPayInput: dispatchProps.setPayInput,
     fetchInvoice: dispatchProps.fetchInvoice,
 
+    onPayAmountBlur: () => {
+      // If the input is now valid and showErrors was on, turn it off
+      if (stateProps.payFormIsValid.amountIsValid && stateProps.payform.showErrors.amount) {
+        dispatchProps.updatePayErrors({ amount: false })
+      }
+
+      // If the input is not valid and showErrors was off, turn it on
+      if (!stateProps.payFormIsValid.amountIsValid && !stateProps.payform.showErrors.amount) {
+        dispatchProps.updatePayErrors({ amount: true })
+      }
+    },
+
+    onPayInputBlur: () => {
+      // If the input is now valid and showErrors was on, turn it off
+      if (stateProps.payFormIsValid.payInputIsValid && stateProps.payform.showErrors.payInput) {
+        dispatchProps.updatePayErrors({ payInput: false })
+      }
+
+      // If the input is not valid and showErrors was off, turn it on
+      if (!stateProps.payFormIsValid.payInputIsValid && !stateProps.payform.showErrors.payInput) {
+        dispatchProps.updatePayErrors({ payInput: true })
+      }
+    },
 
     onPaySubmit: () => {
-      if (!stateProps.isOnchain && !stateProps.isLn) { return }
+      if (!stateProps.payFormIsValid.isValid) {
+        dispatchProps.updatePayErrors({
+          amount: Object.prototype.hasOwnProperty.call(stateProps.payFormIsValid.errors, 'amount'),
+          payInput: Object.prototype.hasOwnProperty.call(stateProps.payFormIsValid.errors, 'payInput')
+        })
+
+        return
+      }
 
       if (stateProps.isOnchain) {
         dispatchProps.sendCoins({
