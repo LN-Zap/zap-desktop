@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
-import ModalRoot from './components/ModalRoot'
+import ModalRoot from 'components/ModalRoot'
 import Nav from './components/Nav'
 import styles from './App.scss'
 
