@@ -64,6 +64,12 @@ export function updatePayErrors(errorsObject) {
   }
 }
 
+export function resetPayForm() {
+  return {
+    type: RESET_FORM
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
