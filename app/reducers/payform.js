@@ -3,6 +3,7 @@ import bitcoin from 'bitcoinjs-lib'
 
 import isEmpty from 'lodash/isEmpty'
 
+import { setFormType } from './form'
 import { tickerSelectors } from './ticker'
 import { btc, bech32 } from '../utils'
 
@@ -62,6 +63,13 @@ export function updatePayErrors(errorsObject) {
     type: UPDATE_PAY_ERRORS,
     errorsObject
   }
+}
+
+export const lightningPaymentUri = (event, { payreq }) => (dispatch) => {
+  // Open pay form
+  dispatch(setFormType('PAY_FORM'))
+  // Set payreq
+  dispatch(setPayInput(payreq))
 }
 
 // ------------------------------------
