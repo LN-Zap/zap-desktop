@@ -67,6 +67,8 @@ const mapStateToProps = state => ({
   invoice: state.invoice,
   modal: state.modal,
 
+  error: state.error,
+
   currentTicker: tickerSelectors.currentTicker(state),
   isOnchain: payFormSelectors.isOnchain(state),
   isLn: payFormSelectors.isLn(state),

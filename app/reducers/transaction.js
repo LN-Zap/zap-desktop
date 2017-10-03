@@ -5,6 +5,7 @@ import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { resetPayForm } from './payform'
 import { showModal } from './modal'
+import { setError } from './error'
 
 // ------------------------------------
 // Constants
@@ -67,8 +68,9 @@ export const transactionSuccessful = (event, { amount, addr, txid }) => (dispatc
   dispatch(resetPayForm())
 }
 
-export const transactionError = () => (dispatch) => {
+export const transactionError = (event, { error }) => (dispatch) => {
   dispatch({ type: TRANSACTION_FAILED })
+  dispatch(setError(error))
 }
 
 // Listener for when a new transaction is pushed from the subscriber
