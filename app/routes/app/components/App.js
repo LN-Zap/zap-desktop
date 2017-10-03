@@ -31,6 +31,8 @@ class App extends Component {
       formProps,
       closeForm,
 
+      error: { error },
+
       children
     } = this.props
 
@@ -38,7 +40,7 @@ class App extends Component {
 
     return (
       <div>
-        <GlobalError />
+        <GlobalError error={error} />
         <ModalRoot
           modalType={modalType}
           modalProps={modalProps}
