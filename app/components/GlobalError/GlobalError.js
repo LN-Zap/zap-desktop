@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import styles from './GlobalError.scss'
 
 const GlobalError = ({ error }) => {
-  console.log('error: ', error)
   if (!error) { return null }
   return (
     <div className={styles.container}>
@@ -12,6 +11,8 @@ const GlobalError = ({ error }) => {
   )
 }
 
-GlobalError.propTypes = {}
+GlobalError.propTypes = {
+  error: PropTypes.string
+}
 
 export default GlobalError
