@@ -8,17 +8,27 @@
   width: 100%;
   text-align: center;
   padding: 20px;
-  // height: 0;
   transition: all 0.25s ease;
 
-  &.active {
-    height: 100%;
-    padding: 20px;
+  &.closed {
+    max-height: 0;
+    padding: 0;
   }
 
-  h2 {
-    font-size: 20px;
-    letter-spacing: 1.5px;
-    font-weight: bold;
+  .content {
+    position: relative;
+
+    .close {
+      position: absolute;
+      top: calc(50% - 8px);
+      right: 10%;
+      cursor: pointer;
+    }
+
+    h2 {
+      font-size: 20px;
+      letter-spacing: 1.5px;
+      font-weight: bold;
+    }
   }
 }
