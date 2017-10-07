@@ -1,4 +1,5 @@
 /* eslint no-console: 0 */ // --> OFF
+// import grpc from 'grpc'
 
 import * as invoicesController from './invoicesController'
 import * as channelController from './channelController'
@@ -16,6 +17,10 @@ import * as networkController from './networkController'
 // TODO - DecodePayReq
 // TODO - SendPayment
 // TODO - DeleteAllPayments
+
+// const metadata = new grpc.Metadata()
+// var macaroonHex = fs.readFileSync('~/Library/Application Support/Lnd/admin.macaroon').toString('hex')
+// metadata.add('macaroon', macaroonHex)
 
 
 export default function (lnd, event, msg, data) {

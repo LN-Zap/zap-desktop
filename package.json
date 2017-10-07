@@ -28,7 +28,7 @@
     "test-all": "npm run lint && npm run flow && npm run build && npm run test && npm run test-e2e",
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js e2e",
     "test-watch": "npm test -- --watch",
-    "lnd": "lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --neutrino.active --neutrino.connect=faucet.lightning.community:18333 --no-macaroons"
+    "generate_certs": "concurrently \"chmod +x generate_certs.sh\" \"./generate_certs.sh\""
   },
   "browserslist": "electron 1.6",
   "build": {
@@ -198,6 +198,7 @@
     "lodash": "^4.17.4",
     "moment-timezone": "^0.5.13",
     "prop-types": "^15.5.10",
+    "ps-node": "^0.1.6",
     "qrcode.react": "^0.7.1",
     "react": "^15.6.1",
     "react-addons-css-transition-group": "^15.6.0",

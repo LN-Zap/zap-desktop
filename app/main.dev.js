@@ -12,10 +12,17 @@
  * @flow
  */
 import { app, BrowserWindow, ipcMain } from 'electron'
+import fs from 'fs'
+import { spawn, exec } from 'child_process'
+import { lookup } from 'ps-node'
+import { userInfo } from 'os'
 import MenuBuilder from './menu'
-import { lndSubscribe, lndMethods } from './lnd'
+// import { lndSubscribe, lndMethods } from './lnd'
+import lnd from './lnd'
 
-let mainWindow = null;
+let mainWindow = null
+let neutrino = null
+
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -90,12 +97,86 @@ app.on('ready', async () => {
 
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
-  
-  // Subscribe to LND events
-  lndSubscribe(mainWindow)
 
-  // LND CRUD methods
-  ipcMain.on('lnd', (event, { msg, data }) => {
-    lndMethods(event, msg, data)
+  // Check to see if LND is running. If not, start it.
+  let neutrino = null
+  lookup({ command: 'lnd' }, (err, results) => {
+    if (err) { throw new Error( err ) }
+
+    if (!results.length) {
+      const lndCertPath = `/Users/${userInfo().username}/Library/Application Support/Lnd/tls.cert`
+      if (!fs.existsSync(lndCertPath)) {
+        console.log('GENERATING CERTS')
+        spawn(
+          'npm',
+          ['run', 'generate_certs'],
+          { shell: true }
+        )
+      }
+      // Alert user that LND is starting
+      console.log('STARTING LND')
+      
+      // Start LND
+      neutrino = spawn(
+        'lnd',
+        [
+          '--bitcoin.active',
+          '--bitcoin.testnet',
+          '--neutrino.active',
+          '--neutrino.connect=faucet.lightning.community:18333',
+          '--autopilot.active',
+          '--debuglevel=debug',
+          '--no-macaroons'
+        ]
+      )
+        .on('close', code => console.log(`lnd shutting down ${code}`))
+
+      neutrino.stdout.on('data', data => {
+        let line = data.toString('utf8')
+        console.log('line: ', line)
+
+        if (line.includes('Done catching up block hashes')) {
+          console.log('CERT EXISTS AND DONE CATCHING UP BLOCK HASHES')
+          lnd((lndSubscribe, lndMethods) => {
+            console.log('lndSubscribe: ', lndSubscribe)
+            console.log('lndMethods: ', lndMethods)
+
+            lndSubscribe(mainWindow)
+
+            ipcMain.on('lnd', (event, { msg, data }) => {
+              lndMethods(event, msg, data)
+            })
+          })
+        }
+      })
+    } else {
+      console.log('LND ALREADY RUNNING')
+      setTimeout(() => {
+        lnd((lndSubscribe, lndMethods) => {
+          console.log('lndSubscribe: ', lndSubscribe)
+          console.log('lndMethods: ', lndMethods)
+
+          lndSubscribe(mainWindow)
+
+          ipcMain.on('lnd', (event, { msg, data }) => {
+            lndMethods(event, msg, data)
+          })
+        })
+      }, 10000)
+    }
   })
+  
+  // let neutrino = null
+  // spawn('lnd')
+  // lnd func
+  // const lnd = lnd((lndSubscribe, lndMethods) => {
+  // })
+  // Subscribe to LND events
+
+  // lndSubscribe(mainWindow)
+
+  // // LND CRUD methods
+  // ipcMain.on('lnd', (event, { msg, data }) => {
+  //   lndMethods(event, msg, data)
+  // })
 });
