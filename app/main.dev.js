@@ -66,8 +66,6 @@ app.on('ready', async () => {
     frame: false
   });
 
-  mainWindow.setTitle('Zap')
-
   mainWindow.maximize();
 
   mainWindow.loadURL(`file://${__dirname}/app.html`);
@@ -103,6 +101,7 @@ app.setAsDefaultProtocolClient('lightning')
 
 app.on('open-url', function (event, url) {
   event.preventDefault()
+  
   const payreq = url.split(':')[1]
   mainWindow.webContents.send('lightningPaymentUri', { payreq })
   mainWindow.show()
