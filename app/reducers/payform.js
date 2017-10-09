@@ -72,6 +72,12 @@ export const lightningPaymentUri = (event, { payreq }) => (dispatch) => {
   dispatch(setPayInput(payreq))
 }
 
+export function resetPayForm() {
+  return {
+    type: RESET_FORM
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
