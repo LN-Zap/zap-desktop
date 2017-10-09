@@ -27,9 +27,6 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
   const path = require('path');
   const p = path.join(__dirname, '..', 'app', 'node_modules');
   require('module').globalPaths.push(p);
-
-  // set icon
-  // app.dock.setIcon(`${path.join(__dirname, '..', 'resources')}/zap_2.png`)
 }
 
 const installExtensions = async () => {
@@ -99,3 +96,13 @@ app.on('ready', async () => {
     lndMethods(event, msg, data)
   })
 });
+
+app.setAsDefaultProtocolClient('lightning')
+
+app.on('open-url', function (event, url) {
+  event.preventDefault()
+  
+  const payreq = url.split(':')[1]
+  mainWindow.webContents.send('lightningPaymentUri', { payreq })
+  mainWindow.show()
+})

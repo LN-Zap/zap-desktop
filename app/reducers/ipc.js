@@ -19,6 +19,7 @@ import {
   pushclosechannelstatus
 
 } from './channels'
+import { lightningPaymentUri } from './payform'
 import { receivePayments, paymentSuccessful } from './payment'
 import { receiveInvoices, createdInvoice, receiveFormInvoice, invoiceUpdate } from './invoice'
 import { receiveBalance } from './balance'
@@ -45,6 +46,8 @@ const ipc = createIpc({
   invoiceUpdate,
 
   receiveBalance,
+
+  lightningPaymentUri,
 
   paymentSuccessful,
 

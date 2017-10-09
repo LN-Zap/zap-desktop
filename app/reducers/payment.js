@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { setFormType } from './form'
 import { resetPayForm } from './payform'
+import { showModal } from './modal'
 
 // ------------------------------------
 // Constants
@@ -73,6 +74,8 @@ export const paymentSuccessful = () => (dispatch) => {
   // Close the form modal once the payment was succesful
   dispatch(setFormType(null))
 
+  // Show successful payment state
+  dispatch(showModal('SUCCESSFUL_SEND_PAYMENT'))
   // Refetch payments (TODO: dont do a full refetch, rather append new tx to list)
   dispatch(fetchPayments())
 

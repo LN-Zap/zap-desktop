@@ -2,6 +2,7 @@ import React from 'react'
 import { shallow } from 'enzyme'
 import ModalRoot from '../../app/components/ModalRoot'
 import SuccessfulSendCoins from '../../app/components/ModalRoot/SuccessfulSendCoins'
+import SuccessfulSendPayment from '../../app/components/ModalRoot/SuccessfulSendPayment'
 
 const defaultProps = {
   hideModal: () => {},
@@ -32,4 +33,16 @@ describe('SuccessfulSendCoins modal', () => {
   it('should render specific modal', () => {
     expect(el.find(SuccessfulSendCoins).length).toBe(1)
   })
-});
+})
+
+describe('SuccessfulSendPayment modal', () => {
+  const props = {
+    ...defaultProps,
+    modalType: 'SUCCESSFUL_SEND_PAYMENT',
+    modalProps: {}
+  }
+  const el = shallow(<ModalRoot {...props} />)
+  it('should render specific modal', () => {
+    expect(el.find(SuccessfulSendPayment).length).toBe(1)
+  })
+})
