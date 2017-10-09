@@ -48,7 +48,7 @@ const ipc = createIpc({
   receiveBalance,
 
   lightningPaymentUri,
-  
+
   paymentSuccessful,
 
   channelSuccessful,
