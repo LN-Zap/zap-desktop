@@ -98,25 +98,22 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu();
 
-  // Check to see if LND is running. If not, start it.
+  // Where we will store the neutrino process if need be
   let neutrino = null
+
+  // Check to see if and LND process is running
   lookup({ command: 'lnd' }, (err, results) => {
+    // There was an error checking for the LND process
     if (err) { throw new Error( err ) }
 
+    // No LND process was found
     if (!results.length) {
-      const lndCertPath = `/Users/${userInfo().username}/Library/Application Support/Lnd/tls.cert`
-      if (!fs.existsSync(lndCertPath)) {
-        console.log('GENERATING CERTS')
-        spawn(
-          'npm',
-          ['run', 'generate_certs'],
-          { shell: true }
-        )
-      }
-      // Alert user that LND is starting
-      console.log('STARTING LND')
+      // Run a bash script that checks for the LND folder and generates Node.js compatible certs
+      console.log('CHECKING/GENERATING CERTS')
+      exec('sh generate_certs.sh')
       
-      // Start LND
+      // After the certs are generated, it's time to start LND
+      console.log('STARTING LND')
       neutrino = spawn(
         'lnd',
         [
@@ -131,18 +128,22 @@ app.on('ready', async () => {
       )
         .on('close', code => console.log(`lnd shutting down ${code}`))
 
+      // Listen for when neutrino prints out data
       neutrino.stdout.on('data', data => {
+        // Data stored in variable line, log line to the console
         let line = data.toString('utf8')
-        console.log('line: ', line)
+        console.log(line)
 
+        // When LND is all caught up to the blockchain
         if (line.includes('Done catching up block hashes')) {
-          console.log('CERT EXISTS AND DONE CATCHING UP BLOCK HASHES')
+          // Log that LND is caught up to the current block height
+          console.log('DONE CATCHING UP BLOCK HASHES')
+          // Call lnd
           lnd((lndSubscribe, lndMethods) => {
-            console.log('lndSubscribe: ', lndSubscribe)
-            console.log('lndMethods: ', lndMethods)
-
+            // Subscribe to bi-directional streams
             lndSubscribe(mainWindow)
 
+            // Listen for all gRPC restful methods
             ipcMain.on('lnd', (event, { msg, data }) => {
               lndMethods(event, msg, data)
             })
@@ -150,19 +151,18 @@ app.on('ready', async () => {
         }
       })
     } else {
+      // An LND process was found, no need to start our own
       console.log('LND ALREADY RUNNING')
-      setTimeout(() => {
-        lnd((lndSubscribe, lndMethods) => {
-          console.log('lndSubscribe: ', lndSubscribe)
-          console.log('lndMethods: ', lndMethods)
+      // Call lnd
+      lnd((lndSubscribe, lndMethods) => {
+        // Subscribe to bi-directional streams
+        lndSubscribe(mainWindow)
 
-          lndSubscribe(mainWindow)
-
-          ipcMain.on('lnd', (event, { msg, data }) => {
-            lndMethods(event, msg, data)
-          })
+        // Listen for all gRPC restful methods
+        ipcMain.on('lnd', (event, { msg, data }) => {
+          lndMethods(event, msg, data)
         })
-      }, 10000)
+      })
     }
   })
   
