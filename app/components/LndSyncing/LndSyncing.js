@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './LndSyncing.scss'
 
-const LndSyncing = ({ lines }) => (
+const LndSyncing = () => (
   <div className={styles.container}>
     <h3>zap</h3>
     <div className={styles.loading}>

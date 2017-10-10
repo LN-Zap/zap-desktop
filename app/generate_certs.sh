@@ -1,6 +1,5 @@
 # Generate Node.js compatible certs
-echo >> gang.txt
-echo "here!"
+echo >> low.txt
 
 # If Lnd folder doesn't exist we have to create it
 if [ ! -d ~/Library/Application\ Support/Lnd ]; then

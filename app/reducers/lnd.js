@@ -19,9 +19,9 @@ export const lndSyncing = () => dispatch => dispatch({ type: START_SYNCING })
 // Receive IPC event for LND stoping sync
 export const lndSynced = () => dispatch => {
   // Fetch data now that we know LND is synced
-  fetchTicker()
-  fetchBalance()
-  fetchInfo()
+  dispatch(fetchTicker())
+  dispatch(fetchBalance())
+  dispatch(fetchInfo())
 
   dispatch({ type: STOP_SYNCING })
 }

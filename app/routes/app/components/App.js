@@ -38,8 +38,8 @@ class App extends Component {
       children
     } = this.props
 
-    // if (lnd.syncing) { return <LndSyncing lines={lnd.lines} /> }
-    if (true) { return <LndSyncing lines={[]} /> }
+    if (lnd.syncing) { return <LndSyncing /> }
+    // if (true) { return <LndSyncing lines={[]} /> }
 
     if (!currentTicker) { return <LoadingBolt /> }
 
