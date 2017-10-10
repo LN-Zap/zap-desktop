@@ -44,6 +44,8 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = state => ({
+  lnd: state.lnd,
+
   ticker: state.ticker,
   balance: state.balance,
   payment: state.payment,

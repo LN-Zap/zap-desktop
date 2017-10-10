@@ -22,6 +22,7 @@ import lnd from './lnd'
 
 let mainWindow = null
 let neutrino = null
+let syncing = false
 
 
 if (process.env.NODE_ENV === 'production') {
@@ -84,22 +85,23 @@ app.on('ready', async () => {
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
     if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
+      throw new Error('"mainWindow" is not defined')
     }
     
-    mainWindow.show();
-    mainWindow.focus();
-  });
+    mainWindow.show()
+    mainWindow.focus()
+
+    if (syncing) {
+      mainWindow.webContents.send('lndSyncing')
+    }
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null;
-  });
+  })
 
   const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
-
-  // Where we will store the neutrino process if need be
-  let neutrino = null
+  menuBuilder.buildMenu()
 
   // Check to see if and LND process is running
   lookup({ command: 'lnd' }, (err, results) => {
@@ -128,12 +130,17 @@ app.on('ready', async () => {
       )
         .on('close', code => console.log(`lnd shutting down ${code}`))
 
+      // Let the front end know we have started syncing LND
+      syncing = true
+
       // Listen for when neutrino prints out data
       neutrino.stdout.on('data', data => {
         // Data stored in variable line, log line to the console
         let line = data.toString('utf8')
         console.log(line)
 
+        // Pass line to front end for loading state UX
+        // mainWindow.webContents.send('lndStdout', line)
         // When LND is all caught up to the blockchain
         if (line.includes('Done catching up block hashes')) {
           // Log that LND is caught up to the current block height
@@ -147,6 +154,10 @@ app.on('ready', async () => {
             ipcMain.on('lnd', (event, { msg, data }) => {
               lndMethods(event, msg, data)
             })
+
+            // Let the front end know we have stopped syncing LND
+            syncing = false
+            mainWindow.webContents.send('lndSynced')
           })
         }
       })
@@ -165,18 +176,4 @@ app.on('ready', async () => {
       })
     }
   })
-  
-  // let neutrino = null
-  // spawn('lnd')
-  // lnd func
-  // const lnd = lnd((lndSubscribe, lndMethods) => {
-  // })
-  // Subscribe to LND events
-
-  // lndSubscribe(mainWindow)
-
-  // // LND CRUD methods
-  // ipcMain.on('lnd', (event, { msg, data }) => {
-  //   lndMethods(event, msg, data)
-  // })
-});
+})

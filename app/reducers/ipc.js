@@ -1,4 +1,5 @@
 import createIpc from 'redux-electron-ipc'
+import { lndSyncing, lndSynced, lndStdout } from './lnd'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
 import { receiveCryptocurrency } from './ticker'
@@ -31,6 +32,10 @@ import {
 
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
+  lndSyncing,
+  lndSynced,
+  lndStdout,
+  
   receiveInfo,
 
   receivePeers,

@@ -1,6 +1,7 @@
 // @flow
 import { combineReducers } from 'redux'
 import { routerReducer as router } from 'react-router-redux'
+import lnd from './lnd'
 import ticker from './ticker'
 import info from './info'
 import balance from './balance'
@@ -20,6 +21,7 @@ import activity from './activity'
 
 const rootReducer = combineReducers({
   router,
+  lnd,
   ticker,
   info,
   balance,
