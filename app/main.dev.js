@@ -17,7 +17,6 @@ import { spawn, exec } from 'child_process'
 import { lookup } from 'ps-node'
 import { userInfo } from 'os'
 import MenuBuilder from './menu'
-// import { lndSubscribe, lndMethods } from './lnd'
 import lnd from './lnd'
 
 let mainWindow = null
