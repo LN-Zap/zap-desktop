@@ -8,7 +8,7 @@ class LndSyncing extends Component {
       facts: [
         {
           title: 'No2x',
-          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA. It is bullshit. Fuck that shit.'
+          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA signers. The idea was drawn up and signed in a locked hotel room with select individuals and goes against everything that Bitcoin stands for. There is no favoritism in Bitcoin. There are no politicians. Hash power and business don\'t speak for us. Don\'t trust, verify.'
         },
         {
           title: 'Gang',
