@@ -39,7 +39,6 @@ class App extends Component {
     } = this.props
 
     if (lnd.syncing) { return <LndSyncing /> }
-    // if (true) { return <LndSyncing lines={[]} /> }
 
     if (!currentTicker) { return <LoadingBolt /> }
 

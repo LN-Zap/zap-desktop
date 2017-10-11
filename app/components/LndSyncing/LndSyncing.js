@@ -1,14 +1,65 @@
-import React from 'react'
+import React, { Component } from 'react'
 import styles from './LndSyncing.scss'
 
-const LndSyncing = () => (
-  <div className={styles.container}>
-    <h3>zap</h3>
-    <div className={styles.loading}>
-      <div className={styles.spinner}></div>
-      <h1>syncing your lightning node to the blockchain</h1>
-    </div>
-  </div>
-)
+class LndSyncing extends Component {
+  constructor(props) {
+  super(props);
+    this.state = {
+      facts: [
+        {
+          title: 'No2x',
+          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA. It is bullshit. Fuck that shit.'
+        },
+        {
+          title: 'Gang',
+          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA. It is bullshit. Fuck that shit.'
+        },
+        {
+          title: 'Yo',
+          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA. It is bullshit. Fuck that shit.'
+        },
+        {
+          title: 'Liiiiit',
+          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA. It is bullshit. Fuck that shit.'
+        }
+      ],
+      currentFact: 0
+    }
+  }
+
+  render() {
+    const { facts, currentFact } = this.state
+    const renderCurrentFact = facts[currentFact]
+
+    return (
+      <div className={styles.container}>
+        <h3>zap</h3>
+        <div className={styles.loading}>
+          <div className={styles.spinner}></div>
+          <h1>syncing your lightning node to the blockchain</h1>
+        </div>
+        <div className={styles.facts}>
+          <div className={styles.fact}>
+            <h2>{renderCurrentFact.title}</h2>
+            <p>{renderCurrentFact.description}</p>
+          </div>
+          <ul>
+            {
+              facts.map((facts, index) => {
+                return (
+                  <li
+                    className={`${styles.factButton} ${currentFact === index && styles.active}`}
+                    key={index}
+                    onClick={() => this.setState({ currentFact: index })}
+                  />
+                )
+              })
+            }
+          </ul>
+        </div>
+      </div>
+    )
+  }
+}
 
 export default LndSyncing
