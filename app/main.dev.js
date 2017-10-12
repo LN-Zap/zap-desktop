@@ -116,7 +116,7 @@ app.on('ready', async () => {
       // After the certs are generated, it's time to start LND
       console.log('STARTING LND')
       neutrino = spawn(
-        'lnd',
+        'resources/binaries/lnd',
         [
           '--bitcoin.active',
           '--bitcoin.testnet',
