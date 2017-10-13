@@ -28,7 +28,7 @@
     "test-all": "npm run lint && npm run flow && npm run build && npm run test && npm run test-e2e",
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js e2e",
     "test-watch": "npm test -- --watch",
-    "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.6.10"
+    "install-grpc": "cd app && npm run install-grpc"
   },
   "browserslist": "electron 1.6",
   "build": {
@@ -141,7 +141,6 @@
     "electron": "^1.6.10",
     "electron-builder": "^19.8.0",
     "electron-devtools-installer": "^2.2.0",
-    "electron-rebuild": "^1.6.0",
     "enzyme": "^2.9.1",
     "enzyme-to-json": "^1.5.1",
     "eslint": "^4.4.1",
@@ -193,7 +192,6 @@
     "devtron": "^1.4.0",
     "electron-debug": "^1.2.0",
     "font-awesome": "^4.7.0",
-    "grpc": "^1.6.6",
     "history": "^4.6.3",
     "lodash": "^4.17.4",
     "moment-timezone": "^0.5.13",
