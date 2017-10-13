@@ -95,7 +95,10 @@ export const fetchInvoices = () => (dispatch) => {
 }
 
 // Receive IPC event for invoices
-export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ type: RECEIVE_INVOICES, invoices })
+export const receiveInvoices = (event, { invoices }) => dispatch => {
+  console.log('invoices: ', invoices)
+  dispatch({ type: RECEIVE_INVOICES, invoices })
+}
 
 // Send IPC event for creating an invoice
 export const createInvoice = (amount, memo, currency, rate) => (dispatch) => {

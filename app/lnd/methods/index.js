@@ -24,6 +24,7 @@ import * as networkController from './networkController'
 
 
 export default function (lnd, event, msg, data) {
+  console.log('MSG: ', msg)
   switch (msg) {
     case 'info':
       networkController.getInfo(lnd)

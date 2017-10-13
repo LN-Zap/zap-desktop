@@ -1,11 +1,13 @@
 import fs from 'fs'
+import path from 'path'
 import grpc from 'grpc'
 import config from '../config'
 
-module.exports = (path, host) => {
+module.exports = (rpcpath, host) => {
   process.env.GRPC_SSL_CIPHER_SUITES = 'HIGH+ECDSA'
 
-  const rpc = grpc.load(path)
+  console.log('PATH: ', path.join(__dirname, 'rpc.proto'))
+  const rpc = grpc.load(path.join(__dirname, 'rpc.proto'))
 
   const lndCert = fs.readFileSync(config.cert)
   const credentials = grpc.credentials.createSsl(lndCert)

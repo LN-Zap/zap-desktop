@@ -147,10 +147,16 @@ app.on('ready', async () => {
           // Call lnd
           lnd((lndSubscribe, lndMethods) => {
             // Subscribe to bi-directional streams
+            console.log('lndSubscribe: ', lndSubscribe)
+            console.log('lndMethods: ', lndMethods)
+            console.log('mainWindow: ', mainWindow)
             lndSubscribe(mainWindow)
 
             // Listen for all gRPC restful methods
             ipcMain.on('lnd', (event, { msg, data }) => {
+              console.log('yoooooo!!!!!!')
+              console.log('msg: ', msg)
+              console.log('data: ', data)
               lndMethods(event, msg, data)
             })
 

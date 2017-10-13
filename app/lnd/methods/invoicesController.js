@@ -27,6 +27,7 @@ export function listInvoices(lnd) {
     lnd.listInvoices({}, (err, data) => {
       if (err) { reject(err) }
 
+      console.log('invoices data: ', data)
       resolve(data)
     })
   })

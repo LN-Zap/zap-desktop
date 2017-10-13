@@ -58,7 +58,10 @@ export const fetchPayments = () => (dispatch) => {
 }
 
 // Receive IPC event for payments
-export const receivePayments = (event, { payments }) => dispatch => dispatch({ type: RECEIVE_PAYMENTS, payments })
+export const receivePayments = (event, { payments }) => dispatch => {
+  console.log('payments: ', payments)
+  dispatch({ type: RECEIVE_PAYMENTS, payments })
+}
 
 export const payInvoice = paymentRequest => (dispatch) => {
   dispatch(sendPayment())

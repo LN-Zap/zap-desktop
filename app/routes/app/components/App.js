@@ -38,9 +38,13 @@ class App extends Component {
       children
     } = this.props
 
+    console.log('here with currentTicker: ', currentTicker)
     if (lnd.syncing) { return <LndSyncing /> }
 
-    if (!currentTicker) { return <LoadingBolt /> }
+    if (!currentTicker) { 
+      console.log('yooo!')
+      return <LoadingBolt /> 
+    }
 
     return (
       <div>
