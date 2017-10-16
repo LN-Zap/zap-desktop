@@ -1,3 +1,4 @@
+import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
@@ -177,4 +178,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(App))

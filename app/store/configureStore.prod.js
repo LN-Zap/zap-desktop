@@ -10,19 +10,18 @@ const enhancers = []
 
 middleware.push(thunk)
 
-const history = createBrowserHistory()
-
+const history = createBrowserHistory({ basename: window.location.pathname })
 const router = routerMiddleware(history)
+
 middleware.push(router)
 
-console.log('middleware: ', middleware)
-enhancers.push(applyMiddleware(...middleware, ipc))
-console.log('ENHANCERS: ', enhancers)
+middleware.push(ipc)
+
+enhancers.push(applyMiddleware(...middleware))
 const enhancer = compose(...enhancers)
-// const enhancer = applyMiddleware(thunk, router);
 
 function configureStore(initialState) {
-  return createStore(rootReducer, initialState, enhancer);
+  return createStore(rootReducer, initialState, enhancer)
 }
 
-export default { configureStore, history };
+export default { configureStore, history }

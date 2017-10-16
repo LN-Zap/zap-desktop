@@ -13,6 +13,7 @@
  */
 import { app, BrowserWindow, ipcMain } from 'electron'
 import fs from 'fs'
+import path from 'path'
 import { spawn, exec } from 'child_process'
 import { lookup } from 'ps-node'
 import { userInfo } from 'os'
@@ -115,8 +116,9 @@ app.on('ready', async () => {
       
       // After the certs are generated, it's time to start LND
       console.log('STARTING LND')
+      console.log('BINARY: ', path.join(__dirname, 'bin', 'darwin', 'lnd'))
       neutrino = spawn(
-        'resources/binaries/lnd',
+        `${path.join(__dirname, 'bin', 'darwin', 'lnd')}`,
         [
           '--bitcoin.active',
           '--bitcoin.testnet',
@@ -127,6 +129,7 @@ app.on('ready', async () => {
           '--no-macaroons'
         ]
       )
+        .on('error', error => console.log(`lnd error: ${error}`))
         .on('close', code => console.log(`lnd shutting down ${code}`))
 
       // Let the front end know we have started syncing LND

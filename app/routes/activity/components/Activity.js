@@ -54,8 +54,6 @@ class Activity extends Component {
       nonActiveFilters
     } = this.props
 
-    console.log('invoiceLoading: ', invoiceLoading)
-    console.log('paymentLoading: ', paymentLoading)
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
 
     return (
