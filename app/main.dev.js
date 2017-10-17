@@ -112,7 +112,7 @@ app.on('ready', async () => {
     if (!results.length) {
       // Run a bash script that checks for the LND folder and generates Node.js compatible certs
       console.log('CHECKING/GENERATING CERTS')
-      exec('sh generate_certs.sh')
+      exec(`sh ${platform()}_generate_certs.sh`)
       
       // After the certs are generated, it's time to start LND
       console.log('STARTING LND')
