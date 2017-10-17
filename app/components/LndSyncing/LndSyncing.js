@@ -40,7 +40,7 @@ class LndSyncing extends Component {
       <div className={styles.container}>
         <h3>zap</h3>
         <div className={styles.loading}>
-          {!fetchingBlockHeight && <h4>{1}%</h4>}
+          {!fetchingBlockHeight && <h4>{syncPercentage}%</h4>}
           <div className={styles.spinner}>
           </div>
           <h1>syncing your lightning node to the blockchain</h1>

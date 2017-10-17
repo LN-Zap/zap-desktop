@@ -33,6 +33,7 @@ export const lndSynced = () => dispatch => {
 
 // Receive IPC event for LND streaming a line
 export const lndStdout = (event, lndBlockHeight) => dispatch => {
+  console.log('lndBlockHeight: ', lndBlockHeight)
   dispatch({ type: RECEIVE_LINE, lndBlockHeight: lndBlockHeight.split(' ')[0].split(/(\r\n|\n|\r)/gm)[0] })
 }
 

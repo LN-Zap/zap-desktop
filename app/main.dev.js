@@ -141,8 +141,8 @@ app.on('ready', async () => {
         console.log(line)
 
         // Pass current clock height progress to front end for loading state UX
-        if (line.includes('Difficulty retarget at block height')) {
-          const blockHeight = line.slice(line.indexOf('Difficulty retarget at block height') + 'Difficulty retarget at block height'.length).trim()
+        if (line.includes('Caught up to height')) {
+          const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
           mainWindow.webContents.send('lndStdout', blockHeight)
         }
 
