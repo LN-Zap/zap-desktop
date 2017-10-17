@@ -11,6 +11,10 @@ class App extends Component {
   componentWillMount() {
     const { fetchTicker, fetchBalance, fetchInfo, lnd: { syncing } } = this.props
 
+    if (syncing) {
+      fetchBlockHeight()
+    }
+
     if (!syncing) {
       fetchTicker()
       fetchBalance()
@@ -21,6 +25,7 @@ class App extends Component {
   render() {
     const {
       lnd,
+      fetchBlockHeight,
 
       modal: { modalType, modalProps },
       hideModal,
@@ -38,7 +43,7 @@ class App extends Component {
       children
     } = this.props
 
-    if (lnd.syncing) { return <LndSyncing /> }
+    if (lnd.syncing) {return <LndSyncing fetchBlockHeight={fetchBlockHeight} lnd={lnd} /> }
     if (!currentTicker) { return <LoadingBolt /> }
 
     return (

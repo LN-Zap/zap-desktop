@@ -43,7 +43,6 @@ const configureStore = (initialState?: counterStateType) => {
 
   // Apply Middleware & Compose Enhancers
   enhancers.push(applyMiddleware(...middleware, ipc));
-  console.log('ENHANCERS: ', enhancers)
   const enhancer = composeEnhancers(...enhancers);
 
   // Create Store

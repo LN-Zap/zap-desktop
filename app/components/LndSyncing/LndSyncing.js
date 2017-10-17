@@ -27,15 +27,26 @@ class LndSyncing extends Component {
     }
   }
 
+  componentWillMount() {
+    this.props.fetchBlockHeight()
+  }
+
   render() {
+    const {
+      lnd: { fetchingBlockHeight, blockHeight, lndBlockHeight }
+    } = this.props
     const { facts, currentFact } = this.state
     const renderCurrentFact = facts[currentFact]
+
+    console.log('PROPS: ', this.props)
 
     return (
       <div className={styles.container}>
         <h3>zap</h3>
         <div className={styles.loading}>
-          <div className={styles.spinner}></div>
+          {!fetchingBlockHeight && <h4>{Math.floor((lndBlockHeight / blockHeight) * 100)}%</h4>}
+          <div className={styles.spinner}>
+          </div>
           <h1>syncing your lightning node to the blockchain</h1>
         </div>
         <div className={styles.facts}>

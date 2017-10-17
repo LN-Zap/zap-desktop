@@ -15,6 +15,8 @@ import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
+import { fetchBlockHeight } from 'reducers/lnd'
+
 
 import App from '../components/App'
 
@@ -41,7 +43,9 @@ const mapDispatchToProps = {
   sendCoins,
   payInvoice,
   createInvoice,
-  fetchInvoice
+  fetchInvoice,
+
+  fetchBlockHeight
 }
 
 const mapStateToProps = state => ({

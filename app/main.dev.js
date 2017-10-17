@@ -116,9 +116,8 @@ app.on('ready', async () => {
       
       // After the certs are generated, it's time to start LND
       console.log('STARTING LND')
-      console.log('BINARY: ', path.join(__dirname, 'bin', 'darwin', 'lnd'))
-      neutrino = spawn(
-        `${path.join(__dirname, 'bin', 'darwin', 'lnd')}`,
+      const lndPath = path.join(__dirname, '..', 'resources', 'binaries', 'darwin', 'lnd')
+      neutrino = spawn(lndPath,
         [
           '--bitcoin.active',
           '--bitcoin.testnet',
@@ -141,8 +140,13 @@ app.on('ready', async () => {
         let line = data.toString('utf8')
         console.log(line)
 
-        // Pass line to front end for loading state UX
-        // mainWindow.webContents.send('lndStdout', line)
+        // Pass current clock height progress to front end for loading state UX
+        if (line.includes('Difficulty retarget at block height')) {
+          console.log('LINELINE LINE: ', line)
+          const blockHeight = line.slice(line.indexOf('Difficulty retarget at block height') + 'Difficulty retarget at block height'.length).trim()
+          console.log('BLOCKHEIGHT: ', blockHeight)
+          mainWindow.webContents.send('lndStdout', blockHeight)
+        }
         // When LND is all caught up to the blockchain
         if (line.includes('Done catching up block hashes')) {
           // Log that LND is caught up to the current block height
@@ -150,16 +154,10 @@ app.on('ready', async () => {
           // Call lnd
           lnd((lndSubscribe, lndMethods) => {
             // Subscribe to bi-directional streams
-            console.log('lndSubscribe: ', lndSubscribe)
-            console.log('lndMethods: ', lndMethods)
-            console.log('mainWindow: ', mainWindow)
             lndSubscribe(mainWindow)
 
             // Listen for all gRPC restful methods
             ipcMain.on('lnd', (event, { msg, data }) => {
-              console.log('yoooooo!!!!!!')
-              console.log('msg: ', msg)
-              console.log('data: ', data)
               lndMethods(event, msg, data)
             })
 
