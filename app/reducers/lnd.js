@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { fetchTicker } from './ticker'
 import { fetchBalance } from './balance'
 import { fetchInfo } from './info'
@@ -79,6 +80,21 @@ const initialState = {
   blockHeight: 0,
   lndBlockHeight: 0
 }
+
+// ------------------------------------
+// Reducer
+// ------------------------------------
+const lndSelectors = {}
+const blockHeightSelector = state => state.lnd.blockHeight
+const lndBlockHeightSelector = state => state.lnd.lndBlockHeight
+
+lndSelectors.syncPercentage = createSelector(
+  blockHeightSelector,
+  lndBlockHeightSelector,
+  (blockHeight, lndBlockHeight) => (Math.floor((lndBlockHeight / blockHeight) * 100))
+)
+
+export { lndSelectors }
 
 export default function lndReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

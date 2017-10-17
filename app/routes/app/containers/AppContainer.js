@@ -15,7 +15,7 @@ import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
-import { fetchBlockHeight } from 'reducers/lnd'
+import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 
 
 import App from '../components/App'
@@ -69,7 +69,8 @@ const mapStateToProps = state => ({
   currentAmount: payFormSelectors.currentAmount(state),
   inputCaption: payFormSelectors.inputCaption(state),
   showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
-  payFormIsValid: payFormSelectors.payFormIsValid(state)
+  payFormIsValid: payFormSelectors.payFormIsValid(state),
+  syncPercentage: lndSelectors.syncPercentage(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {

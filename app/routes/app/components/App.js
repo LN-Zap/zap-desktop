@@ -25,6 +25,7 @@ class App extends Component {
   render() {
     const {
       lnd,
+      syncPercentage,
       fetchBlockHeight,
 
       modal: { modalType, modalProps },
@@ -43,7 +44,16 @@ class App extends Component {
       children
     } = this.props
 
-    if (lnd.syncing) {return <LndSyncing fetchBlockHeight={fetchBlockHeight} lnd={lnd} /> }
+    if (lnd.syncing) {
+      return (
+        <LndSyncing
+          fetchBlockHeight={fetchBlockHeight}
+          fetchingBlockHeight={lnd.fetchingBlockHeight}
+          syncPercentage={syncPercentage}
+        />
+      ) 
+    }
+
     if (!currentTicker) { return <LoadingBolt /> }
 
     return (
