@@ -53,7 +53,6 @@ export function receiveBlockHeight(blockHeight) {
 export const fetchBlockHeight = () => async (dispatch) => {
   dispatch(getBlockHeight())
   const blockData = await requestBlockHeight()
-  console.log('blockHeight: ', blockData.blocks[0].height)
   dispatch(receiveBlockHeight(blockData.blocks[0].height))
 }
 

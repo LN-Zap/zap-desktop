@@ -16,7 +16,7 @@ import fs from 'fs'
 import path from 'path'
 import { spawn, exec } from 'child_process'
 import { lookup } from 'ps-node'
-import { userInfo } from 'os'
+import { platform } from 'os'
 import MenuBuilder from './menu'
 import lnd from './lnd'
 
@@ -116,7 +116,7 @@ app.on('ready', async () => {
       
       // After the certs are generated, it's time to start LND
       console.log('STARTING LND')
-      const lndPath = path.join(__dirname, '..', 'resources', 'binaries', 'darwin', 'lnd')
+      const lndPath = path.join(__dirname, '..', 'resources', 'binaries', platform(), platform() === 'win32' ? 'lnd.exe' : 'lnd')
       neutrino = spawn(lndPath,
         [
           '--bitcoin.active',
@@ -142,11 +142,10 @@ app.on('ready', async () => {
 
         // Pass current clock height progress to front end for loading state UX
         if (line.includes('Difficulty retarget at block height')) {
-          console.log('LINELINE LINE: ', line)
           const blockHeight = line.slice(line.indexOf('Difficulty retarget at block height') + 'Difficulty retarget at block height'.length).trim()
-          console.log('BLOCKHEIGHT: ', blockHeight)
           mainWindow.webContents.send('lndStdout', blockHeight)
         }
+
         // When LND is all caught up to the blockchain
         if (line.includes('Done catching up block hashes')) {
           // Log that LND is caught up to the current block height
