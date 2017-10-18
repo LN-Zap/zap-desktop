@@ -36,12 +36,13 @@
     "appId": "org.develar.Zap",
     "files": [
       "dist/",
-      "node_modules/",
       "resources/",
+      "node_modules/",
       "app.html",
       "main.prod.js",
       "main.prod.js.map",
-      "package.json"
+      "package.json",
+      "rpc.proto"
     ],
     "dmg": {
       "icon": "./resources/zap_2.icns",
@@ -73,7 +74,14 @@
     "directories": {
       "buildResources": "resources",
       "output": "release"
-    }
+    },
+    "extraResources": [
+      "**/resources/bin/darwin/lnd",
+      "**/resources/bin/linux/lnd",
+      "**/resources/bin/win32/lnd",
+      "**/resources/scripts/*",
+      "**/resources/cloudbolt.svg"
+    ]
   },
   "repository": {
     "type": "git",

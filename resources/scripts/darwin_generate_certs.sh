@@ -1,4 +1,3 @@
-echo "insert text here" > outter.txt
 
 # Generate Node.js compatible certs
 # If Lnd folder doesn't exist we have to create it

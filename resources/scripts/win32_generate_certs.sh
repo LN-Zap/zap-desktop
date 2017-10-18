@@ -1,9 +1,7 @@
-echo "insert text here" > outter.txt
-
 # Generate Node.js compatible certs
 # If Lnd folder doesn't exist we have to create it
 if [ ! -d ~/Library/Application\ Support/Lnd ]; then
-  mkdir -p ~/Library/Application\ Support/Lnd;
+  mkdir -p ~/AppData/Local/Lnd;
 fi
 
 # Generate compatible certs

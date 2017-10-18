@@ -112,11 +112,19 @@ app.on('ready', async () => {
     if (!results.length) {
       // Run a bash script that checks for the LND folder and generates Node.js compatible certs
       console.log('CHECKING/GENERATING CERTS')
-      exec(`sh ${platform()}_generate_certs.sh`)
+      exec(`sh ${path.join(__dirname, '..', 'resources', 'scripts', 'darwin_generate_certs.sh')}`)
+      // exec(`echo > certs.txt`)
+      // exec("mkdir -p ~/Library/Application\ Support/Lnd;")
+      // exec("openssl ecparam -genkey -name prime256v1 -out ~/Library/Application\ Support/Lnd/tls.key")
+      // exec("openssl req -new -sha256 -key ~/Library/Application\ Support/Lnd/tls.key -out ~/Library/Application\ Support/Lnd/csr.csr -subj '/CN=localhost/O=lnd'")
+      // exec("openssl req -x509 -sha256 -days 3650 -key ~/Library/Application\ Support/Lnd/tls.key -in ~/Library/Application\ Support/Lnd/csr.csr -out ~/Library/Application\ Support/Lnd/tls.cert")
+      // exec("rm ~/Library/Application\ Support/Lnd/csr.csr")
+
       
       // After the certs are generated, it's time to start LND
       console.log('STARTING LND')
-      const lndPath = path.join(__dirname, '..', 'resources', 'binaries', platform(), platform() === 'win32' ? 'lnd.exe' : 'lnd')
+      const lndPath = path.join(__dirname, '..', 'resources', 'bin', 'darwin', 'darwin' === 'win32' ? 'lnd.exe' : 'lnd')
+      console.log('lndPath: ', lndPath)
       neutrino = spawn(lndPath,
         [
           '--bitcoin.active',
@@ -130,6 +138,8 @@ app.on('ready', async () => {
       )
         .on('error', error => console.log(`lnd error: ${error}`))
         .on('close', code => console.log(`lnd shutting down ${code}`))
+
+      // exec(`echo > lnd.txt`)
 
       // Let the front end know we have started syncing LND
       syncing = true

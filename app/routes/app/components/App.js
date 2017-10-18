@@ -44,8 +44,6 @@ class App extends Component {
       children
     } = this.props
 
-    console.log('syncPercentage: ', syncPercentage)
-    
     if (lnd.syncing) {
       return (
         <LndSyncing
