@@ -80,7 +80,8 @@
       "**/resources/bin/linux/lnd",
       "**/resources/bin/win32/lnd",
       "**/resources/scripts/*",
-      "**/resources/cloudbolt.svg"
+      "**/resources/cloudbolt.svg",
+      "**/resources/zap_2.svg"
     ]
   },
   "repository": {
