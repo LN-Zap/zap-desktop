@@ -111,6 +111,8 @@ app.on('ready', async () => {
 
     // No LND process was found
     if (!results.length) {
+      // Let the front end know we have started syncing LND
+      syncing = true
       // Run a bash script that checks for the LND folder and generates Node.js compatible certs
       console.log('CHECKING/GENERATING CERTS')
       exec(`sh ${path.join(__dirname, '..', 'resources', 'scripts', `${plat}_generate_certs.sh`)}`)
@@ -132,9 +134,6 @@ app.on('ready', async () => {
       )
         .on('error', error => console.log(`lnd error: ${error}`))
         .on('close', code => console.log(`lnd shutting down ${code}`))
-
-      // Let the front end know we have started syncing LND
-      syncing = true
 
       // Listen for when neutrino prints out data
       neutrino.stdout.on('data', data => {

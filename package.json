@@ -1,6 +1,6 @@
 {
   "name": "zap-desktop",
-  "productName": "zap-desktop",
+  "productName": "ZapDesktop",
   "version": "0.0.1",
   "description": "desktop application for the lightning network",
   "scripts": {
@@ -32,8 +32,8 @@
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "Zap",
-    "appId": "org.develar.Zap",
+    "productName": "ZapDesktop",
+    "appId": "org.develar.ZapDesktop",
     "files": [
       "dist/",
       "resources/",
@@ -80,8 +80,8 @@
       "**/resources/bin/linux/lnd",
       "**/resources/bin/win32/lnd",
       "**/resources/scripts/*",
-      "**/resources/cloudbolt.svg",
-      "**/resources/zap_2.svg"
+      "**/resources/zap_2.svg",
+      "**/resources/cloudbolt.svg"
     ]
   },
   "repository": {
