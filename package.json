@@ -1,6 +1,6 @@
 {
   "name": "zap-desktop",
-  "productName": "zap-desktop",
+  "productName": "ZapDesktop",
   "version": "0.0.1",
   "description": "desktop application for the lightning network",
   "scripts": {
@@ -28,19 +28,21 @@
     "test-all": "npm run lint && npm run flow && npm run build && npm run test && npm run test-e2e",
     "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js e2e",
     "test-watch": "npm test -- --watch",
-    "lnd": "lnd --bitcoin.active --bitcoin.testnet --debuglevel=debug --neutrino.active --neutrino.connect=faucet.lightning.community:18333 --no-macaroons"
+    "install-grpc": "cd app && npm run install-grpc"
   },
   "browserslist": "electron 1.6",
   "build": {
-    "productName": "Zap",
-    "appId": "org.develar.Zap",
+    "productName": "ZapDesktop",
+    "appId": "org.develar.ZapDesktop",
     "files": [
       "dist/",
+      "resources/",
       "node_modules/",
       "app.html",
       "main.prod.js",
       "main.prod.js.map",
-      "package.json"
+      "package.json",
+      "rpc.proto"
     ],
     "dmg": {
       "icon": "./resources/zap_2.icns",
@@ -72,13 +74,21 @@
     "directories": {
       "buildResources": "resources",
       "output": "release"
-    }
+    },
+    "extraResources": [
+      "**/resources/bin/darwin/lnd",
+      "**/resources/bin/linux/lnd",
+      "**/resources/bin/win32/lnd",
+      "**/resources/scripts/*",
+      "**/resources/zap_2.svg",
+      "**/resources/cloudbolt.svg"
+    ]
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/LN-Zap/zap-desktop"
   },
-  "author": "Jack Mallers <jimmymowschess@gmail.com> (https://github.com/chentsulin)",
+  "author": "Jack Mallers <jimmymowschess@gmail.com> (https://github.com/jackmallers)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/LN-Zap/zap-desktop/issues"
@@ -141,7 +151,6 @@
     "electron": "^1.6.10",
     "electron-builder": "^19.8.0",
     "electron-devtools-installer": "^2.2.0",
-    "electron-rebuild": "^1.6.0",
     "enzyme": "^2.9.1",
     "enzyme-to-json": "^1.5.1",
     "eslint": "^4.4.1",
@@ -157,7 +166,7 @@
     "eslint-plugin-promise": "^3.5.0",
     "eslint-plugin-react": "^7.2.1",
     "express": "^4.15.3",
-    "extract-text-webpack-plugin": "^2.1.0",
+    "extract-text-webpack-plugin": "^3.0.1",
     "fbjs-scripts": "^0.8.0",
     "file-loader": "^0.11.1",
     "flow-bin": "^0.48.0",
@@ -181,7 +190,7 @@
     "stylelint": "^7.12.0",
     "stylelint-config-standard": "^16.0.0",
     "url-loader": "^0.5.8",
-    "webpack": "^3.0.0",
+    "webpack": "^3.7.1",
     "webpack-bundle-analyzer": "^2.8.2",
     "webpack-dev-server": "^2.5.0",
     "webpack-merge": "^4.1.0"
@@ -193,7 +202,6 @@
     "devtron": "^1.4.0",
     "electron-debug": "^1.2.0",
     "font-awesome": "^4.7.0",
-    "grpc": "^1.4.1",
     "history": "^4.6.3",
     "lodash": "^4.17.4",
     "moment-timezone": "^0.5.13",

@@ -1,3 +1,4 @@
+import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
@@ -13,6 +14,8 @@ import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
+
+import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 
 
 import App from '../components/App'
@@ -40,10 +43,14 @@ const mapDispatchToProps = {
   sendCoins,
   payInvoice,
   createInvoice,
-  fetchInvoice
+  fetchInvoice,
+
+  fetchBlockHeight
 }
 
 const mapStateToProps = state => ({
+  lnd: state.lnd,
+
   ticker: state.ticker,
   balance: state.balance,
   payment: state.payment,
@@ -62,7 +69,8 @@ const mapStateToProps = state => ({
   currentAmount: payFormSelectors.currentAmount(state),
   inputCaption: payFormSelectors.inputCaption(state),
   showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
-  payFormIsValid: payFormSelectors.payFormIsValid(state)
+  payFormIsValid: payFormSelectors.payFormIsValid(state),
+  syncPercentage: lndSelectors.syncPercentage(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -175,4 +183,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(App)
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(App))

@@ -1,0 +1,109 @@
+@import '../../variables.scss';
+
+.container {
+  height: 100vh;
+  padding: 100px;
+
+  h3 {
+    font-size: 50px;
+  }
+
+  .loading {
+    text-align: center;
+    margin-top: 100px;
+    position: relative;
+
+    h4 {
+      position: absolute;
+      min-width: 100px;
+      top: calc(50% - 30px);
+      left: calc(50% - 48px);
+    }
+
+    h1 {
+      margin-top: 25px;
+    }
+  }
+
+  .facts {
+    position: absolute;
+    bottom: 10%;
+
+    .fact {
+      transition: all 0.25s;
+      width: 50%;
+      line-height: 1.5;
+      letter-spacing: 1.1px;
+      
+      h2 {
+        font-size: 50px;
+        margin-bottom: 10px;
+      }
+
+      p {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .factButton {
+    cursor: pointer;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: $black;
+    opacity: 0.5;
+    border-radius: 50%;
+    margin: 0 5px;
+
+    &:hover {
+      opacity: 0.25;
+    }
+
+    &.active {
+      opacity: 0.25;
+    }
+  }
+}
+
+.spinner {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-left-color: rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 999px;
+  -moz-border-radius: 999px;
+  border-radius: 999px;
+}
+
+.spinner {
+  margin: 0 auto;
+  height: 100px;
+  width: 100px;
+  -webkit-animation: animation-rotate 1000ms linear infinite;
+  -moz-animation: animation-rotate 1000ms linear infinite;
+  -o-animation: animation-rotate 1000ms linear infinite;
+  animation: animation-rotate 1000ms linear infinite;
+}
+
+@-webkit-keyframes animation-rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes animation-rotate {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes animation-rotate {
+  100% {
+    -o-transform: rotate(360deg);
+  }
+}
+
+@keyframes animation-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}

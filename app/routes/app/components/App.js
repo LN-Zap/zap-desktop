@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import LndSyncing from 'components/LndSyncing'
 import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
@@ -8,15 +9,25 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchBalance, fetchInfo } = this.props
+    const { fetchTicker, fetchBalance, fetchInfo, lnd: { syncing } } = this.props
 
-    fetchTicker()
-    fetchBalance()
-    fetchInfo()
+    if (syncing) {
+      fetchBlockHeight()
+    }
+
+    if (!syncing) {
+      fetchTicker()
+      fetchBalance()
+      fetchInfo()
+    }
   }
 
   render() {
     const {
+      lnd,
+      syncPercentage,
+      fetchBlockHeight,
+
       modal: { modalType, modalProps },
       hideModal,
       ticker,
@@ -32,6 +43,16 @@ class App extends Component {
 
       children
     } = this.props
+
+    if (lnd.syncing) {
+      return (
+        <LndSyncing
+          fetchBlockHeight={fetchBlockHeight}
+          fetchingBlockHeight={lnd.fetchingBlockHeight}
+          syncPercentage={syncPercentage}
+        />
+      ) 
+    }
 
     if (!currentTicker) { return <LoadingBolt /> }
 

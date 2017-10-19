@@ -12,10 +12,19 @@
  * @flow
  */
 import { app, BrowserWindow, ipcMain } from 'electron'
+import fs from 'fs'
+import path from 'path'
+import { spawn, exec } from 'child_process'
+import { lookup } from 'ps-node'
+import { platform } from 'os'
 import MenuBuilder from './menu'
-import { lndSubscribe, lndMethods } from './lnd'
+import lnd from './lnd'
 
-let mainWindow = null;
+const plat = platform()
+let mainWindow = null
+let neutrino = null
+let syncing = false
+
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
@@ -74,26 +83,101 @@ app.on('ready', async () => {
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
   mainWindow.webContents.on('did-finish-load', () => {
     if (!mainWindow) {
-      throw new Error('"mainWindow" is not defined');
+      throw new Error('"mainWindow" is not defined')
     }
     
-    mainWindow.show();
-    mainWindow.focus();
-  });
+    mainWindow.show()
+    mainWindow.focus()
+
+    if (syncing) {
+      mainWindow.webContents.send('lndSyncing')
+    }
+  })
 
   mainWindow.on('closed', () => {
     mainWindow = null;
-  });
+  })
 
   const menuBuilder = new MenuBuilder(mainWindow);
-  menuBuilder.buildMenu();
-  
-  // Subscribe to LND events
-  lndSubscribe(mainWindow)
+  menuBuilder.buildMenu()
 
-  // LND CRUD methods
-  ipcMain.on('lnd', (event, { msg, data }) => {
-    lndMethods(event, msg, data)
+  // Check to see if and LND process is running
+  lookup({ command: 'lnd' }, (err, results) => {
+    // There was an error checking for the LND process
+    if (err) { throw new Error( err ) }
+
+    // No LND process was found
+    if (!results.length) {
+      // Let the front end know we have started syncing LND
+      syncing = true
+      // Run a bash script that checks for the LND folder and generates Node.js compatible certs
+      console.log('CHECKING/GENERATING CERTS')
+      exec(`sh ${path.join(__dirname, '..', 'resources', 'scripts', `${plat}_generate_certs.sh`)}`)
+      
+      // After the certs are generated, it's time to start LND
+      console.log('STARTING LND')
+      const lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
+
+      neutrino = spawn(lndPath,
+        [
+          '--bitcoin.active',
+          '--bitcoin.testnet',
+          '--neutrino.active',
+          '--neutrino.connect=faucet.lightning.community:18333',
+          '--autopilot.active',
+          '--debuglevel=debug',
+          '--no-macaroons'
+        ]
+      )
+        .on('error', error => console.log(`lnd error: ${error}`))
+        .on('close', code => console.log(`lnd shutting down ${code}`))
+
+      // Listen for when neutrino prints out data
+      neutrino.stdout.on('data', data => {
+        // Data stored in variable line, log line to the console
+        let line = data.toString('utf8')
+        console.log(line)
+
+        // Pass current clock height progress to front end for loading state UX
+        if (line.includes('Caught up to height')) {
+          const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
+          mainWindow.webContents.send('lndStdout', blockHeight)
+        }
+
+        // When LND is all caught up to the blockchain
+        if (line.includes('Done catching up block hashes')) {
+          // Log that LND is caught up to the current block height
+          console.log('DONE CATCHING UP BLOCK HASHES')
+          // Call lnd
+          lnd((lndSubscribe, lndMethods) => {
+            // Subscribe to bi-directional streams
+            lndSubscribe(mainWindow)
+
+            // Listen for all gRPC restful methods
+            ipcMain.on('lnd', (event, { msg, data }) => {
+              lndMethods(event, msg, data)
+            })
+
+            // Let the front end know we have stopped syncing LND
+            syncing = false
+            mainWindow.webContents.send('lndSynced')
+          })
+        }
+      })
+    } else {
+      // An LND process was found, no need to start our own
+      console.log('LND ALREADY RUNNING')
+      // Call lnd
+      lnd((lndSubscribe, lndMethods) => {
+        // Subscribe to bi-directional streams
+        lndSubscribe(mainWindow)
+
+        // Listen for all gRPC restful methods
+        ipcMain.on('lnd', (event, { msg, data }) => {
+          lndMethods(event, msg, data)
+        })
+      })
+    }
   })
 });
 
