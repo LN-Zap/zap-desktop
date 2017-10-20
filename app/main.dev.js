@@ -117,7 +117,6 @@ app.on('ready', async () => {
       // After the certs are generated, it's time to start LND
       console.log('STARTING LND')
       const lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
-
       neutrino = spawn(lndPath,
         [
           '--bitcoin.active',
@@ -126,7 +125,8 @@ app.on('ready', async () => {
           '--neutrino.connect=faucet.lightning.community:18333',
           '--autopilot.active',
           '--debuglevel=debug',
-          '--no-macaroons'
+          '--no-macaroons',
+          '--noencryptwallet'
         ]
       )
         .on('error', error => console.log(`lnd error: ${error}`))

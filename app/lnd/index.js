@@ -5,7 +5,7 @@ import methods from './methods'
 
 export default (callback) => {
   const lnd = lightning(config.lightningRpc, config.lightningHost)
-
+  
   const lndSubscribe = mainWindow => subscribe(mainWindow, lnd)
   const lndMethods = (event, msg, data) => methods(lnd, event, msg, data)
 

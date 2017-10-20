@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 
+import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { setPayInvoice } from './payform'
 import { resetRequestForm } from './requestform'
@@ -119,6 +120,9 @@ export const createdInvoice = (event, invoice) => (dispatch) => {
 // Listen for invoice updates pushed from backend from subscribeToInvoices 
 export const invoiceUpdate = (event, { invoice }) => (dispatch) => {
   dispatch({ type: UPDATE_INVOICE, invoice })
+
+  // Fetch new balance
+  dispatch(fetchBalance())
 
   // HTML 5 desktop notification for the invoice update
   const notifTitle = 'You\'ve been Zapped'

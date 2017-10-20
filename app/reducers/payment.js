@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { resetPayForm } from './payform'
 import { showModal } from './modal'
@@ -81,6 +82,9 @@ export const paymentSuccessful = () => (dispatch) => {
 
   // Reset the payment form
   dispatch(resetPayForm())
+
+  // Fetch new balance
+  dispatch(fetchBalance())
 }
 
 

@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron'
 import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
+import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { resetPayForm } from './payform'
 import { showModal } from './modal'
@@ -60,6 +61,8 @@ export const transactionSuccessful = (event, { amount, addr, txid }) => (dispatc
   // TODO: Add successful on-chain payment to payments list once payments list supports on-chain and LN
   // dispatch({ type: PAYMENT_SUCCESSFULL, payment: { amount, addr, txid, pending: true } })
   dispatch({ type: TRANSACTION_SUCCESSFULL })
+  // Fetch new balance
+  dispatch(fetchBalance())
   // Reset the payment form
   dispatch(resetPayForm())
 }
@@ -70,6 +73,10 @@ export const transactionError = () => (dispatch) => {
 
 // Listener for when a new transaction is pushed from the subscriber
 export const newTransaction = (event, { transaction }) => (dispatch) => {
+  console.log('transaction: ', transaction)
+  // Fetch new balance
+  dispatch(fetchBalance())
+  
   dispatch({ type: ADD_TRANSACTION, transaction })
 
   // HTML 5 desktop notification for the new transaction
