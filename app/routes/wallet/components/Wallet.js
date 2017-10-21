@@ -21,6 +21,8 @@ class Wallet extends Component {
       ticker,
       peers: { peersLoading, peers, peer, peerForm },
       channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
+      fetchPeers,
+      fetchChannels,
       setPeer,
       setChannel,
       peerModalOpen,
@@ -53,6 +55,7 @@ class Wallet extends Component {
         </section>
         <section className={styles.walletData}>
           <Peers
+            fetchPeers={fetchPeers}
             peersLoading={peersLoading}
             peers={peers}
             modalPeer={peer}
@@ -64,6 +67,7 @@ class Wallet extends Component {
             disconnect={disconnectRequest}
           />
           <Channels
+            fetchChannels={fetchChannels}
             ticker={ticker}
             peers={peers}
             channelsLoading={channelsLoading}

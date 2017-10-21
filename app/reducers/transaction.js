@@ -73,10 +73,9 @@ export const transactionError = () => (dispatch) => {
 
 // Listener for when a new transaction is pushed from the subscriber
 export const newTransaction = (event, { transaction }) => (dispatch) => {
-  console.log('transaction: ', transaction)
   // Fetch new balance
   dispatch(fetchBalance())
-  
+
   dispatch({ type: ADD_TRANSACTION, transaction })
 
   // HTML 5 desktop notification for the new transaction
