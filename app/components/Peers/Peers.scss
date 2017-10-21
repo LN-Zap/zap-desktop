@@ -15,6 +15,20 @@
 			text-align: left;
 		}
 
+		.refresh {
+			cursor: pointer;
+			margin-left: 5px;
+			font-size: 12px;
+			vertical-align: top;
+			color: $darkestgrey;
+			line-height: 14px;
+			transition: color 0.25s;
+
+			&:hover {
+				color: $main;
+			}
+		}
+
 		.connectPeer {
 			float: right;
 			cursor: pointer;
