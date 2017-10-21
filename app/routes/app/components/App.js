@@ -11,10 +11,6 @@ class App extends Component {
   componentWillMount() {
     const { fetchTicker, fetchBalance, fetchInfo, lnd: { syncing } } = this.props
 
-    if (syncing) {
-      fetchBlockHeight()
-    }
-
     if (!syncing) {
       fetchTicker()
       fetchBalance()
@@ -51,7 +47,7 @@ class App extends Component {
           fetchingBlockHeight={lnd.fetchingBlockHeight}
           syncPercentage={syncPercentage}
         />
-      ) 
+      )
     }
 
     if (!currentTicker) { return <LoadingBolt /> }
@@ -86,6 +82,11 @@ class App extends Component {
 }
 
 App.propTypes = {
+  lnd: PropTypes.object.isRequired,
+
+  syncPercentage: PropTypes.number.isRequired,
+  fetchBlockHeight: PropTypes.func.isRequired,
+
   modal: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,

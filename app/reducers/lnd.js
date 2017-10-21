@@ -22,7 +22,7 @@ export const RECEIVE_BLOCK_HEIGHT = 'RECEIVE_BLOCK_HEIGHT'
 export const lndSyncing = () => dispatch => dispatch({ type: START_SYNCING })
 
 // Receive IPC event for LND stoping sync
-export const lndSynced = () => dispatch => {
+export const lndSynced = () => (dispatch) => {
   // Fetch data now that we know LND is synced
   dispatch(fetchTicker())
   dispatch(fetchBalance())
@@ -32,7 +32,9 @@ export const lndSynced = () => dispatch => {
 }
 
 // Receive IPC event for LND streaming a line
-export const lndStdout = (event, lndBlockHeight) => dispatch => dispatch({ type: RECEIVE_LINE, lndBlockHeight: lndBlockHeight.split(' ')[0].split(/(\r\n|\n|\r)/gm)[0] })
+export const lndStdout = (event, lndBlockHeight) => dispatch => (
+  dispatch({ type: RECEIVE_LINE, lndBlockHeight: lndBlockHeight.split(' ')[0].split(/(\r\n|\n|\r)/gm)[0] })
+)
 
 export function getBlockHeight() {
   return {
@@ -60,11 +62,11 @@ export const fetchBlockHeight = () => async (dispatch) => {
 const ACTION_HANDLERS = {
   [START_SYNCING]: state => ({ ...state, syncing: true }),
   [STOP_SYNCING]: state => ({ ...state, syncing: false }),
-  
+
   [RECEIVE_LINE]: (state, { lndBlockHeight }) => ({ ...state, lndBlockHeight }),
-  
+
   [GET_BLOCK_HEIGHT]: state => ({ ...state, fetchingBlockHeight: true }),
-  [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({ ...state, blockHeight, fetchingBlockHeight: false }),
+  [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({ ...state, blockHeight, fetchingBlockHeight: false })
 }
 
 // ------------------------------------

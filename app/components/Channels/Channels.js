@@ -27,15 +27,15 @@ const Channels = ({
 }) => {
   const refreshClicked = (event) => {
     // store event in icon so we dont get an error when react clears it
-    let icon = event.currentTarget
+    const icon = event.currentTarget
 
     // fetch channels 
     fetchChannels()
-    
-    // clear animation after the second so we can reuse it
-    setTimeout(() => icon.style.animation = '', 1000)
 
-   // spin icon for 1 sec
+    // clear animation after the second so we can reuse it
+    setTimeout(() => { icon.style.animation = '' }, 1000)
+
+    // spin icon for 1 sec
     icon.style.animation = 'spin 1000ms linear 1'
   }
 
@@ -48,13 +48,20 @@ const Channels = ({
         explorerLinkBase={explorerLinkBase}
         closeChannel={closeChannel}
       />
-      <ChannelForm form={channelForm} setForm={setChannelForm} ticker={ticker} peers={peers} openChannel={openChannel} currentTicker={currentTicker} />
+      <ChannelForm
+        form={channelForm}
+        setForm={setChannelForm}
+        ticker={ticker}
+        peers={peers}
+        openChannel={openChannel}
+        currentTicker={currentTicker}
+      />
       <div className={styles.header}>
         <h3>Channels</h3>
         <span
           className={`${styles.refresh} hint--top`}
           data-hint='Refresh your channels list'
-          
+
         >
           <FaRepeat
             style={{ verticalAlign: 'baseline' }}
@@ -113,6 +120,7 @@ const Channels = ({
 }
 
 Channels.propTypes = {
+  fetchChannels: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
   peers: PropTypes.array.isRequired,
   channelsLoading: PropTypes.bool.isRequired,

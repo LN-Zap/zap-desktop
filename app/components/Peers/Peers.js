@@ -21,15 +21,15 @@ const Peers = ({
 }) => {
   const refreshClicked = (event) => {
     // store event in icon so we dont get an error when react clears it
-    let icon = event.currentTarget
+    const icon = event.currentTarget
 
     // fetch peers
     fetchPeers()
-    
-    // clear animation after the second so we can reuse it
-    setTimeout(() => icon.style.animation = '', 1000)
 
-   // spin icon for 1 sec
+    // clear animation after the second so we can reuse it
+    setTimeout(() => { icon.style.animation = '' }, 1000)
+
+    // spin icon for 1 sec
     icon.style.animation = 'spin 1000ms linear 1'
   }
 
@@ -42,7 +42,7 @@ const Peers = ({
         <span
           className={`${styles.refresh} hint--top`}
           data-hint='Refresh your peers list'
-          
+
         >
           <FaRepeat
             style={{ verticalAlign: 'baseline' }}
@@ -70,6 +70,7 @@ const Peers = ({
 }
 
 Peers.propTypes = {
+  fetchPeers: PropTypes.func.isRequired,
   peersLoading: PropTypes.bool.isRequired,
   peers: PropTypes.array.isRequired,
   setPeer: PropTypes.func.isRequired,

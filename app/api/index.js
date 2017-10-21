@@ -16,8 +16,8 @@ export function requestTickers(ids) {
 }
 
 
-export function requestBlockHeight(id) {
-  const BASE_URL = `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`
+export function requestBlockHeight() {
+  const BASE_URL = 'https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1'
   return axios({
     method: 'get',
     url: BASE_URL
