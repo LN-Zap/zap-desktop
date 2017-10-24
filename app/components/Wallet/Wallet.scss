@@ -1,0 +1,72 @@
+@import '../../variables.scss';
+
+.wallet {
+  cursor: pointer;
+  background: $lightgrey;
+  transition: background 0.25s;
+  height: 150px;
+}
+
+.left, .right {
+  display: inline-block;
+  vertical-align: top;
+  width: 50%;
+  height: 150px;
+
+  .leftContent, .rightContent {
+    padding: 25px;
+  }  
+}
+
+.leftContent {
+  display: flex;
+  flex-direction: row;
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    h1 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      letter-spacing: 1.5px;
+    }
+
+    span {
+      margin: 2.5px 0;
+    }
+  }
+
+  svg {
+    font-size: 100px;
+    color: $main;
+  }
+}
+
+.rightContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: calc(100% - 50px);
+
+  div {
+    font-size: 20px;
+    padding: 10px 25px;
+    background: $main;
+    transition: background 0.25s;
+
+    &:hover {
+      background: darken($main, 10%);
+    }
+
+    svg {
+      font-size: 35px;
+      margin-right: 10px;
+    }
+  }
+}
+
+
