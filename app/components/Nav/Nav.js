@@ -14,7 +14,6 @@ const Nav = ({ ticker, balance, setCurrency, currentTicker, openPayForm, openReq
     <div className={styles.logo}>
       <ReactSVG path='../resources/zap_2.svg' />
     </div>
-
     <ul className={styles.links}>
       <li>
         <NavLink exact to='/' activeClassName={styles.active} className={styles.link}>
