@@ -38,19 +38,6 @@ class Wallet extends Component {
 
     return (
       <div className={styles.wallet}>
-        <section className={styles.header}>
-          <section className={styles.walletInfo}>
-            <ReactSVG path='../resources/zap_2.svg' />
-            <h1 data-hint='Node identity public key' className='hint--top'>{info.data.identity_pubkey}</h1>
-            <h4 className={`${styles.address} hint--top`} data-hint='Wallet address'>
-              <input
-                type='text'
-                value={address}
-                readOnly
-              />
-            </h4>
-          </section>
-        </section>
         <section className={styles.walletData}>
           <Peers
             peersLoading={peersLoading}

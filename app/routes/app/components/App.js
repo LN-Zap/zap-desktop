@@ -31,6 +31,7 @@ class App extends Component {
       fetchBlockHeight,
 
       modal: { modalType, modalProps },
+      showModal,
       hideModal,
       ticker,
       address: { address },
@@ -88,6 +89,7 @@ class App extends Component {
             balance={balance}
             address={address}
             pubkey={info.data.identity_pubkey}
+            showModal={showModal}
           />
           {children}
         </div>

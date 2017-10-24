@@ -6,14 +6,14 @@ import CryptoIcon from 'components/CryptoIcon'
 import { btc, usd } from 'utils'
 import styles from './Wallet.scss'
 
-const Wallet = ({ ticker, currentTicker, balance, address, pubkey }) => {
+const Wallet = ({ ticker, currentTicker, balance, address, pubkey, showModal }) => {
   const copyOnClick = data => {
     copy(data)
     showNotification('Noice', 'Successfully copied to clipboard')
   }
 
   return (
-    <div className={styles.wallet}>
+    <div className={styles.wallet} onClick={() => showModal('WALLET_DETAILS', {})}>
       <div className={styles.content}>
         <div className={styles.left}>
           <div className={styles.leftContent}>
@@ -47,7 +47,8 @@ Wallet.propTypes = {
   currentTicker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   address: PropTypes.string.isRequired,
-  pubkey: PropTypes.string.isRequired
+  pubkey: PropTypes.string.isRequired,
+  showModal: PropTypes.func.isRequired
 }
 
 export default Wallet
