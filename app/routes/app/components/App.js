@@ -5,20 +5,18 @@ import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
 import Nav from 'components/Nav'
+import Wallet from 'components/Wallet'
 import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchBalance, fetchInfo, lnd: { syncing } } = this.props
-
-    if (syncing) {
-      fetchBlockHeight()
-    }
+    const { fetchTicker, fetchBalance, fetchInfo, newAddress, lnd: { syncing } } = this.props
 
     if (!syncing) {
       fetchTicker()
       fetchBalance()
       fetchInfo()
+      newAddress('p2pkh')
     }
   }
 
@@ -31,10 +29,11 @@ class App extends Component {
       modal: { modalType, modalProps },
       hideModal,
       ticker,
-      balance,
-      form,
-      setCurrency,
       currentTicker,
+      address: { address },
+      balance,
+      info,
+      form,
 
       openPayForm,
       openRequestForm,
@@ -51,7 +50,7 @@ class App extends Component {
           fetchingBlockHeight={lnd.fetchingBlockHeight}
           syncPercentage={syncPercentage}
         />
-      ) 
+      )
     }
 
     if (!currentTicker) { return <LoadingBolt /> }
@@ -69,15 +68,17 @@ class App extends Component {
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
 
         <Nav
-          ticker={ticker}
-          balance={balance}
-          setCurrency={setCurrency}
-          currentTicker={currentTicker}
           openPayForm={openPayForm}
           openRequestForm={openRequestForm}
         />
 
         <div className={styles.content}>
+          <Wallet
+            ticker={ticker}
+            balance={balance}
+            address={address}
+            info={info}
+          />
           {children}
         </div>
       </div>
@@ -86,18 +87,25 @@ class App extends Component {
 }
 
 App.propTypes = {
+  lnd: PropTypes.object.isRequired,
+
+  syncPercentage: PropTypes.number.isRequired,
+  fetchBlockHeight: PropTypes.func.isRequired,
+
   modal: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
+  address: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
+  info: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
 
+  newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
-  setCurrency: PropTypes.func.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
 

@@ -1,26 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ReactSVG from 'react-svg'
 import Channels from 'components/Channels'
 import Peers from 'components/Peers'
 import styles from './Wallet.scss'
 
 class Wallet extends Component {
   componentWillMount() {
-    const { fetchPeers, fetchChannels, newAddress } = this.props
+    const { fetchPeers, fetchChannels } = this.props
 
     fetchPeers()
     fetchChannels()
-    newAddress('p2pkh')
   }
 
   render() {
     const {
-      info,
-      address: { address },
       ticker,
       peers: { peersLoading, peers, peer, peerForm },
       channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
+      fetchPeers,
+      fetchChannels,
       setPeer,
       setChannel,
       peerModalOpen,
@@ -38,21 +36,9 @@ class Wallet extends Component {
 
     return (
       <div className={styles.wallet}>
-        <section className={styles.header}>
-          <section className={styles.walletInfo}>
-            <ReactSVG path='../resources/zap_2.svg' />
-            <h1 data-hint='Node identity public key' className='hint--top'>{info.data.identity_pubkey}</h1>
-            <h4 className={`${styles.address} hint--top`} data-hint='Wallet address'>
-              <input
-                type='text'
-                value={address}
-                readOnly
-              />
-            </h4>
-          </section>
-        </section>
         <section className={styles.walletData}>
           <Peers
+            fetchPeers={fetchPeers}
             peersLoading={peersLoading}
             peers={peers}
             modalPeer={peer}
@@ -64,6 +50,7 @@ class Wallet extends Component {
             disconnect={disconnectRequest}
           />
           <Channels
+            fetchChannels={fetchChannels}
             ticker={ticker}
             peers={peers}
             channelsLoading={channelsLoading}
@@ -89,7 +76,6 @@ class Wallet extends Component {
 Wallet.propTypes = {
   fetchPeers: PropTypes.func.isRequired,
   fetchChannels: PropTypes.func.isRequired,
-  info: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   peers: PropTypes.object.isRequired,
   channels: PropTypes.object.isRequired,
@@ -104,8 +90,6 @@ Wallet.propTypes = {
   allChannels: PropTypes.array.isRequired,
   openChannel: PropTypes.func.isRequired,
   closeChannel: PropTypes.func.isRequired,
-  newAddress: PropTypes.func.isRequired,
-  address: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   explorerLinkBase: PropTypes.string.isRequired
 }

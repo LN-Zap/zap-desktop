@@ -1,5 +1,15 @@
 @import '../../variables.scss';
 
+@keyframes spin {
+    from {
+      transform: rotate(0deg)
+    }
+    
+    to {
+      transform: rotate(360deg);
+    }
+}
+
 .channels {
 	width: 75%;
 	margin: 50px auto;
@@ -13,6 +23,20 @@
 
 		h3 {
 			text-align: left;
+		}
+
+		.refresh {
+			cursor: pointer;
+			margin-left: 5px;
+			font-size: 12px;
+			vertical-align: top;
+			color: $darkestgrey;
+			line-height: 14px;
+			transition: color 0.25s;
+
+			&:hover {
+				color: $main;
+			}
 		}
 
 		.openChannel {

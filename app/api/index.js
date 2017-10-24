@@ -15,9 +15,8 @@ export function requestTickers(ids) {
     .then(axios.spread((btcTicker, ltcTicker) => ({ btcTicker: btcTicker[0], ltcTicker: ltcTicker[0] })))
 }
 
-
-export function requestBlockHeight(id) {
-  const BASE_URL = `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`
+export function requestBlockHeight() {
+  const BASE_URL = 'https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1'
   return axios({
     method: 'get',
     url: BASE_URL
