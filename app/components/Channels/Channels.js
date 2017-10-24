@@ -100,25 +100,24 @@ const Channels = ({
                     explorerLinkBase={explorerLinkBase}
                   />
                 )
-              } else {
-                return (
-                  <Channel
-                    key={index}
-                    ticker={ticker}
-                    channel={channel}
-                    setChannel={setChannel}
-                    currentTicker={currentTicker}
-                  />
-                )
               }
-            }
-          })
-          :
-          'Loading...'
-      }
-    </ul>
-  </div>
-)
+              return (
+                <Channel
+                  key={index}
+                  ticker={ticker}
+                  channel={channel}
+                  setChannel={setChannel}
+                  currentTicker={currentTicker}
+                />
+              )
+            })
+            :
+            'Loading...'
+        }
+      </ul>
+    </div>
+  )
+}
 
 Channels.propTypes = {
   fetchChannels: PropTypes.func.isRequired,
