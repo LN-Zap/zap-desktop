@@ -28,7 +28,7 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address }) => {
 
   return (
     <ReactModal
-      isOpen
+      isOpen={isOpen}
       ariaHideApp
       shouldCloseOnOverlayClick
       contentLabel='No Overlay Click Modal'
@@ -55,7 +55,10 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address }) => {
 }
 
 ReceiveModal.propTypes = {
-
+  isOpen: PropTypes.bool.isRequired,
+  hideActivityModal: PropTypes.func.isRequired,
+  pubkey: PropTypes.string.isRequired,
+  address: PropTypes.string.isRequired
 }
 
 export default ReceiveModal

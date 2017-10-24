@@ -27,15 +27,13 @@ class App extends Component {
       fetchBlockHeight,
 
       modal: { modalType, modalProps },
-      showModal,
       hideModal,
       ticker,
+      currentTicker,
       address: { address },
       balance,
       info,
       form,
-      setCurrency,
-      currentTicker,
 
       openPayForm,
       openRequestForm,
@@ -70,10 +68,6 @@ class App extends Component {
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
 
         <Nav
-          ticker={ticker}
-          balance={balance}
-          setCurrency={setCurrency}
-          currentTicker={currentTicker}
           openPayForm={openPayForm}
           openRequestForm={openRequestForm}
         />
@@ -81,11 +75,9 @@ class App extends Component {
         <div className={styles.content}>
           <Wallet
             ticker={ticker}
-            currentTicker={currentTicker}
             balance={balance}
             address={address}
             info={info}
-            showModal={showModal}
           />
           {children}
         </div>
@@ -104,15 +96,16 @@ App.propTypes = {
   ticker: PropTypes.object.isRequired,
   address: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
+  info: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
 
+  newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
-  setCurrency: PropTypes.func.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
 

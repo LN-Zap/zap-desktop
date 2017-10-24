@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FaQrcode } from 'react-icons/lib/fa'
 import CryptoIcon from 'components/CryptoIcon'
-import { btc, usd } from 'utils'
+import { btc } from 'utils'
 import ReceiveModal from './ReceiveModal'
 import styles from './Wallet.scss'
 
@@ -18,11 +18,9 @@ class Wallet extends Component {
   render() {
     const {
       ticker,
-      currentTicker,
       balance,
       address,
-      info,
-      showModal
+      info
     } = this.props
 
     const { modalOpen } = this.state
@@ -62,23 +60,12 @@ class Wallet extends Component {
     )
   }
 }
-// const Wallet = ({ ticker, currentTicker, balance, address, info, showModal }) => {
-//   const copyOnClick = data => {
-//     copy(data)
-//     showNotification('Noice', 'Successfully copied to clipboard')
-//   }
-
-//   return (
-//   )
-// }
 
 Wallet.propTypes = {
   ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   address: PropTypes.string.isRequired,
-  info: PropTypes.object.isRequired,
-  showModal: PropTypes.func.isRequired
+  info: PropTypes.object.isRequired
 }
 
 export default Wallet

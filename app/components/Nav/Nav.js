@@ -3,13 +3,10 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import ReactSVG from 'react-svg'
 import { MdAccountBalanceWallet } from 'react-icons/lib/md'
-import { FaClockO, FaDollar } from 'react-icons/lib/fa'
-import CryptoIcon from 'components/CryptoIcon'
-import CurrencyIcon from 'components/CurrencyIcon'
-import { btc, usd } from 'utils'
+import { FaClockO } from 'react-icons/lib/fa'
 import styles from './Nav.scss'
 
-const Nav = ({ ticker, balance, setCurrency, currentTicker, openPayForm, openRequestForm }) => (
+const Nav = ({ openPayForm, openRequestForm }) => (
   <nav className={styles.nav}>
     <div className={styles.logo}>
       <ReactSVG path='../resources/zap_2.svg' />
@@ -40,10 +37,6 @@ const Nav = ({ ticker, balance, setCurrency, currentTicker, openPayForm, openReq
 )
 
 Nav.propTypes = {
-  ticker: PropTypes.object.isRequired,
-  balance: PropTypes.object.isRequired,
-  setCurrency: PropTypes.func.isRequired,
-  currentTicker: PropTypes.object.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired
 }

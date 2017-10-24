@@ -1,23 +1,19 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import ReactSVG from 'react-svg'
 import Channels from 'components/Channels'
 import Peers from 'components/Peers'
 import styles from './Wallet.scss'
 
 class Wallet extends Component {
   componentWillMount() {
-    const { fetchPeers, fetchChannels, newAddress } = this.props
+    const { fetchPeers, fetchChannels } = this.props
 
     fetchPeers()
     fetchChannels()
-    newAddress('p2pkh')
   }
 
   render() {
     const {
-      info,
-      address: { address },
       ticker,
       peers: { peersLoading, peers, peer, peerForm },
       channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
@@ -80,7 +76,6 @@ class Wallet extends Component {
 Wallet.propTypes = {
   fetchPeers: PropTypes.func.isRequired,
   fetchChannels: PropTypes.func.isRequired,
-  info: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   peers: PropTypes.object.isRequired,
   channels: PropTypes.object.isRequired,
@@ -95,8 +90,6 @@ Wallet.propTypes = {
   allChannels: PropTypes.array.isRequired,
   openChannel: PropTypes.func.isRequired,
   closeChannel: PropTypes.func.isRequired,
-  newAddress: PropTypes.func.isRequired,
-  address: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   explorerLinkBase: PropTypes.string.isRequired
 }
