@@ -56,7 +56,7 @@ class App extends Component {
           fetchingBlockHeight={lnd.fetchingBlockHeight}
           syncPercentage={syncPercentage}
         />
-      ) 
+      )
     }
 
     if (!currentTicker) { return <LoadingBolt /> }

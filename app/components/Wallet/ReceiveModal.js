@@ -21,7 +21,7 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address }) => {
     }
   }
 
-  const copyOnClick = data => {
+  const copyOnClick = (data) => {
     copy(data)
     showNotification('Noice', 'Successfully copied to clipboard')
   }

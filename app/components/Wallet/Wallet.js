@@ -30,7 +30,7 @@ class Wallet extends Component {
     return (
       <div className={styles.wallet}>
         {
-          (modalOpen && 
+          (modalOpen &&
             <ReceiveModal
               isOpen={modalOpen}
               hideActivityModal={() => this.setState({ modalOpen: false })}

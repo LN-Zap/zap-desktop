@@ -3,7 +3,7 @@ import styles from './LndSyncing.scss'
 
 class LndSyncing extends Component {
   constructor(props) {
-  super(props);
+    super(props);
     this.state = {
       facts: [
         {
@@ -41,8 +41,7 @@ class LndSyncing extends Component {
         <h3>zap</h3>
         <div className={styles.loading}>
           {!fetchingBlockHeight && <h4>{syncPercentage}%</h4>}
-          <div className={styles.spinner}>
-          </div>
+          <div className={styles.spinner} />
           <h1>syncing your lightning node to the blockchain</h1>
         </div>
         <div className={styles.facts}>
@@ -52,15 +51,13 @@ class LndSyncing extends Component {
           </div>
           <ul>
             {
-              facts.map((facts, index) => {
-                return (
-                  <li
-                    className={`${styles.factButton} ${currentFact === index && styles.active}`}
-                    key={index}
-                    onClick={() => this.setState({ currentFact: index })}
-                  />
-                )
-              })
+              facts.map((facts, index) => (
+                <li
+                  className={`${styles.factButton} ${currentFact === index && styles.active}`}
+                  key={index}
+                  onClick={() => this.setState({ currentFact: index })}
+                />
+              ))
             }
           </ul>
         </div>

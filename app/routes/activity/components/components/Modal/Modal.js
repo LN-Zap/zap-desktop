@@ -12,7 +12,7 @@ const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker
     PAYMENT: Payment,
     INVOICE: Invoice
   }
-  
+
   const customStyles = {
     overlay: {
       cursor: 'pointer'

@@ -36,7 +36,7 @@ const ipc = createIpc({
   lndSyncing,
   lndSynced,
   lndStdout,
-  
+
   receiveInfo,
 
   receivePeers,
