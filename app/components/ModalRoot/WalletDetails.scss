@@ -1,0 +1,70 @@
+@import '../../variables.scss';
+
+.walletdetails {
+}
+
+.inner {
+  width: 75%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: row;
+}
+
+.left, .right {
+  padding: 50px 0;
+  width: 100%;
+
+  section {
+    position: relative;
+    margin: 0 20px;
+    padding: 20px 0;
+  }
+}
+
+.left {
+  border-right: 1px solid $darkgrey;
+
+  section {
+    border-bottom: 1px solid $main;
+
+    h4 {
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      font-size: 10px;
+      margin-bottom: 15px;
+    }
+  }
+
+  h1 {
+    font-family: 'Roboto';
+    font-weight: 300;
+    font-size: 24px;
+  }
+
+  .qrcode {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  .copytext {
+    font-family: 'Roboto';
+    text-align: center;
+    font-size: 14px;
+    font-weight: 200;
+    border-radius: 7px;
+    background: $lightgrey;
+    border: 1px solid $darkestgrey;
+    padding: 10px;
+  }
+}
+
+.right {
+  section {
+    h2 {
+      text-transform: uppercase;
+      font-family: 'Roboto';
+      font-weight: 300;
+      font-size: 24px;
+    }
+  }
+}

@@ -4,16 +4,14 @@
   cursor: pointer;
   background: $lightgrey;
   transition: background 0.25s;
-
-  &:hover {
-    background: $darkgrey;
-  }
+  height: 150px;
 }
 
 .left, .right {
   display: inline-block;
   vertical-align: top;
   width: 50%;
+  height: 150px;
 
   .leftContent, .rightContent {
     padding: 25px;
@@ -51,26 +49,22 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+  height: calc(100% - 50px);
 
-  .data {
-    margin: 10px 0;
+  div {
+    font-size: 20px;
+    padding: 10px 25px;
+    background: $main;
+    transition: background 0.25s;
 
-    h2 {
-      margin-bottom: 5px;
-      text-transform: uppercase;
-      font-size: 10px;
-      letter-spacing: 1.5px;
-
-      span {
-        color: #1DA1F2;
-        // text-decoration: underline;
-      }
+    &:hover {
+      background: darken($main, 10%);
     }
 
-    p {
-      font-size: 14px;
-      padding-bottom: 5px;
-      border-bottom: 1px solid $main;
+    svg {
+      font-size: 35px;
+      margin-right: 10px;
     }
   }
 }

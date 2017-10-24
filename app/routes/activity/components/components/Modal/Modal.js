@@ -11,8 +11,8 @@ const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker
     TRANSACTION: Transaction,
     PAYMENT: Payment,
     INVOICE: Invoice
-
   }
+  
   const customStyles = {
     overlay: {
       cursor: 'pointer'

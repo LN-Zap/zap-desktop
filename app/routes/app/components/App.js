@@ -88,7 +88,7 @@ class App extends Component {
             currentTicker={currentTicker}
             balance={balance}
             address={address}
-            pubkey={info.data.identity_pubkey}
+            info={info}
             showModal={showModal}
           />
           {children}
