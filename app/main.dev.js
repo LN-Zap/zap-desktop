@@ -106,6 +106,7 @@ app.on('ready', async () => {
     // There was an error checking for the LND process
     if (err) { throw new Error( err ) }
 
+    console.log('results: ', results)
     // No LND process was found
     if (!results.length) {
       // Let the front end know we have started syncing LND

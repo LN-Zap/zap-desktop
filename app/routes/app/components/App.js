@@ -5,11 +5,12 @@ import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
 import Nav from 'components/Nav'
+import Wallet from 'components/Wallet'
 import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchBalance, fetchInfo, lnd: { syncing } } = this.props
+    const { fetchTicker, fetchBalance, fetchInfo, newAddress, lnd: { syncing } } = this.props
 
     if (syncing) {
       fetchBlockHeight()
@@ -19,6 +20,7 @@ class App extends Component {
       fetchTicker()
       fetchBalance()
       fetchInfo()
+      newAddress('p2pkh')
     }
   }
 
@@ -31,7 +33,9 @@ class App extends Component {
       modal: { modalType, modalProps },
       hideModal,
       ticker,
+      address: { address },
       balance,
+      info,
       form,
       setCurrency,
       currentTicker,
@@ -78,6 +82,13 @@ class App extends Component {
         />
 
         <div className={styles.content}>
+          <Wallet
+            ticker={ticker}
+            currentTicker={currentTicker}
+            balance={balance}
+            address={address}
+            pubkey={info.data.identity_pubkey}
+          />
           {children}
         </div>
       </div>
@@ -88,6 +99,7 @@ class App extends Component {
 App.propTypes = {
   modal: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
+  address: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formProps: PropTypes.object.isRequired,

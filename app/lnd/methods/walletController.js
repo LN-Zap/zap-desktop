@@ -72,7 +72,10 @@ export function getTransactions(lnd) {
 export function sendCoins(lnd, { addr, amount }) {
   return new Promise((resolve, reject) => {
     lnd.sendCoins({ addr, amount }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) { 
+        console.log('err: ', err)
+        reject(err) 
+      }
 
       resolve(data)
     })

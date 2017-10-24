@@ -69,7 +69,7 @@ const Channels = ({
             }
             return (
               <Channel
-                key={channel.chan_id}
+                key={index}
                 ticker={ticker}
                 channel={channel}
                 setChannel={setChannel}
