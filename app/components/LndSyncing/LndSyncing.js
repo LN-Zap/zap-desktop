@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import PropTypes from 'prop-types'
 import styles from './LndSyncing.scss'
 
 class LndSyncing extends Component {
@@ -8,7 +9,7 @@ class LndSyncing extends Component {
       facts: [
         {
           title: 'No2x',
-          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA signers. The idea was drawn up and signed in a locked hotel room with select individuals and goes against everything that Bitcoin stands for. There is no favoritism in Bitcoin. There are no politicians. Hash power and business don\'t speak for us. Don\'t trust, verify.'
+          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA signers. The idea was drawn up and signed in a locked hotel room with select individuals and goes against everything that Bitcoin stands for. There is no favoritism in Bitcoin. There are no politicians. Hash power and business don\'t speak for us. Don\'t trust, verify.' // eslint-disable-line
         },
         {
           title: 'Gang',
@@ -51,7 +52,7 @@ class LndSyncing extends Component {
           </div>
           <ul>
             {
-              facts.map((facts, index) => (
+              facts.map((fact, index) => (
                 <li
                   className={`${styles.factButton} ${currentFact === index && styles.active}`}
                   key={index}
@@ -64,6 +65,12 @@ class LndSyncing extends Component {
       </div>
     )
   }
+}
+
+LndSyncing.propTypes = {
+  fetchBlockHeight: PropTypes.func.isRequired,
+  fetchingBlockHeight: PropTypes.bool.isRequired,
+  syncPercentage: PropTypes.number.isRequired
 }
 
 export default LndSyncing
