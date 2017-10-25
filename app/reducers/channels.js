@@ -90,7 +90,6 @@ export const channelSuccessful = () => (dispatch) => {
 
 // Receive IPC event for updated channel
 export const pushchannelupdated = () => (dispatch) => {
-  console.log('channelUpdatedData: ', channelUpdatedData)
   dispatch(fetchChannels())
 }
 
@@ -174,7 +173,7 @@ const ACTION_HANDLERS = {
 
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
   [OPENING_FAILURE]: state => ({ ...state, openingChannel: false }),
-  
+
   [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true })
 }
 

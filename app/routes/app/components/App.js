@@ -79,7 +79,6 @@ class App extends Component {
 
         <div className={styles.content}>
           <Wallet
-            ticker={ticker}
             balance={balance}
             address={address}
             info={info}
@@ -105,6 +104,7 @@ App.propTypes = {
   form: PropTypes.object.isRequired,
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
+  error: PropTypes.object.isRequired,
 
   newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
@@ -113,8 +113,10 @@ App.propTypes = {
   fetchBalance: PropTypes.func.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
+  clearError: PropTypes.func.isRequired,
 
   currentTicker: PropTypes.object,
+
 
   children: PropTypes.object.isRequired
 }

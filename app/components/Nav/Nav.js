@@ -1,29 +1,45 @@
+import path from 'path'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
-import ReactSVG from 'react-svg'
-import { MdAccountBalanceWallet } from 'react-icons/lib/md'
-import { FaClockO } from 'react-icons/lib/fa'
+import Isvg from 'react-inlinesvg'
 import styles from './Nav.scss'
 
 const Nav = ({ openPayForm, openRequestForm }) => (
   <nav className={styles.nav}>
-    <div className={styles.logo}>
-      <ReactSVG path='../resources/zap_2.svg' />
-    </div>
+    <header className={styles.header}>
+      <h1>zap</h1>
+      <span>beta</span>
+    </header>
     <ul className={styles.links}>
-      <li>
-        <NavLink exact to='/' activeClassName={styles.active} className={styles.link}>
-          <FaClockO />
-          <span>Activity</span>
-        </NavLink>
-      </li>
-      <li>
-        <NavLink exact to='/wallet' activeClassName={styles.active} className={styles.link}>
-          <MdAccountBalanceWallet />
+      <NavLink exact to='/' activeClassName={styles.active} className={styles.link}>
+        <span className={styles.activeBorder} />
+        <li>
+          <Isvg styles={{ verticalAlign: 'middle' }} src={path.join(__dirname, '..', 'resources/icons/wallet.svg')} />
           <span>Wallet</span>
-        </NavLink>
-      </li>
+        </li>
+      </NavLink>
+      <NavLink exact to='/wallet' activeClassName={styles.active} className={styles.link}>
+        <span className={styles.activeBorder} />
+        <li>
+          <Isvg styles={{ verticalAlign: 'middle' }} src={path.join(__dirname, '..', 'resources/icons/peers.svg')} />
+          <span>Peers</span>
+        </li>
+      </NavLink>
+      <NavLink exact to='/channels' activeClassName={styles.active} className={styles.link}>
+        <span className={styles.activeBorder} />
+        <li>
+          <Isvg styles={{ verticalAlign: 'middle' }} src={path.join(__dirname, '..', 'resources/icons/channels.svg')} />
+          <span>Channels</span>
+        </li>
+      </NavLink>
+      <NavLink exact to='/settings' activeClassName={styles.active} className={styles.link}>
+        <span className={styles.activeBorder} />
+        <li>
+          <Isvg styles={{ verticalAlign: 'middle' }} src={path.join(__dirname, '..', 'resources/icons/settings.svg')} />
+          <span>Settings</span>
+        </li>
+      </NavLink>
     </ul>
     <div className={styles.buttons}>
       <div className={styles.button} onClick={openPayForm}>

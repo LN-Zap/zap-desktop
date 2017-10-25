@@ -84,20 +84,20 @@ class Activity extends Component {
           <header className={styles.header}>
             <section>
               <h2 onClick={toggleFilterPulldown}>
-                {filter.name} <span className={filterPulldown ? styles.pulldown : ''}><FaAngleDown /></span>
+                {filter.name} <span className={filterPulldown && styles.pulldown}><FaAngleDown /></span>
               </h2>
-              <ul className={`${styles.filters} ${filterPulldown ? styles.active : ''}`}>
+              <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
                 {
-                  nonActiveFilters.map(f =>
-                    (<li key={f.key} onClick={() => changeFilter(f)}>
+                  nonActiveFilters.map(f => (
+                    <li key={f.key} onClick={() => changeFilter(f)}>
                       {f.name}
-                    </li>)
-                  )
+                    </li>
+                  ))
                 }
               </ul>
             </section>
           </header>
-          <ul className={`${styles.activityContainer} ${filterPulldown ? styles.pulldown : ''}`}>
+          <ul className={`${styles.activityContainer} ${filterPulldown && styles.pulldown}`}>
             {
               currentActivity.map((activity, index) => (
                 <li className={styles.activity} key={index}>

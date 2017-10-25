@@ -31,7 +31,7 @@
 }
 
 .activities {
-	background: $lightgrey;
+	background: $white;
 
 	.header {
 		padding: 60px 0 20px 0;
@@ -44,14 +44,19 @@
 			padding-left: 100px;
 			padding-right: 100px;
 			max-width: 964px;
+
+			h2 {
+				color: $bluegrey;
+			}
 	  }
 
 	  h2, h2 span {
+	  	color: $bluegrey;
 	  	cursor: pointer;
 			transition: color 0.25s;
 
 	  	&:hover {
-	  		color: lighten($darkestgrey, 10%);
+	  		color: lighten($bluegrey, 10%);
 	  	}
 	  }
 		

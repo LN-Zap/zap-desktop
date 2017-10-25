@@ -112,7 +112,7 @@ export const createdInvoice = (event, invoice) => (dispatch) => {
   dispatch(resetRequestForm())
 }
 
-export const invoiceFailed = (event, { error }) => dispatch => {
+export const invoiceFailed = (event, { error }) => (dispatch) => {
   dispatch({ type: INVOICE_FAILED })
   dispatch(setError(error))
 }

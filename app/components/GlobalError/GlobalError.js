@@ -15,7 +15,6 @@ const GlobalError = ({ error, clearError }) => (
 )
 
 
-
 GlobalError.propTypes = {
   error: PropTypes.string,
   clearError: PropTypes.func.isRequired

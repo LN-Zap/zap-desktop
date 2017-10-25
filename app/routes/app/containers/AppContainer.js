@@ -50,7 +50,6 @@ const mapDispatchToProps = {
   fetchInvoice,
 
   fetchBlockHeight,
-  clearError,
   clearError
 }
 
