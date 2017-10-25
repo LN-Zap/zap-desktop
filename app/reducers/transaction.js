@@ -70,7 +70,6 @@ export const transactionSuccessful = (event, { amount, addr, txid }) => (dispatc
 
 export const transactionError = (event, { error }) => (dispatch) => {
   dispatch({ type: TRANSACTION_FAILED })
-  console.log('error: ', error)
   dispatch(setError(error))
 }
 

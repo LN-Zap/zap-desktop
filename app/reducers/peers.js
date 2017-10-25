@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { setError } from './error'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -24,12 +25,6 @@ export const RECEIVE_PEERS = 'RECEIVE_PEERS'
 export function connectPeer() {
   return {
     type: CONNECT_PEER
-  }
-}
-
-export function connectFailure() {
-  return {
-    type: CONNECT_FAILURE
   }
 }
 
@@ -82,6 +77,12 @@ export const connectRequest = ({ pubkey, host }) => (dispatch) => {
 
 // Send IPC receive for successfully connecting to a peer
 export const connectSuccess = (event, peer) => dispatch => dispatch({ type: CONNECT_SUCCESS, peer })
+
+// Send IPC receive for unsuccessfully connecting to a peer
+export const connectFailure = (event, { error }) => dispatch => {
+  dispatch({ type: CONNECT_FAILURE })
+  dispatch(setError(error))
+}
 
 // Send IPC send for disconnecting from a peer
 export const disconnectRequest = ({ pubkey }) => (dispatch) => {

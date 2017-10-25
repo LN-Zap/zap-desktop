@@ -155,7 +155,10 @@ export default function (lnd, event, msg, data) {
           console.log('peer_id: ', peer_id)
           event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
         })
-        .catch(error => console.log('connectPeer error: ', error))
+        .catch(error => {
+          event.sender.send('connectFailure', { error: error.toString() })
+          console.log('connectPeer error: ', error)
+        })
       break
     case 'disconnectPeer':
     // Empty response. Pass back pubkey on success to remove it from the peers list

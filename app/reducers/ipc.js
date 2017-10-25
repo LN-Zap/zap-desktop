@@ -3,7 +3,7 @@ import { lndSyncing, lndSynced, lndStdout } from './lnd'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
 import { receiveCryptocurrency } from './ticker'
-import { receivePeers, connectSuccess, disconnectSuccess } from './peers'
+import { receivePeers, connectSuccess, disconnectSuccess, connectFailure } from './peers'
 import {
   receiveChannels,
 
@@ -69,6 +69,7 @@ const ipc = createIpc({
   pushclosechannelstatus,
 
   connectSuccess,
+  connectFailure,
   disconnectSuccess,
 
   receiveAddress,

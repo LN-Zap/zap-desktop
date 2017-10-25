@@ -84,7 +84,6 @@ export const paymentSuccessful = () => (dispatch) => {
 
 export const paymentFailed = (event, { error }) => (dispatch) => {
   dispatch({ type: PAYMENT_FAILED })
-  console.log('error: ', error)
   dispatch(setError(error))
 }
 
