@@ -72,7 +72,8 @@ export function closeChannel(lnd, event, payload) {
     channel_point: {
       funding_txid: BufferUtil.hexToBuffer(tx),
       output_index: Number(payload.channel_point.output_index)
-    }
+    },
+    force: true
   }
 
   return new Promise((resolve, reject) =>

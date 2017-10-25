@@ -5,6 +5,7 @@ import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { setPayInvoice } from './payform'
 import { resetRequestForm } from './requestform'
+import { setError } from './error'
 
 import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
@@ -71,12 +72,6 @@ export function sendInvoice() {
   }
 }
 
-export function invoiceFailed() {
-  return {
-    type: INVOICE_FAILED
-  }
-}
-
 // Send IPC event for a specific invoice
 export const fetchInvoice = payreq => (dispatch) => {
   dispatch(getInvoice())
@@ -115,6 +110,11 @@ export const createdInvoice = (event, invoice) => (dispatch) => {
 
   // Reset the payment form
   dispatch(resetRequestForm())
+}
+
+export const invoiceFailed = (event, { error }) => dispatch => {
+  dispatch({ type: INVOICE_FAILED })
+  dispatch(setError(error))
 }
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices 

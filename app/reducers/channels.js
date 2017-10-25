@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { setError } from './error'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -89,21 +90,25 @@ export const channelSuccessful = () => (dispatch) => {
 
 // Receive IPC event for updated channel
 export const pushchannelupdated = () => (dispatch) => {
+  console.log('channelUpdatedData: ', channelUpdatedData)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel end
-export const pushchannelend = () => (dispatch) => {
+export const pushchannelend = (event, channelEndData) => (dispatch) => {
+  console.log('channelEndData: ', channelEndData)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel error
-export const pushchannelerror = () => (dispatch) => {
-  dispatch(fetchChannels())
+export const pushchannelerror = (event, { error }) => (dispatch) => {
+  dispatch(openingFailure())
+  dispatch(setError(error))
 }
 
 // Receive IPC event for channel status
-export const pushchannelstatus = () => (dispatch) => {
+export const pushchannelstatus = (event, channelStatusData) => (dispatch) => {
+  console.log('channel Status data: ', channelStatusData)
   dispatch(fetchChannels())
 }
 
@@ -168,6 +173,8 @@ const ACTION_HANDLERS = {
   ),
 
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
+  [OPENING_FAILURE]: state => ({ ...state, openingChannel: false }),
+  
   [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true })
 }
 

@@ -18,6 +18,7 @@ import modal from './modal'
 import address from './address'
 import transaction from './transaction'
 import activity from './activity'
+import error from './error'
 
 const rootReducer = combineReducers({
   router,
@@ -37,7 +38,8 @@ const rootReducer = combineReducers({
   modal,
   address,
   transaction,
-  activity
+  activity,
+  error
 })
 
 export default rootReducer

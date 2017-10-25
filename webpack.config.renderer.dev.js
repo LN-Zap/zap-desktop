@@ -25,6 +25,7 @@ const publicPath = `http://localhost:${port}/dist`;
 const dll = path.resolve(process.cwd(), 'dll');
 const manifest = path.resolve(dll, 'renderer.json');
 
+console.log('one')
 /**
  * Warn if the DLL is not built
  */
@@ -34,6 +35,8 @@ if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
   ));
   execSync('npm run build-dll');
 }
+
+console.log('two')
 
 export default merge.smart(baseConfig, {
   devtool: 'inline-source-map',
@@ -279,3 +282,5 @@ export default merge.smart(baseConfig, {
     }
   }
 });
+
+console.log('three')
