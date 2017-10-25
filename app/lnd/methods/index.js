@@ -105,7 +105,10 @@ export default function (lnd, event, msg, data) {
             })
           )
         )
-        .catch(error => console.log('addInvoice error: ', error))
+        .catch(error => {
+          console.log('addInvoice error: ', error)
+          event.sender.send('invoiceFailed', { error: error.toString() })
+        })
       break
     case 'sendPayment':
     // Payment looks like { payment_preimage: Buffer, payment_route: Object }
