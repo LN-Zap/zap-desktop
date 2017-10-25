@@ -50,10 +50,14 @@ const mapDispatchToProps = {
   fetchInvoice,
 
 <<<<<<< HEAD
+<<<<<<< HEAD
   fetchBlockHeight
 =======
   clearError
 >>>>>>> feature(globalerror): clear error
+=======
+  clearError
+>>>>>>> 46b03abc5a79d74487165abf8656e69da020f3bc
 }
 
 const mapStateToProps = state => ({
