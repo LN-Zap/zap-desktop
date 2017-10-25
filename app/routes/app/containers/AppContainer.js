@@ -18,6 +18,8 @@ import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
 import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 
+import { clearError } from 'reducers/error'
+
 
 import App from '../components/App'
 
@@ -47,7 +49,11 @@ const mapDispatchToProps = {
   createInvoice,
   fetchInvoice,
 
+<<<<<<< HEAD
   fetchBlockHeight
+=======
+  clearError
+>>>>>>> feature(globalerror): clear error
 }
 
 const mapStateToProps = state => ({
