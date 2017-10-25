@@ -92,6 +92,7 @@
 .activityContainer {
 	background: $white;
 	transition: opacity 0.25s;
+	padding-bottom: 50px;
 
 	&.pulldown {
 		opacity: 0.15;
