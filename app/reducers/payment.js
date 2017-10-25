@@ -4,6 +4,7 @@ import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { resetPayForm } from './payform'
 import { showModal } from './modal'
+import { setError } from './error'
 
 // ------------------------------------
 // Constants
@@ -47,12 +48,6 @@ export function paymentSuccessfull(payment) {
   }
 }
 
-export function paymentFailed() {
-  return {
-    type: PAYMENT_FAILED
-  }
-}
-
 // Send IPC event for payments
 export const fetchPayments = () => (dispatch) => {
   dispatch(getPayments())
@@ -85,6 +80,12 @@ export const paymentSuccessful = () => (dispatch) => {
 
   // Fetch new balance
   dispatch(fetchBalance())
+}
+
+export const paymentFailed = (event, { error }) => (dispatch) => {
+  dispatch({ type: PAYMENT_FAILED })
+  console.log('error: ', error)
+  dispatch(setError(error))
 }
 
 

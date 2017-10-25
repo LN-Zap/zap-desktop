@@ -112,7 +112,10 @@ export default function (lnd, event, msg, data) {
     // { paymentRequest } = data
       paymentsController.sendPaymentSync(lnd, data)
         .then(({ payment_route }) => event.sender.send('paymentSuccessful', Object.assign(data, { payment_route })))
-        .catch(error => console.log('payinvoice error: ', error))
+        .catch(error => {
+          console.log('payinvoice error: ', error)
+          event.sender.send('paymentFailed', { error: error.toString() })
+        })
       break
     case 'sendCoins':
     // Transaction looks like { txid: String }
