@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import LndSyncing from 'components/LndSyncing'
+import GlobalError from 'components/GlobalError'
 import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
@@ -57,6 +58,7 @@ class App extends Component {
 
     return (
       <div>
+        <GlobalError />
         <ModalRoot
           modalType={modalType}
           modalProps={modalProps}
