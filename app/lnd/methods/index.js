@@ -105,21 +105,30 @@ export default function (lnd, event, msg, data) {
             })
           )
         )
-        .catch(error => console.log('addInvoice error: ', error))
+        .catch(error => {
+          console.log('addInvoice error: ', error)
+          event.sender.send('invoiceFailed', { error: error.toString() })
+        })
       break
     case 'sendPayment':
     // Payment looks like { payment_preimage: Buffer, payment_route: Object }
     // { paymentRequest } = data
       paymentsController.sendPaymentSync(lnd, data)
         .then(({ payment_route }) => event.sender.send('paymentSuccessful', Object.assign(data, { payment_route })))
-        .catch(error => console.log('payinvoice error: ', error))
+        .catch(error => {
+          console.log('payinvoice error: ', error)
+          event.sender.send('paymentFailed', { error: error.toString() })
+        })
       break
     case 'sendCoins':
     // Transaction looks like { txid: String }
     // { amount, addr } = data
       walletController.sendCoins(lnd, data)
         .then(({ txid }) => event.sender.send('transactionSuccessful', { amount: data.amount, addr: data.addr, txid }))
-        .catch(error => event.sender.send('transactionError', { error }))
+        .catch(error => {
+          console.log('error: ', error)
+          event.sender.send('transactionError', { error: error.toString() })
+        })
       break
     case 'openChannel':
     // Response is empty. Streaming updates on channel status and updates
@@ -149,7 +158,10 @@ export default function (lnd, event, msg, data) {
           console.log('peer_id: ', peer_id)
           event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
         })
-        .catch(error => console.log('connectPeer error: ', error))
+        .catch(error => {
+          event.sender.send('connectFailure', { error: error.toString() })
+          console.log('connectPeer error: ', error)
+        })
       break
     case 'disconnectPeer':
     // Empty response. Pass back pubkey on success to remove it from the peers list

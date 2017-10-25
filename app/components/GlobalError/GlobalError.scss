@@ -1,0 +1,34 @@
+@import '../../variables.scss';
+
+.container {
+  position: absolute;
+  z-index: 1001;
+  background: $red;
+  color: $white;
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  transition: all 0.25s ease;
+
+  &.closed {
+    max-height: 0;
+    padding: 0;
+  }
+
+  .content {
+    position: relative;
+
+    .close {
+      position: absolute;
+      top: calc(50% - 8px);
+      right: 10%;
+      cursor: pointer;
+    }
+
+    h2 {
+      font-size: 20px;
+      letter-spacing: 1.5px;
+      font-weight: bold;
+    }
+  }
+}

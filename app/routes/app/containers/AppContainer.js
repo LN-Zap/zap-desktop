@@ -18,6 +18,8 @@ import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
 import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 
+import { clearError } from 'reducers/error'
+
 
 import App from '../components/App'
 
@@ -47,7 +49,9 @@ const mapDispatchToProps = {
   createInvoice,
   fetchInvoice,
 
-  fetchBlockHeight
+  fetchBlockHeight,
+  clearError,
+  clearError
 }
 
 const mapStateToProps = state => ({
@@ -66,6 +70,8 @@ const mapStateToProps = state => ({
 
   invoice: state.invoice,
   modal: state.modal,
+
+  error: state.error,
 
   currentTicker: tickerSelectors.currentTicker(state),
   isOnchain: payFormSelectors.isOnchain(state),

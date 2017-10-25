@@ -5,7 +5,7 @@ export default function pushopenchannel(lnd, event, payload) {
 
       call.on('data', data => event.sender.send('pushchannelupdated', { data }))
       call.on('end', () => event.sender.send('pushchannelend'))
-      call.on('error', error => event.sender.send('pushchannelerror', { error }))
+      call.on('error', error => event.sender.send('pushchannelerror', { error: error.toString() }))
       call.on('status', status => event.sender.send('pushchannelstatus', { status }))
 
       resolve(null, payload)

@@ -3,7 +3,7 @@ import { lndSyncing, lndSynced, lndStdout } from './lnd'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
 import { receiveCryptocurrency } from './ticker'
-import { receivePeers, connectSuccess, disconnectSuccess } from './peers'
+import { receivePeers, connectSuccess, disconnectSuccess, connectFailure } from './peers'
 import {
   receiveChannels,
 
@@ -21,8 +21,8 @@ import {
 
 } from './channels'
 import { lightningPaymentUri } from './payform'
-import { receivePayments, paymentSuccessful } from './payment'
-import { receiveInvoices, createdInvoice, receiveFormInvoice, invoiceUpdate } from './invoice'
+import { receivePayments, paymentSuccessful, paymentFailed } from './payment'
+import { receiveInvoices, createdInvoice, receiveFormInvoice, invoiceUpdate, invoiceFailed } from './invoice'
 import { receiveBalance } from './balance'
 import {
   receiveTransactions,
@@ -48,6 +48,7 @@ const ipc = createIpc({
   receiveInvoices,
   receiveInvoice: receiveFormInvoice,
   createdInvoice,
+  invoiceFailed,
   invoiceUpdate,
 
   receiveBalance,
@@ -55,6 +56,7 @@ const ipc = createIpc({
   lightningPaymentUri,
 
   paymentSuccessful,
+  paymentFailed,
 
   channelSuccessful,
   pushchannelupdated,
@@ -68,6 +70,7 @@ const ipc = createIpc({
   pushclosechannelstatus,
 
   connectSuccess,
+  connectFailure,
   disconnectSuccess,
 
   receiveAddress,

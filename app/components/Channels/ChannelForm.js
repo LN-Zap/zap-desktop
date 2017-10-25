@@ -14,7 +14,7 @@ const ChannelForm = ({ form, setForm, ticker, peers, openChannel, currentTicker 
     const pushamt = ticker.currency === 'usd' ? btc.btcToSatoshis(usd.usdToBtc(push_amt, currentTicker.price_usd)) : btc.btcToSatoshis(push_amt)
 
     openChannel({ pubkey: node_key, localamt, pushamt })
-    setForm({ isOpen: false })
+    // setForm({ isOpen: false })
   }
 
   const customStyles = {
