@@ -79,7 +79,7 @@ export const connectRequest = ({ pubkey, host }) => (dispatch) => {
 export const connectSuccess = (event, peer) => dispatch => dispatch({ type: CONNECT_SUCCESS, peer })
 
 // Send IPC receive for unsuccessfully connecting to a peer
-export const connectFailure = (event, { error }) => dispatch => {
+export const connectFailure = (event, { error }) => (dispatch) => {
   dispatch({ type: CONNECT_FAILURE })
   dispatch(setError(error))
 }

@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FaQrcode } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
-import CryptoIcon from 'components/CryptoIcon'
 import { btc } from 'utils'
 import ReceiveModal from './ReceiveModal'
 import styles from './Wallet.scss'
@@ -19,7 +18,6 @@ class Wallet extends Component {
 
   render() {
     const {
-      ticker,
       balance,
       address,
       info
@@ -64,7 +62,6 @@ class Wallet extends Component {
 }
 
 Wallet.propTypes = {
-  ticker: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   address: PropTypes.string.isRequired,
   info: PropTypes.object.isRequired

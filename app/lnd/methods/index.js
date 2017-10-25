@@ -105,7 +105,7 @@ export default function (lnd, event, msg, data) {
             })
           )
         )
-        .catch(error => {
+        .catch((error) => {
           console.log('addInvoice error: ', error)
           event.sender.send('invoiceFailed', { error: error.toString() })
         })
@@ -115,7 +115,7 @@ export default function (lnd, event, msg, data) {
     // { paymentRequest } = data
       paymentsController.sendPaymentSync(lnd, data)
         .then(({ payment_route }) => event.sender.send('paymentSuccessful', Object.assign(data, { payment_route })))
-        .catch(error => {
+        .catch((error) => {
           console.log('payinvoice error: ', error)
           event.sender.send('paymentFailed', { error: error.toString() })
         })
@@ -125,7 +125,7 @@ export default function (lnd, event, msg, data) {
     // { amount, addr } = data
       walletController.sendCoins(lnd, data)
         .then(({ txid }) => event.sender.send('transactionSuccessful', { amount: data.amount, addr: data.addr, txid }))
-        .catch(error => {
+        .catch((error) => {
           console.log('error: ', error)
           event.sender.send('transactionError', { error: error.toString() })
         })
@@ -158,7 +158,7 @@ export default function (lnd, event, msg, data) {
           console.log('peer_id: ', peer_id)
           event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
         })
-        .catch(error => {
+        .catch((error) => {
           event.sender.send('connectFailure', { error: error.toString() })
           console.log('connectPeer error: ', error)
         })

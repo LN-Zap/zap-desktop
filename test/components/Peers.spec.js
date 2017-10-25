@@ -19,7 +19,8 @@ const defaultProps = {
   resetPeer: () => {},
   disconnect: () => {},
   form: {},
-  setForm: () => {}
+  setForm: () => {},
+  fetchPeers: () => {}
 }
 
 const peer = {

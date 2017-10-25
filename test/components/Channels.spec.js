@@ -21,6 +21,7 @@ const defaultProps = {
   allChannels: [],
   openChannel: () => {},
   closeChannel: () => {},
+  fetchChannels: () => {},
   currentTicker: {},
   explorerLinkBase: 'https://testnet.smartbit.com.au'
 }
