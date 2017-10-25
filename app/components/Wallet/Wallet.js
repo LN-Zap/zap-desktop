@@ -1,6 +1,8 @@
+import path from 'path'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FaQrcode } from 'react-icons/lib/fa'
+import Isvg from 'react-inlinesvg'
 import CryptoIcon from 'components/CryptoIcon'
 import { btc } from 'utils'
 import ReceiveModal from './ReceiveModal'
@@ -39,7 +41,7 @@ class Wallet extends Component {
         <div className={styles.content}>
           <div className={styles.left}>
             <div className={styles.leftContent}>
-              <CryptoIcon currency={ticker.crypto} />
+              <Isvg className={styles.bitcoinLogo} src={path.join(__dirname, '..', 'resources/icons/skinny_bitcoin.svg')} />
               <div className={styles.details}>
                 <h1>{btc.satoshisToBtc(parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance))} BTC</h1>
                 <span>{btc.satoshisToBtc(balance.walletBalance)} available</span>
