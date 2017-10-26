@@ -52,7 +52,7 @@ const ChannelForm = ({
         {renderStep()}
       </div>
 
-      <Footer step={channelform.step} />
+      <Footer step={channelform.step} changeStep={changeStep} />
     </ReactModal>
   )
 }
