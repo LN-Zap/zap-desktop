@@ -1,3 +1,5 @@
+@import '../../variables.scss';
+
 .footer {
   display: flex;
   flex-direction: row;
@@ -9,6 +11,7 @@
 
     div {
       padding: 18px 60px 15px 60px;
+      color: $black;
     }
   }
 }
