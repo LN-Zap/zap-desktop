@@ -1,11 +1,26 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FaCircle } from 'react-icons/lib/fa'
 import { btc } from 'utils'
 import styles from './Channel.scss'
 
 const Channel = ({ ticker, channel, setChannel, currentTicker }) => (
   <li className={styles.channel} onClick={() => setChannel(channel)}>
-    <h1 className={styles.status}>Status: Open</h1>
+    <header>
+      <span className={styles.status}>Open</span>
+      {
+        channel.active ? 
+          <span className={styles.active}>
+            <FaCircle />
+            <i>Active</i>
+          </span>
+          :
+          <span className={styles.notactive}>
+            <FaCircle />
+            <i>Not Active</i>
+          </span>
+      }
+    </header>
     <div className={styles.left}>
       <section className={styles.remotePubkey}>
         <span>Remote Pubkey</span>
@@ -30,6 +45,7 @@ const Channel = ({ ticker, channel, setChannel, currentTicker }) => (
       </section>
       <div className={styles.balances}>
         <section>
+          <span>Local</span>
           <h4>
             {
               ticker.currency === 'btc' ?
@@ -38,9 +54,9 @@ const Channel = ({ ticker, channel, setChannel, currentTicker }) => (
                 btc.satoshisToUsd(channel.local_balance, currentTicker.price_usd)
             }
           </h4>
-          <span>Local</span>
         </section>
         <section>
+          <span>Remote</span>
           <h4>
             {
               ticker.currency === 'btc' ?
@@ -49,7 +65,6 @@ const Channel = ({ ticker, channel, setChannel, currentTicker }) => (
                 btc.satoshisToUsd(channel.remote_balance, currentTicker.price_usd)
             }
           </h4>
-          <span>Remote</span>
         </section>
       </div>
     </div>
