@@ -11,7 +11,7 @@ class StepThree extends Component {
       <div className={styles.container}>
         <div className={styles.explainer}>
           <h2>Push Amount</h2>
-          <p>The push amount is the amount of bitcoin (if any at all) you'd like to "push" to the other side of the channel when it opens. This amount will set on the remote side as part of the initial commitment state.</p>
+          <p>The push amount is the amount of bitcoin (if any at all) you'd like to "push" to the other side of the channel when it opens. This amount will be set on the remote side of the channel as part of the initial commitment state.</p>
         </div>
 
         <form>
