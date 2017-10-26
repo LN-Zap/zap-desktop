@@ -52,7 +52,7 @@ export function setLocalAmount(local_amt) {
   }
 }
 
-export function setPushAmount(local_amt) {
+export function setPushAmount(push_amt) {
   return {
     type: SET_PUSH_AMOUNT,
     push_amt
@@ -109,7 +109,7 @@ channelFormSelectors.channelFormHeader = createSelector(
 
 channelFormSelectors.channelFormProgress = createSelector(
   channelFormStepSelector,
-  step => (step / 4) * 100
+  step => ((step - 1) / 3) * 100
 )
 
 export { channelFormSelectors }
