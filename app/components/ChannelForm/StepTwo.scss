@@ -1,12 +1,31 @@
 @import '../../variables.scss';
 
 .container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
   margin-bottom: 50px;
   padding: 20px;
+
+  .explainer {
+    margin: 20px 0 50px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $lightgrey;
+
+    h2 {
+      margin: 10px 0 20px 0;
+      font-size: 28px;
+    }
+
+    p {
+      line-height: 1.5;
+      font-size: 16px;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
 
   label {
     margin-left: -25px;
