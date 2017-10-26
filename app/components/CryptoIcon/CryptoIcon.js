@@ -7,7 +7,7 @@ import Isvg from 'react-inlinesvg'
 const CryptoIcon = ({ currency, styles }) => {
   switch (currency) {
     case 'btc':
-      return <FaBitcoin style={styles} />
+      return <Isvg style={styles} src={path.join(__dirname, '..', 'resources/icons/skinny_bitcoin.svg')} />
     case 'ltc':
       return <Isvg style={styles} src={path.join(__dirname, '..', 'resources/litecoin.svg')} />
     default:

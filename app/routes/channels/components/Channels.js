@@ -63,7 +63,7 @@ class Channels extends Component {
             </span>
           </div>
           <div className={styles.createChannelContainer}>
-            <div className='buttonPrimary' onClick={openChannelForm}>
+            <div className={`buttonPrimary ${styles.newChannelButton}`} onClick={openChannelForm}>
               Create new channel
             </div>
           </div>
