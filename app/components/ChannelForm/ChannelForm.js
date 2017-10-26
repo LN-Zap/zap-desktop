@@ -4,6 +4,7 @@ import ReactModal from 'react-modal'
 
 import StepOne from './StepOne'
 import StepTwo from './StepTwo'
+import StepThree from './StepThree'
 import Footer from './Footer'
 
 import styles from './ChannelForm.scss'
@@ -14,6 +15,7 @@ const ChannelForm = ({
   changeStep,
   setNodeKey,
   setLocalAmount,
+  setPushAmount,
   channelFormHeader,
   channelFormProgress,
   peers
@@ -27,7 +29,7 @@ const ChannelForm = ({
       case 2:
         return <StepTwo local_amt={channelform.local_amt} setLocalAmount={setLocalAmount} />
       case 3:
-        return 'Step 3'
+        return <StepThree push_amt={channelform.push_amt} setPushAmount={setPushAmount} />
       default:
         return 'Confirm Step'
     }

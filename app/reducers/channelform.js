@@ -17,6 +17,7 @@ export const CLOSE_CHANNEL_FORM = 'CLOSE_CHANNEL_FORM'
 
 export const SET_NODE_KEY = 'SET_NODE_KEY'
 export const SET_LOCAL_AMOUNT = 'SET_LOCAL_AMOUNT'
+export const SET_PUSH_AMOUNT = 'SET_PUSH_AMOUNT'
 
 export const CHANGE_STEP = 'CHANGE_STEP'
 
@@ -51,6 +52,13 @@ export function setLocalAmount(local_amt) {
   }
 }
 
+export function setPushAmount(local_amt) {
+  return {
+    type: SET_PUSH_AMOUNT,
+    push_amt
+  }
+}
+
 export function changeStep(step) {
   return {
     type: CHANGE_STEP,
@@ -73,6 +81,7 @@ const ACTION_HANDLERS = {
   
   [SET_NODE_KEY]: (state, { node_key }) => ({ ...state, node_key }),
   [SET_LOCAL_AMOUNT]: (state, { local_amt }) => ({ ...state, local_amt }),
+  [SET_PUSH_AMOUNT]: (state, { push_amt }) => ({ ...state, push_amt }),
   
   [CHANGE_STEP]: (state, { step }) => ({ ...state, step }),
 

@@ -12,6 +12,7 @@ import {
   changeStep,
   setNodeKey,
   setLocalAmount,
+  setPushAmount,
   closeChannelForm,
   channelFormSelectors
 } from 'reducers/channelform'
@@ -29,6 +30,7 @@ const mapDispatchToProps = {
   closeChannelForm,
   setNodeKey,
   setLocalAmount,
+  setPushAmount,
   changeStep,
 
 
@@ -53,6 +55,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     changeStep: dispatchProps.changeStep,
     setNodeKey: dispatchProps.setNodeKey,
     setLocalAmount: dispatchProps.setLocalAmount,
+    setPushAmount: dispatchProps.setPushAmount,
 
     channelform: stateProps.channelform,
     channelFormHeader: stateProps.channelFormHeader,
