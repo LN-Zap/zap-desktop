@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
+import { FaClose } from 'react-icons/lib/fa'
+
 import StepOne from './StepOne'
 import StepTwo from './StepTwo'
 import StepThree from './StepThree'
@@ -46,6 +48,10 @@ const ChannelForm = ({
       parentSelector={() => document.body}
       className={styles.modal}
     >
+      <div onClick={closeChannelForm} className={styles.modalClose}>
+        <FaClose className={styles.close} />
+      </div>
+
       <header className={styles.header}>
         <h3>{channelFormHeader}</h3>
         <div className={styles.progress} style={{ width: `${channelFormProgress}%` }}></div>
