@@ -9,14 +9,14 @@ const Footer = ({ step, changeStep }) => {
   if (step === 4 ) {
     return (
       <div className={styles.footer}>
-        <div className='buttonContainer circleContainer'>
-          <div className='buttonPrimary circle'onClick={() => changeStep(step - 1)}>
-            <FaArrowLeft />
+        <div className='buttonContainer'>
+          <div className='buttonPrimary'onClick={() => changeStep(step - 1)}>
+            Back
           </div>
         </div>
-        <div className='buttonContainer circleContainer' onClick={() => console.log('create this mf channel baby')}>
-          <div className='buttonPrimary circle'>
-            <FaCheck />
+        <div className='buttonContainer' onClick={() => console.log('create this mf channel baby')}>
+          <div className='buttonPrimary'>
+            Submit
           </div>
         </div>
       </div>
@@ -25,14 +25,14 @@ const Footer = ({ step, changeStep }) => {
 
   return (
     <div className={styles.footer}>
-      <div className='buttonContainer circleContainer'>
-        <div className='buttonPrimary circle'onClick={() => changeStep(step - 1)}>
-          <FaArrowLeft />
+      <div className='buttonContainer'>
+        <div className='buttonPrimary'onClick={() => changeStep(step - 1)}>
+          Back
         </div>
       </div>
-      <div className='buttonContainer circleContainer' onClick={() => changeStep(step + 1)}>
-        <div className='buttonPrimary circle'>
-          <FaArrowRight />
+      <div className='buttonContainer' onClick={() => changeStep(step + 1)}>
+        <div className='buttonPrimary'>
+          Next
         </div>
       </div>
     </div>

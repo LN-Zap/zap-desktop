@@ -10,7 +10,7 @@ class StepFour extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.nodekey}>
-          <h4>Node key</h4>
+          <h4>Peer</h4>
           <h2>{node_key}</h2>
         </div>
 
