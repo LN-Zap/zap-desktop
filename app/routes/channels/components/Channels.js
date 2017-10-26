@@ -35,7 +35,6 @@ class Channels extends Component {
 
       channelFormProps
     } = this.props
-    console.log('channelFormProps: ', channelFormProps)
 
     return (
       <div className={styles.container}>

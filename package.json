@@ -213,6 +213,7 @@
     "react-dom": "^15.6.1",
     "react-hot-loader": "3.0.0-beta.6",
     "react-inlinesvg": "^0.6.2",
+    "react-input-autosize": "^2.0.1",
     "react-modal": "^2.2.2",
     "react-moment": "^0.6.0",
     "react-redux": "^5.0.5",

@@ -4,8 +4,8 @@ import { createSelector } from 'reselect'
 const initialState = {
   isOpen: false,
   node_key: '',
-  local_amt: '',
-  push_amt: '',
+  local_amt: 0,
+  push_amt: 0,
 
   step: 1
 }
@@ -16,6 +16,7 @@ export const OPEN_CHANNEL_FORM = 'OPEN_CHANNEL_FORM'
 export const CLOSE_CHANNEL_FORM = 'CLOSE_CHANNEL_FORM'
 
 export const SET_NODE_KEY = 'SET_NODE_KEY'
+export const SET_LOCAL_AMOUNT = 'SET_LOCAL_AMOUNT'
 
 export const CHANGE_STEP = 'CHANGE_STEP'
 
@@ -43,6 +44,13 @@ export function setNodeKey(node_key) {
   }
 }
 
+export function setLocalAmount(local_amt) {
+  return {
+    type: SET_LOCAL_AMOUNT,
+    local_amt
+  }
+}
+
 export function changeStep(step) {
   return {
     type: CHANGE_STEP,
@@ -64,6 +72,7 @@ const ACTION_HANDLERS = {
   [CLOSE_CHANNEL_FORM]: state => ({ ...state, isOpen: false }),
   
   [SET_NODE_KEY]: (state, { node_key }) => ({ ...state, node_key }),
+  [SET_LOCAL_AMOUNT]: (state, { local_amt }) => ({ ...state, local_amt }),
   
   [CHANGE_STEP]: (state, { step }) => ({ ...state, step }),
 

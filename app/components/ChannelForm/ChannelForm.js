@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 
 import StepOne from './StepOne'
+import StepTwo from './StepTwo'
 import Footer from './Footer'
 
 import styles from './ChannelForm.scss'
@@ -12,19 +13,19 @@ const ChannelForm = ({
   closeChannelForm,
   changeStep,
   setNodeKey,
+  setLocalAmount,
   channelFormHeader,
   channelFormProgress,
   peers
 }) => {
   const renderStep = () => {
     const { step } = channelform
-    console.log('setNodeKey: ', setNodeKey)
 
     switch (step) {
       case 1:
         return <StepOne peers={peers} changeStep={changeStep} setNodeKey={setNodeKey} />
       case 2:
-        return 'Step Two'
+        return <StepTwo local_amt={channelform.local_amt} setLocalAmount={setLocalAmount} />
       case 3:
         return 'Step 3'
       default:
