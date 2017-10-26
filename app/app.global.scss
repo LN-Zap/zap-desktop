@@ -73,3 +73,30 @@ body {
     transform: rotate(360deg);
   }
 }
+
+// buttons
+
+.buttonPrimary {
+  -webkit-user-select: none;
+  cursor: pointer;
+  display: block;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 18px;
+  padding-bottom: 15px;
+  border-radius: 2px;
+  text-align: center;
+  font-size: 18px;
+  transition: none;
+  position: relative;
+  color: white;
+  background-color: $main;
+  box-shadow: 0 3px 0 0 $darkestgrey;
+  margin-bottom: 5px;
+
+  &:active {
+   box-shadow: inset 0 1px 1px 1px $darkestgrey;
+   transform: translate(0px, 3px);
+   outline: 0;
+  }
+}

@@ -6,7 +6,7 @@
 
 .search {
   height: 75px;
-  padding: 2px;
+  padding: 2px 25px;
   border-bottom: 1px solid $darkgrey;
 
   .input {
@@ -32,4 +32,37 @@
     height: 68px;
     font-size: 18px;
   }
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.layoutsContainer {
+  padding: 40px;
+
+  span {
+    font-size: 30px;
+    color: $grey;
+    cursor: pointer;
+    transition: all 0.25s;
+
+    &:nth-child(1) {
+      margin-right: 20px;
+    }
+
+    &:hover {
+      color: $darkestgrey;
+    }
+
+    &.active {
+      color: $darkestgrey;
+    }
+  }
+}
+
+.createChannelContainer {
+  padding: 40px;
 }
