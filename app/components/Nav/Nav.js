@@ -42,10 +42,10 @@ const Nav = ({ openPayForm, openRequestForm }) => (
       </NavLink>
     </ul>
     <div className={styles.buttons}>
-      <div className={styles.button} onClick={openPayForm}>
+      <div className={`buttonPrimary ${styles.button}`} onClick={openPayForm}>
         <span>Pay</span>
       </div>
-      <div className={styles.button} onClick={openRequestForm}>
+      <div className={`buttonPrimary ${styles.button}`} onClick={openRequestForm}>
         <span>Request</span>
       </div>
     </div>
