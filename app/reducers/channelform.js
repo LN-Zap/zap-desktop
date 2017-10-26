@@ -96,13 +96,13 @@ channelFormSelectors.channelFormHeader = createSelector(
   step => {
     switch (step) {
       case 1:
-        return 'Select a peer'
+        return 'Step 1: Select a peer'
       case 2:
-        return 'Set your local amount'
+        return 'Step 2: Set your local amount'
       case 3:
-        return 'Set your push amount'
+        return 'Step 3: Set your push amount'
       default:
-        return 'Create your channel'
+        return 'Step 4: Create your channel'
     }
   }
 )
