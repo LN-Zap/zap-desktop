@@ -5,26 +5,42 @@ import { FaAlignJustify, FaThLarge } from 'react-icons/lib/fa'
 import { MdSearch } from 'react-icons/lib/md'
 
 import Channel from 'components/Channels/Channel'
+import ChannelForm from 'components/ChannelForm'
 
 import styles from './Channels.scss'
 
 class Channels extends Component {
   componentWillMount() {
-    this.props.fetchChannels()
+    const { fetchChannels, fetchPeers } = this.props
+    
+    fetchChannels()
+    fetchPeers()
   }
 
   render() {
     const {
       channels: { channels },
       allChannels,
+      
+      closeChannelForm,
+      openChannelForm,
+      channelform,
+      channelFormHeader,
+      channelFormProgress,
+
+      peers: { peers },
 
       ticker,
-      currentTicker
+      currentTicker,
+
+      channelFormProps
     } = this.props
-    console.log('channels: ', channels)
+    console.log('channelFormProps: ', channelFormProps)
 
     return (
       <div className={styles.container}>
+        <ChannelForm {...channelFormProps} />
+
         <div className={styles.search}>
           <label className={`${styles.label} ${styles.input}`} htmlFor='channelSearch'>
             <MdSearch />
@@ -48,7 +64,7 @@ class Channels extends Component {
             </span>
           </div>
           <div className={styles.createChannelContainer}>
-            <div className='buttonPrimary'>
+            <div className='buttonPrimary' onClick={openChannelForm}>
               Create new channel
             </div>
           </div>
@@ -58,8 +74,6 @@ class Channels extends Component {
           <ul>
           {
             allChannels.map((channel, index) => {
-              console.log('channel: ', channel)
-
               return (
                 <Channel
                   key={index}
