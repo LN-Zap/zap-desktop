@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 
 import {
   fetchChannels,
+  openChannel,
 
   channelsSelectors
 } from 'reducers/channels'
@@ -25,6 +26,7 @@ import Channels from '../components/Channels'
 
 const mapDispatchToProps = {
   fetchChannels,
+  openChannel,
   
   openChannelForm,
   closeChannelForm,
@@ -46,11 +48,13 @@ const mapStateToProps = state => ({
   allChannels: channelsSelectors.allChannels(state),
   currentTicker: tickerSelectors.currentTicker(state),
   channelFormHeader: channelFormSelectors.channelFormHeader(state),
-  channelFormProgress: channelFormSelectors.channelFormProgress(state)
+  channelFormProgress: channelFormSelectors.channelFormProgress(state),
+  stepTwoIsValid: channelFormSelectors.stepTwoIsValid(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const channelFormProps = {
+    openChannel: dispatchProps.openChannel,
     closeChannelForm: dispatchProps.closeChannelForm,
     changeStep: dispatchProps.changeStep,
     setNodeKey: dispatchProps.setNodeKey,
@@ -60,6 +64,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     channelform: stateProps.channelform,
     channelFormHeader: stateProps.channelFormHeader,
     channelFormProgress: stateProps.channelFormProgress,
+    stepTwoIsValid: stateProps.stepTwoIsValid,
     peers: stateProps.peers.peers
   }
 

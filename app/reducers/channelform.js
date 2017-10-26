@@ -90,6 +90,7 @@ const ACTION_HANDLERS = {
 
 const channelFormSelectors = {}
 const channelFormStepSelector = state => state.channelform.step
+const channelFormLocalAmountSelector = state => state.channelform.local_amt
 
 channelFormSelectors.channelFormHeader = createSelector(
   channelFormStepSelector,
@@ -110,6 +111,11 @@ channelFormSelectors.channelFormHeader = createSelector(
 channelFormSelectors.channelFormProgress = createSelector(
   channelFormStepSelector,
   step => ((step - 1) / 3) * 100
+)
+
+channelFormSelectors.stepTwoIsValid = createSelector(
+  channelFormLocalAmountSelector,
+  local_amt => local_amt > 0
 )
 
 export { channelFormSelectors }

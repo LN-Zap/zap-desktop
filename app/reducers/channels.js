@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { btc } from 'utils'
 import { setError } from './error'
 // ------------------------------------
 // Constants
@@ -77,7 +78,10 @@ export const fetchChannels = () => async (dispatch) => {
 export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, localamt, pushamt }) => (dispatch) => {
+export const openChannel = ({ pubkey, local_amt, push_amt }) => (dispatch) => {
+  const localamt = btc.btcToSatoshis(local_amt)
+  const pushamt = btc.btcToSatoshis(push_amt)
+
   dispatch(openingChannel())
   ipcRenderer.send('lnd', { msg: 'openChannel', data: { pubkey, localamt, pushamt } })
 }

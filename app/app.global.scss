@@ -106,6 +106,16 @@ body {
   }
 }
 
+.buttonPrimary.inactive {
+  opacity: 0.5;
+  cursor: auto;
+}
+
+.buttonPrimary.inactive:active {
+  box-shadow: 0 3px 0 0 darken($main, 10%);
+  transform: none;
+}
+
 .buttonSecondary {
   background-color: $secondary;
   box-shadow: 0 3px 0 0 darken($secondary, 10%);

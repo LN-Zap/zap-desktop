@@ -14,6 +14,7 @@ import styles from './ChannelForm.scss'
 
 const ChannelForm = ({
   channelform,
+  openChannel,
   closeChannelForm,
   changeStep,
   setNodeKey,
@@ -21,6 +22,7 @@ const ChannelForm = ({
   setPushAmount,
   channelFormHeader,
   channelFormProgress,
+  stepTwoIsValid,
   peers
 }) => {
   const renderStep = () => {
@@ -61,7 +63,12 @@ const ChannelForm = ({
         {renderStep()}
       </div>
 
-      <Footer step={channelform.step} changeStep={changeStep} />
+      <Footer
+        step={channelform.step}
+        changeStep={changeStep}
+        stepTwoIsValid={stepTwoIsValid}
+        submit={() => openChannel({ pubkey: channelform.node_key, local_amt: channelform.local_amt, push_amt: channelform.push_amt })}
+      />
     </ReactModal>
   )
 }
