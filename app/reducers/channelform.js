@@ -102,7 +102,7 @@ channelFormSelectors.channelFormHeader = createSelector(
       case 3:
         return 'Set your push amount'
       default:
-        return 'Confirm'
+        return 'Create your channel'
     }
   }
 )
