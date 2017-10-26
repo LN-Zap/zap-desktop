@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { btc } from 'utils'
+import { closeChannelForm } from './channelform'
 import { setError } from './error'
 // ------------------------------------
 // Constants
@@ -90,6 +91,7 @@ export const openChannel = ({ pubkey, local_amt, push_amt }) => (dispatch) => {
 // Receive IPC event for openChannel
 export const channelSuccessful = () => (dispatch) => {
   dispatch(fetchChannels())
+  dispatch(closeChannelForm())
 }
 
 // Receive IPC event for updated channel
