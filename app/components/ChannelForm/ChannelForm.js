@@ -39,7 +39,7 @@ const ChannelForm = ({
         return <StepFour node_key={channelform.node_key} local_amt={channelform.local_amt} push_amt={channelform.push_amt} />
     }
   }
-  
+
   return (
     <ReactModal
       isOpen={channelform.isOpen}
@@ -56,7 +56,7 @@ const ChannelForm = ({
 
       <header className={styles.header}>
         <h3>{channelFormHeader}</h3>
-        <div className={styles.progress} style={{ width: `${channelFormProgress}%` }}></div>
+        <div className={styles.progress} style={{ width: `${channelFormProgress}%` }} />
       </header>
 
       <div className={styles.content}>
@@ -73,6 +73,18 @@ const ChannelForm = ({
   )
 }
 
-ChannelForm.propTypes = {}
+ChannelForm.propTypes = {
+  channelform: PropTypes.object.isRequired,
+  openChannel: PropTypes.func.isRequired,
+  closeChannelForm: PropTypes.func.isRequired,
+  changeStep: PropTypes.func.isRequired,
+  setNodeKey: PropTypes.func.isRequired,
+  setLocalAmount: PropTypes.func.isRequired,
+  setPushAmount: PropTypes.func.isRequired,
+  channelFormHeader: PropTypes.string.isRequired,
+  channelFormProgress: PropTypes.number.isRequired,
+  stepTwoIsValid: PropTypes.bool.isRequired,
+  peers: PropTypes.array.isRequired
+}
 
 export default ChannelForm

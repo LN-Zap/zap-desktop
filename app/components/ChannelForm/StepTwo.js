@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import AutosizeInput from 'react-input-autosize'
 import CurrencyIcon from 'components/CurrencyIcon'
 import styles from './StepTwo.scss'
 
@@ -12,7 +11,10 @@ class StepTwo extends Component {
       <div className={styles.container}>
         <div className={styles.explainer}>
           <h2>Local Amount</h2>
-          <p>Local amount is the amount of bitcoin that you would like to commit to the channel. This is the amount that will be sent in an on-chain transaction to open your Lightning channel.</p>
+          <p>
+            Local amount is the amount of bitcoin that you would like to commit to the channel.
+            This is the amount that will be sent in an on-chain transaction to open your Lightning channel.
+          </p>
         </div>
 
         <form>
@@ -20,11 +22,10 @@ class StepTwo extends Component {
             <CurrencyIcon currency={'btc'} crypto={'btc'} />
           </label>
           <input
-            autoFocus
             type='number'
             min='0'
             max='0.16'
-            ref={input => this.input = input}
+            ref={input => (this.input = input)}
             size=''
             value={local_amt}
             onChange={event => setLocalAmount(event.target.value)}
@@ -37,6 +38,12 @@ class StepTwo extends Component {
   }
 }
 
-StepTwo.propTypes = {}
+StepTwo.propTypes = {
+  local_amt: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]).isRequired,
+  setLocalAmount: PropTypes.func.isRequired
+}
 
 export default StepTwo

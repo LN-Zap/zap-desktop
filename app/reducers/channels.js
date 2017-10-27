@@ -199,9 +199,9 @@ const ACTION_HANDLERS = {
   [OPENING_FAILURE]: state => ({ ...state, openingChannel: false }),
 
   [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true }),
-  
+
   [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
-  
+
   [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType })
 }
 
@@ -225,7 +225,7 @@ channelsSelectors.allChannels = createSelector(
   pendingForceClosedChannelsSelector,
   channelSearchQuerySelector,
   (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => (
-    [...channels, ...pendingOpenChannels, ...pendingClosedChannels, ...pendingForcedClosedChannels].filter(channel => 
+    [...channels, ...pendingOpenChannels, ...pendingClosedChannels, ...pendingForcedClosedChannels].filter(channel =>
       channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)
     )
   )

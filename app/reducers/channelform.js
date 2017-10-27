@@ -78,11 +78,11 @@ export function resetChannelForm() {
 const ACTION_HANDLERS = {
   [OPEN_CHANNEL_FORM]: state => ({ ...state, isOpen: true }),
   [CLOSE_CHANNEL_FORM]: state => ({ ...state, isOpen: false }),
-  
+
   [SET_NODE_KEY]: (state, { node_key }) => ({ ...state, node_key }),
   [SET_LOCAL_AMOUNT]: (state, { local_amt }) => ({ ...state, local_amt }),
   [SET_PUSH_AMOUNT]: (state, { push_amt }) => ({ ...state, push_amt }),
-  
+
   [CHANGE_STEP]: (state, { step }) => ({ ...state, step }),
 
   [RESET_CHANNEL_FORM]: () => (initialState)
@@ -94,7 +94,7 @@ const channelFormLocalAmountSelector = state => state.channelform.local_amt
 
 channelFormSelectors.channelFormHeader = createSelector(
   channelFormStepSelector,
-  step => {
+  (step) => {
     switch (step) {
       case 1:
         return 'Step 1: Select a peer'

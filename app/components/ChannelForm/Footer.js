@@ -1,16 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaArrowLeft, FaArrowRight, FaCheck } from 'react-icons/lib/fa'
 import styles from './Footer.scss'
 
 const Footer = ({ step, changeStep, stepTwoIsValid, submit }) => {
-  if ( step === 1 ) { return null }
+  if (step === 1) { return null }
 
   // See if the next button on step 2 should be active
   const nextIsInactive = step === 2 && !stepTwoIsValid
-  
+
   // Function that's called when the user clicks "next" in the form
-  const nextFunc = () => {  
+  const nextFunc = () => {
     if (nextIsInactive) { return }
 
     changeStep(step + 1)

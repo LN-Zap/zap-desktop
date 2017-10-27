@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import path from 'path'
-import { FaBitcoin } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
 
 const CryptoIcon = ({ currency, styles }) => {

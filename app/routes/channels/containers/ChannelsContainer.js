@@ -31,7 +31,7 @@ const mapDispatchToProps = {
   openChannel,
   updateChannelSearchQuery,
   setViewType,
-  
+
   openChannelForm,
   closeChannelForm,
   setNodeKey,

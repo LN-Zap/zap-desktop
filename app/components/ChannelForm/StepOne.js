@@ -30,7 +30,7 @@ class StepOne extends Component {
 
   render() {
     const { peers, searchQuery } = this.state
-    
+
     return (
       <div>
         <div className={styles.search}>
@@ -59,13 +59,17 @@ class StepOne extends Component {
                 <h1>{peer.pub_key}</h1>
               </li>
             )
-          )}
+            )}
         </ul>
       </div>
     )
   }
 }
 
-StepOne.propTypes = {}
+StepOne.propTypes = {
+  peers: PropTypes.array.isRequired,
+  setNodeKey: PropTypes.func.isRequired,
+  changeStep: PropTypes.func.isRequired
+}
 
 export default StepOne

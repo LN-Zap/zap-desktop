@@ -13,25 +13,19 @@ import styles from './Channels.scss'
 class Channels extends Component {
   componentWillMount() {
     const { fetchChannels, fetchPeers } = this.props
-    
+
     fetchChannels()
     fetchPeers()
   }
 
   render() {
     const {
-      channels: { channels, searchQuery, viewType },
+      channels: { searchQuery, viewType },
       allChannels,
       updateChannelSearchQuery,
       setViewType,
-      
-      closeChannelForm,
-      openChannelForm,
-      channelform,
-      channelFormHeader,
-      channelFormProgress,
 
-      peers: { peers },
+      openChannelForm,
 
       ticker,
       currentTicker,
@@ -61,7 +55,7 @@ class Channels extends Component {
             <span className={viewType === 0 && styles.active} onClick={() => setViewType(0)}>
               <FaAlignJustify />
             </span>
-            <span className={viewType === 1 && styles.active} onClick={() => setViewType(1)}>
+            <span className={viewType === 1 && styles.active}>
               <FaThLarge />
             </span>
           </div>
@@ -74,26 +68,22 @@ class Channels extends Component {
 
         <div className={styles.channels}>
           <ul className={viewType === 1 && styles.cardsContainer}>
-          { viewType === 0 && allChannels.map((channel, index) => {
-              return (
-                <Channel
-                  key={index}
-                  ticker={ticker}
-                  channel={channel}
-                  setChannel={() => console.log('hi')}
-                  currentTicker={currentTicker}
-                />
-              )
-            })
-          }
-          { viewType === 1 && allChannels.map((channel, index) => {
-              return (
-                <CardChannel key={index}>
+            { viewType === 0 && allChannels.map((channel, index) => (
+              <Channel
+                key={index}
+                ticker={ticker}
+                channel={channel}
+                setChannel={() => console.log('hi')}
+                currentTicker={currentTicker}
+              />
+            ))
+            }
+            { viewType === 1 && allChannels.map((channel, index) => (
+              <CardChannel key={index} channel={channel}>
                   card channel
-                </CardChannel>
-              )
-            })
-          }
+              </CardChannel>
+            ))
+            }
           </ul>
         </div>
       </div>
@@ -102,7 +92,20 @@ class Channels extends Component {
 }
 
 Channels.propTypes = {
-  
+  fetchChannels: PropTypes.func.isRequired,
+  fetchPeers: PropTypes.func.isRequired,
+
+  channels: PropTypes.object.isRequired,
+  allChannels: PropTypes.array.isRequired,
+  updateChannelSearchQuery: PropTypes.func.isRequired,
+  setViewType: PropTypes.func.isRequired,
+
+  openChannelForm: PropTypes.func.isRequired,
+
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+
+  channelFormProps: PropTypes.object.isRequired
 }
 
 export default Channels

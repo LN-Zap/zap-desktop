@@ -11,7 +11,11 @@ class StepThree extends Component {
       <div className={styles.container}>
         <div className={styles.explainer}>
           <h2>Push Amount</h2>
-          <p>The push amount is the amount of bitcoin (if any at all) you'd like to "push" to the other side of the channel when it opens. This amount will be set on the remote side of the channel as part of the initial commitment state.</p>
+          <p>
+            The push amount is the amount of bitcoin (if any at all) you&apos;d like
+            to &quot;push&quot; to the other side of the channel when it opens.
+            This amount will be set on the remote side of the channel as part of the initial commitment state.
+          </p>
         </div>
 
         <form>
@@ -19,11 +23,10 @@ class StepThree extends Component {
             <CurrencyIcon currency={'btc'} crypto={'btc'} />
           </label>
           <input
-            autoFocus
             type='number'
             min='0'
             max='0.16'
-            ref={input => this.input = input}
+            ref={input => (this.input = input)}
             size=''
             value={push_amt}
             onChange={event => setPushAmount(event.target.value)}
@@ -36,6 +39,12 @@ class StepThree extends Component {
   }
 }
 
-StepThree.propTypes = {}
+StepThree.propTypes = {
+  push_amt: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
+  setPushAmount: PropTypes.func.isRequired
+}
 
 export default StepThree

@@ -9,7 +9,7 @@ const Channel = ({ ticker, channel, setChannel, currentTicker }) => (
     <header>
       <span className={styles.status}>Open</span>
       {
-        channel.active ? 
+        channel.active ?
           <span className={styles.active}>
             <FaCircle />
             <i>Active</i>
