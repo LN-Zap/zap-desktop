@@ -4,6 +4,8 @@ import { connect } from 'react-redux'
 import {
   fetchChannels,
   openChannel,
+  updateChannelSearchQuery,
+  setViewType,
 
   channelsSelectors
 } from 'reducers/channels'
@@ -27,6 +29,8 @@ import Channels from '../components/Channels'
 const mapDispatchToProps = {
   fetchChannels,
   openChannel,
+  updateChannelSearchQuery,
+  setViewType,
   
   openChannelForm,
   closeChannelForm,

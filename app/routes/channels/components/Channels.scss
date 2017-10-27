@@ -1,9 +1,5 @@
 @import '../../../variables.scss';
 
-.container {
-
-}
-
 .search {
   height: 75px;
   padding: 2px 25px;
@@ -73,4 +69,11 @@
 
 .channels {
   padding: 10px 40px 40px 40px;
+
+  .cardsContainer {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+  }
 }

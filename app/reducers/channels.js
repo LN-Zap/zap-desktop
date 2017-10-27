@@ -21,6 +21,10 @@ export const CLOSING_CHANNEL = 'CLOSING_CHANNEL'
 export const CLOSING_SUCCESSFUL = 'CLOSING_SUCCESSFUL'
 export const CLOSING_FAILURE = 'CLOSING_FAILURE'
 
+export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
+
+export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -66,6 +70,20 @@ export function openingSuccessful() {
 export function openingFailure() {
   return {
     type: OPENING_FAILURE
+  }
+}
+
+export function updateChannelSearchQuery(searchQuery) {
+  return {
+    type: UPDATE_SEARCH_QUERY,
+    searchQuery
+  }
+}
+
+export function setViewType(viewType) {
+  return {
+    type: SET_VIEW_TYPE,
+    viewType
   }
 }
 
@@ -180,7 +198,11 @@ const ACTION_HANDLERS = {
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
   [OPENING_FAILURE]: state => ({ ...state, openingChannel: false }),
 
-  [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true })
+  [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true }),
+  
+  [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
+  
+  [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType })
 }
 
 const channelsSelectors = {}
@@ -189,6 +211,7 @@ const channelsSelector = state => state.channels.channels
 const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
 const pendingClosedChannelsSelector = state => state.channels.pendingChannels.pending_closing_channels
 const pendingForceClosedChannelsSelector = state => state.channels.pendingChannels.pending_force_closing_channels
+const channelSearchQuerySelector = state => state.channels.searchQuery
 
 channelsSelectors.channelModalOpen = createSelector(
   channelSelector,
@@ -200,8 +223,11 @@ channelsSelectors.allChannels = createSelector(
   pendingOpenChannelsSelector,
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
-  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels) => (
-    [...channels, ...pendingOpenChannels, ...pendingClosedChannels, ...pendingForcedClosedChannels]
+  channelSearchQuerySelector,
+  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => (
+    [...channels, ...pendingOpenChannels, ...pendingClosedChannels, ...pendingForcedClosedChannels].filter(channel => 
+      channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)
+    )
   )
 )
 
@@ -227,7 +253,9 @@ const initialState = {
     push_amt: ''
   },
   openingChannel: false,
-  closingChannel: false
+  closingChannel: false,
+  searchQuery: '',
+  viewType: 0
 }
 
 export default function channelsReducer(state = initialState, action) {

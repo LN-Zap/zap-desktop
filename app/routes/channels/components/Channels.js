@@ -5,6 +5,7 @@ import { FaAlignJustify, FaThLarge } from 'react-icons/lib/fa'
 import { MdSearch } from 'react-icons/lib/md'
 
 import Channel from 'components/Channels/Channel'
+import CardChannel from 'components/Channels/CardChannel'
 import ChannelForm from 'components/ChannelForm'
 
 import styles from './Channels.scss'
@@ -19,8 +20,10 @@ class Channels extends Component {
 
   render() {
     const {
-      channels: { channels },
+      channels: { channels, searchQuery, viewType },
       allChannels,
+      updateChannelSearchQuery,
+      setViewType,
       
       closeChannelForm,
       openChannelForm,
@@ -45,20 +48,20 @@ class Channels extends Component {
             <MdSearch />
           </label>
           <input
-            value={''}
-            onChange={event => console.log('event: ', event)}
+            value={searchQuery}
+            onChange={event => updateChannelSearchQuery(event.target.value)}
             className={`${styles.text} ${styles.input}`}
-            placeholder='Search channels by funding transaction, channel id, remote public key, etc'
+            placeholder='Search channels by funding transaction or remote public key'
             type='text'
             id='channelSearch'
           />
         </div>
         <header className={styles.header}>
           <div className={styles.layoutsContainer}>
-            <span className={styles.active}>
+            <span className={viewType === 0 && styles.active} onClick={() => setViewType(0)}>
               <FaAlignJustify />
             </span>
-            <span>
+            <span className={viewType === 1 && styles.active} onClick={() => setViewType(1)}>
               <FaThLarge />
             </span>
           </div>
@@ -70,9 +73,8 @@ class Channels extends Component {
         </header>
 
         <div className={styles.channels}>
-          <ul>
-          {
-            allChannels.map((channel, index) => {
+          <ul className={viewType === 1 && styles.cardsContainer}>
+          { viewType === 0 && allChannels.map((channel, index) => {
               return (
                 <Channel
                   key={index}
@@ -81,6 +83,14 @@ class Channels extends Component {
                   setChannel={() => console.log('hi')}
                   currentTicker={currentTicker}
                 />
+              )
+            })
+          }
+          { viewType === 1 && allChannels.map((channel, index) => {
+              return (
+                <CardChannel key={index}>
+                  card channel
+                </CardChannel>
               )
             })
           }
