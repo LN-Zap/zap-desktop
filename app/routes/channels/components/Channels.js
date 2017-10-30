@@ -87,7 +87,7 @@ class Channels extends Component {
                         channel={channel}
                         ticker={ticker}
                         currentTicker={currentTicker}
-                        explorerLinkBase={explorerLinkBase}
+                        explorerLinkBase={'https://testnet.smartbit.com.au/'}
                       />
                     )
                   } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
@@ -97,7 +97,7 @@ class Channels extends Component {
                         channel={channel}
                         ticker={ticker}
                         currentTicker={currentTicker}
-                        explorerLinkBase={explorerLinkBase}
+                        explorerLinkBase={'https://testnet.smartbit.com.au/'}
                       />
                     )
                   }
