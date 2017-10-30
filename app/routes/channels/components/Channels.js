@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import { FaAlignJustify, FaGlobe } from 'react-icons/lib/fa'
 import { MdSearch } from 'react-icons/lib/md'
 
+import OpenPendingChannel from 'components/Channels/OpenPendingChannel'
+import ClosedPendingChannel from 'components/Channels/ClosedPendingChannel'
 import Channel from 'components/Channels/Channel'
 import NetworkChannels from 'components/Channels/NetworkChannels'
 import ChannelForm from 'components/ChannelForm'
@@ -77,15 +79,38 @@ class Channels extends Component {
             viewType === 0 &&
             <ul className={viewType === 1 && styles.cardsContainer}>
               {
-                allChannels.map((channel, index) => (
-                  <Channel
-                    key={index}
-                    ticker={ticker}
-                    channel={channel}
-                    setChannel={() => {}}
-                    currentTicker={currentTicker}
-                  />
-                ))
+                allChannels.map((channel, index) => {
+                  if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
+                    return (
+                      <OpenPendingChannel
+                        key={index}
+                        channel={channel}
+                        ticker={ticker}
+                        currentTicker={currentTicker}
+                        explorerLinkBase={explorerLinkBase}
+                      />
+                    )
+                  } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
+                    return (
+                      <ClosedPendingChannel
+                        key={index}
+                        channel={channel}
+                        ticker={ticker}
+                        currentTicker={currentTicker}
+                        explorerLinkBase={explorerLinkBase}
+                      />
+                    )
+                  }
+                  return (
+                    <Channel
+                      key={index}
+                      ticker={ticker}
+                      channel={channel}
+                      setChannel={() => {}}
+                      currentTicker={currentTicker}
+                    />
+                  )
+                })
               }
             </ul>
           }
