@@ -1,6 +1,5 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { FaBitcoin } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
 import CryptoIcon from '../../app/components/CryptoIcon'
 
@@ -22,7 +21,7 @@ describe('component.CryptoIcon', () => {
     const props = { ...defaultProps, currency: 'btc' }
     const el = shallow(<CryptoIcon {...props} />)
     it('should show btc symbol', () => {
-      expect(el.find(FaBitcoin)).toHaveLength(1)
+      expect(el.find(Isvg).props().src).toContain('skinny_bitcoin.svg')
     })
   })
 
