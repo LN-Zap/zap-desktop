@@ -1,9 +1,14 @@
 @import '../../../variables.scss';
 
+.container.graphview {
+  background: $black;
+}
+
 .search {
   height: 75px;
   padding: 2px 25px;
   border-bottom: 1px solid $darkgrey;
+  background: $white;
 
   .input {
     display: inline-block;

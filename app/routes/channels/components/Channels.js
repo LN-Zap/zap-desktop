@@ -1,27 +1,29 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { FaAlignJustify, FaThLarge } from 'react-icons/lib/fa'
+import { FaAlignJustify, FaGlobe } from 'react-icons/lib/fa'
 import { MdSearch } from 'react-icons/lib/md'
 
 import Channel from 'components/Channels/Channel'
-import CardChannel from 'components/Channels/CardChannel'
+import NetworkChannels from 'components/Channels/NetworkChannels'
 import ChannelForm from 'components/ChannelForm'
 
 import styles from './Channels.scss'
 
 class Channels extends Component {
   componentWillMount() {
-    const { fetchChannels, fetchPeers } = this.props
+    const { fetchChannels, fetchPeers, fetchDescribeNetwork } = this.props
 
     fetchChannels()
     fetchPeers()
+    fetchDescribeNetwork()
   }
 
   render() {
     const {
       channels: { searchQuery, viewType },
       allChannels,
+      openChannels,
       updateChannelSearchQuery,
       setViewType,
 
@@ -30,11 +32,15 @@ class Channels extends Component {
       ticker,
       currentTicker,
 
-      channelFormProps
+      channelFormProps,
+
+      network,
+      identity_pubkey,
+      setCurrentChannel
     } = this.props
 
     return (
-      <div className={styles.container}>
+      <div className={`${styles.container} ${viewType === 1 && styles.graphview}`}>
         <ChannelForm {...channelFormProps} />
 
         <div className={styles.search}>
@@ -55,8 +61,8 @@ class Channels extends Component {
             <span className={viewType === 0 && styles.active} onClick={() => setViewType(0)}>
               <FaAlignJustify />
             </span>
-            <span className={viewType === 1 && styles.active}>
-              <FaThLarge />
+            <span className={viewType === 1 && styles.active} onClick={() => setViewType(1)}>
+              <FaGlobe />
             </span>
           </div>
           <div className={styles.createChannelContainer}>
@@ -67,24 +73,30 @@ class Channels extends Component {
         </header>
 
         <div className={styles.channels}>
-          <ul className={viewType === 1 && styles.cardsContainer}>
-            { viewType === 0 && allChannels.map((channel, index) => (
-              <Channel
-                key={index}
-                ticker={ticker}
-                channel={channel}
-                setChannel={() => console.log('hi')}
-                currentTicker={currentTicker}
-              />
-            ))
-            }
-            { viewType === 1 && allChannels.map((channel, index) => (
-              <CardChannel key={index} channel={channel}>
-                  card channel
-              </CardChannel>
-            ))
-            }
-          </ul>
+          {
+            viewType === 0 &&
+            <ul className={viewType === 1 && styles.cardsContainer}>
+              {
+                allChannels.map((channel, index) => (
+                  <Channel
+                    key={index}
+                    ticker={ticker}
+                    channel={channel}
+                    setChannel={() => {}}
+                    currentTicker={currentTicker}
+                  />
+                ))
+              }
+            </ul>
+          }
+          { viewType === 1 &&
+            <NetworkChannels
+              channels={openChannels}
+              network={network}
+              identity_pubkey={identity_pubkey}
+              setCurrentChannel={setCurrentChannel}
+            />
+          }
         </div>
       </div>
     )
@@ -97,15 +109,21 @@ Channels.propTypes = {
 
   channels: PropTypes.object.isRequired,
   allChannels: PropTypes.array.isRequired,
+  openChannels: PropTypes.array.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
   setViewType: PropTypes.func.isRequired,
+  setCurrentChannel: PropTypes.func.isRequired,
 
   openChannelForm: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
 
-  channelFormProps: PropTypes.object.isRequired
+  channelFormProps: PropTypes.object.isRequired,
+
+  network: PropTypes.object.isRequired,
+  fetchDescribeNetwork: PropTypes.func.isRequired,
+  identity_pubkey: PropTypes.string.isRequired
 }
 
 export default Channels

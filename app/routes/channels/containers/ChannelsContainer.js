@@ -24,6 +24,8 @@ import { fetchPeers } from 'reducers/peers'
 
 import { tickerSelectors } from 'reducers/ticker'
 
+import { fetchDescribeNetwork, setCurrentChannel } from '../../../reducers/network'
+
 import Channels from '../components/Channels'
 
 const mapDispatchToProps = {
@@ -39,17 +41,23 @@ const mapDispatchToProps = {
   setPushAmount,
   changeStep,
 
+  fetchPeers,
 
-  fetchPeers
+  fetchDescribeNetwork,
+  setCurrentChannel
 }
 
 const mapStateToProps = state => ({
   channels: state.channels,
+  openChannels: state.channels.channels,
   channelform: state.channelform,
   peers: state.peers,
   ticker: state.ticker,
+  network: state.network,
+  identity_pubkey: state.info.data.identity_pubkey,
 
   allChannels: channelsSelectors.allChannels(state),
+  activeChanIds: channelsSelectors.activeChanIds(state),
   currentTicker: tickerSelectors.currentTicker(state),
   channelFormHeader: channelFormSelectors.channelFormHeader(state),
   channelFormProgress: channelFormSelectors.channelFormProgress(state),

@@ -118,8 +118,7 @@ export const pushchannelupdated = () => (dispatch) => {
 }
 
 // Receive IPC event for channel end
-export const pushchannelend = (event, channelEndData) => (dispatch) => {
-  console.log('channelEndData: ', channelEndData)
+export const pushchannelend = event => (dispatch) => {
   dispatch(fetchChannels())
 }
 
@@ -130,8 +129,7 @@ export const pushchannelerror = (event, { error }) => (dispatch) => {
 }
 
 // Receive IPC event for channel status
-export const pushchannelstatus = (event, channelStatusData) => (dispatch) => {
-  console.log('channel Status data: ', channelStatusData)
+export const pushchannelstatus = event => (dispatch) => {
   dispatch(fetchChannels())
 }
 
@@ -224,11 +222,20 @@ channelsSelectors.allChannels = createSelector(
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
   channelSearchQuerySelector,
-  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => (
-    [...channels, ...pendingOpenChannels, ...pendingClosedChannels, ...pendingForcedClosedChannels].filter(channel =>
-      channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)
-    )
-  )
+  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => {
+    const filteredChannels = channels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingOpenChannels = pendingOpenChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingClosedChannels = pendingClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+
+
+    return [...filteredChannels, ...filteredPendingOpenChannels, ...filteredPendingClosedChannels, ...filteredPendingForcedClosedChannels]
+  }
+)
+
+channelsSelectors.activeChanIds = createSelector(
+  channelsSelector,
+  channels => channels.map(channel => channel.chan_id)
 )
 
 export { channelsSelectors }

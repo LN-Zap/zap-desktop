@@ -26,7 +26,7 @@ class StepThree extends Component {
             type='number'
             min='0'
             max='0.16'
-            ref={input => (this.input = input)}
+            ref={(input) => { this.input = input }}
             size=''
             value={push_amt}
             onChange={event => setPushAmount(event.target.value)}

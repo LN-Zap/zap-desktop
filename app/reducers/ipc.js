@@ -31,6 +31,8 @@ import {
   newTransaction
 } from './transaction'
 
+import { receiveDescribeNetwork, receiveQueryRoutes } from './network'
+
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
   lndSyncing,
@@ -79,7 +81,10 @@ const ipc = createIpc({
   receiveTransactions,
   transactionSuccessful,
   transactionError,
-  newTransaction
+  newTransaction,
+
+  receiveDescribeNetwork,
+  receiveQueryRoutes
 })
 
 export default ipc

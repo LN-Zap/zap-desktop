@@ -19,6 +19,7 @@ import modal from './modal'
 import address from './address'
 import transaction from './transaction'
 import activity from './activity'
+import network from './network'
 import error from './error'
 
 const rootReducer = combineReducers({
@@ -41,6 +42,7 @@ const rootReducer = combineReducers({
   address,
   transaction,
   activity,
+  network,
   error
 })
 

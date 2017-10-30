@@ -25,7 +25,7 @@ class StepTwo extends Component {
             type='number'
             min='0'
             max='0.16'
-            ref={input => (this.input = input)}
+            ref={(input) => { this.input = input }}
             size=''
             value={local_amt}
             onChange={event => setLocalAmount(event.target.value)}
