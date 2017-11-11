@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { FaAlignJustify, FaGlobe } from 'react-icons/lib/fa'
+import { FaAlignJustify, FaGlobe, FaAngleDown } from 'react-icons/lib/fa'
 import { MdSearch } from 'react-icons/lib/md'
 
 import OpenPendingChannel from 'components/Channels/OpenPendingChannel'
@@ -23,8 +23,19 @@ class Channels extends Component {
 
   render() {
     const {
-      channels: { searchQuery, viewType },
+      channels: {
+        searchQuery,
+        filterPulldown,
+        filter,
+        viewType
+      },
+
+      nonActiveFilters,
+      toggleFilterPulldown,
+      changeFilter,
+
       allChannels,
+      currentChannels,
       openChannels,
       updateChannelSearchQuery,
       setViewType,
@@ -41,7 +52,7 @@ class Channels extends Component {
       setCurrentChannel
     } = this.props
 
-    console.log('allChannels: ', allChannels)
+    console.log('currentChannels: ',currentChannels)
 
     return (
       <div className={`${styles.container} ${viewType === 1 && styles.graphview}`}>
@@ -76,12 +87,29 @@ class Channels extends Component {
           </div>
         </header>
 
-        <div className={styles.channels}>
+        <div className={styles.filtersContainer}>
+          <section>
+            <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
+              {filter.name} <span className={filterPulldown && styles.pulldown}><FaAngleDown /></span>
+            </h2>
+            <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
+              {
+                nonActiveFilters.map(f => (
+                  <li key={f.key} onClick={() => changeFilter(f)}>
+                    {f.name}
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+        </div>
+
+        <div className={`${styles.channels} ${filterPulldown && styles.fade}`}>
           {
             viewType === 0 &&
             <ul className={viewType === 1 && styles.cardsContainer}>
               {
-                allChannels.map((channel, index) => {
+                currentChannels.map((channel, index) => {
                   if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
                     return (
                       <OpenPendingChannel

@@ -7,6 +7,9 @@ import {
   updateChannelSearchQuery,
   setViewType,
 
+  toggleFilterPulldown,
+  changeFilter,
+
   channelsSelectors
 } from 'reducers/channels'
 
@@ -33,6 +36,8 @@ const mapDispatchToProps = {
   openChannel,
   updateChannelSearchQuery,
   setViewType,
+  toggleFilterPulldown,
+  changeFilter,
 
   openChannelForm,
   closeChannelForm,
@@ -57,8 +62,12 @@ const mapStateToProps = state => ({
   identity_pubkey: state.info.data.identity_pubkey,
 
   allChannels: channelsSelectors.allChannels(state),
+  currentChannels: channelsSelectors.currentChannels(state)(state),
   activeChanIds: channelsSelectors.activeChanIds(state),
+  nonActiveFilters: channelsSelectors.nonActiveFilters(state),
+
   currentTicker: tickerSelectors.currentTicker(state),
+
   channelFormHeader: channelFormSelectors.channelFormHeader(state),
   channelFormProgress: channelFormSelectors.channelFormProgress(state),
   stepTwoIsValid: channelFormSelectors.stepTwoIsValid(state)

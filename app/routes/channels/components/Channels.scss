@@ -41,6 +41,53 @@
   justify-content: space-between;
 }
 
+.filtersContainer {
+  position: relative;
+  padding: 0 40px;
+
+  h2, h2 span {
+    color: $bluegrey;
+    cursor: pointer;
+    transition: color 0.25s;
+
+    &:hover {
+      color: lighten($bluegrey, 10%);
+    }
+  }
+  
+  h2, .filters li {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: $darkestgrey;
+    font-size: 14px;
+    font-weight: 400;
+  }
+
+  h2 span.pulldown {
+    color: $main;
+  }
+
+  .filters {
+    display: none;
+    
+    &.active {
+      display: block;
+      position: absolute;
+      bottom: -100px;
+      z-index: 10;
+
+      li {
+        margin: 5px 0;
+        cursor: pointer;
+
+        &:hover {
+          color: $main;
+        }
+      }
+    }
+  }
+}
+
 .layoutsContainer {
   padding: 40px;
 
@@ -74,6 +121,11 @@
 
 .channels {
   padding: 10px 40px 40px 40px;
+  transition: opacity 0.25s;
+
+  &.fade {
+    opacity: 0.05;
+  }
 
   .cardsContainer {
     display: flex;

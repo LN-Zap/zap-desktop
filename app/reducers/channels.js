@@ -25,6 +25,9 @@ export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 
 export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
 
+export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
+export const CHANGE_FILTER = 'CHANGE_FILTER'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -178,6 +181,19 @@ export const pushclosechannelstatus = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
+export function toggleFilterPulldown() {
+  return {
+    type: TOGGLE_PULLDOWN
+  }
+}
+
+export function changeFilter(filter) {
+  return {
+    type: CHANGE_FILTER,
+    filter
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -200,7 +216,10 @@ const ACTION_HANDLERS = {
 
   [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 
-  [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType })
+  [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
+
+  [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
+  [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter })
 }
 
 const channelsSelectors = {}
@@ -210,10 +229,23 @@ const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pend
 const pendingClosedChannelsSelector = state => state.channels.pendingChannels.pending_closing_channels
 const pendingForceClosedChannelsSelector = state => state.channels.pendingChannels.pending_force_closing_channels
 const channelSearchQuerySelector = state => state.channels.searchQuery
+const filtersSelector = state => state.channels.filters
+const filterSelector = state => state.channels.filter
 
 channelsSelectors.channelModalOpen = createSelector(
   channelSelector,
   channel => (!!channel)
+)
+
+channelsSelector.activeChannels = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => channel.active)
+)
+
+channelsSelector.closingPendingChannels = createSelector(
+  pendingClosedChannelsSelector,
+  pendingForceClosedChannelsSelector,
+  (pendingClosedChannels, pendingForcedClosedChannels) => [...pendingClosedChannels, ...pendingForcedClosedChannels]
 )
 
 channelsSelectors.allChannels = createSelector(
@@ -236,6 +268,25 @@ channelsSelectors.allChannels = createSelector(
 channelsSelectors.activeChanIds = createSelector(
   channelsSelector,
   channels => channels.map(channel => channel.chan_id)
+)
+
+channelsSelectors.nonActiveFilters = createSelector(
+  filtersSelector,
+  filterSelector,
+  (filters, filter) => filters.filter(f => f.key !== filter.key)
+)
+
+const FILTERS = {
+  ALL_CHANNELS: channelsSelectors.allChannels,
+  ACTIVE_CHANNELS: channelsSelector.activeChannels,
+  OPEN_CHANNELS: channelsSelector,
+  OPEN_PENDING_CHANNELS: pendingOpenChannelsSelector,
+  CLOSING_PENDING_CHANNELS: channelsSelector.closingPendingChannels
+}
+
+channelsSelectors.currentChannels = createSelector(
+  filterSelector,
+  filter => FILTERS[filter.key]
 )
 
 export { channelsSelectors }
@@ -277,7 +328,17 @@ const initialState = {
   openingChannel: false,
   closingChannel: false,
   searchQuery: '',
-  viewType: 0
+  viewType: 0,
+
+  filterPulldown: false,
+  filter: { key: 'ALL_CHANNELS', name: 'All Channels' },
+  filters: [
+    { key: 'ALL_CHANNELS', name: 'All Channels' },
+    { key: 'ACTIVE_CHANNELS', name: 'Active Channels' },
+    { key: 'OPEN_CHANNELS', name: 'Open Channels' },
+    { key: 'OPEN_PENDING_CHANNELS', name: 'Open Pending Channels' },
+    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Pending Channels' },
+  ],
 }
 
 export default function channelsReducer(state = initialState, action) {
