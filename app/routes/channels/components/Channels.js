@@ -41,6 +41,8 @@ class Channels extends Component {
       setCurrentChannel
     } = this.props
 
+    console.log('allChannels: ', allChannels)
+
     return (
       <div className={`${styles.container} ${viewType === 1 && styles.graphview}`}>
         <ChannelForm {...channelFormProps} />

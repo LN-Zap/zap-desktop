@@ -6,7 +6,7 @@ import styles from './OpenPendingChannel.scss'
 
 const OpenPendingChannel = ({ ticker, channel: { channel }, currentTicker, explorerLinkBase }) => (
   <li className={styles.channel} onClick={() => shell.openExternal(`${explorerLinkBase}/tx/${channel.channel_point.split(':')[0]}`)}>
-    <h1 className={styles.pending}>Status: Pending</h1>
+    <h1 className={styles.pending}>Pending</h1>
     <div className={styles.left}>
       <section className={styles.remotePubkey}>
         <span>Remote Pubkey</span>

@@ -190,7 +190,7 @@ const ACTION_HANDLERS = {
 
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => (
-    { ...state, channelsLoading: false, channels, pendingChannels }
+    { ...state, channelsLoading: false, channels, pendingChannels: state.pendingChannels }
   ),
 
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
@@ -248,7 +248,22 @@ const initialState = {
   channels: [],
   pendingChannels: {
     total_limbo_balance: '',
-    pending_open_channels: [],
+    pending_open_channels: [
+      {
+        "channel": {
+            "remote_node_pub": "0368b02d9e4a44bb156660cf48ed7492445c7cb95435c86125e74953047c7706e3",
+            "channel_point": "01de1cddaf47637b71c37e019f42746aa1135351a4e4539d983ca95f12049a82:0",
+            "capacity": "16777216",
+            "local_balance": "16768528",
+            "remote_balance": "0"
+        },
+        "confirmation_height": 0,
+        "blocks_till_open": 0,
+        "commit_fee": "8688",
+        "commit_weight": "600",
+        "fee_per_kw": "12000"
+      }
+    ],
     pending_closing_channels: [],
     pending_force_closing_channels: []
   },
