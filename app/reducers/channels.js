@@ -121,7 +121,7 @@ export const pushchannelupdated = () => (dispatch) => {
 }
 
 // Receive IPC event for channel end
-export const pushchannelend = event => (dispatch) => {
+export const pushchannelend = event => (dispatch) => { // eslint-disable-line
   dispatch(fetchChannels())
 }
 
@@ -132,7 +132,7 @@ export const pushchannelerror = (event, { error }) => (dispatch) => {
 }
 
 // Receive IPC event for channel status
-export const pushchannelstatus = event => (dispatch) => {
+export const pushchannelstatus = event => (dispatch) => { // eslint-disable-line
   dispatch(fetchChannels())
 }
 
@@ -284,32 +284,31 @@ export const currentChannels = createSelector(
   closingPendingChannels,
   filterSelector,
   channelSearchQuerySelector,
-  (allChannels, activeChannels, openChannels, pendingOpenChannels, pendingClosedChannels, filter, searchQuery) => {
+  (allChannelsArr, activeChannelsArr, openChannels, pendingOpenChannels, pendingClosedChannels, filter, searchQuery) => {
     // Helper function to deliver correct channel array based on filter
-    const filteredArray = filter => {
-      switch(filter) {
+    const filteredArray = (filterKey) => {
+      switch (filterKey) {
         case 'ALL_CHANNELS':
-          return allChannels
+          return allChannelsArr
         case 'ACTIVE_CHANNELS':
-          return activeChannels
+          return activeChannelsArr
         case 'OPEN_CHANNELS':
           return openChannels
         case 'OPEN_PENDING_CHANNELS':
           return pendingOpenChannels
         case 'CLOSING_PENDING_CHANNELS':
           return pendingClosedChannels
+        default:
+          return []
       }
     }
 
     const channelArray = filteredArray(filter.key)
 
-    console.log('channelArray: ', channelArray)
-    return channelArray.filter(channel => {
-      return Object.prototype.hasOwnProperty.call(channel, 'channel') ?
-        channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)
-        :
-        channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)
-    }) 
+    return channelArray.filter(channel => (Object.prototype.hasOwnProperty.call(channel, 'channel') ?
+      channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)
+      :
+      channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)))
   }
 )
 
@@ -325,18 +324,18 @@ const initialState = {
     total_limbo_balance: '',
     pending_open_channels: [
       {
-        "channel": {
-            "remote_node_pub": "0368b02d9e4a44bb156660cf48ed7492445c7cb95435c86125e74953047c7706e3",
-            "channel_point": "01de1cddaf47637b71c37e019f42746aa1135351a4e4539d983ca95f12049a82:0",
-            "capacity": "16777216",
-            "local_balance": "16768528",
-            "remote_balance": "0"
+        channel: {
+          remote_node_pub: '0368b02d9e4a44bb156660cf48ed7492445c7cb95435c86125e74953047c7706e3',
+          channel_point: '01de1cddaf47637b71c37e019f42746aa1135351a4e4539d983ca95f12049a82:0',
+          capacity: '16777216',
+          local_balance: '16768528',
+          remote_balance: '0'
         },
-        "confirmation_height": 0,
-        "blocks_till_open": 0,
-        "commit_fee": "8688",
-        "commit_weight": "600",
-        "fee_per_kw": "12000"
+        confirmation_height: 0,
+        blocks_till_open: 0,
+        commit_fee: '8688',
+        commit_weight: '600',
+        fee_per_kw: '12000'
       }
     ],
     pending_closing_channels: [],
@@ -361,8 +360,8 @@ const initialState = {
     { key: 'ACTIVE_CHANNELS', name: 'Active Channels' },
     { key: 'OPEN_CHANNELS', name: 'Open Channels' },
     { key: 'OPEN_PENDING_CHANNELS', name: 'Open Pending Channels' },
-    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Pending Channels' },
-  ],
+    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Pending Channels' }
+  ]
 }
 
 export default function channelsReducer(state = initialState, action) {

@@ -5,7 +5,7 @@ import { btc } from 'utils'
 import styles from './Channel.scss'
 
 const Channel = ({ ticker, channel, closeChannel, currentTicker }) => (
-  <li className={styles.channel} onClick={() => setChannel(channel)}>
+  <li className={styles.channel}>
     <header className={styles.header}>
       <div>
         <span className={styles.status}>Open</span>

@@ -1,5 +1,4 @@
 import React from 'react'
-import path from 'path'
 import Isvg from 'react-inlinesvg'
 
 import cloudboltIcon from 'icons/cloudbolt.svg'

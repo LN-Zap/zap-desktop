@@ -36,7 +36,6 @@ class Channels extends Component {
       toggleFilterPulldown,
       changeFilter,
 
-      allChannels,
       currentChannels,
       openChannels,
       updateChannelSearchQuery,
@@ -67,8 +66,6 @@ class Channels extends Component {
       // spin icon for 1 sec
       icon.style.animation = 'spin 1000ms linear 1'
     }
-
-    console.log('currentChannels: ',currentChannels)
 
     return (
       <div className={`${styles.container} ${viewType === 1 && styles.graphview}`}>
@@ -185,18 +182,22 @@ Channels.propTypes = {
   fetchPeers: PropTypes.func.isRequired,
 
   channels: PropTypes.object.isRequired,
-  allChannels: PropTypes.array.isRequired,
+  currentChannels: PropTypes.array.isRequired,
   openChannels: PropTypes.array.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
   setViewType: PropTypes.func.isRequired,
   setCurrentChannel: PropTypes.func.isRequired,
 
   openChannelForm: PropTypes.func.isRequired,
+  closeChannel: PropTypes.func.isRequired,
+  toggleFilterPulldown: PropTypes.func.isRequired,
+  changeFilter: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
 
   channelFormProps: PropTypes.object.isRequired,
+  nonActiveFilters: PropTypes.object.isRequired,
 
   network: PropTypes.object.isRequired,
   fetchDescribeNetwork: PropTypes.func.isRequired,

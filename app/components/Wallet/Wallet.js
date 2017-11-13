@@ -1,12 +1,10 @@
-import path from 'path'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FaQrcode } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
 import { btc } from 'utils'
-import ReceiveModal from './ReceiveModal'
-
 import skinnyBitcoinIcon from 'icons/skinny_bitcoin.svg'
+import ReceiveModal from './ReceiveModal'
 
 import styles from './Wallet.scss'
 
