@@ -6,7 +6,7 @@ import styles from './ClosedPendingChannel.scss'
 
 const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid }, currentTicker, explorerLinkBase }) => (
   <li className={styles.channel} onClick={() => shell.openExternal(`${explorerLinkBase}/tx/${closing_txid}`)}>
-    <h1 className={styles.closing}>Status: Closing</h1>
+    <h1 className={styles.closing}>Closing Channel...</h1>
     <div className={styles.left}>
       <section className={styles.remotePubkey}>
         <span>Remote Pubkey</span>

@@ -13,6 +13,7 @@ class PayForm extends Component {
 
     // If on-chain, focus on amount to let user know it's editable
     if (isOnchain) { this.amountInput.focus() }
+
     // If LN go retrieve invoice details
     if ((prevProps.payform.payInput !== payInput) && isLn) {
       fetchInvoice(payInput)

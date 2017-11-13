@@ -1,9 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import ReactSVG from 'react-svg'
 import { NavLink } from 'react-router-dom'
-import { MdAccountBalanceWallet } from 'react-icons/lib/md'
-import { FaClockO, FaDollar } from 'react-icons/lib/fa'
 import Nav from 'components/Nav'
 
 const defaultProps = {

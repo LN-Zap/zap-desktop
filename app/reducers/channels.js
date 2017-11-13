@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { btc } from 'utils'
+import { closeChannelForm } from './channelform'
 import { setError } from './error'
 // ------------------------------------
 // Constants
@@ -18,6 +20,13 @@ export const OPENING_FAILURE = 'OPENING_FAILURE'
 export const CLOSING_CHANNEL = 'CLOSING_CHANNEL'
 export const CLOSING_SUCCESSFUL = 'CLOSING_SUCCESSFUL'
 export const CLOSING_FAILURE = 'CLOSING_FAILURE'
+
+export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
+
+export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
+
+export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
+export const CHANGE_FILTER = 'CHANGE_FILTER'
 
 // ------------------------------------
 // Actions
@@ -67,6 +76,20 @@ export function openingFailure() {
   }
 }
 
+export function updateChannelSearchQuery(searchQuery) {
+  return {
+    type: UPDATE_SEARCH_QUERY,
+    searchQuery
+  }
+}
+
+export function setViewType(viewType) {
+  return {
+    type: SET_VIEW_TYPE,
+    viewType
+  }
+}
+
 // Send IPC event for peers
 export const fetchChannels = () => async (dispatch) => {
   dispatch(getChannels())
@@ -77,7 +100,10 @@ export const fetchChannels = () => async (dispatch) => {
 export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, localamt, pushamt }) => (dispatch) => {
+export const openChannel = ({ pubkey, local_amt, push_amt }) => (dispatch) => {
+  const localamt = btc.btcToSatoshis(local_amt)
+  const pushamt = btc.btcToSatoshis(push_amt)
+
   dispatch(openingChannel())
   ipcRenderer.send('lnd', { msg: 'openChannel', data: { pubkey, localamt, pushamt } })
 }
@@ -86,6 +112,7 @@ export const openChannel = ({ pubkey, localamt, pushamt }) => (dispatch) => {
 // Receive IPC event for openChannel
 export const channelSuccessful = () => (dispatch) => {
   dispatch(fetchChannels())
+  dispatch(closeChannelForm())
 }
 
 // Receive IPC event for updated channel
@@ -94,8 +121,7 @@ export const pushchannelupdated = () => (dispatch) => {
 }
 
 // Receive IPC event for channel end
-export const pushchannelend = (event, channelEndData) => (dispatch) => {
-  console.log('channelEndData: ', channelEndData)
+export const pushchannelend = event => (dispatch) => { // eslint-disable-line
   dispatch(fetchChannels())
 }
 
@@ -106,8 +132,7 @@ export const pushchannelerror = (event, { error }) => (dispatch) => {
 }
 
 // Receive IPC event for channel status
-export const pushchannelstatus = (event, channelStatusData) => (dispatch) => {
-  console.log('channel Status data: ', channelStatusData)
+export const pushchannelstatus = event => (dispatch) => { // eslint-disable-line
   dispatch(fetchChannels())
 }
 
@@ -156,6 +181,19 @@ export const pushclosechannelstatus = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
+export function toggleFilterPulldown() {
+  return {
+    type: TOGGLE_PULLDOWN
+  }
+}
+
+export function changeFilter(filter) {
+  return {
+    type: CHANGE_FILTER,
+    filter
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -174,7 +212,14 @@ const ACTION_HANDLERS = {
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
   [OPENING_FAILURE]: state => ({ ...state, openingChannel: false }),
 
-  [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true })
+  [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true }),
+
+  [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
+
+  [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
+
+  [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
+  [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter })
 }
 
 const channelsSelectors = {}
@@ -183,20 +228,88 @@ const channelsSelector = state => state.channels.channels
 const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
 const pendingClosedChannelsSelector = state => state.channels.pendingChannels.pending_closing_channels
 const pendingForceClosedChannelsSelector = state => state.channels.pendingChannels.pending_force_closing_channels
+const channelSearchQuerySelector = state => state.channels.searchQuery
+const filtersSelector = state => state.channels.filters
+const filterSelector = state => state.channels.filter
 
 channelsSelectors.channelModalOpen = createSelector(
   channelSelector,
   channel => (!!channel)
 )
 
-channelsSelectors.allChannels = createSelector(
+const activeChannels = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => channel.active)
+)
+
+const closingPendingChannels = createSelector(
+  pendingClosedChannelsSelector,
+  pendingForceClosedChannelsSelector,
+  (pendingClosedChannels, pendingForcedClosedChannels) => [...pendingClosedChannels, ...pendingForcedClosedChannels]
+)
+
+const allChannels = createSelector(
   channelsSelector,
   pendingOpenChannelsSelector,
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
-  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels) => (
-    [...channels, ...pendingOpenChannels, ...pendingClosedChannels, ...pendingForcedClosedChannels]
-  )
+  channelSearchQuerySelector,
+  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => {
+    const filteredChannels = channels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingOpenChannels = pendingOpenChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingClosedChannels = pendingClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+
+
+    return [...filteredChannels, ...filteredPendingOpenChannels, ...filteredPendingClosedChannels, ...filteredPendingForcedClosedChannels]
+  }
+)
+
+channelsSelectors.activeChanIds = createSelector(
+  channelsSelector,
+  channels => channels.map(channel => channel.chan_id)
+)
+
+channelsSelectors.nonActiveFilters = createSelector(
+  filtersSelector,
+  filterSelector,
+  (filters, filter) => filters.filter(f => f.key !== filter.key)
+)
+
+export const currentChannels = createSelector(
+  allChannels,
+  activeChannels,
+  channelsSelector,
+  pendingOpenChannelsSelector,
+  closingPendingChannels,
+  filterSelector,
+  channelSearchQuerySelector,
+  (allChannelsArr, activeChannelsArr, openChannels, pendingOpenChannels, pendingClosedChannels, filter, searchQuery) => {
+    // Helper function to deliver correct channel array based on filter
+    const filteredArray = (filterKey) => {
+      switch (filterKey) {
+        case 'ALL_CHANNELS':
+          return allChannelsArr
+        case 'ACTIVE_CHANNELS':
+          return activeChannelsArr
+        case 'OPEN_CHANNELS':
+          return openChannels
+        case 'OPEN_PENDING_CHANNELS':
+          return pendingOpenChannels
+        case 'CLOSING_PENDING_CHANNELS':
+          return pendingClosedChannels
+        default:
+          return []
+      }
+    }
+
+    const channelArray = filteredArray(filter.key)
+
+    return channelArray.filter(channel => (Object.prototype.hasOwnProperty.call(channel, 'channel') ?
+      channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)
+      :
+      channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)))
+  }
 )
 
 export { channelsSelectors }
@@ -221,7 +334,19 @@ const initialState = {
     push_amt: ''
   },
   openingChannel: false,
-  closingChannel: false
+  closingChannel: false,
+  searchQuery: '',
+  viewType: 0,
+
+  filterPulldown: false,
+  filter: { key: 'ALL_CHANNELS', name: 'All Channels' },
+  filters: [
+    { key: 'ALL_CHANNELS', name: 'All Channels' },
+    { key: 'ACTIVE_CHANNELS', name: 'Active Channels' },
+    { key: 'OPEN_CHANNELS', name: 'Open Channels' },
+    { key: 'OPEN_PENDING_CHANNELS', name: 'Open Pending Channels' },
+    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Pending Channels' }
+  ]
 }
 
 export default function channelsReducer(state = initialState, action) {

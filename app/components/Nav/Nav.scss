@@ -185,18 +185,11 @@
 }
 
 .button {
-	text-align: center;
-	background: $main;
 	margin-bottom: 20px;
-	padding: 20px 10px;
 	font-weight: bold;
 	cursor: pointer;
 	text-transform: uppercase;
 	letter-spacing: .2px;
-
-	&:hover {
-		background: lighten($main, 5%);
-	}
 }
 
 .content {

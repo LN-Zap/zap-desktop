@@ -1,0 +1,58 @@
+@import '../../variables.scss';
+
+.container {
+  margin-bottom: 50px;
+  padding: 20px;
+
+  .explainer {
+    margin: 0px 0 50px 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $lightgrey;
+
+    h2 {
+      margin: 0 0 20px 0;
+      font-size: 28px;
+    }
+
+    p {
+      line-height: 1.5;
+      font-size: 16px;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+
+  label {
+    height: 200px;
+    color: $main;
+
+    svg {
+      width: 65px;
+      height: 65px;
+    }
+
+    svg[data-icon='ltc'] {
+      margin-right: 10px;
+
+      g {
+        transform: scale(1.75) translate(-5px, -5px);
+      }
+    }
+  }
+  
+  input[type=number] {
+    color: $main;
+    width: 30px;
+    height: 200px;
+    font-size: 100px;
+    font-weight: 200;
+    border: none;
+    outline: 0;
+    -webkit-appearance: none;
+  }
+}

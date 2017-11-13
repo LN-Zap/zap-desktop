@@ -12,6 +12,33 @@ Object {
   "channels": Array [],
   "channelsLoading": true,
   "closingChannel": false,
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Channels",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Channels",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Active Channels",
+    },
+    Object {
+      "key": "OPEN_CHANNELS",
+      "name": "Open Channels",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Open Pending Channels",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Pending Channels",
+    },
+  ],
   "openingChannel": false,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
@@ -19,6 +46,8 @@ Object {
     "pending_open_channels": Array [],
     "total_limbo_balance": "",
   },
+  "searchQuery": "",
+  "viewType": 0,
 }
 `;
 
@@ -34,6 +63,33 @@ Object {
   "channels": Array [],
   "channelsLoading": false,
   "closingChannel": false,
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Channels",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Channels",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Active Channels",
+    },
+    Object {
+      "key": "OPEN_CHANNELS",
+      "name": "Open Channels",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Open Pending Channels",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Pending Channels",
+    },
+  ],
   "openingChannel": true,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
@@ -41,6 +97,8 @@ Object {
     "pending_open_channels": Array [],
     "total_limbo_balance": "",
   },
+  "searchQuery": "",
+  "viewType": 0,
 }
 `;
 
@@ -59,11 +117,40 @@ Object {
   ],
   "channelsLoading": false,
   "closingChannel": false,
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Channels",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Channels",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Active Channels",
+    },
+    Object {
+      "key": "OPEN_CHANNELS",
+      "name": "Open Channels",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Open Pending Channels",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Pending Channels",
+    },
+  ],
   "openingChannel": false,
   "pendingChannels": Array [
     3,
     4,
   ],
+  "searchQuery": "",
+  "viewType": 0,
 }
 `;
 
@@ -79,6 +166,33 @@ Object {
   "channels": Array [],
   "channelsLoading": false,
   "closingChannel": false,
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Channels",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Channels",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Active Channels",
+    },
+    Object {
+      "key": "OPEN_CHANNELS",
+      "name": "Open Channels",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Open Pending Channels",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Pending Channels",
+    },
+  ],
   "openingChannel": false,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
@@ -86,6 +200,8 @@ Object {
     "pending_open_channels": Array [],
     "total_limbo_balance": "",
   },
+  "searchQuery": "",
+  "viewType": 0,
 }
 `;
 
@@ -101,6 +217,33 @@ Object {
   "channels": Array [],
   "channelsLoading": false,
   "closingChannel": false,
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Channels",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Channels",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Active Channels",
+    },
+    Object {
+      "key": "OPEN_CHANNELS",
+      "name": "Open Channels",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Open Pending Channels",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Pending Channels",
+    },
+  ],
   "openingChannel": false,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
@@ -108,6 +251,8 @@ Object {
     "pending_open_channels": Array [],
     "total_limbo_balance": "",
   },
+  "searchQuery": "",
+  "viewType": 0,
 }
 `;
 
@@ -123,6 +268,33 @@ Object {
   "channels": Array [],
   "channelsLoading": false,
   "closingChannel": false,
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Channels",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Channels",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Active Channels",
+    },
+    Object {
+      "key": "OPEN_CHANNELS",
+      "name": "Open Channels",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Open Pending Channels",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Pending Channels",
+    },
+  ],
   "openingChannel": false,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
@@ -130,5 +302,7 @@ Object {
     "pending_open_channels": Array [],
     "total_limbo_balance": "",
   },
+  "searchQuery": "",
+  "viewType": 0,
 }
 `;
