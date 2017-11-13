@@ -184,10 +184,11 @@ Channels.propTypes = {
   channels: PropTypes.object.isRequired,
   currentChannels: PropTypes.array.isRequired,
   openChannels: PropTypes.array.isRequired,
+  nonActiveFilters: PropTypes.array.isRequired,
+  
   updateChannelSearchQuery: PropTypes.func.isRequired,
   setViewType: PropTypes.func.isRequired,
   setCurrentChannel: PropTypes.func.isRequired,
-
   openChannelForm: PropTypes.func.isRequired,
   closeChannel: PropTypes.func.isRequired,
   toggleFilterPulldown: PropTypes.func.isRequired,
@@ -197,7 +198,6 @@ Channels.propTypes = {
   currentTicker: PropTypes.object.isRequired,
 
   channelFormProps: PropTypes.object.isRequired,
-  nonActiveFilters: PropTypes.object.isRequired,
 
   network: PropTypes.object.isRequired,
   fetchDescribeNetwork: PropTypes.func.isRequired,
