@@ -47,7 +47,8 @@ class App extends Component {
       children
     } = this.props
 
-    if (lnd.syncing) {
+    // if (lnd.syncing) {
+    if (true) {
       return (
         <LndSyncing
           fetchBlockHeight={fetchBlockHeight}
@@ -58,7 +59,6 @@ class App extends Component {
     }
 
     if (!currentTicker || balance.balanceLoading) { return <LoadingBolt /> }
-    // return <LoadingBolt />
 
     return (
       <div>

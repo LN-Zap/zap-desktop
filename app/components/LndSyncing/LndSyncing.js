@@ -8,20 +8,20 @@ class LndSyncing extends Component {
     this.state = {
       facts: [
         {
-          title: 'No2x',
-          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA signers. The idea was drawn up and signed in a locked hotel room with select individuals and goes against everything that Bitcoin stands for. There is no favoritism in Bitcoin. There are no politicians. Hash power and business don\'t speak for us. Don\'t trust, verify.' // eslint-disable-line
+          title: 'The Lightning Network',
+          description: 'The Lightning Network is a second layer solution built on top of the Bitcoin block chain that attempts to increase Bitcoin\'s scalability and privacy' // eslint-disable-line
         },
         {
-          title: 'Gang',
-          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA. It is bullshit. Fuck that shit.'
+          title: 'Payment Channel',
+          description: 'A payment channel is a class of techniques designed to allow users to make multiple Bitcoin transactions without commiting all of the transactions to the Bitcoin block chain. You can think of payment channels like tubes of money' // eslint-disable-line
         },
         {
-          title: 'Yo',
-          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA. It is bullshit. Fuck that shit.'
+          title: 'HTLC',
+          description: 'Hashed TimeLock Contracts is a class of payments that use hashlocks and timelocks to require the receiver of a payment either acknowledge receiving the payment before a deadline or forfeit the ability to claim the payment. HTLCs are useful within the Lightning Network for routing payments accross two or more payment channels' // eslint-disable-line
         },
         {
-          title: 'Liiiiit',
-          description: 'Segwit2x is a hard fork proposal led by Barry Silbert and the NYA. It is bullshit. Fuck that shit.'
+          title: 'Onion Routing',
+          description: 'Onion routing is a technique for anonymous communication over a computer network. In an onion network, messages are encapsulated in layers of encryption, analogous to layers of an onion.' // eslint-diabale-line
         }
       ],
       currentFact: 0
