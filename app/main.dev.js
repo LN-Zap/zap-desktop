@@ -196,10 +196,14 @@ const startLnd = () => {
     }
 
     // When LND is all caught up to the blockchain
-    if (line.includes('Done catching up block hashes')) {
+    if (line.includes('Chain backend is fully synced')) {
       // Log that LND is caught up to the current block height
-      console.log('DONE CATCHING UP BLOCK HASHES')
+      console.log('NEUTRINO IS SYNCED')
       // Check for certs to exists before we do things
+
+      // Let the front end know we have stopped syncing LND
+      syncing = false
+      mainWindow.webContents.send('lndSynced')
     }
   })
 }
@@ -214,9 +218,5 @@ const startGrpc = () => {
     ipcMain.on('lnd', (event, { msg, data }) => {
       lndMethods(event, msg, data)
     })
-
-    // Let the front end know we have stopped syncing LND
-    syncing = false
-    mainWindow.webContents.send('lndSynced')
   })
 }
