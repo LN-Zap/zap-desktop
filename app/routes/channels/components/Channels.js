@@ -24,6 +24,7 @@ class Channels extends Component {
   render() {
     const {
       fetchChannels,
+      closeChannel,
       channels: {
         searchQuery,
         filterPulldown,
@@ -157,7 +158,7 @@ class Channels extends Component {
                       key={index}
                       ticker={ticker}
                       channel={channel}
-                      setChannel={() => {}}
+                      closeChannel={closeChannel}
                       currentTicker={currentTicker}
                     />
                   )

@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import {
   fetchChannels,
   openChannel,
+  closeChannel,
   updateChannelSearchQuery,
   setViewType,
   currentChannels,
@@ -35,6 +36,7 @@ import Channels from '../components/Channels'
 const mapDispatchToProps = {
   fetchChannels,
   openChannel,
+  closeChannel,
   updateChannelSearchQuery,
   setViewType,
   toggleFilterPulldown,

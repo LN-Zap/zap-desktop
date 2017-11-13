@@ -206,7 +206,7 @@ const ACTION_HANDLERS = {
 
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => (
-    { ...state, channelsLoading: false, channels, pendingChannels: state.pendingChannels }
+    { ...state, channelsLoading: false, channels, pendingChannels }
   ),
 
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),

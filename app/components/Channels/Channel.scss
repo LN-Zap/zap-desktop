@@ -5,9 +5,6 @@
 	background: $lightgrey;
 	margin: 5px 0;
 	padding: 10px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
 	border-top: 1px solid $white;
 	cursor: pointer;
 	transition: all 0.25s;
@@ -20,10 +17,10 @@
 		border: none;
 	}
 
-	header {
-		position: absolute;
-		top: 10px;
-		left: 10px;
+	.header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 
 		.status, .active, .notactive {
 			padding: 10px;
@@ -47,6 +44,25 @@
 		.notactive {
 			color: $red;
 		}
+
+		.close {
+			padding: 10px;
+			font-size: 10px;
+			text-transform: uppercase;
+			color: $red;
+			cursor: pointer;
+
+			&:hover {
+				color: lighten($red, 10%);
+				text-decoration: underline;
+			}
+		}
+	}
+
+	.content {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
 	}
 
 
