@@ -3,6 +3,9 @@ import { shallow } from 'enzyme'
 import Isvg from 'react-inlinesvg'
 import CryptoIcon from '../../app/components/CryptoIcon'
 
+import skinnyBitcoinIcon from '../../app/icons/skinny_bitcoin.svg'
+import litecoinIcon from '../../app/icons/litecoin.svg'
+
 const defaultProps = {
   currency: 'bch',
   styles: {}
@@ -21,7 +24,7 @@ describe('component.CryptoIcon', () => {
     const props = { ...defaultProps, currency: 'btc' }
     const el = shallow(<CryptoIcon {...props} />)
     it('should show btc symbol', () => {
-      expect(el.find(Isvg).props().src).toContain('skinny_bitcoin.svg')
+      expect(el.find(Isvg).props().src).toContain(skinnyBitcoinIcon)
     })
   })
 
@@ -29,7 +32,7 @@ describe('component.CryptoIcon', () => {
     const props = { ...defaultProps, currency: 'ltc' }
     const el = shallow(<CryptoIcon {...props} />)
     it('should show ltc symbol', () => {
-      expect(el.find(Isvg).props().src).toContain('litecoin.svg')
+      expect(el.find(Isvg).props().src).toContain(litecoinIcon)
     })
   })
 })
