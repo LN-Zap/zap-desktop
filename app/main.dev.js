@@ -111,7 +111,6 @@ app.on('ready', async () => {
     // There was an error checking for the LND process
     if (err) { throw new Error( err ) }
 
-    console.log('results: ', results)
     // No LND process was found
     if (!results.length) {
       // Let the front end know we have started syncing LND
@@ -132,13 +131,8 @@ app.on('ready', async () => {
           break
       }
 
-      // Check for certs to exists before we do things
-      certInterval = setInterval(() => {
-        if (fs.existsSync(certPath)) {
-          clearInterval(certInterval)
-          startLnd()
-        }
-      }, 500)
+      // Start LND
+      startLnd()
     } else {
       // An LND process was found, no need to start our own
       console.log('LND ALREADY RUNNING')
@@ -176,12 +170,24 @@ const startLnd = () => {
       .on('error', error => console.log(`lnd error: ${error}`))
       .on('close', code => console.log(`lnd shutting down ${code}`))
 
-    // Listen for when neutrino prints out data
-    neutrino.stdout.on('data', data => {
+  // Listen for when neutrino prints out data
+  neutrino.stdout.on('data', data => {
     // Data stored in variable line, log line to the console
     let line = data.toString('utf8')
 
     if (process.env.NODE_ENV === 'development') { console.log(line) }
+
+    // If the gRPC proxy has started we can start ours 
+    if (line.includes('gRPC proxy started')) {
+      certInterval = setInterval(() => {
+        if (fs.existsSync(certPath)) {
+          clearInterval(certInterval)
+          
+          console.log('CERT EXISTS, STARTING GRPC')
+          startGrpc()
+        }
+      }, 1000)
+    }
 
     // Pass current clock height progress to front end for loading state UX
     if (line.includes('Caught up to height')) {
@@ -193,7 +199,7 @@ const startLnd = () => {
     if (line.includes('Done catching up block hashes')) {
       // Log that LND is caught up to the current block height
       console.log('DONE CATCHING UP BLOCK HASHES')
-      startGrpc()
+      // Check for certs to exists before we do things
     }
   })
 }
