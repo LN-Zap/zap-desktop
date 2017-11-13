@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { FaAlignJustify, FaGlobe, FaAngleDown } from 'react-icons/lib/fa'
+import { FaAlignJustify, FaGlobe, FaAngleDown, FaRepeat } from 'react-icons/lib/fa'
 import { MdSearch } from 'react-icons/lib/md'
 
 import OpenPendingChannel from 'components/Channels/OpenPendingChannel'
@@ -23,6 +23,7 @@ class Channels extends Component {
 
   render() {
     const {
+      fetchChannels,
       channels: {
         searchQuery,
         filterPulldown,
@@ -51,6 +52,20 @@ class Channels extends Component {
       identity_pubkey,
       setCurrentChannel
     } = this.props
+
+    const refreshClicked = (event) => {
+      // store event in icon so we dont get an error when react clears it
+      const icon = event.currentTarget
+
+      // fetch peers
+      fetchChannels()
+
+      // clear animation after the second so we can reuse it
+      setTimeout(() => { icon.style.animation = '' }, 1000)
+
+      // spin icon for 1 sec
+      icon.style.animation = 'spin 1000ms linear 1'
+    }
 
     console.log('currentChannels: ',currentChannels)
 
@@ -101,6 +116,12 @@ class Channels extends Component {
                 ))
               }
             </ul>
+          </section>
+          <section className={`${styles.refreshContainer} hint--left`} data-hint='Refresh your peers list'>
+            <FaRepeat
+              style={{ verticalAlign: 'baseline' }}
+              onClick={refreshClicked}
+            />
           </section>
         </div>
 

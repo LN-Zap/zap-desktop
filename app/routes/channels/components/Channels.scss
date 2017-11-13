@@ -43,6 +43,9 @@
 
 .filtersContainer {
   position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   padding: 0 40px;
 
   h2, h2 span {
@@ -84,6 +87,15 @@
           color: $main;
         }
       }
+    }
+  }
+
+  .refreshContainer {
+    color: $bluegrey;
+
+    &:hover {
+      cursor: pointer;
+      color: lighten($bluegrey, 10%);
     }
   }
 }

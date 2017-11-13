@@ -237,18 +237,18 @@ channelsSelectors.channelModalOpen = createSelector(
   channel => (!!channel)
 )
 
-channelsSelector.activeChannels = createSelector(
+const activeChannels = createSelector(
   channelsSelector,
   openChannels => openChannels.filter(channel => channel.active)
 )
 
-channelsSelector.closingPendingChannels = createSelector(
+const closingPendingChannels = createSelector(
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
   (pendingClosedChannels, pendingForcedClosedChannels) => [...pendingClosedChannels, ...pendingForcedClosedChannels]
 )
 
-channelsSelectors.allChannels = createSelector(
+const allChannels = createSelector(
   channelsSelector,
   pendingOpenChannelsSelector,
   pendingClosedChannelsSelector,
@@ -276,17 +276,41 @@ channelsSelectors.nonActiveFilters = createSelector(
   (filters, filter) => filters.filter(f => f.key !== filter.key)
 )
 
-const FILTERS = {
-  ALL_CHANNELS: channelsSelectors.allChannels,
-  ACTIVE_CHANNELS: channelsSelector.activeChannels,
-  OPEN_CHANNELS: channelsSelector,
-  OPEN_PENDING_CHANNELS: pendingOpenChannelsSelector,
-  CLOSING_PENDING_CHANNELS: channelsSelector.closingPendingChannels
-}
-
-channelsSelectors.currentChannels = createSelector(
+export const currentChannels = createSelector(
+  allChannels,
+  activeChannels,
+  channelsSelector,
+  pendingOpenChannelsSelector,
+  closingPendingChannels,
   filterSelector,
-  filter => FILTERS[filter.key]
+  channelSearchQuerySelector,
+  (allChannels, activeChannels, openChannels, pendingOpenChannels, pendingClosedChannels, filter, searchQuery) => {
+    // Helper function to deliver correct channel array based on filter
+    const filteredArray = filter => {
+      switch(filter) {
+        case 'ALL_CHANNELS':
+          return allChannels
+        case 'ACTIVE_CHANNELS':
+          return activeChannels
+        case 'OPEN_CHANNELS':
+          return openChannels
+        case 'OPEN_PENDING_CHANNELS':
+          return pendingOpenChannels
+        case 'CLOSING_PENDING_CHANNELS':
+          return pendingClosedChannels
+      }
+    }
+
+    const channelArray = filteredArray(filter.key)
+
+    console.log('channelArray: ', channelArray)
+    return channelArray.filter(channel => {
+      return Object.prototype.hasOwnProperty.call(channel, 'channel') ?
+        channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)
+        :
+        channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)
+    }) 
+  }
 )
 
 export { channelsSelectors }

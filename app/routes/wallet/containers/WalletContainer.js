@@ -45,8 +45,6 @@ const mapStateToProps = state => ({
   peers: state.peers,
   channels: state.channels,
 
-  allChannels: channelsSelectors.allChannels(state),
-
   peerModalOpen: peersSelectors.peerModalOpen(state),
   channelModalOpen: channelsSelectors.channelModalOpen(state),
 

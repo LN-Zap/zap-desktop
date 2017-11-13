@@ -6,6 +6,7 @@ import {
   openChannel,
   updateChannelSearchQuery,
   setViewType,
+  currentChannels,
 
   toggleFilterPulldown,
   changeFilter,
@@ -61,8 +62,7 @@ const mapStateToProps = state => ({
   network: state.network,
   identity_pubkey: state.info.data.identity_pubkey,
 
-  allChannels: channelsSelectors.allChannels(state),
-  currentChannels: channelsSelectors.currentChannels(state)(state),
+  currentChannels: currentChannels(state),
   activeChanIds: channelsSelectors.activeChanIds(state),
   nonActiveFilters: channelsSelectors.nonActiveFilters(state),
 

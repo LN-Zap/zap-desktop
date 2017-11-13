@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Channels from 'components/Channels'
 import Peers from 'components/Peers'
 import styles from './Wallet.scss'
 
@@ -27,7 +26,6 @@ class Wallet extends Component {
       setChannelForm,
       connectRequest,
       disconnectRequest,
-      allChannels,
       openChannel,
       closeChannel,
       currentTicker,
@@ -49,24 +47,6 @@ class Wallet extends Component {
             connect={connectRequest}
             disconnect={disconnectRequest}
           />
-          <Channels
-            fetchChannels={fetchChannels}
-            ticker={ticker}
-            peers={peers}
-            channelsLoading={channelsLoading}
-            allChannels={allChannels}
-            channels={channels}
-            pendingChannels={pendingChannels}
-            modalChannel={channel}
-            setChannel={setChannel}
-            channelModalOpen={channelModalOpen}
-            channelForm={channelForm}
-            setChannelForm={setChannelForm}
-            openChannel={openChannel}
-            closeChannel={closeChannel}
-            currentTicker={currentTicker}
-            explorerLinkBase={explorerLinkBase}
-          />
         </section>
       </div>
     )
@@ -87,7 +67,6 @@ Wallet.propTypes = {
   setChannelForm: PropTypes.func.isRequired,
   connectRequest: PropTypes.func.isRequired,
   disconnectRequest: PropTypes.func.isRequired,
-  allChannels: PropTypes.array.isRequired,
   openChannel: PropTypes.func.isRequired,
   closeChannel: PropTypes.func.isRequired,
   currentTicker: PropTypes.object.isRequired,
