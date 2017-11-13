@@ -47,8 +47,7 @@ class App extends Component {
       children
     } = this.props
 
-    // if (lnd.syncing) {
-    if (true) {
+    if (lnd.syncing) {
       return (
         <LndSyncing
           fetchBlockHeight={fetchBlockHeight}
