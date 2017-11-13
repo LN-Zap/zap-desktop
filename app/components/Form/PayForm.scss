@@ -62,12 +62,13 @@
     }
   }
   
-  input[type=number],, input[type=text] {
+  input[type=number], input[type=text] {
     width: 100px;
     font-size: 180px;
     border: none;
     outline: 0;
     -webkit-appearance: none;
+    font-weight: 200;
   }
 }
 

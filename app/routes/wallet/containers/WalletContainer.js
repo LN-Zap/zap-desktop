@@ -12,7 +12,6 @@ import {
 } from 'reducers/peers'
 import {
   fetchChannels,
-  fetchPendingChannels,
   setChannel,
   channelsSelectors,
   setChannelForm,
@@ -30,7 +29,6 @@ const mapDispatchToProps = {
   disconnectRequest,
 
   fetchChannels,
-  fetchPendingChannels,
   setChannel,
   openChannel,
   closeChannel,
@@ -46,8 +44,6 @@ const mapStateToProps = state => ({
 
   peers: state.peers,
   channels: state.channels,
-
-  allChannels: channelsSelectors.allChannels(state),
 
   peerModalOpen: peersSelectors.peerModalOpen(state),
   channelModalOpen: channelsSelectors.channelModalOpen(state),

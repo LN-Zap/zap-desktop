@@ -1,37 +1,24 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Channels from 'components/Channels'
 import Peers from 'components/Peers'
 import styles from './Wallet.scss'
 
 class Wallet extends Component {
   componentWillMount() {
-    const { fetchPeers, fetchChannels } = this.props
+    const { fetchPeers } = this.props
 
     fetchPeers()
-    fetchChannels()
   }
 
   render() {
     const {
-      ticker,
       peers: { peersLoading, peers, peer, peerForm },
-      channels: { channelsLoading, channels, channel, channelForm, pendingChannels },
       fetchPeers,
-      fetchChannels,
       setPeer,
-      setChannel,
       peerModalOpen,
-      channelModalOpen,
       setPeerForm,
-      setChannelForm,
       connectRequest,
-      disconnectRequest,
-      allChannels,
-      openChannel,
-      closeChannel,
-      currentTicker,
-      explorerLinkBase
+      disconnectRequest
     } = this.props
 
     return (
@@ -49,24 +36,6 @@ class Wallet extends Component {
             connect={connectRequest}
             disconnect={disconnectRequest}
           />
-          <Channels
-            fetchChannels={fetchChannels}
-            ticker={ticker}
-            peers={peers}
-            channelsLoading={channelsLoading}
-            allChannels={allChannels}
-            channels={channels}
-            pendingChannels={pendingChannels}
-            modalChannel={channel}
-            setChannel={setChannel}
-            channelModalOpen={channelModalOpen}
-            channelForm={channelForm}
-            setChannelForm={setChannelForm}
-            openChannel={openChannel}
-            closeChannel={closeChannel}
-            currentTicker={currentTicker}
-            explorerLinkBase={explorerLinkBase}
-          />
         </section>
       </div>
     )
@@ -75,23 +44,12 @@ class Wallet extends Component {
 
 Wallet.propTypes = {
   fetchPeers: PropTypes.func.isRequired,
-  fetchChannels: PropTypes.func.isRequired,
-  ticker: PropTypes.object.isRequired,
   peers: PropTypes.object.isRequired,
-  channels: PropTypes.object.isRequired,
   setPeer: PropTypes.func.isRequired,
-  setChannel: PropTypes.func.isRequired,
   peerModalOpen: PropTypes.bool.isRequired,
-  channelModalOpen: PropTypes.bool.isRequired,
   setPeerForm: PropTypes.func.isRequired,
-  setChannelForm: PropTypes.func.isRequired,
   connectRequest: PropTypes.func.isRequired,
-  disconnectRequest: PropTypes.func.isRequired,
-  allChannels: PropTypes.array.isRequired,
-  openChannel: PropTypes.func.isRequired,
-  closeChannel: PropTypes.func.isRequired,
-  currentTicker: PropTypes.object.isRequired,
-  explorerLinkBase: PropTypes.string.isRequired
+  disconnectRequest: PropTypes.func.isRequired
 }
 
 

@@ -2,12 +2,10 @@
 
 .channel {
 	position: relative;
-	background: $white;
+	background: $lightgrey;
+	margin: 5px 0;
 	padding: 10px;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	border-top: 1px solid $grey;
+	border-top: 1px solid $white;
 	cursor: pointer;
 	transition: all 0.25s;
 
@@ -19,21 +17,58 @@
 		border: none;
 	}
 
-	.status {
-		color: $main;
-		position: absolute;
-		top: 0;
-		left: 10px;
-		padding: 10px;
-		text-transform: uppercase;
-		font-weight: bold;
-		font-size: 10px;
+	.header {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+
+		.status, .active, .notactive {
+			padding: 10px;
+			text-transform: uppercase;
+			font-weight: bold;
+			font-size: 10px;
+		}
+
+		.status {
+			color: $main;
+		}
+
+		.active i, .notactive i {
+			margin-left: 5px;
+		}
+
+		.active {
+			color: $green;
+		}
+
+		.notactive {
+			color: $red;
+		}
+
+		.close {
+			padding: 10px;
+			font-size: 10px;
+			text-transform: uppercase;
+			color: $red;
+			cursor: pointer;
+
+			&:hover {
+				color: lighten($red, 10%);
+				text-decoration: underline;
+			}
+		}
 	}
+
+	.content {
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
 
 	.left, .right {
 		padding: 0 10px;
 		margin-bottom: 5;
-		margin-top: 25px;
 
 		section {
 			margin-bottom: 20px;
@@ -60,7 +95,6 @@
 
 	.left {
 		flex: 7;
-		border-right: 1px solid $grey;
 	}
 
 	.right {
@@ -68,7 +102,6 @@
 
 		.capacity {
 			text-align: center;
-			border-bottom: 1px solid $grey;
 			margin-bottom: 10px;
 		}
 
@@ -83,10 +116,6 @@
 				h4 {
 					color: $main;
 					font-size: 16px;
-				}
-
-				&:first-child {
-					border-right: 1px solid $grey;
 				}
 			}
 		}

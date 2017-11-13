@@ -37,6 +37,8 @@
     "files": [
       "dist/",
       "resources/",
+      "resources/icons/wallet.svg",
+      "resources/icons/peers.svg",
       "node_modules/",
       "app.html",
       "main.prod.js",
@@ -45,7 +47,6 @@
       "rpc.proto"
     ],
     "dmg": {
-      "icon": "./resources/zap_2.icns",
       "contents": [
         {
           "x": 130,
@@ -60,7 +61,6 @@
       ]
     },
     "win": {
-      "icon": "./resources/zap_2.ico",
       "target": [
         "nsis"
       ]
@@ -77,11 +77,8 @@
     },
     "extraResources": [
       "**/resources/bin/darwin/lnd",
-      "**/resources/bin/linux/lnd",
-      "**/resources/bin/win32/lnd",
-      "**/resources/scripts/*",
-      "**/resources/zap_2.svg",
-      "**/resources/cloudbolt.svg"
+      "**/resources/scripts/darwin_generate_certs.sh",
+      "**/resources/icons/*"
     ]
   },
   "repository": {
@@ -221,6 +218,7 @@
     "react-router-redux": "^5.0.0-alpha.6",
     "react-svg": "^2.1.21",
     "react-svg-morph": "^0.1.10",
+    "react-vis-force": "^0.3.1",
     "react-websocket": "^1.1.7",
     "redux": "^3.7.1",
     "redux-electron-ipc": "^1.1.10",

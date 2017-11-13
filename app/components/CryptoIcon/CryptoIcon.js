@@ -1,15 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import path from 'path'
-import { FaBitcoin } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
+
+import skinnyBitcoinIcon from 'icons/skinny_bitcoin.svg'
+import litecoinIcon from 'icons/litecoin.svg'
 
 const CryptoIcon = ({ currency, styles }) => {
   switch (currency) {
     case 'btc':
-      return <FaBitcoin style={styles} />
+      return <Isvg style={styles} src={skinnyBitcoinIcon} />
     case 'ltc':
-      return <Isvg style={styles} src={path.join(__dirname, '..', 'resources/litecoin.svg')} />
+      return <Isvg style={styles} src={litecoinIcon} />
     default:
       return <span />
   }
