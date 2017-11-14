@@ -32,9 +32,23 @@ export const lndSynced = () => (dispatch) => {
 }
 
 // Receive IPC event for LND streaming a line
-export const lndStdout = (event, lndBlockHeight) => dispatch => (
-  dispatch({ type: RECEIVE_LINE, lndBlockHeight: lndBlockHeight.split(' ')[0].split(/(\r\n|\n|\r)/gm)[0] })
-)
+export const lndStdout = (event, line) => dispatch => {
+  let height
+  let trimmed
+
+  if (line.includes('Caught up to height')) {
+    trimmed = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
+    height = trimmed.split(' ')[0].split(/(\r\n|\n|\r)/gm)[0]
+  }
+
+  if (line.includes('Catching up block hashes to height')) {
+    trimmed = line.slice(line.indexOf('Catching up block hashes to height') + 'Catching up block hashes to height'.length).trim()
+    height = trimmed.match(/[-]{0,1}[\d.]*[\d]+/g)[0]
+  }
+  
+  dispatch({ type: RECEIVE_LINE, lndBlockHeight: height })
+}
+
 
 export function getBlockHeight() {
   return {

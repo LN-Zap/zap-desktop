@@ -191,16 +191,16 @@ const startLnd = () => {
     }
 
     // Pass current clock height progress to front end for loading state UX
-    if (line.includes('Caught up to height')) {
+    if (line.includes('Caught up to height') || line.includes('Catching up block hashes to height')) {
+      // const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
       const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
-      mainWindow.webContents.send('lndStdout', blockHeight)
+      mainWindow.webContents.send('lndStdout', line)
     }
 
     // When LND is all caught up to the blockchain
     if (line.includes('Chain backend is fully synced')) {
       // Log that LND is caught up to the current block height
       console.log('NEUTRINO IS SYNCED')
-      // Check for certs to exists before we do things
 
       // Let the front end know we have stopped syncing LND
       syncing = false
