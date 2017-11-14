@@ -36,9 +36,6 @@
     "appId": "org.develar.ZapDesktop",
     "files": [
       "dist/",
-      "resources/",
-      "resources/icons/wallet.svg",
-      "resources/icons/peers.svg",
       "node_modules/",
       "app.html",
       "main.prod.js",
@@ -47,6 +44,7 @@
       "rpc.proto"
     ],
     "dmg": {
+      "icon": "./resources/icon.icns",
       "contents": [
         {
           "x": 130,
@@ -76,9 +74,7 @@
       "output": "release"
     },
     "extraResources": [
-      "**/resources/bin/darwin/lnd",
-      "**/resources/scripts/darwin_generate_certs.sh",
-      "**/resources/icons/*"
+      "**/resources/bin/darwin/lnd"
     ]
   },
   "repository": {

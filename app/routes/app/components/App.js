@@ -58,7 +58,6 @@ class App extends Component {
     }
 
     if (!currentTicker || balance.balanceLoading) { return <LoadingBolt /> }
-    // return <LoadingBolt />
 
     return (
       <div>
