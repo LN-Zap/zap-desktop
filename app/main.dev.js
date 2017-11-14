@@ -75,10 +75,13 @@ app.on('ready', async () => {
     await installExtensions();
   }
 
+  let icon = path.join(__dirname, '..', 'resources', 'icon.icns')
+  console.log('icon: ', icon)
   mainWindow = new BrowserWindow({
     show: false,
     frame: false,
-    nodeIntegration: false
+    nodeIntegration: false,
+    icon: icon
   })
 
   mainWindow.maximize();

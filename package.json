@@ -44,6 +44,7 @@
       "rpc.proto"
     ],
     "dmg": {
+      "icon": "./resources/icon.icns",
       "contents": [
         {
           "x": 130,
