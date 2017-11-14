@@ -36,7 +36,6 @@
     "appId": "org.develar.ZapDesktop",
     "files": [
       "dist/",
-      "resources/",
       "node_modules/",
       "app.html",
       "main.prod.js",
@@ -72,7 +71,10 @@
     "directories": {
       "buildResources": "resources",
       "output": "release"
-    }
+    },
+    "extraResources": [
+      "**/resources/bin/darwin/lnd"
+    ]
   },
   "repository": {
     "type": "git",
