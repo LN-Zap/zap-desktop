@@ -181,6 +181,16 @@ export const pushclosechannelstatus = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
+// IPC event for channel graph data
+export const channelGraphData = (event, data) => (dispatch) => {
+  console.log('channelGraphData: ', data)
+}
+
+// IPC event for channel graph status
+export const channelGraphStatus = (event, data) => (dispatch) => {
+  console.log('channelGraphStatus: ', data)
+}
+
 export function toggleFilterPulldown() {
   return {
     type: TOGGLE_PULLDOWN
