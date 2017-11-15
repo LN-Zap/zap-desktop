@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron'
 import { btc } from 'utils'
 import { closeChannelForm } from './channelform'
 import { setError } from './error'
+import { showNotification } from 'notifications'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -182,8 +183,32 @@ export const pushclosechannelstatus = () => (dispatch) => {
 }
 
 // IPC event for channel graph data
-export const channelGraphData = (event, data) => (dispatch) => {
+export const channelGraphData = (event, data) => (dispatch, getState) => {
+  const info = getState().info
+
+  console.log('info: ', info)
   console.log('channelGraphData: ', data)
+  const { channelGraphData: { channel_updates } } = data
+
+  // if there are any new channel updates
+  if (channel_updates.length) {
+    // loop through the channel updates
+    for(let i = 0; i < channel_updates.length; i++) {
+      let channel_update = channel_updates[i]
+      let { advertising_node, connecting_node } = channel_update
+
+      // if our node is involved in this update we wanna show a notification
+      if(info.data.identity_pubkey === advertising_node || info.data.identity_pubkey === connecting_node) {
+
+        let otherParty = info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
+        let notifBody = `No new friends, just new channels. Your channel with ${otherParty}` // eslint-disable-line
+        const notifTitle = 'New channel detected'
+
+        // HTML 5 notification for channel updates involving our node
+        showNotification(notifTitle, notifBody)
+      }
+    }
+  }
 }
 
 // IPC event for channel graph status
