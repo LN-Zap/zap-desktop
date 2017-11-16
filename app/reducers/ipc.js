@@ -17,8 +17,10 @@ import {
   pushclosechannelupdated,
   pushclosechannelend,
   pushclosechannelerror,
-  pushclosechannelstatus
+  pushclosechannelstatus,
 
+  channelGraphData,
+  channelGraphStatus
 } from './channels'
 import { lightningPaymentUri } from './payform'
 import { receivePayments, paymentSuccessful, paymentFailed } from './payment'
@@ -70,6 +72,8 @@ const ipc = createIpc({
   pushclosechannelend,
   pushclosechannelerror,
   pushclosechannelstatus,
+  channelGraphData,
+  channelGraphStatus,
 
   connectSuccess,
   connectFailure,

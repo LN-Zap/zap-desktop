@@ -115,7 +115,7 @@ class Channels extends Component {
               }
             </ul>
           </section>
-          <section className={`${styles.refreshContainer} hint--left`} data-hint='Refresh your peers list'>
+          <section className={`${styles.refreshContainer} hint--left`} data-hint='Refresh your channels list'>
             <FaRepeat
               style={{ verticalAlign: 'baseline' }}
               onClick={refreshClicked}
