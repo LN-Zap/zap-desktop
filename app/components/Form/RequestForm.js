@@ -38,7 +38,7 @@ const RequestForm = ({
       />
     </section>
     <section className={styles.buttonGroup}>
-      <div className={styles.button} onClick={onRequestSubmit}>
+      <div className={`buttonPrimary ${styles.button}`} onClick={onRequestSubmit}>
           Request
       </div>
     </section>
