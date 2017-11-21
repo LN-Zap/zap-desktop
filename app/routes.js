@@ -14,4 +14,4 @@ export default () => (
       <Route path='/' component={Activity} />
     </Switch>
   </App>
-);
+)
