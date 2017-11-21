@@ -24,11 +24,15 @@ export function getAddress() {
 // Send IPC event for getinfo
 export const newAddress = type => async (dispatch) => {
   dispatch(getAddress())
+  console.log('getting new address type: ', addressTypes[type])
   ipcRenderer.send('lnd', { msg: 'newaddress', data: { type: addressTypes[type] } })
 }
 
 // Receive IPC event for info
-export const receiveAddress = (event, address) => dispatch => dispatch({ type: RECEIVE_ADDRESS, address })
+export const receiveAddress = (event, address) => dispatch => {
+  console.log('address: ', address)
+  dispatch({ type: RECEIVE_ADDRESS, address })
+}
 
 // ------------------------------------
 // Action Handlers
