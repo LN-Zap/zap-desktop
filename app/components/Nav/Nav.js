@@ -38,13 +38,6 @@ const Nav = ({ openPayForm, openRequestForm }) => (
           <span>Channels</span>
         </li>
       </NavLink>
-      <NavLink exact to='/settings' activeClassName={styles.active} className={styles.link}>
-        <span className={styles.activeBorder} />
-        <li>
-          <Isvg styles={{ verticalAlign: 'middle' }} src={settingsIcon} />
-          <span>Settings</span>
-        </li>
-      </NavLink>
     </ul>
     <div className={styles.buttons}>
       <div className={`buttonPrimary ${styles.button}`} onClick={openPayForm}>

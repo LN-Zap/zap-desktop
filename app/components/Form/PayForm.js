@@ -108,7 +108,7 @@ class PayForm extends Component {
           </section>
         </div>
         <section className={styles.buttonGroup}>
-          <div className={`${styles.button} ${isValid && styles.active}`} onClick={onPaySubmit}>Pay</div>
+          <div className={`buttonPrimary ${styles.button} ${isValid && styles.active}`} onClick={onPaySubmit}>Pay</div>
         </section>
       </div>
     )

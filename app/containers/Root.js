@@ -1,20 +1,55 @@
 // @flow
 import React from 'react'
-import { Provider } from 'react-redux'
+import { Provider, connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
+import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
+import LndSyncing from 'components/LndSyncing'
 import Routes from '../routes'
+
+const mapDispatchToProps = {
+  fetchBlockHeight
+}
+
+const mapStateToProps = state => ({
+  lnd: state.lnd,
+
+  syncPercentage: lndSelectors.syncPercentage(state)
+})
 
 type RootType = {
   store: {},
   history: {}
 };
 
-export default function Root({ store, history }: RootType) {
-  return (
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Routes />
-      </ConnectedRouter>
-    </Provider>
-  )
-}
+class Root extends React.Component {
+  render() {
+    const {
+      store,
+      history,
+      lnd,
+      fetchBlockHeight,
+      syncPercentage
+    } = this.props
+    
+    if (lnd.syncing) {
+      return (
+        <LndSyncing
+          fetchBlockHeight={fetchBlockHeight}
+          fetchingBlockHeight={lnd.fetchingBlockHeight}
+          syncPercentage={syncPercentage}
+        />
+      )
+    }
+
+    return (
+      <Provider store={store}>
+        <ConnectedRouter history={history}>
+          <Routes />
+        </ConnectedRouter>
+      </Provider>
+    )
+  }
+} 
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(Root)
