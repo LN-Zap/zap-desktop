@@ -156,21 +156,12 @@
   overflow: hidden;
 
   .button {
-    height: 55px;
-    min-height: 55px;
-    text-transform: none;
-    font-size: 18px;
-    transition: opacity .2s ease-out;
-    background: $main;
-    color: $white;
-    border: none;
-    font-weight: 500;
-    padding: 0;
     width: 100%;
-    text-align: center;
-    line-height: 55px;
-    opacity: 0.5;
-    cursor: default;
+    margin-bottom: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: .2px;
 
     &:first-child {
       border-right: 1px solid lighten($main, 20%);

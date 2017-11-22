@@ -13,12 +13,10 @@ class App extends Component {
   componentWillMount() {
     const { fetchTicker, fetchBalance, fetchInfo, newAddress, lnd: { syncing } } = this.props
 
-    if (!syncing) {
-      fetchTicker()
-      fetchBalance()
-      fetchInfo()
-      newAddress('p2pkh')
-    }
+    fetchTicker()
+    fetchBalance()
+    fetchInfo()
+    newAddress('p2pkh')
   }
 
   render() {
@@ -46,16 +44,6 @@ class App extends Component {
 
       children
     } = this.props
-
-    if (lnd.syncing) {
-      return (
-        <LndSyncing
-          fetchBlockHeight={fetchBlockHeight}
-          fetchingBlockHeight={lnd.fetchingBlockHeight}
-          syncPercentage={syncPercentage}
-        />
-      )
-    }
 
     if (!currentTicker || balance.balanceLoading) { return <LoadingBolt /> }
 
