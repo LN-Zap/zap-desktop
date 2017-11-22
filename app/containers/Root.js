@@ -11,6 +11,8 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = state => ({
+  lnd: state.lnd,
+
   syncPercentage: lndSelectors.syncPercentage(state)
 })
 
@@ -21,9 +23,14 @@ type RootType = {
 
 class Root extends React.Component {
   render() {
-    const { store, history, fetchBlockHeight, syncPercentage } = this.props
-    const { lnd } = store.getState()
-
+    const {
+      store,
+      history,
+      lnd,
+      fetchBlockHeight,
+      syncPercentage
+    } = this.props
+    
     if (lnd.syncing) {
       return (
         <LndSyncing
