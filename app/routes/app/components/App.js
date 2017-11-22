@@ -45,10 +45,7 @@ class App extends Component {
       children
     } = this.props
 
-
-    if (!currentTicker || balance.balanceLoading) { 
-      return <LoadingBolt />
-    }
+    if (!currentTicker || balance.balanceLoading) { return <LoadingBolt /> }
 
     return (
       <div>
