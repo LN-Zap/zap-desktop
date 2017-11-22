@@ -15,10 +15,7 @@ Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjYzNDQyMTQx
 
 ## Requirements
 
-* **An up and running LND** - see [install.md](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md)
 * **Node.js version >= 7 and npm version >= 4.**
-
-*For now Zap assumes you are running LND on your own*
 
 ## Install
 
@@ -29,33 +26,12 @@ After installing the above requirements, clone the repo via git:
 git clone https://github.com/LN-Zap/zap-desktop.git
 ```
 
-After the repo is cloned, you'll want to generate a Node.js compatible cert
-```bash
-# For Linux
-$ cd ~/.lnd
-# For Mac
-$ cd ~/Library/Application\ Support/Lnd
-# For Windows
-$ cd \Users\{your_user_name}\AppData\Local\Lnd
-
-# Then generate the cert
-$ openssl ecparam -genkey -name prime256v1 -out tls.key
-$ openssl req -new -sha256 -key tls.key -out csr.csr -subj '/CN=localhost/O=lnd'
-$ openssl req -x509 -sha256 -days 3650 -key tls.key -in csr.csr -out tls.cert
-$ rm csr.csr
-```
-
-And then install dependencies with yarn
+And then install dependencies with yarn + install grpc
 
 ```bash
 $ cd zap-desktop
 $ yarn
-
-# For Mac & Linux
-$ ./node_modules/.bin/electron-rebuild
-
-# For Windows
-$ .\node_modules\.bin\electron-rebuild.cmd
+$ npm run install-grpc
 ```
 
 Then to start it:
@@ -100,7 +76,3 @@ If you see issues please report with screenshots and/or how to reproduce the bug
 `User wants to create a payment request`
 
 `User wants to make a payment`
-
-`User wants to view the application in USD`
-
-`User wants to search for a payment request`
