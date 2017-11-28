@@ -14,6 +14,8 @@ export const RECEIVE_LINE = 'RECEIVE_LINE'
 export const GET_BLOCK_HEIGHT = 'GET_BLOCK_HEIGHT'
 export const RECEIVE_BLOCK_HEIGHT = 'RECEIVE_BLOCK_HEIGHT'
 
+export const GRPC_STARTED = 'GRPC_STARTED'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -29,6 +31,11 @@ export const lndSynced = () => (dispatch) => {
   dispatch(fetchInfo())
 
   dispatch({ type: STOP_SYNCING })
+}
+
+export const grpcStarted = () => (dispatch) => {
+  console.log('hello????')
+  dispatch({ type: GRPC_STARTED })
 }
 
 // Receive IPC event for LND streaming a line
@@ -80,7 +87,9 @@ const ACTION_HANDLERS = {
   [RECEIVE_LINE]: (state, { lndBlockHeight }) => ({ ...state, lndBlockHeight }),
 
   [GET_BLOCK_HEIGHT]: state => ({ ...state, fetchingBlockHeight: true }),
-  [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({ ...state, blockHeight, fetchingBlockHeight: false })
+  [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({ ...state, blockHeight, fetchingBlockHeight: false }),
+  
+  [GRPC_STARTED]: state => ({ ...state, grpcStarted: true })
 }
 
 // ------------------------------------
@@ -88,6 +97,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   syncing: false,
+  grpcStarted: false,
   fetchingBlockHeight: false,
   lines: [],
   blockHeight: 0,

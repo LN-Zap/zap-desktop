@@ -3,6 +3,7 @@ import React from 'react'
 import { Provider, connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
+import LoadingBolt from 'components/LoadingBolt'
 import LndSyncing from 'components/LndSyncing'
 import Routes from '../routes'
 
@@ -30,7 +31,7 @@ class Root extends React.Component {
       fetchBlockHeight,
       syncPercentage
     } = this.props
-    
+
     if (lnd.syncing) {
       return (
         <LndSyncing
@@ -40,6 +41,8 @@ class Root extends React.Component {
         />
       )
     }
+
+    if (!lnd.grpcStarted) { return <LoadingBolt /> }
 
     return (
       <Provider store={store}>

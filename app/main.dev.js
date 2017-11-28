@@ -24,7 +24,8 @@ const plat = os.platform()
 const homedir = os.homedir()
 let mainWindow = null
 let neutrino = null
-let syncing = false
+
+let didFinishLoad = false
 
 let lndPath
 let certPath
@@ -84,7 +85,7 @@ app.on('ready', async () => {
     icon: icon
   })
 
-  mainWindow.maximize();
+  mainWindow.maximize()
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
 
@@ -98,9 +99,8 @@ app.on('ready', async () => {
     mainWindow.show()
     mainWindow.focus()
 
-    if (syncing) {
-      mainWindow.webContents.send('lndSyncing')
-    }
+    // now sync and grpc events can be fired to the front end
+    didFinishLoad = true
   })
 
   mainWindow.on('closed', () => {
@@ -117,9 +117,6 @@ app.on('ready', async () => {
 
     // No LND process was found
     if (!results.length) {
-      // Let the front end know we have started syncing LND
-      syncing = true
-  
       // Assign path to certs to certPath
       switch (os.platform()) {
         case 'darwin':
@@ -206,8 +203,7 @@ const startLnd = () => {
       console.log('NEUTRINO IS SYNCED')
 
       // Let the front end know we have stopped syncing LND
-      syncing = false
-      mainWindow.webContents.send('lndSynced')
+      sendLndSynced()
     }
   })
 }
@@ -222,5 +218,29 @@ const startGrpc = () => {
     ipcMain.on('lnd', (event, { msg, data }) => {
       lndMethods(event, msg, data)
     })
+
+    sendGrpcStarted()
   })
+}
+
+// Send the front end event letting them know LND is synced to the blockchain
+const sendLndSynced = () => {
+  let sendLndSyncedInterval = setInterval(() => {
+    if (didFinishLoad) {
+      clearInterval(sendLndSyncedInterval)
+
+      mainWindow.webContents.send('lndSynced')
+    }
+  }, 1000)
+}
+
+// Send the front end event letting them know the gRPC connection has started
+const sendGrpcStarted = () => {
+  let sendGrpcStartedInterval = setInterval(() => {
+    if (didFinishLoad) {
+      clearInterval(sendGrpcStartedInterval)
+
+      mainWindow.webContents.send('grpcStarted')
+    }
+  }, 1000)
 }

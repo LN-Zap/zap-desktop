@@ -24,6 +24,7 @@ import * as networkController from './networkController'
 
 
 export default function (lnd, event, msg, data) {
+  console.log('msg: ', msg)
   switch (msg) {
     case 'info':
       networkController.getInfo(lnd)
@@ -31,7 +32,10 @@ export default function (lnd, event, msg, data) {
           event.sender.send('receiveInfo', infoData)
           event.sender.send('receiveCryptocurrency', infoData.chains[0])
         })
-        .catch(error => console.log('info error: ', error))
+        .catch(error => {
+          console.log('error: ', error)
+          event.sender.send('infoFailed')
+        })
       break
     case 'describeNetwork':
       networkController.describeGraph(lnd)
