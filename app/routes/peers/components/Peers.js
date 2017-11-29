@@ -4,16 +4,23 @@ import PropTypes from 'prop-types'
 import { MdSearch } from 'react-icons/lib/md'
 
 import PeerForm from 'components/Peers/PeerForm'
+import Peer from 'components/Peers/Peer'
 
 import styles from './Peers.scss'
 
 class Peers extends Component {
+  componentWillMount() {
+    this.props.fetchPeers()
+  }
+
   render() {
     const { 
       peerFormProps,
       setPeerForm,
+      setPeer,
       peers: { peers }
     } = this.props
+
     console.log('props: ', this.props)
 
     return (
@@ -43,7 +50,12 @@ class Peers extends Component {
         </header>
 
         <div className={styles.peers}>
-
+          {
+            peers.map(peer => {
+              console.log('peer: ', peer)
+              return (<Peer key={peer.peer_id} peer={peer} setPeer={setPeer} />)
+            })
+          }
         </div>
       </div>
     )
