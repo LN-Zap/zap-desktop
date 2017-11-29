@@ -32,6 +32,9 @@ class Root extends React.Component {
       syncPercentage
     } = this.props
 
+    console.log('lnd: ', lnd)
+    console.log('lnd: ', lnd)
+    
     if (lnd.syncing) {
       return (
         <LndSyncing

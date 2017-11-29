@@ -12,9 +12,9 @@
  * @flow
  */
 import { app, BrowserWindow, ipcMain } from 'electron'
-import fs from 'fs'
 import path from 'path'
-import { spawn, exec } from 'child_process'
+import fs from 'fs'
+import { spawn } from 'child_process'
 import { lookup } from 'ps-node'
 import os from 'os'
 import MenuBuilder from './menu'
@@ -23,11 +23,9 @@ import lnd from './lnd'
 const plat = os.platform()
 const homedir = os.homedir()
 let mainWindow = null
-let neutrino = null
 
 let didFinishLoad = false
 
-let lndPath
 let certPath
 let certInterval
 
@@ -118,6 +116,8 @@ app.on('ready', async () => {
     // No LND process was found
     if (!results.length) {
       // Assign path to certs to certPath
+      sendLndSyncing()
+
       switch (os.platform()) {
         case 'darwin':
           certPath = path.join(homedir, 'Library/Application\ Support/Lnd/tls.cert')
@@ -153,10 +153,11 @@ app.on('open-url', function (event, url) {
 })
 
 // Starts the LND node
-const startLnd = () => {
-  lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
+// export const startLnd = (plat, certPath, mainWindow, startGrpc, sendLndSynced) => {
+export const startLnd = () => {
+  const lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
 
-  neutrino = spawn(lndPath,
+  const neutrino = spawn(lndPath,
       [
         '--bitcoin.active',
         '--bitcoin.testnet',
@@ -180,7 +181,7 @@ const startLnd = () => {
 
     // If the gRPC proxy has started we can start ours 
     if (line.includes('gRPC proxy started')) {
-      certInterval = setInterval(() => {
+      let certInterval = setInterval(() => {
         if (fs.existsSync(certPath)) {
           clearInterval(certInterval)
           
@@ -221,6 +222,17 @@ const startGrpc = () => {
 
     sendGrpcStarted()
   })
+}
+
+// Send the front end event letting them know LND is synced to the blockchain
+const sendLndSyncing = () => {
+  let sendLndSyncingInterval = setInterval(() => {
+    if (didFinishLoad) {
+      clearInterval(sendLndSyncingInterval)
+
+      mainWindow.webContents.send('lndSyncing')
+    }
+  }, 1000)
 }
 
 // Send the front end event letting them know LND is synced to the blockchain
