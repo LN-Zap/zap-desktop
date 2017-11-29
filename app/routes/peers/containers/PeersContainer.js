@@ -4,10 +4,12 @@ import { connect } from 'react-redux'
 import { 
   fetchPeers,
   setPeer,
-  peersSelectors,
   setPeerForm,
   connectRequest,
-  disconnectRequest
+  disconnectRequest,
+  updateSearchQuery,
+
+  peersSelectors
 } from 'reducers/peers'
 
 import Peers from '../components/Peers'
@@ -18,11 +20,15 @@ const mapDispatchToProps = {
   peersSelectors,
   setPeerForm,
   connectRequest,
-  disconnectRequest
+  disconnectRequest,
+  updateSearchQuery
 }
 
 const mapStateToProps = state => ({
-  peers: state.peers
+  peers: state.peers,
+
+  peerModalOpen: peersSelectors.peerModalOpen(state),
+  filteredPeers: peersSelectors.filteredPeers(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {

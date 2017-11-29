@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { MdSearch } from 'react-icons/lib/md'
 
 import PeerForm from 'components/Peers/PeerForm'
+import PeerModal from 'components/Peers/PeerModal'
 import Peer from 'components/Peers/Peer'
 
 import styles from './Peers.scss'
@@ -18,24 +19,29 @@ class Peers extends Component {
       peerFormProps,
       setPeerForm,
       setPeer,
-      peers: { peers }
-    } = this.props
+      updateSearchQuery,
+      disconnectRequest,
 
-    console.log('props: ', this.props)
+      peerModalOpen,
+      filteredPeers,
+      peers: { peer, searchQuery }
+    } = this.props
 
     return (
       <div>
         <div className={styles.search}>
           <PeerForm {...peerFormProps} />
 
+          <PeerModal isOpen={peerModalOpen} resetPeer={setPeer} peer={peer} disconnect={disconnectRequest} />
+
           <label className={`${styles.label} ${styles.input}`} htmlFor='channelSearch'>
             <MdSearch />
           </label>
           <input
-            value={''}
-            onChange={event => console.log('event: ', event)}
+            value={searchQuery}
+            onChange={event => updateSearchQuery(event.target.value)}
             className={`${styles.text} ${styles.input}`}
-            placeholder='Search peers by their node public key'
+            placeholder='Search peers by their node public key or IP address'
             type='text'
             id='peersSearch'
           />
@@ -51,10 +57,7 @@ class Peers extends Component {
 
         <div className={styles.peers}>
           {
-            peers.map(peer => {
-              console.log('peer: ', peer)
-              return (<Peer key={peer.peer_id} peer={peer} setPeer={setPeer} />)
-            })
+            filteredPeers.map(filteredPeer => <Peer key={filteredPeer.peer_id} peer={filteredPeer} setPeer={setPeer} />)
           }
         </div>
       </div>
