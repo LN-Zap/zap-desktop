@@ -9,22 +9,6 @@ const PeerForm = ({ form, setForm, connect }) => {
     connect({ pubkey, host })
   }
 
-  const customStyles = {
-    overlay: {
-      cursor: 'pointer',
-      overflowY: 'auto'
-    },
-    content: {
-      top: 'auto',
-      left: '20%',
-      right: '0',
-      bottom: 'auto',
-      width: '40%',
-      margin: '50px auto',
-      padding: '40px'
-    }
-  }
-
   return (
     <div>
       <ReactModal
@@ -34,7 +18,7 @@ const PeerForm = ({ form, setForm, connect }) => {
         shouldCloseOnOverlayClick
         onRequestClose={() => setForm({ isOpen: false })}
         parentSelector={() => document.body}
-        style={customStyles}
+        className={styles.modal}
       >
         <div className={styles.form}>
           <h1 className={styles.title}>Connect to a peer</h1>
@@ -62,8 +46,8 @@ const PeerForm = ({ form, setForm, connect }) => {
             />
           </section>
 
-          <div className={styles.buttonGroup}>
-            <div className={styles.button} onClick={submit}>
+          <div className='buttonContainer' onClick={submit}>
+            <div className='buttonPrimary'>
               Submit
             </div>
           </div>

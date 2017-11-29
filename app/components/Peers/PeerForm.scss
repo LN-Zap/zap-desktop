@@ -1,5 +1,21 @@
 @import '../../variables.scss';
 
+.modal {
+  position: relative;
+  width: 40%;
+  margin: 50px auto;
+  padding: 40px;
+  position: absolute;
+  top: auto;
+  left: 20%;
+  right: 0;
+  bottom: auto;
+  background: $white;
+  outline: none;
+  z-index: -2;
+  border: 1px solid $darkgrey;
+}
+
 .title {
 	text-align: center;
 	font-size: 24px;
