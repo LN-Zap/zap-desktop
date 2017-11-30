@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron'
 import { showNotification } from '../notifications'
 import { btc, usd } from '../utils'
+import { newAddress } from './address'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { resetPayForm } from './payform'
@@ -85,6 +86,9 @@ export const newTransaction = (event, { transaction }) => (dispatch) => {
   const notifBody = transaction.amount > 0 ? 'Lucky you, you just received a new on-chain transaction. I\'m jealous.' : 'Hate to see \'em go but love to watch \'em leave. Your on-chain transaction successfully sent.' // eslint-disable-line
 
   showNotification(notifTitle, notifBody)
+
+  // Generate a new address
+  dispatch(newAddress('p2pkh'))
 }
 
 

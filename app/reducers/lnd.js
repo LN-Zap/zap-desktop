@@ -3,6 +3,7 @@ import { fetchTicker } from './ticker'
 import { fetchBalance } from './balance'
 import { fetchInfo } from './info'
 import { requestBlockHeight } from '../api'
+import { showNotification } from '../notifications'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -32,6 +33,12 @@ export const lndSynced = () => (dispatch) => {
   dispatch(fetchInfo())
 
   dispatch({ type: STOP_SYNCING })
+
+  // HTML 5 desktop notification for the new transaction
+  const notifTitle = 'Lightning Node Synced'
+  const notifBody = 'Visa who? You\'re your own payment processor now!'
+
+  showNotification(notifTitle, notifBody)
 }
 
 export const grpcDisconnected = () => (dispatch) => dispatch({ type: GRPC_DISCONNECTED })
