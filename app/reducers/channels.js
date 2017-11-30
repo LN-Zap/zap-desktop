@@ -28,7 +28,7 @@ export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
 
 export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
-export const CHANGE_FILTER = 'CHANGE_FILTER'
+export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
 
 // ------------------------------------
 // Actions
@@ -229,7 +229,7 @@ export function toggleFilterPulldown() {
 
 export function changeFilter(filter) {
   return {
-    type: CHANGE_FILTER,
+    type: CHANGE_CHANNEL_FILTER,
     filter
   }
 }
@@ -259,7 +259,7 @@ const ACTION_HANDLERS = {
   [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
 
   [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
-  [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter })
+  [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter })
 }
 
 const channelsSelectors = {}
