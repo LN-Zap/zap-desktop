@@ -41,12 +41,12 @@ export const lndSynced = () => (dispatch) => {
   showNotification(notifTitle, notifBody)
 }
 
-export const grpcDisconnected = () => (dispatch) => dispatch({ type: GRPC_DISCONNECTED })
+export const grpcDisconnected = () => dispatch => dispatch({ type: GRPC_DISCONNECTED })
 
-export const grpcConnected = () => (dispatch) => dispatch({ type: GRPC_CONNECTED })
+export const grpcConnected = () => dispatch => dispatch({ type: GRPC_CONNECTED })
 
 // Receive IPC event for LND streaming a line
-export const lndStdout = (event, line) => dispatch => {
+export const lndStdout = (event, line) => (dispatch) => {
   let height
   let trimmed
 
@@ -59,7 +59,7 @@ export const lndStdout = (event, line) => dispatch => {
     trimmed = line.slice(line.indexOf('Catching up block hashes to height') + 'Catching up block hashes to height'.length).trim()
     height = trimmed.match(/[-]{0,1}[\d.]*[\d]+/g)[0]
   }
-  
+
   dispatch({ type: RECEIVE_LINE, lndBlockHeight: height })
 }
 
@@ -95,7 +95,7 @@ const ACTION_HANDLERS = {
 
   [GET_BLOCK_HEIGHT]: state => ({ ...state, fetchingBlockHeight: true }),
   [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({ ...state, blockHeight, fetchingBlockHeight: false }),
-  
+
   [GRPC_DISCONNECTED]: state => ({ ...state, grpcStarted: false }),
   [GRPC_CONNECTED]: state => ({ ...state, grpcStarted: true })
 }

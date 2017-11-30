@@ -17,11 +17,6 @@ const mapStateToProps = state => ({
   syncPercentage: lndSelectors.syncPercentage(state)
 })
 
-type RootType = {
-  store: {},
-  history: {}
-};
-
 class Root extends React.Component {
   render() {
     const {
@@ -34,7 +29,7 @@ class Root extends React.Component {
 
     console.log('lnd: ', lnd)
     console.log('lnd: ', lnd)
-    
+
     if (lnd.syncing) {
       return (
         <LndSyncing
@@ -55,7 +50,8 @@ class Root extends React.Component {
       </Provider>
     )
   }
-} 
+}
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root)
+

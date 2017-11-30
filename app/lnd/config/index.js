@@ -8,7 +8,7 @@ import { join } from 'path'
 let loc
 switch (platform()) {
   case 'darwin':
-    loc = 'Library/Application\ Support/Lnd/tls.cert'
+    loc = 'Library/Application Support/Lnd/tls.cert'
     break
   case 'linux':
     loc = '.lnd/tls.cert'

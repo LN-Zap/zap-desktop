@@ -19,8 +19,8 @@ export function decodeInvoice(payreq) {
       + bufferHexRotated.substr(0, bufferHexRotated.length - 1)
   const buffer = Buffer.from(bufferHex, 'hex')
 
-  const pubkeyBuffer = buffer.slice(0, 33);
-  const pubkey = pubkeyBuffer.toString('hex');
+  const pubkeyBuffer = buffer.slice(0, 33)
+  const pubkey = pubkeyBuffer.toString('hex')
 
   const paymentHashBuffer = buffer.slice(33, 65)
   const paymentHashHex = paymentHashBuffer.toString('hex')

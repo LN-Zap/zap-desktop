@@ -6,7 +6,6 @@ import Isvg from 'react-inlinesvg'
 import walletIcon from 'icons/wallet.svg'
 import peersIcon from 'icons/peers.svg'
 import channelsIcon from 'icons/channels.svg'
-import settingsIcon from 'icons/settings.svg'
 
 import styles from './Nav.scss'
 

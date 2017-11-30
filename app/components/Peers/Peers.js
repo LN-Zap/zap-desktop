@@ -36,7 +36,7 @@ const Peers = ({
   return (
     <div className={styles.peers}>
       <PeerModal isOpen={peerModalOpen} resetPeer={setPeer} peer={modalPeer} disconnect={disconnect} />
-      
+
       <PeerForm form={peerForm} setForm={setPeerForm} connect={connect} />
       <div className={styles.header}>
         <h3>Peers</h3>

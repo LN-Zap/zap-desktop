@@ -70,7 +70,7 @@ class Channels extends Component {
 
     const networkClicked = () => {
       if (!activeChannels.length) { return }
-        
+
       setViewType(1)
     }
 
@@ -192,7 +192,7 @@ Channels.propTypes = {
   currentChannels: PropTypes.array.isRequired,
   openChannels: PropTypes.array.isRequired,
   nonActiveFilters: PropTypes.array.isRequired,
-  
+
   updateChannelSearchQuery: PropTypes.func.isRequired,
   setViewType: PropTypes.func.isRequired,
   setCurrentChannel: PropTypes.func.isRequired,

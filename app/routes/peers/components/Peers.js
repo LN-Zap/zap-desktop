@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 
 import userIcon from 'icons/user.svg'
-import { FaUser, FaRepeat } from 'react-icons/lib/fa'
+import FaRepeat from 'react-icons/lib/fa'
 import { MdSearch } from 'react-icons/lib/md'
 
 import PeerForm from 'components/Peers/PeerForm'
@@ -18,7 +17,7 @@ class Peers extends Component {
   }
 
   render() {
-    const { 
+    const {
       fetchPeers,
       peerFormProps,
       setPeerForm,
@@ -29,10 +28,10 @@ class Peers extends Component {
       peerModalOpen,
       filteredPeers,
       peers: { peer, searchQuery },
-      info: {  data: { identity_pubkey } }
+      info: { data: { identity_pubkey } }
     } = this.props
 
-    const refreshClicked = event => {
+    const refreshClicked = (event) => {
       // store event in icon so we dont get an error when react clears it
       const icon = event.currentTarget
 
@@ -106,8 +105,6 @@ class Peers extends Component {
   }
 }
 
-Peers.propTypes = {
-  
-}
+Peers.propTypes = {}
 
 export default Peers

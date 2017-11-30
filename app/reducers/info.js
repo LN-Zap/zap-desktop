@@ -25,7 +25,7 @@ export const fetchInfo = () => async (dispatch) => {
 }
 
 // Receive IPC event for info
-export const receiveInfo = (event, data) => dispatch => {
+export const receiveInfo = (event, data) => (dispatch) => {
   console.log('receiving info and fetching other stuff')
   dispatch(fetchBalance())
   dispatch(newAddress('p2pkh'))
@@ -33,7 +33,7 @@ export const receiveInfo = (event, data) => dispatch => {
 }
 
 // IPC info fetch failed
-export const infoFailed = (event, data) => dispatch => {
+export const infoFailed = (event, data) => (dispatch) => {
   console.log('INFO FAILED data: ', data)
 }
 

@@ -32,7 +32,7 @@ export default function (lnd, event, msg, data) {
           event.sender.send('receiveInfo', infoData)
           event.sender.send('receiveCryptocurrency', infoData.chains[0])
         })
-        .catch(error => {
+        .catch((error) => {
           console.log('error: ', error)
           event.sender.send('infoFailed')
         })
