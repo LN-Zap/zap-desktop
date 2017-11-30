@@ -27,7 +27,7 @@ export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 
 export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
 
-export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
+export const TOGGLE_CHANNEL_PULLDOWN = 'TOGGLE_CHANNEL_PULLDOWN'
 export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
 
 // ------------------------------------
@@ -223,7 +223,7 @@ export const channelGraphStatus = (event, data) => (dispatch) => {
 
 export function toggleFilterPulldown() {
   return {
-    type: TOGGLE_PULLDOWN
+    type: TOGGLE_CHANNEL_PULLDOWN
   }
 }
 
@@ -258,7 +258,7 @@ const ACTION_HANDLERS = {
 
   [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
 
-  [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
+  [TOGGLE_CHANNEL_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
   [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter })
 }
 
@@ -277,7 +277,7 @@ channelsSelectors.channelModalOpen = createSelector(
   channel => (!!channel)
 )
 
-const activeChannels = createSelector(
+channelsSelectors.activeChannels = createSelector(
   channelsSelector,
   openChannels => openChannels.filter(channel => channel.active)
 )
@@ -318,7 +318,7 @@ channelsSelectors.nonActiveFilters = createSelector(
 
 export const currentChannels = createSelector(
   allChannels,
-  activeChannels,
+  channelsSelectors.activeChannels,
   channelsSelector,
   pendingOpenChannelsSelector,
   closingPendingChannels,

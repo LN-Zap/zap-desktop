@@ -67,6 +67,7 @@ const mapStateToProps = state => ({
   currentChannels: currentChannels(state),
   activeChanIds: channelsSelectors.activeChanIds(state),
   nonActiveFilters: channelsSelectors.nonActiveFilters(state),
+  activeChannels: channelsSelectors.activeChannels(state),
 
   currentTicker: tickerSelectors.currentTicker(state),
 

@@ -36,6 +36,7 @@ class Channels extends Component {
       toggleFilterPulldown,
       changeFilter,
 
+      activeChannels,
       currentChannels,
       openChannels,
       updateChannelSearchQuery,
@@ -67,6 +68,12 @@ class Channels extends Component {
       icon.style.animation = 'spin 1000ms linear 1'
     }
 
+    const networkClicked = () => {
+      if (!activeChannels.length) { return }
+        
+      setViewType(1)
+    }
+
     return (
       <div className={`${styles.container} ${viewType === 1 && styles.graphview}`}>
         <ChannelForm {...channelFormProps} />
@@ -89,7 +96,7 @@ class Channels extends Component {
             <span className={viewType === 0 && styles.active} onClick={() => setViewType(0)}>
               <FaAlignJustify />
             </span>
-            <span className={viewType === 1 && styles.active} onClick={() => setViewType(1)}>
+            <span className={viewType === 1 && styles.active} onClick={networkClicked}>
               <FaGlobe />
             </span>
           </div>
