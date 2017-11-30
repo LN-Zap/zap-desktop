@@ -26,6 +26,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   peers: state.peers,
+  info: state.info,
 
   peerModalOpen: peersSelectors.peerModalOpen(state),
   filteredPeers: peersSelectors.filteredPeers(state)

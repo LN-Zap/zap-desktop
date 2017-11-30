@@ -34,7 +34,41 @@
 .header {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
+
+  .titleContainer {
+    padding: 40px;
+
+    .left {
+      padding: 10px;
+    }
+    
+    .left, span {
+      display: inline-block;
+    }
+
+    .identityPubkey {
+      font-size: 30px;
+      margin-right: 10px;
+      display: flex;
+      flex-direction: row;
+
+      .userIcon {
+        margin-right: 10px;
+      }
+
+      section h4 {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+      }
+
+      section h2 {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+    }
+  }
 
   .addPeerContainer {
     padding: 40px;
@@ -42,6 +76,18 @@
     .newPeerButton {
       font-size: 14px;
     }
+  }
+}
+
+.refreshContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  padding: 0 40px;
+
+  .refresh {
+    cursor: pointer;
+    color: $bluegrey;
   }
 }
 
