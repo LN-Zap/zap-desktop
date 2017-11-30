@@ -7,6 +7,7 @@ import walletIcon from 'icons/wallet.svg'
 import peersIcon from 'icons/peers.svg'
 import channelsIcon from 'icons/channels.svg'
 import settingsIcon from 'icons/settings.svg'
+import globeIcon from 'icons/globe.svg'
 
 import styles from './Nav.scss'
 
@@ -36,6 +37,13 @@ const Nav = ({ openPayForm, openRequestForm }) => (
         <li>
           <Isvg styles={{ verticalAlign: 'middle' }} src={channelsIcon} />
           <span>Channels</span>
+        </li>
+      </NavLink>
+      <NavLink exact to='/network' activeClassName={styles.active} className={styles.link}>
+        <span className={styles.activeBorder} />
+        <li>
+          <Isvg styles={{ verticalAlign: 'middle' }} src={globeIcon} />
+          <span>Network</span>
         </li>
       </NavLink>
     </ul>
