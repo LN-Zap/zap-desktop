@@ -48,23 +48,9 @@ class Peers extends Component {
 
     return (
       <div>
-        <div className={styles.search}>
-          <PeerForm {...peerFormProps} />
+        <PeerForm {...peerFormProps} />
 
-          <PeerModal isOpen={peerModalOpen} resetPeer={setPeer} peer={peer} disconnect={disconnectRequest} />
-
-          <label className={`${styles.label} ${styles.input}`} htmlFor='channelSearch'>
-            <MdSearch />
-          </label>
-          <input
-            value={searchQuery}
-            onChange={event => updateSearchQuery(event.target.value)}
-            className={`${styles.text} ${styles.input}`}
-            placeholder='Search peers by their node public key or IP address'
-            type='text'
-            id='peersSearch'
-          />
-        </div>
+        <PeerModal isOpen={peerModalOpen} resetPeer={setPeer} peer={peer} disconnect={disconnectRequest} />
 
         <header className={styles.header}>
           <div className={styles.titleContainer}>
@@ -87,8 +73,23 @@ class Peers extends Component {
           </div>
         </header>
 
+        <div className={styles.search}>
+
+          <label className={`${styles.label} ${styles.input}`} htmlFor='channelSearch'>
+            <MdSearch />
+          </label>
+          <input
+            value={searchQuery}
+            onChange={event => updateSearchQuery(event.target.value)}
+            className={`${styles.text} ${styles.input}`}
+            placeholder='Search peers by their node public key or IP address'
+            type='text'
+            id='peersSearch'
+          />
+        </div>
+
         <div className={styles.refreshContainer}>
-          <span className={`${styles.refresh} hint--left`} data-hint='Refresh your peers list'>
+          <span className={`${styles.refresh} hint--top`} data-hint='Refresh your peers list'>
             <FaRepeat
               onClick={refreshClicked}
             />

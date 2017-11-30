@@ -3,6 +3,7 @@
 .search {
   height: 75px;
   padding: 2px 25px;
+  border-top: 1px solid $darkgrey;
   border-bottom: 1px solid $darkgrey;
   background: $white;
 
@@ -82,8 +83,7 @@
 .refreshContainer {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
-  padding: 0 40px;
+  padding: 20px 40px 0px 40px;
 
   .refresh {
     cursor: pointer;
