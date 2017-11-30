@@ -16,6 +16,8 @@ export const SET_PEER_FORM = 'SET_PEER_FORM'
 
 export const SET_PEER = 'SET_PEER'
 
+export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
+
 export const GET_PEERS = 'GET_PEERS'
 export const RECEIVE_PEERS = 'RECEIVE_PEERS'
 
@@ -57,6 +59,13 @@ export function setPeer(peer) {
 export function getPeers() {
   return {
     type: GET_PEERS
+  }
+}
+
+export function updateSearchQuery(searchQuery) {
+  return {
+    type: UPDATE_SEARCH_QUERY,
+    searchQuery
   }
 }
 
@@ -114,15 +123,25 @@ const ACTION_HANDLERS = {
   [SET_PEER]: (state, { peer }) => ({ ...state, peer }),
 
   [GET_PEERS]: state => ({ ...state, peersLoading: true }),
-  [RECEIVE_PEERS]: (state, { peers }) => ({ ...state, peersLoading: false, peers })
+  [RECEIVE_PEERS]: (state, { peers }) => ({ ...state, peersLoading: false, peers }),
+  
+  [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery })
 }
 
 const peersSelectors = {}
 const peerSelector = state => state.peers.peer
+const peersSelector = state => state.peers.peers
+const peersSearchQuerySelector = state => state.peers.searchQuery
 
 peersSelectors.peerModalOpen = createSelector(
   peerSelector,
   peer => (!!peer)
+)
+
+peersSelectors.filteredPeers = createSelector(
+  peersSelector,
+  peersSearchQuerySelector,
+  (peers, query) => peers.filter(peer => peer.pub_key.includes(query) || peer.address.includes(query))
 )
 
 export { peersSelectors }
@@ -139,6 +158,7 @@ const initialState = {
     pubkey: '',
     host: ''
   },
+  searchQuery: '',
   connecting: false,
   disconnecting: false
 }

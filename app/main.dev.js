@@ -26,6 +26,9 @@ let mainWindow = null
 
 let didFinishLoad = false
 
+let startedSync = false
+let sentGrpcDisconnect = false
+
 let certPath
 let certInterval
 
@@ -108,6 +111,7 @@ app.on('ready', async () => {
   const menuBuilder = new MenuBuilder(mainWindow);
   menuBuilder.buildMenu()
 
+  sendGrpcDisconnected()
   // Check to see if and LND process is running
   lookup({ command: 'lnd' }, (err, results) => {
     // There was an error checking for the LND process
@@ -153,7 +157,6 @@ app.on('open-url', function (event, url) {
 })
 
 // Starts the LND node
-// export const startLnd = (plat, certPath, mainWindow, startGrpc, sendLndSynced) => {
 export const startLnd = () => {
   const lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
 
@@ -220,7 +223,7 @@ const startGrpc = () => {
       lndMethods(event, msg, data)
     })
 
-    sendGrpcStarted()
+    sendGrpcConnected()
   })
 }
 
@@ -230,6 +233,8 @@ const sendLndSyncing = () => {
     if (didFinishLoad) {
       clearInterval(sendLndSyncingInterval)
 
+      console.log('SENDING SYNCING')
+      startedSync = true
       mainWindow.webContents.send('lndSyncing')
     }
   }, 1000)
@@ -238,21 +243,34 @@ const sendLndSyncing = () => {
 // Send the front end event letting them know LND is synced to the blockchain
 const sendLndSynced = () => {
   let sendLndSyncedInterval = setInterval(() => {
-    if (didFinishLoad) {
+    if (didFinishLoad && startedSync) {
       clearInterval(sendLndSyncedInterval)
 
+      console.log('SENDING SYNCED')
       mainWindow.webContents.send('lndSynced')
     }
   }, 1000)
 }
 
 // Send the front end event letting them know the gRPC connection has started
-const sendGrpcStarted = () => {
-  let sendGrpcStartedInterval = setInterval(() => {
+const sendGrpcDisconnected = () => {
+  let sendGrpcDisonnectedInterval = setInterval(() => {
     if (didFinishLoad) {
-      clearInterval(sendGrpcStartedInterval)
+      clearInterval(sendGrpcDisonnectedInterval)
 
-      mainWindow.webContents.send('grpcStarted')
+      sentGrpcDisconnect = true
+      mainWindow.webContents.send('grpcDisconnected')
+    }
+  }, 1000)
+}
+
+// Send the front end event letting them know the gRPC connection has started
+const sendGrpcConnected = () => {
+  let sendGrpcConnectedInterval = setInterval(() => {
+    if (didFinishLoad && sentGrpcDisconnect) {
+      clearInterval(sendGrpcConnectedInterval)
+
+      mainWindow.webContents.send('grpcConnected')
     }
   }, 1000)
 }

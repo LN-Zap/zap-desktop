@@ -24,7 +24,7 @@ const Nav = ({ openPayForm, openRequestForm }) => (
           <span>Wallet</span>
         </li>
       </NavLink>
-      <NavLink exact to='/wallet' activeClassName={styles.active} className={styles.link}>
+      <NavLink exact to='/peers' activeClassName={styles.active} className={styles.link}>
         <span className={styles.activeBorder} />
         <li>
           <Isvg styles={{ verticalAlign: 'middle' }} src={peersIcon} />

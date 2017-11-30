@@ -1,0 +1,96 @@
+@import '../../../variables.scss';
+
+.search {
+  height: 75px;
+  padding: 2px 25px;
+  border-top: 1px solid $darkgrey;
+  border-bottom: 1px solid $darkgrey;
+  background: $white;
+
+  .input {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+  }
+
+  .label {
+    width: 5%;
+    line-height: 70px;
+    font-size: 25px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .text {
+    width: 95%;
+    outline: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    height: 68px;
+    font-size: 18px;
+  }
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .titleContainer {
+    padding: 40px;
+
+    .left {
+      padding: 10px 0;
+    }
+    
+    .left, span {
+      display: inline-block;
+    }
+
+    .identityPubkey {
+      font-size: 30px;
+      margin-right: 10px;
+      display: flex;
+      flex-direction: row;
+
+      .userIcon {
+        margin-right: 10px;
+      }
+
+      section h4 {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1.2px;
+      }
+
+      section h2 {
+        font-size: 14px;
+        margin-top: 5px;
+      }
+    }
+  }
+
+  .addPeerContainer {
+    padding: 40px;
+
+    .newPeerButton {
+      font-size: 14px;
+    }
+  }
+}
+
+.refreshContainer {
+  display: flex;
+  flex-direction: row;
+  padding: 20px 40px 0px 40px;
+
+  .refresh {
+    cursor: pointer;
+    color: $bluegrey;
+  }
+}
+
+.peers {
+  padding: 40px;
+}
