@@ -11,7 +11,7 @@ Zap is a free Lightning Network wallet focused on user experience and ease of us
 Zap is built on top of [LND](https://github.com/lightningnetwork/lnd), and uses
 [Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs) for the UI.
 
-Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjYzNDQyMTQxOTU4LTY3ZDk4M2Y3YmEzOTM1ODk1NjEwYjJmMmY3NmU2YTM3ZmJmOTViODcxN2E3MmYyNjAxOGNmNzY1ZDhhYmEwMDI) to discuss development, design and product
+Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjc5Njg3NjU5MzMzLWE1M2RiNjYxNWEyMTRjMzhmZDIyNTQ0YTRjNDg4MWNiMzI1ODNlODhhMzE5ZWVmMGVkOWVkMTVmNzBhNDhiZjQ) to discuss development, design and product
 
 ## Requirements
 
