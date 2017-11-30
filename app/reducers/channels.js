@@ -113,28 +113,33 @@ export const openChannel = ({ pubkey, local_amt, push_amt }) => (dispatch) => {
 // TODO: Decide how to handle streamed updates for channels
 // Receive IPC event for openChannel
 export const channelSuccessful = () => (dispatch) => {
+  console.log('CHANNEL channelSuccessful')
   dispatch(fetchChannels())
   dispatch(closeChannelForm())
 }
 
 // Receive IPC event for updated channel
-export const pushchannelupdated = () => (dispatch) => {
+export const pushchannelupdated = (event, data) => (dispatch) => {
+  console.log('PUSH CHANNEL UPDATED: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel end
 export const pushchannelend = event => (dispatch) => { // eslint-disable-line
+  console.log('PUSH CHANNEL END: ')
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel error
 export const pushchannelerror = (event, { error }) => (dispatch) => {
+  console.log('PUSH CHANNEL ERROR: ', error)
   dispatch(openingFailure())
   dispatch(setError(error))
 }
 
 // Receive IPC event for channel status
-export const pushchannelstatus = event => (dispatch) => { // eslint-disable-line
+export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disable-line
+  console.log('PUSH CHANNEL STATUS: ', data)
   dispatch(fetchChannels())
 }
 
