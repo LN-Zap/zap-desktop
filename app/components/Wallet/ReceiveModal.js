@@ -16,7 +16,7 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address }) => {
       left: '20%',
       right: '0',
       bottom: 'auto',
-      width: '40%',
+      width: '60%',
       margin: '50px auto'
     }
   }

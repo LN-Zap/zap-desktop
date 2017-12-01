@@ -7,18 +7,16 @@ import { MdSearch } from 'react-icons/lib/md'
 import OpenPendingChannel from 'components/Channels/OpenPendingChannel'
 import ClosedPendingChannel from 'components/Channels/ClosedPendingChannel'
 import Channel from 'components/Channels/Channel'
-import NetworkChannels from 'components/Channels/NetworkChannels'
 import ChannelForm from 'components/ChannelForm'
 
 import styles from './Channels.scss'
 
 class Channels extends Component {
   componentWillMount() {
-    const { fetchChannels, fetchPeers, fetchDescribeNetwork } = this.props
-
+    const { fetchChannels, fetchPeers } = this.props
+    
     fetchChannels()
     fetchPeers()
-    fetchDescribeNetwork()
   }
 
   render() {
@@ -47,18 +45,14 @@ class Channels extends Component {
       ticker,
       currentTicker,
 
-      channelFormProps,
-
-      network,
-      identity_pubkey,
-      setCurrentChannel
+      channelFormProps
     } = this.props
 
     const refreshClicked = (event) => {
       // store event in icon so we dont get an error when react clears it
       const icon = event.currentTarget
 
-      // fetch peers
+      // fetch channels
       fetchChannels()
 
       // clear animation after the second so we can reuse it
@@ -66,12 +60,6 @@ class Channels extends Component {
 
       // spin icon for 1 sec
       icon.style.animation = 'spin 1000ms linear 1'
-    }
-
-    const networkClicked = () => {
-      if (!activeChannels.length) { return }
-        
-      setViewType(1)
     }
 
     return (
@@ -92,14 +80,6 @@ class Channels extends Component {
           />
         </div>
         <header className={styles.header}>
-          <div className={styles.layoutsContainer}>
-            <span className={viewType === 0 && styles.active} onClick={() => setViewType(0)}>
-              <FaAlignJustify />
-            </span>
-            <span className={viewType === 1 && styles.active} onClick={networkClicked}>
-              <FaGlobe />
-            </span>
-          </div>
           <div className={styles.createChannelContainer}>
             <div className={`buttonPrimary ${styles.newChannelButton}`} onClick={openChannelForm}>
               Create new channel
@@ -131,53 +111,42 @@ class Channels extends Component {
         </div>
 
         <div className={`${styles.channels} ${filterPulldown && styles.fade}`}>
-          {
-            viewType === 0 &&
-            <ul className={viewType === 1 && styles.cardsContainer}>
-              {
-                currentChannels.map((channel, index) => {
-                  if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
-                    return (
-                      <OpenPendingChannel
-                        key={index}
-                        channel={channel}
-                        ticker={ticker}
-                        currentTicker={currentTicker}
-                        explorerLinkBase={'https://testnet.smartbit.com.au/'}
-                      />
-                    )
-                  } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
-                    return (
-                      <ClosedPendingChannel
-                        key={index}
-                        channel={channel}
-                        ticker={ticker}
-                        currentTicker={currentTicker}
-                        explorerLinkBase={'https://testnet.smartbit.com.au/'}
-                      />
-                    )
-                  }
+          <ul className={viewType === 1 && styles.cardsContainer}>
+            {
+              currentChannels.map((channel, index) => {
+                if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
                   return (
-                    <Channel
+                    <OpenPendingChannel
                       key={index}
-                      ticker={ticker}
                       channel={channel}
-                      closeChannel={closeChannel}
+                      ticker={ticker}
                       currentTicker={currentTicker}
+                      explorerLinkBase={'https://testnet.smartbit.com.au/'}
                     />
                   )
-                })
-              }
-            </ul>
-          }
-          { viewType === 1 &&
-            <NetworkChannels
-              channels={openChannels}
-              network={network}
-              identity_pubkey={identity_pubkey}
-              setCurrentChannel={setCurrentChannel}
-            />
-          }
+                } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
+                  return (
+                    <ClosedPendingChannel
+                      key={index}
+                      channel={channel}
+                      ticker={ticker}
+                      currentTicker={currentTicker}
+                      explorerLinkBase={'https://testnet.smartbit.com.au/'}
+                    />
+                  )
+                }
+                return (
+                  <Channel
+                    key={index}
+                    ticker={ticker}
+                    channel={channel}
+                    closeChannel={closeChannel}
+                    currentTicker={currentTicker}
+                  />
+                )
+              })
+            }
+          </ul>
         </div>
       </div>
     )
@@ -186,7 +155,6 @@ class Channels extends Component {
 
 Channels.propTypes = {
   fetchChannels: PropTypes.func.isRequired,
-  fetchPeers: PropTypes.func.isRequired,
 
   channels: PropTypes.object.isRequired,
   currentChannels: PropTypes.array.isRequired,
@@ -204,11 +172,7 @@ Channels.propTypes = {
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
 
-  channelFormProps: PropTypes.object.isRequired,
-
-  network: PropTypes.object.isRequired,
-  fetchDescribeNetwork: PropTypes.func.isRequired,
-  identity_pubkey: PropTypes.string.isRequired
+  channelFormProps: PropTypes.object.isRequired
 }
 
 export default Channels

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { MdSearch } from 'react-icons/lib/md'
 import { FaAngleDown } from 'react-icons/lib/fa'
 
+import Wallet from 'components/Wallet'
 import Invoice from './components/Invoice'
 import Payment from './components/Payment'
 import Transaction from './components/Transaction'
@@ -44,6 +45,9 @@ class Activity extends Component {
       ticker,
       searchInvoices,
       invoice: { invoicesSearchText, invoiceLoading },
+      address: { address },
+      balance,
+      info,
       payment: { paymentLoading },
       currentTicker,
       activity: { modal, filter, filterPulldown },
@@ -65,6 +69,8 @@ class Activity extends Component {
           ticker={ticker}
           currentTicker={currentTicker}
         />
+
+        <Wallet balance={balance} address={address} info={info} />
 
         <div className={styles.search}>
           <label className={`${styles.label} ${styles.input}`} htmlFor='invoiceSearch'>

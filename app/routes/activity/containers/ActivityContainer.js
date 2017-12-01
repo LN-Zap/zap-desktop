@@ -37,6 +37,10 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   activity: state.activity,
 
+  balance: state.balance,
+  address: state.address,
+  info: state.info,
+
   payment: state.payment,
 
   invoice: state.invoice,

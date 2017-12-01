@@ -6,7 +6,6 @@ import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
 import Nav from 'components/Nav'
-import Wallet from 'components/Wallet'
 import styles from './App.scss'
 
 class App extends Component {
@@ -66,11 +65,6 @@ class App extends Component {
         />
 
         <div className={styles.content}>
-          <Wallet
-            balance={balance}
-            address={address}
-            info={info}
-          />
           {children}
         </div>
       </div>

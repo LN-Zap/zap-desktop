@@ -13,6 +13,14 @@ import Peer from 'components/Peers/Peer'
 import styles from './Peers.scss'
 
 class Peers extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      refreshing: false
+    }
+  }
+
   componentWillMount() {
     this.props.fetchPeers()
   }
@@ -28,22 +36,34 @@ class Peers extends Component {
 
       peerModalOpen,
       filteredPeers,
-      peers: { peer, searchQuery },
-      info: {  data: { identity_pubkey } }
+      peers: { peer, searchQuery }
     } = this.props
 
     const refreshClicked = event => {
+      // turn the spinner on
+      this.setState({ refreshing: true })
+
       // store event in icon so we dont get an error when react clears it
-      const icon = event.currentTarget
+      let icon = this.refs.repeat.childNodes
 
       // fetch peers
       fetchPeers()
 
-      // clear animation after the second so we can reuse it
-      setTimeout(() => { icon.style.animation = '' }, 1000)
+      // wait for the svg to appear as child
+      let svgTimeout = setTimeout(() => { 
+        if (icon[0].tagName === 'svg') {
+          // spin icon for 1 sec
+          icon[0].style.animation = 'spin 1000ms linear 1'
+          clearTimeout(svgTimeout)
+        }
+      }, 1)
 
-      // spin icon for 1 sec
-      icon.style.animation = 'spin 1000ms linear 1'
+      // clear animation after the second so we can reuse it
+      let refreshTimeout = setTimeout(() => { 
+        icon[0].style.animation = ''
+        this.setState({ refreshing: false })
+        clearTimeout(refreshTimeout)
+      }, 1000)
     }
 
     return (
@@ -55,15 +75,7 @@ class Peers extends Component {
         <header className={styles.header}>
           <div className={styles.titleContainer}>
             <div className={styles.left}>
-              <div className={styles.identityPubkey}>
-                <section className={styles.userIcon}>
-                  <Isvg src={userIcon} />
-                </section>
-                <section>
-                  <h4>Your node public key</h4>
-                  <h2>{identity_pubkey}</h2>
-                </section>
-              </div>
+              <h1>Peers</h1>
             </div>
           </div>
           <div className={styles.addPeerContainer}>
@@ -74,7 +86,6 @@ class Peers extends Component {
         </header>
 
         <div className={styles.search}>
-
           <label className={`${styles.label} ${styles.input}`} htmlFor='channelSearch'>
             <MdSearch />
           </label>
@@ -89,10 +100,13 @@ class Peers extends Component {
         </div>
 
         <div className={styles.refreshContainer}>
-          <span className={`${styles.refresh} hint--top`} data-hint='Refresh your peers list'>
-            <FaRepeat
-              onClick={refreshClicked}
-            />
+          <span className={styles.refresh} onClick={refreshClicked} ref='repeat'>
+            {
+              this.state.refreshing ?
+                <FaRepeat />
+              :
+                'Refresh'
+            }
           </span>
         </div>
 
@@ -107,7 +121,17 @@ class Peers extends Component {
 }
 
 Peers.propTypes = {
-  
+  fetchPeers: PropTypes.func.isRequired,
+  peerFormProps: PropTypes.object.isRequired,
+  setPeerForm: PropTypes.func.isRequired,
+  setPeer: PropTypes.func.isRequired,
+  updateSearchQuery: PropTypes.func.isRequired,
+  disconnectRequest: PropTypes.func.isRequired,
+
+  peerModalOpen: PropTypes.bool.isRequired,
+  filteredPeers: PropTypes.array.isRequired,
+  peer: PropTypes.object,
+  searchQuery: PropTypes.string
 }
 
 export default Peers

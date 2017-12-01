@@ -115,9 +115,7 @@ class Network extends Component {
           </ul>
 
           <div className={styles.currentTab}>
-            {
-             renderTab() 
-            }
+            {renderTab()}
           </div>
         </section>
       </div>
