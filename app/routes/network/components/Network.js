@@ -98,10 +98,6 @@ class Network extends Component {
           </InteractiveForceGraph>
         </section>
         <section className={styles.data}>
-          <header>
-            <h1>Toolbox</h1>
-          </header>
-
           <ul className={styles.tabs}>
             <li className={`${styles.tab} ${currentTab === 1 && styles.active}`} onClick={() => setCurrentTab(1)}>
               <h2>Peers</h2>

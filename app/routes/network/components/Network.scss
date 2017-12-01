@@ -51,19 +51,8 @@
   border-left: 1px solid $darkgrey;
   font-family: 'Courier New';
 
-  header {
-    margin: 20px 0;
-    padding: 20px;
-    border-bottom: 1px solid $darkgrey;
-
-    h1 {
-      font-weight: bold;
-      font-size: 30px;
-    }
-  }
-
-
   .tabs {
+    margin-top: 20px;
     padding: 0 20px;
     display: flex;
     flex-direction: row;
