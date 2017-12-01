@@ -1,0 +1,28 @@
+@import '../../variables.scss';
+
+.input {
+  width: 100%;
+  background: $secondary;
+  color: $terminalgreen;
+  -webkit-appearance: none;
+  border: none;
+  border-bottom: 1px solid $terminalgreen;
+  padding: 5px;
+  outline: 0;
+}
+
+.submitContainer {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.submit {
+  padding: 5px;
+  color: $terminalgreen;
+  cursor: pointer;
+
+  &:hover {
+    background: $terminalgreen;
+    color: $secondary;
+  }
+}

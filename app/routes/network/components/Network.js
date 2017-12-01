@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { InteractiveForceGraph, ForceGraphNode, ForceGraphLink } from 'react-vis-force'
 import LoadingBolt from 'components/LoadingBolt'
 import PeersList from 'components/Network/PeersList'
+import TransactionForm from 'components/Network/TransactionForm'
 
 import styles from './Network.scss'
 
@@ -39,7 +40,7 @@ class Network extends Component {
           return <h1>channels</h1>
           break
         case 3:
-          return <h1>transaction</h1>
+          return <TransactionForm />
           break
       }
     }
