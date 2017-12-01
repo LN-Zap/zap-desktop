@@ -44,42 +44,51 @@
 }
 
 .data {
-  width: 30%;
-  background: $black;
+  width: calc(30% - 1px);
   color: #00FF00;
   word-wrap: break-word;
   overflow-y: scroll;
-
-  header, .routes {
-    padding: 10px;
-  }
+  border-left: 1px solid $darkgrey;
+  font-family: 'Courier New';
 
   header {
-    margin-top: 50px;
+    margin: 20px 0;
+    padding: 20px;
+    border-bottom: 1px solid $darkgrey;
 
-    h1 span {
-      display: block;
-      margin: 5px 0;
-
-      &:nth-child(2) {
-        font-size: 12px;
-      }
+    h1 {
+      font-weight: bold;
+      font-size: 30px;
     }
   }
 
-  .routes {
-    .route {
+
+  .tabs {
+    padding: 0 20px;
+    display: flex;
+    flex-direction: row;
+    
+    .tab {
+      padding: 10px;
       cursor: pointer;
-      margin: 20px 0;
+      transition: all 0.25s;
+
+      &:hover {
+        background: #00FF00;
+        color: $black;
+        opacity: 0.5;
+      }
 
       &.active {
         background: #00FF00;
-        color: black;
-      }
-
-      &:hover {
-        opacity: 0.5;
+        color: $black;
       }
     }
+
+  }
+  
+  .currentTab {
+    margin-top: 20px;
+    padding: 20px;
   }
 }

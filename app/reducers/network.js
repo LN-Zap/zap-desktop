@@ -14,6 +14,10 @@ export const SET_CURRENT_ROUTE = 'SET_CURRENT_ROUTE'
 
 export const SET_CURRENT_CHANNEL = 'SET_CURRENT_CHANNEL'
 
+export const SET_CURRENT_TAB = 'SET_CURRENT_TAB'
+
+export const SET_CURRENT_PEER = 'SET_CURRENT_PEER'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -41,6 +45,20 @@ export function setCurrentChannel(selectedChannel) {
   return {
     type: SET_CURRENT_CHANNEL,
     selectedChannel
+  }
+}
+
+export function setCurrentTab(currentTab) {
+  return {
+    type: SET_CURRENT_TAB,
+    currentTab
+  }
+}
+
+export function setCurrentPeer(currentPeer) {
+  return {
+    type: SET_CURRENT_PEER,
+    currentPeer
   }
 }
 
@@ -83,7 +101,11 @@ const ACTION_HANDLERS = {
     }
   ),
 
-  [SET_CURRENT_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel })
+  [SET_CURRENT_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
+  
+  [SET_CURRENT_TAB]: (state, { currentTab }) => ({ ...state, currentTab }),
+  
+  [SET_CURRENT_PEER]: (state, { currentPeer }) => ({ ...state, currentPeer })
 }
 
 // ------------------------------------
@@ -115,7 +137,11 @@ const initialState = {
     routes: [],
     currentRoute: {}
   },
-  selectedChannel: {}
+  selectedChannel: {},
+  
+  currentTab: 1,
+
+  currentPeer: {}
 }
 
 

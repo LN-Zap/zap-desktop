@@ -2,26 +2,47 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import { InteractiveForceGraph, ForceGraphNode, ForceGraphLink } from 'react-vis-force'
-import LoadingBolt from '../../../components/LoadingBolt'
+import LoadingBolt from 'components/LoadingBolt'
+import PeersList from 'components/Network/PeersList'
 
 import styles from './Network.scss'
 
 class Network extends Component {
   componentWillMount() {
-    const { fetchDescribeNetwork } = this.props
+    const { fetchDescribeNetwork, fetchPeers, fetchChannels } = this.props
 
     fetchDescribeNetwork()
+    fetchPeers()
+    fetchChannels()
   }
 
   render() {
     const {
-      network: { nodes, edges, selectedNode, networkLoading },
+      setCurrentTab,
+
+      network: { nodes, edges, selectedNode, networkLoading, currentTab },
+      peers: { peers },
+      channels,
       identity_pubkey
     } = this.props
 
     console.log('props: ', this.props)
 
     if (networkLoading) return <LoadingBolt />
+
+    const renderTab = () => {
+      switch(currentTab) {
+        case 1:
+          return <PeersList peers={peers} />
+          break
+        case 2:
+          return <h1>channels</h1>
+          break
+        case 3:
+          return <h1>transaction</h1>
+          break
+      }
+    }
 
     return (
       <div className={styles.container}>
@@ -30,7 +51,7 @@ class Network extends Component {
             simulationOptions={
               {
                 height: 1000,
-                width: 1000,
+                width: 800,
                 strength: { 
                   charge: -750
                 },
@@ -75,6 +96,29 @@ class Network extends Component {
               })
             }
           </InteractiveForceGraph>
+        </section>
+        <section className={styles.data}>
+          <header>
+            <h1>Toolbox</h1>
+          </header>
+
+          <ul className={styles.tabs}>
+            <li className={`${styles.tab} ${currentTab === 1 && styles.active}`} onClick={() => setCurrentTab(1)}>
+              <h2>Peers</h2>
+            </li>
+            <li className={`${styles.tab} ${currentTab === 2 && styles.active}`} onClick={() => setCurrentTab(2)}>
+              <h2>Channels</h2>
+            </li>
+            <li className={`${styles.tab} ${currentTab === 3 && styles.active}`} onClick={() => setCurrentTab(3)}>
+              <h2>Transaction</h2>
+            </li>
+          </ul>
+
+          <div className={styles.currentTab}>
+            {
+             renderTab() 
+            }
+          </div>
         </section>
       </div>
     )
