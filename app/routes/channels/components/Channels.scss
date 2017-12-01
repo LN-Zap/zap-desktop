@@ -5,8 +5,9 @@
 }
 
 .search {
-  height: 75px;
+  height: 55px;
   padding: 2px 25px;
+  border-top: 1px solid $darkgrey;
   border-bottom: 1px solid $darkgrey;
   background: $white;
 
@@ -18,8 +19,8 @@
 
   .label {
     width: 5%;
-    line-height: 70px;
-    font-size: 25px;
+    line-height: 50px;
+    font-size: 20px;
     text-align: center;
     cursor: pointer;
   }
@@ -30,15 +31,39 @@
     padding: 0;
     border: 0;
     border-radius: 0;
-    height: 68px;
-    font-size: 18px;
+    height: 50px;
+    font-size: 16px;
   }
 }
 
 .header {
   display: flex;
   flex-direction: row;
-  justify-content: flex-end;
+  justify-content: space-between;
+  background: $lightgrey;
+
+  .titleContainer {
+    padding: 20px 40px;
+
+    .left {
+      padding: 10px 0;
+
+      h1 {
+        text-transform: uppercase;
+        font-size: 26px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .createChannelContainer {
+    padding: 20px 40px;
+
+    .createChannelButton {
+      font-size: 14px;
+      margin-left: 10px;
+    }
+  }
 }
 
 .filtersContainer {
@@ -46,7 +71,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 0 40px;
+  padding: 20px 40px;
 
   h2, h2 span {
     color: $bluegrey;
@@ -89,16 +114,21 @@
       }
     }
   }
-
+  
   .refreshContainer {
-    color: $bluegrey;
+    text-align: right;
+    cursor: pointer;
 
-    &:hover {
-      cursor: pointer;
-      color: lighten($bluegrey, 10%);
+    .refresh {
+      text-decoration: underline;
+
+      svg {
+        font-size: 12px;
+      }
     }
   }
 }
+
 
 .layoutsContainer {
   padding: 40px;
