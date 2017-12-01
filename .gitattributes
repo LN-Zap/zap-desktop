@@ -3,3 +3,4 @@
 *.ico binary
 *.icns binary
 resources/bin/* binary
+resources/bin/* -text
