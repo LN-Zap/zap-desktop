@@ -55,7 +55,8 @@ class Activity extends Component {
       changeFilter,
       toggleFilterPulldown,
       currentActivity,
-      nonActiveFilters
+      nonActiveFilters,
+      newAddress
     } = this.props
 
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
@@ -70,7 +71,7 @@ class Activity extends Component {
           currentTicker={currentTicker}
         />
 
-        <Wallet balance={balance} address={address} info={info} />
+        <Wallet balance={balance} address={address} info={info} newAddress={newAddress} />
 
         <div className={styles.search}>
           <label className={`${styles.label} ${styles.input}`} htmlFor='invoiceSearch'>
@@ -130,6 +131,7 @@ Activity.propTypes = {
   showActivityModal: PropTypes.func.isRequired,
   hideActivityModal: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
+  newAddress: PropTypes.func.isRequired,
   toggleFilterPulldown: PropTypes.func.isRequired,
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,
