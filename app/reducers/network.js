@@ -18,6 +18,8 @@ export const SET_CURRENT_TAB = 'SET_CURRENT_TAB'
 
 export const SET_CURRENT_PEER = 'SET_CURRENT_PEER'
 
+export const UPDATE_PAY_REQ = 'UPDATE_PAY_REQ'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -59,6 +61,13 @@ export function setCurrentPeer(currentPeer) {
   return {
     type: SET_CURRENT_PEER,
     currentPeer
+  }
+}
+
+export function updatePayReq(pay_req) {
+  return {
+    type: UPDATE_PAY_REQ,
+    pay_req
   }
 }
 
@@ -105,7 +114,9 @@ const ACTION_HANDLERS = {
   
   [SET_CURRENT_TAB]: (state, { currentTab }) => ({ ...state, currentTab }),
   
-  [SET_CURRENT_PEER]: (state, { currentPeer }) => ({ ...state, currentPeer })
+  [SET_CURRENT_PEER]: (state, { currentPeer }) => ({ ...state, currentPeer }),
+
+  [UPDATE_PAY_REQ]: (state, { pay_req }) => ({ ...state, pay_req })
 }
 
 // ------------------------------------
@@ -141,7 +152,9 @@ const initialState = {
   
   currentTab: 1,
 
-  currentPeer: {}
+  currentPeer: {},
+
+  pay_req: ''
 }
 
 

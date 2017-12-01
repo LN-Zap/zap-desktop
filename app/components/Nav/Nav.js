@@ -39,13 +39,6 @@ const Nav = ({ openPayForm, openRequestForm }) => (
           <span>Channels</span>
         </li>
       </NavLink>
-      <NavLink exact to='/network' activeClassName={styles.active} className={styles.link}>
-        <span className={styles.activeBorder} />
-        <li>
-          <Isvg styles={{ verticalAlign: 'middle' }} src={globeIcon} />
-          <span>Network</span>
-        </li>
-      </NavLink>
     </ul>
     <div className={styles.buttons}>
       <div className={`buttonPrimary ${styles.button}`} onClick={openPayForm}>
