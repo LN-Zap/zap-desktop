@@ -128,11 +128,11 @@ export default function (lnd, event, msg, data) {
     // Payment looks like { payment_preimage: Buffer, payment_route: Object }
     // { paymentRequest } = data
       paymentsController.sendPaymentSync(lnd, data)
-        .then(({ payment_route }) => event.sender.send('paymentSuccessful', Object.assign(data, { payment_route })))
-        .catch((error) => {
-          console.log('payinvoice error: ', error)
-          event.sender.send('paymentFailed', { error: error.toString() })
+        .then(({ payment_route }) => {
+          console.log('payinvoice success: ', payment_route)
+          event.sender.send('paymentSuccessful', Object.assign(data, { payment_route }))
         })
+        .catch(({ error }) => event.sender.send('paymentFailed', { error: error.toString() }))
       break
     case 'sendCoins':
     // Transaction looks like { txid: String }
