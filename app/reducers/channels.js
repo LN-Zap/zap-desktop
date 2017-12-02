@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
 import { fetchDescribeNetwork } from './network'
-import { closeChannelForm } from './channelform'
+import { closeChannelForm, resetChannelForm } from './channelform'
 import { setError } from './error'
 // ------------------------------------
 // Constants
@@ -116,6 +116,7 @@ export const channelSuccessful = () => (dispatch) => {
   console.log('CHANNEL channelSuccessful')
   dispatch(fetchChannels())
   dispatch(closeChannelForm())
+  dispatch(resetChannelForm())
 }
 
 // Receive IPC event for updated channel
