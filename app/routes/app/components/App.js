@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import LndSyncing from 'components/LndSyncing'
 import GlobalError from 'components/GlobalError'
 import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
@@ -10,7 +9,7 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchBalance, fetchInfo, newAddress, lnd: { syncing } } = this.props
+    const { fetchTicker, fetchBalance, fetchInfo, newAddress } = this.props
 
     fetchTicker()
     fetchBalance()
@@ -20,17 +19,11 @@ class App extends Component {
 
   render() {
     const {
-      lnd,
-      syncPercentage,
-      fetchBlockHeight,
-
       modal: { modalType, modalProps },
       hideModal,
       ticker,
       currentTicker,
-      address: { address },
       balance,
-      info,
       form,
 
       openPayForm,
@@ -73,16 +66,9 @@ class App extends Component {
 }
 
 App.propTypes = {
-  lnd: PropTypes.object.isRequired,
-
-  syncPercentage: PropTypes.number.isRequired,
-  fetchBlockHeight: PropTypes.func.isRequired,
-
   modal: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
-  address: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
-  info: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,

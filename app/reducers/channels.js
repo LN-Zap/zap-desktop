@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { btc } from 'utils'
+import { showNotification } from 'notifications'
 import { fetchDescribeNetwork } from './network'
 import { closeChannelForm } from './channelform'
 import { setError } from './error'
-import { showNotification } from 'notifications'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -199,18 +199,18 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
     dispatch(fetchDescribeNetwork())
 
     // loop through the channel updates
-    for(let i = 0; i < channel_updates.length; i++) {
-      let channel_update = channel_updates[i]
-      let { advertising_node, connecting_node } = channel_update
+    for (let i = 0; i < channel_updates.length; i++) {
+      const channel_update = channel_updates[i]
+      const { advertising_node, connecting_node } = channel_update
 
       // if our node is involved in this update we wanna show a notification
-      if(info.data.identity_pubkey === advertising_node || info.data.identity_pubkey === connecting_node) {
+      if (info.data.identity_pubkey === advertising_node || info.data.identity_pubkey === connecting_node) {
         // this channel has to do with the user, lets fetch a new channel list for them 
         // TODO: full fetch is probably not necessary
         dispatch(fetchChannels())
 
         // Construct the notification
-        let otherParty = info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
+        const otherParty = info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
         let notifBody = `No new friends, just new channels. Your channel with ${otherParty}` // eslint-disable-line
         const notifTitle = 'New channel detected'
 
@@ -222,7 +222,7 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
 }
 
 // IPC event for channel graph status
-export const channelGraphStatus = (event, data) => (dispatch) => {
+export const channelGraphStatus = (event, data) => () => {
   console.log('channelGraphStatus: ', data)
 }
 

@@ -21,7 +21,7 @@ class LndSyncing extends Component {
         },
         {
           title: 'Onion Routing',
-          description: 'Onion routing is a technique for anonymous communication over a computer network. In an onion network, messages are encapsulated in layers of encryption, analogous to layers of an onion.' // eslint-diabale-line
+          description: 'Onion routing is a technique for anonymous communication over a computer network. In an onion network, messages are encapsulated in layers of encryption, analogous to layers of an onion.' // eslint-disable-line
         }
       ],
       currentFact: 0

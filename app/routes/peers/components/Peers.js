@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
 
-import userIcon from 'icons/user.svg'
-import { FaUser, FaRepeat } from 'react-icons/lib/fa'
+import { FaRepeat } from 'react-icons/lib/fa'
 import { MdSearch } from 'react-icons/lib/md'
 
 import PeerForm from 'components/Peers/PeerForm'
@@ -39,18 +37,18 @@ class Peers extends Component {
       peers: { peer, searchQuery }
     } = this.props
 
-    const refreshClicked = event => {
+    const refreshClicked = () => {
       // turn the spinner on
       this.setState({ refreshing: true })
 
       // store event in icon so we dont get an error when react clears it
-      let icon = this.refs.repeat.childNodes
+      const icon = this.refs.repeat.childNodes
 
       // fetch peers
       fetchPeers()
 
       // wait for the svg to appear as child
-      let svgTimeout = setTimeout(() => { 
+      const svgTimeout = setTimeout(() => {
         if (icon[0].tagName === 'svg') {
           // spin icon for 1 sec
           icon[0].style.animation = 'spin 1000ms linear 1'
@@ -59,7 +57,7 @@ class Peers extends Component {
       }, 1)
 
       // clear animation after the second so we can reuse it
-      let refreshTimeout = setTimeout(() => { 
+      const refreshTimeout = setTimeout(() => {
         icon[0].style.animation = ''
         this.setState({ refreshing: false })
         clearTimeout(refreshTimeout)
@@ -104,7 +102,7 @@ class Peers extends Component {
             {
               this.state.refreshing ?
                 <FaRepeat />
-              :
+                :
                 'Refresh'
             }
           </span>
@@ -130,6 +128,7 @@ Peers.propTypes = {
 
   peerModalOpen: PropTypes.bool.isRequired,
   filteredPeers: PropTypes.array.isRequired,
+  peers: PropTypes.object.isRequired,
   peer: PropTypes.object,
   searchQuery: PropTypes.string
 }

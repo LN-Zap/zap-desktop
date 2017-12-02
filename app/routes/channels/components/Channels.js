@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { FaAlignJustify, FaGlobe, FaAngleDown, FaRepeat } from 'react-icons/lib/fa'
+import { FaAngleDown, FaRepeat } from 'react-icons/lib/fa'
 import { MdSearch } from 'react-icons/lib/md'
 
 import OpenPendingChannel from 'components/Channels/OpenPendingChannel'
@@ -42,11 +42,8 @@ class Channels extends Component {
       toggleFilterPulldown,
       changeFilter,
 
-      activeChannels,
       currentChannels,
-      openChannels,
       updateChannelSearchQuery,
-      setViewType,
 
       openChannelForm,
 
@@ -56,18 +53,18 @@ class Channels extends Component {
       channelFormProps
     } = this.props
 
-    const refreshClicked = event => {
+    const refreshClicked = () => {
       // turn the spinner on
       this.setState({ refreshing: true })
 
       // store event in icon so we dont get an error when react clears it
-      let icon = this.refs.repeat.childNodes
+      const icon = this.refs.repeat.childNodes
 
       // fetch peers
       fetchChannels()
 
       // wait for the svg to appear as child
-      let svgTimeout = setTimeout(() => { 
+      const svgTimeout = setTimeout(() => { 
         if (icon[0].tagName === 'svg') {
           // spin icon for 1 sec
           icon[0].style.animation = 'spin 1000ms linear 1'
@@ -76,7 +73,7 @@ class Channels extends Component {
       }, 1)
 
       // clear animation after the second so we can reuse it
-      let refreshTimeout = setTimeout(() => { 
+      const refreshTimeout = setTimeout(() => { 
         icon[0].style.animation = ''
         this.setState({ refreshing: false })
         clearTimeout(refreshTimeout)
@@ -134,7 +131,7 @@ class Channels extends Component {
               {
                 this.state.refreshing ?
                   <FaRepeat />
-                :
+                  :
                   'Refresh'
               }
             </span>
@@ -189,16 +186,15 @@ Channels.propTypes = {
 
   channels: PropTypes.object.isRequired,
   currentChannels: PropTypes.array.isRequired,
-  openChannels: PropTypes.array.isRequired,
   nonActiveFilters: PropTypes.array.isRequired,
   
   updateChannelSearchQuery: PropTypes.func.isRequired,
-  setViewType: PropTypes.func.isRequired,
   setCurrentChannel: PropTypes.func.isRequired,
   openChannelForm: PropTypes.func.isRequired,
   closeChannel: PropTypes.func.isRequired,
   toggleFilterPulldown: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
+  fetchPeers: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,

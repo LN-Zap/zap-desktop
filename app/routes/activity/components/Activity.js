@@ -123,19 +123,25 @@ Activity.propTypes = {
   fetchPayments: PropTypes.func.isRequired,
   fetchInvoices: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
+
   ticker: PropTypes.object.isRequired,
   searchInvoices: PropTypes.func.isRequired,
   invoice: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
+
   showActivityModal: PropTypes.func.isRequired,
   hideActivityModal: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
   toggleFilterPulldown: PropTypes.func.isRequired,
+
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,
-  nonActiveFilters: PropTypes.array.isRequired
+  nonActiveFilters: PropTypes.array.isRequired,
+  address: PropTypes.object.isRequired,
+  balance: PropTypes.object.isRequired,
+  info: PropTypes.object.isRequired
 }
 
 export default Activity
