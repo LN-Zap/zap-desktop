@@ -19,6 +19,8 @@ import {
   toggleFilterPulldown,
   activitySelectors
 } from 'reducers/activity'
+import { newAddress } from 'reducers/address'
+
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
@@ -31,11 +33,16 @@ const mapDispatchToProps = {
   showActivityModal,
   hideActivityModal,
   changeFilter,
-  toggleFilterPulldown
+  toggleFilterPulldown,
+  newAddress
 }
 
 const mapStateToProps = state => ({
   activity: state.activity,
+
+  balance: state.balance,
+  address: state.address,
+  info: state.info,
 
   payment: state.payment,
 

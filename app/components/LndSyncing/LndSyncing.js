@@ -21,7 +21,7 @@ class LndSyncing extends Component {
         },
         {
           title: 'Onion Routing',
-          description: 'Onion routing is a technique for anonymous communication over a computer network. In an onion network, messages are encapsulated in layers of encryption, analogous to layers of an onion.' // eslint-diabale-line
+          description: 'Onion routing is a technique for anonymous communication over a computer network. In an onion network, messages are encapsulated in layers of encryption, analogous to layers of an onion.' // eslint-disable-line
         }
       ],
       currentFact: 0
@@ -41,7 +41,7 @@ class LndSyncing extends Component {
       <div className={styles.container}>
         <h3>zap</h3>
         <div className={styles.loading}>
-          {!fetchingBlockHeight && <h4>{syncPercentage}%</h4>}
+          {!fetchingBlockHeight && <h4>{syncPercentage > 0 && `${syncPercentage}%`}</h4>}
           <div className={styles.spinner} />
           <h1>syncing your lightning node to the blockchain</h1>
         </div>
