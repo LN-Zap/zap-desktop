@@ -1,13 +1,19 @@
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
-import { fetchDescribeNetwork } from '../../../reducers/network'
+import {
+  fetchDescribeNetwork,
+
+  setCurrentTab
+} from '../../../reducers/network'
 import { fetchPeers } from '../../../reducers/peers'
 
 import Network from '../components/Network'
 
 const mapDispatchToProps = {
   fetchDescribeNetwork,
+  setCurrentTab,
+  
   fetchPeers
 }
 

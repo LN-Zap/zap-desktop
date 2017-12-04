@@ -65,19 +65,15 @@
     border-bottom: 1px solid #464646;
     transition: all 0.5s;
 
-    &:nth-child(1) {
+    &.peersTab:hover, &.peersTab.active {
       border-bottom: 1px solid #588CF0;
     }
 
-    &.peersTab {
-      border-bottom: 1px solid #588CF0; 
-    }
-
-    &.channelsTab:hover {
+    &.channelsTab:hover, &.channelsTab.active {
       border-bottom: 1px solid #88D4A2; 
     }
 
-    &.transactionsTab:hover {
+    &.transactionsTab:hover, &.transitionsTab.active {
       border-bottom: 1px solid #FFDC53; 
     }
   }

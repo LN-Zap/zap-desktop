@@ -18,12 +18,26 @@ class Network extends Component {
 
   render() {
     const {
-      fetchDescribeNetwork,
+      setCurrentTab,
 
-      network: { nodes, edges, networkLoading },
+      network: { nodes, edges, networkLoading, currentTab },
       peers: { peers },
       identity_pubkey
     } = this.props
+
+    const renderContent = () => {
+      switch(currentTab) {
+        case 1:
+          return <PeersList peers={peers} />
+          break
+        case 2:
+          return <h1>channels</h1>
+          break
+        case 3:
+          return <h1>transactions</h1>
+          break
+      }
+    }
 
     if (!nodes.length || !edges.length) { return <span></span> }
     if (networkLoading) return <LoadingBolt />
@@ -78,19 +92,28 @@ class Network extends Component {
         </section>
         <section className={styles.toolbox}>
           <ul className={styles.tabs}>
-            <li className={`${styles.tab} ${styles.peersTab}`}>
+            <li
+              className={`${styles.tab} ${styles.peersTab} ${currentTab === 1 && styles.active}`}
+              onClick={() => setCurrentTab(1)}
+            >
               Peers
             </li>
-            <li className={`${styles.tab} ${styles.channelsTab}`}>
+            <li
+              className={`${styles.tab} ${styles.channelsTab} ${currentTab === 2 && styles.active}`}
+              onClick={() => setCurrentTab(2)}
+            >
               Channels
             </li>
-            <li className={`${styles.tab} ${styles.transactionsTab}`}>
+            <li
+              className={`${styles.tab} ${styles.transactionsTab} ${currentTab === 3 && styles.active}`}
+              onClick={() => setCurrentTab(3)}
+            >
               Transactions
             </li>
           </ul>
 
           <div className={styles.content}>
-            <PeersList peers={peers} />
+            {renderContent()}
           </div>
         </section>
       </div>
@@ -98,6 +121,15 @@ class Network extends Component {
   }
 }
 
-Network.propTypes = {}
+Network.propTypes = {
+  fetchDescribeNetwork: PropTypes.func.isRequired,
+  fetchPeers: PropTypes.func.isRequired,
+  setCurrentTab: PropTypes.func.isRequired,
+
+  network: PropTypes.object.isRequired,
+  peers: PropTypes.object.isRequired,
+
+  identity_pubkey: PropTypes.string.isRequired
+}
 
 export default Network
