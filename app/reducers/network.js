@@ -14,6 +14,12 @@ export const SET_CURRENT_ROUTE = 'SET_CURRENT_ROUTE'
 
 export const SET_CURRENT_CHANNEL = 'SET_CURRENT_CHANNEL'
 
+export const SET_CURRENT_TAB = 'SET_CURRENT_TAB'
+
+export const SET_CURRENT_PEER = 'SET_CURRENT_PEER'
+
+export const UPDATE_PAY_REQ = 'UPDATE_PAY_REQ'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -41,6 +47,27 @@ export function setCurrentChannel(selectedChannel) {
   return {
     type: SET_CURRENT_CHANNEL,
     selectedChannel
+  }
+}
+
+export function setCurrentTab(currentTab) {
+  return {
+    type: SET_CURRENT_TAB,
+    currentTab
+  }
+}
+
+export function setCurrentPeer(currentPeer) {
+  return {
+    type: SET_CURRENT_PEER,
+    currentPeer
+  }
+}
+
+export function updatePayReq(pay_req) {
+  return {
+    type: UPDATE_PAY_REQ,
+    pay_req
   }
 }
 
@@ -83,7 +110,13 @@ const ACTION_HANDLERS = {
     }
   ),
 
-  [SET_CURRENT_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel })
+  [SET_CURRENT_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
+  
+  [SET_CURRENT_TAB]: (state, { currentTab }) => ({ ...state, currentTab }),
+  
+  [SET_CURRENT_PEER]: (state, { currentPeer }) => ({ ...state, currentPeer }),
+
+  [UPDATE_PAY_REQ]: (state, { pay_req }) => ({ ...state, pay_req })
 }
 
 // ------------------------------------
@@ -115,7 +148,13 @@ const initialState = {
     routes: [],
     currentRoute: {}
   },
-  selectedChannel: {}
+  selectedChannel: {},
+  
+  currentTab: 1,
+
+  currentPeer: {},
+
+  pay_req: ''
 }
 
 

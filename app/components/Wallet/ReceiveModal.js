@@ -6,7 +6,7 @@ import QRCode from 'qrcode.react'
 import { showNotification } from 'notifications'
 import styles from './ReceiveModal.scss'
 
-const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address }) => {
+const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress }) => {
   const customStyles = {
     overlay: {
       cursor: 'pointer'
@@ -16,7 +16,7 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address }) => {
       left: '20%',
       right: '0',
       bottom: 'auto',
-      width: '40%',
+      width: '60%',
       margin: '50px auto'
     }
   }
@@ -43,8 +43,12 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address }) => {
         </section>
 
         <section>
-          <h4>Deposit Address (<span onClick={() => copyOnClick(address)}>Copy</span>)</h4>
+          <div className={styles.addressHeader}>
+            <h4>Deposit Address (<span onClick={() => copyOnClick(address)}>Copy</span>)</h4>
+            <span className={styles.newAddress} onClick={() => newAddress('p2pkh')}>New Address</span>
+          </div>
           <p>{address}</p>
+
           <div className={styles.qrcode}>
             <QRCode value={address} />
           </div>
@@ -58,7 +62,8 @@ ReceiveModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   hideActivityModal: PropTypes.func.isRequired,
   pubkey: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired
+  address: PropTypes.string.isRequired,
+  newAddress: PropTypes.func.isRequired
 }
 
 export default ReceiveModal

@@ -21,7 +21,8 @@ class Wallet extends Component {
     const {
       balance,
       address,
-      info
+      info,
+      newAddress
     } = this.props
 
     const { modalOpen } = this.state
@@ -35,6 +36,7 @@ class Wallet extends Component {
               hideActivityModal={() => this.setState({ modalOpen: false })}
               pubkey={info.data.identity_pubkey}
               address={address}
+              newAddress={newAddress}
             />)
         }
         <div className={styles.content}>
@@ -65,7 +67,8 @@ class Wallet extends Component {
 Wallet.propTypes = {
   balance: PropTypes.object.isRequired,
   address: PropTypes.string.isRequired,
-  info: PropTypes.object.isRequired
+  info: PropTypes.object.isRequired,
+  newAddress: PropTypes.func.isRequired
 }
 
 export default Wallet

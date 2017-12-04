@@ -41,12 +41,12 @@ export const lndSynced = () => (dispatch) => {
   showNotification(notifTitle, notifBody)
 }
 
-export const grpcDisconnected = () => (dispatch) => dispatch({ type: GRPC_DISCONNECTED })
+export const grpcDisconnected = () => dispatch => dispatch({ type: GRPC_DISCONNECTED })
 
-export const grpcConnected = () => (dispatch) => dispatch({ type: GRPC_CONNECTED })
+export const grpcConnected = () => dispatch => dispatch({ type: GRPC_CONNECTED })
 
 // Receive IPC event for LND streaming a line
-export const lndStdout = (event, line) => dispatch => {
+export const lndStdout = (event, line) => (dispatch) => {
   let height
   let trimmed
 
