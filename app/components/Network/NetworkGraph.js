@@ -22,6 +22,7 @@ class NetworkGraph extends Component {
     const { ready } = this.state
     const {
       network: { nodes, edges, selectedChannel, networkLoading },
+      selectedPeerPubkeys,
       identity_pubkey,
     } = this.props
 
@@ -53,16 +54,17 @@ class NetworkGraph extends Component {
           zoomOptions={{ minScale: 0.1, maxScale: 5, scale: 0.2 }}
           zoom
         >
-          <path d="M534.7054286266647, 460.3260926684966" fill="red" stroke="blue" />
           {
             nodes.map(node => {
               return (
                 <ForceGraphNode
-                  r={15}
+                  r={25}
                   label={node.pub_key}
                   key={node.pub_key}
                   node={{ id: node.pub_key }}
-                  fill={identity_pubkey === node.pub_key ? 'white' : 'black'}
+                  fill={selectedPeerPubkeys.includes(node.pub_key) ? '#5589F3' : '#353535'}
+                  strokeWidth={2.5}
+                  className={styles.node}
                 />
               )
             })

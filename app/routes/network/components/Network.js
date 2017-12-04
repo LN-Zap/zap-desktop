@@ -19,8 +19,11 @@ class Network extends Component {
   render() {
     const {
       setCurrentTab,
+      updateSelectedPeers,
 
       network,
+      selectedPeerPubkeys,
+
       peers: { peers },
       identity_pubkey
     } = this.props
@@ -28,7 +31,7 @@ class Network extends Component {
     const renderContent = () => {
       switch(network.currentTab) {
         case 1:
-          return <PeersList peers={peers} />
+          return <PeersList peers={peers} updateSelectedPeers={updateSelectedPeers} selectedPeerPubkeys={selectedPeerPubkeys} />
           break
         case 2:
           return <h1>channels</h1>
@@ -41,7 +44,12 @@ class Network extends Component {
 
     return (
       <div className={styles.container}>
-        <NetworkGraph className={styles.network} network={network} identity_pubkey={identity_pubkey} />
+        <NetworkGraph
+          className={styles.network}
+          network={network}
+          identity_pubkey={identity_pubkey}
+          selectedPeerPubkeys={selectedPeerPubkeys}
+        />
 
         <section className={styles.toolbox}>
           <ul className={styles.tabs}>

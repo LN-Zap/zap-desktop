@@ -20,6 +20,8 @@ export const SET_CURRENT_PEER = 'SET_CURRENT_PEER'
 
 export const UPDATE_PAY_REQ = 'UPDATE_PAY_REQ'
 
+export const UPDATE_SELECTED_PEERS = 'UPDATE_SELECTED_PEERS'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -71,6 +73,13 @@ export function updatePayReq(pay_req) {
   }
 }
 
+export function updateSelectedPeers(peer) {
+  return {
+    type: UPDATE_SELECTED_PEERS,
+    peer
+  }
+}
+
 // Send IPC event for describeNetwork
 export const fetchDescribeNetwork = () => (dispatch) => {
   dispatch(getDescribeNetwork())
@@ -116,7 +125,23 @@ const ACTION_HANDLERS = {
   
   [SET_CURRENT_PEER]: (state, { currentPeer }) => ({ ...state, currentPeer }),
 
-  [UPDATE_PAY_REQ]: (state, { pay_req }) => ({ ...state, pay_req })
+  [UPDATE_PAY_REQ]: (state, { pay_req }) => ({ ...state, pay_req }),
+  
+  [UPDATE_SELECTED_PEERS]: (state, { peer }) => {
+    let selectedPeers
+    
+    if (state.selectedPeers.includes(peer)) {
+      selectedPeers = state.selectedPeers.filter(selectedPeer => selectedPeer.pub_key !== peer.pub_key)
+    }
+
+    if (!state.selectedPeers.includes(peer)) {
+      selectedPeers = [...state.selectedPeers, peer]
+    }
+
+    return {
+      ...state, selectedPeers
+    }
+  }
 }
 
 // ------------------------------------
@@ -124,6 +149,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const networkSelectors = {}
 const currentRouteSelector = state => state.network.selectedNode.currentRoute
+const selectedPeers = state => state.network.selectedPeers
 
 networkSelectors.currentRouteHopChanIds = createSelector(
   currentRouteSelector,
@@ -132,6 +158,11 @@ networkSelectors.currentRouteHopChanIds = createSelector(
 
     return currentRoute.hops.map(hop => hop.chan_id)
   }
+)
+
+networkSelectors.selectedPeerPubkeys = createSelector(
+  selectedPeers,
+  peers => peers.map(peer => peer.pub_key)
 )
 
 export { networkSelectors }
@@ -154,7 +185,9 @@ const initialState = {
 
   currentPeer: {},
 
-  pay_req: ''
+  pay_req: '',
+
+  selectedPeers: []
 }
 
 
