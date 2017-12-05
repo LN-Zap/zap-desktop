@@ -6,6 +6,7 @@ import { InteractiveForceGraph, ForceGraphNode, ForceGraphLink } from 'react-vis
 import NetworkGraph from 'components/Network/NetworkGraph'
 import PeersList from 'components/Network/PeersList'
 import ChannelsList from 'components/Network/ChannelsList'
+import TransactionForm from 'components/Network/TransactionForm'
 
 import styles from './Network.scss'
 
@@ -44,7 +45,7 @@ class Network extends Component {
           return <ChannelsList channels={activeChannels} updateSelectedChannels={updateSelectedChannels} selectedChannelIds={selectedChannelIds} />
           break
         case 3:
-          return <h1>transactions</h1>
+          return <TransactionForm />
           break
       }
     }

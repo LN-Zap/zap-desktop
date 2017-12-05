@@ -37,7 +37,6 @@ class NetworkGraph extends Component {
       )
     }
 
-    console.log('selectedChannelIds: ', selectedChannelIds)
     return (
       <section className={styles.network}>
         <ForceGraph
