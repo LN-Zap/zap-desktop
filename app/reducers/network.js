@@ -22,6 +22,8 @@ export const UPDATE_PAY_REQ = 'UPDATE_PAY_REQ'
 
 export const UPDATE_SELECTED_PEERS = 'UPDATE_SELECTED_PEERS'
 
+export const UPDATE_SELECTED_CHANNELS = 'UPDATE_SELECTED_CHANNELS'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -77,6 +79,13 @@ export function updateSelectedPeers(peer) {
   return {
     type: UPDATE_SELECTED_PEERS,
     peer
+  }
+}
+
+export function updateSelectedChannels(channel) {
+  return {
+    type: UPDATE_SELECTED_CHANNELS,
+    channel
   }
 }
 
@@ -141,6 +150,22 @@ const ACTION_HANDLERS = {
     return {
       ...state, selectedPeers
     }
+  },
+
+  [UPDATE_SELECTED_CHANNELS]: (state, { channel }) => {
+    let selectedChannels
+    
+    if (state.selectedChannels.includes(channel)) {
+      selectedChannels = state.selectedChannels.filter(selectedChannel => selectedChannel.chan_id !== channel.chan_id)
+    }
+
+    if (!state.selectedChannels.includes(channel)) {
+      selectedChannels = [...state.selectedChannels, channel]
+    }
+
+    return {
+      ...state, selectedChannels
+    }
   }
 }
 
@@ -150,6 +175,7 @@ const ACTION_HANDLERS = {
 const networkSelectors = {}
 const currentRouteSelector = state => state.network.selectedNode.currentRoute
 const selectedPeers = state => state.network.selectedPeers
+const selectedChannels = state => state.network.selectedChannels
 
 networkSelectors.currentRouteHopChanIds = createSelector(
   currentRouteSelector,
@@ -163,6 +189,11 @@ networkSelectors.currentRouteHopChanIds = createSelector(
 networkSelectors.selectedPeerPubkeys = createSelector(
   selectedPeers,
   peers => peers.map(peer => peer.pub_key)
+)
+
+networkSelectors.selectedChannelIds = createSelector(
+  selectedChannels,
+  channels => channels.map(channel => channel.chan_id)
 )
 
 export { networkSelectors }
@@ -187,7 +218,8 @@ const initialState = {
 
   pay_req: '',
 
-  selectedPeers: []
+  selectedPeers: [],
+  selectedChannels: []
 }
 
 

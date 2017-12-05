@@ -6,6 +6,7 @@ import {
 
   setCurrentTab,
   updateSelectedPeers,
+  updateSelectedChannels,
 
   networkSelectors
 } from '../../../reducers/network'
@@ -21,7 +22,8 @@ const mapDispatchToProps = {
   
   fetchPeers,
 
-  fetchChannels
+  fetchChannels,
+  updateSelectedChannels
 }
 
 const mapStateToProps = state => ({
@@ -30,6 +32,7 @@ const mapStateToProps = state => ({
   identity_pubkey: state.info.data.identity_pubkey,
 
   selectedPeerPubkeys: networkSelectors.selectedPeerPubkeys(state),
+  selectedChannelIds: networkSelectors.selectedChannelIds(state),
   activeChannels: channelsSelectors.activeChannels(state)
 })
 

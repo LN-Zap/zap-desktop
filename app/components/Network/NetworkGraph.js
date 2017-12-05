@@ -23,6 +23,7 @@ class NetworkGraph extends Component {
     const {
       network: { nodes, edges, selectedChannel, networkLoading },
       selectedPeerPubkeys,
+      selectedChannelIds,
       identity_pubkey,
     } = this.props
 
@@ -36,6 +37,7 @@ class NetworkGraph extends Component {
       )
     }
 
+    console.log('selectedChannelIds: ', selectedChannelIds)
     return (
       <section className={styles.network}>
         <ForceGraph
@@ -55,31 +57,28 @@ class NetworkGraph extends Component {
           zoom
         >
           {
-            nodes.map(node => {
-              return (
-                <ForceGraphNode
-                  r={25}
-                  label={node.pub_key}
-                  key={node.pub_key}
-                  node={{ id: node.pub_key }}
-                  fill={selectedPeerPubkeys.includes(node.pub_key) ? '#5589F3' : '#353535'}
-                  strokeWidth={2.5}
-                  className={styles.node}
-                />
-              )
-            })
+            nodes.map(node =>
+              <ForceGraphNode
+                r={25}
+                label={node.pub_key}
+                key={node.pub_key}
+                node={{ id: node.pub_key }}
+                fill={selectedPeerPubkeys.includes(node.pub_key) ? '#5589F3' : '#353535'}
+                strokeWidth={2.5}
+                className={styles.node}
+              />
+            )
           }
           {
-            edges.map(edge => {
-              return (
-                <ForceGraphLink
-                  key={edge.channel_id}
-                  link={{ source: edge.node1_pub, target: edge.node2_pub }}
-                  stroke='silver'
-                  strokeWidth='5'
-                />
-              )
-            })
+            edges.map(edge =>
+              <ForceGraphLink
+                className={selectedChannelIds.includes(edge.channel_id) && styles.activeEdge}
+                key={edge.channel_id}
+                link={{ source: edge.node1_pub, target: edge.node2_pub }}
+                stroke='silver'
+                strokeWidth='5'
+              />
+            )
           }
         </ForceGraph>
       </section>

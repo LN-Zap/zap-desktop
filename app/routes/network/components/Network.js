@@ -29,6 +29,8 @@ class Network extends Component {
       peers: { peers },
       
       activeChannels,
+      selectedChannelIds,
+      updateSelectedChannels,
 
       identity_pubkey
     } = this.props
@@ -39,7 +41,7 @@ class Network extends Component {
           return <PeersList peers={peers} updateSelectedPeers={updateSelectedPeers} selectedPeerPubkeys={selectedPeerPubkeys} />
           break
         case 2:
-          return <ChannelsList channels={activeChannels} />
+          return <ChannelsList channels={activeChannels} updateSelectedChannels={updateSelectedChannels} selectedChannelIds={selectedChannelIds} />
           break
         case 3:
           return <h1>transactions</h1>
@@ -54,6 +56,7 @@ class Network extends Component {
           network={network}
           identity_pubkey={identity_pubkey}
           selectedPeerPubkeys={selectedPeerPubkeys}
+          selectedChannelIds={selectedChannelIds}
         />
 
         <section className={styles.toolbox}>

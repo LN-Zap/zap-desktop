@@ -4,12 +4,12 @@ import PropTypes from 'prop-types'
 import { btc } from 'utils'
 import styles from './ChannelsList.scss'
 
-const ChannelsList = ({ channels }) => (
+const ChannelsList = ({ channels, updateSelectedChannels, selectedChannelIds }) => (
   <ul className={styles.channels}>
     {
-      channels.map((channel, index) =>
-        <li key={index} className={styles.channel} onClick={() => console.log('channel clicked')}>
-          <span className={`${styles.dot}`} />
+      channels.map(channel =>
+        <li key={channel.chan_id} className={styles.channel} onClick={() => updateSelectedChannels(channel)}>
+          <span className={`${styles.dot} ${selectedChannelIds.includes(channel.chan_id) && styles.active}`} />
 
           <header>
             <h1>Capacity: {btc.satoshisToBtc(channel.capacity)}</h1>
