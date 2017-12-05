@@ -10,6 +10,7 @@ import {
   networkSelectors
 } from '../../../reducers/network'
 import { fetchPeers } from '../../../reducers/peers'
+import { fetchChannels, channelsSelectors } from '../../../reducers/channels'
 
 import Network from '../components/Network'
 
@@ -18,7 +19,9 @@ const mapDispatchToProps = {
   setCurrentTab,
   updateSelectedPeers,
   
-  fetchPeers
+  fetchPeers,
+
+  fetchChannels
 }
 
 const mapStateToProps = state => ({
@@ -26,7 +29,8 @@ const mapStateToProps = state => ({
   peers: state.peers,
   identity_pubkey: state.info.data.identity_pubkey,
 
-  selectedPeerPubkeys: networkSelectors.selectedPeerPubkeys(state)
+  selectedPeerPubkeys: networkSelectors.selectedPeerPubkeys(state),
+  activeChannels: channelsSelectors.activeChannels(state)
 })
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Network))

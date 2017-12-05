@@ -5,14 +5,16 @@ import { InteractiveForceGraph, ForceGraphNode, ForceGraphLink } from 'react-vis
 
 import NetworkGraph from 'components/Network/NetworkGraph'
 import PeersList from 'components/Network/PeersList'
+import ChannelsList from 'components/Network/ChannelsList'
 
 import styles from './Network.scss'
 
 class Network extends Component {
   componentWillMount() {
-    const { fetchDescribeNetwork, fetchPeers } = this.props
+    const { fetchDescribeNetwork, fetchPeers, fetchChannels } = this.props
 
     fetchPeers()
+    fetchChannels()
     fetchDescribeNetwork()
   }
 
@@ -25,6 +27,9 @@ class Network extends Component {
       selectedPeerPubkeys,
 
       peers: { peers },
+      
+      activeChannels,
+
       identity_pubkey
     } = this.props
 
@@ -34,7 +39,7 @@ class Network extends Component {
           return <PeersList peers={peers} updateSelectedPeers={updateSelectedPeers} selectedPeerPubkeys={selectedPeerPubkeys} />
           break
         case 2:
-          return <h1>channels</h1>
+          return <ChannelsList channels={activeChannels} />
           break
         case 3:
           return <h1>transactions</h1>

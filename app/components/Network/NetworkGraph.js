@@ -44,7 +44,7 @@ class NetworkGraph extends Component {
               height: 800,
               width: 800,
               strength: { 
-                charge: -500
+                charge: -750
               }
             }
           }
