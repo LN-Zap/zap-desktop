@@ -3,9 +3,10 @@ import React from 'react'
 import { Provider, connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import PropTypes from 'prop-types'
-import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
-import LoadingBolt from 'components/LoadingBolt'
-import LndSyncing from 'components/LndSyncing'
+
+import LoadingBolt from '../components/LoadingBolt'
+import LndSyncing from '../components/LndSyncing'
+import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
@@ -17,11 +18,6 @@ const mapStateToProps = state => ({
 
   syncPercentage: lndSelectors.syncPercentage(state)
 })
-
-type RootType = {
-  store: {},
-  history: {}
-};
 
 const Root = ({
   store,

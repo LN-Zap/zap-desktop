@@ -111,9 +111,9 @@ const ACTION_HANDLERS = {
   ),
 
   [SET_CURRENT_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
-  
+
   [SET_CURRENT_TAB]: (state, { currentTab }) => ({ ...state, currentTab }),
-  
+
   [SET_CURRENT_PEER]: (state, { currentPeer }) => ({ ...state, currentPeer }),
 
   [UPDATE_PAY_REQ]: (state, { pay_req }) => ({ ...state, pay_req })
@@ -149,7 +149,7 @@ const initialState = {
     currentRoute: {}
   },
   selectedChannel: {},
-  
+
   currentTab: 1,
 
   currentPeer: {},

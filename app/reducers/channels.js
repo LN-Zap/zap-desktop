@@ -200,7 +200,7 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
     dispatch(fetchDescribeNetwork())
 
     // loop through the channel updates
-    for (let i = 0; i < channel_updates.length; i++) {
+    for (let i = 0; i < channel_updates.length; i += 1) {
       const channel_update = channel_updates[i]
       const { advertising_node, connecting_node } = channel_update
 

@@ -4,7 +4,7 @@ import styles from './LndSyncing.scss'
 
 class LndSyncing extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       facts: [
         {
