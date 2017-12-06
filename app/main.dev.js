@@ -165,7 +165,7 @@ export const startLnd = () => {
         '--bitcoin.active',
         '--bitcoin.testnet',
         '--neutrino.active',
-        '--neutrino.connect=165.227.7.29:18333',
+        '--neutrino.connect=faucet.lightning.community:18333',
         '--autopilot.active',
         '--debuglevel=debug',
         '--no-macaroons',

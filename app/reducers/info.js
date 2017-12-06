@@ -19,23 +19,19 @@ export function getInfo() {
 
 // Send IPC event for getinfo
 export const fetchInfo = () => async (dispatch) => {
-  console.log('fetching info')
   dispatch(getInfo())
   ipcRenderer.send('lnd', { msg: 'info' })
 }
 
 // Receive IPC event for info
 export const receiveInfo = (event, data) => (dispatch) => {
-  console.log('receiving info and fetching other stuff')
   dispatch(fetchBalance())
   dispatch(newAddress('p2pkh'))
   dispatch({ type: RECEIVE_INFO, data })
 }
 
 // IPC info fetch failed
-export const infoFailed = (event, data) => (dispatch) => {
-  console.log('INFO FAILED data: ', data)
-}
+// export const infoFailed = (event, data) => dispatch => {}
 
 // ------------------------------------
 // Action Handlers

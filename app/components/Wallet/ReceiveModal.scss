@@ -36,3 +36,14 @@
     }
   }
 }
+
+.addressHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .newAddress {
+    text-decoration: underline;
+    font-size: 12px;
+  }
+}

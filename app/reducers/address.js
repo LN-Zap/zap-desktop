@@ -5,7 +5,7 @@ import { ipcRenderer } from 'electron'
 export const GET_ADDRESS = 'GET_ADDRESS'
 export const RECEIVE_ADDRESS = 'RECEIVE_ADDRESS'
 
-// LND expects types to be sent as int, so this object will allow mapping from string to int 
+// LND expects types to be sent as int, so this object will allow mapping from string to int
 const addressTypes = {
   p2wkh: 0,
   np2wkh: 1,
@@ -28,9 +28,7 @@ export const newAddress = type => async (dispatch) => {
 }
 
 // Receive IPC event for info
-export const receiveAddress = (event, address) => (dispatch) => {
-  dispatch({ type: RECEIVE_ADDRESS, address })
-}
+export const receiveAddress = (event, address) => dispatch => dispatch({ type: RECEIVE_ADDRESS, address })
 
 // ------------------------------------
 // Action Handlers

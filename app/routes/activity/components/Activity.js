@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { MdSearch } from 'react-icons/lib/md'
 import { FaAngleDown } from 'react-icons/lib/fa'
 
+import Wallet from 'components/Wallet'
 import Invoice from './components/Invoice'
 import Payment from './components/Payment'
 import Transaction from './components/Transaction'
@@ -44,6 +45,9 @@ class Activity extends Component {
       ticker,
       searchInvoices,
       invoice: { invoicesSearchText, invoiceLoading },
+      address: { address },
+      balance,
+      info,
       payment: { paymentLoading },
       currentTicker,
       activity: { modal, filter, filterPulldown },
@@ -51,7 +55,8 @@ class Activity extends Component {
       changeFilter,
       toggleFilterPulldown,
       currentActivity,
-      nonActiveFilters
+      nonActiveFilters,
+      newAddress
     } = this.props
 
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
@@ -65,6 +70,8 @@ class Activity extends Component {
           ticker={ticker}
           currentTicker={currentTicker}
         />
+
+        <Wallet balance={balance} address={address} info={info} newAddress={newAddress} />
 
         <div className={styles.search}>
           <label className={`${styles.label} ${styles.input}`} htmlFor='invoiceSearch'>
@@ -116,18 +123,25 @@ Activity.propTypes = {
   fetchPayments: PropTypes.func.isRequired,
   fetchInvoices: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
+
   ticker: PropTypes.object.isRequired,
   searchInvoices: PropTypes.func.isRequired,
   invoice: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
+
   showActivityModal: PropTypes.func.isRequired,
   hideActivityModal: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
+  newAddress: PropTypes.func.isRequired,
   toggleFilterPulldown: PropTypes.func.isRequired,
+
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,
-  nonActiveFilters: PropTypes.array.isRequired
+  nonActiveFilters: PropTypes.array.isRequired,
+  address: PropTypes.object.isRequired,
+  balance: PropTypes.object.isRequired,
+  info: PropTypes.object.isRequired
 }
 
 export default Activity

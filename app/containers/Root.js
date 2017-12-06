@@ -2,6 +2,7 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
+import PropTypes from 'prop-types'
 import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 import LoadingBolt from 'components/LoadingBolt'
 import LndSyncing from 'components/LndSyncing'
@@ -17,41 +18,47 @@ const mapStateToProps = state => ({
   syncPercentage: lndSelectors.syncPercentage(state)
 })
 
-class Root extends React.Component {
-  render() {
-    const {
-      store,
-      history,
-      lnd,
-      fetchBlockHeight,
-      syncPercentage
-    } = this.props
+type RootType = {
+  store: {},
+  history: {}
+};
 
-    console.log('lnd: ', lnd)
-    console.log('lnd: ', lnd)
-
-    if (lnd.syncing) {
-      return (
-        <LndSyncing
-          fetchBlockHeight={fetchBlockHeight}
-          fetchingBlockHeight={lnd.fetchingBlockHeight}
-          syncPercentage={syncPercentage}
-        />
-      )
-    }
-
-    if (!lnd.grpcStarted) { return <LoadingBolt /> }
-
+const Root = ({
+  store,
+  history,
+  lnd,
+  fetchBlockHeight,
+  syncPercentage
+}) => {
+  // If we are syncing show the syncing screen
+  if (lnd.syncing) {
     return (
-      <Provider store={store}>
-        <ConnectedRouter history={history}>
-          <Routes />
-        </ConnectedRouter>
-      </Provider>
+      <LndSyncing
+        fetchBlockHeight={fetchBlockHeight}
+        fetchingBlockHeight={lnd.fetchingBlockHeight}
+        syncPercentage={syncPercentage}
+      />
     )
   }
+
+  // Don't launch the app without gRPC connection
+  if (!lnd.grpcStarted) { return <LoadingBolt /> }
+
+  return (
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Routes />
+      </ConnectedRouter>
+    </Provider>
+  )
 }
 
+Root.propTypes = {
+  store: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  lnd: PropTypes.object.isRequired,
+  fetchBlockHeight: PropTypes.func.isRequired,
+  syncPercentage: PropTypes.number.isRequired
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root)
-

@@ -9,6 +9,8 @@ export function sendPaymentSync(lnd, { paymentRequest }) {
     lnd.sendPaymentSync({ payment_request: paymentRequest }, (err, data) => {
       if (err) { reject(err) }
 
+      if (!data.payment_route) { reject({ error: data.payment_error }) }
+
       resolve(data)
     })
   })

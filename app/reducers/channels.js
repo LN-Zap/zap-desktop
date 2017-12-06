@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
 import { fetchDescribeNetwork } from './network'
-import { closeChannelForm } from './channelform'
+import { closeChannelForm, resetChannelForm } from './channelform'
 import { setError } from './error'
 // ------------------------------------
 // Constants
@@ -113,28 +113,34 @@ export const openChannel = ({ pubkey, local_amt, push_amt }) => (dispatch) => {
 // TODO: Decide how to handle streamed updates for channels
 // Receive IPC event for openChannel
 export const channelSuccessful = () => (dispatch) => {
+  console.log('CHANNEL channelSuccessful')
   dispatch(fetchChannels())
   dispatch(closeChannelForm())
+  dispatch(resetChannelForm())
 }
 
 // Receive IPC event for updated channel
-export const pushchannelupdated = () => (dispatch) => {
+export const pushchannelupdated = (event, data) => (dispatch) => {
+  console.log('PUSH CHANNEL UPDATED: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel end
 export const pushchannelend = event => (dispatch) => { // eslint-disable-line
+  console.log('PUSH CHANNEL END: ')
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel error
 export const pushchannelerror = (event, { error }) => (dispatch) => {
+  console.log('PUSH CHANNEL ERROR: ', error)
   dispatch(openingFailure())
   dispatch(setError(error))
 }
 
 // Receive IPC event for channel status
-export const pushchannelstatus = event => (dispatch) => { // eslint-disable-line
+export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disable-line
+  console.log('PUSH CHANNEL STATUS: ', data)
   dispatch(fetchChannels())
 }
 
@@ -194,18 +200,18 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
     dispatch(fetchDescribeNetwork())
 
     // loop through the channel updates
-    for (let i = 0; i < channel_updates.length; i += 1) {
-      let channel_update = channel_updates[i]
-      let { advertising_node, connecting_node } = channel_update
+    for (let i = 0; i < channel_updates.length; i++) {
+      const channel_update = channel_updates[i]
+      const { advertising_node, connecting_node } = channel_update
 
       // if our node is involved in this update we wanna show a notification
       if (info.data.identity_pubkey === advertising_node || info.data.identity_pubkey === connecting_node) {
-        // this channel has to do with the user, lets fetch a new channel list for them 
+        // this channel has to do with the user, lets fetch a new channel list for them
         // TODO: full fetch is probably not necessary
         dispatch(fetchChannels())
 
         // Construct the notification
-        let otherParty = info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
+        const otherParty = info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
         let notifBody = `No new friends, just new channels. Your channel with ${otherParty}` // eslint-disable-line
         const notifTitle = 'New channel detected'
 
@@ -217,7 +223,7 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
 }
 
 // IPC event for channel graph status
-export const channelGraphStatus = (event, data) => (dispatch) => {
+export const channelGraphStatus = (event, data) => () => {
   console.log('channelGraphStatus: ', data)
 }
 
