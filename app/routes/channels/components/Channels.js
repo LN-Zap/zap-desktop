@@ -22,7 +22,7 @@ class Channels extends Component {
 
   componentWillMount() {
     const { fetchChannels, fetchPeers } = this.props
-    
+
     fetchChannels()
     fetchPeers()
   }
@@ -64,7 +64,7 @@ class Channels extends Component {
       fetchChannels()
 
       // wait for the svg to appear as child
-      const svgTimeout = setTimeout(() => { 
+      const svgTimeout = setTimeout(() => {
         if (icon[0].tagName === 'svg') {
           // spin icon for 1 sec
           icon[0].style.animation = 'spin 1000ms linear 1'
@@ -73,7 +73,7 @@ class Channels extends Component {
       }, 1)
 
       // clear animation after the second so we can reuse it
-      const refreshTimeout = setTimeout(() => { 
+      const refreshTimeout = setTimeout(() => {
         icon[0].style.animation = ''
         this.setState({ refreshing: false })
         clearTimeout(refreshTimeout)
@@ -96,7 +96,7 @@ class Channels extends Component {
             </div>
           </div>
         </header>
-        
+
         <div className={styles.search}>
           <label className={`${styles.label} ${styles.input}`} htmlFor='channelSearch'>
             <MdSearch />
@@ -187,7 +187,7 @@ Channels.propTypes = {
   channels: PropTypes.object.isRequired,
   currentChannels: PropTypes.array.isRequired,
   nonActiveFilters: PropTypes.array.isRequired,
-  
+
   updateChannelSearchQuery: PropTypes.func.isRequired,
   setCurrentChannel: PropTypes.func.isRequired,
   openChannelForm: PropTypes.func.isRequired,

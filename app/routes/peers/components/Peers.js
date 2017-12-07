@@ -24,7 +24,7 @@ class Peers extends Component {
   }
 
   render() {
-    const { 
+    const {
       fetchPeers,
       peerFormProps,
       setPeerForm,

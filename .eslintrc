@@ -11,7 +11,7 @@
   },
   "rules": {
     "comma-dangle": ["error", "never"],
-    "semi": 0,
+    "semi": ["error", "never"],
     "indent": 2,
     "jsx-quotes": ["error", "prefer-single"],
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
