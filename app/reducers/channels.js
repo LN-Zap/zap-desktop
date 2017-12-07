@@ -197,7 +197,8 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
   // if there are any new channel updates
   if (channel_updates.length) {
     // The network has updated, so fetch a new result
-    dispatch(fetchDescribeNetwork())
+    // TODO: can't do this now because of the SVG performance issues, after we fix this we can uncomment the line below 
+    // dispatch(fetchDescribeNetwork())
 
     // loop through the channel updates
     for (let i = 0; i < channel_updates.length; i++) {

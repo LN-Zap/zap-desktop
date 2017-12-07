@@ -19,19 +19,43 @@ class Network extends Component {
     fetchDescribeNetwork()
   }
 
+  componentDidUpdate(prevProps) {
+    const { payReqIsLn, network: { pay_req }, fetchInvoiceAndQueryRoutes, clearQueryRoutes } = this.props
+
+    // If LN go retrieve invoice details
+    if ((prevProps.network.pay_req !== pay_req) && payReqIsLn) {
+      fetchInvoiceAndQueryRoutes(pay_req)
+    }
+
+    if (prevProps.payReqIsLn && !payReqIsLn) {
+      clearQueryRoutes()
+    }
+  }
+
+  componentWillUnmount() {
+    const { clearQueryRoutes, resetPayReq } = this.props
+
+    clearQueryRoutes()
+    resetPayReq()    
+  }
+
   render() {
     const {
       setCurrentTab,
       updateSelectedPeers,
+      setCurrentRoute,
 
       network,
       selectedPeerPubkeys,
+      currentRouteChanIds,
 
       peers: { peers },
       
       activeChannels,
       selectedChannelIds,
       updateSelectedChannels,
+
+      updatePayReq,
 
       identity_pubkey
     } = this.props
@@ -45,7 +69,16 @@ class Network extends Component {
           return <ChannelsList channels={activeChannels} updateSelectedChannels={updateSelectedChannels} selectedChannelIds={selectedChannelIds} />
           break
         case 3:
-          return <TransactionForm />
+          return (
+            <TransactionForm
+              updatePayReq={updatePayReq}
+              pay_req={network.pay_req}
+              loadingRoutes={network.fetchingInvoiceAndQueryingRoutes}
+              payReqRoutes={network.payReqRoutes}
+              setCurrentRoute={setCurrentRoute}
+              currentRoute={network.currentRoute}
+            />
+          )
           break
       }
     }
@@ -58,6 +91,7 @@ class Network extends Component {
           identity_pubkey={identity_pubkey}
           selectedPeerPubkeys={selectedPeerPubkeys}
           selectedChannelIds={selectedChannelIds}
+          currentRouteChanIds={currentRouteChanIds}
         />
 
         <section className={styles.toolbox}>

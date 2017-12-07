@@ -9,10 +9,9 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchBalance, fetchInfo, newAddress } = this.props
+    const { fetchTicker, fetchInfo, newAddress } = this.props
 
     fetchTicker()
-    fetchBalance()
     fetchInfo()
     newAddress('p2pkh')
   }
@@ -37,7 +36,7 @@ class App extends Component {
       children
     } = this.props
 
-    if (!currentTicker || balance.balanceLoading) { return <LoadingBolt /> }
+    if (!currentTicker) { return <LoadingBolt /> }
 
     return (
       <div>

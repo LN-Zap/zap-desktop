@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { tickerSelectors } from 'reducers/ticker'
+import { fetchBalance } from 'reducers/balance'
 import {
   fetchInvoices,
   searchInvoices,
@@ -34,7 +35,8 @@ const mapDispatchToProps = {
   hideActivityModal,
   changeFilter,
   toggleFilterPulldown,
-  newAddress
+  newAddress,
+  fetchBalance
 }
 
 const mapStateToProps = state => ({

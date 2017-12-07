@@ -1,7 +1,10 @@
+import { findDOMNode } from 'react-dom'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { ForceGraph, ForceGraphNode, ForceGraphLink } from 'react-vis-force'
 import { FaCircle } from 'react-icons/lib/fa'
+import Isvg from 'react-inlinesvg'
+import bitcoinIcon from 'icons/skinny_bitcoin.svg'
 import styles from './NetworkGraph.scss'
 
 class NetworkGraph extends Component {
@@ -15,7 +18,7 @@ class NetworkGraph extends Component {
   componentWillMount() {
     setTimeout(() => {
       this.setState({ ready: true })
-    }, 1000)
+    }, 10000)
   }
 
   render() {
@@ -24,10 +27,12 @@ class NetworkGraph extends Component {
       network: { nodes, edges, selectedChannel, networkLoading },
       selectedPeerPubkeys,
       selectedChannelIds,
-      identity_pubkey,
+      currentRouteChanIds,
+      identity_pubkey
     } = this.props
 
     if (!ready || networkLoading) {
+      console.log('hi!')
       return (
         <section className={styles.network}>
           <div className={styles.networkLoading}>
@@ -40,6 +45,7 @@ class NetworkGraph extends Component {
     return (
       <section className={styles.network}>
         <ForceGraph
+          id='map'
           simulationOptions={
             {
               height: 800,
@@ -58,26 +64,92 @@ class NetworkGraph extends Component {
           {
             nodes.map(node =>
               <ForceGraphNode
+                id={node.pub_key}
                 r={25}
                 label={node.pub_key}
                 key={node.pub_key}
                 node={{ id: node.pub_key }}
-                fill={selectedPeerPubkeys.includes(node.pub_key) ? '#5589F3' : '#353535'}
                 strokeWidth={2.5}
-                className={styles.node}
+                className={`${styles.node} ${identity_pubkey === node.pub_key && styles.owner} ${selectedPeerPubkeys.includes(node.pub_key) && styles.peer}`}
               />
             )
           }
           {
-            edges.map(edge =>
-              <ForceGraphLink
-                className={selectedChannelIds.includes(edge.channel_id) && styles.activeEdge}
-                key={edge.channel_id}
-                link={{ source: edge.node1_pub, target: edge.node2_pub }}
-                stroke='silver'
-                strokeWidth='5'
-              />
-            )
+            edges.map(edge => {
+              return (
+                <ForceGraphLink
+                  id={edge.channel_id}
+                  className={selectedChannelIds.includes(edge.channel_id) && styles.activeEdge}
+                  key={edge.channel_id}
+                  link={{ source: edge.node1_pub, target: edge.node2_pub }}
+                  stroke='silver'
+                  strokeWidth='5'
+                />
+              )
+            })
+          }
+
+          {
+            currentRouteChanIds.map((chan_id) => {
+              const line = document.getElementById(chan_id)
+
+              if (!line) { return }
+              const x1 = line.x1.baseVal.value
+              const x2 = line.x2.baseVal.value
+              const y1 = line.y1.baseVal.value
+              const y2 = line.y2.baseVal.value
+
+              return (
+                <circle id={`circle-${chan_id}`} r="10" cx={x1} cy={y1} fill="#FFDC53" zoomable />
+              )
+            })
+          }
+
+          {
+            currentRouteChanIds.map((chan_id) => {
+              const line = document.getElementById(chan_id)
+
+              if (!line) { return }
+              const x1 = line.x1.baseVal.value
+              const x2 = line.x2.baseVal.value
+              const y1 = line.y1.baseVal.value
+              const y2 = line.y2.baseVal.value
+
+              return (
+                <animate 
+                  xlinkHref={`#circle-${chan_id}`}
+                  attributeName="cx"
+                  from={x1}
+                  to={x2}
+                  dur="1s"
+                  fill="freeze"
+                  repeatCount="indefinite"
+                />
+              )
+            })
+          }
+          {
+            currentRouteChanIds.map((chan_id) => {
+              const line = document.getElementById(chan_id)
+
+              if (!line) { return }
+              const x1 = line.x1.baseVal.value
+              const x2 = line.x2.baseVal.value
+              const y1 = line.y1.baseVal.value
+              const y2 = line.y2.baseVal.value
+
+              return (
+                <animate 
+                  xlinkHref={`#circle-${chan_id}`}
+                  attributeName="cy"
+                  from={y1}
+                  to={y2}
+                  dur="1s"
+                  fill="freeze"
+                  repeatCount="indefinite"
+                />
+              )
+            })
           }
         </ForceGraph>
       </section>

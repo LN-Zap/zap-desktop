@@ -18,6 +18,10 @@
   left: 0;
   width: 70%;
   height: 100vh;
+  animation: fadein 0.5s;
+  animation-timing-function:linear;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
 
   h1 {
     font-size: 22px;
@@ -32,13 +36,22 @@
   height: 100vh;
   animation: fadein 0.5s;
   animation-timing-function:linear;
-  animation-fill-mode:forwards;
+  animation-fill-mode: forwards;
   animation-iteration-count: 1;
 }
 
 .node {
   stroke-width: 2 !important;
   animation: color-change 1s infinite;
+  fill: #353535;
+
+  &.owner {
+    fill: #FFFFFF;
+  }
+
+  &.peer {
+    fill: #5589F3;
+  }
 }
 
 .activeEdge {

@@ -7,6 +7,13 @@ import {
   setCurrentTab,
   updateSelectedPeers,
   updateSelectedChannels,
+  setCurrentRoute,
+
+  updatePayReq,
+  resetPayReq,
+
+  fetchInvoiceAndQueryRoutes,
+  clearQueryRoutes,
 
   networkSelectors
 } from '../../../reducers/network'
@@ -19,6 +26,11 @@ const mapDispatchToProps = {
   fetchDescribeNetwork,
   setCurrentTab,
   updateSelectedPeers,
+  updatePayReq,
+  fetchInvoiceAndQueryRoutes,
+  setCurrentRoute,
+  clearQueryRoutes,
+  resetPayReq,
   
   fetchPeers,
 
@@ -33,6 +45,8 @@ const mapStateToProps = state => ({
 
   selectedPeerPubkeys: networkSelectors.selectedPeerPubkeys(state),
   selectedChannelIds: networkSelectors.selectedChannelIds(state),
+  payReqIsLn: networkSelectors.payReqIsLn(state),
+  currentRouteChanIds: networkSelectors.currentRouteChanIds(state),
   activeChannels: channelsSelectors.activeChannels(state)
 })
 
