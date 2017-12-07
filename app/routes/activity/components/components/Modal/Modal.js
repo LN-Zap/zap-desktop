@@ -23,7 +23,9 @@ const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker
       right: '0',
       bottom: 'auto',
       width: '40%',
-      margin: '50px auto'
+      margin: '50px auto',
+      borderRadius: 'none',
+      padding: '0'
     }
   }
 

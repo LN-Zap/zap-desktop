@@ -1,3 +1,4 @@
+import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -12,31 +13,42 @@ import styles from './Transaction.scss'
 
 const Transaction = ({ transaction, ticker, currentTicker }) => (
   <div className={styles.container}>
-    <h2>
-      {
-        transaction.amount < 0 ?
-          'Sent'
-          :
-          'Received'
-      }
-    </h2>
-    <h3>{transaction.tx_hash}</h3>
-    <h1>
-      <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} styles={{ verticalAlign: 'top' }} />
-      <span className={styles.value}>
-        {
-          ticker.currency === 'usd' ?
-            btc.satoshisToUsd(transaction.amount, currentTicker.price_usd)
-            :
-            btc.satoshisToBtc(transaction.amount)
-        }
-      </span>
-    </h1>
+    <header>
+      <div className={styles.title}>
+        <h2>
+          {
+            transaction.amount < 0 ?
+              'Sent'
+              :
+              'Received'
+          }
+        </h2>
+        <h1>
+          <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} styles={{ verticalAlign: 'top' }} />
+          <span className={styles.value}>
+            {
+              ticker.currency === 'usd' ?
+                btc.satoshisToUsd(transaction.amount, currentTicker.price_usd)
+                :
+                btc.satoshisToBtc(transaction.amount)
+            }
+          </span>
+        </h1>
+      </div>
+      <h3 onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${transaction.tx_hash}`)}>{transaction.tx_hash}</h3>
+    </header>
     <dl>
       <dt>Confirmations</dt>
       <dd>{transaction.num_confirmations}</dd>
       <dt>Fee</dt>
-      <dd>{transaction.total_fees}</dd>
+      <dd>
+        {
+        ticker.currency === 'usd' ?
+          btc.satoshisToUsd(transaction.total_fees)
+          :
+          btc.satoshisToBtc(transaction.total_fees)
+        }
+      </dd>
       <dt>Date</dt>
       <dd>
         <Moment format='MMM Do'>{transaction.time_stamp * 1000}</Moment>
