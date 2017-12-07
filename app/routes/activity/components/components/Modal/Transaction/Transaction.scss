@@ -1,46 +1,55 @@
 @import '../../../../../../variables.scss';
 
 .container {
-  padding: 40px;
+  header {
+    padding: 5px 40px 20px 40px;
+    background: $lightgrey;
+
+    .title {
+      display: flex;
+      flex-direction: row;
+
+      h2 {
+        text-transform: uppercase;
+      }
+    }
+  }
 
   h1 {
     text-align: center;
     color: $main;
-    margin: 60px 30px 60px 0;
-
-    svg {
-      font-size: 30px;
-      vertical-align: top;
-    }
-
-    span svg[data-icon='ltc'] {
-      width: 30px;
-      height: 30px;
-      vertical-align: top;
-
-      g {
-        transform: scale(1.75) translate(-5px, -5px);
-      }
-    }
 
     .value {
-      font-size: 75px;
+      font-size: 24px;
+    }
+
+    i {
+      margin-left: 2px;
+      vertical-align: top;
     }
   }
 
   h3 {
     font-size: 14px;
     text-align: center;
-    color: $black;
-    font-weight: bold;
+    color: $darkestgrey;
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   h2 {
     text-align: center;
+    margin-right: 10px;
     margin-bottom: 30px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
     font-size: 24px;
+  }
+
+  dl {
+    padding: 40px 40px 40px 40px;
   }
 
   dt {
@@ -56,8 +65,8 @@
   dd {
     text-align: right;
     font-weight: 400;
-    padding: 19px 0;
+    padding: 30px 0 10px 0;
     margin-left: 0;
-    border-top: 1px solid $darkgrey;
+    border-bottom: 1px solid $darkgrey;
   }
 }

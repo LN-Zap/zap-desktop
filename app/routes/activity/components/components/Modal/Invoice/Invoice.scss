@@ -1,72 +1,75 @@
 @import '../../../../../../variables.scss';
 
 .container {
-  padding: 40px;
+  .settled {
+    position: absolute;
+    top: 0;
+    padding: 10px 0 10px 40px;
+    color: $darkestgrey;
+
+    svg {
+      line-height: 20px;
+      font-size: 10px;
+      vertical-align: middle;
+    }
+
+    span {
+      font-size: 12px;
+      margin-left: 5px;
+    }
+  }
+
+  header {
+    background: $lightgrey;
+    padding-bottom: 20px;
+  }
 
   h3 {
-    font-size: 24px;
+    font-size: 20px;
     color: $black;
     font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;
+    padding: 10px 40px;
   }
 
   h1 {
-    text-align: center;
     color: $main;
-    margin: 20px 20px 60px 0;
-
-    svg {
-      font-size: 30px;
-      vertical-align: top;
-    }
-
-    span svg[data-icon='ltc'] {
-      width: 30px;
-      height: 30px;
-      vertical-align: top;
-
-      g {
-        transform: scale(1.75) translate(-5px, -5px);
-      }
-    }
+    padding: 10px 40px;
 
     .value {
-      font-size: 60px;
+      font-size: 30px;
+    }
+
+    i {
+      margin-left: 2px;
+      vertical-align: top;
     }
   }
 
   .qrcode {
     text-align: center;
+    margin-top: 40px;
+
+  }
+
+  .input {
+    padding: 10px 40px;
 
     .paymentRequest {
       text-align: center;
-      font-size: 0.5vw;
-      margin-top: 20px;
-      padding: 5px;
-      border-radius: 5px;
+      font-size: 12px;
+      padding: 15px;
       background: $lightgrey;
-      border: 1px solid $darkgrey;
+      border: 1px solid transparent;
       display: block;
-      width: 100%;
-    }
-  }
-
-  .settled {
-    text-align: center;
-    color: $main;
-    text-transform: uppercase;
-    font-size: 20px;
-    margin: 30px 0;
-    font-weight: bold;
-
-    svg {
-      line-height: 20px;
+      width: 90%;
+      margin: 20px auto 0 auto;
     }
   }
 
   .date {
     text-align: center;
+    padding-bottom: 40px;
+    margin-top: 20px;
 
     time {
       margin-left: 3px;
