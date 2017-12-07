@@ -12,21 +12,30 @@ import styles from './Payment.scss'
 
 const Payment = ({ payment, ticker, currentTicker }) => (
   <div className={styles.container}>
-    <h3>{payment.payment_hash}</h3>
-    <h1>
-      <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} styles={{ verticalAlign: 'top' }} />
-      <span className={styles.value}>
-        {
-          ticker.currency === 'usd' ?
-            btc.satoshisToUsd(payment.value, currentTicker.price_usd)
-            :
-            btc.satoshisToBtc(payment.value)
-        }
-      </span>
-    </h1>
+    <header>
+      <div className={styles.title}>
+        <h2>Sent</h2>
+        <h1>
+          <span className={styles.value}>
+            {
+              ticker.currency === 'usd' ?
+                btc.satoshisToUsd(payment.value, currentTicker.price_usd)
+                :
+                btc.satoshisToBtc(payment.value)
+            }
+          </span>
+          <i>
+            BTC
+          </i>
+        </h1>
+      </div>
+      <h3>{payment.payment_hash}</h3>
+    </header>
     <dl>
       <dt>Fee</dt>
       <dd>{payment.fee}</dd>
+      <dt>Hops</dt>
+      <dd>{payment.path.length}</dd>
       <dt>Date</dt>
       <dd>
         <Moment format='MMM Do'>{payment.creation_date * 1000}</Moment>
