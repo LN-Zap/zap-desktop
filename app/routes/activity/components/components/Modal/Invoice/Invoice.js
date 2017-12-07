@@ -6,7 +6,6 @@ import 'moment-timezone'
 
 import QRCode from 'qrcode.react'
 
-import { MdCheck } from 'react-icons/lib/md'
 import { FaCircle } from 'react-icons/lib/fa'
 
 import CurrencyIcon from 'components/CurrencyIcon'
