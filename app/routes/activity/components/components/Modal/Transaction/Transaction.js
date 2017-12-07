@@ -24,7 +24,6 @@ const Transaction = ({ transaction, ticker, currentTicker }) => (
           }
         </h2>
         <h1>
-          <CurrencyIcon currency={ticker.currency} crypto={ticker.crypto} styles={{ verticalAlign: 'top' }} />
           <span className={styles.value}>
             {
               ticker.currency === 'usd' ?
@@ -33,6 +32,7 @@ const Transaction = ({ transaction, ticker, currentTicker }) => (
                 btc.satoshisToBtc(transaction.amount)
             }
           </span>
+          <i>BTC</i>
         </h1>
       </div>
       <h3 onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${transaction.tx_hash}`)}>{transaction.tx_hash}</h3>

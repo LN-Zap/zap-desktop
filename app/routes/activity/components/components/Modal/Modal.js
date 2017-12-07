@@ -6,6 +6,10 @@ import Transaction from './Transaction'
 import Payment from './Payment'
 import Invoice from './Invoice'
 
+import { MdClose } from 'react-icons/lib/md'
+
+import styles from './Modal.scss'
+
 const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker }) => {
   const MODAL_COMPONENTS = {
     TRANSACTION: Transaction,
@@ -43,6 +47,11 @@ const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker
       parentSelector={() => document.body}
       style={customStyles}
     >
+      <div className={styles.closeContainer}>
+        <span onClick={() => hideActivityModal()}>
+          <MdClose />
+        </span>
+      </div>
       <SpecificModal {...modalProps} ticker={ticker} currentTicker={currentTicker} />
     </ReactModal>
   )

@@ -1,0 +1,13 @@
+@import '../../../../../variables.scss';
+
+.closeContainer {
+  background: $lightgrey;
+  text-align: right;
+  padding: 10px;
+
+  span {
+    color: $darkestgrey;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}

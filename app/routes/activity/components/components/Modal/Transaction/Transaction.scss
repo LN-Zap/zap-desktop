@@ -6,39 +6,25 @@
     background: $lightgrey;
 
     .title {
+      display: flex;
+      flex-direction: row;
+
       h2 {
-        width: 50%;
-        margin: 0 auto 10px auto;
-        padding: 5px 0;
         text-transform: uppercase;
-        border-bottom: 1px solid $black;
       }
     }
   }
 
   h1 {
-    margin-top: 10px;
     text-align: center;
     color: $main;
 
-    svg {
-      width: 15px;
-      height: 20px;
-      vertical-align: top;
-    }
-
-    span svg[data-icon='ltc'] {
-      width: 30px;
-      height: 30px;
-      vertical-align: top;
-
-      g {
-        transform: scale(1.75) translate(-5px, -5px);
-      }
-    }
-
     .value {
-      font-size: 45px;
+      font-size: 24px;
+    }
+
+    i {
+      margin-left: 2px;
     }
   }
 
@@ -46,7 +32,6 @@
     font-size: 14px;
     text-align: center;
     color: $darkestgrey;
-    margin-top: 30px;
     cursor: pointer;
 
     &:hover {
@@ -56,14 +41,14 @@
 
   h2 {
     text-align: center;
+    margin-right: 10px;
     margin-bottom: 30px;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
     font-size: 24px;
   }
 
   dl {
-    padding: 40px 40px 0px 40px;
+    padding: 40px 40px 40px 40px;
   }
 
   dt {
@@ -79,8 +64,8 @@
   dd {
     text-align: right;
     font-weight: 400;
-    padding: 29px 0;
+    padding: 30px 0 10px 0;
     margin-left: 0;
-    border-top: 1px solid $darkgrey;
+    border-bottom: 1px solid $darkgrey;
   }
 }
