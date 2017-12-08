@@ -5,9 +5,10 @@ import copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react'
 import { showNotification } from 'notifications'
 import { MdClose } from 'react-icons/lib/md'
+import { FaCopy } from 'react-icons/lib/fa'
 import styles from './ReceiveModal.scss'
 
-const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress }) => {
+const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress, qrCodeType, changeQrCode }) => {
   const customStyles = {
     overlay: {
       cursor: 'pointer'
@@ -48,28 +49,39 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress }
       <div className={styles.container}>
         <header>
           <div className={styles.qrcodes}>
-            <QRCode value={address} />
+            <QRCode value={qrCodeType === 1 ? address : pubkey} />
           </div>
 
           <ul className={styles.tabs}>
-            <li className={styles.active}>Wallet address</li>
-            <li>Node pubkey</li>
+            <li className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>
+              Wallet address
+            </li>
+            <li className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>
+              Node pubkey
+            </li>
           </ul>
         </header>
         <section>
           <div className={styles.addressHeader}>
-            <h4>Deposit Address (<span onClick={() => copyOnClick(address)}>Copy</span>)</h4>
+            <h4>Deposit Address</h4>
             <span className={styles.newAddress} onClick={() => newAddress('p2pkh')}>New Address</span>
           </div>
           <p>
-            {address}
-            <span>hi</span>
+            <span>{address}</span>
+            <span onClick={() => copyOnClick(address)} className='hint--left' data-hint='Copy address'>
+              <FaCopy />
+            </span>
           </p>
         </section>
 
         <section>
-          <h4>Node Public Key (<span onClick={() => copyOnClick(pubkey)}>Copy</span>)</h4>
-          <p>{pubkey}</p>
+          <h4>Node Public Key</h4>
+          <p>
+            <span>{pubkey}</span>
+            <span onClick={() => copyOnClick(pubkey)} className='hint--left' data-hint='Copy pubkey'>
+              <FaCopy />
+            </span>
+          </p>
         </section>
       </div>
     </ReactModal>

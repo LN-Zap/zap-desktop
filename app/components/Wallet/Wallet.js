@@ -13,7 +13,8 @@ class Wallet extends Component {
     super(props)
 
     this.state = {
-      modalOpen: false
+      modalOpen: false,
+      qrCodeType: 1
     }
   }
 
@@ -25,7 +26,13 @@ class Wallet extends Component {
       newAddress
     } = this.props
 
-    const { modalOpen } = this.state
+    const { modalOpen, qrCodeType } = this.state
+
+    const changeQrCode = () => {
+      const qrCodeType = this.state.qrCodeType === 1 ? 2 : 1
+
+      this.setState({ qrCodeType })
+    }
 
     return (
       <div className={styles.wallet}>
@@ -38,6 +45,8 @@ class Wallet extends Component {
               pubkey={info.data.identity_pubkey}
               address={address}
               newAddress={newAddress}
+              qrCodeType={qrCodeType}
+              changeQrCode={changeQrCode}
             />
           )
         }

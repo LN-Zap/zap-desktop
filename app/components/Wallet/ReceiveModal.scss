@@ -41,6 +41,7 @@
 
         &.active {
           color: $black;
+          font-weight: bold;
         }
       }
     }
@@ -63,12 +64,32 @@
     }
 
     p {
+      display: flex;
+      flex-direction: row;
       font-family: 'Roboto';
-      text-align: center;
       font-size: 14px;
       font-weight: 200;
       background: $lightgrey;
-      padding: 15px;
+
+      span {
+        padding: 15px;
+      }
+
+      span:nth-child(1) {
+        flex: 9;
+        overflow-x: scroll;
+      }
+
+      span:nth-child(2) {
+        background: $darkgrey;
+        color: $black;
+        cursor: pointer;
+        transition: all 0.25s;
+
+        &:hover {
+          background: $darkestgrey;
+        }
+      }
     }
   }
 }
