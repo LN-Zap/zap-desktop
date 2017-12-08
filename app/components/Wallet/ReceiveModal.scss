@@ -1,15 +1,58 @@
 @import '../../variables.scss';
 
+.closeContainer {
+  background: $lightgrey;
+  text-align: right;
+  padding: 10px;
+
+  span {
+    color: $darkestgrey;
+    font-size: 20px;
+    cursor: pointer;
+  }
+}
+
 .container {
+  header {
+    background: $lightgrey;
+    padding: 10px 40px 40px;
+    text-align: center;
+
+    .qrcodes {
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .tabs {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+
+      li {
+        margin: 0 20px;
+        color: $darkestgrey;
+        transition: all 0.25s;
+
+        &:hover {
+          color: $black;
+        }
+
+        &.active {
+          color: $black;
+        }
+      }
+    }
+  }
+
   section {
     margin: 25px 0;
     padding: 25px;
-    border-bottom: 1px solid $darkestgrey;
 
     h4 {
       font-size: 14px;
       font-weight: bold;
-      text-transform: uppercase;
       letter-spacing: 1.5px;
       margin-bottom: 10px;
 
@@ -19,20 +62,13 @@
       }
     }
 
-    .qrcode {
-      text-align: center;
-      margin-top: 20px;
-    }
-
     p {
       font-family: 'Roboto';
       text-align: center;
       font-size: 14px;
       font-weight: 200;
-      border-radius: 7px;
       background: $lightgrey;
-      border: 1px solid $main;
-      padding: 10px;
+      padding: 15px;
     }
   }
 }

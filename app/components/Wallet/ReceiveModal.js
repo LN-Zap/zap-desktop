@@ -4,6 +4,7 @@ import ReactModal from 'react-modal'
 import copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react'
 import { showNotification } from 'notifications'
+import { MdClose } from 'react-icons/lib/md'
 import styles from './ReceiveModal.scss'
 
 const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress }) => {
@@ -16,8 +17,10 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress }
       left: '20%',
       right: '0',
       bottom: 'auto',
-      width: '60%',
-      margin: '50px auto'
+      width: '40%',
+      margin: '50px auto',
+      borderRadius: 'none',
+      padding: '0'
     }
   }
 
@@ -36,22 +39,37 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress }
       parentSelector={() => document.body}
       style={customStyles}
     >
-      <div className={styles.container}>
-        <section>
-          <h4>Node Public Key (<span onClick={() => copyOnClick(pubkey)}>Copy</span>)</h4>
-          <p>{pubkey}</p>
-        </section>
+      <div className={styles.closeContainer}>
+        <span onClick={() => hideActivityModal()}>
+          <MdClose />
+        </span>
+      </div>
 
+      <div className={styles.container}>
+        <header>
+          <div className={styles.qrcodes}>
+            <QRCode value={address} />
+          </div>
+
+          <ul className={styles.tabs}>
+            <li className={styles.active}>Wallet address</li>
+            <li>Node pubkey</li>
+          </ul>
+        </header>
         <section>
           <div className={styles.addressHeader}>
             <h4>Deposit Address (<span onClick={() => copyOnClick(address)}>Copy</span>)</h4>
             <span className={styles.newAddress} onClick={() => newAddress('p2pkh')}>New Address</span>
           </div>
-          <p>{address}</p>
+          <p>
+            {address}
+            <span>hi</span>
+          </p>
+        </section>
 
-          <div className={styles.qrcode}>
-            <QRCode value={address} />
-          </div>
+        <section>
+          <h4>Node Public Key (<span onClick={() => copyOnClick(pubkey)}>Copy</span>)</h4>
+          <p>{pubkey}</p>
         </section>
       </div>
     </ReactModal>
