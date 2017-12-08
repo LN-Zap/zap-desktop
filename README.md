@@ -33,6 +33,18 @@ $ cd zap-desktop
 $ yarn
 $ npm run install-grpc
 ```
+Zap does not store `lnd` binaries in the Github repo so you will now need to go [install lnd](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md). You can then copy the `lnd` binary that will be located in your `$GOPATH/bin` and paste it into Zap. Zap expectes `lnd` to be in one of these directories depending on your OS:
+
+```
+# mac
+resources/bin/darwin
+
+#linux
+resources/bin/linux
+
+#win32
+resources/bin/win32
+```
 
 Then to start it:
 ```bash
