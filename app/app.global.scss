@@ -86,7 +86,8 @@ body {
   padding-bottom: 15px;
   border-radius: 2px;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
+  letter-spacing: 1.5px;
   transition: none;
   position: relative;
   color: white;
@@ -98,10 +99,13 @@ body {
 }
 
 .buttonPrimary {
+  // background-color: #353535;
   background-color: $main;
+  // box-shadow: 0 3px 0 0 darken(#353535, 10%);
   box-shadow: 0 3px 0 0 darken($main, 10%);
 
   &:active {
+   // box-shadow: inset 0 1px 1px 1px darken(#353535, 10%);
    box-shadow: inset 0 1px 1px 1px darken($main, 10%);
   }
 }
@@ -112,6 +116,7 @@ body {
 }
 
 .buttonPrimary.inactive:active {
+  // box-shadow: 0 3px 0 0 darken(#353535, 10%);
   box-shadow: 0 3px 0 0 darken($main, 10%);
   transform: none;
 }

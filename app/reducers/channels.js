@@ -165,27 +165,32 @@ export const closeChannel = ({ channel_point }) => (dispatch) => {
 
 // TODO: Decide how to handle streamed updates for closing channels
 // Receive IPC event for closeChannel
-export const closeChannelSuccessful = () => (dispatch) => {
+export const closeChannelSuccessful = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL SUCCESSFUL: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for updated closing channel
-export const pushclosechannelupdated = () => (dispatch) => {
+export const pushclosechannelupdated = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL UPDATED: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for closing channel end
-export const pushclosechannelend = () => (dispatch) => {
+export const pushclosechannelend = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL END: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for closing channel error
-export const pushclosechannelerror = () => (dispatch) => {
+export const pushclosechannelerror = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL END: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for closing channel status
-export const pushclosechannelstatus = () => (dispatch) => {
+export const pushclosechannelstatus = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL STATUS: ', data)
   dispatch(fetchChannels())
 }
 
