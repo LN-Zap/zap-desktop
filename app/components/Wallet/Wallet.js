@@ -30,14 +30,16 @@ class Wallet extends Component {
     return (
       <div className={styles.wallet}>
         {
-          (modalOpen &&
+          (
+            modalOpen &&
             <ReceiveModal
               isOpen={modalOpen}
               hideActivityModal={() => this.setState({ modalOpen: false })}
               pubkey={info.data.identity_pubkey}
               address={address}
               newAddress={newAddress}
-            />)
+            />
+          )
         }
         <div className={styles.content}>
           <div className={styles.left}>
@@ -52,7 +54,7 @@ class Wallet extends Component {
           </div>
           <div className={styles.right}>
             <div className={styles.rightContent}>
-              <div onClick={() => this.setState({ modalOpen: true })}>
+              <div className={'buttonPrimary'} onClick={() => this.setState({ modalOpen: true })}>
                 <FaQrcode />
                 Address
               </div>

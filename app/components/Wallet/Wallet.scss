@@ -58,10 +58,10 @@
   height: calc(100% - 50px);
 
   div {
-    font-size: 20px;
-    padding: 10px 25px;
+    padding: 7px 20px;
     background: $main;
     transition: background 0.25s;
+    color: $black;
 
     &:hover {
       background: darken($main, 10%);
