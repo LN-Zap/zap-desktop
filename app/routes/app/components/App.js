@@ -14,7 +14,7 @@ class App extends Component {
     fetchTicker()
     fetchBalance()
     fetchInfo()
-    newAddress('p2pkh')
+    newAddress('np2wkh')
   }
 
   render() {

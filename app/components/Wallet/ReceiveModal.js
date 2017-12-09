@@ -64,7 +64,7 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress, 
         <section>
           <div className={styles.addressHeader}>
             <h4>Deposit Address</h4>
-            <span className={styles.newAddress} onClick={() => newAddress('p2pkh')}>New Address</span>
+            <span className={styles.newAddress} onClick={() => newAddress('np2wkh')}>New Address</span>
           </div>
           <p>
             <span>{address}</span>
