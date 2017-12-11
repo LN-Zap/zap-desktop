@@ -29,7 +29,7 @@ const Channels = ({
     // store event in icon so we dont get an error when react clears it
     const icon = event.currentTarget
 
-    // fetch channels 
+    // fetch channels
     fetchChannels()
 
     // clear animation after the second so we can reuse it
@@ -108,6 +108,7 @@ const Channels = ({
                   channel={channel}
                   setChannel={setChannel}
                   currentTicker={currentTicker}
+                  closeChannel={closeChannel}
                 />
               )
             })
