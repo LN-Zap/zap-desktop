@@ -6,10 +6,13 @@
  */
 export function sendPaymentSync(lnd, { paymentRequest }) {
   return new Promise((resolve, reject) => {
-    lnd.sendPaymentSync({ payment_request: paymentRequest }, (err, data) => {
-      if (err) { reject(err) }
+    lnd.sendPaymentSync({ payment_request: paymentRequest }, (error, data) => {
+      if (error) { 
+        reject({ error })
+        return
+      }
 
-      if (!data.payment_route) { reject({ error: data.payment_error }) }
+      if (!data || !data.payment_route) { reject({ error: data.payment_error }) }
 
       resolve(data)
     })

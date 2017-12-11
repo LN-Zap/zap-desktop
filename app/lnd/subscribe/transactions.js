@@ -9,5 +9,5 @@ export default function subscribeToTransactions(mainWindow, lnd) {
   })
   call.on('end', () => console.log('end'))
   call.on('error', error => console.log('error: ', error))
-  call.on('status', status => console.log('status: ', status))
+  call.on('status', status => console.log('TRANSACTION STATUS: ', status))
 }
