@@ -22,6 +22,11 @@
   animation-timing-function:linear;
   animation-fill-mode: forwards;
   animation-iteration-count: infinite;
+  // visibility: hidden;
+
+  &.active {
+    // visibility: visible;
+  }
 
   h1 {
     font-size: 22px;

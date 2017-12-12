@@ -163,3 +163,33 @@ body {
   padding: 10px 5px;
   font-size: 15px;
 }
+
+// network
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 1000;
+  }
+}
+
+// each node in the map
+.network-node {
+
+}
+
+// each channel in the map
+.network-link {
+  opacity: 0.6;
+}
+
+.active-peer {
+  fill: #5589F3;
+}
+
+.active-channel {
+  opacity: 1;
+  stroke: #88D4A2;
+  stroke-width: 15;
+  stroke-dasharray: 100;
+  animation: dash 2.5s infinite linear;  
+}

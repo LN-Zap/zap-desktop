@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import { ForceGraph, ForceGraphNode, ForceGraphLink } from 'react-vis-force'
 import { FaCircle } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
+import LoadingBolt from 'components/LoadingBolt'
 import bitcoinIcon from 'icons/skinny_bitcoin.svg'
 import styles from './NetworkGraph.scss'
 
@@ -31,8 +32,7 @@ class NetworkGraph extends Component {
       identity_pubkey
     } = this.props
 
-    if (!ready || networkLoading) {
-      console.log('hi!')
+    if ((!nodes.length || !edges.length) || networkLoading) {
       return (
         <section className={styles.network}>
           <div className={styles.networkLoading}>
@@ -57,9 +57,13 @@ class NetworkGraph extends Component {
           }
           labelAttr='label'
           opacityFactor={1}
-          highlightDependencies
           zoomOptions={{ minScale: 0.1, maxScale: 5, scale: 0.2 }}
           zoom
+          highlightDependencies
+          ref={(el) => {
+            console.log('el: ', el)
+            this.fg = el
+          }}
         >
           {
             nodes.map(node =>
