@@ -1,26 +1,29 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 
-import { TiPlus } from 'react-icons/lib/ti'
-import Peers from '../../app/components/Peers'
+import Peers from '../../app/routes/peers/components/Peers'
 import PeerModal from '../../app/components/Peers/PeerModal'
 import PeerForm from '../../app/components/Peers/PeerForm'
 import Peer from '../../app/components/Peers/Peer'
 
 const defaultProps = {
-  peersLoading: false,
-  peers: [],
-  setPeer: () => {},
-  peerModalOpen: false,
-  peerForm: {},
+  fetchPeers: () => {},
+  peerFormProps: {
+    form: {},
+    setForm: () => {},
+    connect: () => {}
+  },
   setPeerForm: () => {},
-  connect: () => {},
-  isOpen: false,
-  resetPeer: () => {},
-  disconnect: () => {},
-  form: {},
-  setForm: () => {},
-  fetchPeers: () => {}
+  setPeer: () => {},
+  updateSearchQuery: () => {},
+  disconnectRequest: () => {},
+
+  peerModalOpen: false,
+  filteredPeers: [],
+  peers: {
+    peer: null,
+    searchQuery: ''
+  }
 }
 
 const peer = {
@@ -45,15 +48,7 @@ describe('component.Peers', () => {
     })
     it('should have Peers header, and plus button', () => {
       expect(el.contains('Peers')).toBe(true)
-      expect(el.find(TiPlus)).toHaveLength(1)
-    })
-  })
-
-  describe('peers are loading', () => {
-    const props = { ...defaultProps, peersLoading: true }
-    const el = shallow(<Peers {...props} />)
-    it('should display loading msg', () => {
-      expect(el.contains('Loading...')).toBe(true)
+      expect(el.contains('Add new peer')).toBe(true)
     })
   })
 
@@ -67,7 +62,7 @@ describe('component.Peers', () => {
     })
 
     describe('peer connected', () => {
-      const props = { ...defaultProps, peers: [peer] }
+      const props = { ...defaultProps, filteredPeers: [peer] }
       const el = shallow(<Peers {...props} />)
       it('should show peer information', () => {
         expect(el.find(Peer)).toHaveLength(1)
