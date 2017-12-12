@@ -128,9 +128,10 @@ Peers.propTypes = {
 
   peerModalOpen: PropTypes.bool.isRequired,
   filteredPeers: PropTypes.array.isRequired,
-  peers: PropTypes.object.isRequired,
-  peer: PropTypes.object,
-  searchQuery: PropTypes.string
+  peers: PropTypes.shape({
+    peer: PropTypes.object,
+    searchQuery: PropTypes.string
+  }).isRequired
 }
 
 export default Peers
