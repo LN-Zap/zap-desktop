@@ -23,7 +23,7 @@ const Root = ({
   store,
   history,
   lnd,
-  fetchBlockHeight,
+  fetchBlockHeight, // eslint-disable-line no-shadow
   syncPercentage
 }) => {
   // If we are syncing show the syncing screen
