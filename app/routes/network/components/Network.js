@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import { InteractiveForceGraph, ForceGraphNode, ForceGraphLink } from 'react-vis-force'
-
 import CanvasNetworkGraph from 'components/Network/CanvasNetworkGraph'
 import PeersList from 'components/Network/PeersList'
 import ChannelsList from 'components/Network/ChannelsList'
