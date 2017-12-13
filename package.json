@@ -212,8 +212,6 @@
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-router-redux": "^5.0.0-alpha.6",
-    "react-vis": "^1.8.0",
-    "react-vis-force": "^0.3.1",
     "redux": "^3.7.1",
     "redux-electron-ipc": "^1.1.10",
     "redux-thunk": "^2.2.0",

@@ -190,7 +190,7 @@ class CanvasNetworkGraph extends Component {
       width = +svg.attr('width'),
       height = +svg.attr('height')
 
-    this.g = svg.append('g').attr('transform', `translate(${width / 2},${height / 2})`)
+    this.g = svg.append('g').attr('transform', `translate(${width / 2},${height / 2}) scale(${0.02})`)
     this.link = this.g.append('g').attr('stroke', 'white').attr('stroke-width', 1.5).selectAll('.link')
     this.node = this.g.append('g').attr('stroke', 'silver').attr('stroke-width', 1.5).selectAll('.node')
 
@@ -202,11 +202,11 @@ class CanvasNetworkGraph extends Component {
       .on('end', () => {
         this.setState({ svgLoaded: true })
       })
-
-
     // zoom
     const zoom_handler = d3.zoom().on('zoom', this._zoomActions)
     zoom_handler(svg)
+    this.g.call(zoom_handler)
+          .call(zoom_handler.transform, d3.zoomIdentity.translate(400, 400).scale(0.02))
 
     this._restart()
   }
