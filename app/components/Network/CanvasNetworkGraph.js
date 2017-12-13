@@ -44,7 +44,7 @@ class CanvasNetworkGraph extends Component {
     const simulationDataEmpty = !nodes.length && !links.length
     const networkDataLoaded = network.nodes.length || network.edges.length
 
-    // if the simulationData is empty and we have data
+    // if the simulationData is empty and we have network data
     if (simulationDataEmpty && networkDataLoaded) {
       this.setState({
         simulationData: generateSimulationData(network.nodes, network.edges)
@@ -53,7 +53,7 @@ class CanvasNetworkGraph extends Component {
   }
 
   componentDidMount() {
-    // wait for the svg to me in the DOM before we start the simulation
+    // wait for the svg to be in the DOM before we start the simulation
     const svgInterval = setInterval(() => {
       if (document.getElementById('mapContainer')) {
         d3.select('#mapContainer')
@@ -227,10 +227,7 @@ class CanvasNetworkGraph extends Component {
 
   _restart() {
     const { identity_pubkey } = this.props
-    const {
-      simulation,
-      simulationData: { nodes, links }
-    } = this.state
+    const { simulationData: { nodes, links } } = this.state
 
     // Apply the general update pattern to the nodes.
     this.node = this.node.data(nodes, d => d.pub_key)
