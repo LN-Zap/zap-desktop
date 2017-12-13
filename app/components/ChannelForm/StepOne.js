@@ -5,7 +5,7 @@ import styles from './StepOne.scss'
 
 class StepOne extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       peers: props.peers,
       searchQuery: ''

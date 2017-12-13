@@ -124,7 +124,7 @@ const ACTION_HANDLERS = {
 
   [GET_PEERS]: state => ({ ...state, peersLoading: true }),
   [RECEIVE_PEERS]: (state, { peers }) => ({ ...state, peersLoading: false, peers }),
-  
+
   [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery })
 }
 

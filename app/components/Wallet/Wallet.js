@@ -13,7 +13,8 @@ class Wallet extends Component {
     super(props)
 
     this.state = {
-      modalOpen: false
+      modalOpen: false,
+      qrCodeType: 1
     }
   }
 
@@ -25,19 +26,29 @@ class Wallet extends Component {
       newAddress
     } = this.props
 
-    const { modalOpen } = this.state
+    const { modalOpen, qrCodeType } = this.state
+
+    const changeQrCode = () => {
+      const qrCodeType = this.state.qrCodeType === 1 ? 2 : 1
+
+      this.setState({ qrCodeType })
+    }
 
     return (
       <div className={styles.wallet}>
         {
-          (modalOpen &&
+          (
+            modalOpen &&
             <ReceiveModal
               isOpen={modalOpen}
               hideActivityModal={() => this.setState({ modalOpen: false })}
               pubkey={info.data.identity_pubkey}
               address={address}
               newAddress={newAddress}
-            />)
+              qrCodeType={qrCodeType}
+              changeQrCode={changeQrCode}
+            />
+          )
         }
         <div className={styles.content}>
           <div className={styles.left}>
@@ -52,7 +63,7 @@ class Wallet extends Component {
           </div>
           <div className={styles.right}>
             <div className={styles.rightContent}>
-              <div onClick={() => this.setState({ modalOpen: true })}>
+              <div className={'buttonPrimary'} onClick={() => this.setState({ modalOpen: true })}>
                 <FaQrcode />
                 Address
               </div>

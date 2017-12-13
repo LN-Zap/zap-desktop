@@ -165,27 +165,32 @@ export const closeChannel = ({ channel_point }) => (dispatch) => {
 
 // TODO: Decide how to handle streamed updates for closing channels
 // Receive IPC event for closeChannel
-export const closeChannelSuccessful = () => (dispatch) => {
+export const closeChannelSuccessful = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL SUCCESSFUL: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for updated closing channel
-export const pushclosechannelupdated = () => (dispatch) => {
+export const pushclosechannelupdated = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL UPDATED: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for closing channel end
-export const pushclosechannelend = () => (dispatch) => {
+export const pushclosechannelend = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL END: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for closing channel error
-export const pushclosechannelerror = () => (dispatch) => {
+export const pushclosechannelerror = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL END: ', data)
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for closing channel status
-export const pushclosechannelstatus = () => (dispatch) => {
+export const pushclosechannelstatus = (event, data) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL STATUS: ', data)
   dispatch(fetchChannels())
 }
 
@@ -201,13 +206,13 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
     // dispatch(fetchDescribeNetwork())
 
     // loop through the channel updates
-    for (let i = 0; i < channel_updates.length; i++) {
+    for (let i = 0; i < channel_updates.length; i += 1) {
       const channel_update = channel_updates[i]
       const { advertising_node, connecting_node } = channel_update
 
       // if our node is involved in this update we wanna show a notification
       if (info.data.identity_pubkey === advertising_node || info.data.identity_pubkey === connecting_node) {
-        // this channel has to do with the user, lets fetch a new channel list for them 
+        // this channel has to do with the user, lets fetch a new channel list for them
         // TODO: full fetch is probably not necessary
         dispatch(fetchChannels())
 

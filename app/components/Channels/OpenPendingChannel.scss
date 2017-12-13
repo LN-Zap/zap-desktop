@@ -13,14 +13,21 @@
 	opacity: 0.5;
 
 	.pending {
-		color: $main;
 		position: absolute;
 		top: 0;
 		left: 10px;
 		padding: 10px;
 		text-transform: uppercase;
 		font-weight: bold;
-		font-size: 10px;
+
+		h1 {
+			color: $main;
+			font-size: 10px;
+		}
+
+		span {
+			font-size: 8px;
+		}
 	}
 
 	&:first-child {
@@ -30,7 +37,7 @@
 	.left, .right {
 		padding: 0 10px;
 		margin-bottom: 5;
-		margin-top: 25px;
+		margin-top: 40px;
 
 		section {
 			margin-bottom: 20px;

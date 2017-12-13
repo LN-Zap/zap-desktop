@@ -13,7 +13,7 @@ class App extends Component {
 
     fetchTicker()
     fetchInfo()
-    newAddress('p2pkh')
+    newAddress('np2wkh')
   }
 
   render() {

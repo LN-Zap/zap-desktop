@@ -1,29 +1,39 @@
 @import '../../variables.scss';
 
-.peer {
-	padding: 40px;
+.closeContainer {
+  background: $lightgrey;
+  text-align: right;
+  padding: 10px;
+
+  span {
+    color: $darkestgrey;
+    font-size: 20px;
+    cursor: pointer;
+  }
 }
 
 .header {
-	margin-bottom: 50px;
+  background: $lightgrey;
+  padding: 20px;
 
 	h1 {
 		color: $black;
 		text-align: center;
-		margin-bottom: 5px;
+		margin-bottom: 20px;
 		font-weight: bold;
 	}
 
 	h2 {
 		color: $darkestgrey;
-		font-size: 14px;
+		font-size: 12px;
 		text-align: center;
 	}
 }
 
 .details {
-	width: 75%;
-	margin: 20px auto;
+  dl {
+    padding: 40px 40px 40px 40px;
+  }
 
 	dt {
 		text-align: left;
@@ -38,36 +48,28 @@
 	dd {
 		text-align: right;
     font-weight: 400;
-    padding: 19px 0;
+    padding: 30px 0 10px 0;
     margin-left: 0;
-    border-top: 1px solid $darkgrey;
+    border-bottom: 1px solid $darkgrey;
 	}
 }
 
 .close {
 	text-align: center;
+  padding-bottom: 40px;
 
 	div {
-		width: 35%;
 		margin: 0 auto;
 		cursor: pointer;
-		height: 55px;
-		min-height: 55px;
-		text-transform: none;
 		font-size: 18px;
-		transition: opacity .2s ease-out;
-		background: $red;
-    color: $white;
+    color: $red;
     border: none;
-    font-weight: 500;
     padding: 0;
     text-align: center;
-    line-height: 55px;
     transition: all 0.25s;
-    border-radius: 5px;
 
     &:hover {
-    	background: darken($red, 10%);
+    	color: lighten($red, 10%);
     }
 	}
 }

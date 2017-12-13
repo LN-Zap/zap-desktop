@@ -12,7 +12,7 @@ export function sendPaymentSync(lnd, { paymentRequest }) {
         return
       }
 
-      if (!data.payment_route) { reject({ error: data.payment_error }) }
+      if (!data || !data.payment_route) { reject({ error: data.payment_error }) }
 
       resolve(data)
     })

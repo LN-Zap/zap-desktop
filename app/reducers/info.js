@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { fetchBalance } from './balance'
-import { newAddress } from './address'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -25,8 +24,6 @@ export const fetchInfo = () => async (dispatch) => {
 
 // Receive IPC event for info
 export const receiveInfo = (event, data) => (dispatch) => {
-  dispatch(fetchBalance())
-  dispatch(newAddress('p2pkh'))
   dispatch({ type: RECEIVE_INFO, data })
 }
 

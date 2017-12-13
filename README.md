@@ -33,6 +33,18 @@ $ cd zap-desktop
 $ yarn
 $ npm run install-grpc
 ```
+Zap does not store `lnd` binaries in the Github repo so you will now need to go [install lnd](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md). You can then copy the `lnd` binary that will be located in your `$GOPATH/bin` and paste it into Zap. Zap expectes `lnd` to be in one of these directories depending on your OS:
+
+```
+# mac
+resources/bin/darwin
+
+#linux
+resources/bin/linux
+
+#win32
+resources/bin/win32
+```
 
 Then to start it:
 ```bash
@@ -53,7 +65,7 @@ $ npm run lint
 Please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md)
 
 ## Todos (Last updated August 16th):
-Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjYzNDQyMTQxOTU4LTY3ZDk4M2Y3YmEzOTM1ODk1NjEwYjJmMmY3NmU2YTM3ZmJmOTViODcxN2E3MmYyNjAxOGNmNzY1ZDhhYmEwMDI) before tackling a todo to avoid duplicate work. 
+Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjc5Njg3NjU5MzMzLWE1M2RiNjYxNWEyMTRjMzhmZDIyNTQ0YTRjNDg4MWNiMzI1ODNlODhhMzE5ZWVmMGVkOWVkMTVmNzBhNDhiZjQ) before tackling a todo to avoid duplicate work. 
 
 The old todo list was recently removed. Come on slack or check open Github issues to see what contributions are needed.
 
