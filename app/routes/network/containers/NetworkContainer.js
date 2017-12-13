@@ -5,8 +5,13 @@ import {
   fetchDescribeNetwork,
 
   setCurrentTab,
+
   updateSelectedPeers,
+  clearSelectedPeers,
+
   updateSelectedChannels,
+  clearSelectedChannels,
+
   setCurrentRoute,
 
   updatePayReq,
@@ -25,7 +30,10 @@ import Network from '../components/Network'
 const mapDispatchToProps = {
   fetchDescribeNetwork,
   setCurrentTab,
+  
   updateSelectedPeers,
+  clearSelectedPeers,
+
   updatePayReq,
   fetchInvoiceAndQueryRoutes,
   setCurrentRoute,
@@ -35,7 +43,8 @@ const mapDispatchToProps = {
   fetchPeers,
 
   fetchChannels,
-  updateSelectedChannels
+  updateSelectedChannels,
+  clearSelectedChannels
 }
 
 const mapStateToProps = state => ({

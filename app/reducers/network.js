@@ -23,8 +23,10 @@ export const UPDATE_PAY_REQ = 'UPDATE_PAY_REQ'
 export const RESET_PAY_REQ = 'RESET_PAY_REQ'
 
 export const UPDATE_SELECTED_PEERS = 'UPDATE_SELECTED_PEERS'
+export const CLEAR_SELECTED_PEERS = 'CLEAR_SELECTED_PEERS'
 
 export const UPDATE_SELECTED_CHANNELS = 'UPDATE_SELECTED_CHANNELS'
+export const CLEAR_SELECTED_CHANNELS = 'CLEAR_SELECTED_CHANNELS'
 
 export const GET_INFO_AND_QUERY_ROUTES = 'GET_INFO_AND_QUERY_ROUTES'
 export const RECEIVE_INFO_AND_QUERY_ROUTES = 'RECEIVE_INFO_AND_QUERY_ROUTES'
@@ -113,6 +115,18 @@ export function clearQueryRoutes() {
   }
 }
 
+export function clearSelectedPeers() {
+  return {
+    type: CLEAR_SELECTED_PEERS
+  }
+}
+
+export function clearSelectedChannels() {
+  return {
+    type: CLEAR_SELECTED_CHANNELS
+  }
+}
+
 // Send IPC event for describeNetwork
 export const fetchDescribeNetwork = () => (dispatch) => {
   dispatch(getDescribeNetwork())
@@ -185,6 +199,7 @@ const ACTION_HANDLERS = {
       ...state, selectedPeers
     }
   },
+  [CLEAR_SELECTED_PEERS]: state => ({ ...state, selectedPeers: [] }),
 
   [UPDATE_SELECTED_CHANNELS]: (state, { channel }) => {
     let selectedChannels
@@ -200,7 +215,8 @@ const ACTION_HANDLERS = {
     return {
       ...state, selectedChannels
     }
-  }
+  },
+  [CLEAR_SELECTED_CHANNELS]: state => ({ ...state, selectedChannels: [] }),
 }
 
 // ------------------------------------

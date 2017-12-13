@@ -2,7 +2,7 @@ import { findDOMNode } from 'react-dom'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
-// import './CanvasNetworkGraph.css'
+import styles from './CanvasNetworkGraph.scss'
 
 function generateSimulationData(nodes, edges) {
   const resNodes = nodes.map(node => Object.assign(node, { id: node.pub_key }))
@@ -26,7 +26,9 @@ class CanvasNetworkGraph extends Component {
       simulationData: {
         nodes: [],
         links: []
-      }
+      },
+
+      svgLoaded: false
     }
 
     this._startSimulation = this._startSimulation.bind(this)
@@ -35,10 +37,31 @@ class CanvasNetworkGraph extends Component {
     this._restart = this._restart.bind(this)
   }
 
+  componentWillReceiveProps(nextProps) {
+    const { network } = nextProps
+    const { simulationData: { nodes, links } } = this.state
+
+    const simulationDataEmpty = !nodes.length && !links.length
+    const networkDataLoaded = network.nodes.length || network.edges.length
+
+    // if the simulationData is empty and we have data
+    if (simulationDataEmpty && networkDataLoaded) {
+      this.setState({
+        simulationData: generateSimulationData(network.nodes, network.edges)
+      })
+    }
+  }
+
   componentDidMount() {
     // wait for the svg to me in the DOM before we start the simulation
     const svgInterval = setInterval(() => {
-      if (document.getElementById('map')) {
+      if (document.getElementById('mapContainer')) {
+        d3.select('#mapContainer')
+          .append('svg')
+          .attr('id', 'map')
+          .attr('width', 800)
+          .attr('height', 800)
+
         this._startSimulation()
 
         clearInterval(svgInterval)
@@ -79,7 +102,6 @@ class CanvasNetworkGraph extends Component {
 
   componentWillUnmount() {
     d3.select('#map')
-      .selectAll('*')
       .remove()
   }
 
@@ -177,6 +199,10 @@ class CanvasNetworkGraph extends Component {
       .force('link', d3.forceLink(links).id(d => d.pub_key).distance(500))
       .force('collide', d3.forceCollide(300))
       .on('tick', this._ticked)
+      .on('end', () => {
+        this.setState({ svgLoaded: true })
+      })
+
 
     // zoom
     const zoom_handler = d3.zoom().on('zoom', this._zoomActions)
@@ -235,18 +261,22 @@ class CanvasNetworkGraph extends Component {
   }
 
   render() {
-    const { simulationData } = this.state
-    const {
-      network: { nodes, edges, selectedChannel, networkLoading },
-      selectedPeerPubkeys,
-      selectedChannelIds,
-      currentRouteChanIds,
-      identity_pubkey
-    } = this.props
+    const { svgLoaded } = this.state
 
     return (
-      <div id='mapContainer' style={{ display: 'inline' }}>
-        <svg width='800' height='800' id='map'></svg>
+      <div className={styles.mapContainer} id='mapContainer'>
+        {
+          !svgLoaded && 
+          <div className={styles.loadingContainer}>
+            <div className={styles.loadingWrap}>
+              <div className={styles.loader}></div>
+              <div className={styles.loaderbefore}></div>
+              <div className={styles.circular}></div>
+              <div className={`${styles.circular} ${styles.another}`}></div>
+              <div className={styles.text}>loading</div>
+            </div>
+          </div>
+        }
       </div>
     )
   }

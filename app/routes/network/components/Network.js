@@ -34,10 +34,12 @@ class Network extends Component {
   }
 
   componentWillUnmount() {
-    const { clearQueryRoutes, resetPayReq } = this.props
+    const { clearQueryRoutes, resetPayReq, clearSelectedChannels, clearSelectedPeers } = this.props
 
     clearQueryRoutes()
-    resetPayReq()    
+    resetPayReq()
+    clearSelectedChannels()
+    clearSelectedPeers() 
   }
 
   render() {
