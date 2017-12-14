@@ -33,7 +33,7 @@ class Wallet extends Component {
 
       this.setState({ qrCodeType })
     }
-
+    
     return (
       <div className={styles.wallet}>
         {

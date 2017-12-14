@@ -63,6 +63,7 @@ class Activity extends Component {
 
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
     if (balance.balanceLoading) { return <LoadingBolt /> }
+    if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
     return (
       <div>

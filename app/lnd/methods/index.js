@@ -112,7 +112,9 @@ export default function (lnd, event, msg, data) {
     case 'balance':
     // Balance looks like [ { balance: '129477456' }, { balance: '243914' } ]
       Promise.all([walletController.walletBalance, channelController.channelBalance].map(func => func(lnd)))
-        .then(balance => event.sender.send('receiveBalance', { walletBalance: balance[0].balance, channelBalance: balance[1].balance }))
+        .then(balance => {
+          event.sender.send('receiveBalance', { walletBalance: balance[0].total_balance, channelBalance: balance[1].balance })
+        })
         .catch(error => console.log('balance error: ', error))
       break
     case 'createInvoice':
