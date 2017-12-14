@@ -10,7 +10,10 @@ const Peer = ({ peer, setPeer }) => (
 )
 
 Peer.propTypes = {
-  peer: PropTypes.object.isRequired,
+  peer: PropTypes.shape({
+    address: PropTypes.string.isRequired,
+    pub_key: PropTypes.string.isRequired
+  }).isRequired,
   setPeer: PropTypes.func.isRequired
 }
 
