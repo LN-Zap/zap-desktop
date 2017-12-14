@@ -96,7 +96,7 @@ app.on('ready', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined')
     }
-    
+
     mainWindow.show()
     mainWindow.focus()
 
@@ -150,7 +150,11 @@ app.setAsDefaultProtocolClient('lightning')
 
 app.on('open-url', function (event, url) {
   event.preventDefault()
-  
+
+  if (!mainWindow) {
+    throw new Error('"mainWindow" is not defined')
+  }
+
   const payreq = url.split(':')[1]
   mainWindow.webContents.send('lightningPaymentUri', { payreq })
   mainWindow.show()
@@ -183,12 +187,12 @@ export const startLnd = () => {
 
     if (process.env.NODE_ENV === 'development') { console.log(line) }
 
-    // If the gRPC proxy has started we can start ours 
+    // If the gRPC proxy has started we can start ours
     if (line.includes('gRPC proxy started')) {
       let certInterval = setInterval(() => {
         if (fs.existsSync(certPath)) {
           clearInterval(certInterval)
-          
+
           console.log('CERT EXISTS, STARTING GRPC')
           startGrpc()
         }
@@ -196,7 +200,7 @@ export const startLnd = () => {
     }
 
     // Pass current clock height progress to front end for loading state UX
-    if (line.includes('Caught up to height') || line.includes('Catching up block hashes to height')) {
+    if (mainWindow && (line.includes('Caught up to height') || line.includes('Catching up block hashes to height'))) {
       // const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
       const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
       mainWindow.webContents.send('lndStdout', line)
@@ -234,9 +238,11 @@ const sendLndSyncing = () => {
     if (didFinishLoad) {
       clearInterval(sendLndSyncingInterval)
 
-      console.log('SENDING SYNCING')
-      startedSync = true
-      mainWindow.webContents.send('lndSyncing')
+      if (mainWindow) {
+        console.log('SENDING SYNCING')
+        startedSync = true
+        mainWindow.webContents.send('lndSyncing')
+      }
     }
   }, 1000)
 }
@@ -247,8 +253,10 @@ const sendLndSynced = () => {
     if (didFinishLoad && startedSync) {
       clearInterval(sendLndSyncedInterval)
 
-      console.log('SENDING SYNCED')
-      mainWindow.webContents.send('lndSynced')
+      if (mainWindow) {
+        console.log('SENDING SYNCED')
+        mainWindow.webContents.send('lndSynced')
+      }
     }
   }, 1000)
 }
@@ -259,8 +267,10 @@ const sendGrpcDisconnected = () => {
     if (didFinishLoad) {
       clearInterval(sendGrpcDisonnectedInterval)
 
-      sentGrpcDisconnect = true
-      mainWindow.webContents.send('grpcDisconnected')
+      if (mainWindow) {
+        sentGrpcDisconnect = true
+        mainWindow.webContents.send('grpcDisconnected')
+      }
     }
   }, 1000)
 }
@@ -271,7 +281,9 @@ const sendGrpcConnected = () => {
     if (didFinishLoad && sentGrpcDisconnect) {
       clearInterval(sendGrpcConnectedInterval)
 
-      mainWindow.webContents.send('grpcConnected')
+      if (mainWindow) {
+        mainWindow.webContents.send('grpcConnected')
+      }
     }
   }, 1000)
 }
