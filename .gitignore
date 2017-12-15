@@ -52,4 +52,4 @@ main.js.map
 npm-debug.log.*
 
 # lnd binary
-resources/bin/*
+resources/bin/
