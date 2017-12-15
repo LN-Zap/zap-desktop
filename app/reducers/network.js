@@ -144,13 +144,12 @@ export const queryRoutes = (pubkey, amount) => (dispatch) => {
 export const receiveQueryRoutes = (event, { routes }) => dispatch => dispatch({ type: RECEIVE_QUERY_ROUTES, routes })
 
 // take a payreq and query routes for it
-export const fetchInvoiceAndQueryRoutes = (payreq) => (dispatch) => {
+export const fetchInvoiceAndQueryRoutes = payreq => (dispatch) => {
   dispatch(getInvoiceAndQueryRoutes())
   ipcRenderer.send('lnd', { msg: 'getInvoiceAndQueryRoutes', data: { payreq } })
 }
 
 export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch => {
-  console.log('routes: ', routes)
   dispatch({ type: RECEIVE_INFO_AND_QUERY_ROUTES, routes })
 }
 // ------------------------------------
@@ -179,11 +178,11 @@ const ACTION_HANDLERS = {
 
   [UPDATE_PAY_REQ]: (state, { pay_req }) => ({ ...state, pay_req }),
   [RESET_PAY_REQ]: state => ({ ...state, pay_req: '' }),
-  
+
   [GET_INFO_AND_QUERY_ROUTES]: state => ({ ...state, fetchingInvoiceAndQueryingRoutes: true }),
   [RECEIVE_INFO_AND_QUERY_ROUTES]: (state, { routes }) => ({ ...state, fetchingInvoiceAndQueryingRoutes: false, payReqRoutes: routes }),
   [CLEAR_QUERY_ROUTES]: state => ({ ...state, payReqRoutes: [], currentRoute: {} }),
-  
+
   [UPDATE_SELECTED_PEERS]: (state, { peer }) => {
     let selectedPeers
     
@@ -203,7 +202,7 @@ const ACTION_HANDLERS = {
 
   [UPDATE_SELECTED_CHANNELS]: (state, { channel }) => {
     let selectedChannels
-    
+
     if (state.selectedChannels.includes(channel)) {
       selectedChannels = state.selectedChannels.filter(selectedChannel => selectedChannel.chan_id !== channel.chan_id)
     }
@@ -216,7 +215,7 @@ const ACTION_HANDLERS = {
       ...state, selectedChannels
     }
   },
-  [CLEAR_SELECTED_CHANNELS]: state => ({ ...state, selectedChannels: [] }),
+  [CLEAR_SELECTED_CHANNELS]: state => ({ ...state, selectedChannels: [] })
 }
 
 // ------------------------------------

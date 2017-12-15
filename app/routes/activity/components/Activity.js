@@ -127,6 +127,7 @@ Activity.propTypes = {
   fetchPayments: PropTypes.func.isRequired,
   fetchInvoices: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
+  fetchBalance: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
   searchInvoices: PropTypes.func.isRequired,

@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
+import { MdClose } from 'react-icons/lib/md'
 
 import Transaction from './Transaction'
 import Payment from './Payment'
 import Invoice from './Invoice'
-
-import { MdClose } from 'react-icons/lib/md'
 
 import styles from './Modal.scss'
 

@@ -93,7 +93,9 @@ ReceiveModal.propTypes = {
   hideActivityModal: PropTypes.func.isRequired,
   pubkey: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
-  newAddress: PropTypes.func.isRequired
+  newAddress: PropTypes.func.isRequired,
+  changeQrCode: PropTypes.func.isRequired,
+  qrCodeType: PropTypes.number.isRequired
 }
 
 export default ReceiveModal

@@ -36,7 +36,7 @@ class Network extends Component {
     clearQueryRoutes()
     resetPayReq()
     clearSelectedChannels()
-    clearSelectedPeers() 
+    clearSelectedPeers()
   }
 
   render() {
@@ -50,7 +50,7 @@ class Network extends Component {
       currentRouteChanIds,
 
       peers: { peers },
-      
+
       activeChannels,
       selectedChannelIds,
       updateSelectedChannels,
@@ -61,13 +61,11 @@ class Network extends Component {
     } = this.props
 
     const renderContent = () => {
-      switch(network.currentTab) {
+      switch (network.currentTab) {
         case 1:
           return <PeersList peers={peers} updateSelectedPeers={updateSelectedPeers} selectedPeerPubkeys={selectedPeerPubkeys} />
-          break
         case 2:
           return <ChannelsList channels={activeChannels} updateSelectedChannels={updateSelectedChannels} selectedChannelIds={selectedChannelIds} />
-          break
         case 3:
           return (
             <TransactionForm
@@ -79,7 +77,8 @@ class Network extends Component {
               currentRoute={network.currentRoute}
             />
           )
-          break
+        default:
+          return <span />
       }
     }
 
@@ -129,11 +128,28 @@ Network.propTypes = {
   fetchDescribeNetwork: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
   setCurrentTab: PropTypes.func.isRequired,
+  fetchChannels: PropTypes.func.isRequired,
+  fetchInvoiceAndQueryRoutes: PropTypes.func.isRequired,
+  clearQueryRoutes: PropTypes.func.isRequired,
+  resetPayReq: PropTypes.func.isRequired,
+  clearSelectedChannels: PropTypes.func.isRequired,
+  clearSelectedPeers: PropTypes.func.isRequired,
+  updateSelectedPeers: PropTypes.func.isRequired,
+  setCurrentRoute: PropTypes.func.isRequired,
+  updateSelectedChannels: PropTypes.func.isRequired,
+  updatePayReq: PropTypes.func.isRequired,
 
   network: PropTypes.object.isRequired,
   peers: PropTypes.object.isRequired,
 
-  identity_pubkey: PropTypes.string.isRequired
+  selectedPeerPubkeys: PropTypes.array.isRequired,
+  currentRouteChanIds: PropTypes.array.isRequired,
+  activeChannels: PropTypes.array.isRequired,
+  selectedChannelIds: PropTypes.array.isRequired,
+
+  identity_pubkey: PropTypes.string.isRequired,
+
+  payReqIsLn: PropTypes.bool.isRequired
 }
 
 export default Network

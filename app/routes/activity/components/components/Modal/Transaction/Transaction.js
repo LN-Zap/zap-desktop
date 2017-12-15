@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import 'moment-timezone'
 
-import CurrencyIcon from 'components/CurrencyIcon'
 import { btc } from 'utils'
 
 import styles from './Transaction.scss'
@@ -43,10 +42,10 @@ const Transaction = ({ transaction, ticker, currentTicker }) => (
       <dt>Fee</dt>
       <dd>
         {
-        ticker.currency === 'usd' ?
-          btc.satoshisToUsd(transaction.total_fees)
-          :
-          btc.satoshisToBtc(transaction.total_fees)
+          ticker.currency === 'usd' ?
+            btc.satoshisToUsd(transaction.total_fees)
+            :
+            btc.satoshisToBtc(transaction.total_fees)
         }
       </dd>
       <dt>Date</dt>

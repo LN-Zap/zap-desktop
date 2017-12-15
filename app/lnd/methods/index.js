@@ -46,20 +46,18 @@ export default function (lnd, event, msg, data) {
       break
     case 'getInvoiceAndQueryRoutes':
     // Data looks like { pubkey: String, amount: Number }
-    invoicesController.getInvoice(lnd, { pay_req: data.payreq })
-        .then(invoiceData => {
-          console.log('invoiceData: ', invoiceData)
-          networkController.queryRoutes(lnd, { pubkey: invoiceData.destination , amount: invoiceData.num_satoshis })
-            .then(routes => {
-              console.log('routes: ', routes)
+      invoicesController.getInvoice(lnd, { pay_req: data.payreq })
+        .then((invoiceData) => {
+          networkController.queryRoutes(lnd, { pubkey: invoiceData.destination, amount: invoiceData.num_satoshis })
+            .then((routes) => {
               event.sender.send('receiveInvoiceAndQueryRoutes', routes)
             })
             .catch(error => console.log('getInvoiceAndQueryRoutes queryRoutes error: ', error))
         })
         .catch(error => console.log('getInvoiceAndQueryRoutes invoice error: ', error))
-        break
+      break
     case 'newaddress':
-    // Data looks like { address: '' }
+      // Data looks like { address: '' }
       walletController.newAddress(lnd, data.type)
         .then(({ address }) => event.sender.send('receiveAddress', address))
         .catch(error => console.log('newaddress error: ', error))
@@ -112,7 +110,7 @@ export default function (lnd, event, msg, data) {
     case 'balance':
     // Balance looks like [ { balance: '129477456' }, { balance: '243914' } ]
       Promise.all([walletController.walletBalance, channelController.channelBalance].map(func => func(lnd)))
-        .then(balance => {
+        .then((balance) => {
           event.sender.send('receiveBalance', { walletBalance: balance[0].total_balance, channelBalance: balance[1].balance })
         })
         .catch(error => console.log('balance error: ', error))

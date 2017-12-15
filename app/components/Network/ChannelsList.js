@@ -38,7 +38,9 @@ const ChannelsList = ({ channels, updateSelectedChannels, selectedChannelIds }) 
 )
 
 ChannelsList.propTypes = {
-  channels: PropTypes.array.isRequired
+  channels: PropTypes.array.isRequired,
+  updateSelectedChannels: PropTypes.func.isRequired,
+  selectedChannelIds: PropTypes.array.isRequired
 }
 
 export default ChannelsList

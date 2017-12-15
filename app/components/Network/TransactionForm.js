@@ -24,7 +24,7 @@ const TransactionForm = ({ updatePayReq, pay_req, loadingRoutes, payReqRoutes, s
 
     <ul className={styles.routes}>
       {
-        payReqRoutes.map((route, index) => 
+        payReqRoutes.map((route, index) =>
           <li className={`${styles.route} ${currentRoute == route && styles.active}`} key={index} onClick={() => setCurrentRoute(route)}>
             <header>
               <h1>Route #{index + 1}</h1>
@@ -54,7 +54,8 @@ TransactionForm.propTypes = {
   pay_req: PropTypes.string.isRequired,
   loadingRoutes: PropTypes.bool.isRequired,
   payReqRoutes: PropTypes.array.isRequired,
-  setCurrentRoute: PropTypes.func.isRequired
+  setCurrentRoute: PropTypes.func.isRequired,
+  currentRoute: PropTypes.object.isRequired
 }
 
 export default TransactionForm

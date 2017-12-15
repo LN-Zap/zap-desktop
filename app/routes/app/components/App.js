@@ -22,7 +22,6 @@ class App extends Component {
       hideModal,
       ticker,
       currentTicker,
-      balance,
       form,
 
       openPayForm,
@@ -67,7 +66,6 @@ class App extends Component {
 App.propTypes = {
   modal: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
-  balance: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
@@ -77,7 +75,6 @@ App.propTypes = {
   fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
-  fetchBalance: PropTypes.func.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,

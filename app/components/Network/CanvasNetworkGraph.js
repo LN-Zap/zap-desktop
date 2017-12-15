@@ -1,4 +1,3 @@
-import { findDOMNode } from 'react-dom'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import * as d3 from 'd3'
@@ -31,10 +30,10 @@ class CanvasNetworkGraph extends Component {
       svgLoaded: false
     }
 
-    this._startSimulation = this._startSimulation.bind(this)
-    this._zoomActions = this._zoomActions.bind(this)
-    this._ticked = this._ticked.bind(this)
-    this._restart = this._restart.bind(this)
+    this.startSimulation = this.startSimulation.bind(this)
+    this.zoomActions = this.zoomActions.bind(this)
+    this.ticked = this.ticked.bind(this)
+    this.restart = this.restart.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -62,15 +61,15 @@ class CanvasNetworkGraph extends Component {
           .attr('width', 800)
           .attr('height', 800)
 
-        this._startSimulation()
+        this.startSimulation()
 
         clearInterval(svgInterval)
       }
     }, 1000)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { 
+  componentDidUpdate(prevProps) {
+    const {
       network: { nodes, edges },
       selectedPeerPubkeys,
       selectedChannelIds,
@@ -88,15 +87,15 @@ class CanvasNetworkGraph extends Component {
     }
 
     if (prevProps.selectedPeerPubkeys.length !== selectedPeerPubkeys.length) {
-      this._updateSelectedPeers()
+      this.updateSelectedPeers()
     }
 
     if (prevProps.selectedChannelIds.length !== selectedChannelIds.length) {
-      this._updateSelectedChannels()
+      this.updateSelectedChannels()
     }
 
     if (prevProps.currentRouteChanIds.length !== currentRouteChanIds.length) {
-      this._renderSelectedRoute()
+      this.renderSelectedRoute()
     }
   }
 
@@ -105,46 +104,46 @@ class CanvasNetworkGraph extends Component {
       .remove()
   }
 
-  _updateSelectedPeers() {
+  updateSelectedPeers() {
     const { selectedPeerPubkeys } = this.props
 
     // remove active class
     d3.selectAll('.active-peer')
-      .each(function(d) {
+      .each(function () {
         d3.select(this).classed('active-peer', false)
       })
-    
+
     // add active class to all selected peers
-    selectedPeerPubkeys.forEach(pubkey => {
-      const node = d3.select(`#node-${pubkey}`).classed('active-peer', true)
+    selectedPeerPubkeys.forEach((pubkey) => {
+      d3.select(`#node-${pubkey}`).classed('active-peer', true)
     })
   }
 
-  _updateSelectedChannels() {
+  updateSelectedChannels() {
     const { selectedChannelIds } = this.props
 
     // remove active class
     d3.selectAll('.active-channel')
-      .each(function(d) {
+      .each(function () {
         d3.select(this).classed('active-channel', false)
       })
-    
+
     // add active class to all selected peers
-    selectedChannelIds.forEach(chanid => {
-      const node = d3.select(`#link-${chanid}`).classed('active-channel', true)
+    selectedChannelIds.forEach((chanid) => {
+      d3.select(`#link-${chanid}`).classed('active-channel', true)
     })
   }
 
-  _renderSelectedRoute() {
+  renderSelectedRoute() {
     const { currentRouteChanIds } = this.props
 
     // remove all route animations before rendering new ones
     d3.selectAll('.animated-route-circle')
-      .each(function(d) {
+      .each(function () {
         d3.select(this).remove()
       })
 
-    currentRouteChanIds.forEach(chanId => {
+    currentRouteChanIds.forEach((chanId) => {
       const link = document.getElementById(`link-${chanId}`)
 
       if (!link) { return }
@@ -154,7 +153,7 @@ class CanvasNetworkGraph extends Component {
       const y2 = link.y2.baseVal.value
 
       // create the circle that represent btc traveling through a channel
-      const circle = this.g
+      this.g
         .append('circle')
         .attr('id', `circle-${chanId}`)
         .attr('class', 'animated-route-circle')
@@ -167,13 +166,13 @@ class CanvasNetworkGraph extends Component {
       const repeat = () => {
         d3.select(`#circle-${chanId}`)
           .transition()
-          .attr('cx', x2 )
-          .attr('cy', y2 )
+          .attr('cx', x2)
+          .attr('cy', y2)
           .duration(1000)
-          .transition()        
-          .duration(1000)      
-          .attr('cx', x1) 
-          .attr('cy', y1) 
+          .transition()
+          .duration(1000)
+          .attr('cx', x1)
+          .attr('cy', y1)
           .on('end', repeat)
       }
 
@@ -182,13 +181,13 @@ class CanvasNetworkGraph extends Component {
     })
   }
 
-  _startSimulation() {
+  startSimulation() {
     const { simulationData: { nodes, links } } = this.state
 
     // grab the svg el along with the attributes
-    const svg = d3.select('#map'),
-      width = +svg.attr('width'),
-      height = +svg.attr('height')
+    const svg = d3.select('#map')
+    const width = +svg.attr('width')
+    const height = +svg.attr('height')
 
     this.g = svg.append('g').attr('transform', `translate(${width / 2},${height / 2})`)
     this.link = this.g.append('g').attr('stroke', 'white').attr('stroke-width', 1.5).selectAll('.link')
@@ -198,22 +197,22 @@ class CanvasNetworkGraph extends Component {
       .force('charge', d3.forceManyBody().strength(-750))
       .force('link', d3.forceLink(links).id(d => d.pub_key).distance(500))
       .force('collide', d3.forceCollide(300))
-      .on('tick', this._ticked)
+      .on('tick', this.ticked)
       .on('end', () => {
         this.setState({ svgLoaded: true })
       })
     // zoom
-    const zoom_handler = d3.zoom().on('zoom', this._zoomActions)
+    const zoom_handler = d3.zoom().on('zoom', this.zoomActions)
     zoom_handler(svg)
 
-    this._restart()
+    this.restart()
   }
 
-  _zoomActions() {
+  zoomActions() {
     this.g.attr('transform', d3.event.transform)
   }
 
-  _ticked() {
+  ticked() {
     this.node.attr('cx', d => d.x)
       .attr('cy', d => d.y)
 
@@ -223,7 +222,7 @@ class CanvasNetworkGraph extends Component {
       .attr('y2', d => d.target.y)
   }
 
-  _restart() {
+  restart() {
     const { identity_pubkey } = this.props
     const { simulationData: { nodes, links } } = this.state
 
@@ -231,23 +230,23 @@ class CanvasNetworkGraph extends Component {
     this.node = this.node.data(nodes, d => d.pub_key)
     this.node.exit().remove()
     this.node = this.node.enter()
-                .append('circle')
-                .attr('stroke', d => 'silver')
-                .attr('fill', d => d.pub_key === identity_pubkey ? '#FFF' : '#353535')
-                .attr('r', d => 100)
-                .attr('id', d => `node-${d.pub_key}`)
-                .attr('class', 'network-node')
-                .merge(this.node)
+      .append('circle')
+      .attr('stroke', () => 'silver')
+      .attr('fill', d => d.pub_key === identity_pubkey ? '#FFF' : '#353535')
+      .attr('r', () => 100)
+      .attr('id', d => `node-${d.pub_key}`)
+      .attr('class', 'network-node')
+      .merge(this.node)
 
     // Apply the general update pattern to the links.
     this.link = this.link.data(links, d => `${d.source.id}-${d.target.id}`)
     this.link.exit().remove()
-    this.link = 
+    this.link =
       this.link.enter()
-      .append('line')
-      .attr('id', d => `link-${d.channel_id}`)
-      .attr('class','network-link')
-      .merge(this.link)
+        .append('line')
+        .attr('id', d => `link-${d.channel_id}`)
+        .attr('class', 'network-link')
+        .merge(this.link)
 
     // Update and restart the simulation.
     this.simulation.nodes(nodes)
@@ -261,13 +260,13 @@ class CanvasNetworkGraph extends Component {
     return (
       <div className={styles.mapContainer} id='mapContainer'>
         {
-          !svgLoaded && 
+          !svgLoaded &&
           <div className={styles.loadingContainer}>
             <div className={styles.loadingWrap}>
-              <div className={styles.loader}></div>
-              <div className={styles.loaderbefore}></div>
-              <div className={styles.circular}></div>
-              <div className={`${styles.circular} ${styles.another}`}></div>
+              <div className={styles.loader} />
+              <div className={styles.loaderbefore} />
+              <div className={styles.circular} />
+              <div className={`${styles.circular} ${styles.another}`} />
               <div className={styles.text}>loading</div>
             </div>
           </div>
@@ -278,7 +277,13 @@ class CanvasNetworkGraph extends Component {
 }
 
 CanvasNetworkGraph.propTypes = {
-  network: PropTypes.object.isRequired
+  identity_pubkey: PropTypes.string.isRequired,
+
+  network: PropTypes.object.isRequired,
+
+  selectedPeerPubkeys: PropTypes.array.isRequired,
+  selectedChannelIds: PropTypes.array.isRequired,
+  currentRouteChanIds: PropTypes.array.isRequired
 }
 
 export default CanvasNetworkGraph

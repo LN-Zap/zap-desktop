@@ -42,7 +42,7 @@ class Peers extends Component {
       this.setState({ refreshing: true })
 
       // store event in icon so we dont get an error when react clears it
-      const icon = this.refs.repeat.childNodes
+      const icon = this.repeat.childNodes
 
       // fetch peers
       fetchPeers()
@@ -98,7 +98,7 @@ class Peers extends Component {
         </div>
 
         <div className={styles.refreshContainer}>
-          <span className={styles.refresh} onClick={refreshClicked} ref='repeat'>
+          <span className={styles.refresh} onClick={refreshClicked} ref={(ref) => (this.repeat = ref)}>
             {
               this.state.refreshing ?
                 <FaRepeat />

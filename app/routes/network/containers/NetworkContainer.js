@@ -30,7 +30,7 @@ import Network from '../components/Network'
 const mapDispatchToProps = {
   fetchDescribeNetwork,
   setCurrentTab,
-  
+
   updateSelectedPeers,
   clearSelectedPeers,
 
@@ -39,7 +39,7 @@ const mapDispatchToProps = {
   setCurrentRoute,
   clearQueryRoutes,
   resetPayReq,
-  
+
   fetchPeers,
 
   fetchChannels,

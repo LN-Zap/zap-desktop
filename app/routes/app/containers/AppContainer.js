@@ -2,7 +2,6 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
 import { newAddress } from 'reducers/address'
-import { fetchBalance } from 'reducers/balance'
 
 import { fetchInfo } from 'reducers/info'
 
@@ -27,7 +26,6 @@ const mapDispatchToProps = {
   fetchTicker,
   setCurrency,
   newAddress,
-  fetchBalance,
 
   fetchInfo,
 
@@ -58,7 +56,6 @@ const mapStateToProps = state => ({
 
   ticker: state.ticker,
   address: state.address,
-  balance: state.balance,
   info: state.info,
   payment: state.payment,
   transaction: state.transaction,

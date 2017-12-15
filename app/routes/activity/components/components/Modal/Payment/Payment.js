@@ -4,7 +4,6 @@ import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import 'moment-timezone'
 
-import CurrencyIcon from 'components/CurrencyIcon'
 import { btc } from 'utils'
 
 import styles from './Payment.scss'

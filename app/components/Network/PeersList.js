@@ -17,7 +17,9 @@ const PeersList = ({ peers, updateSelectedPeers, selectedPeerPubkeys }) => (
 )
 
 PeersList.propTypes = {
-  peers: PropTypes.array.isRequired
+  peers: PropTypes.array.isRequired,
+  updateSelectedPeers: PropTypes.func.isRequired,
+  selectedPeerPubkeys: PropTypes.array.isRequired
 }
 
 export default PeersList
