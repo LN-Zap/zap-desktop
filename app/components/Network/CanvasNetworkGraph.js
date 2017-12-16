@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import * as d3 from 'd3'
+import * as d3Force from 'd3-force';
+import * as d3Selection from 'd3-selection';
+import * as d3Zoom from 'd3-zoom';
+const d3 = Object.assign({}, d3Force, d3Selection, d3Zoom)
 import styles from './CanvasNetworkGraph.scss'
 
 function generateSimulationData(nodes, edges) {
@@ -209,7 +212,7 @@ class CanvasNetworkGraph extends Component {
   }
 
   zoomActions() {
-    this.g.attr('transform', d3.event.transform)
+    this.g.attr('transform', d3Selection.event.transform)
   }
 
   ticked() {
