@@ -13,6 +13,10 @@
   &.closed {
     max-height: 0;
     padding: 0;
+
+    .content .close {
+      opacity: 0;
+    }
   }
 
   .content {

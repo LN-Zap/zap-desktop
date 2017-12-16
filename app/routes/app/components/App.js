@@ -9,10 +9,9 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchBalance, fetchInfo, newAddress } = this.props
+    const { fetchTicker, fetchInfo, newAddress } = this.props
 
     fetchTicker()
-    fetchBalance()
     fetchInfo()
     newAddress('np2wkh')
   }
@@ -23,7 +22,6 @@ class App extends Component {
       hideModal,
       ticker,
       currentTicker,
-      balance,
       form,
 
       openPayForm,
@@ -37,7 +35,7 @@ class App extends Component {
       children
     } = this.props
 
-    if (!currentTicker || balance.balanceLoading) { return <LoadingBolt /> }
+    if (!currentTicker) { return <LoadingBolt /> }
 
     return (
       <div>
@@ -68,7 +66,6 @@ class App extends Component {
 App.propTypes = {
   modal: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
-  balance: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
@@ -78,7 +75,6 @@ App.propTypes = {
   fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
-  fetchBalance: PropTypes.func.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,

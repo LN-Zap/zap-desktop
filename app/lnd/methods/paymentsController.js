@@ -7,7 +7,7 @@
 export function sendPaymentSync(lnd, { paymentRequest }) {
   return new Promise((resolve, reject) => {
     lnd.sendPaymentSync({ payment_request: paymentRequest }, (error, data) => {
-      if (error) { 
+      if (error) {
         reject({ error })
         return
       }

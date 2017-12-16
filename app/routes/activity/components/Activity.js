@@ -4,6 +4,7 @@ import { MdSearch } from 'react-icons/lib/md'
 import { FaAngleDown } from 'react-icons/lib/fa'
 
 import Wallet from 'components/Wallet'
+import LoadingBolt from 'components/LoadingBolt'
 import Invoice from './components/Invoice'
 import Payment from './components/Payment'
 import Transaction from './components/Transaction'
@@ -19,8 +20,9 @@ class Activity extends Component {
   }
 
   componentWillMount() {
-    const { fetchPayments, fetchInvoices, fetchTransactions } = this.props
+    const { fetchPayments, fetchInvoices, fetchTransactions, fetchBalance } = this.props
 
+    fetchBalance()
     fetchPayments()
     fetchInvoices()
     fetchTransactions()
@@ -60,6 +62,8 @@ class Activity extends Component {
     } = this.props
 
     if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
+    if (balance.balanceLoading) { return <LoadingBolt /> }
+    if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
     return (
       <div>
@@ -123,6 +127,7 @@ Activity.propTypes = {
   fetchPayments: PropTypes.func.isRequired,
   fetchInvoices: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
+  fetchBalance: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
   searchInvoices: PropTypes.func.isRequired,

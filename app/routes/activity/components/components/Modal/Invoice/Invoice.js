@@ -8,7 +8,6 @@ import QRCode from 'qrcode.react'
 
 import { FaCircle } from 'react-icons/lib/fa'
 
-import CurrencyIcon from 'components/CurrencyIcon'
 import { btc } from 'utils'
 
 import styles from './Invoice.scss'

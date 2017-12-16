@@ -29,9 +29,9 @@ class Wallet extends Component {
     const { modalOpen, qrCodeType } = this.state
 
     const changeQrCode = () => {
-      const qrCodeType = this.state.qrCodeType === 1 ? 2 : 1
+      const qrCodeNum = this.state.qrCodeType === 1 ? 2 : 1
 
-      this.setState({ qrCodeType })
+      this.setState({ qrCodeType: qrCodeNum })
     }
 
     return (

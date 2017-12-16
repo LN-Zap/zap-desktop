@@ -44,8 +44,20 @@ export default function (lnd, event, msg, data) {
         .then(routes => event.sender.send('receiveQueryRoutes', routes))
         .catch(error => console.log('queryRoutes error: ', error))
       break
+    case 'getInvoiceAndQueryRoutes':
+    // Data looks like { pubkey: String, amount: Number }
+      invoicesController.getInvoice(lnd, { pay_req: data.payreq })
+        .then((invoiceData) => {
+          networkController.queryRoutes(lnd, { pubkey: invoiceData.destination, amount: invoiceData.num_satoshis })
+            .then((routes) => {
+              event.sender.send('receiveInvoiceAndQueryRoutes', routes)
+            })
+            .catch(error => console.log('getInvoiceAndQueryRoutes queryRoutes error: ', error))
+        })
+        .catch(error => console.log('getInvoiceAndQueryRoutes invoice error: ', error))
+      break
     case 'newaddress':
-    // Data looks like { address: '' }
+      // Data looks like { address: '' }
       walletController.newAddress(lnd, data.type)
         .then(({ address }) => event.sender.send('receiveAddress', address))
         .catch(error => console.log('newaddress error: ', error))
@@ -98,7 +110,9 @@ export default function (lnd, event, msg, data) {
     case 'balance':
     // Balance looks like [ { balance: '129477456' }, { balance: '243914' } ]
       Promise.all([walletController.walletBalance, channelController.channelBalance].map(func => func(lnd)))
-        .then(balance => event.sender.send('receiveBalance', { walletBalance: balance[0].balance, channelBalance: balance[1].balance }))
+        .then((balance) => {
+          event.sender.send('receiveBalance', { walletBalance: balance[0].total_balance, channelBalance: balance[1].balance })
+        })
         .catch(error => console.log('balance error: ', error))
       break
     case 'createInvoice':
@@ -129,7 +143,10 @@ export default function (lnd, event, msg, data) {
           console.log('payinvoice success: ', payment_route)
           event.sender.send('paymentSuccessful', Object.assign(data, { payment_route }))
         })
-        .catch(({ error }) => event.sender.send('paymentFailed', { error: error.toString() }))
+        .catch(({ error }) => {
+          console.log('error: ', error)
+          event.sender.send('paymentFailed', { error: error.toString() })
+        })
       break
     case 'sendCoins':
     // Transaction looks like { txid: String }

@@ -33,7 +33,7 @@ import {
   newTransaction
 } from './transaction'
 
-import { receiveDescribeNetwork, receiveQueryRoutes } from './network'
+import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoutes } from './network'
 
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
@@ -90,7 +90,8 @@ const ipc = createIpc({
   newTransaction,
 
   receiveDescribeNetwork,
-  receiveQueryRoutes
+  receiveQueryRoutes,
+  receiveInvoiceAndQueryRoutes
 })
 
 export default ipc
