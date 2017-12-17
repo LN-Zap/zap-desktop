@@ -3,9 +3,9 @@
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function walletBalance(lnd) {
+export function walletBalance(lnd, meta) {
   return new Promise((resolve, reject) => {
-    lnd.walletBalance({}, (err, data) => {
+    lnd.walletBalance({}, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -20,9 +20,9 @@ export function walletBalance(lnd) {
  * @param  {[type]} type [description]
  * @return {[type]}      [description]
  */
-export function newAddress(lnd, type) {
+export function newAddress(lnd, meta, type) {
   return new Promise((resolve, reject) => {
-    lnd.newAddress({ type }, (err, data) => {
+    lnd.newAddress({ type }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -35,9 +35,9 @@ export function newAddress(lnd, type) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function newWitnessAddress(lnd, { addr }) {
+export function newWitnessAddress(lnd, meta, { addr }) {
   return new Promise((resolve, reject) => {
-    lnd.newWitnessAddress({ address: addr }, (err, data) => {
+    lnd.newWitnessAddress({ address: addr }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -51,9 +51,9 @@ export function newWitnessAddress(lnd, { addr }) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function getTransactions(lnd) {
+export function getTransactions(lnd, meta) {
   return new Promise((resolve, reject) => {
-    lnd.getTransactions({}, (err, data) => {
+    lnd.getTransactions({}, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -69,9 +69,9 @@ export function getTransactions(lnd) {
  * @param  {[type]} amount [description]
  * @return {[type]}        [description]
  */
-export function sendCoins(lnd, { addr, amount }) {
+export function sendCoins(lnd, meta, { addr, amount }) {
   return new Promise((resolve, reject) => {
-    lnd.sendCoins({ addr, amount }, (err, data) => {
+    lnd.sendCoins({ addr, amount }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -83,7 +83,7 @@ export function sendCoins(lnd, { addr, amount }) {
  * Executes a request to set the alias for the node
  * @param  {[type]} new_alias [description]
  */
-export function setAlias(lnd, { new_alias }) {
+export function setAlias(lnd, meta, { new_alias }) {
   return new Promise((resolve, reject) => {
     lnd.setAlias({ new_alias }, (err, data) => {
       if (err) { reject(err) }

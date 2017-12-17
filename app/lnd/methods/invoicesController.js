@@ -7,9 +7,9 @@ import pushinvoices from '../push/subscribeinvoice'
  * @param  value [description]
  * @return     [description]
  */
-export function addInvoice(lnd, { memo, value }) {
+export function addInvoice(lnd, meta, { memo, value }) {
   return new Promise((resolve, reject) => {
-    lnd.addInvoice({ memo, value }, (err, data) => {
+    lnd.addInvoice({ memo, value }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -22,9 +22,9 @@ export function addInvoice(lnd, { memo, value }) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function listInvoices(lnd) {
+export function listInvoices(lnd, meta) {
   return new Promise((resolve, reject) => {
-    lnd.listInvoices({}, (err, data) => {
+    lnd.listInvoices({}, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -36,9 +36,9 @@ export function listInvoices(lnd) {
  * @param  {[type]} payreq [description]
  * @return {[type]}        [description]
  */
-export function getInvoice(lnd, { pay_req }) {
+export function getInvoice(lnd, meta, { pay_req }) {
   return new Promise((resolve, reject) => {
-    lnd.decodePayReq({ pay_req }, (err, data) => {
+    lnd.decodePayReq({ pay_req }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -53,9 +53,9 @@ export function getInvoice(lnd, { pay_req }) {
  * @param  {[type]} rhash [description]
  * @return {[type]}       [description]
  */
-export function lookupInvoice(lnd, { rhash }) {
+export function lookupInvoice(lnd, meta, { rhash }) {
   return new Promise((resolve, reject) => {
-    lnd.lookupInvoice({ r_hash: rhash }, (err, data) => {
+    lnd.lookupInvoice({ r_hash: rhash }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -70,9 +70,9 @@ export function lookupInvoice(lnd, { rhash }) {
  * @param  {[type]} event [description]
  * @return {[type]}       [description]
  */
-export function subscribeInvoices(lnd, event) {
+export function subscribeInvoices(lnd, meta, event) {
   return new Promise((resolve, reject) => {
-    pushinvoices(lnd, event)
+    pushinvoices(lnd, meta, event)
       .then(data => resolve(data))
       .catch(error => reject(error))
   })

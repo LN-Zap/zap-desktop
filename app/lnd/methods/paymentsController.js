@@ -4,9 +4,9 @@
  * @param  {[type]} paymentRequest [description]
  * @return {[type]}                [description]
  */
-export function sendPaymentSync(lnd, { paymentRequest }) {
+export function sendPaymentSync(lnd, meta, { paymentRequest }) {
   return new Promise((resolve, reject) => {
-    lnd.sendPaymentSync({ payment_request: paymentRequest }, (error, data) => {
+    lnd.sendPaymentSync({ payment_request: paymentRequest }, meta, (error, data) => {
       if (error) {
         reject({ error })
         return
@@ -26,9 +26,9 @@ export function sendPaymentSync(lnd, { paymentRequest }) {
  * @param  {[type]} paymentRequest [description]
  * @return {[type]}                [description]
  */
-export function sendPayment(lnd, { paymentRequest }) {
+export function sendPayment(lnd, meta, { paymentRequest }) {
   return new Promise((resolve, reject) => {
-    lnd.sendPayment({ payment_request: paymentRequest }, (err, data) => {
+    lnd.sendPayment({ payment_request: paymentRequest }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -42,9 +42,9 @@ export function sendPayment(lnd, { paymentRequest }) {
  * @param  {[type]} payReq [description]
  * @return {[type]}        [description]
  */
-export function decodePayReq(lnd, { payReq }) {
+export function decodePayReq(lnd, meta, { payReq }) {
   return new Promise((resolve, reject) => {
-    lnd.decodePayReq({ pay_req: payReq }, (err, data) => {
+    lnd.decodePayReq({ pay_req: payReq }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -57,9 +57,9 @@ export function decodePayReq(lnd, { payReq }) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function listPayments(lnd) {
+export function listPayments(lnd, meta) {
   return new Promise((resolve, reject) => {
-    lnd.listPayments({}, (err, data) => {
+    lnd.listPayments({}, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -72,9 +72,9 @@ export function listPayments(lnd) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function deleteAllPayments(lnd) {
+export function deleteAllPayments(lnd, meta) {
   return new Promise((resolve, reject) => {
-    lnd.deleteAllPayments({}, (err, data) => {
+    lnd.deleteAllPayments({}, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
