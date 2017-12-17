@@ -1,7 +1,7 @@
 /* eslint-disable */
 
-export default function subscribeToInvoices(mainWindow, lnd) {
-  const call = lnd.subscribeInvoices({})
+export default function subscribeToInvoices(mainWindow, lnd, meta) {
+  const call = lnd.subscribeInvoices({}, meta)
 
   call.on('data', invoice => mainWindow.send('invoiceUpdate', { invoice }))
   call.on('end', () => console.log('end'))

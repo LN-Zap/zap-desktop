@@ -5,9 +5,9 @@
  * @param  {[type]} host   [description]
  * @return {[type]}        [description]
  */
-export function connectPeer(lnd, { pubkey, host }) {
+export function connectPeer(lnd, meta, { pubkey, host }) {
   return new Promise((resolve, reject) => {
-    lnd.connectPeer({ addr: { pubkey, host }, perm: true }, (err, data) => {
+    lnd.connectPeer({ addr: { pubkey, host }, perm: true }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -22,9 +22,9 @@ export function connectPeer(lnd, { pubkey, host }) {
  * @param  {[type]} pubkey [description]
  * @return {[type]}        [description]
  */
-export function disconnectPeer(lnd, { pubkey }) {
+export function disconnectPeer(lnd, meta, { pubkey }) {
   return new Promise((resolve, reject) => {
-    lnd.disconnectPeer({ pub_key: pubkey }, (err, data) => {
+    lnd.disconnectPeer({ pub_key: pubkey }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -38,9 +38,9 @@ export function disconnectPeer(lnd, { pubkey }) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function listPeers(lnd) {
+export function listPeers(lnd, meta) {
   return new Promise((resolve, reject) => {
-    lnd.listPeers({}, (err, data) => {
+    lnd.listPeers({}, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
