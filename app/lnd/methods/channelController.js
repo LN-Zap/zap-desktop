@@ -11,7 +11,7 @@ const BufferUtil = bitcore.util.buffer
  * @param  {[type]} payload [description]
  * @return {[type]}         [description]
  */
-export function openChannel(lnd, event, payload) {
+export function openChannel(lnd, meta, event, payload) {
   const { pubkey, localamt, pushamt } = payload
   const res = {
     node_pubkey: BufferUtil.hexToBuffer(pubkey),
@@ -20,7 +20,7 @@ export function openChannel(lnd, event, payload) {
   }
 
   return new Promise((resolve, reject) =>
-    pushopenchannel(lnd, event, res)
+    pushopenchannel(lnd, meta, event, res)
       .then(data => resolve(data))
       .catch(error => reject(error))
   )
@@ -32,9 +32,9 @@ export function openChannel(lnd, event, payload) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function channelBalance(lnd) {
+export function channelBalance(lnd, meta) {
   return new Promise((resolve, reject) => {
-    lnd.channelBalance({}, (err, data) => {
+    lnd.channelBalance({}, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -48,9 +48,9 @@ export function channelBalance(lnd) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function listChannels(lnd) {
+export function listChannels(lnd, meta) {
   return new Promise((resolve, reject) => {
-    lnd.listChannels({}, (err, data) => {
+    lnd.listChannels({}, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -66,7 +66,7 @@ export function listChannels(lnd) {
  * @param  {[type]} payload [description]
  * @return {[type]}         [description]
  */
-export function closeChannel(lnd, event, payload) {
+export function closeChannel(lnd, meta, event, payload) {
   const tx = payload.channel_point.funding_txid.match(/.{2}/g).reverse().join('')
   const res = {
     channel_point: {
@@ -77,7 +77,7 @@ export function closeChannel(lnd, event, payload) {
   }
 
   return new Promise((resolve, reject) =>
-    pushclosechannel(lnd, event, res)
+    pushclosechannel(lnd, meta, event, res)
       .then(data => resolve(data))
       .catch(error => reject(error))
   )
@@ -89,9 +89,9 @@ export function closeChannel(lnd, event, payload) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function pendingChannels(lnd) {
+export function pendingChannels(lnd, meta) {
   return new Promise((resolve, reject) => {
-    lnd.pendingChannels({}, (err, data) => {
+    lnd.pendingChannels({}, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -106,9 +106,9 @@ export function pendingChannels(lnd) {
  * @param  {[type]} channelId [description]
  * @return {[type]}           [description]
  */
-export function getChanInfo(lnd, { chanId }) {
+export function getChanInfo(lnd, meta, { chanId }) {
   return new Promise((resolve, reject) => {
-    lnd.getChanInfo({ chan_id: chanId }, (err, data) => {
+    lnd.getChanInfo({ chan_id: chanId }, meta, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
