@@ -2,7 +2,6 @@ import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
-import { fetchDescribeNetwork } from './network'
 import { closeChannelForm, resetChannelForm } from './channelform'
 import { setError } from './error'
 // ------------------------------------
@@ -202,7 +201,7 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
   // if there are any new channel updates
   if (channel_updates.length) {
     // The network has updated, so fetch a new result
-    // TODO: can't do this now because of the SVG performance issues, after we fix this we can uncomment the line below 
+    // TODO: can't do this now because of the SVG performance issues, after we fix this we can uncomment the line below
     // dispatch(fetchDescribeNetwork())
 
     // loop through the channel updates
