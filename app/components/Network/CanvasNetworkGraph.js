@@ -64,9 +64,14 @@ class CanvasNetworkGraph extends Component {
 
     const simulationDataEmpty = !nodes.length && !links.length
     const networkDataLoaded = network.nodes.length || network.edges.length
+    const prevNetwork = this.props.network
 
-    // if the simulationData is empty and we have network data
-    if (simulationDataEmpty && networkDataLoaded) {
+    if (
+      // update the simulationData only if
+      // the simulationData is empty and we have network data
+      (simulationDataEmpty && networkDataLoaded) ||
+      // the nodes or edges have changed
+      (prevNetwork.nodes.length !== network.nodes.length || prevNetwork.edges.length !== network.edges.length)) {
       this.setState({
         simulationData: generateSimulationData(network.nodes, network.edges)
       })
@@ -75,21 +80,10 @@ class CanvasNetworkGraph extends Component {
 
   componentDidUpdate(prevProps) {
     const {
-      network: { nodes, edges },
       selectedPeerPubkeys,
       selectedChannelIds,
       currentRouteChanIds
     } = this.props
-
-    const prevNodes = prevProps.network.nodes
-    const prevEdges = prevProps.network.edges
-
-    // update the simulationData only if the nodes or edges have changed
-    if (prevNodes.length !== nodes.length || prevEdges.length !== edges.length) {
-      this.setState({
-        simulationData: generateSimulationData(nodes, edges)
-      })
-    }
 
     if (prevProps.selectedPeerPubkeys.length !== selectedPeerPubkeys.length) {
       this.updateSelectedPeers()
