@@ -7,7 +7,7 @@ import styles from './ChannelsList.scss'
 const ChannelsList = ({ channels, updateSelectedChannels, selectedChannelIds }) => (
   <ul className={styles.channels}>
     {
-      channels.map(channel =>
+      channels.map(channel => (
         <li key={channel.chan_id} className={styles.channel} onClick={() => updateSelectedChannels(channel)}>
           <span className={`${styles.dot} ${selectedChannelIds.includes(channel.chan_id) && styles.active}`} />
 
@@ -32,7 +32,7 @@ const ChannelsList = ({ channels, updateSelectedChannels, selectedChannelIds }) 
             </div>
           </section>
         </li>
-      )
+      ))
     }
   </ul>
 )

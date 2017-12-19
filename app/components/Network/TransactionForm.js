@@ -24,8 +24,8 @@ const TransactionForm = ({ updatePayReq, pay_req, loadingRoutes, payReqRoutes, s
 
     <ul className={styles.routes}>
       {
-        payReqRoutes.map((route, index) =>
-          <li className={`${styles.route} ${currentRoute == route && styles.active}`} key={index} onClick={() => setCurrentRoute(route)}>
+        payReqRoutes.map((route, index) => (
+          <li className={`${styles.route} ${currentRoute === route && styles.active}`} key={index} onClick={() => setCurrentRoute(route)}>
             <header>
               <h1>Route #{index + 1}</h1>
               <span>Hops: {route.hops.length}</span>
@@ -43,7 +43,7 @@ const TransactionForm = ({ updatePayReq, pay_req, loadingRoutes, payReqRoutes, s
               </section>
             </div>
           </li>
-        )
+        ))
       }
     </ul>
   </div>
