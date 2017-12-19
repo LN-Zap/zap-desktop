@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import * as d3Force from 'd3-force';
-import * as d3Selection from 'd3-selection';
-import * as d3Zoom from 'd3-zoom';
-const d3 = Object.assign({}, d3Force, d3Selection, d3Zoom)
+import * as d3Force from 'd3-force'
+import * as d3Selection from 'd3-selection'
+import * as d3Zoom from 'd3-zoom'
+
 import styles from './CanvasNetworkGraph.scss'
+
+const d3 = Object.assign({}, d3Force, d3Selection, d3Zoom)
 
 function generateSimulationData(nodes, edges) {
   const resNodes = nodes.map(node => Object.assign(node, { id: node.pub_key }))
