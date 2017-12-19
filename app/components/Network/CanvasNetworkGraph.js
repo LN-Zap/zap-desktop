@@ -41,21 +41,6 @@ class CanvasNetworkGraph extends Component {
     this.restart = this.restart.bind(this)
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { network } = nextProps
-    const { simulationData: { nodes, links } } = this.state
-
-    const simulationDataEmpty = !nodes.length && !links.length
-    const networkDataLoaded = network.nodes.length || network.edges.length
-
-    // if the simulationData is empty and we have network data
-    if (simulationDataEmpty && networkDataLoaded) {
-      this.setState({
-        simulationData: generateSimulationData(network.nodes, network.edges)
-      })
-    }
-  }
-
   componentDidMount() {
     // wait for the svg to be in the DOM before we start the simulation
     const svgInterval = setInterval(() => {
@@ -71,6 +56,21 @@ class CanvasNetworkGraph extends Component {
         clearInterval(svgInterval)
       }
     }, 1000)
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { network } = nextProps
+    const { simulationData: { nodes, links } } = this.state
+
+    const simulationDataEmpty = !nodes.length && !links.length
+    const networkDataLoaded = network.nodes.length || network.edges.length
+
+    // if the simulationData is empty and we have network data
+    if (simulationDataEmpty && networkDataLoaded) {
+      this.setState({
+        simulationData: generateSimulationData(network.nodes, network.edges)
+      })
+    }
   }
 
   componentDidUpdate(prevProps) {
@@ -136,53 +136,6 @@ class CanvasNetworkGraph extends Component {
     // add active class to all selected peers
     selectedChannelIds.forEach((chanid) => {
       d3.select(`#link-${chanid}`).classed('active-channel', true)
-    })
-  }
-
-  renderSelectedRoute() {
-    const { currentRouteChanIds } = this.props
-
-    // remove all route animations before rendering new ones
-    d3.selectAll('.animated-route-circle')
-      .each(function () {
-        d3.select(this).remove()
-      })
-
-    currentRouteChanIds.forEach((chanId) => {
-      const link = document.getElementById(`link-${chanId}`)
-
-      if (!link) { return }
-      const x1 = link.x1.baseVal.value
-      const x2 = link.x2.baseVal.value
-      const y1 = link.y1.baseVal.value
-      const y2 = link.y2.baseVal.value
-
-      // create the circle that represent btc traveling through a channel
-      this.g
-        .append('circle')
-        .attr('id', `circle-${chanId}`)
-        .attr('class', 'animated-route-circle')
-        .attr('r', 50)
-        .attr('cx', x1)
-        .attr('cy', y1)
-        .attr('fill', '#FFDC53')
-
-      // we want the animation to repeat back and forth, this function executes that visually
-      const repeat = () => {
-        d3.select(`#circle-${chanId}`)
-          .transition()
-          .attr('cx', x2)
-          .attr('cy', y2)
-          .duration(1000)
-          .transition()
-          .duration(1000)
-          .attr('cx', x1)
-          .attr('cy', y1)
-          .on('end', repeat)
-      }
-
-      // call repeat to animate the circle
-      repeat()
     })
   }
 
@@ -257,6 +210,53 @@ class CanvasNetworkGraph extends Component {
     this.simulation.nodes(nodes)
     this.simulation.force('link').links(links)
     this.simulation.restart()
+  }
+
+  renderSelectedRoute() {
+    const { currentRouteChanIds } = this.props
+
+    // remove all route animations before rendering new ones
+    d3.selectAll('.animated-route-circle')
+      .each(function () {
+        d3.select(this).remove()
+      })
+
+    currentRouteChanIds.forEach((chanId) => {
+      const link = document.getElementById(`link-${chanId}`)
+
+      if (!link) { return }
+      const x1 = link.x1.baseVal.value
+      const x2 = link.x2.baseVal.value
+      const y1 = link.y1.baseVal.value
+      const y2 = link.y2.baseVal.value
+
+      // create the circle that represent btc traveling through a channel
+      this.g
+        .append('circle')
+        .attr('id', `circle-${chanId}`)
+        .attr('class', 'animated-route-circle')
+        .attr('r', 50)
+        .attr('cx', x1)
+        .attr('cy', y1)
+        .attr('fill', '#FFDC53')
+
+      // we want the animation to repeat back and forth, this function executes that visually
+      const repeat = () => {
+        d3.select(`#circle-${chanId}`)
+          .transition()
+          .attr('cx', x2)
+          .attr('cy', y2)
+          .duration(1000)
+          .transition()
+          .duration(1000)
+          .attr('cx', x1)
+          .attr('cy', y1)
+          .on('end', repeat)
+      }
+
+      // call repeat to animate the circle
+      repeat()
+    })
   }
 
   render() {
