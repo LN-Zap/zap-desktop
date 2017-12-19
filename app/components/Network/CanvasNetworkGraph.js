@@ -235,7 +235,7 @@ class CanvasNetworkGraph extends Component {
     this.node = this.node.enter()
       .append('circle')
       .attr('stroke', () => 'silver')
-      .attr('fill', d => d.pub_key === identity_pubkey ? '#FFF' : '#353535')
+      .attr('fill', d => (d.pub_key === identity_pubkey ? '#FFF' : '#353535'))
       .attr('r', () => 100)
       .attr('id', d => `node-${d.pub_key}`)
       .attr('class', 'network-node')
