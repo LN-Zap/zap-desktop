@@ -107,10 +107,7 @@ class CanvasNetworkGraph extends Component {
     const { selectedPeerPubkeys } = this.props
 
     // remove active class
-    d3.selectAll('.active-peer')
-      .each(function () {
-        d3.select(this).classed('active-peer', false)
-      })
+    d3.selectAll('.active-peer').classed('active-peer', false)
 
     // add active class to all selected peers
     selectedPeerPubkeys.forEach((pubkey) => {
@@ -122,10 +119,7 @@ class CanvasNetworkGraph extends Component {
     const { selectedChannelIds } = this.props
 
     // remove active class
-    d3.selectAll('.active-channel')
-      .each(function () {
-        d3.select(this).classed('active-channel', false)
-      })
+    d3.selectAll('.active-channel').classed('active-channel', false)
 
     // add active class to all selected peers
     selectedChannelIds.forEach((chanid) => {
@@ -210,10 +204,7 @@ class CanvasNetworkGraph extends Component {
     const { currentRouteChanIds } = this.props
 
     // remove all route animations before rendering new ones
-    d3.selectAll('.animated-route-circle')
-      .each(function () {
-        d3.select(this).remove()
-      })
+    d3.selectAll('.animated-route-circle').remove()
 
     currentRouteChanIds.forEach((chanId) => {
       const link = document.getElementById(`link-${chanId}`)
