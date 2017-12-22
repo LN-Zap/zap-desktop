@@ -1,9 +1,8 @@
-/* eslint-disable */
-
-export default function subscribeToChannelGraph(mainWindow, lnd) {
+export default function subscribeToChannelGraph(mainWindow, lnd, meta) {
   console.log('subscribeChannelGraph is happening')
-  
-  const call = lnd.subscribeChannelGraph({})
+
+
+  const call = lnd.subscribeChannelGraph({}, meta)
 
   call.on('data', channelGraphData => mainWindow.send('channelGraphData', { channelGraphData }))
   call.on('end', () => console.log('channel graph end'))

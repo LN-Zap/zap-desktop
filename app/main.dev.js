@@ -173,7 +173,6 @@ export const startLnd = () => {
         '--neutrino.connect=faucet.lightning.community:18333',
         '--autopilot.active',
         '--debuglevel=debug',
-        '--no-macaroons',
         '--noencryptwallet'
       ]
     )
