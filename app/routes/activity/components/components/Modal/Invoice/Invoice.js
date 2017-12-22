@@ -5,56 +5,64 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 
 import QRCode from 'qrcode.react'
+import copy from 'copy-to-clipboard'
+import { showNotification } from 'notifications'
 
-import { FaCircle } from 'react-icons/lib/fa'
+import { FaCircle, FaCopy } from 'react-icons/lib/fa'
 
 import { btc } from 'utils'
 
 import styles from './Invoice.scss'
 
 
-const Invoice = ({ invoice, ticker, currentTicker }) => (
-  <div className={styles.container}>
-    <div className={styles.settled}>
-      {
-        !invoice.settled &&
+const Invoice = ({ invoice, ticker, currentTicker }) => {
+  const copyOnClick = (data) => {
+    copy(data)
+    showNotification('Noice', 'Successfully copied to clipboard')
+  }
+  return (
+    <div className={styles.container}>
+      <div className={styles.settled}>
+        {
+          !invoice.settled &&
           <p>
             <FaCircle />
             <span>Not Paid</span>
           </p>
-      }
-    </div>
-    <header>
-      <h3>{invoice.memo}</h3>
-      <h1>
-        <span className={styles.value}>
-          {
-            ticker.currency === 'usd' ?
-              btc.satoshisToUsd(invoice.value, currentTicker.price_usd)
-              :
-              btc.satoshisToBtc(invoice.value)
-          }
-        </span>
-        <i>BTC</i>
-      </h1>
-    </header>
-    <div className={styles.qrcode}>
-      <QRCode value={invoice.payment_request} size={150} />
-    </div>
-    <div className={styles.input}>
-      <input
-        readOnly
-        className={styles.paymentRequest}
-        onClick={event => event.target.select()}
-        defaultValue={invoice.payment_request}
-      />
-    </div>
-    <p className={styles.date}>
+        }
+      </div>
+      <header>
+        <h3>{invoice.memo}</h3>
+        <h1>
+          <span className={styles.value}>
+            {
+              ticker.currency === 'usd' ?
+                btc.satoshisToUsd(invoice.value, currentTicker.price_usd)
+                :
+                btc.satoshisToBtc(invoice.value)
+            }
+          </span>
+          <i>BTC</i>
+        </h1>
+      </header>
+      <div className={styles.qrcode}>
+        <QRCode value={invoice.payment_request} size={150} />
+      </div>
+      <div className={styles.input}>
+        <p className={styles.hello}>
+          <span>{invoice.payment_request}</span>
+          <span onClick={() => copyOnClick(invoice.payment_request)} className='hint--left' data-hint='Copy Invoice'>
+            <FaCopy />
+          </span>
+        </p>
+      </div>
+      <p className={styles.date}>
       Created on
-      <Moment format='MMM Do'>{invoice.creation_date * 1000}</Moment>
-    </p>
-  </div>
-)
+        <Moment format='MMM Do'>{invoice.creation_date * 1000}</Moment>
+      </p>
+    </div>
+  )
+}
 
 Invoice.propTypes = {
   invoice: PropTypes.object.isRequired,
