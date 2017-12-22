@@ -16,10 +16,11 @@ import styles from './Invoice.scss'
 
 
 const Invoice = ({ invoice, ticker, currentTicker }) => {
-  const copyOnClick = (data) => {
-    copy(data)
+  const copyPaymentRequest = () => {
+    copy(invoice.payment_request)
     showNotification('Noice', 'Successfully copied to clipboard')
   }
+
   return (
     <div className={styles.container}>
       <div className={styles.settled}>
@@ -49,9 +50,9 @@ const Invoice = ({ invoice, ticker, currentTicker }) => {
         <QRCode value={invoice.payment_request} size={150} />
       </div>
       <div className={styles.input}>
-        <p className={styles.hello}>
+        <p className={styles.invoiceAddress}>
           <span>{invoice.payment_request}</span>
-          <span onClick={() => copyOnClick(invoice.payment_request)} className='hint--left' data-hint='Copy Invoice'>
+          <span onClick={copyPaymentRequest} className='hint--left' data-hint='Copy Invoice'>
             <FaCopy />
           </span>
         </p>
