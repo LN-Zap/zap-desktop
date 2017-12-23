@@ -21,9 +21,6 @@ class CanvasNetworkGraph extends Component {
     super(props)
 
     this.state = {
-      width: 800,
-      height: 800,
-
       simulation: {},
       simulationData: {
         nodes: [],
@@ -61,8 +58,8 @@ class CanvasNetworkGraph extends Component {
         d3.select('#mapContainer')
           .append('svg')
           .attr('id', 'map')
-          .attr('width', 800)
-          .attr('height', 800)
+          .attr('width', '100%')
+          .attr('height', '100%')
 
         this.startSimulation()
 
@@ -189,10 +186,9 @@ class CanvasNetworkGraph extends Component {
 
     // grab the svg el along with the attributes
     const svg = d3.select('#map')
-    const width = +svg.attr('width')
-    const height = +svg.attr('height')
+    const svgBox = svg.node().getBBox()
 
-    this.g = svg.append('g').attr('transform', `translate(${width / 2},${height / 2})`)
+    this.g = svg.append('g').attr('transform', `translate(${svgBox.width / 2},${svgBox.height / 2})`)
     this.link = this.g.append('g').attr('stroke', 'white').attr('stroke-width', 1.5).selectAll('.link')
     this.node = this.g.append('g').attr('stroke', 'silver').attr('stroke-width', 1.5).selectAll('.node')
 
