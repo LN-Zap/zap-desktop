@@ -187,7 +187,7 @@ export const createMacaroonCreds = async macaroonPath => {
 export const isLndRunning = () => {
   return new Promise((resolve, reject) => {
     mainLog.info('Looking for existing lnd process')
-    lookup({ command: 'lnd' }, (err, results) => {
+    lookup({ command: 'lnd', psargs: 'x -o pid,command' }, (err, results) => {
       // There was an error checking for the LND process.
       if (err) {
         return reject(err)
