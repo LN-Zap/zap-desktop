@@ -11,7 +11,7 @@
   },
   "scripts": {
     "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source",
-    "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.6.10"
+    "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.7.10"
   },
   "license": "MIT",
   "dependencies": {
