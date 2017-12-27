@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { push } from 'react-router-redux'
 
+import { showActivityModal } from './activity'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { setPayInvoice } from './payform'
@@ -110,6 +112,12 @@ export const createdInvoice = (event, invoice) => (dispatch) => {
 
   // Reset the payment form
   dispatch(resetRequestForm())
+
+  // Transition to wallet route
+  dispatch(push('/'))
+
+  // Set invoice modal to newly created invoice
+  dispatch(showActivityModal('INVOICE', { invoice }))
 }
 
 export const invoiceFailed = (event, { error }) => (dispatch) => {
