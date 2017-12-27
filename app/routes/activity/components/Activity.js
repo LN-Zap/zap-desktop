@@ -61,7 +61,7 @@ class Activity extends Component {
       newAddress
     } = this.props
 
-    if (invoiceLoading || paymentLoading) { return <div>Loading...</div> }
+    if (invoiceLoading || paymentLoading) { return <LoadingBolt /> }
     if (balance.balanceLoading) { return <LoadingBolt /> }
     if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
