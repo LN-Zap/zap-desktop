@@ -20,7 +20,7 @@ const PeerForm = ({ form, setForm, connect }) => {
         parentSelector={() => document.body}
         className={styles.modal}
       >
-        <div className={styles.form}>
+        <div className={styles.form} onKeyPress={event => event.charCode === 13 && submit()}>
           <h1 className={styles.title}>Connect to a peer</h1>
 
           <section className={styles.pubkey}>
