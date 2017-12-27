@@ -53,7 +53,6 @@
 
   .input {
     padding: 10px 40px;
-
     .paymentRequest {
       text-align: center;
       font-size: 12px;
@@ -74,5 +73,34 @@
     time {
       margin-left: 3px;
     }
+  }
+
+  .invoiceAddress {
+      display: flex;
+      flex-direction: row;
+      font-family: 'Roboto';
+      font-size: 14px;
+      font-weight: 200;
+      background: $lightgrey;
+
+      span {
+        padding: 15px;
+      }
+
+      span:nth-child(1) {
+        flex: 9;
+        overflow-x: scroll;
+      }
+
+      span:nth-child(2) {
+        background: $darkgrey;
+        color: $black;
+        cursor: pointer;
+        transition: all 0.25s;
+
+        &:hover {
+          background: $darkestgrey;
+        }
+      }
   }
 }
