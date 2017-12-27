@@ -134,7 +134,8 @@ export const fetchDescribeNetwork = () => (dispatch) => {
 }
 
 // Receive IPC event for describeNetwork
-export const receiveDescribeNetwork = (event, { nodes, edges }) => dispatch => dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes, edges })
+export const receiveDescribeNetwork = (event, { nodes, edges }) => dispatch =>
+  dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes, edges })
 
 export const queryRoutes = (pubkey, amount) => (dispatch) => {
   dispatch(getQueryRoutes(pubkey))
@@ -149,9 +150,9 @@ export const fetchInvoiceAndQueryRoutes = payreq => (dispatch) => {
   ipcRenderer.send('lnd', { msg: 'getInvoiceAndQueryRoutes', data: { payreq } })
 }
 
-export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch => {
+export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch =>
   dispatch({ type: RECEIVE_INFO_AND_QUERY_ROUTES, routes })
-}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -185,7 +186,7 @@ const ACTION_HANDLERS = {
 
   [UPDATE_SELECTED_PEERS]: (state, { peer }) => {
     let selectedPeers
-    
+
     if (state.selectedPeers.includes(peer)) {
       selectedPeers = state.selectedPeers.filter(selectedPeer => selectedPeer.pub_key !== peer.pub_key)
     }

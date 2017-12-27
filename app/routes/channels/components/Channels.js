@@ -127,7 +127,7 @@ class Channels extends Component {
             </ul>
           </section>
           <section className={styles.refreshContainer}>
-            <span className={styles.refresh} onClick={refreshClicked} ref={(ref) => (this.repeat = ref)}>
+            <span className={styles.refresh} onClick={refreshClicked} ref={(ref) => { this.repeat = ref }}>
               {
                 this.state.refreshing ?
                   <FaRepeat />
