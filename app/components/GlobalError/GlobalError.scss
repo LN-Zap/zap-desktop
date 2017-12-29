@@ -24,12 +24,17 @@
 
     .close {
       position: absolute;
-      top: calc(50% - 8px);
+      top: 50%;
       right: 10%;
+      transform: translateY(-50%);
       cursor: pointer;
+      font-size: 2rem;
     }
 
     h2 {
+      max-width: 75%;
+      margin-left: auto;
+      margin-right: auto;
       font-size: 20px;
       letter-spacing: 1.5px;
       font-weight: bold;
