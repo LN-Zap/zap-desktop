@@ -16,6 +16,28 @@
   border: 1px solid $darkgrey;
 }
 
+.modalClose {
+  position: absolute;
+  top: -13px;
+  right: -13px;
+  display: block;
+  font-size: 16px;
+  line-height: 27px;
+  width: 32px;
+  height: 32px;
+  background: $white;
+  border-radius: 50%;
+  color: $darkestgrey;
+  cursor: pointer;
+  text-align: center;
+  z-index: 2;
+  transition: all 0.25s;
+}
+
+.modalClose:hover {
+  background: $darkgrey;
+}
+
 .title {
 	text-align: center;
 	font-size: 24px;

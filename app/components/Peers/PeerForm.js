@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
+import { FaClose } from 'react-icons/lib/fa'
 import styles from './PeerForm.scss'
 
 const PeerForm = ({ form, setForm, connect }) => {
@@ -20,6 +21,10 @@ const PeerForm = ({ form, setForm, connect }) => {
         parentSelector={() => document.body}
         className={styles.modal}
       >
+        <div onClick={() => setForm({ isOpen: false })} className={styles.modalClose}>
+          <FaClose />
+        </div>
+
         <div className={styles.form} onKeyPress={event => event.charCode === 13 && submit()}>
           <h1 className={styles.title}>Connect to a peer</h1>
 

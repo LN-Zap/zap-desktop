@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import ReactModal from 'react-modal'
-import { MdClose } from 'react-icons/lib/md'
+import { FaClose } from 'react-icons/lib/fa'
 
 import styles from './PeerModal.scss'
 
@@ -36,7 +36,7 @@ const PeerModal = ({ isOpen, resetPeer, peer, disconnect }) => {
     >
       <div className={styles.closeContainer}>
         <span onClick={() => resetPeer(null)}>
-          <MdClose />
+          <FaClose />
         </span>
       </div>
       {
