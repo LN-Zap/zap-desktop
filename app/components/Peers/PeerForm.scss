@@ -37,6 +37,29 @@
   background: $darkgrey;
 }
 
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.loader {
+  font-size: 2rem;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  :global {
+    animation-name: spin;
+  }
+}
+
 .title {
 	text-align: center;
 	font-size: 24px;

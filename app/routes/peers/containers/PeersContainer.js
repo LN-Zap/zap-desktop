@@ -37,7 +37,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     setForm: dispatchProps.setPeerForm,
     connect: dispatchProps.connectRequest,
 
-    form: stateProps.peers.peerForm
+    form: stateProps.peers.peerForm,
+    connecting: stateProps.peers.connecting
   }
 
   return {

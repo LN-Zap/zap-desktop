@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import { FaClose } from 'react-icons/lib/fa'
+import Loader from 'react-icons/lib/md/autorenew'
 import styles from './PeerForm.scss'
 
-const PeerForm = ({ form, setForm, connect }) => {
+const PeerForm = ({ form, setForm, connect, connecting }) => {
   const submit = () => {
     const { pubkey, host } = form
     connect({ pubkey, host })
@@ -25,6 +26,11 @@ const PeerForm = ({ form, setForm, connect }) => {
           <FaClose />
         </div>
 
+        {connecting &&
+          <div className={styles.loading}>
+            <Loader className={styles.loader} />
+          </div>
+        }
         <div className={styles.form} onKeyPress={event => event.charCode === 13 && submit()}>
           <h1 className={styles.title}>Connect to a peer</h1>
 
@@ -65,7 +71,8 @@ const PeerForm = ({ form, setForm, connect }) => {
 PeerForm.propTypes = {
   form: PropTypes.object.isRequired,
   setForm: PropTypes.func.isRequired,
-  connect: PropTypes.func.isRequired
+  connect: PropTypes.func.isRequired,
+  connecting: PropTypes.bool.isRequired
 }
 
 export default PeerForm
