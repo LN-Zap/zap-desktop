@@ -2,6 +2,10 @@ sudo: false
 
 language: node_js
 
+env:
+  - TEST=lint-ci
+  - TEST=test-ci
+
 node_js:
   - 8
   - 7
@@ -36,7 +40,4 @@ before_script:
 
 script:
   - node --version
-  - yarn lint
-  - yarn package
-  - yarn test
-  - yarn test-e2e
+  - "yarn $TEST"
