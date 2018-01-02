@@ -36,5 +36,4 @@ before_script:
   - sleep 3
 
 script:
-  - node --version
   - "yarn $TEST"
