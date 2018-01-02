@@ -51,7 +51,7 @@ const ChannelForm = ({
       className={styles.modal}
     >
       <div onClick={closeChannelForm} className={styles.modalClose}>
-        <FaClose className={styles.close} />
+        <FaClose />
       </div>
 
       <header className={styles.header}>

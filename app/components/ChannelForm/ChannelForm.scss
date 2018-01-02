@@ -1,7 +1,6 @@
 @import '../../variables.scss';
 
 .modal {
-  position: relative;
   width: 40%;
   margin: 50px auto;
   position: absolute;
@@ -38,21 +37,21 @@
 }
 
 .header {
-   padding: 20px;
-   background: $lightgrey;
-   text-align: center;
-   font-family: 'Jigsaw Light';
-   text-transform: uppercase;
-   position: relative;
-   z-index: -2;
+  padding: 20px;
+  background: $lightgrey;
+  text-align: center;
+  font-family: 'Jigsaw Light';
+  text-transform: uppercase;
+  position: relative;
+  z-index: -2;
 }
 
 .progress {
-   transition: all 0.2s ease;
-   background: $main;
-   position: absolute;
-   height: 100%;
-   top: 0;
-   left: 0;
-   z-index: -1;
+  transition: all 0.2s ease;
+  background: $main;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: -1;
 }

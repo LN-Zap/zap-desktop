@@ -4,8 +4,7 @@ import ReactModal from 'react-modal'
 import copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react'
 import { showNotification } from 'notifications'
-import { MdClose } from 'react-icons/lib/md'
-import { FaCopy } from 'react-icons/lib/fa'
+import { FaCopy, FaClose } from 'react-icons/lib/fa'
 import styles from './ReceiveModal.scss'
 
 const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress, qrCodeType, changeQrCode }) => {
@@ -42,7 +41,7 @@ const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress, 
     >
       <div className={styles.closeContainer}>
         <span onClick={() => hideActivityModal()}>
-          <MdClose />
+          <FaClose />
         </span>
       </div>
 
