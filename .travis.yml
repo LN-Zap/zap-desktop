@@ -15,17 +15,13 @@ cache:
 
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
       - icnsutils
       - graphicsmagick
       - xz-utils
       - xorriso
 
 install:
-  - export CXX="g++-4.8"
   - yarn
   - cd app && yarn && cd ..
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
