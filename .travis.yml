@@ -11,6 +11,7 @@ node_js:
   - 8
 
 cache:
+  apt: true
   yarn: true
   directories:
     - node_modules
