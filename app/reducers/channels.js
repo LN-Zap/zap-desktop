@@ -293,6 +293,16 @@ channelsSelectors.activeChannels = createSelector(
   openChannels => openChannels.filter(channel => channel.active)
 )
 
+channelsSelectors.nonActiveChannels = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => !channel.active)
+)
+
+channelsSelectors.pendingOpenChannels = createSelector(
+  pendingOpenChannelsSelector,
+  pendingOpenChannels => pendingOpenChannels
+)
+
 const closingPendingChannels = createSelector(
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
