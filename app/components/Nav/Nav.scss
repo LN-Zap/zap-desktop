@@ -136,27 +136,17 @@
 		border-left: 20px solid transparent;
 		transition: all 0.25s;
 
-		.activeBorder {
-			position: absolute;
-			left: -30px;
-			width: 10px;
-			height: 100%;
-			margin: 0;
-			background: $main;
-			transition: all 0.25s;
-		}
-
 		li {
 		  margin: 12.5px 0;
 			min-width: 200px;
 		}
 
 	  &.active {
-	  	color: $white;
+	  	color: $main;
 	  	opacity: 1.0;
 
-  		.activeBorder {
-  			left: -10px;
+  		svg g {
+  			stroke: $main;
   		}
 	  }
 

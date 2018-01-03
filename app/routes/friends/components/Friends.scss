@@ -1,0 +1,147 @@
+@import '../../../variables.scss';
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: $lightgrey;
+
+  .titleContainer {
+    padding: 20px 40px;
+
+    .left {
+      padding: 10px 0;
+
+      h1 {
+        text-transform: uppercase;
+        font-size: 26px;
+        margin-right: 5px;
+      }
+    }
+  }
+
+  .newFriendContainer {
+    padding: 20px 40px;
+
+    .newFriendButton {
+      box-shadow: none;
+      transition: all 0.25s;
+
+      &:hover {
+        background: darken($main, 10%);
+      }
+
+      span {
+        display: inline-block;
+        vertical-align: top;
+
+        &:nth-child(1) svg {
+          width: 16px;
+          height: 16px;
+          margin-right: 5px;
+        }
+      }
+    }
+  }
+}
+
+.search {
+  height: 55px;
+  padding: 2px 25px;
+  border-top: 1px solid $darkgrey;
+  border-bottom: 1px solid $darkgrey;
+  background: $white;
+
+  .input {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+  }
+
+  .label {
+    width: 5%;
+    line-height: 50px;
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+  }
+
+  .text {
+    width: 95%;
+    outline: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    height: 50px;
+    font-size: 16px;
+  }
+}
+
+.friends {
+  padding: 10px 60px 60px 60px;
+}
+
+.friend {
+  padding: 30px 0;
+  border-bottom: 1px solid $traditionalgrey;
+
+  .info {
+    p {
+      margin-bottom: 20px;
+
+      &.online {
+        color: $green;
+
+        svg {
+          color: $green;
+        }
+      }
+
+      &.pending {
+        color: #FF8A65;
+
+        svg {
+          color: #FF8A65;
+        }
+
+        i {
+          margin-left: 5px;
+          color: $darkestgrey;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      svg, span {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      svg {
+        margin-right: 5px;
+        width: 12px;
+        height: 12px;
+        color: $darkestgrey;
+      }
+
+      span {
+        font-size: 12px;
+      }
+    }
+
+    h2 {
+      color: $black;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1.3px;
+
+      span {
+        color: $darkestgrey;
+        margin-left: 5px;
+      }
+    }
+  }
+}
