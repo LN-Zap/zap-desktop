@@ -2,29 +2,31 @@ sudo: false
 
 language: node_js
 
+env:
+  - TEST=lint-ci
+  - TEST=test-ci
+
 node_js:
+  - node
   - 8
-  - 7
 
 cache:
+  apt: true
   yarn: true
   directories:
     - node_modules
+    - flow-typed
     - app/node_modules
 
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
     packages:
-      - g++-4.8
       - icnsutils
       - graphicsmagick
       - xz-utils
       - xorriso
 
 install:
-  - export CXX="g++-4.8"
   - yarn
   - cd app && yarn && cd ..
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
@@ -35,8 +37,4 @@ before_script:
   - sleep 3
 
 script:
-  - node --version
-  - yarn lint
-  - yarn package
-  - yarn test
-  - yarn test-e2e
+  - "yarn $TEST"
