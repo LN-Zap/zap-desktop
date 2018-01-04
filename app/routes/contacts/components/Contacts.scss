@@ -32,6 +32,9 @@
     .newFriendButton {
       box-shadow: none;
       transition: all 0.25s;
+      padding-top: 12px;
+      padding-bottom: 10px;
+      font-size: 14px;
 
       &:hover {
         background: darken($main, 10%);
@@ -42,8 +45,8 @@
         vertical-align: top;
 
         &:nth-child(1) svg {
-          width: 16px;
-          height: 16px;
+          width: 14px;
+          height: 14px;
           margin-right: 5px;
         }
       }
