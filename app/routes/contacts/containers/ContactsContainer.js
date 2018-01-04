@@ -21,6 +21,7 @@ import {
   openContactsForm,
   closeContactsForm,
   updateContactFormSearchQuery,
+  updateContactCapacity,
   contactFormSelectors
 } from 'reducers/contactsform'
 
@@ -30,6 +31,7 @@ const mapDispatchToProps = {
   openContactsForm,
   closeContactsForm,
   updateContactFormSearchQuery,
+  updateContactCapacity,
   openChannel,
   updateChannelSearchQuery,
   toggleFilterPulldown,
@@ -63,6 +65,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const contactsFormProps = {
     closeContactsForm: dispatchProps.closeContactsForm,
     updateContactFormSearchQuery: dispatchProps.updateContactFormSearchQuery,
+    updateContactCapacity: dispatchProps.updateContactCapacity,
     openChannel: dispatchProps.openChannel,
 
     contactsform: stateProps.contactsform,

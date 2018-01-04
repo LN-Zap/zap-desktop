@@ -122,10 +122,31 @@
 .footer {
   padding: 10px 15px;
   border-top: 1px solid $darkgrey;
+  font-size: 14px;
 
   span {
-    &:nth-child(1) {
-      font-weight: bold;
+    &.amount {
+      &:hover {
+        input {
+          border: 1px solid $darkgrey;
+          cursor: text;
+        }
+      }
+
+      input {
+        border: 1px solid transparent;
+        padding: 0;
+        outline: 0;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 14px;
+        transition: all 0.25s;
+
+        &.isEditing {
+          width: 100%;
+          border-bottom: 1px solid $darkgrey;
+        }
+      }
     }
 
     &:nth-child(2) {
