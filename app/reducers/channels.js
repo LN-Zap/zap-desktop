@@ -101,12 +101,11 @@ export const fetchChannels = () => async (dispatch) => {
 export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, local_amt, push_amt }) => (dispatch) => {
+export const openChannel = ({ pubkey, host, local_amt, push_amt }) => (dispatch) => {
   const localamt = btc.btcToSatoshis(local_amt)
-  const pushamt = btc.btcToSatoshis(push_amt)
 
   dispatch(openingChannel())
-  ipcRenderer.send('lnd', { msg: 'openChannel', data: { pubkey, localamt, pushamt } })
+  ipcRenderer.send('lnd', { msg: 'connectAndOpen', data: { pubkey, host, localamt } })
 }
 
 // TODO: Decide how to handle streamed updates for channels
@@ -293,9 +292,19 @@ channelsSelectors.activeChannels = createSelector(
   openChannels => openChannels.filter(channel => channel.active)
 )
 
+channelsSelectors.activeChannelPubkeys = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => channel.active).map(c => c.remote_pubkey)
+)
+
 channelsSelectors.nonActiveChannels = createSelector(
   channelsSelector,
   openChannels => openChannels.filter(channel => !channel.active)
+)
+
+channelsSelectors.nonActiveChannelPubkeys = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => !channel.active).map(c => c.remote_pubkey)
 )
 
 channelsSelectors.pendingOpenChannels = createSelector(
@@ -303,27 +312,15 @@ channelsSelectors.pendingOpenChannels = createSelector(
   pendingOpenChannels => pendingOpenChannels
 )
 
-const closingPendingChannels = createSelector(
+channelsSelectors.pendingOpenChannelPubkeys = createSelector(
+  pendingOpenChannelsSelector,
+  pendingOpenChannels => pendingOpenChannels.map(pendingChannel => pendingChannel.channel.remote_node_pub)
+)
+
+channelsSelectors.closingPendingChannels = createSelector(
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
   (pendingClosedChannels, pendingForcedClosedChannels) => [...pendingClosedChannels, ...pendingForcedClosedChannels]
-)
-
-const allChannels = createSelector(
-  channelsSelector,
-  pendingOpenChannelsSelector,
-  pendingClosedChannelsSelector,
-  pendingForceClosedChannelsSelector,
-  channelSearchQuerySelector,
-  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => {
-    const filteredChannels = channels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
-    const filteredPendingOpenChannels = pendingOpenChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
-    const filteredPendingClosedChannels = pendingClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
-    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
-
-
-    return [...filteredChannels, ...filteredPendingOpenChannels, ...filteredPendingClosedChannels, ...filteredPendingForcedClosedChannels]
-  }
 )
 
 channelsSelectors.activeChanIds = createSelector(
@@ -337,12 +334,32 @@ channelsSelectors.nonActiveFilters = createSelector(
   (filters, filter) => filters.filter(f => f.key !== filter.key)
 )
 
+const allChannels = createSelector(
+  channelsSelectors.activeChannels,
+  channelsSelectors.nonActiveChannels,
+  pendingOpenChannelsSelector,
+  pendingClosedChannelsSelector,
+  pendingForceClosedChannelsSelector,
+  channelSearchQuerySelector,
+  (activeChannels, nonActiveChannels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => {
+    const filteredActiveChannels = activeChannels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredNonActiveChannels = nonActiveChannels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
+
+    const filteredPendingOpenChannels = pendingOpenChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingClosedChannels = pendingClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+
+
+    return [...filteredActiveChannels, ...filteredNonActiveChannels, ...filteredPendingOpenChannels, ...filteredPendingClosedChannels, ...filteredPendingForcedClosedChannels]
+  }
+)
+
 export const currentChannels = createSelector(
   allChannels,
   channelsSelectors.activeChannels,
   channelsSelector,
   pendingOpenChannelsSelector,
-  closingPendingChannels,
+  channelsSelectors.closingPendingChannels,
   filterSelector,
   channelSearchQuerySelector,
   (allChannelsArr, activeChannelsArr, openChannels, pendingOpenChannels, pendingClosedChannels, filter, searchQuery) => {

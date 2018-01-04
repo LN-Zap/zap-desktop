@@ -6,44 +6,55 @@ import Isvg from 'react-inlinesvg'
 import { MdSearch } from 'react-icons/lib/md'
 import { FaCircle } from 'react-icons/lib/fa'
 
+import { btc } from 'utils'
+
+import FriendsForm from 'components/Friends/FriendsForm'
+import OnlineContact from 'components/Friends/OnlineContact'
+import PendingContact from 'components/Friends/PendingContact'
+import ClosingContact from 'components/Friends/ClosingContact'
+import OfflineContact from 'components/Friends/OfflineContact'
+
 import plus from 'icons/plus.svg'
 
 import styles from './Friends.scss'
 
 class Friends extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentWillMount() {
-    const { fetchChannels, fetchPeers } = this.props
+    const { fetchChannels, fetchPeers, fetchDescribeNetwork } = this.props
 
     fetchChannels()
     fetchPeers()
+    fetchDescribeNetwork()
   }
 
   render() {
     const {
       channels,
+      currentChannels,
       activeChannels,
       nonActiveChannels,
       pendingOpenChannels,
+      closingPendingChannels,
+
+      openFriendsForm,
+
+      friendsFormProps,
 
       peers
     } = this.props
 
-    console.log('pendingOpenChannels: ', pendingOpenChannels)
-
     return (
       <div className={styles.friendsContainer}>
+        <FriendsForm {...friendsFormProps} />
+
         <header className={styles.header}>
           <div className={styles.titleContainer}>
             <div className={styles.left}>
-              <h1>Friends ({activeChannels.length} online)</h1>
+              <h1>Contacts <span>({activeChannels.length} online)</span></h1>
             </div>
           </div>
           <div className={styles.newFriendContainer}>
-            <div className={`buttonPrimary ${styles.newFriendButton}`} onClick={() => (console.log('yo'))}>
+            <div className={`buttonPrimary ${styles.newFriendButton}`} onClick={openFriendsForm}>
               <Isvg src={plus} />
               <span>Add</span>
             </div>
@@ -66,65 +77,18 @@ class Friends extends Component {
 
         <ul className={styles.friends}>
           {
-            activeChannels.length > 0 && activeChannels.map(activeChannel => {
-              console.log('activeChannel: ', activeChannel)
-              return (
-                <li className={styles.friend} key={activeChannel.chan_id}>
-                  <section className={styles.info}>
-                    <p className={styles.online}>
-                      <FaCircle style={{ verticalAlign: 'top' }} />
-                      <span>Online</span>
-                    </p>
-                    <h2>{activeChannel.remote_pubkey}</h2>
-                  </section>
-                  <section>
-                    
-                  </section>
-                </li>
-              )
-            })
-          }
-          {
-            pendingOpenChannels.length > 0 && pendingOpenChannels.map(pendingOpenChannel => {
-              console.log('pendingOpenChannel: ', pendingOpenChannel)
-              return (
-                <li className={styles.friend} key={pendingOpenChannel.chan_id}>
-                  <section className={styles.info}>
-                    <p className={styles.pending}>
-                      <FaCircle style={{ verticalAlign: 'top' }} />
-                      <span>
-                        Pending
-                        <i onClick={() => shell.openExternal(`${'https://testnet.smartbit.com.au'}/tx/${pendingOpenChannel.channel.channel_point.split(':')[0]}`)}>
-                          (~{pendingOpenChannel.blocks_till_open * 10} minutes)
-                        </i>
-                      </span>
-                    </p>
-                    <h2>{pendingOpenChannel.channel.remote_node_pub}</h2>
-                  </section>
-                  <section>
-                    
-                  </section>
-                </li>
-              )
-            })
-          }
-          {
-            nonActiveChannels.length > 0 && nonActiveChannels.map(nonActiveChannel => {
-              console.log('nonActiveChannel: ', nonActiveChannel)
-              return (
-                <li className={styles.friend} key={nonActiveChannel.chan_id}>
-                  <section className={styles.info}>
-                    <p>
-                      <FaCircle style={{ verticalAlign: 'top' }} />
-                      <span>Offline</span>
-                    </p>
-                    <h2>{nonActiveChannel.remote_pubkey}</h2>
-                  </section>
-                  <section>
-                    
-                  </section>
-                </li>
-              )
+            currentChannels.length > 0 && currentChannels.map(channel => {
+              console.log('channel: ', channel)
+
+              if (channel.active) {
+                return <OnlineContact channel={channel} />
+              } else if (!channel.active) {
+                return <OfflineContact channel={channel} />
+              } else if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
+                return <PendingContact channel={channel} />
+              } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
+                return <ClosingContact channel={channel} />
+              }
             })
           }
         </ul>

@@ -1,4 +1,6 @@
 import bitcore from 'bitcore-lib'
+import find from 'lodash/find'
+import { listPeers, connectPeer } from './peersController'
 import pushopenchannel from '../push/openchannel'
 import pushclosechannel from '../push/closechannel'
 
@@ -11,7 +13,58 @@ const BufferUtil = bitcore.util.buffer
  * @param  {[type]} payload [description]
  * @return {[type]}         [description]
  */
+export function connectAndOpen(lnd, meta, event, payload) {
+  console.log('payload: ', payload)
+  
+  const { pubkey, host, localamt } = payload
+  const channelPayload = {
+    node_pubkey: BufferUtil.hexToBuffer(pubkey),
+    local_funding_amount: Number(localamt)
+  }
+
+  return new Promise((resolve, reject) => {
+    listPeers(lnd, meta)
+    .then(({ peers }) => {
+      console.log('peers: ', peers)
+
+      const peer = find(peers, { pub_key: pubkey })
+
+      if (peer) {
+        console.log('we can open the channel')
+      } else {
+        console.log('connect to the peer first')
+        connectPeer(lnd, meta, { pubkey, host })
+        .then((data) => {
+          console.log('connectPeer data: ', data)
+
+          const call = lnd.openChannel(channelPayload, meta)
+          
+          call.on('data', data => event.sender.send('pushchannelupdated', { data }))
+          call.on('error', error => event.sender.send('pushchannelerror', { error: error.toString() }))
+
+          call.on('end', () => event.sender.send('pushchannelend'))
+          call.on('status', status => event.sender.send('pushchannelstatus', { status }))
+        })
+        .catch(err => {
+          console.log('connectPeer err: ', err)
+        })
+      }
+    })
+    .catch(err => {
+      console.log('listPeers err', err)
+    })
+  })
+}
+
+/**
+ * Attempts to open a singly funded channel specified in the request to a remote peer.
+ * @param  {[type]} lnd     [description]
+ * @param  {[type]} event   [description]
+ * @param  {[type]} payload [description]
+ * @return {[type]}         [description]
+ */
 export function openChannel(lnd, meta, event, payload) {
+  console.log('opening the channel')
   const { pubkey, localamt, pushamt } = payload
   const res = {
     node_pubkey: BufferUtil.hexToBuffer(pubkey),
