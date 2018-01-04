@@ -30,7 +30,7 @@
     "test-watch": "npm test -- --watch",
     "install-grpc": "cd app && npm run install-grpc"
   },
-  "browserslist": "electron 1.6",
+  "browserslist": "electron 1.7",
   "build": {
     "productName": "ZapDesktop",
     "appId": "org.develar.ZapDesktop",
