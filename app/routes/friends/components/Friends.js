@@ -29,13 +29,14 @@ class Friends extends Component {
 
   render() {
     const {
-      channels,
+      channels: { searchQuery },
       currentChannels,
       activeChannels,
       nonActiveChannels,
       pendingOpenChannels,
       closingPendingChannels,
 
+      updateChannelSearchQuery,
       openFriendsForm,
 
       friendsFormProps,
@@ -66,8 +67,8 @@ class Friends extends Component {
             <MdSearch />
           </label>
           <input
-            value={''}
-            onChange={event => console.log('event: ', event)}
+            value={searchQuery}
+            onChange={event => updateChannelSearchQuery(event.target.value)}
             className={`${styles.text} ${styles.input}`}
             placeholder='Search your friends list...'
             type='text'
@@ -77,17 +78,17 @@ class Friends extends Component {
 
         <ul className={styles.friends}>
           {
-            currentChannels.length > 0 && currentChannels.map(channel => {
+            currentChannels.length > 0 && currentChannels.map((channel, index) => {
               console.log('channel: ', channel)
 
               if (channel.active) {
-                return <OnlineContact channel={channel} />
+                return <OnlineContact channel={channel} key={index} />
               } else if (!channel.active) {
-                return <OfflineContact channel={channel} />
+                return <OfflineContact channel={channel} key={index} />
               } else if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
-                return <PendingContact channel={channel} />
+                return <PendingContact channel={channel} key={index} />
               } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
-                return <ClosingContact channel={channel} />
+                return <ClosingContact channel={channel} key={index} />
               }
             })
           }
