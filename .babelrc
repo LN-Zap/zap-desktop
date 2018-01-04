@@ -2,7 +2,7 @@
   "presets": [
     ["env", {
       "targets": {
-        "node": 7,
+        "node": 8,
         "browsers": "electron 1.7"
       },
       "useBuiltIns": true

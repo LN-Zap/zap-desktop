@@ -33,6 +33,10 @@
     "install-grpc": "cd app && npm run install-grpc"
   },
   "browserslist": "electron 1.7",
+  "engines": {
+    "node": ">=8.0.0",
+    "npm": ">=5.0.0"
+  },
   "build": {
     "productName": "ZapDesktop",
     "appId": "org.develar.ZapDesktop",
