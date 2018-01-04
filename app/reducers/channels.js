@@ -357,12 +357,13 @@ const allChannels = createSelector(
 export const currentChannels = createSelector(
   allChannels,
   channelsSelectors.activeChannels,
+  channelsSelectors.nonActiveChannels,
   channelsSelector,
   pendingOpenChannelsSelector,
   channelsSelectors.closingPendingChannels,
   filterSelector,
   channelSearchQuerySelector,
-  (allChannelsArr, activeChannelsArr, openChannels, pendingOpenChannels, pendingClosedChannels, filter, searchQuery) => {
+  (allChannelsArr, activeChannelsArr, nonActiveChannelsArr, openChannels, pendingOpenChannels, pendingClosedChannels, filter, searchQuery) => {
     // Helper function to deliver correct channel array based on filter
     const filteredArray = (filterKey) => {
       switch (filterKey) {
@@ -370,6 +371,8 @@ export const currentChannels = createSelector(
           return allChannelsArr
         case 'ACTIVE_CHANNELS':
           return activeChannelsArr
+        case 'NON_ACTIVE_CHANNELS':
+          return nonActiveChannelsArr
         case 'OPEN_CHANNELS':
           return openChannels
         case 'OPEN_PENDING_CHANNELS':
@@ -417,13 +420,13 @@ const initialState = {
   viewType: 0,
 
   filterPulldown: false,
-  filter: { key: 'ALL_CHANNELS', name: 'All Channels' },
+  filter: { key: 'ALL_CHANNELS', name: 'All Contacts' },
   filters: [
-    { key: 'ALL_CHANNELS', name: 'All Channels' },
-    { key: 'ACTIVE_CHANNELS', name: 'Active Channels' },
-    { key: 'OPEN_CHANNELS', name: 'Open Channels' },
-    { key: 'OPEN_PENDING_CHANNELS', name: 'Open Pending Channels' },
-    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Pending Channels' }
+    { key: 'ALL_CHANNELS', name: 'All Contacts' },
+    { key: 'ACTIVE_CHANNELS', name: 'Online Contacts' },
+    { key: 'NON_ACTIVE_CHANNELS', name: 'Offline Contacts' },
+    { key: 'OPEN_PENDING_CHANNELS', name: 'Pending Contacts' },
+    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Contacts' }
   ]
 }
 

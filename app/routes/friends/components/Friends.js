@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import Isvg from 'react-inlinesvg'
 import { MdSearch } from 'react-icons/lib/md'
-import { FaCircle } from 'react-icons/lib/fa'
+import { FaAngleDown, FaRepeat } from 'react-icons/lib/fa'
 
 import { btc } from 'utils'
 
@@ -19,6 +19,14 @@ import plus from 'icons/plus.svg'
 import styles from './Friends.scss'
 
 class Friends extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      refreshing: false
+    }
+  }
+
   componentWillMount() {
     const { fetchChannels, fetchPeers, fetchDescribeNetwork } = this.props
 
@@ -29,20 +37,57 @@ class Friends extends Component {
 
   render() {
     const {
-      channels: { searchQuery },
+      channels: {
+        searchQuery,
+        filterPulldown,
+        filter,
+        viewType
+      },
       currentChannels,
       activeChannels,
       nonActiveChannels,
       pendingOpenChannels,
       closingPendingChannels,
-
+      fetchChannels,
       updateChannelSearchQuery,
+
+      toggleFilterPulldown,
+      changeFilter,
+      nonActiveFilters,
+      
       openFriendsForm,
 
       friendsFormProps,
 
       peers
     } = this.props
+
+    const refreshClicked = () => {
+      // turn the spinner on
+      this.setState({ refreshing: true })
+
+      // store event in icon so we dont get an error when react clears it
+      const icon = this.repeat.childNodes
+
+      // fetch channels
+      fetchChannels()
+
+      // wait for the svg to appear as child
+      const svgTimeout = setTimeout(() => {
+        if (icon[0].tagName === 'svg') {
+          // spin icon for 1 sec
+          icon[0].style.animation = 'spin 1000ms linear 1'
+          clearTimeout(svgTimeout)
+        }
+      }, 1)
+
+      // clear animation after the second so we can reuse it
+      const refreshTimeout = setTimeout(() => {
+        icon[0].style.animation = ''
+        this.setState({ refreshing: false })
+        clearTimeout(refreshTimeout)
+      }, 1000)
+    }
 
     return (
       <div className={styles.friendsContainer}>
@@ -76,7 +121,34 @@ class Friends extends Component {
           />
         </div>
 
-        <ul className={styles.friends}>
+        <div className={styles.filtersContainer}>
+          <section>
+            <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
+              {filter.name} <span className={filterPulldown && styles.pulldown}><FaAngleDown /></span>
+            </h2>
+            <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
+              {
+                nonActiveFilters.map(f => (
+                  <li key={f.key} onClick={() => changeFilter(f)}>
+                    {f.name}
+                  </li>
+                ))
+              }
+            </ul>
+          </section>
+          <section className={styles.refreshContainer}>
+            <span className={styles.refresh} onClick={refreshClicked} ref={(ref) => { this.repeat = ref }}>
+              {
+                this.state.refreshing ?
+                  <FaRepeat />
+                  :
+                  'Refresh'
+              }
+            </span>
+          </section>
+        </div>
+
+        <ul className={`${styles.friends} ${filterPulldown && styles.fade}`}>
           {
             currentChannels.length > 0 && currentChannels.map((channel, index) => {
               console.log('channel: ', channel)
