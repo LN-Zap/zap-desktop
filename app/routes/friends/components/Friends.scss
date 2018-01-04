@@ -83,107 +83,75 @@
   }
 }
 
-.friends {
-  padding: 10px 60px 60px 60px;
-}
-
-.friend {
+.filtersContainer {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 30px 0;
-  border-bottom: 1px solid $traditionalgrey;
+  padding: 20px 40px;
 
-  .limits {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  h2, h2 span {
+    color: $bluegrey;
+    cursor: pointer;
+    transition: color 0.25s;
 
-    div {
-      margin: 0 10px;
+    &:hover {
+      color: lighten($bluegrey, 10%);
+    }
+  }
+  
+  h2, .filters li {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: $darkestgrey;
+    font-size: 14px;
+    font-weight: 400;
+  }
 
-      h4 {
-        font-size: 12px;
-        margin-bottom: 20px;
+  h2 span.pulldown {
+    color: $main;
+  }
+
+  .filters {
+    display: none;
+    
+    &.active {
+      display: block;
+      position: absolute;
+      bottom: -100px;
+      z-index: 10;
+
+      li {
+        margin: 5px 0;
+        cursor: pointer;
+
+        &:hover {
+          color: $main;
+        }
       }
     }
   }
+  
+  .refreshContainer {
+    text-align: right;
+    cursor: pointer;
 
-  .info {
-    p {
-      margin-bottom: 20px;
-
-      &.online {
-        color: $green;
-
-        svg {
-          color: $green;
-        }
-      }
-
-      &.pending {
-        color: $orange;
-
-        svg {
-          color: $orange;
-        }
-
-        i {
-          margin-left: 5px;
-          color: $darkestgrey;
-          cursor: pointer;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-
-      &.closing {
-        color: $red;
-
-        svg {
-          color: $red;
-        }
-
-        i {
-          margin-left: 5px;
-          color: $darkestgrey;
-          cursor: pointer;
-
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-
-      svg, span {
-        display: inline-block;
-        vertical-align: top;
-      }
+    .refresh {
+      text-decoration: underline;
 
       svg {
-        margin-right: 5px;
-        width: 12px;
-        height: 12px;
-        color: $darkestgrey;
-      }
-
-      span {
         font-size: 12px;
       }
     }
+  }
+}
 
-    h2 {
-      color: $black;
-      font-size: 14px;
-      font-weight: bold;
-      letter-spacing: 1.3px;
+.friends {
+  padding: 10px 60px 60px 60px;
+  opacity: 1;
+  transition: all 0.25s;
 
-      span {
-        color: $darkestgrey;
-        margin-left: 5px;
-      }
-    }
+  &.fade {
+    opacity: 0.05;
   }
 }

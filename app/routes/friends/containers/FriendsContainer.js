@@ -6,6 +6,8 @@ import {
   openChannel,
 
   updateChannelSearchQuery,
+  toggleFilterPulldown,
+  changeFilter,
   currentChannels,
 
   channelsSelectors
@@ -30,6 +32,8 @@ const mapDispatchToProps = {
   updateFriendFormSearchQuery,
   openChannel,
   updateChannelSearchQuery,
+  toggleFilterPulldown,
+  changeFilter,
 
   fetchChannels,
   fetchPeers,
@@ -50,6 +54,7 @@ const mapStateToProps = state => ({
   pendingOpenChannels: channelsSelectors.pendingOpenChannels(state),
   pendingOpenChannelPubkeys: channelsSelectors.pendingOpenChannelPubkeys(state),
   closingPendingChannels: channelsSelectors.closingPendingChannels(state),
+  nonActiveFilters: channelsSelectors.nonActiveFilters(state),
 
   filteredNetworkNodes: friendFormSelectors.filteredNetworkNodes(state)
 })
