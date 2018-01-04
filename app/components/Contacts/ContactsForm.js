@@ -10,7 +10,8 @@ class ContactsForm extends React.Component {
     super(props)
 
     this.state = {
-      editing: false
+      editing: false,
+      manualFormInput: ''
     }
   }
 
@@ -25,10 +26,11 @@ class ContactsForm extends React.Component {
       activeChannelPubkeys,
       nonActiveChannelPubkeys,
       pendingOpenChannelPubkeys,
-      filteredNetworkNodes
+      filteredNetworkNodes,
+      showManualForm
     } = this.props
 
-    const { editing } = this.state
+    const { editing, manualFormInput } = this.state
 
     const renderRightSide = (node) => {
       if (activeChannelPubkeys.includes(node.pub_key)) {
@@ -67,7 +69,7 @@ class ContactsForm extends React.Component {
         <span
           className={`${styles.connect} hint--left`}
           data-hint='Connect with 0.1 BTC'
-          onClick={() => openChannel({ pubkey: node.pub_key, host: node.addresses[0].addr, local_amt: contactsform.contactsform.contactCapacity })}
+          onClick={() => openChannel({ pubkey: node.pub_key, host: node.addresses[0].addr, local_amt: contactsform.contactCapacity })}
         >
           Connect
         </span>
@@ -78,6 +80,15 @@ class ContactsForm extends React.Component {
       if (editing) { return }
 
       this.setState({ editing: true })
+    }
+
+    const manualFormSubmit = () => {
+      if (!manualFormInput.length) { return }
+      if (!manualFormInput.includes('@')) { return }
+
+      const [pubkey, host] = manualFormInput && manualFormInput.split('@')
+
+      openChannel({ pubkey, host, local_amt: contactsform.contactCapacity })
     }
 
     return (
@@ -139,6 +150,23 @@ class ContactsForm extends React.Component {
               }
             </ul>
           </div>
+
+          {
+            showManualForm &&
+            <div className={styles.manualForm}>
+              <h2>Hm, looks like we can't see that contact from here. Want to try and manually connect?</h2>
+              <section>
+                <input
+                  type='text'
+                  placeholder='pubkey@host'
+                  value={manualFormInput}
+                  onChange={event => this.setState({ manualFormInput: event.target.value })}
+                />
+                <div className={styles.submit} onClick={manualFormSubmit}>Submit</div>
+              </section>
+            </div>
+          }
+
           <footer className={styles.footer}>
             <div>
               <span className={styles.amount}>

@@ -73,6 +73,21 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
   (nodes, searchQuery) => filter(nodes, node => node.alias.includes(searchQuery) || node.pub_key.includes(searchQuery))
 )
 
+contactFormSelectors.showManualForm = createSelector(
+  searchQuerySelector,
+  contactFormSelectors.filteredNetworkNodes,
+  (searchQuery, filteredNetworkNodes) => {
+    if (!searchQuery.length) { return false }
+
+    const connectableNodes = filteredNetworkNodes.filter(node => node.addresses.length > 0)
+    console.log('connectableNodes: ', connectableNodes)
+
+    if (!filteredNetworkNodes.length || !connectableNodes.length) { return true }
+
+    return false
+  }
+)
+
 export { contactFormSelectors }
 
 // ------------------------------------
