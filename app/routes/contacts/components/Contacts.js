@@ -16,9 +16,9 @@ import OfflineContact from 'components/Contacts/OfflineContact'
 
 import plus from 'icons/plus.svg'
 
-import styles from './Friends.scss'
+import styles from './Contacts.scss'
 
-class Friends extends Component {
+class Contacts extends Component {
   constructor(props) {
     super(props)
 
@@ -168,6 +168,6 @@ class Friends extends Component {
   }
 }
 
-Friends.propTypes = {}
+Contacts.propTypes = {}
 
-export default Friends
+export default Contacts
