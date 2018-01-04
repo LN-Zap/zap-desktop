@@ -1,4 +1,3 @@
-import { shell } from 'electron'
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
@@ -151,14 +150,14 @@ class Contacts extends Component {
         <ul className={`${styles.friends} ${filterPulldown && styles.fade}`}>
           {
             currentChannels.length > 0 && currentChannels.map((channel, index) => {
-              if (channel.active) {
-                return <OnlineContact channel={channel} key={index} />
-              } else if (!channel.active) {
-                return <OfflineContact channel={channel} key={index} />
-              } else if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
+              if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
                 return <PendingContact channel={channel} key={index} />
               } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
                 return <ClosingContact channel={channel} key={index} />
+              } else if (channel.active) {
+                return <OnlineContact channel={channel} key={index} />
+              } else if (!channel.active) {
+                return <OfflineContact channel={channel} key={index} />
               }
             })
           }

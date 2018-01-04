@@ -89,6 +89,8 @@ class ContactsForm extends React.Component {
       const [pubkey, host] = manualFormInput && manualFormInput.split('@')
 
       openChannel({ pubkey, host, local_amt: contactsform.contactCapacity })
+
+      this.setState({ manualFormInput: '' })
     }
 
     return (

@@ -350,7 +350,7 @@ const allChannels = createSelector(
     const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
 
 
-    return [...filteredActiveChannels, ...filteredNonActiveChannels, ...filteredPendingOpenChannels, ...filteredPendingClosedChannels, ...filteredPendingForcedClosedChannels]
+    return [...filteredActiveChannels, ...filteredPendingOpenChannels, ...filteredPendingClosedChannels, ...filteredPendingForcedClosedChannels, ...filteredNonActiveChannels]
   }
 )
 

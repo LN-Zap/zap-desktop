@@ -1,3 +1,4 @@
+import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FaCircle } from 'react-icons/lib/fa'
