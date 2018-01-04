@@ -6,7 +6,7 @@ import { btc } from 'utils'
 import styles from './Contact.scss'
 
 const ClosingContact = ({ channel }) => (
-  <li className={styles.friend} key={index}>
+  <li className={styles.friend}>
     <section className={styles.info}>
       <p className={styles.closing}>
         <FaCircle style={{ verticalAlign: 'top' }} />

@@ -12,6 +12,7 @@ import OnlineContact from 'components/Contacts/OnlineContact'
 import PendingContact from 'components/Contacts/PendingContact'
 import ClosingContact from 'components/Contacts/ClosingContact'
 import OfflineContact from 'components/Contacts/OfflineContact'
+import LoadingContact from 'components/Contacts/LoadingContact'
 
 import plus from 'icons/plus.svg'
 
@@ -40,7 +41,8 @@ class Contacts extends Component {
         searchQuery,
         filterPulldown,
         filter,
-        viewType
+        viewType,
+        loadingChannelPubkeys
       },
       currentChannels,
       activeChannels,
@@ -148,6 +150,16 @@ class Contacts extends Component {
         </div>
 
         <ul className={`${styles.friends} ${filterPulldown && styles.fade}`}>
+          {
+            loadingChannelPubkeys.map(pubkey => {
+              console.log('pubkey: ', pubkey)
+              
+              return (
+                <LoadingContact pubkey={pubkey} />
+              )
+            })
+          }
+
           {
             currentChannels.length > 0 && currentChannels.map((channel, index) => {
               if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {

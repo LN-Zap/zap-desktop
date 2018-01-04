@@ -29,6 +29,9 @@ export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
 export const TOGGLE_CHANNEL_PULLDOWN = 'TOGGLE_CHANNEL_PULLDOWN'
 export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
 
+export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
+export const REMOVE_LOADING_PUBKEY = 'REMOVE_LOADING_PUBKEY'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -91,6 +94,20 @@ export function setViewType(viewType) {
   }
 }
 
+export function addLoadingPubkey(pubkey) {
+  return {
+    type: ADD_LOADING_PUBKEY,
+    pubkey
+  }
+}
+
+export function removeLoadingPubkey(pubkey) {
+  return {
+    type: REMOVE_LOADING_PUBKEY,
+    pubkey
+  }
+}
+
 // Send IPC event for peers
 export const fetchChannels = () => async (dispatch) => {
   dispatch(getChannels())
@@ -105,6 +122,7 @@ export const openChannel = ({ pubkey, host, local_amt, push_amt }) => (dispatch)
   const localamt = btc.btcToSatoshis(local_amt)
 
   dispatch(openingChannel())
+  dispatch(addLoadingPubkey(pubkey))
   ipcRenderer.send('lnd', { msg: 'connectAndOpen', data: { pubkey, host, localamt } })
 }
 
@@ -118,9 +136,10 @@ export const channelSuccessful = () => (dispatch) => {
 }
 
 // Receive IPC event for updated channel
-export const pushchannelupdated = (event, data) => (dispatch) => {
+export const pushchannelupdated = (event, { pubkey, data }) => (dispatch) => {
   console.log('PUSH CHANNEL UPDATED: ', data)
   dispatch(fetchChannels())
+  dispatch(removeLoadingPubkey(pubkey))
 }
 
 // Receive IPC event for channel end
@@ -130,10 +149,11 @@ export const pushchannelend = event => (dispatch) => { // eslint-disable-line
 }
 
 // Receive IPC event for channel error
-export const pushchannelerror = (event, { error }) => (dispatch) => {
+export const pushchannelerror = (event, { pubkey, error }) => (dispatch) => {
   console.log('PUSH CHANNEL ERROR: ', error)
   dispatch(openingFailure())
   dispatch(setError(error))
+  dispatch(removeLoadingPubkey(pubkey))
 }
 
 // Receive IPC event for channel status
@@ -269,7 +289,10 @@ const ACTION_HANDLERS = {
   [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
 
   [TOGGLE_CHANNEL_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
-  [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter })
+  [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter }),
+  
+  [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys] }),
+  [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: state.loadingChannelPubkeys.filter(loadingPubkey => loadingPubkey !== pubkey) })
 }
 
 const channelsSelectors = {}
@@ -427,7 +450,9 @@ const initialState = {
     { key: 'NON_ACTIVE_CHANNELS', name: 'Offline Contacts' },
     { key: 'OPEN_PENDING_CHANNELS', name: 'Pending Contacts' },
     { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Contacts' }
-  ]
+  ],
+
+  loadingChannelPubkeys: []
 }
 
 export default function channelsReducer(state = initialState, action) {

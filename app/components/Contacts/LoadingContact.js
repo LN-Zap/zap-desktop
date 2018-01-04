@@ -1,0 +1,28 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import { FaCircle } from 'react-icons/lib/fa'
+import { btc } from 'utils'
+import styles from './Contact.scss'
+
+const LoadingContact = ({ pubkey }) => (
+  <li className={`${styles.friend} ${styles.loading}`}>
+    <section className={styles.info}>
+      <p>
+        <FaCircle style={{ verticalAlign: 'top' }} />
+        <span>Loading</span>
+      </p>
+      <h2>{pubkey}</h2>
+    </section>
+    <section className={styles.limits}>
+      <div className={styles.loading}>
+        <div className={styles.spinner} />
+      </div>
+    </section>
+  </li>
+)
+
+LoadingContact.propTypes = {
+  
+}
+
+export default LoadingContact

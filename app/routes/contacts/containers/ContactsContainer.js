@@ -71,6 +71,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     contactsform: stateProps.contactsform,
     filteredNetworkNodes: stateProps.filteredNetworkNodes,
+    loadingChannelPubkeys: stateProps.channels.loadingChannelPubkeys,
     showManualForm: stateProps.showManualForm,
 
     activeChannelPubkeys: stateProps.activeChannelPubkeys,
