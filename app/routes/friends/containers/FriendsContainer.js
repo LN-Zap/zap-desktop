@@ -4,7 +4,10 @@ import { connect } from 'react-redux'
 import {
   fetchChannels,
   openChannel,
+
+  updateChannelSearchQuery,
   currentChannels,
+
   channelsSelectors
 } from 'reducers/channels'
 
@@ -26,6 +29,7 @@ const mapDispatchToProps = {
   closeFriendsForm,
   updateFriendFormSearchQuery,
   openChannel,
+  updateChannelSearchQuery,
 
   fetchChannels,
   fetchPeers,
