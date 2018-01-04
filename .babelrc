@@ -1,7 +1,10 @@
 {
   "presets": [
     ["env", {
-      "targets": { "node": 7 },
+      "targets": {
+        "node": 7,
+        "browsers": "electron 1.7"
+      },
       "useBuiltIns": true
     }],
     "stage-0",
