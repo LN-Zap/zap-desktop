@@ -3,12 +3,12 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import { MdClose } from 'react-icons/lib/md'
 import { FaCircle } from 'react-icons/lib/fa'
-import styles from './FriendsForm.scss'
+import styles from './ContactsForm.scss'
 
-const FriendsForm = ({
-  friendsform,
-  closeFriendsForm,
-  updateFriendFormSearchQuery,
+const ContactsForm = ({
+  contactsform,
+  closeContactsForm,
+  updateContactFormSearchQuery,
   openChannel,
 
   activeChannelPubkeys,
@@ -16,12 +16,7 @@ const FriendsForm = ({
   pendingOpenChannelPubkeys,
   filteredNetworkNodes
 }) => {
-  console.log('pendingOpenChannelPubkeys: ', pendingOpenChannelPubkeys)
   const renderRightSide = (node) => {
-    if (node.addresses.length > 1) {
-      console.log('node: ', node)
-    }
-
     if (activeChannelPubkeys.includes(node.pub_key)) {
       return (
         <span className={`${styles.online} ${styles.inactive}`}>
@@ -68,11 +63,11 @@ const FriendsForm = ({
   return (
     <div>
       <ReactModal
-        isOpen={friendsform.isOpen}
+        isOpen={contactsform.isOpen}
         contentLabel='No Overlay Click Modal'
         ariaHideApp
         shouldCloseOnOverlayClick
-        onRequestClose={() => closeFriendsForm}
+        onRequestClose={() => closeContactsForm}
         parentSelector={() => document.body}
         className={styles.modal}
       >
@@ -80,7 +75,7 @@ const FriendsForm = ({
           <div>
             <h1>Add Contact</h1>
           </div>
-          <div onClick={closeFriendsForm} className={styles.modalClose}>
+          <div onClick={closeContactsForm} className={styles.modalClose}>
             <MdClose />
           </div>
         </header>
@@ -89,17 +84,17 @@ const FriendsForm = ({
           <div className={styles.search}>
             <input
               type='text'
-              placeholder='Find friend by alias or pubkey'
+              placeholder='Find contact by alias or pubkey'
               className={styles.searchInput}
-              value={friendsform.searchQuery}
-              onChange={event => updateFriendFormSearchQuery(event.target.value)}
+              value={contactsform.searchQuery}
+              onChange={event => updateContactFormSearchQuery(event.target.value)}
               autoFocus
             />
           </div>
 
           <ul className={styles.networkResults}>
             {
-              friendsform.searchQuery.length > 0 && filteredNetworkNodes.map(node => {
+              contactsform.searchQuery.length > 0 && filteredNetworkNodes.map(node => {
                 return (
                   <li key={node.pub_key}>
                     <section>
@@ -139,8 +134,8 @@ const FriendsForm = ({
   )
 }
 
-FriendsForm.propTypes = {
+ContactsForm.propTypes = {
   
 }
 
-export default FriendsForm
+export default ContactsForm

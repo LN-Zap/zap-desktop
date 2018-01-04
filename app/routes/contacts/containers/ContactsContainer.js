@@ -18,18 +18,18 @@ import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
 
 import {
-  openFriendsForm,
-  closeFriendsForm,
-  updateFriendFormSearchQuery,
-  friendFormSelectors
-} from 'reducers/friendsform'
+  openContactsForm,
+  closeContactsForm,
+  updateContactFormSearchQuery,
+  contactFormSelectors
+} from 'reducers/contactsform'
 
 import Contacts from '../components/Contacts'
 
 const mapDispatchToProps = {
-  openFriendsForm,
-  closeFriendsForm,
-  updateFriendFormSearchQuery,
+  openContactsForm,
+  closeContactsForm,
+  updateContactFormSearchQuery,
   openChannel,
   updateChannelSearchQuery,
   toggleFilterPulldown,
@@ -44,7 +44,7 @@ const mapStateToProps = state => ({
   channels: state.channels,
   peers: state.peers,
   network: state.network,
-  friendsform: state.friendsform,
+  contactsform: state.contactsform,
 
   currentChannels: currentChannels(state),
   activeChannels: channelsSelectors.activeChannels(state),
@@ -56,16 +56,16 @@ const mapStateToProps = state => ({
   closingPendingChannels: channelsSelectors.closingPendingChannels(state),
   nonActiveFilters: channelsSelectors.nonActiveFilters(state),
 
-  filteredNetworkNodes: friendFormSelectors.filteredNetworkNodes(state)
+  filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const friendsFormProps = {
-    closeFriendsForm: dispatchProps.closeFriendsForm,
-    updateFriendFormSearchQuery: dispatchProps.updateFriendFormSearchQuery,
+  const contactsFormProps = {
+    closeContactsForm: dispatchProps.closeContactsForm,
+    updateContactFormSearchQuery: dispatchProps.updateContactFormSearchQuery,
     openChannel: dispatchProps.openChannel,
 
-    friendsform: stateProps.friendsform,
+    contactsform: stateProps.contactsform,
     filteredNetworkNodes: stateProps.filteredNetworkNodes,
 
     activeChannelPubkeys: stateProps.activeChannelPubkeys,
@@ -78,7 +78,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
-    friendsFormProps
+    contactsFormProps
   }
 }
 
