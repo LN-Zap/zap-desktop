@@ -1,0 +1,135 @@
+@import '../../variables.scss';
+
+.modal {
+  position: relative;
+  width: 50%;
+  margin: 50px auto;
+  position: absolute;
+  top: auto;
+  left: 20%;
+  right: 0;
+  bottom: auto;
+  background: $white;
+  outline: none;
+  z-index: -2;
+  border: 1px solid $darkgrey;
+  
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid $darkgrey;
+
+    h1, svg {
+      font-size: 22px;
+    }
+
+    svg {
+      cursor: pointer;
+    }
+  }
+}
+
+.form {
+  padding: 30px 15px;
+
+  .search {
+    .searchInput {
+      width: calc(100% - 30px);
+      padding: 10px 15px;
+      outline: 0;
+      border: 0;
+      background: $lightgrey;
+      color: $darkestgrey;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+  }
+
+  .networkResults {
+    overflow-y: scroll;
+    height: 400px;
+    margin-top: 30px;
+    padding: 20px 0;
+
+    li {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px 0;
+
+      h2 {
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1.3px;
+
+        span {
+          display: inline-block;
+          vertical-align: middle;
+
+          &:nth-child(1) {
+            font-size: 16px;
+            font-weight: bold;
+            letter-spacing: 1.3px;
+          }
+
+          &:nth-child(2) {
+            color: $darkestgrey;
+            font-size: 12px;
+            line-height: 16px;
+          }
+        }
+      }
+
+      .connect {
+        cursor: pointer;
+        color: $darkestgrey;
+        transition: all 0.25s;
+        font-size: 12px;
+
+        &:hover {
+          color: $main;
+        }
+      }
+
+      .inactive {
+        font-size: 12px;
+
+        display: inline-block;
+        vertical-align: top;
+
+        &.online {
+          color: $green;
+        }
+
+        &.offline {
+          color: $darkestgrey;
+        }
+
+        &.pending {
+          color: $orange;
+        }
+
+        &.private {
+          color: darken($darkestgrey, 50%);
+        }
+      }
+    }
+  }
+}
+
+.footer {
+  padding: 10px 15px;
+  border-top: 1px solid $darkgrey;
+
+  span {
+    &:nth-child(1) {
+      font-weight: bold;
+    }
+
+    &:nth-child(2) {
+      margin-left: 2px;
+    }
+  }
+}

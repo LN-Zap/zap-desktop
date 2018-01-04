@@ -201,6 +201,19 @@ export default function (lnd, meta, event, msg, data) {
         })
         .catch(error => console.log('disconnectPeer error: ', error))
       break
+    case 'connectAndOpen':
+    // Connects to a peer if we aren't connected already and then attempt to open a channel
+    // {} = data
+      channelController.connectAndOpen(lnd, meta, event, data)
+        .then((data) => {
+          console.log('connectAndOpen data: ', data)
+          // event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
+        })
+        .catch((error) => {
+          // event.sender.send('connectFailure', { error: error.toString() })
+          console.log('connectAndOpen error: ', error)
+        })
+      break
     default:
   }
 }
