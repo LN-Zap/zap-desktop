@@ -8,11 +8,11 @@ import { FaAngleDown, FaRepeat } from 'react-icons/lib/fa'
 
 import { btc } from 'utils'
 
-import FriendsForm from 'components/Friends/FriendsForm'
-import OnlineContact from 'components/Friends/OnlineContact'
-import PendingContact from 'components/Friends/PendingContact'
-import ClosingContact from 'components/Friends/ClosingContact'
-import OfflineContact from 'components/Friends/OfflineContact'
+import FriendsForm from 'components/Contacts/FriendsForm'
+import OnlineContact from 'components/Contacts/OnlineContact'
+import PendingContact from 'components/Contacts/PendingContact'
+import ClosingContact from 'components/Contacts/ClosingContact'
+import OfflineContact from 'components/Contacts/OfflineContact'
 
 import plus from 'icons/plus.svg'
 
@@ -151,8 +151,6 @@ class Friends extends Component {
         <ul className={`${styles.friends} ${filterPulldown && styles.fade}`}>
           {
             currentChannels.length > 0 && currentChannels.map((channel, index) => {
-              console.log('channel: ', channel)
-
               if (channel.active) {
                 return <OnlineContact channel={channel} key={index} />
               } else if (!channel.active) {
