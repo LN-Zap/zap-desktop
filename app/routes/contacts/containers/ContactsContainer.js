@@ -24,7 +24,7 @@ import {
   friendFormSelectors
 } from 'reducers/friendsform'
 
-import Friends from '../components/Friends'
+import Contacts from '../components/Contacts'
 
 const mapDispatchToProps = {
   openFriendsForm,
@@ -82,4 +82,4 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(Friends))
+export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(Contacts))
