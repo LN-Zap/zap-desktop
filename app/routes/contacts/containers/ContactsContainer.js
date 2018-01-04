@@ -58,7 +58,8 @@ const mapStateToProps = state => ({
   closingPendingChannels: channelsSelectors.closingPendingChannels(state),
   nonActiveFilters: channelsSelectors.nonActiveFilters(state),
 
-  filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state)
+  filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
+  showManualForm: contactFormSelectors.showManualForm(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -70,6 +71,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     contactsform: stateProps.contactsform,
     filteredNetworkNodes: stateProps.filteredNetworkNodes,
+    showManualForm: stateProps.showManualForm,
 
     activeChannelPubkeys: stateProps.activeChannelPubkeys,
     nonActiveChannelPubkeys: stateProps.nonActiveChannelPubkeys,

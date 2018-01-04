@@ -49,7 +49,7 @@
 
   .networkResults {
     overflow-y: scroll;
-    height: 400px;
+    height: 300px;
     margin-top: 30px;
     padding: 20px 0;
 
@@ -115,6 +115,40 @@
           color: darken($darkestgrey, 50%);
         }
       }
+    }
+  }
+}
+
+.manualForm {
+  background: $lightgrey;
+  color: $darkestgrey;
+  padding: 30px 15px;
+
+  h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: $darkestgrey;
+    border-bottom: 1px solid $darkestgrey;
+    padding: 10px 5px;
+    width: 80%;
+  }
+
+  .submit {
+    display: inline-block;
+    vertical-align: middle;
+    width: 15%;
+    margin-left: 2.5%;
+    font-size: 12px;
+
+    &:hover {
+      cursor: pointer;
+      color: $main;
     }
   }
 }
