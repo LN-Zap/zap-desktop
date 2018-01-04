@@ -27,12 +27,24 @@ class ContactsForm extends React.Component {
       nonActiveChannelPubkeys,
       pendingOpenChannelPubkeys,
       filteredNetworkNodes,
+      loadingChannelPubkeys,
       showManualForm
     } = this.props
 
     const { editing, manualFormInput } = this.state
 
+
     const renderRightSide = (node) => {
+      if (loadingChannelPubkeys.includes(node.pub_key)) {
+        return (
+          <span className={styles.inactive}>
+            <div className={styles.loading}>
+              <div className={styles.spinner} />
+            </div>
+          </span>
+        )
+      }
+      
       if (activeChannelPubkeys.includes(node.pub_key)) {
         return (
           <span className={`${styles.online} ${styles.inactive}`}>

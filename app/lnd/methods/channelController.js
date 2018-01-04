@@ -30,7 +30,11 @@ export function connectAndOpen(lnd, meta, event, payload) {
       const peer = find(peers, { pub_key: pubkey })
 
       if (peer) {
-        console.log('we can open the channel')
+        console.log('already have the peer. can open the channel now')
+        const call = lnd.openChannel(channelPayload, meta)
+          
+        call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
+        call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
       } else {
         console.log('connect to the peer first')
         connectPeer(lnd, meta, { pubkey, host })
@@ -41,9 +45,6 @@ export function connectAndOpen(lnd, meta, event, payload) {
           
           call.on('data', data => event.sender.send('pushchannelupdated', { data }))
           call.on('error', error => event.sender.send('pushchannelerror', { error: error.toString() }))
-
-          call.on('end', () => event.sender.send('pushchannelend'))
-          call.on('status', status => event.sender.send('pushchannelstatus', { status }))
         })
         .catch(err => {
           console.log('connectPeer err: ', err)
