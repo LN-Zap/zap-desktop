@@ -8,7 +8,7 @@ import { FaAngleDown, FaRepeat } from 'react-icons/lib/fa'
 
 import { btc } from 'utils'
 
-import FriendsForm from 'components/Contacts/FriendsForm'
+import ContactsForm from 'components/Contacts/ContactsForm'
 import OnlineContact from 'components/Contacts/OnlineContact'
 import PendingContact from 'components/Contacts/PendingContact'
 import ClosingContact from 'components/Contacts/ClosingContact'
@@ -55,9 +55,9 @@ class Contacts extends Component {
       changeFilter,
       nonActiveFilters,
       
-      openFriendsForm,
+      openContactsForm,
 
-      friendsFormProps,
+      contactsFormProps,
 
       peers
     } = this.props
@@ -91,7 +91,7 @@ class Contacts extends Component {
 
     return (
       <div className={styles.friendsContainer}>
-        <FriendsForm {...friendsFormProps} />
+        <ContactsForm {...contactsFormProps} />
 
         <header className={styles.header}>
           <div className={styles.titleContainer}>
@@ -100,7 +100,7 @@ class Contacts extends Component {
             </div>
           </div>
           <div className={styles.newFriendContainer}>
-            <div className={`buttonPrimary ${styles.newFriendButton}`} onClick={openFriendsForm}>
+            <div className={`buttonPrimary ${styles.newFriendButton}`} onClick={openContactsForm}>
               <Isvg src={plus} />
               <span>Add</span>
             </div>

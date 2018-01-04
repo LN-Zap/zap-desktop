@@ -5,35 +5,34 @@ import filter from 'lodash/filter'
 // Initial State
 const initialState = {
   isOpen: false,
-  searchQuery: '',
-  friend: ''
+  searchQuery: ''
 }
 
 // Constants
 // ------------------------------------
-export const OPEN_FRIENDS_FORM = 'OPEN_FRIENDS_FORM'
-export const CLOSE_FRIENDS_FORM = 'CLOSE_FRIENDS_FORM'
+export const OPEN_CONTACTS_FORM = 'OPEN_CONTACTS_FORM'
+export const CLOSE_CONTACTS_FORM = 'CLOSE_CONTACTS_FORM'
 
-export const UPDATE_FRIEND_FORM_SEARCH_QUERY = 'UPDATE_FRIEND_FORM_SEARCH_QUERY'
+export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUERY'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function openFriendsForm() {
+export function openContactsForm() {
   return {
-    type: OPEN_FRIENDS_FORM
+    type: OPEN_CONTACTS_FORM
   }
 }
 
-export function closeFriendsForm() {
+export function closeContactsForm() {
   return {
-    type: CLOSE_FRIENDS_FORM
+    type: CLOSE_CONTACTS_FORM
   }
 }
 
-export function updateFriendFormSearchQuery(searchQuery) {
+export function updateContactFormSearchQuery(searchQuery) {
   return {
-    type: UPDATE_FRIEND_FORM_SEARCH_QUERY,
+    type: UPDATE_CONTACT_FORM_SEARCH_QUERY,
     searchQuery
   }
 }
@@ -42,32 +41,32 @@ export function updateFriendFormSearchQuery(searchQuery) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [OPEN_FRIENDS_FORM]: state => ({ ...state, isOpen: true }),
-  [CLOSE_FRIENDS_FORM]: state => ({ ...state, isOpen: false }),
+  [OPEN_CONTACTS_FORM]: state => ({ ...state, isOpen: true }),
+  [CLOSE_CONTACTS_FORM]: state => ({ ...state, isOpen: false }),
 
-  [UPDATE_FRIEND_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery })
+  [UPDATE_CONTACT_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery })
 }
 
 // ------------------------------------
 // Selector
 // ------------------------------------
-const friendFormSelectors = {}
+const contactFormSelectors = {}
 const networkNodesSelector = state => state.network.nodes
-const searchQuerySelector = state => state.friendsform.searchQuery
+const searchQuerySelector = state => state.contactsform.searchQuery
 
 
-friendFormSelectors.filteredNetworkNodes = createSelector(
+contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
   searchQuerySelector,
   (nodes, searchQuery) => filter(nodes, node => node.alias.includes(searchQuery) || node.pub_key.includes(searchQuery))
 )
 
-export { friendFormSelectors }
+export { contactFormSelectors }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function friendFormReducer(state = initialState, action) {
+export default function contactFormReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state
