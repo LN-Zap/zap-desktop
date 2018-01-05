@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import {
   fetchChannels,
   openChannel,
+  closeChannel,
 
   updateChannelSearchQuery,
   toggleFilterPulldown,
@@ -37,6 +38,7 @@ const mapDispatchToProps = {
   updateContactFormSearchQuery,
   updateContactCapacity,
   openChannel,
+  closeChannel,
   updateChannelSearchQuery,
   toggleFilterPulldown,
   changeFilter,
@@ -70,10 +72,12 @@ const mapStateToProps = state => ({
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const contactModalProps = {
     closeContactModal: dispatchProps.closeContactModal,
+    closeChannel: dispatchProps.closeChannel,
 
     isOpen: stateProps.channels.contactModal.isOpen,
     channel: stateProps.channels.contactModal.channel,
-    channelNodes: stateProps.channelNodes
+    channelNodes: stateProps.channelNodes,
+    closingChannelIds: stateProps.channels.closingChannelIds
   }
 
   const contactsFormProps = {

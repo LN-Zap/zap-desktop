@@ -4,12 +4,19 @@ import { FaCircle } from 'react-icons/lib/fa'
 import { btc } from 'utils'
 import styles from './Contact.scss'
 
-const LoadingContact = ({ pubkey }) => (
+const LoadingContact = ({ pubkey, isClosing }) => (
   <li className={`${styles.friend} ${styles.loading}`}>
     <section className={styles.info}>
       <p>
         <FaCircle style={{ verticalAlign: 'top' }} />
-        <span>Loading</span>
+        <span>
+          {
+            isClosing ?
+              'Closing'
+              :
+              'Loading'
+          }
+        </span>
       </p>
       <h2>{pubkey}</h2>
     </section>
