@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import filter from 'lodash/filter'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
 import { closeChannelForm, resetChannelForm } from './channelform'
@@ -328,6 +329,7 @@ const pendingForceClosedChannelsSelector = state => state.channels.pendingChanne
 const channelSearchQuerySelector = state => state.channels.searchQuery
 const filtersSelector = state => state.channels.filters
 const filterSelector = state => state.channels.filter
+const nodesSelector = state => state.network.nodes
 
 channelsSelectors.channelModalOpen = createSelector(
   channelSelector,
@@ -379,6 +381,16 @@ channelsSelectors.nonActiveFilters = createSelector(
   filtersSelector,
   filterSelector,
   (filters, filter) => filters.filter(f => f.key !== filter.key)
+)
+
+channelsSelectors.channelNodes = createSelector(
+  channelsSelector,
+  nodesSelector,
+  (channels, nodes) => {
+    const chanPubkeys = channels.map(channel => channel.remote_pubkey)
+
+    return filter(nodes, node => chanPubkeys.includes(node.pub_key))
+  }
 )
 
 const allChannels = createSelector(

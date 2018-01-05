@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
+import find from 'lodash/find'
 import ReactModal from 'react-modal'
 import { FaClose, FaCircle } from 'react-icons/lib/fa'
 
@@ -8,8 +8,9 @@ import { btc } from 'utils'
 
 import styles from './ContactModal.scss'
 
-const ContactModal = ({ isOpen, channel, closeContactModal }) => {
-  console.log('channel: ', channel)
+const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes }) => {
+  if (!channel) { return <span /> }
+
   const customStyles = {
     overlay: {
       cursor: 'pointer',
@@ -26,6 +27,9 @@ const ContactModal = ({ isOpen, channel, closeContactModal }) => {
       padding: '0'
     }
   }
+
+  // the remote node for the channel
+  const node = find(channelNodes, { pub_key: channel.remote_pubkey })
 
   return (
     <ReactModal
@@ -60,6 +64,10 @@ const ContactModal = ({ isOpen, channel, closeContactModal }) => {
           </header>
           
           <section className={styles.title}>
+            {
+              node &&
+              <h1>{node.alias}</h1>
+            }
             <h2>{channel.remote_pubkey}</h2>
           </section>
 

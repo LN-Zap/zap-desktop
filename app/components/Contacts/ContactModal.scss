@@ -43,11 +43,18 @@
 }
 
 .title {
-
-  h2 {
+  h1 {
     color: $secondary;
     font-weight: bold;
+    font-size: 16px;
+    letter-spacing: 1.1px;
+    margin-bottom: 10px;
+  }
+
+  h2 {
     font-size: 12px;
+    color: $darkestgrey;
+    font-weight: 100;
   }
 
 }
