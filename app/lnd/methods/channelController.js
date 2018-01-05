@@ -123,20 +123,30 @@ export function listChannels(lnd, meta) {
  * @return {[type]}         [description]
  */
 export function closeChannel(lnd, meta, event, payload) {
+  const chan_id = payload.chan_id
   const tx = payload.channel_point.funding_txid.match(/.{2}/g).reverse().join('')
   const res = {
     channel_point: {
       funding_txid: BufferUtil.hexToBuffer(tx),
       output_index: Number(payload.channel_point.output_index)
     },
-    force: true
+    force: false
   }
 
-  return new Promise((resolve, reject) =>
-    pushclosechannel(lnd, meta, event, res)
-      .then(data => resolve(data))
-      .catch(error => reject(error))
-  )
+  return new Promise((resolve, reject) => {
+    try {
+      const call = lnd.closeChannel(res, meta)
+
+      call.on('data', data => event.sender.send('pushclosechannelupdated', { data, chan_id }))
+      call.on('end', () => event.sender.send('pushclosechannelend'))
+      call.on('error', error => event.sender.send('pushclosechannelerror', { error: error.toString(), chan_id }))
+      call.on('status', status => event.sender.send('pushclosechannelstatus', { status, chan_id }))
+
+      resolve(null, res)
+    } catch (error) {
+      reject(error, null)
+    }
+  })
 }
 
 

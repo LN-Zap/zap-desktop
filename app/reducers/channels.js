@@ -33,6 +33,9 @@ export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
 export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
 export const REMOVE_LOADING_PUBKEY = 'REMOVE_LOADING_PUBKEY'
 
+export const ADD_ClOSING_CHAN_ID = 'ADD_ClOSING_CHAN_ID'
+export const REMOVE_ClOSING_CHAN_ID = 'REMOVE_ClOSING_CHAN_ID'
+
 export const OPEN_CONTACT_MODAL = 'OPEN_CONTACT_MODAL'
 export const CLOSE_CONTACT_MODAL = 'CLOSE_CONTACT_MODAL'
 
@@ -112,6 +115,20 @@ export function removeLoadingPubkey(pubkey) {
   }
 }
 
+export function addClosingChanId(chanId) {
+  return {
+    type: ADD_ClOSING_CHAN_ID,
+    chanId
+  }
+}
+
+export function removeClosingChanId(chanId) {
+  return {
+    type: REMOVE_ClOSING_CHAN_ID,
+    chanId
+  }
+}
+
 export function openContactModal(channel) {
   return {
     type: OPEN_CONTACT_MODAL,
@@ -185,19 +202,24 @@ export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disa
 }
 
 // Send IPC event for opening a channel
-export const closeChannel = ({ channel_point }) => (dispatch) => {
+export const closeChannel = ({ channel_point, chan_id }) => (dispatch) => {
   dispatch(closingChannel())
-  const channelPoint = channel_point.split(':')
+  dispatch(addClosingChanId(chan_id))
+
+  const [funding_txid, output_index] = channel_point.split(':')
+  console.log('funding_txid: ', funding_txid)
+  console.log('output_index: ', output_index)
+  console.log('chan_id: ', chan_id)
   ipcRenderer.send(
     'lnd',
     {
       msg: 'closeChannel',
       data: {
         channel_point: {
-          funding_txid: channelPoint[0],
-          output_index: channelPoint[1]
+          funding_txid,
+          output_index
         },
-        force: true
+        chan_id
       }
     }
   )
@@ -211,9 +233,11 @@ export const closeChannelSuccessful = (event, data) => (dispatch) => {
 }
 
 // Receive IPC event for updated closing channel
-export const pushclosechannelupdated = (event, data) => (dispatch) => {
+export const pushclosechannelupdated = (event, { data, chan_id }) => (dispatch) => {
   console.log('PUSH CLOSE CHANNEL UPDATED: ', data)
+  console.log('PUSH CLOSE CHANNEL chan_id: ', chan_id)
   dispatch(fetchChannels())
+  dispatch(removeClosingChanId(chan_id))
 }
 
 // Receive IPC event for closing channel end
@@ -223,9 +247,11 @@ export const pushclosechannelend = (event, data) => (dispatch) => {
 }
 
 // Receive IPC event for closing channel error
-export const pushclosechannelerror = (event, data) => (dispatch) => {
-  console.log('PUSH CLOSE CHANNEL END: ', data)
-  dispatch(fetchChannels())
+export const pushclosechannelerror = (event, { error, chan_id }) => (dispatch) => {
+  console.log('PUSH CLOSE CHANNEL END: ', error)
+  console.log('PUSH CLOSE CHANNEL chan_id: ', chan_id)
+  dispatch(setError(error))
+  dispatch(removeClosingChanId(chan_id))
 }
 
 // Receive IPC event for closing channel status
@@ -315,6 +341,9 @@ const ACTION_HANDLERS = {
   
   [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys] }),
   [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: state.loadingChannelPubkeys.filter(loadingPubkey => loadingPubkey !== pubkey) }),
+
+  [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => ({ ...state, closingChannelIds: [chanId, ...state.closingChannelIds] }),
+  [REMOVE_ClOSING_CHAN_ID]: (state, { chanId }) => ({ ...state, closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId) }),
   
   [OPEN_CONTACT_MODAL]: (state, { channel }) => ({ ...state, contactModal: { isOpen: true, channel } }),
   [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } })
@@ -489,6 +518,7 @@ const initialState = {
   ],
 
   loadingChannelPubkeys: [],
+  closingChannelIds: [],
 
   contactModal: {
     isOpen: false,

@@ -8,7 +8,14 @@ import { btc } from 'utils'
 
 import styles from './ContactModal.scss'
 
-const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes }) => {
+const ContactModal = ({
+  isOpen,
+  channel,
+  closeContactModal,
+  channelNodes,
+  closeChannel,
+  closingChannelIds
+}) => {
   if (!channel) { return <span /> }
 
   const customStyles = {
@@ -99,7 +106,16 @@ const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes }) => {
           </section>
 
           <footer>
-            <div>Remove</div>
+            {
+              closingChannelIds.includes(channel.chan_id) ?
+                <span className={styles.inactive}>
+                  <div className={styles.loading}>
+                    <div className={styles.spinner} />
+                  </div>
+                </span>
+                :
+                <div onClick={() => closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id })}>Remove</div>
+            }
           </footer>
         </div>
       }
