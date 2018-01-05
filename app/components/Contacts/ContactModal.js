@@ -1,0 +1,106 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+
+import ReactModal from 'react-modal'
+import { FaClose, FaCircle } from 'react-icons/lib/fa'
+
+import { btc } from 'utils'
+
+import styles from './ContactModal.scss'
+
+const ContactModal = ({ isOpen, channel, closeContactModal }) => {
+  console.log('channel: ', channel)
+  const customStyles = {
+    overlay: {
+      cursor: 'pointer',
+      overflowY: 'auto'
+    },
+    content: {
+      top: 'auto',
+      left: '20%',
+      right: '0',
+      bottom: 'auto',
+      width: '40%',
+      margin: '50px auto',
+      borderRadius: 'none',
+      padding: '0'
+    }
+  }
+
+  return (
+    <ReactModal
+      isOpen={isOpen}
+      contentLabel='No Overlay Click Modal'
+      ariaHideApp
+      shouldCloseOnOverlayClick
+      onRequestClose={closeContactModal}
+      parentSelector={() => document.body}
+      style={customStyles}
+    >
+      {
+        channel &&
+        <div className={styles.container}>
+          <header className={styles.header}>
+            <div className={`${styles.status} ${channel.active && styles.online}`}>
+              <FaCircle style={{ verticalAlign: 'top' }} />
+              <span>
+                {
+                  channel.active ?
+                  'Online'
+                  :
+                  'Offline'
+                }
+              </span>
+            </div>
+            <div className={styles.closeContainer}>
+              <span onClick={closeContactModal}>
+                <FaClose />
+              </span>
+            </div>
+          </header>
+          
+          <section className={styles.title}>
+            <h2>{channel.remote_pubkey}</h2>
+          </section>
+
+          <section className={styles.stats}>
+            <div className={styles.pay}>
+              <h4>Can Pay</h4>
+              <div className={styles.meter}>
+                <div className={styles.amount} style={{ width: `${(channel.local_balance / channel.capacity) * 100}%` }} />
+              </div>
+              <span>{btc.satoshisToBtc(channel.local_balance)} BTC</span>
+            </div>
+
+            <div className={styles.pay}>
+              <h4>Can Receive</h4>
+              <div className={styles.meter}>
+                <div className={styles.amount} style={{ width: `${(channel.remote_balance / channel.capacity) * 100}%` }} />
+              </div>
+              <span>{btc.satoshisToBtc(channel.remote_balance)} BTC</span>
+            </div>
+
+            <div className={styles.sent}>
+              <h4>Total Bitcoin Sent</h4>
+              <p>{btc.satoshisToBtc(channel.total_satoshis_sent)} BTC</p>
+            </div>
+            <div className={styles.received}>
+              <h4>Total Bitcoin Received</h4>
+              <p>{btc.satoshisToBtc(channel.total_satoshis_received)} BTC</p>
+            </div>
+          </section>
+
+          <footer>
+            <div>Remove</div>
+          </footer>
+        </div>
+      }
+    </ReactModal>
+  )
+}
+
+ContactModal.propTypes = {
+  
+}
+
+export default ContactModal

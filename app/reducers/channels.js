@@ -32,6 +32,9 @@ export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
 export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
 export const REMOVE_LOADING_PUBKEY = 'REMOVE_LOADING_PUBKEY'
 
+export const OPEN_CONTACT_MODAL = 'OPEN_CONTACT_MODAL'
+export const CLOSE_CONTACT_MODAL = 'CLOSE_CONTACT_MODAL'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -105,6 +108,19 @@ export function removeLoadingPubkey(pubkey) {
   return {
     type: REMOVE_LOADING_PUBKEY,
     pubkey
+  }
+}
+
+export function openContactModal(channel) {
+  return {
+    type: OPEN_CONTACT_MODAL,
+    channel
+  }
+}
+
+export function closeContactModal() {
+  return {
+    type: CLOSE_CONTACT_MODAL
   }
 }
 
@@ -297,7 +313,10 @@ const ACTION_HANDLERS = {
   [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter }),
   
   [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys] }),
-  [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: state.loadingChannelPubkeys.filter(loadingPubkey => loadingPubkey !== pubkey) })
+  [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: state.loadingChannelPubkeys.filter(loadingPubkey => loadingPubkey !== pubkey) }),
+  
+  [OPEN_CONTACT_MODAL]: (state, { channel }) => ({ ...state, contactModal: { isOpen: true, channel } }),
+  [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } })
 }
 
 const channelsSelectors = {}
@@ -457,7 +476,12 @@ const initialState = {
     { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Contacts' }
   ],
 
-  loadingChannelPubkeys: []
+  loadingChannelPubkeys: [],
+
+  contactModal: {
+    isOpen: false,
+    channel: null
+  }
 }
 
 export default function channelsReducer(state = initialState, action) {

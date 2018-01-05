@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import { MdClose } from 'react-icons/lib/md'
-import { FaCircle } from 'react-icons/lib/fa'
+import { FaCircle, FaQuestionCircle } from 'react-icons/lib/fa'
 import styles from './ContactsForm.scss'
 
 class ContactsForm extends React.Component {
@@ -183,6 +183,9 @@ class ContactsForm extends React.Component {
 
           <footer className={styles.footer}>
             <div>
+              <span>
+                Use
+              </span>
               <span className={styles.amount}>
                 <input 
                   type='text'
@@ -196,6 +199,12 @@ class ContactsForm extends React.Component {
               </span>
               <span className={styles.caption}>
                 BTC per contact
+                <i
+                  data-hint="You aren't spending anything, just moving money onto the Lightning Network"
+                  className='hint--top'
+                >
+                  <FaQuestionCircle style={{ verticalAlign: 'top' }} />
+                </i>
               </span>
             </div>
           </footer>

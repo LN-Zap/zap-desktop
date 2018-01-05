@@ -37,7 +37,7 @@ const ModalRoot = ({ modalType, modalProps, hideModal, currentTicker, currency }
 
 ModalRoot.propTypes = {
   modalType: PropTypes.string,
-  modalProps: PropTypes.object.isRequired,
+  modalProps: PropTypes.object,
   hideModal: PropTypes.func.isRequired,
   currentTicker: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired

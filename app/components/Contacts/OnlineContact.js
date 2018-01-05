@@ -4,8 +4,8 @@ import { FaCircle } from 'react-icons/lib/fa'
 import { btc } from 'utils'
 import styles from './Contact.scss'
 
-const OnlineContact = ({ channel }) => (
-  <li className={styles.friend} key={channel.chan_id}>
+const OnlineContact = ({ channel, openContactModal }) => (
+  <li className={styles.friend} key={channel.chan_id} onClick={() => openContactModal(channel)}>
     <section className={styles.info}>
       <p className={styles.online}>
         <FaCircle style={{ verticalAlign: 'top' }} />
