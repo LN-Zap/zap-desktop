@@ -32,7 +32,7 @@
     "test-watch": "npm test -- --watch",
     "install-grpc": "cd app && npm run install-grpc"
   },
-  "browserslist": "electron 1.6",
+  "browserslist": "electron 1.7",
   "build": {
     "productName": "ZapDesktop",
     "appId": "org.develar.ZapDesktop",
@@ -138,6 +138,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.24.1",
     "babili-webpack-plugin": "^0.1.2",
+    "browserslist": "^2.11.0",
     "chalk": "^2.0.1",
     "concurrently": "^3.5.0",
     "cross-env": "^5.0.0",
