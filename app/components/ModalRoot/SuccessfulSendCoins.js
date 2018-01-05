@@ -1,8 +1,7 @@
-import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
 import AnimatedCheckmark from 'components/AnimatedCheckmark'
-import { btc } from 'utils'
+import { btc, blockExplorer } from 'utils'
 import styles from './SuccessfulSendCoins.scss'
 
 const SuccessfulSendCoins = ({
@@ -15,7 +14,7 @@ const SuccessfulSendCoins = ({
       <AnimatedCheckmark />
       <h1>
         You&nbsp;
-        <span className={styles.link} onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${txid}`)}>sent</span>&nbsp;
+        <span className={styles.link} onClick={() => blockExplorer.showTransaction(txid)}>sent</span>&nbsp;
         <span className={styles.amount}>{calculatedAmount} {currency.toUpperCase()}</span>&nbsp;
         to&nbsp;
         <span className={styles.addr}>{addr}</span>

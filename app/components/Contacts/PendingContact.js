@@ -1,8 +1,7 @@
-import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FaCircle } from 'react-icons/lib/fa'
-import { btc } from 'utils'
+import { btc, blockExplorer } from 'utils'
 import styles from './Contact.scss'
 
 const PendingContact = ({ channel }) => (
@@ -12,7 +11,7 @@ const PendingContact = ({ channel }) => (
         <FaCircle style={{ verticalAlign: 'top' }} />
         <span>
           Pending
-          <i onClick={() => shell.openExternal(`${'https://testnet.smartbit.com.au'}/tx/${channel.channel.channel_point.split(':')[0]}`)}>
+          <i onClick={() => blockExplorer.showChannelPoint(channel)}>
             (Details)
           </i>
         </span>

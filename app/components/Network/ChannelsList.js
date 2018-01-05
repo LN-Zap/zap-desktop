@@ -1,7 +1,6 @@
-import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
-import { btc } from 'utils'
+import { btc, blockExplorer } from 'utils'
 import styles from './ChannelsList.scss'
 
 const ChannelsList = ({ channels, updateSelectedChannels, selectedChannelIds }) => (
@@ -13,7 +12,7 @@ const ChannelsList = ({ channels, updateSelectedChannels, selectedChannelIds }) 
 
           <header>
             <h1>Capacity: {btc.satoshisToBtc(channel.capacity)}</h1>
-            <span onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${channel.channel_point.split(':')[0]}`)}>Channel Point</span>
+            <span onClick={() => blockExplorer.showChannelPoint({ channel })}>Channel Point</span>
           </header>
 
           <section>
