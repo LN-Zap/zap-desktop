@@ -178,7 +178,7 @@ export const pushchannelupdated = (event, { pubkey }) => (dispatch) => {
 }
 
 // Receive IPC event for channel end
-export const pushchannelend = event => (dispatch) => { // eslint-disable-line
+export const pushchannelend = event => (dispatch) => { // eslint-disable-line no-unused-vars
   dispatch(fetchChannels())
 }
 
@@ -190,7 +190,7 @@ export const pushchannelerror = (event, { pubkey, error }) => (dispatch) => {
 }
 
 // Receive IPC event for channel status
-export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disable-line
+export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disable-line no-unused-vars
   dispatch(fetchChannels())
 }
 
