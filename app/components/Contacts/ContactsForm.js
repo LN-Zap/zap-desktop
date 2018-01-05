@@ -44,7 +44,7 @@ class ContactsForm extends React.Component {
           </span>
         )
       }
-      
+
       if (activeChannelPubkeys.includes(node.pub_key)) {
         return (
           <span className={`${styles.online} ${styles.inactive}`}>
@@ -80,7 +80,7 @@ class ContactsForm extends React.Component {
       return (
         <span
           className={`${styles.connect} hint--left`}
-          data-hint='Connect with 0.1 BTC'
+          data-hint={`Connect with ${contactsform.contactCapacity} BTC`}
           onClick={() => openChannel({ pubkey: node.pub_key, host: node.addresses[0].addr, local_amt: contactsform.contactCapacity })}
         >
           Connect

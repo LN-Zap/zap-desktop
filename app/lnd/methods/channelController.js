@@ -43,16 +43,18 @@ export function connectAndOpen(lnd, meta, event, payload) {
 
           const call = lnd.openChannel(channelPayload, meta)
           
-          call.on('data', data => event.sender.send('pushchannelupdated', { data }))
-          call.on('error', error => event.sender.send('pushchannelerror', { error: error.toString() }))
+          call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
+          call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
         })
         .catch(err => {
-          console.log('connectPeer err: ', err)
+          console.log('connect peer err: ', err)
+          event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
         })
       }
     })
     .catch(err => {
-      console.log('listPeers err', err)
+      console.log('list peer err: ', err)
+      event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
     })
   })
 }
