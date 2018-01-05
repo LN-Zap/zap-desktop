@@ -8,6 +8,8 @@ import {
   updateChannelSearchQuery,
   toggleFilterPulldown,
   changeFilter,
+  openContactModal,
+  closeContactModal,
   currentChannels,
 
   channelsSelectors
@@ -30,6 +32,8 @@ import Contacts from '../components/Contacts'
 const mapDispatchToProps = {
   openContactsForm,
   closeContactsForm,
+  openContactModal,
+  closeContactModal,
   updateContactFormSearchQuery,
   updateContactCapacity,
   openChannel,
@@ -63,6 +67,13 @@ const mapStateToProps = state => ({
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const contactModalProps = {
+    closeContactModal: dispatchProps.closeContactModal,
+
+    isOpen: stateProps.channels.contactModal.isOpen,
+    channel: stateProps.channels.contactModal.channel
+  }
+
   const contactsFormProps = {
     closeContactsForm: dispatchProps.closeContactsForm,
     updateContactFormSearchQuery: dispatchProps.updateContactFormSearchQuery,
@@ -84,6 +95,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...dispatchProps,
     ...ownProps,
 
+    contactModalProps,
     contactsFormProps
   }
 }

@@ -7,6 +7,7 @@ import { FaAngleDown, FaRepeat } from 'react-icons/lib/fa'
 
 import { btc } from 'utils'
 
+import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
 import OnlineContact from 'components/Contacts/OnlineContact'
 import PendingContact from 'components/Contacts/PendingContact'
@@ -57,7 +58,10 @@ class Contacts extends Component {
       nonActiveFilters,
       
       openContactsForm,
+      openContactModal,
+      closeContactModal,
 
+      contactModalProps,
       contactsFormProps,
 
       peers
@@ -92,6 +96,7 @@ class Contacts extends Component {
 
     return (
       <div className={styles.friendsContainer}>
+        <ContactModal {...contactModalProps} />
         <ContactsForm {...contactsFormProps} />
 
         <header className={styles.header}>
@@ -151,13 +156,7 @@ class Contacts extends Component {
 
         <ul className={`${styles.friends} ${filterPulldown && styles.fade}`}>
           {
-            loadingChannelPubkeys.map(pubkey => {
-              console.log('pubkey: ', pubkey)
-
-              return (
-                <LoadingContact pubkey={pubkey} />
-              )
-            })
+            loadingChannelPubkeys.map(pubkey => <LoadingContact pubkey={pubkey} />)
           }
 
           {
@@ -167,9 +166,9 @@ class Contacts extends Component {
               } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
                 return <ClosingContact channel={channel} key={index} />
               } else if (channel.active) {
-                return <OnlineContact channel={channel} key={index} />
+                return <OnlineContact channel={channel} key={index} openContactModal={openContactModal} />
               } else if (!channel.active) {
-                return <OfflineContact channel={channel} key={index} />
+                return <OfflineContact channel={channel} key={index} openContactModal={openContactModal} />
               }
             })
           }

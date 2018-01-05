@@ -186,6 +186,12 @@
     &:nth-child(2) {
       margin-left: 2px;
     }
+
+  }
+  
+  .caption svg {
+    font-size: 10px;
+    color: $darkestgrey;
   }
 }
 
