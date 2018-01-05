@@ -121,8 +121,13 @@ export const receiveChannels = (event, { channels, pendingChannels }) => dispatc
 export const openChannel = ({ pubkey, host, local_amt, push_amt }) => (dispatch) => {
   const localamt = btc.btcToSatoshis(local_amt)
 
+  console.log('localamt: ', localamt)
+  console.log('pubkey: ', pubkey)
+  console.log('host: ', host)
+
   dispatch(openingChannel())
   dispatch(addLoadingPubkey(pubkey))
+
   ipcRenderer.send('lnd', { msg: 'connectAndOpen', data: { pubkey, host, localamt } })
 }
 

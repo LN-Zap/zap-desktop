@@ -18,11 +18,6 @@ import * as networkController from './networkController'
 // TODO - SendPayment
 // TODO - DeleteAllPayments
 
-// const metadata = new grpc.Metadata()
-// var macaroonHex = fs.readFileSync('~/Library/Application Support/Lnd/admin.macaroon').toString('hex')
-// metadata.add('macaroon', macaroonHex)
-
-
 export default function (lnd, meta, event, msg, data) {
   switch (msg) {
     case 'info':

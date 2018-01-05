@@ -116,7 +116,7 @@ class Contacts extends Component {
             value={searchQuery}
             onChange={event => updateChannelSearchQuery(event.target.value)}
             className={`${styles.text} ${styles.input}`}
-            placeholder='Search your friends list...'
+            placeholder='Search your contacts list...'
             type='text'
             id='channelSearch'
           />
@@ -153,7 +153,7 @@ class Contacts extends Component {
           {
             loadingChannelPubkeys.map(pubkey => {
               console.log('pubkey: ', pubkey)
-              
+
               return (
                 <LoadingContact pubkey={pubkey} />
               )
