@@ -19,7 +19,8 @@ export function connectAndOpen(lnd, meta, event, payload) {
   const { pubkey, host, localamt } = payload
   const channelPayload = {
     node_pubkey: BufferUtil.hexToBuffer(pubkey),
-    local_funding_amount: Number(localamt)
+    local_funding_amount: Number(localamt),
+    num_confs: 1
   }
 
   return new Promise((resolve, reject) => {
