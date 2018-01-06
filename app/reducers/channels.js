@@ -238,6 +238,7 @@ export const pushclosechannelupdated = (event, { data, chan_id }) => (dispatch) 
   console.log('PUSH CLOSE CHANNEL chan_id: ', chan_id)
   dispatch(fetchChannels())
   dispatch(removeClosingChanId(chan_id))
+  dispatch(closeContactModal())
 }
 
 // Receive IPC event for closing channel end
