@@ -15,7 +15,7 @@ Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3
 
 ## Requirements
 
-* **Node.js version >= 7, npm version >= 4 and [yarn](https://yarnpkg.com/lang/en/docs/install/)**
+* **Node.js version >= 8, npm version >= 5 and [yarn](https://yarnpkg.com/lang/en/docs/install/)**
 
 ## Install
 
