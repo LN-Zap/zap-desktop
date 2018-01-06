@@ -6,7 +6,6 @@
   justify-content: space-between;
   align-items: flex-end;
   background: $lightgrey;
-  margin-bottom: 30px;
   padding: 20px;
 
   .status {
@@ -42,7 +41,11 @@
   }
 }
 
-.title {
+.container .title {
+  margin: 0;
+  padding: 30px 20px;
+  background: $lightgrey;
+
   h1 {
     color: $secondary;
     font-weight: bold;
