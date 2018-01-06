@@ -1,7 +1,6 @@
 @import '../../variables.scss';
 
 .modal {
-  position: relative;
   width: 40%;
   margin: 50px auto;
   padding: 40px;
@@ -38,18 +37,43 @@
   background: $darkgrey;
 }
 
-.title {
-	text-align: center;
-	font-size: 24px;
-	color: $black;
-	margin-bottom: 50px;
+.loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.7);
 }
 
-.pubkey, .local, .push {
-	display: flex;
-	justify-content: center;
-	font-size: 18px;
-	height: auto;
+.loader {
+  font-size: 2rem;
+  animation-duration: 1s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  :global { /* stylelint-disable-line */
+    animation-name: spin;
+  }
+}
+
+.title {
+  text-align: center;
+  font-size: 24px;
+  color: $black;
+  margin-bottom: 50px;
+}
+
+.pubkey,
+.local,
+.push {
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
+  height: auto;
   min-height: 55px;
   margin-bottom: 20px;
   border: 1px solid $traditionalgrey;
@@ -57,41 +81,42 @@
   position: relative;
   padding: 0 20px;
 
-	label, input[type=text] {
-		font-size: inherit;
-	}
+  label,
+  input[type=text] {
+    font-size: inherit;
+  }
 
-	label {
-		padding-top: 19px;
-  	padding-bottom: 12px;
-  	color: $traditionalgrey;
-	}
+  label {
+    padding-top: 19px;
+    padding-bottom: 12px;
+    color: $traditionalgrey;
+  }
 
-	input[type=text] {
-		width: 100%;
-		border: none;
-  	outline: 0;
-  	-webkit-appearance: none;
-  	height: 55px;
-  	padding: 0 10px;
-	}
+  input[type=text] {
+    width: 100%;
+    border: none;
+    outline: 0;
+    -webkit-appearance: none;
+    height: 55px;
+    padding: 0 10px;
+  }
 }
 
 .buttonGroup {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
-	border-radius: 6px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  border-radius: 6px;
   overflow: hidden;
 
   .button {
-  	cursor: pointer;
-		height: 55px;
-		min-height: 55px;
-		text-transform: none;
-		font-size: 18px;
-		transition: opacity .2s ease-out;
-		background: $main;
+    cursor: pointer;
+    height: 55px;
+    min-height: 55px;
+    text-transform: none;
+    font-size: 18px;
+    transition: opacity 0.2s ease-out;
+    background: $main;
     color: $white;
     border: none;
     font-weight: 500;
@@ -101,7 +126,7 @@
     line-height: 55px;
 
     &:first-child {
-    	border-right: 1px solid lighten($main, 20%);
+      border-right: 1px solid lighten($main, 20%);
     }
   }
 }
