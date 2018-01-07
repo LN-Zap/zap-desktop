@@ -10,6 +10,18 @@ const PeerForm = ({ form, setForm, connect }) => {
     connect({ pubkey, host })
   }
 
+  const pubkeyChanged = (pubkey) => {
+    const pubkeyHost = pubkey.match(/(.+)@(.+)/)
+    setForm(Array.isArray(pubkeyHost) ?
+      {
+        pubkey: pubkeyHost[1],
+        host: pubkeyHost[2]
+      }
+      :
+      { pubkey }
+    )
+  }
+
   return (
     <div>
       <ReactModal
@@ -35,7 +47,7 @@ const PeerForm = ({ form, setForm, connect }) => {
               size=''
               placeholder='Public key'
               value={form.pubkey}
-              onChange={event => setForm({ pubkey: event.target.value })}
+              onChange={event => pubkeyChanged(event.target.value)}
               id='pubkey'
             />
           </section>
