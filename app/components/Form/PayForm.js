@@ -9,7 +9,9 @@ import styles from './PayForm.scss'
 
 class PayForm extends Component {
   componentDidUpdate(prevProps) {
-    const { isOnchain, isLn, payform: { payInput }, fetchInvoice } = this.props
+    const {
+      isOnchain, isLn, payform: { payInput }, fetchInvoice
+    } = this.props
 
     // If on-chain, focus on amount to let user know it's editable
     if (isOnchain) { this.amountInput.focus() }

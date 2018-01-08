@@ -6,7 +6,9 @@ import { FaBolt, FaClockO } from 'react-icons/lib/fa'
 import { btc } from 'utils'
 import styles from '../Activity.scss'
 
-const Invoice = ({ invoice, ticker, currentTicker, showActivityModal }) => (
+const Invoice = ({
+  invoice, ticker, currentTicker, showActivityModal
+}) => (
   <div className={styles.container} onClick={() => showActivityModal('INVOICE', { invoice })}>
     {
       !invoice.settled ?

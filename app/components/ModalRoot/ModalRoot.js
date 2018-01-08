@@ -13,7 +13,9 @@ const MODAL_COMPONENTS = {
   /* other modals */
 }
 
-const ModalRoot = ({ modalType, modalProps, hideModal, currentTicker, currency }) => {
+const ModalRoot = ({
+  modalType, modalProps, hideModal, currentTicker, currency
+}) => {
   if (!modalType) { return null }
 
   const SpecificModal = MODAL_COMPONENTS[modalType]

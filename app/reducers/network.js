@@ -158,7 +158,9 @@ export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch =>
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_DESCRIBE_NETWORK]: state => ({ ...state, networkLoading: true }),
-  [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes, edges }) => ({ ...state, networkLoading: false, nodes, edges }),
+  [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes, edges }) => ({
+    ...state, networkLoading: false, nodes, edges
+  }),
 
   [GET_QUERY_ROUTES]: (state, { pubkey }) => ({ ...state, networkLoading: true, selectedNode: { pubkey, routes: [], currentRoute: {} } }),
   [RECEIVE_QUERY_ROUTES]: (state, { routes }) => (

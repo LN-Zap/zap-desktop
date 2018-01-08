@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import styles from './ChannelModal.scss'
 
-const ChannelModal = ({ isOpen, resetChannel, channel, explorerLinkBase, closeChannel }) => {
+const ChannelModal = ({
+  isOpen, resetChannel, channel, explorerLinkBase, closeChannel
+}) => {
   const customStyles = {
     overlay: {
       cursor: 'pointer',

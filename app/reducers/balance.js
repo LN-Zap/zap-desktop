@@ -31,7 +31,9 @@ export const receiveBalance = (event, { walletBalance, channelBalance }) => (dis
 const ACTION_HANDLERS = {
   [GET_BALANCE]: state => ({ ...state, balanceLoading: true }),
   [RECEIVE_BALANCE]: (state, { walletBalance, channelBalance }) => (
-    { ...state, balanceLoading: false, walletBalance, channelBalance }
+    {
+      ...state, balanceLoading: false, walletBalance, channelBalance
+    }
   )
 }
 

@@ -7,15 +7,15 @@ const Donut = ({ value, size, strokewidth }) => {
   console.log('size: ', size)
   console.log('strokewidth: ', strokewidth)
 
-  const halfsize = (size * 0.5);
-  const radius = halfsize - (strokewidth * 0.5);
-  const circumference = 2 * Math.PI * radius;
-  const strokeval = ((value * circumference) / 100);
-  const dashval = (strokeval + ' ' + circumference);
+  const halfsize = (size * 0.5)
+  const radius = halfsize - (strokewidth * 0.5)
+  const circumference = 2 * Math.PI * radius
+  const strokeval = ((value * circumference) / 100)
+  const dashval = (`${strokeval} ${circumference}`)
 
-  const trackstyle = {strokeWidth: 5};
-  const indicatorstyle = {strokeWidth: strokewidth, strokeDasharray: dashval}
-  const rotateval = 'rotate(-90 '+37.5+','+37.5+')';
+  const trackstyle = { strokeWidth: 5 }
+  const indicatorstyle = { strokeWidth: strokewidth, strokeDasharray: dashval }
+  const rotateval = `rotate(-90 ${37.5},${37.5})`
 
   return (
     <svg width={75} height={75} className={styles.donutchart}>

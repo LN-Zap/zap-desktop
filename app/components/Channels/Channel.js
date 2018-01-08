@@ -4,7 +4,9 @@ import { FaCircle } from 'react-icons/lib/fa'
 import { btc } from 'utils'
 import styles from './Channel.scss'
 
-const Channel = ({ ticker, channel, closeChannel, currentTicker }) => (
+const Channel = ({
+  ticker, channel, closeChannel, currentTicker
+}) => (
   <li className={styles.channel}>
     <header className={styles.header}>
       <div>

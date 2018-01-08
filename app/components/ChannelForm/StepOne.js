@@ -58,8 +58,7 @@ class StepOne extends Component {
                 <h4>{peer.address}</h4>
                 <h1>{peer.pub_key}</h1>
               </li>
-            )
-            )}
+            ))}
         </ul>
       </div>
     )

@@ -6,7 +6,9 @@ import CurrencyIcon from 'components/CurrencyIcon'
 import { usd, btc } from 'utils'
 import styles from './ChannelForm.scss'
 
-const ChannelForm = ({ form, setForm, ticker, peers, openChannel, currentTicker }) => {
+const ChannelForm = ({
+  form, setForm, ticker, peers, openChannel, currentTicker
+}) => {
   const submitClicked = () => {
     const { node_key, local_amt, push_amt } = form
 
@@ -99,8 +101,7 @@ const ChannelForm = ({ form, setForm, ticker, peers, openChannel, currentTicker 
                       <h4>{peer.address}</h4>
                       <h1>{peer.pub_key}</h1>
                     </li>
-                  )
-                )
+                  ))
                 :
                 null
             }

@@ -63,7 +63,7 @@ class Wallet extends Component {
           </div>
           <div className={styles.right}>
             <div className={styles.rightContent}>
-              <div className={'buttonPrimary'} onClick={() => this.setState({ modalOpen: true })}>
+              <div className='buttonPrimary' onClick={() => this.setState({ modalOpen: true })}>
                 <FaQrcode />
                 Address
               </div>

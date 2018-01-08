@@ -6,7 +6,9 @@ import { FaClose } from 'react-icons/lib/fa'
 
 import styles from './PeerModal.scss'
 
-const PeerModal = ({ isOpen, resetPeer, peer, disconnect }) => {
+const PeerModal = ({
+  isOpen, resetPeer, peer, disconnect
+}) => {
   const customStyles = {
     overlay: {
       cursor: 'pointer',

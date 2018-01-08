@@ -27,7 +27,7 @@ const OfflineContact = ({ channel, openContactModal }) => (
 )
 
 OfflineContact.propTypes = {
-  
+
 }
 
 export default OfflineContact

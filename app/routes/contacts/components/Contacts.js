@@ -57,7 +57,7 @@ class Contacts extends Component {
       toggleFilterPulldown,
       changeFilter,
       nonActiveFilters,
-      
+
       openContactsForm,
       openContactModal,
       closeContactModal,
@@ -163,7 +163,7 @@ class Contacts extends Component {
           {
             currentChannels.length > 0 && currentChannels.map((channel, index) => {
               if (closingChannelIds.includes(channel.chan_id)) {
-                return <LoadingContact pubkey={channel.remote_pubkey} isClosing={true} />
+                return <LoadingContact pubkey={channel.remote_pubkey} isClosing />
               } else if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
                 return <PendingContact channel={channel} key={index} />
               } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {

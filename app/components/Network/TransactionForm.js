@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { btc } from 'utils'
 import styles from './TransactionForm.scss'
 
-const TransactionForm = ({ updatePayReq, pay_req, loadingRoutes, payReqRoutes, setCurrentRoute, currentRoute }) => (
+const TransactionForm = ({
+  updatePayReq, pay_req, loadingRoutes, payReqRoutes, setCurrentRoute, currentRoute
+}) => (
   <div className={styles.transactionForm}>
     <div className={styles.form}>
       <input

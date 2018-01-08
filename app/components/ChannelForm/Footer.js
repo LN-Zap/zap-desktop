@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Footer.scss'
 
-const Footer = ({ step, changeStep, stepTwoIsValid, submit }) => {
+const Footer = ({
+  step, changeStep, stepTwoIsValid, submit
+}) => {
   if (step === 1) { return null }
 
   // See if the next button on step 2 should be active

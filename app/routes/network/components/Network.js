@@ -18,7 +18,9 @@ class Network extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { payReqIsLn, network: { pay_req }, fetchInvoiceAndQueryRoutes, clearQueryRoutes } = this.props
+    const {
+      payReqIsLn, network: { pay_req }, fetchInvoiceAndQueryRoutes, clearQueryRoutes
+    } = this.props
 
     // If LN go retrieve invoice details
     if ((prevProps.network.pay_req !== pay_req) && payReqIsLn) {
@@ -31,7 +33,9 @@ class Network extends Component {
   }
 
   componentWillUnmount() {
-    const { clearQueryRoutes, resetPayReq, clearSelectedChannels, clearSelectedPeers } = this.props
+    const {
+      clearQueryRoutes, resetPayReq, clearSelectedChannels, clearSelectedPeers
+    } = this.props
 
     clearQueryRoutes()
     resetPayReq()

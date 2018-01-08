@@ -6,7 +6,9 @@ import { FaBolt } from 'react-icons/lib/fa'
 import { btc } from 'utils'
 import styles from '../Activity.scss'
 
-const Payment = ({ payment, ticker, currentTicker, showActivityModal }) => (
+const Payment = ({
+  payment, ticker, currentTicker, showActivityModal
+}) => (
   <div className={styles.container} onClick={() => showActivityModal('PAYMENT', { payment })}>
     <div className={styles.date}>
       <Moment format='D'>

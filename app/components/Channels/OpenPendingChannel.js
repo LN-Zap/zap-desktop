@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import { btc } from 'utils'
 import styles from './OpenPendingChannel.scss'
 
-const OpenPendingChannel = ({ ticker, channel, currentTicker, explorerLinkBase }) => (
+const OpenPendingChannel = ({
+  ticker, channel, currentTicker, explorerLinkBase
+}) => (
   <li className={styles.channel} onClick={() => shell.openExternal(`${explorerLinkBase}/tx/${channel.channel.channel_point.split(':')[0]}`)}>
     <div className={styles.pending}>
       <h1>Opening Channel...</h1>
