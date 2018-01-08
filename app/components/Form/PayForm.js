@@ -117,7 +117,11 @@ class PayForm extends Component {
 
 
 PayForm.propTypes = {
-  payform: PropTypes.object.isRequired,
+  payform: PropTypes.shape({
+    amount: PropTypes.string.isRequired,
+    payInput: PropTypes.string.isRequired,
+    showErrors: PropTypes.object.isRequired
+  }).isRequired,
   currency: PropTypes.string.isRequired,
   crypto: PropTypes.string.isRequired,
 
@@ -129,7 +133,10 @@ PayForm.propTypes = {
   ]).isRequired,
   inputCaption: PropTypes.string.isRequired,
   showPayLoadingScreen: PropTypes.bool.isRequired,
-  payFormIsValid: PropTypes.object.isRequired,
+  payFormIsValid: PropTypes.shape({
+    errors: PropTypes.object,
+    isValid: PropTypes.bool
+  }).isRequired,
 
   setPayAmount: PropTypes.func.isRequired,
   onPayAmountBlur: PropTypes.func.isRequired,

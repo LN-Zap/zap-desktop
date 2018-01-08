@@ -46,7 +46,10 @@ const RequestForm = ({
 )
 
 RequestForm.propTypes = {
-  requestform: PropTypes.object.isRequired,
+  requestform: PropTypes.shape({
+    amount: PropTypes.string.isRequired,
+    memo: PropTypes.string
+  }).isRequired,
   currency: PropTypes.string.isRequired,
   crypto: PropTypes.string.isRequired,
 
