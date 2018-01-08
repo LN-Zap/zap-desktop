@@ -19,7 +19,7 @@ class StepTwo extends Component {
 
         <form>
           <label htmlFor='amount'>
-            <CurrencyIcon currency={'btc'} crypto={'btc'} />
+            <CurrencyIcon currency='btc' crypto='btc' />
           </label>
           <input
             type='number'

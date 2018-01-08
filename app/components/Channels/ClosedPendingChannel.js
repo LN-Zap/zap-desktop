@@ -4,7 +4,9 @@ import PropTypes from 'prop-types'
 import { btc } from 'utils'
 import styles from './ClosedPendingChannel.scss'
 
-const ClosedPendingChannel = ({ ticker, channel: { channel, closing_txid }, currentTicker, explorerLinkBase }) => (
+const ClosedPendingChannel = ({
+  ticker, channel: { channel, closing_txid }, currentTicker, explorerLinkBase
+}) => (
   <li className={styles.channel} onClick={() => shell.openExternal(`${explorerLinkBase}/tx/${closing_txid}`)}>
     <h1 className={styles.closing}>Closing Channel...</h1>
     <div className={styles.left}>

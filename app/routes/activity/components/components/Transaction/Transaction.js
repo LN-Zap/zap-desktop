@@ -6,7 +6,9 @@ import { FaChain } from 'react-icons/lib/fa'
 import { btc } from 'utils'
 import styles from '../Activity.scss'
 
-const Transaction = ({ transaction, ticker, currentTicker, showActivityModal }) => (
+const Transaction = ({
+  transaction, ticker, currentTicker, showActivityModal
+}) => (
   <div className={styles.container} onClick={() => showActivityModal('TRANSACTION', { transaction })}>
     <div className={styles.date}>
       <Moment format='D'>

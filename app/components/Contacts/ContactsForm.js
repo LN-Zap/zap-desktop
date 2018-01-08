@@ -139,12 +139,11 @@ class ContactsForm extends React.Component {
 
             <ul className={styles.networkResults}>
               {
-                contactsform.searchQuery.length > 0 && filteredNetworkNodes.map(node => {
-                  return (
-                    <li key={node.pub_key}>
-                      <section>
-                        {
-                          node.alias.length > 0 ?  
+                contactsform.searchQuery.length > 0 && filteredNetworkNodes.map(node => (
+                  <li key={node.pub_key}>
+                    <section>
+                      {
+                          node.alias.length > 0 ?
                             <h2>
                               <span>{node.alias.trim()}</span>
                               <span>({node.pub_key.substr(0, 10)}...{node.pub_key.substr(node.pub_key.length - 10)})</span>
@@ -154,13 +153,12 @@ class ContactsForm extends React.Component {
                               <span>{node.pub_key}</span>
                             </h2>
                         }
-                      </section>
-                      <section>
-                        {renderRightSide(node)}
-                      </section>
-                    </li>
-                  )
-                })
+                    </section>
+                    <section>
+                      {renderRightSide(node)}
+                    </section>
+                  </li>
+                  ))
               }
             </ul>
           </div>
@@ -187,7 +185,7 @@ class ContactsForm extends React.Component {
                 Use
               </span>
               <span className={styles.amount}>
-                <input 
+                <input
                   type='text'
                   value={contactsform.contactCapacity}
                   onChange={event => updateContactCapacity(event.target.value)}
@@ -211,12 +209,12 @@ class ContactsForm extends React.Component {
         </ReactModal>
       </div>
     )
-  }  
+  }
 }
 
 
 ContactsForm.propTypes = {
-  
+
 }
 
 export default ContactsForm

@@ -45,7 +45,9 @@ export const fetchTransactions = () => (dispatch) => {
 // Receive IPC event for payments
 export const receiveTransactions = (event, { transactions }) => dispatch => dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
 
-export const sendCoins = ({ value, addr, currency, rate }) => (dispatch) => {
+export const sendCoins = ({
+  value, addr, currency, rate
+}) => (dispatch) => {
   const amount = currency === 'usd' ? btc.btcToSatoshis(usd.usdToBtc(value, rate)) : btc.btcToSatoshis(value)
   dispatch(sendTransaction())
   ipcRenderer.send('lnd', { msg: 'sendCoins', data: { amount, addr } })

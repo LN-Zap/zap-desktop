@@ -29,7 +29,7 @@ const LoadingContact = ({ pubkey, isClosing }) => (
 )
 
 LoadingContact.propTypes = {
-  
+
 }
 
 export default LoadingContact

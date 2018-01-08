@@ -152,7 +152,9 @@ export const fetchChannels = () => async (dispatch) => {
 export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, host, local_amt, push_amt }) => (dispatch) => {
+export const openChannel = ({
+  pubkey, host, local_amt, push_amt
+}) => (dispatch) => {
   const localamt = btc.btcToSatoshis(local_amt)
 
   console.log('localamt: ', localamt)
@@ -325,7 +327,9 @@ const ACTION_HANDLERS = {
 
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => (
-    { ...state, channelsLoading: false, channels, pendingChannels }
+    {
+      ...state, channelsLoading: false, channels, pendingChannels
+    }
   ),
 
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
@@ -339,13 +343,13 @@ const ACTION_HANDLERS = {
 
   [TOGGLE_CHANNEL_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
   [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter }),
-  
+
   [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys] }),
   [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: state.loadingChannelPubkeys.filter(loadingPubkey => loadingPubkey !== pubkey) }),
 
   [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => ({ ...state, closingChannelIds: [chanId, ...state.closingChannelIds] }),
   [REMOVE_ClOSING_CHAN_ID]: (state, { chanId }) => ({ ...state, closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId) }),
-  
+
   [OPEN_CONTACT_MODAL]: (state, { channel }) => ({ ...state, contactModal: { isOpen: true, channel } }),
   [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } })
 }

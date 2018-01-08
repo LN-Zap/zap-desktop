@@ -68,7 +68,9 @@ const ACTION_HANDLERS = {
   [SET_CRYPTO]: (state, { crypto }) => ({ ...state, crypto }),
   [GET_TICKERS]: state => ({ ...state, tickerLoading: true }),
   [RECIEVE_TICKERS]: (state, { btcTicker, ltcTicker }) => (
-    { ...state, tickerLoading: false, btcTicker, ltcTicker }
+    {
+      ...state, tickerLoading: false, btcTicker, ltcTicker
+    }
   )
 }
 

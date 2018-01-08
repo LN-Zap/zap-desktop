@@ -74,8 +74,7 @@ export default function (lnd, meta, event, msg, data) {
     // [ { channels: [] }, { total_limbo_balance: 0, pending_open_channels: [], pending_closing_channels: [], pending_force_closing_channels: [] } ]
       Promise.all([channelController.listChannels, channelController.pendingChannels].map(func => func(lnd, meta)))
         .then(channelsData =>
-          event.sender.send('receiveChannels', { channels: channelsData[0].channels, pendingChannels: channelsData[1] })
-        )
+          event.sender.send('receiveChannels', { channels: channelsData[0].channels, pendingChannels: channelsData[1] }))
         .catch(error => console.log('channels error: ', error))
       break
     case 'transactions':
@@ -123,8 +122,7 @@ export default function (lnd, meta, event, msg, data) {
               r_hash: new Buffer(newinvoice.r_hash, 'hex').toString('hex'),
               creation_date: Date.now() / 1000
             })
-          )
-        )
+          ))
         .catch((error) => {
           console.log('addInvoice error: ', error)
           event.sender.send('invoiceFailed', { error: error.toString() })

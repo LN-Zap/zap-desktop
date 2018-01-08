@@ -5,7 +5,9 @@ import AnimatedCheckmark from 'components/AnimatedCheckmark'
 import { btc } from 'utils'
 import styles from './SuccessfulSendCoins.scss'
 
-const SuccessfulSendCoins = ({ amount, addr, txid, hideModal, currentTicker, currency }) => {
+const SuccessfulSendCoins = ({
+  amount, addr, txid, hideModal, currentTicker, currency
+}) => {
   const calculatedAmount = currency === 'usd' ? btc.satoshisToUsd(amount, currentTicker.price_usd) : btc.satoshisToBtc(amount)
 
   return (

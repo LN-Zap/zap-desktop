@@ -20,7 +20,9 @@ class Activity extends Component {
   }
 
   componentWillMount() {
-    const { fetchPayments, fetchInvoices, fetchTransactions, fetchBalance } = this.props
+    const {
+      fetchPayments, fetchInvoices, fetchTransactions, fetchBalance
+    } = this.props
 
     fetchBalance()
     fetchPayments()

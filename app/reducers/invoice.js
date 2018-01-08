@@ -125,7 +125,7 @@ export const invoiceFailed = (event, { error }) => (dispatch) => {
   dispatch(setError(error))
 }
 
-// Listen for invoice updates pushed from backend from subscribeToInvoices 
+// Listen for invoice updates pushed from backend from subscribeToInvoices
 export const invoiceUpdate = (event, { invoice }) => (dispatch) => {
   dispatch({ type: UPDATE_INVOICE, invoice })
 

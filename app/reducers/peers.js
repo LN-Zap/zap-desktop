@@ -108,13 +108,17 @@ export const disconnectSuccess = (event, { pubkey }) => dispatch => dispatch({ t
 const ACTION_HANDLERS = {
   [DISCONNECT_PEER]: state => ({ ...state, disconnecting: true }),
   [DISCONNECT_SUCCESS]: (state, { pubkey }) => (
-    { ...state, disconnecting: false, peer: null, peers: state.peers.filter(peer => peer.pub_key !== pubkey) }
+    {
+      ...state, disconnecting: false, peer: null, peers: state.peers.filter(peer => peer.pub_key !== pubkey)
+    }
   ),
   [DISCONNECT_FAILURE]: state => ({ ...state, disconnecting: false }),
 
   [CONNECT_PEER]: state => ({ ...state, connecting: true }),
   [CONNECT_SUCCESS]: (state, { peer }) => (
-    { ...state, connecting: false, peerForm: { pubkey: '', host: '', isOpen: false }, peers: [...state.peers, peer] }
+    {
+      ...state, connecting: false, peerForm: { pubkey: '', host: '', isOpen: false }, peers: [...state.peers, peer]
+    }
   ),
   [CONNECT_FAILURE]: state => ({ ...state, connecting: false }),
 

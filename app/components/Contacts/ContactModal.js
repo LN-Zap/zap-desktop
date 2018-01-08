@@ -69,7 +69,7 @@ const ContactModal = ({
               </span>
             </div>
           </header>
-          
+
           <section className={styles.title}>
             {
               node &&
@@ -124,7 +124,7 @@ const ContactModal = ({
 }
 
 ContactModal.propTypes = {
-  
+
 }
 
 export default ContactModal
