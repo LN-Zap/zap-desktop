@@ -114,7 +114,7 @@ const ContactModal = ({
                   </div>
                 </span>
                 :
-                <div onClick={() => closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id })}>Remove</div>
+                <div onClick={() => closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })}>Remove</div>
             }
           </footer>
         </div>

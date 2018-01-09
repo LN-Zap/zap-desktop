@@ -195,9 +195,11 @@ export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disa
 }
 
 // Send IPC event for opening a channel
-export const closeChannel = ({ channel_point, chan_id }) => (dispatch) => {
+export const closeChannel = ({ channel_point, chan_id, force }) => (dispatch) => {
   dispatch(closingChannel())
   dispatch(addClosingChanId(chan_id))
+
+  console.log('force: ', force)
 
   const [funding_txid, output_index] = channel_point.split(':')
   ipcRenderer.send(
@@ -209,6 +211,7 @@ export const closeChannel = ({ channel_point, chan_id }) => (dispatch) => {
           funding_txid,
           output_index
         },
+        force,
         chan_id
       }
     }

@@ -112,14 +112,14 @@ export function listChannels(lnd, meta) {
  * @return {[type]}         [description]
  */
 export function closeChannel(lnd, meta, event, payload) {
-  const { chan_id } = payload
+  const { chan_id, force } = payload
   const tx = payload.channel_point.funding_txid.match(/.{2}/g).reverse().join('')
   const res = {
     channel_point: {
       funding_txid: BufferUtil.hexToBuffer(tx),
       output_index: Number(payload.channel_point.output_index)
     },
-    force: false
+    force
   }
 
   return new Promise((resolve, reject) => {
