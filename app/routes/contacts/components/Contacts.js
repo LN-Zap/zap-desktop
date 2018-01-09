@@ -164,7 +164,7 @@ class Contacts extends Component {
               } else if (!channel.active) {
                 return <OfflineContact channel={channel} key={index} openContactModal={openContactModal} />
               }
-                return <span />
+              return <span />
             })
           }
         </ul>
