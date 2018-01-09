@@ -6,7 +6,11 @@ import PayForm from '../../app/components/Form/PayForm'
 import RequestForm from '../../app/components/Form/RequestForm'
 
 const payFormProps = {
-  payform: {},
+  payform: {
+    amount: '',
+    payInput: '',
+    showErrors: {}
+  },
   currency: 'BTC',
   crypto: 'BTC',
 
@@ -28,7 +32,10 @@ const payFormProps = {
 }
 
 const requestFormProps = {
-  requestform: {},
+  requestform: {
+    amount: '',
+    memo: ''
+  },
   currency: '',
   crypto: '',
 
