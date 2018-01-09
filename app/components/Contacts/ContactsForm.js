@@ -142,22 +142,22 @@ class ContactsForm extends React.Component {
                   <li key={node.pub_key}>
                     <section>
                       {
-                          node.alias.length > 0 ?
-                            <h2>
-                              <span>{node.alias.trim()}</span>
-                              <span>({node.pub_key.substr(0, 10)}...{node.pub_key.substr(node.pub_key.length - 10)})</span>
-                            </h2>
-                            :
-                            <h2>
-                              <span>{node.pub_key}</span>
-                            </h2>
-                        }
+                        node.alias.length > 0 ?
+                          <h2>
+                            <span>{node.alias.trim()}</span>
+                            <span>({node.pub_key.substr(0, 10)}...{node.pub_key.substr(node.pub_key.length - 10)})</span>
+                          </h2>
+                          :
+                          <h2>
+                            <span>{node.pub_key}</span>
+                          </h2>
+                      }
                     </section>
                     <section>
                       {renderRightSide(node)}
                     </section>
                   </li>
-                  ))
+                ))
               }
             </ul>
           </div>
