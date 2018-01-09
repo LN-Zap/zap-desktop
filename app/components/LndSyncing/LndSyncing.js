@@ -9,11 +9,11 @@ class LndSyncing extends Component {
       facts: [
         {
           title: 'The Lightning Network',
-          description: 'The Lightning Network is a second layer solution built on top of the Bitcoin block chain that attempts to increase Bitcoin\'s scalability and privacy' // eslint-disable-line
+          description: 'The Lightning Network is a second layer solution built on top of the Bitcoin blockchain that attempts to increase Bitcoin\'s scalability and privacy' // eslint-disable-line
         },
         {
           title: 'Payment Channel',
-          description: 'A payment channel is a class of techniques designed to allow users to make multiple Bitcoin transactions without commiting all of the transactions to the Bitcoin block chain. You can think of payment channels like tubes of money' // eslint-disable-line
+          description: 'A payment channel is a class of techniques designed to allow users to make multiple Bitcoin transactions without commiting all of the transactions to the Bitcoin blockchain. You can think of payment channels like tubes of money' // eslint-disable-line
         },
         {
           title: 'HTLC',
