@@ -33,7 +33,7 @@ const ClosingContact = ({ channel }) => (
 )
 
 ClosingContact.propTypes = {
-
+  channel: PropTypes.object.isRequired
 }
 
 export default ClosingContact

@@ -23,7 +23,6 @@ class CanvasNetworkGraph extends Component {
     super(props)
 
     this.state = {
-      simulation: {},
       simulationData: {
         nodes: [],
         links: []
