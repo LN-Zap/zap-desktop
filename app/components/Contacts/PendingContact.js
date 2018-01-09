@@ -13,7 +13,7 @@ const PendingContact = ({ channel }) => (
         <span>
           Pending
           <i onClick={() => shell.openExternal(`${'https://testnet.smartbit.com.au'}/tx/${channel.channel.channel_point.split(':')[0]}`)}>
-            (~{channel.blocks_till_open * 10} minutes)
+            (Details)
           </i>
         </span>
       </p>
