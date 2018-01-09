@@ -1,0 +1,344 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers channelsReducer should correctly getChannels 1`] = `
+Object {
+  "channel": null,
+  "channelForm": Object {
+    "isOpen": false,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [],
+  "channelsLoading": true,
+  "closingChannel": false,
+  "closingChannelIds": Array [],
+  "contactModal": Object {
+    "channel": null,
+    "isOpen": false,
+  },
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Contacts",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Contacts",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Online Contacts",
+    },
+    Object {
+      "key": "NON_ACTIVE_CHANNELS",
+      "name": "Offline Contacts",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Pending Contacts",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Contacts",
+    },
+  ],
+  "loadingChannelPubkeys": Array [],
+  "openingChannel": false,
+  "pendingChannels": Object {
+    "pending_closing_channels": Array [],
+    "pending_force_closing_channels": Array [],
+    "pending_open_channels": Array [],
+    "total_limbo_balance": "",
+  },
+  "searchQuery": "",
+  "viewType": 0,
+}
+`;
+
+exports[`reducers channelsReducer should correctly openingChannel 1`] = `
+Object {
+  "channel": null,
+  "channelForm": Object {
+    "isOpen": false,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [],
+  "channelsLoading": false,
+  "closingChannel": false,
+  "closingChannelIds": Array [],
+  "contactModal": Object {
+    "channel": null,
+    "isOpen": false,
+  },
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Contacts",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Contacts",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Online Contacts",
+    },
+    Object {
+      "key": "NON_ACTIVE_CHANNELS",
+      "name": "Offline Contacts",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Pending Contacts",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Contacts",
+    },
+  ],
+  "loadingChannelPubkeys": Array [],
+  "openingChannel": true,
+  "pendingChannels": Object {
+    "pending_closing_channels": Array [],
+    "pending_force_closing_channels": Array [],
+    "pending_open_channels": Array [],
+    "total_limbo_balance": "",
+  },
+  "searchQuery": "",
+  "viewType": 0,
+}
+`;
+
+exports[`reducers channelsReducer should correctly receiveChannel 1`] = `
+Object {
+  "channel": null,
+  "channelForm": Object {
+    "isOpen": false,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [
+    1,
+    2,
+  ],
+  "channelsLoading": false,
+  "closingChannel": false,
+  "closingChannelIds": Array [],
+  "contactModal": Object {
+    "channel": null,
+    "isOpen": false,
+  },
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Contacts",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Contacts",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Online Contacts",
+    },
+    Object {
+      "key": "NON_ACTIVE_CHANNELS",
+      "name": "Offline Contacts",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Pending Contacts",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Contacts",
+    },
+  ],
+  "loadingChannelPubkeys": Array [],
+  "openingChannel": false,
+  "pendingChannels": Array [
+    3,
+    4,
+  ],
+  "searchQuery": "",
+  "viewType": 0,
+}
+`;
+
+exports[`reducers channelsReducer should correctly setChannel 1`] = `
+Object {
+  "channel": "channel",
+  "channelForm": Object {
+    "isOpen": false,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [],
+  "channelsLoading": false,
+  "closingChannel": false,
+  "closingChannelIds": Array [],
+  "contactModal": Object {
+    "channel": null,
+    "isOpen": false,
+  },
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Contacts",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Contacts",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Online Contacts",
+    },
+    Object {
+      "key": "NON_ACTIVE_CHANNELS",
+      "name": "Offline Contacts",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Pending Contacts",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Contacts",
+    },
+  ],
+  "loadingChannelPubkeys": Array [],
+  "openingChannel": false,
+  "pendingChannels": Object {
+    "pending_closing_channels": Array [],
+    "pending_force_closing_channels": Array [],
+    "pending_open_channels": Array [],
+    "total_limbo_balance": "",
+  },
+  "searchQuery": "",
+  "viewType": 0,
+}
+`;
+
+exports[`reducers channelsReducer should correctly setChannelForm 1`] = `
+Object {
+  "channel": null,
+  "channelForm": Object {
+    "isOpen": true,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [],
+  "channelsLoading": false,
+  "closingChannel": false,
+  "closingChannelIds": Array [],
+  "contactModal": Object {
+    "channel": null,
+    "isOpen": false,
+  },
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Contacts",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Contacts",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Online Contacts",
+    },
+    Object {
+      "key": "NON_ACTIVE_CHANNELS",
+      "name": "Offline Contacts",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Pending Contacts",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Contacts",
+    },
+  ],
+  "loadingChannelPubkeys": Array [],
+  "openingChannel": false,
+  "pendingChannels": Object {
+    "pending_closing_channels": Array [],
+    "pending_force_closing_channels": Array [],
+    "pending_open_channels": Array [],
+    "total_limbo_balance": "",
+  },
+  "searchQuery": "",
+  "viewType": 0,
+}
+`;
+
+exports[`reducers channelsReducer should handle initial state 1`] = `
+Object {
+  "channel": null,
+  "channelForm": Object {
+    "isOpen": false,
+    "local_amt": "",
+    "node_key": "",
+    "push_amt": "",
+  },
+  "channels": Array [],
+  "channelsLoading": false,
+  "closingChannel": false,
+  "closingChannelIds": Array [],
+  "contactModal": Object {
+    "channel": null,
+    "isOpen": false,
+  },
+  "filter": Object {
+    "key": "ALL_CHANNELS",
+    "name": "All Contacts",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_CHANNELS",
+      "name": "All Contacts",
+    },
+    Object {
+      "key": "ACTIVE_CHANNELS",
+      "name": "Online Contacts",
+    },
+    Object {
+      "key": "NON_ACTIVE_CHANNELS",
+      "name": "Offline Contacts",
+    },
+    Object {
+      "key": "OPEN_PENDING_CHANNELS",
+      "name": "Pending Contacts",
+    },
+    Object {
+      "key": "CLOSING_PENDING_CHANNELS",
+      "name": "Closing Contacts",
+    },
+  ],
+  "loadingChannelPubkeys": Array [],
+  "openingChannel": false,
+  "pendingChannels": Object {
+    "pending_closing_channels": Array [],
+    "pending_force_closing_channels": Array [],
+    "pending_open_channels": Array [],
+    "total_limbo_balance": "",
+  },
+  "searchQuery": "",
+  "viewType": 0,
+}
+`;
