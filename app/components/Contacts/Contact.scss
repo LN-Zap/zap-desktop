@@ -1,0 +1,156 @@
+@import '../../variables.scss';
+
+.friend {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 30px 60px 60px 60px;
+  cursor: pointer;
+  transition: all 0.25s;
+
+  &.loading {
+    .info {
+      opacity: 0.2;
+    }
+  }
+
+  &:hover {
+    background: $lightgrey;
+  }
+
+  .limits {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    div {
+      margin: 0 10px;
+
+      h4 {
+        font-size: 12px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .info {
+    p {
+      margin-bottom: 20px;
+
+      &.online {
+        color: $green;
+
+        svg {
+          color: $green;
+        }
+      }
+
+      &.pending {
+        color: $orange;
+
+        svg {
+          color: $orange;
+        }
+
+        i {
+          margin-left: 5px;
+          color: $darkestgrey;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      &.closing {
+        color: $red;
+
+        svg {
+          color: $red;
+        }
+
+        i {
+          margin-left: 5px;
+          color: $darkestgrey;
+          cursor: pointer;
+
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+
+      svg, span {
+        display: inline-block;
+        vertical-align: top;
+      }
+
+      svg {
+        margin-right: 5px;
+        width: 12px;
+        height: 12px;
+        color: $darkestgrey;
+      }
+
+      span {
+        font-size: 12px;
+      }
+    }
+
+    h2 {
+      color: $black;
+      font-size: 14px;
+      font-weight: bold;
+      letter-spacing: 1.3px;
+
+      span {
+        color: $darkestgrey;
+        margin-left: 5px;
+      }
+    }
+  }
+}
+
+@-webkit-keyframes animation-rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes animation-rotate {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes animation-rotate {
+  100% {
+    -o-transform: rotate(360deg);
+  }
+}
+
+@keyframes animation-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-left-color: rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 999px;
+  -moz-border-radius: 999px;
+  border-radius: 999px;
+}
+
+.spinner {
+  margin: 0 auto;
+  height: 50px;
+  width: 50px;
+  -webkit-animation: animation-rotate 1000ms linear infinite;
+  -moz-animation: animation-rotate 1000ms linear infinite;
+  -o-animation: animation-rotate 1000ms linear infinite;
+  animation: animation-rotate 1000ms linear infinite;
+}
+

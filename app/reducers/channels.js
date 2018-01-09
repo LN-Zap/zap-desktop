@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import filter from 'lodash/filter'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
 import { closeChannelForm, resetChannelForm } from './channelform'
@@ -28,6 +29,15 @@ export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
 
 export const TOGGLE_CHANNEL_PULLDOWN = 'TOGGLE_CHANNEL_PULLDOWN'
 export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
+
+export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
+export const REMOVE_LOADING_PUBKEY = 'REMOVE_LOADING_PUBKEY'
+
+export const ADD_ClOSING_CHAN_ID = 'ADD_ClOSING_CHAN_ID'
+export const REMOVE_ClOSING_CHAN_ID = 'REMOVE_ClOSING_CHAN_ID'
+
+export const OPEN_CONTACT_MODAL = 'OPEN_CONTACT_MODAL'
+export const CLOSE_CONTACT_MODAL = 'CLOSE_CONTACT_MODAL'
 
 // ------------------------------------
 // Actions
@@ -91,6 +101,47 @@ export function setViewType(viewType) {
   }
 }
 
+export function addLoadingPubkey(pubkey) {
+  return {
+    type: ADD_LOADING_PUBKEY,
+    pubkey
+  }
+}
+
+export function removeLoadingPubkey(pubkey) {
+  return {
+    type: REMOVE_LOADING_PUBKEY,
+    pubkey
+  }
+}
+
+export function addClosingChanId(chanId) {
+  return {
+    type: ADD_ClOSING_CHAN_ID,
+    chanId
+  }
+}
+
+export function removeClosingChanId(chanId) {
+  return {
+    type: REMOVE_ClOSING_CHAN_ID,
+    chanId
+  }
+}
+
+export function openContactModal(channel) {
+  return {
+    type: OPEN_CONTACT_MODAL,
+    channel
+  }
+}
+
+export function closeContactModal() {
+  return {
+    type: CLOSE_CONTACT_MODAL
+  }
+}
+
 // Send IPC event for peers
 export const fetchChannels = () => async (dispatch) => {
   dispatch(getChannels())
@@ -101,62 +152,67 @@ export const fetchChannels = () => async (dispatch) => {
 export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, local_amt, push_amt }) => (dispatch) => {
+export const openChannel = ({
+  pubkey, host, local_amt
+}) => (dispatch) => {
   const localamt = btc.btcToSatoshis(local_amt)
-  const pushamt = btc.btcToSatoshis(push_amt)
 
   dispatch(openingChannel())
-  ipcRenderer.send('lnd', { msg: 'openChannel', data: { pubkey, localamt, pushamt } })
+  dispatch(addLoadingPubkey(pubkey))
+
+  ipcRenderer.send('lnd', { msg: 'connectAndOpen', data: { pubkey, host, localamt } })
 }
 
 // TODO: Decide how to handle streamed updates for channels
 // Receive IPC event for openChannel
 export const channelSuccessful = () => (dispatch) => {
-  console.log('CHANNEL channelSuccessful')
   dispatch(fetchChannels())
   dispatch(closeChannelForm())
   dispatch(resetChannelForm())
 }
 
 // Receive IPC event for updated channel
-export const pushchannelupdated = (event, data) => (dispatch) => {
-  console.log('PUSH CHANNEL UPDATED: ', data)
+export const pushchannelupdated = (event, { pubkey }) => (dispatch) => {
   dispatch(fetchChannels())
+  dispatch(removeLoadingPubkey(pubkey))
 }
 
 // Receive IPC event for channel end
 export const pushchannelend = event => (dispatch) => { // eslint-disable-line
-  console.log('PUSH CHANNEL END: ')
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for channel error
-export const pushchannelerror = (event, { error }) => (dispatch) => {
-  console.log('PUSH CHANNEL ERROR: ', error)
+export const pushchannelerror = (event, { pubkey, error }) => (dispatch) => {
   dispatch(openingFailure())
   dispatch(setError(error))
+  dispatch(removeLoadingPubkey(pubkey))
 }
 
 // Receive IPC event for channel status
 export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disable-line
-  console.log('PUSH CHANNEL STATUS: ', data)
   dispatch(fetchChannels())
 }
 
 // Send IPC event for opening a channel
-export const closeChannel = ({ channel_point }) => (dispatch) => {
+export const closeChannel = ({ channel_point, chan_id, force }) => (dispatch) => {
   dispatch(closingChannel())
-  const channelPoint = channel_point.split(':')
+  dispatch(addClosingChanId(chan_id))
+
+  console.log('force: ', force)
+
+  const [funding_txid, output_index] = channel_point.split(':')
   ipcRenderer.send(
     'lnd',
     {
       msg: 'closeChannel',
       data: {
         channel_point: {
-          funding_txid: channelPoint[0],
-          output_index: channelPoint[1]
+          funding_txid,
+          output_index
         },
-        force: true
+        force,
+        chan_id
       }
     }
   )
@@ -164,38 +220,36 @@ export const closeChannel = ({ channel_point }) => (dispatch) => {
 
 // TODO: Decide how to handle streamed updates for closing channels
 // Receive IPC event for closeChannel
-export const closeChannelSuccessful = (event, data) => (dispatch) => {
-  console.log('PUSH CLOSE CHANNEL SUCCESSFUL: ', data)
+export const closeChannelSuccessful = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for updated closing channel
-export const pushclosechannelupdated = (event, data) => (dispatch) => {
-  console.log('PUSH CLOSE CHANNEL UPDATED: ', data)
+export const pushclosechannelupdated = (event, { chan_id }) => (dispatch) => {
   dispatch(fetchChannels())
+  dispatch(removeClosingChanId(chan_id))
+  dispatch(closeContactModal())
 }
 
 // Receive IPC event for closing channel end
-export const pushclosechannelend = (event, data) => (dispatch) => {
-  console.log('PUSH CLOSE CHANNEL END: ', data)
+export const pushclosechannelend = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
 // Receive IPC event for closing channel error
-export const pushclosechannelerror = (event, data) => (dispatch) => {
-  console.log('PUSH CLOSE CHANNEL END: ', data)
-  dispatch(fetchChannels())
+export const pushclosechannelerror = (event, { error, chan_id }) => (dispatch) => {
+  dispatch(setError(error))
+  dispatch(removeClosingChanId(chan_id))
 }
 
 // Receive IPC event for closing channel status
-export const pushclosechannelstatus = (event, data) => (dispatch) => {
-  console.log('PUSH CLOSE CHANNEL STATUS: ', data)
+export const pushclosechannelstatus = () => (dispatch) => {
   dispatch(fetchChannels())
 }
 
 // IPC event for channel graph data
 export const channelGraphData = (event, data) => (dispatch, getState) => {
-  const info = getState().info
+  const { info } = getState()
   const { channelGraphData: { channel_updates } } = data
 
   // if there are any new channel updates
@@ -228,9 +282,7 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
 }
 
 // IPC event for channel graph status
-export const channelGraphStatus = (event, data) => () => {
-  console.log('channelGraphStatus: ', data)
-}
+export const channelGraphStatus = () => () => {}
 
 export function toggleFilterPulldown() {
   return {
@@ -238,10 +290,10 @@ export function toggleFilterPulldown() {
   }
 }
 
-export function changeFilter(filter) {
+export function changeFilter(channelFilter) {
   return {
     type: CHANGE_CHANNEL_FILTER,
-    filter
+    channelFilter
   }
 }
 
@@ -257,7 +309,9 @@ const ACTION_HANDLERS = {
 
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => (
-    { ...state, channelsLoading: false, channels, pendingChannels }
+    {
+      ...state, channelsLoading: false, channels, pendingChannels
+    }
   ),
 
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
@@ -270,7 +324,22 @@ const ACTION_HANDLERS = {
   [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
 
   [TOGGLE_CHANNEL_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
-  [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({ ...state, filterPulldown: false, filter })
+  [CHANGE_CHANNEL_FILTER]: (state, { channelFilter }) => (
+    { ...state, filterPulldown: false, filter: channelFilter }
+  ),
+
+  [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys] }),
+  [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => (
+    { ...state, loadingChannelPubkeys: state.loadingChannelPubkeys.filter(loadingPubkey => loadingPubkey !== pubkey) }
+  ),
+
+  [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => ({ ...state, closingChannelIds: [chanId, ...state.closingChannelIds] }),
+  [REMOVE_ClOSING_CHAN_ID]: (state, { chanId }) => (
+    { ...state, closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId) }
+  ),
+
+  [OPEN_CONTACT_MODAL]: (state, { channel }) => ({ ...state, contactModal: { isOpen: true, channel } }),
+  [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } })
 }
 
 const channelsSelectors = {}
@@ -282,6 +351,7 @@ const pendingForceClosedChannelsSelector = state => state.channels.pendingChanne
 const channelSearchQuerySelector = state => state.channels.searchQuery
 const filtersSelector = state => state.channels.filters
 const filterSelector = state => state.channels.filter
+const nodesSelector = state => state.network.nodes
 
 channelsSelectors.channelModalOpen = createSelector(
   channelSelector,
@@ -293,27 +363,35 @@ channelsSelectors.activeChannels = createSelector(
   openChannels => openChannels.filter(channel => channel.active)
 )
 
-const closingPendingChannels = createSelector(
+channelsSelectors.activeChannelPubkeys = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => channel.active).map(c => c.remote_pubkey)
+)
+
+channelsSelectors.nonActiveChannels = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => !channel.active)
+)
+
+channelsSelectors.nonActiveChannelPubkeys = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => !channel.active).map(c => c.remote_pubkey)
+)
+
+channelsSelectors.pendingOpenChannels = createSelector(
+  pendingOpenChannelsSelector,
+  pendingOpenChannels => pendingOpenChannels
+)
+
+channelsSelectors.pendingOpenChannelPubkeys = createSelector(
+  pendingOpenChannelsSelector,
+  pendingOpenChannels => pendingOpenChannels.map(pendingChannel => pendingChannel.channel.remote_node_pub)
+)
+
+channelsSelectors.closingPendingChannels = createSelector(
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
   (pendingClosedChannels, pendingForcedClosedChannels) => [...pendingClosedChannels, ...pendingForcedClosedChannels]
-)
-
-const allChannels = createSelector(
-  channelsSelector,
-  pendingOpenChannelsSelector,
-  pendingClosedChannelsSelector,
-  pendingForceClosedChannelsSelector,
-  channelSearchQuerySelector,
-  (channels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => {
-    const filteredChannels = channels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
-    const filteredPendingOpenChannels = pendingOpenChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
-    const filteredPendingClosedChannels = pendingClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
-    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
-
-
-    return [...filteredChannels, ...filteredPendingOpenChannels, ...filteredPendingClosedChannels, ...filteredPendingForcedClosedChannels]
-  }
 )
 
 channelsSelectors.activeChanIds = createSelector(
@@ -324,18 +402,49 @@ channelsSelectors.activeChanIds = createSelector(
 channelsSelectors.nonActiveFilters = createSelector(
   filtersSelector,
   filterSelector,
-  (filters, filter) => filters.filter(f => f.key !== filter.key)
+  (filters, channelFilter) => filters.filter(f => f.key !== channelFilter.key)
+)
+
+channelsSelectors.channelNodes = createSelector(
+  channelsSelector,
+  nodesSelector,
+  (channels, nodes) => {
+    const chanPubkeys = channels.map(channel => channel.remote_pubkey)
+
+    return filter(nodes, node => chanPubkeys.includes(node.pub_key))
+  }
+)
+
+const allChannels = createSelector(
+  channelsSelectors.activeChannels,
+  channelsSelectors.nonActiveChannels,
+  pendingOpenChannelsSelector,
+  pendingClosedChannelsSelector,
+  pendingForceClosedChannelsSelector,
+  channelSearchQuerySelector,
+  (activeChannels, nonActiveChannels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => {
+    const filteredActiveChannels = activeChannels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredNonActiveChannels = nonActiveChannels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
+
+    const filteredPendingOpenChannels = pendingOpenChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingClosedChannels = pendingClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+
+
+    return [...filteredActiveChannels, ...filteredPendingOpenChannels, ...filteredPendingClosedChannels, ...filteredPendingForcedClosedChannels, ...filteredNonActiveChannels] // eslint-disable-line
+  }
 )
 
 export const currentChannels = createSelector(
   allChannels,
   channelsSelectors.activeChannels,
+  channelsSelectors.nonActiveChannels,
   channelsSelector,
   pendingOpenChannelsSelector,
-  closingPendingChannels,
+  channelsSelectors.closingPendingChannels,
   filterSelector,
   channelSearchQuerySelector,
-  (allChannelsArr, activeChannelsArr, openChannels, pendingOpenChannels, pendingClosedChannels, filter, searchQuery) => {
+  (allChannelsArr, activeChannelsArr, nonActiveChannelsArr, openChannels, pendingOpenChannels, pendingClosedChannels, channelFilter, searchQuery) => {
     // Helper function to deliver correct channel array based on filter
     const filteredArray = (filterKey) => {
       switch (filterKey) {
@@ -343,6 +452,8 @@ export const currentChannels = createSelector(
           return allChannelsArr
         case 'ACTIVE_CHANNELS':
           return activeChannelsArr
+        case 'NON_ACTIVE_CHANNELS':
+          return nonActiveChannelsArr
         case 'OPEN_CHANNELS':
           return openChannels
         case 'OPEN_PENDING_CHANNELS':
@@ -354,7 +465,7 @@ export const currentChannels = createSelector(
       }
     }
 
-    const channelArray = filteredArray(filter.key)
+    const channelArray = filteredArray(channelFilter.key)
 
     return channelArray.filter(channel => (Object.prototype.hasOwnProperty.call(channel, 'channel') ?
       channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)
@@ -390,14 +501,22 @@ const initialState = {
   viewType: 0,
 
   filterPulldown: false,
-  filter: { key: 'ALL_CHANNELS', name: 'All Channels' },
+  filter: { key: 'ALL_CHANNELS', name: 'All Contacts' },
   filters: [
-    { key: 'ALL_CHANNELS', name: 'All Channels' },
-    { key: 'ACTIVE_CHANNELS', name: 'Active Channels' },
-    { key: 'OPEN_CHANNELS', name: 'Open Channels' },
-    { key: 'OPEN_PENDING_CHANNELS', name: 'Open Pending Channels' },
-    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Pending Channels' }
-  ]
+    { key: 'ALL_CHANNELS', name: 'All Contacts' },
+    { key: 'ACTIVE_CHANNELS', name: 'Online Contacts' },
+    { key: 'NON_ACTIVE_CHANNELS', name: 'Offline Contacts' },
+    { key: 'OPEN_PENDING_CHANNELS', name: 'Pending Contacts' },
+    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Contacts' }
+  ],
+
+  loadingChannelPubkeys: [],
+  closingChannelIds: [],
+
+  contactModal: {
+    isOpen: false,
+    channel: null
+  }
 }
 
 export default function channelsReducer(state = initialState, action) {

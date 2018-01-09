@@ -18,11 +18,6 @@ import * as networkController from './networkController'
 // TODO - SendPayment
 // TODO - DeleteAllPayments
 
-// const metadata = new grpc.Metadata()
-// var macaroonHex = fs.readFileSync('~/Library/Application Support/Lnd/admin.macaroon').toString('hex')
-// metadata.add('macaroon', macaroonHex)
-
-
 export default function (lnd, meta, event, msg, data) {
   switch (msg) {
     case 'info':
@@ -79,8 +74,7 @@ export default function (lnd, meta, event, msg, data) {
     // [ { channels: [] }, { total_limbo_balance: 0, pending_open_channels: [], pending_closing_channels: [], pending_force_closing_channels: [] } ]
       Promise.all([channelController.listChannels, channelController.pendingChannels].map(func => func(lnd, meta)))
         .then(channelsData =>
-          event.sender.send('receiveChannels', { channels: channelsData[0].channels, pendingChannels: channelsData[1] })
-        )
+          event.sender.send('receiveChannels', { channels: channelsData[0].channels, pendingChannels: channelsData[1] }))
         .catch(error => console.log('channels error: ', error))
       break
     case 'transactions':
@@ -125,11 +119,10 @@ export default function (lnd, meta, event, msg, data) {
             Object.assign(newinvoice, {
               memo: data.memo,
               value: data.value,
-              r_hash: new Buffer(newinvoice.r_hash, 'hex').toString('hex'),
+              r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
               creation_date: Date.now() / 1000
             })
-          )
-        )
+          ))
         .catch((error) => {
           console.log('addInvoice error: ', error)
           event.sender.send('invoiceFailed', { error: error.toString() })
@@ -200,6 +193,19 @@ export default function (lnd, meta, event, msg, data) {
           event.sender.send('disconnectSuccess', { pubkey: data.pubkey })
         })
         .catch(error => console.log('disconnectPeer error: ', error))
+      break
+    case 'connectAndOpen':
+    // Connects to a peer if we aren't connected already and then attempt to open a channel
+    // {} = data
+      channelController.connectAndOpen(lnd, meta, event, data)
+        .then((channelData) => {
+          console.log('connectAndOpen data: ', channelData)
+          // event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
+        })
+        .catch((error) => {
+          // event.sender.send('connectFailure', { error: error.toString() })
+          console.log('connectAndOpen error: ', error)
+        })
       break
     default:
   }

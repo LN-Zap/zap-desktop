@@ -13,7 +13,9 @@ const MODAL_COMPONENTS = {
   /* other modals */
 }
 
-const ModalRoot = ({ modalType, modalProps, hideModal, currentTicker, currency }) => {
+const ModalRoot = ({
+  modalType, modalProps, hideModal, currentTicker, currency
+}) => {
   if (!modalType) { return null }
 
   const SpecificModal = MODAL_COMPONENTS[modalType]
@@ -37,7 +39,7 @@ const ModalRoot = ({ modalType, modalProps, hideModal, currentTicker, currency }
 
 ModalRoot.propTypes = {
   modalType: PropTypes.string,
-  modalProps: PropTypes.object.isRequired,
+  modalProps: PropTypes.object,
   hideModal: PropTypes.func.isRequired,
   currentTicker: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired

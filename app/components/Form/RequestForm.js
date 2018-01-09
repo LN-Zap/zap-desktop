@@ -28,7 +28,9 @@ const RequestForm = ({
       />
     </section>
     <section className={styles.inputContainer}>
-      <label htmlFor='memo'>Request:</label>
+      <label htmlFor='memo'>
+        Request:
+      </label>
       <input
         type='text'
         placeholder='Dinner, Rent, etc'
@@ -39,7 +41,7 @@ const RequestForm = ({
     </section>
     <section className={styles.buttonGroup}>
       <div className={`buttonPrimary ${styles.button}`} onClick={onRequestSubmit}>
-          Request
+        Request
       </div>
     </section>
   </div>

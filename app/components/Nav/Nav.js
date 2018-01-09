@@ -5,7 +5,6 @@ import Isvg from 'react-inlinesvg'
 
 import walletIcon from 'icons/wallet.svg'
 import peersIcon from 'icons/peers.svg'
-import channelsIcon from 'icons/channels.svg'
 import networkIcon from 'icons/globe.svg'
 
 import styles from './Nav.scss'
@@ -18,28 +17,18 @@ const Nav = ({ openPayForm, openRequestForm }) => (
     </header>
     <ul className={styles.links}>
       <NavLink exact to='/' activeClassName={styles.active} className={styles.link}>
-        <span className={styles.activeBorder} />
         <li>
           <Isvg styles={{ verticalAlign: 'middle' }} src={walletIcon} />
           <span>Wallet</span>
         </li>
       </NavLink>
-      <NavLink exact to='/peers' activeClassName={styles.active} className={styles.link}>
-        <span className={styles.activeBorder} />
+      <NavLink exact to='/contacts' activeClassName={styles.active} className={styles.link}>
         <li>
           <Isvg styles={{ verticalAlign: 'middle' }} src={peersIcon} />
-          <span>Peers</span>
-        </li>
-      </NavLink>
-      <NavLink exact to='/channels' activeClassName={styles.active} className={styles.link}>
-        <span className={styles.activeBorder} />
-        <li>
-          <Isvg styles={{ verticalAlign: 'middle' }} src={channelsIcon} />
-          <span>Channels</span>
+          <span>Contacts</span>
         </li>
       </NavLink>
       <NavLink exact to='/network' activeClassName={styles.active} className={styles.link}>
-        <span className={styles.activeBorder} />
         <li>
           <Isvg styles={{ verticalAlign: 'middle' }} src={networkIcon} />
           <span>Network</span>

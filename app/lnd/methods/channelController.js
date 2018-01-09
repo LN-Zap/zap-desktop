@@ -1,8 +1,54 @@
 import bitcore from 'bitcore-lib'
+import find from 'lodash/find'
+import { listPeers, connectPeer } from './peersController'
 import pushopenchannel from '../push/openchannel'
-import pushclosechannel from '../push/closechannel'
 
 const BufferUtil = bitcore.util.buffer
+
+/**
+ * Attempts to open a singly funded channel specified in the request to a remote peer.
+ * @param  {[type]} lnd     [description]
+ * @param  {[type]} event   [description]
+ * @param  {[type]} payload [description]
+ * @return {[type]}         [description]
+ */
+export function connectAndOpen(lnd, meta, event, payload) {
+  const { pubkey, host, localamt } = payload
+  const channelPayload = {
+    node_pubkey: BufferUtil.hexToBuffer(pubkey),
+    local_funding_amount: Number(localamt)
+  }
+
+  return new Promise((resolve, reject) => {
+    listPeers(lnd, meta)
+      .then(({ peers }) => {
+        const peer = find(peers, { pub_key: pubkey })
+
+        if (peer) {
+          const call = lnd.openChannel(channelPayload, meta)
+
+          call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
+          call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
+        } else {
+          connectPeer(lnd, meta, { pubkey, host })
+            .then(() => {
+              const call = lnd.openChannel(channelPayload, meta)
+
+              call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
+              call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
+            })
+            .catch((err) => {
+              event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
+              reject(err)
+            })
+        }
+      })
+      .catch((err) => {
+        event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
+        reject(err)
+      })
+  })
+}
 
 /**
  * Attempts to open a singly funded channel specified in the request to a remote peer.
@@ -22,8 +68,7 @@ export function openChannel(lnd, meta, event, payload) {
   return new Promise((resolve, reject) =>
     pushopenchannel(lnd, meta, event, res)
       .then(data => resolve(data))
-      .catch(error => reject(error))
-  )
+      .catch(error => reject(error)))
 }
 
 
@@ -67,20 +112,30 @@ export function listChannels(lnd, meta) {
  * @return {[type]}         [description]
  */
 export function closeChannel(lnd, meta, event, payload) {
+  const { chan_id, force } = payload
   const tx = payload.channel_point.funding_txid.match(/.{2}/g).reverse().join('')
   const res = {
     channel_point: {
       funding_txid: BufferUtil.hexToBuffer(tx),
       output_index: Number(payload.channel_point.output_index)
     },
-    force: true
+    force
   }
 
-  return new Promise((resolve, reject) =>
-    pushclosechannel(lnd, meta, event, res)
-      .then(data => resolve(data))
-      .catch(error => reject(error))
-  )
+  return new Promise((resolve, reject) => {
+    try {
+      const call = lnd.closeChannel(res, meta)
+
+      call.on('data', data => event.sender.send('pushclosechannelupdated', { data, chan_id }))
+      call.on('end', () => event.sender.send('pushclosechannelend'))
+      call.on('error', error => event.sender.send('pushclosechannelerror', { error: error.toString(), chan_id }))
+      call.on('status', status => event.sender.send('pushclosechannelstatus', { status, chan_id }))
+
+      resolve(null, res)
+    } catch (error) {
+      reject(error, null)
+    }
+  })
 }
 
 

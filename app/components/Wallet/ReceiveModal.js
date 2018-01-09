@@ -7,7 +7,9 @@ import { showNotification } from 'notifications'
 import { FaCopy, FaClose } from 'react-icons/lib/fa'
 import styles from './ReceiveModal.scss'
 
-const ReceiveModal = ({ isOpen, hideActivityModal, pubkey, address, newAddress, qrCodeType, changeQrCode }) => {
+const ReceiveModal = ({
+  isOpen, hideActivityModal, pubkey, address, newAddress, qrCodeType, changeQrCode
+}) => {
   const customStyles = {
     overlay: {
       cursor: 'pointer'

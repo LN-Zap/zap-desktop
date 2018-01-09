@@ -21,8 +21,8 @@ describe('default elements', () => {
 
   it('should render nav links', () => {
     expect(el.find(NavLink).at(0).props().to).toBe('/')
-    expect(el.find(NavLink).at(1).props().to).toBe('/peers')
-    expect(el.find(NavLink).at(2).props().to).toBe('/channels')
+    expect(el.find(NavLink).at(1).props().to).toBe('/contacts')
+    expect(el.find(NavLink).at(2).props().to).toBe('/network')
   })
   it('should render buttons', () => {
     expect(el.find('.button').at(0).text()).toContain('Pay')

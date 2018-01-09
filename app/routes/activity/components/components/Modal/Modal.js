@@ -9,7 +9,9 @@ import Invoice from './Invoice'
 
 import styles from './Modal.scss'
 
-const Modal = ({ modalType, modalProps, hideActivityModal, ticker, currentTicker }) => {
+const Modal = ({
+  modalType, modalProps, hideActivityModal, ticker, currentTicker
+}) => {
   const MODAL_COMPONENTS = {
     TRANSACTION: Transaction,
     PAYMENT: Payment,
