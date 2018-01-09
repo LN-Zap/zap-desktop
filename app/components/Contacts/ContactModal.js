@@ -35,6 +35,10 @@ const ContactModal = ({
     }
   }
 
+  const removeClicked = () => {
+    closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })
+  }
+
   // the remote node for the channel
   const node = find(channelNodes, { pub_key: channel.remote_pubkey })
 
@@ -109,7 +113,7 @@ const ContactModal = ({
                   </div>
                 </span>
                 :
-                <div onClick={() => closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })}>Remove</div>
+                <div onClick={removeClicked}>Remove</div>
             }
           </footer>
         </div>
