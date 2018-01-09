@@ -80,7 +80,6 @@ contactFormSelectors.showManualForm = createSelector(
     if (!searchQuery.length) { return false }
 
     const connectableNodes = filteredNetworkNodes.filter(node => node.addresses.length > 0)
-    console.log('connectableNodes: ', connectableNodes)
 
     if (!filteredNetworkNodes.length || !connectableNodes.length) { return true }
 

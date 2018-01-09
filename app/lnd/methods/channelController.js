@@ -2,7 +2,6 @@ import bitcore from 'bitcore-lib'
 import find from 'lodash/find'
 import { listPeers, connectPeer } from './peersController'
 import pushopenchannel from '../push/openchannel'
-import pushclosechannel from '../push/closechannel'
 
 const BufferUtil = bitcore.util.buffer
 
@@ -14,48 +13,39 @@ const BufferUtil = bitcore.util.buffer
  * @return {[type]}         [description]
  */
 export function connectAndOpen(lnd, meta, event, payload) {
-  console.log('payload: ', payload)
-
   const { pubkey, host, localamt } = payload
   const channelPayload = {
     node_pubkey: BufferUtil.hexToBuffer(pubkey),
-    local_funding_amount: Number(localamt),
-    num_confs: 1
+    local_funding_amount: Number(localamt)
   }
 
   return new Promise((resolve, reject) => {
     listPeers(lnd, meta)
       .then(({ peers }) => {
-        console.log('peers: ', peers)
-
         const peer = find(peers, { pub_key: pubkey })
 
         if (peer) {
-          console.log('already have the peer. can open the channel now')
           const call = lnd.openChannel(channelPayload, meta)
 
           call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
           call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
         } else {
-          console.log('connect to the peer first')
           connectPeer(lnd, meta, { pubkey, host })
-            .then((data) => {
-              console.log('connectPeer data: ', data)
-
+            .then(() => {
               const call = lnd.openChannel(channelPayload, meta)
 
               call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
               call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
             })
             .catch((err) => {
-              console.log('connect peer err: ', err)
               event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
+              reject(err)
             })
         }
       })
       .catch((err) => {
-        console.log('list peer err: ', err)
         event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
+        reject(err)
       })
   })
 }
@@ -68,7 +58,6 @@ export function connectAndOpen(lnd, meta, event, payload) {
  * @return {[type]}         [description]
  */
 export function openChannel(lnd, meta, event, payload) {
-  console.log('opening the channel')
   const { pubkey, localamt, pushamt } = payload
   const res = {
     node_pubkey: BufferUtil.hexToBuffer(pubkey),
@@ -123,7 +112,7 @@ export function listChannels(lnd, meta) {
  * @return {[type]}         [description]
  */
 export function closeChannel(lnd, meta, event, payload) {
-  const chan_id = payload.chan_id
+  const { chan_id } = payload
   const tx = payload.channel_point.funding_txid.match(/.{2}/g).reverse().join('')
   const res = {
     channel_point: {

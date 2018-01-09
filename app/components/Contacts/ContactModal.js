@@ -124,7 +124,12 @@ const ContactModal = ({
 }
 
 ContactModal.propTypes = {
-
+  channel: PropTypes.object,
+  isOpen: PropTypes.bool.isRequired,
+  closeContactModal: PropTypes.func.isRequired,
+  channelNodes: PropTypes.array.isRequired,
+  closeChannel: PropTypes.func.isRequired,
+  closingChannelIds: PropTypes.array.isRequired
 }
 
 export default ContactModal

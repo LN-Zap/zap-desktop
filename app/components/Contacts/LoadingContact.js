@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FaCircle } from 'react-icons/lib/fa'
-import { btc } from 'utils'
 import styles from './Contact.scss'
 
 const LoadingContact = ({ pubkey, isClosing }) => (
@@ -29,7 +28,8 @@ const LoadingContact = ({ pubkey, isClosing }) => (
 )
 
 LoadingContact.propTypes = {
-
+  pubkey: PropTypes.string.isRequired,
+  isClosing: PropTypes.bool.isRequired
 }
 
 export default LoadingContact

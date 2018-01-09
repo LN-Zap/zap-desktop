@@ -5,8 +5,6 @@ import Isvg from 'react-inlinesvg'
 import { MdSearch } from 'react-icons/lib/md'
 import { FaAngleDown, FaRepeat } from 'react-icons/lib/fa'
 
-import { btc } from 'utils'
-
 import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
 import OnlineContact from 'components/Contacts/OnlineContact'
@@ -42,15 +40,11 @@ class Contacts extends Component {
         searchQuery,
         filterPulldown,
         filter,
-        viewType,
         loadingChannelPubkeys,
         closingChannelIds
       },
       currentChannels,
       activeChannels,
-      nonActiveChannels,
-      pendingOpenChannels,
-      closingPendingChannels,
       fetchChannels,
       updateChannelSearchQuery,
 
@@ -60,12 +54,9 @@ class Contacts extends Component {
 
       openContactsForm,
       openContactModal,
-      closeContactModal,
 
       contactModalProps,
-      contactsFormProps,
-
-      peers
+      contactsFormProps
     } = this.props
 
     const refreshClicked = () => {
@@ -173,6 +164,7 @@ class Contacts extends Component {
               } else if (!channel.active) {
                 return <OfflineContact channel={channel} key={index} openContactModal={openContactModal} />
               }
+                return <span />
             })
           }
         </ul>
@@ -181,6 +173,25 @@ class Contacts extends Component {
   }
 }
 
-Contacts.propTypes = {}
+Contacts.propTypes = {
+  fetchPeers: PropTypes.func.isRequired,
+  fetchDescribeNetwork: PropTypes.func.isRequired,
+
+  channels: PropTypes.object.isRequired,
+  currentChannels: PropTypes.array.isRequired,
+  activeChannels: PropTypes.array.isRequired,
+  fetchChannels: PropTypes.func.isRequired,
+  updateChannelSearchQuery: PropTypes.func.isRequired,
+
+  toggleFilterPulldown: PropTypes.func.isRequired,
+  changeFilter: PropTypes.func.isRequired,
+  nonActiveFilters: PropTypes.array.isRequired,
+
+  openContactsForm: PropTypes.func.isRequired,
+  openContactModal: PropTypes.func.isRequired,
+
+  contactModalProps: PropTypes.object.isRequired,
+  contactsFormProps: PropTypes.object.isRequired
+}
 
 export default Contacts

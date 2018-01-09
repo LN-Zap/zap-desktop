@@ -133,7 +133,6 @@ class ContactsForm extends React.Component {
                 className={styles.searchInput}
                 value={contactsform.searchQuery}
                 onChange={event => updateContactFormSearchQuery(event.target.value)}
-                autoFocus
               />
             </div>
 
@@ -166,7 +165,7 @@ class ContactsForm extends React.Component {
           {
             showManualForm &&
             <div className={styles.manualForm}>
-              <h2>Hm, looks like we can't see that contact from here. Want to try and manually connect?</h2>
+              <h2>Hm, looks like we can’t see that contact from here. Want to try and manually connect?</h2>
               <section>
                 <input
                   type='text'
@@ -214,7 +213,18 @@ class ContactsForm extends React.Component {
 
 
 ContactsForm.propTypes = {
+  contactsform: PropTypes.object.isRequired,
+  closeContactsForm: PropTypes.func.isRequired,
+  updateContactFormSearchQuery: PropTypes.func.isRequired,
+  updateContactCapacity: PropTypes.func.isRequired,
+  openChannel: PropTypes.func.isRequired,
 
+  activeChannelPubkeys: PropTypes.array.isRequired,
+  nonActiveChannelPubkeys: PropTypes.array.isRequired,
+  pendingOpenChannelPubkeys: PropTypes.array.isRequired,
+  filteredNetworkNodes: PropTypes.array.isRequired,
+  loadingChannelPubkeys: PropTypes.array.isRequired,
+  showManualForm: PropTypes.bool.isRequired
 }
 
 export default ContactsForm

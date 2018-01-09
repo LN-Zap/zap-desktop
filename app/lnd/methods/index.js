@@ -119,7 +119,7 @@ export default function (lnd, meta, event, msg, data) {
             Object.assign(newinvoice, {
               memo: data.memo,
               value: data.value,
-              r_hash: new Buffer(newinvoice.r_hash, 'hex').toString('hex'),
+              r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
               creation_date: Date.now() / 1000
             })
           ))
@@ -198,8 +198,8 @@ export default function (lnd, meta, event, msg, data) {
     // Connects to a peer if we aren't connected already and then attempt to open a channel
     // {} = data
       channelController.connectAndOpen(lnd, meta, event, data)
-        .then((data) => {
-          console.log('connectAndOpen data: ', data)
+        .then((channelData) => {
+          console.log('connectAndOpen data: ', channelData)
           // event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
         })
         .catch((error) => {

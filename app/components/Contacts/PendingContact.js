@@ -33,7 +33,7 @@ const PendingContact = ({ channel }) => (
 )
 
 PendingContact.propTypes = {
-
+  channel: PropTypes.object.isRequired
 }
 
 export default PendingContact
