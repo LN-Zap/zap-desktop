@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaClose } from 'react-icons/lib/fa'
+import { MdClose } from 'react-icons/lib/md'
 import SuccessfulSendCoins from './SuccessfulSendCoins'
 import SuccessfulSendPayment from './SuccessfulSendPayment'
 import WalletDetails from './WalletDetails'
@@ -23,7 +23,7 @@ const ModalRoot = ({
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.esc} onClick={hideModal}>
-          <FaClose />
+          <MdClose />
         </div>
 
         <SpecificModal
