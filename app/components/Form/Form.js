@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { FaClose } from 'react-icons/lib/fa'
+import { MdClose } from 'react-icons/lib/md'
 
 import PayForm from './PayForm'
 import RequestForm from './RequestForm'
@@ -21,7 +21,7 @@ const Form = ({ formType, formProps, closeForm }) => {
     <div className={`${styles.outtercontainer} ${formType && styles.open}`}>
       <div className={styles.innercontainer}>
         <div className={styles.esc} onClick={closeForm}>
-          <FaClose />
+          <MdClose />
         </div>
 
         <div className={styles.content}>

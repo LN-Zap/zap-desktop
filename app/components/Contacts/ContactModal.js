@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import ReactModal from 'react-modal'
-import { FaClose, FaCircle } from 'react-icons/lib/fa'
+import { FaCircle } from 'react-icons/lib/fa'
+import { MdClose } from 'react-icons/lib/md'
 
 import { btc } from 'utils'
 
@@ -64,7 +65,7 @@ const ContactModal = ({
             </div>
             <div className={styles.closeContainer}>
               <span onClick={closeContactModal}>
-                <FaClose />
+                <MdClose />
               </span>
             </div>
           </header>

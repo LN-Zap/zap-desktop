@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
-import { FaClose } from 'react-icons/lib/fa'
+import { MdClose } from 'react-icons/lib/md'
 
 import Transaction from './Transaction'
 import Payment from './Payment'
@@ -50,7 +50,7 @@ const Modal = ({
     >
       <div className={styles.closeContainer}>
         <span onClick={() => hideActivityModal()}>
-          <FaClose />
+          <MdClose />
         </span>
       </div>
       <SpecificModal {...modalProps} ticker={ticker} currentTicker={currentTicker} />
