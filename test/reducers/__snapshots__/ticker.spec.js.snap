@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers tickerReducer should correctly getTicker 1`] = `
+Object {
+  "btcTicker": null,
+  "crypto": "",
+  "currency": "",
+  "ltcTicker": null,
+  "tickerLoading": true,
+}
+`;
+
+exports[`reducers tickerReducer should correctly receiveTicker 1`] = `
+Object {
+  "btcTicker": undefined,
+  "crypto": "",
+  "currency": "",
+  "ltcTicker": undefined,
+  "tickerLoading": false,
+}
+`;
+
+exports[`reducers tickerReducer should correctly setCrypto 1`] = `
+Object {
+  "btcTicker": null,
+  "crypto": "foo",
+  "currency": "",
+  "ltcTicker": null,
+  "tickerLoading": false,
+}
+`;
+
+exports[`reducers tickerReducer should correctly setCurrency 1`] = `
+Object {
+  "btcTicker": null,
+  "crypto": "",
+  "currency": "foo",
+  "ltcTicker": null,
+  "tickerLoading": false,
+}
+`;
+
+exports[`reducers tickerReducer should handle initial state 1`] = `
+Object {
+  "btcTicker": null,
+  "crypto": "",
+  "currency": "",
+  "ltcTicker": null,
+  "tickerLoading": false,
+}
+`;

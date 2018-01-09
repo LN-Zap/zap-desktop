@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers infoReducer should correctly getInfo 1`] = `
+Object {
+  "data": Object {},
+  "infoLoading": true,
+}
+`;
+
+exports[`reducers infoReducer should correctly receiveInfo 1`] = `
+Object {
+  "data": "foo",
+  "infoLoading": false,
+}
+`;
+
+exports[`reducers infoReducer should handle initial state 1`] = `
+Object {
+  "data": Object {},
+  "infoLoading": false,
+}
+`;
