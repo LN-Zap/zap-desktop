@@ -14,8 +14,6 @@
   color: $main;
   display: flex;
   justify-content: center;
-  min-height: 120px;
-  margin-bottom: 20px;
   min-height: 175px;
   border-bottom: 1px solid transparent;
 
@@ -24,22 +22,9 @@
   }
 
   &.error {
-    border-color: $red; 
+    border-color: $red;
   }
 
-  .amountError {
-    position: absolute;
-    top: 0;
-    right: 0;
-    opacity: 0;
-    color: $red;
-    transition: all 0.25s ease;
-
-    &.active {
-      opacity: 1;
-    }
-  }
-  
   label, input[type=number], input[type=text] {
     color: inherit;
     display: inline-block;
@@ -61,7 +46,7 @@
       }
     }
   }
-  
+
   input[type=number], input[type=text] {
     width: 100px;
     font-size: 180px;
@@ -136,7 +121,7 @@
   }
 }
 
-.payInputError {
+.errorMessage {
   margin: 10px 0;
   min-height: 20px;
   color: $red;
