@@ -82,7 +82,6 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({
     show: false,
     frame: false,
-    nodeIntegration: false,
     icon: icon
   })
 
