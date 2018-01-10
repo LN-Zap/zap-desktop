@@ -66,7 +66,7 @@ class PayForm extends Component {
               isLn ?
                 { width: '75%', fontSize: '85px' }
                 :
-                { width: `${amount.length > 1 ? (amount.length * 20) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }
+                { width: `${amount.length > 1 ? (amount.length * 20) - 5 : 35}%`, fontSize: `${190 - (amount.length ** 2)}px` }
             }
             value={currentAmount}
             onChange={event => setPayAmount(event.target.value)}
