@@ -49,11 +49,6 @@ class PayForm extends Component {
         {showPayLoadingScreen && <LoadingBolt />}
 
         <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''} ${showErrors.amount && styles.error}`}>
-          <section className={`${styles.amountError} ${showErrors.amount && styles.active}`}>
-            {showErrors.amount &&
-              <span>{errors.amount}</span>
-            }
-          </section>
           <label htmlFor='amount'>
             <CurrencyIcon currency={currency} crypto={crypto} />
           </label>
@@ -66,7 +61,7 @@ class PayForm extends Component {
               isLn ?
                 { width: '75%', fontSize: '85px' }
                 :
-                { width: `${amount.length > 1 ? (amount.length * 20) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }
+                { width: `${amount.length > 1 ? (amount.length * 20) - 5 : 35}%`, fontSize: `${190 - (amount.length ** 2)}px` }
             }
             value={currentAmount}
             onChange={event => setPayAmount(event.target.value)}
@@ -74,6 +69,11 @@ class PayForm extends Component {
             id='amount'
             readOnly={isLn}
           />
+        </section>
+        <section className={`${styles.errorMessage} ${showErrors.amount && styles.active}`}>
+          {showErrors.amount &&
+            <span>{errors.amount}</span>
+          }
         </section>
         <div className={styles.inputContainer}>
           <div className={styles.info}>
@@ -103,7 +103,7 @@ class PayForm extends Component {
               id='paymentRequest'
             />
           </section>
-          <section className={`${styles.payInputError} ${showErrors.payInput && styles.active}`}>
+          <section className={`${styles.errorMessage} ${showErrors.payInput && styles.active}`}>
             {showErrors.payInput &&
               <span>{errors.payInput}</span>
             }
