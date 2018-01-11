@@ -81,11 +81,15 @@ app.on('ready', async () => {
   console.log('icon: ', icon)
   mainWindow = new BrowserWindow({
     show: false,
-    frame: false,
+    frame: true,
+    width: 700,
+    height: 1100,
+    minHeight: 700,
+    minWidth: 1100,
     icon: icon
   })
 
-  mainWindow.maximize()
+  // mainWindow.maximize()
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
 
