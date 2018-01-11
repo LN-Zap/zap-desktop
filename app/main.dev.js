@@ -89,8 +89,6 @@ app.on('ready', async () => {
     icon: icon
   })
 
-  // mainWindow.maximize()
-
   mainWindow.loadURL(`file://${__dirname}/app.html`)
 
   // @TODO: Use 'ready-to-show' event
