@@ -70,7 +70,11 @@ const searchQuerySelector = state => state.contactsform.searchQuery
 contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
   searchQuerySelector,
-  (nodes, searchQuery) => filter(nodes, node => node.alias.includes(searchQuery) || node.pub_key.includes(searchQuery))
+  (nodes, searchQuery) => {
+    const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
+
+    return filter(nodes, node => node.alias.includes(query) || node.pub_key.includes(query))
+  }
 )
 
 contactFormSelectors.showManualForm = createSelector(
