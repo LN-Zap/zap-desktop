@@ -5,9 +5,5 @@
   "plugins": [
     "jest"
   ],
-  "rules": {
-    "jest/no-disabled-tests": "warn",
-    "jest/no-focused-tests": "error",
-    "jest/no-identical-title": "error"
-  }
+  "extends": ["plugin:jest/recommended"]
 }
