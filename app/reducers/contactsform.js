@@ -71,6 +71,12 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
   searchQuerySelector,
   (nodes, searchQuery) => {
+    // If there is no search query default to showing the first 20 nodes from the nodes array
+    // (performance hit to render the entire thing by default)
+    if (!searchQuery.length) { return nodes.slice(0, 20) }
+
+    // if there is an '@' in the search query we are assuming they are using the format pubkey@host
+    // we can ignore the '@' and the host and just grab the pubkey for our search
     const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
 
     return filter(nodes, node => node.alias.includes(query) || node.pub_key.includes(query))

@@ -138,7 +138,7 @@ class ContactsForm extends React.Component {
 
             <ul className={styles.networkResults}>
               {
-                contactsform.searchQuery.length > 0 && filteredNetworkNodes.map(node => (
+                filteredNetworkNodes.map(node => (
                   <li key={node.pub_key}>
                     <section>
                       {
