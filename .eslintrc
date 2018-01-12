@@ -34,7 +34,8 @@
     "react/require-default-props": 0,
     "max-len": ["error", 150],
     "import/no-extraneous-dependencies": 0,
-    "no-new": 0
+    "no-new": 0,
+    "compat/compat": "error"
   },
   "plugins": [
     "flowtype",
