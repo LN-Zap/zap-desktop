@@ -6,7 +6,8 @@
   },
   "extends": [
     "airbnb",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "plugin:flowtype/recommended"
   ],
   "env": {
     "browser": true,
