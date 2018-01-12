@@ -57,20 +57,6 @@ export const fetchPayments = () => (dispatch) => {
 // Receive IPC event for payments
 export const receivePayments = (event, { payments }) => dispatch => dispatch({ type: RECEIVE_PAYMENTS, payments })
 
-export const payInvoice = paymentRequest => (dispatch, getState) => {
-  dispatch(sendPayment())
-  ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
-  
-  // if LND hangs on sending the payment we'll cut it after 10 seconds and return an error
-  setTimeout(() => {
-    const { payment } = getState()
-
-    if (payment.sendingPayment) {
-      dispatch(paymentFailed(null, { error: `Shoot, we're having some trouble sending your payment.` }))
-    }
-  }, 10000)
-}
-
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch
 export const paymentSuccessful = () => (dispatch) => {
@@ -94,6 +80,20 @@ export const paymentSuccessful = () => (dispatch) => {
 export const paymentFailed = (event, { error }) => (dispatch) => {
   dispatch({ type: PAYMENT_FAILED })
   dispatch(setError(error))
+}
+
+export const payInvoice = paymentRequest => (dispatch, getState) => {
+  dispatch(sendPayment())
+  ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
+
+  // if LND hangs on sending the payment we'll cut it after 10 seconds and return an error
+  setTimeout(() => {
+    const { payment } = getState()
+
+    if (payment.sendingPayment) {
+      dispatch(paymentFailed(null, { error: 'Shoot, we\'re having some trouble sending your payment.' }))
+    }
+  }, 10000)
 }
 
 
