@@ -55,6 +55,12 @@
     -webkit-appearance: none;
     font-weight: 200;
   }
+  
+  input[type=number] {
+    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+    }
+  }
 }
 
 .inputContainer {
