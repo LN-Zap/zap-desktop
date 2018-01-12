@@ -36,7 +36,9 @@
     "max-len": ["error", 150],
     "import/no-extraneous-dependencies": 0,
     "no-new": 0,
-    "compat/compat": "error"
+    "compat/compat": "error",
+    "flowtype-errors/show-errors": "error",
+    "flowtype-errors/enforce-min-coverage": ["error", 20]
   },
   "plugins": [
     "flowtype",
