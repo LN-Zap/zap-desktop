@@ -15,8 +15,19 @@
   justify-content: center;
   min-height: 120px;
   margin-bottom: 20px;
-  
-  label, input[type=text] {
+
+  .ghostInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -99999;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  label,
+  input[type='number'],
+  input[type='text'] {
     color: inherit;
     display: inline-block;
     vertical-align: top;
@@ -37,8 +48,9 @@
       }
     }
   }
-  
-  input[type=text] {
+
+  input[type='number'],
+  input[type='text'] {
     width: 100px;
     font-size: 180px;
     border: none;
@@ -61,7 +73,9 @@
   position: relative;
   padding: 0 20px;
 
-  label, input[type=text] {
+  label,
+  input[type='number'],
+  input[type='text'] {
     font-size: inherit;
   }
 
@@ -71,7 +85,7 @@
     color: $traditionalgrey;
   }
 
-  input[type=text] {
+  input[type='text'] {
     width: 100%;
     border: none;
     outline: 0;
@@ -94,7 +108,7 @@
     font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: .2px;
+    letter-spacing: 0.2px;
 
     &:first-child {
       border-right: 1px solid lighten($main, 20%);

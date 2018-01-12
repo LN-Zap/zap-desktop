@@ -25,7 +25,31 @@
     border-color: $red;
   }
 
-  label, input[type=number], input[type=text] {
+  .ghostInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -99999;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .amountError {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+    color: $red;
+    transition: all 0.25s ease;
+
+    &.active {
+      opacity: 1;
+    }
+  }
+
+  label,
+  input[type='number'],
+  input[type='text'] {
     color: inherit;
     display: inline-block;
     vertical-align: top;
@@ -47,7 +71,8 @@
     }
   }
 
-  input[type=number], input[type=text] {
+  input[type='number'],
+  input[type='text'] {
     width: 100px;
     font-size: 180px;
     border: none;
@@ -55,9 +80,10 @@
     -webkit-appearance: none;
     font-weight: 200;
   }
-  
-  input[type=number] {
-    &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+
+  input[type='number'] {
+    &::-webkit-inner-spin-button,
+    &::-webkit-outer-spin-button {
       -webkit-appearance: none;
     }
   }
@@ -107,7 +133,9 @@
     border-color: $red;
   }
 
-  label, input[type=number], input[type=text] {
+  label,
+  input[type='number'],
+  input[type='text'] {
     font-size: inherit;
   }
 
@@ -117,7 +145,7 @@
     color: $traditionalgrey;
   }
 
-  input[type=text] {
+  input[type='text'] {
     width: 100%;
     border: none;
     outline: 0;
@@ -152,7 +180,7 @@
     font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
-    letter-spacing: .2px;
+    letter-spacing: 0.2px;
 
     &:first-child {
       border-right: 1px solid lighten($main, 20%);
