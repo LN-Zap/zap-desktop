@@ -148,23 +148,21 @@ class Contacts extends Component {
 
         <ul className={`${styles.friends} ${filterPulldown && styles.fade}`}>
           {
-            loadingChannelPubkeys.map(pubkey => <LoadingContact pubkey={pubkey} isClosing={false} />)
+            loadingChannelPubkeys.map(pubkey => <LoadingContact pubkey={pubkey} isClosing={false} key={pubkey} />)
           }
 
           {
             currentChannels.length > 0 && currentChannels.map((channel, index) => {
               if (closingChannelIds.includes(channel.chan_id)) {
-                return <LoadingContact pubkey={channel.remote_pubkey} isClosing />
+                return <LoadingContact pubkey={channel.remote_pubkey} isClosing key={index} />
               } else if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
                 return <PendingContact channel={channel} key={index} />
               } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
                 return <ClosingContact channel={channel} key={index} />
-              } else if (channel.active) {
-                return <OnlineContact channel={channel} key={index} openContactModal={openContactModal} />
               } else if (!channel.active) {
                 return <OfflineContact channel={channel} key={index} openContactModal={openContactModal} />
               }
-              return <span />
+              return <OnlineContact channel={channel} key={index} openContactModal={openContactModal} />
             })
           }
         </ul>
