@@ -1,11 +1,10 @@
-import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
 
 import Moment from 'react-moment'
 import 'moment-timezone'
 
-import { btc } from 'utils'
+import { btc, blockExplorer } from 'utils'
 
 import styles from './Transaction.scss'
 
@@ -34,7 +33,7 @@ const Transaction = ({ transaction, ticker, currentTicker }) => (
           <i>BTC</i>
         </h1>
       </div>
-      <h3 onClick={() => shell.openExternal(`https://testnet.smartbit.com.au/tx/${transaction.tx_hash}`)}>{transaction.tx_hash}</h3>
+      <h3 onClick={() => blockExplorer.showTransaction(transaction.tx_hash)}>{transaction.tx_hash}</h3>
     </header>
     <dl>
       <dt>Confirmations</dt>

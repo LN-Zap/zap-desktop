@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { blockExplorer } from 'utils'
 
 // ------------------------------------
 // Constants
@@ -57,7 +58,7 @@ infoSelectors.isTestnet = createSelector(
 
 infoSelectors.explorerLinkBase = createSelector(
   infoSelectors.isTestnet,
-  isTestnet => (isTestnet ? 'https://testnet.smartbit.com.au' : 'https://smartbit.com.au')
+  isTestnet => (isTestnet ? blockExplorer.testnetUrl : blockExplorer.mainnetUrl)
 )
 
 export { infoSelectors }

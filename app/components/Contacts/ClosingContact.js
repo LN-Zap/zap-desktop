@@ -1,8 +1,7 @@
-import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FaCircle } from 'react-icons/lib/fa'
-import { btc } from 'utils'
+import { btc, blockExplorer } from 'utils'
 import styles from './Contact.scss'
 
 const ClosingContact = ({ channel }) => (
@@ -12,7 +11,7 @@ const ClosingContact = ({ channel }) => (
         <FaCircle style={{ verticalAlign: 'top' }} />
         <span>
           Removing
-          <i onClick={() => shell.openExternal(`${'https://testnet.smartbit.com.au'}/tx/${channel.closing_txid}`)}>
+          <i onClick={() => blockExplorer.showChannelClosing(channel)}>
             (Details)
           </i>
         </span>
