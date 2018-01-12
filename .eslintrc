@@ -7,7 +7,9 @@
   "extends": [
     "airbnb",
     "plugin:react/recommended",
-    "plugin:flowtype/recommended"
+    "plugin:flowtype/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
   ],
   "env": {
     "browser": true,
@@ -51,7 +53,7 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": ["app", "app/node_modules"]
+        "moduleDirectory": ["app", "app/node_modules", "node_modules"]
       },
       "webpack": {
         "config": "webpack.config.eslint.js"
