@@ -138,7 +138,7 @@ class ContactsForm extends React.Component {
 
             <ul className={styles.networkResults}>
               {
-                contactsform.searchQuery.length > 0 && filteredNetworkNodes.map(node => (
+                filteredNetworkNodes.map(node => (
                   <li key={node.pub_key}>
                     <section>
                       {
@@ -174,6 +174,15 @@ class ContactsForm extends React.Component {
                   onChange={event => this.setState({ manualFormInput: event.target.value })}
                 />
                 <div className={styles.submit} onClick={manualFormSubmit}>Submit</div>
+
+                {
+                  loadingChannelPubkeys.length > 0 &&
+                  <div className={styles.manualFormSpinner}>
+                    <div className={styles.loading}>
+                      <div className={styles.spinner} />
+                    </div>
+                  </div>
+                }
               </section>
             </div>
           }

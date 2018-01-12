@@ -120,6 +120,7 @@
 }
 
 .manualForm {
+  position: relative;
   background: $lightgrey;
   color: $darkestgrey;
   padding: 30px 15px;
@@ -150,6 +151,13 @@
       cursor: pointer;
       color: $main;
     }
+  }
+
+  .manualFormSpinner {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    padding: 0 10px;
   }
 }
 
