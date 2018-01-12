@@ -1,57 +1,83 @@
-import React from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import CurrencyIcon from 'components/CurrencyIcon'
 import styles from './RequestForm.scss'
 
-const RequestForm = ({
-  requestform: { amount, memo },
-  currency,
-  crypto,
+class RequestForm extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { scrollWidth: 0 }
+  }
 
-  setRequestAmount,
-  setRequestMemo,
+  componentDidMount() {
+    // After amountGhostInput is rendered, set scrollWidth
+    this.setState({ scrollWidth: this.amountGhostInput.scrollWidth })
+  }
 
-  onRequestSubmit
-}) => (
-  <div className={styles.container}>
-    <section className={styles.amountContainer}>
-      <label htmlFor='amount'>
-        <CurrencyIcon currency={currency} crypto={crypto} />
-      </label>
-      <input
-        type='text'
-        size=''
-        style={{ width: `${amount.length > 1 ? (amount.length * 15) - 5 : 25}%`, fontSize: `${190 - (amount.length ** 2)}px` }}
-        value={amount}
-        onChange={event => setRequestAmount(event.target.value)}
-        id='amount'
-      />
-    </section>
-    <section className={styles.inputContainer}>
-      <label htmlFor='memo'>
-        Request:
-      </label>
-      <input
-        type='text'
-        placeholder='Dinner, Rent, etc'
-        value={memo}
-        onChange={event => setRequestMemo(event.target.value)}
-        id='memo'
-      />
-    </section>
-    <section className={styles.buttonGroup}>
-      <div className={`buttonPrimary ${styles.button}`} onClick={onRequestSubmit}>
-        Request
+  componentDidUpdate(prevProps, prevState) {
+    // If the with of the ghost input has changed, update the scrollWith
+    if (prevState.scrollWidth != this.amountGhostInput.scrollWidth) {
+      this.setState({ scrollWidth: this.amountGhostInput.scrollWidth })
+    }
+  }
+
+  render() {
+    const {
+      requestform: { amount, memo },
+      currency,
+      crypto,
+
+      setRequestAmount,
+      setRequestMemo,
+
+      onRequestSubmit
+    } = this.props
+
+    const { scrollWidth } = this.state
+
+    const fontSize = `${190 - amount.length ** 2}px`
+    console.log('this.props', this.props)
+    return (
+      <div className={styles.container}>
+        <section className={styles.amountContainer}>
+          <span className={styles.ghostInput} ref={input => (this.amountGhostInput = input)} style={{ fontSize }}>
+            {this.amountInput && this.amountInput.value != '' ? this.amountInput.value : 0}
+          </span>
+          <label htmlFor='amount'>
+            <CurrencyIcon currency={currency} crypto={crypto} />
+          </label>
+          <input
+            type='number'
+            min='0'
+            ref={input => (this.amountInput = input)} // eslint-disable-line
+            size=''
+            style={{ width: `${scrollWidth + 40}px`, fontSize }}
+            value={amount}
+            onChange={event => setRequestAmount(event.target.value)}
+            id='amount'
+            onBlur={(event) => {
+              if (event.target.value === '') {
+                setRequestAmount('0')
+              }
+            }}
+          />
+        </section>
+        <section className={styles.inputContainer}>
+          <label htmlFor='memo'>Request:</label>
+          <input type='text' placeholder='Dinner, Rent, etc' value={memo} onChange={event => setRequestMemo(event.target.value)} id='memo' />
+        </section>
+        <section className={styles.buttonGroup}>
+          <div className={`buttonPrimary ${styles.button}`} onClick={onRequestSubmit}>
+            Request
+          </div>
+        </section>
       </div>
-    </section>
-  </div>
-)
+    )
+  }
+}
 
 RequestForm.propTypes = {
-  requestform: PropTypes.shape({
-    amount: PropTypes.string.isRequired,
-    memo: PropTypes.string
-  }).isRequired,
+  requestform: PropTypes.object.isRequired,
   currency: PropTypes.string.isRequired,
   crypto: PropTypes.string.isRequired,
 
