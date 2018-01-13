@@ -34,29 +34,29 @@ let certInterval
 
 
 if (process.env.NODE_ENV === 'production') {
-  const sourceMapSupport = require('source-map-support');
-  sourceMapSupport.install();
+  const sourceMapSupport = require('source-map-support')
+  sourceMapSupport.install()
 }
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-  require('electron-debug')();
-  const path = require('path');
-  const p = path.join(__dirname, '..', 'app', 'node_modules');
-  require('module').globalPaths.push(p);
+  require('electron-debug')()
+  const path = require('path')
+  const p = path.join(__dirname, '..', 'app', 'node_modules')
+  require('module').globalPaths.push(p)
 }
 
 const installExtensions = async () => {
-  const installer = require('electron-devtools-installer');
-  const forceDownload = !!process.env.UPGRADE_EXTENSIONS;
+  const installer = require('electron-devtools-installer')
+  const forceDownload = !!process.env.UPGRADE_EXTENSIONS
   const extensions = [
     'REACT_DEVELOPER_TOOLS',
     'REDUX_DEVTOOLS'
-  ];
+  ]
 
   return Promise
     .all(extensions.map(name => installer.default(installer[name], forceDownload)))
-    .catch(console.log);
-};
+    .catch(console.log)
+}
 
 
 /**
@@ -74,10 +74,10 @@ app.on('window-all-closed', () => {
 
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-    await installExtensions();
+    await installExtensions()
   }
 
-  let icon = path.join(__dirname, '..', 'resources', 'icon.icns')
+  const icon = path.join(__dirname, '..', 'resources', 'icon.icns')
   console.log('icon: ', icon)
   mainWindow = new BrowserWindow({
     show: false,
@@ -86,7 +86,7 @@ app.on('ready', async () => {
     height: 1100,
     minHeight: 700,
     minWidth: 1100,
-    icon: icon
+    icon
   })
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
@@ -106,17 +106,17 @@ app.on('ready', async () => {
   })
 
   mainWindow.on('closed', () => {
-    mainWindow = null;
+    mainWindow = null
   })
 
-  const menuBuilder = new MenuBuilder(mainWindow);
+  const menuBuilder = new MenuBuilder(mainWindow)
   menuBuilder.buildMenu()
 
   sendGrpcDisconnected()
   // Check to see if and LND process is running
   lookup({ command: 'lnd' }, (err, results) => {
     // There was an error checking for the LND process
-    if (err) { throw new Error( err ) }
+    if (err) { throw new Error(err) }
 
     // No LND process was found
     if (!results.length) {
@@ -145,11 +145,11 @@ app.on('ready', async () => {
       startGrpc()
     }
   })
-});
+})
 
 app.setAsDefaultProtocolClient('lightning')
 
-app.on('open-url', function (event, url) {
+app.on('open-url', (event, url) => {
   event.preventDefault()
 
   if (!mainWindow) {
@@ -166,29 +166,29 @@ export const startLnd = () => {
   const lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
 
   const neutrino = spawn(lndPath,
-      [
-        '--bitcoin.active',
-        '--bitcoin.testnet',
-        '--neutrino.active',
-        '--neutrino.connect=btcd0.lightning.computer:18333',
-        '--autopilot.active',
-        '--debuglevel=debug',
-        '--noencryptwallet'
-      ]
-    )
-      .on('error', error => console.log(`lnd error: ${error}`))
-      .on('close', code => console.log(`lnd shutting down ${code}`))
+    [
+      '--bitcoin.active',
+      '--bitcoin.testnet',
+      '--neutrino.active',
+      '--neutrino.connect=btcd0.lightning.computer:18333',
+      '--autopilot.active',
+      '--debuglevel=debug',
+      '--noencryptwallet'
+    ]
+  )
+    .on('error', error => console.log(`lnd error: ${error}`))
+    .on('close', code => console.log(`lnd shutting down ${code}`))
 
   // Listen for when neutrino prints out data
-  neutrino.stdout.on('data', data => {
+  neutrino.stdout.on('data', (data) => {
     // Data stored in variable line, log line to the console
-    let line = data.toString('utf8')
+    const line = data.toString('utf8')
 
     if (process.env.NODE_ENV === 'development') { console.log(line) }
 
     // If the gRPC proxy has started we can start ours
     if (line.includes('gRPC proxy started')) {
-      let certInterval = setInterval(() => {
+      const certInterval = setInterval(() => {
         if (fs.existsSync(certPath)) {
           clearInterval(certInterval)
 
@@ -233,7 +233,7 @@ const startGrpc = () => {
 
 // Send the front end event letting them know LND is synced to the blockchain
 const sendLndSyncing = () => {
-  let sendLndSyncingInterval = setInterval(() => {
+  const sendLndSyncingInterval = setInterval(() => {
     if (didFinishLoad) {
       clearInterval(sendLndSyncingInterval)
 
@@ -248,7 +248,7 @@ const sendLndSyncing = () => {
 
 // Send the front end event letting them know LND is synced to the blockchain
 const sendLndSynced = () => {
-  let sendLndSyncedInterval = setInterval(() => {
+  const sendLndSyncedInterval = setInterval(() => {
     if (didFinishLoad && startedSync) {
       clearInterval(sendLndSyncedInterval)
 
@@ -262,7 +262,7 @@ const sendLndSynced = () => {
 
 // Send the front end event letting them know the gRPC connection has started
 const sendGrpcDisconnected = () => {
-  let sendGrpcDisonnectedInterval = setInterval(() => {
+  const sendGrpcDisonnectedInterval = setInterval(() => {
     if (didFinishLoad) {
       clearInterval(sendGrpcDisonnectedInterval)
 
@@ -276,7 +276,7 @@ const sendGrpcDisconnected = () => {
 
 // Send the front end event letting them know the gRPC connection has started
 const sendGrpcConnected = () => {
-  let sendGrpcConnectedInterval = setInterval(() => {
+  const sendGrpcConnectedInterval = setInterval(() => {
     if (didFinishLoad && sentGrpcDisconnect) {
       clearInterval(sendGrpcConnectedInterval)
 

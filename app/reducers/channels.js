@@ -271,7 +271,7 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
 
         // Construct the notification
         const otherParty = info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
-        let notifBody = `No new friends, just new channels. Your channel with ${otherParty}` // eslint-disable-line
+        const notifBody = `No new friends, just new channels. Your channel with ${otherParty}`
         const notifTitle = 'New channel detected'
 
         // HTML 5 notification for channel updates involving our node
