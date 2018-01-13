@@ -1,7 +1,7 @@
 import grpc from 'grpc'
 import fs from 'fs'
 import config from './config'
-import lightning from './lib/lightning'
+import { lightning } from './lib/lightning'
 import subscribe from './subscribe'
 import methods from './methods'
 
