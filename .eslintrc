@@ -10,7 +10,8 @@
     "plugin:flowtype/recommended",
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jsx-a11y/strict"
+    "plugin:jsx-a11y/strict",
+    "plugin:promise/recommended"
   ],
   "env": {
     "browser": true,

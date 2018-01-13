@@ -5,6 +5,17 @@ import pushopenchannel from '../push/openchannel'
 
 const BufferUtil = bitcore.util.buffer
 
+function ensurePeerConnected(lnd, meta, pubkey, host) {
+  return listPeers(lnd, meta)
+    .then(({ peers }) => {
+      const peer = find(peers, { pub_key: pubkey })
+      if (peer) {
+        return peer
+      }
+      return connectPeer(lnd, meta, { pubkey, host })
+    })
+}
+
 /**
  * Attempts to open a singly funded channel specified in the request to a remote peer.
  * @param  {[type]} lnd     [description]
@@ -14,40 +25,23 @@ const BufferUtil = bitcore.util.buffer
  */
 export function connectAndOpen(lnd, meta, event, payload) {
   const { pubkey, host, localamt } = payload
-  const channelPayload = {
-    node_pubkey: BufferUtil.hexToBuffer(pubkey),
-    local_funding_amount: Number(localamt)
-  }
 
-  return new Promise((resolve, reject) => {
-    listPeers(lnd, meta)
-      .then(({ peers }) => {
-        const peer = find(peers, { pub_key: pubkey })
+  return ensurePeerConnected(lnd, meta, pubkey, host)
+    .then(() => {
+      const call = lnd.openChannel({
+        node_pubkey: BufferUtil.hexToBuffer(pubkey),
+        local_funding_amount: Number(localamt)
+      }, meta)
 
-        if (peer) {
-          const call = lnd.openChannel(channelPayload, meta)
+      call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
+      call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
 
-          call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
-          call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
-        } else {
-          connectPeer(lnd, meta, { pubkey, host })
-            .then(() => {
-              const call = lnd.openChannel(channelPayload, meta)
-
-              call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
-              call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
-            })
-            .catch((err) => {
-              event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
-              reject(err)
-            })
-        }
-      })
-      .catch((err) => {
-        event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
-        reject(err)
-      })
-  })
+      return call
+    })
+    .catch((err) => {
+      event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
+      throw err
+    })
 }
 
 /**
