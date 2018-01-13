@@ -29,8 +29,6 @@ let startedSync = false
 let sentGrpcDisconnect = false
 
 let certPath
-let certInterval
-
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support')
@@ -39,7 +37,6 @@ if (process.env.NODE_ENV === 'production') {
 
 if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
   require('electron-debug')()
-  const path = require('path')
   const p = path.join(__dirname, '..', 'app', 'node_modules')
   require('module').globalPaths.push(p)
 }
@@ -57,6 +54,130 @@ const installExtensions = async () => {
     .catch(console.log)
 }
 
+// Send the front end event letting them know the gRPC connection has started
+const sendGrpcDisconnected = () => {
+  const sendGrpcDisonnectedInterval = setInterval(() => {
+    if (didFinishLoad) {
+      clearInterval(sendGrpcDisonnectedInterval)
+
+      if (mainWindow) {
+        sentGrpcDisconnect = true
+        mainWindow.webContents.send('grpcDisconnected')
+      }
+    }
+  }, 1000)
+}
+
+// Send the front end event letting them know LND is synced to the blockchain
+const sendLndSyncing = () => {
+  const sendLndSyncingInterval = setInterval(() => {
+    if (didFinishLoad) {
+      clearInterval(sendLndSyncingInterval)
+
+      if (mainWindow) {
+        console.log('SENDING SYNCING')
+        startedSync = true
+        mainWindow.webContents.send('lndSyncing')
+      }
+    }
+  }, 1000)
+}
+
+// Send the front end event letting them know the gRPC connection has started
+const sendGrpcConnected = () => {
+  const sendGrpcConnectedInterval = setInterval(() => {
+    if (didFinishLoad && sentGrpcDisconnect) {
+      clearInterval(sendGrpcConnectedInterval)
+
+      if (mainWindow) {
+        mainWindow.webContents.send('grpcConnected')
+      }
+    }
+  }, 1000)
+}
+
+// Create and subscribe the grpc object
+const startGrpc = () => {
+  lnd((lndSubscribe, lndMethods) => {
+    // Subscribe to bi-directional streams
+    lndSubscribe(mainWindow)
+
+    // Listen for all gRPC restful methods
+    ipcMain.on('lnd', (event, { msg, data }) => {
+      lndMethods(event, msg, data)
+    })
+
+    sendGrpcConnected()
+  })
+}
+
+// Send the front end event letting them know LND is synced to the blockchain
+const sendLndSynced = () => {
+  const sendLndSyncedInterval = setInterval(() => {
+    if (didFinishLoad && startedSync) {
+      clearInterval(sendLndSyncedInterval)
+
+      if (mainWindow) {
+        console.log('SENDING SYNCED')
+        mainWindow.webContents.send('lndSynced')
+      }
+    }
+  }, 1000)
+}
+
+// Starts the LND node
+const startLnd = () => {
+  const lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
+
+  const neutrino = spawn(lndPath,
+    [
+      '--bitcoin.active',
+      '--bitcoin.testnet',
+      '--neutrino.active',
+      '--neutrino.connect=btcd0.lightning.computer:18333',
+      '--autopilot.active',
+      '--debuglevel=debug',
+      '--noencryptwallet'
+    ]
+  )
+    .on('error', error => console.log(`lnd error: ${error}`))
+    .on('close', code => console.log(`lnd shutting down ${code}`))
+
+  // Listen for when neutrino prints out data
+  neutrino.stdout.on('data', (data) => {
+    // Data stored in variable line, log line to the console
+    const line = data.toString('utf8')
+
+    if (process.env.NODE_ENV === 'development') { console.log(line) }
+
+    // If the gRPC proxy has started we can start ours
+    if (line.includes('gRPC proxy started')) {
+      const certInterval = setInterval(() => {
+        if (fs.existsSync(certPath)) {
+          clearInterval(certInterval)
+
+          console.log('CERT EXISTS, STARTING GRPC')
+          startGrpc()
+        }
+      }, 1000)
+    }
+
+    // Pass current clock height progress to front end for loading state UX
+    if (mainWindow && (line.includes('Caught up to height') || line.includes('Catching up block hashes to height'))) {
+      // const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
+      mainWindow.webContents.send('lndStdout', line)
+    }
+
+    // When LND is all caught up to the blockchain
+    if (line.includes('Chain backend is fully synced')) {
+      // Log that LND is caught up to the current block height
+      console.log('NEUTRINO IS SYNCED')
+
+      // Let the front end know we have stopped syncing LND
+      sendLndSynced()
+    }
+  })
+}
 
 /**
  * Add event listeners...
@@ -124,7 +245,7 @@ app.on('ready', async () => {
 
       switch (os.platform()) {
         case 'darwin':
-          certPath = path.join(homedir, 'Library/Application\ Support/Lnd/tls.cert')
+          certPath = path.join(homedir, 'Library/Application Support/Lnd/tls.cert')
           break
         case 'linux':
           certPath = path.join(homedir, '.lnd/tls.cert')
@@ -160,128 +281,4 @@ app.on('open-url', (event, url) => {
   mainWindow.show()
 })
 
-// Starts the LND node
-export const startLnd = () => {
-  const lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
-
-  const neutrino = spawn(lndPath,
-    [
-      '--bitcoin.active',
-      '--bitcoin.testnet',
-      '--neutrino.active',
-      '--neutrino.connect=btcd0.lightning.computer:18333',
-      '--autopilot.active',
-      '--debuglevel=debug',
-      '--noencryptwallet'
-    ]
-  )
-    .on('error', error => console.log(`lnd error: ${error}`))
-    .on('close', code => console.log(`lnd shutting down ${code}`))
-
-  // Listen for when neutrino prints out data
-  neutrino.stdout.on('data', (data) => {
-    // Data stored in variable line, log line to the console
-    const line = data.toString('utf8')
-
-    if (process.env.NODE_ENV === 'development') { console.log(line) }
-
-    // If the gRPC proxy has started we can start ours
-    if (line.includes('gRPC proxy started')) {
-      const certInterval = setInterval(() => {
-        if (fs.existsSync(certPath)) {
-          clearInterval(certInterval)
-
-          console.log('CERT EXISTS, STARTING GRPC')
-          startGrpc()
-        }
-      }, 1000)
-    }
-
-    // Pass current clock height progress to front end for loading state UX
-    if (mainWindow && (line.includes('Caught up to height') || line.includes('Catching up block hashes to height'))) {
-      // const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
-      const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
-      mainWindow.webContents.send('lndStdout', line)
-    }
-
-    // When LND is all caught up to the blockchain
-    if (line.includes('Chain backend is fully synced')) {
-      // Log that LND is caught up to the current block height
-      console.log('NEUTRINO IS SYNCED')
-
-      // Let the front end know we have stopped syncing LND
-      sendLndSynced()
-    }
-  })
-}
-
-// Create and subscribe the grpc object
-const startGrpc = () => {
-  lnd((lndSubscribe, lndMethods) => {
-    // Subscribe to bi-directional streams
-    lndSubscribe(mainWindow)
-
-    // Listen for all gRPC restful methods
-    ipcMain.on('lnd', (event, { msg, data }) => {
-      lndMethods(event, msg, data)
-    })
-
-    sendGrpcConnected()
-  })
-}
-
-// Send the front end event letting them know LND is synced to the blockchain
-const sendLndSyncing = () => {
-  const sendLndSyncingInterval = setInterval(() => {
-    if (didFinishLoad) {
-      clearInterval(sendLndSyncingInterval)
-
-      if (mainWindow) {
-        console.log('SENDING SYNCING')
-        startedSync = true
-        mainWindow.webContents.send('lndSyncing')
-      }
-    }
-  }, 1000)
-}
-
-// Send the front end event letting them know LND is synced to the blockchain
-const sendLndSynced = () => {
-  const sendLndSyncedInterval = setInterval(() => {
-    if (didFinishLoad && startedSync) {
-      clearInterval(sendLndSyncedInterval)
-
-      if (mainWindow) {
-        console.log('SENDING SYNCED')
-        mainWindow.webContents.send('lndSynced')
-      }
-    }
-  }, 1000)
-}
-
-// Send the front end event letting them know the gRPC connection has started
-const sendGrpcDisconnected = () => {
-  const sendGrpcDisonnectedInterval = setInterval(() => {
-    if (didFinishLoad) {
-      clearInterval(sendGrpcDisonnectedInterval)
-
-      if (mainWindow) {
-        sentGrpcDisconnect = true
-        mainWindow.webContents.send('grpcDisconnected')
-      }
-    }
-  }, 1000)
-}
-
-// Send the front end event letting them know the gRPC connection has started
-const sendGrpcConnected = () => {
-  const sendGrpcConnectedInterval = setInterval(() => {
-    if (didFinishLoad && sentGrpcDisconnect) {
-      clearInterval(sendGrpcConnectedInterval)
-
-      if (mainWindow) {
-        mainWindow.webContents.send('grpcConnected')
-      }
-    }
-  }, 1000)
-}
+export default { startLnd }
