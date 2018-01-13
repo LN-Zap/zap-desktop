@@ -8,7 +8,7 @@ import ipc from '../reducers/ipc'
 
 const history = createHashHistory()
 
-const configureStore = (initialState?: counterStateType) => {
+const configureStore = (initialState) => {
   // Redux Configuration
   const middleware = []
   const enhancers = []

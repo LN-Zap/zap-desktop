@@ -6,7 +6,7 @@ import Activity from './routes/activity'
 import Contacts from './routes/contacts'
 import Network from './routes/network'
 
-export default () => (
+const routes = () => (
   <App>
     <Switch>
       <Route path='/contacts' component={Contacts} />
@@ -15,3 +15,5 @@ export default () => (
     </Switch>
   </App>
 )
+
+export default routes

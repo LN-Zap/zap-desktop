@@ -4,7 +4,15 @@
     "sourceType": "module",
     "allowImportExportEverywhere": true
   },
-  "extends": "airbnb",
+  "extends": [
+    "airbnb",
+    "plugin:react/recommended",
+    "plugin:flowtype/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jsx-a11y/strict",
+    "plugin:promise/recommended"
+  ],
   "env": {
     "browser": true,
     "node": true
@@ -31,7 +39,10 @@
     "react/require-default-props": 0,
     "max-len": ["error", 150],
     "import/no-extraneous-dependencies": 0,
-    "no-new": 0
+    "no-new": 0,
+    "compat/compat": "error",
+    "flowtype-errors/show-errors": "error",
+    "flowtype-errors/enforce-min-coverage": ["error", 20]
   },
   "plugins": [
     "flowtype",
@@ -44,7 +55,7 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": ["app", "app/node_modules"]
+        "moduleDirectory": ["app", "app/node_modules", "node_modules"]
       },
       "webpack": {
         "config": "webpack.config.eslint.js"
