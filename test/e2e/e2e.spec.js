@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { Application } from 'spectron'
 import electronPath from 'electron'
 import path from 'path'

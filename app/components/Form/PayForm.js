@@ -55,7 +55,7 @@ class PayForm extends Component {
           <input
             type='number'
             min='0'
-            ref={input => this.amountInput = input} // eslint-disable-line
+            ref={input => this.amountInput = input}
             size=''
             style={
               isLn ?

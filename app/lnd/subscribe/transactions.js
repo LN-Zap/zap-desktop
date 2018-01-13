@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 export default function subscribeToTransactions(mainWindow, lnd, meta) {
   const call = lnd.subscribeTransactions({}, meta)
   call.on('data', (transaction) => {
