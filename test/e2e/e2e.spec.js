@@ -16,18 +16,7 @@ describe('main window', function spec() {
     return this.app.start()
   })
 
-  afterAll(() => {
-    if (this.app && this.app.isRunning()) {
-      return this.app.stop()
-    }
-  })
-
-  const findCounter = () => this.app.client.element('[data-tid="counter"]')
-
-  const findButtons = async () => {
-    const { value } = await this.app.client.elements('[data-tclass="btn"]')
-    return value.map(btn => btn.ELEMENT)
-  }
+  afterAll(() => this.app && this.app.isRunning() && this.app.stop())
 
   it('should open window', async () => {
     const { client, browserWindow } = this.app
