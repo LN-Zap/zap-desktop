@@ -178,7 +178,7 @@ export const pushchannelupdated = (event, { pubkey }) => (dispatch) => {
 }
 
 // Receive IPC event for channel end
-export const pushchannelend = event => (dispatch) => { // eslint-disable-line
+export const pushchannelend = event => (dispatch) => { // eslint-disable-line no-unused-vars
   dispatch(fetchChannels())
 }
 
@@ -190,7 +190,7 @@ export const pushchannelerror = (event, { pubkey, error }) => (dispatch) => {
 }
 
 // Receive IPC event for channel status
-export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disable-line
+export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disable-line no-unused-vars
   dispatch(fetchChannels())
 }
 
@@ -271,7 +271,7 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
 
         // Construct the notification
         const otherParty = info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
-        let notifBody = `No new friends, just new channels. Your channel with ${otherParty}` // eslint-disable-line
+        const notifBody = `No new friends, just new channels. Your channel with ${otherParty}`
         const notifTitle = 'New channel detected'
 
         // HTML 5 notification for channel updates involving our node
@@ -423,15 +423,26 @@ const allChannels = createSelector(
   pendingForceClosedChannelsSelector,
   channelSearchQuerySelector,
   (activeChannels, nonActiveChannels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => {
-    const filteredActiveChannels = activeChannels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
-    const filteredNonActiveChannels = nonActiveChannels.filter(channel => channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filterChannel = channel =>
+      channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)
 
-    const filteredPendingOpenChannels = pendingOpenChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
-    const filteredPendingClosedChannels = pendingClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
-    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(channel => channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)) // eslint-disable-line
+    const filteredActiveChannels = activeChannels.filter(filterChannel)
+    const filteredNonActiveChannels = nonActiveChannels.filter(filterChannel)
 
+    const filterPendingChannel = channel =>
+      channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)
 
-    return [...filteredActiveChannels, ...filteredPendingOpenChannels, ...filteredPendingClosedChannels, ...filteredPendingForcedClosedChannels, ...filteredNonActiveChannels] // eslint-disable-line
+    const filteredPendingOpenChannels = pendingOpenChannels.filter(filterPendingChannel)
+    const filteredPendingClosedChannels = pendingClosedChannels.filter(filterPendingChannel)
+    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(filterPendingChannel)
+
+    return [
+      ...filteredActiveChannels,
+      ...filteredPendingOpenChannels,
+      ...filteredPendingClosedChannels,
+      ...filteredPendingForcedClosedChannels,
+      ...filteredNonActiveChannels
+    ]
   }
 )
 

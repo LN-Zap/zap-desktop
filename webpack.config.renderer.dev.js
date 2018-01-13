@@ -1,4 +1,3 @@
-/* eslint-disable */
 /* eslint global-require: 0, import/no-dynamic-require: 0 */
 
 /**
@@ -18,21 +17,19 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import baseConfig from './webpack.config.base'
 import CheckNodeEnv from './internals/scripts/CheckNodeEnv'
 
-CheckNodeEnv('development');
+CheckNodeEnv('development')
 
-const port = process.env.PORT || 1212;
-const publicPath = `http://localhost:${port}/dist`;
-const dll = path.resolve(process.cwd(), 'dll');
-const manifest = path.resolve(dll, 'renderer.json');
+const port = process.env.PORT || 1212
+const publicPath = `http://localhost:${port}/dist`
+const dll = path.resolve(process.cwd(), 'dll')
+const manifest = path.resolve(dll, 'renderer.json')
 
 /**
  * Warn if the DLL is not built
  */
 if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
-  console.log(chalk.black.bgYellow.bold(
-    'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
-  ));
-  execSync('npm run build-dll');
+  console.log(chalk.black.bgYellow.bold('The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'))
+  execSync('npm run build-dll')
 }
 
 export default merge.smart(baseConfig, {
@@ -267,15 +264,15 @@ export default merge.smart(baseConfig, {
     },
     setup() {
       if (process.env.START_HOT) {
-        console.log('Starting Main Process...');
+        console.log('Starting Main Process...')
         spawn(
           'npm',
           ['run', 'start-main-dev'],
           { shell: true, env: process.env, stdio: 'inherit' }
         )
           .on('close', code => process.exit(code))
-          .on('error', spawnError => console.error(spawnError));
+          .on('error', spawnError => console.error(spawnError))
       }
     }
   }
-});
+})

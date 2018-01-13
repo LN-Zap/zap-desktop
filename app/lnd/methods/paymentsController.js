@@ -8,11 +8,11 @@ export function sendPaymentSync(lnd, meta, { paymentRequest }) {
   return new Promise((resolve, reject) => {
     lnd.sendPaymentSync({ payment_request: paymentRequest }, meta, (error, data) => {
       if (error) {
-        reject({ error }) // eslint-disable-line
+        reject({ error })
         return
       }
 
-      if (!data || !data.payment_route) { reject({ error: data.payment_error }) } // eslint-disable-line
+      if (!data || !data.payment_route) { reject({ error: data.payment_error }) }
 
       resolve(data)
     })
