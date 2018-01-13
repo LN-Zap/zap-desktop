@@ -11,4 +11,4 @@ const lightning = (rpcpath, host) => {
   return new rpc.lnrpc.Lightning(host, credentials)
 }
 
-export default { lightning }
+export default lightning
