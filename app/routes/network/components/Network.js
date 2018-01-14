@@ -88,6 +88,15 @@ class Network extends Component {
 
     return (
       <div className={styles.container}>
+        {
+          !network.networkLoading &&
+          <section className={styles.stats}>
+            <span>{network.nodes.length} nodes</span>
+            <span>|</span>
+            <span>{network.edges.length} channels</span>
+          </section>
+        }
+        
         <CanvasNetworkGraph
           className={styles.network}
           network={network}
