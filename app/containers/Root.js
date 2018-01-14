@@ -27,7 +27,8 @@ const Root = ({
   syncPercentage
 }) => {
   // If we are syncing show the syncing screen
-  if (lnd.syncing) {
+  // if (lnd.syncing) {
+  if (true) {
     return (
       <LndSyncing
         fetchBlockHeight={fetchBlockHeight}
