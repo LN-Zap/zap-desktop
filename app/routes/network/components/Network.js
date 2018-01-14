@@ -96,7 +96,7 @@ class Network extends Component {
             <span>{network.edges.length} channels</span>
           </section>
         }
-        
+
         <CanvasNetworkGraph
           className={styles.network}
           network={network}
