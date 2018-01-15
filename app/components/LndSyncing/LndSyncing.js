@@ -32,13 +32,13 @@ class LndSyncing extends Component {
 
   componentWillMount() {
     const { fetchBlockHeight, newAddress } = this.props
-    
+
     fetchBlockHeight()
     newAddress('np2wkh')
   }
 
   render() {
-    const { newAddress, fetchingBlockHeight, syncPercentage, address: { address } } = this.props
+    const { syncPercentage, address: { address } } = this.props
     const { facts, currentFact } = this.state
     const renderCurrentFact = facts[currentFact]
 
@@ -92,9 +92,10 @@ class LndSyncing extends Component {
 }
 
 LndSyncing.propTypes = {
+  newAddress: PropTypes.func.isRequired,
   fetchBlockHeight: PropTypes.func.isRequired,
-  fetchingBlockHeight: PropTypes.bool.isRequired,
-  syncPercentage: PropTypes.number.isRequired
+  syncPercentage: PropTypes.number.isRequired,
+  address: PropTypes.object.isRequired
 }
 
 export default LndSyncing

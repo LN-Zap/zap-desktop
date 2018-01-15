@@ -26,7 +26,7 @@ const Root = ({
   store,
   history,
   lnd,
-  newAddress,
+  newAddress, // eslint-disable-line no-shadow
   fetchBlockHeight, // eslint-disable-line no-shadow
   syncPercentage,
   address
@@ -37,7 +37,6 @@ const Root = ({
       <LndSyncing
         newAddress={newAddress}
         fetchBlockHeight={fetchBlockHeight}
-        fetchingBlockHeight={lnd.fetchingBlockHeight}
         syncPercentage={syncPercentage}
         address={address}
       />
@@ -61,7 +60,9 @@ Root.propTypes = {
   history: PropTypes.object.isRequired,
   lnd: PropTypes.object.isRequired,
   fetchBlockHeight: PropTypes.func.isRequired,
-  syncPercentage: PropTypes.number.isRequired
+  newAddress: PropTypes.func.isRequired,
+  syncPercentage: PropTypes.number.isRequired,
+  address: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Root)
