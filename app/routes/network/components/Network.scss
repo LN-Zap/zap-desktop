@@ -31,6 +31,24 @@
   circle {
     cursor: pointer;
   }
+
+  .stats {
+    position: absolute;
+    top: 0;
+    right: 30%;
+    padding: 20px;
+
+    span {
+      color: $main;
+      margin: 0 2.5px;
+      line-height: 25px;
+      vertical-align: middle;
+
+      &:nth-child(2) {
+        font-size: 25px;
+      }
+    }
+  }
 }
 
 .network, .toolbox {
