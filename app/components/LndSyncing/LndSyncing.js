@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { FaCopy } from 'react-icons/lib/fa'
 import styles from './LndSyncing.scss'
+
 
 class LndSyncing extends Component {
   constructor(props) {
@@ -29,28 +31,35 @@ class LndSyncing extends Component {
   }
 
   componentWillMount() {
-    this.props.fetchBlockHeight()
+    const { fetchBlockHeight, newAddress } = this.props
+    
+    fetchBlockHeight()
+    newAddress('np2wkh')
   }
 
   render() {
-    const { fetchingBlockHeight, syncPercentage } = this.props
+    const { newAddress, fetchingBlockHeight, syncPercentage, address: { address } } = this.props
     const { facts, currentFact } = this.state
     const renderCurrentFact = facts[currentFact]
 
     return (
       <div className={styles.container}>
-        <h3>zap</h3>
-        <div className={styles.loading}>
-          {!fetchingBlockHeight && <h4>{syncPercentage > 0 && `${syncPercentage}%`}</h4>}
-          <div className={styles.spinner} />
-          <h1>syncing your lightning node to the blockchain</h1>
-        </div>
+        <header>
+          <section>
+            <h3>zap</h3>
+          </section>
+          <section className={styles.loading}>
+            <h4>{syncPercentage}%</h4>
+            <div className={styles.spinner} />
+          </section>
+        </header>
+
         <div className={styles.facts}>
           <div className={styles.fact}>
             <h2>{renderCurrentFact.title}</h2>
             <p>{renderCurrentFact.description}</p>
           </div>
-          <ul>
+          <ul className={styles.factButtons}>
             {
               facts.map((fact, index) => (
                 <li
@@ -61,6 +70,21 @@ class LndSyncing extends Component {
               ))
             }
           </ul>
+        </div>
+
+        <div className={styles.footer}>
+          <section>
+            <h2>Fund your Zap wallet</h2>
+            <p>Deposit to your wallet while your node is syncing so autopilot can start working magic for you</p>
+          </section>
+          <section>
+            <div className={styles.address}>
+              <span>{address}</span>
+              <span className='hint--left' data-hint='Copy Address'>
+                <FaCopy />
+              </span>
+            </div>
+          </section>
         </div>
       </div>
     )

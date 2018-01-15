@@ -7,14 +7,17 @@ import PropTypes from 'prop-types'
 import LoadingBolt from '../components/LoadingBolt'
 import LndSyncing from '../components/LndSyncing'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
+import { newAddress } from '../reducers/address'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
-  fetchBlockHeight
+  fetchBlockHeight,
+  newAddress
 }
 
 const mapStateToProps = state => ({
   lnd: state.lnd,
+  address: state.address,
 
   syncPercentage: lndSelectors.syncPercentage(state)
 })
@@ -23,17 +26,20 @@ const Root = ({
   store,
   history,
   lnd,
+  newAddress,
   fetchBlockHeight, // eslint-disable-line no-shadow
-  syncPercentage
+  syncPercentage,
+  address
 }) => {
   // If we are syncing show the syncing screen
-  // if (lnd.syncing) {
-  if (true) {
+  if (lnd.syncing) {
     return (
       <LndSyncing
+        newAddress={newAddress}
         fetchBlockHeight={fetchBlockHeight}
         fetchingBlockHeight={lnd.fetchingBlockHeight}
         syncPercentage={syncPercentage}
+        address={address}
       />
     )
   }
