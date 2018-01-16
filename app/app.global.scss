@@ -192,5 +192,9 @@ body {
   stroke: #88D4A2;
   stroke-width: 15;
   stroke-dasharray: 100;
-  animation: dash 2.5s infinite linear;  
+  animation: dash 2.5s infinite linear;
+}
+
+.ReactModal__Overlay.ReactModal__Overlay--after-open {
+  z-index: 50;
 }
