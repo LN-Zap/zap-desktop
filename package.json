@@ -38,7 +38,7 @@
     "npm": ">=5.0.0"
   },
   "build": {
-    "productName": "ZapDesktop",
+    "productName": "Zap",
     "appId": "org.develar.ZapDesktop",
     "files": [
       "dist/",
