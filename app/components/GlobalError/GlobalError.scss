@@ -2,7 +2,7 @@
 
 .container {
   position: absolute;
-  z-index: 1001;
+  z-index: z("global-error", "container");
   background: $red;
   color: $white;
   width: 100%;
