@@ -7,13 +7,13 @@
   width: 100%;
   height: 100vh;
   background: $white;
-  z-index: 0;
+  z-index: z("form","outter-cont");
   opacity: 0;
   transition: all 0.5s;
 
   &.open {
     opacity: 1;
-    z-index: 20;
+    z-index: z("form","outter-cont-open");
   }
 }
 

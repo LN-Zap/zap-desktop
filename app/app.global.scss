@@ -196,5 +196,5 @@ body {
 }
 
 .ReactModal__Overlay.ReactModal__Overlay--after-open {
-  z-index: 50;
+  z-index: z("react-modal","open");
 }

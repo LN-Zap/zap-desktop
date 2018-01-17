@@ -9,7 +9,7 @@
   will-change: transform;
   visibility: hidden;
   opacity: 0;
-  z-index: 900005;
+  z-index: z("tooltip","after");
   pointer-events: none;
   transition: 0.2s ease;
   transition-delay: 0ms;
@@ -24,7 +24,7 @@
   position: absolute;
   background: transparent;
   border: 6px solid transparent;
-  z-index: 900006;
+  z-index: z("tooltip","before");
 }
 [data-hint]:after {
   content: attr(data-hint);

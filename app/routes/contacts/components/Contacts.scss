@@ -123,7 +123,7 @@
       display: block;
       position: absolute;
       bottom: -100px;
-      z-index: 10;
+      z-index: z("contacts","filters-active");
 
       li {
         margin: 5px 0;

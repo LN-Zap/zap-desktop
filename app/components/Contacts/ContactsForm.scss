@@ -11,7 +11,7 @@
   bottom: auto;
   background: $white;
   outline: none;
-  z-index: -2;
+  z-index: z("contact-form","modal");
   border: 1px solid $darkgrey;
   
   header {
