@@ -8,14 +8,23 @@
 
 Zap is a free Lightning Network wallet focused on user experience and ease of use, with the overall goal of helping the cryptocurrency community scale Bitcoin and other cryptocurrencies.
 
-Zap is built on top of [LND](https://github.com/lightningnetwork/lnd), and uses
-[Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs) for the UI.
+The UI for Zap is created using
+[Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs).
 
 Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ) to discuss development, design and product
 
 ## Requirements
 
-* **Node.js version >= 8, npm version >= 5 and [yarn](https://yarnpkg.com/lang/en/docs/install/)**
+To compile just the Zap wallet, you will need:
+
+- **Node.js version >= 8**
+- **npm version >= 5**
+- **[yarn](https://yarnpkg.com/lang/en/docs/install/)**
+
+To use the Zap wallet, you will need:
+
+- **[Lightning Network Daemon (lnd)](https://github.com/lightningnetwork/lnd)**
+- **[btcd (roasbeef fork)](https://github.com/roasbeef/btcd)**
 
 ## Install
 
