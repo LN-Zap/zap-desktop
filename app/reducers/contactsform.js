@@ -1,12 +1,16 @@
 import { createSelector } from 'reselect'
-
 import filter from 'lodash/filter'
+import isEmpty from 'lodash/isEmpty'
 
 // Initial State
 const initialState = {
   isOpen: false,
   searchQuery: '',
-  contactCapacity: 0.1
+  manualSearchQuery: '',
+  contactCapacity: 0.1,
+  showErrors: {
+    manualInput: false
+  }
 }
 
 // Constants
@@ -17,6 +21,10 @@ export const CLOSE_CONTACTS_FORM = 'CLOSE_CONTACTS_FORM'
 export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUERY'
 
 export const UPDATE_CONTACT_CAPACITY = 'UPDATE_CONTACT_CAPACITY'
+
+export const UPDATE_MANUAL_FORM_ERRORS = 'UPDATE_MANUAL_FORM_ERRORS'
+
+export const UPDATE_MANUAL_FORM_SEARCH_QUERY = 'UPDATE_MANUAL_FORM_SEARCH_QUERY'
 
 // ------------------------------------
 // Actions
@@ -40,10 +48,24 @@ export function updateContactFormSearchQuery(searchQuery) {
   }
 }
 
+export function updateManualFormSearchQuery(manualSearchQuery) {
+  return {
+    type: UPDATE_MANUAL_FORM_SEARCH_QUERY,
+    manualSearchQuery
+  }
+}
+
 export function updateContactCapacity(contactCapacity) {
   return {
     type: UPDATE_CONTACT_CAPACITY,
     contactCapacity
+  }
+}
+
+export function updateManualFormErrors(errorsObject) {
+  return {
+    type: UPDATE_MANUAL_FORM_ERRORS,
+    errorsObject
   }
 }
 
@@ -56,7 +78,13 @@ const ACTION_HANDLERS = {
 
   [UPDATE_CONTACT_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 
-  [UPDATE_CONTACT_CAPACITY]: (state, { contactCapacity }) => ({ ...state, contactCapacity })
+  [UPDATE_MANUAL_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
+
+  [UPDATE_CONTACT_CAPACITY]: (state, { contactCapacity }) => ({ ...state, contactCapacity }),
+
+  [UPDATE_MANUAL_FORM_ERRORS]: (state, { errorsObject }) => ({ ...state, showErrors: Object.assign(state.showErrors, errorsObject) }),
+
+  [UPDATE_MANUAL_FORM_SEARCH_QUERY]: (state, { manualSearchQuery }) => ({ ...state, manualSearchQuery })
 }
 
 // ------------------------------------
@@ -65,6 +93,7 @@ const ACTION_HANDLERS = {
 const contactFormSelectors = {}
 const networkNodesSelector = state => state.network.nodes
 const searchQuerySelector = state => state.contactsform.searchQuery
+const manualSearchQuerySelector = state => state.contactsform.manualSearchQuery
 
 
 contactFormSelectors.filteredNetworkNodes = createSelector(
@@ -96,6 +125,21 @@ contactFormSelectors.showManualForm = createSelector(
     return false
   }
 )
+
+contactFormSelectors.manualFormIsValid = createSelector(
+  manualSearchQuerySelector,
+  (input) => {
+    const errors = {}
+    if (!input.length || !input.includes('@')) {
+      errors.manualInput = 'Invalid format'
+    }
+    return {
+      errors,
+      isValid: isEmpty(errors)
+    }
+  }
+)
+
 
 export { contactFormSelectors }
 
