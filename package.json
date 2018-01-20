@@ -51,8 +51,7 @@
       "app.html",
       "main.prod.js",
       "main.prod.js.map",
-      "package.json",
-      "rpc.proto"
+      "package.json"
     ],
     "dmg": {
       "icon": "./resources/icon.icns",
@@ -86,6 +85,7 @@
       "output": "release"
     },
     "extraResources": [
+      "./rpc.proto",
       {
         "from": "./resources/bin/win32/lnd.exe",
         "to": "./bin/lnd.exe"

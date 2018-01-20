@@ -43,7 +43,7 @@ if (process.env.NODE_ENV === 'development') {
 export default {
   lnd: () => ({
     lndPath,
-    lightningRpc: `${__dirname}/rpc.proto`,
+    lightningRpc: join(__dirname, 'rpc.proto'),
     lightningHost: store.get('host') || 'localhost:10009',
     cert: store.get('cert') || join(userInfo().homedir, loc),
     macaroon: store.get('macaroon') || join(userInfo().homedir, macaroonPath)

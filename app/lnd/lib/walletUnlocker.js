@@ -22,7 +22,7 @@ const walletUnlocker = (rpcpath, host) => {
   const lndConfig = config.lnd()
   const lndCert = fs.readFileSync(lndConfig.cert)
   const credentials = grpc.credentials.createSsl(lndCert)
-  const rpc = grpc.load(path.join(__dirname, 'rpc.proto'))
+  const rpc = grpc.load(path.join(__dirname, '..', 'rpc.proto'))
 
   return new rpc.lnrpc.WalletUnlocker(host, credentials)
 }
