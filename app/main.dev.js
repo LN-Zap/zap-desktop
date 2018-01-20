@@ -111,7 +111,9 @@ const sendGrpcConnected = () => {
 
 // Create and subscribe the grpc object
 const startGrpc = () => {
-  lnd((lndSubscribe, lndMethods) => {
+  const protoPath = path.join(__dirname, '..', 'rpc.proto')
+
+  lnd(protoPath, (lndSubscribe, lndMethods) => {
     // Subscribe to bi-directional streams
     lndSubscribe(mainWindow)
 

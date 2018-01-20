@@ -25,7 +25,6 @@ switch (platform()) {
 }
 
 export default {
-  lightningRpc: `${__dirname}/rpc.proto`,
   lightningHost: 'localhost:10009',
   cert: join(userInfo().homedir, loc),
   macaroon: join(userInfo().homedir, macaroonPath)
