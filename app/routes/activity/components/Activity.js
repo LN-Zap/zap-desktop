@@ -110,7 +110,9 @@ class Activity extends Component {
               </ul>
             </section>
           </header>
-          <ul className={`${styles.activityContainer} ${filterPulldown && styles.pulldown}`}>
+          {(currentActivity.length == 0
+          ? <div className={`${styles.emptyMessage}`}>No activity to show.</div>
+          : (<ul className={`${styles.activityContainer} ${filterPulldown && styles.pulldown}`}>
             {
               currentActivity.map((activity, index) => (
                 <li className={styles.activity} key={index}>
@@ -118,7 +120,8 @@ class Activity extends Component {
                 </li>
               ))
             }
-          </ul>
+            </ul>)
+          )}
         </div>
       </div>
     )
