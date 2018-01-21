@@ -13,39 +13,38 @@ class Help extends Component {
     this.state = {
       videos: [
         {
-          id: 'GYIHrd7e-n0',
-          title: 'Joyner Lucas - Mask Off Remix (Mask On)'
+          id: '8kZq6eec49A',
+          title: 'Syncing and Depositing - Zap Lightning Network Wallet Tutorial (Video 1)'
         },
         {
-          id: 'ZFy7RdZWwj8',
-          title: 'Joyner Lucas - Bank Account (Remix)'
+          id: 'xSiTH63fOQM',
+          title: 'Adding a contact - Zap Lightning Network Wallet Tutorial (Video 2)'
         },
         {
-          id: 'DlFmfxACvig',
-          title: 'Lil Skies - Nowadays ft. Landon Cube (Dir. by @_ColeBennett_)'
+          id: 'c0SLmywYDHU',
+          title: 'Making a Lightning Network payment - Zap Lightning Network Wallet Tutorial (Video 3)'
         },
         {
-          id: 'XbZ0OXmXw38',
-          title: 'Dave - Wanna Know ft. Drake (Audio)'
+          id: 'Xrx2TiiF90Q',
+          title: 'Receive Lightning Network payment - Zap Lightning Network Wallet Tutorial (Video 4)'
         },
         {
-          id: 'sRrcogH7F_I',
-          title: 'Bryson Tiller - How About Now (Freestyle)'
+          id: 'YfxukBHnwUM',
+          title: 'Network Map - Zap Lightning Network Wallet Tutorial (Video 5)'
         },
         {
-          id: 'j6Np8vCO0hQ',
-          title: 'Young Pappy - Killa (Official Music Video)'
-        },
-        {
-          id: 'PjqKPHZJgF0',
-          title: 'Lil Wayne - Family Feud feat. Drake (Official Audio) | Dedication 6'
+          id: 'NORklrrYzOg',
+          title: 'Using an explorer to add Zap contacts - Zap Lightning Network Wallet Tutorial (Video 6)'
         }
-      ]
+      ],
+      searchQuery: ''
     }
   }
 
   render() {
-    const { videos } = this.state
+    const { videos, searchQuery } = this.state
+    const filteredVideos = videos.filter(video => video.title.includes(searchQuery))
+
     return (
       <div className={styles.helpContainer}>
         <header className={styles.header}>
@@ -57,8 +56,8 @@ class Help extends Component {
             <MdSearch />
           </label>
           <input
-            value={''}
-            onChange={event => console.log('gang')}
+            value={searchQuery}
+            onChange={event => this.setState({ searchQuery: event.target.value })}
             className={`${styles.text} ${styles.input}`}
             placeholder='Search the video library...'
             type='text'
@@ -68,19 +67,17 @@ class Help extends Component {
 
         <ul className={styles.videos}>
           {
-            videos.map((video, index) => {
-              return (
-                <li key={index}>
-                  <iframe
-                    src={`https://www.youtube.com/embed/${video.id}`}
-                    frameBorder='0'
-                  />
-                  <section className={styles.info} onClick={() => shell.openExternal(`https://www.youtube.com/watch?v=${video.id}`)}>
-                    <h2>{video.title}</h2>
-                  </section>
-                </li>
-              )
-            })
+            filteredVideos.map((video, index) =>
+              <li key={index}>
+                <iframe
+                  src={`https://www.youtube.com/embed/${video.id}`}
+                  frameBorder='0'
+                />
+                <section className={styles.info} onClick={() => shell.openExternal(`https://www.youtube.com/watch?v=${video.id}`)}>
+                  <h2>{video.title}</h2>
+                </section>
+              </li>
+            )
           }
         </ul>
       </div>

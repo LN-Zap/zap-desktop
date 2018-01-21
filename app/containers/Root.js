@@ -39,6 +39,7 @@ const Root = ({
         fetchBlockHeight={fetchBlockHeight}
         syncPercentage={syncPercentage}
         address={address}
+        grpcStarted={lnd.grpcStarted}
       />
     )
   }
@@ -61,7 +62,10 @@ Root.propTypes = {
   lnd: PropTypes.object.isRequired,
   fetchBlockHeight: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
-  syncPercentage: PropTypes.number.isRequired,
+  syncPercentage: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
   address: PropTypes.object.isRequired
 }
 

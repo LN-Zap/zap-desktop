@@ -133,7 +133,7 @@ const startLnd = () => {
     [
       '--bitcoin.active',
       '--bitcoin.testnet',
-      '--neutrino.active',
+      '--bitcoin.node=neutrino',
       '--neutrino.connect=btcd0.lightning.computer:18333',
       '--autopilot.active',
       '--debuglevel=debug',
