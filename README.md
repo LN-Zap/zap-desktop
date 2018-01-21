@@ -24,7 +24,7 @@ To compile just the Zap wallet, you will need:
 To use the Zap wallet, you will need:
 
 - **[Lightning Network Daemon (lnd)](https://github.com/lightningnetwork/lnd)**
-- **[btcd (roasbeef fork)](https://github.com/roasbeef/btcd)** or **[neutrino](https://github.com/lightninglabs/neutrino)
+- **[btcd (roasbeef fork)](https://github.com/roasbeef/btcd)** or **[neutrino](https://github.com/lightninglabs/neutrino)**
 
 ## Install
 
