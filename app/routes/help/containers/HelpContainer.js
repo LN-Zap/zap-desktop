@@ -5,6 +5,6 @@ import Help from '../components/Help'
 
 const mapDispatchToProps = {}
 
-const mapStateToProps = state => ({})
+const mapStateToProps = () => ({})
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Help))

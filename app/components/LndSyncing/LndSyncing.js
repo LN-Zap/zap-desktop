@@ -38,7 +38,7 @@ class LndSyncing extends Component {
 
   componentDidUpdate(prevProps) {
     const { grpcStarted, newAddress } = this.props
-    
+
     if (!prevProps.grpcStarted && grpcStarted) {
       newAddress('np2wkh')
     }
@@ -51,7 +51,7 @@ class LndSyncing extends Component {
 
     const copyOnClick = () => {
       if (!address) { return }
-      
+
       copy(address)
       showNotification('Noice', 'Successfully copied to clipboard')
     }

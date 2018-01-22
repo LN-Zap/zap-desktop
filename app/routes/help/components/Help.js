@@ -1,6 +1,5 @@
 import { shell } from 'electron'
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
 
 import { MdSearch } from 'react-icons/lib/md'
 
@@ -67,26 +66,23 @@ class Help extends Component {
 
         <ul className={styles.videos}>
           {
-            filteredVideos.map((video, index) =>
+            filteredVideos.map((video, index) => (
               <li key={index}>
                 <iframe
                   src={`https://www.youtube.com/embed/${video.id}`}
                   frameBorder='0'
+                  title={video.id}
                 />
                 <section className={styles.info} onClick={() => shell.openExternal(`https://www.youtube.com/watch?v=${video.id}`)}>
                   <h2>{video.title}</h2>
                 </section>
               </li>
-            )
+            ))
           }
         </ul>
       </div>
     )
   }
-}
-
-Help.propTypes = {
-  
 }
 
 export default Help
