@@ -127,13 +127,18 @@ const sendLndSynced = () => {
 
 // Starts the LND node
 const startLnd = () => {
-  const lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
+  let lndPath
+  if (process.env.NODE_ENV === 'development') {
+    lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
+  } else {
+    lndPath = path.join(__dirname, '..', 'bin', plat === 'win32' ? 'lnd.exe' : 'lnd')
+  }
 
   const neutrino = spawn(lndPath,
     [
       '--bitcoin.active',
       '--bitcoin.testnet',
-      '--neutrino.active',
+      '--bitcoin.node=neutrino',
       '--neutrino.connect=btcd0.lightning.computer:18333',
       '--autopilot.active',
       '--debuglevel=debug',

@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import copy from 'copy-to-clipboard'
+import { showNotification } from 'notifications'
 import { FaCopy } from 'react-icons/lib/fa'
 import styles from './LndSyncing.scss'
 
@@ -31,16 +33,28 @@ class LndSyncing extends Component {
   }
 
   componentWillMount() {
-    const { fetchBlockHeight, newAddress } = this.props
+    this.props.fetchBlockHeight()
+  }
 
-    fetchBlockHeight()
-    newAddress('np2wkh')
+  componentDidUpdate(prevProps) {
+    const { grpcStarted, newAddress } = this.props
+
+    if (!prevProps.grpcStarted && grpcStarted) {
+      newAddress('np2wkh')
+    }
   }
 
   render() {
-    const { syncPercentage, address: { address } } = this.props
+    const { syncPercentage, address: { addressLoading, address } } = this.props
     const { facts, currentFact } = this.state
     const renderCurrentFact = facts[currentFact]
+
+    const copyOnClick = () => {
+      if (!address) { return }
+
+      copy(address)
+      showNotification('Noice', 'Successfully copied to clipboard')
+    }
 
     return (
       <div className={styles.container}>
@@ -48,8 +62,8 @@ class LndSyncing extends Component {
           <section>
             <h3>zap</h3>
           </section>
-          <section className={styles.loading}>
-            <h4>{syncPercentage}%</h4>
+          <section className={`${styles.loading} hint--left`} data-hint='Syncing your Lightning Network node to the blockchain'>
+            <h4>{syncPercentage.toString().length > 0 && `${syncPercentage}%`}</h4>
             <div className={styles.spinner} />
           </section>
         </header>
@@ -79,8 +93,15 @@ class LndSyncing extends Component {
           </section>
           <section>
             <div className={styles.address}>
-              <span>{address}</span>
-              <span className='hint--left' data-hint='Copy Address'>
+              <span>
+                {
+                  addressLoading ?
+                    'Loading...'
+                    :
+                    address
+                }
+              </span>
+              <span className='hint--left' data-hint='Copy Address' onClick={copyOnClick}>
                 <FaCopy />
               </span>
             </div>
@@ -94,8 +115,12 @@ class LndSyncing extends Component {
 LndSyncing.propTypes = {
   newAddress: PropTypes.func.isRequired,
   fetchBlockHeight: PropTypes.func.isRequired,
-  syncPercentage: PropTypes.number.isRequired,
-  address: PropTypes.object.isRequired
+  syncPercentage: PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]).isRequired,
+  address: PropTypes.object.isRequired,
+  grpcStarted: PropTypes.bool.isRequired
 }
 
 export default LndSyncing

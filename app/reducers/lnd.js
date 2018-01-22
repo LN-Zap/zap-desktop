@@ -122,7 +122,13 @@ const lndBlockHeightSelector = state => state.lnd.lndBlockHeight
 lndSelectors.syncPercentage = createSelector(
   blockHeightSelector,
   lndBlockHeightSelector,
-  (blockHeight, lndBlockHeight) => (Math.floor((lndBlockHeight / blockHeight) * 100))
+  (blockHeight, lndBlockHeight) => {
+    const percentage = Math.floor((lndBlockHeight / blockHeight) * 100)
+
+    if (percentage === Infinity) { return '' }
+
+    return percentage
+  }
 )
 
 export { lndSelectors }

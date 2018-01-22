@@ -6,6 +6,7 @@ import Isvg from 'react-inlinesvg'
 import walletIcon from 'icons/wallet.svg'
 import peersIcon from 'icons/peers.svg'
 import networkIcon from 'icons/globe.svg'
+import helpIcon from 'icons/help.svg'
 
 import styles from './Nav.scss'
 
@@ -32,6 +33,12 @@ const Nav = ({ openPayForm, openRequestForm }) => (
         <li>
           <Isvg styles={{ verticalAlign: 'middle' }} src={networkIcon} />
           <span>Network</span>
+        </li>
+      </NavLink>
+      <NavLink exact to='/help' activeClassName={styles.active} className={styles.link}>
+        <li>
+          <Isvg styles={{ verticalAlign: 'middle' }} src={helpIcon} />
+          <span>Help</span>
         </li>
       </NavLink>
     </ul>

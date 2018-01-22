@@ -1,7 +1,7 @@
 {
   "name": "zap-desktop",
   "productName": "ZapDesktop",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "desktop application for the lightning network",
   "scripts": {
     "build": "concurrently \"npm run build-main\" \"npm run build-renderer\"",
@@ -80,7 +80,10 @@
       "output": "release"
     },
     "extraResources": [
-      "**/resources/bin/darwin/lnd"
+      {
+        "from": "./resources/bin/darwin/lnd",
+        "to": "./bin/lnd"
+      }
     ]
   },
   "repository": {
