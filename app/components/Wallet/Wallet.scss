@@ -55,7 +55,29 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: right;
-  height: calc(100% - 50px);
+
+  .addressButton {
+    box-shadow: none;
+    transition: all 0.25s;
+    padding-top: 12px;
+    padding-bottom: 10px;
+    font-size: 14px;
+
+    &:hover {
+      background: darken($main, 10%);
+    }
+
+    span {
+      display: inline-block;
+      vertical-align: top;
+
+      &:nth-child(1) svg {
+        width: 14px;
+        height: 14px;
+        margin-right: 5px;
+      }
+    }
+  }
 
   div {
     padding: 7px 20px;
