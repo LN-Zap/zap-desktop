@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-// import "google/api/annotations.proto";
+import "google/api/annotations.proto";
 
 package lnrpc;
 /**
@@ -25,9 +25,46 @@ package lnrpc;
  * https://github.com/MaxFangX/lightning-api
  */
 
+// The WalletUnlocker service is used to set up a wallet password for
+// lnd at first startup, and unlock a previously set up wallet.
+service WalletUnlocker {
+    /** lncli: `create`
+    CreateWallet is used at lnd startup to set the encryption password for
+    the wallet database.
+    */
+    rpc CreateWallet(CreateWalletRequest) returns (CreateWalletResponse) {
+        option (google.api.http) = {
+            post: "/v1/createwallet"
+            body: "*"
+        };
+    }
+
+    /** lncli: `unlock`
+    UnlockWallet is used at startup of lnd to provide a password to unlock
+    the wallet database.
+    */
+    rpc UnlockWallet(UnlockWalletRequest) returns (UnlockWalletResponse) {
+        option (google.api.http) = {
+            post: "/v1/unlockwallet"
+            body: "*"
+        };
+    }
+}
+
+message CreateWalletRequest {
+    bytes password = 1;
+}
+message CreateWalletResponse {}
+
+
+message UnlockWalletRequest {
+    bytes password = 1;
+}
+message UnlockWalletResponse {}
+
 service Lightning {
     /** lncli: `walletbalance`
-    WalletBalance returns the sum of all confirmed unspent outputs under control
+    WalletBalance returns total unspent outputs(confirmed and unconfirmed), all confirmed unspent outputs and all unconfirmed unspent outputs under control
     by the wallet. This method can be modified by having the request specify
     only witness outputs should be factored into the final output sum.
     */
@@ -59,7 +96,10 @@ service Lightning {
 
     /** lncli: `sendcoins`
     SendCoins executes a request to send coins to a particular address. Unlike
-    SendMany, this RPC call only allows creating a single output at a time.
+    SendMany, this RPC call only allows creating a single output at a time. If
+    neither target_conf, or sat_per_byte are set, then the internal wallet will
+    consult its fee model to determine a fee for the default confirmation
+    target.
     */
     rpc SendCoins (SendCoinsRequest) returns (SendCoinsResponse) {
         option (google.api.http) = {
@@ -77,7 +117,9 @@ service Lightning {
 
     /** lncli: `sendmany`
     SendMany handles a request for a transaction that creates multiple specified
-    outputs in parallel.
+    outputs in parallel. If neither target_conf, or sat_per_byte are set, then
+    the internal wallet will consult its fee model to determine a fee for the
+    default confirmation target.
     */
     rpc SendMany (SendManyRequest) returns (SendManyResponse);
 
@@ -160,7 +202,7 @@ service Lightning {
     workflow and is waiting for confirmations for the funding txn, or is in the
     process of closure, either initiated cooperatively or non-cooperatively.
     */
-    rpc PendingChannels (PendingChannelRequest) returns (PendingChannelResponse) {
+    rpc PendingChannels (PendingChannelsRequest) returns (PendingChannelsResponse) {
         option (google.api.http) = {
            get: "/v1/channels/pending"
         };
@@ -191,7 +233,10 @@ service Lightning {
 
     /** lncli: `openchannel`
     OpenChannel attempts to open a singly funded channel specified in the
-    request to a remote peer.
+    request to a remote peer. Users are able to specify a target number of
+    blocks that the funding transaction should be confirmed in, or a manual fee
+    rate to us for the funding transaction. If neither are specified, then a
+    lax block confirmation target is used.
     */
     rpc OpenChannel (OpenChannelRequest) returns (stream OpenStatusUpdate);
 
@@ -199,7 +244,10 @@ service Lightning {
     CloseChannel attempts to close an active channel identified by its channel
     outpoint (ChannelPoint). The actions of this method can additionally be
     augmented to attempt a force close after a timeout period in the case of an
-    inactive peer.
+    inactive peer. If a non-force close (cooperative closure) is requested,
+    then the user can specify either a target number of blocks until the
+    closure transaction is confirmed, or a manual fee rate. If neither are
+    specified, then a default lax, block confirmation target is used.
     */
     rpc CloseChannel (CloseChannelRequest) returns (stream CloseStatusUpdate) {
         option (google.api.http) = {
@@ -375,11 +423,6 @@ service Lightning {
     */
     rpc SubscribeChannelGraph(GraphTopologySubscription) returns (stream GraphTopologyUpdate);
 
-    /**
-    SetAlias sets the alias for this node; e.g. "alice"
-    */
-    rpc SetAlias(SetAliasRequest) returns (SetAliasResponse);
-
     /** lncli: `debuglevel`
     DebugLevel allows a caller to programmatically set the logging verbosity of
     lnd. The logging can be targeted according to a coarse daemon-wide logging
@@ -398,11 +441,11 @@ service Lightning {
         };
     }
 
-    /** lncli: `updatefees`
-    UpdateFees allows the caller to update the fee schedule for all channels
-    globally, or a particular channel.
+    /** lncli: `updatechanpolicy`
+    UpdateChannelPolicy allows the caller to update the fee schedule and
+    channel policies for all channels globally, or a particular channel.
     */
-    rpc UpdateFees(FeeUpdateRequest) returns (FeeUpdateResponse) {
+    rpc UpdateChannelPolicy(PolicyUpdateRequest) returns (PolicyUpdateResponse) {
         option (google.api.http) = {
             post: "/v1/fees"
             body: "*"
@@ -431,6 +474,9 @@ message Transaction {
 
     /// Fees paid for this transaction
     int64 total_fees = 7 [ json_name = "total_fees" ];
+
+    /// Addresses that received funds for this transaction
+    repeated string dest_addresses = 8 [ json_name = "dest_addresses" ];
 }
 message GetTransactionsRequest {
 }
@@ -461,6 +507,9 @@ message SendRequest {
     payment to the recipient.
     */
     string payment_request = 6;
+
+    /// The CLTV delta from the current height that should be used to set the timelock for the final hop.
+    int32 final_cltv_delta = 7;
 }
 message SendResponse {
     string payment_error = 1 [json_name = "payment_error"];
@@ -492,6 +541,12 @@ message LightningAddress {
 message SendManyRequest {
     /// The map from addresses to amounts
     map<string, int64> AddrToAmount = 1;
+
+    /// The target number of blocks that this transaction should be confirmed by.
+    int32 target_conf = 3;
+
+    /// A manual fee rate set in sat/byte that should be used when crafting the transaction.
+    int64 sat_per_byte = 5;
 }
 message SendManyResponse {
     /// The id of the transaction
@@ -504,6 +559,12 @@ message SendCoinsRequest {
 
     /// The amount in satoshis to send
     int64 amount = 2;
+
+    /// The target number of blocks that this transaction should be confirmed by.
+    int32 target_conf = 3;
+
+    /// A manual fee rate set in sat/byte that should be used when crafting the transaction.
+    int64 sat_per_byte = 5;
 }
 message SendCoinsResponse {
     /// The transaction ID of the transaction
@@ -657,6 +718,13 @@ message ActiveChannel {
     The list of active, uncleared HTLCs currently pending within the channel.
     */
     repeated HTLC pending_htlcs = 15 [json_name = "pending_htlcs"];
+
+    /**
+    The CSV delay expressed in relative blocks. If the channel is force
+    closed, we'll need to wait for this many blocks before we can regain our
+    funds.
+    */
+    uint32 csv_delay = 16 [ json_name = "csv_delay" ];
 }
 
 message ListChannelsRequest {
@@ -728,13 +796,16 @@ message GetInfoResponse {
     string block_hash = 8 [json_name = "block_hash"];
 
     /// Whether the wallet's view is synced to the main chain
-    bool synced_to_chain = 9 [ json_name = "synced_to_chain" ];
+    bool synced_to_chain = 9 [json_name = "synced_to_chain"];
 
     /// Whether the current node is connected to testnet
-    bool testnet = 10 [ json_name = "testnet" ];
+    bool testnet = 10 [json_name = "testnet"];
 
     /// A list of active chains the node is connected to
-    repeated string chains = 11 [ json_name = "chains" ];
+    repeated string chains = 11 [json_name = "chains"];
+
+    /// The URIs of the current node.
+    repeated string uris = 12 [json_name = "uris"];
 }
 
 message ConfirmationUpdate {
@@ -764,6 +835,12 @@ message CloseChannelRequest {
 
     /// If true, then the channel will be closed forcibly. This means the current commitment transaction will be signed and broadcast.
     bool force = 2;
+
+    /// The target number of blocks that the closure transaction should be confirmed by.
+    int32 target_conf = 3;
+
+    /// A manual fee rate set in sat/byte that should be used when crafting the closure transaction.
+    int64 sat_per_byte = 5;
 }
 message CloseStatusUpdate {
     oneof update {
@@ -794,6 +871,18 @@ message OpenChannelRequest {
 
     /// The number of satoshis to push to the remote side as part of the initial commitment state
     int64 push_sat = 5 [json_name = "push_sat"];
+
+    /// The target number of blocks that the closure transaction should be confirmed by.
+    int32 target_conf = 6;
+
+    /// A manual fee rate set in sat/byte that should be used when crafting the closure transaction.
+    int64 sat_per_byte = 7;
+
+    /// Whether this channel should be private, not announced to the greater network.
+    bool private = 8 [json_name = "private"];
+
+    /// The minimum value in millisatoshi we will require for incoming HTLCs on the channel.
+    int64 min_htlc_msat = 9 [json_name = "min_htlc_msat"];
 }
 message OpenStatusUpdate {
     oneof update {
@@ -803,8 +892,33 @@ message OpenStatusUpdate {
     }
 }
 
-message PendingChannelRequest {}
-message PendingChannelResponse {
+message PendingHTLC {
+
+    /// The direction within the channel that the htlc was sent
+    bool incoming = 1 [ json_name = "incoming" ];
+
+    /// The total value of the htlc
+    int64 amount = 2 [ json_name = "amount" ];
+
+    /// The final output to be swept back to the user's wallet
+    string outpoint = 3 [ json_name = "outpoint" ];
+
+    /// The next block height at which we can spend the current stage
+    uint32 maturity_height = 4 [ json_name = "maturity_height" ];
+
+    /**
+       The number of blocks remaining until the current stage can be swept.
+       Negative values indicate how many blocks have passed since becoming
+       mature.
+    */
+    int32 blocks_til_maturity = 5 [ json_name = "blocks_til_maturity" ];
+
+    /// Indicates whether the htlc is in its first or second stage of recovery
+    uint32 stage = 6 [ json_name = "stage" ];
+}
+
+message PendingChannelsRequest {}
+message PendingChannelsResponse {
     message PendingChannel {
         string remote_node_pub = 1 [ json_name = "remote_node_pub" ];
         string channel_point = 2 [ json_name = "channel_point" ];
@@ -821,9 +935,6 @@ message PendingChannelResponse {
 
         /// The height at which this channel will be confirmed
         uint32 confirmation_height = 2 [ json_name = "confirmation_height" ];
-
-        /// The number of blocks until this channel is open
-        uint32 blocks_till_open = 3 [ json_name = "blocks_till_open" ];
 
         /**
         The amount calculated to be paid in fees for the current set of
@@ -857,8 +968,6 @@ message PendingChannelResponse {
         /// The pending channel to be force closed
         PendingChannel channel = 1 [ json_name = "channel" ];
 
-        // TODO(roasbeef): HTLC's as well?
-
         /// The transaction id of the closing transaction
         string closing_txid = 2 [ json_name = "closing_txid" ];
 
@@ -868,8 +977,17 @@ message PendingChannelResponse {
         /// The height at which funds can be sweeped into the wallet
         uint32 maturity_height = 4 [ json_name = "maturity_height" ];
 
-        /// Remaining # of blocks until funds can be sweeped into the wallet
-        uint32 blocks_til_maturity = 5 [ json_name = "blocks_til_maturity" ];
+        /*
+          Remaining # of blocks until the commitment output can be swept.
+          Negative values indicate how many blocks have passed since becoming
+          mature.
+        */
+        int32 blocks_til_maturity = 5 [ json_name = "blocks_til_maturity" ];
+
+        /// The total value of funds successfully recovered from this channel
+        int64 recovered_balance = 6 [ json_name = "recovered_balance" ];
+
+        repeated PendingHTLC pending_htlcs = 8 [ json_name = "pending_htlcs" ];
     }
 
     /// The balance in satoshis encumbered in pending channels
@@ -891,7 +1009,13 @@ message WalletBalanceRequest {
 }
 message WalletBalanceResponse {
     /// The balance of the wallet
-    int64 balance = 1 [json_name = "balance"];
+    int64 total_balance = 1 [json_name = "total_balance"];
+
+    /// The confirmed balance of a wallet(with >= 1 confirmations)
+    int64 confirmed_balance = 2 [json_name = "confirmed_balance"];
+
+    /// The unconfirmed balance of a wallet(with 0 confirmations)
+    int64 unconfirmed_balance = 3 [json_name = "unconfirmed_balance"];
 }
 
 message ChannelBalanceRequest {
@@ -994,6 +1118,7 @@ message LightningNode {
     string pub_key = 2 [ json_name = "pub_key" ];
     string alias = 3 [ json_name = "alias" ];
     repeated NodeAddress addresses = 4 [ json_name = "addresses" ];
+    string color = 5 [ json_name = "color" ];
 }
 
 message NodeAddress {
@@ -1121,12 +1246,6 @@ message ClosedChannelUpdate {
     ChannelPoint chan_point = 4;
 }
 
-message SetAliasRequest {
-    string new_alias = 1;
-}
-message SetAliasResponse {
-}
-
 message Invoice {
     /**
     An optional memo to attach along with the invoice. Used for record keeping
@@ -1179,6 +1298,9 @@ message Invoice {
 
     /// Fallback on-chain address.
     string fallback_addr = 12 [json_name = "fallback_addr"];
+
+    /// Delta to use for the time-lock of the CLTV extended to the final hop.
+    uint64 cltv_expiry = 13 [json_name = "cltv_expiry"];
 }
 message AddInvoiceResponse {
     bytes r_hash = 1 [json_name = "r_hash"];
@@ -1263,6 +1385,7 @@ message PayReq {
     string description = 6 [json_name = "description"];
     string description_hash = 7 [json_name = "description_hash"];
     string fallback_addr = 8 [json_name = "fallback_addr"];
+    int64 cltv_expiry = 9 [json_name = "cltv_expiry"];
 }
 
 message FeeReportRequest {}
@@ -1284,12 +1407,12 @@ message FeeReportResponse {
     repeated ChannelFeeReport channel_fees = 1 [json_name = "channel_fees"];
 }
 
-message FeeUpdateRequest {
+message PolicyUpdateRequest {
     oneof scope {
-        /// If set, then this fee update applies to all currently active channels.
+        /// If set, then this update applies to all currently active channels.
         bool global = 1 [json_name = "global"] ;
 
-        /// If set, this fee update will target a specific channel.
+        /// If set, this update will target a specific channel.
         ChannelPoint chan_point = 2 [json_name = "chan_point"];
     }
 
@@ -1298,6 +1421,9 @@ message FeeUpdateRequest {
 
     /// The effective fee rate in milli-satoshis. The precision of this value goes up to 6 decimal places, so 1e-6.
     double fee_rate = 4 [json_name = "fee_rate"];
+
+    /// The required timelock delta for HTLCs forwarded over the channel.
+    uint32 time_lock_delta = 5 [json_name = "time_lock_delta"];
 }
-message FeeUpdateResponse {
+message PolicyUpdateResponse {
 }
