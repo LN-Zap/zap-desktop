@@ -128,7 +128,7 @@ const sendLndSynced = () => {
 // Starts the LND node
 const startLnd = () => {
   let lndPath
-  
+
   if (process.env.NODE_ENV === 'development') {
     lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
   } else {
