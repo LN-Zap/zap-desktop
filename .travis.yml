@@ -6,6 +6,9 @@ env:
   - TEST=lint-ci
   - TEST=test-ci
 
+os:
+  - osx
+  - linux
 node_js:
   - node
   - 8
