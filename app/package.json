@@ -10,8 +10,8 @@
     "url": "https://github.com/LN-Zap/zap-desktop"
   },
   "scripts": {
-    "postinstall": "npm rebuild --runtime=electron --target=1.6.10 --disturl=https://atom.io/download/atom-shell --build-from-source",
-    "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.6.10"
+    "postinstall": "npm rebuild --runtime=electron --target=1.6.16 --disturl=https://atom.io/download/atom-shell --build-from-source",
+    "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.6.16"
   },
   "license": "MIT",
   "dependencies": {
