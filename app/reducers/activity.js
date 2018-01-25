@@ -16,7 +16,8 @@ const initialState = {
   modal: {
     modalType: null,
     modalProps: {}
-  }
+  },
+  searchText: ''
 }
 
 // ------------------------------------
@@ -28,6 +29,8 @@ export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 
 export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
+
+export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 
 // ------------------------------------
 // Actions
@@ -59,6 +62,13 @@ export function toggleFilterPulldown() {
   }
 }
 
+export function updateSearchText(searchText) {
+  return {
+    type: UPDATE_SEARCH_TEXT,
+    searchText
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -66,7 +76,9 @@ const ACTION_HANDLERS = {
   [SHOW_ACTIVITY_MODAL]: (state, { modalType, modalProps }) => ({ ...state, modal: { modalType, modalProps } }),
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { modalType: null, modalProps: {} } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
-  [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown })
+  [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
+
+  [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText })
 }
 
 // ------------------------------------
@@ -75,20 +87,34 @@ const ACTION_HANDLERS = {
 const activitySelectors = {}
 const filtersSelector = state => state.activity.filters
 const filterSelector = state => state.activity.filter
+const searchSelector = state => state.activity.searchText
 const paymentsSelector = state => state.payment.payments
 const invoicesSelector = state => state.invoice.invoices
 const transactionsSelector = state => state.transaction.transactions
 
 const allActivity = createSelector(
+  searchSelector,
   paymentsSelector,
   invoicesSelector,
   transactionsSelector,
-  (payments, invoices, transactions) => [...payments, ...invoices, ...transactions].sort((a, b) => {
-    const aTimestamp = Object.prototype.hasOwnProperty.call(a, 'time_stamp') ? a.time_stamp : a.creation_date
-    const bTimestamp = Object.prototype.hasOwnProperty.call(b, 'time_stamp') ? b.time_stamp : b.creation_date
+  (searchText, payments, invoices, transactions) => {
+    const searchedArr = [...payments, ...invoices, ...transactions].filter((tx) => {
+      if ((tx.tx_hash && tx.tx_hash.includes(searchText)) ||
+          (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
+          (tx.r_hash && tx.r_hash.includes(searchText))) {
+        return true
+      }
 
-    return bTimestamp - aTimestamp
-  })
+      return false
+    })
+
+    return searchedArr.sort((a, b) => {
+      const aTimestamp = Object.prototype.hasOwnProperty.call(a, 'time_stamp') ? a.time_stamp : a.creation_date
+      const bTimestamp = Object.prototype.hasOwnProperty.call(b, 'time_stamp') ? b.time_stamp : b.creation_date
+
+      return bTimestamp - aTimestamp
+    })
+  }
 )
 
 const lnActivity = createSelector(
@@ -130,7 +156,6 @@ activitySelectors.nonActiveFilters = createSelector(
   filterSelector,
   (filters, filter) => filters.filter(f => f.key !== filter.key)
 )
-
 
 export { activitySelectors }
 

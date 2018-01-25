@@ -102,7 +102,7 @@ class ContactsForm extends React.Component {
         updateManualFormSearchQuery('')
         return
       }
-      //  clear any existing errors
+      // clear any existing errors
 
       updateManualFormErrors({ manualInput: null })
       const [pubkey, host] = contactsform.manualSearchQuery && contactsform.manualSearchQuery.split('@')
@@ -110,6 +110,16 @@ class ContactsForm extends React.Component {
       openChannel({ pubkey, host, local_amt: contactsform.contactCapacity })
 
       updateManualFormSearchQuery('')
+    }
+
+    const searchUpdated = (search) => {
+      updateContactFormSearchQuery(search)
+
+      console.log('search: ', search)
+      if (search.includes('@') && search.split('@')[0].length === 66) {
+        console.log('yo')
+        updateManualFormSearchQuery(search)
+      }
     }
 
     return (
@@ -139,7 +149,7 @@ class ContactsForm extends React.Component {
                 placeholder='Find contact by alias or pubkey'
                 className={styles.searchInput}
                 value={contactsform.searchQuery}
-                onChange={event => updateContactFormSearchQuery(event.target.value)}
+                onChange={event => searchUpdated(event.target.value)}
               />
             </div>
 

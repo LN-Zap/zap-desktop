@@ -82,8 +82,8 @@
     },
     "extraResources": [
       {
-        "from": "./resources/bin/darwin/lnd",
-        "to": "./bin/lnd"
+        "from": "./resources/bin/win32/lnd.exe",
+        "to": "./bin/lnd.exe"
       }
     ]
   },
