@@ -47,11 +47,9 @@ export default class MenuBuilder {
     const subMenuAbout = {
       label: 'Electron',
       submenu: [
-        { label: 'About ElectronReact', selector: 'orderFrontStandardAboutPanel:' },
+        { label: 'About Zap', selector: 'orderFrontStandardAboutPanel:' },
         { type: 'separator' },
-        { label: 'Services', submenu: [] },
-        { type: 'separator' },
-        { label: 'Hide ElectronReact', accelerator: 'Command+H', selector: 'hide:' },
+        { label: 'Hide Zap', accelerator: 'Command+H', selector: 'hide:' },
         { label: 'Hide Others', accelerator: 'Command+Shift+H', selector: 'hideOtherApplications:' },
         { label: 'Show All', selector: 'unhideAllApplications:' },
         { type: 'separator' },
@@ -104,10 +102,10 @@ export default class MenuBuilder {
     const subMenuHelp = {
       label: 'Help',
       submenu: [
-        { label: 'Learn More', click() { shell.openExternal('http://electron.atom.io') } },
-        { label: 'Documentation', click() { shell.openExternal('https://github.com/atom/electron/tree/master/docs#readme') } },
-        { label: 'Community Discussions', click() { shell.openExternal('https://discuss.atom.io/c/electron') } },
-        { label: 'Search Issues', click() { shell.openExternal('https://github.com/atom/electron/issues') } }
+        { label: 'Learn More', click() { shell.openExternal('https://zap.jackmallers.com/') } },
+        { label: 'Documentation', click() { shell.openExternal('https://github.com/LN-Zap/zap-desktop') } },
+        { label: 'Community Discussions', click() { shell.openExternal('zaphq.slack.com') } },
+        { label: 'Search Issues', click() { shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues') } }
       ]
     }
 
@@ -169,22 +167,22 @@ export default class MenuBuilder {
       submenu: [{
         label: 'Learn More',
         click() {
-          shell.openExternal('http://electron.atom.io')
+          shell.openExternal('https://zap.jackmallers.com/')
         }
       }, {
         label: 'Documentation',
         click() {
-          shell.openExternal('https://github.com/atom/electron/tree/master/docs#readme')
+          shell.openExternal('https://github.com/LN-Zap/zap-desktop')
         }
       }, {
         label: 'Community Discussions',
         click() {
-          shell.openExternal('https://discuss.atom.io/c/electron')
+          shell.openExternal('zaphq.slack.com')
         }
       }, {
         label: 'Search Issues',
         click() {
-          shell.openExternal('https://github.com/atom/electron/issues')
+          shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues')
         }
       }]
     }]
