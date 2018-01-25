@@ -47,14 +47,14 @@ class Activity extends Component {
   render() {
     const {
       ticker,
-      searchInvoices,
-      invoice: { invoicesSearchText, invoiceLoading },
+      updateSearchText,
+      invoice: { invoiceLoading },
       address: { address },
       balance,
       info,
       payment: { paymentLoading },
       currentTicker,
-      activity: { modal, filter, filterPulldown },
+      activity: { modal, filter, filterPulldown, searchText },
       hideActivityModal,
       changeFilter,
       toggleFilterPulldown,
@@ -84,10 +84,10 @@ class Activity extends Component {
             <MdSearch />
           </label>
           <input
-            value={invoicesSearchText}
-            onChange={event => searchInvoices(event.target.value)}
+            value={searchText}
+            onChange={event => updateSearchText(event.target.value)}
             className={`${styles.text} ${styles.input}`}
-            placeholder='Search by amount, hash, memo, etc'
+            placeholder='Search by hash...'
             type='text'
             id='invoiceSearch'
           />
@@ -132,7 +132,7 @@ Activity.propTypes = {
   fetchBalance: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
-  searchInvoices: PropTypes.func.isRequired,
+  updateSearchText: PropTypes.func.isRequired,
   invoice: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
