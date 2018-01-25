@@ -24,6 +24,13 @@ body {
   font-family: 'Roboto';
 }
 
+// disable the pinball scrollers for windows
+* {
+  &::-webkit-inner-spin-button, &::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+  }
+}
+
 .ReactModal__Overlay {
   transition: opacity 500ms ease-in-out;
   opacity: 0;

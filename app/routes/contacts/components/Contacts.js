@@ -59,6 +59,7 @@ class Contacts extends Component {
       contactsFormProps
     } = this.props
 
+    console.log('currentChannels: ', currentChannels)
     const refreshClicked = () => {
       // turn the spinner on
       this.setState({ refreshing: true })
@@ -155,7 +156,7 @@ class Contacts extends Component {
             currentChannels.length > 0 && currentChannels.map((channel, index) => {
               if (closingChannelIds.includes(channel.chan_id)) {
                 return <LoadingContact pubkey={channel.remote_pubkey} isClosing key={index} />
-              } else if (Object.prototype.hasOwnProperty.call(channel, 'blocks_till_open')) {
+              } else if (Object.prototype.hasOwnProperty.call(channel, 'confirmation_height')) {
                 return <PendingContact channel={channel} key={index} />
               } else if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
                 return <ClosingContact channel={channel} key={index} />
