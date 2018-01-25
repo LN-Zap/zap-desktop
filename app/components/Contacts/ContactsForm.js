@@ -115,9 +115,7 @@ class ContactsForm extends React.Component {
     const searchUpdated = (search) => {
       updateContactFormSearchQuery(search)
 
-      console.log('search: ', search)
       if (search.includes('@') && search.split('@')[0].length === 66) {
-        console.log('yo')
         updateManualFormSearchQuery(search)
       }
     }
