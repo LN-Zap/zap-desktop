@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="18px" height="18px" viewBox="0 0 18 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.2 (47327) - http://www.bohemiancoding.com/sketch -->
+    <title>life-buoy</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Main-Page-Copy-15" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-39.000000, -377.000000)" stroke-linecap="round" stroke-linejoin="round">
+        <g id="life-buoy" transform="translate(40.000000, 378.000000)" stroke="#FFFFFF" stroke-width="0.8">
+            <circle id="Oval" cx="8" cy="8" r="8"></circle>
+            <circle id="Oval" cx="8" cy="8" r="3.2"></circle>
+            <path d="M2.4,2.4 L5.792,5.792" id="Shape"></path>
+            <path d="M10.4,10.4 L13.792,13.792" id="Shape"></path>
+            <path d="M10.4,5.792 L13.792,2.4" id="Shape"></path>
+            <path d="M10.4,6.024 L13.224,3.2" id="Shape"></path>
+            <path d="M2.4,13.792 L5.792,10.4" id="Shape"></path>
+        </g>
+    </g>
+</svg>
