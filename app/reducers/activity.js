@@ -77,7 +77,7 @@ const ACTION_HANDLERS = {
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { modalType: null, modalProps: {} } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
   [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
-  
+
   [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText })
 }
 
@@ -99,10 +99,11 @@ const allActivity = createSelector(
   transactionsSelector,
   (searchText, payments, invoices, transactions) => {
     const searchedArr = [...payments, ...invoices, ...transactions].filter(tx => {
-      if ((tx.tx_hash && tx.tx_hash.includes(searchText)) || 
-          (tx.payment_hash && tx.payment_hash.includes(searchText)) || 
-          (tx.r_hash && tx.r_hash.includes(searchText)))
-      { return true }
+      if ((tx.tx_hash && tx.tx_hash.includes(searchText)) ||
+          (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
+          (tx.r_hash && tx.r_hash.includes(searchText))) {
+        return true
+      }
 
       return false
     })
@@ -155,19 +156,6 @@ activitySelectors.nonActiveFilters = createSelector(
   filterSelector,
   (filters, filter) => filters.filter(f => f.key !== filter.key)
 )
-
-activitySelectors.searchActivity = createSelector(
-  searchSelector,
-  paymentsSelector,
-  transactionsSelector,
-  invoicesSelector,
-  (searchText, payments, transactions, invoices) => {
-    if (!searchText.length) { return }
-
-
-  }
-)
-
 
 export { activitySelectors }
 
