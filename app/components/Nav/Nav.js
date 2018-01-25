@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom'
 import Isvg from 'react-inlinesvg'
 
 import walletIcon from 'icons/wallet_2.svg'
-import peersIcon from 'icons/channels.svg'
+import peersIcon from 'icons/contacts.svg'
 import networkIcon from 'icons/network.svg'
 import helpIcon from 'icons/help_2.svg'
 

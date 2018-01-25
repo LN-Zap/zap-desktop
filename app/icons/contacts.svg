@@ -4,12 +4,14 @@
     <title>Group 7</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="Main-Page-Copy-15" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-38.000000, -227.000000)" stroke-linecap="round" stroke-linejoin="round">
-        <g id="Group-7" transform="translate(39.000000, 228.000000)" stroke="#FFFFFF" stroke-width="0.81">
-            <path d="M13.5,14 L13.5,12.5416667 C13.5,10.9308361 11.988961,9.625 10.125,9.625 L3.375,9.625 C1.51103897,9.625 1.87350135e-16,10.9308361 0,12.5416667 L0,14" id="Shape"></path>
-            <ellipse id="Oval" cx="6.75" cy="3.0625" rx="3.15" ry="3.0625"></ellipse>
-            <path d="M18,14 L18,12.5093697 C17.9987763,11.1507479 16.8884989,9.96465516 15.3,9.625" id="Shape"></path>
-            <path d="M12.6,0 C14.1887696,0.358150316 15.3,1.61857365 15.3,3.0625 C15.3,4.50642635 14.1887696,5.76684968 12.6,6.125" id="Shape"></path>
+    <g id="Swap-4" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" transform="translate(-38.000000, -227.000000)" stroke-linecap="round" stroke-linejoin="round">
+        <g id="Group" transform="translate(-2.000000, 0.000000)" stroke="#FFFFFF" stroke-width="0.8">
+            <g id="Group-7" transform="translate(41.000000, 228.000000)">
+                <path d="M13.5,14 L13.5,12.5416667 C13.5,10.9308361 11.988961,9.625 10.125,9.625 L3.375,9.625 C1.51103897,9.625 1.87350135e-16,10.9308361 0,12.5416667 L0,14" id="Shape"></path>
+                <ellipse id="Oval" cx="6.75" cy="3.0625" rx="3.15" ry="3.0625"></ellipse>
+                <path d="M18,14 L18,12.5093697 C17.9987763,11.1507479 16.8884989,9.96465516 15.3,9.625" id="Shape"></path>
+                <path d="M12.6,0 C14.1887696,0.358150316 15.3,1.61857365 15.3,3.0625 C15.3,4.50642635 14.1887696,5.76684968 12.6,6.125" id="Shape"></path>
+            </g>
         </g>
     </g>
 </svg>
