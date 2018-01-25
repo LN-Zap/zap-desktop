@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import Isvg from 'react-inlinesvg'
 
-import walletIcon from 'icons/wallet.svg'
-import peersIcon from 'icons/peers.svg'
-import networkIcon from 'icons/globe.svg'
-import helpIcon from 'icons/help.svg'
+import walletIcon from 'icons/wallet_2.svg'
+import peersIcon from 'icons/channels.svg'
+import networkIcon from 'icons/network.svg'
+import helpIcon from 'icons/help_2.svg'
 
 import styles from './Nav.scss'
 

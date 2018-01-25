@@ -3,7 +3,6 @@ import { tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
 import {
   fetchInvoices,
-  searchInvoices,
   setInvoice,
   invoiceSelectors
 } from 'reducers/invoice'
@@ -18,7 +17,8 @@ import {
   hideActivityModal,
   changeFilter,
   toggleFilterPulldown,
-  activitySelectors
+  activitySelectors,
+  updateSearchText
 } from 'reducers/activity'
 import { newAddress } from 'reducers/address'
 
@@ -30,13 +30,13 @@ const mapDispatchToProps = {
   fetchPayments,
   fetchInvoices,
   fetchTransactions,
-  searchInvoices,
   showActivityModal,
   hideActivityModal,
   changeFilter,
   toggleFilterPulldown,
   newAddress,
-  fetchBalance
+  fetchBalance,
+  updateSearchText
 }
 
 const mapStateToProps = state => ({
