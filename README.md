@@ -65,14 +65,17 @@ Then you can simply run the file:
 ./zap-desktop_0.0.1_amd64.AppImage
 ```
 
-## Contributing
-Please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md).
+## Advanced Usage
+If you would like to install from source or run a full bitcoin node, please see the [advanced usage](https://github.com/LN-Zap/zap-desktop/blob/master/ADVANCED.md) page. 
+
+### Contributing
+If you would like to help contribute to the project, please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md).
 
 ## Q & A (Quality and Assurance)
 
-A good product not only has good software tests but also checks the quality of the UX/UI. Putting ourselves in the shoes of a user is a very important design principle of Zap.
+***Note:*** *If you are having problems with Zap, please report the issue in [GitHub](https://github.com/LN-Zap/zap-desktop/issues) or on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ) with screenshots and/or how to reproduce the bug/error.*
 
-If you are having problems with Zap, please report the issue with screenshots and/or how to reproduce the bug/error.
+A good product not only has good software tests but also checks the quality of the UX/UI. Putting ourselves in the shoes of a user is a very important design principle of Zap.
 
 ### Supported Operating Systems
 - Mac
