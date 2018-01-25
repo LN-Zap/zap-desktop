@@ -50,7 +50,7 @@ class LndSyncing extends Component {
     const renderCurrentFact = facts[currentFact]
 
     const copyOnClick = () => {
-      if (!address) { return }
+      if (!address || !address.length) { return }
 
       copy(address)
       showNotification('Noice', 'Successfully copied to clipboard')
