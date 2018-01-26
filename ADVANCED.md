@@ -35,8 +35,8 @@ Zap requires `lnd` but does not store `lnd` binaries in the Github repo.
 
 To setup `lnd` for Zap, you have two options:
 
-- [Light Client](#Light-Client)
-- [Full Bitcoin Node](#Full-Bitcoin-Node)
+- [Light Client](#light-client)
+- [Full Bitcoin Node](#full-bitcoin-node)
 
 ### Light Client
 

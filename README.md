@@ -36,13 +36,13 @@ Once you have the .exe file downloaded, simply double click on the file.
 Once you have the .deb file downloaded, you will need to install the package with `dpkg`:
 
 ```bash
-dpkg -i zap-desktop_0.0.1_amd64.deb
+sudo dpkg -i file.deb
 ```
 
 If this is your first time installing zap, you may have some unmet dependencies. This can be resolved with the following command:
 
 ```bash
-apt-get update && apt-get -f install
+sudo apt-get -f install
 ```
 
 To run Zap you can either navigate through the GUI or run the following command:
@@ -56,13 +56,13 @@ zap-desktop
 Once you have downloaded the .AppImage file, you will need to navigate to the download directory and make it executable:
 
 ```bash
-chmod +x zap-desktop_0.0.1_amd64.AppImage
+chmod +x file.AppImage
 ```
 
 Then you can simply run the file:
 
 ```bash
-./zap-desktop_0.0.1_amd64.AppImage
+./file.AppImage
 ```
 
 ## Advanced Usage
