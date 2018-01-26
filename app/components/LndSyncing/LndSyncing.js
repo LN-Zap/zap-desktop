@@ -85,28 +85,6 @@ class LndSyncing extends Component {
             }
           </ul>
         </div>
-
-        <div className={styles.footer}>
-          <section>
-            <h2>Fund your Zap wallet</h2>
-            <p>Deposit to your wallet while your node is syncing so autopilot can start working magic for you</p>
-          </section>
-          <section>
-            <div className={styles.address}>
-              <span>
-                {
-                  addressLoading ?
-                    'Loading...'
-                    :
-                    address
-                }
-              </span>
-              <span className='hint--left' data-hint='Copy Address' onClick={copyOnClick}>
-                <FaCopy />
-              </span>
-            </div>
-          </section>
-        </div>
       </div>
     )
   }
