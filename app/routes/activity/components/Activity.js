@@ -67,8 +67,6 @@ class Activity extends Component {
     if (balance.balanceLoading) { return <LoadingBolt /> }
     if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
-    console.log('currentActivity: ', currentActivity)
-
     return (
       <div>
         <Modal
