@@ -101,7 +101,7 @@ const allActivity = createSelector(
     const searchedArr = [...payments, ...invoices, ...transactions].filter((tx) => {
       if ((tx.tx_hash && tx.tx_hash.includes(searchText)) ||
           (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
-          (tx.r_hash && tx.r_hash.includes(searchText))) {
+          (tx.payment_request && tx.payment_request.includes(searchText))) {
         return true
       }
 

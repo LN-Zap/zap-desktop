@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
 import { showNotification } from 'notifications'
-import { FaCopy } from 'react-icons/lib/fa'
 import styles from './LndSyncing.scss'
 
 
@@ -36,25 +35,10 @@ class LndSyncing extends Component {
     this.props.fetchBlockHeight()
   }
 
-  componentDidUpdate(prevProps) {
-    const { grpcStarted, newAddress } = this.props
-
-    if (!prevProps.grpcStarted && grpcStarted) {
-      newAddress('np2wkh')
-    }
-  }
-
   render() {
-    const { syncPercentage, address: { addressLoading, address } } = this.props
+    const { syncPercentage } = this.props
     const { facts, currentFact } = this.state
     const renderCurrentFact = facts[currentFact]
-
-    const copyOnClick = () => {
-      if (!address || !address.length) { return }
-
-      copy(address)
-      showNotification('Noice', 'Successfully copied to clipboard')
-    }
 
     return (
       <div className={styles.container}>
@@ -91,13 +75,11 @@ class LndSyncing extends Component {
 }
 
 LndSyncing.propTypes = {
-  newAddress: PropTypes.func.isRequired,
   fetchBlockHeight: PropTypes.func.isRequired,
   syncPercentage: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
   ]).isRequired,
-  address: PropTypes.object.isRequired,
   grpcStarted: PropTypes.bool.isRequired
 }
 
