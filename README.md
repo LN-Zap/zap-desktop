@@ -77,11 +77,6 @@ If you would like to help contribute to the project, please see the [contributin
 
 A good product not only has good software tests but also checks the quality of the UX/UI. Putting ourselves in the shoes of a user is a very important design principle of Zap.
 
-### Supported Operating Systems
-- Mac
-- Windows
-- Linux
-
 ### Example User Stories
 `User wants to connect to a peer`
 
