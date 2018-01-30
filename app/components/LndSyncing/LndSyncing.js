@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import copy from 'copy-to-clipboard'
-import { showNotification } from 'notifications'
 import styles from './LndSyncing.scss'
 
 
@@ -79,8 +77,7 @@ LndSyncing.propTypes = {
   syncPercentage: PropTypes.oneOfType([
     PropTypes.number,
     PropTypes.string
-  ]).isRequired,
-  grpcStarted: PropTypes.bool.isRequired
+  ]).isRequired
 }
 
 export default LndSyncing
