@@ -141,7 +141,6 @@ const startLnd = () => {
       '--bitcoin.testnet',
       '--bitcoin.node=neutrino',
       '--neutrino.connect=btcd.jackmallers.com:18333',
-      '--neutrino.connect=127.0.0.1:18333',
       '--autopilot.active',
       '--debuglevel=debug',
       '--noencryptwallet'
