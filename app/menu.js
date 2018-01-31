@@ -34,7 +34,7 @@ export default class MenuBuilder {
     const selectionMenu = Menu.buildFromTemplate([
       { role: 'copy' },
       { type: 'separator' },
-      { role: 'selectall' },
+      { role: 'selectall' }
     ])
 
     const inputMenu = Menu.buildFromTemplate([
@@ -45,16 +45,16 @@ export default class MenuBuilder {
       { role: 'copy' },
       { role: 'paste' },
       { type: 'separator' },
-      { role: 'selectall' },
+      { role: 'selectall' }
     ])
 
     this.mainWindow.webContents.on('context-menu', (e, props) => {
-      const { selectionText, isEditable } = props;
+      const { selectionText, isEditable } = props
 
       if (isEditable) {
-        inputMenu.popup(this.mainWindow);
+        inputMenu.popup(this.mainWindow)
       } else if (selectionText && selectionText.trim() !== '') {
-        selectionMenu.popup(this.mainWindow);
+        selectionMenu.popup(this.mainWindow)
       }
     })
   }
