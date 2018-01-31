@@ -21,26 +21,46 @@ export default class MenuBuilder {
       template = this.buildDefaultTemplate()
     }
 
+    this.setupInputTemplate()
+
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
+
 
     return menu
   }
 
+  setupInputTemplate() {
+    const selectionMenu = Menu.buildFromTemplate([
+      { role: 'copy' },
+      { type: 'separator' },
+      { role: 'selectall' }
+    ])
+
+    const inputMenu = Menu.buildFromTemplate([
+      { role: 'undo' },
+      { role: 'redo' },
+      { type: 'separator' },
+      { role: 'cut' },
+      { role: 'copy' },
+      { role: 'paste' },
+      { type: 'separator' },
+      { role: 'selectall' }
+    ])
+
+    this.mainWindow.webContents.on('context-menu', (e, props) => {
+      const { selectionText, isEditable } = props
+
+      if (isEditable) {
+        inputMenu.popup(this.mainWindow)
+      } else if (selectionText && selectionText.trim() !== '') {
+        selectionMenu.popup(this.mainWindow)
+      }
+    })
+  }
+
   setupDevelopmentEnvironment() {
     this.mainWindow.openDevTools()
-    this.mainWindow.webContents.on('context-menu', (e, props) => {
-      const { x, y } = props
-
-      Menu
-        .buildFromTemplate([{
-          label: 'Inspect element',
-          click: () => {
-            this.mainWindow.inspectElement(x, y)
-          }
-        }])
-        .popup(this.mainWindow)
-    })
   }
 
   buildDarwinTemplate() {
