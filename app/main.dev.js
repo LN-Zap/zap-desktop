@@ -236,6 +236,9 @@ app.on('ready', async () => {
 
   mainWindow.on('closed', () => {
     mainWindow = null
+
+    // shut down zap when a user closes the window
+    app.quit()
   })
 
   const menuBuilder = new MenuBuilder(mainWindow)
