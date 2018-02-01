@@ -39,6 +39,7 @@ class App extends Component {
 
     return (
       <div>
+        <div className={styles.titleBar} />
         <GlobalError error={error} clearError={clearError} />
         <ModalRoot
           modalType={modalType}
