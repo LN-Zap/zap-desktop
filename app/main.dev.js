@@ -210,7 +210,7 @@ app.on('ready', async () => {
   console.log('icon: ', icon)
   mainWindow = new BrowserWindow({
     show: false,
-    frame: true,
+    titleBarStyle: 'hidden',
     width: 700,
     height: 1100,
     minHeight: 700,
