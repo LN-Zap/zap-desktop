@@ -21,13 +21,14 @@ class Activity extends Component {
 
   componentWillMount() {
     const {
-      fetchPayments, fetchInvoices, fetchTransactions, fetchBalance
+      fetchPayments, fetchInvoices, fetchTransactions, fetchBalance, fetchChannels
     } = this.props
 
     fetchBalance()
     fetchPayments()
     fetchInvoices()
     fetchTransactions()
+    fetchChannels()
   }
 
   renderActivity(activity) {
@@ -54,13 +55,15 @@ class Activity extends Component {
       info,
       payment: { paymentLoading },
       currentTicker,
-      activity: { modal, filter, filterPulldown, searchText },
+      activity: { modal, filters, filter, filterPulldown, searchText },
       hideActivityModal,
       changeFilter,
       toggleFilterPulldown,
       currentActivity,
       nonActiveFilters,
-      newAddress
+      newAddress,
+      openPayForm,
+      openRequestForm
     } = this.props
 
     if (invoiceLoading || paymentLoading) { return <LoadingBolt /> }
@@ -68,7 +71,7 @@ class Activity extends Component {
     if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         <Modal
           modalType={modal.modalType}
           modalProps={modal.modalProps}
@@ -77,33 +80,26 @@ class Activity extends Component {
           currentTicker={currentTicker}
         />
 
-        <Wallet balance={balance} address={address} info={info} newAddress={newAddress} />
-
-        <div className={styles.search}>
-          <label className={`${styles.label} ${styles.input}`} htmlFor='invoiceSearch'>
-            <MdSearch />
-          </label>
-          <input
-            value={searchText}
-            onChange={event => updateSearchText(event.target.value)}
-            className={`${styles.text} ${styles.input}`}
-            placeholder='Search by hash...'
-            type='text'
-            id='invoiceSearch'
-          />
-        </div>
+        <Wallet
+          balance={balance}
+          address={address}
+          info={info}
+          newAddress={newAddress}
+          currentTicker={currentTicker}
+          openPayForm={openPayForm}
+          openRequestForm={openRequestForm}
+        />
 
         <div className={styles.activities}>
           <header className={styles.header}>
             <section>
-              <h2 onClick={toggleFilterPulldown}>
-                {filter.name} <span className={filterPulldown && styles.pulldown}><FaAngleDown /></span>
-              </h2>
-              <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
+              <ul className={styles.filters}>
                 {
-                  nonActiveFilters.map(f => (
-                    <li key={f.key} onClick={() => changeFilter(f)}>
-                      {f.name}
+                  filters.map(f => (
+                    <li key={f.key} className={f.key === filter.key && styles.activeFilter} onClick={() => changeFilter(f)}>
+                      <span>{f.name}</span>
+
+                      <div className={f.key === filter.key && styles.activeBorder} />
                     </li>
                   ))
                 }
@@ -142,6 +138,8 @@ Activity.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
   toggleFilterPulldown: PropTypes.func.isRequired,
+  openPayForm: PropTypes.func.isRequired,
+  openRequestForm: PropTypes.func.isRequired,
 
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,

@@ -7,11 +7,11 @@ const initialState = {
   filterPulldown: false,
   filter: { key: 'ALL_ACTIVITY', name: 'All Activity' },
   filters: [
-    { key: 'ALL_ACTIVITY', name: 'All Activity' },
-    { key: 'LN_ACTIVITY', name: 'LN Activity' },
-    { key: 'PAYMENT_ACTIVITY', name: 'LN Payments' },
-    { key: 'INVOICE_ACTIVITY', name: 'LN Invoices' },
-    { key: 'TRANSACTION_ACTIVITY', name: 'On-chain Activity' }
+    { key: 'ALL_ACTIVITY', name: 'All' },
+    { key: 'SENT_ACTIVITY', name: 'Sent' },
+    { key: 'REQUESTED_ACTIVITY', name: 'Requested' },
+    { key: 'PENDING_ACTIVITY', name: 'Pending' },
+    { key: 'FUNDED_ACTIVITY', name: 'Funding Transactions' }
   ],
   modal: {
     modalType: null,
@@ -91,6 +91,7 @@ const searchSelector = state => state.activity.searchText
 const paymentsSelector = state => state.payment.payments
 const invoicesSelector = state => state.invoice.invoices
 const transactionsSelector = state => state.transaction.transactions
+const channelsSelector = state => state.channels.channels
 
 const allActivity = createSelector(
   searchSelector,
@@ -138,12 +139,41 @@ const transactionActivity = createSelector(
   transactions => transactions
 )
 
+const sentActivity = createSelector(
+  transactionsSelector,
+  paymentsSelector,
+  (transactions, payments) => {
+    const sentTransactions = transactions.filter(transaction => transaction.amount < 0)
+    return [...sentTransactions, ...payments].sort((a, b) => {
+      const aTimestamp = Object.prototype.hasOwnProperty.call(a, 'time_stamp') ? a.time_stamp : a.creation_date
+      const bTimestamp = Object.prototype.hasOwnProperty.call(b, 'time_stamp') ? b.time_stamp : b.creation_date
+
+      return bTimestamp - aTimestamp
+    })
+  }
+)
+
+const pendingActivity = createSelector(
+  invoicesSelector,
+  invoices => invoices.filter(invoice => !invoice.settled)
+)
+
+const fundedActivity = createSelector(
+  transactionsSelector,
+  channelsSelector,
+  (transactions, channels) => {
+    const fundingTxIds = channels.map(channel => channel.channel_point.split(':')[0])
+
+    return transactions.filter(transaction => fundingTxIds.includes(transaction.tx_hash))
+  }
+)
+
 const FILTERS = {
   ALL_ACTIVITY: allActivity,
-  LN_ACTIVITY: lnActivity,
-  PAYMENT_ACTIVITY: paymentActivity,
-  INVOICE_ACTIVITY: invoiceActivity,
-  TRANSACTION_ACTIVITY: transactionActivity
+  SENT_ACTIVITY: sentActivity,
+  REQUESTED_ACTIVITY: invoiceActivity,
+  PENDING_ACTIVITY: pendingActivity,
+  FUNDED_ACTIVITY: fundedActivity
 }
 
 activitySelectors.currentActivity = createSelector(

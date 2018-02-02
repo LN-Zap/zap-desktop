@@ -24,8 +24,6 @@ class App extends Component {
       currentTicker,
       form,
 
-      openPayForm,
-      openRequestForm,
       formProps,
       closeForm,
 
@@ -38,7 +36,7 @@ class App extends Component {
     if (!currentTicker) { return <LoadingBolt /> }
 
     return (
-      <div>
+      <div style={{ height: '100%' }}>
         <div className={styles.titleBar} />
         <GlobalError error={error} clearError={clearError} />
         <ModalRoot
@@ -50,11 +48,6 @@ class App extends Component {
         />
 
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
-
-        <Nav
-          openPayForm={openPayForm}
-          openRequestForm={openRequestForm}
-        />
 
         <div className={styles.content}>
           {children}
@@ -76,8 +69,6 @@ App.propTypes = {
   fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
-  openPayForm: PropTypes.func.isRequired,
-  openRequestForm: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
 
   currentTicker: PropTypes.object,
