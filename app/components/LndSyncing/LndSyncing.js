@@ -45,7 +45,7 @@ class LndSyncing extends Component {
             <h3>zap</h3>
           </section>
           <section className={`${styles.loading} hint--left`} data-hint='Syncing your Lightning Network node to the blockchain'>
-            <h4>{syncPercentage.toString().length > 0 && `${syncPercentage}%`}</h4>
+            <h4>{syncPercentage >= 0 && `${syncPercentage}%`}</h4>
             <div className={styles.spinner} />
           </section>
         </header>
