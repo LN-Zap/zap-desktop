@@ -135,6 +135,22 @@ const startLnd = () => {
     lndPath = path.join(__dirname, '..', 'bin', plat === 'win32' ? 'lnd.exe' : 'lnd')
   }
 
+  if (!fs.existsSync(lndPath)) {
+    console.log('ERROR: lnd file not found at: ', lndPath.toString());
+    console.log('Make sure you have downloaded the appropiate lnd file to the proper directory.')
+    console.log('See README for download links and installation instructions.');
+    return app.quit();
+
+  }
+
+  try {
+    fs.accessSync(lndPath, fs.constants.X_OK);
+  } catch (err) {
+    console.log('ERROR: lnd file does not have execute permissions');
+    console.log('Run: chmod +x ' + lndPath)
+    return app.quit();
+  }
+
   const neutrino = spawn(lndPath,
     [
       '--bitcoin.active',
@@ -147,10 +163,12 @@ const startLnd = () => {
       '--autopilot.active',
       '--debuglevel=debug',
       '--noencryptwallet'
-    ]
-  )
+    ])
     .on('error', error => console.log(`lnd error: ${error}`))
-    .on('close', code => console.log(`lnd shutting down ${code}`))
+    .on('close', (code) => {
+      console.log(`ERROR: lnd shut down with code ${code}`)
+      app.quit();
+    })
 
   // Listen for when neutrino prints out data
   neutrino.stdout.on('data', (data) => {
