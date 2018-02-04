@@ -11,7 +11,7 @@ Zap is a free Lightning Network wallet focused on user experience and ease of us
 Zap is built on top of [LND](https://github.com/lightningnetwork/lnd), and uses
 [Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs) for the UI.
 
-Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ) to discuss development, design and product
+Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMzA4OTgxNTQ4NzUzLTQwYjkzZGM0ZWMwYmYyZTE2Y2E1YjM5NTIwOTU0M2I1Zjc2YWY1NTc4NjdhZWQxNTM1YzEzOGM2YTVlNWIwODc) to discuss development, design and product
 
 ## Requirements
 
@@ -68,8 +68,8 @@ $ npm run lint
 ## Contributing:
 Please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md)
 
-## Todos (Last updated August 16th):
-Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ) before tackling a todo to avoid duplicate work. 
+## Todos:
+Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMzA4OTgxNTQ4NzUzLTQwYjkzZGM0ZWMwYmYyZTE2Y2E1YjM5NTIwOTU0M2I1Zjc2YWY1NTc4NjdhZWQxNTM1YzEzOGM2YTVlNWIwODc) before tackling a todo to avoid duplicate work. 
 
 The old todo list was recently removed. Come on slack or check open Github issues to see what contributions are needed.
 
