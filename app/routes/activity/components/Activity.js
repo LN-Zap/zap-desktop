@@ -21,14 +21,13 @@ class Activity extends Component {
 
   componentWillMount() {
     const {
-      fetchPayments, fetchInvoices, fetchTransactions, fetchBalance, fetchChannels
+      fetchPayments, fetchInvoices, fetchTransactions, fetchBalance
     } = this.props
 
     fetchBalance()
     fetchPayments()
     fetchInvoices()
     fetchTransactions()
-    fetchChannels()
   }
 
   renderActivity(activity) {

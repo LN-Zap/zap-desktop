@@ -4,16 +4,18 @@ import GlobalError from 'components/GlobalError'
 import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
-import Nav from 'components/Nav'
+import Network from 'components/Contacts/Network'
 import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchInfo, newAddress } = this.props
+    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchBalance } = this.props
 
     fetchTicker()
     fetchInfo()
     newAddress('np2wkh')
+    fetchChannels()
+    fetchBalance()
   }
 
   render() {
@@ -23,6 +25,9 @@ class App extends Component {
       ticker,
       currentTicker,
       form,
+
+      channels,
+      balance,
 
       formProps,
       closeForm,
@@ -52,6 +57,11 @@ class App extends Component {
         <div className={styles.content}>
           {children}
         </div>
+        <Network
+          channels={channels}
+          balance={balance}
+          currentTicker={currentTicker}
+        />
       </div>
     )
   }

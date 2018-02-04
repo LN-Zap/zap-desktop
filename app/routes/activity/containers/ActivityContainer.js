@@ -22,7 +22,6 @@ import {
 } from 'reducers/activity'
 import { newAddress } from 'reducers/address'
 import { setFormType } from 'reducers/form'
-import { fetchChannels } from 'reducers/channels'
 
 import Activity from '../components/Activity'
 
@@ -39,8 +38,7 @@ const mapDispatchToProps = {
   newAddress,
   fetchBalance,
   updateSearchText,
-  setFormType,
-  fetchChannels
+  setFormType
 }
 
 const mapStateToProps = state => ({

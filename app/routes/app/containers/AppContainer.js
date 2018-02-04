@@ -17,6 +17,9 @@ import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
 import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 
+import { fetchChannels } from 'reducers/channels'
+import { fetchBalance } from 'reducers/balance'
+
 import { clearError } from 'reducers/error'
 
 
@@ -48,7 +51,10 @@ const mapDispatchToProps = {
   fetchInvoice,
 
   fetchBlockHeight,
-  clearError
+  clearError,
+
+  fetchChannels,
+  fetchBalance
 }
 
 const mapStateToProps = state => ({
@@ -59,6 +65,8 @@ const mapStateToProps = state => ({
   info: state.info,
   payment: state.payment,
   transaction: state.transaction,
+  channels: state.channels,
+  balance: state.balance,
 
   form: state.form,
   payform: state.payform,
