@@ -41,7 +41,7 @@ class App extends Component {
     if (!currentTicker) { return <LoadingBolt /> }
 
     return (
-      <div style={{ height: '100%' }}>
+      <div>
         <div className={styles.titleBar} />
         <GlobalError error={error} clearError={clearError} />
         <ModalRoot

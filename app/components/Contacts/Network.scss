@@ -85,9 +85,11 @@
 }
 
 .search {
-  height: 55px;
-  padding: 2px 5px;
-  border-top: 0.5px solid #ccc;
+  position: absolute;
+  bottom: 20px;
+  width: calc(100% - 40px);
+  padding: 10px 20px;
+  border-top: 1px solid $darkestgrey;
 
   .input {
     display: inline-block;
@@ -111,10 +113,10 @@
   }
 
   .text {
-    width: 90%;
+    width: calc(95% - 20px);
     background: transparent;
     outline: 0;
-    padding: 0 5px;
+    padding: 0 10px;
     border: 0;
     border-radius: 0;
     height: 50px;

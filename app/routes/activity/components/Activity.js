@@ -70,7 +70,7 @@ class Activity extends Component {
     if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
     return (
-      <div style={{ height: '100%' }}>
+      <div>
         <Modal
           modalType={modal.modalType}
           modalProps={modal.modalProps}
