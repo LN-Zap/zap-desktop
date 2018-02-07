@@ -27,7 +27,7 @@ class PayForm extends Component {
     }
 
     // If the with of the ghost input has changed, update the scrollWith
-    if (prevState.scrollWidth != this.amountGhostInput.scrollWidth) {
+    if (prevState.scrollWidth !== this.amountGhostInput.scrollWidth) {
       this.setState({ scrollWidth: this.amountGhostInput.scrollWidth })
     }
 
@@ -61,15 +61,22 @@ class PayForm extends Component {
 
     const { scrollWidth } = this.state
 
-    const fontSize = `${190 - amount.length ** 2}px`
+    const sqrt = amount.length ** 2
+    const fontSize = `${190 - sqrt}px`
 
     return (
       <div className={styles.container}>
         {showPayLoadingScreen && <LoadingBolt />}
 
         <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''} ${showErrors.amount && styles.error}`}>
-          <span className={styles.ghostInput} ref={input => (this.amountGhostInput = input)} style={{ fontSize }}>
-            {this.amountInput && this.amountInput.value != '' ? this.amountInput.value : 0}
+          <span
+            className={styles.ghostInput}
+            ref={(input) => {
+              this.amountGhostInput = input
+            }}
+            style={{ fontSize }}
+          >
+            {this.amountInput && this.amountInput.value !== '' ? this.amountInput.value : 0}
           </span>
           <label htmlFor='amount'>
             <CurrencyIcon currency={currency} crypto={crypto} />
