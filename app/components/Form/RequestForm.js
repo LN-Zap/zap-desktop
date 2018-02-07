@@ -16,7 +16,7 @@ class RequestForm extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     // If the with of the ghost input has changed, update the scrollWith
-    if (prevState.scrollWidth != this.amountGhostInput.scrollWidth) {
+    if (prevState.scrollWidth !== this.amountGhostInput.scrollWidth) {
       this.setState({ scrollWidth: this.amountGhostInput.scrollWidth })
     }
   }
@@ -34,14 +34,20 @@ class RequestForm extends Component {
     } = this.props
 
     const { scrollWidth } = this.state
+    const sqrt = amount.length ** 2
+    const fontSize = `${190 - sqrt}px`
 
-    const fontSize = `${190 - amount.length ** 2}px`
-    console.log('this.props', this.props)
     return (
       <div className={styles.container}>
         <section className={styles.amountContainer}>
-          <span className={styles.ghostInput} ref={input => (this.amountGhostInput = input)} style={{ fontSize }}>
-            {this.amountInput && this.amountInput.value != '' ? this.amountInput.value : 0}
+          <span
+            className={styles.ghostInput}
+            ref={(input) => {
+              this.amountGhostInput = input
+            }}
+            style={{ fontSize }}
+          >
+            {this.amountInput && this.amountInput.value !== '' ? this.amountInput.value : 0}
           </span>
           <label htmlFor='amount'>
             <CurrencyIcon currency={currency} crypto={crypto} />
