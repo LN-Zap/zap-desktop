@@ -1,6 +1,8 @@
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
+
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
+
 import { newAddress } from 'reducers/address'
 
 import { fetchInfo } from 'reducers/info'
@@ -8,11 +10,15 @@ import { fetchInfo } from 'reducers/info'
 import { showModal, hideModal } from 'reducers/modal'
 
 import { setFormType } from 'reducers/form'
+
 import { setPayAmount, setPayInput, updatePayErrors, payFormSelectors } from 'reducers/payform'
+
 import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
 
 import { sendCoins } from 'reducers/transaction'
+
 import { payInvoice } from 'reducers/payment'
+
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
 import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
@@ -23,12 +29,9 @@ import {
   closeChannel,
   channelsSelectors,
   currentChannels,
-
   toggleFilterPulldown,
   changeFilter,
-
   updateChannelSearchQuery,
-
   openContactModal,
   closeContactModal
 } from 'reducers/channels'
@@ -49,12 +52,12 @@ import { fetchDescribeNetwork } from 'reducers/network'
 
 import { clearError } from 'reducers/error'
 
-
 import App from '../components/App'
 
 const mapDispatchToProps = {
   fetchTicker,
   setCurrency,
+  
   newAddress,
 
   fetchInfo,

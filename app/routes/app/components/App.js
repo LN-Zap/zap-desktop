@@ -1,23 +1,33 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
 import GlobalError from 'components/GlobalError'
 import LoadingBolt from 'components/LoadingBolt'
+
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
+
 import Network from 'components/Contacts/Network'
 import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
+
 import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
     const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchBalance, fetchDescribeNetwork } = this.props
 
+    // fetch price ticker
     fetchTicker()
+    // fetch node info
     fetchInfo()
+    // fetch new address for wallet
     newAddress('np2wkh')
+    // fetch nodes channels
     fetchChannels()
+    // fetch nodes balance
     fetchBalance()
+    // fetch LN network from nides POV
     fetchDescribeNetwork()
   }
 
@@ -89,7 +99,6 @@ App.propTypes = {
   clearError: PropTypes.func.isRequired,
 
   currentTicker: PropTypes.object,
-
 
   children: PropTypes.object.isRequired
 }
