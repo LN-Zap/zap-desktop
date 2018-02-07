@@ -39,7 +39,9 @@ class Network extends Component {
       toggleFilterPulldown,
       changeFilter,
 
-      updateChannelSearchQuery
+      updateChannelSearchQuery,
+
+      openContactModal
     } = this.props
 
 
@@ -134,7 +136,7 @@ class Network extends Component {
               currentChannels.length > 0 && currentChannels.map((channelObj, index) => {
                 const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel') ? channelObj.channel : channelObj
                 return (
-                  <li key={index} className={styles.channel}>
+                  <li key={index} className={styles.channel} onClick={() => openContactModal(channelObj)}>
                     <span>{displayNodeName(channel)}</span>
                     <span className={styles[channelStatus(channelObj)]}><FaCircle /></span>
                   </li>

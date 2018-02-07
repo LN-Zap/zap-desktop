@@ -20,13 +20,17 @@ import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 import {
   fetchChannels,
   openChannel,
+  closeChannel,
   channelsSelectors,
   currentChannels,
 
   toggleFilterPulldown,
   changeFilter,
 
-  updateChannelSearchQuery
+  updateChannelSearchQuery,
+
+  openContactModal,
+  closeContactModal
 } from 'reducers/channels'
 
 import {
@@ -80,9 +84,12 @@ const mapDispatchToProps = {
 
   fetchChannels,
   openChannel,
+  closeChannel,
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
+  openContactModal,
+  closeContactModal,
   
   openContactsForm,
   closeContactsForm,
@@ -136,7 +143,8 @@ const mapStateToProps = state => ({
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
   nonActiveChannelPubkeys: channelsSelectors.nonActiveChannelPubkeys(state),
   pendingOpenChannelPubkeys: channelsSelectors.pendingOpenChannelPubkeys(state),
-  nonActiveFilters: channelsSelectors.nonActiveFilters(state)
+  nonActiveFilters: channelsSelectors.nonActiveFilters(state),
+  channelNodes: channelsSelectors.channelNodes(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -247,7 +255,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     updateManualFormError: dispatchProps.updateManualFormErrors,
     toggleFilterPulldown: dispatchProps.toggleFilterPulldown,
     changeFilter: dispatchProps.changeFilter,
-    updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery
+    updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
+    openContactModal: dispatchProps.openContactModal
   }
 
   const contactsFormProps = {
@@ -268,6 +277,16 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     pendingOpenChannelPubkeys: stateProps.pendingOpenChannelPubkeys
   }
 
+  const contactModalProps = {
+    closeContactModal: dispatchProps.closeContactModal,
+    closeChannel: dispatchProps.closeChannel,
+
+    isOpen: stateProps.channels.contactModal.isOpen,
+    channel: stateProps.channels.contactModal.channel,
+    channelNodes: stateProps.channelNodes,
+    closingChannelIds: stateProps.channels.closingChannelIds
+  }
+
   return {
     ...stateProps,
     ...dispatchProps,
@@ -277,6 +296,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     networkTabProps,
     // props for the contacts form
     contactsFormProps,
+    // props for the contact modal
+    contactModalProps,
     // Props to pass to the pay form
     formProps: formProps(stateProps.form.formType),
     // action to close form

@@ -5,6 +5,7 @@ import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
 import Network from 'components/Contacts/Network'
+import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
 import styles from './App.scss'
 
@@ -37,8 +38,8 @@ class App extends Component {
       error: { error },
       clearError,
 
+      contactModalProps,
       contactsFormProps,
-
       networkTabProps,
 
       children
@@ -58,6 +59,7 @@ class App extends Component {
           currency={ticker.currency}
         />
 
+        <ContactModal {...contactModalProps} />
         <ContactsForm {...contactsFormProps} />
 
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
