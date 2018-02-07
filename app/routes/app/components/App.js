@@ -5,17 +5,19 @@ import LoadingBolt from 'components/LoadingBolt'
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
 import Network from 'components/Contacts/Network'
+import ContactsForm from 'components/Contacts/ContactsForm'
 import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchBalance } = this.props
+    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchBalance, fetchDescribeNetwork } = this.props
 
     fetchTicker()
     fetchInfo()
     newAddress('np2wkh')
     fetchChannels()
     fetchBalance()
+    fetchDescribeNetwork()
   }
 
   render() {
@@ -35,6 +37,10 @@ class App extends Component {
       error: { error },
       clearError,
 
+      contactsFormProps,
+
+      networkTabProps,
+
       children
     } = this.props
 
@@ -52,16 +58,15 @@ class App extends Component {
           currency={ticker.currency}
         />
 
+        <ContactsForm {...contactsFormProps} />
+
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
 
         <div className={styles.content}>
           {children}
         </div>
-        <Network
-          channels={channels}
-          balance={balance}
-          currentTicker={currentTicker}
-        />
+        
+        <Network {...networkTabProps} />
       </div>
     )
   }
