@@ -69,11 +69,11 @@
       &.active {
         display: block;
         position: absolute;
-        bottom: -80px;
+        bottom: -100px;
         z-index: 10;
 
         li {
-          margin: 5px 0;
+          margin: 10px 0;
           cursor: pointer;
           color: $white;
 
@@ -102,7 +102,7 @@
   }
 
   .fade {
-    opacity: 0.15;
+    opacity: 0.1;
   }
 
   .channel {
