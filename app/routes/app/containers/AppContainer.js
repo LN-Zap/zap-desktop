@@ -1,6 +1,8 @@
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
+
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
+
 import { newAddress } from 'reducers/address'
 
 import { fetchInfo } from 'reducers/info'
@@ -8,23 +10,54 @@ import { fetchInfo } from 'reducers/info'
 import { showModal, hideModal } from 'reducers/modal'
 
 import { setFormType } from 'reducers/form'
+
 import { setPayAmount, setPayInput, updatePayErrors, payFormSelectors } from 'reducers/payform'
+
 import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
 
 import { sendCoins } from 'reducers/transaction'
+
 import { payInvoice } from 'reducers/payment'
+
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
 import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 
-import { clearError } from 'reducers/error'
+import {
+  fetchChannels,
+  openChannel,
+  closeChannel,
+  channelsSelectors,
+  currentChannels,
+  toggleFilterPulldown,
+  changeFilter,
+  updateChannelSearchQuery,
+  openContactModal,
+  closeContactModal
+} from 'reducers/channels'
 
+import {
+  openContactsForm,
+  closeContactsForm,
+  updateContactFormSearchQuery,
+  updateManualFormSearchQuery,
+  updateContactCapacity,
+  contactFormSelectors,
+  updateManualFormErrors
+} from 'reducers/contactsform'
+
+import { fetchBalance } from 'reducers/balance'
+
+import { fetchDescribeNetwork } from 'reducers/network'
+
+import { clearError } from 'reducers/error'
 
 import App from '../components/App'
 
 const mapDispatchToProps = {
   fetchTicker,
   setCurrency,
+
   newAddress,
 
   fetchInfo,
@@ -48,7 +81,28 @@ const mapDispatchToProps = {
   fetchInvoice,
 
   fetchBlockHeight,
-  clearError
+  clearError,
+
+  fetchBalance,
+
+  fetchChannels,
+  openChannel,
+  closeChannel,
+  toggleFilterPulldown,
+  changeFilter,
+  updateChannelSearchQuery,
+  openContactModal,
+  closeContactModal,
+
+  openContactsForm,
+  closeContactsForm,
+  updateContactFormSearchQuery,
+  updateManualFormSearchQuery,
+  updateContactCapacity,
+  contactFormSelectors,
+  updateManualFormErrors,
+
+  fetchDescribeNetwork
 }
 
 const mapStateToProps = state => ({
@@ -59,6 +113,10 @@ const mapStateToProps = state => ({
   info: state.info,
   payment: state.payment,
   transaction: state.transaction,
+  peers: state.peers,
+  channels: state.channels,
+  contactsform: state.contactsform,
+  balance: state.balance,
 
   form: state.form,
   payform: state.payform,
@@ -69,6 +127,8 @@ const mapStateToProps = state => ({
 
   error: state.error,
 
+  network: state.network,
+
   currentTicker: tickerSelectors.currentTicker(state),
   isOnchain: payFormSelectors.isOnchain(state),
   isLn: payFormSelectors.isLn(state),
@@ -76,7 +136,18 @@ const mapStateToProps = state => ({
   inputCaption: payFormSelectors.inputCaption(state),
   showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
   payFormIsValid: payFormSelectors.payFormIsValid(state),
-  syncPercentage: lndSelectors.syncPercentage(state)
+  syncPercentage: lndSelectors.syncPercentage(state),
+
+  filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
+  showManualForm: contactFormSelectors.showManualForm(state),
+  manualFormIsValid: contactFormSelectors.manualFormIsValid(state),
+
+  currentChannels: currentChannels(state),
+  activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
+  nonActiveChannelPubkeys: channelsSelectors.nonActiveChannelPubkeys(state),
+  pendingOpenChannelPubkeys: channelsSelectors.pendingOpenChannelPubkeys(state),
+  nonActiveFilters: channelsSelectors.nonActiveFilters(state),
+  channelNodes: channelsSelectors.channelNodes(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -172,19 +243,69 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     return {}
   }
 
+  const networkTabProps = {
+    currentChannels: stateProps.currentChannels,
+    channels: stateProps.channels,
+    balance: stateProps.balance,
+    currentTicker: stateProps.currentTicker,
+    contactsform: stateProps.contactsform,
+    nodes: stateProps.network.nodes,
+    nonActiveFilters: stateProps.nonActiveFilters,
+
+    fetchChannels: dispatchProps.fetchChannels,
+    openContactsForm: dispatchProps.openContactsForm,
+    contactFormSelectors: dispatchProps.contactFormSelectors,
+    updateManualFormError: dispatchProps.updateManualFormErrors,
+    toggleFilterPulldown: dispatchProps.toggleFilterPulldown,
+    changeFilter: dispatchProps.changeFilter,
+    updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
+    openContactModal: dispatchProps.openContactModal
+  }
+
+  const contactsFormProps = {
+    closeContactsForm: dispatchProps.closeContactsForm,
+    updateContactFormSearchQuery: dispatchProps.updateContactFormSearchQuery,
+    updateManualFormSearchQuery: dispatchProps.updateManualFormSearchQuery,
+    updateContactCapacity: dispatchProps.updateContactCapacity,
+    openChannel: dispatchProps.openChannel,
+    updateManualFormErrors: dispatchProps.updateManualFormErrors,
+
+    contactsform: stateProps.contactsform,
+    filteredNetworkNodes: stateProps.filteredNetworkNodes,
+    loadingChannelPubkeys: stateProps.channels.loadingChannelPubkeys,
+    showManualForm: stateProps.showManualForm,
+    manualFormIsValid: stateProps.manualFormIsValid,
+    activeChannelPubkeys: stateProps.activeChannelPubkeys,
+    nonActiveChannelPubkeys: stateProps.nonActiveChannelPubkeys,
+    pendingOpenChannelPubkeys: stateProps.pendingOpenChannelPubkeys
+  }
+
+  const contactModalProps = {
+    closeContactModal: dispatchProps.closeContactModal,
+    closeChannel: dispatchProps.closeChannel,
+
+    isOpen: stateProps.channels.contactModal.isOpen,
+    channel: stateProps.channels.contactModal.channel,
+    channelNodes: stateProps.channelNodes,
+    closingChannelIds: stateProps.channels.closingChannelIds
+  }
+
   return {
     ...stateProps,
     ...dispatchProps,
     ...ownProps,
 
+    // props for the network sidebar
+    networkTabProps,
+    // props for the contacts form
+    contactsFormProps,
+    // props for the contact modal
+    contactModalProps,
     // Props to pass to the pay form
     formProps: formProps(stateProps.form.formType),
-    // action to open the pay form
-    openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
-    // action to open the request form
-    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM'),
     // action to close form
     closeForm: () => dispatchProps.setFormType(null)
+
 
   }
 }

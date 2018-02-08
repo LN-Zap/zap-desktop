@@ -9,7 +9,8 @@ export function btcToSatoshis(btc) {
 export function satoshisToBtc(satoshis) {
   if (satoshis === undefined || satoshis === null || satoshis === '') return null
 
-  return sb.toBitcoin(satoshis).toFixed(8)
+  const btcAmount = sb.toBitcoin(satoshis).toFixed(8)
+  return btcAmount > 0 ? btcAmount : btcAmount * -1
 }
 
 export function btcToUsd(btc, price) {

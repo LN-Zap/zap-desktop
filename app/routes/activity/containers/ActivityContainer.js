@@ -21,6 +21,7 @@ import {
   updateSearchText
 } from 'reducers/activity'
 import { newAddress } from 'reducers/address'
+import { setFormType } from 'reducers/form'
 
 import Activity from '../components/Activity'
 
@@ -36,7 +37,8 @@ const mapDispatchToProps = {
   toggleFilterPulldown,
   newAddress,
   fetchBalance,
-  updateSearchText
+  updateSearchText,
+  setFormType
 }
 
 const mapStateToProps = state => ({
@@ -62,4 +64,15 @@ const mapStateToProps = state => ({
   nonActiveFilters: activitySelectors.nonActiveFilters(state)
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Activity)
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+
+  // action to open the pay form
+  openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
+  // action to open the request form
+  openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
+})
+
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Activity)

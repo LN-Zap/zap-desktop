@@ -32,91 +32,67 @@
 
 .activities {
 	background: $white;
+	height: 100%;
 
 	.header {
-		padding: 60px 0 20px 0;
+	  background: $spaceblue;
+	  color: $white;
 	  margin: 0 auto;
+	  padding: 0 40px;
+	  border-bottom: 1px solid $spaceborder;
 
-	  section {
-		  position: relative;
-			margin-left: auto;
-			margin-right: auto;
-			padding-left: 100px;
-			padding-right: 100px;
-			max-width: 964px;
 
-			h2 {
-				color: $bluegrey;
-			}
-	  }
+	  .filters {
+	  	display: flex;
+	  	flex-direction: row;
 
-	  h2, h2 span {
-	  	color: $bluegrey;
-	  	cursor: pointer;
-			transition: color 0.25s;
+	  	li {
+	  		position: relative;
+	  		margin: 0 15px;
+	  		opacity: 0.5;
+	  		font-size: 14px;
+	  		cursor: pointer;
+	  		padding: 20px 0;
 
-	  	&:hover {
-	  		color: lighten($bluegrey, 10%);
+	  		&.activeFilter {
+	  			opacity: 1;
+	  		}
+
+	  		&:nth-child(1) {
+	  			margin-left: 0;
+	  		}
+	  	}
+
+	  	.activeBorder {
+				width: 100%;
+				height: 1px;
+				background: white;
+				position: absolute;
+				bottom: -1px;
 	  	}
 	  }
-		
-		h2, .filters li {
-			text-transform: uppercase;
-			letter-spacing: 1.5px;
-			color: $darkestgrey;
-			font-size: 14px;
-			font-weight: 400;
-		}
-
-		h2 span.pulldown {
-			color: $main;
-		}
-
-		.filters {
-			display: none;
-			
-			&.active {
-				display: block;
-				position: absolute;
-				bottom: -100px;
-				z-index: 10;
-
-				li {
-					margin: 5px 0;
-					cursor: pointer;
-
-					&:hover {
-						color: $main;
-					}
-				}
-			}
-		}
 	}
 }
 
 .activityContainer {
-	background: $white;
+	background: $spaceblue;
 	transition: opacity 0.25s;
 	padding-bottom: 50px;
+	min-height: 100vh;
+	height: 100vh;
+	overflow-y: scroll;
+	padding-top: 20px;
 
 	&.pulldown {
 		opacity: 0.15;
 	}
 }
 
-.activityList {
-	width: 75%;
-	margin: 0 auto;
-	background: $white;
-}
-
 .activity {
-	padding: 0 100px;
+	padding: 0 40px;
 
 	&:hover {
-		background-color: #f0f0f0;
-    transition-delay: 0s;
-    outline: $grey solid 1px;
+			
 	}
 
 	.left, .center, .right {

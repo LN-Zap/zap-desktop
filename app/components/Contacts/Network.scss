@@ -1,0 +1,179 @@
+@import '../../variables.scss';
+
+.network {
+  position: relative;
+  width: 20%;
+  display: inline-block;
+  vertical-align: top;
+  height: 100vh;
+  background: #31343f;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  background: #2D303B;
+  padding: 10px 20px;
+  color: $white;
+
+  h2 {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+    margin-bottom: 5px;
+  }
+
+  .channelAmount {
+    font-size: 10px;
+    opacity: 0.5;
+  }
+
+  .addChannel {
+    cursor: pointer;
+    transition: all 0.25s;
+
+    &:hover {
+      color: $darkestgrey;
+    }
+  }
+}
+
+.channels {
+  padding: 20px;
+
+  .listHeader {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+
+    h2, h2 span {
+      color: $white;
+      cursor: pointer;
+      transition: color 0.25s;
+
+      &:hover {
+        color: $darkestgrey;
+      }
+    }
+
+    h2, .filters li {
+      font-size: 12px;
+    }
+
+    .filters {
+      display: none;
+      
+      &.active {
+        display: block;
+        position: absolute;
+        bottom: -100px;
+        z-index: 10;
+
+        li {
+          margin: 10px 0;
+          cursor: pointer;
+          color: $white;
+
+          &:hover {
+            color: $darkestgrey;
+          }
+        }
+      }
+    }
+
+    span {
+      color: $white;
+      opacity: 1;
+      font-size: 10px;
+      cursor: pointer;
+      transition: all 0.25s;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  ul {
+    margin-top: 20px;
+  }
+
+  .fade {
+    opacity: 0.1;
+  }
+
+  .channel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: $white;
+    padding: 10px 0;
+    margin: 10px 0;
+    cursor: pointer;
+
+    span:nth-child(1) {
+      font-size: 12px;
+    } 
+
+    .online {
+      color: $green;
+    }
+
+    .pending {
+      color: $orange;
+    }
+
+    .offline {
+      color: $darkestgrey;
+    }
+
+    svg {
+      width: 5px;
+      height: 5px;
+    }
+  }
+}
+
+.search {
+  position: absolute;
+  bottom: 20px;
+  width: calc(100% - 40px);
+  padding: 10px 20px;
+  border-top: 1px solid $darkestgrey;
+
+  .input {
+    display: inline-block;
+    vertical-align: top;
+    height: 100%;
+  }
+
+  .label {
+    width: 5%;
+    line-height: 50px;
+    font-size: 25px;
+    text-align: center;
+    cursor: pointer;
+    color: $white;
+    opacity: 0.5;
+
+    svg {
+      width: 14px;
+      height:14px;
+    }
+  }
+
+  .text {
+    width: calc(95% - 20px);
+    background: transparent;
+    outline: 0;
+    padding: 0 10px;
+    border: 0;
+    border-radius: 0;
+    height: 50px;
+    font-size: 12px;
+    color: $white;
+  }
+}

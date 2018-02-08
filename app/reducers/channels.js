@@ -512,13 +512,13 @@ const initialState = {
   viewType: 0,
 
   filterPulldown: false,
-  filter: { key: 'ALL_CHANNELS', name: 'All Contacts' },
+  filter: { key: 'ALL_CHANNELS', name: 'All' },
   filters: [
-    { key: 'ALL_CHANNELS', name: 'All Contacts' },
-    { key: 'ACTIVE_CHANNELS', name: 'Online Contacts' },
-    { key: 'NON_ACTIVE_CHANNELS', name: 'Offline Contacts' },
-    { key: 'OPEN_PENDING_CHANNELS', name: 'Pending Contacts' },
-    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing Contacts' }
+    { key: 'ALL_CHANNELS', name: 'All' },
+    { key: 'ACTIVE_CHANNELS', name: 'Online' },
+    { key: 'NON_ACTIVE_CHANNELS', name: 'Offline' },
+    { key: 'OPEN_PENDING_CHANNELS', name: 'Pending' },
+    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing' }
   ],
 
   loadingChannelPubkeys: [],

@@ -24,7 +24,7 @@ const Modal = ({
     },
     content: {
       top: 'auto',
-      left: '20%',
+      left: '0',
       right: '0',
       bottom: 'auto',
       width: '40%',

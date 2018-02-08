@@ -1,19 +1,34 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
 import GlobalError from 'components/GlobalError'
 import LoadingBolt from 'components/LoadingBolt'
+
 import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
-import Nav from 'components/Nav'
+
+import Network from 'components/Contacts/Network'
+import ContactModal from 'components/Contacts/ContactModal'
+import ContactsForm from 'components/Contacts/ContactsForm'
+
 import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchInfo, newAddress } = this.props
+    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchBalance, fetchDescribeNetwork } = this.props
 
+    // fetch price ticker
     fetchTicker()
+    // fetch node info
     fetchInfo()
+    // fetch new address for wallet
     newAddress('np2wkh')
+    // fetch nodes channels
+    fetchChannels()
+    // fetch nodes balance
+    fetchBalance()
+    // fetch LN network from nides POV
+    fetchDescribeNetwork()
   }
 
   render() {
@@ -24,13 +39,15 @@ class App extends Component {
       currentTicker,
       form,
 
-      openPayForm,
-      openRequestForm,
       formProps,
       closeForm,
 
       error: { error },
       clearError,
+
+      contactModalProps,
+      contactsFormProps,
+      networkTabProps,
 
       children
     } = this.props
@@ -49,16 +66,16 @@ class App extends Component {
           currency={ticker.currency}
         />
 
-        <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
+        <ContactModal {...contactModalProps} />
+        <ContactsForm {...contactsFormProps} />
 
-        <Nav
-          openPayForm={openPayForm}
-          openRequestForm={openRequestForm}
-        />
+        <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
 
         <div className={styles.content}>
           {children}
         </div>
+
+        <Network {...networkTabProps} />
       </div>
     )
   }
@@ -71,17 +88,19 @@ App.propTypes = {
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object,
+  contactModalProps: PropTypes.object,
+  contactsFormProps: PropTypes.object,
+  networkTabProps: PropTypes.object,
 
   newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
-  openPayForm: PropTypes.func.isRequired,
-  openRequestForm: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
-
-  currentTicker: PropTypes.object,
-
+  fetchChannels: PropTypes.func.isRequired,
+  fetchBalance: PropTypes.func.isRequired,
+  fetchDescribeNetwork: PropTypes.func.isRequired,
 
   children: PropTypes.object.isRequired
 }
