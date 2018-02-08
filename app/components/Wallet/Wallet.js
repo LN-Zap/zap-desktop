@@ -31,6 +31,12 @@ class Wallet extends Component {
       openRequestForm
     } = this.props
 
+    console.log('balance: ', balance)
+    console.log('currentTicker: ', currentTicker)
+
+    if (!currentTicker) { return <span /> }
+    if (balance.balanceLoading) { return <span /> }
+
     const { modalOpen, qrCodeType } = this.state
     const usdAmount = parseFloat(btc.satoshisToUsd(balance.walletBalance, currentTicker.price_usd)).toLocaleString()
 

@@ -88,6 +88,12 @@ class Network extends Component {
       return 'online'
     }
 
+    console.log('balance: ', balance)
+    console.log('currentTicker: ', currentTicker)
+    
+    if (!currentTicker) { return <span /> }
+    if (balance.balanceLoading) { return <span /> }
+
     return (
       <div className={styles.network}>
         <header className={styles.header}>
