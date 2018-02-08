@@ -32,7 +32,6 @@ class Wallet extends Component {
     } = this.props
 
     const { modalOpen, qrCodeType } = this.state
-    const usdAmount = parseFloat(btc.satoshisToUsd(balance.walletBalance, currentTicker.price_usd)).toLocaleString()
 
     const changeQrCode = () => {
       const qrCodeNum = this.state.qrCodeType === 1 ? 2 : 1
