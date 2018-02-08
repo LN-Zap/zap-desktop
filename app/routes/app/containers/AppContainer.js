@@ -57,7 +57,7 @@ import App from '../components/App'
 const mapDispatchToProps = {
   fetchTicker,
   setCurrency,
-  
+
   newAddress,
 
   fetchInfo,
@@ -93,7 +93,7 @@ const mapDispatchToProps = {
   updateChannelSearchQuery,
   openContactModal,
   closeContactModal,
-  
+
   openContactsForm,
   closeContactsForm,
   updateContactFormSearchQuery,
@@ -243,7 +243,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     return {}
   }
 
-  const networkTabProps = { 
+  const networkTabProps = {
     currentChannels: stateProps.currentChannels,
     channels: stateProps.channels,
     balance: stateProps.balance,

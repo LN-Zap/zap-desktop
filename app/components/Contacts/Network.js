@@ -23,8 +23,8 @@ class Network extends Component {
         searchQuery,
         filterPulldown,
         filter,
-        loadingChannelPubkeys,
-        closingChannelIds
+        // loadingChannelPubkeys,
+        // closingChannelIds
       },
       currentChannels,
       balance,
@@ -73,7 +73,7 @@ class Network extends Component {
     }
 
     const displayNodeName = (channel) => {
-      const node = find(nodes, node => channel.remote_pubkey === node.pub_key)
+      const node = find(nodes, n => channel.remote_pubkey === n.pub_key)
 
       if (node && node.alias.length) { return node.alias }
 
@@ -87,12 +87,6 @@ class Network extends Component {
 
       return 'online'
     }
-
-    console.log('balance: ', balance)
-    console.log('currentTicker: ', currentTicker)
-    
-    if (!currentTicker) { return <span /> }
-    if (balance.balanceLoading) { return <span /> }
 
     return (
       <div className={styles.network}>
@@ -134,7 +128,7 @@ class Network extends Component {
                     'Refresh'
                 }
               </span>
-          </section>
+            </section>
           </header>
 
           <ul className={filterPulldown && styles.fade}>
@@ -170,6 +164,21 @@ class Network extends Component {
   }
 }
 
-Network.propTypes = {}
+Network.propTypes = {
+  channels: PropTypes.array.isRequired,
+  currentChannels: PropTypes.array.isRequired,
+  nodes: PropTypes.array.isRequired,
+  nonActiveFilters: PropTypes.array.isRequired,
+  
+  balance: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+
+  fetchChannels: PropTypes.func.isRequired,
+  openContactsForm: PropTypes.func.isRequired,
+  toggleFilterPulldown: PropTypes.func.isRequired,
+  changeFilter: PropTypes.func.isRequired,
+  updateChannelSearchQuery: PropTypes.func.isRequired,
+  openContactModal: PropTypes.func.isRequired,
+}
 
 export default Network

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { MdSearch } from 'react-icons/lib/md'
-import { FaAngleDown } from 'react-icons/lib/fa'
 
 import Wallet from 'components/Wallet'
 import LoadingBolt from 'components/LoadingBolt'
@@ -47,19 +45,16 @@ class Activity extends Component {
   render() {
     const {
       ticker,
-      updateSearchText,
       invoice: { invoiceLoading },
       address: { address },
       balance,
       info,
       payment: { paymentLoading },
       currentTicker,
-      activity: { modal, filters, filter, filterPulldown, searchText },
+      activity: { modal, filters, filter, filterPulldown },
       hideActivityModal,
       changeFilter,
-      toggleFilterPulldown,
       currentActivity,
-      nonActiveFilters,
       newAddress,
       openPayForm,
       openRequestForm
@@ -127,7 +122,6 @@ Activity.propTypes = {
   fetchBalance: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
-  updateSearchText: PropTypes.func.isRequired,
   invoice: PropTypes.object.isRequired,
   payment: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
@@ -136,13 +130,11 @@ Activity.propTypes = {
   hideActivityModal: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
-  toggleFilterPulldown: PropTypes.func.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
 
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,
-  nonActiveFilters: PropTypes.array.isRequired,
   address: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   info: PropTypes.object.isRequired

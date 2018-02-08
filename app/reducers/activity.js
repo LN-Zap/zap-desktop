@@ -118,25 +118,9 @@ const allActivity = createSelector(
   }
 )
 
-const lnActivity = createSelector(
-  paymentsSelector,
-  invoicesSelector,
-  (payments, invoices) => [...payments, ...invoices].sort((a, b) => b.creation_date - a.creation_date)
-)
-
-const paymentActivity = createSelector(
-  paymentsSelector,
-  payments => payments
-)
-
 const invoiceActivity = createSelector(
   invoicesSelector,
   invoices => invoices
-)
-
-const transactionActivity = createSelector(
-  transactionsSelector,
-  transactions => transactions
 )
 
 const sentActivity = createSelector(

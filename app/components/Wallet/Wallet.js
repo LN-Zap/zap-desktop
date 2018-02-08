@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FaQrcode, FaAngleDown } from 'react-icons/lib/fa'
+import { FaAngleDown } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
 import { btc } from 'utils'
 import bitcoinIcon from 'icons/bitcoin.svg'
@@ -30,12 +30,6 @@ class Wallet extends Component {
       openPayForm,
       openRequestForm
     } = this.props
-
-    console.log('balance: ', balance)
-    console.log('currentTicker: ', currentTicker)
-
-    if (!currentTicker) { return <span /> }
-    if (balance.balanceLoading) { return <span /> }
 
     const { modalOpen, qrCodeType } = this.state
     const usdAmount = parseFloat(btc.satoshisToUsd(balance.walletBalance, currentTicker.price_usd)).toLocaleString()

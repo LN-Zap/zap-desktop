@@ -39,9 +39,6 @@ class App extends Component {
       currentTicker,
       form,
 
-      channels,
-      balance,
-
       formProps,
       closeForm,
 
@@ -77,7 +74,7 @@ class App extends Component {
         <div className={styles.content}>
           {children}
         </div>
-        
+
         <Network {...networkTabProps} />
       </div>
     )
@@ -91,14 +88,21 @@ App.propTypes = {
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object,
+  contactModalProps: PropTypes.object,
+  contactsFormProps: PropTypes.object,
+  networkTabProps: PropTypes.object,
 
   newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
   hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
+  fetchChannels: PropTypes.func.isRequired,
+  fetchBalance: PropTypes.func.isRequired,
+  fetchDescribeNetwork: PropTypes.func.isRequired,
 
-  currentTicker: PropTypes.object,
+
 
   children: PropTypes.object.isRequired
 }

@@ -64,7 +64,7 @@ const mapStateToProps = state => ({
   nonActiveFilters: activitySelectors.nonActiveFilters(state)
 })
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   return {
     ...stateProps,
     ...dispatchProps,
@@ -73,8 +73,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     // action to open the pay form
     openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
     // action to open the request form
-    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM'),
+    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
   }
-}
+})
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Activity)
