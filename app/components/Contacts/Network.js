@@ -94,6 +94,7 @@ class Network extends Component {
           <section>
             <h2>My Network</h2>
             <span className={styles.channelAmount}>
+              {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${btc.satoshisToUsd(balance.channelBalance, currentTicker.price_usd) ? btc.satoshisToUsd(balance.channelBalance, currentTicker.price_usd).toLocaleString() : ''}
             </span>
           </section>
           <section className={styles.addChannel} onClick={openContactsForm}>
