@@ -65,16 +65,14 @@ const mapStateToProps = state => ({
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  return {
-    ...stateProps,
-    ...dispatchProps,
-    ...ownProps,
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
 
-    // action to open the pay form
-    openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
-    // action to open the request form
-    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
-  }
+  // action to open the pay form
+  openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
+  // action to open the request form
+  openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
 })
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Activity)

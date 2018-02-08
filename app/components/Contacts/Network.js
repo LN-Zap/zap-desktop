@@ -165,11 +165,11 @@ class Network extends Component {
 }
 
 Network.propTypes = {
-  channels: PropTypes.array.isRequired,
   currentChannels: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
   nonActiveFilters: PropTypes.array.isRequired,
   
+  channels: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
 
