@@ -88,13 +88,15 @@ class Network extends Component {
       return 'online'
     }
 
+    const usdAmount = btc.satoshisToUsd(balance.channelBalance, currentTicker.price_usd)
+
     return (
       <div className={styles.network}>
         <header className={styles.header}>
           <section>
             <h2>My Network</h2>
             <span className={styles.channelAmount}>
-              {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${btc.satoshisToUsd(balance.channelBalance, currentTicker.price_usd) ? btc.satoshisToUsd(balance.channelBalance, currentTicker.price_usd).toLocaleString() : ''}
+              {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
             </span>
           </section>
           <section className={styles.addChannel} onClick={openContactsForm}>
