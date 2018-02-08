@@ -22,7 +22,7 @@ class Network extends Component {
       channels: {
         searchQuery,
         filterPulldown,
-        filter,
+        filter
         // loadingChannelPubkeys,
         // closingChannelIds
       },
@@ -118,7 +118,7 @@ class Network extends Component {
                 }
               </ul>
             </section>
-           
+
             <section className={styles.refreshContainer}>
               <span className={styles.refresh} onClick={refreshClicked} ref={(ref) => { this.repeat = ref }}>
                 {
@@ -168,7 +168,7 @@ Network.propTypes = {
   currentChannels: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
   nonActiveFilters: PropTypes.array.isRequired,
-  
+
   channels: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
@@ -178,7 +178,7 @@ Network.propTypes = {
   toggleFilterPulldown: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
-  openContactModal: PropTypes.func.isRequired,
+  openContactModal: PropTypes.func.isRequired
 }
 
 export default Network

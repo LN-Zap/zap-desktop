@@ -102,8 +102,6 @@ App.propTypes = {
   fetchBalance: PropTypes.func.isRequired,
   fetchDescribeNetwork: PropTypes.func.isRequired,
 
-
-
   children: PropTypes.object.isRequired
 }
 
