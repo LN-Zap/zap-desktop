@@ -146,8 +146,7 @@ const startLnd = () => {
       '--neutrino.connect=127.0.0.1:18333',
       '--autopilot.active',
       '--debuglevel=debug',
-      '--noencryptwallet',
-      '--alias=jimmymow'
+      '--noencryptwallet'
     ]
   )
     .on('error', error => console.log(`lnd error: ${error}`))
