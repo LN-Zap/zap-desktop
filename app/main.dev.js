@@ -10,7 +10,7 @@
  *
  * @flow
  */
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, screen } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import { spawn } from 'child_process'
@@ -206,16 +206,13 @@ app.on('ready', async () => {
     await installExtensions()
   }
 
-  const icon = path.join(__dirname, '..', 'resources', 'icon.icns')
-  console.log('icon: ', icon)
   mainWindow = new BrowserWindow({
     show: false,
     titleBarStyle: 'hidden',
-    width: 700,
-    height: 1100,
-    minHeight: 700,
-    minWidth: 1100,
-    icon
+    width: 950,
+    height: 600,
+    minWidth: 950,
+    minHeight: 425
   })
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
