@@ -11,6 +11,10 @@
   transition-delay: .1s;
   color: $white;
   position: relative;
+
+  &.unpaid {
+    opacity: 0.5;
+  }
 }
 
 .clock {
@@ -141,8 +145,4 @@
       color: $red;
     }
   }
-}
-
-.unpaid svg {
-  opacity: 0.5;
 }
