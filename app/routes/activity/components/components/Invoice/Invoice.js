@@ -12,9 +12,9 @@ import styles from '../Activity.scss'
 const Invoice = ({
   invoice, ticker, currentTicker, showActivityModal
 }) => (
-  <div className={styles.container} onClick={() => showActivityModal('INVOICE', { invoice })}>
+  <div className={`${styles.container} ${!invoice.settled && styles.unpaid}`} onClick={() => showActivityModal('INVOICE', { invoice })}>
     <div className={styles.date}>
-      <section className={!invoice.settled && styles.unpaid}>
+      <section>
         {
           invoice.settled ?
             <Isvg src={checkmarkIcon} />
