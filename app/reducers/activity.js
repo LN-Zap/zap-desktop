@@ -110,8 +110,18 @@ const allActivity = createSelector(
     })
 
     return searchedArr.sort((a, b) => {
-      const aTimestamp = Object.prototype.hasOwnProperty.call(a, 'time_stamp') ? a.time_stamp : a.creation_date
-      const bTimestamp = Object.prototype.hasOwnProperty.call(b, 'time_stamp') ? b.time_stamp : b.creation_date
+      // this will return the correct timestamp to use when sorting (time_stamp, creation_date, or settle_date)
+      function returnTimestamp(transaction) {
+        // if on-chain txn
+        if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) { return transaction.time_stamp }
+        // if invoice that has been paid
+        if (transaction.settled) { return transaction.settle_date }
+        // if invoice that has not been paid or an LN payment
+        return transaction.creation_date
+      }
+
+      const aTimestamp = returnTimestamp(a)
+      const bTimestamp = returnTimestamp(b)
 
       return bTimestamp - aTimestamp
     })
