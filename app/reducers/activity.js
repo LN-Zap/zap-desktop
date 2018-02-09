@@ -147,8 +147,9 @@ const fundedActivity = createSelector(
   channelsSelector,
   (transactions, channels) => {
     const fundingTxIds = channels.map(channel => channel.channel_point.split(':')[0])
+    const fundingTxs = transactions.filter(transaction => fundingTxIds.includes(transaction.tx_hash))
 
-    return transactions.filter(transaction => fundingTxIds.includes(transaction.tx_hash))
+    return fundingTxs.sort((a, b) => b.time_stamp - a.time_stamp)
   }
 )
 
