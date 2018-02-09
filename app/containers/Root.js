@@ -5,7 +5,7 @@ import { ConnectedRouter } from 'react-router-redux'
 import PropTypes from 'prop-types'
 
 import LoadingBolt from '../components/LoadingBolt'
-import LndSyncing from '../components/LndSyncing'
+import Syncing from '../components/Onboarding/Syncing'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import { newAddress } from '../reducers/address'
 import Routes from '../routes'
@@ -32,9 +32,10 @@ const Root = ({
   address
 }) => {
   // If we are syncing show the syncing screen
-  if (lnd.syncing) {
+  // if (lnd.syncing) {
+  if (true) {
     return (
-      <LndSyncing
+      <Syncing
         newAddress={newAddress}
         fetchBlockHeight={fetchBlockHeight}
         syncPercentage={syncPercentage}
