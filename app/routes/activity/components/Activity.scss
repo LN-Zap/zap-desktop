@@ -45,6 +45,7 @@
 	  .filters {
 	  	display: flex;
 	  	flex-direction: row;
+			user-select: none;
 
 	  	li {
 	  		position: relative;
