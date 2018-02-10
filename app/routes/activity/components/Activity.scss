@@ -49,11 +49,9 @@
 
 	  	li {
 	  		position: relative;
-	  		margin: 0 15px;
 	  		opacity: 0.5;
 	  		font-size: 14px;
 	  		cursor: pointer;
-	  		padding: 20px 0;
 
 	  		&.activeFilter {
 	  			opacity: 1;
@@ -62,10 +60,19 @@
 	  		&:nth-child(1) {
 	  			margin-left: 0;
 	  		}
+
+				span {
+					display: block;
+					position: relative;
+					margin: 0 15px;
+					padding: 20px 0;
+				}
 	  	}
 
 	  	.activeBorder {
-				width: 100%;
+				left: 15px;
+				right: 15px;
+				width: auto;
 				height: 1px;
 				background: white;
 				position: absolute;
