@@ -49,7 +49,7 @@
 }
 
 .content {
-  width: 50%;
+  /*width: 50%;*/ // TODO see if this breaks anything
   margin: 0 auto;
   display: flex;
   flex-direction: column;
