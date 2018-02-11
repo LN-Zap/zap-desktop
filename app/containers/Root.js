@@ -5,42 +5,49 @@ import { ConnectedRouter } from 'react-router-redux'
 import PropTypes from 'prop-types'
 
 import LoadingBolt from '../components/LoadingBolt'
+import Onboarding from '../components/Onboarding'
 import Syncing from '../components/Onboarding/Syncing'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
-import { newAddress } from '../reducers/address'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
-  fetchBlockHeight,
-  newAddress
+  fetchBlockHeight
 }
 
 const mapStateToProps = state => ({
+  onboarding: state.onboarding,
   lnd: state.lnd,
-  address: state.address,
 
   syncPercentage: lndSelectors.syncPercentage(state)
 })
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const syncingProps = {
+    fetchBlockHeight: dispatchProps.fetchBlockHeight,
+    syncPercentage: stateProps.syncPercentage
+  }
+
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+
+    syncingProps
+  }
+}
+
 const Root = ({
   store,
   history,
-  lnd,
-  newAddress, // eslint-disable-line no-shadow
-  fetchBlockHeight, // eslint-disable-line no-shadow
-  syncPercentage,
-  address
+  onboarding,
+  syncingProps
 }) => {
   // If we are syncing show the syncing screen
-  // if (lnd.syncing) {
-  if (true) {
+  if (!onboarding.onboarded) {
     return (
-      <Syncing
-        newAddress={newAddress}
-        fetchBlockHeight={fetchBlockHeight}
-        syncPercentage={syncPercentage}
-        address={address}
-        grpcStarted={lnd.grpcStarted}
+      <Onboarding
+        onboarding={onboarding}
+        syncingProps={syncingProps}
       />
     )
   }
@@ -60,14 +67,8 @@ const Root = ({
 Root.propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
-  lnd: PropTypes.object.isRequired,
-  fetchBlockHeight: PropTypes.func.isRequired,
-  newAddress: PropTypes.func.isRequired,
-  syncPercentage: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired,
-  address: PropTypes.object.isRequired
+  onboarding: PropTypes.object.isRequired,
+  syncingProps: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Root)
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Root)

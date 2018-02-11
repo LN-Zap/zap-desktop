@@ -242,7 +242,7 @@ app.on('ready', async () => {
   menuBuilder.buildMenu()
 
   sendGrpcDisconnected()
-  // Check to see if and LND process is running
+  // Check to see if an LND process is running
   lookup({ command: 'lnd' }, (err, results) => {
     // There was an error checking for the LND process
     if (err) { throw new Error(err) }

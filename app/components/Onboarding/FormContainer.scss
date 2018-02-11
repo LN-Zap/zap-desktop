@@ -1,0 +1,67 @@
+@import '../../variables.scss';
+
+.container {
+  position: relative;
+  height: 100vh;
+  background: $darkspaceblue;
+}
+
+.titleBar {
+  background: $spacegrey;
+  height: 20px;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 40px;
+}
+
+.info {
+  color: $white;
+  margin: 20px 0 20px 0;
+  padding: 20px 40px;
+
+  h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 12px;
+  }
+}
+
+.content {
+  position: relative;
+  background: $spaceblue;
+  height: 100vh;
+  padding: 60px 40px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  padding: 20px 40px;
+  color: $white;
+  width: calc(100% - 80px);
+
+  .buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    div {
+      cursor: pointer;
+      transition: all 0.25s;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
