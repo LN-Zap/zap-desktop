@@ -47,31 +47,20 @@ class AmountInput extends React.Component {
     }
   }
 
+  // TODO cleanup a little more
   shiftValue(value, delta) {
     let [integer, fractional] = value.toString().split('.')
 
     if (fractional) {
-      let satoshiValue = `${integer}${fractional}`*1 + delta
-      let newInteger = Math.floor(satoshiValue / (10 ** fractional.length))
-
-      if (integer == 0) {
-        let newFractional = satoshiValue;
-      } else {
-        let newFractional = satoshiValue.toString().substring(integer.toString().length)
-      }
-
-      value = `${newInteger}.${newFractional}`
-
+      delta = delta / (10 ** fractional.length)
+      value = (parseFloat(value) + delta).toFixed(fractional.length)
     } else {
       value = (integer*1 + delta).toString()
     }
 
-    // support all places
     if (value < 0) { 
       if (fractional && fractional.length > 0) {
-        integer = new Array(integer.length).join('0')
-        fractional = new Array(fractional.length).join('0')
-        value = `0.${fractional}`
+        value = (0.0).toFixed(fractional.length)
       } else {
         value = '0'
       }

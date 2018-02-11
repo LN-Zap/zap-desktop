@@ -18,62 +18,83 @@ describe('AmountInput', () => {
     const el = mount(<AmountInput {...props} />)
 
     it('renders amount', () => {
-      console.log(el.find('input').html())
       expect(el.find('input').get(0).value).toEqual('0.1234')
     })
   })
 
   describe('shiftValue', () => {
-    const cases = [
-      ['Up arrow', 1, [
-        ['0', '1'],
-        ['1', '2'],
-        ['9', '10'],
-
-        ['0.0', '0.1'],
-        ['0.9', '1.0'],
-        ['1.0', '1.1'],
-        ['9.9', '10.0'],
-
-        ['0.00', '0.01'],
-        ['0.09', '0.10'],
-        ['0.99', '1.00'],
-        ['1.00', '1.01'],
-        ['9.99', '10.00'],
-      ]],
-      ['Down arrow', -1, [
-        ['0', '0'],
-        ['1', '0'],
-        ['10', '9'],
-
-        ['0.0', '0.0'],
-        ['0.1', '0.0'],
-        ['1.0', '0.9'],
-        ['1.1', '1.0'],
-        ['10.0', '9.9'],
-
-        ['0.00', '0.00'],
-        ['0.01', '0.00'],
-        ['1.00', '0.09'],
-        ['1.01', '1.00'],
-        ['10.00', '9.09'],
-      ]],
-    ]
-
     const component = mount(<AmountInput {...defaultProps} />).instance()
 
-    cases.forEach(([arrow, delta, deltaCases]) => {
-      describe(arrow, () => {
-        deltaCases.forEach(([from, to]) => {
-          it(`Goes from ${from} to ${to}`, () => {
-            expect(component.shiftValue(from, delta)).toEqual(to)
-          })
-        })
+    describe('inrcements', () => {
+      const test = (from, to) => {
+        expect(component.shiftValue(from, 1)).toEqual(to)
+      }
+
+      it('increments decimal values', () => {
+        test('0', '1')
+        test('1', '2')
+        test('9', '10')
+      })
+
+      it('increments values with one fractional place', () => {
+        test('0.0', '0.1')
+        test('0.9', '1.0')
+        test('1.0', '1.1')
+        test('9.9', '10.0')
+      })
+
+      it('increments values with two fractional places', () => {
+        test('0.00', '0.01')
+        test('0.09', '0.10')
+        test('0.99', '1.00')
+        test('1.00', '1.01')
+        test('9.99', '10.00')
+      })
+
+      it('increments values in satoshis', () => {
+        test('0.00000000', '0.00000001')
+        test('0.00000009', '0.00000010')
+      })
+    })
+      
+    describe('decrements', () => {
+      const test = (from, to) => {
+        expect(component.shiftValue(from, -1, `Decrementing ${from} should result in ${to}`)).toEqual(to)
+      }
+      it('decrements decimal values', () => {
+        test('0', '0')
+        test('1', '0')
+        test('10', '9')
+      })
+
+      it('decrements decimal values with one fractional place', () => {
+        test('0.0', '0.0')
+        test('0.1', '0.0')
+        test('1.0', '0.9')
+        test('1.1', '1.0')
+        test('10.0', '9.9')
+      })
+
+      it('decrements decimal values with two fractional places', () => {
+        test('0.00', '0.00')
+        test('0.01', '0.00')
+        test('0.10', '0.09')
+        test('1.00', '0.99')
+        test('1.01', '1.00')
+        test('10.00', '9.99')
+      })
+
+      it('decrements values in satoshis', () => {
+        test('0.00000000', '0.00000000')
+        test('0.00000001', '0.00000000')
+        test('0.00000010', '0.00000009')
       })
     })
 
   })
 
   describe('handleKeyDown', () => {
+    // TODO
   })
+
 })
