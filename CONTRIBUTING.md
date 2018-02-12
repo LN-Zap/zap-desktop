@@ -2,7 +2,7 @@
 (Even after a recent refactor the code is still a bit sloppy, in a bit of a segwit rush, apologize in advance for any "wtf is this?")
 
 ## Overview
-Please join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ) and check [open issues](https://github.com/LN-Zap/zap-desktop/issues) to see what contributions are needed before tackling a task to avoid duplicate work. 
+Please join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMzA4OTgxNTQ4NzUzLTQwYjkzZGM0ZWMwYmYyZTE2Y2E1YjM5NTIwOTU0M2I1Zjc2YWY1NTc4NjdhZWQxNTM1YzEzOGM2YTVlNWIwODc) and check [open issues](https://github.com/LN-Zap/zap-desktop/issues) to see what contributions are needed before tackling a task to avoid duplicate work. 
 
 ## Pull Requests
 The `master` branch will be used for all pull requests for the time being. This may change as the repo and contributors grow.

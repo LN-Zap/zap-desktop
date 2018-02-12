@@ -40,7 +40,9 @@ To setup `lnd` for Zap, you have two options:
 
 ### Light Client
 
-`lnd` has a light client called `neutrino` which allows you to run `lnd` without requiring a full node. This is the default configuration for the Zap wallet. To use the light client you can either use the [Lightning Labs Binary](#lightning-labs-binary) or [Compile lnd](#compile-lnd).
+`lnd` allows you to configure your node to use the new light client `neutrino` (BIP 157 & BIP 158) which allows you to run `lnd` without requiring a full node.
+
+This is the default configuration for the Zap wallet. To use the light client you can either use the [Lightning Labs Binary](#lightning-labs-binary) or [Compile lnd](#compile-lnd).
 
 #### Lightning Labs Binary
 

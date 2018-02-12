@@ -21,19 +21,31 @@ Download the [latest release](https://github.com/LN-Zap/zap-desktop/releases) fo
 
 ### macOS 
 
-Once you have the .dmg file downloaded, double click on the file the mount the image.
+Once you have the .zip file downloaded, simply **double click** on the file to unzip.
 
-Then drag-and-drop the `Zap.app` to `Applications`.
+Then navigate to the extracted folder drag-and-drop the `Zap.app` to `Applications`.
+
+Unmount the image and navigate to `Applications`.
 
 Finally, open `Zap.app`
 
 ### Windows
 
-Once you have the .exe file downloaded, simply double click on the file.
+Once you have the .exe file downloaded, simply **double click** on the file.
 
-### Linux (.deb)
+### Linux
 
-Once you have the .deb file downloaded, you will need to install the package with `dpkg`:
+Once you have the .zip file downloaded, simply **double click** the file to unzip or run the following command:
+
+```bash
+unzip file.zip
+```
+
+You have the option to either install Zap through the [.deb](#.deb-file) or [.AppImage](#.appimage-file) files.
+
+#### .deb File
+
+Once you have the .deb file extracted, you can install Zap by **double clicking** on the file or through the `dpkg` command:
 
 ```bash
 sudo dpkg -i file.deb
@@ -51,15 +63,9 @@ To run Zap you can either navigate through the GUI or run the following command:
 zap-desktop
 ```
 
-### Linux (AppImage)
+#### .AppImage File
 
-Once you have downloaded the .AppImage file, you will need to navigate to the download directory and make it executable:
-
-```bash
-chmod +x file.AppImage
-```
-
-Then you can simply run the file:
+Once you have the .AppImage file extracted, you can either **double click** the file or by running in the cli:
 
 ```bash
 ./file.AppImage
