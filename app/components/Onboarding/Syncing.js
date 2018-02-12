@@ -16,7 +16,7 @@ class Syncing extends Component {
     return (
       <div className={styles.container}>
         <div className={styles.titleBar} />
-        
+
         <div className={styles.content}>
           <header>
             <Isvg className={styles.bitcoinLogo} src={zapLogo} />
@@ -26,7 +26,7 @@ class Syncing extends Component {
             <div className={styles.progressBar}>
               <div className={styles.progress} style={{ width: isNaN(syncPercentage) ? 0 : `${syncPercentage}%` }} />
             </div>
-            <h4>{isNaN(parseInt(syncPercentage)) || syncPercentage.toString().length === 0 ? '' : `${syncPercentage}%`}</h4>
+            <h4>{isNaN(parseInt(syncPercentage, 10)) || syncPercentage.toString().length === 0 ? '' : `${syncPercentage}%`}</h4>
           </section>
         </div>
       </div>

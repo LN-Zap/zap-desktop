@@ -50,14 +50,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 const Root = ({
   store,
   history,
-  
+
   lnd,
   onboarding,
   submit,
   aliasProps,
-  syncingProps,
-  updateAlias,
-  changeStep,
+  syncingProps
 }) => {
   // If we are syncing show the syncing screen
   if (!onboarding.onboarded) {
@@ -90,8 +88,14 @@ const Root = ({
 Root.propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
+  lnd: PropTypes.object.isRequired,
   onboarding: PropTypes.object.isRequired,
-  syncingProps: PropTypes.object.isRequired
+  syncingProps: PropTypes.object.isRequired,
+  aliasProps: PropTypes.object.isRequired,
+
+  submit: PropTypes.func.isRequired,
+  updateAlias: PropTypes.func.isRequired,
+  changeStep: PropTypes.func.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Root)

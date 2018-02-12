@@ -1,7 +1,5 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
-import zapLogo from 'icons/zap_logo.svg'
 import styles from './Alias.scss'
 
 const Alias = ({ alias, updateAlias }) => (
