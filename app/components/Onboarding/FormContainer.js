@@ -45,6 +45,12 @@ const FormContainer = ({ title, description, back, next, children }) => {
 }
 
 FormContainer.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  
+  back: PropTypes.func,
+  next: PropTypes.func,
+  
   children: PropTypes.object.isRequired
 }
 

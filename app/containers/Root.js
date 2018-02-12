@@ -66,7 +66,6 @@ const Root = ({
         onboarding={onboarding}
         submit={submit}
         aliasProps={aliasProps}
-        syncingProps={syncingProps}
       />
     )
   }

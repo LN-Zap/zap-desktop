@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 import zapLogo from 'icons/zap_logo.svg'
 
+import LoadingBolt from 'components/LoadingBolt'
+
 import FormContainer from './FormContainer'
 import Alias from './Alias'
-import Syncing from './Syncing'
 import styles from './Onboarding.scss'
 
 
@@ -17,8 +18,7 @@ class Onboarding extends Component {
         alias
       },
       submit,
-      aliasProps,
-      syncingProps
+      aliasProps
     } = this.props
 
     const renderStep = () => {
@@ -35,7 +35,7 @@ class Onboarding extends Component {
             </FormContainer>
           )
         default:
-          return <Syncing {...syncingProps} />
+          return <LoadingBolt />
       }
     }
 
@@ -48,7 +48,9 @@ class Onboarding extends Component {
 }
 
 Onboarding.propTypes = {
-  syncingProps: PropTypes.object.isRequired
+  onboarding: PropTypes.object.isRequired,
+  aliasProps: PropTypes.object.isRequired,
+  submit: PropTypes.func.isRequired
 }
 
 export default Onboarding
