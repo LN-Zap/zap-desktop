@@ -35,6 +35,9 @@ $ npm run install-grpc
 ```
 Zap does not store `lnd` binaries in the Github repo so you will need to [download](https://github.com/lightninglabs/lightning-app/tree/master/apps/desktop/bin) the binary file for the appropriate OS from the Lightning Labs wallet repo. Make sure the file has the correct permissions to be executable in Mac/Linux. If you already use the [release](https://github.com/lightninglabs/lightning-app/releases) version, you can copy the binary located at `lightning-app/resources/app/bin/[YOUR-OS-FOLDER]` and place it into `zap-desktop/resources/bin/[YOUR-OS-FOLDER]`.
 
+If you are getting `lnd shutting down 1` error in terminal, try downloading latest `lnd` embedded into [release packages](https://github.com/LN-Zap/zap-desktop/releases).
+ Sometimes during development custom builds of `lnd` are used and that can cause problems with launching Zap in development mode.
+
 Alternatively, you can [compile](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) `lnd` from source to have the latest development version. This allows you to use [`lncli`](http://dev.lightning.community/overview/#lnd-interfaces) in addition to Zap, and run a seperate `lnd` instance with [custom](http://dev.lightning.community/guides/installation/#lnd) configuration. Zap will detect the separate `lnd` instance and use it as the backend client. For Zap to run properly without any custom `lnd` setup, copy the `lnd` binary that will be located in your `$GOPATH/bin` and paste it into Zap as previously mentioned.
 
 Zap expects `lnd` to be in one of these directories depending on your OS:
