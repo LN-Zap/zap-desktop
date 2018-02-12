@@ -20,8 +20,8 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = state => ({
-  onboarding: state.onboarding,
   lnd: state.lnd,
+  onboarding: state.onboarding,
 
   syncPercentage: lndSelectors.syncPercentage(state)
 })
@@ -37,12 +37,18 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     alias: stateProps.onboarding.alias
   }
 
+  const onboardingProps = {
+    onboarding: stateProps.onboarding,
+    submit: dispatchProps.submit,
+    aliasProps
+  }
+
   return {
     ...stateProps,
     ...dispatchProps,
     ...ownProps,
 
-    aliasProps,
+    onboardingProps,
     syncingProps
   }
 }
@@ -52,20 +58,12 @@ const Root = ({
   history,
 
   lnd,
-  onboarding,
-  submit,
-  aliasProps,
+  onboardingProps,
   syncingProps
 }) => {
   // If we are syncing show the syncing screen
-  if (!onboarding.onboarded) {
-    return (
-      <Onboarding
-        onboarding={onboarding}
-        submit={submit}
-        aliasProps={aliasProps}
-      />
-    )
+  if (!onboardingProps.onboarding.onboarded) {
+    return <Onboarding {...onboardingProps} />
   }
 
   // If we are syncing show the syncing screen
@@ -89,13 +87,8 @@ Root.propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   lnd: PropTypes.object.isRequired,
-  onboarding: PropTypes.object.isRequired,
-  syncingProps: PropTypes.object.isRequired,
-  aliasProps: PropTypes.object.isRequired,
-
-  submit: PropTypes.func.isRequired,
-  updateAlias: PropTypes.func.isRequired,
-  changeStep: PropTypes.func.isRequired
+  onboardingProps: PropTypes.object.isRequired,
+  syncingProps: PropTypes.object.isRequired
 }
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Root)
