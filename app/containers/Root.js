@@ -7,10 +7,15 @@ import PropTypes from 'prop-types'
 import LoadingBolt from '../components/LoadingBolt'
 import Onboarding from '../components/Onboarding'
 import Syncing from '../components/Onboarding/Syncing'
+import { updateAlias, changeStep, submit } from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
+  updateAlias,
+  changeStep,
+  submit,
+
   fetchBlockHeight
 }
 
@@ -27,11 +32,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     syncPercentage: stateProps.syncPercentage
   }
 
+  const aliasProps = {
+    updateAlias: dispatchProps.updateAlias,
+    alias: stateProps.onboarding.alias
+  }
+
   return {
     ...stateProps,
     ...dispatchProps,
     ...ownProps,
 
+    aliasProps,
     syncingProps
   }
 }
@@ -39,17 +50,30 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 const Root = ({
   store,
   history,
+  
+  lnd,
   onboarding,
-  syncingProps
+  submit,
+  aliasProps,
+  syncingProps,
+  updateAlias,
+  changeStep,
 }) => {
   // If we are syncing show the syncing screen
   if (!onboarding.onboarded) {
     return (
       <Onboarding
         onboarding={onboarding}
+        submit={submit}
+        aliasProps={aliasProps}
         syncingProps={syncingProps}
       />
     )
+  }
+
+  // If we are syncing show the syncing screen
+  if (lnd.syncing) {
+    return <Syncing {...syncingProps} />
   }
 
   // Don't launch the app without gRPC connection

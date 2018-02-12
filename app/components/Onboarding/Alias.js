@@ -4,22 +4,22 @@ import Isvg from 'react-inlinesvg'
 import zapLogo from 'icons/zap_logo.svg'
 import styles from './Alias.scss'
 
-const Alias = ({ alias, setAlias }) => {
-  console.log('alias: ', alias)
-  console.log('setAlias: ', setAlias)
-  
-  return (
-    <div className={styles.container}>
-      <input
-        type='text'
-        placeholder='Satoshi'
-        className={styles.alias}
-        ref={input => input && input.focus()}
-      />
-    </div>
-  )
-}
+const Alias = ({ alias, updateAlias }) => (
+  <div className={styles.container}>
+    <input
+      type='text'
+      placeholder='Satoshi'
+      className={styles.alias}
+      ref={input => input && input.focus()}
+      value={alias}
+      onChange={event => updateAlias(event.target.value)}
+    />
+  </div>
+)
 
-Alias.propTypes = {}
+Alias.propTypes = {
+  alias: PropTypes.string.isRequired,
+  updateAlias: PropTypes.func.isRequired
+}
 
 export default Alias

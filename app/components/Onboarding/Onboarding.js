@@ -13,13 +13,15 @@ class Onboarding extends Component {
   render() {
     const {
       onboarding: {
-        step
+        step,
+        alias
       },
+      submit,
+      aliasProps,
       syncingProps
     } = this.props
 
     const renderStep = () => {
-      console.log('step: ', step)
       switch(step) {
         case 1:
           return (
@@ -27,9 +29,9 @@ class Onboarding extends Component {
               title={'1. What should we call you?'}
               description={'Set your nickname to help others connect with you on the Lightning Network'}
               back={null}
-              next={() => console.log('alias next')}
+              next={() => submit(alias)}
             >
-              <Alias />
+              <Alias {...aliasProps} />
             </FormContainer>
           )
         default:

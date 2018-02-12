@@ -30,12 +30,12 @@ const FormContainer = ({ title, description, back, next, children }) => {
         <div className={styles.buttonsContainer}>
           <section>
             {
-              back && <div>Back</div>
+              back && <div onClick={back}>Back</div>
             }
           </section>
           <section>
             {
-              next && <div>Next</div>
+              next && <div onClick={next}>Next</div>
             }
           </section>
         </div>

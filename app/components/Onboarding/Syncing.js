@@ -24,9 +24,9 @@ class Syncing extends Component {
           <section className={styles.progressContainer}>
             <h1>Syncing to the blockchain...</h1>
             <div className={styles.progressBar}>
-              <div className={styles.progress} style={{ width: syncPercentage }} />
+              <div className={styles.progress} style={{ width: isNaN(syncPercentage) ? 0 : `${syncPercentage}%` }} />
             </div>
-            <h4>{syncPercentage.toString().length > 0 && `${syncPercentage}%`}</h4>
+            <h4>{isNaN(parseInt(syncPercentage)) || syncPercentage.toString().length === 0 ? '' : `${syncPercentage}%`}</h4>
           </section>
         </div>
       </div>
