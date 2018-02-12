@@ -23,11 +23,11 @@ Download the [latest release](https://github.com/LN-Zap/zap-desktop/releases) fo
 
 Once you have the .zip file downloaded, simply **double click** on the file to unzip.
 
-Then navigate to the extracted folder drag-and-drop the `Zap.app` to `Applications`.
+Navigate to the newly extracted folder, then drag-and-drop the `Zap.app` file to the `Applications` folder.
 
-Unmount the image and navigate to `Applications`.
+Unmount the image and navigate to `Applications` folder.
 
-Finally, open `Zap.app`
+Finally, **double click** on the `Zap.app` file.
 
 ### Windows
 
