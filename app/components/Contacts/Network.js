@@ -99,7 +99,7 @@ class Network extends Component {
               {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
             </span>
           </section>
-          <section className={styles.addChannel} onClick={openContactsForm}>
+          <section className={`${styles.addChannel} hint--bottom-left`} onClick={openContactsForm} data-hint='Open a channel'>
             <Isvg src={plus} />
           </section>
         </header>
@@ -140,7 +140,9 @@ class Network extends Component {
                 return (
                   <li key={index} className={styles.channel} onClick={() => openContactModal(channelObj)}>
                     <span>{displayNodeName(channel)}</span>
-                    <span className={styles[channelStatus(channelObj)]}><FaCircle /></span>
+                    <span className={`${styles[channelStatus(channelObj)]} hint--left`} data-hint={channelStatus(channelObj)}>
+                      <FaCircle />
+                    </span>
                   </li>
                 )
               })
