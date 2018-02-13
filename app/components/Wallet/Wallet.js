@@ -32,7 +32,7 @@ class Wallet extends Component {
     } = this.props
 
     const { modalOpen, qrCodeType } = this.state
-    const usdAmount = btc.satoshisToUsd((parseInt(balance.walletBalance) + parseInt(balance.channelBalance)), currentTicker.price_usd)
+    const usdAmount = btc.satoshisToUsd((parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10)), currentTicker.price_usd)
 
     const changeQrCode = () => {
       const qrCodeNum = this.state.qrCodeType === 1 ? 2 : 1
