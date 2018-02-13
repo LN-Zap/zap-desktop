@@ -8,7 +8,7 @@
  * When running `npm run build` or `npm run build-main`, this file is compiled to
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  *
- * @flow
+ *
  */
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
@@ -83,6 +83,19 @@ const sendLndSyncing = () => {
   }, 1000)
 }
 
+const sendStartOnboarding = () => {
+  const sendStartOnboardingInterval = setInterval(() => {
+    if (didFinishLoad) {
+      clearInterval(sendStartOnboardingInterval)
+
+      if (mainWindow) {
+        console.log('STARTING ONBOARDING')
+        mainWindow.webContents.send('startOnboarding')
+      }
+    }
+  }, 1000)
+}
+
 // Send the front end event letting them know the gRPC connection has started
 const sendGrpcConnected = () => {
   const sendGrpcConnectedInterval = setInterval(() => {
@@ -126,7 +139,7 @@ const sendLndSynced = () => {
 }
 
 // Starts the LND node
-const startLnd = () => {
+const startLnd = (alias) => {
   let lndPath
 
   if (process.env.NODE_ENV === 'development') {
@@ -146,7 +159,8 @@ const startLnd = () => {
       '--neutrino.connect=127.0.0.1:18333',
       '--autopilot.active',
       '--debuglevel=debug',
-      '--noencryptwallet'
+      '--noencryptwallet',
+      `--alias=${alias}`
     ]
   )
     .on('error', error => console.log(`lnd error: ${error}`))
@@ -242,16 +256,17 @@ app.on('ready', async () => {
   menuBuilder.buildMenu()
 
   sendGrpcDisconnected()
-  // Check to see if and LND process is running
+  // Check to see if an LND process is running
   lookup({ command: 'lnd' }, (err, results) => {
     // There was an error checking for the LND process
     if (err) { throw new Error(err) }
 
     // No LND process was found
     if (!results.length) {
-      // Assign path to certs to certPath
-      sendLndSyncing()
+      // let the application know onboarding has started
+      sendStartOnboarding()
 
+      // Assign path to certs to certPath
       switch (os.platform()) {
         case 'darwin':
           certPath = path.join(homedir, 'Library/Application Support/Lnd/tls.cert')
@@ -267,7 +282,12 @@ app.on('ready', async () => {
       }
 
       // Start LND
-      startLnd()
+      // startLnd()
+      // once the onboarding has finished we wanna let the application we have started syncing and start LND
+      ipcMain.on('onboardingFinished', (event, { alias }) => {
+        sendLndSyncing()
+        startLnd(alias)
+      })
     } else {
       // An LND process was found, no need to start our own
       console.log('LND ALREADY RUNNING')

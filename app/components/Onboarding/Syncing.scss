@@ -1,0 +1,50 @@
+@import '../../variables.scss';
+
+.container {
+  position: relative;
+  height: 100vh;
+  background: $spaceblue;
+}
+
+.titleBar {
+  background: $spacegrey;
+  height: 20px;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.content {
+  padding: 20px 40px;
+}
+
+.progressContainer {
+  color: $white;
+  text-align: center;
+  margin-top: 20%;
+
+  h1 {
+    margin-bottom: 20px;
+  }
+
+  .progressBar {
+    width: 75%;
+    max-width: 700px;
+    margin: 0 auto;
+    height: 10px;
+    border-radius: 5px;
+    background: $spaceborder;
+  }
+
+  .progress {
+    background: $gold;
+    background: #DEA326;
+    height: 10px;
+    border-radius: 5px;
+    transition: all 0.25s;
+  }
+
+  h4 {
+    color: $gold;
+    margin-top: 10px;
+  }
+}

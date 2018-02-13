@@ -5,43 +5,70 @@ import { ConnectedRouter } from 'react-router-redux'
 import PropTypes from 'prop-types'
 
 import LoadingBolt from '../components/LoadingBolt'
-import LndSyncing from '../components/LndSyncing'
+import Onboarding from '../components/Onboarding'
+import Syncing from '../components/Onboarding/Syncing'
+import { updateAlias, changeStep, submit } from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
-import { newAddress } from '../reducers/address'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
-  fetchBlockHeight,
-  newAddress
+  updateAlias,
+  changeStep,
+  submit,
+
+  fetchBlockHeight
 }
 
 const mapStateToProps = state => ({
   lnd: state.lnd,
-  address: state.address,
+  onboarding: state.onboarding,
 
   syncPercentage: lndSelectors.syncPercentage(state)
 })
 
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const syncingProps = {
+    fetchBlockHeight: dispatchProps.fetchBlockHeight,
+    syncPercentage: stateProps.syncPercentage
+  }
+
+  const aliasProps = {
+    updateAlias: dispatchProps.updateAlias,
+    alias: stateProps.onboarding.alias
+  }
+
+  const onboardingProps = {
+    onboarding: stateProps.onboarding,
+    submit: dispatchProps.submit,
+    aliasProps
+  }
+
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+
+    onboardingProps,
+    syncingProps
+  }
+}
+
 const Root = ({
   store,
   history,
+
   lnd,
-  newAddress, // eslint-disable-line no-shadow
-  fetchBlockHeight, // eslint-disable-line no-shadow
-  syncPercentage,
-  address
+  onboardingProps,
+  syncingProps
 }) => {
   // If we are syncing show the syncing screen
+  if (!onboardingProps.onboarding.onboarded) {
+    return <Onboarding {...onboardingProps} />
+  }
+
+  // If we are syncing show the syncing screen
   if (lnd.syncing) {
-    return (
-      <LndSyncing
-        newAddress={newAddress}
-        fetchBlockHeight={fetchBlockHeight}
-        syncPercentage={syncPercentage}
-        address={address}
-        grpcStarted={lnd.grpcStarted}
-      />
-    )
+    return <Syncing {...syncingProps} />
   }
 
   // Don't launch the app without gRPC connection
@@ -60,13 +87,8 @@ Root.propTypes = {
   store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   lnd: PropTypes.object.isRequired,
-  fetchBlockHeight: PropTypes.func.isRequired,
-  newAddress: PropTypes.func.isRequired,
-  syncPercentage: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired,
-  address: PropTypes.object.isRequired
+  onboardingProps: PropTypes.object.isRequired,
+  syncingProps: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Root)
+export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Root)

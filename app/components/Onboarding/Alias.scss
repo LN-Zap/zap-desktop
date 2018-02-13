@@ -1,0 +1,15 @@
+@import '../../variables.scss';
+
+.alias {
+  background: transparent;
+  outline: none;
+  border: 0;
+  color: $gold;
+  -webkit-text-fill-color: $white;
+  font-size: 22px;
+}
+
+.alias::-webkit-input-placeholder {
+  text-shadow: none;
+  -webkit-text-fill-color: initial;
+}
