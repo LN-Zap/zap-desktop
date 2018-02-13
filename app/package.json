@@ -1,7 +1,7 @@
 {
   "name": "zap-desktop",
-  "productName": "zap-desktop",
-  "version": "0.0.1",
+  "productName": "ZapDesktop",
+  "version": "0.1.1",
   "description": "desktop application for the lightning network",
   "main": "./main.prod.js",
   "author": {
@@ -10,12 +10,12 @@
     "url": "https://github.com/LN-Zap/zap-desktop"
   },
   "scripts": {
-    "postinstall": "npm rebuild --runtime=electron --target=1.6.6 --disturl=https://atom.io/download/atom-shell --build-from-source",
-    "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.7.10"
+    "postinstall": "npm rebuild --runtime=electron --target=1.6.16 --disturl=https://atom.io/download/atom-shell --build-from-source",
+    "install-grpc": "cd node_modules/grpc && git submodule update --init && npm run electron-build -- --target=1.6.16"
   },
   "license": "MIT",
   "dependencies": {
-    "grpc": "^1.7.3",
+    "grpc": "1.7.1",
     "ps-node": "^0.1.6",
     "react-icons": "^2.2.5"
   }

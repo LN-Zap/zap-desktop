@@ -19,29 +19,29 @@ Object {
   },
   "filter": Object {
     "key": "ALL_CHANNELS",
-    "name": "All Contacts",
+    "name": "All",
   },
   "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
-      "name": "All Contacts",
+      "name": "All",
     },
     Object {
       "key": "ACTIVE_CHANNELS",
-      "name": "Online Contacts",
+      "name": "Online",
     },
     Object {
       "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline Contacts",
+      "name": "Offline",
     },
     Object {
       "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending Contacts",
+      "name": "Pending",
     },
     Object {
       "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing Contacts",
+      "name": "Closing",
     },
   ],
   "loadingChannelPubkeys": Array [],
@@ -76,29 +76,29 @@ Object {
   },
   "filter": Object {
     "key": "ALL_CHANNELS",
-    "name": "All Contacts",
+    "name": "All",
   },
   "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
-      "name": "All Contacts",
+      "name": "All",
     },
     Object {
       "key": "ACTIVE_CHANNELS",
-      "name": "Online Contacts",
+      "name": "Online",
     },
     Object {
       "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline Contacts",
+      "name": "Offline",
     },
     Object {
       "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending Contacts",
+      "name": "Pending",
     },
     Object {
       "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing Contacts",
+      "name": "Closing",
     },
   ],
   "loadingChannelPubkeys": Array [],
@@ -136,29 +136,29 @@ Object {
   },
   "filter": Object {
     "key": "ALL_CHANNELS",
-    "name": "All Contacts",
+    "name": "All",
   },
   "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
-      "name": "All Contacts",
+      "name": "All",
     },
     Object {
       "key": "ACTIVE_CHANNELS",
-      "name": "Online Contacts",
+      "name": "Online",
     },
     Object {
       "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline Contacts",
+      "name": "Offline",
     },
     Object {
       "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending Contacts",
+      "name": "Pending",
     },
     Object {
       "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing Contacts",
+      "name": "Closing",
     },
   ],
   "loadingChannelPubkeys": Array [],
@@ -191,29 +191,29 @@ Object {
   },
   "filter": Object {
     "key": "ALL_CHANNELS",
-    "name": "All Contacts",
+    "name": "All",
   },
   "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
-      "name": "All Contacts",
+      "name": "All",
     },
     Object {
       "key": "ACTIVE_CHANNELS",
-      "name": "Online Contacts",
+      "name": "Online",
     },
     Object {
       "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline Contacts",
+      "name": "Offline",
     },
     Object {
       "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending Contacts",
+      "name": "Pending",
     },
     Object {
       "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing Contacts",
+      "name": "Closing",
     },
   ],
   "loadingChannelPubkeys": Array [],
@@ -248,29 +248,29 @@ Object {
   },
   "filter": Object {
     "key": "ALL_CHANNELS",
-    "name": "All Contacts",
+    "name": "All",
   },
   "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
-      "name": "All Contacts",
+      "name": "All",
     },
     Object {
       "key": "ACTIVE_CHANNELS",
-      "name": "Online Contacts",
+      "name": "Online",
     },
     Object {
       "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline Contacts",
+      "name": "Offline",
     },
     Object {
       "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending Contacts",
+      "name": "Pending",
     },
     Object {
       "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing Contacts",
+      "name": "Closing",
     },
   ],
   "loadingChannelPubkeys": Array [],
@@ -305,29 +305,29 @@ Object {
   },
   "filter": Object {
     "key": "ALL_CHANNELS",
-    "name": "All Contacts",
+    "name": "All",
   },
   "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
-      "name": "All Contacts",
+      "name": "All",
     },
     Object {
       "key": "ACTIVE_CHANNELS",
-      "name": "Online Contacts",
+      "name": "Online",
     },
     Object {
       "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline Contacts",
+      "name": "Offline",
     },
     Object {
       "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending Contacts",
+      "name": "Pending",
     },
     Object {
       "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing Contacts",
+      "name": "Closing",
     },
   ],
   "loadingChannelPubkeys": Array [],

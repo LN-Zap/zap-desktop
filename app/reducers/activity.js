@@ -7,16 +7,17 @@ const initialState = {
   filterPulldown: false,
   filter: { key: 'ALL_ACTIVITY', name: 'All Activity' },
   filters: [
-    { key: 'ALL_ACTIVITY', name: 'All Activity' },
-    { key: 'LN_ACTIVITY', name: 'LN Activity' },
-    { key: 'PAYMENT_ACTIVITY', name: 'LN Payments' },
-    { key: 'INVOICE_ACTIVITY', name: 'LN Invoices' },
-    { key: 'TRANSACTION_ACTIVITY', name: 'On-chain Activity' }
+    { key: 'ALL_ACTIVITY', name: 'All' },
+    { key: 'SENT_ACTIVITY', name: 'Sent' },
+    { key: 'REQUESTED_ACTIVITY', name: 'Requested' },
+    { key: 'PENDING_ACTIVITY', name: 'Pending' },
+    { key: 'FUNDED_ACTIVITY', name: 'Funding Transactions' }
   ],
   modal: {
     modalType: null,
     modalProps: {}
-  }
+  },
+  searchText: ''
 }
 
 // ------------------------------------
@@ -28,6 +29,8 @@ export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 
 export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
+
+export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 
 // ------------------------------------
 // Actions
@@ -59,6 +62,13 @@ export function toggleFilterPulldown() {
   }
 }
 
+export function updateSearchText(searchText) {
+  return {
+    type: UPDATE_SEARCH_TEXT,
+    searchText
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -66,7 +76,9 @@ const ACTION_HANDLERS = {
   [SHOW_ACTIVITY_MODAL]: (state, { modalType, modalProps }) => ({ ...state, modal: { modalType, modalProps } }),
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { modalType: null, modalProps: {} } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
-  [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown })
+  [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
+
+  [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText })
 }
 
 // ------------------------------------
@@ -75,31 +87,45 @@ const ACTION_HANDLERS = {
 const activitySelectors = {}
 const filtersSelector = state => state.activity.filters
 const filterSelector = state => state.activity.filter
+const searchSelector = state => state.activity.searchText
 const paymentsSelector = state => state.payment.payments
 const invoicesSelector = state => state.invoice.invoices
 const transactionsSelector = state => state.transaction.transactions
+const channelsSelector = state => state.channels.channels
 
 const allActivity = createSelector(
+  searchSelector,
   paymentsSelector,
   invoicesSelector,
   transactionsSelector,
-  (payments, invoices, transactions) => [...payments, ...invoices, ...transactions].sort((a, b) => {
-    const aTimestamp = Object.prototype.hasOwnProperty.call(a, 'time_stamp') ? a.time_stamp : a.creation_date
-    const bTimestamp = Object.prototype.hasOwnProperty.call(b, 'time_stamp') ? b.time_stamp : b.creation_date
+  (searchText, payments, invoices, transactions) => {
+    const searchedArr = [...payments, ...invoices, ...transactions].filter((tx) => {
+      if ((tx.tx_hash && tx.tx_hash.includes(searchText)) ||
+          (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
+          (tx.payment_request && tx.payment_request.includes(searchText))) {
+        return true
+      }
 
-    return bTimestamp - aTimestamp
-  })
-)
+      return false
+    })
 
-const lnActivity = createSelector(
-  paymentsSelector,
-  invoicesSelector,
-  (payments, invoices) => [...payments, ...invoices].sort((a, b) => b.creation_date - a.creation_date)
-)
+    return searchedArr.sort((a, b) => {
+      // this will return the correct timestamp to use when sorting (time_stamp, creation_date, or settle_date)
+      function returnTimestamp(transaction) {
+        // if on-chain txn
+        if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) { return transaction.time_stamp }
+        // if invoice that has been paid
+        if (transaction.settled) { return transaction.settle_date }
+        // if invoice that has not been paid or an LN payment
+        return transaction.creation_date
+      }
 
-const paymentActivity = createSelector(
-  paymentsSelector,
-  payments => payments
+      const aTimestamp = returnTimestamp(a)
+      const bTimestamp = returnTimestamp(b)
+
+      return bTimestamp - aTimestamp
+    })
+  }
 )
 
 const invoiceActivity = createSelector(
@@ -107,17 +133,42 @@ const invoiceActivity = createSelector(
   invoices => invoices
 )
 
-const transactionActivity = createSelector(
+const sentActivity = createSelector(
   transactionsSelector,
-  transactions => transactions
+  paymentsSelector,
+  (transactions, payments) => {
+    const sentTransactions = transactions.filter(transaction => transaction.amount < 0)
+    return [...sentTransactions, ...payments].sort((a, b) => {
+      const aTimestamp = Object.prototype.hasOwnProperty.call(a, 'time_stamp') ? a.time_stamp : a.creation_date
+      const bTimestamp = Object.prototype.hasOwnProperty.call(b, 'time_stamp') ? b.time_stamp : b.creation_date
+
+      return bTimestamp - aTimestamp
+    })
+  }
+)
+
+const pendingActivity = createSelector(
+  invoicesSelector,
+  invoices => invoices.filter(invoice => !invoice.settled)
+)
+
+const fundedActivity = createSelector(
+  transactionsSelector,
+  channelsSelector,
+  (transactions, channels) => {
+    const fundingTxIds = channels.map(channel => channel.channel_point.split(':')[0])
+    const fundingTxs = transactions.filter(transaction => fundingTxIds.includes(transaction.tx_hash))
+
+    return fundingTxs.sort((a, b) => b.time_stamp - a.time_stamp)
+  }
 )
 
 const FILTERS = {
   ALL_ACTIVITY: allActivity,
-  LN_ACTIVITY: lnActivity,
-  PAYMENT_ACTIVITY: paymentActivity,
-  INVOICE_ACTIVITY: invoiceActivity,
-  TRANSACTION_ACTIVITY: transactionActivity
+  SENT_ACTIVITY: sentActivity,
+  REQUESTED_ACTIVITY: invoiceActivity,
+  PENDING_ACTIVITY: pendingActivity,
+  FUNDED_ACTIVITY: fundedActivity
 }
 
 activitySelectors.currentActivity = createSelector(
@@ -130,7 +181,6 @@ activitySelectors.nonActiveFilters = createSelector(
   filterSelector,
   (filters, filter) => filters.filter(f => f.key !== filter.key)
 )
-
 
 export { activitySelectors }
 

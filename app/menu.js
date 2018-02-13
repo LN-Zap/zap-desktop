@@ -21,37 +21,55 @@ export default class MenuBuilder {
       template = this.buildDefaultTemplate()
     }
 
+    this.setupInputTemplate()
+
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
+
 
     return menu
   }
 
+  setupInputTemplate() {
+    const selectionMenu = Menu.buildFromTemplate([
+      { role: 'copy' },
+      { type: 'separator' },
+      { role: 'selectall' }
+    ])
+
+    const inputMenu = Menu.buildFromTemplate([
+      { role: 'undo' },
+      { role: 'redo' },
+      { type: 'separator' },
+      { role: 'cut' },
+      { role: 'copy' },
+      { role: 'paste' },
+      { type: 'separator' },
+      { role: 'selectall' }
+    ])
+
+    this.mainWindow.webContents.on('context-menu', (e, props) => {
+      const { selectionText, isEditable } = props
+
+      if (isEditable) {
+        inputMenu.popup(this.mainWindow)
+      } else if (selectionText && selectionText.trim() !== '') {
+        selectionMenu.popup(this.mainWindow)
+      }
+    })
+  }
+
   setupDevelopmentEnvironment() {
     this.mainWindow.openDevTools()
-    this.mainWindow.webContents.on('context-menu', (e, props) => {
-      const { x, y } = props
-
-      Menu
-        .buildFromTemplate([{
-          label: 'Inspect element',
-          click: () => {
-            this.mainWindow.inspectElement(x, y)
-          }
-        }])
-        .popup(this.mainWindow)
-    })
   }
 
   buildDarwinTemplate() {
     const subMenuAbout = {
       label: 'Electron',
       submenu: [
-        { label: 'About ElectronReact', selector: 'orderFrontStandardAboutPanel:' },
+        { label: 'About Zap', selector: 'orderFrontStandardAboutPanel:' },
         { type: 'separator' },
-        { label: 'Services', submenu: [] },
-        { type: 'separator' },
-        { label: 'Hide ElectronReact', accelerator: 'Command+H', selector: 'hide:' },
+        { label: 'Hide Zap', accelerator: 'Command+H', selector: 'hide:' },
         { label: 'Hide Others', accelerator: 'Command+Shift+H', selector: 'hideOtherApplications:' },
         { label: 'Show All', selector: 'unhideAllApplications:' },
         { type: 'separator' },
@@ -104,10 +122,10 @@ export default class MenuBuilder {
     const subMenuHelp = {
       label: 'Help',
       submenu: [
-        { label: 'Learn More', click() { shell.openExternal('http://electron.atom.io') } },
-        { label: 'Documentation', click() { shell.openExternal('https://github.com/atom/electron/tree/master/docs#readme') } },
-        { label: 'Community Discussions', click() { shell.openExternal('https://discuss.atom.io/c/electron') } },
-        { label: 'Search Issues', click() { shell.openExternal('https://github.com/atom/electron/issues') } }
+        { label: 'Learn More', click() { shell.openExternal('https://zap.jackmallers.com/') } },
+        { label: 'Documentation', click() { shell.openExternal('https://github.com/LN-Zap/zap-desktop') } },
+        { label: 'Community Discussions', click() { shell.openExternal('zaphq.slack.com') } },
+        { label: 'Search Issues', click() { shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues') } }
       ]
     }
 
@@ -169,22 +187,22 @@ export default class MenuBuilder {
       submenu: [{
         label: 'Learn More',
         click() {
-          shell.openExternal('http://electron.atom.io')
+          shell.openExternal('https://zap.jackmallers.com/')
         }
       }, {
         label: 'Documentation',
         click() {
-          shell.openExternal('https://github.com/atom/electron/tree/master/docs#readme')
+          shell.openExternal('https://github.com/LN-Zap/zap-desktop')
         }
       }, {
         label: 'Community Discussions',
         click() {
-          shell.openExternal('https://discuss.atom.io/c/electron')
+          shell.openExternal('zaphq.slack.com')
         }
       }, {
         label: 'Search Issues',
         click() {
-          shell.openExternal('https://github.com/atom/electron/issues')
+          shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues')
         }
       }]
     }]

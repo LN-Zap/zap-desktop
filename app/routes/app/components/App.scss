@@ -1,8 +1,16 @@
+@import '../../../variables.scss';
+
 .content {
 	position: relative;
 	width: 80%;
-	height: 100vh;
 	display: inline-block;
 	vertical-align: top;
 	overflow-y: scroll;
+}
+
+.titleBar {
+  background: $spacegrey;
+  height: 20px;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
 }

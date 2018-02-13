@@ -10,29 +10,30 @@ class ContactsForm extends React.Component {
     super(props)
 
     this.state = {
-      editing: false,
-      manualFormInput: ''
+      editing: false
     }
   }
 
   render() {
     const {
       contactsform,
+      contactsform: { showErrors },
       closeContactsForm,
       updateContactFormSearchQuery,
+      updateManualFormSearchQuery,
       updateContactCapacity,
       openChannel,
-
+      updateManualFormErrors,
       activeChannelPubkeys,
       nonActiveChannelPubkeys,
       pendingOpenChannelPubkeys,
       filteredNetworkNodes,
       loadingChannelPubkeys,
-      showManualForm
+      showManualForm,
+      manualFormIsValid
     } = this.props
 
-    const { editing, manualFormInput } = this.state
-
+    const { editing } = this.state
 
     const renderRightSide = (node) => {
       if (loadingChannelPubkeys.includes(node.pub_key)) {
@@ -94,15 +95,29 @@ class ContactsForm extends React.Component {
       this.setState({ editing: true })
     }
 
-    const manualFormSubmit = () => {
-      if (!manualFormInput.length) { return }
-      if (!manualFormInput.includes('@')) { return }
 
-      const [pubkey, host] = manualFormInput && manualFormInput.split('@')
+    const manualFormSubmit = () => {
+      if (!manualFormIsValid.isValid) {
+        updateManualFormErrors(manualFormIsValid.errors)
+        updateManualFormSearchQuery('')
+        return
+      }
+      // clear any existing errors
+
+      updateManualFormErrors({ manualInput: null })
+      const [pubkey, host] = contactsform.manualSearchQuery && contactsform.manualSearchQuery.split('@')
 
       openChannel({ pubkey, host, local_amt: contactsform.contactCapacity })
 
-      this.setState({ manualFormInput: '' })
+      updateManualFormSearchQuery('')
+    }
+
+    const searchUpdated = (search) => {
+      updateContactFormSearchQuery(search)
+
+      if (search.includes('@') && search.split('@')[0].length === 66) {
+        updateManualFormSearchQuery(search)
+      }
     }
 
     return (
@@ -132,7 +147,7 @@ class ContactsForm extends React.Component {
                 placeholder='Find contact by alias or pubkey'
                 className={styles.searchInput}
                 value={contactsform.searchQuery}
-                onChange={event => updateContactFormSearchQuery(event.target.value)}
+                onChange={event => searchUpdated(event.target.value)}
               />
             </div>
 
@@ -170,8 +185,8 @@ class ContactsForm extends React.Component {
                 <input
                   type='text'
                   placeholder='pubkey@host'
-                  value={manualFormInput}
-                  onChange={event => this.setState({ manualFormInput: event.target.value })}
+                  value={contactsform.manualSearchQuery}
+                  onChange={event => updateManualFormSearchQuery(event.target.value)}
                 />
                 <div className={styles.submit} onClick={manualFormSubmit}>Submit</div>
 
@@ -182,6 +197,12 @@ class ContactsForm extends React.Component {
                       <div className={styles.spinner} />
                     </div>
                   </div>
+                }
+              </section>
+
+              <section className={`${styles.errorMessage} ${showErrors.manualInput && styles.active}`}>
+                {showErrors.manualInput &&
+                  <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>
                 }
               </section>
             </div>
@@ -220,14 +241,18 @@ class ContactsForm extends React.Component {
   }
 }
 
-
 ContactsForm.propTypes = {
   contactsform: PropTypes.object.isRequired,
   closeContactsForm: PropTypes.func.isRequired,
   updateContactFormSearchQuery: PropTypes.func.isRequired,
+  updateManualFormSearchQuery: PropTypes.func.isRequired,
+  manualFormIsValid: PropTypes.shape({
+    errors: PropTypes.object,
+    isValid: PropTypes.bool
+  }).isRequired,
   updateContactCapacity: PropTypes.func.isRequired,
+  updateManualFormErrors: PropTypes.func.isRequired,
   openChannel: PropTypes.func.isRequired,
-
   activeChannelPubkeys: PropTypes.array.isRequired,
   nonActiveChannelPubkeys: PropTypes.array.isRequired,
   pendingOpenChannelPubkeys: PropTypes.array.isRequired,

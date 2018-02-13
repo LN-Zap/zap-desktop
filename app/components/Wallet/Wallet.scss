@@ -1,10 +1,31 @@
 @import '../../variables.scss';
 
 .wallet {
-  cursor: pointer;
-  background: $lightgrey;
+  background: $bluegrey;
+  color: $white;
   transition: background 0.25s;
   height: 150px;
+  padding: 20px 40px;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .logo span svg {
+    width: 64px;
+    height: 24px;
+  }
+
+  .user {
+    cursor: pointer;
+    transition: all 0.25s;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
 }
 
 .left, .right {
@@ -14,7 +35,7 @@
   height: 150px;
 
   .leftContent, .rightContent {
-    padding: 25px;
+    padding: 25px 0;
   }  
 }
 
@@ -23,8 +44,8 @@
   flex-direction: row;
 
   .bitcoinLogo svg {
-    width: 100px;
-    height: 100px;
+    width: 32px;
+    height: 32px;
   }
 
   .details {
@@ -33,14 +54,37 @@
     justify-content: center;
 
     h1 {
-      font-size: 24px;
-      font-weight: bold;
-      margin-bottom: 10px;
-      letter-spacing: 1.5px;
+      display: flex;
+      flex-direction: row;
+
+      span:nth-child(1) {
+        font-size: 24px;
+        line-height: 32px;
+        font-weight: 500;
+        margin-left: 10px;
+        margin-bottom: 5px;
+        letter-spacing: 1.5px;
+      }
+
+      span:nth-child(2) svg {
+        color: $white;
+        width: 20px;
+        height: 32px;
+        opacity: 1;
+        margin-left: 5px;
+        cursor: pointer;
+        transition: all 0.25s;
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
     }
 
-    span {
-      margin: 2.5px 0;
+    .usdValue {
+      font-size: 12px;
+      margin-left: 10px;
+      font-style: italic;
     }
   }
 
@@ -55,21 +99,25 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: right;
-  height: calc(100% - 50px);
 
-  div {
-    padding: 7px 20px;
-    background: $main;
-    transition: background 0.25s;
-    color: $black;
+  .pay, .request {
+    font-size: 16px;
+    font-weight: bold;
+    color: $white;
+    background: $spaceblue;
+    padding: 15px;
+    width: 100px;
+    text-align: center;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.25s;
 
     &:hover {
-      background: darken($main, 10%);
+      opacity: 0.5;
     }
 
-    svg {
-      font-size: 35px;
-      margin-right: 10px;
+    &:nth-child(1) {
+      margin-right: 20px;
     }
   }
 }

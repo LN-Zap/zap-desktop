@@ -8,7 +8,7 @@
  * When running `npm run build` or `npm run build-main`, this file is compiled to
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  *
- * @flow
+ *
  */
 import { app, BrowserWindow, ipcMain } from 'electron'
 import path from 'path'
@@ -83,6 +83,19 @@ const sendLndSyncing = () => {
   }, 1000)
 }
 
+const sendStartOnboarding = () => {
+  const sendStartOnboardingInterval = setInterval(() => {
+    if (didFinishLoad) {
+      clearInterval(sendStartOnboardingInterval)
+
+      if (mainWindow) {
+        console.log('STARTING ONBOARDING')
+        mainWindow.webContents.send('startOnboarding')
+      }
+    }
+  }, 1000)
+}
+
 // Send the front end event letting them know the gRPC connection has started
 const sendGrpcConnected = () => {
   const sendGrpcConnectedInterval = setInterval(() => {
@@ -126,18 +139,28 @@ const sendLndSynced = () => {
 }
 
 // Starts the LND node
-const startLnd = () => {
-  const lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
+const startLnd = (alias) => {
+  let lndPath
+
+  if (process.env.NODE_ENV === 'development') {
+    lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
+  } else {
+    lndPath = path.join(__dirname, '..', 'bin', plat === 'win32' ? 'lnd.exe' : 'lnd')
+  }
 
   const neutrino = spawn(lndPath,
     [
       '--bitcoin.active',
       '--bitcoin.testnet',
-      '--neutrino.active',
-      '--neutrino.connect=btcd0.lightning.computer:18333',
+      '--bitcoin.node=neutrino',
+      '--neutrino.connect=btcd.jackmallers.com:18333',
+      '--neutrino.addpeer=188.166.148.62:18333',
+      '--neutrino.addpeer=159.65.48.139:18333',
+      '--neutrino.connect=127.0.0.1:18333',
       '--autopilot.active',
       '--debuglevel=debug',
-      '--noencryptwallet'
+      '--noencryptwallet',
+      `--alias=${alias}`
     ]
   )
     .on('error', error => console.log(`lnd error: ${error}`))
@@ -197,16 +220,13 @@ app.on('ready', async () => {
     await installExtensions()
   }
 
-  const icon = path.join(__dirname, '..', 'resources', 'icon.icns')
-  console.log('icon: ', icon)
   mainWindow = new BrowserWindow({
     show: false,
-    frame: true,
-    width: 700,
-    height: 1100,
-    minHeight: 700,
-    minWidth: 1100,
-    icon
+    titleBarStyle: 'hidden',
+    width: 950,
+    height: 600,
+    minWidth: 950,
+    minHeight: 425
   })
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
@@ -227,22 +247,26 @@ app.on('ready', async () => {
 
   mainWindow.on('closed', () => {
     mainWindow = null
+
+    // shut down zap when a user closes the window
+    app.quit()
   })
 
   const menuBuilder = new MenuBuilder(mainWindow)
   menuBuilder.buildMenu()
 
   sendGrpcDisconnected()
-  // Check to see if and LND process is running
+  // Check to see if an LND process is running
   lookup({ command: 'lnd' }, (err, results) => {
     // There was an error checking for the LND process
     if (err) { throw new Error(err) }
 
     // No LND process was found
     if (!results.length) {
-      // Assign path to certs to certPath
-      sendLndSyncing()
+      // let the application know onboarding has started
+      sendStartOnboarding()
 
+      // Assign path to certs to certPath
       switch (os.platform()) {
         case 'darwin':
           certPath = path.join(homedir, 'Library/Application Support/Lnd/tls.cert')
@@ -258,7 +282,12 @@ app.on('ready', async () => {
       }
 
       // Start LND
-      startLnd()
+      // startLnd()
+      // once the onboarding has finished we wanna let the application we have started syncing and start LND
+      ipcMain.on('onboardingFinished', (event, { alias }) => {
+        sendLndSyncing()
+        startLnd(alias)
+      })
     } else {
       // An LND process was found, no need to start our own
       console.log('LND ALREADY RUNNING')

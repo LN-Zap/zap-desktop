@@ -2,31 +2,31 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import 'moment-timezone'
-import { FaBolt, FaClockO } from 'react-icons/lib/fa'
+import Isvg from 'react-inlinesvg'
+import { FaBolt } from 'react-icons/lib/fa'
 import { btc } from 'utils'
+import checkmarkIcon from 'icons/check_circle.svg'
+import clockIcon from 'icons/clock.svg'
 import styles from '../Activity.scss'
 
 const Invoice = ({
   invoice, ticker, currentTicker, showActivityModal
 }) => (
-  <div className={styles.container} onClick={() => showActivityModal('INVOICE', { invoice })}>
-    {
-      !invoice.settled ?
-        <div className={styles.clock}>
-          <i className='hint--top' data-hint='Request has not been paid'>
-            <FaClockO />
-          </i>
-        </div>
-        :
-        null
-    }
+  <div className={`${styles.container} ${!invoice.settled && styles.unpaid}`} onClick={() => showActivityModal('INVOICE', { invoice })}>
     <div className={styles.date}>
-      <Moment format='D'>
-        {invoice.creation_date * 1000}
-      </Moment>
-      <Moment format='MMMM'>
-        {invoice.creation_date * 1000}
-      </Moment>
+      <section>
+        {
+          invoice.settled ?
+            <Isvg src={checkmarkIcon} />
+            :
+            <i className='hint--top' data-hint='Request has not been paid'>
+              <Isvg src={clockIcon} />
+            </i>
+        }
+      </section>
+      <section>
+        <Moment format='MMM'>{invoice.creation_date * 1000}</Moment> <Moment format='D'>{invoice.creation_date * 1000}</Moment>
+      </section>
     </div>
     <div className={styles.data}>
       <div className={styles.title}>
@@ -46,7 +46,7 @@ const Invoice = ({
     </div>
     <div className={`${styles.amount} ${invoice.settled ? styles.positive : styles.negative}`}>
       <span className='hint--top' data-hint='Invoice amount'>
-        +
+        <i className={styles.plus}>+</i>
         {
           ticker.currency === 'usd' ?
             btc.satoshisToUsd(invoice.value, currentTicker.price_usd)

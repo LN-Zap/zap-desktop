@@ -35,6 +35,8 @@ import {
 
 import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoutes } from './network'
 
+import { startOnboarding } from './onboarding'
+
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
   lndSyncing,
@@ -91,7 +93,9 @@ const ipc = createIpc({
 
   receiveDescribeNetwork,
   receiveQueryRoutes,
-  receiveInvoiceAndQueryRoutes
+  receiveInvoiceAndQueryRoutes,
+
+  startOnboarding
 })
 
 export default ipc
