@@ -140,7 +140,9 @@ class Network extends Component {
                 return (
                   <li key={index} className={styles.channel} onClick={() => openContactModal(channelObj)}>
                     <span>{displayNodeName(channel)}</span>
-                    <span className={styles[channelStatus(channelObj)]}><FaCircle /></span>
+                    <span className={`${styles[channelStatus(channelObj)]} hint--left`} data-hint={channelStatus(channelObj)}>
+                      <FaCircle />
+                    </span>
                   </li>
                 )
               })
