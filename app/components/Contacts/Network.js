@@ -99,7 +99,7 @@ class Network extends Component {
               {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
             </span>
           </section>
-          <section className={styles.addChannel} onClick={openContactsForm}>
+          <section className={`${styles.addChannel} hint--bottom-left`} onClick={openContactsForm} data-hint='Open a channel'>
             <Isvg src={plus} />
           </section>
         </header>
