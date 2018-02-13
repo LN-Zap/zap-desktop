@@ -41,6 +41,8 @@
 
 .channels {
   padding: 20px;
+  height: 100%;
+  overflow-y: scroll;
 
   .listHeader {
     position: relative;
@@ -99,6 +101,8 @@
 
   ul {
     margin-top: 20px;
+    height: 100%;
+    overflow-y: scroll;
   }
 
   .fade {
