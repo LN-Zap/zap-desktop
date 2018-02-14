@@ -1,4 +1,5 @@
 import axios from 'axios'
+import storage from 'electron-json-storage'
 
 export function requestTicker(id) {
   const BASE_URL = `https://api.coinmarketcap.com/v1/ticker/${id}/`
@@ -23,4 +24,20 @@ export function requestBlockHeight() {
   })
     .then(response => response.data)
     .catch(error => error)
+}
+
+export function saveData(key, value) {
+  storage.set(key, value, error => {
+    if (error) { console.log('error saving data: ', error) }
+  })
+}
+
+export function getData(key) {
+  return new Promise((resolve, reject) => {
+    storage.get(key, (error, data) => {
+      if (error) { reject(error) }
+
+      resolve(data)
+    })
+  })
 }

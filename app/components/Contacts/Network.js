@@ -24,7 +24,8 @@ class Network extends Component {
         searchQuery,
         filterPulldown,
         filter,
-        selectedChannel
+        selectedChannel,
+        instantPayPubkeys,
         // loadingChannelPubkeys,
         // closingChannelIds
       },
@@ -43,9 +44,11 @@ class Network extends Component {
 
       updateChannelSearchQuery,
 
-      setChannel
-    } = this.props
+      setChannel,
 
+      addInstantPayPubkey,
+      removeInstantPayPubkey
+    } = this.props
 
     const refreshClicked = () => {
       // turn the spinner on
@@ -141,6 +144,8 @@ class Network extends Component {
                 const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel') ? channelObj.channel : channelObj
                 const pubkey = channel.remote_node_pub || channel.remote_pubkey
 
+                if (pubkey === '039ae2ef0c151e1e9032521002893dee94a5751c827e4941b5167f9d655a997c6f') { return '' }
+
                 return (
                   <li key={index} className={`${styles.channel} ${selectedChannel === channel && styles.selectedChannel}`}>
                     <section className={styles.channelTitle} onClick={() => selectedChannel === channel ? setChannel(null) : setChannel(channel)}>
@@ -166,8 +171,8 @@ class Network extends Component {
                       <div className={styles.actions}>
                         <section>
                           <Switch
-                            checked={false}
-                            onChange={() => console.log('gang')}
+                            checked={instantPayPubkeys.includes(pubkey)}
+                            onChange={() => instantPayPubkeys.includes(pubkey) ? removeInstantPayPubkey(pubkey) : addInstantPayPubkey(pubkey)}
                             className={styles.switch}
                           />
                           <h5 className={styles.instantPayTitle}>Instant Pay</h5>
@@ -217,7 +222,8 @@ Network.propTypes = {
   toggleFilterPulldown: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
-  setChannel: PropTypes.func.isRequired
+  setChannel: PropTypes.func.isRequired,
+  addInstantPayPubkey: PropTypes.func.isRequired
 }
 
 export default Network

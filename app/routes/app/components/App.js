@@ -14,7 +14,15 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchBalance, fetchDescribeNetwork } = this.props
+    const {
+      fetchTicker,
+      fetchInfo,
+      newAddress,
+      fetchChannels,
+      fetchBalance,
+      fetchDescribeNetwork,
+      fetchInstantPayPubkeys
+    } = this.props
 
     // fetch price ticker
     fetchTicker()
@@ -24,6 +32,8 @@ class App extends Component {
     newAddress('np2wkh')
     // fetch nodes channels
     fetchChannels()
+    // fetch instant pay pubkeys from storage
+    fetchInstantPayPubkeys()
     // fetch nodes balance
     fetchBalance()
     // fetch LN network from nides POV

@@ -32,7 +32,10 @@ import {
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
-  setChannel
+  setChannel,
+  addInstantPayPubkey,
+  removeInstantPayPubkey,
+  fetchInstantPayPubkeys
 } from 'reducers/channels'
 
 import {
@@ -91,6 +94,8 @@ const mapDispatchToProps = {
   changeFilter,
   updateChannelSearchQuery,
   setChannel,
+  addInstantPayPubkey,
+  removeInstantPayPubkey,
 
   openContactsForm,
   closeContactsForm,
@@ -100,7 +105,9 @@ const mapDispatchToProps = {
   contactFormSelectors,
   updateManualFormErrors,
 
-  fetchDescribeNetwork
+  fetchDescribeNetwork,
+
+  fetchInstantPayPubkeys
 }
 
 const mapStateToProps = state => ({
@@ -257,7 +264,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     toggleFilterPulldown: dispatchProps.toggleFilterPulldown,
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
-    setChannel: dispatchProps.setChannel
+    setChannel: dispatchProps.setChannel,
+    addInstantPayPubkey: dispatchProps.addInstantPayPubkey,
+    removeInstantPayPubkey: dispatchProps.removeInstantPayPubkey
   }
 
   const contactsFormProps = {

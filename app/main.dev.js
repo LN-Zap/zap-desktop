@@ -16,6 +16,8 @@ import fs from 'fs'
 import { spawn } from 'child_process'
 import { lookup } from 'ps-node'
 import os from 'os'
+import { getData } from './api'
+import { bolt11 } from './utils'
 import MenuBuilder from './menu'
 import lnd from './lnd'
 
@@ -305,9 +307,27 @@ app.on('open-url', (event, url) => {
     throw new Error('"mainWindow" is not defined')
   }
 
-  const payreq = url.split(':')[1]
-  mainWindow.webContents.send('lightningPaymentUri', { payreq })
-  mainWindow.show()
+
+  const [proto, payreq] = url.split(':')
+  console.log('proto: ', proto)
+  console.log('payreq: ', payreq)
+
+  const { payeeNodeKey } = bolt11.decode(payreq)
+  console.log('payeeNodeKey: ', payeeNodeKey)
+
+  getData('instantPayPubkeys')
+  .then(instantPayPubkeys => {
+    console.log('instantPayPubkeys: ', instantPayPubkeys)
+    if (instantPayPubkeys.includes(payeeNodeKey)) {
+      console.log('instant pay')
+      mainWindow.webContents.send('instantPay', { payreq })
+    } else {
+      console.log('normal pay')
+      mainWindow.webContents.send('lightningPaymentUri', { payreq })
+      mainWindow.show()
+    }
+  })
+  .catch(error => console.log('error fetching instantPayPubkeys: ', error))
 })
 
 export default { startLnd }
