@@ -32,8 +32,7 @@ import {
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
-  openContactModal,
-  closeContactModal
+  setChannel
 } from 'reducers/channels'
 
 import {
@@ -91,8 +90,7 @@ const mapDispatchToProps = {
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
-  openContactModal,
-  closeContactModal,
+  setChannel,
 
   openContactsForm,
   closeContactsForm,
@@ -259,7 +257,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     toggleFilterPulldown: dispatchProps.toggleFilterPulldown,
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
-    openContactModal: dispatchProps.openContactModal
+    setChannel: dispatchProps.setChannel
   }
 
   const contactsFormProps = {
@@ -280,16 +278,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     pendingOpenChannelPubkeys: stateProps.pendingOpenChannelPubkeys
   }
 
-  const contactModalProps = {
-    closeContactModal: dispatchProps.closeContactModal,
-    closeChannel: dispatchProps.closeChannel,
-
-    isOpen: stateProps.channels.contactModal.isOpen,
-    channel: stateProps.channels.contactModal.channel,
-    channelNodes: stateProps.channelNodes,
-    closingChannelIds: stateProps.channels.closingChannelIds
-  }
-
   return {
     ...stateProps,
     ...dispatchProps,
@@ -299,8 +287,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     networkTabProps,
     // props for the contacts form
     contactsFormProps,
-    // props for the contact modal
-    contactModalProps,
     // Props to pass to the pay form
     formProps: formProps(stateProps.form.formType),
     // action to close form

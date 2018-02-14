@@ -50,10 +50,10 @@ export function setChannelForm(form) {
 }
 
 
-export function setChannel(channel) {
+export function setChannel(selectedChannel) {
   return {
     type: SET_CHANNEL,
-    channel
+    selectedChannel
   }
 }
 
@@ -305,7 +305,7 @@ const ACTION_HANDLERS = {
     { ...state, channelForm: Object.assign({}, state.channelForm, form) }
   ),
 
-  [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
+  [SET_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
 
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => (
@@ -499,7 +499,7 @@ const initialState = {
     pending_closing_channels: [],
     pending_force_closing_channels: []
   },
-  channel: null,
+  selectedChannel: null,
   channelForm: {
     isOpen: false,
     node_key: '',
