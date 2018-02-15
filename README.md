@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src='http://zap.jackmallers.com/assets/desktop-f9a57ed49fc09119e2c9d3ba7337a5a7b42123b992b2eae14c356fc8a5ea25a3.png' alt="screenshot" />
+  <img src='https://imgur.com/svn8Jrw' alt="screenshot" />
   <br />
   <center>
     <a href='https://zap.jackmallers.com'>Zap</a>
