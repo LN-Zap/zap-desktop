@@ -4,6 +4,12 @@ import bech32 from './bech32'
 import blockExplorer from './blockExplorer'
 import bolt11 from './bolt11'
 
+export btc
+export usd
+export bech32
+export blockExplorer
+export bolt11
+
 export default {
   btc,
   usd,

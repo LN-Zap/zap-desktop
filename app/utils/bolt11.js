@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 // credit to junderwood
 // https://github.com/bitcoinjs/bolt11/pull/1
 // TODO: use bolt11 package when published
