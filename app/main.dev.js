@@ -313,13 +313,14 @@ app.on('open-url', (event, url) => {
 
   getData('instantPayPubkeys')
     .then((instantPayPubkeys) => {
-      console.log('instantPayPubkeys: ', instantPayPubkeys)
       if (instantPayPubkeys.includes(payeeNodeKey)) {
         mainWindow.webContents.send('instantPay', { payreq })
       } else {
         mainWindow.webContents.send('lightningPaymentUri', { payreq })
         mainWindow.show()
       }
+
+      return true
     })
     .catch(error => console.log('error fetching instantPayPubkeys: ', error))
 })
