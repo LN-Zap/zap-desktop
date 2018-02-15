@@ -308,7 +308,7 @@ app.on('open-url', (event, url) => {
   }
 
 
-  const [proto, payreq] = url.split(':')
+  const [{}, payreq] = url.split(':')
   const { payeeNodeKey } = bolt11.decode(payreq)
 
   getData('instantPayPubkeys')
@@ -316,12 +316,11 @@ app.on('open-url', (event, url) => {
       console.log('instantPayPubkeys: ', instantPayPubkeys)
       if (instantPayPubkeys.includes(payeeNodeKey)) {
         mainWindow.webContents.send('instantPay', { payreq })
-        return
       } else {
         mainWindow.webContents.send('lightningPaymentUri', { payreq })
         mainWindow.show()
-        return
       }
+      return
     })
     .catch(error => console.log('error fetching instantPayPubkeys: ', error))
 })

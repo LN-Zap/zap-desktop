@@ -772,7 +772,7 @@ function decode (paymentRequest) {
   return orderKeys(finalResult)
 }
 
-module.exports = {
+export default {
   encode,
   decode,
   sign,
