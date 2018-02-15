@@ -1,5 +1,5 @@
-<h1 align="center">
-  <img src='https://imgur.com/svn8Jrw' alt="screenshot" />
+<h1 align='center'>
+  <img src='https://imgur.com/svn8Jrw.jpg' alt='screenshot' />
   <br />
   <center>
     <a href='https://zap.jackmallers.com'>Zap</a>
