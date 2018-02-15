@@ -25,7 +25,7 @@ class Network extends Component {
         filterPulldown,
         filter,
         selectedChannel,
-        instantPayPubkeys,
+        instantPayPubkeys
         // loadingChannelPubkeys,
         // closingChannelIds
       },
@@ -148,7 +148,7 @@ class Network extends Component {
 
                 return (
                   <li key={index} className={`${styles.channel} ${selectedChannel === channel && styles.selectedChannel}`}>
-                    <section className={styles.channelTitle} onClick={() => selectedChannel === channel ? setChannel(null) : setChannel(channel)}>
+                    <section className={styles.channelTitle} onClick={() => (selectedChannel === channel ? setChannel(null) : setChannel(channel))}>
                       <span className={`${styles[channelStatus(channelObj)]} hint--bottom-left`} data-hint={channelStatus(channelObj)}>
                         <FaCircle />
                       </span>
@@ -172,7 +172,7 @@ class Network extends Component {
                         <section>
                           <Switch
                             checked={instantPayPubkeys.includes(pubkey)}
-                            onChange={() => instantPayPubkeys.includes(pubkey) ? removeInstantPayPubkey(pubkey) : addInstantPayPubkey(pubkey)}
+                            onChange={() => (instantPayPubkeys.includes(pubkey) ? removeInstantPayPubkey(pubkey) : addInstantPayPubkey(pubkey))}
                             className={styles.switch}
                           />
                           <h5 className={styles.instantPayTitle}>Instant Pay</h5>
@@ -223,7 +223,8 @@ Network.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
   setChannel: PropTypes.func.isRequired,
-  addInstantPayPubkey: PropTypes.func.isRequired
+  addInstantPayPubkey: PropTypes.func.isRequired,
+  removeInstantPayPubkey: PropTypes.func.isRequired
 }
 
 export default Network

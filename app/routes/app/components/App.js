@@ -54,7 +54,6 @@ class App extends Component {
       error: { error },
       clearError,
 
-      contactModalProps,
       contactsFormProps,
       networkTabProps,
 
@@ -97,7 +96,6 @@ App.propTypes = {
   closeForm: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
   currentTicker: PropTypes.object,
-  contactModalProps: PropTypes.object,
   contactsFormProps: PropTypes.object,
   networkTabProps: PropTypes.object,
 
@@ -109,6 +107,7 @@ App.propTypes = {
   fetchChannels: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
   fetchDescribeNetwork: PropTypes.func.isRequired,
+  fetchInstantPayPubkeys: PropTypes.func.isRequired,
 
   children: PropTypes.object.isRequired
 }

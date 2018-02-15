@@ -205,8 +205,6 @@ export const closeChannel = ({ channel_point, chan_id, force }) => (dispatch) =>
   dispatch(closingChannel())
   dispatch(addClosingChanId(chan_id))
 
-  console.log('force: ', force)
-
   const [funding_txid, output_index] = channel_point.split(':')
   ipcRenderer.send(
     'lnd',
@@ -382,7 +380,7 @@ const ACTION_HANDLERS = {
 
   [ADD_INSTANT_PAY_PUBKEY]: (state, { pubkey }) => {
     const instantPayPubkeys = [...state.instantPayPubkeys, pubkey]
-    
+
     // add the pubkey to our list that persists via localStorage
     saveData('instantPayPubkeys', instantPayPubkeys)
 
@@ -390,14 +388,14 @@ const ACTION_HANDLERS = {
   },
   [REMOVE_INSTANT_PAY_PUBKEY]: (state, { pubkey }) => {
     const instantPayPubkeys = state.instantPayPubkeys.filter(instantPayPubkey => instantPayPubkey !== pubkey)
-    
+
     // add the pubkey to our list that persists via localStorage
     saveData('instantPayPubkeys', instantPayPubkeys)
 
     return { ...state, instantPayPubkeys }
   },
   [GET_INSTANT_PAY_PUBKEYS]: state => ({ ...state, fetchingInstantPayPubkeys: true }),
-  [RECEIVE_INSTANT_PAY_PUBKEYS]: (state, { instantPayPubkeys }) => ({ ...state, fetchingInstantPayPubkeys: false, instantPayPubkeys }),
+  [RECEIVE_INSTANT_PAY_PUBKEYS]: (state, { instantPayPubkeys }) => ({ ...state, fetchingInstantPayPubkeys: false, instantPayPubkeys })
 }
 
 const channelsSelectors = {}

@@ -27,7 +27,7 @@ export function requestBlockHeight() {
 }
 
 export function saveData(key, value) {
-  storage.set(key, value, error => {
+  storage.set(key, value, (error) => {
     if (error) { console.log('error saving data: ', error) }
   })
 }

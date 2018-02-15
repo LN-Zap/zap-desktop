@@ -309,25 +309,21 @@ app.on('open-url', (event, url) => {
 
 
   const [proto, payreq] = url.split(':')
-  console.log('proto: ', proto)
-  console.log('payreq: ', payreq)
-
   const { payeeNodeKey } = bolt11.decode(payreq)
-  console.log('payeeNodeKey: ', payeeNodeKey)
 
   getData('instantPayPubkeys')
-  .then(instantPayPubkeys => {
-    console.log('instantPayPubkeys: ', instantPayPubkeys)
-    if (instantPayPubkeys.includes(payeeNodeKey)) {
-      console.log('instant pay')
-      mainWindow.webContents.send('instantPay', { payreq })
-    } else {
-      console.log('normal pay')
-      mainWindow.webContents.send('lightningPaymentUri', { payreq })
-      mainWindow.show()
-    }
-  })
-  .catch(error => console.log('error fetching instantPayPubkeys: ', error))
+    .then((instantPayPubkeys) => {
+      console.log('instantPayPubkeys: ', instantPayPubkeys)
+      if (instantPayPubkeys.includes(payeeNodeKey)) {
+        mainWindow.webContents.send('instantPay', { payreq })
+        return
+      } else {
+        mainWindow.webContents.send('lightningPaymentUri', { payreq })
+        mainWindow.show()
+        return
+      }
+    })
+    .catch(error => console.log('error fetching instantPayPubkeys: ', error))
 })
 
 export default { startLnd }

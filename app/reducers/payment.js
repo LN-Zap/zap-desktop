@@ -96,7 +96,7 @@ export const payInvoice = paymentRequest => (dispatch, getState) => {
   }, 10000)
 }
 
-export const instantPay = (event, { payreq }) => (dispatch) => dispatch(payInvoice(payreq))
+export const instantPay = (event, { payreq }) => dispatch => dispatch(payInvoice(payreq))
 
 // ------------------------------------
 // Action Handlers
