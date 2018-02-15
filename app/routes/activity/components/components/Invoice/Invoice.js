@@ -9,6 +9,8 @@ import checkmarkIcon from 'icons/check_circle.svg'
 import clockIcon from 'icons/clock.svg'
 import styles from '../Activity.scss'
 
+console.log('btc: ', btc)
+
 const Invoice = ({
   invoice, ticker, currentTicker, showActivityModal
 }) => (
