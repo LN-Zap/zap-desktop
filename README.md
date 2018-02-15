@@ -8,83 +8,82 @@
 
 Zap is a free Lightning Network wallet focused on user experience and ease of use, with the overall goal of helping the cryptocurrency community scale Bitcoin and other cryptocurrencies.
 
-Zap is built on top of [LND](https://github.com/lightningnetwork/lnd), and uses
-[Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs) for the UI.
+The UI for Zap is created using
+[Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs).
 
-Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMzA4OTgxNTQ4NzUzLTQwYjkzZGM0ZWMwYmYyZTE2Y2E1YjM5NTIwOTU0M2I1Zjc2YWY1NTc4NjdhZWQxNTM1YzEzOGM2YTVlNWIwODc) to discuss development, design and product
+We have an active [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ) channel where you can join the discussion on development, design and product.
 
-## Requirements
+## Installing
 
-* **Node.js version >= 8, npm version >= 5 and [yarn](https://yarnpkg.com/lang/en/docs/install/)**
+***Note:*** *If you would like to use a full bitcoin node, please see the [advanced usage](https://github.com/LN-Zap/zap-desktop/blob/master/ADVANCED.md) page.*
 
-## Install
+Download the [latest release](https://github.com/LN-Zap/zap-desktop/releases) for your appropriate OS and follow the instructions below. 
 
-**If you have installation or compilation issues, please file a Github issue or ping us in Slack**
+### macOS 
 
-After installing the above requirements, clone the repo via git:
+Once you have the .zip file downloaded, simply **double click** on the file to unzip.
+
+Navigate to the newly extracted folder, then drag-and-drop the `Zap.app` file to the `Applications` folder.
+
+Unmount the image and navigate to `Applications` folder.
+
+Finally, **double click** on the `Zap.app` file.
+
+### Windows
+
+Once you have the .exe file downloaded, simply **double click** on the file.
+
+### Linux
+
+Once you have the .zip file downloaded, simply **double click** the file to unzip or run the following command:
+
 ```bash
-git clone https://github.com/LN-Zap/zap-desktop.git
+unzip file.zip
 ```
 
-And then install dependencies with yarn + install grpc
+You have the option to either install Zap through the [.deb](#.deb-file) or [.AppImage](#.appimage-file) files.
+
+#### .deb File
+
+Once you have the .deb file extracted, you can install Zap by **double clicking** on the file or through the `dpkg` command:
 
 ```bash
-$ cd zap-desktop
-$ yarn
-$ npm run install-grpc
-```
-Zap does not store `lnd` binaries in the Github repo so you will need to [download](https://github.com/lightninglabs/lightning-app/tree/master/apps/desktop/bin) the binary file for the appropriate OS from the Lightning Labs wallet repo. Make sure the file has the correct permissions to be executable in Mac/Linux. If you already use the [release](https://github.com/lightninglabs/lightning-app/releases) version, you can copy the binary located at `lightning-app/resources/app/bin/[YOUR-OS-FOLDER]` and place it into `zap-desktop/resources/bin/[YOUR-OS-FOLDER]`.
-
-Alternatively, you can [compile](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) `lnd` from source to have the latest development version. This allows you to use [`lncli`](http://dev.lightning.community/overview/#lnd-interfaces) in addition to Zap, and run a seperate `lnd` instance with [custom](http://dev.lightning.community/guides/installation/#lnd) configuration. Zap will detect the separate `lnd` instance and use it as the backend client. For Zap to run properly without any custom `lnd` setup, copy the `lnd` binary that will be located in your `$GOPATH/bin` and paste it into Zap as previously mentioned.
-
-Zap expects `lnd` to be in one of these directories depending on your OS:
-
-```
-# mac
-resources/bin/darwin
-
-#linux
-resources/bin/linux
-
-#win32
-resources/bin/win32
+sudo dpkg -i file.deb
 ```
 
-Then to start it:
+If this is your first time installing zap, you may have some unmet dependencies. This can be resolved with the following command:
+
 ```bash
-$ npm run dev
+sudo apt-get -f install
 ```
 
-## Test
+To run Zap you can either navigate through the GUI or run the following command:
+
 ```bash
-$ npm run test
+zap-desktop
 ```
 
-## Lint
+#### .AppImage File
+
+Once you have the .AppImage file extracted, you can either **double click** the file or by running in the cli:
+
 ```bash
-$ npm run lint
+./file.AppImage
 ```
 
-## Contributing:
-Please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md)
+## Advanced Usage
+If you would like to install from source or run a full bitcoin node, please see the [advanced usage](https://github.com/LN-Zap/zap-desktop/blob/master/ADVANCED.md) page. 
 
-## Todos:
-Join us on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMzA4OTgxNTQ4NzUzLTQwYjkzZGM0ZWMwYmYyZTE2Y2E1YjM5NTIwOTU0M2I1Zjc2YWY1NTc4NjdhZWQxNTM1YzEzOGM2YTVlNWIwODc) before tackling a todo to avoid duplicate work. 
-
-The old todo list was recently removed. Come on slack or check open Github issues to see what contributions are needed.
+### Contributing
+If you would like to help contribute to the project, please see the [contributing guide](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md).
 
 ## Q & A (Quality and Assurance)
 
-A good product not only has good software tests but also checks the quality of the UX/UI. Putting ourselves in the shoes of a user will be very important for Zap.
+***Note:*** *If you are having problems with Zap, please report the issue in [GitHub](https://github.com/LN-Zap/zap-desktop/issues) or on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ) with screenshots and/or how to reproduce the bug/error.*
 
-If you see issues please report with screenshots and/or how to reproduce the bug/error
+A good product not only has good software tests but also checks the quality of the UX/UI. Putting ourselves in the shoes of a user is a very important design principle of Zap.
 
-### Devices
-- Mac
-- Windows
-- Linux
-
-### Example user stories
+### Example User Stories
 `User wants to connect to a peer`
 
 `User wants to open a channel`
