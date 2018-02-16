@@ -284,7 +284,6 @@ app.on('ready', async () => {
       }
 
       // Start LND
-      // startLnd()
       // once the onboarding has finished we wanna let the application we have started syncing and start LND
       ipcMain.on('onboardingFinished', (event, { alias }) => {
         sendLndSyncing()

@@ -1,3 +1,7 @@
+// mock the app object of electron as electron-json-storage needs it
+jest.mock('electron', () => ({ app: jest.fn() }))
+import electron from 'electron'
+
 import paymentReducer, {
   SET_PAYMENT,
   GET_PAYMENTS,
