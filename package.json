@@ -194,10 +194,10 @@
     "stylelint": "^7.12.0",
     "stylelint-config-standard": "^16.0.0",
     "url-loader": "^0.5.8",
-    "webpack": "^3.7.1",
-    "webpack-bundle-analyzer": "^2.8.2",
-    "webpack-dev-server": "^2.5.0",
-    "webpack-merge": "^4.1.0"
+    "webpack": "^3.10.0",
+    "webpack-bundle-analyzer": "^2.9.2",
+    "webpack-dev-server": "^2.11.1",
+    "webpack-merge": "^4.1.1"
   },
   "dependencies": {
     "axios": "^0.16.2",
