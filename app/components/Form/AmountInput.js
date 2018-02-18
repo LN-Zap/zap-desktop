@@ -7,11 +7,11 @@ class AmountInput extends React.Component {
 
   constructor(props) {
     super(props)
+
     this.handleChange = this.handleChange.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
-  // rename this, simplify and test
   parseNumber(_value) {
     let value = _value.replace(/[^0-9,.]/g, '')
     let integer = null
@@ -22,18 +22,13 @@ class AmountInput extends React.Component {
 
     // simplify this, make flat if possible
     // extract the parsing bit?
-    if (value.match(/^[0-9]+$/)) {
-      integer = value
-    } else {
-      if (value.match(/^[0-9]*[.,][0-9]*$/)) {
-        [integer, fractional] = value.toString().split(/[.,]/)
-        if (!fractional || fractional == '') {
-          fractional = ''
-        }
-      } else {
-        console.log('B2');
-        console.log('incorrect value', value)
+    if (value.match(/^[0-9]*[.,][0-9]*$/)) {
+      [integer, fractional] = value.toString().split(/[.,]/)
+      if (!fractional || fractional == '') {
+        fractional = ''
       }
+    } else {
+      integer = value
     }
 
     // limit fractional precision to 8 places
@@ -116,7 +111,7 @@ class AmountInput extends React.Component {
       return
     }
 
-    // when its '.' or ',' but the number already contains it, do not put it in?
+    // do not allow multiple commas or dots
     if ((e.key === '.') || (e.key === ',')) {
       if (value.search(/[.,]/) >= 0) {
         e.preventDefault()
@@ -125,7 +120,6 @@ class AmountInput extends React.Component {
     }
 
     if ((e.key.length == 1) && !e.key.match(/^[0-9.,]$/)) {
-      console.log('not matching', e.key)
       e.preventDefault()
       return
     }
@@ -138,7 +132,6 @@ class AmountInput extends React.Component {
       crypto,
     } = this.props
 
-    // TODO does not scale well
     let fontSize = 170 - (amount.length ** 2)
     if (fontSize < 30) {
       fontSize = 30

@@ -4,13 +4,16 @@ import _ from 'lodash'
 
 import AmountInput from '../../../app/components/Form/AmountInput'
 
-const defaultProps = {
-  amount: '',
-  currency: '',
-  crypto: '',
+  let component;
+  let wrapped;
 
-  onChange: () => {},
-}
+  const defaultProps = {
+    amount: '',
+    currency: '',
+    crypto: '',
+
+    onChange: () => {}
+  }
 
 describe('AmountInput', () => {
   describe('render', () => {
@@ -23,10 +26,12 @@ describe('AmountInput', () => {
   })
 
   describe('parseNumber', () => {
-    const component = mount(<AmountInput {...defaultProps} />).instance()
     const test = (from, to) => {
       expect(component.parseNumber(from)).toEqual(to)
     }
+    beforeEach(() => {
+      component = mount(<AmountInput {...defaultProps} />).instance()
+    })
 
     it('splits number into integer and fraction', () => {
       test('', ['0', null])
@@ -76,9 +81,9 @@ describe('AmountInput', () => {
   })
 
   describe('shiftValue', () => {
-    const component = mount(<AmountInput {...defaultProps} />).instance()
 
     describe('inrcements', () => {
+      const component = mount(<AmountInput {...defaultProps} />).instance()
       const test = (from, to) => {
         expect(component.shiftValue(from, 1)).toEqual(to)
       }
@@ -111,8 +116,9 @@ describe('AmountInput', () => {
     })
       
     describe('decrements', () => {
+      const component = mount(<AmountInput {...defaultProps} />).instance()
       const test = (from, to) => {
-        expect(component.shiftValue(from, -1, `Decrementing ${from} should result in ${to}`)).toEqual(to)
+        expect(component.shiftValue(from, -1)).toEqual(to)
       }
       it('decrements decimal values', () => {
         test('0', '0')
@@ -143,15 +149,128 @@ describe('AmountInput', () => {
         test('0.00000010', '0.00000009')
       })
     })
-
   })
 
   describe('handleChange', () => {
-    // TODO
+    let onChange
+    let component
+    beforeEach(() => {
+      onChange = jest.fn()
+      let props = {...defaultProps, onChange}
+      component = mount(<AmountInput {...props} />).instance()
+    })
+
+    it('sends value to parseNumber', () => {
+      spyOn(component, 'parseNumber').and.returnValue([0, 0]); 
+
+      component.handleChange({target: { value: '123.0' }})
+      expect(component.parseNumber.calls.count()).toEqual(1)
+      expect(component.parseNumber.calls.argsFor(0)).toEqual(['123.0'])
+    })
+
+    it('calls formatValue with presult from parseNumber', () => {
+      spyOn(component, 'formatValue').and.callThrough(); 
+
+      component.handleChange({target: { value: '123.0' }})
+      expect(component.formatValue.calls.count()).toEqual(1)
+      expect(component.formatValue.calls.argsFor(0)).toEqual(['123', '0'])
+    })
+
+    it('calls props.onChange with formatValue result', () => {
+      spyOn(component, 'formatValue').and.returnValue('456')
+
+      component.handleChange({target: { value: '123.0' }})
+      expect(onChange).toHaveBeenCalledWith('456')
+    })
   })
 
   describe('handleKeyDown', () => {
-    // TODO
+    let event;
+    let preventDefault;
+
+    beforeEach(() => {
+      wrapped = mount(<AmountInput {...defaultProps} />)
+      component = wrapped.instance()
+      spyOn(component, 'shiftValue')
+
+      preventDefault = jest.fn()
+
+      event = {
+        key: 'ArrowUp',
+        target: { value: '123' },
+        preventDefault,
+      }
+    })
+
+    describe('ArrowUp', () => {
+      it('calls shiftValue with delta = 1', () => {
+        component.handleKeyDown({...event, key: 'ArrowUp' })
+        expect(component.shiftValue).toHaveBeenCalledWith('123', 1)
+      })
+
+      it('calls preventDefault', () => {
+        component.handleKeyDown({...event, key: 'ArrowUp' })
+        expect(preventDefault).toHaveBeenCalled()
+      })
+    })
+
+    describe('ArrowDown', () => {
+      it('calls shiftValue with delta = -1', () => {
+        component.handleKeyDown({...event, key: 'ArrowDown' })
+        expect(component.shiftValue).toHaveBeenCalledWith('123', -1)
+      })
+
+      it('calls preventDefault', () => {
+        component.handleKeyDown({...event, key: 'ArrowDown' })
+        expect(preventDefault).toHaveBeenCalled()
+      })
+    })
+
+    describe('comma and dot', () => {
+      beforeEach(() => {
+        wrapped = mount(<AmountInput {...defaultProps} />)
+        component = wrapped.instance()
+        preventDefault = jest.fn()
+
+        event = {
+          key: '.',
+          target: { value: '123' },
+          preventDefault,
+        }
+      })
+
+      it('allows adding dot to a number that has no dot', () => {
+        component.handleKeyDown({...event, target: { value: '123'}}) // no dot
+        expect(preventDefault).not.toHaveBeenCalled()
+
+        component.handleKeyDown({...event, key: ',', target: { value: '123'}}) // no dot
+        expect(preventDefault).not.toHaveBeenCalled()
+      })
+
+      it('does not allow multiple dots in the number', () => {
+        component.handleKeyDown({...event, target: { value: '123.'}}) // has a dot
+        expect(preventDefault).toHaveBeenCalled()
+
+        component.handleKeyDown({...event, key: ',', target: { value: '123,'}}) // has a dot
+        expect(preventDefault).toHaveBeenCalled()
+      })
+    })
+
+    describe('Non-supported keys', () => {
+      it('prevents event', () => {
+        component.handleKeyDown({...event, key: 'a'})
+        expect(preventDefault).toHaveBeenCalled()
+
+        component.handleKeyDown({...event, key: 'A'})
+        expect(preventDefault).toHaveBeenCalled()
+
+        component.handleKeyDown({...event, key: '-'})
+        expect(preventDefault).toHaveBeenCalled()
+
+        component.handleKeyDown({...event, key: '?'})
+        expect(preventDefault).toHaveBeenCalled()
+      })
+    })
   })
 
 })
