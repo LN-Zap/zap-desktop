@@ -22,6 +22,59 @@ describe('AmountInput', () => {
     })
   })
 
+  describe('parseNumber', () => {
+    const component = mount(<AmountInput {...defaultProps} />).instance()
+    const test = (from, to) => {
+      expect(component.parseNumber(from)).toEqual(to)
+    }
+
+    it('splits number into integer and fraction', () => {
+      test('', ['0', null])
+      test('0', ['0', null])
+      test('00', ['00', null])
+      test('0.', ['0', ''])
+
+      test('1', ['1', null])
+      test('01', ['01', null])
+      test('1.', ['1', ''])
+
+      test('0.0', ['0', '0'])
+      test('0.1', ['0', '1'])
+
+      test('0.01', ['0', '01'])
+      test('0.10', ['0', '10'])
+
+      test('1.0', ['1', '0'])
+      test('01.0', ['01', '0'])
+    })
+  })
+
+  describe('formatValue', () => {
+    const component = mount(<AmountInput {...defaultProps} />).instance()
+    const test = (from, to) => {
+      expect(component.formatValue(from[0], from[1])).toEqual(to)
+    }
+
+    it('turns parsed number into a string', () => {
+      test(['0', null], '0')
+      test(['00', null], '00')
+      test(['0', ''], '0.')
+
+      test(['1', null], '1')
+      test(['01', null], '01')
+      test(['1', ''], '1.')
+
+      test(['0', '0'], '0.0')
+      test(['0', '1'], '0.1')
+
+      test(['0', '01'], '0.01')
+      test(['0', '10'], '0.10')
+
+      test(['1', '0'], '1.0')
+      test(['01', '0'], '01.0')
+    })
+  })
+
   describe('shiftValue', () => {
     const component = mount(<AmountInput {...defaultProps} />).instance()
 
@@ -91,6 +144,10 @@ describe('AmountInput', () => {
       })
     })
 
+  })
+
+  describe('handleChange', () => {
+    // TODO
   })
 
   describe('handleKeyDown', () => {

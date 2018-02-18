@@ -6,35 +6,66 @@ import styles from './RequestForm.scss'
 class AmountInput extends React.Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.handleChange = this.handleChange.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
   }
 
-  handleChange(e) {
-    let value = e.target.value;
-    let integer = null;
-    let fractional = null;
+  // rename this, simplify and test
+  parseNumber(_value) {
+    let value = _value.replace(/[^0-9,.]/g, '')
+    let integer = null
+    let fractional = null
 
-    if (value.match(/[0-9]+/)) {
-      integer = e.target.value * 1;
-    }
-    if (value.match(/[0-9]*[,\.][0-9]+/)) {
-      [integer, fractional] = value.toString().split('.');
+    if (value == '') { value = '0' }
+    if (value*1.0 < 0) { value = '0.0' }
+
+    // simplify this, make flat if possible
+    // extract the parsing bit?
+    if (value.match(/^[0-9]+$/)) {
+      integer = value
+    } else {
+      if (value.match(/^[0-9]*[.,][0-9]*$/)) {
+        [integer, fractional] = value.toString().split(/[.,]/)
+        if (!fractional || fractional == '') {
+          fractional = ''
+        }
+      } else {
+        console.log('B2');
+        console.log('incorrect value', value)
+      }
     }
 
     // limit fractional precision to 8 places
     if (fractional && fractional.length > 8) {
-      console.log(e.target.selectionEnd)
-      this.resetCursorPosition = e.target.selectionEnd
-      
       fractional = fractional.substring(0, 8)
-      value = `${integer}.${fractional}`
-      console.log('SET VALUE', [integer, fractional])
     }
 
-    if (value*1.0 < 0) {
-      value = 0
+    return [integer, fractional]
+  }
+
+  formatValue(integer, fractional) {
+    let value;
+    if (fractional && fractional.length > 0) {
+      value = `${integer}.${fractional}`
+    } else { 
+      if (fractional === '') {
+        value = `${integer}.`
+      } else {
+        value = `${integer}`
+      }
+    }
+    return value
+  }
+
+  handleChange(e) {
+    const _value = e.target.value
+    const [integer, fractional] = this.parseNumber(_value)
+    let value = this.formatValue(integer, fractional)
+    
+    // reset cursor position here?
+    if (value != _value) {
+      this.resetCursorPosition = e.target.selectionEnd
     }
 
     this.props.onChange(value)
@@ -42,14 +73,13 @@ class AmountInput extends React.Component {
 
   componentDidUpdate() {
     if (this.resetCursorPosition) {
-      this.refs.input.setSelectionRange(this.resetCursorPosition, this.resetCursorPosition);
-      this.resetCursorPosition = null;
+      this.refs.input.setSelectionRange(this.resetCursorPosition, this.resetCursorPosition)
+      this.resetCursorPosition = null
     }
   }
 
-  // TODO cleanup a little more
   shiftValue(value, delta) {
-    let [integer, fractional] = value.toString().split('.')
+    let [integer, fractional] = this.parseNumber(value)
 
     if (fractional) {
       delta = delta / (10 ** fractional.length)
@@ -73,15 +103,31 @@ class AmountInput extends React.Component {
     let value = e.target.value
 
     if (e.key === 'ArrowUp') {
-      e.preventDefault();
+      e.preventDefault()
       value = this.shiftValue(value, 1)
       this.props.onChange(value)
+      return
     }
 
     if (e.key === 'ArrowDown') {
-      e.preventDefault();
+      e.preventDefault()
       value = this.shiftValue(value, -1)
       this.props.onChange(value)
+      return
+    }
+
+    // when its '.' or ',' but the number already contains it, do not put it in?
+    if ((e.key === '.') || (e.key === ',')) {
+      if (value.search(/[.,]/) >= 0) {
+        e.preventDefault()
+      }
+      return
+    }
+
+    if ((e.key.length == 1) && !e.key.match(/^[0-9.,]$/)) {
+      console.log('not matching', e.key)
+      e.preventDefault()
+      return
     }
   }
 
@@ -90,10 +136,10 @@ class AmountInput extends React.Component {
       amount,
       currency,
       crypto,
-    } = this.props;
+    } = this.props
 
     // TODO does not scale well
-    let fontSize = 170 - (amount.length ** 2);
+    let fontSize = 170 - (amount.length ** 2)
     if (fontSize < 30) {
       fontSize = 30
     }
