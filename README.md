@@ -11,7 +11,7 @@ Zap is a free Lightning Network wallet focused on user experience and ease of us
 The UI for Zap is created using
 [Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs).
 
-We have an active [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ) channel where you can join the discussion on development, design and product.
+We have an active [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMzA4OTgxNTQ4NzUzLTQwYjkzZGM0ZWMwYmYyZTE2Y2E1YjM5NTIwOTU0M2I1Zjc2YWY1NTc4NjdhZWQxNTM1YzEzOGM2YTVlNWIwODc) channel where you can join the discussion on development, design and product.
 
 ## Installing
 
@@ -79,7 +79,7 @@ If you would like to help contribute to the project, please see the [contributin
 
 ## Q & A (Quality and Assurance)
 
-***Note:*** *If you are having problems with Zap, please report the issue in [GitHub](https://github.com/LN-Zap/zap-desktop/issues) or on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ) with screenshots and/or how to reproduce the bug/error.*
+***Note:*** *If you are having problems with Zap, please report the issue in [GitHub](https://github.com/LN-Zap/zap-desktop/issues) or on [slack](https://join.slack.com/t/zaphq/shared_invite/enQtMzA4OTgxNTQ4NzUzLTQwYjkzZGM0ZWMwYmYyZTE2Y2E1YjM5NTIwOTU0M2I1Zjc2YWY1NTc4NjdhZWQxNTM1YzEzOGM2YTVlNWIwODc) with screenshots and/or how to reproduce the bug/error.*
 
 A good product not only has good software tests but also checks the quality of the UX/UI. Putting ourselves in the shoes of a user is a very important design principle of Zap.
 
