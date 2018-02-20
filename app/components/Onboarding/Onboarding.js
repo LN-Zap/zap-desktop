@@ -5,15 +5,19 @@ import LoadingBolt from 'components/LoadingBolt'
 
 import FormContainer from './FormContainer'
 import Alias from './Alias'
+import Autopilot from './Autopilot'
 import styles from './Onboarding.scss'
 
 const Onboarding = ({
   onboarding: {
     step,
-    alias
+    alias,
+    autopilot
   },
+  changeStep,
   submit,
-  aliasProps
+  aliasProps,
+  autopilotProps
 }) => {
   const renderStep = () => {
     switch (step) {
@@ -23,9 +27,20 @@ const Onboarding = ({
             title={'1. What should we call you?'}
             description={'Set your nickname to help others connect with you on the Lightning Network'}
             back={null}
-            next={() => submit(alias)}
+            next={() => changeStep(2)}
           >
             <Alias {...aliasProps} />
+          </FormContainer>
+        )
+      case 2:
+        return (
+          <FormContainer
+              title={'2. Autopilot'}
+              description={'Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.'}
+              back={() => changeStep(1)}
+              next={() => submit(alias, autopilot)}
+            >
+            <Autopilot {...autopilotProps} />
           </FormContainer>
         )
       default:

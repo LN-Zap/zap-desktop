@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
+
+import { FaAngleLeft, FaAngleRight } from 'react-icons/lib/fa'
+
 import zapLogo from 'icons/zap_logo.svg'
 import styles from './FormContainer.scss'
 
@@ -28,12 +31,12 @@ const FormContainer = ({ title, description, back, next, children }) => (
       <div className={styles.buttonsContainer}>
         <section>
           {
-            back && <div onClick={back}>Back</div>
+            back && <div onClick={back}><FaAngleLeft style={{ verticalAlign: 'top' }} /> Back</div>
           }
         </section>
         <section>
           {
-            next && <div onClick={next}>Next</div>
+            next && <div onClick={next}>Next <FaAngleRight style={{ verticalAlign: 'top' }} /></div>
           }
         </section>
       </div>
