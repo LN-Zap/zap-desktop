@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { tickerSelectors } from 'reducers/ticker'
+import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
 import {
   fetchInvoices,
@@ -26,6 +26,7 @@ import { setFormType } from 'reducers/form'
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
+  setCurrency,
   setPayment,
   setInvoice,
   fetchPayments,
@@ -64,15 +65,27 @@ const mapStateToProps = state => ({
   nonActiveFilters: activitySelectors.nonActiveFilters(state)
 })
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...stateProps,
-  ...dispatchProps,
-  ...ownProps,
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const walletProps = {
+    balance: stateProps.balance,
+    address: stateProps.address.address,
+    info: stateProps.info,
+    ticker: stateProps.ticker,
+    currentTicker: stateProps.currentTicker,
+    
+    setCurrency: dispatchProps.setCurrency,
+    newAddress: dispatchProps.newAddress,
+    openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
+    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
+  }
 
-  // action to open the pay form
-  openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
-  // action to open the request form
-  openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
-})
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+
+    walletProps
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Activity)

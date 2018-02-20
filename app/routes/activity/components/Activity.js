@@ -56,8 +56,8 @@ class Activity extends Component {
       changeFilter,
       currentActivity,
       newAddress,
-      openPayForm,
-      openRequestForm
+
+      walletProps
     } = this.props
 
     if (invoiceLoading || paymentLoading) { return <LoadingBolt /> }
@@ -74,15 +74,7 @@ class Activity extends Component {
           currentTicker={currentTicker}
         />
 
-        <Wallet
-          balance={balance}
-          address={address}
-          info={info}
-          newAddress={newAddress}
-          currentTicker={currentTicker}
-          openPayForm={openPayForm}
-          openRequestForm={openRequestForm}
-        />
+        <Wallet {...walletProps} />
 
         <div className={styles.activities}>
           <header className={styles.header}>
@@ -130,8 +122,6 @@ Activity.propTypes = {
   hideActivityModal: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
-  openPayForm: PropTypes.func.isRequired,
-  openRequestForm: PropTypes.func.isRequired,
 
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,

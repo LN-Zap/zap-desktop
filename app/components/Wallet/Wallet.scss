@@ -79,12 +79,33 @@
           opacity: 0.5;
         }
       }
+
+      .currency {
+        margin-left: 2.5px;
+      }
     }
 
-    .usdValue {
-      font-size: 12px;
-      margin-left: 10px;
-      font-style: italic;
+    .tickerButtons {
+      display: flex;
+      flex-direction: row;
+
+      section {
+        margin: 5px;
+        font-size: 10px;
+        border-radius: 5px;
+        border: 1px solid $white;
+        padding: 5px 10px;
+        cursor: pointer;
+        opacity: 0.5;
+        transition: 0.25s all;
+
+        &.active {
+          background: $main;
+          color: $spaceborder;
+          border-color: $spaceborder;
+          opacity: 1;
+        }
+      }
     }
   }
 
