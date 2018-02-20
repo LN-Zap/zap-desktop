@@ -7,12 +7,13 @@ import PropTypes from 'prop-types'
 import LoadingBolt from '../components/LoadingBolt'
 import Onboarding from '../components/Onboarding'
 import Syncing from '../components/Onboarding/Syncing'
-import { updateAlias, changeStep, submit } from '../reducers/onboarding'
+import { updateAlias, setAutopilot, changeStep, submit } from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
   updateAlias,
+  setAutopilot,
   changeStep,
   submit,
 
@@ -37,10 +38,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     alias: stateProps.onboarding.alias
   }
 
+  const autopilotProps = {
+    autopilot: stateProps.onboarding.autopilot,
+    setAutopilot: dispatchProps.setAutopilot
+  }
+
   const onboardingProps = {
     onboarding: stateProps.onboarding,
+    changeStep: dispatchProps.changeStep,
     submit: dispatchProps.submit,
-    aliasProps
+    aliasProps,
+    autopilotProps
   }
 
   return {

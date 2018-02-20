@@ -1,0 +1,53 @@
+@import '../../variables.scss';
+
+.container {
+  color: $white;
+
+  section {
+    margin: 20px 0;
+    
+    &.enable {
+      &.active {
+        div {
+          color: $green;
+          border-color: $green;
+        }
+      }
+
+      div:hover {
+        color: $green;
+        border-color: $green;
+      }
+    }
+
+    &.disable {
+      &.active {
+        div {
+          color: $red;
+          border-color: $red;
+        }
+      }
+
+      div:hover {
+        color: $red;
+        border-color: $red;
+      }
+    }
+
+    div {
+      width: 150px;
+      text-align: center;
+      display: inline-block;
+      padding: 20px;
+      border: 1px solid $white;
+      border-radius: 5px;
+      font-weight: 200;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .label {
+      margin-left: 15px;
+    }
+  }
+}

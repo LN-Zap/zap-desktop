@@ -139,7 +139,7 @@ const sendLndSynced = () => {
 }
 
 // Starts the LND node
-const startLnd = (alias) => {
+const startLnd = (alias, autopilot) => {
   let lndPath
 
   if (process.env.NODE_ENV === 'development') {
@@ -148,21 +148,21 @@ const startLnd = (alias) => {
     lndPath = path.join(__dirname, '..', 'bin', plat === 'win32' ? 'lnd.exe' : 'lnd')
   }
 
-  const neutrino = spawn(lndPath,
-    [
-      '--bitcoin.active',
-      '--bitcoin.testnet',
-      '--bitcoin.node=neutrino',
-      '--neutrino.connect=btcd.jackmallers.com:18333',
-      '--neutrino.addpeer=188.166.148.62:18333',
-      '--neutrino.addpeer=159.65.48.139:18333',
-      '--neutrino.connect=127.0.0.1:18333',
-      '--autopilot.active',
-      '--debuglevel=debug',
-      '--noencryptwallet',
-      `--alias=${alias}`
-    ]
-  )
+  const neutrinoArgs = [
+    '--bitcoin.active',
+    '--bitcoin.testnet',
+    '--bitcoin.node=neutrino',
+    '--neutrino.connect=btcd.jackmallers.com:18333',
+    '--neutrino.addpeer=188.166.148.62:18333',
+    '--neutrino.addpeer=159.65.48.139:18333',
+    '--neutrino.connect=127.0.0.1:18333',
+    '--debuglevel=debug',
+    '--noencryptwallet',
+    `${autopilot ? '--autopilot.active' : ''}`,
+    `${alias ? `--alias=${alias}` : ''}`
+  ]
+
+  const neutrino = spawn(lndPath, neutrinoArgs)
     .on('error', error => console.log(`lnd error: ${error}`))
     .on('close', code => console.log(`lnd shutting down ${code}`))
 
@@ -284,9 +284,9 @@ app.on('ready', async () => {
       // Start LND
       // startLnd()
       // once the onboarding has finished we wanna let the application we have started syncing and start LND
-      ipcMain.on('onboardingFinished', (event, { alias }) => {
+      ipcMain.on('onboardingFinished', (event, { alias, autopilot }) => {
         sendLndSyncing()
-        startLnd(alias)
+        startLnd(alias, autopilot)
       })
     } else {
       // An LND process was found, no need to start our own
