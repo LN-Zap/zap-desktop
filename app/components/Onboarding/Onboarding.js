@@ -35,11 +35,11 @@ const Onboarding = ({
       case 2:
         return (
           <FormContainer
-              title={'2. Autopilot'}
-              description={'Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.'}
-              back={() => changeStep(1)}
-              next={() => submit(alias, autopilot)}
-            >
+            title={'2. Autopilot'}
+            description={'Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.'} // eslint-disable-line
+            back={() => changeStep(1)}
+            next={() => submit(alias, autopilot)}
+          >
             <Autopilot {...autopilotProps} />
           </FormContainer>
         )
@@ -58,6 +58,8 @@ const Onboarding = ({
 Onboarding.propTypes = {
   onboarding: PropTypes.object.isRequired,
   aliasProps: PropTypes.object.isRequired,
+  autopilotProps: PropTypes.object.isRequired,
+  changeStep: PropTypes.func.isRequired,
   submit: PropTypes.func.isRequired
 }
 

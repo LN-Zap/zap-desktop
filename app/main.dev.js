@@ -158,7 +158,7 @@ const startLnd = (alias, autopilot) => {
     '--neutrino.connect=127.0.0.1:18333',
     '--debuglevel=debug',
     '--noencryptwallet',
-    `${ autopilot ? '--autopilot.active' : ''}`,
+    `${autopilot ? '--autopilot.active' : ''}`,
     `${alias ? `--alias=${alias}` : ''}`
   ]
 
