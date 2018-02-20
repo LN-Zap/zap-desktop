@@ -5,6 +5,7 @@ import 'moment-timezone'
 import Isvg from 'react-inlinesvg'
 import { FaBolt } from 'react-icons/lib/fa'
 import { btc } from 'utils'
+import Value from 'components/Value'
 import checkmarkIcon from 'icons/check_circle.svg'
 import styles from '../Activity.scss'
 
@@ -39,20 +40,18 @@ const Payment = ({
     <div className={styles.amount}>
       <span className='hint--top' data-hint='Payment amount'>
         <i className={styles.minus}>-</i>
-        {
-          ticker.currency === 'usd' ?
-            btc.satoshisToUsd(payment.value, currentTicker.price_usd)
-            :
-            btc.satoshisToBtc(payment.value)
-        }
+        <Value
+          value={payment.value}
+          currency={ticker.currency}
+          currentTicker={currentTicker}
+        />
       </span>
       <span className='hint--bottom' data-hint='Payment fee'>
-        {
-          ticker.currency === 'usd' ?
-            btc.satoshisToUsd(payment.fee, currentTicker.price_usd)
-            :
-            btc.satoshisToBtc(payment.fee)
-        }
+        <Value
+          value={payment.fee}
+          currency={ticker.currency}
+          currentTicker={currentTicker}
+        />
       </span>
     </div>
   </div>

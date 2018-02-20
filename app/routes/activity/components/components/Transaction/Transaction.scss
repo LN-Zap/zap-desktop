@@ -75,27 +75,6 @@
     font-weight: 500;
   }
 
-  section {
-    display: inline-block;
-    vertical-align: top;
-    text-align: right;
-    font-size: 0;
-    margin: 0;
-    padding: 0;
-
-    &:nth-child(1) {
-      width: 20%;
-    }
-
-    &:nth-child(2) {
-      width: 80%;
-    }
-  }
-
-  svg {
-    font-size: 20px;
-  }
-
   span {
     display: block;
 
@@ -105,6 +84,10 @@
 
     &:nth-child(2) {
       font-size: 10px;
+    }
+
+    .value {
+      font-size: 14px;
     }
   }
 }
