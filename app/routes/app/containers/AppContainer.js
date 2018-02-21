@@ -32,8 +32,10 @@ import {
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
-  openContactModal,
-  closeContactModal
+  setChannel,
+  addInstantPayPubkey,
+  removeInstantPayPubkey,
+  fetchInstantPayPubkeys
 } from 'reducers/channels'
 
 import {
@@ -91,8 +93,9 @@ const mapDispatchToProps = {
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
-  openContactModal,
-  closeContactModal,
+  setChannel,
+  addInstantPayPubkey,
+  removeInstantPayPubkey,
 
   openContactsForm,
   closeContactsForm,
@@ -102,7 +105,9 @@ const mapDispatchToProps = {
   contactFormSelectors,
   updateManualFormErrors,
 
-  fetchDescribeNetwork
+  fetchDescribeNetwork,
+
+  fetchInstantPayPubkeys
 }
 
 const mapStateToProps = state => ({
@@ -259,7 +264,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     toggleFilterPulldown: dispatchProps.toggleFilterPulldown,
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
-    openContactModal: dispatchProps.openContactModal
+    setChannel: dispatchProps.setChannel,
+    addInstantPayPubkey: dispatchProps.addInstantPayPubkey,
+    removeInstantPayPubkey: dispatchProps.removeInstantPayPubkey
   }
 
   const contactsFormProps = {
@@ -280,16 +287,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     pendingOpenChannelPubkeys: stateProps.pendingOpenChannelPubkeys
   }
 
-  const contactModalProps = {
-    closeContactModal: dispatchProps.closeContactModal,
-    closeChannel: dispatchProps.closeChannel,
-
-    isOpen: stateProps.channels.contactModal.isOpen,
-    channel: stateProps.channels.contactModal.channel,
-    channelNodes: stateProps.channelNodes,
-    closingChannelIds: stateProps.channels.closingChannelIds
-  }
-
   return {
     ...stateProps,
     ...dispatchProps,
@@ -299,8 +296,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     networkTabProps,
     // props for the contacts form
     contactsFormProps,
-    // props for the contact modal
-    contactModalProps,
     // Props to pass to the pay form
     formProps: formProps(stateProps.form.formType),
     // action to close form

@@ -1,3 +1,8 @@
+/* eslint-disable */
+// mock the app object of electron as electron-json-storage needs it
+jest.mock('electron', () => ({ app: jest.fn() }))
+import electron from 'electron'
+
 import invoiceReducer, {
   SEARCH_INVOICES,
   SET_INVOICE,

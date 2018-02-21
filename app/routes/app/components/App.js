@@ -8,14 +8,21 @@ import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
 
 import Network from 'components/Contacts/Network'
-import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
 
 import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchBalance, fetchDescribeNetwork } = this.props
+    const {
+      fetchTicker,
+      fetchInfo,
+      newAddress,
+      fetchChannels,
+      fetchBalance,
+      fetchDescribeNetwork,
+      fetchInstantPayPubkeys
+    } = this.props
 
     // fetch price ticker
     fetchTicker()
@@ -25,6 +32,8 @@ class App extends Component {
     newAddress('np2wkh')
     // fetch nodes channels
     fetchChannels()
+    // fetch instant pay pubkeys from storage
+    fetchInstantPayPubkeys()
     // fetch nodes balance
     fetchBalance()
     // fetch LN network from nides POV
@@ -45,7 +54,6 @@ class App extends Component {
       error: { error },
       clearError,
 
-      contactModalProps,
       contactsFormProps,
       networkTabProps,
 
@@ -66,7 +74,6 @@ class App extends Component {
           currency={ticker.currency}
         />
 
-        <ContactModal {...contactModalProps} />
         <ContactsForm {...contactsFormProps} />
 
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
@@ -89,7 +96,6 @@ App.propTypes = {
   closeForm: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
   currentTicker: PropTypes.object,
-  contactModalProps: PropTypes.object,
   contactsFormProps: PropTypes.object,
   networkTabProps: PropTypes.object,
 
@@ -101,6 +107,7 @@ App.propTypes = {
   fetchChannels: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
   fetchDescribeNetwork: PropTypes.func.isRequired,
+  fetchInstantPayPubkeys: PropTypes.func.isRequired,
 
   children: PropTypes.object.isRequired
 }

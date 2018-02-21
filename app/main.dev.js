@@ -16,6 +16,8 @@ import fs from 'fs'
 import { spawn } from 'child_process'
 import { lookup } from 'ps-node'
 import os from 'os'
+import { getData } from './api'
+import { bolt11 } from './utils'
 import MenuBuilder from './menu'
 import lnd from './lnd'
 
@@ -282,7 +284,6 @@ app.on('ready', async () => {
       }
 
       // Start LND
-      // startLnd()
       // once the onboarding has finished we wanna let the application we have started syncing and start LND
       ipcMain.on('onboardingFinished', (event, { alias, autopilot }) => {
         sendLndSyncing()
@@ -305,9 +306,22 @@ app.on('open-url', (event, url) => {
     throw new Error('"mainWindow" is not defined')
   }
 
+
   const payreq = url.split(':')[1]
-  mainWindow.webContents.send('lightningPaymentUri', { payreq })
-  mainWindow.show()
+  const { payeeNodeKey } = bolt11.decode(payreq)
+
+  getData('instantPayPubkeys')
+    .then((instantPayPubkeys) => {
+      if (instantPayPubkeys.includes(payeeNodeKey)) {
+        mainWindow.webContents.send('instantPay', { payreq })
+      } else {
+        mainWindow.webContents.send('lightningPaymentUri', { payreq })
+        mainWindow.show()
+      }
+
+      return true
+    })
+    .catch(error => console.log('error fetching instantPayPubkeys: ', error))
 })
 
 export default { startLnd }

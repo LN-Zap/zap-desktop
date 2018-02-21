@@ -40,7 +40,6 @@
 }
 
 .channels {
-  padding: 20px;
   height: 100%;
   overflow-y: scroll;
 
@@ -50,6 +49,7 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: baseline;
+    padding: 20px 20px 0 20px;
 
     h2, h2 span {
       color: $white;
@@ -103,6 +103,7 @@
     margin-top: 20px;
     height: 100%;
     overflow-y: scroll;
+    padding: 0 0 20px 0;
   }
 
   .fade {
@@ -110,17 +111,36 @@
   }
 
   .channel {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
     color: $white;
     padding: 10px 0;
     margin: 10px 0;
     cursor: pointer;
+    transition: all 0.25s;
 
-    span:nth-child(1) {
+    &:hover {
+      background: #272B37;
+    }
+
+    &.selectedChannel {
+      background: #272B37;
+      padding-bottom: 0;
+
+      .selectedChannelSection {
+        max-height: 500px;
+      }
+    }
+
+    span:nth-child(2) {
       font-size: 12px;
-    } 
+      margin-left: 10px;
+    }
+
+    .channelTitle {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 0 20px;
+    }
 
     .online {
       color: $green;
@@ -141,6 +161,88 @@
     svg {
       width: 5px;
       height: 5px;
+    }
+
+    .selectedChannelSection {
+      overflow-y: hidden;
+      max-height: 0;
+      transition: all 0.25s;
+
+      h4 {
+        color: $white;
+        opacity: 0.5;
+        font-size: 9px;
+        margin-top: 10px;
+        overflow-x: hidden;
+        padding: 0 20px;
+      }
+
+      .limits {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        border-top: 0.5px solid #1A1C23;
+        margin-top: 10px;
+        padding: 10px 20px;
+
+        h5 {
+          font-size: 12px;
+          color: $white;
+          margin-bottom: 10px;
+        }
+
+        p {
+          color: $white;
+          opacity: 0.5;
+          font-size: 8px;
+          text-align: center;
+        }
+      }
+
+      .actions {
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 0.5px solid #1A1C23;
+        padding: 10px 0;
+
+        section {
+          text-align: center;
+          padding: 10px 0;
+          width: 100%;
+        }
+
+        .switch {
+          height: 15px !important;
+          width: 36px !important;
+          margin-bottom: 3px;
+
+          span:nth-child(1) {
+            width: 15px !important;
+            height: 15px !important;
+            top: -1px !important;
+          }
+        }
+
+        .instantPayTitle {
+          font-size: 10px;
+        }
+
+        .remove {
+          color: $red;
+          font-size: 10px;
+        }
+
+        .divider {
+          position: absolute;
+          left: 50%;
+          width: 1px;
+          background: #1A1C23;
+          height: 100%;
+        }
+      }
     }
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import find from 'lodash/find'
+import Switch from 'react-ios-switch'
 import Isvg from 'react-inlinesvg'
 import { FaAngleDown, FaCircle, FaRepeat } from 'react-icons/lib/fa'
 import { btc } from 'utils'
@@ -22,7 +23,9 @@ class Network extends Component {
       channels: {
         searchQuery,
         filterPulldown,
-        filter
+        filter,
+        selectedChannel,
+        instantPayPubkeys
         // loadingChannelPubkeys,
         // closingChannelIds
       },
@@ -41,9 +44,11 @@ class Network extends Component {
 
       updateChannelSearchQuery,
 
-      openContactModal
-    } = this.props
+      setChannel,
 
+      addInstantPayPubkey,
+      removeInstantPayPubkey
+    } = this.props
 
     const refreshClicked = () => {
       // turn the spinner on
@@ -137,12 +142,47 @@ class Network extends Component {
             {
               currentChannels.length > 0 && currentChannels.map((channelObj, index) => {
                 const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel') ? channelObj.channel : channelObj
+                const pubkey = channel.remote_node_pub || channel.remote_pubkey
+
+                if (pubkey === '039ae2ef0c151e1e9032521002893dee94a5751c827e4941b5167f9d655a997c6f') { return '' }
+
                 return (
-                  <li key={index} className={styles.channel} onClick={() => openContactModal(channelObj)}>
-                    <span>{displayNodeName(channel)}</span>
-                    <span className={`${styles[channelStatus(channelObj)]} hint--left`} data-hint={channelStatus(channelObj)}>
-                      <FaCircle />
-                    </span>
+                  <li key={index} className={`${styles.channel} ${selectedChannel === channel && styles.selectedChannel}`}>
+                    <section className={styles.channelTitle} onClick={() => (selectedChannel === channel ? setChannel(null) : setChannel(channel))}>
+                      <span className={`${styles[channelStatus(channelObj)]} hint--bottom-left`} data-hint={channelStatus(channelObj)}>
+                        <FaCircle />
+                      </span>
+                      <span>{displayNodeName(channel)}</span>
+                    </section>
+
+                    <section className={styles.selectedChannelSection}>
+                      <h4>{pubkey.substring(0, 25)}</h4>
+
+                      <div className={styles.limits}>
+                        <section>
+                          <h5>Pay Limit</h5>
+                          <p>{btc.satoshisToBtc(channel.local_balance)} BTC</p>
+                        </section>
+                        <section>
+                          <h5>Request Limit</h5>
+                          <p>{btc.satoshisToBtc(channel.remote_balance)} BTC</p>
+                        </section>
+                      </div>
+                      <div className={styles.actions}>
+                        <section>
+                          <Switch
+                            checked={instantPayPubkeys.includes(pubkey)}
+                            onChange={() => (instantPayPubkeys.includes(pubkey) ? removeInstantPayPubkey(pubkey) : addInstantPayPubkey(pubkey))}
+                            className={styles.switch}
+                          />
+                          <h5 className={styles.instantPayTitle}>Instant Pay</h5>
+                        </section>
+                        <section>
+                          <span className={styles.remove}>Remove</span>
+                        </section>
+                        <div className={styles.divider} />
+                      </div>
+                    </section>
                   </li>
                 )
               })
@@ -182,7 +222,9 @@ Network.propTypes = {
   toggleFilterPulldown: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
-  openContactModal: PropTypes.func.isRequired
+  setChannel: PropTypes.func.isRequired,
+  addInstantPayPubkey: PropTypes.func.isRequired,
+  removeInstantPayPubkey: PropTypes.func.isRequired
 }
 
 export default Network

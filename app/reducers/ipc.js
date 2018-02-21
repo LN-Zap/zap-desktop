@@ -23,7 +23,7 @@ import {
   channelGraphStatus
 } from './channels'
 import { lightningPaymentUri } from './payform'
-import { receivePayments, paymentSuccessful, paymentFailed } from './payment'
+import { receivePayments, paymentSuccessful, paymentFailed, instantPay } from './payment'
 import { receiveInvoices, createdInvoice, receiveFormInvoice, invoiceUpdate, invoiceFailed } from './invoice'
 import { receiveBalance } from './balance'
 import {
@@ -65,6 +65,7 @@ const ipc = createIpc({
 
   paymentSuccessful,
   paymentFailed,
+  instantPay,
 
   channelSuccessful,
   pushchannelupdated,

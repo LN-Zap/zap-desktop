@@ -1,3 +1,4 @@
+import { saveData, getData } from 'api'
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import filter from 'lodash/filter'
@@ -39,6 +40,11 @@ export const REMOVE_ClOSING_CHAN_ID = 'REMOVE_ClOSING_CHAN_ID'
 export const OPEN_CONTACT_MODAL = 'OPEN_CONTACT_MODAL'
 export const CLOSE_CONTACT_MODAL = 'CLOSE_CONTACT_MODAL'
 
+export const ADD_INSTANT_PAY_PUBKEY = 'ADD_INSTANT_PAY_PUBKEY'
+export const REMOVE_INSTANT_PAY_PUBKEY = 'REMOVE_INSTANT_PAY_PUBKEY'
+export const GET_INSTANT_PAY_PUBKEYS = 'GET_INSTANT_PAY_PUBKEYS'
+export const RECEIVE_INSTANT_PAY_PUBKEYS = 'RECEIVE_INSTANT_PAY_PUBKEYS'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -50,10 +56,10 @@ export function setChannelForm(form) {
 }
 
 
-export function setChannel(channel) {
+export function setChannel(selectedChannel) {
   return {
     type: SET_CHANNEL,
-    channel
+    selectedChannel
   }
 }
 
@@ -199,8 +205,6 @@ export const closeChannel = ({ channel_point, chan_id, force }) => (dispatch) =>
   dispatch(closingChannel())
   dispatch(addClosingChanId(chan_id))
 
-  console.log('force: ', force)
-
   const [funding_txid, output_index] = channel_point.split(':')
   ipcRenderer.send(
     'lnd',
@@ -297,6 +301,39 @@ export function changeFilter(channelFilter) {
   }
 }
 
+export function addInstantPayPubkey(pubkey) {
+  return {
+    type: ADD_INSTANT_PAY_PUBKEY,
+    pubkey
+  }
+}
+
+export function removeInstantPayPubkey(pubkey) {
+  return {
+    type: REMOVE_INSTANT_PAY_PUBKEY,
+    pubkey
+  }
+}
+
+export function getInstantPayPubkeys() {
+  return {
+    type: GET_INSTANT_PAY_PUBKEYS
+  }
+}
+
+export function receiveInstantPayPubkeys(instantPayPubkeys) {
+  return {
+    type: RECEIVE_INSTANT_PAY_PUBKEYS,
+    instantPayPubkeys
+  }
+}
+
+export const fetchInstantPayPubkeys = () => async (dispatch) => {
+  dispatch(getInstantPayPubkeys())
+  const instantPayPubkeys = await getData('instantPayPubkeys')
+  dispatch(receiveInstantPayPubkeys(instantPayPubkeys))
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -305,7 +342,7 @@ const ACTION_HANDLERS = {
     { ...state, channelForm: Object.assign({}, state.channelForm, form) }
   ),
 
-  [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
+  [SET_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
 
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => (
@@ -339,7 +376,26 @@ const ACTION_HANDLERS = {
   ),
 
   [OPEN_CONTACT_MODAL]: (state, { channel }) => ({ ...state, contactModal: { isOpen: true, channel } }),
-  [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } })
+  [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } }),
+
+  [ADD_INSTANT_PAY_PUBKEY]: (state, { pubkey }) => {
+    const instantPayPubkeys = [...state.instantPayPubkeys, pubkey]
+
+    // add the pubkey to our list that persists via localStorage
+    saveData('instantPayPubkeys', instantPayPubkeys)
+
+    return { ...state, instantPayPubkeys }
+  },
+  [REMOVE_INSTANT_PAY_PUBKEY]: (state, { pubkey }) => {
+    const instantPayPubkeys = state.instantPayPubkeys.filter(instantPayPubkey => instantPayPubkey !== pubkey)
+
+    // add the pubkey to our list that persists via localStorage
+    saveData('instantPayPubkeys', instantPayPubkeys)
+
+    return { ...state, instantPayPubkeys }
+  },
+  [GET_INSTANT_PAY_PUBKEYS]: state => ({ ...state, fetchingInstantPayPubkeys: true }),
+  [RECEIVE_INSTANT_PAY_PUBKEYS]: (state, { instantPayPubkeys }) => ({ ...state, fetchingInstantPayPubkeys: false, instantPayPubkeys })
 }
 
 const channelsSelectors = {}
@@ -499,7 +555,7 @@ const initialState = {
     pending_closing_channels: [],
     pending_force_closing_channels: []
   },
-  channel: null,
+  selectedChannel: null,
   channelForm: {
     isOpen: false,
     node_key: '',
@@ -527,7 +583,10 @@ const initialState = {
   contactModal: {
     isOpen: false,
     channel: null
-  }
+  },
+
+  instantPayPubkeys: [],
+  fetchingInstantPayPubkeys: false
 }
 
 export default function channelsReducer(state = initialState, action) {
