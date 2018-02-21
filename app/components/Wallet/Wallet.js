@@ -35,6 +35,7 @@ class Wallet extends Component {
     } = this.props
 
     const { modalOpen, qrCodeType } = this.state
+    const usdAmount = btc.satoshisToUsd((parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10)), currentTicker.price_usd)
 
     const changeQrCode = () => {
       const qrCodeNum = this.state.qrCodeType === 1 ? 2 : 1
@@ -89,6 +90,7 @@ class Wallet extends Component {
                     <Isvg className={styles.bitcoinLogo} src={qrCode} />
                   </span>
                 </h1>
+                <span className={styles.usdValue}>≈ ${usdAmount ? usdAmount.toLocaleString() : ''}</span>
                 <div className={styles.tickerButtons}>
                   <section className={ticker.currency === 'btc' && styles.active} onClick={() => setCurrency('btc')}>
                     BTC
@@ -98,9 +100,6 @@ class Wallet extends Component {
                   </section>
                   <section className={ticker.currency === 'sats' && styles.active} onClick={() => setCurrency('sats')}>
                     Satoshis
-                  </section>
-                  <section className={ticker.currency === 'usd' && styles.active} onClick={() => setCurrency('usd')}>
-                    USD
                   </section>
                 </div>
               </div>

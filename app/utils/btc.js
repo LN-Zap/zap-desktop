@@ -39,8 +39,6 @@ export function renderCurrency(currency) {
       return 'bits'
     case 'sats':
       return 'satoshis'
-    case 'usd':
-      return 'USD'
     default:
       return 'satoshis'
   }  

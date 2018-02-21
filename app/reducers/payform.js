@@ -138,14 +138,29 @@ payFormSelectors.currentAmount = createSelector(
   payFormSelectors.isLn,
   payAmountSelector,
   payInvoiceSelector,
+  (isLn, amount, invoice) => {
+    if (isLn) {
+      return btc.satoshisToBtc((invoice.num_satoshis || 0))
+    }
+
+    return amount > 0 ? amount : null
+  }
+)
+
+payFormSelectors.usdAmount = createSelector(
+  payFormSelectors.isLn,
+  payAmountSelector,
+  payInvoiceSelector,
   currencySelector,
   tickerSelectors.currentTicker,
   (isLn, amount, invoice, currency, ticker) => {
+    if (!ticker || !ticker.price_usd) { return false }
+
     if (isLn) {
-      return currency === 'usd' ? btc.satoshisToUsd((invoice.num_satoshis || 0), ticker.price_usd) : btc.satoshisToBtc((invoice.num_satoshis || 0))
+      return btc.satoshisToUsd((invoice.num_satoshis || 0), ticker.price_usd)
     }
 
-    return amount
+    return btc.btcToUsd(amount, ticker.price_usd)
   }
 )
 
