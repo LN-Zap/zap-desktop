@@ -9,6 +9,7 @@ env:
 node_js:
   - node
   - 8
+  - 7
 
 cache:
   apt: true
