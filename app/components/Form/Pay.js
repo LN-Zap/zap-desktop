@@ -1,10 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import find from 'lodash/find'
 
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
+import link from 'icons/link.svg'
 
-import { FaBolt, FaChain, FaAngleDown } from 'react-icons/lib/fa'
+import { FaAngleDown } from 'react-icons/lib/fa'
 import LoadingBolt from 'components/LoadingBolt'
 import CurrencyIcon from 'components/CurrencyIcon'
 
@@ -27,9 +29,10 @@ class Pay extends Component {
 
   render() {
     const {
-      payform: { amount, payInput, showErrors },
+      payform: { amount, payInput, showErrors, invoice },
       currency,
       crypto,
+      nodes,
 
       isOnchain,
       isLn,
@@ -48,7 +51,16 @@ class Pay extends Component {
       onPaySubmit
     } = this.props
 
-    console.log('usdAmount: ', usdAmount)
+    const displayNodeName = (pubkey) => {
+      console.log('nodes: ', nodes)
+      console.log('pubkey: ', pubkey)
+      const node = find(nodes, n => n.pub_key === pubkey)
+
+      console.log('node: ', node)
+      if (node && node.alias.length) { return node.alias }
+
+      return pubkey.substring(0, 10)
+    }
 
     return (
       <div className={styles.container}>
@@ -62,7 +74,20 @@ class Pay extends Component {
           <section className={styles.destination}>
             <div className={styles.top}>
               <label htmlFor='destination'>Destination</label>
-              <span>
+              <span className={`${styles.description} ${(isOnchain || isLn) && styles.active}`}>
+                {isOnchain &&
+                  <i>
+                    <Isvg src={link} />
+                    <span>On-Chain (~10 minutes)</span>
+                  </i>
+                }
+                {isLn &&
+                  <i>
+                    <span>
+                      {displayNodeName(invoice.destination)} ({invoice.description})
+                    </span>
+                  </i>
+                }
               </span>
             </div>
             <div className={styles.bottom}>
@@ -73,7 +98,7 @@ class Pay extends Component {
                 onChange={event => setPayInput(event.target.value)}
                 onBlur={onPayInputBlur}
                 id='destination'
-                rows='4'
+                rows='2'
               />
             </div>
           </section>

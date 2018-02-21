@@ -15,7 +15,9 @@ const initialState = {
   invoice: {
     payreq: '',
     r_hash: '',
-    amount: '0'
+    amount: '0',
+    description: '',
+    destination: ''
   },
 
   showErrors: {

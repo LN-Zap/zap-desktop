@@ -156,6 +156,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     payform: stateProps.payform,
     currency: stateProps.ticker.currency,
     crypto: stateProps.ticker.crypto,
+    nodes: stateProps.network.nodes,
 
     isOnchain: stateProps.isOnchain,
     isLn: stateProps.isLn,
