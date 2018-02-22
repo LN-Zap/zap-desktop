@@ -77,6 +77,8 @@ const ACTION_HANDLERS = {
 // Selectors
 const tickerSelectors = {}
 const cryptoSelector = state => state.ticker.crypto
+const currencyFiltersSelector = state => state.ticker.currencyFilters
+const currencySelector = state => state.ticker.currency
 const bitcoinTickerSelector = state => state.ticker.btcTicker
 const litecoinTickerSelector = state => state.ticker.ltcTicker
 
@@ -85,6 +87,22 @@ tickerSelectors.currentTicker = createSelector(
   bitcoinTickerSelector,
   litecoinTickerSelector,
   (crypto, btcTicker, ltcTicker) => (crypto === 'btc' ? btcTicker : ltcTicker)
+)
+
+tickerSelectors.currentCurrencyFilters = createSelector(
+  currencySelector,
+  currencyFiltersSelector,
+  (currency, filters) => filters.filter(f => f.key !== currency)
+)
+
+tickerSelectors.currencyName = createSelector(
+  currencySelector,
+  (currency) => {
+    if (currency === 'btc') { return 'BTC' }
+    if (currency === 'sats') { return 'satohis' }
+
+    return currency
+  }
 )
 
 export { tickerSelectors }
@@ -97,7 +115,21 @@ const initialState = {
   currency: '',
   crypto: '',
   btcTicker: null,
-  ltcTicker: null
+  ltcTicker: null,
+  currencyFilters: [
+    {
+      key: 'btc',
+      name: 'BTC'
+    },
+    {
+      key: 'bits',
+      name: 'bits'
+    },
+    {
+      key: 'sats',
+      name: 'satoshis'
+    }
+  ]
 }
 
 export default function tickerReducer(state = initialState, action) {

@@ -5,8 +5,9 @@ import find from 'lodash/find'
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
 import link from 'icons/link.svg'
-
 import { FaAngleDown } from 'react-icons/lib/fa'
+
+import { btc } from 'utils'
 import LoadingBolt from 'components/LoadingBolt'
 import CurrencyIcon from 'components/CurrencyIcon'
 
@@ -29,10 +30,11 @@ class Pay extends Component {
 
   render() {
     const {
-      payform: { amount, payInput, showErrors, invoice },
+      payform: { amount, payInput, showErrors, invoice, showCurrencyFilters },
       currency,
       crypto,
       nodes,
+      ticker,
 
       isOnchain,
       isLn,
@@ -41,6 +43,9 @@ class Pay extends Component {
       inputCaption,
       showPayLoadingScreen,
       payFormIsValid: { errors, isValid },
+      payInputMin,
+      currentCurrencyFilters,
+      currencyName,
 
       setPayAmount,
       onPayAmountBlur,
@@ -48,18 +53,29 @@ class Pay extends Component {
       setPayInput,
       onPayInputBlur,
 
-      onPaySubmit
+      setCurrencyFilters,
+
+      onPaySubmit,
+
+      setCurrency
     } = this.props
 
     const displayNodeName = (pubkey) => {
-      console.log('nodes: ', nodes)
-      console.log('pubkey: ', pubkey)
       const node = find(nodes, n => n.pub_key === pubkey)
 
-      console.log('node: ', node)
       if (node && node.alias.length) { return node.alias }
 
       return pubkey.substring(0, 10)
+    }
+
+    const onCurrencyFilterClick = (currency) => {
+      if (!isLn) {
+        // change the input amount 
+        setPayAmount(btc.convert(ticker.currency, currency, currentAmount))
+      }
+
+      setCurrency(currency)
+      setCurrencyFilters(false)
     }
 
     return (
@@ -122,18 +138,21 @@ class Pay extends Component {
                 readOnly={isLn}
               />
               <div className={styles.currency}>
-                <section className={styles.currentCurrency}>
-                  <span>BTC</span><span><FaAngleDown /></span>
+                <section className={styles.currentCurrency} onClick={() => setCurrencyFilters(!showCurrencyFilters)}>
+                  <span>{currencyName}</span><span><FaAngleDown /></span>
                 </section>
-                <ul>
-                  <li>Bits</li>
-                  <li>Satoshis</li>
+                <ul className={showCurrencyFilters && styles.active}>
+                  {
+                    currentCurrencyFilters.map(filter =>
+                      <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>
+                    )
+                  }
                 </ul>
               </div>
             </div>
 
             <div className={styles.usdAmount}>
-              {`≈ ${usdAmount} USD`}
+              {`≈ ${usdAmount || 0} USD`}
             </div>
           </section>
 
@@ -149,7 +168,10 @@ class Pay extends Component {
 
 Pay.propTypes = {
   payform: PropTypes.shape({
-    amount: PropTypes.string.isRequired,
+    amount: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]).isRequired,
     payInput: PropTypes.string.isRequired,
     showErrors: PropTypes.object.isRequired
   }).isRequired,

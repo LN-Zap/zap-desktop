@@ -89,6 +89,7 @@
   }
 
   .currency {
+    position: relative;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -114,6 +115,23 @@
     ul {
       visibility: hidden;
       position: absolute;
+      top: 30px;
+
+      &.active {
+        visibility: visible;
+      }
+
+      li {
+        padding: 8px 15px;
+        background: #191919;
+        cursor: pointer;
+        transition: 0.25s hover;
+        border-bottom: 1px solid #0f0f0f;
+
+        &:hover {
+          background: #0f0f0f;
+        }
+      }
     }
   }
 

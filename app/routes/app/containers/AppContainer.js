@@ -11,7 +11,7 @@ import { showModal, hideModal } from 'reducers/modal'
 
 import { setFormType } from 'reducers/form'
 
-import { setPayAmount, setPayInput, updatePayErrors, payFormSelectors } from 'reducers/payform'
+import { setPayAmount, setPayInput, setCurrencyFilters, updatePayErrors, payFormSelectors } from 'reducers/payform'
 
 import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
 
@@ -69,6 +69,7 @@ const mapDispatchToProps = {
 
   setPayAmount,
   setPayInput,
+  setCurrencyFilters,
   updatePayErrors,
 
   setRequestAmount,
@@ -130,6 +131,8 @@ const mapStateToProps = state => ({
   network: state.network,
 
   currentTicker: tickerSelectors.currentTicker(state),
+  currentCurrencyFilters: tickerSelectors.currentCurrencyFilters(state),
+  currencyName: tickerSelectors.currencyName(state),
   isOnchain: payFormSelectors.isOnchain(state),
   isLn: payFormSelectors.isLn(state),
   currentAmount: payFormSelectors.currentAmount(state),
@@ -137,6 +140,7 @@ const mapStateToProps = state => ({
   inputCaption: payFormSelectors.inputCaption(state),
   showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
   payFormIsValid: payFormSelectors.payFormIsValid(state),
+  payInputMin: payFormSelectors.payInputMin(state),
   syncPercentage: lndSelectors.syncPercentage(state),
 
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
@@ -157,6 +161,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currency: stateProps.ticker.currency,
     crypto: stateProps.ticker.crypto,
     nodes: stateProps.network.nodes,
+    ticker: stateProps.ticker,
 
     isOnchain: stateProps.isOnchain,
     isLn: stateProps.isLn,
@@ -165,10 +170,15 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     inputCaption: stateProps.inputCaption,
     showPayLoadingScreen: stateProps.showPayLoadingScreen,
     payFormIsValid: stateProps.payFormIsValid,
+    payInputMin: stateProps.payInputMin,
+    currentCurrencyFilters: stateProps.currentCurrencyFilters,
+    currencyName: stateProps.currencyName,
 
     setPayAmount: dispatchProps.setPayAmount,
     setPayInput: dispatchProps.setPayInput,
+    setCurrencyFilters: dispatchProps.setCurrencyFilters,
     fetchInvoice: dispatchProps.fetchInvoice,
+    setCurrency: dispatchProps.setCurrency,
 
     onPayAmountBlur: () => {
       // If the amount is now valid and showErrors was on, turn it off
