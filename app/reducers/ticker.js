@@ -99,7 +99,7 @@ tickerSelectors.currencyName = createSelector(
   currencySelector,
   (currency) => {
     if (currency === 'btc') { return 'BTC' }
-    if (currency === 'sats') { return 'satohis' }
+    if (currency === 'sats') { return 'satoshis' }
 
     return currency
   }

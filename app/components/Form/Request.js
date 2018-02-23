@@ -18,11 +18,13 @@ const Request = ({
   setCurrency,
   setRequestCurrencyFilters,
   currencyName,
+  requestUsdAmount,
 
   currentCurrencyFilters,
 
   onRequestSubmit
 }) => {
+  console.log('requestUsdAmount: ', requestUsdAmount)
   const onCurrencyFilterClick = (currency) => {
     // change the input amount 
     setRequestAmount(btc.convert(ticker.currency, currency, amount))
@@ -82,7 +84,7 @@ const Request = ({
           </div>
 
           <div className={styles.usdAmount}>
-            
+            {`≈ ${requestUsdAmount || 0} USD`}
           </div>
         </section>
 

@@ -91,17 +91,6 @@ class Wallet extends Component {
                   </span>
                 </h1>
                 <span className={styles.usdValue}>≈ ${usdAmount ? usdAmount.toLocaleString() : ''}</span>
-                <div className={styles.tickerButtons}>
-                  <section className={ticker.currency === 'btc' && styles.active} onClick={() => setCurrency('btc')}>
-                    BTC
-                  </section>
-                  <section className={ticker.currency === 'bits' && styles.active} onClick={() => setCurrency('bits')}>
-                    Bits
-                  </section>
-                  <section className={ticker.currency === 'sats' && styles.active} onClick={() => setCurrency('sats')}>
-                    Satoshis
-                  </section>
-                </div>
               </div>
             </div>
           </div>

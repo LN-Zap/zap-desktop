@@ -13,7 +13,7 @@ import { setFormType } from 'reducers/form'
 
 import { setPayAmount, setPayInput, setCurrencyFilters, updatePayErrors, payFormSelectors } from 'reducers/payform'
 
-import { setRequestAmount, setRequestMemo, setRequestCurrencyFilters } from 'reducers/requestform'
+import { setRequestAmount, setRequestMemo, setRequestCurrencyFilters, requestFormSelectors } from 'reducers/requestform'
 
 import { sendCoins } from 'reducers/transaction'
 
@@ -148,6 +148,7 @@ const mapStateToProps = state => ({
   showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
   payFormIsValid: payFormSelectors.payFormIsValid(state),
   payInputMin: payFormSelectors.payInputMin(state),
+  requestUsdAmount: requestFormSelectors.usdAmount(state),
   syncPercentage: lndSelectors.syncPercentage(state),
 
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
@@ -243,6 +244,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currentCurrencyFilters: stateProps.currentCurrencyFilters,
     showCurrencyFilters: stateProps.showCurrencyFilters,
     currencyName: stateProps.currencyName,
+    requestUsdAmount: stateProps.requestUsdAmount,
 
     setRequestAmount: dispatchProps.setRequestAmount,
     setRequestMemo: dispatchProps.setRequestMemo,

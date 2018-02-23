@@ -1,3 +1,7 @@
+import { createSelector } from 'reselect'
+import { btc } from 'utils'
+import { tickerSelectors } from './ticker'
+
 // Initial State
 const initialState = {
   amount: '',
@@ -55,6 +59,33 @@ const ACTION_HANDLERS = {
 
   [RESET_FORM]: () => (initialState)
 }
+
+const requestFormSelectors = {}
+const requestAmountSelector = state => state.requestform.amount
+const currencySelector = state => state.ticker.currency
+
+requestFormSelectors.usdAmount = createSelector(
+  requestAmountSelector,
+  currencySelector,
+  tickerSelectors.currentTicker,
+  
+  (amount, currency, ticker) => {
+    if (!ticker || !ticker.price_usd) { return false }
+
+    switch (currency) {
+      case 'btc':
+        return btc.btcToUsd(amount, ticker.price_usd)
+      case 'bits':
+        return btc.bitsToUsd(amount, ticker.price_usd)
+      case 'sats':
+        return btc.satoshisToUsd(amount, ticker.price_usd)
+      default:
+        return ''
+    }    
+  }
+)
+
+export { requestFormSelectors }
 
 // ------------------------------------
 // Reducer

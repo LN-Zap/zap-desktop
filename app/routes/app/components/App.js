@@ -58,7 +58,6 @@ class App extends Component {
       children
     } = this.props
 
-    console.log('activityModalProps: ', activityModalProps)
     if (!currentTicker) { return <LoadingBolt /> }
 
     return (

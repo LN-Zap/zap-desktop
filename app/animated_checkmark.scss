@@ -5,7 +5,7 @@ $curve: cubic-bezier(0.650, 0.000, 0.450, 1.000);
   stroke-dashoffset: 166;
   stroke-width: 2;
   stroke-miterlimit: 10;
-  stroke: $main;
+  stroke: $gold;
   fill: none;
   animation: stroke .6s $curve forwards;
 }
@@ -17,7 +17,7 @@ $curve: cubic-bezier(0.650, 0.000, 0.450, 1.000);
   stroke-width: 2;
   stroke: #fff;
   stroke-miterlimit: 10;
-  box-shadow: inset 0px 0px 0px $main;
+  box-shadow: inset 0px 0px 0px $gold;
   animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
 }
 
@@ -45,6 +45,6 @@ $curve: cubic-bezier(0.650, 0.000, 0.450, 1.000);
 
 @keyframes fill {
   100% {
-    box-shadow: inset 0px 0px 0px 30px $main;
+    box-shadow: inset 0px 0px 0px 30px $gold;
   }
 }
