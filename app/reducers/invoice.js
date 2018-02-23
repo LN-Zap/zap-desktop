@@ -97,7 +97,9 @@ export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ t
 
 // Send IPC event for creating an invoice
 export const createInvoice = (amount, memo, currency, rate) => (dispatch) => {
-  const value = currency === 'btc' ? btc.btcToSatoshis(amount) : btc.btcToSatoshis(usd.usdToBtc(amount, rate))
+  // backend needs value in satoshis no matter what currency we are using
+  const value = btc.convert(currency, 'sats', amount)
+
   dispatch(sendInvoice())
   ipcRenderer.send('lnd', { msg: 'createInvoice', data: { value, memo } })
 }
@@ -181,6 +183,12 @@ const invoicesSearchTextSelector = state => state.invoice.invoicesSearchText
 invoiceSelectors.invoiceModalOpen = createSelector(
   invoiceSelector,
   invoice => (!!invoice)
+)
+
+invoiceSelectors.invoices = createSelector(
+  invoicesSelector,
+  invoicesSearchTextSelector,
+  (invoices, invoicesSearchText) => invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
 )
 
 invoiceSelectors.invoices = createSelector(

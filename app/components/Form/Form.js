@@ -5,16 +5,14 @@ import Isvg from 'react-inlinesvg'
 import { MdClose } from 'react-icons/lib/md'
 
 import Pay from './Pay'
-import PayForm from './PayForm'
-import RequestForm from './RequestForm'
+import Request from './Request'
 
 import x from 'icons/x.svg'
 import styles from './Form.scss'
 
 const FORM_TYPES = {
-  // PAY_FORM: PayForm,
   PAY_FORM: Pay,
-  REQUEST_FORM: RequestForm
+  REQUEST_FORM: Request
 }
 
 const Form = ({ formType, formProps, closeForm }) => {

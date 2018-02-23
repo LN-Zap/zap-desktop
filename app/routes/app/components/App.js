@@ -11,6 +11,8 @@ import Network from 'components/Contacts/Network'
 import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
 
+import ActivityModal from 'components/activity/ActivityModal'
+
 import styles from './App.scss'
 
 class App extends Component {
@@ -33,6 +35,9 @@ class App extends Component {
 
   render() {
     const {
+      activity,
+      hideActivityModal,
+      
       modal: { modalType, modalProps },
       hideModal,
       ticker,
@@ -48,10 +53,12 @@ class App extends Component {
       contactModalProps,
       contactsFormProps,
       networkTabProps,
+      activityModalProps,
 
       children
     } = this.props
 
+    console.log('activityModalProps: ', activityModalProps)
     if (!currentTicker) { return <LoadingBolt /> }
 
     return (
@@ -70,6 +77,8 @@ class App extends Component {
         <ContactsForm {...contactsFormProps} />
 
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
+
+        <ActivityModal {...activityModalProps} />
 
         <div className={styles.content}>
           {children}

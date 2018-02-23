@@ -48,7 +48,9 @@ export const receiveTransactions = (event, { transactions }) => dispatch => disp
 export const sendCoins = ({
   value, addr, currency, rate
 }) => (dispatch) => {
-  const amount = currency === 'usd' ? btc.btcToSatoshis(usd.usdToBtc(value, rate)) : btc.btcToSatoshis(value)
+  // backend needs amount in satoshis no matter what currency we are using
+  const amount = btc.convert(currency, 'sats', value)
+
   dispatch(sendTransaction())
   ipcRenderer.send('lnd', { msg: 'sendCoins', data: { amount, addr } })
 }

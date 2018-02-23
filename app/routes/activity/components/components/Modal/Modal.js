@@ -2,11 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
 import { MdClose } from 'react-icons/lib/md'
+import Isvg from 'react-inlinesvg'
 
 import Transaction from './Transaction'
 import Payment from './Payment'
 import Invoice from './Invoice'
 
+import x from 'icons/x.svg'
 import styles from './Modal.scss'
 
 const Modal = ({
@@ -39,22 +41,14 @@ const Modal = ({
   const SpecificModal = MODAL_COMPONENTS[modalType]
 
   return (
-    <ReactModal
-      isOpen
-      ariaHideApp
-      shouldCloseOnOverlayClick
-      contentLabel='No Overlay Click Modal'
-      onRequestClose={() => hideActivityModal()}
-      parentSelector={() => document.body}
-      style={customStyles}
-    >
+    <div className={styles.container}>
       <div className={styles.closeContainer}>
         <span onClick={() => hideActivityModal()}>
-          <MdClose />
+          <Isvg src={x} />
         </span>
       </div>
       <SpecificModal {...modalProps} ticker={ticker} currentTicker={currentTicker} />
-    </ReactModal>
+    </div>
   )
 }
 

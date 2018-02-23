@@ -13,7 +13,7 @@ import { setFormType } from 'reducers/form'
 
 import { setPayAmount, setPayInput, setCurrencyFilters, updatePayErrors, payFormSelectors } from 'reducers/payform'
 
-import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
+import { setRequestAmount, setRequestMemo, setRequestCurrencyFilters } from 'reducers/requestform'
 
 import { sendCoins } from 'reducers/transaction'
 
@@ -52,6 +52,8 @@ import { fetchDescribeNetwork } from 'reducers/network'
 
 import { clearError } from 'reducers/error'
 
+import { hideActivityModal, setActivityModalCurrencyFilters } from 'reducers/activity'
+
 import App from '../components/App'
 
 const mapDispatchToProps = {
@@ -74,7 +76,7 @@ const mapDispatchToProps = {
 
   setRequestAmount,
   setRequestMemo,
-
+  setRequestCurrencyFilters,
 
   sendCoins,
   payInvoice,
@@ -103,10 +105,15 @@ const mapDispatchToProps = {
   contactFormSelectors,
   updateManualFormErrors,
 
-  fetchDescribeNetwork
+  fetchDescribeNetwork,
+
+  hideActivityModal,
+  setActivityModalCurrencyFilters
 }
 
 const mapStateToProps = state => ({
+  activity: state.activity,
+
   lnd: state.lnd,
 
   ticker: state.ticker,
@@ -231,11 +238,16 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const requestFormProps = {
     requestform: stateProps.requestform,
-    currency: stateProps.ticker.currency,
-    crypto: stateProps.ticker.crypto,
+    ticker: stateProps.ticker,
+    
+    currentCurrencyFilters: stateProps.currentCurrencyFilters,
+    showCurrencyFilters: stateProps.showCurrencyFilters,
+    currencyName: stateProps.currencyName,
 
     setRequestAmount: dispatchProps.setRequestAmount,
     setRequestMemo: dispatchProps.setRequestMemo,
+    setCurrency: dispatchProps.setCurrency,
+    setRequestCurrencyFilters: dispatchProps.setRequestCurrencyFilters,
 
     onRequestSubmit: () => (
       dispatchProps.createInvoice(
@@ -303,6 +315,25 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     closingChannelIds: stateProps.channels.closingChannelIds
   }
 
+  const activityModalProps = {
+    modalType: stateProps.activity.modal.modalType,
+    modalProps: stateProps.activity.modal.modalProps,
+    ticker: stateProps.ticker,
+    currentTicker: stateProps.currentTicker,
+
+    hideActivityModal: dispatchProps.hideActivityModal,
+
+    toggleCurrencyProps: {
+      currentCurrencyFilters: stateProps.currentCurrencyFilters,
+      currencyName: stateProps.currencyName,
+      showCurrencyFilters: stateProps.activity.modal.showCurrencyFilters,
+
+      setActivityModalCurrencyFilters: dispatchProps.setActivityModalCurrencyFilters,
+      setCurrencyFilters: dispatchProps.setCurrencyFilters,
+      setCurrency: dispatchProps.setCurrency,
+    }
+  }
+
   return {
     ...stateProps,
     ...dispatchProps,
@@ -314,6 +345,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     contactsFormProps,
     // props for the contact modal
     contactModalProps,
+    // props for the activity modals
+    activityModalProps,
     // Props to pass to the pay form
     formProps: formProps(stateProps.form.formType),
     // action to close form

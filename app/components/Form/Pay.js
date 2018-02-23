@@ -121,7 +121,7 @@ class Pay extends Component {
 
           <section className={styles.amount}>
             <div className={styles.top}>
-              <label>Amount</label>
+              <label htmlFor='amount'>Amount</label>
               <span></span>
             </div>
             <div className={styles.bottom}>
@@ -171,7 +171,7 @@ Pay.propTypes = {
     amount: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.number
-    ]).isRequired,
+    ]),
     payInput: PropTypes.string.isRequired,
     showErrors: PropTypes.object.isRequired
   }).isRequired,

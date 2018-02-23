@@ -34,7 +34,7 @@ export const SET_PAY_AMOUNT = 'SET_PAY_AMOUNT'
 export const SET_PAY_INPUT = 'SET_PAY_INPUT'
 export const SET_PAY_INVOICE = 'SET_PAY_INVOICE'
 
-export const SET_CURRENCY_FILTERS = 'SET_CURRENCY_FILTERS'
+export const SET_PAY_CURRENCY_FILTERS = 'SET_PAY_CURRENCY_FILTERS'
 
 export const UPDATE_PAY_ERRORS = 'UPDATE_PAY_ERRORS'
 
@@ -66,7 +66,7 @@ export function setPayInvoice(invoice) {
 
 export function setCurrencyFilters(showCurrencyFilters) {
   return {
-    type: SET_CURRENCY_FILTERS,
+    type: SET_PAY_CURRENCY_FILTERS,
     showCurrencyFilters
   }
 }
@@ -98,7 +98,7 @@ const ACTION_HANDLERS = {
   [SET_PAY_AMOUNT]: (state, { amount }) => ({ ...state, amount, showErrors: Object.assign(state.showErrors, { amount: false }) }),
   [SET_PAY_INPUT]: (state, { payInput }) => ({ ...state, payInput, showErrors: Object.assign(state.showErrors, { payInput: false }) }),
   [SET_PAY_INVOICE]: (state, { invoice }) => ({ ...state, invoice, showErrors: Object.assign(state.showErrors, { amount: false }) }),
-  [SET_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({ ...state, showCurrencyFilters }),
+  [SET_PAY_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({ ...state, showCurrencyFilters }),
 
   [UPDATE_PAY_ERRORS]: (state, { errorsObject }) => ({ ...state, showErrors: Object.assign(state.showErrors, errorsObject) }),
 
