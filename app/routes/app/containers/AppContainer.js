@@ -409,6 +409,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     openChannel: dispatchProps.openChannel,
 
+    ticker: stateProps.ticker,
+
     toggleCurrencyProps: {
       currentCurrencyFilters: stateProps.currentCurrencyFilters,
       currencyName: stateProps.currencyName,
