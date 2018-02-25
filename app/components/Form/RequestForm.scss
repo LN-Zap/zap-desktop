@@ -9,45 +9,6 @@
   align-items: center;
 }
 
-.amountContainer {
-  color: $main;
-  display: flex;
-  justify-content: center;
-  min-height: 120px;
-  margin-bottom: 20px;
-  
-  label, input[type=text] {
-    color: inherit;
-    display: inline-block;
-    vertical-align: top;
-    padding: 0;
-  }
-
-  label {
-    svg {
-      width: 85px;
-      height: 85px;
-    }
-
-    svg[data-icon='ltc'] {
-      margin-right: 10px;
-
-      g {
-        transform: scale(1.75) translate(-5px, -5px);
-      }
-    }
-  }
-  
-  input[type=text] {
-    width: 100px;
-    font-size: 180px;
-    border: none;
-    outline: 0;
-    -webkit-appearance: none;
-    font-weight: 200;
-  }
-}
-
 .inputContainer {
   width: 100%;
   display: flex;
