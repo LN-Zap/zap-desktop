@@ -4,17 +4,15 @@ import PropTypes from 'prop-types'
 import { FaBolt, FaChain } from 'react-icons/lib/fa'
 import LoadingBolt from 'components/LoadingBolt'
 import CurrencyIcon from 'components/CurrencyIcon'
+import AmountInput from './AmountInput'
 
 import styles from './PayForm.scss'
 
 class PayForm extends Component {
   componentDidUpdate(prevProps) {
     const {
-      isOnchain, isLn, payform: { payInput }, fetchInvoice
+      isLn, payform: { payInput }, fetchInvoice
     } = this.props
-
-    // If on-chain, focus on amount to let user know it's editable
-    if (isOnchain) { this.amountInput.focus() }
 
     // If LN go retrieve invoice details
     if ((prevProps.payform.payInput !== payInput) && isLn) {
@@ -47,29 +45,16 @@ class PayForm extends Component {
     return (
       <div className={styles.container}>
         {showPayLoadingScreen && <LoadingBolt />}
-
-        <section className={`${styles.amountContainer} ${isLn ? styles.ln : ''} ${showErrors.amount && styles.error}`}>
-          <label htmlFor='amount'>
-            <CurrencyIcon currency={currency} crypto={crypto} />
-          </label>
-          <input
-            type='number'
-            min='0'
-            ref={(input) => { this.amountInput = input }}
-            size=''
-            style={
-              isLn ?
-                { width: '75%', fontSize: '85px' }
-                :
-                { width: `${amount.length > 1 ? (amount.length * 20) - 5 : 35}%`, fontSize: `${190 - (amount.length ** 2)}px` }
-            }
-            value={currentAmount}
-            onChange={event => setPayAmount(event.target.value)}
-            onBlur={onPayAmountBlur}
-            id='amount'
-            readOnly={isLn}
-          />
-        </section>
+        <AmountInput
+          amount={currentAmount}
+          className={`${styles.amountContainer} ${isLn ? styles.ln : ''} ${showErrors.amount && styles.error}`}
+          currency={currency}
+          crypto={crypto}
+          onChange={setPayAmount}
+          onBlur={onPayAmountBlur}
+          readOnly={isLn}
+          autoFocus={isOnchain}
+        />
         <section className={`${styles.errorMessage} ${showErrors.amount && styles.active}`}>
           {showErrors.amount &&
             <span>{errors.amount}</span>
