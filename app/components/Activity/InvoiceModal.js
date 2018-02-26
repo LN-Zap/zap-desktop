@@ -10,11 +10,9 @@ import { showNotification } from 'notifications'
 
 import { FaAngleDown } from 'react-icons/lib/fa'
 
-import { btc } from 'utils'
 import Value from 'components/Value'
 
 import styles from './InvoiceModal.scss'
-
 
 const InvoiceModal = ({
   invoice,
@@ -59,8 +57,7 @@ const InvoiceModal = ({
               <ul className={showCurrencyFilters && styles.active}>
                 {
                   currentCurrencyFilters.map(filter =>
-                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>
-                  )
+                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
                 }
               </ul>
             </section>
@@ -88,14 +85,17 @@ const InvoiceModal = ({
 
       <div className={styles.actions}>
         <div>Save as image</div>
-        <div>Copy Request</div>
+        <div onClick={copyPaymentRequest}>Copy Request</div>
       </div>
     </div>
   )
 }
 
 InvoiceModal.propTypes = {
-  invoice: PropTypes.object.isRequired
+  invoice: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+  toggleCurrencyProps: PropTypes.object.isRequired
 }
 
 export default InvoiceModal

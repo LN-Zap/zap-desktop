@@ -240,7 +240,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const requestFormProps = {
     requestform: stateProps.requestform,
     ticker: stateProps.ticker,
-    
+
     currentCurrencyFilters: stateProps.currentCurrencyFilters,
     showCurrencyFilters: stateProps.showCurrencyFilters,
     currencyName: stateProps.currencyName,

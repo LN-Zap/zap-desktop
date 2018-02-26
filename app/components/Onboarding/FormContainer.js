@@ -7,7 +7,13 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/lib/fa'
 import zapLogo from 'icons/zap_logo.svg'
 import styles from './FormContainer.scss'
 
-const FormContainer = ({ title, description, back, next, children }) => (
+const FormContainer = ({
+  title,
+  description,
+  back,
+  next,
+  children
+}) => (
   <div className={styles.container}>
     <div className={styles.titleBar} />
 

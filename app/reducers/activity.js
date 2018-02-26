@@ -87,7 +87,7 @@ const ACTION_HANDLERS = {
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { modalType: null, modalProps: {} } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
   [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
-  
+
   [SET_ACTIVITY_MODAL_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => (
     { ...state, modal: { modalType: state.modal.modalType, modalProps: state.modal.modalProps, showCurrencyFilters } }
   ),

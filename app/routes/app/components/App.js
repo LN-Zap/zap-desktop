@@ -11,13 +11,20 @@ import Network from 'components/Contacts/Network'
 import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
 
-import ActivityModal from 'components/activity/ActivityModal'
+import ActivityModal from 'components/Activity/ActivityModal'
 
 import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchBalance, fetchDescribeNetwork } = this.props
+    const {
+      fetchTicker,
+      fetchInfo,
+      newAddress,
+      fetchChannels,
+      fetchBalance,
+      fetchDescribeNetwork
+    } = this.props
 
     // fetch price ticker
     fetchTicker()
@@ -35,9 +42,6 @@ class App extends Component {
 
   render() {
     const {
-      activity,
-      hideActivityModal,
-      
       modal: { modalType, modalProps },
       hideModal,
       ticker,
@@ -100,6 +104,7 @@ App.propTypes = {
   contactModalProps: PropTypes.object,
   contactsFormProps: PropTypes.object,
   networkTabProps: PropTypes.object,
+  activityModalProps: PropTypes.object,
 
   newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,

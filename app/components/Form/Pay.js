@@ -9,7 +9,6 @@ import { FaAngleDown } from 'react-icons/lib/fa'
 
 import { btc } from 'utils'
 import LoadingBolt from 'components/LoadingBolt'
-import CurrencyIcon from 'components/CurrencyIcon'
 
 import styles from './Pay.scss'
 
@@ -30,9 +29,12 @@ class Pay extends Component {
 
   render() {
     const {
-      payform: { amount, payInput, showErrors, invoice, showCurrencyFilters },
-      currency,
-      crypto,
+      payform: {
+        payInput,
+        showErrors,
+        invoice,
+        showCurrencyFilters
+      },
       nodes,
       ticker,
 
@@ -40,10 +42,8 @@ class Pay extends Component {
       isLn,
       currentAmount,
       usdAmount,
-      inputCaption,
       showPayLoadingScreen,
       payFormIsValid: { errors, isValid },
-      payInputMin,
       currentCurrencyFilters,
       currencyName,
 
@@ -70,7 +70,7 @@ class Pay extends Component {
 
     const onCurrencyFilterClick = (currency) => {
       if (!isLn) {
-        // change the input amount 
+        // change the input amount
         setPayAmount(btc.convert(ticker.currency, currency, currentAmount))
       }
 
@@ -122,7 +122,7 @@ class Pay extends Component {
           <section className={styles.amount}>
             <div className={styles.top}>
               <label htmlFor='amount'>Amount</label>
-              <span></span>
+              <span />
             </div>
             <div className={styles.bottom}>
               <input
@@ -144,8 +144,7 @@ class Pay extends Component {
                 <ul className={showCurrencyFilters && styles.active}>
                   {
                     currentCurrencyFilters.map(filter =>
-                      <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>
-                    )
+                      <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
                   }
                 </ul>
               </div>
@@ -175,8 +174,7 @@ Pay.propTypes = {
     payInput: PropTypes.string.isRequired,
     showErrors: PropTypes.object.isRequired
   }).isRequired,
-  currency: PropTypes.string.isRequired,
-  crypto: PropTypes.string.isRequired,
+  currencyName: PropTypes.string.isRequired,
 
   isOnchain: PropTypes.bool.isRequired,
   isLn: PropTypes.bool.isRequired,
@@ -184,7 +182,10 @@ Pay.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
-  inputCaption: PropTypes.string.isRequired,
+  usdAmount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   showPayLoadingScreen: PropTypes.bool.isRequired,
   payFormIsValid: PropTypes.shape({
     errors: PropTypes.object,
@@ -197,7 +198,14 @@ Pay.propTypes = {
   onPayInputBlur: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
 
-  onPaySubmit: PropTypes.func.isRequired
+  onPaySubmit: PropTypes.func.isRequired,
+  setCurrencyFilters: PropTypes.func.isRequired,
+  setCurrency: PropTypes.func.isRequired,
+
+  ticker: PropTypes.object.isRequired,
+
+  nodes: PropTypes.array.isRequired,
+  currentCurrencyFilters: PropTypes.array.isRequired
 }
 
 export default Pay

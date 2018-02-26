@@ -6,11 +6,9 @@ import 'moment-timezone'
 
 import { FaAngleDown } from 'react-icons/lib/fa'
 
-import { btc } from 'utils'
 import Value from 'components/Value'
 
 import styles from './PaymentModal.scss'
-
 
 const PaymentModal = ({
   payment,
@@ -28,9 +26,7 @@ const PaymentModal = ({
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <section className={styles.left}>
-          
-        </section>
+        <section className={styles.left} />
         <section className={styles.right}>
           <div className={styles.details}>
             <section className={styles.amount}>
@@ -43,8 +39,7 @@ const PaymentModal = ({
               <ul className={showCurrencyFilters && styles.active}>
                 {
                   currentCurrencyFilters.map(filter =>
-                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>
-                  )
+                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
                 }
               </ul>
             </section>

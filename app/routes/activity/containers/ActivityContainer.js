@@ -72,7 +72,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     info: stateProps.info,
     ticker: stateProps.ticker,
     currentTicker: stateProps.currentTicker,
-    
+
     setCurrency: dispatchProps.setCurrency,
     newAddress: dispatchProps.newAddress,
     openPayForm: () => dispatchProps.setFormType('PAY_FORM'),

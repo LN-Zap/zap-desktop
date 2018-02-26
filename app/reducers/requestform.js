@@ -68,20 +68,11 @@ requestFormSelectors.usdAmount = createSelector(
   requestAmountSelector,
   currencySelector,
   tickerSelectors.currentTicker,
-  
+
   (amount, currency, ticker) => {
     if (!ticker || !ticker.price_usd) { return false }
 
-    switch (currency) {
-      case 'btc':
-        return btc.btcToUsd(amount, ticker.price_usd)
-      case 'bits':
-        return btc.bitsToUsd(amount, ticker.price_usd)
-      case 'sats':
-        return btc.satoshisToUsd(amount, ticker.price_usd)
-      default:
-        return ''
-    }    
+    return btc.convert(currency, 'usd', amount, ticker.price_usd)
   }
 )
 

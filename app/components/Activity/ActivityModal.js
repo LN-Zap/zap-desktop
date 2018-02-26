@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
+import x from 'icons/x.svg'
 
 // import Transaction from './Transaction'
 import PaymentModal from './PaymentModal'
 import InvoiceModal from './InvoiceModal'
 
-import x from 'icons/x.svg'
 import styles from './ActivityModal.scss'
 
 const ActivityModal = ({
@@ -27,7 +27,6 @@ const ActivityModal = ({
   if (!modalType) { return null }
 
   const SpecificModal = MODAL_COMPONENTS[modalType]
-  console.log('toggleCurrencyProps: ', toggleCurrencyProps)
   return (
     <div className={styles.container}>
       <div className={styles.closeContainer}>
@@ -46,6 +45,10 @@ const ActivityModal = ({
 }
 
 ActivityModal.propTypes = {
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+  toggleCurrencyProps: PropTypes.object.isRequired,
+
   modalType: PropTypes.string,
   modalProps: PropTypes.object.isRequired,
   hideActivityModal: PropTypes.func.isRequired

@@ -40,7 +40,12 @@
     "max-len": ["error", 150],
     "import/no-extraneous-dependencies": 0,
     "no-new": 0,
-    "compat/compat": "error"
+    "compat/compat": "error",
+    "prefer-destructuring": ["error", {
+      "array": false,
+      "object": true
+    }],
+    "prefer-promise-reject-errors": 0
   },
   "plugins": [
     "flowtype",

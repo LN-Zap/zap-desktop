@@ -1,13 +1,4 @@
-import formReducer, {
-  SET_FORM_TYPE
-} from '../../app/reducers/form'
-
-// describe('reducers', () => {
-//   describe('formReducer', () => {
-
-
-//   }
-// }
+import formReducer, { SET_FORM_TYPE } from '../../app/reducers/form'
 
 describe('reducers', () => {
   describe('formReducer', () => {

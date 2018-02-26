@@ -24,8 +24,8 @@ const Onboarding = ({
       case 1:
         return (
           <FormContainer
-            title={'1. What should we call you?'}
-            description={'Set your nickname to help others connect with you on the Lightning Network'}
+            title='1. What should we call you?'
+            description='Set your nickname to help others connect with you on the Lightning Network'
             back={null}
             next={() => changeStep(2)}
           >
@@ -35,8 +35,8 @@ const Onboarding = ({
       case 2:
         return (
           <FormContainer
-            title={'2. Autopilot'}
-            description={'Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.'} // eslint-disable-line
+            title='2. Autopilot'
+            description='Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.' // eslint-disable-line
             back={() => changeStep(1)}
             next={() => submit(alias, autopilot)}
           >

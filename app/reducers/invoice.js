@@ -10,7 +10,7 @@ import { resetRequestForm } from './requestform'
 import { setError } from './error'
 
 import { showNotification } from '../notifications'
-import { btc, usd } from '../utils'
+import { btc } from '../utils'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -96,7 +96,7 @@ export const fetchInvoices = () => (dispatch) => {
 export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ type: RECEIVE_INVOICES, invoices })
 
 // Send IPC event for creating an invoice
-export const createInvoice = (amount, memo, currency, rate) => (dispatch) => {
+export const createInvoice = (amount, memo, currency) => (dispatch) => {
   // backend needs value in satoshis no matter what currency we are using
   const value = btc.convert(currency, 'sats', amount)
 

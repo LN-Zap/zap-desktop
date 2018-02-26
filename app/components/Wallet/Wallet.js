@@ -23,7 +23,6 @@ class Wallet extends Component {
 
   render() {
     const {
-      setCurrency,
       balance,
       address,
       info,

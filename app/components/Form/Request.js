@@ -6,7 +6,6 @@ import hand from 'icons/hand.svg'
 import { FaAngleDown } from 'react-icons/lib/fa'
 
 import { btc } from 'utils'
-import CurrencyIcon from 'components/CurrencyIcon'
 import styles from './Request.scss'
 
 const Request = ({
@@ -24,9 +23,8 @@ const Request = ({
 
   onRequestSubmit
 }) => {
-  console.log('requestUsdAmount: ', requestUsdAmount)
   const onCurrencyFilterClick = (currency) => {
-    // change the input amount 
+    // change the input amount
     setRequestAmount(btc.convert(ticker.currency, currency, amount))
 
     setCurrency(currency)
@@ -59,7 +57,7 @@ const Request = ({
         <section className={styles.amount}>
           <div className={styles.top}>
             <label htmlFor='amount'>Amount</label>
-            <span></span>
+            <span />
           </div>
           <div className={styles.bottom}>
             <input
@@ -76,8 +74,7 @@ const Request = ({
               <ul className={showCurrencyFilters && styles.active}>
                 {
                   currentCurrencyFilters.map(filter =>
-                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>
-                  )
+                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
                 }
               </ul>
             </div>
@@ -100,14 +97,28 @@ const Request = ({
 
 Request.propTypes = {
   requestform: PropTypes.shape({
-    amount: PropTypes.string,
+    amount: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.number
+    ]),
     memo: PropTypes.string
   }).isRequired,
 
+  requestUsdAmount: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  currencyName: PropTypes.string.isRequired,
+
+  currentCurrencyFilters: PropTypes.array.isRequired,
+
   setRequestAmount: PropTypes.func.isRequired,
   setRequestMemo: PropTypes.func.isRequired,
+  onRequestSubmit: PropTypes.func.isRequired,
+  setCurrency: PropTypes.func.isRequired,
+  setRequestCurrencyFilters: PropTypes.func.isRequired,
 
-  onRequestSubmit: PropTypes.func.isRequired
+  ticker: PropTypes.object.isRequired
 }
 
 export default Request

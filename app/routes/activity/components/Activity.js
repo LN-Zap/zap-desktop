@@ -7,8 +7,6 @@ import Invoice from './components/Invoice'
 import Payment from './components/Payment'
 import Transaction from './components/Transaction'
 
-import Modal from './components/Modal'
-
 import styles from './Activity.scss'
 
 class Activity extends Component {
@@ -44,18 +42,16 @@ class Activity extends Component {
 
   render() {
     const {
-      ticker,
       invoice: { invoiceLoading },
-      address: { address },
       balance,
-      info,
       payment: { paymentLoading },
-      currentTicker,
-      activity: { modal, filters, filter, filterPulldown },
-      hideActivityModal,
+      activity: {
+        filters,
+        filter,
+        filterPulldown
+      },
       changeFilter,
       currentActivity,
-      newAddress,
 
       walletProps
     } = this.props
@@ -66,14 +62,6 @@ class Activity extends Component {
 
     return (
       <div>
-        <Modal
-          modalType={modal.modalType}
-          modalProps={modal.modalProps}
-          hideActivityModal={hideActivityModal}
-          ticker={ticker}
-          currentTicker={currentTicker}
-        />
-
         <Wallet {...walletProps} />
 
         <div className={styles.activities}>
@@ -119,15 +107,12 @@ Activity.propTypes = {
   currentTicker: PropTypes.object.isRequired,
 
   showActivityModal: PropTypes.func.isRequired,
-  hideActivityModal: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
-  newAddress: PropTypes.func.isRequired,
 
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,
-  address: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
-  info: PropTypes.object.isRequired
+  walletProps: PropTypes.object.isRequired
 }
 
 export default Activity

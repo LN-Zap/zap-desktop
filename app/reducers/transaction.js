@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron'
 import { showNotification } from '../notifications'
-import { btc, usd } from '../utils'
+import { btc } from '../utils'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
@@ -46,7 +46,7 @@ export const fetchTransactions = () => (dispatch) => {
 export const receiveTransactions = (event, { transactions }) => dispatch => dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
 
 export const sendCoins = ({
-  value, addr, currency, rate
+  value, addr, currency
 }) => (dispatch) => {
   // backend needs amount in satoshis no matter what currency we are using
   const amount = btc.convert(currency, 'sats', value)

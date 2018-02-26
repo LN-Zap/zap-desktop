@@ -164,7 +164,6 @@ payFormSelectors.currentAmount = createSelector(
           return invoice.num_satoshis
         default:
           return invoice.num_satoshis
-          
       }
     }
 
@@ -185,17 +184,7 @@ payFormSelectors.usdAmount = createSelector(
       return btc.satoshisToUsd((invoice.num_satoshis || 0), ticker.price_usd)
     }
 
-    switch (currency) {
-      case 'btc':
-        return btc.btcToUsd(amount, ticker.price_usd)
-      case 'bits':
-        return btc.bitsToUsd(amount, ticker.price_usd)
-      case 'sats':
-        return btc.satoshisToUsd(amount, ticker.price_usd)
-      default:
-        return ''
-        
-    }
+    return btc.convert(currency, 'usd', amount, ticker.price_usd)
   }
 )
 

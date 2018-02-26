@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import sb from 'satoshi-bitcoin'
 //////////////////////
 // BTC to things /////

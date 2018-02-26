@@ -2,12 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Isvg from 'react-inlinesvg'
-import { MdClose } from 'react-icons/lib/md'
+import x from 'icons/x.svg'
 
 import Pay from './Pay'
 import Request from './Request'
 
-import x from 'icons/x.svg'
 import styles from './Form.scss'
 
 const FORM_TYPES = {
