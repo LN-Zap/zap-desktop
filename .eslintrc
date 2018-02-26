@@ -40,13 +40,10 @@
     "max-len": ["error", 150],
     "import/no-extraneous-dependencies": 0,
     "no-new": 0,
-    "compat/compat": "error",
-    "flowtype-errors/show-errors": "error",
-    "flowtype-errors/enforce-min-coverage": ["error", 20]
+    "compat/compat": "error"
   },
   "plugins": [
     "flowtype",
-    "flowtype-errors",
     "import",
     "promise",
     "compat",
