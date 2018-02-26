@@ -332,7 +332,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       setActivityModalCurrencyFilters: dispatchProps.setActivityModalCurrencyFilters,
       setCurrencyFilters: dispatchProps.setCurrencyFilters,
-      setCurrency: dispatchProps.setCurrency,
+      onCurrencyFilterClick: (currency) => {
+        dispatchProps.setCurrency(currency)
+        dispatchProps.setActivityModalCurrencyFilters(false)
+      }
     }
   }
 

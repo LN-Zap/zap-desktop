@@ -4,20 +4,16 @@ import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import 'moment-timezone'
 
-import QRCode from 'qrcode.react'
-import copy from 'copy-to-clipboard'
-import { showNotification } from 'notifications'
-
 import { FaAngleDown } from 'react-icons/lib/fa'
 
 import { btc } from 'utils'
 import Value from 'components/Value'
 
-import styles from './InvoiceModal.scss'
+import styles from './PaymentModal.scss'
 
 
-const InvoiceModal = ({
-  invoice,
+const PaymentModal = ({
+  payment,
   ticker,
   currentTicker,
 
@@ -29,29 +25,17 @@ const InvoiceModal = ({
     onCurrencyFilterClick
   }
 }) => {
-  const copyPaymentRequest = () => {
-    copy(invoice.payment_request)
-    showNotification('Noice', 'Successfully copied to clipboard')
-  }
-
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <section className={styles.left}>
-          <QRCode
-            value={invoice.payment_request}
-            renderAs='svg'
-            size={150}
-            bgColor='transparent'
-            fgColor='white'
-            level='L'
-          />
+          
         </section>
         <section className={styles.right}>
           <div className={styles.details}>
             <section className={styles.amount}>
               <h1>
-                <Value value={invoice.value} currency={ticker.currency} currentTicker={currentTicker} />
+                <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
               </h1>
               <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
                 <span>{currencyName}</span><span><FaAngleDown /></span>
@@ -66,36 +50,22 @@ const InvoiceModal = ({
             </section>
             <section className={styles.date}>
               <p>
-                <Moment format='MM/DD/YYYY'>{invoice.creation_date * 1000}</Moment>
-              </p>
-              <p className={styles.notPaid}>
-                {!invoice.settled && 'Not Paid'}
+                <Moment format='MM/DD/YYYY'>{payment.creation_date * 1000}</Moment>
               </p>
             </section>
           </div>
-
-          <div className={styles.memo}>
-            <h4>Memo</h4>
-            <p>{invoice.memo}</p>
-          </div>
-
-          <div className={styles.request}>
-            <h4>Request</h4>
-            <p>{invoice.payment_request}</p>
-          </div>
         </section>
-      </div>
-
-      <div className={styles.actions}>
-        <div>Save as image</div>
-        <div>Copy Request</div>
       </div>
     </div>
   )
 }
 
-InvoiceModal.propTypes = {
-  invoice: PropTypes.object.isRequired
+PaymentModal.propTypes = {
+  payment: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object.isRequired,
+
+  toggleCurrencyProps: PropTypes.object.isRequired
 }
 
-export default InvoiceModal
+export default PaymentModal
