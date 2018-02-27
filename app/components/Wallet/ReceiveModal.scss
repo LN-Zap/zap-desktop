@@ -25,93 +25,105 @@
   }
 }
 
-.header {
-  background: $lightgrey;
-  padding: 10px 40px 40px;
-  text-align: center;
-
-  .qrcodes {
-    text-align: center;
-    margin-top: 20px;
-  }
-
-  .tabs {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-
-    li {
-      margin: 0 20px;
-      color: $darkestgrey;
-      transition: all 0.25s;
-
-      &:hover {
-        color: $black;
-      }
-
-      &.active {
-        color: $black;
-        font-weight: bold;
-      }
-    }
-  }
-}
-
-section {
-  margin: 25px 0;
-  padding: 25px;
-
-  h4 {
-    font-size: 14px;
-    font-weight: bold;
-    letter-spacing: 1.5px;
-    margin-bottom: 10px;
-
-    span {
-      color: $blue;
-      cursor: pointer;
-    }
-  }
-
-  p {
-    display: flex;
-    flex-direction: row;
-    font-family: 'Roboto';
-    font-size: 14px;
-    font-weight: 200;
-    background: $lightgrey;
-
-    span {
-      padding: 15px;
-    }
-
-    span:nth-child(1) {
-      flex: 9;
-      overflow-x: scroll;
-    }
-
-    span:nth-child(2) {
-      background: $darkgrey;
-      color: $black;
-      cursor: pointer;
-      transition: all 0.25s;
-
-      &:hover {
-        background: $darkestgrey;
-      }
-    }
-  }
-}
-
-.addressHeader {
+.content {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  align-items: center;
+  background: $spaceblue;
+  width: 85%;
+  margin: 15% auto 50px auto;
+  color: $white;
 
-  .newAddress {
-    text-decoration: underline;
-    font-size: 12px;
+  .left {
+    width: 25%;
+    padding: 30px 40px;
+
+    .header {
+      
+      h2 {
+        text-align: center;
+      }
+
+      .qrCodeOptions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin: 20px 0;
+
+        div {
+          font-size: 10px;
+          opacity: 0.5;
+          cursor: pointer;
+          transition: all 0.25s;
+
+          &:hover {
+            opacity: 0.75;
+          }
+
+          &.active {
+            opacity: 1.0;
+          }
+        }
+      }
+    }
+    
+    .qrCodeContainer {
+      text-align: center;
+    }
+  }
+
+  .right {
+    width: 75%;
+    min-height: 220px;
+    border-left: 1px solid $spaceborder;
+    padding: 30px 40px;
+
+    .pubkey, .address {
+      padding: 25px;
+
+      h4 {
+        font-size: 12px;
+        margin-bottom: 10px;
+
+        span {
+          cursor: pointer;
+        }
+      }
+    }
+    
+    p {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-family: 'Roboto';
+      font-size: 10px;
+      font-weight: 200;
+      background: $bluegrey;
+
+      .data, .copy {
+        padding: 15px;
+      }
+
+      .data {
+        flex: 9;
+        overflow-x: scroll;
+      }
+
+      .copy {
+        background: #383b47;
+        color: $white;
+        cursor: pointer;
+        transition: all 0.25s;
+
+        &:hover {
+          background: lighten(#383b47, 5%);
+        }
+
+        svg {
+          height: 12px;
+          width: 12px;
+        }
+      }
+    }    
   }
 }

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react'
-import { FaCopy } from 'react-icons/lib/fa'
+import copyIcon from 'icons/copy.svg'
 import Isvg from 'react-inlinesvg'
 
 import x from 'icons/x.svg'
@@ -44,6 +44,7 @@ class ReceiveModal extends React.Component {
     const { qrCodeType } = this.state
     
     if (!isOpen) { return null }
+
     return (
       <div className={styles.container}>
         <div className={styles.closeContainer}>
@@ -51,42 +52,51 @@ class ReceiveModal extends React.Component {
             <Isvg src={x} />
           </span>
         </div>
-        <header className={styles.header}>
-          <div className={styles.qrcodes}>
-            <QRCode value={qrCodeType === 1 ? address : pubkey} />
-          </div>
 
-          <ul className={styles.tabs}>
-            <li className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>
-              Wallet address
-            </li>
-            <li className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>
-              Node pubkey
-            </li>
-          </ul>
-        </header>
-        <section>
-          <div className={styles.addressHeader}>
-            <h4>Deposit Address</h4>
-            <span className={styles.newAddress} onClick={() => newAddress('np2wkh')}>New Address</span>
-          </div>
-          <p>
-            <span>{address}</span>
-            <span onClick={() => copyOnClick(address)} className='hint--left' data-hint='Copy address'>
-              <FaCopy />
-            </span>
-          </p>
-        </section>
+        <div className={styles.content}>
+          <section className={styles.left}>
+            <header className={styles.header}>
+              <h2>JimmyMow</h2>
 
-        <section>
-          <h4>Node Public Key</h4>
-          <p>
-            <span>{pubkey}</span>
-            <span onClick={() => copyOnClick(pubkey)} className='hint--left' data-hint='Copy pubkey'>
-              <FaCopy />
-            </span>
-          </p>
-        </section>
+              <div className={styles.qrCodeOptions}>
+                <div className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>Node Pubkey</div>
+                <div className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>Deposit Address</div>
+              </div>
+            </header>
+
+            <div className={styles.qrCodeContainer}>
+              <QRCode
+                value={qrCodeType === 1 ? pubkey : address}
+                renderAs='svg'
+                size={150}
+                bgColor='transparent'
+                fgColor='white'
+                level='L'
+              />
+            </div>
+          </section>
+          <section className={styles.right}>
+            <div className={styles.pubkey}>
+              <h4>Node Public Key</h4>
+              <p>
+                <span className={styles.data}>{pubkey}</span>
+                <span onClick={() => copyOnClick(pubkey)} className={`${styles.copy} hint--left`} data-hint='Copy pubkey'>
+                  <Isvg src={copyIcon} />
+                </span>
+              </p>
+            </div>
+
+            <div className={styles.address}>
+              <h4>Deposit Address</h4>
+              <p>
+                <span className={styles.data}>{address}</span>
+                <span onClick={() => copyOnClick(address)} className={`${styles.copy} hint--left`} data-hint='Copy address'>
+                  <Isvg src={copyIcon} />
+                </span>
+              </p>
+            </div>
+          </section>
+        </div>
       </div>
     )
   }
