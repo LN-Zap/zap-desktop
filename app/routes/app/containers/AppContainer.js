@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
 
-import { newAddress } from 'reducers/address'
+import { newAddress, closeWalletModal } from 'reducers/address'
 
 import { fetchInfo } from 'reducers/info'
 
@@ -61,6 +61,7 @@ const mapDispatchToProps = {
   setCurrency,
 
   newAddress,
+  closeWalletModal,
 
   fetchInfo,
 
@@ -339,6 +340,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     }
   }
 
+  const receiveModalProps = {
+    isOpen: stateProps.address.walletModal,
+    pubkey: stateProps.info.data.identity_pubkey,
+    address: stateProps.address.address,
+    newAddress: dispatchProps.newAddress,
+    closeReceiveModal: dispatchProps.closeWalletModal
+  }
+
   return {
     ...stateProps,
     ...dispatchProps,
@@ -350,6 +359,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     contactsFormProps,
     // props for the contact modal
     contactModalProps,
+    // props for the receive modal
+    receiveModalProps,
     // props for the activity modals
     activityModalProps,
     // Props to pass to the pay form

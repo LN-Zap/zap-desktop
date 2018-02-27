@@ -1,94 +1,105 @@
 @import '../../variables.scss';
 
+.container {
+  position: relative;
+  height: 100vh;
+  background: $bluegrey;
+}
+
 .closeContainer {
-  background: $lightgrey;
   text-align: right;
-  padding: 10px;
+  padding: 20px 40px 0px;
 
   span {
-    color: $darkestgrey;
-    font-size: 20px;
     cursor: pointer;
+    opacity: 1.0;
+    transition: 0.25s all;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  svg {
+    color: $white;
   }
 }
 
-.container {
-  header {
-    background: $lightgrey;
-    padding: 10px 40px 40px;
+.header {
+  background: $lightgrey;
+  padding: 10px 40px 40px;
+  text-align: center;
+
+  .qrcodes {
     text-align: center;
+    margin-top: 20px;
+  }
 
-    .qrcodes {
-      text-align: center;
-      margin-top: 20px;
-    }
+  .tabs {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
 
-    .tabs {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      margin-top: 20px;
+    li {
+      margin: 0 20px;
+      color: $darkestgrey;
+      transition: all 0.25s;
 
-      li {
-        margin: 0 20px;
-        color: $darkestgrey;
-        transition: all 0.25s;
+      &:hover {
+        color: $black;
+      }
 
-        &:hover {
-          color: $black;
-        }
-
-        &.active {
-          color: $black;
-          font-weight: bold;
-        }
+      &.active {
+        color: $black;
+        font-weight: bold;
       }
     }
   }
+}
 
-  section {
-    margin: 25px 0;
-    padding: 25px;
+section {
+  margin: 25px 0;
+  padding: 25px;
 
-    h4 {
-      font-size: 14px;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-      margin-bottom: 10px;
+  h4 {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1.5px;
+    margin-bottom: 10px;
 
-      span {
-        color: $blue;
-        cursor: pointer;
-      }
+    span {
+      color: $blue;
+      cursor: pointer;
+    }
+  }
+
+  p {
+    display: flex;
+    flex-direction: row;
+    font-family: 'Roboto';
+    font-size: 14px;
+    font-weight: 200;
+    background: $lightgrey;
+
+    span {
+      padding: 15px;
     }
 
-    p {
-      display: flex;
-      flex-direction: row;
-      font-family: 'Roboto';
-      font-size: 14px;
-      font-weight: 200;
-      background: $lightgrey;
+    span:nth-child(1) {
+      flex: 9;
+      overflow-x: scroll;
+    }
 
-      span {
-        padding: 15px;
-      }
+    span:nth-child(2) {
+      background: $darkgrey;
+      color: $black;
+      cursor: pointer;
+      transition: all 0.25s;
 
-      span:nth-child(1) {
-        flex: 9;
-        overflow-x: scroll;
-      }
-
-      span:nth-child(2) {
-        background: $darkgrey;
-        color: $black;
-        cursor: pointer;
-        transition: all 0.25s;
-
-        &:hover {
-          background: $darkestgrey;
-        }
+      &:hover {
+        background: $darkestgrey;
       }
     }
   }

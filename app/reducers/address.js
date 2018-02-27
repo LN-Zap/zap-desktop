@@ -5,6 +5,9 @@ import { ipcRenderer } from 'electron'
 export const GET_ADDRESS = 'GET_ADDRESS'
 export const RECEIVE_ADDRESS = 'RECEIVE_ADDRESS'
 
+export const OPEN_WALLET_MODAL = 'OPEN_WALLET_MODAL'
+export const CLOSE_WALLET_MODAL = 'CLOSE_WALLET_MODAL'
+
 // LND expects types to be sent as int, so this object will allow mapping from string to int
 const addressTypes = {
   p2wkh: 0,
@@ -18,6 +21,18 @@ const addressTypes = {
 export function getAddress() {
   return {
     type: GET_ADDRESS
+  }
+}
+
+export function openWalletModal() {
+  return {
+    type: OPEN_WALLET_MODAL
+  }
+}
+
+export function closeWalletModal() {
+  return {
+    type: CLOSE_WALLET_MODAL
   }
 }
 
@@ -35,7 +50,10 @@ export const receiveAddress = (event, address) => dispatch => dispatch({ type: R
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_ADDRESS]: state => ({ ...state, addressLoading: true }),
-  [RECEIVE_ADDRESS]: (state, { address }) => ({ ...state, addressLoading: false, address })
+  [RECEIVE_ADDRESS]: (state, { address }) => ({ ...state, addressLoading: false, address }),
+  
+  [OPEN_WALLET_MODAL]: state => ({ ...state, walletModal: true }),
+  [CLOSE_WALLET_MODAL]: state => ({ ...state, walletModal: false })
 }
 
 // ------------------------------------
@@ -43,7 +61,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   addressLoading: false,
-  address: ''
+  address: '',
+  walletModal: false
 }
 
 export default function addressReducer(state = initialState, action) {

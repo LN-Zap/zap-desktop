@@ -1,55 +1,57 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactModal from 'react-modal'
 import copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react'
-import { showNotification } from 'notifications'
 import { FaCopy } from 'react-icons/lib/fa'
-import { MdClose } from 'react-icons/lib/md'
+import Isvg from 'react-inlinesvg'
+
+import x from 'icons/x.svg'
+import { showNotification } from 'notifications'
+
 import styles from './ReceiveModal.scss'
 
-const ReceiveModal = ({
-  isOpen, hideActivityModal, pubkey, address, newAddress, qrCodeType, changeQrCode
-}) => {
-  const customStyles = {
-    overlay: {
-      cursor: 'pointer'
-    },
-    content: {
-      top: 'auto',
-      left: '0',
-      right: '0',
-      bottom: 'auto',
-      width: '40%',
-      margin: '50px auto',
-      borderRadius: 'none',
-      padding: '0'
+class ReceiveModal extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      qrCodeType: 1
     }
   }
 
-  const copyOnClick = (data) => {
-    copy(data)
-    showNotification('Noice', 'Successfully copied to clipboard')
-  }
+  render() {
+    const copyOnClick = (data) => {
+      copy(data)
+      showNotification('Noice', 'Successfully copied to clipboard')
+    }
 
-  return (
-    <ReactModal
-      isOpen={isOpen}
-      ariaHideApp
-      shouldCloseOnOverlayClick
-      contentLabel='No Overlay Click Modal'
-      onRequestClose={() => hideActivityModal()}
-      parentSelector={() => document.body}
-      style={customStyles}
-    >
-      <div className={styles.closeContainer}>
-        <span onClick={() => hideActivityModal()}>
-          <MdClose />
-        </span>
-      </div>
+    const changeQrCode = () => {
+      if (this.state.qrCodeType === 1) {
+        this.setState({ qrCodeType: 2 })
+      } else {
+        this.setState({ qrCodeType: 1 })
+      }
+    }
+    
+    const {
+      isOpen,
+      pubkey,
+      address,
+      newAddress,
+      closeReceiveModal
+    } = this.props
 
+    const { qrCodeType } = this.state
+    
+    if (!isOpen) { return null }
+    return (
       <div className={styles.container}>
-        <header>
+        <div className={styles.closeContainer}>
+          <span onClick={closeReceiveModal}>
+            <Isvg src={x} />
+          </span>
+        </div>
+        <header className={styles.header}>
           <div className={styles.qrcodes}>
             <QRCode value={qrCodeType === 1 ? address : pubkey} />
           </div>
@@ -86,18 +88,15 @@ const ReceiveModal = ({
           </p>
         </section>
       </div>
-    </ReactModal>
-  )
+    )
+  }
 }
 
 ReceiveModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  hideActivityModal: PropTypes.func.isRequired,
   pubkey: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
-  newAddress: PropTypes.func.isRequired,
-  changeQrCode: PropTypes.func.isRequired,
-  qrCodeType: PropTypes.number.isRequired
+  newAddress: PropTypes.func.isRequired
 }
 
 export default ReceiveModal

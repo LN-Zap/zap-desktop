@@ -11,6 +11,7 @@ import Network from 'components/Contacts/Network'
 import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
 
+import ReceiveModal from 'components/Wallet/ReceiveModal'
 import ActivityModal from 'components/Activity/ActivityModal'
 
 import styles from './App.scss'
@@ -57,6 +58,7 @@ class App extends Component {
       contactModalProps,
       contactsFormProps,
       networkTabProps,
+      receiveModalProps,
       activityModalProps,
 
       children
@@ -81,6 +83,7 @@ class App extends Component {
 
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
 
+        <ReceiveModal {...receiveModalProps} />
         <ActivityModal {...activityModalProps} />
 
         <div className={styles.content}>

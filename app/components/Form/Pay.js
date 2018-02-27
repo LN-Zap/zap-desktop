@@ -60,9 +60,6 @@ class Pay extends Component {
       setCurrency
     } = this.props
 
-    console.log('errors: ', errors)
-    console.log('showErrors: ', showErrors)
-
     const displayNodeName = (pubkey) => {
       const node = find(nodes, n => n.pub_key === pubkey)
 
@@ -83,7 +80,6 @@ class Pay extends Component {
 
     return (
       <div className={styles.container}>
-        {showPayLoadingScreen && <LoadingBolt />}
         <header className={styles.header}>
           <Isvg src={paperPlane} />
           <h1>Make Payment</h1>
