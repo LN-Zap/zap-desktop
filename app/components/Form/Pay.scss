@@ -164,3 +164,19 @@
     }
   }
 }
+
+.errorMessage {
+  color: $red;
+  font-size: 12px;
+  min-height: 20px;
+  opacity: 0;
+  transition: all 0.25s ease;
+
+  &.amount {
+    margin-top: 10px;
+  }
+
+  &.active {
+    opacity: 1;
+  }
+}

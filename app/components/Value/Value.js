@@ -8,7 +8,7 @@ Value.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number
-  ]).isRequired,
+  ]),
   currency: PropTypes.string.isRequired,
   currentTicker: PropTypes.object.isRequired
 }

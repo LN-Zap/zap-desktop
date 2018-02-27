@@ -60,6 +60,9 @@ class Pay extends Component {
       setCurrency
     } = this.props
 
+    console.log('errors: ', errors)
+    console.log('showErrors: ', showErrors)
+
     const displayNodeName = (pubkey) => {
       const node = find(nodes, n => n.pub_key === pubkey)
 
@@ -116,6 +119,11 @@ class Pay extends Component {
                 id='destination'
                 rows='2'
               />
+              <section className={`${styles.errorMessage} ${showErrors.payInput && styles.active}`}>
+                {showErrors.payInput &&
+                  <span>{errors.payInput}</span>
+                }
+              </section>
             </div>
           </section>
 
@@ -153,6 +161,12 @@ class Pay extends Component {
             <div className={styles.usdAmount}>
               {`≈ ${usdAmount || 0} USD`}
             </div>
+
+            <section className={`${styles.errorMessage} ${styles.amount} ${showErrors.amount && styles.active}`}>
+              {showErrors.amount &&
+                <span>{errors.amount}</span>
+              }
+            </section>
           </section>
 
           <section className={styles.submit}>

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 import x from 'icons/x.svg'
 
-// import Transaction from './Transaction'
+import TransactionModal from './TransactionModal'
 import PaymentModal from './PaymentModal'
 import InvoiceModal from './InvoiceModal'
 
@@ -19,7 +19,7 @@ const ActivityModal = ({
   toggleCurrencyProps
 }) => {
   const MODAL_COMPONENTS = {
-    // TRANSACTION: Transaction,
+    TRANSACTION: TransactionModal,
     PAYMENT: PaymentModal,
     INVOICE: InvoiceModal
   }
