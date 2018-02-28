@@ -11,6 +11,7 @@ import { showNotification } from 'notifications'
 import { FaAngleDown } from 'react-icons/lib/fa'
 
 import Value from 'components/Value'
+import Countdown from './Countdown'
 
 import styles from './InvoiceModal.scss'
 
@@ -32,10 +33,13 @@ const InvoiceModal = ({
     showNotification('Noice', 'Successfully copied to clipboard')
   }
 
+  const countDownDate = (parseInt(invoice.creation_date) + parseInt(invoice.expiry))
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <section className={styles.left}>
+          <h2>Payment Request</h2>
           <QRCode
             value={invoice.payment_request}
             renderAs='svg'
@@ -43,7 +47,9 @@ const InvoiceModal = ({
             bgColor='transparent'
             fgColor='white'
             level='L'
+            className={styles.qrcode}
           />
+          <Countdown countDownDate={countDownDate} />
         </section>
         <section className={styles.right}>
           <div className={styles.details}>

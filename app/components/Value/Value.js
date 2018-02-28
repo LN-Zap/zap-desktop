@@ -2,7 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { btc } from 'utils'
 
-const Value = ({ value, currency, currentTicker }) => (<i>{btc.convert('sats', currency, value, currentTicker.price_usd)}</i>)
+const Value = ({ value, currency, currentTicker }) => {
+  if (currency === 'sats') { return <i>{value > 0 ? value : value * -1}</i> }
+
+  return (
+    <i>{btc.convert('sats', currency, value, currentTicker.price_usd)}</i>
+  )
+}
 
 Value.propTypes = {
   value: PropTypes.oneOfType([

@@ -6,6 +6,8 @@ import 'moment-timezone'
 
 import { FaAngleDown } from 'react-icons/lib/fa'
 
+import { showTransaction, showBlock } from 'utils/blockExplorer'
+
 import Value from 'components/Value'
 
 import styles from './PaymentModal.scss'
@@ -23,14 +25,15 @@ const PaymentModal = ({
     onCurrencyFilterClick
   }
 }) => {
+  console.log('payment: ', payment)
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <section className={styles.left} />
-        <section className={styles.right}>
+        <section className={styles.top}>
           <div className={styles.details}>
             <section className={styles.amount}>
               <h1>
+                <i className={styles.symbol}>-</i>
                 <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
               </h1>
               <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
@@ -43,11 +46,24 @@ const PaymentModal = ({
                 }
               </ul>
             </section>
-            <section className={styles.date}>
+            <section className={styles.fee}>
+              <p>Sent</p>
               <p>
-                <Moment format='MM/DD/YYYY'>{payment.creation_date * 1000}</Moment>
+                <Value value={payment.fee} currency={ticker.currency} currentTicker={currentTicker} />
+                <span> {currencyName} fee</span>
               </p>
             </section>
+          </div>
+        </section>
+        <section className={styles.bottom}>
+          <div className={styles.txHash}>
+            <h4>Memo</h4>
+            <p>{payment.memo}</p>
+          </div>
+
+          <div className={styles.blockHash}>
+            <h4>Proof</h4>
+            <p>{payment.payment_preimage}</p>
           </div>
         </section>
       </div>

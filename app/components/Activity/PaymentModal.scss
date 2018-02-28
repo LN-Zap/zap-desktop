@@ -5,23 +5,12 @@
 }
 
 .content {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   background: $spaceblue;
   width: 85%;
   margin: 50px auto;
-  padding: 30px 0;
+  padding-top: 30px;
 
-  .left {
-    width: 25%;
-    padding: 0 60px;
-  }
-
-  .right {
-    width: 75%;
-    min-height: 220px;
-    border-left: 1px solid $spaceborder;
+  .top {
     padding: 10px 60px;
 
     .details {
@@ -35,6 +24,10 @@
         flex-direction: row;
         align-items: center;
         position: relative;
+
+        .symbol {
+          color: $red;
+        }
 
         h1 {
           font-size: 40px;
@@ -83,7 +76,7 @@
         }
       }
 
-      .date {
+      .fee {
         font-size: 12px;
         text-align: right;
 
@@ -91,53 +84,40 @@
           color: #FF8A65;
           margin-top: 5px;
         }
+
+        p {
+          margin-bottom: 5px;
+
+          &:nth-child(2) {
+            opacity: 0.5;
+          }
+        }
       }
-    }
-
-    .memo, .request {
-      h4 {
-        font-size: 10px;
-        margin-bottom: 10px;
-      }
-
-      p {
-        word-wrap: break-word;
-        max-width: 450px;
-      }
-    }
-
-    .memo {
-      margin-bottom: 40px;
-
-      p {
-        font-size: 20px;
-      }
-    }
-
-    .request p {
-      font-size: 10px;
-      max-width: 450px;
-      line-height: 1.5;
     }
   }
 }
 
-.actions {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
+.bottom {
+  background: #31343f;
+  padding: 40px;
 
-  div {
-    text-align: center;
-    margin: 35px 10px;
-    width: 235px;
-    padding: 20px 10px;
-    background: #31343f;
-    cursor: pointer;
-    transition: 0.25s all;
+  .txHash, .blockHash {
+    margin: 40px 0;
+    
+    h4 {
+      font-size: 10px;
+      margin-bottom: 10px;
+    }
 
-    &:hover {
-      background: darken(#31343f, 5%);
+    p {
+      font-size: 14px;
+      text-decoration: underline;
+      cursor: pointer;
+      transition: all 0.25s;
+
+      &:hover {
+        opacity: 0.5;
+      }
     }
   }
 }

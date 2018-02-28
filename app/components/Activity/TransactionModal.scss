@@ -1,0 +1,127 @@
+@import '../../variables.scss';
+
+.container {
+  color: $white;
+}
+
+.content {
+  background: $spaceblue;
+  width: 85%;
+  margin: 50px auto;
+  padding-top: 30px;
+
+  .top {
+    padding: 10px 60px;
+
+    .details {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin-bottom: 40px;
+
+      .amount {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+
+        .symbol {
+          color: $red;
+
+          &.active {
+            color: $green;
+          }
+        }
+
+        h1 {
+          font-size: 40px;
+          margin-right: 10px;
+        }
+
+        .currentCurrency {
+          cursor: pointer;
+          transition: 0.25s all;
+
+          &:hover {
+            opacity: 0.5;
+          }
+
+          span {
+            font-size: 14px;
+            
+            &:nth-child(1) {
+              font-weight: bold;
+            }
+          }
+
+        }
+
+        ul {
+          visibility: hidden;
+          position: absolute;
+          top: 40px;
+          right: -50px;
+
+          &.active {
+            visibility: visible;
+          }
+
+          li {
+            padding: 8px 15px;
+            background: #191919;
+            cursor: pointer;
+            transition: 0.25s hover;
+            border-bottom: 1px solid #0f0f0f;
+
+            &:hover {
+              background: #0f0f0f;
+            }
+          }
+        }
+      }
+
+      .date {
+        font-size: 12px;
+        text-align: right;
+
+        .notPaid {
+          color: #FF8A65;
+          margin-top: 5px;
+        }
+
+        p {
+          margin-bottom: 5px;
+
+          &:nth-child(2) {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+  }
+}
+
+.bottom {
+  background: #31343f;
+  padding: 40px;
+
+  .txHash, .blockHash {
+    margin: 40px 0;
+    
+    h4 {
+      font-size: 10px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      font-size: 14px;
+      text-decoration: underline;
+      cursor: pointer;
+      transition: all 0.25s;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+}
