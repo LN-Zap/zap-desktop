@@ -4,15 +4,18 @@ import { shallow } from 'enzyme'
 import Request from '../../../app/components/Form/Request'
 
 const defaultProps = {
-  requestform: {
-    amount: '',
-    showErrors: {}
-  },
-  currency: '',
-  crypto: '',
+  requestform: {},
+  ticker: {},
+
+  currentCurrencyFilters: [],
+  showCurrencyFilters: true,
+  currencyName: '',
+  requestUsdAmount: '',
 
   setRequestAmount: () => {},
   setRequestMemo: () => {},
+  setCurrency: () => {},
+  setRequestCurrencyFilters: () => {},
 
   onRequestSubmit: () => {}
 }

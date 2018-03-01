@@ -63,7 +63,7 @@ class Pay extends Component {
 
       if (node && node.alias.length) { return node.alias }
 
-      return pubkey.substring(0, 10)
+      return pubkey ? pubkey.substring(0, 10) : ''
     }
 
     const onCurrencyFilterClick = (currency) => {
@@ -86,7 +86,7 @@ class Pay extends Component {
         <div className={styles.content}>
           <section className={styles.destination}>
             <div className={styles.top}>
-              <label htmlFor='destination'>Destination</label>
+              <label htmlFor='paymentRequest'>Destination</label>
               <span className={`${styles.description} ${(isOnchain || isLn) && styles.active}`}>
                 {isOnchain &&
                   <i>
@@ -110,7 +110,7 @@ class Pay extends Component {
                 value={payInput}
                 onChange={event => setPayInput(event.target.value)}
                 onBlur={onPayInputBlur}
-                id='destination'
+                id='paymentRequest'
                 rows='2'
               />
               <section className={`${styles.errorMessage} ${showErrors.payInput && styles.active}`}>
@@ -180,6 +180,7 @@ Pay.propTypes = {
       PropTypes.number
     ]),
     payInput: PropTypes.string.isRequired,
+    invoice: PropTypes.object.isRequired,
     showErrors: PropTypes.object.isRequired
   }).isRequired,
   currencyName: PropTypes.string.isRequired,

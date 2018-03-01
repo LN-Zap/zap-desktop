@@ -7,40 +7,52 @@ import Request from '../../app/components/Form/Request'
 
 const payFormProps = {
   payform: {
-    amount: '',
+    amount: 0,
     payInput: '',
+    invoice: {},
     showErrors: {}
   },
-  currency: 'BTC',
-  crypto: 'BTC',
+  currency: {},
+  crypto: {},
+  nodes: [],
+  ticker: {},
 
   isOnchain: false,
-  isLn: false,
-  currentAmount: '0',
+  isLn: true,
+  currentAmount: 0,
+  usdAmount: 0,
   inputCaption: '',
-  showPayLoadingScreen: false,
+  showPayLoadingScreen: true,
   payFormIsValid: {},
+  currentCurrencyFilters: [],
+  currencyName: '',
 
   setPayAmount: () => {},
-  onPayAmountBlur: () => {},
   setPayInput: () => {},
-  onPayInputBlur: () => {},
+  setCurrencyFilters: () => {},
   fetchInvoice: () => {},
+  setCurrency: () => {},
 
+  onPayAmountBlur: () => {},
+
+  onPayInputBlur: () => {},
 
   onPaySubmit: () => {}
 }
 
 const requestFormProps = {
-  requestform: {
-    amount: '',
-    memo: ''
-  },
-  currency: '',
-  crypto: '',
+  requestform: {},
+  ticker: {},
+
+  currentCurrencyFilters: [],
+  showCurrencyFilters: true,
+  currencyName: '',
+  requestUsdAmount: '',
 
   setRequestAmount: () => {},
   setRequestMemo: () => {},
+  setCurrency: () => {},
+  setRequestCurrencyFilters: () => {},
 
   onRequestSubmit: () => {}
 }
