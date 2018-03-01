@@ -33,7 +33,7 @@ const InvoiceModal = ({
     showNotification('Noice', 'Successfully copied to clipboard')
   }
 
-  const countDownDate = (parseInt(invoice.creation_date) + parseInt(invoice.expiry))
+  const countDownDate = (parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10))
 
   return (
     <div className={styles.container}>

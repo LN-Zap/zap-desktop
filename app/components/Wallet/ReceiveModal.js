@@ -32,17 +32,16 @@ class ReceiveModal extends React.Component {
         this.setState({ qrCodeType: 1 })
       }
     }
-    
+
     const {
       isOpen,
       pubkey,
       address,
-      newAddress,
       closeReceiveModal
     } = this.props
 
     const { qrCodeType } = this.state
-    
+
     if (!isOpen) { return null }
 
     return (
@@ -106,7 +105,7 @@ ReceiveModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
-  newAddress: PropTypes.func.isRequired
+  closeReceiveModal: PropTypes.func.isRequired
 }
 
 export default ReceiveModal

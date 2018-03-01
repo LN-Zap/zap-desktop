@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { FaAngleDown } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
@@ -14,18 +14,15 @@ import styles from './Wallet.scss'
 
 const Wallet = ({
   balance,
-  address,
   info,
-  newAddress,
   openReceiveModal,
   ticker,
   currentTicker,
   openPayForm,
-  openRequestForm,
-  showPayLoadingScreen 
+  openRequestForm
 }) => {
   const usdAmount = btc.satoshisToUsd((parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10)), currentTicker.price_usd)
-  
+
   return (
     <div className={styles.wallet}>
       <div className={styles.content}>
@@ -80,13 +77,12 @@ const Wallet = ({
 
 Wallet.propTypes = {
   balance: PropTypes.object.isRequired,
-  address: PropTypes.string.isRequired,
   info: PropTypes.object.isRequired,
-  newAddress: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   openPayForm: PropTypes.func.isRequired,
-  openRequestForm: PropTypes.func.isRequired
+  openRequestForm: PropTypes.func.isRequired,
+  openReceiveModal: PropTypes.func.isRequired
 }
 
 export default Wallet

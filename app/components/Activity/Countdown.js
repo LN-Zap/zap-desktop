@@ -6,7 +6,7 @@ import styles from './Countdown.scss'
 class Countdown extends React.Component {
   constructor(props) {
     super(props)
-    console.log('countDownDate: ', props.countDownDate)
+
     this.state = {
       days: null,
       hours: null,
@@ -31,7 +31,7 @@ class Countdown extends React.Component {
   }
 
   timerInterval() {
-    const convertTwoDigits = n => n > 9 ? n : ('0' + n).slice(-2)
+    const convertTwoDigits = n => (n > 9 ? n : `0${n}`.slice(-2))
 
     const now = new Date().getTime()
     const distance = (this.props.countDownDate * 1000) - now
@@ -47,17 +47,28 @@ class Countdown extends React.Component {
     const minutes = convertTwoDigits(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)))
     const seconds = convertTwoDigits(Math.floor((distance % (1000 * 60)) / 1000))
 
-    this.setState({ days, hours, minutes, seconds })
+    this.setState({
+      days,
+      hours,
+      minutes,
+      seconds
+    })
   }
 
   render() {
-    const { days, hours, minutes, seconds, expired } = this.state
+    const {
+      days,
+      hours,
+      minutes,
+      seconds,
+      expired
+    } = this.state
 
     if (expired) { return <span className={`${styles.container} ${styles.expired}`}>Expired</span> }
     if (!days && !hours && !minutes && !seconds) { return <span className={styles.container} /> }
 
     return (
-      <span className={styles.container}> 
+      <span className={styles.container}>
         <i className={styles.caption}>Expires in</i>
         <i>
           {days > 0 && `${days}:`}

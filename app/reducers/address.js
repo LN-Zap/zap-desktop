@@ -51,7 +51,7 @@ export const receiveAddress = (event, address) => dispatch => dispatch({ type: R
 const ACTION_HANDLERS = {
   [GET_ADDRESS]: state => ({ ...state, addressLoading: true }),
   [RECEIVE_ADDRESS]: (state, { address }) => ({ ...state, addressLoading: false, address }),
-  
+
   [OPEN_WALLET_MODAL]: state => ({ ...state, walletModal: true }),
   [CLOSE_WALLET_MODAL]: state => ({ ...state, walletModal: false })
 }

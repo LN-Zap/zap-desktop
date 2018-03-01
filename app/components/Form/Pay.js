@@ -8,7 +8,6 @@ import link from 'icons/link.svg'
 import { FaAngleDown } from 'react-icons/lib/fa'
 
 import { btc } from 'utils'
-import LoadingBolt from 'components/LoadingBolt'
 
 import styles from './Pay.scss'
 
@@ -42,7 +41,6 @@ class Pay extends Component {
       isLn,
       currentAmount,
       usdAmount,
-      showPayLoadingScreen,
       payFormIsValid: { errors, isValid },
       currentCurrencyFilters,
       currencyName,
@@ -196,7 +194,6 @@ Pay.propTypes = {
     PropTypes.string,
     PropTypes.number
   ]),
-  showPayLoadingScreen: PropTypes.bool.isRequired,
   payFormIsValid: PropTypes.shape({
     errors: PropTypes.object,
     isValid: PropTypes.bool

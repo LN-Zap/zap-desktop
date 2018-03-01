@@ -67,7 +67,7 @@ const mapStateToProps = state => ({
   currentActivity: activitySelectors.currentActivity(state)(state),
   nonActiveFilters: activitySelectors.nonActiveFilters(state),
 
-  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
+  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {

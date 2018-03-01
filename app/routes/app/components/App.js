@@ -108,6 +108,7 @@ App.propTypes = {
   contactsFormProps: PropTypes.object,
   networkTabProps: PropTypes.object,
   activityModalProps: PropTypes.object,
+  receiveModalProps: PropTypes.object,
 
   newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
