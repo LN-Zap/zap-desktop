@@ -3,7 +3,6 @@ import { ipcRenderer } from 'electron'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { resetPayForm } from './payform'
-import { showModal } from './modal'
 import { setError } from './error'
 
 // ------------------------------------
@@ -96,7 +95,7 @@ export const paymentFailed = (event, { error }) => (dispatch) => {
   dispatch(setError(error))
 }
 
-export const payInvoice = paymentRequest => (dispatch, getState) => {
+export const payInvoice = paymentRequest => (dispatch) => {
   dispatch(sendPayment())
   ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
 
@@ -120,12 +119,12 @@ export const payInvoice = paymentRequest => (dispatch, getState) => {
 const ACTION_HANDLERS = {
   [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
-  
+
   [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
   [SEND_PAYMENT]: state => ({ ...state, sendingPayment: true }),
   [PAYMENT_SUCCESSFULL]: state => ({ ...state, sendingPayment: false }),
   [PAYMENT_FAILED]: state => ({ ...state, sendingPayment: false }),
-  
+
   [SHOW_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: true }),
   [HIDE_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: false })
 }

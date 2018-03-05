@@ -9,7 +9,6 @@ import { FaAngleDown } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
 import zap from 'icons/zap.svg'
-import { blockExplorer } from 'utils'
 
 import Value from 'components/Value'
 
@@ -62,7 +61,7 @@ const PaymentModal = ({
       </section>
 
     </div>
-    
+
     <div className={styles.date}>
       <Moment format='LLL'>{payment.creation_date * 1000}</Moment>
     </div>

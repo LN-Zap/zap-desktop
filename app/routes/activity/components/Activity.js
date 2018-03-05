@@ -42,9 +42,7 @@ class Activity extends Component {
 
   render() {
     const {
-      invoice: { invoiceLoading },
       balance,
-      payment: { paymentLoading },
       activity: {
         filters,
         filter,
@@ -56,8 +54,6 @@ class Activity extends Component {
       walletProps
     } = this.props
 
-    // if (invoiceLoading || paymentLoading) { return <LoadingBolt /> }
-    // if (balance.balanceLoading) { return <LoadingBolt /> }
     if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
     return (
@@ -102,8 +98,6 @@ Activity.propTypes = {
   fetchBalance: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
-  invoice: PropTypes.object.isRequired,
-  payment: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
 
   showActivityModal: PropTypes.func.isRequired,

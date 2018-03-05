@@ -69,7 +69,7 @@ const TransactionModal = ({
       </section>
 
     </div>
-    
+
     <div className={styles.date}>
       <Moment format='LLL'>{transaction.time_stamp * 1000}</Moment>
     </div>

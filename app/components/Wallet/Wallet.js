@@ -97,7 +97,9 @@ Wallet.propTypes = {
   currentTicker: PropTypes.object.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
-  openReceiveModal: PropTypes.func.isRequired
+  openReceiveModal: PropTypes.func.isRequired,
+  showPayLoadingScreen: PropTypes.bool.isRequired,
+  showSuccessPayScreen: PropTypes.bool.isRequired
 }
 
 export default Wallet
