@@ -5,6 +5,7 @@ import Isvg from 'react-inlinesvg'
 
 import { btc } from 'utils'
 import Value from 'components/Value'
+import AnimatedCheckmark from 'components/AnimatedCheckmark'
 
 import bitcoinIcon from 'icons/bitcoin.svg'
 import zapLogo from 'icons/zap_logo.svg'
@@ -19,7 +20,9 @@ const Wallet = ({
   ticker,
   currentTicker,
   openPayForm,
-  openRequestForm
+  openRequestForm,
+  showPayLoadingScreen,
+  showSuccessPayScreen
 }) => {
   const usdAmount = btc.satoshisToUsd((parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10)), currentTicker.price_usd)
 
@@ -66,8 +69,20 @@ const Wallet = ({
             <div className={styles.request} onClick={openRequestForm}>Request</div>
           </div>
           <div className={styles.notificationBox}>
-            <section className={styles.spinner} />
-            <section>Gang gang gang baby</section>
+            {
+              showPayLoadingScreen &&
+                <span>
+                  <section className={`${styles.spinner} ${styles.icon}`} />
+                  <section>Sending your lightning payment...</section>
+                </span>
+            }
+            {
+              showSuccessPayScreen &&
+                <span>
+                  <section className={styles.icon}><AnimatedCheckmark /></section>
+                  <section>Successfully sent payment</section>
+                </span>
+            }
           </div>
         </div>
       </div>

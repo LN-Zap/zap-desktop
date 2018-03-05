@@ -56,8 +56,8 @@ class Activity extends Component {
       walletProps
     } = this.props
 
-    if (invoiceLoading || paymentLoading) { return <LoadingBolt /> }
-    if (balance.balanceLoading) { return <LoadingBolt /> }
+    // if (invoiceLoading || paymentLoading) { return <LoadingBolt /> }
+    // if (balance.balanceLoading) { return <LoadingBolt /> }
     if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
     return (

@@ -78,6 +78,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ticker: stateProps.ticker,
     currentTicker: stateProps.currentTicker,
     showPayLoadingScreen: stateProps.showPayLoadingScreen,
+    showSuccessPayScreen: stateProps.payment.showSuccessPayScreen,
 
     setCurrency: dispatchProps.setCurrency,
     newAddress: dispatchProps.newAddress,

@@ -1,8 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Moment from 'react-moment'
+import 'moment-timezone'
+
 import { FaAngleDown } from 'react-icons/lib/fa'
 
+import Isvg from 'react-inlinesvg'
+import paperPlane from 'icons/paper_plane.svg'
+import link from 'icons/link.svg'
 import { blockExplorer } from 'utils'
 
 import Value from 'components/Value'
@@ -23,52 +29,54 @@ const TransactionModal = ({
   }
 }) => (
   <div className={styles.container}>
-    <div className={styles.content}>
-      <section className={styles.top}>
-        <div className={styles.details}>
-          <section className={styles.amount}>
-            <h1>
-              <i className={`${styles.symbol} ${transaction.amount > 0 && styles.active}`}>
-                {
-                  transaction.amount > 0 ?
-                    '+'
-                    :
-                    '-'
-                }
-              </i>
-              <Value value={transaction.amount} currency={ticker.currency} currentTicker={currentTicker} />
-            </h1>
-            <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
-              <span>{currencyName}</span><span><FaAngleDown /></span>
-            </section>
-            <ul className={showCurrencyFilters && styles.active}>
-              {
-                currentCurrencyFilters.map(filter =>
-                  <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-              }
-            </ul>
-          </section>
-          <section className={styles.date}>
-            <p>{transaction.num_confirmations} {transaction.num_confirmations > 1 ? 'confirmations' : 'confirmation'}</p>
-            <p>
-              <Value value={transaction.total_fees} currency={ticker.currency} currentTicker={currentTicker} />
-              <span> {currencyName} fee</span>
-            </p>
-          </section>
+    <header className={styles.header}>
+      <section>
+        <Isvg src={paperPlane} />
+        <span>Sent</span>
+      </section>
+      <section className={styles.details}>
+        <div>
+          <Isvg src={link} />
+          <span className={styles.link} onClick={() => blockExplorer.showTransaction(transaction.tx_hash)}>On-Chain</span>
+        </div>
+        <div>
+          <Value value={transaction.total_fees} currency={ticker.currency} currentTicker={currentTicker} />
+          <span> {currencyName} fee</span>
         </div>
       </section>
-      <section className={styles.bottom}>
-        <div className={styles.txHash}>
-          <h4>Transaction</h4>
-          <p onClick={() => blockExplorer.showTransaction(transaction.tx_hash)}>{transaction.tx_hash}</p>
-        </div>
+    </header>
 
-        <div className={styles.blockHash}>
-          <h4>Block</h4>
-          <p onClick={() => blockExplorer.showBlock(transaction.block_hash)}>{transaction.block_hash}</p>
-        </div>
+    <div className={styles.amount}>
+      <h1>
+        <i className={`${styles.symbol} ${transaction.amount > 0 && styles.active}`}>
+          {
+            transaction.amount > 0 ?
+              '+'
+              :
+              '-'
+          }
+        </i>
+        <Value value={transaction.amount} currency={ticker.currency} currentTicker={currentTicker} />
+      </h1>
+      <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
+        <span>{currencyName}</span><span><FaAngleDown /></span>
+        <ul className={showCurrencyFilters && styles.active}>
+          {
+            currentCurrencyFilters.map(filter =>
+              <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
+          }
+        </ul>
       </section>
+
     </div>
+    
+    <div className={styles.date}>
+      <Moment format='LLL'>{transaction.time_stamp * 1000}</Moment>
+    </div>
+
+    <footer className={styles.footer}>
+      <p onClick={() => blockExplorer.showTransaction(transaction.tx_hash)}>{transaction.tx_hash}</p>
+    </footer>
   </div>
 )
 

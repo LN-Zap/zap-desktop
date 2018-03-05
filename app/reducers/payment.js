@@ -19,6 +19,9 @@ export const SEND_PAYMENT = 'SEND_PAYMENT'
 export const PAYMENT_SUCCESSFULL = 'PAYMENT_SUCCESSFULL'
 export const PAYMENT_FAILED = 'PAYMENT_FAILED'
 
+export const SHOW_SUCCESS_SCREEN = 'SHOW_SUCCESS_SCREEN'
+export const HIDE_SUCCESS_SCREEN = 'HIDE_SUCCESS_SCREEN'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -48,6 +51,18 @@ export function paymentSuccessfull(payment) {
   }
 }
 
+export function showSuccessScreen() {
+  return {
+    type: SHOW_SUCCESS_SCREEN
+  }
+}
+
+export function hideSuccessScreen() {
+  return {
+    type: HIDE_SUCCESS_SCREEN
+  }
+}
+
 // Send IPC event for payments
 export const fetchPayments = () => (dispatch) => {
   dispatch(getPayments())
@@ -62,11 +77,10 @@ export const receivePayments = (event, { payments }) => dispatch => dispatch({ t
 export const paymentSuccessful = () => (dispatch) => {
   // Dispatch successful payment to stop loading screen
   dispatch(paymentSuccessfull())
-  // Close the form modal once the payment was succesful
-  dispatch(setFormType(null))
 
-  // Show successful payment state
-  dispatch(showModal('SUCCESSFUL_SEND_PAYMENT'))
+  // Show successful payment state for 5 seconds
+  dispatch(showSuccessScreen())
+  setTimeout(() => dispatch(hideSuccessScreen()), 5000)
   // Refetch payments (TODO: dont do a full refetch, rather append new tx to list)
   dispatch(fetchPayments())
 
@@ -86,14 +100,17 @@ export const payInvoice = paymentRequest => (dispatch, getState) => {
   dispatch(sendPayment())
   ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
 
-  // if LND hangs on sending the payment we'll cut it after 10 seconds and return an error
-  setTimeout(() => {
-    const { payment } = getState()
+  // Close the form modal once the payment has been sent
+  dispatch(setFormType(null))
 
-    if (payment.sendingPayment) {
-      dispatch(paymentFailed(null, { error: 'Shoot, we\'re having some trouble sending your payment.' }))
-    }
-  }, 10000)
+  // if LND hangs on sending the payment we'll cut it after 10 seconds and return an error
+  // setTimeout(() => {
+  //   const { payment } = getState()
+
+  //   if (payment.sendingPayment) {
+  //     dispatch(paymentFailed(null, { error: 'Shoot, we\'re having some trouble sending your payment.' }))
+  //   }
+  // }, 10000)
 }
 
 
@@ -101,12 +118,16 @@ export const payInvoice = paymentRequest => (dispatch, getState) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
   [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
-  [SEND_PAYMENT]: state => ({ ...state, sendingPayment: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
+  
+  [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
+  [SEND_PAYMENT]: state => ({ ...state, sendingPayment: true }),
   [PAYMENT_SUCCESSFULL]: state => ({ ...state, sendingPayment: false }),
-  [PAYMENT_FAILED]: state => ({ ...state, sendingPayment: false })
+  [PAYMENT_FAILED]: state => ({ ...state, sendingPayment: false }),
+  
+  [SHOW_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: true }),
+  [HIDE_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: false })
 }
 
 const paymentSelectors = {}
@@ -126,7 +147,8 @@ const initialState = {
   sendingPayment: false,
   paymentLoading: false,
   payments: [],
-  payment: null
+  payment: null,
+  showSuccessPayScreen: false
 }
 
 export default function paymentReducer(state = initialState, action) {

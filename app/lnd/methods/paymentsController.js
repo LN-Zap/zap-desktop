@@ -14,6 +14,7 @@ export function sendPaymentSync(lnd, meta, { paymentRequest }) {
 
       if (!data || !data.payment_route) { reject({ error: data.payment_error }) }
 
+      console.log('data: ', data)
       resolve(data)
     })
   })
