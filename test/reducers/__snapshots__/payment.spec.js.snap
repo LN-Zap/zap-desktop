@@ -6,6 +6,7 @@ Object {
   "paymentLoading": true,
   "payments": Array [],
   "sendingPayment": false,
+  "showSuccessPayScreen": false,
 }
 `;
 
@@ -15,6 +16,7 @@ Object {
   "paymentLoading": false,
   "payments": Array [],
   "sendingPayment": false,
+  "showSuccessPayScreen": false,
 }
 `;
 
@@ -27,6 +29,7 @@ Object {
     2,
   ],
   "sendingPayment": false,
+  "showSuccessPayScreen": false,
 }
 `;
 
@@ -36,6 +39,7 @@ Object {
   "paymentLoading": false,
   "payments": Array [],
   "sendingPayment": false,
+  "showSuccessPayScreen": false,
 }
 `;
 
@@ -45,5 +49,6 @@ Object {
   "paymentLoading": false,
   "payments": Array [],
   "sendingPayment": false,
+  "showSuccessPayScreen": false,
 }
 `;
