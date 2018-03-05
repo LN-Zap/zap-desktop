@@ -10,7 +10,7 @@
  *
  *
  */
-import { app, BrowserWindow, ipcMain } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import { spawn } from 'child_process'
@@ -159,7 +159,13 @@ const startLnd = (alias, autopilot) => {
   ]
 
   const neutrino = spawn(lndConfig.lndPath, neutrinoArgs)
-    .on('error', error => console.log(`lnd error: ${error}`))
+    .on('error', (error) => {
+      console.log(`lnd error: ${error}`)
+      dialog.showMessageBox({
+        type: 'error',
+        message: `lnd error: ${error}`
+      })
+    })
     .on('close', code => console.log(`lnd shutting down ${code}`))
 
   // Listen for when neutrino prints out data
