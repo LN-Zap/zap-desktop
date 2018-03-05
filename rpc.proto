@@ -1,25 +1,26 @@
+// Imported from https://github.com/lightningnetwork/lnd/blob/master/lnrpc/rpc.proto
 syntax = "proto3";
 
-// import "google/api/annotations.proto";
+import "google/api/annotations.proto";
 
 package lnrpc;
 /**
  * Comments in this file will be directly parsed into the API
  * Documentation as descriptions of the associated method, message, or field.
  * These descriptions should go right above the definition of the object, and
- * can be in either block or /// comment format. 
- * 
+ * can be in either block or /// comment format.
+ *
  * One edge case exists where a // comment followed by a /// comment in the
  * next line will cause the description not to show up in the documentation. In
  * that instance, simply separate the two comments with a blank line.
- * 
+ *
  * An RPC method can be matched to an lncli command by placing a line in the
  * beginning of the description in exactly the following format:
  * lncli: `methodname`
- * 
+ *
  * Failure to specify the exact name of the command will cause documentation
  * generation to fail.
- * 
+ *
  * More information on how exactly the gRPC documentation is generated from
  * this proto file can be found here:
  * https://github.com/MaxFangX/lightning-api
@@ -469,7 +470,7 @@ message Transaction {
     /// The height of the block this transaction was included in
     int32 block_height = 5 [ json_name = "block_height" ];
 
-    /// Timestamp of this transaction 
+    /// Timestamp of this transaction
     int64 time_stamp = 6 [ json_name = "time_stamp" ];
 
     /// Fees paid for this transaction
@@ -492,7 +493,7 @@ message SendRequest {
     /// The hex-encoded identity pubkey of the payment recipient
     string dest_string = 2;
 
-    /// Number of satoshis to send. 
+    /// Number of satoshis to send.
     int64 amt = 3;
 
     /// The hash to use within the payment's HTLC
@@ -554,7 +555,7 @@ message SendManyResponse {
 }
 
 message SendCoinsRequest {
-    /// The address to send coins to 
+    /// The address to send coins to
     string addr = 1;
 
     /// The amount in satoshis to send
@@ -571,7 +572,7 @@ message SendCoinsResponse {
     string txid = 1 [json_name = "txid"];
 }
 
-/** 
+/**
 `AddressType` has to be one of:
 
 - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
@@ -863,7 +864,7 @@ message OpenChannelRequest {
     /// The pubkey of the node to open a channel with
     bytes node_pubkey = 2 [json_name = "node_pubkey"];
 
-    /// The hex encorded pubkey of the node to open a channel with 
+    /// The hex encorded pubkey of the node to open a channel with
     string node_pubkey_string = 3 [json_name = "node_pubkey_string"];
 
     /// The number of satoshis the wallet should commit to the channel
@@ -1089,7 +1090,7 @@ message Route {
 }
 
 message NodeInfoRequest {
-    /// The 33-byte hex-encoded compressed public of the target node 
+    /// The 33-byte hex-encoded compressed public of the target node
     string pub_key = 1;
 }
 
