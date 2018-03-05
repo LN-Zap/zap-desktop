@@ -126,6 +126,7 @@
   p {
     text-decoration: underline;
     cursor: pointer;
+    transition: all 0.25s;
 
     &:hover  {
       opacity: 0.5;

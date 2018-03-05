@@ -1,7 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import Moment from 'react-moment'
+import 'moment-timezone'
+
 import { FaAngleDown } from 'react-icons/lib/fa'
+
+import Isvg from 'react-inlinesvg'
+import paperPlane from 'icons/paper_plane.svg'
+import zap from 'icons/zap.svg'
+import { blockExplorer } from 'utils'
 
 import Value from 'components/Value'
 
@@ -21,45 +29,47 @@ const PaymentModal = ({
   }
 }) => (
   <div className={styles.container}>
-    <div className={styles.content}>
-      <section className={styles.top}>
-        <div className={styles.details}>
-          <section className={styles.amount}>
-            <h1>
-              <i className={styles.symbol}>-</i>
-              <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
-            </h1>
-            <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
-              <span>{currencyName}</span><span><FaAngleDown /></span>
-            </section>
-            <ul className={showCurrencyFilters && styles.active}>
-              {
-                currentCurrencyFilters.map(filter =>
-                  <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-              }
-            </ul>
-          </section>
-          <section className={styles.fee}>
-            <p>Sent</p>
-            <p>
-              <Value value={payment.fee} currency={ticker.currency} currentTicker={currentTicker} />
-              <span> {currencyName} fee</span>
-            </p>
-          </section>
+    <header className={styles.header}>
+      <section>
+        <Isvg src={paperPlane} />
+        <span>Sent</span>
+      </section>
+      <section className={styles.details}>
+        <div>
+          <Isvg src={zap} />
+          <span className={styles.zap}>Lightning Network</span>
+        </div>
+        <div>
+          <Value value={payment.fee} currency={ticker.currency} currentTicker={currentTicker} />
+          <span> {currencyName} fee</span>
         </div>
       </section>
-      <section className={styles.bottom}>
-        <div className={styles.txHash}>
-          <h4>Memo</h4>
-          <p>{payment.memo}</p>
-        </div>
+    </header>
 
-        <div className={styles.blockHash}>
-          <h4>Proof</h4>
-          <p>{payment.payment_preimage}</p>
-        </div>
+    <div className={styles.amount}>
+      <h1>
+        <i className={`${styles.symbol} ${payment.value > 0 && styles.active}`}>-</i>
+        <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
+      </h1>
+      <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
+        <span>{currencyName}</span><span><FaAngleDown /></span>
+        <ul className={showCurrencyFilters && styles.active}>
+          {
+            currentCurrencyFilters.map(filter =>
+              <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
+          }
+        </ul>
       </section>
+
     </div>
+    
+    <div className={styles.date}>
+      <Moment format='LLL'>{payment.creation_date * 1000}</Moment>
+    </div>
+
+    <footer className={styles.footer}>
+      <p>{payment.payment_preimage}</p>
+    </footer>
   </div>
 )
 
