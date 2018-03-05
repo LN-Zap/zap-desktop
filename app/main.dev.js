@@ -166,7 +166,10 @@ const startLnd = (alias, autopilot) => {
         message: `lnd error: ${error}`
       })
     })
-    .on('close', code => console.log(`lnd shutting down ${code}`))
+    .on('close', (code) => {
+      console.log(`lnd shutting down ${code}`)
+      app.quit()
+    })
 
   // Listen for when neutrino prints out data
   neutrino.stdout.on('data', (data) => {
