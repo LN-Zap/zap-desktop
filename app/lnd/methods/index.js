@@ -47,11 +47,8 @@ export default function (lnd, meta, event, msg, data) {
           networkController.queryRoutes(lnd, meta, {
             pubkey: invoiceData.destination,
             amount: invoiceData.num_satoshis
-          })
-        )
-        .then(routes =>
-          event.sender.send('receiveInvoiceAndQueryRoutes', routes)
-        )
+          }))
+        .then(routes => event.sender.send('receiveInvoiceAndQueryRoutes', routes))
         .catch(error => console.log('getInvoiceAndQueryRoutes invoice error: ', error))
       break
     case 'newaddress':

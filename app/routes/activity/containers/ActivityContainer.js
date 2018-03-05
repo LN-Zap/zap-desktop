@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { tickerSelectors } from 'reducers/ticker'
+import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
 import {
   fetchInvoices,
@@ -20,12 +20,15 @@ import {
   activitySelectors,
   updateSearchText
 } from 'reducers/activity'
-import { newAddress } from 'reducers/address'
+import { newAddress, openWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
+
+import { payFormSelectors } from 'reducers/payform'
 
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
+  setCurrency,
   setPayment,
   setInvoice,
   fetchPayments,
@@ -36,6 +39,7 @@ const mapDispatchToProps = {
   changeFilter,
   toggleFilterPulldown,
   newAddress,
+  openWalletModal,
   fetchBalance,
   updateSearchText,
   setFormType
@@ -61,18 +65,35 @@ const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
 
   currentActivity: activitySelectors.currentActivity(state)(state),
-  nonActiveFilters: activitySelectors.nonActiveFilters(state)
+  nonActiveFilters: activitySelectors.nonActiveFilters(state),
+
+  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state)
 })
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => ({
-  ...stateProps,
-  ...dispatchProps,
-  ...ownProps,
+const mergeProps = (stateProps, dispatchProps, ownProps) => {
+  const walletProps = {
+    balance: stateProps.balance,
+    address: stateProps.address.address,
+    info: stateProps.info,
+    ticker: stateProps.ticker,
+    currentTicker: stateProps.currentTicker,
+    showPayLoadingScreen: stateProps.showPayLoadingScreen,
+    showSuccessPayScreen: stateProps.payment.showSuccessPayScreen,
 
-  // action to open the pay form
-  openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
-  // action to open the request form
-  openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
-})
+    setCurrency: dispatchProps.setCurrency,
+    newAddress: dispatchProps.newAddress,
+    openReceiveModal: dispatchProps.openWalletModal,
+    openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
+    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
+  }
+
+  return {
+    ...stateProps,
+    ...dispatchProps,
+    ...ownProps,
+
+    walletProps
+  }
+}
 
 export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Activity)

@@ -9,14 +9,18 @@ import { btc, bech32 } from '../utils'
 
 // Initial State
 const initialState = {
-  amount: '0',
+  amount: '',
   payInput: '',
 
   invoice: {
     payreq: '',
     r_hash: '',
-    amount: '0'
+    amount: '0',
+    description: '',
+    destination: ''
   },
+
+  showCurrencyFilters: false,
 
   showErrors: {
     amount: false,
@@ -29,6 +33,8 @@ const initialState = {
 export const SET_PAY_AMOUNT = 'SET_PAY_AMOUNT'
 export const SET_PAY_INPUT = 'SET_PAY_INPUT'
 export const SET_PAY_INVOICE = 'SET_PAY_INVOICE'
+
+export const SET_PAY_CURRENCY_FILTERS = 'SET_PAY_CURRENCY_FILTERS'
 
 export const UPDATE_PAY_ERRORS = 'UPDATE_PAY_ERRORS'
 
@@ -55,6 +61,13 @@ export function setPayInvoice(invoice) {
   return {
     type: SET_PAY_INVOICE,
     invoice
+  }
+}
+
+export function setCurrencyFilters(showCurrencyFilters) {
+  return {
+    type: SET_PAY_CURRENCY_FILTERS,
+    showCurrencyFilters
   }
 }
 
@@ -85,6 +98,7 @@ const ACTION_HANDLERS = {
   [SET_PAY_AMOUNT]: (state, { amount }) => ({ ...state, amount, showErrors: Object.assign(state.showErrors, { amount: false }) }),
   [SET_PAY_INPUT]: (state, { payInput }) => ({ ...state, payInput, showErrors: Object.assign(state.showErrors, { payInput: false }) }),
   [SET_PAY_INVOICE]: (state, { invoice }) => ({ ...state, invoice, showErrors: Object.assign(state.showErrors, { amount: false }) }),
+  [SET_PAY_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({ ...state, showCurrencyFilters }),
 
   [UPDATE_PAY_ERRORS]: (state, { errorsObject }) => ({ ...state, showErrors: Object.assign(state.showErrors, errorsObject) }),
 
@@ -139,13 +153,54 @@ payFormSelectors.currentAmount = createSelector(
   payAmountSelector,
   payInvoiceSelector,
   currencySelector,
-  tickerSelectors.currentTicker,
-  (isLn, amount, invoice, currency, ticker) => {
+  (isLn, amount, invoice, currency) => {
     if (isLn) {
-      return currency === 'usd' ? btc.satoshisToUsd((invoice.num_satoshis || 0), ticker.price_usd) : btc.satoshisToBtc((invoice.num_satoshis || 0))
+      switch (currency) {
+        case 'btc':
+          return btc.satoshisToBtc((invoice.num_satoshis || 0))
+        case 'bits':
+          return btc.satoshisToBits((invoice.num_satoshis || 0))
+        case 'sats':
+          return invoice.num_satoshis
+        default:
+          return invoice.num_satoshis
+      }
     }
 
     return amount
+  }
+)
+
+payFormSelectors.usdAmount = createSelector(
+  payFormSelectors.isLn,
+  payAmountSelector,
+  payInvoiceSelector,
+  currencySelector,
+  tickerSelectors.currentTicker,
+  (isLn, amount, invoice, currency, ticker) => {
+    if (!ticker || !ticker.price_usd) { return false }
+
+    if (isLn) {
+      return btc.satoshisToUsd((invoice.num_satoshis || 0), ticker.price_usd)
+    }
+
+    return btc.convert(currency, 'usd', amount, ticker.price_usd)
+  }
+)
+
+payFormSelectors.payInputMin = createSelector(
+  currencySelector,
+  (currency) => {
+    switch (currency) {
+      case 'btc':
+        return '0.00000001'
+      case 'bits':
+        return '0.01'
+      case 'sats':
+        return '1'
+      default:
+        return '0'
+    }
   }
 )
 

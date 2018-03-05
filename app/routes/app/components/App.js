@@ -11,11 +11,21 @@ import Network from 'components/Contacts/Network'
 import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
 
+import ReceiveModal from 'components/Wallet/ReceiveModal'
+import ActivityModal from 'components/Activity/ActivityModal'
+
 import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchBalance, fetchDescribeNetwork } = this.props
+    const {
+      fetchTicker,
+      fetchInfo,
+      newAddress,
+      fetchChannels,
+      fetchBalance,
+      fetchDescribeNetwork
+    } = this.props
 
     // fetch price ticker
     fetchTicker()
@@ -48,6 +58,8 @@ class App extends Component {
       contactModalProps,
       contactsFormProps,
       networkTabProps,
+      receiveModalProps,
+      activityModalProps,
 
       children
     } = this.props
@@ -71,6 +83,9 @@ class App extends Component {
 
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
 
+        <ReceiveModal {...receiveModalProps} />
+        <ActivityModal {...activityModalProps} />
+
         <div className={styles.content}>
           {children}
         </div>
@@ -92,6 +107,8 @@ App.propTypes = {
   contactModalProps: PropTypes.object,
   contactsFormProps: PropTypes.object,
   networkTabProps: PropTypes.object,
+  activityModalProps: PropTypes.object,
+  receiveModalProps: PropTypes.object,
 
   newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,

@@ -5,6 +5,20 @@ Object {
   "btcTicker": null,
   "crypto": "",
   "currency": "",
+  "currencyFilters": Array [
+    Object {
+      "key": "btc",
+      "name": "BTC",
+    },
+    Object {
+      "key": "bits",
+      "name": "bits",
+    },
+    Object {
+      "key": "sats",
+      "name": "satoshis",
+    },
+  ],
   "ltcTicker": null,
   "tickerLoading": true,
 }
@@ -15,6 +29,20 @@ Object {
   "btcTicker": undefined,
   "crypto": "",
   "currency": "",
+  "currencyFilters": Array [
+    Object {
+      "key": "btc",
+      "name": "BTC",
+    },
+    Object {
+      "key": "bits",
+      "name": "bits",
+    },
+    Object {
+      "key": "sats",
+      "name": "satoshis",
+    },
+  ],
   "ltcTicker": undefined,
   "tickerLoading": false,
 }
@@ -25,6 +53,20 @@ Object {
   "btcTicker": null,
   "crypto": "foo",
   "currency": "",
+  "currencyFilters": Array [
+    Object {
+      "key": "btc",
+      "name": "BTC",
+    },
+    Object {
+      "key": "bits",
+      "name": "bits",
+    },
+    Object {
+      "key": "sats",
+      "name": "satoshis",
+    },
+  ],
   "ltcTicker": null,
   "tickerLoading": false,
 }
@@ -35,6 +77,20 @@ Object {
   "btcTicker": null,
   "crypto": "",
   "currency": "foo",
+  "currencyFilters": Array [
+    Object {
+      "key": "btc",
+      "name": "BTC",
+    },
+    Object {
+      "key": "bits",
+      "name": "bits",
+    },
+    Object {
+      "key": "sats",
+      "name": "satoshis",
+    },
+  ],
   "ltcTicker": null,
   "tickerLoading": false,
 }
@@ -45,6 +101,20 @@ Object {
   "btcTicker": null,
   "crypto": "",
   "currency": "",
+  "currencyFilters": Array [
+    Object {
+      "key": "btc",
+      "name": "BTC",
+    },
+    Object {
+      "key": "bits",
+      "name": "bits",
+    },
+    Object {
+      "key": "sats",
+      "name": "satoshis",
+    },
+  ],
   "ltcTicker": null,
   "tickerLoading": false,
 }

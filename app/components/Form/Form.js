@@ -1,16 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { MdClose } from 'react-icons/lib/md'
+import Isvg from 'react-inlinesvg'
+import x from 'icons/x.svg'
 
-import PayForm from './PayForm'
-import RequestForm from './RequestForm'
+import Pay from './Pay'
+import Request from './Request'
 
 import styles from './Form.scss'
 
 const FORM_TYPES = {
-  PAY_FORM: PayForm,
-  REQUEST_FORM: RequestForm
+  PAY_FORM: Pay,
+  REQUEST_FORM: Request
 }
 
 const Form = ({ formType, formProps, closeForm }) => {
@@ -18,16 +19,13 @@ const Form = ({ formType, formProps, closeForm }) => {
 
   const FormComponent = FORM_TYPES[formType]
   return (
-    <div className={`${styles.outtercontainer} ${formType && styles.open}`}>
-      <div className={styles.innercontainer}>
-        <div className={styles.esc} onClick={closeForm}>
-          <MdClose />
-        </div>
-
-        <div className={styles.content}>
-          <FormComponent {...formProps} />
-        </div>
+    <div className={`${styles.container} ${formType && styles.open}`}>
+      <div className={styles.closeContainer}>
+        <span onClick={closeForm}>
+          <Isvg src={x} />
+        </span>
       </div>
+      <FormComponent {...formProps} />
     </div>
   )
 }

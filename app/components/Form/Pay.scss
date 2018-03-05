@@ -1,0 +1,182 @@
+@import '../../variables.scss';
+
+.container {
+  padding: 0 40px;
+  font-family: Roboto;
+}
+
+.header {
+  text-align: center;
+  padding-bottom: 20px;
+  color: $white;
+  border-bottom: 1px solid $spaceborder;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 100;
+    margin-top: 10px;
+    letter-spacing: 1.5px;
+  }
+}
+
+.content {
+  margin-top: 50px;
+  color: $white;
+
+  .destination {
+    margin-bottom: 25px;
+
+    .description {
+      font-size: 12px;
+      line-height: 14px;
+      padding: 10px 15px;
+      min-height: 14px;
+
+      &.active {
+        background: #23252f;
+        border-radius: 10px;
+        min-height: 0;
+      }
+    }
+
+    svg {
+      width: 10px;
+      height: 10px;
+      line-height: 14px;
+      margin-right: 5px;
+    }
+  }
+
+  .amount .bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    input {
+      font-size: 40px;
+      max-width: 230px;
+    }
+  }
+
+  .top {
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    label {
+      font-size: 14px;
+    }
+  }
+
+  .bottom {
+    input, textarea {
+      background: transparent;
+      outline: none;
+      border: 0;
+      color: $gold;
+      -webkit-text-fill-color: $white;
+      font-size: 12px;
+      width: 100%;
+      font-weight: 200;
+    }
+
+    input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+      text-shadow: none;
+      -webkit-text-fill-color: initial;
+    }
+  }
+
+  .currency {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    .currentCurrency {
+      cursor: pointer;
+      transition: 0.25s all;
+
+      &:hover {
+        opacity: 0.5;
+      }
+
+      span {
+        font-size: 14px;
+        
+        &:nth-child(1) {
+          font-weight: bold;
+        }
+      }
+
+    }
+
+    ul {
+      visibility: hidden;
+      position: absolute;
+      top: 30px;
+
+      &.active {
+        visibility: visible;
+      }
+
+      li {
+        padding: 8px 15px;
+        background: #191919;
+        cursor: pointer;
+        transition: 0.25s hover;
+        border-bottom: 1px solid #0f0f0f;
+
+        &:hover {
+          background: #0f0f0f;
+        }
+      }
+    }
+  }
+
+  .usdAmount {
+    margin-top: 20px;
+    opacity: 0.5;
+  }
+
+  .submit {
+    margin-top: 50px;
+    text-align: center;
+
+    .button {
+      width: 235px;
+      margin: 0 auto;
+      padding: 20px 10px;
+      background: #31343f;
+      opacity: 0.5;
+      cursor: pointer;
+      transition: 0.25s all;
+
+      &.active {
+        background: $gold;
+        opacity: 1.0;
+
+        &:hover {
+          background: darken($gold, 5%);
+        }
+      }
+    }
+  }
+}
+
+.errorMessage {
+  color: $red;
+  font-size: 12px;
+  min-height: 20px;
+  opacity: 0;
+  transition: all 0.25s ease;
+
+  &.amount {
+    margin-top: 10px;
+  }
+
+  &.active {
+    opacity: 1;
+  }
+}

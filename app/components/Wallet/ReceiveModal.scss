@@ -1,106 +1,129 @@
 @import '../../variables.scss';
 
+.container {
+  position: relative;
+  height: 100vh;
+  background: $bluegrey;
+}
+
 .closeContainer {
-  background: $lightgrey;
   text-align: right;
-  padding: 10px;
+  padding: 20px 40px 0px;
 
   span {
-    color: $darkestgrey;
-    font-size: 20px;
     cursor: pointer;
+    opacity: 1.0;
+    transition: 0.25s all;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  svg {
+    color: $white;
   }
 }
 
-.container {
-  header {
-    background: $lightgrey;
-    padding: 10px 40px 40px;
-    text-align: center;
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: $spaceblue;
+  width: 85%;
+  margin: 10% auto 50px auto;
+  color: $white;
 
-    .qrcodes {
-      text-align: center;
-      margin-top: 20px;
-    }
+  .left {
+    width: 25%;
+    padding: 30px 40px;
 
-    .tabs {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      justify-content: center;
-      margin-top: 20px;
+    .header {
+      
+      h2 {
+        text-align: center;
+      }
 
-      li {
-        margin: 0 20px;
-        color: $darkestgrey;
-        transition: all 0.25s;
+      .qrCodeOptions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin: 20px 0;
 
-        &:hover {
-          color: $black;
-        }
+        div {
+          font-size: 10px;
+          opacity: 0.5;
+          cursor: pointer;
+          transition: all 0.25s;
 
-        &.active {
-          color: $black;
-          font-weight: bold;
+          &:hover {
+            opacity: 0.75;
+          }
+
+          &.active {
+            opacity: 1.0;
+          }
         }
       }
+    }
+    
+    .qrCodeContainer {
+      text-align: center;
     }
   }
 
-  section {
-    margin: 25px 0;
-    padding: 25px;
+  .right {
+    width: 75%;
+    min-height: 220px;
+    border-left: 1px solid $spaceborder;
+    padding: 30px 40px;
 
-    h4 {
-      font-size: 14px;
-      font-weight: bold;
-      letter-spacing: 1.5px;
-      margin-bottom: 10px;
+    .pubkey, .address {
+      padding: 25px;
 
-      span {
-        color: $blue;
-        cursor: pointer;
+      h4 {
+        font-size: 12px;
+        margin-bottom: 10px;
+
+        span {
+          cursor: pointer;
+        }
       }
     }
-
+    
     p {
       display: flex;
       flex-direction: row;
+      align-items: center;
       font-family: 'Roboto';
-      font-size: 14px;
+      font-size: 10px;
       font-weight: 200;
-      background: $lightgrey;
+      background: $bluegrey;
 
-      span {
+      .data, .copy {
         padding: 15px;
       }
 
-      span:nth-child(1) {
+      .data {
         flex: 9;
         overflow-x: scroll;
       }
 
-      span:nth-child(2) {
-        background: $darkgrey;
-        color: $black;
+      .copy {
+        background: #383b47;
+        color: $white;
         cursor: pointer;
         transition: all 0.25s;
 
         &:hover {
-          background: $darkestgrey;
+          background: lighten(#383b47, 5%);
+        }
+
+        svg {
+          height: 12px;
+          width: 12px;
         }
       }
-    }
-  }
-}
-
-.addressHeader {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-
-  .newAddress {
-    text-decoration: underline;
-    font-size: 12px;
+    }    
   }
 }

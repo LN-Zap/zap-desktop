@@ -6,6 +6,9 @@ const mainnetUrl = 'https://smartbit.com.au'
 const showTransaction = txid =>
   shell.openExternal(`${testnetUrl}/tx/${txid}`)
 
+const showBlock = blockHash =>
+  shell.openExternal(`${testnetUrl}/block/${blockHash}`)
+
 const showChannelClosing = channel =>
   showTransaction(channel.closing_txid)
 
@@ -16,6 +19,7 @@ export default {
   testnetUrl,
   mainnetUrl,
   showTransaction,
+  showBlock,
   showChannelClosing,
   showChannelPoint
 }

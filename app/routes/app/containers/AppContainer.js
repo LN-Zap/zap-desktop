@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
 
-import { newAddress } from 'reducers/address'
+import { newAddress, closeWalletModal } from 'reducers/address'
 
 import { fetchInfo } from 'reducers/info'
 
@@ -11,9 +11,9 @@ import { showModal, hideModal } from 'reducers/modal'
 
 import { setFormType } from 'reducers/form'
 
-import { setPayAmount, setPayInput, updatePayErrors, payFormSelectors } from 'reducers/payform'
+import { setPayAmount, setPayInput, setCurrencyFilters, updatePayErrors, payFormSelectors } from 'reducers/payform'
 
-import { setRequestAmount, setRequestMemo } from 'reducers/requestform'
+import { setRequestAmount, setRequestMemo, setRequestCurrencyFilters, requestFormSelectors } from 'reducers/requestform'
 
 import { sendCoins } from 'reducers/transaction'
 
@@ -52,6 +52,8 @@ import { fetchDescribeNetwork } from 'reducers/network'
 
 import { clearError } from 'reducers/error'
 
+import { hideActivityModal, setActivityModalCurrencyFilters } from 'reducers/activity'
+
 import App from '../components/App'
 
 const mapDispatchToProps = {
@@ -59,6 +61,7 @@ const mapDispatchToProps = {
   setCurrency,
 
   newAddress,
+  closeWalletModal,
 
   fetchInfo,
 
@@ -69,11 +72,12 @@ const mapDispatchToProps = {
 
   setPayAmount,
   setPayInput,
+  setCurrencyFilters,
   updatePayErrors,
 
   setRequestAmount,
   setRequestMemo,
-
+  setRequestCurrencyFilters,
 
   sendCoins,
   payInvoice,
@@ -102,10 +106,15 @@ const mapDispatchToProps = {
   contactFormSelectors,
   updateManualFormErrors,
 
-  fetchDescribeNetwork
+  fetchDescribeNetwork,
+
+  hideActivityModal,
+  setActivityModalCurrencyFilters
 }
 
 const mapStateToProps = state => ({
+  activity: state.activity,
+
   lnd: state.lnd,
 
   ticker: state.ticker,
@@ -130,12 +139,17 @@ const mapStateToProps = state => ({
   network: state.network,
 
   currentTicker: tickerSelectors.currentTicker(state),
+  currentCurrencyFilters: tickerSelectors.currentCurrencyFilters(state),
+  currencyName: tickerSelectors.currencyName(state),
   isOnchain: payFormSelectors.isOnchain(state),
   isLn: payFormSelectors.isLn(state),
   currentAmount: payFormSelectors.currentAmount(state),
+  usdAmount: payFormSelectors.usdAmount(state),
   inputCaption: payFormSelectors.inputCaption(state),
   showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
   payFormIsValid: payFormSelectors.payFormIsValid(state),
+  payInputMin: payFormSelectors.payInputMin(state),
+  requestUsdAmount: requestFormSelectors.usdAmount(state),
   syncPercentage: lndSelectors.syncPercentage(state),
 
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
@@ -155,17 +169,25 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     payform: stateProps.payform,
     currency: stateProps.ticker.currency,
     crypto: stateProps.ticker.crypto,
+    nodes: stateProps.network.nodes,
+    ticker: stateProps.ticker,
 
     isOnchain: stateProps.isOnchain,
     isLn: stateProps.isLn,
     currentAmount: stateProps.currentAmount,
+    usdAmount: stateProps.usdAmount,
     inputCaption: stateProps.inputCaption,
     showPayLoadingScreen: stateProps.showPayLoadingScreen,
     payFormIsValid: stateProps.payFormIsValid,
+    payInputMin: stateProps.payInputMin,
+    currentCurrencyFilters: stateProps.currentCurrencyFilters,
+    currencyName: stateProps.currencyName,
 
     setPayAmount: dispatchProps.setPayAmount,
     setPayInput: dispatchProps.setPayInput,
+    setCurrencyFilters: dispatchProps.setCurrencyFilters,
     fetchInvoice: dispatchProps.fetchInvoice,
+    setCurrency: dispatchProps.setCurrency,
 
     onPayAmountBlur: () => {
       // If the amount is now valid and showErrors was on, turn it off
@@ -218,11 +240,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const requestFormProps = {
     requestform: stateProps.requestform,
-    currency: stateProps.ticker.currency,
-    crypto: stateProps.ticker.crypto,
+    ticker: stateProps.ticker,
+
+    currentCurrencyFilters: stateProps.currentCurrencyFilters,
+    showCurrencyFilters: stateProps.showCurrencyFilters,
+    currencyName: stateProps.currencyName,
+    requestUsdAmount: stateProps.requestUsdAmount,
 
     setRequestAmount: dispatchProps.setRequestAmount,
     setRequestMemo: dispatchProps.setRequestMemo,
+    setCurrency: dispatchProps.setCurrency,
+    setRequestCurrencyFilters: dispatchProps.setRequestCurrencyFilters,
 
     onRequestSubmit: () => (
       dispatchProps.createInvoice(
@@ -290,6 +318,36 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     closingChannelIds: stateProps.channels.closingChannelIds
   }
 
+  const activityModalProps = {
+    modalType: stateProps.activity.modal.modalType,
+    modalProps: stateProps.activity.modal.modalProps,
+    ticker: stateProps.ticker,
+    currentTicker: stateProps.currentTicker,
+
+    hideActivityModal: dispatchProps.hideActivityModal,
+
+    toggleCurrencyProps: {
+      currentCurrencyFilters: stateProps.currentCurrencyFilters,
+      currencyName: stateProps.currencyName,
+      showCurrencyFilters: stateProps.activity.modal.showCurrencyFilters,
+
+      setActivityModalCurrencyFilters: dispatchProps.setActivityModalCurrencyFilters,
+      setCurrencyFilters: dispatchProps.setCurrencyFilters,
+      onCurrencyFilterClick: (currency) => {
+        dispatchProps.setCurrency(currency)
+        dispatchProps.setActivityModalCurrencyFilters(false)
+      }
+    }
+  }
+
+  const receiveModalProps = {
+    isOpen: stateProps.address.walletModal,
+    pubkey: stateProps.info.data.identity_pubkey,
+    address: stateProps.address.address,
+    newAddress: dispatchProps.newAddress,
+    closeReceiveModal: dispatchProps.closeWalletModal
+  }
+
   return {
     ...stateProps,
     ...dispatchProps,
@@ -301,6 +359,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     contactsFormProps,
     // props for the contact modal
     contactModalProps,
+    // props for the receive modal
+    receiveModalProps,
+    // props for the activity modals
+    activityModalProps,
     // Props to pass to the pay form
     formProps: formProps(stateProps.form.formType),
     // action to close form

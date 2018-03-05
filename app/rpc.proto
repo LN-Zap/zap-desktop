@@ -1348,6 +1348,9 @@ message Payment {
 
     /// The fee paid for this payment in satoshis
     int64 fee = 5 [json_name = "fee"];
+
+    /// The payment preimage
+    string payment_preimage = 6 [json_name = "payment_preimage"];
 }
 
 message ListPaymentsRequest {

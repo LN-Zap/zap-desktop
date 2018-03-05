@@ -2,45 +2,57 @@ import React from 'react'
 import { shallow } from 'enzyme'
 
 import Form from '../../app/components/Form'
-import PayForm from '../../app/components/Form/PayForm'
-import RequestForm from '../../app/components/Form/RequestForm'
+import Pay from '../../app/components/Form/Pay'
+import Request from '../../app/components/Form/Request'
 
 const payFormProps = {
   payform: {
-    amount: '',
+    amount: 0,
     payInput: '',
+    invoice: {},
     showErrors: {}
   },
-  currency: 'BTC',
-  crypto: 'BTC',
+  currency: {},
+  crypto: {},
+  nodes: [],
+  ticker: {},
 
   isOnchain: false,
-  isLn: false,
-  currentAmount: '0',
+  isLn: true,
+  currentAmount: 0,
+  usdAmount: 0,
   inputCaption: '',
-  showPayLoadingScreen: false,
+  showPayLoadingScreen: true,
   payFormIsValid: {},
+  currentCurrencyFilters: [],
+  currencyName: '',
 
   setPayAmount: () => {},
-  onPayAmountBlur: () => {},
   setPayInput: () => {},
-  onPayInputBlur: () => {},
+  setCurrencyFilters: () => {},
   fetchInvoice: () => {},
+  setCurrency: () => {},
 
+  onPayAmountBlur: () => {},
+
+  onPayInputBlur: () => {},
 
   onPaySubmit: () => {}
 }
 
 const requestFormProps = {
-  requestform: {
-    amount: '',
-    memo: ''
-  },
-  currency: '',
-  crypto: '',
+  requestform: {},
+  ticker: {},
+
+  currentCurrencyFilters: [],
+  showCurrencyFilters: true,
+  currencyName: '',
+  requestUsdAmount: '',
 
   setRequestAmount: () => {},
   setRequestMemo: () => {},
+  setCurrency: () => {},
+  setRequestCurrencyFilters: () => {},
 
   onRequestSubmit: () => {}
 }
@@ -55,16 +67,16 @@ describe('Form', () => {
   describe('should show pay form when formType is PAY_FORM', () => {
     const props = { ...defaultProps, formType: 'PAY_FORM', formProps: payFormProps }
     const el = shallow(<Form {...props} />)
-    it('should contain PayForm', () => {
-      expect(el.find(PayForm)).toHaveLength(1)
+    it('should contain Pay', () => {
+      expect(el.find(Pay)).toHaveLength(1)
     })
   })
 
   describe('should show request form when formType is REQUEST_FORM', () => {
     const props = { ...defaultProps, formType: 'REQUEST_FORM', formProps: requestFormProps }
     const el = shallow(<Form {...props} />)
-    it('should contain RequestForm', () => {
-      expect(el.find(RequestForm)).toHaveLength(1)
+    it('should contain Request', () => {
+      expect(el.find(Request)).toHaveLength(1)
     })
   })
 })

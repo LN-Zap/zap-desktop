@@ -1,103 +1,111 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ReactModal from 'react-modal'
 import copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react'
+import copyIcon from 'icons/copy.svg'
+import Isvg from 'react-inlinesvg'
+
+import x from 'icons/x.svg'
 import { showNotification } from 'notifications'
-import { FaCopy } from 'react-icons/lib/fa'
-import { MdClose } from 'react-icons/lib/md'
+
 import styles from './ReceiveModal.scss'
 
-const ReceiveModal = ({
-  isOpen, hideActivityModal, pubkey, address, newAddress, qrCodeType, changeQrCode
-}) => {
-  const customStyles = {
-    overlay: {
-      cursor: 'pointer'
-    },
-    content: {
-      top: 'auto',
-      left: '0',
-      right: '0',
-      bottom: 'auto',
-      width: '40%',
-      margin: '50px auto',
-      borderRadius: 'none',
-      padding: '0'
+class ReceiveModal extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      qrCodeType: 1
     }
   }
 
-  const copyOnClick = (data) => {
-    copy(data)
-    showNotification('Noice', 'Successfully copied to clipboard')
-  }
+  render() {
+    const copyOnClick = (data) => {
+      copy(data)
+      showNotification('Noice', 'Successfully copied to clipboard')
+    }
 
-  return (
-    <ReactModal
-      isOpen={isOpen}
-      ariaHideApp
-      shouldCloseOnOverlayClick
-      contentLabel='No Overlay Click Modal'
-      onRequestClose={() => hideActivityModal()}
-      parentSelector={() => document.body}
-      style={customStyles}
-    >
-      <div className={styles.closeContainer}>
-        <span onClick={() => hideActivityModal()}>
-          <MdClose />
-        </span>
-      </div>
+    const changeQrCode = () => {
+      if (this.state.qrCodeType === 1) {
+        this.setState({ qrCodeType: 2 })
+      } else {
+        this.setState({ qrCodeType: 1 })
+      }
+    }
 
+    const {
+      isOpen,
+      pubkey,
+      address,
+      closeReceiveModal
+    } = this.props
+
+    const { qrCodeType } = this.state
+
+    if (!isOpen) { return null }
+
+    return (
       <div className={styles.container}>
-        <header>
-          <div className={styles.qrcodes}>
-            <QRCode value={qrCodeType === 1 ? address : pubkey} />
-          </div>
+        <div className={styles.closeContainer}>
+          <span onClick={closeReceiveModal}>
+            <Isvg src={x} />
+          </span>
+        </div>
 
-          <ul className={styles.tabs}>
-            <li className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>
-              Wallet address
-            </li>
-            <li className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>
-              Node pubkey
-            </li>
-          </ul>
-        </header>
-        <section>
-          <div className={styles.addressHeader}>
-            <h4>Deposit Address</h4>
-            <span className={styles.newAddress} onClick={() => newAddress('np2wkh')}>New Address</span>
-          </div>
-          <p>
-            <span>{address}</span>
-            <span onClick={() => copyOnClick(address)} className='hint--left' data-hint='Copy address'>
-              <FaCopy />
-            </span>
-          </p>
-        </section>
+        <div className={styles.content}>
+          <section className={styles.left}>
+            <header className={styles.header}>
+              <h2>JimmyMow</h2>
 
-        <section>
-          <h4>Node Public Key</h4>
-          <p>
-            <span>{pubkey}</span>
-            <span onClick={() => copyOnClick(pubkey)} className='hint--left' data-hint='Copy pubkey'>
-              <FaCopy />
-            </span>
-          </p>
-        </section>
+              <div className={styles.qrCodeOptions}>
+                <div className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>Node Pubkey</div>
+                <div className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>Deposit Address</div>
+              </div>
+            </header>
+
+            <div className={styles.qrCodeContainer}>
+              <QRCode
+                value={qrCodeType === 1 ? pubkey : address}
+                renderAs='svg'
+                size={150}
+                bgColor='transparent'
+                fgColor='white'
+                level='L'
+              />
+            </div>
+          </section>
+          <section className={styles.right}>
+            <div className={styles.pubkey}>
+              <h4>Node Public Key</h4>
+              <p>
+                <span className={styles.data}>{pubkey}</span>
+                <span onClick={() => copyOnClick(pubkey)} className={`${styles.copy} hint--left`} data-hint='Copy pubkey'>
+                  <Isvg src={copyIcon} />
+                </span>
+              </p>
+            </div>
+
+            <div className={styles.address}>
+              <h4>Deposit Address</h4>
+              <p>
+                <span className={styles.data}>{address}</span>
+                <span onClick={() => copyOnClick(address)} className={`${styles.copy} hint--left`} data-hint='Copy address'>
+                  <Isvg src={copyIcon} />
+                </span>
+              </p>
+            </div>
+          </section>
+        </div>
       </div>
-    </ReactModal>
-  )
+    )
+  }
 }
 
 ReceiveModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  hideActivityModal: PropTypes.func.isRequired,
   pubkey: PropTypes.string.isRequired,
   address: PropTypes.string.isRequired,
-  newAddress: PropTypes.func.isRequired,
-  changeQrCode: PropTypes.func.isRequired,
-  qrCodeType: PropTypes.number.isRequired
+  closeReceiveModal: PropTypes.func.isRequired
 }
 
 export default ReceiveModal

@@ -15,7 +15,8 @@ const initialState = {
   ],
   modal: {
     modalType: null,
-    modalProps: {}
+    modalProps: {},
+    showCurrencyFilters: false
   },
   searchText: ''
 }
@@ -29,6 +30,8 @@ export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 
 export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
+
+export const SET_ACTIVITY_MODAL_CURRENCY_FILTERS = 'SET_ACTIVITY_MODAL_CURRENCY_FILTERS'
 
 export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 
@@ -69,6 +72,13 @@ export function updateSearchText(searchText) {
   }
 }
 
+export function setActivityModalCurrencyFilters(showCurrencyFilters) {
+  return {
+    type: SET_ACTIVITY_MODAL_CURRENCY_FILTERS,
+    showCurrencyFilters
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -77,6 +87,10 @@ const ACTION_HANDLERS = {
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { modalType: null, modalProps: {} } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
   [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
+
+  [SET_ACTIVITY_MODAL_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => (
+    { ...state, modal: { modalType: state.modal.modalType, modalProps: state.modal.modalProps, showCurrencyFilters } }
+  ),
 
   [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText })
 }

@@ -25,9 +25,7 @@ const WalletDetails = ({ info, address }) => (
       </div>
       <div className={styles.right}>
         <section>
-          <h2>
-              Network
-          </h2>
+          <h2>Network</h2>
         </section>
       </div>
     </div>
