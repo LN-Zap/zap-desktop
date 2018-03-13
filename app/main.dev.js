@@ -151,6 +151,7 @@ const startLnd = (alias, autopilot) => {
   const neutrinoArgs = [
     '--bitcoin.active',
     '--bitcoin.testnet',
+    '--bitcoin.defaultremotedelay=432',
     '--bitcoin.node=neutrino',
     '--neutrino.connect=188.166.148.62:18333',
     '--neutrino.addpeer=btcd.jackmallers.com:18333',
