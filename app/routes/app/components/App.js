@@ -24,7 +24,8 @@ class App extends Component {
       newAddress,
       fetchChannels,
       fetchBalance,
-      fetchDescribeNetwork
+      fetchDescribeNetwork,
+      fetchPeers
     } = this.props
 
     // fetch price ticker
@@ -39,6 +40,7 @@ class App extends Component {
     fetchBalance()
     // fetch LN network from nides POV
     fetchDescribeNetwork()
+    fetchPeers()
   }
 
   render() {
@@ -118,6 +120,7 @@ App.propTypes = {
   fetchChannels: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
   fetchDescribeNetwork: PropTypes.func.isRequired,
+  fetchPeers: PropTypes.func.isRequired,
 
   children: PropTypes.object.isRequired
 }

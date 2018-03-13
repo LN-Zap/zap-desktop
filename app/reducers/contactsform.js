@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import filter from 'lodash/filter'
+import partition from 'lodash/partition'
 import isEmpty from 'lodash/isEmpty'
 
 // Initial State
@@ -94,15 +95,20 @@ const contactFormSelectors = {}
 const networkNodesSelector = state => state.network.nodes
 const searchQuerySelector = state => state.contactsform.searchQuery
 const manualSearchQuerySelector = state => state.contactsform.manualSearchQuery
-
+const peersSelector = state => state.peers.peers
 
 contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
   searchQuerySelector,
-  (nodes, searchQuery) => {
+  peersSelector,
+  (nodes, searchQuery, peers) => {
     // If there is no search query default to showing the first 20 nodes from the nodes array
     // (performance hit to render the entire thing by default)
-    if (!searchQuery.length) { return nodes.slice(0, 20) }
+    if (!searchQuery.length) {
+      const peerPubKeys = peers.map(peer => peer.pub_key)
+      const [peerNodes, nonPeerNodes] = partition(nodes, node => peerPubKeys.includes(node.pub_key))
+      return peerNodes.concat(nonPeerNodes.slice(0, 20 - peerNodes.length))
+    }
 
     // if there is an '@' in the search query we are assuming they are using the format pubkey@host
     // we can ignore the '@' and the host and just grab the pubkey for our search

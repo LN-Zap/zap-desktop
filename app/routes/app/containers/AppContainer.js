@@ -23,6 +23,8 @@ import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
 import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 
+import { fetchPeers } from 'reducers/peers'
+
 import {
   fetchChannels,
   openChannel,
@@ -89,6 +91,7 @@ const mapDispatchToProps = {
 
   fetchBalance,
 
+  fetchPeers,
   fetchChannels,
   openChannel,
   closeChannel,
