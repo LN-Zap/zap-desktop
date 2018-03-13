@@ -7,15 +7,31 @@ import PropTypes from 'prop-types'
 import LoadingBolt from '../components/LoadingBolt'
 import Onboarding from '../components/Onboarding'
 import Syncing from '../components/Onboarding/Syncing'
-import { updateAlias, setAutopilot, changeStep, submit } from '../reducers/onboarding'
+import {
+  updateAlias,
+  updatePassword,
+  setAutopilot,
+  changeStep,
+  startLnd,
+  createWallet,
+  updateCreateWalletPassword,
+  submitNewWallet,
+  onboardingSelectors,
+  unlockWallet
+} from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
   updateAlias,
+  updatePassword,
+  updateCreateWalletPassword,
   setAutopilot,
   changeStep,
-  submit,
+  startLnd,
+  createWallet,
+  submitNewWallet,
+  unlockWallet,
 
   fetchBlockHeight
 }
@@ -24,7 +40,8 @@ const mapStateToProps = state => ({
   lnd: state.lnd,
   onboarding: state.onboarding,
 
-  syncPercentage: lndSelectors.syncPercentage(state)
+  syncPercentage: lndSelectors.syncPercentage(state),
+  passwordIsValid: onboardingSelectors.passwordIsValid(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -43,12 +60,37 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     setAutopilot: dispatchProps.setAutopilot
   }
 
+  const initWalletProps = {
+    password: stateProps.onboarding.password,
+    passwordIsValid: stateProps.passwordIsValid,
+    hasSeed: stateProps.onboarding.hasSeed,
+    unlockingWallet: stateProps.onboarding.unlockingWallet,
+    unlockWalletError: stateProps.onboarding.unlockWalletError,
+    
+    updatePassword: dispatchProps.updatePassword,
+    createWallet: dispatchProps.createWallet,
+    unlockWallet: dispatchProps.unlockWallet
+  }
+
+  const newWalletSeedProps = {
+    seed: stateProps.onboarding.seed
+  }
+
+  const newWalletPasswordProps = {
+    createWalletPassword: stateProps.onboarding.createWalletPassword,
+    updateCreateWalletPassword: dispatchProps.updateCreateWalletPassword
+  }
+
   const onboardingProps = {
     onboarding: stateProps.onboarding,
     changeStep: dispatchProps.changeStep,
-    submit: dispatchProps.submit,
+    startLnd: dispatchProps.startLnd,
+    submitNewWallet: dispatchProps.submitNewWallet,
     aliasProps,
-    autopilotProps
+    autopilotProps,
+    initWalletProps,
+    newWalletSeedProps,
+    newWalletPasswordProps
   }
 
   return {

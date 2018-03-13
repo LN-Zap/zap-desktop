@@ -1,0 +1,43 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import styles from './Login.scss'
+
+const Login = ({
+  password,
+  updatePassword,
+  unlockingWallet,
+  unlockWallet,
+  unlockWalletError
+}) => (
+  <div className={styles.container}>
+    <input
+      type='password'
+      placeholder='Password'
+      className={`${styles.password} ${unlockWalletError.isError && styles.inputError}`}
+      ref={input => input && input.focus()}
+      value={password}
+      onChange={event => updatePassword(event.target.value)}
+    />
+    <p className={`${unlockWalletError.isError && styles.active} ${styles.error}`}>
+      {unlockWalletError.message}
+    </p>
+
+    <section className={styles.buttons}>
+      <div>
+        <span className={`${!unlockingWallet && styles.active} ${styles.button}`} onClick={() => unlockWallet(password)}>
+          {
+            unlockingWallet ?
+              <i className={styles.spinner} />
+              :
+              'Log In'
+          }
+        </span>
+      </div>
+      <div>Recover existing wallet</div>
+    </section>
+  </div>
+)
+
+Login.propTypes = {}
+
+export default Login

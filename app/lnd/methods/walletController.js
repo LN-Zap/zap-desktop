@@ -1,3 +1,6 @@
+import bitcore from 'bitcore-lib'
+const BufferUtil = bitcore.util.buffer
+
 /**
  * Returns the sum of all confirmed unspent outputs under control by the wallet
  * @param  {[type]} lnd [description]
@@ -86,6 +89,49 @@ export function sendCoins(lnd, meta, { addr, amount }) {
 export function setAlias(lnd, meta, { new_alias }) {
   return new Promise((resolve, reject) => {
     lnd.setAlias({ new_alias }, (err, data) => {
+      if (err) { reject(err) }
+
+      resolve(data)
+    })
+  })
+}
+
+/**
+ * Generates a seed for the wallet
+ */
+export function genSeed(walletUnlocker) {
+  console.log('walletUnlocker: ', walletUnlocker)
+  return new Promise((resolve, reject) => {
+    walletUnlocker.genSeed({}, (err, data) => {
+      if (err) { reject(err) }
+
+      resolve(data)
+    })
+  })
+}
+
+/**
+ * Unlocks a wallet with a password
+ * @param  {[type]} password [description]
+ */
+export function unlockWallet(walletUnlocker, { wallet_password }) {
+  return new Promise((resolve, reject) => {
+    walletUnlocker.unlockWallet({ wallet_password }, (err, data) => {
+      if (err) { reject(err) }
+
+      resolve(data)
+    })
+  })
+}
+
+/**
+ * Unlocks a wallet with a password
+ * @param  {[type]} password [description]
+ * @param  {[type]} cipher_seed_mnemonic [description]
+ */
+export function initWallet(walletUnlocker, { wallet_password, cipher_seed_mnemonic }) {
+  return new Promise((resolve, reject) => {
+    walletUnlocker.initWallet({ wallet_password, cipher_seed_mnemonic }, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)

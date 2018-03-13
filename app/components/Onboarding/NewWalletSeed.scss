@@ -1,0 +1,11 @@
+@import '../../variables.scss';
+
+.container {
+  background: darken(#242833, 10%);
+  padding: 20px 40px;
+  font-size: 14px;
+  line-height: 50px;
+  color: $white;
+  font-family: 'Roboto';
+  letter-spacing: 1.5px;
+}
