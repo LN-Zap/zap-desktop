@@ -7,7 +7,7 @@ import { btc } from 'lib/utils'
 import { themeSelectors } from 'reducers/theme'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
-import { fetchInfo, infoSelectors } from 'reducers/info'
+import { fetchInfo } from 'reducers/info'
 import { setFormType } from 'reducers/form'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 import { lndSelectors } from 'reducers/lnd'
@@ -38,6 +38,7 @@ import {
   updateManualFormErrors
 } from 'reducers/contactsform'
 import { fetchBalance } from 'reducers/balance'
+import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
 import { clearError } from 'reducers/error'
 import { hideActivityModal, activitySelectors } from 'reducers/activity'
@@ -54,6 +55,7 @@ const mapDispatchToProps = {
   fetchInvoice,
   clearError,
   fetchBalance,
+  fetchPeers,
   fetchChannels,
   fetchSuggestedNodes,
   openChannel,
@@ -100,8 +102,7 @@ const mapStateToProps = state => ({
   wallet: state.wallet,
 
   isLoading:
-    infoSelectors.infoLoading(state) ||
-    tickerSelectors.tickerLoading(state) ||
+    !tickerSelectors.currentTicker(state) ||
     !tickerSelectors.currencyName(state) ||
     state.balance.channelBalance === null ||
     state.balance.walletBalance === null,

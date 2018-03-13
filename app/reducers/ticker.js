@@ -112,7 +112,16 @@ tickerSelectors.currentTicker = createSelector(
   cryptoSelector,
   bitcoinTickerSelector,
   litecoinTickerSelector,
-  (crypto, btcTicker, ltcTicker) => (crypto === 'bitcoin' ? btcTicker : ltcTicker)
+  (crypto, btcTicker, ltcTicker) => {
+    switch (crypto) {
+      case 'bitcoin':
+        return btcTicker
+      case 'litecoin':
+        return ltcTicker
+      default:
+        return null
+    }
+  }
 )
 
 tickerSelectors.cryptoName = createSelector(cryptoSelector, crypto => cryptoNames[crypto])

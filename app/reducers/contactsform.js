@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import partition from 'lodash.partition'
 import { btc } from 'lib/utils'
 import { tickerSelectors } from './ticker'
 
@@ -187,7 +188,7 @@ const currencySelector = state => state.ticker.currency
 const fiatTickerSelector = state => state.ticker.fiatTicker
 const nodeSelector = state => state.contactsform.node
 const channelsSelector = state => state.channels.channels
-
+const peersSelector = state => state.peers.peers
 const contactable = node => node.addresses.length > 0
 
 // comparator to sort the contacts list with contactable contacts first
@@ -203,14 +204,19 @@ const contactableFirst = (a, b) => {
 contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
   searchQuerySelector,
-  (nodes, searchQuery) => {
-    // If there is no search query default to showing the first 20 nodes from the nodes array
-    // (performance hit to render the entire thing by default)
-    // if (!searchQuery.length) { return nodes.sort(contactableFirst).slice(0, 20) }
+  peersSelector,
+  (nodes, searchQuery, peers) => {
+    const LIMIT = 50
 
-    // return an empty array if there is no search query
-    if (!searchQuery.length) {
-      return []
+    // If there is no search query default to showing the first 50 nodes from the nodes array
+    // (performance hit to render the entire thing by default)
+    if (!searchQuery) {
+      const peerPubKeys = peers.map(peer => peer.pub_key)
+      const [peerNodes, nonPeerNodes] = partition(nodes, node => peerPubKeys.includes(node.pub_key))
+      return peerNodes
+        .concat(nonPeerNodes)
+        .sort(contactableFirst)
+        .slice(0, LIMIT)
     }
 
     // if there is an '@' in the search query we are assuming they are using the format pubkey@host
@@ -218,13 +224,10 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
     const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
 
     // list of the nodes
-    const list = nodes
+    return nodes
       .filter(node => node.alias.includes(query) || node.pub_key.includes(query))
       .sort(contactableFirst)
-
-    // if we don't limit the nodes returned then we take a huge performance hit
-    // rendering thousands of nodes potentially, so we just render 20 for the time being
-    return list.slice(0, 20)
+      .slice(0, LIMIT)
   }
 )
 
@@ -232,10 +235,6 @@ contactFormSelectors.showManualForm = createSelector(
   searchQuerySelector,
   contactFormSelectors.filteredNetworkNodes,
   (searchQuery, filteredNetworkNodes) => {
-    if (!searchQuery.length) {
-      return true
-    }
-
     const connectableNodes = filteredNetworkNodes.filter(node => node.addresses.length > 0)
 
     if (!filteredNetworkNodes.length || !connectableNodes.length) {
