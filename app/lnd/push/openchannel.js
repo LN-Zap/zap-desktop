@@ -1,7 +1,7 @@
-export default function pushopenchannel(lnd, meta, event, payload) {
+export default function pushopenchannel(lnd, event, payload) {
   return new Promise((resolve, reject) => {
     try {
-      const call = lnd.openChannel(payload, meta)
+      const call = lnd.openChannel(payload)
 
       call.on('data', data => event.sender.send('pushchannelupdated', { data }))
       call.on('end', () => event.sender.send('pushchannelend'))
