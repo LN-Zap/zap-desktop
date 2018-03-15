@@ -72,11 +72,25 @@ Zap expects `lnd` to be in one of these directories depending on your OS:
 - Linux `resources/bin/linux/`
 - Windows `resources/bin/win32/`
 
-On macOS and Linux, make sure the file has execute permissions: 
+On macOS and Linux, make sure the file has execute permissions:
 
 ```bash
 chmod +x lnd
 ```
+
+### Connecting to an external lnd node
+
+If you would like to connect Zap to an external lnd node (for example, one that is running on a remote server) you can set the following environment variables:
+
+```
+ZAP_LND_DISABLE=true
+ZAP_LND_RPC_PROTO=/path/to/rpc.proto
+ZAP_LND_HOST=someremotehost:10009
+ZAP_LND_CERT=/path/to/lnd.cert
+ZAP_LND_MACAROON=/path/to/admin.macaroon
+```
+
+These can be set either from the command line, or by crteating a `.env` at the project root.
 
 ## Running Zap
 

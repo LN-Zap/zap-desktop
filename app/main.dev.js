@@ -262,7 +262,7 @@ app.on('ready', async () => {
     if (err) { throw new Error(err) }
 
     // No LND process was found
-    if (!results.length) {
+    if (!results.length && !process.env.ZAP_LND_DISABLE) {
       // let the application know onboarding has started
       sendStartOnboarding()
 
