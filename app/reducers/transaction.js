@@ -105,7 +105,13 @@ const ACTION_HANDLERS = {
   [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({ ...state, transactionLoading: false, transactions }),
   [TRANSACTION_SUCCESSFULL]: state => ({ ...state, sendingTransaction: false }),
   [TRANSACTION_FAILED]: state => ({ ...state, sendingTransaction: false }),
-  [ADD_TRANSACTION]: (state, { transaction }) => ({ ...state, transactions: [transaction, ...state.transactions] })
+  [ADD_TRANSACTION]: (state, { transaction }) => (
+    // add the transaction only if we are not already aware of it
+    state.transactions.find(tx => (tx.tx_hash === transaction.tx_hash)) ? state : {
+      ...state,
+      transactions: [transaction, ...state.transactions]
+    }
+  )
 }
 
 // ------------------------------------
