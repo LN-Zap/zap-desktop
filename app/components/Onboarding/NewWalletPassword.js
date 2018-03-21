@@ -4,31 +4,19 @@ import Isvg from 'react-inlinesvg'
 import eye from 'icons/eye.svg'
 import styles from './NewWalletPassword.scss'
 
-class NewWalletPassword extends React.Component {
-  constructor(props) {
-    super(props)
+const NewWalletPassword = ({
+  createWalletPassword,
+  createWalletPasswordConfirmation,
+  showCreateWalletPasswordConfirmationError,
 
-    this.state = {
-      inputType: 'password',
-      confirmPassword: ''
-    }
-  }
-
-  render() {
-    const { createWalletPassword, updateCreateWalletPassword } = this.props
-    const { inputType, confirmPassword } = this.state
-
-    const toggleInputType = () => {
-      const newInputType = inputType === 'password' ? 'text' : 'password'
-
-      this.setState({ inputType: newInputType })
-    }
-
+  updateCreateWalletPassword,
+  updateCreateWalletPasswordConfirmation
+}) => {
     return (
       <div className={styles.container}>
         <section className={styles.input}>
           <input
-            type={inputType}
+            type='password'
             placeholder='Password'
             className={styles.password}
             value={createWalletPassword}
@@ -38,21 +26,24 @@ class NewWalletPassword extends React.Component {
 
         <section className={styles.input}>
           <input
-            type={inputType}
+            type='password'
             placeholder='Confirm Password'
-            className={styles.password}
-            value={confirmPassword}
-            onChange={event => this.setState({ confirmPassword: event.target.value })}
+            className={`${styles.password} ${showCreateWalletPasswordConfirmationError && styles.error}`}
+            value={createWalletPasswordConfirmation}
+            onChange={event => updateCreateWalletPasswordConfirmation(event.target.value)}
           />
+          <p className={`${styles.errorMessage} ${showCreateWalletPasswordConfirmationError && styles.visible}`}>Passwords do not match</p>
         </section>
       </div>
     )
-  }
 }
 
 NewWalletPassword.propTypes = {
   createWalletPassword: PropTypes.string.isRequired,
-  updateCreateWalletPassword: PropTypes.func.isRequired
+  createWalletPasswordConfirmation: PropTypes.string.isRequired,
+  showCreateWalletPasswordConfirmationError: PropTypes.bool.isRequired,
+  updateCreateWalletPassword: PropTypes.func.isRequired,
+  updateCreateWalletPasswordConfirmation: PropTypes.func.isRequired
 }
 
 export default NewWalletPassword

@@ -78,7 +78,12 @@ const Onboarding = ({
             title='Welcome!'
             description='Looks like you are new here. Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future' // eslint-disable-line
             back={null}
-            next={() => changeStep(5)}
+            next={() => {
+              // dont allow the user to move on if the confirmation password doesnt match the original password
+              if (newWalletPasswordProps.showCreateWalletPasswordConfirmationError) { return }
+                
+              changeStep(5)
+            }}
           >
             <NewWalletPassword {...newWalletPasswordProps} />
           </FormContainer>

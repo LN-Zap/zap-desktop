@@ -57,10 +57,10 @@ export function updateCreateWalletPassword(createWalletPassword) {
   }
 }
 
-export function updateCreateWalletPasswordConfirmation(updateCreateWalletPasswordConfirmation) {
+export function updateCreateWalletPasswordConfirmation(createWalletPasswordConfirmation) {
   return {
     type: UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION,
-    updateCreateWalletPasswordConfirmation
+    createWalletPasswordConfirmation
   }
 }
 
@@ -172,7 +172,7 @@ const ACTION_HANDLERS = {
   [UPDATE_ALIAS]: (state, { alias }) => ({ ...state, alias }),
   [UPDATE_PASSWORD]: (state, { password }) => ({ ...state, password }),
   [UPDATE_CREATE_WALLET_PASSWORD]: (state, { createWalletPassword }) => ({ ...state, createWalletPassword }),
-  [UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION]: (state, { createWalletConfirmation }) => ({ ...state, createWalletConfirmation }),
+  [UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION]: (state, { createWalletPasswordConfirmation }) => ({ ...state, createWalletPasswordConfirmation }),
   [UPDATE_AEZEED_PASSWORD]: (state, { aezeedPassword }) => ({ ...state, aezeedPassword }),
   [UPDATE_SEED_INPUT]: (state, { inputSeedObj }) => {
     return {
@@ -206,12 +206,22 @@ const ACTION_HANDLERS = {
 
 const onboardingSelectors = {}
 const passwordSelector = state => state.onboarding.password
+
+const createWalletPasswordSelector = state => state.onboarding.createWalletPassword
+const createWalletPasswordConfirmationSelector = state => state.onboarding.createWalletPasswordConfirmation
+
 const seedSelector = state => state.onboarding.seed
 const seedInputSelector = state => state.onboarding.seedInput
 
 onboardingSelectors.passwordIsValid = createSelector(
   passwordSelector,
   password => password.length >= 8
+)
+
+onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
+  createWalletPasswordSelector,
+  createWalletPasswordConfirmationSelector,
+  (pass1, pass2) => pass1 !== pass2 && pass2.length > 0
 )
 
 onboardingSelectors.reEnterSeedChecker = createSelector(
@@ -238,7 +248,7 @@ const initialState = {
   
   // wallet password. password used to encrypt the wallet and is required to unlock the daemon after set
   createWalletPassword: '',
-  createWalletConfirmation: '',
+  createWalletPasswordConfirmation: '',
   creatingNewWallet: false,
 
   // seed password. this is optional and used to encrypt the seed
