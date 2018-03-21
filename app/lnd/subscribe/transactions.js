@@ -1,5 +1,5 @@
-export default function subscribeToTransactions(mainWindow, lnd, meta) {
-  const call = lnd.subscribeTransactions({}, meta)
+export default function subscribeToTransactions(mainWindow, lnd) {
+  const call = lnd.subscribeTransactions({})
   call.on('data', (transaction) => {
     console.log('TRANSACTION: ', transaction)
     mainWindow.send('newTransaction', { transaction })

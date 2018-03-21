@@ -1,5 +1,5 @@
-export default function subscribeToInvoices(mainWindow, lnd, meta) {
-  const call = lnd.subscribeInvoices({}, meta)
+export default function subscribeToInvoices(mainWindow, lnd) {
+  const call = lnd.subscribeInvoices({})
 
   call.on('data', invoice => mainWindow.send('invoiceUpdate', { invoice }))
   call.on('end', () => console.log('end'))

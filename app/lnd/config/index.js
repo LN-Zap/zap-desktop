@@ -25,8 +25,8 @@ switch (platform()) {
 }
 
 export default {
-  lightningRpc: `${__dirname}/rpc.proto`,
-  lightningHost: 'localhost:10009',
-  cert: join(userInfo().homedir, loc),
-  macaroon: join(userInfo().homedir, macaroonPath)
+  lightningRpc: process.env.ZAP_LND_RPC_PROTO || `${__dirname}/rpc.proto`,
+  lightningHost: process.env.ZAP_LND_HOST || 'localhost:10009',
+  cert: process.env.ZAP_LND_CERT || join(userInfo().homedir, loc),
+  macaroon: process.env.ZAP_LND_MACAROON || join(userInfo().homedir, macaroonPath)
 }
