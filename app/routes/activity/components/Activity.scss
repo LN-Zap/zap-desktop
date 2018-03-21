@@ -32,7 +32,6 @@
 
 .activities {
 	background: $white;
-	height: 100%;
 
 	.header {
 	  background: $spaceblue;
@@ -85,11 +84,11 @@
 .activityContainer {
 	background: $spaceblue;
 	transition: opacity 0.25s;
-	padding-bottom: 50px;
-	min-height: 100vh;
-	height: 100vh;
+	height: calc(100vh - 304px);
 	overflow-y: auto;
+	overflow-x: hidden;
 	padding-top: 20px;
+	padding-bottom: 20px;
 
 	&.pulldown {
 		opacity: 0.15;
@@ -100,7 +99,7 @@
 	padding: 0 40px;
 
 	&:hover {
-			
+
 	}
 
 	.left, .center, .right {
