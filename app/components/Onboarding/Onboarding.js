@@ -110,7 +110,12 @@ const Onboarding = ({
             title='Re-enter your seed'
             description='Yeah I know, might be annoying, but just to be safe!' // eslint-disable-line
             back={() => changeStep(6)}
-            next={() => changeStep(8)}
+            next={() => {
+              // don't allow them to move on if they havent re-entered the seed correctly
+              if (!reEnterSeedProps.reEnterSeedChecker) { return }
+
+              changeStep(8)
+            }}
           >
             <ReEnterSeed {...reEnterSeedProps} />
           </FormContainer>

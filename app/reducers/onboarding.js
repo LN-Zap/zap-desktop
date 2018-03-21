@@ -208,25 +208,7 @@ onboardingSelectors.passwordIsValid = createSelector(
 onboardingSelectors.reEnterSeedChecker = createSelector(
   seedSelector,
   seedInputSelector,
-  (seed, seedInput) => {
-    // console.log('seedInput: ', seedInput)
-
-    // const seedInputArr = seedInput.split(' ').filter(n => true && n.length)
-
-    // console.log('seedInputArr: ', seedInputArr)
-    
-    // return seedInputArr.map((word, index) => { return { valid: word === seed[index], word } })
-  }
-)
-
-onboardingSelectors.renderEnterSeedHtml = createSelector(
-  onboardingSelectors.reEnterSeedChecker,
-  (reEnterSeedChecker) => {
-    // console.log('reEnterSeedChecker: ', reEnterSeedChecker)
-    // if (!reEnterSeedChecker.length) { return '<span>gang</span>' }
-
-    // return reEnterSeedChecker.map( ({ valid, word }) => (`<span>${word}</span>`) ).join('')
-  }
+  (seed, seedInput) => seed.length === seedInput.length && seed.every((word, i) => word === seedInput[i].word)
 )
 
 export { onboardingSelectors }
@@ -259,6 +241,8 @@ const initialState = {
   },
 
   // array of inputs for when the user re-enters their seed
+  // object has a word attr and a index attr:
+  // { word: 'foo', index: 0 }
   seedInput: [],
   // step where the user decides whether they want a newly created seed or to import an existing one
   signupForm: {

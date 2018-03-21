@@ -50,8 +50,7 @@ const mapStateToProps = state => ({
 
   syncPercentage: lndSelectors.syncPercentage(state),
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
-  reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state),
-  renderEnterSeedHtml: onboardingSelectors.renderEnterSeedHtml(state)
+  reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -111,7 +110,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     seed: stateProps.onboarding.seed,
     seedInput: stateProps.onboarding.seedInput,
     reEnterSeedChecker: stateProps.reEnterSeedChecker,
-    renderEnterSeedHtml: stateProps.renderEnterSeedHtml,
     updateSeedInput: dispatchProps.updateSeedInput
   }
 

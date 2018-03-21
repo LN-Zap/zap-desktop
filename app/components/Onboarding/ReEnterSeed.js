@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './ReEnterSeed.scss'
 
-const ReEnterSeed = ({ seed, seedInput, updateSeedInput, reEnterSeedChecker, renderEnterSeedHtml }) => {
+const ReEnterSeed = ({ seed, seedInput, updateSeedInput }) => {
   return (
     <div className={styles.container}>
       <ul className={styles.seedContainer}>
@@ -33,9 +33,9 @@ const ReEnterSeed = ({ seed, seedInput, updateSeedInput, reEnterSeedChecker, ren
 }
 
 ReEnterSeed.propTypes = {
+  seed: PropTypes.array.isRequired,
   seedInput: PropTypes.array.isRequired,
-  updateSeedInput: PropTypes.func.isRequired,
-  reEnterSeedChecker: PropTypes.array.isRequired
+  updateSeedInput: PropTypes.func.isRequired
 }
 
 export default ReEnterSeed
