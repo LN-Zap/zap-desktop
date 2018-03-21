@@ -1,6 +1,3 @@
-import bitcore from 'bitcore-lib'
-const BufferUtil = bitcore.util.buffer
-
 /**
  * Returns the sum of all confirmed unspent outputs under control by the wallet
  * @param  {[type]} lnd [description]
@@ -129,9 +126,13 @@ export function unlockWallet(walletUnlocker, { wallet_password }) {
  * @param  {[type]} password [description]
  * @param  {[type]} cipher_seed_mnemonic [description]
  */
-export function initWallet(walletUnlocker, { wallet_password, cipher_seed_mnemonic }) {
+export function initWallet(walletUnlocker, { wallet_password, cipher_seed_mnemonic, aezeed_passphrase }) {
   return new Promise((resolve, reject) => {
-    walletUnlocker.initWallet({ wallet_password, cipher_seed_mnemonic }, (err, data) => {
+    walletUnlocker.initWallet({
+      wallet_password,
+      cipher_seed_mnemonic,
+      aezeed_passphrase: Buffer.from(aezeed_passphrase, 'hex')
+    }, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)

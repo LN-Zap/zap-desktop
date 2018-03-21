@@ -4,12 +4,22 @@ import styles from './NewWalletSeed.scss'
 
 const NewWalletSeed = ({ seed }) => (
   <div className={styles.container}>
-    {
-      seed.length > 0 ?
-        seed.join(', ')
-        :
-        'loading'
-    }
+    <ul className={styles.seedContainer}>
+        {
+          seed.map((word, index) => {
+            return (
+              <li>
+                <section>
+                  <label htmlFor={word}>{index + 1}</label>
+                </section>
+                <section>
+                  <span>{word}</span>
+                </section>
+              </li>
+            )
+          })
+        }
+      </ul>
   </div>
 )
 

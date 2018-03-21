@@ -4,28 +4,13 @@ import Login from './Login'
 import Signup from './Signup'
 import styles from './InitWallet.scss'
 
-const InitWallet = ({
-  password,
-  passwordIsValid,
-  hasSeed,
-  updatePassword,
-  createWallet,
-  unlockWallet,
-  unlockingWallet,
-  unlockWalletError
-}) => (
+const InitWallet = ({ hasSeed, loginProps, signupProps }) => (
   <div className={styles.container}>
     {
       hasSeed ?
-        <Login
-          password={password}
-          updatePassword={updatePassword}
-          unlockingWallet={unlockingWallet}
-          unlockWallet={unlockWallet}
-          unlockWalletError={unlockWalletError}
-        />
+        <Login {...loginProps} />
         :
-        <Signup />
+        <Signup {...signupProps} />
     }
   </div>
 )

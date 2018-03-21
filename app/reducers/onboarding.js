@@ -7,6 +7,8 @@ import { ipcRenderer } from 'electron'
 export const UPDATE_ALIAS = 'UPDATE_ALIAS'
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
 export const UPDATE_CREATE_WALLET_PASSWORD = 'UPDATE_CREATE_WALLET_PASSWORD'
+export const UPDATE_AEZEED_PASSWORD = 'UPDATE_AEZEED_PASSWORD'
+export const UPDATE_SEED_INPUT = 'UPDATE_SEED_INPUT'
 
 export const CHANGE_STEP = 'CHANGE_STEP'
 
@@ -27,6 +29,9 @@ export const CREATING_NEW_WALLET = 'CREATING_NEW_WALLET'
 export const UNLOCKING_WALLET = 'UNLOCKING_WALLET'
 export const WALLET_UNLOCKED = 'WALLET_UNLOCKED'
 export const SET_UNLOCK_WALLET_ERROR = 'SET_UNLOCK_WALLET_ERROR'
+
+export const SET_SIGNUP_CREATE = 'SET_SIGNUP_CREATE'
+export const SET_SIGNUP_IMPORT = 'SET_SIGNUP_IMPORT'
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -51,10 +56,36 @@ export function updateCreateWalletPassword(createWalletPassword) {
   }
 }
 
+export function updateAezeedPassword(aezeedPassword) {
+  return {
+    type: UPDATE_AEZEED_PASSWORD,
+    aezeedPassword
+  }
+}
+
+export function updateSeedInput(inputSeedObj) {
+  return {
+    type: UPDATE_SEED_INPUT,
+    inputSeedObj
+  }
+}
+
 export function setAutopilot(autopilot) {
   return {
     type: SET_AUTOPILOT,
     autopilot
+  }
+}
+
+export function setSignupCreate() {
+  return {
+    type: SET_SIGNUP_CREATE
+  }
+}
+
+export function setSignupImport() {
+  return {
+    type: SET_SIGNUP_IMPORT
   }
 }
 
@@ -74,9 +105,9 @@ export function startLnd(alias, autopilot) {
   }
 }
 
-export function submitNewWallet(wallet_password, cipher_seed_mnemonic) {
+export const submitNewWallet = (wallet_password, cipher_seed_mnemonic, aezeed_passphrase) => (dispatch) => {
   // once the user submits the data needed to start LND we will alert the app that it should start LND 
-  ipcRenderer.send('walletUnlocker', { msg: 'initWallet', data: { wallet_password, cipher_seed_mnemonic } })
+  ipcRenderer.send('walletUnlocker', { msg: 'initWallet', data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase } })
   dispatch({ type: CREATING_NEW_WALLET })
 }
 
@@ -87,7 +118,6 @@ export const startOnboarding = () => (dispatch) => {
 // Listener from after the LND walletUnlocker has started
 export const walletUnlockerStarted = () => (dispatch) => {
   dispatch({ type: LND_STARTED })
-  dispatch({ type: CHANGE_STEP, step: 3 })
   ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
 }
 
@@ -99,10 +129,18 @@ export const createWallet = () => (dispatch) => {
 export const successfullyCreatedWallet = (event) => (dispatch) => dispatch({ type: ONBOARDING_FINISHED })
 
 // Listener for when LND creates and sends us a generated seed
-export const receiveSeed = (event, { cipher_seed_mnemonic }) => (dispatch) => dispatch({ type: SET_SEED, seed: cipher_seed_mnemonic })
+export const receiveSeed = (event, { cipher_seed_mnemonic }) => (dispatch) => {
+  dispatch({ type: SET_SEED, seed: cipher_seed_mnemonic })
+  // there was no seed and we just generated a new one, send user to the login component
+  dispatch({ type: CHANGE_STEP, step: 4 })
+}
 
 // Listener for when LND throws an error on seed creation
-export const receiveSeedError = (event, error) => (dispatch) => dispatch({ type: SET_HAS_SEED, hasSeed: true })
+export const receiveSeedError = (event, error) => (dispatch) => {
+  dispatch({ type: SET_HAS_SEED, hasSeed: true })
+  // there is already a seed, send user to the login component
+  dispatch({ type: CHANGE_STEP, step: 3 })
+}
 
 // Unlock an existing wallet with a wallet password
 export const unlockWallet = (wallet_password) => (dispatch) => {
@@ -126,6 +164,13 @@ const ACTION_HANDLERS = {
   [UPDATE_ALIAS]: (state, { alias }) => ({ ...state, alias }),
   [UPDATE_PASSWORD]: (state, { password }) => ({ ...state, password }),
   [UPDATE_CREATE_WALLET_PASSWORD]: (state, { createWalletPassword }) => ({ ...state, createWalletPassword }),
+  [UPDATE_AEZEED_PASSWORD]: (state, { aezeedPassword }) => ({ ...state, aezeedPassword }),
+  [UPDATE_SEED_INPUT]: (state, { inputSeedObj }) => {
+    return {
+      ...state,
+      seedInput: Object.assign([], state.seedInput, { [inputSeedObj['index']]: inputSeedObj })
+    }
+  },
   
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
   
@@ -144,15 +189,44 @@ const ACTION_HANDLERS = {
 
   [UNLOCKING_WALLET]: state => ({ ...state, unlockingWallet: true }),
   [WALLET_UNLOCKED]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: false, message: '' } }),
-  [SET_UNLOCK_WALLET_ERROR]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: true, message: 'Incorrect password' } })
+  [SET_UNLOCK_WALLET_ERROR]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: true, message: 'Incorrect password' } }),
+  
+  [SET_SIGNUP_CREATE]: state => ({ ...state, signupForm: { create: true, import: false } }),
+  [SET_SIGNUP_IMPORT]: state => ({ ...state, signupForm: { create: false, import: true } })
 }
 
 const onboardingSelectors = {}
 const passwordSelector = state => state.onboarding.password
+const seedSelector = state => state.onboarding.seed
+const seedInputSelector = state => state.onboarding.seedInput
 
 onboardingSelectors.passwordIsValid = createSelector(
   passwordSelector,
   password => password.length >= 8
+)
+
+onboardingSelectors.reEnterSeedChecker = createSelector(
+  seedSelector,
+  seedInputSelector,
+  (seed, seedInput) => {
+    // console.log('seedInput: ', seedInput)
+
+    // const seedInputArr = seedInput.split(' ').filter(n => true && n.length)
+
+    // console.log('seedInputArr: ', seedInputArr)
+    
+    // return seedInputArr.map((word, index) => { return { valid: word === seed[index], word } })
+  }
+)
+
+onboardingSelectors.renderEnterSeedHtml = createSelector(
+  onboardingSelectors.reEnterSeedChecker,
+  (reEnterSeedChecker) => {
+    // console.log('reEnterSeedChecker: ', reEnterSeedChecker)
+    // if (!reEnterSeedChecker.length) { return '<span>gang</span>' }
+
+    // return reEnterSeedChecker.map( ({ valid, word }) => (`<span>${word}</span>`) ).join('')
+  }
 )
 
 export { onboardingSelectors }
@@ -171,13 +245,25 @@ const initialState = {
   hasSeed: false,
   seed: [],
   
+  // wallet password. password used to encrypt the wallet and is required to unlock the daemon after set
   createWalletPassword: '',
   creatingNewWallet: false,
+
+  // seed password. this is optional and used to encrypt the seed
+  aezeedPassword: '',
 
   unlockingWallet: false,
   unlockWalletError: {
     isError: false,
     message: ''
+  },
+
+  // array of inputs for when the user re-enters their seed
+  seedInput: [],
+  // step where the user decides whether they want a newly created seed or to import an existing one
+  signupForm: {
+    create: false,
+    import: false
   },
 
   autopilot: null

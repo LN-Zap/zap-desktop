@@ -15,9 +15,13 @@ import {
   startLnd,
   createWallet,
   updateCreateWalletPassword,
+  updateAezeedPassword,
   submitNewWallet,
   onboardingSelectors,
-  unlockWallet
+  unlockWallet,
+  setSignupCreate,
+  setSignupImport,
+  updateSeedInput
 } from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import Routes from '../routes'
@@ -26,12 +30,16 @@ const mapDispatchToProps = {
   updateAlias,
   updatePassword,
   updateCreateWalletPassword,
+  updateAezeedPassword,
   setAutopilot,
   changeStep,
   startLnd,
   createWallet,
   submitNewWallet,
   unlockWallet,
+  setSignupCreate,
+  setSignupImport,
+  updateSeedInput,
 
   fetchBlockHeight
 }
@@ -41,7 +49,9 @@ const mapStateToProps = state => ({
   onboarding: state.onboarding,
 
   syncPercentage: lndSelectors.syncPercentage(state),
-  passwordIsValid: onboardingSelectors.passwordIsValid(state)
+  passwordIsValid: onboardingSelectors.passwordIsValid(state),
+  reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state),
+  renderEnterSeedHtml: onboardingSelectors.renderEnterSeedHtml(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -61,15 +71,26 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const initWalletProps = {
-    password: stateProps.onboarding.password,
-    passwordIsValid: stateProps.passwordIsValid,
     hasSeed: stateProps.onboarding.hasSeed,
-    unlockingWallet: stateProps.onboarding.unlockingWallet,
-    unlockWalletError: stateProps.onboarding.unlockWalletError,
     
-    updatePassword: dispatchProps.updatePassword,
-    createWallet: dispatchProps.createWallet,
-    unlockWallet: dispatchProps.unlockWallet
+    loginProps: {
+      password: stateProps.onboarding.password,
+      passwordIsValid: stateProps.passwordIsValid,
+      hasSeed: stateProps.onboarding.hasSeed,
+      unlockingWallet: stateProps.onboarding.unlockingWallet,
+      unlockWalletError: stateProps.onboarding.unlockWalletError,
+      
+      updatePassword: dispatchProps.updatePassword,
+      createWallet: dispatchProps.createWallet,
+      unlockWallet: dispatchProps.unlockWallet
+    },
+
+    signupProps: {
+      signupForm: stateProps.onboarding.signupForm,
+
+      setSignupCreate: dispatchProps.setSignupCreate,
+      setSignupImport: dispatchProps.setSignupImport
+    }
   }
 
   const newWalletSeedProps = {
@@ -81,6 +102,19 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     updateCreateWalletPassword: dispatchProps.updateCreateWalletPassword
   }
 
+  const newAezeedPasswordProps = {
+    aezeedPassword: stateProps.onboarding.aezeedPassword,
+    updateAezeedPassword: dispatchProps.updateAezeedPassword
+  }
+
+  const reEnterSeedProps = {
+    seed: stateProps.onboarding.seed,
+    seedInput: stateProps.onboarding.seedInput,
+    reEnterSeedChecker: stateProps.reEnterSeedChecker,
+    renderEnterSeedHtml: stateProps.renderEnterSeedHtml,
+    updateSeedInput: dispatchProps.updateSeedInput
+  }
+
   const onboardingProps = {
     onboarding: stateProps.onboarding,
     changeStep: dispatchProps.changeStep,
@@ -90,7 +124,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     autopilotProps,
     initWalletProps,
     newWalletSeedProps,
-    newWalletPasswordProps
+    newWalletPasswordProps,
+    newAezeedPasswordProps,
+    reEnterSeedProps
   }
 
   return {

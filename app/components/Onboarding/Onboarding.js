@@ -7,8 +7,12 @@ import FormContainer from './FormContainer'
 import Alias from './Alias'
 import Autopilot from './Autopilot'
 import InitWallet from './InitWallet'
+import Login from './Login'
+import Signup from './Signup'
 import NewWalletSeed from './NewWalletSeed'
+import ReEnterSeed from './ReEnterSeed'
 import NewWalletPassword from './NewWalletPassword'
+import NewAezeedPassword from './NewAezeedPassword'
 import styles from './Onboarding.scss'
 
 const Onboarding = ({
@@ -18,7 +22,8 @@ const Onboarding = ({
     autopilot,
     startingLnd,
     createWalletPassword,
-    seed
+    seed,
+    aezeedPassword
   },
   changeStep,
   startLnd,
@@ -27,7 +32,9 @@ const Onboarding = ({
   initWalletProps,
   autopilotProps,
   newWalletSeedProps,
-  newWalletPasswordProps
+  newWalletPasswordProps,
+  newAezeedPasswordProps,
+  reEnterSeedProps
 }) => {
   const renderStep = () => {
     switch (step) {
@@ -56,34 +63,67 @@ const Onboarding = ({
       case 3:
         return (
           <FormContainer
-            title='Welcome!'
+            title='Welcome back!'
             description='Enter your wallet password or create a new wallet' // eslint-disable-line
-            back={() => changeStep(2)}
+            back={null}
             next={null}
           >
-            <InitWallet {...initWalletProps} />
+            <Login {...initWalletProps.loginProps} />
           </FormContainer>
         )
       case 4:
         return (
           <FormContainer
-            title='Save your wallet seed'
-            description='Please save these 24 words securely! This will allow you to recover your wallet in the future' // eslint-disable-line
-            back={() => changeStep(3)}
+            title='Welcome!'
+            description='Looks like you are new here. Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future' // eslint-disable-line
+            back={null}
             next={() => changeStep(5)}
           >
-            <NewWalletSeed {...newWalletSeedProps} />
+            <NewWalletPassword {...newWalletPasswordProps} />
           </FormContainer>
         )
       case 5:
         return (
           <FormContainer
-            title='Set your password'
-            description='Choose a password to encrypt your wallet' // eslint-disable-line
+            title={'Alright, let\'s get set up'}
+            description='Would you like to create a new wallet or import an existing one?' // eslint-disable-line
             back={() => changeStep(4)}
-            next={() => submitNewWallet(createWalletPassword, seed)}
+            next={() => initWalletProps.signupProps.signupForm.create ? changeStep(6) : console.log('import')}
           >
-            <NewWalletPassword {...newWalletPasswordProps} />
+            <Signup {...initWalletProps.signupProps} />
+          </FormContainer>
+        )
+      case 6:
+        return (
+          <FormContainer
+            title='Save your wallet seed'
+            description='Please save these 24 words securely! This will allow you to recover your wallet in the future' // eslint-disable-line
+            back={() => changeStep(5)}
+            next={() => changeStep(7)}
+          >
+            <NewWalletSeed {...newWalletSeedProps} />
+          </FormContainer>
+        )
+      case 7:
+        return (
+          <FormContainer
+            title='Re-enter your seed'
+            description='Yeah I know, might be annoying, but just to be safe!' // eslint-disable-line
+            back={() => changeStep(6)}
+            next={() => changeStep(8)}
+          >
+            <ReEnterSeed {...reEnterSeedProps} />
+          </FormContainer>
+        )
+      case 8:
+        return (
+          <FormContainer
+            title='Encrypt your seed'
+            description='Totally optional, but we encourage it. Set a password that will be used to encrypt your wallet seed' // eslint-disable-line
+            back={() => changeStep(6)}
+            next={() => submitNewWallet(createWalletPassword, seed, aezeedPassword)}
+          >
+            <NewAezeedPassword {...newAezeedPasswordProps} />
           </FormContainer>
         )
       default:
