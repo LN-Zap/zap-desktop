@@ -7,6 +7,7 @@ import { ipcRenderer } from 'electron'
 export const UPDATE_ALIAS = 'UPDATE_ALIAS'
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
 export const UPDATE_CREATE_WALLET_PASSWORD = 'UPDATE_CREATE_WALLET_PASSWORD'
+export const UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION = 'UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION'
 export const UPDATE_AEZEED_PASSWORD = 'UPDATE_AEZEED_PASSWORD'
 export const UPDATE_SEED_INPUT = 'UPDATE_SEED_INPUT'
 
@@ -53,6 +54,13 @@ export function updateCreateWalletPassword(createWalletPassword) {
   return {
     type: UPDATE_CREATE_WALLET_PASSWORD,
     createWalletPassword
+  }
+}
+
+export function updateCreateWalletPasswordConfirmation(updateCreateWalletPasswordConfirmation) {
+  return {
+    type: UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION,
+    updateCreateWalletPasswordConfirmation
   }
 }
 
@@ -130,9 +138,9 @@ export const successfullyCreatedWallet = (event) => (dispatch) => dispatch({ typ
 
 // Listener for when LND creates and sends us a generated seed
 export const receiveSeed = (event, { cipher_seed_mnemonic }) => (dispatch) => {
-  dispatch({ type: SET_SEED, seed: cipher_seed_mnemonic })
-  // there was no seed and we just generated a new one, send user to the login component
   dispatch({ type: CHANGE_STEP, step: 4 })
+  // there was no seed and we just generated a new one, send user to the login component
+  dispatch({ type: SET_SEED, seed: cipher_seed_mnemonic })
 }
 
 // Listener for when LND throws an error on seed creation
@@ -164,6 +172,7 @@ const ACTION_HANDLERS = {
   [UPDATE_ALIAS]: (state, { alias }) => ({ ...state, alias }),
   [UPDATE_PASSWORD]: (state, { password }) => ({ ...state, password }),
   [UPDATE_CREATE_WALLET_PASSWORD]: (state, { createWalletPassword }) => ({ ...state, createWalletPassword }),
+  [UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION]: (state, { createWalletConfirmation }) => ({ ...state, createWalletConfirmation }),
   [UPDATE_AEZEED_PASSWORD]: (state, { aezeedPassword }) => ({ ...state, aezeedPassword }),
   [UPDATE_SEED_INPUT]: (state, { inputSeedObj }) => {
     return {
@@ -229,6 +238,7 @@ const initialState = {
   
   // wallet password. password used to encrypt the wallet and is required to unlock the daemon after set
   createWalletPassword: '',
+  createWalletConfirmation: '',
   creatingNewWallet: false,
 
   // seed password. this is optional and used to encrypt the seed

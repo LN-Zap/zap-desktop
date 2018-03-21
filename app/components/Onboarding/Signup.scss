@@ -9,33 +9,33 @@
     &.enable {
       &.active {
         div {
-          color: $green;
-          border-color: $green;
+          color: $gold;
+          border-color: $gold;
         }
       }
 
       div:hover {
-        color: $green;
-        border-color: $green;
+        color: $gold;
+        border-color: $gold;
       }
     }
 
     &.disable {
       &.active {
         div {
-          color: $red;
-          border-color: $red;
+          color: $gold;
+          border-color: $gold;
         }
       }
 
       div:hover {
-        color: $red;
-        border-color: $red;
+        color: $gold;
+        border-color: $gold;
       }
     }
 
     div {
-      width: 200px;
+      width: 185px;
       display: inline-block;
       padding: 20px;
       border: 1px solid $white;

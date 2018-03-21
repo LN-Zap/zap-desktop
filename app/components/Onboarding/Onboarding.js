@@ -23,7 +23,8 @@ const Onboarding = ({
     startingLnd,
     createWalletPassword,
     seed,
-    aezeedPassword
+    aezeedPassword,
+    fetchingSeed
   },
   changeStep,
   startLnd,
@@ -137,6 +138,9 @@ const Onboarding = ({
   }
 
   if (startingLnd) { return <LoadingBolt /> }
+  if (fetchingSeed) { 
+    console.log('got em!')
+    return <LoadingBolt /> }
 
   return (
     <div className={styles.container}>
