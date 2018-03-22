@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { channelsSelectors } from 'reducers/channels'
 
 // ------------------------------------
 // Initial State
@@ -171,7 +172,8 @@ const allActivity = createSelector(
   paymentsSelector,
   invoicesSelector,
   transactionsSelector,
-  (searchText, payments, invoices, transactions) => {
+  channelsSelectors.fundingTxIdsSelector,
+  (searchText, payments, invoices, transactions, fundingTxIds) => {
     let result = [...payments, ...invoices, ...transactions]
     if (searchText) {
       // exclude transaction not matching search
@@ -184,7 +186,9 @@ const allActivity = createSelector(
 
     result = result.filter(tx => (
       // exclude expired transaction
-      !Object.prototype.hasOwnProperty.call(tx, 'expiry') || !invoiceExpired(tx)
+      (!Object.prototype.hasOwnProperty.call(tx, 'expiry') || !invoiceExpired(tx)) &&
+      // exclude funding transactions
+      (!Object.prototype.hasOwnProperty.call(tx, 'tx_hash') || !fundingTxIds.includes(tx.tx_hash))
     ))
 
     if (!result.length) { return [] }
@@ -193,7 +197,7 @@ const allActivity = createSelector(
   }
 )
 
-const invoiceActivity = createSelector(
+const requestedActivity = createSelector(
   invoicesSelector,
   invoices => groupAll(invoices)
 )
@@ -212,7 +216,7 @@ const pendingActivity = createSelector(
 const FILTERS = {
   ALL_ACTIVITY: allActivity,
   SENT_ACTIVITY: sentActivity,
-  REQUESTED_ACTIVITY: invoiceActivity,
+  REQUESTED_ACTIVITY: requestedActivity,
   PENDING_ACTIVITY: pendingActivity
 }
 
