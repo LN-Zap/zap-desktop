@@ -103,7 +103,7 @@ class ReceiveModal extends React.Component {
 
 ReceiveModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
-  pubkey: PropTypes.string.isRequired,
+  pubkey: PropTypes.string,
   address: PropTypes.string.isRequired,
   closeReceiveModal: PropTypes.func.isRequired
 }
