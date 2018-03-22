@@ -107,6 +107,11 @@ const invoicesSelector = state => state.invoice.invoices
 const transactionsSelector = state => state.transaction.transactions
 const channelsSelector = state => state.channels.channels
 
+const invoiceExpired = (invoice) => {
+  const expiresAt = (parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10))
+  return expiresAt < (Date.now() / 1000)
+}
+
 const allActivity = createSelector(
   searchSelector,
   paymentsSelector,
@@ -163,7 +168,7 @@ const sentActivity = createSelector(
 
 const pendingActivity = createSelector(
   invoicesSelector,
-  invoices => invoices.filter(invoice => !invoice.settled)
+  invoices => invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice))
 )
 
 const fundedActivity = createSelector(
