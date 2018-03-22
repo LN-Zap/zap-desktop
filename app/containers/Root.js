@@ -17,6 +17,7 @@ import {
   updateCreateWalletPassword,
   updateCreateWalletPasswordConfirmation,
   updateAezeedPassword,
+  updateAezeedPasswordConfirmation,
   submitNewWallet,
   onboardingSelectors,
   unlockWallet,
@@ -33,6 +34,7 @@ const mapDispatchToProps = {
   updateCreateWalletPassword,
   updateCreateWalletPasswordConfirmation,
   updateAezeedPassword,
+  updateAezeedPasswordConfirmation,
   setAutopilot,
   changeStep,
   startLnd,
@@ -53,6 +55,7 @@ const mapStateToProps = state => ({
   syncPercentage: lndSelectors.syncPercentage(state),
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
   showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(state),
+  showAezeedPasswordConfirmationError: onboardingSelectors.showAezeedPasswordConfirmationError(state),
   reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state)
 })
 
@@ -109,7 +112,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const newAezeedPasswordProps = {
     aezeedPassword: stateProps.onboarding.aezeedPassword,
-    updateAezeedPassword: dispatchProps.updateAezeedPassword
+    aezeedPasswordConfirmation: stateProps.onboarding.updateAezeedPasswordConfirmation,
+    showAezeedPasswordConfirmationError: stateProps.showAezeedPasswordConfirmationError,
+    updateAezeedPassword: dispatchProps.updateAezeedPassword,
+    updateAezeedPasswordConfirmation: dispatchProps.updateAezeedPasswordConfirmation
   }
 
   const reEnterSeedProps = {
