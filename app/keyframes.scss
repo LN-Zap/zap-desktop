@@ -2,13 +2,15 @@
 
 @keyframes fadeinOutD6 {
   0% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
+
   50% {
-      transform: rotate(6deg);
+    transform: rotate(6deg);
   }
+
   100% {
-      transform: rotate(0deg);
+    transform: rotate(0deg);
   }
 }
 
@@ -16,28 +18,30 @@
   0% {
     transform: rotate(0deg);
   }
+
   50% {
     transform: rotate(13deg);
   }
+
   100% {
     transform: rotate(0deg);
   }
 }
 
 @keyframes colorchange {
-  0%   { color: $white; }
-  25%  { color: $gold; }
-  50%  { color: $white; }
-  75%  { color: $gold; }
+  0% { color: $white; }
+  25% { color: $gold; }
+  50% { color: $white; }
+  75% { color: $gold; }
   100% { color: $white; }
 }
 
 @keyframes spin {
-    from {
-      transform:rotate(0deg)
-    }
-    
-    to {
-      transform:rotate(360deg);
-    }
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

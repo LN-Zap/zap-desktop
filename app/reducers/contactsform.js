@@ -95,6 +95,19 @@ const networkNodesSelector = state => state.network.nodes
 const searchQuerySelector = state => state.contactsform.searchQuery
 const manualSearchQuerySelector = state => state.contactsform.manualSearchQuery
 
+const contactable = node => (
+  node.addresses.length > 0
+)
+
+// comparator to sort the contacts list with contactable contacts first
+const contactableFirst = (a, b) => {
+  if (contactable(a) && !contactable(b)) {
+    return -1
+  } else if (!contactable(a) && contactable(b)) {
+    return 1
+  }
+  return 0
+}
 
 contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
@@ -102,13 +115,13 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
   (nodes, searchQuery) => {
     // If there is no search query default to showing the first 20 nodes from the nodes array
     // (performance hit to render the entire thing by default)
-    if (!searchQuery.length) { return nodes.slice(0, 20) }
+    if (!searchQuery.length) { return nodes.sort(contactableFirst).slice(0, 20) }
 
     // if there is an '@' in the search query we are assuming they are using the format pubkey@host
     // we can ignore the '@' and the host and just grab the pubkey for our search
     const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
 
-    return filter(nodes, node => node.alias.includes(query) || node.pub_key.includes(query))
+    return filter(nodes, node => node.alias.includes(query) || node.pub_key.includes(query)).sort(contactableFirst)
   }
 )
 
