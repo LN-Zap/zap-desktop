@@ -174,12 +174,18 @@ const allActivity = createSelector(
   (searchText, payments, invoices, transactions) => {
     let result = [...payments, ...invoices, ...transactions]
     if (searchText) {
+      // exclude transaction not matching search
       result = result.filter(tx => (
         (tx.tx_hash && tx.tx_hash.includes(searchText)) ||
         (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
         (tx.payment_request && tx.payment_request.includes(searchText))
       ))
     }
+
+    result = result.filter(tx => (
+      // exclude expired transaction
+      !Object.prototype.hasOwnProperty.call(tx, 'expiry') || !invoiceExpired(tx)
+    ))
 
     if (!result.length) { return [] }
 
