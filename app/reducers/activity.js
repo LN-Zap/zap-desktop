@@ -172,19 +172,18 @@ const allActivity = createSelector(
   invoicesSelector,
   transactionsSelector,
   (searchText, payments, invoices, transactions) => {
-    const searchedArr = [...payments, ...invoices, ...transactions].filter((tx) => {
-      if ((tx.tx_hash && tx.tx_hash.includes(searchText)) ||
-          (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
-          (tx.payment_request && tx.payment_request.includes(searchText))) {
-        return true
-      }
+    let result = [...payments, ...invoices, ...transactions]
+    if (searchText) {
+      result = result.filter(tx => (
+        (tx.tx_hash && tx.tx_hash.includes(searchText)) ||
+        (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
+        (tx.payment_request && tx.payment_request.includes(searchText))
+      ))
+    }
 
-      return false
-    })
+    if (!result.length) { return [] }
 
-    if (!searchedArr.length) { return [] }
-
-    return groupAll(searchedArr)
+    return groupAll(result)
   }
 )
 
