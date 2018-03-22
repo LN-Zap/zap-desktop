@@ -4,6 +4,8 @@ import PropTypes from 'prop-types'
 import LoadingBolt from 'components/LoadingBolt'
 
 import FormContainer from './FormContainer'
+import ConnectionType from './ConnectionType'
+import ConnectionDetails from './ConnectionDetails'
 import Alias from './Alias'
 import Autopilot from './Autopilot'
 import Login from './Login'
@@ -18,6 +20,10 @@ import styles from './Onboarding.scss'
 const Onboarding = ({
   onboarding: {
     step,
+    connectionType,
+    connectionHost,
+    connectionCert,
+    connectionMacaroon,
     alias,
     autopilot,
     startingLnd,
@@ -26,6 +32,8 @@ const Onboarding = ({
     aezeedPassword,
     fetchingSeed
   },
+  connectionTypeProps,
+  connectionDetailProps,
   changeStep,
   startLnd,
   submitNewWallet,
@@ -40,12 +48,43 @@ const Onboarding = ({
 }) => {
   const renderStep = () => {
     switch (step) {
+      case 0.1:
+        return (
+          <FormContainer
+            title='Lightning Connection'
+            description='How will you connect to the Lightning Network?'
+            back={null}
+            next={() => changeStep(connectionType === 'local' ? 1 : 0.2)}
+          >
+            <ConnectionType {...connectionTypeProps} />
+          </FormContainer>
+        )
+
+      case 0.2:
+        return (
+          <FormContainer
+            title='Connection details'
+            description='Enter the connection details for your Lightning node.'
+            back={() => changeStep(0.1)}
+            next={() =>
+              startLnd({
+                connectionType,
+                connectionHost,
+                connectionCert,
+                connectionMacaroon
+              })
+            }
+          >
+            <ConnectionDetails {...connectionDetailProps} />
+          </FormContainer>
+        )
+
       case 1:
         return (
           <FormContainer
             title='What should we call you?'
             description='Set your nickname to help others connect with you on the Lightning Network'
-            back={null}
+            back={() => changeStep(0.1)}
             next={() => changeStep(2)}
           >
             <Alias {...aliasProps} />
@@ -57,7 +96,7 @@ const Onboarding = ({
             title='Autopilot'
             description='Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.' // eslint-disable-line
             back={() => changeStep(1)}
-            next={() => startLnd(alias, autopilot)}
+            next={() => startLnd({ connectionType, alias, autopilot })}
           >
             <Autopilot {...autopilotProps} />
           </FormContainer>
@@ -81,7 +120,9 @@ const Onboarding = ({
             back={null}
             next={() => {
               // dont allow the user to move on if the confirmation password doesnt match the original password
-              if (newWalletPasswordProps.showCreateWalletPasswordConfirmationError) { return }
+              if (newWalletPasswordProps.showCreateWalletPasswordConfirmationError) {
+                return
+              }
 
               changeStep(5)
             }}
@@ -145,7 +186,9 @@ const Onboarding = ({
             back={() => changeStep(6)}
             next={() => {
               // don't allow them to move on if they havent re-entered the seed correctly
-              if (!reEnterSeedProps.reEnterSeedChecker) { return }
+              if (!reEnterSeedProps.reEnterSeedChecker) {
+                return
+              }
 
               changeStep(8)
             }}
@@ -174,18 +217,20 @@ const Onboarding = ({
     }
   }
 
-  if (startingLnd) { return <LoadingBolt /> }
-  if (fetchingSeed) { return <LoadingBolt /> }
+  if (startingLnd) {
+    return <LoadingBolt />
+  }
+  if (fetchingSeed) {
+    return <LoadingBolt />
+  }
 
-  return (
-    <div className={styles.container}>
-      {renderStep()}
-    </div>
-  )
+  return <div className={styles.container}>{renderStep()}</div>
 }
 
 Onboarding.propTypes = {
   onboarding: PropTypes.object.isRequired,
+  connectionTypeProps: PropTypes.object.isRequired,
+  connectionDetailProps: PropTypes.object.isRequired,
   aliasProps: PropTypes.object.isRequired,
   autopilotProps: PropTypes.object.isRequired,
   initWalletProps: PropTypes.object.isRequired,

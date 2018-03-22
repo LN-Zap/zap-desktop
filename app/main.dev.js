@@ -15,20 +15,17 @@ import path from 'path'
 import fs from 'fs'
 import { spawn } from 'child_process'
 import { lookup } from 'ps-node'
-import os from 'os'
+import Store from 'electron-store'
 import MenuBuilder from './menu'
 import lnd from './lnd'
+import config from './lnd/config'
 
-const plat = os.platform()
-const homedir = os.homedir()
 let mainWindow = null
 
 let didFinishLoad = false
 
 let startedSync = false
 let sentGrpcDisconnect = false
-
-let certPath
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support')
@@ -44,17 +41,12 @@ if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true')
 const installExtensions = async () => {
   const installer = require('electron-devtools-installer')
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-  const extensions = [
-    'REACT_DEVELOPER_TOOLS',
-    'REDUX_DEVTOOLS'
-  ]
+  const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
 
-  return Promise
-    .all(extensions.map(name => installer.default(installer[name], forceDownload)))
-    .catch(console.log)
+  return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload))).catch(console.log)
 }
 
-// Send the front end event letting them know the gRPC connection has started
+// Send the front end event letting them know the gRPC connection is disconnected
 const sendGrpcDisconnected = () => {
   const sendGrpcDisonnectedInterval = setInterval(() => {
     if (didFinishLoad) {
@@ -152,13 +144,8 @@ const sendLndSynced = () => {
 
 // Starts the LND node
 const startLnd = (alias, autopilot) => {
-  let lndPath
-
-  if (process.env.NODE_ENV === 'development') {
-    lndPath = path.join(__dirname, '..', 'resources', 'bin', plat, plat === 'win32' ? 'lnd.exe' : 'lnd')
-  } else {
-    lndPath = path.join(__dirname, '..', 'bin', plat === 'win32' ? 'lnd.exe' : 'lnd')
-  }
+  const lndConfig = config.lnd()
+  console.log('lndConfig', lndConfig)
 
   const neutrinoArgs = [
     '--bitcoin.active',
@@ -171,7 +158,7 @@ const startLnd = (alias, autopilot) => {
     `${alias ? `--alias=${alias}` : ''}`
   ]
 
-  const neutrino = spawn(lndPath, neutrinoArgs)
+  const neutrino = spawn(lndConfig.lndPath, neutrinoArgs)
     .on('error', error => console.log(`lnd error: ${error}`))
     .on('close', code => console.log(`lnd shutting down ${code}`))
 
@@ -180,12 +167,15 @@ const startLnd = (alias, autopilot) => {
     // Data stored in variable line, log line to the console
     const line = data.toString('utf8')
 
-    if (process.env.NODE_ENV === 'development') { console.log(line) }
+    if (process.env.NODE_ENV === 'development') {
+      console.log(line)
+    }
 
     // If the gRPC proxy has started we can start ours
     if (line.includes('gRPC proxy started')) {
       const certInterval = setInterval(() => {
-        if (fs.existsSync(certPath)) {
+        console.log('lndConfig', lndConfig)
+        if (fs.existsSync(lndConfig.cert)) {
           clearInterval(certInterval)
 
           console.log('CERT EXISTS, STARTING WALLET UNLOCKER')
@@ -233,7 +223,6 @@ app.on('window-all-closed', () => {
   }
 })
 
-
 app.on('ready', async () => {
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions()
@@ -275,40 +264,49 @@ app.on('ready', async () => {
   menuBuilder.buildMenu()
 
   sendGrpcDisconnected()
-  // Check to see if an LND process is running
-  lookup({ command: 'lnd' }, (err, results) => {
-    // There was an error checking for the LND process
-    if (err) { throw new Error(err) }
 
-    // No LND process was found
-    if (!results.length) {
-      // let the application know onboarding has started
-      sendStartOnboarding()
+  // Let the application know onboarding has started.
+  sendStartOnboarding()
 
-      // Assign path to certs to certPath
-      switch (os.platform()) {
-        case 'darwin':
-          certPath = path.join(homedir, 'Library/Application Support/Lnd/tls.cert')
-          break
-        case 'linux':
-          certPath = path.join(homedir, '.lnd/tls.cert')
-          break
-        case 'win32':
-          certPath = path.join(homedir, 'AppData', 'Local', 'Lnd', 'tls.cert')
-          break
-        default:
-          break
-      }
+  // Start LND
+  // once the onboarding has enough information, start or connect to LND.
+  ipcMain.on('startLnd', (event, options = {}) => {
+    console.log('STARTING LND', options)
 
-      // Start LND
-      // once the onboarding has finished we wanna let the application we have started syncing and start LND
-      ipcMain.on('startLnd', (event, { alias, autopilot }) => {
-        startLnd(alias, autopilot)
+    const store = new Store({ name: 'connection' })
+    store.store = {
+      type: options.connectionType,
+      host: options.connectionHost,
+      cert: options.connectionCert,
+      macaroon: options.connectionMacaroon,
+      alias: options.alias,
+      autopilot: options.autopilot
+    }
+
+    console.log('SAVED CONFIG TO:', store.pathm, 'AS', store.store)
+
+    if (options.connectionType === 'local') {
+      console.log('LOOKING FOR LOCAL LND')
+      // Check to see if an LND process is running.
+      lookup({ command: 'lnd' }, (err, results) => {
+        // There was an error checking for the LND process.
+        if (err) {
+          throw new Error(err)
+        }
+
+        // No LND process was found.
+        if (!results.length) {
+          startLnd(options.alias, options.autopilot)
+        } else {
+          // An LND process was found, no need to start our own.
+          console.log('LND ALREADY RUNNING')
+          startGrpc()
+        }
       })
     } else {
-      // An LND process was found, no need to start our own
-      console.log('LND ALREADY RUNNING')
+      console.log('USING CUSTOM LND')
       startGrpc()
+      mainWindow.webContents.send('successfullyCreatedWallet')
     }
   })
 })

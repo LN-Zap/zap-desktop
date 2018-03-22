@@ -1,0 +1,29 @@
+@import '../../variables.scss';
+
+.container {
+  color: $white;
+
+  label {
+    font-size: 12px;
+    line-height: 14px;
+    padding: 10px 0px;
+    min-height: 14px;
+  }
+
+  input {
+    background: transparent;
+    outline: none;
+    border: 0;
+    color: $gold;
+    -webkit-text-fill-color: $white;
+    font-size: 22px;
+    width: 100%;
+    // font-weight: 200;
+    margin-bottom: 25px;
+  }
+
+  input::-webkit-input-placeholder {
+    text-shadow: none;
+    -webkit-text-fill-color: initial;
+  }
+}

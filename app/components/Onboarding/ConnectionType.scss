@@ -1,0 +1,40 @@
+@import '../../variables.scss';
+
+.container {
+  color: $white;
+
+  section {
+    margin: 30px 0;
+
+    &.option {
+      .button {
+        width: 150px;
+        text-align: center;
+        display: inline-block;
+        padding: 20px;
+        border: 1px solid $white;
+        border-radius: 5px;
+        font-weight: 200;
+        cursor: pointer;
+        transition: all 0.25s;
+        margin-bottom: 20px;
+      }
+
+      &.active {
+        .button {
+          color: $gold;
+          border-color: $gold;
+        }
+      }
+
+      .button:hover {
+        color: $gold;
+        border-color: $gold;
+      }
+
+      .label {
+        margin-left: 15px;
+      }
+    }
+  }
+}

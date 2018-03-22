@@ -42,4 +42,3 @@ NewAezeedPassword.propTypes = {
 }
 
 export default NewAezeedPassword
-
