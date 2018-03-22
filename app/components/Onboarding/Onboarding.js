@@ -131,7 +131,12 @@ const Onboarding = ({
             title='Encrypt your seed'
             description='Totally optional, but we encourage it. Set a password that will be used to encrypt your wallet seed' // eslint-disable-line
             back={() => changeStep(6)}
-            next={() => submitNewWallet(createWalletPassword, seed, aezeedPassword)}
+            next={() => {
+              // dont allow the user to move on if the confirmation password doesnt match the original password
+              if (newAezeedPasswordProps.showAezeedPasswordConfirmationError) { return }
+
+              submitNewWallet(createWalletPassword, seed, aezeedPassword)
+            }}
           >
             <NewAezeedPassword {...newAezeedPasswordProps} />
           </FormContainer>
