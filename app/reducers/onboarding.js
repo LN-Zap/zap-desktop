@@ -105,7 +105,7 @@ export function changeStep(step) {
 }
 
 export function startLnd(alias, autopilot) {
-  // once the user submits the data needed to start LND we will alert the app that it should start LND 
+  // once the user submits the data needed to start LND we will alert the app that it should start LND
   ipcRenderer.send('startLnd', { alias, autopilot })
 
   return {
@@ -114,7 +114,7 @@ export function startLnd(alias, autopilot) {
 }
 
 export const submitNewWallet = (wallet_password, cipher_seed_mnemonic, aezeed_passphrase) => (dispatch) => {
-  // once the user submits the data needed to start LND we will alert the app that it should start LND 
+  // once the user submits the data needed to start LND we will alert the app that it should start LND
   ipcRenderer.send('walletUnlocker', { msg: 'initWallet', data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase } })
   dispatch({ type: CREATING_NEW_WALLET })
 }
@@ -134,7 +134,7 @@ export const createWallet = () => (dispatch) => {
   dispatch({ type: CHANGE_STEP, step: 4 })
 }
 
-export const successfullyCreatedWallet = (event) => (dispatch) => dispatch({ type: ONBOARDING_FINISHED })
+export const successfullyCreatedWallet = () => dispatch => dispatch({ type: ONBOARDING_FINISHED })
 
 // Listener for when LND creates and sends us a generated seed
 export const receiveSeed = (event, { cipher_seed_mnemonic }) => (dispatch) => {
@@ -144,14 +144,14 @@ export const receiveSeed = (event, { cipher_seed_mnemonic }) => (dispatch) => {
 }
 
 // Listener for when LND throws an error on seed creation
-export const receiveSeedError = (event, error) => (dispatch) => {
+export const receiveSeedError = () => (dispatch) => {
   dispatch({ type: SET_HAS_SEED, hasSeed: true })
   // there is already a seed, send user to the login component
   dispatch({ type: CHANGE_STEP, step: 3 })
 }
 
 // Unlock an existing wallet with a wallet password
-export const unlockWallet = (wallet_password) => (dispatch) => {
+export const unlockWallet = wallet_password => (dispatch) => {
   ipcRenderer.send('walletUnlocker', { msg: 'unlockWallet', data: { wallet_password } })
   dispatch({ type: UNLOCKING_WALLET })
 }
@@ -174,23 +174,21 @@ const ACTION_HANDLERS = {
   [UPDATE_CREATE_WALLET_PASSWORD]: (state, { createWalletPassword }) => ({ ...state, createWalletPassword }),
   [UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION]: (state, { createWalletPasswordConfirmation }) => ({ ...state, createWalletPasswordConfirmation }),
   [UPDATE_AEZEED_PASSWORD]: (state, { aezeedPassword }) => ({ ...state, aezeedPassword }),
-  [UPDATE_SEED_INPUT]: (state, { inputSeedObj }) => {
-    return {
-      ...state,
-      seedInput: Object.assign([], state.seedInput, { [inputSeedObj['index']]: inputSeedObj })
-    }
-  },
-  
+  [UPDATE_SEED_INPUT]: (state, { inputSeedObj }) => ({
+    ...state,
+    seedInput: Object.assign([], state.seedInput, { [inputSeedObj.index]: inputSeedObj })
+  }),
+
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
-  
+
   [SET_HAS_SEED]: (state, { hasSeed }) => ({ ...state, hasSeed }),
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, fetchingSeed: false }),
-  
+
   [CHANGE_STEP]: (state, { step }) => ({ ...state, step }),
-  
+
   [ONBOARDING_STARTED]: state => ({ ...state, onboarded: false }),
   [ONBOARDING_FINISHED]: state => ({ ...state, onboarded: true }),
-  
+
   [STARTING_LND]: state => ({ ...state, startingLnd: true }),
   [LND_STARTED]: state => ({ ...state, startingLnd: false }),
 
@@ -199,7 +197,7 @@ const ACTION_HANDLERS = {
   [UNLOCKING_WALLET]: state => ({ ...state, unlockingWallet: true }),
   [WALLET_UNLOCKED]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: false, message: '' } }),
   [SET_UNLOCK_WALLET_ERROR]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: true, message: 'Incorrect password' } }),
-  
+
   [SET_SIGNUP_CREATE]: state => ({ ...state, signupForm: { create: true, import: false } }),
   [SET_SIGNUP_IMPORT]: state => ({ ...state, signupForm: { create: false, import: true } })
 }
@@ -241,11 +239,11 @@ const initialState = {
   alias: '',
   password: '',
   startingLnd: false,
-  
+
   fetchingSeed: false,
   hasSeed: false,
   seed: [],
-  
+
   // wallet password. password used to encrypt the wallet and is required to unlock the daemon after set
   createWalletPassword: '',
   createWalletPasswordConfirmation: '',

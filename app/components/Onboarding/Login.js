@@ -38,6 +38,12 @@ const Login = ({
   </div>
 )
 
-Login.propTypes = {}
+Login.propTypes = {
+  password: PropTypes.string.isRequired,
+  updatePassword: PropTypes.func.isRequired,
+  unlockingWallet: PropTypes.bool.isRequired,
+  unlockWallet: PropTypes.func.isRequired,
+  unlockWalletError: PropTypes.object.isRequired
+}
 
 export default Login

@@ -74,14 +74,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const initWalletProps = {
     hasSeed: stateProps.onboarding.hasSeed,
-    
+
     loginProps: {
       password: stateProps.onboarding.password,
       passwordIsValid: stateProps.passwordIsValid,
       hasSeed: stateProps.onboarding.hasSeed,
       unlockingWallet: stateProps.onboarding.unlockingWallet,
       unlockWalletError: stateProps.onboarding.unlockWalletError,
-      
+
       updatePassword: dispatchProps.updatePassword,
       createWallet: dispatchProps.createWallet,
       unlockWallet: dispatchProps.unlockWallet

@@ -1,7 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
-import eye from 'icons/eye.svg'
 import styles from './NewAezeedPassword.scss'
 
 class NewAezeedPassword extends React.Component {

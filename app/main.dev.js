@@ -17,7 +17,7 @@ import { spawn } from 'child_process'
 import { lookup } from 'ps-node'
 import os from 'os'
 import MenuBuilder from './menu'
-import { initLnd, initWalletUnlocker } from './lnd'
+import lnd from './lnd'
 
 const plat = os.platform()
 const homedir = os.homedir()
@@ -111,7 +111,7 @@ const sendGrpcConnected = () => {
 
 // Create and subscribe the grpc object
 const startGrpc = () => {
-  initLnd((lndSubscribe, lndMethods) => {
+  lnd.initLnd((lndSubscribe, lndMethods) => {
     // Subscribe to bi-directional streams
     lndSubscribe(mainWindow)
 
@@ -126,7 +126,7 @@ const startGrpc = () => {
 
 // Create and subscribe the grpc object
 const startWalletUnlocker = () => {
-  initWalletUnlocker((walletUnlockerMethods) => {
+  lnd.initWalletUnlocker((walletUnlockerMethods) => {
     // Listen for all gRPC restful methods
     ipcMain.on('walletUnlocker', (event, { msg, data }) => {
       walletUnlockerMethods(event, msg, data)
@@ -196,7 +196,6 @@ const startLnd = (alias, autopilot) => {
           if (mainWindow) {
             mainWindow.webContents.send('walletUnlockerStarted')
           }
-          
         }
       }, 1000)
     }

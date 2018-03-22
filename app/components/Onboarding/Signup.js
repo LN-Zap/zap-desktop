@@ -34,6 +34,10 @@ const Signup = ({ signupForm, setSignupCreate, setSignupImport }) => (
   </div>
 )
 
-Signup.propTypes = {}
+Signup.propTypes = {
+  signupForm: PropTypes.object.isRequired,
+  setSignupCreate: PropTypes.func.isRequired,
+  setSignupImport: PropTypes.func.isRequired
+}
 
 export default Signup

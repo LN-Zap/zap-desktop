@@ -15,6 +15,10 @@ const InitWallet = ({ hasSeed, loginProps, signupProps }) => (
   </div>
 )
 
-InitWallet.propTypes = {}
+InitWallet.propTypes = {
+  hasSeed: PropTypes.bool.isRequired,
+  loginProps: PropTypes.object.isRequired,
+  signupProps: PropTypes.object.isRequired
+}
 
 export default InitWallet

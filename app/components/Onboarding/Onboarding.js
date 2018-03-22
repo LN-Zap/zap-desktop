@@ -6,7 +6,6 @@ import LoadingBolt from 'components/LoadingBolt'
 import FormContainer from './FormContainer'
 import Alias from './Alias'
 import Autopilot from './Autopilot'
-import InitWallet from './InitWallet'
 import Login from './Login'
 import Signup from './Signup'
 import NewWalletSeed from './NewWalletSeed'
@@ -81,7 +80,7 @@ const Onboarding = ({
             next={() => {
               // dont allow the user to move on if the confirmation password doesnt match the original password
               if (newWalletPasswordProps.showCreateWalletPasswordConfirmationError) { return }
-                
+
               changeStep(5)
             }}
           >
@@ -94,7 +93,7 @@ const Onboarding = ({
             title={'Alright, let\'s get set up'}
             description='Would you like to create a new wallet or import an existing one?' // eslint-disable-line
             back={() => changeStep(4)}
-            next={() => initWalletProps.signupProps.signupForm.create ? changeStep(6) : console.log('import')}
+            next={() => (initWalletProps.signupProps.signupForm.create ? changeStep(6) : console.log('import'))}
           >
             <Signup {...initWalletProps.signupProps} />
           </FormContainer>
@@ -143,9 +142,7 @@ const Onboarding = ({
   }
 
   if (startingLnd) { return <LoadingBolt /> }
-  if (fetchingSeed) { 
-    console.log('got em!')
-    return <LoadingBolt /> }
+  if (fetchingSeed) { return <LoadingBolt /> }
 
   return (
     <div className={styles.container}>
@@ -158,8 +155,14 @@ Onboarding.propTypes = {
   onboarding: PropTypes.object.isRequired,
   aliasProps: PropTypes.object.isRequired,
   autopilotProps: PropTypes.object.isRequired,
+  initWalletProps: PropTypes.object.isRequired,
+  newWalletSeedProps: PropTypes.object.isRequired,
+  newWalletPasswordProps: PropTypes.object.isRequired,
+  newAezeedPasswordProps: PropTypes.object.isRequired,
+  reEnterSeedProps: PropTypes.object.isRequired,
   changeStep: PropTypes.func.isRequired,
-  startLnd: PropTypes.func.isRequired
+  startLnd: PropTypes.func.isRequired,
+  submitNewWallet: PropTypes.func.isRequired
 }
 
 export default Onboarding
