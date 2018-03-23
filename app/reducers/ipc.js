@@ -35,7 +35,15 @@ import {
 
 import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoutes } from './network'
 
-import { startOnboarding } from './onboarding'
+import {
+  startOnboarding,
+  walletUnlockerStarted,
+  receiveSeed,
+  receiveSeedError,
+  successfullyCreatedWallet,
+  walletUnlocked,
+  unlockWalletError
+} from './onboarding'
 
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
@@ -95,7 +103,13 @@ const ipc = createIpc({
   receiveQueryRoutes,
   receiveInvoiceAndQueryRoutes,
 
-  startOnboarding
+  startOnboarding,
+  walletUnlockerStarted,
+  receiveSeed,
+  receiveSeedError,
+  successfullyCreatedWallet,
+  walletUnlocked,
+  unlockWalletError
 })
 
 export default ipc

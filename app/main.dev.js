@@ -111,7 +111,7 @@ const sendGrpcConnected = () => {
 
 // Create and subscribe the grpc object
 const startGrpc = () => {
-  lnd((lndSubscribe, lndMethods) => {
+  lnd.initLnd((lndSubscribe, lndMethods) => {
     // Subscribe to bi-directional streams
     lndSubscribe(mainWindow)
 
@@ -122,6 +122,18 @@ const startGrpc = () => {
 
     sendGrpcConnected()
   })
+}
+
+// Create and subscribe the grpc object
+const startWalletUnlocker = () => {
+  lnd.initWalletUnlocker((walletUnlockerMethods) => {
+    // Listen for all gRPC restful methods
+    ipcMain.on('walletUnlocker', (event, { msg, data }) => {
+      walletUnlockerMethods(event, msg, data)
+    })
+  })
+
+  mainWindow.webContents.send('walletUnlockerStarted')
 }
 
 // Send the front end event letting them know LND is synced to the blockchain
@@ -152,12 +164,11 @@ const startLnd = (alias, autopilot) => {
     '--bitcoin.active',
     '--bitcoin.testnet',
     '--bitcoin.node=neutrino',
-    '--neutrino.connect=188.166.148.62:18333',
+    '--neutrino.connect=btcd.jackmallers.com:18333',
     '--neutrino.addpeer=btcd.jackmallers.com:18333',
     '--neutrino.addpeer=159.65.48.139:18333',
     '--neutrino.connect=127.0.0.1:18333',
     '--debuglevel=debug',
-    '--noencryptwallet',
     `${autopilot ? '--autopilot.active' : ''}`,
     `${alias ? `--alias=${alias}` : ''}`
   ]
@@ -179,10 +190,20 @@ const startLnd = (alias, autopilot) => {
         if (fs.existsSync(certPath)) {
           clearInterval(certInterval)
 
-          console.log('CERT EXISTS, STARTING GRPC')
-          startGrpc()
+          console.log('CERT EXISTS, STARTING WALLET UNLOCKER')
+          startWalletUnlocker()
+
+          if (mainWindow) {
+            mainWindow.webContents.send('walletUnlockerStarted')
+          }
         }
       }, 1000)
+    }
+
+    if (line.includes('The wallet has been unlocked')) {
+      console.log('WALLET OPENED, STARTING LIGHTNING GRPC CONNECTION')
+      sendLndSyncing()
+      startGrpc()
     }
 
     // Pass current clock height progress to front end for loading state UX
@@ -282,10 +303,8 @@ app.on('ready', async () => {
       }
 
       // Start LND
-      // startLnd()
       // once the onboarding has finished we wanna let the application we have started syncing and start LND
-      ipcMain.on('onboardingFinished', (event, { alias, autopilot }) => {
-        sendLndSyncing()
+      ipcMain.on('startLnd', (event, { alias, autopilot }) => {
         startLnd(alias, autopilot)
       })
     } else {

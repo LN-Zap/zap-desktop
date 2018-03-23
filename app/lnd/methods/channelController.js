@@ -1,9 +1,6 @@
-import bitcore from 'bitcore-lib'
 import find from 'lodash/find'
 import { listPeers, connectPeer } from './peersController'
 import pushopenchannel from '../push/openchannel'
-
-const BufferUtil = bitcore.util.buffer
 
 function ensurePeerConnected(lnd, meta, pubkey, host) {
   return listPeers(lnd, meta)
@@ -29,7 +26,7 @@ export function connectAndOpen(lnd, meta, event, payload) {
   return ensurePeerConnected(lnd, meta, pubkey, host)
     .then(() => {
       const call = lnd.openChannel({
-        node_pubkey: BufferUtil.hexToBuffer(pubkey),
+        node_pubkey: Buffer.from(pubkey, 'hex'),
         local_funding_amount: Number(localamt)
       }, meta)
 
@@ -54,7 +51,7 @@ export function connectAndOpen(lnd, meta, event, payload) {
 export function openChannel(lnd, meta, event, payload) {
   const { pubkey, localamt, pushamt } = payload
   const res = {
-    node_pubkey: BufferUtil.hexToBuffer(pubkey),
+    node_pubkey: Buffer.from(pubkey, 'hex'),
     local_funding_amount: Number(localamt),
     push_sat: Number(pushamt)
   }
@@ -110,7 +107,7 @@ export function closeChannel(lnd, meta, event, payload) {
   const tx = payload.channel_point.funding_txid.match(/.{2}/g).reverse().join('')
   const res = {
     channel_point: {
-      funding_txid: BufferUtil.hexToBuffer(tx),
+      funding_txid: Buffer.from(tx, 'hex'),
       output_index: Number(payload.channel_point.output_index)
     },
     force

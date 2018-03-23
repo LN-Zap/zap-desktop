@@ -7,15 +7,43 @@ import PropTypes from 'prop-types'
 import LoadingBolt from '../components/LoadingBolt'
 import Onboarding from '../components/Onboarding'
 import Syncing from '../components/Onboarding/Syncing'
-import { updateAlias, setAutopilot, changeStep, submit } from '../reducers/onboarding'
+import {
+  updateAlias,
+  updatePassword,
+  setAutopilot,
+  changeStep,
+  startLnd,
+  createWallet,
+  updateCreateWalletPassword,
+  updateCreateWalletPasswordConfirmation,
+  updateAezeedPassword,
+  updateAezeedPasswordConfirmation,
+  submitNewWallet,
+  onboardingSelectors,
+  unlockWallet,
+  setSignupCreate,
+  setSignupImport,
+  updateSeedInput
+} from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
   updateAlias,
+  updatePassword,
+  updateCreateWalletPassword,
+  updateCreateWalletPasswordConfirmation,
+  updateAezeedPassword,
+  updateAezeedPasswordConfirmation,
   setAutopilot,
   changeStep,
-  submit,
+  startLnd,
+  createWallet,
+  submitNewWallet,
+  unlockWallet,
+  setSignupCreate,
+  setSignupImport,
+  updateSeedInput,
 
   fetchBlockHeight
 }
@@ -24,7 +52,11 @@ const mapStateToProps = state => ({
   lnd: state.lnd,
   onboarding: state.onboarding,
 
-  syncPercentage: lndSelectors.syncPercentage(state)
+  syncPercentage: lndSelectors.syncPercentage(state),
+  passwordIsValid: onboardingSelectors.passwordIsValid(state),
+  showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(state),
+  showAezeedPasswordConfirmationError: onboardingSelectors.showAezeedPasswordConfirmationError(state),
+  reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -43,12 +75,68 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     setAutopilot: dispatchProps.setAutopilot
   }
 
+  const initWalletProps = {
+    hasSeed: stateProps.onboarding.hasSeed,
+
+    loginProps: {
+      password: stateProps.onboarding.password,
+      passwordIsValid: stateProps.passwordIsValid,
+      hasSeed: stateProps.onboarding.hasSeed,
+      unlockingWallet: stateProps.onboarding.unlockingWallet,
+      unlockWalletError: stateProps.onboarding.unlockWalletError,
+
+      updatePassword: dispatchProps.updatePassword,
+      createWallet: dispatchProps.createWallet,
+      unlockWallet: dispatchProps.unlockWallet
+    },
+
+    signupProps: {
+      signupForm: stateProps.onboarding.signupForm,
+
+      setSignupCreate: dispatchProps.setSignupCreate,
+      setSignupImport: dispatchProps.setSignupImport
+    }
+  }
+
+  const newWalletSeedProps = {
+    seed: stateProps.onboarding.seed
+  }
+
+  const newWalletPasswordProps = {
+    createWalletPassword: stateProps.onboarding.createWalletPassword,
+    createWalletPasswordConfirmation: stateProps.onboarding.createWalletPasswordConfirmation,
+    showCreateWalletPasswordConfirmationError: stateProps.showCreateWalletPasswordConfirmationError,
+    updateCreateWalletPassword: dispatchProps.updateCreateWalletPassword,
+    updateCreateWalletPasswordConfirmation: dispatchProps.updateCreateWalletPasswordConfirmation
+  }
+
+  const newAezeedPasswordProps = {
+    aezeedPassword: stateProps.onboarding.aezeedPassword,
+    aezeedPasswordConfirmation: stateProps.onboarding.updateAezeedPasswordConfirmation,
+    showAezeedPasswordConfirmationError: stateProps.showAezeedPasswordConfirmationError,
+    updateAezeedPassword: dispatchProps.updateAezeedPassword,
+    updateAezeedPasswordConfirmation: dispatchProps.updateAezeedPasswordConfirmation
+  }
+
+  const reEnterSeedProps = {
+    seed: stateProps.onboarding.seed,
+    seedInput: stateProps.onboarding.seedInput,
+    reEnterSeedChecker: stateProps.reEnterSeedChecker,
+    updateSeedInput: dispatchProps.updateSeedInput
+  }
+
   const onboardingProps = {
     onboarding: stateProps.onboarding,
     changeStep: dispatchProps.changeStep,
-    submit: dispatchProps.submit,
+    startLnd: dispatchProps.startLnd,
+    submitNewWallet: dispatchProps.submitNewWallet,
     aliasProps,
-    autopilotProps
+    autopilotProps,
+    initWalletProps,
+    newWalletSeedProps,
+    newWalletPasswordProps,
+    newAezeedPasswordProps,
+    reEnterSeedProps
   }
 
   return {

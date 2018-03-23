@@ -92,3 +92,49 @@ export function setAlias(lnd, meta, { new_alias }) {
     })
   })
 }
+
+/**
+ * Generates a seed for the wallet
+ */
+export function genSeed(walletUnlocker) {
+  return new Promise((resolve, reject) => {
+    walletUnlocker.genSeed({}, (err, data) => {
+      if (err) { reject(err) }
+
+      resolve(data)
+    })
+  })
+}
+
+/**
+ * Unlocks a wallet with a password
+ * @param  {[type]} password [description]
+ */
+export function unlockWallet(walletUnlocker, { wallet_password }) {
+  return new Promise((resolve, reject) => {
+    walletUnlocker.unlockWallet({ wallet_password }, (err, data) => {
+      if (err) { reject(err) }
+
+      resolve(data)
+    })
+  })
+}
+
+/**
+ * Unlocks a wallet with a password
+ * @param  {[type]} password [description]
+ * @param  {[type]} cipher_seed_mnemonic [description]
+ */
+export function initWallet(walletUnlocker, { wallet_password, cipher_seed_mnemonic, aezeed_passphrase }) {
+  return new Promise((resolve, reject) => {
+    walletUnlocker.initWallet({
+      wallet_password,
+      cipher_seed_mnemonic,
+      aezeed_passphrase: Buffer.from(aezeed_passphrase, 'hex')
+    }, (err, data) => {
+      if (err) { reject(err) }
+
+      resolve(data)
+    })
+  })
+}
