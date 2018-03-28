@@ -2,7 +2,7 @@
 
 ## Compiling Zap From Source
 
-***Note:*** *If you have installation or compilation issues, please file a [Github issue](https://github.com/LN-Zap/zap-desktop/issues) or ping us in [Slack](https://join.slack.com/t/zaphq/shared_invite/enQtMjkyNTAxNDA3MjE2LWE3NGZjZGE5ZmI1NGQ5YTk3MGQzMTdmNDAwYjNhZTJkMWU0ZWZlNzA0MjJiNDBjMzcxYjcyMDMxNWY3OGNhYWQ).*
+***Note:*** *If you have installation or compilation issues, please file a [Github issue](https://github.com/LN-Zap/zap-desktop/issues) or ping us in [Slack](https://join.slack.com/t/zaphq/shared_invite/enQtMzMxMzIzNDU0NTY3LTgyM2QwYzAyZTA5OTAyMjEwMTQxZmZmZmZkNWUzMTU2MmMyNmMxNjY4Y2VjY2FiYTRkMTkwMTRlMTE4YjM2MWY).*
 
 ### Prerequisites
 
@@ -72,7 +72,7 @@ Zap expects `lnd` to be in one of these directories depending on your OS:
 - Linux `resources/bin/linux/`
 - Windows `resources/bin/win32/`
 
-On macOS and Linux, make sure the file has execute permissions: 
+On macOS and Linux, make sure the file has execute permissions:
 
 ```bash
 chmod +x lnd
