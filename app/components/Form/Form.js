@@ -19,7 +19,7 @@ const Form = ({ formType, formProps, closeForm }) => {
 
   const FormComponent = FORM_TYPES[formType]
   return (
-    <div className={`${styles.container} ${formType && styles.open}`}>
+    <div className={styles.container}>
       <div className={styles.closeContainer}>
         <span onClick={closeForm}>
           <Isvg src={x} />

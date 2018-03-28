@@ -200,7 +200,7 @@ const startLnd = (alias, autopilot) => {
       }, 1000)
     }
 
-    if (line.includes('The wallet has been unlocked')) {
+    if (line.includes('LightningWallet opened')) {
       console.log('WALLET OPENED, STARTING LIGHTNING GRPC CONNECTION')
       sendLndSyncing()
       startGrpc()

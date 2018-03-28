@@ -8,8 +8,11 @@ import Form from 'components/Form'
 import ModalRoot from 'components/ModalRoot'
 
 import Network from 'components/Contacts/Network'
+import AddChannel from 'components/Contacts/AddChannel'
 import ContactModal from 'components/Contacts/ContactModal'
 import ContactsForm from 'components/Contacts/ContactsForm'
+
+import SubmitChannelForm from 'components/Contacts/SubmitChannelForm'
 
 import ReceiveModal from 'components/Wallet/ReceiveModal'
 import ActivityModal from 'components/Activity/ActivityModal'
@@ -60,6 +63,7 @@ class App extends Component {
       networkTabProps,
       receiveModalProps,
       activityModalProps,
+      submitChannelFormProps,
 
       children
     } = this.props
@@ -79,9 +83,9 @@ class App extends Component {
         />
 
         <ContactModal {...contactModalProps} />
-        <ContactsForm {...contactsFormProps} />
 
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
+        <SubmitChannelForm {...submitChannelFormProps} />
 
         <ReceiveModal {...receiveModalProps} />
         <ActivityModal {...activityModalProps} />
@@ -90,7 +94,12 @@ class App extends Component {
           {children}
         </div>
 
-        <Network {...networkTabProps} />
+        {
+          contactsFormProps.contactsform.isOpen ?
+            <AddChannel {...contactsFormProps} />
+            :
+            <Network {...networkTabProps} />
+        }
       </div>
     )
   }

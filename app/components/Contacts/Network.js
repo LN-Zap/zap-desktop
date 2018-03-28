@@ -6,6 +6,7 @@ import { FaAngleDown, FaCircle, FaRepeat } from 'react-icons/lib/fa'
 import { btc } from 'utils'
 import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
+
 import styles from './Network.scss'
 
 class Network extends Component {
@@ -100,7 +101,9 @@ class Network extends Component {
             </span>
           </section>
           <section className={`${styles.addChannel} hint--bottom-left`} onClick={openContactsForm} data-hint='Open a channel'>
-            <Isvg src={plus} />
+            <span className={styles.plusContainer}>
+              <Isvg src={plus} />
+            </span>
           </section>
         </header>
 
