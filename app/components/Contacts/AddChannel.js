@@ -15,7 +15,7 @@ const AddChannel = ({
   updateContactFormSearchQuery,
   updateManualFormSearchQuery,
   updateContactCapacity,
-  setPubkey,
+  setNode,
   openChannel,
   updateManualFormErrors,
   activeChannelPubkeys,
@@ -24,7 +24,8 @@ const AddChannel = ({
   filteredNetworkNodes,
   loadingChannelPubkeys,
   showManualForm,
-  manualFormIsValid
+  manualFormIsValid,
+  openManualForm
 }) => {
 
   const renderRightSide = (node) => {
@@ -75,7 +76,7 @@ const AddChannel = ({
         className={styles.connect}
         onClick={() => {
           // set the node public key for the submit form
-          setPubkey(node.pub_key)
+          setNode(node)
           // open the submit form
           openSubmitChannelForm()
         }}
@@ -102,7 +103,7 @@ const AddChannel = ({
           className={styles.searchInput}
           value={contactsform.searchQuery}
           onChange={event => searchUpdated(event.target.value)}
-          ref={input => input && input.focus()}
+          // ref={input => input && input.focus()}
         />
         <span onClick={closeContactsForm} className={styles.closeIcon}>
           <Isvg src={x} />
@@ -140,7 +141,7 @@ const AddChannel = ({
         showManualForm &&
         <section className={styles.manualForm}>
           <p>Hm, looks like we can't see that node from here, wanna try to manually connect?</p>
-          <div className={styles.manualConnectButton}>Connect Manually</div>
+          <div className={styles.manualConnectButton} onClick={openManualForm}>Connect Manually</div>
         </section>
       }
     </div>

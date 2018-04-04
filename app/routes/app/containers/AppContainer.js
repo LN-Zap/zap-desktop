@@ -42,13 +42,18 @@ import {
   openContactsForm,
   closeContactsForm,
 
+  setChannelFormType,
+
+  openManualForm,
+  closeManualForm,
+
   openSubmitChannelForm,
   closeSubmitChannelForm,
 
   updateContactFormSearchQuery,
   updateManualFormSearchQuery,
   updateContactCapacity,
-  setPubkey,
+  setNode,
 
   contactFormSelectors,
   updateManualFormErrors,
@@ -112,13 +117,16 @@ const mapDispatchToProps = {
   closeContactsForm,
   openSubmitChannelForm,
   closeSubmitChannelForm,
+  openManualForm,
+  closeManualForm,
   updateContactFormSearchQuery,
   updateManualFormSearchQuery,
   updateContactCapacity,
-  setPubkey,
+  setNode,
   contactFormSelectors,
   updateManualFormErrors,
   setContactsCurrencyFilters,
+  setChannelFormType,
 
   fetchDescribeNetwork,
 
@@ -307,13 +315,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const contactsFormProps = {
     closeContactsForm: dispatchProps.closeContactsForm,
-    openSubmitChannelForm: dispatchProps.openSubmitChannelForm,
+    openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM'),
     updateContactFormSearchQuery: dispatchProps.updateContactFormSearchQuery,
     updateManualFormSearchQuery: dispatchProps.updateManualFormSearchQuery,
     updateContactCapacity: dispatchProps.updateContactCapacity,
-    setPubkey: dispatchProps.setPubkey,
+    setNode: dispatchProps.setNode,
     openChannel: dispatchProps.openChannel,
     updateManualFormErrors: dispatchProps.updateManualFormErrors,
+    openManualForm: () => dispatchProps.setChannelFormType('MANUAL_FORM'),
 
     contactsform: stateProps.contactsform,
     filteredNetworkNodes: stateProps.filteredNetworkNodes,
@@ -367,11 +376,15 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const submitChannelFormProps = {
     submitChannelFormOpen: stateProps.contactsform.submitChannelFormOpen,
-    pubkey: stateProps.contactsform.pubkey,
+    node: stateProps.contactsform.node,
     contactCapacity: stateProps.contactsform.contactCapacity,
 
-    closeSubmitChannelForm: dispatchProps.closeSubmitChannelForm,
     updateContactCapacity: dispatchProps.updateContactCapacity,
+    
+    closeChannelForm: () => dispatchProps.setChannelFormType(null),
+    closeContactsForm: dispatchProps.closeContactsForm,
+
+    openChannel: dispatchProps.openChannel,
 
     toggleCurrencyProps: {
       currentCurrencyFilters: stateProps.currentCurrencyFilters,
@@ -389,6 +402,29 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     }
   }
 
+  const connectManuallyProps = {
+    closeManualForm: dispatchProps.closeManualForm,
+    updateManualFormSearchQuery: dispatchProps.updateManualFormSearchQuery,
+    closeChannelForm: () => dispatchProps.setChannelFormType(null),
+    
+    manualFormOpen: stateProps.contactsform.manualFormOpen,
+    manualSearchQuery: stateProps.contactsform.manualSearchQuery
+  }
+
+  const calcChannelFormProps = (formType) => {
+    if (formType === 'MANUAL_FORM') { return connectManuallyProps }
+    if (formType === 'SUBMIT_CHANNEL_FORM') { return submitChannelFormProps }
+
+    return {}
+  }
+
+  const channelFormProps = {
+    formType: stateProps.contactsform.formType,
+    formProps: calcChannelFormProps(stateProps.contactsform.formType),
+    closeForm: () => dispatchProps.setChannelFormType(null)
+  }
+
+
   return {
     ...stateProps,
     ...dispatchProps,
@@ -404,8 +440,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     receiveModalProps,
     // props for the activity modals
     activityModalProps,
-    // props for the for to open a channel
+    // props for the form to open a channel
     submitChannelFormProps,
+    // props for the form to connect manually to a peer
+    connectManuallyProps,
+    // props for the channel form wrapper
+    channelFormProps,
     // Props to pass to the pay form
     formProps: formProps(stateProps.form.formType),
     // action to close form

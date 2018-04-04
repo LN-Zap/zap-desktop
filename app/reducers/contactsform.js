@@ -7,11 +7,18 @@ import { btc } from '../utils'
 
 // Initial State
 const initialState = {
+  // this determines whether or not the network side bar is in search state for a peer or not
   isOpen: false,
+  // this determines what form (manual or submit) the user currently has open
+  // if this is not null the ChannelForm component will be open
+  formType: null,
+
   searchQuery: '',
   manualSearchQuery: '',
   contactCapacity: 0.1,
   pubkey: '',
+  host: '',
+  node: {},
   showErrors: {
     manualInput: false
   },
@@ -27,6 +34,11 @@ const initialState = {
 export const OPEN_CONTACTS_FORM = 'OPEN_CONTACTS_FORM'
 export const CLOSE_CONTACTS_FORM = 'CLOSE_CONTACTS_FORM'
 
+export const OPEN_CHANNEL_FORM_FORM = 'OPEN_CHANNEL_FORM_FORM'
+export const CLOSE_CHANNEL_FORM_FORM = 'CLOSE_CHANNEL_FORM_FORM'
+
+export const SET_CHANNEL_FORM_TYPE = 'SET_CHANNEL_FORM_TYPE'
+
 export const OPEN_MANUAL_FORM = 'OPEN_MANUAL_FORM'
 export const CLOSE_MANUAL_FORM = 'CLOSE_MANUAL_FORM'
 
@@ -34,6 +46,8 @@ export const OPEN_SUBMIT_CHANNEL_FORM = 'OPEN_SUBMIT_CHANNEL_FORM'
 export const CLOSE_SUBMIT_CHANNEL_FORM = 'CLOSE_SUBMIT_CHANNEL_FORM'
 
 export const SET_PUBKEY = 'SET_PUBKEY'
+export const SET_HOST = 'SET_HOST'
+export const SET_NODE = 'SET_NODE'
 
 export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUERY'
 
@@ -57,6 +71,25 @@ export function openContactsForm() {
 export function closeContactsForm() {
   return {
     type: CLOSE_CONTACTS_FORM
+  }
+}
+
+export function openChannelForm() {
+  return {
+    type: OPEN_CONTACTS_FORM
+  }
+}
+
+export function closeChannelForm() {
+  return {
+    type: CLOSE_CONTACTS_FORM
+  }
+}
+
+export function setChannelFormType(formType) {
+  return {
+    type: SET_CHANNEL_FORM_TYPE,
+    formType
   }
 }
 
@@ -112,6 +145,20 @@ export function setPubkey(pubkey) {
   }
 }
 
+export function setHost(host) {
+  return {
+    type: SET_HOST,
+    host
+  }
+}
+
+export function setNode(node) {
+  return {
+    type: SET_NODE,
+    node
+  }
+}
+
 export function updateManualFormErrors(errorsObject) {
   return {
     type: UPDATE_MANUAL_FORM_ERRORS,
@@ -132,6 +179,8 @@ export function setContactsCurrencyFilters(showCurrencyFilters) {
 const ACTION_HANDLERS = {
   [OPEN_CONTACTS_FORM]: state => ({ ...state, isOpen: true }),
   [CLOSE_CONTACTS_FORM]: state => ({ ...state, isOpen: false }),
+  
+  [SET_CHANNEL_FORM_TYPE]: (state, { formType }) => ({ ...state, formType }),
 
   [OPEN_MANUAL_FORM]: state => ({ ...state, manualFormOpen: true }),
   [CLOSE_MANUAL_FORM]: state => ({ ...state, manualFormOpen: false }),
@@ -146,6 +195,8 @@ const ACTION_HANDLERS = {
   [UPDATE_CONTACT_CAPACITY]: (state, { contactCapacity }) => ({ ...state, contactCapacity }),
   
   [SET_PUBKEY]: (state, { pubkey }) => ({ ...state, pubkey }),
+  [SET_HOST]: (state, { host }) => ({ ...state, host }),
+  [SET_NODE]: (state, { node }) => ({ ...state, node }),
 
   [UPDATE_MANUAL_FORM_ERRORS]: (state, { errorsObject }) => ({ ...state, showErrors: Object.assign(state.showErrors, errorsObject) }),
 

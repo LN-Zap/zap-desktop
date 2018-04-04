@@ -521,7 +521,9 @@ const initialState = {
     { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing' }
   ],
 
-  loadingChannelPubkeys: [],
+  loadingChannelPubkeys: [
+    '039cc950286a8fa99218283d1adc2456e0d5e81be558da77dd6e85ba9a1fff5ad3'
+  ],
   closingChannelIds: [],
 
   contactModal: {
