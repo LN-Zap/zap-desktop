@@ -224,7 +224,12 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
     // we can ignore the '@' and the host and just grab the pubkey for our search
     const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
 
-    return filter(nodes, node => node.alias.includes(query) || node.pub_key.includes(query)).sort(contactableFirst)
+    // list of the nodes
+    const list = filter(nodes, node => node.alias.includes(query) || node.pub_key.includes(query)).sort(contactableFirst)
+
+    // if we don't limit the nodes returned then we take a huge performance hit
+    // rendering thousands of nodes potentially, so we just render 20 for the time being
+    return list.slice(0, 20)
   }
 )
 
