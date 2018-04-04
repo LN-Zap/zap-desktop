@@ -3,7 +3,6 @@ import { ipcRenderer } from 'electron'
 import filter from 'lodash/filter'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
-import { closeChannelForm, resetChannelForm } from './channelform'
 import { setError } from './error'
 // ------------------------------------
 // Constants
