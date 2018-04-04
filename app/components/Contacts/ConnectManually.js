@@ -13,11 +13,43 @@ class ConnectManually extends React.Component {
       manualFormOpen,
       manualSearchQuery,
 
-      closeManualForm,
-      updateManualFormSearchQuery
+      manualFormIsValid,
+      updateManualFormErrors,
+
+      openSubmitChannelForm,
+      updateManualFormSearchQuery,
+
+      setNode,
+
+      showErrors
     } = this.props
 
-    console.log('props: ', this.props)
+    const formSubmitted = () => {
+      if (!manualFormIsValid.isValid) {
+        updateManualFormErrors(manualFormIsValid.errors)
+        
+        return
+      }
+        // clear any existing errors
+        updateManualFormErrors({ manualInput: null })
+
+        const [pub_key, addr] = manualSearchQuery && manualSearchQuery.split('@')
+
+        // the SubmitChannel component is expecting a node object that looks like the following
+        // {
+          // pub_key: 'some_string',
+          // addresses: [
+            // {
+              // addr: 'some_host_address' 
+            // }
+          // ]
+        // }
+        // knowing this we will set the node object with the known format and plug in the pubkey + host accordingly
+        setNode({ pub_key, addresses: [{ addr }] })
+
+        // now we close the ConnectManually form and open the SubmitChannel form by chaning the channelFormType
+        openSubmitChannelForm()
+    }
 
     return (
       <div className={styles.content}>
@@ -34,6 +66,21 @@ class ConnectManually extends React.Component {
               value={manualSearchQuery}
               onChange={event => updateManualFormSearchQuery(event.target.value)}
             />
+          </div>
+        </section>
+
+        <section className={`${styles.errorMessage} ${showErrors.manualInput && styles.active}`}>
+          {showErrors.manualInput &&
+            <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>
+          }
+        </section>
+
+        <section className={styles.submit}>
+          <div
+            className={`${styles.button} ${manualFormIsValid.isValid && styles.active}`}
+            onClick={formSubmitted}
+          >
+            Submit
           </div>
         </section>
       </div>

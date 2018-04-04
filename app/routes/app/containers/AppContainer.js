@@ -405,10 +405,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const connectManuallyProps = {
     closeManualForm: dispatchProps.closeManualForm,
     updateManualFormSearchQuery: dispatchProps.updateManualFormSearchQuery,
-    closeChannelForm: () => dispatchProps.setChannelFormType(null),
+    updateManualFormErrors: dispatchProps.updateManualFormErrors,
+    setNode: dispatchProps.setNode,
+    openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM'),
     
     manualFormOpen: stateProps.contactsform.manualFormOpen,
-    manualSearchQuery: stateProps.contactsform.manualSearchQuery
+    manualSearchQuery: stateProps.contactsform.manualSearchQuery,
+    manualFormIsValid: stateProps.manualFormIsValid,
+    showErrors: stateProps.contactsform.showErrors
   }
 
   const calcChannelFormProps = (formType) => {

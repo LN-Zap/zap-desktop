@@ -36,7 +36,7 @@ class SubmitChannelForm extends React.Component {
       if (node.alias && node.alias.length) {
         return `${node.alias} (${node.pub_key})`
       } else {
-        return node.addresses
+        return node.pub_key
       }
     }
 

@@ -82,7 +82,7 @@
   margin-top: 50px;
 
   input {
-    font-size: 25px;
+    font-size: 20px;
   }
 }
 
@@ -100,3 +100,40 @@
   text-shadow: none;
   -webkit-text-fill-color: initial;
 }
+
+.errorMessage {
+  margin-top: 20px;
+  font-size: 12px;
+  color: $red;
+  min-height: 12px;
+  visibility: hidden;
+
+  &.active {
+    visibility: visible;
+  }
+}
+
+.submit {
+  margin-top: 50px;
+  text-align: center;
+
+  .button {
+    width: 235px;
+    margin: 0 auto;
+    padding: 20px 10px;
+    background: #31343f;
+    opacity: 0.5;
+    cursor: pointer;
+    transition: 0.25s all;
+
+    &.active {
+      background: $gold;
+      opacity: 1.0;
+
+      &:hover {
+        background: darken($gold, 5%);
+      }
+    }
+  }
+}
+
