@@ -164,7 +164,7 @@ const startLnd = (alias, autopilot) => {
     '--bitcoin.active',
     '--bitcoin.testnet',
     '--bitcoin.node=neutrino',
-    '--neutrino.connect=btcd0.lightning.computer:18333',
+    '--neutrino.connect=188.166.148.62:18333',
     '--neutrino.addpeer=btcd.jackmallers.com:18333',
     '--neutrino.addpeer=159.65.48.139:18333',
     '--neutrino.connect=127.0.0.1:18333',

@@ -53,6 +53,7 @@ const mapStateToProps = state => ({
   info: state.info,
 
   payment: state.payment,
+  transaction: state.transaction,
 
   invoice: state.invoice,
   invoices: invoiceSelectors.invoices(state),
@@ -79,6 +80,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currentTicker: stateProps.currentTicker,
     showPayLoadingScreen: stateProps.showPayLoadingScreen,
     showSuccessPayScreen: stateProps.payment.showSuccessPayScreen,
+    successTransactionScreen: stateProps.transaction.successTransactionScreen,
 
     setCurrency: dispatchProps.setCurrency,
     newAddress: dispatchProps.newAddress,

@@ -5,7 +5,6 @@ import { newAddress } from './address'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { resetPayForm } from './payform'
-import { showModal } from './modal'
 import { setError } from './error'
 
 // ------------------------------------
@@ -21,6 +20,9 @@ export const TRANSACTION_FAILED = 'TRANSACTION_FAILED'
 
 export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 
+export const SHOW_SUCCESS_TRANSACTION_SCREEN = 'SHOW_SUCCESS_TRANSACTION_SCREEN'
+export const HIDE_SUCCESS_TRANSACTION_SCREEN = 'HIDE_SUCCESS_TRANSACTION_SCREEN'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -33,6 +35,19 @@ export function getTransactions() {
 export function sendTransaction() {
   return {
     type: SEND_TRANSACTION
+  }
+}
+
+export function showSuccessTransactionScreen(txid) {
+  return {
+    type: SHOW_SUCCESS_TRANSACTION_SCREEN,
+    txid
+  }
+}
+
+export function hideSuccessTransactionScreen() {
+  return {
+    type: HIDE_SUCCESS_TRANSACTION_SCREEN
   }
 }
 
@@ -51,22 +66,27 @@ export const sendCoins = ({
   // backend needs amount in satoshis no matter what currency we are using
   const amount = btc.convert(currency, 'sats', value)
 
+  // submit the transaction to LND
   dispatch(sendTransaction())
   ipcRenderer.send('lnd', { msg: 'sendCoins', data: { amount, addr } })
+
+  // Close the form modal once the payment was sent to LND
+  // we will do the loading/success UX on the main page
+  // so we aren't blocking the user
+  dispatch(setFormType(null))
 }
 
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch
-export const transactionSuccessful = (event, { amount, addr, txid }) => (dispatch) => {
+export const transactionSuccessful = (event, { txid }) => (dispatch) => {
   // Get the new list of transactions (TODO dont do an entire new fetch)
   dispatch(fetchTransactions())
-  // Close the form modal once the payment was succesful
-  dispatch(setFormType(null))
   // Show successful payment state
-  dispatch(showModal('SUCCESSFUL_SEND_COINS', { txid, amount, addr }))
-  // TODO: Add successful on-chain payment to payments list once payments list supports on-chain and LN
-  // dispatch({ type: PAYMENT_SUCCESSFULL, payment: { amount, addr, txid, pending: true } })
   dispatch({ type: TRANSACTION_SUCCESSFULL })
+
+  // Show successful tx state for 5 seconds
+  dispatch(showSuccessTransactionScreen(txid))
+  setTimeout(() => dispatch(hideSuccessTransactionScreen()), 5000)
   // Fetch new balance
   dispatch(fetchBalance())
   // Reset the payment form
@@ -111,7 +131,10 @@ const ACTION_HANDLERS = {
       ...state,
       transactions: [transaction, ...state.transactions]
     }
-  )
+  ),
+
+  [SHOW_SUCCESS_TRANSACTION_SCREEN]: (state, { txid }) => ({ ...state, successTransactionScreen: { show: true, txid } }),
+  [HIDE_SUCCESS_TRANSACTION_SCREEN]: state => ({ ...state, successTransactionScreen: { show: false, txid: '' } })
 }
 
 // ------------------------------------
@@ -120,7 +143,11 @@ const ACTION_HANDLERS = {
 const initialState = {
   sendingTransaction: false,
   transactionLoading: false,
-  transactions: []
+  transactions: [],
+  successTransactionScreen: {
+    show: false,
+    txid: ''
+  }
 }
 
 export default function transactionReducer(state = initialState, action) {
