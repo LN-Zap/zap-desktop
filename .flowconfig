@@ -13,6 +13,7 @@
 [include]
 
 [libs]
+flow-typed
 
 [options]
 esproposal.class_static_fields=enable

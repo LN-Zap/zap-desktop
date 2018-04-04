@@ -4,17 +4,17 @@ import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 import x from 'icons/x.svg'
 
-import Pay from './Pay'
-import Request from './Request'
+import ConnectManually from './ConnectManually'
+import SubmitChannelForm from './SubmitChannelForm'
 
-import styles from './Form.scss'
+import styles from './ChannelForm.scss'
 
 const FORM_TYPES = {
-  PAY_FORM: Pay,
-  REQUEST_FORM: Request
+  MANUAL_FORM: ConnectManually,
+  SUBMIT_CHANNEL_FORM: SubmitChannelForm
 }
 
-const Form = ({ formType, formProps, closeForm }) => {
+const ChannelForm = ({ formType, formProps, closeForm }) => {
   if (!formType) { return null }
 
   const FormComponent = FORM_TYPES[formType]
@@ -31,10 +31,10 @@ const Form = ({ formType, formProps, closeForm }) => {
 }
 
 
-Form.propTypes = {
+ChannelForm.propTypes = {
   formType: PropTypes.string,
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired
 }
 
-export default Form
+export default ChannelForm

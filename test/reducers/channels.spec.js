@@ -46,10 +46,6 @@ describe('reducers', () => {
       expect(channelsReducer(undefined, { type: SET_CHANNEL, channel: 'channel' })).toMatchSnapshot()
     })
 
-    it('should correctly setChannelForm', () => {
-      expect(channelsReducer(undefined, { type: SET_CHANNEL_FORM, form: { isOpen: true } })).toMatchSnapshot()
-    })
-
     it('should correctly getChannels', () => {
       expect(channelsReducer(undefined, { type: GET_CHANNELS })).toMatchSnapshot()
     })

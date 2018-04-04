@@ -3,7 +3,6 @@ import { ipcRenderer } from 'electron'
 import filter from 'lodash/filter'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
-import { closeChannelForm, resetChannelForm } from './channelform'
 import { setError } from './error'
 // ------------------------------------
 // Constants
@@ -167,8 +166,6 @@ export const openChannel = ({
 // Receive IPC event for openChannel
 export const channelSuccessful = () => (dispatch) => {
   dispatch(fetchChannels())
-  dispatch(closeChannelForm())
-  dispatch(resetChannelForm())
 }
 
 // Receive IPC event for updated channel
@@ -198,8 +195,6 @@ export const pushchannelstatus = (event, data) => (dispatch) => { // eslint-disa
 export const closeChannel = ({ channel_point, chan_id, force }) => (dispatch) => {
   dispatch(closingChannel())
   dispatch(addClosingChanId(chan_id))
-
-  console.log('force: ', force)
 
   const [funding_txid, output_index] = channel_point.split(':')
   ipcRenderer.send(

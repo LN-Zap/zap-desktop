@@ -1,6 +1,8 @@
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
+import { btc } from 'utils'
+
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
 
 import { newAddress, closeWalletModal } from 'reducers/address'
@@ -39,11 +41,24 @@ import {
 import {
   openContactsForm,
   closeContactsForm,
+
+  setChannelFormType,
+
+  openManualForm,
+  closeManualForm,
+
+  openSubmitChannelForm,
+  closeSubmitChannelForm,
+
   updateContactFormSearchQuery,
   updateManualFormSearchQuery,
   updateContactCapacity,
+  setNode,
+
   contactFormSelectors,
-  updateManualFormErrors
+  updateManualFormErrors,
+
+  setContactsCurrencyFilters
 } from 'reducers/contactsform'
 
 import { fetchBalance } from 'reducers/balance'
@@ -100,11 +115,18 @@ const mapDispatchToProps = {
 
   openContactsForm,
   closeContactsForm,
+  openSubmitChannelForm,
+  closeSubmitChannelForm,
+  openManualForm,
+  closeManualForm,
   updateContactFormSearchQuery,
   updateManualFormSearchQuery,
   updateContactCapacity,
+  setNode,
   contactFormSelectors,
   updateManualFormErrors,
+  setContactsCurrencyFilters,
+  setChannelFormType,
 
   fetchDescribeNetwork,
 
@@ -155,6 +177,7 @@ const mapStateToProps = state => ({
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
   showManualForm: contactFormSelectors.showManualForm(state),
   manualFormIsValid: contactFormSelectors.manualFormIsValid(state),
+  contactFormUsdAmount: contactFormSelectors.contactFormUsdAmount(state),
 
   currentChannels: currentChannels(state),
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
@@ -292,11 +315,14 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const contactsFormProps = {
     closeContactsForm: dispatchProps.closeContactsForm,
+    openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM'),
     updateContactFormSearchQuery: dispatchProps.updateContactFormSearchQuery,
     updateManualFormSearchQuery: dispatchProps.updateManualFormSearchQuery,
     updateContactCapacity: dispatchProps.updateContactCapacity,
+    setNode: dispatchProps.setNode,
     openChannel: dispatchProps.openChannel,
     updateManualFormErrors: dispatchProps.updateManualFormErrors,
+    openManualForm: () => dispatchProps.setChannelFormType('MANUAL_FORM'),
 
     contactsform: stateProps.contactsform,
     filteredNetworkNodes: stateProps.filteredNetworkNodes,
@@ -348,6 +374,61 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     closeReceiveModal: dispatchProps.closeWalletModal
   }
 
+  const submitChannelFormProps = {
+    submitChannelFormOpen: stateProps.contactsform.submitChannelFormOpen,
+    node: stateProps.contactsform.node,
+    contactCapacity: stateProps.contactsform.contactCapacity,
+
+    updateContactCapacity: dispatchProps.updateContactCapacity,
+
+    closeChannelForm: () => dispatchProps.setChannelFormType(null),
+    closeContactsForm: dispatchProps.closeContactsForm,
+
+    openChannel: dispatchProps.openChannel,
+
+    toggleCurrencyProps: {
+      currentCurrencyFilters: stateProps.currentCurrencyFilters,
+      currencyName: stateProps.currencyName,
+      showCurrencyFilters: stateProps.contactsform.showCurrencyFilters,
+      contactFormUsdAmount: stateProps.contactFormUsdAmount,
+
+      setContactsCurrencyFilters: dispatchProps.setContactsCurrencyFilters,
+      setCurrencyFilters: dispatchProps.setCurrencyFilters,
+      onCurrencyFilterClick: (currency) => {
+        dispatchProps.updateContactCapacity(btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity))
+        dispatchProps.setCurrency(currency)
+        dispatchProps.setContactsCurrencyFilters(false)
+      }
+    }
+  }
+
+  const connectManuallyProps = {
+    closeManualForm: dispatchProps.closeManualForm,
+    updateManualFormSearchQuery: dispatchProps.updateManualFormSearchQuery,
+    updateManualFormErrors: dispatchProps.updateManualFormErrors,
+    setNode: dispatchProps.setNode,
+    openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM'),
+
+    manualFormOpen: stateProps.contactsform.manualFormOpen,
+    manualSearchQuery: stateProps.contactsform.manualSearchQuery,
+    manualFormIsValid: stateProps.manualFormIsValid,
+    showErrors: stateProps.contactsform.showErrors
+  }
+
+  const calcChannelFormProps = (formType) => {
+    if (formType === 'MANUAL_FORM') { return connectManuallyProps }
+    if (formType === 'SUBMIT_CHANNEL_FORM') { return submitChannelFormProps }
+
+    return {}
+  }
+
+  const channelFormProps = {
+    formType: stateProps.contactsform.formType,
+    formProps: calcChannelFormProps(stateProps.contactsform.formType),
+    closeForm: () => dispatchProps.setChannelFormType(null)
+  }
+
+
   return {
     ...stateProps,
     ...dispatchProps,
@@ -363,6 +444,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     receiveModalProps,
     // props for the activity modals
     activityModalProps,
+    // props for the form to open a channel
+    submitChannelFormProps,
+    // props for the form to connect manually to a peer
+    connectManuallyProps,
+    // props for the channel form wrapper
+    channelFormProps,
     // Props to pass to the pay form
     formProps: formProps(stateProps.form.formType),
     // action to close form

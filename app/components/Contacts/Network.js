@@ -6,6 +6,7 @@ import { FaAngleDown, FaCircle, FaRepeat } from 'react-icons/lib/fa'
 import { btc } from 'utils'
 import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
+
 import styles from './Network.scss'
 
 class Network extends Component {
@@ -22,8 +23,8 @@ class Network extends Component {
       channels: {
         searchQuery,
         filterPulldown,
-        filter
-        // loadingChannelPubkeys,
+        filter,
+        loadingChannelPubkeys
         // closingChannelIds
       },
       currentChannels,
@@ -81,10 +82,16 @@ class Network extends Component {
     }
 
     const channelStatus = (channel) => {
+      // if the channel has a confirmation_height property that means it's pending
       if (Object.prototype.hasOwnProperty.call(channel, 'confirmation_height')) { return 'pending' }
+
+      // if the channel has a closing tx that means it's closing
       if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) { return 'closing' }
+
+      // if the channel isn't active that means the remote peer isn't online
       if (!channel.active) { return 'offline' }
 
+      // if all of the above conditionals fail we can assume the node is online :)
       return 'online'
     }
 
@@ -100,7 +107,9 @@ class Network extends Component {
             </span>
           </section>
           <section className={`${styles.addChannel} hint--bottom-left`} onClick={openContactsForm} data-hint='Open a channel'>
-            <Isvg src={plus} />
+            <span className={styles.plusContainer}>
+              <Isvg src={plus} />
+            </span>
           </section>
         </header>
 
@@ -134,6 +143,26 @@ class Network extends Component {
           </header>
 
           <ul className={filterPulldown && styles.fade}>
+            {
+              loadingChannelPubkeys.map((loadingPubkey) => {
+                // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
+                const node = find(nodes, n => loadingPubkey === n.pub_key)
+                const nodeDisplay = () => {
+                  if (node && node.alias.length) { return node.alias }
+
+                  return loadingPubkey.substring(0, 10)
+                }
+
+                return (
+                  <li key={loadingPubkey} className={styles.channel}>
+                    <span>{nodeDisplay()}</span>
+                    <span className={`${styles.loading} hint--left`} data-hint='loading'>
+                      <i className={styles.spinner} />
+                    </span>
+                  </li>
+                )
+              })
+            }
             {
               currentChannels.length > 0 && currentChannels.map((channelObj, index) => {
                 const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel') ? channelObj.channel : channelObj

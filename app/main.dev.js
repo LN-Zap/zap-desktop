@@ -164,7 +164,7 @@ const startLnd = (alias, autopilot) => {
     '--bitcoin.active',
     '--bitcoin.testnet',
     '--bitcoin.node=neutrino',
-    '--neutrino.connect=btcd.jackmallers.com:18333',
+    '--neutrino.connect=btcd0.lightning.computer:18333',
     '--neutrino.addpeer=btcd.jackmallers.com:18333',
     '--neutrino.addpeer=159.65.48.139:18333',
     '--neutrino.connect=127.0.0.1:18333',
@@ -200,7 +200,7 @@ const startLnd = (alias, autopilot) => {
       }, 1000)
     }
 
-    if (line.includes('The wallet has been unlocked')) {
+    if (line.includes('gRPC proxy started') && !line.includes('password')) {
       console.log('WALLET OPENED, STARTING LIGHTNING GRPC CONNECTION')
       sendLndSyncing()
       startGrpc()
