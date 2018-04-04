@@ -380,7 +380,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     contactCapacity: stateProps.contactsform.contactCapacity,
 
     updateContactCapacity: dispatchProps.updateContactCapacity,
-    
+
     closeChannelForm: () => dispatchProps.setChannelFormType(null),
     closeContactsForm: dispatchProps.closeContactsForm,
 
@@ -408,7 +408,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     updateManualFormErrors: dispatchProps.updateManualFormErrors,
     setNode: dispatchProps.setNode,
     openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM'),
-    
+
     manualFormOpen: stateProps.contactsform.manualFormOpen,
     manualSearchQuery: stateProps.contactsform.manualSearchQuery,
     manualFormIsValid: stateProps.manualFormIsValid,

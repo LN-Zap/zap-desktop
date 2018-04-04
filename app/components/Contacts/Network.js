@@ -24,7 +24,7 @@ class Network extends Component {
         searchQuery,
         filterPulldown,
         filter,
-        loadingChannelPubkeys,
+        loadingChannelPubkeys
         // closingChannelIds
       },
       currentChannels,
@@ -144,7 +144,7 @@ class Network extends Component {
 
           <ul className={filterPulldown && styles.fade}>
             {
-              loadingChannelPubkeys.map(loadingPubkey => {
+              loadingChannelPubkeys.map((loadingPubkey) => {
                 // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
                 const node = find(nodes, n => loadingPubkey === n.pub_key)
                 const nodeDisplay = () => {

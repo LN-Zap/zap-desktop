@@ -2,15 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { FaAngleDown } from 'react-icons/lib/fa'
-import Isvg from 'react-inlinesvg'
-import x from 'icons/x.svg'
 
 import styles from './SubmitChannelForm.scss'
 
 class SubmitChannelForm extends React.Component {
   render() {
     const {
-      submitChannelFormOpen,
       closeChannelForm,
       closeContactsForm,
 
@@ -21,7 +18,6 @@ class SubmitChannelForm extends React.Component {
 
       toggleCurrencyProps: {
         setContactsCurrencyFilters,
-        setCurrencyFilters,
         showCurrencyFilters,
         currencyName,
         currentCurrencyFilters,
@@ -35,9 +31,9 @@ class SubmitChannelForm extends React.Component {
       // if not, just show the pubkey (would look ugly with rando parens)
       if (node.alias && node.alias.length) {
         return `${node.alias} (${node.pub_key})`
-      } else {
-        return node.pub_key
       }
+
+      return node.pub_key
     }
 
     const formSubmitted = () => {
@@ -55,7 +51,10 @@ class SubmitChannelForm extends React.Component {
       <div className={styles.content}>
         <header className={styles.header}>
           <h1>Add Funds to Network</h1>
-          <p>Adding a connection will help you send and receive money on the Lightning Network. You aren't spening any money, rather moving the money you plan to use onto the network.</p>
+          <p>
+            Adding a connection will help you send and receive money on the Lightning Network.
+            You aren&apos;t spening any money, rather moving the money you plan to use onto the network.
+          </p>
         </header>
 
         <section className={styles.title}>
@@ -104,6 +103,19 @@ class SubmitChannelForm extends React.Component {
   }
 }
 
-SubmitChannelForm.propTypes = {}
+SubmitChannelForm.propTypes = {
+  closeChannelForm: PropTypes.func.isRequired,
+  closeContactsForm: PropTypes.func.isRequired,
+
+  node: PropTypes.object.isRequired,
+  contactCapacity: PropTypes.PropTypes.oneOfType([
+    PropTypes.number,
+    PropTypes.string
+  ]),
+  updateContactCapacity: PropTypes.func.isRequired,
+  openChannel: PropTypes.func.isRequired,
+
+  toggleCurrencyProps: PropTypes.object.isRequired
+}
 
 export default SubmitChannelForm

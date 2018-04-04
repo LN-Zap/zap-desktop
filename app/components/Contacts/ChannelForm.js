@@ -15,11 +15,9 @@ const FORM_TYPES = {
 }
 
 const ChannelForm = ({ formType, formProps, closeForm }) => {
-  console.log('formType: ', formType)
   if (!formType) { return null }
 
   const FormComponent = FORM_TYPES[formType]
-  console.log('FormComponent: ', FormComponent)
   return (
     <div className={styles.container}>
       <div className={styles.closeContainer}>

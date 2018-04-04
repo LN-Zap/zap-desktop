@@ -1,16 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import { FaAngleDown } from 'react-icons/lib/fa'
-import Isvg from 'react-inlinesvg'
-import x from 'icons/x.svg'
-
 import styles from './ConnectManually.scss'
 
 class ConnectManually extends React.Component {
   render() {
     const {
-      manualFormOpen,
       manualSearchQuery,
 
       manualFormIsValid,
@@ -27,35 +21,35 @@ class ConnectManually extends React.Component {
     const formSubmitted = () => {
       if (!manualFormIsValid.isValid) {
         updateManualFormErrors(manualFormIsValid.errors)
-        
+
         return
       }
-        // clear any existing errors
-        updateManualFormErrors({ manualInput: null })
+      // clear any existing errors
+      updateManualFormErrors({ manualInput: null })
 
-        const [pub_key, addr] = manualSearchQuery && manualSearchQuery.split('@')
+      const [pub_key, addr] = manualSearchQuery && manualSearchQuery.split('@')
 
-        // the SubmitChannel component is expecting a node object that looks like the following
-        // {
-          // pub_key: 'some_string',
-          // addresses: [
-            // {
-              // addr: 'some_host_address' 
-            // }
-          // ]
-        // }
-        // knowing this we will set the node object with the known format and plug in the pubkey + host accordingly
-        setNode({ pub_key, addresses: [{ addr }] })
+      // the SubmitChannel component is expecting a node object that looks like the following
+      // {
+      //    pub_key: 'some_string',
+      //    addresses: [
+      //      {
+      //        addr: 'some_host_address'
+      //      }
+      //    ]
+      // }
+      // knowing this we will set the node object with the known format and plug in the pubkey + host accordingly
+      setNode({ pub_key, addresses: [{ addr }] })
 
-        // now we close the ConnectManually form and open the SubmitChannel form by chaning the channelFormType
-        openSubmitChannelForm()
+      // now we close the ConnectManually form and open the SubmitChannel form by chaning the channelFormType
+      openSubmitChannelForm()
     }
 
     return (
       <div className={styles.content}>
         <header className={styles.header}>
           <h1>Connect Manually</h1>
-          <p>Please enter the peer's pubkey@host</p>
+          <p>Please enter the peer&apos;s pubkey@host</p>
         </header>
 
         <section className={styles.peer}>
@@ -89,7 +83,6 @@ class ConnectManually extends React.Component {
 }
 
 ConnectManually.propTypes = {
-  manualFormOpen: PropTypes.bool.isRequired,
   manualSearchQuery: PropTypes.string.isRequired,
 
   manualFormIsValid: PropTypes.object.isRequired,
@@ -100,7 +93,7 @@ ConnectManually.propTypes = {
 
   setNode: PropTypes.func.isRequired,
 
-  showErrors: PropTypes.bool.isRequired
+  showErrors: PropTypes.object.isRequired
 }
 
 export default ConnectManually

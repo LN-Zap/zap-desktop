@@ -16,8 +16,6 @@ const initialState = {
   searchQuery: '',
   manualSearchQuery: '',
   contactCapacity: 0.1,
-  pubkey: '',
-  host: '',
   node: {},
   showErrors: {
     manualInput: false
@@ -45,8 +43,6 @@ export const CLOSE_MANUAL_FORM = 'CLOSE_MANUAL_FORM'
 export const OPEN_SUBMIT_CHANNEL_FORM = 'OPEN_SUBMIT_CHANNEL_FORM'
 export const CLOSE_SUBMIT_CHANNEL_FORM = 'CLOSE_SUBMIT_CHANNEL_FORM'
 
-export const SET_PUBKEY = 'SET_PUBKEY'
-export const SET_HOST = 'SET_HOST'
 export const SET_NODE = 'SET_NODE'
 
 export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUERY'
@@ -138,20 +134,6 @@ export function updateContactCapacity(contactCapacity) {
   }
 }
 
-export function setPubkey(pubkey) {
-  return {
-    type: SET_PUBKEY,
-    pubkey
-  }
-}
-
-export function setHost(host) {
-  return {
-    type: SET_HOST,
-    host
-  }
-}
-
 export function setNode(node) {
   return {
     type: SET_NODE,
@@ -179,7 +161,7 @@ export function setContactsCurrencyFilters(showCurrencyFilters) {
 const ACTION_HANDLERS = {
   [OPEN_CONTACTS_FORM]: state => ({ ...state, isOpen: true }),
   [CLOSE_CONTACTS_FORM]: state => ({ ...state, isOpen: false }),
-  
+
   [SET_CHANNEL_FORM_TYPE]: (state, { formType }) => ({ ...state, formType }),
 
   [OPEN_MANUAL_FORM]: state => ({ ...state, manualFormOpen: true }),
@@ -193,9 +175,7 @@ const ACTION_HANDLERS = {
   [UPDATE_MANUAL_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 
   [UPDATE_CONTACT_CAPACITY]: (state, { contactCapacity }) => ({ ...state, contactCapacity }),
-  
-  [SET_PUBKEY]: (state, { pubkey }) => ({ ...state, pubkey }),
-  [SET_HOST]: (state, { host }) => ({ ...state, host }),
+
   [SET_NODE]: (state, { node }) => ({ ...state, node }),
 
   [UPDATE_MANUAL_FORM_ERRORS]: (state, { errorsObject }) => ({ ...state, showErrors: Object.assign(state.showErrors, errorsObject) }),

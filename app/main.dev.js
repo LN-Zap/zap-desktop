@@ -200,7 +200,7 @@ const startLnd = (alias, autopilot) => {
       }, 1000)
     }
 
-    if (line.includes('LightningWallet opened')) {
+    if (line.includes('gRPC proxy started') && !line.includes('password')) {
       console.log('WALLET OPENED, STARTING LIGHTNING GRPC CONNECTION')
       sendLndSyncing()
       startGrpc()

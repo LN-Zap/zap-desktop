@@ -11,10 +11,6 @@ import ModalRoot from 'components/ModalRoot'
 import Network from 'components/Contacts/Network'
 import AddChannel from 'components/Contacts/AddChannel'
 import ContactModal from 'components/Contacts/ContactModal'
-import ContactsForm from 'components/Contacts/ContactsForm'
-
-import SubmitChannelForm from 'components/Contacts/SubmitChannelForm'
-import ConnectManually from 'components/Contacts/ConnectManually'
 
 import ReceiveModal from 'components/Wallet/ReceiveModal'
 import ActivityModal from 'components/Activity/ActivityModal'
@@ -65,11 +61,7 @@ class App extends Component {
       networkTabProps,
       receiveModalProps,
       activityModalProps,
-      submitChannelFormProps,
-      connectManuallyProps,
       channelFormProps,
-
-      contactsform,
 
       children
     } = this.props
@@ -124,6 +116,7 @@ App.propTypes = {
   networkTabProps: PropTypes.object,
   activityModalProps: PropTypes.object,
   receiveModalProps: PropTypes.object,
+  channelFormProps: PropTypes.object,
 
   newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,

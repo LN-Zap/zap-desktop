@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
-import { FaCircle, FaQuestionCircle } from 'react-icons/lib/fa'
 
 import x from 'icons/x.svg'
 
@@ -9,25 +8,19 @@ import styles from './AddChannel.scss'
 
 const AddChannel = ({
   contactsform,
-  contactsform: { showErrors },
   closeContactsForm,
   openSubmitChannelForm,
   updateContactFormSearchQuery,
   updateManualFormSearchQuery,
-  updateContactCapacity,
   setNode,
-  openChannel,
-  updateManualFormErrors,
   activeChannelPubkeys,
   nonActiveChannelPubkeys,
   pendingOpenChannelPubkeys,
   filteredNetworkNodes,
   loadingChannelPubkeys,
   showManualForm,
-  manualFormIsValid,
   openManualForm
 }) => {
-
   const renderRightSide = (node) => {
     if (loadingChannelPubkeys.includes(node.pub_key)) {
       return (
@@ -140,7 +133,7 @@ const AddChannel = ({
       {
         showManualForm &&
         <section className={styles.manualForm}>
-          <p>Hm, looks like we can't see that node from here, wanna try to manually connect?</p>
+          <p>Hm, looks like we can&apos;t see that node from here, wanna try to manually connect?</p>
           <div className={styles.manualConnectButton} onClick={openManualForm}>Connect Manually</div>
         </section>
       }
@@ -149,7 +142,19 @@ const AddChannel = ({
 }
 
 AddChannel.propTypes = {
-
+  contactsform: PropTypes.object.isRequired,
+  closeContactsForm: PropTypes.func.isRequired,
+  openSubmitChannelForm: PropTypes.func.isRequired,
+  updateContactFormSearchQuery: PropTypes.func.isRequired,
+  updateManualFormSearchQuery: PropTypes.func.isRequired,
+  setNode: PropTypes.func.isRequired,
+  activeChannelPubkeys: PropTypes.array.isRequired,
+  nonActiveChannelPubkeys: PropTypes.array.isRequired,
+  pendingOpenChannelPubkeys: PropTypes.array.isRequired,
+  filteredNetworkNodes: PropTypes.array.isRequired,
+  loadingChannelPubkeys: PropTypes.array.isRequired,
+  showManualForm: PropTypes.bool.isRequired,
+  openManualForm: PropTypes.func.isRequired
 }
 
 export default AddChannel
