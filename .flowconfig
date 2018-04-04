@@ -13,25 +13,7 @@
 [include]
 
 [libs]
-declare module 'react-redux' {
-   declare var exports: 'react-redux';
-}
-
-declare module 'react-router-redux' {
-   declare var exports: 'react-router-redux';
-}
-
-declare module 'prop-types' {
-   declare var exports: 'prop-types';
-}
-
-declare module 'electron' {
-   declare var exports: 'electron';
-}
-
-declare module 'chalk' {
-   declare var exports: 'chalk';
-}
+flow-typed
 
 [options]
 esproposal.class_static_fields=enable
