@@ -88,6 +88,19 @@ class ConnectManually extends React.Component {
   }
 }
 
-ConnectManually.propTypes = {}
+ConnectManually.propTypes = {
+  manualFormOpen: PropTypes.bool.isRequired,
+  manualSearchQuery: PropTypes.string.isRequired,
+
+  manualFormIsValid: PropTypes.object.isRequired,
+  updateManualFormErrors: PropTypes.func.isRequired,
+
+  openSubmitChannelForm: PropTypes.func.isRequired,
+  updateManualFormSearchQuery: PropTypes.func.isRequired,
+
+  setNode: PropTypes.func.isRequired,
+
+  showErrors: PropTypes.bool.isRequired
+}
 
 export default ConnectManually
