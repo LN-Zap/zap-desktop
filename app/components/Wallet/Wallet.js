@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FaAngleDown } from 'react-icons/lib/fa'
 import Isvg from 'react-inlinesvg'
 
-import { btc } from 'utils'
+import { btc, blockExplorer } from 'utils'
 import Value from 'components/Value'
 import AnimatedCheckmark from 'components/AnimatedCheckmark'
 
@@ -22,7 +22,8 @@ const Wallet = ({
   openPayForm,
   openRequestForm,
   showPayLoadingScreen,
-  showSuccessPayScreen
+  showSuccessPayScreen,
+  successTransactionScreen
 }) => {
   const usdAmount = btc.satoshisToUsd((parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10)), currentTicker.price_usd)
 
@@ -73,7 +74,7 @@ const Wallet = ({
               showPayLoadingScreen &&
                 <span>
                   <section className={`${styles.spinner} ${styles.icon}`} />
-                  <section>Sending your lightning payment...</section>
+                  <section>Sending your transaction...</section>
                 </span>
             }
             {
@@ -81,6 +82,18 @@ const Wallet = ({
                 <span>
                   <section className={styles.icon}><AnimatedCheckmark /></section>
                   <section>Successfully sent payment</section>
+                </span>
+            }
+            {
+              successTransactionScreen.show &&
+                <span>
+                  <section className={styles.icon}><AnimatedCheckmark /></section>
+                  <section>
+                    {
+                      // TODO(jimmymow): remove this
+                      // eslint-disable-next-line
+                    }Successfully <span className={styles.txLink} onClick={() => blockExplorer.showTransaction(successTransactionScreen.txid)}>sent</span> transaction
+                  </section>
                 </span>
             }
           </div>
@@ -99,7 +112,8 @@ Wallet.propTypes = {
   openRequestForm: PropTypes.func.isRequired,
   openReceiveModal: PropTypes.func.isRequired,
   showPayLoadingScreen: PropTypes.bool.isRequired,
-  showSuccessPayScreen: PropTypes.bool.isRequired
+  showSuccessPayScreen: PropTypes.bool.isRequired,
+  successTransactionScreen: PropTypes.object.isRequired
 }
 
 export default Wallet
