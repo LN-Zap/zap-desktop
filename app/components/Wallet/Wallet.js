@@ -89,7 +89,10 @@ const Wallet = ({
                 <span>
                   <section className={styles.icon}><AnimatedCheckmark /></section>
                   <section>
-                    Successfully <button onClick={() => blockExplorer.showTransaction(successTransactionScreen.txid)}>sent</button> transaction
+                    {
+                      // TODO(jimmymow): remove this
+                      // eslint-disable-next-line
+                    }Successfully <span className={styles.txLink} onClick={() => blockExplorer.showTransaction(successTransactionScreen.txid)}>sent</span> transaction
                   </section>
                 </span>
             }
