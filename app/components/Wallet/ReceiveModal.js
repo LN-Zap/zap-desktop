@@ -37,6 +37,7 @@ class ReceiveModal extends React.Component {
       isOpen,
       pubkey,
       address,
+      alias,
       closeReceiveModal
     } = this.props
 
@@ -55,7 +56,7 @@ class ReceiveModal extends React.Component {
         <div className={styles.content}>
           <section className={styles.left}>
             <header className={styles.header}>
-              <h2>JimmyMow</h2>
+              <h2>{alias && alias.length ? alias : pubkey.substring(0, 10)}</h2>
 
               <div className={styles.qrCodeOptions}>
                 <div className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>Node Pubkey</div>
@@ -105,6 +106,7 @@ ReceiveModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string,
   address: PropTypes.string.isRequired,
+  alias: PropTypes.string.isRequired,
   closeReceiveModal: PropTypes.func.isRequired
 }
 

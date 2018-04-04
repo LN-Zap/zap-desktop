@@ -370,6 +370,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     isOpen: stateProps.address.walletModal,
     pubkey: stateProps.info.data.identity_pubkey,
     address: stateProps.address.address,
+    alias: stateProps.info.data.alias,
     newAddress: dispatchProps.newAddress,
     closeReceiveModal: dispatchProps.closeWalletModal
   }
