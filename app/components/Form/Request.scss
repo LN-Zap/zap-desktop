@@ -3,6 +3,8 @@
 .container {
   padding: 0 40px;
   font-family: Roboto;
+  margin: 0 auto;
+  width: 500px;
 }
 
 .header {
@@ -24,7 +26,7 @@
   color: $white;
 
   .memo {
-    margin-bottom: 25px;
+    margin-top: 35px;
   }
 
   .amount .bottom {
@@ -33,13 +35,16 @@
     align-items: center;
 
     input {
-      font-size: 40px;
-      max-width: 230px;
+      font-size: 20px;
+      max-width: 150px;
+      border:1px solid #404040;
+      border-radius: 4px;
+      padding: 15px;
     }
   }
 
   .top {
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -54,12 +59,14 @@
     input {
       background: transparent;
       outline: none;
-      border: 0;
+      border:1px solid #404040;
+      border-radius: 4px;
       color: $gold;
       -webkit-text-fill-color: $white;
       font-size: 20px;
       width: 100%;
       font-weight: 200;
+      padding: 15px;
     }
 
     input::-webkit-input-placeholder {
@@ -73,6 +80,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-left: 12px;
 
     .currentCurrency {
       cursor: pointer;
@@ -116,8 +124,9 @@
   }
 
   .usdAmount {
-    margin-top: 20px;
+    margin-top: 10px;
     opacity: 0.5;
+    font-size: 14px;
   }
 
   .submit {

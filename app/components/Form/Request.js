@@ -39,21 +39,6 @@ const Request = ({
       </header>
 
       <div className={styles.content}>
-        <section className={styles.memo}>
-          <div className={styles.top}>
-            <label htmlFor='memo'>Memo</label>
-          </div>
-          <div className={styles.bottom}>
-            <input
-              type='text'
-              placeholder='Dinner, Rent, etc'
-              value={memo}
-              onChange={event => setRequestMemo(event.target.value)}
-              id='memo'
-            />
-          </div>
-        </section>
-
         <section className={styles.amount}>
           <div className={styles.top}>
             <label htmlFor='amount'>Amount</label>
@@ -85,9 +70,24 @@ const Request = ({
           </div>
         </section>
 
+        <section className={styles.memo}>
+          <div className={styles.top}>
+            <label htmlFor='memo'>Memo</label>
+          </div>
+          <div className={styles.bottom}>
+            <input
+              type='text'
+              placeholder='Details about the request'
+              value={memo}
+              onChange={event => setRequestMemo(event.target.value)}
+              id='memo'
+            />
+          </div>
+        </section>
+
         <section className={styles.submit}>
           <div className={`${styles.button} ${amount > 0 && styles.active}`} onClick={onRequestSubmit}>
-            Request
+            Request Payment
           </div>
         </section>
       </div>
