@@ -87,7 +87,7 @@ const Request = ({
 
         <section className={styles.submit}>
           <div className={`${styles.button} ${amount > 0 && styles.active}`} onClick={onRequestSubmit}>
-            Request Payment
+            Request
           </div>
         </section>
       </div>
