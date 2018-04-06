@@ -106,12 +106,12 @@ class Pay extends Component {
             <div className={styles.bottom}>
               <textarea
                 type='text'
-                placeholder='Payment request or bitcoin address'
+                placeholder='Paste payment request or bitcoin address here'
                 value={payInput}
                 onChange={event => setPayInput(event.target.value)}
                 onBlur={onPayInputBlur}
                 id='paymentRequest'
-                rows='2'
+                rows='4'
               />
               <section className={`${styles.errorMessage} ${showErrors.payInput && styles.active}`}>
                 {showErrors.payInput &&

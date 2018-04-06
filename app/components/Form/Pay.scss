@@ -3,6 +3,8 @@
 .container {
   padding: 0 40px;
   font-family: Roboto;
+  margin: 0 auto;
+  width: 500px;
 }
 
 .header {
@@ -20,16 +22,16 @@
 }
 
 .content {
-  margin-top: 50px;
+  margin-top: 40px;
   color: $white;
 
   .destination {
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 
     .description {
       font-size: 12px;
       line-height: 14px;
-      padding: 10px 15px;
+      padding: 0px 15px;
       min-height: 14px;
 
       &.active {
@@ -53,13 +55,16 @@
     align-items: center;
 
     input {
-      font-size: 40px;
-      max-width: 230px;
+      font-size: 20px;
+      max-width: 150px;
+      border:1px solid #404040;
+      border-radius: 4px;
+      padding: 15px;
     }
   }
 
   .top {
-    margin-bottom: 25px;
+    margin-bottom: 10px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -74,12 +79,13 @@
     input, textarea {
       background: transparent;
       outline: none;
-      border: 0;
+      border: 1px solid #404040;
       color: $gold;
       -webkit-text-fill-color: $white;
       font-size: 12px;
       width: 100%;
       font-weight: 200;
+      padding: 10px;
     }
 
     input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
@@ -93,6 +99,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-left: 12px;
 
     .currentCurrency {
       cursor: pointer;
@@ -136,12 +143,13 @@
   }
 
   .usdAmount {
-    margin-top: 20px;
+    margin-top: 10px;
     opacity: 0.5;
+    font-size: 14px;
   }
 
   .submit {
-    margin-top: 50px;
+    margin-top: 20px;
     text-align: center;
 
     .button {
