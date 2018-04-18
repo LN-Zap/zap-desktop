@@ -275,6 +275,15 @@ app.on('ready', async () => {
   menuBuilder.buildMenu()
 
   sendGrpcDisconnected()
+
+  // Check to see if we should use an external LND address
+  if (process.env.LND_HOST_PORT) {
+    // An LND process was found, no need to start our own
+    console.log(`USING EXTERNALLY RUNNING LND AT ADDRESS ${process.env.LND_HOST_PORT}`)
+    startGrpc()
+    return
+  }
+
   // Check to see if an LND process is running
   lookup({ command: 'lnd' }, (err, results) => {
     // There was an error checking for the LND process

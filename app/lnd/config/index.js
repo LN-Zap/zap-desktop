@@ -24,9 +24,13 @@ switch (platform()) {
     break
 }
 
+loc = process.env.LND_TLS_CERT || join(userInfo().homedir, loc)
+macaroonPath = process.env.LND_MACAROON || join(userInfo().homedir, macaroonPath)
+const host = process.env.LND_HOST_PORT || 'localhost:10009'
+
 export default {
   lightningRpc: `${__dirname}/rpc.proto`,
-  lightningHost: 'localhost:10009',
-  cert: join(userInfo().homedir, loc),
-  macaroon: join(userInfo().homedir, macaroonPath)
+  lightningHost: host,
+  cert: loc,
+  macaroon: macaroonPath
 }
