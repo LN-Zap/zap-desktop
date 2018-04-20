@@ -38,6 +38,8 @@ export const REMOVE_ClOSING_CHAN_ID = 'REMOVE_ClOSING_CHAN_ID'
 export const OPEN_CONTACT_MODAL = 'OPEN_CONTACT_MODAL'
 export const CLOSE_CONTACT_MODAL = 'CLOSE_CONTACT_MODAL'
 
+export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -141,6 +143,13 @@ export function closeContactModal() {
   }
 }
 
+export function setSelectedChannel(selectedChannel) {
+  return {
+    type: SET_SELECTED_CHANNEL,
+    selectedChannel
+  }
+}
+
 // Send IPC event for peers
 export const fetchChannels = () => async (dispatch) => {
   dispatch(getChannels())
@@ -206,8 +215,7 @@ export const closeChannel = ({ channel_point, chan_id, force }) => (dispatch) =>
           funding_txid,
           output_index
         },
-        force,
-        chan_id
+        force
       }
     }
   )
@@ -334,7 +342,9 @@ const ACTION_HANDLERS = {
   ),
 
   [OPEN_CONTACT_MODAL]: (state, { channel }) => ({ ...state, contactModal: { isOpen: true, channel } }),
-  [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } })
+  [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } }),
+
+  [SET_SELECTED_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel })
 }
 
 const channelsSelectors = {}
@@ -522,7 +532,9 @@ const initialState = {
   contactModal: {
     isOpen: false,
     channel: null
-  }
+  },
+
+  selectedChannel: null
 }
 
 export default function channelsReducer(state = initialState, action) {

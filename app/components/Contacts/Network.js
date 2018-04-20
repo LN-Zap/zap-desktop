@@ -7,6 +7,8 @@ import { btc } from 'utils'
 import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
 
+import Value from 'components/Value'
+
 import styles from './Network.scss'
 
 class Network extends Component {
@@ -24,11 +26,13 @@ class Network extends Component {
         searchQuery,
         filterPulldown,
         filter,
+        selectedChannel,
         loadingChannelPubkeys
         // closingChannelIds
       },
       currentChannels,
       balance,
+      ticker,
       currentTicker,
 
       nodes,
@@ -42,7 +46,11 @@ class Network extends Component {
 
       updateChannelSearchQuery,
 
-      openContactModal
+      openContactModal,
+
+      setSelectedChannel,
+
+      closeChannel
     } = this.props
 
 
@@ -71,6 +79,12 @@ class Network extends Component {
         this.setState({ refreshing: false })
         clearTimeout(refreshTimeout)
       }, 1000)
+    }
+
+    // when the user clicks the action to close the channel
+    const removeClicked = (channel) => {
+      console.log('channel: ', channel)
+      closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })
     }
 
     const displayNodeName = (channel) => {
@@ -166,12 +180,54 @@ class Network extends Component {
             {
               currentChannels.length > 0 && currentChannels.map((channelObj, index) => {
                 const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel') ? channelObj.channel : channelObj
+                const pubkey = channel.remote_node_pub || channel.remote_pubkey
+
                 return (
-                  <li key={index} className={styles.channel} onClick={() => openContactModal(channelObj)}>
-                    <span>{displayNodeName(channel)}</span>
-                    <span className={`${styles[channelStatus(channelObj)]} hint--left`} data-hint={channelStatus(channelObj)}>
-                      <FaCircle />
-                    </span>
+                  <li
+                    key={index}
+                    className={`${styles.channel} ${selectedChannel === channel && styles.selectedChannel}`}
+                    onClick={() => (selectedChannel === channel ? setSelectedChannel(null) : setSelectedChannel(channel))}
+                  >
+                    <section className={styles.channelTitle}>
+                      <span>{displayNodeName(channel)}</span>
+                      <span className={`${styles[channelStatus(channelObj)]} hint--left`} data-hint={channelStatus(channelObj)}>
+                        <FaCircle />
+                      </span>
+                    </section>
+
+                    <section className={styles.channelDetails}>
+                      <h4>{`${pubkey.substring(0, 30)}...`}</h4>
+
+                      <div className={styles.limits}>
+                        <section>
+                          <h5>Pay Limit</h5>
+                          <p>
+                            <Value
+                              value={channel.local_balance}
+                              currency={ticker.currency}
+                              currentTicker={currentTicker}
+                            />
+                            <i> {ticker.currency.toUpperCase()}</i>
+                          </p>
+                        </section>
+                        <section>
+                          <h5>Request Limit</h5>
+                          <p>
+                            <Value
+                              value={channel.remote_balance}
+                              currency={ticker.currency}
+                              currentTicker={currentTicker}
+                            />
+                            <i> {ticker.currency.toUpperCase()}</i>
+                          </p>
+                        </section>
+                      </div>
+                      <div className={styles.actions}>
+                        <section onClick={() => removeClicked(channel)}>
+                          <div>Disconnect</div>
+                        </section>
+                      </div>
+                    </section>
                   </li>
                 )
               })
