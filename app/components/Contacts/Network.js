@@ -7,6 +7,8 @@ import { btc } from 'utils'
 import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
 
+import Value from 'components/Value'
+
 import styles from './Network.scss'
 
 class Network extends Component {
@@ -24,11 +26,13 @@ class Network extends Component {
         searchQuery,
         filterPulldown,
         filter,
-        loadingChannelPubkeys
-        // closingChannelIds
+        selectedChannel,
+        loadingChannelPubkeys,
+        closingChannelIds
       },
       currentChannels,
       balance,
+      ticker,
       currentTicker,
 
       nodes,
@@ -42,7 +46,9 @@ class Network extends Component {
 
       updateChannelSearchQuery,
 
-      openContactModal
+      setSelectedChannel,
+
+      closeChannel
     } = this.props
 
 
@@ -73,6 +79,21 @@ class Network extends Component {
       }, 1000)
     }
 
+    // when the user clicks the action to close the channel
+    const removeClicked = (channel) => {
+      closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })
+    }
+
+    // when a user clicks a channel
+    const channelClicked = (channel) => {
+      // selectedChannel === channel ? setSelectedChannel(null) : setSelectedChannel(channel)
+      if (selectedChannel === channel) {
+        setSelectedChannel(null)
+      } else {
+        setSelectedChannel(channel)
+      }
+    }
+
     const displayNodeName = (channel) => {
       const node = find(nodes, n => channel.remote_pubkey === n.pub_key)
 
@@ -88,8 +109,12 @@ class Network extends Component {
       // if the channel has a closing tx that means it's closing
       if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) { return 'closing' }
 
+      // if we are in the process of closing this channel
+      if (closingChannelIds.includes(channel.chan_id)) { return 'closing' }
+
       // if the channel isn't active that means the remote peer isn't online
       if (!channel.active) { return 'offline' }
+
 
       // if all of the above conditionals fail we can assume the node is online :)
       return 'online'
@@ -166,12 +191,73 @@ class Network extends Component {
             {
               currentChannels.length > 0 && currentChannels.map((channelObj, index) => {
                 const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel') ? channelObj.channel : channelObj
+                const pubkey = channel.remote_node_pub || channel.remote_pubkey
+
                 return (
-                  <li key={index} className={styles.channel} onClick={() => openContactModal(channelObj)}>
-                    <span>{displayNodeName(channel)}</span>
-                    <span className={`${styles[channelStatus(channelObj)]} hint--left`} data-hint={channelStatus(channelObj)}>
-                      <FaCircle />
-                    </span>
+                  <li
+                    key={index}
+                    className={`${styles.channel} ${selectedChannel === channel && styles.selectedChannel}`}
+                    onClick={() => channelClicked(channel)}
+                  >
+                    <section className={styles.channelTitle}>
+                      <span className={`${styles[channelStatus(channelObj)]} hint--right`} data-hint={channelStatus(channelObj)}>
+                        {
+                          closingChannelIds.includes(channel.chan_id) ?
+                            <span className={styles.loading}>
+                              <i className={`${styles.spinner} ${styles.closing}`} />
+                            </span>
+                            :
+                            <FaCircle />
+                        }
+                      </span>
+                      <span>{displayNodeName(channel)}</span>
+                      {
+                        selectedChannel === channel && <span><FaAngleDown /></span>
+                      }
+                    </section>
+
+                    <section className={styles.channelDetails}>
+                      <header>
+                        <h4>{`${pubkey.substring(0, 30)}...`}</h4>
+                      </header>
+
+                      <div className={styles.limits}>
+                        <section>
+                          <h5>Pay Limit</h5>
+                          <p>
+                            <Value
+                              value={channel.local_balance}
+                              currency={ticker.currency}
+                              currentTicker={currentTicker}
+                            />
+                            <i> {ticker.currency.toUpperCase()}</i>
+                          </p>
+                        </section>
+                        <section>
+                          <h5>Request Limit</h5>
+                          <p>
+                            <Value
+                              value={channel.remote_balance}
+                              currency={ticker.currency}
+                              currentTicker={currentTicker}
+                            />
+                            <i>{ticker.currency.toUpperCase()}</i>
+                          </p>
+                        </section>
+                      </div>
+                      <div className={styles.actions}>
+                        <section onClick={() => removeClicked(channel)}>
+                          {
+                            closingChannelIds.includes(channel.chan_id) ?
+                              <span className={`${styles.loading} hint--left`} data-hint='closing'>
+                                <i>Closing</i> <i className={`${styles.spinner} ${styles.closing}`} />
+                              </span>
+                              :
+                              <div>Disconnect</div>
+                          }
+                        </section>
+                      </div>
+                    </section>
                   </li>
                 )
               })
@@ -205,13 +291,15 @@ Network.propTypes = {
   channels: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
 
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,
   toggleFilterPulldown: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
-  openContactModal: PropTypes.func.isRequired
+  setSelectedChannel: PropTypes.func.isRequired,
+  closeChannel: PropTypes.func.isRequired
 }
 
 export default Network

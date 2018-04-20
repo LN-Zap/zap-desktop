@@ -34,8 +34,8 @@ import {
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
-  openContactModal,
-  closeContactModal
+  closeContactModal,
+  setSelectedChannel
 } from 'reducers/channels'
 
 import {
@@ -110,8 +110,8 @@ const mapDispatchToProps = {
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
-  openContactModal,
   closeContactModal,
+  setSelectedChannel,
 
   openContactsForm,
   closeContactsForm,
@@ -302,6 +302,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     contactsform: stateProps.contactsform,
     nodes: stateProps.network.nodes,
     nonActiveFilters: stateProps.nonActiveFilters,
+    ticker: stateProps.ticker,
 
     fetchChannels: dispatchProps.fetchChannels,
     openContactsForm: dispatchProps.openContactsForm,
@@ -310,7 +311,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     toggleFilterPulldown: dispatchProps.toggleFilterPulldown,
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
-    openContactModal: dispatchProps.openContactModal
+    setSelectedChannel: dispatchProps.setSelectedChannel,
+    closeChannel: dispatchProps.closeChannel
   }
 
   const contactsFormProps = {
