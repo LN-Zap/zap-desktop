@@ -27,8 +27,8 @@ class Network extends Component {
         filterPulldown,
         filter,
         selectedChannel,
-        loadingChannelPubkeys
-        // closingChannelIds
+        loadingChannelPubkeys,
+        closingChannelIds
       },
       currentChannels,
       balance,
@@ -87,6 +87,11 @@ class Network extends Component {
       closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })
     }
 
+    // when a user clicks a channel
+    const channelClicked = (channel) => {
+      selectedChannel === channel ? setSelectedChannel(null) : setSelectedChannel(channel)
+    }
+
     const displayNodeName = (channel) => {
       const node = find(nodes, n => channel.remote_pubkey === n.pub_key)
 
@@ -102,8 +107,12 @@ class Network extends Component {
       // if the channel has a closing tx that means it's closing
       if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) { return 'closing' }
 
+      // if we are in the process of closing this channel
+      if (closingChannelIds.includes(channel.chan_id)) { return 'closing' }
+
       // if the channel isn't active that means the remote peer isn't online
       if (!channel.active) { return 'offline' }
+
 
       // if all of the above conditionals fail we can assume the node is online :)
       return 'online'
@@ -186,17 +195,29 @@ class Network extends Component {
                   <li
                     key={index}
                     className={`${styles.channel} ${selectedChannel === channel && styles.selectedChannel}`}
-                    onClick={() => (selectedChannel === channel ? setSelectedChannel(null) : setSelectedChannel(channel))}
+                    onClick={() => channelClicked(channel)}
                   >
                     <section className={styles.channelTitle}>
-                      <span>{displayNodeName(channel)}</span>
-                      <span className={`${styles[channelStatus(channelObj)]} hint--left`} data-hint={channelStatus(channelObj)}>
-                        <FaCircle />
+                      <span className={`${styles[channelStatus(channelObj)]} hint--right`} data-hint={channelStatus(channelObj)}>
+                        {
+                          closingChannelIds.includes(channel.chan_id) ?
+                            <span className={styles.loading}>
+                              <i className={`${styles.spinner} ${styles.closing}`} />
+                            </span>
+                            :
+                            <FaCircle />
+                        }
                       </span>
+                      <span>{displayNodeName(channel)}</span>
+                      {
+                        selectedChannel === channel && <span><FaAngleDown /></span>
+                      }
                     </section>
 
                     <section className={styles.channelDetails}>
-                      <h4>{`${pubkey.substring(0, 30)}...`}</h4>
+                      <header>
+                        <h4>{`${pubkey.substring(0, 30)}...`}</h4>
+                      </header>
 
                       <div className={styles.limits}>
                         <section>
@@ -218,13 +239,20 @@ class Network extends Component {
                               currency={ticker.currency}
                               currentTicker={currentTicker}
                             />
-                            <i> {ticker.currency.toUpperCase()}</i>
+                            <i>{ticker.currency.toUpperCase()}</i>
                           </p>
                         </section>
                       </div>
                       <div className={styles.actions}>
                         <section onClick={() => removeClicked(channel)}>
-                          <div>Disconnect</div>
+                          {
+                            closingChannelIds.includes(channel.chan_id) ?
+                              <span className={`${styles.loading} hint--left`} data-hint='closing'>
+                                <i>Closing</i> <i className={`${styles.spinner} ${styles.closing}`} />
+                              </span>
+                              :
+                              <div>Disconnect</div>
+                          }
                         </section>
                       </div>
                     </section>

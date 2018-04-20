@@ -145,8 +145,27 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      justify-content: space-between;
       padding: 0 20px;
+
+      span {
+        &:nth-child(2) {
+          margin-left: 10px;
+          font-size: 12px;
+          font-weight: 300;
+          letter-spacing: 0.6px;
+          line-height: 17px;
+        }
+
+        &:nth-child(3) {
+          margin-left: auto;
+
+          svg {
+            width: 15px;
+            height: 15px;
+            opacity: 0.5;
+          }
+        }
+      }
     }
 
     .online {
@@ -227,6 +246,11 @@
   -o-animation: animation-rotate 1000ms linear infinite;
   animation: animation-rotate 1000ms linear infinite;
   display: inline-block;
+
+  &.closing {
+    border: 1px solid rgba(255, 85, 106, 0.1);
+    border-left-color: rgba(255, 85, 106, 0.4);
+  }
 }
 
 @-webkit-keyframes animation-rotate {
@@ -299,6 +323,22 @@
     section {
       padding: 20px 0;
       border-top: 0.5px solid #1A1C23;
+
+      div {
+        transition: all 0.25s;
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+
+    .loading i {
+      vertical-align: top;
+
+      &:nth-child(1) {
+        margin-right: 5px;
+      }
     }
   }
 }
