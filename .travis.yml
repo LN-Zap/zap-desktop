@@ -37,4 +37,4 @@ before_script:
   - sleep 3
 
 script:
-  - "yarn $TEST"
+  - "travis_wait 30 yarn $TEST"
