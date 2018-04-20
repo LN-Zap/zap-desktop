@@ -53,6 +53,7 @@ Object {
     "total_limbo_balance": "",
   },
   "searchQuery": "",
+  "selectedChannel": null,
   "viewType": 0,
 }
 `;
@@ -110,6 +111,7 @@ Object {
     "total_limbo_balance": "",
   },
   "searchQuery": "",
+  "selectedChannel": null,
   "viewType": 0,
 }
 `;
@@ -168,6 +170,7 @@ Object {
     4,
   ],
   "searchQuery": "",
+  "selectedChannel": null,
   "viewType": 0,
 }
 `;
@@ -225,6 +228,7 @@ Object {
     "total_limbo_balance": "",
   },
   "searchQuery": "",
+  "selectedChannel": null,
   "viewType": 0,
 }
 `;
@@ -282,6 +286,7 @@ Object {
     "total_limbo_balance": "",
   },
   "searchQuery": "",
+  "selectedChannel": null,
   "viewType": 0,
 }
 `;

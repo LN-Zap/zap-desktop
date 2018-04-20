@@ -46,8 +46,6 @@ class Network extends Component {
 
       updateChannelSearchQuery,
 
-      openContactModal,
-
       setSelectedChannel,
 
       closeChannel
@@ -83,13 +81,17 @@ class Network extends Component {
 
     // when the user clicks the action to close the channel
     const removeClicked = (channel) => {
-      console.log('channel: ', channel)
       closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })
     }
 
     // when a user clicks a channel
     const channelClicked = (channel) => {
-      selectedChannel === channel ? setSelectedChannel(null) : setSelectedChannel(channel)
+      // selectedChannel === channel ? setSelectedChannel(null) : setSelectedChannel(channel)
+      if (selectedChannel === channel) {
+        setSelectedChannel(null)
+      } else {
+        setSelectedChannel(channel)
+      }
     }
 
     const displayNodeName = (channel) => {
@@ -289,13 +291,15 @@ Network.propTypes = {
   channels: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
+  ticker: PropTypes.object.isRequired,
 
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,
   toggleFilterPulldown: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
-  openContactModal: PropTypes.func.isRequired
+  setSelectedChannel: PropTypes.func.isRequired,
+  closeChannel: PropTypes.func.isRequired
 }
 
 export default Network

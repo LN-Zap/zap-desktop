@@ -34,7 +34,6 @@ import {
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
-  openContactModal,
   closeContactModal,
   setSelectedChannel
 } from 'reducers/channels'
@@ -111,7 +110,6 @@ const mapDispatchToProps = {
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
-  openContactModal,
   closeContactModal,
   setSelectedChannel,
 
@@ -313,7 +311,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     toggleFilterPulldown: dispatchProps.toggleFilterPulldown,
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
-    openContactModal: dispatchProps.openContactModal,
     setSelectedChannel: dispatchProps.setSelectedChannel,
     closeChannel: dispatchProps.closeChannel
   }
