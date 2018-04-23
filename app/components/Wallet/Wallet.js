@@ -7,7 +7,6 @@ import { btc, blockExplorer } from 'utils'
 import Value from 'components/Value'
 import AnimatedCheckmark from 'components/AnimatedCheckmark'
 
-import bitcoinIcon from 'icons/bitcoin.svg'
 import zapLogo from 'icons/zap_logo.svg'
 import qrCode from 'icons/qrcode.svg'
 
@@ -134,7 +133,11 @@ Wallet.propTypes = {
   openReceiveModal: PropTypes.func.isRequired,
   showPayLoadingScreen: PropTypes.bool.isRequired,
   showSuccessPayScreen: PropTypes.bool.isRequired,
-  successTransactionScreen: PropTypes.object.isRequired
+  successTransactionScreen: PropTypes.object.isRequired,
+  currentCurrencyFilters: PropTypes.array.isRequired,
+  currencyName: PropTypes.string.isRequired,
+  setCurrency: PropTypes.func.isRequired,
+  setWalletCurrencyFilters: PropTypes.func.isRequired
 }
 
 export default Wallet

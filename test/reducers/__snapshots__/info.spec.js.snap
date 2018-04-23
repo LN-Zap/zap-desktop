@@ -4,6 +4,7 @@ exports[`reducers infoReducer should correctly getInfo 1`] = `
 Object {
   "data": Object {},
   "infoLoading": true,
+  "showWalletCurrencyFilters": false,
 }
 `;
 
@@ -11,6 +12,7 @@ exports[`reducers infoReducer should correctly receiveInfo 1`] = `
 Object {
   "data": "foo",
   "infoLoading": false,
+  "showWalletCurrencyFilters": false,
 }
 `;
 
@@ -18,5 +20,6 @@ exports[`reducers infoReducer should handle initial state 1`] = `
 Object {
   "data": Object {},
   "infoLoading": false,
+  "showWalletCurrencyFilters": false,
 }
 `;
