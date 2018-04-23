@@ -23,9 +23,18 @@ const Wallet = ({
   openRequestForm,
   showPayLoadingScreen,
   showSuccessPayScreen,
-  successTransactionScreen
+  successTransactionScreen,
+  currentCurrencyFilters,
+  currencyName,
+  setCurrency,
+  setWalletCurrencyFilters
 }) => {
   const usdAmount = btc.satoshisToUsd((parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10)), currentTicker.price_usd)
+
+  const onCurrencyFilterClick = (currency) => {
+    setCurrency(currency)
+    setWalletCurrencyFilters(false)
+  }
 
   return (
     <div className={styles.wallet}>
@@ -45,19 +54,31 @@ const Wallet = ({
 
         <div className={styles.left}>
           <div className={styles.leftContent}>
-            <Isvg className={styles.bitcoinLogo} src={bitcoinIcon} />
+            <span onClick={openReceiveModal} className={styles.qrCode}>
+              <Isvg className={styles.bitcoinLogo} src={qrCode} />
+            </span>
             <div className={styles.details}>
               <h1>
                 <span>
                   <Value
                     value={parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance)}
+                    fromCurrency={ticker.fromCurrency}
                     currency={ticker.currency}
                     currentTicker={currentTicker}
                   />
-                  <i className={styles.currency}>{btc.renderCurrency(ticker.currency)}</i>
-                </span>
-                <span onClick={openReceiveModal}>
-                  <Isvg className={styles.bitcoinLogo} src={qrCode} />
+                  <section className={styles.currencyContainer}>
+                    <i className={styles.currency}>{currencyName}</i>
+                    <span onClick={() => setWalletCurrencyFilters(!info.showWalletCurrencyFilters)}>
+                      <FaAngleDown />
+                    </span>
+
+                    <ul className={info.showWalletCurrencyFilters && styles.active}>
+                      {
+                        currentCurrencyFilters.map(filter =>
+                          <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
+                      }
+                    </ul>
+                  </section>
                 </span>
               </h1>
               <span className={styles.usdValue}>≈ ${usdAmount ? usdAmount.toLocaleString() : ''}</span>

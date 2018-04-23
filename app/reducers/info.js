@@ -7,6 +7,7 @@ import { blockExplorer } from 'utils'
 // ------------------------------------
 export const GET_INFO = 'GET_INFO'
 export const RECEIVE_INFO = 'RECEIVE_INFO'
+export const SET_WALLET_CURRENCY_FILTERS = 'SET_WALLET_CURRENCY_FILTERS'
 
 // ------------------------------------
 // Actions
@@ -14,6 +15,13 @@ export const RECEIVE_INFO = 'RECEIVE_INFO'
 export function getInfo() {
   return {
     type: GET_INFO
+  }
+}
+
+export function setWalletCurrencyFilters(showWalletCurrencyFilters) {
+  return {
+    type: SET_WALLET_CURRENCY_FILTERS,
+    showWalletCurrencyFilters
   }
 }
 
@@ -36,7 +44,8 @@ export const receiveInfo = (event, data) => (dispatch) => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_INFO]: state => ({ ...state, infoLoading: true }),
-  [RECEIVE_INFO]: (state, { data }) => ({ ...state, infoLoading: false, data })
+  [RECEIVE_INFO]: (state, { data }) => ({ ...state, infoLoading: false, data }),
+  [SET_WALLET_CURRENCY_FILTERS]: (state, { showWalletCurrencyFilters }) => ({ ...state, showWalletCurrencyFilters })
 }
 
 // ------------------------------------
@@ -44,7 +53,8 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   infoLoading: false,
-  data: {}
+  data: {},
+  showWalletCurrencyFilters: false
 }
 
 // Selectors

@@ -15,7 +15,7 @@ const initialState = {
 
   searchQuery: '',
   manualSearchQuery: '',
-  contactCapacity: 0.1,
+  contactCapacity: 0,
   node: {},
   showErrors: {
     manualInput: false
