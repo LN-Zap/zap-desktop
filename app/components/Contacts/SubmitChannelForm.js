@@ -37,6 +37,9 @@ class SubmitChannelForm extends React.Component {
     }
 
     const formSubmitted = () => {
+      // dont submit to LND if they havent set channel capacity amount
+      if (contactCapacity > 0) { return }
+
       // submit the channel to LND
       openChannel({ pubkey: node.pub_key, host: node.addresses[0].addr, local_amt: contactCapacity })
 

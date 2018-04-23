@@ -64,7 +64,7 @@ export const receiveCryptocurrency = (event, currency) => (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_CURRENCY]: (state, { currency }) => ({ ...state, currency }),
+  [SET_CURRENCY]: (state, { currency }) => ({ ...state, fromCurrency: state.currency, currency }),
   [SET_CRYPTO]: (state, { crypto }) => ({ ...state, crypto }),
   [GET_TICKERS]: state => ({ ...state, tickerLoading: true }),
   [RECIEVE_TICKERS]: (state, { btcTicker, ltcTicker }) => (
@@ -113,6 +113,7 @@ export { tickerSelectors }
 const initialState = {
   tickerLoading: false,
   currency: '',
+  fromCurrency: 'sats',
   crypto: '',
   btcTicker: null,
   ltcTicker: null,

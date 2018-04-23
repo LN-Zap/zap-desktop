@@ -19,6 +19,7 @@ Object {
       "name": "satoshis",
     },
   ],
+  "fromCurrency": "sats",
   "ltcTicker": null,
   "tickerLoading": true,
 }
@@ -43,6 +44,7 @@ Object {
       "name": "satoshis",
     },
   ],
+  "fromCurrency": "sats",
   "ltcTicker": undefined,
   "tickerLoading": false,
 }
@@ -67,6 +69,7 @@ Object {
       "name": "satoshis",
     },
   ],
+  "fromCurrency": "sats",
   "ltcTicker": null,
   "tickerLoading": false,
 }
@@ -91,6 +94,7 @@ Object {
       "name": "satoshis",
     },
   ],
+  "fromCurrency": "",
   "ltcTicker": null,
   "tickerLoading": false,
 }
@@ -115,6 +119,7 @@ Object {
       "name": "satoshis",
     },
   ],
+  "fromCurrency": "sats",
   "ltcTicker": null,
   "tickerLoading": false,
 }
