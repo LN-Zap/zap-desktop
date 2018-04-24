@@ -10,8 +10,7 @@ const initialState = {
     { key: 'ALL_ACTIVITY', name: 'All' },
     { key: 'SENT_ACTIVITY', name: 'Sent' },
     { key: 'REQUESTED_ACTIVITY', name: 'Requested' },
-    { key: 'PENDING_ACTIVITY', name: 'Pending' },
-    { key: 'FUNDED_ACTIVITY', name: 'Funding Transactions' }
+    { key: 'PENDING_ACTIVITY', name: 'Pending' }
   ],
   modal: {
     modalType: null,
@@ -128,8 +127,30 @@ const allActivity = createSelector(
       return false
     })
 
-    return searchedArr.sort((a, b) => {
-      // this will return the correct timestamp to use when sorting (time_stamp, creation_date, or settle_date)
+    // return searchedArr.sort((a, b) => {
+    //   // this will return the correct timestamp to use when sorting (time_stamp, creation_date, or settle_date)
+    //   function returnTimestamp(transaction) {
+    //     // if on-chain txn
+    //     if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) { return transaction.time_stamp }
+    //     // if invoice that has been paid
+    //     if (transaction.settled) { return transaction.settle_date }
+    //     // if invoice that has not been paid or an LN payment
+    //     return transaction.creation_date
+    //   }
+
+    //   const aTimestamp = returnTimestamp(a)
+    //   const bTimestamp = returnTimestamp(b)
+
+    //   // console.log('aTimestamp: ', aTimestamp)
+    //   // console.log('bTimestamp: ', bTimestamp)
+    //   console.log('date: ', new Date(aTimestamp * 1000))
+
+    //   return bTimestamp - aTimestamp
+    // })
+
+    if (!searchedArr.length) { return [] }
+
+    const groups = searchedArr.reduce((groups, el) => {
       function returnTimestamp(transaction) {
         // if on-chain txn
         if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) { return transaction.time_stamp }
@@ -139,11 +160,34 @@ const allActivity = createSelector(
         return transaction.creation_date
       }
 
-      const aTimestamp = returnTimestamp(a)
-      const bTimestamp = returnTimestamp(b)
+      const months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
-      return bTimestamp - aTimestamp
+      const d = new Date(returnTimestamp(el) * 1000)
+      const date = d.getDate()
+      const title = `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`
+
+      if (!groups[title]) {
+        groups[title] = []
+      }
+
+      groups[title].push({
+        el
+      })
+
+      return groups
+    }, {})
+
+
+    const groupArrays = Object.keys(groups).map((title) => {
+      return {
+        title,
+        activity: groups[title]
+      }
     })
+
+    console.log('groupArrays: ', groupArrays)
+
+    return groupArrays.sort((a, b) => new Date(b.title).getTime() - new Date(a.title).getTime())
   }
 )
 
@@ -171,23 +215,11 @@ const pendingActivity = createSelector(
   invoices => invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice))
 )
 
-const fundedActivity = createSelector(
-  transactionsSelector,
-  channelsSelector,
-  (transactions, channels) => {
-    const fundingTxIds = channels.map(channel => channel.channel_point.split(':')[0])
-    const fundingTxs = transactions.filter(transaction => fundingTxIds.includes(transaction.tx_hash))
-
-    return fundingTxs.sort((a, b) => b.time_stamp - a.time_stamp)
-  }
-)
-
 const FILTERS = {
   ALL_ACTIVITY: allActivity,
   SENT_ACTIVITY: sentActivity,
   REQUESTED_ACTIVITY: invoiceActivity,
-  PENDING_ACTIVITY: pendingActivity,
-  FUNDED_ACTIVITY: fundedActivity
+  PENDING_ACTIVITY: pendingActivity
 }
 
 activitySelectors.currentActivity = createSelector(

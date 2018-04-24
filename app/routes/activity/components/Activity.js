@@ -27,17 +27,40 @@ class Activity extends Component {
   }
 
   renderActivity(activity) {
-    const { ticker, currentTicker, showActivityModal } = this.props
+    const {
+      ticker,
+      currentTicker,
+      showActivityModal,
+      network,
+      currencyName
+    } = this.props
 
     if (Object.prototype.hasOwnProperty.call(activity, 'block_hash')) {
       // activity is an on-chain tx
-      return <Transaction transaction={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
+      return (
+        <Transaction
+          transaction={activity}
+          ticker={ticker}
+          currentTicker={currentTicker}
+          showActivityModal={showActivityModal}
+          currencyName={currencyName}
+        />
+      )
     } else if (Object.prototype.hasOwnProperty.call(activity, 'payment_request')) {
       // activity is an LN invoice
       return <Invoice invoice={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
     }
     // activity is an LN payment
-    return <Payment payment={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
+    return (
+      <Payment
+        payment={activity}
+        ticker={ticker}
+        currentTicker={currentTicker}
+        showActivityModal={showActivityModal}
+        nodes={network.nodes}
+        currencyName={currencyName}
+      />
+    )
   }
 
   render() {
@@ -51,9 +74,12 @@ class Activity extends Component {
       changeFilter,
       currentActivity,
 
+      network,
+
       walletProps
     } = this.props
 
+    console.log('network: ', network)
     if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
     return (
@@ -78,9 +104,14 @@ class Activity extends Component {
           </header>
           <ul className={`${styles.activityContainer} ${filterPulldown && styles.pulldown}`}>
             {
-              currentActivity.map((activity, index) => (
+              currentActivity.map((activityBlock, index) => (
                 <li className={styles.activity} key={index}>
-                  {this.renderActivity(activity)}
+                  <h2>{activityBlock.title}</h2>
+                  <ul>
+                    {
+                      activityBlock.activity.map(activity => <li>{this.renderActivity(activity.el)}</li>)
+                    }
+                  </ul>
                 </li>
               ))
             }
