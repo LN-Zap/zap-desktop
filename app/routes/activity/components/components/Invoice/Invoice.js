@@ -5,10 +5,8 @@ import 'moment-timezone'
 import { btc } from 'utils'
 
 import Isvg from 'react-inlinesvg'
-import { FaBolt } from 'react-icons/lib/fa'
 import Value from 'components/Value'
 import checkmarkIcon from 'icons/check_circle.svg'
-import clockIcon from 'icons/clock.svg'
 import styles from '../Activity.scss'
 
 const Invoice = ({

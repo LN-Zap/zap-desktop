@@ -5,10 +5,7 @@ import Moment from 'react-moment'
 import 'moment-timezone'
 import { btc } from 'utils'
 
-import Isvg from 'react-inlinesvg'
-import { FaBolt } from 'react-icons/lib/fa'
 import Value from 'components/Value'
-import checkmarkIcon from 'icons/check_circle.svg'
 import styles from '../Activity.scss'
 
 const Payment = ({
@@ -53,9 +50,11 @@ const Payment = ({
 }
 
 Payment.propTypes = {
+  currencyName: PropTypes.string.isRequired,
   payment: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
+  nodes: PropTypes.array.isRequired,
   showActivityModal: PropTypes.func.isRequired
 }
 

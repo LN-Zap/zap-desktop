@@ -104,7 +104,6 @@ const searchSelector = state => state.activity.searchText
 const paymentsSelector = state => state.payment.payments
 const invoicesSelector = state => state.invoice.invoices
 const transactionsSelector = state => state.transaction.transactions
-const channelsSelector = state => state.channels.channels
 
 const invoiceExpired = (invoice) => {
   const expiresAt = (parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10))
@@ -127,29 +126,22 @@ const months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sep
 
 // groups the data by day
 function groupData(data) {
-  const groups = data.reduce((groups, el) => {
+  return data.reduce((arr, el) => {
     const d = new Date(returnTimestamp(el) * 1000)
     const date = d.getDate()
     const title = `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`
 
-    if (!groups[title]) { groups[title] = [] }
+    if (!arr[title]) { arr[title] = [] }
 
-    groups[title].push({ el })
+    arr[title].push({ el })
 
-    return groups
+    return arr
   }, {})
-
-  return groups
 }
 
 // takes the result of groupData and returns an array
 function groupArray(data) {
-  return Object.keys(data).map((title) => {
-    return { 
-      title,
-      activity: data[title]
-    }
-  })
+  return Object.keys(data).map(title => ({ title, activity: data[title] }))
 }
 
 // sorts data form new to old according to the timestamp

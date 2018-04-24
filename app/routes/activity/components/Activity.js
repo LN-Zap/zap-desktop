@@ -74,8 +74,6 @@ class Activity extends Component {
       changeFilter,
       currentActivity,
 
-      network,
-
       walletProps
     } = this.props
 
@@ -108,7 +106,7 @@ class Activity extends Component {
                   <h2>{activityBlock.title}</h2>
                   <ul>
                     {
-                      activityBlock.activity.map(activity => <li>{this.renderActivity(activity.el)}</li>)
+                      activityBlock.activity.map((activity, i) => <li key={i}>{this.renderActivity(activity.el)}</li>)
                     }
                   </ul>
                 </li>
@@ -129,6 +127,7 @@ Activity.propTypes = {
 
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
+  network: PropTypes.object.isRequired,
 
   showActivityModal: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
@@ -136,7 +135,9 @@ Activity.propTypes = {
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,
   balance: PropTypes.object.isRequired,
-  walletProps: PropTypes.object.isRequired
+  walletProps: PropTypes.object.isRequired,
+
+  currencyName: PropTypes.string.isRequired
 }
 
 export default Activity
