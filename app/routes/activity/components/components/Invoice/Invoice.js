@@ -2,46 +2,33 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import 'moment-timezone'
+import { btc } from 'utils'
+
 import Isvg from 'react-inlinesvg'
-import { FaBolt } from 'react-icons/lib/fa'
 import Value from 'components/Value'
 import checkmarkIcon from 'icons/check_circle.svg'
-import clockIcon from 'icons/clock.svg'
 import styles from '../Activity.scss'
 
 const Invoice = ({
   invoice, ticker, currentTicker, showActivityModal
 }) => (
   <div className={`${styles.container} ${!invoice.settled && styles.unpaid}`} onClick={() => showActivityModal('INVOICE', { invoice })}>
-    <div className={styles.date}>
-      <section>
-        {
-          invoice.settled ?
-            <Isvg src={checkmarkIcon} />
-            :
-            <i className='hint--top' data-hint='Request has not been paid'>
-              <Isvg src={clockIcon} />
-            </i>
-        }
-      </section>
-      <section>
-        <Moment format='MMM'>{invoice.creation_date * 1000}</Moment> <Moment format='D'>{invoice.creation_date * 1000}</Moment>
-      </section>
-    </div>
+    {
+      !invoice.settled && (
+        <div className={styles.pendingIcon}>
+          <Isvg src={checkmarkIcon} />
+        </div>
+      )
+    }
+
     <div className={styles.data}>
       <div className={styles.title}>
-        <i className={`${styles.icon} hint--top`} data-hint='Lightning Network request'>
-          <FaBolt />
-        </i>
         <h3>
-          { invoice.settled ? 'Received' : 'Requested' }
+          { invoice.settled ? 'Received payment' : 'Requested payment' }
         </h3>
-        <span>
-          {ticker.currency}
-        </span>
       </div>
       <div className={styles.subtitle}>
-        {invoice.r_hash.toString('hex')}
+        <Moment format='h:mm a'>{invoice.settled ? invoice.settled_date * 1000 : invoice.creation_date * 1000}</Moment>
       </div>
     </div>
     <div className={`${styles.amount} ${invoice.settled ? styles.positive : styles.negative}`}>
@@ -53,12 +40,10 @@ const Invoice = ({
           currentTicker={currentTicker}
         />
       </span>
-      <span className='hint--bottom' data-hint='Invoice fee'>
-        <Value
-          value={invoice.fee}
-          currency={ticker.currency}
-          currentTicker={currentTicker}
-        />
+      <span>
+        <span>
+          ${btc.convert('sats', 'usd', invoice.value, currentTicker.price_usd)}
+        </span>
       </span>
     </div>
   </div>

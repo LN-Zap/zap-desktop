@@ -163,16 +163,17 @@
     font-size: 16px;
     font-weight: bold;
     color: $white;
-    background: $spaceblue;
-    padding: 15px;
+    background: #31343F;
+    padding: 10px;
     width: 100px;
     text-align: center;
     border-radius: 5px;
     cursor: pointer;
+    opacity: 0.5;
     transition: all 0.25s;
 
     &:hover {
-      opacity: 0.5;
+      opacity: 1;
     }
 
     &:nth-child(1) {

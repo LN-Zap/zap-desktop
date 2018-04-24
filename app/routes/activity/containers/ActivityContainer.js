@@ -63,11 +63,14 @@ const mapStateToProps = state => ({
 
   ticker: state.ticker,
 
+  network: state.network,
+
   paymentModalOpen: paymentSelectors.paymentModalOpen(state),
   invoiceModalOpen: invoiceSelectors.invoiceModalOpen(state),
 
   currentTicker: tickerSelectors.currentTicker(state),
   currentCurrencyFilters: tickerSelectors.currentCurrencyFilters(state),
+
   currencyName: tickerSelectors.currencyName(state),
 
   currentActivity: activitySelectors.currentActivity(state)(state),

@@ -106,7 +106,7 @@ ReceiveModal.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string,
   address: PropTypes.string.isRequired,
-  alias: PropTypes.string.isRequired,
+  alias: PropTypes.string,
   closeReceiveModal: PropTypes.func.isRequired
 }
 

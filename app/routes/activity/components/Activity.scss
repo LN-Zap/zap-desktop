@@ -96,10 +96,16 @@
 }
 
 .activity {
-	padding: 0 40px;
+	position: relative;
+	padding: 0 60px;
+	margin-bottom: 30px;
 
-	&:hover {
-
+	h2 {
+		color: $white;
+		font-size: 10px;
+		font-weight: bold;
+    border-bottom: 0.2px solid #A0A0A0;
+    padding: 10px 0;
 	}
 
 	.left, .center, .right {
