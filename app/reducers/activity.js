@@ -111,6 +111,59 @@ const invoiceExpired = (invoice) => {
   return expiresAt < (Date.now() / 1000)
 }
 
+// helper function that returns invoice, payment or transaction timestamp
+function returnTimestamp(transaction) {
+  // if on-chain txn
+  if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) { return transaction.time_stamp }
+  // if invoice that has been paid
+  if (transaction.settled) { return transaction.settle_date }
+  // if invoice that has not been paid or an LN payment
+  return transaction.creation_date
+}
+
+// getMonth() returns the month in 0 index (0 for Jan), so we create an arr of the
+// string representation we want for the UI
+const months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+
+// groups the data by day
+function groupData(data) {
+  const groups = data.reduce((groups, el) => {
+    const d = new Date(returnTimestamp(el) * 1000)
+    const date = d.getDate()
+    const title = `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`
+
+    if (!groups[title]) { groups[title] = [] }
+
+    groups[title].push({ el })
+
+    return groups
+  }, {})
+
+  return groups
+}
+
+// takes the result of groupData and returns an array
+function groupArray(data) {
+  return Object.keys(data).map((title) => {
+    return { 
+      title,
+      activity: data[title]
+    }
+  })
+}
+
+// sorts data form new to old according to the timestamp
+function sortNewToOld(data) {
+  return data.sort((a, b) => new Date(b.title).getTime() - new Date(a.title).getTime())
+}
+
+// take in a dataset and return an array grouped by day
+function groupAll(data) {
+  const groups = groupData(data)
+  const groupArrays = groupArray(groups)
+  return sortNewToOld(groupArrays)
+}
+
 const allActivity = createSelector(
   searchSelector,
   paymentsSelector,
@@ -127,92 +180,26 @@ const allActivity = createSelector(
       return false
     })
 
-    // return searchedArr.sort((a, b) => {
-    //   // this will return the correct timestamp to use when sorting (time_stamp, creation_date, or settle_date)
-    //   function returnTimestamp(transaction) {
-    //     // if on-chain txn
-    //     if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) { return transaction.time_stamp }
-    //     // if invoice that has been paid
-    //     if (transaction.settled) { return transaction.settle_date }
-    //     // if invoice that has not been paid or an LN payment
-    //     return transaction.creation_date
-    //   }
-
-    //   const aTimestamp = returnTimestamp(a)
-    //   const bTimestamp = returnTimestamp(b)
-
-    //   // console.log('aTimestamp: ', aTimestamp)
-    //   // console.log('bTimestamp: ', bTimestamp)
-    //   console.log('date: ', new Date(aTimestamp * 1000))
-
-    //   return bTimestamp - aTimestamp
-    // })
-
     if (!searchedArr.length) { return [] }
 
-    const groups = searchedArr.reduce((groups, el) => {
-      function returnTimestamp(transaction) {
-        // if on-chain txn
-        if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) { return transaction.time_stamp }
-        // if invoice that has been paid
-        if (transaction.settled) { return transaction.settle_date }
-        // if invoice that has not been paid or an LN payment
-        return transaction.creation_date
-      }
-
-      const months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
-
-      const d = new Date(returnTimestamp(el) * 1000)
-      const date = d.getDate()
-      const title = `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`
-
-      if (!groups[title]) {
-        groups[title] = []
-      }
-
-      groups[title].push({
-        el
-      })
-
-      return groups
-    }, {})
-
-
-    const groupArrays = Object.keys(groups).map((title) => {
-      return {
-        title,
-        activity: groups[title]
-      }
-    })
-
-    console.log('groupArrays: ', groupArrays)
-
-    return groupArrays.sort((a, b) => new Date(b.title).getTime() - new Date(a.title).getTime())
+    return groupAll(searchedArr)
   }
 )
 
 const invoiceActivity = createSelector(
   invoicesSelector,
-  invoices => invoices
+  invoices => groupAll(invoices)
 )
 
 const sentActivity = createSelector(
   transactionsSelector,
   paymentsSelector,
-  (transactions, payments) => {
-    const sentTransactions = transactions.filter(transaction => transaction.amount < 0)
-    return [...sentTransactions, ...payments].sort((a, b) => {
-      const aTimestamp = Object.prototype.hasOwnProperty.call(a, 'time_stamp') ? a.time_stamp : a.creation_date
-      const bTimestamp = Object.prototype.hasOwnProperty.call(b, 'time_stamp') ? b.time_stamp : b.creation_date
-
-      return bTimestamp - aTimestamp
-    })
-  }
+  (transactions, payments) => groupAll([...transactions.filter(transaction => transaction.amount < 0), ...payments])
 )
 
 const pendingActivity = createSelector(
   invoicesSelector,
-  invoices => invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice))
+  invoices => groupAll(invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice)))
 )
 
 const FILTERS = {

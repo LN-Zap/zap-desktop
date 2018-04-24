@@ -14,8 +14,6 @@ import styles from '../Activity.scss'
 const Payment = ({
   payment, ticker, currentTicker, showActivityModal, nodes, currencyName
 }) => {
-  console.log('nodes: ', nodes)
-
   const displayNodeName = (pubkey) => {
     const node = find(nodes, n => pubkey === n.pub_key)
 

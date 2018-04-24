@@ -79,7 +79,6 @@ class Activity extends Component {
       walletProps
     } = this.props
 
-    console.log('network: ', network)
     if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
 
     return (
