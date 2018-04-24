@@ -52,6 +52,7 @@ export function bitsToUsd(bits, price) {
 export function satoshisToBtc(satoshis) {
   if (satoshis === undefined || satoshis === null || satoshis === '') return null
 
+  console.log('satoshis: ', satoshis)
   const btcAmount = sb.toBitcoin(satoshis).toFixed(8)
   return btcAmount > 0 ? btcAmount : btcAmount * -1
 }
