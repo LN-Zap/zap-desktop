@@ -17,6 +17,7 @@ const initialState = {
     modalProps: {},
     showCurrencyFilters: false
   },
+  searchActive: false,
   searchText: ''
 }
 
@@ -32,6 +33,7 @@ export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
 
 export const SET_ACTIVITY_MODAL_CURRENCY_FILTERS = 'SET_ACTIVITY_MODAL_CURRENCY_FILTERS'
 
+export const UPDATE_SEARCH_ACTIVE = 'UPDATE_SEARCH_ACTIVE'
 export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 
 // ------------------------------------
@@ -64,6 +66,13 @@ export function toggleFilterPulldown() {
   }
 }
 
+export function updateSearchActive(searchActive) {
+  return {
+    type: UPDATE_SEARCH_ACTIVE,
+    searchActive
+  }
+}
+
 export function updateSearchText(searchText) {
   return {
     type: UPDATE_SEARCH_TEXT,
@@ -91,6 +100,7 @@ const ACTION_HANDLERS = {
     { ...state, modal: { modalType: state.modal.modalType, modalProps: state.modal.modalProps, showCurrencyFilters } }
   ),
 
+  [UPDATE_SEARCH_ACTIVE]: (state, { searchActive }) => ({ ...state, searchActive }),
   [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText })
 }
 

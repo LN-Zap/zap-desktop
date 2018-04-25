@@ -18,6 +18,7 @@ import {
   changeFilter,
   toggleFilterPulldown,
   activitySelectors,
+  updateSearchActive,
   updateSearchText
 } from 'reducers/activity'
 import { newAddress, openWalletModal } from 'reducers/address'
@@ -43,6 +44,7 @@ const mapDispatchToProps = {
   newAddress,
   openWalletModal,
   fetchBalance,
+  updateSearchActive,
   updateSearchText,
   setFormType,
   setWalletCurrencyFilters
