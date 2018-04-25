@@ -48,7 +48,15 @@ class Activity extends Component {
       )
     } else if (Object.prototype.hasOwnProperty.call(activity, 'payment_request')) {
       // activity is an LN invoice
-      return <Invoice invoice={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} />
+      return (
+        <Invoice
+          invoice={activity}
+          ticker={ticker}
+          currentTicker={currentTicker}
+          showActivityModal={showActivityModal}
+          currencyName={currencyName}
+        />
+      )
     }
     // activity is an LN payment
     return (

@@ -8,7 +8,7 @@ import Value from 'components/Value'
 import styles from '../Activity.scss'
 
 const Transaction = ({
-  transaction, ticker, currentTicker, showActivityModal
+  transaction, ticker, currentTicker, showActivityModal, currencyName
 }) => (
   <div className={styles.container} onClick={() => showActivityModal('TRANSACTION', { transaction })}>
     <div className={styles.data}>
@@ -29,6 +29,7 @@ const Transaction = ({
           currency={ticker.currency}
           currentTicker={currentTicker}
         />
+        <i> {currencyName}</i>
       </span>
       <span className='hint--bottom' data-hint='Transaction fee'>
         ${btc.convert('sats', 'usd', transaction.amount, currentTicker.price_usd)}
@@ -41,7 +42,8 @@ Transaction.propTypes = {
   transaction: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
-  showActivityModal: PropTypes.func.isRequired
+  showActivityModal: PropTypes.func.isRequired,
+  currencyName: PropTypes.string.isRequired
 }
 
 export default Transaction

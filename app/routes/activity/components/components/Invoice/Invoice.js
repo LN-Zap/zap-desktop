@@ -10,7 +10,7 @@ import checkmarkIcon from 'icons/check_circle.svg'
 import styles from '../Activity.scss'
 
 const Invoice = ({
-  invoice, ticker, currentTicker, showActivityModal
+  invoice, ticker, currentTicker, showActivityModal, currencyName
 }) => (
   <div className={`${styles.container} ${!invoice.settled && styles.unpaid}`} onClick={() => showActivityModal('INVOICE', { invoice })}>
     {
@@ -39,6 +39,7 @@ const Invoice = ({
           currency={ticker.currency}
           currentTicker={currentTicker}
         />
+        <i> {currencyName}</i>
       </span>
       <span>
         <span>
@@ -53,7 +54,8 @@ Invoice.propTypes = {
   invoice: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
-  showActivityModal: PropTypes.func.isRequired
+  showActivityModal: PropTypes.func.isRequired,
+  currencyName: PropTypes.string.isRequired
 }
 
 export default Invoice
