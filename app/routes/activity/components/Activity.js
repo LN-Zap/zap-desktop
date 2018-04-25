@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import Isvg from 'react-inlinesvg'
+import searchIcon from 'icons/search.svg'
+import xIcon from 'icons/x.svg'
 
 import Wallet from 'components/Wallet'
 import LoadingBolt from 'components/LoadingBolt'
@@ -77,10 +80,15 @@ class Activity extends Component {
       activity: {
         filters,
         filter,
-        filterPulldown
+        filterPulldown,
+        searchActive,
+        searchText
       },
       changeFilter,
       currentActivity,
+
+      updateSearchActive,
+      updateSearchText,
 
       walletProps
     } = this.props
@@ -92,21 +100,45 @@ class Activity extends Component {
         <Wallet {...walletProps} />
 
         <div className={styles.activities}>
-          <header className={styles.header}>
-            <section>
-              <ul className={styles.filters}>
-                {
-                  filters.map(f => (
-                    <li key={f.key} className={f.key === filter.key && styles.activeFilter} onClick={() => changeFilter(f)}>
-                      <span>{f.name}</span>
+            {
+              searchActive ?
+                <header className={`${styles.header} ${styles.search}`}>
+                  <section>
+                    <input
+                      placeholder='Search'
+                      value={searchText}
+                      onChange={event => updateSearchText(event.target.value)}
+                    />
+                  </section>
+                  <section onClick={() => {
+                    updateSearchActive(false)
+                    updateSearchText('')
+                  }}>
+                    <span className={styles.xIcon}>
+                      <Isvg src={xIcon} />
+                    </span>
+                  </section>
+                </header>
+                :
+                <header className={styles.header}>
+                  <section>
+                    <ul className={styles.filters}>
+                      {
+                        filters.map(f => (
+                          <li key={f.key} className={f.key === filter.key && styles.activeFilter} onClick={() => changeFilter(f)}>
+                            <span>{f.name}</span>
 
-                      <div className={f.key === filter.key && styles.activeBorder} />
-                    </li>
-                  ))
-                }
-              </ul>
-            </section>
-          </header>
+                            <div className={f.key === filter.key && styles.activeBorder} />
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  </section>
+                  <section onClick={() => updateSearchActive(true)}>
+                    <Isvg src={searchIcon} />
+                  </section>
+                </header>
+            }
           <ul className={`${styles.activityContainer} ${filterPulldown && styles.pulldown}`}>
             {
               currentActivity.map((activityBlock, index) => (

@@ -39,6 +39,51 @@
 	  margin: 0 auto;
 	  padding: 0 40px;
 	  border-bottom: 1px solid $spaceborder;
+	  display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 55px;
+    transition: all 0.25s;
+
+    &.search {
+    	background: linear-gradient(270deg, #868B9F 0%, #333C5E 100%);
+
+    	section {
+    		&:nth-child(1) {
+    			width: 90%;
+    		}
+    	}
+
+    	input {
+    		background: transparent;
+  			outline: none;
+  			border: 0;
+  			font-size: 20px;
+  			line-height: 24px;
+  			letter-spacing: 1px;
+  			color: $white;
+  			width: 100%;
+    	}
+
+    	.xIcon svg {
+    		width: 25px;
+    		height: 25px;
+    	}
+    }
+
+    section svg {
+    	width: 14px;
+    	height: 14px;
+    	color: $white;
+    	opacity: 0.5;
+    	cursor: pointer;
+  		transition: all 0.25s;
+
+    	&:hover {
+    		opacity: 1;
+    	}
+    }
 
 
 	  .filters {
