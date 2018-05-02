@@ -130,7 +130,8 @@ export function initWallet(walletUnlocker, { wallet_password, cipher_seed_mnemon
     walletUnlocker.initWallet({
       wallet_password,
       cipher_seed_mnemonic,
-      aezeed_passphrase: Buffer.from(aezeed_passphrase, 'hex')
+      aezeed_passphrase: Buffer.from(aezeed_passphrase, 'hex'),
+      recovery_window: 250
     }, (err, data) => {
       if (err) { reject(err) }
 

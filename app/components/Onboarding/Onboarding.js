@@ -8,6 +8,7 @@ import Alias from './Alias'
 import Autopilot from './Autopilot'
 import Login from './Login'
 import Signup from './Signup'
+import RecoverForm from './RecoverForm'
 import NewWalletSeed from './NewWalletSeed'
 import ReEnterSeed from './ReEnterSeed'
 import NewWalletPassword from './NewWalletPassword'
@@ -31,6 +32,7 @@ const Onboarding = ({
   aliasProps,
   initWalletProps,
   autopilotProps,
+  recoverFormProps,
   newWalletSeedProps,
   newWalletPasswordProps,
   newAezeedPasswordProps,
@@ -93,9 +95,35 @@ const Onboarding = ({
             title={'Alright, let\'s get set up'}
             description='Would you like to create a new wallet or import an existing one?' // eslint-disable-line
             back={() => changeStep(4)}
-            next={() => (initWalletProps.signupProps.signupForm.create ? changeStep(6) : console.log('import'))}
+            next={() => (initWalletProps.signupProps.signupForm.create ? changeStep(6) : changeStep(5.1))}
           >
             <Signup {...initWalletProps.signupProps} />
+          </FormContainer>
+        )
+      case 5.1:
+        return (
+          <FormContainer
+            title='Import your seed'
+            description={'Recovering a wallet, nice. You don\'t need anyone else, you got yourself :)'} // eslint-disable-line
+            back={() => changeStep(5)}
+            next={() => changeStep(5.2)}
+          >
+            <RecoverForm {...recoverFormProps} />
+          </FormContainer>
+        )
+      case 5.2:
+        return (
+          <FormContainer
+            title='Seed passphrase'
+            description={'Enter your cipherseed passphrase (or just submit if you don\'t have one)'} // eslint-disable-line
+            back={() => changeStep(5)}
+            next={() => {
+              const recoverySeed = recoverFormProps.seedInput.map(input => input.word)
+
+              submitNewWallet(createWalletPassword, recoverySeed, aezeedPassword)
+            }}
+          >
+            <NewAezeedPassword {...newAezeedPasswordProps} />
           </FormContainer>
         )
       case 6:
@@ -164,6 +192,7 @@ Onboarding.propTypes = {
   newWalletSeedProps: PropTypes.object.isRequired,
   newWalletPasswordProps: PropTypes.object.isRequired,
   newAezeedPasswordProps: PropTypes.object.isRequired,
+  recoverFormProps: PropTypes.object.isRequired,
   reEnterSeedProps: PropTypes.object.isRequired,
   changeStep: PropTypes.func.isRequired,
   startLnd: PropTypes.func.isRequired,

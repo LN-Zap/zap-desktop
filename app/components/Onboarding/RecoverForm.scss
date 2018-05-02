@@ -1,0 +1,61 @@
+@import '../../variables.scss';
+
+.seedContainer {
+  position: relative;
+  display: inline-block;
+  font-size: 12px;
+
+  li {
+    display: inline-block;
+    margin: 5px 0;
+    width: 25%;
+
+    section {
+      display: inline-block;
+      vertical-align: middle;
+      color: $white;
+
+      &:nth-child(1) {
+        width: 15%;
+        text-align: center;
+        opacity: 0.5;
+      }
+
+      &:nth-child(2) {
+        width: calc(85% - 10px);
+        margin: 0 5px;
+      }
+    }
+  }
+}
+
+
+
+.word {
+  margin: 0 3px;
+  background-color: #1c1e26;
+  outline: 0;
+  border: none;
+  padding: 5px 10px;
+  color: $white;
+  font-family: courier;
+  font-family: 'Courier';
+
+  &.valid {
+    color: $green;
+  }
+
+  &.invalid {
+    color: $red;
+  }
+}
+
+.word::-webkit-input-placeholder {
+  text-shadow: none;
+  -webkit-text-fill-color: initial;
+}
+
+.contentEditable {
+  width: 100px;
+  background: red;
+}
