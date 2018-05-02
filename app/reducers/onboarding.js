@@ -243,7 +243,12 @@ onboardingSelectors.showAezeedPasswordConfirmationError = createSelector(
 onboardingSelectors.reEnterSeedChecker = createSelector(
   seedSelector,
   seedInputSelector,
-  (seed, seedInput) => seed.length === seedInput.length && seed.every((word, i) => word === seedInput[i].word)
+  (seed, seedInput) => {
+    console.log('seed: ', seed)
+    console.log('seedInput: ', seedInput)
+
+    return seed.length === seedInput.length && seed.every((word, i) => word === seedInput[i].word)
+  }
 )
 
 export { onboardingSelectors }
@@ -280,7 +285,8 @@ const initialState = {
   // array of inputs for when the user re-enters their seed
   // object has a word attr and a index attr:
   // { word: 'foo', index: 0 }
-  seedInput: [],
+  // seedInput: [],
+  seedInput: ["absent", "install", "quality", "boss", "olympic", "account", "trick", "banner", "pioneer", "pause", "arm", "faculty", "spawn", "diary", "pool", "north", "spike", "symbol", "alter", "soon", "twist", "provide", "ball", "rubber"].map((word, index) => { return { word, index } }),
   // step where the user decides whether they want a newly created seed or to import an existing one
   signupForm: {
     create: false,

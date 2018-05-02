@@ -118,6 +118,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     updateAezeedPasswordConfirmation: dispatchProps.updateAezeedPasswordConfirmation
   }
 
+  const recoverFormProps = {
+    seed: stateProps.onboarding.seed,
+    seedInput: stateProps.onboarding.seedInput,
+    updateSeedInput: dispatchProps.updateSeedInput
+  }
+
   const reEnterSeedProps = {
     seed: stateProps.onboarding.seed,
     seedInput: stateProps.onboarding.seedInput,
@@ -136,6 +142,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     newWalletSeedProps,
     newWalletPasswordProps,
     newAezeedPasswordProps,
+    recoverFormProps,
     reEnterSeedProps
   }
 

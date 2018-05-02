@@ -33,7 +33,6 @@ const Login = ({
           }
         </span>
       </div>
-      <div>Recover existing wallet</div>
     </section>
   </div>
 )
