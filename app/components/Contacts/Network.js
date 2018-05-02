@@ -49,7 +49,9 @@ class Network extends Component {
 
       setSelectedChannel,
 
-      closeChannel
+      closeChannel,
+
+      suggestedNodesProps
     } = this.props
 
 
@@ -142,7 +144,7 @@ class Network extends Component {
         <div className={styles.channels}>
         {
           !loadingChannelPubkeys.length && !currentChannels.length &&
-          <SuggestedNodes />
+          <SuggestedNodes {...suggestedNodesProps} />
         }
 
         {

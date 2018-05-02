@@ -24,6 +24,7 @@ class App extends Component {
       fetchInfo,
       newAddress,
       fetchChannels,
+      fetchSuggestedNodes,
       fetchBalance,
       fetchDescribeNetwork
     } = this.props
@@ -36,6 +37,8 @@ class App extends Component {
     newAddress('np2wkh')
     // fetch nodes channels
     fetchChannels()
+    // fetch suggested nodes list from zap.jackmallers.com/suggested-peers
+    fetchSuggestedNodes()
     // fetch nodes balance
     fetchBalance()
     // fetch LN network from nides POV

@@ -24,3 +24,13 @@ export function requestBlockHeight() {
     .then(response => response.data)
     .catch(error => error)
 }
+
+export function requestSuggestedNodes() {
+  const BASE_URL = 'http://zap.jackmallers.com/suggested-peers'
+  return axios({
+    method: 'get',
+    url: BASE_URL
+  })
+    .then(response => response.data)
+    .catch(error => error)
+}

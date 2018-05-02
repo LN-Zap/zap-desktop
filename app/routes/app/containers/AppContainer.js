@@ -27,6 +27,7 @@ import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
 
 import {
   fetchChannels,
+  fetchSuggestedNodes,
   openChannel,
   closeChannel,
   channelsSelectors,
@@ -105,6 +106,7 @@ const mapDispatchToProps = {
   fetchBalance,
 
   fetchChannels,
+  fetchSuggestedNodes,
   openChannel,
   closeChannel,
   toggleFilterPulldown,
@@ -135,6 +137,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = state => ({
+  info: state.info,
   activity: state.activity,
 
   lnd: state.lnd,
@@ -312,7 +315,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
     setSelectedChannel: dispatchProps.setSelectedChannel,
-    closeChannel: dispatchProps.closeChannel
+    closeChannel: dispatchProps.closeChannel,
+
+    suggestedNodesProps: {
+      suggestedNodesLoading: stateProps.channels.suggestedNodesLoading,
+      suggestedNodes: stateProps.info.data.testnet ? stateProps.channels.suggestedNodes.testnet : stateProps.channels.suggestedNodes.mainnet
+    }
   }
 
   const contactsFormProps = {
