@@ -119,7 +119,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const recoverFormProps = {
-    seed: stateProps.onboarding.seed,
     seedInput: stateProps.onboarding.seedInput,
     updateSeedInput: dispatchProps.updateSeedInput
   }

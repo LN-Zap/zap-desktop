@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './RecoverForm.scss'
 
-const RecoverForm = ({ seed, seedInput, updateSeedInput }) => (
+const RecoverForm = ({ seedInput, updateSeedInput }) => (
   <div className={styles.container}>
     <ul className={styles.seedContainer}>
       {
@@ -30,7 +30,6 @@ const RecoverForm = ({ seed, seedInput, updateSeedInput }) => (
 
 
 RecoverForm.propTypes = {
-  seed: PropTypes.array.isRequired,
   seedInput: PropTypes.array.isRequired,
   updateSeedInput: PropTypes.func.isRequired
 }

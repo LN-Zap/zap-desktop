@@ -192,6 +192,7 @@ Onboarding.propTypes = {
   newWalletSeedProps: PropTypes.object.isRequired,
   newWalletPasswordProps: PropTypes.object.isRequired,
   newAezeedPasswordProps: PropTypes.object.isRequired,
+  recoverFormProps: PropTypes.object.isRequired,
   reEnterSeedProps: PropTypes.object.isRequired,
   changeStep: PropTypes.func.isRequired,
   startLnd: PropTypes.func.isRequired,

@@ -125,7 +125,7 @@ export function unlockWallet(walletUnlocker, { wallet_password }) {
  * @param  {[type]} password [description]
  * @param  {[type]} cipher_seed_mnemonic [description]
  */
-export function initWallet(walletUnlocker, { wallet_password, cipher_seed_mnemonic, aezeed_passphrase, recovery_window }) {
+export function initWallet(walletUnlocker, { wallet_password, cipher_seed_mnemonic, aezeed_passphrase }) {
   return new Promise((resolve, reject) => {
     walletUnlocker.initWallet({
       wallet_password,
