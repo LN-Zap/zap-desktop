@@ -68,7 +68,6 @@ const AddChannel = ({
       <span
         className={styles.connect}
         onClick={() => {
-          console.log('node: ', node)
           // set the node public key for the submit form
           setNode(node)
           // open the submit form
