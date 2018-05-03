@@ -333,8 +333,12 @@
       }
     }
 
-    .loading i {
-      vertical-align: top;
+    .loading {
+      margin-right: 5px;
+
+      i {
+        vertical-align: top;
+      }
 
       &:nth-child(1) {
         margin-right: 5px;
