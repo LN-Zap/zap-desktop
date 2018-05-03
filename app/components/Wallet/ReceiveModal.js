@@ -60,7 +60,7 @@ class ReceiveModal extends React.Component {
 
               <div className={styles.qrCodeOptions}>
                 <div className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>Node Pubkey</div>
-                <div className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>Deposit Address</div>
+                <div className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>Bitcoin Address</div>
               </div>
             </header>
 
@@ -87,7 +87,7 @@ class ReceiveModal extends React.Component {
             </div>
 
             <div className={styles.address}>
-              <h4>Deposit Address</h4>
+              <h4>Bitcoin Address</h4>
               <p>
                 <span className={styles.data}>{address}</span>
                 <span onClick={() => copyOnClick(address)} className={`${styles.copy} hint--left`} data-hint='Copy address'>
