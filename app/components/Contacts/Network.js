@@ -54,6 +54,7 @@ class Network extends Component {
       suggestedNodesProps
     } = this.props
 
+    console.log('currentChannels: ', currentChannels)
 
     const refreshClicked = () => {
       // turn the spinner on
@@ -148,7 +149,7 @@ class Network extends Component {
         }
 
         {
-          loadingChannelPubkeys.length > 0 && currentChannels.length > 0 &&
+          loadingChannelPubkeys.length > 0 || currentChannels.length > 0 &&
           <header className={styles.listHeader}>
             <section>
               <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
@@ -275,7 +276,7 @@ class Network extends Component {
           </ul>
         </div>
         {
-          loadingChannelPubkeys.length > 0 && currentChannels.length > 0 &&
+          loadingChannelPubkeys.length > 0 || currentChannels.length > 0 &&
           <footer className={styles.search}>
             <label htmlFor='search' className={`${styles.label} ${styles.input}`}>
               <Isvg src={search} />

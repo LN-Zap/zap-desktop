@@ -2,7 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './SuggestedNodes.scss'
 
-const SuggestedNodes = ({ suggestedNodesLoading, suggestedNodes }) => {
+const SuggestedNodes = ({ suggestedNodesLoading, suggestedNodes, setNode, openSubmitChannelForm }) => {
+  const nodeClicked = (n) => {
+    // set the node public key for the submit form
+    setNode({ pub_key: n.pubkey, addresses: [{ addr: n.host }] })
+    // open the submit form
+    openSubmitChannelForm()
+  }
   if (suggestedNodesLoading) {
     return (
       <div className={styles.spinnerContainer}>
@@ -28,7 +34,7 @@ const SuggestedNodes = ({ suggestedNodesLoading, suggestedNodes }) => {
                   <span>{`${node.pubkey.substring(0, 30)}...`}</span>
                 </section>
                 <section>
-                  <span>Connect</span>
+                  <span onClick={() => nodeClicked(node)}>Connect</span>
                 </section>
               </li>
             )
@@ -41,7 +47,9 @@ const SuggestedNodes = ({ suggestedNodesLoading, suggestedNodes }) => {
 
 SuggestedNodes.propTypes = {
   suggestedNodesLoading: PropTypes.bool.isRequired,
-  suggestedNodes: PropTypes.array.isRequired
+  suggestedNodes: PropTypes.array.isRequired,
+  setNode: PropTypes.func.isRequired,
+  openSubmitChannelForm: PropTypes.func.isRequired
 }
 
 export default SuggestedNodes

@@ -319,7 +319,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     suggestedNodesProps: {
       suggestedNodesLoading: stateProps.channels.suggestedNodesLoading,
-      suggestedNodes: stateProps.info.data.testnet ? stateProps.channels.suggestedNodes.testnet : stateProps.channels.suggestedNodes.mainnet
+      suggestedNodes: stateProps.info.data.testnet ? stateProps.channels.suggestedNodes.testnet : stateProps.channels.suggestedNodes.mainnet,
+      
+      setNode: dispatchProps.setNode,
+      openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM')
     }
   }
 

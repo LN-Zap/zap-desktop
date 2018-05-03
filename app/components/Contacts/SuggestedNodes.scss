@@ -38,6 +38,12 @@
         span {
           font-size: 10px;
           opacity: 0.5;
+          cursor: pointer;
+          transition: all 0.25s;
+
+          &:hover {
+            opacity: 1;
+          }
         }
       }
     }
