@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron'
 import filter from 'lodash/filter'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
+import { requestSuggestedNodes } from '../api'
 import { setError } from './error'
 // ------------------------------------
 // Constants
@@ -39,6 +40,9 @@ export const OPEN_CONTACT_MODAL = 'OPEN_CONTACT_MODAL'
 export const CLOSE_CONTACT_MODAL = 'CLOSE_CONTACT_MODAL'
 
 export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
+
+export const GET_SUGGESTED_NODES = 'GET_SUGGESTED_NODES'
+export const RECEIVE_SUGGESTED_NODES = 'RECEIVE_SUGGESTED_NODES'
 
 // ------------------------------------
 // Actions
@@ -148,6 +152,26 @@ export function setSelectedChannel(selectedChannel) {
     type: SET_SELECTED_CHANNEL,
     selectedChannel
   }
+}
+
+export function getSuggestedNodes() {
+  return {
+    type: GET_SUGGESTED_NODES
+  }
+}
+
+export function receiveSuggestedNodes(suggestedNodes) {
+  return {
+    type: RECEIVE_SUGGESTED_NODES,
+    suggestedNodes
+  }
+}
+
+export const fetchSuggestedNodes = () => async (dispatch) => {
+  dispatch(getSuggestedNodes())
+  const suggestedNodes = await requestSuggestedNodes()
+
+  dispatch(receiveSuggestedNodes(suggestedNodes))
 }
 
 // Send IPC event for peers
@@ -344,7 +368,10 @@ const ACTION_HANDLERS = {
   [OPEN_CONTACT_MODAL]: (state, { channel }) => ({ ...state, contactModal: { isOpen: true, channel } }),
   [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } }),
 
-  [SET_SELECTED_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel })
+  [SET_SELECTED_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
+
+  [GET_SUGGESTED_NODES]: state => ({ ...state, suggestedNodesLoading: true }),
+  [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => ({ ...state, suggestedNodesLoading: false, suggestedNodes })
 }
 
 const channelsSelectors = {}
@@ -534,7 +561,25 @@ const initialState = {
     channel: null
   },
 
-  selectedChannel: null
+  selectedChannel: null,
+
+  // nodes stored at zap.jackmallers.com/suggested-peers manages by JimmyMow
+  // we store this node list here and if the user doesnt have any channels
+  // we show them this list in case they wanna use our suggestions to connect
+  // to the network and get started
+  // **** Example ****
+  // {
+  //   pubkey: "02212d3ec887188b284dbb7b2e6eb40629a6e14fb049673f22d2a0aa05f902090e",
+  //   host: "testnet-lnd.yalls.org",
+  //   nickname: "Yalls",
+  //   description: "Top up prepaid mobile phones with bitcoin and altcoins in USA and around the world"
+  // }
+  // ****
+  suggestedNodes: {
+    mainnet: [],
+    testnet: []
+  },
+  suggestedNodesLoading: false
 }
 
 export default function channelsReducer(state = initialState, action) {

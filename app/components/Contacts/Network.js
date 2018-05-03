@@ -8,6 +8,7 @@ import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
 
 import Value from 'components/Value'
+import SuggestedNodes from './SuggestedNodes'
 
 import styles from './Network.scss'
 
@@ -48,9 +49,10 @@ class Network extends Component {
 
       setSelectedChannel,
 
-      closeChannel
-    } = this.props
+      closeChannel,
 
+      suggestedNodesProps
+    } = this.props
 
     const refreshClicked = () => {
       // turn the spinner on
@@ -139,37 +141,44 @@ class Network extends Component {
         </header>
 
         <div className={styles.channels}>
-          <header className={styles.listHeader}>
-            <section>
-              <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
-                {filter.name} <span className={filterPulldown && styles.pulldown}><FaAngleDown /></span>
-              </h2>
-              <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
-                {
-                  nonActiveFilters.map(f => (
-                    <li key={f.key} onClick={() => changeFilter(f)}>
-                      {f.name}
-                    </li>
-                  ))
-                }
-              </ul>
-            </section>
+          {
+            !loadingChannelPubkeys.length && !currentChannels.length &&
+            <SuggestedNodes {...suggestedNodesProps} />
+          }
 
-            <section className={styles.refreshContainer}>
-              <span className={styles.refresh} onClick={refreshClicked} ref={(ref) => { this.repeat = ref }}>
-                {
-                  this.state.refreshing ?
-                    <FaRepeat />
-                    :
-                    'Refresh'
-                }
-              </span>
-            </section>
-          </header>
+          {
+            (loadingChannelPubkeys.length > 0 || currentChannels.length) > 0 &&
+            <header className={styles.listHeader}>
+              <section>
+                <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
+                  {filter.name} <span className={filterPulldown && styles.pulldown}><FaAngleDown /></span>
+                </h2>
+                <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
+                  {
+                    nonActiveFilters.map(f => (
+                      <li key={f.key} onClick={() => changeFilter(f)}>
+                        {f.name}
+                      </li>
+                    ))
+                  }
+                </ul>
+              </section>
+              <section className={styles.refreshContainer}>
+                <span className={styles.refresh} onClick={refreshClicked} ref={(ref) => { this.repeat = ref }}>
+                  {
+                    this.state.refreshing ?
+                      <FaRepeat />
+                      :
+                      'Refresh'
+                  }
+                </span>
+              </section>
+            </header>
+          }
 
           <ul className={filterPulldown && styles.fade}>
             {
-              loadingChannelPubkeys.map((loadingPubkey) => {
+              loadingChannelPubkeys.length > 0 && loadingChannelPubkeys.map((loadingPubkey) => {
                 // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
                 const node = find(nodes, n => loadingPubkey === n.pub_key)
                 const nodeDisplay = () => {
@@ -264,20 +273,22 @@ class Network extends Component {
             }
           </ul>
         </div>
-
-        <footer className={styles.search}>
-          <label htmlFor='search' className={`${styles.label} ${styles.input}`}>
-            <Isvg src={search} />
-          </label>
-          <input
-            id='search'
-            type='text'
-            className={`${styles.text} ${styles.input}`}
-            placeholder='search by alias or pubkey'
-            value={searchQuery}
-            onChange={event => updateChannelSearchQuery(event.target.value)}
-          />
-        </footer>
+        {
+          (loadingChannelPubkeys.length > 0 || currentChannels.length) > 0 &&
+          <footer className={styles.search}>
+            <label htmlFor='search' className={`${styles.label} ${styles.input}`}>
+              <Isvg src={search} />
+            </label>
+            <input
+              id='search'
+              type='text'
+              className={`${styles.text} ${styles.input}`}
+              placeholder='search by alias or pubkey'
+              value={searchQuery}
+              onChange={event => updateChannelSearchQuery(event.target.value)}
+            />
+          </footer>
+        }
       </div>
     )
   }
@@ -292,6 +303,7 @@ Network.propTypes = {
   balance: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
+  suggestedNodesProps: PropTypes.object.isRequired,
 
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,
