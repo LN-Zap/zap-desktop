@@ -54,8 +54,6 @@ class Network extends Component {
       suggestedNodesProps
     } = this.props
 
-    console.log('currentChannels: ', currentChannels)
-
     const refreshClicked = () => {
       // turn the spinner on
       this.setState({ refreshing: true })
@@ -143,28 +141,28 @@ class Network extends Component {
         </header>
 
         <div className={styles.channels}>
-        {
-          !loadingChannelPubkeys.length && !currentChannels.length &&
-          <SuggestedNodes {...suggestedNodesProps} />
-        }
+          {
+            !loadingChannelPubkeys.length && !currentChannels.length &&
+            <SuggestedNodes {...suggestedNodesProps} />
+          }
 
-        {
-          loadingChannelPubkeys.length > 0 || currentChannels.length > 0 &&
-          <header className={styles.listHeader}>
-            <section>
-              <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
-                {filter.name} <span className={filterPulldown && styles.pulldown}><FaAngleDown /></span>
-              </h2>
-              <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
-                {
-                  nonActiveFilters.map(f => (
-                    <li key={f.key} onClick={() => changeFilter(f)}>
-                      {f.name}
-                    </li>
-                  ))
-                }
-              </ul>
-            </section>
+          {
+            (loadingChannelPubkeys.length > 0 || currentChannels.length) > 0 &&
+            <header className={styles.listHeader}>
+              <section>
+                <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
+                  {filter.name} <span className={filterPulldown && styles.pulldown}><FaAngleDown /></span>
+                </h2>
+                <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
+                  {
+                    nonActiveFilters.map(f => (
+                      <li key={f.key} onClick={() => changeFilter(f)}>
+                        {f.name}
+                      </li>
+                    ))
+                  }
+                </ul>
+              </section>
               <section className={styles.refreshContainer}>
                 <span className={styles.refresh} onClick={refreshClicked} ref={(ref) => { this.repeat = ref }}>
                   {
@@ -175,8 +173,8 @@ class Network extends Component {
                   }
                 </span>
               </section>
-          </header>
-        }
+            </header>
+          }
 
           <ul className={filterPulldown && styles.fade}>
             {
@@ -276,7 +274,7 @@ class Network extends Component {
           </ul>
         </div>
         {
-          loadingChannelPubkeys.length > 0 || currentChannels.length > 0 &&
+          (loadingChannelPubkeys.length > 0 || currentChannels.length) > 0 &&
           <footer className={styles.search}>
             <label htmlFor='search' className={`${styles.label} ${styles.input}`}>
               <Isvg src={search} />
@@ -305,6 +303,7 @@ Network.propTypes = {
   balance: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
+  suggestedNodesProps: PropTypes.object.isRequired,
 
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,

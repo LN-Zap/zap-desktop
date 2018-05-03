@@ -170,7 +170,7 @@ export function receiveSuggestedNodes(suggestedNodes) {
 export const fetchSuggestedNodes = () => async (dispatch) => {
   dispatch(getSuggestedNodes())
   const suggestedNodes = await requestSuggestedNodes()
-  
+
   dispatch(receiveSuggestedNodes(suggestedNodes))
 }
 
@@ -369,7 +369,7 @@ const ACTION_HANDLERS = {
   [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } }),
 
   [SET_SELECTED_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
-  
+
   [GET_SUGGESTED_NODES]: state => ({ ...state, suggestedNodesLoading: true }),
   [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => ({ ...state, suggestedNodesLoading: false, suggestedNodes })
 }
@@ -564,8 +564,8 @@ const initialState = {
   selectedChannel: null,
 
   // nodes stored at zap.jackmallers.com/suggested-peers manages by JimmyMow
-  // we store this node list here and if the user doesnt have any channels 
-  // we show them this list in case they wanna use our suggestions to connect 
+  // we store this node list here and if the user doesnt have any channels
+  // we show them this list in case they wanna use our suggestions to connect
   // to the network and get started
   // **** Example ****
   // {

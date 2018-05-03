@@ -129,6 +129,7 @@ App.propTypes = {
   fetchChannels: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
   fetchDescribeNetwork: PropTypes.func.isRequired,
+  fetchSuggestedNodes: PropTypes.func.isRequired,
 
   children: PropTypes.object.isRequired
 }
