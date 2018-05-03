@@ -189,10 +189,12 @@ class Network extends Component {
 
                 return (
                   <li key={loadingPubkey} className={styles.channel}>
-                    <span>{nodeDisplay()}</span>
-                    <span className={`${styles.loading} hint--left`} data-hint='loading'>
-                      <i className={styles.spinner} />
-                    </span>
+                    <section className={styles.channelTitle}>
+                      <span className={`${styles.loading} hint--left`} data-hint='loading'>
+                        <i className={styles.spinner} />
+                      </span>
+                      <span>{nodeDisplay()}</span>
+                    </section>
                   </li>
                 )
               })
