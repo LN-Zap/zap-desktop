@@ -337,30 +337,7 @@ const ACTION_HANDLERS = {
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => (
     {
-      ...state, channelsLoading: false, channels, pendingChannels: { 
-        waiting_close_channels: [
-          {
-            "channel": {
-                "remote_node_pub": "033e90d7d899d83b1e6485b8fe63244c32aaf0f7f4ead86df08c0d8298cf6fa32d",
-                "channel_point": "cec3602132c7a0de92759f0600b88f2650b8a8b42b96dd363b29880bfdd601aa:0",
-                "capacity": "16777216",
-                "local_balance": "16768166",
-                "remote_balance": "0"
-            },
-            "closing_txid": "7b62a6af682e9ea68498b3c02f23b8876749342163a4a5f36dd4e449e43112e3",
-            "limbo_balance": "16768166",
-            "maturity_height": 1297940,
-            "blocks_til_maturity": 2016,
-            "recovered_balance": "0",
-            "pending_htlcs": [
-            ]
-          }
-        ],
-        total_limbo_balance: '',
-        pending_open_channels: [],
-        pending_closing_channels: [],
-        pending_force_closing_channels: []
-      },
+      ...state, channelsLoading: false, channels, pendingChannels
     }
   ),
 
@@ -494,7 +471,6 @@ const allChannels = createSelector(
     const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(filterPendingChannel)
     const filteredWaitingCloseChannels = waitingCloseChannels.filter(filterPendingChannel)
 
-
     return [
       ...filteredActiveChannels,
       ...filteredPendingOpenChannels,
@@ -503,7 +479,6 @@ const allChannels = createSelector(
       ...filteredNonActiveChannels,
       ...filteredWaitingCloseChannels
     ]
-
   }
 )
 
