@@ -380,6 +380,7 @@ const channelsSelector = state => state.channels.channels
 const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
 const pendingClosedChannelsSelector = state => state.channels.pendingChannels.pending_closing_channels
 const pendingForceClosedChannelsSelector = state => state.channels.pendingChannels.pending_force_closing_channels
+const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waiting_close_channels
 const channelSearchQuerySelector = state => state.channels.searchQuery
 const filtersSelector = state => state.channels.filters
 const filterSelector = state => state.channels.filter
@@ -453,8 +454,9 @@ const allChannels = createSelector(
   pendingOpenChannelsSelector,
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
+  waitingCloseChannelsSelector,
   channelSearchQuerySelector,
-  (activeChannels, nonActiveChannels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, searchQuery) => {
+  (activeChannels, nonActiveChannels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, waitingCloseChannels, searchQuery) => {
     const filterChannel = channel =>
       channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)
 
@@ -467,13 +469,15 @@ const allChannels = createSelector(
     const filteredPendingOpenChannels = pendingOpenChannels.filter(filterPendingChannel)
     const filteredPendingClosedChannels = pendingClosedChannels.filter(filterPendingChannel)
     const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(filterPendingChannel)
+    const filteredWaitingCloseChannels = waitingCloseChannels.filter(filterPendingChannel)
 
     return [
       ...filteredActiveChannels,
       ...filteredPendingOpenChannels,
       ...filteredPendingClosedChannels,
       ...filteredPendingForcedClosedChannels,
-      ...filteredNonActiveChannels
+      ...filteredNonActiveChannels,
+      ...filteredWaitingCloseChannels
     ]
   }
 )
@@ -508,6 +512,7 @@ export const currentChannels = createSelector(
       }
     }
 
+
     const channelArray = filteredArray(channelFilter.key)
 
     return channelArray.filter(channel => (Object.prototype.hasOwnProperty.call(channel, 'channel') ?
@@ -529,7 +534,8 @@ const initialState = {
     total_limbo_balance: '',
     pending_open_channels: [],
     pending_closing_channels: [],
-    pending_force_closing_channels: []
+    pending_force_closing_channels: [],
+    waiting_close_channels: []
   },
   channel: null,
   channelForm: {
