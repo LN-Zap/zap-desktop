@@ -257,20 +257,20 @@ class Network extends Component {
                         </section>
                       </div>
                       <div className={styles.actions}>
-                          {
-                            closingChannelIds.includes(channel.chan_id) &&
-                              <section>
-                                <span className={`${styles.loading} hint--left`} data-hint='closing'>
-                                  <i>Closing</i> <i className={`${styles.spinner} ${styles.closing}`} />
-                                </span>
-                              </section>
-                          }
-                          {
-                            (Object.prototype.hasOwnProperty.call(channel, 'active') && !closingChannelIds.includes(channel.chan_id)) &&
-                            <section onClick={() => removeClicked(channel)}>
-                              <div>Disconnect</div>
+                        {
+                          closingChannelIds.includes(channel.chan_id) &&
+                            <section>
+                              <span className={`${styles.loading} hint--left`} data-hint='closing'>
+                                <i>Closing</i> <i className={`${styles.spinner} ${styles.closing}`} />
+                              </span>
                             </section>
-                          }
+                        }
+                        {
+                          (Object.prototype.hasOwnProperty.call(channel, 'active') && !closingChannelIds.includes(channel.chan_id)) &&
+                          <section onClick={() => removeClicked(channel)}>
+                            <div>Disconnect</div>
+                          </section>
+                        }
                       </div>
                     </section>
                   </li>
