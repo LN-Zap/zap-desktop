@@ -18,6 +18,7 @@ const NewWalletPassword = ({
         className={styles.password}
         value={createWalletPassword}
         onChange={event => updateCreateWalletPassword(event.target.value)}
+        autoFocus
       />
     </section>
 

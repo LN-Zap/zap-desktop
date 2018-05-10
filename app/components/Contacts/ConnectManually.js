@@ -59,6 +59,7 @@ class ConnectManually extends React.Component {
               placeholder='pubkey@host'
               value={manualSearchQuery}
               onChange={event => updateManualFormSearchQuery(event.target.value)}
+              autoFocus
             />
           </div>
         </section>
