@@ -7,28 +7,14 @@ const Autopilot = ({ autopilot, setAutopilot }) => (
   <div className={styles.container}>
     <section className={`${styles.enable} ${autopilot && styles.active}`}>
       <div onClick={() => setAutopilot(true)}>
-        {
-          autopilot ?
-            <FaCircle />
-            :
-            <FaCircleThin />
-        }
-        <span className={styles.label}>
-          Enable Autopilot
-        </span>
+        {autopilot ? <FaCircle /> : <FaCircleThin />}
+        <span className={styles.label}>Enable Autopilot</span>
       </div>
     </section>
-    <section className={`${styles.disable} ${(!autopilot && autopilot !== null) && styles.active}`}>
+    <section className={`${styles.disable} ${!autopilot && autopilot !== null && styles.active}`}>
       <div onClick={() => setAutopilot(false)}>
-        {
-          !autopilot && autopilot !== null ?
-            <FaCircle />
-            :
-            <FaCircleThin />
-        }
-        <span className={styles.label}>
-          Disable Autopilot
-        </span>
+        {!autopilot && autopilot !== null ? <FaCircle /> : <FaCircleThin />}
+        <span className={styles.label}>Disable Autopilot</span>
       </div>
     </section>
   </div>

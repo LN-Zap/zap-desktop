@@ -19,9 +19,17 @@ process.env.GRPC_SSL_CIPHER_SUITES = process.env.GRPC_SSL_CIPHER_SUITES || [
 ].join(':')
 
 const lightning = (rpcpath, host) => {
-  const lndCert = fs.readFileSync(config.cert)
-  const credentials = grpc.credentials.createSsl(lndCert)
+  const lndConfig = config.lnd()
+  const lndCert = fs.readFileSync(lndConfig.cert)
+  const sslCreds = grpc.credentials.createSsl(lndCert)
   const rpc = grpc.load(path.join(__dirname, 'rpc.proto'))
+
+  const metadata = new grpc.Metadata()
+  const macaroonHex = fs.readFileSync(lndConfig.macaroon).toString('hex')
+  metadata.add('macaroon', macaroonHex)
+
+  const macaroonCreds = grpc.credentials.createFromMetadataGenerator((params, callback) => callback(null, metadata))
+  const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 
   return new rpc.lnrpc.Lightning(host, credentials)
 }

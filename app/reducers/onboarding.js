@@ -1,9 +1,17 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import Store from 'electron-store'
+
+const store = new Store({ name: 'connection' })
 
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const SET_CONNECTION_TYPE = 'SET_CONNECTION_TYPE'
+export const SET_CONNECTION_HOST = 'SET_CONNECTION_HOST'
+export const SET_CONNECTION_CERT = 'SET_CONNECTION_CERT'
+export const SET_CONNECTION_MACAROON = 'SET_CONNECTION_MACAROON'
+
 export const UPDATE_ALIAS = 'UPDATE_ALIAS'
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
 export const UPDATE_CREATE_WALLET_PASSWORD = 'UPDATE_CREATE_WALLET_PASSWORD'
@@ -37,6 +45,32 @@ export const SET_SIGNUP_IMPORT = 'SET_SIGNUP_IMPORT'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function setConnectionType(connectionType) {
+  return {
+    type: SET_CONNECTION_TYPE,
+    connectionType
+  }
+}
+
+export function setConnectionHost(connectionHost) {
+  return {
+    type: SET_CONNECTION_HOST,
+    connectionHost
+  }
+}
+export function setConnectionCert(connectionCert) {
+  return {
+    type: SET_CONNECTION_CERT,
+    connectionCert
+  }
+}
+export function setConnectionMacaroon(connectionMacaroon) {
+  return {
+    type: SET_CONNECTION_MACAROON,
+    connectionMacaroon
+  }
+}
+
 export function updateAlias(alias) {
   return {
     type: UPDATE_ALIAS,
@@ -112,9 +146,9 @@ export function changeStep(step) {
   }
 }
 
-export function startLnd(alias, autopilot) {
+export function startLnd(options) {
   // once the user submits the data needed to start LND we will alert the app that it should start LND
-  ipcRenderer.send('startLnd', { alias, autopilot })
+  ipcRenderer.send('startLnd', options)
 
   return {
     type: STARTING_LND
@@ -177,6 +211,10 @@ export const unlockWalletError = () => (dispatch) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_CONNECTION_TYPE]: (state, { connectionType }) => ({ ...state, connectionType }),
+  [SET_CONNECTION_HOST]: (state, { connectionHost }) => ({ ...state, connectionHost }),
+  [SET_CONNECTION_CERT]: (state, { connectionCert }) => ({ ...state, connectionCert }),
+  [SET_CONNECTION_MACAROON]: (state, { connectionMacaroon }) => ({ ...state, connectionMacaroon }),
   [UPDATE_ALIAS]: (state, { alias }) => ({ ...state, alias }),
   [UPDATE_PASSWORD]: (state, { password }) => ({ ...state, password }),
   [UPDATE_CREATE_WALLET_PASSWORD]: (state, { createWalletPassword }) => ({ ...state, createWalletPassword }),
@@ -223,10 +261,7 @@ const aezeedPasswordConfirmationSelector = state => state.onboarding.aezeedPassw
 const seedSelector = state => state.onboarding.seed
 const seedInputSelector = state => state.onboarding.seedInput
 
-onboardingSelectors.passwordIsValid = createSelector(
-  passwordSelector,
-  password => password.length >= 8
-)
+onboardingSelectors.passwordIsValid = createSelector(passwordSelector, password => password.length >= 8)
 
 onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
   createWalletPasswordSelector,
@@ -253,8 +288,12 @@ export { onboardingSelectors }
 // ------------------------------------
 const initialState = {
   onboarded: true,
-  step: 1,
-  alias: '',
+  step: 0.1,
+  connectionType: store.get('type', ''),
+  connectionHost: store.get('host', ''),
+  connectionCert: store.get('cert', ''),
+  connectionMacaroon: store.get('macaroon', ''),
+  alias: store.get('alias', ''),
   password: '',
   startingLnd: false,
 
@@ -287,7 +326,7 @@ const initialState = {
     import: false
   },
 
-  autopilot: null
+  autopilot: store.get('autopilot', null)
 }
 
 // ------------------------------------

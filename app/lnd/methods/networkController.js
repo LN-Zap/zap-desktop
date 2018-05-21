@@ -3,9 +3,9 @@
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function getInfo(lnd, meta) {
+export function getInfo(lnd) {
   return new Promise((resolve, reject) => {
-    lnd.getInfo({}, meta, (err, data) => {
+    lnd.getInfo({}, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -20,9 +20,9 @@ export function getInfo(lnd, meta) {
  * @param  {[type]} pubkey [description]
  * @return {[type]}        [description]
  */
-export function getNodeInfo(lnd, meta, { pubkey }) {
+export function getNodeInfo(lnd, { pubkey }) {
   return new Promise((resolve, reject) => {
-    lnd.getNodeInfo({ pub_key: pubkey }, meta, (err, data) => {
+    lnd.getNodeInfo({ pub_key: pubkey }, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -36,9 +36,9 @@ export function getNodeInfo(lnd, meta, { pubkey }) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function describeGraph(lnd, meta) {
+export function describeGraph(lnd) {
   return new Promise((resolve, reject) => {
-    lnd.describeGraph({}, meta, (err, data) => {
+    lnd.describeGraph({}, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -54,9 +54,9 @@ export function describeGraph(lnd, meta) {
  * @param  {[type]} amount [description]
  * @return {[type]}        [description]
  */
-export function queryRoutes(lnd, meta, { pubkey, amount }) {
+export function queryRoutes(lnd, { pubkey, amount }) {
   return new Promise((resolve, reject) => {
-    lnd.queryRoutes({ pub_key: pubkey, amt: amount }, meta, (err, data) => {
+    lnd.queryRoutes({ pub_key: pubkey, amt: amount }, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)
@@ -70,9 +70,9 @@ export function queryRoutes(lnd, meta, { pubkey, amount }) {
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function getNetworkInfo(lnd, meta) {
+export function getNetworkInfo(lnd) {
   return new Promise((resolve, reject) => {
-    lnd.getNetworkInfo({}, meta, (err, data) => {
+    lnd.getNetworkInfo({}, (err, data) => {
       if (err) { reject(err) }
 
       resolve(data)

@@ -6,7 +6,6 @@ const NewWalletPassword = ({
   createWalletPassword,
   createWalletPasswordConfirmation,
   showCreateWalletPasswordConfirmationError,
-
   updateCreateWalletPassword,
   updateCreateWalletPasswordConfirmation
 }) => (

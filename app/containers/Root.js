@@ -8,6 +8,10 @@ import LoadingBolt from '../components/LoadingBolt'
 import Onboarding from '../components/Onboarding'
 import Syncing from '../components/Onboarding/Syncing'
 import {
+  setConnectionType,
+  setConnectionHost,
+  setConnectionCert,
+  setConnectionMacaroon,
   updateAlias,
   updatePassword,
   setAutopilot,
@@ -29,6 +33,10 @@ import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
+  setConnectionType,
+  setConnectionHost,
+  setConnectionCert,
+  setConnectionMacaroon,
   updateAlias,
   updatePassword,
   updateCreateWalletPassword,
@@ -63,6 +71,20 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const syncingProps = {
     fetchBlockHeight: dispatchProps.fetchBlockHeight,
     syncPercentage: stateProps.syncPercentage
+  }
+
+  const connectionTypeProps = {
+    connectionType: stateProps.onboarding.connectionType,
+    setConnectionType: dispatchProps.setConnectionType
+  }
+
+  const connectionDetailProps = {
+    connectionHost: stateProps.onboarding.connectionHost,
+    connectionCert: stateProps.onboarding.connectionCert,
+    connectionMacaroon: stateProps.onboarding.connectionMacaroon,
+    setConnectionHost: dispatchProps.setConnectionHost,
+    setConnectionCert: dispatchProps.setConnectionCert,
+    setConnectionMacaroon: dispatchProps.setConnectionMacaroon
   }
 
   const aliasProps = {
@@ -135,6 +157,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     changeStep: dispatchProps.changeStep,
     startLnd: dispatchProps.startLnd,
     submitNewWallet: dispatchProps.submitNewWallet,
+    connectionTypeProps,
+    connectionDetailProps,
     aliasProps,
     autopilotProps,
     initWalletProps,
@@ -174,7 +198,9 @@ const Root = ({
   }
 
   // Don't launch the app without gRPC connection
-  if (!lnd.grpcStarted) { return <LoadingBolt /> }
+  if (!lnd.grpcStarted) {
+    return <LoadingBolt />
+  }
 
   return (
     <Provider store={store}>

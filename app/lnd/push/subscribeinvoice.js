@@ -1,7 +1,7 @@
-export default function pushinvoices(lnd, meta, event) {
+export default function pushinvoices(lnd, event) {
   return new Promise((resolve, reject) => {
     try {
-      const call = lnd.subscribeInvoices({}, meta)
+      const call = lnd.subscribeInvoices({})
 
       call.on('data', data => event.sender.send('pushinvoicesupdated', { data }))
       call.on('end', () => event.sender.send('pushinvoicesend'))

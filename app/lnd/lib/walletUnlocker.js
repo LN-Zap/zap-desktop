@@ -19,7 +19,8 @@ process.env.GRPC_SSL_CIPHER_SUITES = process.env.GRPC_SSL_CIPHER_SUITES || [
 ].join(':')
 
 const walletUnlocker = (rpcpath, host) => {
-  const lndCert = fs.readFileSync(config.cert)
+  const lndConfig = config.lnd()
+  const lndCert = fs.readFileSync(lndConfig.cert)
   const credentials = grpc.credentials.createSsl(lndCert)
   const rpc = grpc.load(path.join(__dirname, 'rpc.proto'))
 
