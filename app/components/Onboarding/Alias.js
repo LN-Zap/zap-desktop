@@ -11,6 +11,7 @@ const Alias = ({ alias, updateAlias }) => (
       ref={input => input && input.focus()}
       value={alias}
       onChange={event => updateAlias(event.target.value)}
+      autoFocus
     />
   </div>
 )

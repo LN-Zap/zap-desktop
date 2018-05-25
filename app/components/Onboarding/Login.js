@@ -14,7 +14,7 @@ const Login = ({
       type='password'
       placeholder='Password'
       className={`${styles.password} ${unlockWalletError.isError && styles.inputError}`}
-      ref={input => input && input.focus()}
+      autoFocus
       value={password}
       onChange={event => updatePassword(event.target.value)}
     />

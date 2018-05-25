@@ -51,6 +51,7 @@ const Request = ({
               onChange={event => setRequestAmount(event.target.value)}
               id='amount'
               placeholder='0.00000000'
+              autoFocus
             />
             <div className={styles.currency}>
               <section className={styles.currentCurrency} onClick={() => setRequestCurrencyFilters(!showCurrencyFilters)}>

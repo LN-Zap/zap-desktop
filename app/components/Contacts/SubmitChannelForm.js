@@ -74,6 +74,7 @@ class SubmitChannelForm extends React.Component {
               value={contactCapacity || ''}
               onChange={event => updateContactCapacity(event.target.value)}
               id='amount'
+              autoFocus
             />
             <div className={styles.currency}>
               <section className={styles.currentCurrency} onClick={() => setContactsCurrencyFilters(!showCurrencyFilters)}>

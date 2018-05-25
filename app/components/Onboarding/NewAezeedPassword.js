@@ -17,6 +17,7 @@ const NewAezeedPassword = ({
         className={styles.password}
         value={aezeedPassword}
         onChange={event => updateAezeedPassword(event.target.value)}
+        autoFocus
       />
     </section>
 

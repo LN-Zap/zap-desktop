@@ -112,6 +112,7 @@ class Pay extends Component {
                 onBlur={onPayInputBlur}
                 id='paymentRequest'
                 rows='4'
+                autoFocus
               />
               <section className={`${styles.errorMessage} ${showErrors.payInput && styles.active}`}>
                 {showErrors.payInput &&

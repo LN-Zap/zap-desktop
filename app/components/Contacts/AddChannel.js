@@ -97,6 +97,7 @@ const AddChannel = ({
           value={contactsform.searchQuery}
           onChange={event => searchUpdated(event.target.value)}
           // ref={input => input && input.focus()}
+          autoFocus
         />
         <span onClick={closeContactsForm} className={styles.closeIcon}>
           <Isvg src={x} />
