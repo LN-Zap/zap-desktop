@@ -283,7 +283,7 @@ app.on('ready', async () => {
       autopilot: options.autopilot
     }
 
-    console.log('SAVED CONFIG TO:', store.pathm, 'AS', store.store)
+    console.log('SAVED CONFIG TO:', store.path, 'AS', store.store)
 
     if (options.connectionType === 'local') {
       console.log('LOOKING FOR LOCAL LND')
