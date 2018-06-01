@@ -301,6 +301,7 @@ app.on('ready', async () => {
           // An LND process was found, no need to start our own.
           console.log('LND ALREADY RUNNING')
           startGrpc()
+          mainWindow.webContents.send('successfullyCreatedWallet')
         }
       })
     } else {
