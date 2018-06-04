@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import Isvg from 'react-inlinesvg'
-import { FaAngleDown, FaCircle, FaRepeat } from 'react-icons/lib/fa'
-import { btc } from 'utils'
+import { FaExternalLink, FaCircle, FaRepeat, FaAngleDown } from 'react-icons/lib/fa'
+import { btc, blockExplorer } from 'utils'
 import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
 
@@ -223,7 +223,7 @@ class Network extends Component {
                       </span>
                       <span>{displayNodeName(channel)}</span>
                       {
-                        selectedChannel === channel && <span><FaAngleDown /></span>
+                        selectedChannel === channel && <span onClick={() => blockExplorer.showTransaction(channel.channel_point.split(':')[0])}><FaExternalLink /></span>
                       }
                     </section>
 
