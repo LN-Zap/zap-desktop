@@ -3,6 +3,9 @@ sudo: false
 language: node_js
 
 env:
+  global:
+    - DEBUG=electron-builder
+  matrix:
   - TEST=lint-ci
   - TEST=test-ci
 
