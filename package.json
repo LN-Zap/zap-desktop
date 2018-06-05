@@ -85,10 +85,11 @@
       "output": "release"
     },
     "extraResources": [
-      "./rpc.proto",
+      "resources/rpc.proto",
       {
-        "from": "./resources/bin/win32/lnd.exe",
-        "to": "./bin/lnd.exe"
+        "from": "resources/bin/${platform}",
+        "to": "bin",
+        "filter": [ "lnd*" ]
       }
     ]
   },
