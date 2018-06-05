@@ -1,5 +1,4 @@
 import fs from 'fs'
-import path from 'path'
 import grpc from 'grpc'
 import config from '../config'
 
@@ -22,7 +21,7 @@ const lightning = (rpcpath, host) => {
   const lndConfig = config.lnd()
   const lndCert = fs.readFileSync(lndConfig.cert)
   const sslCreds = grpc.credentials.createSsl(lndCert)
-  const rpc = grpc.load(path.join(__dirname, '..', 'rpc.proto'))
+  const rpc = grpc.load(lndConfig.lightningRpc)
 
   const metadata = new grpc.Metadata()
   const macaroonHex = fs.readFileSync(lndConfig.macaroon).toString('hex')
