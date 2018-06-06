@@ -223,7 +223,10 @@ class Network extends Component {
                       </span>
                       <span>{displayNodeName(channel)}</span>
                       {
-                        selectedChannel === channel && <span onClick={() => blockExplorer.showTransaction(channel.channel_point.split(':')[0])}><FaExternalLink /></span>
+                        selectedChannel === channel &&
+                        <span onClick={() => blockExplorer.showTransaction(channel.channel_point.split(':')[0])}>
+                          <FaExternalLink />
+                        </span>
                       }
                     </section>
 
