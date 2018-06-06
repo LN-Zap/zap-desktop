@@ -283,7 +283,7 @@ app.on('ready', async () => {
       autopilot: options.autopilot
     }
 
-    console.log('SAVED CONFIG TO:', store.pathm, 'AS', store.store)
+    console.log('SAVED CONFIG TO:', store.path, 'AS', store.store)
 
     if (options.connectionType === 'local') {
       console.log('LOOKING FOR LOCAL LND')
@@ -301,6 +301,7 @@ app.on('ready', async () => {
           // An LND process was found, no need to start our own.
           console.log('LND ALREADY RUNNING')
           startGrpc()
+          mainWindow.webContents.send('successfullyCreatedWallet')
         }
       })
     } else {
