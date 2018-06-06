@@ -51,8 +51,7 @@
       "app.html",
       "main.prod.js",
       "main.prod.js.map",
-      "package.json",
-      "rpc.proto"
+      "package.json"
     ],
     "dmg": {
       "icon": "./resources/icon.icns",
@@ -86,9 +85,11 @@
       "output": "release"
     },
     "extraResources": [
+      "resources/rpc.proto",
       {
-        "from": "./resources/bin/win32/lnd.exe",
-        "to": "./bin/lnd.exe"
+        "from": "resources/bin/${platform}",
+        "to": "bin",
+        "filter": [ "lnd*" ]
       }
     ]
   },
@@ -157,7 +158,7 @@
     "cross-env": "^5.0.0",
     "cross-spawn": "^5.1.0",
     "css-loader": "^0.28.3",
-    "electron-builder": "^19.49.2",
+    "electron-builder": "^20.15.1",
     "electron-devtools-installer": "^2.2.1",
     "enzyme": "^2.9.1",
     "enzyme-to-json": "^1.5.1",
