@@ -85,7 +85,6 @@ class App extends Component {
 
         <ContactModal {...contactModalProps} />
 
-        <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
         <ChannelForm {...channelFormProps} />
 
         <ReceiveModal {...receiveModalProps} />
@@ -101,6 +100,8 @@ class App extends Component {
             :
             <Network {...networkTabProps} />
         }
+
+        <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
       </div>
     )
   }
