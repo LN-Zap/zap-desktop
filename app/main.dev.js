@@ -150,6 +150,7 @@ const startLnd = (alias, autopilot) => {
   const neutrinoArgs = [
     '--bitcoin.active',
     '--bitcoin.testnet',
+    '--bitcoin.defaultremotedelay=432',
     '--bitcoin.node=neutrino',
     '--neutrino.connect=188.166.148.62',
     '--neutrino.connect=127.0.0.1:18333',
