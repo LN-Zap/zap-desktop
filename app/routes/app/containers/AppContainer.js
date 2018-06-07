@@ -305,6 +305,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     nodes: stateProps.network.nodes,
     nonActiveFilters: stateProps.nonActiveFilters,
     ticker: stateProps.ticker,
+    isTestnet: stateProps.info.data.testnet,
 
     fetchChannels: dispatchProps.fetchChannels,
     openContactsForm: dispatchProps.openContactsForm,
@@ -361,6 +362,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     modalProps: stateProps.activity.modal.modalProps,
     ticker: stateProps.ticker,
     currentTicker: stateProps.currentTicker,
+    isTestnet: stateProps.info.data.testnet,
 
     hideActivityModal: dispatchProps.hideActivityModal,
 

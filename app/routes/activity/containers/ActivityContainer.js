@@ -93,6 +93,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     successTransactionScreen: stateProps.transaction.successTransactionScreen,
     currentCurrencyFilters: stateProps.currentCurrencyFilters,
     currencyName: stateProps.currencyName,
+    isTestnet: stateProps.info.data.testnet,
 
     setCurrency: dispatchProps.setCurrency,
     setWalletCurrencyFilters: dispatchProps.setWalletCurrencyFilters,

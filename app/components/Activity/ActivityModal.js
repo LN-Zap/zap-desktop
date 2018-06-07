@@ -14,6 +14,7 @@ const ActivityModal = ({
   modalProps,
   ticker,
   currentTicker,
+  isTestnet,
 
   hideActivityModal,
   toggleCurrencyProps
@@ -36,6 +37,7 @@ const ActivityModal = ({
       </div>
       <SpecificModal
         {...modalProps}
+        isTestnet={isTestnet}
         ticker={ticker}
         currentTicker={currentTicker}
         toggleCurrencyProps={toggleCurrencyProps}

@@ -5,7 +5,7 @@ import { btc, blockExplorer } from 'utils'
 import styles from './SuccessfulSendCoins.scss'
 
 const SuccessfulSendCoins = ({
-  amount, addr, txid, hideModal, currentTicker, currency
+  amount, addr, txid, hideModal, currentTicker, currency, isTestnet
 }) => {
   const calculatedAmount = currency === 'usd' ? btc.satoshisToUsd(amount, currentTicker.price_usd) : btc.satoshisToBtc(amount)
 
@@ -14,7 +14,7 @@ const SuccessfulSendCoins = ({
       <AnimatedCheckmark />
       <h1>
         You&nbsp;
-        <span className={styles.link} onClick={() => blockExplorer.showTransaction(txid)}>sent</span>&nbsp;
+        <span className={styles.link} onClick={() => blockExplorer.showTransaction(isTestnet, txid)}>sent</span>&nbsp;
         <span className={styles.amount}>{calculatedAmount} {currency.toUpperCase()}</span>&nbsp;
         to&nbsp;
         <span className={styles.addr}>{addr}</span>

@@ -52,6 +52,7 @@ class App extends Component {
       ticker,
       currentTicker,
       form,
+      info: { data },
 
       formProps,
       closeForm,
@@ -81,6 +82,7 @@ class App extends Component {
           hideModal={hideModal}
           currentTicker={currentTicker}
           currency={ticker.currency}
+          isTestnet={data.testnet}
         />
 
         <ContactModal {...contactModalProps} />

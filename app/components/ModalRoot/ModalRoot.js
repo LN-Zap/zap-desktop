@@ -14,7 +14,7 @@ const MODAL_COMPONENTS = {
 }
 
 const ModalRoot = ({
-  modalType, modalProps, hideModal, currentTicker, currency
+  modalType, modalProps, hideModal, currentTicker, currency, isTestnet
 }) => {
   if (!modalType) { return null }
 
@@ -31,6 +31,7 @@ const ModalRoot = ({
           hideModal={hideModal}
           currentTicker={currentTicker}
           currency={currency}
+          isTestnet={isTestnet}
         />
       </div>
     </div>
