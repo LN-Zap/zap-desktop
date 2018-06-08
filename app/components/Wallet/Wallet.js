@@ -26,7 +26,8 @@ const Wallet = ({
   currentCurrencyFilters,
   currencyName,
   setCurrency,
-  setWalletCurrencyFilters
+  setWalletCurrencyFilters,
+  isTestnet
 }) => {
   const usdAmount = btc.satoshisToUsd((parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10)), currentTicker.price_usd)
 
@@ -112,7 +113,7 @@ const Wallet = ({
                     {
                       // TODO(jimmymow): remove this
                       // eslint-disable-next-line
-                    }Successfully <span className={styles.txLink} onClick={() => blockExplorer.showTransaction(successTransactionScreen.txid)}>sent</span> transaction
+                    }Successfully <span className={styles.txLink} onClick={() => blockExplorer.showTransaction(isTestnet, successTransactionScreen.txid)}>sent</span> transaction
                   </section>
                 </span>
             }
@@ -133,6 +134,7 @@ Wallet.propTypes = {
   openReceiveModal: PropTypes.func.isRequired,
   showPayLoadingScreen: PropTypes.bool.isRequired,
   showSuccessPayScreen: PropTypes.bool.isRequired,
+  isTestnet: PropTypes.bool.isRequired,
   successTransactionScreen: PropTypes.object.isRequired,
   currentCurrencyFilters: PropTypes.array.isRequired,
   currencyName: PropTypes.string.isRequired,

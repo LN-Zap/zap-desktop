@@ -51,7 +51,9 @@ class Network extends Component {
 
       closeChannel,
 
-      suggestedNodesProps
+      suggestedNodesProps,
+
+      isTestnet
     } = this.props
 
     const refreshClicked = () => {
@@ -224,7 +226,7 @@ class Network extends Component {
                       <span>{displayNodeName(channel)}</span>
                       {
                         selectedChannel === channel &&
-                        <span onClick={() => blockExplorer.showTransaction(channel.channel_point.split(':')[0])}>
+                        <span onClick={() => blockExplorer.showTransaction(isTestnet, channel.channel_point.split(':')[0])}>
                           <FaExternalLink />
                         </span>
                       }
@@ -313,6 +315,8 @@ Network.propTypes = {
   currentTicker: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   suggestedNodesProps: PropTypes.object.isRequired,
+
+  isTestnet: PropTypes.bool.isRequired,
 
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,

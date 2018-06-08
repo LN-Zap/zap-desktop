@@ -3,11 +3,11 @@ import { shell } from 'electron'
 const testnetUrl = 'https://testnet.smartbit.com.au'
 const mainnetUrl = 'https://smartbit.com.au'
 
-const showTransaction = txid =>
-  shell.openExternal(`${testnetUrl}/tx/${txid}`)
+const showTransaction = (isTestnet, txid) =>
+  (isTestnet ? shell.openExternal(`${testnetUrl}/tx/${txid}`) : shell.openExternal(`${mainnetUrl}/tx/${txid}`))
 
-const showBlock = blockHash =>
-  shell.openExternal(`${testnetUrl}/block/${blockHash}`)
+const showBlock = (isTestnet, blockHash) =>
+  (isTestnet ? shell.openExternal(`${testnetUrl}/block/${blockHash}`) : shell.openExternal(`${mainnetUrl}/block/${blockHash}`))
 
 const showChannelClosing = channel =>
   showTransaction(channel.closing_txid)

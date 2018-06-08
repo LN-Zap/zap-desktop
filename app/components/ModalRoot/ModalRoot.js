@@ -14,7 +14,7 @@ const MODAL_COMPONENTS = {
 }
 
 const ModalRoot = ({
-  modalType, modalProps, hideModal, currentTicker, currency
+  modalType, modalProps, hideModal, currentTicker, currency, isTestnet
 }) => {
   if (!modalType) { return null }
 
@@ -31,6 +31,7 @@ const ModalRoot = ({
           hideModal={hideModal}
           currentTicker={currentTicker}
           currency={currency}
+          isTestnet={isTestnet}
         />
       </div>
     </div>
@@ -42,7 +43,8 @@ ModalRoot.propTypes = {
   modalProps: PropTypes.object,
   hideModal: PropTypes.func.isRequired,
   currentTicker: PropTypes.object.isRequired,
-  currency: PropTypes.string.isRequired
+  currency: PropTypes.string.isRequired,
+  isTestnet: PropTypes.bool.isRequired
 }
 
 export default ModalRoot
