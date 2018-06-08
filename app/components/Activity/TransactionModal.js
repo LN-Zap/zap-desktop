@@ -86,7 +86,9 @@ TransactionModal.propTypes = {
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
 
-  toggleCurrencyProps: PropTypes.object.isRequired
+  toggleCurrencyProps: PropTypes.object.isRequired,
+
+  isTestnet: PropTypes.bool.isRequired
 }
 
 export default TransactionModal

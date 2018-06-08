@@ -43,7 +43,8 @@ ModalRoot.propTypes = {
   modalProps: PropTypes.object,
   hideModal: PropTypes.func.isRequired,
   currentTicker: PropTypes.object.isRequired,
-  currency: PropTypes.string.isRequired
+  currency: PropTypes.string.isRequired,
+  isTestnet: PropTypes.bool.isRequired
 }
 
 export default ModalRoot

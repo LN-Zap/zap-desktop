@@ -51,6 +51,8 @@ ActivityModal.propTypes = {
   currentTicker: PropTypes.object.isRequired,
   toggleCurrencyProps: PropTypes.object.isRequired,
 
+  isTestnet: PropTypes.bool.isRequired,
+
   modalType: PropTypes.string,
   modalProps: PropTypes.object.isRequired,
   hideActivityModal: PropTypes.func.isRequired

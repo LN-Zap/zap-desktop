@@ -316,6 +316,8 @@ Network.propTypes = {
   ticker: PropTypes.object.isRequired,
   suggestedNodesProps: PropTypes.object.isRequired,
 
+  isTestnet: PropTypes.bool.isRequired,
+
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,
   toggleFilterPulldown: PropTypes.func.isRequired,

@@ -35,7 +35,8 @@ SuccessfulSendCoins.propTypes = {
   txid: PropTypes.string.isRequired,
   hideModal: PropTypes.func.isRequired,
   currentTicker: PropTypes.object.isRequired,
-  currency: PropTypes.string.isRequired
+  currency: PropTypes.string.isRequired,
+  isTestnet: PropTypes.bool.isRequired
 }
 
 export default SuccessfulSendCoins

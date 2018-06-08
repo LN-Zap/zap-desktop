@@ -134,6 +134,7 @@ Wallet.propTypes = {
   openReceiveModal: PropTypes.func.isRequired,
   showPayLoadingScreen: PropTypes.bool.isRequired,
   showSuccessPayScreen: PropTypes.bool.isRequired,
+  isTestnet: PropTypes.bool.isRequired,
   successTransactionScreen: PropTypes.object.isRequired,
   currentCurrencyFilters: PropTypes.array.isRequired,
   currencyName: PropTypes.string.isRequired,

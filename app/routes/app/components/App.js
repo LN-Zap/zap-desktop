@@ -116,6 +116,7 @@ App.propTypes = {
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
+  info: PropTypes.object.isRequired,
   currentTicker: PropTypes.object,
   contactModalProps: PropTypes.object,
   contactsFormProps: PropTypes.object,
