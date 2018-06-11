@@ -93,6 +93,8 @@ export function convert(from, to, amount, price) {
           return btcToSatoshis(amount)
         case 'usd':
           return btcToUsd(amount, price)
+        case 'btc':
+          return amount
       }
       break
     case 'bits':
@@ -103,6 +105,8 @@ export function convert(from, to, amount, price) {
           return bitsToSatoshis(amount)
         case 'usd':
           return bitsToUsd(amount, price)
+        case 'bits':
+          return amount
       }
       break
     case 'sats':
@@ -113,6 +117,8 @@ export function convert(from, to, amount, price) {
           return satoshisToBits(amount)
         case 'usd':
           return satoshisToUsd(amount, price)
+        case 'sats':
+          return amount
       }
       break
     default:
