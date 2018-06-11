@@ -48,7 +48,7 @@ This is the default configuration for the Zap wallet. To use the light client yo
 
 ***Note:*** *The Lightning Labs `lightning-app` project is different then [lnd](https://github.com/lightningnetwork/lnd)*
 
-Download the [lnd binary](https://github.com/lightninglabs/lightning-app/tree/master/apps/desktop/bin) for your appropriate OS and copy it to the [appropriate location](#lnd-location) for your OS.
+Download the [lnd binary](https://github.com/lightningnetwork/lnd/releases) for your appropriate OS and copy it to the [appropriate location](#lnd-location) for your OS.
 
 #### Compile lnd
 
