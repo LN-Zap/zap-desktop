@@ -145,6 +145,9 @@ function groupData(data) {
 
     arr[title].push({ el })
 
+    // sort the activity within a day new -> old
+    arr[title].sort((a, b) => returnTimestamp(b.el) - returnTimestamp(a.el))
+
     return arr
   }, {})
 }
