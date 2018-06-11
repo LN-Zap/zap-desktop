@@ -386,6 +386,17 @@ const filtersSelector = state => state.channels.filters
 const filterSelector = state => state.channels.filter
 const nodesSelector = state => state.network.nodes
 
+const channelMatchesQuery = (channel, nodes, searchQuery) => {
+  const node = nodes.find(n => channel.remote_pubkey === n.pub_key)
+  const query = searchQuery.toLowerCase()
+
+  const remoteNodePub = (channel.remote_node_pub || '').toLowerCase()
+  const remotePubkey = (channel.remote_pubkey || '').toLowerCase()
+  const displayName = (node ? node.alias : '' || '').toLowerCase()
+
+  return remoteNodePub.includes(query) || remotePubkey.includes(query) || displayName.includes(query)
+}
+
 channelsSelectors.channelModalOpen = createSelector(
   channelSelector,
   channel => (!!channel)
@@ -456,15 +467,23 @@ const allChannels = createSelector(
   pendingForceClosedChannelsSelector,
   waitingCloseChannelsSelector,
   channelSearchQuerySelector,
-  (activeChannels, nonActiveChannels, pendingOpenChannels, pendingClosedChannels, pendingForcedClosedChannels, waitingCloseChannels, searchQuery) => {
-    const filterChannel = channel =>
-      channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)
+  nodesSelector,
+  (
+    activeChannels,
+    nonActiveChannels,
+    pendingOpenChannels,
+    pendingClosedChannels,
+    pendingForcedClosedChannels,
+    waitingCloseChannels,
+    searchQuery,
+    nodes
+  ) => {
+    const filterChannel = channel => channelMatchesQuery(channel.channel || channel, nodes, searchQuery)
 
     const filteredActiveChannels = activeChannels.filter(filterChannel)
     const filteredNonActiveChannels = nonActiveChannels.filter(filterChannel)
 
-    const filterPendingChannel = channel =>
-      channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)
+    const filterPendingChannel = channel => channelMatchesQuery(channel.channel || channel, nodes, searchQuery)
 
     const filteredPendingOpenChannels = pendingOpenChannels.filter(filterPendingChannel)
     const filteredPendingClosedChannels = pendingClosedChannels.filter(filterPendingChannel)
@@ -491,7 +510,18 @@ export const currentChannels = createSelector(
   channelsSelectors.closingPendingChannels,
   filterSelector,
   channelSearchQuerySelector,
-  (allChannelsArr, activeChannelsArr, nonActiveChannelsArr, openChannels, pendingOpenChannels, pendingClosedChannels, channelFilter, searchQuery) => {
+  nodesSelector,
+  (
+    allChannelsArr,
+    activeChannelsArr,
+    nonActiveChannelsArr,
+    openChannels,
+    pendingOpenChannels,
+    pendingClosedChannels,
+    channelFilter,
+    searchQuery,
+    nodes
+  ) => {
     // Helper function to deliver correct channel array based on filter
     const filteredArray = (filterKey) => {
       switch (filterKey) {
@@ -512,13 +542,8 @@ export const currentChannels = createSelector(
       }
     }
 
-
     const channelArray = filteredArray(channelFilter.key)
-
-    return channelArray.filter(channel => (Object.prototype.hasOwnProperty.call(channel, 'channel') ?
-      channel.channel.remote_node_pub.includes(searchQuery) || channel.channel.channel_point.includes(searchQuery)
-      :
-      channel.remote_pubkey.includes(searchQuery) || channel.channel_point.includes(searchQuery)))
+    return channelArray.filter(channel => channelMatchesQuery(channel.channel || channel, nodes, searchQuery))
   }
 )
 
