@@ -126,15 +126,25 @@ export default function (lnd, event, msg, data) {
       invoicesController
         .addInvoice(lnd, data)
         .then(newinvoice =>
-          event.sender.send(
-            'createdInvoice',
-            Object.assign(newinvoice, {
-              memo: data.memo,
-              value: data.value,
-              r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
-              creation_date: Date.now() / 1000
+          invoicesController
+            .getInvoice(lnd, { pay_req: newinvoice.payment_request })
+            .then(decodedInvoice => {
+              event.sender.send(
+                'createdInvoice',
+                Object.assign(decodedInvoice, {
+                  memo: data.memo,
+                  value: data.value,
+                  r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
+                  payment_request: newinvoice.payment_request,
+                  creation_date: Date.now() / 1000
+                })
+              )
             })
-          ))
+            .catch(error => {
+              console.log('decodedInvoice error: ', error)
+              event.sender.send('invoiceFailed', { error: error.toString() })
+            })
+        )
         .catch((error) => {
           console.log('addInvoice error: ', error)
           event.sender.send('invoiceFailed', { error: error.toString() })
