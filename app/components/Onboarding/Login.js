@@ -29,7 +29,7 @@ const Login = ({
             unlockingWallet ?
               <i className={styles.spinner} />
               :
-              'Log In'
+              'Unlock'
           }
         </span>
       </div>
