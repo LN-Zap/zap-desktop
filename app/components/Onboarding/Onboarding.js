@@ -51,8 +51,12 @@ const Onboarding = ({
       case 0.1:
         return (
           <FormContainer
-            title='Lightning Connection'
-            description='How will you connect to the Lightning Network?'
+            title='How do you want to connect to the Lightning Network?'
+            description='
+              By default Zap will spin up a node for you and handle all the nerdy stuff
+              in the background. However you can also setup a custom node connection and
+              use Zap to control a remote node if you desire (for advanced users).
+            '
             back={null}
             next={() => changeStep(connectionType === 'local' ? 1 : 0.2)}
           >
