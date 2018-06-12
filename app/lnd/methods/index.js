@@ -128,7 +128,7 @@ export default function (lnd, event, msg, data) {
         .then(newinvoice =>
           invoicesController
             .getInvoice(lnd, { pay_req: newinvoice.payment_request })
-            .then(decodedInvoice => {
+            .then(decodedInvoice =>
               event.sender.send(
                 'createdInvoice',
                 Object.assign(decodedInvoice, {
@@ -138,13 +138,11 @@ export default function (lnd, event, msg, data) {
                   payment_request: newinvoice.payment_request,
                   creation_date: Date.now() / 1000
                 })
-              )
-            })
-            .catch(error => {
+              ))
+            .catch((error) => {
               console.log('decodedInvoice error: ', error)
               event.sender.send('invoiceFailed', { error: error.toString() })
-            })
-        )
+            }))
         .catch((error) => {
           console.log('addInvoice error: ', error)
           event.sender.send('invoiceFailed', { error: error.toString() })
