@@ -1,14 +1,13 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import ModalRoot from '../../app/components/ModalRoot'
-import SuccessfulSendCoins from '../../app/components/ModalRoot/SuccessfulSendCoins'
-import SuccessfulSendPayment from '../../app/components/ModalRoot/SuccessfulSendPayment'
 
 const defaultProps = {
   hideModal: () => {},
   modalProps: {},
   currentTicker: {},
-  currency: ''
+  currency: '',
+  isTestnet: false
 }
 
 describe('no modal', () => {
