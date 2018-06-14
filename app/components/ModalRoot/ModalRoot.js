@@ -1,14 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { MdClose } from 'react-icons/lib/md'
-import SuccessfulSendCoins from './SuccessfulSendCoins'
-import SuccessfulSendPayment from './SuccessfulSendPayment'
 import WalletDetails from './WalletDetails'
 import styles from './ModalRoot.scss'
 
 const MODAL_COMPONENTS = {
-  SUCCESSFUL_SEND_COINS: SuccessfulSendCoins,
-  SUCCESSFUL_SEND_PAYMENT: SuccessfulSendPayment,
   WALLET_DETAILS: WalletDetails
   /* other modals */
 }
