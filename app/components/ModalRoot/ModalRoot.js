@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { MdClose } from 'react-icons/lib/md'
-import WalletDetails from './WalletDetails'
 import styles from './ModalRoot.scss'
 
 const MODAL_COMPONENTS = {
-  WALLET_DETAILS: WalletDetails
   /* other modals */
 }
 
