@@ -16,7 +16,6 @@ import payform from './payform'
 import requestform from './requestform'
 
 import invoice from './invoice'
-import modal from './modal'
 import address from './address'
 import transaction from './transaction'
 import activity from './activity'
@@ -40,7 +39,6 @@ const rootReducer = combineReducers({
   requestform,
 
   invoice,
-  modal,
   address,
   transaction,
   activity,
