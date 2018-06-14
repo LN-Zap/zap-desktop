@@ -4,6 +4,7 @@ exports[`reducers infoReducer should correctly getInfo 1`] = `
 Object {
   "data": Object {},
   "infoLoading": true,
+  "network": Object {},
   "showWalletCurrencyFilters": false,
 }
 `;
@@ -12,6 +13,21 @@ exports[`reducers infoReducer should correctly receiveInfo 1`] = `
 Object {
   "data": "foo",
   "infoLoading": false,
+  "network": Object {
+    "bitcoinJsNetwork": Object {
+      "bech32": "bc",
+      "bip32": Object {
+        "private": 76066276,
+        "public": 76067358,
+      },
+      "messagePrefix": "Bitcoin Signed Message:
+",
+      "pubKeyHash": 0,
+      "scriptHash": 5,
+      "wif": 128,
+    },
+    "explorerUrl": "https://smartbit.com.au",
+  },
   "showWalletCurrencyFilters": false,
 }
 `;
@@ -20,6 +36,7 @@ exports[`reducers infoReducer should handle initial state 1`] = `
 Object {
   "data": Object {},
   "infoLoading": false,
+  "network": Object {},
   "showWalletCurrencyFilters": false,
 }
 `;

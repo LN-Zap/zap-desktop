@@ -19,7 +19,7 @@ const TransactionModal = ({
   transaction,
   ticker,
   currentTicker,
-  isTestnet,
+  network,
 
   toggleCurrencyProps: {
     setActivityModalCurrencyFilters,
@@ -38,7 +38,7 @@ const TransactionModal = ({
       <section className={styles.details}>
         <div>
           <Isvg src={link} />
-          <span className={styles.link} onClick={() => blockExplorer.showTransaction(isTestnet, transaction.tx_hash)}>On-Chain</span>
+          <span className={styles.link} onClick={() => blockExplorer.showTransaction(network, transaction.tx_hash)}>On-Chain</span>
         </div>
         <div>
           <Value value={transaction.total_fees} currency={ticker.currency} currentTicker={currentTicker} />
@@ -76,7 +76,7 @@ const TransactionModal = ({
     </div>
 
     <footer className={styles.footer}>
-      <p onClick={() => blockExplorer.showTransaction(isTestnet, transaction.tx_hash)}>{transaction.tx_hash}</p>
+      <p onClick={() => blockExplorer.showTransaction(network, transaction.tx_hash)}>{transaction.tx_hash}</p>
     </footer>
   </div>
 )
@@ -88,7 +88,7 @@ TransactionModal.propTypes = {
 
   toggleCurrencyProps: PropTypes.object.isRequired,
 
-  isTestnet: PropTypes.bool.isRequired
+  network: PropTypes.object.isRequired
 }
 
 export default TransactionModal

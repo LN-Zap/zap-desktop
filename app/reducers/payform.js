@@ -5,6 +5,7 @@ import isEmpty from 'lodash/isEmpty'
 
 import { setFormType } from './form'
 import { tickerSelectors } from './ticker'
+import { infoSelectors } from './info'
 import { btc, bech32 } from '../utils'
 
 // Initial State
@@ -124,9 +125,10 @@ const currencySelector = state => state.ticker.currency
 
 payFormSelectors.isOnchain = createSelector(
   payInputSelector,
-  (input) => {
+  infoSelectors.networkSelector,
+  (input, network) => {
     try {
-      bitcoin.address.toOutputScript(input, bitcoin.networks.testnet)
+      bitcoin.address.toOutputScript(input, network.bitcoinJsNetwork)
       return true
     } catch (e) {
       return false

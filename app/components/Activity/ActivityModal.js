@@ -14,7 +14,7 @@ const ActivityModal = ({
   modalProps,
   ticker,
   currentTicker,
-  isTestnet,
+  network,
 
   hideActivityModal,
   toggleCurrencyProps
@@ -37,7 +37,7 @@ const ActivityModal = ({
       </div>
       <SpecificModal
         {...modalProps}
-        isTestnet={isTestnet}
+        network={network}
         ticker={ticker}
         currentTicker={currentTicker}
         toggleCurrencyProps={toggleCurrencyProps}
@@ -51,7 +51,7 @@ ActivityModal.propTypes = {
   currentTicker: PropTypes.object.isRequired,
   toggleCurrencyProps: PropTypes.object.isRequired,
 
-  isTestnet: PropTypes.bool.isRequired,
+  network: PropTypes.object.isRequired,
 
   modalType: PropTypes.string,
   modalProps: PropTypes.object.isRequired,
