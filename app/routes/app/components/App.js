@@ -6,7 +6,6 @@ import LoadingBolt from 'components/LoadingBolt'
 
 import Form from 'components/Form'
 import ChannelForm from 'components/Contacts/ChannelForm'
-import ModalRoot from 'components/ModalRoot'
 
 import Network from 'components/Contacts/Network'
 import AddChannel from 'components/Contacts/AddChannel'
@@ -47,12 +46,8 @@ class App extends Component {
 
   render() {
     const {
-      modal: { modalType, modalProps },
-      hideModal,
-      ticker,
       currentTicker,
       form,
-      info: { data },
 
       formProps,
       closeForm,
@@ -76,14 +71,6 @@ class App extends Component {
       <div>
         <div className={styles.titleBar} />
         <GlobalError error={error} clearError={clearError} />
-        <ModalRoot
-          modalType={modalType}
-          modalProps={modalProps}
-          hideModal={hideModal}
-          currentTicker={currentTicker}
-          currency={ticker.currency}
-          isTestnet={data.testnet}
-        />
 
         <ContactModal {...contactModalProps} />
 
@@ -110,13 +97,10 @@ class App extends Component {
 }
 
 App.propTypes = {
-  modal: PropTypes.object.isRequired,
-  ticker: PropTypes.object.isRequired,
   form: PropTypes.object.isRequired,
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
-  info: PropTypes.object.isRequired,
   currentTicker: PropTypes.object,
   contactModalProps: PropTypes.object,
   contactsFormProps: PropTypes.object,
@@ -127,7 +111,6 @@ App.propTypes = {
 
   newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
-  hideModal: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
   fetchChannels: PropTypes.func.isRequired,

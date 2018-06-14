@@ -9,8 +9,6 @@ import { newAddress, closeWalletModal } from 'reducers/address'
 
 import { fetchInfo } from 'reducers/info'
 
-import { showModal, hideModal } from 'reducers/modal'
-
 import { setFormType } from 'reducers/form'
 
 import { setPayAmount, setPayInput, setCurrencyFilters, updatePayErrors, payFormSelectors } from 'reducers/payform'
@@ -80,9 +78,6 @@ const mapDispatchToProps = {
   closeWalletModal,
 
   fetchInfo,
-
-  showModal,
-  hideModal,
 
   setFormType,
 
@@ -156,7 +151,6 @@ const mapStateToProps = state => ({
   requestform: state.requestform,
 
   invoice: state.invoice,
-  modal: state.modal,
 
   error: state.error,
 
