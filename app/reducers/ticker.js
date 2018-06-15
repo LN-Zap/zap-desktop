@@ -1,5 +1,7 @@
 import { createSelector } from 'reselect'
 import { requestTickers } from '../api'
+import { infoSelectors } from './info'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -97,11 +99,13 @@ tickerSelectors.currentCurrencyFilters = createSelector(
 
 tickerSelectors.currencyName = createSelector(
   currencySelector,
-  (currency) => {
-    if (currency === 'btc') { return 'BTC' }
-    if (currency === 'sats') { return 'satoshis' }
+  infoSelectors.networkSelector,
+  (currency, network) => {
+    let unit = currency
+    if (currency === 'btc') { unit = 'BTC' }
+    if (currency === 'sats') { unit = 'satoshis' }
 
-    return currency
+    return `${network.unitPrefix}${unit}`
   }
 )
 

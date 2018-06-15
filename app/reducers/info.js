@@ -39,11 +39,13 @@ export const receiveInfo = (event, data) => (dispatch) => {
 const networks = {
   testnet: {
     explorerUrl: 'https://testnet.smartbit.com.au',
-    bitcoinJsNetwork: bitcoin.networks.testnet
+    bitcoinJsNetwork: bitcoin.networks.testnet,
+    unitPrefix: 't'
   },
   mainnet: {
     explorerUrl: 'https://smartbit.com.au',
-    bitcoinJsNetwork: bitcoin.networks.bitcoin
+    bitcoinJsNetwork: bitcoin.networks.bitcoin,
+    unitPrefix: ''
   }
 }
 // IPC info fetch failed
