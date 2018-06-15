@@ -198,12 +198,12 @@ ajv@^6.0.1:
     uri-js "^3.0.2"
 
 ajv@^6.4.0:
-  version "6.5.0"
-  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.0.tgz#4c8affdf80887d8f132c9c52ab8a2dc4d0b7b24c"
+  version "6.5.1"
+  resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.5.1.tgz#88ebc1263c7133937d108b80c5572e64e1d9322d"
   dependencies:
     fast-deep-equal "^2.0.1"
     fast-json-stable-stringify "^2.0.0"
-    json-schema-traverse "^0.3.0"
+    json-schema-traverse "^0.4.1"
     uri-js "^4.2.1"
 
 align-text@^0.1.1, align-text@^0.1.3:
@@ -296,10 +296,6 @@ app-builder-bin@1.9.11:
 app-builder-bin@1.9.5:
   version "1.9.5"
   resolved "https://registry.yarnpkg.com/app-builder-bin/-/app-builder-bin-1.9.5.tgz#f4e2b26e26578c9a48cea85da44f0bc1a7582fc0"
-
-app-builder-bin@1.9.7:
-  version "1.9.7"
-  resolved "https://registry.yarnpkg.com/app-builder-bin/-/app-builder-bin-1.9.7.tgz#9f01439fa8088a43471df9e5e071dd3880a8cff0"
 
 append-transform@^0.4.0:
   version "0.4.0"
@@ -1984,26 +1980,7 @@ builder-util@5.11.1:
     stat-mode "^0.2.2"
     temp-file "^3.1.2"
 
-builder-util@5.11.2:
-  version "5.11.2"
-  resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-5.11.2.tgz#2d4829f0743ce1b654e94586fade63fd6cfefae5"
-  dependencies:
-    "7zip-bin" "~4.0.2"
-    app-builder-bin "1.9.7"
-    bluebird-lst "^1.0.5"
-    builder-util-runtime "^4.2.1"
-    chalk "^2.4.1"
-    debug "^3.1.0"
-    fs-extra-p "^4.6.0"
-    is-ci "^1.1.0"
-    js-yaml "^3.11.0"
-    lazy-val "^1.0.3"
-    semver "^5.5.0"
-    source-map-support "^0.5.6"
-    stat-mode "^0.2.2"
-    temp-file "^3.1.2"
-
-builder-util@^5.11.0, builder-util@^5.11.2:
+builder-util@5.11.4, builder-util@^5.11.0, builder-util@^5.11.2:
   version "5.11.4"
   resolved "https://registry.yarnpkg.com/builder-util/-/builder-util-5.11.4.tgz#24d72aa567ecfeacca72b0740b4ddbffaaef617c"
   dependencies:
@@ -3286,15 +3263,15 @@ ejs@^2.6.1:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/ejs/-/ejs-2.6.1.tgz#498ec0d495655abc6f23cd61868d926464071aa0"
 
-electron-builder-lib@20.15.1:
-  version "20.15.1"
-  resolved "https://registry.yarnpkg.com/electron-builder-lib/-/electron-builder-lib-20.15.1.tgz#d2675e71918f62561cf5ecae633dfe5f4219d0e3"
+electron-builder-lib@20.15.3:
+  version "20.15.3"
+  resolved "https://registry.yarnpkg.com/electron-builder-lib/-/electron-builder-lib-20.15.3.tgz#bac8e4630b7994617398e2405b5c3c4e71b37cc0"
   dependencies:
     "7zip-bin" "~4.0.2"
-    app-builder-bin "1.9.7"
+    app-builder-bin "1.9.11"
     async-exit-hook "^2.0.1"
     bluebird-lst "^1.0.5"
-    builder-util "5.11.2"
+    builder-util "5.11.4"
     builder-util-runtime "4.2.1"
     chromium-pickle-js "^0.2.0"
     debug "^3.1.0"
@@ -3346,16 +3323,16 @@ electron-builder-lib@~20.14.6:
     stream-json "^0.6.1"
     temp-file "^3.1.2"
 
-electron-builder@^20.15.1:
-  version "20.15.1"
-  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-20.15.1.tgz#078cda29bdb7240244e9bccf30740b1ea42deb44"
+electron-builder@^20.15.3:
+  version "20.15.3"
+  resolved "https://registry.yarnpkg.com/electron-builder/-/electron-builder-20.15.3.tgz#691e6e03392438fbc23b3cef1e9b78562a9e5c64"
   dependencies:
     bluebird-lst "^1.0.5"
-    builder-util "5.11.2"
+    builder-util "5.11.4"
     builder-util-runtime "4.2.1"
     chalk "^2.4.1"
     dmg-builder "4.10.1"
-    electron-builder-lib "20.15.1"
+    electron-builder-lib "20.15.3"
     electron-download-tf "4.3.4"
     fs-extra-p "^4.6.0"
     is-ci "^1.1.0"
@@ -5954,6 +5931,10 @@ json-parse-better-errors@^1.0.1:
 json-schema-traverse@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.3.1.tgz#349a6d44c53a51de89b40805c5d5e59b417d3340"
+
+json-schema-traverse@^0.4.1:
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz#69f6a87d9513ab8bb8fe63bdb0979c448e684660"
 
 json-schema@0.2.3:
   version "0.2.3"
