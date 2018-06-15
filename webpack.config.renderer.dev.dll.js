@@ -20,6 +20,8 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-renderer',
 
+  mode: 'development',
+
   externals: ['fsevents', 'crypto-browserify'],
 
   /**
