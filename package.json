@@ -156,7 +156,7 @@
     "babili-webpack-plugin": "^0.1.2",
     "browserslist": "^2.11.0",
     "chalk": "^2.0.1",
-    "concurrently": "^3.5.0",
+    "concurrently": "^3.5.1",
     "cross-env": "^5.0.0",
     "cross-spawn": "^5.1.0",
     "css-loader": "^0.28.3",
