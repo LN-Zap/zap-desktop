@@ -261,7 +261,16 @@ const aezeedPasswordConfirmationSelector = state => state.onboarding.aezeedPassw
 const seedSelector = state => state.onboarding.seed
 const seedInputSelector = state => state.onboarding.seedInput
 
-onboardingSelectors.passwordIsValid = createSelector(passwordSelector, password => password.length >= 8)
+onboardingSelectors.passwordIsValid = createSelector(
+  passwordSelector,
+  password => password.length >= 8
+)
+
+onboardingSelectors.passwordMinChars = createSelector(
+  createWalletPasswordSelector,
+  createWalletPasswordConfirmationSelector,
+  (pass1, pass2) => pass1 === pass2 && pass1.length >= 8
+)
 
 onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
   createWalletPasswordSelector,

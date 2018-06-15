@@ -6,6 +6,7 @@ const NewWalletPassword = ({
   createWalletPassword,
   createWalletPasswordConfirmation,
   showCreateWalletPasswordConfirmationError,
+  passwordMinChars,
   updateCreateWalletPassword,
   updateCreateWalletPasswordConfirmation
 }) => (
@@ -29,6 +30,7 @@ const NewWalletPassword = ({
         onChange={event => updateCreateWalletPasswordConfirmation(event.target.value)}
       />
       <p className={`${styles.errorMessage} ${showCreateWalletPasswordConfirmationError && styles.visible}`}>Passwords do not match</p>
+      <p className={`${styles.helpMessage} ${passwordMinChars && styles.visible}`}>The password must be at least 8 characters long.</p>
     </section>
   </div>
 )
@@ -37,6 +39,7 @@ NewWalletPassword.propTypes = {
   createWalletPassword: PropTypes.string.isRequired,
   createWalletPasswordConfirmation: PropTypes.string.isRequired,
   showCreateWalletPasswordConfirmationError: PropTypes.bool.isRequired,
+  passwordMinChars: PropTypes.bool.isRequired,
   updateCreateWalletPassword: PropTypes.func.isRequired,
   updateCreateWalletPasswordConfirmation: PropTypes.func.isRequired
 }

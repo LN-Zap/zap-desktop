@@ -62,6 +62,7 @@ const mapStateToProps = state => ({
 
   syncPercentage: lndSelectors.syncPercentage(state),
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
+  passwordMinChars: onboardingSelectors.passwordMinChars(state),
   showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(state),
   showAezeedPasswordConfirmationError: onboardingSelectors.showAezeedPasswordConfirmationError(state),
   reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state)
@@ -128,6 +129,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     createWalletPassword: stateProps.onboarding.createWalletPassword,
     createWalletPasswordConfirmation: stateProps.onboarding.createWalletPasswordConfirmation,
     showCreateWalletPasswordConfirmationError: stateProps.showCreateWalletPasswordConfirmationError,
+    passwordMinChars: stateProps.passwordMinChars,
     updateCreateWalletPassword: dispatchProps.updateCreateWalletPassword,
     updateCreateWalletPasswordConfirmation: dispatchProps.updateCreateWalletPasswordConfirmation
   }
