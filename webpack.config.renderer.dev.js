@@ -37,6 +37,8 @@ export default merge.smart(baseConfig, {
 
   target: 'electron-renderer',
 
+  mode: 'development',
+
   entry: [
     'react-hot-loader/patch',
     `webpack-dev-server/client?http://localhost:${port}/`,
@@ -210,8 +212,6 @@ export default merge.smart(baseConfig, {
       // multiStep: true
     }),
 
-    new webpack.NoEmitOnErrorsPlugin(),
-
     /**
      * Create global constants which can be configured at compile time.
      *
@@ -262,7 +262,7 @@ export default merge.smart(baseConfig, {
       verbose: true,
       disableDotRule: false
     },
-    setup() {
+    before() {
       if (process.env.START_HOT) {
         console.log('Starting Main Process...')
         spawn(
@@ -274,5 +274,9 @@ export default merge.smart(baseConfig, {
           .on('error', spawnError => console.error(spawnError))
       }
     }
+  },
+
+  optimization: {
+    noEmitOnErrors: true
   }
 })
