@@ -89,7 +89,9 @@
       {
         "from": "resources/bin/${platform}",
         "to": "bin",
-        "filter": [ "lnd*" ]
+        "filter": [
+          "lnd*"
+        ]
       }
     ]
   },
