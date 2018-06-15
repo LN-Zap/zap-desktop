@@ -38,7 +38,8 @@ class ReceiveModal extends React.Component {
       pubkey,
       address,
       alias,
-      closeReceiveModal
+      closeReceiveModal,
+      network
     } = this.props
 
     const { qrCodeType } = this.state
@@ -87,7 +88,7 @@ class ReceiveModal extends React.Component {
             </div>
 
             <div className={styles.address}>
-              <h4>Bitcoin Address</h4>
+              <h4>Bitcoin {network.name} Address</h4>
               <p>
                 <span className={styles.data}>{address}</span>
                 <span onClick={() => copyOnClick(address)} className={`${styles.copy} hint--left`} data-hint='Copy address'>
@@ -103,6 +104,9 @@ class ReceiveModal extends React.Component {
 }
 
 ReceiveModal.propTypes = {
+  network: PropTypes.shape({
+    name: PropTypes.string
+  }).isRequired,
   isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string,
   address: PropTypes.string.isRequired,

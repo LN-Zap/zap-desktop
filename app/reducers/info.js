@@ -38,11 +38,13 @@ export const receiveInfo = (event, data) => (dispatch) => {
 
 const networks = {
   testnet: {
+    name: 'Testnet',
     explorerUrl: 'https://testnet.smartbit.com.au',
     bitcoinJsNetwork: bitcoin.networks.testnet,
     unitPrefix: 't'
   },
   mainnet: {
+    name: null, // no name since it is the presumed default
     explorerUrl: 'https://smartbit.com.au',
     bitcoinJsNetwork: bitcoin.networks.bitcoin,
     unitPrefix: ''
