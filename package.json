@@ -154,7 +154,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
     "browserslist": "^2.11.0",
-    "chalk": "^2.0.1",
+    "chalk": "^2.4.1",
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
     "cross-spawn": "^6.0.5",
