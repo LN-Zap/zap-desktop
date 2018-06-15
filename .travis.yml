@@ -5,6 +5,7 @@ language: node_js
 env:
   global:
     - DEBUG=electron-builder
+    - ELECTRON_DISABLE_SECURITY_WARNINGS=true
   matrix:
   - TEST=lint-ci
   - TEST=test-ci
