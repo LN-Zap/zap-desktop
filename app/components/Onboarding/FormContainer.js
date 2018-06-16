@@ -37,12 +37,12 @@ const FormContainer = ({
       <div className={styles.buttonsContainer}>
         <section>
           {
-            back && <div onClick={back}><FaAngleLeft style={{ verticalAlign: 'top' }} /> Back</div>
+            back && <div onClick={back} className={styles.backButton} ><FaAngleLeft /> Back</div>
           }
         </section>
         <section>
           {
-            next && <div onClick={next}>Next <FaAngleRight style={{ verticalAlign: 'top' }} /></div>
+            next && <div onClick={next} className={styles.nextButton} >Next <FaAngleRight /></div>
           }
         </section>
       </div>
