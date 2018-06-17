@@ -1,4 +1,3 @@
-/* eslint no-console: 0 */ // --> OFF
 // import grpc from 'grpc'
 
 import * as invoicesController from './invoicesController'

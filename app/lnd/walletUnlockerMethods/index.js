@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */ // --> OFF
-
 import * as walletController from '../methods/walletController'
 
 export default function (walletUnlocker, log, event, msg, data) {
