@@ -29,7 +29,8 @@ class Network extends Component {
         filter,
         selectedChannel,
         loadingChannelPubkeys,
-        closingChannelIds
+        closingChannelIds,
+        channels
       },
       currentChannels,
       balance,
@@ -144,12 +145,12 @@ class Network extends Component {
 
         <div className={styles.channels}>
           {
-            !loadingChannelPubkeys.length && !currentChannels.length &&
+            (!loadingChannelPubkeys.length && !channels.length) &&
             <SuggestedNodes {...suggestedNodesProps} />
           }
 
           {
-            (loadingChannelPubkeys.length > 0 || currentChannels.length) > 0 &&
+            (loadingChannelPubkeys.length || channels.length) &&
             <header className={styles.listHeader}>
               <section>
                 <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
@@ -180,7 +181,7 @@ class Network extends Component {
 
           <ul className={filterPulldown && styles.fade}>
             {
-              loadingChannelPubkeys.length > 0 && loadingChannelPubkeys.map((loadingPubkey) => {
+              loadingChannelPubkeys.length && loadingChannelPubkeys.map((loadingPubkey) => {
                 // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
                 const node = find(nodes, n => loadingPubkey === n.pub_key)
                 const nodeDisplay = () => {
@@ -202,7 +203,7 @@ class Network extends Component {
               })
             }
             {
-              currentChannels.length > 0 && currentChannels.map((channelObj, index) => {
+              currentChannels.length && currentChannels.map((channelObj, index) => {
                 const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel') ? channelObj.channel : channelObj
                 const pubkey = channel.remote_node_pub || channel.remote_pubkey
 
@@ -285,7 +286,7 @@ class Network extends Component {
           </ul>
         </div>
         {
-          (loadingChannelPubkeys.length > 0 || currentChannels.length) > 0 &&
+          (loadingChannelPubkeys.length || channels.length) &&
           <footer className={styles.search}>
             <label htmlFor='search' className={`${styles.label} ${styles.input}`}>
               <Isvg src={search} />
