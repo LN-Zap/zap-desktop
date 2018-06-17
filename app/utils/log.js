@@ -52,6 +52,7 @@ const logConfig = name => ({
 export const mainLog = debugLogger.config(logConfig('main'))('zap')
 export const lndLog = debugLogger.config(logConfig('lnd '))('zap')
 
+let lndLogLevel = null // stored most recent log level for continuity
 export const lndLogGetLevel = (msg) => {
   // Define a mapping between log level prefixes and log level names.
   const levelMap = {
@@ -63,16 +64,18 @@ export const lndLogGetLevel = (msg) => {
     CRT: 'critical'
   }
 
-  // We set the default level to trace.
-  // The only log lines that don't include a level prefix are a part of trace entries
-  let level = 'trace'
-
   // Parse the log line to determine its level.
+  let level
   Object.entries(levelMap).forEach(([key, value]) => {
     if (msg.includes(`[${key}]`)) {
       level = value
     }
   })
-
-  return level
+  if (level) {
+    lndLogLevel = level
+    return level
+  }
+  // We set the default level to trace.
+  // The only log lines that don't include a level prefix are a part of trace entries
+  return lndLogLevel || 'trace'
 }
