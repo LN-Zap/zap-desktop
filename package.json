@@ -213,6 +213,7 @@
     "d3-force": "^1.1.0",
     "d3-selection": "^1.2.0",
     "d3-zoom": "^1.7.1",
+    "debug-logger": "^0.4.1",
     "devtron": "^1.4.0",
     "electron": "1.8.4",
     "electron-debug": "^1.2.0",
