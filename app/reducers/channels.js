@@ -459,6 +459,13 @@ channelsSelectors.channelNodes = createSelector(
   }
 )
 
+channelsSelectors.fundingTxIdsSelector = createSelector(
+  channelsSelector,
+  channels => (
+    channels.map(channel => channel.channel_point.split(':')[0])
+  )
+)
+
 const allChannels = createSelector(
   channelsSelectors.activeChannels,
   channelsSelectors.nonActiveChannels,

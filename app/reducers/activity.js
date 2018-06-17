@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { channelsSelectors } from 'reducers/channels'
 
 // ------------------------------------
 // Initial State
@@ -174,24 +175,32 @@ const allActivity = createSelector(
   paymentsSelector,
   invoicesSelector,
   transactionsSelector,
-  (searchText, payments, invoices, transactions) => {
-    const searchedArr = [...payments, ...invoices, ...transactions].filter((tx) => {
-      if ((tx.tx_hash && tx.tx_hash.includes(searchText)) ||
-          (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
-          (tx.payment_request && tx.payment_request.includes(searchText))) {
-        return true
-      }
+  channelsSelectors.fundingTxIdsSelector,
+  (searchText, payments, invoices, transactions, fundingTxIds) => {
+    let result = [...payments, ...invoices, ...transactions]
+    if (searchText) {
+      // exclude transaction not matching search
+      result = result.filter(tx => (
+        (tx.tx_hash && tx.tx_hash.includes(searchText)) ||
+        (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
+        (tx.payment_request && tx.payment_request.includes(searchText))
+      ))
+    }
 
-      return false
-    })
+    result = result.filter(tx => (
+      // exclude expired transaction
+      (!Object.prototype.hasOwnProperty.call(tx, 'expiry') || !invoiceExpired(tx)) &&
+      // exclude funding transactions
+      (!Object.prototype.hasOwnProperty.call(tx, 'tx_hash') || !fundingTxIds.includes(tx.tx_hash))
+    ))
 
-    if (!searchedArr.length) { return [] }
+    if (!result.length) { return [] }
 
-    return groupAll(searchedArr)
+    return groupAll(result)
   }
 )
 
-const invoiceActivity = createSelector(
+const requestedActivity = createSelector(
   invoicesSelector,
   invoices => groupAll(invoices)
 )
@@ -210,7 +219,7 @@ const pendingActivity = createSelector(
 const FILTERS = {
   ALL_ACTIVITY: allActivity,
   SENT_ACTIVITY: sentActivity,
-  REQUESTED_ACTIVITY: invoiceActivity,
+  REQUESTED_ACTIVITY: requestedActivity,
   PENDING_ACTIVITY: pendingActivity
 }
 
