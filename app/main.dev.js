@@ -274,8 +274,25 @@ app.on('ready', async () => {
 
   sendGrpcDisconnected()
 
-  // Let the application know onboarding has started.
-  sendStartOnboarding()
+  console.log('LOOKING FOR LOCAL LND')
+  // Check to see if an LND process is running.
+  lookup({ command: 'lnd' }, (err, results) => {
+    // There was an error checking for the LND process.
+    if (err) {
+      throw new Error(err)
+    }
+
+    // No LND process was found.
+    if (!results.length) {
+      // Let the application know onboarding has started.
+      sendStartOnboarding()
+    } else {
+      // An LND process was found, no need to start our own.
+      console.log('LND ALREADY RUNNING')
+      startGrpc()
+      mainWindow.webContents.send('successfullyCreatedWallet')
+    }
+  })
 
   // Start LND
   // once the onboarding has enough information, start or connect to LND.
@@ -295,24 +312,7 @@ app.on('ready', async () => {
     console.log('SAVED CONFIG TO:', store.path, 'AS', store.store)
 
     if (options.connectionType === 'local') {
-      console.log('LOOKING FOR LOCAL LND')
-      // Check to see if an LND process is running.
-      lookup({ command: 'lnd' }, (err, results) => {
-        // There was an error checking for the LND process.
-        if (err) {
-          throw new Error(err)
-        }
-
-        // No LND process was found.
-        if (!results.length) {
-          startLnd(options.alias, options.autopilot)
-        } else {
-          // An LND process was found, no need to start our own.
-          console.log('LND ALREADY RUNNING')
-          startGrpc()
-          mainWindow.webContents.send('successfullyCreatedWallet')
-        }
-      })
+      startLnd(options.alias, options.autopilot)
     } else {
       console.log('USING CUSTOM LND')
       startGrpc()
