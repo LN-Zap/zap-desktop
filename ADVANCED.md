@@ -21,12 +21,11 @@ git clone https://github.com/LN-Zap/zap-desktop.git
 
 ### Installing Dependencies
 
-Install all the dependencies with yarn + install grpc:
+Install all the dependencies with yarn:
 
 ```bash
 cd zap-desktop
 yarn
-npm run install-grpc
 ```
 
 ## Lightning Network Daemon (lnd)
