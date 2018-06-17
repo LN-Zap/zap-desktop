@@ -1,10 +1,10 @@
-export default function subscribeToTransactions(mainWindow, lnd) {
+export default function subscribeToTransactions(mainWindow, lnd, log) {
   const call = lnd.subscribeTransactions({})
   call.on('data', (transaction) => {
-    console.log('TRANSACTION: ', transaction)
+    lnd.log.info('TRANSACTION:', transaction)
     mainWindow.send('newTransaction', { transaction })
   })
-  call.on('end', () => console.log('end'))
-  call.on('error', error => console.log('error: ', error))
-  call.on('status', status => console.log('TRANSACTION STATUS: ', status))
+  call.on('end', () => log.info('end'))
+  call.on('error', error => log.error('error: ', error))
+  call.on('status', status => log.info('TRANSACTION STATUS: ', status))
 }
