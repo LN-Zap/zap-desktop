@@ -13,6 +13,7 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import path from 'path'
 import fs from 'fs'
+import split2 from 'split2'
 import { spawn } from 'child_process'
 import { lookup } from 'ps-node'
 import Store from 'electron-store'
@@ -172,10 +173,7 @@ const startLnd = (alias, autopilot) => {
     })
 
   // Listen for when neutrino prints out data
-  neutrino.stdout.on('data', (data) => {
-    // Data stored in variable line, log line to the console
-    const line = data.toString('utf8')
-
+  neutrino.stdout.pipe(split2()).on('data', (line) => {
     if (process.env.NODE_ENV === 'development') {
       console.log(line)
     }
