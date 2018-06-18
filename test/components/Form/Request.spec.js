@@ -17,7 +17,7 @@ const defaultProps = {
   setCurrency: () => {},
   setRequestCurrencyFilters: () => {},
 
-  onRequestSubmit: () => {}
+  onRequestSubmit: () => {},
 }
 
 describe('Form', () => {

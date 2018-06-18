@@ -5,7 +5,7 @@ import channelsReducer, {
   RECEIVE_CHANNELS,
   OPENING_CHANNEL,
   OPENING_SUCCESSFUL,
-  OPENING_FAILURE
+  OPENING_FAILURE,
 } from '../../app/reducers/channels'
 
 describe('reducers', () => {

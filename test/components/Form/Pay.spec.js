@@ -8,7 +8,7 @@ const defaultProps = {
     amount: 0,
     payInput: '',
     invoice: {},
-    showErrors: {}
+    showErrors: {},
   },
   currency: {},
   crypto: {},
@@ -35,7 +35,7 @@ const defaultProps = {
 
   onPayInputBlur: () => {},
 
-  onPaySubmit: () => {}
+  onPaySubmit: () => {},
 }
 
 describe('Form', () => {

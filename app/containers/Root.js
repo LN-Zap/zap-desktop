@@ -27,7 +27,7 @@ import {
   unlockWallet,
   setSignupCreate,
   setSignupImport,
-  updateSeedInput
+  updateSeedInput,
 } from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import Routes from '../routes'
@@ -53,7 +53,7 @@ const mapDispatchToProps = {
   setSignupImport,
   updateSeedInput,
 
-  fetchBlockHeight
+  fetchBlockHeight,
 }
 
 const mapStateToProps = state => ({
@@ -64,18 +64,18 @@ const mapStateToProps = state => ({
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
   showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(state),
   showAezeedPasswordConfirmationError: onboardingSelectors.showAezeedPasswordConfirmationError(state),
-  reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state)
+  reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state),
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const syncingProps = {
     fetchBlockHeight: dispatchProps.fetchBlockHeight,
-    syncPercentage: stateProps.syncPercentage
+    syncPercentage: stateProps.syncPercentage,
   }
 
   const connectionTypeProps = {
     connectionType: stateProps.onboarding.connectionType,
-    setConnectionType: dispatchProps.setConnectionType
+    setConnectionType: dispatchProps.setConnectionType,
   }
 
   const connectionDetailProps = {
@@ -84,17 +84,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     connectionMacaroon: stateProps.onboarding.connectionMacaroon,
     setConnectionHost: dispatchProps.setConnectionHost,
     setConnectionCert: dispatchProps.setConnectionCert,
-    setConnectionMacaroon: dispatchProps.setConnectionMacaroon
+    setConnectionMacaroon: dispatchProps.setConnectionMacaroon,
   }
 
   const aliasProps = {
     updateAlias: dispatchProps.updateAlias,
-    alias: stateProps.onboarding.alias
+    alias: stateProps.onboarding.alias,
   }
 
   const autopilotProps = {
     autopilot: stateProps.onboarding.autopilot,
-    setAutopilot: dispatchProps.setAutopilot
+    setAutopilot: dispatchProps.setAutopilot,
   }
 
   const initWalletProps = {
@@ -109,19 +109,19 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       updatePassword: dispatchProps.updatePassword,
       createWallet: dispatchProps.createWallet,
-      unlockWallet: dispatchProps.unlockWallet
+      unlockWallet: dispatchProps.unlockWallet,
     },
 
     signupProps: {
       signupForm: stateProps.onboarding.signupForm,
 
       setSignupCreate: dispatchProps.setSignupCreate,
-      setSignupImport: dispatchProps.setSignupImport
-    }
+      setSignupImport: dispatchProps.setSignupImport,
+    },
   }
 
   const newWalletSeedProps = {
-    seed: stateProps.onboarding.seed
+    seed: stateProps.onboarding.seed,
   }
 
   const newWalletPasswordProps = {
@@ -129,7 +129,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     createWalletPasswordConfirmation: stateProps.onboarding.createWalletPasswordConfirmation,
     showCreateWalletPasswordConfirmationError: stateProps.showCreateWalletPasswordConfirmationError,
     updateCreateWalletPassword: dispatchProps.updateCreateWalletPassword,
-    updateCreateWalletPasswordConfirmation: dispatchProps.updateCreateWalletPasswordConfirmation
+    updateCreateWalletPasswordConfirmation: dispatchProps.updateCreateWalletPasswordConfirmation,
   }
 
   const newAezeedPasswordProps = {
@@ -137,19 +137,19 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     aezeedPasswordConfirmation: stateProps.onboarding.updateAezeedPasswordConfirmation,
     showAezeedPasswordConfirmationError: stateProps.showAezeedPasswordConfirmationError,
     updateAezeedPassword: dispatchProps.updateAezeedPassword,
-    updateAezeedPasswordConfirmation: dispatchProps.updateAezeedPasswordConfirmation
+    updateAezeedPasswordConfirmation: dispatchProps.updateAezeedPasswordConfirmation,
   }
 
   const recoverFormProps = {
     seedInput: stateProps.onboarding.seedInput,
-    updateSeedInput: dispatchProps.updateSeedInput
+    updateSeedInput: dispatchProps.updateSeedInput,
   }
 
   const reEnterSeedProps = {
     seed: stateProps.onboarding.seed,
     seedInput: stateProps.onboarding.seedInput,
     reEnterSeedChecker: stateProps.reEnterSeedChecker,
-    updateSeedInput: dispatchProps.updateSeedInput
+    updateSeedInput: dispatchProps.updateSeedInput,
   }
 
   const onboardingProps = {
@@ -166,7 +166,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     newWalletPasswordProps,
     newAezeedPasswordProps,
     recoverFormProps,
-    reEnterSeedProps
+    reEnterSeedProps,
   }
 
   return {
@@ -175,7 +175,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...ownProps,
 
     onboardingProps,
-    syncingProps
+    syncingProps,
   }
 }
 
@@ -185,7 +185,7 @@ const Root = ({
 
   lnd,
   onboardingProps,
-  syncingProps
+  syncingProps,
 }) => {
   // If we are syncing show the syncing screen
   if (!onboardingProps.onboarding.onboarded) {
@@ -216,7 +216,11 @@ Root.propTypes = {
   history: PropTypes.object.isRequired,
   lnd: PropTypes.object.isRequired,
   onboardingProps: PropTypes.object.isRequired,
-  syncingProps: PropTypes.object.isRequired
+  syncingProps: PropTypes.object.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Root)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps,
+)(Root)

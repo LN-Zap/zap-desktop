@@ -18,12 +18,12 @@ import * as networkController from './networkController'
 // TODO - SendPayment
 // TODO - DeleteAllPayments
 
-export default function (lnd, event, msg, data) {
+export default function(lnd, event, msg, data) {
   switch (msg) {
     case 'info':
       networkController
         .getInfo(lnd)
-        .then((infoData) => {
+        .then(infoData => {
           event.sender.send('receiveInfo', infoData)
           event.sender.send('receiveCryptocurrency', infoData.chains[0])
           return infoData
@@ -50,8 +50,9 @@ export default function (lnd, event, msg, data) {
         .then(invoiceData =>
           networkController.queryRoutes(lnd, {
             pubkey: invoiceData.destination,
-            amount: invoiceData.num_satoshis
-          }))
+            amount: invoiceData.num_satoshis,
+          }),
+        )
         .then(routes => event.sender.send('receiveInvoiceAndQueryRoutes', routes))
         .catch(error => console.log('getInvoiceAndQueryRoutes invoice error: ', error))
       break
@@ -114,7 +115,7 @@ export default function (lnd, event, msg, data) {
     case 'balance':
       // Balance looks like [ { balance: '129477456' }, { balance: '243914' } ]
       Promise.all([walletController.walletBalance, channelController.channelBalance].map(func => func(lnd)))
-        .then((balance) => {
+        .then(balance => {
           event.sender.send('receiveBalance', { walletBalance: balance[0].total_balance, channelBalance: balance[1].balance })
           return balance
         })
@@ -136,14 +137,16 @@ export default function (lnd, event, msg, data) {
                   value: data.value,
                   r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
                   payment_request: newinvoice.payment_request,
-                  creation_date: Date.now() / 1000
-                })
-              ))
-            .catch((error) => {
+                  creation_date: Date.now() / 1000,
+                }),
+              ),
+            )
+            .catch(error => {
               console.log('decodedInvoice error: ', error)
               event.sender.send('invoiceFailed', { error: error.toString() })
-            }))
-        .catch((error) => {
+            }),
+        )
+        .catch(error => {
           console.log('addInvoice error: ', error)
           event.sender.send('invoiceFailed', { error: error.toString() })
         })
@@ -153,7 +156,7 @@ export default function (lnd, event, msg, data) {
       // { paymentRequest } = data
       paymentsController
         .sendPaymentSync(lnd, data)
-        .then((payment) => {
+        .then(payment => {
           const { payment_route } = payment
           console.log('payinvoice success: ', payment_route)
           event.sender.send('paymentSuccessful', Object.assign(data, { payment_route }))
@@ -170,7 +173,7 @@ export default function (lnd, event, msg, data) {
       walletController
         .sendCoins(lnd, data)
         .then(({ txid }) => event.sender.send('transactionSuccessful', { amount: data.amount, addr: data.addr, txid }))
-        .catch((error) => {
+        .catch(error => {
           console.log('error: ', error)
           event.sender.send('transactionError', { error: error.toString() })
         })
@@ -180,7 +183,7 @@ export default function (lnd, event, msg, data) {
       // { pubkey, localamt, pushamt } = data
       channelController
         .openChannel(lnd, event, data)
-        .then((channel) => {
+        .then(channel => {
           console.log('CHANNEL: ', channel)
           event.sender.send('channelSuccessful', { channel })
           return channel
@@ -192,7 +195,7 @@ export default function (lnd, event, msg, data) {
       // { channel_point, force } = data
       channelController
         .closeChannel(lnd, event, data)
-        .then((result) => {
+        .then(result => {
           console.log('CLOSE CHANNEL: ', result)
           event.sender.send('closeChannelSuccessful')
           return result
@@ -204,13 +207,13 @@ export default function (lnd, event, msg, data) {
       // { pubkey, host } = data
       peersController
         .connectPeer(lnd, data)
-        .then((peer) => {
+        .then(peer => {
           const { peer_id } = peer
           console.log('peer_id: ', peer_id)
           event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
           return peer
         })
-        .catch((error) => {
+        .catch(error => {
           event.sender.send('connectFailure', { error: error.toString() })
           console.log('connectPeer error: ', error)
         })
@@ -232,12 +235,12 @@ export default function (lnd, event, msg, data) {
       // {} = data
       channelController
         .connectAndOpen(lnd, event, data)
-        .then((channelData) => {
+        .then(channelData => {
           console.log('connectAndOpen data: ', channelData)
           // event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
           return channelData
         })
-        .catch((error) => {
+        .catch(error => {
           // event.sender.send('connectFailure', { error: error.toString() })
           console.log('connectAndOpen error: ', error)
         })

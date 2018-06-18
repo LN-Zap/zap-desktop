@@ -14,25 +14,25 @@ export const SET_WALLET_CURRENCY_FILTERS = 'SET_WALLET_CURRENCY_FILTERS'
 // ------------------------------------
 export function getInfo() {
   return {
-    type: GET_INFO
+    type: GET_INFO,
   }
 }
 
 export function setWalletCurrencyFilters(showWalletCurrencyFilters) {
   return {
     type: SET_WALLET_CURRENCY_FILTERS,
-    showWalletCurrencyFilters
+    showWalletCurrencyFilters,
   }
 }
 
 // Send IPC event for getinfo
-export const fetchInfo = () => async (dispatch) => {
+export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
   ipcRenderer.send('lnd', { msg: 'info' })
 }
 
 // Receive IPC event for info
-export const receiveInfo = (event, data) => (dispatch) => {
+export const receiveInfo = (event, data) => dispatch => {
   dispatch({ type: RECEIVE_INFO, data })
 }
 
@@ -41,14 +41,14 @@ const networks = {
     name: 'Testnet',
     explorerUrl: 'https://testnet.smartbit.com.au',
     bitcoinJsNetwork: bitcoin.networks.testnet,
-    unitPrefix: 't'
+    unitPrefix: 't',
   },
   mainnet: {
     name: null, // no name since it is the presumed default
     explorerUrl: 'https://smartbit.com.au',
     bitcoinJsNetwork: bitcoin.networks.bitcoin,
-    unitPrefix: ''
-  }
+    unitPrefix: '',
+  },
 }
 // IPC info fetch failed
 // export const infoFailed = (event, data) => dispatch => {}
@@ -61,10 +61,10 @@ const ACTION_HANDLERS = {
   [RECEIVE_INFO]: (state, { data }) => ({
     ...state,
     infoLoading: false,
-    network: (data.testnet ? networks.testnet : networks.mainnet),
-    data
+    network: data.testnet ? networks.testnet : networks.mainnet,
+    data,
   }),
-  [SET_WALLET_CURRENCY_FILTERS]: (state, { showWalletCurrencyFilters }) => ({ ...state, showWalletCurrencyFilters })
+  [SET_WALLET_CURRENCY_FILTERS]: (state, { showWalletCurrencyFilters }) => ({ ...state, showWalletCurrencyFilters }),
 }
 
 // ------------------------------------
@@ -74,7 +74,7 @@ const initialState = {
   infoLoading: false,
   network: {},
   data: {},
-  showWalletCurrencyFilters: false
+  showWalletCurrencyFilters: false,
 }
 
 // Selectors

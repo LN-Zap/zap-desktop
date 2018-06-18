@@ -11,11 +11,13 @@ import styles from './Form.scss'
 
 const FORM_TYPES = {
   PAY_FORM: Pay,
-  REQUEST_FORM: Request
+  REQUEST_FORM: Request,
 }
 
 const Form = ({ formType, formProps, closeForm }) => {
-  if (!formType) { return null }
+  if (!formType) {
+    return null
+  }
 
   const FormComponent = FORM_TYPES[formType]
   return (
@@ -30,11 +32,10 @@ const Form = ({ formType, formProps, closeForm }) => {
   )
 }
 
-
 Form.propTypes = {
   formType: PropTypes.string,
   formProps: PropTypes.object.isRequired,
-  closeForm: PropTypes.func.isRequired
+  closeForm: PropTypes.func.isRequired,
 }
 
 export default Form

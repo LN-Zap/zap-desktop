@@ -63,6 +63,6 @@ export default {
     lightningRpc: join(appRootPath, 'resources', 'rpc.proto'),
     lightningHost: store.get('host') || 'localhost:10009',
     cert: store.get('cert') || join(userInfo().homedir, loc),
-    macaroon: store.get('macaroon') || join(userInfo().homedir, macaroonPath)
-  })
+    macaroon: store.get('macaroon') || join(userInfo().homedir, macaroonPath),
+  }),
 }

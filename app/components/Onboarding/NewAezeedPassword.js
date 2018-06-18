@@ -7,13 +7,13 @@ const NewAezeedPassword = ({
   aezeedPasswordConfirmation,
   showAezeedPasswordConfirmationError,
   updateAezeedPassword,
-  updateAezeedPasswordConfirmation
+  updateAezeedPasswordConfirmation,
 }) => (
   <div className={styles.container}>
     <section className={styles.input}>
       <input
-        type='password'
-        placeholder='Password'
+        type="password"
+        placeholder="Password"
         className={styles.password}
         value={aezeedPassword}
         onChange={event => updateAezeedPassword(event.target.value)}
@@ -22,8 +22,8 @@ const NewAezeedPassword = ({
 
     <section className={styles.input}>
       <input
-        type='password'
-        placeholder='Confirm Password'
+        type="password"
+        placeholder="Confirm Password"
         className={`${styles.password} ${showAezeedPasswordConfirmationError && styles.error}`}
         value={aezeedPasswordConfirmation}
         onChange={event => updateAezeedPasswordConfirmation(event.target.value)}
@@ -38,7 +38,7 @@ NewAezeedPassword.propTypes = {
   aezeedPasswordConfirmation: PropTypes.string.isRequired,
   showAezeedPasswordConfirmationError: PropTypes.bool.isRequired,
   updateAezeedPassword: PropTypes.func.isRequired,
-  updateAezeedPasswordConfirmation: PropTypes.func.isRequired
+  updateAezeedPasswordConfirmation: PropTypes.func.isRequired,
 }
 
 export default NewAezeedPassword

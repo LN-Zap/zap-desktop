@@ -7,7 +7,7 @@ import CurrencyIcon from '../../app/components/CurrencyIcon'
 const defaultProps = {
   currency: '',
   crypto: '',
-  styles: {}
+  styles: {},
 }
 
 describe('component.CurrencyIcon', () => {

@@ -43,7 +43,7 @@ const rootReducer = combineReducers({
   transaction,
   activity,
   network,
-  error
+  error,
 })
 
 export default rootReducer

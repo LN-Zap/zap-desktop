@@ -22,7 +22,7 @@ const ConnectionType = ({ connectionType, setConnectionType }) => (
 
 ConnectionType.propTypes = {
   connectionType: PropTypes.string.isRequired,
-  setConnectionType: PropTypes.func.isRequired
+  setConnectionType: PropTypes.func.isRequired,
 }
 
 export default ConnectionType

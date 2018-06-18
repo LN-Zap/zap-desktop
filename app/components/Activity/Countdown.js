@@ -13,7 +13,7 @@ class Countdown extends React.Component {
       minutes: null,
       seconds: null,
       expired: false,
-      interval: null
+      interval: null,
     }
 
     this.timerInterval = this.timerInterval.bind(this)
@@ -34,7 +34,7 @@ class Countdown extends React.Component {
     const convertTwoDigits = n => (n > 9 ? n : `0${n}`.slice(-2))
 
     const now = new Date().getTime()
-    const distance = (this.props.countDownDate * 1000) - now
+    const distance = this.props.countDownDate * 1000 - now
 
     if (distance <= 0) {
       this.setState({ expired: true })
@@ -51,44 +51,34 @@ class Countdown extends React.Component {
       days,
       hours,
       minutes,
-      seconds
+      seconds,
     })
   }
 
   render() {
-    const {
-      days,
-      hours,
-      minutes,
-      seconds,
-      expired
-    } = this.state
+    const { days, hours, minutes, seconds, expired } = this.state
 
-    if (expired) { return <span className={`${styles.container} ${styles.expired}`}>Expired</span> }
-    if (!days && !hours && !minutes && !seconds) { return <span className={styles.container} /> }
+    if (expired) {
+      return <span className={`${styles.container} ${styles.expired}`}>Expired</span>
+    }
+    if (!days && !hours && !minutes && !seconds) {
+      return <span className={styles.container} />
+    }
 
     return (
       <span className={styles.container}>
         <i className={styles.caption}>Expires in</i>
-        <i>
-          {days > 0 && `${days}:`}
-        </i>
-        <i>
-          {hours > 0 && `${hours}:`}
-        </i>
-        <i>
-          {minutes > 0 && `${minutes}:`}
-        </i>
-        <i>
-          {seconds >= 0 && `${seconds}`}
-        </i>
+        <i>{days > 0 && `${days}:`}</i>
+        <i>{hours > 0 && `${hours}:`}</i>
+        <i>{minutes > 0 && `${minutes}:`}</i>
+        <i>{seconds >= 0 && `${seconds}`}</i>
       </span>
     )
   }
 }
 
 Countdown.propTypes = {
-  countDownDate: PropTypes.number.isRequired
+  countDownDate: PropTypes.number.isRequired,
 }
 
 export default Countdown

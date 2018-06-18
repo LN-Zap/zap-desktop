@@ -10,7 +10,7 @@ class ContactsForm extends React.Component {
     super(props)
 
     this.state = {
-      editing: false
+      editing: false,
     }
   }
 
@@ -30,12 +30,12 @@ class ContactsForm extends React.Component {
       filteredNetworkNodes,
       loadingChannelPubkeys,
       showManualForm,
-      manualFormIsValid
+      manualFormIsValid,
     } = this.props
 
     const { editing } = this.state
 
-    const renderRightSide = (node) => {
+    const renderRightSide = node => {
       if (loadingChannelPubkeys.includes(node.pub_key)) {
         return (
           <span className={styles.inactive}>
@@ -71,11 +71,7 @@ class ContactsForm extends React.Component {
       }
 
       if (!node.addresses.length) {
-        return (
-          <span className={`${styles.private} ${styles.inactive}`}>
-            Private
-          </span>
-        )
+        return <span className={`${styles.private} ${styles.inactive}`}>Private</span>
       }
 
       return (
@@ -90,11 +86,12 @@ class ContactsForm extends React.Component {
     }
 
     const inputClicked = () => {
-      if (editing) { return }
+      if (editing) {
+        return
+      }
 
       this.setState({ editing: true })
     }
-
 
     const manualFormSubmit = () => {
       if (!manualFormIsValid.isValid) {
@@ -112,7 +109,7 @@ class ContactsForm extends React.Component {
       updateManualFormSearchQuery('')
     }
 
-    const searchUpdated = (search) => {
+    const searchUpdated = search => {
       updateContactFormSearchQuery(search)
 
       if (search.includes('@') && search.split('@')[0].length === 66) {
@@ -124,7 +121,7 @@ class ContactsForm extends React.Component {
       <div>
         <ReactModal
           isOpen={contactsform.isOpen}
-          contentLabel='No Overlay Click Modal'
+          contentLabel="No Overlay Click Modal"
           ariaHideApp
           shouldCloseOnOverlayClick
           onRequestClose={() => closeContactsForm}
@@ -143,8 +140,8 @@ class ContactsForm extends React.Component {
           <div className={styles.form}>
             <div className={styles.search}>
               <input
-                type='text'
-                placeholder='Find contact by alias or pubkey'
+                type="text"
+                placeholder="Find contact by alias or pubkey"
                 className={styles.searchInput}
                 value={contactsform.searchQuery}
                 onChange={event => searchUpdated(event.target.value)}
@@ -152,70 +149,63 @@ class ContactsForm extends React.Component {
             </div>
 
             <ul className={styles.networkResults}>
-              {
-                filteredNetworkNodes.map(node => (
-                  <li key={node.pub_key}>
-                    <section>
-                      {
-                        node.alias.length > 0 ?
-                          <h2>
-                            <span>{node.alias.trim()}</span>
-                            <span>({node.pub_key.substr(0, 10)}...{node.pub_key.substr(node.pub_key.length - 10)})</span>
-                          </h2>
-                          :
-                          <h2>
-                            <span>{node.pub_key}</span>
-                          </h2>
-                      }
-                    </section>
-                    <section>
-                      {renderRightSide(node)}
-                    </section>
-                  </li>
-                ))
-              }
+              {filteredNetworkNodes.map(node => (
+                <li key={node.pub_key}>
+                  <section>
+                    {node.alias.length > 0 ? (
+                      <h2>
+                        <span>{node.alias.trim()}</span>
+                        <span>
+                          ({node.pub_key.substr(0, 10)}...{node.pub_key.substr(node.pub_key.length - 10)})
+                        </span>
+                      </h2>
+                    ) : (
+                      <h2>
+                        <span>{node.pub_key}</span>
+                      </h2>
+                    )}
+                  </section>
+                  <section>{renderRightSide(node)}</section>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {
-            showManualForm &&
+          {showManualForm && (
             <div className={styles.manualForm}>
               <h2>Hm, looks like we can’t see that contact from here. Want to try and manually connect?</h2>
               <section>
                 <input
-                  type='text'
-                  placeholder='pubkey@host'
+                  type="text"
+                  placeholder="pubkey@host"
                   value={contactsform.manualSearchQuery}
                   onChange={event => updateManualFormSearchQuery(event.target.value)}
                 />
-                <div className={styles.submit} onClick={manualFormSubmit}>Submit</div>
+                <div className={styles.submit} onClick={manualFormSubmit}>
+                  Submit
+                </div>
 
-                {
-                  loadingChannelPubkeys.length > 0 &&
+                {loadingChannelPubkeys.length > 0 && (
                   <div className={styles.manualFormSpinner}>
                     <div className={styles.loading}>
                       <div className={styles.spinner} />
                     </div>
                   </div>
-                }
+                )}
               </section>
 
               <section className={`${styles.errorMessage} ${showErrors.manualInput && styles.active}`}>
-                {showErrors.manualInput &&
-                  <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>
-                }
+                {showErrors.manualInput && <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>}
               </section>
             </div>
-          }
+          )}
 
           <footer className={styles.footer}>
             <div>
-              <span>
-                Use
-              </span>
+              <span>Use</span>
               <span className={styles.amount}>
                 <input
-                  type='text'
+                  type="text"
                   value={contactsform.contactCapacity}
                   onChange={event => updateContactCapacity(event.target.value)}
                   onClick={inputClicked}
@@ -226,10 +216,7 @@ class ContactsForm extends React.Component {
               </span>
               <span className={styles.caption}>
                 BTC per contact
-                <i
-                  data-hint="You aren't spending anything, just moving money onto the Lightning Network"
-                  className='hint--top'
-                >
+                <i data-hint="You aren't spending anything, just moving money onto the Lightning Network" className="hint--top">
                   <FaQuestionCircle style={{ verticalAlign: 'top' }} />
                 </i>
               </span>
@@ -248,7 +235,7 @@ ContactsForm.propTypes = {
   updateManualFormSearchQuery: PropTypes.func.isRequired,
   manualFormIsValid: PropTypes.shape({
     errors: PropTypes.object,
-    isValid: PropTypes.bool
+    isValid: PropTypes.bool,
   }).isRequired,
   updateContactCapacity: PropTypes.func.isRequired,
   updateManualFormErrors: PropTypes.func.isRequired,
@@ -258,7 +245,7 @@ ContactsForm.propTypes = {
   pendingOpenChannelPubkeys: PropTypes.array.isRequired,
   filteredNetworkNodes: PropTypes.array.isRequired,
   loadingChannelPubkeys: PropTypes.array.isRequired,
-  showManualForm: PropTypes.bool.isRequired
+  showManualForm: PropTypes.bool.isRequired,
 }
 
 export default ContactsForm

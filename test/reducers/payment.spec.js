@@ -4,7 +4,7 @@ import paymentReducer, {
   RECEIVE_PAYMENTS,
   SEND_PAYMENT,
   PAYMENT_SUCCESSFULL,
-  PAYMENT_FAILED
+  PAYMENT_FAILED,
 } from '../../app/reducers/payment'
 
 describe('reducers', () => {

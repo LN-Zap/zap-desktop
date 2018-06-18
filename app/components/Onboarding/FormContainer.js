@@ -7,13 +7,7 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/lib/fa'
 import zapLogo from 'icons/zap_logo.svg'
 import styles from './FormContainer.scss'
 
-const FormContainer = ({
-  title,
-  description,
-  back,
-  next,
-  children
-}) => (
+const FormContainer = ({ title, description, back, next, children }) => (
   <div className={styles.container}>
     <div className={styles.titleBar} />
 
@@ -29,27 +23,28 @@ const FormContainer = ({
       <p>{description}</p>
     </div>
 
-    <div className={styles.content}>
-      {children}
-    </div>
+    <div className={styles.content}>{children}</div>
 
     <footer className={styles.footer}>
       <div className={styles.buttonsContainer}>
         <section>
-          {
-            back && <div onClick={back}><FaAngleLeft style={{ verticalAlign: 'top' }} /> Back</div>
-          }
+          {back && (
+            <div onClick={back}>
+              <FaAngleLeft style={{ verticalAlign: 'top' }} /> Back
+            </div>
+          )}
         </section>
         <section>
-          {
-            next && <div onClick={next}>Next <FaAngleRight style={{ verticalAlign: 'top' }} /></div>
-          }
+          {next && (
+            <div onClick={next}>
+              Next <FaAngleRight style={{ verticalAlign: 'top' }} />
+            </div>
+          )}
         </section>
       </div>
     </footer>
   </div>
 )
-
 
 FormContainer.propTypes = {
   title: PropTypes.string.isRequired,
@@ -58,7 +53,7 @@ FormContainer.propTypes = {
   back: PropTypes.func,
   next: PropTypes.func,
 
-  children: PropTypes.object.isRequired
+  children: PropTypes.object.isRequired,
 }
 
 export default FormContainer

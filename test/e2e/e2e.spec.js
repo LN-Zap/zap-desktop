@@ -10,7 +10,7 @@ describe('main window', function spec() {
   beforeAll(async () => {
     this.app = new Application({
       path: electronPath,
-      args: [path.join(__dirname, '..', '..', 'app')]
+      args: [path.join(__dirname, '..', '..', 'app')],
     })
 
     return this.app.start()
@@ -27,11 +27,11 @@ describe('main window', function spec() {
     expect(title).toBe('Zap')
   })
 
-  it('should haven\'t any logs in console of main window', async () => {
+  it("should haven't any logs in console of main window", async () => {
     const { client } = this.app
     const logs = await client.getRenderProcessLogs()
     // Print renderer process logs
-    logs.forEach((log) => {
+    logs.forEach(log => {
       console.log(log.message)
       console.log(log.source)
       console.log(log.level)

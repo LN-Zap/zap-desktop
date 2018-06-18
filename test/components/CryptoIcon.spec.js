@@ -8,7 +8,7 @@ import litecoinIcon from '../../app/icons/litecoin.svg'
 
 const defaultProps = {
   currency: 'bch',
-  styles: {}
+  styles: {},
 }
 
 describe('component.CryptoIcon', () => {
