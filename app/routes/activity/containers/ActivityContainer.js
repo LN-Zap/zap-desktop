@@ -1,16 +1,8 @@
 import { connect } from 'react-redux'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
-import {
-  fetchInvoices,
-  setInvoice,
-  invoiceSelectors
-} from 'reducers/invoice'
-import {
-  setPayment,
-  fetchPayments,
-  paymentSelectors
-} from 'reducers/payment'
+import { fetchInvoices, setInvoice, invoiceSelectors } from 'reducers/invoice'
+import { setPayment, fetchPayments, paymentSelectors } from 'reducers/payment'
 import { fetchTransactions } from 'reducers/transaction'
 import {
   showActivityModal,
@@ -19,7 +11,7 @@ import {
   toggleFilterPulldown,
   activitySelectors,
   updateSearchActive,
-  updateSearchText
+  updateSearchText,
 } from 'reducers/activity'
 import { newAddress, openWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
@@ -47,7 +39,7 @@ const mapDispatchToProps = {
   updateSearchActive,
   updateSearchText,
   setFormType,
-  setWalletCurrencyFilters
+  setWalletCurrencyFilters,
 }
 
 const mapStateToProps = state => ({
@@ -78,7 +70,7 @@ const mapStateToProps = state => ({
   currentActivity: activitySelectors.currentActivity(state)(state),
   nonActiveFilters: activitySelectors.nonActiveFilters(state),
 
-  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state)
+  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -104,8 +96,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     newAddress: dispatchProps.newAddress,
     openReceiveModal: dispatchProps.openWalletModal,
     openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
-    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
-  }
+    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM'),
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Activity)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps,
+)(Activity)

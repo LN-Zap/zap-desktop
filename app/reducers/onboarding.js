@@ -48,101 +48,101 @@ export const SET_SIGNUP_IMPORT = 'SET_SIGNUP_IMPORT'
 export function setConnectionType(connectionType) {
   return {
     type: SET_CONNECTION_TYPE,
-    connectionType
+    connectionType,
   }
 }
 
 export function setConnectionHost(connectionHost) {
   return {
     type: SET_CONNECTION_HOST,
-    connectionHost
+    connectionHost,
   }
 }
 export function setConnectionCert(connectionCert) {
   return {
     type: SET_CONNECTION_CERT,
-    connectionCert
+    connectionCert,
   }
 }
 export function setConnectionMacaroon(connectionMacaroon) {
   return {
     type: SET_CONNECTION_MACAROON,
-    connectionMacaroon
+    connectionMacaroon,
   }
 }
 
 export function updateAlias(alias) {
   return {
     type: UPDATE_ALIAS,
-    alias
+    alias,
   }
 }
 
 export function updatePassword(password) {
   return {
     type: UPDATE_PASSWORD,
-    password
+    password,
   }
 }
 
 export function updateCreateWalletPassword(createWalletPassword) {
   return {
     type: UPDATE_CREATE_WALLET_PASSWORD,
-    createWalletPassword
+    createWalletPassword,
   }
 }
 
 export function updateCreateWalletPasswordConfirmation(createWalletPasswordConfirmation) {
   return {
     type: UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION,
-    createWalletPasswordConfirmation
+    createWalletPasswordConfirmation,
   }
 }
 
 export function updateAezeedPassword(aezeedPassword) {
   return {
     type: UPDATE_AEZEED_PASSWORD,
-    aezeedPassword
+    aezeedPassword,
   }
 }
 
 export function updateAezeedPasswordConfirmation(aezeedPasswordConfirmation) {
   return {
     type: UPDATE_AEZEED_PASSWORD_CONFIRMATION,
-    aezeedPasswordConfirmation
+    aezeedPasswordConfirmation,
   }
 }
 
 export function updateSeedInput(inputSeedObj) {
   return {
     type: UPDATE_SEED_INPUT,
-    inputSeedObj
+    inputSeedObj,
   }
 }
 
 export function setAutopilot(autopilot) {
   return {
     type: SET_AUTOPILOT,
-    autopilot
+    autopilot,
   }
 }
 
 export function setSignupCreate() {
   return {
-    type: SET_SIGNUP_CREATE
+    type: SET_SIGNUP_CREATE,
   }
 }
 
 export function setSignupImport() {
   return {
-    type: SET_SIGNUP_IMPORT
+    type: SET_SIGNUP_IMPORT,
   }
 }
 
 export function changeStep(step) {
   return {
     type: CHANGE_STEP,
-    step
+    step,
   }
 }
 
@@ -151,27 +151,27 @@ export function startLnd(options) {
   ipcRenderer.send('startLnd', options)
 
   return {
-    type: STARTING_LND
+    type: STARTING_LND,
   }
 }
 
-export const submitNewWallet = (wallet_password, cipher_seed_mnemonic, aezeed_passphrase) => (dispatch) => {
+export const submitNewWallet = (wallet_password, cipher_seed_mnemonic, aezeed_passphrase) => dispatch => {
   // once the user submits the data needed to start LND we will alert the app that it should start LND
   ipcRenderer.send('walletUnlocker', { msg: 'initWallet', data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase } })
   dispatch({ type: CREATING_NEW_WALLET })
 }
 
-export const startOnboarding = () => (dispatch) => {
+export const startOnboarding = () => dispatch => {
   dispatch({ type: ONBOARDING_STARTED })
 }
 
 // Listener from after the LND walletUnlocker has started
-export const walletUnlockerStarted = () => (dispatch) => {
+export const walletUnlockerStarted = () => dispatch => {
   dispatch({ type: LND_STARTED })
   ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
 }
 
-export const createWallet = () => (dispatch) => {
+export const createWallet = () => dispatch => {
   ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
   dispatch({ type: CHANGE_STEP, step: 4 })
 }
@@ -179,31 +179,31 @@ export const createWallet = () => (dispatch) => {
 export const successfullyCreatedWallet = () => dispatch => dispatch({ type: ONBOARDING_FINISHED })
 
 // Listener for when LND creates and sends us a generated seed
-export const receiveSeed = (event, { cipher_seed_mnemonic }) => (dispatch) => {
+export const receiveSeed = (event, { cipher_seed_mnemonic }) => dispatch => {
   dispatch({ type: CHANGE_STEP, step: 4 })
   // there was no seed and we just generated a new one, send user to the login component
   dispatch({ type: SET_SEED, seed: cipher_seed_mnemonic })
 }
 
 // Listener for when LND throws an error on seed creation
-export const receiveSeedError = () => (dispatch) => {
+export const receiveSeedError = () => dispatch => {
   dispatch({ type: SET_HAS_SEED, hasSeed: true })
   // there is already a seed, send user to the login component
   dispatch({ type: CHANGE_STEP, step: 3 })
 }
 
 // Unlock an existing wallet with a wallet password
-export const unlockWallet = wallet_password => (dispatch) => {
+export const unlockWallet = wallet_password => dispatch => {
   ipcRenderer.send('walletUnlocker', { msg: 'unlockWallet', data: { wallet_password } })
   dispatch({ type: UNLOCKING_WALLET })
 }
 
-export const walletUnlocked = () => (dispatch) => {
+export const walletUnlocked = () => dispatch => {
   dispatch({ type: WALLET_UNLOCKED })
   dispatch({ type: ONBOARDING_FINISHED })
 }
 
-export const unlockWalletError = () => (dispatch) => {
+export const unlockWalletError = () => dispatch => {
   dispatch({ type: SET_UNLOCK_WALLET_ERROR })
 }
 
@@ -223,7 +223,7 @@ const ACTION_HANDLERS = {
   [UPDATE_AEZEED_PASSWORD_CONFIRMATION]: (state, { aezeedPasswordConfirmation }) => ({ ...state, aezeedPasswordConfirmation }),
   [UPDATE_SEED_INPUT]: (state, { inputSeedObj }) => ({
     ...state,
-    seedInput: Object.assign([], state.seedInput, { [inputSeedObj.index]: inputSeedObj })
+    seedInput: Object.assign([], state.seedInput, { [inputSeedObj.index]: inputSeedObj }),
   }),
 
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
@@ -246,7 +246,7 @@ const ACTION_HANDLERS = {
   [SET_UNLOCK_WALLET_ERROR]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: true, message: 'Incorrect password' } }),
 
   [SET_SIGNUP_CREATE]: state => ({ ...state, signupForm: { create: true, import: false } }),
-  [SET_SIGNUP_IMPORT]: state => ({ ...state, signupForm: { create: false, import: true } })
+  [SET_SIGNUP_IMPORT]: state => ({ ...state, signupForm: { create: false, import: true } }),
 }
 
 const onboardingSelectors = {}
@@ -266,19 +266,19 @@ onboardingSelectors.passwordIsValid = createSelector(passwordSelector, password 
 onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
   createWalletPasswordSelector,
   createWalletPasswordConfirmationSelector,
-  (pass1, pass2) => pass1 !== pass2 && pass2.length > 0
+  (pass1, pass2) => pass1 !== pass2 && pass2.length > 0,
 )
 
 onboardingSelectors.showAezeedPasswordConfirmationError = createSelector(
   aezeedPasswordSelector,
   aezeedPasswordConfirmationSelector,
-  (pass1, pass2) => pass1 !== pass2 && pass2.length > 0
+  (pass1, pass2) => pass1 !== pass2 && pass2.length > 0,
 )
 
 onboardingSelectors.reEnterSeedChecker = createSelector(
   seedSelector,
   seedInputSelector,
-  (seed, seedInput) => seed.length === seedInput.length && seed.every((word, i) => word === seedInput[i].word)
+  (seed, seedInput) => seed.length === seedInput.length && seed.every((word, i) => word === seedInput[i].word),
 )
 
 export { onboardingSelectors }
@@ -313,7 +313,7 @@ const initialState = {
   unlockingWallet: false,
   unlockWalletError: {
     isError: false,
-    message: ''
+    message: '',
   },
 
   // array of inputs for when the user re-enters their seed
@@ -323,10 +323,10 @@ const initialState = {
   // step where the user decides whether they want a newly created seed or to import an existing one
   signupForm: {
     create: false,
-    import: false
+    import: false,
   },
 
-  autopilot: store.get('autopilot', null)
+  autopilot: store.get('autopilot', null),
 }
 
 // ------------------------------------

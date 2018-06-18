@@ -14,26 +14,26 @@ import styles from './Pay.scss'
 class Pay extends Component {
   componentDidUpdate(prevProps) {
     const {
-      isOnchain, isLn, payform: { payInput }, fetchInvoice
+      isOnchain,
+      isLn,
+      payform: { payInput },
+      fetchInvoice,
     } = this.props
 
     // If on-chain, focus on amount to let user know it's editable
-    if (isOnchain) { this.amountInput.focus() }
+    if (isOnchain) {
+      this.amountInput.focus()
+    }
 
     // If LN go retrieve invoice details
-    if ((prevProps.payform.payInput !== payInput) && isLn) {
+    if (prevProps.payform.payInput !== payInput && isLn) {
       fetchInvoice(payInput)
     }
   }
 
   render() {
     const {
-      payform: {
-        payInput,
-        showErrors,
-        invoice,
-        showCurrencyFilters
-      },
+      payform: { payInput, showErrors, invoice, showCurrencyFilters },
       nodes,
       ticker,
 
@@ -55,18 +55,20 @@ class Pay extends Component {
 
       onPaySubmit,
 
-      setCurrency
+      setCurrency,
     } = this.props
 
-    const displayNodeName = (pubkey) => {
+    const displayNodeName = pubkey => {
       const node = find(nodes, n => n.pub_key === pubkey)
 
-      if (node && node.alias.length) { return node.alias }
+      if (node && node.alias.length) {
+        return node.alias
+      }
 
       return pubkey ? pubkey.substring(0, 10) : ''
     }
 
-    const onCurrencyFilterClick = (currency) => {
+    const onCurrencyFilterClick = currency => {
       if (!isLn) {
         // change the input amount
         setPayAmount(btc.convert(ticker.currency, currency, currentAmount))
@@ -86,85 +88,87 @@ class Pay extends Component {
         <div className={styles.content}>
           <section className={styles.destination}>
             <div className={styles.top}>
-              <label htmlFor='paymentRequest'>Destination</label>
+              <label htmlFor="paymentRequest">Destination</label>
               <span className={`${styles.description} ${(isOnchain || isLn) && styles.active}`}>
-                {isOnchain &&
+                {isOnchain && (
                   <i>
                     <Isvg src={link} />
                     <span>On-Chain (~10 minutes)</span>
                   </i>
-                }
-                {isLn &&
+                )}
+                {isLn && (
                   <i>
                     <span>
                       {displayNodeName(invoice.destination)} ({invoice.description})
                     </span>
                   </i>
-                }
+                )}
               </span>
             </div>
             <div className={styles.bottom}>
               <textarea
-                type='text'
-                placeholder='Paste payment request or bitcoin address here'
+                type="text"
+                placeholder="Paste payment request or bitcoin address here"
                 value={payInput}
                 onChange={event => setPayInput(event.target.value)}
                 onBlur={onPayInputBlur}
-                id='paymentRequest'
-                rows='4'
+                id="paymentRequest"
+                rows="4"
               />
               <section className={`${styles.errorMessage} ${showErrors.payInput && styles.active}`}>
-                {showErrors.payInput &&
-                  <span>{errors.payInput}</span>
-                }
+                {showErrors.payInput && <span>{errors.payInput}</span>}
               </section>
             </div>
           </section>
 
           <section className={styles.amount}>
             <div className={styles.top}>
-              <label htmlFor='amount'>Amount</label>
+              <label htmlFor="amount">Amount</label>
               <span />
             </div>
             <div className={styles.bottom}>
               <input
-                type='number'
-                min='0'
-                ref={(input) => { this.amountInput = input }}
-                size=''
-                placeholder='0.00000000'
+                type="number"
+                min="0"
+                ref={input => {
+                  this.amountInput = input
+                }}
+                size=""
+                placeholder="0.00000000"
                 value={currentAmount || ''}
                 onChange={event => setPayAmount(event.target.value)}
                 onBlur={onPayAmountBlur}
-                id='amount'
+                id="amount"
                 readOnly={isLn}
               />
               <div className={styles.currency}>
                 <section className={styles.currentCurrency} onClick={() => setCurrencyFilters(!showCurrencyFilters)}>
-                  <span>{currencyName}</span><span><FaAngleDown /></span>
+                  <span>{currencyName}</span>
+                  <span>
+                    <FaAngleDown />
+                  </span>
                 </section>
                 <ul className={showCurrencyFilters && styles.active}>
-                  {
-                    currentCurrencyFilters.map(filter =>
-                      <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-                  }
+                  {currentCurrencyFilters.map(filter => (
+                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
+                      {filter.name}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
 
-            <div className={styles.usdAmount}>
-              {`≈ ${usdAmount || 0} USD`}
-            </div>
+            <div className={styles.usdAmount}>{`≈ ${usdAmount || 0} USD`}</div>
 
             <section className={`${styles.errorMessage} ${styles.amount} ${showErrors.amount && styles.active}`}>
-              {showErrors.amount &&
-                <span>{errors.amount}</span>
-              }
+              {showErrors.amount && <span>{errors.amount}</span>}
             </section>
           </section>
 
           <section className={styles.submit}>
-            <div className={`${styles.button} ${isValid && styles.active}`} onClick={onPaySubmit}>Pay</div>
+            <div className={`${styles.button} ${isValid && styles.active}`} onClick={onPaySubmit}>
+              Pay
+            </div>
           </section>
         </div>
       </div>
@@ -172,32 +176,22 @@ class Pay extends Component {
   }
 }
 
-
 Pay.propTypes = {
   payform: PropTypes.shape({
-    amount: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
+    amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     payInput: PropTypes.string.isRequired,
     invoice: PropTypes.object.isRequired,
-    showErrors: PropTypes.object.isRequired
+    showErrors: PropTypes.object.isRequired,
   }).isRequired,
   currencyName: PropTypes.string.isRequired,
 
   isOnchain: PropTypes.bool.isRequired,
   isLn: PropTypes.bool.isRequired,
-  currentAmount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
-  usdAmount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  currentAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  usdAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   payFormIsValid: PropTypes.shape({
     errors: PropTypes.object,
-    isValid: PropTypes.bool
+    isValid: PropTypes.bool,
   }).isRequired,
 
   setPayAmount: PropTypes.func.isRequired,
@@ -213,7 +207,7 @@ Pay.propTypes = {
   ticker: PropTypes.object.isRequired,
 
   nodes: PropTypes.array.isRequired,
-  currentCurrencyFilters: PropTypes.array.isRequired
+  currentCurrencyFilters: PropTypes.array.isRequired,
 }
 
 export default Pay

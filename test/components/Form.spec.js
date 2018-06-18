@@ -10,7 +10,7 @@ const payFormProps = {
     amount: 0,
     payInput: '',
     invoice: {},
-    showErrors: {}
+    showErrors: {},
   },
   currency: {},
   crypto: {},
@@ -37,7 +37,7 @@ const payFormProps = {
 
   onPayInputBlur: () => {},
 
-  onPaySubmit: () => {}
+  onPaySubmit: () => {},
 }
 
 const requestFormProps = {
@@ -54,13 +54,13 @@ const requestFormProps = {
   setCurrency: () => {},
   setRequestCurrencyFilters: () => {},
 
-  onRequestSubmit: () => {}
+  onRequestSubmit: () => {},
 }
 
 const defaultProps = {
   formType: '',
   formProps: {},
-  closeForm: () => {}
+  closeForm: () => {},
 }
 
 describe('Form', () => {

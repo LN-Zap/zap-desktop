@@ -22,7 +22,7 @@ const Autopilot = ({ autopilot, setAutopilot }) => (
 
 Autopilot.propTypes = {
   autopilot: PropTypes.bool,
-  setAutopilot: PropTypes.func.isRequired
+  setAutopilot: PropTypes.func.isRequired,
 }
 
 export default Autopilot

@@ -5,7 +5,7 @@ import subscribe from './subscribe'
 import methods from './methods'
 import walletUnlockerMethods from './walletUnlockerMethods'
 
-const initLnd = (callback) => {
+const initLnd = callback => {
   const lndConfig = config.lnd()
   const lnd = lightning(lndConfig.lightningRpc, lndConfig.lightningHost)
 
@@ -15,7 +15,7 @@ const initLnd = (callback) => {
   callback(lndSubscribe, lndMethods)
 }
 
-const initWalletUnlocker = (callback) => {
+const initWalletUnlocker = callback => {
   const lndConfig = config.lnd()
 
   const walletUnlockerObj = walletUnlocker(lndConfig.lightningRpc, lndConfig.lightningHost)
@@ -26,5 +26,5 @@ const initWalletUnlocker = (callback) => {
 
 export default {
   initLnd,
-  initWalletUnlocker
+  initWalletUnlocker,
 }

@@ -1,6 +1,6 @@
 // Initial State
 const initialState = {
-  formType: null
+  formType: null,
 }
 
 // Constants
@@ -13,7 +13,7 @@ export const SET_FORM_TYPE = 'SET_FORM_TYPE'
 export function setFormType(formType) {
   return {
     type: SET_FORM_TYPE,
-    formType
+    formType,
   }
 }
 
@@ -21,7 +21,7 @@ export function setFormType(formType) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_FORM_TYPE]: (state, { formType }) => ({ ...state, formType })
+  [SET_FORM_TYPE]: (state, { formType }) => ({ ...state, formType }),
 }
 
 // ------------------------------------

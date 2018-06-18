@@ -1,7 +1,7 @@
 export const showNotification = (title, body, onClick) => {
   new Notification(title, {
     body,
-    onClick
+    onClick,
   })
 }
 

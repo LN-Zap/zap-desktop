@@ -11,11 +11,13 @@ import styles from './ChannelForm.scss'
 
 const FORM_TYPES = {
   MANUAL_FORM: ConnectManually,
-  SUBMIT_CHANNEL_FORM: SubmitChannelForm
+  SUBMIT_CHANNEL_FORM: SubmitChannelForm,
 }
 
 const ChannelForm = ({ formType, formProps, closeForm }) => {
-  if (!formType) { return null }
+  if (!formType) {
+    return null
+  }
 
   const FormComponent = FORM_TYPES[formType]
   return (
@@ -30,11 +32,10 @@ const ChannelForm = ({ formType, formProps, closeForm }) => {
   )
 }
 
-
 ChannelForm.propTypes = {
   formType: PropTypes.string,
   formProps: PropTypes.object.isRequired,
-  closeForm: PropTypes.func.isRequired
+  closeForm: PropTypes.func.isRequired,
 }
 
 export default ChannelForm

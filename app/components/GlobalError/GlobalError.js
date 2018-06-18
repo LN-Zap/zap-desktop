@@ -28,7 +28,7 @@ class GlobalError extends React.Component {
 
 GlobalError.propTypes = {
   error: PropTypes.string,
-  clearError: PropTypes.func.isRequired
+  clearError: PropTypes.func.isRequired,
 }
 
 export default GlobalError

@@ -10,5 +10,5 @@ export function usdToBtc(usd, rate) {
 
 export default {
   formatUsd,
-  usdToBtc
+  usdToBtc,
 }

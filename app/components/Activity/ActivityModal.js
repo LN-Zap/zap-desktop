@@ -17,15 +17,17 @@ const ActivityModal = ({
   network,
 
   hideActivityModal,
-  toggleCurrencyProps
+  toggleCurrencyProps,
 }) => {
   const MODAL_COMPONENTS = {
     TRANSACTION: TransactionModal,
     PAYMENT: PaymentModal,
-    INVOICE: InvoiceModal
+    INVOICE: InvoiceModal,
   }
 
-  if (!modalType) { return null }
+  if (!modalType) {
+    return null
+  }
 
   const SpecificModal = MODAL_COMPONENTS[modalType]
   return (
@@ -35,13 +37,7 @@ const ActivityModal = ({
           <Isvg src={x} />
         </span>
       </div>
-      <SpecificModal
-        {...modalProps}
-        network={network}
-        ticker={ticker}
-        currentTicker={currentTicker}
-        toggleCurrencyProps={toggleCurrencyProps}
-      />
+      <SpecificModal {...modalProps} network={network} ticker={ticker} currentTicker={currentTicker} toggleCurrencyProps={toggleCurrencyProps} />
     </div>
   )
 }
@@ -55,7 +51,7 @@ ActivityModal.propTypes = {
 
   modalType: PropTypes.string,
   modalProps: PropTypes.object.isRequired,
-  hideActivityModal: PropTypes.func.isRequired
+  hideActivityModal: PropTypes.func.isRequired,
 }
 
 export default ActivityModal

@@ -2,7 +2,7 @@
 // Initial State
 // ------------------------------------
 const initialState = {
-  error: null
+  error: null,
 }
 
 // ------------------------------------
@@ -17,13 +17,13 @@ export const CLEAR_ERROR = 'CLEAR_ERROR'
 export function setError(error) {
   return {
     type: SET_ERROR,
-    error
+    error,
   }
 }
 
 export function clearError() {
   return {
-    type: CLEAR_ERROR
+    type: CLEAR_ERROR,
   }
 }
 
@@ -32,7 +32,7 @@ export function clearError() {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_ERROR]: (state, { error }) => ({ ...state, error }),
-  [CLEAR_ERROR]: () => (initialState)
+  [CLEAR_ERROR]: () => initialState,
 }
 
 // ------------------------------------

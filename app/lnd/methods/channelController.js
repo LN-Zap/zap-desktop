@@ -26,7 +26,7 @@ export function connectAndOpen(lnd, event, payload) {
     .then(() => {
       const call = lnd.openChannel({
         node_pubkey: Buffer.from(pubkey, 'hex'),
-        local_funding_amount: Number(localamt)
+        local_funding_amount: Number(localamt),
       })
 
       call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
@@ -34,7 +34,7 @@ export function connectAndOpen(lnd, event, payload) {
 
       return call
     })
-    .catch((err) => {
+    .catch(err => {
       event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
       throw err
     })
@@ -52,13 +52,14 @@ export function openChannel(lnd, event, payload) {
   const res = {
     node_pubkey: Buffer.from(pubkey, 'hex'),
     local_funding_amount: Number(localamt),
-    push_sat: Number(pushamt)
+    push_sat: Number(pushamt),
   }
 
   return new Promise((resolve, reject) =>
     pushopenchannel(lnd, event, res)
       .then(data => resolve(data))
-      .catch(error => reject(error)))
+      .catch(error => reject(error)),
+  )
 }
 
 /**
@@ -103,15 +104,22 @@ export function listChannels(lnd) {
  * @return {[type]}         [description]
  */
 export function closeChannel(lnd, event, payload) {
-  const { channel_point: { funding_txid, output_index }, chan_id, force } = payload
-  const tx = funding_txid.match(/.{2}/g).reverse().join('')
+  const {
+    channel_point: { funding_txid, output_index },
+    chan_id,
+    force,
+  } = payload
+  const tx = funding_txid
+    .match(/.{2}/g)
+    .reverse()
+    .join('')
 
   const res = {
     channel_point: {
       funding_txid_bytes: Buffer.from(tx, 'hex'),
-      output_index: Number(output_index)
+      output_index: Number(output_index),
     },
-    force
+    force,
   }
 
   return new Promise((resolve, reject) => {

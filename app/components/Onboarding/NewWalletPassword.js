@@ -7,13 +7,13 @@ const NewWalletPassword = ({
   createWalletPasswordConfirmation,
   showCreateWalletPasswordConfirmationError,
   updateCreateWalletPassword,
-  updateCreateWalletPasswordConfirmation
+  updateCreateWalletPasswordConfirmation,
 }) => (
   <div className={styles.container}>
     <section className={styles.input}>
       <input
-        type='password'
-        placeholder='Password'
+        type="password"
+        placeholder="Password"
         className={styles.password}
         value={createWalletPassword}
         onChange={event => updateCreateWalletPassword(event.target.value)}
@@ -22,8 +22,8 @@ const NewWalletPassword = ({
 
     <section className={styles.input}>
       <input
-        type='password'
-        placeholder='Confirm Password'
+        type="password"
+        placeholder="Confirm Password"
         className={`${styles.password} ${showCreateWalletPasswordConfirmationError && styles.error}`}
         value={createWalletPasswordConfirmation}
         onChange={event => updateCreateWalletPasswordConfirmation(event.target.value)}
@@ -38,7 +38,7 @@ NewWalletPassword.propTypes = {
   createWalletPasswordConfirmation: PropTypes.string.isRequired,
   showCreateWalletPasswordConfirmationError: PropTypes.bool.isRequired,
   updateCreateWalletPassword: PropTypes.func.isRequired,
-  updateCreateWalletPasswordConfirmation: PropTypes.func.isRequired
+  updateCreateWalletPasswordConfirmation: PropTypes.func.isRequired,
 }
 
 export default NewWalletPassword

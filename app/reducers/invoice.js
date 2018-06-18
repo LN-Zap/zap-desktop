@@ -38,56 +38,56 @@ export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 export function searchInvoices(invoicesSearchText) {
   return {
     type: SEARCH_INVOICES,
-    invoicesSearchText
+    invoicesSearchText,
   }
 }
 
 export function setInvoice(invoice) {
   return {
     type: SET_INVOICE,
-    invoice
+    invoice,
   }
 }
 
 export function getInvoice() {
   return {
-    type: GET_INVOICE
+    type: GET_INVOICE,
   }
 }
 
 export function receiveInvoice(invoice) {
   return {
     type: RECEIVE_INVOICE,
-    invoice
+    invoice,
   }
 }
 
 export function getInvoices() {
   return {
-    type: GET_INVOICES
+    type: GET_INVOICES,
   }
 }
 
 export function sendInvoice() {
   return {
-    type: SEND_INVOICE
+    type: SEND_INVOICE,
   }
 }
 
 // Send IPC event for a specific invoice
-export const fetchInvoice = payreq => (dispatch) => {
+export const fetchInvoice = payreq => dispatch => {
   dispatch(getInvoice())
   ipcRenderer.send('lnd', { msg: 'invoice', data: { payreq } })
 }
 
 // Receive IPC event for form invoice
-export const receiveFormInvoice = (event, invoice) => (dispatch) => {
+export const receiveFormInvoice = (event, invoice) => dispatch => {
   dispatch(setPayInvoice(invoice))
   dispatch({ type: RECEIVE_FORM_INVOICE })
 }
 
 // Send IPC event for invoices
-export const fetchInvoices = () => (dispatch) => {
+export const fetchInvoices = () => dispatch => {
   dispatch(getInvoices())
   ipcRenderer.send('lnd', { msg: 'invoices' })
 }
@@ -96,7 +96,7 @@ export const fetchInvoices = () => (dispatch) => {
 export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ type: RECEIVE_INVOICES, invoices })
 
 // Send IPC event for creating an invoice
-export const createInvoice = (amount, memo, currency) => (dispatch) => {
+export const createInvoice = (amount, memo, currency) => dispatch => {
   // backend needs value in satoshis no matter what currency we are using
   const value = btc.convert(currency, 'sats', amount)
 
@@ -105,7 +105,7 @@ export const createInvoice = (amount, memo, currency) => (dispatch) => {
 }
 
 // Receive IPC event for newly created invoice
-export const createdInvoice = (event, invoice) => (dispatch) => {
+export const createdInvoice = (event, invoice) => dispatch => {
   // Close the form modal once the payment was succesful
   dispatch(setFormType(null))
 
@@ -122,20 +122,20 @@ export const createdInvoice = (event, invoice) => (dispatch) => {
   dispatch(showActivityModal('INVOICE', { invoice }))
 }
 
-export const invoiceFailed = (event, { error }) => (dispatch) => {
+export const invoiceFailed = (event, { error }) => dispatch => {
   dispatch({ type: INVOICE_FAILED })
   dispatch(setError(error))
 }
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices
-export const invoiceUpdate = (event, { invoice }) => (dispatch) => {
+export const invoiceUpdate = (event, { invoice }) => dispatch => {
   dispatch({ type: UPDATE_INVOICE, invoice })
 
   // Fetch new balance
   dispatch(fetchBalance())
 
   // HTML 5 desktop notification for the invoice update
-  const notifTitle = 'You\'ve been Zapped'
+  const notifTitle = "You've been Zapped"
   const notifBody = 'Congrats, someone just paid an invoice of yours'
 
   showNotification(notifTitle, notifBody)
@@ -156,23 +156,23 @@ const ACTION_HANDLERS = {
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
 
   [SEND_INVOICE]: state => ({ ...state, invoiceLoading: true }),
-  [INVOICE_SUCCESSFUL]: (state, { invoice }) => (
-    { ...state, invoiceLoading: false, invoices: [invoice, ...state.invoices] }
-  ),
+  [INVOICE_SUCCESSFUL]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoices: [invoice, ...state.invoices] }),
   [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null }),
 
   [UPDATE_INVOICE]: (state, action) => {
-    const updatedInvoices = state.invoices.map((invoice) => {
-      if (invoice.r_hash.toString('hex') !== action.invoice.r_hash.toString('hex')) { return invoice }
+    const updatedInvoices = state.invoices.map(invoice => {
+      if (invoice.r_hash.toString('hex') !== action.invoice.r_hash.toString('hex')) {
+        return invoice
+      }
 
       return {
         ...invoice,
-        ...action.invoice
+        ...action.invoice,
       }
     })
 
     return { ...state, invoices: updatedInvoices }
-  }
+  },
 }
 
 const invoiceSelectors = {}
@@ -180,21 +180,14 @@ const invoiceSelector = state => state.invoice.invoice
 const invoicesSelector = state => state.invoice.invoices
 const invoicesSearchTextSelector = state => state.invoice.invoicesSearchText
 
-invoiceSelectors.invoiceModalOpen = createSelector(
-  invoiceSelector,
-  invoice => (!!invoice)
+invoiceSelectors.invoiceModalOpen = createSelector(invoiceSelector, invoice => !!invoice)
+
+invoiceSelectors.invoices = createSelector(invoicesSelector, invoicesSearchTextSelector, (invoices, invoicesSearchText) =>
+  invoices.filter(invoice => invoice.memo.includes(invoicesSearchText)),
 )
 
-invoiceSelectors.invoices = createSelector(
-  invoicesSelector,
-  invoicesSearchTextSelector,
-  (invoices, invoicesSearchText) => invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
-)
-
-invoiceSelectors.invoices = createSelector(
-  invoicesSelector,
-  invoicesSearchTextSelector,
-  (invoices, invoicesSearchText) => invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
+invoiceSelectors.invoices = createSelector(invoicesSelector, invoicesSearchTextSelector, (invoices, invoicesSearchText) =>
+  invoices.filter(invoice => invoice.memo.includes(invoicesSearchText)),
 )
 
 export { invoiceSelectors }
@@ -211,8 +204,8 @@ const initialState = {
   formInvoice: {
     payreq: '',
     r_hash: '',
-    amount: '0'
-  }
+    amount: '0',
+  },
 }
 
 export default function invoiceReducer(state = initialState, action) {

@@ -26,51 +26,51 @@ export const RECEIVE_PEERS = 'RECEIVE_PEERS'
 // ------------------------------------
 export function connectPeer() {
   return {
-    type: CONNECT_PEER
+    type: CONNECT_PEER,
   }
 }
 
 export function disconnectPeer() {
   return {
-    type: DISCONNECT_PEER
+    type: DISCONNECT_PEER,
   }
 }
 
 export function disconnectFailure() {
   return {
-    type: DISCONNECT_FAILURE
+    type: DISCONNECT_FAILURE,
   }
 }
 
 export function setPeerForm(form) {
   return {
     type: SET_PEER_FORM,
-    form
+    form,
   }
 }
 
 export function setPeer(peer) {
   return {
     type: SET_PEER,
-    peer
+    peer,
   }
 }
 
 export function getPeers() {
   return {
-    type: GET_PEERS
+    type: GET_PEERS,
   }
 }
 
 export function updateSearchQuery(searchQuery) {
   return {
     type: UPDATE_SEARCH_QUERY,
-    searchQuery
+    searchQuery,
   }
 }
 
 // Send IPC event for peers
-export const fetchPeers = () => async (dispatch) => {
+export const fetchPeers = () => async dispatch => {
   dispatch(getPeers())
   ipcRenderer.send('lnd', { msg: 'peers' })
 }
@@ -79,7 +79,7 @@ export const fetchPeers = () => async (dispatch) => {
 export const receivePeers = (event, { peers }) => dispatch => dispatch({ type: RECEIVE_PEERS, peers })
 
 // Send IPC event for connecting to a peer
-export const connectRequest = ({ pubkey, host }) => (dispatch) => {
+export const connectRequest = ({ pubkey, host }) => dispatch => {
   dispatch(connectPeer())
   ipcRenderer.send('lnd', { msg: 'connectPeer', data: { pubkey, host } })
 }
@@ -88,13 +88,13 @@ export const connectRequest = ({ pubkey, host }) => (dispatch) => {
 export const connectSuccess = (event, peer) => dispatch => dispatch({ type: CONNECT_SUCCESS, peer })
 
 // Send IPC receive for unsuccessfully connecting to a peer
-export const connectFailure = (event, { error }) => (dispatch) => {
+export const connectFailure = (event, { error }) => dispatch => {
   dispatch({ type: CONNECT_FAILURE })
   dispatch(setError(error))
 }
 
 // Send IPC send for disconnecting from a peer
-export const disconnectRequest = ({ pubkey }) => (dispatch) => {
+export const disconnectRequest = ({ pubkey }) => dispatch => {
   dispatch(disconnectPeer())
   ipcRenderer.send('lnd', { msg: 'disconnectPeer', data: { pubkey } })
 }
@@ -107,19 +107,21 @@ export const disconnectSuccess = (event, { pubkey }) => dispatch => dispatch({ t
 // ------------------------------------
 const ACTION_HANDLERS = {
   [DISCONNECT_PEER]: state => ({ ...state, disconnecting: true }),
-  [DISCONNECT_SUCCESS]: (state, { pubkey }) => (
-    {
-      ...state, disconnecting: false, peer: null, peers: state.peers.filter(peer => peer.pub_key !== pubkey)
-    }
-  ),
+  [DISCONNECT_SUCCESS]: (state, { pubkey }) => ({
+    ...state,
+    disconnecting: false,
+    peer: null,
+    peers: state.peers.filter(peer => peer.pub_key !== pubkey),
+  }),
   [DISCONNECT_FAILURE]: state => ({ ...state, disconnecting: false }),
 
   [CONNECT_PEER]: state => ({ ...state, connecting: true }),
-  [CONNECT_SUCCESS]: (state, { peer }) => (
-    {
-      ...state, connecting: false, peerForm: { pubkey: '', host: '', isOpen: false }, peers: [...state.peers, peer]
-    }
-  ),
+  [CONNECT_SUCCESS]: (state, { peer }) => ({
+    ...state,
+    connecting: false,
+    peerForm: { pubkey: '', host: '', isOpen: false },
+    peers: [...state.peers, peer],
+  }),
   [CONNECT_FAILURE]: state => ({ ...state, connecting: false }),
 
   [SET_PEER_FORM]: (state, { form }) => ({ ...state, peerForm: Object.assign({}, state.peerForm, form) }),
@@ -129,7 +131,7 @@ const ACTION_HANDLERS = {
   [GET_PEERS]: state => ({ ...state, peersLoading: true }),
   [RECEIVE_PEERS]: (state, { peers }) => ({ ...state, peersLoading: false, peers }),
 
-  [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery })
+  [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 }
 
 const peersSelectors = {}
@@ -137,15 +139,10 @@ const peerSelector = state => state.peers.peer
 const peersSelector = state => state.peers.peers
 const peersSearchQuerySelector = state => state.peers.searchQuery
 
-peersSelectors.peerModalOpen = createSelector(
-  peerSelector,
-  peer => (!!peer)
-)
+peersSelectors.peerModalOpen = createSelector(peerSelector, peer => !!peer)
 
-peersSelectors.filteredPeers = createSelector(
-  peersSelector,
-  peersSearchQuerySelector,
-  (peers, query) => peers.filter(peer => peer.pub_key.includes(query) || peer.address.includes(query))
+peersSelectors.filteredPeers = createSelector(peersSelector, peersSearchQuerySelector, (peers, query) =>
+  peers.filter(peer => peer.pub_key.includes(query) || peer.address.includes(query)),
 )
 
 export { peersSelectors }
@@ -160,11 +157,11 @@ const initialState = {
   peerForm: {
     isOpen: false,
     pubkey: '',
-    host: ''
+    host: '',
   },
   searchQuery: '',
   connecting: false,
-  disconnecting: false
+  disconnecting: false,
 }
 
 export default function peersReducer(state = initialState, action) {

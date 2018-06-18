@@ -120,7 +120,7 @@ const startGrpc = () => {
 
 // Create and subscribe the grpc object
 const startWalletUnlocker = () => {
-  lnd.initWalletUnlocker((walletUnlockerMethods) => {
+  lnd.initWalletUnlocker(walletUnlockerMethods => {
     // Listen for all gRPC restful methods
     ipcMain.on('walletUnlocker', (event, { msg, data }) => {
       walletUnlockerMethods(event, msg, data)
@@ -162,31 +162,31 @@ const startLnd = (alias, autopilot) => {
     '--neutrino.connect=127.0.0.1:18333',
     '--debuglevel=debug',
     `${autopilot ? '--autopilot.active' : ''}`,
-    `${alias ? `--alias=${alias}` : ''}`
+    `${alias ? `--alias=${alias}` : ''}`,
   ]
 
   const neutrino = spawn(lndConfig.lndPath, neutrinoArgs)
-    .on('error', (error) => {
+    .on('error', error => {
       lndLog.error(`lnd error: ${error}`)
       dialog.showMessageBox({
         type: 'error',
-        message: `lnd error: ${error}`
+        message: `lnd error: ${error}`,
       })
     })
-    .on('close', (code) => {
+    .on('close', code => {
       lndLog.info(`lnd shutting down ${code}`)
       app.quit()
     })
 
   // Listen for when neutrino prints odata to stderr.
-  neutrino.stderr.pipe(split2()).on('data', (line) => {
+  neutrino.stderr.pipe(split2()).on('data', line => {
     if (process.env.NODE_ENV === 'development') {
       lndLog[lndLogGetLevel(line)](line)
     }
   })
 
   // Listen for when neutrino prints data to stdout.
-  neutrino.stdout.pipe(split2()).on('data', (line) => {
+  neutrino.stdout.pipe(split2()).on('data', line => {
     if (process.env.NODE_ENV === 'development') {
       lndLog[lndLogGetLevel(line)](line)
     }
@@ -253,7 +253,7 @@ app.on('ready', async () => {
     width: 950,
     height: 600,
     minWidth: 950,
-    minHeight: 425
+    minHeight: 425,
   })
 
   mainWindow.loadURL(`file://${__dirname}/app.html`)
@@ -315,7 +315,7 @@ app.on('ready', async () => {
       cert: options.connectionCert,
       macaroon: options.connectionMacaroon,
       alias: options.alias,
-      autopilot: options.autopilot
+      autopilot: options.autopilot,
     }
 
     mainLog.info('GOT LND CONFIG')

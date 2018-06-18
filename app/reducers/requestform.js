@@ -6,7 +6,7 @@ import { tickerSelectors } from './ticker'
 const initialState = {
   amount: '',
   memo: '',
-  showCurrencyFilters: false
+  showCurrencyFilters: false,
 }
 
 // Constants
@@ -25,27 +25,27 @@ export const RESET_FORM = 'RESET_FORM'
 export function setRequestAmount(amount) {
   return {
     type: SET_REQUEST_AMOUNT,
-    amount
+    amount,
   }
 }
 
 export function setRequestMemo(memo) {
   return {
     type: SET_REQUEST_MEMO,
-    memo
+    memo,
   }
 }
 
 export function resetRequestForm() {
   return {
-    type: RESET_FORM
+    type: RESET_FORM,
   }
 }
 
 export function setRequestCurrencyFilters(showCurrencyFilters) {
   return {
     type: SET_REQUEST_CURRENCY_FILTERS,
-    showCurrencyFilters
+    showCurrencyFilters,
   }
 }
 
@@ -57,7 +57,7 @@ const ACTION_HANDLERS = {
   [SET_REQUEST_MEMO]: (state, { memo }) => ({ ...state, memo }),
   [SET_REQUEST_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({ ...state, showCurrencyFilters }),
 
-  [RESET_FORM]: () => (initialState)
+  [RESET_FORM]: () => initialState,
 }
 
 const requestFormSelectors = {}
@@ -70,10 +70,12 @@ requestFormSelectors.usdAmount = createSelector(
   tickerSelectors.currentTicker,
 
   (amount, currency, ticker) => {
-    if (!ticker || !ticker.price_usd) { return false }
+    if (!ticker || !ticker.price_usd) {
+      return false
+    }
 
     return btc.convert(currency, 'usd', amount, ticker.price_usd)
-  }
+  },
 )
 
 export { requestFormSelectors }

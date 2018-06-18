@@ -18,15 +18,7 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const {
-      fetchTicker,
-      fetchInfo,
-      newAddress,
-      fetchChannels,
-      fetchSuggestedNodes,
-      fetchBalance,
-      fetchDescribeNetwork
-    } = this.props
+    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchSuggestedNodes, fetchBalance, fetchDescribeNetwork } = this.props
 
     // fetch price ticker
     fetchTicker()
@@ -62,10 +54,12 @@ class App extends Component {
       activityModalProps,
       channelFormProps,
 
-      children
+      children,
     } = this.props
 
-    if (!currentTicker) { return <LoadingBolt /> }
+    if (!currentTicker) {
+      return <LoadingBolt />
+    }
 
     return (
       <div>
@@ -79,16 +73,9 @@ class App extends Component {
         <ReceiveModal {...receiveModalProps} />
         <ActivityModal {...activityModalProps} />
 
-        <div className={styles.content}>
-          {children}
-        </div>
+        <div className={styles.content}>{children}</div>
 
-        {
-          contactsFormProps.contactsform.isOpen ?
-            <AddChannel {...contactsFormProps} />
-            :
-            <Network {...networkTabProps} />
-        }
+        {contactsFormProps.contactsform.isOpen ? <AddChannel {...contactsFormProps} /> : <Network {...networkTabProps} />}
 
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
       </div>
@@ -118,7 +105,7 @@ App.propTypes = {
   fetchDescribeNetwork: PropTypes.func.isRequired,
   fetchSuggestedNodes: PropTypes.func.isRequired,
 
-  children: PropTypes.object.isRequired
+  children: PropTypes.object.isRequired,
 }
 
 export default App

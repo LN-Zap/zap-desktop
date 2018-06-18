@@ -27,43 +27,43 @@ export const HIDE_SUCCESS_SCREEN = 'HIDE_SUCCESS_SCREEN'
 export function setPayment(payment) {
   return {
     type: SET_PAYMENT,
-    payment
+    payment,
   }
 }
 
 export function getPayments() {
   return {
-    type: GET_PAYMENTS
+    type: GET_PAYMENTS,
   }
 }
 
 export function sendPayment() {
   return {
-    type: SEND_PAYMENT
+    type: SEND_PAYMENT,
   }
 }
 
 export function paymentSuccessfull(payment) {
   return {
     type: PAYMENT_SUCCESSFULL,
-    payment
+    payment,
   }
 }
 
 export function showSuccessScreen() {
   return {
-    type: SHOW_SUCCESS_SCREEN
+    type: SHOW_SUCCESS_SCREEN,
   }
 }
 
 export function hideSuccessScreen() {
   return {
-    type: HIDE_SUCCESS_SCREEN
+    type: HIDE_SUCCESS_SCREEN,
   }
 }
 
 // Send IPC event for payments
-export const fetchPayments = () => (dispatch) => {
+export const fetchPayments = () => dispatch => {
   dispatch(getPayments())
   ipcRenderer.send('lnd', { msg: 'payments' })
 }
@@ -73,7 +73,7 @@ export const receivePayments = (event, { payments }) => dispatch => dispatch({ t
 
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch
-export const paymentSuccessful = () => (dispatch) => {
+export const paymentSuccessful = () => dispatch => {
   // Dispatch successful payment to stop loading screen
   dispatch(paymentSuccessfull())
 
@@ -90,12 +90,12 @@ export const paymentSuccessful = () => (dispatch) => {
   dispatch(fetchBalance())
 }
 
-export const paymentFailed = (event, { error }) => (dispatch) => {
+export const paymentFailed = (event, { error }) => dispatch => {
   dispatch({ type: PAYMENT_FAILED })
   dispatch(setError(error))
 }
 
-export const payInvoice = paymentRequest => (dispatch) => {
+export const payInvoice = paymentRequest => dispatch => {
   dispatch(sendPayment())
   ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
 
@@ -112,7 +112,6 @@ export const payInvoice = paymentRequest => (dispatch) => {
   // }, 10000)
 }
 
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -126,16 +125,13 @@ const ACTION_HANDLERS = {
   [PAYMENT_FAILED]: state => ({ ...state, sendingPayment: false }),
 
   [SHOW_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: true }),
-  [HIDE_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: false })
+  [HIDE_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: false }),
 }
 
 const paymentSelectors = {}
 const modalPaymentSelector = state => state.payment.payment
 
-paymentSelectors.paymentModalOpen = createSelector(
-  modalPaymentSelector,
-  payment => (!!payment)
-)
+paymentSelectors.paymentModalOpen = createSelector(modalPaymentSelector, payment => !!payment)
 
 export { paymentSelectors }
 
@@ -147,7 +143,7 @@ const initialState = {
   paymentLoading: false,
   payments: [],
   payment: null,
-  showSuccessPayScreen: false
+  showSuccessPayScreen: false,
 }
 
 export default function paymentReducer(state = initialState, action) {

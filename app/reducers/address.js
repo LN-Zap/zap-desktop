@@ -12,7 +12,7 @@ export const CLOSE_WALLET_MODAL = 'CLOSE_WALLET_MODAL'
 const addressTypes = {
   p2wkh: 0,
   np2wkh: 1,
-  p2pkh: 2
+  p2pkh: 2,
 }
 
 // ------------------------------------
@@ -20,24 +20,24 @@ const addressTypes = {
 // ------------------------------------
 export function getAddress() {
   return {
-    type: GET_ADDRESS
+    type: GET_ADDRESS,
   }
 }
 
 export function openWalletModal() {
   return {
-    type: OPEN_WALLET_MODAL
+    type: OPEN_WALLET_MODAL,
   }
 }
 
 export function closeWalletModal() {
   return {
-    type: CLOSE_WALLET_MODAL
+    type: CLOSE_WALLET_MODAL,
   }
 }
 
 // Send IPC event for getinfo
-export const newAddress = type => async (dispatch) => {
+export const newAddress = type => async dispatch => {
   dispatch(getAddress())
   ipcRenderer.send('lnd', { msg: 'newaddress', data: { type: addressTypes[type] } })
 }
@@ -53,7 +53,7 @@ const ACTION_HANDLERS = {
   [RECEIVE_ADDRESS]: (state, { address }) => ({ ...state, addressLoading: false, address }),
 
   [OPEN_WALLET_MODAL]: state => ({ ...state, walletModal: true }),
-  [CLOSE_WALLET_MODAL]: state => ({ ...state, walletModal: false })
+  [CLOSE_WALLET_MODAL]: state => ({ ...state, walletModal: false }),
 }
 
 // ------------------------------------
@@ -62,7 +62,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   addressLoading: false,
   address: '',
-  walletModal: false
+  walletModal: false,
 }
 
 export default function addressReducer(state = initialState, action) {

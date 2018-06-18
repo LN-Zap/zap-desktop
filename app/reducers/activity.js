@@ -10,15 +10,15 @@ const initialState = {
     { key: 'ALL_ACTIVITY', name: 'All' },
     { key: 'SENT_ACTIVITY', name: 'Sent' },
     { key: 'REQUESTED_ACTIVITY', name: 'Requested' },
-    { key: 'PENDING_ACTIVITY', name: 'Pending' }
+    { key: 'PENDING_ACTIVITY', name: 'Pending' },
   ],
   modal: {
     modalType: null,
     modalProps: {},
-    showCurrencyFilters: false
+    showCurrencyFilters: false,
   },
   searchActive: false,
-  searchText: ''
+  searchText: '',
 }
 
 // ------------------------------------
@@ -43,47 +43,47 @@ export function showActivityModal(modalType, modalProps) {
   return {
     type: SHOW_ACTIVITY_MODAL,
     modalType,
-    modalProps
+    modalProps,
   }
 }
 
 export function hideActivityModal() {
   return {
-    type: HIDE_ACTIVITY_MODAL
+    type: HIDE_ACTIVITY_MODAL,
   }
 }
 
 export function changeFilter(filter) {
   return {
     type: CHANGE_FILTER,
-    filter
+    filter,
   }
 }
 
 export function toggleFilterPulldown() {
   return {
-    type: TOGGLE_PULLDOWN
+    type: TOGGLE_PULLDOWN,
   }
 }
 
 export function updateSearchActive(searchActive) {
   return {
     type: UPDATE_SEARCH_ACTIVE,
-    searchActive
+    searchActive,
   }
 }
 
 export function updateSearchText(searchText) {
   return {
     type: UPDATE_SEARCH_TEXT,
-    searchText
+    searchText,
   }
 }
 
 export function setActivityModalCurrencyFilters(showCurrencyFilters) {
   return {
     type: SET_ACTIVITY_MODAL_CURRENCY_FILTERS,
-    showCurrencyFilters
+    showCurrencyFilters,
   }
 }
 
@@ -96,12 +96,13 @@ const ACTION_HANDLERS = {
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
   [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
 
-  [SET_ACTIVITY_MODAL_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => (
-    { ...state, modal: { modalType: state.modal.modalType, modalProps: state.modal.modalProps, showCurrencyFilters } }
-  ),
+  [SET_ACTIVITY_MODAL_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
+    ...state,
+    modal: { modalType: state.modal.modalType, modalProps: state.modal.modalProps, showCurrencyFilters },
+  }),
 
   [UPDATE_SEARCH_ACTIVE]: (state, { searchActive }) => ({ ...state, searchActive }),
-  [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText })
+  [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText }),
 }
 
 // ------------------------------------
@@ -115,17 +116,21 @@ const paymentsSelector = state => state.payment.payments
 const invoicesSelector = state => state.invoice.invoices
 const transactionsSelector = state => state.transaction.transactions
 
-const invoiceExpired = (invoice) => {
-  const expiresAt = (parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10))
-  return expiresAt < (Date.now() / 1000)
+const invoiceExpired = invoice => {
+  const expiresAt = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
+  return expiresAt < Date.now() / 1000
 }
 
 // helper function that returns invoice, payment or transaction timestamp
 function returnTimestamp(transaction) {
   // if on-chain txn
-  if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) { return transaction.time_stamp }
+  if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) {
+    return transaction.time_stamp
+  }
   // if invoice that has been paid
-  if (transaction.settled) { return transaction.settle_date }
+  if (transaction.settled) {
+    return transaction.settle_date
+  }
   // if invoice that has not been paid or an LN payment
   return transaction.creation_date
 }
@@ -141,7 +146,9 @@ function groupData(data) {
     const date = d.getDate()
     const title = `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`
 
-    if (!arr[title]) { arr[title] = [] }
+    if (!arr[title]) {
+      arr[title] = []
+    }
 
     arr[title].push({ el })
 
@@ -175,58 +182,48 @@ const allActivity = createSelector(
   invoicesSelector,
   transactionsSelector,
   (searchText, payments, invoices, transactions) => {
-    const searchedArr = [...payments, ...invoices, ...transactions].filter((tx) => {
-      if ((tx.tx_hash && tx.tx_hash.includes(searchText)) ||
-          (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
-          (tx.payment_request && tx.payment_request.includes(searchText))) {
+    const searchedArr = [...payments, ...invoices, ...transactions].filter(tx => {
+      if (
+        (tx.tx_hash && tx.tx_hash.includes(searchText)) ||
+        (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
+        (tx.payment_request && tx.payment_request.includes(searchText))
+      ) {
         return true
       }
 
       return false
     })
 
-    if (!searchedArr.length) { return [] }
+    if (!searchedArr.length) {
+      return []
+    }
 
     return groupAll(searchedArr)
-  }
+  },
 )
 
-const invoiceActivity = createSelector(
-  invoicesSelector,
-  invoices => groupAll(invoices)
+const invoiceActivity = createSelector(invoicesSelector, invoices => groupAll(invoices))
+
+const sentActivity = createSelector(transactionsSelector, paymentsSelector, (transactions, payments) =>
+  groupAll([...transactions.filter(transaction => transaction.amount < 0), ...payments]),
 )
 
-const sentActivity = createSelector(
-  transactionsSelector,
-  paymentsSelector,
-  (transactions, payments) => groupAll([...transactions.filter(transaction => transaction.amount < 0), ...payments])
-)
-
-const pendingActivity = createSelector(
-  invoicesSelector,
-  invoices => groupAll(invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice)))
+const pendingActivity = createSelector(invoicesSelector, invoices =>
+  groupAll(invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice))),
 )
 
 const FILTERS = {
   ALL_ACTIVITY: allActivity,
   SENT_ACTIVITY: sentActivity,
   REQUESTED_ACTIVITY: invoiceActivity,
-  PENDING_ACTIVITY: pendingActivity
+  PENDING_ACTIVITY: pendingActivity,
 }
 
-activitySelectors.currentActivity = createSelector(
-  filterSelector,
-  filter => FILTERS[filter.key]
-)
+activitySelectors.currentActivity = createSelector(filterSelector, filter => FILTERS[filter.key])
 
-activitySelectors.nonActiveFilters = createSelector(
-  filtersSelector,
-  filterSelector,
-  (filters, filter) => filters.filter(f => f.key !== filter.key)
-)
+activitySelectors.nonActiveFilters = createSelector(filtersSelector, filterSelector, (filters, filter) => filters.filter(f => f.key !== filter.key))
 
 export { activitySelectors }
-
 
 // ------------------------------------
 // Reducer
