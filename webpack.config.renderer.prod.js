@@ -70,17 +70,19 @@ export default merge.smart(baseConfig, {
       {
         test: /^((?!\.global).)*\.scss$/,
         use: ExtractTextPlugin.extract({
-          use: [{
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
+          use: [
+            {
+              loader: 'css-loader',
+              options: {
+                modules: true,
+                importLoaders: 1,
+                localIdentName: '[name]__[local]__[hash:base64:5]'
+              }
+            },
+            {
+              loader: 'sass-loader'
             }
-          },
-          {
-            loader: 'sass-loader'
-          }]
+          ]
         })
       },
       // WOFF Font

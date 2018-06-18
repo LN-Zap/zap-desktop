@@ -20,7 +20,7 @@ class ReceiveModal extends React.Component {
   }
 
   render() {
-    const copyOnClick = (data) => {
+    const copyOnClick = data => {
       copy(data)
       showNotification('Noice', 'Successfully copied to clipboard')
     }
@@ -33,18 +33,13 @@ class ReceiveModal extends React.Component {
       }
     }
 
-    const {
-      isOpen,
-      pubkey,
-      address,
-      alias,
-      closeReceiveModal,
-      network
-    } = this.props
+    const { isOpen, pubkey, address, alias, closeReceiveModal, network } = this.props
 
     const { qrCodeType } = this.state
 
-    if (!isOpen) { return null }
+    if (!isOpen) {
+      return null
+    }
 
     return (
       <div className={styles.container}>
@@ -60,20 +55,17 @@ class ReceiveModal extends React.Component {
               <h2>{alias && alias.length ? alias : pubkey.substring(0, 10)}</h2>
 
               <div className={styles.qrCodeOptions}>
-                <div className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>Node Pubkey</div>
-                <div className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>Bitcoin Address</div>
+                <div className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>
+                  Node Pubkey
+                </div>
+                <div className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>
+                  Bitcoin Address
+                </div>
               </div>
             </header>
 
             <div className={styles.qrCodeContainer}>
-              <QRCode
-                value={qrCodeType === 1 ? pubkey : address}
-                renderAs='svg'
-                size={150}
-                bgColor='transparent'
-                fgColor='white'
-                level='L'
-              />
+              <QRCode value={qrCodeType === 1 ? pubkey : address} renderAs="svg" size={150} bgColor="transparent" fgColor="white" level="L" />
             </div>
           </section>
           <section className={styles.right}>
@@ -81,7 +73,7 @@ class ReceiveModal extends React.Component {
               <h4>Node Public Key</h4>
               <p>
                 <span className={styles.data}>{pubkey}</span>
-                <span onClick={() => copyOnClick(pubkey)} className={`${styles.copy} hint--left`} data-hint='Copy pubkey'>
+                <span onClick={() => copyOnClick(pubkey)} className={`${styles.copy} hint--left`} data-hint="Copy pubkey">
                   <Isvg src={copyIcon} />
                 </span>
               </p>
@@ -91,7 +83,7 @@ class ReceiveModal extends React.Component {
               <h4>Bitcoin {network.name} Address</h4>
               <p>
                 <span className={styles.data}>{address}</span>
-                <span onClick={() => copyOnClick(address)} className={`${styles.copy} hint--left`} data-hint='Copy address'>
+                <span onClick={() => copyOnClick(address)} className={`${styles.copy} hint--left`} data-hint="Copy address">
                   <Isvg src={copyIcon} />
                 </span>
               </p>

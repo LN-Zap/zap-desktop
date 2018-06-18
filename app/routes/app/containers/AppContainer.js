@@ -40,23 +40,17 @@ import {
 import {
   openContactsForm,
   closeContactsForm,
-
   setChannelFormType,
-
   openManualForm,
   closeManualForm,
-
   openSubmitChannelForm,
   closeSubmitChannelForm,
-
   updateContactFormSearchQuery,
   updateManualFormSearchQuery,
   updateContactCapacity,
   setNode,
-
   contactFormSelectors,
   updateManualFormErrors,
-
   setContactsCurrencyFilters
 } from 'reducers/contactsform'
 
@@ -271,21 +265,26 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     setCurrency: dispatchProps.setCurrency,
     setRequestCurrencyFilters: dispatchProps.setRequestCurrencyFilters,
 
-    onRequestSubmit: () => (
+    onRequestSubmit: () =>
       dispatchProps.createInvoice(
         stateProps.requestform.amount,
         stateProps.requestform.memo,
         stateProps.ticker.currency,
         stateProps.currentTicker.price_usd
       )
-    )
   }
 
-  const formProps = (formType) => {
-    if (!formType) { return {} }
+  const formProps = formType => {
+    if (!formType) {
+      return {}
+    }
 
-    if (formType === 'PAY_FORM') { return payFormProps }
-    if (formType === 'REQUEST_FORM') { return requestFormProps }
+    if (formType === 'PAY_FORM') {
+      return payFormProps
+    }
+    if (formType === 'REQUEST_FORM') {
+      return requestFormProps
+    }
 
     return {}
   }
@@ -367,7 +366,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       setActivityModalCurrencyFilters: dispatchProps.setActivityModalCurrencyFilters,
       setCurrencyFilters: dispatchProps.setCurrencyFilters,
-      onCurrencyFilterClick: (currency) => {
+      onCurrencyFilterClick: currency => {
         dispatchProps.setCurrency(currency)
         dispatchProps.setActivityModalCurrencyFilters(false)
       }
@@ -404,7 +403,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       setContactsCurrencyFilters: dispatchProps.setContactsCurrencyFilters,
       setCurrencyFilters: dispatchProps.setCurrencyFilters,
-      onCurrencyFilterClick: (currency) => {
+      onCurrencyFilterClick: currency => {
         dispatchProps.updateContactCapacity(btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity))
         dispatchProps.setCurrency(currency)
         dispatchProps.setContactsCurrencyFilters(false)
@@ -425,9 +424,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     showErrors: stateProps.contactsform.showErrors
   }
 
-  const calcChannelFormProps = (formType) => {
-    if (formType === 'MANUAL_FORM') { return connectManuallyProps }
-    if (formType === 'SUBMIT_CHANNEL_FORM') { return submitChannelFormProps }
+  const calcChannelFormProps = formType => {
+    if (formType === 'MANUAL_FORM') {
+      return connectManuallyProps
+    }
+    if (formType === 'SUBMIT_CHANNEL_FORM') {
+      return submitChannelFormProps
+    }
 
     return {}
   }
@@ -437,7 +440,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     formProps: calcChannelFormProps(stateProps.contactsform.formType),
     closeForm: () => dispatchProps.setChannelFormType(null)
   }
-
 
   return {
     ...stateProps,
@@ -464,9 +466,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     formProps: formProps(stateProps.form.formType),
     // action to close form
     closeForm: () => dispatchProps.setFormType(null)
-
-
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(App))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    mergeProps
+  )(App)
+)

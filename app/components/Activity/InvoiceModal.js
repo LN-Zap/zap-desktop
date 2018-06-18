@@ -20,20 +20,14 @@ const InvoiceModal = ({
   ticker,
   currentTicker,
 
-  toggleCurrencyProps: {
-    setActivityModalCurrencyFilters,
-    showCurrencyFilters,
-    currencyName,
-    currentCurrencyFilters,
-    onCurrencyFilterClick
-  }
+  toggleCurrencyProps: { setActivityModalCurrencyFilters, showCurrencyFilters, currencyName, currentCurrencyFilters, onCurrencyFilterClick }
 }) => {
   const copyPaymentRequest = () => {
     copy(invoice.payment_request)
     showNotification('Noice', 'Successfully copied to clipboard')
   }
 
-  const countDownDate = (parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10))
+  const countDownDate = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
 
   return (
     <div className={styles.container}>
@@ -42,11 +36,11 @@ const InvoiceModal = ({
           <h2>Payment Request</h2>
           <QRCode
             value={invoice.payment_request}
-            renderAs='svg'
+            renderAs="svg"
             size={150}
-            bgColor='transparent'
-            fgColor='white'
-            level='L'
+            bgColor="transparent"
+            fgColor="white"
+            level="L"
             className={styles.qrcode}
           />
           <Countdown countDownDate={countDownDate} />
@@ -58,22 +52,24 @@ const InvoiceModal = ({
                 <Value value={invoice.value} currency={ticker.currency} currentTicker={currentTicker} />
               </h1>
               <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
-                <span>{currencyName}</span><span><FaAngleDown /></span>
+                <span>{currencyName}</span>
+                <span>
+                  <FaAngleDown />
+                </span>
               </section>
               <ul className={showCurrencyFilters && styles.active}>
-                {
-                  currentCurrencyFilters.map(filter =>
-                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-                }
+                {currentCurrencyFilters.map(filter => (
+                  <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
+                    {filter.name}
+                  </li>
+                ))}
               </ul>
             </section>
             <section className={styles.date}>
               <p>
-                <Moment format='MM/DD/YYYY'>{invoice.creation_date * 1000}</Moment>
+                <Moment format="MM/DD/YYYY">{invoice.creation_date * 1000}</Moment>
               </p>
-              <p className={styles.notPaid}>
-                {!invoice.settled && 'Not Paid'}
-              </p>
+              <p className={styles.notPaid}>{!invoice.settled && 'Not Paid'}</p>
             </section>
           </div>
 

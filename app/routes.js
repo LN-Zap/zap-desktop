@@ -7,7 +7,7 @@ import Activity from './routes/activity'
 const routes = () => (
   <App>
     <Switch>
-      <Route path='/' component={Activity} />
+      <Route path="/" component={Activity} />
     </Switch>
   </App>
 )

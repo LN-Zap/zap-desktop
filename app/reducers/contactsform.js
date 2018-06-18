@@ -195,9 +195,7 @@ const manualSearchQuerySelector = state => state.contactsform.manualSearchQuery
 const contactCapacitySelector = state => state.contactsform.contactCapacity
 const currencySelector = state => state.ticker.currency
 
-const contactable = node => (
-  node.addresses.length > 0
-)
+const contactable = node => node.addresses.length > 0
 
 // comparator to sort the contacts list with contactable contacts first
 const contactableFirst = (a, b) => {
@@ -209,69 +207,69 @@ const contactableFirst = (a, b) => {
   return 0
 }
 
-contactFormSelectors.filteredNetworkNodes = createSelector(
-  networkNodesSelector,
-  searchQuerySelector,
-  (nodes, searchQuery) => {
-    // If there is no search query default to showing the first 20 nodes from the nodes array
-    // (performance hit to render the entire thing by default)
-    // if (!searchQuery.length) { return nodes.sort(contactableFirst).slice(0, 20) }
+contactFormSelectors.filteredNetworkNodes = createSelector(networkNodesSelector, searchQuerySelector, (nodes, searchQuery) => {
+  // If there is no search query default to showing the first 20 nodes from the nodes array
+  // (performance hit to render the entire thing by default)
+  // if (!searchQuery.length) { return nodes.sort(contactableFirst).slice(0, 20) }
 
-    // return an empty array if there is no search query
-    if (!searchQuery.length) { return [] }
-
-    // if there is an '@' in the search query we are assuming they are using the format pubkey@host
-    // we can ignore the '@' and the host and just grab the pubkey for our search
-    const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
-
-    // list of the nodes
-    const list = filter(nodes, node => node.alias.includes(query) || node.pub_key.includes(query)).sort(contactableFirst)
-
-    // if we don't limit the nodes returned then we take a huge performance hit
-    // rendering thousands of nodes potentially, so we just render 20 for the time being
-    return list.slice(0, 20)
+  // return an empty array if there is no search query
+  if (!searchQuery.length) {
+    return []
   }
-)
+
+  // if there is an '@' in the search query we are assuming they are using the format pubkey@host
+  // we can ignore the '@' and the host and just grab the pubkey for our search
+  const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
+
+  // list of the nodes
+  const list = filter(nodes, node => node.alias.includes(query) || node.pub_key.includes(query)).sort(contactableFirst)
+
+  // if we don't limit the nodes returned then we take a huge performance hit
+  // rendering thousands of nodes potentially, so we just render 20 for the time being
+  return list.slice(0, 20)
+})
 
 contactFormSelectors.showManualForm = createSelector(
   searchQuerySelector,
   contactFormSelectors.filteredNetworkNodes,
   (searchQuery, filteredNetworkNodes) => {
-    if (!searchQuery.length) { return false }
+    if (!searchQuery.length) {
+      return false
+    }
 
     const connectableNodes = filteredNetworkNodes.filter(node => node.addresses.length > 0)
 
-    if (!filteredNetworkNodes.length || !connectableNodes.length) { return true }
+    if (!filteredNetworkNodes.length || !connectableNodes.length) {
+      return true
+    }
 
     return false
   }
 )
 
-contactFormSelectors.manualFormIsValid = createSelector(
-  manualSearchQuerySelector,
-  (input) => {
-    const errors = {}
-    if (!input.length || !input.includes('@')) {
-      errors.manualInput = 'Invalid format'
-    }
-    return {
-      errors,
-      isValid: isEmpty(errors)
-    }
+contactFormSelectors.manualFormIsValid = createSelector(manualSearchQuerySelector, input => {
+  const errors = {}
+  if (!input.length || !input.includes('@')) {
+    errors.manualInput = 'Invalid format'
   }
-)
+  return {
+    errors,
+    isValid: isEmpty(errors)
+  }
+})
 
 contactFormSelectors.contactFormUsdAmount = createSelector(
   contactCapacitySelector,
   currencySelector,
   tickerSelectors.currentTicker,
   (amount, currency, ticker) => {
-    if (!ticker || !ticker.price_usd) { return false }
+    if (!ticker || !ticker.price_usd) {
+      return false
+    }
 
     return btc.convert(currency, 'usd', amount, ticker.price_usd)
   }
 )
-
 
 export { contactFormSelectors }
 
