@@ -9,17 +9,14 @@ export function sendPaymentSync(lnd, { paymentRequest }) {
     lnd.sendPaymentSync({ payment_request: paymentRequest }, (error, data) => {
       if (error) {
         reject({ error })
-        return
+      } else if (!data || !data.payment_route) {
+        reject({ error: data.payment_error })
+      } else {
+        resolve(data)
       }
-
-      if (!data || !data.payment_route) { reject({ error: data.payment_error }) }
-
-      console.log('data: ', data)
-      resolve(data)
     })
   })
 }
-
 
 /**
  * Synchronous non-streaming version of SendPayment

@@ -1,8 +1,6 @@
-/* eslint no-console: 0 */ // --> OFF
-
 import * as walletController from '../methods/walletController'
 
-export default function (walletUnlocker, event, msg, data) {
+export default function (walletUnlocker, log, event, msg, data) {
   switch (msg) {
     case 'genSeed':
       walletController.genSeed(walletUnlocker)
@@ -17,7 +15,7 @@ export default function (walletUnlocker, event, msg, data) {
     case 'initWallet':
       walletController.initWallet(walletUnlocker, data)
         .then(() => event.sender.send('successfullyCreatedWallet'))
-        .catch(error => console.log('initWallet error: ', error))
+        .catch(error => log.error('initWallet:', error))
       break
     default:
   }

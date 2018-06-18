@@ -6,6 +6,7 @@
   },
   "extends": [
     "airbnb",
+    "eslint:recommended",
     "plugin:react/recommended",
     "plugin:flowtype/recommended",
     "plugin:import/errors",
