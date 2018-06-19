@@ -4,9 +4,11 @@
   padding: 0 40px;
   font-family: Roboto;
   color: $white;
+  margin: 0 auto;
+  width: 500px;
 
   .header {
-    padding: 20px 100px;
+    padding: 20px;
 
     h1 {
       margin-bottom: 15px;
@@ -35,13 +37,14 @@
 }
 
 .title {
-  margin: 50px 0;
+  margin: 20px 0;
+  line-height: 32px;
 
   h2 {
     font-size: 14px;
     background: $spaceblue;
-    padding: 10px;
-    border-radius: 17.5px;
+    padding: 5px;
+    border-radius: 0px;
     display: inline;
   }
 }
@@ -52,15 +55,17 @@
   align-items: center;
 
   input {
-    font-size: 40px;
-    max-width: 230px;
+    font-size: 20px;
+    max-width: 150px;
   }
 }
 
 .input input {
   background: transparent;
   outline: none;
-  border: 0;
+  border:1px solid #404040;
+  border-radius: 4px;
+  padding: 15px;
   color: $gold;
   -webkit-text-fill-color: $white;
   width: 100%;
@@ -77,6 +82,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-left: 10px;
 
   .currentCurrency {
     cursor: pointer;
