@@ -79,8 +79,15 @@ export default function(lnd, log, event, msg, data) {
     case 'channels':
       // Data looks like
       // [ { channels: [] }, { total_limbo_balance: 0, pending_open_channels: [], pending_closing_channels: [], pending_force_closing_channels: [] } ]
-      Promise.all([channelController.listChannels, channelController.pendingChannels].map(func => func(lnd)))
-        .then(channelsData => event.sender.send('receiveChannels', { channels: channelsData[0].channels, pendingChannels: channelsData[1] }))
+      Promise.all(
+        [channelController.listChannels, channelController.pendingChannels].map(func => func(lnd))
+      )
+        .then(channelsData =>
+          event.sender.send('receiveChannels', {
+            channels: channelsData[0].channels,
+            pendingChannels: channelsData[1]
+          })
+        )
         .catch(error => log.error('channels:', error))
       break
     case 'transactions':
@@ -113,9 +120,14 @@ export default function(lnd, log, event, msg, data) {
       break
     case 'balance':
       // Balance looks like [ { balance: '129477456' }, { balance: '243914' } ]
-      Promise.all([walletController.walletBalance, channelController.channelBalance].map(func => func(lnd)))
+      Promise.all(
+        [walletController.walletBalance, channelController.channelBalance].map(func => func(lnd))
+      )
         .then(balance => {
-          event.sender.send('receiveBalance', { walletBalance: balance[0].total_balance, channelBalance: balance[1].balance })
+          event.sender.send('receiveBalance', {
+            walletBalance: balance[0].total_balance,
+            channelBalance: balance[1].balance
+          })
           return balance
         })
         .catch(error => log.error('balance:', error))
@@ -172,7 +184,9 @@ export default function(lnd, log, event, msg, data) {
       // { amount, addr } = data
       walletController
         .sendCoins(lnd, data)
-        .then(({ txid }) => event.sender.send('transactionSuccessful', { amount: data.amount, addr: data.addr, txid }))
+        .then(({ txid }) =>
+          event.sender.send('transactionSuccessful', { amount: data.amount, addr: data.addr, txid })
+        )
         .catch(error => {
           log.error('error: ', error)
           event.sender.send('transactionError', { error: error.toString() })
