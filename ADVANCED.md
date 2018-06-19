@@ -1,8 +1,14 @@
-<h1 align='center'>Advanced Usage</h1>
+# Advanced Usage
+
+## Table of Contents
+
+- [Compiling Zap From Source](#Compiling-Zap-From-Source)
+- [Lightning Network Daemon (lnd)](<#Lightning-Network-Daemon-(lnd)>)
+- [Running Zap](#Running-Zap)
 
 ## Compiling Zap From Source
 
-***Note:*** *If you have installation or compilation issues, please file a [Github issue](https://github.com/LN-Zap/zap-desktop/issues) or ping us in [Slack](https://join.slack.com/t/zaphq/shared_invite/enQtMzMxMzIzNDU0NTY3LTgyM2QwYzAyZTA5OTAyMjEwMTQxZmZmZmZkNWUzMTU2MmMyNmMxNjY4Y2VjY2FiYTRkMTkwMTRlMTE4YjM2MWY).*
+**_Note:_** _If you have installation or compilation issues, please file a [Github issue][issues] or ping us in [Slack][slack]._
 
 ### Prerequisites
 
@@ -45,7 +51,7 @@ This is the default configuration for the Zap wallet. To use the light client yo
 
 #### Lightning Labs Binary
 
-***Note:*** *The Lightning Labs `lightning-app` project is different then [lnd](https://github.com/lightningnetwork/lnd)*
+**_Note:_** _The Lightning Labs `lightning-app` project is different then [lnd](https://github.com/lightningnetwork/lnd)_
 
 Download the [lnd binary](https://github.com/lightningnetwork/lnd/releases) for your appropriate OS and copy it to the [appropriate location](#lnd-location) for your OS.
 
@@ -55,13 +61,11 @@ You can [compile](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTA
 
 For Zap to run properly without any custom `lnd` setup, copy the `lnd` binary to the [appropriate location](#lnd-location) for your OS.
 
-
 The `lnd` binary can be found at `$GOPATH/bin`.
 
 ### Full Bitcoin Node
 
 Follow the instructions on the [lnd installation](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) page.
-
 
 ### lnd Location
 
@@ -80,6 +84,7 @@ chmod +x lnd
 ## Running Zap
 
 ### Testing
+
 To test that everything has been installed correctly:
 
 ```bash
@@ -95,8 +100,12 @@ npm run dev
 ```
 
 ### Linting
+
 To check linting:
 
 ```bash
 npm run lint
 ```
+
+[issues]: https://github.com/LN-Zap/zap-desktop/issues
+[slack]: https://join.slack.com/t/zaphq/shared_invite/enQtMzMxMzIzNDU0NTY3LTgyM2QwYzAyZTA5OTAyMjEwMTQxZmZmZmZkNWUzMTU2MmMyNmMxNjY4Y2VjY2FiYTRkMTkwMTRlMTE4YjM2MWY
