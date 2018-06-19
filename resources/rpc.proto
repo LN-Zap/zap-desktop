@@ -1,4 +1,4 @@
-// Imported from https://raw.githubusercontent.com/lightningnetwork/lnd/v0.4.2-beta/lnrpc/rpc.proto
+// Imported from https://github.com/lightningnetwork/lnd/blob/v0.4.2-beta/lnrpc/rpc.proto
 syntax = "proto3";
 
 // import "google/api/annotations.proto";
