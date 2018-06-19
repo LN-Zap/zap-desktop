@@ -1,0 +1,5 @@
+{
+  "hooks": {
+    "pre-commit": "opt --in pre-commit --exec 'lint-staged'"
+  }
+}
