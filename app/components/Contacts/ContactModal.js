@@ -71,7 +71,10 @@ const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes, closeC
             <div className={styles.pay}>
               <h4>Can Pay</h4>
               <div className={styles.meter}>
-                <div className={styles.amount} style={{ width: `${(channel.local_balance / channel.capacity) * 100}%` }} />
+                <div
+                  className={styles.amount}
+                  style={{ width: `${(channel.local_balance / channel.capacity) * 100}%` }}
+                />
               </div>
               <span>{btc.satoshisToBtc(channel.local_balance)} BTC</span>
             </div>
@@ -79,7 +82,10 @@ const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes, closeC
             <div className={styles.pay}>
               <h4>Can Receive</h4>
               <div className={styles.meter}>
-                <div className={styles.amount} style={{ width: `${(channel.remote_balance / channel.capacity) * 100}%` }} />
+                <div
+                  className={styles.amount}
+                  style={{ width: `${(channel.remote_balance / channel.capacity) * 100}%` }}
+                />
               </div>
               <span>{btc.satoshisToBtc(channel.remote_balance)} BTC</span>
             </div>

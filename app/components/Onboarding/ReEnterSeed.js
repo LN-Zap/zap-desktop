@@ -17,7 +17,9 @@ const ReEnterSeed = ({ seed, seedInput, updateSeedInput }) => (
               placeholder="word"
               value={seedInput[index] ? seedInput[index].word : ''}
               onChange={event => updateSeedInput({ word: event.target.value, index })}
-              className={`${styles.word} ${seedInput[index] && word === seedInput[index].word ? styles.valid : styles.invalid}`}
+              className={`${styles.word} ${
+                seedInput[index] && word === seedInput[index].word ? styles.valid : styles.invalid
+              }`}
             />
           </section>
         </li>

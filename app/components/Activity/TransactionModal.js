@@ -21,7 +21,13 @@ const TransactionModal = ({
   currentTicker,
   network,
 
-  toggleCurrencyProps: { setActivityModalCurrencyFilters, showCurrencyFilters, currencyName, currentCurrencyFilters, onCurrencyFilterClick }
+  toggleCurrencyProps: {
+    setActivityModalCurrencyFilters,
+    showCurrencyFilters,
+    currencyName,
+    currentCurrencyFilters,
+    onCurrencyFilterClick
+  }
 }) => (
   <div className={styles.container}>
     <header className={styles.header}>
@@ -45,7 +51,9 @@ const TransactionModal = ({
 
     <div className={styles.amount}>
       <h1>
-        <i className={`${styles.symbol} ${transaction.amount > 0 && styles.active}`}>{transaction.amount > 0 ? '+' : '-'}</i>
+        <i className={`${styles.symbol} ${transaction.amount > 0 && styles.active}`}>
+          {transaction.amount > 0 ? '+' : '-'}
+        </i>
         <Value value={transaction.amount} currency={ticker.currency} currentTicker={currentTicker} />
       </h1>
       <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>

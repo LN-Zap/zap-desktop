@@ -26,7 +26,15 @@ class Network extends Component {
 
   render() {
     const {
-      channels: { searchQuery, filterPulldown, filter, selectedChannel, loadingChannelPubkeys, closingChannelIds, channels },
+      channels: {
+        searchQuery,
+        filterPulldown,
+        filter,
+        selectedChannel,
+        loadingChannelPubkeys,
+        closingChannelIds,
+        channels
+      },
       currentChannels,
       balance,
       ticker,
@@ -140,7 +148,11 @@ class Network extends Component {
               {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
             </span>
           </section>
-          <section className={`${styles.addChannel} hint--bottom-left`} onClick={openContactsForm} data-hint="Open a channel">
+          <section
+            className={`${styles.addChannel} hint--bottom-left`}
+            onClick={openContactsForm}
+            data-hint="Open a channel"
+          >
             <span className={styles.plusContainer}>
               <Isvg src={plus} />
             </span>
@@ -207,7 +219,9 @@ class Network extends Component {
               })}
             {currentChannels.length &&
               currentChannels.map((channelObj, index) => {
-                const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel') ? channelObj.channel : channelObj
+                const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel')
+                  ? channelObj.channel
+                  : channelObj
                 const pubkey = channel.remote_node_pub || channel.remote_pubkey
 
                 return (
@@ -217,7 +231,10 @@ class Network extends Component {
                     onClick={() => channelClicked(channel)}
                   >
                     <section className={styles.channelTitle}>
-                      <span className={`${styles[channelStatus(channelObj)]} hint--right`} data-hint={channelStatus(channelObj)}>
+                      <span
+                        className={`${styles[channelStatus(channelObj)]} hint--right`}
+                        data-hint={channelStatus(channelObj)}
+                      >
                         {closingChannelIds.includes(channel.chan_id) ? (
                           <span className={styles.loading}>
                             <i className={`${styles.spinner} ${styles.closing}`} />
@@ -228,7 +245,9 @@ class Network extends Component {
                       </span>
                       <span>{displayNodeName(channel)}</span>
                       {selectedChannel === channel && (
-                        <span onClick={() => blockExplorer.showTransaction(network, channel.channel_point.split(':')[0])}>
+                        <span
+                          onClick={() => blockExplorer.showTransaction(network, channel.channel_point.split(':')[0])}
+                        >
                           <FaExternalLink />
                         </span>
                       )}
@@ -243,14 +262,22 @@ class Network extends Component {
                         <section>
                           <h5>Pay Limit</h5>
                           <p>
-                            <Value value={channel.local_balance} currency={ticker.currency} currentTicker={currentTicker} />
+                            <Value
+                              value={channel.local_balance}
+                              currency={ticker.currency}
+                              currentTicker={currentTicker}
+                            />
                             <i> {ticker.currency.toUpperCase()}</i>
                           </p>
                         </section>
                         <section>
                           <h5>Request Limit</h5>
                           <p>
-                            <Value value={channel.remote_balance} currency={ticker.currency} currentTicker={currentTicker} />
+                            <Value
+                              value={channel.remote_balance}
+                              currency={ticker.currency}
+                              currentTicker={currentTicker}
+                            />
                             <i>{ticker.currency.toUpperCase()}</i>
                           </p>
                         </section>

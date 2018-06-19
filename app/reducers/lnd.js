@@ -56,7 +56,9 @@ export const lndStdout = (event, line) => dispatch => {
   }
 
   if (line.includes('Catching up block hashes to height')) {
-    trimmed = line.slice(line.indexOf('Catching up block hashes to height') + 'Catching up block hashes to height'.length).trim()
+    trimmed = line
+      .slice(line.indexOf('Catching up block hashes to height') + 'Catching up block hashes to height'.length)
+      .trim()
     height = trimmed.match(/[-]{0,1}[\d.]*[\d]+/g)[0]
   }
 
@@ -118,15 +120,19 @@ const lndSelectors = {}
 const blockHeightSelector = state => state.lnd.blockHeight
 const lndBlockHeightSelector = state => state.lnd.lndBlockHeight
 
-lndSelectors.syncPercentage = createSelector(blockHeightSelector, lndBlockHeightSelector, (blockHeight, lndBlockHeight) => {
-  const percentage = Math.floor((lndBlockHeight / blockHeight) * 100)
+lndSelectors.syncPercentage = createSelector(
+  blockHeightSelector,
+  lndBlockHeightSelector,
+  (blockHeight, lndBlockHeight) => {
+    const percentage = Math.floor((lndBlockHeight / blockHeight) * 100)
 
-  if (percentage === Infinity) {
-    return ''
+    if (percentage === Infinity) {
+      return ''
+    }
+
+    return percentage
   }
-
-  return percentage
-})
+)
 
 export { lndSelectors }
 

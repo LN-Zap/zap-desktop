@@ -57,8 +57,8 @@ class SubmitChannelForm extends React.Component {
         <header className={styles.header}>
           <h1>Add Funds to Network</h1>
           <p>
-            Adding a connection will help you send and receive money on the Lightning Network. You aren&apos;t spening any money, rather moving the
-            money you plan to use onto the network.
+            Adding a connection will help you send and receive money on the Lightning Network. You aren&apos;t spening
+            any money, rather moving the money you plan to use onto the network.
           </p>
         </header>
 
@@ -78,7 +78,10 @@ class SubmitChannelForm extends React.Component {
               id="amount"
             />
             <div className={styles.currency}>
-              <section className={styles.currentCurrency} onClick={() => setContactsCurrencyFilters(!showCurrencyFilters)}>
+              <section
+                className={styles.currentCurrency}
+                onClick={() => setContactsCurrencyFilters(!showCurrencyFilters)}
+              >
                 <span>{currencyName}</span>
                 <span>
                   <FaAngleDown />

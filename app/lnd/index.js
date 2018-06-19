@@ -21,7 +21,8 @@ const initWalletUnlocker = callback => {
   const lndConfig = config.lnd()
 
   const walletUnlockerObj = walletUnlocker(lndConfig.lightningRpc, lndConfig.lightningHost)
-  const walletUnlockerMethodsCallback = (event, msg, data) => walletUnlockerMethods(walletUnlockerObj, mainLog, event, msg, data)
+  const walletUnlockerMethodsCallback = (event, msg, data) =>
+    walletUnlockerMethods(walletUnlockerObj, mainLog, event, msg, data)
 
   callback(walletUnlockerMethodsCallback)
 }

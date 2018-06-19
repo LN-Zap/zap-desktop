@@ -12,7 +12,12 @@ import config from '../config'
 // https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
 process.env.GRPC_SSL_CIPHER_SUITES =
   process.env.GRPC_SSL_CIPHER_SUITES ||
-  ['ECDHE-ECDSA-AES128-GCM-SHA256', 'ECDHE-ECDSA-AES256-GCM-SHA384', 'ECDHE-ECDSA-AES128-CBC-SHA256', 'ECDHE-ECDSA-CHACHA20-POLY1305'].join(':')
+  [
+    'ECDHE-ECDSA-AES128-GCM-SHA256',
+    'ECDHE-ECDSA-AES256-GCM-SHA384',
+    'ECDHE-ECDSA-AES128-CBC-SHA256',
+    'ECDHE-ECDSA-CHACHA20-POLY1305'
+  ].join(':')
 
 const lightning = (rpcpath, host) => {
   const lndConfig = config.lnd()

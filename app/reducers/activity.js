@@ -221,7 +221,9 @@ const FILTERS = {
 
 activitySelectors.currentActivity = createSelector(filterSelector, filter => FILTERS[filter.key])
 
-activitySelectors.nonActiveFilters = createSelector(filtersSelector, filterSelector, (filters, filter) => filters.filter(f => f.key !== filter.key))
+activitySelectors.nonActiveFilters = createSelector(filtersSelector, filterSelector, (filters, filter) =>
+  filters.filter(f => f.key !== filter.key)
+)
 
 export { activitySelectors }
 

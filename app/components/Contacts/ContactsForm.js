@@ -79,7 +79,9 @@ class ContactsForm extends React.Component {
         <span
           className={`${styles.connect} hint--left`}
           data-hint={`Connect with ${contactsform.contactCapacity} BTC`}
-          onClick={() => openChannel({ pubkey: node.pub_key, host: node.addresses[0].addr, local_amt: contactsform.contactCapacity })}
+          onClick={() =>
+            openChannel({ pubkey: node.pub_key, host: node.addresses[0].addr, local_amt: contactsform.contactCapacity })
+          }
         >
           Connect
         </span>
@@ -217,7 +219,10 @@ class ContactsForm extends React.Component {
               </span>
               <span className={styles.caption}>
                 BTC per contact
-                <i data-hint="You aren't spending anything, just moving money onto the Lightning Network" className="hint--top">
+                <i
+                  data-hint="You aren't spending anything, just moving money onto the Lightning Network"
+                  className="hint--top"
+                >
                   <FaQuestionCircle style={{ verticalAlign: 'top' }} />
                 </i>
               </span>

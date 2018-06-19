@@ -29,7 +29,10 @@ const Wallet = ({
   setWalletCurrencyFilters,
   network
 }) => {
-  const usdAmount = btc.satoshisToUsd(parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10), currentTicker.price_usd)
+  const usdAmount = btc.satoshisToUsd(
+    parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
+    currentTicker.price_usd
+  )
 
   const onCurrencyFilterClick = currency => {
     setCurrency(currency)

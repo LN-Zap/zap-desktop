@@ -28,7 +28,9 @@ const NewWalletPassword = ({
         value={createWalletPasswordConfirmation}
         onChange={event => updateCreateWalletPasswordConfirmation(event.target.value)}
       />
-      <p className={`${styles.errorMessage} ${showCreateWalletPasswordConfirmationError && styles.visible}`}>Passwords do not match</p>
+      <p className={`${styles.errorMessage} ${showCreateWalletPasswordConfirmationError && styles.visible}`}>
+        Passwords do not match
+      </p>
     </section>
   </div>
 )

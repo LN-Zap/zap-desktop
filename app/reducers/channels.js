@@ -180,7 +180,8 @@ export const fetchChannels = () => async dispatch => {
 }
 
 // Receive IPC event for channels
-export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
+export const receiveChannels = (event, { channels, pendingChannels }) => dispatch =>
+  dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 // Send IPC event for opening a channel
 export const openChannel = ({ pubkey, host, local_amt }) => dispatch => {
@@ -350,7 +351,10 @@ const ACTION_HANDLERS = {
   [TOGGLE_CHANNEL_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
   [CHANGE_CHANNEL_FILTER]: (state, { channelFilter }) => ({ ...state, filterPulldown: false, filter: channelFilter }),
 
-  [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({ ...state, loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys] }),
+  [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({
+    ...state,
+    loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys]
+  }),
   [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({
     ...state,
     loadingChannelPubkeys: state.loadingChannelPubkeys.filter(loadingPubkey => loadingPubkey !== pubkey)
@@ -396,19 +400,26 @@ const channelMatchesQuery = (channel, nodes, searchQuery) => {
 
 channelsSelectors.channelModalOpen = createSelector(channelSelector, channel => !!channel)
 
-channelsSelectors.activeChannels = createSelector(channelsSelector, openChannels => openChannels.filter(channel => channel.active))
+channelsSelectors.activeChannels = createSelector(channelsSelector, openChannels =>
+  openChannels.filter(channel => channel.active)
+)
 
 channelsSelectors.activeChannelPubkeys = createSelector(channelsSelector, openChannels =>
   openChannels.filter(channel => channel.active).map(c => c.remote_pubkey)
 )
 
-channelsSelectors.nonActiveChannels = createSelector(channelsSelector, openChannels => openChannels.filter(channel => !channel.active))
+channelsSelectors.nonActiveChannels = createSelector(channelsSelector, openChannels =>
+  openChannels.filter(channel => !channel.active)
+)
 
 channelsSelectors.nonActiveChannelPubkeys = createSelector(channelsSelector, openChannels =>
   openChannels.filter(channel => !channel.active).map(c => c.remote_pubkey)
 )
 
-channelsSelectors.pendingOpenChannels = createSelector(pendingOpenChannelsSelector, pendingOpenChannels => pendingOpenChannels)
+channelsSelectors.pendingOpenChannels = createSelector(
+  pendingOpenChannelsSelector,
+  pendingOpenChannels => pendingOpenChannels
+)
 
 channelsSelectors.pendingOpenChannelPubkeys = createSelector(pendingOpenChannelsSelector, pendingOpenChannels =>
   pendingOpenChannels.map(pendingChannel => pendingChannel.channel.remote_node_pub)

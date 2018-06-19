@@ -44,7 +44,13 @@ class Activity extends Component {
     } else if (Object.prototype.hasOwnProperty.call(activity, 'payment_request')) {
       // activity is an LN invoice
       return (
-        <Invoice invoice={activity} ticker={ticker} currentTicker={currentTicker} showActivityModal={showActivityModal} currencyName={currencyName} />
+        <Invoice
+          invoice={activity}
+          ticker={ticker}
+          currentTicker={currentTicker}
+          showActivityModal={showActivityModal}
+          currencyName={currencyName}
+        />
       )
     }
     // activity is an LN payment
@@ -85,7 +91,11 @@ class Activity extends Component {
           {searchActive ? (
             <header className={`${styles.header} ${styles.search}`}>
               <section>
-                <input placeholder="Search" value={searchText} onChange={event => updateSearchText(event.target.value)} />
+                <input
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={event => updateSearchText(event.target.value)}
+                />
               </section>
               <section
                 onClick={() => {
@@ -103,7 +113,11 @@ class Activity extends Component {
               <section>
                 <ul className={styles.filters}>
                   {filters.map(f => (
-                    <li key={f.key} className={f.key === filter.key && styles.activeFilter} onClick={() => changeFilter(f)}>
+                    <li
+                      key={f.key}
+                      className={f.key === filter.key && styles.activeFilter}
+                      onClick={() => changeFilter(f)}
+                    >
                       <span>{f.name}</span>
 
                       <div className={f.key === filter.key && styles.activeBorder} />
@@ -120,7 +134,9 @@ class Activity extends Component {
             {currentActivity.map((activityBlock, index) => (
               <li className={styles.activity} key={index}>
                 <h2>{activityBlock.title}</h2>
-                <ul>{activityBlock.activity.map((activity, i) => <li key={i}>{this.renderActivity(activity.el)}</li>)}</ul>
+                <ul>
+                  {activityBlock.activity.map((activity, i) => <li key={i}>{this.renderActivity(activity.el)}</li>)}
+                </ul>
               </li>
             ))}
           </ul>

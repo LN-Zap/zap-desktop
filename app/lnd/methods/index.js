@@ -80,7 +80,12 @@ export default function(lnd, log, event, msg, data) {
       // Data looks like
       // [ { channels: [] }, { total_limbo_balance: 0, pending_open_channels: [], pending_closing_channels: [], pending_force_closing_channels: [] } ]
       Promise.all([channelController.listChannels, channelController.pendingChannels].map(func => func(lnd)))
-        .then(channelsData => event.sender.send('receiveChannels', { channels: channelsData[0].channels, pendingChannels: channelsData[1] }))
+        .then(channelsData =>
+          event.sender.send('receiveChannels', {
+            channels: channelsData[0].channels,
+            pendingChannels: channelsData[1]
+          })
+        )
         .catch(error => log.error('channels:', error))
       break
     case 'transactions':
@@ -115,7 +120,10 @@ export default function(lnd, log, event, msg, data) {
       // Balance looks like [ { balance: '129477456' }, { balance: '243914' } ]
       Promise.all([walletController.walletBalance, channelController.channelBalance].map(func => func(lnd)))
         .then(balance => {
-          event.sender.send('receiveBalance', { walletBalance: balance[0].total_balance, channelBalance: balance[1].balance })
+          event.sender.send('receiveBalance', {
+            walletBalance: balance[0].total_balance,
+            channelBalance: balance[1].balance
+          })
           return balance
         })
         .catch(error => log.error('balance:', error))

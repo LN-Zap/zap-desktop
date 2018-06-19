@@ -312,7 +312,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     suggestedNodesProps: {
       suggestedNodesLoading: stateProps.channels.suggestedNodesLoading,
-      suggestedNodes: stateProps.info.data.testnet ? stateProps.channels.suggestedNodes.testnet : stateProps.channels.suggestedNodes.mainnet,
+      suggestedNodes: stateProps.info.data.testnet
+        ? stateProps.channels.suggestedNodes.testnet
+        : stateProps.channels.suggestedNodes.mainnet,
 
       setNode: dispatchProps.setNode,
       openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM')
@@ -404,7 +406,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       setContactsCurrencyFilters: dispatchProps.setContactsCurrencyFilters,
       setCurrencyFilters: dispatchProps.setCurrencyFilters,
       onCurrencyFilterClick: currency => {
-        dispatchProps.updateContactCapacity(btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity))
+        dispatchProps.updateContactCapacity(
+          btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity)
+        )
         dispatchProps.setCurrency(currency)
         dispatchProps.setContactsCurrencyFilters(false)
       }

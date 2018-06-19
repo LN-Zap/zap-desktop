@@ -19,7 +19,13 @@ const PaymentModal = ({
   ticker,
   currentTicker,
 
-  toggleCurrencyProps: { setActivityModalCurrencyFilters, showCurrencyFilters, currencyName, currentCurrencyFilters, onCurrencyFilterClick }
+  toggleCurrencyProps: {
+    setActivityModalCurrencyFilters,
+    showCurrencyFilters,
+    currencyName,
+    currentCurrencyFilters,
+    onCurrencyFilterClick
+  }
 }) => (
   <div className={styles.container}>
     <header className={styles.header}>

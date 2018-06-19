@@ -20,7 +20,13 @@ const InvoiceModal = ({
   ticker,
   currentTicker,
 
-  toggleCurrencyProps: { setActivityModalCurrencyFilters, showCurrencyFilters, currencyName, currentCurrencyFilters, onCurrencyFilterClick }
+  toggleCurrencyProps: {
+    setActivityModalCurrencyFilters,
+    showCurrencyFilters,
+    currencyName,
+    currentCurrencyFilters,
+    onCurrencyFilterClick
+  }
 }) => {
   const copyPaymentRequest = () => {
     copy(invoice.payment_request)
@@ -51,7 +57,10 @@ const InvoiceModal = ({
               <h1>
                 <Value value={invoice.value} currency={ticker.currency} currentTicker={currentTicker} />
               </h1>
-              <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
+              <section
+                className={styles.currentCurrency}
+                onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}
+              >
                 <span>{currencyName}</span>
                 <span>
                   <FaAngleDown />

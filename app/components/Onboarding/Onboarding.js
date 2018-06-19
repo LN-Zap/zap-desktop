@@ -107,7 +107,12 @@ const Onboarding = ({
         )
       case 3:
         return (
-          <FormContainer title="Welcome back!" description="Enter your wallet password or create a new wallet" back={null} next={null}>
+          <FormContainer
+            title="Welcome back!"
+            description="Enter your wallet password or create a new wallet"
+            back={null}
+            next={null}
+          >
             <Login {...initWalletProps.loginProps} />
           </FormContainer>
         )

@@ -51,7 +51,9 @@ describe('reducers', () => {
     })
 
     it('should correctly receiveChannel', () => {
-      expect(channelsReducer(undefined, { type: RECEIVE_CHANNELS, channels: [1, 2], pendingChannels: [3, 4] })).toMatchSnapshot()
+      expect(
+        channelsReducer(undefined, { type: RECEIVE_CHANNELS, channels: [1, 2], pendingChannels: [3, 4] })
+      ).toMatchSnapshot()
     })
 
     it('should correctly openingChannel', () => {

@@ -16,7 +16,10 @@ const Login = ({ password, updatePassword, unlockingWallet, unlockWallet, unlock
 
     <section className={styles.buttons}>
       <div>
-        <span className={`${!unlockingWallet && styles.active} ${styles.button}`} onClick={() => unlockWallet(password)}>
+        <span
+          className={`${!unlockingWallet && styles.active} ${styles.button}`}
+          onClick={() => unlockWallet(password)}
+        >
           {unlockingWallet ? <i className={styles.spinner} /> : 'Unlock'}
         </span>
       </div>

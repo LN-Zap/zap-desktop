@@ -58,7 +58,8 @@ export const fetchTransactions = () => dispatch => {
 }
 
 // Receive IPC event for payments
-export const receiveTransactions = (event, { transactions }) => dispatch => dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
+export const receiveTransactions = (event, { transactions }) => dispatch =>
+  dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
 
 export const sendCoins = ({ value, addr, currency }) => dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
@@ -134,7 +135,10 @@ const ACTION_HANDLERS = {
           transactions: [transaction, ...state.transactions]
         }
   },
-  [SHOW_SUCCESS_TRANSACTION_SCREEN]: (state, { txid }) => ({ ...state, successTransactionScreen: { show: true, txid } }),
+  [SHOW_SUCCESS_TRANSACTION_SCREEN]: (state, { txid }) => ({
+    ...state,
+    successTransactionScreen: { show: true, txid }
+  }),
   [HIDE_SUCCESS_TRANSACTION_SCREEN]: state => ({ ...state, successTransactionScreen: { show: false, txid: '' } })
 }
 

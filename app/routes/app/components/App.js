@@ -18,7 +18,15 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchInfo, newAddress, fetchChannels, fetchSuggestedNodes, fetchBalance, fetchDescribeNetwork } = this.props
+    const {
+      fetchTicker,
+      fetchInfo,
+      newAddress,
+      fetchChannels,
+      fetchSuggestedNodes,
+      fetchBalance,
+      fetchDescribeNetwork
+    } = this.props
 
     // fetch price ticker
     fetchTicker()
@@ -75,7 +83,11 @@ class App extends Component {
 
         <div className={styles.content}>{children}</div>
 
-        {contactsFormProps.contactsform.isOpen ? <AddChannel {...contactsFormProps} /> : <Network {...networkTabProps} />}
+        {contactsFormProps.contactsform.isOpen ? (
+          <AddChannel {...contactsFormProps} />
+        ) : (
+          <Network {...networkTabProps} />
+        )}
 
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
       </div>

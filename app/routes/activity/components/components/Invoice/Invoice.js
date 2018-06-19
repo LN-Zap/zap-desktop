@@ -10,7 +10,10 @@ import checkmarkIcon from 'icons/check_circle.svg'
 import styles from '../Activity.scss'
 
 const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyName }) => (
-  <div className={`${styles.container} ${!invoice.settled && styles.unpaid}`} onClick={() => showActivityModal('INVOICE', { invoice })}>
+  <div
+    className={`${styles.container} ${!invoice.settled && styles.unpaid}`}
+    onClick={() => showActivityModal('INVOICE', { invoice })}
+  >
     {!invoice.settled && (
       <div className={styles.pendingIcon}>
         <Isvg src={checkmarkIcon} />

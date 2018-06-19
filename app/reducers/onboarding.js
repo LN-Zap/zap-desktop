@@ -157,7 +157,10 @@ export function startLnd(options) {
 
 export const submitNewWallet = (wallet_password, cipher_seed_mnemonic, aezeed_passphrase) => dispatch => {
   // once the user submits the data needed to start LND we will alert the app that it should start LND
-  ipcRenderer.send('walletUnlocker', { msg: 'initWallet', data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase } })
+  ipcRenderer.send('walletUnlocker', {
+    msg: 'initWallet',
+    data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase }
+  })
   dispatch({ type: CREATING_NEW_WALLET })
 }
 
@@ -218,9 +221,15 @@ const ACTION_HANDLERS = {
   [UPDATE_ALIAS]: (state, { alias }) => ({ ...state, alias }),
   [UPDATE_PASSWORD]: (state, { password }) => ({ ...state, password }),
   [UPDATE_CREATE_WALLET_PASSWORD]: (state, { createWalletPassword }) => ({ ...state, createWalletPassword }),
-  [UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION]: (state, { createWalletPasswordConfirmation }) => ({ ...state, createWalletPasswordConfirmation }),
+  [UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION]: (state, { createWalletPasswordConfirmation }) => ({
+    ...state,
+    createWalletPasswordConfirmation
+  }),
   [UPDATE_AEZEED_PASSWORD]: (state, { aezeedPassword }) => ({ ...state, aezeedPassword }),
-  [UPDATE_AEZEED_PASSWORD_CONFIRMATION]: (state, { aezeedPasswordConfirmation }) => ({ ...state, aezeedPasswordConfirmation }),
+  [UPDATE_AEZEED_PASSWORD_CONFIRMATION]: (state, { aezeedPasswordConfirmation }) => ({
+    ...state,
+    aezeedPasswordConfirmation
+  }),
   [UPDATE_SEED_INPUT]: (state, { inputSeedObj }) => ({
     ...state,
     seedInput: Object.assign([], state.seedInput, { [inputSeedObj.index]: inputSeedObj })
@@ -242,8 +251,16 @@ const ACTION_HANDLERS = {
   [CREATING_NEW_WALLET]: state => ({ ...state, creatingNewWallet: true }),
 
   [UNLOCKING_WALLET]: state => ({ ...state, unlockingWallet: true }),
-  [WALLET_UNLOCKED]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: false, message: '' } }),
-  [SET_UNLOCK_WALLET_ERROR]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: true, message: 'Incorrect password' } }),
+  [WALLET_UNLOCKED]: state => ({
+    ...state,
+    unlockingWallet: false,
+    unlockWalletError: { isError: false, message: '' }
+  }),
+  [SET_UNLOCK_WALLET_ERROR]: state => ({
+    ...state,
+    unlockingWallet: false,
+    unlockWalletError: { isError: true, message: 'Incorrect password' }
+  }),
 
   [SET_SIGNUP_CREATE]: state => ({ ...state, signupForm: { create: true, import: false } }),
   [SET_SIGNUP_IMPORT]: state => ({ ...state, signupForm: { create: false, import: true } })

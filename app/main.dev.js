@@ -154,7 +154,11 @@ const startLnd = (alias, autopilot) => {
   mainLog.debug(' > cert:', lndConfig.cert)
   mainLog.debug(' > macaroon:', lndConfig.macaroon)
 
-  const neutrinoArgs = [`--configfile=${lndConfig.configPath}`, `${autopilot ? '--autopilot.active' : ''}`, `${alias ? `--alias=${alias}` : ''}`]
+  const neutrinoArgs = [
+    `--configfile=${lndConfig.configPath}`,
+    `${autopilot ? '--autopilot.active' : ''}`,
+    `${alias ? `--alias=${alias}` : ''}`
+  ]
 
   const neutrino = spawn(lndConfig.lndPath, neutrinoArgs)
     .on('error', error => {

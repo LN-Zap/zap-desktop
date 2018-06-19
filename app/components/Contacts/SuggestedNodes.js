@@ -21,7 +21,10 @@ const SuggestedNodes = ({ suggestedNodesLoading, suggestedNodes, setNode, openSu
 
   return (
     <div className={styles.container}>
-      <header>Hmmm, looks like you don&apos;t have any channels yet. Here are some suggested nodes to open a channel with to get started</header>
+      <header>
+        Hmmm, looks like you don&apos;t have any channels yet. Here are some suggested nodes to open a channel with to
+        get started
+      </header>
 
       <ul className={styles.suggestedNodes}>
         {suggestedNodes.map(node => (
