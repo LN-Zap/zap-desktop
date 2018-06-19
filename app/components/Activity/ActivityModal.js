@@ -25,7 +25,9 @@ const ActivityModal = ({
     INVOICE: InvoiceModal
   }
 
-  if (!modalType) { return null }
+  if (!modalType) {
+    return null
+  }
 
   const SpecificModal = MODAL_COMPONENTS[modalType]
   return (
@@ -35,13 +37,7 @@ const ActivityModal = ({
           <Isvg src={x} />
         </span>
       </div>
-      <SpecificModal
-        {...modalProps}
-        network={network}
-        ticker={ticker}
-        currentTicker={currentTicker}
-        toggleCurrencyProps={toggleCurrencyProps}
-      />
+      <SpecificModal {...modalProps} network={network} ticker={ticker} currentTicker={currentTicker} toggleCurrencyProps={toggleCurrencyProps} />
     </div>
   )
 }

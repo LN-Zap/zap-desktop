@@ -7,7 +7,7 @@ import walletUnlockerMethods from './walletUnlockerMethods'
 // use mainLog because lndLog is reserved for the lnd binary itself
 import { mainLog } from '../utils/log'
 
-const initLnd = (callback) => {
+const initLnd = callback => {
   const lndConfig = config.lnd()
   const lnd = lightning(lndConfig.lightningRpc, lndConfig.lightningHost)
 
@@ -17,7 +17,7 @@ const initLnd = (callback) => {
   callback(lndSubscribe, lndMethods)
 }
 
-const initWalletUnlocker = (callback) => {
+const initWalletUnlocker = callback => {
   const lndConfig = config.lnd()
 
   const walletUnlockerObj = walletUnlocker(lndConfig.lightningRpc, lndConfig.lightningHost)

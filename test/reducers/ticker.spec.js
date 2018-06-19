@@ -1,9 +1,4 @@
-import tickerReducer, {
-  SET_CURRENCY,
-  SET_CRYPTO,
-  GET_TICKERS,
-  RECIEVE_TICKERS
-} from '../../app/reducers/ticker'
+import tickerReducer, { SET_CURRENCY, SET_CRYPTO, GET_TICKERS, RECIEVE_TICKERS } from '../../app/reducers/ticker'
 
 describe('reducers', () => {
   describe('tickerReducer', () => {

@@ -27,7 +27,9 @@ export function sendPaymentSync(lnd, { paymentRequest }) {
 export function sendPayment(lnd, { paymentRequest }) {
   return new Promise((resolve, reject) => {
     lnd.sendPayment({ payment_request: paymentRequest }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -43,7 +45,9 @@ export function sendPayment(lnd, { paymentRequest }) {
 export function decodePayReq(lnd, { payReq }) {
   return new Promise((resolve, reject) => {
     lnd.decodePayReq({ pay_req: payReq }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -58,7 +62,9 @@ export function decodePayReq(lnd, { payReq }) {
 export function listPayments(lnd) {
   return new Promise((resolve, reject) => {
     lnd.listPayments({}, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -73,7 +79,9 @@ export function listPayments(lnd) {
 export function deleteAllPayments(lnd) {
   return new Promise((resolve, reject) => {
     lnd.deleteAllPayments({}, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })

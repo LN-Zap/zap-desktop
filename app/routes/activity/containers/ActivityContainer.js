@@ -1,16 +1,8 @@
 import { connect } from 'react-redux'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
-import {
-  fetchInvoices,
-  setInvoice,
-  invoiceSelectors
-} from 'reducers/invoice'
-import {
-  setPayment,
-  fetchPayments,
-  paymentSelectors
-} from 'reducers/payment'
+import { fetchInvoices, setInvoice, invoiceSelectors } from 'reducers/invoice'
+import { setPayment, fetchPayments, paymentSelectors } from 'reducers/payment'
 import { fetchTransactions } from 'reducers/transaction'
 import {
   showActivityModal,
@@ -108,4 +100,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   }
 })
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Activity)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(Activity)

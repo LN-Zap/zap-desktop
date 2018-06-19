@@ -26,13 +26,13 @@ export function setWalletCurrencyFilters(showWalletCurrencyFilters) {
 }
 
 // Send IPC event for getinfo
-export const fetchInfo = () => async (dispatch) => {
+export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
   ipcRenderer.send('lnd', { msg: 'info' })
 }
 
 // Receive IPC event for info
-export const receiveInfo = (event, data) => (dispatch) => {
+export const receiveInfo = (event, data) => dispatch => {
   dispatch({ type: RECEIVE_INFO, data })
 }
 
@@ -61,7 +61,7 @@ const ACTION_HANDLERS = {
   [RECEIVE_INFO]: (state, { data }) => ({
     ...state,
     infoLoading: false,
-    network: (data.testnet ? networks.testnet : networks.mainnet),
+    network: data.testnet ? networks.testnet : networks.mainnet,
     data
   }),
   [SET_WALLET_CURRENCY_FILTERS]: (state, { showWalletCurrencyFilters }) => ({ ...state, showWalletCurrencyFilters })

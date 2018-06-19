@@ -47,13 +47,12 @@ const logConfig = name => ({
   }
 })
 
-
 // Create 2 logs for use in the app.
 export const mainLog = debugLogger.config(logConfig('main'))('zap')
 export const lndLog = debugLogger.config(logConfig('lnd '))('zap')
 
 let lndLogLevel = null // stored most recent log level for continuity
-export const lndLogGetLevel = (msg) => {
+export const lndLogGetLevel = msg => {
   // Define a mapping between log level prefixes and log level names.
   const levelMap = {
     TRC: 'trace',

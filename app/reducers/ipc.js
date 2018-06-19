@@ -6,19 +6,16 @@ import { receiveCryptocurrency } from './ticker'
 import { receivePeers, connectSuccess, disconnectSuccess, connectFailure } from './peers'
 import {
   receiveChannels,
-
   channelSuccessful,
   pushchannelupdated,
   pushchannelend,
   pushchannelerror,
   pushchannelstatus,
-
   closeChannelSuccessful,
   pushclosechannelupdated,
   pushclosechannelend,
   pushclosechannelerror,
   pushclosechannelstatus,
-
   channelGraphData,
   channelGraphStatus
 } from './channels'
@@ -26,12 +23,7 @@ import { lightningPaymentUri } from './payform'
 import { receivePayments, paymentSuccessful, paymentFailed } from './payment'
 import { receiveInvoices, createdInvoice, receiveFormInvoice, invoiceUpdate, invoiceFailed } from './invoice'
 import { receiveBalance } from './balance'
-import {
-  receiveTransactions,
-  transactionSuccessful,
-  transactionError,
-  newTransaction
-} from './transaction'
+import { receiveTransactions, transactionSuccessful, transactionError, newTransaction } from './transaction'
 
 import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoutes } from './network'
 

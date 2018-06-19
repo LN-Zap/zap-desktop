@@ -155,23 +155,23 @@ export function startLnd(options) {
   }
 }
 
-export const submitNewWallet = (wallet_password, cipher_seed_mnemonic, aezeed_passphrase) => (dispatch) => {
+export const submitNewWallet = (wallet_password, cipher_seed_mnemonic, aezeed_passphrase) => dispatch => {
   // once the user submits the data needed to start LND we will alert the app that it should start LND
   ipcRenderer.send('walletUnlocker', { msg: 'initWallet', data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase } })
   dispatch({ type: CREATING_NEW_WALLET })
 }
 
-export const startOnboarding = () => (dispatch) => {
+export const startOnboarding = () => dispatch => {
   dispatch({ type: ONBOARDING_STARTED })
 }
 
 // Listener from after the LND walletUnlocker has started
-export const walletUnlockerStarted = () => (dispatch) => {
+export const walletUnlockerStarted = () => dispatch => {
   dispatch({ type: LND_STARTED })
   ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
 }
 
-export const createWallet = () => (dispatch) => {
+export const createWallet = () => dispatch => {
   ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
   dispatch({ type: CHANGE_STEP, step: 4 })
 }
@@ -179,31 +179,31 @@ export const createWallet = () => (dispatch) => {
 export const successfullyCreatedWallet = () => dispatch => dispatch({ type: ONBOARDING_FINISHED })
 
 // Listener for when LND creates and sends us a generated seed
-export const receiveSeed = (event, { cipher_seed_mnemonic }) => (dispatch) => {
+export const receiveSeed = (event, { cipher_seed_mnemonic }) => dispatch => {
   dispatch({ type: CHANGE_STEP, step: 4 })
   // there was no seed and we just generated a new one, send user to the login component
   dispatch({ type: SET_SEED, seed: cipher_seed_mnemonic })
 }
 
 // Listener for when LND throws an error on seed creation
-export const receiveSeedError = () => (dispatch) => {
+export const receiveSeedError = () => dispatch => {
   dispatch({ type: SET_HAS_SEED, hasSeed: true })
   // there is already a seed, send user to the login component
   dispatch({ type: CHANGE_STEP, step: 3 })
 }
 
 // Unlock an existing wallet with a wallet password
-export const unlockWallet = wallet_password => (dispatch) => {
+export const unlockWallet = wallet_password => dispatch => {
   ipcRenderer.send('walletUnlocker', { msg: 'unlockWallet', data: { wallet_password } })
   dispatch({ type: UNLOCKING_WALLET })
 }
 
-export const walletUnlocked = () => (dispatch) => {
+export const walletUnlocked = () => dispatch => {
   dispatch({ type: WALLET_UNLOCKED })
   dispatch({ type: ONBOARDING_FINISHED })
 }
 
-export const unlockWalletError = () => (dispatch) => {
+export const unlockWalletError = () => dispatch => {
   dispatch({ type: SET_UNLOCK_WALLET_ERROR })
 }
 

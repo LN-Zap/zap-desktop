@@ -10,7 +10,9 @@ import pushinvoices from '../push/subscribeinvoice'
 export function addInvoice(lnd, { memo, value }) {
   return new Promise((resolve, reject) => {
     lnd.addInvoice({ memo, value }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -25,7 +27,9 @@ export function addInvoice(lnd, { memo, value }) {
 export function listInvoices(lnd) {
   return new Promise((resolve, reject) => {
     lnd.listInvoices({}, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -39,13 +43,14 @@ export function listInvoices(lnd) {
 export function getInvoice(lnd, { pay_req }) {
   return new Promise((resolve, reject) => {
     lnd.decodePayReq({ pay_req }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
   })
 }
-
 
 /**
  * Attemps to look up an invoice according to its payment hash
@@ -56,13 +61,14 @@ export function getInvoice(lnd, { pay_req }) {
 export function lookupInvoice(lnd, { rhash }) {
   return new Promise((resolve, reject) => {
     lnd.lookupInvoice({ r_hash: rhash }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
   })
 }
-
 
 /**
  * Returns a uni-directional stream (server -> client) for notifying the client of newly added/settled invoices

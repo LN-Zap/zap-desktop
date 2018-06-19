@@ -128,16 +128,15 @@ export function clearSelectedChannels() {
 }
 
 // Send IPC event for describeNetwork
-export const fetchDescribeNetwork = () => (dispatch) => {
+export const fetchDescribeNetwork = () => dispatch => {
   dispatch(getDescribeNetwork())
   ipcRenderer.send('lnd', { msg: 'describeNetwork' })
 }
 
 // Receive IPC event for describeNetwork
-export const receiveDescribeNetwork = (event, { nodes, edges }) => dispatch =>
-  dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes, edges })
+export const receiveDescribeNetwork = (event, { nodes, edges }) => dispatch => dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes, edges })
 
-export const queryRoutes = (pubkey, amount) => (dispatch) => {
+export const queryRoutes = (pubkey, amount) => dispatch => {
   dispatch(getQueryRoutes(pubkey))
   ipcRenderer.send('lnd', { msg: 'queryRoutes', data: { pubkey, amount } })
 }
@@ -145,13 +144,12 @@ export const queryRoutes = (pubkey, amount) => (dispatch) => {
 export const receiveQueryRoutes = (event, { routes }) => dispatch => dispatch({ type: RECEIVE_QUERY_ROUTES, routes })
 
 // take a payreq and query routes for it
-export const fetchInvoiceAndQueryRoutes = payreq => (dispatch) => {
+export const fetchInvoiceAndQueryRoutes = payreq => dispatch => {
   dispatch(getInvoiceAndQueryRoutes())
   ipcRenderer.send('lnd', { msg: 'getInvoiceAndQueryRoutes', data: { payreq } })
 }
 
-export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch =>
-  dispatch({ type: RECEIVE_INFO_AND_QUERY_ROUTES, routes })
+export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch => dispatch({ type: RECEIVE_INFO_AND_QUERY_ROUTES, routes })
 
 // ------------------------------------
 // Action Handlers
@@ -159,17 +157,18 @@ export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch =>
 const ACTION_HANDLERS = {
   [GET_DESCRIBE_NETWORK]: state => ({ ...state, networkLoading: true }),
   [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes, edges }) => ({
-    ...state, networkLoading: false, nodes, edges
+    ...state,
+    networkLoading: false,
+    nodes,
+    edges
   }),
 
   [GET_QUERY_ROUTES]: (state, { pubkey }) => ({ ...state, networkLoading: true, selectedNode: { pubkey, routes: [], currentRoute: {} } }),
-  [RECEIVE_QUERY_ROUTES]: (state, { routes }) => (
-    {
-      ...state,
-      networkLoading: false,
-      selectedNode: { pubkey: state.selectedNode.pubkey, routes, currentRoute: routes[0] }
-    }
-  ),
+  [RECEIVE_QUERY_ROUTES]: (state, { routes }) => ({
+    ...state,
+    networkLoading: false,
+    selectedNode: { pubkey: state.selectedNode.pubkey, routes, currentRoute: routes[0] }
+  }),
 
   [SET_CURRENT_ROUTE]: (state, { route }) => ({ ...state, currentRoute: route }),
 
@@ -198,7 +197,8 @@ const ACTION_HANDLERS = {
     }
 
     return {
-      ...state, selectedPeers
+      ...state,
+      selectedPeers
     }
   },
   [CLEAR_SELECTED_PEERS]: state => ({ ...state, selectedPeers: [] }),
@@ -215,7 +215,8 @@ const ACTION_HANDLERS = {
     }
 
     return {
-      ...state, selectedChannels
+      ...state,
+      selectedChannels
     }
   },
   [CLEAR_SELECTED_CHANNELS]: state => ({ ...state, selectedChannels: [] })
@@ -239,38 +240,30 @@ const currentRouteSelector = state => state.network.currentRoute
 //   }
 // )
 
-networkSelectors.selectedPeerPubkeys = createSelector(
-  selectedPeersSelector,
-  peers => peers.map(peer => peer.pub_key)
-)
+networkSelectors.selectedPeerPubkeys = createSelector(selectedPeersSelector, peers => peers.map(peer => peer.pub_key))
 
-networkSelectors.selectedChannelIds = createSelector(
-  selectedChannelsSelector,
-  channels => channels.map(channel => channel.chan_id)
-)
+networkSelectors.selectedChannelIds = createSelector(selectedChannelsSelector, channels => channels.map(channel => channel.chan_id))
 
-networkSelectors.payReqIsLn = createSelector(
-  payReqSelector,
-  (input) => {
-    if (!input.startsWith('ln')) { return false }
-
-    try {
-      bech32.decode(input)
-      return true
-    } catch (e) {
-      return false
-    }
+networkSelectors.payReqIsLn = createSelector(payReqSelector, input => {
+  if (!input.startsWith('ln')) {
+    return false
   }
-)
 
-networkSelectors.currentRouteChanIds = createSelector(
-  currentRouteSelector,
-  (route) => {
-    if (!route.hops || !route.hops.length) { return [] }
-
-    return route.hops.map(hop => hop.chan_id)
+  try {
+    bech32.decode(input)
+    return true
+  } catch (e) {
+    return false
   }
-)
+})
+
+networkSelectors.currentRouteChanIds = createSelector(currentRouteSelector, route => {
+  if (!route.hops || !route.hops.length) {
+    return []
+  }
+
+  return route.hops.map(hop => hop.chan_id)
+})
 
 export { networkSelectors }
 
@@ -294,7 +287,6 @@ const initialState = {
   selectedPeers: [],
   selectedChannels: []
 }
-
 
 // ------------------------------------
 // Reducer

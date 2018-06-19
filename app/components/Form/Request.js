@@ -23,7 +23,7 @@ const Request = ({
 
   onRequestSubmit
 }) => {
-  const onCurrencyFilterClick = (currency) => {
+  const onCurrencyFilterClick = currency => {
     // change the input amount
     setRequestAmount(btc.convert(ticker.currency, currency, amount))
 
@@ -41,46 +41,42 @@ const Request = ({
       <div className={styles.content}>
         <section className={styles.amount}>
           <div className={styles.top}>
-            <label htmlFor='amount'>Amount</label>
+            <label htmlFor="amount">Amount</label>
             <span />
           </div>
           <div className={styles.bottom}>
-            <input
-              type='number'
-              value={amount || ''}
-              onChange={event => setRequestAmount(event.target.value)}
-              id='amount'
-              placeholder='0.00000000'
-            />
+            <input type="number" value={amount || ''} onChange={event => setRequestAmount(event.target.value)} id="amount" placeholder="0.00000000" />
             <div className={styles.currency}>
               <section className={styles.currentCurrency} onClick={() => setRequestCurrencyFilters(!showCurrencyFilters)}>
-                <span>{currencyName}</span><span><FaAngleDown /></span>
+                <span>{currencyName}</span>
+                <span>
+                  <FaAngleDown />
+                </span>
               </section>
               <ul className={showCurrencyFilters && styles.active}>
-                {
-                  currentCurrencyFilters.map(filter =>
-                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-                }
+                {currentCurrencyFilters.map(filter => (
+                  <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
+                    {filter.name}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
 
-          <div className={styles.usdAmount}>
-            {`≈ ${requestUsdAmount || 0} USD`}
-          </div>
+          <div className={styles.usdAmount}>{`≈ ${requestUsdAmount || 0} USD`}</div>
         </section>
 
         <section className={styles.memo}>
           <div className={styles.top}>
-            <label htmlFor='memo'>Memo</label>
+            <label htmlFor="memo">Memo</label>
           </div>
           <div className={styles.bottom}>
             <input
-              type='text'
-              placeholder='Details about the request'
+              type="text"
+              placeholder="Details about the request"
               value={memo}
               onChange={event => setRequestMemo(event.target.value)}
-              id='memo'
+              id="memo"
             />
           </div>
         </section>
@@ -97,17 +93,11 @@ const Request = ({
 
 Request.propTypes = {
   requestform: PropTypes.shape({
-    amount: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.number
-    ]),
+    amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     memo: PropTypes.string
   }).isRequired,
 
-  requestUsdAmount: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number
-  ]),
+  requestUsdAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   currencyName: PropTypes.string.isRequired,
 
   currentCurrencyFilters: PropTypes.array.isRequired,

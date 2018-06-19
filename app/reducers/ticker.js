@@ -47,7 +47,7 @@ export function recieveTickers({ btcTicker, ltcTicker }) {
   }
 }
 
-export const fetchTicker = () => async (dispatch) => {
+export const fetchTicker = () => async dispatch => {
   dispatch(getTickers())
   const tickers = await requestTickers(['bitcoin', 'litecoin'])
   dispatch(recieveTickers(tickers))
@@ -56,11 +56,10 @@ export const fetchTicker = () => async (dispatch) => {
 }
 
 // Receive IPC event for receiveCryptocurrency
-export const receiveCryptocurrency = (event, currency) => (dispatch) => {
+export const receiveCryptocurrency = (event, currency) => dispatch => {
   dispatch({ type: SET_CURRENCY, currency: cryptoTickers[currency] })
   dispatch({ type: SET_CRYPTO, crypto: cryptoTickers[currency] })
 }
-
 
 // ------------------------------------
 // Action Handlers
@@ -69,11 +68,12 @@ const ACTION_HANDLERS = {
   [SET_CURRENCY]: (state, { currency }) => ({ ...state, fromCurrency: state.currency, currency }),
   [SET_CRYPTO]: (state, { crypto }) => ({ ...state, crypto }),
   [GET_TICKERS]: state => ({ ...state, tickerLoading: true }),
-  [RECIEVE_TICKERS]: (state, { btcTicker, ltcTicker }) => (
-    {
-      ...state, tickerLoading: false, btcTicker, ltcTicker
-    }
-  )
+  [RECIEVE_TICKERS]: (state, { btcTicker, ltcTicker }) => ({
+    ...state,
+    tickerLoading: false,
+    btcTicker,
+    ltcTicker
+  })
 }
 
 // Selectors
@@ -91,23 +91,21 @@ tickerSelectors.currentTicker = createSelector(
   (crypto, btcTicker, ltcTicker) => (crypto === 'btc' ? btcTicker : ltcTicker)
 )
 
-tickerSelectors.currentCurrencyFilters = createSelector(
-  currencySelector,
-  currencyFiltersSelector,
-  (currency, filters) => filters.filter(f => f.key !== currency)
+tickerSelectors.currentCurrencyFilters = createSelector(currencySelector, currencyFiltersSelector, (currency, filters) =>
+  filters.filter(f => f.key !== currency)
 )
 
-tickerSelectors.currencyName = createSelector(
-  currencySelector,
-  infoSelectors.networkSelector,
-  (currency, network) => {
-    let unit = currency
-    if (currency === 'btc') { unit = 'BTC' }
-    if (currency === 'sats') { unit = 'satoshis' }
-
-    return `${network.unitPrefix}${unit}`
+tickerSelectors.currencyName = createSelector(currencySelector, infoSelectors.networkSelector, (currency, network) => {
+  let unit = currency
+  if (currency === 'btc') {
+    unit = 'BTC'
   }
-)
+  if (currency === 'sats') {
+    unit = 'satoshis'
+  }
+
+  return `${network.unitPrefix}${unit}`
+})
 
 export { tickerSelectors }
 
