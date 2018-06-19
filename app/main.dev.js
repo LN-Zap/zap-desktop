@@ -45,7 +45,9 @@ const installExtensions = async () => {
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
 
-  return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload))).catch(mainLog.error)
+  return Promise.all(
+    extensions.map(name => installer.default(installer[name], forceDownload))
+  ).catch(mainLog.error)
 }
 
 // Send the front end event letting them know the gRPC connection is disconnected
@@ -214,7 +216,10 @@ const startLnd = (alias, autopilot) => {
     }
 
     // Pass current clock height progress to front end for loading state UX
-    if (mainWindow && (line.includes('Caught up to height') || line.includes('Catching up block hashes to height'))) {
+    if (
+      mainWindow &&
+      (line.includes('Caught up to height') || line.includes('Catching up block hashes to height'))
+    ) {
       // const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
       mainWindow.webContents.send('lndStdout', line)
     }
