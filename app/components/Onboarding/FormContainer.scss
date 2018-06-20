@@ -59,13 +59,13 @@
     .nextButton {
       cursor: pointer;
       transition: all 0.25s;
-      background: #31343f;
+      background: $darkspaceblue;
       padding: 10px 30px 10px 40px;
       width: 54px;
       text-align: center;
 
       &:hover {
-        background: darken($gold, 5%);
+        background: lighten($darkspaceblue, 10%);
       }
     }
 
