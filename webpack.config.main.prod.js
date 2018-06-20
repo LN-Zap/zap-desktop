@@ -39,13 +39,9 @@ export default merge.smart(baseConfig, {
      *
      * Useful for allowing different behaviour between development builds and
      * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
      */
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
-      'process.env.DEBUG_PROD': JSON.stringify(process.env.DEBUG_PROD || 'false')
+    new webpack.EnvironmentPlugin({
+      DEBUG_PROD: false
     })
   ],
 
