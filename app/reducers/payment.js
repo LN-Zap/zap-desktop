@@ -69,7 +69,8 @@ export const fetchPayments = () => dispatch => {
 }
 
 // Receive IPC event for payments
-export const receivePayments = (event, { payments }) => dispatch => dispatch({ type: RECEIVE_PAYMENTS, payments })
+export const receivePayments = (event, { payments }) => dispatch =>
+  dispatch({ type: RECEIVE_PAYMENTS, payments })
 
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch

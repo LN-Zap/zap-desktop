@@ -24,11 +24,15 @@ const NewWalletPassword = ({
       <input
         type="password"
         placeholder="Confirm Password"
-        className={`${styles.password} ${showCreateWalletPasswordConfirmationError && styles.error}`}
+        className={`${styles.password} ${showCreateWalletPasswordConfirmationError &&
+          styles.error}`}
         value={createWalletPasswordConfirmation}
         onChange={event => updateCreateWalletPasswordConfirmation(event.target.value)}
       />
-      <p className={`${styles.errorMessage} ${showCreateWalletPasswordConfirmationError && styles.visible}`}>
+      <p
+        className={`${styles.errorMessage} ${showCreateWalletPasswordConfirmationError &&
+          styles.visible}`}
+      >
         Passwords do not match
       </p>
     </section>

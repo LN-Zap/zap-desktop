@@ -11,9 +11,20 @@ import { fetchInfo } from 'reducers/info'
 
 import { setFormType } from 'reducers/form'
 
-import { setPayAmount, setPayInput, setCurrencyFilters, updatePayErrors, payFormSelectors } from 'reducers/payform'
+import {
+  setPayAmount,
+  setPayInput,
+  setCurrencyFilters,
+  updatePayErrors,
+  payFormSelectors
+} from 'reducers/payform'
 
-import { setRequestAmount, setRequestMemo, setRequestCurrencyFilters, requestFormSelectors } from 'reducers/requestform'
+import {
+  setRequestAmount,
+  setRequestMemo,
+  setRequestCurrencyFilters,
+  requestFormSelectors
+} from 'reducers/requestform'
 
 import { sendCoins } from 'reducers/transaction'
 
@@ -230,7 +241,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       if (!stateProps.payFormIsValid.isValid) {
         dispatchProps.updatePayErrors({
           amount: Object.prototype.hasOwnProperty.call(stateProps.payFormIsValid.errors, 'amount'),
-          payInput: Object.prototype.hasOwnProperty.call(stateProps.payFormIsValid.errors, 'payInput')
+          payInput: Object.prototype.hasOwnProperty.call(
+            stateProps.payFormIsValid.errors,
+            'payInput'
+          )
         })
 
         return

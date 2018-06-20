@@ -42,11 +42,15 @@ describe('reducers', () => {
     })
 
     it('should correctly receivePayments', () => {
-      expect(paymentReducer(undefined, { type: RECEIVE_PAYMENTS, payments: [1, 2] })).toMatchSnapshot()
+      expect(
+        paymentReducer(undefined, { type: RECEIVE_PAYMENTS, payments: [1, 2] })
+      ).toMatchSnapshot()
     })
 
     it('should correctly paymentSuccessful', () => {
-      expect(paymentReducer(undefined, { type: PAYMENT_SUCCESSFULL, payment: 'foo' })).toMatchSnapshot()
+      expect(
+        paymentReducer(undefined, { type: PAYMENT_SUCCESSFULL, payment: 'foo' })
+      ).toMatchSnapshot()
     })
   })
 })

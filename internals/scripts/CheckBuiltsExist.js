@@ -10,7 +10,9 @@ function CheckBuildsExist() {
 
   if (!fs.existsSync(mainPath)) {
     throw new Error(
-      chalk.whiteBright.bgRed.bold('The main process is not built yet. Build it by running "npm run build-main"')
+      chalk.whiteBright.bgRed.bold(
+        'The main process is not built yet. Build it by running "npm run build-main"'
+      )
     )
   }
 

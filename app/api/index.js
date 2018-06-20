@@ -13,7 +13,9 @@ export function requestTicker(id) {
 export function requestTickers(ids) {
   return axios
     .all(ids.map(id => requestTicker(id)))
-    .then(axios.spread((btcTicker, ltcTicker) => ({ btcTicker: btcTicker[0], ltcTicker: ltcTicker[0] })))
+    .then(
+      axios.spread((btcTicker, ltcTicker) => ({ btcTicker: btcTicker[0], ltcTicker: ltcTicker[0] }))
+    )
 }
 
 export function requestBlockHeight() {

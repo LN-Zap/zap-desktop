@@ -89,7 +89,11 @@ class Network extends Component {
 
     // when the user clicks the action to close the channel
     const removeClicked = removeChannel => {
-      closeChannel({ channel_point: removeChannel.channel_point, chan_id: removeChannel.chan_id, force: !removeChannel.active })
+      closeChannel({
+        channel_point: removeChannel.channel_point,
+        chan_id: removeChannel.chan_id,
+        force: !removeChannel.active
+      })
     }
 
     // when a user clicks a channel
@@ -109,7 +113,9 @@ class Network extends Component {
         return node.alias
       }
 
-      return displayedChannel.remote_pubkey ? displayedChannel.remote_pubkey.substring(0, 10) : displayedChannel.remote_node_pub.substring(0, 10)
+      return displayedChannel.remote_pubkey
+        ? displayedChannel.remote_pubkey.substring(0, 10)
+        : displayedChannel.remote_node_pub.substring(0, 10)
     }
 
     const channelStatus = statusChannel => {
@@ -145,7 +151,9 @@ class Network extends Component {
           <section>
             <h2>My Network</h2>
             <span className={styles.channelAmount}>
-              {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
+              {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${usdAmount
+                ? usdAmount.toLocaleString()
+                : ''}
             </span>
           </section>
           <section
@@ -160,7 +168,8 @@ class Network extends Component {
         </header>
 
         <div className={styles.channels}>
-          {!loadingChannelPubkeys.length && !channels.length && <SuggestedNodes {...suggestedNodesProps} />}
+          {!loadingChannelPubkeys.length &&
+            !channels.length && <SuggestedNodes {...suggestedNodesProps} />}
 
           {(loadingChannelPubkeys.length || channels.length) && (
             <header className={styles.listHeader}>
@@ -227,7 +236,8 @@ class Network extends Component {
                 return (
                   <li
                     key={index}
-                    className={`${styles.channel} ${selectedChannel === channel && styles.selectedChannel}`}
+                    className={`${styles.channel} ${selectedChannel === channel &&
+                      styles.selectedChannel}`}
                     onClick={() => channelClicked(channel)}
                   >
                     <section className={styles.channelTitle}>
@@ -246,7 +256,12 @@ class Network extends Component {
                       <span>{displayNodeName(channel)}</span>
                       {selectedChannel === channel && (
                         <span
-                          onClick={() => blockExplorer.showTransaction(network, channel.channel_point.split(':')[0])}
+                          onClick={() =>
+                            blockExplorer.showTransaction(
+                              network,
+                              channel.channel_point.split(':')[0]
+                            )
+                          }
                         >
                           <FaExternalLink />
                         </span>

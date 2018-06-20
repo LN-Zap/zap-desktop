@@ -55,7 +55,11 @@ const InvoiceModal = ({
           <div className={styles.details}>
             <section className={styles.amount}>
               <h1>
-                <Value value={invoice.value} currency={ticker.currency} currentTicker={currentTicker} />
+                <Value
+                  value={invoice.value}
+                  currency={ticker.currency}
+                  currentTicker={currentTicker}
+                />
               </h1>
               <section
                 className={styles.currentCurrency}

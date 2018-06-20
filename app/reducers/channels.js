@@ -290,13 +290,17 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
       const { advertising_node, connecting_node } = channel_update
 
       // if our node is involved in this update we wanna show a notification
-      if (info.data.identity_pubkey === advertising_node || info.data.identity_pubkey === connecting_node) {
+      if (
+        info.data.identity_pubkey === advertising_node ||
+        info.data.identity_pubkey === connecting_node
+      ) {
         // this channel has to do with the user, lets fetch a new channel list for them
         // TODO: full fetch is probably not necessary
         dispatch(fetchChannels())
 
         // Construct the notification
-        const otherParty = info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
+        const otherParty =
+          info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
         const notifBody = `No new friends, just new channels. Your channel with ${otherParty}`
         const notifTitle = 'New channel detected'
 
@@ -327,7 +331,10 @@ export function changeFilter(channelFilter) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_CHANNEL_FORM]: (state, { form }) => ({ ...state, channelForm: Object.assign({}, state.channelForm, form) }),
+  [SET_CHANNEL_FORM]: (state, { form }) => ({
+    ...state,
+    channelForm: Object.assign({}, state.channelForm, form)
+  }),
 
   [SET_CHANNEL]: (state, { channel }) => ({ ...state, channel }),
 
@@ -349,7 +356,11 @@ const ACTION_HANDLERS = {
   [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
 
   [TOGGLE_CHANNEL_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
-  [CHANGE_CHANNEL_FILTER]: (state, { channelFilter }) => ({ ...state, filterPulldown: false, filter: channelFilter }),
+  [CHANGE_CHANNEL_FILTER]: (state, { channelFilter }) => ({
+    ...state,
+    filterPulldown: false,
+    filter: channelFilter
+  }),
 
   [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({
     ...state,
@@ -357,30 +368,44 @@ const ACTION_HANDLERS = {
   }),
   [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({
     ...state,
-    loadingChannelPubkeys: state.loadingChannelPubkeys.filter(loadingPubkey => loadingPubkey !== pubkey)
+    loadingChannelPubkeys: state.loadingChannelPubkeys.filter(
+      loadingPubkey => loadingPubkey !== pubkey
+    )
   }),
 
-  [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => ({ ...state, closingChannelIds: [chanId, ...state.closingChannelIds] }),
+  [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => ({
+    ...state,
+    closingChannelIds: [chanId, ...state.closingChannelIds]
+  }),
   [REMOVE_ClOSING_CHAN_ID]: (state, { chanId }) => ({
     ...state,
     closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId)
   }),
 
-  [OPEN_CONTACT_MODAL]: (state, { channel }) => ({ ...state, contactModal: { isOpen: true, channel } }),
+  [OPEN_CONTACT_MODAL]: (state, { channel }) => ({
+    ...state,
+    contactModal: { isOpen: true, channel }
+  }),
   [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } }),
 
   [SET_SELECTED_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
 
   [GET_SUGGESTED_NODES]: state => ({ ...state, suggestedNodesLoading: true }),
-  [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => ({ ...state, suggestedNodesLoading: false, suggestedNodes })
+  [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => ({
+    ...state,
+    suggestedNodesLoading: false,
+    suggestedNodes
+  })
 }
 
 const channelsSelectors = {}
 const channelSelector = state => state.channels.channel
 const channelsSelector = state => state.channels.channels
 const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
-const pendingClosedChannelsSelector = state => state.channels.pendingChannels.pending_closing_channels
-const pendingForceClosedChannelsSelector = state => state.channels.pendingChannels.pending_force_closing_channels
+const pendingClosedChannelsSelector = state =>
+  state.channels.pendingChannels.pending_closing_channels
+const pendingForceClosedChannelsSelector = state =>
+  state.channels.pendingChannels.pending_force_closing_channels
 const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waiting_close_channels
 const channelSearchQuerySelector = state => state.channels.searchQuery
 const filtersSelector = state => state.channels.filters
@@ -395,7 +420,9 @@ const channelMatchesQuery = (channel, nodes, searchQuery) => {
   const remotePubkey = (channel.remote_pubkey || '').toLowerCase()
   const displayName = (node ? node.alias : '' || '').toLowerCase()
 
-  return remoteNodePub.includes(query) || remotePubkey.includes(query) || displayName.includes(query)
+  return (
+    remoteNodePub.includes(query) || remotePubkey.includes(query) || displayName.includes(query)
+  )
 }
 
 channelsSelectors.channelModalOpen = createSelector(channelSelector, channel => !!channel)
@@ -421,27 +448,40 @@ channelsSelectors.pendingOpenChannels = createSelector(
   pendingOpenChannels => pendingOpenChannels
 )
 
-channelsSelectors.pendingOpenChannelPubkeys = createSelector(pendingOpenChannelsSelector, pendingOpenChannels =>
-  pendingOpenChannels.map(pendingChannel => pendingChannel.channel.remote_node_pub)
+channelsSelectors.pendingOpenChannelPubkeys = createSelector(
+  pendingOpenChannelsSelector,
+  pendingOpenChannels =>
+    pendingOpenChannels.map(pendingChannel => pendingChannel.channel.remote_node_pub)
 )
 
 channelsSelectors.closingPendingChannels = createSelector(
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
-  (pendingClosedChannels, pendingForcedClosedChannels) => [...pendingClosedChannels, ...pendingForcedClosedChannels]
+  (pendingClosedChannels, pendingForcedClosedChannels) => [
+    ...pendingClosedChannels,
+    ...pendingForcedClosedChannels
+  ]
 )
 
-channelsSelectors.activeChanIds = createSelector(channelsSelector, channels => channels.map(channel => channel.chan_id))
-
-channelsSelectors.nonActiveFilters = createSelector(filtersSelector, filterSelector, (filters, channelFilter) =>
-  filters.filter(f => f.key !== channelFilter.key)
+channelsSelectors.activeChanIds = createSelector(channelsSelector, channels =>
+  channels.map(channel => channel.chan_id)
 )
 
-channelsSelectors.channelNodes = createSelector(channelsSelector, nodesSelector, (channels, nodes) => {
-  const chanPubkeys = channels.map(channel => channel.remote_pubkey)
+channelsSelectors.nonActiveFilters = createSelector(
+  filtersSelector,
+  filterSelector,
+  (filters, channelFilter) => filters.filter(f => f.key !== channelFilter.key)
+)
 
-  return filter(nodes, node => chanPubkeys.includes(node.pub_key))
-})
+channelsSelectors.channelNodes = createSelector(
+  channelsSelector,
+  nodesSelector,
+  (channels, nodes) => {
+    const chanPubkeys = channels.map(channel => channel.remote_pubkey)
+
+    return filter(nodes, node => chanPubkeys.includes(node.pub_key))
+  }
+)
 
 const allChannels = createSelector(
   channelsSelectors.activeChannels,
@@ -462,16 +502,20 @@ const allChannels = createSelector(
     searchQuery,
     nodes
   ) => {
-    const filterChannel = channel => channelMatchesQuery(channel.channel || channel, nodes, searchQuery)
+    const filterChannel = channel =>
+      channelMatchesQuery(channel.channel || channel, nodes, searchQuery)
 
     const filteredActiveChannels = activeChannels.filter(filterChannel)
     const filteredNonActiveChannels = nonActiveChannels.filter(filterChannel)
 
-    const filterPendingChannel = channel => channelMatchesQuery(channel.channel || channel, nodes, searchQuery)
+    const filterPendingChannel = channel =>
+      channelMatchesQuery(channel.channel || channel, nodes, searchQuery)
 
     const filteredPendingOpenChannels = pendingOpenChannels.filter(filterPendingChannel)
     const filteredPendingClosedChannels = pendingClosedChannels.filter(filterPendingChannel)
-    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(filterPendingChannel)
+    const filteredPendingForcedClosedChannels = pendingForcedClosedChannels.filter(
+      filterPendingChannel
+    )
     const filteredWaitingCloseChannels = waitingCloseChannels.filter(filterPendingChannel)
 
     return [
@@ -527,7 +571,9 @@ export const currentChannels = createSelector(
     }
 
     const channelArray = filteredArray(channelFilter.key)
-    return channelArray.filter(channel => channelMatchesQuery(channel.channel || channel, nodes, searchQuery))
+    return channelArray.filter(channel =>
+      channelMatchesQuery(channel.channel || channel, nodes, searchQuery)
+    )
   }
 )
 

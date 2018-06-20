@@ -30,7 +30,11 @@ export default class MenuBuilder {
   }
 
   setupInputTemplate() {
-    const selectionMenu = Menu.buildFromTemplate([{ role: 'copy' }, { type: 'separator' }, { role: 'selectall' }])
+    const selectionMenu = Menu.buildFromTemplate([
+      { role: 'copy' },
+      { type: 'separator' },
+      { role: 'selectall' }
+    ])
 
     const inputMenu = Menu.buildFromTemplate([
       { role: 'undo' },
@@ -65,7 +69,11 @@ export default class MenuBuilder {
         { label: 'About Zap', selector: 'orderFrontStandardAboutPanel:' },
         { type: 'separator' },
         { label: 'Hide Zap', accelerator: 'Command+H', selector: 'hide:' },
-        { label: 'Hide Others', accelerator: 'Command+Shift+H', selector: 'hideOtherApplications:' },
+        {
+          label: 'Hide Others',
+          accelerator: 'Command+Shift+H',
+          selector: 'hideOtherApplications:'
+        },
         { label: 'Show All', selector: 'unhideAllApplications:' },
         { type: 'separator' },
         {

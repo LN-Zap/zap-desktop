@@ -142,7 +142,8 @@ export const queryRoutes = (pubkey, amount) => dispatch => {
   ipcRenderer.send('lnd', { msg: 'queryRoutes', data: { pubkey, amount } })
 }
 
-export const receiveQueryRoutes = (event, { routes }) => dispatch => dispatch({ type: RECEIVE_QUERY_ROUTES, routes })
+export const receiveQueryRoutes = (event, { routes }) => dispatch =>
+  dispatch({ type: RECEIVE_QUERY_ROUTES, routes })
 
 // take a payreq and query routes for it
 export const fetchInvoiceAndQueryRoutes = payreq => dispatch => {
@@ -199,7 +200,9 @@ const ACTION_HANDLERS = {
     let selectedPeers
 
     if (state.selectedPeers.includes(peer)) {
-      selectedPeers = state.selectedPeers.filter(selectedPeer => selectedPeer.pub_key !== peer.pub_key)
+      selectedPeers = state.selectedPeers.filter(
+        selectedPeer => selectedPeer.pub_key !== peer.pub_key
+      )
     }
 
     if (!state.selectedPeers.includes(peer)) {
@@ -217,7 +220,9 @@ const ACTION_HANDLERS = {
     let selectedChannels
 
     if (state.selectedChannels.includes(channel)) {
-      selectedChannels = state.selectedChannels.filter(selectedChannel => selectedChannel.chan_id !== channel.chan_id)
+      selectedChannels = state.selectedChannels.filter(
+        selectedChannel => selectedChannel.chan_id !== channel.chan_id
+      )
     }
 
     if (!state.selectedChannels.includes(channel)) {
@@ -250,7 +255,9 @@ const currentRouteSelector = state => state.network.currentRoute
 //   }
 // )
 
-networkSelectors.selectedPeerPubkeys = createSelector(selectedPeersSelector, peers => peers.map(peer => peer.pub_key))
+networkSelectors.selectedPeerPubkeys = createSelector(selectedPeersSelector, peers =>
+  peers.map(peer => peer.pub_key)
+)
 
 networkSelectors.selectedChannelIds = createSelector(selectedChannelsSelector, channels =>
   channels.map(channel => channel.chan_id)

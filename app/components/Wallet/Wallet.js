@@ -85,7 +85,9 @@ const Wallet = ({
                   </section>
                 </span>
               </h1>
-              <span className={styles.usdValue}>≈ ${usdAmount ? usdAmount.toLocaleString() : ''}</span>
+              <span className={styles.usdValue}>
+                ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
+              </span>
             </div>
           </div>
         </div>
@@ -119,10 +121,16 @@ const Wallet = ({
                   <AnimatedCheckmark />
                 </section>
                 <section>
-                  {
-                    // TODO(jimmymow): remove this
-                    // eslint-disable-next-line
-                    }Successfully <span className={styles.txLink} onClick={() => blockExplorer.showTransaction(network, successTransactionScreen.txid)}>sent</span> transaction
+                  Successfully{' '}
+                  <span
+                    className={styles.txLink}
+                    onClick={() => {
+                      return blockExplorer.showTransaction(network, successTransactionScreen.txid)
+                    }}
+                  >
+                    sent
+                  </span>{' '}
+                  transaction
                 </section>
               </span>
             )}

@@ -43,7 +43,9 @@ describe('reducers', () => {
     })
 
     it('should correctly setChannel', () => {
-      expect(channelsReducer(undefined, { type: SET_CHANNEL, channel: 'channel' })).toMatchSnapshot()
+      expect(
+        channelsReducer(undefined, { type: SET_CHANNEL, channel: 'channel' })
+      ).toMatchSnapshot()
     })
 
     it('should correctly getChannels', () => {
@@ -52,7 +54,11 @@ describe('reducers', () => {
 
     it('should correctly receiveChannel', () => {
       expect(
-        channelsReducer(undefined, { type: RECEIVE_CHANNELS, channels: [1, 2], pendingChannels: [3, 4] })
+        channelsReducer(undefined, {
+          type: RECEIVE_CHANNELS,
+          channels: [1, 2],
+          pendingChannels: [3, 4]
+        })
       ).toMatchSnapshot()
     })
 

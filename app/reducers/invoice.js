@@ -93,7 +93,8 @@ export const fetchInvoices = () => dispatch => {
 }
 
 // Receive IPC event for invoices
-export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ type: RECEIVE_INVOICES, invoices })
+export const receiveInvoices = (event, { invoices }) => dispatch =>
+  dispatch({ type: RECEIVE_INVOICES, invoices })
 
 // Send IPC event for creating an invoice
 export const createInvoice = (amount, memo, currency) => dispatch => {
@@ -189,13 +190,15 @@ invoiceSelectors.invoiceModalOpen = createSelector(invoiceSelector, invoice => !
 invoiceSelectors.invoices = createSelector(
   invoicesSelector,
   invoicesSearchTextSelector,
-  (invoices, invoicesSearchText) => invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
+  (invoices, invoicesSearchText) =>
+    invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
 )
 
 invoiceSelectors.invoices = createSelector(
   invoicesSelector,
   invoicesSearchTextSelector,
-  (invoices, invoicesSearchText) => invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
+  (invoices, invoicesSearchText) =>
+    invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
 )
 
 export { invoiceSelectors }

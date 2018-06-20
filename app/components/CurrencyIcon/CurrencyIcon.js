@@ -4,7 +4,11 @@ import FaDollar from 'react-icons/lib/fa/dollar'
 import CryptoIcon from '../CryptoIcon'
 
 const CurrencyIcon = ({ currency, crypto, styles }) => {
-  return currency === 'usd' ? <FaDollar style={styles} /> : <CryptoIcon styles={styles} currency={crypto} />
+  return currency === 'usd' ? (
+    <FaDollar style={styles} />
+  ) : (
+    <CryptoIcon styles={styles} currency={crypto} />
+  )
 }
 
 CurrencyIcon.propTypes = {

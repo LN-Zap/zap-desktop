@@ -105,7 +105,8 @@ export const newTransaction = (event, { transaction }) => dispatch => {
   dispatch({ type: ADD_TRANSACTION, transaction })
 
   // HTML 5 desktop notification for the new transaction
-  const notifTitle = transaction.amount > 0 ? 'On-chain Transaction Received!' : 'On-chain Transaction Sent!'
+  const notifTitle =
+    transaction.amount > 0 ? 'On-chain Transaction Received!' : 'On-chain Transaction Sent!'
   const notifBody =
     transaction.amount > 0
       ? "Lucky you, you just received a new on-chain transaction. I'm jealous."
@@ -123,7 +124,11 @@ export const newTransaction = (event, { transaction }) => dispatch => {
 const ACTION_HANDLERS = {
   [GET_TRANSACTIONS]: state => ({ ...state, transactionLoading: true }),
   [SEND_TRANSACTION]: state => ({ ...state, sendingTransaction: true }),
-  [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({ ...state, transactionLoading: false, transactions }),
+  [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({
+    ...state,
+    transactionLoading: false,
+    transactions
+  }),
   [TRANSACTION_SUCCESSFULL]: state => ({ ...state, sendingTransaction: false }),
   [TRANSACTION_FAILED]: state => ({ ...state, sendingTransaction: false }),
   [ADD_TRANSACTION]: (state, { transaction }) => {
@@ -139,7 +144,10 @@ const ACTION_HANDLERS = {
     ...state,
     successTransactionScreen: { show: true, txid }
   }),
-  [HIDE_SUCCESS_TRANSACTION_SCREEN]: state => ({ ...state, successTransactionScreen: { show: false, txid: '' } })
+  [HIDE_SUCCESS_TRANSACTION_SCREEN]: state => ({
+    ...state,
+    successTransactionScreen: { show: false, txid: '' }
+  })
 }
 
 // ------------------------------------

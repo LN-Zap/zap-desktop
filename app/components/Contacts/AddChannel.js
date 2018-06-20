@@ -108,7 +108,9 @@ const AddChannel = ({
                   <h2>
                     <span>{node.alias.trim()}</span>
                     <span>
-                      ({node.pub_key.substr(0, 10)}...{node.pub_key.substr(node.pub_key.length - 10)})
+                      ({node.pub_key.substr(0, 10)}...{node.pub_key.substr(
+                        node.pub_key.length - 10
+                      )})
                     </span>
                   </h2>
                 ) : (
@@ -125,7 +127,9 @@ const AddChannel = ({
 
       {showManualForm && (
         <section className={styles.manualForm}>
-          <p>Hm, looks like we can&apos;t see that node from here, wanna try to manually connect?</p>
+          <p>
+            Hm, looks like we can&apos;t see that node from here, wanna try to manually connect?
+          </p>
           <div className={styles.manualConnectButton} onClick={openManualForm}>
             Connect Manually
           </div>

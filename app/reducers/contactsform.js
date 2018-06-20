@@ -183,9 +183,15 @@ const ACTION_HANDLERS = {
     showErrors: Object.assign(state.showErrors, errorsObject)
   }),
 
-  [UPDATE_MANUAL_FORM_SEARCH_QUERY]: (state, { manualSearchQuery }) => ({ ...state, manualSearchQuery }),
+  [UPDATE_MANUAL_FORM_SEARCH_QUERY]: (state, { manualSearchQuery }) => ({
+    ...state,
+    manualSearchQuery
+  }),
 
-  [SET_CONTACTS_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({ ...state, showCurrencyFilters })
+  [SET_CONTACTS_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
+    ...state,
+    showCurrencyFilters
+  })
 }
 
 // ------------------------------------
@@ -228,9 +234,10 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
     const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
 
     // list of the nodes
-    const list = filter(nodes, node => node.alias.includes(query) || node.pub_key.includes(query)).sort(
-      contactableFirst
-    )
+    const list = filter(
+      nodes,
+      node => node.alias.includes(query) || node.pub_key.includes(query)
+    ).sort(contactableFirst)
 
     // if we don't limit the nodes returned then we take a huge performance hit
     // rendering thousands of nodes potentially, so we just render 20 for the time being

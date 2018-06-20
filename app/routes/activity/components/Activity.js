@@ -135,7 +135,9 @@ class Activity extends Component {
               <li className={styles.activity} key={index}>
                 <h2>{activityBlock.title}</h2>
                 <ul>
-                  {activityBlock.activity.map((activity, i) => <li key={i}>{this.renderActivity(activity.el)}</li>)}
+                  {activityBlock.activity.map((activity, i) => (
+                    <li key={i}>{this.renderActivity(activity.el)}</li>
+                  ))}
                 </ul>
               </li>
             ))}

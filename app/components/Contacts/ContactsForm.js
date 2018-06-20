@@ -80,7 +80,11 @@ class ContactsForm extends React.Component {
           className={`${styles.connect} hint--left`}
           data-hint={`Connect with ${contactsform.contactCapacity} BTC`}
           onClick={() =>
-            openChannel({ pubkey: node.pub_key, host: node.addresses[0].addr, local_amt: contactsform.contactCapacity })
+            openChannel({
+              pubkey: node.pub_key,
+              host: node.addresses[0].addr,
+              local_amt: contactsform.contactCapacity
+            })
           }
         >
           Connect
@@ -105,7 +109,8 @@ class ContactsForm extends React.Component {
       // clear any existing errors
 
       updateManualFormErrors({ manualInput: null })
-      const [pubkey, host] = contactsform.manualSearchQuery && contactsform.manualSearchQuery.split('@')
+      const [pubkey, host] =
+        contactsform.manualSearchQuery && contactsform.manualSearchQuery.split('@')
 
       openChannel({ pubkey, host, local_amt: contactsform.contactCapacity })
 
@@ -159,7 +164,9 @@ class ContactsForm extends React.Component {
                       <h2>
                         <span>{node.alias.trim()}</span>
                         <span>
-                          ({node.pub_key.substr(0, 10)}...{node.pub_key.substr(node.pub_key.length - 10)})
+                          ({node.pub_key.substr(0, 10)}...{node.pub_key.substr(
+                            node.pub_key.length - 10
+                          )})
                         </span>
                       </h2>
                     ) : (
@@ -176,7 +183,10 @@ class ContactsForm extends React.Component {
 
           {showManualForm && (
             <div className={styles.manualForm}>
-              <h2>Hm, looks like we can’t see that contact from here. Want to try and manually connect?</h2>
+              <h2>
+                Hm, looks like we can’t see that contact from here. Want to try and manually
+                connect?
+              </h2>
               <section>
                 <input
                   type="text"
@@ -197,8 +207,12 @@ class ContactsForm extends React.Component {
                 )}
               </section>
 
-              <section className={`${styles.errorMessage} ${showErrors.manualInput && styles.active}`}>
-                {showErrors.manualInput && <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>}
+              <section
+                className={`${styles.errorMessage} ${showErrors.manualInput && styles.active}`}
+              >
+                {showErrors.manualInput && (
+                  <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>
+                )}
               </section>
             </div>
           )}
@@ -214,7 +228,9 @@ class ContactsForm extends React.Component {
                   onClick={inputClicked}
                   onKeyPress={event => event.charCode === 13 && this.setState({ editing: false })}
                   readOnly={!editing}
-                  style={{ width: `${editing ? 20 : contactsform.contactCapacity.toString().length + 1}%` }}
+                  style={{
+                    width: `${editing ? 20 : contactsform.contactCapacity.toString().length + 1}%`
+                  }}
                 />
               </span>
               <span className={styles.caption}>

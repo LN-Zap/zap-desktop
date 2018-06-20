@@ -43,7 +43,8 @@ export const newAddress = type => async dispatch => {
 }
 
 // Receive IPC event for info
-export const receiveAddress = (event, address) => dispatch => dispatch({ type: RECEIVE_ADDRESS, address })
+export const receiveAddress = (event, address) => dispatch =>
+  dispatch({ type: RECEIVE_ADDRESS, address })
 
 // ------------------------------------
 // Action Handlers

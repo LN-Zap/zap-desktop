@@ -62,8 +62,12 @@ const mapStateToProps = state => ({
 
   syncPercentage: lndSelectors.syncPercentage(state),
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
-  showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(state),
-  showAezeedPasswordConfirmationError: onboardingSelectors.showAezeedPasswordConfirmationError(state),
+  showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(
+    state
+  ),
+  showAezeedPasswordConfirmationError: onboardingSelectors.showAezeedPasswordConfirmationError(
+    state
+  ),
   reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state)
 })
 

@@ -58,7 +58,9 @@ describe('reducers', () => {
     })
 
     it('should correctly searchInvoices', () => {
-      expect(invoiceReducer(undefined, { type: SEARCH_INVOICES, invoicesSearchText: 'foo' })).toMatchSnapshot()
+      expect(
+        invoiceReducer(undefined, { type: SEARCH_INVOICES, invoicesSearchText: 'foo' })
+      ).toMatchSnapshot()
     })
 
     it('should correctly setInvoice', () => {
@@ -84,7 +86,9 @@ describe('reducers', () => {
     })
 
     it('should correctly receiveInvoices', () => {
-      expect(invoiceReducer(undefined, { type: RECEIVE_INVOICES, invoices: [1, 2] })).toMatchSnapshot()
+      expect(
+        invoiceReducer(undefined, { type: RECEIVE_INVOICES, invoices: [1, 2] })
+      ).toMatchSnapshot()
     })
 
     it('should correctly sendInvoice', () => {
@@ -92,7 +96,9 @@ describe('reducers', () => {
     })
 
     it('should correctly invcoiceSuccessful', () => {
-      expect(invoiceReducer(undefined, { type: INVOICE_SUCCESSFUL, invoice: 'foo' })).toMatchSnapshot()
+      expect(
+        invoiceReducer(undefined, { type: INVOICE_SUCCESSFUL, invoice: 'foo' })
+      ).toMatchSnapshot()
     })
 
     it('should correctly invcoiceFailed', () => {

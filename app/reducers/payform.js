@@ -111,7 +111,10 @@ const ACTION_HANDLERS = {
     invoice,
     showErrors: Object.assign(state.showErrors, { amount: false })
   }),
-  [SET_PAY_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({ ...state, showCurrencyFilters }),
+  [SET_PAY_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
+    ...state,
+    showCurrencyFilters
+  }),
 
   [UPDATE_PAY_ERRORS]: (state, { errorsObject }) => ({
     ...state,
@@ -138,14 +141,18 @@ const sendingPaymentSelector = state => state.payment.sendingPayment
 // ticker
 const currencySelector = state => state.ticker.currency
 
-payFormSelectors.isOnchain = createSelector(payInputSelector, infoSelectors.networkSelector, (input, network) => {
-  try {
-    bitcoin.address.toOutputScript(input, network.bitcoinJsNetwork)
-    return true
-  } catch (e) {
-    return false
+payFormSelectors.isOnchain = createSelector(
+  payInputSelector,
+  infoSelectors.networkSelector,
+  (input, network) => {
+    try {
+      bitcoin.address.toOutputScript(input, network.bitcoinJsNetwork)
+      return true
+    } catch (e) {
+      return false
+    }
   }
-})
+)
 
 payFormSelectors.isLn = createSelector(payInputSelector, input => {
   if (!input.startsWith('ln')) {

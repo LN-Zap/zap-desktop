@@ -29,7 +29,9 @@ const lightning = (rpcpath, host) => {
   const macaroonHex = fs.readFileSync(lndConfig.macaroon).toString('hex')
   metadata.add('macaroon', macaroonHex)
 
-  const macaroonCreds = grpc.credentials.createFromMetadataGenerator((params, callback) => callback(null, metadata))
+  const macaroonCreds = grpc.credentials.createFromMetadataGenerator((params, callback) =>
+    callback(null, metadata)
+  )
   const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 
   return new rpc.lnrpc.Lightning(host, credentials)

@@ -91,7 +91,10 @@ const Request = ({
         </section>
 
         <section className={styles.submit}>
-          <div className={`${styles.button} ${amount > 0 && styles.active}`} onClick={onRequestSubmit}>
+          <div
+            className={`${styles.button} ${amount > 0 && styles.active}`}
+            onClick={onRequestSubmit}
+          >
             Request
           </div>
         </section>
