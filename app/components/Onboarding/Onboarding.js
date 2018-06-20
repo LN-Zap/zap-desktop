@@ -109,7 +109,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Welcome back!"
-            description="Enter your wallet password or create a new wallet" // eslint-disable-line
+            description="Enter your wallet password or create a new wallet"
             back={null}
             next={null}
           >
@@ -138,7 +138,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title={"Alright, let's get set up"}
-            description="Would you like to create a new wallet or import an existing one?" // eslint-disable-line
+            description="Would you like to create a new wallet or import an existing one?"
             back={() => changeStep(4)}
             next={() => (initWalletProps.signupProps.signupForm.create ? changeStep(6) : changeStep(5.1))}
           >
@@ -149,7 +149,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Import your seed"
-            description={"Recovering a wallet, nice. You don't need anyone else, you got yourself :)"} // eslint-disable-line
+            description="Recovering a wallet, nice. You don't need anyone else, you got yourself :)"
             back={() => changeStep(5)}
             next={() => changeStep(5.2)}
           >
@@ -160,7 +160,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Seed passphrase"
-            description={"Enter your cipherseed passphrase (or just submit if you don't have one)"} // eslint-disable-line
+            description="Enter your cipherseed passphrase (or just submit if you don't have one)"
             back={() => changeStep(5)}
             next={() => {
               const recoverySeed = recoverFormProps.seedInput.map(input => input.word)
@@ -175,7 +175,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Save your wallet seed"
-            description="Please save these 24 words securely! This will allow you to recover your wallet in the future" // eslint-disable-line
+            description="Please save these 24 words securely! This will allow you to recover your wallet in the future"
             back={() => changeStep(5)}
             next={() => changeStep(7)}
           >
@@ -186,7 +186,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Re-enter your seed"
-            description="Yeah I know, might be annoying, but just to be safe!" // eslint-disable-line
+            description="Yeah I know, might be annoying, but just to be safe!"
             back={() => changeStep(6)}
             next={() => {
               // don't allow them to move on if they havent re-entered the seed correctly
