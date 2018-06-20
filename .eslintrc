@@ -44,7 +44,7 @@
     "camelcase": 0,
     "curly": ["error", "all"],
     "react/require-default-props": 0,
-    "max-len": ["error", { "code": 150, "ignoreUrls": true }],
+    "max-len": ["error", { "code": 120, "ignoreUrls": true }],
     "import/no-extraneous-dependencies": 0,
     "no-confusing-arrow": "error",
     "no-mixed-operators": "error",

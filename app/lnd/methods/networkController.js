@@ -51,7 +51,8 @@ export function describeGraph(lnd) {
 }
 
 /**
- * Attempts to query the daemon’s Channel Router for a possible route to a target destination capable of carrying a specific amount of satoshis
+ * Attempts to query the daemon’s Channel Router for a possible route to a
+ * target destination capable of carrying a specific amount of satoshis
  * @param  {[type]} lnd    [description]
  * @param  {[type]} pubkey [description]
  * @param  {[type]} amount [description]

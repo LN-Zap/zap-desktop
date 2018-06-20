@@ -78,7 +78,15 @@ export default function(lnd, log, event, msg, data) {
       break
     case 'channels':
       // Data looks like
-      // [ { channels: [] }, { total_limbo_balance: 0, pending_open_channels: [], pending_closing_channels: [], pending_force_closing_channels: [] } ]
+      // [
+      //   { channels: [] },
+      //   {
+      //     total_limbo_balance: 0,
+      //     pending_open_channels: [],
+      //     pending_closing_channels: [],
+      //     pending_force_closing_channels: []
+      //   }
+      // ]
       Promise.all([channelController.listChannels, channelController.pendingChannels].map(func => func(lnd)))
         .then(channelsData =>
           event.sender.send('receiveChannels', {
