@@ -5,9 +5,9 @@
   "description": "desktop application for the lightning network",
   "scripts": {
     "build": "concurrently --raw \"npm:build-main\" \"npm:build-renderer\"",
-    "build-dll": "node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.dev.dll.js --colors",
-    "build-main": "node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.main.prod.js --colors",
-    "build-renderer": "node --trace-warnings -r babel-register ./node_modules/webpack/bin/webpack --config webpack.config.renderer.prod.js --colors",
+    "build-dll": "webpack --require babel-register --config webpack.config.renderer.dev.dll.js --progress",
+    "build-main": "webpack --require babel-register  --config webpack.config.main.prod.js --progress",
+    "build-renderer": "webpack --require babel-register --config webpack.config.renderer.prod.js --progress",
     "dev": "cross-env START_HOT=1 npm run start-renderer-dev",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
@@ -218,7 +218,7 @@
     "url-loader": "^1.0.1",
     "webpack": "^4.12.0",
     "webpack-bundle-analyzer": "^2.13.1",
-    "webpack-cli": "^3.0.7",
+    "webpack-command": "^0.4.1",
     "webpack-dev-server": "^3.1.4",
     "webpack-merge": "^4.1.3"
   },
