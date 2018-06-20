@@ -6,13 +6,14 @@
 export function getInfo(lnd) {
   return new Promise((resolve, reject) => {
     lnd.getInfo({}, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
   })
 }
-
 
 /**
  * Returns general information concerning the lightning node
@@ -23,13 +24,14 @@ export function getInfo(lnd) {
 export function getNodeInfo(lnd, { pubkey }) {
   return new Promise((resolve, reject) => {
     lnd.getNodeInfo({ pub_key: pubkey }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
   })
 }
-
 
 /**
  * Returns a description of the latest graph state from the point of view of the node
@@ -39,13 +41,14 @@ export function getNodeInfo(lnd, { pubkey }) {
 export function describeGraph(lnd) {
   return new Promise((resolve, reject) => {
     lnd.describeGraph({}, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
   })
 }
-
 
 /**
  * Attempts to query the daemon’s Channel Router for a possible route to a target destination capable of carrying a specific amount of satoshis
@@ -57,13 +60,14 @@ export function describeGraph(lnd) {
 export function queryRoutes(lnd, { pubkey, amount }) {
   return new Promise((resolve, reject) => {
     lnd.queryRoutes({ pub_key: pubkey, amt: amount }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
   })
 }
-
 
 /**
  * Returns some basic stats about the known channel graph from the point of view of the node
@@ -73,7 +77,9 @@ export function queryRoutes(lnd, { pubkey, amount }) {
 export function getNetworkInfo(lnd) {
   return new Promise((resolve, reject) => {
     lnd.getNetworkInfo({}, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })

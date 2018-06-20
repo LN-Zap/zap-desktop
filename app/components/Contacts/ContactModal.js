@@ -9,15 +9,10 @@ import { btc } from 'utils'
 
 import styles from './ContactModal.scss'
 
-const ContactModal = ({
-  isOpen,
-  channel,
-  closeContactModal,
-  channelNodes,
-  closeChannel,
-  closingChannelIds
-}) => {
-  if (!channel) { return <span /> }
+const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes, closeChannel, closingChannelIds }) => {
+  if (!channel) {
+    return <span />
+  }
 
   const customStyles = {
     overlay: {
@@ -46,22 +41,19 @@ const ContactModal = ({
   return (
     <ReactModal
       isOpen={isOpen}
-      contentLabel='No Overlay Click Modal'
+      contentLabel="No Overlay Click Modal"
       ariaHideApp
       shouldCloseOnOverlayClick
       onRequestClose={closeContactModal}
       parentSelector={() => document.body}
       style={customStyles}
     >
-      {
-        channel &&
+      {channel && (
         <div className={styles.container}>
           <header className={styles.header}>
             <div className={`${styles.status} ${channel.active && styles.online}`}>
               <FaCircle style={{ verticalAlign: 'top' }} />
-              <span>
-                {channel.active ? 'Online' : 'Offline'}
-              </span>
+              <span>{channel.active ? 'Online' : 'Offline'}</span>
             </div>
             <div className={styles.closeContainer}>
               <span onClick={closeContactModal}>
@@ -71,10 +63,7 @@ const ContactModal = ({
           </header>
 
           <section className={styles.title}>
-            {
-              node &&
-              <h1>{node.alias}</h1>
-            }
+            {node && <h1>{node.alias}</h1>}
             <h2>{channel.remote_pubkey}</h2>
           </section>
 
@@ -106,19 +95,18 @@ const ContactModal = ({
           </section>
 
           <footer>
-            {
-              closingChannelIds.includes(channel.chan_id) ?
-                <span className={styles.inactive}>
-                  <div className={styles.loading}>
-                    <div className={styles.spinner} />
-                  </div>
-                </span>
-                :
-                <div onClick={removeClicked}>Remove</div>
-            }
+            {closingChannelIds.includes(channel.chan_id) ? (
+              <span className={styles.inactive}>
+                <div className={styles.loading}>
+                  <div className={styles.spinner} />
+                </div>
+              </span>
+            ) : (
+              <div onClick={removeClicked}>Remove</div>
+            )}
           </footer>
         </div>
-      }
+      )}
     </ReactModal>
   )
 }

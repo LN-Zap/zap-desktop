@@ -1,16 +1,8 @@
 import { connect } from 'react-redux'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
-import {
-  fetchInvoices,
-  setInvoice,
-  invoiceSelectors
-} from 'reducers/invoice'
-import {
-  setPayment,
-  fetchPayments,
-  paymentSelectors
-} from 'reducers/payment'
+import { fetchInvoices, setInvoice, invoiceSelectors } from 'reducers/invoice'
+import { setPayment, fetchPayments, paymentSelectors } from 'reducers/payment'
 import { fetchTransactions } from 'reducers/transaction'
 import {
   showActivityModal,
@@ -81,8 +73,12 @@ const mapStateToProps = state => ({
   showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state)
 })
 
-const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const walletProps = {
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
+  ...stateProps,
+  ...dispatchProps,
+  ...ownProps,
+
+  walletProps: {
     balance: stateProps.balance,
     address: stateProps.address.address,
     info: stateProps.info,
@@ -93,7 +89,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     successTransactionScreen: stateProps.transaction.successTransactionScreen,
     currentCurrencyFilters: stateProps.currentCurrencyFilters,
     currencyName: stateProps.currencyName,
-    isTestnet: stateProps.info.data.testnet,
+    network: stateProps.info.network,
 
     setCurrency: dispatchProps.setCurrency,
     setWalletCurrencyFilters: dispatchProps.setWalletCurrencyFilters,
@@ -102,14 +98,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
     openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
   }
+})
 
-  return {
-    ...stateProps,
-    ...dispatchProps,
-    ...ownProps,
-
-    walletProps
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Activity)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(Activity)

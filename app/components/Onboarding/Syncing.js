@@ -4,7 +4,6 @@ import Isvg from 'react-inlinesvg'
 import zapLogo from 'icons/zap_logo.svg'
 import styles from './Syncing.scss'
 
-
 class Syncing extends Component {
   componentWillMount() {
     this.props.fetchBlockHeight()
@@ -36,10 +35,7 @@ class Syncing extends Component {
 
 Syncing.propTypes = {
   fetchBlockHeight: PropTypes.func.isRequired,
-  syncPercentage: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired
+  syncPercentage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
 }
 
 export default Syncing

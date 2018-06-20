@@ -36,7 +36,7 @@ const FormContainer = ({
     <footer className={styles.footer}>
       <div className={styles.buttonsContainer}>
         <section>
-        {back && (
+          {back && (
             <div onClick={back} className={styles.backButton} >
               <FaAngleLeft style={{ verticalAlign: 'top' }} /> Back
             </div>

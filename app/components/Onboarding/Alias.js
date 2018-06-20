@@ -5,8 +5,8 @@ import styles from './Alias.scss'
 const Alias = ({ alias, updateAlias }) => (
   <div className={styles.container}>
     <input
-      type='text'
-      placeholder='Satoshi'
+      type="text"
+      placeholder="Satoshi"
       className={styles.alias}
       ref={input => input && input.focus()}
       value={alias}

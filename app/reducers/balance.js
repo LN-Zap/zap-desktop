@@ -15,13 +15,13 @@ export function getBalance() {
 }
 
 // Send IPC event for balance
-export const fetchBalance = () => async (dispatch) => {
+export const fetchBalance = () => async dispatch => {
   dispatch(getBalance())
   ipcRenderer.send('lnd', { msg: 'balance' })
 }
 
 // Receive IPC event for balance
-export const receiveBalance = (event, { walletBalance, channelBalance }) => (dispatch) => {
+export const receiveBalance = (event, { walletBalance, channelBalance }) => dispatch => {
   dispatch({ type: RECEIVE_BALANCE, walletBalance, channelBalance })
 }
 
@@ -30,11 +30,12 @@ export const receiveBalance = (event, { walletBalance, channelBalance }) => (dis
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_BALANCE]: state => ({ ...state, balanceLoading: true }),
-  [RECEIVE_BALANCE]: (state, { walletBalance, channelBalance }) => (
-    {
-      ...state, balanceLoading: false, walletBalance, channelBalance
-    }
-  )
+  [RECEIVE_BALANCE]: (state, { walletBalance, channelBalance }) => ({
+    ...state,
+    balanceLoading: false,
+    walletBalance,
+    channelBalance
+  })
 }
 
 // ------------------------------------
