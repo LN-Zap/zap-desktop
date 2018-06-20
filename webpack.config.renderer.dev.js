@@ -14,10 +14,7 @@ import merge from 'webpack-merge'
 import { spawn, execSync } from 'child_process'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import baseConfig from './webpack.config.base'
-import CheckNodeEnv from './internals/scripts/CheckNodeEnv'
 import { mainLog } from './app/utils/log'
-
-CheckNodeEnv('development')
 
 const port = process.env.PORT || 1212
 const publicPath = `http://localhost:${port}/dist`
