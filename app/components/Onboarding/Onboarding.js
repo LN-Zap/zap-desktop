@@ -98,7 +98,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Autopilot"
-            description="Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance." // eslint-disable-line
+            description="Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance." // eslint-disable-line max-len
             back={() => changeStep(1)}
             next={() => startLnd({ connectionType, alias, autopilot })}
           >
@@ -107,12 +107,7 @@ const Onboarding = ({
         )
       case 3:
         return (
-          <FormContainer
-            title="Welcome back!"
-            description="Enter your wallet password or create a new wallet"
-            back={null}
-            next={null}
-          >
+          <FormContainer title="Welcome back!" description="Enter your wallet password or create a new wallet" back={null} next={null}>
             <Login {...initWalletProps.loginProps} />
           </FormContainer>
         )
@@ -120,7 +115,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Welcome!"
-            description="Looks like you are new here. Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future" // eslint-disable-line
+            description="Looks like you are new here. Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future" // eslint-disable-line max-len
             back={null}
             next={() => {
               // dont allow the user to move on if the confirmation password doesnt match the original password
@@ -204,7 +199,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Encrypt your seed"
-            description="Totally optional, but we encourage it. Set a password that will be used to encrypt your wallet seed" // eslint-disable-line
+            description="Totally optional, but we encourage it. Set a password that will be used to encrypt your wallet seed" // eslint-disable-line max-len
             back={() => changeStep(6)}
             next={() => {
               // dont allow the user to move on if the confirmation password doesnt match the original password
