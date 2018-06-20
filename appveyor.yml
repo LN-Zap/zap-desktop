@@ -1,9 +1,10 @@
 os: unstable
 
 environment:
+  ELECTRON_DISABLE_SECURITY_WARNINGS: true
   matrix:
+    - nodejs_version: 10
     - nodejs_version: 8
-    - nodejs_version: 7
 
 cache:
   - "%LOCALAPPDATA%/Yarn"
@@ -25,7 +26,6 @@ install:
   - ps: Install-Product node $env:nodejs_version
   - set CI=true
   - yarn
-  - cd app && yarn
 
 test_script:
   - node --version

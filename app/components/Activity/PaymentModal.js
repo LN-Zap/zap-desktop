@@ -19,13 +19,7 @@ const PaymentModal = ({
   ticker,
   currentTicker,
 
-  toggleCurrencyProps: {
-    setActivityModalCurrencyFilters,
-    showCurrencyFilters,
-    currencyName,
-    currentCurrencyFilters,
-    onCurrencyFilterClick
-  }
+  toggleCurrencyProps: { setActivityModalCurrencyFilters, showCurrencyFilters, currencyName, currentCurrencyFilters, onCurrencyFilterClick }
 }) => (
   <div className={styles.container}>
     <header className={styles.header}>
@@ -51,19 +45,22 @@ const PaymentModal = ({
         <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
       </h1>
       <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
-        <span>{currencyName}</span><span><FaAngleDown /></span>
+        <span>{currencyName}</span>
+        <span>
+          <FaAngleDown />
+        </span>
         <ul className={showCurrencyFilters && styles.active}>
-          {
-            currentCurrencyFilters.map(filter =>
-              <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-          }
+          {currentCurrencyFilters.map(filter => (
+            <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
+              {filter.name}
+            </li>
+          ))}
         </ul>
       </section>
-
     </div>
 
     <div className={styles.date}>
-      <Moment format='LLL'>{payment.creation_date * 1000}</Moment>
+      <Moment format="LLL">{payment.creation_date * 1000}</Moment>
     </div>
 
     <footer className={styles.footer}>

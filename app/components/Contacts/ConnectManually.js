@@ -55,8 +55,8 @@ class ConnectManually extends React.Component {
         <section className={styles.peer}>
           <div className={styles.input}>
             <input
-              type='text'
-              placeholder='pubkey@host'
+              type="text"
+              placeholder="pubkey@host"
               value={manualSearchQuery}
               onChange={event => updateManualFormSearchQuery(event.target.value)}
             />
@@ -64,16 +64,11 @@ class ConnectManually extends React.Component {
         </section>
 
         <section className={`${styles.errorMessage} ${showErrors.manualInput && styles.active}`}>
-          {showErrors.manualInput &&
-            <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>
-          }
+          {showErrors.manualInput && <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>}
         </section>
 
         <section className={styles.submit}>
-          <div
-            className={`${styles.button} ${manualFormIsValid.isValid && styles.active}`}
-            onClick={formSubmitted}
-          >
+          <div className={`${styles.button} ${manualFormIsValid.isValid && styles.active}`} onClick={formSubmitted}>
             Submit
           </div>
         </section>

@@ -34,7 +34,7 @@ export function connectAndOpen(lnd, event, payload) {
 
       return call
     })
-    .catch((err) => {
+    .catch(err => {
       event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
       throw err
     })
@@ -58,7 +58,8 @@ export function openChannel(lnd, event, payload) {
   return new Promise((resolve, reject) =>
     pushopenchannel(lnd, event, res)
       .then(data => resolve(data))
-      .catch(error => reject(error)))
+      .catch(error => reject(error))
+  )
 }
 
 /**
@@ -103,8 +104,15 @@ export function listChannels(lnd) {
  * @return {[type]}         [description]
  */
 export function closeChannel(lnd, event, payload) {
-  const { channel_point: { funding_txid, output_index }, chan_id, force } = payload
-  const tx = funding_txid.match(/.{2}/g).reverse().join('')
+  const {
+    channel_point: { funding_txid, output_index },
+    chan_id,
+    force
+  } = payload
+  const tx = funding_txid
+    .match(/.{2}/g)
+    .reverse()
+    .join('')
 
   const res = {
     channel_point: {

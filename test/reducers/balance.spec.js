@@ -1,7 +1,4 @@
-import balanceReducer, {
-  GET_BALANCE,
-  RECEIVE_BALANCE
-} from '../../app/reducers/balance'
+import balanceReducer, { GET_BALANCE, RECEIVE_BALANCE } from '../../app/reducers/balance'
 
 describe('reducers', () => {
   describe('balanceReducer', () => {

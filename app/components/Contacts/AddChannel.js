@@ -21,7 +21,7 @@ const AddChannel = ({
   showManualForm,
   openManualForm
 }) => {
-  const renderRightSide = (node) => {
+  const renderRightSide = node => {
     if (loadingChannelPubkeys.includes(node.pub_key)) {
       return (
         <span className={styles.inactive}>
@@ -57,11 +57,7 @@ const AddChannel = ({
     }
 
     if (!node.addresses.length) {
-      return (
-        <span className={`${styles.private} ${styles.inactive}`}>
-          Private
-        </span>
-      )
+      return <span className={`${styles.private} ${styles.inactive}`}>Private</span>
     }
 
     return (
@@ -79,7 +75,7 @@ const AddChannel = ({
     )
   }
 
-  const searchUpdated = (search) => {
+  const searchUpdated = search => {
     updateContactFormSearchQuery(search)
 
     if (search.includes('@') && search.split('@')[0].length === 66) {
@@ -91,8 +87,8 @@ const AddChannel = ({
     <div className={styles.container}>
       <header className={styles.header}>
         <input
-          type='text'
-          placeholder='Search the network...'
+          type="text"
+          placeholder="Search the network..."
           className={styles.searchInput}
           value={contactsform.searchQuery}
           onChange={event => searchUpdated(event.target.value)}
@@ -105,38 +101,36 @@ const AddChannel = ({
 
       <section className={styles.nodes}>
         <ul className={styles.networkResults}>
-          {
-          filteredNetworkNodes.map(node => (
+          {filteredNetworkNodes.map(node => (
             <li key={node.pub_key}>
               <section>
-                {
-                  node.alias.length > 0 ?
-                    <h2>
-                      <span>{node.alias.trim()}</span>
-                      <span>({node.pub_key.substr(0, 10)}...{node.pub_key.substr(node.pub_key.length - 10)})</span>
-                    </h2>
-                    :
-                    <h2>
-                      <span>{node.pub_key}</span>
-                    </h2>
-                }
+                {node.alias.length > 0 ? (
+                  <h2>
+                    <span>{node.alias.trim()}</span>
+                    <span>
+                      ({node.pub_key.substr(0, 10)}...{node.pub_key.substr(node.pub_key.length - 10)})
+                    </span>
+                  </h2>
+                ) : (
+                  <h2>
+                    <span>{node.pub_key}</span>
+                  </h2>
+                )}
               </section>
-              <section>
-                {renderRightSide(node)}
-              </section>
+              <section>{renderRightSide(node)}</section>
             </li>
-            ))
-          }
+          ))}
         </ul>
       </section>
 
-      {
-        showManualForm &&
+      {showManualForm && (
         <section className={styles.manualForm}>
           <p>Hm, looks like we can&apos;t see that node from here, wanna try to manually connect?</p>
-          <div className={styles.manualConnectButton} onClick={openManualForm}>Connect Manually</div>
+          <div className={styles.manualConnectButton} onClick={openManualForm}>
+            Connect Manually
+          </div>
         </section>
-      }
+      )}
     </div>
   )
 }

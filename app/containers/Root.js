@@ -219,4 +219,8 @@ Root.propTypes = {
   syncingProps: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Root)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(Root)

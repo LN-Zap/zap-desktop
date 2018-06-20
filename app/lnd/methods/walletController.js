@@ -6,13 +6,14 @@
 export function walletBalance(lnd) {
   return new Promise((resolve, reject) => {
     lnd.walletBalance({}, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
   })
 }
-
 
 /**
  * Creates a new address under control of the local wallet
@@ -23,7 +24,9 @@ export function walletBalance(lnd) {
 export function newAddress(lnd, type) {
   return new Promise((resolve, reject) => {
     lnd.newAddress({ type }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -38,13 +41,14 @@ export function newAddress(lnd, type) {
 export function newWitnessAddress(lnd, { addr }) {
   return new Promise((resolve, reject) => {
     lnd.newWitnessAddress({ address: addr }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
   })
 }
-
 
 /**
  * Returns a list describing all the known transactions relevant to the wallet
@@ -54,13 +58,14 @@ export function newWitnessAddress(lnd, { addr }) {
 export function getTransactions(lnd) {
   return new Promise((resolve, reject) => {
     lnd.getTransactions({}, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
   })
 }
-
 
 /**
  * Executes a request to send coins to a particular address
@@ -72,7 +77,9 @@ export function getTransactions(lnd) {
 export function sendCoins(lnd, { addr, amount }) {
   return new Promise((resolve, reject) => {
     lnd.sendCoins({ addr, amount }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -86,7 +93,9 @@ export function sendCoins(lnd, { addr, amount }) {
 export function setAlias(lnd, { new_alias }) {
   return new Promise((resolve, reject) => {
     lnd.setAlias({ new_alias }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -99,7 +108,9 @@ export function setAlias(lnd, { new_alias }) {
 export function genSeed(walletUnlocker) {
   return new Promise((resolve, reject) => {
     walletUnlocker.genSeed({}, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -113,7 +124,9 @@ export function genSeed(walletUnlocker) {
 export function unlockWallet(walletUnlocker, { wallet_password }) {
   return new Promise((resolve, reject) => {
     walletUnlocker.unlockWallet({ wallet_password: Buffer.from(wallet_password) }, (err, data) => {
-      if (err) { reject(err) }
+      if (err) {
+        reject(err)
+      }
 
       resolve(data)
     })
@@ -127,15 +140,20 @@ export function unlockWallet(walletUnlocker, { wallet_password }) {
  */
 export function initWallet(walletUnlocker, { wallet_password, cipher_seed_mnemonic, aezeed_passphrase }) {
   return new Promise((resolve, reject) => {
-    walletUnlocker.initWallet({
-      wallet_password: Buffer.from(wallet_password),
-      cipher_seed_mnemonic,
-      aezeed_passphrase: Buffer.from(aezeed_passphrase, 'hex'),
-      recovery_window: 250
-    }, (err, data) => {
-      if (err) { reject(err) }
+    walletUnlocker.initWallet(
+      {
+        wallet_password: Buffer.from(wallet_password),
+        cipher_seed_mnemonic,
+        aezeed_passphrase: Buffer.from(aezeed_passphrase, 'hex'),
+        recovery_window: 250
+      },
+      (err, data) => {
+        if (err) {
+          reject(err)
+        }
 
-      resolve(data)
-    })
+        resolve(data)
+      }
+    )
   })
 }

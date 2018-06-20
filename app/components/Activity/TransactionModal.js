@@ -19,15 +19,9 @@ const TransactionModal = ({
   transaction,
   ticker,
   currentTicker,
-  isTestnet,
+  network,
 
-  toggleCurrencyProps: {
-    setActivityModalCurrencyFilters,
-    showCurrencyFilters,
-    currencyName,
-    currentCurrencyFilters,
-    onCurrencyFilterClick
-  }
+  toggleCurrencyProps: { setActivityModalCurrencyFilters, showCurrencyFilters, currencyName, currentCurrencyFilters, onCurrencyFilterClick }
 }) => (
   <div className={styles.container}>
     <header className={styles.header}>
@@ -38,7 +32,9 @@ const TransactionModal = ({
       <section className={styles.details}>
         <div>
           <Isvg src={link} />
-          <span className={styles.link} onClick={() => blockExplorer.showTransaction(isTestnet, transaction.tx_hash)}>On-Chain</span>
+          <span className={styles.link} onClick={() => blockExplorer.showTransaction(network, transaction.tx_hash)}>
+            On-Chain
+          </span>
         </div>
         <div>
           <Value value={transaction.total_fees} currency={ticker.currency} currentTicker={currentTicker} />
@@ -49,34 +45,30 @@ const TransactionModal = ({
 
     <div className={styles.amount}>
       <h1>
-        <i className={`${styles.symbol} ${transaction.amount > 0 && styles.active}`}>
-          {
-            transaction.amount > 0 ?
-              '+'
-              :
-              '-'
-          }
-        </i>
+        <i className={`${styles.symbol} ${transaction.amount > 0 && styles.active}`}>{transaction.amount > 0 ? '+' : '-'}</i>
         <Value value={transaction.amount} currency={ticker.currency} currentTicker={currentTicker} />
       </h1>
       <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
-        <span>{currencyName}</span><span><FaAngleDown /></span>
+        <span>{currencyName}</span>
+        <span>
+          <FaAngleDown />
+        </span>
         <ul className={showCurrencyFilters && styles.active}>
-          {
-            currentCurrencyFilters.map(filter =>
-              <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-          }
+          {currentCurrencyFilters.map(filter => (
+            <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
+              {filter.name}
+            </li>
+          ))}
         </ul>
       </section>
-
     </div>
 
     <div className={styles.date}>
-      <Moment format='LLL'>{transaction.time_stamp * 1000}</Moment>
+      <Moment format="LLL">{transaction.time_stamp * 1000}</Moment>
     </div>
 
     <footer className={styles.footer}>
-      <p onClick={() => blockExplorer.showTransaction(isTestnet, transaction.tx_hash)}>{transaction.tx_hash}</p>
+      <p onClick={() => blockExplorer.showTransaction(network, transaction.tx_hash)}>{transaction.tx_hash}</p>
     </footer>
   </div>
 )
@@ -88,7 +80,7 @@ TransactionModal.propTypes = {
 
   toggleCurrencyProps: PropTypes.object.isRequired,
 
-  isTestnet: PropTypes.bool.isRequired
+  network: PropTypes.object.isRequired
 }
 
 export default TransactionModal
