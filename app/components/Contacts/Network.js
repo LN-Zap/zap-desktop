@@ -361,7 +361,7 @@ Network.propTypes = {
   setSelectedChannel: PropTypes.func.isRequired,
   closeChannel: PropTypes.func.isRequired,
 
-  closeChannel: PropTypes.string.isRequired
+  currencyName: PropTypes.string.isRequired
 }
 
 export default Network
