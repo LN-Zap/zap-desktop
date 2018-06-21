@@ -77,8 +77,8 @@ class Network extends Component {
     }
 
     // when the user clicks the action to close the channel
-    const removeClicked = channel => {
-      closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })
+    const removeClicked = removeChannel => {
+      closeChannel({ channel_point: removeChannel.channel_point, chan_id: removeChannel.chan_id, force: !removeChannel.active })
     }
 
     // when a user clicks a channel
@@ -91,34 +91,34 @@ class Network extends Component {
       }
     }
 
-    const displayNodeName = channel => {
-      const node = find(nodes, n => channel.remote_pubkey === n.pub_key)
+    const displayNodeName = displayedChannel => {
+      const node = find(nodes, n => displayedChannel.remote_pubkey === n.pub_key)
 
       if (node && node.alias.length) {
         return node.alias
       }
 
-      return channel.remote_pubkey ? channel.remote_pubkey.substring(0, 10) : channel.remote_node_pub.substring(0, 10)
+      return displayedChannel.remote_pubkey ? displayedChannel.remote_pubkey.substring(0, 10) : displayedChannel.remote_node_pub.substring(0, 10)
     }
 
-    const channelStatus = channel => {
+    const channelStatus = statusChannel => {
       // if the channel has a confirmation_height property that means it's pending
-      if (Object.prototype.hasOwnProperty.call(channel, 'confirmation_height')) {
+      if (Object.prototype.hasOwnProperty.call(statusChannel, 'confirmation_height')) {
         return 'pending'
       }
 
       // if the channel has a closing tx that means it's closing
-      if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) {
+      if (Object.prototype.hasOwnProperty.call(statusChannel, 'closing_txid')) {
         return 'closing'
       }
 
       // if we are in the process of closing this channel
-      if (closingChannelIds.includes(channel.chan_id)) {
+      if (closingChannelIds.includes(statusChannel.chan_id)) {
         return 'closing'
       }
 
       // if the channel isn't active that means the remote peer isn't online
-      if (!channel.active) {
+      if (!statusChannel.active) {
         return 'offline'
       }
 
