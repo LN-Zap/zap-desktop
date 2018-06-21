@@ -3,7 +3,6 @@
  */
 
 import path from 'path'
-import webpack from 'webpack'
 import { dependencies as externals } from './app/package.json'
 
 export default {
@@ -38,12 +37,6 @@ export default {
     extensions: ['.js', '.jsx', '.json'],
     modules: [path.join(__dirname, 'app'), 'node_modules']
   },
-
-  plugins: [
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
-    })
-  ],
 
   optimization: {
     namedModules: true

@@ -3,14 +3,10 @@
  */
 
 import path from 'path'
-import webpack from 'webpack'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import merge from 'webpack-merge'
 import baseConfig from './webpack.config.base'
-import CheckNodeEnv from './internals/scripts/CheckNodeEnv'
-
-CheckNodeEnv('production')
 
 export default merge.smart(baseConfig, {
   devtool: 'source-map',
@@ -143,19 +139,6 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    /**
-     * Create global constants which can be configured at compile time.
-     *
-     * Useful for allowing different behaviour between development builds and
-     * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
-     */
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production')
-    }),
-
     new ExtractTextPlugin('style.css'),
 
     new BundleAnalyzerPlugin({
