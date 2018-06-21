@@ -92,5 +92,6 @@ This project has eslint rules and pull requests should pass `npm run lint` befor
 
 Tests should try to be written for every feature/fix and pass `npm run test` before being merged. With the demand for the Lightning Network and Zap rising, rapid development will naturally leave some code untested but we should all try our best.
 
+[convention]: https://conventionalcommits.org/
 [issues]: https://github.com/LN-Zap/zap-desktop/issues
 [slack]: https://join.slack.com/t/zaphq/shared_invite/enQtMzgyNDA2NDI2Nzg0LTQwZWQ2ZWEzOWFhMjRiNWZkZWMwYTA4MzA5NzhjMDNhNTM5YzliNDA4MmZkZWZkZTFmODM4ODJkYzU3YmI3ZmI
