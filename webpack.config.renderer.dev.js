@@ -15,6 +15,7 @@ import { spawn, execSync } from 'child_process'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
+import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import baseConfig from './webpack.config.base'
 import { mainLog } from './app/utils/log'
 
@@ -228,6 +229,36 @@ export default merge.smart(baseConfig, {
     new AddAssetHtmlPlugin({
       filepath: path.join(__dirname, 'dll', 'renderer.dev.dll.js'),
       includeSourcemap: false
+    }),
+
+    new CspHtmlWebpackPlugin({
+      'default-src': "'self'",
+      'object-src': "'none'",
+      'connect-src': [
+        "'self'",
+        'http://localhost:*',
+        'ws://localhost:*',
+        'https://api.coinmarketcap.com',
+        'https://zap.jackmallers.com',
+        'https://testnet-api.smartbit.com.au'
+      ],
+      'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
+      'font-src': [
+        "'self'",
+        'data:',
+        'http://localhost:*',
+        'https://fonts.googleapis.com',
+        'https://s3.amazonaws.com',
+        'https://fonts.gstatic.com'
+      ],
+      'style-src': [
+        "'self'",
+        'blob:',
+        'https://fonts.googleapis.com',
+        'https://s3.amazonaws.com',
+        'https://fonts.gstatic.com',
+        "'unsafe-inline'"
+      ]
     })
   ],
 

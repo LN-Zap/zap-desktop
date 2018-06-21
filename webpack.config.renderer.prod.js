@@ -5,6 +5,7 @@
 import path from 'path'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import merge from 'webpack-merge'
 import baseConfig from './webpack.config.base'
@@ -154,9 +155,16 @@ export default merge.smart(baseConfig, {
     new CspHtmlWebpackPlugin({
       'default-src': "'self'",
       'object-src': "'none'",
-      'connect-src': ["'self'", 'https://api.coinmarketcap.com', 'https://zap.jackmallers.com', 'https://testnet-api.smartbit.com.au'],
-      'script-src': ["'self'"],
-      'font-src': ["'self'", 'data:', 'https://fonts.googleapis.com', 'https://s3.amazonaws.com', 'https://fonts.gstatic.com'],
+      'connect-src': [
+        "'self'",
+        'http://localhost:*',
+        'ws://localhost:*',
+        'https://api.coinmarketcap.com',
+        'https://zap.jackmallers.com',
+        'https://testnet-api.smartbit.com.au'
+      ],
+      'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
+      'font-src': ["'self'", 'data:', 'http://localhost:*', 'https://fonts.googleapis.com', 'https://s3.amazonaws.com', 'https://fonts.gstatic.com'],
       'style-src': ["'self'", 'blob:', 'https://fonts.googleapis.com', 'https://s3.amazonaws.com', 'https://fonts.gstatic.com', "'unsafe-inline'"]
     })
   ]

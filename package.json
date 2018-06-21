@@ -165,6 +165,7 @@
     "concurrently": "^3.5.1",
     "cross-env": "^5.2.0",
     "cross-spawn": "^6.0.5",
+    "csp-html-webpack-plugin": "^2.3.0",
     "css-loader": "^0.28.11",
     "electron-builder": "^20.15.3",
     "electron-devtools-installer": "^2.2.4",
