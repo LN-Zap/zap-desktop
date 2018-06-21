@@ -1,7 +1,7 @@
 export default function subscribeToTransactions(mainWindow, lnd, log) {
   const call = lnd.subscribeTransactions({})
   call.on('data', transaction => {
-    lnd.log.info('TRANSACTION:', transaction)
+    log.info('TRANSACTION:', transaction)
     mainWindow.send('newTransaction', { transaction })
   })
   call.on('end', () => log.info('end'))
