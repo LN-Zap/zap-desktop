@@ -89,6 +89,7 @@
       "output": "release"
     },
     "extraResources": [
+      "resources/lnd.conf",
       "resources/rpc.proto",
       {
         "from": "resources/bin/${platform}",

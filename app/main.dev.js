@@ -154,16 +154,7 @@ const startLnd = (alias, autopilot) => {
   mainLog.debug(' > cert:', lndConfig.cert)
   mainLog.debug(' > macaroon:', lndConfig.macaroon)
 
-  const neutrinoArgs = [
-    '--bitcoin.active',
-    '--bitcoin.testnet',
-    '--bitcoin.node=neutrino',
-    '--neutrino.connect=188.166.148.62',
-    '--neutrino.connect=127.0.0.1:18333',
-    '--debuglevel=debug',
-    `${autopilot ? '--autopilot.active' : ''}`,
-    `${alias ? `--alias=${alias}` : ''}`
-  ]
+  const neutrinoArgs = [`--configfile=${lndConfig.configPath}`, `${autopilot ? '--autopilot.active' : ''}`, `${alias ? `--alias=${alias}` : ''}`]
 
   const neutrino = spawn(lndConfig.lndPath, neutrinoArgs)
     .on('error', error => {
