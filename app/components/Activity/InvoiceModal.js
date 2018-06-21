@@ -8,7 +8,7 @@ import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
 import { showNotification } from 'notifications'
 
-import { FaAngleDown } from 'react-icons/lib/fa'
+import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import Value from 'components/Value'
 import Countdown from './Countdown'

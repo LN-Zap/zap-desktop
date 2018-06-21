@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import ReactModal from 'react-modal'
-import { FaCircle } from 'react-icons/lib/fa'
-import { MdClose } from 'react-icons/lib/md'
+import FaCircle from 'react-icons/lib/fa/circle'
+import MdClose from 'react-icons/lib/md/close'
 
 import { btc } from 'utils'
 

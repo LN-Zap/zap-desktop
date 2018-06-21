@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 
-import { FaAngleLeft, FaAngleRight } from 'react-icons/lib/fa'
+import FaAngleLeft from 'react-icons/lib/fa/angle-left'
+import FaAngleRight from 'react-icons/lib/fa/angle-right'
 
 import zapLogo from 'icons/zap_logo.svg'
 import styles from './FormContainer.scss'
