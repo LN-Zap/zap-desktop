@@ -108,7 +108,7 @@ export const newTransaction = (event, { transaction }) => dispatch => {
   const notifBody =
     transaction.amount > 0
       ? "Lucky you, you just received a new on-chain transaction. I'm jealous."
-      : "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent." // eslint-disable-line max-len
+      : "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent."
 
   showNotification(notifTitle, notifBody)
 
