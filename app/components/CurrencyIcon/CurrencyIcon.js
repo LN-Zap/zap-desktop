@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaDollar } from 'react-icons/lib/fa'
+import FaDollar from 'react-icons/lib/fa/dollar'
 import CryptoIcon from '../CryptoIcon'
 
 const CurrencyIcon = ({ currency, crypto, styles }) => {

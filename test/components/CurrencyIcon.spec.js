@@ -1,6 +1,6 @@
 import React from 'react'
 import { shallow } from 'enzyme'
-import { FaDollar } from 'react-icons/lib/fa'
+import FaDollar from 'react-icons/lib/fa/dollar'
 import CryptoIcon from '../../app/components/CryptoIcon'
 import CurrencyIcon from '../../app/components/CurrencyIcon'
 

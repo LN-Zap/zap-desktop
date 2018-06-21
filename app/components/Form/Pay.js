@@ -5,7 +5,7 @@ import find from 'lodash/find'
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
 import link from 'icons/link.svg'
-import { FaAngleDown } from 'react-icons/lib/fa'
+import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'utils'
 

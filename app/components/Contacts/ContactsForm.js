@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
-import { MdClose } from 'react-icons/lib/md'
-import { FaCircle, FaQuestionCircle } from 'react-icons/lib/fa'
+import MdClose from 'react-icons/lib/md/close'
+import FaCircle from 'react-icons/lib/fa/circle'
+import FaQuestionCircle from 'react-icons/lib/fa/question-circle'
 import styles from './ContactsForm.scss'
 
 class ContactsForm extends React.Component {

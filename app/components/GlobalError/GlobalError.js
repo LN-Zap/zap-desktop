@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { MdClose } from 'react-icons/lib/md'
+import MdClose from 'react-icons/lib/md/close'
 import styles from './GlobalError.scss'
 
 class GlobalError extends React.Component {
