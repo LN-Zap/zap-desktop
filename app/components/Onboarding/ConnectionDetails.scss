@@ -4,22 +4,26 @@
   color: $white;
 
   label {
+    display: block;
     font-size: 12px;
     line-height: 14px;
-    padding: 10px 0px;
+    padding-bottom: 5px;
     min-height: 14px;
   }
 
   input {
     background: transparent;
     outline: none;
-    border: 0;
+    border:1px solid #404040;
+    border-radius: 4px;
+    padding: 10px;
     color: $gold;
     -webkit-text-fill-color: $white;
-    font-size: 22px;
+    font-size: 18px;
     width: 100%;
-    // font-weight: 200;
-    margin-bottom: 25px;
+    font-weight: 400;
+    margin-bottom: 20px;
+    width: 600px;
   }
 
   input::-webkit-input-placeholder {

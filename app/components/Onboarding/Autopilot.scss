@@ -4,7 +4,7 @@
   color: $white;
 
   section {
-    margin: 20px 0;
+    margin-bottom: 0;
 
     &.enable {
       &.active {
@@ -44,6 +44,7 @@
       font-weight: 200;
       cursor: pointer;
       transition: all 0.25s;
+      margin-bottom: 20px;
     }
 
     .label {

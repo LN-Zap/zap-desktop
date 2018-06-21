@@ -22,7 +22,7 @@
 
 .info {
   color: $white;
-  margin: 20px 0 20px 0;
+  margin-bottom: 20px;
   padding: 20px 40px;
 
   h1 {
@@ -41,13 +41,13 @@
   position: relative;
   background: $spaceblue;
   height: 100vh;
-  padding: 60px 40px;
+  padding: 40px 40px;
 }
 
 .footer {
   position: absolute;
   bottom: 0;
-  padding: 20px 40px;
+  padding: 25px 40px;
   color: $white;
   width: calc(100% - 80px);
 
@@ -56,14 +56,30 @@
     flex-direction: row;
     justify-content: space-between;
 
-    div {
+    .nextButton {
       cursor: pointer;
       transition: all 0.25s;
+      background: $darkspaceblue;
+      padding: 10px 30px 10px 40px;
+      width: 54px;
+      text-align: center;
 
+      &:hover {
+        background: lighten($darkspaceblue, 10%);
+      }
+    }
+
+    .backButton {
+      cursor: pointer;
+      transition: all 0.25s;
+      padding: 10px 20px 10px 0px;
+      text-align: center;
+      
       &:hover {
         opacity: 0.5;
       }
     }
+    
   }
 }
 
