@@ -13,6 +13,8 @@ import webpack from 'webpack'
 import merge from 'webpack-merge'
 import { spawn, execSync } from 'child_process'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import baseConfig from './webpack.config.base'
 import { mainLog } from './app/utils/log'
 
@@ -217,6 +219,15 @@ export default merge.smart(baseConfig, {
 
     new ExtractTextPlugin({
       filename: '[name].css'
+    }),
+
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'app', 'app.html')
+    }),
+
+    new AddAssetHtmlPlugin({
+      filepath: path.join(__dirname, 'dll', 'renderer.dev.dll.js'),
+      includeSourcemap: false
     })
   ],
 

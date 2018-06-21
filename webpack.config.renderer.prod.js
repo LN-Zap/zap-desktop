@@ -4,6 +4,7 @@
 
 import path from 'path'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import merge from 'webpack-merge'
 import baseConfig from './webpack.config.base'
@@ -144,6 +145,19 @@ export default merge.smart(baseConfig, {
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
       openAnalyzer: process.env.OPEN_ANALYZER === 'true'
+    }),
+
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'app', 'app.html')
+    }),
+
+    new CspHtmlWebpackPlugin({
+      'default-src': "'self'",
+      'object-src': "'none'",
+      'connect-src': ["'self'", 'https://api.coinmarketcap.com', 'https://zap.jackmallers.com', 'https://testnet-api.smartbit.com.au'],
+      'script-src': ["'self'"],
+      'font-src': ["'self'", 'data:', 'https://fonts.googleapis.com', 'https://s3.amazonaws.com', 'https://fonts.gstatic.com'],
+      'style-src': ["'self'", 'blob:', 'https://fonts.googleapis.com', 'https://s3.amazonaws.com', 'https://fonts.gstatic.com', "'unsafe-inline'"]
     })
   ]
 })

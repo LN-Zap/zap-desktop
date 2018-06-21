@@ -256,7 +256,12 @@ app.on('ready', async () => {
     minHeight: 425
   })
 
-  mainWindow.loadURL(`file://${__dirname}/app.html`)
+  if (process.env.HOT) {
+    const port = process.env.PORT || 1212
+    mainWindow.loadURL(`http://localhost:${port}/dist/index.html`)
+  } else {
+    mainWindow.loadURL(`file://${__dirname}/dist/index.html`)
+  }
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
