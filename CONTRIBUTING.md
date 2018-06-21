@@ -63,12 +63,18 @@ Please make sure to run the tests before you commit your changes. You can run `n
 
 ### Opt into git hooks
 
-There are git hooks set up with this project that are automatically installed when you install dependencies. They're really handy, but are turned off by default (so as to not hinder new contributors). You can opt into these by creating a file called `.opt-in` at the root of the project and putting this inside:
+There are git hooks set up with this project that are automatically installed when you install dependencies. They're really handy, but are turned off by default (so as to not hinder new contributors). You can opt into these by creating a file called `.opt-in` at the root of the project:
 
+```bash
+echo commit-msg >> .opt-in
+echo pre-commit >> .opt-in
 ```
-commit-msg
-pre-commit
-```
+
+With this in place you will get:
+
+1.  Automatic reformatting of changed files on commit
+1.  Automatic lint of changed files on commit (will not allow commit with files that fail lint)
+1.  Automatic validation of commit message format (will not allow commit with invalid commit message)
 
 ### Branch Names
 
