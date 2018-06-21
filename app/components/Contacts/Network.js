@@ -82,12 +82,12 @@ class Network extends Component {
     }
 
     // when a user clicks a channel
-    const channelClicked = channel => {
+    const channelClicked = clickedChannel => {
       // selectedChannel === channel ? setSelectedChannel(null) : setSelectedChannel(channel)
-      if (selectedChannel === channel) {
+      if (selectedChannel === clickedChannel) {
         setSelectedChannel(null)
       } else {
-        setSelectedChannel(channel)
+        setSelectedChannel(clickedChannel)
       }
     }
 
