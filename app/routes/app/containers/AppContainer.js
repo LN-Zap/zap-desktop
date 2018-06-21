@@ -313,6 +313,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     nonActiveFilters: stateProps.nonActiveFilters,
     ticker: stateProps.ticker,
     network: stateProps.info.network,
+    currencyName: stateProps.currencyName,
 
     fetchChannels: dispatchProps.fetchChannels,
     openContactsForm: dispatchProps.openContactsForm,
