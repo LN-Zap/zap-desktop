@@ -19,6 +19,7 @@
     "lint-styles": "npm run lint-styles-base -- app/*.scss app/components/*.scss",
     "lint-styles-fix-base": "npm run lint-styles-base -- --fix",
     "lint-styles-fix": "npm run lint-styles-fix-base -- app/*.scss app/components/*.scss",
+    "lint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "lint-ci": "npm run lint && npm run lint-styles && npm run flow",
     "package": "npm run build && build --publish never",
     "package-all": "npm run build && build -mwl",

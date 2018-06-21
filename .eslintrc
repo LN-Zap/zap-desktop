@@ -23,8 +23,6 @@
     "node": true
   },
   "rules": {
-    "comma-dangle": ["error", "never"],
-    "semi": ["error", "never"],
     "prettier/prettier": "error",
     "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
     "react/no-did-mount-set-state": 0,
