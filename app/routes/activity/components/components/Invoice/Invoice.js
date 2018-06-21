@@ -10,7 +10,10 @@ import checkmarkIcon from 'icons/check_circle.svg'
 import styles from '../Activity.scss'
 
 const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyName }) => (
-  <div className={`${styles.container} ${!invoice.settled && styles.unpaid}`} onClick={() => showActivityModal('INVOICE', { invoice })}>
+  <div
+    className={`${styles.container} ${!invoice.settled && styles.unpaid}`}
+    onClick={() => showActivityModal('INVOICE', { invoice })}
+  >
     {!invoice.settled && (
       <div className={styles.pendingIcon}>
         <Isvg src={checkmarkIcon} />
@@ -22,7 +25,9 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
         <h3>{invoice.settled ? 'Received payment' : 'Requested payment'}</h3>
       </div>
       <div className={styles.subtitle}>
-        <Moment format="h:mm a">{invoice.settled ? invoice.settled_date * 1000 : invoice.creation_date * 1000}</Moment>
+        <Moment format="h:mm a">
+          {invoice.settled ? invoice.settled_date * 1000 : invoice.creation_date * 1000}
+        </Moment>
       </div>
     </div>
     <div className={`${styles.amount} ${invoice.settled ? styles.positive : styles.negative}`}>

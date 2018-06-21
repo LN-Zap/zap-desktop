@@ -64,7 +64,10 @@ const ACTION_HANDLERS = {
     network: data.testnet ? networks.testnet : networks.mainnet,
     data
   }),
-  [SET_WALLET_CURRENCY_FILTERS]: (state, { showWalletCurrencyFilters }) => ({ ...state, showWalletCurrencyFilters })
+  [SET_WALLET_CURRENCY_FILTERS]: (state, { showWalletCurrencyFilters }) => ({
+    ...state,
+    showWalletCurrencyFilters
+  })
 }
 
 // ------------------------------------

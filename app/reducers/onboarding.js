@@ -15,7 +15,8 @@ export const SET_CONNECTION_MACAROON = 'SET_CONNECTION_MACAROON'
 export const UPDATE_ALIAS = 'UPDATE_ALIAS'
 export const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
 export const UPDATE_CREATE_WALLET_PASSWORD = 'UPDATE_CREATE_WALLET_PASSWORD'
-export const UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION = 'UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION'
+export const UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION =
+  'UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION'
 export const UPDATE_AEZEED_PASSWORD = 'UPDATE_AEZEED_PASSWORD'
 export const UPDATE_AEZEED_PASSWORD_CONFIRMATION = 'UPDATE_AEZEED_PASSWORD_CONFIRMATION'
 export const UPDATE_SEED_INPUT = 'UPDATE_SEED_INPUT'
@@ -155,9 +156,16 @@ export function startLnd(options) {
   }
 }
 
-export const submitNewWallet = (wallet_password, cipher_seed_mnemonic, aezeed_passphrase) => dispatch => {
+export const submitNewWallet = (
+  wallet_password,
+  cipher_seed_mnemonic,
+  aezeed_passphrase
+) => dispatch => {
   // once the user submits the data needed to start LND we will alert the app that it should start LND
-  ipcRenderer.send('walletUnlocker', { msg: 'initWallet', data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase } })
+  ipcRenderer.send('walletUnlocker', {
+    msg: 'initWallet',
+    data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase }
+  })
   dispatch({ type: CREATING_NEW_WALLET })
 }
 
@@ -217,10 +225,19 @@ const ACTION_HANDLERS = {
   [SET_CONNECTION_MACAROON]: (state, { connectionMacaroon }) => ({ ...state, connectionMacaroon }),
   [UPDATE_ALIAS]: (state, { alias }) => ({ ...state, alias }),
   [UPDATE_PASSWORD]: (state, { password }) => ({ ...state, password }),
-  [UPDATE_CREATE_WALLET_PASSWORD]: (state, { createWalletPassword }) => ({ ...state, createWalletPassword }),
-  [UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION]: (state, { createWalletPasswordConfirmation }) => ({ ...state, createWalletPasswordConfirmation }),
+  [UPDATE_CREATE_WALLET_PASSWORD]: (state, { createWalletPassword }) => ({
+    ...state,
+    createWalletPassword
+  }),
+  [UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION]: (state, { createWalletPasswordConfirmation }) => ({
+    ...state,
+    createWalletPasswordConfirmation
+  }),
   [UPDATE_AEZEED_PASSWORD]: (state, { aezeedPassword }) => ({ ...state, aezeedPassword }),
-  [UPDATE_AEZEED_PASSWORD_CONFIRMATION]: (state, { aezeedPasswordConfirmation }) => ({ ...state, aezeedPasswordConfirmation }),
+  [UPDATE_AEZEED_PASSWORD_CONFIRMATION]: (state, { aezeedPasswordConfirmation }) => ({
+    ...state,
+    aezeedPasswordConfirmation
+  }),
   [UPDATE_SEED_INPUT]: (state, { inputSeedObj }) => ({
     ...state,
     seedInput: Object.assign([], state.seedInput, { [inputSeedObj.index]: inputSeedObj })
@@ -242,8 +259,16 @@ const ACTION_HANDLERS = {
   [CREATING_NEW_WALLET]: state => ({ ...state, creatingNewWallet: true }),
 
   [UNLOCKING_WALLET]: state => ({ ...state, unlockingWallet: true }),
-  [WALLET_UNLOCKED]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: false, message: '' } }),
-  [SET_UNLOCK_WALLET_ERROR]: state => ({ ...state, unlockingWallet: false, unlockWalletError: { isError: true, message: 'Incorrect password' } }),
+  [WALLET_UNLOCKED]: state => ({
+    ...state,
+    unlockingWallet: false,
+    unlockWalletError: { isError: false, message: '' }
+  }),
+  [SET_UNLOCK_WALLET_ERROR]: state => ({
+    ...state,
+    unlockingWallet: false,
+    unlockWalletError: { isError: true, message: 'Incorrect password' }
+  }),
 
   [SET_SIGNUP_CREATE]: state => ({ ...state, signupForm: { create: true, import: false } }),
   [SET_SIGNUP_IMPORT]: state => ({ ...state, signupForm: { create: false, import: true } })
@@ -253,7 +278,8 @@ const onboardingSelectors = {}
 const passwordSelector = state => state.onboarding.password
 
 const createWalletPasswordSelector = state => state.onboarding.createWalletPassword
-const createWalletPasswordConfirmationSelector = state => state.onboarding.createWalletPasswordConfirmation
+const createWalletPasswordConfirmationSelector = state =>
+  state.onboarding.createWalletPasswordConfirmation
 
 const aezeedPasswordSelector = state => state.onboarding.aezeedPassword
 const aezeedPasswordConfirmationSelector = state => state.onboarding.aezeedPasswordConfirmation
@@ -261,7 +287,10 @@ const aezeedPasswordConfirmationSelector = state => state.onboarding.aezeedPassw
 const seedSelector = state => state.onboarding.seed
 const seedInputSelector = state => state.onboarding.seedInput
 
-onboardingSelectors.passwordIsValid = createSelector(passwordSelector, password => password.length >= 8)
+onboardingSelectors.passwordIsValid = createSelector(
+  passwordSelector,
+  password => password.length >= 8
+)
 
 onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
   createWalletPasswordSelector,
@@ -278,7 +307,8 @@ onboardingSelectors.showAezeedPasswordConfirmationError = createSelector(
 onboardingSelectors.reEnterSeedChecker = createSelector(
   seedSelector,
   seedInputSelector,
-  (seed, seedInput) => seed.length === seedInput.length && seed.every((word, i) => word === seedInput[i].word)
+  (seed, seedInput) =>
+    seed.length === seedInput.length && seed.every((word, i) => word === seedInput[i].word)
 )
 
 export { onboardingSelectors }

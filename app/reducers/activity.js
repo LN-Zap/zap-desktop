@@ -91,14 +91,21 @@ export function setActivityModalCurrencyFilters(showCurrencyFilters) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SHOW_ACTIVITY_MODAL]: (state, { modalType, modalProps }) => ({ ...state, modal: { modalType, modalProps } }),
+  [SHOW_ACTIVITY_MODAL]: (state, { modalType, modalProps }) => ({
+    ...state,
+    modal: { modalType, modalProps }
+  }),
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { modalType: null, modalProps: {} } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
   [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
 
   [SET_ACTIVITY_MODAL_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
     ...state,
-    modal: { modalType: state.modal.modalType, modalProps: state.modal.modalProps, showCurrencyFilters }
+    modal: {
+      modalType: state.modal.modalType,
+      modalProps: state.modal.modalProps,
+      showCurrencyFilters
+    }
   }),
 
   [UPDATE_SEARCH_ACTIVE]: (state, { searchActive }) => ({ ...state, searchActive }),
@@ -137,7 +144,20 @@ function returnTimestamp(transaction) {
 
 // getMonth() returns the month in 0 index (0 for Jan), so we create an arr of the
 // string representation we want for the UI
-const months = ['Jan', 'Feb', 'Mar', 'April', 'May', 'June', 'July', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'April',
+  'May',
+  'June',
+  'July',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+]
 
 // groups the data by day
 function groupData(data) {
@@ -204,8 +224,11 @@ const allActivity = createSelector(
 
 const invoiceActivity = createSelector(invoicesSelector, invoices => groupAll(invoices))
 
-const sentActivity = createSelector(transactionsSelector, paymentsSelector, (transactions, payments) =>
-  groupAll([...transactions.filter(transaction => transaction.amount < 0), ...payments])
+const sentActivity = createSelector(
+  transactionsSelector,
+  paymentsSelector,
+  (transactions, payments) =>
+    groupAll([...transactions.filter(transaction => transaction.amount < 0), ...payments])
 )
 
 const pendingActivity = createSelector(invoicesSelector, invoices =>
@@ -221,7 +244,11 @@ const FILTERS = {
 
 activitySelectors.currentActivity = createSelector(filterSelector, filter => FILTERS[filter.key])
 
-activitySelectors.nonActiveFilters = createSelector(filtersSelector, filterSelector, (filters, filter) => filters.filter(f => f.key !== filter.key))
+activitySelectors.nonActiveFilters = createSelector(
+  filtersSelector,
+  filterSelector,
+  (filters, filter) => filters.filter(f => f.key !== filter.key)
+)
 
 export { activitySelectors }
 

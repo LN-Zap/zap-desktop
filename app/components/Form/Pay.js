@@ -142,7 +142,10 @@ class Pay extends Component {
                 readOnly={isLn}
               />
               <div className={styles.currency}>
-                <section className={styles.currentCurrency} onClick={() => setCurrencyFilters(!showCurrencyFilters)}>
+                <section
+                  className={styles.currentCurrency}
+                  onClick={() => setCurrencyFilters(!showCurrencyFilters)}
+                >
                   <span>{currencyName}</span>
                   <span>
                     <FaAngleDown />
@@ -160,7 +163,10 @@ class Pay extends Component {
 
             <div className={styles.usdAmount}>{`≈ ${usdAmount || 0} USD`}</div>
 
-            <section className={`${styles.errorMessage} ${styles.amount} ${showErrors.amount && styles.active}`}>
+            <section
+              className={`${styles.errorMessage} ${styles.amount} ${showErrors.amount &&
+                styles.active}`}
+            >
               {showErrors.amount && <span>{errors.amount}</span>}
             </section>
           </section>

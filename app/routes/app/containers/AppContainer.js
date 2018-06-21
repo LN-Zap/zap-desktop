@@ -11,9 +11,20 @@ import { fetchInfo } from 'reducers/info'
 
 import { setFormType } from 'reducers/form'
 
-import { setPayAmount, setPayInput, setCurrencyFilters, updatePayErrors, payFormSelectors } from 'reducers/payform'
+import {
+  setPayAmount,
+  setPayInput,
+  setCurrencyFilters,
+  updatePayErrors,
+  payFormSelectors
+} from 'reducers/payform'
 
-import { setRequestAmount, setRequestMemo, setRequestCurrencyFilters, requestFormSelectors } from 'reducers/requestform'
+import {
+  setRequestAmount,
+  setRequestMemo,
+  setRequestCurrencyFilters,
+  requestFormSelectors
+} from 'reducers/requestform'
 
 import { sendCoins } from 'reducers/transaction'
 
@@ -230,7 +241,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       if (!stateProps.payFormIsValid.isValid) {
         dispatchProps.updatePayErrors({
           amount: Object.prototype.hasOwnProperty.call(stateProps.payFormIsValid.errors, 'amount'),
-          payInput: Object.prototype.hasOwnProperty.call(stateProps.payFormIsValid.errors, 'payInput')
+          payInput: Object.prototype.hasOwnProperty.call(
+            stateProps.payFormIsValid.errors,
+            'payInput'
+          )
         })
 
         return
@@ -312,7 +326,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     suggestedNodesProps: {
       suggestedNodesLoading: stateProps.channels.suggestedNodesLoading,
-      suggestedNodes: stateProps.info.data.testnet ? stateProps.channels.suggestedNodes.testnet : stateProps.channels.suggestedNodes.mainnet,
+      suggestedNodes: stateProps.info.data.testnet
+        ? stateProps.channels.suggestedNodes.testnet
+        : stateProps.channels.suggestedNodes.mainnet,
 
       setNode: dispatchProps.setNode,
       openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM')
@@ -404,7 +420,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       setContactsCurrencyFilters: dispatchProps.setContactsCurrencyFilters,
       setCurrencyFilters: dispatchProps.setCurrencyFilters,
       onCurrencyFilterClick: currency => {
-        dispatchProps.updateContactCapacity(btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity))
+        dispatchProps.updateContactCapacity(
+          btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity)
+        )
         dispatchProps.setCurrency(currency)
         dispatchProps.setContactsCurrencyFilters(false)
       }

@@ -45,9 +45,18 @@ const Request = ({
             <span />
           </div>
           <div className={styles.bottom}>
-            <input type="number" value={amount || ''} onChange={event => setRequestAmount(event.target.value)} id="amount" placeholder="0.00000000" />
+            <input
+              type="number"
+              value={amount || ''}
+              onChange={event => setRequestAmount(event.target.value)}
+              id="amount"
+              placeholder="0.00000000"
+            />
             <div className={styles.currency}>
-              <section className={styles.currentCurrency} onClick={() => setRequestCurrencyFilters(!showCurrencyFilters)}>
+              <section
+                className={styles.currentCurrency}
+                onClick={() => setRequestCurrencyFilters(!showCurrencyFilters)}
+              >
                 <span>{currencyName}</span>
                 <span>
                   <FaAngleDown />
@@ -82,7 +91,10 @@ const Request = ({
         </section>
 
         <section className={styles.submit}>
-          <div className={`${styles.button} ${amount > 0 && styles.active}`} onClick={onRequestSubmit}>
+          <div
+            className={`${styles.button} ${amount > 0 && styles.active}`}
+            onClick={onRequestSubmit}
+          >
             Request
           </div>
         </section>

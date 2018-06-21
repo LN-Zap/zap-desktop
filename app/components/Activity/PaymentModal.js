@@ -19,7 +19,13 @@ const PaymentModal = ({
   ticker,
   currentTicker,
 
-  toggleCurrencyProps: { setActivityModalCurrencyFilters, showCurrencyFilters, currencyName, currentCurrencyFilters, onCurrencyFilterClick }
+  toggleCurrencyProps: {
+    setActivityModalCurrencyFilters,
+    showCurrencyFilters,
+    currencyName,
+    currentCurrencyFilters,
+    onCurrencyFilterClick
+  }
 }) => (
   <div className={styles.container}>
     <header className={styles.header}>
@@ -44,7 +50,10 @@ const PaymentModal = ({
         <i className={`${styles.symbol} ${payment.value > 0 && styles.active}`}>-</i>
         <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
       </h1>
-      <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
+      <section
+        className={styles.currentCurrency}
+        onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}
+      >
         <span>{currencyName}</span>
         <span>
           <FaAngleDown />

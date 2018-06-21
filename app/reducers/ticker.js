@@ -91,21 +91,27 @@ tickerSelectors.currentTicker = createSelector(
   (crypto, btcTicker, ltcTicker) => (crypto === 'btc' ? btcTicker : ltcTicker)
 )
 
-tickerSelectors.currentCurrencyFilters = createSelector(currencySelector, currencyFiltersSelector, (currency, filters) =>
-  filters.filter(f => f.key !== currency)
+tickerSelectors.currentCurrencyFilters = createSelector(
+  currencySelector,
+  currencyFiltersSelector,
+  (currency, filters) => filters.filter(f => f.key !== currency)
 )
 
-tickerSelectors.currencyName = createSelector(currencySelector, infoSelectors.networkSelector, (currency, network) => {
-  let unit = currency
-  if (currency === 'btc') {
-    unit = 'BTC'
-  }
-  if (currency === 'sats') {
-    unit = 'satoshis'
-  }
+tickerSelectors.currencyName = createSelector(
+  currencySelector,
+  infoSelectors.networkSelector,
+  (currency, network) => {
+    let unit = currency
+    if (currency === 'btc') {
+      unit = 'BTC'
+    }
+    if (currency === 'sats') {
+      unit = 'satoshis'
+    }
 
-  return `${network.unitPrefix}${unit}`
-})
+    return `${network.unitPrefix}${unit}`
+  }
+)
 
 export { tickerSelectors }
 

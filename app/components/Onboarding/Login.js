@@ -12,11 +12,16 @@ const Login = ({ password, updatePassword, unlockingWallet, unlockWallet, unlock
       value={password}
       onChange={event => updatePassword(event.target.value)}
     />
-    <p className={`${unlockWalletError.isError && styles.active} ${styles.error}`}>{unlockWalletError.message}</p>
+    <p className={`${unlockWalletError.isError && styles.active} ${styles.error}`}>
+      {unlockWalletError.message}
+    </p>
 
     <section className={styles.buttons}>
       <div>
-        <span className={`${!unlockingWallet && styles.active} ${styles.button}`} onClick={() => unlockWallet(password)}>
+        <span
+          className={`${!unlockingWallet && styles.active} ${styles.button}`}
+          onClick={() => unlockWallet(password)}
+        >
           {unlockingWallet ? <i className={styles.spinner} /> : 'Unlock'}
         </span>
       </div>

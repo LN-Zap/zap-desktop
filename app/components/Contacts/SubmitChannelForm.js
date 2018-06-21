@@ -43,7 +43,11 @@ class SubmitChannelForm extends React.Component {
       }
 
       // submit the channel to LND
-      openChannel({ pubkey: node.pub_key, host: node.addresses[0].addr, local_amt: contactCapacity })
+      openChannel({
+        pubkey: node.pub_key,
+        host: node.addresses[0].addr,
+        local_amt: contactCapacity
+      })
 
       // close the ChannelForm component
       closeChannelForm()
@@ -57,8 +61,8 @@ class SubmitChannelForm extends React.Component {
         <header className={styles.header}>
           <h1>Add Funds to Network</h1>
           <p>
-            Adding a connection will help you send and receive money on the Lightning Network. You aren&apos;t spening any money, rather moving the
-            money you plan to use onto the network.
+            Adding a connection will help you send and receive money on the Lightning Network. You
+            aren&apos;t spening any money, rather moving the money you plan to use onto the network.
           </p>
         </header>
 
@@ -78,7 +82,10 @@ class SubmitChannelForm extends React.Component {
               id="amount"
             />
             <div className={styles.currency}>
-              <section className={styles.currentCurrency} onClick={() => setContactsCurrencyFilters(!showCurrencyFilters)}>
+              <section
+                className={styles.currentCurrency}
+                onClick={() => setContactsCurrencyFilters(!showCurrencyFilters)}
+              >
                 <span>{currencyName}</span>
                 <span>
                   <FaAngleDown />
@@ -98,7 +105,10 @@ class SubmitChannelForm extends React.Component {
         </section>
 
         <section className={styles.submit}>
-          <div className={`${styles.button} ${contactCapacity > 0 && styles.active}`} onClick={formSubmitted}>
+          <div
+            className={`${styles.button} ${contactCapacity > 0 && styles.active}`}
+            onClick={formSubmitted}
+          >
             Submit
           </div>
         </section>

@@ -96,12 +96,30 @@ export function resetPayForm() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_PAY_AMOUNT]: (state, { amount }) => ({ ...state, amount, showErrors: Object.assign(state.showErrors, { amount: false }) }),
-  [SET_PAY_INPUT]: (state, { payInput }) => ({ ...state, payInput, showErrors: Object.assign(state.showErrors, { payInput: false }) }),
-  [SET_PAY_INVOICE]: (state, { invoice }) => ({ ...state, invoice, showErrors: Object.assign(state.showErrors, { amount: false }) }),
-  [SET_PAY_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({ ...state, showCurrencyFilters }),
+  [SET_PAY_AMOUNT]: (state, { amount }) => ({
+    ...state,
+    amount,
+    showErrors: Object.assign(state.showErrors, { amount: false })
+  }),
+  [SET_PAY_INPUT]: (state, { payInput }) => ({
+    ...state,
+    payInput,
+    showErrors: Object.assign(state.showErrors, { payInput: false })
+  }),
+  [SET_PAY_INVOICE]: (state, { invoice }) => ({
+    ...state,
+    invoice,
+    showErrors: Object.assign(state.showErrors, { amount: false })
+  }),
+  [SET_PAY_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
+    ...state,
+    showCurrencyFilters
+  }),
 
-  [UPDATE_PAY_ERRORS]: (state, { errorsObject }) => ({ ...state, showErrors: Object.assign(state.showErrors, errorsObject) }),
+  [UPDATE_PAY_ERRORS]: (state, { errorsObject }) => ({
+    ...state,
+    showErrors: Object.assign(state.showErrors, errorsObject)
+  }),
 
   [RESET_FORM]: () => initialState
 }
@@ -123,14 +141,18 @@ const sendingPaymentSelector = state => state.payment.sendingPayment
 // ticker
 const currencySelector = state => state.ticker.currency
 
-payFormSelectors.isOnchain = createSelector(payInputSelector, infoSelectors.networkSelector, (input, network) => {
-  try {
-    bitcoin.address.toOutputScript(input, network.bitcoinJsNetwork)
-    return true
-  } catch (e) {
-    return false
+payFormSelectors.isOnchain = createSelector(
+  payInputSelector,
+  infoSelectors.networkSelector,
+  (input, network) => {
+    try {
+      bitcoin.address.toOutputScript(input, network.bitcoinJsNetwork)
+      return true
+    } catch (e) {
+      return false
+    }
   }
-})
+)
 
 payFormSelectors.isLn = createSelector(payInputSelector, input => {
   if (!input.startsWith('ln')) {
@@ -228,24 +250,29 @@ payFormSelectors.showPayLoadingScreen = createSelector(
   (sendingTransaction, sendingPayment) => sendingTransaction || sendingPayment
 )
 
-payFormSelectors.payFormIsValid = createSelector(payFormSelectors.isOnchain, payFormSelectors.isLn, payAmountSelector, (isOnchain, isLn, amount) => {
-  const errors = {}
+payFormSelectors.payFormIsValid = createSelector(
+  payFormSelectors.isOnchain,
+  payFormSelectors.isLn,
+  payAmountSelector,
+  (isOnchain, isLn, amount) => {
+    const errors = {}
 
-  if (!isLn && amount <= 0) {
-    errors.amount = 'Amount must be more than 0'
-  }
+    if (!isLn && amount <= 0) {
+      errors.amount = 'Amount must be more than 0'
+    }
 
-  if (!isOnchain && !isLn) {
-    errors.payInput = 'Must be a valid BTC address or Lightning Network request'
-  }
+    if (!isOnchain && !isLn) {
+      errors.payInput = 'Must be a valid BTC address or Lightning Network request'
+    }
 
-  return {
-    errors,
-    amountIsValid: isEmpty(errors.amount),
-    payInputIsValid: isEmpty(errors.payInput),
-    isValid: isEmpty(errors)
+    return {
+      errors,
+      amountIsValid: isEmpty(errors.amount),
+      payInputIsValid: isEmpty(errors.payInput),
+      isValid: isEmpty(errors)
+    }
   }
-})
+)
 
 export { payFormSelectors }
 

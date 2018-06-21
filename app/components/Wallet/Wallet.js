@@ -29,7 +29,10 @@ const Wallet = ({
   setWalletCurrencyFilters,
   network
 }) => {
-  const usdAmount = btc.satoshisToUsd(parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10), currentTicker.price_usd)
+  const usdAmount = btc.satoshisToUsd(
+    parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
+    currentTicker.price_usd
+  )
 
   const onCurrencyFilterClick = currency => {
     setCurrency(currency)
@@ -82,7 +85,9 @@ const Wallet = ({
                   </section>
                 </span>
               </h1>
-              <span className={styles.usdValue}>≈ ${usdAmount ? usdAmount.toLocaleString() : ''}</span>
+              <span className={styles.usdValue}>
+                ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
+              </span>
             </div>
           </div>
         </div>
@@ -116,10 +121,16 @@ const Wallet = ({
                   <AnimatedCheckmark />
                 </section>
                 <section>
-                  {
-                    // TODO(jimmymow): remove this
-                    // eslint-disable-next-line
-                    }Successfully <span className={styles.txLink} onClick={() => blockExplorer.showTransaction(network, successTransactionScreen.txid)}>sent</span> transaction
+                  Successfully{' '}
+                  <span
+                    className={styles.txLink}
+                    onClick={() => {
+                      return blockExplorer.showTransaction(network, successTransactionScreen.txid)
+                    }}
+                  >
+                    sent
+                  </span>{' '}
+                  transaction
                 </section>
               </span>
             )}

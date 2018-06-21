@@ -44,7 +44,9 @@ class Countdown extends React.Component {
     }
 
     const days = convertTwoDigits(Math.floor(distance / (1000 * 60 * 60 * 24)))
-    const hours = convertTwoDigits(Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)))
+    const hours = convertTwoDigits(
+      Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
+    )
     const minutes = convertTwoDigits(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)))
     const seconds = convertTwoDigits(Math.floor((distance % (1000 * 60)) / 1000))
 

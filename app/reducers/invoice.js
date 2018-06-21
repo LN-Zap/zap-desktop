@@ -93,7 +93,8 @@ export const fetchInvoices = () => dispatch => {
 }
 
 // Receive IPC event for invoices
-export const receiveInvoices = (event, { invoices }) => dispatch => dispatch({ type: RECEIVE_INVOICES, invoices })
+export const receiveInvoices = (event, { invoices }) => dispatch =>
+  dispatch({ type: RECEIVE_INVOICES, invoices })
 
 // Send IPC event for creating an invoice
 export const createInvoice = (amount, memo, currency) => dispatch => {
@@ -156,7 +157,11 @@ const ACTION_HANDLERS = {
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
 
   [SEND_INVOICE]: state => ({ ...state, invoiceLoading: true }),
-  [INVOICE_SUCCESSFUL]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoices: [invoice, ...state.invoices] }),
+  [INVOICE_SUCCESSFUL]: (state, { invoice }) => ({
+    ...state,
+    invoiceLoading: false,
+    invoices: [invoice, ...state.invoices]
+  }),
   [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null }),
 
   [UPDATE_INVOICE]: (state, action) => {
@@ -182,12 +187,18 @@ const invoicesSearchTextSelector = state => state.invoice.invoicesSearchText
 
 invoiceSelectors.invoiceModalOpen = createSelector(invoiceSelector, invoice => !!invoice)
 
-invoiceSelectors.invoices = createSelector(invoicesSelector, invoicesSearchTextSelector, (invoices, invoicesSearchText) =>
-  invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
+invoiceSelectors.invoices = createSelector(
+  invoicesSelector,
+  invoicesSearchTextSelector,
+  (invoices, invoicesSearchText) =>
+    invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
 )
 
-invoiceSelectors.invoices = createSelector(invoicesSelector, invoicesSearchTextSelector, (invoices, invoicesSearchText) =>
-  invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
+invoiceSelectors.invoices = createSelector(
+  invoicesSelector,
+  invoicesSearchTextSelector,
+  (invoices, invoicesSearchText) =>
+    invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
 )
 
 export { invoiceSelectors }

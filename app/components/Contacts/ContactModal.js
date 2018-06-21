@@ -9,7 +9,14 @@ import { btc } from 'utils'
 
 import styles from './ContactModal.scss'
 
-const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes, closeChannel, closingChannelIds }) => {
+const ContactModal = ({
+  isOpen,
+  channel,
+  closeContactModal,
+  channelNodes,
+  closeChannel,
+  closingChannelIds
+}) => {
   if (!channel) {
     return <span />
   }
@@ -32,7 +39,11 @@ const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes, closeC
   }
 
   const removeClicked = () => {
-    closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })
+    closeChannel({
+      channel_point: channel.channel_point,
+      chan_id: channel.chan_id,
+      force: !channel.active
+    })
   }
 
   // the remote node for the channel
@@ -71,7 +82,10 @@ const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes, closeC
             <div className={styles.pay}>
               <h4>Can Pay</h4>
               <div className={styles.meter}>
-                <div className={styles.amount} style={{ width: `${(channel.local_balance / channel.capacity) * 100}%` }} />
+                <div
+                  className={styles.amount}
+                  style={{ width: `${(channel.local_balance / channel.capacity) * 100}%` }}
+                />
               </div>
               <span>{btc.satoshisToBtc(channel.local_balance)} BTC</span>
             </div>
@@ -79,7 +93,10 @@ const ContactModal = ({ isOpen, channel, closeContactModal, channelNodes, closeC
             <div className={styles.pay}>
               <h4>Can Receive</h4>
               <div className={styles.meter}>
-                <div className={styles.amount} style={{ width: `${(channel.remote_balance / channel.capacity) * 100}%` }} />
+                <div
+                  className={styles.amount}
+                  style={{ width: `${(channel.remote_balance / channel.capacity) * 100}%` }}
+                />
               </div>
               <span>{btc.satoshisToBtc(channel.remote_balance)} BTC</span>
             </div>

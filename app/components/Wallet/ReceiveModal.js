@@ -65,7 +65,14 @@ class ReceiveModal extends React.Component {
             </header>
 
             <div className={styles.qrCodeContainer}>
-              <QRCode value={qrCodeType === 1 ? pubkey : address} renderAs="svg" size={150} bgColor="transparent" fgColor="white" level="L" />
+              <QRCode
+                value={qrCodeType === 1 ? pubkey : address}
+                renderAs="svg"
+                size={150}
+                bgColor="transparent"
+                fgColor="white"
+                level="L"
+              />
             </div>
           </section>
           <section className={styles.right}>
@@ -73,7 +80,11 @@ class ReceiveModal extends React.Component {
               <h4>Node Public Key</h4>
               <p>
                 <span className={styles.data}>{pubkey}</span>
-                <span onClick={() => copyOnClick(pubkey)} className={`${styles.copy} hint--left`} data-hint="Copy pubkey">
+                <span
+                  onClick={() => copyOnClick(pubkey)}
+                  className={`${styles.copy} hint--left`}
+                  data-hint="Copy pubkey"
+                >
                   <Isvg src={copyIcon} />
                 </span>
               </p>
@@ -83,7 +94,11 @@ class ReceiveModal extends React.Component {
               <h4>Bitcoin {network.name} Address</h4>
               <p>
                 <span className={styles.data}>{address}</span>
-                <span onClick={() => copyOnClick(address)} className={`${styles.copy} hint--left`} data-hint="Copy address">
+                <span
+                  onClick={() => copyOnClick(address)}
+                  className={`${styles.copy} hint--left`}
+                  data-hint="Copy address"
+                >
                   <Isvg src={copyIcon} />
                 </span>
               </p>

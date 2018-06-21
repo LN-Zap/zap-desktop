@@ -28,7 +28,12 @@ const NewAezeedPassword = ({
         value={aezeedPasswordConfirmation}
         onChange={event => updateAezeedPasswordConfirmation(event.target.value)}
       />
-      <p className={`${styles.errorMessage} ${showAezeedPasswordConfirmationError && styles.visible}`}>Passwords do not match</p>
+      <p
+        className={`${styles.errorMessage} ${showAezeedPasswordConfirmationError &&
+          styles.visible}`}
+      >
+        Passwords do not match
+      </p>
     </section>
   </div>
 )

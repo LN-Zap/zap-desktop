@@ -25,7 +25,9 @@ const manifest = path.resolve(dll, 'renderer.json')
  * Warn if the DLL is not built
  */
 if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
-  mainLog.info('The DLL files are missing. Sit back while we build them for you with "npm run build-dll"')
+  mainLog.info(
+    'The DLL files are missing. Sit back while we build them for you with "npm run build-dll"'
+  )
   execSync('npm run build-dll')
 }
 

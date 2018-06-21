@@ -2,7 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './ConnectionDetails.scss'
 
-const ConnectionDetails = ({ connectionHost, connectionCert, connectionMacaroon, setConnectionHost, setConnectionCert, setConnectionMacaroon }) => (
+const ConnectionDetails = ({
+  connectionHost,
+  connectionCert,
+  connectionMacaroon,
+  setConnectionHost,
+  setConnectionCert,
+  setConnectionMacaroon
+}) => (
   <div className={styles.container}>
     <div>
       <label htmlFor="connectionHost">Host:</label>

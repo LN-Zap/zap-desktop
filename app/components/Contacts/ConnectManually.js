@@ -64,11 +64,16 @@ class ConnectManually extends React.Component {
         </section>
 
         <section className={`${styles.errorMessage} ${showErrors.manualInput && styles.active}`}>
-          {showErrors.manualInput && <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>}
+          {showErrors.manualInput && (
+            <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>
+          )}
         </section>
 
         <section className={styles.submit}>
-          <div className={`${styles.button} ${manualFormIsValid.isValid && styles.active}`} onClick={formSubmitted}>
+          <div
+            className={`${styles.button} ${manualFormIsValid.isValid && styles.active}`}
+            onClick={formSubmitted}
+          >
             Submit
           </div>
         </section>

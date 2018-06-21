@@ -30,7 +30,9 @@ export function connectAndOpen(lnd, event, payload) {
       })
 
       call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
-      call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
+      call.on('error', error =>
+        event.sender.send('pushchannelerror', { pubkey, error: error.toString() })
+      )
 
       return call
     })
@@ -128,7 +130,9 @@ export function closeChannel(lnd, event, payload) {
 
       call.on('data', data => event.sender.send('pushclosechannelupdated', { data, chan_id }))
       call.on('end', () => event.sender.send('pushclosechannelend'))
-      call.on('error', error => event.sender.send('pushclosechannelerror', { error: error.toString(), chan_id }))
+      call.on('error', error =>
+        event.sender.send('pushclosechannelerror', { error: error.toString(), chan_id })
+      )
       call.on('status', status => event.sender.send('pushclosechannelstatus', { status, chan_id }))
 
       resolve(null, res)
