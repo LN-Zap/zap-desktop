@@ -283,6 +283,23 @@ export default merge.smart(baseConfig, {
       ignored: /node_modules/,
       poll: 100
     },
+    proxy: {
+      '/proxy/zap.jackmallers.com': {
+        target: 'https://zap.jackmallers.com',
+        pathRewrite: { '^/proxy/zap.jackmallers.com': '' },
+        changeOrigin: true
+      },
+      '/proxy/api.coinmarketcap.com': {
+        target: 'https://api.coinmarketcap.com',
+        pathRewrite: { '^/proxy/api.coinmarketcap.com': '' },
+        changeOrigin: true
+      },
+      '/proxy/testnet-api.smartbit.com.au': {
+        target: 'https://testnet-api.smartbit.com.au',
+        pathRewrite: { '^/proxy/testnet-api.smartbit.com.au': '' },
+        changeOrigin: true
+      }
+    },
     historyApiFallback: {
       verbose: true,
       disableDotRule: false
