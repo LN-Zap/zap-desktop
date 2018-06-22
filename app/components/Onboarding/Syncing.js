@@ -37,23 +37,29 @@ class Syncing extends Component {
             <p>Might as well fund your wallet while you&apos;re waiting to sync.</p>
           </div>
 
-          <div className={styles.address}>
-            <div className={styles.qrConatiner}>
-              <QRCode
-                value={address}
-                renderAs="svg"
-                size={100}
-                bgColor="transparent"
-                fgColor="white"
-                level="L"
-                className={styles.qrcode}
-              />
+          {address.length ? (
+            <div className={styles.address}>
+              <div className={styles.qrConatiner}>
+                <QRCode
+                  value={address}
+                  renderAs="svg"
+                  size={100}
+                  bgColor="transparent"
+                  fgColor="white"
+                  level="L"
+                  className={styles.qrcode}
+                />
+              </div>
+              <section className={styles.textAddress}>
+                <span>{address}</span>
+                <span onClick={copyClicked}>copy</span>
+              </section>
             </div>
-            <section className={styles.textAddress}>
-              <span>{address}</span>
-              <span onClick={copyClicked}>copy</span>
-            </section>
-          </div>
+          ) : (
+            <div className={styles.loading}>
+              <div className={styles.spinner} />
+            </div>
+          )}
 
           <section className={styles.progressContainer}>
             <h3>Syncing to the blockchain...</h3>
