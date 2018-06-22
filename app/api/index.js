@@ -5,9 +5,7 @@ export function requestTicker(id) {
   return axios({
     method: 'get',
     url: BASE_URL
-  })
-    .then(response => response.data)
-    .catch(error => error)
+  }).then(response => response.data)
 }
 
 export function requestTickers(ids) {
@@ -23,9 +21,7 @@ export function requestBlockHeight() {
   return axios({
     method: 'get',
     url: BASE_URL
-  })
-    .then(response => response.data)
-    .catch(error => error)
+  }).then(response => response.data)
 }
 
 export function requestSuggestedNodes() {
@@ -33,7 +29,5 @@ export function requestSuggestedNodes() {
   return axios({
     method: 'get',
     url: BASE_URL
-  })
-    .then(response => response.data)
-    .catch(error => error)
+  }).then(response => response.data)
 }
