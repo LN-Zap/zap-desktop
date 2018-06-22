@@ -87,6 +87,7 @@ const sendStartOnboarding = () => {
       clearInterval(sendStartOnboardingInterval)
 
       if (mainWindow) {
+        mainLog.timeEnd('Time until onboarding has started')
         mainLog.info('STARTING ONBOARDING')
         mainWindow.webContents.send('startOnboarding')
       }
@@ -245,6 +246,9 @@ app.on('window-all-closed', () => {
 })
 
 app.on('ready', async () => {
+  mainLog.time('Time until app is visible')
+  mainLog.time('Time until onboarding has started')
+
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions()
   }
@@ -271,7 +275,7 @@ app.on('ready', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined')
     }
-
+    mainLog.timeEnd('Time until app is visible')
     mainWindow.show()
     mainWindow.focus()
 
