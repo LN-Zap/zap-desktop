@@ -2,17 +2,24 @@
 
 .content {
   padding: 0 40px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   color: $white;
   margin: 0 auto;
   width: 500px;
 
   .header {
     padding: 20px;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid $spaceborder;
 
     h1 {
       margin-bottom: 15px;
       font-size: 20px;
+      font-size: 22px;
+      font-weight: 100;
+      margin-top: 10px;
+      letter-spacing: 1.5px;
     }
 
     p {
@@ -23,19 +30,6 @@
   }
 }
 
-.header {
-  text-align: center;
-  padding-bottom: 20px;
-  border-bottom: 1px solid $spaceborder;
-
-  h1 {
-    font-size: 22px;
-    font-weight: 100;
-    margin-top: 10px;
-    letter-spacing: 1.5px;
-  }
-}
-
 .title {
   margin: 20px 0;
   line-height: 32px;
@@ -43,8 +37,8 @@
   h2 {
     font-size: 14px;
     background: $spaceblue;
-    padding: 5px;
-    border-radius: 0px;
+    padding: 10px;
+    border-radius: 17.5px;
     display: inline;
   }
 }
@@ -55,24 +49,22 @@
   align-items: center;
 
   input {
-    font-size: 20px;
+    font-size: 40px;
     max-width: 110px;
+    background: transparent;
+    outline: none;
+    border: 1px solid #404040;
+    border-radius: 4px;
+    padding: 15px;
+    color: $gold;
+    -webkit-text-fill-color: $white;
+    width: 100%;
+    font-weight: 200;
   }
 }
 
-.input input {
-  background: transparent;
-  outline: none;
-  border:1px solid #404040;
-  border-radius: 4px;
-  padding: 15px;
-  color: $gold;
-  -webkit-text-fill-color: $white;
-  width: 100%;
-  font-weight: 200;
-}
-
-.input input::-webkit-input-placeholder, ::-webkit-input-placeholder {
+.input input::-webkit-input-placeholder,
+::-webkit-input-placeholder {
   text-shadow: none;
   -webkit-text-fill-color: initial;
 }
@@ -94,12 +86,11 @@
 
     span {
       font-size: 14px;
-      
+
       &:nth-child(1) {
         font-weight: bold;
       }
     }
-
   }
 
   ul {
@@ -145,7 +136,7 @@
 
     &.active {
       background: $gold;
-      opacity: 1.0;
+      opacity: 1;
 
       &:hover {
         background: darken($gold, 5%);
