@@ -8,17 +8,14 @@
   width: 500px;
 
   .header {
-    padding: 20px;
+    padding: 20px 0;
     text-align: center;
-    padding-bottom: 20px;
     border-bottom: 1px solid $spaceborder;
 
     h1 {
-      margin-bottom: 15px;
-      font-size: 20px;
+      margin-bottom: 10px 0 15px 0;
       font-size: 22px;
       font-weight: 100;
-      margin-top: 10px;
       letter-spacing: 1.5px;
     }
 
