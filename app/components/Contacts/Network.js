@@ -57,7 +57,9 @@ class Network extends Component {
 
       suggestedNodesProps,
 
-      network
+      network,
+
+      currencyName
     } = this.props
 
     const refreshClicked = () => {
@@ -151,7 +153,7 @@ class Network extends Component {
           <section>
             <h2>My Network</h2>
             <span className={styles.channelAmount}>
-              {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${usdAmount
+              {btc.satoshisToBtc(balance.channelBalance)} {currencyName} ≈ ${usdAmount
                 ? usdAmount.toLocaleString()
                 : ''}
             </span>
@@ -357,7 +359,9 @@ Network.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
   setSelectedChannel: PropTypes.func.isRequired,
-  closeChannel: PropTypes.func.isRequired
+  closeChannel: PropTypes.func.isRequired,
+
+  currencyName: PropTypes.string.isRequired
 }
 
 export default Network
