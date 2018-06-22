@@ -236,7 +236,7 @@
     "font-awesome": "^4.7.0",
     "history": "^4.6.3",
     "lodash": "^4.17.10",
-    "moment-timezone": "^0.5.13",
+    "moment": "^2.22.2",
     "prop-types": "^15.5.10",
     "qrcode.react": "0.8.0",
     "react": "^15.6.1",

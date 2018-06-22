@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Moment from 'react-moment'
-import 'moment-timezone'
 
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
