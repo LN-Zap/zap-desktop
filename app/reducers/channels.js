@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import filter from 'lodash/filter'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
 import { requestSuggestedNodes } from '../api'
@@ -483,7 +482,7 @@ channelsSelectors.channelNodes = createSelector(
   (channels, nodes) => {
     const chanPubkeys = channels.map(channel => channel.remote_pubkey)
 
-    return filter(nodes, node => chanPubkeys.includes(node.pub_key))
+    return nodes.filter(node => chanPubkeys.includes(node.pub_key))
   }
 )
 

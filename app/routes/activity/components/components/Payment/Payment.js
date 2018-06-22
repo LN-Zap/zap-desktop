@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import find from 'lodash/find'
 import Moment from 'react-moment'
 import { btc } from 'utils'
 
@@ -9,7 +8,7 @@ import styles from '../Activity.scss'
 
 const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, currencyName }) => {
   const displayNodeName = pubkey => {
-    const node = find(nodes, n => pubkey === n.pub_key)
+    const node = nodes.find(n => pubkey === n.pub_key)
 
     if (node && node.alias.length) {
       return node.alias

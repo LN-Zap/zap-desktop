@@ -1,8 +1,6 @@
 import { createSelector } from 'reselect'
 import bitcoin from 'bitcoinjs-lib'
 
-import isEmpty from 'lodash/isEmpty'
-
 import { setFormType } from './form'
 import { tickerSelectors } from './ticker'
 import { infoSelectors } from './info'
@@ -267,9 +265,9 @@ payFormSelectors.payFormIsValid = createSelector(
 
     return {
       errors,
-      amountIsValid: isEmpty(errors.amount),
-      payInputIsValid: isEmpty(errors.payInput),
-      isValid: isEmpty(errors)
+      amountIsValid: !errors.amount,
+      payInputIsValid: !errors.payInput,
+      isValid: Object.keys(errors).length === 0
     }
   }
 )
