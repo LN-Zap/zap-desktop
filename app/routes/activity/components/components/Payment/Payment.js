@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import Moment from 'react-moment'
-import 'moment-timezone'
 import { btc } from 'utils'
 
 import Value from 'components/Value'
