@@ -61,20 +61,13 @@ git commit -m "feat(close-channel): wire up close channel to UI"
 
 Please make sure to run the tests before you commit your changes. You can run `npm test` which will run the test suite.
 
-### Opt into git hooks
+### Git hooks
 
-There are git hooks set up with this project that are automatically installed when you install dependencies. They're really handy, but are turned off by default (so as to not hinder new contributors). You can opt into these by creating a file called `.opt-in` at the root of the project:
+There are git hooks set up with this project that are automatically installed when you install dependencies. They're really handy, with them in place you will get:
 
-```bash
-echo commit-msg >> .opt-in
-echo pre-commit >> .opt-in
-```
-
-With this in place you will get:
-
-1.  Automatic reformatting of changed files on commit
-1.  Automatic lint of changed files on commit (will not allow commit with files that fail lint)
-1.  Automatic validation of commit message format (will not allow commit with invalid commit message)
+1.  Automatic reformatting of changed files on commit via [prettier][prettier]
+1.  Automatic lint of changed files on commit (will not allow commit with files that fail lint) via [eslint][eslint]
+1.  Automatic validation of commit message format (will not allow commit with invalid commit message) via [commitlint][commitlint]
 
 ### Branch Names
 
@@ -98,6 +91,9 @@ This project has eslint rules and pull requests should pass `npm run lint` befor
 
 Tests should try to be written for every feature/fix and pass `npm run test` before being merged. With the demand for the Lightning Network and Zap rising, rapid development will naturally leave some code untested but we should all try our best.
 
+[commitlint]: http://marionebl.github.io/commitlint/#/
 [convention]: https://conventionalcommits.org/
+[eslint]: https://eslint.org/
 [issues]: https://github.com/LN-Zap/zap-desktop/issues
+[prettier]: https://prettier.io/
 [slack]: https://join.slack.com/t/zaphq/shared_invite/enQtMzgyNDA2NDI2Nzg0LTQwZWQ2ZWEzOWFhMjRiNWZkZWMwYTA4MzA5NzhjMDNhNTM5YzliNDA4MmZkZWZkZTFmODM4ODJkYzU3YmI3ZmI
