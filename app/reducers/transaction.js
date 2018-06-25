@@ -115,7 +115,7 @@ export const newTransaction = (event, { transaction }) => dispatch => {
   showNotification(notifTitle, notifBody)
 
   // Generate a new address
-  dispatch(newAddress('p2pkh'))
+  dispatch(newAddress('np2wkh'))
 }
 
 // ------------------------------------
