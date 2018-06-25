@@ -62,9 +62,7 @@ const mapStateToProps = state => ({
 
   syncPercentage: lndSelectors.syncPercentage(state),
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
-  passwordMinChars: onboardingSelectors.passwordMinChars(
-    state
-  ),
+  passwordMinChars: onboardingSelectors.passwordMinChars(state),
   showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(
     state
   ),
