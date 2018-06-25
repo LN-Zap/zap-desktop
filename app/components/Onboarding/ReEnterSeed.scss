@@ -1,14 +1,19 @@
 @import '../../variables.scss';
 
 .seedContainer {
-  position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   font-size: 12px;
+  margin-top: 10%;
 
   li {
     display: inline-block;
-    margin: 5px 0;
+    margin: 10px;
     width: 25%;
+    border: 0.2px solid #ccc;
+    padding: 5px 10px;
 
     section {
       display: inline-block;
@@ -16,30 +21,25 @@
       color: $white;
 
       &:nth-child(1) {
-        width: 15%;
         text-align: center;
         opacity: 0.5;
       }
 
       &:nth-child(2) {
-        width: calc(85% - 10px);
         margin: 0 5px;
       }
     }
   }
 }
 
-
-
 .word {
   margin: 0 3px;
-  background-color: #1c1e26;
+  background-color: inherit;
   outline: 0;
   border: none;
   padding: 5px 10px;
   color: $white;
-  font-family: courier;
-  font-family: 'Courier';
+  font-family: 'Courier', courier, sans-serif;
 
   &.valid {
     color: $green;

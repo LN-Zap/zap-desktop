@@ -19,7 +19,8 @@ export const UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION =
   'UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION'
 export const UPDATE_AEZEED_PASSWORD = 'UPDATE_AEZEED_PASSWORD'
 export const UPDATE_AEZEED_PASSWORD_CONFIRMATION = 'UPDATE_AEZEED_PASSWORD_CONFIRMATION'
-export const UPDATE_SEED_INPUT = 'UPDATE_SEED_INPUT'
+export const UPDATE_RE_ENTER_SEED_INPUT = 'UPDATE_RE_ENTER_SEED_INPUT'
+export const UPDATE_RECOVER_SEED_INPUT = 'UPDATE_RECOVER_SEED_INPUT'
 
 export const CHANGE_STEP = 'CHANGE_STEP'
 
@@ -28,6 +29,7 @@ export const SET_AUTOPILOT = 'SET_AUTOPILOT'
 export const FETCH_SEED = 'FETCH_SEED'
 export const SET_SEED = 'SET_SEED'
 export const SET_HAS_SEED = 'SET_HAS_SEED'
+export const SET_RE_ENTER_SEED_INDEXES = 'SET_RE_ENTER_SEED_INDEXES'
 
 export const ONBOARDING_STARTED = 'ONBOARDING_STARTED'
 export const ONBOARDING_FINISHED = 'ONBOARDING_FINISHED'
@@ -114,9 +116,16 @@ export function updateAezeedPasswordConfirmation(aezeedPasswordConfirmation) {
   }
 }
 
-export function updateSeedInput(inputSeedObj) {
+export function updateReEnterSeedInput(inputSeedObj) {
   return {
-    type: UPDATE_SEED_INPUT,
+    type: UPDATE_RE_ENTER_SEED_INPUT,
+    inputSeedObj
+  }
+}
+
+export function updateRecoverSeedInput(inputSeedObj) {
+  return {
+    type: UPDATE_RECOVER_SEED_INPUT,
     inputSeedObj
   }
 }
@@ -153,6 +162,28 @@ export function startLnd(options) {
 
   return {
     type: STARTING_LND
+  }
+}
+
+export function setReEnterSeedIndexes() {
+  // we only want the user to have to verify 3 random indexes from the seed they were just given
+  const INDEX_AMOUNT = 3
+
+  const seedIndexesArr = []
+  while (seedIndexesArr.length < INDEX_AMOUNT) {
+    // add 1 because we dont want this to be 0 index based
+    const ranNum = Math.floor(Math.random() * 24) + 1
+
+    if (seedIndexesArr.indexOf(ranNum) > -1) {
+      continue
+    }
+
+    seedIndexesArr[seedIndexesArr.length] = ranNum
+  }
+
+  return {
+    type: SET_RE_ENTER_SEED_INDEXES,
+    seedIndexesArr
   }
 }
 
@@ -238,15 +269,22 @@ const ACTION_HANDLERS = {
     ...state,
     aezeedPasswordConfirmation
   }),
-  [UPDATE_SEED_INPUT]: (state, { inputSeedObj }) => ({
+  [UPDATE_RE_ENTER_SEED_INPUT]: (state, { inputSeedObj }) => ({
     ...state,
-    seedInput: Object.assign([], state.seedInput, { [inputSeedObj.index]: inputSeedObj })
+    reEnterSeedInput: { ...state.reEnterSeedInput, [inputSeedObj.index]: inputSeedObj.word }
+  }),
+  [UPDATE_RECOVER_SEED_INPUT]: (state, { inputSeedObj }) => ({
+    ...state,
+    recoverSeedInput: Object.assign([], state.recoverSeedInput, {
+      [inputSeedObj.index]: inputSeedObj
+    })
   }),
 
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
 
   [SET_HAS_SEED]: (state, { hasSeed }) => ({ ...state, hasSeed }),
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, fetchingSeed: false }),
+  [SET_RE_ENTER_SEED_INDEXES]: (state, { seedIndexesArr }) => ({ ...state, seedIndexesArr }),
 
   [CHANGE_STEP]: (state, { step }) => ({ ...state, step }),
 
@@ -285,7 +323,8 @@ const aezeedPasswordSelector = state => state.onboarding.aezeedPassword
 const aezeedPasswordConfirmationSelector = state => state.onboarding.aezeedPasswordConfirmation
 
 const seedSelector = state => state.onboarding.seed
-const seedInputSelector = state => state.onboarding.seedInput
+const seedIndexesArrSelector = state => state.onboarding.seedIndexesArr
+const reEnterSeedInputSelector = state => state.onboarding.reEnterSeedInput
 
 onboardingSelectors.passwordIsValid = createSelector(
   passwordSelector,
@@ -306,9 +345,13 @@ onboardingSelectors.showAezeedPasswordConfirmationError = createSelector(
 
 onboardingSelectors.reEnterSeedChecker = createSelector(
   seedSelector,
-  seedInputSelector,
-  (seed, seedInput) =>
-    seed.length === seedInput.length && seed.every((word, i) => word === seedInput[i].word)
+  seedIndexesArrSelector,
+  reEnterSeedInputSelector,
+  (seed, seedIndexArr, reEnterSeedInput) =>
+    seedIndexArr.length === Object.keys(reEnterSeedInput).length &&
+    seedIndexArr.every(
+      index => reEnterSeedInput[index] && reEnterSeedInput[index] === seed[index - 1]
+    )
 )
 
 export { onboardingSelectors }
@@ -346,10 +389,15 @@ const initialState = {
     message: ''
   },
 
-  // array of inputs for when the user re-enters their seed
-  // object has a word attr and a index attr:
-  // { word: 'foo', index: 0 }
-  seedInput: [],
+  seedIndexesArr: [],
+  // object of inputs for when the user re-enters their seed
+  // {
+  // index: word,
+  // index: word,
+  // index: word
+  // }
+  reEnterSeedInput: {},
+  recoverSeedInput: [],
   // step where the user decides whether they want a newly created seed or to import an existing one
   signupForm: {
     create: false,

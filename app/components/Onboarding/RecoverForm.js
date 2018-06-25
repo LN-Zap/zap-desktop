@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './RecoverForm.scss'
 
-const RecoverForm = ({ seedInput, updateSeedInput }) => (
+const RecoverForm = ({ recoverSeedInput, updateRecoverSeedInput }) => (
   <div className={styles.container}>
     <ul className={styles.seedContainer}>
       {Array(24)
@@ -17,8 +17,8 @@ const RecoverForm = ({ seedInput, updateSeedInput }) => (
                 type="text"
                 id={index}
                 placeholder="word"
-                value={seedInput[index] ? seedInput[index].word : ''}
-                onChange={event => updateSeedInput({ word: event.target.value, index })}
+                value={recoverSeedInput[index] ? recoverSeedInput[index].word : ''}
+                onChange={event => updateRecoverSeedInput({ word: event.target.value, index })}
                 className={styles.word}
               />
             </section>
@@ -29,8 +29,8 @@ const RecoverForm = ({ seedInput, updateSeedInput }) => (
 )
 
 RecoverForm.propTypes = {
-  seedInput: PropTypes.array.isRequired,
-  updateSeedInput: PropTypes.func.isRequired
+  recoverSeedInput: PropTypes.array.isRequired,
+  updateRecoverSeedInput: PropTypes.func.isRequired
 }
 
 export default RecoverForm
