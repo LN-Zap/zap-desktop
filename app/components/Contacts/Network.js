@@ -32,8 +32,7 @@ class Network extends Component {
         filter,
         selectedChannel,
         loadingChannelPubkeys,
-        closingChannelIds,
-        channels
+        closingChannelIds
       },
       currentChannels,
       balance,
@@ -171,9 +170,10 @@ class Network extends Component {
 
         <div className={styles.channels}>
           {!loadingChannelPubkeys.length &&
-            !channels.length && <SuggestedNodes {...suggestedNodesProps} />}
+            !currentChannels.length &&
+            !searchQuery.length && <SuggestedNodes {...suggestedNodesProps} />}
 
-          {(loadingChannelPubkeys.length || channels.length) && (
+          {(loadingChannelPubkeys.length || currentChannels.length) && (
             <header className={styles.listHeader}>
               <section>
                 <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
@@ -320,7 +320,7 @@ class Network extends Component {
               })}
           </ul>
         </div>
-        {(loadingChannelPubkeys.length || channels.length) && (
+        {(loadingChannelPubkeys.length || currentChannels.length || searchQuery.length) && (
           <footer className={styles.search}>
             <label htmlFor="search" className={`${styles.label} ${styles.input}`}>
               <Isvg src={search} />
