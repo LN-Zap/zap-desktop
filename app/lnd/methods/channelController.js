@@ -30,11 +30,13 @@ export function connectAndOpen(lnd, event, payload) {
       })
 
       call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
-      call.on('error', error => event.sender.send('pushchannelerror', { pubkey, error: error.toString() }))
+      call.on('error', error =>
+        event.sender.send('pushchannelerror', { pubkey, error: error.toString() })
+      )
 
       return call
     })
-    .catch((err) => {
+    .catch(err => {
       event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
       throw err
     })
@@ -58,7 +60,8 @@ export function openChannel(lnd, event, payload) {
   return new Promise((resolve, reject) =>
     pushopenchannel(lnd, event, res)
       .then(data => resolve(data))
-      .catch(error => reject(error)))
+      .catch(error => reject(error))
+  )
 }
 
 /**
@@ -103,8 +106,15 @@ export function listChannels(lnd) {
  * @return {[type]}         [description]
  */
 export function closeChannel(lnd, event, payload) {
-  const { channel_point: { funding_txid, output_index }, chan_id, force } = payload
-  const tx = funding_txid.match(/.{2}/g).reverse().join('')
+  const {
+    channel_point: { funding_txid, output_index },
+    chan_id,
+    force
+  } = payload
+  const tx = funding_txid
+    .match(/.{2}/g)
+    .reverse()
+    .join('')
 
   const res = {
     channel_point: {
@@ -120,7 +130,9 @@ export function closeChannel(lnd, event, payload) {
 
       call.on('data', data => event.sender.send('pushclosechannelupdated', { data, chan_id }))
       call.on('end', () => event.sender.send('pushclosechannelend'))
-      call.on('error', error => event.sender.send('pushclosechannelerror', { error: error.toString(), chan_id }))
+      call.on('error', error =>
+        event.sender.send('pushclosechannelerror', { error: error.toString(), chan_id })
+      )
       call.on('status', status => event.sender.send('pushclosechannelstatus', { status, chan_id }))
 
       resolve(null, res)

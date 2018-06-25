@@ -37,13 +37,14 @@ export function closeWalletModal() {
 }
 
 // Send IPC event for getinfo
-export const newAddress = type => async (dispatch) => {
+export const newAddress = type => async dispatch => {
   dispatch(getAddress())
   ipcRenderer.send('lnd', { msg: 'newaddress', data: { type: addressTypes[type] } })
 }
 
 // Receive IPC event for info
-export const receiveAddress = (event, address) => dispatch => dispatch({ type: RECEIVE_ADDRESS, address })
+export const receiveAddress = (event, address) => dispatch =>
+  dispatch({ type: RECEIVE_ADDRESS, address })
 
 // ------------------------------------
 // Action Handlers

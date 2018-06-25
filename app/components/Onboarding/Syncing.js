@@ -4,7 +4,6 @@ import Isvg from 'react-inlinesvg'
 import zapLogo from 'icons/zap_logo.svg'
 import styles from './Syncing.scss'
 
-
 class Syncing extends Component {
   componentWillMount() {
     this.props.fetchBlockHeight()
@@ -24,9 +23,16 @@ class Syncing extends Component {
           <section className={styles.progressContainer}>
             <h1>Syncing to the blockchain...</h1>
             <div className={styles.progressBar}>
-              <div className={styles.progress} style={{ width: Number.isNaN(syncPercentage) ? 0 : `${syncPercentage}%` }} />
+              <div
+                className={styles.progress}
+                style={{ width: Number.isNaN(syncPercentage) ? 0 : `${syncPercentage}%` }}
+              />
             </div>
-            <h4>{Number.isNaN(parseInt(syncPercentage, 10)) || syncPercentage.toString().length === 0 ? '' : `${syncPercentage}%`}</h4>
+            <h4>
+              {Number.isNaN(parseInt(syncPercentage, 10)) || syncPercentage.toString().length === 0
+                ? ''
+                : `${syncPercentage}%`}
+            </h4>
           </section>
         </div>
       </div>
@@ -36,10 +42,7 @@ class Syncing extends Component {
 
 Syncing.propTypes = {
   fetchBlockHeight: PropTypes.func.isRequired,
-  syncPercentage: PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]).isRequired
+  syncPercentage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
 }
 
 export default Syncing

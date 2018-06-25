@@ -5,6 +5,7 @@ language: node_js
 env:
   global:
     - DEBUG=electron-builder
+    - ELECTRON_DISABLE_SECURITY_WARNINGS=true
   matrix:
   - TEST=lint-ci
   - TEST=test-ci
@@ -31,7 +32,6 @@ addons:
 
 install:
   - yarn
-  - cd app && yarn && cd ..
   - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
 
 before_script:

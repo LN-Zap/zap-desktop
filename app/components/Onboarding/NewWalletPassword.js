@@ -13,8 +13,8 @@ const NewWalletPassword = ({
   <div className={styles.container}>
     <section className={styles.input}>
       <input
-        type='password'
-        placeholder='Password'
+        type="password"
+        placeholder="Password"
         className={styles.password}
         value={createWalletPassword}
         onChange={event => updateCreateWalletPassword(event.target.value)}
@@ -23,14 +23,25 @@ const NewWalletPassword = ({
 
     <section className={styles.input}>
       <input
-        type='password'
-        placeholder='Confirm Password'
-        className={`${styles.password} ${showCreateWalletPasswordConfirmationError && styles.error}`}
+        type="password"
+        placeholder="Confirm Password"
+        className={`${styles.password} ${showCreateWalletPasswordConfirmationError &&
+          styles.error}`}
         value={createWalletPasswordConfirmation}
         onChange={event => updateCreateWalletPasswordConfirmation(event.target.value)}
       />
-      <p className={`${styles.errorMessage} ${showCreateWalletPasswordConfirmationError && styles.visible}`}>Passwords do not match</p>
-      <p className={`${styles.helpMessage} ${passwordMinChars && styles.visible}`}>The password must be at least 8 characters long.</p>
+      <p
+        className={`${styles.errorMessage} ${showCreateWalletPasswordConfirmationError &&
+          styles.visible}`}
+      >
+        Passwords do not match
+      </p>
+      <p
+        className={`${styles.helpMessage} ${passwordMinChars &&
+          styles.visible}`}
+      >
+        The password must be at least 8 characters long
+      </p>
     </section>
   </div>
 )

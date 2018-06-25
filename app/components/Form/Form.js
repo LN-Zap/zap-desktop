@@ -15,7 +15,9 @@ const FORM_TYPES = {
 }
 
 const Form = ({ formType, formProps, closeForm }) => {
-  if (!formType) { return null }
+  if (!formType) {
+    return null
+  }
 
   const FormComponent = FORM_TYPES[formType]
   return (
@@ -29,7 +31,6 @@ const Form = ({ formType, formProps, closeForm }) => {
     </div>
   )
 }
-
 
 Form.propTypes = {
   formType: PropTypes.string,

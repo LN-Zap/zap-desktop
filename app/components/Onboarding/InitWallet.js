@@ -6,12 +6,7 @@ import styles from './InitWallet.scss'
 
 const InitWallet = ({ hasSeed, loginProps, signupProps }) => (
   <div className={styles.container}>
-    {
-      hasSeed ?
-        <Login {...loginProps} />
-        :
-        <Signup {...signupProps} />
-    }
+    {hasSeed ? <Login {...loginProps} /> : <Signup {...signupProps} />}
   </div>
 )
 

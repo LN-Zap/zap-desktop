@@ -1,6 +1,6 @@
-import { createSelector } from 'reselect'
+import bitcoin from 'bitcoinjs-lib'
+
 import { ipcRenderer } from 'electron'
-import { blockExplorer } from 'utils'
 
 // ------------------------------------
 // Constants
@@ -26,16 +26,30 @@ export function setWalletCurrencyFilters(showWalletCurrencyFilters) {
 }
 
 // Send IPC event for getinfo
-export const fetchInfo = () => async (dispatch) => {
+export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
   ipcRenderer.send('lnd', { msg: 'info' })
 }
 
 // Receive IPC event for info
-export const receiveInfo = (event, data) => (dispatch) => {
+export const receiveInfo = (event, data) => dispatch => {
   dispatch({ type: RECEIVE_INFO, data })
 }
 
+const networks = {
+  testnet: {
+    name: 'Testnet',
+    explorerUrl: 'https://testnet.smartbit.com.au',
+    bitcoinJsNetwork: bitcoin.networks.testnet,
+    unitPrefix: 't'
+  },
+  mainnet: {
+    name: null, // no name since it is the presumed default
+    explorerUrl: 'https://smartbit.com.au',
+    bitcoinJsNetwork: bitcoin.networks.bitcoin,
+    unitPrefix: ''
+  }
+}
 // IPC info fetch failed
 // export const infoFailed = (event, data) => dispatch => {}
 
@@ -44,8 +58,16 @@ export const receiveInfo = (event, data) => (dispatch) => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_INFO]: state => ({ ...state, infoLoading: true }),
-  [RECEIVE_INFO]: (state, { data }) => ({ ...state, infoLoading: false, data }),
-  [SET_WALLET_CURRENCY_FILTERS]: (state, { showWalletCurrencyFilters }) => ({ ...state, showWalletCurrencyFilters })
+  [RECEIVE_INFO]: (state, { data }) => ({
+    ...state,
+    infoLoading: false,
+    network: data.testnet ? networks.testnet : networks.mainnet,
+    data
+  }),
+  [SET_WALLET_CURRENCY_FILTERS]: (state, { showWalletCurrencyFilters }) => ({
+    ...state,
+    showWalletCurrencyFilters
+  })
 }
 
 // ------------------------------------
@@ -53,23 +75,15 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   infoLoading: false,
+  network: {},
   data: {},
   showWalletCurrencyFilters: false
 }
 
 // Selectors
 const infoSelectors = {}
-const testnetSelector = state => state.info.data.testnet
-
-infoSelectors.isTestnet = createSelector(
-  testnetSelector,
-  isTestnet => (!!isTestnet)
-)
-
-infoSelectors.explorerLinkBase = createSelector(
-  infoSelectors.isTestnet,
-  isTestnet => (isTestnet ? blockExplorer.testnetUrl : blockExplorer.mainnetUrl)
-)
+infoSelectors.testnetSelector = state => state.info.data.testnet
+infoSelectors.networkSelector = state => state.info.network
 
 export { infoSelectors }
 

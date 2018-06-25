@@ -8,7 +8,7 @@ import ipc from '../reducers/ipc'
 
 const history = createHashHistory()
 
-const configureStore = (initialState) => {
+const configureStore = initialState => {
   // Redux Configuration
   const middleware = []
   const enhancers = []
@@ -35,9 +35,9 @@ const configureStore = (initialState) => {
   /* eslint-disable no-underscore-dangle */
   const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-      // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
-      actionCreators
-    })
+        // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
+        actionCreators
+      })
     : compose
   /* eslint-enable no-underscore-dangle */
 
@@ -49,8 +49,8 @@ const configureStore = (initialState) => {
   const store = createStore(rootReducer, initialState, enhancer)
 
   if (module.hot) {
-    module.hot.accept('../reducers', () =>
-      store.replaceReducer(require('../reducers'))) // eslint-disable-line global-require
+    // eslint-disable-next-line global-require
+    module.hot.accept('../reducers', () => store.replaceReducer(require('../reducers')))
   }
 
   return store

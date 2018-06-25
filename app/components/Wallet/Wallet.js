@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaAngleDown } from 'react-icons/lib/fa'
+import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import Isvg from 'react-inlinesvg'
 
 import { btc, blockExplorer } from 'utils'
@@ -27,11 +27,14 @@ const Wallet = ({
   currencyName,
   setCurrency,
   setWalletCurrencyFilters,
-  isTestnet
+  network
 }) => {
-  const usdAmount = btc.satoshisToUsd((parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10)), currentTicker.price_usd)
+  const usdAmount = btc.satoshisToUsd(
+    parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
+    currentTicker.price_usd
+  )
 
-  const onCurrencyFilterClick = (currency) => {
+  const onCurrencyFilterClick = currency => {
     setCurrency(currency)
     setWalletCurrencyFilters(false)
   }
@@ -73,50 +76,64 @@ const Wallet = ({
                     </span>
 
                     <ul className={info.showWalletCurrencyFilters && styles.active}>
-                      {
-                        currentCurrencyFilters.map(filter =>
-                          <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-                      }
+                      {currentCurrencyFilters.map(filter => (
+                        <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
+                          {filter.name}
+                        </li>
+                      ))}
                     </ul>
                   </section>
                 </span>
               </h1>
-              <span className={styles.usdValue}>≈ ${usdAmount ? usdAmount.toLocaleString() : ''}</span>
+              <span className={styles.usdValue}>
+                ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
+              </span>
             </div>
           </div>
         </div>
         <div className={styles.right}>
           <div className={styles.rightContent}>
-            <div className={styles.pay} onClick={openPayForm}>Pay</div>
-            <div className={styles.request} onClick={openRequestForm}>Request</div>
+            <div className={styles.pay} onClick={openPayForm}>
+              Pay
+            </div>
+            <div className={styles.request} onClick={openRequestForm}>
+              Request
+            </div>
           </div>
           <div className={styles.notificationBox}>
-            {
-              showPayLoadingScreen &&
-                <span>
-                  <section className={`${styles.spinner} ${styles.icon}`} />
-                  <section>Sending your transaction...</section>
-                </span>
-            }
-            {
-              showSuccessPayScreen &&
-                <span>
-                  <section className={styles.icon}><AnimatedCheckmark /></section>
-                  <section>Successfully sent payment</section>
-                </span>
-            }
-            {
-              successTransactionScreen.show &&
-                <span>
-                  <section className={styles.icon}><AnimatedCheckmark /></section>
-                  <section>
-                    {
-                      // TODO(jimmymow): remove this
-                      // eslint-disable-next-line
-                    }Successfully <span className={styles.txLink} onClick={() => blockExplorer.showTransaction(isTestnet, successTransactionScreen.txid)}>sent</span> transaction
-                  </section>
-                </span>
-            }
+            {showPayLoadingScreen && (
+              <span>
+                <section className={`${styles.spinner} ${styles.icon}`} />
+                <section>Sending your transaction...</section>
+              </span>
+            )}
+            {showSuccessPayScreen && (
+              <span>
+                <section className={styles.icon}>
+                  <AnimatedCheckmark />
+                </section>
+                <section>Successfully sent payment</section>
+              </span>
+            )}
+            {successTransactionScreen.show && (
+              <span>
+                <section className={styles.icon}>
+                  <AnimatedCheckmark />
+                </section>
+                <section>
+                  Successfully{' '}
+                  <span
+                    className={styles.txLink}
+                    onClick={() => {
+                      return blockExplorer.showTransaction(network, successTransactionScreen.txid)
+                    }}
+                  >
+                    sent
+                  </span>{' '}
+                  transaction
+                </section>
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -134,7 +151,7 @@ Wallet.propTypes = {
   openReceiveModal: PropTypes.func.isRequired,
   showPayLoadingScreen: PropTypes.bool.isRequired,
   showSuccessPayScreen: PropTypes.bool.isRequired,
-  isTestnet: PropTypes.bool.isRequired,
+  network: PropTypes.object.isRequired,
   successTransactionScreen: PropTypes.object.isRequired,
   currentCurrencyFilters: PropTypes.array.isRequired,
   currencyName: PropTypes.string.isRequired,

@@ -4,17 +4,15 @@
 
 import webpack from 'webpack'
 import merge from 'webpack-merge'
-import BabiliPlugin from 'babili-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import baseConfig from './webpack.config.base'
-import CheckNodeEnv from './internals/scripts/CheckNodeEnv'
-
-CheckNodeEnv('production')
 
 export default merge.smart(baseConfig, {
   devtool: 'source-map',
 
   target: 'electron-main',
+
+  mode: 'production',
 
   entry: './app/main.dev',
 
@@ -28,8 +26,6 @@ export default merge.smart(baseConfig, {
     /**
      * Babli is an ES6+ aware minifier based on the Babel toolchain (beta)
      */
-    new BabiliPlugin(),
-
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
       openAnalyzer: process.env.OPEN_ANALYZER === 'true'
@@ -40,13 +36,9 @@ export default merge.smart(baseConfig, {
      *
      * Useful for allowing different behaviour between development builds and
      * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
      */
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'production'),
-      'process.env.DEBUG_PROD': JSON.stringify(process.env.DEBUG_PROD || 'false')
+    new webpack.EnvironmentPlugin({
+      DEBUG_PROD: false
     })
   ],
 

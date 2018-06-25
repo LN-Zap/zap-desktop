@@ -52,17 +52,16 @@ export function hideSuccessTransactionScreen() {
 }
 
 // Send IPC event for payments
-export const fetchTransactions = () => (dispatch) => {
+export const fetchTransactions = () => dispatch => {
   dispatch(getTransactions())
   ipcRenderer.send('lnd', { msg: 'transactions' })
 }
 
 // Receive IPC event for payments
-export const receiveTransactions = (event, { transactions }) => dispatch => dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
+export const receiveTransactions = (event, { transactions }) => dispatch =>
+  dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
 
-export const sendCoins = ({
-  value, addr, currency
-}) => (dispatch) => {
+export const sendCoins = ({ value, addr, currency }) => dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
   const amount = btc.convert(currency, 'sats', value)
 
@@ -78,7 +77,7 @@ export const sendCoins = ({
 
 // Receive IPC event for successful payment
 // TODO: Add payment to state, not a total re-fetch
-export const transactionSuccessful = (event, { txid }) => (dispatch) => {
+export const transactionSuccessful = (event, { txid }) => dispatch => {
   // Get the new list of transactions (TODO dont do an entire new fetch)
   dispatch(fetchTransactions())
   // Show successful payment state
@@ -93,21 +92,25 @@ export const transactionSuccessful = (event, { txid }) => (dispatch) => {
   dispatch(resetPayForm())
 }
 
-export const transactionError = (event, { error }) => (dispatch) => {
+export const transactionError = (event, { error }) => dispatch => {
   dispatch({ type: TRANSACTION_FAILED })
   dispatch(setError(error))
 }
 
 // Listener for when a new transaction is pushed from the subscriber
-export const newTransaction = (event, { transaction }) => (dispatch) => {
+export const newTransaction = (event, { transaction }) => dispatch => {
   // Fetch new balance
   dispatch(fetchBalance())
 
   dispatch({ type: ADD_TRANSACTION, transaction })
 
   // HTML 5 desktop notification for the new transaction
-  const notifTitle = transaction.amount > 0 ? 'On-chain Transaction Received!' : 'On-chain Transaction Sent!'
-  const notifBody = transaction.amount > 0 ? 'Lucky you, you just received a new on-chain transaction. I\'m jealous.' : 'Hate to see \'em go but love to watch \'em leave. Your on-chain transaction successfully sent.' // eslint-disable-line max-len
+  const notifTitle =
+    transaction.amount > 0 ? 'On-chain Transaction Received!' : 'On-chain Transaction Sent!'
+  const notifBody =
+    transaction.amount > 0
+      ? "Lucky you, you just received a new on-chain transaction. I'm jealous."
+      : "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent."
 
   showNotification(notifTitle, notifBody)
 
@@ -115,26 +118,36 @@ export const newTransaction = (event, { transaction }) => (dispatch) => {
   dispatch(newAddress('p2pkh'))
 }
 
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_TRANSACTIONS]: state => ({ ...state, transactionLoading: true }),
   [SEND_TRANSACTION]: state => ({ ...state, sendingTransaction: true }),
-  [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({ ...state, transactionLoading: false, transactions }),
+  [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({
+    ...state,
+    transactionLoading: false,
+    transactions
+  }),
   [TRANSACTION_SUCCESSFULL]: state => ({ ...state, sendingTransaction: false }),
   [TRANSACTION_FAILED]: state => ({ ...state, sendingTransaction: false }),
-  [ADD_TRANSACTION]: (state, { transaction }) => (
+  [ADD_TRANSACTION]: (state, { transaction }) => {
     // add the transaction only if we are not already aware of it
-    state.transactions.find(tx => (tx.tx_hash === transaction.tx_hash)) ? state : {
-      ...state,
-      transactions: [transaction, ...state.transactions]
-    }
-  ),
-
-  [SHOW_SUCCESS_TRANSACTION_SCREEN]: (state, { txid }) => ({ ...state, successTransactionScreen: { show: true, txid } }),
-  [HIDE_SUCCESS_TRANSACTION_SCREEN]: state => ({ ...state, successTransactionScreen: { show: false, txid: '' } })
+    return state.transactions.find(tx => tx.tx_hash === transaction.tx_hash)
+      ? state
+      : {
+          ...state,
+          transactions: [transaction, ...state.transactions]
+        }
+  },
+  [SHOW_SUCCESS_TRANSACTION_SCREEN]: (state, { txid }) => ({
+    ...state,
+    successTransactionScreen: { show: true, txid }
+  }),
+  [HIDE_SUCCESS_TRANSACTION_SCREEN]: state => ({
+    ...state,
+    successTransactionScreen: { show: false, txid: '' }
+  })
 }
 
 // ------------------------------------

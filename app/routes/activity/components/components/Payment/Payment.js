@@ -2,19 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import Moment from 'react-moment'
-import 'moment-timezone'
 import { btc } from 'utils'
 
 import Value from 'components/Value'
 import styles from '../Activity.scss'
 
-const Payment = ({
-  payment, ticker, currentTicker, showActivityModal, nodes, currencyName
-}) => {
-  const displayNodeName = (pubkey) => {
+const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, currencyName }) => {
+  const displayNodeName = pubkey => {
     const node = find(nodes, n => pubkey === n.pub_key)
 
-    if (node && node.alias.length) { return node.alias }
+    if (node && node.alias.length) {
+      return node.alias
+    }
 
     return pubkey.substring(0, 10)
   }
@@ -23,25 +22,19 @@ const Payment = ({
     <div className={styles.container} onClick={() => showActivityModal('PAYMENT', { payment })}>
       <div className={styles.data}>
         <div className={styles.title}>
-          <h3>
-            {displayNodeName(payment.path[payment.path.length - 1])}
-          </h3>
+          <h3>{displayNodeName(payment.path[payment.path.length - 1])}</h3>
         </div>
         <div className={styles.subtitle}>
-          <Moment format='h:mm a'>{payment.creation_date * 1000}</Moment>
+          <Moment format="h:mm a">{payment.creation_date * 1000}</Moment>
         </div>
       </div>
       <div className={styles.amount}>
-        <span className='hint--top' data-hint='Payment amount'>
+        <span className="hint--top" data-hint="Payment amount">
           <i className={styles.minus}>-</i>
-          <Value
-            value={payment.value}
-            currency={ticker.currency}
-            currentTicker={currentTicker}
-          />
+          <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
           <i> {currencyName}</i>
         </span>
-        <span className='hint--bottom' data-hint='Payment fee'>
+        <span className="hint--bottom" data-hint="Payment fee">
           ${btc.convert('sats', 'usd', payment.value, currentTicker.price_usd)}
         </span>
       </div>

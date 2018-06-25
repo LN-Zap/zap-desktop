@@ -2,7 +2,10 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import Isvg from 'react-inlinesvg'
-import { FaExternalLink, FaCircle, FaRepeat, FaAngleDown } from 'react-icons/lib/fa'
+import FaExternalLink from 'react-icons/lib/fa/external-link'
+import FaCircle from 'react-icons/lib/fa/circle'
+import FaRepeat from 'react-icons/lib/fa/repeat'
+import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { btc, blockExplorer } from 'utils'
 import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
@@ -29,7 +32,8 @@ class Network extends Component {
         filter,
         selectedChannel,
         loadingChannelPubkeys,
-        closingChannelIds
+        closingChannelIds,
+        channels
       },
       currentChannels,
       balance,
@@ -53,7 +57,9 @@ class Network extends Component {
 
       suggestedNodesProps,
 
-      isTestnet
+      network,
+
+      currencyName
     } = this.props
 
     const refreshClicked = () => {
@@ -84,41 +90,56 @@ class Network extends Component {
     }
 
     // when the user clicks the action to close the channel
-    const removeClicked = (channel) => {
-      closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })
+    const removeClicked = removeChannel => {
+      closeChannel({
+        channel_point: removeChannel.channel_point,
+        chan_id: removeChannel.chan_id,
+        force: !removeChannel.active
+      })
     }
 
     // when a user clicks a channel
-    const channelClicked = (channel) => {
+    const channelClicked = clickedChannel => {
       // selectedChannel === channel ? setSelectedChannel(null) : setSelectedChannel(channel)
-      if (selectedChannel === channel) {
+      if (selectedChannel === clickedChannel) {
         setSelectedChannel(null)
       } else {
-        setSelectedChannel(channel)
+        setSelectedChannel(clickedChannel)
       }
     }
 
-    const displayNodeName = (channel) => {
-      const node = find(nodes, n => channel.remote_pubkey === n.pub_key)
+    const displayNodeName = displayedChannel => {
+      const node = find(nodes, n => displayedChannel.remote_pubkey === n.pub_key)
 
-      if (node && node.alias.length) { return node.alias }
+      if (node && node.alias.length) {
+        return node.alias
+      }
 
-      return channel.remote_pubkey ? channel.remote_pubkey.substring(0, 10) : channel.remote_node_pub.substring(0, 10)
+      return displayedChannel.remote_pubkey
+        ? displayedChannel.remote_pubkey.substring(0, 10)
+        : displayedChannel.remote_node_pub.substring(0, 10)
     }
 
-    const channelStatus = (channel) => {
+    const channelStatus = statusChannel => {
       // if the channel has a confirmation_height property that means it's pending
-      if (Object.prototype.hasOwnProperty.call(channel, 'confirmation_height')) { return 'pending' }
+      if (Object.prototype.hasOwnProperty.call(statusChannel, 'confirmation_height')) {
+        return 'pending'
+      }
 
       // if the channel has a closing tx that means it's closing
-      if (Object.prototype.hasOwnProperty.call(channel, 'closing_txid')) { return 'closing' }
+      if (Object.prototype.hasOwnProperty.call(statusChannel, 'closing_txid')) {
+        return 'closing'
+      }
 
       // if we are in the process of closing this channel
-      if (closingChannelIds.includes(channel.chan_id)) { return 'closing' }
+      if (closingChannelIds.includes(statusChannel.chan_id)) {
+        return 'closing'
+      }
 
       // if the channel isn't active that means the remote peer isn't online
-      if (!channel.active) { return 'offline' }
-
+      if (!statusChannel.active) {
+        return 'offline'
+      }
 
       // if all of the above conditionals fail we can assume the node is online :)
       return 'online'
@@ -132,10 +153,16 @@ class Network extends Component {
           <section>
             <h2>My Network</h2>
             <span className={styles.channelAmount}>
-              {btc.satoshisToBtc(balance.channelBalance)}BTC ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
+              {btc.satoshisToBtc(balance.channelBalance)} {currencyName} ≈ ${usdAmount
+                ? usdAmount.toLocaleString()
+                : ''}
             </span>
           </section>
-          <section className={`${styles.addChannel} hint--bottom-left`} onClick={openContactsForm} data-hint='Open a channel'>
+          <section
+            className={`${styles.addChannel} hint--bottom-left`}
+            onClick={openContactsForm}
+            data-hint="Open a channel"
+          >
             <span className={styles.plusContainer}>
               <Isvg src={plus} />
             </span>
@@ -143,48 +170,49 @@ class Network extends Component {
         </header>
 
         <div className={styles.channels}>
-          {
-            !loadingChannelPubkeys.length && !currentChannels.length &&
-            <SuggestedNodes {...suggestedNodesProps} />
-          }
+          {!loadingChannelPubkeys.length &&
+            !channels.length && <SuggestedNodes {...suggestedNodesProps} />}
 
-          {
-            (loadingChannelPubkeys.length > 0 || currentChannels.length) > 0 &&
+          {(loadingChannelPubkeys.length || channels.length) && (
             <header className={styles.listHeader}>
               <section>
                 <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
-                  {filter.name} <span className={filterPulldown && styles.pulldown}><FaAngleDown /></span>
+                  {filter.name}{' '}
+                  <span className={filterPulldown && styles.pulldown}>
+                    <FaAngleDown />
+                  </span>
                 </h2>
                 <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
-                  {
-                    nonActiveFilters.map(f => (
-                      <li key={f.key} onClick={() => changeFilter(f)}>
-                        {f.name}
-                      </li>
-                    ))
-                  }
+                  {nonActiveFilters.map(f => (
+                    <li key={f.key} onClick={() => changeFilter(f)}>
+                      {f.name}
+                    </li>
+                  ))}
                 </ul>
               </section>
               <section className={styles.refreshContainer}>
-                <span className={styles.refresh} onClick={refreshClicked} ref={(ref) => { this.repeat = ref }}>
-                  {
-                    this.state.refreshing ?
-                      <FaRepeat />
-                      :
-                      'Refresh'
-                  }
+                <span
+                  className={styles.refresh}
+                  onClick={refreshClicked}
+                  ref={ref => {
+                    this.repeat = ref
+                  }}
+                >
+                  {this.state.refreshing ? <FaRepeat /> : 'Refresh'}
                 </span>
               </section>
             </header>
-          }
+          )}
 
           <ul className={filterPulldown && styles.fade}>
-            {
-              loadingChannelPubkeys.length > 0 && loadingChannelPubkeys.map((loadingPubkey) => {
+            {loadingChannelPubkeys.length &&
+              loadingChannelPubkeys.map(loadingPubkey => {
                 // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
                 const node = find(nodes, n => loadingPubkey === n.pub_key)
                 const nodeDisplay = () => {
-                  if (node && node.alias.length) { return node.alias }
+                  if (node && node.alias.length) {
+                    return node.alias
+                  }
 
                   return loadingPubkey.substring(0, 10)
                 }
@@ -192,44 +220,54 @@ class Network extends Component {
                 return (
                   <li key={loadingPubkey} className={styles.channel}>
                     <section className={styles.channelTitle}>
-                      <span className={`${styles.loading} hint--left`} data-hint='loading'>
+                      <span className={`${styles.loading} hint--left`} data-hint="loading">
                         <i className={styles.spinner} />
                       </span>
                       <span>{nodeDisplay()}</span>
                     </section>
                   </li>
                 )
-              })
-            }
-            {
-              currentChannels.length > 0 && currentChannels.map((channelObj, index) => {
-                const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel') ? channelObj.channel : channelObj
+              })}
+            {currentChannels.length &&
+              currentChannels.map((channelObj, index) => {
+                const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel')
+                  ? channelObj.channel
+                  : channelObj
                 const pubkey = channel.remote_node_pub || channel.remote_pubkey
 
                 return (
                   <li
                     key={index}
-                    className={`${styles.channel} ${selectedChannel === channel && styles.selectedChannel}`}
+                    className={`${styles.channel} ${selectedChannel === channel &&
+                      styles.selectedChannel}`}
                     onClick={() => channelClicked(channel)}
                   >
                     <section className={styles.channelTitle}>
-                      <span className={`${styles[channelStatus(channelObj)]} hint--right`} data-hint={channelStatus(channelObj)}>
-                        {
-                          closingChannelIds.includes(channel.chan_id) ?
-                            <span className={styles.loading}>
-                              <i className={`${styles.spinner} ${styles.closing}`} />
-                            </span>
-                            :
-                            <FaCircle />
-                        }
+                      <span
+                        className={`${styles[channelStatus(channelObj)]} hint--right`}
+                        data-hint={channelStatus(channelObj)}
+                      >
+                        {closingChannelIds.includes(channel.chan_id) ? (
+                          <span className={styles.loading}>
+                            <i className={`${styles.spinner} ${styles.closing}`} />
+                          </span>
+                        ) : (
+                          <FaCircle />
+                        )}
                       </span>
                       <span>{displayNodeName(channel)}</span>
-                      {
-                        selectedChannel === channel &&
-                        <span onClick={() => blockExplorer.showTransaction(isTestnet, channel.channel_point.split(':')[0])}>
+                      {selectedChannel === channel && (
+                        <span
+                          onClick={() =>
+                            blockExplorer.showTransaction(
+                              network,
+                              channel.channel_point.split(':')[0]
+                            )
+                          }
+                        >
                           <FaExternalLink />
                         </span>
-                      }
+                      )}
                     </section>
 
                     <section className={styles.channelDetails}>
@@ -262,44 +300,41 @@ class Network extends Component {
                         </section>
                       </div>
                       <div className={styles.actions}>
-                        {
-                          closingChannelIds.includes(channel.chan_id) &&
-                            <section>
-                              <span className={`${styles.loading} hint--left`} data-hint='closing'>
-                                <i>Closing</i> <i className={`${styles.spinner} ${styles.closing}`} />
-                              </span>
-                            </section>
-                        }
-                        {
-                          (Object.prototype.hasOwnProperty.call(channel, 'active') && !closingChannelIds.includes(channel.chan_id)) &&
-                          <section onClick={() => removeClicked(channel)}>
-                            <div>Disconnect</div>
+                        {closingChannelIds.includes(channel.chan_id) && (
+                          <section>
+                            <span className={`${styles.loading} hint--left`} data-hint="closing">
+                              <i>Closing</i> <i className={`${styles.spinner} ${styles.closing}`} />
+                            </span>
                           </section>
-                        }
+                        )}
+                        {Object.prototype.hasOwnProperty.call(channel, 'active') &&
+                          !closingChannelIds.includes(channel.chan_id) && (
+                            <section onClick={() => removeClicked(channel)}>
+                              <div>Disconnect</div>
+                            </section>
+                          )}
                       </div>
                     </section>
                   </li>
                 )
-              })
-            }
+              })}
           </ul>
         </div>
-        {
-          (loadingChannelPubkeys.length > 0 || currentChannels.length) > 0 &&
+        {(loadingChannelPubkeys.length || channels.length) && (
           <footer className={styles.search}>
-            <label htmlFor='search' className={`${styles.label} ${styles.input}`}>
+            <label htmlFor="search" className={`${styles.label} ${styles.input}`}>
               <Isvg src={search} />
             </label>
             <input
-              id='search'
-              type='text'
+              id="search"
+              type="text"
               className={`${styles.text} ${styles.input}`}
-              placeholder='search by alias or pubkey'
+              placeholder="search by alias or pubkey"
               value={searchQuery}
               onChange={event => updateChannelSearchQuery(event.target.value)}
             />
           </footer>
-        }
+        )}
       </div>
     )
   }
@@ -316,7 +351,7 @@ Network.propTypes = {
   ticker: PropTypes.object.isRequired,
   suggestedNodesProps: PropTypes.object.isRequired,
 
-  isTestnet: PropTypes.bool.isRequired,
+  network: PropTypes.object.isRequired,
 
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,
@@ -324,7 +359,9 @@ Network.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
   setSelectedChannel: PropTypes.func.isRequired,
-  closeChannel: PropTypes.func.isRequired
+  closeChannel: PropTypes.func.isRequired,
+
+  currencyName: PropTypes.string.isRequired
 }
 
 export default Network

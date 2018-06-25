@@ -12,8 +12,8 @@ const NewAezeedPassword = ({
   <div className={styles.container}>
     <section className={styles.input}>
       <input
-        type='password'
-        placeholder='Password'
+        type="password"
+        placeholder="Password"
         className={styles.password}
         value={aezeedPassword}
         onChange={event => updateAezeedPassword(event.target.value)}
@@ -22,13 +22,18 @@ const NewAezeedPassword = ({
 
     <section className={styles.input}>
       <input
-        type='password'
-        placeholder='Confirm Password'
+        type="password"
+        placeholder="Confirm Password"
         className={`${styles.password} ${showAezeedPasswordConfirmationError && styles.error}`}
         value={aezeedPasswordConfirmation}
         onChange={event => updateAezeedPasswordConfirmation(event.target.value)}
       />
-      <p className={`${styles.errorMessage} ${showAezeedPasswordConfirmationError && styles.visible}`}>Passwords do not match</p>
+      <p
+        className={`${styles.errorMessage} ${showAezeedPasswordConfirmationError &&
+          styles.visible}`}
+      >
+        Passwords do not match
+      </p>
     </section>
   </div>
 )

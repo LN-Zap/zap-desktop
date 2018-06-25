@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Moment from 'react-moment'
-import 'moment-timezone'
 
-import { FaAngleDown } from 'react-icons/lib/fa'
+import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
@@ -50,20 +49,26 @@ const PaymentModal = ({
         <i className={`${styles.symbol} ${payment.value > 0 && styles.active}`}>-</i>
         <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
       </h1>
-      <section className={styles.currentCurrency} onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}>
-        <span>{currencyName}</span><span><FaAngleDown /></span>
+      <section
+        className={styles.currentCurrency}
+        onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}
+      >
+        <span>{currencyName}</span>
+        <span>
+          <FaAngleDown />
+        </span>
         <ul className={showCurrencyFilters && styles.active}>
-          {
-            currentCurrencyFilters.map(filter =>
-              <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-          }
+          {currentCurrencyFilters.map(filter => (
+            <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
+              {filter.name}
+            </li>
+          ))}
         </ul>
       </section>
-
     </div>
 
     <div className={styles.date}>
-      <Moment format='LLL'>{payment.creation_date * 1000}</Moment>
+      <Moment format="LLL">{payment.creation_date * 1000}</Moment>
     </div>
 
     <footer className={styles.footer}>

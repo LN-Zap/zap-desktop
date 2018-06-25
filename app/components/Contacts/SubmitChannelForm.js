@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { FaAngleDown } from 'react-icons/lib/fa'
+import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import styles from './SubmitChannelForm.scss'
 
@@ -38,10 +38,16 @@ class SubmitChannelForm extends React.Component {
 
     const formSubmitted = () => {
       // dont submit to LND if they havent set channel capacity amount
-      if (contactCapacity <= 0) { return }
+      if (contactCapacity <= 0) {
+        return
+      }
 
       // submit the channel to LND
-      openChannel({ pubkey: node.pub_key, host: node.addresses[0].addr, local_amt: contactCapacity })
+      openChannel({
+        pubkey: node.pub_key,
+        host: node.addresses[0].addr,
+        local_amt: contactCapacity
+      })
 
       // close the ChannelForm component
       closeChannelForm()
@@ -55,8 +61,8 @@ class SubmitChannelForm extends React.Component {
         <header className={styles.header}>
           <h1>Add Funds to Network</h1>
           <p>
-            Adding a connection will help you send and receive money on the Lightning Network.
-            You aren&apos;t spening any money, rather moving the money you plan to use onto the network.
+            Adding a connection will help you send and receive money on the Lightning Network. You
+            aren&apos;t spening any money, rather moving the money you plan to use onto the network.
           </p>
         </header>
 
@@ -67,30 +73,35 @@ class SubmitChannelForm extends React.Component {
         <section className={styles.amount}>
           <div className={styles.input}>
             <input
-              type='number'
-              min='0'
-              size=''
-              placeholder='0.00000000'
+              type="number"
+              min="0"
+              size=""
+              placeholder="0.00000000"
               value={contactCapacity || ''}
               onChange={event => updateContactCapacity(event.target.value)}
-              id='amount'
+              id="amount"
             />
             <div className={styles.currency}>
-              <section className={styles.currentCurrency} onClick={() => setContactsCurrencyFilters(!showCurrencyFilters)}>
-                <span>{currencyName}</span><span><FaAngleDown /></span>
+              <section
+                className={styles.currentCurrency}
+                onClick={() => setContactsCurrencyFilters(!showCurrencyFilters)}
+              >
+                <span>{currencyName}</span>
+                <span>
+                  <FaAngleDown />
+                </span>
               </section>
               <ul className={showCurrencyFilters && styles.active}>
-                {
-                  currentCurrencyFilters.map(filter =>
-                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>{filter.name}</li>)
-                }
+                {currentCurrencyFilters.map(filter => (
+                  <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
+                    {filter.name}
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
 
-          <div className={styles.usdAmount}>
-            {`≈ ${contactFormUsdAmount || 0} USD`}
-          </div>
+          <div className={styles.usdAmount}>{`≈ ${contactFormUsdAmount || 0} USD`}</div>
         </section>
 
         <section className={styles.submit}>
@@ -111,10 +122,7 @@ SubmitChannelForm.propTypes = {
   closeContactsForm: PropTypes.func.isRequired,
 
   node: PropTypes.object.isRequired,
-  contactCapacity: PropTypes.PropTypes.oneOfType([
-    PropTypes.number,
-    PropTypes.string
-  ]),
+  contactCapacity: PropTypes.PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   updateContactCapacity: PropTypes.func.isRequired,
   openChannel: PropTypes.func.isRequired,
 

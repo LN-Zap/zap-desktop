@@ -11,9 +11,20 @@ import { fetchInfo } from 'reducers/info'
 
 import { setFormType } from 'reducers/form'
 
-import { setPayAmount, setPayInput, setCurrencyFilters, updatePayErrors, payFormSelectors } from 'reducers/payform'
+import {
+  setPayAmount,
+  setPayInput,
+  setCurrencyFilters,
+  updatePayErrors,
+  payFormSelectors
+} from 'reducers/payform'
 
-import { setRequestAmount, setRequestMemo, setRequestCurrencyFilters, requestFormSelectors } from 'reducers/requestform'
+import {
+  setRequestAmount,
+  setRequestMemo,
+  setRequestCurrencyFilters,
+  requestFormSelectors
+} from 'reducers/requestform'
 
 import { sendCoins } from 'reducers/transaction'
 
@@ -40,23 +51,17 @@ import {
 import {
   openContactsForm,
   closeContactsForm,
-
   setChannelFormType,
-
   openManualForm,
   closeManualForm,
-
   openSubmitChannelForm,
   closeSubmitChannelForm,
-
   updateContactFormSearchQuery,
   updateManualFormSearchQuery,
   updateContactCapacity,
   setNode,
-
   contactFormSelectors,
   updateManualFormErrors,
-
   setContactsCurrencyFilters
 } from 'reducers/contactsform'
 
@@ -236,7 +241,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       if (!stateProps.payFormIsValid.isValid) {
         dispatchProps.updatePayErrors({
           amount: Object.prototype.hasOwnProperty.call(stateProps.payFormIsValid.errors, 'amount'),
-          payInput: Object.prototype.hasOwnProperty.call(stateProps.payFormIsValid.errors, 'payInput')
+          payInput: Object.prototype.hasOwnProperty.call(
+            stateProps.payFormIsValid.errors,
+            'payInput'
+          )
         })
 
         return
@@ -271,21 +279,26 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     setCurrency: dispatchProps.setCurrency,
     setRequestCurrencyFilters: dispatchProps.setRequestCurrencyFilters,
 
-    onRequestSubmit: () => (
+    onRequestSubmit: () =>
       dispatchProps.createInvoice(
         stateProps.requestform.amount,
         stateProps.requestform.memo,
         stateProps.ticker.currency,
         stateProps.currentTicker.price_usd
       )
-    )
   }
 
-  const formProps = (formType) => {
-    if (!formType) { return {} }
+  const formProps = formType => {
+    if (!formType) {
+      return {}
+    }
 
-    if (formType === 'PAY_FORM') { return payFormProps }
-    if (formType === 'REQUEST_FORM') { return requestFormProps }
+    if (formType === 'PAY_FORM') {
+      return payFormProps
+    }
+    if (formType === 'REQUEST_FORM') {
+      return requestFormProps
+    }
 
     return {}
   }
@@ -299,7 +312,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     nodes: stateProps.network.nodes,
     nonActiveFilters: stateProps.nonActiveFilters,
     ticker: stateProps.ticker,
-    isTestnet: stateProps.info.data.testnet,
+    network: stateProps.info.network,
+    currencyName: stateProps.currencyName,
 
     fetchChannels: dispatchProps.fetchChannels,
     openContactsForm: dispatchProps.openContactsForm,
@@ -313,7 +327,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
     suggestedNodesProps: {
       suggestedNodesLoading: stateProps.channels.suggestedNodesLoading,
-      suggestedNodes: stateProps.info.data.testnet ? stateProps.channels.suggestedNodes.testnet : stateProps.channels.suggestedNodes.mainnet,
+      suggestedNodes: stateProps.info.data.testnet
+        ? stateProps.channels.suggestedNodes.testnet
+        : stateProps.channels.suggestedNodes.mainnet,
 
       setNode: dispatchProps.setNode,
       openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM')
@@ -356,7 +372,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     modalProps: stateProps.activity.modal.modalProps,
     ticker: stateProps.ticker,
     currentTicker: stateProps.currentTicker,
-    isTestnet: stateProps.info.data.testnet,
+    network: stateProps.info.network,
 
     hideActivityModal: dispatchProps.hideActivityModal,
 
@@ -367,7 +383,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       setActivityModalCurrencyFilters: dispatchProps.setActivityModalCurrencyFilters,
       setCurrencyFilters: dispatchProps.setCurrencyFilters,
-      onCurrencyFilterClick: (currency) => {
+      onCurrencyFilterClick: currency => {
         dispatchProps.setCurrency(currency)
         dispatchProps.setActivityModalCurrencyFilters(false)
       }
@@ -376,6 +392,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const receiveModalProps = {
     isOpen: stateProps.address.walletModal,
+    network: stateProps.info.network,
     pubkey: stateProps.info.data.identity_pubkey,
     address: stateProps.address.address,
     alias: stateProps.info.data.alias,
@@ -403,8 +420,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
       setContactsCurrencyFilters: dispatchProps.setContactsCurrencyFilters,
       setCurrencyFilters: dispatchProps.setCurrencyFilters,
-      onCurrencyFilterClick: (currency) => {
-        dispatchProps.updateContactCapacity(btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity))
+      onCurrencyFilterClick: currency => {
+        dispatchProps.updateContactCapacity(
+          btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity)
+        )
         dispatchProps.setCurrency(currency)
         dispatchProps.setContactsCurrencyFilters(false)
       }
@@ -424,9 +443,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     showErrors: stateProps.contactsform.showErrors
   }
 
-  const calcChannelFormProps = (formType) => {
-    if (formType === 'MANUAL_FORM') { return connectManuallyProps }
-    if (formType === 'SUBMIT_CHANNEL_FORM') { return submitChannelFormProps }
+  const calcChannelFormProps = formType => {
+    if (formType === 'MANUAL_FORM') {
+      return connectManuallyProps
+    }
+    if (formType === 'SUBMIT_CHANNEL_FORM') {
+      return submitChannelFormProps
+    }
 
     return {}
   }
@@ -436,7 +459,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     formProps: calcChannelFormProps(stateProps.contactsform.formType),
     closeForm: () => dispatchProps.setChannelFormType(null)
   }
-
 
   return {
     ...stateProps,
@@ -463,9 +485,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     formProps: formProps(stateProps.form.formType),
     // action to close form
     closeForm: () => dispatchProps.setFormType(null)
-
-
   }
 }
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps, mergeProps)(App))
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+    mergeProps
+  )(App)
+)

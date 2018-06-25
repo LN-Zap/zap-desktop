@@ -10,12 +10,14 @@ import config from '../config'
 //
 // We order the suites by priority, based on the recommendations provided by SSL Labs here:
 // https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
-process.env.GRPC_SSL_CIPHER_SUITES = process.env.GRPC_SSL_CIPHER_SUITES || [
-  'ECDHE-ECDSA-AES128-GCM-SHA256',
-  'ECDHE-ECDSA-AES256-GCM-SHA384',
-  'ECDHE-ECDSA-AES128-CBC-SHA256',
-  'ECDHE-ECDSA-CHACHA20-POLY1305'
-].join(':')
+process.env.GRPC_SSL_CIPHER_SUITES =
+  process.env.GRPC_SSL_CIPHER_SUITES ||
+  [
+    'ECDHE-ECDSA-AES128-GCM-SHA256',
+    'ECDHE-ECDSA-AES256-GCM-SHA384',
+    'ECDHE-ECDSA-AES128-CBC-SHA256',
+    'ECDHE-ECDSA-CHACHA20-POLY1305'
+  ].join(':')
 
 const walletUnlocker = (rpcpath, host) => {
   const lndConfig = config.lnd()

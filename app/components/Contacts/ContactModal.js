@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import find from 'lodash/find'
 import ReactModal from 'react-modal'
-import { FaCircle } from 'react-icons/lib/fa'
-import { MdClose } from 'react-icons/lib/md'
+import FaCircle from 'react-icons/lib/fa/circle'
+import MdClose from 'react-icons/lib/md/close'
 
 import { btc } from 'utils'
 
@@ -17,7 +17,9 @@ const ContactModal = ({
   closeChannel,
   closingChannelIds
 }) => {
-  if (!channel) { return <span /> }
+  if (!channel) {
+    return <span />
+  }
 
   const customStyles = {
     overlay: {
@@ -37,7 +39,11 @@ const ContactModal = ({
   }
 
   const removeClicked = () => {
-    closeChannel({ channel_point: channel.channel_point, chan_id: channel.chan_id, force: !channel.active })
+    closeChannel({
+      channel_point: channel.channel_point,
+      chan_id: channel.chan_id,
+      force: !channel.active
+    })
   }
 
   // the remote node for the channel
@@ -46,22 +52,19 @@ const ContactModal = ({
   return (
     <ReactModal
       isOpen={isOpen}
-      contentLabel='No Overlay Click Modal'
+      contentLabel="No Overlay Click Modal"
       ariaHideApp
       shouldCloseOnOverlayClick
       onRequestClose={closeContactModal}
       parentSelector={() => document.body}
       style={customStyles}
     >
-      {
-        channel &&
+      {channel && (
         <div className={styles.container}>
           <header className={styles.header}>
             <div className={`${styles.status} ${channel.active && styles.online}`}>
               <FaCircle style={{ verticalAlign: 'top' }} />
-              <span>
-                {channel.active ? 'Online' : 'Offline'}
-              </span>
+              <span>{channel.active ? 'Online' : 'Offline'}</span>
             </div>
             <div className={styles.closeContainer}>
               <span onClick={closeContactModal}>
@@ -71,10 +74,7 @@ const ContactModal = ({
           </header>
 
           <section className={styles.title}>
-            {
-              node &&
-              <h1>{node.alias}</h1>
-            }
+            {node && <h1>{node.alias}</h1>}
             <h2>{channel.remote_pubkey}</h2>
           </section>
 
@@ -82,7 +82,10 @@ const ContactModal = ({
             <div className={styles.pay}>
               <h4>Can Pay</h4>
               <div className={styles.meter}>
-                <div className={styles.amount} style={{ width: `${(channel.local_balance / channel.capacity) * 100}%` }} />
+                <div
+                  className={styles.amount}
+                  style={{ width: `${(channel.local_balance / channel.capacity) * 100}%` }}
+                />
               </div>
               <span>{btc.satoshisToBtc(channel.local_balance)} BTC</span>
             </div>
@@ -90,7 +93,10 @@ const ContactModal = ({
             <div className={styles.pay}>
               <h4>Can Receive</h4>
               <div className={styles.meter}>
-                <div className={styles.amount} style={{ width: `${(channel.remote_balance / channel.capacity) * 100}%` }} />
+                <div
+                  className={styles.amount}
+                  style={{ width: `${(channel.remote_balance / channel.capacity) * 100}%` }}
+                />
               </div>
               <span>{btc.satoshisToBtc(channel.remote_balance)} BTC</span>
             </div>
@@ -106,19 +112,18 @@ const ContactModal = ({
           </section>
 
           <footer>
-            {
-              closingChannelIds.includes(channel.chan_id) ?
-                <span className={styles.inactive}>
-                  <div className={styles.loading}>
-                    <div className={styles.spinner} />
-                  </div>
-                </span>
-                :
-                <div onClick={removeClicked}>Remove</div>
-            }
+            {closingChannelIds.includes(channel.chan_id) ? (
+              <span className={styles.inactive}>
+                <div className={styles.loading}>
+                  <div className={styles.spinner} />
+                </div>
+              </span>
+            ) : (
+              <div onClick={removeClicked}>Remove</div>
+            )}
           </footer>
         </div>
-      }
+      )}
     </ReactModal>
   )
 }

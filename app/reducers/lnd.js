@@ -26,7 +26,7 @@ export const GRPC_CONNECTED = 'GRPC_CONNECTED'
 export const lndSyncing = () => dispatch => dispatch({ type: START_SYNCING })
 
 // Receive IPC event for LND stoping sync
-export const lndSynced = () => (dispatch) => {
+export const lndSynced = () => dispatch => {
   // Fetch data now that we know LND is synced
   dispatch(fetchTicker())
   dispatch(fetchBalance())
@@ -36,7 +36,7 @@ export const lndSynced = () => (dispatch) => {
 
   // HTML 5 desktop notification for the new transaction
   const notifTitle = 'Lightning Node Synced'
-  const notifBody = 'Visa who? You\'re your own payment processor now!'
+  const notifBody = "Visa who? You're your own payment processor now!"
 
   showNotification(notifTitle, notifBody)
 }
@@ -46,7 +46,7 @@ export const grpcDisconnected = () => dispatch => dispatch({ type: GRPC_DISCONNE
 export const grpcConnected = () => dispatch => dispatch({ type: GRPC_CONNECTED })
 
 // Receive IPC event for LND streaming a line
-export const lndStdout = (event, line) => (dispatch) => {
+export const lndStdout = (event, line) => dispatch => {
   let height
   let trimmed
 
@@ -56,13 +56,17 @@ export const lndStdout = (event, line) => (dispatch) => {
   }
 
   if (line.includes('Catching up block hashes to height')) {
-    trimmed = line.slice(line.indexOf('Catching up block hashes to height') + 'Catching up block hashes to height'.length).trim()
+    trimmed = line
+      .slice(
+        line.indexOf('Catching up block hashes to height') +
+          'Catching up block hashes to height'.length
+      )
+      .trim()
     height = trimmed.match(/[-]{0,1}[\d.]*[\d]+/g)[0]
   }
 
   dispatch({ type: RECEIVE_LINE, lndBlockHeight: height })
 }
-
 
 export function getBlockHeight() {
   return {
@@ -78,7 +82,7 @@ export function receiveBlockHeight(blockHeight) {
 }
 
 // Fetch current block height
-export const fetchBlockHeight = () => async (dispatch) => {
+export const fetchBlockHeight = () => async dispatch => {
   dispatch(getBlockHeight())
   const blockData = await requestBlockHeight()
   dispatch(receiveBlockHeight(blockData.blocks[0].height))
@@ -94,7 +98,11 @@ const ACTION_HANDLERS = {
   [RECEIVE_LINE]: (state, { lndBlockHeight }) => ({ ...state, lndBlockHeight }),
 
   [GET_BLOCK_HEIGHT]: state => ({ ...state, fetchingBlockHeight: true }),
-  [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({ ...state, blockHeight, fetchingBlockHeight: false }),
+  [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({
+    ...state,
+    blockHeight,
+    fetchingBlockHeight: false
+  }),
 
   [GRPC_DISCONNECTED]: state => ({ ...state, grpcStarted: false }),
   [GRPC_CONNECTED]: state => ({ ...state, grpcStarted: true })
@@ -125,7 +133,9 @@ lndSelectors.syncPercentage = createSelector(
   (blockHeight, lndBlockHeight) => {
     const percentage = Math.floor((lndBlockHeight / blockHeight) * 100)
 
-    if (percentage === Infinity) { return '' }
+    if (percentage === Infinity) {
+      return ''
+    }
 
     return percentage
   }

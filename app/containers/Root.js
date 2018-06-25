@@ -62,9 +62,15 @@ const mapStateToProps = state => ({
 
   syncPercentage: lndSelectors.syncPercentage(state),
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
-  passwordMinChars: onboardingSelectors.passwordMinChars(state),
-  showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(state),
-  showAezeedPasswordConfirmationError: onboardingSelectors.showAezeedPasswordConfirmationError(state),
+  passwordMinChars: onboardingSelectors.passwordMinChars(
+    state
+  ),
+  showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(
+    state
+  ),
+  showAezeedPasswordConfirmationError: onboardingSelectors.showAezeedPasswordConfirmationError(
+    state
+  ),
   reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state)
 })
 
@@ -221,4 +227,8 @@ Root.propTypes = {
   syncingProps: PropTypes.object.isRequired
 }
 
-export default connect(mapStateToProps, mapDispatchToProps, mergeProps)(Root)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(Root)

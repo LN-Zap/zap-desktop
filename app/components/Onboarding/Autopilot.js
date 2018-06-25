@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FaCircle, FaCircleThin } from 'react-icons/lib/fa'
+import FaCircle from 'react-icons/lib/fa/circle'
+import FaCircleThin from 'react-icons/lib/fa/circle-thin'
 import styles from './Autopilot.scss'
 
 const Autopilot = ({ autopilot, setAutopilot }) => (

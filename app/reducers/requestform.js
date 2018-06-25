@@ -55,9 +55,12 @@ export function setRequestCurrencyFilters(showCurrencyFilters) {
 const ACTION_HANDLERS = {
   [SET_REQUEST_AMOUNT]: (state, { amount }) => ({ ...state, amount }),
   [SET_REQUEST_MEMO]: (state, { memo }) => ({ ...state, memo }),
-  [SET_REQUEST_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({ ...state, showCurrencyFilters }),
+  [SET_REQUEST_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
+    ...state,
+    showCurrencyFilters
+  }),
 
-  [RESET_FORM]: () => (initialState)
+  [RESET_FORM]: () => initialState
 }
 
 const requestFormSelectors = {}
@@ -70,7 +73,9 @@ requestFormSelectors.usdAmount = createSelector(
   tickerSelectors.currentTicker,
 
   (amount, currency, ticker) => {
-    if (!ticker || !ticker.price_usd) { return false }
+    if (!ticker || !ticker.price_usd) {
+      return false
+    }
 
     return btc.convert(currency, 'usd', amount, ticker.price_usd)
   }

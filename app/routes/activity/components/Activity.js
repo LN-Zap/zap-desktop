@@ -19,9 +19,7 @@ class Activity extends Component {
   }
 
   componentWillMount() {
-    const {
-      fetchPayments, fetchInvoices, fetchTransactions, fetchBalance
-    } = this.props
+    const { fetchPayments, fetchInvoices, fetchTransactions, fetchBalance } = this.props
 
     fetchBalance()
     fetchPayments()
@@ -30,13 +28,7 @@ class Activity extends Component {
   }
 
   renderActivity(activity) {
-    const {
-      ticker,
-      currentTicker,
-      showActivityModal,
-      network,
-      currencyName
-    } = this.props
+    const { ticker, currentTicker, showActivityModal, network, currencyName } = this.props
 
     if (Object.prototype.hasOwnProperty.call(activity, 'block_hash')) {
       // activity is an on-chain tx
@@ -77,13 +69,7 @@ class Activity extends Component {
   render() {
     const {
       balance,
-      activity: {
-        filters,
-        filter,
-        filterPulldown,
-        searchActive,
-        searchText
-      },
+      activity: { filters, filter, filterPulldown, searchActive, searchText },
       changeFilter,
       currentActivity,
 
@@ -93,62 +79,68 @@ class Activity extends Component {
       walletProps
     } = this.props
 
-    if (!balance.channelBalance || !balance.walletBalance) { return <LoadingBolt /> }
+    if (!balance.channelBalance || !balance.walletBalance) {
+      return <LoadingBolt />
+    }
 
     return (
       <div>
         <Wallet {...walletProps} />
 
         <div className={styles.activities}>
-          {
-            searchActive ?
-              <header className={`${styles.header} ${styles.search}`}>
-                <section>
-                  <input
-                    placeholder='Search'
-                    value={searchText}
-                    onChange={event => updateSearchText(event.target.value)}
-                  />
-                </section>
-                <section onClick={() => { updateSearchActive(false); updateSearchText('') }}>
-                  <span className={styles.xIcon}>
-                    <Isvg src={xIcon} />
-                  </span>
-                </section>
-              </header>
-              :
-              <header className={styles.header}>
-                <section>
-                  <ul className={styles.filters}>
-                    {
-                      filters.map(f => (
-                        <li key={f.key} className={f.key === filter.key && styles.activeFilter} onClick={() => changeFilter(f)}>
-                          <span>{f.name}</span>
+          {searchActive ? (
+            <header className={`${styles.header} ${styles.search}`}>
+              <section>
+                <input
+                  placeholder="Search"
+                  value={searchText}
+                  onChange={event => updateSearchText(event.target.value)}
+                />
+              </section>
+              <section
+                onClick={() => {
+                  updateSearchActive(false)
+                  updateSearchText('')
+                }}
+              >
+                <span className={styles.xIcon}>
+                  <Isvg src={xIcon} />
+                </span>
+              </section>
+            </header>
+          ) : (
+            <header className={styles.header}>
+              <section>
+                <ul className={styles.filters}>
+                  {filters.map(f => (
+                    <li
+                      key={f.key}
+                      className={f.key === filter.key && styles.activeFilter}
+                      onClick={() => changeFilter(f)}
+                    >
+                      <span>{f.name}</span>
 
-                          <div className={f.key === filter.key && styles.activeBorder} />
-                        </li>
-                      ))
-                    }
-                  </ul>
-                </section>
-                <section onClick={() => updateSearchActive(true)}>
-                  <Isvg src={searchIcon} />
-                </section>
-              </header>
-          }
+                      <div className={f.key === filter.key && styles.activeBorder} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+              <section onClick={() => updateSearchActive(true)}>
+                <Isvg src={searchIcon} />
+              </section>
+            </header>
+          )}
           <ul className={`${styles.activityContainer} ${filterPulldown && styles.pulldown}`}>
-            {
-              currentActivity.map((activityBlock, index) => (
-                <li className={styles.activity} key={index}>
-                  <h2>{activityBlock.title}</h2>
-                  <ul>
-                    {
-                      activityBlock.activity.map((activity, i) => <li key={i}>{this.renderActivity(activity.el)}</li>)
-                    }
-                  </ul>
-                </li>
-              ))
-            }
+            {currentActivity.map((activityBlock, index) => (
+              <li className={styles.activity} key={index}>
+                <h2>{activityBlock.title}</h2>
+                <ul>
+                  {activityBlock.activity.map((activity, i) => (
+                    <li key={i}>{this.renderActivity(activity.el)}</li>
+                  ))}
+                </ul>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

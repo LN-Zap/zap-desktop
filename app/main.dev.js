@@ -13,12 +13,14 @@
 import { app, BrowserWindow, ipcMain, dialog } from 'electron'
 import path from 'path'
 import fs from 'fs'
+import split2 from 'split2'
 import { spawn } from 'child_process'
 import { lookup } from 'ps-node'
 import Store from 'electron-store'
 import MenuBuilder from './menu'
 import lnd from './lnd'
 import config from './lnd/config'
+import { mainLog, lndLog, lndLogGetLevel } from './utils/log'
 
 let mainWindow = null
 
@@ -26,6 +28,8 @@ let didFinishLoad = false
 
 let startedSync = false
 let sentGrpcDisconnect = false
+
+let neutrino = null
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support')
@@ -43,7 +47,9 @@ const installExtensions = async () => {
   const forceDownload = !!process.env.UPGRADE_EXTENSIONS
   const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
 
-  return Promise.all(extensions.map(name => installer.default(installer[name], forceDownload))).catch(console.log)
+  return Promise.all(
+    extensions.map(name => installer.default(installer[name], forceDownload))
+  ).catch(mainLog.error)
 }
 
 // Send the front end event letting them know the gRPC connection is disconnected
@@ -67,7 +73,7 @@ const sendLndSyncing = () => {
       clearInterval(sendLndSyncingInterval)
 
       if (mainWindow) {
-        console.log('SENDING SYNCING')
+        mainLog.info('SENDING SYNCING')
         startedSync = true
         mainWindow.webContents.send('lndSyncing')
       }
@@ -81,7 +87,7 @@ const sendStartOnboarding = () => {
       clearInterval(sendStartOnboardingInterval)
 
       if (mainWindow) {
-        console.log('STARTING ONBOARDING')
+        mainLog.info('STARTING ONBOARDING')
         mainWindow.webContents.send('startOnboarding')
       }
     }
@@ -118,7 +124,7 @@ const startGrpc = () => {
 
 // Create and subscribe the grpc object
 const startWalletUnlocker = () => {
-  lnd.initWalletUnlocker((walletUnlockerMethods) => {
+  lnd.initWalletUnlocker(walletUnlockerMethods => {
     // Listen for all gRPC restful methods
     ipcMain.on('walletUnlocker', (event, { msg, data }) => {
       walletUnlockerMethods(event, msg, data)
@@ -135,7 +141,7 @@ const sendLndSynced = () => {
       clearInterval(sendLndSyncedInterval)
 
       if (mainWindow) {
-        console.log('SENDING SYNCED')
+        mainLog.info('SENDING SYNCED')
         mainWindow.webContents.send('lndSynced')
       }
     }
@@ -145,49 +151,52 @@ const sendLndSynced = () => {
 // Starts the LND node
 const startLnd = (alias, autopilot) => {
   const lndConfig = config.lnd()
-  console.log('lndConfig', lndConfig)
+  mainLog.info('STARTING BUNDLED LND')
+  mainLog.debug(' > lndPath', lndConfig.lndPath)
+  mainLog.debug(' > lightningRpc:', lndConfig.lightningRpc)
+  mainLog.debug(' > lightningHost:', lndConfig.lightningHost)
+  mainLog.debug(' > cert:', lndConfig.cert)
+  mainLog.debug(' > macaroon:', lndConfig.macaroon)
 
   const neutrinoArgs = [
-    '--bitcoin.active',
-    '--bitcoin.testnet',
-    '--bitcoin.node=neutrino',
-    '--neutrino.connect=188.166.148.62',
-    '--neutrino.connect=127.0.0.1:18333',
-    '--debuglevel=debug',
+    `--configfile=${lndConfig.configPath}`,
     `${autopilot ? '--autopilot.active' : ''}`,
     `${alias ? `--alias=${alias}` : ''}`
   ]
 
-  const neutrino = spawn(lndConfig.lndPath, neutrinoArgs)
-    .on('error', (error) => {
-      console.log(`lnd error: ${error}`)
+  neutrino = spawn(lndConfig.lndPath, neutrinoArgs)
+    .on('error', error => {
+      lndLog.error(`lnd error: ${error}`)
       dialog.showMessageBox({
         type: 'error',
         message: `lnd error: ${error}`
       })
     })
-    .on('close', (code) => {
-      console.log(`lnd shutting down ${code}`)
+    .on('close', code => {
+      lndLog.info(`lnd shutting down ${code}`)
       app.quit()
     })
 
-  // Listen for when neutrino prints out data
-  neutrino.stdout.on('data', (data) => {
-    // Data stored in variable line, log line to the console
-    const line = data.toString('utf8')
-
+  // Listen for when neutrino prints odata to stderr.
+  neutrino.stderr.pipe(split2()).on('data', line => {
     if (process.env.NODE_ENV === 'development') {
-      console.log(line)
+      lndLog[lndLogGetLevel(line)](line)
+    }
+  })
+
+  // Listen for when neutrino prints data to stdout.
+  neutrino.stdout.pipe(split2()).on('data', line => {
+    if (process.env.NODE_ENV === 'development') {
+      lndLog[lndLogGetLevel(line)](line)
     }
 
     // If the gRPC proxy has started we can start ours
     if (line.includes('gRPC proxy started')) {
       const certInterval = setInterval(() => {
-        console.log('lndConfig', lndConfig)
         if (fs.existsSync(lndConfig.cert)) {
           clearInterval(certInterval)
 
-          console.log('CERT EXISTS, STARTING WALLET UNLOCKER')
+          mainLog.info('CERT EXISTS, STARTING WALLET UNLOCKER')
           startWalletUnlocker()
 
           if (mainWindow) {
@@ -198,13 +207,16 @@ const startLnd = (alias, autopilot) => {
     }
 
     if (line.includes('gRPC proxy started') && !line.includes('password')) {
-      console.log('WALLET OPENED, STARTING LIGHTNING GRPC CONNECTION')
+      mainLog.info('WALLET OPENED, STARTING LIGHTNING GRPC CONNECTION')
       sendLndSyncing()
       startGrpc()
     }
 
     // Pass current clock height progress to front end for loading state UX
-    if (mainWindow && (line.includes('Caught up to height') || line.includes('Catching up block hashes to height'))) {
+    if (
+      mainWindow &&
+      (line.includes('Caught up to height') || line.includes('Catching up block hashes to height'))
+    ) {
       // const blockHeight = line.slice(line.indexOf('Caught up to height') + 'Caught up to height'.length).trim()
       mainWindow.webContents.send('lndStdout', line)
     }
@@ -212,7 +224,7 @@ const startLnd = (alias, autopilot) => {
     // When LND is all caught up to the blockchain
     if (line.includes('Chain backend is fully synced')) {
       // Log that LND is caught up to the current block height
-      console.log('NEUTRINO IS SYNCED')
+      mainLog.info('NEUTRINO IS SYNCED')
 
       // Let the front end know we have stopped syncing LND
       sendLndSynced()
@@ -274,14 +286,30 @@ app.on('ready', async () => {
 
   sendGrpcDisconnected()
 
-  // Let the application know onboarding has started.
-  sendStartOnboarding()
+  mainLog.info('LOOKING FOR EXISTING LND PROCESS')
+  // Check to see if an LND process is running.
+  lookup({ command: 'lnd' }, (err, results) => {
+    // There was an error checking for the LND process.
+    if (err) {
+      throw new Error(err)
+    }
+
+    if (!results.length) {
+      // An LND process was found, no need to start our own.
+      mainLog.info('EXISTING LND PROCESS NOT FOUND')
+      // Let the application know onboarding has started.
+      sendStartOnboarding()
+    } else {
+      // An LND process was found, no need to start our own.
+      mainLog.info('FOUND EXISTING LND PROCESS')
+      startGrpc()
+      mainWindow.webContents.send('successfullyCreatedWallet')
+    }
+  })
 
   // Start LND
   // once the onboarding has enough information, start or connect to LND.
   ipcMain.on('startLnd', (event, options = {}) => {
-    console.log('STARTING LND', options)
-
     const store = new Store({ name: 'connection' })
     store.store = {
       type: options.connectionType,
@@ -292,29 +320,20 @@ app.on('ready', async () => {
       autopilot: options.autopilot
     }
 
-    console.log('SAVED CONFIG TO:', store.path, 'AS', store.store)
+    mainLog.info('GOT LND CONFIG')
+    mainLog.debug(' > connectionType:', options.connectionType)
+    mainLog.debug(' > connectionHost:', options.connectionHost)
+    mainLog.debug(' > connectionCert:', options.connectionCert)
+    mainLog.debug(' > connectionMacaroon:', options.connectionMacaroon)
+    mainLog.debug(' > alias:', options.alias)
+    mainLog.debug(' > autopilot:', options.autopilot)
+
+    mainLog.info('SAVED LND CONFIG TO:', store.path)
 
     if (options.connectionType === 'local') {
-      console.log('LOOKING FOR LOCAL LND')
-      // Check to see if an LND process is running.
-      lookup({ command: 'lnd' }, (err, results) => {
-        // There was an error checking for the LND process.
-        if (err) {
-          throw new Error(err)
-        }
-
-        // No LND process was found.
-        if (!results.length) {
-          startLnd(options.alias, options.autopilot)
-        } else {
-          // An LND process was found, no need to start our own.
-          console.log('LND ALREADY RUNNING')
-          startGrpc()
-          mainWindow.webContents.send('successfullyCreatedWallet')
-        }
-      })
+      startLnd(options.alias, options.autopilot)
     } else {
-      console.log('USING CUSTOM LND')
+      mainLog.info('CONNECTING TO CUSTOM LND INSTANCE')
       startGrpc()
       mainWindow.webContents.send('successfullyCreatedWallet')
     }
@@ -333,6 +352,13 @@ app.on('open-url', (event, url) => {
   const payreq = url.split(':')[1]
   mainWindow.webContents.send('lightningPaymentUri', { payreq })
   mainWindow.show()
+})
+
+// Ensure lnd process is killed when the app quits.
+app.on('quit', () => {
+  if (neutrino) {
+    neutrino.kill()
+  }
 })
 
 export default { startLnd }

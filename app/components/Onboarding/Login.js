@@ -2,17 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styles from './Login.scss'
 
-const Login = ({
-  password,
-  updatePassword,
-  unlockingWallet,
-  unlockWallet,
-  unlockWalletError
-}) => (
+const Login = ({ password, updatePassword, unlockingWallet, unlockWallet, unlockWalletError }) => (
   <div className={styles.container}>
     <input
-      type='password'
-      placeholder='Password'
+      type="password"
+      placeholder="Password"
       className={`${styles.password} ${unlockWalletError.isError && styles.inputError}`}
       ref={input => input && input.focus()}
       value={password}
@@ -24,13 +18,11 @@ const Login = ({
 
     <section className={styles.buttons}>
       <div>
-        <span className={`${!unlockingWallet && styles.active} ${styles.button}`} onClick={() => unlockWallet(password)}>
-          {
-            unlockingWallet ?
-              <i className={styles.spinner} />
-              :
-              'Unlock'
-          }
+        <span
+          className={`${!unlockingWallet && styles.active} ${styles.button}`}
+          onClick={() => unlockWallet(password)}
+        >
+          {unlockingWallet ? <i className={styles.spinner} /> : 'Unlock'}
         </span>
       </div>
     </section>

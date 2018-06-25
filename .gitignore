@@ -53,3 +53,7 @@ npm-debug.log.*
 
 # lnd binary
 resources/bin/
+
+# Opt in files
+.opt-in
+.opt-out

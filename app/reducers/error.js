@@ -32,7 +32,7 @@ export function clearError() {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_ERROR]: (state, { error }) => ({ ...state, error }),
-  [CLEAR_ERROR]: () => (initialState)
+  [CLEAR_ERROR]: () => initialState
 }
 
 // ------------------------------------

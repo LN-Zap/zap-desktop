@@ -2,7 +2,7 @@
 import { app, Menu, shell, BrowserWindow } from 'electron'
 
 export default class MenuBuilder {
-  mainWindow: BrowserWindow;
+  mainWindow: BrowserWindow
 
   constructor(mainWindow: BrowserWindow) {
     this.mainWindow = mainWindow
@@ -25,7 +25,6 @@ export default class MenuBuilder {
 
     const menu = Menu.buildFromTemplate(template)
     Menu.setApplicationMenu(menu)
-
 
     return menu
   }
@@ -70,10 +69,20 @@ export default class MenuBuilder {
         { label: 'About Zap', selector: 'orderFrontStandardAboutPanel:' },
         { type: 'separator' },
         { label: 'Hide Zap', accelerator: 'Command+H', selector: 'hide:' },
-        { label: 'Hide Others', accelerator: 'Command+Shift+H', selector: 'hideOtherApplications:' },
+        {
+          label: 'Hide Others',
+          accelerator: 'Command+Shift+H',
+          selector: 'hideOtherApplications:'
+        },
         { label: 'Show All', selector: 'unhideAllApplications:' },
         { type: 'separator' },
-        { label: 'Quit', accelerator: 'Command+Q', click: () => { app.quit() } }
+        {
+          label: 'Quit',
+          accelerator: 'Command+Q',
+          click: () => {
+            app.quit()
+          }
+        }
       ]
     }
     const subMenuEdit = {
@@ -91,13 +100,27 @@ export default class MenuBuilder {
     const subMenuViewDev = {
       label: 'View',
       submenu: [
-        { label: 'Reload', accelerator: 'Command+R', click: () => { this.mainWindow.webContents.reload() } },
+        {
+          label: 'Reload',
+          accelerator: 'Command+R',
+          click: () => {
+            this.mainWindow.webContents.reload()
+          }
+        },
         {
           label: 'Toggle Full Screen',
           accelerator: 'Ctrl+Command+F',
-          click: () => { this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen()) }
+          click: () => {
+            this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
+          }
         },
-        { label: 'Toggle Developer Tools', accelerator: 'Alt+Command+I', click: () => { this.mainWindow.toggleDevTools() } }
+        {
+          label: 'Toggle Developer Tools',
+          accelerator: 'Alt+Command+I',
+          click: () => {
+            this.mainWindow.toggleDevTools()
+          }
+        }
       ]
     }
     const subMenuViewProd = {
@@ -106,7 +129,9 @@ export default class MenuBuilder {
         {
           label: 'Toggle Full Screen',
           accelerator: 'Ctrl+Command+F',
-          click: () => { this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen()) }
+          click: () => {
+            this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
+          }
         }
       ]
     }
@@ -122,90 +147,123 @@ export default class MenuBuilder {
     const subMenuHelp = {
       label: 'Help',
       submenu: [
-        { label: 'Learn More', click() { shell.openExternal('https://zap.jackmallers.com/') } },
-        { label: 'Documentation', click() { shell.openExternal('https://github.com/LN-Zap/zap-desktop') } },
-        { label: 'Community Discussions', click() { shell.openExternal('zaphq.slack.com') } },
-        { label: 'Search Issues', click() { shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues') } }
+        {
+          label: 'Learn More',
+          click() {
+            shell.openExternal('https://zap.jackmallers.com/')
+          }
+        },
+        {
+          label: 'Documentation',
+          click() {
+            shell.openExternal('https://github.com/LN-Zap/zap-desktop')
+          }
+        },
+        {
+          label: 'Community Discussions',
+          click() {
+            shell.openExternal('zaphq.slack.com')
+          }
+        },
+        {
+          label: 'Search Issues',
+          click() {
+            shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues')
+          }
+        }
       ]
     }
 
-    const subMenuView = process.env.NODE_ENV === 'development'
-      ? subMenuViewDev
-      : subMenuViewProd
+    const subMenuView = process.env.NODE_ENV === 'development' ? subMenuViewDev : subMenuViewProd
 
-    return [
-      subMenuAbout,
-      subMenuEdit,
-      subMenuView,
-      subMenuWindow,
-      subMenuHelp
-    ]
+    return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp]
   }
 
   buildDefaultTemplate() {
-    const templateDefault = [{
-      label: '&File',
-      submenu: [{
-        label: '&Open',
-        accelerator: 'Ctrl+O'
-      }, {
-        label: '&Close',
-        accelerator: 'Ctrl+W',
-        click: () => {
-          this.mainWindow.close()
-        }
-      }]
-    }, {
-      label: '&View',
-      submenu: (process.env.NODE_ENV === 'development') ? [{
-        label: '&Reload',
-        accelerator: 'Ctrl+R',
-        click: () => {
-          this.mainWindow.webContents.reload()
-        }
-      }, {
-        label: 'Toggle &Full Screen',
-        accelerator: 'F11',
-        click: () => {
-          this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
-        }
-      }, {
-        label: 'Toggle &Developer Tools',
-        accelerator: 'Alt+Ctrl+I',
-        click: () => {
-          this.mainWindow.toggleDevTools()
-        }
-      }] : [{
-        label: 'Toggle &Full Screen',
-        accelerator: 'F11',
-        click: () => {
-          this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
-        }
-      }]
-    }, {
-      label: 'Help',
-      submenu: [{
-        label: 'Learn More',
-        click() {
-          shell.openExternal('https://zap.jackmallers.com/')
-        }
-      }, {
-        label: 'Documentation',
-        click() {
-          shell.openExternal('https://github.com/LN-Zap/zap-desktop')
-        }
-      }, {
-        label: 'Community Discussions',
-        click() {
-          shell.openExternal('zaphq.slack.com')
-        }
-      }, {
-        label: 'Search Issues',
-        click() {
-          shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues')
-        }
-      }]
-    }]
+    const templateDefault = [
+      {
+        label: '&File',
+        submenu: [
+          {
+            label: '&Open',
+            accelerator: 'Ctrl+O'
+          },
+          {
+            label: '&Close',
+            accelerator: 'Ctrl+W',
+            click: () => {
+              this.mainWindow.close()
+            }
+          }
+        ]
+      },
+      {
+        label: '&View',
+        submenu:
+          process.env.NODE_ENV === 'development'
+            ? [
+                {
+                  label: '&Reload',
+                  accelerator: 'Ctrl+R',
+                  click: () => {
+                    this.mainWindow.webContents.reload()
+                  }
+                },
+                {
+                  label: 'Toggle &Full Screen',
+                  accelerator: 'F11',
+                  click: () => {
+                    this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
+                  }
+                },
+                {
+                  label: 'Toggle &Developer Tools',
+                  accelerator: 'Alt+Ctrl+I',
+                  click: () => {
+                    this.mainWindow.toggleDevTools()
+                  }
+                }
+              ]
+            : [
+                {
+                  label: 'Toggle &Full Screen',
+                  accelerator: 'F11',
+                  click: () => {
+                    this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
+                  }
+                }
+              ]
+      },
+      {
+        label: 'Help',
+        submenu: [
+          {
+            label: 'Learn More',
+            click() {
+              shell.openExternal('https://zap.jackmallers.com/')
+            }
+          },
+          {
+            label: 'Documentation',
+            click() {
+              shell.openExternal('https://github.com/LN-Zap/zap-desktop')
+            }
+          },
+          {
+            label: 'Community Discussions',
+            click() {
+              shell.openExternal('zaphq.slack.com')
+            }
+          },
+          {
+            label: 'Search Issues',
+            click() {
+              shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues')
+            }
+          }
+        ]
+      }
+    ]
 
     return templateDefault
   }

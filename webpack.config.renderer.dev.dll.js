@@ -7,9 +7,6 @@ import path from 'path'
 import merge from 'webpack-merge'
 import baseConfig from './webpack.config.base'
 import { dependencies } from './package.json'
-import CheckNodeEnv from './internals/scripts/CheckNodeEnv'
-
-CheckNodeEnv('development')
 
 const dist = path.resolve(process.cwd(), 'dll')
 
@@ -19,6 +16,8 @@ export default merge.smart(baseConfig, {
   devtool: 'eval',
 
   target: 'electron-renderer',
+
+  mode: 'development',
 
   externals: ['fsevents', 'crypto-browserify'],
 
@@ -156,17 +155,11 @@ export default merge.smart(baseConfig, {
   },
 
   resolve: {
-    modules: [
-      'app'
-    ]
+    modules: ['app']
   },
 
   entry: {
-    renderer: (
-      Object
-        .keys(dependencies || {})
-        .filter(dependency => dependency !== 'font-awesome')
-    )
+    renderer: Object.keys(dependencies || {}).filter(dependency => dependency !== 'font-awesome')
   },
 
   output: {
@@ -180,19 +173,6 @@ export default merge.smart(baseConfig, {
     new webpack.DllPlugin({
       path: path.join(dist, '[name].json'),
       name: '[name]'
-    }),
-
-    /**
-     * Create global constants which can be configured at compile time.
-     *
-     * Useful for allowing different behaviour between development builds and
-     * release builds
-     *
-     * NODE_ENV should be production so that modules do not perform certain
-     * development checks
-     */
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
     }),
 
     new webpack.LoaderOptionsPlugin({
