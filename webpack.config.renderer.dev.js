@@ -13,6 +13,9 @@ import webpack from 'webpack'
 import merge from 'webpack-merge'
 import { spawn, execSync } from 'child_process'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
+import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import baseConfig from './webpack.config.base'
 import { mainLog } from './app/utils/log'
 
@@ -217,6 +220,45 @@ export default merge.smart(baseConfig, {
 
     new ExtractTextPlugin({
       filename: '[name].css'
+    }),
+
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, 'app', 'app.html')
+    }),
+
+    new AddAssetHtmlPlugin({
+      filepath: path.join(__dirname, 'dll', 'renderer.dev.dll.js'),
+      includeSourcemap: false
+    }),
+
+    new CspHtmlWebpackPlugin({
+      'default-src': "'self'",
+      'object-src': "'none'",
+      'connect-src': [
+        "'self'",
+        'http://localhost:*',
+        'ws://localhost:*',
+        'https://api.coinmarketcap.com',
+        'https://zap.jackmallers.com',
+        'https://testnet-api.smartbit.com.au'
+      ],
+      'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
+      'font-src': [
+        "'self'",
+        'data:',
+        'http://localhost:*',
+        'https://fonts.googleapis.com',
+        'https://s3.amazonaws.com',
+        'https://fonts.gstatic.com'
+      ],
+      'style-src': [
+        "'self'",
+        'blob:',
+        'https://fonts.googleapis.com',
+        'https://s3.amazonaws.com',
+        'https://fonts.gstatic.com',
+        "'unsafe-inline'"
+      ]
     })
   ],
 
@@ -240,6 +282,23 @@ export default merge.smart(baseConfig, {
       aggregateTimeout: 300,
       ignored: /node_modules/,
       poll: 100
+    },
+    proxy: {
+      '/proxy/zap.jackmallers.com': {
+        target: 'https://zap.jackmallers.com',
+        pathRewrite: { '^/proxy/zap.jackmallers.com': '' },
+        changeOrigin: true
+      },
+      '/proxy/api.coinmarketcap.com': {
+        target: 'https://api.coinmarketcap.com',
+        pathRewrite: { '^/proxy/api.coinmarketcap.com': '' },
+        changeOrigin: true
+      },
+      '/proxy/testnet-api.smartbit.com.au': {
+        target: 'https://testnet-api.smartbit.com.au',
+        pathRewrite: { '^/proxy/testnet-api.smartbit.com.au': '' },
+        changeOrigin: true
+      }
     },
     historyApiFallback: {
       verbose: true,
