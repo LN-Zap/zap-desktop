@@ -36,10 +36,7 @@ const NewWalletPassword = ({
       >
         Passwords do not match
       </p>
-      <p
-        className={`${styles.helpMessage} ${passwordMinChars &&
-          styles.visible}`}
-      >
+      <p className={`${styles.helpMessage} ${passwordMinChars && styles.visible}`}>
         The password must be at least 8 characters long
       </p>
     </section>
