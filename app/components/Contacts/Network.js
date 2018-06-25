@@ -130,6 +130,11 @@ class Network extends Component {
         return 'closing'
       }
 
+      // if the channel is in waiting_close_channels phase
+      if (Object.prototype.hasOwnProperty.call(statusChannel, 'waiting_close_channels')) {
+        return 'closing'
+      }
+
       // if we are in the process of closing this channel
       if (closingChannelIds.includes(statusChannel.chan_id)) {
         return 'closing'
