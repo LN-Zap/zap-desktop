@@ -29,6 +29,8 @@ let didFinishLoad = false
 let startedSync = false
 let sentGrpcDisconnect = false
 
+let neutrino = null
+
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support')
   sourceMapSupport.install()
@@ -162,7 +164,7 @@ const startLnd = (alias, autopilot) => {
     `${alias ? `--alias=${alias}` : ''}`
   ]
 
-  const neutrino = spawn(lndConfig.lndPath, neutrinoArgs)
+  neutrino = spawn(lndConfig.lndPath, neutrinoArgs)
     .on('error', error => {
       lndLog.error(`lnd error: ${error}`)
       dialog.showMessageBox({
@@ -350,6 +352,13 @@ app.on('open-url', (event, url) => {
   const payreq = url.split(':')[1]
   mainWindow.webContents.send('lightningPaymentUri', { payreq })
   mainWindow.show()
+})
+
+// Ensure lnd process is killed when the app quits.
+app.on('quit', () => {
+  if (neutrino) {
+    neutrino.kill()
+  }
 })
 
 export default { startLnd }
