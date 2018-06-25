@@ -284,7 +284,7 @@ class Network extends Component {
                               currency={ticker.currency}
                               currentTicker={currentTicker}
                             />
-                            <i> {ticker.currency.toUpperCase()}</i>
+                            <i> {currencyName}</i>
                           </p>
                         </section>
                         <section>
