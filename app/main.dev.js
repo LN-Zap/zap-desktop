@@ -109,7 +109,10 @@ const sendGrpcConnected = () => {
 
 // Create and subscribe the grpc object
 const startGrpc = () => {
-  lnd.initLnd((lndSubscribe, lndMethods) => {
+  mainLog.info('Starting gRPC...')
+  try {
+    const { lndSubscribe, lndMethods } = lnd.initLnd()
+
     // Subscribe to bi-directional streams
     lndSubscribe(mainWindow)
 
@@ -119,19 +122,34 @@ const startGrpc = () => {
     })
 
     sendGrpcConnected()
-  })
+  } catch (error) {
+    dialog.showMessageBox({
+      type: 'error',
+      message: `Unable to connect to lnd. Please check your lnd node and try again: ${error}`
+    })
+    app.quit()
+  }
 }
 
 // Create and subscribe the grpc object
 const startWalletUnlocker = () => {
-  lnd.initWalletUnlocker(walletUnlockerMethods => {
+  mainLog.info('Starting wallet unlocker...')
+  try {
+    const walletUnlockerMethods = lnd.initWalletUnlocker()
+
     // Listen for all gRPC restful methods
     ipcMain.on('walletUnlocker', (event, { msg, data }) => {
       walletUnlockerMethods(event, msg, data)
     })
-  })
 
-  mainWindow.webContents.send('walletUnlockerStarted')
+    mainWindow.webContents.send('walletUnlockerStarted')
+  } catch (error) {
+    dialog.showMessageBox({
+      type: 'error',
+      message: `Unable to start lnd wallet unlocker. Please check your lnd node and try again: ${error}`
+    })
+    app.quit()
+  }
 }
 
 // Send the front end event letting them know LND is synced to the blockchain
