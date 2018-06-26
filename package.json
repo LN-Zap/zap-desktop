@@ -223,7 +223,7 @@
     "copy-to-clipboard": "^3.0.8",
     "debug-logger": "^0.4.1",
     "devtron": "^1.4.0",
-    "electron": "2.0.2",
+    "electron": "^2.0.3",
     "electron-debug": "^2.0.0",
     "electron-store": "^2.0.0",
     "font-awesome": "^4.7.0",
