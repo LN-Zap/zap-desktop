@@ -348,7 +348,7 @@ onboardingSelectors.reEnterSeedChecker = createSelector(
   seedIndexesArrSelector,
   reEnterSeedInputSelector,
   (seed, seedIndexArr, reEnterSeedInput) =>
-    seedIndexArr.length === Object.keys(reEnterSeedInput).length &&
+    Object.keys(reEnterSeedInput).length >= seedIndexArr.length &&
     seedIndexArr.every(
       index => reEnterSeedInput[index] && reEnterSeedInput[index] === seed[index - 1]
     )
