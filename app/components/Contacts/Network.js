@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import find from 'lodash/find'
 import Isvg from 'react-inlinesvg'
 import FaExternalLink from 'react-icons/lib/fa/external-link'
 import FaCircle from 'react-icons/lib/fa/circle'
@@ -32,8 +31,7 @@ class Network extends Component {
         filter,
         selectedChannel,
         loadingChannelPubkeys,
-        closingChannelIds,
-        channels
+        closingChannelIds
       },
       currentChannels,
       balance,
@@ -109,7 +107,7 @@ class Network extends Component {
     }
 
     const displayNodeName = displayedChannel => {
-      const node = find(nodes, n => displayedChannel.remote_pubkey === n.pub_key)
+      const node = nodes.find(n => displayedChannel.remote_pubkey === n.pub_key)
 
       if (node && node.alias.length) {
         return node.alias
@@ -128,6 +126,11 @@ class Network extends Component {
 
       // if the channel has a closing tx that means it's closing
       if (Object.prototype.hasOwnProperty.call(statusChannel, 'closing_txid')) {
+        return 'closing'
+      }
+
+      // if the channel is in waiting_close_channels phase
+      if (Object.prototype.hasOwnProperty.call(statusChannel, 'waiting_close_channels')) {
         return 'closing'
       }
 
@@ -171,9 +174,10 @@ class Network extends Component {
 
         <div className={styles.channels}>
           {!loadingChannelPubkeys.length &&
-            !channels.length && <SuggestedNodes {...suggestedNodesProps} />}
+            !currentChannels.length &&
+            !searchQuery.length && <SuggestedNodes {...suggestedNodesProps} />}
 
-          {(loadingChannelPubkeys.length || channels.length) && (
+          {(loadingChannelPubkeys.length || currentChannels.length) && (
             <header className={styles.listHeader}>
               <section>
                 <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
@@ -208,7 +212,7 @@ class Network extends Component {
             {loadingChannelPubkeys.length &&
               loadingChannelPubkeys.map(loadingPubkey => {
                 // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
-                const node = find(nodes, n => loadingPubkey === n.pub_key)
+                const node = nodes.find(n => loadingPubkey === n.pub_key)
                 const nodeDisplay = () => {
                   if (node && node.alias.length) {
                     return node.alias
@@ -284,7 +288,7 @@ class Network extends Component {
                               currency={ticker.currency}
                               currentTicker={currentTicker}
                             />
-                            <i> {ticker.currency.toUpperCase()}</i>
+                            <i> {currencyName}</i>
                           </p>
                         </section>
                         <section>
@@ -320,7 +324,7 @@ class Network extends Component {
               })}
           </ul>
         </div>
-        {(loadingChannelPubkeys.length || channels.length) && (
+        {(loadingChannelPubkeys.length || currentChannels.length || searchQuery.length) && (
           <footer className={styles.search}>
             <label htmlFor="search" className={`${styles.label} ${styles.input}`}>
               <Isvg src={search} />

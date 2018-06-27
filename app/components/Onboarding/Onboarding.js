@@ -167,7 +167,7 @@ const Onboarding = ({
             description="Enter your cipherseed passphrase (or just submit if you don't have one)"
             back={() => changeStep(5)}
             next={() => {
-              const recoverySeed = recoverFormProps.seedInput.map(input => input.word)
+              const recoverySeed = recoverFormProps.recoverSeedInput.map(input => input.word)
 
               submitNewWallet(createWalletPassword, recoverySeed, aezeedPassword)
             }}
@@ -189,8 +189,11 @@ const Onboarding = ({
       case 7:
         return (
           <FormContainer
-            title="Re-enter your seed"
-            description="Yeah I know, might be annoying, but just to be safe!"
+            title="Retype your seed"
+            description={`Your seed is important! If you lose your seed you'll have no way to recover your wallet.
+            To make sure that you have properly saved your seed, please retype words ${
+              reEnterSeedProps.seedIndexesArr[0]
+            }, ${reEnterSeedProps.seedIndexesArr[1]} and ${reEnterSeedProps.seedIndexesArr[2]}`}
             back={() => changeStep(6)}
             next={() => {
               // don't allow them to move on if they havent re-entered the seed correctly

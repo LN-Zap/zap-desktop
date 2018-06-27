@@ -3,6 +3,7 @@
  */
 
 import path from 'path'
+import { IgnorePlugin } from 'webpack'
 import { dependencies as externals } from './app/package.json'
 
 export default {
@@ -37,6 +38,8 @@ export default {
     extensions: ['.js', '.jsx', '.json'],
     modules: [path.join(__dirname, 'app'), 'node_modules']
   },
+
+  plugins: [new IgnorePlugin(/^\.\/locale$/, /moment$/)],
 
   optimization: {
     namedModules: true

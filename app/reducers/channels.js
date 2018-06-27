@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import filter from 'lodash/filter'
 import { btc } from 'utils'
 import { showNotification } from 'notifications'
 import { requestSuggestedNodes } from '../api'
@@ -404,6 +403,8 @@ const channelsSelector = state => state.channels.channels
 const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
 const pendingClosedChannelsSelector = state =>
   state.channels.pendingChannels.pending_closing_channels
+const pendingWaitingCloseChannelsSelector = state =>
+  state.channels.pendingChannels.waiting_close_channels
 const pendingForceClosedChannelsSelector = state =>
   state.channels.pendingChannels.pending_force_closing_channels
 const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waiting_close_channels
@@ -457,9 +458,11 @@ channelsSelectors.pendingOpenChannelPubkeys = createSelector(
 channelsSelectors.closingPendingChannels = createSelector(
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
-  (pendingClosedChannels, pendingForcedClosedChannels) => [
+  pendingWaitingCloseChannelsSelector,
+  (pendingClosedChannels, pendingForcedClosedChannels, pendingWaitingCloseChannels) => [
     ...pendingClosedChannels,
-    ...pendingForcedClosedChannels
+    ...pendingForcedClosedChannels,
+    ...pendingWaitingCloseChannels
   ]
 )
 
@@ -479,7 +482,7 @@ channelsSelectors.channelNodes = createSelector(
   (channels, nodes) => {
     const chanPubkeys = channels.map(channel => channel.remote_pubkey)
 
-    return filter(nodes, node => chanPubkeys.includes(node.pub_key))
+    return nodes.filter(node => chanPubkeys.includes(node.pub_key))
   }
 )
 

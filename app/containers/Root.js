@@ -27,9 +27,12 @@ import {
   unlockWallet,
   setSignupCreate,
   setSignupImport,
-  updateSeedInput
+  updateReEnterSeedInput,
+  updateRecoverSeedInput,
+  setReEnterSeedIndexes
 } from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
+import { newAddress } from '../reducers/address'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
@@ -51,7 +54,10 @@ const mapDispatchToProps = {
   unlockWallet,
   setSignupCreate,
   setSignupImport,
-  updateSeedInput,
+  newAddress,
+  updateReEnterSeedInput,
+  updateRecoverSeedInput,
+  setReEnterSeedIndexes,
 
   fetchBlockHeight
 }
@@ -59,6 +65,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   lnd: state.lnd,
   onboarding: state.onboarding,
+  address: state.address,
 
   syncPercentage: lndSelectors.syncPercentage(state),
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
@@ -72,7 +79,10 @@ const mapStateToProps = state => ({
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const syncingProps = {
     fetchBlockHeight: dispatchProps.fetchBlockHeight,
-    syncPercentage: stateProps.syncPercentage
+    newAddress: dispatchProps.newAddress,
+
+    syncPercentage: stateProps.syncPercentage,
+    address: stateProps.address.address
   }
 
   const connectionTypeProps = {
@@ -145,15 +155,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const recoverFormProps = {
-    seedInput: stateProps.onboarding.seedInput,
-    updateSeedInput: dispatchProps.updateSeedInput
+    recoverSeedInput: stateProps.onboarding.recoverSeedInput,
+    updateRecoverSeedInput: dispatchProps.updateRecoverSeedInput
   }
 
   const reEnterSeedProps = {
     seed: stateProps.onboarding.seed,
-    seedInput: stateProps.onboarding.seedInput,
+    reEnterSeedInput: stateProps.onboarding.reEnterSeedInput,
+    seedIndexesArr: stateProps.onboarding.seedIndexesArr,
     reEnterSeedChecker: stateProps.reEnterSeedChecker,
-    updateSeedInput: dispatchProps.updateSeedInput
+    updateReEnterSeedInput: dispatchProps.updateReEnterSeedInput,
+    setReEnterSeedIndexes: dispatchProps.setReEnterSeedIndexes
   }
 
   const onboardingProps = {

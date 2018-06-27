@@ -10,7 +10,7 @@
  *
  *
  */
-import { app, BrowserWindow, ipcMain, dialog } from 'electron'
+import { app, BrowserWindow, ipcMain, dialog, session } from 'electron'
 import path from 'path'
 import fs from 'fs'
 import split2 from 'split2'
@@ -87,6 +87,7 @@ const sendStartOnboarding = () => {
       clearInterval(sendStartOnboardingInterval)
 
       if (mainWindow) {
+        mainLog.timeEnd('Time until onboarding has started')
         mainLog.info('STARTING ONBOARDING')
         mainWindow.webContents.send('startOnboarding')
       }
@@ -109,7 +110,10 @@ const sendGrpcConnected = () => {
 
 // Create and subscribe the grpc object
 const startGrpc = () => {
-  lnd.initLnd((lndSubscribe, lndMethods) => {
+  mainLog.info('Starting gRPC...')
+  try {
+    const { lndSubscribe, lndMethods } = lnd.initLnd()
+
     // Subscribe to bi-directional streams
     lndSubscribe(mainWindow)
 
@@ -119,19 +123,34 @@ const startGrpc = () => {
     })
 
     sendGrpcConnected()
-  })
+  } catch (error) {
+    dialog.showMessageBox({
+      type: 'error',
+      message: `Unable to connect to lnd. Please check your lnd node and try again: ${error}`
+    })
+    app.quit()
+  }
 }
 
 // Create and subscribe the grpc object
 const startWalletUnlocker = () => {
-  lnd.initWalletUnlocker(walletUnlockerMethods => {
+  mainLog.info('Starting wallet unlocker...')
+  try {
+    const walletUnlockerMethods = lnd.initWalletUnlocker()
+
     // Listen for all gRPC restful methods
     ipcMain.on('walletUnlocker', (event, { msg, data }) => {
       walletUnlockerMethods(event, msg, data)
     })
-  })
 
-  mainWindow.webContents.send('walletUnlockerStarted')
+    mainWindow.webContents.send('walletUnlockerStarted')
+  } catch (error) {
+    dialog.showMessageBox({
+      type: 'error',
+      message: `Unable to start lnd wallet unlocker. Please check your lnd node and try again: ${error}`
+    })
+    app.quit()
+  }
 }
 
 // Send the front end event letting them know LND is synced to the blockchain
@@ -245,6 +264,9 @@ app.on('window-all-closed', () => {
 })
 
 app.on('ready', async () => {
+  mainLog.time('Time until app is visible')
+  mainLog.time('Time until onboarding has started')
+
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
     await installExtensions()
   }
@@ -258,7 +280,12 @@ app.on('ready', async () => {
     minHeight: 425
   })
 
-  mainWindow.loadURL(`file://${__dirname}/app.html`)
+  if (process.env.HOT) {
+    const port = process.env.PORT || 1212
+    mainWindow.loadURL(`http://localhost:${port}/dist/index.html`)
+  } else {
+    mainWindow.loadURL(`file://${__dirname}/dist/index.html`)
+  }
 
   // @TODO: Use 'ready-to-show' event
   //        https://github.com/electron/electron/blob/master/docs/api/browser-window.md#using-ready-to-show-event
@@ -266,7 +293,7 @@ app.on('ready', async () => {
     if (!mainWindow) {
       throw new Error('"mainWindow" is not defined')
     }
-
+    mainLog.timeEnd('Time until app is visible')
     mainWindow.show()
     mainWindow.focus()
 
@@ -336,6 +363,21 @@ app.on('ready', async () => {
       mainLog.info('CONNECTING TO CUSTOM LND INSTANCE')
       startGrpc()
       mainWindow.webContents.send('successfullyCreatedWallet')
+    }
+  })
+
+  // HACK: patch webrequest to fix devtools incompatibility with electron 2.x.
+  // See https://github.com/electron/electron/issues/13008#issuecomment-400261941
+  session.defaultSession.webRequest.onBeforeRequest({}, (details, callback) => {
+    if (details.url.indexOf('7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33') !== -1) {
+      callback({
+        redirectURL: details.url.replace(
+          '7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33',
+          '57c9d07b416b5a2ea23d28247300e4af36329bdc'
+        )
+      })
+    } else {
+      callback({ cancel: false })
     }
   })
 })
