@@ -331,22 +331,16 @@ onboardingSelectors.passwordIsValid = createSelector(
   password => password.length >= 8
 )
 
-onboardingSelectors.passwordMinChars = createSelector(
-  createWalletPasswordSelector,
-  createWalletPasswordConfirmationSelector,
-  (pass1, pass2) => pass1 === pass2 && pass1.length >= 8
-)
-
 onboardingSelectors.passwordMinCharsError = createSelector(
   createWalletPasswordSelector,
   createWalletPasswordConfirmationSelector,
-  (pass1, pass2) => pass1.length < 8 && pass2.length > 0
+  (pass1, pass2) => pass1 === pass2 && pass1.length < 8 && pass1.length > 0
 )
 
 onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
   createWalletPasswordSelector,
   createWalletPasswordConfirmationSelector,
-  (pass1, pass2) => pass1 !== pass2 && pass2.length > 0
+  (pass1, pass2) => pass1 !== pass2 && pass2.length >= pass1.length
 )
 
 onboardingSelectors.showAezeedPasswordConfirmationError = createSelector(

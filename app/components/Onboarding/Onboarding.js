@@ -128,7 +128,7 @@ const Onboarding = ({
                 return
               }
               // if the password is less than 8 characters dont allow users to proceed
-              if (!newWalletPasswordProps.passwordMinChars) {
+              if (newWalletPasswordProps.passwordMinCharsError) {
                 return
               }
 
