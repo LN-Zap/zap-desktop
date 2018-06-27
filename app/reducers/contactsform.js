@@ -1,6 +1,4 @@
 import { createSelector } from 'reselect'
-import filter from 'lodash/filter'
-import isEmpty from 'lodash/isEmpty'
 
 import { tickerSelectors } from './ticker'
 import { btc } from '../utils'
@@ -234,10 +232,9 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
     const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
 
     // list of the nodes
-    const list = filter(
-      nodes,
-      node => node.alias.includes(query) || node.pub_key.includes(query)
-    ).sort(contactableFirst)
+    const list = nodes
+      .filter(node => node.alias.includes(query) || node.pub_key.includes(query))
+      .sort(contactableFirst)
 
     // if we don't limit the nodes returned then we take a huge performance hit
     // rendering thousands of nodes potentially, so we just render 20 for the time being
@@ -270,7 +267,7 @@ contactFormSelectors.manualFormIsValid = createSelector(manualSearchQuerySelecto
   }
   return {
     errors,
-    isValid: isEmpty(errors)
+    isValid: Object.keys(errors).length === 0
   }
 })
 

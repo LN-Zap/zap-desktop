@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import find from 'lodash/find'
 import ReactModal from 'react-modal'
 import FaCircle from 'react-icons/lib/fa/circle'
 import MdClose from 'react-icons/lib/md/close'
@@ -47,7 +46,7 @@ const ContactModal = ({
   }
 
   // the remote node for the channel
-  const node = find(channelNodes, { pub_key: channel.remote_pubkey })
+  const node = channelNodes.find(node => node.pub_key === channel.remote_pubkey)
 
   return (
     <ReactModal

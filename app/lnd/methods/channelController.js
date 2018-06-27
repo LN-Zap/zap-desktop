@@ -1,10 +1,9 @@
-import find from 'lodash/find'
 import { listPeers, connectPeer } from './peersController'
 import pushopenchannel from '../push/openchannel'
 
 function ensurePeerConnected(lnd, pubkey, host) {
   return listPeers(lnd).then(({ peers }) => {
-    const peer = find(peers, { pub_key: pubkey })
+    const peer = peers.find(candidatePeer => candidatePeer.pub_key === pubkey)
     if (peer) {
       return peer
     }

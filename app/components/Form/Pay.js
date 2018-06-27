@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import find from 'lodash/find'
 
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
@@ -59,7 +58,7 @@ class Pay extends Component {
     } = this.props
 
     const displayNodeName = pubkey => {
-      const node = find(nodes, n => n.pub_key === pubkey)
+      const node = nodes.find(n => n.pub_key === pubkey)
 
       if (node && node.alias.length) {
         return node.alias

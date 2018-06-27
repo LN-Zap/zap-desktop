@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import find from 'lodash/find'
 import Isvg from 'react-inlinesvg'
 import FaExternalLink from 'react-icons/lib/fa/external-link'
 import FaCircle from 'react-icons/lib/fa/circle'
@@ -108,7 +107,7 @@ class Network extends Component {
     }
 
     const displayNodeName = displayedChannel => {
-      const node = find(nodes, n => displayedChannel.remote_pubkey === n.pub_key)
+      const node = nodes.find(n => displayedChannel.remote_pubkey === n.pub_key)
 
       if (node && node.alias.length) {
         return node.alias
@@ -213,7 +212,7 @@ class Network extends Component {
             {loadingChannelPubkeys.length &&
               loadingChannelPubkeys.map(loadingPubkey => {
                 // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
-                const node = find(nodes, n => loadingPubkey === n.pub_key)
+                const node = nodes.find(n => loadingPubkey === n.pub_key)
                 const nodeDisplay = () => {
                   if (node && node.alias.length) {
                     return node.alias
