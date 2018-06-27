@@ -298,6 +298,12 @@ onboardingSelectors.passwordMinChars = createSelector(
   (pass1, pass2) => pass1 === pass2 && pass1.length >= 8
 )
 
+onboardingSelectors.passwordMinCharsError = createSelector(
+  createWalletPasswordSelector,
+  createWalletPasswordConfirmationSelector,
+  (pass1, pass2) => pass1.length < 8 && pass2.length > 0
+)
+
 onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
   createWalletPasswordSelector,
   createWalletPasswordConfirmationSelector,
