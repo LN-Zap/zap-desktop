@@ -27,7 +27,9 @@ import {
   unlockWallet,
   setSignupCreate,
   setSignupImport,
-  updateSeedInput
+  updateReEnterSeedInput,
+  updateRecoverSeedInput,
+  setReEnterSeedIndexes
 } from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
 import { newAddress } from '../reducers/address'
@@ -52,8 +54,10 @@ const mapDispatchToProps = {
   unlockWallet,
   setSignupCreate,
   setSignupImport,
-  updateSeedInput,
   newAddress,
+  updateReEnterSeedInput,
+  updateRecoverSeedInput,
+  setReEnterSeedIndexes,
 
   fetchBlockHeight
 }
@@ -151,15 +155,17 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const recoverFormProps = {
-    seedInput: stateProps.onboarding.seedInput,
-    updateSeedInput: dispatchProps.updateSeedInput
+    recoverSeedInput: stateProps.onboarding.recoverSeedInput,
+    updateRecoverSeedInput: dispatchProps.updateRecoverSeedInput
   }
 
   const reEnterSeedProps = {
     seed: stateProps.onboarding.seed,
-    seedInput: stateProps.onboarding.seedInput,
+    reEnterSeedInput: stateProps.onboarding.reEnterSeedInput,
+    seedIndexesArr: stateProps.onboarding.seedIndexesArr,
     reEnterSeedChecker: stateProps.reEnterSeedChecker,
-    updateSeedInput: dispatchProps.updateSeedInput
+    updateReEnterSeedInput: dispatchProps.updateReEnterSeedInput,
+    setReEnterSeedIndexes: dispatchProps.setReEnterSeedIndexes
   }
 
   const onboardingProps = {
