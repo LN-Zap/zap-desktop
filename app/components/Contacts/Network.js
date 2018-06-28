@@ -130,7 +130,7 @@ class Network extends Component {
       }
 
       // if the channel is in waiting_close_channels phase
-      if (Object.prototype.hasOwnProperty.call(statusChannel, 'waiting_close_channels')) {
+      if (Object.prototype.hasOwnProperty.call(statusChannel, 'limbo_balance')) {
         return 'closing'
       }
 
