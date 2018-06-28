@@ -113,7 +113,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   syncing: false,
-  grpcStarted: true,
+  grpcStarted: false,
   fetchingBlockHeight: false,
   lines: [],
   blockHeight: 0,
