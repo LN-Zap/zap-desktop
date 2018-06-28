@@ -124,13 +124,12 @@ const Onboarding = ({
             back={null}
             next={() => {
               // dont allow the user to move on if the confirmation password doesnt match the original password
-              if (newWalletPasswordProps.showCreateWalletPasswordConfirmationError) {
-                return
-              }
               // if the password is less than 8 characters or empty dont allow users to proceed
               if (
                 newWalletPasswordProps.passwordMinCharsError ||
-                !newWalletPasswordProps.createWalletPassword
+                !newWalletPasswordProps.createWalletPassword ||
+                !newWalletPasswordProps.createWalletPasswordConfirmation ||
+                newWalletPasswordProps.showCreateWalletPasswordConfirmationError
               ) {
                 return
               }
