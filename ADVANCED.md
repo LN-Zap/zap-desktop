@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [Compiling Zap From Source](#compiling-zap-from-source)
-- [Lightning Network Daemon (lnd)](<#lightning-network-daemon-(lnd)>)
+- [Lightning Network Daemon (lnd)](<#lightning-network-daemon-lnd>)
 - [Running Zap](#running-zap)
 
 ## Compiling Zap From Source
