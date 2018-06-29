@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
-import { btc } from 'utils'
+import { btc } from 'lib/utils'
 
 import Isvg from 'react-inlinesvg'
 import Value from 'components/Value'

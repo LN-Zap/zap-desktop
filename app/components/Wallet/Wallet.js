@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import Isvg from 'react-inlinesvg'
 
-import { btc, blockExplorer } from 'utils'
+import { btc, blockExplorer } from 'lib/utils'
 import Value from 'components/Value'
 import AnimatedCheckmark from 'components/AnimatedCheckmark'
 

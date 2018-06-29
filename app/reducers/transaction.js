@@ -1,6 +1,6 @@
 import { ipcRenderer } from 'electron'
-import { showNotification } from '../notifications'
-import { btc } from '../utils'
+import { showNotification } from 'lib/zap/notifications'
+import { btc } from 'lib/utils'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'

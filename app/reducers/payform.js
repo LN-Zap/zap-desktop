@@ -1,10 +1,9 @@
 import { createSelector } from 'reselect'
 import bitcoin from 'bitcoinjs-lib'
-
+import { btc, bech32 } from 'lib/utils'
 import { setFormType } from './form'
 import { tickerSelectors } from './ticker'
 import { infoSelectors } from './info'
-import { btc, bech32 } from '../utils'
 
 // Initial State
 const initialState = {

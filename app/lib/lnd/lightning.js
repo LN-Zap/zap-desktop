@@ -1,6 +1,6 @@
 import fs from 'fs'
 import grpc from 'grpc'
-import config from '../config'
+import config from './config'
 
 // Default is ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
 // https://github.com/grpc/grpc/blob/master/doc/environment_variables.md

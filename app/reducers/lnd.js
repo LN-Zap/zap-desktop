@@ -1,9 +1,10 @@
+import { requestBlockHeight } from 'lib/utils/api'
+import { showNotification } from 'lib/zap/notifications'
 import { createSelector } from 'reselect'
 import { fetchTicker } from './ticker'
 import { fetchBalance } from './balance'
 import { fetchInfo } from './info'
-import { requestBlockHeight } from '../api'
-import { showNotification } from '../notifications'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
