@@ -61,8 +61,8 @@ export default {
   lnd: () => ({
     lndPath,
     configPath: join(appRootPath, 'resources', 'lnd.conf'),
-    lightningRpc: join(appRootPath, 'resources', 'rpc.proto'),
-    lightningHost: store.get('host') || 'localhost:10009',
+    rpcProtoPath: join(appRootPath, 'resources', 'rpc.proto'),
+    host: store.get('host') || 'localhost:10009',
     cert: store.get('cert') || join(userInfo().homedir, loc),
     macaroon: store.get('macaroon') || join(userInfo().homedir, macaroonPath)
   })

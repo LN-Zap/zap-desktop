@@ -54,10 +54,10 @@ class ZapController {
       Promise.resolve(this.mode)
         .then(mode => {
           const timeUntilWeKnowTheRunMode = mainLog.timeEnd('Time until we know the run mode')
-          return setTimeout(() => {
+          return setTimeout(async () => {
             if (mode === 'external') {
               // If lnd is already running, create and subscribe to the Lightning grpc object.
-              this.startGrpc()
+              await this.startGrpc()
               this.sendMessage('successfullyCreatedWallet')
             } else {
               // Otherwise, start the onboarding process.
@@ -90,27 +90,19 @@ class ZapController {
   /**
    * Create and subscribe to the Lightning grpc object.
    */
-  startGrpc() {
+  async startGrpc() {
     mainLog.info('Starting gRPC...')
-    try {
-      const { lndSubscribe, lndMethods } = lnd.initLnd()
+    const { lndSubscribe, lndMethods } = await lnd.initLnd()
 
-      // Subscribe to bi-directional streams
-      lndSubscribe(this.mainWindow)
+    // Subscribe to bi-directional streams
+    lndSubscribe(this.mainWindow)
 
-      // Listen for all gRPC restful methods
-      ipcMain.on('lnd', (event, { msg, data }) => {
-        lndMethods(event, msg, data)
-      })
+    // Listen for all gRPC restful methods
+    ipcMain.on('lnd', (event, { msg, data }) => {
+      lndMethods(event, msg, data)
+    })
 
-      this.sendMessage('grpcConnected')
-    } catch (error) {
-      dialog.showMessageBox({
-        type: 'error',
-        message: `Unable to connect to lnd. Please check your lnd node and try again: ${error}`
-      })
-      app.quit()
-    }
+    this.sendMessage('grpcConnected')
   }
 
   /**
@@ -163,9 +155,9 @@ class ZapController {
       this.startWalletUnlocker()
     })
 
-    this.neutrino.on('wallet-opened', () => {
+    this.neutrino.on('wallet-opened', async () => {
       mainLog.info('Wallet opened')
-      this.startGrpc()
+      await this.startGrpc()
       this.sendMessage('lndSyncing')
     })
 
@@ -185,30 +177,56 @@ class ZapController {
    * Add IPC event listeners...
    */
   _registerIpcListeners() {
-    ipcMain.on('startLnd', (event, options = {}) => {
+    ipcMain.on('startLnd', async (event, options = {}) => {
+      // Trim any user supplied strings.
+      const cleanOptions = Object.keys(options).reduce((previous, current) => {
+        previous[current] =
+          typeof options[current] === 'string' ? options[current].trim() : options[current]
+        return previous
+      }, {})
+
+      // Save the options.
       const store = new Store({ name: 'connection' })
-      store.store = {
-        type: options.connectionType,
-        host: options.connectionHost,
-        cert: options.connectionCert,
-        macaroon: options.connectionMacaroon,
-        alias: options.alias,
-        autopilot: options.autopilot
-      }
+      store.store = cleanOptions
       mainLog.info('Saved lnd config to:', store.path)
 
-      if (options.connectionType === 'local') {
+      // If the requested connection type is a local one then start up a new lnd instance.
+      if (cleanOptions.type === 'local') {
         mainLog.info('Starting new lnd instance')
-        mainLog.debug(' > alias:', options.alias)
-        mainLog.debug(' > autopilot:', options.autopilot)
-        this.startLnd(options.alias, options.autopilot)
-      } else {
+        mainLog.debug(' > alias:', cleanOptions.alias)
+        mainLog.debug(' > autopilot:', cleanOptions.autopilot)
+        this.startLnd(cleanOptions.alias, cleanOptions.autopilot)
+      }
+      // Otherwise attempt to connect to an lnd instance using user supplied connection details.
+      else {
         mainLog.info('Connecting to custom lnd instance')
-        mainLog.debug(' > connectionHost:', options.connectionHost)
-        mainLog.debug(' > connectionCert:', options.connectionCert)
-        mainLog.debug(' > connectionMacaroon:', options.connectionMacaroon)
-        this.startGrpc()
-        this.sendMessage('successfullyCreatedWallet')
+        mainLog.debug(' > host:', cleanOptions.host)
+        mainLog.debug(' > cert:', cleanOptions.cert)
+        mainLog.debug(' > macaroon:', cleanOptions.macaroon)
+        await this.startGrpc()
+          .then(() => this.sendMessage('successfullyCreatedWallet'))
+          .catch(e => {
+            const errors = {}
+            // There was a problem connectig to the host.
+            if (e.code === 'LND_GRPC_HOST_ERROR') {
+              errors.host = e.message
+            }
+            // There was a problem accessing loading the ssl cert.
+            if (e.code === 'LND_GRPC_CERT_ERROR') {
+              errors.cert = e.message
+            }
+            //  There was a problem accessing loading the macaroon file.
+            else if (e.code === 'LND_GRPC_MACAROON_ERROR') {
+              errors.macaroon = e.message
+            }
+            // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
+            else {
+              errors.host = `Unable to connect to host: ${e.details || e.message}`
+            }
+
+            // Notify the app of errors.
+            return this.sendMessage('startLndError', errors)
+          })
       }
     })
   }

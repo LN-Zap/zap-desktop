@@ -72,10 +72,10 @@ const Onboarding = ({
             back={() => changeStep(0.1)}
             next={() =>
               startLnd({
-                connectionType,
-                connectionHost,
-                connectionCert,
-                connectionMacaroon
+                type: connectionType,
+                host: connectionHost,
+                cert: connectionCert,
+                macaroon: connectionMacaroon
               })
             }
           >
@@ -100,7 +100,7 @@ const Onboarding = ({
             title="Autopilot"
             description="Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance." // eslint-disable-line max-len
             back={() => changeStep(1)}
-            next={() => startLnd({ connectionType, alias, autopilot })}
+            next={() => startLnd({ type: connectionType, alias, autopilot })}
           >
             <Autopilot {...autopilotProps} />
           </FormContainer>

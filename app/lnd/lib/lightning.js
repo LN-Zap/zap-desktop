@@ -1,6 +1,6 @@
-import fs from 'fs'
 import grpc from 'grpc'
 import config from '../config'
+import { getDeadline, validateHost, createSslCreds, createMacaroonCreds } from './util'
 
 // Default is ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
 // https://github.com/grpc/grpc/blob/master/doc/environment_variables.md
@@ -19,22 +19,39 @@ process.env.GRPC_SSL_CIPHER_SUITES =
     'ECDHE-ECDSA-CHACHA20-POLY1305'
   ].join(':')
 
-const lightning = (rpcpath, host) => {
+/**
+ * Creates an LND grpc client lightning service.
+ * @returns {rpc.lnrpc.Lightning}
+ */
+const lightning = async () => {
   const lndConfig = config.lnd()
-  const lndCert = fs.readFileSync(lndConfig.cert)
-  const sslCreds = grpc.credentials.createSsl(lndCert)
-  const rpc = grpc.load(lndConfig.lightningRpc)
+  const { host, rpcProtoPath, cert, macaroon } = lndConfig
 
-  const metadata = new grpc.Metadata()
-  const macaroonHex = fs.readFileSync(lndConfig.macaroon).toString('hex')
-  metadata.add('macaroon', macaroonHex)
+  // Verify that the host is valid before creating a gRPC client that is connected to it.
+  return await validateHost(host).then(async () => {
+    // Load the gRPC proto file.
+    const rpc = grpc.load(rpcProtoPath)
 
-  const macaroonCreds = grpc.credentials.createFromMetadataGenerator((params, callback) =>
-    callback(null, metadata)
-  )
-  const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
+    // Create ssl and macaroon credentials to use with the gRPC client.
+    const [sslCreds, macaroonCreds] = await Promise.all([
+      createSslCreds(cert),
+      createMacaroonCreds(macaroon)
+    ])
+    const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 
-  return new rpc.lnrpc.Lightning(host, credentials)
+    // Create a new gRPC client instance.
+    const lnd = new rpc.lnrpc.Lightning(host, credentials)
+
+    // Call the getInfo method to ensure that we can make successful calls to the gRPC interface.
+    return new Promise((resolve, reject) => {
+      lnd.getInfo({}, { deadline: getDeadline(2) }, err => {
+        if (err) {
+          return reject(err)
+        }
+        return resolve(lnd)
+      })
+    })
+  })
 }
 
 export default lightning
