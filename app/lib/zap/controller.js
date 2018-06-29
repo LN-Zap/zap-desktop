@@ -1,8 +1,8 @@
 import { app, ipcMain, dialog } from 'electron'
 import Store from 'electron-store'
-import lnd from './lnd'
-import Neutrino from './lnd/lib/neutrino'
-import { mainLog } from './utils/log'
+import { mainLog } from '../utils/log'
+import lnd from '../lnd'
+import Neutrino from '../lnd/neutrino'
 
 /**
  * @class ZapController

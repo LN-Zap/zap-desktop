@@ -1,5 +1,5 @@
 import { lookup } from 'ps-node'
-import { mainLog } from '../../utils/log'
+import { mainLog } from '../utils/log'
 
 /**
  * Check to see if an LND process is running.

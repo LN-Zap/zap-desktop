@@ -7,10 +7,10 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import { app, BrowserWindow, session } from 'electron'
-import { mainLog } from './utils/log'
-import MenuBuilder from './menu'
-import ZapController from './zap'
-import lnd from './lnd'
+import { mainLog } from './lib/utils/log'
+import MenuBuilder from './lib/zap/menu'
+import ZapController from './lib/zap/controller'
+import lnd from './lib/lnd'
 
 // Set up a couple of timers to track the app startup progress.
 mainLog.time('Time until app is ready')

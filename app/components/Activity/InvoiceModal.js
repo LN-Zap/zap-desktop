@@ -5,7 +5,7 @@ import Moment from 'react-moment'
 
 import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
-import { showNotification } from 'notifications'
+import { showNotification } from 'lib/zap/notifications'
 
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 

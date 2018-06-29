@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { bech32 } from '../utils'
+import { bech32 } from 'lib/utils'
 
 // ------------------------------------
 // Constants

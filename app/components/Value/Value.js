@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { btc } from 'utils'
+import { btc } from 'lib/utils'
 
 const Value = ({ value, currency, currentTicker }) => {
   if (currency === 'sats') {

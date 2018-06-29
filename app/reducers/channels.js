@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { btc } from 'utils'
-import { showNotification } from 'notifications'
-import { requestSuggestedNodes } from '../api'
+import { btc } from 'lib/utils'
+import { showNotification } from 'lib/zap/notifications'
+import { requestSuggestedNodes } from '../lib/utils/api'
 import { setError } from './error'
 // ------------------------------------
 // Constants

@@ -5,7 +5,7 @@ import FaExternalLink from 'react-icons/lib/fa/external-link'
 import FaCircle from 'react-icons/lib/fa/circle'
 import FaRepeat from 'react-icons/lib/fa/repeat'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
-import { btc, blockExplorer } from 'utils'
+import { btc, blockExplorer } from 'lib/utils'
 import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
 

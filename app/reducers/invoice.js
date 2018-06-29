@@ -2,6 +2,9 @@ import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { push } from 'react-router-redux'
 
+import { showNotification } from 'lib/zap/notifications'
+import { btc } from 'lib/utils'
+
 import { showActivityModal } from './activity'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
@@ -9,8 +12,6 @@ import { setPayInvoice } from './payform'
 import { resetRequestForm } from './requestform'
 import { setError } from './error'
 
-import { showNotification } from '../notifications'
-import { btc } from '../utils'
 // ------------------------------------
 // Constants
 // ------------------------------------

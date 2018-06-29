@@ -4,7 +4,7 @@ import ReactModal from 'react-modal'
 import FaCircle from 'react-icons/lib/fa/circle'
 import MdClose from 'react-icons/lib/md/close'
 
-import { btc } from 'utils'
+import { btc } from 'lib/utils'
 
 import styles from './ContactModal.scss'
 

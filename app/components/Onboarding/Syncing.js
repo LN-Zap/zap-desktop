@@ -4,7 +4,7 @@ import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
 import Isvg from 'react-inlinesvg'
 import zapLogo from 'icons/zap_logo.svg'
-import { showNotification } from 'notifications'
+import { showNotification } from 'lib/zap/notifications'
 import styles from './Syncing.scss'
 
 class Syncing extends Component {

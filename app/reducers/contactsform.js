@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
-
+import { btc } from 'lib/utils'
 import { tickerSelectors } from './ticker'
-import { btc } from '../utils'
 
 // Initial State
 const initialState = {
