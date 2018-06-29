@@ -4,7 +4,7 @@
 
 - [Compiling Zap From Source](#Compiling-Zap-From-Source)
 - [Lightning Network Daemon (lnd)](<#Lightning-Network-Daemon-(lnd)>)
-- [Running Zap](#Running-Zap)
+- [Running Zap](#running-zap)
 
 ## Compiling Zap From Source
 
