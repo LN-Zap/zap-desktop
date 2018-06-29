@@ -1,11 +1,11 @@
 import { app, ipcMain, dialog } from 'electron'
 import Store from 'electron-store'
 import StateMachine from 'javascript-state-machine'
-import lnd from './lnd'
-import Neutrino from './lnd/lib/neutrino'
-import Lightning from './lnd/lib/lightning'
-import { mainLog } from './utils/log'
-import { isLndRunning } from './lnd/lib/util'
+import lnd from '../lnd'
+import Neutrino from '../lnd/neutrino'
+import Lightning from '../lnd/lightning'
+import { mainLog } from '../utils/log'
+import { isLndRunning } from '../lnd/util'
 
 const grpcSslCipherSuites = connectionType =>
   (connectionType === 'btcpayserver'

@@ -1,7 +1,7 @@
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 
-import { btc } from 'utils'
+import { btc } from 'lib/utils'
 
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
 

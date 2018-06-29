@@ -1,12 +1,12 @@
 import grpc from 'grpc'
 import { loadSync } from '@grpc/proto-loader'
-import config from '../config'
+import config from './config'
 import { getDeadline, validateHost, createSslCreds, createMacaroonCreds } from './util'
-import methods from '../methods'
-import { mainLog } from '../../utils/log'
-import subscribeToTransactions from '../subscribe/transactions'
-import subscribeToInvoices from '../subscribe/invoices'
-import subscribeToChannelGraph from '../subscribe/channelgraph'
+import methods from './methods'
+import { mainLog } from '../utils/log'
+import subscribeToTransactions from './subscribe/transactions'
+import subscribeToInvoices from './subscribe/invoices'
+import subscribeToChannelGraph from './subscribe/channelgraph'
 
 /**
  * Creates an LND grpc client lightning service.

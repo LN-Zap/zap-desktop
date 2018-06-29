@@ -1,7 +1,7 @@
 // @flow
 import { app, Menu, shell, BrowserWindow } from 'electron'
 
-export default class MenuBuilder {
+export default class ZapMenuBuilder {
   mainWindow: BrowserWindow
 
   constructor(mainWindow: BrowserWindow) {

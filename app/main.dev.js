@@ -7,10 +7,10 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import { app, BrowserWindow, session } from 'electron'
-import { mainLog } from './utils/log'
-import MenuBuilder from './menu'
-import ZapController from './zap'
-import ZapUpdater from './updater'
+import { mainLog } from './lib/utils/log'
+import ZapMenuBuilder from './lib/zap/menuBuilder'
+import ZapController from './lib/zap/controller'
+import ZapUpdater from './lib/zap/updater'
 
 // Set up a couple of timers to track the app startup progress.
 mainLog.time('Time until app is ready')
@@ -41,7 +41,7 @@ app.on('ready', () => {
   zap.init()
 
   // Initialise the application menus.
-  const menuBuilder = new MenuBuilder(mainWindow)
+  const menuBuilder = new ZapMenuBuilder(mainWindow)
   menuBuilder.buildMenu()
 
   /**

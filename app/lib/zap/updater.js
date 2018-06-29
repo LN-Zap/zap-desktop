@@ -1,6 +1,6 @@
 import { dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
-import { updaterLog } from './utils/log'
+import { updaterLog } from '../utils/log'
 
 autoUpdater.logger = updaterLog
 

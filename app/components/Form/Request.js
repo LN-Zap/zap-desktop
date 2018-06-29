@@ -5,7 +5,7 @@ import Isvg from 'react-inlinesvg'
 import hand from 'icons/hand.svg'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
-import { btc } from 'utils'
+import { btc } from 'lib/utils'
 import styles from './Request.scss'
 
 const Request = ({

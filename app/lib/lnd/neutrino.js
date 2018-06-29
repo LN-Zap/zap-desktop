@@ -1,8 +1,8 @@
 import split2 from 'split2'
 import { spawn } from 'child_process'
 import EventEmitter from 'events'
-import config from '../config'
-import { mainLog, lndLog, lndLogGetLevel } from '../../utils/log'
+import config from './config'
+import { mainLog, lndLog, lndLogGetLevel } from '../utils/log'
 import { fetchBlockHeight } from './util'
 
 // Sync statuses

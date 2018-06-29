@@ -8,7 +8,7 @@ import grpc from 'grpc'
 import isIP from 'validator/lib/isIP'
 import isPort from 'validator/lib/isPort'
 import get from 'lodash.get'
-import { mainLog } from '../../utils/log'
+import { mainLog } from '../utils/log'
 
 const fsReadFile = promisify(fs.readFile)
 const dnsLookup = promisify(dns.lookup)

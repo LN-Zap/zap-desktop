@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import Moment from 'react-moment'
 import Isvg from 'react-inlinesvg'
 import link from 'icons/link.svg'
-import { btc } from 'utils'
 
+import { btc } from 'lib/utils'
 import Value from 'components/Value'
 import styles from '../Activity.scss'
 

@@ -9,7 +9,7 @@ import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
 import hand from 'icons/hand.svg'
 import link from 'icons/link.svg'
-import { blockExplorer } from 'utils'
+import { blockExplorer } from 'lib/utils'
 
 import Value from 'components/Value'
 

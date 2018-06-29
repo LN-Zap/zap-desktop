@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { requestTickers } from '../api'
+import { requestTickers } from 'lib/utils/api'
 import { infoSelectors } from './info'
 
 // ------------------------------------
