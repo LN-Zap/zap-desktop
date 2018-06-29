@@ -88,6 +88,7 @@ chmod +x lnd
 To test that everything has been installed correctly:
 
 ```bash
+npm run build
 npm run test
 ```
 
