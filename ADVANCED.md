@@ -24,6 +24,11 @@ After installing the above prerequisites, clone the repo via git:
 ```bash
 git clone https://github.com/LN-Zap/zap-desktop.git
 ```
+### Downloading and get Zap from master running on Windows 10
+
+Get Git For Windows here and proceed futher
+
+https://gitforwindows.org/
 
 ### Installing Dependencies
 
