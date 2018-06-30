@@ -13,7 +13,7 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: linear-gradient(270deg, #868B9F 0%, #333C5E 100%);
+  background: linear-gradient(270deg, #868b9f 0%, #333c5e 100%);
   padding: 15px 10px;
   color: $white;
 
@@ -42,7 +42,7 @@
 }
 
 .nodes {
-  background: #31343F;
+  background: #31343f;
 
   .networkResults {
     overflow-y: auto;
@@ -93,7 +93,6 @@
 
       .inactive {
         font-size: 10px;
-
         display: inline-block;
         vertical-align: top;
 
@@ -128,14 +127,14 @@
   }
 
   div {
-    background: #383B47;
+    background: #383b47;
     font-size: 16px;
     padding: 10px;
     cursor: pointer;
     transition: all 0.25s;
 
     &:hover {
-      background: lighten(#383B47, 10%);
+      background: lighten(#383b47, 10%);
     }
   }
 }

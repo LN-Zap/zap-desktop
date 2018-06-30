@@ -31,7 +31,7 @@
     .description {
       font-size: 12px;
       line-height: 14px;
-      padding: 0px 15px;
+      padding: 0 15px;
       min-height: 14px;
 
       &.active {
@@ -163,7 +163,7 @@
 
       &.active {
         background: $gold;
-        opacity: 1.0;
+        opacity: 1;
 
         &:hover {
           background: darken($gold, 5%);
