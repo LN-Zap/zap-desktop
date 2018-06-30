@@ -1,10 +1,9 @@
 @import '../../variables.scss';
 
 .modal {
-  position: relative;
+  position: absolute;
   width: 50%;
   margin: 50px auto;
-  position: absolute;
   top: auto;
   left: 0;
   right: 0;
@@ -244,9 +243,6 @@
   -webkit-border-radius: 999px;
   -moz-border-radius: 999px;
   border-radius: 999px;
-}
-
-.spinner {
   margin: 0 auto;
   height: 20px;
   width: 20px;

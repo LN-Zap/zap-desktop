@@ -81,17 +81,14 @@
 
   input {
     font-size: 20px;
+    background: transparent;
+    outline: none;
+    border: 0;
+    color: $gold;
+    -webkit-text-fill-color: $white;
+    width: 100%;
+    font-weight: 200;
   }
-}
-
-.input input {
-  background: transparent;
-  outline: none;
-  border: 0;
-  color: $gold;
-  -webkit-text-fill-color: $white;
-  width: 100%;
-  font-weight: 200;
 }
 
 .input input::-webkit-input-placeholder,
