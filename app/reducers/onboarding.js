@@ -354,7 +354,7 @@ onboardingSelectors.passwordMinCharsError = createSelector(
 onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
   createWalletPasswordSelector,
   createWalletPasswordConfirmationSelector,
-  (pass1, pass2) => pass1 !== pass2 && pass2.length >= pass1.length
+  (pass1, pass2) => pass1 !== pass2 && pass2.length > 0
 )
 
 onboardingSelectors.showAezeedPasswordConfirmationError = createSelector(
