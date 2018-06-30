@@ -3,6 +3,10 @@
 .container {
   color: $white;
 
+  .input {
+    margin-bottom: 15px;
+  }
+
   label {
     display: block;
     font-size: 12px;
@@ -14,20 +18,35 @@
   input {
     background: transparent;
     outline: none;
-    border:1px solid #404040;
+    border: 1px solid #404040;
     border-radius: 4px;
     padding: 10px;
     color: $gold;
     -webkit-text-fill-color: $white;
     font-size: 18px;
-    width: 100%;
     font-weight: 400;
-    margin-bottom: 20px;
     width: 600px;
+    transition: all 0.25s;
+
+    &.error {
+      border: 1px solid $red;
+    }
   }
 
   input::-webkit-input-placeholder {
     text-shadow: none;
     -webkit-text-fill-color: initial;
+  }
+
+  .errorMessage {
+    margin-top: 10px;
+    color: $red;
+    height: 10px;
+    visibility: hidden;
+    font-size: 10px;
+
+    &.visible {
+      visibility: visible;
+    }
   }
 }

@@ -40,6 +40,7 @@ import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoute
 
 import {
   startOnboarding,
+  startLndError,
   walletUnlockerStarted,
   receiveSeed,
   receiveSeedError,
@@ -107,6 +108,7 @@ const ipc = createIpc({
   receiveInvoiceAndQueryRoutes,
 
   startOnboarding,
+  startLndError,
   walletUnlockerStarted,
   receiveSeed,
   receiveSeedError,

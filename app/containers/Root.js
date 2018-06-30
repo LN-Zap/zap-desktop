@@ -99,7 +99,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     connectionMacaroon: stateProps.onboarding.connectionMacaroon,
     setConnectionHost: dispatchProps.setConnectionHost,
     setConnectionCert: dispatchProps.setConnectionCert,
-    setConnectionMacaroon: dispatchProps.setConnectionMacaroon
+    setConnectionMacaroon: dispatchProps.setConnectionMacaroon,
+    startLndHostError: stateProps.onboarding.startLndHostError,
+    startLndCertError: stateProps.onboarding.startLndCertError,
+    startLndMacaroonError: stateProps.onboarding.startLndMacaroonError
   }
 
   const aliasProps = {

@@ -36,6 +36,7 @@ export const ONBOARDING_FINISHED = 'ONBOARDING_FINISHED'
 
 export const STARTING_LND = 'STARTING_LND'
 export const LND_STARTED = 'LND_STARTED'
+export const SET_START_LND_ERROR = 'SET_START_LND_ERROR'
 
 export const CREATING_NEW_WALLET = 'CREATING_NEW_WALLET'
 
@@ -45,6 +46,7 @@ export const SET_UNLOCK_WALLET_ERROR = 'SET_UNLOCK_WALLET_ERROR'
 
 export const SET_SIGNUP_CREATE = 'SET_SIGNUP_CREATE'
 export const SET_SIGNUP_IMPORT = 'SET_SIGNUP_IMPORT'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -204,6 +206,11 @@ export const startOnboarding = () => dispatch => {
   dispatch({ type: ONBOARDING_STARTED })
 }
 
+// Listener for errors connecting to LND gRPC
+export const startLndError = (event, errors) => dispatch => {
+  dispatch({ type: SET_START_LND_ERROR, errors })
+}
+
 // Listener from after the LND walletUnlocker has started
 export const walletUnlockerStarted = () => dispatch => {
   dispatch({ type: LND_STARTED })
@@ -293,6 +300,13 @@ const ACTION_HANDLERS = {
 
   [STARTING_LND]: state => ({ ...state, startingLnd: true }),
   [LND_STARTED]: state => ({ ...state, startingLnd: false }),
+  [SET_START_LND_ERROR]: (state, { errors }) => ({
+    ...state,
+    startingLnd: false,
+    startLndHostError: errors.host,
+    startLndCertError: errors.cert,
+    startLndMacaroonError: errors.macaroon
+  }),
 
   [CREATING_NEW_WALLET]: state => ({ ...state, creatingNewWallet: true }),
 
@@ -366,7 +380,7 @@ export { onboardingSelectors }
 // Reducer
 // ------------------------------------
 const initialState = {
-  onboarded: true,
+  onboarded: false,
   step: 0.1,
   connectionType: store.get('type', ''),
   connectionHost: store.get('host', ''),
@@ -374,7 +388,11 @@ const initialState = {
   connectionMacaroon: store.get('macaroon', ''),
   alias: store.get('alias', ''),
   password: '',
+
   startingLnd: false,
+  startLndHostError: '',
+  startLndCertError: '',
+  startLndMacaroonError: '',
 
   fetchingSeed: false,
   hasSeed: false,

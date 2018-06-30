@@ -8,45 +8,57 @@ const ConnectionDetails = ({
   connectionMacaroon,
   setConnectionHost,
   setConnectionCert,
-  setConnectionMacaroon
+  setConnectionMacaroon,
+  startLndHostError,
+  startLndCertError,
+  startLndMacaroonError
 }) => (
   <div className={styles.container}>
-    <div>
+    <section className={styles.input}>
       <label htmlFor="connectionHost">Host:</label>
       <input
         type="text"
         id="connectionHost"
         placeholder="Hostname / Port of the Lnd gRPC interface"
-        className={styles.host}
+        className={`${styles.host} ${startLndHostError && styles.error}`}
         ref={input => input}
         value={connectionHost}
         onChange={event => setConnectionHost(event.target.value)}
       />
-    </div>
-    <div>
+      <p className={`${startLndHostError && styles.visible} ${styles.errorMessage}`}>
+        {startLndHostError}
+      </p>
+    </section>
+    <section className={styles.input}>
       <label htmlFor="connectionCert">TLS Certificate:</label>
       <input
         type="text"
         id="connectionCert"
         placeholder="Path to the lnd tls cert"
-        className={styles.cert}
+        className={`${styles.cert} ${startLndCertError && styles.error}`}
         ref={input => input}
         value={connectionCert}
         onChange={event => setConnectionCert(event.target.value)}
       />
-    </div>
-    <div>
+      <p className={`${startLndCertError && styles.visible} ${styles.errorMessage}`}>
+        {startLndCertError}
+      </p>
+    </section>
+    <section className={styles.input}>
       <label htmlFor="connectionMacaroon">Macaroon:</label>
       <input
         type="text"
         id="connectionMacaroon"
         placeholder="Path to the lnd macaroon file"
-        className={styles.macaroon}
+        className={`${styles.macaroon} ${startLndMacaroonError && styles.error}`}
         ref={input => input}
         value={connectionMacaroon}
         onChange={event => setConnectionMacaroon(event.target.value)}
       />
-    </div>
+      <p className={`${startLndMacaroonError && styles.visible} ${styles.errorMessage}`}>
+        {startLndMacaroonError}
+      </p>
+    </section>
   </div>
 )
 
@@ -56,7 +68,10 @@ ConnectionDetails.propTypes = {
   connectionMacaroon: PropTypes.string.isRequired,
   setConnectionHost: PropTypes.func.isRequired,
   setConnectionCert: PropTypes.func.isRequired,
-  setConnectionMacaroon: PropTypes.func.isRequired
+  setConnectionMacaroon: PropTypes.func.isRequired,
+  startLndHostError: PropTypes.string,
+  startLndCertError: PropTypes.string,
+  startLndMacaroonError: PropTypes.string
 }
 
 export default ConnectionDetails

@@ -20,8 +20,8 @@ class Neutrino extends EventEmitter {
     const lndConfig = config.lnd()
     mainLog.info('Starting lnd in neutrino mode')
     mainLog.debug(' > lndPath', lndConfig.lndPath)
-    mainLog.debug(' > lightningRpc:', lndConfig.lightningRpc)
-    mainLog.debug(' > lightningHost:', lndConfig.lightningHost)
+    mainLog.debug(' > rpcProtoPath:', lndConfig.rpcProtoPath)
+    mainLog.debug(' > host:', lndConfig.host)
     mainLog.debug(' > cert:', lndConfig.cert)
     mainLog.debug(' > macaroon:', lndConfig.macaroon)
 
