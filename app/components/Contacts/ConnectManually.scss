@@ -28,7 +28,6 @@
   }
 }
 
-
 .content {
   padding: 0 40px;
   font-family: Roboto;
@@ -96,7 +95,8 @@
   font-weight: 200;
 }
 
-.input input::-webkit-input-placeholder, ::-webkit-input-placeholder {
+.input input::-webkit-input-placeholder,
+::-webkit-input-placeholder {
   text-shadow: none;
   -webkit-text-fill-color: initial;
 }
@@ -136,4 +136,3 @@
     }
   }
 }
-

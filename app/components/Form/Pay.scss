@@ -57,7 +57,7 @@
     input {
       font-size: 20px;
       max-width: 150px;
-      border:1px solid #404040;
+      border: 1px solid #404040;
       border-radius: 4px;
       padding: 15px;
     }
@@ -76,7 +76,8 @@
   }
 
   .bottom {
-    input, textarea {
+    input,
+    textarea {
       background: transparent;
       outline: none;
       border: 1px solid #404040;
@@ -88,7 +89,8 @@
       padding: 10px;
     }
 
-    input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
       text-shadow: none;
       -webkit-text-fill-color: initial;
     }
@@ -111,12 +113,11 @@
 
       span {
         font-size: 14px;
-        
+
         &:nth-child(1) {
           font-weight: bold;
         }
       }
-
     }
 
     ul {

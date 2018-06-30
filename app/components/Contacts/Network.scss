@@ -59,7 +59,8 @@
     align-items: baseline;
     padding: 0 20px;
 
-    h2, h2 span {
+    h2,
+    h2 span {
       color: $white;
       cursor: pointer;
       transition: color 0.25s;
@@ -69,13 +70,14 @@
       }
     }
 
-    h2, .filters li {
+    h2,
+    .filters li {
       font-size: 12px;
     }
 
     .filters {
       display: none;
-      
+
       &.active {
         display: block;
         position: absolute;
@@ -216,7 +218,7 @@
 
     svg {
       width: 14px;
-      height:14px;
+      height: 14px;
     }
   }
 

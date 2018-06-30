@@ -13,7 +13,7 @@
   outline: none;
   z-index: -2;
   border: 1px solid $darkgrey;
-  
+
   header {
     display: flex;
     flex-direction: row;
@@ -21,7 +21,8 @@
     padding: 15px;
     border-bottom: 1px solid $darkgrey;
 
-    h1, svg {
+    h1,
+    svg {
       font-size: 22px;
     }
 
@@ -205,9 +206,8 @@
     &:nth-child(2) {
       margin-left: 2px;
     }
-
   }
-  
+
   .caption svg {
     font-size: 10px;
     color: $darkestgrey;

@@ -28,15 +28,17 @@
   }
 }
 
-.left, .right {
+.left,
+.right {
   display: inline-block;
   vertical-align: top;
   width: 50%;
   height: 150px;
 
-  .leftContent, .rightContent {
+  .leftContent,
+  .rightContent {
     padding: 25px 0;
-  }  
+  }
 }
 
 .leftContent {
@@ -159,7 +161,8 @@
   justify-content: flex-end;
   align-items: right;
 
-  .pay, .request {
+  .pay,
+  .request {
     font-size: 16px;
     font-weight: bold;
     color: $white;
@@ -180,7 +183,6 @@
       margin-right: 20px;
     }
   }
-
 }
 
 .notificationBox {
@@ -192,7 +194,7 @@
     vertical-align: middle;
     transition: all 0.25s;
   }
-  
+
   .spinner {
     height: 20px;
     width: 20px;
