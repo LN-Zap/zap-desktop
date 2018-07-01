@@ -3,6 +3,7 @@
 exports[`reducers infoReducer should correctly getInfo 1`] = `
 Object {
   "data": Object {},
+  "hasSynced": undefined,
   "infoLoading": true,
   "network": Object {},
   "showWalletCurrencyFilters": false,
@@ -12,6 +13,7 @@ Object {
 exports[`reducers infoReducer should correctly receiveInfo 1`] = `
 Object {
   "data": "foo",
+  "hasSynced": undefined,
   "infoLoading": false,
   "network": Object {
     "bitcoinJsNetwork": Object {
@@ -37,6 +39,7 @@ Object {
 exports[`reducers infoReducer should handle initial state 1`] = `
 Object {
   "data": Object {},
+  "hasSynced": undefined,
   "infoLoading": false,
   "network": Object {},
   "showWalletCurrencyFilters": false,

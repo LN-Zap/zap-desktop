@@ -13,7 +13,7 @@ import {
   updateSearchActive,
   updateSearchText
 } from 'reducers/activity'
-import { newAddress, openWalletModal } from 'reducers/address'
+import { walletAddress, openWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
 
 import { payFormSelectors } from 'reducers/payform'
@@ -33,7 +33,7 @@ const mapDispatchToProps = {
   hideActivityModal,
   changeFilter,
   toggleFilterPulldown,
-  newAddress,
+  walletAddress,
   openWalletModal,
   fetchBalance,
   updateSearchActive,
@@ -93,7 +93,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
     setCurrency: dispatchProps.setCurrency,
     setWalletCurrencyFilters: dispatchProps.setWalletCurrencyFilters,
-    newAddress: dispatchProps.newAddress,
+    walletAddress: dispatchProps.walletAddress,
     openReceiveModal: dispatchProps.openWalletModal,
     openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
     openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')

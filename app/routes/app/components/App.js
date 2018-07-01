@@ -21,7 +21,6 @@ class App extends Component {
     const {
       fetchTicker,
       fetchInfo,
-      newAddress,
       fetchChannels,
       fetchSuggestedNodes,
       fetchBalance,
@@ -32,8 +31,6 @@ class App extends Component {
     fetchTicker()
     // fetch node info
     fetchInfo()
-    // fetch new address for wallet
-    newAddress('np2wkh')
     // fetch nodes channels
     fetchChannels()
     // fetch suggested nodes list from zap.jackmallers.com/suggested-peers
@@ -108,7 +105,6 @@ App.propTypes = {
   receiveModalProps: PropTypes.object,
   channelFormProps: PropTypes.object,
 
-  newAddress: PropTypes.func.isRequired,
   fetchInfo: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,

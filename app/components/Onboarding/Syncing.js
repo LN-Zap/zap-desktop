@@ -9,21 +9,24 @@ import styles from './Syncing.scss'
 
 class Syncing extends Component {
   componentWillMount() {
-    const { fetchBlockHeight, blockHeight, newAddress } = this.props
+    const { fetchBlockHeight, blockHeight } = this.props
 
     // If we don't already know the target block height, fetch it now.
     if (!blockHeight) {
       fetchBlockHeight()
     }
-
-    newAddress('np2wkh')
   }
 
   render() {
-    const { syncPercentage, address, blockHeight, lndBlockHeight } = this.props
+    const { hasSynced, syncPercentage, address, blockHeight, lndBlockHeight } = this.props
+
     const copyClicked = () => {
       copy(address)
       showNotification('Noice', 'Successfully copied to clipboard')
+    }
+
+    if (typeof hasSynced === 'undefined') {
+      return null
     }
 
     return (
@@ -35,32 +38,49 @@ class Syncing extends Component {
             <Isvg className={styles.bitcoinLogo} src={zapLogo} />
           </header>
 
-          <div className={styles.title}>
-            <h1>Fund your Zap wallet</h1>
-            <p>Might as well fund your wallet while you&apos;re waiting to sync.</p>
-          </div>
-
-          {address.length ? (
-            <div className={styles.address}>
-              <div className={styles.qrConatiner}>
-                <QRCode
-                  value={address}
-                  renderAs="svg"
-                  size={100}
-                  bgColor="transparent"
-                  fgColor="white"
-                  level="L"
-                  className={styles.qrcode}
-                />
+          {hasSynced === true && (
+            <div>
+              <div className={styles.title}>
+                <h1>Welcome back to your Zap wallet!</h1>
+                <p>
+                  Please wait a while whilst we fetch all of your latest data from the blockchain.
+                </p>
               </div>
-              <section className={styles.textAddress}>
-                <span>{address}</span>
-                <span onClick={copyClicked}>copy</span>
-              </section>
+              <div className={styles.loading}>
+                <div className={styles.spinner} />
+              </div>
             </div>
-          ) : (
-            <div className={styles.loading}>
-              <div className={styles.spinner} />
+          )}
+
+          {hasSynced === false && (
+            <div>
+              <div className={styles.title}>
+                <h1>Fund your Zap wallet</h1>
+                <p>Might as well fund your wallet while you&apos;re waiting to sync.</p>
+              </div>
+              {address && address.length ? (
+                <div className={styles.address}>
+                  <div className={styles.qrConatiner}>
+                    <QRCode
+                      value={address}
+                      renderAs="svg"
+                      size={100}
+                      bgColor="transparent"
+                      fgColor="white"
+                      level="L"
+                      className={styles.qrcode}
+                    />
+                  </div>
+                  <section className={styles.textAddress}>
+                    <span>{address}</span>
+                    <span onClick={copyClicked}>copy</span>
+                  </section>
+                </div>
+              ) : (
+                <div className={styles.loading}>
+                  <div className={styles.spinner} />
+                </div>
+              )}
             </div>
           )}
 
@@ -93,8 +113,8 @@ class Syncing extends Component {
 
 Syncing.propTypes = {
   fetchBlockHeight: PropTypes.func.isRequired,
-  newAddress: PropTypes.func.isRequired,
   address: PropTypes.string.isRequired,
+  hasSynced: PropTypes.bool,
   syncPercentage: PropTypes.number,
   blockHeight: PropTypes.number,
   lndBlockHeight: PropTypes.number

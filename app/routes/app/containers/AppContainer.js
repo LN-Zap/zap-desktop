@@ -5,7 +5,7 @@ import { btc } from 'utils'
 
 import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
 
-import { newAddress, closeWalletModal } from 'reducers/address'
+import { closeWalletModal } from 'reducers/address'
 
 import { fetchInfo } from 'reducers/info'
 
@@ -79,7 +79,6 @@ const mapDispatchToProps = {
   fetchTicker,
   setCurrency,
 
-  newAddress,
   closeWalletModal,
 
   fetchInfo,
@@ -396,7 +395,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     pubkey: stateProps.info.data.identity_pubkey,
     address: stateProps.address.address,
     alias: stateProps.info.data.alias,
-    newAddress: dispatchProps.newAddress,
     closeReceiveModal: dispatchProps.closeWalletModal
   }
 
