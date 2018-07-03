@@ -61,14 +61,26 @@ class Neutrino extends EventEmitter {
         this.emit('wallet-opened')
       }
 
-      // LND is all caught up to the blockchain.
+      // LND syncing has started.
+      if (line.includes('Waiting for chain backend to finish sync')) {
+        this.emit('chain-sync-started')
+      }
+
+      // LND syncing has completed.
       if (line.includes('Chain backend is fully synced')) {
-        this.emit('fully-synced')
+        this.emit('chain-sync-finished')
       }
 
       // Pass current block height progress to front end for loading state UX
-      if (line.includes('Caught up to height') || line.includes('Catching up block hashes')) {
-        this.emit('got-block-height', line)
+      if (line.includes('Rescanned through block')) {
+        const height = line.match(/Rescanned through block.+\(height (\d*)/)[1]
+        this.emit('got-block-height', height)
+      } else if (line.includes('Caught up to height')) {
+        const height = line.match(/Caught up to height (\d*)/)[1]
+        this.emit('got-block-height', height)
+      } else if (line.includes('in the last')) {
+        const height = line.match(/Processed \d* blocks? in the last.+\(height (\d*)/)[1]
+        this.emit('got-block-height', height)
       }
     })
     return this.process

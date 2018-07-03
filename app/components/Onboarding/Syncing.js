@@ -16,8 +16,7 @@ class Syncing extends Component {
   }
 
   render() {
-    const { syncPercentage, address } = this.props
-
+    const { syncPercentage, address, blockHeight, lndBlockHeight } = this.props
     const copyClicked = () => {
       copy(address)
       showNotification('Noice', 'Successfully copied to clipboard')
@@ -66,14 +65,21 @@ class Syncing extends Component {
             <div className={styles.progressBar}>
               <div
                 className={styles.progress}
-                style={{ width: Number.isNaN(syncPercentage) ? 0 : `${syncPercentage}%` }}
+                style={{ width: syncPercentage ? `${syncPercentage}%` : 0 }}
               />
             </div>
             <h4>
-              {Number.isNaN(parseInt(syncPercentage, 10)) || syncPercentage.toString().length === 0
-                ? ''
-                : `${syncPercentage}%`}
+              {typeof syncPercentage === 'undefined' && 'Preparing...'}
+              {Boolean(syncPercentage >= 0 && syncPercentage < 99) && `${syncPercentage}%`}
+              {Boolean(syncPercentage >= 99) && 'Finalizing...'}
             </h4>
+            {Boolean(syncPercentage >= 0 && syncPercentage < 99) && (
+              <span className={styles.progressCounter}>
+                {Boolean(!blockHeight || !lndBlockHeight) && 'starting...'}
+                {Boolean(blockHeight && lndBlockHeight) &&
+                  `${lndBlockHeight.toLocaleString()} of ${blockHeight.toLocaleString()}`}
+              </span>
+            )}
           </section>
         </div>
       </div>
@@ -85,7 +91,9 @@ Syncing.propTypes = {
   fetchBlockHeight: PropTypes.func.isRequired,
   newAddress: PropTypes.func.isRequired,
   address: PropTypes.string.isRequired,
-  syncPercentage: PropTypes.oneOfType([PropTypes.number, PropTypes.string]).isRequired
+  syncPercentage: PropTypes.number,
+  blockHeight: PropTypes.number,
+  lndBlockHeight: PropTypes.number
 }
 
 export default Syncing

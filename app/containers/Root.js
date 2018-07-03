@@ -82,8 +82,9 @@ const mapStateToProps = state => ({
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const syncingProps = {
     fetchBlockHeight: dispatchProps.fetchBlockHeight,
+    blockHeight: stateProps.lnd.blockHeight,
+    lndBlockHeight: stateProps.lnd.lndBlockHeight,
     newAddress: dispatchProps.newAddress,
-
     syncPercentage: stateProps.syncPercentage,
     address: stateProps.address.address
   }
@@ -214,7 +215,7 @@ const Root = ({
   }
 
   // If we are syncing show the syncing screen
-  if (lnd.syncing) {
+  if (lnd.grpcStarted && lnd.syncing) {
     return <Syncing {...syncingProps} />
   }
 
