@@ -8,11 +8,11 @@
 
 .closeContainer {
   text-align: right;
-  padding: 20px 40px 0px;
+  padding: 20px 40px 0;
 
   span {
     cursor: pointer;
-    opacity: 1.0;
+    opacity: 1;
     transition: 0.25s all;
 
     &:hover {
@@ -39,7 +39,6 @@
     padding: 30px 40px;
 
     .header {
-      
       h2 {
         text-align: center;
       }
@@ -61,12 +60,12 @@
           }
 
           &.active {
-            opacity: 1.0;
+            opacity: 1;
           }
         }
       }
     }
-    
+
     .qrCodeContainer {
       text-align: center;
     }
@@ -78,7 +77,8 @@
     border-left: 1px solid $spaceborder;
     padding: 30px 40px;
 
-    .pubkey, .address {
+    .pubkey,
+    .address {
       padding: 25px;
 
       h4 {
@@ -90,17 +90,17 @@
         }
       }
     }
-    
+
     p {
       display: flex;
       flex-direction: row;
       align-items: center;
-      font-family: 'Roboto';
       font-size: 10px;
       font-weight: 200;
       background: $bluegrey;
 
-      .data, .copy {
+      .data,
+      .copy {
         padding: 15px;
       }
 
@@ -124,6 +124,6 @@
           width: 12px;
         }
       }
-    }    
+    }
   }
 }

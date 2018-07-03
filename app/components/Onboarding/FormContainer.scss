@@ -72,14 +72,12 @@
     .backButton {
       cursor: pointer;
       transition: all 0.25s;
-      padding: 10px 20px 10px 0px;
+      padding: 10px 20px 10px 0;
       text-align: center;
-      
+
       &:hover {
         opacity: 0.5;
       }
     }
-    
   }
 }
-

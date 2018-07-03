@@ -1,10 +1,9 @@
 @import '../../variables.scss';
 
 .modal {
-  position: relative;
+  position: absolute;
   width: 50%;
   margin: 50px auto;
-  position: absolute;
   top: auto;
   left: 0;
   right: 0;
@@ -13,7 +12,7 @@
   outline: none;
   z-index: -2;
   border: 1px solid $darkgrey;
-  
+
   header {
     display: flex;
     flex-direction: row;
@@ -21,7 +20,8 @@
     padding: 15px;
     border-bottom: 1px solid $darkgrey;
 
-    h1, svg {
+    h1,
+    svg {
       font-size: 22px;
     }
 
@@ -95,7 +95,6 @@
 
       .inactive {
         font-size: 12px;
-
         display: inline-block;
         vertical-align: top;
 
@@ -206,9 +205,8 @@
     &:nth-child(2) {
       margin-left: 2px;
     }
-
   }
-  
+
   .caption svg {
     font-size: 10px;
     color: $darkestgrey;
@@ -245,9 +243,6 @@
   -webkit-border-radius: 999px;
   -moz-border-radius: 999px;
   border-radius: 999px;
-}
-
-.spinner {
   margin: 0 auto;
   height: 20px;
   width: 20px;

@@ -1,7 +1,5 @@
 @import '../../variables.scss';
 
-@import '../../variables.scss';
-
 .container {
   color: $white;
   font-size: 12px;
@@ -38,7 +36,7 @@
 
       div:nth-child(1) {
         margin-bottom: 5px;
-      } 
+      }
 
       svg {
         width: 12px;
@@ -76,13 +74,13 @@
     &:hover {
       span {
         opacity: 0.5;
-      }  
+      }
     }
 
     span {
       transition: all 0.25s;
     }
-    
+
     ul {
       visibility: hidden;
       position: absolute;

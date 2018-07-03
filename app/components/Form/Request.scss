@@ -2,7 +2,6 @@
 
 .container {
   padding: 0 40px;
-  font-family: Roboto;
   margin: 0 auto;
   width: 500px;
 }
@@ -37,7 +36,7 @@
     input {
       font-size: 20px;
       max-width: 150px;
-      border:1px solid #404040;
+      border: 1px solid #404040;
       border-radius: 4px;
       padding: 15px;
     }
@@ -59,7 +58,7 @@
     input {
       background: transparent;
       outline: none;
-      border:1px solid #404040;
+      border: 1px solid #404040;
       border-radius: 4px;
       color: $gold;
       -webkit-text-fill-color: $white;
@@ -92,12 +91,11 @@
 
       span {
         font-size: 14px;
-        
+
         &:nth-child(1) {
           font-weight: bold;
         }
       }
-
     }
 
     ul {
@@ -144,7 +142,7 @@
 
       &.active {
         background: $gold;
-        opacity: 1.0;
+        opacity: 1;
 
         &:hover {
           background: darken($gold, 5%);
@@ -153,4 +151,3 @@
     }
   }
 }
-

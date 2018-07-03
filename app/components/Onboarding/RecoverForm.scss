@@ -29,8 +29,6 @@
   }
 }
 
-
-
 .word {
   margin: 0 3px;
   background-color: #1c1e26;
@@ -38,8 +36,7 @@
   border: none;
   padding: 5px 10px;
   color: $white;
-  font-family: courier;
-  font-family: 'Courier';
+  font-family: 'Courier', courier, sans-serif;
 
   &.valid {
     color: $green;

@@ -60,12 +60,11 @@
 
           span {
             font-size: 14px;
-            
+
             &:nth-child(1) {
               font-weight: bold;
             }
           }
-
         }
 
         ul {
@@ -97,13 +96,14 @@
         text-align: right;
 
         .notPaid {
-          color: #FF8A65;
+          color: #ff8a65;
           margin-top: 5px;
         }
       }
     }
 
-    .memo, .request {
+    .memo,
+    .request {
       h4 {
         font-size: 10px;
         margin-bottom: 10px;

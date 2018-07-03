@@ -20,7 +20,7 @@
       margin-left: 5px;
     }
   }
-  
+
   .closeContainer {
     background: $lightgrey;
     line-height: 12px;
@@ -36,7 +36,10 @@
   margin-bottom: 30px;
   padding: 0 20px;
 
-  .pay, .receive, .sent, .received {
+  .pay,
+  .receive,
+  .sent,
+  .received {
     margin: 40px 0;
   }
 }
@@ -59,11 +62,9 @@
     color: $darkestgrey;
     font-weight: 100;
   }
-
 }
 
 .stats {
-
   h4 {
     color: $secondary;
     font-weight: bold;
@@ -79,7 +80,8 @@
     color: $darkestgrey;
   }
 
-  .meter, .amount {
+  .meter,
+  .amount {
     height: 10px;
     border-radius: 10px;
   }
@@ -139,9 +141,6 @@
   -webkit-border-radius: 999px;
   -moz-border-radius: 999px;
   border-radius: 999px;
-}
-
-.spinner {
   margin: 0 auto;
   height: 20px;
   width: 20px;

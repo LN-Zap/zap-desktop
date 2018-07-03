@@ -28,15 +28,17 @@
   }
 }
 
-.left, .right {
+.left,
+.right {
   display: inline-block;
   vertical-align: top;
   width: 50%;
   height: 150px;
 
-  .leftContent, .rightContent {
+  .leftContent,
+  .rightContent {
     padding: 25px 0;
-  }  
+  }
 }
 
 .leftContent {
@@ -109,7 +111,7 @@
 
           li {
             font-size: 12px;
-            padding: 0px 15px;
+            padding: 0 15px;
             background: #191919;
             cursor: pointer;
             transition: 0.25s hover;
@@ -159,11 +161,12 @@
   justify-content: flex-end;
   align-items: right;
 
-  .pay, .request {
+  .pay,
+  .request {
     font-size: 16px;
     font-weight: bold;
     color: $white;
-    background: #31343F;
+    background: #31343f;
     padding: 10px;
     width: 100px;
     text-align: center;
@@ -180,7 +183,6 @@
       margin-right: 20px;
     }
   }
-
 }
 
 .notificationBox {
@@ -192,7 +194,7 @@
     vertical-align: middle;
     transition: all 0.25s;
   }
-  
+
   .spinner {
     height: 20px;
     width: 20px;
