@@ -1,6 +1,7 @@
 import * as walletController from '../methods/walletController'
 
 export default function(walletUnlocker, log, event, msg, data) {
+  log.info(`Calling walletUnlocker method '${msg}'`)
   switch (msg) {
     case 'genSeed':
       walletController
