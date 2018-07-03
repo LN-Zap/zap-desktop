@@ -45,7 +45,7 @@ class ZapController {
     this._registerIpcListeners()
 
     // Show the window as soon as the application has finished loading.
-    this.mainWindow.webContents.on('did-finish-load', async () => {
+    this.mainWindow.webContents.on('did-finish-load', () => {
       this.mainWindow.show()
       this.mainWindow.focus()
       mainLog.timeEnd('Time until app is visible')
@@ -155,9 +155,9 @@ class ZapController {
       this.startWalletUnlocker()
     })
 
-    this.neutrino.on('wallet-opened', async () => {
+    this.neutrino.on('wallet-opened', () => {
       mainLog.info('Wallet opened')
-      await this.startGrpc()
+      this.startGrpc()
       this.sendMessage('lndSyncing')
     })
 
@@ -177,7 +177,7 @@ class ZapController {
    * Add IPC event listeners...
    */
   _registerIpcListeners() {
-    ipcMain.on('startLnd', async (event, options = {}) => {
+    ipcMain.on('startLnd', (event, options = {}) => {
       // Trim any user supplied strings.
       const cleanOptions = Object.keys(options).reduce((previous, current) => {
         previous[current] =
@@ -203,7 +203,7 @@ class ZapController {
         mainLog.debug(' > host:', cleanOptions.host)
         mainLog.debug(' > cert:', cleanOptions.cert)
         mainLog.debug(' > macaroon:', cleanOptions.macaroon)
-        await this.startGrpc()
+        this.startGrpc()
           .then(() => this.sendMessage('successfullyCreatedWallet'))
           .catch(e => {
             const errors = {}
