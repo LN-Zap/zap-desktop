@@ -26,20 +26,23 @@ class Countdown extends React.Component {
   }
 
   componentWillUnmount() {
+    const { interval } = this.state
     // use interval from the state to clear the interval
-    clearInterval(this.state.interval)
+    clearInterval(interval)
   }
 
   timerInterval() {
     const convertTwoDigits = n => (n > 9 ? n : `0${n}`.slice(-2))
 
     const now = new Date().getTime()
-    const countDownSeconds = this.props.countDownDate * 1000
+    const { countDownDate } = this.props
+    const countDownSeconds = countDownDate * 1000
     const distance = countDownSeconds - now
 
     if (distance <= 0) {
       this.setState({ expired: true })
-      clearInterval(this.state.interval)
+      const { interval } = this.state
+      clearInterval(interval)
       return
     }
 

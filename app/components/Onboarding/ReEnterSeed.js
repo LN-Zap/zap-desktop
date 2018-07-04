@@ -4,7 +4,8 @@ import styles from './ReEnterSeed.scss'
 
 class ReEnterSeed extends React.Component {
   componentWillMount() {
-    this.props.setReEnterSeedIndexes()
+    const { setReEnterSeedIndexes } = this.props
+    setReEnterSeedIndexes()
   }
 
   render() {

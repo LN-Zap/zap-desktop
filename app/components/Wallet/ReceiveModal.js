@@ -26,7 +26,8 @@ class ReceiveModal extends React.Component {
     }
 
     const changeQrCode = () => {
-      if (this.state.qrCodeType === 1) {
+      const { qrCodeType } = this.state
+      if (qrCodeType === 1) {
         this.setState({ qrCodeType: 2 })
       } else {
         this.setState({ qrCodeType: 1 })
