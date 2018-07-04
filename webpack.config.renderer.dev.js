@@ -298,6 +298,16 @@ export default merge.smart(baseConfig, {
         target: 'https://testnet-api.smartbit.com.au',
         pathRewrite: { '^/proxy/testnet-api.smartbit.com.au': '' },
         changeOrigin: true
+      },
+      '/proxy/tchain.api.btc.com': {
+        target: 'https://tchain.api.btc.com',
+        pathRewrite: { '^/proxy/tchain.api.btc.com': '' },
+        changeOrigin: true
+      },
+      '/proxy/api.blockcypher.com': {
+        target: 'https://api.blockcypher.com',
+        pathRewrite: { '^/proxy/api.blockcypher.com': '' },
+        changeOrigin: true
       }
     },
     historyApiFallback: {
