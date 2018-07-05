@@ -9,9 +9,13 @@ import styles from './Syncing.scss'
 
 class Syncing extends Component {
   componentWillMount() {
-    const { fetchBlockHeight, newAddress } = this.props
+    const { fetchBlockHeight, blockHeight, newAddress } = this.props
 
-    fetchBlockHeight()
+    // If we don't already know the target block height, fetch it now.
+    if (!blockHeight) {
+      fetchBlockHeight()
+    }
+
     newAddress('np2wkh')
   }
 

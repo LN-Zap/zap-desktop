@@ -1,5 +1,12 @@
 import createIpc from 'redux-electron-ipc'
-import { lndSyncing, lndSynced, lndBlockHeight, grpcDisconnected, grpcConnected } from './lnd'
+import {
+  lndSyncing,
+  lndSynced,
+  lndBlockHeightTarget,
+  lndBlockHeight,
+  grpcDisconnected,
+  grpcConnected
+} from './lnd'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
 import { receiveCryptocurrency } from './ticker'
@@ -53,6 +60,7 @@ import {
 const ipc = createIpc({
   lndSyncing,
   lndSynced,
+  lndBlockHeightTarget,
   lndBlockHeight,
   grpcDisconnected,
   grpcConnected,

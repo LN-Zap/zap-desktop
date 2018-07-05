@@ -52,6 +52,10 @@ export const lndBlockHeight = (event, height) => dispatch => {
   dispatch({ type: RECEIVE_BLOCK, lndBlockHeight: height })
 }
 
+export const lndBlockHeightTarget = (event, height) => dispatch => {
+  dispatch({ type: RECEIVE_BLOCK_HEIGHT, blockHeight: height })
+}
+
 export function getBlockHeight() {
   return {
     type: GET_BLOCK_HEIGHT
