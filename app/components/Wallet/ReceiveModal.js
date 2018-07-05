@@ -56,10 +56,16 @@ class ReceiveModal extends React.Component {
               <h2>{alias && alias.length ? alias : pubkey.substring(0, 10)}</h2>
 
               <div className={styles.qrCodeOptions}>
-                <div className={qrCodeType === 1 && styles.active} onClick={changeQrCode}>
+                <div
+                  className={qrCodeType === 1 ? styles.active : undefined}
+                  onClick={changeQrCode}
+                >
                   Node Pubkey
                 </div>
-                <div className={qrCodeType === 2 && styles.active} onClick={changeQrCode}>
+                <div
+                  className={qrCodeType === 2 ? styles.active : undefined}
+                  onClick={changeQrCode}
+                >
                   Bitcoin Address
                 </div>
               </div>

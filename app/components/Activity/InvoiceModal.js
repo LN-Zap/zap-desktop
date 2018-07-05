@@ -69,7 +69,7 @@ const InvoiceModal = ({
                   <FaAngleDown />
                 </span>
               </section>
-              <ul className={showCurrencyFilters && styles.active}>
+              <ul className={showCurrencyFilters ? styles.active : undefined}>
                 {currentCurrencyFilters.map(filter => (
                   <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
                     {filter.name}
@@ -81,7 +81,7 @@ const InvoiceModal = ({
               <p>
                 <Moment format="MM/DD/YYYY">{invoice.creation_date * 1000}</Moment>
               </p>
-              <p className={styles.notPaid}>{!invoice.settled && 'Not Paid'}</p>
+              {!invoice.settled && <p className={styles.notPaid}>Not Paid</p>}
             </section>
           </div>
 

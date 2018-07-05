@@ -75,7 +75,7 @@ const Wallet = ({
                       <FaAngleDown />
                     </span>
 
-                    <ul className={info.showWalletCurrencyFilters && styles.active}>
+                    <ul className={info.showWalletCurrencyFilters ? styles.active : undefined}>
                       {currentCurrencyFilters.map(filter => (
                         <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
                           {filter.name}

@@ -7,7 +7,7 @@ const Login = ({ password, updatePassword, unlockingWallet, unlockWallet, unlock
     <input
       type="password"
       placeholder="Password"
-      className={`${styles.password} ${unlockWalletError.isError && styles.inputError}`}
+      className={`${styles.password} ${unlockWalletError.isError ? styles.inputError : undefined}`}
       ref={input => input && input.focus()}
       value={password}
       onChange={event => updatePassword(event.target.value)}
@@ -17,14 +17,14 @@ const Login = ({ password, updatePassword, unlockingWallet, unlockWallet, unlock
         }
       }}
     />
-    <p className={`${unlockWalletError.isError && styles.active} ${styles.error}`}>
+    <p className={`${unlockWalletError.isError ? styles.active : undefined} ${styles.error}`}>
       {unlockWalletError.message}
     </p>
 
     <section className={styles.buttons}>
       <div>
         <span
-          className={`${!unlockingWallet && styles.active} ${styles.button}`}
+          className={`${!unlockingWallet ? styles.active : undefined} ${styles.button}`}
           onClick={() => unlockWallet(password)}
         >
           {unlockingWallet ? <i className={styles.spinner} /> : 'Unlock'}

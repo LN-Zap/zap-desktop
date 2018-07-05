@@ -180,11 +180,11 @@ class Network extends Component {
               <section>
                 <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
                   {filter.name}{' '}
-                  <span className={filterPulldown && styles.pulldown}>
+                  <span className={filterPulldown ? styles.pulldown : undefined}>
                     <FaAngleDown />
                   </span>
                 </h2>
-                <ul className={`${styles.filters} ${filterPulldown && styles.active}`}>
+                <ul className={`${styles.filters} ${filterPulldown ? styles.active : undefined}`}>
                   {nonActiveFilters.map(f => (
                     <li key={f.key} onClick={() => changeFilter(f)}>
                       {f.name}
@@ -208,7 +208,7 @@ class Network extends Component {
             <SuggestedNodes {...suggestedNodesProps} />
           )}
 
-          <ul className={filterPulldown && styles.fade}>
+          <ul className={filterPulldown ? styles.fade : undefined}>
             {loadingChannelPubkeys.length > 0 &&
               loadingChannelPubkeys.map(loadingPubkey => {
                 // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
@@ -242,8 +242,9 @@ class Network extends Component {
                 return (
                   <li
                     key={index}
-                    className={`${styles.channel} ${selectedChannel === channel &&
-                      styles.selectedChannel}`}
+                    className={`${styles.channel} ${
+                      selectedChannel === channel ? styles.selectedChannel : undefined
+                    }`}
                     onClick={() => channelClicked(channel)}
                   >
                     <section className={styles.channelTitle}>

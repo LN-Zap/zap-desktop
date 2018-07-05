@@ -46,7 +46,7 @@ const PaymentModal = ({
 
     <div className={styles.amount}>
       <h1>
-        <i className={`${styles.symbol} ${payment.value > 0 && styles.active}`}>-</i>
+        <i className={`${styles.symbol} ${payment.value > 0 ? styles.active : undefined}`}>-</i>
         <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
       </h1>
       <section
@@ -57,7 +57,7 @@ const PaymentModal = ({
         <span>
           <FaAngleDown />
         </span>
-        <ul className={showCurrencyFilters && styles.active}>
+        <ul className={showCurrencyFilters ? styles.active : undefined}>
           {currentCurrencyFilters.map(filter => (
             <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
               {filter.name}

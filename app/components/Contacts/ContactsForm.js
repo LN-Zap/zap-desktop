@@ -208,7 +208,9 @@ class ContactsForm extends React.Component {
               </section>
 
               <section
-                className={`${styles.errorMessage} ${showErrors.manualInput && styles.active}`}
+                className={`${styles.errorMessage} ${
+                  showErrors.manualInput ? styles.active : undefined
+                }`}
               >
                 {showErrors.manualInput && (
                   <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>
