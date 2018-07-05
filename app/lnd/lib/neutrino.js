@@ -10,6 +10,14 @@ class Neutrino extends EventEmitter {
     this.alias = alias
     this.autopilot = autopilot
     this.process = null
+    this.state = {
+      grpcProxyStarted: false,
+      walletOpened: false,
+      chainSyncStarted: false,
+      chainSyncFinished: false,
+      currentBlockHeight: null,
+      targetBlockHeight: null
+    }
   }
 
   start() {
@@ -52,25 +60,58 @@ class Neutrino extends EventEmitter {
       }
 
       // gRPC started.
-      if (line.includes('gRPC proxy started') && line.includes('password')) {
-        this.emit('grpc-proxy-started')
+      if (!this.state.grpcProxyStarted) {
+        if (line.includes('gRPC proxy started') && line.includes('password')) {
+          this.state.grpcProxyStarted = true
+          this.emit('grpc-proxy-started')
+        }
       }
 
       // Wallet opened.
-      if (line.includes('gRPC proxy started') && !line.includes('password')) {
-        this.emit('wallet-opened')
+      if (!this.state.walletOpened) {
+        if (line.includes('gRPC proxy started') && !line.includes('password')) {
+          this.state.walletOpened = true
+          this.emit('wallet-opened')
+        }
       }
 
-      // LND is all caught up to the blockchain.
-      if (line.includes('Chain backend is fully synced')) {
-        this.emit('fully-synced')
+      // LND syncing has started.
+      if (!this.state.chainSyncStarted) {
+        if (line.includes('Syncing to block height')) {
+          const height = line.match(/Syncing to block height (\d+)/)[1]
+          this.state.chainSyncStarted = true
+          this.state.targetBlockHeight = height
+          this.emit('chain-sync-started')
+          this.emit('got-final-block-height', height)
+        }
+      }
+
+      // LND syncing has completed.
+      if (!this.state.chainSyncFinished) {
+        if (line.includes('Chain backend is fully synced')) {
+          this.state.chainSyncFinished = true
+          this.emit('chain-sync-finished')
+        }
       }
 
       // Pass current block height progress to front end for loading state UX
-      if (line.includes('Caught up to height') || line.includes('Catching up block hashes')) {
-        this.emit('got-block-height', line)
+      if (this.state.chainSyncStarted) {
+        if (line.includes('Downloading headers for blocks')) {
+          const height = line.match(/Downloading headers for blocks (\d+) to \d+/)[1]
+          this.emit('got-current-block-height', height)
+        } else if (line.includes('Rescanned through block')) {
+          const height = line.match(/Rescanned through block.+\(height (\d+)/)[1]
+          this.emit('got-current-block-height', height)
+        } else if (line.includes('Caught up to height')) {
+          const height = line.match(/Caught up to height (\d+)/)[1]
+          this.emit('got-current-block-height', height)
+        } else if (line.includes('in the last')) {
+          const height = line.match(/Processed \d* blocks? in the last.+\(height (\d+)/)[1]
+          this.emit('got-current-block-height', height)
+        }
       }
     })
+
     return this.process
   }
 

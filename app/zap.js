@@ -158,16 +158,24 @@ class ZapController {
     this.neutrino.on('wallet-opened', () => {
       mainLog.info('Wallet opened')
       this.startGrpc()
+    })
+
+    this.neutrino.on('chain-sync-started', () => {
+      mainLog.info('Neutrino sync started')
       this.sendMessage('lndSyncing')
     })
 
-    this.neutrino.on('fully-synced', () => {
-      mainLog.info('Neutrino fully synced')
+    this.neutrino.on('chain-sync-finished', () => {
+      mainLog.info('Neutrino sync finished')
       this.sendMessage('lndSynced')
     })
 
-    this.neutrino.on('got-block-height', line => {
-      this.sendMessage('lndStdout', line)
+    this.neutrino.on('got-final-block-height', height => {
+      this.sendMessage('lndBlockHeightTarget', Number(height))
+    })
+
+    this.neutrino.on('got-current-block-height', height => {
+      this.sendMessage('lndBlockHeight', Number(height))
     })
 
     this.neutrino.start()
