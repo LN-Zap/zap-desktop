@@ -7,7 +7,11 @@ debugLogger.inspectOptions = {
 
 // Enable all zap logs if DEBUG has not been explicitly set.
 if (!process.env.DEBUG) {
-  debugLogger.debug.enable('zap:*')
+  // debugLogger.debug.enable('zap:*')
+  process.env.DEBUG = 'zap:*'
+}
+if (!process.env.DEBUG_LEVEL) {
+  process.env.DEBUG_LEVEL = 'info'
 }
 
 // Method to configure a logger instance with a specific namespace suffix.
