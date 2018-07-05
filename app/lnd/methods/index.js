@@ -18,6 +18,7 @@ import * as networkController from './networkController'
 // TODO - DeleteAllPayments
 
 export default function(lnd, log, event, msg, data) {
+  log.info(`Calling lnd method: %o`, { msg, data })
   switch (msg) {
     case 'info':
       networkController
