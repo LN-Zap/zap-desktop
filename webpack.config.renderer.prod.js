@@ -159,7 +159,9 @@ export default merge.smart(baseConfig, {
         "'self'",
         'https://api.coinmarketcap.com',
         'https://zap.jackmallers.com',
-        'https://testnet-api.smartbit.com.au'
+        'https://testnet-api.smartbit.com.au',
+        'https://tchain.api.btc.com',
+        'https://api.blockcypher.com'
       ],
       'script-src': ["'self'"],
       'font-src': [

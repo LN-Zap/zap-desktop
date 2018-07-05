@@ -29,11 +29,33 @@ export function requestTickers(ids) {
 }
 
 export function requestBlockHeight() {
-  const BASE_URL = `${scheme}testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`
-  return axios({
-    method: 'get',
-    url: BASE_URL
-  }).then(response => response.data)
+  const sources = [
+    {
+      baseUrl: `${scheme}testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
+      path: 'blocks[0].height'
+    },
+    {
+      baseUrl: `${scheme}tchain.api.btc.com/v3/block/latest`,
+      path: 'data.height'
+    },
+    {
+      baseUrl: `${scheme}api.blockcypher.com/v1/btc/test3`,
+      path: 'height'
+    }
+  ]
+  const fetchData = (baseUrl, path) => {
+    return axios({
+      method: 'get',
+      timeout: 5000,
+      url: baseUrl
+    })
+      .then(response => path.split('.').reduce((a, b) => a[b], response.data))
+      .catch(() => null)
+  }
+
+  const promises = []
+  sources.forEach(source => promises.push(fetchData(source.baseUrl, source.path)))
+  return Promise.race(promises)
 }
 
 export function requestSuggestedNodes() {
