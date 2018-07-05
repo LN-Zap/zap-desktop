@@ -5,8 +5,9 @@ import styles from './GlobalError.scss'
 
 class GlobalError extends React.Component {
   componentDidUpdate(prevProps) {
-    if (!prevProps.error && this.props.error) {
-      setTimeout(this.props.clearError, 10000)
+    const { clearError, error } = this.props
+    if (!prevProps.error && error) {
+      setTimeout(clearError, 10000)
     }
   }
 

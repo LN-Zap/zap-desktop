@@ -149,7 +149,7 @@ class Network extends Component {
     }
 
     const usdAmount = btc.satoshisToUsd(balance.channelBalance, currentTicker.price_usd)
-
+    const { refreshing } = this.state
     return (
       <div className={styles.network}>
         <header className={styles.header}>
@@ -202,7 +202,7 @@ class Network extends Component {
                     this.repeat = ref
                   }}
                 >
-                  {this.state.refreshing ? <FaRepeat /> : 'Refresh'}
+                  {refreshing ? <FaRepeat /> : 'Refresh'}
                 </span>
               </section>
             </header>
