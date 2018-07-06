@@ -1,7 +1,8 @@
+import Store from 'electron-store'
 import { createSelector } from 'reselect'
 import { fetchTicker } from './ticker'
 import { fetchBalance } from './balance'
-import { fetchInfo } from './info'
+import { fetchInfo, setHasSynced } from './info'
 import { requestBlockHeight } from '../api'
 import { showNotification } from '../notifications'
 // ------------------------------------
@@ -25,13 +26,22 @@ export const GRPC_CONNECTED = 'GRPC_CONNECTED'
 export const lndSyncing = () => dispatch => dispatch({ type: START_SYNCING })
 
 // Receive IPC event for LND stoping sync
-export const lndSynced = () => dispatch => {
+export const lndSynced = () => (dispatch, getState) => {
+  // Persist the fact that the wallet has been synced at least once.
+  const state = getState()
+  const pubKey = state.info.data.identity_pubkey
+  if (pubKey) {
+    const store = new Store({ name: 'wallet' })
+    store.set(`${pubKey}.hasSynced`, true)
+  }
+
+  dispatch({ type: STOP_SYNCING })
+  dispatch(setHasSynced(true))
+
   // Fetch data now that we know LND is synced
   dispatch(fetchTicker())
   dispatch(fetchBalance())
   dispatch(fetchInfo())
-
-  dispatch({ type: STOP_SYNCING })
 
   // HTML 5 desktop notification for the new transaction
   const notifTitle = 'Lightning Node Synced'

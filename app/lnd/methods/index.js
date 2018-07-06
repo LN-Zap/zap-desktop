@@ -60,7 +60,7 @@ export default function(lnd, log, event, msg, data) {
       // Data looks like { address: '' }
       walletController
         .newAddress(lnd, data.type)
-        .then(({ address }) => event.sender.send('receiveAddress', address))
+        .then(({ address }) => event.sender.send('receiveAddress', { type: data.type, address }))
         .catch(error => log.error('newaddress:', error))
       break
     case 'setAlias':

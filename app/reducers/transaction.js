@@ -58,8 +58,20 @@ export const fetchTransactions = () => dispatch => {
 }
 
 // Receive IPC event for payments
-export const receiveTransactions = (event, { transactions }) => dispatch =>
+export const receiveTransactions = (event, { transactions }) => (dispatch, getState) => {
   dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
+
+  // If our current wallet address has been used, generate a new one.
+  const state = getState()
+  const currentAddress = state.address.address
+  let usedAddresses = []
+  transactions.forEach(transaction => {
+    usedAddresses = usedAddresses.concat(transaction.dest_addresses)
+  })
+  if (usedAddresses.includes(currentAddress)) {
+    dispatch(newAddress('np2wkh'))
+  }
+}
 
 export const sendCoins = ({ value, addr, currency }) => dispatch => {
   // backend needs amount in satoshis no matter what currency we are using

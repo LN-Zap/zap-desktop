@@ -32,7 +32,7 @@ import {
   setReEnterSeedIndexes
 } from '../reducers/onboarding'
 import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
-import { newAddress } from '../reducers/address'
+import { walletAddress } from '../reducers/address'
 import Routes from '../routes'
 
 const mapDispatchToProps = {
@@ -54,7 +54,7 @@ const mapDispatchToProps = {
   unlockWallet,
   setSignupCreate,
   setSignupImport,
-  newAddress,
+  walletAddress,
   updateReEnterSeedInput,
   updateRecoverSeedInput,
   setReEnterSeedIndexes,
@@ -66,6 +66,7 @@ const mapStateToProps = state => ({
   lnd: state.lnd,
   onboarding: state.onboarding,
   address: state.address,
+  info: state.info,
 
   syncPercentage: lndSelectors.syncPercentage(state),
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
@@ -84,7 +85,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     fetchBlockHeight: dispatchProps.fetchBlockHeight,
     blockHeight: stateProps.lnd.blockHeight,
     lndBlockHeight: stateProps.lnd.lndBlockHeight,
-    newAddress: dispatchProps.newAddress,
+    hasSynced: stateProps.info.hasSynced,
     syncPercentage: stateProps.syncPercentage,
     address: stateProps.address.address
   }

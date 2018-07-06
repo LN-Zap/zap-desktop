@@ -1,6 +1,8 @@
+import Store from 'electron-store'
 import bitcoin from 'bitcoinjs-lib'
 
 import { ipcRenderer } from 'electron'
+import { walletAddress } from './address'
 
 // ------------------------------------
 // Constants
@@ -8,6 +10,7 @@ import { ipcRenderer } from 'electron'
 export const GET_INFO = 'GET_INFO'
 export const RECEIVE_INFO = 'RECEIVE_INFO'
 export const SET_WALLET_CURRENCY_FILTERS = 'SET_WALLET_CURRENCY_FILTERS'
+export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
 
 // ------------------------------------
 // Actions
@@ -25,6 +28,13 @@ export function setWalletCurrencyFilters(showWalletCurrencyFilters) {
   }
 }
 
+export const setHasSynced = hasSynced => {
+  return {
+    type: SET_HAS_SYNCED,
+    hasSynced
+  }
+}
+
 // Send IPC event for getinfo
 export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
@@ -32,8 +42,20 @@ export const fetchInfo = () => async dispatch => {
 }
 
 // Receive IPC event for info
-export const receiveInfo = (event, data) => dispatch => {
+export const receiveInfo = (event, data) => (dispatch, getState) => {
   dispatch({ type: RECEIVE_INFO, data })
+
+  // Now that we have the node info, get the current wallet address.
+  dispatch(walletAddress('np2wkh'))
+
+  // Determine the node's current sync state.
+  const state = getState()
+  if (typeof state.info.hasSynced === 'undefined') {
+    const store = new Store({ name: 'wallet' })
+    const hasSynced = store.get(`${data.identity_pubkey}.hasSynced`, false)
+    store.set(`${data.identity_pubkey}.hasSynced`, hasSynced)
+    dispatch(setHasSynced(hasSynced))
+  }
 }
 
 const networks = {
@@ -57,6 +79,10 @@ const networks = {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_HAS_SYNCED]: (state, { hasSynced }) => ({
+    ...state,
+    hasSynced
+  }),
   [GET_INFO]: state => ({ ...state, infoLoading: true }),
   [RECEIVE_INFO]: (state, { data }) => ({
     ...state,
@@ -75,6 +101,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   infoLoading: false,
+  hasSynced: undefined,
   network: {},
   data: {},
   showWalletCurrencyFilters: false
