@@ -7,10 +7,11 @@ import { showNotification } from '../notifications'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const START_SYNCING = 'START_SYNCING'
-export const STOP_SYNCING = 'STOP_SYNCING'
+export const SET_SYNC_STATUS_PENDING = 'SET_SYNC_STATUS_PENDING'
+export const SET_SYNC_STATUS_WAITING = 'SET_SYNC_STATUS_WAITING'
+export const SET_SYNC_STATUS_IN_PROGRESS = 'SET_SYNC_STATUS_IN_PROGRESS'
+export const SET_SYNC_STATUS_COMPLETE = 'SET_SYNC_STATUS_COMPLETE'
 
-export const GET_BLOCK_HEIGHT = 'GET_BLOCK_HEIGHT'
 export const RECEIVE_BLOCK_HEIGHT = 'RECEIVE_BLOCK_HEIGHT'
 export const RECEIVE_BLOCK = 'RECEIVE_BLOCK'
 
@@ -21,11 +22,11 @@ export const GRPC_CONNECTED = 'GRPC_CONNECTED'
 // Actions
 // ------------------------------------
 
-// Receive IPC event for LND starting its syncing process
-export const lndSyncing = () => dispatch => dispatch({ type: START_SYNCING })
+// Receive IPC event for LND sync status change.
+export const lndSyncStatus = (event, status) => (dispatch, getState) => {
+  const notifTitle = 'Lightning Node Synced'
+  const notifBody = "Visa who? You're your own payment processor now!"
 
-// Receive IPC event for LND stoping sync
-export const lndSynced = () => (dispatch, getState) => {
   // Persist the fact that the wallet has been synced at least once.
   const state = getState()
   const pubKey = state.info.data.identity_pubkey
@@ -34,19 +35,29 @@ export const lndSynced = () => (dispatch, getState) => {
     store.set(`${pubKey}.hasSynced`, true)
   }
 
-  dispatch({ type: STOP_SYNCING })
-  dispatch(setHasSynced(true))
+  switch (status) {
+    case 'waiting':
+      dispatch({ type: SET_SYNC_STATUS_WAITING })
+      break
+    case 'in-progress':
+      dispatch({ type: SET_SYNC_STATUS_IN_PROGRESS })
+      break
+    case 'complete':
+      dispatch({ type: SET_SYNC_STATUS_COMPLETE })
 
-  // Fetch data now that we know LND is synced
-  dispatch(fetchTicker())
-  dispatch(fetchBalance())
-  dispatch(fetchInfo())
+      dispatch(setHasSynced(true))
 
-  // HTML 5 desktop notification for the new transaction
-  const notifTitle = 'Lightning Node Synced'
-  const notifBody = "Visa who? You're your own payment processor now!"
+      // Fetch data now that we know LND is synced
+      dispatch(fetchTicker())
+      dispatch(fetchBalance())
+      dispatch(fetchInfo())
 
-  showNotification(notifTitle, notifBody)
+      // HTML 5 desktop notification for the new transaction
+      showNotification(notifTitle, notifBody)
+      break
+    default:
+      dispatch({ type: SET_SYNC_STATUS_PENDING })
+  }
 }
 
 export const grpcDisconnected = () => dispatch => dispatch({ type: GRPC_DISCONNECTED })
@@ -76,8 +87,10 @@ export function receiveBlockHeight(blockHeight) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [START_SYNCING]: state => ({ ...state, syncing: true }),
-  [STOP_SYNCING]: state => ({ ...state, syncing: false }),
+  [SET_SYNC_STATUS_PENDING]: state => ({ ...state, syncStatus: 'pending' }),
+  [SET_SYNC_STATUS_WAITING]: state => ({ ...state, syncStatus: 'waiting' }),
+  [SET_SYNC_STATUS_IN_PROGRESS]: state => ({ ...state, syncStatus: 'in-progress' }),
+  [SET_SYNC_STATUS_COMPLETE]: state => ({ ...state, syncStatus: 'complete' }),
 
   [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({
     ...state,
@@ -93,9 +106,8 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  syncing: false,
+  syncStatus: 'pending',
   grpcStarted: false,
-  lines: [],
   blockHeight: 0,
   lndBlockHeight: 0
 }

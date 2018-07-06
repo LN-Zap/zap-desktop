@@ -81,6 +81,7 @@ const mapStateToProps = state => ({
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const syncingProps = {
     blockHeight: stateProps.lnd.blockHeight,
+    syncStatus: stateProps.lnd.syncStatus,
     lndBlockHeight: stateProps.lnd.lndBlockHeight,
     hasSynced: stateProps.info.hasSynced,
     syncPercentage: stateProps.syncPercentage,
@@ -213,7 +214,11 @@ const Root = ({
   }
 
   // If we are syncing show the syncing screen
-  if (lnd.grpcStarted && lnd.syncing) {
+  if (
+    onboardingProps.onboarding.connectionType === 'local' &&
+    lnd.grpcStarted &&
+    lnd.syncStatus !== 'complete'
+  ) {
     return <Syncing {...syncingProps} />
   }
 
