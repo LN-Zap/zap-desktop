@@ -7,6 +7,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
+import hand from 'icons/hand.svg'
 import link from 'icons/link.svg'
 import { blockExplorer } from 'utils'
 
@@ -30,10 +31,17 @@ const TransactionModal = ({
 }) => (
   <div className={styles.container}>
     <header className={styles.header}>
-      <section>
-        <Isvg src={paperPlane} />
-        <span>Sent</span>
-      </section>
+      {transaction.amount > 0 ? (
+        <section>
+          <Isvg src={paperPlane} />
+          <span>Sent</span>
+        </section>
+      ) : (
+        <section>
+          <Isvg src={hand} />
+          <span>Received</span>
+        </section>
+      )}
       <section className={styles.details}>
         <div>
           <Isvg src={link} />
