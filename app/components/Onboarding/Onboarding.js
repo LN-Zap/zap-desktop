@@ -146,7 +146,17 @@ const Onboarding = ({
             title={"Alright, let's get set up"}
             description="Would you like to create a new wallet or import an existing one?"
             back={() => changeStep(4)}
-            next={() => changeStep(initWalletProps.signupProps.signupForm.create ? 6 : 5.1)}
+            next={() => {
+              // require the user to select create wallet or import wallet
+              if (
+                !initWalletProps.signupProps.signupForm.create &&
+                !initWalletProps.signupProps.signupForm.import
+              ) {
+                return
+              }
+
+              changeStep(initWalletProps.signupProps.signupForm.create ? 6 : 5.1)
+            }}
           >
             <Signup {...initWalletProps.signupProps} />
           </FormContainer>
