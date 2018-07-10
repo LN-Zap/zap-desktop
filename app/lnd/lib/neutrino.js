@@ -105,7 +105,7 @@ class Neutrino extends EventEmitter {
         } else if (line.includes('Caught up to height')) {
           const height = line.match(/Caught up to height (\d+)/)[1]
           this.emit('got-current-block-height', height)
-        } else if (line.includes('in the last')) {
+        } else if (line.startsWith('Processed') && line.includes('in the last')) {
           const height = line.match(/Processed \d* blocks? in the last.+\(height (\d+)/)[1]
           this.emit('got-current-block-height', height)
         }
