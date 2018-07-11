@@ -77,8 +77,9 @@ class Neutrino extends EventEmitter {
 
       // LND syncing has started.
       if (!this.state.chainSyncStarted) {
-        if (line.includes('Syncing to block height')) {
-          const height = line.match(/Syncing to block height (\d+)/)[1]
+        const match = line.match(/Syncing to block height (\d+)/)
+        if (match) {
+          const height = match[1]
           this.state.chainSyncStarted = true
           this.state.targetBlockHeight = height
           this.emit('chain-sync-started')
@@ -96,18 +97,15 @@ class Neutrino extends EventEmitter {
 
       // Pass current block height progress to front end for loading state UX
       if (this.state.chainSyncStarted) {
-        if (line.includes('Downloading headers for blocks')) {
-          const height = line.match(/Downloading headers for blocks (\d+) to \d+/)[1]
-          this.emit('got-current-block-height', height)
-        } else if (line.includes('Rescanned through block')) {
-          const height = line.match(/Rescanned through block.+\(height (\d+)/)[1]
-          this.emit('got-current-block-height', height)
-        } else if (line.includes('Caught up to height')) {
-          const height = line.match(/Caught up to height (\d+)/)[1]
-          this.emit('got-current-block-height', height)
-        } else if (line.includes('in the last')) {
-          const height = line.match(/Processed \d* blocks? in the last.+\(height (\d+)/)[1]
-          this.emit('got-current-block-height', height)
+        let match
+        if ((match = line.match(/Downloading headers for blocks (\d+) to \d+/))) {
+          this.emit('got-current-block-height', match[1])
+        } else if ((match = line.match(/Rescanned through block.+\(height (\d+)/))) {
+          this.emit('got-current-block-height', match[1])
+        } else if ((match = line.match(/Caught up to height (\d+)/))) {
+          this.emit('got-current-block-height', match[1])
+        } else if ((match = line.match(/Processed \d* blocks? in the last.+\(height (\d+)/))) {
+          this.emit('got-current-block-height', match[1])
         }
       }
     })
