@@ -46,6 +46,7 @@
     "react/require-default-props": 0,
     "max-len": ["error", { "code": 120, "ignoreUrls": true }],
     "import/no-extraneous-dependencies": 0,
+    "no-cond-assign": ["error", "except-parens"],
     "no-confusing-arrow": "error",
     "no-mixed-operators": "error",
     "no-new": 0,
