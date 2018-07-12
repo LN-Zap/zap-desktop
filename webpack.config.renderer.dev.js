@@ -233,8 +233,7 @@ export default merge.smart(baseConfig, {
         'http://localhost:*',
         'ws://localhost:*',
         'https://api.coinmarketcap.com',
-        'https://zap.jackmallers.com',
-        'https://testnet-api.smartbit.com.au'
+        'https://zap.jackmallers.com'
       ],
       'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
       'font-src': [
@@ -293,33 +292,6 @@ export default merge.smart(baseConfig, {
           proxy('/proxy/api.coinmarketcap.com', {
             target: 'https://api.coinmarketcap.com',
             pathRewrite: { '^/proxy/api.coinmarketcap.com': '' },
-            changeOrigin: true
-          })
-        )
-      )
-      app.use(
-        convert(
-          proxy('/proxy/testnet-api.smartbit.com.au', {
-            target: 'https://testnet-api.smartbit.com.au',
-            pathRewrite: { '^/proxy/testnet-api.smartbit.com.au': '' },
-            changeOrigin: true
-          })
-        )
-      )
-      app.use(
-        convert(
-          proxy('/proxy/tchain.api.btc.com', {
-            target: 'https://tchain.api.btc.com',
-            pathRewrite: { '^/proxy/tchain.api.btc.com': '' },
-            changeOrigin: true
-          })
-        )
-      )
-      app.use(
-        convert(
-          proxy('/proxy/api.blockcypher.com', {
-            target: 'https://api.blockcypher.com',
-            pathRewrite: { '^/proxy/api.blockcypher.com': '' },
             changeOrigin: true
           })
         )

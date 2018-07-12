@@ -170,11 +170,11 @@ class ZapController {
       this.sendMessage('lndSynced')
     })
 
-    this.neutrino.on('got-final-block-height', height => {
-      this.sendMessage('lndBlockHeightTarget', Number(height))
+    this.neutrino.on('got-current-block-height', height => {
+      this.sendMessage('currentBlockHeight', Number(height))
     })
 
-    this.neutrino.on('got-current-block-height', height => {
+    this.neutrino.on('got-lnd-block-height', height => {
       this.sendMessage('lndBlockHeight', Number(height))
     })
 

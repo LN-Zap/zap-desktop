@@ -1,14 +1,55 @@
 import dns from 'dns'
 import fs from 'fs'
+import axios from 'axios'
 import { promisify } from 'util'
 import { lookup } from 'ps-node'
 import grpc from 'grpc'
 import isIP from 'validator/lib/isIP'
 import isPort from 'validator/lib/isPort'
+import get from 'lodash.get'
 import { mainLog } from '../../utils/log'
 
 const fsReadFile = promisify(fs.readFile)
 const dnsLookup = promisify(dns.lookup)
+
+/**
+ * Helper function to get the current block height.
+ * @return {Number} The current block height.
+ */
+export const fetchBlockHeight = () => {
+  const sources = [
+    {
+      baseUrl: `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
+      path: 'blocks[0].height'
+    },
+    {
+      baseUrl: `https://tchain.api.btc.com/v3/block/latest`,
+      path: 'data.height'
+    },
+    {
+      baseUrl: `https://api.blockcypher.com/v1/btc/test3`,
+      path: 'height'
+    }
+  ]
+  const fetchData = (baseUrl, path) => {
+    mainLog.info(`Fetching current block height from ${baseUrl}`)
+    return axios({
+      method: 'get',
+      timeout: 5000,
+      url: baseUrl
+    })
+      .then(response => {
+        const height = Number(get(response.data, path))
+        mainLog.info(`Fetched block height as ${height} from: ${baseUrl}`)
+        return height
+      })
+      .catch(err => {
+        mainLog.warn(`Unable to fetch block height from ${baseUrl}: ${err.message}`)
+      })
+  }
+
+  return Promise.race(sources.map(source => fetchData(source.baseUrl, source.path)))
+}
 
 /**
  * Helper function to return an absolute deadline given a relative timeout in seconds.

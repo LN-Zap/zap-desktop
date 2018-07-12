@@ -8,14 +8,7 @@ import { showNotification } from 'notifications'
 import styles from './Syncing.scss'
 
 class Syncing extends Component {
-  componentWillMount() {
-    const { fetchBlockHeight, blockHeight } = this.props
-
-    // If we don't already know the target block height, fetch it now.
-    if (!blockHeight) {
-      fetchBlockHeight()
-    }
-  }
+  componentWillMount() {}
 
   render() {
     const { hasSynced, syncPercentage, address, blockHeight, lndBlockHeight } = this.props
@@ -112,7 +105,6 @@ class Syncing extends Component {
 }
 
 Syncing.propTypes = {
-  fetchBlockHeight: PropTypes.func.isRequired,
   address: PropTypes.string.isRequired,
   hasSynced: PropTypes.bool,
   syncPercentage: PropTypes.number,

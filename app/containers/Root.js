@@ -31,7 +31,7 @@ import {
   updateRecoverSeedInput,
   setReEnterSeedIndexes
 } from '../reducers/onboarding'
-import { fetchBlockHeight, lndSelectors } from '../reducers/lnd'
+import { lndSelectors } from '../reducers/lnd'
 import { walletAddress } from '../reducers/address'
 import Routes from '../routes'
 
@@ -57,9 +57,7 @@ const mapDispatchToProps = {
   walletAddress,
   updateReEnterSeedInput,
   updateRecoverSeedInput,
-  setReEnterSeedIndexes,
-
-  fetchBlockHeight
+  setReEnterSeedIndexes
 }
 
 const mapStateToProps = state => ({
@@ -82,7 +80,6 @@ const mapStateToProps = state => ({
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const syncingProps = {
-    fetchBlockHeight: dispatchProps.fetchBlockHeight,
     blockHeight: stateProps.lnd.blockHeight,
     lndBlockHeight: stateProps.lnd.lndBlockHeight,
     hasSynced: stateProps.info.hasSynced,
