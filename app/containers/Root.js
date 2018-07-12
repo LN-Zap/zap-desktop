@@ -153,7 +153,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const newAezeedPasswordProps = {
     aezeedPassword: stateProps.onboarding.aezeedPassword,
-    aezeedPasswordConfirmation: stateProps.onboarding.updateAezeedPasswordConfirmation,
+    aezeedPasswordConfirmation: stateProps.onboarding.aezeedPasswordConfirmation,
     showAezeedPasswordConfirmationError: stateProps.showAezeedPasswordConfirmationError,
     updateAezeedPassword: dispatchProps.updateAezeedPassword,
     updateAezeedPasswordConfirmation: dispatchProps.updateAezeedPasswordConfirmation
