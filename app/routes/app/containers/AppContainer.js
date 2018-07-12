@@ -32,7 +32,7 @@ import { payInvoice } from 'reducers/payment'
 
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 
-import { fetchBlockHeight, lndSelectors } from 'reducers/lnd'
+import { lndSelectors } from 'reducers/lnd'
 
 import {
   fetchChannels,
@@ -99,7 +99,6 @@ const mapDispatchToProps = {
   createInvoice,
   fetchInvoice,
 
-  fetchBlockHeight,
   clearError,
 
   fetchBalance,

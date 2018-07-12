@@ -3,6 +3,7 @@ import { spawn } from 'child_process'
 import EventEmitter from 'events'
 import config from '../config'
 import { mainLog, lndLog, lndLogGetLevel } from '../../utils/log'
+import { fetchBlockHeight } from './util'
 
 class Neutrino extends EventEmitter {
   constructor(alias, autopilot) {
@@ -14,9 +15,7 @@ class Neutrino extends EventEmitter {
       grpcProxyStarted: false,
       walletOpened: false,
       chainSyncStarted: false,
-      chainSyncFinished: false,
-      currentBlockHeight: null,
-      targetBlockHeight: null
+      chainSyncFinished: false
     }
   }
 
@@ -79,11 +78,23 @@ class Neutrino extends EventEmitter {
       if (!this.state.chainSyncStarted) {
         const match = line.match(/Syncing to block height (\d+)/)
         if (match) {
-          const height = match[1]
+          // Notify that chhain syncronisation has now started.
           this.state.chainSyncStarted = true
-          this.state.targetBlockHeight = height
           this.emit('chain-sync-started')
-          this.emit('got-final-block-height', height)
+
+          // This is the latest block that BTCd is aware of.
+          const btcdHeight = Number(match[1])
+          this.emit('got-current-block-height', btcdHeight)
+
+          // The height returned from the LND log output may not be the actual current block height (this is the case
+          // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
+          // some block explorers just incase.
+          fetchBlockHeight()
+            .then(
+              height => (height > btcdHeight ? this.emit('got-current-block-height', height) : null)
+            )
+            // If we were unable to fetch from bock explorers at least we already have what BTCd gave us so just warn.
+            .catch(err => mainLog.warn(`Unable to fetch block height: ${err.message}`))
         }
       }
 
@@ -99,13 +110,13 @@ class Neutrino extends EventEmitter {
       if (this.state.chainSyncStarted) {
         let match
         if ((match = line.match(/Downloading headers for blocks (\d+) to \d+/))) {
-          this.emit('got-current-block-height', match[1])
+          this.emit('got-lnd-block-height', match[1])
         } else if ((match = line.match(/Rescanned through block.+\(height (\d+)/))) {
-          this.emit('got-current-block-height', match[1])
+          this.emit('got-lnd-block-height', match[1])
         } else if ((match = line.match(/Caught up to height (\d+)/))) {
-          this.emit('got-current-block-height', match[1])
+          this.emit('got-lnd-block-height', match[1])
         } else if ((match = line.match(/Processed \d* blocks? in the last.+\(height (\d+)/))) {
-          this.emit('got-current-block-height', match[1])
+          this.emit('got-lnd-block-height', match[1])
         }
       }
     })

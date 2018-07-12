@@ -2,7 +2,7 @@ import createIpc from 'redux-electron-ipc'
 import {
   lndSyncing,
   lndSynced,
-  lndBlockHeightTarget,
+  currentBlockHeight,
   lndBlockHeight,
   grpcDisconnected,
   grpcConnected
@@ -60,7 +60,7 @@ import {
 const ipc = createIpc({
   lndSyncing,
   lndSynced,
-  lndBlockHeightTarget,
+  currentBlockHeight,
   lndBlockHeight,
   grpcDisconnected,
   grpcConnected,

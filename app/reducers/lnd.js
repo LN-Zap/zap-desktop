@@ -3,7 +3,6 @@ import { createSelector } from 'reselect'
 import { fetchTicker } from './ticker'
 import { fetchBalance } from './balance'
 import { fetchInfo, setHasSynced } from './info'
-import { requestBlockHeight } from '../api'
 import { showNotification } from '../notifications'
 // ------------------------------------
 // Constants
@@ -62,14 +61,8 @@ export const lndBlockHeight = (event, height) => dispatch => {
   dispatch({ type: RECEIVE_BLOCK, lndBlockHeight: height })
 }
 
-export const lndBlockHeightTarget = (event, height) => dispatch => {
+export const currentBlockHeight = (event, height) => dispatch => {
   dispatch({ type: RECEIVE_BLOCK_HEIGHT, blockHeight: height })
-}
-
-export function getBlockHeight() {
-  return {
-    type: GET_BLOCK_HEIGHT
-  }
 }
 
 export function receiveBlockHeight(blockHeight) {
@@ -79,13 +72,6 @@ export function receiveBlockHeight(blockHeight) {
   }
 }
 
-// Fetch current block height
-export const fetchBlockHeight = () => async dispatch => {
-  dispatch(getBlockHeight())
-  const blockHeight = await requestBlockHeight()
-  dispatch(receiveBlockHeight(blockHeight))
-}
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -93,11 +79,9 @@ const ACTION_HANDLERS = {
   [START_SYNCING]: state => ({ ...state, syncing: true }),
   [STOP_SYNCING]: state => ({ ...state, syncing: false }),
 
-  [GET_BLOCK_HEIGHT]: state => ({ ...state, fetchingBlockHeight: true }),
   [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({
     ...state,
-    blockHeight,
-    fetchingBlockHeight: false
+    blockHeight
   }),
   [RECEIVE_BLOCK]: (state, { lndBlockHeight }) => ({ ...state, lndBlockHeight }),
 
@@ -111,7 +95,6 @@ const ACTION_HANDLERS = {
 const initialState = {
   syncing: false,
   grpcStarted: false,
-  fetchingBlockHeight: false,
   lines: [],
   blockHeight: 0,
   lndBlockHeight: 0
