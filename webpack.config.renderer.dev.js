@@ -11,6 +11,9 @@ import path from 'path'
 import fs from 'fs'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
+import convert from 'koa-connect'
+import history from 'connect-history-api-fallback'
+import proxy from 'http-proxy-middleware'
 import { spawn, execSync } from 'child_process'
 import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
@@ -43,7 +46,6 @@ export default merge.smart(baseConfig, {
 
   entry: [
     'react-hot-loader/patch',
-    `webpack-dev-server/client?http://localhost:${port}/`,
     'webpack/hot/only-dev-server',
     path.join(__dirname, 'app/index.js')
   ],
@@ -206,14 +208,6 @@ export default merge.smart(baseConfig, {
       sourceType: 'var'
     }),
 
-    /**
-     * https://webpack.js.org/concepts/hot-module-replacement/
-     */
-    new webpack.HotModuleReplacementPlugin({
-      // @TODO: Waiting on https://github.com/jantimon/html-webpack-plugin/issues/533
-      // multiStep: true
-    }),
-
     new webpack.LoaderOptionsPlugin({
       debug: true
     }),
@@ -267,58 +261,90 @@ export default merge.smart(baseConfig, {
     __filename: false
   },
 
-  devServer: {
+  serve: {
     port,
-    publicPath,
-    compress: true,
-    noInfo: true,
-    stats: 'errors-only',
-    inline: true,
-    lazy: false,
-    hot: true,
-    headers: { 'Access-Control-Allow-Origin': '*' },
-    contentBase: path.join(__dirname, 'dist'),
-    watchOptions: {
-      aggregateTimeout: 300,
-      ignored: /node_modules/,
-      poll: 100
+    content: path.join(__dirname, 'dist'),
+    hotClient: {
+      validTargets: ['electron-renderer']
     },
-    proxy: {
-      '/proxy/zap.jackmallers.com': {
-        target: 'https://zap.jackmallers.com',
-        pathRewrite: { '^/proxy/zap.jackmallers.com': '' },
-        changeOrigin: true
-      },
-      '/proxy/api.coinmarketcap.com': {
-        target: 'https://api.coinmarketcap.com',
-        pathRewrite: { '^/proxy/api.coinmarketcap.com': '' },
-        changeOrigin: true
-      },
-      '/proxy/testnet-api.smartbit.com.au': {
-        target: 'https://testnet-api.smartbit.com.au',
-        pathRewrite: { '^/proxy/testnet-api.smartbit.com.au': '' },
-        changeOrigin: true
-      },
-      '/proxy/tchain.api.btc.com': {
-        target: 'https://tchain.api.btc.com',
-        pathRewrite: { '^/proxy/tchain.api.btc.com': '' },
-        changeOrigin: true
-      },
-      '/proxy/api.blockcypher.com': {
-        target: 'https://api.blockcypher.com',
-        pathRewrite: { '^/proxy/api.blockcypher.com': '' },
-        changeOrigin: true
+    devMiddleware: {
+      publicPath,
+      stats: 'errors-only',
+      headers: { 'Access-Control-Allow-Origin': '*' },
+      watchOptions: {
+        aggregateTimeout: 300,
+        ignored: /node_modules/,
+        poll: 100
       }
     },
-    historyApiFallback: {
-      verbose: true,
-      disableDotRule: false
+    // Add middleware to proxy requests to selected remote sites.
+    add: app => {
+      app.use(
+        convert(
+          proxy('/proxy/zap.jackmallers.com', {
+            target: 'https://zap.jackmallers.com',
+            pathRewrite: { '^/proxy/zap.jackmallers.com': '' },
+            changeOrigin: true
+          })
+        )
+      )
+      app.use(
+        convert(
+          proxy('/proxy/api.coinmarketcap.com', {
+            target: 'https://api.coinmarketcap.com',
+            pathRewrite: { '^/proxy/api.coinmarketcap.com': '' },
+            changeOrigin: true
+          })
+        )
+      )
+      app.use(
+        convert(
+          proxy('/proxy/testnet-api.smartbit.com.au', {
+            target: 'https://testnet-api.smartbit.com.au',
+            pathRewrite: { '^/proxy/testnet-api.smartbit.com.au': '' },
+            changeOrigin: true
+          })
+        )
+      )
+      app.use(
+        convert(
+          proxy('/proxy/tchain.api.btc.com', {
+            target: 'https://tchain.api.btc.com',
+            pathRewrite: { '^/proxy/tchain.api.btc.com': '' },
+            changeOrigin: true
+          })
+        )
+      )
+      app.use(
+        convert(
+          proxy('/proxy/api.blockcypher.com', {
+            target: 'https://api.blockcypher.com',
+            pathRewrite: { '^/proxy/api.blockcypher.com': '' },
+            changeOrigin: true
+          })
+        )
+      )
+      app.use(
+        convert(
+          history({
+            verbose: true,
+            disableDotRule: false
+          })
+        )
+      )
     },
-    before() {
-      if (process.env.START_HOT) {
-        spawn('npm', ['run', 'start-main-dev'], { shell: true, env: process.env, stdio: 'inherit' })
-          .on('close', code => process.exit(code))
-          .on('error', spawnError => mainLog.error(spawnError))
+    // Start the main process as soon as the server is listening.
+    on: {
+      listening: () => {
+        if (process.env.START_HOT) {
+          spawn('npm', ['run', 'start-main-dev'], {
+            shell: true,
+            env: process.env,
+            stdio: 'inherit'
+          })
+            .on('close', code => process.exit(code))
+            .on('error', spawnError => mainLog.error(spawnError))
+        }
       }
     }
   },
