@@ -179,7 +179,7 @@ export default function(lnd, log, event, msg, data) {
         .then(payment => {
           log.info('payment:', payment)
           const { payment_route } = payment
-          log.error('payinvoice success:', payment_route)
+          log.info('payinvoice success:', payment_route)
           event.sender.send('paymentSuccessful', Object.assign(data, { payment_route }))
           return payment
         })
@@ -207,7 +207,7 @@ export default function(lnd, log, event, msg, data) {
       channelController
         .openChannel(lnd, event, data)
         .then(channel => {
-          log.error('CHANNEL: ', channel)
+          log.info('CHANNEL: ', channel)
           event.sender.send('channelSuccessful', { channel })
           return channel
         })
@@ -219,7 +219,7 @@ export default function(lnd, log, event, msg, data) {
       channelController
         .closeChannel(lnd, event, data)
         .then(result => {
-          log.error('CLOSE CHANNEL: ', result)
+          log.info('CLOSE CHANNEL: ', result)
           event.sender.send('closeChannelSuccessful')
           return result
         })
@@ -232,7 +232,7 @@ export default function(lnd, log, event, msg, data) {
         .connectPeer(lnd, data)
         .then(peer => {
           const { peer_id } = peer
-          log.error('peer_id: ', peer_id)
+          log.info('peer_id: ', peer_id)
           event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
           return peer
         })
@@ -247,7 +247,7 @@ export default function(lnd, log, event, msg, data) {
       peersController
         .disconnectPeer(lnd, data)
         .then(() => {
-          log.error('pubkey: ', data.pubkey)
+          log.info('pubkey: ', data.pubkey)
           event.sender.send('disconnectSuccess', { pubkey: data.pubkey })
           return null
         })
@@ -259,7 +259,7 @@ export default function(lnd, log, event, msg, data) {
       channelController
         .connectAndOpen(lnd, event, data)
         .then(channelData => {
-          log.error('connectAndOpen data: ', channelData)
+          log.info('connectAndOpen data: ', channelData)
           // event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
           return channelData
         })
