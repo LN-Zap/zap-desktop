@@ -4,6 +4,7 @@ import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
 import Isvg from 'react-inlinesvg'
 import zapLogo from 'icons/zap_logo.svg'
+import copyIcon from 'icons/copy.svg'
 import { showNotification } from 'notifications'
 import styles from './Syncing.scss'
 
@@ -110,8 +111,10 @@ class Syncing extends Component {
                     />
                   </div>
                   <section className={styles.textAddress}>
-                    <span>{address}</span>
-                    <span onClick={copyClicked}>copy</span>
+                    <span className={styles.text}>{address}</span>
+                    <span className={styles.icon} onClick={copyClicked}>
+                      <Isvg src={copyIcon} />
+                    </span>
                   </section>
                 </div>
               ) : (
