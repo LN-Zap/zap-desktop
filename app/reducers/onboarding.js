@@ -382,7 +382,7 @@ export { onboardingSelectors }
 const initialState = {
   onboarded: false,
   step: 0.1,
-  connectionType: store.get('type', ''),
+  connectionType: store.get('type', 'local'),
   connectionHost: store.get('host', ''),
   connectionCert: store.get('cert', ''),
   connectionMacaroon: store.get('macaroon', ''),
@@ -428,7 +428,7 @@ const initialState = {
     import: false
   },
 
-  autopilot: store.get('autopilot', null)
+  autopilot: store.get('autopilot', true)
 }
 
 // ------------------------------------
