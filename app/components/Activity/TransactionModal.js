@@ -31,15 +31,15 @@ const TransactionModal = ({
 }) => (
   <div className={styles.container}>
     <header className={styles.header}>
-      {transaction.amount < 0 ? (
-        <section>
-          <Isvg src={paperPlane} />
-          <span>Sent</span>
-        </section>
-      ) : (
+      {transaction.received ? (
         <section>
           <Isvg src={hand} />
           <span>Received</span>
+        </section>
+      ) : (
+        <section>
+          <Isvg src={paperPlane} />
+          <span>Sent</span>
         </section>
       )}
       <section className={styles.details}>
@@ -65,8 +65,8 @@ const TransactionModal = ({
 
     <div className={styles.amount}>
       <h1>
-        <i className={`${styles.symbol} ${transaction.amount > 0 && styles.active}`}>
-          {transaction.amount > 0 ? '+' : '-'}
+        <i className={`${styles.symbol} ${transaction.received && styles.active}`}>
+          {transaction.received ? '+' : '-'}
         </i>
         <Value
           value={transaction.amount}
