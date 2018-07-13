@@ -31,7 +31,7 @@ const TransactionModal = ({
 }) => (
   <div className={styles.container}>
     <header className={styles.header}>
-      {transaction.amount > 0 ? (
+      {transaction.amount < 0 ? (
         <section>
           <Isvg src={paperPlane} />
           <span>Sent</span>
