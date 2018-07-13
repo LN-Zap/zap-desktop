@@ -160,14 +160,19 @@ class ZapController {
       this.startGrpc()
     })
 
+    this.neutrino.on('chain-sync-waiting', () => {
+      mainLog.info('Neutrino sync waiting')
+      this.sendMessage('lndSyncStatus', 'waiting')
+    })
+
     this.neutrino.on('chain-sync-started', () => {
       mainLog.info('Neutrino sync started')
-      this.sendMessage('lndSyncing')
+      this.sendMessage('lndSyncStatus', 'in-progress')
     })
 
     this.neutrino.on('chain-sync-finished', () => {
       mainLog.info('Neutrino sync finished')
-      this.sendMessage('lndSynced')
+      this.sendMessage('lndSyncStatus', 'complete')
     })
 
     this.neutrino.on('got-current-block-height', height => {

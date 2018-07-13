@@ -1,7 +1,6 @@
 import createIpc from 'redux-electron-ipc'
 import {
-  lndSyncing,
-  lndSynced,
+  lndSyncStatus,
   currentBlockHeight,
   lndBlockHeight,
   grpcDisconnected,
@@ -58,8 +57,7 @@ import {
 
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
-  lndSyncing,
-  lndSynced,
+  lndSyncStatus,
   currentBlockHeight,
   lndBlockHeight,
   grpcDisconnected,

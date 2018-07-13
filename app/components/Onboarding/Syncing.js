@@ -8,14 +8,59 @@ import { showNotification } from 'notifications'
 import styles from './Syncing.scss'
 
 class Syncing extends Component {
-  componentWillMount() {}
+  state = {
+    timer: null,
+    syncMessageDetail: null
+  }
+
+  componentWillMount() {
+    const { syncStatus } = this.props
+
+    // If we are still waiting for peers after some time, advise te user it could take a wile.
+    let timer = setTimeout(() => {
+      if (syncStatus === 'waiting') {
+        this.setState({
+          syncMessageDetail:
+            'It looks like this could take some time - you might want to grab a coffee or try again later!'
+        })
+      }
+    }, 10000)
+
+    this.setState({ timer })
+  }
+
+  componentWillUnmount() {
+    const { timer } = this.state
+    clearInterval(timer)
+  }
 
   render() {
-    const { hasSynced, syncPercentage, address, blockHeight, lndBlockHeight } = this.props
+    const {
+      hasSynced,
+      syncStatus,
+      syncPercentage,
+      address,
+      blockHeight,
+      lndBlockHeight
+    } = this.props
+    let { syncMessageDetail } = this.state
 
     const copyClicked = () => {
       copy(address)
       showNotification('Noice', 'Successfully copied to clipboard')
+    }
+    let syncMessage
+    if (syncStatus === 'waiting') {
+      syncMessage = 'Waiting for peers...'
+    } else if (typeof syncPercentage === 'undefined' || syncPercentage <= 0) {
+      syncMessage = 'Preparing...'
+      syncMessageDetail = null
+    } else if (syncPercentage > 0 && syncPercentage < 99) {
+      syncMessage = `${syncPercentage}%`
+      syncMessageDetail = `${lndBlockHeight.toLocaleString()} of ${blockHeight.toLocaleString()}`
+    } else if (syncPercentage >= 99) {
+      syncMessage = 'Finalizing...'
+      syncMessageDetail = null
     }
 
     if (typeof hasSynced === 'undefined') {
@@ -78,24 +123,16 @@ class Syncing extends Component {
           )}
 
           <section className={styles.progressContainer}>
-            <h3>Syncing to the blockchain...</h3>
+            <h3>Syncing to the blockchain</h3>
             <div className={styles.progressBar}>
               <div
                 className={styles.progress}
                 style={{ width: syncPercentage ? `${syncPercentage}%` : 0 }}
               />
             </div>
-            <h4>
-              {typeof syncPercentage === 'undefined' && 'Preparing...'}
-              {Boolean(syncPercentage >= 0 && syncPercentage < 99) && `${syncPercentage}%`}
-              {Boolean(syncPercentage >= 99) && 'Finalizing...'}
-            </h4>
-            {Boolean(syncPercentage >= 0 && syncPercentage < 99) && (
-              <span className={styles.progressCounter}>
-                {Boolean(!blockHeight || !lndBlockHeight) && 'starting...'}
-                {Boolean(blockHeight && lndBlockHeight) &&
-                  `${lndBlockHeight.toLocaleString()} of ${blockHeight.toLocaleString()}`}
-              </span>
+            <h4>{syncMessage}</h4>
+            {syncMessageDetail && (
+              <span className={styles.progressDetail}>{syncMessageDetail}</span>
             )}
           </section>
         </div>
@@ -107,6 +144,7 @@ class Syncing extends Component {
 Syncing.propTypes = {
   address: PropTypes.string.isRequired,
   hasSynced: PropTypes.bool,
+  syncStatus: PropTypes.string.isRequired,
   syncPercentage: PropTypes.number,
   blockHeight: PropTypes.number,
   lndBlockHeight: PropTypes.number
