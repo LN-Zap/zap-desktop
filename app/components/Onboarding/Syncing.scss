@@ -45,17 +45,27 @@
 
       span {
         font-size: 12px;
-        margin: 0 5px;
 
-        &:nth-child(2) {
-          font-size: 14px;
-          opacity: 0.5;
+        &.text {
+          background: #2a2d38;
+          padding: 10px;
+        }
+
+        &.icon {
+          background: #383b47;
+          padding: 10px;
           cursor: pointer;
           transition: all 0.25s;
+          color: $white;
 
           &:hover {
             opacity: 0.25;
           }
+        }
+
+        svg {
+          width: 12px;
+          height: 12px;
         }
       }
     }
