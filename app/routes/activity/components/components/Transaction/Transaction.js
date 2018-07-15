@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
+import Isvg from 'react-inlinesvg'
+import link from 'icons/link.svg'
 import { btc } from 'utils'
 
 import Value from 'components/Value'
@@ -11,6 +13,12 @@ const Transaction = ({ transaction, ticker, currentTicker, showActivityModal, cu
     className={styles.container}
     onClick={() => showActivityModal('TRANSACTION', { transaction })}
   >
+    <div className={styles.activityTypeIcon}>
+      <section className="hint--bottom" data-hint="On-chain transaction">
+        <Isvg src={link} />
+      </section>
+    </div>
+
     <div className={styles.data}>
       <div className={styles.title}>
         <h3>{transaction.received ? 'Received' : 'Sent'}</h3>

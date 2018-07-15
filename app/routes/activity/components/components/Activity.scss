@@ -16,14 +16,15 @@
     opacity: 0.5;
   }
 
-  .pendingIcon {
+  .activityTypeIcon {
     position: absolute;
     left: -5%;
-    top: 30%;
+    top: 37%;
 
     svg {
-      width: 10.5px;
-      height: 10.5px;
+      width: 16px;
+      height: 16px;
+      opacity: 0.5;
     }
   }
 }
