@@ -228,7 +228,7 @@ const sentActivity = createSelector(
   transactionsSelector,
   paymentsSelector,
   (transactions, payments) =>
-    groupAll([...transactions.filter(transaction => transaction.amount < 0), ...payments])
+    groupAll([...transactions.filter(transaction => !transaction.received), ...payments])
 )
 
 const pendingActivity = createSelector(invoicesSelector, invoices =>

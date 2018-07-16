@@ -13,18 +13,16 @@ const Transaction = ({ transaction, ticker, currentTicker, showActivityModal, cu
   >
     <div className={styles.data}>
       <div className={styles.title}>
-        <h3>{transaction.amount > 0 ? 'Received' : 'Sent'}</h3>
+        <h3>{transaction.received ? 'Received' : 'Sent'}</h3>
       </div>
       <div className={styles.subtitle}>
         <Moment format="h:mm a">{transaction.time_stamp * 1000}</Moment>
       </div>
     </div>
-    <div
-      className={`${styles.amount} ${transaction.amount > 0 ? styles.positive : styles.negative}`}
-    >
+    <div className={`${styles.amount} ${transaction.received ? styles.positive : styles.negative}`}>
       <span className="hint--top" data-hint="Transaction amount">
-        <i className={transaction.amount > 0 ? styles.plus : styles.minus}>
-          {transaction.amount > 0 ? '+' : '-'}
+        <i className={transaction.received ? styles.plus : styles.minus}>
+          {transaction.received ? '+' : '-'}
         </i>
         <Value
           value={transaction.amount}
