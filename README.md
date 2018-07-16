@@ -129,7 +129,7 @@ This project exists thanks to all the people who contribute.
 
 ## License
 
-This project is open source under the MIT license, which means you have full access to the source code and can modify it to fit your own needs. See [LICENCE](LICENCE) for more information.
+This project is open source under the MIT license, which means you have full access to the source code and can modify it to fit your own needs. See [LICENSE](LICENSE) for more information.
 
 [MIT](LICENSE) © Jack Mallers
 
