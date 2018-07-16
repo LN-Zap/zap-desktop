@@ -6,6 +6,8 @@ import LoadingBolt from 'components/LoadingBolt'
 import FormContainer from './FormContainer'
 import ConnectionType from './ConnectionType'
 import ConnectionDetails from './ConnectionDetails'
+import ConnectionConfirm from './ConnectionConfirm'
+import BtcPayServer from './BtcPayServer'
 import Alias from './Alias'
 import Autopilot from './Autopilot'
 import Login from './Login'
@@ -19,7 +21,9 @@ import styles from './Onboarding.scss'
 const Onboarding = ({
   onboarding: {
     step,
+    previousStep,
     connectionType,
+    connectionString,
     connectionHost,
     connectionCert,
     connectionMacaroon,
@@ -32,6 +36,7 @@ const Onboarding = ({
   },
   connectionTypeProps,
   connectionDetailProps,
+  connectionConfirmProps,
   changeStep,
   startLnd,
   submitNewWallet,
@@ -55,7 +60,18 @@ const Onboarding = ({
               use Zap to control a remote node if you desire (for advanced users).
             "
             back={null}
-            next={() => changeStep(connectionType === 'local' ? 1 : 0.2)}
+            next={() => {
+              switch (connectionType) {
+                case 'custom':
+                  changeStep(0.2)
+                  break
+                case 'btcpayserver':
+                  changeStep(0.3)
+                  break
+                default:
+                  changeStep(1)
+              }
+            }}
           >
             <ConnectionType {...connectionTypeProps} />
           </FormContainer>
@@ -67,16 +83,55 @@ const Onboarding = ({
             title="Connection details"
             description="Enter the connection details for your Lightning node."
             back={() => changeStep(0.1)}
-            next={() =>
+            next={() => {
+              // dont allow the user to move on if we don't at least have a hostname.
+              if (!connectionDetailProps.connectionHostIsValid) {
+                return
+              }
+
+              changeStep(0.4)
+            }}
+          >
+            <ConnectionDetails {...connectionDetailProps} />
+          </FormContainer>
+        )
+
+      case 0.3:
+        return (
+          <FormContainer
+            title="BTCPay Server"
+            description="Enter the connection details for your BTCPay Server node."
+            back={() => changeStep(0.1)}
+            next={() => {
+              // dont allow the user to move on if the connection string is invalid.
+              if (!connectionDetailProps.connectionStringIsValid) {
+                return
+              }
+
+              changeStep(0.4)
+            }}
+          >
+            <BtcPayServer {...connectionDetailProps} />
+          </FormContainer>
+        )
+
+      case 0.4:
+        return (
+          <FormContainer
+            title="Confirm connection"
+            description="Confirm the connection details for your Lightning node."
+            back={() => changeStep(previousStep)}
+            next={() => {
               startLnd({
                 type: connectionType,
+                string: connectionString,
                 host: connectionHost,
                 cert: connectionCert,
                 macaroon: connectionMacaroon
               })
-            }
+            }}
           >
-            <ConnectionDetails {...connectionDetailProps} />
+            <ConnectionConfirm {...connectionConfirmProps} />
           </FormContainer>
         )
 
@@ -224,6 +279,7 @@ Onboarding.propTypes = {
   onboarding: PropTypes.object.isRequired,
   connectionTypeProps: PropTypes.object.isRequired,
   connectionDetailProps: PropTypes.object.isRequired,
+  connectionConfirmProps: PropTypes.object.isRequired,
   aliasProps: PropTypes.object.isRequired,
   autopilotProps: PropTypes.object.isRequired,
   initWalletProps: PropTypes.object.isRequired,

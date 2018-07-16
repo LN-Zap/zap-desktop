@@ -9,6 +9,7 @@ import Onboarding from '../components/Onboarding'
 import Syncing from '../components/Onboarding/Syncing'
 import {
   setConnectionType,
+  setConnectionString,
   setConnectionHost,
   setConnectionCert,
   setConnectionMacaroon,
@@ -35,6 +36,7 @@ import Routes from '../routes'
 
 const mapDispatchToProps = {
   setConnectionType,
+  setConnectionString,
   setConnectionHost,
   setConnectionCert,
   setConnectionMacaroon,
@@ -68,7 +70,9 @@ const mapStateToProps = state => ({
   showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(
     state
   ),
-  reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state)
+  reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state),
+  connectionStringIsValid: onboardingSelectors.connectionStringIsValid(state),
+  connectionHostIsValid: onboardingSelectors.connectionHostIsValid(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -87,15 +91,23 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const connectionDetailProps = {
+    connectionHostIsValid: stateProps.connectionHostIsValid,
+    connectionStringIsValid: stateProps.connectionStringIsValid,
+    connectionString: stateProps.onboarding.connectionString,
     connectionHost: stateProps.onboarding.connectionHost,
     connectionCert: stateProps.onboarding.connectionCert,
     connectionMacaroon: stateProps.onboarding.connectionMacaroon,
+    setConnectionString: dispatchProps.setConnectionString,
     setConnectionHost: dispatchProps.setConnectionHost,
     setConnectionCert: dispatchProps.setConnectionCert,
     setConnectionMacaroon: dispatchProps.setConnectionMacaroon,
     startLndHostError: stateProps.onboarding.startLndHostError,
     startLndCertError: stateProps.onboarding.startLndCertError,
     startLndMacaroonError: stateProps.onboarding.startLndMacaroonError
+  }
+
+  const connectionConfirmProps = {
+    connectionHost: stateProps.onboarding.connectionHost
   }
 
   const aliasProps = {
@@ -165,6 +177,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     submitNewWallet: dispatchProps.submitNewWallet,
     connectionTypeProps,
     connectionDetailProps,
+    connectionConfirmProps,
     aliasProps,
     autopilotProps,
     initWalletProps,

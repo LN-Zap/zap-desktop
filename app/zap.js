@@ -201,21 +201,21 @@ class ZapController {
       // Save the options.
       const store = new Store({ name: 'connection' })
       store.store = cleanOptions
-      mainLog.info('Saved lnd config to:', store.path)
+      mainLog.info('Saved lnd config to %s: %o', store.path, store.store)
 
       // If the requested connection type is a local one then start up a new lnd instance.
       if (cleanOptions.type === 'local') {
         mainLog.info('Starting new lnd instance')
-        mainLog.debug(' > alias:', cleanOptions.alias)
-        mainLog.debug(' > autopilot:', cleanOptions.autopilot)
+        mainLog.info(' > alias:', cleanOptions.alias)
+        mainLog.info(' > autopilot:', cleanOptions.autopilot)
         this.startLnd(cleanOptions.alias, cleanOptions.autopilot)
       }
       // Otherwise attempt to connect to an lnd instance using user supplied connection details.
       else {
         mainLog.info('Connecting to custom lnd instance')
-        mainLog.debug(' > host:', cleanOptions.host)
-        mainLog.debug(' > cert:', cleanOptions.cert)
-        mainLog.debug(' > macaroon:', cleanOptions.macaroon)
+        mainLog.info(' > host:', cleanOptions.host)
+        mainLog.info(' > cert:', cleanOptions.cert)
+        mainLog.info(' > macaroon:', cleanOptions.macaroon)
         this.startGrpc()
           .then(() => this.sendMessage('successfullyCreatedWallet'))
           .catch(e => {

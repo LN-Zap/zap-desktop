@@ -171,9 +171,9 @@ glob@^7.0.5:
     once "^1.3.0"
     path-is-absolute "^1.0.0"
 
-grpc@^1.12.4:
-  version "1.12.4"
-  resolved "https://registry.yarnpkg.com/grpc/-/grpc-1.12.4.tgz#85a3bc26dbf61fb8555d182aec42c1ab6b303ecd"
+grpc@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/grpc/-/grpc-1.13.0.tgz#cbf884fa5e072edecb15ff019483db74b361e2c6"
   dependencies:
     lodash "^4.17.5"
     nan "^2.0.0"

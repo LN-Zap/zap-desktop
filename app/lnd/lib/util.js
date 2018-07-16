@@ -3,6 +3,7 @@ import fs from 'fs'
 import axios from 'axios'
 import { promisify } from 'util'
 import { lookup } from 'ps-node'
+import path from 'path'
 import grpc from 'grpc'
 import isIP from 'validator/lib/isIP'
 import isPort from 'validator/lib/isPort'
@@ -102,12 +103,14 @@ export const validateHost = async host => {
  * @returns {grpc.ChanelCredentials}
  */
 export const createSslCreds = async certPath => {
-  const lndCert = await fsReadFile(certPath).catch(e => {
-    const error = new Error(`SSL cert path could not be accessed: ${e.message}`)
-    error.code = 'LND_GRPC_CERT_ERROR'
-    throw error
-  })
-
+  let lndCert
+  if (certPath) {
+    lndCert = await fsReadFile(certPath).catch(e => {
+      const error = new Error(`SSL cert path could not be accessed: ${e.message}`)
+      error.code = 'LND_GRPC_CERT_ERROR'
+      throw error
+    })
+  }
   return grpc.credentials.createSsl(lndCert)
 }
 
@@ -117,14 +120,19 @@ export const createSslCreds = async certPath => {
  * @returns {grpc.CallCredentials}
  */
 export const createMacaroonCreds = async macaroonPath => {
-  const macaroon = await fsReadFile(macaroonPath).catch(e => {
-    const error = new Error(`Macaroon path could not be accessed: ${e.message}`)
-    error.code = 'LND_GRPC_MACAROON_ERROR'
-    throw error
-  })
-
   const metadata = new grpc.Metadata()
-  metadata.add('macaroon', macaroon.toString('hex'))
+
+  // If it's not a filepath, then assume it is a hex encoded string.
+  if (macaroonPath === path.basename(macaroonPath)) {
+    metadata.add('macaroon', macaroonPath)
+  } else {
+    const macaroon = await fsReadFile(macaroonPath).catch(e => {
+      const error = new Error(`Macaroon path could not be accessed: ${e.message}`)
+      error.code = 'LND_GRPC_MACAROON_ERROR'
+      throw error
+    })
+    metadata.add('macaroon', macaroon.toString('hex'))
+  }
 
   return grpc.credentials.createFromMetadataGenerator((params, callback) =>
     callback(null, metadata)
