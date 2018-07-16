@@ -132,6 +132,8 @@
 
     &.active {
       background: $gold;
+      color: $spacegrey;
+      font-weight: bold;
       opacity: 1;
 
       &:hover {
