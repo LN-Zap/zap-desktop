@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 import searchIcon from 'icons/search.svg'
 import xIcon from 'icons/x.svg'
+import FaRepeat from 'react-icons/lib/fa/repeat'
 
 import Wallet from 'components/Wallet'
 import LoadingBolt from 'components/LoadingBolt'
@@ -16,6 +17,10 @@ class Activity extends Component {
   constructor(props, context) {
     super(props, context)
     this.renderActivity = this.renderActivity.bind(this)
+
+    this.state = {
+      refreshing: false
+    }
   }
 
   componentWillMount() {
@@ -73,9 +78,13 @@ class Activity extends Component {
       changeFilter,
       currentActivity,
 
+      fetchPayments,
+      fetchInvoices,
+      fetchTransactions,
+      fetchBalance,
+
       updateSearchActive,
       updateSearchText,
-
       walletProps
     } = this.props
 
@@ -83,6 +92,37 @@ class Activity extends Component {
       return <LoadingBolt />
     }
 
+    const refreshClicked = () => {
+      // turn the spinner on
+      this.setState({ refreshing: true })
+
+      // store event in icon so we dont get an error when react clears it
+      const icon = this.repeat.childNodes
+
+      // fetch data
+      fetchBalance()
+      fetchPayments()
+      fetchInvoices()
+      fetchTransactions()
+
+      // wait for the svg to appear as child
+      const svgTimeout = setTimeout(() => {
+        if (icon[0].tagName === 'svg') {
+          // spin icon for 1 sec
+          icon[0].style.animation = 'spin 1000ms linear 1'
+          clearTimeout(svgTimeout)
+        }
+      }, 1)
+
+      // clear animation after the second so we can reuse it
+      const refreshTimeout = setTimeout(() => {
+        icon[0].style.animation = ''
+        this.setState({ refreshing: false })
+        clearTimeout(refreshTimeout)
+      }, 1000)
+    }
+
+    const { refreshing } = this.state
     return (
       <div>
         <Wallet {...walletProps} />
@@ -125,8 +165,22 @@ class Activity extends Component {
                   ))}
                 </ul>
               </section>
-              <section onClick={() => updateSearchActive(true)}>
-                <Isvg src={searchIcon} />
+              <section>
+                <ul className={styles.actions}>
+                  <li onClick={refreshClicked}>
+                    <span
+                      className={styles.refresh}
+                      ref={ref => {
+                        this.repeat = ref
+                      }}
+                    >
+                      {refreshing ? <FaRepeat /> : 'Refresh'}
+                    </span>
+                  </li>
+                  <li className={styles.activeFilter} onClick={() => updateSearchActive(true)}>
+                    <Isvg src={searchIcon} />
+                  </li>
+                </ul>
               </section>
             </header>
           )}
