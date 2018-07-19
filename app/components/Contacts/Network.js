@@ -32,7 +32,8 @@ class Network extends Component {
         selectedChannel,
         loadingChannelPubkeys,
         closingChannelIds,
-        channels
+        channels,
+        pendingChannels: { pending_open_channels }
       },
       currentChannels,
       balance,
@@ -174,10 +175,7 @@ class Network extends Component {
         </header>
 
         <div className={styles.channels}>
-          {loadingChannelPubkeys.length ||
-          currentChannels.length ||
-          channels.length ||
-          searchQuery.length ? (
+          {loadingChannelPubkeys.length || pending_open_channels.length || channels.length ? (
             <header className={styles.listHeader}>
               <section>
                 <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
@@ -326,7 +324,7 @@ class Network extends Component {
               })}
           </ul>
         </div>
-        {(loadingChannelPubkeys.length || currentChannels.length || searchQuery.length) && (
+        {(loadingChannelPubkeys.length || pending_open_channels.length || channels.length) && (
           <footer className={styles.search}>
             <label htmlFor="search" className={`${styles.label} ${styles.input}`}>
               <Isvg src={search} />
