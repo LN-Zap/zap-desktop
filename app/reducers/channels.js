@@ -444,10 +444,7 @@ channelsSelectors.nonActiveChannelPubkeys = createSelector(channelsSelector, ope
   openChannels.filter(channel => !channel.active).map(c => c.remote_pubkey)
 )
 
-channelsSelectors.pendingOpenChannels = createSelector(
-  pendingOpenChannelsSelector,
-  pendingOpenChannels => pendingOpenChannels
-)
+channelsSelectors.pendingOpenChannels = pendingOpenChannelsSelector
 
 channelsSelectors.pendingOpenChannelPubkeys = createSelector(
   pendingOpenChannelsSelector,
