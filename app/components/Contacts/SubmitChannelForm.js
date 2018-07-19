@@ -61,7 +61,7 @@ class SubmitChannelForm extends React.Component {
         <header className={styles.header}>
           <h1>Add Funds to Network</h1>
           <p>
-            Adding a connection will help you send and receive money on the Lightning Network. You
+            Opening a channel will help you send and receive money on the Lightning Network. You
             aren&apos;t spening any money, rather moving the money you plan to use onto the network.
           </p>
         </header>
