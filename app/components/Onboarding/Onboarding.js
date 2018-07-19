@@ -14,7 +14,6 @@ import RecoverForm from './RecoverForm'
 import NewWalletSeed from './NewWalletSeed'
 import ReEnterSeed from './ReEnterSeed'
 import NewWalletPassword from './NewWalletPassword'
-import NewAezeedPassword from './NewAezeedPassword'
 import styles from './Onboarding.scss'
 
 const Onboarding = ({
@@ -29,7 +28,6 @@ const Onboarding = ({
     startingLnd,
     createWalletPassword,
     seed,
-    aezeedPassword,
     fetchingSeed
   },
   connectionTypeProps,
@@ -43,7 +41,6 @@ const Onboarding = ({
   recoverFormProps,
   newWalletSeedProps,
   newWalletPasswordProps,
-  newAezeedPasswordProps,
   reEnterSeedProps
 }) => {
   const renderStep = () => {
@@ -167,24 +164,13 @@ const Onboarding = ({
             title="Import your seed"
             description="Recovering a wallet, nice. You don't need anyone else, you got yourself :)"
             back={() => changeStep(5)}
-            next={() => changeStep(5.2)}
-          >
-            <RecoverForm {...recoverFormProps} />
-          </FormContainer>
-        )
-      case 5.2:
-        return (
-          <FormContainer
-            title="Seed passphrase"
-            description="Enter your cipherseed passphrase (or just submit if you don't have one)"
-            back={() => changeStep(5)}
             next={() => {
               const recoverySeed = recoverFormProps.recoverSeedInput.map(input => input.word)
 
-              submitNewWallet(createWalletPassword, recoverySeed, aezeedPassword)
+              submitNewWallet(createWalletPassword, recoverySeed)
             }}
           >
-            <NewAezeedPassword {...newAezeedPasswordProps} />
+            <RecoverForm {...recoverFormProps} />
           </FormContainer>
         )
       case 6:
@@ -213,28 +199,10 @@ const Onboarding = ({
                 return
               }
 
-              changeStep(8)
+              submitNewWallet(createWalletPassword, seed)
             }}
           >
             <ReEnterSeed {...reEnterSeedProps} />
-          </FormContainer>
-        )
-      case 8:
-        return (
-          <FormContainer
-            title="Encrypt your seed"
-            description="Totally optional, but we encourage it. Set a password that will be used to encrypt your wallet seed" // eslint-disable-line max-len
-            back={() => changeStep(6)}
-            next={() => {
-              // dont allow the user to move on if the confirmation password doesnt match the original password
-              if (newAezeedPasswordProps.showAezeedPasswordConfirmationError) {
-                return
-              }
-
-              submitNewWallet(createWalletPassword, seed, aezeedPassword)
-            }}
-          >
-            <NewAezeedPassword {...newAezeedPasswordProps} />
           </FormContainer>
         )
       default:
@@ -261,7 +229,6 @@ Onboarding.propTypes = {
   initWalletProps: PropTypes.object.isRequired,
   newWalletSeedProps: PropTypes.object.isRequired,
   newWalletPasswordProps: PropTypes.object.isRequired,
-  newAezeedPasswordProps: PropTypes.object.isRequired,
   recoverFormProps: PropTypes.object.isRequired,
   reEnterSeedProps: PropTypes.object.isRequired,
   changeStep: PropTypes.func.isRequired,
