@@ -102,6 +102,7 @@
       visibility: hidden;
       position: absolute;
       top: 30px;
+      z-index: 10;
 
       &.active {
         visibility: visible;
