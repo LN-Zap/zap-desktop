@@ -214,7 +214,7 @@ class Network extends Component {
           )}
 
           <ul className={filterPulldown && styles.fade}>
-            {loadingChannelPubkeys.length &&
+            {loadingChannelPubkeys.length > 0 &&
               loadingChannelPubkeys.map(loadingPubkey => {
                 // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
                 const node = nodes.find(n => loadingPubkey === n.pub_key)
@@ -237,7 +237,7 @@ class Network extends Component {
                   </li>
                 )
               })}
-            {currentChannels.length &&
+            {currentChannels.length > 0 &&
               currentChannels.map((channelObj, index) => {
                 const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel')
                   ? channelObj.channel
