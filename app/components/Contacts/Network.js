@@ -174,15 +174,10 @@ class Network extends Component {
         </header>
 
         <div className={styles.channels}>
-          {!loadingChannelPubkeys.length &&
-            !currentChannels.length &&
-            !channels.length &&
-            !searchQuery.length && <SuggestedNodes {...suggestedNodesProps} />}
-
-          {(loadingChannelPubkeys.length ||
-            currentChannels.length ||
-            channels.length ||
-            searchQuery.length) && (
+          {loadingChannelPubkeys.length ||
+          currentChannels.length ||
+          channels.length ||
+          searchQuery.length ? (
             <header className={styles.listHeader}>
               <section>
                 <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
@@ -211,6 +206,8 @@ class Network extends Component {
                 </span>
               </section>
             </header>
+          ) : (
+            <SuggestedNodes {...suggestedNodesProps} />
           )}
 
           <ul className={filterPulldown && styles.fade}>
