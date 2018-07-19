@@ -121,26 +121,29 @@ export const transactionError = (event, { error }) => dispatch => {
 }
 
 // Listener for when a new transaction is pushed from the subscriber
-export const newTransaction = (event, { transaction }) => dispatch => {
-  // Fetch new balance
-  dispatch(fetchBalance())
+export const newTransaction = (event, { transaction }) => (dispatch, getState) => {
+  // add the transaction only if we are not already aware of it
+  if (!getState().transactions.find(tx => tx.tx_hash === transaction.tx_hash)) {
+    // Fetch new balance
+    dispatch(fetchBalance())
 
-  decorateTransaction(transaction)
+    decorateTransaction(transaction)
 
-  dispatch({ type: ADD_TRANSACTION, transaction })
+    dispatch({ type: ADD_TRANSACTION, transaction })
 
-  // HTML 5 desktop notification for the new transaction
-  const notifTitle = transaction.received
-    ? 'On-chain Transaction Received!'
-    : 'On-chain Transaction Sent!'
-  const notifBody = transaction.received
-    ? "Lucky you, you just received a new on-chain transaction. I'm jealous."
-    : "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent."
+    // HTML 5 desktop notification for the new transaction
+    const notifTitle = transaction.received
+      ? 'On-chain Transaction Received!'
+      : 'On-chain Transaction Sent!'
+    const notifBody = transaction.received
+      ? "Lucky you, you just received a new on-chain transaction. I'm jealous."
+      : "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent."
 
-  showNotification(notifTitle, notifBody)
+    showNotification(notifTitle, notifBody)
 
-  // Generate a new address
-  dispatch(newAddress('np2wkh'))
+    // Generate a new address
+    dispatch(newAddress('np2wkh'))
+  }
 }
 
 // ------------------------------------
@@ -156,15 +159,10 @@ const ACTION_HANDLERS = {
   }),
   [TRANSACTION_SUCCESSFULL]: state => ({ ...state, sendingTransaction: false }),
   [TRANSACTION_FAILED]: state => ({ ...state, sendingTransaction: false }),
-  [ADD_TRANSACTION]: (state, { transaction }) => {
-    // add the transaction only if we are not already aware of it
-    return state.transactions.find(tx => tx.tx_hash === transaction.tx_hash)
-      ? state
-      : {
-          ...state,
-          transactions: [transaction, ...state.transactions]
-        }
-  },
+  [ADD_TRANSACTION]: (state, { transaction }) => ({
+    ...state,
+    transactions: [transaction, ...state.transactions]
+  }),
   [SHOW_SUCCESS_TRANSACTION_SCREEN]: (state, { txid }) => ({
     ...state,
     successTransactionScreen: { show: true, txid }
