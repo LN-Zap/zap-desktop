@@ -14,8 +14,13 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
     onClick={() => showActivityModal('INVOICE', { invoice })}
   >
     {!invoice.settled && (
-      <div className={styles.pendingIcon}>
-        <Isvg src={checkmarkIcon} />
+      <div className={styles.activityTypeIcon}>
+        <section
+          className="hint--bottom"
+          data-hint={`Lightning invoice${!invoice.settled ? ' (unpaid)' : undefined}`}
+        >
+          <Isvg src={checkmarkIcon} />
+        </section>
       </div>
     )}
 

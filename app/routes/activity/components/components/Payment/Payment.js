@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Moment from 'react-moment'
+import Isvg from 'react-inlinesvg'
+import zap from 'icons/zap.svg'
 import { btc } from 'utils'
 
 import Value from 'components/Value'
@@ -19,6 +21,12 @@ const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, cur
 
   return (
     <div className={styles.container} onClick={() => showActivityModal('PAYMENT', { payment })}>
+      <div className={styles.activityTypeIcon}>
+        <section className="hint--bottom" data-hint="Lightning payment">
+          <Isvg src={zap} />
+        </section>
+      </div>
+
       <div className={styles.data}>
         <div className={styles.title}>
           <h3>{displayNodeName(payment.path[payment.path.length - 1])}</h3>
