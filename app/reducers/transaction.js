@@ -132,17 +132,18 @@ export const newTransaction = (event, { transaction }) => (dispatch, getState) =
     dispatch({ type: ADD_TRANSACTION, transaction })
 
     // HTML 5 desktop notification for the new transaction
-    const notifTitle = transaction.received
-      ? 'On-chain Transaction Received!'
-      : 'On-chain Transaction Sent!'
-    const notifBody = transaction.received
-      ? "Lucky you, you just received a new on-chain transaction. I'm jealous."
-      : "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent."
-
-    showNotification(notifTitle, notifBody)
-
-    // Generate a new address
-    dispatch(newAddress('np2wkh'))
+    if (transaction.received) {
+      showNotification(
+        'On-chain Transaction Received!',
+        "Lucky you, you just received a new on-chain transaction. I'm jealous."
+      )
+      dispatch(newAddress('np2wkh')) // Generate a new address
+    } else {
+      showNotification(
+        'On-chain Transaction Sent!',
+        "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent."
+      )
+    }
   }
 }
 
