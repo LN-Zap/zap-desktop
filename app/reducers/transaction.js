@@ -24,6 +24,16 @@ export const SHOW_SUCCESS_TRANSACTION_SCREEN = 'SHOW_SUCCESS_TRANSACTION_SCREEN'
 export const HIDE_SUCCESS_TRANSACTION_SCREEN = 'HIDE_SUCCESS_TRANSACTION_SCREEN'
 
 // ------------------------------------
+// Helpers
+// ------------------------------------
+
+// Decorate transaction object with custom/computed properties.
+const decorateTransaction = transaction => {
+  transaction.received = transaction.amount > 0
+  return transaction
+}
+
+// ------------------------------------
 // Actions
 // ------------------------------------
 export function getTransactions() {
@@ -66,6 +76,7 @@ export const receiveTransactions = (event, { transactions }) => (dispatch, getSt
   const currentAddress = state.address.address
   let usedAddresses = []
   transactions.forEach(transaction => {
+    decorateTransaction(transaction)
     usedAddresses = usedAddresses.concat(transaction.dest_addresses)
   })
   if (usedAddresses.includes(currentAddress)) {
@@ -114,9 +125,9 @@ export const newTransaction = (event, { transaction }) => dispatch => {
   // Fetch new balance
   dispatch(fetchBalance())
 
-  dispatch({ type: ADD_TRANSACTION, transaction })
+  decorateTransaction(transaction)
 
-  transaction.received = transaction.amount > 0
+  dispatch({ type: ADD_TRANSACTION, transaction })
 
   // HTML 5 desktop notification for the new transaction
   const notifTitle = transaction.received
