@@ -11,7 +11,10 @@ const ConnectionDetails = ({
   setConnectionMacaroon,
   startLndHostError,
   startLndCertError,
-  startLndMacaroonError
+  startLndMacaroonError,
+  setConnectionHostToSuggestedValue,
+  setConnectionCertToSuggestedValue,
+  setConnectionMacaroonToSuggestedValue
 }) => (
   <div className={styles.container}>
     <section className={styles.input}>
@@ -24,12 +27,17 @@ const ConnectionDetails = ({
         value={connectionHost}
         onChange={event => setConnectionHost(event.target.value)}
       />
-      <p className={styles.description}>
-        Hostname and port of the Lnd gRPC interface. Example: localhost:10009
-      </p>
-      <p className={`${startLndHostError && styles.visible} ${styles.errorMessage}`}>
+      <div className={styles.messages}>
+        <p className={styles.description}>
+          Hostname and port of the Lnd gRPC interface. Example: localhost:10009
+        </p>
+        <div className={styles.reset} onClick={() => setConnectionHostToSuggestedValue()}>
+          Use suggested value
+        </div>
+      </div>
+      <div className={`${startLndHostError && styles.visible} ${styles.errorMessage}`}>
         {startLndHostError}
-      </p>
+      </div>
     </section>
     <section className={styles.input}>
       <label htmlFor="connectionCert">TLS Certificate:</label>
@@ -41,10 +49,15 @@ const ConnectionDetails = ({
         value={connectionCert}
         onChange={event => setConnectionCert(event.target.value)}
       />
-      <p className={styles.description}>Path to the lnd tls cert. Example: /path/to/tls.cert</p>
-      <p className={`${startLndCertError && styles.visible} ${styles.errorMessage}`}>
+      <div className={styles.messages}>
+        <p className={styles.description}>Path to the lnd tls cert. Example: /path/to/tls.cert</p>
+        <div className={styles.reset} onClick={() => setConnectionCertToSuggestedValue()}>
+          Use suggested value
+        </div>
+      </div>
+      <div className={`${startLndCertError && styles.visible} ${styles.errorMessage}`}>
         {startLndCertError}
-      </p>
+      </div>
     </section>
     <section className={styles.input}>
       <label htmlFor="connectionMacaroon">Macaroon:</label>
@@ -56,12 +69,17 @@ const ConnectionDetails = ({
         value={connectionMacaroon}
         onChange={event => setConnectionMacaroon(event.target.value)}
       />
-      <p className={styles.description}>
-        Path to the lnd macaroon file. Example: /path/to/admin.macaroon
-      </p>
-      <p className={`${startLndMacaroonError && styles.visible} ${styles.errorMessage}`}>
+      <div className={styles.messages}>
+        <p className={styles.description}>
+          Path to the lnd macaroon file. Example: /path/to/admin.macaroon
+        </p>
+        <div className={styles.reset} onClick={() => setConnectionMacaroonToSuggestedValue()}>
+          Use suggested value
+        </div>
+      </div>
+      <div className={`${startLndMacaroonError && styles.visible} ${styles.errorMessage}`}>
         {startLndMacaroonError}
-      </p>
+      </div>
     </section>
   </div>
 )
@@ -75,7 +93,10 @@ ConnectionDetails.propTypes = {
   setConnectionMacaroon: PropTypes.func.isRequired,
   startLndHostError: PropTypes.string,
   startLndCertError: PropTypes.string,
-  startLndMacaroonError: PropTypes.string
+  startLndMacaroonError: PropTypes.string,
+  setConnectionHostToSuggestedValue: PropTypes.func.isRequired,
+  setConnectionCertToSuggestedValue: PropTypes.func.isRequired,
+  setConnectionMacaroonToSuggestedValue: PropTypes.func.isRequired
 }
 
 export default ConnectionDetails

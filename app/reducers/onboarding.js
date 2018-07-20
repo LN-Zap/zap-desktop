@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import Store from 'electron-store'
 import get from 'lodash.get'
+import { suggestedHost, suggestedCertPath, suggestedMacaroonPath } from '../lnd/config'
 
 const store = new Store({ name: 'connection' })
 
@@ -293,6 +294,19 @@ export const walletUnlocked = () => dispatch => {
 
 export const unlockWalletError = () => dispatch => {
   dispatch({ type: SET_UNLOCK_WALLET_ERROR })
+}
+
+export const setConnectionHostToSuggestedValue = () => dispatch => {
+  dispatch({ type: SET_CONNECTION_HOST, connectionHost: suggestedHost })
+}
+export const setConnectionCertToSuggestedValue = () => dispatch => {
+  dispatch({ type: SET_CONNECTION_CERT, connectionCert: suggestedCertPath })
+}
+export const setConnectionMacaroonToSuggestedValue = () => dispatch => {
+  dispatch({
+    type: SET_CONNECTION_MACAROON,
+    connectionMacaroon: suggestedMacaroonPath
+  })
 }
 
 // ------------------------------------
