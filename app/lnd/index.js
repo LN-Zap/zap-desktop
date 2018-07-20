@@ -1,7 +1,6 @@
 import config from './config'
 import lightning from './lib/lightning'
 import walletUnlocker from './lib/walletUnlocker'
-import { isLndRunning } from './lib/util'
 import subscribe from './subscribe'
 import methods from './methods'
 import walletUnlockerMethods from './walletUnlockerMethods'
@@ -31,6 +30,5 @@ const initWalletUnlocker = () => {
 
 export default {
   initLnd,
-  initWalletUnlocker,
-  isLndRunning
+  initWalletUnlocker
 }
