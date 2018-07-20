@@ -140,7 +140,7 @@ export function unlockWallet(walletUnlocker, { wallet_password }) {
  */
 export function initWallet(
   walletUnlocker,
-  { wallet_password, cipher_seed_mnemonic, aezeed_passphrase }
+  { wallet_password, cipher_seed_mnemonic, aezeed_passphrase = '' }
 ) {
   return new Promise((resolve, reject) => {
     walletUnlocker.initWallet(

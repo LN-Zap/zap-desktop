@@ -20,8 +20,6 @@ import {
   createWallet,
   updateCreateWalletPassword,
   updateCreateWalletPasswordConfirmation,
-  updateAezeedPassword,
-  updateAezeedPasswordConfirmation,
   submitNewWallet,
   onboardingSelectors,
   unlockWallet,
@@ -44,8 +42,6 @@ const mapDispatchToProps = {
   updatePassword,
   updateCreateWalletPassword,
   updateCreateWalletPasswordConfirmation,
-  updateAezeedPassword,
-  updateAezeedPasswordConfirmation,
   setAutopilot,
   changeStep,
   startLnd,
@@ -70,9 +66,6 @@ const mapStateToProps = state => ({
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
   passwordMinCharsError: onboardingSelectors.passwordMinCharsError(state),
   showCreateWalletPasswordConfirmationError: onboardingSelectors.showCreateWalletPasswordConfirmationError(
-    state
-  ),
-  showAezeedPasswordConfirmationError: onboardingSelectors.showAezeedPasswordConfirmationError(
     state
   ),
   reEnterSeedChecker: onboardingSelectors.reEnterSeedChecker(state)
@@ -151,14 +144,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     updateCreateWalletPasswordConfirmation: dispatchProps.updateCreateWalletPasswordConfirmation
   }
 
-  const newAezeedPasswordProps = {
-    aezeedPassword: stateProps.onboarding.aezeedPassword,
-    aezeedPasswordConfirmation: stateProps.onboarding.aezeedPasswordConfirmation,
-    showAezeedPasswordConfirmationError: stateProps.showAezeedPasswordConfirmationError,
-    updateAezeedPassword: dispatchProps.updateAezeedPassword,
-    updateAezeedPasswordConfirmation: dispatchProps.updateAezeedPasswordConfirmation
-  }
-
   const recoverFormProps = {
     recoverSeedInput: stateProps.onboarding.recoverSeedInput,
     updateRecoverSeedInput: dispatchProps.updateRecoverSeedInput
@@ -185,7 +170,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     initWalletProps,
     newWalletSeedProps,
     newWalletPasswordProps,
-    newAezeedPasswordProps,
     recoverFormProps,
     reEnterSeedProps
   }

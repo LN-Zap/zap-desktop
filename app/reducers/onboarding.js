@@ -17,8 +17,6 @@ export const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
 export const UPDATE_CREATE_WALLET_PASSWORD = 'UPDATE_CREATE_WALLET_PASSWORD'
 export const UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION =
   'UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION'
-export const UPDATE_AEZEED_PASSWORD = 'UPDATE_AEZEED_PASSWORD'
-export const UPDATE_AEZEED_PASSWORD_CONFIRMATION = 'UPDATE_AEZEED_PASSWORD_CONFIRMATION'
 export const UPDATE_RE_ENTER_SEED_INPUT = 'UPDATE_RE_ENTER_SEED_INPUT'
 export const UPDATE_RECOVER_SEED_INPUT = 'UPDATE_RECOVER_SEED_INPUT'
 
@@ -101,20 +99,6 @@ export function updateCreateWalletPasswordConfirmation(createWalletPasswordConfi
   return {
     type: UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION,
     createWalletPasswordConfirmation
-  }
-}
-
-export function updateAezeedPassword(aezeedPassword) {
-  return {
-    type: UPDATE_AEZEED_PASSWORD,
-    aezeedPassword
-  }
-}
-
-export function updateAezeedPasswordConfirmation(aezeedPasswordConfirmation) {
-  return {
-    type: UPDATE_AEZEED_PASSWORD_CONFIRMATION,
-    aezeedPasswordConfirmation
   }
 }
 
@@ -271,11 +255,6 @@ const ACTION_HANDLERS = {
     ...state,
     createWalletPasswordConfirmation
   }),
-  [UPDATE_AEZEED_PASSWORD]: (state, { aezeedPassword }) => ({ ...state, aezeedPassword }),
-  [UPDATE_AEZEED_PASSWORD_CONFIRMATION]: (state, { aezeedPasswordConfirmation }) => ({
-    ...state,
-    aezeedPasswordConfirmation
-  }),
   [UPDATE_RE_ENTER_SEED_INPUT]: (state, { inputSeedObj }) => ({
     ...state,
     reEnterSeedInput: { ...state.reEnterSeedInput, [inputSeedObj.index]: inputSeedObj.word }
@@ -333,9 +312,6 @@ const createWalletPasswordSelector = state => state.onboarding.createWalletPassw
 const createWalletPasswordConfirmationSelector = state =>
   state.onboarding.createWalletPasswordConfirmation
 
-const aezeedPasswordSelector = state => state.onboarding.aezeedPassword
-const aezeedPasswordConfirmationSelector = state => state.onboarding.aezeedPasswordConfirmation
-
 const seedSelector = state => state.onboarding.seed
 const seedIndexesArrSelector = state => state.onboarding.seedIndexesArr
 const reEnterSeedInputSelector = state => state.onboarding.reEnterSeedInput
@@ -354,12 +330,6 @@ onboardingSelectors.passwordMinCharsError = createSelector(
 onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
   createWalletPasswordSelector,
   createWalletPasswordConfirmationSelector,
-  (pass1, pass2) => pass1 !== pass2 && pass2.length > 0
-)
-
-onboardingSelectors.showAezeedPasswordConfirmationError = createSelector(
-  aezeedPasswordSelector,
-  aezeedPasswordConfirmationSelector,
   (pass1, pass2) => pass1 !== pass2 && pass2.length > 0
 )
 
@@ -402,10 +372,6 @@ const initialState = {
   createWalletPassword: '',
   createWalletPasswordConfirmation: '',
   creatingNewWallet: false,
-
-  // seed password. this is optional and used to encrypt the seed
-  aezeedPassword: '',
-  aezeedPasswordConfirmation: '',
 
   unlockingWallet: false,
   unlockWalletError: {
