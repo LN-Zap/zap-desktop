@@ -424,7 +424,7 @@ const initialState = {
   recoverSeedInput: [],
   // step where the user decides whether they want a newly created seed or to import an existing one
   signupForm: {
-    create: false,
+    create: true,
     import: false
   },
 
