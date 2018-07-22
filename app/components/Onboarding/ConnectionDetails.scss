@@ -4,15 +4,14 @@
   color: $white;
 
   .input {
-    margin-bottom: 15px;
+    margin-bottom: 10px;
   }
 
   label {
     display: block;
-    font-size: 12px;
-    line-height: 14px;
-    padding-bottom: 5px;
-    min-height: 14px;
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 5px;
   }
 
   input {
@@ -20,13 +19,14 @@
     outline: none;
     border: 1px solid #404040;
     border-radius: 4px;
-    padding: 10px;
+    padding: 8px;
     color: $gold;
     -webkit-text-fill-color: $white;
     font-size: 18px;
     font-weight: 400;
     width: 600px;
     transition: all 0.25s;
+    margin-bottom: 5px;
 
     &.error {
       border: 1px solid $red;
@@ -38,15 +38,20 @@
     -webkit-text-fill-color: initial;
   }
 
+  .description {
+    font-size: 12px;
+    line-height: 18px;
+    opacity: 0.5;
+  }
+
   .errorMessage {
-    margin-top: 10px;
+    font-size: 12px;
+    line-height: 18px;
     color: $red;
-    height: 10px;
-    visibility: hidden;
-    font-size: 10px;
+    display: none;
 
     &.visible {
-      visibility: visible;
+      display: block;
     }
   }
 }
