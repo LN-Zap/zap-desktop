@@ -21,9 +21,7 @@ const FormContainer = ({ title, description, back, next, children }) => (
         <div
           className={styles.help}
           onClick={() =>
-            shell.openExternal(
-              'https://github.com/LN-Zap/zap-tutorials/blob/master/zap-desktop-getting-started.md'
-            )
+            shell.openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
           }
         >
           Need help?
