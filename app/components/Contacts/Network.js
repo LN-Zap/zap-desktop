@@ -224,7 +224,7 @@ class Network extends Component {
                 return (
                   <li key={loadingPubkey} className={styles.channel}>
                     <section className={styles.channelTitle}>
-                      <span className={`${styles.loading} hint--left`} data-hint="loading">
+                      <span className={`${styles.loading} hint--right`} data-hint="loading">
                         <i className={styles.spinner} />
                       </span>
                       <span>{nodeDisplay()}</span>
@@ -306,7 +306,7 @@ class Network extends Component {
                       <div className={styles.actions}>
                         {closingChannelIds.includes(channel.chan_id) && (
                           <section>
-                            <span className={`${styles.loading} hint--left`} data-hint="closing">
+                            <span className={`${styles.loading} hint--right`} data-hint="closing">
                               <i>Closing</i> <i className={`${styles.spinner} ${styles.closing}`} />
                             </span>
                           </section>
