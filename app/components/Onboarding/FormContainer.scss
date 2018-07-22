@@ -18,6 +18,17 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 20px 40px;
+
+  .help {
+    color: $white;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.25s;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
 }
 
 .info {
