@@ -58,12 +58,18 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 export default {
-  lnd: () => ({
-    lndPath,
-    configPath: join(appRootPath, 'resources', 'lnd.conf'),
-    rpcProtoPath: join(appRootPath, 'resources', 'rpc.proto'),
-    host: store.get('host') || 'localhost:10009',
-    cert: store.get('cert') || join(userInfo().homedir, loc),
-    macaroon: store.get('macaroon') || join(userInfo().homedir, macaroonPath)
-  })
+  lnd: () => {
+    const cert = store.get('cert')
+    const host = store.get('host')
+    const macaroon = store.get('macaroon')
+
+    return {
+      lndPath,
+      configPath: join(appRootPath, 'resources', 'lnd.conf'),
+      rpcProtoPath: join(appRootPath, 'resources', 'rpc.proto'),
+      host: typeof host === 'undefined' ? 'localhost:10009' : host,
+      cert: typeof cert === 'undefined' ? join(userInfo().homedir, loc) : cert,
+      macaroon: typeof macaroon === 'undefined' ? join(userInfo().homedir, macaroonPath) : macaroon
+    }
+  }
 }

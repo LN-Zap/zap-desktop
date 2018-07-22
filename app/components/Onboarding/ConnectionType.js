@@ -18,6 +18,12 @@ const ConnectionType = ({ connectionType, setConnectionType }) => (
         <span className={styles.label}>Custom</span>
       </div>
     </section>
+    <section className={`${styles.option} ${connectionType === 'btcpayserver' && styles.active}`}>
+      <div className={`${styles.button}`} onClick={() => setConnectionType('btcpayserver')}>
+        {connectionType === 'btcpayserver' ? <FaCircle /> : <FaCircleThin />}
+        <span className={styles.label}>BTCPay Server</span>
+      </div>
+    </section>
   </div>
 )
 

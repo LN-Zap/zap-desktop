@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import Store from 'electron-store'
+import get from 'lodash.get'
 
 const store = new Store({ name: 'connection' })
 
@@ -8,6 +9,7 @@ const store = new Store({ name: 'connection' })
 // Constants
 // ------------------------------------
 export const SET_CONNECTION_TYPE = 'SET_CONNECTION_TYPE'
+export const SET_CONNECTION_STRING = 'SET_CONNECTION_STRING'
 export const SET_CONNECTION_HOST = 'SET_CONNECTION_HOST'
 export const SET_CONNECTION_CERT = 'SET_CONNECTION_CERT'
 export const SET_CONNECTION_MACAROON = 'SET_CONNECTION_MACAROON'
@@ -46,13 +48,46 @@ export const SET_SIGNUP_CREATE = 'SET_SIGNUP_CREATE'
 export const SET_SIGNUP_IMPORT = 'SET_SIGNUP_IMPORT'
 
 // ------------------------------------
+// Helpers
+// ------------------------------------
+function prettyPrint(json) {
+  try {
+    return JSON.stringify(JSON.parse(json), undefined, 4)
+  } catch (e) {
+    return json
+  }
+}
+
+// ------------------------------------
 // Actions
 // ------------------------------------
-export function setConnectionType(connectionType) {
-  return {
+export const setConnectionType = connectionType => (dispatch, getState) => {
+  const previousType = connectionTypeSelector(getState())
+
+  // When changing the connection type clear out existing config.
+  if (previousType !== connectionType) {
+    dispatch(setConnectionString(''))
+    dispatch(setConnectionHost(''))
+    dispatch(setConnectionCert(''))
+    dispatch(setConnectionMacaroon(''))
+    dispatch(setStartLndError({}))
+  }
+
+  dispatch({
     type: SET_CONNECTION_TYPE,
     connectionType
-  }
+  })
+}
+
+export const setConnectionString = connectionString => (dispatch, getState) => {
+  dispatch({
+    type: SET_CONNECTION_STRING,
+    connectionString: prettyPrint(connectionString)
+  })
+  const { host, port, macaroon } = onboardingSelectors.connectionStringParamsSelector(getState())
+  dispatch(setConnectionHost([host, port].join(':')))
+  dispatch(setConnectionMacaroon(macaroon))
+  dispatch(setConnectionCert(''))
 }
 
 export function setConnectionHost(connectionHost) {
@@ -142,6 +177,13 @@ export function changeStep(step) {
   }
 }
 
+export function setStartLndError(errors) {
+  return {
+    type: SET_START_LND_ERROR,
+    errors
+  }
+}
+
 export function startLnd(options) {
   // once the user submits the data needed to start LND we will alert the app that it should start LND
   ipcRenderer.send('startLnd', options)
@@ -191,8 +233,18 @@ export const startOnboarding = () => dispatch => {
 }
 
 // Listener for errors connecting to LND gRPC
-export const startLndError = (event, errors) => dispatch => {
-  dispatch({ type: SET_START_LND_ERROR, errors })
+export const startLndError = (event, errors) => (dispatch, getState) => {
+  dispatch(setStartLndError(errors))
+  const connectionType = connectionTypeSelector(getState())
+
+  switch (connectionType) {
+    case 'custom':
+      dispatch({ type: CHANGE_STEP, step: 0.2 })
+      break
+    case 'btcpayserver':
+      dispatch({ type: CHANGE_STEP, step: 0.3 })
+      break
+  }
 }
 
 // Listener from after the LND walletUnlocker has started
@@ -242,6 +294,7 @@ export const unlockWalletError = () => dispatch => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_CONNECTION_TYPE]: (state, { connectionType }) => ({ ...state, connectionType }),
+  [SET_CONNECTION_STRING]: (state, { connectionString }) => ({ ...state, connectionString }),
   [SET_CONNECTION_HOST]: (state, { connectionHost }) => ({ ...state, connectionHost }),
   [SET_CONNECTION_CERT]: (state, { connectionCert }) => ({ ...state, connectionCert }),
   [SET_CONNECTION_MACAROON]: (state, { connectionMacaroon }) => ({ ...state, connectionMacaroon }),
@@ -272,7 +325,7 @@ const ACTION_HANDLERS = {
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, fetchingSeed: false }),
   [SET_RE_ENTER_SEED_INDEXES]: (state, { seedIndexesArr }) => ({ ...state, seedIndexesArr }),
 
-  [CHANGE_STEP]: (state, { step }) => ({ ...state, step }),
+  [CHANGE_STEP]: (state, { step }) => ({ ...state, step, previousStep: state.step }),
 
   [ONBOARDING_STARTED]: state => ({ ...state, onboarded: false }),
   [ONBOARDING_FINISHED]: state => ({ ...state, onboarded: true }),
@@ -305,6 +358,9 @@ const ACTION_HANDLERS = {
   [SET_SIGNUP_IMPORT]: state => ({ ...state, signupForm: { create: false, import: true } })
 }
 
+// ------------------------------------
+// Selector
+// ------------------------------------
 const onboardingSelectors = {}
 const passwordSelector = state => state.onboarding.password
 
@@ -315,6 +371,10 @@ const createWalletPasswordConfirmationSelector = state =>
 const seedSelector = state => state.onboarding.seed
 const seedIndexesArrSelector = state => state.onboarding.seedIndexesArr
 const reEnterSeedInputSelector = state => state.onboarding.reEnterSeedInput
+
+const connectionStringSelector = state => state.onboarding.connectionString
+const connectionTypeSelector = state => state.onboarding.connectionType
+const connectionHostSelector = state => state.onboarding.connectionHost
 
 onboardingSelectors.passwordIsValid = createSelector(
   passwordSelector,
@@ -344,6 +404,36 @@ onboardingSelectors.reEnterSeedChecker = createSelector(
     )
 )
 
+onboardingSelectors.connectionHostIsValid = createSelector(
+  connectionHostSelector,
+  connectionHost => {
+    return connectionHost.length > 0
+  }
+)
+
+onboardingSelectors.connectionStringParamsSelector = createSelector(
+  connectionStringSelector,
+  connectionString => {
+    let config = {}
+    try {
+      config = JSON.parse(connectionString)
+    } catch (e) {
+      return {}
+    }
+
+    const configurations = get(config, 'configurations', [])
+    return configurations.find(c => c.type === 'grpc' && c.cryptoCode === 'BTC') || {}
+  }
+)
+
+onboardingSelectors.connectionStringIsValid = createSelector(
+  onboardingSelectors.connectionStringParamsSelector,
+  connectionStringParams => {
+    const { host, port, macaroon } = connectionStringParams
+    return Boolean(host && port && macaroon)
+  }
+)
+
 export { onboardingSelectors }
 
 // ------------------------------------
@@ -353,6 +443,7 @@ const initialState = {
   onboarded: false,
   step: 0.1,
   connectionType: store.get('type', 'local'),
+  connectionString: store.get('string', ''),
   connectionHost: store.get('host', ''),
   connectionCert: store.get('cert', ''),
   connectionMacaroon: store.get('macaroon', ''),

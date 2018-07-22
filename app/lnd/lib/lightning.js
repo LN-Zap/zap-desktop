@@ -16,7 +16,12 @@ process.env.GRPC_SSL_CIPHER_SUITES =
     'ECDHE-ECDSA-AES128-GCM-SHA256',
     'ECDHE-ECDSA-AES256-GCM-SHA384',
     'ECDHE-ECDSA-AES128-CBC-SHA256',
-    'ECDHE-ECDSA-CHACHA20-POLY1305'
+    'ECDHE-ECDSA-CHACHA20-POLY1305',
+
+    // BTCPay Server serves lnd behind an nginx proxy with a trusted SSL cert from Lets Encrypt.
+    // These certs use an RSA TLS cipher suite.
+    'ECDHE-RSA-AES256-GCM-SHA384',
+    'ECDHE-RSA-AES128-GCM-SHA256'
   ].join(':')
 
 /**
