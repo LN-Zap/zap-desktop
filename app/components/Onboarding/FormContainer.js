@@ -1,3 +1,4 @@
+import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
@@ -16,7 +17,16 @@ const FormContainer = ({ title, description, back, next, children }) => (
       <section>
         <Isvg src={zapLogo} />
       </section>
-      <section />
+      <section>
+        <div
+          className={styles.help}
+          onClick={() =>
+            shell.openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
+          }
+        >
+          Need help?
+        </div>
+      </section>
     </header>
 
     <div className={styles.info}>
