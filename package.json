@@ -37,7 +37,10 @@
     "test-watch": "npm test -- --watch"
   },
   "config": {
-    "style_paths": "app/styles/*.scss app/components/**/*.scss"
+    "style_paths": "app/styles/*.scss app/components/**/*.scss",
+    "lnd-binary": {
+      "binaryVersion": "0.4.2-beta"
+    }
   },
   "browserslist": "electron 2.0",
   "engines": {
@@ -204,6 +207,7 @@
     "jsdom": "^11.0.0",
     "koa-connect": "^2.0.1",
     "lint-staged": "^7.2.0",
+    "lnd-binary": "^0.3.4",
     "minimist": "^1.2.0",
     "node-sass": "^4.9.0",
     "prettier": "^1.13.5",
@@ -233,6 +237,7 @@
     "devtron": "^1.4.0",
     "electron": "^2.0.5",
     "electron-debug": "^2.0.0",
+    "electron-is-dev": "^0.3.0",
     "electron-store": "^2.0.0",
     "font-awesome": "^4.7.0",
     "history": "^4.6.3",
