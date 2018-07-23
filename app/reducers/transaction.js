@@ -123,7 +123,12 @@ export const transactionError = (event, { error }) => dispatch => {
 // Listener for when a new transaction is pushed from the subscriber
 export const newTransaction = (event, { transaction }) => (dispatch, getState) => {
   // add the transaction only if we are not already aware of it
-  if (!getState().transactions.find(tx => tx.tx_hash === transaction.tx_hash)) {
+  const state = getState()
+  if (
+    !state.transaction ||
+    !state.transaction.transactions ||
+    !state.transaction.transactions.find(tx => tx.tx_hash === transaction.tx_hash)
+  ) {
     // Fetch new balance
     dispatch(fetchBalance())
 
