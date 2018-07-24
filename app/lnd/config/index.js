@@ -3,9 +3,10 @@
 // Linux: ~/.lnd/tls.cert
 // Windows: TODO find out where cert is located for windows machine
 import { userInfo, platform } from 'os'
-import { join, normalize } from 'path'
+import { dirname, join, normalize } from 'path'
 import Store from 'electron-store'
 import { app } from 'electron'
+import isDev from 'electron-is-dev'
 
 // Get a path to prepend to any nodejs calls that are getting at files in the package,
 // so that it works both from source and in an asar-packaged mac app.
@@ -51,8 +52,9 @@ switch (plat) {
     break
 }
 
-if (process.env.NODE_ENV === 'development') {
-  lndPath = join(appRootPath, 'resources', 'bin', plat, lndBin)
+if (isDev) {
+  const lndBinaryDir = dirname(require.resolve('lnd-binary/package.json'))
+  lndPath = join(lndBinaryDir, 'vendor', lndBin)
 } else {
   lndPath = join(appRootPath, 'bin', lndBin)
 }

@@ -7,6 +7,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
+import CleanWebpackPlugin from 'clean-webpack-plugin'
 import merge from 'webpack-merge'
 import baseConfig from './webpack.config.base'
 
@@ -141,6 +142,8 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
+    new CleanWebpackPlugin(['app/dist']),
+
     new ExtractTextPlugin('style.css'),
 
     new BundleAnalyzerPlugin({

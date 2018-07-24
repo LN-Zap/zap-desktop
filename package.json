@@ -8,7 +8,10 @@
     "build-dll": "webpack --require babel-register --config webpack.config.renderer.dev.dll.js --progress",
     "build-main": "webpack --require babel-register  --config webpack.config.main.prod.js --progress",
     "build-renderer": "webpack --require babel-register --config webpack.config.renderer.prod.js --progress",
+    "build-grpc": "rimraf app/node_modules/grpc/src/node && build install-app-deps",
+    "clean": "rimraf node_modules app/node_modules dll app/dist",
     "dev": "cross-env START_HOT=1 npm run start-renderer-dev",
+    "fetch-lnd": "node ./internals/scripts/fetch-lnd-for-packaging.js",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
     "lint-base": "eslint --cache --format=node_modules/eslint-formatter-pretty",
@@ -21,11 +24,12 @@
     "lint-styles-fix": "npm run lint-styles-fix-base -- $npm_package_config_style_paths",
     "lint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "lint-ci": "npm run lint && npm run lint-styles && npm run flow",
-    "package": "npm run build && build --publish never",
-    "package-all": "npm run build && build -mwl",
-    "package-linux": "npm run build && build --linux",
-    "package-win": "npm run build && build --win",
-    "postinstall": "concurrently --raw \"npm:flow-typed\" \"npm:build-dll\" \"electron-builder install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
+    "package": "npm run build && rimraf app/node_modules/grpc/src/node && npm run fetch-lnd && build --publish never",
+    "package-mac": "npm run package -- --platform mac --arch all && npm run build-grpc",
+    "package-win": "npm run package -- --platform win --arch all && npm run build-grpc",
+    "package-linux": "npm_config_target_libc=glibc npm run package -- --platform linux --arch all && npm run build-grpc",
+    "package-all": "npm run package-mac && npm run package-win && npm run package-linux",
+    "postinstall": "concurrently --raw \"npm:flow-typed\" \"npm:build-dll\" \"build install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev",
@@ -37,7 +41,10 @@
     "test-watch": "npm test -- --watch"
   },
   "config": {
-    "style_paths": "app/styles/*.scss app/components/**/*.scss"
+    "style_paths": "app/styles/*.scss app/components/**/*.scss",
+    "lnd-binary": {
+      "binaryVersion": "0.4.2-beta"
+    }
   },
   "browserslist": "electron 2.0",
   "engines": {
@@ -81,6 +88,7 @@
       ]
     },
     "linux": {
+      "category": "Utility",
       "target": [
         "deb",
         "AppImage"
@@ -94,7 +102,7 @@
       "resources/lnd.conf",
       "resources/rpc.proto",
       {
-        "from": "resources/bin/${platform}",
+        "from": "resources/bin/${os}/${arch}",
         "to": "bin",
         "filter": [
           "lnd*"
@@ -165,6 +173,7 @@
     "babel-register": "^6.26.0",
     "browserslist": "^4.0.0",
     "chalk": "^2.4.1",
+    "clean-webpack-plugin": "^0.1.19",
     "concurrently": "^3.6.0",
     "connect-history-api-fallback": "^1.5.0",
     "cross-env": "^5.2.0",
@@ -204,6 +213,7 @@
     "jsdom": "^11.0.0",
     "koa-connect": "^2.0.1",
     "lint-staged": "^7.2.0",
+    "lnd-binary": "^0.3.4",
     "minimist": "^1.2.0",
     "node-sass": "^4.9.0",
     "prettier": "^1.13.5",
@@ -233,6 +243,7 @@
     "devtron": "^1.4.0",
     "electron": "^2.0.5",
     "electron-debug": "^2.0.0",
+    "electron-is-dev": "^0.3.0",
     "electron-store": "^2.0.0",
     "font-awesome": "^4.7.0",
     "history": "^4.6.3",
