@@ -5,13 +5,14 @@ language: node_js
 env:
   global:
     - DEBUG=electron-builder
-  matrix:
-  - TEST=lint-ci
-  - TEST=test-ci
+
+os:
+  - linux
+  - osx
 
 node_js:
   - node
-  - 8
+  - lts/*
 
 cache:
   apt: true
@@ -24,14 +25,14 @@ cache:
 addons:
   apt:
     packages:
-      - icnsutils
-      - graphicsmagick
-      - xz-utils
-      - xorriso
+      - xvfb
 
 install:
   - yarn
-  - "/sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16"
+  - |
+    if [ $TRAVIS_OS_NAME == "linux" ]; then
+      /sbin/start-stop-daemon --start --quiet --pidfile /tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1280x1024x16
+    fi
 
 before_script:
   - export DISPLAY=:99.0
@@ -39,4 +40,31 @@ before_script:
   - sleep 3
 
 script:
-  - "travis_wait 30 yarn $TEST"
+  - yarn lint-ci || travis_terminate 1
+  - yarn build || travis_terminate 1
+  - yarn test-ci || travis_terminate 1
+  - yarn coveralls || travis_terminate 1
+
+jobs:
+  include:
+    - stage: deploy
+      name: Deploy to Github
+      script: skip
+      deploy:
+        skip_cleanup: true
+        provider: script
+        script: yarn release
+        on:
+          repo: LN-Zap/zap-desktop
+          branch: master
+
+    - os: osx
+      name: Deploy to Github
+      script: skip
+      deploy:
+        skip_cleanup: true
+        provider: script
+        script: yarn release
+        on:
+          repo: LN-Zap/zap-desktop
+          branch: master
