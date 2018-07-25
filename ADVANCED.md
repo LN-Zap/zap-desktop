@@ -3,7 +3,7 @@
 ## Table of Contents
 
 - [Compiling Zap From Source](#compiling-zap-from-source)
-- [Lightning Network Daemon (lnd)](<#lightning-network-daemon-lnd>)
+- [Lightning Network Daemon (lnd)](#lightning-network-daemon-lnd)
 - [Running Zap](#running-zap)
 
 ## Compiling Zap From Source
@@ -36,50 +36,17 @@ yarn
 
 ## Lightning Network Daemon (lnd)
 
-Zap requires `lnd` but does not store `lnd` binaries in the Github repo.
+### Option 1: default:
 
-To setup `lnd` for Zap, you have two options:
+Zap installs `lnd` for you as part of the installation process. Zap will automatically start the internal `lnd` daemon for you when you select the `default` connection type during the on-boarding process. In this mode we run `lnd` as a light client called `neutrino` (BIP 157 & BIP 158) which allows us to run `lnd` without requiring a Bitcoin full node on your system - Instead, Zap will connect to one Zap's hosted BTC full nodes.
 
-- [Light Client](#light-client)
-- [Full Bitcoin Node](#full-bitcoin-node)
+**_Note:_** _If you already have `lnd` running on your localhost Zap will detect this and connect to it automatically when you start the app. In this case, the internal `lnd` will not be used._
 
-### Light Client
+### Option 2: custom:
 
-`lnd` allows you to configure your node to use the new light client `neutrino` (BIP 157 & BIP 158) which allows you to run `lnd` without requiring a full node.
+To setup your own `lnd` for use with Zap please follow the instructions on the [lnd installation](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) page. Select the `custom` connection type during the on-boarding process to use your own `lnd` with Zap.
 
-This is the default configuration for the Zap wallet. To use the light client you can either use the [Lightning Labs Binary](#lightning-labs-binary) or [Compile lnd](#compile-lnd).
-
-#### Lightning Labs Binary
-
-**_Note:_** _The Lightning Labs `lightning-app` project is different then [lnd](https://github.com/lightningnetwork/lnd)_
-
-Download the [lnd binary](https://github.com/lightningnetwork/lnd/releases) for your appropriate OS and copy it to the [appropriate location](#lnd-location) for your OS.
-
-#### Compile lnd
-
-You can [compile](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) `lnd` from source to have the latest development version. This allows you to use [`lncli`](http://dev.lightning.community/overview/#lnd-interfaces) in addition to Zap, and run a separate `lnd` instance with [custom](http://dev.lightning.community/guides/installation/#lnd) configuration. Zap will detect the separate `lnd` instance and use it as the backend client.
-
-For Zap to run properly without any custom `lnd` setup, copy the `lnd` binary to the [appropriate location](#lnd-location) for your OS.
-
-The `lnd` binary can be found at `$GOPATH/bin`.
-
-### Full Bitcoin Node
-
-Follow the instructions on the [lnd installation](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) page.
-
-### lnd Location
-
-Zap expects `lnd` to be in one of these directories depending on your OS:
-
-- macOS `resources/bin/darwin/`
-- Linux `resources/bin/linux/`
-- Windows `resources/bin/win32/`
-
-On macOS and Linux, make sure the file has execute permissions:
-
-```bash
-chmod +x lnd
-```
+**_Note:_** _Your `lnd` node must already be running and unlocked in order for Zap to connect to it. Ensure that lnd's RPC server is listening on an external interface and that your firewall permits access to it._
 
 ## Running Zap
 
@@ -94,7 +61,7 @@ npm run test
 
 ### Running
 
-To run Zap:
+To run Zap in development mode:
 
 ```bash
 npm run dev
