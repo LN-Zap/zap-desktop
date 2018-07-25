@@ -8,6 +8,7 @@ import { dirname, join, normalize } from 'path'
 import Store from 'electron-store'
 import { app } from 'electron'
 import isDev from 'electron-is-dev'
+import untildify from 'untildify'
 
 // Get a path to prepend to any nodejs calls that are getting at files in the package,
 // so that it works both from source and in an asar-packaged mac app.
@@ -21,9 +22,6 @@ import isDev from 'electron-is-dev'
 // And no, we can't just set our working directory to somewhere inside the asar. The OS can't handle that.
 const appPath = app.getAppPath()
 const appRootPath = appPath.indexOf('default_app.asar') < 0 ? normalize(`${appPath}/..`) : ''
-
-// Get an electromn store named 'connection' in which the saved connection detailes are stored.
-const store = new Store({ name: 'connection' })
 
 // Get the name of the current platform which we can use to determine the tlsCertPathation of various lnd resources.
 const plat = platform()
@@ -58,17 +56,34 @@ if (isDev) {
 
 export default {
   lnd: () => {
-    const cert = store.get('cert')
-    const host = store.get('host')
-    const macaroon = store.get('macaroon')
+    // Get an electromn store named 'connection' in which the saved connection detailes are stored.
+    const store = new Store({ name: 'connection' })
+
+    // Determine what hostname to use.
+    let host = store.get('host')
+    if (typeof host === 'undefined') {
+      host = 'localhost:10009'
+    }
+
+    // Determine what cert to use.
+    let cert = store.get('cert')
+    if (typeof cert === 'undefined') {
+      cert = join(lndDataDir, 'tls.cert')
+    }
+
+    // Determine what macaroon to use.
+    let macaroon = store.get('macaroon')
+    if (typeof macaroon === 'undefined') {
+      macaroon = join(lndDataDir, 'admin.macaroon')
+    }
 
     return {
       lndPath,
       configPath: join(appRootPath, 'resources', 'lnd.conf'),
       rpcProtoPath: join(appRootPath, 'resources', 'rpc.proto'),
-      host: typeof host === 'undefined' ? 'localhost:10009' : host,
-      cert: typeof cert === 'undefined' ? join(lndDataDir, 'tls.cert') : cert,
-      macaroon: typeof macaroon === 'undefined' ? join(lndDataDir, 'admin.macaroon') : macaroon
+      host,
+      cert: untildify(cert),
+      macaroon: untildify(macaroon)
     }
   }
 }
