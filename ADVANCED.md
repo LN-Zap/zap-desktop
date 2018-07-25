@@ -70,16 +70,23 @@ Follow the instructions on the [lnd installation](https://github.com/lightningne
 ### lnd Location
 
 Zap expects `lnd` to be in one of these directories depending on your OS:
-
 - macOS `resources/bin/darwin/`
 - Linux `resources/bin/linux/`
 - Windows `resources/bin/win32/`
 
-On macOS and Linux, make sure the file has execute permissions:
-
+On macOS and Linux:
+1. make sure the file has execute permissions:
 ```bash
 chmod +x lnd
 ```
+2. symlink instead of copy executable
+```bash
+cd resources/bin/<operating-system>
+sudo ln -s $GOPATH/bin/lnd .
+``` 
+
+
+
 
 ## Running Zap
 
@@ -99,6 +106,15 @@ To run Zap:
 ```bash
 npm run dev
 ```
+
+if you are using a custom lnd: 
+1. click "custom" in the GUI
+2. fill out custom lnd fields: 
+    1. host/port is usually localhost:10009 (unless rpclisten=port is not listening on 10009 in .lnd/lnd.conf)
+    2. tls cert: ~/.lnd/tls.cert (unless tlscertpath in .lnd/lnd.conf is different)
+    3. macaroon file:  ~/.lnd/admin.macroon
+3. lncli unlock
+tls and macaroon files should generate automatically when running lnd 
 
 ### Linting
 
