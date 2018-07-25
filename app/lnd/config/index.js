@@ -1,8 +1,9 @@
-// Cert will be located depending on your machine
-// Mac OS X: /Users/user/Library/Application Support/Lnd/tls.cert
+// Cert will be tlsCertPathated depending on your machine:
+//
+// Mac OS X: /Users/.../Library/Application Support/Lnd/tls.cert
 // Linux: ~/.lnd/tls.cert
-// Windows: TODO find out where cert is located for windows machine
-import { userInfo, platform } from 'os'
+// Windows: C:\Users\...\AppData\Local\Lnd
+import { homedir, platform } from 'os'
 import { dirname, join, normalize } from 'path'
 import Store from 'electron-store'
 import { app } from 'electron'
@@ -24,37 +25,33 @@ const appRootPath = appPath.indexOf('default_app.asar') < 0 ? normalize(`${appPa
 // Get an electromn store named 'connection' in which the saved connection detailes are stored.
 const store = new Store({ name: 'connection' })
 
-// Get the name of the current platform which we can use to determine the location of various lnd resources.
+// Get the name of the current platform which we can use to determine the tlsCertPathation of various lnd resources.
 const plat = platform()
 
-let loc
-let macaroonPath
+// Get the OS specific default lnd data dir and binary name.
+let lndDataDir
 let lndBin
-let lndPath
-
 switch (plat) {
   case 'darwin':
-    loc = 'Library/Application Support/Lnd/tls.cert'
-    macaroonPath = 'Library/Application Support/Lnd/admin.macaroon'
+    lndDataDir = join(homedir(), 'Library', 'Application Support', 'Lnd')
     lndBin = 'lnd'
     break
   case 'linux':
-    loc = '.lnd/tls.cert'
-    macaroonPath = '.lnd/admin.macaroon'
+    lndDataDir = join(homedir(), '.lnd')
     lndBin = 'lnd'
     break
   case 'win32':
-    loc = join('Appdata', 'Local', 'Lnd', 'tls.cert')
-    macaroonPath = join('Appdata', 'Local', 'Lnd', 'admin.macaroon')
+    lndDataDir = join(process.env.APPDATA, 'Local', 'Lnd')
     lndBin = 'lnd.exe'
     break
   default:
     break
 }
 
+// Get the path to the lnd binary.
+let lndPath
 if (isDev) {
-  const lndBinaryDir = dirname(require.resolve('lnd-binary/package.json'))
-  lndPath = join(lndBinaryDir, 'vendor', lndBin)
+  lndPath = join(dirname(require.resolve('lnd-binary/package.json')), 'vendor', lndBin)
 } else {
   lndPath = join(appRootPath, 'bin', lndBin)
 }
@@ -70,8 +67,8 @@ export default {
       configPath: join(appRootPath, 'resources', 'lnd.conf'),
       rpcProtoPath: join(appRootPath, 'resources', 'rpc.proto'),
       host: typeof host === 'undefined' ? 'localhost:10009' : host,
-      cert: typeof cert === 'undefined' ? join(userInfo().homedir, loc) : cert,
-      macaroon: typeof macaroon === 'undefined' ? join(userInfo().homedir, macaroonPath) : macaroon
+      cert: typeof cert === 'undefined' ? join(lndDataDir, 'tls.cert') : cert,
+      macaroon: typeof macaroon === 'undefined' ? join(lndDataDir, 'admin.macaroon') : macaroon
     }
   }
 }
