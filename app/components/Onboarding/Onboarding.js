@@ -161,7 +161,7 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Welcome back!"
-            description="Enter your wallet password or create a new wallet"
+            description="It looks like you have already a wallet. Please enter your wallet password to unlock it."
             back={null}
             next={null}
           >
