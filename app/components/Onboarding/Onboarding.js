@@ -161,7 +161,10 @@ const Onboarding = ({
         return (
           <FormContainer
             title="Welcome back!"
-            description="It looks like you have already a wallet. Please enter your wallet password to unlock it."
+            description={`It looks like you have already a wallet
+              ${Boolean(initWalletProps.loginProps.existingWalletDir) &&
+                `(we found one at \`${initWalletProps.loginProps.existingWalletDir}\`)`}.
+            Please enter your wallet password to unlock it.`}
             back={null}
             next={null}
           >

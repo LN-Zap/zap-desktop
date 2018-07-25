@@ -127,6 +127,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       password: stateProps.onboarding.password,
       passwordIsValid: stateProps.passwordIsValid,
       hasSeed: stateProps.onboarding.hasSeed,
+      existingWalletDir: stateProps.onboarding.existingWalletDir,
       unlockingWallet: stateProps.onboarding.unlockingWallet,
       unlockWalletError: stateProps.onboarding.unlockWalletError,
 
