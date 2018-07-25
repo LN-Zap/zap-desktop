@@ -10,6 +10,7 @@
 
 [![dependencies Status](https://david-dm.org/LN-Zap/zap-desktop/status.svg)](https://david-dm.org/LN-Zap/zap-desktop)
 [![Build Status](https://travis-ci.org/LN-Zap/zap-desktop.svg?branch=master)](https://travis-ci.org/LN-Zap/zap-desktop)
+[![Coverage Status](https://coveralls.io/repos/github/LN-Zap/zap-desktop/badge.svg?branch=master)](https://coveralls.io/github/LN-Zap/zap-desktop?branch=master)
 [![GitHub license](https://img.shields.io/github/license/LN-Zap/zap-desktop.svg)](LICENSE)
 
 Zap is a free Lightning Network wallet focused on user experience and ease of use, with the overall goal of helping the cryptocurrency community scale Bitcoin and other cryptocurrencies.
