@@ -38,6 +38,8 @@ export const STARTING_LND = 'STARTING_LND'
 export const LND_STARTED = 'LND_STARTED'
 export const SET_START_LND_ERROR = 'SET_START_LND_ERROR'
 
+export const LOADING_EXISTING_WALLET = 'LOADING_EXISTING_WALLET'
+
 export const CREATING_NEW_WALLET = 'CREATING_NEW_WALLET'
 
 export const UNLOCKING_WALLET = 'UNLOCKING_WALLET'
@@ -268,10 +270,14 @@ export const receiveSeed = (event, { cipher_seed_mnemonic }) => dispatch => {
 }
 
 // Listener for when LND throws an error on seed creation
-export const receiveSeedError = () => dispatch => {
+export const receiveSeedError = (event, error) => dispatch => {
   dispatch({ type: SET_HAS_SEED, hasSeed: true })
   // there is already a seed, send user to the login component
   dispatch({ type: CHANGE_STEP, step: 3 })
+  dispatch({
+    type: LOADING_EXISTING_WALLET,
+    existingWalletDir: get(error, 'context.lndDataDir')
+  })
 }
 
 // Unlock an existing wallet with a wallet password
@@ -339,6 +345,8 @@ const ACTION_HANDLERS = {
     startLndCertError: errors.cert,
     startLndMacaroonError: errors.macaroon
   }),
+
+  [LOADING_EXISTING_WALLET]: (state, { existingWalletDir }) => ({ ...state, existingWalletDir }),
 
   [CREATING_NEW_WALLET]: state => ({ ...state, creatingNewWallet: true }),
 
@@ -464,6 +472,7 @@ const initialState = {
   createWalletPasswordConfirmation: '',
   creatingNewWallet: false,
 
+  existingWalletDir: null,
   unlockingWallet: false,
   unlockWalletError: {
     isError: false,
