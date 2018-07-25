@@ -183,8 +183,9 @@ export const receiveChannels = (event, { channels, pendingChannels }) => dispatc
   dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, host, local_amt }) => dispatch => {
-  const localamt = btc.btcToSatoshis(local_amt)
+export const openChannel = ({ pubkey, host, local_amt }) => (dispatch, getState) => {
+  const state = getState()
+  const localamt = btc.convert(state.ticker.currency, 'sats', local_amt)
 
   dispatch(openingChannel())
   dispatch(addLoadingPubkey(pubkey))
