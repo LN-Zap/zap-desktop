@@ -11,6 +11,11 @@ const Login = ({ password, updatePassword, unlockingWallet, unlockWallet, unlock
       ref={input => input && input.focus()}
       value={password}
       onChange={event => updatePassword(event.target.value)}
+      onKeyPress={event => {
+        if (event.key === 'Enter') {
+          unlockWallet(password)
+        }
+      }}
     />
     <p className={`${unlockWalletError.isError && styles.active} ${styles.error}`}>
       {unlockWalletError.message}
