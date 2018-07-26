@@ -1,0 +1,22 @@
+.container {
+  background: #1d1f27;
+  position: absolute;
+  width: 200px;
+  top: 30px;
+  left: -100px;
+  z-index: 10;
+
+  li {
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 10px;
+    cursor: pointer;
+    transition: all 0.25s;
+
+    &:hover {
+      background: #0f0f0f;
+    }
+  }
+}

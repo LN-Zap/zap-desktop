@@ -20,6 +20,8 @@ import { payFormSelectors } from 'reducers/payform'
 
 import { setWalletCurrencyFilters } from 'reducers/info'
 
+import { setSettingsOpen, setActiveSubMenu, disableSubMenu } from 'reducers/settings'
+
 import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
@@ -39,7 +41,10 @@ const mapDispatchToProps = {
   updateSearchActive,
   updateSearchText,
   setFormType,
-  setWalletCurrencyFilters
+  setWalletCurrencyFilters,
+  setSettingsOpen,
+  setActiveSubMenu,
+  disableSubMenu
 }
 
 const mapStateToProps = state => ({
@@ -58,6 +63,8 @@ const mapStateToProps = state => ({
   ticker: state.ticker,
 
   network: state.network,
+
+  settings: state.settings,
 
   paymentModalOpen: paymentSelectors.paymentModalOpen(state),
   invoiceModalOpen: invoiceSelectors.invoiceModalOpen(state),
@@ -96,7 +103,26 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     walletAddress: dispatchProps.walletAddress,
     openReceiveModal: dispatchProps.openWalletModal,
     openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
-    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
+    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM'),
+
+    settingsProps: {
+      settings: stateProps.settings,
+
+      toggleSettings: () => {
+        if (stateProps.settings.settingsOpen) {
+          dispatchProps.setSettingsOpen(false)
+        } else {
+          dispatchProps.setSettingsOpen(true)
+        }
+
+        return
+      },
+      setActiveSubMenu: dispatchProps.setActiveSubMenu,
+
+      fiatProps: {
+        disableSubMenu: dispatchProps.disableSubMenu
+      }
+    }
   }
 })
 

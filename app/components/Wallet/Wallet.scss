@@ -19,10 +19,11 @@
   }
 
   .user {
+    position: relative;
     cursor: pointer;
     transition: all 0.25s;
 
-    &:hover {
+    .aliasText:hover {
       opacity: 0.5;
     }
   }
