@@ -1,12 +1,9 @@
-// Cert will be located depending on your machine
-// Mac OS X: /Users/user/Library/Application Support/Lnd/tls.cert
-// Linux: ~/.lnd/tls.cert
-// Windows: TODO find out where cert is located for windows machine
-import { userInfo, platform } from 'os'
+import { homedir, platform } from 'os'
 import { dirname, join, normalize } from 'path'
 import Store from 'electron-store'
 import { app } from 'electron'
 import isDev from 'electron-is-dev'
+import untildify from 'untildify'
 
 // Get a path to prepend to any nodejs calls that are getting at files in the package,
 // so that it works both from source and in an asar-packaged mac app.
@@ -21,57 +18,75 @@ import isDev from 'electron-is-dev'
 const appPath = app.getAppPath()
 const appRootPath = appPath.indexOf('default_app.asar') < 0 ? normalize(`${appPath}/..`) : ''
 
-// Get an electromn store named 'connection' in which the saved connection detailes are stored.
-const store = new Store({ name: 'connection' })
-
-// Get the name of the current platform which we can use to determine the location of various lnd resources.
+// Get the name of the current platform which we can use to determine the tlsCertPathation of various lnd resources.
 const plat = platform()
 
-let loc
-let macaroonPath
+// Get the OS specific default lnd data dir and binary name.
+let lndDataDir
 let lndBin
-let lndPath
-
 switch (plat) {
   case 'darwin':
-    loc = 'Library/Application Support/Lnd/tls.cert'
-    macaroonPath = 'Library/Application Support/Lnd/admin.macaroon'
+    lndDataDir = join(homedir(), 'Library', 'Application Support', 'Lnd')
     lndBin = 'lnd'
     break
   case 'linux':
-    loc = '.lnd/tls.cert'
-    macaroonPath = '.lnd/admin.macaroon'
+    lndDataDir = join(homedir(), '.lnd')
     lndBin = 'lnd'
     break
   case 'win32':
-    loc = join('Appdata', 'Local', 'Lnd', 'tls.cert')
-    macaroonPath = join('Appdata', 'Local', 'Lnd', 'admin.macaroon')
+    lndDataDir = join(process.env.APPDATA, 'Local', 'Lnd')
     lndBin = 'lnd.exe'
     break
   default:
     break
 }
 
+// Get the path to the lnd binary.
+let lndPath
 if (isDev) {
-  const lndBinaryDir = dirname(require.resolve('lnd-binary/package.json'))
-  lndPath = join(lndBinaryDir, 'vendor', lndBin)
+  lndPath = join(dirname(require.resolve('lnd-binary/package.json')), 'vendor', lndBin)
 } else {
   lndPath = join(appRootPath, 'bin', lndBin)
 }
 
-export default {
-  lnd: () => {
-    const cert = store.get('cert')
-    const host = store.get('host')
-    const macaroon = store.get('macaroon')
+/**
+ * Get current lnd configuration.
+ *
+ * Cert and Macaroon will be at one of the following destinations depending on your machine:
+ * Mac OS X: ~/Library/Application Support/Lnd/tls.cert
+ * Linux: ~/.lnd/tls.cert
+ * Windows: C:\Users\...\AppData\Local\Lnd
+ *
+ * @return {object} current lnd configuration options.
+ */
+const lnd = () => {
+  // Get an electron store named 'connection' in which the saved connection detailes are stored.
+  const store = new Store({ name: 'connection' })
 
-    return {
-      lndPath,
-      configPath: join(appRootPath, 'resources', 'lnd.conf'),
-      rpcProtoPath: join(appRootPath, 'resources', 'rpc.proto'),
-      host: typeof host === 'undefined' ? 'localhost:10009' : host,
-      cert: typeof cert === 'undefined' ? join(userInfo().homedir, loc) : cert,
-      macaroon: typeof macaroon === 'undefined' ? join(userInfo().homedir, macaroonPath) : macaroon
+  /**
+   * Fetch a config option from the connection store.
+   * if undefined fallback to a path relative to the lnd data dir.
+   *
+   * @param {string} name name of property to fetch from the store.
+   * @param {string} path path relative to the lnd data dir.
+   * @return {string} config param or filepath relative to the lnd data dir.
+   */
+  const getFromStoreOrDataDir = (name, file) => {
+    let path = store.get(name)
+    if (typeof path === 'undefined') {
+      path = join(lndDataDir, file)
     }
+    return untildify(path)
+  }
+
+  return {
+    lndPath,
+    configPath: join(appRootPath, 'resources', 'lnd.conf'),
+    rpcProtoPath: join(appRootPath, 'resources', 'rpc.proto'),
+    host: store.get('host', 'localhost:10009'),
+    cert: getFromStoreOrDataDir('cert', 'tls.cert'),
+    macaroon: getFromStoreOrDataDir('macaroon', 'admin.macaroon')
   }
 }
+
+export default { lnd }
