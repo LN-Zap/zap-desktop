@@ -81,7 +81,7 @@ class ZapController {
           return setTimeout(async () => {
             if (mode === 'external') {
               // If lnd is already running, create and subscribe to the Lightning grpc object.
-              await this.startGrpc()
+              await this.startLightningWallet()
               this.sendMessage('successfullyCreatedWallet')
             } else {
               // Otherwise, start the onboarding process.
@@ -114,8 +114,8 @@ class ZapController {
   /**
    * Create and subscribe to the Lightning grpc object.
    */
-  async startGrpc() {
-    mainLog.info('Starting gRPC...')
+  async startLightningWallet() {
+    mainLog.info('Starting lightning wallet...')
     const { lndSubscribe, lndMethods } = await lnd.initLnd()
 
     // Subscribe to bi-directional streams
@@ -126,7 +126,7 @@ class ZapController {
       lndMethods(event, msg, data)
     })
 
-    this.sendMessage('grpcConnected')
+    this.sendMessage('lightningGrpcActive')
   }
 
   /**
@@ -142,7 +142,7 @@ class ZapController {
         walletUnlockerMethods(event, msg, data)
       })
 
-      this.sendMessage('walletUnlockerStarted')
+      this.sendMessage('walletUnlockerGrpcActive')
     } catch (error) {
       dialog.showMessageBox({
         type: 'error',
@@ -174,14 +174,14 @@ class ZapController {
       app.quit()
     })
 
-    this.neutrino.on('grpc-proxy-started', () => {
-      mainLog.info('gRPC proxy started')
+    this.neutrino.on('wallet-unlocker-grpc-active', () => {
+      mainLog.info('Wallet unlocker gRPC active')
       this.startWalletUnlocker()
     })
 
-    this.neutrino.on('wallet-opened', () => {
-      mainLog.info('Wallet opened')
-      this.startGrpc()
+    this.neutrino.on('lightning-grpc-active', () => {
+      mainLog.info('Lightning gRPC active')
+      this.startLightningWallet()
     })
 
     this.neutrino.on('chain-sync-waiting', () => {
@@ -243,7 +243,7 @@ class ZapController {
         mainLog.info(' > host:', cleanOptions.host)
         mainLog.info(' > cert:', cleanOptions.cert)
         mainLog.info(' > macaroon:', cleanOptions.macaroon)
-        this.startGrpc()
+        this.startLightningWallet()
           .then(() => this.sendMessage('successfullyCreatedWallet'))
           .catch(e => {
             const errors = {}

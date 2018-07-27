@@ -15,8 +15,7 @@ export const SET_SYNC_STATUS_COMPLETE = 'SET_SYNC_STATUS_COMPLETE'
 export const RECEIVE_BLOCK_HEIGHT = 'RECEIVE_BLOCK_HEIGHT'
 export const RECEIVE_BLOCK = 'RECEIVE_BLOCK'
 
-export const GRPC_DISCONNECTED = 'GRPC_DISCONNECTED'
-export const GRPC_CONNECTED = 'GRPC_CONNECTED'
+export const SET_LIGHTNING_WALLET_ACTIVE = 'SET_LIGHTNING_WALLET_ACTIVE'
 
 // ------------------------------------
 // Actions
@@ -60,11 +59,9 @@ export const lndSyncStatus = (event, status) => (dispatch, getState) => {
   }
 }
 
-export const grpcDisconnected = () => dispatch => dispatch({ type: GRPC_DISCONNECTED })
-
-export const grpcConnected = () => dispatch => {
+export const lightningGrpcActive = () => dispatch => {
   dispatch(fetchInfo())
-  dispatch({ type: GRPC_CONNECTED })
+  dispatch({ type: SET_LIGHTNING_WALLET_ACTIVE })
 }
 
 // Receive IPC event for LND streaming a line
@@ -98,8 +95,7 @@ const ACTION_HANDLERS = {
   }),
   [RECEIVE_BLOCK]: (state, { lndBlockHeight }) => ({ ...state, lndBlockHeight }),
 
-  [GRPC_DISCONNECTED]: state => ({ ...state, grpcStarted: false }),
-  [GRPC_CONNECTED]: state => ({ ...state, grpcStarted: true })
+  [SET_LIGHTNING_WALLET_ACTIVE]: state => ({ ...state, lightningGrpcActive: true })
 }
 
 // ------------------------------------
@@ -107,7 +103,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   syncStatus: 'pending',
-  grpcStarted: false,
+  lightningGrpcActive: false,
   blockHeight: 0,
   lndBlockHeight: 0
 }
