@@ -51,9 +51,10 @@ const logConfig = name => ({
   }
 })
 
-// Create 2 logs for use in the app.
+// Create logs for use in the app.
 export const mainLog = debugLogger.config(logConfig('main'))('zap')
 export const lndLog = debugLogger.config(logConfig('lnd '))('zap')
+export const updaterLog = debugLogger.config(logConfig('updater'))('zap')
 
 let lndLogLevel = null // stored most recent log level for continuity
 export const lndLogGetLevel = msg => {
