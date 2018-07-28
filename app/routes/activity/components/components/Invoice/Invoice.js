@@ -30,7 +30,7 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
       </div>
       <div className={styles.subtitle}>
         <Moment format="h:mm a">
-          {invoice.settled ? invoice.settled_date * 1000 : invoice.creation_date * 1000}
+          {invoice.settled ? invoice.settle_date * 1000 : invoice.creation_date * 1000}
         </Moment>
       </div>
     </div>
