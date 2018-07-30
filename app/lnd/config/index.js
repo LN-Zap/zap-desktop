@@ -34,7 +34,7 @@ switch (plat) {
     lndBin = 'lnd'
     break
   case 'win32':
-    lndDataDir = join(process.env.APPDATA, 'Local', 'Lnd')
+    lndDataDir = join(process.env.LOCALAPPDATA, 'Local', 'Lnd')
     lndBin = 'lnd.exe'
     break
   default:
