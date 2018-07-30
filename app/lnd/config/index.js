@@ -1,4 +1,4 @@
-import { homedir, platform } from 'os'
+import { platform } from 'os'
 import { dirname, join, normalize } from 'path'
 import Store from 'electron-store'
 import { app } from 'electron'
@@ -18,30 +18,8 @@ import untildify from 'untildify'
 const appPath = app.getAppPath()
 const appRootPath = appPath.indexOf('default_app.asar') < 0 ? normalize(`${appPath}/..`) : ''
 
-// Get the name of the current platform which we can use to determine the tlsCertPathation of various lnd resources.
-const plat = platform()
-
-// Get the OS specific default lnd data dir and binary name.
-let lndDataDir
-let lndBin
-switch (plat) {
-  case 'darwin':
-    lndDataDir = join(homedir(), 'Library', 'Application Support', 'Lnd')
-    lndBin = 'lnd'
-    break
-  case 'linux':
-    lndDataDir = join(homedir(), '.lnd')
-    lndBin = 'lnd'
-    break
-  case 'win32':
-    lndDataDir = join(process.env.APPDATA, 'Local', 'Lnd')
-    lndBin = 'lnd.exe'
-    break
-  default:
-    break
-}
-
-// Get the path to the lnd binary.
+// Get the OS specific path to the lnd binary.
+const lndBin = platform() === 'win32' ? 'lnd.exe' : 'lnd'
 let lndPath
 if (isDev) {
   lndPath = join(dirname(require.resolve('lnd-binary/package.json')), 'vendor', lndBin)
@@ -74,7 +52,7 @@ const lnd = () => {
   const getFromStoreOrDataDir = (name, file) => {
     let path = store.get(name)
     if (typeof path === 'undefined') {
-      path = join(lndDataDir, file)
+      path = join(app.getPath('userData'), file)
     }
     return untildify(path)
   }
