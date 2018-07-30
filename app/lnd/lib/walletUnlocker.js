@@ -1,13 +1,29 @@
 import fs from 'fs'
 import grpc from 'grpc'
+import { loadSync } from '@grpc/proto-loader'
 import config from '../config'
 
 const walletUnlocker = (rpcpath, host) => {
   const lndConfig = config.lnd()
   const lndCert = fs.readFileSync(lndConfig.cert)
   const credentials = grpc.credentials.createSsl(lndCert)
-  const rpc = grpc.load(lndConfig.rpcProtoPath)
 
+  // Load the gRPC proto file.
+  // The following options object closely approximates the existing behavior of grpc.load
+  // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
+  const options = {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    defaults: true,
+    oneofs: true
+  }
+  const packageDefinition = loadSync(lndConfig.rpcProtoPath, options)
+
+  // Load gRPC package definition as a gRPC object hierarchy.
+  const rpc = grpc.loadPackageDefinition(packageDefinition)
+
+  // Instantiate a new connection to the WalletUnlocker interface.
   return new rpc.lnrpc.WalletUnlocker(host, credentials)
 }
 
