@@ -245,6 +245,7 @@
     "webpack-serve": "^2.0.2"
   },
   "dependencies": {
+    "@grpc/proto-loader": "^0.3.0",
     "axios": "^0.16.2",
     "bitcoinjs-lib": "^3.2.0",
     "copy-to-clipboard": "^3.0.8",
