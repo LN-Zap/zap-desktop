@@ -206,22 +206,23 @@ const Root = ({
   onboardingProps,
   syncingProps
 }) => {
-  // If we are syncing show the syncing screen
-  if (!onboardingProps.onboarding.onboarded) {
+  // If we are onboarding show the onboarding screen.
+  if (onboardingProps.onboarding.onboarding) {
     return <Onboarding {...onboardingProps} />
   }
 
-  // If we are syncing show the syncing screen
+  // If we are syncing show the syncing screen.
   if (
+    onboardingProps.onboarding.onboarded &&
+    lnd.lightningGrpcActive &&
     onboardingProps.onboarding.connectionType === 'local' &&
-    lnd.grpcStarted &&
     lnd.syncStatus !== 'complete'
   ) {
     return <Syncing {...syncingProps} />
   }
 
-  // Don't launch the app without gRPC connection
-  if (!lnd.grpcStarted) {
+  // Don't launch the app without a connection to the lightning wallet gRPC interface.
+  if (!lnd.lightningGrpcActive) {
     return <LoadingBolt />
   }
 

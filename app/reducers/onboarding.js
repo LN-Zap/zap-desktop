@@ -250,7 +250,7 @@ export const startLndError = (event, errors) => (dispatch, getState) => {
 }
 
 // Listener from after the LND walletUnlocker has started
-export const walletUnlockerStarted = () => dispatch => {
+export const walletUnlockerGrpcActive = () => dispatch => {
   dispatch({ type: LND_STARTED })
   ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
 }
@@ -333,8 +333,8 @@ const ACTION_HANDLERS = {
 
   [CHANGE_STEP]: (state, { step }) => ({ ...state, step, previousStep: state.step }),
 
-  [ONBOARDING_STARTED]: state => ({ ...state, onboarded: false }),
-  [ONBOARDING_FINISHED]: state => ({ ...state, onboarded: true }),
+  [ONBOARDING_STARTED]: state => ({ ...state, onboarding: true, onboarded: false }),
+  [ONBOARDING_FINISHED]: state => ({ ...state, onboarding: false, onboarded: true }),
 
   [STARTING_LND]: state => ({ ...state, startingLnd: true }),
   [LND_STARTED]: state => ({ ...state, startingLnd: false }),
@@ -448,6 +448,7 @@ export { onboardingSelectors }
 // Reducer
 // ------------------------------------
 const initialState = {
+  onboarding: false,
   onboarded: false,
   step: 0.1,
   connectionType: store.get('type', 'local'),

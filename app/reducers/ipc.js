@@ -1,11 +1,5 @@
 import createIpc from 'redux-electron-ipc'
-import {
-  lndSyncStatus,
-  currentBlockHeight,
-  lndBlockHeight,
-  grpcDisconnected,
-  grpcConnected
-} from './lnd'
+import { lndSyncStatus, currentBlockHeight, lndBlockHeight, lightningGrpcActive } from './lnd'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
 import { receiveCryptocurrency } from './ticker'
@@ -47,7 +41,7 @@ import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoute
 import {
   startOnboarding,
   startLndError,
-  walletUnlockerStarted,
+  walletUnlockerGrpcActive,
   receiveSeed,
   receiveSeedError,
   successfullyCreatedWallet,
@@ -60,8 +54,7 @@ const ipc = createIpc({
   lndSyncStatus,
   currentBlockHeight,
   lndBlockHeight,
-  grpcDisconnected,
-  grpcConnected,
+  lightningGrpcActive,
 
   receiveInfo,
 
@@ -115,7 +108,7 @@ const ipc = createIpc({
 
   startOnboarding,
   startLndError,
-  walletUnlockerStarted,
+  walletUnlockerGrpcActive,
   receiveSeed,
   receiveSeedError,
   successfullyCreatedWallet,
