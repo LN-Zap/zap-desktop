@@ -1,11 +1,24 @@
-import { app, ipcMain, dialog } from 'electron'
+// @flow
+
+import { app, ipcMain, dialog, BrowserWindow } from 'electron'
+import pick from 'lodash.pick'
 import Store from 'electron-store'
 import StateMachine from 'javascript-state-machine'
-import lnd from '../lnd'
+import LndConfig from '../lnd/config'
 import Neutrino from '../lnd/neutrino'
 import Lightning from '../lnd/lightning'
+import { initWalletUnlocker } from '../lnd/walletUnlocker'
 import { mainLog } from '../utils/log'
 import { isLndRunning } from '../lnd/util'
+
+type onboardingOptions = {
+  type: 'local' | 'custom' | 'btcpayserver',
+  host?: string,
+  cert?: string,
+  macaroon?: string,
+  alias?: string,
+  autopilot?: boolean
+}
 
 const grpcSslCipherSuites = connectionType =>
   (connectionType === 'btcpayserver'
@@ -37,11 +50,26 @@ const grpcSslCipherSuites = connectionType =>
  * The ZapController class coordinates actions between the the main nand renderer processes.
  */
 class ZapController {
+  mainWindow: BrowserWindow
+  neutrino: Neutrino
+  lightning: Lightning
+  splashScreenTime: number
+  lightningGrpcConnected: boolean
+  lndConfig: LndConfig
+  _fsm: StateMachine
+
+  // Transitions provided by the state machine.
+  startOnboarding: any
+  startLnd: any
+  connectLnd: any
+  terminate: any
+  is: any
+
   /**
    * Create a new ZapController instance.
    * @param {BrowserWindow} mainWindow BrowserWindow instance to interact with.
    */
-  constructor(mainWindow) {
+  constructor(mainWindow: BrowserWindow) {
     // Variable to hold the main window instance.
     this.mainWindow = mainWindow
 
@@ -59,6 +87,10 @@ class ZapController {
 
     // Initialize the state machine.
     this._fsm()
+
+    // Initialise the controler with the current active config.
+    this.lndConfig = new LndConfig()
+    this.lndConfig.load()
   }
 
   /**
@@ -101,11 +133,12 @@ class ZapController {
 
   onStartOnboarding() {
     mainLog.debug('[FSM] onStartOnboarding...')
-    this.sendMessage('startOnboarding')
+    this.sendMessage('startOnboarding', this.lndConfig)
   }
 
-  onStartLnd(options) {
+  onStartLnd() {
     mainLog.debug('[FSM] onStartLnd...')
+
     return isLndRunning().then(res => {
       if (res) {
         mainLog.error('lnd already running: %s', res)
@@ -115,20 +148,23 @@ class ZapController {
         })
         return app.quit()
       }
+
       mainLog.info('Starting new lnd instance')
-      mainLog.info(' > alias:', options.alias)
-      mainLog.info(' > autopilot:', options.autopilot)
-      return this.startNeutrino(options.alias, options.autopilot)
+      mainLog.info(' > alias:', this.lndConfig.alias)
+      mainLog.info(' > autopilot:', this.lndConfig.autopilot)
+
+      return this.startNeutrino()
     })
   }
 
-  onConnectLnd(options) {
+  onConnectLnd() {
     mainLog.debug('[FSM] onConnectLnd...')
     mainLog.info('Connecting to custom lnd instance')
-    mainLog.info(' > host:', options.host)
-    mainLog.info(' > cert:', options.cert)
-    mainLog.info(' > macaroon:', options.macaroon)
-    this.startLightningWallet()
+    mainLog.info(' > host:', this.lndConfig.host)
+    mainLog.info(' > cert:', this.lndConfig.cert)
+    mainLog.info(' > macaroon:', this.lndConfig.macaroon)
+
+    return this.startLightningWallet()
       .then(() => this.sendMessage('finishOnboarding'))
       .catch(e => {
         const errors = {}
@@ -183,7 +219,7 @@ class ZapController {
    * @param  {string} msg message to send.
    * @param  {[type]} data additional data to acompany the message.
    */
-  sendMessage(msg, data) {
+  sendMessage(msg: string, data: any) {
     if (this.mainWindow) {
       mainLog.info('Sending message to renderer process: %o', { msg, data })
       this.mainWindow.webContents.send(msg, data)
@@ -201,7 +237,7 @@ class ZapController {
   startWalletUnlocker() {
     mainLog.info('Starting wallet unlocker...')
     try {
-      const walletUnlockerMethods = lnd.initWalletUnlocker()
+      const walletUnlockerMethods = initWalletUnlocker(this.lndConfig)
 
       // Listen for all gRPC restful methods
       ipcMain.on('walletUnlocker', (event, { msg, data }) => {
@@ -227,7 +263,7 @@ class ZapController {
     this.lightning = new Lightning()
 
     // Connect to the Lightning interface.
-    await this.lightning.connect()
+    await this.lightning.connect(this.lndConfig)
 
     // Subscribe the main window to receive streams.
     this.lightning.subscribe(this.mainWindow)
@@ -265,9 +301,9 @@ class ZapController {
    * @param  {boolean} autopilot True if autopilot should be enabled.
    * @return {Neutrino} Neutrino instance.
    */
-  startNeutrino(alias, autopilot) {
+  startNeutrino() {
     mainLog.info('Starting Neutrino...')
-    this.neutrino = new Neutrino(alias, autopilot)
+    this.neutrino = new Neutrino(this.lndConfig)
 
     this.neutrino.on('error', error => {
       mainLog.error(`Got error from lnd process: ${error})`)
@@ -279,7 +315,7 @@ class ZapController {
 
     this.neutrino.on('close', code => {
       mainLog.info(`Lnd process has shut down (code ${code})`)
-      if (['running', 'connected'].includes(this.state)) {
+      if (this.is('running') || this.is('connected')) {
         dialog.showMessageBox({
           type: 'error',
           message: `Lnd has unexpectadly quit`
@@ -324,18 +360,27 @@ class ZapController {
     this.neutrino.start()
   }
 
-  finishOnboarding(options) {
-    // Trim any user supplied strings.
-    const cleanOptions = Object.keys(options).reduce((previous, current) => {
-      previous[current] =
-        typeof options[current] === 'string' ? options[current].trim() : options[current]
-      return previous
-    }, {})
+  finishOnboarding(options: onboardingOptions) {
+    mainLog.info('Finishing onboarding')
+    // Save the lnd config options that we got from the renderer.
+    this.lndConfig = new LndConfig({
+      type: options.type,
+      currency: 'bitcoin',
+      network: 'testnet',
+      wallet: 'wallet-1',
+      settings: pick(options, LndConfig.SETTINGS_PROPS[options.type])
+    })
+    this.lndConfig.save()
 
-    // Save the options.
-    const store = new Store({ name: 'connection' })
-    store.store = cleanOptions
-    mainLog.info('Saved lnd config to %s: %o', store.path, store.store)
+    // Set as the active config.
+    const settings = new Store({ name: 'settings' })
+    settings.set('activeConnection', {
+      type: this.lndConfig.type,
+      currency: this.lndConfig.currency,
+      network: this.lndConfig.network,
+      wallet: this.lndConfig.wallet
+    })
+    mainLog.info('Saved active connection as: %o', settings.get('activeConnection'))
 
     // Set up SSL with the cypher suits that we need based on the connection type.
     process.env.GRPC_SSL_CIPHER_SUITES =
@@ -343,14 +388,14 @@ class ZapController {
 
     // If the requested connection type is a local one then start up a new lnd instance.
     // // Otherwise attempt to connect to an lnd instance using user supplied connection details.
-    cleanOptions.type === 'local' ? this.startLnd() : this.connectLnd()
+    return options.type === 'local' ? this.startLnd() : this.connectLnd()
   }
 
   /**
    * Add IPC event listeners...
    */
   _registerIpcListeners() {
-    ipcMain.on('startLnd', (event, options = {}) => this.finishOnboarding(options))
+    ipcMain.on('startLnd', (event, options: onboardingOptions) => this.finishOnboarding(options))
   }
 }
 

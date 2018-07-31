@@ -1,10 +1,7 @@
 import { dirname } from 'path'
 import * as walletController from '../methods/walletController'
-import config from '../config'
 
-export default function(walletUnlocker, log, event, msg, data) {
-  const lndConfig = config.lnd()
-
+export default function(lndConfig, walletUnlocker, log, event, msg, data) {
   const decorateError = error => {
     switch (error.code) {
       // wallet already exists

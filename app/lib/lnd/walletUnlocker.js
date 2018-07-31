@@ -1,10 +1,18 @@
 import fs from 'fs'
 import grpc from 'grpc'
 import { loadSync } from '@grpc/proto-loader'
-import config from './config'
+import walletUnlockerMethods from './walletUnlockerMethods'
+import { mainLog } from '../utils/log'
 
-const walletUnlocker = (rpcpath, host) => {
-  const lndConfig = config.lnd()
+export const initWalletUnlocker = lndConfig => {
+  const walletUnlockerObj = walletUnlocker(lndConfig)
+  const walletUnlockerMethodsCallback = (event, msg, data) =>
+    walletUnlockerMethods(lndConfig, walletUnlockerObj, mainLog, event, msg, data)
+
+  return walletUnlockerMethodsCallback
+}
+
+export const walletUnlocker = lndConfig => {
   const lndCert = fs.readFileSync(lndConfig.cert)
   const credentials = grpc.credentials.createSsl(lndCert)
 
@@ -24,7 +32,5 @@ const walletUnlocker = (rpcpath, host) => {
   const rpc = grpc.loadPackageDefinition(packageDefinition)
 
   // Instantiate a new connection to the WalletUnlocker interface.
-  return new rpc.lnrpc.WalletUnlocker(host, credentials)
+  return new rpc.lnrpc.WalletUnlocker(lndConfig.host, credentials)
 }
-
-export default walletUnlocker

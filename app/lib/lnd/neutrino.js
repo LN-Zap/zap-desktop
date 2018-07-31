@@ -1,7 +1,6 @@
 import split2 from 'split2'
 import { spawn } from 'child_process'
 import EventEmitter from 'events'
-import config from './config'
 import { mainLog, lndLog, lndLogGetLevel } from '../utils/log'
 import { fetchBlockHeight } from './util'
 
@@ -24,10 +23,9 @@ const GOT_LND_BLOCK_HEIGHT = 'got-lnd-block-height'
  * @extends EventEmitter
  */
 class Neutrino extends EventEmitter {
-  constructor(alias, autopilot) {
+  constructor(lndConfig) {
     super()
-    this.alias = alias
-    this.autopilot = autopilot
+    this.lndConfig = lndConfig
     this.process = null
     this.walletUnlockerGrpcActive = false
     this.lightningGrpcActive = false
@@ -43,21 +41,21 @@ class Neutrino extends EventEmitter {
       throw new Error('Neutrino process with PID ${this.process.pid} already exists.')
     }
 
-    const lndConfig = config.lnd()
     mainLog.info('Starting lnd in neutrino mode')
-    mainLog.debug(' > lndPath', lndConfig.lndPath)
-    mainLog.debug(' > rpcProtoPath:', lndConfig.rpcProtoPath)
-    mainLog.debug(' > host:', lndConfig.host)
-    mainLog.debug(' > cert:', lndConfig.cert)
-    mainLog.debug(' > macaroon:', lndConfig.macaroon)
+    mainLog.info(' > binaryPath', this.lndConfig.binaryPath)
+    mainLog.info(' > rpcProtoPath:', this.lndConfig.rpcProtoPath)
+    mainLog.info(' > host:', this.lndConfig.host)
+    mainLog.info(' > cert:', this.lndConfig.cert)
+    mainLog.info(' > macaroon:', this.lndConfig.macaroon)
 
     const neutrinoArgs = [
-      `--configfile=${lndConfig.configPath}`,
-      `${this.autopilot ? '--autopilot.active' : ''}`,
-      `${this.alias ? `--alias=${this.alias}` : ''}`
+      `--configfile=${this.lndConfig.configPath}`,
+      `--lnddir=${this.lndConfig.dataDir}`,
+      `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
+      `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`
     ]
 
-    this.process = spawn(lndConfig.lndPath, neutrinoArgs)
+    this.process = spawn(this.lndConfig.binaryPath, neutrinoArgs)
       .on('error', error => this.emit(ERROR, error))
       .on('close', code => {
         this.emit(CLOSE, code)
