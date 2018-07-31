@@ -13,16 +13,14 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
     className={`${styles.container} ${!invoice.settled && styles.unpaid}`}
     onClick={() => showActivityModal('INVOICE', { invoice })}
   >
-    {!invoice.settled && (
-      <div className={styles.activityTypeIcon}>
-        <section
-          className="hint--bottom"
-          data-hint={`Lightning invoice${!invoice.settled ? ' (unpaid)' : undefined}`}
-        >
-          <Isvg src={checkmarkIcon} />
-        </section>
-      </div>
-    )}
+    <div className={styles.activityTypeIcon}>
+      <section
+        className="hint--bottom"
+        data-hint={`Lightning invoice (${invoice.settled ? 'paid)' : 'unpaid'})`}
+      >
+        <Isvg src={checkmarkIcon} />
+      </section>
+    </div>
 
     <div className={styles.data}>
       <div className={styles.title}>
