@@ -155,7 +155,7 @@ class Network extends Component {
       return 'online'
     }
 
-    const usdAmount = btc.satoshisToUsd(
+    const fiatAmount = btc.satoshisToUsd(
       balance.channelBalance,
       currentTicker[ticker.fiatTicker].last
     )

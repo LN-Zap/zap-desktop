@@ -228,7 +228,7 @@ export default merge.smart(baseConfig, {
         "'self'",
         'http://localhost:*',
         'ws://localhost:*',
-        'https://blockchain.info/ticker',
+        'https://blockchain.info',
         'https://zap.jackmallers.com'
       ],
       'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
