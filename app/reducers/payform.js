@@ -137,6 +137,7 @@ const sendingPaymentSelector = state => state.payment.sendingPayment
 
 // ticker
 const currencySelector = state => state.ticker.currency
+const fiatTickerSelector = state => state.ticker.fiatTicker
 
 payFormSelectors.isOnchain = createSelector(
   payInputSelector,
@@ -193,16 +194,17 @@ payFormSelectors.usdAmount = createSelector(
   payInvoiceSelector,
   currencySelector,
   tickerSelectors.currentTicker,
-  (isLn, amount, invoice, currency, ticker) => {
-    if (!ticker || !ticker.price_usd) {
+  fiatTickerSelector,
+  (isLn, amount, invoice, currency, currentTicker, fiatTicker) => {
+    if (!currentTicker || !currentTicker[fiatTicker].last) {
       return false
     }
 
     if (isLn) {
-      return btc.satoshisToUsd(invoice.num_satoshis || 0, ticker.price_usd)
+      return btc.satoshisToUsd(invoice.num_satoshis || 0, currentTicker[fiatTicker].last)
     }
 
-    return btc.convert(currency, 'usd', amount, ticker.price_usd)
+    return btc.convert(currency, 'usd', amount, currentTicker[fiatTicker].last)
   }
 )
 

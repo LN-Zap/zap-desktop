@@ -38,7 +38,12 @@ const PaymentModal = ({
           <span className={styles.zap}>Lightning Network</span>
         </div>
         <div>
-          <Value value={payment.fee} currency={ticker.currency} currentTicker={currentTicker} />
+          <Value
+            value={payment.fee}
+            currency={ticker.currency}
+            currentTicker={currentTicker}
+            fiatTicker={ticker.fiatTicker}
+          />
           <span> {currencyName} fee</span>
         </div>
       </section>

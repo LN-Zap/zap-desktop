@@ -8,6 +8,11 @@
   flex-direction: row;
   justify-content: end;
   align-items: center;
+  transition: all 0.25s;
+
+  &:hover {
+    background: lighten(#1d1f27, 10%);
+  }
 }
 
 .fiatTickers {

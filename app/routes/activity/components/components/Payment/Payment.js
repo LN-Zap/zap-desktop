@@ -46,7 +46,10 @@ const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, cur
           />
           <i> {currencyName}</i>
         </span>
-        <span>${btc.convert('sats', 'usd', payment.value, currentTicker.price_usd)}</span>
+        <span className="hint--bottom" data-hint="Payment fee">
+          {currentTicker[ticker.fiatTicker].symbol}
+          {btc.convert('sats', 'usd', payment.value, currentTicker[ticker.fiatTicker].last)}
+        </span>
       </div>
     </div>
   )

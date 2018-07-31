@@ -200,6 +200,7 @@ const searchQuerySelector = state => state.contactsform.searchQuery
 const manualSearchQuerySelector = state => state.contactsform.manualSearchQuery
 const contactCapacitySelector = state => state.contactsform.contactCapacity
 const currencySelector = state => state.ticker.currency
+const fiatTickerSelector = state => state.ticker.fiatTicker
 
 const contactable = node => node.addresses.length > 0
 
@@ -274,12 +275,13 @@ contactFormSelectors.contactFormUsdAmount = createSelector(
   contactCapacitySelector,
   currencySelector,
   tickerSelectors.currentTicker,
-  (amount, currency, ticker) => {
-    if (!ticker || !ticker.price_usd) {
+  fiatTickerSelector,
+  (amount, currency, currentTicker, fiatTicker) => {
+    if (!currentTicker || !currentTicker[fiatTicker].last) {
       return false
     }
 
-    return btc.convert(currency, 'usd', amount, ticker.price_usd)
+    return btc.convert(currency, 'usd', amount, currentTicker[fiatTicker].last)
   }
 )
 

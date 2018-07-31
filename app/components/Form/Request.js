@@ -72,7 +72,9 @@ const Request = ({
             </div>
           </div>
 
-          <div className={styles.usdAmount}>{`≈ ${requestUsdAmount || 0} USD`}</div>
+          <div className={styles.usdAmount}>{`≈ ${requestUsdAmount || 0} ${
+            ticker.fiatTicker
+          }`}</div>
         </section>
 
         <section className={styles.memo}>

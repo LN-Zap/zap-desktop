@@ -94,7 +94,8 @@ const Wallet = ({
                 </span>
               </h1>
               <span className={styles.usdValue}>
-                ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
+                ≈ {currentTicker[ticker.fiatTicker].symbol}
+                {usdAmount ? usdAmount.toLocaleString() : ''}
               </span>
             </div>
           </div>

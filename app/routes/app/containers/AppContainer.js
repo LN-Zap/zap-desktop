@@ -401,6 +401,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     submitChannelFormOpen: stateProps.contactsform.submitChannelFormOpen,
     node: stateProps.contactsform.node,
     contactCapacity: stateProps.contactsform.contactCapacity,
+    fiatTicker: stateProps.ticker.fiatTicker,
 
     updateContactCapacity: dispatchProps.updateContactCapacity,
 
