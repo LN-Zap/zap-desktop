@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setCurrency, tickerSelectors } from 'reducers/ticker'
+import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
 import { fetchInvoices, setInvoice, invoiceSelectors } from 'reducers/invoice'
 import { setPayment, fetchPayments, paymentSelectors } from 'reducers/payment'
@@ -26,6 +26,7 @@ import Activity from '../components/Activity'
 
 const mapDispatchToProps = {
   setCurrency,
+  setFiatTicker,
   setPayment,
   setInvoice,
   fetchPayments,
@@ -120,7 +121,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       setActiveSubMenu: dispatchProps.setActiveSubMenu,
 
       fiatProps: {
-        disableSubMenu: dispatchProps.disableSubMenu
+        fiatTicker: stateProps.ticker.fiatTicker,
+        fiatTickers: stateProps.ticker.fiatTickers,
+        disableSubMenu: dispatchProps.disableSubMenu,
+        setFiatTicker: dispatchProps.setFiatTicker
       }
     }
   }

@@ -34,7 +34,7 @@ const Wallet = ({
 }) => {
   const usdAmount = btc.satoshisToUsd(
     parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
-    currentTicker.price_usd
+    currentTicker[ticker.fiatTicker].last
   )
 
   const onCurrencyFilterClick = currency => {
@@ -73,9 +73,9 @@ const Wallet = ({
                 <span>
                   <Value
                     value={parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance)}
-                    fromCurrency={ticker.fromCurrency}
                     currency={ticker.currency}
                     currentTicker={currentTicker}
+                    fiatTicker={ticker.fiatTicker}
                   />
                   <section className={styles.currencyContainer}>
                     <i className={styles.currency}>{currencyName}</i>

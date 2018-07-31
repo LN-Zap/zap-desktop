@@ -22,6 +22,7 @@ export const fetchBalance = () => async dispatch => {
 
 // Receive IPC event for balance
 export const receiveBalance = (event, { walletBalance, channelBalance }) => dispatch => {
+  // dispatch({ type: RECEIVE_BALANCE, walletBalance, channelBalance })
   dispatch({ type: RECEIVE_BALANCE, walletBalance, channelBalance })
 }
 

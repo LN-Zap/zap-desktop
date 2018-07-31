@@ -12,8 +12,8 @@ import axios from 'axios'
 // defined on the webpack dev server.
 const scheme = process.env.HOT ? '/proxy/' : 'https://'
 
-export function requestTicker(id) {
-  const BASE_URL = `${scheme}api.coinmarketcap.com/v1/ticker/${id}`
+export function requestTicker() {
+  const BASE_URL = `${scheme}blockchain.info/ticker`
   return axios({
     method: 'get',
     url: BASE_URL

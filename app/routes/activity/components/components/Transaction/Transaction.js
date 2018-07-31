@@ -41,6 +41,7 @@ const Transaction = ({ transaction, ticker, currentTicker, showActivityModal, cu
           value={transaction.amount}
           currency={ticker.currency}
           currentTicker={currentTicker}
+          fiatTicker={ticker.fiatTicker}
         />
         <i> {currencyName}</i>
       </span>

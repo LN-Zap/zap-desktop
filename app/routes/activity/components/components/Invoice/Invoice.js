@@ -41,9 +41,10 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
       <span>
         <i className={styles.plus}>+</i>
         <Value
-          value={invoice.finalAmount}
+          value={invoice.value}
           currency={ticker.currency}
           currentTicker={currentTicker}
+          fiatTicker={ticker.fiatTicker}
         />
         <i> {currencyName}</i>
       </span>

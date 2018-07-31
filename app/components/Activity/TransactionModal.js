@@ -57,6 +57,7 @@ const TransactionModal = ({
             value={transaction.total_fees}
             currency={ticker.currency}
             currentTicker={currentTicker}
+            fiatTicker={ticker.fiatTicker}
           />
           <span> {currencyName} fee</span>
         </div>
@@ -72,6 +73,7 @@ const TransactionModal = ({
           value={transaction.amount}
           currency={ticker.currency}
           currentTicker={currentTicker}
+          fiatTicker={ticker.fiatTicker}
         />
       </h1>
       <section
