@@ -10,6 +10,8 @@
     "build-renderer": "webpack --require babel-register --config webpack.config.renderer.prod.js --progress",
     "build-grpc": "rimraf app/node_modules/grpc/src/node && build install-app-deps",
     "clean": "rimraf node_modules app/node_modules dll app/dist",
+    "coverage": "open coverage/index.html",
+    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "dev": "cross-env START_HOT=1 npm run start-renderer-dev",
     "fetch-lnd": "node ./internals/scripts/fetch-lnd-for-packaging.js",
     "flow": "flow",
@@ -23,23 +25,18 @@
     "lint-styles-fix-base": "npm run lint-styles-base -- --fix",
     "lint-styles-fix": "npm run lint-styles-fix-base -- $npm_package_config_style_paths",
     "lint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
-    "lint-ci": "npm run lint && npm run lint-styles && npm run flow",
-    "package": "npm run build && rimraf app/node_modules/grpc/src/node && npm run fetch-lnd && build --publish never",
-    "package-mac": "npm run package -- --platform mac --arch all && npm run build-grpc",
-    "package-win": "npm run package -- --platform win --arch all && npm run build-grpc",
-    "package-linux": "npm_config_target_libc=glibc npm run package -- --platform linux --arch all && npm run build-grpc",
-    "package-all": "npm run package-mac && npm run package-win && npm run package-linux",
+    "lint-ci": "npm run lint && npm run lint-styles",
+    "package": "npm run build && npm run fetch-lnd && build",
+    "release": "npm run package -- --publish onTagOrDraft",
     "postinstall": "concurrently --raw \"npm:flow-typed\" \"npm:build-dll\" \"build install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev",
     "start-renderer-dev": "node --trace-warnings -r babel-register ./node_modules/webpack-serve/lib/cli.js --config webpack.config.renderer.dev.js",
     "test": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js",
-    "test-ci": "npm run package && npm run test-e2e && npm run test && npm run coveralls",
-    "test-all": "npm run lint && npm run lint-styles && npm run flow && npm run build && npm run test-e2e && npm run test",
-    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js e2e",
-    "coverage": "open coverage/index.html",
-    "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js"
+    "test-ci": "npm run test && npm run test-e2e",
+    "test-all": "npm run lint && npm run lint-styles && npm run flow && npm run build && npm run test && npm run test-e2e",
+    "test-e2e": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=1 node --trace-warnings ./test/runTests.js e2e"
   },
   "config": {
     "style_paths": "app/styles/*.scss app/components/**/*.scss",
@@ -58,8 +55,9 @@
     "yarn": ">=0.21.3"
   },
   "build": {
-    "productName": "Zap",
+    "productName": "ZapDesktop",
     "appId": "org.develar.ZapDesktop",
+    "generateUpdatesFilesForAllChannels": true,
     "files": [
       "dist/",
       "node_modules/",
@@ -67,34 +65,6 @@
       "main.prod.js.map",
       "package.json"
     ],
-    "dmg": {
-      "icon": "./resources/icon.icns",
-      "contents": [
-        {
-          "x": 130,
-          "y": 220
-        },
-        {
-          "x": 410,
-          "y": 220,
-          "type": "link",
-          "path": "/Applications"
-        }
-      ]
-    },
-    "win": {
-      "icon": "./resources/icon.ico",
-      "target": [
-        "nsis"
-      ]
-    },
-    "linux": {
-      "category": "Utility",
-      "target": [
-        "deb",
-        "AppImage"
-      ]
-    },
     "directories": {
       "buildResources": "resources",
       "output": "release"
@@ -109,7 +79,62 @@
           "lnd*"
         ]
       }
-    ]
+    ],
+    "artifactName": "${productName}-${platform}-${arch}-v${version}.${ext}",
+    "mac": {
+      "category": "public.app-category.finance",
+      "icon": "resources/icons/icon.icns",
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "win": {
+      "icon": "resources/icons/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "category": "Finance",
+      "icon": "resources/icons/icon.png",
+      "target": [
+        {
+          "target": "deb",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        },
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64",
+            "ia32"
+          ]
+        }
+      ]
+    }
   },
   "repository": {
     "type": "git",

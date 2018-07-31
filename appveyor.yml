@@ -1,13 +1,17 @@
 os: unstable
 
 environment:
+  DEBUG: electron-builder
   matrix:
-    - nodejs_version: 10
-    - nodejs_version: 8
+    - nodejs_version: STABLE
+      publish_build: true
+    - nodejs_version: LTS
 
 cache:
+  - '%APPDATA%\npm-cache'
   - "%LOCALAPPDATA%/Yarn"
   - node_modules -> package.json
+  - flow-typed
   - app/node_modules -> app/package.json
 
 matrix:
@@ -27,8 +31,9 @@ install:
   - yarn
 
 test_script:
-  - node --version
-  - yarn lint
-  - yarn package
-  - yarn test
-  - yarn test-e2e
+  - yarn lint-ci
+  - yarn build
+  - yarn test-ci
+
+deploy_script:
+  - cmd: powershell if (($env:appveyor_repo_name -eq 'LN-Zap/zap-desktop') -and ($env:appveyor_repo_branch -eq 'master') -and ($env:publish_build)) { yarn release }
