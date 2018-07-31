@@ -10,6 +10,7 @@ import { app, BrowserWindow, session } from 'electron'
 import { mainLog } from './utils/log'
 import MenuBuilder from './menu'
 import ZapController from './zap'
+import ZapUpdater from './updater'
 import lnd from './lnd'
 
 // Set up a couple of timers to track the app startup progress.
@@ -46,6 +47,10 @@ app.on('ready', () => {
     minHeight: 425,
     backgroundColor: '#1c1e26'
   })
+
+  // Initialise the updater.
+  const updater = new ZapUpdater(mainWindow)
+  updater.init()
 
   // Initialise the application.
   const zap = new ZapController(mainWindow, zapMode)
