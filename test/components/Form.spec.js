@@ -1,9 +1,12 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { configure, shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
 import Form from '../../app/components/Form'
 import Pay from '../../app/components/Form/Pay'
 import Request from '../../app/components/Form/Request'
+
+configure({ adapter: new Adapter() })
 
 const payFormProps = {
   payform: {

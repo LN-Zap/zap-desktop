@@ -1,8 +1,11 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { configure, shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import FaDollar from 'react-icons/lib/fa/dollar'
 import CryptoIcon from '../../app/components/CryptoIcon'
 import CurrencyIcon from '../../app/components/CurrencyIcon'
+
+configure({ adapter: new Adapter() })
 
 const defaultProps = {
   currency: '',
