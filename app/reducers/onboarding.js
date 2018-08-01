@@ -260,7 +260,7 @@ export const createWallet = () => dispatch => {
   dispatch({ type: CHANGE_STEP, step: 4 })
 }
 
-export const successfullyCreatedWallet = () => dispatch => dispatch({ type: ONBOARDING_FINISHED })
+export const finishOnboarding = () => dispatch => dispatch({ type: ONBOARDING_FINISHED })
 
 // Listener for when LND creates and sends us a generated seed
 export const receiveSeed = (event, { cipher_seed_mnemonic }) => dispatch => {

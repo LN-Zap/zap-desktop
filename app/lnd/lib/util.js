@@ -2,6 +2,7 @@ import dns from 'dns'
 import fs from 'fs'
 import axios from 'axios'
 import { promisify } from 'util'
+import { lookup } from 'ps-node'
 import path from 'path'
 import grpc from 'grpc'
 import isIP from 'validator/lib/isIP'
@@ -136,4 +137,28 @@ export const createMacaroonCreds = async macaroonPath => {
   return grpc.credentials.createFromMetadataGenerator((params, callback) =>
     callback(null, metadata)
   )
+}
+
+/**
+ * Check to see if an LND process is running.
+ * @return {Promise} Boolean indicating wether an existing lnd process was found on the host machine.
+ */
+export const isLndRunning = () => {
+  return new Promise((resolve, reject) => {
+    mainLog.info('Looking for existing lnd process')
+    lookup({ command: 'lnd' }, (err, results) => {
+      // There was an error checking for the LND process.
+      if (err) {
+        return reject(err)
+      }
+
+      if (!results.length) {
+        // An LND process was found, no need to start our own.
+        mainLog.info('Existing lnd process not found')
+        return resolve(false)
+      }
+      mainLog.info('Found existing lnd process')
+      return resolve(true)
+    })
+  })
 }

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { btc } from 'utils'
-import { showNotification } from 'notifications'
+import { showNotification } from '../notifications'
+import { btc } from '../utils'
 import { requestSuggestedNodes } from '../api'
 import { setError } from './error'
 // ------------------------------------

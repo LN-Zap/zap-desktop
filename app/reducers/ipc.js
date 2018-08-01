@@ -44,7 +44,7 @@ import {
   walletUnlockerGrpcActive,
   receiveSeed,
   receiveSeedError,
-  successfullyCreatedWallet,
+  finishOnboarding,
   walletUnlocked,
   unlockWalletError
 } from './onboarding'
@@ -111,7 +111,7 @@ const ipc = createIpc({
   walletUnlockerGrpcActive,
   receiveSeed,
   receiveSeedError,
-  successfullyCreatedWallet,
+  finishOnboarding,
   walletUnlocked,
   unlockWalletError
 })

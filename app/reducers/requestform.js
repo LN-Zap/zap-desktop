@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { btc } from 'utils'
+import { btc } from '../utils'
 import { tickerSelectors } from './ticker'
 
 // Initial State

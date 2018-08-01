@@ -14,7 +14,6 @@ import ZapUpdater from './updater'
 
 // Set up a couple of timers to track the app startup progress.
 mainLog.time('Time until app is ready')
-mainLog.time('Time until lnd process lookup finished')
 
 /**
  * Initialize Zap as soon as electron is ready.
@@ -22,11 +21,7 @@ mainLog.time('Time until lnd process lookup finished')
 app.on('ready', () => {
   mainLog.timeEnd('Time until app is ready')
 
-  // Start a couple more timers to track the app loading time.
-  mainLog.time('Time until app is visible')
-  mainLog.time('Time until onboarding has started')
-
-  // Create the electron browser window.
+  // Create a new browser window.
   const mainWindow = new BrowserWindow({
     show: false,
     titleBarStyle: 'hidden',
@@ -71,21 +66,10 @@ app.on('ready', () => {
       mainLog.error
     )
 
-    mainWindow.webContents.once('dom-ready', () => {
-      mainWindow.openDevTools()
+    zap.mainWindow.webContents.once('dom-ready', () => {
+      zap.mainWindow.openDevTools()
     })
   }
-
-  /**
-   * Add application event listener:
-   *  - Kill lnd process is killed when the app quits.
-   */
-  app.on('quit', () => {
-    mainLog.debug('app.quit')
-    if (zap.neutrino) {
-      zap.neutrino.stop()
-    }
-  })
 
   /**
    * Add application event listener:
@@ -97,7 +81,7 @@ app.on('ready', () => {
     event.preventDefault()
     const payreq = url.split(':')[1]
     zap.sendMessage('lightningPaymentUri', { payreq })
-    mainWindow.show()
+    zap.mainWindow.show()
   })
 
   // HACK: patch webrequest to fix devtools incompatibility with electron 2.x.
@@ -125,5 +109,25 @@ app.on('ready', () => {
     if (process.platform !== 'darwin') {
       app.quit()
     }
+  })
+
+  /**
+   * Add application event listener:
+   *  - Stop gRPC and kill lnd process before the app windows are closed and the app quits.
+   */
+  app.on('before-quit', async event => {
+    if (zap.state !== 'terminated') {
+      event.preventDefault()
+      zap.terminate()
+    } else {
+      zap.mainWindow.forceClose = true
+    }
+  })
+
+  /**
+   * On OS X it's common to re-open a window in the app when the dock icon is clicked.
+   */
+  app.on('activate', () => {
+    zap.mainWindow.show()
   })
 })
