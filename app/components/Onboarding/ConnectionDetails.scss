@@ -5,6 +5,7 @@
 
   .input {
     margin-bottom: 10px;
+    width: 600px;
   }
 
   label {
@@ -24,9 +25,9 @@
     -webkit-text-fill-color: $white;
     font-size: 18px;
     font-weight: 400;
-    width: 600px;
+    width: 580px;
     transition: all 0.25s;
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 
     &.error {
       border: 1px solid $red;
@@ -38,10 +39,11 @@
     -webkit-text-fill-color: initial;
   }
 
-  .description {
-    font-size: 12px;
-    line-height: 18px;
-    opacity: 0.5;
+  .messages {
+    display: flex;
+    flex-direction: row;
+    align-items: left;
+    justify-content: space-between;
   }
 
   .errorMessage {
@@ -53,5 +55,22 @@
     &.visible {
       display: block;
     }
+  }
+
+  .reset {
+    font-size: 10px;
+    opacity: 0.5;
+    cursor: pointer;
+    transition: all 0.25s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .description {
+    font-size: 12px;
+    line-height: 18px;
+    opacity: 0.5;
   }
 }

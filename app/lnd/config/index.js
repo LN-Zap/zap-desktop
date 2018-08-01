@@ -5,19 +5,6 @@ import { app } from 'electron'
 import isDev from 'electron-is-dev'
 import untildify from 'untildify'
 
-// Get a path to prepend to any nodejs calls that are getting at files in the package,
-// so that it works both from source and in an asar-packaged mac app.
-// See https://github.com/electron-userland/electron-builder/issues/751
-//
-// windows from source: "C:\myapp\node_modules\electron\dist\resources\default_app.asar"
-// mac from source: "/Users/me/dev/myapp/node_modules/electron/dist/Electron.app/Contents/Resources/default_app.asar"
-// mac from a package: <somewhere>"/my.app/Contents/Resources/app.asar"
-//
-// If we are run from outside of a packaged app, our working directory is the right place to be.
-// And no, we can't just set our working directory to somewhere inside the asar. The OS can't handle that.
-const appPath = app.getAppPath()
-const appRootPath = appPath.indexOf('default_app.asar') < 0 ? normalize(`${appPath}/..`) : ''
-
 // Get the name of the current platform which we can use to determine the tlsCertPathation of various lnd resources.
 const plat = platform()
 
@@ -41,13 +28,9 @@ switch (plat) {
     break
 }
 
-// Get the path to the lnd binary.
-let lndPath
-if (isDev) {
-  lndPath = join(dirname(require.resolve('lnd-binary/package.json')), 'vendor', lndBin)
-} else {
-  lndPath = join(appRootPath, 'bin', lndBin)
-}
+export const suggestedHost = 'localhost:10009'
+export const suggestedCertPath = join(lndDataDir, 'tls.cert')
+export const suggestedMacaroonPath = join(lndDataDir, 'admin.macaroon')
 
 /**
  * Get current lnd configuration.
@@ -62,6 +45,27 @@ if (isDev) {
 const lnd = () => {
   // Get an electron store named 'connection' in which the saved connection detailes are stored.
   const store = new Store({ name: 'connection' })
+
+  // Get a path to prepend to any nodejs calls that are getting at files in the package,
+  // so that it works both from source and in an asar-packaged mac app.
+  // See https://github.com/electron-userland/electron-builder/issues/751
+  //
+  // windows from source: "C:\myapp\node_modules\electron\dist\resources\default_app.asar"
+  // mac from source: "/Users/me/dev/myapp/node_modules/electron/dist/Electron.app/Contents/Resources/default_app.asar"
+  // mac from a package: <somewhere>"/my.app/Contents/Resources/app.asar"
+  //
+  // If we are run from outside of a packaged app, our working directory is the right place to be.
+  // And no, we can't just set our working directory to somewhere inside the asar. The OS can't handle that.
+  const appPath = app.getAppPath()
+  const appRootPath = appPath.indexOf('default_app.asar') < 0 ? normalize(`${appPath}/..`) : ''
+
+  // Get the path to the lnd binary.
+  let lndPath
+  if (isDev) {
+    lndPath = join(dirname(require.resolve('lnd-binary/package.json')), 'vendor', lndBin)
+  } else {
+    lndPath = join(appRootPath, 'bin', lndBin)
+  }
 
   /**
    * Fetch a config option from the connection store.
