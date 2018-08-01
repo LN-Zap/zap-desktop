@@ -32,7 +32,7 @@ const Wallet = ({
   network,
   settingsProps
 }) => {
-  const usdAmount = btc.satoshisToUsd(
+  const fiatAmount = btc.satoshisToFiat(
     parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
     currentTicker[ticker.fiatTicker].last
   )
@@ -95,7 +95,7 @@ const Wallet = ({
               </h1>
               <span className={styles.usdValue}>
                 ≈ {currentTicker[ticker.fiatTicker].symbol}
-                {usdAmount ? usdAmount.toLocaleString() : ''}
+                {fiatAmount ? fiatAmount.toLocaleString() : ''}
               </span>
             </div>
           </div>

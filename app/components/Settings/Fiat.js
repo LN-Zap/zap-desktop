@@ -15,7 +15,7 @@ const Fiat = ({ fiatTicker, fiatTickers, disableSubMenu, setFiatTicker }) => (
       {fiatTickers.map(ft => (
         <li
           key={ft}
-          className={fiatTicker === ft && styles.active}
+          className={fiatTicker === ft ? styles.active : ''}
           onClick={() => setFiatTicker(ft)}
         >
           <span>{ft}</span>

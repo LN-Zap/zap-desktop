@@ -40,7 +40,7 @@ class Pay extends Component {
       isOnchain,
       isLn,
       currentAmount,
-      usdAmount,
+      fiatAmount,
       payFormIsValid: { errors, isValid },
       currentCurrencyFilters,
       currencyName,
@@ -161,7 +161,7 @@ class Pay extends Component {
               </div>
             </div>
 
-            <div className={styles.usdAmount}>{`≈ ${usdAmount || 0} ${ticker.fiatTicker}`}</div>
+            <div className={styles.fiatAmount}>{`≈ ${fiatAmount || 0} ${ticker.fiatTicker}`}</div>
 
             <section
               className={`${styles.errorMessage} ${styles.amount} ${
@@ -198,7 +198,7 @@ Pay.propTypes = {
   isOnchain: PropTypes.bool.isRequired,
   isLn: PropTypes.bool.isRequired,
   currentAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  usdAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  fiatAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   payFormIsValid: PropTypes.shape({
     errors: PropTypes.object,
     isValid: PropTypes.bool

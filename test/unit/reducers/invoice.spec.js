@@ -1,3 +1,5 @@
+// @flow
+
 import invoiceReducer, {
   SEARCH_INVOICES,
   SET_INVOICE,

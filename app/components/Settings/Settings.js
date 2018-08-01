@@ -4,8 +4,51 @@ import Menu from './Menu'
 import Fiat from './Fiat'
 import styles from './Settings.scss'
 
-const Settings = ({ settings, setActiveSubMenu, fiatProps }) => {
-  const renderSettings = () => {
+class Settings extends React.Component {
+  constructor(props) {
+    super(props)
+
+    this.setWrapperRef = this.setWrapperRef.bind(this)
+    this.handleClickOutside = this.handleClickOutside.bind(this)
+    this.renderSettings = this.renderSettings.bind(this)
+  }
+
+  componentDidMount() {
+    document.addEventListener('mousedown', this.handleClickOutside)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('mousedown', this.handleClickOutside)
+  }
+
+  // Set the wrapper ref
+  setWrapperRef(node) {
+    this.wrapperRef = node
+  }
+
+  // Alert if clicked on outside of element
+  handleClickOutside(event) {
+    const { toggleSettings, settings } = this.props
+
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target) && settings.settingsOpen) {
+      // Do not toggle the settings if they user clicked on their alias
+      // as that will cause us to double toggle and re-open it
+      if (
+        typeof event.target.className === 'string' &&
+        event.target.className.includes('aliasText')
+      ) {
+        return
+      }
+
+      // The user clicked outside of the settings box and not on the
+      // alias so we should toggle the settings
+      toggleSettings()
+    }
+  }
+
+  renderSettings() {
+    const { settings, fiatProps, setActiveSubMenu } = this.props
+
     switch (settings.activeSubMenu) {
       case 'fiat':
         return <Fiat {...fiatProps} />
@@ -13,12 +56,20 @@ const Settings = ({ settings, setActiveSubMenu, fiatProps }) => {
         return <Menu setActiveSubMenu={setActiveSubMenu} />
     }
   }
-  return <div className={styles.container}>{renderSettings()}</div>
+
+  render() {
+    return (
+      <div className={styles.container} ref={this.setWrapperRef}>
+        {this.renderSettings()}
+      </div>
+    )
+  }
 }
 
 Settings.propTypes = {
   settings: PropTypes.object.isRequired,
   setActiveSubMenu: PropTypes.func.isRequired,
+  toggleSettings: PropTypes.func.isRequired,
   fiatProps: PropTypes.object.isRequired
 }
 

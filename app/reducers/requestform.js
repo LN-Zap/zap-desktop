@@ -68,7 +68,7 @@ const requestAmountSelector = state => state.requestform.amount
 const currencySelector = state => state.ticker.currency
 const fiatTickerSelector = state => state.ticker.fiatTicker
 
-requestFormSelectors.usdAmount = createSelector(
+requestFormSelectors.fiatAmount = createSelector(
   requestAmountSelector,
   currencySelector,
   tickerSelectors.currentTicker,
@@ -78,7 +78,7 @@ requestFormSelectors.usdAmount = createSelector(
       return false
     }
 
-    return btc.convert(currency, 'usd', amount, currentTicker[fiatTicker].last)
+    return btc.convert(currency, 'fiat', amount, currentTicker[fiatTicker].last)
   }
 )
 

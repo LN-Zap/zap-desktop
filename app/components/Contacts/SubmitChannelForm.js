@@ -26,7 +26,7 @@ class SubmitChannelForm extends React.Component {
         currencyName,
         currentCurrencyFilters,
         onCurrencyFilterClick,
-        contactFormUsdAmount
+        contactFormFiatAmount
       }
     } = this.props
 
@@ -103,7 +103,7 @@ class SubmitChannelForm extends React.Component {
             </div>
           </div>
 
-          <div className={styles.usdAmount}>{`≈ ${contactFormUsdAmount || 0} ${fiatTicker}`}</div>
+          <div className={styles.fiatAmount}>{`≈ ${contactFormFiatAmount || 0} ${fiatTicker}`}</div>
         </section>
 
         <section className={styles.submit}>

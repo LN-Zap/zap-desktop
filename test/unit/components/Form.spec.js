@@ -52,7 +52,7 @@ const requestFormProps = {
   currentCurrencyFilters: [],
   showCurrencyFilters: true,
   currencyName: '',
-  requestUsdAmount: '',
+  requestFiatAmount: '',
 
   setRequestAmount: () => {},
   setRequestMemo: () => {},

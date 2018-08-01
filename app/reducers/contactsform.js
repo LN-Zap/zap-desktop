@@ -271,7 +271,7 @@ contactFormSelectors.manualFormIsValid = createSelector(manualSearchQuerySelecto
   }
 })
 
-contactFormSelectors.contactFormUsdAmount = createSelector(
+contactFormSelectors.contactFormFiatAmount = createSelector(
   contactCapacitySelector,
   currencySelector,
   tickerSelectors.currentTicker,
@@ -281,7 +281,7 @@ contactFormSelectors.contactFormUsdAmount = createSelector(
       return false
     }
 
-    return btc.convert(currency, 'usd', amount, currentTicker[fiatTicker].last)
+    return btc.convert(currency, 'fiat', amount, currentTicker[fiatTicker].last)
   }
 )
 

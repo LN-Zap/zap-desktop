@@ -3,8 +3,8 @@ import Store from 'electron-store'
 import { requestTicker } from 'lib/utils/api'
 import { infoSelectors } from './info'
 
-// Ticker store
-const store = new Store({ name: 'ticker' })
+// Settings store
+const store = new Store({ name: 'settings' })
 
 // ------------------------------------
 // Constants
