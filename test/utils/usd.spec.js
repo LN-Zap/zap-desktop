@@ -1,4 +1,4 @@
-import { formatUsd, usdToBtc } from '../../app/utils/usd'
+import { formatUsd, usdToBtc } from 'lib/utils/usd'
 
 describe('usd', () => {
   describe('formatUsd', () => {

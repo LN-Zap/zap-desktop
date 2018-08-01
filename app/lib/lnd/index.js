@@ -1,5 +1,5 @@
 import config from './config'
-import walletUnlocker from './lib/walletUnlocker'
+import walletUnlocker from './walletUnlocker'
 import walletUnlockerMethods from './walletUnlockerMethods'
 // use mainLog because lndLog is reserved for the lnd binary itself
 import { mainLog } from '../utils/log'

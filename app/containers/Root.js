@@ -4,9 +4,6 @@ import { Provider, connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import PropTypes from 'prop-types'
 
-import LoadingBolt from '../components/LoadingBolt'
-import Onboarding from '../components/Onboarding'
-import Syncing from '../components/Onboarding/Syncing'
 import {
   setConnectionType,
   setConnectionString,
@@ -29,9 +26,12 @@ import {
   updateReEnterSeedInput,
   updateRecoverSeedInput,
   setReEnterSeedIndexes
-} from '../reducers/onboarding'
-import { lndSelectors } from '../reducers/lnd'
-import { walletAddress } from '../reducers/address'
+} from 'reducers/onboarding'
+import { lndSelectors } from 'reducers/lnd'
+import { walletAddress } from 'reducers/address'
+import LoadingBolt from 'components/LoadingBolt'
+import Onboarding from 'components/Onboarding'
+import Syncing from 'components/Onboarding/Syncing'
 import Routes from '../routes'
 
 const mapDispatchToProps = {

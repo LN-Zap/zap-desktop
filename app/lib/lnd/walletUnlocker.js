@@ -1,7 +1,7 @@
 import fs from 'fs'
 import grpc from 'grpc'
 import { loadSync } from '@grpc/proto-loader'
-import config from '../config'
+import config from './config'
 
 const walletUnlocker = (rpcpath, host) => {
   const lndConfig = config.lnd()

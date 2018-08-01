@@ -5,7 +5,7 @@ import copy from 'copy-to-clipboard'
 import Isvg from 'react-inlinesvg'
 import zapLogo from 'icons/zap_logo.svg'
 import copyIcon from 'icons/copy.svg'
-import { showNotification } from 'notifications'
+import { showNotification } from 'lib/utils/notifications'
 import styles from './Syncing.scss'
 
 class Syncing extends Component {

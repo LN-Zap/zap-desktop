@@ -1,9 +1,9 @@
 import Store from 'electron-store'
 import { createSelector } from 'reselect'
+import { showNotification } from 'lib/utils/notifications'
 import { fetchTicker } from './ticker'
 import { fetchBalance } from './balance'
 import { fetchInfo, setHasSynced } from './info'
-import { showNotification } from '../notifications'
 // ------------------------------------
 // Constants
 // ------------------------------------

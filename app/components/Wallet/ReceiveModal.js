@@ -6,7 +6,7 @@ import copyIcon from 'icons/copy.svg'
 import Isvg from 'react-inlinesvg'
 
 import x from 'icons/x.svg'
-import { showNotification } from 'notifications'
+import { showNotification } from 'lib/utils/notifications'
 
 import styles from './ReceiveModal.scss'
 

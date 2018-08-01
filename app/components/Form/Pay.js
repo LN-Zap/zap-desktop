@@ -6,7 +6,7 @@ import paperPlane from 'icons/paper_plane.svg'
 import link from 'icons/link.svg'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
-import { btc } from 'utils'
+import { btc } from 'lib/utils'
 
 import styles from './Pay.scss'
 
