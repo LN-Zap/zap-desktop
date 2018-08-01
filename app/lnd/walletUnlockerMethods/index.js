@@ -33,7 +33,7 @@ export default function(walletUnlocker, log, event, msg, data) {
     case 'initWallet':
       walletController
         .initWallet(walletUnlocker, data)
-        .then(() => event.sender.send('successfullyCreatedWallet'))
+        .then(() => event.sender.send('finishOnboarding'))
         .catch(error => log.error('initWallet:', error))
       break
     default:
