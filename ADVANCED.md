@@ -40,8 +40,6 @@ yarn
 
 Zap installs `lnd` for you as part of the installation process. Zap will automatically start the internal `lnd` daemon for you when you select the `default` connection type during the on-boarding process. In this mode we run `lnd` as a light client called `neutrino` (BIP 157 & BIP 158) which allows us to run `lnd` without requiring a Bitcoin full node on your system - Instead, Zap will connect to one Zap's hosted BTC full nodes.
 
-**_Note:_** _If you already have `lnd` running on your localhost Zap will detect this and connect to it automatically when you start the app. In this case, the internal `lnd` will not be used._
-
 ### Option 2: custom:
 
 To setup your own `lnd` for use with Zap please follow the instructions on the [lnd installation](https://github.com/lightningnetwork/lnd/blob/master/docs/INSTALL.md) page. Select the `custom` connection type during the on-boarding process to use your own `lnd` with Zap.

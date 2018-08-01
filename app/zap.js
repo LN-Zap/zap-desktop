@@ -3,6 +3,7 @@ import Store from 'electron-store'
 import lnd from './lnd'
 import Neutrino from './lnd/lib/neutrino'
 import { mainLog } from './utils/log'
+import { isLndRunning } from './lnd/lib/util'
 
 const grpcSslCipherSuites = connectionType =>
   (connectionType === 'btcpayserver'
@@ -36,14 +37,9 @@ const grpcSslCipherSuites = connectionType =>
 class ZapController {
   /**
    * Create a new ZapController instance.
-   * @param  {BrowserWindow} mainWindow BrowserWindow instance to interact with
-   * @param  {String|Promise} mode String or Promise that resolves to the desired run mode. Valid options are:
-   *  - 'internal': start a new lnd process.
-   *  - 'external': connect to an existing lnd process.
+   * @param  {BrowserWindow} mainWindow BrowserWindow instance to interact with.
    */
-  constructor(mainWindow, mode) {
-    this.mode = mode
-
+  constructor(mainWindow) {
     // Variable to hold the main window instance.
     this.mainWindow = mainWindow
 
@@ -73,24 +69,10 @@ class ZapController {
       this.mainWindow.show()
       this.mainWindow.focus()
       mainLog.timeEnd('Time until app is visible')
-      mainLog.time('Time until we know the run mode')
 
-      Promise.resolve(this.mode)
-        .then(mode => {
-          const timeUntilWeKnowTheRunMode = mainLog.timeEnd('Time until we know the run mode')
-          return setTimeout(async () => {
-            if (mode === 'external') {
-              // If lnd is already running, create and subscribe to the Lightning grpc object.
-              await this.startLightningWallet()
-              this.sendMessage('successfullyCreatedWallet')
-            } else {
-              // Otherwise, start the onboarding process.
-              this.sendMessage('startOnboarding')
-              mainLog.timeEnd('Time until onboarding has started')
-            }
-          }, timeUntilWeKnowTheRunMode < this.splashScreenTime ? this.splashScreenTime : 0)
-        })
-        .catch(mainLog.error)
+      return setTimeout(async () => {
+        this.sendMessage('startOnboarding')
+      }, this.splashScreenTime)
     })
 
     this.mainWindow.on('closed', () => {
@@ -232,42 +214,51 @@ class ZapController {
 
       // If the requested connection type is a local one then start up a new lnd instance.
       if (cleanOptions.type === 'local') {
-        mainLog.info('Starting new lnd instance')
-        mainLog.info(' > alias:', cleanOptions.alias)
-        mainLog.info(' > autopilot:', cleanOptions.autopilot)
-        this.startLnd(cleanOptions.alias, cleanOptions.autopilot)
+        return isLndRunning().then(res => {
+          if (res) {
+            mainLog.error('lnd already running: %s', res)
+            dialog.showMessageBox({
+              type: 'error',
+              message: 'Unable to start lnd because it is already running.'
+            })
+            return app.quit()
+          }
+          mainLog.info('Starting new lnd instance')
+          mainLog.info(' > alias:', cleanOptions.alias)
+          mainLog.info(' > autopilot:', cleanOptions.autopilot)
+          return this.startLnd(cleanOptions.alias, cleanOptions.autopilot)
+        })
       }
-      // Otherwise attempt to connect to an lnd instance using user supplied connection details.
-      else {
-        mainLog.info('Connecting to custom lnd instance')
-        mainLog.info(' > host:', cleanOptions.host)
-        mainLog.info(' > cert:', cleanOptions.cert)
-        mainLog.info(' > macaroon:', cleanOptions.macaroon)
-        this.startLightningWallet()
-          .then(() => this.sendMessage('successfullyCreatedWallet'))
-          .catch(e => {
-            const errors = {}
-            // There was a problem connectig to the host.
-            if (e.code === 'LND_GRPC_HOST_ERROR') {
-              errors.host = e.message
-            }
-            // There was a problem accessing loading the ssl cert.
-            if (e.code === 'LND_GRPC_CERT_ERROR') {
-              errors.cert = e.message
-            }
-            //  There was a problem accessing loading the macaroon file.
-            else if (e.code === 'LND_GRPC_MACAROON_ERROR') {
-              errors.macaroon = e.message
-            }
-            // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
-            else {
-              errors.host = `Unable to connect to host: ${e.details || e.message}`
-            }
 
-            // Notify the app of errors.
-            return this.sendMessage('startLndError', errors)
-          })
-      }
+      // Otherwise attempt to connect to an lnd instance using user supplied connection details.
+      mainLog.info('Connecting to custom lnd instance')
+      mainLog.info(' > host:', cleanOptions.host)
+      mainLog.info(' > cert:', cleanOptions.cert)
+      mainLog.info(' > macaroon:', cleanOptions.macaroon)
+      this.startLightningWallet()
+        .then(() => this.sendMessage('successfullyCreatedWallet'))
+        .catch(e => {
+          const errors = {}
+          // There was a problem connectig to the host.
+          if (e.code === 'LND_GRPC_HOST_ERROR') {
+            errors.host = e.message
+          }
+          // There was a problem accessing loading the ssl cert.
+          if (e.code === 'LND_GRPC_CERT_ERROR') {
+            errors.cert = e.message
+          }
+          //  There was a problem accessing loading the macaroon file.
+          else if (e.code === 'LND_GRPC_MACAROON_ERROR') {
+            errors.macaroon = e.message
+          }
+          // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
+          else {
+            errors.host = `Unable to connect to host: ${e.details || e.message}`
+          }
+
+          // Notify the app of errors.
+          return this.sendMessage('startLndError', errors)
+        })
     })
   }
 }

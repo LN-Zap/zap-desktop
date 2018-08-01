@@ -11,21 +11,10 @@ import { mainLog } from './utils/log'
 import MenuBuilder from './menu'
 import ZapController from './zap'
 import ZapUpdater from './updater'
-import lnd from './lnd'
 
 // Set up a couple of timers to track the app startup progress.
 mainLog.time('Time until app is ready')
 mainLog.time('Time until lnd process lookup finished')
-
-// Determine wether we should start our own lnd process or connect to one that is already running.
-const zapMode = lnd
-  .isLndRunning()
-  .then(res => {
-    mainLog.debug('lnd already running: %s', res)
-    mainLog.timeEnd('Time until lnd process lookup finished')
-    return res ? 'external' : 'internal'
-  })
-  .catch(mainLog.error)
 
 /**
  * Initialize Zap as soon as electron is ready.
@@ -53,7 +42,7 @@ app.on('ready', () => {
   updater.init()
 
   // Initialise the application.
-  const zap = new ZapController(mainWindow, zapMode)
+  const zap = new ZapController(mainWindow)
   zap.init()
 
   // Initialise the application menus.
