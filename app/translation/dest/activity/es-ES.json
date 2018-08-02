@@ -1,7 +1,7 @@
 {
-  "all": "All",
-  "sent": "Sent",
-  "requested": "Requested",
+  "all": "Todo",
+  "sent": "Enviado",
+  "requested": "Solicitado",
   "pending": "Pending",
   "refresh": "Refresh",
   "search": "Search"
