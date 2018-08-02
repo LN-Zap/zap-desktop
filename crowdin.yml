@@ -1,3 +1,4 @@
+commit_message: '[ci skip]'
 files:
   - source: /app/translation/source/*.json
     translation: /app/translation/dest/%file_name%/%locale%.%file_extension%
