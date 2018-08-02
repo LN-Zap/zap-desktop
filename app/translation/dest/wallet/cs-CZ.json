@@ -1,7 +1,7 @@
 {
-  "pay": "Pay",
-  "request": "Request",
+  "pay": "Zaplatit",
+  "request": "Vyžádat",
   "sending_tx": "Probíhá odesílání vaší transakce…",
-  "payment_success": "Successfully sent payment",
-  "transaction_success": "Successfully sent transaction"
+  "payment_success": "Platba úspěšně odeslána",
+  "transaction_success": "Transakce úspěšně odeslána"
 }
