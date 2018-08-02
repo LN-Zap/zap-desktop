@@ -1,0 +1,7 @@
+{
+  "request_payment": "Verzoek betaling",
+  "destination": "Bestemming",
+  "amount": "Bedrag",
+  "request_placeholder": "Plak hier je betaalverzoek of bitcoinadres",
+  "pay": "Betaal"
+}
