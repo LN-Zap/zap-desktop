@@ -1,7 +1,7 @@
 {
-  "grab_coffee": "It looks like this could take some time - you might want to grab a coffee or try again later!",
-  "waiting_for_peers": "Waiting for peers…",
-  "preparing": "Preparing…",
+  "grab_coffee": "Det verkar som att detta kan ta lite tid - hämta kaffe eller försök igen senare!",
+  "waiting_for_peers": "Väntar på peers…",
+  "preparing": "Förbereder…",
   "finalizing": "Finalizing…",
   "sync_title": "Welcome back to your Zap wallet!",
   "sync_description": "Please wait a while whilst we fetch all of your latest data from the blockchain.",
