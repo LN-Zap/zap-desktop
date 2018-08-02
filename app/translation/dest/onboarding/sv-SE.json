@@ -8,7 +8,7 @@
   "Custom": "Anpassad",
   "alias_title": "Vad ska vi kalla dig?",
   "alias_description": "Ange ditt smeknamn för att hjälpa andra kontakta dig i Lightning Nätverket",
-  "autopilot_description": "Autopilot är en automatisk nätverkshanterare. Istället för att lägga till personer till ditt nätverk manuellt så kan du aktivera autopiloten för att automatiskt ansluta dig till Lightning Network med 60% av dina tillgängliga resurser.",
+  "autopilot_description": "Autopilot är en automatisk nätverkshanterare. Istället för att lägga till personer till ditt nätverk manuellt så kan du aktivera autopiloten för att automatiskt ansluta dig till Lightning Network med 60% av ditt tillgängliga saldo.",
   "enable": "Aktivera",
   "disable": "Inaktivera",
   "login_title": "Välkommen tillbaka!",
