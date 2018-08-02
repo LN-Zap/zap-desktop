@@ -1,5 +1,5 @@
 {
   "title": "Guthaben dem Netzwerk hinzufügen",
-  "description": "Das Öffnen eines Zahlungskanals hilft Dir Zahlungen über das Lightning Netzwerk zu empfangen. Du gibst dabei kein Geld aus, sondern stellst Geld ins Netzwerk, welches Du planst mal zu nutzen.",
+  "description": "Das Öffnen eines Zahlungskanals hilft Dir Zahlungen über das Lightning Netzwerk zu empfangen. Du gibst dabei kein Geld aus, sondern speicherst Geld im Netzwerk welches du später nutzen kannst.",
   "submit": "Senden"
 }
