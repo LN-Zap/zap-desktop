@@ -1,8 +1,8 @@
 {
-  "all": "All",
+  "all": "Všechny",
   "sent": "Odesláno",
   "requested": "Vyžádáno",
-  "pending": "Pending",
+  "pending": "Čekající",
   "refresh": "Aktualizovat",
   "search": "Hledat"
 }
