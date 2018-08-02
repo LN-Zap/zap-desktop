@@ -1,6 +1,6 @@
 {
-  "title": "Connect Manually",
-  "description": "Please enter the peer’s pubkey@host",
+  "title": "Handmatig verbinding maken",
+  "description": "Vul de pubkey@host van een gebruiker in",
   "placeholder": "pubkey@host",
-  "submit": "Submit"
+  "submit": "Verstuur"
 }
