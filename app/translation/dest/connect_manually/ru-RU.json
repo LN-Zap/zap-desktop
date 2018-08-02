@@ -1,6 +1,6 @@
 {
-  "title": "Connect Manually",
-  "description": "Please enter the peer’s pubkey@host",
+  "title": "Подключиться вручную",
+  "description": "Пожалуйста, введите pubkey@host оппонента",
   "placeholder": "pubkey@host",
-  "submit": "Submit"
+  "submit": "Ввести"
 }
