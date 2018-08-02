@@ -24,12 +24,12 @@
   "save_seed_title": "Spara din wallets seed",
   "save_seed_description": "Vänligen spara de här 24 orden säkert! Detta kommer göra det möjligt att återställa wallet:en i framtiden",
   "retype_seed_title": "Skriv in din seed igen",
-  "retype_seed_description": "Your seed is important! If you lose your seed you'll have no way to recover your wallet. To make sure that you have properly saved your seed, please retype words",
+  "retype_seed_description": "Din seed är viktig! Om du tappar bort din seed kan du inte återställa din wallet. För att säkerställa att du har sparat din seed ordentligt, skriv in orden igen",
   "hostname_description": "Hostname och port för Lnd gRPC interface. Exempel: localhost:10009",
   "macaroon_description": "Sökvägen till lnd macaroon filen. Exempel: /path/to/admin.macaroon",
   "cert_description": "Sökväg till lnd tls cert. Exempel: /path/to/tls.cert",
   "verify_host_title": "Är du säker på att du vill ansluta till",
   "verify_host_description": "Vänligen kontrollera hostname noggrant.",
-  "btcpay_description": "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled &quot;Click here to open the configuration file.&quot; in your BTCPay Server gRPC settings.",
+  "btcpay_description": "Klistra in hela din BTCPay Server konfigurationsfil. Detta kan göras genom att klicka på länken &quot;Click here to open the configuration file.&quot; i BTCPay Server gRPC inställningarna.",
   "btcpay_error": "Ogiltig anslutningssträng."
 }
