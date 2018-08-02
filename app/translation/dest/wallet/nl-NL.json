@@ -1,0 +1,7 @@
+{
+  "pay": "Betaal",
+  "request": "Verzoek",
+  "sending_tx": "Bezig met verzenden…",
+  "payment_success": "Betaling verzonden",
+  "transaction_success": "Transactie verzonden"
+}
