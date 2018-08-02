@@ -3,7 +3,7 @@
   "next": "Nästa",
   "back": "Tillbaka",
   "connection_title": "Hur vill du ansluta till Lightning Nätverket?",
-  "connection_description": "By default Zap will spin up a node for you and handle all the nerdy stuff in the background. However you can also setup a custom node connection and use Zap to control a remote node if you desire (for advanced users).",
+  "connection_description": "By default skapar Zap en nod och hanterar all teknik i bakgrunden åt dig. Men du kan också skapa en egen nodanslutning och använda Zap för att kontrollera en fjärr-nod (för avancerade användare).",
   "default": "Standard",
   "Custom": "Anpassad",
   "alias_title": "Vad ska vi kalla dig?",
