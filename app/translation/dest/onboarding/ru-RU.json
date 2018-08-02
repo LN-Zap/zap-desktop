@@ -25,11 +25,11 @@
   "save_seed_description": "Пожалуйста, надёжно сохраните эти 24 слова! Они позволят вам в будущем восстановить ваш кошелёк",
   "retype_seed_title": "Введите повторно Зерно",
   "retype_seed_description": "Зерно вашего Кошелька чрезвычайно важно! Если вы потеряете Зерно, то не будет никакой возможности восстановить ваш Кошелёк. Чтобы убедиться, что Зерно сохранено правильно, повторно введите слова",
-  "hostname_description": "Hostname and port of the Lnd gRPC interface. Example: localhost:10009",
+  "hostname_description": "Имя хоста и порт Lnd gRPC-интерфейса. Пример: localhost:10009",
   "macaroon_description": "Путь до файла lnd. Пример: /path/to/admin.macaroon",
   "cert_description": "Путь до сертификата (tls) к файлу lnd. Пример: /path/to/tls.cert",
   "verify_host_title": "Уверены, что хотите подключиться (к)",
   "verify_host_description": "Пожалуйста, внимательно проверьте имя хоста (hostname).",
-  "btcpay_description": "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled &quot;Click here to open the configuration file.&quot; in your BTCPay Server gRPC settings.",
-  "btcpay_error": "Invalid connection string."
+  "btcpay_description": "Вставьте всё содержимое вашего config-файла подключения к BTCPay Server. Который можно найти, нажав на ссылку \"Нажмите здесь, чтобы открыть config-файл.\" в настройках gRPC BTCPay Server'а.",
+  "btcpay_error": "Неверный запрос подключения."
 }
