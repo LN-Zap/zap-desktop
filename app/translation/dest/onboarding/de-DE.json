@@ -12,7 +12,7 @@
   "enable": "An",
   "disable": "Aus",
   "login_title": "Willkommen zurück!",
-  "login_description": "Offenbar hast du bereits ein Wallet (wir haben eines gefunden: ' '). Bitte gib dein Passwort ein um es zu entschlüsseln.",
+  "login_description": "Offenbar hast du bereits ein Wallet (wir haben eines gefunden: ' '). Bitte gib dein Passwort ein um es zu entsperren.",
   "unlock": "Entsperren",
   "signup_title": "Ok, legen wir los",
   "signup_description": "Möchtest du ein neues Wallet aufsetzen oder ein bestehendes importieren?",
