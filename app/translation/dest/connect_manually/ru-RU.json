@@ -1,0 +1,6 @@
+{
+  "title": "Подключиться вручную",
+  "description": "Пожалуйста, введите pubkey@host оппонента",
+  "placeholder": "pubkey@host",
+  "submit": "Ввести"
+}

@@ -1,0 +1,11 @@
+{
+  "nice": "Mooi",
+  "copied": "Naar het klembord gekopieerd",
+  "synced": "Visa wie? Nu ben je je eigen betalingsverwerker!",
+  "onchain_sent_title": "Transactie via de blockchain verzonden!",
+  "onchain_sent_description": "Ik hou ervan om ze te zien vertrekken. Je blockchain transactie werd succesvol verstuurd.",
+  "onchain_received_title": "Transactie via de blockchain ontvangen!",
+  "onchain_received_description": "Heb jij even geluk, je hebt zojuist een nieuwe transactie via de blockchain ontvangen.",
+  "zapped_title": "Je bent geZapped",
+  "zapped_description": "Gefeliciteerd, iemand heeft net een factuur van je betaald"
+}

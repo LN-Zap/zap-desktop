@@ -1,0 +1,7 @@
+{
+  "pay": "Betala",
+  "request": "Begäran",
+  "sending_tx": "Skickar din transaktion…",
+  "payment_success": "Framgångsrikt skickat betalning",
+  "transaction_success": "Framgångsrikt skickad transaktion"
+}
