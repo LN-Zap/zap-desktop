@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "Het lijkt erop dat dit even kan duren - een goed moment voor een kop koffie of probeer het later!",
+  "waiting_for_peers": "Wachten op verbindingen…",
+  "preparing": "Voorbereiden…",
+  "finalizing": "Afronden…",
+  "sync_title": "Welkom terug in je Zap portemonnee!",
+  "sync_description": "Wacht alsjeblieft even terwijl we je laatste data uit de blockchain halen.",
+  "fund_title": "Stort naar je Zap portemonnee",
+  "fund_description": "Misschien kan je tijdens het wachten alvast Bitcoin storten.",
+  "sync_caption": "Synchroniseren met de blockchain"
+}
