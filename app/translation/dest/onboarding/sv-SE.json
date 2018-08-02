@@ -12,7 +12,7 @@
   "enable": "Aktivera",
   "disable": "Inaktivera",
   "login_title": "Välkommen tillbaka!",
-  "login_description": "It looks like you already have a wallet (we found one at `/Users/jmow/Library/Application Support/Lnd`). Please enter your wallet password to unlock it.",
+  "login_description": "Det ser ut som att du redan har en wallet (vi hittade en under `/Users/jmow/Library/Application Support/Lnd`). Vänligen skriv in ditt lösenord för att låsa upp den.",
   "unlock": "Lås upp",
   "signup_title": "Okej, låt oss börja",
   "signup_description": "Vill du skapa en ny wallet eller importera en befintlig?",
