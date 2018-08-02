@@ -1,6 +1,6 @@
 {
-  "received": "Received",
-  "sent": "Sent",
-  "on_chain": "On-Chain",
-  "fee": "Fee"
+  "received": "Получено",
+  "sent": "Отправлено",
+  "on_chain": "По-цепи",
+  "fee": "Комиссия"
 }
