@@ -1,8 +1,8 @@
 {
-  "nice": "Trevligt",
+  "nice": "Snyggt",
   "copied": "Kopierad till Urklipp",
   "synced": "Visa vem? Du är din egen betalningsprocessor nu!",
-  "onchain_sent_title": "On-chain transaktionen har Skickats!",
+  "onchain_sent_title": "On-chain transaktionen har skickats!",
   "onchain_sent_description": "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.",
   "onchain_received_title": "On-chain Transaction Received!",
   "onchain_received_description": "Lucky you, you just received a new on-chain transaction. I'm jealous.",
