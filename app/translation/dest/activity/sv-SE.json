@@ -1,8 +1,8 @@
 {
-  "all": "All",
-  "sent": "Sent",
-  "requested": "Requested",
-  "pending": "Pending",
-  "refresh": "Refresh",
-  "search": "Search"
+  "all": "Alla",
+  "sent": "Skickat",
+  "requested": "Efterfrågade",
+  "pending": "Väntande",
+  "refresh": "Uppdatera",
+  "search": "Sök"
 }
