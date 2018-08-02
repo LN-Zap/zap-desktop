@@ -1,0 +1,11 @@
+{
+  "title": "Mijn netwerk",
+  "empty_description": "Hmm, het lijkt erop dat je nog geen kanalen hebt. Om te beginnen zijn hier wat voorgestelde nodes om een kanaal mee te openen",
+  "search_form": "Doorzoek het netwerk",
+  "open_channel": "Open een kanaal",
+  "open": "Open",
+  "pending": "In behandeling",
+  "closing": "Bezig met sluiten",
+  "offline": "Offline",
+  "manual_description": "Hmm, het lijkt erop dat we die node vanaf hier niet kunnen zien, wil je handmatig verbinden?"
+}
