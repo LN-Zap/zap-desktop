@@ -1,0 +1,11 @@
+{
+  "title": "Mitt nätverk",
+  "empty_description": "Hmmm, ser ut som du inte har några kanaler ännu. Här är några föreslagna noder att öppna en kanal med för att komma igång",
+  "search_form": "Sök i nätverket",
+  "open_channel": "Öppna en kanal",
+  "open": "Öppna",
+  "pending": "Väntande",
+  "closing": "Stänger",
+  "offline": "Offline",
+  "manual_description": "Hm, ser ut som vi inte kan se noden här ifrån, vill försöka ansluta manuellt?"
+}
