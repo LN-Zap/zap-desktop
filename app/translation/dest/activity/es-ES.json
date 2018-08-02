@@ -2,7 +2,7 @@
   "all": "Todo",
   "sent": "Enviado",
   "requested": "Solicitado",
-  "pending": "Pending",
-  "refresh": "Refresh",
-  "search": "Search"
+  "pending": "Pendiente",
+  "refresh": "Actualizar",
+  "search": "Búsqueda"
 }
