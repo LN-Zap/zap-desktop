@@ -5,7 +5,7 @@
   "finalizing": "Wird abgeschlossen…",
   "sync_title": "Willkommen zurück in deiner Zap Wallet!",
   "sync_description": "Bitte hab Geduld während wir deine aktuellen Informationen aus der Blockchain sammeln.",
-  "fund_title": "Fund your Zap wallet",
+  "fund_title": "Lade dein Zap Wallet auf",
   "fund_description": "Might as well fund your wallet while you’re waiting to sync.",
   "sync_caption": "Synchronisierung mit der Blockchain"
 }
