@@ -1,0 +1,11 @@
+{
+  "title": "Minha rede",
+  "empty_description": "Hmmm, parece que você ainda não possui nenhum canal",
+  "search_form": "Procurar na rede",
+  "open_channel": "Abrir um canal",
+  "open": "Abrir",
+  "pending": "Pendente",
+  "closing": "Fechando",
+  "offline": "Desconectado",
+  "manual_description": "Hum, parece que não podemos enxergar esse nó daqui, quer tentar se conectar manualmente?"
+}

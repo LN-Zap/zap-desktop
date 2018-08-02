@@ -1,0 +1,11 @@
+{
+  "nice": "Legal",
+  "copied": "Copiado para o clipboard",
+  "synced": "Visa quem? Você é seu próprio processador de pagamento agora!",
+  "onchain_sent_title": "Transação on-chain enviada!",
+  "onchain_sent_description": "Odeio ter que ver 'eles indo mas amo ao ver eles saindo.",
+  "onchain_received_title": "Transação on-chain recebida!",
+  "onchain_received_description": "Sorte sua, você acabou de receber uma nova transação.",
+  "zapped_title": "Você foi Zapeado",
+  "zapped_description": "Parabéns, alguém pagou uma fatura sua"
+}

@@ -1,0 +1,6 @@
+{
+  "title": "Conectar-se manualmente",
+  "description": "Por favor, digite a senha de sua carteira para desbloqueá-lo",
+  "placeholder": "pubkey@host",
+  "submit": "Enviar"
+}
