@@ -3,7 +3,7 @@
   "copied": "In die Zwischenablage kopiert",
   "synced": "Visa wer? Du bist jetzt dein eigener Zahlungsabwickler!",
   "onchain_sent_title": "On-chain Transaktion gesendet!",
-  "onchain_sent_description": "Und da geht sie einfach so... Transaktion erfolgreich gesendet.",
+  "onchain_sent_description": "(Und da geht sie einfach so...) On-Chain Transaktion erfolgreich gesendet.",
   "onchain_received_title": "On-chain Transaktion erhalten!",
   "onchain_received_description": "Du Glückspilz hast eine neue on-chain Transaktion erhalten.",
   "zapped_title": "Du wurdest geZappt",
