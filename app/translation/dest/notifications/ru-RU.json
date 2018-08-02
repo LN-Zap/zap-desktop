@@ -1,11 +1,11 @@
 {
   "nice": "Мило",
   "copied": "Скопировано в буфер обмена",
-  "synced": "Visa who? You're your own payment processor now!",
-  "onchain_sent_title": "On-chain Transaction Sent!",
-  "onchain_sent_description": "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.",
-  "onchain_received_title": "On-chain Transaction Received!",
-  "onchain_received_description": "Lucky you, you just received a new on-chain transaction. I'm jealous.",
-  "zapped_title": "You've been Zapped",
-  "zapped_description": "Congrats, someone just paid an invoice of yours"
+  "synced": "Visa, кто? Вы теперь сам себе платежный процессор!",
+  "onchain_sent_title": "Транзакция отправлена в блокчейн!",
+  "onchain_sent_description": "Ненавижу, когда они приходят, но люблю смотреть их уход.",
+  "onchain_received_title": "Получена блокчейн-транзакция!",
+  "onchain_received_description": "Везёт, вы только что получили новую блокчейн-транзакцию.",
+  "zapped_title": "Вы были Zap-пнуты",
+  "zapped_description": "Поздравления, кто-то только что перевёл вам"
 }
