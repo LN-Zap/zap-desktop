@@ -1,8 +1,8 @@
 {
-  "pay_req": "Payment Request",
+  "pay_req": "Begäran om betalning",
   "memo": "Memo",
-  "request": "Request",
-  "save": "Save as image",
-  "not_paid": "Not Paid",
-  "paid": "Paid"
+  "request": "Begäran",
+  "save": "Spara som bild",
+  "not_paid": "Inte betalad",
+  "paid": "Betalad"
 }
