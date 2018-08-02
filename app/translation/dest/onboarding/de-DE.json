@@ -26,10 +26,10 @@
   "retype_seed_title": "Wiederhole deinen Seed",
   "retype_seed_description": "Dein Seed is wichtig! Falls du deinen Seed verlierst, gibt es keine Möglichkeit dein Wallet mit Guthaben wiederherzustellen. Um sicher zu gehen, dass du deinen Seed korrekt gespeichert hast, tippe folgende Wörter nochmal ein",
   "hostname_description": "Hostname und Port des Lnd gRPC Interface. Beispiel: localhost:10009",
-  "macaroon_description": "Path to the lnd macaroon file. Example: /path/to/admin.macaroon",
-  "cert_description": "Path to the lnd tls cert. Example: /path/to/tls.cert",
-  "verify_host_title": "Are you sure you want to connect to",
-  "verify_host_description": "Please check the hostname carefully.",
+  "macaroon_description": "Pfad zur lnd macaroon Datei. Beispiel: /path/to/admin.macaroon",
+  "cert_description": "Pfad zum lnd tls cert. Beispiel: /path/to/tls.cert",
+  "verify_host_title": "Willst du wirklich eine Verbindung herstellen zu",
+  "verify_host_description": "Bitte überprüfe den Hostnamen sorgfältig.",
   "btcpay_description": "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled &quot;Click here to open the configuration file.&quot; in your BTCPay Server gRPC settings.",
   "btcpay_error": "Invalid connection string."
 }
