@@ -1,8 +1,8 @@
 {
-  "all": "All",
-  "sent": "Sent",
-  "requested": "Requested",
-  "pending": "Pending",
-  "refresh": "Refresh",
-  "search": "Search"
+  "all": "Все",
+  "sent": "Отправлено",
+  "requested": "Запрошенные (-ое)",
+  "pending": "Ожидание",
+  "refresh": "Обновить",
+  "search": "Поиск"
 }
