@@ -1,0 +1,7 @@
+{
+  "title": "Verzoek betaling",
+  "amount": "Bedrag",
+  "memo": "Memo",
+  "details": "Details over het verzoek",
+  "request": "Verzoek"
+}
