@@ -1,6 +1,6 @@
 {
-  "title": "Connect Manually",
-  "description": "Please enter the peer’s pubkey@host",
+  "title": "Anslut manuellt",
+  "description": "Vänligen ange peer pubkey@host",
   "placeholder": "pubkey@host",
-  "submit": "Submit"
+  "submit": "Lämna in"
 }
