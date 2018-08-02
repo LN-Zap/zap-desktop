@@ -1,6 +1,6 @@
 {
   "title": "Manuell verbinden",
-  "description": "Please enter the peer’s pubkey@host",
+  "description": "Bitte pubkey@host des Peers einfügen",
   "placeholder": "pubkey@host",
-  "submit": "Submit"
+  "submit": "Senden"
 }
