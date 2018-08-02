@@ -3,7 +3,7 @@
   "next": "Weiter",
   "back": "Zurück",
   "connection_title": "Wie möchtest Du Dich mit dem Lightning Network verbinden?",
-  "connection_description": "By default Zap will spin up a node for you and handle all the nerdy stuff in the background. However you can also setup a custom node connection and use Zap to control a remote node if you desire (for advanced users).",
+  "connection_description": "Standardmässig setzt Zap für dich einen Node auf und übernimmt die komplizierten Dinge im Hintergrund. Du hast jedoch die Möglichkeit, eine benutzerdefinierte Verbindung zu einem Node aufzubauen und diesen über Zap fernzuverwalten (für erfahrene Nutzer).",
   "default": "Voreingestellt",
   "Custom": "Benutzerdefiniert",
   "alias_title": "Wie sollen wir Dich nennen?",
