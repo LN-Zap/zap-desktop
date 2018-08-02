@@ -17,7 +17,7 @@
   "signup_title": "Ok, legen wir los",
   "signup_description": "Möchtest du ein neues Wallet aufsetzen oder ein bestehendes importieren?",
   "signup_create": "Neues Wallet erstellen",
-  "signup_import": "Importieren eines bestehenden Wallets",
+  "signup_import": "Bestehendes Wallet importieren",
   "import_title": "Importiere deinen Seed",
   "import_description": "Wallet wiederhergestellt, toll! Du brauchst niemand anderes, du hast alles unter deiner Kontrolle :)",
   "import_placeholder": "Wort",
