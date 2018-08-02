@@ -8,7 +8,7 @@
   "Custom": "Benutzerdefiniert",
   "alias_title": "Wie sollen wir Dich nennen?",
   "alias_description": "Gib Deinen Benutzernamen ein, um anderen zu helfen, mit Dir über das Lightning Network zu verbinden",
-  "autopilot_description": "Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.",
+  "autopilot_description": "Autopilot ist ein automatischer Netzwerkverwalter. Anstatt manuell neue Leute hinzuzufügen um dein Zahlungsnetzwerk zu kreieren, kannst du Autopilot aktivieren um automatisch 60% deines Guthabens für Verbindungen zum Lightning Netzwerk zu verwenden.",
   "enable": "An",
   "disable": "Aus",
   "login_title": "Willkommen zurück!",
