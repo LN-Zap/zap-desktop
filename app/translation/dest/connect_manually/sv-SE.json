@@ -2,5 +2,5 @@
   "title": "Anslut manuellt",
   "description": "Vänligen ange peer pubkey@host",
   "placeholder": "pubkey@host",
-  "submit": "Lämna in"
+  "submit": "Skicka"
 }
