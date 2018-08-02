@@ -1,7 +1,7 @@
 {
-  "pay": "Pay",
-  "request": "Request",
-  "sending_tx": "Sending your transaction…",
-  "payment_success": "Successfully sent payment",
-  "transaction_success": "Successfully sent transaction"
+  "pay": "Pagar",
+  "request": "Solicitar",
+  "sending_tx": "Enviando sua transação…",
+  "payment_success": "Pagamento enviado com sucesso",
+  "transaction_success": "Transação enviada com sucesso"
 }
