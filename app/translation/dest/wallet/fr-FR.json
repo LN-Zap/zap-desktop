@@ -1,0 +1,7 @@
+{
+  "pay": "Payer",
+  "request": "Demande",
+  "sending_tx": "Envoi de votre transaction…",
+  "payment_success": "Paiement envoyé avec succès",
+  "transaction_success": "Transaction effectuée avec succès"
+}
