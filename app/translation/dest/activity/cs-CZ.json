@@ -1,7 +1,7 @@
 {
   "all": "All",
-  "sent": "Sent",
-  "requested": "Requested",
+  "sent": "Odesláno",
+  "requested": "Vyžádáno",
   "pending": "Pending",
   "refresh": "Aktualizovat",
   "search": "Hledat"
