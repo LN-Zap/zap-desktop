@@ -30,6 +30,6 @@
   "cert_description": "Pfad zum lnd tls cert. Beispiel: /path/to/tls.cert",
   "verify_host_title": "Willst du wirklich eine Verbindung herstellen zu",
   "verify_host_description": "Bitte überprüfe den Hostnamen sorgfältig.",
-  "btcpay_description": "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled &quot;Click here to open the configuration file.&quot; in your BTCPay Server gRPC settings.",
-  "btcpay_error": "Invalid connection string."
+  "btcpay_description": "Füge den gesamten Inhalt deiner BTCPay Server connection config Datei ein. Du findest diese unter folgendem Link &quot; Klicke hier um die Konfigurationsdatei &quot; in deinen BTCPay Server gRPC Einstellungen zu öffnen.",
+  "btcpay_error": "Ungültiger Verbindungsstring."
 }
