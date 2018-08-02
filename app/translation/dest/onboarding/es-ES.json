@@ -22,7 +22,7 @@
   "import_description": "Recuperar una cartera, bien. No necesita a nadie más, se tiene a usted :)",
   "import_placeholder": "Palabra",
   "save_seed_title": "Guarde la semilla (seed) de su cartera",
-  "save_seed_description": "Please save these 24 words securely! This will allow you to recover your wallet in the future",
+  "save_seed_description": "¡Por favor, guarde de forma segura estas 24 palabras! Esto le permitirá recuperar su cartera en el futuro",
   "retype_seed_title": "Retype your seed",
   "retype_seed_description": "Your seed is important! If you lose your seed you'll have no way to recover your wallet. To make sure that you have properly saved your seed, please retype words",
   "hostname_description": "Hostname and port of the Lnd gRPC interface. Example: localhost:10009",
