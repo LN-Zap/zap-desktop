@@ -1,11 +1,11 @@
 {
-  "nice": "Nice",
-  "copied": "Copied to the clipboard",
-  "synced": "Visa who? You're your own payment processor now!",
-  "onchain_sent_title": "On-chain Transaction Sent!",
-  "onchain_sent_description": "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.",
-  "onchain_received_title": "On-chain Transaction Received!",
-  "onchain_received_description": "Lucky you, you just received a new on-chain transaction. I'm jealous.",
-  "zapped_title": "You've been Zapped",
-  "zapped_description": "Congrats, someone just paid an invoice of yours"
+  "nice": "Drăguţ",
+  "copied": "Copiat în clipboard",
+  "synced": "Uita de Visa? Tu esti propriul tău procesor de plată!",
+  "onchain_sent_title": "Tranzactie On-chain a fost trimisă!",
+  "onchain_sent_description": "Tranzactia on-chain a fost trimisă cu succes!",
+  "onchain_received_title": "Tranzactia On-chain a fost primită!",
+  "onchain_received_description": "Esti norocos, tocmai ce ai primit o tranzactie on-chain. Sunt gelos.",
+  "zapped_title": "Ai fost curentat",
+  "zapped_description": "Felicitari, cineva tocmai a plătit o factură de a ta"
 }
