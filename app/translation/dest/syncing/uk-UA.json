@@ -1,11 +1,11 @@
 {
-  "grab_coffee": "It looks like this could take some time - you might want to grab a coffee or try again later!",
-  "waiting_for_peers": "Waiting for peers…",
-  "preparing": "Preparing…",
-  "finalizing": "Finalizing…",
-  "sync_title": "Welcome back to your Zap wallet!",
-  "sync_description": "Please wait a while whilst we fetch all of your latest data from the blockchain.",
-  "fund_title": "Fund your Zap wallet",
-  "fund_description": "Might as well fund your wallet while you’re waiting to sync.",
-  "sync_caption": "Syncing to the blockchain"
+  "grab_coffee": "Схоже, це може зайняти деякий час, - ви можете випити чашечку кави чи спробувати пізніше!",
+  "waiting_for_peers": "Чекаємо підключення…",
+  "preparing": "Підготовка…",
+  "finalizing": "Завершення…",
+  "sync_title": "Ласкаво просимо назад до Zap гаманця!",
+  "sync_description": "Будь ласка, зачекайте деякий час, поки ми виберемо всі ваші останні дані з блокчейну.",
+  "fund_title": "Поповнити ваш гаманець",
+  "fund_description": "Також можуть фінансувати ваш гаманець, поки ви чекаєте синхронізації.",
+  "sync_caption": "Синхронізація з блокчейном"
 }
