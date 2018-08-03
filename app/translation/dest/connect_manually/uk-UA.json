@@ -1,6 +1,6 @@
 {
   "title": "Підключення вручну",
-  "description": "Please enter the peer’s pubkey@host",
-  "placeholder": "pubkey@host",
-  "submit": "Submit"
+  "description": "Будь ласка, введіть pubkey@host співучасника",
+  "placeholder": "pubkey@Host",
+  "submit": "Представити"
 }
