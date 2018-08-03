@@ -1,7 +1,7 @@
 {
-  "pay": "Pay",
-  "request": "Request",
-  "sending_tx": "Sending your transaction…",
-  "payment_success": "Successfully sent payment",
-  "transaction_success": "Successfully sent transaction"
+  "pay": "Сплатити",
+  "request": "Запит",
+  "sending_tx": "Надсилання транзакції…",
+  "payment_success": "Оплата успішно відправлена",
+  "transaction_success": "Транзакція успішно відправлена"
 }
