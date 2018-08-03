@@ -24,12 +24,12 @@
   "save_seed_title": "Spremanje vašeg niza za oporavak novčanika",
   "save_seed_description": "Molimo pohranite ovih 24 riječi na sigurno mjesto! To je jedini način da povratite vaš novčanik.",
   "retype_seed_title": "Ponovno upišite svoj niz",
-  "retype_seed_description": "Your seed is important! If you lose your seed you'll have no way to recover your wallet. To make sure that you have properly saved your seed, please retype words",
-  "hostname_description": "Hostname and port of the Lnd gRPC interface. Example: localhost:10009",
-  "macaroon_description": "Path to the lnd macaroon file. Example: /path/to/admin.macaroon",
-  "cert_description": "Path to the lnd tls cert. Example: /path/to/tls.cert",
-  "verify_host_title": "Are you sure you want to connect to",
-  "verify_host_description": "Please check the hostname carefully.",
+  "retype_seed_description": "Vaš niz je važan! Ukoliko ga izgubite nećete moći povratiti svoj novčanik. Kako bi bili sigurni da ste ispravno zapisali svoj niz, molimo unesite riječi",
+  "hostname_description": "Hostname i port Lnd gRPC sučelja. Primjer: localhost:10009",
+  "macaroon_description": "Put do Lnd makaron datoteke. Primjer: /path/to/admin.macaroon",
+  "cert_description": "Put do Lnd tls cert. Primjer: /path/to/tls.cert",
+  "verify_host_title": "Jeste li sigurni da se želite povezati sa",
+  "verify_host_description": "Pažljivo provjerite ime hosta.",
   "btcpay_description": "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled &quot;Click here to open the configuration file.&quot; in your BTCPay Server gRPC settings.",
   "btcpay_error": "Invalid connection string."
 }
