@@ -1,8 +1,8 @@
 {
-  "pay_req": "Payment Request",
-  "memo": "Memo",
-  "request": "Request",
-  "save": "Save as image",
-  "not_paid": "Not Paid",
-  "paid": "Paid"
+  "pay_req": "Zahtjev za plaćanje",
+  "memo": "Bilješka",
+  "request": "Zahtjev",
+  "save": "Spremi kao sliku",
+  "not_paid": "Nije plaćeno",
+  "paid": "Plaćeno"
 }
