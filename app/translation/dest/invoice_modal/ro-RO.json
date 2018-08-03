@@ -1,8 +1,8 @@
 {
-  "pay_req": "Payment Request",
-  "memo": "Memo",
-  "request": "Request",
-  "save": "Save as image",
-  "not_paid": "Not Paid",
-  "paid": "Paid"
+  "pay_req": "Solicitarea de plată",
+  "memo": "Notificare",
+  "request": "Cerere",
+  "save": "Salvare ca imagine",
+  "not_paid": "Neachitat",
+  "paid": "Plătit"
 }
