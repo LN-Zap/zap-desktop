@@ -6,7 +6,7 @@ import channelsReducer, {
   OPENING_CHANNEL,
   OPENING_SUCCESSFUL,
   OPENING_FAILURE
-} from '../../app/reducers/channels'
+} from 'reducers/channels'
 
 describe('reducers', () => {
   describe('channelsReducer', () => {

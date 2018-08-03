@@ -2,10 +2,10 @@ import React from 'react'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import Isvg from 'react-inlinesvg'
-import CryptoIcon from '../../app/components/CryptoIcon'
+import CryptoIcon from 'components/CryptoIcon'
 
-import skinnyBitcoinIcon from '../../app/icons/skinny_bitcoin.svg'
-import litecoinIcon from '../../app/icons/litecoin.svg'
+import skinnyBitcoinIcon from 'icons/skinny_bitcoin.svg'
+import litecoinIcon from 'icons/litecoin.svg'
 
 configure({ adapter: new Adapter() })
 
