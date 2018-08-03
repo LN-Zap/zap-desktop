@@ -1,6 +1,6 @@
 {
-  "title": "Connect Manually",
-  "description": "Please enter the peer’s pubkey@host",
-  "placeholder": "pubkey@host",
-  "submit": "Submit"
+  "title": "Conectarea manualã",
+  "description": "Vă rugăm să introduceţi peer pubkey@host",
+  "placeholder": "pubkey@Host",
+  "submit": "Depune"
 }
