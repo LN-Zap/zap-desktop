@@ -1,6 +1,6 @@
 {
   "name": "zap-desktop",
-  "productName": "ZapDesktop",
+  "productName": "Zap",
   "version": "0.2.1-beta",
   "description": "desktop application for the lightning network",
   "main": "./main.prod.js",
