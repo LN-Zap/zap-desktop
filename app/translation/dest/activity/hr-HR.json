@@ -1,8 +1,8 @@
 {
-  "all": "All",
-  "sent": "Sent",
-  "requested": "Requested",
-  "pending": "Pending",
-  "refresh": "Refresh",
-  "search": "Search"
+  "all": "Sve",
+  "sent": "Poslano",
+  "requested": "Zatraženo",
+  "pending": "Na čekanju",
+  "refresh": "Osvježi",
+  "search": "Pretraživanje"
 }
