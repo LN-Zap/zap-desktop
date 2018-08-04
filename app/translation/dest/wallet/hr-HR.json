@@ -1,7 +1,7 @@
 {
-  "pay": "Pay",
-  "request": "Request",
-  "sending_tx": "Sending your transaction…",
-  "payment_success": "Successfully sent payment",
-  "transaction_success": "Successfully sent transaction"
+  "pay": "Plati",
+  "request": "Zahtjev",
+  "sending_tx": "Slanje vaše transakcije...",
+  "payment_success": "Uspješno poslana plaćanja",
+  "transaction_success": "Uspješno poslane transakcije"
 }
