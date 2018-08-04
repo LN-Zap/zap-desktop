@@ -160,6 +160,13 @@
   "homepage": "https://github.com/LN-Zap/zap-desktop#readme",
   "jest": {
     "collectCoverage": true,
+    "collectCoverageFrom": [
+      "app/**/*.js",
+      "!app/main.prod.js",
+      "!app/dll/**",
+      "!app/coverage/**",
+      "!**/node_modules/**"
+    ],
     "coverageReporters": [
       "json",
       "lcov",
