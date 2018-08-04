@@ -3,7 +3,7 @@
   "next": "Slijedeće",
   "back": "Natrag",
   "connection_title": "Kako se želite povezati na Lightning Network?",
-  "connection_description": "Prema zadanim postavkama Zap će zavrti vaš čvor i automatski odraditi sve stvari u pozadini. Međutim također možete postaviti i prilagođenu vezu na čvor ili koristiti Zap za kontrolu udaljenog čvora ako želite (za napredne korisnike).",
+  "connection_description": "Prema zadanim postavkama Zap će zavrtiti vaš čvor i automatski odraditi sve stvari u pozadini. Međutim također možete postaviti i prilagođenu vezu na čvor ili koristiti Zap za kontrolu udaljenog čvora ako želite (za napredne korisnike).",
   "default": "Zadano",
   "Custom": "Prilagođeno",
   "alias_title": "Kako da te zovemo?",
@@ -30,6 +30,6 @@
   "cert_description": "Put do Lnd tls cert. Primjer: /path/to/tls.cert",
   "verify_host_title": "Jeste li sigurni da se želite povezati sa",
   "verify_host_description": "Pažljivo provjerite ime hosta.",
-  "btcpay_description": "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled &quot;Click here to open the configuration file.&quot; in your BTCPay Server gRPC settings.",
-  "btcpay_error": "Invalid connection string."
+  "btcpay_description": "Iskopirajte cijeli sadržaj svoje BTCPay Server konfiguracijske datoteke za spajanje. Možete ga pronaći klikom na link naziva &quot;Kliknite ovdje za otvaranje konfiguracijske datoteke.&quot; u vašim BTCPay Server gRPC postavkama.",
+  "btcpay_error": "Nevaljana instrukcija spajanja."
 }
