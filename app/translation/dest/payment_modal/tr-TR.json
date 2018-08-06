@@ -1,6 +1,6 @@
 {
-  "received": "Received",
-  "sent": "Sent",
-  "on_chain": "On-Chain",
-  "fee": "Fee"
+  "received": "Alındı",
+  "sent": "Gönderildi",
+  "on_chain": "Zincir üzerinde",
+  "fee": "Ücret"
 }
