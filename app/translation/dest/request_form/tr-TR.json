@@ -2,6 +2,6 @@
   "title": "Ödeme talebi",
   "amount": "Tutar",
   "memo": "Kısa Not",
-  "details": "Details about the request",
-  "request": "Request"
+  "details": "İstek ayrıntıları",
+  "request": "İste"
 }
