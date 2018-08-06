@@ -1,7 +1,7 @@
 {
-  "pay": "Pay",
-  "request": "Request",
-  "sending_tx": "Sending your transaction…",
-  "payment_success": "Successfully sent payment",
-  "transaction_success": "Successfully sent transaction"
+  "pay": "Öde",
+  "request": "İste",
+  "sending_tx": "İşlem gönderiliyor…",
+  "payment_success": "Ödeme başarıyla gönderildi",
+  "transaction_success": "İşlem başarıyla gönderildi"
 }
