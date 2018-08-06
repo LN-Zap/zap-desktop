@@ -1,7 +1,7 @@
 {
-  "title": "Request Payment",
-  "amount": "Amount",
-  "memo": "Memo",
+  "title": "Ödeme talebi",
+  "amount": "Tutar",
+  "memo": "Kısa Not",
   "details": "Details about the request",
   "request": "Request"
 }
