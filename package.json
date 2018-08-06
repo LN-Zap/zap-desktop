@@ -42,7 +42,8 @@
   "config": {
     "style_paths": "app/styles/*.scss app/components/**/*.scss",
     "lnd-binary": {
-      "binaryVersion": "0.4.2-beta"
+      "binaryVersion": "0.4.2-beta-635-g72aa7969",
+      "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
   "browserslist": "electron 2.0",
@@ -255,7 +256,7 @@
     "jsdom": "^11.12.0",
     "koa-connect": "^2.0.1",
     "lint-staged": "^7.2.0",
-    "lnd-binary": "^0.3.4",
+    "lnd-binary": "^0.3.5",
     "minimist": "^1.2.0",
     "node-sass": "^4.9.0",
     "prettier": "^1.13.5",
