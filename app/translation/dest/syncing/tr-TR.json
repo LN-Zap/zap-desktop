@@ -1,11 +1,11 @@
 {
-  "grab_coffee": "It looks like this could take some time - you might want to grab a coffee or try again later!",
-  "waiting_for_peers": "Waiting for peers…",
-  "preparing": "Preparing…",
-  "finalizing": "Finalizing…",
-  "sync_title": "Welcome back to your Zap wallet!",
-  "sync_description": "Please wait a while whilst we fetch all of your latest data from the blockchain.",
-  "fund_title": "Fund your Zap wallet",
-  "fund_description": "Might as well fund your wallet while you’re waiting to sync.",
-  "sync_caption": "Syncing to the blockchain"
+  "grab_coffee": "Bu biraz zaman alabilir - bir çay koymak veya daha sonra yeniden bakmak isteyebilirsiniz gibi görünüyor!",
+  "waiting_for_peers": "Eş bağlantıları için bekleniyor…",
+  "preparing": "Hazırlanıyor…",
+  "finalizing": "Tamamlanıyor…",
+  "sync_title": "Zap cüzdanına tekrar hoş geldiniz!",
+  "sync_description": "Lütfen en son verilerinizi blok zincirinden alırken bir süre bekleyin.",
+  "fund_title": "Zap cüzdanınıza para yatırın",
+  "fund_description": "Senkronizasyonu beklerken, cüzdanınıza para yatırmak isteyebilirsiniz.",
+  "sync_caption": "Blockchain'e senkronize ediliyor"
 }
