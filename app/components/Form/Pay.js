@@ -88,7 +88,9 @@ class Pay extends Component {
           <section className={styles.destination}>
             <div className={styles.top}>
               <label htmlFor="paymentRequest">Destination</label>
-              <span className={`${styles.description} ${(isOnchain || isLn) && styles.active}`}>
+              <span
+                className={`${styles.description} ${isOnchain || isLn ? styles.active : undefined}`}
+              >
                 {isOnchain && (
                   <i>
                     <Isvg src={link} />
@@ -114,7 +116,11 @@ class Pay extends Component {
                 id="paymentRequest"
                 rows="4"
               />
-              <section className={`${styles.errorMessage} ${showErrors.payInput && styles.active}`}>
+              <section
+                className={`${styles.errorMessage} ${
+                  showErrors.payInput ? styles.active : undefined
+                }`}
+              >
                 {showErrors.payInput && <span>{errors.payInput}</span>}
               </section>
             </div>
@@ -150,7 +156,7 @@ class Pay extends Component {
                     <FaAngleDown />
                   </span>
                 </section>
-                <ul className={showCurrencyFilters && styles.active}>
+                <ul className={showCurrencyFilters ? styles.active : undefined}>
                   {currentCurrencyFilters.map(filter => (
                     <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
                       {filter.name}
@@ -163,15 +169,19 @@ class Pay extends Component {
             <div className={styles.usdAmount}>{`≈ ${usdAmount || 0} USD`}</div>
 
             <section
-              className={`${styles.errorMessage} ${styles.amount} ${showErrors.amount &&
-                styles.active}`}
+              className={`${styles.errorMessage} ${styles.amount} ${
+                showErrors.amount ? styles.active : undefined
+              }`}
             >
               {showErrors.amount && <span>{errors.amount}</span>}
             </section>
           </section>
 
           <section className={styles.submit}>
-            <div className={`${styles.button} ${isValid && styles.active}`} onClick={onPaySubmit}>
+            <div
+              className={`${styles.button} ${isValid ? styles.active : undefined}`}
+              onClick={onPaySubmit}
+            >
               Pay
             </div>
           </section>

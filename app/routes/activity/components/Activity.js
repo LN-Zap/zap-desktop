@@ -155,12 +155,12 @@ class Activity extends Component {
                   {filters.map(f => (
                     <li
                       key={f.key}
-                      className={f.key === filter.key && styles.activeFilter}
+                      className={f.key === filter.key ? styles.activeFilter : undefined}
                       onClick={() => changeFilter(f)}
                     >
                       <span>{f.name}</span>
 
-                      <div className={f.key === filter.key && styles.activeBorder} />
+                      <div className={f.key === filter.key ? styles.activeBorder : undefined} />
                     </li>
                   ))}
                 </ul>
@@ -184,7 +184,11 @@ class Activity extends Component {
               </section>
             </header>
           )}
-          <ul className={`${styles.activityContainer} ${filterPulldown && styles.pulldown}`}>
+          <ul
+            className={`${styles.activityContainer} ${
+              filterPulldown ? styles.pulldown : undefined
+            }`}
+          >
             {currentActivity.map((activityBlock, index) => (
               <li className={styles.activity} key={index}>
                 <h2>{activityBlock.title}</h2>

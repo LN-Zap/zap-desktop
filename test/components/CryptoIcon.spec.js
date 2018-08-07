@@ -1,10 +1,13 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { configure, shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 import Isvg from 'react-inlinesvg'
 import CryptoIcon from '../../app/components/CryptoIcon'
 
 import skinnyBitcoinIcon from '../../app/icons/skinny_bitcoin.svg'
 import litecoinIcon from '../../app/icons/litecoin.svg'
+
+configure({ adapter: new Adapter() })
 
 const defaultProps = {
   currency: 'bch',

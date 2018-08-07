@@ -63,7 +63,9 @@ class ConnectManually extends React.Component {
           </div>
         </section>
 
-        <section className={`${styles.errorMessage} ${showErrors.manualInput && styles.active}`}>
+        <section
+          className={`${styles.errorMessage} ${showErrors.manualInput ? styles.active : undefined}`}
+        >
           {showErrors.manualInput && (
             <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>
           )}
@@ -71,7 +73,7 @@ class ConnectManually extends React.Component {
 
         <section className={styles.submit}>
           <div
-            className={`${styles.button} ${manualFormIsValid.isValid && styles.active}`}
+            className={`${styles.button} ${manualFormIsValid.isValid ? styles.active : undefined}`}
             onClick={formSubmitted}
           >
             Submit

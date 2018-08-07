@@ -1,7 +1,10 @@
 import React from 'react'
-import { shallow } from 'enzyme'
+import { configure, shallow } from 'enzyme'
+import Adapter from 'enzyme-adapter-react-16'
 
 import Pay from '../../../app/components/Form/Pay'
+
+configure({ adapter: new Adapter() })
 
 const defaultProps = {
   payform: {

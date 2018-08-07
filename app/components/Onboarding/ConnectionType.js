@@ -6,13 +6,17 @@ import styles from './ConnectionType.scss'
 
 const ConnectionType = ({ connectionType, setConnectionType }) => (
   <div className={styles.container}>
-    <section className={`${styles.option} ${connectionType === 'local' && styles.active}`}>
+    <section
+      className={`${styles.option} ${connectionType === 'local' ? styles.active : undefined}`}
+    >
       <div className={`${styles.button}`} onClick={() => setConnectionType('local')}>
         {connectionType === 'local' ? <FaCircle /> : <FaCircleThin />}
         <span className={styles.label}>Default</span>
       </div>
     </section>
-    <section className={`${styles.option} ${connectionType === 'custom' && styles.active}`}>
+    <section
+      className={`${styles.option} ${connectionType === 'custom' ? styles.active : undefined}`}
+    >
       <div className={`${styles.button}`} onClick={() => setConnectionType('custom')}>
         {connectionType === 'custom' ? <FaCircle /> : <FaCircleThin />}
         <span className={styles.label}>Custom</span>

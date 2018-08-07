@@ -44,11 +44,7 @@ export default merge.smart(baseConfig, {
 
   mode: 'development',
 
-  entry: [
-    'react-hot-loader/patch',
-    'webpack/hot/only-dev-server',
-    path.join(__dirname, 'app/index.js')
-  ],
+  entry: ['webpack/hot/only-dev-server', path.join(__dirname, 'app/index.js')],
 
   output: {
     publicPath: `http://localhost:${port}/dist/`
@@ -296,14 +292,7 @@ export default merge.smart(baseConfig, {
           })
         )
       )
-      app.use(
-        convert(
-          history({
-            verbose: true,
-            disableDotRule: false
-          })
-        )
-      )
+      app.use(convert(history()))
     },
     // Start the main process as soon as the server is listening.
     on: {

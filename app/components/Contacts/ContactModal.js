@@ -61,7 +61,7 @@ const ContactModal = ({
       {channel && (
         <div className={styles.container}>
           <header className={styles.header}>
-            <div className={`${styles.status} ${channel.active && styles.online}`}>
+            <div className={`${styles.status} ${channel.active ? styles.online : undefined}`}>
               <FaCircle style={{ verticalAlign: 'top' }} />
               <span>{channel.active ? 'Online' : 'Offline'}</span>
             </div>

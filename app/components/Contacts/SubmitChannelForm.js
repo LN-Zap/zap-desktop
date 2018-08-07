@@ -92,7 +92,7 @@ class SubmitChannelForm extends React.Component {
                   <FaAngleDown />
                 </span>
               </section>
-              <ul className={showCurrencyFilters && styles.active}>
+              <ul className={showCurrencyFilters ? styles.active : undefined}>
                 {currentCurrencyFilters.map(filter => (
                   <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
                     {filter.name}
@@ -107,7 +107,7 @@ class SubmitChannelForm extends React.Component {
 
         <section className={styles.submit}>
           <div
-            className={`${styles.button} ${contactCapacity > 0 && styles.active}`}
+            className={`${styles.button} ${contactCapacity > 0 ? styles.active : undefined}`}
             onClick={formSubmitted}
           >
             Submit

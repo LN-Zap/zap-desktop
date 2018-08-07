@@ -10,7 +10,7 @@ import styles from '../Activity.scss'
 
 const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyName }) => (
   <div
-    className={`${styles.container} ${!invoice.settled && styles.unpaid}`}
+    className={`${styles.container} ${!invoice.settled ? styles.unpaid : undefined}`}
     onClick={() => showActivityModal('INVOICE', { invoice })}
   >
     <div className={styles.activityTypeIcon}>

@@ -15,7 +15,7 @@ class GlobalError extends React.Component {
     const { error, clearError } = this.props
 
     return (
-      <div className={`${styles.container} ${!error && styles.closed}`}>
+      <div className={`${styles.container} ${!error ? styles.closed : undefined}`}>
         <div className={styles.content}>
           <div className={styles.close} onClick={clearError}>
             <MdClose />

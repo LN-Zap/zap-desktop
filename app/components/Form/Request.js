@@ -62,7 +62,7 @@ const Request = ({
                   <FaAngleDown />
                 </span>
               </section>
-              <ul className={showCurrencyFilters && styles.active}>
+              <ul className={showCurrencyFilters ? styles.active : undefined}>
                 {currentCurrencyFilters.map(filter => (
                   <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
                     {filter.name}
@@ -92,7 +92,7 @@ const Request = ({
 
         <section className={styles.submit}>
           <div
-            className={`${styles.button} ${amount > 0 && styles.active}`}
+            className={`${styles.button} ${amount > 0 ? styles.active : undefined}`}
             onClick={onRequestSubmit}
           >
             Request
