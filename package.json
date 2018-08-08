@@ -162,6 +162,7 @@
     "collectCoverage": true,
     "collectCoverageFrom": [
       "app/**/*.js",
+      "!app/dist/**",
       "!app/main.prod.js",
       "!app/dll/**",
       "!app/coverage/**",
