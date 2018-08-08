@@ -2,7 +2,7 @@ import React from 'react'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-import Request from '../../../app/components/Form/Request'
+import Request from 'components/Form/Request'
 
 configure({ adapter: new Adapter() })
 

@@ -3,7 +3,7 @@ import tickerReducer, {
   SET_CRYPTO,
   GET_TICKERS,
   RECIEVE_TICKERS
-} from '../../app/reducers/ticker'
+} from 'reducers/ticker'
 
 describe('reducers', () => {
   describe('tickerReducer', () => {

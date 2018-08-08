@@ -3,8 +3,8 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import Isvg from 'react-inlinesvg'
 
-import LoadingBolt from '../../app/components/LoadingBolt'
-import cloudboltIcon from '../../app/icons/cloudbolt.svg'
+import LoadingBolt from 'components/LoadingBolt'
+import cloudboltIcon from 'icons/cloudbolt.svg'
 
 configure({ adapter: new Adapter() })
 

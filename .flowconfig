@@ -28,6 +28,7 @@ module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/internals/flow/CSSModule.
 # Map stylesheets to csssmodule tyoe def
 module.name_mapper.extension='png' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
 module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
+module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
 
 # Map webpack resolved module imports to the app directory
 # Example: components/Foo -> `<project_root>/app/components/Foo`
@@ -37,3 +38,4 @@ module.name_mapper='^lib/\(.*\)$' -> '<PROJECT_ROOT>/app/lib/\1'
 module.name_mapper='^reducers/\(.*\)$' -> '<PROJECT_ROOT>/app/reducers/\1'
 module.name_mapper='^routes/\(.*\)$' -> '<PROJECT_ROOT>/app/routes/\1'
 module.name_mapper='^store/\(.*\)$' -> '<PROJECT_ROOT>/app/store/\1'
+module.name_mapper='^icons/\(.*\)$' -> '<PROJECT_ROOT>/app/icons/\1'

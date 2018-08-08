@@ -9,7 +9,7 @@ import peersReducer, {
   SET_PEER,
   GET_PEERS,
   RECEIVE_PEERS
-} from '../../app/reducers/peers'
+} from 'reducers/peers'
 
 describe('reducers', () => {
   describe('peersReducer', () => {

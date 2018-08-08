@@ -1,4 +1,4 @@
-import infoReducer, { GET_INFO, RECEIVE_INFO } from '../../app/reducers/info'
+import infoReducer, { GET_INFO, RECEIVE_INFO } from 'reducers/info'
 
 describe('reducers', () => {
   describe('infoReducer', () => {

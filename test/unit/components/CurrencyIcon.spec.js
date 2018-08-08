@@ -2,8 +2,8 @@ import React from 'react'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import FaDollar from 'react-icons/lib/fa/dollar'
-import CryptoIcon from '../../app/components/CryptoIcon'
-import CurrencyIcon from '../../app/components/CurrencyIcon'
+import CryptoIcon from 'components/CryptoIcon'
+import CurrencyIcon from 'components/CurrencyIcon'
 
 configure({ adapter: new Adapter() })
 
