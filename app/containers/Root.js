@@ -80,6 +80,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     blockHeight: stateProps.lnd.blockHeight,
     syncStatus: stateProps.lnd.syncStatus,
     lndBlockHeight: stateProps.lnd.lndBlockHeight,
+    lndCfilterHeight: stateProps.lnd.lndCfilterHeight,
     hasSynced: stateProps.info.hasSynced,
     syncPercentage: stateProps.syncPercentage,
     address: stateProps.address.address

@@ -357,6 +357,10 @@ class ZapController {
       this.sendMessage('lndBlockHeight', Number(height))
     })
 
+    this.neutrino.on('got-lnd-cfilter-height', height => {
+      this.sendMessage('lndCfilterHeight', Number(height))
+    })
+
     this.neutrino.start()
   }
 

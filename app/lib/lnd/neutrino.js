@@ -17,6 +17,7 @@ const WALLET_UNLOCKER_GRPC_ACTIVE = 'wallet-unlocker-grpc-active'
 const LIGHTNING_GRPC_ACTIVE = 'lightning-grpc-active'
 const GOT_CURRENT_BLOCK_HEIGHT = 'got-current-block-height'
 const GOT_LND_BLOCK_HEIGHT = 'got-lnd-block-height'
+const GOT_LND_CFILTER_HEIGHT = 'got-lnd-cfilter-height'
 
 /**
  * Wrapper class for Lnd to run and monitor it in Neutrino mode.
@@ -30,6 +31,9 @@ class Neutrino extends EventEmitter {
     this.walletUnlockerGrpcActive = false
     this.lightningGrpcActive = false
     this.chainSyncStatus = CHAIN_SYNC_PENDING
+    this.currentBlockHeight = 0
+    this.lndBlockHeight = 0
+    this.lndCfilterHeight = 0
   }
 
   /**
@@ -104,35 +108,36 @@ class Neutrino extends EventEmitter {
         return
       }
 
-      // Lnd waiting for backend to finish syncing.
       if (this.is(CHAIN_SYNC_PENDING) || this.is(CHAIN_SYNC_IN_PROGRESS)) {
-        if (
-          line.includes('No sync peer candidates available') ||
-          line.includes('Unable to synchronize wallet to chain') ||
-          line.includes('Waiting for chain backend to finish sync')
-        ) {
+        // If we cant get a connectionn to the backend.
+        if (line.includes('Waiting for chain backend to finish sync')) {
+          this.setState(CHAIN_SYNC_WAITING)
+        }
+        // If we are still waiting for the back end to finish synncing.
+        if (line.includes('No sync peer candidates available')) {
           this.setState(CHAIN_SYNC_WAITING)
         }
       }
 
       // Lnd syncing has started or resumed.
       if (this.is(CHAIN_SYNC_PENDING) || this.is(CHAIN_SYNC_WAITING)) {
-        const match = line.match(/Syncing to block height (\d+)/)
+        const match =
+          line.match(/Syncing to block height (\d+)/) ||
+          line.match(/Starting cfilters sync at block_height=(\d+)/)
+
         if (match) {
           // Notify that chhain syncronisation has now started.
           this.setState(CHAIN_SYNC_IN_PROGRESS)
 
           // This is the latest block that BTCd is aware of.
-          const btcdHeight = Number(match[1])
-          this.emit(GOT_CURRENT_BLOCK_HEIGHT, btcdHeight)
+          const btcdHeight = match[1]
+          this.setCurrentBlockHeight(btcdHeight)
 
           // The height returned from the LND log output may not be the actual current block height (this is the case
           // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
           // some block explorers just incase.
           fetchBlockHeight()
-            .then(
-              height => (height > btcdHeight ? this.emit(GOT_CURRENT_BLOCK_HEIGHT, height) : null)
-            )
+            .then(height => (height > btcdHeight ? this.setCurrentBlockHeight(height) : null))
             // If we were unable to fetch from bock explorers at least we already have what BTCd gave us so just warn.
             .catch(err => mainLog.warn(`Unable to fetch block height: ${err.message}`))
         }
@@ -141,19 +146,41 @@ class Neutrino extends EventEmitter {
       // Lnd as received some updated block data.
       if (this.is(CHAIN_SYNC_WAITING) || this.is(CHAIN_SYNC_IN_PROGRESS)) {
         let height
+        let cfilter
         let match
 
-        if ((match = line.match(/Rescanned through block.+\(height (\d+)/))) {
-          height = match[1]
-        } else if ((match = line.match(/Caught up to height (\d+)/))) {
+        if ((match = line.match(/Caught up to height (\d+)/))) {
           height = match[1]
         } else if ((match = line.match(/Processed \d* blocks? in the last.+\(height (\d+)/))) {
           height = match[1]
+        } else if ((match = line.match(/Fetching set of headers from tip \(height=(\d+)/))) {
+          height = match[1]
+        } else if ((match = line.match(/Waiting for filter headers \(height=(\d+)\) to catch/))) {
+          height = match[1]
+        } else if ((match = line.match(/Writing filter headers up to height=(\d+)/))) {
+          height = match[1]
+        } else if ((match = line.match(/Starting cfheaders sync at block_height=(\d+)/))) {
+          height = match[1]
+        } else if ((match = line.match(/Got cfheaders from height=(\d*) to height=(\d+)/))) {
+          cfilter = match[2]
+        } else if ((match = line.match(/Verified \d* filter headers? in the.+\(height (\d+)/))) {
+          cfilter = match[1]
+        }
+
+        if (!this.lndCfilterHeight || this.lndCfilterHeight > this.currentBlockHeight - 10000) {
+          if ((match = line.match(/Fetching filter for height=(\d+)/))) {
+            cfilter = Number(match[1])
+          }
         }
 
         if (height) {
           this.setState(CHAIN_SYNC_IN_PROGRESS)
-          this.emit(GOT_LND_BLOCK_HEIGHT, height)
+          this.setLndBlockHeight(height)
+        }
+
+        if (cfilter) {
+          this.setState(CHAIN_SYNC_IN_PROGRESS)
+          this.setLndCfilterHeight(cfilter)
         }
 
         // Lnd syncing has completed.
@@ -194,6 +221,43 @@ class Neutrino extends EventEmitter {
       this.chainSyncStatus = state
       this.emit(state)
     }
+  }
+
+  /**
+   * Set the current block height and emit an event to notify others if it has changed.
+   * @param {String|Number} height Block height
+   */
+  setCurrentBlockHeight(height) {
+    const heightAsNumber = Number(height)
+    if (heightAsNumber > this.currentBlockHeight) {
+      this.currentBlockHeight = heightAsNumber
+      this.emit(GOT_CURRENT_BLOCK_HEIGHT, heightAsNumber)
+    }
+  }
+
+  /**
+   * Set the lnd block height and emit an event to notify others if it has changed.
+   * @param {String|Number} height Block height
+   */
+  setLndBlockHeight(height) {
+    const heightAsNumber = Number(height)
+    if (heightAsNumber > this.lndBlockHeight) {
+      this.lndBlockHeight = heightAsNumber
+      this.emit(GOT_LND_BLOCK_HEIGHT, heightAsNumber)
+    }
+    if (heightAsNumber > this.currentBlockHeight) {
+      this.setCurrentBlockHeight(heightAsNumber)
+    }
+  }
+
+  /**
+   * Set the lnd cfilter height and emit an event to notify others if it has changed.
+   * @param {String|Number} height Block height
+   */
+  setLndCfilterHeight(height) {
+    const heightAsNumber = Number(height)
+    this.lndCfilterHeight = heightAsNumber
+    this.emit(GOT_LND_CFILTER_HEIGHT, heightAsNumber)
   }
 }
 
