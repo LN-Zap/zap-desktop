@@ -1,9 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import Store from 'electron-store'
 import get from 'lodash.get'
-
-const store = new Store({ name: 'connection' })
 
 // ------------------------------------
 // Constants
@@ -230,7 +227,25 @@ export const submitNewWallet = (
   dispatch({ type: CREATING_NEW_WALLET })
 }
 
-export const startOnboarding = () => dispatch => {
+// Listener for errors connecting to LND gRPC
+export const startOnboarding = (event, lndConfig = {}) => dispatch => {
+  dispatch(setConnectionType(lndConfig.type))
+
+  switch (lndConfig.type) {
+    case 'local':
+      dispatch(updateAlias(lndConfig.alias))
+      dispatch(setAutopilot(lndConfig.autopilot))
+      break
+    case 'custom':
+      dispatch(setConnectionHost(lndConfig.host))
+      dispatch(setConnectionCert(lndConfig.cert))
+      dispatch(setConnectionMacaroon(lndConfig.macaroon))
+      break
+    case 'btcpayserver':
+      dispatch(setConnectionString(lndConfig.string))
+      break
+  }
+
   dispatch({ type: ONBOARDING_STARTED })
 }
 
@@ -447,16 +462,18 @@ export { onboardingSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
 const initialState = {
   onboarding: false,
   onboarded: false,
   step: 0.1,
-  connectionType: store.get('type', 'local'),
-  connectionString: store.get('string', ''),
-  connectionHost: store.get('host', ''),
-  connectionCert: store.get('cert', ''),
-  connectionMacaroon: store.get('macaroon', ''),
-  alias: store.get('alias', ''),
+  connectionType: 'default',
+  connectionString: '',
+  connectionHost: '',
+  connectionCert: '',
+  connectionMacaroon: '',
+  alias: '',
+  autopilot: true,
   password: '',
 
   startingLnd: false,
@@ -493,9 +510,7 @@ const initialState = {
   signupForm: {
     create: true,
     import: false
-  },
-
-  autopilot: store.get('autopilot', true)
+  }
 }
 
 // ------------------------------------

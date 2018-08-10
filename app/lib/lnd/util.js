@@ -2,8 +2,11 @@ import dns from 'dns'
 import fs from 'fs'
 import axios from 'axios'
 import { promisify } from 'util'
+import { basename, dirname, join, normalize } from 'path'
+import { platform } from 'os'
 import { lookup } from 'ps-node'
-import path from 'path'
+import { app } from 'electron'
+import isDev from 'electron-is-dev'
 import grpc from 'grpc'
 import isIP from 'validator/lib/isIP'
 import isPort from 'validator/lib/isPort'
@@ -12,6 +15,44 @@ import { mainLog } from '../utils/log'
 
 const fsReadFile = promisify(fs.readFile)
 const dnsLookup = promisify(dns.lookup)
+
+// ------------------------------------
+// Constants
+// ------------------------------------
+
+/**
+ * Get a path to prepend to any nodejs calls that are getting at files in the package,
+ * so that it works both from source and in an asar-packaged mac app.
+ * See https://github.com/electron-userland/electron-builder/issues/751
+ *
+ * windows from source: "C:\myapp\node_modules\electron\dist\resources\default_app.asar"
+ * mac from source: "/Users/me/dev/myapp/node_modules/electron/dist/Electron.app/Contents/Resources/default_app.asar"
+ * mac from a package: <appRootPathsomewhere>"/my.app/Contents/Resources/app.asar"
+ *
+ * If we are run from outside of a packaged app, our working directory is the right place to be.
+ * And no, we can't just set our working directory to somewhere inside the asar. The OS can't handle that.
+ * @return {String} Path to the lnd binary.
+ */
+export const appRootPath =
+  app.getAppPath().indexOf('default_app.asar') < 0 ? normalize(`${app.getAppPath()}/..`) : ''
+
+/**
+ * Get the OS specific lnd binary name.
+ * @return {String} 'lnd' on mac or linux, 'lnd.exe' on windows.
+ */
+export const binaryName = platform() === 'win32' ? 'lnd.exe' : 'lnd'
+
+/**
+ * Get the OS specific path to the lnd binary.
+ * @return {String} Path to the lnd binary.
+ */
+export const binaryPath = isDev
+  ? join(dirname(require.resolve('lnd-binary/package.json')), 'vendor', binaryName)
+  : join(appRootPath, 'bin', binaryName)
+
+// ------------------------------------
+// Helpers
+// ------------------------------------
 
 /**
  * Helper function to get the current block height.
@@ -123,7 +164,7 @@ export const createMacaroonCreds = async macaroonPath => {
   const metadata = new grpc.Metadata()
 
   // If it's not a filepath, then assume it is a hex encoded string.
-  if (macaroonPath === path.basename(macaroonPath)) {
+  if (macaroonPath === basename(macaroonPath)) {
     metadata.add('macaroon', macaroonPath)
   } else {
     const macaroon = await fsReadFile(macaroonPath).catch(e => {

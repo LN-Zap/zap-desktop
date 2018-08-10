@@ -1,6 +1,5 @@
 import grpc from 'grpc'
 import { loadSync } from '@grpc/proto-loader'
-import config from './config'
 import { getDeadline, validateHost, createSslCreds, createMacaroonCreds } from './util'
 import methods from './methods'
 import { mainLog } from '../utils/log'
@@ -27,9 +26,8 @@ class Lightning {
    * Connect to the gRPC interface and verify it is functional.
    * @return {Promise<rpc.lnrpc.Lightning>}
    */
-  async connect() {
-    const lndConfig = config.lnd()
-    const { host, rpcProtoPath, cert, macaroon } = lndConfig
+  async connect(lndConfig) {
+    const { rpcProtoPath, host, cert, macaroon } = lndConfig
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
     return await validateHost(host).then(async () => {
