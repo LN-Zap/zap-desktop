@@ -1,11 +1,11 @@
 {
-  "grab_coffee": "It looks like this could take some time - you might want to grab a coffee or try again later!",
-  "waiting_for_peers": "Waiting for peers…",
-  "preparing": "Preparing…",
-  "finalizing": "Finalizing…",
+  "grab_coffee": "Il semble que cela pourrait prendre un certain temps - vous pouvez prendre un café ou réessayer plus tard !",
+  "waiting_for_peers": "En attente de pairs…",
+  "preparing": "Préparation…",
+  "finalizing": "Finalisation…",
   "sync_title": "Welcome back to your Zap wallet!",
   "sync_description": "Please wait a while whilst we fetch all of your latest data from the blockchain.",
-  "fund_title": "Fund your Zap wallet",
+  "fund_title": "Approvisionner votre portefeuille Zap",
   "fund_description": "Might as well fund your wallet while you’re waiting to sync.",
   "sync_caption": "Synchronisation à la blockchain en cours"
 }
