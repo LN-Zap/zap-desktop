@@ -3,8 +3,8 @@
   "waiting_for_peers": "En attente de pairs…",
   "preparing": "Préparation…",
   "finalizing": "Finalisation…",
-  "sync_title": "Welcome back to your Zap wallet!",
-  "sync_description": "Please wait a while whilst we fetch all of your latest data from the blockchain.",
+  "sync_title": "Bienvenue dans votre portefeuille Zap !",
+  "sync_description": "Veuillez patienter un peu pendant que nous récupérons toutes vos dernières données depuis la blockchain.",
   "fund_title": "Approvisionner votre portefeuille Zap",
   "fund_description": "Might as well fund your wallet while you’re waiting to sync.",
   "sync_caption": "Synchronisation à la blockchain en cours"
