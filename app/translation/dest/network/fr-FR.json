@@ -1,11 +1,11 @@
 {
-  "title": "My network",
-  "empty_description": "Hmmm, looks like you don't have any channels yet. Here are some suggested nodes to open a channel with to get started",
-  "search_form": "Search the network",
-  "open_channel": "Open a channel",
-  "open": "Open",
-  "pending": "Pending",
-  "closing": "Closing",
-  "offline": "Offline",
+  "title": "Mon réseau",
+  "empty_description": "Hmmm, on dirait que vous n’avez pas encore de canaux. Voici quelques nœuds que nous vous suggérons pour ouvrir un canal afin de commencer",
+  "search_form": "Rechercher le réseau",
+  "open_channel": "Ouvrir un canal",
+  "open": "Ouvrir",
+  "pending": "En attente",
+  "closing": "Fermeture",
+  "offline": "Déconnecté",
   "manual_description": "Hm, looks like we can&apos;t see that node from here, wanna try to manually connect?"
 }
