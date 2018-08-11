@@ -28,8 +28,8 @@
   "hostname_description": "Hostname and port of the Lnd gRPC interface. Example: localhost:10009",
   "macaroon_description": "Path to the lnd macaroon file. Example: /path/to/admin.macaroon",
   "cert_description": "Path to the lnd tls cert. Example: /path/to/tls.cert",
-  "verify_host_title": "Are you sure you want to connect to",
-  "verify_host_description": "Please check the hostname carefully.",
+  "verify_host_title": "Êtes-vous sûr de vouloir vous connecter à",
+  "verify_host_description": "Veuillez vérifier soigneusement le nom d’hôte.",
   "btcpay_description": "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled &quot;Click here to open the configuration file.&quot; in your BTCPay Server gRPC settings.",
-  "btcpay_error": "Invalid connection string."
+  "btcpay_error": "Chaîne de connexion non valide."
 }
