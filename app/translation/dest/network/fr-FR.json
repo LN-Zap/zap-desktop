@@ -7,5 +7,5 @@
   "pending": "En attente",
   "closing": "Fermeture",
   "offline": "Déconnecté",
-  "manual_description": "Hm, looks like we can&apos;t see that node from here, wanna try to manually connect?"
+  "manual_description": "Hm, on dirait que nous ne pouvons pas voir ce nœud. Voulez-vous essayer de vous connecter manuellement ?"
 }
