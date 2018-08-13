@@ -1,8 +1,11 @@
+// @flow
+
 import split2 from 'split2'
 import { spawn } from 'child_process'
 import EventEmitter from 'events'
 import { mainLog, lndLog, lndLogGetLevel } from '../utils/log'
 import { fetchBlockHeight } from './util'
+import LndConfig from './config'
 
 // Sync statuses
 const CHAIN_SYNC_PENDING = 'chain-sync-pending'
@@ -24,7 +27,16 @@ const GOT_LND_CFILTER_HEIGHT = 'got-lnd-cfilter-height'
  * @extends EventEmitter
  */
 class Neutrino extends EventEmitter {
-  constructor(lndConfig) {
+  lndConfig: LndConfig
+  process: any
+  walletUnlockerGrpcActive: boolean
+  lightningGrpcActive: boolean
+  chainSyncStatus: string
+  currentBlockHeight: number
+  lndBlockHeight: number
+  lndCfilterHeight: number
+
+  constructor(lndConfig: LndConfig) {
     super()
     this.lndConfig = lndConfig
     this.process = null
@@ -34,6 +46,15 @@ class Neutrino extends EventEmitter {
     this.currentBlockHeight = 0
     this.lndBlockHeight = 0
     this.lndCfilterHeight = 0
+  }
+
+  static incrementIfHigher = (context: any, property: string, newVal: any): boolean => {
+    const { [property]: oldVal } = context
+    if (newVal > oldVal) {
+      context[property] = newVal
+      return true
+    }
+    return false
   }
 
   /**
@@ -169,18 +190,18 @@ class Neutrino extends EventEmitter {
 
         if (!this.lndCfilterHeight || this.lndCfilterHeight > this.currentBlockHeight - 10000) {
           if ((match = line.match(/Fetching filter for height=(\d+)/))) {
-            cfilter = Number(match[1])
+            cfilter = match[1]
           }
         }
 
         if (height) {
           this.setState(CHAIN_SYNC_IN_PROGRESS)
-          this.setLndBlockHeight(height)
+          this.setLndBlockHeight(Number(height))
         }
 
         if (cfilter) {
           this.setState(CHAIN_SYNC_IN_PROGRESS)
-          this.setLndCfilterHeight(cfilter)
+          this.setLndCfilterHeight(Number(cfilter))
         }
 
         // Lnd syncing has completed.
@@ -208,7 +229,7 @@ class Neutrino extends EventEmitter {
    * @param  {String} state State to compare against the current state.
    * @return {Boolean} Boolean indicating if the current state matches the passed in state.
    */
-  is(state) {
+  is(state: string) {
     return this.chainSyncStatus === state
   }
 
@@ -216,7 +237,7 @@ class Neutrino extends EventEmitter {
    * Set the current state and emit an event to notify others if te state as canged.
    * @param {String} state Target state.
    */
-  setState(state) {
+  setState(state: string) {
     if (state !== this.chainSyncStatus) {
       this.chainSyncStatus = state
       this.emit(state)
@@ -227,11 +248,10 @@ class Neutrino extends EventEmitter {
    * Set the current block height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setCurrentBlockHeight(height) {
-    const heightAsNumber = Number(height)
-    if (heightAsNumber > this.currentBlockHeight) {
-      this.currentBlockHeight = heightAsNumber
-      this.emit(GOT_CURRENT_BLOCK_HEIGHT, heightAsNumber)
+  setCurrentBlockHeight(height: number) {
+    const changed = Neutrino.incrementIfHigher(this, 'currentBlockHeight', height)
+    if (changed) {
+      this.emit(GOT_CURRENT_BLOCK_HEIGHT, height)
     }
   }
 
@@ -239,14 +259,11 @@ class Neutrino extends EventEmitter {
    * Set the lnd block height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setLndBlockHeight(height) {
-    const heightAsNumber = Number(height)
-    if (heightAsNumber > this.lndBlockHeight) {
-      this.lndBlockHeight = heightAsNumber
-      this.emit(GOT_LND_BLOCK_HEIGHT, heightAsNumber)
-    }
-    if (heightAsNumber > this.currentBlockHeight) {
-      this.setCurrentBlockHeight(heightAsNumber)
+  setLndBlockHeight(height: number) {
+    const changed = Neutrino.incrementIfHigher(this, 'lndBlockHeight', height)
+    if (changed) {
+      this.emit(GOT_LND_BLOCK_HEIGHT, height)
+      this.setCurrentBlockHeight(height)
     }
   }
 
@@ -254,7 +271,7 @@ class Neutrino extends EventEmitter {
    * Set the lnd cfilter height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setLndCfilterHeight(height) {
+  setLndCfilterHeight(height: number) {
     const heightAsNumber = Number(height)
     this.lndCfilterHeight = heightAsNumber
     this.emit(GOT_LND_CFILTER_HEIGHT, heightAsNumber)
