@@ -11,7 +11,8 @@ import styles from './Syncing.scss'
 class Syncing extends Component {
   state = {
     timer: null,
-    syncMessageDetail: null
+    syncMessageDetail: null,
+    syncMessageExtraDetail: null
   }
 
   componentWillMount() {
@@ -42,9 +43,10 @@ class Syncing extends Component {
       syncPercentage,
       address,
       blockHeight,
-      lndBlockHeight
+      lndBlockHeight,
+      lndCfilterHeight
     } = this.props
-    let { syncMessageDetail } = this.state
+    let { syncMessageDetail, syncMessageExtraDetail } = this.state
 
     const copyClicked = () => {
       copy(address)
@@ -53,15 +55,17 @@ class Syncing extends Component {
     let syncMessage
     if (syncStatus === 'waiting') {
       syncMessage = 'Waiting for peers...'
-    } else if (typeof syncPercentage === 'undefined' || syncPercentage <= 0) {
-      syncMessage = 'Preparing...'
-      syncMessageDetail = null
-    } else if (syncPercentage > 0 && syncPercentage < 99) {
-      syncMessage = `${syncPercentage}%`
-      syncMessageDetail = `${lndBlockHeight.toLocaleString()} of ${blockHeight.toLocaleString()}`
-    } else if (syncPercentage >= 99) {
-      syncMessage = 'Finalizing...'
-      syncMessageDetail = null
+    } else if (syncStatus === 'in-progress') {
+      if (typeof syncPercentage === 'undefined' || syncPercentage <= 0) {
+        syncMessage = 'Preparing...'
+        syncMessageDetail = null
+      } else if (syncPercentage) {
+        syncMessage = `${syncPercentage}%`
+        syncMessageDetail = `Block:
+          ${lndBlockHeight.toLocaleString()} of ${blockHeight.toLocaleString()}`
+        syncMessageExtraDetail = `Commitment Filter:
+          ${lndCfilterHeight.toLocaleString()} of ${blockHeight.toLocaleString()}`
+      }
     }
 
     if (typeof hasSynced === 'undefined') {
@@ -137,6 +141,12 @@ class Syncing extends Component {
             {syncMessageDetail && (
               <span className={styles.progressDetail}>{syncMessageDetail}</span>
             )}
+            {syncMessageExtraDetail && (
+              <span className={styles.progressDetail}>
+                <br />
+                {syncMessageExtraDetail}
+              </span>
+            )}
           </section>
         </div>
       </div>
@@ -150,7 +160,8 @@ Syncing.propTypes = {
   syncStatus: PropTypes.string.isRequired,
   syncPercentage: PropTypes.number,
   blockHeight: PropTypes.number,
-  lndBlockHeight: PropTypes.number
+  lndBlockHeight: PropTypes.number,
+  lndCfilterHeight: PropTypes.number
 }
 
 export default Syncing

@@ -12,8 +12,9 @@ export const SET_SYNC_STATUS_WAITING = 'SET_SYNC_STATUS_WAITING'
 export const SET_SYNC_STATUS_IN_PROGRESS = 'SET_SYNC_STATUS_IN_PROGRESS'
 export const SET_SYNC_STATUS_COMPLETE = 'SET_SYNC_STATUS_COMPLETE'
 
-export const RECEIVE_BLOCK_HEIGHT = 'RECEIVE_BLOCK_HEIGHT'
-export const RECEIVE_BLOCK = 'RECEIVE_BLOCK'
+export const RECEIVE_CURRENT_BLOCK_HEIGHT = 'RECEIVE_CURRENT_BLOCK_HEIGHT'
+export const RECEIVE_LND_BLOCK_HEIGHT = 'RECEIVE_LND_BLOCK_HEIGHT'
+export const RECEIVE_LND_CFILTER_HEIGHT = 'RECEIVE_LND_CFILTER_HEIGHT'
 
 export const SET_LIGHTNING_WALLET_ACTIVE = 'SET_LIGHTNING_WALLET_ACTIVE'
 
@@ -64,20 +65,19 @@ export const lightningGrpcActive = () => dispatch => {
   dispatch({ type: SET_LIGHTNING_WALLET_ACTIVE })
 }
 
-// Receive IPC event for LND streaming a line
-export const lndBlockHeight = (event, height) => dispatch => {
-  dispatch({ type: RECEIVE_BLOCK, lndBlockHeight: height })
-}
-
+// Receive IPC event for current height.
 export const currentBlockHeight = (event, height) => dispatch => {
-  dispatch({ type: RECEIVE_BLOCK_HEIGHT, blockHeight: height })
+  dispatch({ type: RECEIVE_CURRENT_BLOCK_HEIGHT, blockHeight: height })
 }
 
-export function receiveBlockHeight(blockHeight) {
-  return {
-    type: RECEIVE_BLOCK_HEIGHT,
-    blockHeight
-  }
+// Receive IPC event for LND block height.
+export const lndBlockHeight = (event, height) => dispatch => {
+  dispatch({ type: RECEIVE_LND_BLOCK_HEIGHT, lndBlockHeight: height })
+}
+
+// Receive IPC event for LND cfilter height.
+export const lndCfilterHeight = (event, height) => dispatch => {
+  dispatch({ type: RECEIVE_LND_CFILTER_HEIGHT, lndCfilterHeight: height })
 }
 
 // ------------------------------------
@@ -89,11 +89,12 @@ const ACTION_HANDLERS = {
   [SET_SYNC_STATUS_IN_PROGRESS]: state => ({ ...state, syncStatus: 'in-progress' }),
   [SET_SYNC_STATUS_COMPLETE]: state => ({ ...state, syncStatus: 'complete' }),
 
-  [RECEIVE_BLOCK_HEIGHT]: (state, { blockHeight }) => ({
+  [RECEIVE_CURRENT_BLOCK_HEIGHT]: (state, { blockHeight }) => ({
     ...state,
     blockHeight
   }),
-  [RECEIVE_BLOCK]: (state, { lndBlockHeight }) => ({ ...state, lndBlockHeight }),
+  [RECEIVE_LND_BLOCK_HEIGHT]: (state, { lndBlockHeight }) => ({ ...state, lndBlockHeight }),
+  [RECEIVE_LND_CFILTER_HEIGHT]: (state, { lndCfilterHeight }) => ({ ...state, lndCfilterHeight }),
 
   [SET_LIGHTNING_WALLET_ACTIVE]: state => ({ ...state, lightningGrpcActive: true })
 }
@@ -105,7 +106,8 @@ const initialState = {
   syncStatus: 'pending',
   lightningGrpcActive: false,
   blockHeight: 0,
-  lndBlockHeight: 0
+  lndBlockHeight: 0,
+  lndCfilterHeight: 0
 }
 
 // ------------------------------------
@@ -114,12 +116,16 @@ const initialState = {
 const lndSelectors = {}
 const blockHeightSelector = state => state.lnd.blockHeight
 const lndBlockHeightSelector = state => state.lnd.lndBlockHeight
+const lndCfilterHeightSelector = state => state.lnd.lndCfilterHeight
 
 lndSelectors.syncPercentage = createSelector(
   blockHeightSelector,
   lndBlockHeightSelector,
-  (blockHeight, lndBlockHeight) => {
-    const percentage = Math.floor((lndBlockHeight / blockHeight) * 100)
+  lndCfilterHeightSelector,
+  (blockHeight, lndBlockHeight, lndCfilterHeight) => {
+    // We set the total amount to the blockheight x 2 because there are twi pahases to the sync process that each
+    // take about the same amount of time (syncing blocks and syncing cfilters)
+    const percentage = Math.floor(((lndBlockHeight + lndCfilterHeight) / (blockHeight * 2)) * 100)
 
     if (percentage === Infinity || Number.isNaN(percentage)) {
       return undefined

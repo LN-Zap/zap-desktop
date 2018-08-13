@@ -5,7 +5,6 @@ import pick from 'lodash.pick'
 import Store from 'electron-store'
 import StateMachine from 'javascript-state-machine'
 import LndConfig from '../lnd/config'
-import Neutrino from '../lnd/neutrino'
 import Lightning from '../lnd/lightning'
 import { initWalletUnlocker } from '../lnd/walletUnlocker'
 import { mainLog } from '../utils/log'
@@ -51,8 +50,8 @@ const grpcSslCipherSuites = connectionType =>
  */
 class ZapController {
   mainWindow: BrowserWindow
-  neutrino: Neutrino
-  lightning: Lightning
+  neutrino: any
+  lightning: any
   splashScreenTime: number
   lightningGrpcConnected: boolean
   lndConfig: LndConfig
@@ -74,10 +73,10 @@ class ZapController {
     this.mainWindow = mainWindow
 
     // Keep a reference any neutrino process started by us.
-    this.neutrino = null
+    this.neutrino = undefined
 
     // Keep a reference to the lightning gRPC instance.
-    this.lightning = null
+    this.lightning = undefined
 
     // Time for the splash screen to remain visible.
     this.splashScreenTime = 500
@@ -303,7 +302,6 @@ class ZapController {
    */
   startNeutrino() {
     mainLog.info('Starting Neutrino...')
-    this.neutrino = new Neutrino(this.lndConfig)
 
     this.neutrino.on('error', error => {
       mainLog.error(`Got error from lnd process: ${error})`)
@@ -355,6 +353,10 @@ class ZapController {
 
     this.neutrino.on('got-lnd-block-height', height => {
       this.sendMessage('lndBlockHeight', Number(height))
+    })
+
+    this.neutrino.on('got-lnd-cfilter-height', height => {
+      this.sendMessage('lndCfilterHeight', Number(height))
     })
 
     this.neutrino.start()
