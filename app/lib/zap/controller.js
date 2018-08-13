@@ -6,6 +6,7 @@ import Store from 'electron-store'
 import StateMachine from 'javascript-state-machine'
 import LndConfig from '../lnd/config'
 import Lightning from '../lnd/lightning'
+import Neutrino from '../lnd/neutrino'
 import { initWalletUnlocker } from '../lnd/walletUnlocker'
 import { mainLog } from '../utils/log'
 import { isLndRunning } from '../lnd/util'
@@ -302,6 +303,7 @@ class ZapController {
    */
   startNeutrino() {
     mainLog.info('Starting Neutrino...')
+    this.neutrino = new Neutrino(this.lndConfig)
 
     this.neutrino.on('error', error => {
       mainLog.error(`Got error from lnd process: ${error})`)
