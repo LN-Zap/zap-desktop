@@ -196,12 +196,12 @@ class Neutrino extends EventEmitter {
 
         if (height) {
           this.setState(CHAIN_SYNC_IN_PROGRESS)
-          this.setLndBlockHeight(Number(height))
+          this.setLndBlockHeight(height)
         }
 
         if (cfilter) {
           this.setState(CHAIN_SYNC_IN_PROGRESS)
-          this.setLndCfilterHeight(Number(cfilter))
+          this.setLndCfilterHeight(cfilter)
         }
 
         // Lnd syncing has completed.
@@ -248,10 +248,11 @@ class Neutrino extends EventEmitter {
    * Set the current block height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setCurrentBlockHeight(height: number) {
-    const changed = Neutrino.incrementIfHigher(this, 'currentBlockHeight', height)
+  setCurrentBlockHeight(height: number | string) {
+    const heightAsNumber = Number(height)
+    const changed = Neutrino.incrementIfHigher(this, 'currentBlockHeight', heightAsNumber)
     if (changed) {
-      this.emit(GOT_CURRENT_BLOCK_HEIGHT, height)
+      this.emit(GOT_CURRENT_BLOCK_HEIGHT, heightAsNumber)
     }
   }
 
@@ -259,11 +260,12 @@ class Neutrino extends EventEmitter {
    * Set the lnd block height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setLndBlockHeight(height: number) {
-    const changed = Neutrino.incrementIfHigher(this, 'lndBlockHeight', height)
+  setLndBlockHeight(height: number | string) {
+    const heightAsNumber = Number(height)
+    const changed = Neutrino.incrementIfHigher(this, 'lndBlockHeight', heightAsNumber)
     if (changed) {
-      this.emit(GOT_LND_BLOCK_HEIGHT, height)
-      this.setCurrentBlockHeight(height)
+      this.emit(GOT_LND_BLOCK_HEIGHT, heightAsNumber)
+      this.setCurrentBlockHeight(heightAsNumber)
     }
   }
 
@@ -271,7 +273,7 @@ class Neutrino extends EventEmitter {
    * Set the lnd cfilter height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setLndCfilterHeight(height: number) {
+  setLndCfilterHeight(height: number | string) {
     const heightAsNumber = Number(height)
     this.lndCfilterHeight = heightAsNumber
     this.emit(GOT_LND_CFILTER_HEIGHT, heightAsNumber)
