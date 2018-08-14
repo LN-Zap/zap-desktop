@@ -119,11 +119,10 @@ class ZapController {
 
     // When the window is closed, just hide it unless we are force closing.
     this.mainWindow.on('close', e => {
-      if (this.mainWindow.forceClose) {
-        return
+      if (process.platform === 'darwin' && !this.mainWindow.forceClose) {
+        e.preventDefault()
+        this.mainWindow.hide()
       }
-      e.preventDefault()
-      this.mainWindow.hide()
     })
   }
 
