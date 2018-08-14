@@ -35,15 +35,13 @@ const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, cur
           <Moment format="h:mm a">{payment.creation_date * 1000}</Moment>
         </div>
       </div>
-      <div className={styles.amount}>
-        <span className="hint--top" data-hint="Payment amount">
+      <div className={`hint--top-left ${styles.amount}`} data-hint="Payment amount">
+        <span>
           <i className={styles.minus}>-</i>
           <Value value={payment.value} currency={ticker.currency} currentTicker={currentTicker} />
           <i> {currencyName}</i>
         </span>
-        <span className="hint--bottom" data-hint="Payment fee">
-          ${btc.convert('sats', 'usd', payment.value, currentTicker.price_usd)}
-        </span>
+        <span>${btc.convert('sats', 'usd', payment.value, currentTicker.price_usd)}</span>
       </div>
     </div>
   )

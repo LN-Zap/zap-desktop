@@ -32,8 +32,13 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
         </Moment>
       </div>
     </div>
-    <div className={`${styles.amount} ${invoice.settled ? styles.positive : styles.negative}`}>
-      <span className="hint--top" data-hint="Invoice amount">
+    <div
+      className={`hint--top-left ${styles.amount} ${
+        invoice.settled ? styles.positive : styles.negative
+      }`}
+      data-hint="Invoice amount"
+    >
+      <span>
         <i className={styles.plus}>+</i>
         <Value value={invoice.value} currency={ticker.currency} currentTicker={currentTicker} />
         <i> {currencyName}</i>

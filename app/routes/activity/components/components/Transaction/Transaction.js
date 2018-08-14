@@ -27,8 +27,13 @@ const Transaction = ({ transaction, ticker, currentTicker, showActivityModal, cu
         <Moment format="h:mm a">{transaction.time_stamp * 1000}</Moment>
       </div>
     </div>
-    <div className={`${styles.amount} ${transaction.received ? styles.positive : styles.negative}`}>
-      <span className="hint--top" data-hint="Transaction amount">
+    <div
+      className={`hint--top-left ${styles.amount} ${
+        transaction.received ? styles.positive : styles.negative
+      }`}
+      data-hint="Transaction amount"
+    >
+      <span>
         <i className={transaction.received ? styles.plus : styles.minus}>
           {transaction.received ? '+' : '-'}
         </i>
@@ -39,9 +44,7 @@ const Transaction = ({ transaction, ticker, currentTicker, showActivityModal, cu
         />
         <i> {currencyName}</i>
       </span>
-      <span className="hint--bottom" data-hint="Transaction fee">
-        ${btc.convert('sats', 'usd', transaction.amount, currentTicker.price_usd)}
-      </span>
+      <span>${btc.convert('sats', 'usd', transaction.amount, currentTicker.price_usd)}</span>
     </div>
   </div>
 )
