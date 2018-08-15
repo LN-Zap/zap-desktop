@@ -1,6 +1,6 @@
 {
-  "title": "Connect Manually",
-  "description": "Please enter the peer’s pubkey@host",
+  "title": "手动连接",
+  "description": "请输入peer pubkey@host",
   "placeholder": "pubkey@host",
-  "submit": "Submit"
+  "submit": "提交"
 }
