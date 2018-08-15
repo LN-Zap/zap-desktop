@@ -168,4 +168,33 @@ describe('Neutrino', function() {
       })
     })
   })
+
+  describe('.start', () => {
+    describe('called when neutrino is already running', () => {
+      beforeEach(() => {
+        this.neutrino = new Neutrino()
+        this.neutrino.process = 123
+      })
+      it('should throw an error', () => {
+        expect(() => {
+          this.neutrino.start()
+        }).toThrow()
+      })
+    })
+  })
+
+  describe('.stop', () => {
+    describe('called when neutrino is already running', () => {
+      beforeEach(() => {
+        this.neutrino = new Neutrino()
+        this.neutrino.process = {
+          kill: jest.fn()
+        }
+        this.neutrino.stop()
+      })
+      it('should kill the neutrino process', () => {
+        expect(this.neutrino.process).toBeNull()
+      })
+    })
+  })
 })
