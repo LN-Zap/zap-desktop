@@ -1,6 +1,6 @@
 {
-  "received": "Received",
-  "sent": "Sent",
-  "on_chain": "On-Chain",
-  "fee": "Fee"
+  "received": "已收到",
+  "sent": "已发送",
+  "on_chain": "链上",
+  "fee": "矿公费"
 }
