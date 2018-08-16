@@ -7,5 +7,5 @@
   "onchain_received_title": "Transaction On-chain reçue !",
   "onchain_received_description": "Vous venez de recevoir une nouvelle transaction on-chain.",
   "zapped_title": "Vous avez été Zappé",
-  "zapped_description": "Congrats, someone just paid an invoice of yours"
+  "zapped_description": "Félicitations ! Quelqu'un vient de payer une de vos factures"
 }
