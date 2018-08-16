@@ -1,6 +1,6 @@
 {
-  "title": "Connect Manually",
-  "description": "Please enter the peer’s pubkey@host",
+  "title": "手動で接続します。",
+  "description": "ピアの pubkey@host を入力してください。",
   "placeholder": "pubkey@host",
-  "submit": "Submit"
+  "submit": "提出"
 }
