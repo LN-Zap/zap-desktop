@@ -6,6 +6,6 @@
   "sync_title": "Bienvenue dans votre portefeuille Zap !",
   "sync_description": "Veuillez patienter un peu pendant que nous récupérons toutes vos dernières données depuis la blockchain.",
   "fund_title": "Approvisionner votre portefeuille Zap",
-  "fund_description": "Might as well fund your wallet while you’re waiting to sync.",
+  "fund_description": "Vous pourriez approvisionner votre portefeuille en attendant la synchronisation.",
   "sync_caption": "Synchronisation à la blockchain en cours"
 }
