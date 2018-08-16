@@ -14,7 +14,7 @@
   "login_title": "Bienvenue!",
   "login_description": "Il semblerait que vous disposiez déjà d'un portefeuille (nous en avons trouvé un ici ``).",
   "unlock": "Déverrouiller",
-  "signup_title": "Alright, let's get set up",
+  "signup_title": "Très bien, nous pouvons commencer",
   "signup_description": "Souhaitez vous créer un nouveau portefeuille ou importer un portefeuille existant?",
   "signup_create": "Créer un nouveau portefeuille",
   "signup_import": "Importer un portefeuille existant",
