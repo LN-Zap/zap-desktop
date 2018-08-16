@@ -89,22 +89,23 @@ class Lightning {
    */
   subscribe(mainWindow) {
     this.mainWindow = mainWindow
-    this.subscriptions.channelGraph = subscribeToChannelGraph(this.mainWindow, this.lnd, mainLog)
-    this.subscriptions.invoices = subscribeToInvoices(this.mainWindow, this.lnd, mainLog)
-    this.subscriptions.transactions = subscribeToTransactions(this.mainWindow, this.lnd, mainLog)
+
+    this.subscriptions.channelGraph = subscribeToChannelGraph.call(this)
+    this.subscriptions.invoices = subscribeToInvoices.call(this)
+    this.subscriptions.transactions = subscribeToTransactions.call(this)
   }
 
   /**
    * Unsubscribe from all bi-directional streams.
    */
   unsubscribe() {
+    this.mainWindow = null
     Object.keys(this.subscriptions).forEach(subscription => {
       if (this.subscriptions[subscription]) {
         this.subscriptions[subscription].cancel()
         this.subscriptions[subscription] = null
       }
     })
-    this.mainWindow = null
   }
 }
 

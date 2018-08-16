@@ -1,15 +1,18 @@
 import { status } from 'grpc'
+import { mainLog } from '../../utils/log'
 
-export default function subscribeToTransactions(mainWindow, lnd, log) {
-  const call = lnd.subscribeTransactions({})
+export default function subscribeToTransactions() {
+  const call = this.lnd.subscribeTransactions({})
 
   call.on('data', transaction => {
-    log.info('TRANSACTION:', transaction)
-    mainWindow.send('newTransaction', { transaction })
+    mainLog.info('TRANSACTION:', transaction)
+    if (this.mainWindow) {
+      this.mainWindow.send('newTransaction', { transaction })
+    }
   })
-  call.on('end', () => log.info('end'))
-  call.on('error', error => error.code !== status.CANCELLED && log.error(error))
-  call.on('status', status => log.info('TRANSACTION STATUS: ', status))
+  call.on('end', () => mainLog.info('end'))
+  call.on('error', error => error.code !== status.CANCELLED && mainLog.error(error))
+  call.on('status', status => mainLog.info('TRANSACTION STATUS: ', status))
 
   return call
 }
