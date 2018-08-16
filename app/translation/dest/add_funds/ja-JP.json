@@ -1,5 +1,5 @@
 {
   "title": "ネットワークに資金を追加します。",
-  "description": "Opening a channel will help you send and receive money on the Lightning Network. You aren't spending any money, rather moving the money you plan to use onto the network.",
-  "submit": "Submit"
+  "description": "チャンネルを開くとライトニングネットワーク上でお金を送受信できます。お金を費やすではなく、ネットワーク上で使う予定のお金を動かします。",
+  "submit": "提出"
 }
