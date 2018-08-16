@@ -199,9 +199,6 @@ class ZapController {
     if (this.neutrino) {
       this.neutrino.stop()
     }
-
-    // Give the grpc connections a chance to be properly closed out.
-    return new Promise(resolve => setTimeout(resolve, 200))
   }
 
   onTerminate() {
