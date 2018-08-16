@@ -1,8 +1,8 @@
 {
-  "all": "All",
-  "sent": "Sent",
-  "requested": "Requested",
-  "pending": "Pending",
-  "refresh": "Refresh",
-  "search": "Search"
+  "all": "全て",
+  "sent": "送信した",
+  "requested": "要求された。",
+  "pending": "保留中",
+  "refresh": "更新",
+  "search": "検索"
 }
