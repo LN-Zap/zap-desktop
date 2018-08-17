@@ -35,6 +35,7 @@ class Neutrino extends EventEmitter {
   currentBlockHeight: number
   lndBlockHeight: number
   lndCfilterHeight: number
+  lastError: ?string
 
   constructor(lndConfig: LndConfig) {
     super()
@@ -46,6 +47,7 @@ class Neutrino extends EventEmitter {
     this.currentBlockHeight = 0
     this.lndBlockHeight = 0
     this.lndCfilterHeight = 0
+    this.lastError = null
   }
 
   static incrementIfHigher = (context: any, property: string, newVal: any): boolean => {
@@ -91,21 +93,29 @@ class Neutrino extends EventEmitter {
     this.process = spawn(this.lndConfig.binaryPath, neutrinoArgs)
       .on('error', error => this.emit(ERROR, error))
       .on('close', code => {
-        this.emit(CLOSE, code)
+        this.emit(CLOSE, code, this.lastError)
         this.process = null
       })
 
-    // Listen for when neutrino prints odata to stderr.
+    // Listen for when neutrino prints data to stderr.
     this.process.stderr.pipe(split2()).on('data', line => {
       if (process.env.NODE_ENV === 'development') {
-        lndLog[lndLogGetLevel(line)](line)
+        const level = lndLogGetLevel(line)
+        lndLog[level](line)
+        if (level === 'error') {
+          this.lastError = line.split('[ERR] LTND:')[1]
+        }
       }
     })
 
     // Listen for when neutrino prints data to stdout.
     this.process.stdout.pipe(split2()).on('data', line => {
       if (process.env.NODE_ENV === 'development') {
-        lndLog[lndLogGetLevel(line)](line)
+        const level = lndLogGetLevel(line)
+        lndLog[level](line)
+        if (level === 'error') {
+          this.lastError = line.split('[ERR] LTND:')[1]
+        }
       }
 
       // password RPC server listening (wallet unlocker started).

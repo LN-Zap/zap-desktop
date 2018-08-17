@@ -37,6 +37,9 @@ describe('Neutrino', function() {
       it('should set the "lndCfilterHeight" property to 0', () => {
         expect(this.neutrino.lndCfilterHeight).toEqual(0)
       })
+      it('should set the "lastError" property to be null', () => {
+        expect(this.neutrino.lastError).toEqual(null)
+      })
     })
   })
 

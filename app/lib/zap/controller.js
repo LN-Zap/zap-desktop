@@ -312,12 +312,12 @@ class ZapController {
       })
     })
 
-    this.neutrino.on('close', code => {
+    this.neutrino.on('close', (code, lastError) => {
       mainLog.info(`Lnd process has shut down (code ${code})`)
       if (this.is('running') || this.is('connected')) {
         dialog.showMessageBox({
           type: 'error',
-          message: `Lnd has unexpectadly quit`
+          message: `Lnd has unexpectadly quit: ${lastError}`
         })
         this.terminate()
       }
