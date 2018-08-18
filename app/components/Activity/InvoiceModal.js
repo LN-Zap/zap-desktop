@@ -57,7 +57,7 @@ const InvoiceModal = ({
               <h1>
                 <Value
                   value={
-                    invoice.settled ? btc.millisatoshisToSatoshis(invoice.amt_paid) : invoice.value
+                    invoice.settled ? invoice.finalAmount : invoice.value
                   }
                   currency={ticker.currency}
                   currentTicker={currentTicker}
