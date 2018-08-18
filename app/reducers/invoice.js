@@ -155,11 +155,13 @@ export const invoiceUpdate = (event, { invoice }) => dispatch => {
 
   decorateInvoice(invoice)
 
-  // HTML 5 desktop notification for the invoice update
-  const notifTitle = "You've been Zapped"
-  const notifBody = 'Congrats, someone just paid an invoice of yours'
+  if (invoice.settled) {
+    // HTML 5 desktop notification for the invoice update
+    const notifTitle = "You've been Zapped"
+    const notifBody = 'Congrats, someone just paid an invoice of yours'
 
-  showNotification(notifTitle, notifBody)
+    showNotification(notifTitle, notifBody)
+  }
 }
 // ------------------------------------
 // Action Handlers
