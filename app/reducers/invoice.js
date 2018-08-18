@@ -34,6 +34,19 @@ export const INVOICE_FAILED = 'INVOICE_FAILED'
 export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 
 // ------------------------------------
+// Helpers
+// ------------------------------------
+
+// Decorate invoice object with custom/computed properties.
+const decorateInvoice = invoice => {
+  invoice.finalAmount = invoice.value
+  if (invoice.amt_paid) {
+    invoice.finalAmount = btc.millisatoshisToSatoshis(invoice.amt_paid)
+  }
+  return invoice
+}
+
+// ------------------------------------
 // Actions
 // ------------------------------------
 export function searchInvoices(invoicesSearchText) {
@@ -94,8 +107,10 @@ export const fetchInvoices = () => dispatch => {
 }
 
 // Receive IPC event for invoices
-export const receiveInvoices = (event, { invoices }) => dispatch =>
+export const receiveInvoices = (event, { invoices }) => dispatch => {
   dispatch({ type: RECEIVE_INVOICES, invoices })
+  invoices.forEach(decorateInvoice)
+}
 
 // Send IPC event for creating an invoice
 export const createInvoice = (amount, memo, currency) => dispatch => {
@@ -110,6 +125,8 @@ export const createInvoice = (amount, memo, currency) => dispatch => {
 export const createdInvoice = (event, invoice) => dispatch => {
   // Close the form modal once the payment was succesful
   dispatch(setFormType(null))
+
+  decorateInvoice(invoice)
 
   // Add new invoice to invoices list
   dispatch({ type: INVOICE_SUCCESSFUL, invoice })
@@ -135,6 +152,8 @@ export const invoiceUpdate = (event, { invoice }) => dispatch => {
 
   // Fetch new balance
   dispatch(fetchBalance())
+
+  decorateInvoice(invoice)
 
   if (invoice.settled) {
     // HTML 5 desktop notification for the invoice update

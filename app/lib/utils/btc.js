@@ -69,6 +69,16 @@ export function satoshisToUsd(satoshis, price) {
   return btcToUsd(satoshisToBtc(satoshis), price)
 }
 
+////////////////////////////////
+// millisatoshis to satoshis //
+////////////////////////////// 
+
+export function millisatoshisToSatoshis(millisatoshis) {
+  if (millisatoshis === undefined || millisatoshis === null || millisatoshis === '') return null
+
+  return Math.round(millisatoshis / 1000)
+}
+
 
 export function renderCurrency(currency) {
   switch (currency) {
@@ -138,6 +148,8 @@ export default {
   satoshisToBtc,
   satoshisToBits,
   satoshisToUsd,
+
+  millisatoshisToSatoshis,
 
   renderCurrency,
 
