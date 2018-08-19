@@ -1,11 +1,11 @@
 {
-  "title": "My network",
-  "empty_description": "Hmmm, looks like you don't have any channels yet. Here are some suggested nodes to open a channel with to get started",
-  "search_form": "Search the network",
-  "open_channel": "Open a channel",
-  "open": "Open",
-  "pending": "Pending",
-  "closing": "Closing",
-  "offline": "Offline",
+  "title": "マイネットワーク",
+  "empty_description": "うーん、まだチャンネルがないようです。ここにスタートするためにチャンネルを開くいくつかのノードが提示されています。",
+  "search_form": "ネットワークを検索します。",
+  "open_channel": "チャンネルを開く",
+  "open": "開く",
+  "pending": "保留中",
+  "closing": "閉鎖中",
+  "offline": "オフライン",
   "manual_description": "Hm, looks like we can&apos;t see that node from here, wanna try to manually connect?"
 }
