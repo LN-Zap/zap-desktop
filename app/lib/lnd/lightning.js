@@ -1,5 +1,9 @@
+// @flow
+
 import grpc from 'grpc'
 import { loadSync } from '@grpc/proto-loader'
+import { BrowserWindow } from 'electron'
+import LndConfig from './config'
 import { getDeadline, validateHost, createSslCreds, createMacaroonCreds } from './util'
 import methods from './methods'
 import { mainLog } from '../utils/log'
@@ -7,11 +11,22 @@ import subscribeToTransactions from './subscribe/transactions'
 import subscribeToInvoices from './subscribe/invoices'
 import subscribeToChannelGraph from './subscribe/channelgraph'
 
+// Type definition for subscriptions property.
+type LightningSubscriptionsType = {
+  channelGraph: any,
+  invoices: any,
+  transactions: any
+}
+
 /**
  * Creates an LND grpc client lightning service.
  * @returns {Lightning}
  */
 class Lightning {
+  mainWindow: BrowserWindow
+  lnd: any
+  subscriptions: LightningSubscriptionsType
+
   constructor() {
     this.mainWindow = null
     this.lnd = null
@@ -26,7 +41,7 @@ class Lightning {
    * Connect to the gRPC interface and verify it is functional.
    * @return {Promise<rpc.lnrpc.Lightning>}
    */
-  async connect(lndConfig) {
+  async connect(lndConfig: LndConfig) {
     const { rpcProtoPath, host, cert, macaroon } = lndConfig
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
@@ -74,37 +89,40 @@ class Lightning {
    */
   disconnect() {
     this.unsubscribe()
-    this.lnd.close()
+    if (this.lnd) {
+      this.lnd.close()
+    }
   }
 
   /**
    * Hook up lnd restful methods.
    */
-  lndMethods(event, msg, data) {
+  lndMethods(event: Event, msg: string, data: any) {
     return methods(this.lnd, mainLog, event, msg, data)
   }
 
   /**
    * Subscribe to all bi-directional streams.
    */
-  subscribe(mainWindow) {
+  subscribe(mainWindow: BrowserWindow) {
     this.mainWindow = mainWindow
-    this.subscriptions.channelGraph = subscribeToChannelGraph(this.mainWindow, this.lnd, mainLog)
-    this.subscriptions.invoices = subscribeToInvoices(this.mainWindow, this.lnd, mainLog)
-    this.subscriptions.transactions = subscribeToTransactions(this.mainWindow, this.lnd, mainLog)
+
+    this.subscriptions.channelGraph = subscribeToChannelGraph.call(this)
+    this.subscriptions.invoices = subscribeToInvoices.call(this)
+    this.subscriptions.transactions = subscribeToTransactions.call(this)
   }
 
   /**
    * Unsubscribe from all bi-directional streams.
    */
   unsubscribe() {
+    this.mainWindow = null
     Object.keys(this.subscriptions).forEach(subscription => {
       if (this.subscriptions[subscription]) {
         this.subscriptions[subscription].cancel()
         this.subscriptions[subscription] = null
       }
     })
-    this.mainWindow = null
   }
 }
 

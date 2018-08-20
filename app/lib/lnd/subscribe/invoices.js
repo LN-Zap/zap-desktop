@@ -1,15 +1,18 @@
 import { status } from 'grpc'
+import { mainLog } from '../../utils/log'
 
-export default function subscribeToInvoices(mainWindow, lnd, log) {
-  const call = lnd.subscribeInvoices({})
+export default function subscribeToInvoices() {
+  const call = this.lnd.subscribeInvoices({})
 
   call.on('data', invoice => {
-    log.info('INVOICE:', invoice)
-    mainWindow.send('invoiceUpdate', { invoice })
+    mainLog.info('INVOICE:', invoice)
+    if (this.mainWindow) {
+      this.mainWindow.send('invoiceUpdate', { invoice })
+    }
   })
-  call.on('end', () => log.info('end'))
-  call.on('error', error => error.code !== status.CANCELLED && log.error(error))
-  call.on('status', status => log.info('INVOICE STATUS:', status))
+  call.on('end', () => mainLog.info('end'))
+  call.on('error', error => error.code !== status.CANCELLED && mainLog.error(error))
+  call.on('status', status => mainLog.info('INVOICE STATUS:', status))
 
   return call
 }

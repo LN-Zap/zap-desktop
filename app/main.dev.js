@@ -101,18 +101,6 @@ app.on('ready', () => {
 
   /**
    * Add application event listener:
-   *  - quit app when window is closed
-   */
-  app.on('window-all-closed', () => {
-    mainLog.debug('app.window-all-closed')
-    // Respect the OSX convention of having the application in memory even after all windows have been closed
-    if (process.platform !== 'darwin') {
-      app.quit()
-    }
-  })
-
-  /**
-   * Add application event listener:
    *  - Stop gRPC and kill lnd process before the app windows are closed and the app quits.
    */
   app.on('before-quit', async event => {

@@ -141,7 +141,9 @@ class LndConfig {
       },
       binaryPath: {
         enumerable: true,
-        value: binaryPath
+        get() {
+          return binaryPath()
+        }
       },
       dataDir: {
         enumerable: true,
@@ -152,13 +154,13 @@ class LndConfig {
       configPath: {
         enumerable: true,
         get() {
-          return join(appRootPath, 'resources', 'lnd.conf')
+          return join(appRootPath(), 'resources', 'lnd.conf')
         }
       },
       rpcProtoPath: {
         enumerable: true,
         get() {
-          return join(appRootPath, 'resources', 'rpc.proto')
+          return join(appRootPath(), 'resources', 'rpc.proto')
         }
       },
 
