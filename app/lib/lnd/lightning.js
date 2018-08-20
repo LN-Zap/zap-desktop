@@ -1,5 +1,9 @@
+// @flow
+
 import grpc from 'grpc'
 import { loadSync } from '@grpc/proto-loader'
+import { BrowserWindow } from 'electron'
+import LndConfig from './config'
 import { getDeadline, validateHost, createSslCreds, createMacaroonCreds } from './util'
 import methods from './methods'
 import { mainLog } from '../utils/log'
@@ -7,11 +11,22 @@ import subscribeToTransactions from './subscribe/transactions'
 import subscribeToInvoices from './subscribe/invoices'
 import subscribeToChannelGraph from './subscribe/channelgraph'
 
+// Type definition for subscriptions property.
+type LightningSubscriptionsType = {
+  channelGraph: any,
+  invoices: any,
+  transactions: any
+}
+
 /**
  * Creates an LND grpc client lightning service.
  * @returns {Lightning}
  */
 class Lightning {
+  mainWindow: BrowserWindow
+  lnd: any
+  subscriptions: LightningSubscriptionsType
+
   constructor() {
     this.mainWindow = null
     this.lnd = null
@@ -26,7 +41,7 @@ class Lightning {
    * Connect to the gRPC interface and verify it is functional.
    * @return {Promise<rpc.lnrpc.Lightning>}
    */
-  async connect(lndConfig) {
+  async connect(lndConfig: LndConfig) {
     const { rpcProtoPath, host, cert, macaroon } = lndConfig
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
@@ -80,14 +95,14 @@ class Lightning {
   /**
    * Hook up lnd restful methods.
    */
-  lndMethods(event, msg, data) {
+  lndMethods(event: Event, msg: string, data: any) {
     return methods(this.lnd, mainLog, event, msg, data)
   }
 
   /**
    * Subscribe to all bi-directional streams.
    */
-  subscribe(mainWindow) {
+  subscribe(mainWindow: BrowserWindow) {
     this.mainWindow = mainWindow
 
     this.subscriptions.channelGraph = subscribeToChannelGraph.call(this)
