@@ -39,6 +39,8 @@ export const LOADING_EXISTING_WALLET = 'LOADING_EXISTING_WALLET'
 
 export const CREATING_NEW_WALLET = 'CREATING_NEW_WALLET'
 
+export const RECOVERING_OLD_WALLET = 'RECOVERING_OLD_WALLET'
+
 export const UNLOCKING_WALLET = 'UNLOCKING_WALLET'
 export const WALLET_UNLOCKED = 'WALLET_UNLOCKED'
 export const SET_UNLOCK_WALLET_ERROR = 'SET_UNLOCK_WALLET_ERROR'
@@ -227,6 +229,19 @@ export const submitNewWallet = (
   dispatch({ type: CREATING_NEW_WALLET })
 }
 
+export const recoverOldWallet = (
+  wallet_password,
+  cipher_seed_mnemonic,
+  aezeed_passphrase
+) => dispatch => {
+  // once the user submits the data needed to start LND we will alert the app that it should start LND
+  ipcRenderer.send('walletUnlocker', {
+    msg: 'initWallet',
+    data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase, recovery_window: 250 }
+  })
+  dispatch({ type: RECOVERING_OLD_WALLET })
+}
+
 // Listener for errors connecting to LND gRPC
 export const startOnboarding = (event, lndConfig = {}) => dispatch => {
   dispatch(setConnectionType(lndConfig.type))
@@ -365,6 +380,8 @@ const ACTION_HANDLERS = {
 
   [CREATING_NEW_WALLET]: state => ({ ...state, creatingNewWallet: true }),
 
+  [RECOVERING_OLD_WALLET]: state => ({ ...state, recoveringOldWallet: true }),
+
   [UNLOCKING_WALLET]: state => ({ ...state, unlockingWallet: true }),
   [WALLET_UNLOCKED]: state => ({
     ...state,
@@ -489,6 +506,7 @@ const initialState = {
   createWalletPassword: '',
   createWalletPasswordConfirmation: '',
   creatingNewWallet: false,
+  recoveringOldWallet: false,
 
   existingWalletDir: null,
   unlockingWallet: false,

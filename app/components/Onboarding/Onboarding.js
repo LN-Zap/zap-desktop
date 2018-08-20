@@ -40,6 +40,7 @@ const Onboarding = ({
   changeStep,
   startLnd,
   submitNewWallet,
+  recoverOldWallet,
   aliasProps,
   initWalletProps,
   autopilotProps,
@@ -225,7 +226,7 @@ const Onboarding = ({
             next={() => {
               const recoverySeed = recoverFormProps.recoverSeedInput.map(input => input.word)
 
-              submitNewWallet(createWalletPassword, recoverySeed)
+              recoverOldWallet(createWalletPassword, recoverySeed)
             }}
           >
             <RecoverForm {...recoverFormProps} />
@@ -292,7 +293,8 @@ Onboarding.propTypes = {
   reEnterSeedProps: PropTypes.object.isRequired,
   changeStep: PropTypes.func.isRequired,
   startLnd: PropTypes.func.isRequired,
-  submitNewWallet: PropTypes.func.isRequired
+  submitNewWallet: PropTypes.func.isRequired,
+  recoverOldWallet: PropTypes.func.isRequired
 }
 
 export default Onboarding
