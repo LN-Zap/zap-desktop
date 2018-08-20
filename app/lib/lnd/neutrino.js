@@ -184,14 +184,10 @@ class Neutrino extends EventEmitter {
           height = match[1]
         } else if ((match = line.match(/Got cfheaders from height=(\d*) to height=(\d+)/))) {
           cfilter = match[2]
+        } else if ((match = line.match(/Writing filter headers up to height=(\d*)/))) {
+          cfilter = match[1]
         } else if ((match = line.match(/Verified \d* filter headers? in the.+\(height (\d+)/))) {
           cfilter = match[1]
-        }
-
-        if (!this.lndCfilterHeight || this.lndCfilterHeight > this.currentBlockHeight - 10000) {
-          if ((match = line.match(/Fetching filter for height=(\d+)/))) {
-            cfilter = match[1]
-          }
         }
 
         if (height) {
