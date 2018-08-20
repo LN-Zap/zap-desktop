@@ -89,7 +89,9 @@ class Lightning {
    */
   disconnect() {
     this.unsubscribe()
-    this.lnd.close()
+    if (this.lnd) {
+      this.lnd.close()
+    }
   }
 
   /**
