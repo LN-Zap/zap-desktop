@@ -268,6 +268,7 @@ export const startLndError = (event, errors) => (dispatch, getState) => {
 export const walletUnlockerGrpcActive = () => dispatch => {
   dispatch({ type: LND_STARTED })
   ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
+  dispatch({ type: FETCH_SEED })
 }
 
 export const createWallet = () => dispatch => {
@@ -342,7 +343,8 @@ const ACTION_HANDLERS = {
 
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
 
-  [SET_HAS_SEED]: (state, { hasSeed }) => ({ ...state, hasSeed }),
+  [FETCH_SEED]: state => ({ ...state, fetchingSeed: true }),
+  [SET_HAS_SEED]: (state, { hasSeed }) => ({ ...state, hasSeed, fetchingSeed: false }),
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, fetchingSeed: false }),
   [SET_RE_ENTER_SEED_INDEXES]: (state, { seedIndexesArr }) => ({ ...state, seedIndexesArr }),
 
