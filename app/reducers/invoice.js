@@ -138,7 +138,7 @@ export const createdInvoice = (event, invoice) => dispatch => {
   dispatch(push('/'))
 
   // Set invoice modal to newly created invoice
-  dispatch(showActivityModal('INVOICE', { invoice }))
+  dispatch(showActivityModal('INVOICE', invoice.payment_request))
 }
 
 export const invoiceFailed = (event, { error }) => dispatch => {

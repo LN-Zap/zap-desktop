@@ -96,7 +96,12 @@
         text-align: right;
 
         .notPaid {
-          color: #ff8a65;
+          color: $orange;
+          margin-top: 5px;
+        }
+
+        .paid {
+          color: $green;
           margin-top: 5px;
         }
       }

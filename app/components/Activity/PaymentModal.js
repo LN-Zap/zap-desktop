@@ -14,7 +14,7 @@ import Value from 'components/Value'
 import styles from './PaymentModal.scss'
 
 const PaymentModal = ({
-  payment,
+  item: payment,
   ticker,
   currentTicker,
 
@@ -88,7 +88,7 @@ const PaymentModal = ({
 )
 
 PaymentModal.propTypes = {
-  payment: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
 

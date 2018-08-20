@@ -11,7 +11,7 @@ import styles from '../Activity.scss'
 const Transaction = ({ transaction, ticker, currentTicker, showActivityModal, currencyName }) => (
   <div
     className={styles.container}
-    onClick={() => showActivityModal('TRANSACTION', { transaction })}
+    onClick={() => showActivityModal('TRANSACTION', transaction.tx_hash)}
   >
     <div className={styles.activityTypeIcon}>
       <section className="hint--bottom" data-hint="On-chain transaction">
