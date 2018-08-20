@@ -4,31 +4,14 @@ import { join, normalize } from 'path'
 import Store from 'electron-store'
 import LndConfig from 'lib/lnd/config'
 
-jest.mock('grpc')
-
-jest.mock('electron', () => {
-  const { normalize } = require('path')
-
-  return {
-    app: {
-      getPath: name => normalize(`/tmp/zap-test/${name}`),
-      getAppPath: () => normalize('/tmp/zap-test')
-    }
-  }
-})
-
+jest.mock('electron-store')
 jest.mock('lib/lnd/util', () => {
-  const { normalize } = require('path')
-
   return {
     ...jest.requireActual('lib/lnd/util'),
-    appRootPath: normalize('/tmp/zap-test/app/root'),
     binaryName: 'binaryName',
-    binaryPath: 'binaryPath'
+    binaryPath: () => 'binaryPath'
   }
 })
-
-Store.prototype.set = jest.fn()
 
 describe('LndConfig', function() {
   const checkForStaticProperties = () => {
@@ -36,14 +19,10 @@ describe('LndConfig', function() {
       expect(this.lndConfig.binaryPath).toEqual('binaryPath')
     })
     it('should have "configPath" set to "resources/lnd.conf" relative to app root from lib/lnd/util"', () => {
-      expect(this.lndConfig.configPath).toEqual(
-        normalize('/tmp/zap-test/app/root/resources/lnd.conf')
-      )
+      expect(this.lndConfig.configPath).toEqual(normalize('/tmp/resources/lnd.conf'))
     })
     it('should have "rpcProtoPath" set to "resources/rcp.proto" relative to app root from lib/lnd/util"', () => {
-      expect(this.lndConfig.rpcProtoPath).toEqual(
-        normalize('/tmp/zap-test/app/root/resources/rpc.proto')
-      )
+      expect(this.lndConfig.rpcProtoPath).toEqual(normalize('/tmp/resources/rpc.proto'))
     })
   }
 

@@ -1,15 +1,6 @@
 import Neutrino from 'lib/lnd/neutrino'
 
-jest.mock('electron', () => {
-  const { normalize } = require('path')
-
-  return {
-    app: {
-      getPath: name => normalize(`/tmp/zap-test/${name}`),
-      getAppPath: () => normalize('/tmp/zap-test')
-    }
-  }
-})
+jest.mock('electron-store')
 
 describe('Neutrino', function() {
   describe('Constructor', () => {

@@ -33,8 +33,9 @@ const dnsLookup = promisify(dns.lookup)
  * And no, we can't just set our working directory to somewhere inside the asar. The OS can't handle that.
  * @return {String} Path to the lnd binary.
  */
-export const appRootPath =
-  app.getAppPath().indexOf('default_app.asar') < 0 ? normalize(`${app.getAppPath()}/..`) : ''
+export const appRootPath = () => {
+  return app.getAppPath().indexOf('default_app.asar') < 0 ? normalize(`${app.getAppPath()}/..`) : ''
+}
 
 /**
  * Get the OS specific lnd binary name.
@@ -46,9 +47,11 @@ export const binaryName = platform() === 'win32' ? 'lnd.exe' : 'lnd'
  * Get the OS specific path to the lnd binary.
  * @return {String} Path to the lnd binary.
  */
-export const binaryPath = isDev
-  ? join(dirname(require.resolve('lnd-binary/package.json')), 'vendor', binaryName)
-  : join(appRootPath, 'bin', binaryName)
+export const binaryPath = () => {
+  return isDev
+    ? join(dirname(require.resolve('lnd-binary/package.json')), 'vendor', binaryName)
+    : join(appRootPath(), 'bin', binaryName)
+}
 
 // ------------------------------------
 // Helpers

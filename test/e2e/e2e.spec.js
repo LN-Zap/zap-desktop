@@ -2,6 +2,8 @@ import { Application } from 'spectron'
 import electronPath from 'electron'
 import path from 'path'
 
+jest.unmock('electron')
+
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000
 
 const delay = time => new Promise(resolve => setTimeout(resolve, time))
