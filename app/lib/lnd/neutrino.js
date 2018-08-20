@@ -82,10 +82,10 @@ class Neutrino extends EventEmitter {
 
     if (this.lndConfig.network === 'mainnet') {
       neutrinoArgs.push('--neutrino.connect=mainnet1-btcd.zaphq.io')
-      neutrinoArgs.push('--neutrino.connect=mainnet2-btcd.zaphq.io')
+      // neutrinoArgs.push('--neutrino.connect=mainnet2-btcd.zaphq.io')
     } else {
       neutrinoArgs.push('--neutrino.connect=testnet1-btcd.zaphq.io')
-      neutrinoArgs.push('--neutrino.connect=testnet2-btcd.zaphq.io')
+      // neutrinoArgs.push('--neutrino.connect=testnet2-btcd.zaphq.io')
     }
 
     this.process = spawn(this.lndConfig.binaryPath, neutrinoArgs)
