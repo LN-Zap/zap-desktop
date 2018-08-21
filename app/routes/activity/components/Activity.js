@@ -74,9 +74,11 @@ class Activity extends Component {
   render() {
     const {
       balance,
-      activity: { filters, filter, filterPulldown, searchActive, searchText },
+      activity: { filters, filter, filterPulldown, searchActive, searchText, showExpiredRequests },
       changeFilter,
       currentActivity,
+      showExpiredToggle,
+      toggleExpiredRequests,
 
       fetchPayments,
       fetchInvoices,
@@ -199,6 +201,13 @@ class Activity extends Component {
                 </ul>
               </li>
             ))}
+            {showExpiredToggle && (
+              <li>
+                <div className={styles.toggleExpired} onClick={toggleExpiredRequests}>
+                  {showExpiredRequests ? 'Hide Expired Requests' : 'Show Expired Requests'}
+                </div>
+              </li>
+            )}
           </ul>
         </div>
       </div>
@@ -220,9 +229,11 @@ Activity.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   updateSearchActive: PropTypes.func.isRequired,
   updateSearchText: PropTypes.func.isRequired,
+  toggleExpiredRequests: PropTypes.func.isRequired,
 
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,
+  showExpiredToggle: PropTypes.bool.isRequired,
   balance: PropTypes.object.isRequired,
   walletProps: PropTypes.object.isRequired,
 
