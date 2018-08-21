@@ -70,7 +70,6 @@ export const fetchTransactions = () => dispatch => {
 // Receive IPC event for payments
 export const receiveTransactions = (event, { transactions }) => (dispatch, getState) => {
   dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
-
   // If our current wallet address has been used, generate a new one.
   const state = getState()
   const currentAddress = state.address.address
@@ -82,6 +81,8 @@ export const receiveTransactions = (event, { transactions }) => (dispatch, getSt
   if (usedAddresses.includes(currentAddress)) {
     dispatch(newAddress('np2wkh'))
   }
+  // fetch new balance
+  dispatch(fetchBalance())
 }
 
 export const sendCoins = ({ value, addr, currency }) => dispatch => {
@@ -109,8 +110,7 @@ export const transactionSuccessful = (event, { txid }) => dispatch => {
   // Show successful tx state for 5 seconds
   dispatch(showSuccessTransactionScreen(txid))
   setTimeout(() => dispatch(hideSuccessTransactionScreen()), 5000)
-  // Fetch new balance
-  dispatch(fetchBalance())
+
   // Reset the payment form
   dispatch(resetPayForm())
 }
