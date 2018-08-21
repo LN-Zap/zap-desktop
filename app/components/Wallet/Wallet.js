@@ -49,6 +49,7 @@ const Wallet = ({
         <header className={styles.header}>
           <section className={styles.logo}>
             <Isvg className={styles.bitcoinLogo} src={zapLogo} />
+            {info.data.testnet && <span className={styles.testnetPill}>Testnet</span>}
           </section>
 
           <section className={styles.user}>
