@@ -17,16 +17,12 @@
 
     section {
       display: inline-block;
-      vertical-align: middle;
       color: $white;
+      margin: 0;
 
       &:nth-child(1) {
         text-align: center;
         opacity: 0.5;
-      }
-
-      &:nth-child(2) {
-        margin: 0 5px;
       }
     }
   }
@@ -37,9 +33,11 @@
   background-color: inherit;
   outline: 0;
   border: none;
-  padding: 5px 10px;
+  padding: 8px 10px 6px 10px;
   color: $white;
   font-family: 'Courier', courier, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
 
   &.valid {
     color: $green;
