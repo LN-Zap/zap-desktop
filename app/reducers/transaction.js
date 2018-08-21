@@ -6,6 +6,7 @@ import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { resetPayForm } from './payform'
 import { setError } from './error'
+import { fetchChannels } from './channels'
 
 // ------------------------------------
 // Constants
@@ -129,12 +130,14 @@ export const newTransaction = (event, { transaction }) => (dispatch, getState) =
     !state.transaction.transactions ||
     !state.transaction.transactions.find(tx => tx.tx_hash === transaction.tx_hash)
   ) {
-    // Fetch new balance
-    dispatch(fetchBalance())
-
     decorateTransaction(transaction)
 
     dispatch({ type: ADD_TRANSACTION, transaction })
+
+    // fetch updated channels
+    dispatch(fetchChannels())
+    // fetch new balance
+    dispatch(fetchBalance())
 
     // HTML 5 desktop notification for the new transaction
     if (transaction.received) {
