@@ -1,3 +1,5 @@
+// @flow
+
 import channelsReducer, {
   SET_CHANNEL_FORM,
   SET_CHANNEL,

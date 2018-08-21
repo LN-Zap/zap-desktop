@@ -19,13 +19,14 @@ function ensurePeerConnected(lnd, pubkey, host) {
  * @return {[type]}         [description]
  */
 export function connectAndOpen(lnd, event, payload) {
-  const { pubkey, host, localamt } = payload
+  const { pubkey, host, localamt, private: privateChannel } = payload
 
   return ensurePeerConnected(lnd, pubkey, host)
     .then(() => {
       const call = lnd.openChannel({
         node_pubkey: Buffer.from(pubkey, 'hex'),
-        local_funding_amount: Number(localamt)
+        local_funding_amount: Number(localamt),
+        private: privateChannel
       })
 
       call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
