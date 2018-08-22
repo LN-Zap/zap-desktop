@@ -130,8 +130,11 @@ class ZapController {
   onOnboarding() {
     mainLog.debug('[FSM] onOnboarding...')
 
-    // Deregister IPC listeners so that we can start fresh.
+    // Remove any existing IPC listeners so that we can start fresh.
     this._removeIpcListeners()
+
+    // Register IPC listeners so that we can react to instructions coming from the app.
+    this._registerIpcListeners()
 
     // Ensure wallet is disconnected.
     this.disconnectLightningWallet()
@@ -147,9 +150,6 @@ class ZapController {
 
   onStartOnboarding() {
     mainLog.debug('[FSM] onStartOnboarding...')
-
-    // Register IPC listeners so that we can react to instructions coming from the app.
-    this._registerIpcListeners()
 
     // Notify the app to start the onboarding process.
     this.sendMessage('startOnboarding', this.lndConfig)
@@ -410,7 +410,7 @@ class ZapController {
       process.env.GRPC_SSL_CIPHER_SUITES || grpcSslCipherSuites(options.type)
 
     // If the requested connection type is a local one then start up a new lnd instance.
-    // // Otherwise attempt to connect to an lnd instance using user supplied connection details.
+    // Otherwise attempt to connect to an lnd instance using user supplied connection details.\
     return options.type === 'local' ? this.startLnd() : this.connectLnd()
   }
 
