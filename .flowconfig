@@ -1,6 +1,4 @@
 [ignore]
-<PROJECT_ROOT>/node_modules/*
-<PROJECT_ROOT>/app/node_modules/*
 <PROJECT_ROOT>/app/main.prod.js
 <PROJECT_ROOT>/app/main.prod.js.map
 <PROJECT_ROOT>/app/dist/.*
@@ -8,7 +6,7 @@
 <PROJECT_ROOT>/release/.*
 <PROJECT_ROOT>/dll/.*
 <PROJECT_ROOT>/release/.*
-<PROJECT_ROOT>/git/.*
+<PROJECT_ROOT>/.git/.*
 
 [include]
 
@@ -19,6 +17,9 @@ flow-typed
 esproposal.class_static_fields=enable
 esproposal.class_instance_fields=enable
 esproposal.export_star_as=enable
+
+module.system.node.resolve_dirname=node_modules
+module.system.node.resolve_dirname=app/node_modules
 
 # Map stylesheets to csssmodule tyoe def
 module.name_mapper.extension='css' -> '<PROJECT_ROOT>/internals/flow/CSSModule.js.flow'
