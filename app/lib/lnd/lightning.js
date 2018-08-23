@@ -95,6 +95,21 @@ class Lightning {
   }
 
   /**
+   * Gracegfully shutdown the gRPC service.
+   */
+  shutdown() {
+    this.unsubscribe()
+    return new Promise((resolve, reject) => {
+      this.lnd.stopDaemon({}, (err, data) => {
+        if (err) {
+          reject(err)
+        }
+        resolve(data)
+      })
+    })
+  }
+
+  /**
    * Hook up lnd restful methods.
    */
   lndMethods(event: Event, msg: string, data: any) {

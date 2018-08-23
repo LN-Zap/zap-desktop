@@ -127,7 +127,7 @@ class ZapController {
   // FSM Callbacks
   // ------------------------------------
 
-  onOnboarding() {
+  async onOnboarding() {
     mainLog.debug('[FSM] onOnboarding...')
 
     // Remove any existing IPC listeners so that we can start fresh.
@@ -136,13 +136,8 @@ class ZapController {
     // Register IPC listeners so that we can react to instructions coming from the app.
     this._registerIpcListeners()
 
-    // Ensure wallet is disconnected.
-    this.disconnectLightningWallet()
-
-    // If Neutrino is running, kill it.
-    if (this.neutrino) {
-      this.neutrino.stop()
-    }
+    // Disconnect from any existing connection.
+    await this.disconnectLightningWallet()
 
     // Give the grpc connections a chance to be properly closed out.
     return new Promise(resolve => setTimeout(resolve, 200))
@@ -209,16 +204,9 @@ class ZapController {
       })
   }
 
-  onTerminated() {
+  async onTerminated() {
     mainLog.debug('[FSM] onTerminated...')
-    // Unsubscribe the gRPC streams before thhe window closes. This ensures that we can properly reestablish a fresh
-    // connection when a new window is opened.
-    this.disconnectLightningWallet()
-
-    // If Neutrino is running, kill it.
-    if (this.neutrino) {
-      this.neutrino.stop()
-    }
+    await this.disconnectLightningWallet()
   }
 
   onTerminate() {
@@ -275,10 +263,10 @@ class ZapController {
    * Create and subscribe to the Lightning service.
    */
   async startLightningWallet() {
+    mainLog.info('Starting lightning wallet...')
     if (this.lightningGrpcConnected) {
       return
     }
-    mainLog.info('Starting lightning wallet...')
     this.lightning = new Lightning()
 
     // Connect to the Lightning interface.
@@ -300,14 +288,23 @@ class ZapController {
   /**
    * Unsubscribe from the Lightning service.
    */
-  disconnectLightningWallet() {
+  async disconnectLightningWallet() {
+    mainLog.info('Shutting down lightning Wallet...')
     if (!this.lightningGrpcConnected) {
       return
     }
-    mainLog.info('Disconnecting lightning Wallet...')
 
-    // Disconnect streams.
-    this.lightning.disconnect()
+    // Shutdown / disconnect from  the lnd instance.
+    try {
+      if (this.neutrino) {
+        await this.lightning.shutdown()
+        this.neutrino.stop()
+      } else if (this.lightning) {
+        this.lightning.disconnect()
+      }
+    } catch (e) {
+      mainLog.error('There was a problem when trying to shutdown lnd', e)
+    }
 
     // Update our internal state.
     this.lightningGrpcConnected = false
