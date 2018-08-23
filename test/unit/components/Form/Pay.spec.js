@@ -13,10 +13,12 @@ const defaultProps = {
     invoice: {},
     showErrors: {}
   },
-  currency: {},
-  crypto: {},
+  currency: '',
+  crypto: '',
   nodes: [],
-  ticker: {},
+  ticker: {
+    currency: 'btc'
+  },
 
   isOnchain: false,
   isLn: true,

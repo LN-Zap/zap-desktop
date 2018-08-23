@@ -7,6 +7,7 @@ import link from 'icons/link.svg'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'
+import AmountInput from 'components/AmountInput'
 
 import styles from './Pay.scss'
 
@@ -132,18 +133,12 @@ class Pay extends Component {
               <span />
             </div>
             <div className={styles.bottom}>
-              <input
-                type="number"
-                min="0"
-                ref={input => {
-                  this.amountInput = input
-                }}
-                size=""
-                placeholder="0.00000000"
-                value={currentAmount || ''}
-                onChange={event => setPayAmount(event.target.value)}
-                onBlur={onPayAmountBlur}
+              <AmountInput
                 id="amount"
+                amount={currentAmount}
+                currency={ticker.currency}
+                onChangeEvent={setPayAmount}
+                onBlurEvent={onPayAmountBlur}
                 readOnly={isLn}
               />
               <div className={styles.currency}>

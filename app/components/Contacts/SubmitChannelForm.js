@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
+import AmountInput from 'components/AmountInput'
 import styles from './SubmitChannelForm.scss'
 
 class SubmitChannelForm extends React.Component {
@@ -15,6 +16,8 @@ class SubmitChannelForm extends React.Component {
       contactCapacity,
       updateContactCapacity,
       openChannel,
+
+      ticker,
 
       toggleCurrencyProps: {
         setContactsCurrencyFilters,
@@ -73,14 +76,11 @@ class SubmitChannelForm extends React.Component {
 
         <section className={styles.amount}>
           <div className={styles.input}>
-            <input
-              type="number"
-              min="0"
-              size=""
-              placeholder="0.00000000"
-              value={contactCapacity || ''}
-              onChange={event => updateContactCapacity(event.target.value)}
+            <AmountInput
               id="amount"
+              amount={contactCapacity}
+              currency={ticker.currency}
+              onChangeEvent={updateContactCapacity}
             />
             <div className={styles.currency}>
               <section
@@ -126,6 +126,8 @@ SubmitChannelForm.propTypes = {
   contactCapacity: PropTypes.PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   updateContactCapacity: PropTypes.func.isRequired,
   openChannel: PropTypes.func.isRequired,
+
+  ticker: PropTypes.object.isRequired,
 
   toggleCurrencyProps: PropTypes.object.isRequired
 }

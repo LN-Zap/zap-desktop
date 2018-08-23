@@ -8,7 +8,9 @@ configure({ adapter: new Adapter() })
 
 const defaultProps = {
   requestform: {},
-  ticker: {},
+  ticker: {
+    currency: 'btc'
+  },
 
   currentCurrencyFilters: [],
   showCurrencyFilters: true,

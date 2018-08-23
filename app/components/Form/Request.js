@@ -6,6 +6,7 @@ import hand from 'icons/hand.svg'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'
+import AmountInput from 'components/AmountInput'
 import styles from './Request.scss'
 
 const Request = ({
@@ -45,12 +46,11 @@ const Request = ({
             <span />
           </div>
           <div className={styles.bottom}>
-            <input
-              type="number"
-              value={amount || ''}
-              onChange={event => setRequestAmount(event.target.value)}
+            <AmountInput
               id="amount"
-              placeholder="0.00000000"
+              amount={amount}
+              currency={ticker.currency}
+              onChangeEvent={setRequestAmount}
             />
             <div className={styles.currency}>
               <section
