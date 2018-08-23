@@ -6,6 +6,6 @@
   "onchain_sent_description": "Транзакцію на ланцюг успішно відправлено.",
   "onchain_received_title": "Отримано транзакцію!",
   "onchain_received_description": "Пощастило, ви отримали нову транзакцію. Заздрю вам.",
-  "zapped_title": "Ви були зірвані",
-  "zapped_description": "Вітаю, хтось здійснив оплату вашого рахунку"
+  "zapped_title": "Ви були Zap-нуті",
+  "zapped_description": "Вітаю, хтось щойно оплатив ваш рахунок"
 }
