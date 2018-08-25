@@ -109,7 +109,12 @@ class Network extends Component {
     }
 
     const displayNodeName = displayedChannel => {
-      const node = nodes.find(n => displayedChannel.remote_pubkey === n.pub_key)
+      // due to inconsistent API vals the remote nodes pubkey will be under remote_pubkey for active channels and
+      // remote_node_pub for closing channels. remote_node_pubkey gets the remote pubkey depending on what type of
+      // channel we have
+      const remote_node_pubkey = displayedChannel.remote_pubkey || displayedChannel.remote_node_pub
+
+      const node = nodes.find(n => n.pub_key === remote_node_pubkey)
 
       if (node && node.alias.length) {
         return node.alias
