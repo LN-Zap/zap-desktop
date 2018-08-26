@@ -1,7 +1,7 @@
 {
-  "pay": "Pay",
-  "request": "Request",
-  "sending_tx": "Sending your transaction…",
-  "payment_success": "Successfully sent payment",
-  "transaction_success": "Successfully sent transaction"
+  "pay": "Αποστολή πληρωμής",
+  "request": "Αίτηση πληρωμής",
+  "sending_tx": "Αποστολή της συναλλαγής σας…",
+  "payment_success": "Η πληρωμή έγινε με επιτυχία",
+  "transaction_success": "Η συναλλαγή στάλθηκε με επιτυχία"
 }
