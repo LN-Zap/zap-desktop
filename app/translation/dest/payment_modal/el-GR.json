@@ -1,6 +1,6 @@
 {
-  "received": "Received",
-  "sent": "Sent",
-  "on_chain": "On-Chain",
-  "fee": "Fee"
+  "received": "Έλαβε",
+  "sent": "Αποστέλλονται",
+  "on_chain": "Στο blockchain",
+  "fee": "Αμοιβή"
 }
