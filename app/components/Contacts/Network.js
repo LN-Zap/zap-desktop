@@ -163,9 +163,12 @@ class Network extends Component {
           <section>
             <h2>My Network</h2>
             <span className={styles.channelAmount}>
-              {btc.satoshisToBtc(balance.channelBalance)} {currencyName} ≈ ${usdAmount
-                ? usdAmount.toLocaleString()
-                : ''}
+              <Value
+                value={balance.channelBalance}
+                currency={ticker.currency}
+                currentTicker={currentTicker}
+              />
+              {` ≈ $${usdAmount ? usdAmount.toLocaleString() : ''}`}
             </span>
           </section>
           <section
