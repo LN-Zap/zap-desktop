@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import FaAngleUp from 'react-icons/lib/fa/angle-up'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import Isvg from 'react-inlinesvg'
 
 import { btc, blockExplorer } from 'lib/utils'
 import Value from 'components/Value'
 import AnimatedCheckmark from 'components/AnimatedCheckmark'
+import Settings from 'components/Settings/Settings'
 
 import zapLogo from 'icons/zap_logo.svg'
 import qrCode from 'icons/qrcode.svg'
@@ -27,11 +29,12 @@ const Wallet = ({
   currencyName,
   setCurrency,
   setWalletCurrencyFilters,
-  network
+  network,
+  settingsProps
 }) => {
-  const usdAmount = btc.satoshisToUsd(
+  const fiatAmount = btc.satoshisToFiat(
     parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
-    currentTicker.price_usd
+    currentTicker[ticker.fiatTicker].last
   )
 
   const onCurrencyFilterClick = currency => {
@@ -48,10 +51,15 @@ const Wallet = ({
           </section>
 
           <section className={styles.user}>
-            <div>
-              <span>{info.data.alias}</span>
-              <FaAngleDown />
+            <div
+              className={`${styles.alias} ${settingsProps.settings.settingsOpen &&
+                styles.settingsOpen}`}
+              onClick={settingsProps.toggleSettings}
+            >
+              <span className={styles.aliasText}>{info.data.alias}</span>
+              {settingsProps.settings.settingsOpen ? <FaAngleUp /> : <FaAngleDown />}
             </div>
+            {settingsProps.settings.settingsOpen && <Settings {...settingsProps} />}
           </section>
         </header>
 
@@ -65,9 +73,9 @@ const Wallet = ({
                 <span>
                   <Value
                     value={parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance)}
-                    fromCurrency={ticker.fromCurrency}
                     currency={ticker.currency}
                     currentTicker={currentTicker}
+                    fiatTicker={ticker.fiatTicker}
                   />
                   <section className={styles.currencyContainer}>
                     <i className={styles.currency}>{currencyName}</i>
@@ -86,7 +94,8 @@ const Wallet = ({
                 </span>
               </h1>
               <span className={styles.usdValue}>
-                ≈ ${usdAmount ? usdAmount.toLocaleString() : ''}
+                ≈ {currentTicker[ticker.fiatTicker].symbol}
+                {fiatAmount ? fiatAmount.toLocaleString() : ''}
               </span>
             </div>
           </div>
@@ -153,6 +162,7 @@ Wallet.propTypes = {
   showSuccessPayScreen: PropTypes.bool.isRequired,
   network: PropTypes.object.isRequired,
   successTransactionScreen: PropTypes.object.isRequired,
+  settingsProps: PropTypes.object.isRequired,
   currentCurrencyFilters: PropTypes.array.isRequired,
   currencyName: PropTypes.string.isRequired,
   setCurrency: PropTypes.func.isRequired,

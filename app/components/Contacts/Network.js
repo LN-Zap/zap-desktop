@@ -155,7 +155,10 @@ class Network extends Component {
       return 'online'
     }
 
-    const usdAmount = btc.satoshisToUsd(balance.channelBalance, currentTicker.price_usd)
+    const fiatAmount = btc.satoshisToFiat(
+      balance.channelBalance,
+      currentTicker[ticker.fiatTicker].last
+    )
     const { refreshing } = this.state
     return (
       <div className={styles.network}>
@@ -167,8 +170,11 @@ class Network extends Component {
                 value={balance.channelBalance}
                 currency={ticker.currency}
                 currentTicker={currentTicker}
+                fiatTicker={ticker.fiatTicker}
               />
-              {` ≈ $${usdAmount ? usdAmount.toLocaleString() : ''}`}
+              {` ≈ ${currentTicker[ticker.fiatTicker].symbol}${
+                fiatAmount ? fiatAmount.toLocaleString() : ''
+              }`}
             </span>
           </section>
           <section
@@ -296,6 +302,7 @@ class Network extends Component {
                               value={channel.local_balance}
                               currency={ticker.currency}
                               currentTicker={currentTicker}
+                              fiatTicker={ticker.fiatTicker}
                             />
                             <i> {currencyName}</i>
                           </p>
@@ -307,6 +314,7 @@ class Network extends Component {
                               value={channel.remote_balance}
                               currency={ticker.currency}
                               currentTicker={currentTicker}
+                              fiatTicker={ticker.fiatTicker}
                             />
                             <i>{ticker.currency.toUpperCase()}</i>
                           </p>

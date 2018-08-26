@@ -41,14 +41,18 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
       <span>
         <i className={styles.plus}>+</i>
         <Value
-          value={invoice.finalAmount}
+          value={invoice.value}
           currency={ticker.currency}
           currentTicker={currentTicker}
+          fiatTicker={ticker.fiatTicker}
         />
         <i> {currencyName}</i>
       </span>
       <span>
-        <span>${btc.convert('sats', 'usd', invoice.finalAmount, currentTicker.price_usd)}</span>
+        <span>
+          {currentTicker[ticker.fiatTicker].symbol}
+          {btc.convert('sats', 'fiat', invoice.value, currentTicker[ticker.fiatTicker].last)}
+        </span>
       </span>
     </div>
   </div>

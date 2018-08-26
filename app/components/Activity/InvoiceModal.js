@@ -58,6 +58,7 @@ const InvoiceModal = ({
                   value={invoice.finalAmount}
                   currency={ticker.currency}
                   currentTicker={currentTicker}
+                  fiatTicker={ticker.fiatTicker}
                 />
               </h1>
               <section

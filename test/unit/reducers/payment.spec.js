@@ -1,3 +1,5 @@
+// @flow
+
 import paymentReducer, {
   SET_PAYMENT,
   GET_PAYMENTS,

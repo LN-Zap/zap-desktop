@@ -1,12 +1,17 @@
 import { createSelector } from 'reselect'
-import { requestTickers } from 'lib/utils/api'
+import Store from 'electron-store'
+import { requestTicker } from 'lib/utils/api'
 import { infoSelectors } from './info'
+
+// Settings store
+const store = new Store({ name: 'settings' })
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const SET_CURRENCY = 'SET_CURRENCY'
 export const SET_CRYPTO = 'SET_CRYPTO'
+export const SET_FIAT_TICKER = 'SET_FIAT_TICKER'
 export const GET_TICKERS = 'GET_TICKERS'
 export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
 
@@ -33,6 +38,16 @@ export function setCrypto(crypto) {
   }
 }
 
+export function setFiatTicker(fiatTicker) {
+  // Persist the new fiatTicker in our ticker store
+  store.set('fiatTicker', fiatTicker)
+
+  return {
+    type: SET_FIAT_TICKER,
+    fiatTicker
+  }
+}
+
 export function getTickers() {
   return {
     type: GET_TICKERS
@@ -49,10 +64,10 @@ export function recieveTickers({ btcTicker, ltcTicker }) {
 
 export const fetchTicker = () => async dispatch => {
   dispatch(getTickers())
-  const tickers = await requestTickers(['bitcoin', 'litecoin'])
-  dispatch(recieveTickers(tickers))
+  const btcTicker = await requestTicker()
+  dispatch(recieveTickers({ btcTicker }))
 
-  return tickers
+  return btcTicker
 }
 
 // Receive IPC event for receiveCryptocurrency
@@ -67,6 +82,7 @@ export const receiveCryptocurrency = (event, currency) => dispatch => {
 const ACTION_HANDLERS = {
   [SET_CURRENCY]: (state, { currency }) => ({ ...state, fromCurrency: state.currency, currency }),
   [SET_CRYPTO]: (state, { crypto }) => ({ ...state, crypto }),
+  [SET_FIAT_TICKER]: (state, { fiatTicker }) => ({ ...state, fiatTicker }),
   [GET_TICKERS]: state => ({ ...state, tickerLoading: true }),
   [RECIEVE_TICKERS]: (state, { btcTicker, ltcTicker }) => ({
     ...state,
@@ -125,6 +141,31 @@ const initialState = {
   crypto: '',
   btcTicker: null,
   ltcTicker: null,
+  fiatTicker: store.get('fiatTicker', 'USD'),
+  fiatTickers: [
+    'USD',
+    'EUR',
+    'JPY',
+    'GBP',
+    'CAD',
+    'KRW',
+    'AUD',
+    'BRL',
+    'CHF',
+    'CLP',
+    'CNY',
+    'DKK',
+    'HKD',
+    'INR',
+    'ISK',
+    'NZD',
+    'PLN',
+    'RUB',
+    'SEK',
+    'SGD',
+    'THB',
+    'TWB'
+  ],
   currencyFilters: [
     {
       key: 'btc',

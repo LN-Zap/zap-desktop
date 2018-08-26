@@ -21,6 +21,7 @@ import transaction from './transaction'
 import activity from './activity'
 import network from './network'
 import error from './error'
+import settings from './settings'
 
 const rootReducer = combineReducers({
   router,
@@ -43,7 +44,8 @@ const rootReducer = combineReducers({
   transaction,
   activity,
   network,
-  error
+  error,
+  settings
 })
 
 export default rootReducer

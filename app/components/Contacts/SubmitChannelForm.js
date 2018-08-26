@@ -16,6 +16,7 @@ class SubmitChannelForm extends React.Component {
       contactCapacity,
       updateContactCapacity,
       openChannel,
+      fiatTicker,
 
       ticker,
 
@@ -25,7 +26,7 @@ class SubmitChannelForm extends React.Component {
         currencyName,
         currentCurrencyFilters,
         onCurrencyFilterClick,
-        contactFormUsdAmount
+        contactFormFiatAmount
       }
     } = this.props
 
@@ -102,7 +103,7 @@ class SubmitChannelForm extends React.Component {
             </div>
           </div>
 
-          <div className={styles.usdAmount}>{`≈ ${contactFormUsdAmount || 0} USD`}</div>
+          <div className={styles.fiatAmount}>{`≈ ${contactFormFiatAmount || 0} ${fiatTicker}`}</div>
         </section>
 
         <section className={styles.submit}>
@@ -126,6 +127,7 @@ SubmitChannelForm.propTypes = {
   contactCapacity: PropTypes.PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
   updateContactCapacity: PropTypes.func.isRequired,
   openChannel: PropTypes.func.isRequired,
+  fiatTicker: PropTypes.string.isRequired,
 
   ticker: PropTypes.object.isRequired,
 

@@ -165,18 +165,18 @@ const mapStateToProps = state => ({
   isOnchain: payFormSelectors.isOnchain(state),
   isLn: payFormSelectors.isLn(state),
   currentAmount: payFormSelectors.currentAmount(state),
-  usdAmount: payFormSelectors.usdAmount(state),
+  fiatAmount: payFormSelectors.fiatAmount(state),
   inputCaption: payFormSelectors.inputCaption(state),
   showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
   payFormIsValid: payFormSelectors.payFormIsValid(state),
   payInputMin: payFormSelectors.payInputMin(state),
-  requestUsdAmount: requestFormSelectors.usdAmount(state),
+  requestFiatAmount: requestFormSelectors.fiatAmount(state),
   syncPercentage: lndSelectors.syncPercentage(state),
 
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
   showManualForm: contactFormSelectors.showManualForm(state),
   manualFormIsValid: contactFormSelectors.manualFormIsValid(state),
-  contactFormUsdAmount: contactFormSelectors.contactFormUsdAmount(state),
+  contactFormFiatAmount: contactFormSelectors.contactFormFiatAmount(state),
 
   currentChannels: currentChannels(state),
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
@@ -197,7 +197,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     isOnchain: stateProps.isOnchain,
     isLn: stateProps.isLn,
     currentAmount: stateProps.currentAmount,
-    usdAmount: stateProps.usdAmount,
+    fiatAmount: stateProps.fiatAmount,
     inputCaption: stateProps.inputCaption,
     showPayLoadingScreen: stateProps.showPayLoadingScreen,
     payFormIsValid: stateProps.payFormIsValid,
@@ -252,8 +252,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         dispatchProps.sendCoins({
           value: stateProps.payform.amount,
           addr: stateProps.payform.payInput,
-          currency: stateProps.ticker.currency,
-          rate: stateProps.currentTicker.price_usd
+          currency: stateProps.ticker.currency
         })
       }
 
@@ -270,7 +269,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currentCurrencyFilters: stateProps.currentCurrencyFilters,
     showCurrencyFilters: stateProps.showCurrencyFilters,
     currencyName: stateProps.currencyName,
-    requestUsdAmount: stateProps.requestUsdAmount,
+    requestFiatAmount: stateProps.requestFiatAmount,
 
     setRequestAmount: dispatchProps.setRequestAmount,
     setRequestMemo: dispatchProps.setRequestMemo,
@@ -281,8 +280,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       dispatchProps.createInvoice(
         stateProps.requestform.amount,
         stateProps.requestform.memo,
-        stateProps.ticker.currency,
-        stateProps.currentTicker.price_usd
+        stateProps.ticker.currency
       )
   }
 
@@ -401,6 +399,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     submitChannelFormOpen: stateProps.contactsform.submitChannelFormOpen,
     node: stateProps.contactsform.node,
     contactCapacity: stateProps.contactsform.contactCapacity,
+    fiatTicker: stateProps.ticker.fiatTicker,
 
     updateContactCapacity: dispatchProps.updateContactCapacity,
 
@@ -415,7 +414,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       currentCurrencyFilters: stateProps.currentCurrencyFilters,
       currencyName: stateProps.currencyName,
       showCurrencyFilters: stateProps.contactsform.showCurrencyFilters,
-      contactFormUsdAmount: stateProps.contactFormUsdAmount,
+      contactFormFiatAmount: stateProps.contactFormFiatAmount,
 
       setContactsCurrencyFilters: dispatchProps.setContactsCurrencyFilters,
       setCurrencyFilters: dispatchProps.setCurrencyFilters,

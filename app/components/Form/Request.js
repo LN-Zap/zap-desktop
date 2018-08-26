@@ -18,7 +18,7 @@ const Request = ({
   setCurrency,
   setRequestCurrencyFilters,
   currencyName,
-  requestUsdAmount,
+  requestFiatAmount,
 
   currentCurrencyFilters,
 
@@ -72,7 +72,9 @@ const Request = ({
             </div>
           </div>
 
-          <div className={styles.usdAmount}>{`≈ ${requestUsdAmount || 0} USD`}</div>
+          <div className={styles.fiatAmount}>{`≈ ${requestFiatAmount || 0} ${
+            ticker.fiatTicker
+          }`}</div>
         </section>
 
         <section className={styles.memo}>
@@ -109,7 +111,7 @@ Request.propTypes = {
     memo: PropTypes.string
   }).isRequired,
 
-  requestUsdAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  requestFiatAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   currencyName: PropTypes.string.isRequired,
 
   currentCurrencyFilters: PropTypes.array.isRequired,

@@ -15,7 +15,7 @@ const defaultProps = {
   currentCurrencyFilters: [],
   showCurrencyFilters: true,
   currencyName: '',
-  requestUsdAmount: '',
+  requestFiatAmount: '',
 
   setRequestAmount: () => {},
   setRequestMemo: () => {},

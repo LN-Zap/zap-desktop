@@ -66,18 +66,19 @@ const ACTION_HANDLERS = {
 const requestFormSelectors = {}
 const requestAmountSelector = state => state.requestform.amount
 const currencySelector = state => state.ticker.currency
+const fiatTickerSelector = state => state.ticker.fiatTicker
 
-requestFormSelectors.usdAmount = createSelector(
+requestFormSelectors.fiatAmount = createSelector(
   requestAmountSelector,
   currencySelector,
   tickerSelectors.currentTicker,
-
-  (amount, currency, ticker) => {
-    if (!ticker || !ticker.price_usd) {
+  fiatTickerSelector,
+  (amount, currency, currentTicker, fiatTicker) => {
+    if (!currentTicker || !currentTicker[fiatTicker].last) {
       return false
     }
 
-    return btc.convert(currency, 'usd', amount, ticker.price_usd)
+    return btc.convert(currency, 'fiat', amount, currentTicker[fiatTicker].last)
   }
 )
 
