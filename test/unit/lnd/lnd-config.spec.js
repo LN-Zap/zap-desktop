@@ -39,10 +39,10 @@ describe('LndConfig', function() {
     it(`should have the "wallet" property set to the ${type}`, () => {
       expect(this.lndConfig.wallet).toEqual(this.wallet)
     })
-    it(`should have the "dataDir" set to a path derived from the config, under the app userData dir`, () => {
+    it(`should have the "lndDir" set to a path derived from the config, under the app userData dir`, () => {
       const baseDir = '/tmp/zap-test/userData/lnd/'
       const expectedDataDir = join(baseDir, this.currency, this.network, this.wallet)
-      expect(this.lndConfig.dataDir).toEqual(expectedDataDir)
+      expect(this.lndConfig.lndDir).toEqual(expectedDataDir)
     })
   }
 
@@ -78,8 +78,15 @@ describe('LndConfig', function() {
         this.lndConfig = new LndConfig()
 
         this.host = 'localhost:10009'
-        this.cert = join(this.lndConfig.dataDir, 'tls.cert')
-        this.macaroon = join(this.lndConfig.dataDir, 'admin.macaroon')
+        this.cert = join(this.lndConfig.lndDir, 'tls.cert')
+        this.macaroon = join(
+          this.lndConfig.lndDir,
+          'data',
+          'chain',
+          this.currency,
+          this.network,
+          'admin.macaroon'
+        )
       })
 
       describe('static properties', () => {
@@ -121,8 +128,15 @@ describe('LndConfig', function() {
         })
 
         this.host = 'localhost:10009'
-        this.cert = join(this.lndConfig.dataDir, 'tls.cert')
-        this.macaroon = join(this.lndConfig.dataDir, 'admin.macaroon')
+        this.cert = join(this.lndConfig.lndDir, 'tls.cert')
+        this.macaroon = join(
+          this.lndConfig.lndDir,
+          'data',
+          'chain',
+          this.currency,
+          this.network,
+          'admin.macaroon'
+        )
       })
 
       describe('static properties', () => {
