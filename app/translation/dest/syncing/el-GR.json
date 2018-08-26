@@ -1,11 +1,11 @@
 {
-  "grab_coffee": "It looks like this could take some time - you might want to grab a coffee or try again later!",
-  "waiting_for_peers": "Waiting for peers…",
-  "preparing": "Preparing…",
-  "finalizing": "Finalizing…",
-  "sync_title": "Welcome back to your Zap wallet!",
-  "sync_description": "Please wait a while whilst we fetch all of your latest data from the blockchain.",
-  "fund_title": "Fund your Zap wallet",
-  "fund_description": "Might as well fund your wallet while you’re waiting to sync.",
-  "sync_caption": "Syncing to the blockchain"
+  "grab_coffee": "Αυτό μπορεί να διαρκέσει λίγο. Μπορεί να θέλετε να πιείτε έναν καφέ ή να δοκιμάσετε αργότερα!",
+  "waiting_for_peers": "Αναμονή για συνομηλίκους…",
+  "preparing": "Προετοιμασία…",
+  "finalizing": "Ολοκλήρωση…",
+  "sync_title": "Καλώς ήρθατε πίσω στο πορτοφόλι σας Zap!",
+  "sync_description": "Παρακαλώ περιμένετε λίγο ενώ φέρουμε όλα τα τελευταία σας δεδομένα από το blockchain.",
+  "fund_title": "Χρηματοδοτήστε το πορτοφόλι σας Zap",
+  "fund_description": "Μπορεί επίσης να χρηματοδοτήσει το πορτοφόλι σας ενώ περιμένετε να συγχρονιστεί.",
+  "sync_caption": "Συγχρονισμός με το blockchain"
 }
