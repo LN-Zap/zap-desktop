@@ -1,11 +1,11 @@
 {
-  "nice": "Nice",
-  "copied": "Copied to the clipboard",
-  "synced": "Visa who? You're your own payment processor now!",
-  "onchain_sent_title": "On-chain Transaction Sent!",
-  "onchain_sent_description": "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent.",
-  "onchain_received_title": "On-chain Transaction Received!",
-  "onchain_received_description": "Lucky you, you just received a new on-chain transaction. I'm jealous.",
-  "zapped_title": "You've been Zapped",
-  "zapped_description": "Congrats, someone just paid an invoice of yours"
+  "nice": "Ωραία",
+  "copied": "Αντιγράφονται στο Πρόχειρο",
+  "synced": "Visa ποιος; Είστε ο δικός σας επεξεργαστής πληρωμής τώρα!",
+  "onchain_sent_title": "Συναλλαγή που στάλθηκε στο blockchain!",
+  "onchain_sent_description": "Η συναλλαγή σας στο blockchain έχει αποσταλεί επιτυχώς.",
+  "onchain_received_title": "Συναλλαγή που ελήφθη στο blockchain!",
+  "onchain_received_description": "Τυχερός σας, μπορείτε απλά να λάβει μια νέα συναλλαγή στην αλυσίδα. Είμαι ζηλιάρης.",
+  "zapped_title": "Έχεις ζεσταθεί από αστραπή",
+  "zapped_description": "Συγχαρητήρια, κάποιος μόλις καταβληθεί ένα τιμολόγιο σου"
 }
