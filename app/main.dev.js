@@ -24,6 +24,7 @@ app.on('ready', () => {
   // Create a new browser window.
   const mainWindow = new BrowserWindow({
     show: false,
+    useContentSize: true,
     titleBarStyle: 'hidden',
     width: 950,
     height: 600,
