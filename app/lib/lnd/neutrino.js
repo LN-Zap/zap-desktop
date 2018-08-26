@@ -77,7 +77,7 @@ class Neutrino extends EventEmitter {
 
     const neutrinoArgs = [
       `--configfile=${this.lndConfig.configPath}`,
-      `--lnddir=${this.lndConfig.dataDir}`,
+      `--lnddir=${this.lndConfig.lndDir}`,
       `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`
     ]

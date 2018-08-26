@@ -113,7 +113,7 @@ class LndConfig {
   // Read only data properties.
   +key: string
   +binaryPath: string
-  +dataDir: string
+  +lndDir: string
   +configPath: string
   +rpcProtoPath: string
 
@@ -145,7 +145,7 @@ class LndConfig {
           return binaryPath()
         }
       },
-      dataDir: {
+      lndDir: {
         enumerable: true,
         get() {
           return join(app.getPath('userData'), 'lnd', this.currency, this.network, this.wallet)
@@ -252,8 +252,8 @@ class LndConfig {
     if (this.type === 'local') {
       const defaultLocalOptions = {
         host: 'localhost:10009',
-        cert: join(this.dataDir, 'tls.cert'),
-        macaroon: join(this.dataDir, 'admin.macaroon')
+        cert: join(this.lndDir, 'tls.cert'),
+        macaroon: join(this.lndDir, 'data', 'chain', this.currency, this.network, 'admin.macaroon')
       }
       debug('Connection type is local. Assigning settings as: %o', defaultLocalOptions)
       Object.assign(this, defaultLocalOptions)
