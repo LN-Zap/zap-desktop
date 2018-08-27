@@ -280,7 +280,7 @@ class Network extends Component {
                           onClick={() =>
                             blockExplorer.showTransaction(
                               network,
-                              channel.channel_point.split(':')[0]
+                              channelObj.closing_txid || channel.channel_point.split(':')[0]
                             )
                           }
                         >
