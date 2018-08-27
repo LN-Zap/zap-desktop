@@ -177,14 +177,14 @@ describe('Neutrino', function() {
     })
   })
 
-  describe('.stop', () => {
+  describe('.kill', () => {
     describe('called when neutrino is already running', () => {
       beforeEach(() => {
         this.neutrino = new Neutrino()
         this.neutrino.process = {
           kill: jest.fn()
         }
-        this.neutrino.stop()
+        this.neutrino.kill()
       })
       it('should kill the neutrino process', () => {
         expect(this.neutrino.process).toBeNull()

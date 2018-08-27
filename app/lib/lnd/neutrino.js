@@ -141,7 +141,10 @@ class Neutrino extends EventEmitter {
 
       if (this.is(CHAIN_SYNC_PENDING) || this.is(CHAIN_SYNC_IN_PROGRESS)) {
         // If we cant get a connectionn to the backend.
-        if (line.includes('Waiting for chain backend to finish sync')) {
+        if (
+          line.includes('Waiting for chain backend to finish sync') ||
+          line.includes('Waiting for block headers to sync, then will start cfheaders sync')
+        ) {
           this.setState(CHAIN_SYNC_WAITING)
         }
         // If we are still waiting for the back end to finish synncing.
@@ -223,8 +226,9 @@ class Neutrino extends EventEmitter {
   /**
    * Stop the Lnd process.
    */
-  stop() {
+  kill() {
     if (this.process) {
+      mainLog.info('Killing Neutrino process...')
       this.process.kill()
       this.process = null
     }

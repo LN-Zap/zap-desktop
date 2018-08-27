@@ -51,10 +51,9 @@ const grpcSslCipherSuites = connectionType =>
  */
 class ZapController {
   mainWindow: BrowserWindow
-  neutrino: any
-  lightning: any
+  neutrino: Neutrino
+  lightning: Lightning
   splashScreenTime: number
-  lightningGrpcConnected: boolean
   lndConfig: LndConfig
   _fsm: StateMachine
 
@@ -73,17 +72,8 @@ class ZapController {
     // Variable to hold the main window instance.
     this.mainWindow = mainWindow
 
-    // Keep a reference any neutrino process started by us.
-    this.neutrino = undefined
-
-    // Keep a reference to the lightning gRPC instance.
-    this.lightning = undefined
-
     // Time for the splash screen to remain visible.
     this.splashScreenTime = 500
-
-    // Boolean indicating wether the lightning grpc is connected ot not.
-    this.lightningGrpcConnected = false
 
     // Initialize the state machine.
     this._fsm()
@@ -127,7 +117,7 @@ class ZapController {
   // FSM Callbacks
   // ------------------------------------
 
-  onOnboarding() {
+  async onOnboarding(lifecycle: any) {
     mainLog.debug('[FSM] onOnboarding...')
 
     // Remove any existing IPC listeners so that we can start fresh.
@@ -136,12 +126,14 @@ class ZapController {
     // Register IPC listeners so that we can react to instructions coming from the app.
     this._registerIpcListeners()
 
-    // Ensure wallet is disconnected.
-    this.disconnectLightningWallet()
+    // Disconnect any pre-existing lightning wallet connection.
+    if (lifecycle.from === 'connected' && this.lightning && this.lightning.can('disconnect')) {
+      this.lightning.disconnect()
+    }
 
-    // If Neutrino is running, kill it.
-    if (this.neutrino) {
-      this.neutrino.stop()
+    // If we are comming from a running state, stop the Neutrino process.
+    else if (lifecycle.from === 'running') {
+      await this.shutdownNeutrino()
     }
 
     // Give the grpc connections a chance to be properly closed out.
@@ -209,15 +201,16 @@ class ZapController {
       })
   }
 
-  onTerminated() {
+  async onTerminated(lifecycle: any) {
     mainLog.debug('[FSM] onTerminated...')
-    // Unsubscribe the gRPC streams before thhe window closes. This ensures that we can properly reestablish a fresh
-    // connection when a new window is opened.
-    this.disconnectLightningWallet()
 
-    // If Neutrino is running, kill it.
-    if (this.neutrino) {
-      this.neutrino.stop()
+    // Disconnect from any existing lightning wallet connection.
+    if (lifecycle.from === 'connected' && this.lightning && this.lightning.can('disconnect')) {
+      this.lightning.disconnect()
+    }
+    // If we are comming from a running state, stop the Neutrino process.
+    else if (lifecycle.from === 'running') {
+      await this.shutdownNeutrino()
     }
   }
 
@@ -251,7 +244,7 @@ class ZapController {
    * Start the wallet unlocker.
    */
   startWalletUnlocker() {
-    mainLog.info('Starting wallet unlocker...')
+    mainLog.info('Establishing connection to Wallet Unlocker gRPC interface...')
     try {
       const walletUnlockerMethods = initWalletUnlocker(this.lndConfig)
 
@@ -275,42 +268,23 @@ class ZapController {
    * Create and subscribe to the Lightning service.
    */
   async startLightningWallet() {
-    if (this.lightningGrpcConnected) {
-      return
-    }
-    mainLog.info('Starting lightning wallet...')
-    this.lightning = new Lightning()
+    mainLog.info('Establishing connection to Lightning gRPC interface...')
+    this.lightning = new Lightning(this.lndConfig)
 
     // Connect to the Lightning interface.
-    await this.lightning.connect(this.lndConfig)
+    try {
+      await this.lightning.connect()
 
-    // Subscribe the main window to receive streams.
-    this.lightning.subscribe(this.mainWindow)
+      this.lightning.subscribe(this.mainWindow)
 
-    // Listen for all gRPC restful methods and pass to gRPC.
-    ipcMain.on('lnd', (event, { msg, data }) => this.lightning.lndMethods(event, msg, data))
+      // Listen for all gRPC restful methods and pass to gRPC.
+      ipcMain.on('lnd', (event, { msg, data }) => this.lightning.lndMethods(event, msg, data))
 
-    // Let the renderer know that we are connected.
-    this.sendMessage('lightningGrpcActive')
-
-    // Update our internal state.
-    this.lightningGrpcConnected = true
-  }
-
-  /**
-   * Unsubscribe from the Lightning service.
-   */
-  disconnectLightningWallet() {
-    if (!this.lightningGrpcConnected) {
-      return
+      // Let the renderer know that we are connected.
+      this.sendMessage('lightningGrpcActive')
+    } catch (err) {
+      mainLog.warn('Unable to connect to Lighitnng gRPC interface: %o', err)
     }
-    mainLog.info('Disconnecting lightning Wallet...')
-
-    // Disconnect streams.
-    this.lightning.disconnect()
-
-    // Update our internal state.
-    this.lightningGrpcConnected = false
   }
 
   /**
@@ -337,7 +311,7 @@ class ZapController {
       if (this.is('running') || this.is('connected')) {
         dialog.showMessageBox({
           type: 'error',
-          message: `Lnd has unexpectadly quit: ${lastError}`
+          message: `Lnd has unexpectedly quit: ${lastError}`
         })
         this.terminate()
       }
@@ -381,6 +355,66 @@ class ZapController {
     })
 
     this.neutrino.start()
+  }
+
+  /**
+   * Gracefully shutdown LND.
+   */
+  async shutdownNeutrino() {
+    // We only want to shut down LND if we are running it locally.
+    if (this.lndConfig.type !== 'local') {
+      return Promise.resolve()
+    }
+
+    // Attempt a graceful shutdown if we can.
+    if (this.lightning && this.lightning.can('terminate')) {
+      mainLog.info('Shutting down Neutrino...')
+
+      return new Promise(resolve => {
+        // HACK: Sometimes there are errors during the shutdown process that prevent the daeming from shutting down at
+        // all. If we haven't received notification of the process closing within 10 seconds, kill it.
+        // See https://github.com/lightningnetwork/lnd/pull/1781
+        // See https://github.com/lightningnetwork/lnd/pull/1783
+        const shutdownTimeout = setTimeout(() => {
+          this.neutrino.removeListener('close', closeHandler)
+          if (this.neutrino) {
+            mainLog.warn('Graceful shutdown failed to complete within 30 seconds.')
+            this.neutrino.kill()
+            resolve()
+          }
+        }, 1000 * 10)
+
+        // HACK: The Lightning.stopDaemon` call returns before lnd has actually fully completed the shutdown process
+        // so we add a listener on the close event so that we can wrap things up once the process has been fully closed
+        // out.
+        const closeHandler = function() {
+          mainLog.info('Neutrino shutdown complete.')
+          clearTimeout(shutdownTimeout)
+          resolve()
+        }
+        this.neutrino.once('close', closeHandler)
+
+        this.lightning
+          .terminate()
+          .then(() => mainLog.info('Neutrino Daemon shutdown complete'))
+          .catch(err => {
+            mainLog.error('Unable to gracefully shutdown LND: %o', err)
+            // Kill the process ourselves here to ensure that we don't leave hanging processes.
+            if (this.neutrino) {
+              this.neutrino.kill()
+              resolve()
+            }
+          })
+      })
+    }
+
+    // The Lightning service is only active after the wallet has been unlocked and a gRPC connection has been
+    // established. In this case, kill the Neutrino process to ensure that we don't leave hanging process.
+    // FIXME: This currencly doesn't do a graceful shutdown as LND does not properly handle SIGTERM.
+    // See https://github.com/lightningnetwork/lnd/issues/1028
+    else if (this.neutrino) {
+      this.neutrino.kill()
+    }
   }
 
   finishOnboarding(options: onboardingOptions) {
