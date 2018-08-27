@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import MdClose from 'react-icons/lib/md/close'
+import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import styles from './GlobalError.scss'
 
 class GlobalError extends React.Component {
@@ -20,7 +21,7 @@ class GlobalError extends React.Component {
           <div className={styles.close} onClick={clearError}>
             <MdClose />
           </div>
-          <h2>{error}</h2>
+          <h2>{errorToUserFriendly(error)}</h2>
         </div>
       </div>
     )
