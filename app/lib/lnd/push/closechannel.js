@@ -8,9 +8,9 @@ export default function pushclosechannel(lnd, event, payload) {
       call.on('error', error => event.sender.send('pushclosechannelerror', { error }))
       call.on('status', status => event.sender.send('pushclosechannelstatus', { status }))
 
-      resolve(null, payload)
+      resolve(call)
     } catch (error) {
-      reject(error, null)
+      reject(error)
     }
   })
 }

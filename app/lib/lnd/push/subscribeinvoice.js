@@ -8,9 +8,9 @@ export default function pushinvoices(lnd, event) {
       call.on('error', error => event.sender.send('pushinvoiceserror', { error }))
       call.on('status', status => event.sender.send('pushinvoicesstatus', { status }))
 
-      resolve(null)
+      resolve(call)
     } catch (error) {
-      reject(error, null)
+      reject(error)
     }
   })
 }

@@ -51,17 +51,13 @@ export function connectAndOpen(lnd, event, payload) {
  */
 export function openChannel(lnd, event, payload) {
   const { pubkey, localamt, pushamt } = payload
-  const res = {
+  const req = {
     node_pubkey: Buffer.from(pubkey, 'hex'),
     local_funding_amount: Number(localamt),
     push_sat: Number(pushamt)
   }
 
-  return new Promise((resolve, reject) =>
-    pushopenchannel(lnd, event, res)
-      .then(data => resolve(data))
-      .catch(error => reject(error))
-  )
+  return pushopenchannel(lnd, event, req)
 }
 
 /**
@@ -73,7 +69,7 @@ export function channelBalance(lnd) {
   return new Promise((resolve, reject) => {
     lnd.channelBalance({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -90,7 +86,7 @@ export function listChannels(lnd) {
   return new Promise((resolve, reject) => {
     lnd.listChannels({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -135,9 +131,9 @@ export function closeChannel(lnd, event, payload) {
       )
       call.on('status', status => event.sender.send('pushclosechannelstatus', { status, chan_id }))
 
-      resolve(null, res)
+      resolve(call)
     } catch (error) {
-      reject(error, null)
+      reject(error)
     }
   })
 }
@@ -151,7 +147,7 @@ export function pendingChannels(lnd) {
   return new Promise((resolve, reject) => {
     lnd.pendingChannels({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -169,7 +165,7 @@ export function getChanInfo(lnd, { chanId }) {
   return new Promise((resolve, reject) => {
     lnd.getChanInfo({ chan_id: chanId }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)

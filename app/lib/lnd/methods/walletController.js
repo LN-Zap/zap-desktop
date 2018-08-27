@@ -7,7 +7,7 @@ export function walletBalance(lnd) {
   return new Promise((resolve, reject) => {
     lnd.walletBalance({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -25,7 +25,7 @@ export function newAddress(lnd, type) {
   return new Promise((resolve, reject) => {
     lnd.newAddress({ type }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -42,7 +42,7 @@ export function newWitnessAddress(lnd, { addr }) {
   return new Promise((resolve, reject) => {
     lnd.newWitnessAddress({ address: addr }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -59,7 +59,7 @@ export function getTransactions(lnd) {
   return new Promise((resolve, reject) => {
     lnd.getTransactions({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -78,7 +78,7 @@ export function sendCoins(lnd, { addr, amount }) {
   return new Promise((resolve, reject) => {
     lnd.sendCoins({ addr, amount }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -94,7 +94,7 @@ export function setAlias(lnd, { new_alias }) {
   return new Promise((resolve, reject) => {
     lnd.setAlias({ new_alias }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -109,7 +109,7 @@ export function genSeed(walletUnlocker) {
   return new Promise((resolve, reject) => {
     walletUnlocker.genSeed({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -125,7 +125,7 @@ export function unlockWallet(walletUnlocker, { wallet_password }) {
   return new Promise((resolve, reject) => {
     walletUnlocker.unlockWallet({ wallet_password: Buffer.from(wallet_password) }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -152,7 +152,7 @@ export function initWallet(
       },
       (err, data) => {
         if (err) {
-          reject(err)
+          return reject(err)
         }
 
         resolve(data)

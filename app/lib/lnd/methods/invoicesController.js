@@ -11,7 +11,7 @@ export function addInvoice(lnd, { memo, value }) {
   return new Promise((resolve, reject) => {
     lnd.addInvoice({ memo, value }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -28,7 +28,7 @@ export function listInvoices(lnd) {
   return new Promise((resolve, reject) => {
     lnd.listInvoices({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -44,7 +44,7 @@ export function getInvoice(lnd, { pay_req }) {
   return new Promise((resolve, reject) => {
     lnd.decodePayReq({ pay_req }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -62,7 +62,7 @@ export function lookupInvoice(lnd, { rhash }) {
   return new Promise((resolve, reject) => {
     lnd.lookupInvoice({ r_hash: rhash }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -77,9 +77,5 @@ export function lookupInvoice(lnd, { rhash }) {
  * @return {[type]}       [description]
  */
 export function subscribeInvoices(lnd, event) {
-  return new Promise((resolve, reject) => {
-    pushinvoices(lnd, event)
-      .then(data => resolve(data))
-      .catch(error => reject(error))
-  })
+  return pushinvoices(lnd, event)
 }
