@@ -183,7 +183,7 @@ export default function(lnd, log, event, msg, data) {
           event.sender.send('paymentSuccessful', Object.assign(data, { payment_route }))
           return payment
         })
-        .catch(({ error }) => {
+        .catch(error => {
           log.error('error: ', error)
           event.sender.send('paymentFailed', { error: error.toString() })
         })

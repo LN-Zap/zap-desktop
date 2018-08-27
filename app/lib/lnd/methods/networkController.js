@@ -7,7 +7,7 @@ export function getInfo(lnd) {
   return new Promise((resolve, reject) => {
     lnd.getInfo({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -25,7 +25,7 @@ export function getNodeInfo(lnd, { pubkey }) {
   return new Promise((resolve, reject) => {
     lnd.getNodeInfo({ pub_key: pubkey }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -42,7 +42,7 @@ export function describeGraph(lnd) {
   return new Promise((resolve, reject) => {
     lnd.describeGraph({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -62,7 +62,7 @@ export function queryRoutes(lnd, { pubkey, amount }) {
   return new Promise((resolve, reject) => {
     lnd.queryRoutes({ pub_key: pubkey, amt: amount }, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
@@ -79,7 +79,7 @@ export function getNetworkInfo(lnd) {
   return new Promise((resolve, reject) => {
     lnd.getNetworkInfo({}, (err, data) => {
       if (err) {
-        reject(err)
+        return reject(err)
       }
 
       resolve(data)
