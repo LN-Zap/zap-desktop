@@ -1,10 +1,22 @@
+// @flow
+
 import Neutrino from 'lib/lnd/neutrino'
+import LndConfig from 'lib/lnd/config'
+import mockSpawn from 'mock-spawn'
 
 jest.mock('electron-store')
+jest.mock('child_process', () => {
+  var mockSpawn = require('mock-spawn')
+  return {
+    spawn: mockSpawn()
+  }
+})
 
 describe('Neutrino', function() {
   describe('Constructor', () => {
-    beforeAll(() => (this.neutrino = new Neutrino()))
+    beforeAll(() => {
+      this.neutrino = new Neutrino(new LndConfig())
+    })
 
     describe('initial values', () => {
       it('should set the "process" property to null', () => {
@@ -37,7 +49,7 @@ describe('Neutrino', function() {
   describe('.setState', () => {
     describe('called with new state', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino()
+        this.neutrino = new Neutrino(new LndConfig())
         this.callback = jest.fn()
         this.newVal = 'chain-sync-finished'
         this.neutrino.on('chain-sync-finished', this.callback)
@@ -53,7 +65,7 @@ describe('Neutrino', function() {
     })
     describe('called with current state', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino()
+        this.neutrino = new Neutrino(new LndConfig())
         this.callback = jest.fn()
         this.newVal = 'chain-sync-pending'
         this.neutrino.on('chain-sync-pending', this.callback)
@@ -72,7 +84,7 @@ describe('Neutrino', function() {
   describe('.setCurrentBlockHeight', () => {
     describe('called with higher height', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino()
+        this.neutrino = new Neutrino(new LndConfig())
         this.callback = jest.fn()
         this.newVal = 100
         this.neutrino.on('got-current-block-height', this.callback)
@@ -89,7 +101,7 @@ describe('Neutrino', function() {
     })
     describe('called with lower height', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino()
+        this.neutrino = new Neutrino(new LndConfig())
         this.callback = jest.fn()
         this.newVal = -1
         this.neutrino.on('got-current-block-height', this.callback)
@@ -108,7 +120,7 @@ describe('Neutrino', function() {
   describe('.setLndBlockHeight', () => {
     describe('called with higher height', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino()
+        this.neutrino = new Neutrino(new LndConfig())
         this.callback = jest.fn()
         this.newVal = 100
         this.neutrino.on('got-lnd-block-height', this.callback)
@@ -130,7 +142,7 @@ describe('Neutrino', function() {
     })
     describe('called with lower height', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino()
+        this.neutrino = new Neutrino(new LndConfig())
         this.callback = jest.fn()
         this.newVal = -1
         this.neutrino.on('got-lnd-block-height', this.callback)
@@ -152,7 +164,9 @@ describe('Neutrino', function() {
 
   describe('.is', () => {
     describe('called with current state', () => {
-      beforeEach(() => (this.neutrino = new Neutrino()))
+      beforeEach(() => {
+        this.neutrino = new Neutrino(new LndConfig())
+      })
 
       it('should returnn true if the current state matches', () => {
         expect(this.neutrino.is('chain-sync-pending')).toEqual(true)
@@ -164,10 +178,20 @@ describe('Neutrino', function() {
   })
 
   describe('.start', () => {
+    describe('called when neutrino is not running', () => {
+      beforeEach(() => {
+        this.neutrino = new Neutrino(new LndConfig())
+        this.neutrino.start()
+      })
+      it('should set the subprocess object on the `process` property', () => {
+        expect(this.neutrino.process.pid).toBeDefined()
+      })
+    })
+
     describe('called when neutrino is already running', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino()
-        this.neutrino.process = 123
+        this.neutrino = new Neutrino(new LndConfig())
+        this.neutrino.process = mockSpawn()
       })
       it('should throw an error', () => {
         expect(() => {
@@ -180,7 +204,7 @@ describe('Neutrino', function() {
   describe('.kill', () => {
     describe('called when neutrino is already running', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino()
+        this.neutrino = new Neutrino(new LndConfig())
         this.neutrino.process = {
           kill: jest.fn()
         }
