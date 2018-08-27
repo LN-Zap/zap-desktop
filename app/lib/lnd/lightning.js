@@ -3,6 +3,7 @@
 import grpc from 'grpc'
 import { loadSync } from '@grpc/proto-loader'
 import { BrowserWindow } from 'electron'
+import StateMachine from 'javascript-state-machine'
 import LndConfig from './config'
 import { getDeadline, validateHost, createSslCreds, createMacaroonCreds } from './util'
 import methods from './methods'
@@ -25,24 +26,43 @@ type LightningSubscriptionsType = {
 class Lightning {
   mainWindow: BrowserWindow
   lnd: any
+  lndConfig: LndConfig
   subscriptions: LightningSubscriptionsType
+  _fsm: StateMachine
 
-  constructor() {
+  // Transitions provided by the state machine.
+  connect: any
+  disconnect: any
+  terminate: any
+  is: any
+  can: any
+  state: string
+
+  constructor(lndConfig: LndConfig) {
     this.mainWindow = null
     this.lnd = null
+    this.lndConfig = lndConfig
     this.subscriptions = {
       channelGraph: null,
       invoices: null,
       transactions: null
     }
+
+    // Initialize the state machine.
+    this._fsm()
   }
+
+  // ------------------------------------
+  // FSM Callbacks
+  // ------------------------------------
 
   /**
    * Connect to the gRPC interface and verify it is functional.
    * @return {Promise<rpc.lnrpc.Lightning>}
    */
-  async connect(lndConfig: LndConfig) {
-    const { rpcProtoPath, host, cert, macaroon } = lndConfig
+  async onBeforeConnect() {
+    mainLog.info('Connecting to Lightning gRPC service')
+    const { rpcProtoPath, host, cert, macaroon } = this.lndConfig
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
     return await validateHost(host).then(async () => {
@@ -69,16 +89,15 @@ class Lightning {
       const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 
       // Create a new gRPC client instance.
-      const lnd = new rpc.lnrpc.Lightning(host, credentials)
+      this.lnd = new rpc.lnrpc.Lightning(host, credentials)
 
-      // Call the getInfo method to ensure that we can make successful calls to the gRPC interface.
+      // Wait for the gRPC connection to be established.
       return new Promise((resolve, reject) => {
-        lnd.getInfo({}, { deadline: getDeadline(2) }, err => {
+        grpc.waitForClientReady(this.lnd, getDeadline(2), err => {
           if (err) {
             return reject(err)
           }
-          this.lnd = lnd
-          return resolve(lnd)
+          return resolve()
         })
       })
     })
@@ -87,12 +106,33 @@ class Lightning {
   /**
    * Discomnnect the gRPC service.
    */
-  disconnect() {
+  onBeforeDisconnect() {
+    mainLog.info('Disconnecting from Lightning gRPC service')
     this.unsubscribe()
     if (this.lnd) {
       this.lnd.close()
     }
   }
+
+  /**
+   * Gracefully shutdown the gRPC service.
+   */
+  async onBeforeTerminate() {
+    mainLog.info('Shutting down Lightning daemon')
+    this.unsubscribe()
+    return new Promise((resolve, reject) => {
+      this.lnd.stopDaemon({}, (err, data) => {
+        if (err) {
+          return reject(err)
+        }
+        resolve(data)
+      })
+    })
+  }
+
+  // ------------------------------------
+  // Helpers
+  // ------------------------------------
 
   /**
    * Hook up lnd restful methods.
@@ -105,6 +145,7 @@ class Lightning {
    * Subscribe to all bi-directional streams.
    */
   subscribe(mainWindow: BrowserWindow) {
+    mainLog.info('Subscribing to Lightning gRPC streams')
     this.mainWindow = mainWindow
 
     this.subscriptions.channelGraph = subscribeToChannelGraph.call(this)
@@ -116,6 +157,7 @@ class Lightning {
    * Unsubscribe from all bi-directional streams.
    */
   unsubscribe() {
+    mainLog.info('Unsubscribing from Lightning gRPC streams')
     this.mainWindow = null
     Object.keys(this.subscriptions).forEach(subscription => {
       if (this.subscriptions[subscription]) {
@@ -125,5 +167,14 @@ class Lightning {
     })
   }
 }
+
+StateMachine.factory(Lightning, {
+  init: 'ready',
+  transitions: [
+    { name: 'connect', from: 'ready', to: 'connected' },
+    { name: 'disconnect', from: 'connected', to: 'ready' },
+    { name: 'terminate', from: 'connected', to: 'ready' }
+  ]
+})
 
 export default Lightning

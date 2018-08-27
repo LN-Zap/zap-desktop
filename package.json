@@ -258,6 +258,7 @@
     "lint-staged": "^7.2.0",
     "lnd-binary": "^0.3.5",
     "minimist": "^1.2.0",
+    "mock-spawn": "^0.2.6",
     "node-sass": "^4.9.0",
     "prettier": "^1.13.5",
     "react-addons-test-utils": "^15.6.2",
