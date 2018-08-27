@@ -30,7 +30,8 @@ const Wallet = ({
   setCurrency,
   setWalletCurrencyFilters,
   network,
-  settingsProps
+  settingsProps,
+  paymentTimeout
 }) => {
   const fiatAmount = btc.satoshisToFiat(
     parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
@@ -112,8 +113,11 @@ const Wallet = ({
           <div className={styles.notificationBox}>
             {showPayLoadingScreen && (
               <span>
-                <section className={`${styles.spinner} ${styles.icon}`} />
-                <section>Sending your transaction...</section>
+                <div className={styles.spinnerContainer}>
+                  <section className={`${styles.spinner} ${styles.icon}`} />
+                  <span className={styles.timeout}>{paymentTimeout / 1000}</span>
+                </div>
+                <section>Sending your transaction</section>
               </span>
             )}
             {showSuccessPayScreen && (
@@ -165,6 +169,7 @@ Wallet.propTypes = {
   settingsProps: PropTypes.object.isRequired,
   currentCurrencyFilters: PropTypes.array.isRequired,
   currencyName: PropTypes.string.isRequired,
+  paymentTimeout: PropTypes.number.isRequired,
   setCurrency: PropTypes.func.isRequired,
   setWalletCurrencyFilters: PropTypes.func.isRequired
 }
