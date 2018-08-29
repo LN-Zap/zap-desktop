@@ -21,7 +21,7 @@ export const walletUnlocker = lndConfig => {
   // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
   const options = {
     keepCase: true,
-    longs: String,
+    longs: Number,
     enums: String,
     defaults: true,
     oneofs: true
