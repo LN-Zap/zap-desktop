@@ -16,7 +16,7 @@ import Value from 'components/Value'
 import styles from './TransactionModal.scss'
 
 const TransactionModal = ({
-  transaction,
+  item: transaction,
   ticker,
   currentTicker,
   network,
@@ -107,7 +107,7 @@ const TransactionModal = ({
 )
 
 TransactionModal.propTypes = {
-  transaction: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
 

@@ -71,7 +71,11 @@ import { fetchDescribeNetwork } from 'reducers/network'
 
 import { clearError } from 'reducers/error'
 
-import { hideActivityModal, setActivityModalCurrencyFilters } from 'reducers/activity'
+import {
+  hideActivityModal,
+  setActivityModalCurrencyFilters,
+  activitySelectors
+} from 'reducers/activity'
 
 import App from '../components/App'
 
@@ -158,6 +162,8 @@ const mapStateToProps = state => ({
   error: state.error,
 
   network: state.network,
+
+  activityModalItem: activitySelectors.activityModalItem(state),
 
   currentTicker: tickerSelectors.currentTicker(state),
   currentCurrencyFilters: tickerSelectors.currentCurrencyFilters(state),
@@ -364,8 +370,10 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 
   const activityModalProps = {
-    modalType: stateProps.activity.modal.modalType,
-    modalProps: stateProps.activity.modal.modalProps,
+    itemType: stateProps.activity.modal.itemType,
+    itemId: stateProps.activity.modal.itemId,
+    item: stateProps.activityModalItem,
+
     ticker: stateProps.ticker,
     currentTicker: stateProps.currentTicker,
     network: stateProps.info.network,

@@ -20,7 +20,10 @@ const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, cur
   }
 
   return (
-    <div className={styles.container} onClick={() => showActivityModal('PAYMENT', { payment })}>
+    <div
+      className={styles.container}
+      onClick={() => showActivityModal('PAYMENT', payment.payment_hash)}
+    >
       <div className={styles.activityTypeIcon}>
         <section className="hint--bottom" data-hint="Lightning payment">
           <Isvg src={zap} />

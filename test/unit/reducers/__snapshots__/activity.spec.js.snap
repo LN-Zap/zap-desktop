@@ -1,0 +1,241 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers activityReducer should correctly changeFilter 1`] = `
+Object {
+  "filter": undefined,
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_ACTIVITY",
+      "name": "All",
+    },
+    Object {
+      "key": "SENT_ACTIVITY",
+      "name": "Sent",
+    },
+    Object {
+      "key": "REQUESTED_ACTIVITY",
+      "name": "Requested",
+    },
+    Object {
+      "key": "PENDING_ACTIVITY",
+      "name": "Pending",
+    },
+  ],
+  "modal": Object {
+    "itemId": null,
+    "itemType": null,
+    "showCurrencyFilters": false,
+  },
+  "searchActive": false,
+  "searchText": "",
+}
+`;
+
+exports[`reducers activityReducer should correctly hideActivityModal 1`] = `
+Object {
+  "filter": Object {
+    "key": "ALL_ACTIVITY",
+    "name": "All Activity",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_ACTIVITY",
+      "name": "All",
+    },
+    Object {
+      "key": "SENT_ACTIVITY",
+      "name": "Sent",
+    },
+    Object {
+      "key": "REQUESTED_ACTIVITY",
+      "name": "Requested",
+    },
+    Object {
+      "key": "PENDING_ACTIVITY",
+      "name": "Pending",
+    },
+  ],
+  "modal": Object {
+    "itemId": null,
+    "itemType": null,
+  },
+  "searchActive": false,
+  "searchText": "",
+}
+`;
+
+exports[`reducers activityReducer should correctly setActivityModalCurrencyFilters 1`] = `
+Object {
+  "filter": Object {
+    "key": "ALL_ACTIVITY",
+    "name": "All Activity",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_ACTIVITY",
+      "name": "All",
+    },
+    Object {
+      "key": "SENT_ACTIVITY",
+      "name": "Sent",
+    },
+    Object {
+      "key": "REQUESTED_ACTIVITY",
+      "name": "Requested",
+    },
+    Object {
+      "key": "PENDING_ACTIVITY",
+      "name": "Pending",
+    },
+  ],
+  "modal": Object {
+    "itemId": null,
+    "itemType": null,
+    "showCurrencyFilters": undefined,
+  },
+  "searchActive": false,
+  "searchText": "",
+}
+`;
+
+exports[`reducers activityReducer should correctly showActivityModal 1`] = `
+Object {
+  "filter": Object {
+    "key": "ALL_ACTIVITY",
+    "name": "All Activity",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_ACTIVITY",
+      "name": "All",
+    },
+    Object {
+      "key": "SENT_ACTIVITY",
+      "name": "Sent",
+    },
+    Object {
+      "key": "REQUESTED_ACTIVITY",
+      "name": "Requested",
+    },
+    Object {
+      "key": "PENDING_ACTIVITY",
+      "name": "Pending",
+    },
+  ],
+  "modal": Object {
+    "itemId": undefined,
+    "itemType": undefined,
+  },
+  "searchActive": false,
+  "searchText": "",
+}
+`;
+
+exports[`reducers activityReducer should correctly togglePulldown 1`] = `
+Object {
+  "filter": Object {
+    "key": "ALL_ACTIVITY",
+    "name": "All Activity",
+  },
+  "filterPulldown": true,
+  "filters": Array [
+    Object {
+      "key": "ALL_ACTIVITY",
+      "name": "All",
+    },
+    Object {
+      "key": "SENT_ACTIVITY",
+      "name": "Sent",
+    },
+    Object {
+      "key": "REQUESTED_ACTIVITY",
+      "name": "Requested",
+    },
+    Object {
+      "key": "PENDING_ACTIVITY",
+      "name": "Pending",
+    },
+  ],
+  "modal": Object {
+    "itemId": null,
+    "itemType": null,
+    "showCurrencyFilters": false,
+  },
+  "searchActive": false,
+  "searchText": "",
+}
+`;
+
+exports[`reducers activityReducer should correctly updateSearchActive 1`] = `
+Object {
+  "filter": Object {
+    "key": "ALL_ACTIVITY",
+    "name": "All Activity",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_ACTIVITY",
+      "name": "All",
+    },
+    Object {
+      "key": "SENT_ACTIVITY",
+      "name": "Sent",
+    },
+    Object {
+      "key": "REQUESTED_ACTIVITY",
+      "name": "Requested",
+    },
+    Object {
+      "key": "PENDING_ACTIVITY",
+      "name": "Pending",
+    },
+  ],
+  "modal": Object {
+    "itemId": null,
+    "itemType": null,
+    "showCurrencyFilters": false,
+  },
+  "searchActive": undefined,
+  "searchText": "",
+}
+`;
+
+exports[`reducers activityReducer should correctly updateSearchText 1`] = `
+Object {
+  "filter": Object {
+    "key": "ALL_ACTIVITY",
+    "name": "All Activity",
+  },
+  "filterPulldown": false,
+  "filters": Array [
+    Object {
+      "key": "ALL_ACTIVITY",
+      "name": "All",
+    },
+    Object {
+      "key": "SENT_ACTIVITY",
+      "name": "Sent",
+    },
+    Object {
+      "key": "REQUESTED_ACTIVITY",
+      "name": "Requested",
+    },
+    Object {
+      "key": "PENDING_ACTIVITY",
+      "name": "Pending",
+    },
+  ],
+  "modal": Object {
+    "itemId": null,
+    "itemType": null,
+    "showCurrencyFilters": false,
+  },
+  "searchActive": false,
+  "searchText": undefined,
+}
+`;

@@ -10,8 +10,8 @@ import InvoiceModal from './InvoiceModal'
 import styles from './ActivityModal.scss'
 
 const ActivityModal = ({
-  modalType,
-  modalProps,
+  itemType,
+  item,
   ticker,
   currentTicker,
   network,
@@ -25,11 +25,12 @@ const ActivityModal = ({
     INVOICE: InvoiceModal
   }
 
-  if (!modalType) {
+  if (!item) {
     return null
   }
 
-  const SpecificModal = MODAL_COMPONENTS[modalType]
+  const SpecificModal = MODAL_COMPONENTS[itemType]
+
   return (
     <div className={styles.container}>
       <div className={styles.closeContainer}>
@@ -38,7 +39,7 @@ const ActivityModal = ({
         </span>
       </div>
       <SpecificModal
-        {...modalProps}
+        item={item}
         network={network}
         ticker={ticker}
         currentTicker={currentTicker}
@@ -52,11 +53,9 @@ ActivityModal.propTypes = {
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   toggleCurrencyProps: PropTypes.object.isRequired,
-
   network: PropTypes.object.isRequired,
-
-  modalType: PropTypes.string,
-  modalProps: PropTypes.object.isRequired,
+  item: PropTypes.object,
+  itemType: PropTypes.string,
   hideActivityModal: PropTypes.func.isRequired
 }
 

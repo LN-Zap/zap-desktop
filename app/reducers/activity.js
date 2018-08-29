@@ -13,8 +13,8 @@ const initialState = {
     { key: 'PENDING_ACTIVITY', name: 'Pending' }
   ],
   modal: {
-    modalType: null,
-    modalProps: {},
+    itemType: null,
+    itemId: null,
     showCurrencyFilters: false
   },
   searchActive: false,
@@ -42,11 +42,11 @@ export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function showActivityModal(modalType, modalProps) {
+export function showActivityModal(itemType, itemId) {
   return {
     type: SHOW_ACTIVITY_MODAL,
-    modalType,
-    modalProps
+    itemType,
+    itemId
   }
 }
 
@@ -100,11 +100,11 @@ export function toggleExpiredRequests() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SHOW_ACTIVITY_MODAL]: (state, { modalType, modalProps }) => ({
+  [SHOW_ACTIVITY_MODAL]: (state, { itemType, itemId }) => ({
     ...state,
-    modal: { modalType, modalProps }
+    modal: { itemType, itemId }
   }),
-  [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { modalType: null, modalProps: {} } }),
+  [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { itemType: null, itemId: null } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
   [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
   [TOGGLE_EXPIRED_REQUESTS]: state => ({
@@ -115,8 +115,8 @@ const ACTION_HANDLERS = {
   [SET_ACTIVITY_MODAL_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
     ...state,
     modal: {
-      modalType: state.modal.modalType,
-      modalProps: state.modal.modalProps,
+      itemType: state.modal.itemType,
+      itemId: state.modal.itemId,
       showCurrencyFilters
     }
   }),
@@ -136,11 +136,33 @@ const showExpiredSelector = state => state.activity.showExpiredRequests
 const paymentsSelector = state => state.payment.payments
 const invoicesSelector = state => state.invoice.invoices
 const transactionsSelector = state => state.transaction.transactions
+const modalItemTypeSelector = state => state.activity.modal.itemType
+const modalItemIdSelector = state => state.activity.modal.itemId
 
 const invoiceExpired = invoice => {
   const expiresAt = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
   return expiresAt < Date.now() / 1000
 }
+
+activitySelectors.activityModalItem = createSelector(
+  paymentsSelector,
+  invoicesSelector,
+  transactionsSelector,
+  modalItemTypeSelector,
+  modalItemIdSelector,
+  (payments, invoices, transactions, itemType, itemId) => {
+    switch (itemType) {
+      case 'INVOICE':
+        return invoices.find(invoice => invoice.payment_request === itemId)
+      case 'TRANSACTION':
+        return transactions.find(transaction => transaction.tx_hash === itemId)
+      case 'PAYMENT':
+        return payments.find(payment => payment.payment_hash === itemId)
+      default:
+        return null
+    }
+  }
+)
 
 // helper function that returns invoice, payment or transaction timestamp
 function returnTimestamp(transaction) {

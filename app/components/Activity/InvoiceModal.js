@@ -15,7 +15,7 @@ import Countdown from './Countdown'
 import styles from './InvoiceModal.scss'
 
 const InvoiceModal = ({
-  invoice,
+  item: invoice,
   ticker,
   currentTicker,
 
@@ -83,6 +83,7 @@ const InvoiceModal = ({
                 <Moment format="MM/DD/YYYY">{invoice.creation_date * 1000}</Moment>
               </p>
               {!invoice.settled && <p className={styles.notPaid}>Not Paid</p>}
+              {invoice.settled && <p className={styles.paid}>Paid</p>}
             </section>
           </div>
 
@@ -107,7 +108,7 @@ const InvoiceModal = ({
 }
 
 InvoiceModal.propTypes = {
-  invoice: PropTypes.object.isRequired,
+  item: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   toggleCurrencyProps: PropTypes.object.isRequired
