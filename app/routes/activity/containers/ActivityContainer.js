@@ -9,6 +9,7 @@ import {
   hideActivityModal,
   changeFilter,
   toggleFilterPulldown,
+  toggleExpiredRequests,
   activitySelectors,
   updateSearchActive,
   updateSearchText
@@ -36,6 +37,7 @@ const mapDispatchToProps = {
   hideActivityModal,
   changeFilter,
   toggleFilterPulldown,
+  toggleExpiredRequests,
   walletAddress,
   openWalletModal,
   fetchBalance,
@@ -77,6 +79,7 @@ const mapStateToProps = state => ({
 
   currentActivity: activitySelectors.currentActivity(state)(state),
   nonActiveFilters: activitySelectors.nonActiveFilters(state),
+  showExpiredToggle: activitySelectors.showExpiredToggle(state),
 
   showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state)
 })

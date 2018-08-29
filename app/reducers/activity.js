@@ -18,7 +18,8 @@ const initialState = {
     showCurrencyFilters: false
   },
   searchActive: false,
-  searchText: ''
+  searchText: '',
+  showExpiredRequests: false
 }
 
 // ------------------------------------
@@ -30,6 +31,8 @@ export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 
 export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
+
+export const TOGGLE_EXPIRED_REQUESTS = 'TOGGLE_EXPIRED_REQUESTS'
 
 export const SET_ACTIVITY_MODAL_CURRENCY_FILTERS = 'SET_ACTIVITY_MODAL_CURRENCY_FILTERS'
 
@@ -87,6 +90,12 @@ export function setActivityModalCurrencyFilters(showCurrencyFilters) {
   }
 }
 
+export function toggleExpiredRequests() {
+  return {
+    type: TOGGLE_EXPIRED_REQUESTS
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -98,6 +107,10 @@ const ACTION_HANDLERS = {
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { modalType: null, modalProps: {} } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
   [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
+  [TOGGLE_EXPIRED_REQUESTS]: state => ({
+    ...state,
+    showExpiredRequests: !state.showExpiredRequests
+  }),
 
   [SET_ACTIVITY_MODAL_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
     ...state,
@@ -119,6 +132,7 @@ const activitySelectors = {}
 const filtersSelector = state => state.activity.filters
 const filterSelector = state => state.activity.filter
 const searchSelector = state => state.activity.searchText
+const showExpiredSelector = state => state.activity.showExpiredRequests
 const paymentsSelector = state => state.payment.payments
 const invoicesSelector = state => state.invoice.invoices
 const transactionsSelector = state => state.transaction.transactions
@@ -201,8 +215,13 @@ const allActivity = createSelector(
   paymentsSelector,
   invoicesSelector,
   transactionsSelector,
-  (searchText, payments, invoices, transactions) => {
-    const searchedArr = [...payments, ...invoices, ...transactions].filter(tx => {
+  showExpiredSelector,
+  (searchText, payments, invoices, transactions, showExpired) => {
+    const filteredInvoices = invoices.filter(
+      invoice => showExpired || invoice.settled || !invoiceExpired(invoice)
+    )
+
+    const searchedArr = [...payments, ...filteredInvoices, ...transactions].filter(tx => {
       if (
         (tx.tx_hash && tx.tx_hash.includes(searchText)) ||
         (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
@@ -222,7 +241,12 @@ const allActivity = createSelector(
   }
 )
 
-const invoiceActivity = createSelector(invoicesSelector, invoices => groupAll(invoices))
+const invoiceActivity = createSelector(
+  invoicesSelector,
+  showExpiredSelector,
+  (invoices, showExpired) =>
+    groupAll(invoices.filter(invoice => showExpired || invoice.settled || !invoiceExpired(invoice)))
+)
 
 const sentActivity = createSelector(
   transactionsSelector,
@@ -248,6 +272,11 @@ activitySelectors.nonActiveFilters = createSelector(
   filtersSelector,
   filterSelector,
   (filters, filter) => filters.filter(f => f.key !== filter.key)
+)
+
+activitySelectors.showExpiredToggle = createSelector(
+  filterSelector,
+  filter => filter.key === 'REQUESTED_ACTIVITY' || filter.key === 'ALL_ACTIVITY'
 )
 
 export { activitySelectors }
