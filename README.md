@@ -105,7 +105,7 @@ A good product not only has good software tests but also checks the quality of t
 ## Maintainers
 
 - [Jack Mallers (@JimmyMow)](https://github.com/JimmyMow)
-- [Ben Woosley (@Empact)](https://github.com/Empact)
+- [Tom Kirkpatrick (@mrfelton)](https://github.com/mrfelton)
 
 ## Contribute
 
