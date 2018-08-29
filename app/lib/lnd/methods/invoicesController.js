@@ -7,9 +7,9 @@ import pushinvoices from '../push/subscribeinvoice'
  * @param  value [description]
  * @return     [description]
  */
-export function addInvoice(lnd, { memo, value }) {
+export function addInvoice(lnd, { memo, value, private: privateInvoice }) {
   return new Promise((resolve, reject) => {
-    lnd.addInvoice({ memo, value }, (err, data) => {
+    lnd.addInvoice({ memo, value, private: privateInvoice }, (err, data) => {
       if (err) {
         return reject(err)
       }

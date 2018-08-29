@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { push } from 'react-router-redux'
+import Store from 'electron-store'
 
 import { showNotification } from 'lib/utils/notifications'
 import { btc } from 'lib/utils'
@@ -118,7 +119,18 @@ export const createInvoice = (amount, memo, currency) => dispatch => {
   const value = btc.convert(currency, 'sats', amount)
 
   dispatch(sendInvoice())
-  ipcRenderer.send('lnd', { msg: 'createInvoice', data: { value, memo } })
+
+  // Grab the activeConnection type from our local store. If the active connection type is local (light clients using
+  // neutrino) we will have to flag private as true when creating this invoice. All light cliets open private channels
+  // (both manual and autopilot ones). In order for these clients to receive money through these channels the invoices
+  // need to come with routing hints for private channels
+  const store = new Store({ name: 'settings' })
+  const { type } = store.get('activeConnection', {})
+
+  ipcRenderer.send('lnd', {
+    msg: 'createInvoice',
+    data: { value, memo, private: type === 'local' }
+  })
 }
 
 // Receive IPC event for newly created invoice
