@@ -101,6 +101,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     currentCurrencyFilters: stateProps.currentCurrencyFilters,
     currencyName: stateProps.currencyName,
     network: stateProps.info.network,
+    paymentTimeout: stateProps.payment.paymentTimeout,
 
     setCurrency: dispatchProps.setCurrency,
     setWalletCurrencyFilters: dispatchProps.setWalletCurrencyFilters,

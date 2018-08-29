@@ -15,6 +15,10 @@ export const RECEIVE_PAYMENTS = 'RECEIVE_PAYMENTS'
 
 export const SEND_PAYMENT = 'SEND_PAYMENT'
 
+export const TICK_TIMEOUT = 'TICK_TIMEOUT'
+export const SET_INTERVAL = 'SET_INTERVAL'
+export const RESET_TIMEOUT = 'RESET_TIMEOUT'
+
 export const PAYMENT_SUCCESSFULL = 'PAYMENT_SUCCESSFULL'
 export const PAYMENT_FAILED = 'PAYMENT_FAILED'
 
@@ -40,6 +44,25 @@ export function getPayments() {
 export function sendPayment() {
   return {
     type: SEND_PAYMENT
+  }
+}
+
+export function tickTimeout() {
+  return {
+    type: TICK_TIMEOUT
+  }
+}
+
+export function setPaymentInterval(paymentInterval) {
+  return {
+    type: SET_INTERVAL,
+    paymentInterval
+  }
+}
+
+export function resetTimeout() {
+  return {
+    type: RESET_TIMEOUT
   }
 }
 
@@ -96,21 +119,30 @@ export const paymentFailed = (event, { error }) => dispatch => {
   dispatch(setError(error))
 }
 
-export const payInvoice = paymentRequest => dispatch => {
+export const payInvoice = paymentRequest => (dispatch, getState) => {
   dispatch(sendPayment())
   ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
 
+  // Set an interval to call tick which will continuously tick down the ticker until the payment goes through or it hits
+  // 0 and throws an error. We also call setPaymentInterval so we are storing the interval. This allows us to clear the
+  // interval in flexible ways whenever we need to
+  const paymentInterval = setInterval(() => tick(dispatch, getState), 1000)
+  dispatch(setPaymentInterval(paymentInterval))
+
   // Close the form modal once the payment has been sent
   dispatch(setFormType(null))
+}
 
-  // if LND hangs on sending the payment we'll cut it after 10 seconds and return an error
-  // setTimeout(() => {
-  //   const { payment } = getState()
+// Tick checks if the payment is sending and checks the timeout every second. If the payment is still sending and the
+// timeout is above 0 it will continue to tick it down, once we hit 0 we fire an error to the user and reset the reducer
+const tick = (dispatch, getState) => {
+  const { payment } = getState()
 
-  //   if (payment.sendingPayment) {
-  //     dispatch(paymentFailed(null, { error: 'Shoot, we\'re having some trouble sending your payment.' }))
-  //   }
-  // }, 10000)
+  if (payment.sendingPayment && payment.paymentTimeout <= 0) {
+    dispatch(paymentFailed(null, { error: 'Shoot, there was some trouble sending your payment.' }))
+  } else {
+    dispatch(tickTimeout())
+  }
 }
 
 // ------------------------------------
@@ -121,9 +153,32 @@ const ACTION_HANDLERS = {
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
 
   [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
+
   [SEND_PAYMENT]: state => ({ ...state, sendingPayment: true }),
-  [PAYMENT_SUCCESSFULL]: state => ({ ...state, sendingPayment: false }),
-  [PAYMENT_FAILED]: state => ({ ...state, sendingPayment: false }),
+
+  [TICK_TIMEOUT]: state => ({ ...state, paymentTimeout: state.paymentTimeout - 1000 }),
+  [SET_INTERVAL]: (state, { paymentInterval }) => ({ ...state, paymentInterval }),
+
+  [PAYMENT_SUCCESSFULL]: state => {
+    clearInterval(state.paymentInterval)
+
+    return {
+      ...state,
+      sendingPayment: false,
+      paymentInterval: null,
+      paymentTimeout: 60000
+    }
+  },
+  [PAYMENT_FAILED]: state => {
+    clearInterval(state.paymentInterval)
+
+    return {
+      ...state,
+      sendingPayment: false,
+      paymentInterval: null,
+      paymentTimeout: 60000
+    }
+  },
 
   [SHOW_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: true }),
   [HIDE_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: false })
@@ -142,6 +197,8 @@ export { paymentSelectors }
 const initialState = {
   sendingPayment: false,
   paymentLoading: false,
+  paymentTimeout: 60000,
+  paymentInterval: null,
   payments: [],
   payment: null,
   showSuccessPayScreen: false
