@@ -43,8 +43,8 @@ const InvoiceModal = ({
             value={invoice.payment_request}
             renderAs="svg"
             size={150}
-            bgColor="transparent"
-            fgColor="white"
+            bgColor="white"
+            fgColor="#252832"
             level="L"
             className={styles.qrcode}
           />

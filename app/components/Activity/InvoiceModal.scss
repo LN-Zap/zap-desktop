@@ -16,13 +16,16 @@
   .left {
     width: 25%;
     padding: 0 60px;
+    text-align: center;
 
     h2 {
-      text-align: center;
       margin-bottom: 20px;
     }
 
     .qrcode {
+      border-style: solid;
+      border-color: white;
+      border-width: 2px;
       margin-bottom: 20px;
     }
   }

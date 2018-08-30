@@ -108,8 +108,8 @@ class Syncing extends Component {
                       value={address}
                       renderAs="svg"
                       size={100}
-                      bgColor="transparent"
-                      fgColor="white"
+                      bgColor="white"
+                      fgColor="#252832"
                       level="L"
                       className={styles.qrcode}
                     />
