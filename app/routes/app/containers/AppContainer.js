@@ -183,6 +183,7 @@ const mapStateToProps = state => ({
   showManualForm: contactFormSelectors.showManualForm(state),
   manualFormIsValid: contactFormSelectors.manualFormIsValid(state),
   contactFormFiatAmount: contactFormSelectors.contactFormFiatAmount(state),
+  dupeChanInfo: contactFormSelectors.dupeChanInfo(state),
 
   currentChannels: currentChannels(state),
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
@@ -408,6 +409,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     node: stateProps.contactsform.node,
     contactCapacity: stateProps.contactsform.contactCapacity,
     fiatTicker: stateProps.ticker.fiatTicker,
+    dupeChanInfo: stateProps.dupeChanInfo,
 
     updateContactCapacity: dispatchProps.updateContactCapacity,
 

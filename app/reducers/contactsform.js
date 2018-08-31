@@ -201,6 +201,8 @@ const manualSearchQuerySelector = state => state.contactsform.manualSearchQuery
 const contactCapacitySelector = state => state.contactsform.contactCapacity
 const currencySelector = state => state.ticker.currency
 const fiatTickerSelector = state => state.ticker.fiatTicker
+const nodeSelector = state => state.contactsform.node
+const channelsSelector = state => state.channels.channels
 
 const contactable = node => node.addresses.length > 0
 
@@ -282,6 +284,40 @@ contactFormSelectors.contactFormFiatAmount = createSelector(
     }
 
     return btc.convert(currency, 'fiat', amount, currentTicker[fiatTicker].last)
+  }
+)
+
+// compose warning info when a channel is being created with a node that
+// already has one or more active channels open
+contactFormSelectors.dupeChanInfo = createSelector(
+  channelsSelector,
+  nodeSelector,
+  networkNodesSelector,
+  currencySelector,
+  tickerSelectors.currencyName,
+  (activeChannels, newNode, allNodes, currency, currencyName) => {
+    const chans = activeChannels.filter(
+      chan => chan.active && chan.remote_pubkey === newNode.pub_key
+    )
+
+    if (!chans.length) {
+      return null
+    }
+
+    const node = allNodes.filter(node => node.pub_key === newNode.pub_key)[0]
+    // use the alias unless its the first 20 chars of the pub_key
+    const alias =
+      node && node.alias !== node.pub_key.substring(0, node.alias.length) ? node.alias : null
+
+    const totalSats = chans.reduce((agg, chan) => agg + parseInt(chan.capacity, 10), 0)
+    const capacity = parseFloat(btc.convert('sats', currency, totalSats))
+
+    return {
+      alias,
+      activeChannels: chans.length,
+      capacity,
+      currencyName
+    }
   }
 )
 
