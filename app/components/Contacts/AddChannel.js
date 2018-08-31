@@ -108,9 +108,9 @@ const AddChannel = ({
                   <h2>
                     <span>{node.alias.trim()}</span>
                     <span>
-                      ({node.pub_key.substr(0, 10)}...{node.pub_key.substr(
-                        node.pub_key.length - 10
-                      )})
+                      ({node.pub_key.substr(0, 10)}
+                      ...
+                      {node.pub_key.substr(node.pub_key.length - 10)})
                     </span>
                   </h2>
                 ) : (

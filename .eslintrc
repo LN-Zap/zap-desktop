@@ -39,6 +39,12 @@
         "allowChildren": false
       }
     ],
+    "jsx-a11y/label-has-associated-control": [
+      2,
+      {
+        "depth": 1
+      }
+    ],
     "react/no-array-index-key": 0,
     "react/forbid-prop-types": 0,
     "camelcase": 0,
