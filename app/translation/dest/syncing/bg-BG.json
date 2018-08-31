@@ -5,7 +5,7 @@
   "finalizing": "Финализиране…",
   "sync_title": "Добре дошъл отново в Zap портфейла!",
   "sync_description": "Моля, изчакайте известно време, докато ние зареждаме последните данни от blockchain.",
-  "fund_title": "Fund your Zap wallet",
-  "fund_description": "Might as well fund your wallet while you’re waiting to sync.",
-  "sync_caption": "Syncing to the blockchain"
+  "fund_title": "Внеси пари в Zap портфейла",
+  "fund_description": "Можете да внесете пари във вашия портфейл докато чакате синхронизирането.",
+  "sync_caption": "Синхронизиране с blockchain-a"
 }
