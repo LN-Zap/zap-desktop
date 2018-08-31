@@ -1,11 +1,11 @@
 {
   "title": "Моята мрежа",
   "empty_description": "Хмм, изглежда, че все още нямате отворени канали. Ето някои предложения за възли, към които да отворите канал за да започнете",
-  "search_form": "Търси в мрежата",
+  "search_form": "Търсене в мрежата",
   "open_channel": "Отвори канал",
   "open": "Отворени",
   "pending": "Чакащи",
   "closing": "Затварящи се",
-  "offline": "Offline",
-  "manual_description": "Hm, looks like we can&apos;t see that node from here, wanna try to manually connect?"
+  "offline": "Неактивни",
+  "manual_description": "Хм изглежда, че не можем да видим този възел от тук, искате ли да опитате да се свържете ръчно?"
 }
