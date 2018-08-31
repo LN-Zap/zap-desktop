@@ -1,8 +1,8 @@
 {
-  "all": "All",
-  "sent": "Sent",
-  "requested": "Requested",
-  "pending": "Pending",
-  "refresh": "Refresh",
-  "search": "Search"
+  "all": "Всички",
+  "sent": "Изпратени",
+  "requested": "Заявени",
+  "pending": "Чакащи",
+  "refresh": "Обновяване",
+  "search": "Търсене"
 }
