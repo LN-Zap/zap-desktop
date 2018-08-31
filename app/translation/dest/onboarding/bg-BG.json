@@ -31,5 +31,5 @@
   "verify_host_title": "Сигурни ли сте, че искате да се свържете към",
   "verify_host_description": "Моля, проверете името на хоста внимателно.",
   "btcpay_description": "Поставете цялото съдържание на вашия BTCPay Server connection конфигурационен файл. Той може да бъде намерен, като щракнете върху връзката наречена &quot;Click here to open the configuration file.&quot; в настройките на BTCPay Server gRPC.",
-  "btcpay_error": "Invalid connection string."
+  "btcpay_error": "Невалиден текст за свързване."
 }
