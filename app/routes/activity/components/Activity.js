@@ -90,7 +90,7 @@ class Activity extends Component {
       walletProps
     } = this.props
 
-    if (!balance.channelBalance || !balance.walletBalance) {
+    if (balance.channelBalance === null || balance.walletBalance === null) {
       return <LoadingBolt />
     }
 
