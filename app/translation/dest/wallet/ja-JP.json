@@ -1,7 +1,7 @@
 {
-  "pay": "Pay",
-  "request": "Request",
-  "sending_tx": "Sending your transaction…",
+  "pay": "支払う",
+  "request": "要求",
+  "sending_tx": "あなたのトランザクションを送信しています…",
   "payment_success": "Successfully sent payment",
   "transaction_success": "Successfully sent transaction"
 }
