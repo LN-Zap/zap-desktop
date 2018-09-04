@@ -35,8 +35,8 @@
   color: $white;
 
   .left {
-    width: 25%;
-    padding: 30px 40px;
+    width: 30%;
+    padding: 30px 30px;
 
     .header {
       h2 {
@@ -78,14 +78,14 @@
   }
 
   .right {
-    width: 75%;
+    width: 70%;
     min-height: 220px;
     border-left: 1px solid $spaceborder;
-    padding: 30px 40px;
+    padding: 30px 30px;
 
     .pubkey,
     .address {
-      padding: 25px;
+      padding: 25px 0;
 
       h4 {
         font-size: 12px;

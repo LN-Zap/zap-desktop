@@ -1,5 +1,6 @@
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
+import get from 'lodash.get'
 
 import { btc } from 'lib/utils'
 
@@ -397,7 +398,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const receiveModalProps = {
     isOpen: stateProps.address.walletModal,
     network: stateProps.info.network,
-    pubkey: stateProps.info.data.identity_pubkey,
+    pubkey: get(stateProps.info, 'data.uris[0]') || get(stateProps.info, 'data.identity_pubkey'),
     address: stateProps.address.address,
     alias: stateProps.info.data.alias,
     closeReceiveModal: dispatchProps.closeWalletModal
