@@ -9,5 +9,8 @@ module.exports = {
   },
   remote: jest.fn(),
   dialog: jest.fn(),
-  BrowserWindow: jest.fn()
+  BrowserWindow: jest.fn(),
+  ipcMain: {
+    on: jest.fn()
+  }
 }
