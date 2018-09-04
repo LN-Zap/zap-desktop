@@ -1,5 +1,5 @@
 {
-  "request_payment": "Request Payment",
+  "request_payment": "支払請求",
   "destination": "Destination",
   "amount": "Amount",
   "request_placeholder": "Paste payment request or bitcoin address here",
