@@ -4,8 +4,8 @@
   "preparing": "準備中…",
   "finalizing": "確定している…",
   "sync_title": "おかえりなさい、Zapウォレットへ！",
-  "sync_description": "Please wait a while whilst we fetch all of your latest data from the blockchain.",
-  "fund_title": "Fund your Zap wallet",
-  "fund_description": "Might as well fund your wallet while you’re waiting to sync.",
-  "sync_caption": "Syncing to the blockchain"
+  "sync_description": "ブロックチェーンからの最新データの全てを取得する間、しばらくお待ちください。",
+  "fund_title": "Zapウォレットの資金",
+  "fund_description": "待っている間、あなたの財布を資金も可能性があります同期します。",
+  "sync_caption": "ブロックチェーンに同期中"
 }
