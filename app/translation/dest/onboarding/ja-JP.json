@@ -28,8 +28,8 @@
   "hostname_description": "ホスト名とLnd gRPC インターフェイスのポート。例: localhost:10009",
   "macaroon_description": "Lndマカロン ファイルへのパス。例:/path/to/admin.macaroon",
   "cert_description": "Lnd tls証明書へのパス。例:/path/to/tls.cert",
-  "verify_host_title": "Are you sure you want to connect to",
-  "verify_host_description": "Please check the hostname carefully.",
-  "btcpay_description": "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled &quot;Click here to open the configuration file.&quot; in your BTCPay Server gRPC settings.",
-  "btcpay_error": "Invalid connection string."
+  "verify_host_title": "本当に接続したいのですか",
+  "verify_host_description": "ホスト名を慎重に確認してください。",
+  "btcpay_description": "BTCPay サーバー接続の構成ファイルの完全なコンテンツを貼り付けます。これで、リンクのタイトル &quot;設定ファイルを開くにはここをクリック、&quot; gRPC、BTCPayサーバーの設定、を見つけることができます。",
+  "btcpay_error": "無効な接続文字列です。"
 }
