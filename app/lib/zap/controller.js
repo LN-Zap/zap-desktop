@@ -284,6 +284,7 @@ class ZapController {
       this.sendMessage('lightningGrpcActive')
     } catch (err) {
       mainLog.warn('Unable to connect to Lighitnng gRPC interface: %o', err)
+      throw err
     }
   }
 
