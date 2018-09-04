@@ -76,9 +76,10 @@ class ReceiveModal extends React.Component {
                 value={qrCodeType === 1 ? pubkey : address}
                 renderAs="svg"
                 size={150}
-                bgColor="transparent"
-                fgColor="white"
+                bgColor="white"
+                fgColor="#252832"
                 level="L"
+                className={styles.qrcode}
               />
             </div>
           </section>
