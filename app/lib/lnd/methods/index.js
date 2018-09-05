@@ -28,7 +28,7 @@ export default function(lnd, log, event, msg, data) {
           event.sender.send('receiveCryptocurrency', infoData.chains[0])
           return infoData
         })
-        .catch(() => event.sender.send('infoFailed'))
+        .catch(error => log.error('info:', error))
       break
     case 'describeNetwork':
       networkController
