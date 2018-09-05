@@ -14,16 +14,10 @@ import styles from './Pay.scss'
 class Pay extends Component {
   componentDidUpdate(prevProps) {
     const {
-      isOnchain,
       isLn,
       payform: { payInput },
       fetchInvoice
     } = this.props
-
-    // If on-chain, focus on amount to let user know it's editable
-    if (isOnchain) {
-      this.amountInput.focus()
-    }
 
     // If LN go retrieve invoice details
     if (prevProps.payform.payInput !== payInput && isLn) {
