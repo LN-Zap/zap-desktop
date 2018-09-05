@@ -25,12 +25,12 @@ export function btcToBits(btc) {
 
 export function btcToFiat(btc, price) {
   const amount = parseFloat(btc * price).toFixed(2)
-  return (btc > 0 && amount <= 0) ? '< 0.01' : numberWithCommas(amount)
+  return btc > 0 && amount <= 0 ? '< 0.01' : numberWithCommas(amount)
 }
 
 ////////////////////////////
 // bits to things /////////
-////////////////////////// 
+//////////////////////////
 
 export function bitsToBtc(bits, price) {
   if (bits === undefined || bits === null || bits === '') return null
@@ -41,7 +41,7 @@ export function bitsToBtc(bits, price) {
 
 export function bitsToSatoshis(bits, price) {
   if (bits === undefined || bits === null || bits === '') return null
-  
+
   return bits * 100
 }
 
@@ -54,7 +54,7 @@ export function bitsToFiat(bits, price) {
 
 ////////////////////////////
 // satoshis to things /////
-////////////////////////// 
+//////////////////////////
 
 export function satoshisToBtc(satoshis) {
   if (satoshis === undefined || satoshis === null || satoshis === '') return null
@@ -76,17 +76,6 @@ export function satoshisToFiat(satoshis, price) {
   return btcToFiat(satoshisToBtc(satoshis), price)
 }
 
-////////////////////////////////
-// millisatoshis to satoshis //
-////////////////////////////// 
-
-export function millisatoshisToSatoshis(millisatoshis) {
-  if (millisatoshis === undefined || millisatoshis === null || millisatoshis === '') return null
-
-  return Math.round(millisatoshis / 1000)
-}
-
-
 export function renderCurrency(currency) {
   switch (currency) {
     case 'btc':
@@ -97,7 +86,7 @@ export function renderCurrency(currency) {
       return 'satoshis'
     default:
       return 'satoshis'
-  }  
+  }
 }
 
 export function convert(from, to, amount, price) {
@@ -155,8 +144,6 @@ export default {
   satoshisToBtc,
   satoshisToBits,
   satoshisToFiat,
-
-  millisatoshisToSatoshis,
 
   renderCurrency,
 
