@@ -320,6 +320,7 @@ export const unlockWallet = wallet_password => dispatch => {
 export const walletUnlocked = () => dispatch => {
   dispatch({ type: WALLET_UNLOCKED })
   dispatch({ type: ONBOARDING_FINISHED })
+  ipcRenderer.send('startLightningWallet')
 }
 
 export const unlockWalletError = () => dispatch => {
