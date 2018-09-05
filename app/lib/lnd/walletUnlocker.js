@@ -74,8 +74,9 @@ class WalletUnlocker {
 
       // Wait for the gRPC connection to be established.
       return new Promise((resolve, reject) => {
-        grpc.waitForClientReady(this.service, getDeadline(2), err => {
+        this.service.waitForReady(getDeadline(2), err => {
           if (err) {
+            this.service.close()
             return reject(err)
           }
           return resolve()
