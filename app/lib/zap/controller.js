@@ -147,8 +147,8 @@ class ZapController {
     this.sendMessage('startOnboarding', this.lndConfig)
   }
 
-  onStartLnd() {
-    mainLog.debug('[FSM] onStartLnd...')
+  onBeforeStartLnd() {
+    mainLog.debug('[FSM] onBeforeStartLnd...')
 
     return isLndRunning().then(res => {
       if (res) {
@@ -168,8 +168,8 @@ class ZapController {
     })
   }
 
-  onConnectLnd() {
-    mainLog.debug('[FSM] onConnectLnd...')
+  onBeforeConnectLnd() {
+    mainLog.debug('[FSM] onBeforeConnectLnd...')
     mainLog.info('Connecting to custom lnd instance')
     mainLog.info(' > host:', this.lndConfig.host)
     mainLog.info(' > cert:', this.lndConfig.cert)
@@ -197,7 +197,8 @@ class ZapController {
         }
 
         // Notify the app of errors.
-        return this.sendMessage('startLndError', errors)
+        this.sendMessage('startLndError', errors)
+        throw e
       })
   }
 
