@@ -25,7 +25,7 @@ type LightningSubscriptionsType = {
  */
 class Lightning {
   mainWindow: BrowserWindow
-  lnd: any
+  service: any
   lndConfig: LndConfig
   subscriptions: LightningSubscriptionsType
   _fsm: StateMachine
@@ -40,7 +40,7 @@ class Lightning {
 
   constructor(lndConfig: LndConfig) {
     this.mainWindow = null
-    this.lnd = null
+    this.service = null
     this.lndConfig = lndConfig
     this.subscriptions = {
       channelGraph: null,
@@ -89,11 +89,11 @@ class Lightning {
       const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 
       // Create a new gRPC client instance.
-      this.lnd = new rpc.lnrpc.Lightning(host, credentials)
+      this.service = new rpc.lnrpc.Lightning(host, credentials)
 
       // Wait for the gRPC connection to be established.
       return new Promise((resolve, reject) => {
-        grpc.waitForClientReady(this.lnd, getDeadline(2), err => {
+        grpc.waitForClientReady(this.service, getDeadline(2), err => {
           if (err) {
             return reject(err)
           }
@@ -109,8 +109,8 @@ class Lightning {
   onBeforeDisconnect() {
     mainLog.info('Disconnecting from Lightning gRPC service')
     this.unsubscribe()
-    if (this.lnd) {
-      this.lnd.close()
+    if (this.service) {
+      this.service.close()
     }
   }
 
@@ -121,7 +121,7 @@ class Lightning {
     mainLog.info('Shutting down Lightning daemon')
     this.unsubscribe()
     return new Promise((resolve, reject) => {
-      this.lnd.stopDaemon({}, (err, data) => {
+      this.service.stopDaemon({}, (err, data) => {
         if (err) {
           return reject(err)
         }
@@ -137,8 +137,8 @@ class Lightning {
   /**
    * Hook up lnd restful methods.
    */
-  lndMethods(event: Event, msg: string, data: any) {
-    return methods(this.lnd, mainLog, event, msg, data)
+  registerMethods(event: Event, msg: string, data: any) {
+    return methods(this.service, mainLog, event, msg, data)
   }
 
   /**

@@ -2,7 +2,7 @@ import { status } from 'grpc'
 import { mainLog } from '../../utils/log'
 
 export default function subscribeToInvoices() {
-  const call = this.lnd.subscribeInvoices({})
+  const call = this.service.subscribeInvoices({})
 
   call.on('data', invoice => {
     mainLog.info('INVOICE:', invoice)
