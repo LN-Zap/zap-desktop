@@ -386,7 +386,7 @@ class ZapController {
         const shutdownTimeout = setTimeout(() => {
           this.neutrino.removeListener('close', closeHandler)
           if (this.neutrino) {
-            mainLog.warn('Graceful shutdown failed to complete within 30 seconds.')
+            mainLog.warn('Graceful shutdown failed to complete within 10 seconds.')
             this.neutrino.kill()
             resolve()
           }

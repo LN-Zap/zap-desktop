@@ -40,10 +40,7 @@ export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 
 // Decorate invoice object with custom/computed properties.
 const decorateInvoice = invoice => {
-  invoice.finalAmount = invoice.value
-  if (invoice.amt_paid) {
-    invoice.finalAmount = btc.millisatoshisToSatoshis(invoice.amt_paid)
-  }
+  invoice.finalAmount = invoice.amt_paid ? invoice.amt_paid : invoice.value
   return invoice
 }
 

@@ -1,4 +1,4 @@
-// Imported from https://github.com/lightningnetwork/lnd/blob/26f68da5b2883885fcf6a8e79b3fc9bb12cc9eef/lnrpc/rpc.proto
+// Imported from https://github.com/lightningnetwork/lnd/blob/baee07ef480c15a731e0c87dc98d27269c5a80fa/lnrpc/rpc.proto
 syntax = "proto3";
 
 // import "google/api/annotations.proto";
@@ -23,7 +23,7 @@ package lnrpc;
  * 
  * More information on how exactly the gRPC documentation is generated from
  * this proto file can be found here:
- * https://github.com/MaxFangX/lightning-api
+ * https://github.com/lightninglabs/lightning-api
  */
 
 // The WalletUnlocker service is used to set up a wallet password for
