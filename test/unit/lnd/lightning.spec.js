@@ -15,7 +15,7 @@ describe('Lightning', function() {
         expect(this.lightning.mainWindow).toBeNull()
       })
       it('should set the "lnd" property to null', () => {
-        expect(this.lightning.lnd).toBeNull()
+        expect(this.lightning.service).toBeNull()
       })
       it('should initialise the "subscriptions" object with null values', () => {
         expect(this.lightning.subscriptions).toMatchObject({

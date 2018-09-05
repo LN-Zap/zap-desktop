@@ -72,8 +72,6 @@ const networks = {
     unitPrefix: ''
   }
 }
-// IPC info fetch failed
-// export const infoFailed = (event, data) => dispatch => {}
 
 // ------------------------------------
 // Action Handlers

@@ -4,12 +4,13 @@ import { app, ipcMain, dialog, BrowserWindow } from 'electron'
 import pick from 'lodash.pick'
 import Store from 'electron-store'
 import StateMachine from 'javascript-state-machine'
+import { mainLog } from '../utils/log'
+import { isLndRunning } from '../lnd/util'
+
 import LndConfig from '../lnd/config'
 import Lightning from '../lnd/lightning'
 import Neutrino from '../lnd/neutrino'
-import { initWalletUnlocker } from '../lnd/walletUnlocker'
-import { mainLog } from '../utils/log'
-import { isLndRunning } from '../lnd/util'
+import WalletUnlocker from '../lnd/walletUnlocker'
 
 type onboardingOptions = {
   type: 'local' | 'custom' | 'btcpayserver',
@@ -53,6 +54,7 @@ class ZapController {
   mainWindow: BrowserWindow
   neutrino: Neutrino
   lightning: Lightning
+  walletUnlocker: WalletUnlocker
   splashScreenTime: number
   lndConfig: LndConfig
   _fsm: StateMachine
@@ -191,6 +193,16 @@ class ZapController {
         else if (e.code === 'LND_GRPC_MACAROON_ERROR') {
           errors.macaroon = e.message
         }
+
+        // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
+        // verify that it is accessible. If it is not, an error 12 is throw whcih is the gRPC code for `UNIMPLEMENTED`
+        // which indicates that the requested operation is not implemented or not supported/enabled in the service.
+        // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
+        if (e.code === 12) {
+          errors.host =
+            'Unable to connect to host. Please ensure wallet is unlocked before connecting.'
+        }
+
         // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
         else {
           errors.host = `Unable to connect to host: ${e.details || e.message}`
@@ -244,24 +256,24 @@ class ZapController {
   /**
    * Start the wallet unlocker.
    */
-  startWalletUnlocker() {
+  async startWalletUnlocker() {
     mainLog.info('Establishing connection to Wallet Unlocker gRPC interface...')
-    try {
-      const walletUnlockerMethods = initWalletUnlocker(this.lndConfig)
+    this.walletUnlocker = new WalletUnlocker(this.lndConfig)
 
-      // Listen for all gRPC restful methods
-      ipcMain.on('walletUnlocker', (event, { msg, data }) => {
-        walletUnlockerMethods(event, msg, data)
-      })
+    // Connect to the WalletUnlocker interface.
+    try {
+      await this.walletUnlocker.connect()
+
+      // Listen for all gRPC restful methods and pass to gRPC.
+      ipcMain.on('walletUnlocker', (event, { msg, data }) =>
+        this.walletUnlocker.registerMethods(event, msg, data)
+      )
 
       // Notify the renderer that the wallet unlocker is active.
       this.sendMessage('walletUnlockerGrpcActive')
-    } catch (error) {
-      dialog.showMessageBox({
-        type: 'error',
-        message: `Unable to start lnd wallet unlocker. Please check your lnd node and try again: ${error}`
-      })
-      app.quit()
+    } catch (err) {
+      mainLog.warn('Unable to connect to WalletUnlocker gRPC interface: %o', err)
+      throw err
     }
   }
 
@@ -279,7 +291,7 @@ class ZapController {
       this.lightning.subscribe(this.mainWindow)
 
       // Listen for all gRPC restful methods and pass to gRPC.
-      ipcMain.on('lnd', (event, { msg, data }) => this.lightning.lndMethods(event, msg, data))
+      ipcMain.on('lnd', (event, { msg, data }) => this.lightning.registerMethods(event, msg, data))
 
       // Let the renderer know that we are connected.
       this.sendMessage('lightningGrpcActive')

@@ -2,7 +2,7 @@ import { status } from 'grpc'
 import { mainLog } from '../../utils/log'
 
 export default function subscribeToTransactions() {
-  const call = this.lnd.subscribeTransactions({})
+  const call = this.service.subscribeTransactions({})
 
   call.on('data', transaction => {
     mainLog.info('TRANSACTION:', transaction)

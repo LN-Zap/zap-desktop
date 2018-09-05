@@ -2,7 +2,7 @@ import { status } from 'grpc'
 import { mainLog } from '../../utils/log'
 
 export default function subscribeToChannelGraph() {
-  const call = this.lnd.subscribeChannelGraph({})
+  const call = this.service.subscribeChannelGraph({})
 
   call.on('data', channelGraphData => {
     mainLog.info('CHANNELGRAPH:', channelGraphData)

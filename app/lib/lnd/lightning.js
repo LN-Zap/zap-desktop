@@ -11,6 +11,7 @@ import { mainLog } from '../utils/log'
 import subscribeToTransactions from './subscribe/transactions'
 import subscribeToInvoices from './subscribe/invoices'
 import subscribeToChannelGraph from './subscribe/channelgraph'
+import { getInfo } from './methods/networkController'
 
 // Type definition for subscriptions property.
 type LightningSubscriptionsType = {
@@ -25,7 +26,7 @@ type LightningSubscriptionsType = {
  */
 class Lightning {
   mainWindow: BrowserWindow
-  lnd: any
+  service: any
   lndConfig: LndConfig
   subscriptions: LightningSubscriptionsType
   _fsm: StateMachine
@@ -40,7 +41,7 @@ class Lightning {
 
   constructor(lndConfig: LndConfig) {
     this.mainWindow = null
-    this.lnd = null
+    this.service = null
     this.lndConfig = lndConfig
     this.subscriptions = {
       channelGraph: null,
@@ -65,42 +66,48 @@ class Lightning {
     const { rpcProtoPath, host, cert, macaroon } = this.lndConfig
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
-    return await validateHost(host).then(async () => {
-      // Load the gRPC proto file.
-      // The following options object closely approximates the existing behavior of grpc.load.
-      // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
-      const options = {
-        keepCase: true,
-        longs: Number,
-        enums: String,
-        defaults: true,
-        oneofs: true
-      }
-      const packageDefinition = loadSync(rpcProtoPath, options)
+    return validateHost(host)
+      .then(async () => {
+        // Load the gRPC proto file.
+        // The following options object closely approximates the existing behavior of grpc.load.
+        // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
+        const options = {
+          keepCase: true,
+          longs: Number,
+          enums: String,
+          defaults: true,
+          oneofs: true
+        }
+        const packageDefinition = loadSync(rpcProtoPath, options)
 
-      // Load gRPC package definition as a gRPC object hierarchy.
-      const rpc = grpc.loadPackageDefinition(packageDefinition)
+        // Load gRPC package definition as a gRPC object hierarchy.
+        const rpc = grpc.loadPackageDefinition(packageDefinition)
 
-      // Create ssl and macaroon credentials to use with the gRPC client.
-      const [sslCreds, macaroonCreds] = await Promise.all([
-        createSslCreds(cert),
-        createMacaroonCreds(macaroon)
-      ])
-      const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
+        // Create ssl and macaroon credentials to use with the gRPC client.
+        const [sslCreds, macaroonCreds] = await Promise.all([
+          createSslCreds(cert),
+          createMacaroonCreds(macaroon)
+        ])
+        const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 
-      // Create a new gRPC client instance.
-      this.lnd = new rpc.lnrpc.Lightning(host, credentials)
+        // Create a new gRPC client instance.
+        this.service = new rpc.lnrpc.Lightning(host, credentials)
 
-      // Wait for the gRPC connection to be established.
-      return new Promise((resolve, reject) => {
-        grpc.waitForClientReady(this.lnd, getDeadline(2), err => {
-          if (err) {
-            return reject(err)
-          }
-          return resolve()
+        // Wait for the gRPC connection to be established.
+        return new Promise((resolve, reject) => {
+          this.service.waitForReady(getDeadline(5), err => {
+            if (err) {
+              return reject(err)
+            }
+            return resolve()
+          })
         })
       })
-    })
+      .then(() => getInfo(this.service))
+      .catch(err => {
+        this.service.close()
+        throw err
+      })
   }
 
   /**
@@ -109,8 +116,8 @@ class Lightning {
   onBeforeDisconnect() {
     mainLog.info('Disconnecting from Lightning gRPC service')
     this.unsubscribe()
-    if (this.lnd) {
-      this.lnd.close()
+    if (this.service) {
+      this.service.close()
     }
   }
 
@@ -121,7 +128,7 @@ class Lightning {
     mainLog.info('Shutting down Lightning daemon')
     this.unsubscribe()
     return new Promise((resolve, reject) => {
-      this.lnd.stopDaemon({}, (err, data) => {
+      this.service.stopDaemon({}, (err, data) => {
         if (err) {
           return reject(err)
         }
@@ -137,8 +144,8 @@ class Lightning {
   /**
    * Hook up lnd restful methods.
    */
-  lndMethods(event: Event, msg: string, data: any) {
-    return methods(this.lnd, mainLog, event, msg, data)
+  registerMethods(event: Event, msg: string, data: any) {
+    return methods(this.service, mainLog, event, msg, data)
   }
 
   /**
