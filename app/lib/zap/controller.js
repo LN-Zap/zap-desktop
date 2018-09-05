@@ -199,8 +199,7 @@ class ZapController {
         // which indicates that the requested operation is not implemented or not supported/enabled in the service.
         // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
         if (e.code === 12) {
-          errors.host =
-            'Unable to connect to host. Please ensure wallet is unlocked before connecting.'
+          return this.startWalletUnlocker()
         }
 
         // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
@@ -336,11 +335,6 @@ class ZapController {
       this.startWalletUnlocker()
     })
 
-    this.neutrino.on('lightning-grpc-active', () => {
-      mainLog.info('Lightning gRPC active')
-      this.startLightningWallet()
-    })
-
     this.neutrino.on('chain-sync-waiting', () => {
       mainLog.info('Neutrino sync waiting')
       this.sendMessage('lndSyncStatus', 'waiting')
@@ -467,6 +461,7 @@ class ZapController {
    */
   _registerIpcListeners() {
     ipcMain.on('startLnd', (event, options: onboardingOptions) => this.finishOnboarding(options))
+    ipcMain.on('startLightningWallet', () => this.startLightningWallet())
   }
 
   /**
@@ -474,6 +469,7 @@ class ZapController {
    */
   _removeIpcListeners() {
     ipcMain.removeAllListeners('startLnd')
+    ipcMain.removeAllListeners('startLightningWallet')
     ipcMain.removeAllListeners('walletUnlocker')
     ipcMain.removeAllListeners('lnd')
   }

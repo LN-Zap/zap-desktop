@@ -159,16 +159,16 @@ const Onboarding = ({
           </FormContainer>
         )
       case 3:
+        // eslint-disable-next-line no-case-declarations
+        let message = 'It looks like you already have a wallet'
+        if (initWalletProps.loginProps.existingWalletDir && connectionType === 'local') {
+          message += ` (we found one at ${initWalletProps.loginProps.existingWalletDir})`
+        } else {
+          message += ` at ${connectionHost.split(':')[0]}`
+        }
+        message += '. Please enter your wallet password to unlock it.'
         return (
-          <FormContainer
-            title="Welcome back!"
-            description={`It looks like you already have a wallet
-              ${Boolean(initWalletProps.loginProps.existingWalletDir) &&
-                `(we found one at \`${initWalletProps.loginProps.existingWalletDir}\`)`}.
-            Please enter your wallet password to unlock it.`}
-            back={null}
-            next={null}
-          >
+          <FormContainer title="Welcome back!" description={`${message}`} back={null} next={null}>
             <Login {...initWalletProps.loginProps} />
           </FormContainer>
         )
