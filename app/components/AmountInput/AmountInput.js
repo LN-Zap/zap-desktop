@@ -7,6 +7,7 @@ class AmountInput extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleBlur = this.handleBlur.bind(this)
     this.handleKeyDown = this.handleKeyDown.bind(this)
+    this.textInput = React.createRef()
   }
 
   setRules() {
@@ -39,6 +40,10 @@ class AmountInput extends React.Component {
           pattern: '[0-9]*'
         }
     }
+  }
+
+  focusTextInput() {
+    this.textInput.current.focus()
   }
 
   parseNumber(_value) {
@@ -143,6 +148,7 @@ class AmountInput extends React.Component {
         onBlur={this.handleBlur}
         onKeyDown={this.handleKeyDown}
         readOnly={readOnly}
+        ref={this.textInput}
         type="text"
         required
         value={amount}
