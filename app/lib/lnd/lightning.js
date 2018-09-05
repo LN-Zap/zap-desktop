@@ -11,6 +11,7 @@ import { mainLog } from '../utils/log'
 import subscribeToTransactions from './subscribe/transactions'
 import subscribeToInvoices from './subscribe/invoices'
 import subscribeToChannelGraph from './subscribe/channelgraph'
+import { getInfo } from './methods/networkController'
 
 // Type definition for subscriptions property.
 type LightningSubscriptionsType = {
@@ -65,43 +66,48 @@ class Lightning {
     const { rpcProtoPath, host, cert, macaroon } = this.lndConfig
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
-    return await validateHost(host).then(async () => {
-      // Load the gRPC proto file.
-      // The following options object closely approximates the existing behavior of grpc.load.
-      // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
-      const options = {
-        keepCase: true,
-        longs: Number,
-        enums: String,
-        defaults: true,
-        oneofs: true
-      }
-      const packageDefinition = loadSync(rpcProtoPath, options)
+    return validateHost(host)
+      .then(async () => {
+        // Load the gRPC proto file.
+        // The following options object closely approximates the existing behavior of grpc.load.
+        // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
+        const options = {
+          keepCase: true,
+          longs: Number,
+          enums: String,
+          defaults: true,
+          oneofs: true
+        }
+        const packageDefinition = loadSync(rpcProtoPath, options)
 
-      // Load gRPC package definition as a gRPC object hierarchy.
-      const rpc = grpc.loadPackageDefinition(packageDefinition)
+        // Load gRPC package definition as a gRPC object hierarchy.
+        const rpc = grpc.loadPackageDefinition(packageDefinition)
 
-      // Create ssl and macaroon credentials to use with the gRPC client.
-      const [sslCreds, macaroonCreds] = await Promise.all([
-        createSslCreds(cert),
-        createMacaroonCreds(macaroon)
-      ])
-      const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
+        // Create ssl and macaroon credentials to use with the gRPC client.
+        const [sslCreds, macaroonCreds] = await Promise.all([
+          createSslCreds(cert),
+          createMacaroonCreds(macaroon)
+        ])
+        const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 
-      // Create a new gRPC client instance.
-      this.service = new rpc.lnrpc.Lightning(host, credentials)
+        // Create a new gRPC client instance.
+        this.service = new rpc.lnrpc.Lightning(host, credentials)
 
-      // Wait for the gRPC connection to be established.
-      return new Promise((resolve, reject) => {
-        this.service.waitForReady(getDeadline(2), err => {
-          if (err) {
-            this.service.close()
-            return reject(err)
-          }
-          return resolve()
+        // Wait for the gRPC connection to be established.
+        return new Promise((resolve, reject) => {
+          this.service.waitForReady(getDeadline(5), err => {
+            if (err) {
+              return reject(err)
+            }
+            return resolve()
+          })
         })
       })
-    })
+      .then(() => getInfo(this.service))
+      .catch(err => {
+        this.service.close()
+        throw err
+      })
   }
 
   /**

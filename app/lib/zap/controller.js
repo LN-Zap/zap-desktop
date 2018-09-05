@@ -193,6 +193,16 @@ class ZapController {
         else if (e.code === 'LND_GRPC_MACAROON_ERROR') {
           errors.macaroon = e.message
         }
+
+        // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
+        // verify that it is accessible. If it is not, an error 12 is throw whcih is the gRPC code for `UNIMPLEMENTED`
+        // which indicates that the requested operation is not implemented or not supported/enabled in the service.
+        // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
+        if (e.code === 12) {
+          errors.host =
+            'Unable to connect to host. Please ensure wallet is unlocked before connecting.'
+        }
+
         // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
         else {
           errors.host = `Unable to connect to host: ${e.details || e.message}`
