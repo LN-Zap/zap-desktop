@@ -46,6 +46,10 @@ class AmountInput extends React.Component {
     this.textInput.current.focus()
   }
 
+  clearTextInput() {
+    this.textInput.current.value = ''
+  }
+
   parseNumber(_value) {
     let value = _value || ''
     if (typeof _value === 'string') {
