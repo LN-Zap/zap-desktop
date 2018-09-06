@@ -1,8 +1,8 @@
 {
-  "all": "",
-  "sent": "",
-  "requested": "",
-  "pending": "",
-  "refresh": "",
-  "search": ""
+  "all": "All",
+  "sent": "Sent",
+  "requested": "Requested",
+  "pending": "Pending",
+  "refresh": "Refresh",
+  "search": "Search"
 }
