@@ -1,0 +1,6 @@
+{
+  "title": "Handmatig verbinding maken",
+  "description": "Vul de pubkey@host van een gebruiker in",
+  "placeholder": "pubkey@host",
+  "submit": "Verstuur"
+}
