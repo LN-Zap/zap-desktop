@@ -166,7 +166,7 @@ class ZapController {
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
 
     return this.startLightningWallet()
-      .then(() => this.sendMessage('finishOnboarding'))
+      .then(() => this.sendMessage('walletConnected'))
       .catch(e => {
         const errors = {}
         // There was a problem connectig to the host.

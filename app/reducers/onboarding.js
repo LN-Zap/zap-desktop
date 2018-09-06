@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import get from 'lodash.get'
+import { fetchInfo } from './info'
 
 // ------------------------------------
 // Constants
@@ -178,19 +179,25 @@ export function changeStep(step) {
   }
 }
 
-export function setStartLndError(errors) {
-  return {
-    type: SET_START_LND_ERROR,
-    errors
-  }
-}
-
 export function startLnd(options) {
   // once the user submits the data needed to start LND we will alert the app that it should start LND
   ipcRenderer.send('startLnd', options)
 
   return {
     type: STARTING_LND
+  }
+}
+
+export function lndStarted() {
+  return {
+    type: LND_STARTED
+  }
+}
+
+export function setStartLndError(errors) {
+  return {
+    type: SET_START_LND_ERROR,
+    errors
   }
 }
 
@@ -214,6 +221,25 @@ export function setReEnterSeedIndexes() {
     type: SET_RE_ENTER_SEED_INDEXES,
     seedIndexesArr
   }
+}
+
+/**
+ * As soon as we have an active connection to a WalletUnlocker service, attempt to generate a new seed which kicks off
+ * the process of creating or unlocking a wallet.
+ */
+export const lndWalletUnlockerStarted = () => dispatch => {
+  dispatch(lndStarted())
+  ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
+  dispatch({ type: FETCH_SEED })
+}
+
+/**
+ * As soon as we have an active connection to an unlocked wallet, fetch the wallet info so that we have the key data as
+ * early as possible.
+ */
+export const lndWalletStarted = () => dispatch => {
+  dispatch(lndStarted())
+  dispatch(fetchInfo())
 }
 
 export const submitNewWallet = (
@@ -279,13 +305,6 @@ export const startLndError = (event, errors) => (dispatch, getState) => {
   }
 }
 
-// Listener from after the LND walletUnlocker has started
-export const walletUnlockerGrpcActive = () => dispatch => {
-  dispatch({ type: LND_STARTED })
-  ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
-  dispatch({ type: FETCH_SEED })
-}
-
 export const createWallet = () => dispatch => {
   ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
   dispatch({ type: CHANGE_STEP, step: 4 })
@@ -317,10 +336,21 @@ export const unlockWallet = wallet_password => dispatch => {
   dispatch({ type: UNLOCKING_WALLET })
 }
 
+export const walletCreated = () => dispatch => {
+  dispatch({ type: WALLET_UNLOCKED })
+  dispatch({ type: ONBOARDING_FINISHED })
+  ipcRenderer.send('startLightningWallet')
+}
+
 export const walletUnlocked = () => dispatch => {
   dispatch({ type: WALLET_UNLOCKED })
   dispatch({ type: ONBOARDING_FINISHED })
   ipcRenderer.send('startLightningWallet')
+}
+
+export const walletConnected = () => dispatch => {
+  dispatch({ type: WALLET_UNLOCKED })
+  dispatch({ type: ONBOARDING_FINISHED })
 }
 
 export const unlockWalletError = () => dispatch => {

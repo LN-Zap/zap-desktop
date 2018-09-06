@@ -182,3 +182,39 @@ export const createMacaroonCreds = async macaroonPath => {
     callback(null, metadata)
   )
 }
+
+/**
+ * Wait for a file to exist.
+ * @param {String} filepath
+ */
+export const waitForFile = (filepath, timeout = 1000) => {
+  let timeoutId
+  let intervalId
+
+  // Promise A rejects after the timeout has passed.
+  let promiseA = new Promise((resolve, reject) => {
+    timeoutId = setTimeout(() => {
+      mainLog.debug('deadline (%sms) exceeded before file (%s) was found', timeout, filepath)
+      clearInterval(intervalId)
+      clearTimeout(timeoutId)
+      reject(new Error(`Unable to find file: ${filepath}`))
+    }, timeout)
+  })
+
+  // Promise B resolves when the file has been found.
+  let promiseB = new Promise(resolve => {
+    let intervalId = setInterval(() => {
+      mainLog.debug('waiting for file: %s', filepath)
+      if (!fs.existsSync(filepath)) {
+        return
+      }
+      mainLog.debug('found file: %s', filepath)
+      clearInterval(intervalId)
+      clearTimeout(timeoutId)
+      resolve()
+    }, 200)
+  })
+
+  // Let's race our promises.
+  return Promise.race([promiseA, promiseB])
+}

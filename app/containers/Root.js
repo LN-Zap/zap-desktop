@@ -225,8 +225,8 @@ const Root = ({
     return <Syncing {...syncingProps} />
   }
 
-  // Don't launch the app without a connection to the lightning wallet gRPC interface.
-  if (!lnd.lightningGrpcActive) {
+  // Don't launch the app without a connection to lnd.
+  if (!lnd.lightningGrpcActive && !lnd.walletUnlockerGrpcActive) {
     return <LoadingBolt />
   }
 

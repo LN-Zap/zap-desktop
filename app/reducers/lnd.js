@@ -4,6 +4,8 @@ import { showNotification } from 'lib/utils/notifications'
 import { fetchTicker } from './ticker'
 import { fetchBalance } from './balance'
 import { fetchInfo, setHasSynced } from './info'
+import { lndWalletStarted, lndWalletUnlockerStarted } from './onboarding'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -16,6 +18,7 @@ export const RECEIVE_CURRENT_BLOCK_HEIGHT = 'RECEIVE_CURRENT_BLOCK_HEIGHT'
 export const RECEIVE_LND_BLOCK_HEIGHT = 'RECEIVE_LND_BLOCK_HEIGHT'
 export const RECEIVE_LND_CFILTER_HEIGHT = 'RECEIVE_LND_CFILTER_HEIGHT'
 
+export const SET_WALLET_UNLOCKER_ACTIVE = 'SET_WALLET_UNLOCKER_ACTIVE'
 export const SET_LIGHTNING_WALLET_ACTIVE = 'SET_LIGHTNING_WALLET_ACTIVE'
 
 // ------------------------------------
@@ -60,9 +63,20 @@ export const lndSyncStatus = (event, status) => (dispatch, getState) => {
   }
 }
 
+// Connected to Lightning gRPC interface (lnd wallet is connected and unlocked)
 export const lightningGrpcActive = () => dispatch => {
-  dispatch(fetchInfo())
   dispatch({ type: SET_LIGHTNING_WALLET_ACTIVE })
+
+  // Let the onboarding process know that wallet is active.
+  dispatch(lndWalletStarted())
+}
+
+// Connected to WalletUnlocker gRPC interface (lnd is ready to unlock or create wallet)
+export const walletUnlockerGrpcActive = () => dispatch => {
+  dispatch({ type: SET_WALLET_UNLOCKER_ACTIVE })
+
+  // Let the onboarding process know that the wallet unlocker has started.
+  dispatch(lndWalletUnlockerStarted())
 }
 
 // Receive IPC event for current height.
@@ -96,7 +110,16 @@ const ACTION_HANDLERS = {
   [RECEIVE_LND_BLOCK_HEIGHT]: (state, { lndBlockHeight }) => ({ ...state, lndBlockHeight }),
   [RECEIVE_LND_CFILTER_HEIGHT]: (state, { lndCfilterHeight }) => ({ ...state, lndCfilterHeight }),
 
-  [SET_LIGHTNING_WALLET_ACTIVE]: state => ({ ...state, lightningGrpcActive: true })
+  [SET_WALLET_UNLOCKER_ACTIVE]: state => ({
+    ...state,
+    walletUnlockerGrpcActive: true,
+    lightningGrpcActive: false
+  }),
+  [SET_LIGHTNING_WALLET_ACTIVE]: state => ({
+    ...state,
+    lightningGrpcActive: true,
+    walletUnlockerGrpcActive: false
+  })
 }
 
 // ------------------------------------
@@ -104,6 +127,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   syncStatus: 'pending',
+  walletUnlockerGrpcActive: false,
   lightningGrpcActive: false,
   blockHeight: 0,
   lndBlockHeight: 0,
