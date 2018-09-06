@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "Il semble que cela pourrait prendre un certain temps - vous pouvez prendre un café ou réessayer plus tard !",
+  "waiting_for_peers": "En attente de pairs…",
+  "preparing": "Préparation…",
+  "finalizing": "Finalisation…",
+  "sync_title": "Bienvenue dans votre portefeuille Zap !",
+  "sync_description": "Veuillez patienter un peu pendant que nous récupérons toutes vos dernières données depuis la blockchain.",
+  "fund_title": "Approvisionner votre portefeuille Zap",
+  "fund_description": "Vous pourriez approvisionner votre portefeuille en attendant la synchronisation.",
+  "sync_caption": "Synchronisation à la blockchain en cours"
+}
