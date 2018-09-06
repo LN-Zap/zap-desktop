@@ -1,0 +1,7 @@
+{
+  "title": "Demande de paiement",
+  "amount": "Montant",
+  "memo": "Note",
+  "details": "Détails sur la demande",
+  "request": "Demander"
+}
