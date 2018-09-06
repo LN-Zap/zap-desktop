@@ -1,0 +1,7 @@
+{
+  "request_payment": "支払請求",
+  "destination": "宛先",
+  "amount": "数量",
+  "request_placeholder": "支払請求またはビットコインアドレスをここへ貼り付けて下さい。",
+  "pay": "支払う"
+}
