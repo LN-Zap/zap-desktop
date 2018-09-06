@@ -5,7 +5,7 @@
   "connection_title": "Hur vill du ansluta till Lightning Nätverket?",
   "connection_description": "By default skapar Zap en nod och hanterar all teknik i bakgrunden åt dig. Men du kan också skapa en egen nodanslutning och använda Zap för att kontrollera en fjärr-nod (för avancerade användare).",
   "default": "Standard",
-  "custom": "",
+  "custom": "Custom",
   "alias_title": "Vad ska vi kalla dig?",
   "alias_description": "Ange ditt smeknamn för att hjälpa andra kontakta dig i Lightning Nätverket",
   "autopilot_description": "Autopilot är en automatisk nätverkshanterare. Istället för att lägga till personer till ditt nätverk manuellt så kan du aktivera autopiloten för att automatiskt ansluta dig till Lightning Network med 60% av ditt tillgängliga saldo.",
