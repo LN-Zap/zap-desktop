@@ -1,0 +1,7 @@
+{
+  "request_payment": "Αίτηση πληρωμής",
+  "destination": "Προορισμός",
+  "amount": "Ποσό",
+  "request_placeholder": "Επικολλήστε το αίτημα ή το bitcoin διεύθυνση πληρωμής εδώ",
+  "pay": "Πληρώσει"
+}
