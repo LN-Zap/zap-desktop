@@ -1,0 +1,6 @@
+{
+  "title": "Ručno povezivanje",
+  "description": "Molimo unesite pubkey@host drugog čvora",
+  "placeholder": "pubkey@host",
+  "submit": "Pošalji"
+}
