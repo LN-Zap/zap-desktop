@@ -1,0 +1,11 @@
+{
+  "title": "Moja mreža",
+  "empty_description": "Hmmm, izgleda da još nemate nijedan kanal. Za početak ovdje predlažemo neke čvorove za otvaranje kanala",
+  "search_form": "Pretraživanje mreže",
+  "open_channel": "Otvori kanal",
+  "open": "Otvori",
+  "pending": "Na čekanju",
+  "closing": "Zatvaranje",
+  "offline": "Izvan mreže",
+  "manual_description": "Hm, čini se da ne možemo vidjeti taj čvor ovdje, želite se ručno povezati?"
+}
