@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "Vypadá to, že to nějakou dobu potrvá - dejte si kávu a nebo to zkuste později!",
+  "waiting_for_peers": "Čekání na peery…",
+  "preparing": "Příprava…",
+  "finalizing": "Dokončování…",
+  "sync_title": "Vítejte zpět do peněženky Zap!",
+  "sync_description": "Prosím čekejte, načítají se aktuální data z blockhainu.",
+  "fund_title": "Dobijte vaši Zap peněženku",
+  "fund_description": "Během sycnrhonizace si zatím můžete dobít vaši peněženku.",
+  "sync_caption": "Synchronizace blockchainu"
+}
