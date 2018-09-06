@@ -1,0 +1,7 @@
+{
+  "request_payment": "Vyžádat platbu",
+  "destination": "Cíl",
+  "amount": "Částka",
+  "request_placeholder": "Vložte žádost o platbu nebo bitcoinovou adresu",
+  "pay": "Zaplatit"
+}
