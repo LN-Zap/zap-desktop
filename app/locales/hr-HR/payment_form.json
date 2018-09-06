@@ -1,0 +1,7 @@
+{
+  "request_payment": "Zahtjev za plaćanjem",
+  "destination": "Odredište",
+  "amount": "Iznos",
+  "request_placeholder": "Ovdje zalijepite zahtjev za plaćanjem ili bitcoin na-lanac adresu",
+  "pay": "Plati"
+}
