@@ -1,0 +1,11 @@
+{
+  "nice": "很好",
+  "copied": "复制到剪贴板",
+  "synced": "还在用Visa？您现在就拥有自己的支付渠道",
+  "onchain_sent_title": "已发送链上交易!",
+  "onchain_sent_description": "您的链上交易已成功发送。难离难舍总有一些！：）",
+  "onchain_received_title": "已收到链上交易!",
+  "onchain_received_description": "羡慕嫉妒恨，您收到一个链上的交易信息！",
+  "zapped_title": "您被电到了",
+  "zapped_description": "恭喜有人刚刚支付了你的单据"
+}
