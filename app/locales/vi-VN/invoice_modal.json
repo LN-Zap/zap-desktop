@@ -1,8 +1,8 @@
 {
-  "pay_req": "",
-  "memo": "",
-  "request": "",
-  "save": "",
-  "not_paid": "",
-  "paid": ""
+  "pay_req": "Payment Request",
+  "memo": "Memo",
+  "request": "Request",
+  "save": "Save as image",
+  "not_paid": "Not Paid",
+  "paid": "Paid"
 }
