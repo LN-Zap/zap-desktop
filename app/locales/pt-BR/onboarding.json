@@ -5,7 +5,7 @@
   "connection_title": "Como deseja se conectar à Lightning Network?",
   "connection_description": "Por padrão, Zap irá sortear um nó para você e cuidar de todas as coisas chatas no fundo. \nNo entanto, você também pode configurar uma conexão de nó personalizado e usar o Zap para controlar um nó remoto, se desejar (para usuários avançados).",
   "default": "Padrão",
-  "custom": "",
+  "custom": "Custom",
   "alias_title": "Como deveríamos chamá-lo?",
   "alias_description": "Defina seu apelido para ajudar outros a se conectarem com você na Lightning Network",
   "autopilot_description": "Autopilot é um gerenciador automático de rede. Em vez de adicionar manualmente pessoas para construir sua rede de pagamentos, ative o piloto automático para conectá-lo automaticamente à Lightning Network usando 60% de seu saldo.",
