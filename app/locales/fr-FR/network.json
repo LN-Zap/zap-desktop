@@ -1,0 +1,11 @@
+{
+  "title": "Mon réseau",
+  "empty_description": "Hmmm, on dirait que vous n’avez pas encore de canaux. Voici quelques nœuds que nous vous suggérons pour ouvrir un canal afin de commencer",
+  "search_form": "Rechercher le réseau",
+  "open_channel": "Ouvrir un canal",
+  "open": "Ouvrir",
+  "pending": "En attente",
+  "closing": "Fermeture",
+  "offline": "Déconnecté",
+  "manual_description": "Hm, on dirait que nous ne pouvons pas voir ce nœud. Voulez-vous essayer de vous connecter manuellement ?"
+}
