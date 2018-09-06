@@ -1,0 +1,11 @@
+{
+  "nice": "Drăguţ",
+  "copied": "Copiat în clipboard",
+  "synced": "Uita de Visa? Tu esti propriul tău procesor de plată!",
+  "onchain_sent_title": "Tranzactie On-chain a fost trimisă!",
+  "onchain_sent_description": "Tranzactia on-chain a fost trimisă cu succes!",
+  "onchain_received_title": "Tranzactia On-chain a fost primită!",
+  "onchain_received_description": "Esti norocos, tocmai ce ai primit o tranzactie on-chain. Sunt gelos.",
+  "zapped_title": "Ai fost curentat",
+  "zapped_description": "Felicitari, cineva tocmai a plătit o factură de a ta"
+}
