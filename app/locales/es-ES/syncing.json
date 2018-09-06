@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "¡Parece que esto podría tomar algún tiempo - puede tomar un café o intentarlo más tarde!",
+  "waiting_for_peers": "Esperando por los pares…",
+  "preparing": "Preparando…",
+  "finalizing": "Finalizando…",
+  "sync_title": "¡Bienvenido de nuevo a su cartera Zap!",
+  "sync_description": "Por favor, espere un momento mientras buscamos todos sus datos más recientes en la cadena de bloques.",
+  "fund_title": "Agregue fondos a su cartera Zap",
+  "fund_description": "Podría agregar fondos a su carteta mientras espera a que sincronice.",
+  "sync_caption": "Sincronizando la cadena de bloques"
+}
