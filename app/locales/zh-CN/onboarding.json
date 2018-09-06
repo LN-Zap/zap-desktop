@@ -5,7 +5,7 @@
   "connection_title": "您想如何连接到闪电网络？",
   "connection_description": "默认情况下, Zap会为您设置一个节点, 并处理后台的所有招人烦的东西。但是, 您也可以设置自定义节点连接, 并使用 Zap 来控制远程节点 (对于高级用户)。",
   "default": "默认",
-  "custom": "",
+  "custom": "Custom",
   "alias_title": "我们该叫您什么？",
   "alias_description": "设置您的昵称, 以帮助他人与您连接在闪电网络上",
   "autopilot_description": "Autopilot是一个自动网络管理器。而不用手动添加他人来建立您的支付网络, 使Autopilot自动连接到闪电网络将会使用您60%的余额。",
