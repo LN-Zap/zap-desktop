@@ -1,0 +1,11 @@
+{
+  "nice": "Güzel",
+  "copied": "Panoya kopyalandı",
+  "synced": "Visa nedir ya? Artık sen kendi ödeme sistemini işletiyorsun!",
+  "onchain_sent_title": "Zincir üzerinde işlem gönderildi!",
+  "onchain_sent_description": "Gitmesini izlemek zor ama giderkenki manzara şahane. Zincir üzerinde işlem başarıyla gönderildi.",
+  "onchain_received_title": "Zincir üzerinde işlem alındı!",
+  "onchain_received_description": "Ballısın, zincir üzerinde yeni bir işlem geldi. Kıskandım.",
+  "zapped_title": "Çarpıldın",
+  "zapped_description": "Tebrikler, biri size ait bir faturaya ödeme yaptı"
+}
