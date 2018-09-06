@@ -1,0 +1,7 @@
+{
+  "pay": "Plateste",
+  "request": "Cerere",
+  "sending_tx": "Trimitem tranzactia…",
+  "payment_success": "Plata a fost trimisa cu succes",
+  "transaction_success": "Tranzactia a fost trimisa cu succes"
+}
