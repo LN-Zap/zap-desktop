@@ -5,7 +5,7 @@
   "connection_title": "Jak se chcete připojit k Lightning Network?",
   "connection_description": "Zap automaticky vybere uzel a všechnu práci udělá v pozadí za vás. Můžete nicméně nastavit vlastní spojení a použít Zap ke kontrole vzdáleného uzlu (pro pokročilé uživatele).",
   "default": "Výchozí",
-  "custom": "",
+  "custom": "Custom",
   "alias_title": "Jak vám máme říkat?",
   "alias_description": "Zvolte si přezdívku, aby vás ostatní našli rychleji na Lightning Network",
   "autopilot_description": "Autopilot je váš automatický manažer spojení. Místo manuálního přidávání lidí za vás autopilot automaticky vytvoří spojení do Lightning Network. Využije k tomu 60 % vašich prostředků.",
