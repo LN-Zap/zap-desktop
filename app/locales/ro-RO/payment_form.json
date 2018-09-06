@@ -1,0 +1,7 @@
+{
+  "request_payment": "Cere plată",
+  "destination": "Destinatie",
+  "amount": "Suma",
+  "request_placeholder": "Lipeste cererea de plata sau adresa de bitcoin aici",
+  "pay": "Plateste"
+}
