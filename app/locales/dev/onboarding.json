@@ -5,7 +5,7 @@
   "connection_title": "How do you want to connect to the Lightning Network?",
   "connection_description": "By default Zap will spin up a node for you and handle all the nerdy stuff in the background. However you can also setup a custom node connection and use Zap to control a remote node if you desire (for advanced users).",
   "default": "Default",
-  "Custom": "Custom",
+  "custom": "Custom",
   "alias_title": "What should we call you?",
   "alias_description": "Set your nickname to help others connect with you on the Lightning Network",
   "autopilot_description": "Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.",
