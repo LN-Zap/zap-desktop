@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "看起来这可能需要一些时间。您可以去喝一杯咖啡, 或稍后再试一次!",
+  "waiting_for_peers": "等待peer..。",
+  "preparing": "准备中。。。",
+  "finalizing": "完成中。。。",
+  "sync_title": "欢迎回到你的Zap钱包!",
+  "sync_description": "请稍候, 我们从 blockchain 中获取您的最新数据。",
+  "fund_title": "充值您的Zap钱包",
+  "fund_description": "不如在您等待同步Blockchain的时候为您的钱包充值资金。",
+  "sync_caption": "同步到 blockchain中..。"
+}
