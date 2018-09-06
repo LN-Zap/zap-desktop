@@ -1,0 +1,11 @@
+{
+  "nice": "ナイス",
+  "copied": "クリップボードにコピー",
+  "synced": "誰の査証？　あなた自身の支払いプロセッサです。",
+  "onchain_sent_title": "オンチェイントランザクションが送られました！",
+  "onchain_sent_description": "見ることを憎む、しかし、去るのを見るのが大好き。オンチェイントランザクションは正常に送られました。",
+  "onchain_received_title": "オンチェイントランザクションは受け取られました！",
+  "onchain_received_description": "ラッキー、ちょうどあなたは新しいオンチェイントランザクションを受け取りました。うらやましいです。",
+  "zapped_title": "You've been Zapped",
+  "zapped_description": "おめでとう、誰かがちょうどあなたの請求を支払いました。"
+}
