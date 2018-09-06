@@ -5,7 +5,7 @@
   "connection_title": "¿Cómo quiere conectarse al Lightning Network?",
   "connection_description": "Por defecto Zap acomodará un nodo para usted y se encargará de toda las cosas nerds en segundo plano. Sin embargo usted siempre puede personalizar una conexión al nodo y usar Zap para controlar el nodo remotamente si así lo desea (para usuarios avanzados).",
   "default": "Por defecto",
-  "custom": "Custom",
+  "custom": "",
   "alias_title": "¿Como deberíamos llamarle?",
   "alias_description": "Configura tu apodo para ayudar a otros a conectarse contigo en Lightning Network",
   "autopilot_description": "El piloto automatico es un gestor de red automático. En lugar de agregar gente para construir su red para realizar pagos, active el piloto automático para que le conecte automáticamente a la Lightning Network usando el 60% de su balance.",
