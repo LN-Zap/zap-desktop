@@ -1,0 +1,11 @@
+{
+  "title": "Benim ağım",
+  "empty_description": "Hmmm, Görünüşe göre henüz herhangi bir kanal yok. Bir kanal açıp, ağa katılmak için önerilen bazı düğümler",
+  "search_form": "Ağ arama",
+  "open_channel": "Bir kanal aç",
+  "open": "Açık",
+  "pending": "Bekleyen",
+  "closing": "Kapanış",
+  "offline": "Çevrimdışı",
+  "manual_description": "Hm, bu düğümü buradan göremiyoruz, el ile bağlanmayı denemek ister misin?"
+}

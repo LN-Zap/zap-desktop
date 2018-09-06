@@ -1,0 +1,6 @@
+{
+  "title": "手动连接",
+  "description": "请输入peer pubkey@host",
+  "placeholder": "pubkey@host",
+  "submit": "提交"
+}

@@ -1,0 +1,7 @@
+{
+  "request_payment": "请求付款",
+  "destination": "目标",
+  "amount": "数量",
+  "request_placeholder": "粘贴付款请求或比特币地址到这里",
+  "pay": "支付"
+}

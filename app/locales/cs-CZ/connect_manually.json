@@ -1,0 +1,6 @@
+{
+  "title": "Propojit ručně",
+  "description": "Prosím zadejte údaj o uzlu: pubkey@host",
+  "placeholder": "pubkey@host",
+  "submit": "Odeslat"
+}

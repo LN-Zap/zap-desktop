@@ -1,0 +1,7 @@
+{
+  "request_payment": "Zahlung anfordern",
+  "destination": "Ziel",
+  "amount": "Betrag",
+  "request_placeholder": "Füge Zahlungsanfrage oder Bitcoin Adresse ein",
+  "pay": "Bezahlen"
+}

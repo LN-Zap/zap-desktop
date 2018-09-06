@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "Se pare ca dureaza putin - poate vrei sa iei o cana de cafea si sa incerci mai tarziu!",
+  "waiting_for_peers": "Asteptam conexiunea cu peers...",
+  "preparing": "Se pregateste…",
+  "finalizing": "Se finalizeaza…",
+  "sync_title": "Bine ai revenit la portofelul tau Zap!",
+  "sync_description": "Te rog sa astepti pana cand sincronizam datele din blockchain.",
+  "fund_title": "Adauga fonduri pentru portofelul Zap",
+  "fund_description": "Poti trimite fonduri in timp ce portofelul se sincronizeaza.",
+  "sync_caption": "Ne sincronizam cu blockchainul"
+}

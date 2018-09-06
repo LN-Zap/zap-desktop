@@ -1,0 +1,11 @@
+{
+  "title": "Mein Netzwerk",
+  "empty_description": "Hmmm, sieht so aus als hättest Du noch keine Zahlungskanäle. Hier sind einige empfohlene Nodes, mit denen Du einen Kanal öffnen kannst um loszulegen",
+  "search_form": "Durchsuche Netzwerk",
+  "open_channel": "Zahlungskanal öffnen",
+  "open": "Offen",
+  "pending": "Ausstehend",
+  "closing": "Schließen",
+  "offline": "Offline",
+  "manual_description": "Hm, offenbar können wir diesen Node nicht erreichen. Möchtest du dich manuell verbinden?"
+}

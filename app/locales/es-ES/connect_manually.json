@@ -1,0 +1,6 @@
+{
+  "title": "Conectar manualmente",
+  "description": "Poe favor entre los pares pubkey@host",
+  "placeholder": "pubkey@host",
+  "submit": "Enviar"
+}

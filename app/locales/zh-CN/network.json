@@ -1,0 +1,11 @@
+{
+  "title": "我的网络",
+  "empty_description": "嗯, 看来你还没有任何通道。下面是一些建议的节点，可以选择其中一个节点来打开一个通道",
+  "search_form": "搜索网络",
+  "open_channel": "打开通道",
+  "open": "打开",
+  "pending": "请求中",
+  "closing": "关闭中",
+  "offline": "离线",
+  "manual_description": "嗯, 看起来我们可以&apos;t 从这里看到该节点, 想尝试手动连接吗？"
+}

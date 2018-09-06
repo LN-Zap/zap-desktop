@@ -1,0 +1,11 @@
+{
+  "nice": "Snyggt",
+  "copied": "Kopierad till Urklipp",
+  "synced": "Visa vem? Du är din egen betalningsprocessor nu!",
+  "onchain_sent_title": "On-chain transaktionen har skickats!",
+  "onchain_sent_description": "Din on-chain transaktion lyckades skickas.",
+  "onchain_received_title": "On-chain transaktion mottagen!",
+  "onchain_received_description": "Din lyckost, du har precis tagit emot en ny on-chain transaktion. Jag är avis.",
+  "zapped_title": "Du har blivit Zappad",
+  "zapped_description": "Grattis, någon har precis betalat dig"
+}

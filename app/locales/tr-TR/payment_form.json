@@ -1,0 +1,7 @@
+{
+  "request_payment": "Ödeme talebi",
+  "destination": "Hedef",
+  "amount": "Tutar",
+  "request_placeholder": "Ödeme isteği veya bitcoin adresini buraya yapıştırın",
+  "pay": "Öde"
+}

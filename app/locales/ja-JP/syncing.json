@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "時間がかかりそうです - コーヒーでも入れるか後でやり直して！",
+  "waiting_for_peers": "仲間を待っています…",
+  "preparing": "準備中…",
+  "finalizing": "確定している…",
+  "sync_title": "おかえりなさい、Zapウォレットへ！",
+  "sync_description": "ブロックチェーンからの最新データの全てを取得する間、しばらくお待ちください。",
+  "fund_title": "Zapウォレットの資金",
+  "fund_description": "待っている間、あなたの財布を資金も可能性があります同期します。",
+  "sync_caption": "ブロックチェーンに同期中"
+}

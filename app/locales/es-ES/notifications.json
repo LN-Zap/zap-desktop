@@ -1,0 +1,11 @@
+{
+  "nice": "Bien",
+  "copied": "Copiado en el portapapeles",
+  "synced": "¿Visa qué? ¡Usted es su propio procesados de pagos ahora!",
+  "onchain_sent_title": "¡Transacción On-chain enviada!",
+  "onchain_sent_description": "Odio verlos irse pero amo verlos partir. Su transacción on-chain enviada con éxito.",
+  "onchain_received_title": "¡Transacción On-chain Recibida!",
+  "onchain_received_description": "Afortunado, acaba de recibir una nueva transacción on-chain. Estoy celoso.",
+  "zapped_title": "Has sido Zapped",
+  "zapped_description": "Felicidades, alguien acaba de pagar su cuenta"
+}

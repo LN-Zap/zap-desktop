@@ -1,0 +1,11 @@
+{
+  "nice": "Bien",
+  "copied": "Copié dans le presse-papiers",
+  "synced": "Visa vous dites ? Vous êtes maintenant votre propre processeur de paiement !",
+  "onchain_sent_title": "Transaction On-chain envoyée !",
+  "onchain_sent_description": "Votre transaction on-chain a été envoyée avec succès.",
+  "onchain_received_title": "Transaction On-chain reçue !",
+  "onchain_received_description": "Vous venez de recevoir une nouvelle transaction on-chain.",
+  "zapped_title": "Vous avez été Zappé",
+  "zapped_description": "Félicitations ! Quelqu'un vient de payer une de vos factures"
+}

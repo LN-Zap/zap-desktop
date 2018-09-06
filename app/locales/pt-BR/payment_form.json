@@ -1,0 +1,7 @@
+{
+  "request_payment": "Solicitar Pagamento",
+  "destination": "Destino",
+  "amount": "Quantia",
+  "request_placeholder": "Cole o pedido de pagamento ou endereço de bitcoin aqui",
+  "pay": "Pagar"
+}

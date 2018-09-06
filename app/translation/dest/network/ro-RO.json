@@ -1,0 +1,11 @@
+{
+  "title": "Reţeaua mea",
+  "empty_description": "Hmmm, se pare ca încă nu aveţi nici un canal deschis. Aici sunt unele noduri sugerate pentru a deschide un canal",
+  "search_form": "Caută Reţea",
+  "open_channel": "Deschide un canal",
+  "open": "Deschis",
+  "pending": "În aşteptare",
+  "closing": "Închidere",
+  "offline": "Offline",
+  "manual_description": "Hm, se pare ca nu putem vedea acel nod, doriţi să încercaţi să vă conectaţi manual?"
+}

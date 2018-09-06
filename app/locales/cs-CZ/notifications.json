@@ -1,0 +1,11 @@
+{
+  "nice": "Skvělé",
+  "copied": "Zkopírováno do schránky",
+  "synced": "Kdo je Visa? Vy jste teď svým vlastním zprostředkovatelem plateb!",
+  "onchain_sent_title": "On-chain transakce odeslána!",
+  "onchain_sent_description": "Vaše on-chain transakce úspěšně odeslána.",
+  "onchain_received_title": "On-chain transakce přijata!",
+  "onchain_received_description": "Právě jste obdrželi novou on-chain transakci.",
+  "zapped_title": "Zap vás má!",
+  "zapped_description": "Gratulujeme, někdo právě proplatil vaši žádost o platbu"
+}

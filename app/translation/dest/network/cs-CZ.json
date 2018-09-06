@@ -1,0 +1,11 @@
+{
+  "title": "Moje síť",
+  "empty_description": "Hmmm, vypadá to, že zatím nemáte žádné otevřené kanály. Pro začátek navrhujeme otevřít kanál k některému z navrhovaných uzlů",
+  "search_form": "Hledat v síti",
+  "open_channel": "Otevřít kanál",
+  "open": "Otevřené",
+  "pending": "Čekající",
+  "closing": "Uzavírané",
+  "offline": "Offline",
+  "manual_description": "Hm, vypadá to, že takhle uzel neuvidíme. Chcete se zkusit připojit manuálně?"
+}

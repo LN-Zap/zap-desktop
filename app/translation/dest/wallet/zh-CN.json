@@ -1,0 +1,7 @@
+{
+  "pay": "支付",
+  "request": "请求",
+  "sending_tx": "正在发送您的交易..。",
+  "payment_success": "成功发送付款",
+  "transaction_success": "成功发送交易"
+}
