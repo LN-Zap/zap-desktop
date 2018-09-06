@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "Bu biraz zaman alabilir - bir çay koymak veya daha sonra yeniden bakmak isteyebilirsiniz gibi görünüyor!",
+  "waiting_for_peers": "Eş bağlantıları için bekleniyor…",
+  "preparing": "Hazırlanıyor…",
+  "finalizing": "Tamamlanıyor…",
+  "sync_title": "Zap cüzdanına tekrar hoş geldiniz!",
+  "sync_description": "Lütfen en son verilerinizi blok zincirinden alırken bir süre bekleyin.",
+  "fund_title": "Zap cüzdanınıza para yatırın",
+  "fund_description": "Senkronizasyonu beklerken, cüzdanınıza para yatırmak isteyebilirsiniz.",
+  "sync_caption": "Blockchain'e senkronize ediliyor"
+}
