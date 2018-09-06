@@ -1,0 +1,6 @@
+{
+  "title": "Connexion manuelle",
+  "description": "Veuillez entrer la pubkey@host du pair",
+  "placeholder": "pubkey@host",
+  "submit": "Envoyer"
+}
