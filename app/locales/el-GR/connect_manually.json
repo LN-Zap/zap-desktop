@@ -1,0 +1,6 @@
+{
+  "title": "Συνδέστε μη αυτόματα",
+  "description": "Παρακαλώ εισάγετε την pubkey@host του ομότιμου",
+  "placeholder": "pubkey@host",
+  "submit": "Υποβάλουν"
+}
