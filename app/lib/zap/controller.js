@@ -5,7 +5,6 @@ import pick from 'lodash.pick'
 import Store from 'electron-store'
 import StateMachine from 'javascript-state-machine'
 import { mainLog } from '../utils/log'
-import { isLndRunning } from '../lnd/util'
 
 import LndConfig from '../lnd/config'
 import Lightning from '../lnd/lightning'
@@ -152,22 +151,11 @@ class ZapController {
   onBeforeStartLnd() {
     mainLog.debug('[FSM] onBeforeStartLnd...')
 
-    return isLndRunning().then(res => {
-      if (res) {
-        mainLog.error('lnd already running: %s', res)
-        dialog.showMessageBox({
-          type: 'error',
-          message: 'Unable to start lnd because it is already running.'
-        })
-        return app.quit()
-      }
+    mainLog.info('Starting new lnd instance')
+    mainLog.info(' > alias:', this.lndConfig.alias)
+    mainLog.info(' > autopilot:', this.lndConfig.autopilot)
 
-      mainLog.info('Starting new lnd instance')
-      mainLog.info(' > alias:', this.lndConfig.alias)
-      mainLog.info(' > autopilot:', this.lndConfig.autopilot)
-
-      return this.startNeutrino()
-    })
+    return this.startNeutrino()
   }
 
   onBeforeConnectLnd() {

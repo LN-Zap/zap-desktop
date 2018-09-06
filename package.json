@@ -297,7 +297,6 @@
     "lodash.pick": "^4.4.0",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
-    "ps-node": "^0.1.6",
     "qrcode.react": "0.8.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
