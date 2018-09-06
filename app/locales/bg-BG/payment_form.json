@@ -1,0 +1,7 @@
+{
+  "request_payment": "Направи плащане",
+  "destination": "Дестинация",
+  "amount": "Сума",
+  "request_placeholder": "Поставете заявката за плащане или bitcoin адресът тук",
+  "pay": "Плати"
+}
