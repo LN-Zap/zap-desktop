@@ -95,7 +95,7 @@ class Lightning {
 
         // Wait for the gRPC connection to be established.
         return new Promise((resolve, reject) => {
-          this.service.waitForReady(getDeadline(5), err => {
+          this.service.waitForReady(getDeadline(10), err => {
             if (err) {
               return reject(err)
             }

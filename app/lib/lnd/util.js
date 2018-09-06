@@ -165,18 +165,19 @@ export const createSslCreds = async certPath => {
 export const createMacaroonCreds = async macaroonPath => {
   const metadata = new grpc.Metadata()
 
-  // If it's not a filepath, then assume it is a hex encoded string.
-  if (macaroonPath === basename(macaroonPath)) {
-    metadata.add('macaroon', macaroonPath)
-  } else {
-    const macaroon = await fsReadFile(macaroonPath).catch(e => {
-      const error = new Error(`Macaroon path could not be accessed: ${e.message}`)
-      error.code = 'LND_GRPC_MACAROON_ERROR'
-      throw error
-    })
-    metadata.add('macaroon', macaroon.toString('hex'))
+  if (macaroonPath) {
+    // If it's not a filepath, then assume it is a hex encoded string.
+    if (macaroonPath === basename(macaroonPath)) {
+      metadata.add('macaroon', macaroonPath)
+    } else {
+      const macaroon = await fsReadFile(macaroonPath).catch(e => {
+        const error = new Error(`Macaroon path could not be accessed: ${e.message}`)
+        error.code = 'LND_GRPC_MACAROON_ERROR'
+        throw error
+      })
+      metadata.add('macaroon', macaroon.toString('hex'))
+    }
   }
-
   return grpc.credentials.createFromMetadataGenerator((params, callback) =>
     callback(null, metadata)
   )
