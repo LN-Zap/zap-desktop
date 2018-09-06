@@ -1,6 +1,6 @@
 {
-  "received": "",
-  "sent": "",
-  "on_chain": "",
-  "fee": ""
+  "received": "Received",
+  "sent": "Sent",
+  "on_chain": "On-Chain",
+  "fee": "Fee"
 }
