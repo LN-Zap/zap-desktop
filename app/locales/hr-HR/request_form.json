@@ -1,0 +1,7 @@
+{
+  "title": "Zahtjev za plaćanjem",
+  "amount": "Iznos",
+  "memo": "Bilješka",
+  "details": "Detalji o zahtjevu",
+  "request": "Zahtjev"
+}
