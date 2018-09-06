@@ -1,7 +1,7 @@
 {
-  "request_payment": "Request Payment",
-  "destination": "Destination",
-  "amount": "Amount",
-  "request_placeholder": "Paste payment request or bitcoin address here",
-  "pay": "Pay"
+  "request_payment": "",
+  "destination": "",
+  "amount": "",
+  "request_placeholder": "",
+  "pay": ""
 }
