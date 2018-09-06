@@ -1,0 +1,11 @@
+{
+  "title": "Mi red",
+  "empty_description": "Hmmm, parece que no tiene ningún canal aún. Acá hay algunas sugerencias de nodos para abrir un canal y empezar",
+  "search_form": "Buscar la red",
+  "open_channel": "Abrir un canal",
+  "open": "Abrir",
+  "pending": "Pendiente",
+  "closing": "Cerrar",
+  "offline": "Fuera de línea",
+  "manual_description": "Hm, parace que no podemos ver ese nodo desde aca, ¿quiere intentar conectar manualmente?"
+}
