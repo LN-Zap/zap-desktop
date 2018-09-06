@@ -5,7 +5,7 @@
   "connection_title": "Wie möchtest Du Dich mit dem Lightning Network verbinden?",
   "connection_description": "Standardmässig setzt Zap für dich einen Node auf und übernimmt die komplizierten Dinge im Hintergrund. Du hast jedoch die Möglichkeit, eine benutzerdefinierte Verbindung zu einem Node aufzubauen und diesen über Zap fernzuverwalten (für erfahrene Nutzer).",
   "default": "Voreingestellt",
-  "custom": "Custom",
+  "custom": "",
   "alias_title": "Wie sollen wir dich nennen?",
   "alias_description": "Gib deinen Benutzernamen ein, um anderen zu helfen, sich mit dir über das Lightning Network zu verbinden",
   "autopilot_description": "Autopilot ist ein automatischer Netzwerkverwalter. Anstatt manuell neue Leute hinzuzufügen um dein Zahlungsnetzwerk zu kreieren, kannst du Autopilot aktivieren um automatisch 60% deines Guthabens für Verbindungen zum Lightning Netzwerk zu verwenden.",
