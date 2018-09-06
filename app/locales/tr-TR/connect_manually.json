@@ -1,0 +1,6 @@
+{
+  "title": "El ile bağlan",
+  "description": "Lütfen bağlanmak istediğiniz düğüm pubkey@host girin",
+  "placeholder": "pubkey@host",
+  "submit": "Gönder"
+}
