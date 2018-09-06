@@ -5,7 +5,7 @@
   "connection_title": "Hoe wil je verbinding maken met het Lightning Netwerk?",
   "connection_description": "Zap zal standaard een node voor je opzetten en alle nerdy dingen voor je achter de schermen doen. Je kan echter ook zelf met een node verbinden en Zap gebruiken om deze te beheren (voor geavanceerde gebruikers).",
   "default": "Standaard",
-  "custom": "Custom",
+  "custom": "",
   "alias_title": "Hoe heet je?",
   "alias_description": "Stel je bijnaam in om anderen met je te laten verbinden op het Lightning Netwerk",
   "autopilot_description": "Autopilot is een automatische netwerk manager. In plaats van handmatig met mensen te verbinden voor betalingen op het Lightning Netwerk, kan je de automatische piloot inschakelen. Deze zal automatisch verbindingen voor je aanleggen en hiervoor 60% van je balans inzetten.",
