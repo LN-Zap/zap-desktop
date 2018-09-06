@@ -1,0 +1,11 @@
+{
+  "nice": "Супер",
+  "copied": "Копирано",
+  "synced": "Visa кой? Сега вие сте си собствена банка!",
+  "onchain_sent_title": "On-chain транзакция изпратена!",
+  "onchain_sent_description": "Твоята on-chain транзакция е успешно изпратена.",
+  "onchain_received_title": "On-chain транзакция получена!",
+  "onchain_received_description": "Късметлия, току-що получи нова on-chain транзакция. Ревнувам.",
+  "zapped_title": "Вие бяхте Zap-нати",
+  "zapped_description": "Поздравления, някой току-що плати една твоя фактура"
+}
