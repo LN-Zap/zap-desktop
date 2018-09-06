@@ -1,0 +1,11 @@
+{
+  "nice": "Lijepo",
+  "copied": "Kopirano u međuspremnik",
+  "synced": "Koja VISA? Sada ste svoj vlastiti procesor plaćanja!",
+  "onchain_sent_title": "Na-lanac transakcija poslana!",
+  "onchain_sent_description": "Na-lanac transakcije je uspješno poslana.",
+  "onchain_received_title": "Na-lanac transakcija primljena!",
+  "onchain_received_description": "Blago tebi, primio si novu na-lanac transakciju. Ljubomoran sam.",
+  "zapped_title": "Uspješno si Zappan",
+  "zapped_description": "Čestitam, netko ti je upravo platio fakturu"
+}
