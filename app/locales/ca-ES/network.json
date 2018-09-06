@@ -1,11 +1,11 @@
 {
-  "title": "",
-  "empty_description": "",
-  "search_form": "",
-  "open_channel": "",
-  "open": "",
-  "pending": "",
-  "closing": "",
-  "offline": "",
-  "manual_description": ""
+  "title": "My network",
+  "empty_description": "Hmmm, looks like you don't have any channels yet. Here are some suggested nodes to open a channel with to get started",
+  "search_form": "Search the network",
+  "open_channel": "Open a channel",
+  "open": "Open",
+  "pending": "Pending",
+  "closing": "Closing",
+  "offline": "Offline",
+  "manual_description": "Hm, looks like we can&apos;t see that node from here, wanna try to manually connect?"
 }
