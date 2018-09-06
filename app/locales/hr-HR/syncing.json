@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "Izgleda da ovo može potrajati neko vrijeme - možda želite zgrabiti kavu ili pokušajte kasnije!",
+  "waiting_for_peers": "Čekanje na kolege...",
+  "preparing": "Priprema...",
+  "finalizing": "Dovršavanje...",
+  "sync_title": "Dobro došli natrag u vaš Zap novčanik!",
+  "sync_description": "Molimo pričekajte dok ne dohvatimo sve vaše najnovije podatke sa blokčeina.",
+  "fund_title": "Financirajte svoj Zap novčanik",
+  "fund_description": "Mogli biste financirati svoj novčanik dok čekate sinkronizaciju.",
+  "sync_caption": "Sinkronizacija na blokčein"
+}
