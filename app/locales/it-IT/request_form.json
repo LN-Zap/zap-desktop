@@ -1,7 +1,7 @@
 {
-  "title": "",
-  "amount": "",
-  "memo": "",
-  "details": "",
-  "request": ""
+  "title": "Request Payment",
+  "amount": "Amount",
+  "memo": "Memo",
+  "details": "Details about the request",
+  "request": "Request"
 }
