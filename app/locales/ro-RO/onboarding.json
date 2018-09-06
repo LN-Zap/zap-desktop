@@ -5,7 +5,7 @@
   "connection_title": "Cum doriţi să vă conectaţi la reţeaua Lightning?",
   "connection_description": "Implicit Zap va seta un nod pentru tine şi se va ocupa de tot în fundal. Cu toate acestea,  puteţi seta o conexiune nod personalizată şi utilizaţi Zap pentru a controla un nod la distanţă dacă doriţi (pentru utilizatori avansaţi).",
   "default": "În mod implicit",
-  "custom": "Custom",
+  "custom": "",
   "alias_title": "Cum te numesti?",
   "alias_description": "Setaţi nickname-ul pentru ii ajuta pe alţii sa se conecteze cu tine pe reţeaua Lightning",
   "autopilot_description": "Pilotul automat este un manager de reţea automat. În loc de adăugarea manuală a nodurilor pentru a efectua plăţi, permite pilotului automat sa se conecteze automat la rețeaua Lightning folosind 60 % din balanta.",
