@@ -1,0 +1,11 @@
+{
+  "grab_coffee": "Det verkar som att detta kan ta lite tid - gå och hämta kaffe eller försök igen senare!",
+  "waiting_for_peers": "Väntar på peers…",
+  "preparing": "Förbereder…",
+  "finalizing": "Gör klart det sista…",
+  "sync_title": "Välkommen tillbaka till din Zap-wallet!",
+  "sync_description": "Vänta en stund medan vi hämtar all din senaste data från blockkedjan.",
+  "fund_title": "Fyll din Zap-wallet",
+  "fund_description": "Passa på att fylla din wallet medans du väntar på att synca.",
+  "sync_caption": "Syncar med blockkedjan"
+}
