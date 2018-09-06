@@ -5,7 +5,7 @@
   "connection_title": "Kako se želite povezati na Lightning Network?",
   "connection_description": "Prema zadanim postavkama Zap će zavrtiti vaš čvor i automatski odraditi sve stvari u pozadini. Međutim također možete postaviti i prilagođenu vezu na čvor ili koristiti Zap za kontrolu udaljenog čvora ako želite (za napredne korisnike).",
   "default": "Zadano",
-  "custom": "",
+  "custom": "Custom",
   "alias_title": "Kako da te zovemo?",
   "alias_description": "Postavite svoj nadimak da pomognete drugima povezati se sa vama na Lightning Network",
   "autopilot_description": "Autopilot je automatski mrežni menadžer. Umjesto ručnog dodavanja ljudi u vašu mrežu za plaćanje, omogućite autopilot da vas automatski spoji na Lightning Network koristeći 60% vašeg salda.",
