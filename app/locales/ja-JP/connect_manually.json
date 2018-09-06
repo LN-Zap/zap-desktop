@@ -1,0 +1,6 @@
+{
+  "title": "手動で接続します。",
+  "description": "ピアの pubkey@host を入力してください。",
+  "placeholder": "pubkey@host",
+  "submit": "提出"
+}
