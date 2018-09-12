@@ -4,7 +4,8 @@ import {
   currentBlockHeight,
   lndBlockHeight,
   lndCfilterHeight,
-  lightningGrpcActive
+  lightningGrpcActive,
+  walletUnlockerGrpcActive
 } from './lnd'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
@@ -47,11 +48,11 @@ import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoute
 import {
   startOnboarding,
   startLndError,
-  walletUnlockerGrpcActive,
   receiveSeed,
   receiveSeedError,
-  finishOnboarding,
+  walletCreated,
   walletUnlocked,
+  walletConnected,
   unlockWalletError
 } from './onboarding'
 
@@ -118,8 +119,9 @@ const ipc = createIpc({
   walletUnlockerGrpcActive,
   receiveSeed,
   receiveSeedError,
-  finishOnboarding,
+  walletCreated,
   walletUnlocked,
+  walletConnected,
   unlockWalletError
 })
 

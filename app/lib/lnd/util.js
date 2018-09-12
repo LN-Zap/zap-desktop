@@ -165,19 +165,56 @@ export const createSslCreds = async certPath => {
 export const createMacaroonCreds = async macaroonPath => {
   const metadata = new grpc.Metadata()
 
-  // If it's not a filepath, then assume it is a hex encoded string.
-  if (macaroonPath === basename(macaroonPath)) {
-    metadata.add('macaroon', macaroonPath)
-  } else {
-    const macaroon = await fsReadFile(macaroonPath).catch(e => {
-      const error = new Error(`Macaroon path could not be accessed: ${e.message}`)
-      error.code = 'LND_GRPC_MACAROON_ERROR'
-      throw error
-    })
-    metadata.add('macaroon', macaroon.toString('hex'))
+  if (macaroonPath) {
+    // If it's not a filepath, then assume it is a hex encoded string.
+    if (macaroonPath === basename(macaroonPath)) {
+      metadata.add('macaroon', macaroonPath)
+    } else {
+      const macaroon = await fsReadFile(macaroonPath).catch(e => {
+        const error = new Error(`Macaroon path could not be accessed: ${e.message}`)
+        error.code = 'LND_GRPC_MACAROON_ERROR'
+        throw error
+      })
+      metadata.add('macaroon', macaroon.toString('hex'))
+    }
   }
-
   return grpc.credentials.createFromMetadataGenerator((params, callback) =>
     callback(null, metadata)
   )
+}
+
+/**
+ * Wait for a file to exist.
+ * @param {String} filepath
+ */
+export const waitForFile = (filepath, timeout = 1000) => {
+  let timeoutId
+  let intervalId
+
+  // Promise A rejects after the timeout has passed.
+  let promiseA = new Promise((resolve, reject) => {
+    timeoutId = setTimeout(() => {
+      mainLog.debug('deadline (%sms) exceeded before file (%s) was found', timeout, filepath)
+      clearInterval(intervalId)
+      clearTimeout(timeoutId)
+      reject(new Error(`Unable to find file: ${filepath}`))
+    }, timeout)
+  })
+
+  // Promise B resolves when the file has been found.
+  let promiseB = new Promise(resolve => {
+    let intervalId = setInterval(() => {
+      mainLog.debug('waiting for file: %s', filepath)
+      if (!fs.existsSync(filepath)) {
+        return
+      }
+      mainLog.debug('found file: %s', filepath)
+      clearInterval(intervalId)
+      clearTimeout(timeoutId)
+      resolve()
+    }, 200)
+  })
+
+  // Let's race our promises.
+  return Promise.race([promiseA, promiseB])
 }

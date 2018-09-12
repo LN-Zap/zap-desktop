@@ -5,7 +5,7 @@ import { loadSync } from '@grpc/proto-loader'
 import { BrowserWindow } from 'electron'
 import StateMachine from 'javascript-state-machine'
 import LndConfig from './config'
-import { getDeadline, validateHost, createSslCreds, createMacaroonCreds } from './util'
+import { getDeadline, validateHost, createSslCreds, createMacaroonCreds, waitForFile } from './util'
 import methods from './methods'
 import { mainLog } from '../utils/log'
 import subscribeToTransactions from './subscribe/transactions'
@@ -63,51 +63,59 @@ class Lightning {
    */
   async onBeforeConnect() {
     mainLog.info('Connecting to Lightning gRPC service')
-    const { rpcProtoPath, host, cert, macaroon } = this.lndConfig
+    const { rpcProtoPath, host, cert, macaroon, type } = this.lndConfig
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
-    return validateHost(host)
-      .then(async () => {
-        // Load the gRPC proto file.
-        // The following options object closely approximates the existing behavior of grpc.load.
-        // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
-        const options = {
-          keepCase: true,
-          longs: Number,
-          enums: String,
-          defaults: true,
-          oneofs: true
-        }
-        const packageDefinition = loadSync(rpcProtoPath, options)
+    return (
+      validateHost(host)
+        // If we are trying to connect to the internal lnd, wait upto 20 seconds for the macaroon to be generated.
+        .then(() => (type === 'local' ? waitForFile(macaroon, 20000) : Promise.resolve()))
+        // Attempt to connect using the supplied credentials.
+        .then(async () => {
+          // Load the gRPC proto file.
+          // The following options object closely approximates the existing behavior of grpc.load.
+          // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
+          const options = {
+            keepCase: true,
+            longs: Number,
+            enums: String,
+            defaults: true,
+            oneofs: true
+          }
+          const packageDefinition = loadSync(rpcProtoPath, options)
 
-        // Load gRPC package definition as a gRPC object hierarchy.
-        const rpc = grpc.loadPackageDefinition(packageDefinition)
+          // Load gRPC package definition as a gRPC object hierarchy.
+          const rpc = grpc.loadPackageDefinition(packageDefinition)
 
-        // Create ssl and macaroon credentials to use with the gRPC client.
-        const [sslCreds, macaroonCreds] = await Promise.all([
-          createSslCreds(cert),
-          createMacaroonCreds(macaroon)
-        ])
-        const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
+          // Create ssl and macaroon credentials to use with the gRPC client.
+          const [sslCreds, macaroonCreds] = await Promise.all([
+            createSslCreds(cert),
+            createMacaroonCreds(macaroon)
+          ])
+          const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 
-        // Create a new gRPC client instance.
-        this.service = new rpc.lnrpc.Lightning(host, credentials)
+          // Create a new gRPC client instance.
+          this.service = new rpc.lnrpc.Lightning(host, credentials)
 
-        // Wait for the gRPC connection to be established.
-        return new Promise((resolve, reject) => {
-          this.service.waitForReady(getDeadline(5), err => {
-            if (err) {
-              return reject(err)
-            }
-            return resolve()
+          // Wait upto 20 seconds for the gRPC connection to be established.
+          return new Promise((resolve, reject) => {
+            this.service.waitForReady(getDeadline(20), err => {
+              if (err) {
+                return reject(err)
+              }
+              return resolve()
+            })
           })
         })
-      })
-      .then(() => getInfo(this.service))
-      .catch(err => {
-        this.service.close()
-        throw err
-      })
+        // Once connected, make a call to getInfo to verify that we can make successful calls.
+        .then(() => getInfo(this.service))
+        .catch(err => {
+          if (this.service) {
+            this.service.close()
+          }
+          throw err
+        })
+    )
   }
 
   /**

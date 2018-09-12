@@ -30,7 +30,7 @@ export default function(walletUnlocker, log, event, msg, data, lndConfig) {
     case 'initWallet':
       walletController
         .initWallet(walletUnlocker, data)
-        .then(() => event.sender.send('finishOnboarding'))
+        .then(() => event.sender.send('walletCreated'))
         .catch(error => log.error('initWallet:', error))
       break
     default:

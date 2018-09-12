@@ -187,6 +187,8 @@ class Neutrino extends EventEmitter {
           height = match[1]
         } else if ((match = line.match(/Processed \d* blocks? in the last.+\(height (\d+)/))) {
           height = match[1]
+        } else if ((match = line.match(/Difficulty retarget at block height (\d+)/))) {
+          height = match[1]
         } else if ((match = line.match(/Fetching set of headers from tip \(height=(\d+)/))) {
           height = match[1]
         } else if ((match = line.match(/Waiting for filter headers \(height=(\d+)\) to catch/))) {
@@ -200,6 +202,8 @@ class Neutrino extends EventEmitter {
         } else if ((match = line.match(/Writing filter headers up to height=(\d*)/))) {
           cfilter = match[1]
         } else if ((match = line.match(/Verified \d* filter headers? in the.+\(height (\d+)/))) {
+          cfilter = match[1]
+        } else if ((match = line.match(/Fetching filter for height=(\d+)/))) {
           cfilter = match[1]
         }
 
@@ -285,8 +289,11 @@ class Neutrino extends EventEmitter {
    */
   setLndCfilterHeight(height: number | string) {
     const heightAsNumber = Number(height)
-    this.lndCfilterHeight = heightAsNumber
-    this.emit(GOT_LND_CFILTER_HEIGHT, heightAsNumber)
+    const changed = Neutrino.incrementIfHigher(this, 'lndCfilterHeight', heightAsNumber)
+    if (changed) {
+      this.emit(GOT_LND_CFILTER_HEIGHT, heightAsNumber)
+      this.setCurrentBlockHeight(heightAsNumber)
+    }
   }
 }
 
