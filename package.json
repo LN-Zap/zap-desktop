@@ -42,7 +42,7 @@
   "config": {
     "style_paths": "app/styles/*.scss app/components/**/*.scss",
     "lnd-binary": {
-      "binaryVersion": "0.5-beta-rc1-52-gbaee07ef",
+      "binaryVersion": "0.5-beta-rc2-41-g4dd4f7cf",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
