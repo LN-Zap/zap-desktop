@@ -1,0 +1,94 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  position: relative;
+  height: 100vh;
+  background: $darkspaceblue;
+}
+
+.titleBar {
+  background: $spacegrey;
+  height: 20px;
+  -webkit-user-select: none;
+  -webkit-app-region: drag;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 40px;
+
+  .help {
+    color: $white;
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.25s;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+.info {
+  color: $white;
+  margin-bottom: 20px;
+  padding: 20px 40px;
+
+  h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+  }
+
+  p {
+    font-size: 12px;
+    line-height: 1.5;
+    width: 70%;
+  }
+}
+
+.content {
+  position: relative;
+  background: $spaceblue;
+  height: 100vh;
+  padding: 40px 40px;
+}
+
+.footer {
+  position: absolute;
+  bottom: 0;
+  padding: 25px 40px;
+  color: $white;
+  width: calc(100% - 80px);
+
+  .buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .nextButton {
+      cursor: pointer;
+      transition: all 0.25s;
+      background: $darkspaceblue;
+      padding: 10px 30px 10px 40px;
+      width: 54px;
+      text-align: center;
+
+      &:hover {
+        background: lighten($darkspaceblue, 10%);
+      }
+    }
+
+    .backButton {
+      cursor: pointer;
+      transition: all 0.25s;
+      padding: 10px 20px 10px 0;
+      text-align: center;
+
+      &:hover {
+        opacity: 0.5;
+      }
+    }
+  }
+}

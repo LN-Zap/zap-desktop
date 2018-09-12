@@ -1,0 +1,61 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  color: $white;
+
+  section {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    font-weight: 200;
+    line-height: 20px;
+
+    .description {
+      width: 80%;
+      opacity: 0.25;
+      transition: all 0.25s;
+    }
+
+    &:hover .description {
+      opacity: 0.5;
+    }
+
+    .button {
+      width: 20%;
+      text-align: center;
+      display: flex;
+      padding: 20px;
+      border: 1px solid $white;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: all 0.25s;
+      margin: 15px 20px 10px 0;
+    }
+
+    &.active {
+      .button {
+        color: $gold;
+        border-color: $gold;
+      }
+
+      .description {
+        opacity: 0.8;
+        color: $gold;
+      }
+    }
+
+    .button:hover {
+      color: $gold;
+      border-color: $gold;
+    }
+
+    .label {
+      margin-left: 15px;
+    }
+
+    .superscript {
+      vertical-align: super;
+      font-size: 10px;
+    }
+  }
+}

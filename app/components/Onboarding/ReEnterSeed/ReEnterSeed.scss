@@ -1,0 +1,59 @@
+@import '../../../styles/variables.scss';
+
+.seedContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  margin-top: 10%;
+
+  li {
+    display: inline-block;
+    margin: 10px;
+    width: 25%;
+    border: 0.2px solid #ccc;
+    padding: 5px 10px;
+
+    section {
+      display: inline-block;
+      color: $white;
+      margin: 0;
+
+      &:nth-child(1) {
+        text-align: center;
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+.word {
+  margin: 0 3px;
+  background-color: inherit;
+  outline: 0;
+  border: none;
+  padding: 8px 10px 6px 10px;
+  color: $white;
+  font-family: 'Courier', courier, sans-serif;
+  font-size: 14px;
+  line-height: 18px;
+
+  &.valid {
+    color: $green;
+  }
+
+  &.invalid {
+    color: $red;
+  }
+}
+
+.word::-webkit-input-placeholder {
+  text-shadow: none;
+  -webkit-text-fill-color: initial;
+}
+
+.contentEditable {
+  width: 100px;
+  background: red;
+}
