@@ -1,0 +1,57 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  color: $white;
+
+  .input {
+    margin-bottom: 10px;
+  }
+
+  label {
+    display: block;
+    font-size: 14px;
+    line-height: 18px;
+    margin-bottom: 5px;
+  }
+
+  input {
+    background: transparent;
+    outline: none;
+    border: 1px solid #404040;
+    border-radius: 4px;
+    padding: 8px;
+    color: $gold;
+    -webkit-text-fill-color: $white;
+    font-size: 18px;
+    font-weight: 400;
+    width: 600px;
+    transition: all 0.25s;
+    margin-bottom: 5px;
+
+    &.error {
+      border: 1px solid $red;
+    }
+  }
+
+  input::-webkit-input-placeholder {
+    text-shadow: none;
+    -webkit-text-fill-color: initial;
+  }
+
+  .description {
+    font-size: 12px;
+    line-height: 18px;
+    opacity: 0.5;
+  }
+
+  .errorMessage {
+    font-size: 12px;
+    line-height: 18px;
+    color: $red;
+    display: none;
+
+    &.visible {
+      display: block;
+    }
+  }
+}

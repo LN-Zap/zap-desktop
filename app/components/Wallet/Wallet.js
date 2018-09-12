@@ -7,7 +7,7 @@ import Isvg from 'react-inlinesvg'
 import { btc, blockExplorer } from 'lib/utils'
 import Value from 'components/Value'
 import AnimatedCheckmark from 'components/AnimatedCheckmark'
-import Settings from 'components/Settings/Settings'
+import Settings from 'components/Settings'
 
 import zapLogo from 'icons/zap_logo.svg'
 import qrCode from 'icons/qrcode.svg'

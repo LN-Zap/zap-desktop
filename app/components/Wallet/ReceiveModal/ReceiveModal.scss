@@ -1,0 +1,135 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  position: relative;
+  height: 100vh;
+  background: $bluegrey;
+}
+
+.closeContainer {
+  text-align: right;
+  padding: 20px 40px 0;
+
+  span {
+    cursor: pointer;
+    opacity: 1;
+    transition: 0.25s all;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  svg {
+    color: $white;
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: $spaceblue;
+  width: 85%;
+  margin: 10% auto 50px auto;
+  color: $white;
+
+  .left {
+    width: 30%;
+    padding: 30px 30px;
+
+    .header {
+      h2 {
+        text-align: center;
+      }
+
+      .qrCodeOptions {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin: 20px 0;
+
+        div {
+          font-size: 10px;
+          opacity: 0.5;
+          cursor: pointer;
+          transition: all 0.25s;
+
+          &:hover {
+            opacity: 0.75;
+          }
+
+          &.active {
+            opacity: 1;
+          }
+        }
+      }
+    }
+
+    .qrCodeContainer {
+      text-align: center;
+    }
+
+    .qrcode {
+      border-style: solid;
+      border-color: white;
+      border-width: 2px;
+    }
+  }
+
+  .right {
+    width: 70%;
+    min-height: 220px;
+    border-left: 1px solid $spaceborder;
+    padding: 30px 30px;
+
+    .pubkey,
+    .address {
+      padding: 25px 0;
+
+      h4 {
+        font-size: 12px;
+        margin-bottom: 10px;
+
+        span {
+          cursor: pointer;
+        }
+      }
+    }
+
+    p {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      font-size: 10px;
+      font-weight: 200;
+      background: $bluegrey;
+
+      .data,
+      .copy {
+        padding: 15px;
+      }
+
+      .data {
+        flex: 9;
+        overflow-y: auto;
+      }
+
+      .copy {
+        background: #383b47;
+        color: $white;
+        cursor: pointer;
+        transition: all 0.25s;
+
+        &:hover {
+          background: lighten(#383b47, 5%);
+        }
+
+        svg {
+          height: 12px;
+          width: 12px;
+        }
+      }
+    }
+  }
+}

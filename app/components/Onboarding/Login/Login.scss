@@ -1,0 +1,127 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  position: relative;
+}
+
+.password {
+  background: transparent;
+  outline: none;
+  border: 1px solid #404040;
+  border-radius: 4px;
+  padding: 15px;
+  color: $gold;
+  -webkit-text-fill-color: $white;
+  font-size: 22px;
+  //border-bottom: 1px solid transparent;
+  transition: all 0.25s;
+
+  &.inputError {
+    border: 1px solid $red;
+  }
+}
+
+.password::-webkit-input-placeholder {
+  text-shadow: none;
+  -webkit-text-fill-color: initial;
+}
+
+.error {
+  margin-top: 20px;
+  color: $red;
+  visibility: hidden;
+  font-size: 12px;
+  transition: all 0.25s;
+
+  &.active {
+    visibility: visible;
+  }
+}
+
+.buttons {
+  margin-top: 15%;
+  text-align: center;
+
+  div {
+    color: $white;
+
+    &:nth-child(1) {
+      text-align: center;
+      margin-bottom: 40px;
+
+      span {
+        padding: 15px 35px;
+        background: $darkspaceblue;
+        font-size: 14px;
+        opacity: 0.5;
+        transition: all 0.25s;
+
+        &.button {
+          position: relative;
+        }
+
+        &.active {
+          opacity: 1;
+          cursor: pointer;
+
+          &:hover {
+            background: lighten($darkspaceblue, 10%);
+          }
+        }
+      }
+    }
+
+    &:nth-child(2),
+    &:nth-child(3) {
+      font-size: 12px;
+      cursor: pointer;
+      margin: 10px 0;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
+
+.spinner {
+  height: 20px;
+  width: 20px;
+  border: 1px solid rgba(235, 184, 100, 0.1);
+  border-left-color: rgba(235, 184, 100, 0.4);
+  -webkit-border-radius: 999px;
+  -moz-border-radius: 999px;
+  border-radius: 999px;
+  -webkit-animation: animation-rotate 1000ms linear infinite;
+  -moz-animation: animation-rotate 1000ms linear infinite;
+  -o-animation: animation-rotate 1000ms linear infinite;
+  animation: animation-rotate 1000ms linear infinite;
+  display: inline-block;
+  position: absolute;
+  top: calc(50% - 10px);
+  left: calc(50% - 10px);
+}
+
+@-webkit-keyframes animation-rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes animation-rotate {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes animation-rotate {
+  100% {
+    -o-transform: rotate(360deg);
+  }
+}
+
+@keyframes animation-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
