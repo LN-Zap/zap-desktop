@@ -1,6 +1,7 @@
 import React from 'react'
 import { Provider, connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
+import { Switch, Route } from 'react-router'
 import PropTypes from 'prop-types'
 import { hot } from 'react-hot-loader'
 
@@ -33,7 +34,9 @@ import { walletAddress } from 'reducers/address'
 import LoadingBolt from 'components/LoadingBolt'
 import Onboarding from 'components/Onboarding'
 import Syncing from 'components/Onboarding/Syncing'
-import Routes from '../routes'
+
+import App from './App'
+import Activity from './Activity'
 
 const mapDispatchToProps = {
   setConnectionType,
@@ -233,7 +236,11 @@ const Root = ({
   return (
     <Provider store={store}>
       <ConnectedRouter history={history}>
-        <Routes />
+        <App>
+          <Switch>
+            <Route path="/" component={Activity} />
+          </Switch>
+        </App>
       </ConnectedRouter>
     </Provider>
   )

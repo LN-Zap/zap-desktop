@@ -23,7 +23,7 @@ import { setWalletCurrencyFilters } from 'reducers/info'
 
 import { setSettingsOpen, setActiveSubMenu, disableSubMenu } from 'reducers/settings'
 
-import Activity from '../components/Activity'
+import Activity from 'components/Activity'
 
 const mapDispatchToProps = {
   setCurrency,

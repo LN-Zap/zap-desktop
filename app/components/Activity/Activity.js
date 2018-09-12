@@ -7,9 +7,9 @@ import FaRepeat from 'react-icons/lib/fa/repeat'
 
 import Wallet from 'components/Wallet'
 import LoadingBolt from 'components/LoadingBolt'
-import Invoice from './components/Invoice'
-import Payment from './components/Payment'
-import Transaction from './components/Transaction'
+import Invoice from './Invoice'
+import Payment from './Payment'
+import Transaction from './Transaction'
 
 import styles from './Activity.scss'
 
