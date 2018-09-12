@@ -1,0 +1,29 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  position: absolute;
+  top: 0;
+  z-index: 10;
+  height: 100vh;
+  width: 100%;
+  background: #31343f;
+}
+
+.closeContainer {
+  text-align: right;
+  padding: 20px 40px 0;
+
+  span {
+    cursor: pointer;
+    opacity: 1;
+    transition: 0.25s all;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  svg {
+    color: $white;
+  }
+}
