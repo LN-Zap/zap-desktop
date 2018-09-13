@@ -1,5 +1,6 @@
 import { dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
+import isDev from 'electron-is-dev'
 import { updaterLog } from '../utils/log'
 
 autoUpdater.logger = updaterLog
@@ -19,6 +20,11 @@ class ZapUpdater {
   }
 
   init() {
+    // Do not run the updater if we are running in dev mode.
+    if (isDev) {
+      return
+    }
+
     autoUpdater.on('update-downloaded', () => {
       const opt = {
         type: 'question',
