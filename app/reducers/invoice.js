@@ -40,7 +40,7 @@ export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 
 // Decorate invoice object with custom/computed properties.
 const decorateInvoice = invoice => {
-  invoice.finalAmount = invoice.amt_paid ? invoice.amt_paid : invoice.value
+  invoice.finalAmount = invoice.amt_paid_sat ? invoice.amt_paid_sat : invoice.value
   return invoice
 }
 
