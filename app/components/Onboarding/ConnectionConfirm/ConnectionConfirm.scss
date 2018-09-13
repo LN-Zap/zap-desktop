@@ -1,0 +1,17 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  color: $white;
+
+  p {
+    margin-bottom: 20px;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  .host {
+    color: $green;
+  }
+}

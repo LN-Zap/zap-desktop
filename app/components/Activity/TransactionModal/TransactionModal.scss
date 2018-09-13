@@ -1,0 +1,135 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  color: $white;
+  font-size: 12px;
+  width: 75%;
+  margin: 0 auto;
+  background: $spaceblue;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px;
+
+  section {
+    &:nth-child(1) {
+      font-size: 16px;
+      color: $green;
+
+      svg {
+        width: 16px;
+        height: 16px;
+        vertical-align: top;
+        fill: $green;
+      }
+
+      span:nth-child(2) {
+        margin-left: 5px;
+      }
+    }
+
+    &.details {
+      text-align: right;
+
+      div:nth-child(1) {
+        margin-bottom: 5px;
+      }
+
+      svg {
+        width: 12px;
+        height: 12px;
+        vertical-align: middle;
+      }
+
+      .link {
+        text-decoration: underline;
+        margin-left: 5px;
+        cursor: pointer;
+        transition: all 0.25s;
+
+        &:hover {
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}
+
+.amount {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+
+  h1 {
+    font-size: 40px;
+  }
+
+  section {
+    font-size: 20px;
+    margin-left: 10px;
+    position: relative;
+    cursor: pointer;
+
+    &:hover {
+      span {
+        opacity: 0.5;
+      }
+    }
+
+    span {
+      transition: all 0.25s;
+    }
+
+    ul {
+      visibility: hidden;
+      position: absolute;
+      top: 40px;
+      right: -50px;
+      font-size: 12px;
+
+      &.active {
+        visibility: visible;
+      }
+
+      li {
+        padding: 8px 15px;
+        background: #191919;
+        cursor: pointer;
+        transition: 0.25s hover;
+        border-bottom: 1px solid #0f0f0f;
+
+        &:hover {
+          background: #0f0f0f;
+        }
+      }
+    }
+  }
+}
+
+.date {
+  text-align: center;
+  margin: 20px 0 50px 0;
+  padding: 20px;
+}
+
+.footer {
+  background: #31343f;
+  padding: 20px;
+  text-align: center;
+
+  p {
+    text-decoration: underline;
+    cursor: pointer;
+    transition: all 0.25s;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}

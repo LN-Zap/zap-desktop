@@ -1,0 +1,193 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  padding: 0 40px;
+  margin: 0 auto;
+  width: 500px;
+}
+
+.header {
+  text-align: center;
+  padding-bottom: 20px;
+  color: $white;
+  border-bottom: 1px solid $spaceborder;
+
+  h1 {
+    font-size: 22px;
+    font-weight: 100;
+    margin-top: 10px;
+    letter-spacing: 1.5px;
+  }
+}
+
+.content {
+  margin-top: 40px;
+  color: $white;
+
+  .destination {
+    margin-bottom: 10px;
+
+    .description {
+      font-size: 12px;
+      line-height: 14px;
+      padding: 0 15px;
+      min-height: 14px;
+
+      &.active {
+        background: #23252f;
+        border-radius: 10px;
+        min-height: 0;
+      }
+    }
+
+    svg {
+      width: 10px;
+      height: 10px;
+      line-height: 14px;
+      margin-right: 5px;
+    }
+  }
+
+  .amount .bottom {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    input {
+      font-size: 20px;
+      max-width: 150px;
+      border: 1px solid #404040;
+      border-radius: 4px;
+      padding: 15px;
+    }
+  }
+
+  .top {
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    label {
+      font-size: 14px;
+    }
+  }
+
+  .bottom {
+    input,
+    textarea {
+      background: transparent;
+      outline: none;
+      border: 1px solid #404040;
+      color: $gold;
+      -webkit-text-fill-color: $white;
+      font-size: 12px;
+      width: 100%;
+      font-weight: 200;
+      padding: 10px;
+    }
+
+    input::-webkit-input-placeholder,
+    textarea::-webkit-input-placeholder {
+      text-shadow: none;
+      -webkit-text-fill-color: initial;
+    }
+  }
+
+  .currency {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-left: 12px;
+
+    .currentCurrency {
+      cursor: pointer;
+      transition: 0.25s all;
+
+      &:hover {
+        opacity: 0.5;
+      }
+
+      span {
+        font-size: 14px;
+
+        &:nth-child(1) {
+          font-weight: bold;
+        }
+      }
+    }
+
+    ul {
+      visibility: hidden;
+      position: absolute;
+      top: 30px;
+      z-index: 10;
+
+      &.active {
+        visibility: visible;
+      }
+
+      li {
+        padding: 8px 15px;
+        background: #191919;
+        cursor: pointer;
+        transition: 0.25s hover;
+        border-bottom: 1px solid #0f0f0f;
+
+        &:hover {
+          background: #0f0f0f;
+        }
+      }
+    }
+  }
+
+  .fiatAmount {
+    margin-top: 10px;
+    opacity: 0.5;
+    font-size: 14px;
+  }
+
+  .submit {
+    margin-top: 20px;
+    text-align: center;
+
+    .button {
+      width: 235px;
+      margin: 0 auto;
+      padding: 20px 10px;
+      background: #31343f;
+      opacity: 0.5;
+      cursor: pointer;
+      transition: 0.25s all;
+
+      &.active {
+        background: $gold;
+        color: $spaceblue;
+        font-weight: bold;
+        opacity: 1;
+
+        &:hover {
+          background: darken($gold, 5%);
+        }
+      }
+    }
+  }
+}
+
+.errorMessage {
+  color: $red;
+  font-size: 12px;
+  min-height: 20px;
+  opacity: 0;
+  transition: all 0.25s ease;
+
+  &.amount {
+    margin-top: 10px;
+  }
+
+  &.active {
+    opacity: 1;
+  }
+}
