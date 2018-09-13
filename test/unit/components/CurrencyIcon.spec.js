@@ -1,7 +1,7 @@
 import React from 'react'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import FaDollar from 'react-icons/lib/fa/dollar'
+import { FaDollarSign } from 'react-icons/fa'
 import CryptoIcon from 'components/CryptoIcon'
 import CurrencyIcon from 'components/CurrencyIcon'
 
@@ -18,7 +18,7 @@ describe('component.CurrencyIcon', () => {
     const props = { ...defaultProps, currency: 'usd' }
     const el = shallow(<CurrencyIcon {...props} />)
     it('should show usd symbol', () => {
-      expect(el.find(FaDollar)).toHaveLength(1)
+      expect(el.find(FaDollarSign)).toHaveLength(1)
     })
   })
 

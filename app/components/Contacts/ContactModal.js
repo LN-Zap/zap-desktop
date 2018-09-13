@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import ReactModal from 'react-modal'
-import FaCircle from 'react-icons/lib/fa/circle'
-import MdClose from 'react-icons/lib/md/close'
+import { FaCircle } from 'react-icons/fa'
+import { MdClose } from 'react-icons/md'
 
 import { btc } from 'lib/utils'
 

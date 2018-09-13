@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaAngleLeft from 'react-icons/lib/fa/angle-left'
+import { MdKeyboardArrowLeft } from 'react-icons/md'
 import Isvg from 'react-inlinesvg'
 import checkIcon from 'icons/check.svg'
 import styles from './Fiat.scss'
@@ -8,7 +8,7 @@ import styles from './Fiat.scss'
 const Fiat = ({ fiatTicker, fiatTickers, disableSubMenu, setFiatTicker }) => (
   <div>
     <header className={styles.submenuHeader} onClick={disableSubMenu}>
-      <FaAngleLeft />
+      <MdKeyboardArrowLeft />
       <span>Fiat currency</span>
     </header>
     <ul className={styles.fiatTickers}>
