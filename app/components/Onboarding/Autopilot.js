@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaCircle from 'react-icons/lib/fa/circle'
-import FaCircleThin from 'react-icons/lib/fa/circle-thin'
+import { FaCircle, FaRegCircle } from 'react-icons/fa'
 import styles from './Autopilot.scss'
 
 const Autopilot = ({ autopilot, setAutopilot }) => (
   <div className={styles.container}>
     <section className={`${styles.enable} ${autopilot ? styles.active : undefined}`}>
       <div onClick={() => setAutopilot(true)}>
-        {autopilot ? <FaCircle /> : <FaCircleThin />}
+        {autopilot ? <FaCircle /> : <FaRegCircle />}
         <span className={styles.label}>Enable Autopilot</span>
       </div>
     </section>
@@ -18,7 +17,7 @@ const Autopilot = ({ autopilot, setAutopilot }) => (
       }`}
     >
       <div onClick={() => setAutopilot(false)}>
-        {!autopilot && autopilot !== null ? <FaCircle /> : <FaCircleThin />}
+        {!autopilot && autopilot !== null ? <FaCircle /> : <FaRegCircle />}
         <span className={styles.label}>Disable Autopilot</span>
       </div>
     </section>

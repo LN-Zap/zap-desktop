@@ -1,13 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaAngleRight from 'react-icons/lib/fa/angle-right'
+import { MdKeyboardArrowRight } from 'react-icons/md'
 import styles from './Menu.scss'
 
 const Menu = ({ setActiveSubMenu }) => (
   <ul>
     <li className={styles.fiat} onClick={() => setActiveSubMenu('fiat')}>
       <span>Fiat Currency</span>
-      <FaAngleRight />
+      <MdKeyboardArrowRight />
     </li>
   </ul>
 )

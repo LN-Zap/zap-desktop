@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
-import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle'
+import { FaExclamationCircle } from 'react-icons/fa'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 
 import AmountInput from 'components/AmountInput'
 import styles from './SubmitChannelForm.scss'
@@ -115,7 +115,7 @@ class SubmitChannelForm extends React.Component {
               >
                 <span>{currencyName}</span>
                 <span>
-                  <FaAngleDown />
+                  <MdKeyboardArrowDown />
                 </span>
               </section>
               <ul className={showCurrencyFilters ? styles.active : undefined}>

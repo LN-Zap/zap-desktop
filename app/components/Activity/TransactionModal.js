@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import Moment from 'react-moment'
 
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
@@ -82,7 +82,7 @@ const TransactionModal = ({
       >
         <span>{currencyName}</span>
         <span>
-          <FaAngleDown />
+          <MdKeyboardArrowDown />
         </span>
         <ul className={showCurrencyFilters ? styles.active : undefined}>
           {currentCurrencyFilters.map(filter => (

@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaCircle from 'react-icons/lib/fa/circle'
-import FaCircleThin from 'react-icons/lib/fa/circle-thin'
+import { FaCircle, FaRegCircle } from 'react-icons/fa'
 import styles from './ConnectionType.scss'
 
 const ConnectionType = ({ connectionType, setConnectionType }) => (
@@ -10,7 +9,7 @@ const ConnectionType = ({ connectionType, setConnectionType }) => (
       className={`${styles.option} ${connectionType === 'local' ? styles.active : undefined}`}
     >
       <div className={`${styles.button}`} onClick={() => setConnectionType('local')}>
-        {connectionType === 'local' ? <FaCircle /> : <FaCircleThin />}
+        {connectionType === 'local' ? <FaCircle /> : <FaRegCircle />}
         <span className={styles.label}>
           Default <span className={styles.superscript}>testnet</span>
         </span>
@@ -25,7 +24,7 @@ const ConnectionType = ({ connectionType, setConnectionType }) => (
       className={`${styles.option} ${connectionType === 'custom' ? styles.active : undefined}`}
     >
       <div className={`${styles.button}`} onClick={() => setConnectionType('custom')}>
-        {connectionType === 'custom' ? <FaCircle /> : <FaCircleThin />}
+        {connectionType === 'custom' ? <FaCircle /> : <FaRegCircle />}
         <span className={styles.label}>Custom</span>
       </div>
       <div className={`${styles.description}`}>
@@ -35,7 +34,7 @@ const ConnectionType = ({ connectionType, setConnectionType }) => (
     </section>
     <section className={`${styles.option} ${connectionType === 'btcpayserver' && styles.active}`}>
       <div className={`${styles.button}`} onClick={() => setConnectionType('btcpayserver')}>
-        {connectionType === 'btcpayserver' ? <FaCircle /> : <FaCircleThin />}
+        {connectionType === 'btcpayserver' ? <FaCircle /> : <FaRegCircle />}
         <span className={styles.label}>BTCPay Server</span>
       </div>
       <div className={`${styles.description}`}>

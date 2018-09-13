@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaAngleUp from 'react-icons/lib/fa/angle-up'
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
+import { MdKeyboardArrowUp, MdKeyboardArrowDown } from 'react-icons/md'
 import Isvg from 'react-inlinesvg'
 
 import { btc, blockExplorer } from 'lib/utils'
@@ -59,7 +58,11 @@ const Wallet = ({
               onClick={settingsProps.toggleSettings}
             >
               <span className={styles.aliasText}>{info.data.alias}</span>
-              {settingsProps.settings.settingsOpen ? <FaAngleUp /> : <FaAngleDown />}
+              {settingsProps.settings.settingsOpen ? (
+                <MdKeyboardArrowUp />
+              ) : (
+                <MdKeyboardArrowDown />
+              )}
             </div>
             {settingsProps.settings.settingsOpen && <Settings {...settingsProps} />}
           </section>
@@ -82,7 +85,7 @@ const Wallet = ({
                   <section className={styles.currencyContainer}>
                     <i className={styles.currency}>{currencyName}</i>
                     <span onClick={() => setWalletCurrencyFilters(!info.showWalletCurrencyFilters)}>
-                      <FaAngleDown />
+                      <MdKeyboardArrowDown />
                     </span>
 
                     <ul className={info.showWalletCurrencyFilters ? styles.active : undefined}>
