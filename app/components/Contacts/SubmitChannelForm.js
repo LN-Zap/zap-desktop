@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
+import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle'
 
 import AmountInput from 'components/AmountInput'
 import styles from './SubmitChannelForm.scss'
@@ -17,6 +18,7 @@ class SubmitChannelForm extends React.Component {
       updateContactCapacity,
       openChannel,
       fiatTicker,
+      dupeChanInfo,
 
       ticker,
 
@@ -38,6 +40,22 @@ class SubmitChannelForm extends React.Component {
       }
 
       return node.pub_key
+    }
+
+    const renderWarning = dupeChanInfo => {
+      const { alias, activeChannels, capacity, currencyName } = dupeChanInfo
+
+      const chansMsg =
+        activeChannels === 1 ? ' an active channel ' : ` ${activeChannels} active channels `
+      const aliasMsg = alias ? <span className={styles.alias}>{alias}</span> : ' this node '
+
+      return (
+        <p>
+          {`You currently have ${chansMsg} open to `}
+          {aliasMsg}
+          {` with a capacity of ${capacity} ${currencyName}.`}
+        </p>
+      )
     }
 
     const formSubmitted = () => {
@@ -74,6 +92,13 @@ class SubmitChannelForm extends React.Component {
         <section className={styles.title}>
           <h2>{renderTitle()}</h2>
         </section>
+
+        {dupeChanInfo && (
+          <section className={styles.warn}>
+            <FaExclamationCircle className={styles.exclamation} style={{ verticalAlign: 'top' }} />
+            {renderWarning(dupeChanInfo)}
+          </section>
+        )}
 
         <section className={styles.amount}>
           <div className={styles.input}>
@@ -128,6 +153,7 @@ SubmitChannelForm.propTypes = {
   updateContactCapacity: PropTypes.func.isRequired,
   openChannel: PropTypes.func.isRequired,
   fiatTicker: PropTypes.string.isRequired,
+  dupeChanInfo: PropTypes.object,
 
   ticker: PropTypes.object.isRequired,
 

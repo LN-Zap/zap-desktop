@@ -39,6 +39,32 @@
   }
 }
 
+.warn {
+  color: #dea326;
+  margin: 20px 0;
+  display: flex;
+
+  p {
+    flex: 1;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .exclamation {
+    flex: 0 0 25px;
+    vertical-align: top;
+  }
+
+  .alias {
+    background: #252832;
+    padding: 2px 5px 4px;
+    border-radius: 8px;
+    display: inline;
+    color: #fff;
+    font-size: 10px;
+  }
+}
+
 .input {
   display: flex;
   flex-direction: row;
