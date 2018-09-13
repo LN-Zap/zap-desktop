@@ -1,4 +1,4 @@
-@import '../../../styles/variables.scss';
+@import '../../styles/variables.scss';
 
 .search {
   height: 55px;
@@ -195,5 +195,173 @@
 
   .right {
     text-align: right;
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+  height: 76px;
+  align-items: center;
+  font-size: 14px;
+  transition: background-color 0.1s linear;
+  transition-delay: 0.1s;
+  color: $white;
+  position: relative;
+
+  &.unpaid {
+    opacity: 0.5;
+  }
+
+  .activityTypeIcon {
+    position: absolute;
+    left: -5%;
+    top: 37%;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      opacity: 0.5;
+    }
+  }
+}
+
+.clock {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: -100px;
+  width: 100px;
+  height: 77px;
+
+  svg {
+    font-size: 18px;
+  }
+}
+
+.date {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-right: 50px;
+  min-width: 90px;
+
+  section {
+    margin: 2.5px 0;
+  }
+
+  svg {
+    width: 12.5px;
+    height: 12.5px;
+  }
+
+  time {
+    font-size: 12px;
+  }
+}
+
+.data {
+  display: flex;
+  flex-direction: column;
+  flex: 6;
+  justify-content: space-evenly;
+
+  &:nth-child(2) {
+    font-size: 10px;
+  }
+
+  .title {
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+
+  .subtitle {
+    opacity: 0.5;
+    font-size: 10px;
+  }
+
+  .icon,
+  h3,
+  span {
+    vertical-align: middle;
+  }
+
+  h3,
+  span {
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1.2px;
+  }
+
+  .icon {
+    display: inline-block;
+    flex: none;
+    position: relative;
+    width: 20px;
+    height: 20px;
+    background: #31343f;
+    border-radius: 50%;
+    margin-right: 5px;
+
+    svg {
+      color: $white;
+      font-size: 10px;
+      vertical-align: middle;
+      display: flex;
+      top: 0;
+      left: 50%;
+      height: 100%;
+      margin: 0 auto;
+    }
+  }
+
+  h3 {
+    display: inline-block;
+
+    &::after {
+      content: ' ';
+      display: inline-block;
+      width: 3px;
+    }
+  }
+
+  span {
+    text-transform: uppercase;
+  }
+}
+
+.amount {
+  display: flex;
+  flex-direction: column;
+  text-align: right;
+  font-size: 12px;
+  color: $white;
+
+  span {
+    &:nth-child(1) {
+      margin-bottom: 10px;
+    }
+
+    &:nth-child(2) {
+      font-size: 10px;
+      opacity: 0.5;
+    }
+
+    .plus,
+    .minus {
+      margin-right: 2px;
+    }
+
+    .plus {
+      color: $green;
+    }
+
+    .minus {
+      color: $red;
+    }
   }
 }
