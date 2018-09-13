@@ -8,6 +8,17 @@ import AmountInput from 'components/AmountInput'
 import styles from './SubmitChannelForm.scss'
 
 class SubmitChannelForm extends React.Component {
+  constructor(props) {
+    super(props)
+    this.amountInput = React.createRef()
+  }
+
+  componentDidMount() {
+    // Clear and Focus the amount input field.
+    this.amountInput.current.clearTextInput()
+    this.amountInput.current.focusTextInput()
+  }
+
   render() {
     const {
       closeChannelForm,
@@ -107,6 +118,7 @@ class SubmitChannelForm extends React.Component {
               amount={contactCapacity}
               currency={ticker.currency}
               onChangeEvent={updateContactCapacity}
+              ref={this.amountInput}
             />
             <div className={styles.currency}>
               <section

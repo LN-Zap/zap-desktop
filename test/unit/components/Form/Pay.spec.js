@@ -1,5 +1,5 @@
 import React from 'react'
-import { configure, shallow } from 'enzyme'
+import { configure, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 import Pay from 'components/Form/Pay'
@@ -45,7 +45,7 @@ const defaultProps = {
 
 describe('Form', () => {
   describe('should show the form without an input', () => {
-    const el = shallow(<Pay {...defaultProps} />)
+    const el = mount(<Pay {...defaultProps} />)
 
     it('should contain Pay', () => {
       expect(el.find('input#paymentRequest').props.value).toBe(undefined)
@@ -54,7 +54,7 @@ describe('Form', () => {
 
   describe('should show lightning with a lightning input', () => {
     const props = { ...defaultProps, isLn: true }
-    const el = shallow(<Pay {...props} />)
+    const el = mount(<Pay {...props} />)
 
     it('should contain Pay', () => {
       expect(el.find('input#paymentRequest').props.value).toBe(undefined)
@@ -63,7 +63,7 @@ describe('Form', () => {
 
   describe('should show on-chain with an on-chain input', () => {
     const props = { ...defaultProps, isOnchain: true }
-    const el = shallow(<Pay {...props} />)
+    const el = mount(<Pay {...props} />)
 
     it('should contain Pay', () => {
       expect(el.find('input#paymentRequest').props.value).toBe(undefined)

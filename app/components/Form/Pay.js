@@ -12,6 +12,22 @@ import AmountInput from 'components/AmountInput'
 import styles from './Pay.scss'
 
 class Pay extends Component {
+  constructor(props) {
+    super(props)
+    this.paymentRequestInput = React.createRef()
+  }
+
+  componentDidMount() {
+    const { setPayInput, setPayAmount } = this.props
+
+    // Clear the form of any previous data.
+    setPayInput('')
+    setPayAmount('')
+
+    // Focus the payment request input field.
+    this.paymentRequestInput.current.focus()
+  }
+
   componentDidUpdate(prevProps) {
     const {
       isLn,
@@ -110,6 +126,7 @@ class Pay extends Component {
                 onBlur={onPayInputBlur}
                 id="paymentRequest"
                 rows="4"
+                ref={this.paymentRequestInput}
               />
               <section
                 className={`${styles.errorMessage} ${
