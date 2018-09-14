@@ -97,5 +97,10 @@
   "components.Onboarding.save_seed_description": "Please save these 24 words securely! This will allow you to recover your wallet in the future",
   "components.Onboarding.save_seed_title": "Save your wallet seed",
   "components.Onboarding.signup_description": "Would you like to create a new wallet or import an existing one?",
-  "components.Onboarding.signup_title": "Alright, let's get set up"
+  "components.Onboarding.signup_title": "Alright, let's get set up",
+  "components.Wallet.pay": "Pay",
+  "components.Wallet.payment_success": "Successfully sent payment",
+  "components.Wallet.request": "Request",
+  "components.Wallet.sending_tx": "Sending your transaction…",
+  "components.Wallet.transaction_success": "Successfully sent transaction"
 }

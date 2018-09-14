@@ -97,5 +97,10 @@
   "components.Onboarding.save_seed_description": "",
   "components.Onboarding.save_seed_title": "",
   "components.Onboarding.signup_description": "",
-  "components.Onboarding.signup_title": ""
+  "components.Onboarding.signup_title": "",
+  "components.Wallet.pay": "",
+  "components.Wallet.payment_success": "",
+  "components.Wallet.request": "",
+  "components.Wallet.sending_tx": "",
+  "components.Wallet.transaction_success": ""
 }
