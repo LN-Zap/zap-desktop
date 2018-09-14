@@ -56,7 +56,7 @@ const TransactionModal = ({
             className={styles.link}
             onClick={() => blockExplorer.showTransaction(network, transaction.tx_hash)}
           >
-            On-Chain
+            <FormattedMessage {...messages.on_chain} />
           </span>
         </div>
         <div>

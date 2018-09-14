@@ -5,6 +5,10 @@ import { MdKeyboardArrowLeft } from 'react-icons/md'
 import ISO6391 from 'iso-639-1'
 import Isvg from 'react-inlinesvg'
 import checkIcon from 'icons/check.svg'
+
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
+
 import styles from './Language.scss'
 
 const Translate = ({ appLocales, disableSubMenu, currentLocale, setLocale }) => {
@@ -16,7 +20,9 @@ const Translate = ({ appLocales, disableSubMenu, currentLocale, setLocale }) => 
     <div>
       <header className={styles.submenuHeader} onClick={disableSubMenu}>
         <MdKeyboardArrowLeft />
-        <span>Language</span>
+        <span>
+          <FormattedMessage {...messages.title} />
+        </span>
       </header>
       <ul className={styles.languages}>
         {Object.keys(appLocales).map(lang => {
