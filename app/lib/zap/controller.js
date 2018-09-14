@@ -289,10 +289,7 @@ class ZapController {
   }
 
   /**
-  /**
    * Starts the LND node and attach event listeners.
-   * @param  {string} alias Alias to assign to the lnd node.
-   * @param  {boolean} autopilot True if autopilot should be enabled.
    * @return {Neutrino} Neutrino instance.
    */
   startNeutrino() {
@@ -307,12 +304,12 @@ class ZapController {
       })
     })
 
-    this.neutrino.on('close', (code, lastError) => {
-      mainLog.info(`Lnd process has shut down (code ${code})`)
+    this.neutrino.on('exit', (code, signal, lastError) => {
+      mainLog.info(`Lnd process has shut down (code: ${code}, signal: ${signal})`)
       if (this.is('running') || this.is('connected')) {
         dialog.showMessageBox({
           type: 'error',
-          message: `Lnd has unexpectedly quit: ${lastError}`
+          message: `Lnd has unexpectedly quit:\n\nError code: ${code}\nExit signal: ${signal}\nLast error: ${lastError}`
         })
         this.terminate()
       }
@@ -358,61 +355,45 @@ class ZapController {
    */
   async shutdownNeutrino() {
     // We only want to shut down LND if we are running it locally.
-    if (this.lndConfig.type !== 'local') {
+    if (this.lndConfig.type !== 'local' || !this.neutrino || !this.neutrino.process) {
       return Promise.resolve()
     }
 
-    // Attempt a graceful shutdown if we can.
-    if (this.lightning && this.lightning.can('terminate')) {
-      mainLog.info('Shutting down Neutrino...')
+    mainLog.info('Shutting down Neutrino...')
 
-      return new Promise(resolve => {
-        // HACK: Sometimes there are errors during the shutdown process that prevent the daeming from shutting down at
-        // all. If we haven't received notification of the process closing within 10 seconds, kill it.
-        // See https://github.com/lightningnetwork/lnd/pull/1781
-        // See https://github.com/lightningnetwork/lnd/pull/1783
-        const shutdownTimeout = setTimeout(() => {
-          this.neutrino.removeListener('close', closeHandler)
-          if (this.neutrino) {
-            mainLog.warn('Graceful shutdown failed to complete within 10 seconds.')
-            this.neutrino.kill()
-            resolve()
-          }
-        }, 1000 * 10)
-
-        // HACK: The Lightning.stopDaemon` call returns before lnd has actually fully completed the shutdown process
-        // so we add a listener on the close event so that we can wrap things up once the process has been fully closed
-        // out.
-        const closeHandler = function() {
-          mainLog.info('Neutrino shutdown complete.')
-          clearTimeout(shutdownTimeout)
+    return new Promise(async resolve => {
+      // HACK: Sometimes there are errors during the shutdown process that prevent the daeming from shutting down at
+      // all. If we haven't received notification of the process closing within 10 seconds, kill it.
+      // See https://github.com/lightningnetwork/lnd/pull/1781
+      // See https://github.com/lightningnetwork/lnd/pull/1783
+      const shutdownTimeout = setTimeout(() => {
+        this.neutrino.removeListener('exit', exitHandler)
+        if (this.neutrino) {
+          mainLog.warn('Graceful shutdown failed to complete within 10 seconds.')
+          this.neutrino.kill('SIGTERM')
           resolve()
         }
-        this.neutrino.once('close', closeHandler)
+      }, 1000 * 10)
 
-        this.lightning
-          .terminate()
-          .then(() => mainLog.info('Neutrino Daemon shutdown complete'))
-          .catch(err => {
-            mainLog.error('Unable to gracefully shutdown LND: %o', err)
-            // Kill the process ourselves here to ensure that we don't leave hanging processes.
-            if (this.neutrino) {
-              this.neutrino.kill()
-              resolve()
-            }
-          })
-      })
-    }
+      const exitHandler = () => {
+        clearTimeout(shutdownTimeout)
+        resolve()
+      }
+      this.neutrino.once('exit', exitHandler)
 
-    // The Lightning service is only active after the wallet has been unlocked and a gRPC connection has been
-    // established. In this case, kill the Neutrino process to ensure that we don't leave hanging process.
-    // FIXME: This currencly doesn't do a graceful shutdown as LND does not properly handle SIGTERM.
-    // See https://github.com/lightningnetwork/lnd/issues/1028
-    else if (this.neutrino) {
+      // The Lightning service is only active once the wallet has been unlocked and a gRPC connection has been made.
+      // If it is active, disconnect from it before we terminate neutrino.
+      if (this.lightning && this.lightning.can('terminate')) {
+        await this.lightning.disconnect()
+      }
+      // Kill the Neutrino process (sends SIGINT to Neutrino process)
       this.neutrino.kill()
-    }
+    }).then(() => mainLog.info('Neutrino shutdown complete'))
   }
 
+  /**
+   * Start or connect to lnd process after onboarding has been completed by the app.
+   */
   finishOnboarding(options: onboardingOptions) {
     mainLog.info('Finishing onboarding')
     // Save the lnd config options that we got from the renderer.
