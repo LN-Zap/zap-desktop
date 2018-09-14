@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
+
 import styles from './Countdown.scss'
 
 class Countdown extends React.Component {
@@ -73,7 +76,9 @@ class Countdown extends React.Component {
 
     return (
       <span className={styles.container}>
-        <i className={styles.caption}>Expires in</i>
+        <i className={styles.caption}>
+          <FormattedMessage {...messages.expires} />
+        </i>
         <i>{days > 0 && `${days}:`}</i>
         <i>{hours > 0 && `${hours}:`}</i>
         <i>{minutes > 0 && `${minutes}:`}</i>

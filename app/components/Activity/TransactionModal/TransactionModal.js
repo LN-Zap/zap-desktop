@@ -13,6 +13,9 @@ import { blockExplorer } from 'lib/utils'
 
 import Value from 'components/Value'
 
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
+
 import styles from './TransactionModal.scss'
 
 const TransactionModal = ({
@@ -34,12 +37,16 @@ const TransactionModal = ({
       {transaction.received ? (
         <section>
           <Isvg src={hand} />
-          <span>Received</span>
+          <span>
+            <FormattedMessage {...messages.received} />
+          </span>
         </section>
       ) : (
         <section>
           <Isvg src={paperPlane} />
-          <span>Sent</span>
+          <span>
+            <FormattedMessage {...messages.sent} />
+          </span>
         </section>
       )}
       <section className={styles.details}>
@@ -59,7 +66,10 @@ const TransactionModal = ({
             currentTicker={currentTicker}
             fiatTicker={ticker.fiatTicker}
           />
-          <span> {currencyName} fee</span>
+          <span>
+            {' '}
+            {currencyName} <FormattedMessage {...messages.fee} />
+          </span>
         </div>
       </section>
     </header>

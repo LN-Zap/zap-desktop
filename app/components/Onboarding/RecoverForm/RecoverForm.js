@@ -33,7 +33,7 @@ const RecoverForm = ({ recoverSeedInput, updateRecoverSeedInput, intl }) => (
 RecoverForm.propTypes = {
   recoverSeedInput: PropTypes.array.isRequired,
   updateRecoverSeedInput: PropTypes.func.isRequired,
-  intl: PropTypes.func.isRequired
+  intl: PropTypes.object.isRequired
 }
 
 export default injectIntl(RecoverForm)

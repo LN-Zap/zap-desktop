@@ -11,6 +11,9 @@ import zap from 'icons/zap.svg'
 
 import Value from 'components/Value'
 
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
+
 import styles from './PaymentModal.scss'
 
 const PaymentModal = ({
@@ -30,12 +33,14 @@ const PaymentModal = ({
     <header className={styles.header}>
       <section>
         <Isvg src={paperPlane} />
-        <span>Sent</span>
+        <FormattedMessage {...messages.sent} />
       </section>
       <section className={styles.details}>
         <div>
           <Isvg src={zap} />
-          <span className={styles.zap}>Lightning Network</span>
+          <span className={styles.zap}>
+            <FormattedMessage {...messages.lightning} />
+          </span>
         </div>
         <div>
           <Value
@@ -44,7 +49,10 @@ const PaymentModal = ({
             currentTicker={currentTicker}
             fiatTicker={ticker.fiatTicker}
           />
-          <span> {currencyName} fee</span>
+          <span>
+            {' '}
+            {currencyName} <FormattedMessage {...messages.fee} />
+          </span>
         </div>
       </section>
     </header>
