@@ -34,6 +34,7 @@
   "components.Activity.search": "Suche",
   "components.Activity.sent": "Gesendet",
   "components.Activity.show_expired": "",
+  "components.LoadingBolt.loading": "",
   "components.Onboarding.Autopilot.disable": "An",
   "components.Onboarding.Autopilot.enable": "Aus",
   "components.Onboarding.BtcPayServer.btcpay_description": "",
