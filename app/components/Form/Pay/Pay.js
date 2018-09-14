@@ -9,6 +9,9 @@ import { MdKeyboardArrowDown } from 'react-icons/md'
 import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
 
+import { FormattedMessage, injectIntl } from 'react-intl'
+import messages from './messages'
+
 import styles from './Pay.scss'
 
 class Pay extends Component {
@@ -49,7 +52,8 @@ class Pay extends Component {
 
       onPaySubmit,
 
-      setCurrency
+      setCurrency,
+      intl
     } = this.props
 
     const displayNodeName = pubkey => {
@@ -76,20 +80,26 @@ class Pay extends Component {
       <div className={styles.container}>
         <header className={styles.header}>
           <Isvg src={paperPlane} />
-          <h1>Make Payment</h1>
+          <h1>
+            <FormattedMessage {...messages.title} />
+          </h1>
         </header>
 
         <div className={styles.content}>
           <section className={styles.destination}>
             <div className={styles.top}>
-              <label htmlFor="paymentRequest">Destination</label>
+              <label htmlFor="paymentRequest">
+                <FormattedMessage {...messages.destination} />
+              </label>
               <span
                 className={`${styles.description} ${isOnchain || isLn ? styles.active : undefined}`}
               >
                 {isOnchain && (
                   <i>
                     <Isvg src={link} />
-                    <span>On-Chain (~10 minutes)</span>
+                    <span>
+                      <FormattedMessage {...messages.onchain_description} />
+                    </span>
                   </i>
                 )}
                 {isLn && (
@@ -104,7 +114,7 @@ class Pay extends Component {
             <div className={styles.bottom}>
               <textarea
                 type="text"
-                placeholder="Paste payment request or bitcoin address here"
+                placeholder={intl.formatMessage({ ...messages.request_placeholder })}
                 value={payInput}
                 onChange={event => setPayInput(event.target.value)}
                 onBlur={onPayInputBlur}
@@ -123,7 +133,9 @@ class Pay extends Component {
 
           <section className={styles.amount}>
             <div className={styles.top}>
-              <label htmlFor="amount">Amount</label>
+              <label htmlFor="amount">
+                <FormattedMessage {...messages.amount} />
+              </label>
               <span />
             </div>
             <div className={styles.bottom}>
@@ -171,7 +183,7 @@ class Pay extends Component {
               className={`${styles.button} ${isValid ? styles.active : undefined}`}
               onClick={onPaySubmit}
             >
-              Pay
+              <FormattedMessage {...messages.pay} />
             </div>
           </section>
         </div>
@@ -214,4 +226,4 @@ Pay.propTypes = {
   currentCurrencyFilters: PropTypes.array.isRequired
 }
 
-export default Pay
+export default injectIntl(Pay)
