@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import { setLocale } from 'reducers/locales'
 import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
 import { fetchInvoices, setInvoice, invoiceSelectors } from 'reducers/invoice'
@@ -26,6 +27,7 @@ import { setSettingsOpen, setActiveSubMenu, disableSubMenu } from 'reducers/sett
 import Activity from 'components/Activity'
 
 const mapDispatchToProps = {
+  setLocale,
   setCurrency,
   setFiatTicker,
   setPayment,
@@ -68,6 +70,9 @@ const mapStateToProps = state => ({
   network: state.network,
 
   settings: state.settings,
+
+  currentLocale: state.intl.locale,
+  appLocales: state.locales,
 
   paymentModalOpen: paymentSelectors.paymentModalOpen(state),
   invoiceModalOpen: invoiceSelectors.invoiceModalOpen(state),
@@ -129,6 +134,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
         fiatTickers: stateProps.ticker.fiatTickers,
         disableSubMenu: dispatchProps.disableSubMenu,
         setFiatTicker: dispatchProps.setFiatTicker
+      },
+      languageProps: {
+        appLocales: stateProps.appLocales,
+        currentLocale: stateProps.currentLocale,
+        disableSubMenu: dispatchProps.disableSubMenu,
+        setLocale: dispatchProps.setLocale
       }
     }
   }

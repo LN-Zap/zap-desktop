@@ -23,6 +23,10 @@
         ["flow-runtime", {
           "assert": true,
           "annotate": true
+        }],
+        ["react-intl-auto", {
+          "removePrefix": "app/",
+           "filebase": false
         }]
       ]
     }
