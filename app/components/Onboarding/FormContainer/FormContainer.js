@@ -2,10 +2,10 @@ import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
-
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
-
 import zapLogo from 'icons/zap_logo.svg'
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
 import styles from './FormContainer.scss'
 
 const FormContainer = ({ title, description, back, next, children }) => (
@@ -23,7 +23,7 @@ const FormContainer = ({ title, description, back, next, children }) => (
             shell.openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
           }
         >
-          Need help?
+          <FormattedMessage {...messages.help} />
         </div>
       </section>
     </header>
@@ -57,8 +57,8 @@ const FormContainer = ({ title, description, back, next, children }) => (
 )
 
 FormContainer.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
+  description: PropTypes.node.isRequired,
 
   back: PropTypes.func,
   next: PropTypes.func,

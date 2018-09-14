@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FaCircle, FaRegCircle } from 'react-icons/fa'
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
 import styles from './ConnectionType.scss'
 
 const ConnectionType = ({ connectionType, setConnectionType }) => (
@@ -11,13 +13,14 @@ const ConnectionType = ({ connectionType, setConnectionType }) => (
       <div className={`${styles.button}`} onClick={() => setConnectionType('local')}>
         {connectionType === 'local' ? <FaCircle /> : <FaRegCircle />}
         <span className={styles.label}>
-          Default <span className={styles.superscript}>testnet</span>
+          <FormattedMessage {...messages.default} />{' '}
+          <span className={styles.superscript}>testnet</span>
         </span>
       </div>
       <div className={`${styles.description}`}>
-        By selecting the defualt mode we will do everything for you. Just click and go!
+        <FormattedMessage {...messages.default_description} />
         <br />
-        (testnet only)
+        (testnet <FormattedMessage {...messages.only} />)
       </div>
     </section>
     <section
@@ -25,11 +28,12 @@ const ConnectionType = ({ connectionType, setConnectionType }) => (
     >
       <div className={`${styles.button}`} onClick={() => setConnectionType('custom')}>
         {connectionType === 'custom' ? <FaCircle /> : <FaRegCircle />}
-        <span className={styles.label}>Custom</span>
+        <span className={styles.label}>
+          <FormattedMessage {...messages.custom} />
+        </span>
       </div>
       <div className={`${styles.description}`}>
-        Connect to your own node. You will need to provide your own connection settings so this is
-        for advanced users only.
+        <FormattedMessage {...messages.custom_description} />
       </div>
     </section>
     <section className={`${styles.option} ${connectionType === 'btcpayserver' && styles.active}`}>
@@ -38,7 +42,7 @@ const ConnectionType = ({ connectionType, setConnectionType }) => (
         <span className={styles.label}>BTCPay Server</span>
       </div>
       <div className={`${styles.description}`}>
-        Connect to your own BTCPay Server instance to access your BTCPay Server wallet.
+        <FormattedMessage {...messages.btcpay_description} />
       </div>
     </section>
   </div>
