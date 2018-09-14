@@ -15,7 +15,7 @@ const CHAIN_SYNC_COMPLETE = 'chain-sync-finished'
 
 // Events
 const ERROR = 'error'
-const CLOSE = 'close'
+const EXIT = 'exit'
 const WALLET_UNLOCKER_GRPC_ACTIVE = 'wallet-unlocker-grpc-active'
 const LIGHTNING_GRPC_ACTIVE = 'lightning-grpc-active'
 const GOT_CURRENT_BLOCK_HEIGHT = 'got-current-block-height'
@@ -90,11 +90,25 @@ class Neutrino extends EventEmitter {
       // neutrinoArgs.push('--neutrino.connect=testnet2-btcd.zaphq.io')
     }
 
+    mainLog.info(
+      'Spawning Neutrino process: %s %s',
+      this.lndConfig.binaryPath,
+      neutrinoArgs.join(' ')
+    )
+
     this.process = spawn(this.lndConfig.binaryPath, neutrinoArgs)
-      .on('error', error => this.emit(ERROR, error))
-      .on('close', code => {
-        this.emit(CLOSE, code, this.lastError)
+      .on('error', error => {
+        mainLog.debug('Neutrino process received "error" event with error: %s', error)
+        this.emit(ERROR, error, this.lastError)
+      })
+      .on('exit', (code, signal) => {
+        mainLog.debug(
+          'Neutrino process received "exit" event with code %s and signal %s',
+          code,
+          signal
+        )
         this.process = null
+        this.emit(EXIT, code, signal, this.lastError)
       })
 
     // Listen for when neutrino prints data to stderr.
@@ -230,11 +244,10 @@ class Neutrino extends EventEmitter {
   /**
    * Stop the Lnd process.
    */
-  kill() {
+  kill(signalName: string = 'SIGINT') {
     if (this.process) {
       mainLog.info('Killing Neutrino process...')
-      this.process.kill()
-      this.process = null
+      this.process.kill(signalName)
     }
   }
 
