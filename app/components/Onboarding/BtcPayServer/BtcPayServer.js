@@ -1,21 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
+import { FormattedMessage, injectIntl } from 'react-intl'
+import messages from './messages'
+
 import styles from './BtcPayServer.scss'
 
 const BtcPayServer = ({
   connectionString,
   connectionStringIsValid,
   setConnectionString,
-  startLndHostError
+  startLndHostError,
+  intl
 }) => (
   <div className={styles.container}>
     <section className={styles.input}>
-      <label htmlFor="connectionString">Connection String:</label>
+      <label htmlFor="connectionString">
+        <FormattedMessage {...messages.connection_string_label} />:
+      </label>
       <textarea
         type="text"
         id="connectionString"
         rows="10"
-        placeholder="BTCPay Server Connection String"
+        placeholder={intl.formatMessage({ ...messages.connection_string_placeholder })}
         className={
           connectionString && (startLndHostError || !connectionStringIsValid)
             ? styles.error
@@ -26,16 +33,14 @@ const BtcPayServer = ({
         onChange={event => setConnectionString(event.target.value)}
       />
       <p className={styles.description}>
-        Paste the full content of your BTCPay Server connection config file. This can be found by
-        clicking the link entitled &quot;Click here to open the configuration file.&quot; in your
-        BTCPay Server gRPC settings.
+        <FormattedMessage {...messages.btcpay_description} />
       </p>
       <p
         className={`${styles.errorMessage} ${
           connectionString && !connectionStringIsValid ? styles.visible : undefined
         }`}
       >
-        Invalid connection string.
+        <FormattedMessage {...messages.btcpay_error} />
       </p>
       <p
         className={`${styles.errorMessage} ${
@@ -55,4 +60,4 @@ BtcPayServer.propTypes = {
   startLndHostError: PropTypes.string
 }
 
-export default BtcPayServer
+export default injectIntl(BtcPayServer)

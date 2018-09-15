@@ -11,6 +11,9 @@ import Settings from 'components/Settings'
 import zapLogo from 'icons/zap_logo.svg'
 import qrCode from 'icons/qrcode.svg'
 
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
+
 import styles from './Wallet.scss'
 
 const Wallet = ({
@@ -108,10 +111,10 @@ const Wallet = ({
         <div className={styles.right}>
           <div className={styles.rightContent}>
             <div className={styles.pay} onClick={openPayForm}>
-              Pay
+              <FormattedMessage {...messages.pay} />
             </div>
             <div className={styles.request} onClick={openRequestForm}>
-              Request
+              <FormattedMessage {...messages.request} />
             </div>
           </div>
           <div className={styles.notificationBox}>
@@ -121,7 +124,9 @@ const Wallet = ({
                   <section className={`${styles.spinner} ${styles.icon}`} />
                   <span className={styles.timeout}>{paymentTimeout / 1000}</span>
                 </div>
-                <section>Sending your transaction</section>
+                <section>
+                  <FormattedMessage {...messages.sending_tx} />
+                </section>
               </span>
             )}
             {showSuccessPayScreen && (
@@ -129,7 +134,9 @@ const Wallet = ({
                 <section className={styles.icon}>
                   <AnimatedCheckmark />
                 </section>
-                <section>Successfully sent payment</section>
+                <section>
+                  <FormattedMessage {...messages.payment_success} />
+                </section>
               </span>
             )}
             {successTransactionScreen.show && (
@@ -138,16 +145,14 @@ const Wallet = ({
                   <AnimatedCheckmark />
                 </section>
                 <section>
-                  Successfully{' '}
                   <span
                     className={styles.txLink}
                     onClick={() => {
                       return blockExplorer.showTransaction(network, successTransactionScreen.txid)
                     }}
                   >
-                    sent
-                  </span>{' '}
-                  transaction
+                    <FormattedMessage {...messages.transaction_success} />
+                  </span>
                 </section>
               </span>
             )}

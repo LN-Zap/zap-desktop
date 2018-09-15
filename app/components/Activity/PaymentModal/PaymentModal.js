@@ -1,8 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Moment from 'react-moment'
-
 import { MdKeyboardArrowDown } from 'react-icons/md'
 
 import Isvg from 'react-inlinesvg'
@@ -10,6 +8,9 @@ import paperPlane from 'icons/paper_plane.svg'
 import zap from 'icons/zap.svg'
 
 import Value from 'components/Value'
+
+import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
+import messages from './messages'
 
 import styles from './PaymentModal.scss'
 
@@ -30,12 +31,14 @@ const PaymentModal = ({
     <header className={styles.header}>
       <section>
         <Isvg src={paperPlane} />
-        <span>Sent</span>
+        <FormattedMessage {...messages.sent} />
       </section>
       <section className={styles.details}>
         <div>
           <Isvg src={zap} />
-          <span className={styles.zap}>Lightning Network</span>
+          <span className={styles.zap}>
+            <FormattedMessage {...messages.lightning} />
+          </span>
         </div>
         <div>
           <Value
@@ -44,7 +47,10 @@ const PaymentModal = ({
             currentTicker={currentTicker}
             fiatTicker={ticker.fiatTicker}
           />
-          <span> {currencyName} fee</span>
+          <span>
+            {' '}
+            {currencyName} <FormattedMessage {...messages.fee} />
+          </span>
         </div>
       </section>
     </header>
@@ -78,7 +84,13 @@ const PaymentModal = ({
     </div>
 
     <div className={styles.date}>
-      <Moment format="LLL">{payment.creation_date * 1000}</Moment>
+      <FormattedDate
+        value={new Date(payment.creation_date * 1000)}
+        year="numeric"
+        month="long"
+        day="2-digit"
+      />{' '}
+      <FormattedTime value={new Date(payment.creation_date * 1000)} />
     </div>
 
     <footer className={styles.footer}>

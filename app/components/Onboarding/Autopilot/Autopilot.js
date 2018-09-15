@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FaCircle, FaRegCircle } from 'react-icons/fa'
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
 import styles from './Autopilot.scss'
 
 const Autopilot = ({ autopilot, setAutopilot }) => (
@@ -8,7 +10,9 @@ const Autopilot = ({ autopilot, setAutopilot }) => (
     <section className={`${styles.enable} ${autopilot ? styles.active : undefined}`}>
       <div onClick={() => setAutopilot(true)}>
         {autopilot ? <FaCircle /> : <FaRegCircle />}
-        <span className={styles.label}>Enable Autopilot</span>
+        <span className={styles.label}>
+          <FormattedMessage {...messages.enable} /> Autopilot
+        </span>
       </div>
     </section>
     <section
@@ -18,7 +22,9 @@ const Autopilot = ({ autopilot, setAutopilot }) => (
     >
       <div onClick={() => setAutopilot(false)}>
         {!autopilot && autopilot !== null ? <FaCircle /> : <FaRegCircle />}
-        <span className={styles.label}>Disable Autopilot</span>
+        <span className={styles.label}>
+          <FormattedMessage {...messages.disable} /> Autopilot
+        </span>
       </div>
     </section>
   </div>
