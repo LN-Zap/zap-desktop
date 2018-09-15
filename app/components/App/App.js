@@ -9,8 +9,6 @@ import ChannelForm from 'components/Contacts/ChannelForm'
 
 import Network from 'components/Contacts/Network'
 import AddChannel from 'components/Contacts/AddChannel'
-import ContactModal from 'components/Contacts/ContactModal'
-
 import ReceiveModal from 'components/Wallet/ReceiveModal'
 import ActivityModal from 'components/Activity/ActivityModal'
 
@@ -52,7 +50,6 @@ class App extends Component {
       error: { error },
       clearError,
 
-      contactModalProps,
       contactsFormProps,
       networkTabProps,
       receiveModalProps,
@@ -70,8 +67,6 @@ class App extends Component {
       <div>
         <div className={styles.titleBar} />
         <GlobalError error={error} clearError={clearError} />
-
-        <ContactModal {...contactModalProps} />
 
         <ChannelForm {...channelFormProps} />
 
@@ -98,7 +93,6 @@ App.propTypes = {
   closeForm: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
   currentTicker: PropTypes.object,
-  contactModalProps: PropTypes.object,
   contactsFormProps: PropTypes.object,
   networkTabProps: PropTypes.object,
   activityModalProps: PropTypes.object,
