@@ -3,8 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 
-import FaAngleLeft from 'react-icons/lib/fa/angle-left'
-import FaAngleRight from 'react-icons/lib/fa/angle-right'
+import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md'
 
 import zapLogo from 'icons/zap_logo.svg'
 import styles from './FormContainer.scss'
@@ -41,14 +40,14 @@ const FormContainer = ({ title, description, back, next, children }) => (
         <section>
           {back && (
             <div onClick={back} className={styles.backButton}>
-              <FaAngleLeft style={{ verticalAlign: 'top' }} /> Back
+              <MdKeyboardArrowLeft style={{ verticalAlign: 'top' }} /> Back
             </div>
           )}
         </section>
         <section>
           {next && (
             <div onClick={next} className={styles.nextButton}>
-              Next <FaAngleRight style={{ verticalAlign: 'top' }} />
+              Next <MdKeyboardArrowRight style={{ verticalAlign: 'top' }} />
             </div>
           )}
         </section>

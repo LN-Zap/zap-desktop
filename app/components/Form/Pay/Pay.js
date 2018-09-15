@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
 import link from 'icons/link.svg'
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 
 import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
@@ -159,7 +159,7 @@ class Pay extends Component {
                 >
                   <span>{currencyName}</span>
                   <span>
-                    <FaAngleDown />
+                    <MdKeyboardArrowDown />
                   </span>
                 </section>
                 <ul className={showCurrencyFilters ? styles.active : undefined}>

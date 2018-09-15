@@ -7,7 +7,7 @@ import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
 import { showNotification } from 'lib/utils/notifications'
 
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 
 import Value from 'components/Value'
 import Countdown from '../Countdown'
@@ -67,7 +67,7 @@ const InvoiceModal = ({
               >
                 <span>{currencyName}</span>
                 <span>
-                  <FaAngleDown />
+                  <MdKeyboardArrowDown />
                 </span>
               </section>
               <ul className={showCurrencyFilters ? styles.active : undefined}>

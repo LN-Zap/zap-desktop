@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 import searchIcon from 'icons/search.svg'
 import xIcon from 'icons/x.svg'
-import FaRepeat from 'react-icons/lib/fa/repeat'
+import { FaSync } from 'react-icons/fa'
 
 import Wallet from 'components/Wallet'
 import LoadingBolt from 'components/LoadingBolt'
@@ -176,7 +176,7 @@ class Activity extends Component {
                         this.repeat = ref
                       }}
                     >
-                      {refreshing ? <FaRepeat /> : 'Refresh'}
+                      {refreshing ? <FaSync /> : 'Refresh'}
                     </span>
                   </li>
                   <li className={styles.activeFilter} onClick={() => updateSearchActive(true)}>

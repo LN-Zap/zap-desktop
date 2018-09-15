@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
-import FaExternalLink from 'react-icons/lib/fa/external-link'
-import FaCircle from 'react-icons/lib/fa/circle'
-import FaRepeat from 'react-icons/lib/fa/repeat'
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
+import { FaExternalLinkAlt, FaCircle, FaSync } from 'react-icons/fa'
+import { MdKeyboardArrowDown } from 'react-icons/md'
 import { btc, blockExplorer } from 'lib/utils'
 import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
@@ -195,7 +193,7 @@ class Network extends Component {
                 <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
                   {filter.name}{' '}
                   <span className={filterPulldown ? styles.pulldown : undefined}>
-                    <FaAngleDown />
+                    <MdKeyboardArrowDown />
                   </span>
                 </h2>
                 <ul className={`${styles.filters} ${filterPulldown ? styles.active : undefined}`}>
@@ -214,7 +212,7 @@ class Network extends Component {
                     this.repeat = ref
                   }}
                 >
-                  {refreshing ? <FaRepeat /> : 'Refresh'}
+                  {refreshing ? <FaSync /> : 'Refresh'}
                 </span>
               </section>
             </header>
@@ -284,7 +282,7 @@ class Network extends Component {
                             )
                           }
                         >
-                          <FaExternalLink />
+                          <FaExternalLinkAlt />
                         </span>
                       )}
                     </section>
