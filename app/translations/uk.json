@@ -86,7 +86,7 @@
   "components.Onboarding.ConnectionDetails.hostname_title": "",
   "components.Onboarding.ConnectionDetails.macaroon_description": "Шлях до файлу lnd macaroon. Приклад: /path/to/admin.macaroon",
   "components.Onboarding.ConnectionType.btcpay_description": "Вставити повний зміст вашого BTCPay сервера конфігураційного файлу з'єднання. Його можна знайти, клацнувши посилання право &quot;натисніть тут, щоб відкрити файл конфігурації.&quot; в настройках gRPC BTCPay сервера.",
-  "components.Onboarding.ConnectionType.custom": "Custom",
+  "components.Onboarding.ConnectionType.custom": "",
   "components.Onboarding.ConnectionType.custom_description": "",
   "components.Onboarding.ConnectionType.default": "Типові",
   "components.Onboarding.ConnectionType.default_description": "",
