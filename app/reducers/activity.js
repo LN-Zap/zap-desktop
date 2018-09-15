@@ -7,10 +7,10 @@ const initialState = {
   filterPulldown: false,
   filter: { key: 'ALL_ACTIVITY', name: 'All Activity' },
   filters: [
-    { key: 'ALL_ACTIVITY', name: 'All' },
-    { key: 'SENT_ACTIVITY', name: 'Sent' },
-    { key: 'REQUESTED_ACTIVITY', name: 'Requested' },
-    { key: 'PENDING_ACTIVITY', name: 'Pending' }
+    { key: 'ALL_ACTIVITY', name: 'all' },
+    { key: 'SENT_ACTIVITY', name: 'sent' },
+    { key: 'REQUESTED_ACTIVITY', name: 'requested' },
+    { key: 'PENDING_ACTIVITY', name: 'pending' }
   ],
   modal: {
     itemType: null,

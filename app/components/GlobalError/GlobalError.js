@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import MdClose from 'react-icons/lib/md/close'
+import { MdClose } from 'react-icons/md'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import styles from './GlobalError.scss'
 

@@ -1,6 +1,7 @@
 import React from 'react'
-import { Provider, connect } from 'react-redux'
+import { connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
+import { Switch, Route } from 'react-router'
 import PropTypes from 'prop-types'
 import { hot } from 'react-hot-loader'
 
@@ -33,7 +34,9 @@ import { walletAddress } from 'reducers/address'
 import LoadingBolt from 'components/LoadingBolt'
 import Onboarding from 'components/Onboarding'
 import Syncing from 'components/Onboarding/Syncing'
-import Routes from '../routes'
+
+import App from './App'
+import Activity from './Activity'
 
 const mapDispatchToProps = {
   setConnectionType,
@@ -202,14 +205,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   }
 }
 
-const Root = ({
-  store,
-  history,
-
-  lnd,
-  onboardingProps,
-  syncingProps
-}) => {
+const Root = ({ history, lnd, onboardingProps, syncingProps }) => {
   // If we are onboarding show the onboarding screen.
   if (onboardingProps.onboarding.onboarding) {
     return <Onboarding {...onboardingProps} />
@@ -231,16 +227,17 @@ const Root = ({
   }
 
   return (
-    <Provider store={store}>
-      <ConnectedRouter history={history}>
-        <Routes />
-      </ConnectedRouter>
-    </Provider>
+    <ConnectedRouter history={history}>
+      <App>
+        <Switch>
+          <Route path="/" component={Activity} />
+        </Switch>
+      </App>
+    </ConnectedRouter>
   )
 }
 
 Root.propTypes = {
-  store: PropTypes.object.isRequired,
   history: PropTypes.object.isRequired,
   lnd: PropTypes.object.isRequired,
   onboardingProps: PropTypes.object.isRequired,

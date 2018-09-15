@@ -1,0 +1,94 @@
+@import '../../../styles/variables.scss';
+
+.container {
+  color: $white;
+  padding: 10px;
+
+  header {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .suggestedNodes {
+    margin-top: 30px;
+
+    li {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 10px 0;
+      padding: 10px 0;
+
+      section span {
+        font-size: 12px;
+      }
+
+      section:nth-child(1) {
+        span {
+          display: block;
+
+          &:nth-child(2) {
+            font-size: 10px;
+            margin-top: 5px;
+          }
+        }
+      }
+
+      section:nth-child(2) {
+        span {
+          font-size: 10px;
+          opacity: 0.5;
+          cursor: pointer;
+          transition: all 0.25s;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+}
+
+.spinnerContainer {
+  text-align: center;
+}
+
+.spinner {
+  height: 25px;
+  width: 25px;
+  border: 1px solid rgba(235, 184, 100, 0.1);
+  border-left-color: rgba(235, 184, 100, 0.4);
+  -webkit-border-radius: 999px;
+  -moz-border-radius: 999px;
+  border-radius: 999px;
+  -webkit-animation: animation-rotate 1000ms linear infinite;
+  -moz-animation: animation-rotate 1000ms linear infinite;
+  -o-animation: animation-rotate 1000ms linear infinite;
+  animation: animation-rotate 1000ms linear infinite;
+  display: inline-block;
+}
+
+@-webkit-keyframes animation-rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes animation-rotate {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes animation-rotate {
+  100% {
+    -o-transform: rotate(360deg);
+  }
+}
+
+@keyframes animation-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
