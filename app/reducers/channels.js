@@ -37,9 +37,6 @@ export const REMOVE_LOADING_PUBKEY = 'REMOVE_LOADING_PUBKEY'
 export const ADD_ClOSING_CHAN_ID = 'ADD_ClOSING_CHAN_ID'
 export const REMOVE_ClOSING_CHAN_ID = 'REMOVE_ClOSING_CHAN_ID'
 
-export const OPEN_CONTACT_MODAL = 'OPEN_CONTACT_MODAL'
-export const CLOSE_CONTACT_MODAL = 'CLOSE_CONTACT_MODAL'
-
 export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
 
 export const GET_SUGGESTED_NODES = 'GET_SUGGESTED_NODES'
@@ -131,19 +128,6 @@ export function removeClosingChanId(chanId) {
   return {
     type: REMOVE_ClOSING_CHAN_ID,
     chanId
-  }
-}
-
-export function openContactModal(channel) {
-  return {
-    type: OPEN_CONTACT_MODAL,
-    channel
-  }
-}
-
-export function closeContactModal() {
-  return {
-    type: CLOSE_CONTACT_MODAL
   }
 }
 
@@ -263,7 +247,6 @@ export const closeChannelSuccessful = () => dispatch => {
 export const pushclosechannelupdated = (event, { chan_id }) => dispatch => {
   dispatch(fetchChannels())
   dispatch(removeClosingChanId(chan_id))
-  dispatch(closeContactModal())
 }
 
 // Receive IPC event for closing channel end
@@ -392,12 +375,6 @@ const ACTION_HANDLERS = {
     ...state,
     closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId)
   }),
-
-  [OPEN_CONTACT_MODAL]: (state, { channel }) => ({
-    ...state,
-    contactModal: { isOpen: true, channel }
-  }),
-  [CLOSE_CONTACT_MODAL]: state => ({ ...state, contactModal: { isOpen: false, channel: null } }),
 
   [SET_SELECTED_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
 
@@ -628,11 +605,6 @@ const initialState = {
 
   loadingChannelPubkeys: [],
   closingChannelIds: [],
-
-  contactModal: {
-    isOpen: false,
-    channel: null
-  },
 
   selectedChannel: null,
 
