@@ -1,9 +1,9 @@
 commit_message: '[ci skip]'
 files:
   - source: /app/translations/en.json
-    translation: /app/translations/%locale%.json
+    translation: /app/translations/%two_letters_code%.json
     languages_mapping:
-      locale:
+      two_letters_code:
         af: af
         ar: ar
         bg: bg
