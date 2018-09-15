@@ -10,7 +10,10 @@ import { showNotification } from 'lib/utils/notifications'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 
 import Value from 'components/Value'
+import { FormattedMessage } from 'react-intl'
 import Countdown from '../Countdown'
+
+import messages from './messages'
 
 import styles from './InvoiceModal.scss'
 
@@ -29,7 +32,7 @@ const InvoiceModal = ({
 }) => {
   const copyPaymentRequest = () => {
     copy(invoice.payment_request)
-    showNotification('Noice', 'Successfully copied to clipboard')
+    showNotification('Noice', <FormattedMessage {...messages.copied} />)
   }
 
   const countDownDate = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
@@ -38,7 +41,9 @@ const InvoiceModal = ({
     <div className={styles.container}>
       <div className={styles.content}>
         <section className={styles.left}>
-          <h2>Payment Request</h2>
+          <h2>
+            <FormattedMessage {...messages.pay_req} />
+          </h2>
           <QRCode
             value={invoice.payment_request}
             renderAs="svg"
@@ -82,26 +87,42 @@ const InvoiceModal = ({
               <p>
                 <Moment format="MM/DD/YYYY">{invoice.creation_date * 1000}</Moment>
               </p>
-              {!invoice.settled && <p className={styles.notPaid}>Not Paid</p>}
-              {invoice.settled && <p className={styles.paid}>Paid</p>}
+              {!invoice.settled && (
+                <p className={styles.notPaid}>
+                  <FormattedMessage {...messages.not_paid} />
+                </p>
+              )}
+              {invoice.settled && (
+                <p className={styles.paid}>
+                  <FormattedMessage {...messages.paid} />
+                </p>
+              )}
             </section>
           </div>
 
           <div className={styles.memo}>
-            <h4>Memo</h4>
+            <h4>
+              <FormattedMessage {...messages.memo} />
+            </h4>
             <p>{invoice.memo}</p>
           </div>
 
           <div className={styles.request}>
-            <h4>Request</h4>
+            <h4>
+              <FormattedMessage {...messages.request} />
+            </h4>
             <p>{invoice.payment_request}</p>
           </div>
         </section>
       </div>
 
       <div className={styles.actions}>
-        <div>Save as image</div>
-        <div onClick={copyPaymentRequest}>Copy Request</div>
+        <div>
+          <FormattedMessage {...messages.save} />
+        </div>
+        <div onClick={copyPaymentRequest}>
+          <FormattedMessage {...messages.copy} />
+        </div>
       </div>
     </div>
   )

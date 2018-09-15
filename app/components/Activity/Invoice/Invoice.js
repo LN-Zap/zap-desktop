@@ -6,9 +6,13 @@ import { btc } from 'lib/utils'
 import Isvg from 'react-inlinesvg'
 import Value from 'components/Value'
 import checkmarkIcon from 'icons/check_circle.svg'
+
+import { FormattedMessage, injectIntl } from 'react-intl'
+import messages from './messages'
+
 import styles from '../Activity.scss'
 
-const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyName }) => (
+const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyName, intl }) => (
   <div
     className={`${styles.container} ${!invoice.settled ? styles.unpaid : undefined}`}
     onClick={() => showActivityModal('INVOICE', invoice.payment_request)}
@@ -16,7 +20,11 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
     <div className={styles.activityTypeIcon}>
       <section
         className="hint--bottom"
-        data-hint={`Lightning invoice (${invoice.settled ? 'paid)' : 'unpaid'})`}
+        data-hint={
+          invoice.settled
+            ? intl.formatMessage({ ...messages.type_paid })
+            : intl.formatMessage({ ...messages.type_unpaid })
+        }
       >
         <Isvg src={checkmarkIcon} />
       </section>
@@ -24,7 +32,13 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
 
     <div className={styles.data}>
       <div className={styles.title}>
-        <h3>{invoice.settled ? 'Received payment' : 'Requested payment'}</h3>
+        <h3>
+          {invoice.settled ? (
+            <FormattedMessage {...messages.received} />
+          ) : (
+            <FormattedMessage {...messages.requested} />
+          )}
+        </h3>
       </div>
       <div className={styles.subtitle}>
         <Moment format="h:mm a">
@@ -36,7 +50,7 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
       className={`hint--top-left ${styles.amount} ${
         invoice.settled ? styles.positive : styles.negative
       }`}
-      data-hint="Invoice amount"
+      data-hint={intl.formatMessage({ ...messages.amount })}
     >
       <span>
         <i className={styles.plus}>+</i>
@@ -66,4 +80,4 @@ Invoice.propTypes = {
   currencyName: PropTypes.string.isRequired
 }
 
-export default Invoice
+export default injectIntl(Invoice)

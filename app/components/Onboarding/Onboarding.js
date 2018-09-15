@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
+import { FormattedMessage } from 'react-intl'
 import LoadingBolt from 'components/LoadingBolt'
+import messages from './messages'
 
 import FormContainer from './FormContainer'
 import ConnectionType from './ConnectionType'
@@ -54,12 +56,8 @@ const Onboarding = ({
       case 0.1:
         return (
           <FormContainer
-            title="How do you want to connect to the Lightning Network?"
-            description="
-              By default Zap will spin up a node for you and handle all the nerdy stuff
-              in the background. However you can also setup a custom node connection and
-              use Zap to control a remote node if you desire (for advanced users).
-            "
+            title={<FormattedMessage {...messages.connection_title} />}
+            description={<FormattedMessage {...messages.connection_description} />}
             back={null}
             next={() => {
               switch (connectionType) {
@@ -81,8 +79,8 @@ const Onboarding = ({
       case 0.2:
         return (
           <FormContainer
-            title="Connection details"
-            description="Enter the connection details for your Lightning node."
+            title={<FormattedMessage {...messages.connection_details_custom_title} />}
+            description={<FormattedMessage {...messages.connection_details_custom_description} />}
             back={() => changeStep(0.1)}
             next={() => {
               // dont allow the user to move on if we don't at least have a hostname.
@@ -100,8 +98,8 @@ const Onboarding = ({
       case 0.3:
         return (
           <FormContainer
-            title="BTCPay Server"
-            description="Enter the connection details for your BTCPay Server node."
+            title={<FormattedMessage {...messages.btcpay_title} />}
+            description={<FormattedMessage {...messages.btcpay_description} />}
             back={() => changeStep(0.1)}
             next={() => {
               // dont allow the user to move on if the connection string is invalid.
@@ -119,8 +117,8 @@ const Onboarding = ({
       case 0.4:
         return (
           <FormContainer
-            title="Confirm connection"
-            description="Confirm the connection details for your Lightning node."
+            title={<FormattedMessage {...messages.confirm_connection_title} />}
+            description={<FormattedMessage {...messages.confirm_connection_description} />}
             back={() => changeStep(previousStep)}
             next={() => {
               startLnd({
@@ -139,8 +137,8 @@ const Onboarding = ({
       case 1:
         return (
           <FormContainer
-            title="What should we call you?"
-            description="Set your nickname to help others connect with you on the Lightning Network"
+            title={<FormattedMessage {...messages.alias_title} />}
+            description={<FormattedMessage {...messages.alias_description} />}
             back={() => changeStep(0.1)}
             next={() => changeStep(2)}
           >
@@ -150,8 +148,8 @@ const Onboarding = ({
       case 2:
         return (
           <FormContainer
-            title="Autopilot"
-            description="Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance." // eslint-disable-line max-len
+            title={<FormattedMessage {...messages.autopilot_title} />}
+            description={<FormattedMessage {...messages.autopilot_description} />}
             back={() => changeStep(1)}
             next={() => startLnd({ type: connectionType, alias, autopilot })}
           >
@@ -159,24 +157,31 @@ const Onboarding = ({
           </FormContainer>
         )
       case 3:
-        // eslint-disable-next-line no-case-declarations
-        let message = 'It looks like you already have a wallet'
-        if (initWalletProps.loginProps.existingWalletDir && connectionType === 'local') {
-          message += ` (we found one at ${initWalletProps.loginProps.existingWalletDir})`
-        } else {
-          message += ` at ${connectionHost.split(':')[0]}`
-        }
-        message += '. Please enter your wallet password to unlock it.'
         return (
-          <FormContainer title="Welcome back!" description={`${message}`} back={null} next={null}>
+          <FormContainer
+            title={<FormattedMessage {...messages.login_title} />}
+            description={
+              <FormattedMessage
+                {...messages.login_description}
+                values={{
+                  walletDir:
+                    initWalletProps.loginProps.existingWalletDir && connectionType === 'local'
+                      ? initWalletProps.loginProps.existingWalletDir
+                      : connectionHost.split(':')[0]
+                }}
+              />
+            }
+            back={null}
+            next={null}
+          >
             <Login {...initWalletProps.loginProps} />
           </FormContainer>
         )
       case 4:
         return (
           <FormContainer
-            title="Welcome!"
-            description="Looks like you are new here. Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future" // eslint-disable-line max-len
+            title={<FormattedMessage {...messages.create_wallet_password_title} />}
+            description={<FormattedMessage {...messages.create_wallet_password_description} />}
             back={null}
             next={() => {
               // dont allow the user to move on if the confirmation password doesnt match the original password
@@ -199,8 +204,8 @@ const Onboarding = ({
       case 5:
         return (
           <FormContainer
-            title={"Alright, let's get set up"}
-            description="Would you like to create a new wallet or import an existing one?"
+            title={<FormattedMessage {...messages.signup_title} />}
+            description={<FormattedMessage {...messages.signup_description} />}
             back={() => changeStep(4)}
             next={() => {
               // require the user to select create wallet or import wallet
@@ -220,8 +225,8 @@ const Onboarding = ({
       case 5.1:
         return (
           <FormContainer
-            title="Import your seed"
-            description="Recovering a wallet, nice. You don't need anyone else, you got yourself :)"
+            title={<FormattedMessage {...messages.import_title} />}
+            description={<FormattedMessage {...messages.import_description} />}
             back={() => changeStep(5)}
             next={() => {
               const recoverySeed = recoverFormProps.recoverSeedInput.map(input => input.word)
@@ -235,8 +240,8 @@ const Onboarding = ({
       case 6:
         return (
           <FormContainer
-            title="Save your wallet seed"
-            description="Please save these 24 words securely! This will allow you to recover your wallet in the future"
+            title={<FormattedMessage {...messages.save_seed_title} />}
+            description={<FormattedMessage {...messages.save_seed_description} />}
             back={() => changeStep(5)}
             next={() => changeStep(7)}
           >
@@ -246,11 +251,17 @@ const Onboarding = ({
       case 7:
         return (
           <FormContainer
-            title="Retype your seed"
-            description={`Your seed is important! If you lose your seed you'll have no way to recover your wallet.
-            To make sure that you have properly saved your seed, please retype words ${
-              reEnterSeedProps.seedIndexesArr[0]
-            }, ${reEnterSeedProps.seedIndexesArr[1]} and ${reEnterSeedProps.seedIndexesArr[2]}`}
+            title={<FormattedMessage {...messages.retype_seed_title} />}
+            description={
+              <FormattedMessage
+                {...messages.retype_seed_description}
+                values={{
+                  word1: reEnterSeedProps.seedIndexesArr[0],
+                  word2: reEnterSeedProps.seedIndexesArr[1],
+                  word3: reEnterSeedProps.seedIndexesArr[2]
+                }}
+              />
+            }
             back={() => changeStep(6)}
             next={() => {
               // don't allow them to move on if they havent re-entered the seed correctly

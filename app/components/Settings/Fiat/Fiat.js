@@ -3,13 +3,19 @@ import PropTypes from 'prop-types'
 import { MdKeyboardArrowLeft } from 'react-icons/md'
 import Isvg from 'react-inlinesvg'
 import checkIcon from 'icons/check.svg'
+
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
+
 import styles from './Fiat.scss'
 
 const Fiat = ({ fiatTicker, fiatTickers, disableSubMenu, setFiatTicker }) => (
   <div>
     <header className={styles.submenuHeader} onClick={disableSubMenu}>
       <MdKeyboardArrowLeft />
-      <span>Fiat currency</span>
+      <span>
+        <FormattedMessage {...messages.title} />
+      </span>
     </header>
     <ul className={styles.fiatTickers}>
       {fiatTickers.map(ft => (

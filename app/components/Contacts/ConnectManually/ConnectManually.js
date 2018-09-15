@@ -1,5 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
+import { FormattedMessage, injectIntl } from 'react-intl'
+import messages from './messages'
+
 import styles from './ConnectManually.scss'
 
 class ConnectManually extends React.Component {
@@ -15,7 +19,8 @@ class ConnectManually extends React.Component {
 
       setNode,
 
-      showErrors
+      showErrors,
+      intl
     } = this.props
 
     const formSubmitted = () => {
@@ -48,15 +53,19 @@ class ConnectManually extends React.Component {
     return (
       <div className={styles.content}>
         <header className={styles.header}>
-          <h1>Connect Manually</h1>
-          <p>Please enter the peer&apos;s pubkey@host</p>
+          <h1>
+            <FormattedMessage {...messages.title} />
+          </h1>
+          <p>
+            <FormattedMessage {...messages.description} />
+          </p>
         </header>
 
         <section className={styles.peer}>
           <div className={styles.input}>
             <input
               type="text"
-              placeholder="pubkey@host"
+              placeholder={intl.formatMessage({ ...messages.placeholder })}
               value={manualSearchQuery}
               onChange={event => updateManualFormSearchQuery(event.target.value)}
             />
@@ -76,7 +85,7 @@ class ConnectManually extends React.Component {
             className={`${styles.button} ${manualFormIsValid.isValid ? styles.active : undefined}`}
             onClick={formSubmitted}
           >
-            Submit
+            <FormattedMessage {...messages.submit} />
           </div>
         </section>
       </div>
@@ -98,4 +107,4 @@ ConnectManually.propTypes = {
   showErrors: PropTypes.object.isRequired
 }
 
-export default ConnectManually
+export default injectIntl(ConnectManually)

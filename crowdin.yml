@@ -1,0 +1,5 @@
+commit_message: '[ci skip]'
+files:
+  - source: /app/translations/en.json
+    translation: /app/translations/%locale%.json
+    update_option: update_without_changes

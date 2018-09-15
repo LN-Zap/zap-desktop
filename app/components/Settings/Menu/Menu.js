@@ -9,6 +9,10 @@ const Menu = ({ setActiveSubMenu }) => (
       <span>Fiat Currency</span>
       <MdKeyboardArrowRight />
     </li>
+    <li className={styles.language} onClick={() => setActiveSubMenu('language')}>
+      <span>Language</span>
+      <MdKeyboardArrowRight />
+    </li>
   </ul>
 )
 

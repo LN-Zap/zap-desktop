@@ -6,9 +6,21 @@ import zap from 'icons/zap.svg'
 
 import { btc } from 'lib/utils'
 import Value from 'components/Value'
+
+import { injectIntl } from 'react-intl'
+import messages from './messages'
+
 import styles from '../Activity.scss'
 
-const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, currencyName }) => {
+const Payment = ({
+  payment,
+  ticker,
+  currentTicker,
+  showActivityModal,
+  nodes,
+  currencyName,
+  intl
+}) => {
   const displayNodeName = pubkey => {
     const node = nodes.find(n => pubkey === n.pub_key)
 
@@ -25,7 +37,7 @@ const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, cur
       onClick={() => showActivityModal('PAYMENT', payment.payment_hash)}
     >
       <div className={styles.activityTypeIcon}>
-        <section className="hint--bottom" data-hint="Lightning payment">
+        <section className="hint--bottom" data-hint={intl.formatMessage({ ...messages.type })}>
           <Isvg src={zap} />
         </section>
       </div>
@@ -38,7 +50,10 @@ const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, cur
           <Moment format="h:mm a">{payment.creation_date * 1000}</Moment>
         </div>
       </div>
-      <div className={`hint--top-left ${styles.amount}`} data-hint="Payment amount">
+      <div
+        className={`hint--top-left ${styles.amount}`}
+        data-hint={intl.formatMessage({ ...messages.amount })}
+      >
         <span>
           <i className={styles.minus}>-</i>
           <Value
@@ -49,7 +64,7 @@ const Payment = ({ payment, ticker, currentTicker, showActivityModal, nodes, cur
           />
           <i> {currencyName}</i>
         </span>
-        <span className="hint--bottom" data-hint="Payment fee">
+        <span className="hint--bottom" data-hint={intl.formatMessage({ ...messages.fee })}>
           {currentTicker[ticker.fiatTicker].symbol}
           {btc.convert('sats', 'fiat', payment.value, currentTicker[ticker.fiatTicker].last)}
         </span>
@@ -64,7 +79,8 @@ Payment.propTypes = {
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   nodes: PropTypes.array.isRequired,
-  showActivityModal: PropTypes.func.isRequired
+  showActivityModal: PropTypes.func.isRequired,
+  intl: PropTypes.object.isRequired
 }
 
-export default Payment
+export default injectIntl(Payment)

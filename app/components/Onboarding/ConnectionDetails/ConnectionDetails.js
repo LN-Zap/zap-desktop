@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
 import styles from './ConnectionDetails.scss'
 
 const ConnectionDetails = ({
@@ -15,7 +17,9 @@ const ConnectionDetails = ({
 }) => (
   <div className={styles.container}>
     <section className={styles.input}>
-      <label htmlFor="connectionHost">Host:</label>
+      <label htmlFor="connectionHost">
+        <FormattedMessage {...messages.hostname_title} />:
+      </label>
       <input
         type="text"
         id="connectionHost"
@@ -25,14 +29,16 @@ const ConnectionDetails = ({
         onChange={event => setConnectionHost(event.target.value)}
       />
       <p className={styles.description}>
-        Hostname and port of the Lnd gRPC interface. Example: localhost:10009
+        <FormattedMessage {...messages.hostname_description} />
       </p>
       <p className={`${startLndHostError ? styles.visible : undefined} ${styles.errorMessage}`}>
         {startLndHostError}
       </p>
     </section>
     <section className={styles.input}>
-      <label htmlFor="connectionCert">TLS Certificate:</label>
+      <label htmlFor="connectionCert">
+        <FormattedMessage {...messages.cert_title} />:
+      </label>
       <input
         type="text"
         id="connectionCert"
@@ -41,7 +47,9 @@ const ConnectionDetails = ({
         value={connectionCert}
         onChange={event => setConnectionCert(event.target.value)}
       />
-      <p className={styles.description}>Path to the lnd tls cert. Example: /path/to/tls.cert</p>
+      <p className={styles.description}>
+        <FormattedMessage {...messages.cert_description} />
+      </p>
       <p className={`${startLndCertError ? styles.visible : undefined} ${styles.errorMessage}`}>
         {startLndCertError}
       </p>
@@ -57,7 +65,7 @@ const ConnectionDetails = ({
         onChange={event => setConnectionMacaroon(event.target.value)}
       />
       <p className={styles.description}>
-        Path to the lnd macaroon file. Example: /path/to/admin.macaroon
+        <FormattedMessage {...messages.macaroon_description} />
       </p>
       <p className={`${startLndMacaroonError ? styles.visible : undefined} ${styles.errorMessage}`}>
         {startLndMacaroonError}
