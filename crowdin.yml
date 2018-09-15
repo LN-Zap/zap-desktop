@@ -1,39 +1,39 @@
 commit_message: '[ci skip]'
 files:
   - source: /app/translations/en.json
-    translation: /app/translations/%two_letters_code%.json
+    translation: /app/translations/%locale%.json
     languages_mapping:
-      two_letters_code:
-        af: af
-        ar: ar
-        bg: bg
-        ca: ca
+      locale:
+        af-ZA: af
+        ar-SA: ar
+        bg-BG: bg
+        ca-ES: ca
+        cs-CZ: cs
+        da-DK: da
+        de-DE: de
+        el-GR: el
+        en-US: en
+        es-ES: es
+        fi-FI: fi
+        fr-FR: fr
+        he-IL: he
+        hr-HR: hr
+        hu-HU: hu
+        it-IT: it
+        ja-JP: ja
+        ko-KR: ko
+        nl-NL: nl
+        no-NO: no
+        pl-PL: pl
+        pt-BR: pt-BR
+        pt-PT: pt-PT
+        ro-RO: ro
+        ru-RU: ru
+        sr-SP: sr
+        sv-SE: sv
+        tr-TR: tr
+        uk-UA: uk
+        vi-VN: vi
         zh-CN: zh-CN
         zh-TW: zh-TW
-        hr: hr
-        cs: cs
-        da: da
-        nl: nl
-        en: en
-        fi: fi
-        fr: fr
-        de: de
-        el: el
-        he: he
-        hu: hu
-        it: it
-        ja: ja
-        ko: ko
-        no: no
-        pl: pl
-        pt-PT: pt-PT
-        pt-BR: pt-BR
-        ro: ro
-        ru: ru
-        sr: sr
-        es-ES: es
-        sv-SE: sv
-        tr: tr
-        uk: uk
-        vi: vi
     update_option: update_without_changes
