@@ -8,7 +8,7 @@ debugLogger.inspectOptions = {
 // Enable all zap logs if DEBUG has not been explicitly set.
 if (!process.env.DEBUG) {
   // debugLogger.debug.enable('zap:*')
-  process.env.DEBUG = 'zap:main,zap:lnd*,zap:updater'
+  process.env.DEBUG = 'zap:main,zap:lnd,zap:updater'
 }
 if (!process.env.DEBUG_LEVEL) {
   process.env.DEBUG_LEVEL = 'info'
@@ -53,7 +53,7 @@ const logConfig = name => ({
 
 // Create logs for use in the app.
 export const mainLog = debugLogger.config(logConfig('main'))('zap')
-export const lndLog = debugLogger.config(logConfig('lnd '))('zap')
+export const lndLog = debugLogger.config(logConfig('lnd'))('zap')
 export const updaterLog = debugLogger.config(logConfig('updater'))('zap')
 
 let lndLogLevel = null // stored most recent log level for continuity
