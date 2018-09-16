@@ -114,10 +114,9 @@ class Neutrino extends EventEmitter {
     // Listen for when neutrino prints data to stderr.
     this.process.stderr.pipe(split2()).on('data', line => {
       if (process.env.NODE_ENV === 'development') {
-        const level = lndLogGetLevel(line)
-        lndLog[level](line)
-        if (level === 'error') {
-          this.lastError = line.split('[ERR] LTND:')[1]
+        lndLog.error(line)
+        if (line.startsWith('panic:')) {
+          this.lastError = line
         }
       }
     })
