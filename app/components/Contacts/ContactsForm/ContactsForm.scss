@@ -1,0 +1,253 @@
+@import '../../../styles/variables.scss';
+
+.modal {
+  position: absolute;
+  width: 50%;
+  margin: 50px auto;
+  top: auto;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  background: $white;
+  outline: none;
+  z-index: -2;
+  border: 1px solid $darkgrey;
+
+  header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 15px;
+    border-bottom: 1px solid $darkgrey;
+
+    h1,
+    svg {
+      font-size: 22px;
+    }
+
+    svg {
+      cursor: pointer;
+    }
+  }
+}
+
+.form {
+  padding: 30px 15px;
+
+  .search {
+    .searchInput {
+      width: calc(100% - 30px);
+      padding: 10px 15px;
+      outline: 0;
+      border: 0;
+      background: $lightgrey;
+      color: $darkestgrey;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+  }
+
+  .networkResults {
+    overflow-y: auto;
+    height: 250px;
+    margin-top: 30px;
+    padding: 20px 0;
+
+    li {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      padding: 10px 0;
+
+      h2 {
+        font-size: 16px;
+        font-weight: bold;
+        letter-spacing: 1.3px;
+
+        span {
+          display: inline-block;
+          vertical-align: middle;
+
+          &:nth-child(1) {
+            font-size: 14px;
+            font-weight: bold;
+            letter-spacing: 1.3px;
+          }
+
+          &:nth-child(2) {
+            color: $darkestgrey;
+            font-size: 12px;
+            line-height: 14px;
+          }
+        }
+      }
+
+      .connect {
+        cursor: pointer;
+        color: $darkestgrey;
+        transition: all 0.25s;
+        font-size: 12px;
+
+        &:hover {
+          color: $main;
+        }
+      }
+
+      .inactive {
+        font-size: 12px;
+        display: inline-block;
+        vertical-align: top;
+
+        &.online {
+          color: $green;
+        }
+
+        &.offline {
+          color: $darkestgrey;
+        }
+
+        &.pending {
+          color: $orange;
+        }
+
+        &.private {
+          color: darken($darkestgrey, 50%);
+        }
+      }
+    }
+  }
+}
+
+.manualForm {
+  position: relative;
+  background: $lightgrey;
+  color: $darkestgrey;
+  padding: 30px 15px;
+
+  h2 {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  input {
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: $darkestgrey;
+    border-bottom: 1px solid $darkestgrey;
+    padding: 10px 5px;
+    width: 80%;
+  }
+
+  .submit {
+    display: inline-block;
+    vertical-align: middle;
+    width: 15%;
+    margin-left: 2.5%;
+    font-size: 12px;
+
+    &:hover {
+      cursor: pointer;
+      color: $main;
+    }
+  }
+
+  .manualFormSpinner {
+    position: absolute;
+    right: 0;
+    top: 40%;
+    padding: 0 10px;
+  }
+}
+
+.errorMessage {
+  margin: 10px 0;
+  min-height: 20px;
+  color: $red;
+  opacity: 0;
+  transition: all 0.25s ease;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.footer {
+  padding: 10px 15px;
+  border-top: 1px solid $darkgrey;
+  font-size: 14px;
+
+  span {
+    &.amount {
+      &:hover {
+        input {
+          border: 1px solid $darkgrey;
+          cursor: text;
+        }
+      }
+
+      input {
+        border: 1px solid transparent;
+        padding: 0;
+        outline: 0;
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 14px;
+        transition: all 0.25s;
+
+        &.isEditing {
+          width: 100%;
+          border-bottom: 1px solid $darkgrey;
+        }
+      }
+    }
+
+    &:nth-child(2) {
+      margin-left: 2px;
+    }
+  }
+
+  .caption svg {
+    font-size: 10px;
+    color: $darkestgrey;
+  }
+}
+
+@-webkit-keyframes animation-rotate {
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
+
+@-moz-keyframes animation-rotate {
+  100% {
+    -moz-transform: rotate(360deg);
+  }
+}
+
+@-o-keyframes animation-rotate {
+  100% {
+    -o-transform: rotate(360deg);
+  }
+}
+
+@keyframes animation-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-left-color: rgba(0, 0, 0, 0.4);
+  -webkit-border-radius: 999px;
+  -moz-border-radius: 999px;
+  border-radius: 999px;
+  margin: 0 auto;
+  height: 20px;
+  width: 20px;
+  -webkit-animation: animation-rotate 1000ms linear infinite;
+  -moz-animation: animation-rotate 1000ms linear infinite;
+  -o-animation: animation-rotate 1000ms linear infinite;
+  animation: animation-rotate 1000ms linear infinite;
+}
