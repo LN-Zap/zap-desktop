@@ -1,16 +1,24 @@
 // @flow
-import { app, Menu, shell, BrowserWindow } from 'electron'
+import { app, Menu, shell, BrowserWindow, ipcMain } from 'electron'
+import ISO6391 from 'iso-639-1'
+import { locales, DEFAULT_LOCALE } from '../utils/i18n'
 
 export default class ZapMenuBuilder {
   mainWindow: BrowserWindow
+  locale: string
 
   constructor(mainWindow: BrowserWindow) {
     this.mainWindow = mainWindow
+    this.locale = DEFAULT_LOCALE
+    ipcMain.on('setLocale', (event, locale) => this.buildMenu(locale))
   }
 
-  buildMenu() {
-    let template
+  buildMenu(locale?: string) {
+    if (locale) {
+      this.locale = locale
+    }
 
+    let template
     if (process.platform === 'darwin') {
       template = this.buildDarwinTemplate()
     } else {
@@ -168,7 +176,14 @@ export default class ZapMenuBuilder {
 
     const subMenuView = process.env.NODE_ENV === 'development' ? subMenuViewDev : subMenuViewProd
 
-    return [subMenuAbout, subMenuEdit, subMenuView, subMenuWindow, subMenuHelp]
+    return [
+      subMenuAbout,
+      subMenuEdit,
+      subMenuView,
+      subMenuWindow,
+      subMenuHelp,
+      this.buildLanguageMenu()
+    ]
   }
 
   buildDefaultTemplate() {
@@ -254,9 +269,24 @@ export default class ZapMenuBuilder {
             }
           }
         ]
-      }
+      },
+      this.buildLanguageMenu()
     ]
 
     return templateDefault
+  }
+
+  buildLanguageMenu() {
+    return {
+      label: 'Language',
+      submenu: locales.map(locale => {
+        return {
+          label: ISO6391.getName(locale.split('-')[0]),
+          type: 'radio',
+          checked: this.locale === locale,
+          click: () => this.mainWindow.webContents.send('receiveLocale', locale)
+        }
+      })
+    }
   }
 }

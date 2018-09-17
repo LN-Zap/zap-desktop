@@ -5,6 +5,8 @@ import searchIcon from 'icons/search.svg'
 import xIcon from 'icons/x.svg'
 import FaRepeat from 'react-icons/lib/fa/repeat'
 
+import { FormattedMessage, injectIntl } from 'react-intl'
+
 import Wallet from 'components/Wallet'
 import LoadingBolt from 'components/LoadingBolt'
 import Invoice from './Invoice'
@@ -12,6 +14,8 @@ import Payment from './Payment'
 import Transaction from './Transaction'
 
 import styles from './Activity.scss'
+
+import messages from './messages'
 
 class Activity extends Component {
   constructor(props, context) {
@@ -87,7 +91,8 @@ class Activity extends Component {
 
       updateSearchActive,
       updateSearchText,
-      walletProps
+      walletProps,
+      intl
     } = this.props
 
     if (balance.channelBalance === null || balance.walletBalance === null) {
@@ -134,7 +139,7 @@ class Activity extends Component {
             <header className={`${styles.header} ${styles.search}`}>
               <section>
                 <input
-                  placeholder="Search"
+                  placeholder={intl.formatMessage({ ...messages.search })}
                   value={searchText}
                   onChange={event => updateSearchText(event.target.value)}
                 />
@@ -160,7 +165,7 @@ class Activity extends Component {
                       className={f.key === filter.key ? styles.activeFilter : undefined}
                       onClick={() => changeFilter(f)}
                     >
-                      <span>{f.name}</span>
+                      <FormattedMessage {...messages[f.name]} />
 
                       <div className={f.key === filter.key ? styles.activeBorder : undefined} />
                     </li>
@@ -176,7 +181,7 @@ class Activity extends Component {
                         this.repeat = ref
                       }}
                     >
-                      {refreshing ? <FaRepeat /> : 'Refresh'}
+                      {refreshing ? <FaRepeat /> : <FormattedMessage {...messages.refresh} />}
                     </span>
                   </li>
                   <li className={styles.activeFilter} onClick={() => updateSearchActive(true)}>
@@ -204,7 +209,11 @@ class Activity extends Component {
             {showExpiredToggle && (
               <li>
                 <div className={styles.toggleExpired} onClick={toggleExpiredRequests}>
-                  {showExpiredRequests ? 'Hide Expired Requests' : 'Show Expired Requests'}
+                  {showExpiredRequests ? (
+                    <FormattedMessage {...messages.hide_expired} />
+                  ) : (
+                    <FormattedMessage {...messages.show_expired} />
+                  )}
                 </div>
               </li>
             )}
@@ -240,4 +249,4 @@ Activity.propTypes = {
   currencyName: PropTypes.string.isRequired
 }
 
-export default Activity
+export default injectIntl(Activity)

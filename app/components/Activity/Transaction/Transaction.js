@@ -1,37 +1,53 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Moment from 'react-moment'
 import Isvg from 'react-inlinesvg'
 import link from 'icons/link.svg'
 
 import { btc } from 'lib/utils'
 import Value from 'components/Value'
+
+import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import messages from './messages'
+
 import styles from '../Activity.scss'
 
-const Transaction = ({ transaction, ticker, currentTicker, showActivityModal, currencyName }) => (
+const Transaction = ({
+  transaction,
+  ticker,
+  currentTicker,
+  showActivityModal,
+  currencyName,
+  intl
+}) => (
   <div
     className={styles.container}
     onClick={() => showActivityModal('TRANSACTION', transaction.tx_hash)}
   >
     <div className={styles.activityTypeIcon}>
-      <section className="hint--bottom" data-hint="On-chain transaction">
+      <section className="hint--bottom" data-hint={intl.formatMessage({ ...messages.type })}>
         <Isvg src={link} />
       </section>
     </div>
 
     <div className={styles.data}>
       <div className={styles.title}>
-        <h3>{transaction.received ? 'Received' : 'Sent'}</h3>
+        <h3>
+          {transaction.received ? (
+            <FormattedMessage {...messages.received} />
+          ) : (
+            <FormattedMessage {...messages.sent} />
+          )}
+        </h3>
       </div>
       <div className={styles.subtitle}>
-        <Moment format="h:mm a">{transaction.time_stamp * 1000}</Moment>
+        <FormattedTime value={transaction.time_stamp * 1000} />
       </div>
     </div>
     <div
       className={`hint--top-left ${styles.amount} ${
         transaction.received ? styles.positive : styles.negative
       }`}
-      data-hint="Transaction amount"
+      data-hint={intl.formatMessage({ ...messages.amount })}
     >
       <span>
         <i className={transaction.received ? styles.plus : styles.minus}>
@@ -45,7 +61,7 @@ const Transaction = ({ transaction, ticker, currentTicker, showActivityModal, cu
         />
         <i> {currencyName}</i>
       </span>
-      <span className="hint--bottom" data-hint="Transaction fee">
+      <span className="hint--bottom" data-hint={intl.formatMessage({ ...messages.fee })}>
         {currentTicker[ticker.fiatTicker].symbol}
         {btc.convert('sats', 'fiat', transaction.amount, currentTicker[ticker.fiatTicker].last)}
       </span>
@@ -61,4 +77,4 @@ Transaction.propTypes = {
   currencyName: PropTypes.string.isRequired
 }
 
-export default Transaction
+export default injectIntl(Transaction)

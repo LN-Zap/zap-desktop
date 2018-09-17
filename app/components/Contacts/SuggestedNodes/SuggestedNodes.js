@@ -1,5 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
+
 import styles from './SuggestedNodes.scss'
 
 const SuggestedNodes = ({
@@ -27,8 +31,7 @@ const SuggestedNodes = ({
   return (
     <div className={styles.container}>
       <header>
-        Hmmm, looks like you don&apos;t have any channels yet. Here are some suggested nodes to open
-        a channel with to get started
+        <FormattedMessage {...messages.empty_description} />
       </header>
 
       <ul className={styles.suggestedNodes}>
@@ -39,7 +42,9 @@ const SuggestedNodes = ({
               <span>{`${node.pubkey.substring(0, 30)}...`}</span>
             </section>
             <section>
-              <span onClick={() => nodeClicked(node)}>Connect</span>
+              <span onClick={() => nodeClicked(node)}>
+                <FormattedMessage {...messages.connect} />
+              </span>
             </section>
           </li>
         ))}

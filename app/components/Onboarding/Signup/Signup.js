@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FaCircle from 'react-icons/lib/fa/circle'
 import FaCircleThin from 'react-icons/lib/fa/circle-thin'
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
 import styles from './Signup.scss'
 
 const Signup = ({ signupForm, setSignupCreate, setSignupImport }) => (
@@ -9,13 +11,17 @@ const Signup = ({ signupForm, setSignupCreate, setSignupImport }) => (
     <section className={`${styles.enable} ${signupForm.create ? styles.active : undefined}`}>
       <div onClick={setSignupCreate}>
         {signupForm.create ? <FaCircle /> : <FaCircleThin />}
-        <span className={styles.label}>Create new wallet</span>
+        <span className={styles.label}>
+          <FormattedMessage {...messages.signup_create} />
+        </span>
       </div>
     </section>
     <section className={`${styles.disable} ${signupForm.import ? styles.active : undefined}`}>
       <div onClick={setSignupImport}>
         {signupForm.import ? <FaCircle /> : <FaCircleThin />}
-        <span className={styles.label}>Import existing wallet</span>
+        <span className={styles.label}>
+          <FormattedMessage {...messages.signup_import} />
+        </span>
       </div>
     </section>
   </div>
