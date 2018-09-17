@@ -59,7 +59,10 @@ export default merge.smart(baseConfig, {
               loader: 'css-loader'
             },
             {
-              loader: 'sass-loader'
+              loader: 'sass-loader',
+              options: {
+                includePaths: [path.join(__dirname, 'app')]
+              }
             }
           ],
           fallback: 'style-loader'
@@ -79,7 +82,10 @@ export default merge.smart(baseConfig, {
               }
             },
             {
-              loader: 'sass-loader'
+              loader: 'sass-loader',
+              options: {
+                includePaths: [path.join(__dirname, 'app')]
+              }
             }
           ]
         })
