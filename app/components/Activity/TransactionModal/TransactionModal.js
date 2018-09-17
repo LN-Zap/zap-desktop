@@ -1,10 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import Moment from 'react-moment'
-
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
-
 import Isvg from 'react-inlinesvg'
 import paperPlane from 'icons/paper_plane.svg'
 import hand from 'icons/hand.svg'
@@ -12,6 +8,9 @@ import link from 'icons/link.svg'
 import { blockExplorer } from 'lib/utils'
 
 import Value from 'components/Value'
+
+import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
+import messages from './messages'
 
 import styles from './TransactionModal.scss'
 
@@ -34,12 +33,16 @@ const TransactionModal = ({
       {transaction.received ? (
         <section>
           <Isvg src={hand} />
-          <span>Received</span>
+          <span>
+            <FormattedMessage {...messages.received} />
+          </span>
         </section>
       ) : (
         <section>
           <Isvg src={paperPlane} />
-          <span>Sent</span>
+          <span>
+            <FormattedMessage {...messages.sent} />
+          </span>
         </section>
       )}
       <section className={styles.details}>
@@ -49,7 +52,7 @@ const TransactionModal = ({
             className={styles.link}
             onClick={() => blockExplorer.showTransaction(network, transaction.tx_hash)}
           >
-            On-Chain
+            <FormattedMessage {...messages.on_chain} />
           </span>
         </div>
         <div>
@@ -59,7 +62,10 @@ const TransactionModal = ({
             currentTicker={currentTicker}
             fiatTicker={ticker.fiatTicker}
           />
-          <span> {currencyName} fee</span>
+          <span>
+            {' '}
+            {currencyName} <FormattedMessage {...messages.fee} />
+          </span>
         </div>
       </section>
     </header>
@@ -95,7 +101,13 @@ const TransactionModal = ({
     </div>
 
     <div className={styles.date}>
-      <Moment format="LLL">{transaction.time_stamp * 1000}</Moment>
+      <FormattedDate
+        value={new Date(transaction.time_stamp * 1000)}
+        year="numeric"
+        month="long"
+        day="2-digit"
+      />{' '}
+      <FormattedTime value={new Date(transaction.time_stamp * 1000)} />
     </div>
 
     <footer className={styles.footer}>

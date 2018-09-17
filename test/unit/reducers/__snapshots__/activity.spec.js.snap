@@ -7,19 +7,19 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
+      "name": "all",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
+      "name": "sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "name": "requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
+      "name": "pending",
     },
   ],
   "modal": Object {
@@ -43,19 +43,19 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
+      "name": "all",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
+      "name": "sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "name": "requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
+      "name": "pending",
     },
   ],
   "modal": Object {
@@ -78,19 +78,19 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
+      "name": "all",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
+      "name": "sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "name": "requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
+      "name": "pending",
     },
   ],
   "modal": Object {
@@ -114,19 +114,19 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
+      "name": "all",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
+      "name": "sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "name": "requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
+      "name": "pending",
     },
   ],
   "modal": Object {
@@ -149,19 +149,19 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
+      "name": "all",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
+      "name": "sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "name": "requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
+      "name": "pending",
     },
   ],
   "modal": Object {
@@ -185,19 +185,19 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
+      "name": "all",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
+      "name": "sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "name": "requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
+      "name": "pending",
     },
   ],
   "modal": Object {
@@ -221,19 +221,19 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
+      "name": "all",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
+      "name": "sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "name": "requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
+      "name": "pending",
     },
   ],
   "modal": Object {

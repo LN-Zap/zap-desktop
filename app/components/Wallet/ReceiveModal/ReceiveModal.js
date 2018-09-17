@@ -8,6 +8,9 @@ import Isvg from 'react-inlinesvg'
 import x from 'icons/x.svg'
 import { showNotification } from 'lib/utils/notifications'
 
+import { FormattedMessage, injectIntl } from 'react-intl'
+import messages from './messages'
+
 import styles from './ReceiveModal.scss'
 
 class ReceiveModal extends React.Component {
@@ -34,7 +37,7 @@ class ReceiveModal extends React.Component {
       }
     }
 
-    const { isOpen, pubkey, address, alias, closeReceiveModal, network } = this.props
+    const { isOpen, pubkey, address, alias, closeReceiveModal, network, intl } = this.props
 
     const { qrCodeType } = this.state
 
@@ -60,13 +63,13 @@ class ReceiveModal extends React.Component {
                   className={qrCodeType === 1 ? styles.active : undefined}
                   onClick={changeQrCode}
                 >
-                  Node Pubkey
+                  <FormattedMessage {...messages.node_pubkey} />
                 </div>
                 <div
                   className={qrCodeType === 2 ? styles.active : undefined}
                   onClick={changeQrCode}
                 >
-                  Bitcoin Address
+                  <FormattedMessage {...messages.bitcoin_address} />
                 </div>
               </div>
             </header>
@@ -85,13 +88,15 @@ class ReceiveModal extends React.Component {
           </section>
           <section className={styles.right}>
             <div className={styles.pubkey}>
-              <h4>Node Public Key</h4>
+              <h4>
+                <FormattedMessage {...messages.node_public_key} />
+              </h4>
               <p>
                 <span className={styles.data}>{pubkey}</span>
                 <span
                   onClick={() => copyOnClick(pubkey)}
                   className={`${styles.copy} hint--left`}
-                  data-hint="Copy pubkey"
+                  data-hint={intl.formatMessage({ ...messages.copy_pubkey })}
                 >
                   <Isvg src={copyIcon} />
                 </span>
@@ -99,13 +104,15 @@ class ReceiveModal extends React.Component {
             </div>
 
             <div className={styles.address}>
-              <h4>Bitcoin {network.name} Address</h4>
+              <h4>
+                <FormattedMessage {...messages.bitcoin_address} /> ({network.name})
+              </h4>
               <p>
                 <span className={styles.data}>{address}</span>
                 <span
                   onClick={() => copyOnClick(address)}
                   className={`${styles.copy} hint--left`}
-                  data-hint="Copy address"
+                  data-hint={intl.formatMessage({ ...messages.copy_address })}
                 >
                   <Isvg src={copyIcon} />
                 </span>
@@ -129,4 +136,4 @@ ReceiveModal.propTypes = {
   closeReceiveModal: PropTypes.func.isRequired
 }
 
-export default ReceiveModal
+export default injectIntl(ReceiveModal)

@@ -1,4 +1,5 @@
 import createIpc from 'redux-electron-ipc'
+import { receiveLocale } from './locale'
 import {
   lndSyncStatus,
   currentBlockHeight,
@@ -58,6 +59,7 @@ import {
 
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
+  receiveLocale,
   lndSyncStatus,
   currentBlockHeight,
   lndBlockHeight,
