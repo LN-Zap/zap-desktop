@@ -16,7 +16,7 @@
   "components.Activity.Payment.fee": "Комиссия",
   "components.Activity.Payment.type": "",
   "components.Activity.PaymentModal.fee": "Комиссия",
-  "components.Activity.PaymentModal.lightning": "",
+  "components.Activity.PaymentModal.lightning": "Сеть Lightning",
   "components.Activity.PaymentModal.sent": "Отправлено",
   "components.Activity.Transaction.amount": "Сумма",
   "components.Activity.Transaction.fee": "Комиссия",
