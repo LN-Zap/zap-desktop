@@ -7,6 +7,7 @@ import { platform } from 'os'
 import { app } from 'electron'
 import isDev from 'electron-is-dev'
 import grpc from 'grpc'
+import isFQDN from 'validator/lib/isFQDN'
 import isIP from 'validator/lib/isIP'
 import isPort from 'validator/lib/isPort'
 import get from 'lodash.get'
@@ -117,7 +118,7 @@ export const validateHost = async host => {
   const lndPort = splits[1]
 
   // If the hostname starts with a number, ensure that it is a valid IP address.
-  if (lndHost.match(/^\d/) && !isIP(lndHost)) {
+  if (!isFQDN(lndHost, { require_tld: false }) && !isIP(lndHost)) {
     const error = new Error(`${lndHost} is not a valid IP address or hostname`)
     error.code = 'LND_GRPC_HOST_ERROR'
     return Promise.reject(error)
