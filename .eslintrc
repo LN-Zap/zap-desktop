@@ -75,7 +75,7 @@
         "moduleDirectory": ["app", "app/node_modules", "node_modules"]
       },
       "webpack": {
-        "config": "webpack.config.eslint.js"
+        "config": "internals/webpack/webpack.config.eslint.js"
       }
     }
   }

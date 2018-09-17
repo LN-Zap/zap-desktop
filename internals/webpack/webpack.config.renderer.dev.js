@@ -19,12 +19,12 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
-import baseConfig from './webpack.config.base'
-import { mainLog } from './app/lib/utils/log'
+import baseConfig, { rootDir } from './webpack.config.base'
+import { mainLog } from '../../app/lib/utils/log'
 
 const port = process.env.PORT || 1212
 const publicPath = `http://localhost:${port}/dist`
-const dll = path.resolve(process.cwd(), 'dll')
+const dll = path.resolve(rootDir, 'dll')
 const manifest = path.resolve(dll, 'renderer.json')
 
 /**
@@ -44,7 +44,7 @@ export default merge.smart(baseConfig, {
 
   mode: 'development',
 
-  entry: ['webpack/hot/only-dev-server', path.join(__dirname, 'app/index.js')],
+  entry: ['webpack/hot/only-dev-server', path.join(rootDir, 'app', 'index.js')],
 
   output: {
     publicPath: `http://localhost:${port}/dist/`
@@ -118,7 +118,7 @@ export default merge.smart(baseConfig, {
             loader: 'sass-loader',
             options: {
               sourceMap: true,
-              includePaths: [path.join(__dirname, 'app')]
+              includePaths: ['app']
             }
           }
         ]
@@ -143,7 +143,7 @@ export default merge.smart(baseConfig, {
             loader: 'sass-loader',
             options: {
               sourceMap: true,
-              includePaths: [path.join(__dirname, 'app')]
+              includePaths: ['app']
             }
           }
         ]
@@ -221,11 +221,11 @@ export default merge.smart(baseConfig, {
     }),
 
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'app', 'app.html')
+      template: path.join('app', 'app.html')
     }),
 
     new AddAssetHtmlPlugin({
-      filepath: path.join(__dirname, 'dll', 'renderer.dev.dll.js'),
+      filepath: path.join('dll', 'renderer.dev.dll.js'),
       includeSourcemap: false
     }),
 
@@ -266,7 +266,6 @@ export default merge.smart(baseConfig, {
 
   serve: {
     port,
-    content: path.join(__dirname, 'dist'),
     hotClient: {
       validTargets: ['electron-renderer']
     },

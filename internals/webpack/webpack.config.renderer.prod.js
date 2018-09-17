@@ -9,7 +9,7 @@ import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 import merge from 'webpack-merge'
-import baseConfig from './webpack.config.base'
+import baseConfig, { rootDir } from './webpack.config.base'
 
 export default merge.smart(baseConfig, {
   devtool: 'source-map',
@@ -18,10 +18,10 @@ export default merge.smart(baseConfig, {
 
   mode: 'production',
 
-  entry: './app/index',
+  entry: path.join(rootDir, 'app', 'index'),
 
   output: {
-    path: path.join(__dirname, 'app/dist'),
+    path: path.join(rootDir, 'app', 'dist'),
     publicPath: '../dist/',
     filename: 'renderer.prod.js'
   },
@@ -148,7 +148,7 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    new CleanWebpackPlugin(['app/dist']),
+    new CleanWebpackPlugin([path.join('app', 'dist')]),
 
     new ExtractTextPlugin('style.css'),
 
@@ -158,7 +158,7 @@ export default merge.smart(baseConfig, {
     }),
 
     new HtmlWebpackPlugin({
-      template: path.join(__dirname, 'app', 'app.html')
+      template: path.join('app', 'app.html')
     }),
 
     new CspHtmlWebpackPlugin({
