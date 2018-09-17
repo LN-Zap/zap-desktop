@@ -7,6 +7,10 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
+
+import { FormattedMessage, injectIntl } from 'react-intl'
+import messages from './messages'
+
 import styles from './Request.scss'
 
 const Request = ({
@@ -22,7 +26,8 @@ const Request = ({
 
   currentCurrencyFilters,
 
-  onRequestSubmit
+  onRequestSubmit,
+  intl
 }) => {
   const onCurrencyFilterClick = currency => {
     // change the input amount
@@ -36,13 +41,17 @@ const Request = ({
     <div className={styles.container}>
       <header className={styles.header}>
         <Isvg src={hand} />
-        <h1>Request Payment</h1>
+        <h1>
+          <FormattedMessage {...messages.title} />
+        </h1>
       </header>
 
       <div className={styles.content}>
         <section className={styles.amount}>
           <div className={styles.top}>
-            <label htmlFor="amount">Amount</label>
+            <label htmlFor="amount">
+              <FormattedMessage {...messages.amount} />
+            </label>
             <span />
           </div>
           <div className={styles.bottom}>
@@ -79,12 +88,14 @@ const Request = ({
 
         <section className={styles.memo}>
           <div className={styles.top}>
-            <label htmlFor="memo">Memo</label>
+            <label htmlFor="memo">
+              <FormattedMessage {...messages.memo} />
+            </label>
           </div>
           <div className={styles.bottom}>
             <input
               type="text"
-              placeholder="Details about the request"
+              placeholder={intl.formatMessage({ ...messages.details })}
               value={memo}
               onChange={event => setRequestMemo(event.target.value)}
               id="memo"
@@ -97,7 +108,7 @@ const Request = ({
             className={`${styles.button} ${amount > 0 ? styles.active : undefined}`}
             onClick={onRequestSubmit}
           >
-            Request
+            <FormattedMessage {...messages.request} />
           </div>
         </section>
       </div>
@@ -125,4 +136,4 @@ Request.propTypes = {
   ticker: PropTypes.object.isRequired
 }
 
-export default Request
+export default injectIntl(Request)

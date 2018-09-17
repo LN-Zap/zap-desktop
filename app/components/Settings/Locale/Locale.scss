@@ -1,0 +1,42 @@
+@import '../../../styles/variables.scss';
+
+.submenuHeader {
+  padding: 20px;
+  background: lighten(#1d1f27, 20%);
+  font-size: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  transition: all 0.25s;
+
+  &:hover {
+    background: lighten(#1d1f27, 10%);
+  }
+}
+
+.locales {
+  height: 300px;
+  overflow-y: scroll;
+
+  li {
+    background: #191919;
+    cursor: pointer;
+    border-bottom: 1px solid #0f0f0f;
+    transition: 0.25s hover;
+
+    &.active {
+      background: #0f0f0f;
+
+      svg {
+        height: 10px;
+        width: 10px;
+        color: $green;
+      }
+    }
+
+    span:nth-child(1) {
+      line-height: 12px;
+    }
+  }
+}

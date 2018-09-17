@@ -10,7 +10,10 @@
     "stage-0",
     "react"
   ],
-  "plugins": ["add-module-exports", "dynamic-import-webpack"],
+  "plugins": ["add-module-exports", "dynamic-import-webpack", ["react-intl-auto", {
+    "removePrefix": "app/",
+     "filebase": false
+  }]],
   "env": {
     "production": {
       "presets": ["react-optimize"],
