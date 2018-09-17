@@ -1,5 +1,5 @@
 {
-  "components.Activity.Countdown.expires": "",
+  "components.Activity.Countdown.expires": "Срок действия кончается через",
   "components.Activity.Invoice.amount": "Сумма",
   "components.Activity.Invoice.received": "",
   "components.Activity.Invoice.requested": "Запрошенные (-ое)",
