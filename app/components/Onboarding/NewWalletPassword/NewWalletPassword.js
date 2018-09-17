@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import messages from './messages'
 import styles from './NewWalletPassword.scss'
 
 const NewWalletPassword = ({
@@ -8,16 +10,17 @@ const NewWalletPassword = ({
   showCreateWalletPasswordConfirmationError,
   passwordMinCharsError,
   updateCreateWalletPassword,
-  updateCreateWalletPasswordConfirmation
+  updateCreateWalletPasswordConfirmation,
+  intl
 }) => (
   <div className={styles.container}>
     <section className={styles.input}>
       <input
         type="password"
-        placeholder="Password"
+        placeholder={intl.formatMessage({ ...messages.password_placeholder })}
         className={`${styles.password} ${
           showCreateWalletPasswordConfirmationError ? styles.error : undefined
-        } 
+        }
         ${passwordMinCharsError && styles.error}`}
         value={createWalletPassword}
         onChange={event => updateCreateWalletPassword(event.target.value)}
@@ -27,10 +30,10 @@ const NewWalletPassword = ({
     <section className={styles.input}>
       <input
         type="password"
-        placeholder="Confirm Password"
+        placeholder={intl.formatMessage({ ...messages.password_confirm_placeholder })}
         className={`${styles.password} ${
           showCreateWalletPasswordConfirmationError ? styles.error : undefined
-        } 
+        }
         ${passwordMinCharsError && styles.error}`}
         value={createWalletPasswordConfirmation}
         onChange={event => updateCreateWalletPasswordConfirmation(event.target.value)}
@@ -40,10 +43,15 @@ const NewWalletPassword = ({
           showCreateWalletPasswordConfirmationError ? styles.visible : undefined
         }`}
       >
-        Passwords do not match
+        <FormattedMessage {...messages.password_error_match} />
       </p>
       <p className={`${styles.helpMessage} ${passwordMinCharsError ? styles.red : undefined}`}>
-        Password must be at least 8 characters long
+        <FormattedMessage
+          {...messages.password_error_length}
+          values={{
+            passwordMinLength: '8'
+          }}
+        />
       </p>
     </section>
   </div>
@@ -58,4 +66,4 @@ NewWalletPassword.propTypes = {
   updateCreateWalletPasswordConfirmation: PropTypes.func.isRequired
 }
 
-export default NewWalletPassword
+export default injectIntl(NewWalletPassword)

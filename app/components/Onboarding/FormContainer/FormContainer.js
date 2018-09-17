@@ -7,6 +7,8 @@ import FaAngleLeft from 'react-icons/lib/fa/angle-left'
 import FaAngleRight from 'react-icons/lib/fa/angle-right'
 
 import zapLogo from 'icons/zap_logo.svg'
+import { FormattedMessage } from 'react-intl'
+import messages from './messages'
 import styles from './FormContainer.scss'
 
 const FormContainer = ({ title, description, back, next, children }) => (
@@ -24,7 +26,7 @@ const FormContainer = ({ title, description, back, next, children }) => (
             shell.openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
           }
         >
-          Need help?
+          <FormattedMessage {...messages.help} />
         </div>
       </section>
     </header>
@@ -41,14 +43,16 @@ const FormContainer = ({ title, description, back, next, children }) => (
         <section>
           {back && (
             <div onClick={back} className={styles.backButton}>
-              <FaAngleLeft style={{ verticalAlign: 'top' }} /> Back
+              <FaAngleLeft style={{ verticalAlign: 'top' }} />{' '}
+              <FormattedMessage {...messages.back} />
             </div>
           )}
         </section>
         <section>
           {next && (
             <div onClick={next} className={styles.nextButton}>
-              Next <FaAngleRight style={{ verticalAlign: 'top' }} />
+              <FormattedMessage {...messages.next} />{' '}
+              <FaAngleRight style={{ verticalAlign: 'top' }} />
             </div>
           )}
         </section>
@@ -58,8 +62,8 @@ const FormContainer = ({ title, description, back, next, children }) => (
 )
 
 FormContainer.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
+  title: PropTypes.node.isRequired,
+  description: PropTypes.node.isRequired,
 
   back: PropTypes.func,
   next: PropTypes.func,
