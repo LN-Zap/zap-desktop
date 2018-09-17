@@ -5,9 +5,9 @@
   "description": "desktop application for the lightning network",
   "scripts": {
     "build": "concurrently --raw \"npm:build-main\" \"npm:build-renderer\"",
-    "build-dll": "webpack --require babel-register --config webpack.config.renderer.dev.dll.js --progress",
-    "build-main": "webpack --require babel-register  --config webpack.config.main.prod.js --progress",
-    "build-renderer": "webpack --require babel-register --config webpack.config.renderer.prod.js --progress",
+    "build-dll": "webpack --require babel-register --config internals/webpack/webpack.config.renderer.dev.dll.js --progress",
+    "build-main": "webpack --require babel-register  --config internals/webpack/webpack.config.main.prod.js --progress",
+    "build-renderer": "webpack --require babel-register --config internals/webpack/webpack.config.renderer.prod.js --progress",
     "build-grpc": "rimraf app/node_modules/grpc/src/node && build install-app-deps",
     "clean": "rimraf node_modules app/node_modules dll app/dist coverage .eslintcache",
     "coverage": "open coverage/index.html",
@@ -32,7 +32,7 @@
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev",
-    "start-renderer-dev": "node --trace-warnings -r babel-register ./node_modules/webpack-serve/lib/cli.js --config webpack.config.renderer.dev.js",
+    "start-renderer-dev": "node --trace-warnings -r babel-register ./node_modules/webpack-serve/lib/cli.js --config internals/webpack/webpack.config.renderer.dev.js",
     "test": "npm run lint && npm run lint-styles && npm run flow && npm run build && npm run test-unit && npm run test-e2e",
     "test-base": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=true ELECTRON_DISABLE_SECURITY_WARNINGS=true node --trace-warnings ./node_modules/jest/bin/jest --detectOpenHandles",
     "test-unit": "npm run test-base -- ./test/unit",
@@ -318,7 +318,7 @@
     "untildify": "^3.0.3",
     "validator": "^10.7.1"
   },
-  "main": "webpack.config.base.js",
+  "main": "internals/webpack/webpack.config.base.js",
   "directories": {
     "test": "test"
   }

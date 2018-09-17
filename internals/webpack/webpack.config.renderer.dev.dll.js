@@ -5,10 +5,8 @@
 import webpack from 'webpack'
 import path from 'path'
 import merge from 'webpack-merge'
-import baseConfig from './webpack.config.base'
-import { dependencies } from './package.json'
-
-const dist = path.resolve(process.cwd(), 'dll')
+import baseConfig, { rootDir } from './webpack.config.base'
+import { dependencies } from '../../package.json'
 
 export default merge.smart(baseConfig, {
   context: process.cwd(),
@@ -74,7 +72,7 @@ export default merge.smart(baseConfig, {
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [path.join(__dirname, 'app')]
+              includePaths: ['app']
             }
           }
         ]
@@ -98,7 +96,7 @@ export default merge.smart(baseConfig, {
           {
             loader: 'sass-loader',
             options: {
-              includePaths: [path.join(__dirname, 'app')]
+              includePaths: ['app']
             }
           }
         ]
@@ -169,24 +167,24 @@ export default merge.smart(baseConfig, {
   },
 
   output: {
+    path: path.join(rootDir, 'dll'),
     library: 'renderer',
-    path: dist,
     filename: '[name].dev.dll.js',
     libraryTarget: 'var'
   },
 
   plugins: [
     new webpack.DllPlugin({
-      path: path.join(dist, '[name].json'),
+      path: path.join('dll', '[name].json'),
       name: '[name]'
     }),
 
     new webpack.LoaderOptionsPlugin({
       debug: true,
       options: {
-        context: path.resolve(process.cwd(), 'app'),
+        context: path.join(rootDir, 'app'),
         output: {
-          path: path.resolve(process.cwd(), 'dll')
+          path: path.join(rootDir, 'dll')
         }
       }
     })

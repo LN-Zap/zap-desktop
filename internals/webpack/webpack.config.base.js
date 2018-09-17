@@ -4,10 +4,19 @@
 
 import path from 'path'
 import { IgnorePlugin } from 'webpack'
-import { dependencies as externals } from './app/package.json'
+import { dependencies as externals } from '../../app/package.json'
+
+export const rootDir = path.join(__dirname, '..', '..')
 
 export default {
   externals: Object.keys(externals || {}),
+
+  context: rootDir,
+
+  output: {
+    // https://github.com/webpack/webpack/issues/1114
+    libraryTarget: 'commonjs2'
+  },
 
   module: {
     rules: [
@@ -24,19 +33,12 @@ export default {
     ]
   },
 
-  output: {
-    path: path.join(__dirname, 'app'),
-    filename: 'renderer.dev.js',
-    // https://github.com/webpack/webpack/issues/1114
-    libraryTarget: 'commonjs2'
-  },
-
   /**
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-    modules: [path.join(__dirname, 'app'), 'node_modules']
+    modules: [path.join(rootDir, 'app'), 'node_modules']
   },
 
   plugins: [new IgnorePlugin(/^\.\/locale$/, /moment$/)],
