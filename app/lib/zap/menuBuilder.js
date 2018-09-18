@@ -1,7 +1,6 @@
 // @flow
 import { app, Menu, shell, BrowserWindow, ipcMain } from 'electron'
-import ISO6391 from 'iso-639-1'
-import { locales, DEFAULT_LOCALE } from '../utils/i18n'
+import { locales, getLocale, getLanguageName } from '../utils/i18n'
 
 export default class ZapMenuBuilder {
   mainWindow: BrowserWindow
@@ -9,7 +8,7 @@ export default class ZapMenuBuilder {
 
   constructor(mainWindow: BrowserWindow) {
     this.mainWindow = mainWindow
-    this.locale = DEFAULT_LOCALE
+    this.locale = getLocale()
     ipcMain.on('setLocale', (event, locale) => this.buildMenu(locale))
   }
 
@@ -281,7 +280,7 @@ export default class ZapMenuBuilder {
       label: 'Language',
       submenu: locales.map(locale => {
         return {
-          label: ISO6391.getName(locale.split('-')[0]),
+          label: getLanguageName(locale),
           type: 'radio',
           checked: this.locale === locale,
           click: () => this.mainWindow.webContents.send('receiveLocale', locale)

@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import Store from 'electron-store'
 import { requestTicker } from 'lib/utils/api'
+import { getCurrency } from 'lib/utils/i18n'
 import { infoSelectors } from './info'
 
 // Settings store
@@ -141,7 +142,7 @@ const initialState = {
   crypto: '',
   btcTicker: null,
   ltcTicker: null,
-  fiatTicker: store.get('fiatTicker', 'USD'),
+  fiatTicker: getCurrency(),
   fiatTickers: [
     'USD',
     'EUR',
