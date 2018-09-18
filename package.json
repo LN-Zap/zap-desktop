@@ -307,7 +307,7 @@
     "react-dom": "^16.5.1",
     "react-hot-loader": "^4.3.8",
     "react-inlinesvg": "^0.8.1",
-    "react-intl": "^2.5.0",
+    "react-intl": "^2.6.0",
     "react-intl-redux": "^2.0.2",
     "react-modal": "^3.5.1",
     "react-redux": "^5.0.7",
