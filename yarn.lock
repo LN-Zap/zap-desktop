@@ -3438,6 +3438,13 @@ cosmiconfig@^5.0.6:
     js-yaml "^3.9.0"
     parse-json "^4.0.0"
 
+country-data-lookup@^0.0.3:
+  version "0.0.3"
+  resolved "https://registry.yarnpkg.com/country-data-lookup/-/country-data-lookup-0.0.3.tgz#59babadbd70c74a870f78e518b517b210bd8e3dd"
+  dependencies:
+    currency-symbol-map "~4.0.3"
+    lodash "~4.17.4"
+
 coveralls@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/coveralls/-/coveralls-3.0.2.tgz#f5a0bcd90ca4e64e088b710fa8dda640aea4884f"
@@ -3662,6 +3669,10 @@ cssstyle@^1.0.0:
   resolved "https://registry.yarnpkg.com/cssstyle/-/cssstyle-1.0.0.tgz#79b16d51ec5591faec60e688891f15d2a5705129"
   dependencies:
     cssom "0.3.x"
+
+currency-symbol-map@~4.0.3:
+  version "4.0.4"
+  resolved "https://registry.yarnpkg.com/currency-symbol-map/-/currency-symbol-map-4.0.4.tgz#3cfba625974dd3f86822d327ecbd10248695e95e"
 
 currently-unhandled@^0.4.1:
   version "0.4.1"
@@ -6834,10 +6845,6 @@ isbinaryfile@^3.0.3:
 isexe@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/isexe/-/isexe-2.0.0.tgz#e8fbf374dc556ff8947a10dcb0572d633f2cfa10"
-
-iso-639-1@^2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/iso-639-1/-/iso-639-1-2.0.3.tgz#72dd3448ac5629c271628c5ac566369428d6ccd0"
 
 isobject@^2.0.0:
   version "2.1.0"
