@@ -85,7 +85,8 @@ export const locales = [
   'sv',
   'tr',
   'uk',
-  'zh'
+  'zh-CN',
+  'zh-TW'
 ]
 
 // Defaine list of currencies that we will support.
@@ -165,6 +166,15 @@ export const getLocale = () => {
  * @return {string} Language code.
  */
 export const getLanguageName = lang => {
+  const customNames = {
+    el: 'Greek',
+    'zh-CN': 'Chinese (Simplified, PRC)',
+    'zh-TW': 'Chinese (Traditional, Taiwan)'
+  }
+  if (customNames[lang]) {
+    return customNames[lang]
+  }
+
   const language = lang.toLowerCase().split(/[_-]+/)[0]
   const data = lookup.languages({ alpha2: language })
   const name = get(data, '[0]name', language)
