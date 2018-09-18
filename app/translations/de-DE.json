@@ -57,7 +57,7 @@
   "components.Contacts.Network.search_placeholder": "suche anhand alias oder öffentlichen schlüssel",
   "components.Contacts.Network.title": "Mein Netzwerk",
   "components.Contacts.SubmitChannelForm.description": "Das Öffnen eines Zahlungskanals hilft dir Zahlungen über das Lightning Netzwerk zu senden und zu empfangen. Du gibst dabei kein Geld aus, sondern speicherst Geld im Netzwerk, das du später nutzen kannst.",
-  "components.Contacts.SubmitChannelForm.duplicate_warnig": "",
+  "components.Contacts.SubmitChannelForm.duplicate_warnig": "Sie haben derzeit {activeChannels, plural, zero {keine aktiven kanäle} one {1 aktive(r) kanäle} other {{activeChannels} aktive kanäle}} gegenüber {aliasMsg, select, this_node {node} other{{aliasMsg}}} geöffnet mit einer Kapazität von",
   "components.Contacts.SubmitChannelForm.submit": "Senden",
   "components.Contacts.SubmitChannelForm.title": "Guthaben dem Netzwerk hinzufügen",
   "components.Contacts.SuggestedNodes.connect": "Verbinden",
