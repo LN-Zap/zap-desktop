@@ -24,7 +24,7 @@
   "components.Activity.Transaction.sent": "",
   "components.Activity.Transaction.type": "",
   "components.Activity.TransactionModal.fee": "",
-  "components.Activity.TransactionModal.on_chain": "",
+  "components.Activity.TransactionModal.on_chain": "On-Chain",
   "components.Activity.TransactionModal.received": "",
   "components.Activity.TransactionModal.sent": "",
   "components.Activity.all": "",
