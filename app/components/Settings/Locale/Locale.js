@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FaAngleLeft from 'react-icons/lib/fa/angle-left'
-import ISO6391 from 'iso-639-1'
+import { getLanguageName } from 'lib/utils/i18n'
 import Isvg from 'react-inlinesvg'
 import checkIcon from 'icons/check.svg'
 
@@ -29,7 +29,7 @@ const Translate = ({ locales, disableSubMenu, currentLocale, setLocale }) => {
               className={currentLocale === lang ? styles.active : ''}
               onClick={() => changeLocale(lang)}
             >
-              <span>{ISO6391.getName(lang.split('-')[0])}</span>
+              <span>{getLanguageName(lang)}</span>
               {currentLocale === lang && <Isvg src={checkIcon} />}
             </li>
           )
