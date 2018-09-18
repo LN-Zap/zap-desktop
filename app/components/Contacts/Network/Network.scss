@@ -6,16 +6,17 @@
   display: inline-block;
   vertical-align: top;
   height: 100vh;
-  background: #31343f;
+  background: var(--lightestBackground);
+  padding-top: 20px;
 }
 
 .header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: #2d303b;
+  background: var(--lightestBackground);
   padding: 10px 20px;
-  color: $white;
+  color: var(--primaryText);
 
   h2 {
     font-size: 14px;
@@ -61,7 +62,7 @@
 
     h2,
     h2 span {
-      color: $white;
+      color: var(--primaryText);
       cursor: pointer;
       transition: color 0.25s;
 
@@ -87,7 +88,7 @@
         li {
           margin: 10px 0;
           cursor: pointer;
-          color: $white;
+          color: var(--primaryText);
 
           &:hover {
             color: $darkestgrey;
@@ -97,7 +98,7 @@
     }
 
     span {
-      color: $white;
+      color: var(--primaryText);
       opacity: 1;
       font-size: 10px;
       cursor: pointer;
@@ -121,17 +122,17 @@
   }
 
   .channel {
-    color: $white;
+    color: var(--primaryText);
     padding: 10px 0 10px 0;
     margin: 10px 0;
     cursor: pointer;
 
     &:hover {
-      background: #272b37;
+      background: var(--lightBackground);
     }
 
     &.selectedChannel {
-      background: #272b37;
+      background: var(--lightBackground);
       padding-bottom: 0;
 
       .channelDetails {
@@ -171,11 +172,11 @@
     }
 
     .online {
-      color: $green;
+      color: var(--superGreen);
     }
 
     .pending {
-      color: $orange;
+      color: var(--lightningOrange);
     }
 
     .offline {
@@ -183,7 +184,7 @@
     }
 
     .closing {
-      color: $red;
+      color: var(--superRed);
     }
 
     svg {
@@ -199,7 +200,7 @@
   width: calc(100% - 40px);
   padding: 10px 20px;
   border-top: 1px solid $darkestgrey;
-  background: #2d303b;
+  background: var(--lightestBackground);
 
   .input {
     display: inline-block;
@@ -213,7 +214,7 @@
     font-size: 25px;
     text-align: center;
     cursor: pointer;
-    color: $white;
+    color: var(--primaryText);
     opacity: 0.5;
 
     svg {
@@ -231,7 +232,7 @@
     border-radius: 0;
     height: 50px;
     font-size: 12px;
-    color: $white;
+    color: var(--primaryText);
   }
 }
 
@@ -285,7 +286,7 @@
   transition: all 0.25s;
 
   h4 {
-    color: $white;
+    color: var(--primaryText);
     opacity: 0.5;
     font-size: 9px;
     margin-top: 10px;
@@ -304,13 +305,13 @@
 
     h5 {
       font-size: 12px;
-      color: $white;
+      color: var(--primaryText);
       margin-bottom: 10px;
       font-weight: 600;
     }
 
     p {
-      color: $white;
+      color: var(--primaryText);
       opacity: 0.5;
       font-size: 8px;
       text-align: center;
@@ -320,7 +321,7 @@
   .actions {
     text-align: center;
     font-size: 12px;
-    color: #ff7686;
+    color: var(--superRed);
 
     section {
       padding: 20px 0;

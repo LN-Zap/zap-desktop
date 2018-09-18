@@ -36,6 +36,7 @@ const Onboarding = ({
     seed,
     fetchingSeed
   },
+  theme,
   connectionTypeProps,
   connectionDetailProps,
   connectionConfirmProps,
@@ -58,6 +59,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.connection_title} />}
             description={<FormattedMessage {...messages.connection_description} />}
+            theme={theme}
             back={null}
             next={() => {
               switch (connectionType) {
@@ -81,6 +83,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.connection_details_custom_title} />}
             description={<FormattedMessage {...messages.connection_details_custom_description} />}
+            theme={theme}
             back={() => changeStep(0.1)}
             next={() => {
               // dont allow the user to move on if we don't at least have a hostname.
@@ -100,6 +103,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.btcpay_title} />}
             description={<FormattedMessage {...messages.btcpay_description} />}
+            theme={theme}
             back={() => changeStep(0.1)}
             next={() => {
               // dont allow the user to move on if the connection string is invalid.
@@ -119,6 +123,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.confirm_connection_title} />}
             description={<FormattedMessage {...messages.confirm_connection_description} />}
+            theme={theme}
             back={() => changeStep(previousStep)}
             next={() => {
               startLnd({
@@ -139,6 +144,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.alias_title} />}
             description={<FormattedMessage {...messages.alias_description} />}
+            theme={theme}
             back={() => changeStep(0.1)}
             next={() => changeStep(2)}
           >
@@ -150,6 +156,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.autopilot_title} />}
             description={<FormattedMessage {...messages.autopilot_description} />}
+            theme={theme}
             back={() => changeStep(1)}
             next={() => startLnd({ type: connectionType, alias, autopilot })}
           >
@@ -171,6 +178,7 @@ const Onboarding = ({
                 }}
               />
             }
+            theme={theme}
             back={null}
             next={null}
           >
@@ -182,6 +190,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.create_wallet_password_title} />}
             description={<FormattedMessage {...messages.create_wallet_password_description} />}
+            theme={theme}
             back={null}
             next={() => {
               // dont allow the user to move on if the confirmation password doesnt match the original password
@@ -206,6 +215,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.signup_title} />}
             description={<FormattedMessage {...messages.signup_description} />}
+            theme={theme}
             back={() => changeStep(4)}
             next={() => {
               // require the user to select create wallet or import wallet
@@ -227,6 +237,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.import_title} />}
             description={<FormattedMessage {...messages.import_description} />}
+            theme={theme}
             back={() => changeStep(5)}
             next={() => {
               const recoverySeed = recoverFormProps.recoverSeedInput.map(input => input.word)
@@ -242,6 +253,7 @@ const Onboarding = ({
           <FormContainer
             title={<FormattedMessage {...messages.save_seed_title} />}
             description={<FormattedMessage {...messages.save_seed_description} />}
+            theme={theme}
             back={() => changeStep(5)}
             next={() => changeStep(7)}
           >
@@ -262,6 +274,7 @@ const Onboarding = ({
                 }}
               />
             }
+            theme={theme}
             back={() => changeStep(6)}
             next={() => {
               // don't allow them to move on if they havent re-entered the seed correctly
@@ -276,18 +289,18 @@ const Onboarding = ({
           </FormContainer>
         )
       default:
-        return <LoadingBolt />
+        return <LoadingBolt theme={theme} />
     }
   }
 
   if (startingLnd) {
-    return <LoadingBolt />
+    return <LoadingBolt theme={theme} />
   }
   if (fetchingSeed) {
-    return <LoadingBolt />
+    return <LoadingBolt theme={theme} />
   }
 
-  return <div className={styles.container}>{renderStep()}</div>
+  return <div className={`${styles.container} ${theme}`}>{renderStep()}</div>
 }
 
 Onboarding.propTypes = {

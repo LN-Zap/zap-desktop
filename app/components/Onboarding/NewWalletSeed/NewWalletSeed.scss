@@ -2,7 +2,7 @@
 
 .container {
   font-size: 14px;
-  color: $white;
+  color: var(--primaryText);
   letter-spacing: 1.5px;
 
   li {
@@ -14,7 +14,7 @@
     section {
       display: inline-block;
       vertical-align: middle;
-      color: $white;
+      color: var(--primaryText);
 
       &:nth-child(1) {
         width: 15%;
@@ -26,23 +26,6 @@
         width: calc(85% - 10px);
         margin: 0 5px;
       }
-    }
-  }
-
-  .word {
-    margin: 0 3px;
-    background-color: #1c1e26;
-    outline: 0;
-    border: none;
-    padding: 10px;
-    color: $white;
-
-    &.valid {
-      color: $green;
-    }
-
-    &.invalid {
-      color: $red;
     }
   }
 }

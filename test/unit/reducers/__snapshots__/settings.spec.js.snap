@@ -4,6 +4,7 @@ exports[`reducers settingsReducer should correctly disableSubmenu 1`] = `
 Object {
   "activeSubMenu": null,
   "settingsOpen": false,
+  "theme": "dark",
 }
 `;
 
@@ -11,6 +12,7 @@ exports[`reducers settingsReducer should correctly setActiveSubmenu 1`] = `
 Object {
   "activeSubMenu": true,
   "settingsOpen": false,
+  "theme": "dark",
 }
 `;
 
@@ -18,6 +20,7 @@ exports[`reducers settingsReducer should correctly setSettingsOpen 1`] = `
 Object {
   "activeSubMenu": null,
   "settingsOpen": true,
+  "theme": "dark",
 }
 `;
 
@@ -25,5 +28,6 @@ exports[`reducers settingsReducer should handle initial state 1`] = `
 Object {
   "activeSubMenu": null,
   "settingsOpen": false,
+  "theme": "dark",
 }
 `;

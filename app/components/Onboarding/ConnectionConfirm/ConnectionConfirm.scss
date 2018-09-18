@@ -1,7 +1,7 @@
 @import 'styles/variables.scss';
 
 .container {
-  color: $white;
+  color: var(--primaryText);
 
   p {
     margin-bottom: 20px;
@@ -12,6 +12,6 @@
   }
 
   .host {
-    color: $green;
+    color: var(--superGreen);
   }
 }

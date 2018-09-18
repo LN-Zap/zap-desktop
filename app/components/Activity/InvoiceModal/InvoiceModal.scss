@@ -1,14 +1,14 @@
 @import 'styles/variables.scss';
 
 .container {
-  color: $white;
+  color: var(--primaryText);
 }
 
 .content {
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: $spaceblue;
+  background: var(--darkestBackground);
   width: 85%;
   margin: 50px auto;
   padding: 30px 0;
@@ -82,13 +82,13 @@
 
           li {
             padding: 8px 15px;
-            background: #191919;
+            background: var(--lightBackground);
             cursor: pointer;
             transition: 0.25s hover;
-            border-bottom: 1px solid #0f0f0f;
+            border-bottom: 1px solid var(--lightestBackground);
 
             &:hover {
-              background: #0f0f0f;
+              background: var(--lightestBackground);
             }
           }
         }
@@ -99,12 +99,12 @@
         text-align: right;
 
         .notPaid {
-          color: $orange;
+          color: var(--lightningOrange);
           margin-top: 5px;
         }
 
         .paid {
-          color: $green;
+          color: var(--superGreen);
           margin-top: 5px;
         }
       }
@@ -149,12 +149,13 @@
     margin: 35px 10px;
     width: 235px;
     padding: 20px 10px;
-    background: #31343f;
+    background: var(--lightestBackground);
     cursor: pointer;
     transition: 0.25s all;
+    opacity: 0.75;
 
     &:hover {
-      background: darken(#31343f, 5%);
+      opacity: 1;
     }
   }
 }

@@ -6,11 +6,11 @@
   display: inline-block;
   vertical-align: top;
   overflow-y: auto;
+  background: var(--lightBackground);
+  padding-top: 20px;
 }
 
 .titleBar {
-  background: $spacegrey;
-  height: 20px;
   -webkit-user-select: none;
   -webkit-app-region: drag;
 }

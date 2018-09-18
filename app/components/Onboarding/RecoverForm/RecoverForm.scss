@@ -12,7 +12,7 @@
 
     section {
       display: inline-block;
-      color: $white;
+      color: var(--primaryText);
       margin: 0;
 
       &:nth-child(1) {
@@ -31,21 +31,21 @@
 
 .word {
   margin: 0 3px;
-  background-color: #1c1e26;
+  background-color: var(--darkestBackground);
   outline: 0;
   border: none;
   padding: 8px 10px 6px 10px;
-  color: $white;
+  color: var(--primaryText);
   font-family: 'Courier', courier, sans-serif;
   font-size: 14px;
   line-height: 18px;
 
   &.valid {
-    color: $green;
+    color: var(--superGreen);
   }
 
   &.invalid {
-    color: $red;
+    color: var(--superRed);
   }
 }
 

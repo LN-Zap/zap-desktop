@@ -34,7 +34,7 @@ Fiat.propTypes = {
   fiatTicker: PropTypes.string.isRequired,
   fiatTickers: PropTypes.array.isRequired,
   disableSubMenu: PropTypes.func.isRequired,
-  setFiatTicker: PropTypes.func.isRequired
+  setFiatTicker: PropTypes.func
 }
 
 export default Fiat

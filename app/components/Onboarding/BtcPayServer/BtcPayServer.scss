@@ -1,7 +1,7 @@
 @import 'styles/variables.scss';
 
 .container {
-  color: $white;
+  color: var(--primaryText);
 
   .input {
     margin-bottom: 15px;
@@ -21,14 +21,14 @@
     border: 1px solid #404040;
     border-radius: 4px;
     padding: 10px;
-    color: $gold;
-    -webkit-text-fill-color: $white;
+    color: var(--lightningOrange);
+    -webkit-text-fill-color: var(--primaryText);
     font-size: 14px;
     width: 95%;
     transition: all 0.25s;
 
     &.error {
-      border: 1px solid $red;
+      border: 1px solid var(--superRed);
     }
   }
 
@@ -48,7 +48,7 @@
     margin-top: 8px;
     font-size: 12px;
     line-height: 18px;
-    color: $red;
+    color: var(--superRed);
     display: none;
 
     &.visible {

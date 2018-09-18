@@ -8,16 +8,17 @@ import FaAngleRight from 'react-icons/lib/fa/angle-right'
 
 import zapLogo from 'icons/zap_logo.svg'
 import { FormattedMessage } from 'react-intl'
+import zapLogoBlack from 'icons/zap_logo_black.svg'
 import messages from './messages'
 import styles from './FormContainer.scss'
 
-const FormContainer = ({ title, description, back, next, children }) => (
+const FormContainer = ({ title, description, back, next, children, theme }) => (
   <div className={styles.container}>
     <div className={styles.titleBar} />
 
     <header className={styles.header}>
       <section>
-        <Isvg src={zapLogo} />
+        <Isvg src={theme === 'light' ? zapLogoBlack : zapLogo} />
       </section>
       <section>
         <div
@@ -62,8 +63,9 @@ const FormContainer = ({ title, description, back, next, children }) => (
 )
 
 FormContainer.propTypes = {
-  title: PropTypes.node.isRequired,
-  description: PropTypes.node.isRequired,
+  title: PropTypes.object.isRequired,
+  description: PropTypes.object.isRequired,
+  theme: PropTypes.string.isRequired,
 
   back: PropTypes.func,
   next: PropTypes.func,

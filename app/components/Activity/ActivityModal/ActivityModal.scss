@@ -3,7 +3,7 @@
 .container {
   position: relative;
   height: 100vh;
-  background: $bluegrey;
+  background: var(--lightBackground);
 }
 
 .closeContainer {

@@ -3,11 +3,11 @@
 .container {
   position: relative;
   height: 100vh;
-  background: $darkspaceblue;
+  background: var(--darkestBackground);
 }
 
 .titleBar {
-  background: $spacegrey;
+  background: var(--lightBackground);
   height: 20px;
   -webkit-user-select: none;
   -webkit-app-region: drag;
@@ -20,7 +20,7 @@
   padding: 20px 40px;
 
   .help {
-    color: $white;
+    color: var(--primaryText);
     text-decoration: underline;
     cursor: pointer;
     transition: all 0.25s;
@@ -32,7 +32,7 @@
 }
 
 .info {
-  color: $white;
+  color: var(--primaryText);
   margin-bottom: 20px;
   padding: 20px 40px;
 
@@ -50,7 +50,7 @@
 
 .content {
   position: relative;
-  background: $spaceblue;
+  background: var(--lightBackground);
   height: 100vh;
   padding: 40px 40px;
 }
@@ -59,7 +59,7 @@
   position: absolute;
   bottom: 0;
   padding: 25px 40px;
-  color: $white;
+  color: var(--primaryText);
   width: calc(100% - 80px);
 
   .buttonsContainer {
@@ -70,13 +70,13 @@
     .nextButton {
       cursor: pointer;
       transition: all 0.25s;
-      background: $darkspaceblue;
-      padding: 10px 30px 10px 40px;
-      width: 54px;
+      background: var(--lightningOrange);
+      padding: 8px 20px 8px 30px;
       text-align: center;
+      border-radius: 5px;
 
       &:hover {
-        background: lighten($darkspaceblue, 10%);
+        opacity: 0.5;
       }
     }
 

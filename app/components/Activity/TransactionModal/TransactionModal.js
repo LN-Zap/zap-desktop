@@ -55,18 +55,20 @@ const TransactionModal = ({
             <FormattedMessage {...messages.on_chain} />
           </span>
         </div>
-        <div>
-          <Value
-            value={transaction.total_fees}
-            currency={ticker.currency}
-            currentTicker={currentTicker}
-            fiatTicker={ticker.fiatTicker}
-          />
-          <span>
-            {' '}
-            {currencyName} <FormattedMessage {...messages.fee} />
-          </span>
-        </div>
+        {!transaction.received && (
+          <div>
+            <Value
+              value={transaction.total_fees}
+              currency={ticker.currency}
+              currentTicker={currentTicker}
+              fiatTicker={ticker.fiatTicker}
+            />
+            <span>
+              {' '}
+              {currencyName} <FormattedMessage {...messages.fee} />
+            </span>
+          </div>
+        )}
       </section>
     </header>
 

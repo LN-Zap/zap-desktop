@@ -10,10 +10,9 @@
   border: 1px solid #404040;
   border-radius: 4px;
   padding: 15px;
-  color: $gold;
-  -webkit-text-fill-color: $white;
+  color: var(--lightningOrange);
+  -webkit-text-fill-color: var(--primaryText);
   font-size: 22px;
-  //border-bottom: 1px solid transparent;
   transition: all 0.25s;
 
   &.inputError {
@@ -43,7 +42,7 @@
   text-align: center;
 
   div {
-    color: $white;
+    color: var(--primaryText);
 
     &:nth-child(1) {
       text-align: center;
@@ -51,10 +50,11 @@
 
       span {
         padding: 15px 35px;
-        background: $darkspaceblue;
+        background: var(--lightningOrange);
         font-size: 14px;
         opacity: 0.5;
         transition: all 0.25s;
+        border-radius: 5px;
 
         &.button {
           position: relative;
@@ -65,7 +65,7 @@
           cursor: pointer;
 
           &:hover {
-            background: lighten($darkspaceblue, 10%);
+            opacity: 0.5;
           }
         }
       }

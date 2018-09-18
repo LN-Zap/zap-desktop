@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import Menu from './Menu'
 import Fiat from './Fiat'
 import Locale from './Locale'
+import Theme from './Theme'
 import styles from './Settings.scss'
 
 class Settings extends React.Component {
@@ -48,13 +49,15 @@ class Settings extends React.Component {
   }
 
   renderSettings() {
-    const { settings, fiatProps, localeProps, setActiveSubMenu } = this.props
+    const { settings, fiatProps, localeProps, themeProps, setActiveSubMenu } = this.props
 
     switch (settings.activeSubMenu) {
       case 'fiat':
         return <Fiat {...fiatProps} />
       case 'locale':
         return <Locale {...localeProps} />
+      case 'theme':
+        return <Theme {...themeProps} />
       default:
         return <Menu setActiveSubMenu={setActiveSubMenu} />
     }
@@ -74,7 +77,8 @@ Settings.propTypes = {
   setActiveSubMenu: PropTypes.func.isRequired,
   toggleSettings: PropTypes.func.isRequired,
   fiatProps: PropTypes.object.isRequired,
-  localeProps: PropTypes.object.isRequired
+  localeProps: PropTypes.object.isRequired,
+  themeProps: PropTypes.object.isRequired
 }
 
 export default Settings
