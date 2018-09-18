@@ -9,7 +9,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
 
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 
 import styles from './Pay.scss'
@@ -184,7 +184,14 @@ class Pay extends Component {
               </div>
             </div>
 
-            <div className={styles.fiatAmount}>{`≈ ${fiatAmount || 0} ${ticker.fiatTicker}`}</div>
+            <div className={styles.fiatAmount}>
+              {'≈ '}
+              <FormattedNumber
+                currency={ticker.fiatTicker}
+                style="currency"
+                value={fiatAmount || 0}
+              />
+            </div>
 
             <section
               className={`${styles.errorMessage} ${styles.amount} ${

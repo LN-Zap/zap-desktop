@@ -11,7 +11,8 @@ configure({ adapter: new Adapter() })
 const defaultProps = {
   requestform: {},
   ticker: {
-    currency: 'btc'
+    currency: 'btc',
+    fiatTicker: 'USD'
   },
 
   currentCurrencyFilters: [],

@@ -8,7 +8,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
 
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 
 import styles from './Request.scss'
@@ -81,9 +81,14 @@ const Request = ({
             </div>
           </div>
 
-          <div className={styles.fiatAmount}>{`≈ ${requestFiatAmount || 0} ${
-            ticker.fiatTicker
-          }`}</div>
+          <div className={styles.fiatAmount}>
+            {'≈ '}
+            <FormattedNumber
+              currency={ticker.fiatTicker}
+              style="currency"
+              value={requestFiatAmount}
+            />
+          </div>
         </section>
 
         <section className={styles.memo}>

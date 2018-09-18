@@ -11,7 +11,7 @@ import search from 'icons/search.svg'
 
 import Value from 'components/Value'
 
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 
 import SuggestedNodes from '../SuggestedNodes'
@@ -179,9 +179,16 @@ class Network extends Component {
                 currentTicker={currentTicker}
                 fiatTicker={ticker.fiatTicker}
               />
-              {` ≈ ${currentTicker[ticker.fiatTicker].symbol}${
-                fiatAmount ? fiatAmount.toLocaleString() : ''
-              }`}
+              {Boolean(fiatAmount) && (
+                <span>
+                  {'≈ '}
+                  <FormattedNumber
+                    currency={ticker.fiatTicker}
+                    style="currency"
+                    value={fiatAmount}
+                  />
+                </span>
+              )}
             </span>
           </section>
           <section
