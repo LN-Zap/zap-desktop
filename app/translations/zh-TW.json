@@ -134,7 +134,7 @@
   "components.Onboarding.import_title": "导入种子(seed)",
   "components.Onboarding.login_description": "看起来您已经有一个钱包 (在`{walletDir}`)。请输入您的钱包密码解锁。",
   "components.Onboarding.login_title": "欢迎回来！",
-  "components.Onboarding.retype_seed_description": "您的种子(seed)很重要！如果您失去了您的种子，将无法找回您的钱包。要确保已正确保存种子, 请再次输入助记词",
+  "components.Onboarding.retype_seed_description": "您的种子(seed)很重要！如果您失去了您的种子，将无法找回您的钱包。要确保已正确保存种子, 请再次输入助记词 {word1}, {word2} & {word3}",
   "components.Onboarding.retype_seed_title": "重新输入种子(seed)",
   "components.Onboarding.save_seed_description": "请安全保存这24单词！至关重要！未来可以使用这些单词恢复您的钱包！",
   "components.Onboarding.save_seed_title": "保存您的钱包种子(seed)",
