@@ -6,7 +6,7 @@ import link from 'icons/link.svg'
 import { btc } from 'lib/utils'
 import Value from 'components/Value'
 
-import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 
 import styles from '../Activity.scss'
@@ -61,10 +61,16 @@ const Transaction = ({
         />
         <i> {currencyName}</i>
       </span>
-      <span className="hint--bottom" data-hint={intl.formatMessage({ ...messages.fee })}>
-        {currentTicker[ticker.fiatTicker].symbol}
-        {btc.convert('sats', 'fiat', transaction.amount, currentTicker[ticker.fiatTicker].last)}
-      </span>
+      <FormattedNumber
+        currency={ticker.fiatTicker}
+        style="currency"
+        value={btc.convert(
+          'sats',
+          'fiat',
+          transaction.amount,
+          currentTicker[ticker.fiatTicker].last
+        )}
+      />
     </div>
   </div>
 )

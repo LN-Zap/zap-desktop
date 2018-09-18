@@ -6,7 +6,7 @@ import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle'
 
 import AmountInput from 'components/AmountInput'
 
-import { FormattedMessage } from 'react-intl'
+import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
 
 import styles from './SubmitChannelForm.scss'
@@ -145,8 +145,14 @@ class SubmitChannelForm extends React.Component {
               </ul>
             </div>
           </div>
-
-          <div className={styles.fiatAmount}>{`≈ ${contactFormFiatAmount || 0} ${fiatTicker}`}</div>
+          <div className={styles.fiatAmount}>
+            {'≈ '}
+            <FormattedNumber
+              currency={fiatTicker}
+              style="currency"
+              value={contactFormFiatAmount || 0}
+            />
+          </div>
         </section>
 
         <section className={styles.submit}>
