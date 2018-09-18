@@ -50,6 +50,7 @@
     "camelcase": 0,
     "curly": ["error", "all"],
     "react/require-default-props": 0,
+    "react/style-prop-object": 0,
     "max-len": ["error", { "code": 120, "ignoreUrls": true }],
     "import/no-extraneous-dependencies": 0,
     "no-cond-assign": ["error", "except-parens"],

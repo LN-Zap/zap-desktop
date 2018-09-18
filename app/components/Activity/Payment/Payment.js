@@ -6,7 +6,7 @@ import zap from 'icons/zap.svg'
 import { btc } from 'lib/utils'
 import Value from 'components/Value'
 
-import { FormattedTime, injectIntl } from 'react-intl'
+import { FormattedNumber, FormattedTime, injectIntl } from 'react-intl'
 import messages from './messages'
 
 import styles from '../Activity.scss'
@@ -63,10 +63,11 @@ const Payment = ({
           />
           <i> {currencyName}</i>
         </span>
-        <span className="hint--bottom" data-hint={intl.formatMessage({ ...messages.fee })}>
-          {currentTicker[ticker.fiatTicker].symbol}
-          {btc.convert('sats', 'fiat', payment.value, currentTicker[ticker.fiatTicker].last)}
-        </span>
+        <FormattedNumber
+          currency={ticker.fiatTicker}
+          style="currency"
+          value={btc.convert('sats', 'fiat', payment.value, currentTicker[ticker.fiatTicker].last)}
+        />
       </div>
     </div>
   )

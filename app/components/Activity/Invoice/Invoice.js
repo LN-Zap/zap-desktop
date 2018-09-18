@@ -6,7 +6,7 @@ import Isvg from 'react-inlinesvg'
 import Value from 'components/Value'
 import checkmarkIcon from 'icons/check_circle.svg'
 
-import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 
 import styles from '../Activity.scss'
@@ -61,12 +61,11 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
         />
         <i> {currencyName}</i>
       </span>
-      <span>
-        <span>
-          {currentTicker[ticker.fiatTicker].symbol}
-          {btc.convert('sats', 'fiat', invoice.value, currentTicker[ticker.fiatTicker].last)}
-        </span>
-      </span>
+      <FormattedNumber
+        currency={ticker.fiatTicker}
+        style="currency"
+        value={btc.convert('sats', 'fiat', invoice.value, currentTicker[ticker.fiatTicker].last)}
+      />
     </div>
   </div>
 )

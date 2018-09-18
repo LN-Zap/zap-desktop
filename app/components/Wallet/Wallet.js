@@ -12,7 +12,7 @@ import Settings from 'components/Settings'
 import zapLogo from 'icons/zap_logo.svg'
 import qrCode from 'icons/qrcode.svg'
 
-import { FormattedMessage } from 'react-intl'
+import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
 
 import styles from './Wallet.scss'
@@ -98,10 +98,16 @@ const Wallet = ({
                   </section>
                 </span>
               </h1>
-              <span className={styles.usdValue}>
-                ≈ {currentTicker[ticker.fiatTicker].symbol}
-                {fiatAmount ? fiatAmount.toLocaleString() : ''}
-              </span>
+              {Boolean(fiatAmount) && (
+                <span>
+                  {'≈ '}
+                  <FormattedNumber
+                    currency={ticker.fiatTicker}
+                    style="currency"
+                    value={fiatAmount}
+                  />
+                </span>
+              )}
             </div>
           </div>
         </div>

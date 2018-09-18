@@ -19,7 +19,8 @@ const defaultProps = {
   crypto: '',
   nodes: [],
   ticker: {
-    currency: 'btc'
+    currency: 'btc',
+    fiatTicker: 'USD'
   },
 
   isOnchain: false,
