@@ -57,7 +57,7 @@
   "components.Contacts.Network.search_placeholder": "cuardach ag alias nó pubkey",
   "components.Contacts.Network.title": "Mo Líonra",
   "components.Contacts.SubmitChannelForm.description": "Cuideoidh oscailt cainéal leat airgead a sheoladh agus airgead a fháil ar an Líonra Lightning. Níl tú ag caitheamh aon airgead, ina ionad sin, tá tú ag bogadh an t-airgead a bheartaíonn tú a úsáid ar an líonra.",
-  "components.Contacts.SubmitChannelForm.duplicate_warnig": "",
+  "components.Contacts.SubmitChannelForm.duplicate_warnig": "Faoi ​​láthair {activeChannels, plural, zero {níl aon cainéilí gníomhacha agat} one {tá 1 cainéal gníomhach agat} other {tá {activeChannels} cainéilí gníomhacha agat}} oscailt do {aliasMsg, select, this_node {an nód seo} other {{aliasMsg}}} le cumas",
   "components.Contacts.SubmitChannelForm.submit": "Tabhair isteach",
   "components.Contacts.SubmitChannelForm.title": "Cuir Cistí leis an Líonra",
   "components.Contacts.SuggestedNodes.connect": "Ceangal",
