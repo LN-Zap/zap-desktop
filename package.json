@@ -173,7 +173,6 @@
     "coverageReporters": [
       "json",
       "lcov",
-      "text",
       "html"
     ],
     "moduleNameMapper": {
