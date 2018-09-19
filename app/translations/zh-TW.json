@@ -35,7 +35,7 @@
   "components.Activity.search": "搜索",
   "components.Activity.sent": "已发送",
   "components.Activity.show_expired": "",
-  "components.Contacts.AddChannel.manual_button": "",
+  "components.Contacts.AddChannel.manual_button": "手动连接",
   "components.Contacts.AddChannel.manual_description": "嗯, 看起来我们可以&apos;t 从这里看到该节点, 想尝试手动连接吗？",
   "components.Contacts.AddChannel.offline": "离线",
   "components.Contacts.AddChannel.online": "",
