@@ -1,0 +1,58 @@
+builds:
+- goos:
+  - linux
+  - darwin
+  - windows
+  goarch:
+  - amd64
+  - "386"
+  ldflags:
+   - -X main.Commit={{.Commit}}
+  flags:
+   - -tags="experimental"
+- goos:
+  - linux
+  - darwin
+  - windows
+  goarch:
+  - amd64
+  - "386"
+  binary: lncli
+  main: ./cmd/lncli
+  ldflags:
+   - -X main.Commit={{.Commit}}
+  flags:
+   - -tags="experimental"
+archive:
+  name_template: '{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}-v{{ .Version }}'
+  format: tar.gz
+  format_overrides:
+      - goos: windows
+        format: zip
+  files:
+  - none*
+  wrap_in_directory: true
+checksum:
+  name_template: 'manifest-{{ .Version }}.txt'
+snapshot:
+  name_template: SNAPSHOT-{{.Commit}}
+changelog:
+  sort: asc
+  filters:
+    exclude:
+    - '^docs:'
+    - '^test:'
+sign:
+   artifacts: checksum
+git:
+  short_hash: true
+release:
+  github:
+    owner: LN-Zap
+    name: lnd
+  prerelease: true
+  name_template: "{{.ProjectName}} v{{.Version}}"
+before:
+  hooks:
+    - make clean
+    - make dep
