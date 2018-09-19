@@ -13,6 +13,7 @@ import el from 'react-intl/locale-data/el'
 import en from 'react-intl/locale-data/en'
 import es from 'react-intl/locale-data/es'
 import fr from 'react-intl/locale-data/fr'
+import ga from 'react-intl/locale-data/ga'
 import hr from 'react-intl/locale-data/hr'
 import ja from 'react-intl/locale-data/ja'
 import nl from 'react-intl/locale-data/nl'
@@ -32,6 +33,7 @@ import elTranslationMessages from '../../translations/el-GR.json'
 import enTranslationMessages from '../../translations/en.json'
 import esTranslationMessages from '../../translations/es-ES.json'
 import frTranslationMessages from '../../translations/fr-FR.json'
+import gaTranslationMessages from '../../translations/ga-IE.json'
 import hrTranslationMessages from '../../translations/hr-HR.json'
 import jaTranslationMessages from '../../translations/ja-JP.json'
 import nlTranslationMessages from '../../translations/nl-NL.json'
@@ -55,6 +57,7 @@ addLocaleData([
   ...en,
   ...es,
   ...fr,
+  ...ga,
   ...hr,
   ...ja,
   ...nl,
@@ -76,6 +79,7 @@ export const locales = [
   'en',
   'es',
   'fr',
+  'ga',
   'hr',
   'ja',
   'nl',
@@ -125,6 +129,7 @@ export const translationMessages = {
   cs: csTranslationMessages,
   nl: nlTranslationMessages,
   fr: frTranslationMessages,
+  ga: gaTranslationMessages,
   de: deTranslationMessages,
   el: elTranslationMessages,
   ja: jaTranslationMessages,
