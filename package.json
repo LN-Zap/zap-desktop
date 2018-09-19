@@ -36,6 +36,7 @@
     "test": "npm run lint && npm run lint-styles && npm run flow && npm run build && npm run test-unit && npm run test-e2e",
     "test-base": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=true ELECTRON_DISABLE_SECURITY_WARNINGS=true node --trace-warnings ./node_modules/jest/bin/jest --forceExit",
     "test-unit": "npm run test-base -- ./test/unit",
+    "test-unit": "npm run test-base -- --coverage ./test/unit",
     "test-e2e": "npm run test-base -- ./test/e2e",
     "test-ci": "npm run test-e2e && npm run test-unit"
   },
@@ -160,7 +161,6 @@
   ],
   "homepage": "https://github.com/LN-Zap/zap-desktop#readme",
   "jest": {
-    "collectCoverage": true,
     "collectCoverageFrom": [
       "app/**/*.js",
       "!app/dist/**",
