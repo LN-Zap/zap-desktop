@@ -35,7 +35,6 @@
     "start-renderer-dev": "node --trace-warnings -r babel-register ./node_modules/webpack-serve/lib/cli.js --config internals/webpack/webpack.config.renderer.dev.js",
     "test": "npm run lint && npm run lint-styles && npm run flow && npm run build && npm run test-unit && npm run test-e2e",
     "test-base": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=true ELECTRON_DISABLE_SECURITY_WARNINGS=true node --trace-warnings ./node_modules/jest/bin/jest --forceExit",
-    "test-unit": "npm run test-base -- ./test/unit",
     "test-unit": "npm run test-base -- --coverage ./test/unit",
     "test-e2e": "npm run test-base -- ./test/e2e",
     "test-ci": "npm run test-e2e && npm run test-unit"
@@ -206,7 +205,6 @@
     "babel-plugin-transform-es2015-classes": "^6.24.1",
     "babel-preset-env": "^1.7.0",
     "babel-preset-react": "^6.24.1",
-    "babel-preset-react-hmre": "^1.1.1",
     "babel-preset-react-optimize": "^1.0.1",
     "babel-preset-stage-0": "^6.24.1",
     "babel-register": "^6.26.0",
