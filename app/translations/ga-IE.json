@@ -134,7 +134,7 @@
   "components.Onboarding.import_title": "Iompórtáil do shíol",
   "components.Onboarding.login_description": "Breathnaíonn sé cosúil go bhfuil sparán agat cheana féin (wallet found at: `{walletDir}`). Cuir isteach do phasfhocal sparán le do thoil chun é a dhíghlasáil.",
   "components.Onboarding.login_title": "Fáilte ar ais!",
-  "components.Onboarding.retype_seed_description": "",
+  "components.Onboarding.retype_seed_description": "Tá do shíol tábhachtach! Má chailleann tú do shíol ní bheidh aon bhealach agat chun do sparán a ghnóthú. Chun a chinntiú go bhfuil do shíol shábháilta i gceart, athscríobh na focailí {word1}, {word2} & {word3}",
   "components.Onboarding.retype_seed_title": "Aisghabháil do síol",
   "components.Onboarding.save_seed_description": "Sábháil na 24 fhocal seo go sábháilte! Tabharfaidh sé seo deis duit do sparán a ghnóthú sa todhchaí",
   "components.Onboarding.save_seed_title": "Sábháil an síol do sparán",
