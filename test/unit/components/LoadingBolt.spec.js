@@ -11,7 +11,7 @@ import { mountWithIntl } from '../__helpers__/intl-enzyme-test-helper'
 configure({ adapter: new Adapter() })
 
 describe('component.LoadingBolt', () => {
-  const el = mountWithIntl(<LoadingBolt />)
+  const el = mountWithIntl(<LoadingBolt theme="dark" />)
   it('should show defaults', () => {
     expect(el.find(Isvg).props().src).toContain(cloudboltIcon)
     expect(el.text()).toContain('loading')
