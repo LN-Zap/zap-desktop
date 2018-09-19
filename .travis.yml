@@ -5,6 +5,7 @@ language: node_js
 env:
   global:
     - DEBUG=electron-builder
+    - NODE_ENV=test
 
 os:
   - linux
