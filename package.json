@@ -261,7 +261,6 @@
     "node-sass": "^4.9.3",
     "per-env": "^1.0.2",
     "prettier": "^1.14.2",
-    "react-addons-test-utils": "^15.6.2",
     "react-test-renderer": "^16.5.1",
     "redux-logger": "^3.0.6",
     "rimraf": "^2.6.2",
