@@ -81,7 +81,7 @@
   "components.Onboarding.BtcPayServer.connection_string_label": "String Ceangal",
   "components.Onboarding.BtcPayServer.connection_string_placeholder": "String Ceangal Freastalaí BTCPay",
   "components.Onboarding.ConnectionConfirm.verify_host_description": "Le do thoil seiceáil an t-óstainm go cúramach.",
-  "components.Onboarding.ConnectionConfirm.verify_host_title": "",
+  "components.Onboarding.ConnectionConfirm.verify_host_title": "An bhfuil tú cinnte gur mhaith leat ceangal a dhéanamh le",
   "components.Onboarding.ConnectionDetails.cert_description": "",
   "components.Onboarding.ConnectionDetails.cert_title": "",
   "components.Onboarding.ConnectionDetails.hostname_description": "",
