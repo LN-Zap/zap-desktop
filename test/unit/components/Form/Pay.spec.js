@@ -4,7 +4,7 @@ import Adapter from 'enzyme-adapter-react-16'
 
 import Pay from 'components/Form/Pay'
 
-import { mountWithIntl } from '../../__helpers__/intl-enzyme-test-helper.js'
+import { mountWithIntl } from '../../__helpers__/intl-enzyme-test-helper'
 
 configure({ adapter: new Adapter() })
 

@@ -6,7 +6,7 @@ import Isvg from 'react-inlinesvg'
 import LoadingBolt from 'components/LoadingBolt'
 import cloudboltIcon from 'icons/cloudbolt.svg'
 
-import { mountWithIntl } from '../__helpers__/intl-enzyme-test-helper.js'
+import { mountWithIntl } from '../__helpers__/intl-enzyme-test-helper'
 
 configure({ adapter: new Adapter() })
 

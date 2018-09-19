@@ -2,9 +2,8 @@ import { Application } from 'spectron'
 import electronPath from 'electron'
 import path from 'path'
 
+jest.setTimeout(10000)
 jest.unmock('electron')
-
-jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000
 
 describe('main window', function spec() {
   beforeEach(() => {
