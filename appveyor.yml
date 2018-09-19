@@ -8,8 +8,8 @@ environment:
     - nodejs_version: LTS
 
 cache:
-  - '%APPDATA%\npm-cache'
-  - "%LOCALAPPDATA%/Yarn"
+  - "%APPDATA%\\npm-cache"
+  - "%LOCALAPPDATA%\\Yarn"
   - node_modules -> package.json
   - flow-typed
   - app/node_modules -> app/package.json
