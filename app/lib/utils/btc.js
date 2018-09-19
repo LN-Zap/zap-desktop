@@ -2,12 +2,6 @@
 
 import sb from 'satoshi-bitcoin'
 
-////////////////
-// Helpers /////
-////////////////
-
-const numberWithCommas = x => x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-
 //////////////////////
 // BTC to things /////
 /////////////////////
@@ -24,8 +18,9 @@ export function btcToBits(btc) {
 }
 
 export function btcToFiat(btc, price) {
-  const amount = parseFloat(btc * price).toFixed(2)
-  return btc > 0 && amount <= 0 ? '< 0.01' : numberWithCommas(amount)
+  if (btc === undefined || btc === null || btc === '') return null
+
+  return parseFloat(btc * price)
 }
 
 ////////////////////////////
