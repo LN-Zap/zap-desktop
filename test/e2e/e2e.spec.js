@@ -6,10 +6,8 @@ jest.unmock('electron')
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 15000
 
-const delay = time => new Promise(resolve => setTimeout(resolve, time))
-
 describe('main window', function spec() {
-  beforeAll(async () => {
+  beforeEach(() => {
     this.app = new Application({
       path: electronPath,
       args: [path.join(__dirname, '..', '..', 'app')]
@@ -18,19 +16,24 @@ describe('main window', function spec() {
     return this.app.start()
   })
 
-  afterAll(() => this.app && this.app.isRunning() && this.app.stop())
+  afterEach(() => {
+    if (this.app && this.app.isRunning()) {
+      return this.app.stop()
+    }
+  })
 
   it('should open window', async () => {
     const { client, browserWindow } = this.app
 
     await client.waitUntilWindowLoaded()
-    await delay(500)
     const title = await browserWindow.getTitle()
     expect(title).toBe('Zap')
   })
 
   it("should haven't any logs in console of main window", async () => {
     const { client } = this.app
+
+    await client.waitUntilWindowLoaded()
     const logs = await client.getRenderProcessLogs()
     expect(logs).toHaveLength(0)
   })
