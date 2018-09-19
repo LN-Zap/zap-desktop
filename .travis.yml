@@ -45,6 +45,10 @@ script:
   - yarn test-ci || travis_terminate 1
   - yarn coveralls || travis_terminate 1
 
+branches:
+  only:
+    - master
+
 jobs:
   include:
     - stage: deploy
