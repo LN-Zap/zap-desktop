@@ -58,7 +58,7 @@ jobs:
       deploy:
         skip_cleanup: true
         provider: script
-        script: yarn release
+        script: yarn release --linux,
         on:
           repo: LN-Zap/zap-desktop
           branch: master
@@ -69,7 +69,7 @@ jobs:
       deploy:
         skip_cleanup: true
         provider: script
-        script: yarn release
+        script: yarn release --mac
         on:
           repo: LN-Zap/zap-desktop
           branch: master
