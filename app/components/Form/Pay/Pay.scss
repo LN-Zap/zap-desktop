@@ -9,7 +9,7 @@
 .header {
   text-align: center;
   padding-bottom: 20px;
-  color: $white;
+  color: var(--primaryText);
   border-bottom: 1px solid $spaceborder;
 
   h1 {
@@ -18,11 +18,15 @@
     margin-top: 10px;
     letter-spacing: 1.5px;
   }
+
+  svg g {
+    stroke: var(--primaryText);
+  }
 }
 
 .content {
   margin-top: 40px;
-  color: $white;
+  color: var(--primaryText);
 
   .destination {
     margin-bottom: 10px;
@@ -34,7 +38,7 @@
       min-height: 14px;
 
       &.active {
-        background: #23252f;
+        background: var(--lightBackground);
         border-radius: 10px;
         min-height: 0;
       }
@@ -80,8 +84,8 @@
       background: transparent;
       outline: none;
       border: 1px solid #404040;
-      color: $gold;
-      -webkit-text-fill-color: $white;
+      color: var(--lightningOrange);
+      -webkit-text-fill-color: var(--primaryText);
       font-size: 12px;
       width: 100%;
       font-weight: 200;
@@ -131,13 +135,12 @@
 
       li {
         padding: 8px 15px;
-        background: #191919;
+        background: var(--lightBackground);
         cursor: pointer;
         transition: 0.25s hover;
-        border-bottom: 1px solid #0f0f0f;
 
         &:hover {
-          background: #0f0f0f;
+          background: var(--darkestBackground);
         }
       }
     }
@@ -154,22 +157,23 @@
     text-align: center;
 
     .button {
-      width: 235px;
+      width: 200px;
       margin: 0 auto;
-      padding: 20px 10px;
-      background: #31343f;
+      padding: 15px 7.5px;
+      background: var(--lightBackground);
+      border-radius: 5px;
       opacity: 0.5;
       cursor: pointer;
       transition: 0.25s all;
 
       &.active {
-        background: $gold;
-        color: $spaceblue;
+        background: var(--lightningOrange);
+        color: var(--white);
         font-weight: bold;
         opacity: 1;
 
         &:hover {
-          background: darken($gold, 5%);
+          // background: darken(var(--lightningOrange), 5%);
         }
       }
     }
@@ -177,7 +181,7 @@
 }
 
 .errorMessage {
-  color: $red;
+  color: var(--superRed);
   font-size: 12px;
   min-height: 20px;
   opacity: 0;

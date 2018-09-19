@@ -1,5 +1,5 @@
 .container {
-  background: #1d1f27;
+  background: var(--lightestBackground);
   position: absolute;
   width: 200px;
   top: 30px;
@@ -16,7 +16,7 @@
     transition: all 0.25s;
 
     &:hover {
-      background: #0f0f0f;
+      background: var(--darkestBackground);
     }
   }
 }

@@ -1,7 +1,7 @@
 @import 'styles/variables.scss';
 
 .container {
-  color: $white;
+  color: var(--primaryText);
   padding: 10px;
 
   header {

@@ -17,6 +17,12 @@ const Menu = ({ setActiveSubMenu }) => (
       <FormattedMessage {...messages.locale} />
       <FaAngleRight />
     </li>
+    <li className={styles.fiat} onClick={() => setActiveSubMenu('theme')}>
+      <span>
+        <FormattedMessage {...messages.theme} />
+      </span>
+      <FaAngleRight />
+    </li>
   </ul>
 )
 

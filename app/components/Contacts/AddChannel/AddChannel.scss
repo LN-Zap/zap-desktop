@@ -6,22 +6,22 @@
   display: inline-block;
   vertical-align: top;
   height: 100vh;
-  background: #31343f;
+  background: var(--darkestBackground);
 }
 
 .header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: linear-gradient(270deg, #868b9f 0%, #333c5e 100%);
+  background: var(--gradient);
   padding: 15px 10px;
-  color: $white;
+  color: var(--white);
 
   input {
     background: transparent;
     outline: 0;
     border: 0;
-    color: $white;
+    color: var(--white);
     font-size: 14px;
     width: 90%;
   }
@@ -42,13 +42,13 @@
 }
 
 .nodes {
-  background: #31343f;
+  background: var(--lightestBackground);
 
   .networkResults {
     overflow-y: auto;
-    margin-top: 30px;
-    padding: 0 10px;
-    color: $white;
+    padding: 30px 10px 0 10px;
+    color: var(--primaryText);
+    min-height: 131px;
 
     li {
       display: flex;
@@ -127,14 +127,15 @@
   }
 
   div {
-    background: #383b47;
+    background: var(--lightningOrange);
     font-size: 16px;
     padding: 10px;
     cursor: pointer;
     transition: all 0.25s;
+    border-radius: 5px;
 
     &:hover {
-      background: lighten(#383b47, 10%);
+      opacity: 0.75;
     }
   }
 }

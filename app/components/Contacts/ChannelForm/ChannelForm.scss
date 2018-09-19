@@ -6,7 +6,7 @@
   z-index: 10;
   height: 100vh;
   width: 100%;
-  background: #31343f;
+  background: var(--darkestBackground);
 }
 
 .closeContainer {
@@ -24,6 +24,6 @@
   }
 
   svg {
-    color: $white;
+    color: var(--primaryText);
   }
 }

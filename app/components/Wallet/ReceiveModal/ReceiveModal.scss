@@ -3,7 +3,7 @@
 .container {
   position: relative;
   height: 100vh;
-  background: $bluegrey;
+  background: var(--darkestBackground);
 }
 
 .closeContainer {
@@ -21,7 +21,7 @@
   }
 
   svg {
-    color: $white;
+    color: var(--primaryText);
   }
 }
 
@@ -29,10 +29,10 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: $spaceblue;
+  background: var(--lightBackground);
   width: 85%;
   margin: 10% auto 50px auto;
-  color: $white;
+  color: var(--primaryText);
 
   .left {
     width: 30%;
@@ -72,7 +72,7 @@
 
     .qrcode {
       border-style: solid;
-      border-color: white;
+      border-color: var(--primaryText);
       border-width: 2px;
     }
   }
@@ -80,7 +80,6 @@
   .right {
     width: 70%;
     min-height: 220px;
-    border-left: 1px solid $spaceborder;
     padding: 30px 30px;
 
     .pubkey,
@@ -103,7 +102,7 @@
       align-items: center;
       font-size: 10px;
       font-weight: 200;
-      background: $bluegrey;
+      background: var(--lightestBackground);
 
       .data,
       .copy {
@@ -116,13 +115,13 @@
       }
 
       .copy {
-        background: #383b47;
-        color: $white;
+        background: var(--darkestBackground);
+        color: var(--primaryText);
         cursor: pointer;
         transition: all 0.25s;
 
         &:hover {
-          background: lighten(#383b47, 5%);
+          opacity: 0.5;
         }
 
         svg {

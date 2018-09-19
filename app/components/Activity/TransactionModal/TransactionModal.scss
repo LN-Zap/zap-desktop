@@ -1,11 +1,11 @@
 @import 'styles/variables.scss';
 
 .container {
-  color: $white;
+  color: var(--primaryText);
   font-size: 12px;
   width: 75%;
   margin: 0 auto;
-  background: $spaceblue;
+  background: var(--darkestBackground);
 }
 
 .header {
@@ -17,13 +17,16 @@
   section {
     &:nth-child(1) {
       font-size: 16px;
-      color: $green;
+      color: var(--primaryText);
 
       svg {
         width: 16px;
         height: 16px;
         vertical-align: top;
-        fill: $green;
+
+        g {
+          stroke: var(--primaryText);
+        }
       }
 
       span:nth-child(2) {
@@ -99,13 +102,13 @@
 
       li {
         padding: 8px 15px;
-        background: #191919;
+        background: var(--lightBackground);
         cursor: pointer;
         transition: 0.25s hover;
-        border-bottom: 1px solid #0f0f0f;
+        border-bottom: 1px solid var(--lightestBackground);
 
         &:hover {
-          background: #0f0f0f;
+          background: var(--lightestBackground);
         }
       }
     }
@@ -119,7 +122,7 @@
 }
 
 .footer {
-  background: #31343f;
+  background: var(--lightestBackground);
   padding: 20px;
   text-align: center;
 

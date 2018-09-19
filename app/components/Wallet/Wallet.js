@@ -10,6 +10,7 @@ import AnimatedCheckmark from 'components/AnimatedCheckmark'
 import Settings from 'components/Settings'
 
 import zapLogo from 'icons/zap_logo.svg'
+import zapLogoBlack from 'icons/zap_logo_black.svg'
 import qrCode from 'icons/qrcode.svg'
 
 import { FormattedNumber, FormattedMessage } from 'react-intl'
@@ -34,7 +35,8 @@ const Wallet = ({
   setWalletCurrencyFilters,
   network,
   settingsProps,
-  paymentTimeout
+  paymentTimeout,
+  theme
 }) => {
   const fiatAmount = btc.satoshisToFiat(
     parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
@@ -47,11 +49,11 @@ const Wallet = ({
   }
 
   return (
-    <div className={styles.wallet}>
+    <div className={`${styles.wallet}`}>
       <div className={styles.content}>
         <header className={styles.header}>
           <section className={styles.logo}>
-            <Isvg className={styles.bitcoinLogo} src={zapLogo} />
+            <Isvg className={styles.bitcoinLogo} src={theme === 'light' ? zapLogoBlack : zapLogo} />
             {info.data.testnet && <span className={styles.testnetPill}>Testnet</span>}
           </section>
 

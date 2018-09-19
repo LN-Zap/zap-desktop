@@ -2,7 +2,7 @@
 
 .content {
   padding: 0 40px;
-  color: $white;
+  color: var(--primaryText);
   margin: 0 auto;
   width: 500px;
 
@@ -32,7 +32,7 @@
 
   h2 {
     font-size: 10px;
-    background: $spaceblue;
+    background: var(--lightBackground);
     padding: 10px;
     border-radius: 17.5px;
     display: inline;
@@ -78,8 +78,8 @@
     border: 1px solid #404040;
     border-radius: 4px;
     padding: 15px;
-    color: $gold;
-    -webkit-text-fill-color: $white;
+    color: var(--lightningOrange);
+    -webkit-text-fill-color: var(--primaryText);
     width: 100%;
     font-weight: 200;
   }
@@ -126,13 +126,12 @@
 
     li {
       padding: 8px 15px;
-      background: #191919;
+      background: var(--lightBackground);
       cursor: pointer;
       transition: 0.25s hover;
-      border-bottom: 1px solid #0f0f0f;
 
       &:hover {
-        background: #0f0f0f;
+        background: var(--lightestBackground);
       }
     }
   }
@@ -140,7 +139,7 @@
 
 .fiatAmount {
   margin-top: 20px;
-  opacity: 0.5;
+  opacity: 0.75;
 }
 
 .submit {
@@ -151,19 +150,19 @@
     width: 235px;
     margin: 0 auto;
     padding: 20px 10px;
-    background: #31343f;
+    background: var(--lightBackground);
     opacity: 0.5;
     cursor: pointer;
     transition: 0.25s all;
 
     &.active {
-      background: $gold;
-      color: $spacegrey;
+      background: var(--lightningOrange);
+      color: var(--white);
       font-weight: bold;
       opacity: 1;
 
       &:hover {
-        background: darken($gold, 5%);
+        opacity: 0.5;
       }
     }
   }

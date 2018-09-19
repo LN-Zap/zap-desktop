@@ -6,7 +6,7 @@
   z-index: 20;
   height: 100vh;
   width: 100%;
-  background: $spaceblue;
+  background: var(--lightestBackground);
 }
 
 .closeContainer {
@@ -24,6 +24,6 @@
   }
 
   svg {
-    color: $white;
+    color: var(--primaryText);
   }
 }

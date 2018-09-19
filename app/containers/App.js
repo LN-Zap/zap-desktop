@@ -162,6 +162,8 @@ const mapStateToProps = state => ({
 
   network: state.network,
 
+  settings: state.settings,
+
   activityModalItem: activitySelectors.activityModalItem(state),
 
   currentTicker: tickerSelectors.currentTicker(state),
