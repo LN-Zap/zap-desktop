@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux'
 import { routerReducer as router } from 'react-router-redux'
+import { intlReducer as intl } from 'react-intl-redux'
+import locale from './locale'
 import onboarding from './onboarding'
 import lnd from './lnd'
 import ticker from './ticker'
@@ -25,6 +27,8 @@ import settings from './settings'
 
 const rootReducer = combineReducers({
   router,
+  intl,
+  locale,
   onboarding,
   lnd,
   ticker,

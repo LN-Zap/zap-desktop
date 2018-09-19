@@ -13,10 +13,6 @@ Object {
   "channelsLoading": true,
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "contactModal": Object {
-    "channel": null,
-    "isOpen": false,
-  },
   "filter": Object {
     "key": "ALL_CHANNELS",
     "name": "All",
@@ -77,10 +73,6 @@ Object {
   "channelsLoading": false,
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "contactModal": Object {
-    "channel": null,
-    "isOpen": false,
-  },
   "filter": Object {
     "key": "ALL_CHANNELS",
     "name": "All",
@@ -144,10 +136,6 @@ Object {
   "channelsLoading": false,
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "contactModal": Object {
-    "channel": null,
-    "isOpen": false,
-  },
   "filter": Object {
     "key": "ALL_CHANNELS",
     "name": "All",
@@ -205,10 +193,6 @@ Object {
   "channelsLoading": false,
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "contactModal": Object {
-    "channel": null,
-    "isOpen": false,
-  },
   "filter": Object {
     "key": "ALL_CHANNELS",
     "name": "All",
@@ -269,10 +253,6 @@ Object {
   "channelsLoading": false,
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "contactModal": Object {
-    "channel": null,
-    "isOpen": false,
-  },
   "filter": Object {
     "key": "ALL_CHANNELS",
     "name": "All",

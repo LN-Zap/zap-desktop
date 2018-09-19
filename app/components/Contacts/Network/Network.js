@@ -10,6 +10,10 @@ import plus from 'icons/plus.svg'
 import search from 'icons/search.svg'
 
 import Value from 'components/Value'
+
+import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
+import messages from './messages'
+
 import SuggestedNodes from '../SuggestedNodes'
 
 import styles from './Network.scss'
@@ -59,7 +63,8 @@ class Network extends Component {
 
       network,
 
-      currencyName
+      currencyName,
+      intl
     } = this.props
 
     const refreshClicked = () => {
@@ -164,7 +169,9 @@ class Network extends Component {
       <div className={styles.network}>
         <header className={styles.header}>
           <section>
-            <h2>My Network</h2>
+            <h2>
+              <FormattedMessage {...messages.title} />
+            </h2>
             <span className={styles.channelAmount}>
               <Value
                 value={balance.channelBalance}
@@ -172,15 +179,22 @@ class Network extends Component {
                 currentTicker={currentTicker}
                 fiatTicker={ticker.fiatTicker}
               />
-              {` ≈ ${currentTicker[ticker.fiatTicker].symbol}${
-                fiatAmount ? fiatAmount.toLocaleString() : ''
-              }`}
+              {Boolean(fiatAmount) && (
+                <span>
+                  {'≈ '}
+                  <FormattedNumber
+                    currency={ticker.fiatTicker}
+                    style="currency"
+                    value={fiatAmount}
+                  />
+                </span>
+              )}
             </span>
           </section>
           <section
             className={`${styles.addChannel} hint--bottom-left`}
             onClick={openContactsForm}
-            data-hint="Open a channel"
+            data-hint={intl.formatMessage({ ...messages.open_channel })}
           >
             <span className={styles.plusContainer}>
               <Isvg src={plus} />
@@ -214,7 +228,7 @@ class Network extends Component {
                     this.repeat = ref
                   }}
                 >
-                  {refreshing ? <FaRepeat /> : 'Refresh'}
+                  {refreshing ? <FaRepeat /> : <FormattedMessage {...messages.refresh} />}
                 </span>
               </section>
             </header>
@@ -238,7 +252,10 @@ class Network extends Component {
                 return (
                   <li key={loadingPubkey} className={styles.channel}>
                     <section className={styles.channelTitle}>
-                      <span className={`${styles.loading} hint--right`} data-hint="loading">
+                      <span
+                        className={`${styles.loading} hint--right`}
+                        data-hint={intl.formatMessage({ ...messages.loading })}
+                      >
                         <i className={styles.spinner} />
                       </span>
                       <span>{nodeDisplay()}</span>
@@ -264,7 +281,7 @@ class Network extends Component {
                     <section className={styles.channelTitle}>
                       <span
                         className={`${styles[channelStatus(channelObj)]} hint--right`}
-                        data-hint={channelStatus(channelObj)}
+                        data-hint={intl.formatMessage({ ...messages[channelStatus(channelObj)] })}
                       >
                         {closingChannelIds.includes(channel.chan_id) ? (
                           <span className={styles.loading}>
@@ -296,7 +313,9 @@ class Network extends Component {
 
                       <div className={styles.limits}>
                         <section>
-                          <h5>Pay Limit</h5>
+                          <h5>
+                            <FormattedMessage {...messages.pay_limit} />
+                          </h5>
                           <p>
                             <Value
                               value={channel.local_balance}
@@ -308,7 +327,9 @@ class Network extends Component {
                           </p>
                         </section>
                         <section>
-                          <h5>Request Limit</h5>
+                          <h5>
+                            <FormattedMessage {...messages.req_limit} />
+                          </h5>
                           <p>
                             <Value
                               value={channel.remote_balance}
@@ -323,7 +344,10 @@ class Network extends Component {
                       <div className={styles.actions}>
                         {closingChannelIds.includes(channel.chan_id) && (
                           <section>
-                            <span className={`${styles.loading} hint--right`} data-hint="closing">
+                            <span
+                              className={`${styles.loading} hint--right`}
+                              data-hint={intl.formatMessage({ ...messages.closing })}
+                            >
                               <i>Closing</i> <i className={`${styles.spinner} ${styles.closing}`} />
                             </span>
                           </section>
@@ -350,7 +374,7 @@ class Network extends Component {
               id="search"
               type="text"
               className={`${styles.text} ${styles.input}`}
-              placeholder="search by alias or pubkey"
+              placeholder={intl.formatMessage({ ...messages.search_placeholder })}
               value={searchQuery}
               onChange={event => updateChannelSearchQuery(event.target.value)}
             />
@@ -385,4 +409,4 @@ Network.propTypes = {
   currencyName: PropTypes.string.isRequired
 }
 
-export default Network
+export default injectIntl(Network)

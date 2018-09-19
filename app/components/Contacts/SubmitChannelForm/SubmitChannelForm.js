@@ -5,6 +5,10 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle'
 
 import AmountInput from 'components/AmountInput'
+
+import { FormattedNumber, FormattedMessage } from 'react-intl'
+import messages from './messages'
+
 import styles from './SubmitChannelForm.scss'
 
 class SubmitChannelForm extends React.Component {
@@ -55,16 +59,18 @@ class SubmitChannelForm extends React.Component {
 
     const renderWarning = dupeChanInfo => {
       const { alias, activeChannels, capacity, currencyName } = dupeChanInfo
-
-      const chansMsg =
-        activeChannels === 1 ? ' an active channel ' : ` ${activeChannels} active channels `
-      const aliasMsg = alias ? <span className={styles.alias}>{alias}</span> : ' this node '
+      const aliasMsg = alias ? <span className={styles.alias}>{alias}</span> : 'this_node'
 
       return (
         <p>
-          {`You currently have ${chansMsg} open to `}
-          {aliasMsg}
-          {` with a capacity of ${capacity} ${currencyName}.`}
+          <FormattedMessage
+            {...messages.duplicate_warnig}
+            values={{
+              activeChannels,
+              aliasMsg
+            }}
+          />{' '}
+          {capacity} {currencyName}.
         </p>
       )
     }
@@ -92,11 +98,11 @@ class SubmitChannelForm extends React.Component {
     return (
       <div className={styles.content}>
         <header className={styles.header}>
-          <h1>Add Funds to Network</h1>
+          <h1>
+            <FormattedMessage {...messages.title} />
+          </h1>
           <p>
-            Opening a channel will help you send and receive money on the Lightning Network. You
-            aren&apos;t spending any money, rather moving the money you plan to use onto the
-            network.
+            <FormattedMessage {...messages.description} />
           </p>
         </header>
 
@@ -139,8 +145,14 @@ class SubmitChannelForm extends React.Component {
               </ul>
             </div>
           </div>
-
-          <div className={styles.fiatAmount}>{`≈ ${contactFormFiatAmount || 0} ${fiatTicker}`}</div>
+          <div className={styles.fiatAmount}>
+            {'≈ '}
+            <FormattedNumber
+              currency={fiatTicker}
+              style="currency"
+              value={contactFormFiatAmount || 0}
+            />
+          </div>
         </section>
 
         <section className={styles.submit}>
@@ -148,7 +160,7 @@ class SubmitChannelForm extends React.Component {
             className={`${styles.button} ${contactCapacity > 0 ? styles.active : undefined}`}
             onClick={formSubmitted}
           >
-            Submit
+            <FormattedMessage {...messages.submit} />
           </div>
         </section>
       </div>
