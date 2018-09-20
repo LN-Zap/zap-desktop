@@ -320,6 +320,9 @@
     "untildify": "^3.0.3",
     "validator": "^10.8.0"
   },
+  "resolutions": {
+    "spectron/**/electron-chromedriver": "^3.0.0-beta.1"
+  },
   "main": "internals/webpack/webpack.config.base.js",
   "directories": {
     "test": "test"
