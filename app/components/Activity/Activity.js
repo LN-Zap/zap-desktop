@@ -28,12 +28,19 @@ class Activity extends Component {
   }
 
   componentWillMount() {
-    const { fetchPayments, fetchInvoices, fetchTransactions, fetchBalance } = this.props
+    const {
+      fetchPayments,
+      fetchInvoices,
+      fetchTransactions,
+      fetchBalance,
+      fetchChannels
+    } = this.props
 
     fetchBalance()
     fetchPayments()
     fetchInvoices()
     fetchTransactions()
+    fetchChannels()
   }
 
   renderActivity(activity) {
@@ -231,6 +238,7 @@ Activity.propTypes = {
   fetchInvoices: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
+  fetchChannels: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,

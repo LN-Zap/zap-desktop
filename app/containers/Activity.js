@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { setLocale } from 'reducers/locale'
 import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
+import { fetchChannels } from 'reducers/channels'
 import { fetchInvoices, setInvoice, invoiceSelectors } from 'reducers/invoice'
 import { setPayment, fetchPayments, paymentSelectors } from 'reducers/payment'
 import { fetchTransactions } from 'reducers/transaction'
@@ -43,6 +44,7 @@ const mapDispatchToProps = {
   walletAddress,
   openWalletModal,
   fetchBalance,
+  fetchChannels,
   updateSearchActive,
   updateSearchText,
   setFormType,
