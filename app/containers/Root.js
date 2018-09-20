@@ -209,14 +209,22 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 }
 
 const Root = ({ history, lnd, onboardingProps, syncingProps }) => {
-  // If we are onboarding show the onboarding screen.
-  if (onboardingProps.onboarding.onboarding) {
-    return <Onboarding {...onboardingProps} />
+  // If we are have not yet onboarded, show the loading/onboarding screen.
+  if (!onboardingProps.onboarding.onboarded) {
+    return (
+      <div>
+        <LoadingBolt
+          theme={onboardingProps.theme}
+          visible={!onboardingProps.onboarding.onboarding}
+        />
+        <Onboarding {...onboardingProps} />
+        <Syncing {...syncingProps} />
+      </div>
+    )
   }
 
   // If we are syncing show the syncing screen.
   if (
-    onboardingProps.onboarding.onboarded &&
     lnd.lightningGrpcActive &&
     onboardingProps.onboarding.connectionType === 'local' &&
     lnd.syncStatus !== 'complete'

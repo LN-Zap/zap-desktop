@@ -15,7 +15,7 @@ describe('ZapController', function() {
         expect(this.controller.lndConfig).toBeInstanceOf(LndConfig)
       })
       it('should set the "splashScreenTime" property to 500', () => {
-        expect(this.controller.splashScreenTime).toEqual(500)
+        expect(this.controller.splashScreenTime).toEqual(1500)
       })
       it('should set the "mainWindow" property to undefined', () => {
         expect(this.controller.mainWindow).toBeUndefined()
