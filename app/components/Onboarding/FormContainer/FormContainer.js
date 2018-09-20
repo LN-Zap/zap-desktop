@@ -14,8 +14,6 @@ import styles from './FormContainer.scss'
 
 const FormContainer = ({ title, description, back, next, children, theme }) => (
   <div className={styles.container}>
-    <div className={styles.titleBar} />
-
     <header className={styles.header}>
       <section>
         <Isvg src={theme === 'light' ? zapLogoBlack : zapLogo} />
