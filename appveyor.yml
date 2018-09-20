@@ -2,7 +2,6 @@ os: unstable
 
 environment:
   DEBUG: electron-builder
-  NODE_ENV: test
   matrix:
     - nodejs_version: STABLE
       publish_build: true
