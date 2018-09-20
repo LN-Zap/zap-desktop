@@ -174,16 +174,19 @@ class Network extends Component {
             </h2>
             <span className={styles.channelAmount}>
               {Boolean(balance.channelBalance) && (
-                <Value
-                  value={balance.channelBalance}
-                  currency={ticker.currency}
-                  currentTicker={currentTicker}
-                  fiatTicker={ticker.fiatTicker}
-                />
+                <span>
+                  <Value
+                    value={balance.channelBalance}
+                    currency={ticker.currency}
+                    currentTicker={currentTicker}
+                    fiatTicker={ticker.fiatTicker}
+                  />
+                  <i> {currencyName}</i>
+                </span>
               )}
               {Boolean(fiatAmount) && (
                 <span>
-                  {'≈ '}
+                  {' ≈ '}
                   <FormattedNumber
                     currency={ticker.fiatTicker}
                     style="currency"
