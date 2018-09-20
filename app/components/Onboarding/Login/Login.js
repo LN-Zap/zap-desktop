@@ -32,15 +32,17 @@ const Login = ({
 
     <section className={styles.buttons}>
       <div>
-        <span
-          className={`${!unlockingWallet ? styles.active : undefined} ${styles.button}`}
-          onClick={() => unlockWallet(password)}
-        >
-          {unlockingWallet ? (
-            <i className={styles.spinner} />
-          ) : (
-            <FormattedMessage {...messages.unlock} />
-          )}
+        <span className={styles.button}>
+          <span
+            className={`${!unlockingWallet ? styles.active : undefined} ${styles.button}`}
+            onClick={() => unlockWallet(password)}
+          >
+            {unlockingWallet ? (
+              <i className={styles.spinner} />
+            ) : (
+              <FormattedMessage {...messages.unlock} />
+            )}
+          </span>
         </span>
       </div>
     </section>
