@@ -43,42 +43,27 @@
 
   div {
     color: var(--primaryText);
+    text-align: center;
+    margin-bottom: 40px;
 
-    &:nth-child(1) {
-      text-align: center;
-      margin-bottom: 40px;
+    .button {
+      padding: 15px 35px;
+      background: var(--lightningOrange);
+      font-size: 14px;
+      transition: all 0.25s;
+      border-radius: 5px;
 
-      span {
-        padding: 15px 35px;
-        background: var(--lightningOrange);
-        font-size: 14px;
-        opacity: 0.5;
-        transition: all 0.25s;
-        border-radius: 5px;
-
-        &.button {
-          position: relative;
-        }
-
-        &.active {
-          opacity: 1;
-          cursor: pointer;
-
-          &:hover {
-            opacity: 0.5;
-          }
-        }
+      &.button {
+        position: relative;
       }
-    }
 
-    &:nth-child(2),
-    &:nth-child(3) {
-      font-size: 12px;
-      cursor: pointer;
-      margin: 10px 0;
+      &.active {
+        opacity: 1;
+        cursor: pointer;
 
-      &:hover {
-        text-decoration: underline;
+        &:hover {
+          opacity: 0.5;
+        }
       }
     }
   }
