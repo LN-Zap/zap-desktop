@@ -86,7 +86,7 @@ const Request = ({
             <FormattedNumber
               currency={ticker.fiatTicker}
               style="currency"
-              value={requestFiatAmount}
+              value={requestFiatAmount || 0}
             />
           </div>
         </section>
