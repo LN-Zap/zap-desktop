@@ -339,7 +339,7 @@ class Network extends Component {
                               currentTicker={currentTicker}
                               fiatTicker={ticker.fiatTicker}
                             />
-                            <i>{ticker.currency.toUpperCase()}</i>
+                            <i> {currencyName}</i>
                           </p>
                         </section>
                       </div>
