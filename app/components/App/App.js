@@ -16,25 +16,14 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const {
-      fetchTicker,
-      fetchInfo,
-      fetchChannels,
-      fetchSuggestedNodes,
-      fetchBalance,
-      fetchDescribeNetwork
-    } = this.props
+    const { fetchTicker, fetchInfo, fetchSuggestedNodes, fetchDescribeNetwork } = this.props
 
     // fetch price ticker
     fetchTicker()
     // fetch node info
     fetchInfo()
-    // fetch nodes channels
-    fetchChannels()
     // fetch suggested nodes list from zap.jackmallers.com/suggested-peers
     fetchSuggestedNodes()
-    // fetch nodes balance
-    fetchBalance()
     // fetch LN network from nides POV
     fetchDescribeNetwork()
   }
@@ -104,8 +93,6 @@ App.propTypes = {
   fetchInfo: PropTypes.func.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
-  fetchChannels: PropTypes.func.isRequired,
-  fetchBalance: PropTypes.func.isRequired,
   fetchDescribeNetwork: PropTypes.func.isRequired,
   fetchSuggestedNodes: PropTypes.func.isRequired,
 
