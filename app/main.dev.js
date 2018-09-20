@@ -109,7 +109,9 @@ app.on('ready', () => {
       event.preventDefault()
       zap.terminate()
     } else {
-      zap.mainWindow.forceClose = true
+      if (zap.mainWindow) {
+        zap.mainWindow.forceClose = true
+      }
     }
   })
 
