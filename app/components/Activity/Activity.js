@@ -41,6 +41,9 @@ class Activity extends Component {
     fetchInvoices()
     fetchTransactions()
     fetchChannels()
+
+    // HACK: wait 10 seconds and fetch channels again, allowing the node to establish connections with the remote party
+    setTimeout(() => fetchChannels(), 10000)
   }
 
   renderActivity(activity) {
