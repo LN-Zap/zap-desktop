@@ -6,25 +6,25 @@ jest.setTimeout(10000)
 jest.unmock('electron')
 
 describe('main window', function spec() {
-  beforeEach(() => {
+  beforeAll(async () => {
     this.app = new Application({
       path: electronPath,
       args: [path.join(__dirname, '..', '..', 'app')]
     })
 
-    return this.app.start()
+    await this.app.start()
+    await this.app.client.waitUntilWindowLoaded()
   })
 
-  afterEach(() => {
+  afterAll(() => {
     if (this.app && this.app.isRunning()) {
       return this.app.stop()
     }
   })
 
   it('should open window', async () => {
-    const { client, browserWindow } = this.app
+    const { browserWindow } = this.app
 
-    await client.waitUntilWindowLoaded()
     const title = await browserWindow.getTitle()
     expect(title).toBe('Zap')
   })
@@ -32,7 +32,6 @@ describe('main window', function spec() {
   it("should haven't any logs in console of main window", async () => {
     const { client } = this.app
 
-    await client.waitUntilWindowLoaded()
     const logs = await client.getRenderProcessLogs()
     expect(logs).toHaveLength(0)
   })
