@@ -74,7 +74,7 @@ class ZapController {
     this.mainWindow = mainWindow
 
     // Time for the splash screen to remain visible.
-    this.splashScreenTime = 500
+    this.splashScreenTime = 1500
 
     // Initialize the state machine.
     this._fsm()
