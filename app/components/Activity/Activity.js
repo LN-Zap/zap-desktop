@@ -218,17 +218,18 @@ class Activity extends Component {
                 </ul>
               </li>
             ))}
-            {showExpiredToggle && (
-              <li>
-                <div className={styles.toggleExpired} onClick={toggleExpiredRequests}>
-                  {showExpiredRequests ? (
-                    <FormattedMessage {...messages.hide_expired} />
-                  ) : (
-                    <FormattedMessage {...messages.show_expired} />
-                  )}
-                </div>
-              </li>
-            )}
+            {showExpiredToggle &&
+              currentActivity.length > 0 && (
+                <li>
+                  <div className={styles.toggleExpired} onClick={toggleExpiredRequests}>
+                    {showExpiredRequests ? (
+                      <FormattedMessage {...messages.hide_expired} />
+                    ) : (
+                      <FormattedMessage {...messages.show_expired} />
+                    )}
+                  </div>
+                </li>
+              )}
           </ul>
         </div>
       </div>
