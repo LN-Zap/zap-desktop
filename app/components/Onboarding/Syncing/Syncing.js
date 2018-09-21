@@ -96,7 +96,7 @@ class Syncing extends Component {
           </header>
 
           {hasSynced === true && (
-            <div>
+            <div className={styles.hasNotSynced}>
               <div className={styles.title}>
                 <h1>
                   <FormattedMessage {...messages.sync_title} />
@@ -105,14 +105,11 @@ class Syncing extends Component {
                   <FormattedMessage {...messages.sync_description} />
                 </p>
               </div>
-              <div className={styles.loading}>
-                <div className={styles.spinner} />
-              </div>
             </div>
           )}
 
           {hasSynced === false && (
-            <div>
+            <div className={styles.hasSynced}>
               <div className={styles.title}>
                 <h1>
                   <FormattedMessage {...messages.fund_title} />
