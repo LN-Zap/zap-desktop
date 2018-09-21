@@ -8,7 +8,6 @@ import FaRepeat from 'react-icons/lib/fa/repeat'
 import { FormattedMessage, injectIntl } from 'react-intl'
 
 import Wallet from 'components/Wallet'
-import LoadingBolt from 'components/LoadingBolt'
 import Invoice from './Invoice'
 import Payment from './Payment'
 import Transaction from './Transaction'
@@ -102,13 +101,11 @@ class Activity extends Component {
       updateSearchActive,
       updateSearchText,
       walletProps,
-      intl,
-
-      settings
+      intl
     } = this.props
 
     if (balance.channelBalance === null || balance.walletBalance === null) {
-      return <LoadingBolt theme={settings.theme} />
+      return null
     }
 
     const refreshClicked = () => {

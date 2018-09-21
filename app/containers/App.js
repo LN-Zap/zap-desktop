@@ -4,7 +4,7 @@ import get from 'lodash.get'
 
 import { btc } from 'lib/utils'
 
-import { fetchTicker, setCurrency, tickerSelectors } from 'reducers/ticker'
+import { setCurrency, tickerSelectors } from 'reducers/ticker'
 
 import { closeWalletModal } from 'reducers/address'
 
@@ -80,7 +80,6 @@ import {
 import App from 'components/App'
 
 const mapDispatchToProps = {
-  fetchTicker,
   setCurrency,
 
   closeWalletModal,

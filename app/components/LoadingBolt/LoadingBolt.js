@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
-import { Transition, animated, config } from 'react-spring'
+import { Transition, animated } from 'react-spring'
 import cloudLightningIcon from 'icons/cloud_lightning.svg'
 
 import { FormattedMessage } from 'react-intl'
@@ -14,7 +14,7 @@ class LoadingBolt extends React.PureComponent {
     const { theme, visible = true } = this.props
     return (
       <div>
-        <Transition enter={{ opacity: 1 }} leave={{ opacity: 0 }} config={config.slow} native>
+        <Transition enter={{ opacity: 1 }} leave={{ opacity: 0 }} native>
           {visible &&
             (springStyles => (
               <animated.div style={springStyles} className={`${styles.container} ${theme}`}>
