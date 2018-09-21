@@ -24,9 +24,6 @@
   }
 
   .title {
-    margin: 30px;
-    background: var(--darkestBackground);
-
     h1 {
       font-size: 20px;
       margin-bottom: 20px;
@@ -35,6 +32,14 @@
     p {
       font-size: 12px;
     }
+  }
+
+  .hasNotSynced .title {
+    margin: 95px;
+  }
+
+  .hasSynced .title {
+    margin: 30px;
   }
 
   .address {
