@@ -3,6 +3,7 @@
 import split2 from 'split2'
 import { spawn } from 'child_process'
 import EventEmitter from 'events'
+import getPort from 'get-port'
 import { mainLog, lndLog, lndLogGetLevel } from '../utils/log'
 import { fetchBlockHeight } from './util'
 import LndConfig from './config'
@@ -63,9 +64,11 @@ class Neutrino extends EventEmitter {
    * Start the Lnd process in Neutrino mode.
    * @return {Number} PID of the Lnd process that was started.
    */
-  start() {
+  async start() {
     if (this.process) {
-      throw new Error('Neutrino process with PID ${this.process.pid} already exists.')
+      return Promise.reject(
+        new Error('Neutrino process with PID ${this.process.pid} already exists.')
+      )
     }
 
     mainLog.info('Starting lnd in neutrino mode')
@@ -75,13 +78,30 @@ class Neutrino extends EventEmitter {
     mainLog.info(' > cert:', this.lndConfig.cert)
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
 
+    // Get a free port to use as the rpc listen address.
+    const rpcListen = await getPort({
+      host: 'localhost',
+      port: [10009, 10008, 10007, 10006, 10005, 10004, 10003, 10002, 10001]
+    })
+    this.lndConfig.host = `localhost:${rpcListen}`
+
+    // Get a free port to use as the p2p listen address.
+    const p2pListen = await getPort({
+      host: '0.0.0.0',
+      port: [9735, 9734, 9733, 9732, 9731, 9736, 9737, 9738, 9739]
+    })
+
+    //Configure lnd.
     const neutrinoArgs = [
       `--configfile=${this.lndConfig.configPath}`,
       `--lnddir=${this.lndConfig.lndDir}`,
+      `--listen=0.0.0.0:${p2pListen}`,
+      `--rpclisten=localhost:${rpcListen}`,
       `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`
     ]
 
+    // Configure neutrino backend.
     if (this.lndConfig.network === 'mainnet') {
       neutrinoArgs.push('--neutrino.connect=mainnet1-btcd.zaphq.io')
       // neutrinoArgs.push('--neutrino.connect=mainnet2-btcd.zaphq.io')
@@ -90,12 +110,14 @@ class Neutrino extends EventEmitter {
       // neutrinoArgs.push('--neutrino.connect=testnet2-btcd.zaphq.io')
     }
 
+    // Log the final config.
     mainLog.info(
       'Spawning Neutrino process: %s %s',
       this.lndConfig.binaryPath,
-      neutrinoArgs.join(' ')
+      neutrinoArgs.filter(v => v != '').join(' ')
     )
 
+    // Spawn lnd process.
     this.process = spawn(this.lndConfig.binaryPath, neutrinoArgs)
       .on('error', error => {
         mainLog.debug('Neutrino process received "error" event with error: %s', error)

@@ -179,9 +179,9 @@ describe('Neutrino', function() {
 
   describe('.start', () => {
     describe('called when neutrino is not running', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         this.neutrino = new Neutrino(new LndConfig())
-        this.neutrino.start()
+        await this.neutrino.start()
       })
       it('should set the subprocess object on the `process` property', () => {
         expect(this.neutrino.process.pid).toBeDefined()
@@ -193,10 +193,10 @@ describe('Neutrino', function() {
         this.neutrino = new Neutrino(new LndConfig())
         this.neutrino.process = mockSpawn()
       })
-      it('should throw an error', () => {
-        expect(() => {
-          this.neutrino.start()
-        }).toThrow()
+      it('should throw an error', async () => {
+        await expect(this.neutrino.start()).rejects.toThrowErrorMatchingInlineSnapshot(
+          `"Neutrino process with PID \${this.process.pid} already exists."`
+        )
       })
     })
   })

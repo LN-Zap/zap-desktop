@@ -353,7 +353,7 @@ class ZapController {
       this.sendMessage('lndCfilterHeight', Number(height))
     })
 
-    this.neutrino.start()
+    return this.neutrino.start()
   }
 
   /**
