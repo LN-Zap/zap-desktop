@@ -68,7 +68,7 @@ const Transaction = ({
           'sats',
           'fiat',
           transaction.amount,
-          currentTicker[ticker.fiatTicker].last
+          currentTicker[ticker.fiatTicker].price
         )}
       />
     </div>

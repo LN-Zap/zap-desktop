@@ -7,7 +7,7 @@ const Value = ({ value, currency, currentTicker, fiatTicker }) => {
     return <i>{value > 0 ? value : value * -1}</i>
   }
 
-  return <i>{btc.convert('sats', currency, value, currentTicker[fiatTicker].last)}</i>
+  return <i>{btc.convert('sats', currency, value, currentTicker[fiatTicker].price)}</i>
 }
 
 Value.propTypes = {
