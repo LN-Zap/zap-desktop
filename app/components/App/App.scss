@@ -11,6 +11,9 @@
 }
 
 .titleBar {
+  height: 20px;
+  width: 100%;
+  position: absolute;
   -webkit-user-select: none;
   -webkit-app-region: drag;
 }
