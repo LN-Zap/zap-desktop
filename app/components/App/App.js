@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import GlobalError from 'components/GlobalError'
-import LoadingBolt from 'components/LoadingBolt'
 
 import Form from 'components/Form'
 import ChannelForm from 'components/Contacts/ChannelForm'
@@ -16,10 +15,7 @@ import styles from './App.scss'
 
 class App extends Component {
   componentWillMount() {
-    const { fetchTicker, fetchInfo, fetchSuggestedNodes, fetchDescribeNetwork } = this.props
-
-    // fetch price ticker
-    fetchTicker()
+    const { fetchInfo, fetchSuggestedNodes, fetchDescribeNetwork } = this.props
     // fetch node info
     fetchInfo()
     // fetch suggested nodes list from zap.jackmallers.com/suggested-peers
@@ -51,7 +47,7 @@ class App extends Component {
     } = this.props
 
     if (!currentTicker) {
-      return <LoadingBolt theme={settings.theme} />
+      return null
     }
 
     return (
@@ -91,7 +87,6 @@ App.propTypes = {
   channelFormProps: PropTypes.object,
 
   fetchInfo: PropTypes.func.isRequired,
-  fetchTicker: PropTypes.func.isRequired,
   clearError: PropTypes.func.isRequired,
   fetchDescribeNetwork: PropTypes.func.isRequired,
   fetchSuggestedNodes: PropTypes.func.isRequired,
