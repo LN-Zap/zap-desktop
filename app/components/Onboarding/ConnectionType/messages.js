@@ -4,7 +4,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   default: 'Default',
   default_description:
-    'By selecting the defualt mode we will do everything for you. Just click and go!',
+    'By selecting the default mode we will do everything for you. Just click and go!',
   only: 'only',
   custom: 'Custom',
   custom_description:
