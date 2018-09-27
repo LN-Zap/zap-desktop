@@ -162,7 +162,7 @@ class Network extends Component {
 
     const fiatAmount = btc.satoshisToFiat(
       balance.channelBalance,
-      currentTicker[ticker.fiatTicker].last
+      currentTicker[ticker.fiatTicker].price
     )
     const { refreshing } = this.state
     return (

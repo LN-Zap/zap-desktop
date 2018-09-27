@@ -40,7 +40,7 @@ const Wallet = ({
 }) => {
   const fiatAmount = btc.satoshisToFiat(
     parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
-    currentTicker[ticker.fiatTicker].last
+    currentTicker[ticker.fiatTicker].price
   )
 
   const onCurrencyFilterClick = currency => {

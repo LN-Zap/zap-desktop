@@ -12,8 +12,8 @@ import axios from 'axios'
 // defined on the webpack dev server.
 const scheme = process.env.HOT ? '/proxy/' : 'https://'
 
-export function requestTicker() {
-  const BASE_URL = `${scheme}blockchain.info/ticker`
+export function requestTicker(id) {
+  const BASE_URL = `${scheme}ticker.zap.jackmallers.com/ticker/${id}`
   return axios({
     method: 'get',
     url: BASE_URL
@@ -23,9 +23,7 @@ export function requestTicker() {
 export function requestTickers(ids) {
   return axios
     .all(ids.map(id => requestTicker(id)))
-    .then(
-      axios.spread((btcTicker, ltcTicker) => ({ btcTicker: btcTicker[0], ltcTicker: ltcTicker[0] }))
-    )
+    .then(axios.spread((btcTicker, ltcTicker) => ({ btcTicker: btcTicker, ltcTicker: ltcTicker })))
 }
 
 export function requestSuggestedNodes() {
