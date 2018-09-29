@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import Store from 'electron-store'
-import { requestTicker } from 'lib/utils/api'
+import { requestTickers } from 'lib/utils/api'
 import { currencies, getCurrency } from 'lib/utils/i18n'
 import { infoSelectors } from './info'
 
@@ -65,10 +65,10 @@ export function recieveTickers({ btcTicker, ltcTicker }) {
 
 export const fetchTicker = () => async dispatch => {
   dispatch(getTickers())
-  const btcTicker = await requestTicker()
-  dispatch(recieveTickers({ btcTicker }))
+  const tickers = await requestTickers(['btc', 'ltc'])
+  dispatch(recieveTickers(tickers))
 
-  return btcTicker
+  return tickers
 }
 
 // Receive IPC event for receiveCryptocurrency

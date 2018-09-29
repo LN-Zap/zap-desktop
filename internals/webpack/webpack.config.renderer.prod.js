@@ -164,7 +164,7 @@ export default merge.smart(baseConfig, {
     new CspHtmlWebpackPlugin({
       'default-src': "'self'",
       'object-src': "'none'",
-      'connect-src': ["'self'", 'https://blockchain.info', 'https://zap.jackmallers.com'],
+      'connect-src': ["'self'", 'https://api.coinbase.com', 'https://zap.jackmallers.com'],
       'script-src': ["'self'"],
       'font-src': [
         "'self'",

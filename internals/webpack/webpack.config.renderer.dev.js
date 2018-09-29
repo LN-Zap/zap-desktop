@@ -236,8 +236,8 @@ export default merge.smart(baseConfig, {
         "'self'",
         'http://localhost:*',
         'ws://localhost:*',
-        'https://blockchain.info',
-        'https://zap.jackmallers.com'
+        'https://zap.jackmallers.com',
+        'https://api.coinbase.com/'
       ],
       'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
       'font-src': [
@@ -292,9 +292,9 @@ export default merge.smart(baseConfig, {
       )
       app.use(
         convert(
-          proxy('/proxy/blockchain.info', {
-            target: 'https://blockchain.info/ticker',
-            pathRewrite: { '^/proxy/blockchain.info': '' },
+          proxy('/proxy/api.coinbase.com', {
+            target: 'https://api.coinbase.com/',
+            pathRewrite: { '^/proxy/api.coinbase.com': '' },
             changeOrigin: true
           })
         )

@@ -279,11 +279,11 @@ contactFormSelectors.contactFormFiatAmount = createSelector(
   tickerSelectors.currentTicker,
   fiatTickerSelector,
   (amount, currency, currentTicker, fiatTicker) => {
-    if (!currentTicker || !currentTicker[fiatTicker].last) {
+    if (!currentTicker || !currentTicker[fiatTicker]) {
       return false
     }
 
-    return btc.convert(currency, 'fiat', amount, currentTicker[fiatTicker].last)
+    return btc.convert(currency, 'fiat', amount, currentTicker[fiatTicker])
   }
 )
 

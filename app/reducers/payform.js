@@ -196,15 +196,15 @@ payFormSelectors.fiatAmount = createSelector(
   tickerSelectors.currentTicker,
   fiatTickerSelector,
   (isLn, amount, invoice, currency, currentTicker, fiatTicker) => {
-    if (!currentTicker || !currentTicker[fiatTicker].last) {
+    if (!currentTicker || !currentTicker[fiatTicker]) {
       return false
     }
 
     if (isLn) {
-      return btc.satoshisToFiat(invoice.num_satoshis || 0, currentTicker[fiatTicker].last)
+      return btc.satoshisToFiat(invoice.num_satoshis || 0, currentTicker[fiatTicker])
     }
 
-    return btc.convert(currency, 'fiat', amount, currentTicker[fiatTicker].last)
+    return btc.convert(currency, 'fiat', amount, currentTicker[fiatTicker])
   }
 )
 
