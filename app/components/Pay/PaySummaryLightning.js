@@ -73,7 +73,7 @@ class PaySummaryLightning extends React.PureComponent {
     const { satoshis, payeeNodeKey } = invoice
     const descriptionTag = invoice.tags.find(tag => tag.tagName === 'description') || {}
     const memo = descriptionTag.data
-    const fiatAmount = satoshisToFiat(satoshis, currentTicker[fiatCurrency].last)
+    const fiatAmount = satoshisToFiat(satoshis, currentTicker[fiatCurrency])
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
 
     // Select an appropriate fee message...

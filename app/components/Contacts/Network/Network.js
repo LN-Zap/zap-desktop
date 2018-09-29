@@ -158,10 +158,7 @@ class Network extends Component {
       return 'online'
     }
 
-    const fiatAmount = btc.satoshisToFiat(
-      balance.channelBalance,
-      currentTicker[ticker.fiatTicker].last
-    )
+    const fiatAmount = btc.satoshisToFiat(balance.channelBalance, currentTicker[ticker.fiatTicker])
     const { refreshing } = this.state
     return (
       <BackgroundTertiary className={styles.network}>

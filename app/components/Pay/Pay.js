@@ -316,7 +316,7 @@ class Pay extends React.Component {
    */
   handleAmountCryptoChange = e => {
     const { cryptoCurrency, currentTicker, fiatCurrency } = this.props
-    const lastPrice = currentTicker[fiatCurrency].last
+    const lastPrice = currentTicker[fiatCurrency]
     const value = convert(cryptoCurrency, 'fiat', e.target.value, lastPrice)
     this.formApi.setValue('amountFiat', value)
   }
@@ -326,7 +326,7 @@ class Pay extends React.Component {
    */
   handleAmountFiatChange = e => {
     const { cryptoCurrency, currentTicker, fiatCurrency } = this.props
-    const lastPrice = currentTicker[fiatCurrency].last
+    const lastPrice = currentTicker[fiatCurrency]
     const value = convert('fiat', cryptoCurrency, e.target.value, lastPrice)
     this.formApi.setValue('amountCrypto', value)
   }
