@@ -187,6 +187,10 @@ class ZapController {
         else if (e.code === 'LND_GRPC_MACAROON_ERROR') {
           errors.macaroon = e.message
         }
+        // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
+        else {
+          errors.host = `Unable to connect to host: ${e.details || e.message}`
+        }
 
         // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
         // verify that it is accessible. If it is not, an error 12 is throw whcih is the gRPC code for `UNIMPLEMENTED`
@@ -194,11 +198,6 @@ class ZapController {
         // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
         if (e.code === 12) {
           return this.startWalletUnlocker()
-        }
-
-        // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
-        else {
-          errors.host = `Unable to connect to host: ${e.details || e.message}`
         }
 
         // Notify the app of errors.
@@ -436,7 +435,15 @@ class ZapController {
    */
   _registerIpcListeners() {
     ipcMain.on('startLnd', (event, options: onboardingOptions) => this.finishOnboarding(options))
-    ipcMain.on('startLightningWallet', () => this.startLightningWallet())
+    ipcMain.on('startLightningWallet', () =>
+      this.startLightningWallet().catch(e => {
+        // Notify the app of errors.
+        this.sendMessage('startLndError', e.message)
+
+        // Return back to the start of the onboarding process.
+        return this.startOnboarding()
+      })
+    )
   }
 
   /**
