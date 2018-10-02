@@ -4,6 +4,9 @@ import { ConnectedRouter } from 'react-router-redux'
 import { Switch, Route } from 'react-router'
 import PropTypes from 'prop-types'
 import { hot } from 'react-hot-loader'
+import GlobalError from 'components/GlobalError'
+
+import { clearError } from 'reducers/error'
 
 import {
   setConnectionType,
@@ -40,6 +43,7 @@ import App from './App'
 import Activity from './Activity'
 
 const mapDispatchToProps = {
+  clearError,
   setConnectionType,
   setConnectionString,
   setConnectionHost,
@@ -73,6 +77,7 @@ const mapStateToProps = state => ({
   theme: state.settings.theme,
   balance: state.balance,
   currentTicker: tickerSelectors.currentTicker(state),
+  error: state.error,
   syncPercentage: lndSelectors.syncPercentage(state),
   passwordIsValid: onboardingSelectors.passwordIsValid(state),
   passwordMinCharsError: onboardingSelectors.passwordMinCharsError(state),
@@ -218,7 +223,16 @@ class Root extends Component {
   }
 
   render() {
-    const { balance, currentTicker, history, lnd, onboardingProps, syncingProps } = this.props
+    const {
+      balance,
+      clearError,
+      currentTicker,
+      error: { error },
+      history,
+      lnd,
+      onboardingProps,
+      syncingProps
+    } = this.props
 
     if (!onboardingProps.onboarding.onboarded) {
       return (
@@ -227,6 +241,7 @@ class Root extends Component {
             theme={onboardingProps.theme}
             visible={!onboardingProps.onboarding.onboarding}
           />
+          <GlobalError error={error} clearError={clearError} />
           <Onboarding {...onboardingProps} />
           <Syncing {...syncingProps} />
         </div>
@@ -267,6 +282,8 @@ class Root extends Component {
 
 Root.propTypes = {
   balance: PropTypes.object.isRequired,
+  clearError: PropTypes.func.isRequired,
+  error: PropTypes.object.isRequired,
   fetchTicker: PropTypes.func.isRequired,
   currentTicker: PropTypes.object,
   history: PropTypes.object.isRequired,

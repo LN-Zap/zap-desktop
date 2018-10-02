@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import get from 'lodash.get'
 import { fetchInfo } from './info'
+import { setError } from './error'
 
 // ------------------------------------
 // Constants
@@ -292,14 +293,19 @@ export const startOnboarding = (event, lndConfig = {}) => dispatch => {
 
 // Listener for errors connecting to LND gRPC
 export const startLndError = (event, errors) => (dispatch, getState) => {
-  dispatch(setStartLndError(errors))
   const connectionType = connectionTypeSelector(getState())
 
   switch (connectionType) {
+    case 'local':
+      dispatch(setError(errors))
+      dispatch({ type: CHANGE_STEP, step: 0.1 })
+      break
     case 'custom':
+      dispatch(setStartLndError(errors))
       dispatch({ type: CHANGE_STEP, step: 0.2 })
       break
     case 'btcpayserver':
+      dispatch(setStartLndError(errors))
       dispatch({ type: CHANGE_STEP, step: 0.3 })
       break
   }
