@@ -5,8 +5,8 @@ import Isvg from 'react-inlinesvg'
 import x from 'icons/x.svg'
 
 import { FormattedMessage } from 'react-intl'
+import Button from 'components/UI/Button'
 import messages from './messages'
-
 import styles from './AddChannel.scss'
 
 const AddChannel = ({
@@ -145,9 +145,10 @@ const AddChannel = ({
           <p>
             <FormattedMessage {...messages.manual_description} />
           </p>
-          <div className={styles.manualConnectButton} onClick={openManualForm}>
+
+          <Button onClick={openManualForm} variant="primary" width={1}>
             <FormattedMessage {...messages.manual_button} />
-          </div>
+          </Button>
         </section>
       )}
     </div>

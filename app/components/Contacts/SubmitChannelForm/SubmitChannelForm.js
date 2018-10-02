@@ -5,6 +5,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle'
 
 import AmountInput from 'components/AmountInput'
+import Button from 'components/UI/Button'
 
 import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
@@ -155,12 +156,9 @@ class SubmitChannelForm extends React.Component {
         </section>
 
         <section className={styles.submit}>
-          <div
-            className={`${styles.button} ${contactCapacity > 0 ? styles.active : undefined}`}
-            onClick={formSubmitted}
-          >
+          <Button disabled={!(contactCapacity > 0)} onClick={formSubmitted} size="large">
             <FormattedMessage {...messages.submit} />
-          </div>
+          </Button>
         </section>
       </div>
     )

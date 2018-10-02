@@ -41,7 +41,7 @@
     "test-ci": "npm run test-e2e && npm run test-unit"
   },
   "config": {
-    "style_paths": "app/styles/*.scss app/components/**/*.scss",
+    "style_paths": "app/**/*.scss app/**/*.js",
     "lnd-binary": {
       "binaryVersion": "0.5-beta-21-g25145acc",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
@@ -186,6 +186,9 @@
       "app/node_modules",
       "app"
     ],
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
     "transform": {
       "^.+\\.js$": "babel-jest"
     }
@@ -204,6 +207,7 @@
     "babel-plugin-flow-runtime": "^0.17.0",
     "babel-plugin-react-intl": "^3.0.1",
     "babel-plugin-react-intl-auto": "^1.1.1",
+    "babel-plugin-styled-components": "^1.8.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-es2015-classes": "^6.24.1",
     "babel-preset-env": "^1.7.0",
@@ -254,6 +258,7 @@
     "husky": "1.1.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
+    "jest-styled-components": "^6.2.1",
     "jsdom": "^12.1.0",
     "koa-connect": "^2.0.1",
     "lint-staged": "^7.3.0",
@@ -263,6 +268,7 @@
     "node-sass": "^4.9.3",
     "prettier": "^1.14.3",
     "react-test-renderer": "^16.5.2",
+    "rebass": "^3.0.0-9",
     "redux-logger": "^3.0.6",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.1.0",
@@ -270,7 +276,9 @@
     "style-loader": "^0.23.0",
     "stylelint": "^9.6.0",
     "stylelint-config-recommended-scss": "^3.2.0",
+    "stylelint-config-styled-components": "^0.1.1",
     "stylelint-formatter-pretty": "^1.0.3",
+    "stylelint-processor-styled-components": "^1.5.0",
     "stylelint-scss": "^3.3.1",
     "url-loader": "^1.1.1",
     "webpack": "^4.20.2",
@@ -316,6 +324,7 @@
     "satoshi-bitcoin": "^1.0.4",
     "source-map-support": "^0.5.9",
     "split2": "^3.0.0",
+    "styled-components": "^4.0.0-beta.9",
     "tildify": "^1.2.0",
     "untildify": "^3.0.3",
     "validator": "^10.8.0"

@@ -1,5 +1,11 @@
 {
-  "extends": "stylelint-config-recommended-scss",
+  "extends": [
+    "stylelint-config-recommended-scss",
+    "stylelint-config-styled-components"
+  ],
+  "processors": [
+    "stylelint-processor-styled-components"
+  ],
   "rules": {
     "no-descending-specificity": null,
     "no-empty-source": null

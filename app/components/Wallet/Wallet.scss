@@ -176,28 +176,6 @@
   flex-direction: row;
   justify-content: flex-end;
   align-items: right;
-
-  .pay,
-  .request {
-    font-size: 13px;
-    font-weight: bold;
-    color: var(--white);
-    background: var(--lightningOrange);
-    padding: 10px 7.5px;
-    width: 80px;
-    text-align: center;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: all 0.25s;
-
-    &:hover {
-      opacity: 0.75;
-    }
-
-    &:nth-child(1) {
-      margin-right: 20px;
-    }
-  }
 }
 
 .notificationBox {

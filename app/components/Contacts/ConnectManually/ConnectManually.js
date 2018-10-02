@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
+import Button from 'components/UI/Button'
 import messages from './messages'
 
 import styles from './ConnectManually.scss'
@@ -81,12 +82,9 @@ class ConnectManually extends React.Component {
         </section>
 
         <section className={styles.submit}>
-          <div
-            className={`${styles.button} ${manualFormIsValid.isValid ? styles.active : undefined}`}
-            onClick={formSubmitted}
-          >
+          <Button disabled={!manualFormIsValid.isValid} onClick={formSubmitted} size="large">
             <FormattedMessage {...messages.submit} />
-          </div>
+          </Button>
         </section>
       </div>
     )
