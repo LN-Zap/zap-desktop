@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Добавете средства към мрежа",
   "components.Contacts.SuggestedNodes.connect": "",
   "components.Contacts.SuggestedNodes.empty_description": "Хмм, изглежда, че все още нямате отворени канали. Ето някои предложения за възли, към които да отворите канал за да започнете",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Сума",
   "components.Form.Pay.destination": "Дестинация",
   "components.Form.Pay.onchain_description": "",
