@@ -16,9 +16,9 @@ describe('main window', function spec() {
     await this.app.client.waitUntilWindowLoaded()
   })
 
-  afterAll(() => {
+  afterAll(async () => {
     if (this.app && this.app.isRunning()) {
-      return this.app.stop()
+      await this.app.stop()
     }
   })
 
