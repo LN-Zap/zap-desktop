@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Додати кошти до мережі",
   "components.Contacts.SuggestedNodes.connect": "Підключення",
   "components.Contacts.SuggestedNodes.empty_description": "Ммм, схоже, що ви не маєте будь-яких каналів. Нижче наведено деякі вузли для відкриття каналу, щоб почати роботу",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Сума",
   "components.Form.Pay.destination": "Призначення",
   "components.Form.Pay.onchain_description": "",
