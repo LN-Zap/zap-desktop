@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Ağa para ekle",
   "components.Contacts.SuggestedNodes.connect": "",
   "components.Contacts.SuggestedNodes.empty_description": "Hmmm, Görünüşe göre henüz herhangi bir kanal yok. Bir kanal açıp, ağa katılmak için önerilen bazı düğümler",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Tutar",
   "components.Form.Pay.destination": "Hedef",
   "components.Form.Pay.onchain_description": "",
