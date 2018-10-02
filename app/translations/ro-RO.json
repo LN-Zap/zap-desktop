@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Adaugă fonduri la reţea",
   "components.Contacts.SuggestedNodes.connect": "Conectaţi-va",
   "components.Contacts.SuggestedNodes.empty_description": "Hmmm, se pare ca încă nu aveţi nici un canal deschis. Aici sunt unele noduri sugerate pentru a deschide un canal",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Suma",
   "components.Form.Pay.destination": "Destinatie",
   "components.Form.Pay.onchain_description": "",
