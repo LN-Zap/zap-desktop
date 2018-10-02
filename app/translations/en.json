@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Add Funds to Network",
   "components.Contacts.SuggestedNodes.connect": "Connect",
   "components.Contacts.SuggestedNodes.empty_description": "Hmmm, looks like you don't have any channels yet. Here are some suggested nodes to open a channel with to get started",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "Hmmm, looks like you don't have any channels yet. Open some channels to get started.",
   "components.Form.Pay.amount": "Amount",
   "components.Form.Pay.destination": "Destination",
   "components.Form.Pay.onchain_description": "On-Chain (~10 minutes)",

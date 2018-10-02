@@ -31,24 +31,31 @@ const SuggestedNodes = ({
   return (
     <div className={styles.container}>
       <header>
-        <FormattedMessage {...messages.empty_description} />
+        {suggestedNodes.length > 0 ? (
+          <div>
+            <FormattedMessage {...messages.empty_description} />
+            <ul className={styles.suggestedNodes}>
+              {suggestedNodes.map(node => (
+                <li key={node.pubkey}>
+                  <section>
+                    <span>{node.nickname}</span>
+                    <span>{`${node.pubkey.substring(0, 30)}...`}</span>
+                  </section>
+                  <section>
+                    <span onClick={() => nodeClicked(node)}>
+                      <FormattedMessage {...messages.connect} />
+                    </span>
+                  </section>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : (
+          <div>
+            <FormattedMessage {...messages.empty_description_alt} />
+          </div>
+        )}
       </header>
-
-      <ul className={styles.suggestedNodes}>
-        {suggestedNodes.map(node => (
-          <li key={node.pubkey}>
-            <section>
-              <span>{node.nickname}</span>
-              <span>{`${node.pubkey.substring(0, 30)}...`}</span>
-            </section>
-            <section>
-              <span onClick={() => nodeClicked(node)}>
-                <FormattedMessage {...messages.connect} />
-              </span>
-            </section>
-          </li>
-        ))}
-      </ul>
     </div>
   )
 }

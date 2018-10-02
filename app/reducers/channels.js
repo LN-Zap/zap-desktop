@@ -40,6 +40,7 @@ export const REMOVE_ClOSING_CHAN_ID = 'REMOVE_ClOSING_CHAN_ID'
 export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
 
 export const GET_SUGGESTED_NODES = 'GET_SUGGESTED_NODES'
+export const RECEIVE_SUGGESTED_NODES_ERROR = 'RECEIVE_SUGGESTED_NODES_ERROR'
 export const RECEIVE_SUGGESTED_NODES = 'RECEIVE_SUGGESTED_NODES'
 
 // ------------------------------------
@@ -144,6 +145,12 @@ export function getSuggestedNodes() {
   }
 }
 
+export function receiveSuggestedNodesError() {
+  return {
+    type: RECEIVE_SUGGESTED_NODES_ERROR
+  }
+}
+
 export function receiveSuggestedNodes(suggestedNodes) {
   return {
     type: RECEIVE_SUGGESTED_NODES,
@@ -153,9 +160,12 @@ export function receiveSuggestedNodes(suggestedNodes) {
 
 export const fetchSuggestedNodes = () => async dispatch => {
   dispatch(getSuggestedNodes())
-  const suggestedNodes = await requestSuggestedNodes()
-
-  dispatch(receiveSuggestedNodes(suggestedNodes))
+  try {
+    const suggestedNodes = await requestSuggestedNodes()
+    dispatch(receiveSuggestedNodes(suggestedNodes))
+  } catch (e) {
+    dispatch(receiveSuggestedNodesError())
+  }
 }
 
 // Send IPC event for peers
@@ -383,6 +393,14 @@ const ACTION_HANDLERS = {
     ...state,
     suggestedNodesLoading: false,
     suggestedNodes
+  }),
+  [RECEIVE_SUGGESTED_NODES_ERROR]: state => ({
+    ...state,
+    suggestedNodesLoading: false,
+    suggestedNodes: {
+      mainnet: [],
+      testnet: []
+    }
   })
 }
 
