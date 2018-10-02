@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Přidat prostředky do sítě",
   "components.Contacts.SuggestedNodes.connect": "",
   "components.Contacts.SuggestedNodes.empty_description": "Hmmm, vypadá to, že zatím nemáte žádné otevřené kanály. Pro začátek navrhujeme otevřít kanál k některému z navrhovaných uzlů",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Částka",
   "components.Form.Pay.destination": "Cíl",
   "components.Form.Pay.onchain_description": "",
