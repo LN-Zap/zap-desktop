@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Dodati sredstva na mrežu",
   "components.Contacts.SuggestedNodes.connect": "Povezivanje",
   "components.Contacts.SuggestedNodes.empty_description": "Hmmm, izgleda da još nemate nijedan kanal. Za početak ovdje predlažemo neke čvorove za otvaranje kanala",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Iznos",
   "components.Form.Pay.destination": "Odredište",
   "components.Form.Pay.onchain_description": "",
