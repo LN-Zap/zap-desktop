@@ -6,7 +6,8 @@ import xIcon from 'icons/x.svg'
 import FaRepeat from 'react-icons/lib/fa/repeat'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
-
+import { Flex } from 'rebass'
+import Button from 'components/UI/Button'
 import Wallet from 'components/Wallet'
 import Invoice from './Invoice'
 import Payment from './Payment'
@@ -217,15 +218,15 @@ class Activity extends Component {
             ))}
             {showExpiredToggle &&
               currentActivity.length > 0 && (
-                <li>
-                  <div className={styles.toggleExpired} onClick={toggleExpiredRequests}>
+                <Flex justifyContent="center">
+                  <Button onClick={toggleExpiredRequests} mx="auto">
                     {showExpiredRequests ? (
                       <FormattedMessage {...messages.hide_expired} />
                     ) : (
                       <FormattedMessage {...messages.show_expired} />
                     )}
-                  </div>
-                </li>
+                  </Button>
+                </Flex>
               )}
           </ul>
         </div>

@@ -8,6 +8,7 @@ import { btc, blockExplorer } from 'lib/utils'
 import Value from 'components/Value'
 import AnimatedCheckmark from 'components/AnimatedCheckmark'
 import Settings from 'components/Settings'
+import Button from 'components/UI/Button'
 
 import zapLogo from 'icons/zap-logo.svg'
 import zapLogoBlack from 'icons/zap-logo-black.svg'
@@ -115,12 +116,12 @@ const Wallet = ({
         </div>
         <div className={styles.right}>
           <div className={styles.rightContent}>
-            <div className={styles.pay} onClick={openPayForm}>
+            <Button onClick={openPayForm} variant="primary" my={10} mx={7.5} width={100}>
               <FormattedMessage {...messages.pay} />
-            </div>
-            <div className={styles.request} onClick={openRequestForm}>
+            </Button>
+            <Button onClick={openRequestForm} variant="primary" my={10} mx={7.5} width={100}>
               <FormattedMessage {...messages.request} />
-            </div>
+            </Button>
           </div>
           <div className={styles.notificationBox}>
             {showPayLoadingScreen && (

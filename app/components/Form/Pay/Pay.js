@@ -8,6 +8,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
+import Button from 'components/UI/Button'
 
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
@@ -203,12 +204,9 @@ class Pay extends Component {
           </section>
 
           <section className={styles.submit}>
-            <div
-              className={`${styles.button} ${isValid ? styles.active : undefined}`}
-              onClick={onPaySubmit}
-            >
+            <Button disabled={!isValid} onClick={onPaySubmit} size="large" width={200}>
               <FormattedMessage {...messages.pay} />
-            </div>
+            </Button>
           </section>
         </div>
       </div>

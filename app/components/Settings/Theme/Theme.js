@@ -9,7 +9,7 @@ import messages from './messages'
 
 import styles from './Theme.scss'
 
-const Fiat = ({ theme, disableSubMenu, setTheme }) => (
+const Theme = ({ currentTheme, disableSubMenu, setTheme, themes }) => (
   <div>
     <header className={styles.submenuHeader} onClick={disableSubMenu}>
       <FaAngleLeft />
@@ -18,26 +18,27 @@ const Fiat = ({ theme, disableSubMenu, setTheme }) => (
       </span>
     </header>
     <ul className={styles.themes}>
-      <li className={theme === 'dark' ? styles.active : ''} onClick={() => setTheme('dark')}>
-        <span>
-          <FormattedMessage {...messages.dark} />
-        </span>
-        {theme === 'dark' && <Isvg src={checkIcon} />}
-      </li>
-      <li className={theme === 'light' ? styles.active : ''} onClick={() => setTheme('light')}>
-        <span>
-          <FormattedMessage {...messages.light} />
-        </span>
-        {theme === 'light' && <Isvg src={checkIcon} />}
-      </li>
+      {Object.keys(themes).map(theme => {
+        return (
+          <li
+            key={theme}
+            className={currentTheme === theme ? styles.active : ''}
+            onClick={() => setTheme(theme)}
+          >
+            <FormattedMessage {...messages[theme]} />
+            {currentTheme === theme && <Isvg src={checkIcon} />}
+          </li>
+        )
+      })}
     </ul>
   </div>
 )
 
-Fiat.propTypes = {
-  theme: PropTypes.string.isRequired,
+Theme.propTypes = {
+  currentTheme: PropTypes.string.isRequired,
   disableSubMenu: PropTypes.func.isRequired,
-  setTheme: PropTypes.func
+  setTheme: PropTypes.func,
+  themes: PropTypes.object.isRequired
 }
 
-export default Fiat
+export default Theme

@@ -27,6 +27,7 @@
 
 .error {
   margin-top: 20px;
+  height: 20px;
   color: $red;
   visibility: hidden;
   font-size: 12px;
@@ -40,73 +41,4 @@
 .buttons {
   margin-top: 15%;
   text-align: center;
-
-  div {
-    color: var(--primaryText);
-    text-align: center;
-    margin-bottom: 40px;
-
-    .button {
-      padding: 15px 35px;
-      background: var(--lightningOrange);
-      font-size: 14px;
-      transition: all 0.25s;
-      border-radius: 5px;
-
-      &.button {
-        position: relative;
-      }
-
-      &.active {
-        opacity: 1;
-        cursor: pointer;
-
-        &:hover {
-          opacity: 0.5;
-        }
-      }
-    }
-  }
-}
-
-.spinner {
-  height: 20px;
-  width: 20px;
-  border: 1px solid rgba(235, 184, 100, 0.1);
-  border-left-color: rgba(235, 184, 100, 0.4);
-  -webkit-border-radius: 999px;
-  -moz-border-radius: 999px;
-  border-radius: 999px;
-  -webkit-animation: animation-rotate 1000ms linear infinite;
-  -moz-animation: animation-rotate 1000ms linear infinite;
-  -o-animation: animation-rotate 1000ms linear infinite;
-  animation: animation-rotate 1000ms linear infinite;
-  display: inline-block;
-  position: absolute;
-  top: calc(50% - 10px);
-  left: calc(50% - 10px);
-}
-
-@-webkit-keyframes animation-rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@-moz-keyframes animation-rotate {
-  100% {
-    -moz-transform: rotate(360deg);
-  }
-}
-
-@-o-keyframes animation-rotate {
-  100% {
-    -o-transform: rotate(360deg);
-  }
-}
-
-@keyframes animation-rotate {
-  100% {
-    transform: rotate(360deg);
-  }
 }

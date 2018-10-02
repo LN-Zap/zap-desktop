@@ -4,6 +4,7 @@ import get from 'lodash.get'
 
 import { btc } from 'lib/utils'
 
+import { themeSelectors } from 'reducers/theme'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 
 import { closeWalletModal } from 'reducers/address'
@@ -165,6 +166,7 @@ const mapStateToProps = state => ({
 
   activityModalItem: activitySelectors.activityModalItem(state),
 
+  currentTheme: themeSelectors.currentTheme(state),
   currentTicker: tickerSelectors.currentTicker(state),
   currentCurrencyFilters: tickerSelectors.currentCurrencyFilters(state),
   currencyName: tickerSelectors.currencyName(state),

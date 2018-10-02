@@ -140,25 +140,6 @@
   }
 }
 
-.toggleExpired {
-  margin: 0 auto;
-  font-size: 14px;
-  font-weight: bold;
-  color: var(--primaryText);
-  background: var(--lightBackground);
-  padding: 10px 7.5px;
-  width: 200px;
-  text-align: center;
-  border-radius: 5px;
-  cursor: pointer;
-  opacity: 1;
-  transition: all 0.25s;
-
-  &:hover {
-    opacity: 0.5;
-  }
-}
-
 .activity {
   position: relative;
   padding: 0 60px;
