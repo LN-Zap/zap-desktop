@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "ネットワークに資金を追加します。",
   "components.Contacts.SuggestedNodes.connect": "接続",
   "components.Contacts.SuggestedNodes.empty_description": "うーん、まだチャンネルがないようです。ここにスタートするためにチャンネルを開くいくつかのノードが提示されています。",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "数量",
   "components.Form.Pay.destination": "宛先",
   "components.Form.Pay.onchain_description": "",
