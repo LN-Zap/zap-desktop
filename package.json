@@ -35,7 +35,7 @@
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r babel-register ./app/main.dev",
     "start-renderer-dev": "node --trace-warnings -r babel-register ./node_modules/webpack-serve/lib/cli.js --config internals/webpack/webpack.config.renderer.dev.js",
     "test": "npm run lint && npm run lint-styles && npm run flow && npm run build && npm run test-unit && npm run test-e2e",
-    "test-base": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=true ELECTRON_DISABLE_SECURITY_WARNINGS=true node --trace-warnings ./node_modules/jest/bin/jest --maxWorkers=2",
+    "test-base": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=true ELECTRON_DISABLE_SECURITY_WARNINGS=true node --trace-warnings ./node_modules/jest/bin/jest --maxWorkers=2 --forceExit",
     "test-unit": "npm run test-base -- --coverage ./test/unit",
     "test-e2e": "npm run test-base -- ./test/e2e",
     "test-ci": "npm run test-e2e && npm run test-unit"
