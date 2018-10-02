@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Adicionar fundo à rede",
   "components.Contacts.SuggestedNodes.connect": "",
   "components.Contacts.SuggestedNodes.empty_description": "Hmmm, parece que você ainda não possui nenhum canal",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Quantia",
   "components.Form.Pay.destination": "Destino",
   "components.Form.Pay.onchain_description": "",
