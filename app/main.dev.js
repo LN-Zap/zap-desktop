@@ -7,6 +7,10 @@
  * `./app/main.prod.js` using webpack. This gives us some performance wins.
  */
 import { app, BrowserWindow, session } from 'electron'
+import installExtension, {
+  REACT_DEVELOPER_TOOLS,
+  REDUX_DEVTOOLS
+} from 'electron-devtools-installer'
 import { mainLog } from './lib/utils/log'
 import ZapMenuBuilder from './lib/zap/menuBuilder'
 import ZapController from './lib/zap/controller'
@@ -57,15 +61,13 @@ app.on('ready', () => {
    * In development mode or when DEBUG_PROD is set, enable debugging tools.
    */
   if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true') {
-    // eslint-disable global-require
-    require('electron-debug')()
-    const installer = require('electron-devtools-installer')
-    const forceDownload = !!process.env.UPGRADE_EXTENSIONS
-    const extensions = ['REACT_DEVELOPER_TOOLS', 'REDUX_DEVTOOLS']
+    installExtension(REACT_DEVELOPER_TOOLS)
+      .then(name => mainLog.debug(`Added Extension: ${name}`))
+      .catch(err => mainLog.warn(`An error occurred when installing REACT_DEVELOPER_TOOLS: ${err}`))
 
-    Promise.all(extensions.map(name => installer.default(installer[name], forceDownload))).catch(
-      mainLog.error
-    )
+    installExtension(REDUX_DEVTOOLS)
+      .then(name => mainLog.debug(`Added Extension: ${name}`))
+      .catch(err => mainLog.warn(`An error occurred when installing REDUX_DEVTOOLS: ${err}`))
 
     zap.mainWindow.webContents.once('dom-ready', () => {
       zap.mainWindow.openDevTools()

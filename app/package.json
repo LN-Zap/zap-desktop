@@ -10,7 +10,7 @@
     "url": "https://github.com/LN-Zap/zap-desktop"
   },
   "scripts": {
-    "postinstall": "npm rebuild --runtime=electron --target=2.0.2 --disturl=https://atom.io/download/electron"
+    "postinstall": "npm rebuild --runtime=electron --target=3.0.0 --disturl=https://atom.io/download/electron"
   },
   "license": "MIT",
   "dependencies": {
