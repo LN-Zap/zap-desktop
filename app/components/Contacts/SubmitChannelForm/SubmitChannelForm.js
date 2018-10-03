@@ -19,7 +19,6 @@ class SubmitChannelForm extends React.Component {
 
   componentDidMount() {
     // Clear and Focus the amount input field.
-    this.amountInput.current.clearTextInput()
     this.amountInput.current.focusTextInput()
   }
 
