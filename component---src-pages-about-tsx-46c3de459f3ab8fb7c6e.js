@@ -1,0 +1,2 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[9],{148:function(e,t,n){"use strict";n.r(t);var a=n(0),c=n(453),l=n(459),r=n(458),i=n(28),o=n(177);t.default=Object(o.b)(function(){return a.createElement(c.a,null,a.createElement(l.a,{vertical:!0},a.createElement(r.a,{as:"h2"},a.createElement(i.a,{name:"info circle"}),a.createElement(r.a.Content,null,"About"))),a.createElement(l.a,{vertical:!0},a.createElement("p",null,"This site was created by @mrfelton.")))})}}]);
+//# sourceMappingURL=component---src-pages-about-tsx-46c3de459f3ab8fb7c6e.js.map
