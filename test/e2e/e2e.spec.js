@@ -2,14 +2,17 @@ import { Application } from 'spectron'
 import electronPath from 'electron'
 import path from 'path'
 
-jest.setTimeout(10000)
+jest.setTimeout(25000)
 jest.unmock('electron')
 
 describe('main window', function spec() {
   beforeAll(async () => {
     this.app = new Application({
       path: electronPath,
-      args: [path.join(__dirname, '..', '..', 'app')]
+      args: [path.join(__dirname, '..', '..', 'app')],
+      waitTimeout: 10000,
+      startTimeout: 10000,
+      quitTimeout: 2000
     })
 
     await this.app.start()
