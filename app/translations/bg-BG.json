@@ -57,7 +57,7 @@
   "components.Contacts.Network.search_placeholder": "",
   "components.Contacts.Network.title": "Моята мрежа",
   "components.Contacts.SubmitChannelForm.description": "Отварянето на канал ще ви позволи да изпращате и получавате пари в Lightning мрежата. Вие не харчите пари, а по-скоро ги премествате в мрежата, където може да ги използвате.",
-  "components.Contacts.SubmitChannelForm.duplicate_warnig": "",
+  "components.Contacts.SubmitChannelForm.duplicate_warnig": "Вие имате {activeChannels, plural, zero {no active channels} one {1 активен канал} other {{activeChannels} активни канала}} отворени към {aliasMsg, select, this_node {този възел} other {{aliasMsg}}} с капацитет",
   "components.Contacts.SubmitChannelForm.submit": "Създай Канал",
   "components.Contacts.SubmitChannelForm.title": "Добавете средства към мрежа",
   "components.Contacts.SuggestedNodes.connect": "Свържи се",
