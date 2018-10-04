@@ -40,7 +40,7 @@
   "components.Contacts.AddChannel.offline": "Неактивни",
   "components.Contacts.AddChannel.online": "Онлайн",
   "components.Contacts.AddChannel.pending": "Чакащи",
-  "components.Contacts.AddChannel.private": "",
+  "components.Contacts.AddChannel.private": "Частен",
   "components.Contacts.ConnectManually.description": "Моля, въведете pubkey@host на възела към който искате да се свържете",
   "components.Contacts.ConnectManually.placeholder": "pubkey@host",
   "components.Contacts.ConnectManually.submit": "Свържи се",
