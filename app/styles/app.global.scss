@@ -34,19 +34,6 @@ input[type=number] {
   }
 }
 
-.ReactModal__Overlay {
-  transition: opacity 500ms ease-in-out;
-  opacity: 0;
-
-  &--after-open {
-    opacity: 1;
-  }
-
-  &--before-close {
-    opacity: 0;
-  }
-}
-
 .load-draw-svg {
   stroke-dasharray: 211;
   stroke-dashoffset: 2110;
@@ -205,8 +192,4 @@ input[type=number] {
   stroke-width: 15;
   stroke-dasharray: 100;
   animation: dash 2.5s infinite linear;
-}
-
-.ReactModal__Overlay.ReactModal__Overlay--after-open {
-  z-index: 50;
 }

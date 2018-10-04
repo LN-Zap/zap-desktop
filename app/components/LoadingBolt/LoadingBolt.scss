@@ -1,7 +1,7 @@
 @import 'styles/variables.scss';
 
 .container {
-  z-index: 1000;
+  z-index: z("loading-bolt", "container");
   position: absolute;
   top: 0;
   left: 0;

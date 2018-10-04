@@ -4,7 +4,7 @@
   width: 200px;
   top: 30px;
   left: -100px;
-  z-index: 10;
+  z-index: z("settings-form", "modal");
 
   li {
     padding: 20px;
