@@ -100,26 +100,4 @@
 .submit {
   margin-top: 50px;
   text-align: center;
-
-  .button {
-    width: 235px;
-    margin: 0 auto;
-    padding: 20px 10px;
-    background: #31343f;
-    opacity: 0.5;
-    cursor: pointer;
-    transition: 0.25s all;
-
-    &.active {
-      background: var(--lightningOrange);
-      color: var(--white);
-      font-weight: bold;
-      opacity: 1;
-      transition: all 0.25s;
-
-      &:hover {
-        opacity: 0.75;
-      }
-    }
-  }
 }

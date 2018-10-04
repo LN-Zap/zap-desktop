@@ -125,17 +125,4 @@
     font-size: 14px;
     margin: 20px 0;
   }
-
-  div {
-    background: var(--lightningOrange);
-    font-size: 16px;
-    padding: 10px;
-    cursor: pointer;
-    transition: all 0.25s;
-    border-radius: 5px;
-
-    &:hover {
-      opacity: 0.75;
-    }
-  }
 }

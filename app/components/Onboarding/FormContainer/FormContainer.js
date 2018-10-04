@@ -2,12 +2,11 @@ import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
-
-import FaAngleLeft from 'react-icons/lib/fa/angle-left'
-import FaAngleRight from 'react-icons/lib/fa/angle-right'
-
+import MdNavigateBefore from 'react-icons/lib/md/navigate-before'
+import MdNavigateNext from 'react-icons/lib/md/navigate-next'
 import zapLogo from 'icons/zap_logo.svg'
 import { FormattedMessage } from 'react-intl'
+import Button from 'components/UI/Button'
 import zapLogoBlack from 'icons/zap_logo_black.svg'
 import messages from './messages'
 import styles from './FormContainer.scss'
@@ -42,18 +41,18 @@ const FormContainer = ({ title, description, back, next, children, theme }) => (
       <div className={styles.buttonsContainer}>
         <section>
           {back && (
-            <div onClick={back} className={styles.backButton}>
-              <FaAngleLeft style={{ verticalAlign: 'top' }} />{' '}
+            <Button onClick={back} bg="transparent" pl="0">
+              <MdNavigateBefore size="1.5em" />
               <FormattedMessage {...messages.back} />
-            </div>
+            </Button>
           )}
         </section>
         <section>
           {next && (
-            <div onClick={next} className={styles.nextButton}>
-              <FormattedMessage {...messages.next} />{' '}
-              <FaAngleRight style={{ verticalAlign: 'top' }} />
-            </div>
+            <Button onClick={next}>
+              <FormattedMessage {...messages.next} />
+              <MdNavigateNext size="1.5em" />
+            </Button>
           )}
         </section>
       </div>

@@ -2,9 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-intl-redux'
 import jstz from 'jstimezonedetect'
-
-import Root from './containers/Root'
 import { configureStore, history } from './store/configureStore'
+import Root from './containers/Root'
 import './styles/app.global.scss'
 
 import { translationMessages, getLocale } from './lib/utils/i18n'

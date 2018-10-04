@@ -10,7 +10,7 @@
     "stage-0",
     "react"
   ],
-  "plugins": ["add-module-exports", "dynamic-import-webpack", ["react-intl-auto", {
+  "plugins": ["add-module-exports", "dynamic-import-webpack", "styled-components", ["react-intl-auto", {
     "removePrefix": "app/",
      "filebase": false
   }]],
