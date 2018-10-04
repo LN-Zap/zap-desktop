@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Προσθήκη πόρων στο δίκτυο",
   "components.Contacts.SuggestedNodes.connect": "Συνδέω-συωδεομαι",
   "components.Contacts.SuggestedNodes.empty_description": "Χμμμ, μοιάζει ότι δεν έχετε ακόμα κανάλια. Ακολουθούν ορισμένοι προτεινόμενοι κόμβοι για να ανοίξετε ένα κανάλι για να ξεκινήσετε",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Ποσό",
   "components.Form.Pay.destination": "Προορισμός",
   "components.Form.Pay.onchain_description": "",

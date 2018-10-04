@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Guthaben dem Netzwerk hinzufügen",
   "components.Contacts.SuggestedNodes.connect": "Verbinden",
   "components.Contacts.SuggestedNodes.empty_description": "Hmmm, sieht so aus als hättest Du noch keine Zahlungskanäle. Hier sind einige empfohlene Nodes, mit denen Du einen Kanal öffnen kannst um loszulegen",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "Hmmm, es sieht so aus als hätten Sie noch keine Kanäle. Öffnen Sie Kanäle, um loszulegen.",
   "components.Form.Pay.amount": "Betrag",
   "components.Form.Pay.destination": "Ziel",
   "components.Form.Pay.onchain_description": "Im Bitcoin Netzwerk (~10 Minuten)",

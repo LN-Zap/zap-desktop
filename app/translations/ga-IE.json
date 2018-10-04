@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Cuir Cistí leis an Líonra",
   "components.Contacts.SuggestedNodes.connect": "Ceangal",
   "components.Contacts.SuggestedNodes.empty_description": "Hmmm, breathnaíonn sé nach bhfuil cainéil ar bith agat fós. Ionas gur féidir leat tosú, seo leat roinnt nóid mholta le cainéal a oscailt leis",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Méid",
   "components.Form.Pay.destination": "Ceann Scríbe",
   "components.Form.Pay.onchain_description": "On-Chain (~10 nóiméad)",

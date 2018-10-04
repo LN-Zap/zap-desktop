@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "向网络中添加资金",
   "components.Contacts.SuggestedNodes.connect": "连接",
   "components.Contacts.SuggestedNodes.empty_description": "嗯, 看来你还没有任何通道。下面是一些建议的节点，可以选择其中一个节点来打开一个通道",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "数量",
   "components.Form.Pay.destination": "目标",
   "components.Form.Pay.onchain_description": "",

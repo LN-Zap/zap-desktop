@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Внести монеты в Сеть",
   "components.Contacts.SuggestedNodes.connect": "",
   "components.Contacts.SuggestedNodes.empty_description": "Хммм, выглядит, будто у вас ещё нет открытых Каналов. Предлагаем несколько Узлов (нод), с которыми можно открыть канал, чтобы начать пользоваться",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Сумма",
   "components.Form.Pay.destination": "Назначение",
   "components.Form.Pay.onchain_description": "",

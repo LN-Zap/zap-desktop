@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Voeg fondsen toe aan netwerk",
   "components.Contacts.SuggestedNodes.connect": "",
   "components.Contacts.SuggestedNodes.empty_description": "Hmm, het lijkt erop dat je nog geen kanalen hebt. Om te beginnen zijn hier wat voorgestelde nodes om een kanaal mee te openen",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Bedrag",
   "components.Form.Pay.destination": "Bestemming",
   "components.Form.Pay.onchain_description": "",

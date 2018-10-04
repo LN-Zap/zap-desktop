@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "Añadir Fondos a la Red",
   "components.Contacts.SuggestedNodes.connect": "Conectar",
   "components.Contacts.SuggestedNodes.empty_description": "Hmmm, parece que no tiene ningún canal aún. Acá hay algunas sugerencias de nodos para abrir un canal y empezar",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Monto",
   "components.Form.Pay.destination": "Destino",
   "components.Form.Pay.onchain_description": "",

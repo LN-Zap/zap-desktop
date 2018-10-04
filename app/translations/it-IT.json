@@ -62,6 +62,7 @@
   "components.Contacts.SubmitChannelForm.title": "",
   "components.Contacts.SuggestedNodes.connect": "",
   "components.Contacts.SuggestedNodes.empty_description": "",
+  "components.Contacts.SuggestedNodes.empty_description_alt": "",
   "components.Form.Pay.amount": "Importo",
   "components.Form.Pay.destination": "",
   "components.Form.Pay.onchain_description": "",
