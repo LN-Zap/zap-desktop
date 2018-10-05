@@ -1,10 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
-import Isvg from 'react-inlinesvg'
-import paperPlane from 'icons/paper-plane.svg'
-import hand from 'icons/hand.svg'
-import link from 'icons/chain-link.svg'
+import PaperPlane from 'components/Icon/PaperPlane'
+import Hand from 'components/Icon/Hand'
+import ChainLink from 'components/Icon/ChainLink'
 import { blockExplorer } from 'lib/utils'
 
 import Value from 'components/Value'
@@ -32,14 +31,14 @@ const TransactionModal = ({
     <header className={styles.header}>
       {transaction.received ? (
         <section>
-          <Isvg src={hand} />
+          <Hand />
           <span>
             <FormattedMessage {...messages.received} />
           </span>
         </section>
       ) : (
         <section>
-          <Isvg src={paperPlane} />
+          <PaperPlane />
           <span>
             <FormattedMessage {...messages.sent} />
           </span>
@@ -47,7 +46,7 @@ const TransactionModal = ({
       )}
       <section className={styles.details}>
         <div>
-          <Isvg src={link} />
+          <ChainLink />
           <span
             className={styles.link}
             onClick={() => blockExplorer.showTransaction(network, transaction.tx_hash)}

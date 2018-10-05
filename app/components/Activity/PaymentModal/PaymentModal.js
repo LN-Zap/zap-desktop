@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
-import Isvg from 'react-inlinesvg'
-import paperPlane from 'icons/paper-plane.svg'
-import zap from 'icons/zap.svg'
+import PaperPlane from 'components/Icon/PaperPlane'
+import Zap from 'components/Icon/Zap'
 
 import Value from 'components/Value'
 
@@ -30,12 +29,12 @@ const PaymentModal = ({
   <div className={styles.container}>
     <header className={styles.header}>
       <section>
-        <Isvg src={paperPlane} />
+        <PaperPlane />
         <FormattedMessage {...messages.sent} />
       </section>
       <section className={styles.details}>
         <div>
-          <Isvg src={zap} />
+          <Zap />
           <span className={styles.zap}>
             <FormattedMessage {...messages.lightning} />
           </span>

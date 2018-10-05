@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FaAngleLeft from 'react-icons/lib/fa/angle-left'
-import Isvg from 'react-inlinesvg'
-import checkIcon from 'icons/check.svg'
+import Check from 'components/Icon/Check'
 
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'
@@ -23,7 +22,7 @@ const Fiat = ({ fiatTicker, fiatTickers, disableSubMenu, setFiatTicker }) => (
           onClick={() => setFiatTicker(ft)}
         >
           <span>{ft}</span>
-          {fiatTicker === ft && <Isvg src={checkIcon} />}
+          {fiatTicker === ft && <Check />}
         </li>
       ))}
     </ul>

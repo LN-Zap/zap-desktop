@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
-import x from 'icons/x.svg'
+import X from 'components/Icon/X'
 
 import TransactionModal from '../TransactionModal'
 import PaymentModal from '../PaymentModal'
@@ -35,7 +34,7 @@ const ActivityModal = ({
     <div className={styles.container}>
       <div className={styles.closeContainer}>
         <span onClick={() => hideActivityModal()}>
-          <Isvg src={x} />
+          <X />
         </span>
       </div>
       <SpecificModal

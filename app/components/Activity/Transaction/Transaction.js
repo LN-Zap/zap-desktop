@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
-import link from 'icons/chain-link.svg'
+import ChainLink from 'components/Icon/ChainLink'
 
 import { btc } from 'lib/utils'
 import Value from 'components/Value'
@@ -25,7 +24,7 @@ const Transaction = ({
   >
     <div className={styles.activityTypeIcon}>
       <section className="hint--bottom" data-hint={intl.formatMessage({ ...messages.type })}>
-        <Isvg src={link} />
+        <ChainLink />
       </section>
     </div>
 

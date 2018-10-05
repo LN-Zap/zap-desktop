@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
-import zap from 'icons/zap.svg'
+import Zap from 'components/Icon/Zap'
 
 import { btc } from 'lib/utils'
 import Value from 'components/Value'
@@ -37,7 +36,7 @@ const Payment = ({
     >
       <div className={styles.activityTypeIcon}>
         <section className="hint--bottom" data-hint={intl.formatMessage({ ...messages.type })}>
-          <Isvg src={zap} />
+          <Zap />
         </section>
       </div>
 

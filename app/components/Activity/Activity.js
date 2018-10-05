@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
-import searchIcon from 'icons/search.svg'
-import xIcon from 'icons/x.svg'
+import Search from 'components/Icon/Search'
+import X from 'components/Icon/X'
 import FaRepeat from 'react-icons/lib/fa/repeat'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
@@ -161,7 +160,7 @@ class Activity extends Component {
                 }}
               >
                 <span className={styles.xIcon}>
-                  <Isvg src={xIcon} />
+                  <X />
                 </span>
               </section>
             </header>
@@ -195,7 +194,7 @@ class Activity extends Component {
                     </span>
                   </li>
                   <li className={styles.activeFilter} onClick={() => updateSearchActive(true)}>
-                    <Isvg src={searchIcon} />
+                    <Search />
                   </li>
                 </ul>
               </section>

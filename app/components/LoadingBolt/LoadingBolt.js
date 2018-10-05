@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
 import { Transition, animated } from 'react-spring'
-import cloudLightningIcon from 'icons/cloud-lightning.svg'
+import CloudLightning from 'components/Icon/CloudLightning'
 
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'
@@ -19,7 +18,7 @@ class LoadingBolt extends React.PureComponent {
             (springStyles => (
               <animated.div style={springStyles} className={`${styles.container} ${theme}`}>
                 <div className={styles.content}>
-                  <Isvg className={styles.bolt} src={cloudLightningIcon} />
+                  <CloudLightning height="155px" width="150px" />
                   <h1>
                     <FormattedMessage {...messages.loading} />
                   </h1>

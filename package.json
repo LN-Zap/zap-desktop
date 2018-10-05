@@ -325,7 +325,6 @@
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
     "react-hot-loader": "^4.3.11",
-    "react-inlinesvg": "^0.8.1",
     "react-intl": "^2.7.1",
     "react-intl-redux": "^2.0.2",
     "react-redux": "^5.0.7",

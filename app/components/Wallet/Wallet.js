@@ -2,17 +2,16 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FaAngleUp from 'react-icons/lib/fa/angle-up'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
-import Isvg from 'react-inlinesvg'
 
 import { btc, blockExplorer } from 'lib/utils'
 import Value from 'components/Value'
-import AnimatedCheckmark from 'components/AnimatedCheckmark'
 import Settings from 'components/Settings'
 import Button from 'components/UI/Button'
 
-import zapLogo from 'icons/zap-logo.svg'
-import zapLogoBlack from 'icons/zap-logo-black.svg'
-import qrCode from 'icons/qrcode.svg'
+import CheckAnimated from 'components/Icon/CheckAnimated'
+import ZapLogo from 'components/Icon/ZapLogo'
+import ZapLogoBlack from 'components/Icon/ZapLogoBlack'
+import Qrcode from 'components/Icon/Qrcode'
 
 import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
@@ -54,7 +53,11 @@ const Wallet = ({
       <div className={styles.content}>
         <header className={styles.header}>
           <section className={styles.logo}>
-            <Isvg className={styles.bitcoinLogo} src={theme === 'light' ? zapLogoBlack : zapLogo} />
+            {theme === 'light' ? (
+              <ZapLogoBlack width="70px" height="32px" />
+            ) : (
+              <ZapLogo width="70px" height="32px" />
+            )}
             {info.data.testnet && <span className={styles.testnetPill}>Testnet</span>}
           </section>
 
@@ -74,7 +77,7 @@ const Wallet = ({
         <div className={styles.left}>
           <div className={styles.leftContent}>
             <span onClick={openReceiveModal} className={styles.qrCode}>
-              <Isvg className={styles.bitcoinLogo} src={qrCode} />
+              <Qrcode width="20px" height="32px" />
             </span>
             <div className={styles.details}>
               <h1>
@@ -138,7 +141,7 @@ const Wallet = ({
             {showSuccessPayScreen && (
               <span>
                 <section className={styles.icon}>
-                  <AnimatedCheckmark />
+                  <CheckAnimated />
                 </section>
                 <section>
                   <FormattedMessage {...messages.payment_success} />
@@ -148,7 +151,7 @@ const Wallet = ({
             {successTransactionScreen.show && (
               <span>
                 <section className={styles.icon}>
-                  <AnimatedCheckmark />
+                  <CheckAnimated />
                 </section>
                 <section>
                   <span

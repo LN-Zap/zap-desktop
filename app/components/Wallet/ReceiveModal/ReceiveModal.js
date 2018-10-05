@@ -2,12 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react'
-import copyIcon from 'icons/copy.svg'
-import Isvg from 'react-inlinesvg'
-
-import x from 'icons/x.svg'
+import Copy from 'components/Icon/Copy'
+import X from 'components/Icon/X'
 import { showNotification } from 'lib/utils/notifications'
-
 import { FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 
@@ -49,7 +46,7 @@ class ReceiveModal extends React.Component {
       <div className={styles.container}>
         <div className={styles.closeContainer}>
           <span onClick={closeReceiveModal}>
-            <Isvg src={x} />
+            <X />
           </span>
         </div>
 
@@ -98,7 +95,7 @@ class ReceiveModal extends React.Component {
                   className={`${styles.copy} hint--left`}
                   data-hint={intl.formatMessage({ ...messages.copy_pubkey })}
                 >
-                  <Isvg src={copyIcon} />
+                  <Copy />
                 </span>
               </p>
             </div>
@@ -114,7 +111,7 @@ class ReceiveModal extends React.Component {
                   className={`${styles.copy} hint--left`}
                   data-hint={intl.formatMessage({ ...messages.copy_address })}
                 >
-                  <Isvg src={copyIcon} />
+                  <Copy />
                 </span>
               </p>
             </div>

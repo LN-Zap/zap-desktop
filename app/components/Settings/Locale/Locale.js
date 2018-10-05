@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FaAngleLeft from 'react-icons/lib/fa/angle-left'
 import { getLanguageName } from 'lib/i18n'
-import Isvg from 'react-inlinesvg'
-import checkIcon from 'icons/check.svg'
+import Check from 'components/Icon/Check'
 
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'
@@ -30,7 +29,7 @@ const Translate = ({ locales, disableSubMenu, currentLocale, setLocale }) => {
               onClick={() => changeLocale(lang)}
             >
               <span>{getLanguageName(lang)}</span>
-              {currentLocale === lang && <Isvg src={checkIcon} />}
+              {currentLocale === lang && <Check />}
             </li>
           )
         })}

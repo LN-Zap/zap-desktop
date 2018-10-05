@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Isvg from 'react-inlinesvg'
-import x from 'icons/x.svg'
+import X from 'components/Icon/X'
 
 import ConnectManually from '../ConnectManually'
 import SubmitChannelForm from '../SubmitChannelForm'
@@ -24,7 +23,7 @@ const ChannelForm = ({ formType, formProps, closeForm }) => {
     <div className={styles.container}>
       <div className={styles.closeContainer}>
         <span onClick={closeForm}>
-          <Isvg src={x} />
+          <X />
         </span>
       </div>
       <FormComponent {...formProps} />
