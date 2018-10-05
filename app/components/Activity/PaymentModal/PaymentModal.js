@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import Isvg from 'react-inlinesvg'
-import paperPlane from 'icons/paper_plane.svg'
+import paperPlane from 'icons/paper-plane.svg'
 import zap from 'icons/zap.svg'
 
 import Value from 'components/Value'

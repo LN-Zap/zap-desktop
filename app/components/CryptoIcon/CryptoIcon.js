@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 
-import skinnyBitcoinIcon from 'icons/skinny_bitcoin.svg'
+import skinnyBitcoinIcon from 'icons/skinny-bitcoin.svg'
 import litecoinIcon from 'icons/litecoin.svg'
 
 const CryptoIcon = ({ currency, styles }) => {

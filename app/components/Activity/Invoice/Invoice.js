@@ -4,7 +4,7 @@ import { btc } from 'lib/utils'
 
 import Isvg from 'react-inlinesvg'
 import Value from 'components/Value'
-import checkmarkIcon from 'icons/check_circle.svg'
+import checkmarkIcon from 'icons/check-circle.svg'
 
 import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'

@@ -6,9 +6,9 @@ import Isvg from 'react-inlinesvg'
 import FaAngleLeft from 'react-icons/lib/fa/angle-left'
 import FaAngleRight from 'react-icons/lib/fa/angle-right'
 
-import zapLogo from 'icons/zap_logo.svg'
+import zapLogo from 'icons/zap-logo.svg'
 import { FormattedMessage } from 'react-intl'
-import zapLogoBlack from 'icons/zap_logo_black.svg'
+import zapLogoBlack from 'icons/zap-logo-black.svg'
 import messages from './messages'
 import styles from './FormContainer.scss'
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
-import link from 'icons/link.svg'
+import link from 'icons/chain-link.svg'
 
 import { btc } from 'lib/utils'
 import Value from 'components/Value'

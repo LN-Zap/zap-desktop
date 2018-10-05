@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Isvg from 'react-inlinesvg'
 import { Transition, animated } from 'react-spring'
-import cloudLightningIcon from 'icons/cloud_lightning.svg'
+import cloudLightningIcon from 'icons/cloud-lightning.svg'
 
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'

@@ -9,8 +9,8 @@ import Value from 'components/Value'
 import AnimatedCheckmark from 'components/AnimatedCheckmark'
 import Settings from 'components/Settings'
 
-import zapLogo from 'icons/zap_logo.svg'
-import zapLogoBlack from 'icons/zap_logo_black.svg'
+import zapLogo from 'icons/zap-logo.svg'
+import zapLogoBlack from 'icons/zap-logo-black.svg'
 import qrCode from 'icons/qrcode.svg'
 
 import { FormattedNumber, FormattedMessage } from 'react-intl'
