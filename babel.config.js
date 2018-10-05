@@ -19,6 +19,7 @@ module.exports = {
     '@babel/plugin-proposal-export-default-from',
     '@babel/plugin-transform-classes',
     '@babel/plugin-transform-destructuring',
+    'babel-plugin-styled-components',
     [
       'react-intl-auto',
       {
