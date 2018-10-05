@@ -7,11 +7,6 @@ environment:
       publish_build: true
     - nodejs_version: LTS
 
-cache:
-  - node_modules -> package.json
-  - app/node_modules -> app/package.json
-  - flow-typed
-
 matrix:
   fast_finish: true
 

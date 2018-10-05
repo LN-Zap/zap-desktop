@@ -54,3 +54,6 @@ npm-debug.log.*
 
 # lnd binary
 resources/bin/
+
+# Storybook
+storybook-static

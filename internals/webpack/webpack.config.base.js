@@ -38,7 +38,7 @@ export default {
    */
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-    modules: [path.join(rootDir, 'app'), 'node_modules']
+    modules: [path.join(rootDir, 'app'), path.join(rootDir, 'app/node_modules'), 'node_modules']
   },
 
   plugins: [new IgnorePlugin(/^\.\/locale$/, /moment$/)],
