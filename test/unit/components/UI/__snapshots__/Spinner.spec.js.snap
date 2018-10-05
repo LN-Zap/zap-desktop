@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Spinner should render correctly 1`] = `
+.c0 {
+  width: 1em;
+  height: 1em;
+  border-radius: 999px;
+  border: 1px solid rgba(235,184,100,0.1);
+  border-left-color: rgba(235,184,100,0.6);
+  display: inline-block;
+  -webkit-animation: iVXCSc 1s linear infinite;
+  animation: iVXCSc 1s linear infinite;
+}
+
+<div
+  className="c0"
+  width="1em"
+/>
+`;
