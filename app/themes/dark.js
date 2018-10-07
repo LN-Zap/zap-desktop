@@ -45,11 +45,23 @@ const cards = {
     color: colors.superRed
   }
 }
+const messages = {
+  success: {
+    color: colors.superGreen
+  },
+  warning: {
+    color: colors.lightningOrange
+  },
+  error: {
+    color: colors.superRed
+  }
+}
 
 export default {
   name: 'dark',
   ...base,
   colors,
   buttons,
-  cards
+  cards,
+  messages
 }

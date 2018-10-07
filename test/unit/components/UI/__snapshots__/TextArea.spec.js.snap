@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Input should render correctly 1`] = `
+.c1 {
+  padding: 16px;
+  width: 100%;
+  font-size: 13px;
+  color: #ffffff;
+  background-color: transparent;
+  color: #ffffff;
+  background-color: transparent;
+  border: 1px solid white;
+  border: 1px solid white;
+  border-color: #ffffff;
+  border-radius: 5px;
+}
+
+.c1:focus {
+  outline: none;
+  border: 1px solid #fd9800;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+<form
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <div
+    className="c0"
+  >
+    <input
+      className="c1"
+      name="name"
+      onBlur={[Function]}
+      onChange={[Function]}
+      outline="none"
+      type="text"
+      value=""
+    />
+  </div>
+</form>
+`;
