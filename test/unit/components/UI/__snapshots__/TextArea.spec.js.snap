@@ -15,18 +15,20 @@ exports[`component.UI.Input should render correctly 1`] = `
   padding: 16px;
   width: 100%;
   font-size: 13px;
-  color: #ffffff;
+  color: #fff;
   background-color: transparent;
-  color: #ffffff;
+  color: #fff;
   background-color: transparent;
-  border: 1px solid white;
-  border: 1px solid white;
-  border-color: #ffffff;
+  font-family: "Roboto Light",Roboto,system-ui,sans-serif;
+  font-weight: light;
+  border: 1px solid;
+  border: 1px solid;
+  border-color: #959595;
   border-radius: 5px;
+  outline: none;
 }
 
-.c1:focus {
-  outline: none;
+.c1:not([readOnly]):not([disabled]):focus {
   border: 1px solid #fd9800;
 }
 
@@ -39,12 +41,15 @@ exports[`component.UI.Input should render correctly 1`] = `
   >
     <input
       className="c1"
-      name="name"
+      color="primaryText"
+      fontFamily="sans"
+      fontSize="m"
+      fontWeight="light"
       onBlur={[Function]}
       onChange={[Function]}
-      outline="none"
-      type="text"
+      onFocus={[Function]}
       value=""
+      width={1}
     />
   </div>
 </form>

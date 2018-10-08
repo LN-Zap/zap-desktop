@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component.UI.Input should render correctly 1`] = `
+exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
 .c0 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -39,7 +39,7 @@ exports[`component.UI.Input should render correctly 1`] = `
   <div
     className="c0"
   >
-    <input
+    <textarea
       className="c1"
       color="primaryText"
       fontFamily="sans"
@@ -48,6 +48,10 @@ exports[`component.UI.Input should render correctly 1`] = `
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
+      opacity={null}
+      placeholder="Paste a Lightning Payment Request or Bitcoin Address here"
+      required={false}
+      rows={5}
       value=""
       width={1}
     />
