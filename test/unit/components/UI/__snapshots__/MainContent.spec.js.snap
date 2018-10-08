@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.MainContent should render correctly 1`] = `
+.c0 {
+  padding: 16px;
+  width: 100%;
+  color: white;
+  background-color: darkestBackground;
+  height: 100%;
+}
+
+<article
+  className="c0"
+  color="white"
+  width={1}
+/>
+`;
