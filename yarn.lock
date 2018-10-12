@@ -12159,10 +12159,10 @@ react-intl-redux@^2.0.2:
   dependencies:
     prop-types "^15.6.2"
 
-react-intl@^2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-2.7.0.tgz#be1244769ce51f71476afb9556485a46090db5fa"
-  integrity sha512-H7Exnn+PwHCe4YlwBTSpfkSFb8+ex346b6NVaKtAXvTJr1Xnq2HvsEPpLjLfwBdt3/SS9dq4oAkY9/0g8Kj+ug==
+react-intl@^2.7.1:
+  version "2.7.1"
+  resolved "https://registry.yarnpkg.com/react-intl/-/react-intl-2.7.1.tgz#1223e3cc632d75ce33cc8acb44df0fff1818bf51"
+  integrity sha512-Ndk0i04dSplBivA0/fELd8lMvIPuRizKC+F6s1EZ6jELvRKNcx9shWa8A1UIlTQfYSbys5huWCRgmylbW0e57A==
   dependencies:
     hoist-non-react-statics "^2.5.5"
     intl-format-cache "^2.0.5"
@@ -12236,10 +12236,10 @@ react-router@^4.2.0, react-router@^4.3.1:
     prop-types "^15.6.1"
     warning "^4.0.1"
 
-react-spring@^5.9.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-5.9.0.tgz#0ad0c6f9826fea9ce25e819d7a566dfc132c3d21"
-  integrity sha512-wgCimhKJaKcolR+bRVfETw9QptfR3HXJP8zMnWR2qqjMwvFdSk+ULomKth3E8VFJb5+qKOTdxElcHToSzsGTAQ==
+react-spring@^5.9.2:
+  version "5.9.2"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-5.9.2.tgz#4c4e048ffce24755eaa60acd2f3fe4a3d686ef16"
+  integrity sha512-ZDCBm4OaYuuSER3k7EELn9AKGs98HI23qMRL93zUUw6AlyBmqoU+eAfouGRx47gVkZkH+hArJXBHf4UGYpH9Og==
   dependencies:
     "@babel/runtime" "^7.0.0"
 
