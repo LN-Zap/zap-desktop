@@ -1,8 +1,8 @@
 import ZapController from 'lib/zap/controller'
 import LndConfig from 'lib/lnd/config'
+import Lightning from 'lib/lnd/lightning'
 
 jest.mock('lib/lnd/lightning')
-const Lightning = require('lib/lnd/lightning')
 
 describe('ZapController', function() {
   describe('Constructor', () => {

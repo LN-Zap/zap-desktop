@@ -29,17 +29,23 @@ class Lightning {
   service: any
   lndConfig: LndConfig
   subscriptions: LightningSubscriptionsType
-  _fsm: StateMachine
-
-  // Transitions provided by the state machine.
-  connect: any
-  disconnect: any
-  terminate: any
-  is: any
-  can: any
-  state: string
+  fsm: StateMachine
 
   constructor(lndConfig: LndConfig) {
+    this.fsm = new StateMachine({
+      init: 'ready',
+      transitions: [
+        { name: 'connect', from: 'ready', to: 'connected' },
+        { name: 'disconnect', from: 'connected', to: 'ready' },
+        { name: 'terminate', from: 'connected', to: 'ready' }
+      ],
+      methods: {
+        onBeforeConnect: this.onBeforeConnect.bind(this),
+        onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
+        onBeforeTerminate: this.onBeforeTerminate.bind(this)
+      }
+    })
+
     this.mainWindow = null
     this.service = null
     this.lndConfig = lndConfig
@@ -48,9 +54,26 @@ class Lightning {
       invoices: null,
       transactions: null
     }
+  }
 
-    // Initialize the state machine.
-    this._fsm()
+  // ------------------------------------
+  // FSM Proxies
+  // ------------------------------------
+
+  connect(...args: any[]) {
+    return this.fsm.connect(args)
+  }
+  disconnect(...args: any[]) {
+    return this.fsm.disconnect(args)
+  }
+  terminate(...args: any[]) {
+    return this.fsm.terminate(args)
+  }
+  is(...args: any[]) {
+    return this.fsm.is(args)
+  }
+  can(...args: any[]) {
+    return this.fsm.can(args)
   }
 
   // ------------------------------------
@@ -182,14 +205,5 @@ class Lightning {
     })
   }
 }
-
-StateMachine.factory(Lightning, {
-  init: 'ready',
-  transitions: [
-    { name: 'connect', from: 'ready', to: 'connected' },
-    { name: 'disconnect', from: 'connected', to: 'ready' },
-    { name: 'terminate', from: 'connected', to: 'ready' }
-  ]
-})
 
 export default Lightning

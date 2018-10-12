@@ -15,22 +15,39 @@ import { mainLog } from '../utils/log'
 class WalletUnlocker {
   service: any
   lndConfig: LndConfig
-  _fsm: StateMachine
-
-  // Transitions provided by the state machine.
-  connect: any
-  disconnect: any
-  terminate: any
-  is: any
-  can: any
-  state: string
+  fsm: StateMachine
 
   constructor(lndConfig: LndConfig) {
+    this.fsm = new StateMachine({
+      init: 'ready',
+      transitions: [
+        { name: 'connect', from: 'ready', to: 'connected' },
+        { name: 'disconnect', from: 'connected', to: 'ready' }
+      ],
+      methods: {
+        onBeforeConnect: this.onBeforeConnect.bind(this),
+        onBeforeDisconnect: this.onBeforeDisconnect.bind(this)
+      }
+    })
     this.service = null
     this.lndConfig = lndConfig
+  }
 
-    // Initialize the state machine.
-    this._fsm()
+  // ------------------------------------
+  // FSM Proxies
+  // ------------------------------------
+
+  connect(...args: any[]) {
+    return this.fsm.connect(args)
+  }
+  disconnect(...args: any[]) {
+    return this.fsm.disconnect(args)
+  }
+  is(...args: any[]) {
+    return this.fsm.is(args)
+  }
+  can(...args: any[]) {
+    return this.fsm.can(args)
   }
 
   // ------------------------------------
@@ -104,13 +121,5 @@ class WalletUnlocker {
     return methods(this.service, mainLog, event, msg, data, this.lndConfig)
   }
 }
-
-StateMachine.factory(WalletUnlocker, {
-  init: 'ready',
-  transitions: [
-    { name: 'connect', from: 'ready', to: 'connected' },
-    { name: 'disconnect', from: 'connected', to: 'ready' }
-  ]
-})
 
 export default WalletUnlocker

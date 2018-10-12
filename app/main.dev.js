@@ -107,7 +107,7 @@ app.on('ready', () => {
    *  - Stop gRPC and kill lnd process before the app windows are closed and the app quits.
    */
   app.on('before-quit', async event => {
-    if (zap.state !== 'terminated') {
+    if (!zap.is('terminated')) {
       event.preventDefault()
       zap.terminate()
     } else {
