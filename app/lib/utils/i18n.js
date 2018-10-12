@@ -4,6 +4,7 @@ import Store from 'electron-store'
 import get from 'lodash.get'
 import { lookup } from 'country-data-lookup'
 import createDebug from 'debug'
+import isRenderer from 'is-electron-renderer'
 
 // Load locale data.
 import bg from 'react-intl/locale-data/bg'
@@ -46,7 +47,15 @@ import ukTranslationMessages from '../../translations/uk-UA.json'
 import zhCNTranslationMessages from '../../translations/zh-CN.json'
 import zhTWTranslationMessages from '../../translations/zh-TW.json'
 
-const debug = createDebug('zap:i18n')
+/**
+ * Debugger that does not log in the renderer process.
+ */
+const debuger = createDebug('zap:i18n')
+const debug = (...args) => {
+  if (!isRenderer) {
+    debuger(args)
+  }
+}
 
 // Add locale data.
 addLocaleData([
