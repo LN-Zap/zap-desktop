@@ -1,3 +1,5 @@
+@import 'styles/variables.scss';
+
 /* Tooltips */
 [data-hint] {
   position: relative;
@@ -11,7 +13,7 @@
   will-change: transform;
   visibility: hidden;
   opacity: 0;
-  z-index: z("tooltip", "after");
+  z-index: z('tooltip', 'after');
   pointer-events: none;
   transition: 0.2s ease;
   transition-delay: 0ms;
@@ -22,7 +24,7 @@
   position: absolute;
   background: transparent;
   border: 6px solid transparent;
-  z-index: z("tooltip", "before");
+  z-index: z('tooltip', 'before');
 }
 
 [data-hint]::after {
