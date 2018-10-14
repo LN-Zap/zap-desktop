@@ -12,7 +12,7 @@ const Autopilot = ({ autopilot, setAutopilot }) => (
       <div onClick={() => setAutopilot(true)}>
         {autopilot ? <FaCircle /> : <FaCircleThin />}
         <span className={styles.label}>
-          <FormattedMessage {...messages.enable} /> Autopilot
+          <FormattedMessage {...messages.enable} />
         </span>
       </div>
     </section>
@@ -24,7 +24,7 @@ const Autopilot = ({ autopilot, setAutopilot }) => (
       <div onClick={() => setAutopilot(false)}>
         {!autopilot && autopilot !== null ? <FaCircle /> : <FaCircleThin />}
         <span className={styles.label}>
-          <FormattedMessage {...messages.disable} /> Autopilot
+          <FormattedMessage {...messages.disable} />
         </span>
       </div>
     </section>
