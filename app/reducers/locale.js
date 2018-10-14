@@ -1,7 +1,7 @@
 import Store from 'electron-store'
 import { updateIntl } from 'react-intl-redux'
 import { ipcRenderer } from 'electron'
-import { translationMessages } from 'lib/utils/i18n'
+import translations from 'lib/i18n/translation'
 
 // Settings store
 const store = new Store({ name: 'settings' })
@@ -35,6 +35,6 @@ export const receiveLocale = (event, locale) => dispatch => {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function localeReducer(state = translationMessages) {
+export default function localeReducer(state = translations) {
   return state
 }

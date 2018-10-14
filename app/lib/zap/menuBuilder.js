@@ -1,6 +1,6 @@
 // @flow
 import { app, Menu, shell, BrowserWindow, ipcMain } from 'electron'
-import { locales, getLocale, getLanguageName } from '../utils/i18n'
+import { getLocale, getLanguageName, locales } from '../i18n'
 
 export default class ZapMenuBuilder {
   mainWindow: BrowserWindow

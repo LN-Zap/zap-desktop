@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FaAngleLeft from 'react-icons/lib/fa/angle-left'
-import { getLanguageName } from 'lib/utils/i18n'
+import { getLanguageName } from 'lib/i18n'
 import Isvg from 'react-inlinesvg'
 import checkIcon from 'icons/check.svg'
 
