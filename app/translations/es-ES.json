@@ -76,7 +76,7 @@
   "components.Form.Request.title": "Solicitud de Pago",
   "components.LoadingBolt.loading": "carga",
   "components.Onboarding.Autopilot.disable": "Deshabilitar",
-  "components.Onboarding.Autopilot.enable": "Habilitar",
+  "components.Onboarding.Autopilot.enable": "Habilitar Autopilot",
   "components.Onboarding.BtcPayServer.btcpay_description": "Pegar todo el contenido del archivo de configuración de conexión de su servidor BTCPay. Esto se puede encontrar haciendo clic en el enlace titulado \"haga clic aquí para abrir el archivo de configuración.\" en los comandos de configuración del servidor gRPC BTCPay.",
   "components.Onboarding.BtcPayServer.btcpay_error": "Cadena de conexión inválida.",
   "components.Onboarding.BtcPayServer.connection_string_label": "",
