@@ -1,10 +1,12 @@
+@import 'styles/variables.scss';
+
 .container {
   background: var(--lightestBackground);
   position: absolute;
   width: 200px;
   top: 30px;
   left: -100px;
-  z-index: z("settings-form", "modal");
+  z-index: z('settings-form', 'modal');
 
   li {
     padding: 20px;

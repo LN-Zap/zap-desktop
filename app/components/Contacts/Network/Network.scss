@@ -83,7 +83,7 @@
         display: block;
         position: absolute;
         margin-top: 0;
-        z-index: z("network-filters", "open");
+        z-index: z('network-filters', 'open');
 
         li {
           margin: 10px 0;

@@ -3,7 +3,7 @@
 .container {
   position: absolute;
   top: 0;
-  z-index: z("contact-form", "modal");
+  z-index: z('contact-form', 'modal');
   height: 100vh;
   width: 100%;
   background: var(--darkestBackground);
