@@ -28,11 +28,14 @@ exports[`component.UI.Notification should render correctly 1`] = `
   padding-right: 16px;
   padding-top: 16px;
   padding-bottom: 16px;
+  cursor: pointer;
   border-radius: 5px;
 }
 
 <div
   className="c0"
+  onMouseEnter={[Function]}
+  onMouseLeave={[Function]}
 >
   <div
     className="c1"
@@ -64,23 +67,19 @@ exports[`component.UI.Notification should render correctly 1`] = `
       />
     </div>
     <svg
-      fill="currentColor"
+      className="feather feather-x"
+      fill="none"
       height="1em"
-      preserveAspectRatio="xMidYMid meet"
-      style={
-        Object {
-          "color": undefined,
-          "verticalAlign": "middle",
-        }
-      }
-      viewBox="0 0 40 40"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth={null}
+      viewBox="0 0 24 24"
       width="1em"
     >
-      <g>
-        <path
-          d="m31.6 10.7l-9.3 9.3 9.3 9.3-2.3 2.3-9.3-9.3-9.3 9.3-2.3-2.3 9.3-9.3-9.3-9.3 2.3-2.3 9.3 9.3 9.3-9.3z"
-        />
-      </g>
+      <path
+        d="M18 6L6 18M6 6l12 12"
+      />
     </svg>
   </div>
 </div>

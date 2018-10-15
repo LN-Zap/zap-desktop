@@ -4,6 +4,7 @@ import { ConnectedRouter } from 'react-router-redux'
 import { Switch, Route } from 'react-router'
 import PropTypes from 'prop-types'
 import { ThemeProvider } from 'styled-components'
+import GlobalStyle from 'components/UI/GlobalStyle'
 import GlobalError from 'components/GlobalError'
 import { clearError } from 'reducers/error'
 
@@ -238,17 +239,20 @@ class Root extends Component {
 
     if (!onboardingProps.onboarding.onboarded) {
       return (
-        <ThemeProvider theme={currentThemeSettings}>
-          <div>
-            <LoadingBolt
-              theme={onboardingProps.theme}
-              visible={!onboardingProps.onboarding.onboarding}
-            />
-            <GlobalError error={error} clearError={clearError} />
-            <Onboarding {...onboardingProps} />
-            <Syncing {...syncingProps} />
-          </div>
-        </ThemeProvider>
+        <React.Fragment>
+          <GlobalStyle />
+          <ThemeProvider theme={currentThemeSettings}>
+            <div>
+              <LoadingBolt
+                theme={onboardingProps.theme}
+                visible={!onboardingProps.onboarding.onboarding}
+              />
+              <GlobalError error={error} clearError={clearError} />
+              <Onboarding {...onboardingProps} />
+              <Syncing {...syncingProps} />
+            </div>
+          </ThemeProvider>
+        </React.Fragment>
       )
     }
 
@@ -259,33 +263,39 @@ class Root extends Component {
       lnd.syncStatus !== 'complete'
     ) {
       return (
-        <ThemeProvider theme={currentThemeSettings}>
-          <Syncing {...syncingProps} />
-        </ThemeProvider>
+        <React.Fragment>
+          <GlobalStyle />
+          <ThemeProvider theme={currentThemeSettings}>
+            <Syncing {...syncingProps} />
+          </ThemeProvider>
+        </React.Fragment>
       )
     }
 
     return (
-      <ConnectedRouter history={history}>
-        <ThemeProvider theme={currentThemeSettings}>
-          <div>
-            <LoadingBolt
-              theme={onboardingProps.theme}
-              visible={
-                (!lnd.lightningGrpcActive && !lnd.walletUnlockerGrpcActive) ||
-                !currentTicker ||
-                balance.channelBalance === null ||
-                balance.walletBalance === null
-              }
-            />
-            <App>
-              <Switch>
-                <Route path="/" component={Activity} />
-              </Switch>
-            </App>
-          </div>
-        </ThemeProvider>
-      </ConnectedRouter>
+      <React.Fragment>
+        <GlobalStyle />
+        <ConnectedRouter history={history}>
+          <ThemeProvider theme={currentThemeSettings}>
+            <div>
+              <LoadingBolt
+                theme={onboardingProps.theme}
+                visible={
+                  (!lnd.lightningGrpcActive && !lnd.walletUnlockerGrpcActive) ||
+                  !currentTicker ||
+                  balance.channelBalance === null ||
+                  balance.walletBalance === null
+                }
+              />
+              <App>
+                <Switch>
+                  <Route path="/" component={Activity} />
+                </Switch>
+              </App>
+            </div>
+          </ThemeProvider>
+        </ConnectedRouter>
+      </React.Fragment>
     )
   }
 }

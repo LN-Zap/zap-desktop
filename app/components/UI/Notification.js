@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Flex, Text } from 'rebass'
-import MdClose from 'react-icons/lib/md/close'
+import X from 'components/Icon/X'
 import SystemSuccess from 'components/Icon/SystemSuccess'
 import SystemWarning from 'components/Icon/SystemWarning'
 import SystemError from 'components/Icon/SystemError'
@@ -27,10 +27,34 @@ class Notification extends React.Component {
     variant: PropTypes.string
   }
 
+  constructor(props) {
+    super(props)
+    this.state = { hover: false }
+    this.hoverOn = this.hoverOn.bind(this)
+    this.hoverOff = this.hoverOff.bind(this)
+  }
+
+  hoverOn() {
+    this.setState({ hover: true })
+  }
+
+  hoverOff() {
+    this.setState({ hover: false })
+  }
+
   render() {
     const { children, processing, variant } = this.props
+    const { hover } = this.state
     return (
-      <Card px={3} py={3} borderRadius="5px" {...this.props}>
+      <Card
+        px={3}
+        py={3}
+        borderRadius="5px"
+        css={{ cursor: 'pointer' }}
+        {...this.props}
+        onMouseEnter={this.hoverOn}
+        onMouseLeave={this.hoverOff}
+      >
         <Flex justifyContent="space-between">
           <Flex>
             {processing && <Spinner size="2em" mr="0.5em" />}
@@ -39,7 +63,7 @@ class Notification extends React.Component {
             {!processing && variant === 'error' && <SystemError />}
             <Text ml={2}>{children}</Text>
           </Flex>
-          <MdClose />
+          <X strokeWidth={hover ? 2 : null} />
         </Flex>
       </Card>
     )
