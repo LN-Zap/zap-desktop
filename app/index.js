@@ -21,13 +21,19 @@ const initialState = {
 const store = configureStore(initialState)
 const MOUNT_NODE = document.getElementById('root')
 
-const render = () => {
+const render = Component => {
   ReactDOM.render(
     <Provider store={store}>
-      <Root history={history} />
+      <Component history={history} />
     </Provider>,
     MOUNT_NODE
   )
 }
 
-render()
+render(Root)
+
+if (module.hot) {
+  module.hot.accept('./containers/Root', () => {
+    render(Root)
+  })
+}

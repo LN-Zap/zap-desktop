@@ -3,7 +3,7 @@
  */
 
 import path from 'path'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
+import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
@@ -26,21 +26,23 @@ export default merge.smart(baseConfig, {
     filename: 'renderer.prod.js'
   },
 
+  stats: {
+    children: false
+  },
+
   module: {
     rules: [
       // Extract all .global.css to style.css as is
       {
         test: /\.global\.css$/,
-        use: ExtractTextPlugin.extract({
-          use: 'css-loader',
-          fallback: 'style-loader'
-        })
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       },
       // Pipe other styles through css modules and append to style.css
       {
         test: /^((?!\.global).)*\.css$/,
-        use: ExtractTextPlugin.extract({
-          use: {
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
             loader: 'css-loader',
             options: {
               modules: true,
@@ -48,47 +50,42 @@ export default merge.smart(baseConfig, {
               localIdentName: '[name]__[local]__[hash:base64:5]'
             }
           }
-        })
+        ]
       },
       // Add SASS support  - compile all .global.scss files and pipe it to style.css
       {
         test: /\.global\.scss$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader'
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                includePaths: [path.join(__dirname, 'app')]
-              }
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: ['app']
             }
-          ],
-          fallback: 'style-loader'
-        })
+          }
+        ]
       },
       // Add SASS support  - compile all other .scss files and pipe it to style.css
       {
         test: /^((?!\.global).)*\.scss$/,
-        use: ExtractTextPlugin.extract({
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                modules: true,
-                importLoaders: 1,
-                localIdentName: '[name]__[local]__[hash:base64:5]'
-              }
-            },
-            {
-              loader: 'sass-loader',
-              options: {
-                includePaths: [path.join(__dirname, 'app')]
-              }
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              importLoaders: 1,
+              localIdentName: '[name]__[local]__[hash:base64:5]'
             }
-          ]
-        })
+          },
+          {
+            loader: 'sass-loader',
+            options: {
+              includePaths: ['app']
+            }
+          }
+        ]
       },
       // WOFF Font
       {
@@ -150,12 +147,7 @@ export default merge.smart(baseConfig, {
   plugins: [
     new CleanWebpackPlugin([path.join('app', 'dist')]),
 
-    new ExtractTextPlugin('style.css'),
-
-    new BundleAnalyzerPlugin({
-      analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
-      openAnalyzer: process.env.OPEN_ANALYZER === 'true'
-    }),
+    new MiniCssExtractPlugin(),
 
     new HtmlWebpackPlugin({
       template: path.join('app', 'app.html')
@@ -181,6 +173,11 @@ export default merge.smart(baseConfig, {
         'https://fonts.gstatic.com',
         "'unsafe-inline'"
       ]
+    }),
+
+    new BundleAnalyzerPlugin({
+      analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
+      openAnalyzer: process.env.OPEN_ANALYZER === 'true'
     })
   ]
 })

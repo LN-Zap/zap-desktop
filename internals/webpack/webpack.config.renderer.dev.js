@@ -11,11 +11,7 @@ import path from 'path'
 import fs from 'fs'
 import webpack from 'webpack'
 import merge from 'webpack-merge'
-import convert from 'koa-connect'
-import history from 'connect-history-api-fallback'
-import proxy from 'http-proxy-middleware'
 import { spawn, execSync } from 'child_process'
-import ExtractTextPlugin from 'extract-text-webpack-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
@@ -50,6 +46,10 @@ export default merge.smart(baseConfig, {
     publicPath: `http://localhost:${port}/dist/`
   },
 
+  stats: {
+    children: false
+  },
+
   module: {
     rules: [
       {
@@ -59,38 +59,20 @@ export default merge.smart(baseConfig, {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
-            plugins: [
-              // Here, we include babel plugins that are only required for the
-              // renderer process. The 'transform-*' plugins must be included
-              // before react-hot-loader/babel
-              '@babel/plugin-proposal-class-properties',
-              '@babel/plugin-transform-classes',
-              '@babel/plugin-proposal-export-default-from',
-              'react-hot-loader/babel'
-            ]
+            plugins: ['react-hot-loader/babel']
           }
         }
       },
+      // Extract all .global.css to style.css as is
       {
         test: /\.global\.css$/,
-        use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
-          }
-        ]
+        use: ['style-loader']
       },
+      // Pipe other styles through css modules and append to style.css
       {
         test: /^((?!\.global).)*\.css$/,
         use: [
-          {
-            loader: 'style-loader'
-          },
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -106,9 +88,7 @@ export default merge.smart(baseConfig, {
       {
         test: /\.global\.scss$/,
         use: [
-          {
-            loader: 'style-loader'
-          },
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -128,9 +108,7 @@ export default merge.smart(baseConfig, {
       {
         test: /^((?!\.global).)*\.scss$/,
         use: [
-          {
-            loader: 'style-loader'
-          },
+          'style-loader',
           {
             loader: 'css-loader',
             options: {
@@ -217,10 +195,6 @@ export default merge.smart(baseConfig, {
       debug: true
     }),
 
-    new ExtractTextPlugin({
-      filename: '[name].css'
-    }),
-
     new HtmlWebpackPlugin({
       template: path.join('app', 'app.html')
     }),
@@ -229,6 +203,8 @@ export default merge.smart(baseConfig, {
       filepath: path.join('dll', 'renderer.dev.dll.js'),
       includeSourcemap: false
     }),
+
+    new webpack.HotModuleReplacementPlugin(),
 
     new CspHtmlWebpackPlugin({
       'default-src': "'self'",
@@ -265,55 +241,39 @@ export default merge.smart(baseConfig, {
     __filename: false
   },
 
-  serve: {
+  devServer: {
     port,
-    hotClient: {
-      validTargets: ['electron-renderer']
+    hot: true,
+    publicPath,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    watchOptions: {
+      aggregateTimeout: 300,
+      ignored: /node_modules/,
+      poll: 100
     },
-    devMiddleware: {
-      publicPath,
-      stats: 'errors-only',
-      headers: { 'Access-Control-Allow-Origin': '*' },
-      watchOptions: {
-        aggregateTimeout: 300,
-        ignored: /node_modules/,
-        poll: 100
+    proxy: {
+      '/proxy/zap.jackmallers.com': {
+        target: 'https://zap.jackmallers.com',
+        pathRewrite: { '^/proxy/zap.jackmallers.com': '' },
+        changeOrigin: true
+      },
+      '/proxy/blockchain.info': {
+        target: 'https://blockchain.info/ticker',
+        pathRewrite: { '^/proxy/blockchain.info': '' },
+        changeOrigin: true
       }
     },
-    // Add middleware to proxy requests to selected remote sites.
-    add: app => {
-      app.use(
-        convert(
-          proxy('/proxy/zap.jackmallers.com', {
-            target: 'https://zap.jackmallers.com',
-            pathRewrite: { '^/proxy/zap.jackmallers.com': '' },
-            changeOrigin: true
-          })
-        )
-      )
-      app.use(
-        convert(
-          proxy('/proxy/blockchain.info', {
-            target: 'https://blockchain.info/ticker',
-            pathRewrite: { '^/proxy/blockchain.info': '' },
-            changeOrigin: true
-          })
-        )
-      )
-      app.use(convert(history()))
-    },
+    historyApiFallback: true,
     // Start the main process as soon as the server is listening.
-    on: {
-      listening: () => {
-        if (process.env.START_HOT) {
-          spawn('npm', ['run', 'start-main-dev'], {
-            shell: true,
-            env: process.env,
-            stdio: 'inherit'
-          })
-            .on('close', code => process.exit(code))
-            .on('error', spawnError => mainLog.error(spawnError))
-        }
+    after: () => {
+      if (process.env.START_HOT) {
+        spawn('npm', ['run', 'start-main-dev'], {
+          shell: true,
+          env: process.env,
+          stdio: 'inherit'
+        })
+          .on('close', code => process.exit(code))
+          .on('error', spawnError => mainLog.error(spawnError))
       }
     }
   },

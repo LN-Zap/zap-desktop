@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import { Switch, Route } from 'react-router'
 import PropTypes from 'prop-types'
-import { hot } from 'react-hot-loader'
 import GlobalError from 'components/GlobalError'
 
 import { clearError } from 'reducers/error'
@@ -292,10 +291,8 @@ Root.propTypes = {
   syncingProps: PropTypes.object.isRequired
 }
 
-export default hot(module)(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps,
-    mergeProps
-  )(Root)
-)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+  mergeProps
+)(Root)
