@@ -56,28 +56,35 @@ class ZapController {
   walletUnlocker: WalletUnlocker
   splashScreenTime: number
   lndConfig: LndConfig
-  _fsm: StateMachine
-
-  // Transitions provided by the state machine.
-  startOnboarding: any
-  startLnd: any
-  connectLnd: any
-  terminate: any
-  is: any
+  fsm: StateMachine
 
   /**
    * Create a new ZapController instance.
    * @param {BrowserWindow} mainWindow BrowserWindow instance to interact with.
    */
   constructor(mainWindow: BrowserWindow) {
+    this.fsm = new StateMachine({
+      transitions: [
+        { name: 'startOnboarding', from: '*', to: 'onboarding' },
+        { name: 'startLnd', from: 'onboarding', to: 'running' },
+        { name: 'connectLnd', from: 'onboarding', to: 'connected' },
+        { name: 'terminate', from: '*', to: 'terminated' }
+      ],
+      methods: {
+        onOnboarding: this.onOnboarding.bind(this),
+        onStartOnboarding: this.onStartOnboarding.bind(this),
+        onBeforeStartLnd: this.onBeforeStartLnd.bind(this),
+        onBeforeConnectLnd: this.onBeforeConnectLnd.bind(this),
+        onTerminated: this.onTerminated.bind(this),
+        onTerminate: this.onTerminate.bind(this)
+      }
+    })
+
     // Variable to hold the main window instance.
     this.mainWindow = mainWindow
 
     // Time for the splash screen to remain visible.
     this.splashScreenTime = 1500
-
-    // Initialize the state machine.
-    this._fsm()
 
     // Initialise the controler with the current active config.
     this.lndConfig = new LndConfig()
@@ -118,6 +125,29 @@ class ZapController {
     this.mainWindow.on('closed', () => {
       this.mainWindow = null
     })
+  }
+
+  // ------------------------------------
+  // FSM Proxies
+  // ------------------------------------
+
+  startOnboarding(...args: any[]) {
+    return this.fsm.startOnboarding(...args)
+  }
+  startLnd(...args: any[]) {
+    return this.fsm.startLnd(...args)
+  }
+  connectLnd(...args: any[]) {
+    return this.fsm.connectLnd(...args)
+  }
+  terminate(...args: any[]) {
+    return this.fsm.terminate(...args)
+  }
+  is(...args: any[]) {
+    return this.fsm.is(...args)
+  }
+  can(...args: any[]) {
+    return this.fsm.can(...args)
   }
 
   // ------------------------------------
@@ -456,14 +486,5 @@ class ZapController {
     ipcMain.removeAllListeners('lnd')
   }
 }
-
-StateMachine.factory(ZapController, {
-  transitions: [
-    { name: 'startOnboarding', from: '*', to: 'onboarding' },
-    { name: 'startLnd', from: 'onboarding', to: 'running' },
-    { name: 'connectLnd', from: 'onboarding', to: 'connected' },
-    { name: 'terminate', from: '*', to: 'terminated' }
-  ]
-})
 
 export default ZapController

@@ -6,9 +6,9 @@ import { createLogger } from 'redux-logger'
 import rootReducer from '../reducers'
 import ipc from '../reducers/ipc'
 
-const history = createHashHistory()
+export const history = createHashHistory()
 
-const configureStore = initialState => {
+export const configureStore = initialState => {
   // Redux Configuration
   const middleware = []
   const enhancers = []
@@ -55,5 +55,3 @@ const configureStore = initialState => {
 
   return store
 }
-
-export default { configureStore, history }
