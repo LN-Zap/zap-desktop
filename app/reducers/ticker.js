@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import Store from 'electron-store'
 import { requestTicker } from 'lib/utils/api'
-import { currencies, getCurrency } from 'lib/utils/i18n'
+import { currencies, getCurrency } from 'lib/i18n'
 import { infoSelectors } from './info'
 
 // Settings store

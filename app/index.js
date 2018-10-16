@@ -5,15 +5,25 @@ import jstz from 'jstimezonedetect'
 
 import Root from './containers/Root'
 import { configureStore, history } from './store/configureStore'
+import { getLocale } from './lib/i18n'
+
+// Load global styles.
 import './styles/app.global.scss'
 
-import { translationMessages, getLocale } from './lib/utils/i18n'
+// Register supported locales.
+import './lib/i18n/locale'
 
+// Get translations.
+import translations from './lib/i18n/translation'
+
+// Determine the users current locale.
 const locale = getLocale()
+
+// Initialise the intl store with data from the users current locale.
 const initialState = {
   intl: {
     locale,
-    messages: translationMessages[locale],
+    messages: translations[locale],
     timeZone: jstz.determine().name()
   }
 }
