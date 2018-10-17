@@ -5,7 +5,7 @@ import Isvg from 'react-inlinesvg'
 
 import FaAngleLeft from 'react-icons/lib/fa/angle-left'
 import FaAngleRight from 'react-icons/lib/fa/angle-right'
-
+import Button from 'components/UI/Button'
 import zapLogo from 'icons/zap-logo.svg'
 import { FormattedMessage } from 'react-intl'
 import zapLogoBlack from 'icons/zap-logo-black.svg'
@@ -42,18 +42,18 @@ const FormContainer = ({ title, description, back, next, children, theme }) => (
       <div className={styles.buttonsContainer}>
         <section>
           {back && (
-            <div onClick={back} className={styles.backButton}>
-              <FaAngleLeft style={{ verticalAlign: 'top' }} />{' '}
+            <Button variant="secondary" onClick={back} px={0}>
+              <FaAngleLeft />
               <FormattedMessage {...messages.back} />
-            </div>
+            </Button>
           )}
         </section>
         <section>
           {next && (
-            <div onClick={next} className={styles.nextButton}>
-              <FormattedMessage {...messages.next} />{' '}
-              <FaAngleRight style={{ verticalAlign: 'top' }} />
-            </div>
+            <Button onClick={next}>
+              <FormattedMessage {...messages.next} />
+              <FaAngleRight />
+            </Button>
           )}
         </section>
       </div>

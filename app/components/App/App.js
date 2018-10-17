@@ -26,6 +26,7 @@ class App extends Component {
 
   render() {
     const {
+      currentTheme,
       currentTicker,
       form,
 
@@ -41,8 +42,6 @@ class App extends Component {
       activityModalProps,
       channelFormProps,
 
-      settings,
-
       children
     } = this.props
 
@@ -51,7 +50,7 @@ class App extends Component {
     }
 
     return (
-      <div className={`${settings.theme}`}>
+      <div className={`${currentTheme}`}>
         <div className={styles.titleBar} />
         <GlobalError error={error} clearError={clearError} />
 
@@ -79,6 +78,7 @@ App.propTypes = {
   formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
+  currentTheme: PropTypes.string.isRequired,
   currentTicker: PropTypes.object,
   contactsFormProps: PropTypes.object,
   networkTabProps: PropTypes.object,

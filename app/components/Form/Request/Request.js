@@ -7,6 +7,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
+import Button from 'components/UI/Button'
 
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
@@ -109,12 +110,9 @@ const Request = ({
         </section>
 
         <section className={styles.submit}>
-          <div
-            className={`${styles.button} ${amount > 0 ? styles.active : undefined}`}
-            onClick={onRequestSubmit}
-          >
+          <Button disabled={!(amount > 0)} onClick={onRequestSubmit} size="large" width={200}>
             <FormattedMessage {...messages.request} />
-          </div>
+          </Button>
         </section>
       </div>
     </div>

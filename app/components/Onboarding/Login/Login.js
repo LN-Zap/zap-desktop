@@ -1,11 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import Button from 'components/UI/Button'
 import messages from './messages'
 import styles from './Login.scss'
 
 const Login = ({
   password,
+  passwordIsValid,
   updatePassword,
   unlockingWallet,
   unlockWallet,
@@ -31,26 +33,25 @@ const Login = ({
     </p>
 
     <section className={styles.buttons}>
-      <div>
-        <span className={styles.button}>
-          <span
-            className={`${!unlockingWallet ? styles.active : undefined} ${styles.button}`}
-            onClick={() => unlockWallet(password)}
-          >
-            {unlockingWallet ? (
-              <i className={styles.spinner} />
-            ) : (
-              <FormattedMessage {...messages.unlock} />
-            )}
-          </span>
-        </span>
-      </div>
+      <Button
+        disabled={!passwordIsValid || unlockingWallet}
+        onClick={() => unlockWallet(password)}
+        processing={unlockingWallet}
+        size="large"
+      >
+        {unlockingWallet ? (
+          <FormattedMessage {...messages.unlocking} />
+        ) : (
+          <FormattedMessage {...messages.unlock} />
+        )}
+      </Button>
     </section>
   </div>
 )
 
 Login.propTypes = {
   password: PropTypes.string.isRequired,
+  passwordIsValid: PropTypes.bool.isRequired,
   updatePassword: PropTypes.func.isRequired,
   unlockingWallet: PropTypes.bool.isRequired,
   unlockWallet: PropTypes.func.isRequired,

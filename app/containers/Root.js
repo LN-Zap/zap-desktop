@@ -3,8 +3,8 @@ import { connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux'
 import { Switch, Route } from 'react-router'
 import PropTypes from 'prop-types'
+import { ThemeProvider } from 'styled-components'
 import GlobalError from 'components/GlobalError'
-
 import { clearError } from 'reducers/error'
 
 import {
@@ -32,6 +32,7 @@ import {
   setReEnterSeedIndexes
 } from 'reducers/onboarding'
 import { fetchTicker, tickerSelectors } from 'reducers/ticker'
+import { themeSelectors } from 'reducers/theme'
 import { lndSelectors } from 'reducers/lnd'
 import { walletAddress } from 'reducers/address'
 import LoadingBolt from 'components/LoadingBolt'
@@ -73,8 +74,9 @@ const mapStateToProps = state => ({
   onboarding: state.onboarding,
   address: state.address,
   info: state.info,
-  theme: state.settings.theme,
   balance: state.balance,
+  currentTheme: themeSelectors.currentTheme(state),
+  currentThemeSettings: themeSelectors.currentThemeSettings(state),
   currentTicker: tickerSelectors.currentTicker(state),
   error: state.error,
   syncPercentage: lndSelectors.syncPercentage(state),
@@ -97,7 +99,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     hasSynced: stateProps.info.hasSynced,
     syncPercentage: stateProps.syncPercentage,
     address: stateProps.address.address,
-    theme: stateProps.theme
+    theme: stateProps.currentTheme
   }
 
   const connectionTypeProps = {
@@ -188,7 +190,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const onboardingProps = {
     onboarding: stateProps.onboarding,
-    theme: stateProps.theme,
+    theme: stateProps.currentTheme,
     changeStep: dispatchProps.changeStep,
     startLnd: dispatchProps.startLnd,
     submitNewWallet: dispatchProps.submitNewWallet,
@@ -225,6 +227,7 @@ class Root extends Component {
     const {
       balance,
       clearError,
+      currentThemeSettings,
       currentTicker,
       error: { error },
       history,
@@ -235,15 +238,17 @@ class Root extends Component {
 
     if (!onboardingProps.onboarding.onboarded) {
       return (
-        <div>
-          <LoadingBolt
-            theme={onboardingProps.theme}
-            visible={!onboardingProps.onboarding.onboarding}
-          />
-          <GlobalError error={error} clearError={clearError} />
-          <Onboarding {...onboardingProps} />
-          <Syncing {...syncingProps} />
-        </div>
+        <ThemeProvider theme={currentThemeSettings}>
+          <div>
+            <LoadingBolt
+              theme={onboardingProps.theme}
+              visible={!onboardingProps.onboarding.onboarding}
+            />
+            <GlobalError error={error} clearError={clearError} />
+            <Onboarding {...onboardingProps} />
+            <Syncing {...syncingProps} />
+          </div>
+        </ThemeProvider>
       )
     }
 
@@ -253,27 +258,33 @@ class Root extends Component {
       onboardingProps.onboarding.connectionType === 'local' &&
       lnd.syncStatus !== 'complete'
     ) {
-      return <Syncing {...syncingProps} />
+      return (
+        <ThemeProvider theme={currentThemeSettings}>
+          <Syncing {...syncingProps} />
+        </ThemeProvider>
+      )
     }
 
     return (
       <ConnectedRouter history={history}>
-        <div>
-          <LoadingBolt
-            theme={onboardingProps.theme}
-            visible={
-              (!lnd.lightningGrpcActive && !lnd.walletUnlockerGrpcActive) ||
-              !currentTicker ||
-              balance.channelBalance === null ||
-              balance.walletBalance === null
-            }
-          />
-          <App>
-            <Switch>
-              <Route path="/" component={Activity} />
-            </Switch>
-          </App>
-        </div>
+        <ThemeProvider theme={currentThemeSettings}>
+          <div>
+            <LoadingBolt
+              theme={onboardingProps.theme}
+              visible={
+                (!lnd.lightningGrpcActive && !lnd.walletUnlockerGrpcActive) ||
+                !currentTicker ||
+                balance.channelBalance === null ||
+                balance.walletBalance === null
+              }
+            />
+            <App>
+              <Switch>
+                <Route path="/" component={Activity} />
+              </Switch>
+            </App>
+          </div>
+        </ThemeProvider>
       </ConnectedRouter>
     )
   }
@@ -284,6 +295,7 @@ Root.propTypes = {
   clearError: PropTypes.func.isRequired,
   error: PropTypes.object.isRequired,
   fetchTicker: PropTypes.func.isRequired,
+  currentThemeSettings: PropTypes.object.isRequired,
   currentTicker: PropTypes.object,
   history: PropTypes.object.isRequired,
   lnd: PropTypes.object.isRequired,
