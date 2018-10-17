@@ -1,9 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
-import Isvg from 'react-inlinesvg'
-import paperPlane from 'icons/paper-plane.svg'
-import link from 'icons/chain-link.svg'
+import PaperPlane from 'components/Icon/PaperPlane'
+import ChainLink from 'components/Icon/ChainLink'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'
@@ -96,7 +95,7 @@ class Pay extends Component {
     return (
       <div className={styles.container}>
         <header className={styles.header}>
-          <Isvg src={paperPlane} />
+          <PaperPlane width="2em" height="2em" />
           <h1>
             <FormattedMessage {...messages.title} />
           </h1>
@@ -113,7 +112,7 @@ class Pay extends Component {
               >
                 {isOnchain && (
                   <i>
-                    <Isvg src={link} />
+                    <ChainLink />
                     <span>
                       <FormattedMessage {...messages.onchain_description} />
                     </span>

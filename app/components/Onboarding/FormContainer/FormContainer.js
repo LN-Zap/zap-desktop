@@ -1,14 +1,12 @@
 import { shell } from 'electron'
 import React from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
-
+import { FormattedMessage } from 'react-intl'
 import FaAngleLeft from 'react-icons/lib/fa/angle-left'
 import FaAngleRight from 'react-icons/lib/fa/angle-right'
+import ZapLogo from 'components/Icon/ZapLogo'
+import ZapLogoBlack from 'components/Icon/ZapLogoBlack'
 import Button from 'components/UI/Button'
-import zapLogo from 'icons/zap-logo.svg'
-import { FormattedMessage } from 'react-intl'
-import zapLogoBlack from 'icons/zap-logo-black.svg'
 import messages from './messages'
 import styles from './FormContainer.scss'
 
@@ -17,7 +15,11 @@ const FormContainer = ({ title, description, back, next, children, theme }) => (
     <div className={styles.titleBar} />
     <header className={styles.header}>
       <section>
-        <Isvg src={theme === 'light' ? zapLogoBlack : zapLogo} />
+        {theme === 'light' ? (
+          <ZapLogoBlack width="70px" height="32px" />
+        ) : (
+          <ZapLogo width="70px" height="32px" />
+        )}
       </section>
       <section>
         <div

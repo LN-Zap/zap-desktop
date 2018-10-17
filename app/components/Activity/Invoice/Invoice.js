@@ -1,10 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { btc } from 'lib/utils'
-
-import Isvg from 'react-inlinesvg'
 import Value from 'components/Value'
-import checkmarkIcon from 'icons/check-circle.svg'
+import CheckCircle from 'components/Icon/CheckCircle'
 
 import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
@@ -25,7 +23,7 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
             : intl.formatMessage({ ...messages.type_unpaid })
         }
       >
-        <Isvg src={checkmarkIcon} />
+        <CheckCircle />
       </section>
     </div>
 

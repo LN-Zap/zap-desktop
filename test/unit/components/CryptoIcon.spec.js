@@ -1,11 +1,9 @@
 import React from 'react'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
-import Isvg from 'react-inlinesvg'
 import CryptoIcon from 'components/CryptoIcon'
-
-import skinnyBitcoinIcon from 'icons/skinny-bitcoin.svg'
-import litecoinIcon from 'icons/litecoin.svg'
+import SkinnyBitcoin from 'components/Icon/SkinnyBitcoin'
+import Litecoin from 'components/Icon/Litecoin'
 
 configure({ adapter: new Adapter() })
 
@@ -27,7 +25,7 @@ describe('component.CryptoIcon', () => {
     const props = { ...defaultProps, currency: 'btc' }
     const el = shallow(<CryptoIcon {...props} />)
     it('should show btc symbol', () => {
-      expect(el.find(Isvg).props().src).toContain(skinnyBitcoinIcon)
+      expect(el.find(SkinnyBitcoin)).toHaveLength(1)
     })
   })
 
@@ -35,7 +33,7 @@ describe('component.CryptoIcon', () => {
     const props = { ...defaultProps, currency: 'ltc' }
     const el = shallow(<CryptoIcon {...props} />)
     it('should show ltc symbol', () => {
-      expect(el.find(Isvg).props().src).toContain(litecoinIcon)
+      expect(el.find(Litecoin)).toHaveLength(1)
     })
   })
 })

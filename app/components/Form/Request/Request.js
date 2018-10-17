@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Isvg from 'react-inlinesvg'
-import hand from 'icons/hand.svg'
+import Hand from 'components/Icon/Hand'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'
@@ -41,7 +40,7 @@ const Request = ({
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <Isvg src={hand} />
+        <Hand width="3em" height="3em" />
         <h1>
           <FormattedMessage {...messages.title} />
         </h1>

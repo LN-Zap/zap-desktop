@@ -19,9 +19,9 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 40px 40px 20px 40px;
+  color: var(--primaryText);
 
   .help {
-    color: var(--primaryText);
     text-decoration: underline;
     cursor: pointer;
     transition: all 0.25s;

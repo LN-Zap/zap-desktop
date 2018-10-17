@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
-import Isvg from 'react-inlinesvg'
-import zapLogo from 'icons/zap-logo.svg'
-import zapLogoDark from 'icons/zap-logo-black.svg'
-import copyIcon from 'icons/copy.svg'
+import Copy from 'components/Icon/Copy'
+import ZapLogo from 'components/Icon/ZapLogo'
+import ZapLogoBlack from 'components/Icon/ZapLogoBlack'
 import { showNotification } from 'lib/utils/notifications'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
@@ -92,7 +91,11 @@ class Syncing extends Component {
 
         <div className={styles.content}>
           <header>
-            <Isvg className={styles.bitcoinLogo} src={theme === 'light' ? zapLogoDark : zapLogo} />
+            {theme === 'light' ? (
+              <ZapLogoBlack width="70px" height="32px" />
+            ) : (
+              <ZapLogo width="70px" height="32px" />
+            )}
           </header>
 
           {hasSynced === true && (
@@ -134,7 +137,7 @@ class Syncing extends Component {
                   <section className={styles.textAddress}>
                     <span className={styles.text}>{address}</span>
                     <span className={styles.icon} onClick={copyClicked}>
-                      <Isvg src={copyIcon} />
+                      <Copy />
                     </span>
                   </section>
                 </div>

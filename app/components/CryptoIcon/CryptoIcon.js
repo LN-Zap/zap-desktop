@@ -1,16 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
 
-import skinnyBitcoinIcon from 'icons/skinny-bitcoin.svg'
-import litecoinIcon from 'icons/litecoin.svg'
+import SkinnyBitcoin from 'components/Icon/SkinnyBitcoin'
+import Litecoin from 'components/Icon/Litecoin'
 
 const CryptoIcon = ({ currency, styles }) => {
   switch (currency) {
     case 'btc':
-      return <Isvg style={styles} src={skinnyBitcoinIcon} />
+      return <SkinnyBitcoin style={styles} />
     case 'ltc':
-      return <Isvg style={styles} src={litecoinIcon} />
+      return <Litecoin style={styles} />
     default:
       return <span />
   }

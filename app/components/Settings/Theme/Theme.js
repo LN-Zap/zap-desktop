@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import FaAngleLeft from 'react-icons/lib/fa/angle-left'
-import Isvg from 'react-inlinesvg'
-import checkIcon from 'icons/check.svg'
+import Check from 'components/Icon/Check'
 
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'
@@ -26,7 +25,7 @@ const Theme = ({ currentTheme, disableSubMenu, setTheme, themes }) => (
             onClick={() => setTheme(theme)}
           >
             <FormattedMessage {...messages[theme]} />
-            {currentTheme === theme && <Isvg src={checkIcon} />}
+            {currentTheme === theme && <Check />}
           </li>
         )
       })}

@@ -1,13 +1,12 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import Isvg from 'react-inlinesvg'
 import FaExternalLink from 'react-icons/lib/fa/external-link'
 import FaCircle from 'react-icons/lib/fa/circle'
 import FaRepeat from 'react-icons/lib/fa/repeat'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { btc, blockExplorer } from 'lib/utils'
-import plus from 'icons/plus.svg'
-import search from 'icons/search.svg'
+import Plus from 'components/Icon/Plus'
+import Search from 'components/Icon/Search'
 
 import Value from 'components/Value'
 
@@ -202,7 +201,7 @@ class Network extends Component {
             data-hint={intl.formatMessage({ ...messages.open_channel })}
           >
             <span className={styles.plusContainer}>
-              <Isvg src={plus} />
+              <Plus />
             </span>
           </section>
         </header>
@@ -373,7 +372,7 @@ class Network extends Component {
         {(loadingChannelPubkeys.length || pending_open_channels.length || channels.length) && (
           <footer className={styles.search}>
             <label htmlFor="search" className={`${styles.label} ${styles.input}`}>
-              <Isvg src={search} />
+              <Search />
             </label>
             <input
               id="search"
