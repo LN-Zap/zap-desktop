@@ -49,10 +49,12 @@
     "react/forbid-prop-types": 0,
     "camelcase": 0,
     "curly": ["error", "all"],
+    "react/prefer-stateless-function": 0,
     "react/require-default-props": 0,
     "react/style-prop-object": 0,
     "max-len": ["error", { "code": 120, "ignoreUrls": true }],
     "import/no-extraneous-dependencies": 0,
+    "import/prefer-default-export": 0,
     "no-cond-assign": ["error", "except-parens"],
     "no-confusing-arrow": "error",
     "no-mixed-operators": "error",
@@ -73,7 +75,7 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "moduleDirectory": ["app", "app/node_modules", "node_modules"]
+        "moduleDirectory": ["app", "node_modules", "app/node_modules"]
       },
       "webpack": {
         "config": "internals/webpack/webpack.config.eslint.js"

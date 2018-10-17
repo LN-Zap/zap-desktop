@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import Isvg from 'react-inlinesvg'
-import paperPlane from 'icons/paper_plane.svg'
-import link from 'icons/link.svg'
+import paperPlane from 'icons/paper-plane.svg'
+import link from 'icons/chain-link.svg'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'

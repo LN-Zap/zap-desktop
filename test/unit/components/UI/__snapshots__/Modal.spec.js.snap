@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Modal should render correctly 1`] = `
+.c0 {
+  height: 100vh;
+}
+
+.c1 {
+  padding: 8px;
+  color: white;
+  background-color: darkestBackground;
+  height: 100%;
+}
+
+.c3 {
+  margin: 16px;
+}
+
+.c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+<div
+  className="c0"
+>
+  <div
+    className="c1"
+    color="white"
+  >
+    <div
+      className="c2"
+    >
+      <svg
+        className="feather feather-x"
+        fill="none"
+        height="2em"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        viewBox="0 0 24 24"
+        width="2em"
+      >
+        <path
+          d="M18 6L6 18M6 6l12 12"
+        />
+      </svg>
+    </div>
+    <div
+      className="c3"
+    />
+  </div>
+</div>
+`;

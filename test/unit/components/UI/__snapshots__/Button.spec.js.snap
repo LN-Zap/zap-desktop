@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Button should render correctly 1`] = `
+.c1 {
+  font-family: sans;
+}
+
+.c0 {
+  margin: 0px;
+  padding-left: 16px;
+  padding-right: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  font-size: m;
+  color: white;
+  background-color: blue;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: bold;
+  border: 0;
+  border-radius: 4px;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  outline: none;
+  border-radius: 5;
+  font-weight: normal;
+  line-height: '18px';
+}
+
+.c0:focus {
+  box-shadow: 0 0 3px;
+}
+
+.c0:disabled {
+  opacity: 0.5;
+}
+
+.c0:hover:enabled {
+  cursor: pointer;
+}
+
+<button
+  className="c0"
+  color="white"
+  fontSize="m"
+  fontWeight="bold"
+>
+  <div
+    className="c1"
+    fontFamily="sans"
+  />
+</button>
+`;

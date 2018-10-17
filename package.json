@@ -17,6 +17,7 @@
     "fetch-lnd": "node ./internals/scripts/fetch-lnd-for-packaging.js",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
+    "generate-icons": "npx @svgr/cli --icon -d app/components/Icon app/icons",
     "lint-base": "eslint --cache --format=node_modules/eslint-formatter-pretty",
     "lint": "npm run lint-base -- .",
     "lint-fix-base": "npm run lint-base -- --fix",
@@ -34,6 +35,9 @@
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./app/main.dev",
     "start-renderer-dev": "node --trace-warnings -r @babel/register ./node_modules/.bin/webpack-dev-server --config internals/webpack/webpack.config.renderer.dev.js",
+    "storybook": "start-storybook -p 6006",
+    "storybook:build": "build-storybook",
+    "storybook:deploy": "npm run storybook:build && gh-pages -t -r git@github.com:LN-Zap/zap-desktop.git -d storybook-static -o origin -b gh-pages",
     "test": "npm run lint && npm run lint-styles && npm run flow && npm run build && npm run test-unit && npm run test-e2e",
     "test-base": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=true ELECTRON_DISABLE_SECURITY_WARNINGS=true node --trace-warnings ./node_modules/jest/bin/jest --maxWorkers=2 --forceExit",
     "test-unit": "npm run test-base -- --coverage ./test/unit",
@@ -41,7 +45,7 @@
     "test-ci": "npm run test-e2e && npm run test-unit"
   },
   "config": {
-    "style_paths": "app/styles/*.scss app/components/**/*.scss",
+    "style_paths": "app/styles/*.scss app/components/**/*.scss app/components/**/*.js",
     "lnd-binary": {
       "binaryVersion": "0.5-beta-21-g25145acc",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
@@ -185,10 +189,11 @@
       "js"
     ],
     "moduleDirectories": [
-      "node_modules",
+      "app",
       "app/node_modules",
-      "app"
+      "node_modules"
     ],
+    "setupTestFrameworkScriptFile": "./test/unit/__helpers__/setup-tests.js",
     "transform": {
       "^.+\\.js$": "babel-jest"
     }
@@ -206,6 +211,15 @@
     "@babel/register": "^7.0.0",
     "@commitlint/cli": "^7.2.1",
     "@commitlint/config-conventional": "^7.1.2",
+    "@storybook/addon-actions": "^4.0.0-rc.0",
+    "@storybook/addon-console": "^1.0.4",
+    "@storybook/addon-info": "^4.0.0-rc.0",
+    "@storybook/addon-links": "^4.0.0-rc.0",
+    "@storybook/addon-options": "^4.0.0-rc.0",
+    "@storybook/addon-storysource": "^4.0.0-rc.0",
+    "@storybook/addons": "^4.0.0-rc.0",
+    "@storybook/components": "^4.0.0-rc.0",
+    "@storybook/react": "^4.0.0-rc.0",
     "add-asset-html-webpack-plugin": "^3.0.1",
     "babel-core": "^7.0.0-bridge.0",
     "babel-eslint": "^10.0.1",
@@ -213,6 +227,7 @@
     "babel-loader": "^8.0.0",
     "babel-plugin-react-intl": "^3.0.1",
     "babel-plugin-react-intl-auto": "^1.1.1",
+    "babel-plugin-styled-components": "^1.8.0",
     "babel-preset-react-optimize": "^1.0.1",
     "browserslist": "^4.2.0",
     "chalk": "^2.4.1",
@@ -248,10 +263,12 @@
     "file-loader": "^2.0.0",
     "flow-bin": "^0.83.0",
     "flow-typed": "^2.5.1",
+    "gh-pages": "^2.0.1",
     "html-webpack-plugin": "^3.2.0",
     "husky": "1.1.2",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^23.6.0",
+    "jest-styled-components": "^6.2.1",
     "jsdom": "^12.2.0",
     "lint-staged": "^7.3.0",
     "lnd-binary": "^0.3.7",
@@ -260,15 +277,21 @@
     "mock-spawn": "^0.2.6",
     "node-sass": "^4.9.3",
     "prettier": "^1.14.3",
+    "react-storybook-addon-chapters": "^2.1.8",
     "react-test-renderer": "^16.5.2",
     "redux-logger": "^3.0.6",
     "rimraf": "^2.6.2",
     "sass-loader": "^7.1.0",
     "spectron": "^4.0.0",
+    "storybook-addon-styled-component-theme": "^1.0.7",
+    "storybook-react-router": "^1.0.1",
     "style-loader": "^0.23.1",
     "stylelint": "^9.6.0",
+    "stylelint-config-recommended": "^2.1.0",
     "stylelint-config-recommended-scss": "^3.2.0",
+    "stylelint-config-styled-components": "^0.1.1",
     "stylelint-formatter-pretty": "^1.0.3",
+    "stylelint-processor-styled-components": "^1.5.0",
     "stylelint-scss": "^3.3.1",
     "url-loader": "^1.1.2",
     "webpack": "^4.20.2",
@@ -279,6 +302,7 @@
   },
   "dependencies": {
     "@grpc/proto-loader": "^0.3.0",
+    "@rebass/components": "^4.0.0-1",
     "axios": "^0.18.0",
     "bitcoinjs-lib": "^4.0.1",
     "copy-to-clipboard": "^3.0.8",
@@ -308,6 +332,7 @@
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-spring": "^5.9.2",
+    "rebass": "^3.0.0-9",
     "redux": "^4.0.0",
     "redux-electron-ipc": "^1.1.13",
     "redux-thunk": "^2.3.0",
@@ -315,6 +340,7 @@
     "satoshi-bitcoin": "^1.0.4",
     "source-map-support": "^0.5.9",
     "split2": "^3.0.0",
+    "styled-components": "^4.0.0-beta.10",
     "tildify": "^1.2.0",
     "untildify": "^3.0.3",
     "validator": "^10.8.0"

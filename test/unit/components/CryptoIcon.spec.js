@@ -4,7 +4,7 @@ import Adapter from 'enzyme-adapter-react-16'
 import Isvg from 'react-inlinesvg'
 import CryptoIcon from 'components/CryptoIcon'
 
-import skinnyBitcoinIcon from 'icons/skinny_bitcoin.svg'
+import skinnyBitcoinIcon from 'icons/skinny-bitcoin.svg'
 import litecoinIcon from 'icons/litecoin.svg'
 
 configure({ adapter: new Adapter() })

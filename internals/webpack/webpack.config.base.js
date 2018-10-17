@@ -37,8 +37,7 @@ export default {
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    extensions: ['.js', '.jsx', '.json'],
-    modules: [path.join(rootDir, 'app'), 'node_modules']
+    modules: [path.resolve(rootDir, 'app'), 'node_modules', 'app/node_modules']
   },
 
   plugins: [new IgnorePlugin(/^\.\/locale$/, /moment$/)],
