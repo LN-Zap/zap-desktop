@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import MdClose from 'react-icons/lib/md/close'
+import { Transition, animated } from 'react-spring'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
-import styles from './GlobalError.scss'
+import Notification from 'components/UI/Notification'
+import { Box } from 'rebass'
 
 class GlobalError extends React.Component {
   componentDidUpdate(prevProps) {
@@ -16,14 +17,26 @@ class GlobalError extends React.Component {
     const { error, clearError } = this.props
 
     return (
-      <div className={`${styles.container} ${!error ? styles.closed : undefined}`}>
-        <div className={styles.content}>
-          <div className={styles.close} onClick={clearError}>
-            <MdClose />
-          </div>
-          <h2>{errorToUserFriendly(error)}</h2>
-        </div>
-      </div>
+      <Transition from={{ opacity: 0 }} enter={{ opacity: 1 }} leave={{ opacity: 0 }} native>
+        {error &&
+          (springStyles => (
+            <Box
+              mt="22px"
+              px={3}
+              width={1}
+              css={{
+                position: 'absolute',
+                'z-index': 100
+              }}
+            >
+              <animated.div style={springStyles}>
+                <Notification variant="error" onClick={clearError}>
+                  {errorToUserFriendly(error)}
+                </Notification>
+              </animated.div>
+            </Box>
+          ))}
+      </Transition>
     )
   }
 }
