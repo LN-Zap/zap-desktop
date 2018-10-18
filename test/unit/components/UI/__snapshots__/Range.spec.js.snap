@@ -1,0 +1,48 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Range should render correctly 1`] = `
+.c0 {
+  overflow: hidden;
+  width: 100%;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: none;
+}
+
+.c0::-webkit-slider-runnable-track {
+  height: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background-color: #959595;
+  margin-top: -1px;
+}
+
+.c0::-webkit-slider-thumb {
+  width: 8px;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  height: 8px;
+  cursor: ew-resize;
+  background: #ffffff;
+  box-shadow: -1000px 0 0 1000px orange;
+}
+
+<form
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <input
+    className="c0"
+    max={100}
+    min={0}
+    onBlur={[Function]}
+    onChange={[Function]}
+    step={1}
+    type="range"
+    value="0"
+  />
+</form>
+`;

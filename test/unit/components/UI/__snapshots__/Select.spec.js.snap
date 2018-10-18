@@ -1,0 +1,157 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Toggle should render correctly 1`] = `
+.c2 {
+  padding: 16px;
+  width: 100%;
+  font-size: 13px;
+  color: #ffffff;
+  background-color: transparent;
+  color: #ffffff;
+  background-color: transparent;
+  border: 1px solid white;
+  border: 1px solid white;
+  border-color: #ffffff;
+  border-radius: 5px;
+}
+
+.c2:focus {
+  outline: none;
+  border: 1px solid #fd9800;
+}
+
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c3 {
+  padding: 0;
+  margin-top: 0;
+  position: absolute;
+  z-index: 2;
+  width: 100%;
+  max-height: 20rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  outline: 0;
+  -webkit-transition: opacity 0.1s ease;
+  transition: opacity 0.1s ease;
+  border: none;
+  background-color: #373947;
+}
+
+.c0 {
+  background-color: transparent;
+  border: none;
+  position: absolute;
+  right: 5px;
+  top: 0;
+  cursor: pointer;
+  width: 47px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  height: 50px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  outline: none;
+}
+
+<form
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <div
+    aria-expanded={false}
+    aria-haspopup="listbox"
+    aria-labelledby="downshift-0-label"
+    aria-owns={null}
+    role="combobox"
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
+  >
+    <div
+      style={
+        Object {
+          "position": "relative",
+        }
+      }
+    >
+      <button
+        aria-haspopup={true}
+        aria-label="open menu"
+        className="c0"
+        data-toggle={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onKeyDown={[Function]}
+        onKeyUp={[Function]}
+        role="button"
+        type="button"
+      >
+        <svg
+          fill="transparent"
+          preserveAspectRatio="none"
+          stroke="#979797"
+          strokeWidth="1.1px"
+          transform={null}
+          viewBox="0 0 20 20"
+          width={16}
+        >
+          <path
+            d="M1,6 L10,15 L19,6"
+          />
+        </svg>
+      </button>
+      <div
+        className="c1"
+      >
+        <input
+          aria-activedescendant={null}
+          aria-autocomplete="list"
+          aria-controls={null}
+          aria-labelledby="downshift-0-label"
+          autoComplete="off"
+          className="c2"
+          id="downshift-0-input"
+          name="name"
+          onBlur={[Function]}
+          onChange={[Function]}
+          onFocus={[Function]}
+          onKeyDown={[Function]}
+          onMouseDown={[Function]}
+          outline="none"
+          placeholder="Please select"
+          type="text"
+          value=""
+        />
+      </div>
+    </div>
+    <ul
+      aria-labelledby="downshift-0-label"
+      className="c3"
+      id="downshift-0-menu"
+      role="listbox"
+    />
+  </div>
+</form>
+`;
