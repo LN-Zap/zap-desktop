@@ -1,0 +1,24 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Page should render correctly 1`] = `
+.c0 {
+  width: 950;
+  background-color: white;
+  height: 600px;
+  min-height: 700px;
+  min-width: 950px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: stretch;
+  -webkit-box-align: stretch;
+  -ms-flex-align: stretch;
+  align-items: stretch;
+}
+
+<article
+  className="c0"
+  width="950"
+/>
+`;

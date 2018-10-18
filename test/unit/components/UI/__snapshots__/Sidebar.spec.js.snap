@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Sidebar should render correctly 1`] = `
+.c0 {
+  padding: 16px;
+  width: 33.33333333333333%;
+  color: white;
+  background-color: lightestBackground;
+  height: 100%;
+}
+
+<aside
+  className="c0"
+  color="white"
+  width={0.3333333333333333}
+/>
+`;
