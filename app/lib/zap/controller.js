@@ -205,15 +205,15 @@ class ZapController {
       .then(() => this.sendMessage('walletConnected'))
       .catch(e => {
         const errors = {}
-        // There was a problem connectig to the host.
+        // There was a problem connecting to the host.
         if (e.code === 'LND_GRPC_HOST_ERROR') {
           errors.host = e.message
         }
-        // There was a problem accessing loading the ssl cert.
+        // There was a problem accessing the ssl cert.
         if (e.code === 'LND_GRPC_CERT_ERROR') {
           errors.cert = e.message
         }
-        //  There was a problem accessing loading the macaroon file.
+        //  There was a problem accessing the macaroon file.
         else if (e.code === 'LND_GRPC_MACAROON_ERROR') {
           errors.macaroon = e.message
         }
@@ -223,7 +223,7 @@ class ZapController {
         }
 
         // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
-        // verify that it is accessible. If it is not, an error 12 is throw whcih is the gRPC code for `UNIMPLEMENTED`
+        // verify that it is accessible. If it is not, an error 12 is thrown which is the gRPC code for `UNIMPLEMENTED`
         // which indicates that the requested operation is not implemented or not supported/enabled in the service.
         // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
         if (e.code === 12) {
@@ -261,7 +261,7 @@ class ZapController {
   /**
    * Send a message to the main window.
    * @param  {string} msg message to send.
-   * @param  {[type]} data additional data to acompany the message.
+   * @param  {[type]} data additional data to accompany the message.
    */
   sendMessage(msg: string, data: any) {
     if (this.mainWindow) {
@@ -318,7 +318,7 @@ class ZapController {
       // Let the renderer know that we are connected.
       this.sendMessage('lightningGrpcActive')
     } catch (err) {
-      mainLog.warn('Unable to connect to Lighitnng gRPC interface: %o', err)
+      mainLog.warn('Unable to connect to Lightning gRPC interface: %o', err)
       throw err
     }
   }
@@ -397,7 +397,7 @@ class ZapController {
     mainLog.info('Shutting down Neutrino...')
 
     return new Promise(async resolve => {
-      // HACK: Sometimes there are errors during the shutdown process that prevent the daeming from shutting down at
+      // HACK: Sometimes there are errors during the shutdown process that prevent the daemon from shutting down at
       // all. If we haven't received notification of the process closing within 10 seconds, kill it.
       // See https://github.com/lightningnetwork/lnd/pull/1781
       // See https://github.com/lightningnetwork/lnd/pull/1783
@@ -456,7 +456,7 @@ class ZapController {
       process.env.GRPC_SSL_CIPHER_SUITES || grpcSslCipherSuites(options.type)
 
     // If the requested connection type is a local one then start up a new lnd instance.
-    // Otherwise attempt to connect to an lnd instance using user supplied connection details.\
+    // Otherwise attempt to connect to an lnd instance using user supplied connection details.
     return options.type === 'local' ? this.startLnd() : this.connectLnd()
   }
 
