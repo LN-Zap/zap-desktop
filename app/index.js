@@ -5,6 +5,8 @@ import jstz from 'jstimezonedetect'
 import { configureStore, history } from './store/configureStore'
 import { getLocale } from './lib/i18n'
 import Root from './containers/Root'
+
+// Load global styles.
 import './styles/app.global.scss'
 
 // Register supported locales.
@@ -25,6 +27,7 @@ const initialState = {
   }
 }
 
+// Set up the redux store.
 const store = configureStore(initialState)
 const MOUNT_NODE = document.getElementById('root')
 

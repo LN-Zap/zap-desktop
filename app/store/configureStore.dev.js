@@ -1,12 +1,12 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import { createHashHistory } from 'history'
-import { routerMiddleware, routerActions } from 'react-router-redux'
+import { createMemoryHistory } from 'history'
+import { connectRouter, routerActions, routerMiddleware } from 'connected-react-router'
 import { createLogger } from 'redux-logger'
 import rootReducer from '../reducers'
 import ipc from '../reducers/ipc'
 
-export const history = createHashHistory()
+export const history = createMemoryHistory()
 
 export const configureStore = initialState => {
   // Redux Configuration
@@ -46,11 +46,13 @@ export const configureStore = initialState => {
   const enhancer = composeEnhancers(...enhancers)
 
   // Create Store
-  const store = createStore(rootReducer, initialState, enhancer)
+  const store = createStore(connectRouter(history)(rootReducer), initialState, enhancer)
 
   if (module.hot) {
     // eslint-disable-next-line global-require
-    module.hot.accept('../reducers', () => store.replaceReducer(require('../reducers')))
+    module.hot.accept('../reducers', () =>
+      store.replaceReducer(connectRouter(history)(require('../reducers')))
+    )
   }
 
   return store

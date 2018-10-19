@@ -1,27 +1,55 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
-
-import GlobalError from 'components/GlobalError'
 
 import Form from 'components/Form'
 import ChannelForm from 'components/Contacts/ChannelForm'
-
 import Network from 'components/Contacts/Network'
 import AddChannel from 'components/Contacts/AddChannel'
 import ReceiveModal from 'components/Wallet/ReceiveModal'
 import ActivityModal from 'components/Activity/ActivityModal'
 
+import Activity from 'containers/Activity'
+
+import { Box } from 'rebass'
 import styles from './App.scss'
 
-class App extends Component {
-  componentWillMount() {
-    const { fetchInfo, fetchSuggestedNodes, fetchDescribeNetwork } = this.props
-    // fetch node info
-    fetchInfo()
-    // fetch suggested nodes list from zap.jackmallers.com/suggested-peers
-    fetchSuggestedNodes()
-    // fetch LN network from nides POV
-    fetchDescribeNetwork()
+class App extends React.Component {
+  static propTypes = {
+    form: PropTypes.object.isRequired,
+    formProps: PropTypes.object.isRequired,
+    closeForm: PropTypes.func.isRequired,
+    currentTheme: PropTypes.string.isRequired,
+    currentTicker: PropTypes.object,
+    contactsFormProps: PropTypes.object,
+    networkTabProps: PropTypes.object,
+    activityModalProps: PropTypes.object,
+    receiveModalProps: PropTypes.object,
+    channelFormProps: PropTypes.object,
+    fetchInfo: PropTypes.func.isRequired,
+    fetchDescribeNetwork: PropTypes.func.isRequired,
+    fetchSuggestedNodes: PropTypes.func.isRequired
+  }
+
+  componentDidMount() {
+    const {
+      currentTicker,
+      fetchInfo,
+      fetchSuggestedNodes,
+      fetchTicker,
+      fetchDescribeNetwork
+    } = this.props
+
+    // If we don't yet have any ticker information then it must be our first time mounting this component.
+    if (!currentTicker) {
+      // fetch ticker data.
+      fetchTicker()
+      // fetch node info.
+      fetchInfo()
+      // fetch suggested nodes list from zap.jackmallers.com/suggested-peers.
+      fetchSuggestedNodes()
+      // fetch LN network from nodes POV.
+      fetchDescribeNetwork()
+    }
   }
 
   render() {
@@ -29,20 +57,13 @@ class App extends Component {
       currentTheme,
       currentTicker,
       form,
-
       formProps,
       closeForm,
-
-      error: { error },
-      clearError,
-
       contactsFormProps,
       networkTabProps,
       receiveModalProps,
       activityModalProps,
-      channelFormProps,
-
-      children
+      channelFormProps
     } = this.props
 
     if (!currentTicker) {
@@ -50,48 +71,22 @@ class App extends Component {
     }
 
     return (
-      <div className={`${currentTheme}`}>
-        <div className={styles.titleBar} />
-        <GlobalError error={error} clearError={clearError} />
-
+      <Box width={1} className={`${currentTheme}`}>
         <ChannelForm {...channelFormProps} />
-
         <ReceiveModal {...receiveModalProps} />
         <ActivityModal {...activityModalProps} />
-
-        <div className={styles.content}>{children}</div>
-
+        <Box className={styles.content}>
+          <Activity />
+        </Box>
         {contactsFormProps.contactsform.isOpen ? (
           <AddChannel {...contactsFormProps} />
         ) : (
           <Network {...networkTabProps} />
         )}
-
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
-      </div>
+      </Box>
     )
   }
-}
-
-App.propTypes = {
-  form: PropTypes.object.isRequired,
-  formProps: PropTypes.object.isRequired,
-  closeForm: PropTypes.func.isRequired,
-  error: PropTypes.object.isRequired,
-  currentTheme: PropTypes.string.isRequired,
-  currentTicker: PropTypes.object,
-  contactsFormProps: PropTypes.object,
-  networkTabProps: PropTypes.object,
-  activityModalProps: PropTypes.object,
-  receiveModalProps: PropTypes.object,
-  channelFormProps: PropTypes.object,
-
-  fetchInfo: PropTypes.func.isRequired,
-  clearError: PropTypes.func.isRequired,
-  fetchDescribeNetwork: PropTypes.func.isRequired,
-  fetchSuggestedNodes: PropTypes.func.isRequired,
-
-  children: PropTypes.object.isRequired
 }
 
 export default App

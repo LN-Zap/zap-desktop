@@ -17,8 +17,8 @@ import styles from './Activity.scss'
 import messages from './messages'
 
 class Activity extends Component {
-  constructor(props, context) {
-    super(props, context)
+  constructor(props) {
+    super(props)
     this.renderActivity = this.renderActivity.bind(this)
 
     this.state = {
@@ -90,6 +90,7 @@ class Activity extends Component {
       activity: { filters, filter, filterPulldown, searchActive, searchText, showExpiredRequests },
       changeFilter,
       currentActivity,
+      currentTicker,
       showExpiredToggle,
       toggleExpiredRequests,
 
@@ -104,7 +105,7 @@ class Activity extends Component {
       intl
     } = this.props
 
-    if (balance.channelBalance === null || balance.walletBalance === null) {
+    if (!currentTicker || balance.channelBalance === null || balance.walletBalance === null) {
       return null
     }
 
@@ -242,7 +243,7 @@ Activity.propTypes = {
   fetchChannels: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object,
   network: PropTypes.object.isRequired,
 
   showActivityModal: PropTypes.func.isRequired,
