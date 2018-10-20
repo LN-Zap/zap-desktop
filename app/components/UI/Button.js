@@ -10,9 +10,6 @@ const Wrapper = styled(BaseButton)`
   border-radius: 5;
   font-weight: normal;
   line-height: '18px';
-  &:focus {
-    box-shadow: 0 0 3px ${props => props.theme.lightningOrange};
-  }
   &:disabled {
     opacity: 0.5;
   }

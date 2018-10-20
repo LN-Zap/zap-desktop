@@ -17,6 +17,9 @@ const buttons = {
     color: colors.lightningOrange,
     '&:hover:enabled': {
       backgroundColor: colors.highlight
+    },
+    '&:focus': {
+      backgroundColor: colors.highlight
     }
   },
   primary: {
@@ -27,6 +30,9 @@ const buttons = {
     backgroundColor: 'transparent',
     color: colors.lightningOrange,
     '&:hover:enabled': {
+      color: colors.black
+    },
+    '&:focus': {
       color: colors.black
     }
   }

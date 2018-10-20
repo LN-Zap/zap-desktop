@@ -33,10 +33,6 @@ exports[`component.UI.Button should render correctly 1`] = `
   line-height: '18px';
 }
 
-.c0:focus {
-  box-shadow: 0 0 3px;
-}
-
 .c0:disabled {
   opacity: 0.5;
 }

@@ -2,11 +2,11 @@
 
 exports[`component.UI.Page should render correctly 1`] = `
 .c0 {
-  width: 950;
-  background-color: white;
-  height: 600px;
+  background-color: darkestBackground;
   min-height: 700px;
   min-width: 950px;
+  overflow-y: hidden;
+  box-shadow: 0 3px 4px 0 rgba(30,30,30,0.5);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -19,6 +19,5 @@ exports[`component.UI.Page should render correctly 1`] = `
 
 <article
   className="c0"
-  width="950"
 />
 `;
