@@ -14,7 +14,7 @@ const SystemMenuItemGroup = system(
 const StyledMenuItemGroup = styled(SystemMenuItemGroup)`
   list-style-type: none;
   > .rc-menu-item-group-title {
-    font-weight: bold;
+    font-weight: 400;
     padding: ${props => props.theme.space[2]}px 0;
   }
   > .rc-menu-item-group-list {

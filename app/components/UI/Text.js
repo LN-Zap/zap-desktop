@@ -18,7 +18,7 @@ class Text extends React.PureComponent {
   render() {
     const { children } = this.props
     return (
-      <BaseText fontSize="m" {...this.props}>
+      <BaseText lineHeight="1.4" fontSize="m" color="primaryText" {...this.props}>
         {children}
       </BaseText>
     )

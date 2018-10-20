@@ -20,6 +20,7 @@ export default {
 
   module: {
     rules: [
+      // JSX
       {
         test: /\.jsx?$/,
         exclude: /node_modules/,
@@ -27,6 +28,39 @@ export default {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true
+          }
+        }
+      },
+      // WOFF Font
+      {
+        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            mimetype: 'application/font-woff'
+          }
+        }
+      },
+      // WOFF2 Font
+      {
+        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            mimetype: 'application/font-woff'
+          }
+        }
+      },
+      // TTF Font
+      {
+        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            mimetype: 'application/octet-stream'
           }
         }
       }

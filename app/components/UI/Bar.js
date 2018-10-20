@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from 'rebass'
+import { Card } from 'rebass'
 
 /**
  * @render react
@@ -9,7 +9,17 @@ import { Box } from 'rebass'
  */
 class Bar extends React.PureComponent {
   render() {
-    return <Box width={1} bg="white" css={{ height: '1px' }} {...this.props} as="hr" />
+    return (
+      <Card
+        width={1}
+        {...this.props}
+        borderColor="primaryText"
+        opacity={0.6}
+        border={1}
+        css={{ 'border-bottom': 'none !important' }}
+        as="hr"
+      />
+    )
   }
 }
 

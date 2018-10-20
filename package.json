@@ -349,6 +349,7 @@
     "source-map-support": "^0.5.9",
     "split2": "^3.0.0",
     "styled-components": "^4.0.3",
+    "styled-reset": "^1.6.0",
     "tildify": "^1.2.0",
     "untildify": "^3.0.3",
     "validator": "^10.8.0"

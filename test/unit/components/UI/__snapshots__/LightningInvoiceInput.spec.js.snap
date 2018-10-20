@@ -19,8 +19,8 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   background-color: transparent;
   color: #fff;
   background-color: transparent;
-  font-family: "Roboto Light",Roboto,system-ui,sans-serif;
-  font-weight: light;
+  font-family: Roboto,system-ui,sans-serif;
+  font-weight: 300;
   border: 1px solid;
   border: 1px solid;
   border-color: #959595;

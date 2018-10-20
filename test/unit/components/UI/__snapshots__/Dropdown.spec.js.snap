@@ -3,7 +3,9 @@
 exports[`component.Dropdown should render correctly 1`] = `
 .c2 {
   font-size: m;
+  color: primaryText;
   text-align: left;
+  line-height: 1.4;
 }
 
 .c0 {
@@ -21,10 +23,7 @@ exports[`component.Dropdown should render correctly 1`] = `
 
 .c1 {
   margin: 0px;
-  padding-left: 0px;
-  padding-right: 0px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 0px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
@@ -52,6 +51,7 @@ exports[`component.Dropdown should render correctly 1`] = `
   >
     <div
       className="c2"
+      color="primaryText"
       fontSize="m"
     >
       BTC

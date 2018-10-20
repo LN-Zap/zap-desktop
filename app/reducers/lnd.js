@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import { showNotification } from 'lib/utils/notifications'
 import db from 'store/db'
-import { fetchTicker } from './ticker'
 import { fetchBalance } from './balance'
 import { fetchInfo, setHasSynced, infoSelectors } from './info'
 import { lndWalletStarted, lndWalletUnlockerStarted } from './onboarding'
@@ -55,7 +54,6 @@ export const lndSyncStatus = (event, status) => async (dispatch, getState) => {
       dispatch(setHasSynced(true))
 
       // Fetch data now that we know LND is synced
-      dispatch(fetchTicker())
       dispatch(fetchBalance())
       dispatch(fetchInfo())
 

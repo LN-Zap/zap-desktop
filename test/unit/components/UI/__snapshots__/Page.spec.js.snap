@@ -3,10 +3,10 @@
 exports[`component.UI.Page should render correctly 1`] = `
 .c0 {
   background-color: darkestBackground;
-  min-height: 700px;
   min-width: 950px;
+  min-height: 600px;
   overflow-y: hidden;
-  box-shadow: 0 3px 4px 0 rgba(30,30,30,0.5);
+  box-shadow: 0 20px 70px rgba(0,0,0,0.55);
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

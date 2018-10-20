@@ -138,7 +138,7 @@ class Select extends React.PureComponent {
                       style={{
                         backgroundColor:
                           highlightedIndex === index ? theme.colors.lightningOrange : null,
-                        fontWeight: selectedItem === item ? 'bold' : 'normal'
+                        fontWeight: selectedItem === item ? 'normal' : 'light'
                       }}
                     >
                       {item.label || item.value}

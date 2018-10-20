@@ -132,7 +132,7 @@ class SubmitChannelForm extends React.Component {
         </section>
 
         <section className={styles.submit}>
-          <Button disabled={!(contactCapacity > 0)} onClick={formSubmitted} size="large">
+          <Button disabled={!(contactCapacity > 0)} onClick={formSubmitted}>
             <FormattedMessage {...messages.submit} />
           </Button>
         </section>

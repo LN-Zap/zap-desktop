@@ -3,15 +3,16 @@
 exports[`component.UI.Button should render correctly 1`] = `
 .c1 {
   font-family: sans;
+  font-weight: normal;
 }
 
 .c0 {
   margin: 0px;
-  padding-left: 16px;
-  padding-right: 16px;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  font-size: m;
+  padding-left: 64px;
+  padding-right: 64px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: inherit;
   color: white;
   background-color: blue;
   -webkit-appearance: none;
@@ -29,7 +30,7 @@ exports[`component.UI.Button should render correctly 1`] = `
   transition: all 0.25s;
   outline: none;
   border-radius: 5;
-  font-weight: normal;
+  font-weight: 300;
   line-height: '18px';
 }
 
@@ -44,12 +45,13 @@ exports[`component.UI.Button should render correctly 1`] = `
 <button
   className="c0"
   color="white"
-  fontSize="m"
+  fontSize="inherit"
   fontWeight="bold"
 >
   <div
     className="c1"
     fontFamily="sans"
+    fontWeight="normal"
   />
 </button>
 `;

@@ -35,8 +35,7 @@ const DropdownButton = styled(Box)({
 DropdownButton.defaultProps = {
   as: 'button',
   m: 0,
-  px: 0,
-  py: 2,
+  p: 0,
   textAlign: 'left'
 }
 
@@ -60,6 +59,7 @@ const Menu = styled(Box)({
 Menu.defaultProps = {
   as: 'ul',
   m: 0,
+  mt: 1,
   p: 0,
   bg: 'lightestBackground'
 }
@@ -99,12 +99,7 @@ class Dropdown extends React.Component {
 
   static propTypes = {
     activeKey: PropTypes.string.isRequired,
-    items: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
+    items: PropTypes.array.isRequired,
     onChange: PropTypes.func
   }
 
@@ -143,7 +138,17 @@ class Dropdown extends React.Component {
 
   render() {
     const { isOpen } = this.state
-    const { activeKey, items, theme, ...rest } = this.props
+    let { activeKey, items, theme, ...rest } = this.props
+    // coerce array of strings into array of objects.
+    items = items.map(item => {
+      if (typeof item === 'string') {
+        return {
+          name: item,
+          key: item
+        }
+      }
+      return item
+    })
     const selectedItem = items.find(c => c.key === activeKey)
     return (
       <DropdownContainer ref={this.setWrapperRef} {...rest}>

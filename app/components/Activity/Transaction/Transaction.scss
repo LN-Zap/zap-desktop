@@ -67,13 +67,8 @@
   flex: 1 0;
   padding-left: 20px;
 
-  &.negative {
-    font-weight: 200;
-  }
-
   &.positive {
     color: $main;
-    font-weight: 500;
   }
 
   span {

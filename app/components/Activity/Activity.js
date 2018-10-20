@@ -6,7 +6,7 @@ import FaRepeat from 'react-icons/lib/fa/repeat'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
-import { Button } from 'components/UI'
+import { Button, Text } from 'components/UI'
 import Wallet from 'components/Wallet'
 import Invoice from './Invoice'
 import Payment from './Payment'
@@ -175,8 +175,9 @@ class Activity extends Component {
                       className={f.key === filter.key ? styles.activeFilter : undefined}
                       onClick={() => changeFilter(f)}
                     >
-                      <FormattedMessage {...messages[f.name]} />
-
+                      <Text fontWeight="normal">
+                        <FormattedMessage {...messages[f.name]} />
+                      </Text>
                       <div className={f.key === filter.key ? styles.activeBorder : undefined} />
                     </li>
                   ))}
@@ -191,7 +192,13 @@ class Activity extends Component {
                         this.repeat = ref
                       }}
                     >
-                      {refreshing ? <FaRepeat /> : <FormattedMessage {...messages.refresh} />}
+                      {refreshing ? (
+                        <FaRepeat />
+                      ) : (
+                        <Text fontWeight="normal">
+                          <FormattedMessage {...messages.refresh} />
+                        </Text>
+                      )}
                     </span>
                   </li>
                   <li className={styles.activeFilter} onClick={() => updateSearchActive(true)}>
@@ -219,7 +226,7 @@ class Activity extends Component {
             {showExpiredToggle &&
               currentActivity.length > 0 && (
                 <Flex justifyContent="center">
-                  <Button onClick={toggleExpiredRequests} mx="auto">
+                  <Button size="small" onClick={toggleExpiredRequests} mx="auto">
                     {showExpiredRequests ? (
                       <FormattedMessage {...messages.hide_expired} />
                     ) : (

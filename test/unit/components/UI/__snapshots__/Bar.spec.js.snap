@@ -3,12 +3,15 @@
 exports[`component.UI.Bar should render correctly 1`] = `
 .c0 {
   width: 100%;
-  background-color: white;
-  height: 1px;
+  border-bottom: none !important;
+  border: 1px solid;
+  border-color: primaryText;
+  opacity: 0.6;
 }
 
 <hr
   className="c0"
+  opacity={0.6}
   width={1}
 />
 `;

@@ -8,7 +8,7 @@ const Wrapper = styled(BaseButton)`
   transition: all 0.25s;
   outline: none;
   border-radius: 5;
-  font-weight: normal;
+  font-weight: 300;
   line-height: '18px';
   &:disabled {
     opacity: 0.5;
@@ -34,43 +34,38 @@ class Button extends React.PureComponent {
   }
   static propTypes = {
     processing: PropTypes.bool,
-    size: PropTypes.oneOf(['small', 'medium', 'large']),
+    size: PropTypes.oneOf(['small', 'medium']),
     variant: PropTypes.string
   }
 
   render() {
-    const { children, processing, size, ...rest } = this.props
+    let { children, processing, size, ...rest } = this.props
     const sizes = {
       small: {
         x: 3,
-        y: 2,
-        fontSize: 's'
+        y: 2
       },
       medium: {
-        x: 3,
-        y: 2,
-        fontSize: 'm'
-      },
-      large: {
         x: 5,
-        y: 3,
-        fontSize: 'l'
+        y: 3
       }
     }
+
+    size = sizes[size] || sizes['medium']
+
     return (
-      <Wrapper
-        px={sizes[size]['x']}
-        py={sizes[size]['y']}
-        fontSize={sizes[size]['fontSize']}
-        {...rest}
-      >
+      <Wrapper px={size['x']} py={size['y']} {...rest}>
         {processing ? (
-          <Flex>
-            {processing && <Spinner size="2em" mr="0.5em" />}
-            <Text fontFamily="sans">{children}</Text>
+          <Flex alignItems="center">
+            {processing && <Spinner />}
+            <Text fontWeight="normal" fontFamily="sans" ml={2}>
+              {children}
+            </Text>
           </Flex>
         ) : (
-          <Text fontFamily="sans">{children}</Text>
+          <Text fontWeight="normal" fontFamily="sans">
+            {children}
+          </Text>
         )}
       </Wrapper>
     )

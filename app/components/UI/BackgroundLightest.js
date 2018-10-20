@@ -9,7 +9,7 @@ import { Box } from 'rebass'
  */
 class BackgroundLightest extends React.Component {
   render() {
-    return <Box bg="lightestBackground" color="white" {...this.props} />
+    return <Box bg="lightestBackground" color="primaryText" {...this.props} />
   }
 }
 

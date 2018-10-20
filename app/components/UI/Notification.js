@@ -2,9 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Flex, Text } from 'rebass'
 import X from 'components/Icon/X'
-import SystemSuccess from 'components/Icon/SystemSuccess'
-import SystemWarning from 'components/Icon/SystemWarning'
-import SystemError from 'components/Icon/SystemError'
+import Success from 'components/Icon/Success'
+import Warning from 'components/Icon/Warning'
+import Error from 'components/Icon/Error'
 import Spinner from './Spinner'
 
 /**
@@ -57,14 +57,20 @@ class Notification extends React.Component {
         onMouseLeave={this.hoverOff}
       >
         <Flex justifyContent="space-between">
-          <Flex>
-            {processing && <Spinner size="2em" mr="0.5em" />}
-            {!processing && variant === 'success' && <SystemSuccess />}
-            {!processing && variant === 'warning' && <SystemWarning />}
-            {!processing && variant === 'error' && <SystemError />}
-            <Text ml={2}>{children}</Text>
+          <Flex alignItems="center">
+            <Text fontSize="xl">
+              {processing && <Spinner size="2em" mr="0.5em" />}
+              {!processing && variant === 'success' && <Success />}
+              {!processing && variant === 'warning' && <Warning />}
+              {!processing && variant === 'error' && <Error />}
+            </Text>
+            <Text fontWeight="normal" ml={2}>
+              {children}
+            </Text>
           </Flex>
-          <X strokeWidth={hover ? 2 : null} />
+          <Text fontSize="xs">
+            <X strokeWidth={hover ? 5 : 4} />
+          </Text>
         </Flex>
       </Card>
     )

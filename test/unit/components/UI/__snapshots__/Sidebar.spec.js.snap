@@ -4,14 +4,13 @@ exports[`component.UI.Sidebar should render correctly 1`] = `
 .c0 {
   padding: 16px;
   width: 33.33333333333333%;
-  color: white;
-  background-color: lightestBackground;
-  height: 100%;
+  color: primaryText;
+  background-color: lightBackground;
 }
 
 <aside
   className="c0"
-  color="white"
+  color="primaryText"
   width={0.3333333333333333}
 />
 `;

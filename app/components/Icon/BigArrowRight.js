@@ -1,9 +1,9 @@
 import React from 'react'
 
 const SvgBigArrowRight = props => (
-  <svg viewBox="0 0 9 4" width="1em" height="1em" {...props}>
+  <svg viewBox="0 0 40 28" width="1em" height="1em" {...props}>
     <path
-      d="M1 2h6M6 4l2-2-2-2"
+      d="M1 14h38M24 27l15-13L24 1"
       fill="none"
       fillRule="evenodd"
       stroke="currentColor"

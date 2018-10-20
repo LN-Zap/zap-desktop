@@ -85,7 +85,7 @@ const Request = ({
         </section>
 
         <section className={styles.submit}>
-          <Button disabled={!(amount > 0)} onClick={onRequestSubmit} size="large" width={200}>
+          <Button disabled={!(amount > 0)} onClick={onRequestSubmit} width={200}>
             <FormattedMessage {...messages.request} />
           </Button>
         </section>

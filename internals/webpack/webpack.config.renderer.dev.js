@@ -13,7 +13,6 @@ import webpack from 'webpack'
 import merge from 'webpack-merge'
 import { spawn, execSync } from 'child_process'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
 import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import baseConfig, { rootDir } from './webpack.config.base'
@@ -64,27 +63,6 @@ export default merge.smart(baseConfig, {
           }
         }
       },
-      // Extract all .global.css to style.css as is
-      {
-        test: /\.global\.css$/,
-        use: ['style-loader']
-      },
-      // Pipe other styles through css modules and append to style.css
-      {
-        test: /^((?!\.global).)*\.css$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
-            }
-          }
-        ]
-      },
       // Add SASS support  - compile all .global.scss files and pipe it to style.css
       {
         test: /\.global\.scss$/,
@@ -128,44 +106,6 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
-      // WOFF Font
-      {
-        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/font-woff'
-          }
-        }
-      },
-      // WOFF2 Font
-      {
-        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/font-woff'
-          }
-        }
-      },
-      // TTF Font
-      {
-        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/octet-stream'
-          }
-        }
-      },
-      // EOT Font
-      {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'file-loader'
-      },
       // SVG Font
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
@@ -196,8 +136,6 @@ export default merge.smart(baseConfig, {
       debug: true
     }),
 
-    new CopyWebpackPlugin([path.join('app', 'empty.html')]),
-
     new HtmlWebpackPlugin({
       template: path.join('app', 'app.html')
     }),
@@ -224,18 +162,10 @@ export default merge.smart(baseConfig, {
         "'self'",
         'data:',
         'http://localhost:*',
-        'https://fonts.googleapis.com',
         'https://s3.amazonaws.com',
         'https://fonts.gstatic.com'
       ],
-      'style-src': [
-        "'self'",
-        'blob:',
-        'https://fonts.googleapis.com',
-        'https://s3.amazonaws.com',
-        'https://fonts.gstatic.com',
-        "'unsafe-inline'"
-      ]
+      'style-src': ["'self'", 'blob:', 'https://s3.amazonaws.com', "'unsafe-inline'"]
     })
   ],
 

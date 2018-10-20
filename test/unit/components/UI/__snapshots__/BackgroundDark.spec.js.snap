@@ -2,12 +2,12 @@
 
 exports[`component.UI.BackgroundDark should render correctly 1`] = `
 .c0 {
-  color: white;
+  color: primaryText;
   background-color: darkestBackground;
 }
 
 <div
   className="c0"
-  color="white"
+  color="primaryText"
 />
 `;

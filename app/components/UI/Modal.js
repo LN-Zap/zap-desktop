@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { BackgroundDark } from 'components/UI'
 import X from 'components/Icon/X'
 
 /**
@@ -10,24 +9,47 @@ import X from 'components/Icon/X'
  * @example
  * <Modal>Some content</Modal>
  */
-class Modal extends React.PureComponent {
+class Modal extends React.Component {
   static displayName = 'Modal'
 
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
+    onClose: PropTypes.func
+  }
+
+  state = {
+    hover: false
+  }
+
+  hoverOn = () => {
+    this.setState({ hover: true })
+  }
+
+  hoverOff = () => {
+    this.setState({ hover: false })
   }
 
   render() {
-    const { children } = this.props
+    const { hover } = this.state
+    const { children, onClose } = this.props
     return (
-      <Box css={{ height: '100vh' }}>
-        <BackgroundDark p={2} css={{ height: '100%' }}>
-          <Flex justifyContent="flex-end">
+      <Flex flexDirection="column" width={1} p={3} bg="darkestBackground" css={{ height: '100%' }}>
+        <Flex justifyContent="flex-end" as="header" color="primaryText">
+          <Box
+            css={{ cursor: 'pointer' }}
+            ml="auto"
+            onClick={onClose}
+            onMouseEnter={this.hoverOn}
+            onMouseLeave={this.hoverOff}
+            color={hover ? 'lightningOrange' : null}
+          >
             <X width="2em" height="2em" />
-          </Flex>
-          <Box m={3}>{children}</Box>
-        </BackgroundDark>
-      </Box>
+          </Box>
+        </Flex>
+        <Box as="section" p={2} css={{ flex: 1 }}>
+          {children}
+        </Box>
+      </Flex>
     )
   }
 }

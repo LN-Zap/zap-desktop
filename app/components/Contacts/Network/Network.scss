@@ -6,7 +6,6 @@
   display: inline-block;
   vertical-align: top;
   height: 100vh;
-  background: var(--lightestBackground);
   padding-top: 20px;
 }
 
@@ -14,13 +13,12 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  background: var(--lightestBackground);
   padding: 10px 20px;
   color: var(--primaryText);
 
   h2 {
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 400;
     letter-spacing: 1.2px;
     margin-bottom: 5px;
   }
@@ -33,16 +31,16 @@
   .addChannel {
     cursor: pointer;
     transition: all 0.25s;
+    width: 120px;
+    text-align: right;
 
     svg {
       border-radius: 5px;
     }
 
     &:hover {
-      opacity: 0.5;
-
       svg {
-        background: #272931;
+        background: var(--lightestBackground);
       }
     }
   }
@@ -100,7 +98,6 @@
     span {
       color: var(--primaryText);
       opacity: 1;
-      font-size: 10px;
       cursor: pointer;
       transition: all 0.25s;
 
@@ -112,7 +109,7 @@
 
   ul {
     margin-top: 20px;
-    height: calc(100vh - 200px);
+    height: calc(100vh - 208px);
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -128,11 +125,11 @@
     cursor: pointer;
 
     &:hover {
-      background: var(--lightBackground);
+      background: var(--darkBackground);
     }
 
     &.selectedChannel {
-      background: var(--lightBackground);
+      background: var(--darkBackground);
       padding-bottom: 0;
 
       .channelDetails {
@@ -154,7 +151,6 @@
         &:nth-child(2) {
           margin-left: 10px;
           font-size: 12px;
-          font-weight: 300;
           letter-spacing: 0.6px;
           line-height: 17px;
         }
@@ -196,11 +192,11 @@
 
 .search {
   position: absolute;
-  bottom: 20px;
-  width: calc(100% - 40px);
+  bottom: 0;
+  width: 100%;
   padding: 10px 20px;
   border-top: 1px solid $darkestgrey;
-  background: var(--lightestBackground);
+  background: var(--darkBackground);
 
   .input {
     display: inline-block;

@@ -6,14 +6,12 @@ import styles from './ConnectionConfirm.scss'
 
 const ConnectionConfirm = ({ connectionHost }) => (
   <div className={styles.container}>
-    <p>
+    <h2>
       <FormattedMessage {...messages.verify_host_title} />{' '}
       <span className={styles.host}>{connectionHost.split(':')[0]}</span>?{' '}
-    </p>
+    </h2>
     <p>
-      <strong>
-        <FormattedMessage {...messages.verify_host_description} />
-      </strong>
+      <FormattedMessage {...messages.verify_host_description} />
     </p>
   </div>
 )

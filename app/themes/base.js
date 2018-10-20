@@ -1,4 +1,4 @@
-export const space = [0, 4, 8, 16, 32, 64, 128, 256]
+export const space = [0, 4, 8, 16, 32, 45, 72, 108]
 
 export const palette = {
   white: '#ffffff',
@@ -35,14 +35,13 @@ fontSizes[6] = fontSizes['xxl']
 fontSizes[7] = fontSizes['xxxl']
 
 export const fontWeights = {
-  normal: 400,
-  bold: 600
+  light: 300,
+  normal: 400
 }
 
 export const fonts = {
-  0: '"Roboto Light", Roboto, system-ui, sans-serif',
-  sans: '"Roboto Light", Roboto, system-ui, sans-serif',
-  mono: '"SF Mono", "Roboto Mono", Menlo, monospace'
+  0: 'Roboto, system-ui, sans-serif',
+  sans: 'Roboto, system-ui, sans-serif'
 }
 
 export const letterSpacings = {

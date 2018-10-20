@@ -1,22 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Modal should render correctly 1`] = `
-.c0 {
-  height: 100vh;
-}
-
-.c1 {
-  padding: 8px;
-  color: white;
-  background-color: darkestBackground;
-  height: 100%;
+.c2 {
+  margin-left: auto;
+  cursor: pointer;
 }
 
 .c3 {
-  margin: 16px;
+  padding: 8px;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
 }
 
-.c2 {
+.c0 {
+  padding: 16px;
+  width: 100%;
+  background-color: darkestBackground;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  color: primaryText;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -29,33 +41,44 @@ exports[`component.UI.Modal should render correctly 1`] = `
 
 <div
   className="c0"
+  width={1}
 >
-  <div
+  <header
     className="c1"
-    color="white"
+    color="primaryText"
   >
     <div
       className="c2"
+      color={null}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
     >
       <svg
-        className="feather feather-x"
-        fill="none"
         height="2em"
-        stroke="currentColor"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        strokeWidth={2}
-        viewBox="0 0 24 24"
+        viewBox="0 0 22 20"
         width="2em"
+        xmlnsXlink="http://www.w3.org/1999/xlink"
       >
-        <path
-          d="M18 6L6 18M6 6l12 12"
+        <defs>
+          <path
+            d="M10 10L0 20l10-10L0 0l10 10L20 0l-8.394 8.394L10 10l1.606 1.606L20 20 10 10z"
+            id="a"
+          />
+        </defs>
+        <use
+          fill="none"
+          fillRule="evenodd"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          transform="translate(1)"
+          xlinkHref="#a"
         />
       </svg>
     </div>
-    <div
-      className="c3"
-    />
-  </div>
+  </header>
+  <section
+    className="c3"
+  />
 </div>
 `;
