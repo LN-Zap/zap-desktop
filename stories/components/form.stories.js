@@ -2,16 +2,18 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { Box } from 'rebass'
-import Page from 'components/UI/Page'
-import MainContent from 'components/UI/MainContent'
-import Input from 'components/UI/Input'
-import Label from 'components/UI/Label'
-import Select from 'components/UI/Select'
-import TextArea from 'components/UI/TextArea'
-import Button from 'components/UI/Button'
-import Toggle from 'components/UI/Toggle'
-import Range from 'components/UI/Range'
 import { Form } from 'informed'
+import {
+  Page,
+  MainContent,
+  Input,
+  Label,
+  Select,
+  TextArea,
+  Button,
+  Toggle,
+  Range
+} from 'components/UI'
 
 const validate = value => {
   return !value || value.length < 5 ? 'Field must be at least five characters' : null

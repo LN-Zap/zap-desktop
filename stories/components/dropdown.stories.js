@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { StateDecorator, Store } from '@sambego/storybook-state'
-import Dropdown from 'components/UI/Dropdown'
+import { Dropdown } from 'components/UI'
 
 const store = new Store({
   crypto: 'btc',

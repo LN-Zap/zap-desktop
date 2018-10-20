@@ -10,12 +10,9 @@ import { loadingSelectors, setLoading, setMounted } from 'reducers/loading'
 import { initCurrency, initLocale } from 'reducers/locale'
 import { initTheme, themeSelectors } from 'reducers/theme'
 
-import Page from 'components/UI/Page'
-import Titlebar from 'components/UI/Titlebar'
+import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalError from 'components/GlobalError'
-import GlobalStyle from 'components/UI/GlobalStyle'
 import withLoading from 'components/withLoading'
-
 import Onboarding from './Onboarding'
 import Syncing from './Syncing'
 import App from './App'

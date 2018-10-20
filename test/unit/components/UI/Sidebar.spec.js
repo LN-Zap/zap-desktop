@@ -1,8 +1,8 @@
 import React from 'react'
-import Sidebar from 'components/UI/Sidebar'
 import renderer from 'react-test-renderer'
 import { configure, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import { Sidebar } from 'components/UI'
 
 configure({ adapter: new Adapter() })
 

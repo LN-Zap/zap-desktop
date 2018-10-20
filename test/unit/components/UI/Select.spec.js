@@ -1,9 +1,9 @@
 import React from 'react'
 import { Form } from 'informed'
-import Select from 'components/UI/Select'
 import renderer from 'react-test-renderer'
 import { dark } from 'themes'
 import { ThemeProvider } from 'styled-components'
+import { Select } from 'components/UI'
 
 describe('component.UI.Toggle', () => {
   it('should render correctly', () => {

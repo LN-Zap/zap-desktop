@@ -1,9 +1,9 @@
 import React from 'react'
 import { Form } from 'informed'
-import Input from 'components/UI/Input'
 import renderer from 'react-test-renderer'
 import { dark } from 'themes'
 import { ThemeProvider } from 'styled-components'
+import { Input } from 'components/UI'
 
 describe('component.UI.Input', () => {
   it('should render correctly', () => {

@@ -1,6 +1,6 @@
 import React from 'react'
-import MainContent from 'components/UI/MainContent'
 import renderer from 'react-test-renderer'
+import { MainContent } from 'components/UI'
 
 describe('component.UI.MainContent', () => {
   it('should render correctly', () => {

@@ -6,7 +6,7 @@ import FaAngleLeft from 'react-icons/lib/fa/angle-left'
 import FaAngleRight from 'react-icons/lib/fa/angle-right'
 import ZapLogo from 'components/Icon/ZapLogo'
 import ZapLogoBlack from 'components/Icon/ZapLogoBlack'
-import Button from 'components/UI/Button'
+import { Button } from 'components/UI'
 import messages from './messages'
 import styles from './FormContainer.scss'
 

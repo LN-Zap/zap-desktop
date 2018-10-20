@@ -1,9 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { Box, Flex } from 'rebass'
-
-import BackgroundDark from 'components/UI/BackgroundDark'
+import { BackgroundDark } from 'components/UI'
 import X from 'components/Icon/X'
 
 /**

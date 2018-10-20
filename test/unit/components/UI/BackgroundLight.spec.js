@@ -1,6 +1,6 @@
 import React from 'react'
-import BackgroundLight from 'components/UI/BackgroundLight'
 import renderer from 'react-test-renderer'
+import { BackgroundLight } from 'components/UI'
 
 describe('component.UI.BackgroundLight', () => {
   it('should render correctly', () => {

@@ -1,14 +1,10 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
+import { btc } from 'lib/utils'
 import PaperPlane from 'components/Icon/PaperPlane'
 import ChainLink from 'components/Icon/ChainLink'
-
-import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
-import Button from 'components/UI/Button'
-import Dropdown from 'components/UI/Dropdown'
-
+import { Button, Dropdown } from 'components/UI'
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 

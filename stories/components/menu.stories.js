@@ -1,9 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import Menu from 'components/UI/Menu'
-import MenuItem from 'components/UI/MenuItem'
-import MenuItemGroup from 'components/UI/MenuItemGroup'
+import { Menu, MenuItem, MenuItemGroup } from 'components/UI'
 
 storiesOf('Components.Menu', module).add('Menu', () => (
   <Menu onSelect={action('select')}>

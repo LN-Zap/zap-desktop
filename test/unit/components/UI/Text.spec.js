@@ -1,6 +1,6 @@
 import React from 'react'
-import Text from 'components/UI/Text'
 import renderer from 'react-test-renderer'
+import { Text } from 'components/UI'
 
 describe('component.UI.Text', () => {
   it('should render correctly', () => {

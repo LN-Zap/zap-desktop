@@ -6,7 +6,7 @@ import FaRepeat from 'react-icons/lib/fa/repeat'
 
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
-import Button from 'components/UI/Button'
+import { Button } from 'components/UI'
 import Wallet from 'components/Wallet'
 import Invoice from './Invoice'
 import Payment from './Payment'

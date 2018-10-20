@@ -3,7 +3,7 @@ import { asField } from 'informed'
 import { TextArea as Base } from 'styled-system-html'
 import { withTheme } from 'styled-components'
 import { Flex } from 'rebass'
-import FormFieldMessage from 'components/UI/FormFieldMessage'
+import { FormFieldMessage } from 'components/UI'
 
 /**
  * @render react

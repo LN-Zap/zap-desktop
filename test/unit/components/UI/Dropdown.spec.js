@@ -1,5 +1,5 @@
 import React from 'react'
-import Dropdown from 'components/UI/Dropdown'
+import { Dropdown } from 'components/UI'
 import renderer from 'react-test-renderer'
 import { dark } from 'themes'
 
