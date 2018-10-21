@@ -1,10 +1,10 @@
 {
-  "components.Activity.Countdown.expires": "",
+  "components.Activity.Countdown.expires": "Ističe",
   "components.Activity.Invoice.amount": "Iznos",
   "components.Activity.Invoice.received": "Primljeno",
   "components.Activity.Invoice.requested": "Zatraženo",
-  "components.Activity.Invoice.type_paid": "",
-  "components.Activity.Invoice.type_unpaid": "",
+  "components.Activity.Invoice.type_paid": "LN fakture (plaćeno)",
+  "components.Activity.Invoice.type_unpaid": "LN fakture (nije plaćeno)",
   "components.Activity.InvoiceModal.copy": "",
   "components.Activity.InvoiceModal.memo": "Bilješka",
   "components.Activity.InvoiceModal.not_paid": "Nije plaćeno",
