@@ -1,9 +1,9 @@
-import Store from 'electron-store'
 import { createSelector } from 'reselect'
 import { showNotification } from 'lib/utils/notifications'
+import db from 'store/db'
 import { fetchTicker } from './ticker'
 import { fetchBalance } from './balance'
-import { fetchInfo, setHasSynced } from './info'
+import { fetchInfo, setHasSynced, infoSelectors } from './info'
 import { lndWalletStarted, lndWalletUnlockerStarted } from './onboarding'
 
 // ------------------------------------
@@ -26,16 +26,20 @@ export const SET_LIGHTNING_WALLET_ACTIVE = 'SET_LIGHTNING_WALLET_ACTIVE'
 // ------------------------------------
 
 // Receive IPC event for LND sync status change.
-export const lndSyncStatus = (event, status) => (dispatch, getState) => {
+export const lndSyncStatus = (event, status) => async (dispatch, getState) => {
   const notifTitle = 'Lightning Node Synced'
   const notifBody = "Visa who? You're your own payment processor now!"
 
   // Persist the fact that the wallet has been synced at least once.
   const state = getState()
   const pubKey = state.info.data.identity_pubkey
-  if (pubKey) {
-    const store = new Store({ name: 'wallet' })
-    store.set(`${pubKey}.hasSynced`, true)
+  const hasSynced = infoSelectors.hasSynced(state)
+
+  if (pubKey && !hasSynced) {
+    const updated = await db.nodes.update(pubKey, { hasSynced: true })
+    if (!updated) {
+      await db.nodes.add({ id: pubKey, hasSynced: true })
+    }
   }
 
   switch (status) {
@@ -64,11 +68,11 @@ export const lndSyncStatus = (event, status) => (dispatch, getState) => {
 }
 
 // Connected to Lightning gRPC interface (lnd wallet is connected and unlocked)
-export const lightningGrpcActive = () => dispatch => {
+export const lightningGrpcActive = (event, lndConfig) => dispatch => {
   dispatch({ type: SET_LIGHTNING_WALLET_ACTIVE })
 
   // Let the onboarding process know that wallet is active.
-  dispatch(lndWalletStarted())
+  dispatch(lndWalletStarted(lndConfig))
 }
 
 // Connected to WalletUnlocker gRPC interface (lnd is ready to unlock or create wallet)

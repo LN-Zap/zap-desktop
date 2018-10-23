@@ -4,7 +4,6 @@ import Neutrino from 'lib/lnd/neutrino'
 import LndConfig from 'lib/lnd/config'
 import mockSpawn from 'mock-spawn'
 
-jest.mock('electron-store')
 jest.mock('child_process', () => {
   var mockSpawn = require('mock-spawn')
   return {

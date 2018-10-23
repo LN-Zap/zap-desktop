@@ -11,19 +11,93 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS
 } from 'electron-devtools-installer'
+import get from 'lodash.get'
 import { mainLog } from './lib/utils/log'
 import ZapMenuBuilder from './lib/zap/menuBuilder'
 import ZapController from './lib/zap/controller'
 import ZapUpdater from './lib/zap/updater'
+import themes from './themes'
+import { getDbName } from './store/db'
 
 // Set up a couple of timers to track the app startup progress.
 mainLog.time('Time until app is ready')
 
 /**
+ * Fetch user settings from indexedDb.
+ * We do this by starting up a new browser window and accessing indexedDb from within it.
+ *
+ * @return {[type]} 'settings' store from indexedDb.
+ */
+const fetchSettings = () => {
+  const win = new BrowserWindow({ show: false })
+  if (process.env.HOT) {
+    const port = process.env.PORT || 1212
+    win.loadURL(`http://localhost:${port}`)
+  } else {
+    win.loadURL(`file://${__dirname}`)
+  }
+
+  const dbName = getDbName()
+  mainLog.debug(`Fetching user settings from indexedDb (using database "%s")`, dbName)
+
+  return win.webContents
+    .executeJavaScript(
+      `
+      new Promise((resolve, reject) => {
+        var DBOpenRequest = window.indexedDB.open('${dbName}')
+        DBOpenRequest.onupgradeneeded = function(event) {
+          event.target.transaction.abort()
+          return reject(new Error('Database does not exist'))
+        }
+        DBOpenRequest.onerror = function() {
+          return reject(new Error('Error loading database'))
+        }
+        DBOpenRequest.onsuccess = function() {
+          const db = DBOpenRequest.result
+          var transaction = db.transaction(['settings'], 'readwrite')
+          transaction.onerror = function() {
+            return reject(transaction.error)
+          }
+          var objectStore = transaction.objectStore('settings')
+          var objectStoreRequest = objectStore.getAll()
+          objectStoreRequest.onsuccess = function() {
+            return resolve(objectStoreRequest.result)
+          }
+        }
+      })
+    `
+    )
+    .then(res => {
+      mainLog.debug('Got user settings: %o', res)
+      return res
+    })
+}
+
+const getSetting = (store, key) => {
+  const setting = store.find(s => s.key === key)
+  return setting && setting.hasOwnProperty('value') ? setting.value : null
+}
+
+/**
  * Initialize Zap as soon as electron is ready.
  */
-app.on('ready', () => {
+app.on('ready', async () => {
   mainLog.timeEnd('Time until app is ready')
+
+  // Get the users preference so that we can:
+  //  - set the background colour of the window to avoid unwanted flicker.
+  //  - Initialise the Language menu with the users locale selected by default.
+  let theme = {}
+  let locale
+
+  try {
+    const settings = await fetchSettings()
+    locale = getSetting(settings, 'locale')
+    const themeKey = getSetting(settings, 'theme')
+    theme = themes[themeKey]
+  } catch (e) {
+    mainLog.warn('Unable to determine user locale and theme', e)
+  }
 
   // Create a new browser window.
   const mainWindow = new BrowserWindow({
@@ -34,7 +108,7 @@ app.on('ready', () => {
     height: 600,
     minWidth: 950,
     minHeight: 425,
-    backgroundColor: '#1c1e26'
+    backgroundColor: get(theme, 'colors.darkestBackground', '#242633')
   })
 
   // Initialise the updater.
@@ -47,7 +121,7 @@ app.on('ready', () => {
 
   // Initialise the application menus.
   const menuBuilder = new ZapMenuBuilder(mainWindow)
-  menuBuilder.buildMenu()
+  menuBuilder.buildMenu(locale)
 
   /**
    * In production mode, enable source map support.

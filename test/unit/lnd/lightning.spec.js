@@ -1,7 +1,6 @@
 import { BrowserWindow } from 'electron'
 import Lightning from 'lib/lnd/lightning'
 
-jest.mock('electron-store')
 jest.mock('lib/lnd/subscribe/transactions')
 jest.mock('lib/lnd/subscribe/invoices')
 jest.mock('lib/lnd/subscribe/channelgraph')

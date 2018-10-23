@@ -1,7 +1,6 @@
-import Store from 'electron-store'
 import bitcoin from 'bitcoinjs-lib'
-
 import { ipcRenderer } from 'electron'
+import db from 'store/db'
 import { walletAddress } from './address'
 
 // ------------------------------------
@@ -42,13 +41,12 @@ export const fetchInfo = () => async dispatch => {
 }
 
 // Receive IPC event for info
-export const receiveInfo = (event, data) => (dispatch, getState) => {
+export const receiveInfo = (event, data) => async (dispatch, getState) => {
   // Determine the node's current sync state.
   const state = getState()
   if (typeof state.info.hasSynced === 'undefined') {
-    const store = new Store({ name: 'wallet' })
-    const hasSynced = store.get(`${data.identity_pubkey}.hasSynced`, false)
-    store.set(`${data.identity_pubkey}.hasSynced`, hasSynced)
+    const node = await db.nodes.get({ id: data.identity_pubkey })
+    const hasSynced = node ? node.hasSynced : false
     dispatch(setHasSynced(hasSynced))
   }
 

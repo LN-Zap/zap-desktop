@@ -1,6 +1,6 @@
 // @flow
 import { app, Menu, shell, BrowserWindow, ipcMain } from 'electron'
-import { getLocale, getLanguageName, locales } from '../i18n'
+import { getLanguageName, locales } from '../i18n'
 
 export default class ZapMenuBuilder {
   mainWindow: BrowserWindow
@@ -8,7 +8,6 @@ export default class ZapMenuBuilder {
 
   constructor(mainWindow: BrowserWindow) {
     this.mainWindow = mainWindow
-    this.locale = getLocale()
     ipcMain.on('setLocale', (event, locale) => this.buildMenu(locale))
   }
 

@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron'
-import Store from 'electron-store'
+import db from 'store/db'
 
 // ------------------------------------
 // Constants
@@ -39,15 +39,18 @@ export function closeWalletModal() {
 }
 
 // Get our existing address if there is one, otherwise generate a new one.
-export const walletAddress = type => (dispatch, getState) => {
+export const walletAddress = type => async (dispatch, getState) => {
   let address
 
   // Wallet addresses are keyed under the node pubKey in our store.
   const state = getState()
   const pubKey = state.info.data.identity_pubkey
+
   if (pubKey) {
-    const store = new Store({ name: 'wallet' })
-    address = store.get(`${pubKey}.${type}`, null)
+    const node = await db.nodes.get({ id: pubKey })
+    if (node) {
+      address = node.getCurrentAddress(type)
+    }
   }
 
   // If we have an address already, use that. Otherwise, generate a new address.
@@ -65,15 +68,19 @@ export const newAddress = type => dispatch => {
 }
 
 // Receive IPC event for info
-export const receiveAddress = (event, data) => (dispatch, getState) => {
+export const receiveAddress = (event, data) => async (dispatch, getState) => {
   const state = getState()
   const pubKey = state.info.data.identity_pubkey
 
   // If we know the node's public key, store the address for reuse.
   if (pubKey) {
     const type = Object.keys(addressTypes).find(key => addressTypes[key] === data.type)
-    const store = new Store({ name: 'wallet' })
-    store.set(`${pubKey}.${type}`, data.address)
+    const node = await db.nodes.get(pubKey)
+    if (node) {
+      await node.setCurrentAddress(type, data.address)
+    } else {
+      await db.nodes.put({ id: pubKey, addresses: { [type]: data.address } })
+    }
   }
 
   dispatch({ type: RECEIVE_ADDRESS, address: data.address })

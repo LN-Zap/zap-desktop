@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { push } from 'react-router-redux'
-import Store from 'electron-store'
+import db from 'store/db'
 
 import { showNotification } from 'lib/utils/notifications'
 import { btc } from 'lib/utils'
@@ -111,22 +111,22 @@ export const receiveInvoices = (event, { invoices }) => dispatch => {
 }
 
 // Send IPC event for creating an invoice
-export const createInvoice = (amount, memo, currency) => dispatch => {
+export const createInvoice = (amount, memo, currency) => async dispatch => {
   // backend needs value in satoshis no matter what currency we are using
   const value = btc.convert(currency, 'sats', amount)
 
   dispatch(sendInvoice())
 
-  // Grab the activeConnection type from our local store. If the active connection type is local (light clients using
+  // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will have to flag private as true when creating this invoice. All light cliets open private channels
   // (both manual and autopilot ones). In order for these clients to receive money through these channels the invoices
   // need to come with routing hints for private channels
-  const store = new Store({ name: 'settings' })
-  const { type } = store.get('activeConnection', {})
+  const activeWallet = await db.settings.get({ key: 'activeWallet' })
+  const wallet = db.wallets.get({ id: activeWallet.value })
 
   ipcRenderer.send('lnd', {
     msg: 'createInvoice',
-    data: { value, memo, private: type === 'local' }
+    data: { value, memo, private: wallet.type === 'local' }
   })
 }
 
