@@ -8,15 +8,21 @@ import messages from './messages'
 
 import styles from './LoadingBolt.scss'
 
-class LoadingBolt extends React.PureComponent {
+class LoadingBolt extends React.Component {
+  static propTypes = {
+    isLoading: PropTypes.bool.isRequired,
+    theme: PropTypes.object.isRequired
+  }
+
   render() {
-    const { theme, visible = true } = this.props
+    const { theme, isLoading = true } = this.props
+
     return (
       <div>
         <Transition enter={{ opacity: 1 }} leave={{ opacity: 0 }} native>
-          {visible &&
+          {isLoading &&
             (springStyles => (
-              <animated.div style={springStyles} className={`${styles.container} ${theme}`}>
+              <animated.div style={springStyles} className={`${styles.container} ${theme.name}`}>
                 <div className={styles.content}>
                   <CloudLightning height="155px" width="150px" />
                   <h1>
@@ -29,11 +35,6 @@ class LoadingBolt extends React.PureComponent {
       </div>
     )
   }
-}
-
-LoadingBolt.propTypes = {
-  visible: PropTypes.bool,
-  theme: PropTypes.string.isRequired
 }
 
 export default LoadingBolt

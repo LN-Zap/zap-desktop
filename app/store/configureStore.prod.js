@@ -1,11 +1,11 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
-import { createBrowserHistory } from 'history'
-import { routerMiddleware } from 'react-router-redux'
+import { createHashHistory } from 'history'
+import { connectRouter, routerMiddleware } from 'connected-react-router'
 import rootReducer from '../reducers'
 import ipc from '../reducers/ipc'
 
-export const history = createBrowserHistory({ basename: window.location.pathname })
+export const history = createHashHistory({ basename: window.location.pathname })
 
 export function configureStore(initialState) {
   const middleware = []
@@ -13,8 +13,8 @@ export function configureStore(initialState) {
 
   middleware.push(thunk)
 
+  // Router Middleware
   const router = routerMiddleware(history)
-
   middleware.push(router)
 
   middleware.push(ipc)
@@ -22,5 +22,5 @@ export function configureStore(initialState) {
   enhancers.push(applyMiddleware(...middleware))
   const enhancer = compose(...enhancers)
 
-  return createStore(rootReducer, initialState, enhancer)
+  return createStore(connectRouter(history)(rootReducer), initialState, enhancer)
 }

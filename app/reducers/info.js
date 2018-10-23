@@ -43,11 +43,6 @@ export const fetchInfo = () => async dispatch => {
 
 // Receive IPC event for info
 export const receiveInfo = (event, data) => (dispatch, getState) => {
-  dispatch({ type: RECEIVE_INFO, data })
-
-  // Now that we have the node info, get the current wallet address.
-  dispatch(walletAddress('np2wkh'))
-
   // Determine the node's current sync state.
   const state = getState()
   if (typeof state.info.hasSynced === 'undefined') {
@@ -56,6 +51,11 @@ export const receiveInfo = (event, data) => (dispatch, getState) => {
     store.set(`${data.identity_pubkey}.hasSynced`, hasSynced)
     dispatch(setHasSynced(hasSynced))
   }
+
+  dispatch({ type: RECEIVE_INFO, data })
+
+  // Now that we have the node info, get the current wallet address.
+  dispatch(walletAddress('np2wkh'))
 }
 
 const networks = {
@@ -109,6 +109,8 @@ const initialState = {
 const infoSelectors = {}
 infoSelectors.testnetSelector = state => state.info.data.testnet
 infoSelectors.networkSelector = state => state.info.network
+infoSelectors.infoLoading = state => state.info.infoLoading
+infoSelectors.hasSynced = state => state.info.hasSynced
 
 export { infoSelectors }
 

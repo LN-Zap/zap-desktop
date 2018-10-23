@@ -2,14 +2,8 @@
 
 .container {
   position: relative;
+  width: 100%;
   height: 100vh;
-  background: var(--darkestBackground);
-}
-
-.titleBar {
-  height: 20px;
-  -webkit-user-select: none;
-  -webkit-app-region: drag;
   background: var(--darkestBackground);
 }
 
@@ -89,6 +83,7 @@
   padding: 40px 0;
   background: var(--lightestBackground);
   position: absolute;
+  height: 31vh;
   width: 100%;
   bottom: 0;
 
@@ -127,34 +122,11 @@
 .spinner {
   border: 1px solid rgba(0, 0, 0, 0.1);
   border-left-color: rgba(0, 0, 0, 0.4);
-  -webkit-border-radius: 999px;
-  -moz-border-radius: 999px;
   border-radius: 999px;
   margin: 0 auto;
   height: 75px;
   width: 75px;
-  -webkit-animation: animation-rotate 1000ms linear infinite;
-  -moz-animation: animation-rotate 1000ms linear infinite;
-  -o-animation: animation-rotate 1000ms linear infinite;
   animation: animation-rotate 1000ms linear infinite;
-}
-
-@-webkit-keyframes animation-rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@-moz-keyframes animation-rotate {
-  100% {
-    -moz-transform: rotate(360deg);
-  }
-}
-
-@-o-keyframes animation-rotate {
-  100% {
-    -o-transform: rotate(360deg);
-  }
 }
 
 @keyframes animation-rotate {

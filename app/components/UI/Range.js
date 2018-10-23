@@ -31,11 +31,11 @@ const Range = asField(({ fieldState, fieldApi, ...props }) => {
   const { onChange, onBlur, initialValue, forwardedRef, ...rest } = props
   return (
     <Input
-      {...rest}
-      type="range"
       min={0}
       max={100}
       step={1}
+      {...rest}
+      type="range"
       ref={forwardedRef}
       value={value || initialValue || '0'}
       onChange={e => {

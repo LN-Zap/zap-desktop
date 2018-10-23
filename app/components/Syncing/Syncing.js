@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
 import Copy from 'components/Icon/Copy'
@@ -11,6 +12,17 @@ import messages from './messages'
 import styles from './Syncing.scss'
 
 class Syncing extends Component {
+  static propTypes = {
+    address: PropTypes.string.isRequired,
+    theme: PropTypes.object.isRequired,
+    hasSynced: PropTypes.bool,
+    syncStatus: PropTypes.string.isRequired,
+    syncPercentage: PropTypes.number,
+    blockHeight: PropTypes.number,
+    lndBlockHeight: PropTypes.number,
+    lndCfilterHeight: PropTypes.number
+  }
+
   state = {
     timer: null,
     syncMessageDetail: null,
@@ -51,6 +63,10 @@ class Syncing extends Component {
     } = this.props
     let { syncMessageDetail, syncMessageExtraDetail } = this.state
 
+    if (syncStatus === 'complete') {
+      return <Redirect to="/app" />
+    }
+
     const copyClicked = () => {
       copy(address)
       showNotification('Noice', 'Successfully copied to clipboard')
@@ -81,17 +97,11 @@ class Syncing extends Component {
       }
     }
 
-    if (typeof hasSynced === 'undefined') {
-      return null
-    }
-
     return (
-      <div className={`${styles.container} ${theme}`}>
-        <div className={styles.titleBar} />
-
+      <div className={`${styles.container} ${theme.name}`}>
         <div className={styles.content}>
           <header>
-            {theme === 'light' ? (
+            {theme.name === 'light' ? (
               <ZapLogoBlack width="70px" height="32px" />
             ) : (
               <ZapLogo width="70px" height="32px" />
@@ -174,17 +184,6 @@ class Syncing extends Component {
       </div>
     )
   }
-}
-
-Syncing.propTypes = {
-  address: PropTypes.string.isRequired,
-  theme: PropTypes.string.isRequired,
-  hasSynced: PropTypes.bool,
-  syncStatus: PropTypes.string.isRequired,
-  syncPercentage: PropTypes.number,
-  blockHeight: PropTypes.number,
-  lndBlockHeight: PropTypes.number,
-  lndCfilterHeight: PropTypes.number
 }
 
 export default injectIntl(Syncing)

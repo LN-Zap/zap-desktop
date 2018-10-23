@@ -112,7 +112,7 @@
 
   ul {
     margin-top: 20px;
-    height: calc(100vh - 202px);
+    height: calc(100vh - 200px);
     overflow-y: auto;
     overflow-x: hidden;
   }
@@ -241,36 +241,13 @@
   width: 10px;
   border: 1px solid rgba(235, 184, 100, 0.1);
   border-left-color: rgba(235, 184, 100, 0.4);
-  -webkit-border-radius: 999px;
-  -moz-border-radius: 999px;
   border-radius: 999px;
-  -webkit-animation: animation-rotate 1000ms linear infinite;
-  -moz-animation: animation-rotate 1000ms linear infinite;
-  -o-animation: animation-rotate 1000ms linear infinite;
   animation: animation-rotate 1000ms linear infinite;
   display: inline-block;
 
   &.closing {
     border: 1px solid rgba(255, 85, 106, 0.1);
     border-left-color: rgba(255, 85, 106, 0.4);
-  }
-}
-
-@-webkit-keyframes animation-rotate {
-  100% {
-    -webkit-transform: rotate(360deg);
-  }
-}
-
-@-moz-keyframes animation-rotate {
-  100% {
-    -moz-transform: rotate(360deg);
-  }
-}
-
-@-o-keyframes animation-rotate {
-  100% {
-    -o-transform: rotate(360deg);
   }
 }
 

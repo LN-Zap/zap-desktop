@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import { setLocale } from 'reducers/locale'
 import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
@@ -18,13 +19,9 @@ import {
 } from 'reducers/activity'
 import { walletAddress, openWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
-
 import { payFormSelectors } from 'reducers/payform'
-
 import { setWalletCurrencyFilters } from 'reducers/info'
-
 import { setSettingsOpen, setActiveSubMenu, disableSubMenu } from 'reducers/settings'
-
 import { setTheme, themeSelectors } from 'reducers/theme'
 
 import Activity from 'components/Activity'
@@ -59,23 +56,16 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   activity: state.activity,
-
   balance: state.balance,
   address: state.address,
   info: state.info,
-
   payment: state.payment,
   transaction: state.transaction,
-
   invoice: state.invoice,
   invoices: invoiceSelectors.invoices(state),
-
   ticker: state.ticker,
-
   network: state.network,
-
   settings: state.settings,
-
   currentLocale: state.intl.locale,
   locales: state.locale,
 

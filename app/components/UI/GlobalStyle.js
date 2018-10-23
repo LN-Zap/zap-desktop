@@ -4,8 +4,12 @@ const GlobalStyle = createGlobalStyle`
   html {
     box-sizing: border-box;
   }
+  *, *:before, *:after {
+    box-sizing: inherit;
+  }
   body {
     position: relative;
+    box-sizing: border-box;
     overflow-y: hidden;
     margin: 0;
     padding: 0;

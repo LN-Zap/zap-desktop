@@ -229,7 +229,6 @@ export function setReEnterSeedIndexes() {
  * the process of creating or unlocking a wallet.
  */
 export const lndWalletUnlockerStarted = () => dispatch => {
-  dispatch(lndStarted())
   ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
   dispatch({ type: FETCH_SEED })
 }
@@ -239,8 +238,8 @@ export const lndWalletUnlockerStarted = () => dispatch => {
  * early as possible.
  */
 export const lndWalletStarted = () => dispatch => {
-  dispatch(lndStarted())
   dispatch(fetchInfo())
+  dispatch(lndStarted())
 }
 
 export const submitNewWallet = (
@@ -454,6 +453,8 @@ const reEnterSeedInputSelector = state => state.onboarding.reEnterSeedInput
 const connectionStringSelector = state => state.onboarding.connectionString
 const connectionTypeSelector = state => state.onboarding.connectionType
 const connectionHostSelector = state => state.onboarding.connectionHost
+
+onboardingSelectors.startingLnd = state => state.onboarding.startingLnd
 
 onboardingSelectors.passwordIsValid = createSelector(
   passwordSelector,

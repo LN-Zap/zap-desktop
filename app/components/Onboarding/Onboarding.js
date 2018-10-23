@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Redirect } from 'react-router-dom'
 
 import { FormattedMessage } from 'react-intl'
-import LoadingBolt from 'components/LoadingBolt'
+import { Box } from 'rebass'
 import messages from './messages'
 
 import FormContainer from './FormContainer'
@@ -18,7 +19,6 @@ import RecoverForm from './RecoverForm'
 import NewWalletSeed from './NewWalletSeed'
 import ReEnterSeed from './ReEnterSeed'
 import NewWalletPassword from './NewWalletPassword'
-import styles from './Onboarding.scss'
 
 const Onboarding = ({
   onboarding: {
@@ -31,10 +31,9 @@ const Onboarding = ({
     connectionMacaroon,
     alias,
     autopilot,
-    startingLnd,
     createWalletPassword,
     seed,
-    fetchingSeed
+    onboarded
   },
   theme,
   connectionTypeProps,
@@ -288,19 +287,15 @@ const Onboarding = ({
             <ReEnterSeed {...reEnterSeedProps} />
           </FormContainer>
         )
-      default:
-        return <LoadingBolt theme={theme} />
     }
   }
 
-  if (startingLnd) {
-    return <LoadingBolt theme={theme} />
-  }
-  if (fetchingSeed) {
-    return <LoadingBolt theme={theme} />
-  }
-
-  return <div className={`${styles.container} ${theme}`}>{renderStep()}</div>
+  return (
+    <Box width={1}>
+      {renderStep()}
+      {onboarded && <Redirect to={connectionType === 'local' ? '/syncing' : '/app'} />}
+    </Box>
+  )
 }
 
 Onboarding.propTypes = {

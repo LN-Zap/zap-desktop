@@ -6,14 +6,6 @@
   background: var(--lightBackground);
 }
 
-.titleBar {
-  height: 20px;
-  width: 100%;
-  position: absolute;
-  user-select: none;
-  -webkit-app-region: drag;
-}
-
 .header {
   display: flex;
   flex-direction: row;
@@ -35,7 +27,8 @@
 .info {
   color: var(--primaryText);
   margin-bottom: 20px;
-  padding: 20px 40px;
+  padding: 10px 40px 20px;
+  height: 16vh;
 
   h1 {
     font-size: 22px;
@@ -53,7 +46,7 @@
   position: relative;
   background: var(--darkestBackground);
   height: 100vh;
-  padding: 40px 40px;
+  padding: 20px 40px;
 }
 
 .footer {
@@ -61,7 +54,7 @@
   bottom: 0;
   padding: 25px 40px;
   color: var(--primaryText);
-  width: calc(100% - 80px);
+  width: 100%;
 
   .buttonsContainer {
     display: flex;

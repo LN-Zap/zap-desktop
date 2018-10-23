@@ -100,6 +100,9 @@ const currencyFiltersSelector = state => state.ticker.currencyFilters
 const currencySelector = state => state.ticker.currency
 const bitcoinTickerSelector = state => state.ticker.btcTicker
 const litecoinTickerSelector = state => state.ticker.ltcTicker
+const tickerLoading = state => state.ticker.tickerLoading
+
+tickerSelectors.tickerLoading = tickerLoading
 
 tickerSelectors.currentTicker = createSelector(
   cryptoSelector,

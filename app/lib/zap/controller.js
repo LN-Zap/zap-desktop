@@ -54,7 +54,6 @@ class ZapController {
   neutrino: Neutrino
   lightning: Lightning
   walletUnlocker: WalletUnlocker
-  splashScreenTime: number
   lndConfig: LndConfig
   fsm: StateMachine
 
@@ -83,9 +82,6 @@ class ZapController {
     // Variable to hold the main window instance.
     this.mainWindow = mainWindow
 
-    // Time for the splash screen to remain visible.
-    this.splashScreenTime = 1500
-
     // Initialise the controler with the current active config.
     this.lndConfig = new LndConfig()
     this.lndConfig.load()
@@ -108,8 +104,8 @@ class ZapController {
       this.mainWindow.show()
       this.mainWindow.focus()
 
-      // Show the splash screen and then start onboarding.
-      setTimeout(() => this.startOnboarding(), this.splashScreenTime)
+      // Start the onboarding process.
+      this.startOnboarding()
     })
 
     // When the window is closed, just hide it unless we are force closing.

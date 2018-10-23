@@ -2,28 +2,21 @@
 // Initial State
 // ------------------------------------
 const initialState = {
-  error: null
+  isLoading: true
 }
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_ERROR = 'SET_ERROR'
-export const CLEAR_ERROR = 'CLEAR_ERROR'
+export const SET_LOADING = 'SET_LOADING'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function setError(error) {
+export function setLoading(isLoading) {
   return {
-    type: SET_ERROR,
-    error
-  }
-}
-
-export function clearError() {
-  return {
-    type: CLEAR_ERROR
+    type: SET_LOADING,
+    isLoading
   }
 }
 
@@ -31,23 +24,22 @@ export function clearError() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_ERROR]: (state, { error }) => ({ ...state, error }),
-  [CLEAR_ERROR]: () => initialState
+  [SET_LOADING]: (state, { isLoading }) => ({ ...state, isLoading })
 }
 
 // ------------------------------------
 // Selectors
 // ------------------------------------
 
-const errorSelectors = {}
-errorSelectors.getErrorState = state => state.error.error
+const loadingSelectors = {}
+loadingSelectors.isLoading = state => state.loading.isLoading
 
-export { errorSelectors }
+export { loadingSelectors }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function errorReducer(state = initialState, action) {
+export default function loadingReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

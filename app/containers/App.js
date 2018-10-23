@@ -1,18 +1,14 @@
-import { withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import get from 'lodash.get'
 
 import { btc } from 'lib/utils'
 
 import { themeSelectors } from 'reducers/theme'
-import { setCurrency, tickerSelectors } from 'reducers/ticker'
-
+import { setCurrency, tickerSelectors, fetchTicker } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
-
-import { fetchInfo } from 'reducers/info'
-
+import { fetchInfo, infoSelectors } from 'reducers/info'
 import { setFormType } from 'reducers/form'
-
 import {
   setPayAmount,
   setPayInput,
@@ -20,22 +16,16 @@ import {
   updatePayErrors,
   payFormSelectors
 } from 'reducers/payform'
-
 import {
   setRequestAmount,
   setRequestMemo,
   setRequestCurrencyFilters,
   requestFormSelectors
 } from 'reducers/requestform'
-
 import { sendCoins } from 'reducers/transaction'
-
 import { payInvoice } from 'reducers/payment'
-
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
-
 import { lndSelectors } from 'reducers/lnd'
-
 import {
   fetchChannels,
   fetchSuggestedNodes,
@@ -48,7 +38,6 @@ import {
   updateChannelSearchQuery,
   setSelectedChannel
 } from 'reducers/channels'
-
 import {
   openContactsForm,
   closeContactsForm,
@@ -65,13 +54,9 @@ import {
   updateManualFormErrors,
   setContactsCurrencyFilters
 } from 'reducers/contactsform'
-
 import { fetchBalance } from 'reducers/balance'
-
 import { fetchDescribeNetwork } from 'reducers/network'
-
 import { clearError } from 'reducers/error'
-
 import {
   hideActivityModal,
   setActivityModalCurrencyFilters,
@@ -79,43 +64,35 @@ import {
 } from 'reducers/activity'
 
 import App from 'components/App'
+import withLoading from 'components/withLoading'
 
 const mapDispatchToProps = {
   setCurrency,
-
   closeWalletModal,
-
   fetchInfo,
-
   setFormType,
-
   setPayAmount,
   setPayInput,
   setCurrencyFilters,
   updatePayErrors,
-
   setRequestAmount,
   setRequestMemo,
   setRequestCurrencyFilters,
-
   sendCoins,
   payInvoice,
   createInvoice,
   fetchInvoice,
-
   clearError,
-
   fetchBalance,
-
   fetchChannels,
   fetchSuggestedNodes,
+  fetchTicker,
   openChannel,
   closeChannel,
   toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
   setSelectedChannel,
-
   openContactsForm,
   closeContactsForm,
   openSubmitChannelForm,
@@ -130,18 +107,14 @@ const mapDispatchToProps = {
   updateManualFormErrors,
   setContactsCurrencyFilters,
   setChannelFormType,
-
   fetchDescribeNetwork,
-
   hideActivityModal,
   setActivityModalCurrencyFilters
 }
 
 const mapStateToProps = state => ({
   activity: state.activity,
-
   lnd: state.lnd,
-
   ticker: state.ticker,
   address: state.address,
   info: state.info,
@@ -151,25 +124,27 @@ const mapStateToProps = state => ({
   channels: state.channels,
   contactsform: state.contactsform,
   balance: state.balance,
-
   form: state.form,
   payform: state.payform,
   requestform: state.requestform,
-
   invoice: state.invoice,
-
   error: state.error,
-
   network: state.network,
-
   settings: state.settings,
 
-  activityModalItem: activitySelectors.activityModalItem(state),
+  isLoading:
+    infoSelectors.infoLoading(state) ||
+    tickerSelectors.tickerLoading(state) ||
+    state.balance.channelBalance === null ||
+    state.balance.walletBalance === null,
 
+  activityModalItem: activitySelectors.activityModalItem(state),
   currentTheme: themeSelectors.currentTheme(state),
+
   currentTicker: tickerSelectors.currentTicker(state),
   currentCurrencyFilters: tickerSelectors.currentCurrencyFilters(state),
   currencyName: tickerSelectors.currencyName(state),
+
   isOnchain: payFormSelectors.isOnchain(state),
   isLn: payFormSelectors.isLn(state),
   currentAmount: payFormSelectors.currentAmount(state),
@@ -491,5 +466,5 @@ export default withRouter(
     mapStateToProps,
     mapDispatchToProps,
     mergeProps
-  )(App)
+  )(withLoading(App))
 )

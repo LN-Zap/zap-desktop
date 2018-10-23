@@ -35,16 +35,15 @@
     }
 
     div {
-      width: 150px;
+      width: 30%;
       text-align: center;
-      display: inline-block;
+      display: flex;
       padding: 20px;
       border: 1px solid var(--primaryText);
       border-radius: 5px;
-      font-weight: 200;
       cursor: pointer;
       transition: all 0.25s;
-      margin-bottom: 20px;
+      margin: 15px 20px 10px 0;
     }
 
     .label {
