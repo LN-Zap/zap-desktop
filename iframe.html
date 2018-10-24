@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
-    <title>Storybook</title>
-    <link rel="shortcut icon" href="favicon.ico?v=1" />
-
-    
-      <base target="_parent">
-
-<style>
-  :not(.sb-show-main) > .sb-main,
+<!doctype html><html><head><meta charset="utf-8"><title>Storybook</title><base target="_parent"><style>:not(.sb-show-main) > .sb-main,
   :not(.sb-show-nopreview) > .sb-nopreview,
   :not(.sb-show-errordisplay) > .sb-errordisplay {
       display: none;
@@ -61,88 +48,21 @@
     font-size: 14px;
     width: 100vw;
     overflow: auto;
-  }
-</style>
-
-<script>
-  try {
+  }</style><script>try {
     if (window.parent !== window) {
       window.__REACT_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__REACT_DEVTOOLS_GLOBAL_HOOK__;
       window.__VUE_DEVTOOLS_GLOBAL_HOOK__ = window.parent.__VUE_DEVTOOLS_GLOBAL_HOOK__;
     }
   } catch (e) {
     console.warn('unable to connect to parent frame for connecting dev tools');
-  }
-</script>
-<style>
-  body {
-    padding: 20px 20px;
+  }</script><style>body {
     color: white;
-
     background-color: #000;
     background-position: left top;
     background-image: linear-gradient(0deg, transparent, transparent 7px, rgba(253,152,0,0.25) 7px), linear-gradient(90deg, transparent, transparent 7px, rgba(253,152,0,0.25) 7px);
     background-size: 8px 8px;
-  }
-</style>
-
-    
-      
-    
-
-    
-      
-    
-      
-    
-      
-    
-    
-</head>
-<body>
-    
-    
-
-    
-      <div class="sb-nopreview sb-wrapper">
-  <div class="sb-nopreview_main">
-    <h1 class="sb-nopreview_heading sb-heading">No Preview</h1>
-    <p>Sorry, but you either have no stories or none are selected somehow.</p>
-    <ul>
-      <li>Please check the storybook config.</li>
-      <li>Try reloading the page.</li>
-    </ul>
-  </div>
-</div>
-
-<div class="sb-errordisplay sb-wrapper">
-  <div id="error-message" class="sb-heading"></div>
-  <pre class="sb-errordisplay_code">
+    padding: 20px 20px !important;
+    overflow-y: scroll !important;
+  }</style></head><body><div class="sb-nopreview sb-wrapper"><div class="sb-nopreview_main"><h1 class="sb-nopreview_heading sb-heading">No Preview</h1><p>Sorry, but you either have no stories or none are selected somehow.</p><ul><li>Please check the storybook config.</li><li>Try reloading the page.</li></ul></div></div><div class="sb-errordisplay sb-wrapper"><div id="error-message" class="sb-heading"></div><pre class="sb-errordisplay_code">
     <code id="error-stack"></code>
-  </pre>
-</div>
-
-    
-  
-    <div id="root"></div>
-
-    
-      
-    
-
-    
-      
-        <script src="static/runtime~iframe.7789ccd1257cae547516.bundle.js" defer></script>
-      
-    
-      
-        <script src="static/vendors~iframe.ba71816a69f0c1c9e74a.bundle.js" defer></script>
-      
-    
-      
-        <script src="static/iframe.e9c8ea8aa8359f835edf.bundle.js" defer></script>
-      
-    
-  
-</body>
-</html>
+  </pre></div><div id="root"></div><script src="static/runtime~iframe.7789ccd1257cae547516.bundle.js"></script><script src="static/vendors~iframe.6eb426f031e018e3abff.bundle.js"></script><script src="static/iframe.34f6f2db343f25dfe19f.bundle.js"></script></body></html>
