@@ -29,12 +29,11 @@ const payFormProps = {
   inputCaption: '',
   showPayLoadingScreen: true,
   payFormIsValid: {},
-  currentCurrencyFilters: [],
+  currencyFilters: [],
   currencyName: '',
 
   setPayAmount: () => {},
   setPayInput: () => {},
-  setCurrencyFilters: () => {},
   fetchInvoice: () => {},
   setCurrency: () => {},
 
@@ -49,15 +48,13 @@ const requestFormProps = {
   requestform: {},
   ticker: {},
 
-  currentCurrencyFilters: [],
-  showCurrencyFilters: true,
+  currencyFilters: [],
   currencyName: '',
   requestFiatAmount: '',
 
   setRequestAmount: () => {},
   setRequestMemo: () => {},
   setCurrency: () => {},
-  setRequestCurrencyFilters: () => {},
 
   onRequestSubmit: () => {}
 }

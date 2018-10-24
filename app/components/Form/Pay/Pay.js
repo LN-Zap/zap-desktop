@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 
 import PaperPlane from 'components/Icon/PaperPlane'
 import ChainLink from 'components/Icon/ChainLink'
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
 import Button from 'components/UI/Button'
+import Dropdown from 'components/UI/Dropdown'
 
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
@@ -46,28 +46,20 @@ class Pay extends Component {
 
   render() {
     const {
-      payform: { payInput, showErrors, invoice, showCurrencyFilters },
+      payform: { payInput, showErrors, invoice },
       nodes,
       ticker,
-
       isOnchain,
       isLn,
       currentAmount,
       fiatAmount,
       payFormIsValid: { errors, isValid },
-      currentCurrencyFilters,
-      currencyName,
-
+      currencyFilters,
       setPayAmount,
       onPayAmountBlur,
-
       setPayInput,
       onPayInputBlur,
-
-      setCurrencyFilters,
-
       onPaySubmit,
-
       setCurrency,
       intl
     } = this.props
@@ -87,9 +79,7 @@ class Pay extends Component {
         // change the input amount
         setPayAmount(btc.convert(ticker.currency, currency, currentAmount))
       }
-
       setCurrency(currency)
-      setCurrencyFilters(false)
     }
 
     return (
@@ -164,24 +154,12 @@ class Pay extends Component {
                 onBlurEvent={onPayAmountBlur}
                 readOnly={isLn}
               />
-              <div className={styles.currency}>
-                <section
-                  className={styles.currentCurrency}
-                  onClick={() => setCurrencyFilters(!showCurrencyFilters)}
-                >
-                  <span>{currencyName}</span>
-                  <span>
-                    <FaAngleDown />
-                  </span>
-                </section>
-                <ul className={showCurrencyFilters ? styles.active : undefined}>
-                  {currentCurrencyFilters.map(filter => (
-                    <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
-                      {filter.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+              <Dropdown
+                activeKey={ticker.currency}
+                items={currencyFilters}
+                onChange={onCurrencyFilterClick}
+                ml={2}
+              />
             </div>
 
             <div className={styles.fiatAmount}>
@@ -221,7 +199,6 @@ Pay.propTypes = {
     showErrors: PropTypes.object.isRequired
   }).isRequired,
   currencyName: PropTypes.string.isRequired,
-
   isOnchain: PropTypes.bool.isRequired,
   isLn: PropTypes.bool.isRequired,
   currentAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -230,21 +207,16 @@ Pay.propTypes = {
     errors: PropTypes.object,
     isValid: PropTypes.bool
   }).isRequired,
-
   setPayAmount: PropTypes.func.isRequired,
   onPayAmountBlur: PropTypes.func.isRequired,
   setPayInput: PropTypes.func.isRequired,
   onPayInputBlur: PropTypes.func.isRequired,
   fetchInvoice: PropTypes.func.isRequired,
-
   onPaySubmit: PropTypes.func.isRequired,
-  setCurrencyFilters: PropTypes.func.isRequired,
   setCurrency: PropTypes.func.isRequired,
-
   ticker: PropTypes.object.isRequired,
-
   nodes: PropTypes.array.isRequired,
-  currentCurrencyFilters: PropTypes.array.isRequired
+  currencyFilters: PropTypes.array.isRequired
 }
 
 export default injectIntl(Pay)

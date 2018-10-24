@@ -3,176 +3,27 @@
 .wallet {
   background: var(--lightBackground);
   color: var(--primaryText);
-  transition: background 0.25s;
-  height: 150px;
+  height: 180px;
   padding: 20px 40px;
 }
 
-.header {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+.user {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.25s;
 
-  .logo span {
-    line-height: 24px;
-
-    svg {
-      width: 64px;
-      height: 24px;
-      vertical-align: top;
-    }
-  }
-
-  .testnetPill {
-    margin-left: 10px;
-    font-size: 10px;
-    border-radius: 100px;
-    color: rgb(57, 230, 115);
-  }
-
-  .user {
-    position: relative;
-    cursor: pointer;
-    transition: all 0.25s;
-
-    .aliasText:hover {
-      opacity: 0.5;
-    }
+  .aliasText:hover {
+    opacity: 0.5;
   }
 }
 
-.left,
-.right {
-  display: inline-block;
-  vertical-align: top;
-  width: 50%;
-  height: 150px;
-
-  .leftContent,
-  .rightContent {
-    padding: 25px 0;
-  }
-}
-
-.leftContent {
-  display: flex;
-  flex-direction: row;
-
-  .qrCode {
-    cursor: pointer;
-  }
-
-  .qrCode svg {
+.qrCode {
+  cursor: pointer;
+  svg {
     g {
       fill: var(--gray);
     }
   }
-
-  .details {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-
-    h1 {
-      display: flex;
-      flex-direction: row;
-
-      span:nth-child(1) {
-        font-size: 24px;
-        line-height: 32px;
-        font-weight: 500;
-        margin-left: 10px;
-        margin-bottom: 5px;
-        letter-spacing: 1.5px;
-      }
-
-      span:nth-child(2) svg {
-        color: var(--primaryText);
-        width: 20px;
-        height: 32px;
-        opacity: 1;
-        margin-left: 5px;
-        cursor: pointer;
-        transition: all 0.25s;
-
-        &:hover {
-          opacity: 0.5;
-        }
-      }
-
-      .currency {
-        margin-left: 2.5px;
-      }
-
-      .currencyContainer {
-        position: relative;
-        display: inline-block;
-
-        svg {
-          width: 25px;
-          height: 32px;
-          color: var(--white);
-        }
-
-        ul {
-          visibility: hidden;
-          position: absolute;
-          top: 30px;
-
-          &.active {
-            visibility: visible;
-          }
-
-          li {
-            font-size: 12px;
-            padding: 0 15px;
-            background: var(--lightestBackground);
-            cursor: pointer;
-            transition: 0.25s hover;
-
-            &:hover {
-              background: var(--darkestBackground);
-            }
-          }
-        }
-      }
-    }
-
-    .tickerButtons {
-      display: flex;
-      flex-direction: row;
-
-      section {
-        margin: 5px;
-        font-size: 10px;
-        border-radius: 5px;
-        border: 1px solid var(--white);
-        padding: 5px 10px;
-        cursor: pointer;
-        opacity: 0.5;
-        transition: 0.25s all;
-
-        &.active {
-          background: $main;
-          color: $spaceborder;
-          border-color: $spaceborder;
-          opacity: 1;
-        }
-      }
-    }
-  }
-
-  svg {
-    font-size: 100px;
-    color: $main;
-  }
-}
-
-.rightContent {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: right;
 }
 
 .notificationBox {

@@ -46,51 +46,7 @@
         flex-direction: row;
         align-items: center;
         position: relative;
-
-        h1 {
-          font-size: 40px;
-          margin-right: 10px;
-        }
-
-        .currentCurrency {
-          cursor: pointer;
-          transition: 0.25s all;
-
-          &:hover {
-            opacity: 0.5;
-          }
-
-          span {
-            font-size: 14px;
-
-            &:nth-child(1) {
-              font-weight: bold;
-            }
-          }
-        }
-
-        ul {
-          visibility: hidden;
-          position: absolute;
-          top: 40px;
-          right: -50px;
-
-          &.active {
-            visibility: visible;
-          }
-
-          li {
-            padding: 8px 15px;
-            background: var(--lightBackground);
-            cursor: pointer;
-            transition: 0.25s hover;
-            border-bottom: 1px solid var(--lightestBackground);
-
-            &:hover {
-              background: var(--lightestBackground);
-            }
-          }
-        }
+        font-size: 40px;
       }
 
       .date {

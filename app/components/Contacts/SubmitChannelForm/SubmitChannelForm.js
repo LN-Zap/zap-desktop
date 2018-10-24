@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle'
 
 import AmountInput from 'components/AmountInput'
 import Button from 'components/UI/Button'
+import Dropdown from 'components/UI/Dropdown'
 
 import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
@@ -37,14 +37,7 @@ class SubmitChannelForm extends React.Component {
 
       ticker,
 
-      toggleCurrencyProps: {
-        setContactsCurrencyFilters,
-        showCurrencyFilters,
-        currencyName,
-        currentCurrencyFilters,
-        onCurrencyFilterClick,
-        contactFormFiatAmount
-      }
+      toggleCurrencyProps: { currencyFilters, onCurrencyFilterClick, contactFormFiatAmount }
     } = this.props
 
     const renderTitle = () => {
@@ -126,24 +119,12 @@ class SubmitChannelForm extends React.Component {
               onChangeEvent={updateContactCapacity}
               ref={this.amountInput}
             />
-            <div className={styles.currency}>
-              <section
-                className={styles.currentCurrency}
-                onClick={() => setContactsCurrencyFilters(!showCurrencyFilters)}
-              >
-                <span>{currencyName}</span>
-                <span>
-                  <FaAngleDown />
-                </span>
-              </section>
-              <ul className={showCurrencyFilters ? styles.active : undefined}>
-                {currentCurrencyFilters.map(filter => (
-                  <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
-                    {filter.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <Dropdown
+              activeKey={ticker.currency}
+              items={currencyFilters}
+              onChange={onCurrencyFilterClick}
+              ml={2}
+            />
           </div>
           <div className={styles.fiatAmount}>
             {'≈ '}

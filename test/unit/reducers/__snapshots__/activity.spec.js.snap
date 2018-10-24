@@ -25,7 +25,6 @@ Object {
   "modal": Object {
     "itemId": null,
     "itemType": null,
-    "showCurrencyFilters": false,
   },
   "searchActive": false,
   "searchText": "",
@@ -61,42 +60,6 @@ Object {
   "modal": Object {
     "itemId": null,
     "itemType": null,
-  },
-  "searchActive": false,
-  "searchText": "",
-  "showExpiredRequests": false,
-}
-`;
-
-exports[`reducers activityReducer should correctly setActivityModalCurrencyFilters 1`] = `
-Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
-  "filterPulldown": false,
-  "filters": Array [
-    Object {
-      "key": "ALL_ACTIVITY",
-      "name": "all",
-    },
-    Object {
-      "key": "SENT_ACTIVITY",
-      "name": "sent",
-    },
-    Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
-    },
-    Object {
-      "key": "PENDING_ACTIVITY",
-      "name": "pending",
-    },
-  ],
-  "modal": Object {
-    "itemId": null,
-    "itemType": null,
-    "showCurrencyFilters": undefined,
   },
   "searchActive": false,
   "searchText": "",
@@ -167,7 +130,6 @@ Object {
   "modal": Object {
     "itemId": null,
     "itemType": null,
-    "showCurrencyFilters": false,
   },
   "searchActive": false,
   "searchText": "",
@@ -203,7 +165,6 @@ Object {
   "modal": Object {
     "itemId": null,
     "itemType": null,
-    "showCurrencyFilters": false,
   },
   "searchActive": undefined,
   "searchText": "",
@@ -239,7 +200,6 @@ Object {
   "modal": Object {
     "itemId": null,
     "itemType": null,
-    "showCurrencyFilters": false,
   },
   "searchActive": false,
   "searchText": undefined,

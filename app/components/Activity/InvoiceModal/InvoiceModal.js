@@ -1,18 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
 import { showNotification } from 'lib/utils/notifications'
-
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
-
 import Value from 'components/Value'
+import Dropdown from 'components/UI/Dropdown'
 import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
 import Countdown from '../Countdown'
-
 import messages from './messages'
-
 import styles from './InvoiceModal.scss'
 
 const InvoiceModal = ({
@@ -20,13 +15,7 @@ const InvoiceModal = ({
   ticker,
   currentTicker,
 
-  toggleCurrencyProps: {
-    setActivityModalCurrencyFilters,
-    showCurrencyFilters,
-    currencyName,
-    currentCurrencyFilters,
-    onCurrencyFilterClick
-  }
+  toggleCurrencyProps: { currencyFilters, setCurrency }
 }) => {
   const copyPaymentRequest = () => {
     copy(invoice.payment_request)
@@ -56,30 +45,18 @@ const InvoiceModal = ({
         <section className={styles.right}>
           <div className={styles.details}>
             <section className={styles.amount}>
-              <h1>
-                <Value
-                  value={invoice.finalAmount}
-                  currency={ticker.currency}
-                  currentTicker={currentTicker}
-                  fiatTicker={ticker.fiatTicker}
-                />
-              </h1>
-              <section
-                className={styles.currentCurrency}
-                onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}
-              >
-                <span>{currencyName}</span>
-                <span>
-                  <FaAngleDown />
-                </span>
-              </section>
-              <ul className={showCurrencyFilters ? styles.active : undefined}>
-                {currentCurrencyFilters.map(filter => (
-                  <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
-                    {filter.name}
-                  </li>
-                ))}
-              </ul>
+              <Value
+                value={invoice.finalAmount}
+                currency={ticker.currency}
+                currentTicker={currentTicker}
+                fiatTicker={ticker.fiatTicker}
+              />
+              <Dropdown
+                activeKey={ticker.currency}
+                items={currencyFilters}
+                onChange={setCurrency}
+                ml={2}
+              />
             </section>
             <section className={styles.date}>
               <p>

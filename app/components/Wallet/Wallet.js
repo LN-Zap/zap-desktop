@@ -2,11 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import FaAngleUp from 'react-icons/lib/fa/angle-up'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
-
+import { Box, Flex } from 'rebass'
 import { btc, blockExplorer } from 'lib/utils'
 import Value from 'components/Value'
 import Settings from 'components/Settings'
 import Button from 'components/UI/Button'
+import Text from 'components/UI/Text'
+import Dropdown from 'components/UI/Dropdown'
 
 import CheckAnimated from 'components/Icon/CheckAnimated'
 import ZapLogo from 'components/Icon/ZapLogo'
@@ -29,10 +31,8 @@ const Wallet = ({
   showPayLoadingScreen,
   showSuccessPayScreen,
   successTransactionScreen,
-  currentCurrencyFilters,
-  currencyName,
+  currencyFilters,
   setCurrency,
-  setWalletCurrencyFilters,
   network,
   settingsProps,
   paymentTimeout,
@@ -43,24 +43,22 @@ const Wallet = ({
     currentTicker[ticker.fiatTicker].last
   )
 
-  const onCurrencyFilterClick = currency => {
-    setCurrency(currency)
-    setWalletCurrencyFilters(false)
-  }
-
   return (
     <div className={`${styles.wallet}`}>
-      <div className={styles.content}>
-        <header className={styles.header}>
-          <section className={styles.logo}>
-            {theme === 'light' ? (
-              <ZapLogoBlack width="70px" height="32px" />
-            ) : (
-              <ZapLogo width="70px" height="32px" />
-            )}
-            {info.data.testnet && <span className={styles.testnetPill}>Testnet</span>}
-          </section>
-
+      <Flex as="header" justifyContent="space-between">
+        <Flex as="section" alignItems="center">
+          {theme === 'light' ? (
+            <ZapLogoBlack width="70px" height="32px" />
+          ) : (
+            <ZapLogo width="70px" height="32px" />
+          )}
+          {info.data.testnet && (
+            <Text color="superGreen" fontSize={1} ml={2}>
+              Testnet
+            </Text>
+          )}
+        </Flex>
+        <Box as="section">
           <section className={styles.user}>
             <div
               className={`${styles.alias} ${settingsProps.settings.settingsOpen &&
@@ -72,102 +70,93 @@ const Wallet = ({
             </div>
             {settingsProps.settings.settingsOpen && <Settings {...settingsProps} />}
           </section>
-        </header>
+        </Box>
+      </Flex>
 
-        <div className={styles.left}>
-          <div className={styles.leftContent}>
-            <span onClick={openReceiveModal} className={styles.qrCode}>
-              <Qrcode width="20px" height="32px" />
+      <Flex as="header" justifyContent="space-between" mt={4}>
+        <Box as="section">
+          <Flex alignItems="baseline">
+            <Box onClick={openReceiveModal} className={styles.qrCode} mr={2}>
+              <Qrcode width="20px" height="20px" />
+            </Box>
+            <Flex flexDirection="column">
+              <Text fontSize="24px" letterSpacing={2}>
+                <Value
+                  value={parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance)}
+                  currency={ticker.currency}
+                  currentTicker={currentTicker}
+                  fiatTicker={ticker.fiatTicker}
+                />
+              </Text>
+            </Flex>
+            <Dropdown
+              activeKey={ticker.currency}
+              items={currencyFilters}
+              onChange={setCurrency}
+              ml={2}
+            />
+          </Flex>
+          <Box ml={30} mt={1}>
+            {Boolean(fiatAmount) && (
+              <span>
+                {'≈ '}
+                <FormattedNumber currency={ticker.fiatTicker} style="currency" value={fiatAmount} />
+              </span>
+            )}
+          </Box>
+        </Box>
+        <Box as="section">
+          <Button onClick={openPayForm} variant="primary" mx={7.5} width={100}>
+            <FormattedMessage {...messages.pay} />
+          </Button>
+          <Button onClick={openRequestForm} variant="primary" mx={7.5} width={100}>
+            <FormattedMessage {...messages.request} />
+          </Button>
+        </Box>
+      </Flex>
+
+      <Box mt={2}>
+        <div className={styles.notificationBox}>
+          {showPayLoadingScreen && (
+            <span>
+              <div className={styles.spinnerContainer}>
+                <section className={`${styles.spinner} ${styles.icon}`} />
+                <span className={styles.timeout}>{paymentTimeout / 1000}</span>
+              </div>
+              <section>
+                <FormattedMessage {...messages.sending_tx} />
+              </section>
             </span>
-            <div className={styles.details}>
-              <h1>
-                <span>
-                  <Value
-                    value={parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance)}
-                    currency={ticker.currency}
-                    currentTicker={currentTicker}
-                    fiatTicker={ticker.fiatTicker}
-                  />
-                  <section className={styles.currencyContainer}>
-                    <i className={styles.currency}>{currencyName}</i>
-                    <span onClick={() => setWalletCurrencyFilters(!info.showWalletCurrencyFilters)}>
-                      <FaAngleDown />
-                    </span>
-
-                    <ul className={info.showWalletCurrencyFilters ? styles.active : undefined}>
-                      {currentCurrencyFilters.map(filter => (
-                        <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
-                          {filter.name}
-                        </li>
-                      ))}
-                    </ul>
-                  </section>
+          )}
+          {showSuccessPayScreen && (
+            <span>
+              <section className={styles.icon}>
+                <CheckAnimated />
+              </section>
+              <section>
+                <FormattedMessage {...messages.payment_success} />
+              </section>
+            </span>
+          )}
+          {successTransactionScreen.show && (
+            <span>
+              <section className={styles.icon}>
+                <CheckAnimated />
+              </section>
+              <section>
+                <span
+                  className={styles.txLink}
+                  onClick={() => {
+                    return blockExplorer.showTransaction(network, successTransactionScreen.txid)
+                  }}
+                >
+                  <FormattedMessage {...messages.transaction_success} />
                 </span>
-              </h1>
-              {Boolean(fiatAmount) && (
-                <span>
-                  {'≈ '}
-                  <FormattedNumber
-                    currency={ticker.fiatTicker}
-                    style="currency"
-                    value={fiatAmount}
-                  />
-                </span>
-              )}
-            </div>
-          </div>
+              </section>
+            </span>
+          )}
         </div>
-        <div className={styles.right}>
-          <div className={styles.rightContent}>
-            <Button onClick={openPayForm} variant="primary" my={10} mx={7.5} width={100}>
-              <FormattedMessage {...messages.pay} />
-            </Button>
-            <Button onClick={openRequestForm} variant="primary" my={10} mx={7.5} width={100}>
-              <FormattedMessage {...messages.request} />
-            </Button>
-          </div>
-          <div className={styles.notificationBox}>
-            {showPayLoadingScreen && (
-              <span>
-                <div className={styles.spinnerContainer}>
-                  <section className={`${styles.spinner} ${styles.icon}`} />
-                  <span className={styles.timeout}>{paymentTimeout / 1000}</span>
-                </div>
-                <section>
-                  <FormattedMessage {...messages.sending_tx} />
-                </section>
-              </span>
-            )}
-            {showSuccessPayScreen && (
-              <span>
-                <section className={styles.icon}>
-                  <CheckAnimated />
-                </section>
-                <section>
-                  <FormattedMessage {...messages.payment_success} />
-                </section>
-              </span>
-            )}
-            {successTransactionScreen.show && (
-              <span>
-                <section className={styles.icon}>
-                  <CheckAnimated />
-                </section>
-                <section>
-                  <span
-                    className={styles.txLink}
-                    onClick={() => {
-                      return blockExplorer.showTransaction(network, successTransactionScreen.txid)
-                    }}
-                  >
-                    <FormattedMessage {...messages.transaction_success} />
-                  </span>
-                </section>
-              </span>
-            )}
-          </div>
-        </div>
-      </div>
+      </Box>
     </div>
   )
 }
@@ -185,11 +174,10 @@ Wallet.propTypes = {
   network: PropTypes.object.isRequired,
   successTransactionScreen: PropTypes.object.isRequired,
   settingsProps: PropTypes.object.isRequired,
-  currentCurrencyFilters: PropTypes.array.isRequired,
+  currencyFilters: PropTypes.array.isRequired,
   currencyName: PropTypes.string.isRequired,
   paymentTimeout: PropTypes.number.isRequired,
-  setCurrency: PropTypes.func.isRequired,
-  setWalletCurrencyFilters: PropTypes.func.isRequired
+  setCurrency: PropTypes.func.isRequired
 }
 
 export default Wallet

@@ -9,19 +9,8 @@ import { setCurrency, tickerSelectors, fetchTicker } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
 import { fetchInfo, infoSelectors } from 'reducers/info'
 import { setFormType } from 'reducers/form'
-import {
-  setPayAmount,
-  setPayInput,
-  setCurrencyFilters,
-  updatePayErrors,
-  payFormSelectors
-} from 'reducers/payform'
-import {
-  setRequestAmount,
-  setRequestMemo,
-  setRequestCurrencyFilters,
-  requestFormSelectors
-} from 'reducers/requestform'
+import { setPayAmount, setPayInput, updatePayErrors, payFormSelectors } from 'reducers/payform'
+import { setRequestAmount, setRequestMemo, requestFormSelectors } from 'reducers/requestform'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
@@ -51,17 +40,12 @@ import {
   updateContactCapacity,
   setNode,
   contactFormSelectors,
-  updateManualFormErrors,
-  setContactsCurrencyFilters
+  updateManualFormErrors
 } from 'reducers/contactsform'
 import { fetchBalance } from 'reducers/balance'
 import { fetchDescribeNetwork } from 'reducers/network'
 import { clearError } from 'reducers/error'
-import {
-  hideActivityModal,
-  setActivityModalCurrencyFilters,
-  activitySelectors
-} from 'reducers/activity'
+import { hideActivityModal, activitySelectors } from 'reducers/activity'
 
 import App from 'components/App'
 import withLoading from 'components/withLoading'
@@ -73,11 +57,9 @@ const mapDispatchToProps = {
   setFormType,
   setPayAmount,
   setPayInput,
-  setCurrencyFilters,
   updatePayErrors,
   setRequestAmount,
   setRequestMemo,
-  setRequestCurrencyFilters,
   sendCoins,
   payInvoice,
   createInvoice,
@@ -105,11 +87,9 @@ const mapDispatchToProps = {
   setNode,
   contactFormSelectors,
   updateManualFormErrors,
-  setContactsCurrencyFilters,
   setChannelFormType,
   fetchDescribeNetwork,
-  hideActivityModal,
-  setActivityModalCurrencyFilters
+  hideActivityModal
 }
 
 const mapStateToProps = state => ({
@@ -142,7 +122,7 @@ const mapStateToProps = state => ({
   currentTheme: themeSelectors.currentTheme(state),
 
   currentTicker: tickerSelectors.currentTicker(state),
-  currentCurrencyFilters: tickerSelectors.currentCurrencyFilters(state),
+  currencyFilters: tickerSelectors.currencyFilters(state),
   currencyName: tickerSelectors.currencyName(state),
 
   isOnchain: payFormSelectors.isOnchain(state),
@@ -186,12 +166,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     showPayLoadingScreen: stateProps.showPayLoadingScreen,
     payFormIsValid: stateProps.payFormIsValid,
     payInputMin: stateProps.payInputMin,
-    currentCurrencyFilters: stateProps.currentCurrencyFilters,
+    currencyFilters: stateProps.currencyFilters,
     currencyName: stateProps.currencyName,
 
     setPayAmount: dispatchProps.setPayAmount,
     setPayInput: dispatchProps.setPayInput,
-    setCurrencyFilters: dispatchProps.setCurrencyFilters,
     fetchInvoice: dispatchProps.fetchInvoice,
     setCurrency: dispatchProps.setCurrency,
 
@@ -250,15 +229,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     requestform: stateProps.requestform,
     ticker: stateProps.ticker,
 
-    currentCurrencyFilters: stateProps.currentCurrencyFilters,
-    showCurrencyFilters: stateProps.showCurrencyFilters,
+    currencyFilters: stateProps.currencyFilters,
     currencyName: stateProps.currencyName,
     requestFiatAmount: stateProps.requestFiatAmount,
 
     setRequestAmount: dispatchProps.setRequestAmount,
     setRequestMemo: dispatchProps.setRequestMemo,
     setCurrency: dispatchProps.setCurrency,
-    setRequestCurrencyFilters: dispatchProps.setRequestCurrencyFilters,
 
     onRequestSubmit: () =>
       dispatchProps.createInvoice(
@@ -349,16 +326,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     hideActivityModal: dispatchProps.hideActivityModal,
 
     toggleCurrencyProps: {
-      currentCurrencyFilters: stateProps.currentCurrencyFilters,
+      currencyFilters: stateProps.currencyFilters,
       currencyName: stateProps.currencyName,
-      showCurrencyFilters: stateProps.activity.modal.showCurrencyFilters,
-
-      setActivityModalCurrencyFilters: dispatchProps.setActivityModalCurrencyFilters,
-      setCurrencyFilters: dispatchProps.setCurrencyFilters,
-      onCurrencyFilterClick: currency => {
-        dispatchProps.setCurrency(currency)
-        dispatchProps.setActivityModalCurrencyFilters(false)
-      }
+      setCurrency: dispatchProps.setCurrency
     }
   }
 
@@ -388,19 +358,15 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ticker: stateProps.ticker,
 
     toggleCurrencyProps: {
-      currentCurrencyFilters: stateProps.currentCurrencyFilters,
+      currencyFilters: stateProps.currencyFilters,
       currencyName: stateProps.currencyName,
-      showCurrencyFilters: stateProps.contactsform.showCurrencyFilters,
       contactFormFiatAmount: stateProps.contactFormFiatAmount,
-
-      setContactsCurrencyFilters: dispatchProps.setContactsCurrencyFilters,
-      setCurrencyFilters: dispatchProps.setCurrencyFilters,
+      setCurrency: dispatchProps.setCurrency,
       onCurrencyFilterClick: currency => {
         dispatchProps.updateContactCapacity(
           btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity)
         )
         dispatchProps.setCurrency(currency)
-        dispatchProps.setContactsCurrencyFilters(false)
       }
     }
   }

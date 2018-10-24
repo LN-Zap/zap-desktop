@@ -20,7 +20,6 @@ import {
 import { walletAddress, openWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
 import { payFormSelectors } from 'reducers/payform'
-import { setWalletCurrencyFilters } from 'reducers/info'
 import { setSettingsOpen, setActiveSubMenu, disableSubMenu } from 'reducers/settings'
 import { setTheme, themeSelectors } from 'reducers/theme'
 
@@ -47,7 +46,6 @@ const mapDispatchToProps = {
   updateSearchActive,
   updateSearchText,
   setFormType,
-  setWalletCurrencyFilters,
   setSettingsOpen,
   setActiveSubMenu,
   disableSubMenu,
@@ -76,7 +74,7 @@ const mapStateToProps = state => ({
   invoiceModalOpen: invoiceSelectors.invoiceModalOpen(state),
 
   currentTicker: tickerSelectors.currentTicker(state),
-  currentCurrencyFilters: tickerSelectors.currentCurrencyFilters(state),
+  currencyFilters: tickerSelectors.currencyFilters(state),
 
   currencyName: tickerSelectors.currencyName(state),
 
@@ -101,14 +99,13 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     showPayLoadingScreen: stateProps.showPayLoadingScreen,
     showSuccessPayScreen: stateProps.payment.showSuccessPayScreen,
     successTransactionScreen: stateProps.transaction.successTransactionScreen,
-    currentCurrencyFilters: stateProps.currentCurrencyFilters,
+    currencyFilters: stateProps.currencyFilters,
     currencyName: stateProps.currencyName,
     network: stateProps.info.network,
     paymentTimeout: stateProps.payment.paymentTimeout,
     theme: stateProps.currentTheme,
 
     setCurrency: dispatchProps.setCurrency,
-    setWalletCurrencyFilters: dispatchProps.setWalletCurrencyFilters,
     walletAddress: dispatchProps.walletAddress,
     openReceiveModal: dispatchProps.openWalletModal,
     openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
