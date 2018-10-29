@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom'
 import { Provider } from 'react-intl-redux'
 import jstz from 'jstimezonedetect'
 import { configureStore, history } from './store/configureStore'
-import { getLocale } from './lib/i18n'
+import { getDefaultLocale } from './lib/i18n'
 import Root from './containers/Root'
+import db from './store/db'
 
 // Load global styles.
 import './styles/app.global.scss'
@@ -15,14 +16,17 @@ import './lib/i18n/locale'
 // Get translations.
 import translations from './lib/i18n/translation'
 
-// Determine the users current locale.
-const locale = getLocale()
+// Initialise the database.
+db.open()
+
+// Default the locale to English.
+const defaultLocale = getDefaultLocale()
 
 // Initialise the intl store with data from the users current locale.
 const initialState = {
   intl: {
-    locale,
-    messages: translations[locale],
+    locale: defaultLocale,
+    messages: translations[defaultLocale],
     timeZone: jstz.determine().name()
   }
 }

@@ -2,8 +2,6 @@
 
 import { join } from 'path'
 import { app } from 'electron'
-import Store from 'electron-store'
-import pick from 'lodash.pick'
 import createDebug from 'debug'
 import untildify from 'untildify'
 import tildify from 'tildify'
@@ -12,20 +10,20 @@ import { appRootPath, binaryPath } from './util'
 const debug = createDebug('zap:lnd-config')
 
 // Supported connection types.
-const types = {
+export const types = {
   local: 'Local',
   custom: 'Custom',
   btcpayserver: 'BTCPay Server'
 }
 
-// Supported currencies.
-const currencties = {
+// Supported chains.
+export const chains = {
   bitcoin: 'Bitcoin',
   litecoin: 'Litecoin'
 }
 
 // Supported networks.
-const networks = {
+export const networks = {
   mainnet: 'Mainnet',
   testnet: 'Testnet'
 }
@@ -52,10 +50,11 @@ type LndConfigSettingsBtcPayServerType = {|
 
 // Type definition for for BTCPay Server connection settings.
 type LndConfigSettingsType = {|
+  id?: number,
+  wallet?: string,
   type: $Keys<typeof types>,
-  currency: $Keys<typeof currencties>,
-  network: $Keys<typeof networks>,
-  wallet: string
+  chain: $Keys<typeof chains>,
+  network: $Keys<typeof networks>
 |}
 
 // Type definition for LndConfig constructor options.
@@ -83,24 +82,17 @@ const safeUntildify = <T>(val: ?T): ?T => (typeof val === 'string' ? untildify(v
  * LndConfig class
  */
 class LndConfig {
-  static DEFAULT_CONFIG = {
-    type: 'local',
-    currency: 'bitcoin',
-    network: 'testnet',
-    wallet: 'wallet-1'
-  }
   static SETTINGS_PROPS = {
     local: ['alias', 'autopilot'],
     custom: ['host', 'cert', 'macaroon'],
     btcpayserver: ['host', 'macaroon', 'string']
   }
-  static store = new Store({ name: 'connection' })
 
   // Type descriptor properties.
+  id: number
   type: string
-  currency: string
+  chain: string
   network: string
-  wallet: string
 
   // User configurable settings.
   host: ?string
@@ -111,7 +103,7 @@ class LndConfig {
   autopilot: ?boolean
 
   // Read only data properties.
-  +key: string
+  +wallet: string
   +binaryPath: string
   +lndDir: string
   +configPath: string
@@ -122,9 +114,8 @@ class LndConfig {
    *
    * @param {LndConfigOptions} [options] Lnd config options.
    * @param {string} options.type config type (Local|custom|btcpayserver)
-   * @param {string} options.currency config currency (bitcoin|litecoin)
+   * @param {string} options.chain config chain (bitcoin|litecoin)
    * @param {string} options.network config network (mainnet|testnet)
-   * @param {string} options.wallet config wallet name (eg wallet-1)
    * @param {Object} [options.settings] config settings used to initialise the config with.
    */
   constructor(options?: LndConfigOptions) {
@@ -134,9 +125,12 @@ class LndConfig {
     // flow currently doesn't support defineProperties properly (https://github.com/facebook/flow/issues/285)
     const { defineProperties } = Object
     defineProperties(this, {
-      key: {
+      wallet: {
+        enumerable: true,
         get() {
-          return `${this.type}.${this.currency}.${this.network}.${this.wallet}`
+          if (this.type === 'local') {
+            return `wallet-${this.id}`
+          }
         }
       },
       binaryPath: {
@@ -148,7 +142,9 @@ class LndConfig {
       lndDir: {
         enumerable: true,
         get() {
-          return join(app.getPath('userData'), 'lnd', this.currency, this.network, this.wallet)
+          if (this.type === 'local') {
+            return join(app.getPath('userData'), 'lnd', this.chain, this.network, this.wallet)
+          }
         }
       },
       configPath: {
@@ -185,7 +181,7 @@ class LndConfig {
           return safeUntildify(_cert.get(this))
         },
         set(value: string) {
-          _cert.set(this, safeTrim(value))
+          _cert.set(this, safeTildify(safeTrim(value)))
         }
       },
 
@@ -198,7 +194,7 @@ class LndConfig {
           return safeUntildify(_macaroon.get(this))
         },
         set(value: string) {
-          _macaroon.set(this, safeTrim(value))
+          _macaroon.set(this, safeTildify(safeTrim(value)))
         }
       },
 
@@ -217,10 +213,12 @@ class LndConfig {
 
     // If options were provided, use them to initialise the instance.
     if (options) {
+      if (options.id) {
+        this.id = options.id
+      }
       this.type = options.type
-      this.currency = options.currency
+      this.chain = options.chain
       this.network = options.network
-      this.wallet = options.wallet
 
       // If settings were provided then clean them up and assign them to the instance for easy access.
       if (options.settings) {
@@ -229,65 +227,16 @@ class LndConfig {
       }
     }
 
-    // If no options were provided load the details of the current active or default wallet.
-    else {
-      const settings = new Store({ name: 'settings' })
-      const activeConnection: ?LndConfigSettingsType = settings.get('activeConnection')
-      debug('Determined active connection as: %o', activeConnection)
-
-      if (activeConnection && Object.keys(activeConnection).length > 0) {
-        debug('Assigning connection details from activeConnection as: %o', activeConnection)
-        Object.assign(this, activeConnection)
-      }
-
-      // If the connection settings were not found for the configured active connection, load the default values.
-      debug('Fetching connection config for %s', this.key)
-      if (!this.key || (this.key && !LndConfig.store.has(this.key))) {
-        debug('Active connection config not found. Setting config as: %o', LndConfig.DEFAULT_CONFIG)
-        Object.assign(this, LndConfig.DEFAULT_CONFIG)
-      }
-    }
-
     // For local configs host/cert/macaroon are auto-generated.
     if (this.type === 'local') {
       const defaultLocalOptions = {
         host: 'localhost:10009',
         cert: join(this.lndDir, 'tls.cert'),
-        macaroon: join(this.lndDir, 'data', 'chain', this.currency, this.network, 'admin.macaroon')
+        macaroon: join(this.lndDir, 'data', 'chain', this.chain, this.network, 'admin.macaroon')
       }
       debug('Connection type is local. Assigning settings as: %o', defaultLocalOptions)
       Object.assign(this, defaultLocalOptions)
     }
-  }
-
-  /**
-   * Load settings for this configuration from the store.
-   * @return {LndConfig} Updated LndConfig object.
-   */
-  load() {
-    const settings = pick(LndConfig.store.get(this.key, {}), LndConfig.SETTINGS_PROPS[this.type])
-    debug('Loaded settings for %s config as: %o', this.key, settings)
-    return Object.assign(this, settings)
-  }
-
-  /**
-   * Save settings for this configuration to the store.
-   * @return {LndConfig} Updated LndConfig object.
-   */
-  save() {
-    const settings = pick(this, LndConfig.SETTINGS_PROPS[this.type])
-
-    // Tildify cert and macaroon values before storing for better portability.
-    if (settings.cert) {
-      settings.cert = safeTildify(settings.cert)
-    }
-    if (settings.macaroon) {
-      settings.macaroon = safeTildify(settings.macaroon)
-    }
-
-    debug('Saving settings for %s config as: %o', this.key, settings)
-    LndConfig.store.set(this.key, settings)
-    return this
   }
 }
 

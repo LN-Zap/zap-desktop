@@ -1,5 +1,4 @@
 import ZapController from 'lib/zap/controller'
-import LndConfig from 'lib/lnd/config'
 import Lightning from 'lib/lnd/lightning'
 
 jest.mock('lib/lnd/lightning')
@@ -11,9 +10,6 @@ describe('ZapController', function() {
     })
 
     describe('initial values', () => {
-      it('should set the "lndConfig" property to a new LndConfig instance', () => {
-        expect(this.controller.lndConfig).toBeInstanceOf(LndConfig)
-      })
       it('should set the "mainWindow" property to undefined', () => {
         expect(this.controller.mainWindow).toBeUndefined()
       })

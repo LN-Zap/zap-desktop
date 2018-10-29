@@ -1,5 +1,3 @@
-import { app, remote } from 'electron'
-import Store from 'electron-store'
 import get from 'lodash.get'
 import { lookup } from 'country-data-lookup'
 import createDebug from 'debug'
@@ -68,21 +66,15 @@ const debug = (...args) => {
  * Get the most appropriate language code.
  * @return {string} Language code.
  */
-export const getLocale = () => {
-  const store = new Store({ name: 'settings' })
-  const userLocale = store.get('locale')
-  if (userLocale) {
-    debug('Determined locale as %s from settings', userLocale)
-    return userLocale
-  }
-  const defaultLocale = (app || remote.app).getLocale() || 'en-US'
+export const getDefaultLocale = () => {
+  const defaultLocale = window.navigator.language || 'en-US'
   const language = defaultLocale.toLowerCase().split(/[_-]+/)[0]
   let locale = 'en'
   if (locales.includes(language)) {
     locale = language
   }
   if (locales.includes(defaultLocale)) {
-    locale = userLocale
+    locale = defaultLocale
   }
   debug('Determined locale as %s', locale)
   return locale
@@ -113,14 +105,8 @@ export const getLanguageName = lang => {
  * Get the most appropriate currency code.
  * @return {string} Currency code.
  */
-export const getCurrency = () => {
-  const store = new Store({ name: 'settings' })
-  const userCurrency = store.get('fiatTicker')
-  if (userCurrency) {
-    debug('Determined currency as %s from settings', userCurrency)
-    return userCurrency
-  }
-  const defaultLocale = (app || remote.app).getLocale() || 'en-US'
+export const getDefaultCurrency = () => {
+  const defaultLocale = getDefaultLocale()
   const country = defaultLocale.split(/[_-]+/)[1]
   const data = lookup.countries({ alpha2: country })
   const detectedCurrency = get(data, '[0]currencies[0]', 'USD')

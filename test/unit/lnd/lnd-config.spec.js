@@ -1,10 +1,8 @@
 // @flow
 
 import { join, normalize } from 'path'
-import Store from 'electron-store'
 import LndConfig from 'lib/lnd/config'
 
-jest.mock('electron-store')
 jest.mock('lib/lnd/util', () => {
   return {
     ...jest.requireActual('lib/lnd/util'),
@@ -30,8 +28,8 @@ describe('LndConfig', function() {
     it(`should have the "type" property set to the ${type} value`, () => {
       expect(this.lndConfig.type).toEqual(this.type)
     })
-    it(`should have the "currency" property set to the ${type} value`, () => {
-      expect(this.lndConfig.currency).toEqual(this.currency)
+    it(`should have the "chain" property set to the ${type} value`, () => {
+      expect(this.lndConfig.chain).toEqual(this.chain)
     })
     it(`should have the "network" property set to the ${type}`, () => {
       expect(this.lndConfig.network).toEqual(this.network)
@@ -41,102 +39,25 @@ describe('LndConfig', function() {
     })
     it(`should have the "lndDir" set to a path derived from the config, under the app userData dir`, () => {
       const baseDir = '/tmp/zap-test/userData/lnd/'
-      const expectedDataDir = join(baseDir, this.currency, this.network, this.wallet)
+      const expectedDataDir = join(baseDir, this.chain, this.network, this.wallet)
       expect(this.lndConfig.lndDir).toEqual(expectedDataDir)
     })
   }
 
-  const checkForLoadedProperties = () => {
-    it(`should have the "host" property set to the default value`, () => {
-      expect(this.lndConfig.host).toEqual(this.host)
-    })
-    it('should have the "cert" property set to a path relative to the datadir', () => {
-      expect(this.lndConfig.cert).toEqual(this.cert)
-    })
-    it('should have the "macaroon" property set to a path relative to the datadir', () => {
-      expect(this.lndConfig.macaroon).toEqual(this.macaroon)
-    })
-  }
-
-  const checkForSaveBehaviour = expectedData => {
-    it('should save the config to a file', () => {
-      expect(Store.prototype.set).toHaveBeenCalledWith(
-        `${this.type}.${this.currency}.${this.network}.${this.wallet}`,
-        expectedData
-      )
-    })
-  }
-
   describe('"local" type', () => {
-    describe('New config with default options', () => {
-      beforeAll(() => {
-        this.type = 'local'
-        this.currency = 'bitcoin'
-        this.network = 'testnet'
-        this.wallet = 'wallet-1'
-
-        this.lndConfig = new LndConfig()
-
-        this.host = 'localhost:10009'
-        this.cert = join(this.lndConfig.lndDir, 'tls.cert')
-        this.macaroon = join(
-          this.lndConfig.lndDir,
-          'data',
-          'chain',
-          this.currency,
-          this.network,
-          'admin.macaroon'
-        )
-      })
-
-      describe('static properties', () => {
-        checkForStaticProperties()
-      })
-      describe('config properties', () => {
-        checkForConfigProperties('default')
-      })
-      describe('.load()', () => {
-        beforeAll(() => this.lndConfig.load())
-        checkForLoadedProperties()
-      })
-      describe('.save() - no settings', () => {
-        beforeAll(() => this.lndConfig.save())
-        checkForSaveBehaviour({})
-      })
-      describe('.save() - with settings', () => {
-        beforeAll(() => {
-          this.lndConfig.alias = 'some-alias1'
-          this.lndConfig.autopilot = true
-          this.lndConfig.save()
-        })
-        checkForSaveBehaviour({ alias: 'some-alias1', autopilot: true })
-      })
-    })
-
     describe('New config with provided options', () => {
       beforeAll(() => {
+        this.wallet = 'wallet-1'
         this.type = 'local'
-        this.currency = 'litecoin'
+        this.chain = 'litecoin'
         this.network = 'mainnet'
-        this.wallet = 'wallet-2'
 
         this.lndConfig = new LndConfig({
+          id: 1,
           type: this.type,
-          currency: this.currency,
-          network: this.network,
-          wallet: this.wallet
+          chain: this.chain,
+          network: this.network
         })
-
-        this.host = 'localhost:10009'
-        this.cert = join(this.lndConfig.lndDir, 'tls.cert')
-        this.macaroon = join(
-          this.lndConfig.lndDir,
-          'data',
-          'chain',
-          this.currency,
-          this.network,
-          'admin.macaroon'
-        )
       })
 
       describe('static properties', () => {
@@ -145,39 +66,23 @@ describe('LndConfig', function() {
       describe('config properties', () => {
         checkForConfigProperties('provided')
       })
-      describe('.load()', () => {
-        beforeAll(() => this.lndConfig.load())
-        checkForLoadedProperties()
-      })
-      describe('.save() - no settings', () => {
-        beforeAll(() => this.lndConfig.save())
-        checkForSaveBehaviour({})
-      })
-      describe('.save() - with settings', () => {
-        beforeAll(() => {
-          this.lndConfig.alias = 'some-alias2'
-          this.lndConfig.autopilot = true
-          this.lndConfig.save()
-        })
-        checkForSaveBehaviour({ alias: 'some-alias2', autopilot: true })
-      })
     })
 
     describe('New config with provided options and initial configuration', () => {
       beforeAll(() => {
-        this.type = 'custom'
-        this.currency = 'bitcoin'
-        this.network = 'testnet'
         this.wallet = 'wallet-1'
+        this.type = 'local'
+        this.chain = 'bitcoin'
+        this.network = 'testnet'
         this.host = 'some-host'
         this.cert = 'some-cert'
         this.macaroon = 'some-macaroon'
 
         this.lndConfig = new LndConfig({
+          id: 1,
           type: this.type,
-          currency: this.currency,
+          chain: this.chain,
           network: this.network,
-          wallet: this.wallet,
           settings: {
             host: this.host,
             cert: this.cert,
@@ -191,10 +96,6 @@ describe('LndConfig', function() {
       })
       describe('config properties', () => {
         checkForConfigProperties('provided')
-      })
-      describe('.save()', () => {
-        beforeAll(() => this.lndConfig.save())
-        checkForSaveBehaviour({ host: 'some-host', cert: 'some-cert', macaroon: 'some-macaroon' })
       })
     })
   })

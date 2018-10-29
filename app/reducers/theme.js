@@ -1,9 +1,6 @@
 import { createSelector } from 'reselect'
-import Store from 'electron-store'
 import { dark, light } from 'themes'
-
-// Settings store
-const store = new Store({ name: 'settings' })
+import db from 'store/db'
 
 // ------------------------------------
 // Constants
@@ -16,9 +13,26 @@ const DEFAULT_THEME = 'dark'
 // Actions
 // ------------------------------------
 
+export const initTheme = () => async (dispatch, getState) => {
+  let theme
+  try {
+    const userTheme = await db.settings.get({ key: 'theme' })
+    theme = userTheme.value || DEFAULT_THEME
+  } catch (e) {
+    theme = DEFAULT_THEME
+  }
+
+  const state = getState()
+  const currentTheme = themeSelectors.currentTheme(state)
+
+  if (currentTheme !== theme) {
+    dispatch(setTheme(theme))
+  }
+}
+
 export function setTheme(currentTheme) {
   // Persist the new fiatTicker in our ticker store
-  store.set('theme', currentTheme)
+  db.settings.put({ key: 'theme', value: currentTheme })
 
   return {
     type: SET_THEME,
@@ -56,7 +70,7 @@ export { themeSelectors }
 // ------------------------------------
 
 const initialState = {
-  currentTheme: store.get('theme', DEFAULT_THEME),
+  currentTheme: null,
   themes: { dark, light }
 }
 

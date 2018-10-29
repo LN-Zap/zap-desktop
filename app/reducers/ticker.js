@@ -1,11 +1,8 @@
 import { createSelector } from 'reselect'
-import Store from 'electron-store'
 import { requestTicker } from 'lib/utils/api'
-import { currencies, getCurrency } from 'lib/i18n'
+import { currencies, getDefaultCurrency } from 'lib/i18n'
+import db from 'store/db'
 import { infoSelectors } from './info'
-
-// Settings store
-const store = new Store({ name: 'settings' })
 
 // ------------------------------------
 // Constants
@@ -41,7 +38,7 @@ export function setCrypto(crypto) {
 
 export function setFiatTicker(fiatTicker) {
   // Persist the new fiatTicker in our ticker store
-  store.set('fiatTicker', fiatTicker)
+  db.settings.put({ key: 'fiatTicker', value: fiatTicker })
 
   return {
     type: SET_FIAT_TICKER,
@@ -67,7 +64,6 @@ export const fetchTicker = () => async dispatch => {
   dispatch(getTickers())
   const btcTicker = await requestTicker()
   dispatch(recieveTickers({ btcTicker }))
-
   return btcTicker
 }
 
@@ -145,7 +141,7 @@ const initialState = {
   crypto: '',
   btcTicker: null,
   ltcTicker: null,
-  fiatTicker: getCurrency(),
+  fiatTicker: getDefaultCurrency(),
   fiatTickers: currencies,
   currencyFilters: [
     {

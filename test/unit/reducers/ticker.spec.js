@@ -1,15 +1,11 @@
 // @flow
 
-import Store from 'electron-store'
 import tickerReducer, {
   SET_CURRENCY,
   SET_CRYPTO,
   GET_TICKERS,
   RECIEVE_TICKERS
 } from 'reducers/ticker'
-
-Store.prototype.set = jest.fn()
-Store.prototype.get = jest.fn()
 
 describe('reducers', () => {
   describe('tickerReducer', () => {

@@ -2,13 +2,15 @@
 // Initial State
 // ------------------------------------
 const initialState = {
-  isLoading: true
+  isLoading: true,
+  isMounted: false
 }
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const SET_LOADING = 'SET_LOADING'
+export const SET_MOUNTED = 'SET_MOUNTED'
 
 // ------------------------------------
 // Actions
@@ -20,11 +22,19 @@ export function setLoading(isLoading) {
   }
 }
 
+export function setMounted(isMounted) {
+  return {
+    type: SET_MOUNTED,
+    isMounted
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_LOADING]: (state, { isLoading }) => ({ ...state, isLoading })
+  [SET_LOADING]: (state, { isLoading }) => ({ ...state, isLoading }),
+  [SET_MOUNTED]: (state, { isMounted }) => ({ ...state, isMounted })
 }
 
 // ------------------------------------
@@ -33,6 +43,7 @@ const ACTION_HANDLERS = {
 
 const loadingSelectors = {}
 loadingSelectors.isLoading = state => state.loading.isLoading
+loadingSelectors.isMounted = state => state.loading.isMounted
 
 export { loadingSelectors }
 

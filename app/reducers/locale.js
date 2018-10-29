@@ -1,10 +1,8 @@
-import Store from 'electron-store'
 import { updateIntl } from 'react-intl-redux'
 import { ipcRenderer } from 'electron'
 import translations from 'lib/i18n/translation'
-
-// Settings store
-const store = new Store({ name: 'settings' })
+import db from 'store/db'
+import { setFiatTicker } from './ticker'
 
 // ------------------------------------
 // Actions
@@ -22,7 +20,7 @@ export const setLocale = locale => (dispatch, getState) => {
   )
 
   // Save the new locale sa our language preference.
-  store.set('locale', locale)
+  db.settings.put({ key: 'locale', value: locale })
 
   // Let the main process know the locale has changed.
   ipcRenderer.send('setLocale', locale)
@@ -30,6 +28,30 @@ export const setLocale = locale => (dispatch, getState) => {
 
 export const receiveLocale = (event, locale) => dispatch => {
   dispatch(setLocale(locale))
+}
+
+export const initLocale = () => async (dispatch, getState) => {
+  const userLocale = await db.settings.get({ key: 'locale' })
+  const state = getState()
+  const currentLocale = localeSelectors.currentLocale(state)
+
+  if (userLocale && userLocale.value) {
+    const locale = userLocale.value
+    if (currentLocale !== locale) {
+      dispatch(setLocale(locale))
+    }
+  }
+}
+
+export const initCurrency = () => async dispatch => {
+  const userCurrency = await db.settings.get({ key: 'fiatTicker' })
+  if (userCurrency && userCurrency.value) {
+    dispatch(setFiatTicker(userCurrency.value))
+  }
+}
+
+export const localeSelectors = {
+  currentLocale: state => state.intl.locale
 }
 
 // ------------------------------------

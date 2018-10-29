@@ -2,17 +2,19 @@
 
 import { app, ipcMain, dialog, BrowserWindow } from 'electron'
 import pick from 'lodash.pick'
-import Store from 'electron-store'
 import StateMachine from 'javascript-state-machine'
 import { mainLog } from '../utils/log'
 
-import LndConfig from '../lnd/config'
+import LndConfig, { chains, networks, types } from '../lnd/config'
 import Lightning from '../lnd/lightning'
 import Neutrino from '../lnd/neutrino'
 import WalletUnlocker from '../lnd/walletUnlocker'
 
 type onboardingOptions = {
-  type: 'local' | 'custom' | 'btcpayserver',
+  id?: number,
+  type: $Keys<typeof types>,
+  chain?: $Keys<typeof chains>,
+  network?: $Keys<typeof networks>,
   host?: string,
   cert?: string,
   macaroon?: string,
@@ -65,15 +67,15 @@ class ZapController {
     this.fsm = new StateMachine({
       transitions: [
         { name: 'startOnboarding', from: '*', to: 'onboarding' },
-        { name: 'startLnd', from: 'onboarding', to: 'running' },
-        { name: 'connectLnd', from: 'onboarding', to: 'connected' },
+        { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
+        { name: 'startRemoteLnd', from: 'onboarding', to: 'connected' },
         { name: 'terminate', from: '*', to: 'terminated' }
       ],
       methods: {
         onOnboarding: this.onOnboarding.bind(this),
         onStartOnboarding: this.onStartOnboarding.bind(this),
-        onBeforeStartLnd: this.onBeforeStartLnd.bind(this),
-        onBeforeConnectLnd: this.onBeforeConnectLnd.bind(this),
+        onBeforeStartLocalLnd: this.onBeforeStartLocalLnd.bind(this),
+        onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
         onTerminated: this.onTerminated.bind(this),
         onTerminate: this.onTerminate.bind(this)
       }
@@ -81,10 +83,6 @@ class ZapController {
 
     // Variable to hold the main window instance.
     this.mainWindow = mainWindow
-
-    // Initialise the controler with the current active config.
-    this.lndConfig = new LndConfig()
-    this.lndConfig.load()
   }
 
   /**
@@ -130,11 +128,11 @@ class ZapController {
   startOnboarding(...args: any[]) {
     return this.fsm.startOnboarding(...args)
   }
-  startLnd(...args: any[]) {
-    return this.fsm.startLnd(...args)
+  startLocalLnd(...args: any[]) {
+    return this.fsm.startLocalLnd(...args)
   }
-  connectLnd(...args: any[]) {
-    return this.fsm.connectLnd(...args)
+  startRemoteLnd(...args: any[]) {
+    return this.fsm.startRemoteLnd(...args)
   }
   terminate(...args: any[]) {
     return this.fsm.terminate(...args)
@@ -177,11 +175,11 @@ class ZapController {
     mainLog.debug('[FSM] onStartOnboarding...')
 
     // Notify the app to start the onboarding process.
-    this.sendMessage('startOnboarding', this.lndConfig)
+    this.sendMessage('startOnboarding')
   }
 
-  onBeforeStartLnd() {
-    mainLog.debug('[FSM] onBeforeStartLnd...')
+  onBeforeStartLocalLnd() {
+    mainLog.debug('[FSM] onBeforeStartLocalLnd...')
 
     mainLog.info('Starting new lnd instance')
     mainLog.info(' > alias:', this.lndConfig.alias)
@@ -190,8 +188,8 @@ class ZapController {
     return this.startNeutrino()
   }
 
-  onBeforeConnectLnd() {
-    mainLog.debug('[FSM] onBeforeConnectLnd...')
+  onBeforeStartRemoteLnd() {
+    mainLog.debug('[FSM] onBeforeStartRemoteLnd...')
     mainLog.info('Connecting to custom lnd instance')
     mainLog.info(' > host:', this.lndConfig.host)
     mainLog.info(' > cert:', this.lndConfig.cert)
@@ -288,7 +286,7 @@ class ZapController {
       )
 
       // Notify the renderer that the wallet unlocker is active.
-      this.sendMessage('walletUnlockerGrpcActive')
+      this.sendMessage('walletUnlockerGrpcActive', this.lndConfig)
     } catch (err) {
       mainLog.warn('Unable to connect to WalletUnlocker gRPC interface: %o', err)
       throw err
@@ -312,7 +310,7 @@ class ZapController {
       ipcMain.on('lnd', (event, { msg, data }) => this.lightning.registerMethods(event, msg, data))
 
       // Let the renderer know that we are connected.
-      this.sendMessage('lightningGrpcActive')
+      this.sendMessage('lightningGrpcActive', this.lndConfig)
     } catch (err) {
       mainLog.warn('Unable to connect to Lightning gRPC interface: %o', err)
       throw err
@@ -425,27 +423,17 @@ class ZapController {
   /**
    * Start or connect to lnd process after onboarding has been completed by the app.
    */
-  finishOnboarding(options: onboardingOptions) {
-    mainLog.info('Finishing onboarding')
+  async startLnd(options: onboardingOptions) {
+    mainLog.info('Starting lnd with options: %o', options)
+
     // Save the lnd config options that we got from the renderer.
     this.lndConfig = new LndConfig({
-      type: options.type,
-      currency: 'bitcoin',
-      network: 'testnet',
-      wallet: 'wallet-1',
+      id: options.id,
+      type: options.type || 'local',
+      chain: options.chain || 'bitcoin',
+      network: options.network || 'testnet',
       settings: pick(options, LndConfig.SETTINGS_PROPS[options.type])
     })
-    this.lndConfig.save()
-
-    // Set as the active config.
-    const settings = new Store({ name: 'settings' })
-    settings.set('activeConnection', {
-      type: this.lndConfig.type,
-      currency: this.lndConfig.currency,
-      network: this.lndConfig.network,
-      wallet: this.lndConfig.wallet
-    })
-    mainLog.info('Saved active connection as: %o', settings.get('activeConnection'))
 
     // Set up SSL with the cypher suits that we need based on the connection type.
     process.env.GRPC_SSL_CIPHER_SUITES =
@@ -453,14 +441,14 @@ class ZapController {
 
     // If the requested connection type is a local one then start up a new lnd instance.
     // Otherwise attempt to connect to an lnd instance using user supplied connection details.
-    return options.type === 'local' ? this.startLnd() : this.connectLnd()
+    return options.type === 'local' ? this.startLocalLnd() : this.startRemoteLnd()
   }
 
   /**
    * Add IPC event listeners...
    */
   _registerIpcListeners() {
-    ipcMain.on('startLnd', (event, options: onboardingOptions) => this.finishOnboarding(options))
+    ipcMain.on('startLnd', (event, options: onboardingOptions) => this.startLnd(options))
     ipcMain.on('startLightningWallet', () =>
       this.startLightningWallet().catch(e => {
         // Notify the app of errors.

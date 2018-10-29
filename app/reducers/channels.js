@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import Store from 'electron-store'
 import { btc } from 'lib/utils'
 import { showNotification } from 'lib/utils/notifications'
 import { requestSuggestedNodes } from 'lib/utils/api'
+import db from 'store/db'
 import { setError } from './error'
 
 // ------------------------------------
@@ -179,22 +179,22 @@ export const receiveChannels = (event, { channels, pendingChannels }) => dispatc
   dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, host, local_amt }) => (dispatch, getState) => {
+export const openChannel = ({ pubkey, host, local_amt }) => async (dispatch, getState) => {
   const state = getState()
   const localamt = btc.convert(state.ticker.currency, 'sats', local_amt)
 
   dispatch(openingChannel())
   dispatch(addLoadingPubkey(pubkey))
 
-  // Grab the activeConnection type from our local store. If the active connection type is local (light clients using
+  // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
-  const store = new Store({ name: 'settings' })
-  const { type } = store.get('activeConnection', {})
+  const activeWallet = await db.settings.get({ key: 'activeWallet' })
+  const wallet = (await db.wallets.get({ id: activeWallet.value })) || {}
 
   ipcRenderer.send('lnd', {
     msg: 'connectAndOpen',
-    data: { pubkey, host, localamt, private: type === 'local' }
+    data: { pubkey, host, localamt, private: wallet.type === 'local' }
   })
 }
 

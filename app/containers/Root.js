@@ -6,8 +6,9 @@ import { ConnectedRouter } from 'connected-react-router'
 import { ThemeProvider } from 'styled-components'
 
 import { clearError, errorSelectors } from 'reducers/error'
-import { loadingSelectors, setLoading } from 'reducers/loading'
-import { themeSelectors } from 'reducers/theme'
+import { loadingSelectors, setLoading, setMounted } from 'reducers/loading'
+import { initCurrency, initLocale } from 'reducers/locale'
+import { initTheme, themeSelectors } from 'reducers/theme'
 
 import Page from 'components/UI/Page'
 import Titlebar from 'components/UI/Titlebar'
@@ -31,11 +32,16 @@ const SPLASH_SCREEN_TIME = 1500
 class Root extends React.Component {
   static propTypes = {
     clearError: PropTypes.func.isRequired,
-    currentThemeSettings: PropTypes.object.isRequired,
+    theme: PropTypes.object,
     error: PropTypes.string,
     history: PropTypes.object.isRequired,
+    initLocale: PropTypes.func.isRequired,
+    initCurrency: PropTypes.func.isRequired,
+    initTheme: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    setLoading: PropTypes.func.isRequired
+    isMounted: PropTypes.bool.isRequired,
+    setLoading: PropTypes.func.isRequired,
+    setMounted: PropTypes.func.isRequired
   }
 
   /**
@@ -52,9 +58,29 @@ class Root extends React.Component {
    * // Show the loading bold briefly before showing the user the app.
    */
   componentDidMount() {
-    const { setLoading } = this.props
-    const timer = setTimeout(() => setLoading(false), SPLASH_SCREEN_TIME)
-    this.setState({ timer })
+    const {
+      initLocale,
+      initCurrency,
+      initTheme,
+      isLoading,
+      isMounted,
+      setLoading,
+      setMounted
+    } = this.props
+
+    // If this is the first time the app has mounted, initialise things.
+    if (!isMounted) {
+      initTheme()
+      initLocale()
+      initCurrency()
+      setMounted(true)
+    }
+
+    // Hide the loading screen after a set time.
+    if (isLoading) {
+      const timer = setTimeout(() => setLoading(false), SPLASH_SCREEN_TIME)
+      this.setState({ timer })
+    }
   }
 
   /**
@@ -66,10 +92,16 @@ class Root extends React.Component {
   }
 
   render() {
-    const { clearError, currentThemeSettings, error, history, isLoading } = this.props
+    const { clearError, theme, error, history, isLoading } = this.props
+
+    // Wait until we have determined the user's theme preference before displaying the app.
+    if (!theme) {
+      return null
+    }
+
     return (
       <ConnectedRouter history={history}>
-        <ThemeProvider theme={currentThemeSettings}>
+        <ThemeProvider theme={theme}>
           <React.Fragment>
             <GlobalStyle />
             <Titlebar />
@@ -90,15 +122,19 @@ class Root extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  currentTheme: themeSelectors.currentTheme(state),
-  currentThemeSettings: themeSelectors.currentThemeSettings(state),
+  theme: themeSelectors.currentThemeSettings(state),
   error: errorSelectors.getErrorState(state),
-  isLoading: loadingSelectors.isLoading(state)
+  isLoading: loadingSelectors.isLoading(state),
+  isMounted: loadingSelectors.isMounted(state)
 })
 
 const mapDispatchToProps = {
   clearError,
-  setLoading
+  initCurrency,
+  initLocale,
+  initTheme,
+  setLoading,
+  setMounted
 }
 
 export default connect(

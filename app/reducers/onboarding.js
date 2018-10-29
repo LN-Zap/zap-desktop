@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import get from 'lodash.get'
+import db from 'store/db'
 import { fetchInfo } from './info'
 import { setError } from './error'
 
@@ -64,15 +65,18 @@ function prettyPrint(json) {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const setConnectionType = connectionType => (dispatch, getState) => {
+export const setConnectionType = connectionType => async (dispatch, getState) => {
   const previousType = connectionTypeSelector(getState())
 
-  // When changing the connection type clear out existing config.
+  // When changing the connection type, load any saved settings.
   if (previousType !== connectionType) {
-    dispatch(setConnectionString(''))
-    dispatch(setConnectionHost(''))
-    dispatch(setConnectionCert(''))
-    dispatch(setConnectionMacaroon(''))
+    const wallet = (await db.wallets.get({ type: connectionType })) || {}
+    dispatch(setConnectionString(wallet.string || initialState.connectionString))
+    dispatch(setConnectionHost(wallet.host || initialState.connectionHost))
+    dispatch(setConnectionCert(wallet.cert || initialState.connectionCert))
+    dispatch(setConnectionMacaroon(wallet.macaroon || initialState.connectionMacaroon))
+    dispatch(updateAlias(wallet.alias || initialState.alias))
+    dispatch(setAutopilot(wallet.autopilot || initialState.autopilot))
     dispatch(setStartLndError({}))
   }
 
@@ -180,19 +184,32 @@ export function changeStep(step) {
   }
 }
 
-export function startLnd(options) {
-  // once the user submits the data needed to start LND we will alert the app that it should start LND
-  ipcRenderer.send('startLnd', options)
+export const startLnd = options => async dispatch => {
+  // Attempt to load the wallet settings.
+  // TODO: Currently, this only support a single wallet config per type.
+  let wallet = await db.wallets.get({ type: options.type })
 
-  return {
-    type: STARTING_LND
+  // If a wallet was found, merge in our user selected options and update in the db.
+  if (wallet) {
+    Object.assign(wallet, options)
+    await db.wallets.put(wallet)
   }
+
+  // Otherwise, save the new wallet config.
+  else {
+    const id = await db.wallets.put(options)
+    wallet = Object.assign(options, { id })
+  }
+
+  // Tell the main process to start lnd using the supplied connection details.
+  ipcRenderer.send('startLnd', wallet)
+
+  // Update the store.
+  dispatch({ type: STARTING_LND })
 }
 
-export function lndStarted() {
-  return {
-    type: LND_STARTED
-  }
+export const lndStarted = () => async dispatch => {
+  dispatch({ type: LND_STARTED })
 }
 
 export function setStartLndError(errors) {
@@ -237,9 +254,18 @@ export const lndWalletUnlockerStarted = () => dispatch => {
  * As soon as we have an active connection to an unlocked wallet, fetch the wallet info so that we have the key data as
  * early as possible.
  */
-export const lndWalletStarted = () => dispatch => {
+export const lndWalletStarted = lndConfig => async dispatch => {
+  // Save the wallet settings.
+  const walletId = await db.wallets.put(lndConfig)
+
+  // Save the active wallet config.
+  await db.settings.put({
+    key: 'activeWallet',
+    value: walletId
+  })
+
   dispatch(fetchInfo())
-  dispatch(lndStarted())
+  dispatch(lndStarted(lndConfig))
 }
 
 export const submitNewWallet = (
@@ -269,24 +295,30 @@ export const recoverOldWallet = (
 }
 
 // Listener for errors connecting to LND gRPC
-export const startOnboarding = (event, lndConfig = {}) => dispatch => {
-  dispatch(setConnectionType(lndConfig.type))
+export const startOnboarding = () => async dispatch => {
+  // If we have an active wallet saved, load it's settings.
+  const activeWallet = await db.settings.get({ key: 'activeWallet' })
+  if (activeWallet) {
+    const wallet = await db.wallets.get({ id: activeWallet.value })
+    if (wallet) {
+      dispatch(setConnectionType(wallet.type))
 
-  switch (lndConfig.type) {
-    case 'local':
-      dispatch(updateAlias(lndConfig.alias))
-      dispatch(setAutopilot(lndConfig.autopilot))
-      break
-    case 'custom':
-      dispatch(setConnectionHost(lndConfig.host))
-      dispatch(setConnectionCert(lndConfig.cert))
-      dispatch(setConnectionMacaroon(lndConfig.macaroon))
-      break
-    case 'btcpayserver':
-      dispatch(setConnectionString(lndConfig.string))
-      break
+      switch (wallet.type) {
+        case 'local':
+          dispatch(updateAlias(wallet.alias))
+          dispatch(setAutopilot(wallet.autopilot))
+          break
+        case 'custom':
+          dispatch(setConnectionHost(wallet.host))
+          dispatch(setConnectionCert(wallet.cert))
+          dispatch(setConnectionMacaroon(wallet.macaroon))
+          break
+        case 'btcpayserver':
+          dispatch(setConnectionString(wallet.string))
+          break
+      }
+    }
   }
-
   dispatch({ type: ONBOARDING_STARTED })
 }
 
