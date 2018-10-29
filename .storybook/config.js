@@ -5,12 +5,26 @@ import { withOptions } from '@storybook/addon-options'
 import { setDefaults, withInfo } from '@storybook/addon-info'
 import { withConsole } from '@storybook/addon-console'
 import { linkTo } from '@storybook/addon-links'
+import { setIntlConfig, withIntl } from 'storybook-addon-intl'
 import chaptersAddon from 'react-storybook-addon-chapters'
 import StoryRouter from 'storybook-react-router'
 import { dark, light } from 'themes'
-
+import { getDefaultLocale, locales } from 'lib/i18n'
 import React from 'react'
 import GlobalStyle from 'components/UI/GlobalStyle'
+
+// Register supported locales.
+import '../app/lib/i18n/locale'
+
+// Get translations.
+import translations from '../app/lib/i18n/translation'
+
+// Set intl configuration
+setIntlConfig({
+  locales: locales,
+  defaultLocale: getDefaultLocale(),
+  getMessages: locale => translations[locale]
+})
 
 // Info
 addDecorator(
@@ -24,6 +38,9 @@ addDecorator(
     }
   })
 )
+
+// Intl
+addDecorator(withIntl)
 
 // Router
 addDecorator(StoryRouter({}))

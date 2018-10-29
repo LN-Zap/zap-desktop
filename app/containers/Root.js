@@ -70,10 +70,10 @@ class Root extends React.Component {
 
     // If this is the first time the app has mounted, initialise things.
     if (!isMounted) {
+      setMounted(true)
       initTheme()
       initLocale()
       initCurrency()
-      setMounted(true)
     }
 
     // Hide the loading screen after a set time.
