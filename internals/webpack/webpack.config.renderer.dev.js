@@ -13,6 +13,7 @@ import webpack from 'webpack'
 import merge from 'webpack-merge'
 import { spawn, execSync } from 'child_process'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import baseConfig, { rootDir } from './webpack.config.base'
@@ -194,6 +195,8 @@ export default merge.smart(baseConfig, {
     new webpack.LoaderOptionsPlugin({
       debug: true
     }),
+
+    new CopyWebpackPlugin([path.join('app', 'empty.html')]),
 
     new HtmlWebpackPlugin({
       template: path.join('app', 'app.html')
