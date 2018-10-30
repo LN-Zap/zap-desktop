@@ -51,7 +51,6 @@ exports[`component.UI.Menu should render correctly 1`] = `
   >
     <div
       className="rc-menu-item-group-title"
-      style={Object {}}
       title="My Items"
     >
       My Items
@@ -100,7 +99,6 @@ exports[`component.UI.Menu should render correctly 1`] = `
   >
     <div
       className="rc-menu-item-group-title"
-      style={Object {}}
       title="Other items"
     >
       Other items
