@@ -5,6 +5,7 @@
 import path from 'path'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
@@ -146,6 +147,8 @@ export default merge.smart(baseConfig, {
 
   plugins: [
     new CleanWebpackPlugin([path.join('app', 'dist')]),
+
+    new CopyWebpackPlugin([path.join('app', 'empty.html')]),
 
     new MiniCssExtractPlugin(),
 

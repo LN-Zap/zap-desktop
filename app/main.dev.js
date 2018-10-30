@@ -29,13 +29,16 @@ mainLog.time('Time until app is ready')
  * @return {[type]} 'settings' store from indexedDb.
  */
 const fetchSettings = () => {
-  const win = new BrowserWindow({ show: false })
+  const win = new BrowserWindow({ show: false, focusable: false })
   if (process.env.HOT) {
     const port = process.env.PORT || 1212
-    win.loadURL(`http://localhost:${port}`)
+    win.loadURL(`http://localhost:${port}/dist/empty.html`)
   } else {
-    win.loadURL(`file://${__dirname}`)
+    win.loadURL(`file://${__dirname}/dist/empty.html`)
   }
+
+  // Once we have fetched (or failed to fetch) the user settings, destroy the window.
+  win.on('load-settings-done', () => process.nextTick(() => win.destroy()))
 
   const dbName = getDbName()
   mainLog.debug(`Fetching user settings from indexedDb (using database "%s")`, dbName)
@@ -69,7 +72,12 @@ const fetchSettings = () => {
     )
     .then(res => {
       mainLog.debug('Got user settings: %o', res)
+      win.emit('load-settings-done')
       return res
+    })
+    .catch(err => {
+      win.emit('load-settings-done')
+      throw err
     })
 }
 
@@ -90,13 +98,15 @@ app.on('ready', async () => {
   let theme = {}
   let locale
 
-  try {
-    const settings = await fetchSettings()
-    locale = getSetting(settings, 'locale')
-    const themeKey = getSetting(settings, 'theme')
-    theme = themes[themeKey]
-  } catch (e) {
-    mainLog.warn('Unable to determine user locale and theme', e)
+  if (!process.env.DISABLE_INIT) {
+    try {
+      const settings = await fetchSettings()
+      locale = getSetting(settings, 'locale')
+      const themeKey = getSetting(settings, 'theme')
+      theme = themes[themeKey]
+    } catch (e) {
+      mainLog.warn('Unable to determine user locale and theme', e)
+    }
   }
 
   // Create a new browser window.
