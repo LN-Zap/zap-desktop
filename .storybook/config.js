@@ -1,16 +1,18 @@
+import React from 'react'
 import { addDecorator, configure, setAddon } from '@storybook/react'
-import { withThemesProvider } from 'storybook-addon-styled-component-theme'
+import { withThemes } from 'storybook-styled-components'
 import { themes } from '@storybook/components'
 import { withOptions } from '@storybook/addon-options'
-import { setDefaults, withInfo } from '@storybook/addon-info'
+import { withInfo } from '@storybook/addon-info'
+import chaptersAddon, { setDefaults } from 'react-storybook-addon-chapters'
 import { withConsole } from '@storybook/addon-console'
+import { withKnobs } from '@storybook/addon-knobs'
 import { linkTo } from '@storybook/addon-links'
 import { setIntlConfig, withIntl } from 'storybook-addon-intl'
-import chaptersAddon from 'react-storybook-addon-chapters'
 import StoryRouter from 'storybook-react-router'
 import { dark, light } from 'themes'
 import { getDefaultLocale, locales } from 'lib/i18n'
-import React from 'react'
+import BackgroundDark from 'components/UI/BackgroundDark'
 import GlobalStyle from 'components/UI/GlobalStyle'
 
 // Register supported locales.
@@ -45,11 +47,11 @@ addDecorator(withIntl)
 // Router
 addDecorator(StoryRouter({}))
 
-// Chapters
-setAddon(chaptersAddon)
-
 // Console.
 addDecorator((storyFn, context) => withConsole()(storyFn)(context))
+
+// Knobs
+addDecorator(withKnobs)
 
 // Options
 addDecorator(
@@ -65,13 +67,25 @@ addDecorator(
 addDecorator(story => (
   <React.Fragment>
     <GlobalStyle />
-    {story()}
+    <BackgroundDark p={3} css={{ height: '100vh', 'overflow-y': 'scroll !important' }}>
+      {story()}
+    </BackgroundDark>
   </React.Fragment>
 ))
 
 // Zap Themes.
-const zapThemes = [dark, light]
-addDecorator(withThemesProvider(zapThemes))
+addDecorator(withThemes({ Dark: dark, Light: light }))
+
+// Chapters
+setAddon(chaptersAddon)
+setDefaults({
+  sectionOptions: {
+    showSource: false,
+    allowSourceToggling: false,
+    showPropTables: false,
+    allowPropTablesToggling: true
+  }
+})
 
 // automatically import all files ending in *.stories.js
 const req = require.context('../stories', true, /.stories.js$/)
