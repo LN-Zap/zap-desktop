@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { asField } from 'informed'
 import { isOnchain, isLn } from 'lib/utils/crypto'
 import TextArea from 'components/UI/TextArea'
 import FormFieldMessage from 'components/UI/FormFieldMessage'
+import messages from './messages'
 
 /**
  * @render react
@@ -30,19 +32,28 @@ class LightningInvoiceInput extends React.Component {
   }
 
   validate = value => {
+    const { intl } = this.props
     const { network, chain, required } = this.props
+
+    let chainName = `${chain}/lightning`
+    if (network !== 'mainnet') {
+      chainName += ` (${network})`
+    }
+
     if (required && (!value || value.trim() === '')) {
-      return 'This is a required field'
+      return intl.formatMessage({ ...messages.required_field })
     }
     if (value && !isLn(value, chain, network) && !isOnchain(value, chain, network)) {
-      return 'Not a valid address.'
+      return intl.formatMessage({ ...messages.invalid_request }, { chain: chainName })
     }
   }
 
   render() {
+    const { intl } = this.props
+
     return (
       <InformedTextArea
-        placeholder="Paste a Lightning Payment Request or Bitcoin Address here"
+        placeholder={intl.formatMessage({ ...messages.payreq_placeholder })}
         rows={5}
         {...this.props}
         validate={this.validate}
@@ -54,18 +65,27 @@ class LightningInvoiceInput extends React.Component {
 const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
   const { value } = fieldState
   const { chain, network, ...rest } = props
+
+  let chainName = isLn(value, chain, network) ? 'lightning' : chain
+  if (network !== 'mainnet') {
+    chainName += ` (${network})`
+  }
   return (
     <React.Fragment>
       <TextArea {...rest} />
       {value &&
         !fieldState.error && (
           <FormFieldMessage variant="success" mt={2}>
-            Valid {isLn(value, chain, network) ? 'lightning' : chain} address{' '}
-            {network !== 'mainnet' && `(${network})`}
+            <FormattedMessage
+              {...messages.valid_request}
+              values={{
+                chain: chainName
+              }}
+            />
           </FormFieldMessage>
         )}
     </React.Fragment>
   )
 })
 
-export default LightningInvoiceInput
+export default injectIntl(LightningInvoiceInput)
