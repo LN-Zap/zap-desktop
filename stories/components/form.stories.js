@@ -4,6 +4,8 @@ import { action } from '@storybook/addon-actions'
 import { Box } from 'rebass'
 import { Form } from 'informed'
 import {
+  CryptoAmountInput,
+  FiatAmountInput,
   Page,
   MainContent,
   Input,
@@ -43,6 +45,40 @@ storiesOf('Components.Form', module)
   .add('TextArea', () => (
     <Form>
       <TextArea field="fieldName" placeholder="Type here" />
+    </Form>
+  ))
+  .add('CryptoAmountInput', () => (
+    <Form>
+      <Box my={4}>
+        <Box>
+          <Label htmlFor="cryptoBtc">BTC</Label>
+        </Box>
+        <CryptoAmountInput field="cryptoBtc" currency="btc" width={150} />
+      </Box>
+
+      <Box my={4}>
+        <Box>
+          <Label htmlFor="cryptoBits">Bits</Label>
+        </Box>
+        <CryptoAmountInput field="cryptoBits" currency="bits" width={150} />
+      </Box>
+
+      <Box my={4}>
+        <Box>
+          <Label htmlFor="cryptoSats">Sats</Label>
+        </Box>
+        <CryptoAmountInput field="cryptoSats" currency="sats" width={150} />
+      </Box>
+    </Form>
+  ))
+  .add('FiatAmountInput', () => (
+    <Form>
+      <Box my={4}>
+        <Box>
+          <Label htmlFor="fiat">USD</Label>
+        </Box>
+        <FiatAmountInput field="fiat" currency="usd" width={150} />
+      </Box>
     </Form>
   ))
   .add('Lightning Invoice Textarea', () => (
