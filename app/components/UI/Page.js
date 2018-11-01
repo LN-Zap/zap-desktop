@@ -12,9 +12,13 @@ const Page = props => (
     {...props}
     as="article"
     alignItems="stretch"
-    width="950"
-    bg="white"
-    css={{ height: '600px', 'min-height': '700px', 'min-width': '950px' }}
+    bg="darkestBackground"
+    css={{
+      'min-height': '700px',
+      'min-width': '950px',
+      'overflow-y': 'hidden',
+      'box-shadow': '0 3px 4px 0 rgba(30, 30, 30, 0.5)'
+    }}
   />
 )
 

@@ -6,7 +6,6 @@ Object {
   "hasSynced": undefined,
   "infoLoading": true,
   "network": Object {},
-  "showWalletCurrencyFilters": false,
 }
 `;
 
@@ -32,7 +31,6 @@ Object {
     "name": null,
     "unitPrefix": "",
   },
-  "showWalletCurrencyFilters": false,
 }
 `;
 
@@ -42,6 +40,5 @@ Object {
   "hasSynced": undefined,
   "infoLoading": false,
   "network": Object {},
-  "showWalletCurrencyFilters": false,
 }
 `;

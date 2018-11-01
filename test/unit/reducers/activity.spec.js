@@ -3,7 +3,6 @@ import activityReducer, {
   HIDE_ACTIVITY_MODAL,
   CHANGE_FILTER,
   TOGGLE_PULLDOWN,
-  SET_ACTIVITY_MODAL_CURRENCY_FILTERS,
   UPDATE_SEARCH_ACTIVE,
   UPDATE_SEARCH_TEXT
 } from 'reducers/activity'
@@ -24,10 +23,6 @@ describe('reducers', () => {
 
     it('should have TOGGLE_PULLDOWN', () => {
       expect(TOGGLE_PULLDOWN).toEqual('TOGGLE_PULLDOWN')
-    })
-
-    it('should have SET_ACTIVITY_MODAL_CURRENCY_FILTERS', () => {
-      expect(SET_ACTIVITY_MODAL_CURRENCY_FILTERS).toEqual('SET_ACTIVITY_MODAL_CURRENCY_FILTERS')
     })
 
     it('should have UPDATE_SEARCH_ACTIVE', () => {
@@ -55,12 +50,6 @@ describe('reducers', () => {
     it('should correctly togglePulldown', () => {
       expect(
         activityReducer(undefined, { type: TOGGLE_PULLDOWN, invoice: 'foo' })
-      ).toMatchSnapshot()
-    })
-
-    it('should correctly setActivityModalCurrencyFilters', () => {
-      expect(
-        activityReducer(undefined, { type: SET_ACTIVITY_MODAL_CURRENCY_FILTERS })
       ).toMatchSnapshot()
     })
 

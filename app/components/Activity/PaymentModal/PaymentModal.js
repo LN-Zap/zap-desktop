@@ -1,16 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
-
+import Dropdown from 'components/UI/Dropdown'
 import PaperPlane from 'components/Icon/PaperPlane'
 import Zap from 'components/Icon/Zap'
-
 import Value from 'components/Value'
-
 import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
 import messages from './messages'
-
 import styles from './PaymentModal.scss'
 
 const PaymentModal = ({
@@ -18,13 +13,7 @@ const PaymentModal = ({
   ticker,
   currentTicker,
 
-  toggleCurrencyProps: {
-    setActivityModalCurrencyFilters,
-    showCurrencyFilters,
-    currencyName,
-    currentCurrencyFilters,
-    onCurrencyFilterClick
-  }
+  toggleCurrencyProps: { currencyName, currencyFilters, setCurrency }
 }) => (
   <div className={styles.container}>
     <header className={styles.header}>
@@ -55,31 +44,14 @@ const PaymentModal = ({
     </header>
 
     <div className={styles.amount}>
-      <h1>
-        <i className={`${styles.symbol} ${payment.value > 0 ? styles.active : undefined}`}>-</i>
-        <Value
-          value={payment.value}
-          currency={ticker.currency}
-          currentTicker={currentTicker}
-          fiatTicker={ticker.fiatTicker}
-        />
-      </h1>
-      <section
-        className={styles.currentCurrency}
-        onClick={() => setActivityModalCurrencyFilters(!showCurrencyFilters)}
-      >
-        <span>{currencyName}</span>
-        <span>
-          <FaAngleDown />
-        </span>
-        <ul className={showCurrencyFilters ? styles.active : undefined}>
-          {currentCurrencyFilters.map(filter => (
-            <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
-              {filter.name}
-            </li>
-          ))}
-        </ul>
-      </section>
+      <i className={`${styles.symbol} ${payment.value > 0 ? styles.active : undefined}`}>-</i>
+      <Value
+        value={payment.value}
+        currency={ticker.currency}
+        currentTicker={currentTicker}
+        fiatTicker={ticker.fiatTicker}
+      />
+      <Dropdown activeKey={ticker.currency} items={currencyFilters} onChange={setCurrency} ml={2} />
     </div>
 
     <div className={styles.date}>

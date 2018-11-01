@@ -1,7 +1,6 @@
 @import 'styles/variables.scss';
 
 .container {
-  padding: 0 40px;
   margin: 0 auto;
   width: 500px;
 }
@@ -50,7 +49,6 @@
 
   .amount .bottom {
     display: flex;
-    flex-direction: row;
     align-items: center;
 
     input {
@@ -92,53 +90,6 @@
     textarea::-webkit-input-placeholder {
       text-shadow: none;
       -webkit-text-fill-color: initial;
-    }
-  }
-
-  .currency {
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-left: 12px;
-
-    .currentCurrency {
-      cursor: pointer;
-      transition: 0.25s all;
-
-      &:hover {
-        opacity: 0.5;
-      }
-
-      span {
-        font-size: 14px;
-
-        &:nth-child(1) {
-          font-weight: bold;
-        }
-      }
-    }
-
-    ul {
-      visibility: hidden;
-      position: absolute;
-      top: 30px;
-      z-index: z("form", "pay");
-
-      &.active {
-        visibility: visible;
-      }
-
-      li {
-        padding: 8px 15px;
-        background: var(--lightBackground);
-        cursor: pointer;
-        transition: 0.25s hover;
-
-        &:hover {
-          background: var(--darkestBackground);
-        }
-      }
     }
   }
 

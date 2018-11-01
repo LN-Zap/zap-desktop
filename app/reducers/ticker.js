@@ -92,13 +92,14 @@ const ACTION_HANDLERS = {
 // Selectors
 const tickerSelectors = {}
 const cryptoSelector = state => state.ticker.crypto
-const currencyFiltersSelector = state => state.ticker.currencyFilters
 const currencySelector = state => state.ticker.currency
+const currencyFiltersSelector = state => state.ticker.currencyFilters
 const bitcoinTickerSelector = state => state.ticker.btcTicker
 const litecoinTickerSelector = state => state.ticker.ltcTicker
-const tickerLoading = state => state.ticker.tickerLoading
+const tickerLoadingSelector = state => state.ticker.tickerLoading
 
-tickerSelectors.tickerLoading = tickerLoading
+tickerSelectors.currency = currencySelector
+tickerSelectors.tickerLoading = tickerLoadingSelector
 
 tickerSelectors.currentTicker = createSelector(
   cryptoSelector,
@@ -107,25 +108,30 @@ tickerSelectors.currentTicker = createSelector(
   (crypto, btcTicker, ltcTicker) => (crypto === 'btc' ? btcTicker : ltcTicker)
 )
 
-tickerSelectors.currentCurrencyFilters = createSelector(
-  currencySelector,
+tickerSelectors.currencyFilters = createSelector(
+  infoSelectors.networkSelector,
   currencyFiltersSelector,
-  (currency, filters) => filters.filter(f => f.key !== currency)
+  (network, currencyFilters = []) => {
+    if (!network || !network.unitPrefix) {
+      return currencyFilters
+    }
+    return currencyFilters.map(item => {
+      item.name = `${network.unitPrefix}${item.name}`
+      return item
+    })
+  }
 )
 
 tickerSelectors.currencyName = createSelector(
   currencySelector,
-  infoSelectors.networkSelector,
-  (currency, network) => {
+  tickerSelectors.currencyFilters,
+  (currency, currencyFilters = []) => {
     let unit = currency
-    if (currency === 'btc') {
-      unit = 'BTC'
+    const selectedCurrency = currencyFilters.find(c => c.key === currency)
+    if (selectedCurrency) {
+      unit = selectedCurrency.name
     }
-    if (currency === 'sats') {
-      unit = 'satoshis'
-    }
-
-    return `${network.unitPrefix}${unit}`
+    return unit
   }
 )
 

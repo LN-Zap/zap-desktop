@@ -2,11 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Hand from 'components/Icon/Hand'
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
 
 import { btc } from 'lib/utils'
 import AmountInput from 'components/AmountInput'
 import Button from 'components/UI/Button'
+import Dropdown from 'components/UI/Dropdown'
 
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
@@ -14,27 +14,20 @@ import messages from './messages'
 import styles from './Request.scss'
 
 const Request = ({
-  requestform: { amount, memo, showCurrencyFilters },
+  requestform: { amount, memo },
   ticker,
-
   setRequestAmount,
   setRequestMemo,
   setCurrency,
-  setRequestCurrencyFilters,
-  currencyName,
   requestFiatAmount,
-
-  currentCurrencyFilters,
-
+  currencyFilters,
   onRequestSubmit,
   intl
 }) => {
   const onCurrencyFilterClick = currency => {
     // change the input amount
     setRequestAmount(btc.convert(ticker.currency, currency, amount))
-
     setCurrency(currency)
-    setRequestCurrencyFilters(false)
   }
 
   return (
@@ -61,24 +54,12 @@ const Request = ({
               currency={ticker.currency}
               onChangeEvent={setRequestAmount}
             />
-            <div className={styles.currency}>
-              <section
-                className={styles.currentCurrency}
-                onClick={() => setRequestCurrencyFilters(!showCurrencyFilters)}
-              >
-                <span>{currencyName}</span>
-                <span>
-                  <FaAngleDown />
-                </span>
-              </section>
-              <ul className={showCurrencyFilters ? styles.active : undefined}>
-                {currentCurrencyFilters.map(filter => (
-                  <li key={filter.key} onClick={() => onCurrencyFilterClick(filter.key)}>
-                    {filter.name}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <Dropdown
+              activeKey={ticker.currency}
+              items={currencyFilters}
+              onChange={onCurrencyFilterClick}
+              ml={2}
+            />
           </div>
 
           <div className={styles.fiatAmount}>
@@ -123,17 +104,13 @@ Request.propTypes = {
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     memo: PropTypes.string
   }).isRequired,
-
   requestFiatAmount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   currencyName: PropTypes.string.isRequired,
-
-  currentCurrencyFilters: PropTypes.array.isRequired,
-
+  currencyFilters: PropTypes.array.isRequired,
   setRequestAmount: PropTypes.func.isRequired,
   setRequestMemo: PropTypes.func.isRequired,
   onRequestSubmit: PropTypes.func.isRequired,
   setCurrency: PropTypes.func.isRequired,
-  setRequestCurrencyFilters: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired
 }

@@ -60,51 +60,7 @@
   align-items: center;
   justify-content: center;
   padding: 20px;
-
-  h1 {
-    font-size: 40px;
-  }
-
-  section {
-    font-size: 20px;
-    margin-left: 10px;
-    position: relative;
-    cursor: pointer;
-
-    &:hover {
-      span {
-        opacity: 0.5;
-      }
-    }
-
-    span {
-      transition: all 0.25s;
-    }
-
-    ul {
-      visibility: hidden;
-      position: absolute;
-      top: 40px;
-      right: -50px;
-      font-size: 12px;
-
-      &.active {
-        visibility: visible;
-      }
-
-      li {
-        padding: 8px 15px;
-        background: var(--lightBackground);
-        cursor: pointer;
-        transition: 0.25s hover;
-        border-bottom: 1px solid var(--lightestBackground);
-
-        &:hover {
-          background: var(--lightestBackground);
-        }
-      }
-    }
-  }
+  font-size: 40px;
 }
 
 .date {

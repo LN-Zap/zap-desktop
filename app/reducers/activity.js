@@ -14,8 +14,7 @@ const initialState = {
   ],
   modal: {
     itemType: null,
-    itemId: null,
-    showCurrencyFilters: false
+    itemId: null
   },
   searchActive: false,
   searchText: '',
@@ -33,8 +32,6 @@ export const CHANGE_FILTER = 'CHANGE_FILTER'
 export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
 
 export const TOGGLE_EXPIRED_REQUESTS = 'TOGGLE_EXPIRED_REQUESTS'
-
-export const SET_ACTIVITY_MODAL_CURRENCY_FILTERS = 'SET_ACTIVITY_MODAL_CURRENCY_FILTERS'
 
 export const UPDATE_SEARCH_ACTIVE = 'UPDATE_SEARCH_ACTIVE'
 export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
@@ -83,13 +80,6 @@ export function updateSearchText(searchText) {
   }
 }
 
-export function setActivityModalCurrencyFilters(showCurrencyFilters) {
-  return {
-    type: SET_ACTIVITY_MODAL_CURRENCY_FILTERS,
-    showCurrencyFilters
-  }
-}
-
 export function toggleExpiredRequests() {
   return {
     type: TOGGLE_EXPIRED_REQUESTS
@@ -110,15 +100,6 @@ const ACTION_HANDLERS = {
   [TOGGLE_EXPIRED_REQUESTS]: state => ({
     ...state,
     showExpiredRequests: !state.showExpiredRequests
-  }),
-
-  [SET_ACTIVITY_MODAL_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
-    ...state,
-    modal: {
-      itemType: state.modal.itemType,
-      itemId: state.modal.itemId,
-      showCurrencyFilters
-    }
   }),
 
   [UPDATE_SEARCH_ACTIVE]: (state, { searchActive }) => ({ ...state, searchActive }),

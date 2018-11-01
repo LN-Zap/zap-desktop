@@ -2,8 +2,9 @@ import React from 'react'
 import { configure } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import 'jest-styled-components'
+import { ThemeProvider } from 'styled-components'
 import Pay from 'components/Form/Pay'
-import { dark as theme } from 'themes'
+import { dark } from 'themes'
 import { mountWithIntl } from '../../__helpers__/intl-enzyme-test-helper'
 
 configure({ adapter: new Adapter() })
@@ -30,12 +31,11 @@ const defaultProps = {
   inputCaption: '',
   showPayLoadingScreen: true,
   payFormIsValid: {},
-  currentCurrencyFilters: [],
+  currencyFilters: [],
   currencyName: '',
 
   setPayAmount: () => {},
   setPayInput: () => {},
-  setCurrencyFilters: () => {},
   fetchInvoice: () => {},
   setCurrency: () => {},
 
@@ -48,7 +48,11 @@ const defaultProps = {
 
 describe('Form', () => {
   describe('should show the form without an input', () => {
-    const el = mountWithIntl(<Pay {...defaultProps} theme={theme} />)
+    const el = mountWithIntl(
+      <ThemeProvider theme={dark}>
+        <Pay {...defaultProps} />
+      </ThemeProvider>
+    )
 
     it('should contain Pay', () => {
       expect(el.find('input#paymentRequest').props.value).toBe(undefined)
@@ -57,7 +61,11 @@ describe('Form', () => {
 
   describe('should show lightning with a lightning input', () => {
     const props = { ...defaultProps, isLn: true }
-    const el = mountWithIntl(<Pay {...props} theme={theme} />)
+    const el = mountWithIntl(
+      <ThemeProvider theme={dark}>
+        <Pay {...props} />
+      </ThemeProvider>
+    )
 
     it('should contain Pay', () => {
       expect(el.find('input#paymentRequest').props.value).toBe(undefined)
@@ -66,7 +74,11 @@ describe('Form', () => {
 
   describe('should show on-chain with an on-chain input', () => {
     const props = { ...defaultProps, isOnchain: true }
-    const el = mountWithIntl(<Pay {...props} theme={theme} />)
+    const el = mountWithIntl(
+      <ThemeProvider theme={dark}>
+        <Pay {...props} />
+      </ThemeProvider>
+    )
 
     it('should contain Pay', () => {
       expect(el.find('input#paymentRequest').props.value).toBe(undefined)

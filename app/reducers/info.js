@@ -8,7 +8,6 @@ import { walletAddress } from './address'
 // ------------------------------------
 export const GET_INFO = 'GET_INFO'
 export const RECEIVE_INFO = 'RECEIVE_INFO'
-export const SET_WALLET_CURRENCY_FILTERS = 'SET_WALLET_CURRENCY_FILTERS'
 export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
 
 // ------------------------------------
@@ -17,13 +16,6 @@ export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
 export function getInfo() {
   return {
     type: GET_INFO
-  }
-}
-
-export function setWalletCurrencyFilters(showWalletCurrencyFilters) {
-  return {
-    type: SET_WALLET_CURRENCY_FILTERS,
-    showWalletCurrencyFilters
   }
 }
 
@@ -85,10 +77,6 @@ const ACTION_HANDLERS = {
     infoLoading: false,
     network: data.testnet ? networks.testnet : networks.mainnet,
     data
-  }),
-  [SET_WALLET_CURRENCY_FILTERS]: (state, { showWalletCurrencyFilters }) => ({
-    ...state,
-    showWalletCurrencyFilters
   })
 }
 
@@ -99,8 +87,7 @@ const initialState = {
   infoLoading: false,
   hasSynced: undefined,
   network: {},
-  data: {},
-  showWalletCurrencyFilters: false
+  data: {}
 }
 
 // Selectors

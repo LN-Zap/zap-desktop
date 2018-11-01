@@ -19,9 +19,7 @@ const initialState = {
   },
 
   manualFormOpen: false,
-  submitChannelFormOpen: false,
-
-  showCurrencyFilters: false
+  submitChannelFormOpen: false
 }
 
 // Constants
@@ -49,8 +47,6 @@ export const UPDATE_CONTACT_CAPACITY = 'UPDATE_CONTACT_CAPACITY'
 export const UPDATE_MANUAL_FORM_ERRORS = 'UPDATE_MANUAL_FORM_ERRORS'
 
 export const UPDATE_MANUAL_FORM_SEARCH_QUERY = 'UPDATE_MANUAL_FORM_SEARCH_QUERY'
-
-export const SET_CONTACTS_CURRENCY_FILTERS = 'SET_CONTACTS_CURRENCY_FILTERS'
 
 // ------------------------------------
 // Actions
@@ -145,13 +141,6 @@ export function updateManualFormErrors(errorsObject) {
   }
 }
 
-export function setContactsCurrencyFilters(showCurrencyFilters) {
-  return {
-    type: SET_CONTACTS_CURRENCY_FILTERS,
-    showCurrencyFilters
-  }
-}
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -183,11 +172,6 @@ const ACTION_HANDLERS = {
   [UPDATE_MANUAL_FORM_SEARCH_QUERY]: (state, { manualSearchQuery }) => ({
     ...state,
     manualSearchQuery
-  }),
-
-  [SET_CONTACTS_CURRENCY_FILTERS]: (state, { showCurrencyFilters }) => ({
-    ...state,
-    showCurrencyFilters
   })
 }
 
