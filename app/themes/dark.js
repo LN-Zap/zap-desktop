@@ -27,13 +27,14 @@ const buttons = {
     color: colors.white
   },
   secondary: {
+    opacity: 0.6,
     backgroundColor: 'transparent',
-    color: colors.white,
+    color: colors.primaryText,
     '&:hover:enabled': {
-      color: colors.lightningOrange
+      opacity: 1
     },
     '&:focus': {
-      color: colors.lightningOrange
+      opacity: 1
     }
   }
 }

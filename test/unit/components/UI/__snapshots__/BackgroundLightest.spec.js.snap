@@ -2,12 +2,12 @@
 
 exports[`component.UI.BackgroundLightest should render correctly 1`] = `
 .c0 {
-  color: white;
+  color: primaryText;
   background-color: lightestBackground;
 }
 
 <div
   className="c0"
-  color="white"
+  color="primaryText"
 />
 `;

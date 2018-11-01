@@ -20,7 +20,7 @@ const Input = styled.input`
     appearance: none;
     height: 8px;
     cursor: ew-resize;
-    background: ${props => props.theme.colors.white};
+    background: ${props => props.theme.colors.primaryText};
     box-shadow: -1000px 0 0 1000px orange;
   }
 `

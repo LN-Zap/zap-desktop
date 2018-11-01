@@ -5,7 +5,7 @@ import get from 'lodash.get'
 import { btc } from 'lib/utils'
 
 import { themeSelectors } from 'reducers/theme'
-import { setCurrency, tickerSelectors, fetchTicker } from 'reducers/ticker'
+import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
 import { fetchInfo, infoSelectors } from 'reducers/info'
 import { setFormType } from 'reducers/form'
@@ -68,7 +68,6 @@ const mapDispatchToProps = {
   fetchBalance,
   fetchChannels,
   fetchSuggestedNodes,
-  fetchTicker,
   openChannel,
   closeChannel,
   toggleFilterPulldown,

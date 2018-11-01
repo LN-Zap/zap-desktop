@@ -3,12 +3,10 @@
 .container {
   color: var(--primaryText);
 
-  p {
+  h2 {
+    font-size: 16px;
     margin-bottom: 20px;
-  }
-
-  strong {
-    font-weight: bold;
+    font-weight: 300;
   }
 
   .host {

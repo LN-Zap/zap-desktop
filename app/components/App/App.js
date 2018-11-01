@@ -31,18 +31,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const {
-      currentTicker,
-      fetchInfo,
-      fetchSuggestedNodes,
-      fetchTicker,
-      fetchDescribeNetwork
-    } = this.props
+    const { currentTicker, fetchInfo, fetchSuggestedNodes, fetchDescribeNetwork } = this.props
 
     // If we don't yet have any ticker information then it must be our first time mounting this component.
     if (!currentTicker) {
-      // fetch ticker data.
-      fetchTicker()
       // fetch node info.
       fetchInfo()
       // fetch suggested nodes list from zap.jackmallers.com/suggested-peers.

@@ -11,7 +11,6 @@ import CheckAnimated from 'components/Icon/CheckAnimated'
 import ZapLogo from 'components/Icon/ZapLogo'
 import ZapLogoBlack from 'components/Icon/ZapLogoBlack'
 import Qrcode from 'components/Icon/Qrcode'
-
 import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
 
@@ -70,43 +69,48 @@ const Wallet = ({
         </Box>
       </Flex>
 
-      <Flex as="header" justifyContent="space-between" mt={4}>
+      <Flex as="header" justifyContent="space-between" mt={5}>
         <Box as="section">
-          <Flex alignItems="baseline">
-            <Box onClick={openReceiveModal} className={styles.qrCode} mr={2}>
-              <Qrcode width="20px" height="20px" />
+          <Flex alignItems="center">
+            <Box onClick={openReceiveModal} className={styles.qrCode} mr={3}>
+              <Qrcode width="21px" height="21px" />
             </Box>
-            <Flex flexDirection="column">
-              <Text fontSize="24px" letterSpacing={2}>
-                <Value
-                  value={parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance)}
-                  currency={ticker.currency}
-                  currentTicker={currentTicker}
-                  fiatTicker={ticker.fiatTicker}
+
+            <Box>
+              <Flex alignItems="baseline">
+                <Text fontSize="xxl">
+                  <Value
+                    value={parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance)}
+                    currency={ticker.currency}
+                    currentTicker={currentTicker}
+                    fiatTicker={ticker.fiatTicker}
+                  />
+                </Text>
+                <Dropdown
+                  activeKey={ticker.currency}
+                  items={currencyFilters}
+                  onChange={setCurrency}
+                  ml={1}
                 />
-              </Text>
-            </Flex>
-            <Dropdown
-              activeKey={ticker.currency}
-              items={currencyFilters}
-              onChange={setCurrency}
-              ml={2}
-            />
+              </Flex>
+              {Boolean(fiatAmount) && (
+                <Text color="gray">
+                  {'≈ '}
+                  <FormattedNumber
+                    currency={ticker.fiatTicker}
+                    style="currency"
+                    value={fiatAmount}
+                  />
+                </Text>
+              )}
+            </Box>
           </Flex>
-          <Box ml={30} mt={1}>
-            {Boolean(fiatAmount) && (
-              <span>
-                {'≈ '}
-                <FormattedNumber currency={ticker.fiatTicker} style="currency" value={fiatAmount} />
-              </span>
-            )}
-          </Box>
         </Box>
         <Box as="section">
-          <Button onClick={openPayForm} variant="primary" mx={7.5} width={100}>
+          <Button onClick={openPayForm} mr={2} width={145}>
             <FormattedMessage {...messages.pay} />
           </Button>
-          <Button onClick={openRequestForm} variant="primary" mx={7.5} width={100}>
+          <Button onClick={openRequestForm} width={145}>
             <FormattedMessage {...messages.request} />
           </Button>
         </Box>

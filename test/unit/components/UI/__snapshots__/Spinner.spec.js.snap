@@ -2,18 +2,34 @@
 
 exports[`component.UI.Spinner should render correctly 1`] = `
 .c0 {
-  width: 1em;
-  height: 1em;
-  border-radius: 999px;
-  border: 1px solid rgba(235,184,100,0.1);
-  border-left-color: rgba(235,184,100,0.6);
-  display: inline-block;
+  color: lightningOrange;
+}
+
+.c1 {
   -webkit-animation: iVXCSc 1s linear infinite;
   animation: iVXCSc 1s linear infinite;
 }
 
 <div
   className="c0"
-  width="1em"
-/>
+>
+  <svg
+    className="c1"
+    height="1em"
+    viewBox="0 0 14 14"
+    width="1em"
+    xmlnsXlink="http://www.w3.org/1999/xlink"
+  >
+    <defs>
+      <path
+        d="M0 7a.778.778 0 1 1 1.556 0c0 1.464.58 2.835 1.594 3.85a5.444 5.444 0 1 0 1.766-8.881A.778.778 0 1 1 4.32.53 7 7 0 1 1 0 7z"
+        id="d"
+      />
+    </defs>
+    <use
+      fill="currentColor"
+      xlinkHref="#d"
+    />
+  </svg>
+</div>
 `;

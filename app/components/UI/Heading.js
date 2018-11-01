@@ -11,7 +11,16 @@ class Heading extends React.PureComponent {
   static displayName = 'Heading'
 
   render() {
-    return <BaseHeading fontSize={5} as="h2" {...this.props} />
+    return (
+      <BaseHeading
+        as="h2"
+        lineHeight="1.4"
+        fontWeight="light"
+        fontSize={5}
+        color="primaryText"
+        {...this.props}
+      />
+    )
   }
 }
 

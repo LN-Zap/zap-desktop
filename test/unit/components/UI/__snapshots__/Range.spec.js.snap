@@ -26,7 +26,7 @@ exports[`component.UI.Range should render correctly 1`] = `
   appearance: none;
   height: 8px;
   cursor: ew-resize;
-  background: #ffffff;
+  background: #fff;
   box-shadow: -1000px 0 0 1000px orange;
 }
 

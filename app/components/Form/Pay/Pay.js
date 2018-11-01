@@ -7,7 +7,6 @@ import AmountInput from 'components/AmountInput'
 import { Button, Dropdown } from 'components/UI'
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
-
 import styles from './Pay.scss'
 
 class Pay extends Component {
@@ -177,7 +176,7 @@ class Pay extends Component {
           </section>
 
           <section className={styles.submit}>
-            <Button disabled={!isValid} onClick={onPaySubmit} size="large" width={200}>
+            <Button disabled={!isValid} onClick={onPaySubmit} width={200}>
               <FormattedMessage {...messages.pay} />
             </Button>
           </section>

@@ -1,5 +1,7 @@
+import React from 'react'
 import styled, { keyframes } from 'styled-components'
-import { Card } from 'rebass'
+import Spinner from 'components/Icon/Spinner'
+import system from '@rebass/components'
 
 const rotate360 = keyframes`
   from {
@@ -10,26 +12,28 @@ const rotate360 = keyframes`
   }
 `
 
+const Wrapper = system(
+  {
+    color: 'lightningOrange'
+  },
+  'space',
+  'color'
+)
+
 /**
  * @render react
  * @name Spinner
  * @example
  * <Spinner />
  */
-const Spinner = styled(Card)`
-  border: 1px solid rgba(235, 184, 100, 0.1);
-  border-left-color: rgba(235, 184, 100, 0.6);
-  display: inline-block;
+const SpinningSpinner = styled(Spinner)`
   animation: ${rotate360} 1s linear infinite;
 `
 
-Spinner.displayName = 'Spinner'
-Spinner.defaultProps = {
-  borderRadius: 999,
-  width: '1em',
-  css: {
-    height: '1em'
-  }
-}
+const WrappedSpinner = props => (
+  <Wrapper {...props}>
+    <SpinningSpinner />
+  </Wrapper>
+)
 
-export default Spinner
+export default WrappedSpinner

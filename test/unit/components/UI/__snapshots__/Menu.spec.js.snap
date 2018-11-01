@@ -28,7 +28,7 @@ exports[`component.UI.Menu should render correctly 1`] = `
 }
 
 .c1 > .rc-menu-item-group-title {
-  font-weight: bold;
+  font-weight: 400;
   padding: 8px 0;
 }
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Button } from 'components/UI'
+import Button from 'components/UI/Button'
 import messages from './messages'
 import styles from './Login.scss'
 
@@ -37,7 +37,6 @@ const Login = ({
         disabled={!passwordIsValid || unlockingWallet}
         onClick={() => unlockWallet(password)}
         processing={unlockingWallet}
-        size="large"
       >
         {unlockingWallet ? (
           <FormattedMessage {...messages.unlocking} />

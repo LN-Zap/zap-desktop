@@ -7,18 +7,21 @@ import { Flex } from 'rebass'
  * @example
  * <Page>Some content</Page>
  */
-const Page = props => (
+const Page = ({ css, ...rest }) => (
   <Flex
-    {...props}
-    as="article"
     alignItems="stretch"
     bg="darkestBackground"
-    css={{
-      'min-height': '700px',
-      'min-width': '950px',
-      'overflow-y': 'hidden',
-      'box-shadow': '0 3px 4px 0 rgba(30, 30, 30, 0.5)'
-    }}
+    as="article"
+    css={Object.assign(
+      {
+        'min-width': '950px',
+        'min-height': '600px',
+        'overflow-y': 'hidden',
+        'box-shadow': '0 20px 70px rgba(0, 0, 0, 0.55)'
+      },
+      css
+    )}
+    {...rest}
   />
 )
 

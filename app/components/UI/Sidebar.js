@@ -1,5 +1,5 @@
 import React from 'react'
-import { BackgroundLightest } from 'components/UI'
+import { BackgroundLight } from 'components/UI'
 
 /**
  * @render react
@@ -7,9 +7,7 @@ import { BackgroundLightest } from 'components/UI'
  * @example
  * <Sidebar>Some content</Sidebar>
  */
-const Sidebar = props => (
-  <BackgroundLightest as="aside" p={3} css={{ height: '100%' }} width={4 / 12} {...props} />
-)
+const Sidebar = props => <BackgroundLight as="aside" p={3} width={4 / 12} {...props} />
 
 Sidebar.small = props => <Sidebar {...props} width={3 / 12} />
 Sidebar.medium = props => <Sidebar {...props} width={4 / 12} />

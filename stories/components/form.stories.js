@@ -91,7 +91,7 @@ storiesOf('Components.Form', module)
   ))
   .add('Range', () => (
     <Form>
-      <Range field="range" />
+      <Range initialValue={25} field="range" />
     </Form>
   ))
   .add('Example form', () => (

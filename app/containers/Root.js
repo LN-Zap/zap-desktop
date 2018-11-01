@@ -9,6 +9,7 @@ import { clearError, errorSelectors } from 'reducers/error'
 import { loadingSelectors, setLoading, setMounted } from 'reducers/loading'
 import { initCurrency, initLocale } from 'reducers/locale'
 import { initTheme, themeSelectors } from 'reducers/theme'
+import { fetchTicker, tickerSelectors } from 'reducers/ticker'
 
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalError from 'components/GlobalError'
@@ -29,8 +30,10 @@ const SPLASH_SCREEN_TIME = 1500
 class Root extends React.Component {
   static propTypes = {
     clearError: PropTypes.func.isRequired,
+    currentTicker: PropTypes.object,
     theme: PropTypes.object,
     error: PropTypes.string,
+    fetchTicker: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     initLocale: PropTypes.func.isRequired,
     initCurrency: PropTypes.func.isRequired,
@@ -56,13 +59,16 @@ class Root extends React.Component {
    */
   componentDidMount() {
     const {
+      currentTicker,
+      fetchTicker,
       initLocale,
       initCurrency,
       initTheme,
       isLoading,
       isMounted,
       setLoading,
-      setMounted
+      setMounted,
+      theme
     } = this.props
 
     // If this is the first time the app has mounted, initialise things.
@@ -71,10 +77,11 @@ class Root extends React.Component {
       initTheme()
       initLocale()
       initCurrency()
+      fetchTicker()
     }
 
     // Hide the loading screen after a set time.
-    if (isLoading) {
+    if (isLoading || !currentTicker || !theme) {
       const timer = setTimeout(() => setLoading(false), SPLASH_SCREEN_TIME)
       this.setState({ timer })
     }
@@ -91,7 +98,7 @@ class Root extends React.Component {
   render() {
     const { clearError, theme, error, history, isLoading } = this.props
 
-    // Wait until we have determined the user's theme preference before displaying the app.
+    // Wait until we have loaded essential data before displaying anything..
     if (!theme) {
       return null
     }
@@ -119,6 +126,7 @@ class Root extends React.Component {
 }
 
 const mapStateToProps = state => ({
+  currentTicker: tickerSelectors.currentTicker(state),
   theme: themeSelectors.currentThemeSettings(state),
   error: errorSelectors.getErrorState(state),
   isLoading: loadingSelectors.isLoading(state),
@@ -127,6 +135,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   clearError,
+  fetchTicker,
   initCurrency,
   initLocale,
   initTheme,

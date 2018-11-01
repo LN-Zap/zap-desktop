@@ -44,13 +44,4 @@ storiesOf('Components.Button', module)
       Small button
     </Button>
   ))
-  .add('Medium', () => (
-    <Button onClick={action('clicked')} size="medium">
-      Medium button
-    </Button>
-  ))
-  .add('Large', () => (
-    <Button onClick={action('clicked')} size="large">
-      Large button
-    </Button>
-  ))
+  .add('Normal', () => <Button onClick={action('clicked')}>Medium button</Button>)

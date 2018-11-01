@@ -7,7 +7,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { btc, blockExplorer } from 'lib/utils'
 import Plus from 'components/Icon/Plus'
 import Search from 'components/Icon/Search'
-
+import { BackgroundLight, Text } from 'components/UI'
 import Value from 'components/Value'
 
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
@@ -165,7 +165,7 @@ class Network extends Component {
     )
     const { refreshing } = this.state
     return (
-      <div className={styles.network}>
+      <BackgroundLight className={styles.network}>
         <header className={styles.header}>
           <section>
             <h2>
@@ -200,9 +200,9 @@ class Network extends Component {
             onClick={openContactsForm}
             data-hint={intl.formatMessage({ ...messages.open_channel })}
           >
-            <span className={styles.plusContainer}>
+            <Text fontSize="xl">
               <Plus />
-            </span>
+            </Text>
           </section>
         </header>
 
@@ -384,7 +384,7 @@ class Network extends Component {
             />
           </footer>
         )}
-      </div>
+      </BackgroundLight>
     )
   }
 }

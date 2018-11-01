@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
-import SystemSuccess from 'components/Icon/SystemSuccess'
-import SystemWarning from 'components/Icon/SystemWarning'
-import SystemError from 'components/Icon/SystemError'
+import { Box, Flex, Text } from 'rebass'
+import Success from 'components/Icon/Success'
+import Warning from 'components/Icon/Warning'
+import Error from 'components/Icon/Error'
 
 import styled from 'styled-components'
 import { variant } from 'styled-system'
@@ -26,15 +26,17 @@ class FormFieldMessage extends React.Component {
   }
 
   render() {
-    const { children, variant } = this.props
+    const { children, variant, ...rest } = this.props
     return (
-      <Message {...this.props} variant={variant}>
+      <Message {...rest} variant={variant} alignItems="center">
         <Box mr={1}>
-          {variant === 'success' && <SystemSuccess />}
-          {variant === 'warning' && <SystemWarning />}
-          {variant === 'error' && <SystemError />}
+          {variant === 'success' && <Success />}
+          {variant === 'warning' && <Warning />}
+          {variant === 'error' && <Error />}
         </Box>
-        {children}
+        <Text fontSize="s" fontWeight="normal">
+          {children}
+        </Text>
       </Message>
     )
   }

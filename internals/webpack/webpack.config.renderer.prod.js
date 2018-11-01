@@ -5,7 +5,6 @@
 import path from 'path'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
-import CopyWebpackPlugin from 'copy-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
@@ -33,26 +32,6 @@ export default merge.smart(baseConfig, {
 
   module: {
     rules: [
-      // Extract all .global.css to style.css as is
-      {
-        test: /\.global\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader']
-      },
-      // Pipe other styles through css modules and append to style.css
-      {
-        test: /^((?!\.global).)*\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
-            }
-          }
-        ]
-      },
       // Add SASS support  - compile all .global.scss files and pipe it to style.css
       {
         test: /\.global\.scss$/,
@@ -88,44 +67,6 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
-      // WOFF Font
-      {
-        test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/font-woff'
-          }
-        }
-      },
-      // WOFF2 Font
-      {
-        test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/font-woff'
-          }
-        }
-      },
-      // TTF Font
-      {
-        test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'application/octet-stream'
-          }
-        }
-      },
-      // EOT Font
-      {
-        test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
-        use: 'file-loader'
-      },
       // SVG Font
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
@@ -148,8 +89,6 @@ export default merge.smart(baseConfig, {
   plugins: [
     new CleanWebpackPlugin([path.join('app', 'dist')]),
 
-    new CopyWebpackPlugin([path.join('app', 'empty.html')]),
-
     new MiniCssExtractPlugin(),
 
     new HtmlWebpackPlugin({
@@ -161,21 +100,8 @@ export default merge.smart(baseConfig, {
       'object-src': "'none'",
       'connect-src': ["'self'", 'https://blockchain.info', 'https://zap.jackmallers.com'],
       'script-src': ["'self'"],
-      'font-src': [
-        "'self'",
-        'data:',
-        'https://fonts.googleapis.com',
-        'https://s3.amazonaws.com',
-        'https://fonts.gstatic.com'
-      ],
-      'style-src': [
-        "'self'",
-        'blob:',
-        'https://fonts.googleapis.com',
-        'https://s3.amazonaws.com',
-        'https://fonts.gstatic.com',
-        "'unsafe-inline'"
-      ]
+      'font-src': ["'self'", 'data:', 'https://s3.amazonaws.com', 'https://fonts.gstatic.com'],
+      'style-src': ["'self'", 'blob:', 'https://s3.amazonaws.com', "'unsafe-inline'"]
     }),
 
     new BundleAnalyzerPlugin({

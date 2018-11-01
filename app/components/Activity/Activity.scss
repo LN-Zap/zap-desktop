@@ -37,7 +37,7 @@
     background: var(--darkestBackground);
     color: var(--primaryText);
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 60px;
     border-bottom: 1px solid $spaceborder;
     display: flex;
     flex-direction: row;
@@ -66,10 +66,9 @@
         width: 100%;
       }
 
-      .xIcon svg {
-        width: 25px;
-        height: 25px;
-        stroke: var(--white);
+      .xIcon {
+        cursor: pointer;
+        color: var(--white);
       }
     }
 
@@ -82,7 +81,6 @@
       li {
         position: relative;
         opacity: 0.5;
-        font-size: 14px;
         cursor: pointer;
 
         &.activeFilter {
@@ -96,7 +94,7 @@
         span {
           display: block;
           position: relative;
-          margin: 0 15px;
+          margin: 0 20px;
         }
 
         svg {
@@ -114,13 +112,15 @@
       }
 
       .activeBorder {
-        left: 15px;
-        right: 15px;
-        width: auto;
+        margin-left: auto;
+        margin-right: auto;
+        left: 0px;
+        right: 0px;
+        width: 50px;
         height: 1px;
-        background: var(--primaryText);
+        background: var(--lightningOrange);
         position: absolute;
-        bottom: -1px;
+        bottom: -6px;
       }
     }
   }
@@ -129,7 +129,7 @@
 .activityContainer {
   background: var(--primaryBackground);
   transition: opacity 0.25s;
-  height: calc(100vh - 225px);
+  height: calc(100vh - 275px);
   overflow-y: auto;
   overflow-x: hidden;
   padding-top: 20px;
@@ -147,8 +147,7 @@
 
   h2 {
     color: var(--primaryText);
-    font-size: 10px;
-    font-weight: bold;
+    font-weight: 400;
     border-bottom: 0.2px solid #a0a0a0;
     padding: 10px 0;
   }
@@ -230,6 +229,7 @@
   align-items: center;
   padding-right: 50px;
   min-width: 90px;
+  font-weight: 400;
 
   section {
     margin: 2.5px 0;
@@ -238,10 +238,6 @@
   svg {
     width: 12.5px;
     height: 12.5px;
-  }
-
-  time {
-    font-size: 12px;
   }
 }
 
@@ -295,7 +291,7 @@
   h3 {
     display: inline-block;
     font-size: 14px;
-    font-weight: bold;
+    font-weight: 300;
     letter-spacing: 1.2px;
 
     &::after {

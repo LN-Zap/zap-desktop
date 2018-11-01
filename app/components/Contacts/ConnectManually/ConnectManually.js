@@ -82,7 +82,7 @@ class ConnectManually extends React.Component {
         </section>
 
         <section className={styles.submit}>
-          <Button disabled={!manualFormIsValid.isValid} onClick={formSubmitted} size="large">
+          <Button disabled={!manualFormIsValid.isValid} onClick={formSubmitted}>
             <FormattedMessage {...messages.submit} />
           </Button>
         </section>

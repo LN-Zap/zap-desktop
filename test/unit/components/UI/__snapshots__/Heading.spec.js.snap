@@ -4,13 +4,16 @@ exports[`component.UI.Heading should render correctly 1`] = `
 .c0 {
   margin: 0px;
   font-size: 32px;
-  font-weight: bold;
+  color: primaryText;
+  font-weight: light;
+  line-height: 1.4;
 }
 
 <h2
   className="c0"
+  color="primaryText"
   fontSize={5}
-  fontWeight="bold"
+  fontWeight="light"
 >
   Heading here
 </h2>
