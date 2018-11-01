@@ -13,7 +13,7 @@
     "coverage": "open coverage/index.html",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "dev": "cross-env START_HOT=1 npm run start-renderer-dev",
-    "extract-messages": "extract-messages -l=en -o app/translations -d en --flat true 'app/**/messages.js'",
+    "extract-messages": "extract-messages -l=af-ZA,ca-ES,de-DE,es-ES,ga-IE,hr-HR,ja-JP,no-NO,pt-PT,sr-SP,uk-UA,zh-TW,ar-SA,cs-CZ,el-GR,fi-FI,he-IL,hu-HU,ko-KR,pl-PL,ro-RO,sv-SE,vi-VN,bg-BG,da-DK,en,fr-FR,hi-IN,it-IT,nl-NL,pt-BR,ru-RU,tr-TR,zh-CN -o app/translations -d en --flat true 'app/**/messages.js'",
     "fetch-lnd": "node ./internals/scripts/fetch-lnd-for-packaging.js",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
