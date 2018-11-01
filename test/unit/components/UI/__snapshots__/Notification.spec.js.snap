@@ -30,6 +30,7 @@ exports[`component.UI.Notification should render correctly 1`] = `
   padding-bottom: 16px;
   cursor: pointer;
   border-radius: 5px;
+  box-shadow: 0 3px 4px 0 rgba(30,30,30,0.5);
 }
 
 <div
