@@ -74,6 +74,25 @@ export function satoshisToFiat(satoshis, price) {
   return btcToFiat(satoshisToBtc(satoshis), price)
 }
 
+////////////////////////////
+// fiat to things /////
+//////////////////////////
+//////////////////////////
+export function fiatToBtc(fiat, price) {
+  if (fiat === undefined || fiat === null || fiat === '' || !price) return null
+
+  return Number(fiat / price)
+}
+
+export function fiatToBits(fiat, price) {
+  return btcToBits(fiatToBtc(fiat, price))
+}
+
+export function fiatToSatoshis(fiat, price) {
+  return btcToSatoshis(fiatToBtc(fiat, price))
+  return btcToFiat(satoshisToBtc(satoshis), price)
+}
+
 export function renderCurrency(currency) {
   switch (currency) {
     case 'btc':
@@ -125,6 +144,17 @@ export function convert(from, to, amount, price) {
           return amount
       }
       break
+    case 'fiat':
+      switch (to) {
+        case 'btc':
+          return fiatToBtc(amount, price)
+        case 'bits':
+          return fiatToBits(amount, price)
+        case 'sats':
+          return fiatToSatoshis(amount, price)
+        case 'fiat':
+          return amount
+      }
     default:
       return ''
   }

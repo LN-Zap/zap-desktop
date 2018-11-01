@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { isLn, isOnchain } from 'lib/utils/crypto'
+import { formatValue, isLn, isOnchain } from 'lib/utils/crypto'
 
 const VALID_BITCOIN_MAINNET_LN =
   'lnbc10u1pduey89pp57gt0mqvh9gv4m5kkxmy9a0a46ha5jlzr3mcfcz2fx8tzu63vpjksdq8w3jhxaqcqzystfg0drarrx89nvpegwykvfr4fypvwz2d9ktcr6tj5s08f0nn8gdjnv74y9amksk3rjw7englhjrsev70k77vwf603qh2pr4tnqeue6qp5n92gy'
@@ -96,5 +96,30 @@ describe('Crypto.isOnchain', () => {
         expect(isOnchain(VALID_LITECOIN_MAINNET, 'litecoin', 'testnet')).toBeTruthy()
       })
     })
+  })
+})
+
+describe('formatValue', () => {
+  const test = (from, to) => {
+    expect(formatValue(from[0], from[1])).toEqual(to)
+  }
+
+  it('turns parsed number into a string', () => {
+    test(['0', null], '0')
+    test(['00', null], '00')
+    test(['0', ''], '0.')
+
+    test(['1', null], '1')
+    test(['01', null], '01')
+    test(['1', ''], '1.')
+
+    test(['0', '0'], '0.0')
+    test(['0', '1'], '0.1')
+
+    test(['0', '01'], '0.01')
+    test(['0', '10'], '0.10')
+
+    test(['1', '0'], '1.0')
+    test(['01', '0'], '01.0')
   })
 })

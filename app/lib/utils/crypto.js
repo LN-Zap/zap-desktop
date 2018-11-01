@@ -2,6 +2,57 @@ import bitcoin from 'bitcoinjs-lib'
 import bech32 from 'lib/utils/bech32'
 
 /**
+ * Turns parsed number into a string.
+ */
+export const formatValue = (integer, fractional) => {
+  let value
+  if (fractional && fractional.length > 0) {
+    value = `${integer}.${fractional}`
+  } else {
+    // Empty string means `XYZ.` instead of just plain `XYZ`.
+    if (fractional === '') {
+      value = `${integer}.`
+    } else {
+      value = `${integer}`
+    }
+  }
+  return value
+}
+
+/**
+ * Splits number into integer and fraction.
+ */
+export const parseNumber = (_value, precision) => {
+  let value = String(_value || '')
+  if (typeof _value === 'string') {
+    value = _value.replace(/[^0-9.]/g, '')
+  }
+  let integer = null
+  let fractional = null
+  if (value * 1.0 < 0) {
+    value = '0.0'
+  }
+  // pearse integer and fractional value so that we can reproduce the same string value afterwards
+  // [0, 0] === 0.0
+  // [0, ''] === 0.
+  // [0, null] === 0
+  if (value.match(/^[0-9]*\.[0-9]*$/)) {
+    ;[integer, fractional] = value.toString().split(/\./)
+    if (!fractional) {
+      fractional = ''
+    }
+  } else {
+    integer = value
+  }
+  // Limit fractional precision to the correct number of decimal places.
+  if (fractional && fractional.length > precision) {
+    fractional = fractional.substring(0, precision)
+  }
+
+  return [integer, fractional]
+}
+
+/**
  * Test to see if a string is a valid on-chain address.
  * @param {String} input string to check.
  * @param {String} [network='mainnet'] network to check (mainnet, testnet).
