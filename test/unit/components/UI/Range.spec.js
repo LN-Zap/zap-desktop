@@ -1,9 +1,9 @@
 import React from 'react'
 import { Form } from 'informed'
-import Range from 'components/UI/Range'
 import renderer from 'react-test-renderer'
 import { dark } from 'themes'
 import { ThemeProvider } from 'styled-components'
+import { Range } from 'components/UI'
 
 describe('component.UI.Range', () => {
   it('should render correctly', () => {

@@ -1,5 +1,5 @@
 import React from 'react'
-import BackgroundDark from 'components/UI/BackgroundDark'
+import { BackgroundDark } from 'components/UI'
 
 /**
  * @render react

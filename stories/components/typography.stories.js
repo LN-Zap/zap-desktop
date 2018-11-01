@@ -1,7 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import Heading from 'components/UI/Heading'
-import Text from 'components/UI/Text'
+import { Heading, Text } from 'components/UI'
 
 storiesOf('Components.Typography', module)
   .add('heading', () => (

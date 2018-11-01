@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import Button from 'components/UI/Button'
+import { Button } from 'components/UI'
 import SystemNavPrevious from 'components/Icon/SystemNavPrevious'
 import SystemNavNext from 'components/Icon/SystemNavNext'
 

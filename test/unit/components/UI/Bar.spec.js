@@ -1,6 +1,6 @@
 import React from 'react'
-import Bar from 'components/UI/Bar'
 import renderer from 'react-test-renderer'
+import { Bar } from 'components/UI'
 
 describe('component.UI.Bar', () => {
   it('should render correctly', () => {

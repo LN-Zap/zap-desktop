@@ -1,6 +1,6 @@
 import React from 'react'
-import Spinner from 'components/UI/Spinner'
 import renderer from 'react-test-renderer'
+import { Spinner } from 'components/UI'
 
 describe('component.UI.Spinner', () => {
   it('should render correctly', () => {

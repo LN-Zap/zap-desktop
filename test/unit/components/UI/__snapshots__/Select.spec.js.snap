@@ -1,25 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Toggle should render correctly 1`] = `
-.c2 {
-  padding: 16px;
-  width: 100%;
-  font-size: 13px;
-  color: #ffffff;
-  background-color: transparent;
-  color: #ffffff;
-  background-color: transparent;
-  border: 1px solid white;
-  border: 1px solid white;
-  border-color: #ffffff;
-  border-radius: 5px;
-}
-
-.c2:focus {
-  outline: none;
-  border: 1px solid #fd9800;
-}
-
 .c1 {
   display: -webkit-box;
   display: -webkit-flex;
@@ -28,6 +9,27 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+}
+
+.c2 {
+  padding: 16px;
+  width: 100%;
+  font-size: 13px;
+  color: #fff;
+  background-color: transparent;
+  color: #fff;
+  background-color: transparent;
+  font-family: "Roboto Light",Roboto,system-ui,sans-serif;
+  font-weight: light;
+  border: 1px solid;
+  border: 1px solid;
+  border-color: #959595;
+  border-radius: 5px;
+  outline: none;
+}
+
+.c2:not([readOnly]):not([disabled]):focus {
+  border: 1px solid #fd9800;
 }
 
 .c3 {
@@ -132,17 +134,19 @@ exports[`component.UI.Toggle should render correctly 1`] = `
           aria-labelledby="downshift-0-label"
           autoComplete="off"
           className="c2"
+          color="primaryText"
+          fontFamily="sans"
+          fontSize="m"
+          fontWeight="light"
           id="downshift-0-input"
-          name="name"
           onBlur={[Function]}
           onChange={[Function]}
           onFocus={[Function]}
           onKeyDown={[Function]}
           onMouseDown={[Function]}
-          outline="none"
           placeholder="Please select"
-          type="text"
           value=""
+          width={1}
         />
       </div>
     </div>

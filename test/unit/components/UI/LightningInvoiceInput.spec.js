@@ -3,15 +3,15 @@ import { Form } from 'informed'
 import renderer from 'react-test-renderer'
 import { dark } from 'themes'
 import { ThemeProvider } from 'styled-components'
-import { Input } from 'components/UI'
+import { LightningInvoiceInput } from 'components/UI'
 
-describe('component.UI.Input', () => {
+describe('component.UI.LightningInvoiceInput', () => {
   it('should render correctly', () => {
     const tree = renderer
       .create(
         <ThemeProvider theme={dark}>
           <Form>
-            <Input field="name" theme={dark} />
+            <LightningInvoiceInput field="name" chain="bitcoin" network="mainnet" theme={dark} />
           </Form>
         </ThemeProvider>
       )

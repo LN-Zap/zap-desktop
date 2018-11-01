@@ -1,8 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import Page from 'components/UI/Page'
-import MainContent from 'components/UI/MainContent'
-import Sidebar from 'components/UI/Sidebar'
+import { Page, MainContent, Sidebar } from 'components/UI'
 
 storiesOf('Components.Layouts', module)
   .add('MainContent', () => <MainContent>Main content</MainContent>)

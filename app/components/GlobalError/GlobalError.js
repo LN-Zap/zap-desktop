@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { animated, Transition } from 'react-spring'
 import { Box } from 'rebass'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
-import Notification from 'components/UI/Notification'
+import { Notification } from 'components/UI'
 
 class GlobalError extends React.Component {
   static propTypes = {

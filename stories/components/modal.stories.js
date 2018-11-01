@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import Modal from 'components/UI/Modal'
+import { Modal } from 'components/UI'
 
 storiesOf('Components.Modal', module).add('Modal', () => (
   <Modal>

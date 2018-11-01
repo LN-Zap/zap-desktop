@@ -1,8 +1,8 @@
 import React from 'react'
-import Heading from 'components/UI/Heading'
 import renderer from 'react-test-renderer'
 import { configure, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
+import { Heading } from 'components/UI'
 
 configure({ adapter: new Adapter() })
 

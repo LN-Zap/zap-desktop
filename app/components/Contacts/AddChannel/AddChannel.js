@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import X from 'components/Icon/X'
 
 import { FormattedMessage } from 'react-intl'
-import Button from 'components/UI/Button'
+import { Button } from 'components/UI'
 import messages from './messages'
 import styles from './AddChannel.scss'
 

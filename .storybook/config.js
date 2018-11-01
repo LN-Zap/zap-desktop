@@ -12,8 +12,7 @@ import { setIntlConfig, withIntl } from 'storybook-addon-intl'
 import StoryRouter from 'storybook-react-router'
 import { dark, light } from 'themes'
 import { getDefaultLocale, locales } from 'lib/i18n'
-import BackgroundDark from 'components/UI/BackgroundDark'
-import GlobalStyle from 'components/UI/GlobalStyle'
+import { BackgroundDark, GlobalStyle } from 'components/UI'
 
 // Register supported locales.
 import '../app/lib/i18n/locale'

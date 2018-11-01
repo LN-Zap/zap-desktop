@@ -1,12 +1,11 @@
 import React from 'react'
-import Notification from 'components/UI/Notification'
 import renderer from 'react-test-renderer'
 import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 import SystemSuccess from 'components/Icon/SystemSuccess'
 import SystemWarning from 'components/Icon/SystemWarning'
 import SystemError from 'components/Icon/SystemError'
-import Spinner from 'components/UI/Spinner'
+import { Notification, Spinner } from 'components/UI'
 
 configure({ adapter: new Adapter() })
 

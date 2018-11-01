@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
-import Input from 'components/UI/Input'
+import { Input } from 'components/UI'
 import styled, { withTheme } from 'styled-components'
 import Downshift from 'downshift'
 import { Box } from 'rebass'

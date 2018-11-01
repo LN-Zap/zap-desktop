@@ -1,5 +1,20 @@
 import React from 'react'
-import { Label as Base } from 'styled-system-html'
+import system from '@rebass/components'
+import { styles } from 'styled-system'
+
+// Create an html input element that accepts all style props from styled-system.
+const SystemLabel = system(
+  {
+    as: 'label',
+    display: 'block',
+    color: 'primaryText',
+    fontSize: 'm',
+    fontWeight: 'normal',
+    width: 1,
+    mb: 1
+  },
+  ...Object.keys(styles)
+)
 
 /**
  * @render react
@@ -7,13 +22,12 @@ import { Label as Base } from 'styled-system-html'
  * @example
  * <Label />
  */
-class Label extends React.Component {
+class Label extends React.PureComponent {
   static displayName = 'Label'
 
   render() {
-    return (
-      <Base css={{ display: 'block' }} color="white" fontWeight="bold" mb={1} {...this.props} />
-    )
+    const { readOnly } = this.props
+    return <SystemLabel {...this.props} opacity={readOnly ? 0.6 : null} />
   }
 }
 

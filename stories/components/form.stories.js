@@ -2,16 +2,19 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { Box } from 'rebass'
-import Page from 'components/UI/Page'
-import MainContent from 'components/UI/MainContent'
-import Input from 'components/UI/Input'
-import Label from 'components/UI/Label'
-import Select from 'components/UI/Select'
-import TextArea from 'components/UI/TextArea'
-import Button from 'components/UI/Button'
-import Toggle from 'components/UI/Toggle'
-import Range from 'components/UI/Range'
 import { Form } from 'informed'
+import {
+  Page,
+  MainContent,
+  Input,
+  Label,
+  LightningInvoiceInput,
+  Select,
+  TextArea,
+  Button,
+  Toggle,
+  Range
+} from 'components/UI'
 
 const validate = value => {
   return !value || value.length < 5 ? 'Field must be at least five characters' : null
@@ -42,6 +45,40 @@ storiesOf('Components.Form', module)
       <TextArea field="fieldName" placeholder="Type here" />
     </Form>
   ))
+  .add('Lightning Invoice Textarea', () => (
+    <React.Fragment>
+      <Box my={4}>
+        <Box>
+          <Label htmlFor="testnet">Bitcoin or Lightning address (testnet)</Label>
+        </Box>
+        <Form id="testnet">
+          <LightningInvoiceInput
+            chain="bitcoin"
+            network="testnet"
+            field="testnet"
+            id="testnet"
+            validateOnBlur
+            validateOnChange
+          />
+        </Form>
+      </Box>
+      <Box>
+        <Box>
+          <Label htmlFor="mainnet">Bitcoin or Lightning address (mainnet)</Label>
+        </Box>
+        <Form id="testnet">
+          <LightningInvoiceInput
+            chain="bitcoin"
+            network="mainnet"
+            field="mainnet"
+            id="mainnet"
+            validateOnBlur
+            validateOnChange
+          />
+        </Form>
+      </Box>
+    </React.Fragment>
+  ))
   .add('Select', () => (
     <Form>
       <Select field="fieldName" items={selectItems} />
@@ -63,7 +100,7 @@ storiesOf('Components.Form', module)
         <Form>
           {({ formState }) => (
             <React.Fragment>
-              <Box mb={3}>
+              <Box my={4}>
                 <Box>
                   <Label htmlFor="input1">Example Field</Label>
                 </Box>
@@ -78,7 +115,7 @@ storiesOf('Components.Form', module)
                 </Box>
               </Box>
 
-              <Box mb={3}>
+              <Box my={4}>
                 <Box>
                   <Label htmlFor="textarea1">Example Textarea</Label>
                 </Box>
@@ -92,7 +129,34 @@ storiesOf('Components.Form', module)
                 </Box>
               </Box>
 
-              <Box mb={3}>
+              <Box my={4}>
+                <Box>
+                  <Label htmlFor="testnet">Bitcoin or Lightning address (testnet)</Label>
+                </Box>
+                <LightningInvoiceInput
+                  chain="bitcoin"
+                  network="testnet"
+                  field="testnet"
+                  id="testnet"
+                  validateOnBlur
+                  validateOnChange
+                />
+              </Box>
+              <Box>
+                <Box>
+                  <Label htmlFor="mainnet">Bitcoin or Lightning address (mainnet)</Label>
+                </Box>
+                <LightningInvoiceInput
+                  chain="bitcoin"
+                  network="mainnet"
+                  field="mainnet"
+                  id="mainnet"
+                  validateOnBlur
+                  validateOnChange
+                />
+              </Box>
+
+              <Box my={4}>
                 <Box>
                   <Label htmlFor="selectfield1">Example Select</Label>
                 </Box>
@@ -107,7 +171,7 @@ storiesOf('Components.Form', module)
                 </Box>
               </Box>
 
-              <Box mb={3}>
+              <Box my={4}>
                 <Box>
                   <Label htmlFor="checkbox1">Example Toggle</Label>
                 </Box>
@@ -116,7 +180,7 @@ storiesOf('Components.Form', module)
                 </Box>
               </Box>
 
-              <Box mb={3}>
+              <Box my={4}>
                 <Box>
                   <Label htmlFor="slider1">Example Range</Label>
                 </Box>
@@ -125,7 +189,7 @@ storiesOf('Components.Form', module)
                 </Box>
               </Box>
 
-              <Box mb={3}>
+              <Box my={4}>
                 <Button>Submit</Button>
               </Box>
 

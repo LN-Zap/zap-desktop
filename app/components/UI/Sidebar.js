@@ -1,5 +1,5 @@
 import React from 'react'
-import BackgroundLightest from 'components/UI/BackgroundLightest'
+import { BackgroundLightest } from 'components/UI'
 
 /**
  * @render react

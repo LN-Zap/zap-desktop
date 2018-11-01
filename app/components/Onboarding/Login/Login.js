@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import Button from 'components/UI/Button'
+import { Button } from 'components/UI'
 import messages from './messages'
 import styles from './Login.scss'
 

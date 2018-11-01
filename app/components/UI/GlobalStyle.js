@@ -9,7 +9,6 @@ const GlobalStyle = createGlobalStyle`
   }
   body {
     position: relative;
-    box-sizing: border-box;
     overflow-y: hidden;
     -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);

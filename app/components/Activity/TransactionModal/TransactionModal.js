@@ -1,16 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Dropdown from 'components/UI/Dropdown'
 import PaperPlane from 'components/Icon/PaperPlane'
 import Hand from 'components/Icon/Hand'
 import ChainLink from 'components/Icon/ChainLink'
+import { Dropdown } from 'components/UI'
 import { blockExplorer } from 'lib/utils'
-
 import Value from 'components/Value'
-
 import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
 import messages from './messages'
-
 import styles from './TransactionModal.scss'
 
 const TransactionModal = ({

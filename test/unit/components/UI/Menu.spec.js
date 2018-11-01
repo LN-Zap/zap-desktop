@@ -1,10 +1,8 @@
 import React from 'react'
-import Menu from 'components/UI/Menu'
-import MenuItem from 'components/UI/MenuItem'
-import MenuItemGroup from 'components/UI/MenuItemGroup'
 import renderer from 'react-test-renderer'
 import { dark } from 'themes'
 import { ThemeProvider } from 'styled-components'
+import { Menu, MenuItem, MenuItemGroup } from 'components/UI'
 
 describe('component.UI.Menu', () => {
   it('should render correctly', () => {
