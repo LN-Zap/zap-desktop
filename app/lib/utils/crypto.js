@@ -59,6 +59,10 @@ export const parseNumber = (_value, precision) => {
  * @return {Boolean} boolean indicating wether the address is a valid on-chain address.
  */
 export const isOnchain = (input, chain = 'bitcoin', network = 'mainnet') => {
+  if (typeof input !== 'string') {
+    return false
+  }
+
   if (chain !== 'bitcoin') {
     // TODO: Implement address checking for litecoin.
     return true
@@ -82,6 +86,10 @@ export const isOnchain = (input, chain = 'bitcoin', network = 'mainnet') => {
  * @return {Boolean} boolean indicating wether the address is a lightning address.
  */
 export const isLn = (input, chain = 'bitcoin', network = 'mainnet') => {
+  if (typeof input !== 'string') {
+    return false
+  }
+
   let prefix = 'ln'
   // Prefixes come from SLIP-0173
   // See https://github.com/satoshilabs/slips/blob/master/slip-0173.md
@@ -122,3 +130,53 @@ export const isLn = (input, chain = 'bitcoin', network = 'mainnet') => {
     return false
   }
 }
+
+/**
+ * Get a nodes alias.
+ * @param {String} pubkey pubKey of node to fetch alias for.
+ * @param {Array} Node list to search.
+ * @return {String} Node alias, if found
+ */
+export const getNodeAlias = (pubkey, nodes = []) => {
+  const node = nodes.find(n => n.pub_key === pubkey)
+
+  if (node && node.alias.length) {
+    return node.alias
+  }
+
+  return null
+}
+
+/**
+ * Given a list of routest, find the minimum fee.
+ * @param {QueryRoutesResponse} routes
+ * @return {Number} minimum fee.
+ */
+export const getMinFee = (routes = []) => {
+  if (!routes || !routes.length) {
+    return null
+  }
+  return routes.reduce((min, b) => Math.min(min, b.total_fees_msat), routes[0].total_fees_msat)
+}
+
+/**
+ * Given a list of routest, find the maximum fee.
+ * @param {QueryRoutesResponse} routes
+ * @return {Number} maximum fee.
+ */
+export const getMaxFee = routes => {
+  if (!routes || !routes.length) {
+    return null
+  }
+  return routes.reduce((max, b) => Math.max(max, b.total_fees_msat), routes[0].total_fees_msat)
+}
+
+/**
+ * Given a list of routest, find the maximum and maximum fee.
+ * @param {QueryRoutesResponse} routes
+ * @return {Object} object with kets `min` and `max`
+ */
+export const getFeeRange = (routes = []) => ({
+  min: getMinFee(routes),
+  max: getMaxFee(routes)
+})
