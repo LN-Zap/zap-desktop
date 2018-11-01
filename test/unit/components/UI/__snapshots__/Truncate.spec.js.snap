@@ -1,0 +1,5 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Truncate should truncate test to a specific length when the maxlen parm is provided 1`] = `"Lorem ipsum dol...adipiscing elit"`;
+
+exports[`component.UI.Truncate should truncate text to 12 chars by default 1`] = `"Lorem ...g elit"`;
