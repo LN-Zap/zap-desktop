@@ -187,7 +187,8 @@ class Pay extends React.Component {
    */
   onSubmit = values => {
     const { currentStep, isOnchain } = this.state
-    const { cryptoCurrency, onchainFees, payInvoice, sendCoins } = this.props
+    const { cryptoCurrency, onchainFees, payInvoice, routes, sendCoins } = this.props
+    const feeLimit = getMaxFee(routes)
     if (currentStep === 'summary') {
       return isOnchain
         ? sendCoins({
@@ -196,7 +197,7 @@ class Pay extends React.Component {
             currency: cryptoCurrency,
             satPerByte: onchainFees.fastestFee
           })
-        : payInvoice(values.payReq)
+        : payInvoice(values.payReq, feeLimit)
     } else {
       this.nextStep()
     }
