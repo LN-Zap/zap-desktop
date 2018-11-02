@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.Form.PaySummaryRow should render correctly 1`] = `
+<styled.div
+  py={2}
+>
+  <Styled(styled.div)
+    alignItems="center"
+  >
+    <styled.div
+      width={0.5}
+    >
+      <Text
+        fontWeight="normal"
+      >
+        left contnet
+      </Text>
+    </styled.div>
+    <styled.div
+      width={0.5}
+    >
+      <Text
+        textAlign="right"
+      >
+        right content
+      </Text>
+    </styled.div>
+  </Styled(styled.div)>
+</styled.div>
+`;

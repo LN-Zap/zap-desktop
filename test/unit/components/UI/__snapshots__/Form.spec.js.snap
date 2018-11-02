@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Form should render correctly 1`] = `
+<form
+  className=""
+  onReset={[Function]}
+  onSubmit={[Function]}
+/>
+`;
