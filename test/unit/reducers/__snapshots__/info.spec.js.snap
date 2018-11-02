@@ -2,6 +2,7 @@
 
 exports[`reducers infoReducer should correctly getInfo 1`] = `
 Object {
+  "chain": null,
   "data": Object {},
   "hasSynced": undefined,
   "infoLoading": true,
@@ -11,6 +12,7 @@ Object {
 
 exports[`reducers infoReducer should correctly receiveInfo 1`] = `
 Object {
+  "chain": undefined,
   "data": "foo",
   "hasSynced": undefined,
   "infoLoading": false,
@@ -28,7 +30,7 @@ Object {
       "wif": 128,
     },
     "explorerUrl": "https://smartbit.com.au",
-    "name": null,
+    "name": "Mainnet",
     "unitPrefix": "",
   },
 }
@@ -36,6 +38,7 @@ Object {
 
 exports[`reducers infoReducer should handle initial state 1`] = `
 Object {
+  "chain": null,
   "data": Object {},
   "hasSynced": undefined,
   "infoLoading": false,
