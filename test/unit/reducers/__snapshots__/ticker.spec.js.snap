@@ -3,8 +3,8 @@
 exports[`reducers tickerReducer should correctly getTicker 1`] = `
 Object {
   "btcTicker": null,
-  "crypto": "",
-  "currency": "",
+  "crypto": null,
+  "currency": null,
   "currencyFilters": Array [
     Object {
       "key": "btc",
@@ -44,7 +44,7 @@ Object {
     "THB",
     "TWB",
   ],
-  "fromCurrency": "sats",
+  "fromCurrency": null,
   "ltcTicker": null,
   "tickerLoading": true,
 }
@@ -53,8 +53,8 @@ Object {
 exports[`reducers tickerReducer should correctly receiveTicker 1`] = `
 Object {
   "btcTicker": undefined,
-  "crypto": "",
-  "currency": "",
+  "crypto": null,
+  "currency": null,
   "currencyFilters": Array [
     Object {
       "key": "btc",
@@ -94,7 +94,7 @@ Object {
     "THB",
     "TWB",
   ],
-  "fromCurrency": "sats",
+  "fromCurrency": null,
   "ltcTicker": undefined,
   "tickerLoading": false,
 }
@@ -104,7 +104,7 @@ exports[`reducers tickerReducer should correctly setCrypto 1`] = `
 Object {
   "btcTicker": null,
   "crypto": "foo",
-  "currency": "",
+  "currency": null,
   "currencyFilters": Array [
     Object {
       "key": "btc",
@@ -144,7 +144,7 @@ Object {
     "THB",
     "TWB",
   ],
-  "fromCurrency": "sats",
+  "fromCurrency": null,
   "ltcTicker": null,
   "tickerLoading": false,
 }
@@ -153,7 +153,7 @@ Object {
 exports[`reducers tickerReducer should correctly setCurrency 1`] = `
 Object {
   "btcTicker": null,
-  "crypto": "",
+  "crypto": null,
   "currency": "foo",
   "currencyFilters": Array [
     Object {
@@ -194,7 +194,7 @@ Object {
     "THB",
     "TWB",
   ],
-  "fromCurrency": "",
+  "fromCurrency": null,
   "ltcTicker": null,
   "tickerLoading": false,
 }
@@ -203,8 +203,8 @@ Object {
 exports[`reducers tickerReducer should handle initial state 1`] = `
 Object {
   "btcTicker": null,
-  "crypto": "",
-  "currency": "",
+  "crypto": null,
+  "currency": null,
   "currencyFilters": Array [
     Object {
       "key": "btc",
@@ -244,7 +244,7 @@ Object {
     "THB",
     "TWB",
   ],
-  "fromCurrency": "sats",
+  "fromCurrency": null,
   "ltcTicker": null,
   "tickerLoading": false,
 }

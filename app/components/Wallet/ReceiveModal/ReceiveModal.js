@@ -102,7 +102,8 @@ class ReceiveModal extends React.Component {
 
             <div className={styles.address}>
               <h4>
-                <FormattedMessage {...messages.bitcoin_address} /> ({network.name})
+                <FormattedMessage {...messages.bitcoin_address} />{' '}
+                {network && network.name.toLowerCase() === 'testnet' && network.name}
               </h4>
               <p>
                 <span className={styles.data}>{address}</span>

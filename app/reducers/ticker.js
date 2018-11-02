@@ -13,10 +13,16 @@ export const SET_FIAT_TICKER = 'SET_FIAT_TICKER'
 export const GET_TICKERS = 'GET_TICKERS'
 export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
 
-// Map for crypto names to crypto tickers
+// Map for crypto codes to crypto tickers
 const cryptoTickers = {
   bitcoin: 'btc',
   litecoin: 'ltc'
+}
+
+// Map for crypto names to crypto tickers
+const cryptoNames = {
+  bitcoin: 'Bitcoin',
+  litecoin: 'Litecoin'
 }
 
 // ------------------------------------
@@ -70,7 +76,7 @@ export const fetchTicker = () => async dispatch => {
 // Receive IPC event for receiveCryptocurrency
 export const receiveCryptocurrency = (event, currency) => dispatch => {
   dispatch({ type: SET_CURRENCY, currency: cryptoTickers[currency] })
-  dispatch({ type: SET_CRYPTO, crypto: cryptoTickers[currency] })
+  dispatch({ type: SET_CRYPTO, crypto: currency })
 }
 
 // ------------------------------------
@@ -105,8 +111,10 @@ tickerSelectors.currentTicker = createSelector(
   cryptoSelector,
   bitcoinTickerSelector,
   litecoinTickerSelector,
-  (crypto, btcTicker, ltcTicker) => (crypto === 'btc' ? btcTicker : ltcTicker)
+  (crypto, btcTicker, ltcTicker) => (crypto === 'bitcoin' ? btcTicker : ltcTicker)
 )
+
+tickerSelectors.cryptoName = createSelector(cryptoSelector, crypto => cryptoNames[crypto])
 
 tickerSelectors.currencyFilters = createSelector(
   infoSelectors.networkSelector,
@@ -142,9 +150,9 @@ export { tickerSelectors }
 // ------------------------------------
 const initialState = {
   tickerLoading: false,
-  currency: '',
-  fromCurrency: 'sats',
-  crypto: '',
+  currency: null,
+  fromCurrency: null,
+  crypto: null,
   btcTicker: null,
   ltcTicker: null,
   fiatTicker: getDefaultCurrency(),

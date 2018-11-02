@@ -1,5 +1,6 @@
 import bitcoin from 'bitcoinjs-lib'
 import { ipcRenderer } from 'electron'
+import get from 'lodash.get'
 import db from 'store/db'
 import { walletAddress } from './address'
 
@@ -56,7 +57,7 @@ const networks = {
     unitPrefix: 't'
   },
   mainnet: {
-    name: null, // no name since it is the presumed default
+    name: 'Mainnet',
     explorerUrl: 'https://smartbit.com.au',
     bitcoinJsNetwork: bitcoin.networks.bitcoin,
     unitPrefix: ''
@@ -76,6 +77,7 @@ const ACTION_HANDLERS = {
     ...state,
     infoLoading: false,
     network: data.testnet ? networks.testnet : networks.mainnet,
+    chain: get(data, 'chains[0]'),
     data
   })
 }
@@ -87,7 +89,8 @@ const initialState = {
   infoLoading: false,
   hasSynced: undefined,
   network: {},
-  data: {}
+  data: {},
+  chain: null
 }
 
 // Selectors
