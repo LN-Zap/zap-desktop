@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { bech32 } from 'lib/utils'
+import { setError } from './error'
 
 // ------------------------------------
 // Constants
@@ -10,6 +11,7 @@ export const RECEIVE_DESCRIBE_NETWORK = 'RECEIVE_DESCRIBE_NETWORK'
 
 export const GET_QUERY_ROUTES = 'GET_QUERY_ROUTES'
 export const RECEIVE_QUERY_ROUTES = 'RECEIVE_QUERY_ROUTES'
+export const RECEIVE_QUERY_ROUTES_FAILED = 'RECEIVE_QUERY_ROUTES_FAILED'
 
 export const SET_CURRENT_ROUTE = 'SET_CURRENT_ROUTE'
 
@@ -142,6 +144,11 @@ export const queryRoutes = (pubkey, amount) => dispatch => {
   ipcRenderer.send('lnd', { msg: 'queryRoutes', data: { pubkey, amount } })
 }
 
+export const queryRoutesFailed = (event, { error }) => dispatch => {
+  dispatch({ type: RECEIVE_QUERY_ROUTES_FAILED })
+  dispatch(setError(error))
+}
+
 export const receiveQueryRoutes = (event, { routes }) => dispatch =>
   dispatch({ type: RECEIVE_QUERY_ROUTES, routes })
 
@@ -175,6 +182,11 @@ const ACTION_HANDLERS = {
     ...state,
     networkLoading: false,
     selectedNode: { pubkey: state.selectedNode.pubkey, routes, currentRoute: routes[0] }
+  }),
+  [RECEIVE_QUERY_ROUTES_FAILED]: state => ({
+    ...state,
+    networkLoading: false,
+    selectedNode: {}
   }),
 
   [SET_CURRENT_ROUTE]: (state, { route }) => ({ ...state, currentRoute: route }),
@@ -294,6 +306,7 @@ const initialState = {
   nodes: [],
   edges: [],
   selectedChannel: {},
+  selectedNode: {},
 
   currentTab: 1,
 

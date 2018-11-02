@@ -41,7 +41,10 @@ export default function(lnd, log, event, msg, data) {
       networkController
         .queryRoutes(lnd, data)
         .then(routes => event.sender.send('receiveQueryRoutes', routes))
-        .catch(error => log.error('queryRoutes:', error))
+        .catch(error => {
+          log.error('queryRoutes:', error)
+          event.sender.send('queryRoutesFailed', { error: error.toString() })
+        })
       break
     case 'getInvoiceAndQueryRoutes':
       // Data looks like { pubkey: String, amount: Number }
