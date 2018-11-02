@@ -10,7 +10,7 @@ const Value = ({ value, currency, currentTicker, fiatTicker }) => {
   if (currency === 'fiat') {
     price = currentTicker[fiatTicker].last
   }
-  return <i>{convert('sats', currency, value, price)}</i>
+  return <i>{Number(convert('sats', currency, value, price))}</i>
 }
 
 Value.propTypes = {
