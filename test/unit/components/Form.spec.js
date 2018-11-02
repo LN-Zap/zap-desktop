@@ -8,54 +8,15 @@ import Request from 'components/Form/Request'
 
 configure({ adapter: new Adapter() })
 
-const payFormProps = {
-  payform: {
-    amount: 0,
-    payInput: '',
-    invoice: {},
-    showErrors: {}
-  },
-  currency: '',
-  crypto: '',
-  nodes: [],
-  ticker: {
-    currency: 'btc'
-  },
-
-  isOnchain: false,
-  isLn: true,
-  currentAmount: 0,
-  usdAmount: 0,
-  inputCaption: '',
-  showPayLoadingScreen: true,
-  payFormIsValid: {},
-  currencyFilters: [],
-  currencyName: '',
-
-  setPayAmount: () => {},
-  setPayInput: () => {},
-  fetchInvoice: () => {},
-  setCurrency: () => {},
-
-  onPayAmountBlur: () => {},
-
-  onPayInputBlur: () => {},
-
-  onPaySubmit: () => {}
-}
-
 const requestFormProps = {
   requestform: {},
   ticker: {},
-
   currencyFilters: [],
   currencyName: '',
   requestFiatAmount: '',
-
   setRequestAmount: () => {},
   setRequestMemo: () => {},
   setCurrency: () => {},
-
   onRequestSubmit: () => {}
 }
 
@@ -67,7 +28,7 @@ const defaultProps = {
 
 describe('Form', () => {
   describe('should show pay form when formType is PAY_FORM', () => {
-    const props = { ...defaultProps, formType: 'PAY_FORM', formProps: payFormProps }
+    const props = { ...defaultProps, formType: 'PAY_FORM' }
     const el = shallow(<Form {...props} />)
     it('should contain Pay', () => {
       expect(el.find(Pay)).toHaveLength(1)

@@ -2,7 +2,6 @@ import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
-import { resetPayForm } from './payform'
 import { setError } from './error'
 
 // ------------------------------------
@@ -107,9 +106,6 @@ export const paymentSuccessful = () => dispatch => {
   // Refetch payments (TODO: dont do a full refetch, rather append new tx to list)
   dispatch(fetchPayments())
 
-  // Reset the payment form
-  dispatch(resetPayForm())
-
   // Fetch new balance
   dispatch(fetchBalance())
 }
@@ -184,10 +180,19 @@ const ACTION_HANDLERS = {
   [HIDE_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: false })
 }
 
-const paymentSelectors = {}
+const sendingTransactionSelector = state => state.transaction.sendingTransaction
+const sendingPaymentSelector = state => state.payment.sendingPayment
 const modalPaymentSelector = state => state.payment.payment
 
+const paymentSelectors = {}
+
 paymentSelectors.paymentModalOpen = createSelector(modalPaymentSelector, payment => !!payment)
+
+paymentSelectors.showPayLoadingScreen = createSelector(
+  sendingTransactionSelector,
+  sendingPaymentSelector,
+  (sendingTransaction, sendingPayment) => sendingTransaction || sendingPayment
+)
 
 export { paymentSelectors }
 

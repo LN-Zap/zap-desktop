@@ -9,10 +9,7 @@ import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
 import { fetchInfo, infoSelectors } from 'reducers/info'
 import { setFormType } from 'reducers/form'
-import { setPayAmount, setPayInput, updatePayErrors, payFormSelectors } from 'reducers/payform'
 import { setRequestAmount, setRequestMemo, requestFormSelectors } from 'reducers/requestform'
-import { sendCoins } from 'reducers/transaction'
-import { payInvoice } from 'reducers/payment'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 import { lndSelectors } from 'reducers/lnd'
 import {
@@ -55,13 +52,8 @@ const mapDispatchToProps = {
   closeWalletModal,
   fetchInfo,
   setFormType,
-  setPayAmount,
-  setPayInput,
-  updatePayErrors,
   setRequestAmount,
   setRequestMemo,
-  sendCoins,
-  payInvoice,
   createInvoice,
   fetchInvoice,
   clearError,
@@ -104,7 +96,6 @@ const mapStateToProps = state => ({
   contactsform: state.contactsform,
   balance: state.balance,
   form: state.form,
-  payform: state.payform,
   requestform: state.requestform,
   invoice: state.invoice,
   error: state.error,
@@ -123,15 +114,6 @@ const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
   currencyFilters: tickerSelectors.currencyFilters(state),
   currencyName: tickerSelectors.currencyName(state),
-
-  isOnchain: payFormSelectors.isOnchain(state),
-  isLn: payFormSelectors.isLn(state),
-  currentAmount: payFormSelectors.currentAmount(state),
-  fiatAmount: payFormSelectors.fiatAmount(state),
-  inputCaption: payFormSelectors.inputCaption(state),
-  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state),
-  payFormIsValid: payFormSelectors.payFormIsValid(state),
-  payInputMin: payFormSelectors.payInputMin(state),
   requestFiatAmount: requestFormSelectors.fiatAmount(state),
   syncPercentage: lndSelectors.syncPercentage(state),
 
@@ -150,80 +132,6 @@ const mapStateToProps = state => ({
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const payFormProps = {
-    payform: stateProps.payform,
-    currency: stateProps.ticker.currency,
-    crypto: stateProps.ticker.crypto,
-    nodes: stateProps.network.nodes,
-    ticker: stateProps.ticker,
-
-    isOnchain: stateProps.isOnchain,
-    isLn: stateProps.isLn,
-    currentAmount: stateProps.currentAmount,
-    fiatAmount: stateProps.fiatAmount,
-    inputCaption: stateProps.inputCaption,
-    showPayLoadingScreen: stateProps.showPayLoadingScreen,
-    payFormIsValid: stateProps.payFormIsValid,
-    payInputMin: stateProps.payInputMin,
-    currencyFilters: stateProps.currencyFilters,
-    currencyName: stateProps.currencyName,
-
-    setPayAmount: dispatchProps.setPayAmount,
-    setPayInput: dispatchProps.setPayInput,
-    fetchInvoice: dispatchProps.fetchInvoice,
-    setCurrency: dispatchProps.setCurrency,
-
-    onPayAmountBlur: () => {
-      // If the amount is now valid and showErrors was on, turn it off
-      if (stateProps.payFormIsValid.amountIsValid && stateProps.payform.showErrors.amount) {
-        dispatchProps.updatePayErrors({ amount: false })
-      }
-
-      // If the amount is not valid and showErrors was off, turn it on
-      if (!stateProps.payFormIsValid.amountIsValid && !stateProps.payform.showErrors.amount) {
-        dispatchProps.updatePayErrors({ amount: true })
-      }
-    },
-
-    onPayInputBlur: () => {
-      // If the input is now valid and showErrors was on, turn it off
-      if (stateProps.payFormIsValid.payInputIsValid && stateProps.payform.showErrors.payInput) {
-        dispatchProps.updatePayErrors({ payInput: false })
-      }
-
-      // If the input is not valid and showErrors was off, turn it on
-      if (!stateProps.payFormIsValid.payInputIsValid && !stateProps.payform.showErrors.payInput) {
-        dispatchProps.updatePayErrors({ payInput: true })
-      }
-    },
-
-    onPaySubmit: () => {
-      if (!stateProps.payFormIsValid.isValid) {
-        dispatchProps.updatePayErrors({
-          amount: Object.prototype.hasOwnProperty.call(stateProps.payFormIsValid.errors, 'amount'),
-          payInput: Object.prototype.hasOwnProperty.call(
-            stateProps.payFormIsValid.errors,
-            'payInput'
-          )
-        })
-
-        return
-      }
-
-      if (stateProps.isOnchain) {
-        dispatchProps.sendCoins({
-          value: stateProps.payform.amount,
-          addr: stateProps.payform.payInput,
-          currency: stateProps.ticker.currency
-        })
-      }
-
-      if (stateProps.isLn) {
-        dispatchProps.payInvoice(stateProps.payform.payInput)
-      }
-    }
-  }
-
   const requestFormProps = {
     requestform: stateProps.requestform,
     ticker: stateProps.ticker,
@@ -249,9 +157,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
       return {}
     }
 
-    if (formType === 'PAY_FORM') {
-      return payFormProps
-    }
     if (formType === 'REQUEST_FORM') {
       return requestFormProps
     }
@@ -419,7 +324,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     connectManuallyProps,
     // props for the channel form wrapper
     channelFormProps,
-    // Props to pass to the pay form
+    // Props to pass to the request form
     formProps: formProps(stateProps.form.formType),
     // action to close form
     closeForm: () => dispatchProps.setFormType(null)

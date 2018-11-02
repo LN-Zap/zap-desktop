@@ -9,7 +9,6 @@ import { btc } from 'lib/utils'
 import { showActivityModal } from './activity'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
-import { setPayInvoice } from './payform'
 import { resetRequestForm } from './requestform'
 import { setError } from './error'
 
@@ -90,12 +89,6 @@ export function sendInvoice() {
 export const fetchInvoice = payreq => dispatch => {
   dispatch(getInvoice())
   ipcRenderer.send('lnd', { msg: 'invoice', data: { payreq } })
-}
-
-// Receive IPC event for form invoice
-export const receiveFormInvoice = (event, invoice) => dispatch => {
-  dispatch(setPayInvoice(invoice))
-  dispatch({ type: RECEIVE_FORM_INVOICE })
 }
 
 // Send IPC event for invoices
