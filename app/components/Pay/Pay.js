@@ -30,7 +30,7 @@ const ShowHidePayReq = Keyframes.Spring({
   small: { height: 48 },
   big: async (next, cancel, ownProps) => {
     ownProps.context.focusPayReqInput()
-    await next({ height: 130 })
+    await next({ height: 130, immediate: true })
   }
 })
 
@@ -369,7 +369,7 @@ class Pay extends React.Component {
           show &&
           (styles => (
             <animated.div style={styles}>
-              <Box mb={5}>
+              <Box mb={4}>
                 <Text textAlign="justify">
                   <FormattedMessage {...messages.description} />
                 </Text>
@@ -530,11 +530,6 @@ class Pay extends React.Component {
       setCryptoCurrency
     } = this.props
 
-    // Do not render unless we are on the summary step.
-    if (currentStep !== 'summary') {
-      return null
-    }
-
     const formState = this.formApi.getState()
     let minFee, maxFee
     if (routes.length) {
@@ -542,41 +537,56 @@ class Pay extends React.Component {
       maxFee = getMaxFee(routes)
     }
 
-    // convert entered amount to satoshis
-    if (isOnchain) {
-      const amountInSatoshis = convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
-      return (
-        <PaySummaryOnChain
-          amount={amountInSatoshis}
-          address={formState.values.payReq}
-          cryptoCurrency={cryptoCurrency}
-          cryptoCurrencyTicker={cryptoCurrencyTicker}
-          cryptoCurrencies={cryptoCurrencies}
-          currentTicker={currentTicker}
-          setCryptoCurrency={setCryptoCurrency}
-          fiatCurrency={fiatCurrency}
-          isQueryingFees={isQueryingFees}
-          onchainFees={onchainFees}
-          queryFees={queryFees}
-        />
-      )
-    } else if (isLn) {
-      return (
-        <PaySummaryLightning
-          currentTicker={currentTicker}
-          cryptoCurrency={cryptoCurrency}
-          cryptoCurrencyTicker={cryptoCurrencyTicker}
-          cryptoCurrencies={cryptoCurrencies}
-          fiatCurrency={fiatCurrency}
-          isQueryingRoutes={isQueryingRoutes}
-          minFee={minFee}
-          maxFee={maxFee}
-          nodes={nodes}
-          payReq={formState.values.payReq}
-          setCryptoCurrency={setCryptoCurrency}
-        />
-      )
+    const render = () => {
+      // convert entered amount to satoshis
+      if (isOnchain) {
+        const amountInSatoshis = convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
+        return (
+          <PaySummaryOnChain
+            amount={amountInSatoshis}
+            address={formState.values.payReq}
+            cryptoCurrency={cryptoCurrency}
+            cryptoCurrencyTicker={cryptoCurrencyTicker}
+            cryptoCurrencies={cryptoCurrencies}
+            currentTicker={currentTicker}
+            setCryptoCurrency={setCryptoCurrency}
+            fiatCurrency={fiatCurrency}
+            isQueryingFees={isQueryingFees}
+            onchainFees={onchainFees}
+            queryFees={queryFees}
+          />
+        )
+      } else if (isLn) {
+        return (
+          <PaySummaryLightning
+            currentTicker={currentTicker}
+            cryptoCurrency={cryptoCurrency}
+            cryptoCurrencyTicker={cryptoCurrencyTicker}
+            cryptoCurrencies={cryptoCurrencies}
+            fiatCurrency={fiatCurrency}
+            isQueryingRoutes={isQueryingRoutes}
+            minFee={minFee}
+            maxFee={maxFee}
+            nodes={nodes}
+            payReq={formState.values.payReq}
+            setCryptoCurrency={setCryptoCurrency}
+          />
+        )
+      }
     }
+
+    return (
+      <Transition
+        native
+        items={currentStep === 'summary'}
+        from={{ opacity: 0, height: 0 }}
+        enter={{ opacity: 1, height: 'auto' }}
+        leave={{ opacity: 0, height: 0 }}
+        initial={{ opacity: 1, height: 'auto' }}
+      >
+        {show => show && (styles => <animated.div style={styles}>{render()}</animated.div>)}
+      </Transition>
+    )
   }
 
   /**
@@ -670,10 +680,16 @@ class Pay extends React.Component {
               </Flex>
 
               <Box as="section" css={{ flex: 1 }} mb={3}>
-                {this.renderHelpText()}
-                {this.renderAddressField()}
-                {this.renderAmountFields()}
-                {this.renderSummary()}
+                <Box width={1} css={{ position: 'relative' }}>
+                  {this.renderHelpText()}
+                  <Box width={1} css={{ position: 'absolute' }}>
+                    {this.renderAddressField()}
+                    {this.renderAmountFields()}
+                  </Box>
+                  <Box width={1} css={{ position: 'absolute' }}>
+                    {this.renderSummary()}
+                  </Box>
+                </Box>
               </Box>
 
               <Box as="footer" mt="auto">
