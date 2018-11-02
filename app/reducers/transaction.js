@@ -86,13 +86,16 @@ export const receiveTransactions = (event, { transactions }) => (dispatch, getSt
   dispatch(fetchBalance())
 }
 
-export const sendCoins = ({ value, addr, currency }) => dispatch => {
+export const sendCoins = ({ value, addr, currency, targetConf, satPerByte }) => dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
   const amount = btc.convert(currency, 'sats', value)
 
   // submit the transaction to LND
   dispatch(sendTransaction())
-  ipcRenderer.send('lnd', { msg: 'sendCoins', data: { amount, addr } })
+  ipcRenderer.send('lnd', {
+    msg: 'sendCoins',
+    data: { amount, addr, currency, target_conf: targetConf, sat_per_byte: satPerByte }
+  })
 
   // Close the form modal once the payment was sent to LND
   // we will do the loading/success UX on the main page

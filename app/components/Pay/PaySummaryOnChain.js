@@ -51,7 +51,7 @@ class PaySummaryOnChain extends React.Component {
     onchainFees: {}
   }
 
-  componenDidMount() {
+  componentDidMount() {
     const { queryFees } = this.props
     queryFees()
   }

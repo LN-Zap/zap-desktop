@@ -131,6 +131,7 @@ class Pay extends React.Component {
     isQueryingFees: false,
     isQueryingRoutes: false,
     nodes: [],
+    onchainFees: {},
     routes: []
   }
 
@@ -186,13 +187,14 @@ class Pay extends React.Component {
    */
   onSubmit = values => {
     const { currentStep, isOnchain } = this.state
-    const { cryptoCurrency, payInvoice, sendCoins } = this.props
+    const { cryptoCurrency, onchainFees, payInvoice, sendCoins } = this.props
     if (currentStep === 'summary') {
       return isOnchain
         ? sendCoins({
             value: values.amountCrypto,
             addr: values.payReq,
-            currency: cryptoCurrency
+            currency: cryptoCurrency,
+            satPerByte: onchainFees.fastestFee
           })
         : payInvoice(values.payReq)
     } else {
