@@ -56,6 +56,7 @@ class LightningInvoiceInput extends React.Component {
         placeholder={intl.formatMessage({ ...messages.payreq_placeholder })}
         rows={5}
         {...this.props}
+        spellCheck="false"
         validate={this.validate}
       />
     )
