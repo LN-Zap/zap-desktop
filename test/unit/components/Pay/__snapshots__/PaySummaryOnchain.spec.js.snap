@@ -1,0 +1,128 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
+<Fragment>
+  <styled.div
+    pb={2}
+  >
+    <Styled(styled.div)
+      alignItems="center"
+    >
+      <styled.div
+        width={0.45454545454545453}
+      >
+        <Styled(styled.div)
+          alignItems="baseline"
+          flexWrap="wrap"
+        >
+          <styled.div>
+            <Text
+              fontSize={6}
+              textAlign="left"
+            >
+              <Value
+                currency="btc"
+                value={1000}
+              />
+            </Text>
+          </styled.div>
+          <WithTheme(Dropdown)
+            activeKey="btc"
+            items={
+              Array [
+                Object {
+                  "key": "btc",
+                  "name": "BTC",
+                },
+                Object {
+                  "key": "bits",
+                  "name": "bits",
+                },
+                Object {
+                  "key": "sats",
+                  "name": "satoshis",
+                },
+              ]
+            }
+            ml={2}
+            onChange={[MockFunction]}
+          />
+        </Styled(styled.div)>
+        <Text
+          color="gray"
+        >
+           ≈ 
+          <FormattedNumber
+            currency="USD"
+            style="currency"
+            value={0.0647778}
+          />
+        </Text>
+      </styled.div>
+      <styled.div
+        width={0.09090909090909091}
+      >
+        <Text
+          color="lightningOrange"
+          textAlign="center"
+        >
+          <SvgBigArrowRight
+            height="28px"
+            width="40px"
+          />
+        </Text>
+      </styled.div>
+      <styled.div
+        width={0.45454545454545453}
+      >
+        <Text
+          className="hint--bottom-left"
+          data-hint="mmxyr3LNKbnbrf6jdGXZpCE4EDpMSZRf4c"
+          textAlign="right"
+        >
+          <Truncate
+            text="mmxyr3LNKbnbrf6jdGXZpCE4EDpMSZRf4c"
+          />
+        </Text>
+      </styled.div>
+    </Styled(styled.div)>
+  </styled.div>
+  <Bar />
+  <PaySummaryRow
+    left={
+      <FormattedMessage
+        defaultMessage="Fee"
+        id="components.Pay.fee"
+        values={Object {}}
+      />
+    }
+    right={
+      <FormattedMessage
+        defaultMessage="unknown"
+        id="components.Pay.unknown"
+        values={Object {}}
+      />
+    }
+  />
+  <Bar />
+  <PaySummaryRow
+    left={
+      <FormattedMessage
+        defaultMessage="Total"
+        id="components.Pay.total"
+        values={Object {}}
+      />
+    }
+    right={
+      <React.Fragment>
+        <Value
+          currency="btc"
+          value={1000}
+        />
+         
+        BTC
+      </React.Fragment>
+    }
+  />
+</Fragment>
+`;

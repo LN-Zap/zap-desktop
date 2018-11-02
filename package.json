@@ -310,6 +310,7 @@
     "@rebass/components": "^4.0.0-1",
     "axios": "^0.18.0",
     "bitcoinjs-lib": "^4.0.1",
+    "bolt11": "https://github.com/bitcoinjs/bolt11.git",
     "connected-react-router": "^4.5.0",
     "copy-to-clipboard": "^3.0.8",
     "country-data-lookup": "^0.0.3",
