@@ -166,8 +166,8 @@ app.on('ready', async () => {
   app.on('open-url', (event, url) => {
     mainLog.debug('open-url')
     event.preventDefault()
-    const payreq = url.split(':')[1]
-    zap.sendMessage('lightningPaymentUri', { payreq })
+    const payReq = url.split(':')[1]
+    zap.sendMessage('lightningPaymentUri', { payReq })
     zap.mainWindow.show()
   })
 

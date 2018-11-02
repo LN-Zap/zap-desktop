@@ -27,7 +27,7 @@ import {
   channelGraphData,
   channelGraphStatus
 } from './channels'
-import { lightningPaymentUri } from './payform'
+import { lightningPaymentUri, queryRoutesSuccess, queryRoutesFailure } from './pay'
 import { receivePayments, paymentSuccessful, paymentFailed } from './payment'
 import {
   receiveInvoices,
@@ -44,12 +44,7 @@ import {
   newTransaction
 } from './transaction'
 
-import {
-  receiveDescribeNetwork,
-  receiveQueryRoutes,
-  receiveInvoiceAndQueryRoutes,
-  queryRoutesFailed
-} from './network'
+import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoutes } from './network'
 
 import {
   startOnboarding,
@@ -89,6 +84,9 @@ const ipc = createIpc({
 
   lightningPaymentUri,
 
+  queryRoutesSuccess,
+  queryRoutesFailure,
+
   paymentSuccessful,
   paymentFailed,
 
@@ -120,7 +118,6 @@ const ipc = createIpc({
   receiveDescribeNetwork,
   receiveQueryRoutes,
   receiveInvoiceAndQueryRoutes,
-  queryRoutesFailed,
 
   startOnboarding,
   startLndError,

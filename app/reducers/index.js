@@ -13,6 +13,7 @@ import peers from './peers'
 import channels from './channels'
 import contactsform from './contactsform'
 import form from './form'
+import pay from './pay'
 import payform from './payform'
 import requestform from './requestform'
 import invoice from './invoice'
@@ -42,6 +43,7 @@ const rootReducer = combineReducers({
   channels,
   contactsform,
   form,
+  pay,
   payform,
   requestform,
   invoice,

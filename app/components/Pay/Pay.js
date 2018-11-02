@@ -124,6 +124,7 @@ class Pay extends React.Component {
   }
 
   static defaultProps = {
+    initialPayReq: null,
     initialAmountCrypto: null,
     initialAmountFiat: null,
     isProcessing: false,
@@ -135,6 +136,7 @@ class Pay extends React.Component {
 
   state = {
     currentStep: 'address',
+    previousStep: null,
     isLn: null,
     isOnchain: null
   }
@@ -142,26 +144,38 @@ class Pay extends React.Component {
   amountInput = React.createRef()
   payReqInput = React.createRef()
 
-  /**
-   * If we have an address when the component mounts, run the payReq change handler to compure isLn / isOnchain.
-   */
-  componentDidMount() {
-    const { formApi } = this
-    if (formApi.getValue('payReq')) {
-      this.handlePayReqOnChange()
-    }
-  }
-
-  /**
-   * If we have gone back to the address step, focus the address input and unmark all fields from being touched.
-   */
   componentDidUpdate(prevProps, prevState) {
-    const { currentStep } = this.state
+    const { initialPayReq, queryRoutes } = this.props
+    const { currentStep, invoice, isLn, isOnchain } = this.state
+
+    // If initialPayReq has been set, reset the form and submit as new
+    if (initialPayReq && initialPayReq !== prevProps.initialPayReq) {
+      this.formApi.reset()
+      this.formApi.setValue('payReq', initialPayReq)
+      this.handlePayReqChange()
+    }
+
+    // If we have gone back to the address step, unmark all fields from being touched.
     if (currentStep !== prevState.currentStep) {
       if (currentStep === 'address') {
         Object.keys(this.formApi.getState().touched).forEach(field => {
           this.formApi.setTouched(field, false)
         })
+      }
+    }
+
+    // If we now have a valid onchain address, trigger the form submit.
+    if (isOnchain && isOnchain !== prevState.isOnchain) {
+      this.formApi.submitForm()
+    }
+
+    // If we now have a valid offchain address, trigger the form submit.
+    if (isLn && isLn !== prevState.isLn) {
+      this.formApi.submitForm()
+      // And if now have a valid lightning invoice, call queryRoutes.
+      if (invoice) {
+        const { satoshis, payeeNodeKey } = invoice
+        queryRoutes(payeeNodeKey, satoshis)
       }
     }
   }
@@ -191,15 +205,6 @@ class Pay extends React.Component {
    */
   setFormApi = formApi => {
     this.formApi = formApi
-  }
-
-  /**
-   * set the amountFiat field.
-   */
-  setAmountFiat = () => {
-    if (this.amountInput.current) {
-      this.amountInput.current.focus()
-    }
   }
 
   /**
@@ -241,7 +246,7 @@ class Pay extends React.Component {
     const { currentStep } = this.state
     const nextStep = Math.max(this.steps().indexOf(currentStep) - 1, 0)
     if (currentStep !== nextStep) {
-      this.setState({ currentStep: this.steps()[nextStep] })
+      this.setState({ currentStep: this.steps()[nextStep], previousStep: currentStep })
     }
   }
 
@@ -252,15 +257,15 @@ class Pay extends React.Component {
     const { currentStep } = this.state
     const nextStep = Math.min(this.steps().indexOf(currentStep) + 1, this.steps().length - 1)
     if (currentStep !== nextStep) {
-      this.setState({ currentStep: this.steps()[nextStep] })
+      this.setState({ currentStep: this.steps()[nextStep], previousStep: currentStep })
     }
   }
 
   /**
    * Set isLn/isOnchain state based on payReq value.
    */
-  handlePayReqOnChange = () => {
-    const { chain, network, queryRoutes } = this.props
+  handlePayReqChange = () => {
+    const { chain, network } = this.props
     const payReq = this.formApi.getValue('payReq')
     const state = {
       isLn: null,
@@ -278,8 +283,6 @@ class Pay extends React.Component {
         return
       }
       state.isLn = true
-      const { satoshis, payeeNodeKey } = invoice
-      queryRoutes(payeeNodeKey, satoshis)
     }
 
     // Otherwise, see if we have a valid onchain address.
@@ -289,10 +292,19 @@ class Pay extends React.Component {
 
     // Update the state with our findings.
     this.setState(state)
+  }
 
-    // As soon as we have detected a valid address, submit the form.
-    if (state.isLn || state.isOnchain) {
-      this.formApi.submitForm()
+  /**
+   * Handle the case when the form is mountedwith an initialPayReq.
+   * This is the earliest possibleplace we can do this because the form is not initialised in ComponentDidMount.
+   */
+  handleChange = formState => {
+    const { initialPayReq } = this.props
+    const { currentStep, previousStep } = this.state
+    // If this is the first time the address page is showing and we have an initialPayReq, process the request
+    // as if the user had entered it themselves.
+    if (currentStep === 'address' && !previousStep && initialPayReq && formState.values.payReq) {
+      this.handlePayReqChange()
     }
   }
 
@@ -333,7 +345,14 @@ class Pay extends React.Component {
   }
 
   renderHelpText = () => {
-    const { currentStep } = this.state
+    const { initialPayReq } = this.props
+    const { currentStep, previousStep } = this.state
+
+    // Do not render the help text if the form has just loadad with an initial payment request.
+    if (initialPayReq && !previousStep) {
+      return null
+    }
+
     return (
       <Transition
         native
@@ -380,15 +399,16 @@ class Pay extends React.Component {
           {styles => (
             <React.Fragment>
               <LightningInvoiceInput
+                field="payReq"
+                name="payReq"
                 style={styles}
                 initialValue={initialPayReq}
                 required
                 chain={chain}
                 network={network}
-                field="payReq"
                 validateOnBlur
                 validateOnChange
-                onChange={this.handlePayReqOnChange}
+                onChange={this.handlePayReqChange}
                 width={1}
                 readOnly={currentStep !== 'address'}
                 forwardedRef={this.payReqInput}
@@ -405,7 +425,7 @@ class Pay extends React.Component {
   }
 
   renderAmountFields = () => {
-    const { currentStep } = this.state
+    const { currentStep, isOnchain } = this.state
     const {
       cryptoCurrency,
       cryptoCurrencies,
@@ -415,6 +435,12 @@ class Pay extends React.Component {
       initialAmountCrypto,
       initialAmountFiat
     } = this.props
+
+    // Do not render unless we are working with an onchain address.
+    if (!isOnchain) {
+      return null
+    }
+
     return (
       <ShowHideAmount
         state={currentStep === 'amount' ? 'show' : currentStep === 'address' ? 'hide' : 'remove'}
@@ -431,10 +457,11 @@ class Pay extends React.Component {
               <Flex width={6 / 13}>
                 <Box width={145}>
                   <CryptoAmountInput
+                    field="amountCrypto"
+                    name="amountCrypto"
                     initialValue={initialAmountCrypto}
                     currency={cryptoCurrency}
                     required
-                    field="amountCrypto"
                     width={145}
                     validateOnChange
                     validateOnBlur
@@ -457,10 +484,11 @@ class Pay extends React.Component {
               <Flex width={6 / 13}>
                 <Box width={145} ml="auto">
                   <FiatAmountInput
+                    field="amountFiat"
+                    name="amountFiat"
                     initialValue={initialAmountFiat}
                     currency={fiatCurrency}
                     currentTicker={currentTicker}
-                    field="amountFiat"
                     width={145}
                     onChange={this.handleAmountFiatChange}
                     disabled={currentStep === 'address'}
@@ -483,7 +511,7 @@ class Pay extends React.Component {
   }
 
   renderSummary = () => {
-    const { isOnchain } = this.state
+    const { currentStep, isOnchain } = this.state
     const {
       cryptoCurrency,
       cryptoCurrencyTicker,
@@ -498,6 +526,12 @@ class Pay extends React.Component {
       routes,
       setCryptoCurrency
     } = this.props
+
+    // Do not render unless we are on the summary step.
+    if (currentStep !== 'summary') {
+      return null
+    }
+
     const formState = this.formApi.getState()
     let minFee, maxFee
     if (routes.length) {
@@ -582,6 +616,7 @@ class Pay extends React.Component {
         css={{ height: '100%' }}
         {...rest}
         getApi={this.setFormApi}
+        onChange={this.handleChange}
         onSubmit={this.onSubmit}
       >
         {({ formState }) => {
@@ -634,8 +669,8 @@ class Pay extends React.Component {
               <Box as="section" css={{ flex: 1 }} mb={3}>
                 {this.renderHelpText()}
                 {this.renderAddressField()}
-                {isOnchain && this.renderAmountFields()}
-                {currentStep === 'summary' && this.renderSummary()}
+                {this.renderAmountFields()}
+                {this.renderSummary()}
               </Box>
 
               <Box as="footer" mt="auto">

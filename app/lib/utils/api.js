@@ -35,3 +35,11 @@ export function requestSuggestedNodes() {
     url: BASE_URL
   }).then(response => response.data)
 }
+
+export function requestFees() {
+  const BASE_URL = 'https://bitcoinfees.earn.com/api/v1/fees/recommended'
+  return axios({
+    method: 'get',
+    url: BASE_URL
+  }).then(response => response.data)
+}

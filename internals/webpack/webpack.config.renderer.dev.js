@@ -155,6 +155,7 @@ export default merge.smart(baseConfig, {
         'http://localhost:*',
         'ws://localhost:*',
         'https://blockchain.info',
+        'https://bitcoinfees.earn.com',
         'https://zap.jackmallers.com'
       ],
       'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],

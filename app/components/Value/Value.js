@@ -10,7 +10,13 @@ const Value = ({ value, currency, currentTicker, fiatTicker }) => {
   if (currency === 'fiat') {
     price = currentTicker[fiatTicker].last
   }
-  return <i>{Number(convert('sats', currency, value, price))}</i>
+  return (
+    <i>
+      {Number(convert('sats', currency, value, price))
+        .toFixed(8)
+        .replace(/\.?0+$/, '')}
+    </i>
+  )
 }
 
 Value.propTypes = {

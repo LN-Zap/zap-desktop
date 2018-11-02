@@ -42,7 +42,7 @@ exports[`component.UI.Range should render correctly 1`] = `
     onChange={[Function]}
     step={1}
     type="range"
-    value="0"
+    value={0}
   />
 </form>
 `;

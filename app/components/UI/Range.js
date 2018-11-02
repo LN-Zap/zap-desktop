@@ -28,7 +28,7 @@ const Input = styled.input`
 const Range = asField(({ fieldState, fieldApi, ...props }) => {
   const { value } = fieldState
   const { setValue, setTouched } = fieldApi
-  const { onChange, onBlur, initialValue, forwardedRef, ...rest } = props
+  const { onChange, onBlur, forwardedRef, ...rest } = props
   return (
     <Input
       min={0}
@@ -37,7 +37,7 @@ const Range = asField(({ fieldState, fieldApi, ...props }) => {
       {...rest}
       type="range"
       ref={forwardedRef}
-      value={value || initialValue || '0'}
+      value={value || 0}
       onChange={e => {
         setValue(e.target.value)
         if (onChange) {

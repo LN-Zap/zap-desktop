@@ -60,18 +60,21 @@ const store = new Store({
 })
 
 const mockPayInvoice = async () => {
+  action('mockPayInvoice')
   store.set({ isProcessing: true })
   await delay(2000)
   store.set({ isProcessing: false })
 }
 
 const mockSendCoins = async () => {
+  action('mockSendCoins')
   store.set({ isProcessing: true })
   await delay(2000)
   store.set({ isProcessing: false })
 }
 
 const mockQueryFees = async () => {
+  action('mockQueryFees')
   store.set({ isQueryingFees: true })
   await delay(2000)
   store.set({
@@ -85,6 +88,7 @@ const mockQueryFees = async () => {
 }
 
 const mockQueryRoutes = async pubKey => {
+  action('mockQueryRoutes', pubKey)
   store.set({ isQueryingRoutes: true })
   await delay(2000)
   const nodes = store.get('nodes')
@@ -162,9 +166,10 @@ storiesOf('Containers.Pay', module)
         <Modal onClose={action('clicked')}>
           <State store={store}>
             <Pay
-              width={1 / 2}
+              width={9 / 16}
               mx="auto"
               // State
+              // initialPayReq="lntb100n1pdaetlfpp5rkj5acj5usdlqekv3548nx5zc58tsqghm8qy6pdkrn3h37ep5aqsdqqcqzysxqyz5vq7vsxfsnak9yd0rf0zxpg9tukykxjqwef72apfwq2meg7wlz8zg0nxh3fmmc0ayv8ac5xhnlwlxajatqwnh3qwdx6uruyqn47enq9w6qplzqccc"
               isProcessing={store.get('isProcessing')}
               chain={store.get('chain')}
               channelBalance={store.get('channelBalance')}

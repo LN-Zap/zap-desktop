@@ -221,7 +221,7 @@ storiesOf('Components.Form', module)
                   <Label htmlFor="slider1">Example Range</Label>
                 </Box>
                 <Box>
-                  <Range field="slider1" onChange={action('change')} />
+                  <Range field="slider1" initialValue={25} onChange={action('change')} />
                 </Box>
               </Box>
 

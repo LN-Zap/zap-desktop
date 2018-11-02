@@ -49,7 +49,6 @@ class Input extends React.Component {
       onChange,
       onBlur,
       onFocus,
-      initialValue,
       forwardedRef,
       theme,
       fieldApi,
@@ -90,7 +89,7 @@ class Input extends React.Component {
           )}
           {...rest}
           ref={this.inputRef}
-          value={!value && value !== 0 ? '' : initialValue || value}
+          value={!value && value !== 0 ? '' : value}
           onChange={e => {
             setValue(e.target.value)
             if (onChange) {
