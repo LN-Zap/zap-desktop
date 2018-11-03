@@ -36,12 +36,12 @@ class Modal extends React.Component {
       <Flex flexDirection="column" width={1} p={3} bg="darkestBackground" css={{ height: '100%' }}>
         <Flex justifyContent="flex-end" as="header" color="primaryText">
           <Box
-            css={{ cursor: 'pointer' }}
+            css={{ cursor: 'pointer', opacity: hover ? 0.6 : 1 }}
             ml="auto"
             onClick={onClose}
             onMouseEnter={this.hoverOn}
             onMouseLeave={this.hoverOff}
-            color={hover ? 'lightningOrange' : null}
+            p={2}
           >
             <X width="2em" height="2em" />
           </Box>
