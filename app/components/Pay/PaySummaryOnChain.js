@@ -122,11 +122,11 @@ class PaySummaryOnChain extends React.Component {
                 <Spinner color="lightningOrange" />
               </Flex>
             ) : !fee ? (
-              <FormattedMessage {...messages.unknown} />
+              <FormattedMessage {...messages.fee_unknown} />
             ) : (
               <React.Fragment>
                 <Text>
-                  {fee} satoshis <FormattedMessage {...messages.per_byte} />
+                  {fee} satoshis <FormattedMessage {...messages.fee_per_byte} />
                 </Text>
                 <Text fontSize="s">
                   (<FormattedMessage {...messages.next_block_confirmation} />)
@@ -143,7 +143,7 @@ class PaySummaryOnChain extends React.Component {
           right={
             <React.Fragment>
               <Value value={amount} currency={cryptoCurrency} /> {cryptoCurrencyTicker}
-              {!isQueryingFees && fee && <Text fontSize="s">(+ {fee} satoshis per byte</Text>}
+              {!isQueryingFees && fee && <Text fontSize="s">(+ {fee} satoshis per byte)</Text>}
             </React.Fragment>
           }
         />

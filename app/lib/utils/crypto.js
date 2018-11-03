@@ -150,13 +150,13 @@ export const getNodeAlias = (pubkey, nodes = []) => {
 /**
  * Given a list of routest, find the minimum fee.
  * @param {QueryRoutesResponse} routes
- * @return {Number} minimum fee.
+ * @return {Number} minimum fee rounded up to the nearest satoshi.
  */
 export const getMinFee = (routes = []) => {
   if (!routes || !routes.length) {
     return null
   }
-  return routes.reduce((min, b) => Math.min(min, b.total_fees_msat), routes[0].total_fees_msat)
+  return routes.reduce((min, b) => Math.min(min, b.total_fees), routes[0].total_fees)
 }
 
 /**
@@ -168,7 +168,7 @@ export const getMaxFee = routes => {
   if (!routes || !routes.length) {
     return null
   }
-  return routes.reduce((max, b) => Math.max(max, b.total_fees_msat), routes[0].total_fees_msat)
+  return routes.reduce((max, b) => Math.max(max, b.total_fees), routes[0].total_fees)
 }
 
 /**

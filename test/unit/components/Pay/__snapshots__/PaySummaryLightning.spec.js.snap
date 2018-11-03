@@ -81,6 +81,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
           textAlign="right"
         >
           <Truncate
+            maxlen={15}
             text="03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463"
           />
         </Text>
@@ -99,8 +100,13 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
     right={
       <FormattedMessage
         defaultMessage="unknown"
-        id="components.Pay.unknown"
-        values={Object {}}
+        id="components.Pay.fee_unknown"
+        values={
+          Object {
+            "maxFee": null,
+            "minFee": null,
+          }
+        }
       />
     }
   />
