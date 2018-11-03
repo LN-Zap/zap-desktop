@@ -78,6 +78,23 @@ class PaySummaryLightning extends React.PureComponent {
     const fiatAmount = satoshisToFiat(satoshis, currentTicker[fiatCurrency].last)
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
 
+    // Select an appropriate fee message...
+    // Default to unknown.
+    let feeMessage = messages.fee_unknown
+
+    // If thex max fee is 0 or 1 then show a message like "less than 1".
+    if (maxFee === 0 || maxFee === 1) {
+      feeMessage = messages.fee_less_than_1
+    }
+    // Otherwise, if we have both a min and max fee that are different, present the fee range.
+    else if (minFee !== null && maxFee !== null && minFee !== maxFee) {
+      feeMessage = messages.fee_range
+    }
+    // Finally, if we at least have a max fee then present it as upto that amount.
+    else if (maxFee) {
+      feeMessage = messages.fee_upto
+    }
+
     return (
       <React.Fragment>
         <Box pb={2}>
@@ -108,7 +125,7 @@ class PaySummaryLightning extends React.PureComponent {
             </Box>
             <Box width={5 / 11}>
               <Text textAlign="right" className="hint--bottom-left" data-hint={payeeNodeKey}>
-                {<Truncate text={nodeAlias || payeeNodeKey} />}
+                {<Truncate text={nodeAlias || payeeNodeKey} maxlen={nodeAlias ? 30 : 15} />}
               </Text>
             </Box>
           </Flex>
@@ -127,10 +144,8 @@ class PaySummaryLightning extends React.PureComponent {
                 </Text>
                 <Spinner color="lightningOrange" />
               </Flex>
-            ) : minFee === null || maxFee === null ? (
-              <FormattedMessage {...messages.unknown} />
             ) : (
-              <FormattedMessage {...messages.fee_range} values={{ minFee, maxFee }} />
+              feeMessage && <FormattedMessage {...feeMessage} values={{ minFee, maxFee }} />
             )
           }
         />
@@ -141,13 +156,7 @@ class PaySummaryLightning extends React.PureComponent {
           left={<FormattedMessage {...messages.total} />}
           right={
             <React.Fragment>
-              <Value value={satoshis} currency={cryptoCurrency} /> {cryptoCurrencyTicker}
-              {!isQueryingRoutes &&
-                maxFee && (
-                  <Text fontSize="s">
-                    (+ <FormattedMessage {...messages.upto} /> {maxFee} msats)
-                  </Text>
-                )}
+              <Value value={satoshis + maxFee} currency={cryptoCurrency} /> {cryptoCurrencyTicker}
             </React.Fragment>
           }
         />
