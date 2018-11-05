@@ -1,5 +1,20 @@
 import bitcoin from 'bitcoinjs-lib'
 import bech32 from 'lib/utils/bech32'
+import lightningRequestReq from 'bolt11'
+
+export const decodePayReq = (payReq, addDefaults = true) => {
+  const data = lightningRequestReq.decode(payReq)
+  const expiry = data.tags.find(t => t.tagName === 'expire_time')
+  if (addDefaults && !expiry) {
+    data.tags.push({
+      tagName: 'expire_time',
+      data: 3600
+    })
+    data.timeExpireDate = data.timestamp + 3600
+    data.timeExpireDateString = new Date(data.timeExpireDate * 1000).toISOString()
+  }
+  return data
+}
 
 /**
  * Turns parsed number into a string.
