@@ -9,7 +9,6 @@ import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
 import { fetchInfo, infoSelectors } from 'reducers/info'
 import { setFormType } from 'reducers/form'
-import { setRequestAmount, setRequestMemo, requestFormSelectors } from 'reducers/requestform'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 import { lndSelectors } from 'reducers/lnd'
 import {
@@ -52,8 +51,6 @@ const mapDispatchToProps = {
   closeWalletModal,
   fetchInfo,
   setFormType,
-  setRequestAmount,
-  setRequestMemo,
   createInvoice,
   fetchInvoice,
   clearError,
@@ -114,7 +111,6 @@ const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
   currencyFilters: tickerSelectors.currencyFilters(state),
   currencyName: tickerSelectors.currencyName(state),
-  requestFiatAmount: requestFormSelectors.fiatAmount(state),
   syncPercentage: lndSelectors.syncPercentage(state),
 
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
@@ -132,35 +128,10 @@ const mapStateToProps = state => ({
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const requestFormProps = {
-    requestform: stateProps.requestform,
-    ticker: stateProps.ticker,
-
-    currencyFilters: stateProps.currencyFilters,
-    currencyName: stateProps.currencyName,
-    requestFiatAmount: stateProps.requestFiatAmount,
-
-    setRequestAmount: dispatchProps.setRequestAmount,
-    setRequestMemo: dispatchProps.setRequestMemo,
-    setCurrency: dispatchProps.setCurrency,
-
-    onRequestSubmit: () =>
-      dispatchProps.createInvoice(
-        stateProps.requestform.amount,
-        stateProps.ticker.currency,
-        stateProps.requestform.memo
-      )
-  }
-
   const formProps = formType => {
     if (!formType) {
       return {}
     }
-
-    if (formType === 'REQUEST_FORM') {
-      return requestFormProps
-    }
-
     return {}
   }
 

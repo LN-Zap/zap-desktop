@@ -33,7 +33,6 @@ const Form = ({ formType, closeForm }) => {
 
 Form.propTypes = {
   formType: PropTypes.string,
-  formProps: PropTypes.object.isRequired,
   closeForm: PropTypes.func.isRequired
 }
 
