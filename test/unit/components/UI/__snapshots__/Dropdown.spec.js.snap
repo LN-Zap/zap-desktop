@@ -41,7 +41,6 @@ exports[`component.Dropdown should render correctly 1`] = `
 
 <div
   className="c0"
-  display="relative"
   onClick={[MockFunction]}
 >
   <button
