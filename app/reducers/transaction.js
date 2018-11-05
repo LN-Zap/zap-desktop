@@ -4,7 +4,6 @@ import { btc } from 'lib/utils'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
-import { resetPayForm } from './payform'
 import { setError } from './error'
 import { fetchChannels } from './channels'
 
@@ -114,9 +113,6 @@ export const transactionSuccessful = (event, { txid }) => dispatch => {
   // Show successful tx state for 5 seconds
   dispatch(showSuccessTransactionScreen(txid))
   setTimeout(() => dispatch(hideSuccessTransactionScreen()), 5000)
-
-  // Reset the payment form
-  dispatch(resetPayForm())
 }
 
 export const transactionError = (event, { error }) => dispatch => {

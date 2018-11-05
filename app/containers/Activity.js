@@ -19,7 +19,6 @@ import {
 } from 'reducers/activity'
 import { walletAddress, openWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
-import { payFormSelectors } from 'reducers/payform'
 import { setSettingsOpen, setActiveSubMenu, disableSubMenu } from 'reducers/settings'
 import { setTheme, themeSelectors } from 'reducers/theme'
 
@@ -82,7 +81,7 @@ const mapStateToProps = state => ({
   nonActiveFilters: activitySelectors.nonActiveFilters(state),
   showExpiredToggle: activitySelectors.showExpiredToggle(state),
 
-  showPayLoadingScreen: payFormSelectors.showPayLoadingScreen(state)
+  showPayLoadingScreen: paymentSelectors.showPayLoadingScreen(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({

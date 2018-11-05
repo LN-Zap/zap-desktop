@@ -14,7 +14,6 @@ import channels from './channels'
 import contactsform from './contactsform'
 import form from './form'
 import pay from './pay'
-import payform from './payform'
 import requestform from './requestform'
 import invoice from './invoice'
 import address from './address'
@@ -44,7 +43,6 @@ const rootReducer = combineReducers({
   contactsform,
   form,
   pay,
-  payform,
   requestform,
   invoice,
   address,

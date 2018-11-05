@@ -71,7 +71,7 @@ export { requestFormSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function payFormReducer(state = initialState, action) {
+export default function requestFormReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

@@ -29,13 +29,7 @@ import {
 } from './channels'
 import { lightningPaymentUri, queryRoutesSuccess, queryRoutesFailure } from './pay'
 import { receivePayments, paymentSuccessful, paymentFailed } from './payment'
-import {
-  receiveInvoices,
-  createdInvoice,
-  receiveFormInvoice,
-  invoiceUpdate,
-  invoiceFailed
-} from './invoice'
+import { receiveInvoices, createdInvoice, invoiceUpdate, invoiceFailed } from './invoice'
 import { receiveBalance } from './balance'
 import {
   receiveTransactions,
@@ -75,7 +69,6 @@ const ipc = createIpc({
   receivePayments,
 
   receiveInvoices,
-  receiveInvoice: receiveFormInvoice,
   createdInvoice,
   invoiceFailed,
   invoiceUpdate,
