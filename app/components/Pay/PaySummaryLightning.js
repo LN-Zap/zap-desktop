@@ -2,9 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedNumber, FormattedMessage } from 'react-intl'
-import lightningPayReq from 'bolt11'
 import { satoshisToFiat } from 'lib/utils/btc'
-import { getNodeAlias } from 'lib/utils/crypto'
+import { decodePayReq, getNodeAlias } from 'lib/utils/crypto'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, Dropdown, Spinner, Text, Truncate } from 'components/UI'
 import Value from 'components/Value'
@@ -68,7 +67,7 @@ class PaySummaryLightning extends React.PureComponent {
 
     let invoice
     try {
-      invoice = lightningPayReq.decode(payReq)
+      invoice = decodePayReq(payReq)
     } catch (e) {
       return null
     }

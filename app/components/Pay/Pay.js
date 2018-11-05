@@ -3,8 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import lightningPayReq from 'bolt11'
-import { getMinFee, getMaxFee, getFeeRange, isOnchain, isLn } from 'lib/utils/crypto'
+import { decodePayReq, getMinFee, getMaxFee, getFeeRange, isOnchain, isLn } from 'lib/utils/crypto'
 import { convert } from 'lib/utils/btc'
 import {
   Bar,
@@ -281,7 +280,7 @@ class Pay extends React.Component {
     if (isLn(payReq, chain, network)) {
       let invoice
       try {
-        invoice = lightningPayReq.decode(payReq)
+        invoice = decodePayReq(payReq)
         state.invoice = invoice
       } catch (e) {
         return
