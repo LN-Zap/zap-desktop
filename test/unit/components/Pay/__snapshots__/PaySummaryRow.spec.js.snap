@@ -2,7 +2,7 @@
 
 exports[`component.Form.PaySummaryRow should render correctly 1`] = `
 <styled.div
-  py={2}
+  py={3}
 >
   <Styled(styled.div)
     alignItems="center"

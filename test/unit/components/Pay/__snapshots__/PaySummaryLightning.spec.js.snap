@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
-<Fragment>
+<styled.div>
   <styled.div
-    pb={2}
+    py={3}
   >
     <Styled(styled.div)
       alignItems="center"
@@ -131,5 +131,5 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
     }
   />
   <Bar />
-</Fragment>
+</styled.div>
 `;

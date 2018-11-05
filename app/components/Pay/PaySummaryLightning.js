@@ -62,7 +62,8 @@ class PaySummaryLightning extends React.PureComponent {
       minFee,
       nodes,
       payReq,
-      setCryptoCurrency
+      setCryptoCurrency,
+      ...rest
     } = this.props
 
     let invoice
@@ -96,8 +97,8 @@ class PaySummaryLightning extends React.PureComponent {
     }
 
     return (
-      <React.Fragment>
-        <Box pb={2}>
+      <Box {...rest}>
+        <Box py={3}>
           <Flex alignItems="center">
             <Box width={5 / 11}>
               <Flex flexWrap="wrap" alignItems="baseline">
@@ -164,7 +165,7 @@ class PaySummaryLightning extends React.PureComponent {
         <Bar />
 
         {memo && <PaySummaryRow left={<FormattedMessage {...messages.memo} />} right={memo} />}
-      </React.Fragment>
+      </Box>
     )
   }
 }

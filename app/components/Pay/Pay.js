@@ -15,6 +15,7 @@ import {
   FormFieldMessage,
   Label,
   LightningInvoiceInput,
+  Panel,
   Text
 } from 'components/UI'
 
@@ -458,14 +459,14 @@ class Pay extends React.Component {
 
             <Flex justifyContent="space-between" alignItems="flex-start" mb={3}>
               <Flex width={6 / 13}>
-                <Box width={145}>
+                <Box width={150}>
                   <CryptoAmountInput
                     field="amountCrypto"
                     name="amountCrypto"
                     initialValue={initialAmountCrypto}
                     currency={cryptoCurrency}
                     required
-                    width={145}
+                    width={150}
                     validateOnChange
                     validateOnBlur
                     onChange={this.handleAmountCryptoChange}
@@ -485,14 +486,14 @@ class Pay extends React.Component {
                 =
               </Text>
               <Flex width={6 / 13}>
-                <Box width={145} ml="auto">
+                <Box width={150} ml="auto">
                   <FiatAmountInput
                     field="amountFiat"
                     name="amountFiat"
                     initialValue={initialAmountFiat}
                     currency={fiatCurrency}
                     currentTicker={currentTicker}
-                    width={145}
+                    width={150}
                     onChange={this.handleAmountFiatChange}
                     disabled={currentStep === 'address'}
                   />
@@ -543,6 +544,7 @@ class Pay extends React.Component {
         const amountInSatoshis = convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
         return (
           <PaySummaryOnChain
+            mt={-3}
             amount={amountInSatoshis}
             address={formState.values.payReq}
             cryptoCurrency={cryptoCurrency}
@@ -559,6 +561,7 @@ class Pay extends React.Component {
       } else if (isLn) {
         return (
           <PaySummaryLightning
+            mt={-3}
             currentTicker={currentTicker}
             cryptoCurrency={cryptoCurrency}
             cryptoCurrencyTicker={cryptoCurrencyTicker}
@@ -668,18 +671,17 @@ class Pay extends React.Component {
           }
 
           return (
-            <Flex as="article" flexDirection="column" css={{ height: '100%' }}>
-              <Flex as="header" flexDirection="column" mb={2}>
+            <Panel>
+              <Panel.Header>
                 <PayHeader
                   title={`${intl.formatMessage({
                     ...messages.send
                   })} ${cryptoName} (${cryptoCurrencyTicker})`}
                   type={isLn ? 'offchain' : isOnchain ? 'onchain' : null}
                 />
-                <Bar />
-              </Flex>
-
-              <Box as="section" css={{ flex: 1 }} mb={3}>
+              </Panel.Header>
+              <Bar />
+              <Panel.Body>
                 <Box width={1} css={{ position: 'relative' }}>
                   {this.renderHelpText()}
                   <Box width={1} css={{ position: 'absolute' }}>
@@ -690,9 +692,8 @@ class Pay extends React.Component {
                     {this.renderSummary()}
                   </Box>
                 </Box>
-              </Box>
-
-              <Box as="footer" mt="auto">
+              </Panel.Body>
+              <Panel.Footer>
                 <ShowHideButtons state={showBack || showSubmit ? 'show' : 'show'}>
                   {styles => (
                     <Box style={styles}>
@@ -715,6 +716,7 @@ class Pay extends React.Component {
                         disabled={
                           formState.pristine ||
                           formState.invalid ||
+                          isProcessing ||
                           (currentStep === 'summary' && (!hasRoute || !hasEnoughFunds))
                         }
                         nextButtonText={nextButtonText}
@@ -744,8 +746,8 @@ class Pay extends React.Component {
                     </Box>
                   )}
                 </ShowHideButtons>
-              </Box>
-            </Flex>
+              </Panel.Footer>
+            </Panel>
           )
         }}
       </Form>

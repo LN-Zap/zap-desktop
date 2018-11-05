@@ -67,14 +67,15 @@ class PaySummaryOnChain extends React.Component {
       fiatCurrency,
       onchainFees,
       isQueryingFees,
-      setCryptoCurrency
+      setCryptoCurrency,
+      ...rest
     } = this.props
 
     const fiatAmount = satoshisToFiat(amount, currentTicker[fiatCurrency].last)
     const fee = get(onchainFees, 'fastestFee', null)
     return (
-      <React.Fragment>
-        <Box pb={2}>
+      <Box {...rest}>
+        <Box py={3}>
           <Flex alignItems="center">
             <Box width={5 / 11}>
               <Flex flexWrap="wrap" alignItems="baseline">
@@ -147,7 +148,7 @@ class PaySummaryOnChain extends React.Component {
             </React.Fragment>
           }
         />
-      </React.Fragment>
+      </Box>
     )
   }
 }

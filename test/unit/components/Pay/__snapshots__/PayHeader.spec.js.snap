@@ -1,96 +1,56 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.Pay.PayHeader generic should render correctly 1`] = `
-<Text
-  textAlign="center"
->
-  <styled.div
-    css={
-      Object {
-        "height": "55px",
-      }
-    }
-    mx="auto"
-  >
+<Header
+  logo={
     <SvgPaperPlane
-      height="35px"
-      width="35px"
+      height="38px"
+      width="38px"
     />
-  </styled.div>
-  <Heading1
-    mx="auto"
-  >
-    Send Bitcoin
-  </Heading1>
-  <Heading4
-    mx="auto"
-  >
-     
-     
-  </Heading4>
-</Text>
+  }
+  subtitle={
+    <span>
+       
+    </span>
+  }
+  title="Send Bitcoin"
+/>
 `;
 
 exports[`component.Pay.PayHeader offchain should render correctly 1`] = `
-<Text
-  textAlign="center"
->
-  <styled.div
-    css={
-      Object {
-        "height": "55px",
-      }
-    }
-    mx="auto"
-  >
+<Header
+  logo={
     <SvgLightning
       height="45px"
       width="45px"
     />
-  </styled.div>
-  <Heading1
-    mx="auto"
-  >
-    Send Bitcoin
-  </Heading1>
-  <Heading4
-    mx="auto"
-  >
-     
-     
-    Lightning Payment
-  </Heading4>
-</Text>
+  }
+  subtitle={
+    <FormattedMessage
+      defaultMessage="Lightning Payment"
+      id="components.Pay.subtitle_offchain"
+      values={Object {}}
+    />
+  }
+  title="Send Bitcoin"
+/>
 `;
 
 exports[`component.Pay.PayHeader onchain should render correctly 1`] = `
-<Text
-  textAlign="center"
->
-  <styled.div
-    css={
-      Object {
-        "height": "55px",
-      }
-    }
-    mx="auto"
-  >
+<Header
+  logo={
     <SvgOnchain
       height="45px"
       width="45px"
     />
-  </styled.div>
-  <Heading1
-    mx="auto"
-  >
-    Send Bitcoin
-  </Heading1>
-  <Heading4
-    mx="auto"
-  >
-     
-    On-Chain Payment
-     
-  </Heading4>
-</Text>
+  }
+  subtitle={
+    <FormattedMessage
+      defaultMessage="On-Chain Payment"
+      id="components.Pay.subtitle_onchain"
+      values={Object {}}
+    />
+  }
+  title="Send Bitcoin"
+/>
 `;

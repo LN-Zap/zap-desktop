@@ -1,9 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
-<Fragment>
+<styled.div
+  queryFees={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "isThrow": false,
+          "value": undefined,
+        },
+      ],
+    }
+  }
+>
   <styled.div
-    pb={2}
+    py={3}
   >
     <Styled(styled.div)
       alignItems="center"
@@ -124,5 +138,5 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
       </React.Fragment>
     }
   />
-</Fragment>
+</styled.div>
 `;
