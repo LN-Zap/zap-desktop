@@ -142,7 +142,7 @@
   "components.Settings.Theme.title": "",
   "components.Syncing.block_progress": "",
   "components.Syncing.filter_progress": "",
-  "components.Syncing.fund_description": "Might as well fund your wallet while you’re waiting to sync.",
+  "components.Syncing.fund_description": "",
   "components.Syncing.fund_title": "Envie fundos para sua carteira Zap",
   "components.Syncing.grab_coffee": "Parece que isso pode levar algum tempo - você pode ir tomar um café ou tentar novamente mais tarde!",
   "components.Syncing.preparing": "Preparando…",
