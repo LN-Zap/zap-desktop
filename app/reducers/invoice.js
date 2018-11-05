@@ -1,15 +1,11 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { push } from 'react-router-redux'
 import db from 'store/db'
 
 import { showNotification } from 'lib/utils/notifications'
 import { btc } from 'lib/utils'
 
-import { showActivityModal } from './activity'
 import { fetchBalance } from './balance'
-import { setFormType } from './form'
-import { resetRequestForm } from './requestform'
 import { setError } from './error'
 
 // ------------------------------------
@@ -104,7 +100,7 @@ export const receiveInvoices = (event, { invoices }) => dispatch => {
 }
 
 // Send IPC event for creating an invoice
-export const createInvoice = (amount, memo, currency) => async dispatch => {
+export const createInvoice = (amount, currency, memo) => async dispatch => {
   // backend needs value in satoshis no matter what currency we are using
   const value = btc.convert(currency, 'sats', amount)
 
@@ -125,22 +121,13 @@ export const createInvoice = (amount, memo, currency) => async dispatch => {
 
 // Receive IPC event for newly created invoice
 export const createdInvoice = (event, invoice) => dispatch => {
-  // Close the form modal once the payment was succesful
-  dispatch(setFormType(null))
-
   decorateInvoice(invoice)
 
   // Add new invoice to invoices list
   dispatch({ type: INVOICE_SUCCESSFUL, invoice })
 
-  // Reset the payment form
-  dispatch(resetRequestForm())
-
-  // Transition to wallet route
-  dispatch(push('/'))
-
-  // Set invoice modal to newly created invoice
-  dispatch(showActivityModal('INVOICE', invoice.payment_request))
+  // Set current invoice to newly created invoice.
+  dispatch(setInvoice(invoice.payment_request))
 }
 
 export const invoiceFailed = (event, { error }) => dispatch => {
@@ -215,14 +202,7 @@ invoiceSelectors.invoices = createSelector(
   invoicesSelector,
   invoicesSearchTextSelector,
   (invoices, invoicesSearchText) =>
-    invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
-)
-
-invoiceSelectors.invoices = createSelector(
-  invoicesSelector,
-  invoicesSearchTextSelector,
-  (invoices, invoicesSearchText) =>
-    invoices.filter(invoice => invoice.memo.includes(invoicesSearchText))
+    invoices.filter(invoice => invoice.memo && invoice.memo.includes(invoicesSearchText))
 )
 
 export { invoiceSelectors }

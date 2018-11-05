@@ -147,8 +147,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     onRequestSubmit: () =>
       dispatchProps.createInvoice(
         stateProps.requestform.amount,
-        stateProps.requestform.memo,
-        stateProps.ticker.currency
+        stateProps.ticker.currency,
+        stateProps.requestform.memo
       )
   }
 
