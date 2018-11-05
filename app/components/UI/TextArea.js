@@ -50,7 +50,6 @@ class TextArea extends React.PureComponent {
       onChange,
       onBlur,
       onFocus,
-      initialValue,
       forwardedRef,
       theme,
       fieldApi,
@@ -92,7 +91,7 @@ class TextArea extends React.PureComponent {
           )}
           {...rest}
           ref={this.inputRef}
-          value={!value && value !== 0 ? '' : initialValue || value}
+          value={!value && value !== 0 ? '' : value}
           onChange={e => {
             setValue(e.target.value)
             if (onChange) {

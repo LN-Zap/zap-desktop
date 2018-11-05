@@ -3,7 +3,7 @@ import { configure, shallow } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
 import Form from 'components/Form'
-import Pay from 'components/Form/Pay'
+import Pay from 'containers/Pay'
 import Request from 'components/Form/Request'
 
 configure({ adapter: new Adapter() })

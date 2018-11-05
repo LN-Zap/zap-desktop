@@ -58,13 +58,12 @@ export function describeGraph(lnd) {
  * @param  {[type]} amount [description]
  * @return {[type]}        [description]
  */
-export function queryRoutes(lnd, { pubkey, amount }) {
+export function queryRoutes(lnd, { pubkey, amount, numRoutes = 15 }) {
   return new Promise((resolve, reject) => {
-    lnd.queryRoutes({ pub_key: pubkey, amt: amount }, (err, data) => {
+    lnd.queryRoutes({ pub_key: pubkey, amt: amount, num_routes: numRoutes }, (err, data) => {
       if (err) {
         return reject(err)
       }
-
       resolve(data)
     })
   })

@@ -74,9 +74,9 @@ export function getTransactions(lnd) {
  * @param  {[type]} amount [description]
  * @return {[type]}        [description]
  */
-export function sendCoins(lnd, { addr, amount }) {
+export function sendCoins(lnd, { addr, amount, target_conf, sat_per_byte }) {
   return new Promise((resolve, reject) => {
-    lnd.sendCoins({ addr, amount }, (err, data) => {
+    lnd.sendCoins({ addr, amount, target_conf, sat_per_byte }, (err, data) => {
       if (err) {
         return reject(err)
       }

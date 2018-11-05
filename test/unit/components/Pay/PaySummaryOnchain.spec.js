@@ -34,6 +34,7 @@ const props = {
     }
   ],
   fiatCurrency: 'USD',
+  queryFees: jest.fn(),
   setCryptoCurrency: jest.fn()
 }
 

@@ -1,34 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import X from 'components/Icon/X'
-
-import Pay from './Pay'
+import { Modal } from 'components/UI'
+import Pay from 'containers/Pay'
 import Request from './Request'
-
 import styles from './Form.scss'
-
-const FORM_TYPES = {
-  PAY_FORM: Pay,
-  REQUEST_FORM: Request
-}
 
 const Form = ({ formType, formProps, closeForm }) => {
   if (!formType) {
     return null
   }
 
-  const FormComponent = FORM_TYPES[formType]
-  return (
-    <div className={styles.container}>
-      <div className={styles.closeContainer}>
-        <span onClick={closeForm}>
-          <X />
-        </span>
-      </div>
-      <FormComponent {...formProps} />
-    </div>
-  )
+  switch (formType) {
+    case 'PAY_FORM':
+      return (
+        <div className={styles.container}>
+          <Modal onClose={closeForm}>
+            <Pay width={9 / 16} mx="auto" />
+          </Modal>
+        </div>
+      )
+
+    case 'REQUEST_FORM':
+      return (
+        <div className={styles.container}>
+          <div className={styles.closeContainer}>
+            <span onClick={closeForm}>
+              <X />
+            </span>
+          </div>
+          <Request {...formProps} />
+        </div>
+      )
+  }
 }
 
 Form.propTypes = {

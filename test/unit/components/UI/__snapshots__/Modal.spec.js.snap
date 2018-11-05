@@ -3,7 +3,9 @@
 exports[`component.UI.Modal should render correctly 1`] = `
 .c2 {
   margin-left: auto;
+  padding: 8px;
   cursor: pointer;
+  opacity: 1;
 }
 
 .c3 {
@@ -49,7 +51,6 @@ exports[`component.UI.Modal should render correctly 1`] = `
   >
     <div
       className="c2"
-      color={null}
       onMouseEnter={[Function]}
       onMouseLeave={[Function]}
     >

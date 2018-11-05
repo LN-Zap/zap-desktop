@@ -119,9 +119,9 @@ export const paymentFailed = (event, { error }) => dispatch => {
   dispatch(setError(error))
 }
 
-export const payInvoice = paymentRequest => (dispatch, getState) => {
+export const payInvoice = (paymentRequest, feeLimit) => (dispatch, getState) => {
   dispatch(sendPayment())
-  ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest } })
+  ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest, feeLimit } })
 
   // Set an interval to call tick which will continuously tick down the ticker until the payment goes through or it hits
   // 0 and throws an error. We also call setPaymentInterval so we are storing the interval. This allows us to clear the
