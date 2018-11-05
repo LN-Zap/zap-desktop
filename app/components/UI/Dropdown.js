@@ -14,7 +14,7 @@ const DropdownContainer = styled(Flex)({})
 DropdownContainer.defaultProps = {
   flexDirection: 'column',
   flexWrap: 'none',
-  display: 'relative'
+  position: 'relative'
 }
 
 /**
@@ -36,14 +36,15 @@ DropdownButton.defaultProps = {
   as: 'button',
   m: 0,
   p: 0,
-  textAlign: 'left'
+  textAlign: 'left',
+  justify: 'left'
 }
 
 /**
  * Menu
  */
 const MenuContainer = styled(Box)({
-  display: 'relative'
+  position: 'relative'
 })
 
 const Menu = styled(Box)({
@@ -138,7 +139,7 @@ class Dropdown extends React.Component {
 
   render() {
     const { isOpen } = this.state
-    let { activeKey, items, theme, ...rest } = this.props
+    let { activeKey, items, justify, theme, ...rest } = this.props
     // coerce array of strings into array of objects.
     items = items.map(item => {
       if (typeof item === 'string') {
@@ -160,12 +161,12 @@ class Dropdown extends React.Component {
         </DropdownButton>
         {isOpen && (
           <MenuContainer>
-            <Menu>
+            <Menu css={justify === 'right' ? { right: 0 } : null}>
               {items.map(item => {
                 return (
                   <MenuItem key={item.key} onClick={() => this.onChange(item.key)}>
                     <Flex alignItems="center">
-                      <Text width="18px">
+                      <Text width="20px" textAlign="center">
                         {activeKey === item.key && (
                           <Check height="0.95em" color={theme.colors.superGreen} />
                         )}

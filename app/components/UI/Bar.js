@@ -16,6 +16,8 @@ class Bar extends React.PureComponent {
         borderColor="primaryText"
         opacity={0.6}
         border={1}
+        m={0}
+        p={0}
         css={{ 'border-bottom': 'none !important' }}
         as="hr"
       />

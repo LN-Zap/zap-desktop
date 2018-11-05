@@ -10,6 +10,8 @@ export default defineMessages({
   request_label_offchain: 'Payment Request',
   request_label_onchain: 'Address',
   searching_routes: 'searching for routes',
+  subtitle_onchain: 'On-Chain Payment',
+  subtitle_offchain: 'Lightning Payment',
   next_block_confirmation: 'next block confirmation',
   next: 'Next',
   back: 'Back',

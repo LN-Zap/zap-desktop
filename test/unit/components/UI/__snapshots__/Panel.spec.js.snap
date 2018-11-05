@@ -1,0 +1,62 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Panel should render correctly 1`] = `
+.c2 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+}
+
+.c0 {
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.c1 {
+  padding-bottom: 16px;
+  font-size: m;
+  color: primaryText;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.c3 {
+  padding-top: auto;
+  font-size: m;
+  color: primaryText;
+  text-align: center;
+  line-height: 1.4;
+}
+
+<article
+  className="c0"
+>
+  <header
+    className="c1"
+    color="primaryText"
+    fontSize="m"
+  >
+    Header here
+  </header>
+  <section
+    className="c2"
+  >
+    Body here
+  </section>
+  <footer
+    className="c3"
+    color="primaryText"
+    fontSize="m"
+  >
+    Footer here
+  </footer>
+</article>
+`;

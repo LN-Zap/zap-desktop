@@ -4,7 +4,7 @@ import { Box, Flex } from 'rebass'
 import { Text } from 'components/UI'
 
 const PaySummaryRow = ({ left, right }) => (
-  <Box py={2}>
+  <Box py={3}>
     <Flex alignItems="center">
       <Box width={1 / 2}>
         <Text fontWeight="normal">{left}</Text>

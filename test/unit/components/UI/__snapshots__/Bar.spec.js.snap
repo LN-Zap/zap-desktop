@@ -2,6 +2,8 @@
 
 exports[`component.UI.Bar should render correctly 1`] = `
 .c0 {
+  margin: 0px;
+  padding: 0px;
   width: 100%;
   border-bottom: none !important;
   border: 1px solid;

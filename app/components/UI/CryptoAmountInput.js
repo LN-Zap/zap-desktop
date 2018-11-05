@@ -121,13 +121,13 @@ class WrappedCryptoAmountInputAsField extends React.Component {
       return
     }
     try {
-      const validator = yup
+      let validator = yup
         .number()
         .positive()
         .min(0)
         .typeError('A number is required')
       if (required) {
-        validator.required()
+        validator = validator.required().moreThan(0)
       }
       validator.validateSync(Number(value))
     } catch (error) {

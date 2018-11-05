@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import X from 'components/Icon/X'
 import { Modal } from 'components/UI'
 import Pay from 'containers/Pay'
-import Request from './Request'
+import Request from 'containers/Request'
 import styles from './Form.scss'
 
-const Form = ({ formType, formProps, closeForm }) => {
+const Form = ({ formType, closeForm }) => {
   if (!formType) {
     return null
   }
@@ -24,12 +23,9 @@ const Form = ({ formType, formProps, closeForm }) => {
     case 'REQUEST_FORM':
       return (
         <div className={styles.container}>
-          <div className={styles.closeContainer}>
-            <span onClick={closeForm}>
-              <X />
-            </span>
-          </div>
-          <Request {...formProps} />
+          <Modal onClose={closeForm}>
+            <Request width={9 / 16} mx="auto" />
+          </Modal>
         </div>
       )
   }

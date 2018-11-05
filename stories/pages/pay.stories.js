@@ -266,6 +266,7 @@ storiesOf('Containers.Pay', module)
                   fiatCurrencies={store.get('fiatCurrencies')}
                   onchainFees={store.get('onchainFees')}
                   // Dispatch
+                  queryFees={mockQueryFees}
                   setCryptoCurrency={setCryptoCurrency}
                   setFiatCurrency={setFiatCurrency}
                 />
