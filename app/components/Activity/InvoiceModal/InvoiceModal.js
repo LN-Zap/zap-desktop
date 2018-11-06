@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
 import { showNotification } from 'lib/utils/notifications'
-import { Dropdown, Value } from 'components/UI'
+import { Countdown, Dropdown, Value } from 'components/UI'
 import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
-import Countdown from '../Countdown'
 import messages from './messages'
 import styles from './InvoiceModal.scss'
 
@@ -21,7 +20,7 @@ const InvoiceModal = ({
     showNotification('Noice', <FormattedMessage {...messages.copied} />)
   }
 
-  const countDownDate = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
+  const countDownDate = (parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)) * 1000
 
   return (
     <div className={styles.container}>
@@ -39,7 +38,7 @@ const InvoiceModal = ({
             level="L"
             className={styles.qrcode}
           />
-          <Countdown countDownDate={countDownDate} />
+          <Countdown date={countDownDate} countUpAfterExpire={false} />
         </section>
         <section className={styles.right}>
           <div className={styles.details}>
