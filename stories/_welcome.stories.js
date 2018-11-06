@@ -1,14 +1,11 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { storiesOf } from '@storybook/react'
 import { StateDecorator, Store } from '@sambego/storybook-state'
-import { Box, Flex } from 'rebass'
+import { Flex } from 'rebass'
 import {
-  Bar,
   Button,
   Dropdown,
   Form,
-  Heading,
   Input,
   Label,
   LightningInvoiceInput,
@@ -18,22 +15,7 @@ import {
   TextArea,
   Toggle
 } from 'components/UI'
-
-const Column = props => <Box width={1 / 4} mr={5} {...props} />
-const Group = ({ title, children }) => (
-  <Box mb={4}>
-    <Heading.h3 mb={2} fontWeight="normal">
-      {title}
-    </Heading.h3>
-    <Bar mb={3} />
-    {children}
-  </Box>
-)
-Group.propTypes = {
-  title: PropTypes.string,
-  children: PropTypes.node
-}
-const Element = props => <Box py={1} {...props} />
+import { Column, Group, Element } from './helpers'
 
 const store = new Store({
   crypto: 'btc',
@@ -73,9 +55,8 @@ storiesOf('Welcome', module)
   .addWithChapters('Zap Style Guide', {
     subtitle: 'Reusable components for Zap Desktop.',
     info: `The Zap style guide showcases and documents our library of reusable React components. Below is a sample of
-    three components. You can can full details of each component using the navigation on the left.
-
-    Use the Theme Picker in the bottom panel to view components in one of our alternate themes.`,
+    these components. You can see more examples and full documentation of each component using the navigation on the
+    left. Use the Theme Picker in the bottom panel to view components in one of our alternate themes.`,
     chapters: [
       {
         sections: [
