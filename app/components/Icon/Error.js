@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SvgError = props => (
-  <svg viewBox="0 0 17 17" width="1em" height="1em" {...props}>
+  <svg width="1em" height="1em" viewBox="0 0 17 17" {...props}>
     <path
       fill="currentColor"
       fillRule="evenodd"
