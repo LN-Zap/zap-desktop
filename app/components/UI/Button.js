@@ -39,7 +39,7 @@ class Button extends React.PureComponent {
   }
 
   render() {
-    let { children, processing, size, ...rest } = this.props
+    let { children, processing, size, variant, ...rest } = this.props
     const sizes = {
       small: {
         x: 3,
@@ -52,9 +52,12 @@ class Button extends React.PureComponent {
     }
 
     size = sizes[size] || sizes['medium']
+    if (variant === 'secondary') {
+      size.x = 0
+    }
 
     return (
-      <Wrapper px={size['x']} py={size['y']} {...rest}>
+      <Wrapper px={size['x']} py={size['y']} variant={variant} {...rest}>
         {processing ? (
           <Flex alignItems="center">
             {processing && <Spinner />}

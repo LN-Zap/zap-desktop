@@ -9,16 +9,16 @@ import styled from 'styled-components'
 import { variant } from 'styled-system'
 
 const messageStyle = variant({ key: 'messages' })
-const Message = styled(Flex)(messageStyle)
+const StyledMessage = styled(Flex)(messageStyle)
 
 /**
  * @render react
- * @name FormFieldMessage
+ * @name Message
  * @example
- * <FormFieldMessage message="Error message" />
+ * <Message message="Error message" />
  */
-class FormFieldMessage extends React.Component {
-  static displayName = 'FormFieldMessage'
+class Message extends React.Component {
+  static displayName = 'Message'
 
   static propTypes = {
     variant: PropTypes.string,
@@ -28,7 +28,7 @@ class FormFieldMessage extends React.Component {
   render() {
     const { children, variant, ...rest } = this.props
     return (
-      <Message {...rest} variant={variant} alignItems="center">
+      <StyledMessage {...rest} variant={variant} alignItems="center">
         <Box mr={1}>
           {variant === 'success' && <Success />}
           {variant === 'warning' && <Warning />}
@@ -37,9 +37,9 @@ class FormFieldMessage extends React.Component {
         <Text fontSize="s" fontWeight="normal">
           {children}
         </Text>
-      </Message>
+      </StyledMessage>
     )
   }
 }
 
-export default FormFieldMessage
+export default Message

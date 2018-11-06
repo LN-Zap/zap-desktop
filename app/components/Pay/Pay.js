@@ -11,7 +11,7 @@ import {
   Dropdown,
   FiatAmountInput,
   Form,
-  FormFieldMessage,
+  Message,
   Label,
   LightningInvoiceInput,
   Panel,
@@ -699,16 +699,16 @@ class Pay extends React.Component {
                       {currentStep === 'summary' &&
                         !isQueryingRoutes &&
                         !hasRoute && (
-                          <FormFieldMessage variant="error" justifyContent="center" mb={2}>
+                          <Message variant="error" justifyContent="center" mb={2}>
                             <FormattedMessage {...messages.error_no_route} />
-                          </FormFieldMessage>
+                          </Message>
                         )}
 
                       {currentStep === 'summary' &&
                         !hasEnoughFunds && (
-                          <FormFieldMessage variant="error" justifyContent="center" mb={2}>
+                          <Message variant="error" justifyContent="center" mb={2}>
                             <FormattedMessage {...messages.error_not_enough_funds} />
-                          </FormFieldMessage>
+                          </Message>
                         )}
 
                       <PayButtons
