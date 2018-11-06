@@ -1,3 +1,4 @@
+export AmountInput from './AmountInput'
 export BackgroundDark from './BackgroundDark'
 export BackgroundLight from './BackgroundLight'
 export BackgroundLightest from './BackgroundLightest'
