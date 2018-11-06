@@ -1,6 +1,7 @@
 import React from 'react'
 import { addDecorator, configure, setAddon } from '@storybook/react'
 import { withThemes } from 'storybook-styled-components'
+import { withTheme } from 'styled-components'
 import { themes } from '@storybook/components'
 import { withOptions } from '@storybook/addon-options'
 import { withInfo } from '@storybook/addon-info'
@@ -13,6 +14,12 @@ import StoryRouter from 'storybook-react-router'
 import { dark, light } from 'themes'
 import { getDefaultLocale, locales } from 'lib/i18n'
 import { BackgroundDark, GlobalStyle } from 'components/UI'
+
+const BackgroundDarkWithTheme = withTheme(({ theme, ...rest }) => (
+  <div className={theme.name}>
+    <BackgroundDark p={3} css={{ height: '100vh', 'overflow-y': 'scroll !important' }} {...rest} />
+  </div>
+))
 
 // Register supported locales.
 import '../app/lib/i18n/locale'
@@ -66,9 +73,7 @@ addDecorator(
 addDecorator(story => (
   <React.Fragment>
     <GlobalStyle />
-    <BackgroundDark p={3} css={{ height: '100vh', 'overflow-y': 'scroll !important' }}>
-      {story()}
-    </BackgroundDark>
+    <BackgroundDarkWithTheme>{story()}</BackgroundDarkWithTheme>
   </React.Fragment>
 ))
 
@@ -77,6 +82,7 @@ addDecorator(withThemes({ Dark: dark, Light: light }))
 
 // Chapters
 setAddon(chaptersAddon)
+
 setDefaults({
   sectionOptions: {
     showSource: false,
