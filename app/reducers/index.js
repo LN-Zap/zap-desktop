@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-// import { routerReducer as router } from 'react-router-redux'
+import { connectRouter } from 'connected-react-router'
 import { intlReducer as intl } from 'react-intl-redux'
 import locale from './locale'
 import theme from './theme'
@@ -23,33 +23,32 @@ import error from './error'
 import loading from './loading'
 import settings from './settings'
 
-const rootReducer = combineReducers({
-  // Third party reducers.
-  // router,
-  intl,
-  locale,
-  theme,
+export default history =>
+  combineReducers({
+    // Third party reducers.
+    intl,
+    locale,
+    router: connectRouter(history),
+    theme,
 
-  // Custom reducers
-  onboarding,
-  lnd,
-  ticker,
-  info,
-  balance,
-  payment,
-  peers,
-  channels,
-  contactsform,
-  form,
-  pay,
-  invoice,
-  address,
-  transaction,
-  activity,
-  network,
-  error,
-  loading,
-  settings
-})
-
-export default rootReducer
+    // Custom reducers
+    onboarding,
+    lnd,
+    ticker,
+    info,
+    balance,
+    payment,
+    peers,
+    channels,
+    contactsform,
+    form,
+    pay,
+    invoice,
+    address,
+    transaction,
+    activity,
+    network,
+    error,
+    loading,
+    settings
+  })
