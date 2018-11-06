@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { btc } from 'lib/utils'
-import Value from 'components/Value'
+import { Value } from 'components/UI'
 import CheckCircle from 'components/Icon/CheckCircle'
 
 import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'

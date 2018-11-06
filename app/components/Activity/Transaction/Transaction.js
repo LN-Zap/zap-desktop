@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import ChainLink from 'components/Icon/ChainLink'
 
 import { btc } from 'lib/utils'
-import Value from 'components/Value'
+import { Value } from 'components/UI'
 
 import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Zap from 'components/Icon/Zap'
 
 import { btc } from 'lib/utils'
-import Value from 'components/Value'
+import { Value } from 'components/UI'
 
 import { FormattedNumber, FormattedTime, injectIntl } from 'react-intl'
 import messages from './messages'
