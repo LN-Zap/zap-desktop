@@ -5,8 +5,7 @@ import { FormattedNumber, FormattedMessage } from 'react-intl'
 import { satoshisToFiat } from 'lib/utils/btc'
 import { decodePayReq, getNodeAlias } from 'lib/utils/crypto'
 import BigArrowRight from 'components/Icon/BigArrowRight'
-import { Bar, Dropdown, Spinner, Text, Truncate, Value } from 'components/UI'
-import { PaySummaryRow } from '.'
+import { Bar, DataRow, Dropdown, Spinner, Text, Truncate, Value } from 'components/UI'
 import messages from './messages'
 
 class PaySummaryLightning extends React.PureComponent {
@@ -132,7 +131,7 @@ class PaySummaryLightning extends React.PureComponent {
 
         <Bar />
 
-        <PaySummaryRow
+        <DataRow
           left={<FormattedMessage {...messages.fee} />}
           right={
             isQueryingRoutes ? (
@@ -151,7 +150,7 @@ class PaySummaryLightning extends React.PureComponent {
 
         <Bar />
 
-        <PaySummaryRow
+        <DataRow
           left={<FormattedMessage {...messages.total} />}
           right={
             <React.Fragment>
@@ -162,7 +161,7 @@ class PaySummaryLightning extends React.PureComponent {
 
         <Bar />
 
-        {memo && <PaySummaryRow left={<FormattedMessage {...messages.memo} />} right={memo} />}
+        {memo && <DataRow left={<FormattedMessage {...messages.memo} />} right={memo} />}
       </Box>
     )
   }
