@@ -40,7 +40,7 @@
 
     &:hover {
       svg {
-        background: var(--lightestBackground);
+        background: var(--secondaryColor);
       }
     }
   }
@@ -65,7 +65,7 @@
       transition: color 0.25s;
 
       &:hover {
-        color: $darkestgrey;
+        opacity: 0.5;
       }
     }
 
@@ -89,7 +89,7 @@
           color: var(--primaryText);
 
           &:hover {
-            color: $darkestgrey;
+            opacity: 0.5;
           }
         }
       }
@@ -176,11 +176,11 @@
     }
 
     .offline {
-      color: $darkestgrey;
+      color: var(--gray);
     }
 
     .closing {
-      color: var(--superRed);
+      color: var(--gray);
     }
 
     svg {
@@ -195,7 +195,7 @@
   bottom: 0;
   width: 100%;
   padding: 10px 20px;
-  border-top: 1px solid $darkestgrey;
+  border-top: 1px solid var(--gray);
   background: var(--darkBackground);
 
   .input {

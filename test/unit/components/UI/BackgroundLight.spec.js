@@ -1,10 +1,10 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { BackgroundLight } from 'components/UI'
+import { BackgroundTertiary } from 'components/UI'
 
-describe('component.UI.BackgroundLight', () => {
+describe('component.UI.BackgroundTertiary', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<BackgroundLight />).toJSON()
+    const tree = renderer.create(<BackgroundTertiary />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })

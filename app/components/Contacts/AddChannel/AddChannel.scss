@@ -6,7 +6,7 @@
   display: inline-block;
   vertical-align: top;
   height: 100vh;
-  background: var(--darkestBackground);
+  background: var(--primaryColor);
 }
 
 .header {
@@ -15,13 +15,13 @@
   justify-content: space-between;
   background: var(--gradient);
   padding: 15px 10px;
-  color: var(--white);
+  color: var(--primaryText);
 
   input {
     background: transparent;
     outline: 0;
     border: 0;
-    color: var(--white);
+    color: var(--primaryText);
     font-size: 14px;
     width: 90%;
   }
@@ -42,7 +42,7 @@
 }
 
 .nodes {
-  background: var(--lightestBackground);
+  background: var(--secondaryColor);
 
   .networkResults {
     overflow-y: auto;
@@ -73,7 +73,7 @@
 
           &:nth-child(2) {
             display: block;
-            color: $darkestgrey;
+            color: var(--gray);
             font-size: 8px;
             margin-top: 5px;
           }
@@ -82,12 +82,12 @@
 
       .connect {
         cursor: pointer;
-        color: $darkestgrey;
+        color: var(--gray);
         transition: all 0.25s;
         font-size: 10px;
 
         &:hover {
-          color: darken($darkestgrey, 10%);
+          opacity: 0.5;
         }
       }
 
@@ -97,19 +97,20 @@
         vertical-align: top;
 
         &.online {
-          color: $green;
+          color: var(--superGreen);
         }
 
         &.offline {
-          color: $darkestgrey;
+          color: var(--gray);
         }
 
         &.pending {
-          color: $orange;
+          color: var(--lightningOrange);
         }
 
         &.private {
-          color: darken($darkestgrey, 50%);
+          color: var(--gray);
+          opacity: 0.5;
         }
       }
     }
@@ -117,7 +118,7 @@
 }
 
 .manualForm {
-  color: $white;
+  color: var(--primaryText);
   text-align: center;
   margin: 0 25px;
 

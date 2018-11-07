@@ -19,7 +19,7 @@ exports[`component.UI.Modal should render correctly 1`] = `
 .c0 {
   padding: 16px;
   width: 100%;
-  background-color: darkestBackground;
+  background-color: primaryColor;
   height: 100%;
   display: -webkit-box;
   display: -webkit-flex;

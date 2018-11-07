@@ -12,8 +12,8 @@
     -45deg,
     rgba(255, 189, 89, 1) 10%,
     rgba(253, 152, 0, 1),
-    var(--lightestBackground),
-    var(--darkestBackground)
+    var(--secondaryColor),
+    var(--primaryColor)
   );
   background-size: 400% 400%;
   animation: Gradient 15s ease infinite;

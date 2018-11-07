@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { storiesOf } from '@storybook/react'
 import { ThemeProvider, withTheme } from 'styled-components'
 import { Box, Card, Flex } from 'rebass'
-import { BackgroundDark, Text } from 'components/UI'
+import { BackgroundPrimary, Text } from 'components/UI'
 import { dark, light } from 'themes'
 import { Column, Group, Element } from './helpers'
 
@@ -11,13 +11,16 @@ const Swatch = ({ name, color }) => (
   <Element>
     <Flex mb={2}>
       <Card
-        bg={color}
+        // bg={color}
         width={50}
-        css={{ height: '50px' }}
         mr={21}
         borderRadius={8}
         borderColor="primaryText"
         border="solid 1px"
+        css={{
+          background: color,
+          height: '50px'
+        }}
       />
       <Box>
         <Text fontWeight="normal">{name}</Text>
@@ -33,8 +36,8 @@ Swatch.propTypes = {
 
 const Palette = withTheme(({ theme, ...rest }) => (
   <Box {...rest}>
-    {Object.keys(theme.palette).map(key => (
-      <Swatch key={key} name={key} color={theme.palette[key]} />
+    {Object.keys(theme.colors).map(key => (
+      <Swatch key={key} name={key} color={theme.colors[key]} />
     ))}
   </Box>
 ))
@@ -58,9 +61,9 @@ storiesOf('Welcome', module).addWithChapters('Color palette', {
               <Column>
                 <Group title="Dark">
                   <ThemeProvider theme={dark}>
-                    <BackgroundDark p={3}>
+                    <BackgroundPrimary p={3}>
                       <Palette />
-                    </BackgroundDark>
+                    </BackgroundPrimary>
                   </ThemeProvider>
                 </Group>
               </Column>
@@ -68,9 +71,9 @@ storiesOf('Welcome', module).addWithChapters('Color palette', {
               <Column>
                 <Group title="Light">
                   <ThemeProvider theme={light}>
-                    <BackgroundDark p={3}>
+                    <BackgroundPrimary p={3}>
                       <Palette />
-                    </BackgroundDark>
+                    </BackgroundPrimary>
                   </ThemeProvider>
                 </Group>
               </Column>

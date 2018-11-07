@@ -44,9 +44,7 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
       </div>
     </div>
     <div
-      className={`hint--top-left ${styles.amount} ${
-        invoice.settled ? styles.positive : styles.negative
-      }`}
+      className={`hint--top-left ${styles.amount}`}
       data-hint={intl.formatMessage({ ...messages.amount })}
     >
       <span>

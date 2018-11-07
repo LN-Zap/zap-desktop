@@ -15,9 +15,9 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   padding: 16px;
   width: 100%;
   font-size: 13px;
-  color: #fff;
+  color: #ffffff;
   background-color: transparent;
-  color: #fff;
+  color: #ffffff;
   background-color: transparent;
   font-family: Roboto,system-ui,sans-serif;
   font-weight: 300;

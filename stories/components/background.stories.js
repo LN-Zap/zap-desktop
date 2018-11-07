@@ -1,24 +1,24 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { BackgroundDark, BackgroundLight, BackgroundLightest } from 'components/UI'
+import { BackgroundPrimary, BackgroundTertiary, BackgroundSecondary } from 'components/UI'
 
 storiesOf('Components.Background', module)
   .add('dark', () => (
-    <BackgroundDark
+    <BackgroundPrimary
       css={{
         height: '50vh'
       }}
     />
   ))
   .add('light', () => (
-    <BackgroundLight
+    <BackgroundTertiary
       css={{
         height: '50vh'
       }}
     />
   ))
   .add('lightest', () => (
-    <BackgroundLightest
+    <BackgroundSecondary
       css={{
         height: '50vh'
       }}

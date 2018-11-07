@@ -1,19 +1,38 @@
 import base, { palette } from './base'
 
+const {
+  white,
+  black,
+  lightningOrange,
+  lightningBrown,
+  seaGray,
+  hoverSeaGray,
+  underwaterGray,
+  superGreen,
+  pineGreen,
+  superRed,
+  mudBrown,
+  gray
+} = palette
+
 const colors = {
-  ...palette,
-  invisibleGray: '#555',
-  darkestBackground: '#fff',
-  lightBackground: '#ebebeb',
-  lightestBackground: '#f3f3f3',
-  highlight: '#f6f6f6',
-  primaryText: '#000',
-  gradient: 'linear-gradient(270deg, #fd9800 0%, #ffbd59 100%)'
+  primaryText: black,
+  lightningOrange,
+  lightningBrown,
+  superGreen,
+  pineGreen,
+  superRed,
+  mudBrown,
+  gray,
+  primaryColor: white,
+  secondaryColor: underwaterGray,
+  tertiaryColor: seaGray,
+  highlight: hoverSeaGray
 }
 
 const buttons = {
   normal: {
-    backgroundColor: colors.lightBackground,
+    backgroundColor: colors.tertiaryColor,
     color: colors.lightningOrange,
     '&:hover:enabled': {
       backgroundColor: colors.highlight

@@ -62,7 +62,7 @@ Menu.defaultProps = {
   m: 0,
   mt: 1,
   p: 0,
-  bg: 'lightestBackground'
+  bg: 'secondaryColor'
 }
 
 /**
@@ -71,7 +71,7 @@ Menu.defaultProps = {
 const MenuItem = styled(Box)`
   cursor: pointer;
   &:hover {
-    background-color: ${props => props.theme.colors.darkestBackground};
+    background-color: ${props => props.theme.colors.primaryColor};
   }
 `
 MenuItem.defaultProps = {

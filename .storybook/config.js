@@ -13,11 +13,11 @@ import { setIntlConfig, withIntl } from 'storybook-addon-intl'
 import StoryRouter from 'storybook-react-router'
 import { dark, light } from 'themes'
 import { getDefaultLocale, locales } from 'lib/i18n'
-import { BackgroundDark, GlobalStyle } from 'components/UI'
+import { BackgroundPrimary, GlobalStyle } from 'components/UI'
 
-const BackgroundDarkWithTheme = withTheme(({ theme, ...rest }) => (
+const BackgroundPrimaryWithTheme = withTheme(({ theme, ...rest }) => (
   <div className={theme.name}>
-    <BackgroundDark p={3} css={{ height: '100vh', 'overflow-y': 'scroll !important' }} {...rest} />
+    <BackgroundPrimary p={3} css={{ height: '100vh', 'overflow-y': 'scroll !important' }} {...rest} />
   </div>
 ))
 
@@ -73,7 +73,7 @@ addDecorator(
 addDecorator(story => (
   <React.Fragment>
     <GlobalStyle />
-    <BackgroundDarkWithTheme>{story()}</BackgroundDarkWithTheme>
+    <BackgroundPrimaryWithTheme>{story()}</BackgroundPrimaryWithTheme>
   </React.Fragment>
 ))
 

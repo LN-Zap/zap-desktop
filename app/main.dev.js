@@ -118,7 +118,7 @@ app.on('ready', async () => {
     height: 600,
     minWidth: 950,
     minHeight: 425,
-    backgroundColor: get(theme, 'colors.darkestBackground', '#242633')
+    backgroundColor: get(theme, 'colors.primaryColor', '#242633')
   })
 
   // Initialise the updater.

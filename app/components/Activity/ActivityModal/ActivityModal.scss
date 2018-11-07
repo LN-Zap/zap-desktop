@@ -3,7 +3,7 @@
 .container {
   position: relative;
   height: 100vh;
-  background: var(--lightBackground);
+  background: var(--tertiaryColor);
 }
 
 .closeContainer {
@@ -21,6 +21,6 @@
   }
 
   svg {
-    color: $white;
+    color: var(--primaryText);
   }
 }

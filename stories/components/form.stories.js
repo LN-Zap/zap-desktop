@@ -229,7 +229,7 @@ storiesOf('Components.Form', module)
                 <Button>Submit</Button>
               </Box>
 
-              <Box bg="lightestBackground">
+              <Box bg="tertiaryColor">
                 <pre>{JSON.stringify(formState, null, 2)}</pre>
               </Box>
             </React.Fragment>

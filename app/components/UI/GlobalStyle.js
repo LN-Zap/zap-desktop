@@ -82,7 +82,7 @@ const GlobalStyle = createGlobalStyle`
 
   [data-hint]::after {
     content: attr(data-hint);
-    background: ${props => props.theme.colors.lightestBackground};
+    background: ${props => props.theme.colors.secondaryColor};
     color: ${props => props.theme.colors.primaryText};
     border: 1px solid ${props => props.theme.colors.gray};
     border-radius: 3px;

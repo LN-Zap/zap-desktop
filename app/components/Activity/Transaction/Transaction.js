@@ -43,9 +43,7 @@ const Transaction = ({
       </div>
     </div>
     <div
-      className={`hint--top-left ${styles.amount} ${
-        transaction.received ? styles.positive : styles.negative
-      }`}
+      className={`hint--top-left ${styles.amount}`}
       data-hint={intl.formatMessage({ ...messages.amount })}
     >
       <span>

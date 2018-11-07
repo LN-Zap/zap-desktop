@@ -16,7 +16,7 @@
   transition: all 0.25s;
 
   &.inputError {
-    border: 1px solid $red;
+    border: 1px solid var(--superRed);
   }
 }
 
@@ -28,7 +28,7 @@
 .error {
   margin-top: 20px;
   height: 20px;
-  color: $red;
+  color: var(--superRed);
   visibility: hidden;
   font-size: 12px;
   transition: all 0.25s;
