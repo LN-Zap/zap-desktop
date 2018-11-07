@@ -1,28 +1,20 @@
-import React from 'react'
-import { Card } from 'rebass'
+import system from '@rebass/components'
 
-/**
- * @render react
- * @name Bar
- * @example
- * <Bar />
- */
-class Bar extends React.PureComponent {
-  render() {
-    return (
-      <Card
-        width={1}
-        {...this.props}
-        borderColor="primaryText"
-        opacity={0.6}
-        border={1}
-        m={0}
-        p={0}
-        css={{ 'border-bottom': 'none !important' }}
-        as="hr"
-      />
-    )
-  }
-}
+const Bar = system(
+  {
+    is: 'hr',
+    m: 0,
+    border: 0,
+    borderBottom: 1,
+    borderColor: 'primaryText',
+    opacity: 0.6
+  },
+  'borders',
+  'borderColor',
+  'space',
+  'opacity'
+)
+
+Bar.displayName = 'Bar'
 
 export default Bar

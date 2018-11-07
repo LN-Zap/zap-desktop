@@ -1,12 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Panel should render correctly 1`] = `
-.c2 {
-  padding-top: 16px;
-  padding-bottom: 16px;
+.c1 {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
+}
+
+.c2 {
+  padding-top: auto;
 }
 
 .c0 {
@@ -20,41 +22,21 @@ exports[`component.UI.Panel should render correctly 1`] = `
   flex-direction: column;
 }
 
-.c1 {
-  padding-bottom: 16px;
-  font-size: m;
-  color: primaryText;
-  text-align: center;
-  line-height: 1.4;
-}
-
-.c3 {
-  padding-top: auto;
-  font-size: m;
-  color: primaryText;
-  text-align: center;
-  line-height: 1.4;
-}
-
 <article
   className="c0"
 >
   <header
-    className="c1"
-    color="primaryText"
-    fontSize="m"
+    className=""
   >
     Header here
   </header>
   <section
-    className="c2"
+    className="c1"
   >
     Body here
   </section>
   <footer
-    className="c3"
-    color="primaryText"
-    fontSize="m"
+    className="c2"
   >
     Footer here
   </footer>

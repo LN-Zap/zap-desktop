@@ -4,6 +4,7 @@ exports[`component.UI.Menu should render correctly 1`] = `
 .c0 {
   margin-bottom: 8px;
   padding: 0px;
+  color: #ffffff;
   outline: none;
 }
 
@@ -38,6 +39,7 @@ exports[`component.UI.Menu should render correctly 1`] = `
 
 <ul
   className="rc-menu c0 rc-menu-root rc-menu-vertical"
+  color="primaryText"
   mb={2}
   onKeyDown={[Function]}
   p={0}

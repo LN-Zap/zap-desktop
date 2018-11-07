@@ -1,26 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { Text } from 'components/UI'
 
 const PanelHeader = ({ children, ...rest }) => (
-  <Text pb={3} textAlign="center" {...rest} as="header">
+  <Box {...rest} as="header">
     {children}
-  </Text>
+  </Box>
 )
 PanelHeader.propTypes = { children: PropTypes.node }
 
 const PanelBody = ({ children, ...rest }) => (
-  <Box py={3} {...rest} as="section" css={{ flex: 1 }}>
+  <Box {...rest} as="section" css={{ flex: 1 }}>
     {children}
   </Box>
 )
 PanelBody.propTypes = { children: PropTypes.node }
 
 const PanelFooter = ({ children, ...rest }) => (
-  <Text textAlign="center" {...rest} as="footer" pt="auto">
+  <Box {...rest} as="footer" pt="auto">
     {children}
-  </Text>
+  </Box>
 )
 PanelFooter.propTypes = { children: PropTypes.node }
 

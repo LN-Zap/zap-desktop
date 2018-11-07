@@ -5,7 +5,7 @@ import { ThemeProvider, withTheme } from 'styled-components'
 import { Box, Card, Flex } from 'rebass'
 import { BackgroundPrimary, Text } from 'components/UI'
 import { dark, light } from 'themes'
-import { Column, Group, Element } from './helpers'
+import { Column, Group, Element } from '../helpers'
 
 const Swatch = ({ name, color }) => (
   <Element>
@@ -42,7 +42,7 @@ const Palette = withTheme(({ theme, ...rest }) => (
   </Box>
 ))
 
-storiesOf('Welcome', module).addWithChapters('Color palette', {
+storiesOf('General', module).addWithChapters('Color palette', {
   subtitle: 'Colors that we use throughout the app.',
   info: `This page shows our two primary colour palettes. These are used as "themes" that users can switch between
   within the app.`,
@@ -59,7 +59,7 @@ storiesOf('Welcome', module).addWithChapters('Color palette', {
           sectionFn: () => (
             <Flex>
               <Column>
-                <Group title="Dark">
+                <Group title="Dark" withBar={false}>
                   <ThemeProvider theme={dark}>
                     <BackgroundPrimary p={3}>
                       <Palette />
@@ -69,7 +69,7 @@ storiesOf('Welcome', module).addWithChapters('Color palette', {
               </Column>
 
               <Column>
-                <Group title="Light">
+                <Group title="Light" withBar={false}>
                   <ThemeProvider theme={light}>
                     <BackgroundPrimary p={3}>
                       <Palette />

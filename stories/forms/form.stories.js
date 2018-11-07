@@ -31,7 +31,7 @@ const selectItems = [
   { value: 'banana' }
 ]
 
-storiesOf('Components.Form', module)
+storiesOf('Forms', module)
   .add('Input', () => (
     <Form>
       <Input field="fieldName" id="field-name" />

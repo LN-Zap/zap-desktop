@@ -7,9 +7,11 @@ const SystemMenu = system(
   {
     extend: MenuBase,
     mb: 2,
-    p: 0
+    p: 0,
+    color: 'primaryText'
   },
-  'space'
+  'space',
+  'color'
 )
 
 const StyledMenu = styled(SystemMenu)`

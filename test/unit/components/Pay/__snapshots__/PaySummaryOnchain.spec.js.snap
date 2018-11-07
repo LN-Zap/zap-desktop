@@ -101,7 +101,14 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
       </styled.div>
     </Styled(styled.div)>
   </styled.div>
-  <Bar />
+  <Bar
+    border={0}
+    borderBottom={1}
+    borderColor="primaryText"
+    is="hr"
+    m={0}
+    opacity={0.6}
+  />
   <DataRow
     left={
       <FormattedMessage
@@ -118,7 +125,14 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
       />
     }
   />
-  <Bar />
+  <Bar
+    border={0}
+    borderBottom={1}
+    borderColor="primaryText"
+    is="hr"
+    m={0}
+    opacity={0.6}
+  />
   <DataRow
     left={
       <FormattedMessage

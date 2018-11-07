@@ -106,7 +106,7 @@ const zapIconsList = {
   ZapLogoBlack
 }
 
-const zapIconStories = storiesOf('Components.Icon', module)
+const zapIconStories = storiesOf('Icons', module)
 
 Object.keys(zapIconsList).forEach(name => {
   var Icon = zapIconsList[name]

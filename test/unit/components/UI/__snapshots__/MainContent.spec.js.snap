@@ -2,11 +2,9 @@
 
 exports[`component.UI.MainContent should render correctly 1`] = `
 .c0 {
-  padding: 16px;
   width: 100%;
   color: primaryText;
   background-color: primaryColor;
-  height: 100%;
 }
 
 <article

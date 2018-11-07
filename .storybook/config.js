@@ -16,9 +16,12 @@ import { getDefaultLocale, locales } from 'lib/i18n'
 import { BackgroundPrimary, GlobalStyle } from 'components/UI'
 
 const BackgroundPrimaryWithTheme = withTheme(({ theme, ...rest }) => (
-  <div className={theme.name}>
-    <BackgroundPrimary p={3} css={{ height: '100vh', 'overflow-y': 'scroll !important' }} {...rest} />
-  </div>
+  <BackgroundPrimary
+    className={theme.name}
+    p={3}
+    css={{ height: '100vh', 'overflow-y': 'scroll !important' }}
+    {...rest}
+  />
 ))
 
 // Register supported locales.
