@@ -9,7 +9,8 @@ exports[`component.UI.Modal should render correctly 1`] = `
 }
 
 .c3 {
-  padding: 8px;
+  padding: 16px;
+  padding-top: 4px;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;

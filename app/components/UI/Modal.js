@@ -46,7 +46,7 @@ class Modal extends React.Component {
             <X width="2em" height="2em" />
           </Box>
         </Flex>
-        <Box as="section" p={2} css={{ flex: 1 }}>
+        <Box as="section" p={3} pt={1} css={{ flex: 1 }}>
           {children}
         </Box>
       </Flex>
