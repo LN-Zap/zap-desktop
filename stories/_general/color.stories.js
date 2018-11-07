@@ -15,8 +15,7 @@ const Swatch = ({ name, color }) => (
         width={50}
         mr={21}
         borderRadius={8}
-        borderColor="primaryText"
-        border="solid 1px"
+        boxShadow="0 2px 6px rgba(0, 0, 0, 0.3)"
         css={{
           background: color,
           height: '50px'

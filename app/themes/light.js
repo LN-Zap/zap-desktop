@@ -4,30 +4,30 @@ const {
   white,
   black,
   lightningOrange,
-  lightningBrown,
+  lightOrange,
   seaGray,
   hoverSeaGray,
   underwaterGray,
   superGreen,
-  pineGreen,
+  lightGreen,
   superRed,
-  mudBrown,
+  lightRed,
   gray
 } = palette
 
 const colors = {
-  primaryText: black,
-  lightningOrange,
-  lightningBrown,
-  superGreen,
-  pineGreen,
-  superRed,
-  mudBrown,
-  gray,
   primaryColor: white,
   secondaryColor: underwaterGray,
   tertiaryColor: seaGray,
-  highlight: hoverSeaGray
+  highlight: hoverSeaGray,
+  primaryText: black,
+  lightningOrange,
+  lightOrange,
+  superGreen,
+  lightGreen,
+  superRed,
+  lightRed,
+  gray
 }
 
 const buttons = {
@@ -59,15 +59,15 @@ const buttons = {
 }
 const cards = {
   success: {
-    backgroundColor: colors.pineGreen,
+    backgroundColor: colors.lightGreen,
     color: colors.superGreen
   },
   warning: {
-    backgroundColor: colors.lightningBrown,
+    backgroundColor: colors.lightOrange,
     color: colors.lightningOrange
   },
   error: {
-    backgroundColor: colors.mudBrown,
+    backgroundColor: colors.lightRed,
     color: colors.superRed
   }
 }

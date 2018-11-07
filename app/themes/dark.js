@@ -16,6 +16,10 @@ const {
 } = palette
 
 const colors = {
+  primaryColor: deepseaBlue,
+  secondaryColor: underwaterBlue,
+  tertiaryColor: seaBlue,
+  highlight: hoverSeaBlue,
   primaryText: white,
   lightningOrange,
   lightningBrown,
@@ -23,11 +27,7 @@ const colors = {
   pineGreen,
   superRed,
   mudBrown,
-  gray,
-  primaryColor: deepseaBlue,
-  secondaryColor: underwaterBlue,
-  tertiaryColor: seaBlue,
-  highlight: hoverSeaBlue
+  gray
 }
 
 const buttons = {

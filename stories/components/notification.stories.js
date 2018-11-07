@@ -21,7 +21,11 @@ storiesOf('Components', module).addWithChapters('Notification', {
         },
         {
           title: 'Processing',
-          sectionFn: () => <Notification processing>Processing notification</Notification>
+          sectionFn: () => (
+            <Notification variant="warning" processing>
+              Processing notification
+            </Notification>
+          )
         }
       ]
     }
