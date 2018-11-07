@@ -2,7 +2,7 @@ import React from 'react'
 import { configure, mount } from 'enzyme'
 import Adapter from 'enzyme-adapter-react-16'
 
-import AmountInput from 'components/AmountInput'
+import { AmountInput } from 'components/UI'
 
 configure({ adapter: new Adapter() })
 

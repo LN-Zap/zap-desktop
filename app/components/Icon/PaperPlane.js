@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SvgPaperPlane = props => (
-  <svg viewBox="0 0 22 22" width="1em" height="1em" {...props}>
+  <svg width="1em" height="1em" viewBox="0 0 22 22" {...props}>
     <g
       stroke="currentColor"
       strokeWidth={0.75}

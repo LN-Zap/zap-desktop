@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SvgContacts = props => (
-  <svg viewBox="0 0 20 15" width="1em" height="1em" {...props}>
+  <svg width="1em" height="1em" viewBox="0 0 20 15" {...props}>
     <g
       transform="translate(1 1)"
       stroke="currentColor"

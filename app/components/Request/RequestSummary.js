@@ -5,9 +5,7 @@ import { FormattedMessage, FormattedRelative, injectIntl } from 'react-intl'
 import { decodePayReq } from 'lib/utils/crypto'
 import { showNotification } from 'lib/utils/notifications'
 import copy from 'copy-to-clipboard'
-import { Bar, Button, Dropdown, QRCode, Text, Truncate } from 'components/UI'
-import Value from 'components/Value'
-import { PaySummaryRow } from '../Pay'
+import { Bar, DataRow, Button, Dropdown, QRCode, Text, Truncate, Value } from 'components/UI'
 import messages from './messages'
 
 class RequestSummary extends React.Component {
@@ -96,11 +94,11 @@ class RequestSummary extends React.Component {
       <Box {...rest}>
         {memo && (
           <React.Fragment>
-            <PaySummaryRow left={<FormattedMessage {...messages.memo} />} right={memo} /> <Bar />{' '}
+            <DataRow left={<FormattedMessage {...messages.memo} />} right={memo} /> <Bar />{' '}
           </React.Fragment>
         )}
 
-        <PaySummaryRow
+        <DataRow
           left={<FormattedMessage {...messages.amount} />}
           right={
             <Flex alignItems="center" justifyContent="flex-end">
@@ -118,7 +116,7 @@ class RequestSummary extends React.Component {
 
         <Bar />
 
-        <PaySummaryRow
+        <DataRow
           left={<FormattedMessage {...messages.qrcode} />}
           right={
             <Text>
@@ -129,7 +127,7 @@ class RequestSummary extends React.Component {
 
         <Bar />
 
-        <PaySummaryRow
+        <DataRow
           left={<FormattedMessage {...messages.ln_invoice} />}
           right=<React.Fragment>
             <Text
@@ -150,7 +148,7 @@ class RequestSummary extends React.Component {
 
         <Bar />
 
-        <PaySummaryRow
+        <DataRow
           left={<FormattedMessage {...messages.status} />}
           right={
             <React.Fragment>

@@ -4,7 +4,7 @@ import system from '@rebass/components'
 import { styles } from 'styled-system'
 import { withTheme } from 'styled-components'
 import { Flex } from 'rebass'
-import { FormFieldMessage } from 'components/UI'
+import { Message } from 'components/UI'
 
 // Create an html textarea element that accepts all style props from styled-system.
 const SystemTextArea = system(
@@ -122,13 +122,9 @@ class TextArea extends React.PureComponent {
           error={fieldState.error}
         />
         {fieldState.error && (
-          <FormFieldMessage
-            variant={hasFocus ? 'warning' : 'error'}
-            justifyContent={justifyContent}
-            mt={2}
-          >
+          <Message variant={hasFocus ? 'warning' : 'error'} justifyContent={justifyContent} mt={2}>
             {fieldState.error}
-          </FormFieldMessage>
+          </Message>
         )}
       </Flex>
     )

@@ -2,6 +2,7 @@
   "icon": true,
   "replaceAttrValues": {
     "#FFF": "currentColor",
+    "#FFFFFF": "currentColor",
     "#F5A623": "currentColor",
     "#010002": "currentColor",
     "#E63939": "currentColor",

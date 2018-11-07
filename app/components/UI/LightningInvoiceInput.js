@@ -4,7 +4,7 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { asField } from 'informed'
 import { isOnchain, isLn } from 'lib/utils/crypto'
 import TextArea from 'components/UI/TextArea'
-import FormFieldMessage from 'components/UI/FormFieldMessage'
+import Message from 'components/UI/Message'
 import messages from './messages'
 
 /**
@@ -76,14 +76,14 @@ const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
       <TextArea {...rest} />
       {value &&
         !fieldState.error && (
-          <FormFieldMessage variant="success" mt={2}>
+          <Message variant="success" mt={2}>
             <FormattedMessage
               {...messages.valid_request}
               values={{
                 chain: chainName
               }}
             />
-          </FormFieldMessage>
+          </Message>
         )}
     </React.Fragment>
   )

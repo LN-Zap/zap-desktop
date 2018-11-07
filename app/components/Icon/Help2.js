@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SvgHelp2 = props => (
-  <svg viewBox="0 0 18 18" width="1em" height="1em" {...props}>
+  <svg width="1em" height="1em" viewBox="0 0 18 18" {...props}>
     <g
       transform="translate(1 1)"
       stroke="currentColor"

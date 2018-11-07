@@ -23,6 +23,7 @@ const GlobalStyle = createGlobalStyle`
 
   html {
     box-sizing: border-box;
+    height: 100%;
   }
 
   *, *:before, *:after {
@@ -30,6 +31,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   body {
+    height: 100%;
     position: relative;
     overflow-y: hidden;
     -webkit-font-smoothing: antialiased;
@@ -37,6 +39,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto', Arial, Helvetica, sans-serif;
     font-weight: 300;
     font-size: 13px;
+  }
+
+  #root {
+    height: 100%;
   }
 
   .element-show {

@@ -1,11 +1,11 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
-import { PaySummaryRow } from 'components/Pay'
+import { DataRow } from 'components/UI'
 
-describe('component.Form.PaySummaryRow', () => {
+describe('component.Form.DataRow', () => {
   it('should render correctly', () => {
-    const wrapper = shallow(<PaySummaryRow left="left contnet" right="right content" />)
+    const wrapper = shallow(<DataRow left="left contnet" right="right content" />)
     expect(toJSON(wrapper)).toMatchSnapshot()
   })
 })

@@ -2,15 +2,15 @@ import React from 'react'
 
 const SvgCopy = props => (
   <svg
+    width="1em"
+    height="1em"
     viewBox="0 0 24 24"
     fill="none"
     stroke="currentColor"
     strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="feather feather-copy"
-    width="1em"
-    height="1em"
+    className="copy_svg__feather copy_svg__feather-copy"
     {...props}
   >
     <rect x={9} y={9} width={13} height={13} rx={2} ry={2} />

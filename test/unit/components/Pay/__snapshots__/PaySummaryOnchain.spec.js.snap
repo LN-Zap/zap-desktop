@@ -102,7 +102,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
     </Styled(styled.div)>
   </styled.div>
   <Bar />
-  <PaySummaryRow
+  <DataRow
     left={
       <FormattedMessage
         defaultMessage="Fee"
@@ -119,7 +119,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
     }
   />
   <Bar />
-  <PaySummaryRow
+  <DataRow
     left={
       <FormattedMessage
         defaultMessage="Total"
