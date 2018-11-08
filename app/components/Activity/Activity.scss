@@ -3,7 +3,7 @@
 .search {
   height: 55px;
   padding: 2px;
-  border-bottom: 1px solid $darkgrey;
+  border-bottom: 1px solid var(--tertiaryColor);
 
   .input {
     display: inline-block;
@@ -31,14 +31,13 @@
 }
 
 .activities {
-  background: var(--darkestBackground);
+  background: var(--primaryColor);
 
   .header {
-    background: var(--darkestBackground);
+    background: var(--primaryColor);
     color: var(--primaryText);
     margin: 0 auto;
     padding: 0 60px;
-    border-bottom: 1px solid $spaceborder;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -62,13 +61,13 @@
         font-size: 20px;
         line-height: 24px;
         letter-spacing: 1px;
-        color: var(--primaryColor);
+        color: var(--primaryText);
         width: 100%;
       }
 
       .xIcon {
         cursor: pointer;
-        color: var(--white);
+        color: var(--primaryText);
       }
     }
 
@@ -87,6 +86,10 @@
           opacity: 1;
         }
 
+        &:hover {
+          opacity: 1;
+        }
+
         &:nth-child(1) {
           margin-left: 0;
         }
@@ -100,7 +103,7 @@
         svg {
           width: 14px;
           height: 14px;
-          color: var(--primaryColor);
+          color: var(--primaryText);
           opacity: 0.5;
           cursor: pointer;
           transition: all 0.25s;
@@ -150,31 +153,6 @@
     font-weight: 400;
     border-bottom: 0.2px solid #a0a0a0;
     padding: 10px 0;
-  }
-
-  .left,
-  .center,
-  .right {
-    display: inline-block;
-    vertical-align: top;
-  }
-
-  .center,
-  .right {
-    width: 10%;
-  }
-
-  .left {
-    width: 80%;
-    color: $black;
-  }
-
-  .center {
-    text-align: center;
-  }
-
-  .right {
-    text-align: right;
   }
 }
 

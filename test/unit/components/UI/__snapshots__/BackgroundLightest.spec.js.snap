@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component.UI.BackgroundLightest should render correctly 1`] = `
+exports[`component.UI.BackgroundSecondary should render correctly 1`] = `
 .c0 {
   color: primaryText;
-  background-color: lightestBackground;
+  background-color: secondaryColor;
 }
 
 <div

@@ -4,13 +4,13 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  background: var(--darkestBackground);
+  background: var(--primaryColor);
 }
 
 .content {
   color: var(--primaryText);
   text-align: center;
-  background: var(--darkestBackground);
+  background: var(--primaryColor);
 
   header {
     text-align: left;
@@ -37,7 +37,7 @@
   }
 
   .address {
-    background: var(--darkestBackground);
+    background: var(--primaryColor);
 
     .textAddress {
       margin-top: 20px;
@@ -46,12 +46,12 @@
         font-size: 12px;
 
         &.text {
-          background: var(--lightBackground);
+          background: var(--tertiaryColor);
           padding: 10px;
         }
 
         &.icon {
-          background: var(--lightestBackground);
+          background: var(--secondaryColor);
           padding: 10px;
           cursor: pointer;
           transition: all 0.25s;
@@ -81,7 +81,7 @@
   color: var(--primaryText);
   text-align: center;
   padding: 40px 0;
-  background: var(--lightestBackground);
+  background: var(--secondaryColor);
   position: absolute;
   height: 31vh;
   width: 100%;
@@ -97,7 +97,7 @@
     margin: 0 auto;
     height: 10px;
     border-radius: 5px;
-    background: var(--darkestBackground);
+    background: var(--primaryColor);
   }
 
   .progress {

@@ -33,7 +33,7 @@ class Modal extends React.Component {
     const { hover } = this.state
     const { children, onClose } = this.props
     return (
-      <Flex flexDirection="column" width={1} p={3} bg="darkestBackground" css={{ height: '100%' }}>
+      <Flex flexDirection="column" width={1} p={3} bg="primaryColor" css={{ height: '100%' }}>
         <Flex justifyContent="flex-end" as="header" color="primaryText">
           <Box
             css={{ cursor: 'pointer', opacity: hover ? 0.6 : 1 }}

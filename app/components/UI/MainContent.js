@@ -1,5 +1,5 @@
 import React from 'react'
-import { BackgroundDark } from 'components/UI'
+import { BackgroundPrimary } from 'components/UI'
 
 /**
  * @render react
@@ -8,7 +8,7 @@ import { BackgroundDark } from 'components/UI'
  * <MainContent>Some content</MainContent>
  */
 const MainContent = props => (
-  <BackgroundDark as="article" width={1} p={3} css={{ height: '100%' }} {...props} />
+  <BackgroundPrimary as="article" width={1} p={3} css={{ height: '100%' }} {...props} />
 )
 
 export default MainContent

@@ -8,7 +8,7 @@
   .header {
     padding: 20px 0;
     text-align: center;
-    border-bottom: 1px solid $spaceborder;
+    border-bottom: 1px solid var(--highlight);
 
     h1 {
       margin: 10px 0 15px 0;
@@ -31,7 +31,7 @@
 
   h2 {
     font-size: 10px;
-    background: var(--lightBackground);
+    background: var(--tertiaryColor);
     padding: 10px;
     border-radius: 17.5px;
     display: inline;

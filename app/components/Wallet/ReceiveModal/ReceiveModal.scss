@@ -3,7 +3,7 @@
 .container {
   position: relative;
   height: 100vh;
-  background: var(--darkestBackground);
+  background: var(--primaryColor);
 }
 
 .closeContainer {
@@ -29,7 +29,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: var(--lightBackground);
+  background: var(--tertiaryColor);
   width: 85%;
   margin: 10% auto 50px auto;
   color: var(--primaryText);
@@ -101,7 +101,7 @@
       flex-direction: row;
       align-items: center;
       font-size: 10px;
-      background: var(--lightestBackground);
+      background: var(--secondaryColor);
 
       .data,
       .copy {
@@ -114,7 +114,7 @@
       }
 
       .copy {
-        background: var(--darkestBackground);
+        background: var(--primaryColor);
         color: var(--primaryText);
         cursor: pointer;
         transition: all 0.25s;

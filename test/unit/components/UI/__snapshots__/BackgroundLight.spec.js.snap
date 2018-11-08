@@ -1,9 +1,9 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component.UI.BackgroundLight should render correctly 1`] = `
+exports[`component.UI.BackgroundTertiary should render correctly 1`] = `
 .c0 {
   color: primaryText;
-  background-color: lightBackground;
+  background-color: tertiaryColor;
 }
 
 <div

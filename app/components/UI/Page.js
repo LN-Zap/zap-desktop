@@ -10,7 +10,7 @@ import { Flex } from 'rebass'
 const Page = ({ css, ...rest }) => (
   <Flex
     alignItems="stretch"
-    bg="darkestBackground"
+    bg="primaryColor"
     as="article"
     css={Object.assign(
       {

@@ -5,7 +5,7 @@
   font-size: 12px;
   width: 75%;
   margin: 0 auto;
-  background: var(--darkestBackground);
+  background: var(--primaryColor);
 }
 
 .header {
@@ -69,7 +69,7 @@
 }
 
 .footer {
-  background: var(--lightestBackground);
+  background: var(--secondaryColor);
   margin: 20px 0 50px 0;
   padding: 20px;
   text-align: center;

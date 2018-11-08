@@ -2,17 +2,21 @@ export const space = [0, 4, 8, 16, 32, 45, 72, 108]
 
 export const palette = {
   white: '#ffffff',
-  black: '#000',
-  gray: '#959595',
+  black: '#000000',
   lightningOrange: '#fd9800',
   lightningBrown: '#4a2c00',
   deepseaBlue: '#242633',
   seaBlue: '#313340',
-  underwaterBlue: '#353745',
+  hoverSeaBlue: '#353745',
+  underwaterBlue: '#373947',
+  seaGray: '#f3f3f3',
+  hoverSeaGray: '#f2f2f2',
+  underwaterGray: '#ebebeb',
   superGreen: '#39e673',
   pineGreen: '#0d331a',
   superRed: '#e63939',
-  mudBrown: '#330d0d'
+  mudBrown: '#330d0d',
+  gray: '#959595'
 }
 
 export const fontSizes = {

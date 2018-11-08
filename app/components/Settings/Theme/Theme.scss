@@ -2,7 +2,7 @@
 
 .submenuHeader {
   padding: 20px;
-  background: var(--darkestBackground);
+  background: var(--primaryColor);
   font-size: 10px;
   display: flex;
   flex-direction: row;
@@ -17,13 +17,13 @@
 
 .themes {
   li {
-    background: var(--lightestBackground);
+    background: var(--secondaryColor);
     cursor: pointer;
     opacity: 0.75;
     transition: 0.25s hover;
 
     &:hover {
-      background: var(--lightBackground);
+      background: var(--tertiaryColor);
     }
 
     &.active {

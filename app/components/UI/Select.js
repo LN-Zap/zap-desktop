@@ -19,7 +19,7 @@ const SelectOptionList = styled.ul`
   outline: 0;
   transition: opacity 0.1s ease;
   border: ${props => (props.isOpen ? null : 'none')};
-  background-color: ${props => props.theme.colors.lightestBackground};
+  background-color: ${props => props.theme.colors.secondaryColor};
 `
 
 const SelectOptionItem = styled(
@@ -28,7 +28,7 @@ const SelectOptionItem = styled(
       extend: Box,
       as: 'li',
       p: 3,
-      backgroundColor: 'lightestBackground'
+      backgroundColor: 'secondaryColor'
     },
     'space',
     'color'

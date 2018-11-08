@@ -51,7 +51,7 @@
 .header {
   text-align: center;
   padding-bottom: 20px;
-  border-bottom: 1px solid $spaceborder;
+  border-bottom: 1px solid var(--highlight);
 
   h1 {
     font-size: 22px;

@@ -1,7 +1,7 @@
 @import 'styles/variables.scss';
 
 .container {
-  background: var(--lightestBackground);
+  background: var(--secondaryColor);
   position: absolute;
   width: 200px;
   top: 30px;
@@ -18,7 +18,7 @@
     transition: all 0.25s;
 
     &:hover {
-      background: var(--darkestBackground);
+      background: var(--primaryColor);
     }
   }
 }

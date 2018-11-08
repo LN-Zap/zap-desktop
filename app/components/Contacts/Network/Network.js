@@ -7,7 +7,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { btc, blockExplorer } from 'lib/utils'
 import Plus from 'components/Icon/Plus'
 import Search from 'components/Icon/Search'
-import { BackgroundLight, Text, Value } from 'components/UI'
+import { BackgroundTertiary, Text, Value } from 'components/UI'
 
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
@@ -164,7 +164,7 @@ class Network extends Component {
     )
     const { refreshing } = this.state
     return (
-      <BackgroundLight className={styles.network}>
+      <BackgroundTertiary className={styles.network}>
         <header className={styles.header}>
           <section>
             <h2>
@@ -383,7 +383,7 @@ class Network extends Component {
             />
           </footer>
         )}
-      </BackgroundLight>
+      </BackgroundTertiary>
     )
   }
 }

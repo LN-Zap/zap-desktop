@@ -1,10 +1,10 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { BackgroundLightest } from 'components/UI'
+import { BackgroundSecondary } from 'components/UI'
 
-describe('component.UI.BackgroundLightest', () => {
+describe('component.UI.BackgroundSecondary', () => {
   it('should render correctly', () => {
-    const tree = renderer.create(<BackgroundLightest />).toJSON()
+    const tree = renderer.create(<BackgroundSecondary />).toJSON()
     expect(tree).toMatchSnapshot()
   })
 })
