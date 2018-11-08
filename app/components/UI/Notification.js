@@ -58,7 +58,7 @@ class Notification extends React.Component {
       >
         <Flex justifyContent="space-between">
           <Flex alignItems="center">
-            <Text fontSize="xl">
+            <Text fontSize={17}>
               {processing && <Spinner size="2em" mr="0.5em" />}
               {!processing && variant === 'success' && <Success />}
               {!processing && variant === 'warning' && <Warning />}
@@ -68,7 +68,7 @@ class Notification extends React.Component {
               {children}
             </Text>
           </Flex>
-          <Text fontSize="xs">
+          <Text fontSize="xs" mt={1}>
             <X strokeWidth={hover ? 5 : 4} />
           </Text>
         </Flex>

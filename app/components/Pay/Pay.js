@@ -678,9 +678,10 @@ class Pay extends React.Component {
                   })} ${cryptoName} (${cryptoCurrencyTicker})`}
                   type={isLn ? 'offchain' : isOnchain ? 'onchain' : null}
                 />
+                <Bar pt={2} />
               </Panel.Header>
-              <Bar />
-              <Panel.Body>
+
+              <Panel.Body py={3}>
                 <Box width={1} css={{ position: 'relative' }}>
                   {this.renderHelpText()}
                   <Box width={1} css={{ position: 'absolute' }}>

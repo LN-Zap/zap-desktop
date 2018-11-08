@@ -2,7 +2,6 @@
 
 exports[`component.UI.Sidebar should render correctly 1`] = `
 .c0 {
-  padding: 16px;
   width: 33.33333333333333%;
   color: primaryText;
   background-color: tertiaryColor;

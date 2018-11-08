@@ -70,8 +70,8 @@ class ZapQRCode extends React.PureComponent {
 
   static defaultProps = {
     size: '150px',
-    color: 'primaryColor',
-    bg: 'primaryText'
+    color: 'black',
+    bg: 'white'
   }
 
   render() {

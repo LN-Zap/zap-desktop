@@ -321,9 +321,9 @@ class Request extends React.Component {
                   subtitle={<FormattedMessage {...messages.subtitle} />}
                   logo={<Lightning height="45px" width="45px" />}
                 />
+                <Bar pt={2} />
               </Panel.Header>
-              <Bar />
-              <Panel.Body>
+              <Panel.Body py={3}>
                 {currentStep == 'form' ? (
                   <React.Fragment>
                     {this.renderHelpText()}
@@ -347,14 +347,16 @@ class Request extends React.Component {
               </Panel.Body>
               {currentStep == 'form' && (
                 <Panel.Footer>
-                  <Button
-                    type="submit"
-                    disabled={formState.pristine || formState.invalid || isProcessing}
-                    processing={isProcessing}
-                    mx="auto"
-                  >
-                    {nextButtonText}
-                  </Button>
+                  <Text textAlign="center">
+                    <Button
+                      type="submit"
+                      disabled={formState.pristine || formState.invalid || isProcessing}
+                      processing={isProcessing}
+                      mx="auto"
+                    >
+                      {nextButtonText}
+                    </Button>
+                  </Text>
                 </Panel.Footer>
               )}
             </Panel>

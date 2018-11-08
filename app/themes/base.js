@@ -16,7 +16,10 @@ export const palette = {
   pineGreen: '#0d331a',
   superRed: '#e63939',
   mudBrown: '#330d0d',
-  gray: '#959595'
+  gray: '#959595',
+  lightGreen: '#eefff4',
+  lightOrange: '#fff3e1',
+  lightRed: '#ffeded'
 }
 
 export const fontSizes = {

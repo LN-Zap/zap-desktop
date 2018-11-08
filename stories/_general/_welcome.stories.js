@@ -15,7 +15,7 @@ import {
   TextArea,
   Toggle
 } from 'components/UI'
-import { Column, Group, Element } from './helpers'
+import { Column, Group, Element } from '../helpers'
 
 const store = new Store({
   crypto: 'btc',
@@ -50,7 +50,7 @@ const store = new Store({
   ]
 })
 
-storiesOf('Welcome', module)
+storiesOf('General', module)
   .addDecorator(StateDecorator(store))
   .addWithChapters('Zap Style Guide', {
     subtitle: 'Reusable components for Zap Desktop.',

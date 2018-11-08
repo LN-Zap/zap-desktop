@@ -24,7 +24,7 @@ exports[`component.UI.Notification should render correctly 1`] = `
 }
 
 .c3 {
-  font-size: xl;
+  font-size: 17px;
 }
 
 .c4 {
@@ -33,6 +33,7 @@ exports[`component.UI.Notification should render correctly 1`] = `
 }
 
 .c5 {
+  margin-top: 4px;
   font-size: xs;
 }
 
@@ -59,7 +60,7 @@ exports[`component.UI.Notification should render correctly 1`] = `
     >
       <div
         className="c3"
-        fontSize="xl"
+        fontSize={17}
       >
         <svg
           height="1em"

@@ -152,34 +152,36 @@ class Dropdown extends React.Component {
     })
     const selectedItem = items.find(c => c.key === activeKey)
     return (
-      <DropdownContainer ref={this.setWrapperRef} {...rest}>
-        <DropdownButton type="button" onClick={this.toggleMenu}>
-          <Text textAlign="left">
-            {selectedItem ? selectedItem.name : activeKey}{' '}
-            {isOpen ? <FaAngleUp /> : <FaAngleDown />}
-          </Text>
-        </DropdownButton>
-        {isOpen && (
-          <MenuContainer>
-            <Menu css={justify === 'right' ? { right: 0 } : null}>
-              {items.map(item => {
-                return (
-                  <MenuItem key={item.key} onClick={() => this.onChange(item.key)}>
-                    <Flex alignItems="center">
-                      <Text width="20px" textAlign="center">
-                        {activeKey === item.key && (
-                          <Check height="0.95em" color={theme.colors.superGreen} />
-                        )}
-                      </Text>
-                      <Text>{item.name}</Text>
-                    </Flex>
-                  </MenuItem>
-                )
-              })}
-            </Menu>
-          </MenuContainer>
-        )}
-      </DropdownContainer>
+      <div style={{ display: 'inline-block' }}>
+        <DropdownContainer ref={this.setWrapperRef} {...rest}>
+          <DropdownButton type="button" onClick={this.toggleMenu}>
+            <Text textAlign="left">
+              {selectedItem ? selectedItem.name : activeKey}{' '}
+              {isOpen ? <FaAngleUp /> : <FaAngleDown />}
+            </Text>
+          </DropdownButton>
+          {isOpen && (
+            <MenuContainer>
+              <Menu css={justify === 'right' ? { right: 0 } : null}>
+                {items.map(item => {
+                  return (
+                    <MenuItem key={item.key} onClick={() => this.onChange(item.key)}>
+                      <Flex alignItems="center">
+                        <Text width="20px" textAlign="center">
+                          {activeKey === item.key && (
+                            <Check height="0.95em" color={theme.colors.superGreen} />
+                          )}
+                        </Text>
+                        <Text>{item.name}</Text>
+                      </Flex>
+                    </MenuItem>
+                  )
+                })}
+              </Menu>
+            </MenuContainer>
+          )}
+        </DropdownContainer>
+      </div>
     )
   }
 }

@@ -2,8 +2,32 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Notification } from 'components/UI'
 
-storiesOf('Components.Notification', module)
-  .add('Success', () => <Notification variant="success">Success message</Notification>)
-  .add('Warning', () => <Notification variant="warning">Warning message</Notification>)
-  .add('Error', () => <Notification variant="error">Error message</Notification>)
-  .add('Processing', () => <Notification processing>Processing message</Notification>)
+storiesOf('Components', module).addWithChapters('Notification', {
+  subtitle: 'For displaying important messages.',
+  chapters: [
+    {
+      sections: [
+        {
+          title: 'Success',
+          sectionFn: () => <Notification variant="success">Success notification</Notification>
+        },
+        {
+          title: 'Warning',
+          sectionFn: () => <Notification variant="warning">Warning notification</Notification>
+        },
+        {
+          title: 'Error',
+          sectionFn: () => <Notification variant="error">Error notification</Notification>
+        },
+        {
+          title: 'Processing',
+          sectionFn: () => (
+            <Notification variant="warning" processing>
+              Processing notification
+            </Notification>
+          )
+        }
+      ]
+    }
+  ]
+})
