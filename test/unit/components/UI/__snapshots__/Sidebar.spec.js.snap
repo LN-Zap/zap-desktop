@@ -5,6 +5,8 @@ exports[`component.UI.Sidebar should render correctly 1`] = `
   width: 33.33333333333333%;
   color: primaryText;
   background-color: tertiaryColor;
+  position: relative;
+  overflow-y: scroll;
 }
 
 <aside

@@ -4,9 +4,9 @@ exports[`component.UI.Page should render correctly 1`] = `
 .c0 {
   background-color: primaryColor;
   height: 100%;
+  overflow: hidden;
   min-width: 950px;
   min-height: 600px;
-  overflow-y: hidden;
   box-shadow: 0 20px 70px rgba(0,0,0,0.55);
   display: -webkit-box;
   display: -webkit-flex;

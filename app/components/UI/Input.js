@@ -1,10 +1,13 @@
+/* eslint-disable react/no-multi-comp */
+
 import React from 'react'
 import { asField } from 'informed'
 import { withTheme } from 'styled-components'
 import system from '@rebass/components'
 import { styles } from 'styled-system'
+import * as yup from 'yup'
 import { Flex } from 'rebass'
-import { Message } from 'components/UI'
+import { Message, Label, Span, Text } from 'components/UI'
 
 // Create an html input element that accepts all style props from styled-system.
 const SystemInput = system(
@@ -21,7 +24,15 @@ const SystemInput = system(
     p: 3,
     width: 1
   },
-  ...Object.keys(styles)
+  'space',
+  'color',
+  'borders',
+  'borderColor',
+  'borderRadius',
+  'fontFamily',
+  'fontSize',
+  'fontWeight',
+  'width'
 )
 
 /**
@@ -32,6 +43,12 @@ const SystemInput = system(
  */
 class Input extends React.Component {
   static displayName = 'Input'
+
+  static defaultProps = {
+    description: null,
+    label: null,
+    showMessage: true
+  }
 
   state = {
     hasFocus: false
@@ -46,16 +63,33 @@ class Input extends React.Component {
   render() {
     const {
       css,
+      description,
       onChange,
       onBlur,
       onFocus,
       forwardedRef,
+      label,
+      required,
       theme,
+      field,
       fieldApi,
       fieldState,
       justifyContent,
+      showMessage,
+      validate,
+      variant,
       ...rest
     } = this.props
+
+    // Extract any styled-system space props so that we can apply them directly to the wrapper.
+    const spaceProps = {}
+    Object.keys(rest).forEach(key => {
+      if ([...Object.keys(styles.space.propTypes), 'width'].includes(key)) {
+        spaceProps[key] = rest[key]
+        delete rest[key]
+      }
+    })
+
     const { readOnly } = this.props
     const { hasFocus } = this.state
     const { setValue, setTouched } = fieldApi
@@ -66,15 +100,28 @@ class Input extends React.Component {
     let borderColor
     if (readOnly) {
       borderColor = theme.colors.gray
-    } else if (fieldState.error) {
+    } else if (fieldState.error || fieldState.asyncError) {
       borderColor = theme.colors.superRed
-    } else if (value && !fieldState.error) {
+    } else if (value && (!fieldState.error && !fieldState.asyncError)) {
       borderColor = theme.colors.superGreen
     }
 
     return (
-      <Flex flexDirection="column" justifyContent={justifyContent}>
+      <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
+        {label && (
+          <Label htmlFor={field} mb={2}>
+            {label}
+            {required && (
+              <Span fontSize="s" css={{ 'vertical-align': 'super' }}>
+                {' '}
+                *
+              </Span>
+            )}
+          </Label>
+        )}
         <SystemInput
+          p={variant === 'thin' ? 2 : 3}
+          width={1}
           borderColor={borderColor || theme.colors.gray}
           css={Object.assign(
             {
@@ -88,6 +135,7 @@ class Input extends React.Component {
             css
           )}
           {...rest}
+          field={field}
           ref={this.inputRef}
           value={!value && value !== 0 ? '' : value}
           onChange={e => {
@@ -117,16 +165,51 @@ class Input extends React.Component {
               onFocus(e)
             }
           }}
-          error={fieldState.error}
+          required={required}
         />
-        {fieldState.error && (
-          <Message variant={hasFocus ? 'warning' : 'error'} justifyContent={justifyContent} mt={2}>
-            {fieldState.error}
-          </Message>
+        {description && (
+          <Text color="gray" fontSize="s" mt={1}>
+            {description}
+          </Text>
         )}
+        {showMessage &&
+          (fieldState.error || fieldState.asyncError) && (
+            <Message variant={hasFocus ? 'warning' : 'error'} mt={1}>
+              {fieldState.error || fieldState.asyncError}
+            </Message>
+          )}
       </Flex>
     )
   }
 }
 
-export default asField(withTheme(Input))
+const InputAsField = asField(Input)
+
+class WrappedInputAsField extends React.Component {
+  validate = value => {
+    const { disabled, required } = this.props
+    if (disabled) {
+      return
+    }
+    try {
+      if (required) {
+        const validator = yup.string().required()
+        validator.validateSync(value)
+      }
+    } catch (error) {
+      return error.message
+    }
+
+    // Run any additional validation provided by the caller.
+    const { validate } = this.props
+    if (validate) {
+      return validate(value)
+    }
+  }
+
+  render() {
+    return <InputAsField validate={this.validate} {...this.props} />
+  }
+}
+
+export default withTheme(WrappedInputAsField)
