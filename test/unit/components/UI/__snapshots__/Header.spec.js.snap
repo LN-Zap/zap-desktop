@@ -5,6 +5,7 @@ exports[`component.UI.Header should render correctly with default props 1`] = `
   alignItems="center"
   as="header"
   flexDirection="column"
+  justifyContent="center"
 />
 `;
 
@@ -13,23 +14,20 @@ exports[`component.UI.Header should render correctly with logo 1`] = `
   alignItems="center"
   as="header"
   flexDirection="column"
+  justifyContent="center"
 >
-  <Styled(styled.div)
-    alignItems="center"
-    justifyContent="center"
-  >
-    <Text
-      css={
-        Object {
-          "height": "50px",
-        }
+  <Text
+    css={
+      Object {
+        "height": "50px",
       }
-      fontSize="50px"
-      lineHeight="1em"
-    >
-      logo here
-    </Text>
-  </Styled(styled.div)>
+    }
+    fontSize="50px"
+    lineHeight="1em"
+    textAlign="center"
+  >
+    logo here
+  </Text>
 </Styled(styled.div)>
 `;
 
@@ -38,8 +36,11 @@ exports[`component.UI.Header should render correctly with subtitle 1`] = `
   alignItems="center"
   as="header"
   flexDirection="column"
+  justifyContent="center"
 >
-  <Heading4>
+  <Heading4
+    textAlign="center"
+  >
     subtitle here
   </Heading4>
 </Styled(styled.div)>
@@ -50,8 +51,12 @@ exports[`component.UI.Header should render correctly with title 1`] = `
   alignItems="center"
   as="header"
   flexDirection="column"
+  justifyContent="center"
 >
-  <Heading1>
+  <Heading1
+    mb={1}
+    textAlign="center"
+  >
     title here
   </Heading1>
 </Styled(styled.div)>
@@ -62,27 +67,29 @@ exports[`component.UI.Header should render correctly with title, subtitle, and l
   alignItems="center"
   as="header"
   flexDirection="column"
+  justifyContent="center"
 >
-  <Styled(styled.div)
-    alignItems="center"
-    justifyContent="center"
-  >
-    <Text
-      css={
-        Object {
-          "height": "50px",
-        }
+  <Text
+    css={
+      Object {
+        "height": "50px",
       }
-      fontSize="50px"
-      lineHeight="1em"
-    >
-      logo here
-    </Text>
-  </Styled(styled.div)>
-  <Heading1>
+    }
+    fontSize="50px"
+    lineHeight="1em"
+    textAlign="center"
+  >
+    logo here
+  </Text>
+  <Heading1
+    mb={1}
+    textAlign="center"
+  >
     title here
   </Heading1>
-  <Heading4>
+  <Heading4
+    textAlign="center"
+  >
     logo here
   </Heading4>
 </Styled(styled.div)>
