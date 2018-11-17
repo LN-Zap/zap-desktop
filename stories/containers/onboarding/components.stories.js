@@ -1,0 +1,96 @@
+import React from 'react'
+import { storiesOf } from '@storybook/react'
+import {
+  Alias,
+  Autopilot,
+  BtcPayServer,
+  ConnectionType,
+  ConnectionDetails,
+  ConnectionConfirm,
+  Login,
+  Password,
+  Recover,
+  SeedConfirm,
+  SeedView
+} from 'components/Onboarding/Steps'
+
+const setConnectionHost = () => ({})
+const setConnectionCert = () => ({})
+const setConnectionMacaroon = () => ({})
+
+storiesOf('Containers.Onboarding.Forms', module)
+  .add('ConnectionType', () => <ConnectionType />)
+  .add('ConnectionDetails', () => (
+    <ConnectionDetails
+      setConnectionHost={setConnectionHost}
+      setConnectionCert={setConnectionCert}
+      setConnectionMacaroon={setConnectionMacaroon}
+    />
+  ))
+  .add('ConnectionConfirm', () => <ConnectionConfirm connectionHost="example.com:10009" />)
+  .add('BtcPayServer', () => <BtcPayServer />)
+  .add('Login', () => <Login />)
+  .add('Password', () => <Password />)
+  .add('Recover', () => <Recover />)
+  .add('Alias', () => <Alias />)
+  .add('Autopilot', () => <Autopilot />)
+  .add('SeedConfirm', () => (
+    <SeedConfirm
+      seed={[
+        'idle',
+        'fork',
+        'derive',
+        'idea',
+        'pony',
+        'exercise',
+        'balance',
+        'squirrel',
+        'around',
+        'sustain',
+        'outdoor',
+        'beach',
+        'thrive',
+        'fringe',
+        'broom',
+        'sea',
+        'sick',
+        'bacon',
+        'card',
+        'palace',
+        'slender',
+        'blue',
+        'day',
+        'fix'
+      ]}
+    />
+  ))
+  .add('SeedView', () => (
+    <SeedView
+      seed={[
+        'idle',
+        'fork',
+        'derive',
+        'idea',
+        'pony',
+        'exercise',
+        'balance',
+        'squirrel',
+        'around',
+        'sustain',
+        'outdoor',
+        'beach',
+        'thrive',
+        'fringe',
+        'broom',
+        'sea',
+        'sick',
+        'bacon',
+        'card',
+        'palace',
+        'slender',
+        'blue',
+        'day',
+        'fix'
+      ]}
+    />
+  ))

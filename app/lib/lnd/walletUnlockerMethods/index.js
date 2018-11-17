@@ -25,7 +25,7 @@ export default function(walletUnlocker, log, event, msg, data, lndConfig) {
       walletController
         .unlockWallet(walletUnlocker, data)
         .then(() => event.sender.send('walletUnlocked'))
-        .catch(() => event.sender.send('unlockWalletError'))
+        .catch(e => event.sender.send('setUnlockWalletError', e.message))
       break
     case 'initWallet':
       walletController
