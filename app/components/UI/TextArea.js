@@ -4,7 +4,7 @@ import system from '@rebass/components'
 import { styles } from 'styled-system'
 import { withTheme } from 'styled-components'
 import { Flex } from 'rebass'
-import { Message } from 'components/UI'
+import { Message, Label, Span, Text } from 'components/UI'
 
 // Create an html textarea element that accepts all style props from styled-system.
 const SystemTextArea = system(
@@ -34,6 +34,12 @@ const SystemTextArea = system(
 class TextArea extends React.PureComponent {
   static displayName = 'TextArea'
 
+  static defaultProps = {
+    description: null,
+    label: null,
+    showMessage: true
+  }
+
   state = {
     hasFocus: false
   }
@@ -47,14 +53,19 @@ class TextArea extends React.PureComponent {
   render() {
     const {
       css,
+      description,
       onChange,
       onBlur,
       onFocus,
       forwardedRef,
+      label,
+      required,
       theme,
+      field,
       fieldApi,
       fieldState,
       justifyContent,
+      showMessage,
       ...rest
     } = this.props
     const { readOnly } = this.props
@@ -67,14 +78,25 @@ class TextArea extends React.PureComponent {
     let borderColor
     if (readOnly) {
       borderColor = theme.colors.gray
-    } else if (fieldState.error) {
+    } else if (fieldState.error || fieldState.asyncError) {
       borderColor = theme.colors.superRed
-    } else if (value && !fieldState.error) {
+    } else if (value && (!fieldState.error && !fieldState.asyncError)) {
       borderColor = theme.colors.superGreen
     }
 
     return (
       <Flex flexDirection="column" justifyContent={justifyContent}>
+        {label && (
+          <Label htmlFor={field} mb={2}>
+            {label}
+            {required && (
+              <Span fontSize="s" css={{ 'vertical-align': 'super' }}>
+                {' '}
+                *
+              </Span>
+            )}
+          </Label>
+        )}
         <SystemTextArea
           borderColor={borderColor || theme.colors.gray}
           opacity={readOnly ? 0.6 : null}
@@ -90,6 +112,7 @@ class TextArea extends React.PureComponent {
             css
           )}
           {...rest}
+          field={field}
           ref={this.inputRef}
           value={!value && value !== 0 ? '' : value}
           onChange={e => {
@@ -119,13 +142,27 @@ class TextArea extends React.PureComponent {
               onFocus(e)
             }
           }}
+          required={required}
           error={fieldState.error}
         />
-        {fieldState.error && (
-          <Message variant={hasFocus ? 'warning' : 'error'} justifyContent={justifyContent} mt={2}>
-            {fieldState.error}
-          </Message>
-        )}
+        <Flex>
+          {description && (
+            <Text color="gray" fontSize="s" mt={1} mr="auto">
+              {description}
+            </Text>
+          )}
+          {showMessage &&
+            (fieldState.error || fieldState.asyncError) && (
+              <Message
+                variant={hasFocus ? 'warning' : 'error'}
+                justifyContent={justifyContent}
+                mt={1}
+                ml="auto"
+              >
+                {fieldState.error || fieldState.asyncError}
+              </Message>
+            )}
+        </Flex>
       </Flex>
     )
   }

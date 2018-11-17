@@ -4,7 +4,12 @@ exports[`component.UI.Modal should render correctly 1`] = `
 .c2 {
   margin-left: auto;
   padding: 8px;
+  height: 40px;
   cursor: pointer;
+  opacity: 0.6;
+}
+
+.c2:hover {
   opacity: 1;
 }
 
@@ -36,6 +41,9 @@ exports[`component.UI.Modal should render correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   -webkit-box-pack: end;
   -webkit-justify-content: flex-end;
   -ms-flex-pack: end;
@@ -52,13 +60,11 @@ exports[`component.UI.Modal should render correctly 1`] = `
   >
     <div
       className="c2"
-      onMouseEnter={[Function]}
-      onMouseLeave={[Function]}
     >
       <svg
-        height="2em"
+        height={20}
         viewBox="0 0 22 20"
-        width="2em"
+        width={20}
       >
         <defs>
           <path
