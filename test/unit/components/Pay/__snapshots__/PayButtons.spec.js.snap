@@ -19,7 +19,7 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
     >
       <Styled(styled.div)>
         <Styled(styled.div)>
-          <SvgBigArrowLeft />
+          <SvgArrowLeft />
         </Styled(styled.div)>
         <Styled(styled.div)
           ml={1}
