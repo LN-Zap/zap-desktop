@@ -8,7 +8,6 @@ import Settings from 'components/Settings'
 import { Button, Dropdown, Text, Value } from 'components/UI'
 import CheckAnimated from 'components/Icon/CheckAnimated'
 import ZapLogo from 'components/Icon/ZapLogo'
-import ZapLogoBlack from 'components/Icon/ZapLogoBlack'
 import Qrcode from 'components/Icon/Qrcode'
 import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
@@ -30,8 +29,7 @@ const Wallet = ({
   setCurrency,
   network,
   settingsProps,
-  paymentTimeout,
-  theme
+  paymentTimeout
 }) => {
   if (!ticker.currency) {
     return null
@@ -46,11 +44,7 @@ const Wallet = ({
     <div className={`${styles.wallet}`}>
       <Flex as="header" justifyContent="space-between">
         <Flex as="section" alignItems="center">
-          {theme === 'light' ? (
-            <ZapLogoBlack width="70px" height="32px" />
-          ) : (
-            <ZapLogo width="70px" height="32px" />
-          )}
+          <ZapLogo width="70px" height="32px" />
           {info.data.testnet && (
             <Text color="superGreen" fontSize={1} ml={2}>
               Testnet
