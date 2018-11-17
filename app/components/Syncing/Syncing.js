@@ -5,7 +5,6 @@ import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
 import Copy from 'components/Icon/Copy'
 import ZapLogo from 'components/Icon/ZapLogo'
-import ZapLogoBlack from 'components/Icon/ZapLogoBlack'
 import { showNotification } from 'lib/utils/notifications'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
@@ -103,11 +102,7 @@ class Syncing extends Component {
       <div className={`${styles.container} ${theme.name}`}>
         <div className={styles.content}>
           <header>
-            {theme.name === 'light' ? (
-              <ZapLogoBlack width="70px" height="32px" />
-            ) : (
-              <ZapLogo width="70px" height="32px" />
-            )}
+            <ZapLogo width="70px" height="32px" />
           </header>
 
           {hasSynced === true && (
