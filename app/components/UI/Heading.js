@@ -14,7 +14,7 @@ class Heading extends React.PureComponent {
     return (
       <BaseHeading
         as="h2"
-        lineHeight="1.4"
+        lineHeight="1.2"
         fontWeight="light"
         fontSize={5}
         color="primaryText"
