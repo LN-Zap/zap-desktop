@@ -2,6 +2,7 @@
 
 exports[`component.Pay.PayHeader generic should render correctly 1`] = `
 <Header
+  align="center"
   logo={
     <SvgPaperPlane
       height="38px"
@@ -19,6 +20,7 @@ exports[`component.Pay.PayHeader generic should render correctly 1`] = `
 
 exports[`component.Pay.PayHeader offchain should render correctly 1`] = `
 <Header
+  align="center"
   logo={
     <SvgLightning
       height="45px"
@@ -38,6 +40,7 @@ exports[`component.Pay.PayHeader offchain should render correctly 1`] = `
 
 exports[`component.Pay.PayHeader onchain should render correctly 1`] = `
 <Header
+  align="center"
   logo={
     <SvgOnchain
       height="45px"

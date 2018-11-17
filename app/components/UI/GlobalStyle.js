@@ -41,6 +41,15 @@ const GlobalStyle = createGlobalStyle`
     font-size: 13px;
   }
 
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  pre {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+
   #root {
     height: 100%;
   }
