@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card } from 'rebass'
-import { Form } from 'components/UI'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { Box } from 'rebass'
+import { Bar, DataRow, Form, Input, Label, Text } from 'components/UI'
+import messages from './messages'
 
 class WalletSettingsFormRemote extends React.Component {
   static propTypes = {
@@ -19,7 +21,7 @@ class WalletSettingsFormRemote extends React.Component {
   }
 
   render() {
-    const { wallet, startLnd, ...rest } = this.props
+    const { intl, wallet, startLnd, ...rest } = this.props
     return (
       <Form
         getApi={this.setFormApi}
@@ -28,12 +30,58 @@ class WalletSettingsFormRemote extends React.Component {
         wallet={wallet}
         {...rest}
       >
-        <Card bg="tertiaryColor" my={3} p={3}>
-          <pre>{JSON.stringify(wallet, null, 2)}</pre>
-        </Card>
+        <Box mb={4} as="section">
+          <Text fontWeight="normal">
+            <FormattedMessage {...messages.section_basic_title} />
+          </Text>
+          <Bar mt={2} mb={4} />
+
+          <DataRow py={2} left={<FormattedMessage {...messages.chain} />} right={wallet.chain} />
+          <DataRow
+            py={2}
+            left={<FormattedMessage {...messages.network} />}
+            right={wallet.network}
+          />
+          <DataRow py={2} left={<FormattedMessage {...messages.host} />} right={wallet.host} />
+        </Box>
+
+        <Box mb={4} as="section">
+          <Text fontWeight="normal">
+            <FormattedMessage {...messages.section_naming_title} />
+          </Text>
+          <Bar mt={2} mb={4} />
+
+          <DataRow
+            py={2}
+            left={
+              <>
+                <Label htmlFor="name" mb={2}>
+                  <FormattedMessage {...messages.wallet_settings_name_label} />
+                </Label>
+                <Text color="gray" fontWeight="light">
+                  <FormattedMessage {...messages.wallet_settings_name_description} />
+                </Text>
+              </>
+            }
+            right={
+              <Input
+                field="name"
+                id="name"
+                initialValue={wallet.name}
+                placeholder={intl.formatMessage({
+                  ...messages.wallet_settings_name_placeholder
+                })}
+                width={1}
+                ml="auto"
+                justifyContent="right"
+                css={{ 'text-align': 'right' }}
+              />
+            }
+          />
+        </Box>
       </Form>
     )
   }
 }
 
-export default WalletSettingsFormRemote
+export default injectIntl(WalletSettingsFormRemote)

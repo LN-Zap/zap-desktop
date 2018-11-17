@@ -95,8 +95,11 @@ export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
     dispatch(setActiveWallet(wallet.id))
   }
 
-  // Let the onboarding process know that wallet is active.
-  dispatch(lndWalletStarted(lndConfig))
+  // Fetch info from lnd.
+  dispatch(fetchInfo())
+
+  // Let the onboarding process know that the wallet has started.
+  dispatch(onboardingFinished())
 }
 
 // Connected to WalletUnlocker gRPC interface (lnd is ready to unlock or create wallet)
@@ -128,7 +131,16 @@ export const lndCfilterHeight = (event, height) => dispatch => {
   dispatch({ type: RECEIVE_LND_CFILTER_HEIGHT, lndCfilterHeight: height })
 }
 
-export const startLnd = options => async dispatch => {
+export const startLnd = options => async (dispatch, getState) => {
+  const state = getState().lnd
+  if (
+    state.walletUnlockerGrpcActive ||
+    state.lightningGrpcActive ||
+    state.startingLnd ||
+    state.stoppingLnd
+  ) {
+    return
+  }
   return new Promise((resolve, reject) => {
     // Tell the main process to start lnd using the supplied connection details.
     dispatch({ type: STARTING_LND })
@@ -160,7 +172,7 @@ export function setStartLndError(errors) {
 
 export const stopLnd = () => async (dispatch, getState) => {
   const state = getState().lnd
-  if (state.lndStarted && !state.stoppingLnd) {
+  if ((state.walletUnlockerGrpcActive || state.lightningGrpcActive) && !state.stoppingLnd) {
     dispatch({ type: STOPPING_LND })
     ipcRenderer.send('stopLnd')
   }
@@ -322,18 +334,6 @@ export const startActiveWallet = () => async (dispatch, getState) => {
   }
 }
 
-/**
- * As soon as we have an active connection to an unlocked wallet, fetch the wallet info so that we have the key data as
- * early as possible.
- */
-export const lndWalletStarted = () => async dispatch => {
-  // Fetch info from lnd.
-  dispatch(fetchInfo())
-
-  // Let the onboarding process know that the wallet has started.
-  dispatch(onboardingFinished())
-}
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -374,6 +374,7 @@ const ACTION_HANDLERS = {
   }),
   [SET_START_LND_ERROR]: (state, { errors }) => ({
     ...state,
+    startingLnd: false,
     startLndHostError: errors.host,
     startLndCertError: errors.cert,
     startLndMacaroonError: errors.macaroon
@@ -381,11 +382,13 @@ const ACTION_HANDLERS = {
 
   [SET_WALLET_UNLOCKER_ACTIVE]: state => ({
     ...state,
+    startingLnd: false,
     walletUnlockerGrpcActive: true,
     lightningGrpcActive: false
   }),
   [SET_LIGHTNING_WALLET_ACTIVE]: state => ({
     ...state,
+    startingLnd: false,
     lightningGrpcActive: true,
     walletUnlockerGrpcActive: false
   }),

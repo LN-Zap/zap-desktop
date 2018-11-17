@@ -78,7 +78,7 @@ class Home extends React.Component {
           </Box>
         </Sidebar.small>
 
-        <MainContent>
+        <MainContent pt={40}>
           <Box px={5} css={{ height: '100%' }}>
             <Switch>
               <Route
@@ -97,6 +97,7 @@ class Home extends React.Component {
                       lightningGrpcActive={lightningGrpcActive}
                       walletUnlockerGrpcActive={walletUnlockerGrpcActive}
                       deleteWallet={deleteWallet}
+                      key={wallet.id}
                     />
                   )
                 }}
@@ -117,6 +118,7 @@ class Home extends React.Component {
                       setUnlockWalletError={setUnlockWalletError}
                       unlockingWallet={unlockingWallet}
                       unlockWalletError={unlockWalletError}
+                      key={wallet.id}
                     />
                   )
                 }}
