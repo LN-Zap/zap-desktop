@@ -1,7 +1,7 @@
 import React from 'react'
 
-const SvgBigArrowRight = props => (
-  <svg width="1em" height="1em" viewBox="0 0 40 28" {...props}>
+const SvgArrowRight = props => (
+  <svg width="1em" height="1em" viewBox="0 0 16 12" {...props}>
     <g
       stroke="currentColor"
       fill="none"
@@ -9,9 +9,9 @@ const SvgBigArrowRight = props => (
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M1 14h38M24 27l15-13L24 1" />
+      <path d="M1 6h14M9.474 11L15 6 9.474 1" />
     </g>
   </svg>
 )
 
-export default SvgBigArrowRight
+export default SvgArrowRight
