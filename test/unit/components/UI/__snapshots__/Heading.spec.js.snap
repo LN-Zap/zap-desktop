@@ -6,7 +6,7 @@ exports[`component.UI.Heading should render correctly 1`] = `
   font-size: 32px;
   color: primaryText;
   font-weight: light;
-  line-height: 1.4;
+  line-height: 1.2;
 }
 
 <h2

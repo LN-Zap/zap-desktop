@@ -7,6 +7,19 @@ import { BackgroundPrimary } from 'components/UI'
  * @example
  * <MainContent>Some content</MainContent>
  */
-const MainContent = props => <BackgroundPrimary as="article" width={1} {...props} />
+const MainContent = ({ css, ...rest }) => (
+  <BackgroundPrimary
+    as="article"
+    width={1}
+    {...rest}
+    css={Object.assign(
+      {
+        position: 'relative',
+        'overflow-y': 'scroll'
+      },
+      css
+    )}
+  />
+)
 
 export default MainContent
