@@ -2,10 +2,16 @@ import { defineMessages } from 'react-intl'
 
 /* eslint-disable max-len */
 export default defineMessages({
+  chain: 'Chain',
+  network: 'Network',
+  host: 'Host',
+  section_basic_title: 'Basic',
+  section_autopilot_title: 'Autopilot',
+  section_naming_title: 'Naming',
+  section_delete_title: 'Delete',
   create_wallet_button_text: 'Create new wallet',
   launch_wallet_button_text: 'Launch now',
   settings_title: 'Settings',
-  delete_title: 'Delete',
   delete_wallet_button_text: 'Delete wallet',
   wallet_settings_name_label: 'Wallet name',
   wallet_settings_name_description: 'The wallet name is only visible for you inside Zap.',

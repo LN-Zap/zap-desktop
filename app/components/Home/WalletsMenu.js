@@ -10,7 +10,7 @@ const walletName = wallet => {
   if (wallet.type === 'local') {
     return wallet.name || `Wallet #${wallet.id}`
   }
-  return wallet.host.split(':')[0]
+  return wallet.name || wallet.host.split(':')[0]
 }
 
 const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
@@ -30,7 +30,7 @@ const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
           to={`/home/wallet/${wallet.id}`}
           activeStyle={{ fontWeight: 'normal' }}
           activeClassName="selected"
-          onClick={() => setActiveWallet(wallet.id)}
+          // onClick={() => setActiveWallet(wallet.id)}
           style={{ display: 'block' }}
         >
           <Truncate text={walletName(wallet)} maxlen={28} />

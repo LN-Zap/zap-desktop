@@ -4169,7 +4169,7 @@ bip32@^1.0.0:
     typeforce "^1.11.5"
     wif "^2.0.6"
 
-bip39-en@^1.1.1:
+bip39-en@1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/bip39-en/-/bip39-en-1.1.1.tgz#0046f3081fdf2f4c87b277008d712ec6fc397721"
   integrity sha512-ZlwJCe+4LdWlNQoNeaeEdpW5NoBGnSXr0pGCHCKzkwuyndFV5kr+C671VxCTQT74fwNzYh7c0oCUrdcaQKhXkQ==
@@ -13761,7 +13761,7 @@ react-textarea-autosize@^7.0.4:
   dependencies:
     prop-types "^15.6.0"
 
-react-textfit@^1.1.0:
+react-textfit@1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/react-textfit/-/react-textfit-1.1.0.tgz#088855580f2e7aad269efc81b734bf636877d0e1"
   integrity sha512-iznFbj7fCizuo3Xof9iv57I8GZFiYp8vUFj+4qihHJZpzNwxWad7JZu7ALTAnwaiq/H0p60g8G4ifeEJYmfJuw==

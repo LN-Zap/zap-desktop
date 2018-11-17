@@ -64,7 +64,7 @@ class WalletLauncher extends React.Component {
 
     return (
       <React.Fragment>
-        <Flex mt={72} mb={5} alignItems="center">
+        <Flex mb={4} alignItems="center">
           <Box width="75%" mr={3}>
             <WalletHeader title={walletName} />
           </Box>
@@ -102,7 +102,7 @@ class WalletLauncher extends React.Component {
         )}
 
         <Text mt={4} fontWeight="normal">
-          <FormattedMessage {...messages.delete_title} />
+          <FormattedMessage {...messages.section_delete_title} />
         </Text>
         <Bar my={2} />
 

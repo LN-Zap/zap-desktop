@@ -167,9 +167,14 @@ class ZapController {
     // Register IPC listeners so that we can react to instructions coming from the app.
     this._registerIpcListeners()
 
-    // Disconnect any pre-existing lightning wallet connection.
-    if (lifecycle.from === 'connected' && this.lightning && this.lightning.can('disconnect')) {
-      this.lightning.disconnect()
+    // Disconnect from any existing lightning wallet connection.
+    if (lifecycle.from === 'connected') {
+      if (this.lightning && this.lightning.can('disconnect')) {
+        this.lightning.disconnect()
+      }
+      if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
+        this.walletUnlocker.disconnect()
+      }
     }
 
     // If we are comming from a running state, stop the Neutrino process.
@@ -179,6 +184,8 @@ class ZapController {
 
     // Give the grpc connections a chance to be properly closed out.
     await new Promise(resolve => setTimeout(resolve, 200))
+
+    this.sendMessage('lndStopped')
 
     if (lifecycle.transition === 'restart') {
       this.mainWindow.reload()
@@ -259,8 +266,13 @@ class ZapController {
     mainLog.debug('[FSM] onTerminated...')
 
     // Disconnect from any existing lightning wallet connection.
-    if (lifecycle.from === 'connected' && this.lightning && this.lightning.can('disconnect')) {
-      this.lightning.disconnect()
+    if (lifecycle.from === 'connected') {
+      if (this.lightning && this.lightning.can('disconnect')) {
+        this.lightning.disconnect()
+      }
+      if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
+        this.walletUnlocker.disconnect()
+      }
     }
     // If we are comming from a running state, stop the Neutrino process.
     else if (lifecycle.from === 'running') {
