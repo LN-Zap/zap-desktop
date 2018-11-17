@@ -299,6 +299,7 @@
     "@grpc/proto-loader": "0.3.0",
     "@rebass/components": "4.0.0-1",
     "axios": "0.18.0",
+    "bip39-en": "1.1.1",
     "bitcoinjs-lib": "4.0.2",
     "bolt11": "https://github.com/bitcoinjs/bolt11.git",
     "connected-react-router": "5.0.1",
