@@ -16,7 +16,6 @@ exports[`component.UI.Radio should render correctly 1`] = `
 
 .c1 {
   margin-bottom: 16px;
-  width: 100%;
   font-size: 13px;
   color: #ffffff;
   color: #ffffff;
@@ -94,7 +93,6 @@ exports[`component.UI.Radio should render correctly 1`] = `
       fontWeight="light"
       htmlFor="item1"
       opacity={null}
-      width={1}
     >
       <div
         className="c2"
@@ -134,7 +132,6 @@ exports[`component.UI.Radio should render correctly 1`] = `
       fontWeight="light"
       htmlFor="item2"
       opacity={null}
-      width={1}
     >
       <div
         className="c2"
@@ -174,7 +171,6 @@ exports[`component.UI.Radio should render correctly 1`] = `
       fontWeight="light"
       htmlFor="item3"
       opacity={null}
-      width={1}
     >
       <div
         className="c2"
