@@ -78,7 +78,7 @@ class WalletUnlocker extends React.Component {
     if (wallet.type === 'local') {
       return wallet.name || `Wallet #${wallet.id}`
     }
-    return wallet.host.split(':')[0]
+    return wallet.name || wallet.host.split(':')[0]
   }
 
   validatePassword = value => {

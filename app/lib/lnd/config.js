@@ -118,6 +118,17 @@ class LndConfig {
     autopilotMinconfs: 0
   }
 
+  static SETTINGS_DEFAULTS = {
+    name: null,
+    autopilot: true,
+    autopilotMaxchannels: 5,
+    autopilotMinchansize: 20000,
+    autopilotMaxchansize: 16777215,
+    autopilotAllocation: 0.6,
+    autopilotPrivate: true,
+    autopilotMinconfs: 0
+  }
+
   // Type descriptor properties.
   id: number
   type: string

@@ -34,7 +34,8 @@ const store = new Store({
       autopilot: false,
       chain: 'bitcoin',
       network: 'mainnet',
-      type: 'local'
+      type: 'local',
+      name: 'Small Change'
     },
     {
       id: 3,
@@ -45,11 +46,11 @@ const store = new Store({
     },
     {
       id: 4,
-      alias: 'The Lightning Store',
       type: 'btcpayserver',
       chain: 'bitcoin',
       network: 'testnet',
-      host: 'example.btcpaywithlongname.store'
+      host: 'example.btcpaywithlongname.store',
+      name: 'The Lightning Store'
     }
   ]
 })
