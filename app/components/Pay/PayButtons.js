@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Box, Flex, Text } from 'rebass'
-import BigArrowLeft from 'components/Icon/BigArrowLeft'
+import ArrowLeft from 'components/Icon/ArrowLeft'
 import { Button } from 'components/UI'
 import messages from './messages'
 
@@ -51,7 +51,7 @@ class PayButtons extends React.PureComponent {
             >
               <Flex>
                 <Text>
-                  <BigArrowLeft />
+                  <ArrowLeft />
                 </Text>
                 <Text ml={1}>
                   <FormattedMessage {...messages.back} />
