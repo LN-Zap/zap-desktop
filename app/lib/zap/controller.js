@@ -69,11 +69,11 @@ class ZapController {
         { name: 'startOnboarding', from: '*', to: 'onboarding' },
         { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
         { name: 'startRemoteLnd', from: 'onboarding', to: 'connected' },
+        { name: 'stopLnd', from: '*', to: 'onboarding' },
         { name: 'terminate', from: '*', to: 'terminated' }
       ],
       methods: {
         onOnboarding: this.onOnboarding.bind(this),
-        onStartOnboarding: this.onStartOnboarding.bind(this),
         onBeforeStartLocalLnd: this.onBeforeStartLocalLnd.bind(this),
         onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
         onTerminated: this.onTerminated.bind(this),
@@ -134,6 +134,9 @@ class ZapController {
   startRemoteLnd(...args: any[]) {
     return this.fsm.startRemoteLnd(...args)
   }
+  stopLnd(...args: any[]) {
+    return this.fsm.stopLnd(...args)
+  }
   terminate(...args: any[]) {
     return this.fsm.terminate(...args)
   }
@@ -168,14 +171,9 @@ class ZapController {
     }
 
     // Give the grpc connections a chance to be properly closed out.
-    return new Promise(resolve => setTimeout(resolve, 200))
-  }
-
-  onStartOnboarding() {
-    mainLog.debug('[FSM] onStartOnboarding...')
-
-    // Notify the app to start the onboarding process.
-    this.sendMessage('startOnboarding')
+    return new Promise(resolve => setTimeout(resolve, 200)).then(() =>
+      this.sendMessage('startOnboarding')
+    )
   }
 
   onBeforeStartLocalLnd() {
@@ -195,39 +193,41 @@ class ZapController {
     mainLog.info(' > cert:', this.lndConfig.cert)
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
 
-    return this.startLightningWallet()
-      .then(() => this.sendMessage('walletConnected'))
-      .catch(e => {
-        const errors = {}
-        // There was a problem connecting to the host.
-        if (e.code === 'LND_GRPC_HOST_ERROR') {
-          errors.host = e.message
-        }
-        // There was a problem accessing the ssl cert.
-        if (e.code === 'LND_GRPC_CERT_ERROR') {
-          errors.cert = e.message
-        }
-        //  There was a problem accessing the macaroon file.
-        else if (e.code === 'LND_GRPC_MACAROON_ERROR') {
-          errors.macaroon = e.message
-        }
-        // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
-        else {
-          errors.host = `Unable to connect to host: ${e.details || e.message}`
-        }
+    return this.startLightningWallet().catch(e => {
+      const errors = {}
+      // There was a problem connecting to the host.
+      if (e.code === 'LND_GRPC_HOST_ERROR') {
+        errors.host = e.message
+      }
+      // There was a problem accessing the ssl cert.
+      if (e.code === 'LND_GRPC_CERT_ERROR') {
+        errors.cert = e.message
+      }
+      //  There was a problem accessing the macaroon file.
+      else if (
+        e.code === 'LND_GRPC_MACAROON_ERROR' ||
+        e.message.includes('cannot determine data format of binary-encoded macaroon')
+      ) {
+        errors.macaroon = e.message
+      }
+      // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
+      else {
+        errors.host = `Unable to connect to host: ${e.details || e.message}`
+      }
 
-        // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
-        // verify that it is accessible. If it is not, an error 12 is thrown which is the gRPC code for `UNIMPLEMENTED`
-        // which indicates that the requested operation is not implemented or not supported/enabled in the service.
-        // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
-        if (e.code === 12) {
-          return this.startWalletUnlocker()
-        }
+      // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
+      // verify that it is accessible. If it is not, an error 12 is thrown which is the gRPC code for `UNIMPLEMENTED`
+      // which indicates that the requested operation is not implemented or not supported/enabled in the service.
+      // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
+      if (e.code === 12) {
+        this.sendMessage('startLndSuccess')
+        return this.startWalletUnlocker()
+      }
 
-        // Notify the app of errors.
-        this.sendMessage('startLndError', errors)
-        throw e
-      })
+      // Notify the app of errors.
+      this.sendMessage('startLndError', errors)
+      throw e
+    })
   }
 
   async onTerminated(lifecycle: any) {
@@ -458,6 +458,7 @@ class ZapController {
         return this.startOnboarding()
       })
     )
+    ipcMain.on('stopLnd', () => this.stopLnd())
   }
 
   /**
@@ -465,6 +466,7 @@ class ZapController {
    */
   _removeIpcListeners() {
     ipcMain.removeAllListeners('startLnd')
+    ipcMain.removeAllListeners('stopLnd')
     ipcMain.removeAllListeners('startLightningWallet')
     ipcMain.removeAllListeners('walletUnlocker')
     ipcMain.removeAllListeners('lnd')

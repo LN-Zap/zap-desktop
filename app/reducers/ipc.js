@@ -47,8 +47,7 @@ import {
   receiveSeedError,
   walletCreated,
   walletUnlocked,
-  walletConnected,
-  unlockWalletError
+  setUnlockWalletError
 } from './onboarding'
 
 // Import all receiving IPC event handlers and pass them into createIpc
@@ -119,8 +118,7 @@ const ipc = createIpc({
   receiveSeedError,
   walletCreated,
   walletUnlocked,
-  walletConnected,
-  unlockWalletError
+  setUnlockWalletError
 })
 
 export default ipc
