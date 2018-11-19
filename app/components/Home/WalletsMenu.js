@@ -13,13 +13,23 @@ const walletName = wallet => {
 
 const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
   <Box {...rest}>
-    <Text fontWeight="normal">{title}</Text>
+    <Text fontWeight="normal" mb={3}>
+      {title}
+    </Text>
     {wallets.map(wallet => (
-      <Text key={wallet.id} py={1}>
+      <Text
+        key={wallet.id}
+        mb={1}
+        css={{
+          a: { opacity: 0.6, '&:hover': { opacity: 1 }, '&.selected': { opacity: 1 } }
+        }}
+      >
         <NavLink
           to={`/home/wallet/${wallet.id}`}
           activeStyle={{ fontWeight: 'normal' }}
+          activeClassName="selected"
           onClick={() => setActiveWallet(wallet.id)}
+          style={{ display: 'block' }}
         >
           {walletName(wallet)}
         </NavLink>
@@ -47,7 +57,7 @@ class WalletsMenu extends React.Component {
           title="Your Wallets"
           wallets={localWallets}
           setActiveWallet={setActiveWallet}
-          mb={3}
+          mb={5}
         />
         {otherWallets.length > 0 && (
           <WalletGroup title="More" wallets={otherWallets} setActiveWallet={setActiveWallet} />
