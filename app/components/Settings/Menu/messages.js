@@ -4,5 +4,6 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   fiat: 'Fiat Currency',
   locale: 'Language',
-  theme: 'Theme'
+  theme: 'Theme',
+  logout: 'Logout'
 })
