@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
+import { WarningLabel } from 'components/UI'
 import styles from './NewWalletSeed.scss'
+import messages from './messages'
 
 const NewWalletSeed = ({ seed }) => (
   <div className={styles.container}>
@@ -16,6 +19,7 @@ const NewWalletSeed = ({ seed }) => (
         </li>
       ))}
     </ul>
+    <WarningLabel message={<FormattedMessage {...messages.save_seed_help} />} />
   </div>
 )
 

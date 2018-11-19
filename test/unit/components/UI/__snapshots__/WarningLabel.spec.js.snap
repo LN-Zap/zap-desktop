@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.WarningLabel should render correctly 1`] = `
+.c0 {
+  background-color: var(--warningColor);
+  color: var(--black);
+  margin-top: 40px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+<div
+  className="c0"
+>
+  <p />
+</div>
+`;
