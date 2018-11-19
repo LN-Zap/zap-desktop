@@ -41,8 +41,7 @@ export default defineMessages({
   hostname_title: 'Host',
   import_description: "Recovering a wallet, nice. You don't need anyone else, you got yourself :)",
   import_title: 'Import your seed',
-  login_description:
-    'It looks like you already have a wallet (wallet found at: `{walletDir}`). Please enter your wallet password to unlock it.',
+  login_description: 'Please enter your wallet password to unlock it.',
   login_title: 'Welcome back!',
   macaroon_description: 'Path to the lnd macaroon file. Example: /path/to/admin.macaroon',
   next: 'Next',

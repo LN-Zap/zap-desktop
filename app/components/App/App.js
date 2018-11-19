@@ -25,14 +25,22 @@ class App extends React.Component {
     activityModalProps: PropTypes.object,
     receiveModalProps: PropTypes.object,
     channelFormProps: PropTypes.object,
+    setIsWalletOpen: PropTypes.func.isRequired,
     fetchInfo: PropTypes.func.isRequired,
     fetchDescribeNetwork: PropTypes.func.isRequired,
     fetchSuggestedNodes: PropTypes.func.isRequired
   }
 
   componentDidMount() {
-    const { currentTicker, fetchInfo, fetchSuggestedNodes, fetchDescribeNetwork } = this.props
+    const {
+      currentTicker,
+      fetchInfo,
+      fetchSuggestedNodes,
+      fetchDescribeNetwork,
+      setIsWalletOpen
+    } = this.props
 
+    setIsWalletOpen(true)
     // If we don't yet have any ticker information then it must be our first time mounting this component.
     if (!currentTicker) {
       // fetch node info.
