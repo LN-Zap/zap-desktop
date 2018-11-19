@@ -42,7 +42,7 @@ import { fetchBalance } from 'reducers/balance'
 import { fetchDescribeNetwork } from 'reducers/network'
 import { clearError } from 'reducers/error'
 import { hideActivityModal, activitySelectors } from 'reducers/activity'
-
+import { setIsWalletOpen } from 'reducers/wallet'
 import App from 'components/App'
 import withLoading from 'components/withLoading'
 
@@ -77,7 +77,8 @@ const mapDispatchToProps = {
   updateManualFormErrors,
   setChannelFormType,
   fetchDescribeNetwork,
-  hideActivityModal
+  hideActivityModal,
+  setIsWalletOpen
 }
 
 const mapStateToProps = state => ({
@@ -98,6 +99,7 @@ const mapStateToProps = state => ({
   error: state.error,
   network: state.network,
   settings: state.settings,
+  wallet: state.wallet,
 
   isLoading:
     infoSelectors.infoLoading(state) ||

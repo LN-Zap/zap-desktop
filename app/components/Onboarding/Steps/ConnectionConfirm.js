@@ -34,8 +34,8 @@ class ConnectionConfirm extends React.Component {
     startLndCertError: PropTypes.string,
     startLndMacaroonError: PropTypes.string,
     startLnd: PropTypes.func.isRequired,
-    lndWalletUnlockerStarted: PropTypes.bool,
-    lndWalletStarted: PropTypes.bool
+    walletUnlockerGrpcActive: PropTypes.bool,
+    lightningGrpcActive: PropTypes.bool
   }
 
   static defaultProps = {
@@ -81,8 +81,8 @@ class ConnectionConfirm extends React.Component {
       connectionCert,
       connectionMacaroon,
       connectionString,
-      lndWalletStarted,
-      lndWalletUnlockerStarted,
+      lightningGrpcActive,
+      walletUnlockerGrpcActive,
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,

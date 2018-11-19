@@ -22,6 +22,7 @@ import network from './network'
 import error from './error'
 import loading from './loading'
 import settings from './settings'
+import wallet from './wallet'
 
 export default history =>
   combineReducers({
@@ -50,5 +51,6 @@ export default history =>
     network,
     error,
     loading,
-    settings
+    settings,
+    wallet
   })
