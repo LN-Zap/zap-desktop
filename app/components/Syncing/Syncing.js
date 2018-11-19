@@ -1,23 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
-import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
-import Copy from 'components/Icon/Copy'
-import ZapLogo from 'components/Icon/ZapLogo'
+import { Box, Flex } from 'rebass'
+import { Bar, Button, Heading, Header, Panel, QRCode, Text } from 'components/UI'
 import { showNotification } from 'lib/utils/notifications'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
-import styles from './Syncing.scss'
 
 class Syncing extends Component {
   static propTypes = {
     address: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
     hasSynced: PropTypes.bool,
     syncStatus: PropTypes.string.isRequired,
     syncPercentage: PropTypes.number,
     blockHeight: PropTypes.number,
+    setIsWalletOpen: PropTypes.func.isRequired,
     lndBlockHeight: PropTypes.number,
     lndCfilterHeight: PropTypes.number,
     lightningGrpcActive: PropTypes.bool
@@ -29,8 +27,9 @@ class Syncing extends Component {
     syncMessageExtraDetail: null
   }
 
-  componentWillMount() {
-    const { syncStatus, intl } = this.props
+  componentDidMount() {
+    const { setIsWalletOpen, syncStatus, intl } = this.props
+    setIsWalletOpen(true)
 
     // If we are still waiting for peers after some time, advise te user it could take a wile.
     let timer = setTimeout(() => {
@@ -59,8 +58,7 @@ class Syncing extends Component {
       lndBlockHeight,
       lndCfilterHeight,
       lightningGrpcActive,
-      intl,
-      theme
+      intl
     } = this.props
     let { syncMessageDetail, syncMessageExtraDetail } = this.state
 
@@ -99,86 +97,61 @@ class Syncing extends Component {
     }
 
     return (
-      <div className={`${styles.container} ${theme.name}`}>
-        <div className={styles.content}>
-          <header>
-            <ZapLogo width="70px" height="32px" />
-          </header>
-
-          {hasSynced === true && (
-            <div className={styles.hasNotSynced}>
-              <div className={styles.title}>
-                <h1>
-                  <FormattedMessage {...messages.sync_title} />
-                </h1>
-                <p>
-                  <FormattedMessage {...messages.sync_description} />
-                </p>
-              </div>
-            </div>
+      <Panel width={1}>
+        <Panel.Header width={9 / 16} mx="auto">
+          {hasSynced ? (
+            <Header
+              title={<FormattedMessage {...messages.sync_title} />}
+              subtitle={<FormattedMessage {...messages.sync_description} />}
+            />
+          ) : (
+            <Header
+              title={<FormattedMessage {...messages.fund_title} />}
+              subtitle={<FormattedMessage {...messages.fund_description} />}
+            />
           )}
+          <Bar my={3} />
+        </Panel.Header>
 
-          {hasSynced === false && (
-            <div className={styles.hasSynced}>
-              <div className={styles.title}>
-                <h1>
-                  <FormattedMessage {...messages.fund_title} />
-                </h1>
-                <p>
-                  <FormattedMessage {...messages.fund_description} />
-                </p>
-              </div>
-              {address && address.length ? (
-                <div className={styles.address}>
-                  <div className={styles.qrConatiner}>
-                    <QRCode
-                      value={address}
-                      renderAs="svg"
-                      size={100}
-                      bgColor="white"
-                      fgColor="#252832"
-                      level="L"
-                      className={styles.qrcode}
-                    />
-                  </div>
-                  <section className={styles.textAddress}>
-                    <span className={styles.text}>{address}</span>
-                    <span className={styles.icon} onClick={copyClicked}>
-                      <Copy />
-                    </span>
-                  </section>
-                </div>
-              ) : (
-                <div className={styles.loading}>
-                  <div className={styles.spinner} />
-                </div>
-              )}
-            </div>
-          )}
+        <Panel.Body width={9 / 16} mx="auto">
+          {hasSynced === false &&
+            address &&
+            address.length && (
+              <Flex alignItems="center" flexDirection="column" justifyContent="center">
+                <QRCode value={address} mx="auto" />
+                <Text my={3}>{address}</Text>
+                <Button size="small" onClick={copyClicked} mx="auto">
+                  Copy address
+                </Button>
+              </Flex>
+            )}
+        </Panel.Body>
 
-          <section className={styles.progressContainer}>
-            <h3>
+        <Panel.Footer bg="secondaryColor" p={3}>
+          <Flex
+            alignItems="center"
+            flexDirection="column"
+            justifyContent="center"
+            width={9 / 16}
+            mx="auto"
+          >
+            <Text fontWeight="normal" mb={3}>
               <FormattedMessage {...messages.sync_caption} />
-            </h3>
-            <div className={styles.progressBar}>
-              <div
-                className={styles.progress}
-                style={{ width: syncPercentage ? `${syncPercentage}%` : 0 }}
+            </Text>
+            <Heading.h1 mb={2}>{syncMessage}</Heading.h1>
+            <Box width={1} css={{ height: '4px' }} bg="grey" mb={2}>
+              <Box
+                width={syncPercentage ? `${syncPercentage}%` : 0}
+                css={{ height: '100%' }}
+                bg="lightningOrange"
               />
-            </div>
-            <h4>{syncMessage}</h4>
-            {syncMessageDetail && (
-              <span className={styles.progressDetail}>{syncMessageDetail}</span>
-            )}
-            {syncMessageExtraDetail && (
-              <span className={styles.progressDetail}>
-                <br />
-                {syncMessageExtraDetail}
-              </span>
-            )}
-          </section>
-        </div>
-      </div>
+            </Box>
+
+            {syncMessageDetail && <Text>{syncMessageDetail}</Text>}
+            {syncMessageExtraDetail && <Text>{syncMessageExtraDetail}</Text>}
+          </Flex>
+        </Panel.Footer>
+      </Panel>
     )
   }
 }
