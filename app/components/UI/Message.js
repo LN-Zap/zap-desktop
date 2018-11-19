@@ -9,7 +9,7 @@ import styled from 'styled-components'
 import { variant } from 'styled-system'
 
 const messageStyle = variant({ key: 'messages' })
-const StyledMessage = styled(Flex)(messageStyle)
+const StyledMessage = styled(Text)(messageStyle)
 
 /**
  * @render react
@@ -37,14 +37,14 @@ class Message extends React.Component {
   }
 
   render() {
-    const { children, variant, ...rest } = this.props
+    const { children, justifyContent, variant, ...rest } = this.props
     return (
-      <Text fontSize="s" fontWeight="normal" {...rest}>
-        <StyledMessage variant={variant} alignItems="center">
+      <StyledMessage fontSize="s" fontWeight="normal" variant={variant} {...rest}>
+        <Flex alignItems="center" justifyContent={justifyContent}>
           {this.renderIcon()}
-          {children}
-        </StyledMessage>
-      </Text>
+          <Box>{children}</Box>
+        </Flex>
+      </StyledMessage>
     )
   }
 }

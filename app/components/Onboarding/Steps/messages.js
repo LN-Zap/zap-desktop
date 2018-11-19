@@ -62,6 +62,8 @@ export default defineMessages({
   save_seed_description:
     'Please save these 24 words securely! This will allow you to recover your wallet in the future',
   save_seed_title: 'Save your wallet seed',
+  seed_warning:
+    'Keep this private! If someone gains access to this list they can steal your money.',
   signup_create: 'Create new wallet',
   signup_description: 'Would you like to create a new wallet or import an existing one?',
   signup_import: 'Import existing wallet',

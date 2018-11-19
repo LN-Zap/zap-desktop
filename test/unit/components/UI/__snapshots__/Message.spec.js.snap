@@ -1,11 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Message should render correctly with default props 1`] = `
-<Styled(styled.div)
+<Styled(Styled(styled.div))
   fontSize="s"
   fontWeight="normal"
 >
-  <Styled(Styled(styled.div))
+  <Styled(styled.div)
     alignItems="center"
   >
     <styled.div
@@ -17,7 +17,9 @@ exports[`component.UI.Message should render correctly with default props 1`] = `
       mr={1}
       width="14px"
     />
-    A message
-  </Styled(Styled(styled.div))>
-</Styled(styled.div)>
+    <styled.div>
+      A message
+    </styled.div>
+  </Styled(styled.div)>
+</Styled(Styled(styled.div))>
 `;
