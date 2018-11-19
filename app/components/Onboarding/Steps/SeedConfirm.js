@@ -22,10 +22,10 @@ class SeedConfirm extends React.Component {
   }
 
   componentDidMount() {
-    this.generateSeedWordIndexes()
+    this.fetchSeedWordIndexes()
   }
 
-  generateSeedWordIndexes = () => {
+  fetchSeedWordIndexes = () => {
     const seedWordIndexes = []
     while (seedWordIndexes.length < 3) {
       const r = Math.floor(Math.random() * 24) + 1

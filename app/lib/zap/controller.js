@@ -70,12 +70,16 @@ class ZapController {
         { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
         { name: 'startRemoteLnd', from: 'onboarding', to: 'connected' },
         { name: 'stopLnd', from: '*', to: 'onboarding' },
+        { name: 'restart', from: '*', to: 'onboarding' },
         { name: 'terminate', from: '*', to: 'terminated' }
       ],
       methods: {
         onOnboarding: this.onOnboarding.bind(this),
+        onStartOnboarding: this.onStartOnboarding.bind(this),
         onBeforeStartLocalLnd: this.onBeforeStartLocalLnd.bind(this),
         onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
+        onBeforeStopLnd: this.onBeforeStopLnd.bind(this),
+        onBeforeRestart: this.onBeforeRestart.bind(this),
         onTerminated: this.onTerminated.bind(this),
         onTerminate: this.onTerminate.bind(this)
       }
@@ -102,7 +106,7 @@ class ZapController {
       this.mainWindow.show()
       this.mainWindow.focus()
 
-      // Start the onboarding process.
+      // // Start the onboarding process.
       this.startOnboarding()
     })
 
@@ -136,6 +140,9 @@ class ZapController {
   }
   stopLnd(...args: any[]) {
     return this.fsm.stopLnd(...args)
+  }
+  restart(...args: any[]) {
+    return this.fsm.restart(...args)
   }
   terminate(...args: any[]) {
     return this.fsm.terminate(...args)
@@ -171,9 +178,18 @@ class ZapController {
     }
 
     // Give the grpc connections a chance to be properly closed out.
-    return new Promise(resolve => setTimeout(resolve, 200)).then(() =>
-      this.sendMessage('startOnboarding')
-    )
+    await new Promise(resolve => setTimeout(resolve, 200))
+
+    if (lifecycle.transition === 'restart') {
+      this.mainWindow.reload()
+    }
+  }
+
+  onStartOnboarding() {
+    mainLog.debug('[FSM] onStartOnboarding...')
+
+    // Notify the app to start the onboarding process.
+    this.sendMessage('startOnboarding')
   }
 
   onBeforeStartLocalLnd() {
@@ -228,6 +244,15 @@ class ZapController {
       this.sendMessage('startLndError', errors)
       throw e
     })
+  }
+
+  onBeforeStopLnd() {
+    mainLog.debug('[FSM] onBeforeStopLnd...')
+  }
+
+  onBeforeRestart() {
+    mainLog.debug('[FSM] onBeforeRestart...')
+    // this.mainWindow.reload()
   }
 
   async onTerminated(lifecycle: any) {
@@ -321,7 +346,7 @@ class ZapController {
    * Starts the LND node and attach event listeners.
    * @return {Neutrino} Neutrino instance.
    */
-  startNeutrino() {
+  async startNeutrino() {
     mainLog.info('Starting Neutrino...')
     this.neutrino = new Neutrino(this.lndConfig)
 
@@ -335,7 +360,8 @@ class ZapController {
 
     this.neutrino.on('exit', (code, signal, lastError) => {
       mainLog.info(`Lnd process has shut down (code: ${code}, signal: ${signal})`)
-      if (this.is('running') || this.is('connected')) {
+      this.sendMessage('lndStopped')
+      if (this.is('running') || (this.is('connected') && !this.is('onboarding'))) {
         dialog.showMessageBox({
           type: 'error',
           message: `Lnd has unexpectedly quit:\n\nError code: ${code}\nExit signal: ${signal}\nLast error: ${lastError}`
@@ -376,7 +402,13 @@ class ZapController {
       this.sendMessage('lndCfilterHeight', Number(height))
     })
 
-    return this.neutrino.start()
+    try {
+      const pid = await this.neutrino.start()
+      this.sendMessage('lndStarted', this.lndConfig)
+      return pid
+    } catch (e) {
+      // console.error(e)
+    }
   }
 
   /**
@@ -448,7 +480,13 @@ class ZapController {
    * Add IPC event listeners...
    */
   _registerIpcListeners() {
-    ipcMain.on('startLnd', (event, options: onboardingOptions) => this.startLnd(options))
+    ipcMain.on('startLnd', async (event, options: onboardingOptions) => {
+      try {
+        await this.startLnd(options)
+      } catch (e) {
+        mainLog.error('Unable to start lnd: %s', e.message)
+      }
+    })
     ipcMain.on('startLightningWallet', () =>
       this.startLightningWallet().catch(e => {
         // Notify the app of errors.
@@ -459,6 +497,7 @@ class ZapController {
       })
     )
     ipcMain.on('stopLnd', () => this.stopLnd())
+    ipcMain.on('restart', () => this.restart())
   }
 
   /**
@@ -467,6 +506,7 @@ class ZapController {
   _removeIpcListeners() {
     ipcMain.removeAllListeners('startLnd')
     ipcMain.removeAllListeners('stopLnd')
+    ipcMain.removeAllListeners('restart')
     ipcMain.removeAllListeners('startLightningWallet')
     ipcMain.removeAllListeners('walletUnlocker')
     ipcMain.removeAllListeners('lnd')
