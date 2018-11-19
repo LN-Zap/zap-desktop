@@ -72,7 +72,7 @@ class TextArea extends React.PureComponent {
     const { hasFocus } = this.state
     const { setValue, setTouched } = fieldApi
     const { value } = fieldState
-    const isValid = value && !fieldState.error
+    const isValid = value && !fieldState.error && !fieldState.asyncError && fieldState.touched
 
     // Calculate the border color based on the current field state.
     let borderColor
@@ -80,7 +80,7 @@ class TextArea extends React.PureComponent {
       borderColor = theme.colors.gray
     } else if (fieldState.error || fieldState.asyncError) {
       borderColor = theme.colors.superRed
-    } else if (value && (!fieldState.error && !fieldState.asyncError)) {
+    } else if (isValid) {
       borderColor = theme.colors.superGreen
     }
 
