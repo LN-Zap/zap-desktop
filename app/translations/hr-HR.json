@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Ističe",
   "components.Activity.Invoice.amount": "Iznos fakture",
   "components.Activity.Invoice.received": "Primljeno",
   "components.Activity.Invoice.requested": "Zatraženo",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "Lozinke se ne poklapaju",
   "components.Onboarding.NewWalletPassword.password_placeholder": "Lozinka",
   "components.Onboarding.NewWalletPassword.unlock": "Otključaj",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "riječ",
   "components.Onboarding.Signup.signup_create": "Stvori novi novčanik",
   "components.Onboarding.Signup.signup_import": "Uvezi postojeći novčanik",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Molimo pričekajte dok ne dohvatimo sve vaše najnovije podatke sa blokčeina.",
   "components.Syncing.sync_title": "Dobro došli natrag u vaš Zap novčanik!",
   "components.Syncing.waiting_for_peers": "Čekanje na kolege...",
+  "components.UI.expired": "",
+  "components.UI.expires": "Ističe",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Ovdje zalijepite zahtjev za plaćanjem ili bitcoin na-lanac adresu",
   "components.UI.required_field": "",

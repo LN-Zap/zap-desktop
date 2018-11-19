@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Expires in",
   "components.Activity.Invoice.amount": "Invoice amount",
   "components.Activity.Invoice.received": "Received payment",
   "components.Activity.Invoice.requested": "Requested payment",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "Passwords do not match",
   "components.Onboarding.NewWalletPassword.password_placeholder": "Password",
   "components.Onboarding.NewWalletPassword.unlock": "Unlock",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "Keep this private. If someone gains access to this list, they can steal your money.",
   "components.Onboarding.RecoverForm.word_placeholder": "word",
   "components.Onboarding.Signup.signup_create": "Create new wallet",
   "components.Onboarding.Signup.signup_import": "Import existing wallet",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Please wait a while whilst we fetch all of your latest data from the blockchain.",
   "components.Syncing.sync_title": "Welcome back to your Zap wallet!",
   "components.Syncing.waiting_for_peers": "Waiting for peers…",
+  "components.UI.expired": "Expired",
+  "components.UI.expires": "Expires",
   "components.UI.invalid_request": "Not a valid {chain} request.",
   "components.UI.payreq_placeholder": "Paste a Lightning Payment Request or Bitcoin Address here",
   "components.UI.required_field": "This is a required field",

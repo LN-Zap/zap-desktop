@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Expira en",
   "components.Activity.Invoice.amount": "Monto",
   "components.Activity.Invoice.received": "Recibido",
   "components.Activity.Invoice.requested": "Solicitado",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "",
   "components.Onboarding.NewWalletPassword.password_placeholder": "Contraseña",
   "components.Onboarding.NewWalletPassword.unlock": "Desbloquear",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "palabra",
   "components.Onboarding.Signup.signup_create": "Crear nueva cartera",
   "components.Onboarding.Signup.signup_import": "Importar cartera existente",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Por favor, espere un momento mientras buscamos todos sus datos más recientes en la cadena de bloques.",
   "components.Syncing.sync_title": "¡Bienvenido de nuevo a su cartera Zap!",
   "components.Syncing.waiting_for_peers": "Esperando por los pares…",
+  "components.UI.expired": "",
+  "components.UI.expires": "Expira en",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Pegue la solicitud de pago o la dirección bitcoin acá",
   "components.UI.required_field": "",

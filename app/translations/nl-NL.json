@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "Bedrag",
   "components.Activity.Invoice.received": "Ontvangen",
   "components.Activity.Invoice.requested": "Verzocht",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "",
   "components.Onboarding.NewWalletPassword.password_placeholder": "",
   "components.Onboarding.NewWalletPassword.unlock": "Ontgrendelen",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "woord",
   "components.Onboarding.Signup.signup_create": "Maak een nieuwe portemonnee aan",
   "components.Onboarding.Signup.signup_import": "Importeer een bestaande portefeuille",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Wacht alsjeblieft even terwijl we je laatste data uit de blockchain halen.",
   "components.Syncing.sync_title": "Welkom terug in je Zap portemonnee!",
   "components.Syncing.waiting_for_peers": "Wachten op verbindingen…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Plak hier je betaalverzoek of bitcoinadres",
   "components.UI.required_field": "",

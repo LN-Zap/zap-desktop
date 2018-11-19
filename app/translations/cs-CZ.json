@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "Částka",
   "components.Activity.Invoice.received": "Přijato",
   "components.Activity.Invoice.requested": "Vyžádáno",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "",
   "components.Onboarding.NewWalletPassword.password_placeholder": "",
   "components.Onboarding.NewWalletPassword.unlock": "Odemknout",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "slovo",
   "components.Onboarding.Signup.signup_create": "Vytvořit novou peněženku",
   "components.Onboarding.Signup.signup_import": "Importovat existující peněženku",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Prosím čekejte, načítají se aktuální data z blockhainu.",
   "components.Syncing.sync_title": "Vítejte zpět do peněženky Zap!",
   "components.Syncing.waiting_for_peers": "Čekání na peery…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Vložte žádost o platbu nebo bitcoinovou adresu",
   "components.UI.required_field": "",

@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Deireadh i",
   "components.Activity.Invoice.amount": "Méid sonraisc",
   "components.Activity.Invoice.received": "Faigheann íocaíocht",
   "components.Activity.Invoice.requested": "Íocaíocht iarrtha",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "Ní luíonn na pasfocailí",
   "components.Onboarding.NewWalletPassword.password_placeholder": "Pasfhocal",
   "components.Onboarding.NewWalletPassword.unlock": "Díghlasáil",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "focal",
   "components.Onboarding.Signup.signup_create": "Déan sparán nua",
   "components.Onboarding.Signup.signup_import": "Iompórtáil sparán reatha",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Fan ar feadh tamaill le do thoil agus faighimid do chuid sonraí is déanaí ón blockchain.",
   "components.Syncing.sync_title": "Fáilte ar ais go dtí do sparán Zap!",
   "components.Syncing.waiting_for_peers": "Ag fanacht le nasc…",
+  "components.UI.expired": "",
+  "components.UI.expires": "Deireadh i",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Greamaigh iarratas íocaíochta nó seoladh bitcoin anseo",
   "components.UI.required_field": "",

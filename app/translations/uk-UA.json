@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "Сума",
   "components.Activity.Invoice.received": "Отримав",
   "components.Activity.Invoice.requested": "Запитані(-е)",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "",
   "components.Onboarding.NewWalletPassword.password_placeholder": "",
   "components.Onboarding.NewWalletPassword.unlock": "Розблокування",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "слово",
   "components.Onboarding.Signup.signup_create": "Створити новий гаманець",
   "components.Onboarding.Signup.signup_import": "Імпортувати наявний гаманець",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Будь ласка, зачекайте деякий час, поки ми виберемо всі ваші останні дані з блокчейну.",
   "components.Syncing.sync_title": "Ласкаво просимо назад до Zap гаманця!",
   "components.Syncing.waiting_for_peers": "Чекаємо підключення…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Вставте запит оплати або bitcoin адресу тут",
   "components.UI.required_field": "",

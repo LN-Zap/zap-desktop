@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Изтича след",
   "components.Activity.Invoice.amount": "Сума",
   "components.Activity.Invoice.received": "Получени",
   "components.Activity.Invoice.requested": "Заявени",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "Паролите не съвпадат",
   "components.Onboarding.NewWalletPassword.password_placeholder": "Парола",
   "components.Onboarding.NewWalletPassword.unlock": "Отключи",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "дума",
   "components.Onboarding.Signup.signup_create": "Създай нов портфейл",
   "components.Onboarding.Signup.signup_import": "Възстановяване на съществуващ портфейл",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Моля, изчакайте известно време, докато ние зареждаме последните данни от blockchain.",
   "components.Syncing.sync_title": "Добре дошъл отново в Zap портфейла!",
   "components.Syncing.waiting_for_peers": "Изчакване за връзки…",
+  "components.UI.expired": "",
+  "components.UI.expires": "Изтича след",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Поставете заявката за плащане или bitcoin адресът тук",
   "components.UI.required_field": "",

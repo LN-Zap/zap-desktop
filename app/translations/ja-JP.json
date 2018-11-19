@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "数量",
   "components.Activity.Invoice.received": "受け取る",
   "components.Activity.Invoice.requested": "要求された。",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "",
   "components.Onboarding.NewWalletPassword.password_placeholder": "",
   "components.Onboarding.NewWalletPassword.unlock": "解除",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "単語",
   "components.Onboarding.Signup.signup_create": "新しいウォレットを作成します。",
   "components.Onboarding.Signup.signup_import": "既存のウォレットをインポートします。",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "ブロックチェーンからの最新データの全てを取得する間、しばらくお待ちください。",
   "components.Syncing.sync_title": "おかえりなさい、Zapウォレットへ！",
   "components.Syncing.waiting_for_peers": "仲間を待っています…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "支払請求またはビットコインアドレスをここへ貼り付けて下さい。",
   "components.UI.required_field": "",

@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Ablaufend in",
   "components.Activity.Invoice.amount": "Betrag",
   "components.Activity.Invoice.received": "Erhaltene Zahlung",
   "components.Activity.Invoice.requested": "Angeforderte Zahlung",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "Die Passwörter stimmen nicht überein",
   "components.Onboarding.NewWalletPassword.password_placeholder": "Passwort",
   "components.Onboarding.NewWalletPassword.unlock": "Entsperren",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "wort",
   "components.Onboarding.Signup.signup_create": "Neues Wallet erstellen",
   "components.Onboarding.Signup.signup_import": "Bestehendes Wallet importieren",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Bitte hab Geduld während wir deine aktuellen Daten aus der Blockchain sammeln.",
   "components.Syncing.sync_title": "Willkommen zurück in deiner Zap Wallet!",
   "components.Syncing.waiting_for_peers": "Warte auf Verbindungen…",
+  "components.UI.expired": "",
+  "components.UI.expires": "Ablaufend in",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Füge Zahlungsanfrage oder Bitcoin Adresse ein",
   "components.UI.required_field": "",

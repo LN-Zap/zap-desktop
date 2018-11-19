@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "Ποσό",
   "components.Activity.Invoice.received": "Έλαβε",
   "components.Activity.Invoice.requested": "Ζητείται",
@@ -94,6 +93,7 @@
   "components.Onboarding.NewWalletPassword.password_error_match": "",
   "components.Onboarding.NewWalletPassword.password_placeholder": "",
   "components.Onboarding.NewWalletPassword.unlock": "Ξεκλειδώσετε",
+  "components.Onboarding.NewWalletSeed.save_seed_help": "",
   "components.Onboarding.RecoverForm.word_placeholder": "λέξη",
   "components.Onboarding.Signup.signup_create": "Δημιουργήστε νέο πορτοφόλι",
   "components.Onboarding.Signup.signup_import": "Εισαγωγή υπάρχουσας πορτοφόλι",
@@ -179,6 +179,8 @@
   "components.Syncing.sync_description": "Παρακαλώ περιμένετε λίγο ενώ φέρουμε όλα τα τελευταία σας δεδομένα από το blockchain.",
   "components.Syncing.sync_title": "Καλώς ήρθατε πίσω στο πορτοφόλι σας Zap!",
   "components.Syncing.waiting_for_peers": "Αναμονή για συνομηλίκους…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Επικολλήστε το αίτημα ή το bitcoin διεύθυνση πληρωμής εδώ",
   "components.UI.required_field": "",
