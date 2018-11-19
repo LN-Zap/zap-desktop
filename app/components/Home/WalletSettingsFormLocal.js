@@ -96,22 +96,23 @@ class WalletSettingsFormLocal extends React.Component {
             <DataRow
               py={2}
               left={<Label htmlFor="alias">Alias</Label>}
-              right={<Input field="alias" id="alias" initialValue={wallet.alias} width={1} />}
+              right={
+                <Input
+                  field="alias"
+                  id="alias"
+                  initialValue={wallet.alias}
+                  width={260}
+                  ml="auto"
+                  justifyContent="right"
+                  css={{ 'text-align': 'right' }}
+                />
+              }
             />
 
             <DataRow
               py={2}
               left={<Label htmlFor="autopilot">Autopilot</Label>}
-              right={
-                <Toggle
-                  field="autopilot"
-                  id="autopilot"
-                  validate={this.validateAutopilot}
-                  validateOnBlur
-                  validateOnChange={formState.invalid}
-                  initialValue={wallet.autopilot}
-                />
-              }
+              right={<Toggle field="autopilot" id="autopilot" initialValue={wallet.autopilot} />}
             />
 
             {formState.values.autopilot ? (
@@ -120,27 +121,29 @@ class WalletSettingsFormLocal extends React.Component {
                   py={2}
                   left={<Label htmlFor="autopilotAllocation">Percentage of Balance</Label>}
                   right={
-                    <Flex alignItems="center" ml="auto">
+                    <Flex alignItems="center" justifyContent="flex-end">
                       <Range
                         field="autopilotAllocation"
                         id="autopilotAllocation"
                         initialValue={wallet.autopilotAllocation * 100}
-                        validate={this.validateAutopilotAllocation}
-                        validateOnChange={formState.invalid}
-                        validateOnBlur
-                        ml="auto"
                         min="0"
                         max="100"
                         step="1"
-                        width={1}
+                        sliderWidthNumber={200}
+                        ml="auto"
                       />
                       <Input
                         field="autopilotAllocation"
                         id="autopilotAllocation"
                         type="number"
                         variant="thin"
+                        min="0"
+                        max="100"
+                        step="1"
+                        width={50}
                         ml={2}
-                        width={100}
+                        justifyContent="right"
+                        css={{ 'text-align': 'right' }}
                       />
                     </Flex>
                   }
@@ -156,12 +159,11 @@ class WalletSettingsFormLocal extends React.Component {
                       variant="thin"
                       type="number"
                       initialValue={wallet.autopilotMaxchannels}
-                      validate={this.validateAutopilotMaxchannels}
-                      validateOnChange={formState.invalid}
-                      validateOnBlur
                       step="1"
                       width={100}
                       ml="auto"
+                      justifyContent="right"
+                      css={{ 'text-align': 'right' }}
                     />
                   }
                 />
@@ -179,11 +181,10 @@ class WalletSettingsFormLocal extends React.Component {
                       max="100000000"
                       step="1"
                       initialValue={wallet.autopilotMinchansize}
-                      validate={this.validateAutopilotChansize}
-                      validateOnBlur
-                      validateOnChange={formState.invalid}
                       width={100}
                       ml="auto"
+                      justifyContent="right"
+                      css={{ 'text-align': 'right' }}
                     />
                   }
                 />
@@ -201,11 +202,10 @@ class WalletSettingsFormLocal extends React.Component {
                       max="100000000"
                       step="1"
                       initialValue={wallet.autopilotMaxchansize}
-                      validate={this.validateAutopilotChansize}
-                      validateOnChange={formState.invalid}
-                      validateOnBlur
                       width={100}
                       ml="auto"
+                      justifyContent="right"
+                      css={{ 'text-align': 'right' }}
                     />
                   }
                 />
