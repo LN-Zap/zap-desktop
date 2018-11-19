@@ -31,8 +31,8 @@ class Onboarding extends React.Component {
     connectionCert: PropTypes.string,
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
-    lndWalletStarted: PropTypes.bool,
-    lndWalletUnlockerStarted: PropTypes.bool,
+    lightningGrpcActive: PropTypes.bool,
+    walletUnlockerGrpcActive: PropTypes.bool,
     seed: PropTypes.array,
     startLndHostError: PropTypes.string,
     startLndCertError: PropTypes.string,
@@ -41,7 +41,7 @@ class Onboarding extends React.Component {
     fetchingSeed: PropTypes.bool,
     // DISPATCH
     createNewWallet: PropTypes.func.isRequired,
-    generateSeed: PropTypes.func.isRequired,
+    fetchSeed: PropTypes.func.isRequired,
     recoverOldWallet: PropTypes.func.isRequired,
     resetOnboarding: PropTypes.func.isRequired,
     setAlias: PropTypes.func.isRequired,
@@ -75,8 +75,8 @@ class Onboarding extends React.Component {
       connectionCert,
       connectionMacaroon,
       connectionString,
-      lndWalletStarted,
-      lndWalletUnlockerStarted,
+      lightningGrpcActive,
+      walletUnlockerGrpcActive,
       seed,
       startLndHostError,
       startLndCertError,
@@ -97,7 +97,7 @@ class Onboarding extends React.Component {
       validateHost,
       validateCert,
       validateMacaroon,
-      generateSeed,
+      fetchSeed,
       resetOnboarding,
       createNewWallet,
       recoverOldWallet,
@@ -116,7 +116,7 @@ class Onboarding extends React.Component {
           <Wizard.Step
             key="SeedView"
             component={SeedView}
-            {...{ seed, generateSeed, fetchingSeed }}
+            {...{ seed, fetchSeed, fetchingSeed }}
           />,
           <Wizard.Step key="SeedConfirm" component={SeedConfirm} {...{ seed }} />,
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
@@ -171,8 +171,8 @@ class Onboarding extends React.Component {
               connectionHost,
               connectionCert,
               connectionMacaroon,
-              lndWalletStarted,
-              lndWalletUnlockerStarted,
+              lightningGrpcActive,
+              walletUnlockerGrpcActive,
               startLndHostError,
               startLndCertError,
               startLndMacaroonError,
@@ -207,8 +207,8 @@ class Onboarding extends React.Component {
             {...{
               connectionType,
               connectionString,
-              lndWalletStarted,
-              lndWalletUnlockerStarted,
+              lightningGrpcActive,
+              walletUnlockerGrpcActive,
               startLndHostError,
               startLndCertError,
               startLndMacaroonError,

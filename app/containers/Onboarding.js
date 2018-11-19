@@ -9,18 +9,20 @@ import {
   setConnectionMacaroon,
   setConnectionString,
   setPassword,
-  setUnlockWalletError,
-  startLnd,
-  stopLnd,
   validateHost,
   validateCert,
   validateMacaroon,
-  generateSeed,
+  resetOnboarding
+} from 'reducers/onboarding'
+import {
+  setUnlockWalletError,
+  startLnd,
+  stopLnd,
+  fetchSeed,
   createNewWallet,
   recoverOldWallet,
-  resetOnboarding,
   unlockWallet
-} from 'reducers/onboarding'
+} from 'reducers/lnd'
 
 const mapStateToProps = state => ({
   alias: state.onboarding.alias,
@@ -30,16 +32,15 @@ const mapStateToProps = state => ({
   connectionCert: state.onboarding.connectionCert,
   connectionMacaroon: state.onboarding.connectionMacaroon,
   connectionString: state.onboarding.connectionString,
-  lndWalletStarted: state.onboarding.lndWalletStarted,
-  lndWalletUnlockerStarted: state.onboarding.lndWalletUnlockerStarted,
-  startLndHostError: state.onboarding.startLndHostError,
-  startLndCertError: state.onboarding.startLndCertError,
-  startLndMacaroonError: state.onboarding.startLndMacaroonError,
+  lightningGrpcActive: state.lnd.lightningGrpcActive,
+  walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
+  startLndHostError: state.lnd.startLndHostError,
+  startLndCertError: state.lnd.startLndCertError,
+  startLndMacaroonError: state.lnd.startLndMacaroonError,
   seed: state.onboarding.seed,
-  signupMode: state.onboarding.signupMode,
-  unlockWalletError: state.onboarding.unlockWalletError,
+  unlockWalletError: state.lnd.unlockWalletError,
   onboarded: state.onboarding.onboarded,
-  fetchingSeed: state.onboarding.fetchingSeed
+  fetchingSeed: state.lnd.fetchingSeed
 })
 
 const mapDispatchToProps = {
@@ -57,7 +58,7 @@ const mapDispatchToProps = {
   validateHost,
   validateCert,
   validateMacaroon,
-  generateSeed,
+  fetchSeed,
   createNewWallet,
   recoverOldWallet,
   resetOnboarding,

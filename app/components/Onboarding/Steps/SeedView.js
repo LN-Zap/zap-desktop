@@ -27,7 +27,7 @@ class SeedView extends React.Component {
     wizardState: PropTypes.object,
     seed: PropTypes.array,
     fetchingSeed: PropTypes.bool,
-    generateSeed: PropTypes.func.isRequired
+    fetchSeed: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -38,14 +38,14 @@ class SeedView extends React.Component {
   }
 
   async componentDidMount() {
-    const { seed, generateSeed } = this.props
+    const { seed, fetchSeed } = this.props
     if (seed.length === 0) {
-      generateSeed()
+      fetchSeed()
     }
   }
 
   render() {
-    const { wizardApi, wizardState, seed, generateSeed, fetchingSeed, intl, ...rest } = this.props
+    const { wizardApi, wizardState, seed, fetchSeed, fetchingSeed, intl, ...rest } = this.props
     const { getApi, preSubmit, onSubmit, onSubmitFailure } = wizardApi
 
     return (

@@ -50,7 +50,7 @@ const resetOnboarding = () => {
   store.set(initialValues)
 }
 
-const generateSeed = async () => {
+const fetchSeed = async () => {
   await delay(1000)
   store.set({
     seed: [
@@ -148,7 +148,7 @@ storiesOf('Containers.Onboarding', module)
           validateHost={validateHost}
           validateCert={validateCert}
           validateMacaroon={validateMacaroon}
-          generateSeed={generateSeed}
+          fetchSeed={fetchSeed}
         />
       </State>
     )
