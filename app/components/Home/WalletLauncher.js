@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Heading } from 'components/UI'
-import ArrowRight from 'components/Icon/ArrowRight'
 import { WalletSettingsFormLocal, WalletSettingsFormRemote, WalletHeader } from '.'
 
 class WalletLauncher extends React.Component {
@@ -67,21 +66,17 @@ class WalletLauncher extends React.Component {
           <WalletHeader title={walletName} />
 
           <Box ml="auto">
-            <Button type="button" size="small" onClick={this.handleDelete} mr={2}>
+            <Button
+              variant="secondary"
+              type="button"
+              size="small"
+              onClick={this.handleDelete}
+              mr={2}
+            >
               delete
             </Button>
-            <Button
-              type="submit"
-              size="small"
-              variant="primary"
-              form={`wallet-settings-form-${wallet.id}`}
-            >
-              <Flex>
-                <Box mr={1}>Launch now</Box>
-                <Box>
-                  <ArrowRight />
-                </Box>
-              </Flex>
+            <Button type="submit" size="small" form={`wallet-settings-form-${wallet.id}`}>
+              Launch now
             </Button>
           </Box>
         </Flex>
