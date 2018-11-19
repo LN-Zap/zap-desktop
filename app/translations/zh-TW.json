@@ -145,6 +145,7 @@
   "components.Onboarding.Steps.retype_seed_title": "",
   "components.Onboarding.Steps.save_seed_description": "",
   "components.Onboarding.Steps.save_seed_title": "",
+  "components.Onboarding.Steps.seed_warning": "",
   "components.Onboarding.Steps.signup_create": "创建钱包",
   "components.Onboarding.Steps.signup_description": "",
   "components.Onboarding.Steps.signup_import": "导入现有钱包",

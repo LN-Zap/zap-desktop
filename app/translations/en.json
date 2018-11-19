@@ -145,6 +145,7 @@
   "components.Onboarding.Steps.retype_seed_title": "Retype your seed",
   "components.Onboarding.Steps.save_seed_description": "Please save these 24 words securely! This will allow you to recover your wallet in the future",
   "components.Onboarding.Steps.save_seed_title": "Save your wallet seed",
+  "components.Onboarding.Steps.seed_warning": "Keep this private! If someone gains access to this list they can steal your money.",
   "components.Onboarding.Steps.signup_create": "Create new wallet",
   "components.Onboarding.Steps.signup_description": "Would you like to create a new wallet or import an existing one?",
   "components.Onboarding.Steps.signup_import": "Import existing wallet",
