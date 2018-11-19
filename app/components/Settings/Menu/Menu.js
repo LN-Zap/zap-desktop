@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router'
 import FaAngleRight from 'react-icons/lib/fa/angle-right'
-
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'
-
 import styles from './Menu.scss'
 
-const Menu = ({ setActiveSubMenu }) => (
+const Menu = ({ history, setActiveSubMenu }) => (
   <ul>
     <li className={styles.fiat} onClick={() => setActiveSubMenu('fiat')}>
       <FormattedMessage {...messages.fiat} />
@@ -23,6 +22,11 @@ const Menu = ({ setActiveSubMenu }) => (
       </span>
       <FaAngleRight />
     </li>
+    <li className={styles.fiat} onClick={() => history.push('/logout')}>
+      <span>
+        <FormattedMessage {...messages.logout} />
+      </span>
+    </li>
   </ul>
 )
 
@@ -30,4 +34,4 @@ Menu.propTypes = {
   setActiveSubMenu: PropTypes.func.isRequired
 }
 
-export default Menu
+export default withRouter(Menu)
