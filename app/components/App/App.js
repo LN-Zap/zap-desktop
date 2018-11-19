@@ -25,14 +25,20 @@ class App extends React.Component {
     activityModalProps: PropTypes.object,
     receiveModalProps: PropTypes.object,
     channelFormProps: PropTypes.object,
+    setIsWalletOpen: PropTypes.func.isRequired,
     fetchInfo: PropTypes.func.isRequired,
     fetchDescribeNetwork: PropTypes.func.isRequired
   }
 
   componentDidMount() {
-    const { fetchInfo, fetchDescribeNetwork } = this.props
+    const { fetchInfo, fetchDescribeNetwork, setIsWalletOpen } = this.props
+
+    // Set wallet open state.
+    setIsWalletOpen(true)
+
     // fetch node info.
     fetchInfo()
+
     // fetch LN network from nodes POV.
     fetchDescribeNetwork()
   }
