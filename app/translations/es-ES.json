@@ -145,6 +145,7 @@
   "components.Onboarding.Steps.retype_seed_title": "",
   "components.Onboarding.Steps.save_seed_description": "",
   "components.Onboarding.Steps.save_seed_title": "",
+  "components.Onboarding.Steps.seed_warning": "",
   "components.Onboarding.Steps.signup_create": "Crear nueva cartera",
   "components.Onboarding.Steps.signup_description": "",
   "components.Onboarding.Steps.signup_import": "Importar cartera existente",
