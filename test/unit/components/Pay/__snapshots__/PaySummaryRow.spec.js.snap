@@ -8,13 +8,13 @@ exports[`component.Form.DataRow should render correctly 1`] = `
 >
   <Text
     fontWeight="normal"
-    width={0.4}
+    width={0.5}
   >
     left contnet
   </Text>
   <Text
     textAlign="right"
-    width={0.6}
+    width={0.5}
   >
     right content
   </Text>
