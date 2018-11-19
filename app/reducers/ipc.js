@@ -1,11 +1,19 @@
 import createIpc from 'redux-electron-ipc'
 import { receiveLocale } from './locale'
 import {
-  lndSyncStatus,
   currentBlockHeight,
+  fetchSeedSuccess,
+  fetchSeedError,
+  lightningGrpcActive,
+  lndSyncStatus,
+  lndStopped,
+  lndStarted,
   lndBlockHeight,
   lndCfilterHeight,
-  lightningGrpcActive,
+  setUnlockWalletError,
+  startLndError,
+  walletCreated,
+  walletUnlocked,
   walletUnlockerGrpcActive
 } from './lnd'
 import { receiveInfo } from './info'
@@ -40,15 +48,7 @@ import {
 
 import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoutes } from './network'
 
-import {
-  startOnboarding,
-  startLndError,
-  receiveSeed,
-  receiveSeedError,
-  walletCreated,
-  walletUnlocked,
-  setUnlockWalletError
-} from './onboarding'
+import { startOnboarding } from './onboarding'
 
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
@@ -113,9 +113,11 @@ const ipc = createIpc({
 
   startOnboarding,
   startLndError,
+  lndStopped,
+  lndStarted,
   walletUnlockerGrpcActive,
-  receiveSeed,
-  receiveSeedError,
+  fetchSeedSuccess,
+  fetchSeedError,
   walletCreated,
   walletUnlocked,
   setUnlockWalletError

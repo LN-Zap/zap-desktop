@@ -9,7 +9,6 @@ class Login extends React.Component {
   static propTypes = {
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    walletDir: PropTypes.string.isRequired,
     unlockWalletError: PropTypes.string,
     setUnlockWalletError: PropTypes.func.isRequired,
     unlockWallet: PropTypes.func.isRequired
@@ -43,7 +42,6 @@ class Login extends React.Component {
     const {
       wizardApi,
       wizardState,
-      walletDir,
       unlockWallet,
       unlockWalletError,
       setUnlockWalletError,
