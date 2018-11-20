@@ -4,7 +4,7 @@ import { linkTo } from '@storybook/addon-links'
 import { State, Store } from '@sambego/storybook-state'
 import StoryRouter from 'storybook-react-router'
 import { Page } from 'components/UI'
-import { Home } from 'components/Home'
+import { Home, WalletHeader } from 'components/Home'
 
 const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
@@ -54,11 +54,10 @@ const store = new Store({
       type: 'btcpayserver',
       chain: 'bitcoin',
       network: 'testnet',
-      host: 'example.btcpay.store'
+      host: 'example.btcpaywithlongname.store'
     }
   ]
 })
-
 const startLnd = async wallet => {
   console.log('startLnd', wallet)
   await delay(500)
@@ -110,3 +109,4 @@ storiesOf('Containers.Home', module)
       </Page>
     )
   })
+  .add('WalletHeader', () => <WalletHeader title="my.storewithareallylongname.com" />)
