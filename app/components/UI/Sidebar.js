@@ -10,7 +10,7 @@ import { BackgroundTertiary } from 'components/UI'
 const Sidebar = ({ css, ...rest }) => (
   <BackgroundTertiary
     as="aside"
-    width={4 / 12}
+    width={3 / 12}
     {...rest}
     css={Object.assign(
       {

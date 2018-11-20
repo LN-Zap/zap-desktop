@@ -331,6 +331,7 @@
     "react-router-dom": "4.3.1",
     "react-router-redux": "5.0.0-alpha.9",
     "react-spring": "7.1.0",
+    "react-textfit": "1.1.0",
     "rebass": "3.0.0-9",
     "redux": "4.0.1",
     "redux-electron-ipc": "1.2.0",

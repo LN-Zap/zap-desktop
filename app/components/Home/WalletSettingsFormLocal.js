@@ -101,7 +101,7 @@ class WalletSettingsFormLocal extends React.Component {
                   field="alias"
                   id="alias"
                   initialValue={wallet.alias}
-                  width={260}
+                  width={1}
                   ml="auto"
                   justifyContent="right"
                   css={{ 'text-align': 'right' }}
