@@ -63,22 +63,14 @@ class WalletLauncher extends React.Component {
     return (
       <React.Fragment>
         <Flex mb={4} alignItems="center">
-          <WalletHeader title={walletName} />
-
-          <Box ml="auto">
-            <Button
-              variant="secondary"
-              type="button"
-              size="small"
-              onClick={this.handleDelete}
-              mr={2}
-            >
-              delete
-            </Button>
-            <Button type="submit" size="small" form={`wallet-settings-form-${wallet.id}`}>
+          <Box width="75%" mr={3}>
+            <WalletHeader title={walletName} />
+          </Box>
+          <Flex ml="auto" justifyContent="flex-end" flexDirection="column">
+            <Button type="submit" size="small" form={`wallet-settings-form-${wallet.id}`} ml={2}>
               Launch now
             </Button>
-          </Box>
+          </Flex>
         </Flex>
 
         {wallet.type === 'local' && (
@@ -104,6 +96,15 @@ class WalletLauncher extends React.Component {
             />
           </>
         )}
+        <Button
+          variant="secondary"
+          type="button"
+          size="small"
+          onClick={this.handleDelete}
+          ml="auto"
+        >
+          delete
+        </Button>
       </React.Fragment>
     )
   }

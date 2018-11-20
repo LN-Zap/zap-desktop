@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass'
-import { Heading, Truncate } from 'components/UI'
+import { Heading } from 'components/UI'
+import { Textfit } from 'react-textfit'
 
 const WalletHeader = ({ title }) => (
-  <Box>
-    <Heading.h1 fontSize="xxl">
-      <Truncate text={title} maxlen={25} />
-    </Heading.h1>
-  </Box>
+  <Heading.h1>
+    <Textfit mode="single" min={16} max={60}>
+      {title}
+    </Textfit>
+  </Heading.h1>
 )
 
 WalletHeader.propTypes = {
