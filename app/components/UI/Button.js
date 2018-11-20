@@ -10,6 +10,7 @@ const Wrapper = styled(BaseButton)`
   border-radius: 5;
   font-weight: 300;
   line-height: '18px';
+  white-space: nowrap;
   &:disabled {
     opacity: 0.5;
   }

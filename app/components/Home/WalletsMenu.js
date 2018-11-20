@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { NavLink } from 'react-router-dom'
 import { Box } from 'rebass'
-import { Text } from 'components/UI'
+import { Text, Truncate } from 'components/UI'
 
 const walletName = wallet => {
   if (wallet.type === 'local') {
@@ -31,7 +31,7 @@ const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
           onClick={() => setActiveWallet(wallet.id)}
           style={{ display: 'block' }}
         >
-          {walletName(wallet)}
+          <Truncate text={walletName(wallet)} maxlen={28} />
         </NavLink>
       </Text>
     ))}
