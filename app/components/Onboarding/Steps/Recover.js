@@ -27,6 +27,7 @@ class SeedWord extends React.Component {
           {index}
         </Label>
         <Input
+          autoFocus={index === 1}
           initialValue={word}
           field={`word${index}`}
           validate={this.validateWord}

@@ -110,6 +110,7 @@ class SeedConfirm extends React.Component {
                 validate={value => this.validateWord.call(null, wordIndex - 1, value)}
                 onChange={e => this.handleWordChange(e.target.value, index, wordIndex - 1)}
                 placeholder={intl.formatMessage({ ...messages.word_placeholder })}
+                autoFocus={index === 0}
               />
             </Flex>
           )
