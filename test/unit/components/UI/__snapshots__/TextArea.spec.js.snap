@@ -37,6 +37,7 @@ exports[`component.UI.Input should render correctly 1`] = `
     className="c0"
   >
     <input
+      autoFocus={false}
       className="c1"
       color="primaryText"
       fontFamily="sans"
