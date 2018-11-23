@@ -93,6 +93,7 @@ class SeedConfirm extends React.Component {
                       {wordIndex}
                     </Label>
                     <Input
+                      autoFocus={index === 0}
                       field={`word${index}`}
                       name={`word${index}`}
                       validateOnBlur={shouldValidateInline}

@@ -64,6 +64,7 @@ class Password extends React.Component {
 
               <Box>
                 <PasswordInput
+                  autoFocus
                   field="password"
                   name="password"
                   label={<FormattedMessage {...messages.password_label} />}

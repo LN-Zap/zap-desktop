@@ -100,6 +100,7 @@ class BtcPayServer extends React.Component {
               <Bar my={4} />
 
               <TextArea
+                autoFocus
                 field="connectionString"
                 name="connectionString"
                 label={<FormattedMessage {...messages.connection_string_label} />}

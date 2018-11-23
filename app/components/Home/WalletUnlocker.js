@@ -110,6 +110,7 @@ class WalletUnlocker extends React.Component {
             <WalletHeader title={walletName} />
 
             <PasswordInput
+              autoFocus
               field="password"
               id="password"
               label="Enter Password"
