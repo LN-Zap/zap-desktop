@@ -64,6 +64,7 @@ class Alias extends React.Component {
               <Bar my={4} />
               <Box>
                 <Input
+                  autoFocus
                   field="alias"
                   name="alias"
                   label={<FormattedMessage {...messages.nickname} />}

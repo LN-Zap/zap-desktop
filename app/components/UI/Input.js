@@ -47,7 +47,8 @@ class Input extends React.Component {
   static defaultProps = {
     description: null,
     label: null,
-    showMessage: true
+    showMessage: true,
+    autoFocus: false
   }
 
   state = {
@@ -58,6 +59,13 @@ class Input extends React.Component {
     super(props)
     const { forwardedRef } = this.props
     this.inputRef = forwardedRef || React.createRef()
+  }
+
+  componentDidMount() {
+    const { autoFocus } = this.props
+    if (autoFocus) {
+      this.inputRef.current.focus()
+    }
   }
 
   render() {
