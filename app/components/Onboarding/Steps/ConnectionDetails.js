@@ -158,6 +158,7 @@ class ConnectionDetails extends React.Component {
 
               <Box mb={3}>
                 <Input
+                  autoFocus
                   field="connectionHost"
                   name="connectionHost"
                   label={<FormattedMessage {...messages.hostname_title} />}

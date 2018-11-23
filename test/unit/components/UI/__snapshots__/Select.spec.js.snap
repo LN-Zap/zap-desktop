@@ -130,6 +130,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
           aria-controls={null}
           aria-labelledby="downshift-0-label"
           autoComplete="off"
+          autoFocus={false}
           className="c2"
           color="primaryText"
           fontFamily="sans"
