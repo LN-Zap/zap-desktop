@@ -111,6 +111,7 @@ class WalletUnlocker extends React.Component {
             <WalletHeader title={walletName} />
 
             <PasswordInput
+              autoFocus
               field="password"
               id="password"
               label={<FormattedMessage {...messages.wallet_unlocker_password_label} />}
