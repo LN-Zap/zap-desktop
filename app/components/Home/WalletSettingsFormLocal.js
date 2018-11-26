@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
 import { Bar, Button, DataRow, Form, Input, Label, Range, Text, Toggle } from 'components/UI'
 import * as yup from 'yup'
+import messages from './messages'
 
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
@@ -47,7 +49,7 @@ class WalletSettingsFormLocal extends React.Component {
   }
 
   render() {
-    const { wallet, startLnd, ...rest } = this.props
+    const { intl, wallet, startLnd, ...rest } = this.props
 
     return (
       <Form
@@ -68,10 +70,10 @@ class WalletSettingsFormLocal extends React.Component {
               left={
                 <>
                   <Label htmlFor="name" mb={2}>
-                    Wallet name
+                    <FormattedMessage {...messages.wallet_settings_name_label} />
                   </Label>
                   <Text color="gray" fontWeight="light">
-                    The wallet name is only visible for you inside Zap.
+                    <FormattedMessage {...messages.wallet_settings_name_description} />
                   </Text>
                 </>
               }
@@ -80,7 +82,7 @@ class WalletSettingsFormLocal extends React.Component {
                   field="name"
                   id="name"
                   initialValue={wallet.name}
-                  placeholder="Enter name"
+                  placeholder={intl.formatMessage({ ...messages.wallet_settings_name_placeholder })}
                   width={1}
                   ml="auto"
                   justifyContent="right"
@@ -94,10 +96,10 @@ class WalletSettingsFormLocal extends React.Component {
               left={
                 <>
                   <Label htmlFor="alias" mb={2}>
-                    Alias
+                    <FormattedMessage {...messages.wallet_settings_alias_label} />
                   </Label>
                   <Text color="gray" fontWeight="light">
-                    The alias will be visible for others on the network.
+                    <FormattedMessage {...messages.wallet_settings_alias_description} />
                   </Text>
                 </>
               }
@@ -106,7 +108,9 @@ class WalletSettingsFormLocal extends React.Component {
                   field="alias"
                   id="alias"
                   initialValue={wallet.alias}
-                  placeholder="Enter alias"
+                  placeholder={intl.formatMessage({
+                    ...messages.wallet_settings_alias_placeholder
+                  })}
                   width={1}
                   ml="auto"
                   justifyContent="right"
@@ -128,7 +132,11 @@ class WalletSettingsFormLocal extends React.Component {
               <React.Fragment>
                 <DataRow
                   py={2}
-                  left={<Label htmlFor="autopilotAllocation">Percentage of Balance</Label>}
+                  left={
+                    <Label htmlFor="autopilotAllocation">
+                      <FormattedMessage {...messages.wallet_settings_autopilotAllocation_label} />
+                    </Label>
+                  }
                   right={
                     <Flex alignItems="center" justifyContent="flex-end">
                       <Range
@@ -159,7 +167,11 @@ class WalletSettingsFormLocal extends React.Component {
 
                 <DataRow
                   py={2}
-                  left={<Label htmlFor="autopilotMaxchannels">Number of Channels max</Label>}
+                  left={
+                    <Label htmlFor="autopilotMaxchannels">
+                      <FormattedMessage {...messages.wallet_settings_autopilotMaxchannels_label} />
+                    </Label>
+                  }
                   right={
                     <Input
                       field="autopilotMaxchannels"
@@ -178,7 +190,11 @@ class WalletSettingsFormLocal extends React.Component {
 
                 <DataRow
                   py={2}
-                  left={<Label htmlFor="autopilotMinchansize">Minimum channel size</Label>}
+                  left={
+                    <Label htmlFor="autopilotMinchansize">
+                      <FormattedMessage {...messages.wallet_settings_autopilotMinchansize_label} />
+                    </Label>
+                  }
                   right={
                     <Input
                       field="autopilotMinchansize"
@@ -198,7 +214,11 @@ class WalletSettingsFormLocal extends React.Component {
 
                 <DataRow
                   py={2}
-                  left={<Label htmlFor="autopilotMaxchansize">Maximum channel size</Label>}
+                  left={
+                    <Label htmlFor="autopilotMaxchansize">
+                      <FormattedMessage {...messages.wallet_settings_autopilotMaxchansize_label} />
+                    </Label>
+                  }
                   right={
                     <Input
                       field="autopilotMaxchansize"
@@ -218,7 +238,7 @@ class WalletSettingsFormLocal extends React.Component {
 
                 <Flex justifyContent="center" my={4}>
                   <Button type="button" size="small" onClick={this.resetAutopilotSettings}>
-                    Set Autopilot settings to default
+                    <FormattedMessage {...messages.wallet_settings_reset_autopilot_button_text} />
                   </Button>
                 </Flex>
               </React.Fragment>
@@ -230,4 +250,4 @@ class WalletSettingsFormLocal extends React.Component {
   }
 }
 
-export default WalletSettingsFormLocal
+export default injectIntl(WalletSettingsFormLocal)
