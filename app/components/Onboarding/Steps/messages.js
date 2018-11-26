@@ -8,6 +8,8 @@ export default defineMessages({
     'Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.',
   autopilot_title: 'Autopilot',
   back: 'back',
+  btcpay_page_title: 'BTCPay Server',
+  btcpay_page_description: 'Enter the connection details for your BTCPay Server node.',
   btcpay_connection_string_description:
     "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled 'Click here to open the configuration file' in your BTCPay Server gRPC settings.",
   btcpay_connection_type_description:
