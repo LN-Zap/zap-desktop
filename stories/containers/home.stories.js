@@ -30,13 +30,7 @@ const store = new Store({
     },
     {
       id: 2,
-      autopilot: true,
-      autopilotAllocation: 0.9,
-      autopilotMaxchannels: 10,
-      autopilotMaxchansize: 16777215,
-      autopilotMinchansize: 20000,
-      autopilotMinconfs: 1,
-      autopilotPrivate: false,
+      autopilot: false,
       chain: 'bitcoin',
       network: 'mainnet',
       type: 'local'

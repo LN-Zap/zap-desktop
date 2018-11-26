@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
-import { Bar, Button, Heading } from 'components/UI'
+import { Bar, Button, Heading, Text } from 'components/UI'
 import { WalletSettingsFormLocal, WalletSettingsFormRemote, WalletHeader } from '.'
 
 class WalletLauncher extends React.Component {
@@ -62,7 +62,7 @@ class WalletLauncher extends React.Component {
 
     return (
       <React.Fragment>
-        <Flex mb={4} alignItems="center">
+        <Flex mb={5} alignItems="center">
           <Box width="75%" mr={3}>
             <WalletHeader title={walletName} />
           </Box>
@@ -75,8 +75,8 @@ class WalletLauncher extends React.Component {
 
         {wallet.type === 'local' && (
           <>
-            <Heading.h2 mb={4}>Settings</Heading.h2>
-            <Bar my={2} />
+            <Heading.h1 mb={5}>Settings</Heading.h1>
+
             <WalletSettingsFormLocal
               key={wallet.id}
               id={`wallet-settings-form-${wallet.id}`}
@@ -96,15 +96,17 @@ class WalletLauncher extends React.Component {
             />
           </>
         )}
-        <Button
-          variant="secondary"
-          type="button"
-          size="small"
-          onClick={this.handleDelete}
-          ml="auto"
-        >
-          delete
-        </Button>
+
+        <Text mt={4} fontWeight="normal">
+          Delete
+        </Text>
+        <Bar my={2} />
+
+        <Flex justifyContent="center" my={4}>
+          <Button size="small" onClick={this.handleDelete}>
+            Delete wallet
+          </Button>
+        </Flex>
       </React.Fragment>
     )
   }
