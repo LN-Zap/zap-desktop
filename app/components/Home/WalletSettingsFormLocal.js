@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
-import { DataRow, Form, Input, Label, Range, Toggle } from 'components/UI'
+import { Bar, DataRow, Form, Input, Label, Range, Text, Toggle } from 'components/UI'
 import * as yup from 'yup'
 
 class WalletSettingsFormLocal extends React.Component {
@@ -13,51 +13,6 @@ class WalletSettingsFormLocal extends React.Component {
   validateAutopilot = value => {
     try {
       yup.boolean().validateSync(value)
-    } catch (error) {
-      return error.message
-    }
-  }
-
-  validateAutopilotAllocation = value => {
-    try {
-      yup
-        .number()
-        .required()
-        .positive()
-        .min(0)
-        .max(100)
-        .typeError('A number is required')
-        .validateSync(value)
-    } catch (error) {
-      return error.message
-    }
-  }
-
-  validateAutopilotMaxchannels = value => {
-    try {
-      yup
-        .number()
-        .required()
-        .positive()
-        .integer()
-        .max(100)
-        .typeError('A number is required')
-        .validateSync(value)
-    } catch (error) {
-      return error.message
-    }
-  }
-
-  validateAutopilotChansize = value => {
-    try {
-      yup
-        .number()
-        .required()
-        .positive()
-        .integer()
-        .max(100000000)
-        .typeError('A number is required')
-        .validateSync(value)
     } catch (error) {
       return error.message
     }
@@ -93,14 +48,27 @@ class WalletSettingsFormLocal extends React.Component {
       >
         {({ formState }) => (
           <React.Fragment>
+            <Text fontWeight="normal">Naming</Text>
+            <Bar mt={2} mb={4} />
+
             <DataRow
               py={2}
-              left={<Label htmlFor="alias">Alias</Label>}
+              left={
+                <>
+                  <Label htmlFor="name" mb={2}>
+                    Wallet name
+                  </Label>
+                  <Text color="gray" fontWeight="light">
+                    The wallet name is only visible for you inside Zap.
+                  </Text>
+                </>
+              }
               right={
                 <Input
-                  field="alias"
-                  id="alias"
-                  initialValue={wallet.alias}
+                  field="name"
+                  id="name"
+                  initialValue={wallet.name}
+                  placeholder="Enter name"
                   width={1}
                   ml="auto"
                   justifyContent="right"
@@ -111,9 +79,38 @@ class WalletSettingsFormLocal extends React.Component {
 
             <DataRow
               py={2}
+              left={
+                <>
+                  <Label htmlFor="alias" mb={2}>
+                    Alias
+                  </Label>
+                  <Text color="gray" fontWeight="light">
+                    The alias will be visible for others on the network.
+                  </Text>
+                </>
+              }
+              right={
+                <Input
+                  field="alias"
+                  id="alias"
+                  initialValue={wallet.alias}
+                  placeholder="Enter alias"
+                  width={1}
+                  ml="auto"
+                  justifyContent="right"
+                  css={{ 'text-align': 'right' }}
+                />
+              }
+            />
+
+            <DataRow
+              py={2}
+              mt={4}
               left={<Label htmlFor="autopilot">Autopilot</Label>}
               right={<Toggle field="autopilot" id="autopilot" initialValue={wallet.autopilot} />}
             />
+
+            <Bar mt={2} mb={4} />
 
             {formState.values.autopilot ? (
               <React.Fragment>
@@ -136,11 +133,10 @@ class WalletSettingsFormLocal extends React.Component {
                         field="autopilotAllocation"
                         id="autopilotAllocation"
                         type="number"
-                        variant="thin"
                         min="0"
                         max="100"
                         step="1"
-                        width={50}
+                        width={70}
                         ml={2}
                         justifyContent="right"
                         css={{ 'text-align': 'right' }}
@@ -156,11 +152,10 @@ class WalletSettingsFormLocal extends React.Component {
                     <Input
                       field="autopilotMaxchannels"
                       id="autopilotMaxchannels"
-                      variant="thin"
                       type="number"
                       initialValue={wallet.autopilotMaxchannels}
                       step="1"
-                      width={100}
+                      width={150}
                       ml="auto"
                       justifyContent="right"
                       css={{ 'text-align': 'right' }}
@@ -175,13 +170,12 @@ class WalletSettingsFormLocal extends React.Component {
                     <Input
                       field="autopilotMinchansize"
                       id="autopilotMinchansize"
-                      variant="thin"
                       type="number"
                       min="0"
                       max="100000000"
                       step="1"
                       initialValue={wallet.autopilotMinchansize}
-                      width={100}
+                      width={150}
                       ml="auto"
                       justifyContent="right"
                       css={{ 'text-align': 'right' }}
@@ -196,13 +190,12 @@ class WalletSettingsFormLocal extends React.Component {
                     <Input
                       field="autopilotMaxchansize"
                       id="autopilotMaxchansize"
-                      variant="thin"
                       type="number"
                       min="0"
                       max="100000000"
                       step="1"
                       initialValue={wallet.autopilotMaxchansize}
-                      width={100}
+                      width={150}
                       ml="auto"
                       justifyContent="right"
                       css={{ 'text-align': 'right' }}
