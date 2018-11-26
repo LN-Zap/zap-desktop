@@ -49,6 +49,7 @@ class Modal extends React.Component {
               <Text
                 fontWeight="normal"
                 css={{ cursor: 'pointer', opacity: 0.6, '&:hover': { opacity: 1 } }}
+                onClick={() => window.Zap.openHelpPage()}
               >
                 Need Help?
               </Text>
