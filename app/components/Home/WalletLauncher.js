@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Heading, Text } from 'components/UI'
 import { WalletSettingsFormLocal, WalletSettingsFormRemote, WalletHeader } from '.'
+import messages from './messages'
 
 class WalletLauncher extends React.Component {
   static propTypes = {
@@ -68,14 +70,16 @@ class WalletLauncher extends React.Component {
           </Box>
           <Flex ml="auto" justifyContent="flex-end" flexDirection="column">
             <Button type="submit" size="small" form={`wallet-settings-form-${wallet.id}`} ml={2}>
-              Launch now
+              <FormattedMessage {...messages.launch_wallet_button_text} />
             </Button>
           </Flex>
         </Flex>
 
         {wallet.type === 'local' && (
           <>
-            <Heading.h1 mb={5}>Settings</Heading.h1>
+            <Heading.h1 mb={5}>
+              <FormattedMessage {...messages.settings_title} />
+            </Heading.h1>
 
             <WalletSettingsFormLocal
               key={wallet.id}
@@ -98,13 +102,13 @@ class WalletLauncher extends React.Component {
         )}
 
         <Text mt={4} fontWeight="normal">
-          Delete
+          <FormattedMessage {...messages.delete_title} />
         </Text>
         <Bar my={2} />
 
         <Flex justifyContent="center" my={4}>
           <Button size="small" onClick={this.handleDelete}>
-            Delete wallet
+            <FormattedMessage {...messages.delete_wallet_button_text} />
           </Button>
         </Flex>
       </React.Fragment>
