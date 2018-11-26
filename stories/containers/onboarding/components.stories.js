@@ -17,9 +17,13 @@ import {
 const setConnectionHost = () => ({})
 const setConnectionCert = () => ({})
 const setConnectionMacaroon = () => ({})
+const stopLnd = () => ({})
+const resetOnboarding = () => ({})
 
 storiesOf('Containers.Onboarding.Forms', module)
-  .add('ConnectionType', () => <ConnectionType />)
+  .add('ConnectionType', () => (
+    <ConnectionType stopLnd={stopLnd} resetOnboarding={resetOnboarding} />
+  ))
   .add('ConnectionDetails', () => (
     <ConnectionDetails
       setConnectionHost={setConnectionHost}
@@ -31,7 +35,7 @@ storiesOf('Containers.Onboarding.Forms', module)
   .add('BtcPayServer', () => <BtcPayServer />)
   .add('Login', () => <Login />)
   .add('Password', () => <Password />)
-  .add('Recover', () => <Recover />)
+  .add('Recover', () => <Recover seed={[]} />)
   .add('Alias', () => <Alias />)
   .add('Autopilot', () => <Autopilot />)
   .add('SeedConfirm', () => (
