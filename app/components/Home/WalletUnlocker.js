@@ -1,11 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Form } from 'informed'
 import { Button, PasswordInput } from 'components/UI'
 import * as yup from 'yup'
 import { WalletHeader } from '.'
-
+import messages from './messages'
 /**
  * @render react
  * @name WalletUnlocker
@@ -94,7 +95,7 @@ class WalletUnlocker extends React.Component {
   }
 
   render = () => {
-    const { wallet } = this.props
+    const { intl, wallet } = this.props
     const walletName = this.walletName(wallet)
 
     return (
@@ -112,14 +113,17 @@ class WalletUnlocker extends React.Component {
             <PasswordInput
               field="password"
               id="password"
-              label="Enter Password"
+              label={<FormattedMessage {...messages.wallet_unlocker_password_label} />}
+              placeholder={intl.formatMessage({ ...messages.wallet_unlocker_password_placeholder })}
               my={3}
               validate={this.validatePassword}
               validateOnBlur
               validateOnChange={formState.invalid}
             />
 
-            <Button type="submit">Enter</Button>
+            <Button type="submit">
+              <FormattedMessage {...messages.wallet_unlocker_button_label} />
+            </Button>
           </React.Fragment>
         )}
       </Form>
@@ -127,4 +131,4 @@ class WalletUnlocker extends React.Component {
   }
 }
 
-export default withRouter(WalletUnlocker)
+export default withRouter(injectIntl(WalletUnlocker))
