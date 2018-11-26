@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Expira en",
   "components.Activity.Invoice.amount": "Monto",
   "components.Activity.Invoice.received": "Recibido",
   "components.Activity.Invoice.requested": "Solicitado",
@@ -179,6 +178,8 @@
   "components.Syncing.sync_description": "Por favor, espere un momento mientras buscamos todos sus datos más recientes en la cadena de bloques.",
   "components.Syncing.sync_title": "¡Bienvenido de nuevo a su cartera Zap!",
   "components.Syncing.waiting_for_peers": "Esperando por los pares…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "La solicitud {chain} no es valida.",
   "components.UI.payreq_placeholder": "Pegue la solicitud de pago o la dirección bitcoin acá",
   "components.UI.required_field": "Esto es un campo obligatorio",
