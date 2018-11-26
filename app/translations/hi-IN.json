@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "",
   "components.Activity.Invoice.received": "",
   "components.Activity.Invoice.requested": "",
@@ -179,6 +178,8 @@
   "components.Syncing.sync_description": "",
   "components.Syncing.sync_title": "",
   "components.Syncing.waiting_for_peers": "",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "",
   "components.UI.required_field": "",
