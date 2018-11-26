@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Ablaufend in",
   "components.Activity.Invoice.amount": "Betrag",
   "components.Activity.Invoice.received": "Erhaltene Zahlung",
   "components.Activity.Invoice.requested": "Angeforderte Zahlung",
@@ -179,6 +178,8 @@
   "components.Syncing.sync_description": "Bitte hab Geduld während wir deine aktuellen Daten aus der Blockchain sammeln.",
   "components.Syncing.sync_title": "Willkommen zurück in deiner Zap Wallet!",
   "components.Syncing.waiting_for_peers": "Warte auf Verbindungen…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Füge Zahlungsanfrage oder Bitcoin Adresse ein",
   "components.UI.required_field": "",
