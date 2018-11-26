@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "Tutar",
   "components.Activity.Invoice.received": "Alındı",
   "components.Activity.Invoice.requested": "İstenen",
@@ -179,6 +178,8 @@
   "components.Syncing.sync_description": "Lütfen en son verilerinizi blok zincirinden alırken bir süre bekleyin.",
   "components.Syncing.sync_title": "Zap cüzdanına tekrar hoş geldiniz!",
   "components.Syncing.waiting_for_peers": "Eş bağlantıları için bekleniyor…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Ödeme isteği veya bitcoin adresini buraya yapıştırın",
   "components.UI.required_field": "",
