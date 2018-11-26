@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Изтича след",
   "components.Activity.Invoice.amount": "Сума",
   "components.Activity.Invoice.received": "Получени",
   "components.Activity.Invoice.requested": "Заявени",
@@ -179,6 +178,8 @@
   "components.Syncing.sync_description": "Моля, изчакайте известно време, докато ние зареждаме последните данни от blockchain.",
   "components.Syncing.sync_title": "Добре дошъл отново в Zap портфейла!",
   "components.Syncing.waiting_for_peers": "Изчакване за връзки…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Поставете заявката за плащане или bitcoin адресът тук",
   "components.UI.required_field": "",
