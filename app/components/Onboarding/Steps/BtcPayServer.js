@@ -92,8 +92,8 @@ class BtcPayServer extends React.Component {
           return (
             <>
               <Header
-                title={<FormattedMessage {...messages.btcpay_title} />}
-                subtitle={<FormattedMessage {...messages.btcpay_description} />}
+                title={<FormattedMessage {...messages.btcpay_page_title} />}
+                subtitle={<FormattedMessage {...messages.btcpay_page_description} />}
                 align="left"
               />
 
