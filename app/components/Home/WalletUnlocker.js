@@ -95,7 +95,7 @@ class WalletUnlocker extends React.Component {
   }
 
   render = () => {
-    const { intl, wallet } = this.props
+    const { intl, unlockingWallet, wallet } = this.props
     const walletName = this.walletName(wallet)
 
     return (
@@ -121,7 +121,7 @@ class WalletUnlocker extends React.Component {
               validateOnChange={formState.invalid}
             />
 
-            <Button type="submit">
+            <Button type="submit" disable={unlockingWallet} processing={unlockingWallet}>
               <FormattedMessage {...messages.wallet_unlocker_button_label} />
             </Button>
           </React.Fragment>
