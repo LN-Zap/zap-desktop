@@ -12,6 +12,7 @@ import installExtension, {
   REDUX_DEVTOOLS
 } from 'electron-devtools-installer'
 import get from 'lodash.get'
+import path from 'path'
 import { mainLog } from './lib/utils/log'
 import ZapMenuBuilder from './lib/zap/menuBuilder'
 import ZapController from './lib/zap/controller'
@@ -118,7 +119,10 @@ app.on('ready', async () => {
     height: 650,
     minWidth: 900,
     minHeight: 425,
-    backgroundColor: get(theme, 'colors.primaryColor', '#242633')
+    backgroundColor: get(theme, 'colors.primaryColor', '#242633'),
+    webPreferences: {
+      preload: path.resolve(__dirname, './preload.js')
+    }
   })
 
   // Initialise the updater.
