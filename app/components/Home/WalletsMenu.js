@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { injectIntl } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Box } from 'rebass'
 import { Text, Truncate } from 'components/UI'
+import messages from './messages'
 
 const walletName = wallet => {
   if (wallet.type === 'local') {
@@ -47,24 +49,28 @@ class WalletsMenu extends React.Component {
   }
 
   render() {
-    const { setActiveWallet, wallets, ...rest } = this.props
+    const { intl, setActiveWallet, wallets, ...rest } = this.props
     const localWallets = wallets.filter(wallet => wallet.type === 'local')
     const otherWallets = wallets.filter(wallet => wallet.type !== 'local')
 
     return (
       <Box {...rest}>
         <WalletGroup
-          title="Your Wallets"
+          title={intl.formatMessage({ ...messages.wallets_menu_local_title })}
           wallets={localWallets}
           setActiveWallet={setActiveWallet}
           mb={5}
         />
         {otherWallets.length > 0 && (
-          <WalletGroup title="More" wallets={otherWallets} setActiveWallet={setActiveWallet} />
+          <WalletGroup
+            title={intl.formatMessage({ ...messages.wallets_menu_other_title })}
+            wallets={otherWallets}
+            setActiveWallet={setActiveWallet}
+          />
         )}
       </Box>
     )
   }
 }
 
-export default WalletsMenu
+export default injectIntl(WalletsMenu)
