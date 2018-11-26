@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "Suma",
   "components.Activity.Invoice.received": "Primite",
   "components.Activity.Invoice.requested": "Solicitat",
@@ -179,6 +178,8 @@
   "components.Syncing.sync_description": "Te rog sa astepti pana cand sincronizam datele din blockchain.",
   "components.Syncing.sync_title": "Bine ai revenit la portofelul tau Zap!",
   "components.Syncing.waiting_for_peers": "Asteptam conexiunea cu peers...",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Lipeste cererea de plata sau adresa de bitcoin aici",
   "components.UI.required_field": "",
