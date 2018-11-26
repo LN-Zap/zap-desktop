@@ -1,13 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
-import { Bar, DataRow, Form, Input, Label, Range, Text, Toggle } from 'components/UI'
+import { Bar, Button, DataRow, Form, Input, Label, Range, Text, Toggle } from 'components/UI'
 import * as yup from 'yup'
 
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
     wallet: PropTypes.object.isRequired,
     startLnd: PropTypes.func.isRequired
+  }
+
+  resetAutopilotSettings = () => {
+    const defaults = {
+      autopilotMaxchannels: 5,
+      autopilotMinchansize: 20000,
+      autopilotMaxchansize: 16777215,
+      autopilotAllocation: 60
+    }
+    Object.entries(defaults).forEach(([field, value]) => {
+      this.formApi.setValue(field, value)
+    })
   }
 
   validateAutopilot = value => {
@@ -154,6 +166,7 @@ class WalletSettingsFormLocal extends React.Component {
                       id="autopilotMaxchannels"
                       type="number"
                       initialValue={wallet.autopilotMaxchannels}
+                      min="1"
                       step="1"
                       width={150}
                       ml="auto"
@@ -171,8 +184,8 @@ class WalletSettingsFormLocal extends React.Component {
                       field="autopilotMinchansize"
                       id="autopilotMinchansize"
                       type="number"
-                      min="0"
-                      max="100000000"
+                      min="20000"
+                      max="16777215"
                       step="1"
                       initialValue={wallet.autopilotMinchansize}
                       width={150}
@@ -191,8 +204,8 @@ class WalletSettingsFormLocal extends React.Component {
                       field="autopilotMaxchansize"
                       id="autopilotMaxchansize"
                       type="number"
-                      min="0"
-                      max="100000000"
+                      min="20000"
+                      max="16777215"
                       step="1"
                       initialValue={wallet.autopilotMaxchansize}
                       width={150}
@@ -202,6 +215,12 @@ class WalletSettingsFormLocal extends React.Component {
                     />
                   }
                 />
+
+                <Flex justifyContent="center" my={4}>
+                  <Button type="button" size="small" onClick={this.resetAutopilotSettings}>
+                    Set Autopilot settings to default
+                  </Button>
+                </Flex>
               </React.Fragment>
             ) : null}
           </React.Fragment>
