@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "Quantia",
   "components.Activity.Invoice.received": "Recebido",
   "components.Activity.Invoice.requested": "Solicitado",
@@ -179,6 +178,8 @@
   "components.Syncing.sync_description": "Por favor, aguarde enquanto buscamos todos os seus dados mais recentes na blockchain.",
   "components.Syncing.sync_title": "Bem-vindo de volta à sua carteira Zap!",
   "components.Syncing.waiting_for_peers": "Esperando por seus pares…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Cole o pedido de pagamento ou endereço de bitcoin aqui",
   "components.UI.required_field": "",
