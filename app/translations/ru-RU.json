@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "Срок действия кончается через",
   "components.Activity.Invoice.amount": "Сумма",
   "components.Activity.Invoice.received": "Получено",
   "components.Activity.Invoice.requested": "Запрошенные (-ое)",
@@ -179,6 +178,8 @@
   "components.Syncing.sync_description": "Пожалуйста, немного подождите, пока мы соберём все ваши последние данные из блокчейна.",
   "components.Syncing.sync_title": "Добро пожаловать обратно в ваш Zap кошелёк!",
   "components.Syncing.waiting_for_peers": "Ожидание подключений…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Вставьте сюда платежный Запрос или биткоин Адрес",
   "components.UI.required_field": "",

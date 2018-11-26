@@ -1,5 +1,4 @@
 {
-  "components.Activity.Countdown.expires": "",
   "components.Activity.Invoice.amount": "Сума",
   "components.Activity.Invoice.received": "Отримав",
   "components.Activity.Invoice.requested": "Запитані(-е)",
@@ -179,6 +178,8 @@
   "components.Syncing.sync_description": "Будь ласка, зачекайте деякий час, поки ми виберемо всі ваші останні дані з блокчейну.",
   "components.Syncing.sync_title": "Ласкаво просимо назад до Zap гаманця!",
   "components.Syncing.waiting_for_peers": "Чекаємо підключення…",
+  "components.UI.expired": "",
+  "components.UI.expires": "",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "Вставте запит оплати або bitcoin адресу тут",
   "components.UI.required_field": "",
