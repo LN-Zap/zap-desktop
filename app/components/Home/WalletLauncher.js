@@ -46,7 +46,7 @@ class WalletLauncher extends React.Component {
 
   walletName = wallet => {
     if (wallet.type === 'local') {
-      return wallet.alias || `Wallet #${wallet.id}`
+      return wallet.name || `Wallet #${wallet.id}`
     }
     return wallet.host.split(':')[0]
   }
