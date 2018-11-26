@@ -30,6 +30,7 @@ export const networks = {
 
 // Type definition for for local connection settings.
 type LndConfigSettingsLocalType = {|
+  name?: string,
   alias?: string,
   autopilot?: boolean,
   autopilotMaxchannels?: number,
@@ -42,6 +43,7 @@ type LndConfigSettingsLocalType = {|
 
 // Type definition for for custom connection settings.
 type LndConfigSettingsCustomType = {|
+  name?: string,
   host: string,
   cert: string,
   macaroon: string
@@ -49,6 +51,7 @@ type LndConfigSettingsCustomType = {|
 
 // Type definition for for BTCPay Server connection settings.
 type LndConfigSettingsBtcPayServerType = {|
+  name?: string,
   string: string,
   host: string,
   macaroon: string
@@ -90,6 +93,7 @@ const safeUntildify = <T>(val: ?T): ?T => (typeof val === 'string' ? untildify(v
 class LndConfig {
   static SETTINGS_PROPS = {
     local: [
+      'name',
       'alias',
       'autopilot',
       'autopilotMaxchannels',
@@ -99,11 +103,12 @@ class LndConfig {
       'autopilotPrivate',
       'autopilotMinconfs'
     ],
-    custom: ['host', 'cert', 'macaroon'],
-    btcpayserver: ['host', 'macaroon', 'string']
+    custom: ['name', 'host', 'cert', 'macaroon'],
+    btcpayserver: ['name', 'host', 'macaroon', 'string']
   }
 
   static SETTINGS_DEFAULTS = {
+    name: null,
     autopilot: true,
     autopilotMaxchannels: 5,
     autopilotMinchansize: 20000,
@@ -124,6 +129,7 @@ class LndConfig {
   cert: ?string
   macaroon: ?string
   string: ?string
+  name: ?string
   alias: ?string
   autopilot: ?boolean
   autopilotMaxchannels: ?number
