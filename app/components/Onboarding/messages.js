@@ -4,7 +4,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   connection_title: 'How do you want to connect to the Lightning Network?',
   connection_description:
-    'By default Zap will spin up a node for you and handle all the nerdy stuff in the background. However you can also setup a custom node connection and use Zap to control a remote node if you desire (for advanced users).',
+    'By default, Zap will spin up a node for you and handle all the nerdy stuff in the background. However, you can also set up a custom node connection and use Zap to control a remote node if you desire (for advanced users).',
   connection_details_custom_title: 'Connection details',
   connection_details_custom_description: 'Enter the connection details for your Lightning node.',
   btcpay_title: 'BTCPay Server',
