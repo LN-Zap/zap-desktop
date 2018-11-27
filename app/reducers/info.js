@@ -52,13 +52,13 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
 const networks = {
   testnet: {
     name: 'Testnet',
-    explorerUrl: 'https://testnet.smartbit.com.au',
+    explorerUrl: 'https://blockstream.info/testnet',
     bitcoinJsNetwork: bitcoin.networks.testnet,
     unitPrefix: 't'
   },
   mainnet: {
     name: 'Mainnet',
-    explorerUrl: 'https://smartbit.com.au',
+    explorerUrl: 'https://blockstream.info',
     bitcoinJsNetwork: bitcoin.networks.bitcoin,
     unitPrefix: ''
   }
