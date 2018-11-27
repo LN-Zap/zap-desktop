@@ -20,7 +20,8 @@ class Syncing extends Component {
     syncPercentage: PropTypes.number,
     blockHeight: PropTypes.number,
     lndBlockHeight: PropTypes.number,
-    lndCfilterHeight: PropTypes.number
+    lndCfilterHeight: PropTypes.number,
+    lightningGrpcActive: PropTypes.bool
   }
 
   state = {
@@ -58,12 +59,13 @@ class Syncing extends Component {
       blockHeight,
       lndBlockHeight,
       lndCfilterHeight,
+      lightningGrpcActive,
       intl,
       theme
     } = this.props
     let { syncMessageDetail, syncMessageExtraDetail } = this.state
 
-    if (syncStatus === 'complete') {
+    if (lightningGrpcActive && syncStatus === 'complete') {
       return <Redirect to="/app" />
     }
 
