@@ -95,8 +95,8 @@ export const fetchInvoices = () => dispatch => {
 
 // Receive IPC event for invoices
 export const receiveInvoices = (event, { invoices }) => dispatch => {
-  dispatch({ type: RECEIVE_INVOICES, invoices })
   invoices.forEach(decorateInvoice)
+  dispatch({ type: RECEIVE_INVOICES, invoices })
 }
 
 // Send IPC event for creating an invoice
@@ -137,12 +137,12 @@ export const invoiceFailed = (event, { error }) => dispatch => {
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices
 export const invoiceUpdate = (event, { invoice }) => dispatch => {
+  decorateInvoice(invoice)
+
   dispatch({ type: UPDATE_INVOICE, invoice })
 
   // Fetch new balance
   dispatch(fetchBalance())
-
-  decorateInvoice(invoice)
 
   if (invoice.settled) {
     // HTML 5 desktop notification for the invoice update
@@ -171,21 +171,26 @@ const ACTION_HANDLERS = {
   [INVOICE_SUCCESSFUL]: (state, { invoice }) => ({
     ...state,
     invoiceLoading: false,
-    invoices: [invoice, ...state.invoices]
+    invoices: [...state.invoices, invoice]
   }),
   [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null }),
 
   [UPDATE_INVOICE]: (state, action) => {
+    let isNew = true
     const updatedInvoices = state.invoices.map(invoice => {
-      if (invoice.r_hash.toString('hex') !== action.invoice.r_hash.toString('hex')) {
-        return invoice
+      if (invoice.r_hash.toString('hex') === action.invoice.r_hash.toString('hex')) {
+        isNew = false
+        return {
+          ...invoice,
+          ...action.invoice
+        }
       }
-
-      return {
-        ...invoice,
-        ...action.invoice
-      }
+      return invoice
     })
+
+    if (isNew) {
+      updatedInvoices.push(action.invoice)
+    }
 
     return { ...state, invoices: updatedInvoices }
   }
