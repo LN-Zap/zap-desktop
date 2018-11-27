@@ -29,7 +29,7 @@ Object {
       "scriptHash": 5,
       "wif": 128,
     },
-    "explorerUrl": "https://smartbit.com.au",
+    "explorerUrl": "https://blockstream.info",
     "name": "Mainnet",
     "unitPrefix": "",
   },
