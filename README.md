@@ -12,7 +12,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/LN-Zap/zap-desktop/badge.svg?branch=master)](https://coveralls.io/github/LN-Zap/zap-desktop?branch=master)
 [![Build Status](https://img.shields.io/travis/LN-Zap/zap-desktop/master.svg?style=flat-green&label=mac%20/%20linux&logo=travis)](https://travis-ci.org/LN-Zap/zap-desktop)
 [![Build status](https://img.shields.io/appveyor/ci/LN-Zap/zap-desktop/master.svg?style=flat-green&label=windows&logo=appveyor)](https://ci.appveyor.com/project/LN-Zap/zap-desktop/branch/master)
-[![GitHub license](https://img.shields.io/github/license/LN-Zap/zap-desktop.svg?style=flat-green)](LICENSE)
+[![GitHub license](https://img.shields.io/github/license/LN-Zap/zap-desktop.svg?style=flat-green)](LICENSE) [![Greenkeeper badge](https://badges.greenkeeper.io/LN-Zap/zap-desktop.svg)](https://greenkeeper.io/)
 
 Zap is a free Lightning Network wallet focused on user experience and ease of use, with the overall goal of helping the cryptocurrency community scale Bitcoin and other cryptocurrencies.
 
