@@ -48,6 +48,7 @@ script:
 branches:
   only:
     - master
+    - /^greenkeeper/.*$/
 
 jobs:
   include:
