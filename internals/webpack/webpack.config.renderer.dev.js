@@ -154,7 +154,7 @@ export default merge.smart(baseConfig, {
         "'self'",
         'http://localhost:*',
         'ws://localhost:*',
-        'https://blockchain.info',
+        'https://api.coinbase.com/',
         'https://bitcoinfees.earn.com',
         'https://zap.jackmallers.com'
       ],
@@ -191,9 +191,9 @@ export default merge.smart(baseConfig, {
         pathRewrite: { '^/proxy/zap.jackmallers.com': '' },
         changeOrigin: true
       },
-      '/proxy/blockchain.info': {
-        target: 'https://blockchain.info/ticker',
-        pathRewrite: { '^/proxy/blockchain.info': '' },
+      '/proxy/api.coinbase.com': {
+        target: 'https://api.coinbase.com',
+        pathRewrite: { '^/proxy/api.coinbase.com': '' },
         changeOrigin: true
       }
     },

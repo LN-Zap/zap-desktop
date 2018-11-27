@@ -100,7 +100,7 @@ export default merge.smart(baseConfig, {
       'object-src': "'none'",
       'connect-src': [
         "'self'",
-        'https://blockchain.info',
+        'https://api.coinbase.com',
         'https://bitcoinfees.earn.com',
         'https://zap.jackmallers.com'
       ],

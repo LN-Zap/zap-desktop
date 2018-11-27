@@ -15,6 +15,7 @@ const mapStateToProps = state => ({
   blockHeight: state.lnd.blockHeight,
   lndBlockHeight: state.lnd.lndBlockHeight,
   lndCfilterHeight: state.lnd.lndCfilterHeight,
+  lightningGrpcActive: state.lnd.lightningGrpcActive,
   isLoading: infoSelectors.infoLoading(state) || onboardingSelectors.startingLnd(state)
 })
 

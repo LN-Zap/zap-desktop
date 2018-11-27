@@ -65,6 +65,10 @@ class Network extends Component {
       intl
     } = this.props
 
+    if (!currencyName) {
+      return null
+    }
+
     const refreshClicked = () => {
       // turn the spinner on
       this.setState({ refreshing: true })
@@ -158,10 +162,7 @@ class Network extends Component {
       return 'online'
     }
 
-    const fiatAmount = btc.satoshisToFiat(
-      balance.channelBalance,
-      currentTicker[ticker.fiatTicker].last
-    )
+    const fiatAmount = btc.satoshisToFiat(balance.channelBalance, currentTicker[ticker.fiatTicker])
     const { refreshing } = this.state
     return (
       <BackgroundTertiary className={styles.network}>
@@ -409,7 +410,7 @@ Network.propTypes = {
   setSelectedChannel: PropTypes.func.isRequired,
   closeChannel: PropTypes.func.isRequired,
 
-  currencyName: PropTypes.string.isRequired
+  currencyName: PropTypes.string
 }
 
 export default injectIntl(Network)

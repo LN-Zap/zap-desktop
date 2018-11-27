@@ -28,8 +28,8 @@ class FiatAmountInput extends React.Component {
     if (currency !== prevProps.currency) {
       const { fieldApi } = this.props
       let value = fieldApi.getValue()
-      const lastPriceInOrigCurrency = currentTicker[prevProps.currency].last
-      const lastPriceInNewCurrency = currentTicker[currency].last
+      const lastPriceInOrigCurrency = currentTicker[prevProps.currency]
+      const lastPriceInNewCurrency = currentTicker[currency]
       // Convert to BTC.
       const btcValue = convert('fiat', 'btc', value, lastPriceInOrigCurrency)
       // Convert to new currency.

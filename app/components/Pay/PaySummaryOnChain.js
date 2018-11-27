@@ -69,7 +69,7 @@ class PaySummaryOnChain extends React.Component {
       ...rest
     } = this.props
 
-    const fiatAmount = satoshisToFiat(amount, currentTicker[fiatCurrency].last)
+    const fiatAmount = satoshisToFiat(amount, currentTicker[fiatCurrency])
     const fee = get(onchainFees, 'fastestFee', null)
     return (
       <Box {...rest}>

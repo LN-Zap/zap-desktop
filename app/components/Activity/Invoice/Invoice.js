@@ -60,7 +60,7 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
       <FormattedNumber
         currency={ticker.fiatTicker}
         style="currency"
-        value={btc.convert('sats', 'fiat', invoice.value, currentTicker[ticker.fiatTicker].last)}
+        value={btc.convert('sats', 'fiat', invoice.value, currentTicker[ticker.fiatTicker])}
       />
     </div>
   </div>

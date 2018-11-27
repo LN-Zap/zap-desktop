@@ -33,9 +33,13 @@ const Wallet = ({
   paymentTimeout,
   theme
 }) => {
+  if (!ticker.currency) {
+    return null
+  }
+
   const fiatAmount = btc.satoshisToFiat(
     parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
-    currentTicker[ticker.fiatTicker].last
+    currentTicker[ticker.fiatTicker]
   )
 
   return (
@@ -175,7 +179,6 @@ Wallet.propTypes = {
   successTransactionScreen: PropTypes.object.isRequired,
   settingsProps: PropTypes.object.isRequired,
   currencyFilters: PropTypes.array.isRequired,
-  currencyName: PropTypes.string.isRequired,
   paymentTimeout: PropTypes.number.isRequired,
   setCurrency: PropTypes.func.isRequired
 }
