@@ -102,6 +102,7 @@ const mapStateToProps = state => ({
   isLoading:
     infoSelectors.infoLoading(state) ||
     tickerSelectors.tickerLoading(state) ||
+    !tickerSelectors.currencyName(state) ||
     state.balance.channelBalance === null ||
     state.balance.walletBalance === null,
 

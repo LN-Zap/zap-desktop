@@ -26,7 +26,7 @@ class Activity extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const {
       fetchPayments,
       fetchInvoices,
@@ -42,11 +42,21 @@ class Activity extends Component {
     fetchChannels()
 
     // HACK: wait 10 seconds and fetch channels again, allowing the node to establish connections with the remote party
-    setTimeout(() => fetchChannels(), 10000)
+    const timer = setTimeout(() => fetchChannels(), 10000)
+    this.setState({ timer })
+  }
+
+  componentWillUnmount() {
+    const { timer } = this.state
+    clearInterval(timer)
   }
 
   renderActivity(activity) {
     const { ticker, currentTicker, showActivityModal, network, currencyName } = this.props
+
+    if (!currencyName) {
+      return null
+    }
 
     if (Object.prototype.hasOwnProperty.call(activity, 'block_hash')) {
       // activity is an on-chain tx
@@ -265,7 +275,7 @@ Activity.propTypes = {
   balance: PropTypes.object.isRequired,
   walletProps: PropTypes.object.isRequired,
 
-  currencyName: PropTypes.string.isRequired
+  currencyName: PropTypes.string
 }
 
 export default injectIntl(Activity)
