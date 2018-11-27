@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
 import { btc } from 'lib/utils'
-import { showNotification } from 'lib/utils/notifications'
 import { requestSuggestedNodes } from 'lib/utils/api'
 import db from 'store/db'
 import { setError } from './error'
@@ -301,15 +300,6 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
         // this channel has to do with the user, lets fetch a new channel list for them
         // TODO: full fetch is probably not necessary
         dispatch(fetchChannels())
-
-        // Construct the notification
-        const otherParty =
-          info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
-        const notifBody = `No new friends, just new channels. Your channel with ${otherParty}`
-        const notifTitle = 'New channel detected'
-
-        // HTML 5 notification for channel updates involving our node
-        showNotification(notifTitle, notifBody)
       }
     }
   }
