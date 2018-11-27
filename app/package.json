@@ -15,6 +15,6 @@
   "license": "MIT",
   "dependencies": {
     "grpc": "^1.15.0",
-    "react-icons": "^3.2.2"
+    "react-icons": "2.2.7"
   }
 }
