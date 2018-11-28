@@ -369,7 +369,9 @@ class Network extends Component {
               })}
           </ul>
         </div>
-        {(loadingChannelPubkeys.length || pending_open_channels.length || channels.length) && (
+        {Boolean(
+          loadingChannelPubkeys.length || pending_open_channels.length || channels.length
+        ) && (
           <footer className={styles.search}>
             <label htmlFor="search" className={`${styles.label} ${styles.input}`}>
               <Search />
