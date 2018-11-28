@@ -26,22 +26,15 @@ class App extends React.Component {
     receiveModalProps: PropTypes.object,
     channelFormProps: PropTypes.object,
     fetchInfo: PropTypes.func.isRequired,
-    fetchDescribeNetwork: PropTypes.func.isRequired,
-    fetchSuggestedNodes: PropTypes.func.isRequired
+    fetchDescribeNetwork: PropTypes.func.isRequired
   }
 
   componentDidMount() {
-    const { currentTicker, fetchInfo, fetchSuggestedNodes, fetchDescribeNetwork } = this.props
-
-    // If we don't yet have any ticker information then it must be our first time mounting this component.
-    if (!currentTicker) {
-      // fetch node info.
-      fetchInfo()
-      // fetch suggested nodes list from zap.jackmallers.com/suggested-peers.
-      fetchSuggestedNodes()
-      // fetch LN network from nodes POV.
-      fetchDescribeNetwork()
-    }
+    const { fetchInfo, fetchDescribeNetwork } = this.props
+    // fetch node info.
+    fetchInfo()
+    // fetch LN network from nodes POV.
+    fetchDescribeNetwork()
   }
 
   render() {

@@ -10,6 +10,7 @@ import { loadingSelectors, setLoading, setMounted } from 'reducers/loading'
 import { initCurrency, initLocale } from 'reducers/locale'
 import { initTheme, themeSelectors } from 'reducers/theme'
 import { fetchTicker, tickerSelectors } from 'reducers/ticker'
+import { fetchSuggestedNodes } from 'reducers/channels'
 
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalError from 'components/GlobalError'
@@ -33,6 +34,7 @@ class Root extends React.Component {
     currentTicker: PropTypes.object,
     theme: PropTypes.object,
     error: PropTypes.string,
+    fetchSuggestedNodes: PropTypes.func.isRequired,
     fetchTicker: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     initLocale: PropTypes.func.isRequired,
@@ -60,6 +62,7 @@ class Root extends React.Component {
   componentDidMount() {
     const {
       currentTicker,
+      fetchSuggestedNodes,
       fetchTicker,
       initLocale,
       initCurrency,
@@ -78,6 +81,7 @@ class Root extends React.Component {
       initLocale()
       initCurrency()
       fetchTicker()
+      fetchSuggestedNodes()
     }
 
     // Hide the loading screen after a set time.
@@ -135,6 +139,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   clearError,
+  fetchSuggestedNodes,
   fetchTicker,
   initCurrency,
   initLocale,
