@@ -40,6 +40,19 @@ class SeedConfirm extends React.Component {
     this.formApi = formApi
   }
 
+  handleWordChange = (value, fieldIndex, wordIndex) => {
+    // If the word has been determined as valid, mark the field touched to trigger field highlighting.
+    const error = this.validateWord(wordIndex, value)
+    if (!error) {
+      this.formApi.setTouched(`word${fieldIndex}`, true)
+    }
+    // Otherwise reset the field state to prevent highlightning as valid.
+    else {
+      this.formApi.setTouched(`word${fieldIndex}`, false)
+      this.formApi.setError(`word${fieldIndex}`, null)
+    }
+  }
+
   validateWord = (index, word) => {
     const { seed } = this.props
     return !word || word !== seed[index] ? 'incorrect' : null
@@ -65,48 +78,42 @@ class SeedConfirm extends React.Component {
         onSubmit={onSubmit}
         onSubmitFailure={onSubmitFailure}
       >
-        {({ formState }) => {
-          const shouldValidateInline = formState.submits > 0
+        <Header
+          title={<FormattedMessage {...messages.retype_seed_title} />}
+          subtitle={
+            <FormattedMessage
+              {...messages.retype_seed_description}
+              values={{
+                word1: seedWordIndexes[0],
+                word2: seedWordIndexes[1],
+                word3: seedWordIndexes[2]
+              }}
+            />
+          }
+          align="left"
+        />
+
+        <Bar my={4} />
+
+        {seedWordIndexes.map((wordIndex, index) => {
+          // Only validate if the word has been entered connectly already or the form has been siubmitted.
           return (
-            <>
-              <Header
-                title={<FormattedMessage {...messages.retype_seed_title} />}
-                subtitle={
-                  <FormattedMessage
-                    {...messages.retype_seed_description}
-                    values={{
-                      word1: seedWordIndexes[0],
-                      word2: seedWordIndexes[1],
-                      word3: seedWordIndexes[2]
-                    }}
-                  />
-                }
-                align="left"
+            <Flex key={`word${index}`} justifyContent="flex-start" mb={3}>
+              <Label htmlFor="alias" width={25} mt={18}>
+                {wordIndex}
+              </Label>
+              <Input
+                field={`word${index}`}
+                name={`word${index}`}
+                validateOnBlur
+                validateOnChange
+                validate={value => this.validateWord.call(null, wordIndex - 1, value)}
+                onChange={e => this.handleWordChange(e.target.value, index, wordIndex - 1)}
+                placeholder={intl.formatMessage({ ...messages.word_placeholder })}
               />
-
-              <Bar my={4} />
-
-              {seedWordIndexes.map((wordIndex, index) => {
-                return (
-                  <Flex key={`word${index}`} justifyContent="flex-start" mb={3}>
-                    <Label htmlFor="alias" width={25} mt={18}>
-                      {wordIndex}
-                    </Label>
-                    <Input
-                      field={`word${index}`}
-                      name={`word${index}`}
-                      validateOnBlur={shouldValidateInline}
-                      validateOnChange={shouldValidateInline}
-                      validate={value => this.validateWord.call(null, wordIndex - 1, value)}
-                      placeholder={intl.formatMessage({ ...messages.word_placeholder })}
-                      required
-                    />
-                  </Flex>
-                )
-              })}
-            </>
+            </Flex>
           )
-        }}
+        })}
       </Form>
     )
   }
