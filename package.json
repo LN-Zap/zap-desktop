@@ -279,7 +279,7 @@
     "node-sass": "4.10.0",
     "prettier": "1.14.3",
     "react-storybook-addon-chapters": "2.1.9",
-    "react-test-renderer": "16.6.0",
+    "react-test-renderer": "16.6.3",
     "redux-logger": "3.0.6",
     "rimraf": "2.6.2",
     "sass-loader": "7.1.0",
