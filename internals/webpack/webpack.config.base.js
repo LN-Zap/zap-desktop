@@ -4,19 +4,11 @@
 
 import path from 'path'
 import { IgnorePlugin } from 'webpack'
-import { dependencies as externals } from '../../app/package.json'
 
 export const rootDir = path.join(__dirname, '..', '..')
 
 export default {
-  externals: Object.keys(externals || {}),
-
   context: rootDir,
-
-  output: {
-    // https://github.com/webpack/webpack/issues/1114
-    libraryTarget: 'commonjs2'
-  },
 
   module: {
     rules: [

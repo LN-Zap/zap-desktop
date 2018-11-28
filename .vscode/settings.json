@@ -5,8 +5,6 @@
     ".git": true,
     ".eslintcache": true,
     "app/dist": true,
-    "app/main.prod.js": true,
-    "app/main.prod.js.map": true,
     "bower_components": true,
     "dll": true,
     "flow-typed": true,

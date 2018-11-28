@@ -13,11 +13,20 @@ export default merge.smart(baseConfig, {
 
   devtool: 'eval',
 
-  target: 'electron-renderer',
+  target: 'web',
 
   mode: 'development',
 
-  externals: ['fsevents', 'crypto-browserify'],
+  externals: [
+    '@grpc/grpc-js',
+    '@grpc/proto-loader',
+    'electron',
+    'electron-is-dev',
+    'get-port',
+    'redux-electron-ipc',
+    'rimraf',
+    'source-map-support'
+  ],
 
   /**
    * @HACK: Copy and pasted from renderer dev config. Consider merging these
@@ -25,7 +34,7 @@ export default merge.smart(baseConfig, {
    */
   module: {
     rules: [
-      // Add SASS support  - compile all .global.scss files and pipe it to style.css
+      // Add SASS support  - compile all .global.scss files and pipe it to main.css
       {
         test: /\.global\.scss$/,
         use: [
@@ -46,7 +55,7 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
-      // Add SASS support  - compile all other .scss files and pipe it to style.css
+      // Add SASS support  - compile all other .scss files and pipe it to main.css
       {
         test: /^((?!\.global).)*\.scss$/,
         use: [

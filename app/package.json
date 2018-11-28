@@ -3,7 +3,7 @@
   "productName": "Zap",
   "version": "0.3.3-beta",
   "description": "desktop application for the lightning network",
-  "main": "./main.prod.js",
+  "main": "./dist/main.prod.js",
   "author": {
     "name": "Jack Mallers",
     "email": "jimmymowschess@gmail.com",
@@ -14,6 +14,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "rimraf": "2.6.3"
+    "rimraf": "2.6.3",
+    "untildify": "3.0.3",
+    "validator": "10.10.0"
   }
 }

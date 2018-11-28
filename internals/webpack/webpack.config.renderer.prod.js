@@ -3,6 +3,7 @@
  */
 
 import path from 'path'
+import { ExternalsPlugin } from 'webpack'
 import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
@@ -11,20 +12,24 @@ import CleanWebpackPlugin from 'clean-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import merge from 'webpack-merge'
 import baseConfig, { rootDir } from './webpack.config.base'
+import { dependencies as externals } from '../../app/package.json'
 
 export default merge.smart(baseConfig, {
   devtool: 'source-map',
 
-  target: 'electron-renderer',
+  target: 'web',
 
   mode: 'production',
 
-  entry: path.join(rootDir, 'app', 'index'),
+  externals: new ExternalsPlugin('commonjs', [...Object.keys(externals || {})]),
+
+  entry: {
+    renderer: path.join(rootDir, 'app', 'index')
+  },
 
   output: {
     path: path.join(rootDir, 'app', 'dist'),
-    publicPath: '../dist/',
-    filename: 'renderer.prod.js'
+    filename: '[name].prod.js'
   },
 
   stats: {
@@ -33,7 +38,7 @@ export default merge.smart(baseConfig, {
 
   module: {
     rules: [
-      // Add SASS support  - compile all .global.scss files and pipe it to style.css
+      // Add SASS support  - compile all .global.scss files and pipe it to renderer.css
       {
         test: /\.global\.scss$/,
         use: [
@@ -47,7 +52,7 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
-      // Add SASS support  - compile all other .scss files and pipe it to style.css
+      // Add SASS support  - compile all other .scss files and pipe it to renderer.css
       {
         test: /^((?!\.global).)*\.scss$/,
         use: [
@@ -88,7 +93,9 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    new CleanWebpackPlugin([path.join('app', 'dist')]),
+    new CleanWebpackPlugin([path.resolve('app', 'dist')], {
+      root: path.resolve('..', '..')
+    }),
 
     new MiniCssExtractPlugin(),
 
@@ -96,7 +103,10 @@ export default merge.smart(baseConfig, {
       template: path.join('app', 'app.html')
     }),
 
-    new CopyWebpackPlugin([path.join('app', 'empty.html')]),
+    new CopyWebpackPlugin([
+      path.join('app', 'empty.html'),
+      { from: path.join('app', 'preload.js'), to: 'preload.prod.js' }
+    ]),
 
     new CspHtmlWebpackPlugin({
       'default-src': "'self'",

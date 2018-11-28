@@ -31,8 +31,8 @@
     "release": "npm run package -- --publish onTagOrDraft",
     "postinstall": "concurrently --raw \"npm:flow-typed\" \"npm:build-dll\" \"build install-app-deps\"",
     "prestart": "npm run build",
-    "start": "cross-env NODE_ENV=production electron ./app/",
-    "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./app/main.dev",
+    "start": "cross-env NODE_ENV=production electron ./app",
+    "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./app/main.js",
     "start-renderer-dev": "webpack-dev-server -r @babel/register --config internals/webpack/webpack.config.renderer.dev.js  --progress",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
@@ -70,9 +70,6 @@
     "files": [
       "dist/",
       "node_modules/",
-      "main.prod.js",
-      "main.prod.js.map",
-      "preload.js",
       "package.json"
     ],
     "directories": {
@@ -160,7 +157,6 @@
     "collectCoverageFrom": [
       "app/**/*.js",
       "!app/dist/**",
-      "!app/main.prod.js",
       "!app/dll/**",
       "!app/coverage/**",
       "!**/node_modules/**"
@@ -337,7 +333,7 @@
     "react-textfit": "1.1.0",
     "rebass": "3.0.0-9",
     "redux": "4.0.1",
-    "redux-electron-ipc": "1.2.0",
+    "redux-electron-ipc": "LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "satoshi-bitcoin": "1.0.4",

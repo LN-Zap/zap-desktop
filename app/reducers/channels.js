@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
-import { ipcRenderer } from 'electron'
 import throttle from 'lodash.throttle'
+import { send } from 'redux-electron-ipc'
 import { btc } from 'lib/utils'
 import { requestSuggestedNodes } from 'lib/utils/api'
 import { setError } from './error'
@@ -171,7 +171,7 @@ export const fetchSuggestedNodes = () => async dispatch => {
 // Send IPC event for peers
 export const fetchChannels = () => async dispatch => {
   dispatch(getChannels())
-  ipcRenderer.send('lnd', { msg: 'channels' })
+  dispatch(send('lnd', { msg: 'channels' }))
 }
 
 // Receive IPC event for channels
@@ -192,10 +192,12 @@ export const openChannel = ({ pubkey, host, local_amt }) => async (dispatch, get
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
-  ipcRenderer.send('lnd', {
-    msg: 'connectAndOpen',
-    data: { pubkey, host, localamt, private: activeWalletSettings.type === 'local' }
-  })
+  dispatch(
+    send('lnd', {
+      msg: 'connectAndOpen',
+      data: { pubkey, host, localamt, private: activeWalletSettings.type === 'local' }
+    })
+  )
 }
 
 // TODO: Decide how to handle streamed updates for channels
@@ -235,16 +237,18 @@ export const closeChannel = ({ channel_point, chan_id, force }) => dispatch => {
   dispatch(addClosingChanId(chan_id))
 
   const [funding_txid, output_index] = channel_point.split(':')
-  ipcRenderer.send('lnd', {
-    msg: 'closeChannel',
-    data: {
-      channel_point: {
-        funding_txid,
-        output_index
-      },
-      force
-    }
-  })
+  dispatch(
+    send('lnd', {
+      msg: 'closeChannel',
+      data: {
+        channel_point: {
+          funding_txid,
+          output_index
+        },
+        force
+      }
+    })
+  )
 }
 
 // TODO: Decide how to handle streamed updates for closing channels

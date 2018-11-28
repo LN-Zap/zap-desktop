@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
 import db from 'store/db'
 import { networks } from 'lib/utils/crypto'
@@ -66,7 +66,7 @@ export const setHasSynced = hasSynced => {
 // Send IPC event for getinfo
 export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
-  ipcRenderer.send('lnd', { msg: 'info' })
+  dispatch(send('lnd', { msg: 'info' }))
 }
 
 // Receive IPC event for info

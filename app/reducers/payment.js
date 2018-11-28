@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
 import { convert } from 'lib/utils/btc'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import { fetchBalance } from './balance'
@@ -59,7 +59,7 @@ export function sendPayment(data) {
 // Send IPC event for payments
 export const fetchPayments = () => dispatch => {
   dispatch(getPayments())
-  ipcRenderer.send('lnd', { msg: 'payments' })
+  dispatch(send('lnd', { msg: 'payments' }))
 }
 
 // Receive IPC event for payments
@@ -75,7 +75,7 @@ export const payInvoice = ({ addr, value, currency, feeLimit }) => dispatch => {
   const amt = convert(currency, 'sats', value)
 
   const data = { paymentRequest: addr, feeLimit, amt }
-  ipcRenderer.send('lnd', { msg: 'sendPayment', data })
+  dispatch(send('lnd', { msg: 'sendPayment', data }))
   dispatch(sendPayment(data))
 
   // Close the form modal once the payment has been sent

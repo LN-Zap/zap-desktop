@@ -96,7 +96,7 @@ class ZapController {
       const port = process.env.PORT || 1212
       this.mainWindow.loadURL(`http://localhost:${port}/dist/index.html`)
     } else {
-      this.mainWindow.loadURL(`file://${__dirname}/dist/index.html`)
+      this.mainWindow.loadURL(`file://${__dirname}/index.html`)
     }
 
     this.mainWindow.webContents.on('did-finish-load', () => {

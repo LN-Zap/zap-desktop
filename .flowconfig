@@ -1,6 +1,4 @@
 [ignore]
-<PROJECT_ROOT>/app/main.prod.js
-<PROJECT_ROOT>/app/main.prod.js.map
 <PROJECT_ROOT>/app/dist/.*
 <PROJECT_ROOT>/resources/.*
 <PROJECT_ROOT>/release/.*

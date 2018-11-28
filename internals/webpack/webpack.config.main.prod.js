@@ -14,12 +14,11 @@ export default merge.smart(baseConfig, {
 
   mode: 'production',
 
-  entry: path.join(rootDir, 'app', 'main.dev'),
+  entry: path.join(rootDir, 'app', 'main'),
 
-  // 'main.js' in root
   output: {
-    path: path.join(rootDir, 'app'),
-    filename: 'main.prod.js'
+    path: path.join(rootDir, 'app', 'dist'),
+    filename: '[name].prod.js'
   },
 
   plugins: [

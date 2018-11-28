@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
 import { setError } from './error'
 // ------------------------------------
 // Constants
@@ -72,7 +72,7 @@ export function updateSearchQuery(searchQuery) {
 // Send IPC event for peers
 export const fetchPeers = () => async dispatch => {
   dispatch(getPeers())
-  ipcRenderer.send('lnd', { msg: 'peers' })
+  dispatch(send('lnd', { msg: 'peers' }))
 }
 
 // Receive IPC event for peers
@@ -82,7 +82,7 @@ export const receivePeers = (event, { peers }) => dispatch =>
 // Send IPC event for connecting to a peer
 export const connectRequest = ({ pubkey, host }) => dispatch => {
   dispatch(connectPeer())
-  ipcRenderer.send('lnd', { msg: 'connectPeer', data: { pubkey, host } })
+  dispatch(send('lnd', { msg: 'connectPeer', data: { pubkey, host } }))
 }
 
 // Send IPC receive for successfully connecting to a peer
@@ -97,7 +97,7 @@ export const connectFailure = (event, { error }) => dispatch => {
 // Send IPC send for disconnecting from a peer
 export const disconnectRequest = ({ pubkey }) => dispatch => {
   dispatch(disconnectPeer())
-  ipcRenderer.send('lnd', { msg: 'disconnectPeer', data: { pubkey } })
+  dispatch(send('lnd', { msg: 'disconnectPeer', data: { pubkey } }))
 }
 
 // Send IPC receive for successfully disconnecting from a peer

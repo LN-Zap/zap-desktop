@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
 import { showNotification } from 'lib/utils/notifications'
 import { convert } from 'lib/utils/btc'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
@@ -55,7 +55,7 @@ export function sendTransaction(data) {
 // Send IPC event for payments
 export const fetchTransactions = () => dispatch => {
   dispatch(getTransactions())
-  ipcRenderer.send('lnd', { msg: 'transactions' })
+  dispatch(send('lnd', { msg: 'transactions' }))
 }
 
 // Receive IPC event for payments
@@ -87,10 +87,12 @@ export const sendCoins = ({ value, addr, currency, targetConf, satPerByte }) => 
 
   // submit the transaction to LND
   const data = { amount, addr, target_conf: targetConf, sat_per_byte: satPerByte }
-  ipcRenderer.send('lnd', {
-    msg: 'sendCoins',
-    data
-  })
+  dispatch(
+    send('lnd', {
+      msg: 'sendCoins',
+      data
+    })
+  )
   dispatch(sendTransaction(data))
 
   // Close the form modal once the transaction has been sent
