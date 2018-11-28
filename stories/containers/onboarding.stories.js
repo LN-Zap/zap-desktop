@@ -51,6 +51,7 @@ const resetOnboarding = () => {
 }
 
 const fetchSeed = async () => {
+  store.set({ fetchingSeed: true })
   await delay(1000)
   store.set({
     seed: [
@@ -80,6 +81,7 @@ const fetchSeed = async () => {
       'fix'
     ]
   })
+  store.set({ fetchingSeed: false })
 }
 
 const startLnd = async () => {
