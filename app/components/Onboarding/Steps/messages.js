@@ -70,5 +70,6 @@ export default defineMessages({
   unlocking: 'Unlocking',
   verify_host_description: 'Please check the hostname carefully.',
   verify_host_title: 'Are you sure you want to connect to',
-  word_placeholder: 'word'
+  word_placeholder: 'word',
+  generating_seed: 'Generating Seed...'
 })
