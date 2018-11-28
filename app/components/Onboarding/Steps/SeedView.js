@@ -66,7 +66,7 @@ class SeedView extends React.Component {
         {fetchingSeed && (
           <Text textAlign="center">
             <Spinner />
-            Generating Seed...
+            <FormattedMessage {...messages.generating_seed} />
           </Text>
         )}
         {!fetchingSeed &&
