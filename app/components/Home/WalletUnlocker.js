@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
-import { Form } from 'informed'
-import { Button, PasswordInput } from 'components/UI'
+import { Button, Form, PasswordInput } from 'components/UI'
 import * as yup from 'yup'
 import { WalletHeader } from '.'
 import messages from './messages'
@@ -105,6 +104,7 @@ class WalletUnlocker extends React.Component {
         onSubmit={this.onSubmit}
         onSubmitFailure={this.onSubmitFailure}
         key={`wallet-unlocker-form-${wallet.id}`}
+        mt={72}
       >
         {({ formState }) => (
           <React.Fragment>
