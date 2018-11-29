@@ -1,6 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { linkTo } from '@storybook/addon-links'
+import { boolean } from '@storybook/addon-knobs'
 import { State, Store } from '@sambego/storybook-state'
 import StoryRouter from 'storybook-react-router'
 import { Page } from 'components/UI'
@@ -88,17 +89,26 @@ storiesOf('Containers.Home', module)
     })
   )
   .add('Home', () => {
+    const hasWallets = boolean('Has wallets', true)
     return (
       <Page css={{ height: 'calc(100vh - 40px)' }}>
         <State store={store}>
-          <Home
-            startLnd={startLnd}
-            stopLnd={stopLnd}
-            unlockWallet={unlockWallet}
-            deleteWallet={deleteWallet}
-            setUnlockWalletError={setUnlockWalletError}
-            setActiveWallet={setActiveWallet}
-          />
+          {state => (
+            <Home
+              activeWallet={state.activeWallet}
+              lightningGrpcActive={state.lightningGrpcActive}
+              walletUnlockerGrpcActive={state.walletUnlockerGrpcActive}
+              unlockingWallet={state.unlockingWallet}
+              unlockWalletError={state.unlockWalletError}
+              wallets={hasWallets ? state.wallets : []}
+              startLnd={startLnd}
+              stopLnd={stopLnd}
+              unlockWallet={unlockWallet}
+              deleteWallet={deleteWallet}
+              setUnlockWalletError={setUnlockWalletError}
+              setActiveWallet={setActiveWallet}
+            />
+          )}
         </State>
       </Page>
     )
