@@ -1,12 +1,13 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass'
 import { Button, Text } from 'components/UI'
 import PlusCircle from 'components/Icon/PlusCircle'
 import messages from './messages'
 
-const CreateWalletButton = ({ ...rest }) => (
-  <Button {...rest} variant="secondary">
+const CreateWalletButton = ({ history, ...rest }) => (
+  <Button variant="secondary" onClick={() => history.push('/onboarding')} {...rest}>
     <Flex alignItem="center">
       <Text color="lightningOrange">
         <PlusCircle width="22px" height="22px" />
@@ -17,4 +18,8 @@ const CreateWalletButton = ({ ...rest }) => (
     </Flex>
   </Button>
 )
+CreateWalletButton.propTypes = {
+  history: PropTypes.object.isRequired
+}
+
 export default CreateWalletButton

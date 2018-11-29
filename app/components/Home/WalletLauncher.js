@@ -64,7 +64,7 @@ class WalletLauncher extends React.Component {
 
     return (
       <React.Fragment>
-        <Flex mb={5} alignItems="center">
+        <Flex mt={72} mb={5} alignItems="center">
           <Box width="75%" mr={3}>
             <WalletHeader title={walletName} />
           </Box>
