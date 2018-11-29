@@ -35,12 +35,13 @@ const Payment = ({
       onClick={() => showActivityModal('PAYMENT', payment.payment_hash)}
     >
       <div className={styles.activityTypeIcon}>
-        <section className="hint--bottom" data-hint={intl.formatMessage({ ...messages.type })}>
-          <Zap />
-        </section>
+        <Zap />
       </div>
 
-      <div className={styles.data}>
+      <div
+        className={`hint--top-right ${styles.data}`}
+        data-hint={intl.formatMessage({ ...messages.type })}
+      >
         <div className={styles.title}>
           <h3>{displayNodeName(payment.path[payment.path.length - 1])}</h3>
         </div>

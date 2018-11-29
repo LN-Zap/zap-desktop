@@ -100,12 +100,14 @@ const GlobalStyle = createGlobalStyle`
   }
 
   .hint--bottom::before,
-  .hint--bottom-left::before {
+  .hint--bottom-left::before,
+  .hint--bottom-right::before {
     border-bottom-color: #404040;
   }
 
   .hint--top::before,
-  .hint--top-left::before {
+  .hint--top-left::before,
+  .hint--top-right::before {
     border-top-color: #404040;
   }
 
@@ -147,12 +149,17 @@ const GlobalStyle = createGlobalStyle`
     transform: translateY(-8px);
   }
 
-  .hint--top-left::before {
+  .hint--top-left::before,
+  .hint--top-right::before {
     margin-bottom: -12px;
   }
 
   .hint--top-left::after {
     margin-right: -6px;
+  }
+
+  .hint--top-right::after {
+    margin-right: 6px;
   }
 
   .hint--top-left::before,
@@ -161,8 +168,16 @@ const GlobalStyle = createGlobalStyle`
     right: 12px;
   }
 
+  .hint--top-right::before,
+  .hint--top-right::after {
+    bottom: 100%;
+    left: 12px;
+  }
+
   .hint--top-left:hover::after,
-  .hint--top-left:hover::before {
+  .hint--top-left:hover::before,
+  .hint--top-right:hover::after,
+  .hint--top-right:hover::before {
     transform: translateY(-8px);
   }
 

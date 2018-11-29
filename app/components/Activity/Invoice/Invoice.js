@@ -15,19 +15,17 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
     onClick={() => showActivityModal('INVOICE', invoice.payment_request)}
   >
     <div className={styles.activityTypeIcon}>
-      <section
-        className="hint--bottom"
-        data-hint={
-          invoice.settled
-            ? intl.formatMessage({ ...messages.type_paid })
-            : intl.formatMessage({ ...messages.type_unpaid })
-        }
-      >
-        <CheckCircle />
-      </section>
+      <CheckCircle />
     </div>
 
-    <div className={styles.data}>
+    <div
+      className={`hint--top-right ${styles.data}`}
+      data-hint={
+        invoice.settled
+          ? intl.formatMessage({ ...messages.type_paid })
+          : intl.formatMessage({ ...messages.type_unpaid })
+      }
+    >
       <div className={styles.title}>
         <h3>
           {invoice.settled ? (
