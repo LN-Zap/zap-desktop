@@ -1,4 +1,4 @@
-// Imported from https://github.com/lightningnetwork/lnd/blob/68d96488cc9f78e6aeb7d5c27822f384f756f335/lnrpc/rpc.proto
+// Imported from https://raw.githubusercontent.com/lightningnetwork/lnd/v0.5.1-beta/lnrpc/rpc.proto
 syntax = "proto3";
 
 // import "google/api/annotations.proto";
@@ -393,7 +393,7 @@ service Lightning {
     */
     rpc AbandonChannel (AbandonChannelRequest) returns (AbandonChannelResponse) {
         option (google.api.http) = {
-            delete: "/v1/channels/{channel_point.funding_txid_str}/{channel_point.output_index}"
+            delete: "/v1/channels/abandon/{channel_point.funding_txid_str}/{channel_point.output_index}"
         };
     }
 
@@ -1091,6 +1091,8 @@ message GetInfoResponse {
     /// The version of the LND software that the node is running.
     string version = 14 [ json_name = "version" ];
 
+    /// Number of inactive channels
+    uint32 num_inactive_channels = 15 [json_name = "num_inactive_channels"];
 }
 
 message ConfirmationUpdate {
@@ -1366,6 +1368,12 @@ message Hop {
     uint32 expiry = 5 [json_name = "expiry"];
     int64 amt_to_forward_msat = 6 [json_name = "amt_to_forward_msat"];
     int64 fee_msat = 7 [json_name = "fee_msat"];
+
+    /**
+    An optional public key of the hop. If the public key is given, the payment
+    can be executed without relying on a copy of the channel graph.
+    */
+    string pub_key = 8 [json_name = "pub_key"];
 }
 
 /**
@@ -1966,3 +1974,4 @@ message ForwardingHistoryResponse {
    /// The index of the last time in the set of returned forwarding events. Can be used to seek further, pagination style.
    uint32 last_offset_index = 2 [json_name = "last_offset_index"];
 }
+
