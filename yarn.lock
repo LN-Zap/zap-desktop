@@ -4600,20 +4600,10 @@ buffers@~0.1.1:
   resolved "https://registry.yarnpkg.com/buffers/-/buffers-0.1.1.tgz#b24579c3bed4d6d396aeee6d9a8ae7f5482ab7bb"
   integrity sha1-skV5w77U1tOWru5tmorn9Ugqt7s=
 
-builder-util-runtime@8.0.2, builder-util-runtime@^8.0.2:
+builder-util-runtime@8.0.2, builder-util-runtime@^8.0.2, builder-util-runtime@~8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-8.0.2.tgz#9d638a266ca3aa25ced1cff4df74c8fd97dd78cf"
   integrity sha512-46AjyMQ1/yBvGnXWmqNGlg8te7jCPCs7TJ0zDC2+4vV/t5iZp2dR1H9UfVpcBxlvBq3dlAOmwb9fz1d9xZN1+Q==
-  dependencies:
-    bluebird-lst "^1.0.6"
-    debug "^4.1.0"
-    fs-extra-p "^7.0.0"
-    sax "^1.2.4"
-
-builder-util-runtime@~7.1.0:
-  version "7.1.0"
-  resolved "https://registry.yarnpkg.com/builder-util-runtime/-/builder-util-runtime-7.1.0.tgz#f0bf1f247d0eb79ea8a20d0c9178ffa0daf98a80"
-  integrity sha512-TAsx651+q6bXYry21SzQblYQBUlfu4ixbDa6k2Nvts+kHO9ajyr0gDuHJsamxBaAyUUi5EldPABqsFERDEK3Hg==
   dependencies:
     bluebird-lst "^1.0.6"
     debug "^4.1.0"
@@ -6521,11 +6511,6 @@ electron-download@^4.1.0:
     semver "^5.4.1"
     sumchecker "^2.0.2"
 
-electron-is-dev@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-0.3.0.tgz#14e6fda5c68e9e4ecbeff9ccf037cbd7c05c5afe"
-  integrity sha1-FOb9pcaOnk7L7/nM8DfL18BcWv4=
-
 electron-is-dev@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/electron-is-dev/-/electron-is-dev-1.0.1.tgz#6e0a184736fe7aea77d18210b0b0f6a02402c4bc"
@@ -6566,14 +6551,13 @@ electron-to-chromium@^1.3.82:
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.3.82.tgz#7d13ae4437d2a783de3f4efba96b186c540b67b1"
   integrity sha512-NI4nB2IWGcU4JVT1AE8kBb/dFor4zjLHMLsOROPahppeHrR0FG5uslxMmkp/thO1MvPjM2xhlKoY29/I60s0ew==
 
-electron-updater@3.2.3:
-  version "3.2.3"
-  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-3.2.3.tgz#bdd23aeee4786f206facbb09fd78c8a967e21756"
-  integrity sha512-QkLS+hYyTTHzZ2gGtTyQQ3kY5zQaEf/VwJW+UP37CPi58/VNUOx0xNA9iChwwYa6mzeEyo1xhrS1XjePwkeTbA==
+electron-updater@4.0.5:
+  version "4.0.5"
+  resolved "https://registry.yarnpkg.com/electron-updater/-/electron-updater-4.0.5.tgz#0d35f13b539d0dde5a1ee18f676ea87c37bf5f4a"
+  integrity sha512-2w93987YlPNMbhYQe6+EsSpkhtgYtLyYuAMttqQckwFdBJJat4Jo8ja/gmBk2Aa760g2Jt7aIBPQvlJDiXGPgg==
   dependencies:
     bluebird-lst "^1.0.6"
-    builder-util-runtime "~7.1.0"
-    electron-is-dev "^0.3.0"
+    builder-util-runtime "~8.0.2"
     fs-extra-p "^7.0.0"
     js-yaml "^3.12.0"
     lazy-val "^1.0.3"
