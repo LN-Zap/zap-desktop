@@ -22,5 +22,8 @@ export default defineMessages({
   wallets_menu_other_title: 'More',
   wallet_unlocker_password_label: 'Enter Password',
   wallet_unlocker_password_placeholder: 'Enter your password',
-  wallet_unlocker_button_label: 'Enter'
+  wallet_unlocker_button_label: 'Enter',
+  no_active_wallet_message: 'Please select a wallet from the wallets menu.',
+  no_wallets_message: 'Unfortunately you don’t have any wallets 😢',
+  create_wallet_promot: 'Start creating one from here:'
 })
