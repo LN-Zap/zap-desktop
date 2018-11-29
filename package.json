@@ -230,7 +230,7 @@
     "babel-preset-react-optimize": "1.0.1",
     "browserslist": "4.3.4",
     "chalk": "2.4.1",
-    "clean-webpack-plugin": "0.1.19",
+    "clean-webpack-plugin": "1.0.0",
     "concurrently": "4.1.0",
     "copy-webpack-plugin": "4.6.0",
     "coveralls": "3.0.2",
