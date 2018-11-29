@@ -23,12 +23,13 @@ const Transaction = ({
     onClick={() => showActivityModal('TRANSACTION', transaction.tx_hash)}
   >
     <div className={styles.activityTypeIcon}>
-      <section className="hint--bottom" data-hint={intl.formatMessage({ ...messages.type })}>
-        <ChainLink />
-      </section>
+      <ChainLink />
     </div>
 
-    <div className={styles.data}>
+    <div
+      className={`hint--top-right ${styles.data}`}
+      data-hint={intl.formatMessage({ ...messages.type })}
+    >
       <div className={styles.title}>
         <h3>
           {transaction.received ? (
