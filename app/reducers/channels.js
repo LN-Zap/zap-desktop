@@ -276,32 +276,35 @@ export const pushclosechannelstatus = () => dispatch => {
 
 // IPC event for channel graph data
 export const channelGraphData = (event, data) => (dispatch, getState) => {
-  const { info } = getState()
+  const { info, channels } = getState()
   const {
     channelGraphData: { channel_updates }
   } = data
 
   // if there are any new channel updates
+  let hasUpdates = false
   if (channel_updates.length) {
-    // The network has updated, so fetch a new result
-    // TODO: can't do this now because of the SVG performance issues, after we fix this we can uncomment the line below
-    // dispatch(fetchDescribeNetwork())
-
     // loop through the channel updates
     for (let i = 0; i < channel_updates.length; i += 1) {
       const channel_update = channel_updates[i]
       const { advertising_node, connecting_node } = channel_update
 
-      // if our node is involved in this update we wanna show a notification
+      // Determine wether this update affected our node or any of our channels.
       if (
         info.data.identity_pubkey === advertising_node ||
-        info.data.identity_pubkey === connecting_node
+        info.data.identity_pubkey === connecting_node ||
+        channels.channels.find(channel => {
+          return [advertising_node, connecting_node].includes(channel.remote_pubkey)
+        })
       ) {
-        // this channel has to do with the user, lets fetch a new channel list for them
-        // TODO: full fetch is probably not necessary
-        dispatch(fetchChannels())
+        hasUpdates = true
       }
     }
+  }
+
+  // if our node or any of our chanels were involved in this update, fetch an updated channel list.
+  if (hasUpdates) {
+    dispatch(fetchChannels())
   }
 }
 
