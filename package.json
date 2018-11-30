@@ -155,17 +155,6 @@
   "bugs": {
     "url": "https://github.com/LN-Zap/zap-desktop/issues"
   },
-  "keywords": [
-    "electron",
-    "boilerplate",
-    "react",
-    "redux",
-    "flow",
-    "sass",
-    "webpack",
-    "hot",
-    "reload"
-  ],
   "homepage": "https://github.com/LN-Zap/zap-desktop#readme",
   "jest": {
     "collectCoverageFrom": [
