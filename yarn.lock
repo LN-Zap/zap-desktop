@@ -13357,10 +13357,10 @@ rc-animate@2.x:
     raf "^3.4.0"
     react-lifecycles-compat "^3.0.4"
 
-rc-menu@7.4.19:
-  version "7.4.19"
-  resolved "https://registry.yarnpkg.com/rc-menu/-/rc-menu-7.4.19.tgz#b65a35215966053fe6f6c3b7b12155051969f567"
-  integrity sha512-6rSQk9TsPcC7PuPS1sBXAG6HVUjUuXUO2gSzhxiZx/s9z0px91fd+FxbGbyZmRkPgku2mlZT2hfdIpWItYcPhQ==
+rc-menu@7.4.20:
+  version "7.4.20"
+  resolved "https://registry.yarnpkg.com/rc-menu/-/rc-menu-7.4.20.tgz#5c322d330142c465d240d8da7d4206a2a329096c"
+  integrity sha512-ONhgwlfuoJTm09KeUq+J+rtAEPPN/tYo2RXQN3Sr/PKPPKw6+5ltP9RReHkPOWQEd3kypOcL0VpRJrk4B+M5Rg==
   dependencies:
     babel-runtime "6.x"
     classnames "2.x"

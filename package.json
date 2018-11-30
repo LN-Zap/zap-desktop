@@ -317,7 +317,7 @@
     "lodash.pick": "4.4.0",
     "prop-types": "15.6.2",
     "qrcode.react": "0.8.0",
-    "rc-menu": "7.4.19",
+    "rc-menu": "7.4.20",
     "react": "16.6.0",
     "react-dom": "16.6.0",
     "react-hot-loader": "4.3.12",
