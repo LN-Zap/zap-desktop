@@ -8,7 +8,6 @@
     "build-dll": "webpack -r @babel/register --config internals/webpack/webpack.config.renderer.dev.dll.js",
     "build-main": "webpack -r @babel/register  --config internals/webpack/webpack.config.main.prod.js",
     "build-renderer": "webpack -r @babel/register --config internals/webpack/webpack.config.renderer.prod.js",
-    "build-grpc": "rimraf app/node_modules/grpc/src/node && build install-app-deps",
     "clean": "rimraf node_modules app/node_modules dll app/dist coverage .eslintcache",
     "coverage": "open coverage/index.html",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
@@ -186,7 +185,7 @@
       "\\.(css|less|sass|scss)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
-      "js"
+      "js", "json"
     ],
     "moduleDirectories": [
       "app",
@@ -303,6 +302,7 @@
     "webpack-merge": "4.1.4"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^0.3.2",
     "@grpc/proto-loader": "0.3.0",
     "@rebass/components": "4.0.0-1",
     "axios": "0.18.0",

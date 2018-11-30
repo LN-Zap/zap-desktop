@@ -1,4 +1,4 @@
-import { status } from 'grpc'
+import { status } from '@grpc/grpc-js'
 import { mainLog } from '../../utils/log'
 
 export default function subscribeToInvoices() {

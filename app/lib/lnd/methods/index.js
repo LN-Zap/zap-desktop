@@ -1,5 +1,3 @@
-// import grpc from 'grpc'
-
 import * as invoicesController from './invoicesController'
 import * as channelController from './channelController'
 import * as walletController from './walletController'
