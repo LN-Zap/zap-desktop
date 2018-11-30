@@ -3,6 +3,7 @@ import { ipcRenderer } from 'electron'
 import get from 'lodash.get'
 import db from 'store/db'
 import { walletAddress } from './address'
+import { putWallet, walletSelectors } from './wallet'
 
 // ------------------------------------
 // Constants
@@ -43,20 +44,29 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
     dispatch(setHasSynced(hasSynced))
   }
 
+  // Save the node info.
   dispatch({ type: RECEIVE_INFO, data })
 
   // Now that we have the node info, get the current wallet address.
   dispatch(walletAddress('np2wkh'))
+
+  // Update the active wallet settings with info discovered from getinfo.
+  const wallet = walletSelectors.activeWalletSettings(state)
+  wallet.chain = get(data, 'chains[0]')
+  wallet.network = data.testnet ? networks.testnet.id : networks.mainnet.id
+  await dispatch(putWallet(wallet))
 }
 
 const networks = {
   testnet: {
+    id: 'testnet',
     name: 'Testnet',
     explorerUrl: 'https://blockstream.info/testnet',
     bitcoinJsNetwork: bitcoin.networks.testnet,
     unitPrefix: 't'
   },
   mainnet: {
+    id: 'mainnet',
     name: 'Mainnet',
     explorerUrl: 'https://blockstream.info',
     bitcoinJsNetwork: bitcoin.networks.bitcoin,

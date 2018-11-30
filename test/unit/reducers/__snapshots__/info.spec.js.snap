@@ -30,6 +30,7 @@ Object {
       "wif": 128,
     },
     "explorerUrl": "https://blockstream.info",
+    "id": "mainnet",
     "name": "Mainnet",
     "unitPrefix": "",
   },
