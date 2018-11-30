@@ -225,7 +225,7 @@
     "coveralls": "3.0.2",
     "cross-env": "5.2.0",
     "cross-spawn": "6.0.5",
-    "csp-html-webpack-plugin": "2.3.0",
+    "csp-html-webpack-plugin": "2.4.0",
     "css-loader": "1.0.1",
     "electron-builder": "20.38.2",
     "electron-devtools-installer": "2.2.4",
