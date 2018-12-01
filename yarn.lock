@@ -14057,10 +14057,10 @@ reduce-function-call@^1.0.1:
   dependencies:
     balanced-match "^0.4.2"
 
-redux-electron-ipc@1.1.13:
-  version "1.1.13"
-  resolved "https://registry.yarnpkg.com/redux-electron-ipc/-/redux-electron-ipc-1.1.13.tgz#6b4912d9ba47296ab7ab3a52bda513e8caa22b9f"
-  integrity sha512-X4OJ64sIZLXueNhGbohdZ4/bV7lJUTYsZcb9DdQGQTPjYTxB0w5mpliCgQtaMCNOiyRSb7FtQvx6D1eWunMh2w==
+redux-electron-ipc@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/redux-electron-ipc/-/redux-electron-ipc-1.2.0.tgz#155120b63e4958b94a472a12e3843a1e9ad9a472"
+  integrity sha512-XUor8nHvcV/9rb9z3CRNKRrh1U7jZ/adcr2Ntth6MVguIMukOvfjYTG2m0ZCcA+yox1alm7UNla8UVHYX74ITw==
 
 redux-logger@3.0.6:
   version "3.0.6"

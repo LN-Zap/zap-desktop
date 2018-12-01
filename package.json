@@ -328,7 +328,7 @@
     "react-spring": "6.1.6",
     "rebass": "3.0.0-9",
     "redux": "4.0.1",
-    "redux-electron-ipc": "1.1.13",
+    "redux-electron-ipc": "1.2.0",
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "satoshi-bitcoin": "1.0.4",
