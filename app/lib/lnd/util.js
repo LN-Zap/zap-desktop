@@ -6,7 +6,7 @@ import { basename, dirname, join, normalize } from 'path'
 import { platform } from 'os'
 import { app } from 'electron'
 import isDev from 'electron-is-dev'
-import grpc from 'grpc'
+import { credentials, Metadata } from '@grpc/grpc-js'
 import isFQDN from 'validator/lib/isFQDN'
 import isIP from 'validator/lib/isIP'
 import isPort from 'validator/lib/isPort'
@@ -155,7 +155,7 @@ export const createSslCreds = async certPath => {
       throw error
     })
   }
-  return grpc.credentials.createSsl(lndCert)
+  return credentials.createSsl(lndCert)
 }
 
 /**
@@ -164,7 +164,7 @@ export const createSslCreds = async certPath => {
  * @returns {grpc.CallCredentials}
  */
 export const createMacaroonCreds = async macaroonPath => {
-  const metadata = new grpc.Metadata()
+  const metadata = new Metadata()
 
   if (macaroonPath) {
     // If it's not a filepath, then assume it is a hex encoded string.
@@ -179,9 +179,7 @@ export const createMacaroonCreds = async macaroonPath => {
       metadata.add('macaroon', macaroon.toString('hex'))
     }
   }
-  return grpc.credentials.createFromMetadataGenerator((params, callback) =>
-    callback(null, metadata)
-  )
+  return credentials.createFromMetadataGenerator((params, callback) => callback(null, metadata))
 }
 
 /**

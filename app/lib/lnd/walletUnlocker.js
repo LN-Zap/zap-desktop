@@ -1,6 +1,6 @@
 // @flow
 
-import grpc from 'grpc'
+import { loadPackageDefinition } from '@grpc/grpc-js'
 import { loadSync } from '@grpc/proto-loader'
 import StateMachine from 'javascript-state-machine'
 import LndConfig from './config'
@@ -77,7 +77,7 @@ class WalletUnlocker {
       const packageDefinition = loadSync(rpcProtoPath, options)
 
       // Load gRPC package definition as a gRPC object hierarchy.
-      const rpc = grpc.loadPackageDefinition(packageDefinition)
+      const rpc = loadPackageDefinition(packageDefinition)
 
       // Create ssl credentials to use with the gRPC client.
       const sslCreds = await createSslCreds(cert)

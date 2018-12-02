@@ -1,6 +1,6 @@
 // @flow
 
-import grpc from 'grpc'
+import { credentials, loadPackageDefinition } from '@grpc/grpc-js'
 import { loadSync } from '@grpc/proto-loader'
 import { BrowserWindow } from 'electron'
 import StateMachine from 'javascript-state-machine'
@@ -108,17 +108,17 @@ class Lightning {
           const packageDefinition = loadSync(rpcProtoPath, options)
 
           // Load gRPC package definition as a gRPC object hierarchy.
-          const rpc = grpc.loadPackageDefinition(packageDefinition)
+          const rpc = loadPackageDefinition(packageDefinition)
 
           // Create ssl and macaroon credentials to use with the gRPC client.
           const [sslCreds, macaroonCreds] = await Promise.all([
             createSslCreds(cert),
             createMacaroonCreds(macaroon)
           ])
-          const credentials = grpc.credentials.combineChannelCredentials(sslCreds, macaroonCreds)
+          const creds = credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 
           // Create a new gRPC client instance.
-          this.service = new rpc.lnrpc.Lightning(host, credentials)
+          this.service = new rpc.lnrpc.Lightning(host, creds)
 
           // Wait upto 20 seconds for the gRPC connection to be established.
           return new Promise((resolve, reject) => {
