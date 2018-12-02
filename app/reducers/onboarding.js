@@ -1,9 +1,7 @@
 import { createSelector } from 'reselect'
 import get from 'lodash.get'
-import db from 'store/db'
 import { validateHost as doHostValidation } from 'lib/utils/validateHost'
 import { fileExists } from 'lib/utils/fileExists'
-import { setStartLndError } from './lnd'
 
 // ------------------------------------
 // Constants
@@ -40,7 +38,7 @@ function prettyPrint(json) {
 // ------------------------------------
 
 export const resetOnboarding = () => dispatch => {
-  dispatch({ type: SET_SEED, seed: [] })
+  dispatch({ type: RESET_ONBOARDING })
 }
 
 export function onboardingStarted() {
@@ -55,27 +53,6 @@ export function onboardingFinished() {
   }
 }
 
-export const setConnectionType = connectionType => async (dispatch, getState) => {
-  const previousType = connectionTypeSelector(getState())
-
-  // When changing the connection type, load any saved settings.
-  if (previousType !== connectionType) {
-    const wallet = (await db.wallets.get({ type: connectionType })) || {}
-    dispatch(setConnectionString(wallet.string || initialState.connectionString))
-    dispatch(setConnectionHost(wallet.host || initialState.connectionHost))
-    dispatch(setConnectionCert(wallet.cert || initialState.connectionCert))
-    dispatch(setConnectionMacaroon(wallet.macaroon || initialState.connectionMacaroon))
-    dispatch(setAlias(wallet.alias || initialState.alias))
-    dispatch(setAutopilot(wallet.autopilot || initialState.autopilot))
-    dispatch(setStartLndError({}))
-  }
-
-  dispatch({
-    type: SET_CONNECTION_TYPE,
-    connectionType
-  })
-}
-
 export const setConnectionString = connectionString => (dispatch, getState) => {
   dispatch({
     type: SET_CONNECTION_STRING,
@@ -85,6 +62,13 @@ export const setConnectionString = connectionString => (dispatch, getState) => {
   dispatch(setConnectionHost([host, port].join(':')))
   dispatch(setConnectionMacaroon(macaroon))
   dispatch(setConnectionCert(''))
+}
+
+export function setConnectionType(connectionType) {
+  return {
+    type: SET_CONNECTION_TYPE,
+    connectionType
+  }
 }
 
 export function setConnectionHost(connectionHost) {
@@ -209,8 +193,6 @@ const ACTION_HANDLERS = {
 const onboardingSelectors = {}
 
 const connectionStringSelector = state => state.onboarding.connectionString
-
-const connectionTypeSelector = state => state.onboarding.connectionType
 
 onboardingSelectors.connectionStringParamsSelector = createSelector(
   connectionStringSelector,
