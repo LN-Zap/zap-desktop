@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.WalletHeader should render correctly 1`] = `
+<Heading1>
+  <TextFit
+    autoResize={true}
+    forceSingleModeWidth={true}
+    max={60}
+    min={16}
+    mode="single"
+    onReady={[Function]}
+    throttle={50}
+  >
+    wallet 1
+  </TextFit>
+</Heading1>
+`;

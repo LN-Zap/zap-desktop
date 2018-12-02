@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.CreateWalletButton should render correctly 1`] = `
+<Button
+  onClick={[Function]}
+  processing={false}
+  size="medium"
+  variant="secondary"
+>
+  <Styled(styled.div)
+    alignItem="center"
+  >
+    <Text
+      color="lightningOrange"
+    >
+      <SvgPlusCircle
+        height="22px"
+        width="22px"
+      />
+    </Text>
+    <Text
+      lineHeight="22px"
+      ml={2}
+    >
+      <FormattedMessage
+        defaultMessage="Create new wallet"
+        id="components.Home.create_wallet_button_text"
+        values={Object {}}
+      />
+    </Text>
+  </Styled(styled.div)>
+</Button>
+`;
