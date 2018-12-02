@@ -1245,10 +1245,10 @@
   dependencies:
     styled-system "^3.0.1"
 
-"@sambego/storybook-state@1.3.1":
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/@sambego/storybook-state/-/storybook-state-1.3.1.tgz#9aec5f8e10e9df3f689eb70eff6903d41d9ce2a7"
-  integrity sha512-JFnu/AuAcpk8trsxUweFUGRF92a/qpg8ZpAclusOVs5jp7XvhiEsJehqGlqueytZpZyzFgTkla8Mjh/D98FaXQ==
+"@sambego/storybook-state@1.3.2":
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/@sambego/storybook-state/-/storybook-state-1.3.2.tgz#641006481c3d43b4e4112808d8c424ded56dcdd0"
+  integrity sha512-/C8w7JUTSH2HV8MwANPSfrCsV37lG7r6aa95wpU/hXHq7ZwZBDVvLAv/dPIenXINVOstpo4t80Ju36Dg6zH2OQ==
   dependencies:
     uuid "^3.1.0"
 
