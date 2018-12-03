@@ -4,6 +4,7 @@ import { btc } from 'lib/utils'
 import { requestSuggestedNodes } from 'lib/utils/api'
 import db from 'store/db'
 import { setError } from './error'
+import { fetchBalance } from './balance'
 
 // ------------------------------------
 // Constants
@@ -174,8 +175,10 @@ export const fetchChannels = () => async dispatch => {
 }
 
 // Receive IPC event for channels
-export const receiveChannels = (event, { channels, pendingChannels }) => dispatch =>
+export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => {
   dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
+  dispatch(fetchBalance())
+}
 
 // Send IPC event for opening a channel
 export const openChannel = ({ pubkey, host, local_amt }) => async (dispatch, getState) => {
