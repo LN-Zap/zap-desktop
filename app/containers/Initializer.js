@@ -48,8 +48,10 @@ class Initializer extends React.Component {
         } else {
           history.push(`/home/wallet/${activeWallet}`)
         }
-      } else {
-        history.push('/onboarding')
+      }
+      // If we have an active wallet set, but can't find it's settings then send the user to the homepage.
+      else {
+        history.push('/home')
       }
     }
 
