@@ -136,8 +136,8 @@ export const fetchDescribeNetwork = () => dispatch => {
 }
 
 // Receive IPC event for describeNetwork
-export const receiveDescribeNetwork = (event, { nodes }) => dispatch =>
-  dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes })
+export const receiveDescribeNetwork = (event, { nodes, edges }) => dispatch =>
+  dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes, edges })
 
 export const queryRoutes = (pubkey, amount) => dispatch => {
   dispatch(getQueryRoutes(pubkey))
@@ -166,10 +166,11 @@ export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch =>
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_DESCRIBE_NETWORK]: state => ({ ...state, networkLoading: true }),
-  [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes }) => ({
+  [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes, edges }) => ({
     ...state,
     networkLoading: false,
-    nodes
+    nodes,
+    edges
   }),
 
   [GET_QUERY_ROUTES]: (state, { pubkey }) => ({
@@ -303,6 +304,7 @@ export { networkSelectors }
 const initialState = {
   networkLoading: false,
   nodes: [],
+  edges: [],
   selectedChannel: {},
   selectedNode: {},
 

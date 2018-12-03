@@ -28,17 +28,59 @@ export const configureStore = initialState => {
   middleware.push(router)
 
   // Redux DevTools Configuration
-  const actionCreators = {
-    ...routerActions
-  }
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */
-  const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
-    ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-        // Options: http://zalmoxisus.github.io/redux-devtools-extension/API/Arguments.html
-        actionCreators
-      })
-    : compose
+  const composeEnhancers =
+    typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+      ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
+          actionCreators: {
+            ...routerActions
+          },
+          stateSanitizer: state => {
+            const { invoice, locale, network } = state
+            const MAX_NODES = 10
+            const MAX_EDGES = 10
+
+            return state.invoice
+              ? {
+                  ...state,
+
+                  // Strip out long data from invoices to avoid bloat.
+                  invoice: {
+                    ...invoice,
+                    invoices: invoice.invoices.map(invoice => {
+                      invoice.r_hash = '<<R_HASH_BUFFER_DATA>>'
+                      invoice.r_preimage = '<<R_PREIMAGE_BUFFER_DATA>>'
+                      return invoice
+                    })
+                  },
+
+                  // Slim down the nodes list.
+                  network: {
+                    ...network,
+                    nodes:
+                      network.nodes.length > MAX_NODES
+                        ? [
+                            ...network.nodes.splice(0, MAX_NODES),
+                            `<<${network.nodes.length - MAX_NODES}_MORE_NODES>>`
+                          ]
+                        : network.nodes,
+                    edges:
+                      network.edges.length > MAX_EDGES
+                        ? [
+                            ...network.edges.splice(0, MAX_EDGES),
+                            `<<${network.edges.length - MAX_EDGES}_MORE_NODES>>`
+                          ]
+                        : network.edges
+                  },
+
+                  // Strip out translation strings.
+                  locale: Object.keys(locale).map(key => ({ [key]: `<<_LOCALE_DATA_FOR_${key}>>` }))
+                }
+              : state
+          }
+        })
+      : compose
   /* eslint-enable no-underscore-dangle */
 
   // Apply Middleware & Compose Enhancers
