@@ -10560,10 +10560,10 @@ listr@^0.14.2:
     p-map "^1.1.1"
     rxjs "^6.1.0"
 
-lnd-binary@0.3.7:
-  version "0.3.7"
-  resolved "https://registry.yarnpkg.com/lnd-binary/-/lnd-binary-0.3.7.tgz#807c02150e96243bfd361e58fb0ecd381d430899"
-  integrity sha512-HBLyDjyej1B4rdRLHiL3IcH5AawuiYLDYbRzL9NQRe0KP/B6P5fCpdzhQh9s57mbzePHYwFQEUCbxi7GalFy4Q==
+lnd-binary@0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/lnd-binary/-/lnd-binary-0.3.8.tgz#d354cb6506413867e43b33691f500b45830dce49"
+  integrity sha512-NBsnFeYUbcw/FPhXvaKK9phdoDh4Kf6tRjDp7O9H+7kPoG49ztb0W2yVd02CnapnyUZhQhXeTDbXBghokcZ6Rw==
   dependencies:
     axios "^0.18.0"
     cacache "^11.0.2"
