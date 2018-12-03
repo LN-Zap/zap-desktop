@@ -298,20 +298,6 @@ class Pay extends React.Component {
   }
 
   /**
-   * Handle the case when the form is mountedwith an initialPayReq.
-   * This is the earliest possibleplace we can do this because the form is not initialised in ComponentDidMount.
-   */
-  handleChange = formState => {
-    const { initialPayReq } = this.props
-    const { currentStep, previousStep } = this.state
-    // If this is the first time the address page is showing and we have an initialPayReq, process the request
-    // as if the user had entered it themselves.
-    if (currentStep === 'address' && !previousStep && initialPayReq && formState.values.payReq) {
-      this.handlePayReqChange()
-    }
-  }
-
-  /**
    * set the amountFiat field whenever the crypto amount changes.
    */
   handleAmountCryptoChange = e => {
@@ -631,7 +617,6 @@ class Pay extends React.Component {
         css={{ height: '100%' }}
         {...rest}
         getApi={this.setFormApi}
-        onChange={this.handleChange}
         onSubmit={this.onSubmit}
       >
         {({ formState }) => {
