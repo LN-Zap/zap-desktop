@@ -21,28 +21,6 @@ export function setWallets(wallets) {
   }
 }
 
-export function setIsWalletOpen(isWalletOpen) {
-  db.settings.put({
-    key: 'isWalletOpen',
-    value: isWalletOpen
-  })
-  return {
-    type: SET_IS_WALLET_OPEN,
-    isWalletOpen
-  }
-}
-
-export function setActiveWallet(activeWallet) {
-  db.settings.put({
-    key: 'activeWallet',
-    value: activeWallet
-  })
-  return {
-    type: SET_ACTIVE_WALLET,
-    activeWallet
-  }
-}
-
 export const getWallets = () => async dispatch => {
   let wallets
   try {
@@ -52,6 +30,28 @@ export const getWallets = () => async dispatch => {
   }
   dispatch(setWallets(wallets))
   return wallets
+}
+
+export const setActiveWallet = activeWallet => async dispatch => {
+  await db.settings.put({
+    key: 'activeWallet',
+    value: activeWallet
+  })
+  dispatch({
+    type: SET_ACTIVE_WALLET,
+    activeWallet
+  })
+}
+
+export const setIsWalletOpen = isWalletOpen => async dispatch => {
+  await db.settings.put({
+    key: 'isWalletOpen',
+    value: isWalletOpen
+  })
+  dispatch({
+    type: SET_IS_WALLET_OPEN,
+    isWalletOpen
+  })
 }
 
 export const putWallet = wallet => async dispatch => {
@@ -65,8 +65,8 @@ export const deleteWallet = walletId => async dispatch => {
   dispatch({ type: DELETE_WALLET, walletId })
   await db.wallets.delete(walletId)
   const wallets = await dispatch(getWallets())
-  dispatch(setActiveWallet(wallets[0].id))
-  setIsWalletOpen(false)
+  await dispatch(setActiveWallet(wallets[0].id))
+  await setIsWalletOpen(false)
 }
 
 export const initWallets = () => async dispatch => {
@@ -121,8 +121,8 @@ export const initWallets = () => async dispatch => {
     activeWallet = null
     isWalletOpen = false
   }
-  dispatch(setIsWalletOpen(isWalletOpen))
-  dispatch(setActiveWallet(activeWallet))
+  await dispatch(setIsWalletOpen(isWalletOpen))
+  await dispatch(setActiveWallet(activeWallet))
 }
 
 // ------------------------------------

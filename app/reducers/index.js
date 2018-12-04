@@ -3,6 +3,7 @@ import { connectRouter } from 'connected-react-router'
 import { intlReducer as intl } from 'react-intl-redux'
 import locale from './locale'
 import theme from './theme'
+import app from './app'
 import onboarding from './onboarding'
 import lnd from './lnd'
 import ticker from './ticker'
@@ -20,12 +21,11 @@ import transaction from './transaction'
 import activity from './activity'
 import network from './network'
 import error from './error'
-import loading from './loading'
 import settings from './settings'
 import wallet from './wallet'
 
-export default history =>
-  combineReducers({
+export default history => {
+  const appReducer = combineReducers({
     // Third party reducers.
     intl,
     locale,
@@ -33,6 +33,7 @@ export default history =>
     theme,
 
     // Custom reducers
+    app,
     onboarding,
     lnd,
     ticker,
@@ -50,7 +51,16 @@ export default history =>
     activity,
     network,
     error,
-    loading,
     settings,
     wallet
   })
+
+  return (state, action) => {
+    // Reset all reducers except for the app and theme reducers.
+    if (action.type === 'RESET_APP') {
+      const { app, theme } = state
+      return appReducer({ app, theme }, action)
+    }
+    return appReducer(state, action)
+  }
+}

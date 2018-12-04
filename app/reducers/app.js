@@ -11,6 +11,7 @@ const initialState = {
 // ------------------------------------
 export const SET_LOADING = 'SET_LOADING'
 export const SET_MOUNTED = 'SET_MOUNTED'
+export const RESET_APP = 'RESET_APP'
 
 // ------------------------------------
 // Actions
@@ -29,6 +30,12 @@ export function setMounted(isMounted) {
   }
 }
 
+export function resetApp() {
+  return {
+    type: RESET_APP
+  }
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
@@ -41,11 +48,11 @@ const ACTION_HANDLERS = {
 // Selectors
 // ------------------------------------
 
-const loadingSelectors = {}
-loadingSelectors.isLoading = state => state.loading.isLoading
-loadingSelectors.isMounted = state => state.loading.isMounted
+const appSelectors = {}
+appSelectors.isLoading = state => state.app.isLoading
+appSelectors.isMounted = state => state.app.isMounted
 
-export { loadingSelectors }
+export { appSelectors }
 
 // ------------------------------------
 // Reducer

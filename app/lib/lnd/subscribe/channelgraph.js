@@ -10,10 +10,10 @@ export default function subscribeToChannelGraph() {
       this.mainWindow.send('channelGraphData', { channelGraphData })
     }
   })
-  call.on('end', () => mainLog.info('end'))
+  call.on('end', () => mainLog.info('CHANNELGRAPH END'))
   call.on('error', error => error.code !== status.CANCELLED && mainLog.error(error))
   call.on('status', channelGraphStatus => {
-    mainLog.debug('CHANNELGRAPHSTATUS:', channelGraphStatus)
+    mainLog.debug('CHANNELGRAPH STATUS:', channelGraphStatus)
     if (this.mainWindow) {
       this.mainWindow.send('channelGraphStatus', { channelGraphStatus })
     }

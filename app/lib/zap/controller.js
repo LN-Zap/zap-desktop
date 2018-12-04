@@ -70,7 +70,6 @@ class ZapController {
         { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
         { name: 'startRemoteLnd', from: 'onboarding', to: 'connected' },
         { name: 'stopLnd', from: '*', to: 'onboarding' },
-        { name: 'restart', from: '*', to: 'onboarding' },
         { name: 'terminate', from: '*', to: 'terminated' }
       ],
       methods: {
@@ -79,7 +78,6 @@ class ZapController {
         onBeforeStartLocalLnd: this.onBeforeStartLocalLnd.bind(this),
         onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
         onBeforeStopLnd: this.onBeforeStopLnd.bind(this),
-        onBeforeRestart: this.onBeforeRestart.bind(this),
         onTerminated: this.onTerminated.bind(this),
         onTerminate: this.onTerminate.bind(this)
       }
@@ -141,9 +139,6 @@ class ZapController {
   stopLnd(...args: any[]) {
     return this.fsm.stopLnd(...args)
   }
-  restart(...args: any[]) {
-    return this.fsm.restart(...args)
-  }
   terminate(...args: any[]) {
     return this.fsm.terminate(...args)
   }
@@ -184,12 +179,6 @@ class ZapController {
 
     // Give the grpc connections a chance to be properly closed out.
     await new Promise(resolve => setTimeout(resolve, 200))
-
-    this.sendMessage('lndStopped')
-
-    if (lifecycle.transition === 'restart') {
-      this.mainWindow.reload()
-    }
   }
 
   onStartOnboarding() {
@@ -255,11 +244,6 @@ class ZapController {
 
   onBeforeStopLnd() {
     mainLog.debug('[FSM] onBeforeStopLnd...')
-  }
-
-  onBeforeRestart() {
-    mainLog.debug('[FSM] onBeforeRestart...')
-    // this.mainWindow.reload()
   }
 
   async onTerminated(lifecycle: any) {
@@ -509,7 +493,6 @@ class ZapController {
       })
     )
     ipcMain.on('stopLnd', () => this.stopLnd())
-    ipcMain.on('restart', () => this.restart())
   }
 
   /**
@@ -518,7 +501,6 @@ class ZapController {
   _removeIpcListeners() {
     ipcMain.removeAllListeners('startLnd')
     ipcMain.removeAllListeners('stopLnd')
-    ipcMain.removeAllListeners('restart')
     ipcMain.removeAllListeners('startLightningWallet')
     ipcMain.removeAllListeners('walletUnlocker')
     ipcMain.removeAllListeners('lnd')
