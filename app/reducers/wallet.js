@@ -64,9 +64,9 @@ export const putWallet = wallet => async dispatch => {
 export const deleteWallet = walletId => async dispatch => {
   dispatch({ type: DELETE_WALLET, walletId })
   await db.wallets.delete(walletId)
-  const wallets = await dispatch(getWallets())
-  await dispatch(setActiveWallet(wallets[0].id))
-  await setIsWalletOpen(false)
+  await dispatch(setActiveWallet(null))
+  await dispatch(setIsWalletOpen(false))
+  await dispatch(getWallets())
 }
 
 export const initWallets = () => async dispatch => {
