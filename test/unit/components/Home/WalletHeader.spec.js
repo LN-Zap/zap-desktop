@@ -5,7 +5,13 @@ import { WalletHeader } from 'components/Home'
 
 describe('component.WalletHeader', () => {
   it('should render correctly', () => {
-    const wrapper = shallow(<WalletHeader title="wallet 1" />)
+    const wallet = {
+      type: 'local',
+      id: 1,
+      host: 'local.host',
+      name: 'Wallet name'
+    }
+    const wrapper = shallow(<WalletHeader wallet={wallet} />)
     expect(toJSON(wrapper)).toMatchSnapshot()
   })
 })
