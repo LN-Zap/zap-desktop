@@ -6,12 +6,9 @@ import { ConnectedRouter } from 'connected-react-router'
 import { ThemeProvider } from 'styled-components'
 
 import { clearError, errorSelectors } from 'reducers/error'
-import { loadingSelectors, setLoading, setMounted } from 'reducers/loading'
-import { initCurrency, initLocale } from 'reducers/locale'
 import { initTheme, themeSelectors } from 'reducers/theme'
-import { initWallets, walletSelectors } from 'reducers/wallet'
-import { fetchTicker, tickerSelectors } from 'reducers/ticker'
-import { fetchSuggestedNodes } from 'reducers/channels'
+import { walletSelectors } from 'reducers/wallet'
+import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
 import { Page, Titlebar, GlobalStyle, Modal } from 'components/UI'
 import GlobalError from 'components/GlobalError'
@@ -36,64 +33,35 @@ class Root extends React.Component {
   static propTypes = {
     hasWallets: PropTypes.bool,
     clearError: PropTypes.func.isRequired,
-    currentTicker: PropTypes.object,
     theme: PropTypes.object,
     error: PropTypes.string,
-    fetchSuggestedNodes: PropTypes.func.isRequired,
-    fetchTicker: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
-    initLocale: PropTypes.func.isRequired,
-    initCurrency: PropTypes.func.isRequired,
-    initTheme: PropTypes.func.isRequired,
-    initWallets: PropTypes.func.isRequired,
     isLoading: PropTypes.bool.isRequired,
+
+    initTheme: PropTypes.func.isRequired,
     isMounted: PropTypes.bool.isRequired,
-    setLoading: PropTypes.func.isRequired,
-    setMounted: PropTypes.func.isRequired
+    setMounted: PropTypes.func.isRequired,
+    setLoading: PropTypes.func.isRequired
   }
 
-  /**
-   * Initialise component state props.
-   */
-  constructor(props) {
-    super(props)
-    this.state = {
-      timer: null
-    }
+  state = {
+    timer: null
   }
 
   /**
    * // Show the loading bold briefly before showing the user the app.
    */
   componentDidMount() {
-    const {
-      currentTicker,
-      fetchSuggestedNodes,
-      fetchTicker,
-      initLocale,
-      initCurrency,
-      initTheme,
-      initWallets,
-      isLoading,
-      isMounted,
-      setLoading,
-      setMounted,
-      theme
-    } = this.props
+    const { initTheme, isLoading, isMounted, setLoading, setMounted, theme } = this.props
 
     // If this is the first time the app has mounted, initialise things.
     if (!isMounted) {
       setMounted(true)
       initTheme()
-      initLocale()
-      initCurrency()
-      initWallets()
-      fetchTicker()
-      fetchSuggestedNodes()
     }
 
     // Hide the loading screen after a set time.
-    if (isLoading || !currentTicker || !theme) {
+    if (isLoading || !theme) {
       const timer = setTimeout(() => setLoading(false), SPLASH_SCREEN_TIME)
       this.setState({ timer })
     }
@@ -157,21 +125,16 @@ class Root extends React.Component {
 
 const mapStateToProps = state => ({
   hasWallets: walletSelectors.hasWallets(state),
-  currentTicker: tickerSelectors.currentTicker(state),
-  theme: themeSelectors.currentThemeSettings(state),
   error: errorSelectors.getErrorState(state),
-  isLoading: loadingSelectors.isLoading(state),
-  isMounted: loadingSelectors.isMounted(state)
+  theme: themeSelectors.currentThemeSettings(state),
+  isLoading: appSelectors.isLoading(state),
+  isMounted: appSelectors.isMounted(state)
 })
 
 const mapDispatchToProps = {
   clearError,
-  fetchSuggestedNodes,
-  fetchTicker,
-  initCurrency,
-  initLocale,
+
   initTheme,
-  initWallets,
   setLoading,
   setMounted
 }
