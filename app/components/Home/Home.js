@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Route, Switch, withRouter } from 'react-router-dom'
+import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
 import { Bar, MainContent, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
@@ -20,6 +20,7 @@ class Home extends React.Component {
   static propTypes = {
     history: PropTypes.object.isRequired,
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    activeWalletSettings: PropTypes.object,
     deleteWallet: PropTypes.func.isRequired,
     lightningGrpcActive: PropTypes.bool.isRequired,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
@@ -37,8 +38,8 @@ class Home extends React.Component {
    * If there is an active wallet ensure it is selected on mount.
    */
   componentDidMount() {
-    const { activeWallet, history } = this.props
-    if (activeWallet && history.location.pathname === '/home') {
+    const { activeWallet, activeWalletSettings, history } = this.props
+    if (activeWallet && activeWalletSettings && history.location.pathname === '/home') {
       history.push(`/home/wallet/${activeWallet}`)
     }
   }
@@ -87,7 +88,7 @@ class Home extends React.Component {
                 render={({ match: { params } }) => {
                   const wallet = wallets.find(wallet => wallet.id == params.walletId)
                   if (!wallet) {
-                    return null
+                    return <Redirect to="/home" />
                   }
                   return (
                     <WalletLauncher
@@ -108,7 +109,7 @@ class Home extends React.Component {
                 render={({ match: { params } }) => {
                   const wallet = wallets.find(wallet => wallet.id == params.walletId)
                   if (!wallet) {
-                    return null
+                    return <Redirect to="/home" />
                   }
                   return (
                     <WalletUnlocker
