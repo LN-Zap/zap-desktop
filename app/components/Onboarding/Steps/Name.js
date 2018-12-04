@@ -5,18 +5,18 @@ import { Box } from 'rebass'
 import { Bar, Form, Header, Input } from 'components/UI'
 import messages from './messages'
 
-class Alias extends React.Component {
+class Name extends React.Component {
   static propTypes = {
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    alias: PropTypes.string,
-    setAlias: PropTypes.func.isRequired
+    name: PropTypes.string,
+    setName: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
-    alias: ''
+    name: ''
   }
 
   setFormApi = formApi => {
@@ -24,12 +24,12 @@ class Alias extends React.Component {
   }
 
   handleSubmit = values => {
-    const { setAlias } = this.props
-    setAlias(values.alias)
+    const { setName } = this.props
+    setName(values.name)
   }
 
   render() {
-    const { wizardApi, wizardState, alias, setAlias, intl, ...rest } = this.props
+    const { wizardApi, wizardState, name, setName, intl, ...rest } = this.props
     const { getApi, onChange, preSubmit, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
@@ -57,18 +57,18 @@ class Alias extends React.Component {
           return (
             <>
               <Header
-                title={<FormattedMessage {...messages.alias_title} />}
-                subtitle={<FormattedMessage {...messages.alias_description} />}
+                title={<FormattedMessage {...messages.wallet_name_title} />}
+                subtitle={<FormattedMessage {...messages.wallet_name_description} />}
                 align="left"
               />
               <Bar my={4} />
               <Box>
                 <Input
                   autoFocus
-                  field="alias"
-                  name="alias"
-                  label={<FormattedMessage {...messages.alias_label} />}
-                  initialValue={alias}
+                  field="name"
+                  name="name"
+                  label={<FormattedMessage {...messages.wallet_name_label} />}
+                  initialValue={name}
                   validateOnBlur={shouldValidateInline}
                   validateOnChange={shouldValidateInline}
                 />
@@ -81,4 +81,4 @@ class Alias extends React.Component {
   }
 }
 
-export default injectIntl(Alias)
+export default injectIntl(Name)

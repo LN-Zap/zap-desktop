@@ -2,8 +2,9 @@ import { defineMessages } from 'react-intl'
 
 /* eslint-disable max-len */
 export default defineMessages({
-  alias_description: 'Set your nickname to help others connect with you on the Lightning Network',
+  alias_description: 'Set your node alias to help others connect with you on the Lightning Network',
   alias_title: 'What should we call you?',
+  alias_label: 'Alias',
   autopilot_description:
     'Autopilot is an automatic network manager. Instead of manually adding people to build your network to make payments, enable autopilot to automatically connect you to the Lightning Network using 60% of your balance.',
   autopilot_title: 'Autopilot',
@@ -47,7 +48,6 @@ export default defineMessages({
   login_title: 'Welcome back!',
   macaroon_description: 'Path to the lnd macaroon file. Example: /path/to/admin.macaroon',
   next: 'Next',
-  nickname: 'Nickname',
   only: 'only',
   password_confirm_placeholder: 'Confirm Password',
   password_error_length: 'Password must be at least {passwordMinLength} characters long',
@@ -70,6 +70,10 @@ export default defineMessages({
   unlocking: 'Unlocking',
   verify_host_description: 'Please check the hostname carefully.',
   verify_host_title: 'Are you sure you want to connect to',
+  wallet_name_description:
+    'Set a name for your wallet to help you identify it in Zap. This is for internal purposes only and will not be broadcast on the Lightning Network.',
+  wallet_name_title: 'What do you want to call this wallet?',
+  wallet_name_label: 'Wallet Name',
   word_placeholder: 'word',
   generating_seed: 'Generating Seed...'
 })

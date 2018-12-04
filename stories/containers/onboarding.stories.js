@@ -9,7 +9,7 @@ import { Onboarding } from 'components/Onboarding'
 const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 const initialValues = {
-  alias: '',
+  name: '',
   connectionType: 'local',
   connectionHost: '',
   connectionCert: '',
@@ -42,7 +42,7 @@ const setConnectionHost = connectionHost => store.set({ connectionHost })
 const setConnectionCert = connectionCert => store.set({ connectionCert })
 const setConnectionMacaroon = connectionMacaroon => store.set({ connectionMacaroon })
 const setConnectionString = connectionString => store.set({ connectionString })
-const setAlias = alias => store.set({ alias })
+const setName = name => store.set({ name })
 const setAutopilot = autopilot => store.set({ autopilot })
 const setPassword = password => store.set({ password })
 
@@ -135,7 +135,7 @@ storiesOf('Containers.Onboarding', module)
         <Onboarding
           // DISPATCH
           resetOnboarding={resetOnboarding}
-          setAlias={setAlias}
+          setName={setName}
           setAutopilot={setAutopilot}
           setConnectionType={setConnectionType}
           setConnectionHost={setConnectionHost}
