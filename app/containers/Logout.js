@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
-import { restart } from 'reducers/lnd'
+import { stopLnd } from 'reducers/lnd'
+import { resetApp } from 'reducers/app'
 import { setIsWalletOpen } from 'reducers/wallet'
 
 /**
@@ -10,17 +11,20 @@ import { setIsWalletOpen } from 'reducers/wallet'
  */
 class Logout extends React.Component {
   static propTypes = {
-    lightningGrpcActive: PropTypes.bool,
-    walletUnlockerGrpcActive: PropTypes.bool,
-    restart: PropTypes.func.isRequired
+    resetApp: PropTypes.func.isRequired,
+    setIsWalletOpen: PropTypes.func.isRequired,
+    stopLnd: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired
+    })
   }
 
-  componentDidMount() {
-    const { lightningGrpcActive, walletUnlockerGrpcActive, restart } = this.props
-    if (lightningGrpcActive || walletUnlockerGrpcActive) {
-      setIsWalletOpen(false)
-      restart()
-    }
+  async componentDidMount() {
+    const { history, resetApp, setIsWalletOpen, stopLnd } = this.props
+    stopLnd()
+    setIsWalletOpen(false)
+    resetApp()
+    history.push('/')
   }
 
   render() {
@@ -28,17 +32,13 @@ class Logout extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  lightningGrpcActive: state.lnd.lightningGrpcActive,
-  walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive
-})
-
 const mapDispatchToProps = {
-  restart,
+  resetApp,
+  stopLnd,
   setIsWalletOpen
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(withRouter(Logout))

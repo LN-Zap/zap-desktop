@@ -194,10 +194,6 @@ export const unlockWallet = password => async dispatch => {
   })
 }
 
-export const restart = () => () => {
-  ipcRenderer.send('restart')
-}
-
 /**
  * As soon as we have an active connection to a WalletUnlocker service, attempt to generate a new seed which kicks off
  * the process of creating or unlocking a wallet.
