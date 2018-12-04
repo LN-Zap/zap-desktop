@@ -24,7 +24,12 @@ module.exports = {
   ],
   env: {
     production: {
-      presets: ['react-optimize']
+      plugins: [
+        '@babel/transform-react-constant-elements',
+        '@babel/transform-react-inline-elements',
+        'transform-react-remove-prop-types',
+        'transform-react-pure-class-to-function'
+      ]
     }
   }
 }
