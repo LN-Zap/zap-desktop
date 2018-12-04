@@ -287,10 +287,9 @@ export const createNewWallet = () => async (dispatch, getState) => {
     type: 'local',
     chain: 'bitcoin',
     network: 'testnet',
-    settings: {
-      autopilot: onboardingState.autopilot,
-      alias: onboardingState.alias
-    }
+    autopilot: onboardingState.autopilot,
+    alias: onboardingState.alias,
+    name: onboardingState.name
   }
 
   // Save the wallet config.
@@ -301,12 +300,17 @@ export const createNewWallet = () => async (dispatch, getState) => {
   await dispatch(startLnd(wallet))
 }
 
-export const recoverOldWallet = () => async dispatch => {
+export const recoverOldWallet = () => async (dispatch, getState) => {
+  const onboardingState = getState().onboarding
+
   // Define the wallet config.
   let wallet = {
     type: 'local',
     chain: 'bitcoin',
-    network: 'testnet'
+    network: 'testnet',
+    autopilot: onboardingState.autopilot,
+    alias: onboardingState.alias,
+    name: onboardingState.name
   }
 
   // Save the wallet config.
