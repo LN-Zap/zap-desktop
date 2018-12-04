@@ -36,7 +36,7 @@
     "start-renderer-dev": "node --trace-warnings -r @babel/register ./node_modules/.bin/webpack-dev-server --config internals/webpack/webpack.config.renderer.dev.js  --progress",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
-    "storybook:deploy": "npm run storybook:build && gh-pages -t -r git@github.com:LN-Zap/zap-desktop.git -d storybook-static -o origin -b gh-pages",
+    "storybook:deploy": "npm run storybook:build && gh-pages -t -d storybook-static -o origin -b gh-pages",
     "test": "npm run lint && npm run lint-styles && npm run flow && npm run build && npm run test-unit && npm run test-e2e",
     "test-base": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=true DISABLE_INIT=true ELECTRON_DISABLE_SECURITY_WARNINGS=true node --trace-warnings ./node_modules/jest/bin/jest --maxWorkers=2 --forceExit",
     "test-unit": "npm run test-base -- --coverage ./test/unit",
@@ -174,7 +174,8 @@
       "\\.(css|less|sass|scss)$": "identity-obj-proxy"
     },
     "moduleFileExtensions": [
-      "js", "json"
+      "js",
+      "json"
     ],
     "moduleDirectories": [
       "app",
@@ -190,6 +191,8 @@
     "@babel/core": "7.1.6",
     "@babel/plugin-proposal-class-properties": "7.1.0",
     "@babel/plugin-proposal-export-default-from": "7.0.0",
+    "@babel/plugin-transform-react-constant-elements": "7.2.0",
+    "@babel/plugin-transform-react-inline-elements": "7.2.0",
     "@babel/preset-env": "7.1.6",
     "@babel/preset-flow": "7.0.0",
     "@babel/preset-react": "7.0.0",
@@ -215,7 +218,8 @@
     "babel-plugin-react-intl": "3.0.1",
     "babel-plugin-react-intl-auto": "1.1.1",
     "babel-plugin-styled-components": "1.8.0",
-    "babel-preset-react-optimize": "1.0.1",
+    "babel-plugin-transform-react-pure-class-to-function": "1.0.1",
+    "babel-plugin-transform-react-remove-prop-types": "0.4.21",
     "browserslist": "4.3.5",
     "chalk": "2.4.1",
     "clean-webpack-plugin": "1.0.0",
