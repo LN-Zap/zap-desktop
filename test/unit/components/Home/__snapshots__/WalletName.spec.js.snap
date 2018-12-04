@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.WalletName custom wallet, with name should render correctly 1`] = `"Wallet name"`;
+
+exports[`component.WalletName custom wallet, without name should render correctly 1`] = `"local.host"`;
+
+exports[`component.WalletName local wallet, with name should render correctly 1`] = `"Wallet name"`;
+
+exports[`component.WalletName local wallet, without name should render correctly 1`] = `"Wallet #1"`;

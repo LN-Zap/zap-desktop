@@ -74,13 +74,6 @@ class WalletUnlocker extends React.Component {
     unlockWallet(values.password)
   }
 
-  walletName = wallet => {
-    if (wallet.type === 'local') {
-      return wallet.name || `Wallet #${wallet.id}`
-    }
-    return wallet.name || wallet.host.split(':')[0]
-  }
-
   validatePassword = value => {
     try {
       yup
@@ -95,7 +88,6 @@ class WalletUnlocker extends React.Component {
 
   render = () => {
     const { intl, unlockingWallet, wallet } = this.props
-    const walletName = this.walletName(wallet)
 
     return (
       <Form
@@ -108,7 +100,7 @@ class WalletUnlocker extends React.Component {
       >
         {({ formState }) => (
           <React.Fragment>
-            <WalletHeader title={walletName} />
+            <WalletHeader wallet={wallet} />
 
             <PasswordInput
               autoFocus
