@@ -14,6 +14,7 @@ export const SET_CONNECTION_HOST = 'SET_CONNECTION_HOST'
 export const SET_CONNECTION_CERT = 'SET_CONNECTION_CERT'
 export const SET_CONNECTION_MACAROON = 'SET_CONNECTION_MACAROON'
 export const SET_ALIAS = 'SET_ALIAS'
+export const SET_NAME = 'SET_NAME'
 export const SET_AUTOPILOT = 'SET_AUTOPILOT'
 export const SET_PASSWORD = 'SET_PASSWORD'
 export const SET_SEED = 'SET_SEED'
@@ -99,6 +100,13 @@ export function setAlias(alias) {
   }
 }
 
+export function setName(name) {
+  return {
+    type: SET_NAME,
+    name
+  }
+}
+
 export function setAutopilot(autopilot) {
   return {
     type: SET_AUTOPILOT,
@@ -176,6 +184,7 @@ const ACTION_HANDLERS = {
   [SET_CONNECTION_CERT]: (state, { connectionCert }) => ({ ...state, connectionCert }),
   [SET_CONNECTION_MACAROON]: (state, { connectionMacaroon }) => ({ ...state, connectionMacaroon }),
   [SET_ALIAS]: (state, { alias }) => ({ ...state, alias }),
+  [SET_NAME]: (state, { name }) => ({ ...state, name }),
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, fetchingSeed: false }),
   [SET_PASSWORD]: (state, { password }) => ({ ...state, password }),
@@ -228,6 +237,7 @@ const initialState = {
   connectionCert: '',
   connectionMacaroon: '',
   alias: '',
+  name: '',
   password: '',
   seed: []
 }

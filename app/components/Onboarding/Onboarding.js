@@ -5,13 +5,13 @@ import { FormattedMessage } from 'react-intl'
 import { Flex, Box } from 'rebass'
 import { Panel, Wizard } from 'components/UI'
 import {
-  Alias,
   Autopilot,
   BtcPayServer,
   ConnectionType,
   ConnectionDetails,
   ConnectionConfirm,
   Login,
+  Name,
   Password,
   Recover,
   SeedConfirm,
@@ -24,8 +24,8 @@ import messages from './messages'
 class Onboarding extends React.Component {
   static propTypes = {
     // STATE
-    alias: PropTypes.string,
     autopilot: PropTypes.bool,
+    name: PropTypes.string,
     connectionType: PropTypes.string,
     connectionHost: PropTypes.string,
     connectionCert: PropTypes.string,
@@ -44,13 +44,13 @@ class Onboarding extends React.Component {
     fetchSeed: PropTypes.func.isRequired,
     recoverOldWallet: PropTypes.func.isRequired,
     resetOnboarding: PropTypes.func.isRequired,
-    setAlias: PropTypes.func.isRequired,
     setAutopilot: PropTypes.func.isRequired,
     setConnectionType: PropTypes.func.isRequired,
     setConnectionHost: PropTypes.func.isRequired,
     setConnectionCert: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
     setConnectionString: PropTypes.func.isRequired,
+    setName: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
     stopLnd: PropTypes.func.isRequired
@@ -68,8 +68,8 @@ class Onboarding extends React.Component {
   getSteps = () => {
     const {
       // STATE
-      alias,
       autopilot,
+      name,
       connectionType,
       connectionHost,
       connectionCert,
@@ -84,13 +84,13 @@ class Onboarding extends React.Component {
       unlockWalletError,
       fetchingSeed,
       // DISPATCH
-      setAlias,
       setAutopilot,
       setConnectionType,
       setConnectionHost,
       setConnectionCert,
       setConnectionMacaroon,
       setConnectionString,
+      setName,
       setUnlockWalletError,
       setPassword,
       startLnd,
@@ -120,7 +120,7 @@ class Onboarding extends React.Component {
           />,
           <Wizard.Step key="SeedConfirm" component={SeedConfirm} {...{ seed }} />,
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
-          <Wizard.Step key="Alias" component={Alias} {...{ alias, setAlias }} />,
+          <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step key="WalletCreate" component={WalletCreate} {...{ createNewWallet }} />
         ]
@@ -134,7 +134,7 @@ class Onboarding extends React.Component {
           ...formSteps,
           <Wizard.Step key="Recover" component={Recover} {...{ seed }} />,
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
-          <Wizard.Step key="Alias" component={Alias} {...{ alias, setAlias }} />,
+          <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step key="WalletRecover" component={WalletRecover} {...{ recoverOldWallet }} />
         ]

@@ -8,6 +8,7 @@ import {
   ConnectionDetails,
   ConnectionConfirm,
   Login,
+  Name,
   Password,
   Recover,
   SeedConfirm,
@@ -37,6 +38,7 @@ storiesOf('Containers.Onboarding.Forms', module)
   .add('Password', () => <Password />)
   .add('Recover', () => <Recover seed={[]} />)
   .add('Alias', () => <Alias />)
+  .add('Name', () => <Name />)
   .add('Autopilot', () => <Autopilot />)
   .add('SeedConfirm', () => (
     <SeedConfirm
