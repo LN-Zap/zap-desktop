@@ -19,7 +19,8 @@ type onboardingOptions = {
   cert?: string,
   macaroon?: string,
   alias?: string,
-  autopilot?: boolean
+  autopilot?: boolean,
+  name?: string
 }
 
 const grpcSslCipherSuites = connectionType =>

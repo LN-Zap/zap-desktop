@@ -8,6 +8,7 @@ import {
   setConnectionCert,
   setConnectionMacaroon,
   setConnectionString,
+  setName,
   setPassword,
   validateHost,
   validateCert,
@@ -26,6 +27,7 @@ import {
 
 const mapStateToProps = state => ({
   alias: state.onboarding.alias,
+  name: state.onboarding.name,
   autopilot: state.onboarding.autopilot,
   connectionType: state.onboarding.connectionType,
   connectionHost: state.onboarding.connectionHost,
@@ -51,6 +53,7 @@ const mapDispatchToProps = {
   setConnectionCert,
   setConnectionMacaroon,
   setConnectionString,
+  setName,
   setPassword,
   setUnlockWalletError,
   startLnd,
