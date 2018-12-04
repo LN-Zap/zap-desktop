@@ -46,13 +46,6 @@ class WalletLauncher extends React.Component {
     }
   }
 
-  walletName = wallet => {
-    if (wallet.type === 'local') {
-      return wallet.name || `Wallet #${wallet.id}`
-    }
-    return wallet.host.split(':')[0]
-  }
-
   handleDelete = () => {
     const { deleteWallet, wallet } = this.props
     deleteWallet(wallet.id)
@@ -60,13 +53,12 @@ class WalletLauncher extends React.Component {
 
   render() {
     const { startLnd, wallet } = this.props
-    const walletName = this.walletName(wallet)
 
     return (
       <React.Fragment>
         <Flex mb={4} alignItems="center">
           <Box width="75%" mr={3}>
-            <WalletHeader title={walletName} />
+            <WalletHeader wallet={wallet} />
           </Box>
           <Flex ml="auto" justifyContent="flex-end" flexDirection="column">
             <Button type="submit" size="small" form={`wallet-settings-form-${wallet.id}`} ml={2}>
