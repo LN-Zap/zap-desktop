@@ -3,15 +3,9 @@ import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Box } from 'rebass'
-import { Text, Truncate } from 'components/UI'
+import { Text } from 'components/UI'
+import { WalletName } from '.'
 import messages from './messages'
-
-const walletName = wallet => {
-  if (wallet.type === 'local') {
-    return wallet.name || `Wallet #${wallet.id}`
-  }
-  return wallet.name || wallet.host.split(':')[0]
-}
 
 const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
   <Box {...rest}>
@@ -31,9 +25,14 @@ const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
           activeStyle={{ fontWeight: 'normal' }}
           activeClassName="selected"
           onClick={() => setActiveWallet(wallet.id)}
-          style={{ display: 'block' }}
+          style={{
+            display: 'block',
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis'
+          }}
         >
-          <Truncate text={walletName(wallet)} maxlen={28} />
+          <WalletName wallet={wallet} />
         </NavLink>
       </Text>
     ))}

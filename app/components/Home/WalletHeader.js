@@ -2,17 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Heading } from 'components/UI'
 import { Textfit } from 'react-textfit'
+import { WalletName } from '.'
 
-const WalletHeader = ({ title }) => (
+const WalletHeader = ({ wallet }) => (
   <Heading.h1>
     <Textfit mode="single" min={16} max={60}>
-      {title}
+      <WalletName wallet={wallet} />
     </Textfit>
   </Heading.h1>
 )
 
 WalletHeader.propTypes = {
-  title: PropTypes.string.isRequired
+  wallet: PropTypes.object.isRequired
 }
 
 export default WalletHeader
