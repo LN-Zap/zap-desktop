@@ -1,6 +1,6 @@
 {
   "components.Activity.Invoice.amount": "",
-  "components.Activity.Invoice.received": "",
+  "components.Activity.Invoice.received": "Pagamento ricevuto",
   "components.Activity.Invoice.requested": "",
   "components.Activity.Invoice.type_paid": "",
   "components.Activity.Invoice.type_unpaid": "",
