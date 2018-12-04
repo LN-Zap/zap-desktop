@@ -28,24 +28,51 @@ class Syncing extends Component {
   }
 
   componentDidMount() {
-    const { setIsWalletOpen, syncStatus, intl } = this.props
+    const { setIsWalletOpen, syncStatus } = this.props
     setIsWalletOpen(true)
+    if (syncStatus === 'waiting') {
+      this.setWaitingTimer()
+    }
+  }
 
-    // If we are still waiting for peers after some time, advise te user it could take a wile.
-    let timer = setTimeout(() => {
-      if (syncStatus === 'waiting') {
-        this.setState({
-          syncMessageDetail: intl.formatMessage({ ...messages.grab_coffee })
-        })
-      }
-    }, 10000)
-
-    this.setState({ timer })
+  componentDidUpdate(prevProps) {
+    const { syncStatus } = this.props
+    if (syncStatus === 'waiting' && prevProps.syncStatus !== 'waiting') {
+      this.setWaitingTimer()
+    }
+    if (syncStatus !== 'waiting' && prevProps.syncStatus === 'waiting') {
+      this.clearWaitingTimer()
+    }
   }
 
   componentWillUnmount() {
     const { timer } = this.state
     clearInterval(timer)
+  }
+
+  setWaitingTimer = () => {
+    const { syncStatus, intl } = this.props
+
+    // If we are still waiting for peers after some time, advise te user it could take a wile.
+    let timer = setTimeout(() => {
+      if (syncStatus === 'waiting') {
+        this.setState({
+          syncMessageDetail: intl.formatMessage({ ...messages.taking_time }),
+          syncMessageExtraDetail: intl.formatMessage({ ...messages.grab_coffee })
+        })
+      }
+    }, 5000)
+
+    this.setState({ timer })
+  }
+
+  clearWaitingTimer = () => {
+    const { timer } = this.state
+    clearInterval(timer)
+    this.setState({
+      syncMessageDetail: null,
+      syncMessageExtraDetail: null
+    })
   }
 
   render() {
@@ -74,9 +101,10 @@ class Syncing extends Component {
     if (syncStatus === 'waiting') {
       syncMessage = intl.formatMessage({ ...messages.waiting_for_peers })
     } else if (syncStatus === 'in-progress') {
-      if (typeof syncPercentage === 'undefined' || syncPercentage <= 0) {
+      if (typeof syncPercentage === 'undefined' || Number(syncPercentage) <= 0) {
         syncMessage = intl.formatMessage({ ...messages.preparing })
         syncMessageDetail = null
+        syncMessageExtraDetail = null
       } else if (syncPercentage) {
         syncMessage = `${syncPercentage}%`
         syncMessageDetail = intl.formatMessage(
@@ -113,21 +141,41 @@ class Syncing extends Component {
           <Bar my={3} />
         </Panel.Header>
 
-        <Panel.Body width={9 / 16} mx="auto">
+        <Panel.Body width={9 / 16} mx="auto" mb={3}>
           {hasSynced === false &&
             address &&
             address.length && (
-              <Flex alignItems="center" flexDirection="column" justifyContent="center">
+              <Flex
+                alignItems="center"
+                flexDirection="column"
+                justifyContent="center"
+                css={{ height: '100%' }}
+              >
                 <QRCode value={address} mx="auto" />
                 <Text my={3}>{address}</Text>
                 <Button size="small" onClick={copyClicked} mx="auto">
-                  Copy address
+                  <FormattedMessage {...messages.copy_address} />
                 </Button>
               </Flex>
             )}
+          {hasSynced && (
+            <Flex
+              alignItems="center"
+              flexDirection="column"
+              justifyContent="center"
+              css={{ height: '100%' }}
+            >
+              <Text my={3}>
+                <FormattedMessage {...messages.tutorials_list_description} />
+              </Text>
+              <Button size="small" onClick={() => window.Zap.openHelpPage()} mx="auto">
+                <FormattedMessage {...messages.tutorials_button_text} />
+              </Button>
+            </Flex>
+          )}
         </Panel.Body>
 
-        <Panel.Footer bg="secondaryColor" p={3}>
+        <Panel.Footer bg="secondaryColor" p={3} css={{ 'min-height': '160px' }}>
           <Flex
             alignItems="center"
             flexDirection="column"
@@ -147,8 +195,8 @@ class Syncing extends Component {
               />
             </Box>
 
-            {syncMessageDetail && <Text>{syncMessageDetail}</Text>}
-            {syncMessageExtraDetail && <Text>{syncMessageExtraDetail}</Text>}
+            <Text>{syncMessageDetail}</Text>
+            <Text>{syncMessageExtraDetail}</Text>
           </Flex>
         </Panel.Footer>
       </Panel>
