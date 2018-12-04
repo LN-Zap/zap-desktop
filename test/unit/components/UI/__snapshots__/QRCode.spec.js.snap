@@ -3,15 +3,15 @@
 exports[`component.UI.QRCode should render correctly 1`] = `
 .c0 {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   display: inline-block;
 }
 
 .c1 {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
 }
 
 .c2 {
@@ -22,8 +22,8 @@ exports[`component.UI.QRCode should render correctly 1`] = `
   top: 0;
   left: 0;
   display: inline-block;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   -webkit-clip-path: polygon(0 0,25% 0,25% 25%,0 25%);
   clip-path: polygon(0 0,25% 0,25% 25%,0 25%);
 }
@@ -36,8 +36,8 @@ exports[`component.UI.QRCode should render correctly 1`] = `
   top: 0;
   right: 0;
   display: inline-block;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   -webkit-clip-path: polygon(75% 0,100% 0%,100% 25%,75% 25%);
   clip-path: polygon(75% 0,100% 0%,100% 25%,75% 25%);
 }
@@ -50,8 +50,8 @@ exports[`component.UI.QRCode should render correctly 1`] = `
   bottom: 0;
   left: 0;
   display: inline-block;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   -webkit-clip-path: polygon(0 75%,25% 75%,25% 100%,0 100%);
   clip-path: polygon(0 75%,25% 75%,25% 100%,0 100%);
 }
@@ -64,8 +64,8 @@ exports[`component.UI.QRCode should render correctly 1`] = `
   bottom: 0;
   right: 0;
   display: inline-block;
-  width: 150px;
-  height: 150px;
+  width: 140px;
+  height: 140px;
   -webkit-clip-path: polygon(75% 75%,100% 75%,100% 100%,75% 100%);
   clip-path: polygon(75% 75%,100% 75%,100% 100%,75% 100%);
 }
@@ -81,27 +81,27 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 
 <div
   className="c0"
-  size="150px"
+  size="140px"
 >
   <div
     className="c1"
-    size="150px"
+    size="140px"
   >
     <div
       className="c2"
-      size="150px"
+      size="140px"
     />
     <div
       className="c3"
-      size="150px"
+      size="140px"
     />
     <div
       className="c4"
-      size="150px"
+      size="140px"
     />
     <div
       className="c5"
-      size="150px"
+      size="140px"
     />
   </div>
   <svg
