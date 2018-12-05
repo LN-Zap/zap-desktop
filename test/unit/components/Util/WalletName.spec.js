@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
-import { WalletName } from 'components/Home'
+import { WalletName } from 'components/Util'
 
 describe('component.WalletName', () => {
   describe('local wallet, with name', () => {

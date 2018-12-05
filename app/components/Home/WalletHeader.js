@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Heading } from 'components/UI'
 import { Textfit } from 'react-textfit'
-import { WalletName } from '.'
+import { WalletName } from 'components/Util'
 
 const WalletHeader = ({ wallet }) => (
   <Heading.h1>
