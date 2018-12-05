@@ -55,7 +55,7 @@
   "components.Contacts.Network.req_limit": "",
   "components.Contacts.Network.search_placeholder": "cerca per alias o pubkey",
   "components.Contacts.Network.title": "La mia rete",
-  "components.Contacts.SubmitChannelForm.description": "",
+  "components.Contacts.SubmitChannelForm.description": "Aprire un canale ti aiuterà ad inviare e ricevere denaro nel Lightning Network. Non stai spendendo nulla, stai solamente spostando fondi che intendi utilizzare all'interno della rete.",
   "components.Contacts.SubmitChannelForm.duplicate_warnig": "",
   "components.Contacts.SubmitChannelForm.submit": "",
   "components.Contacts.SubmitChannelForm.title": "",
