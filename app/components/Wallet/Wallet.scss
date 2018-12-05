@@ -7,16 +7,6 @@
   padding: 20px 40px;
 }
 
-.user {
-  position: relative;
-  cursor: pointer;
-  transition: all 0.25s;
-
-  .aliasText:hover {
-    opacity: 0.5;
-  }
-}
-
 .qrCode {
   cursor: pointer;
   svg {
@@ -41,15 +31,6 @@
     display: inline;
   }
 
-  .spinner {
-    height: 30px;
-    width: 30px;
-    border: 1px solid rgba(235, 184, 100, 0.1);
-    border-left-color: rgba(235, 184, 100, 0.4);
-    border-radius: 999px;
-    animation: animation-rotate 1000ms linear infinite;
-  }
-
   .timeout {
     position: absolute;
     top: 20%;
@@ -61,12 +42,6 @@
 
   .icon {
     margin-right: 5px;
-  }
-}
-
-@keyframes animation-rotate {
-  100% {
-    transform: rotate(360deg);
   }
 }
 

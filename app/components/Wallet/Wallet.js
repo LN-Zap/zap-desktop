@@ -5,7 +5,7 @@ import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { Box, Flex } from 'rebass'
 import { btc, blockExplorer } from 'lib/utils'
 import Settings from 'components/Settings'
-import { Button, Dropdown, Text, Value } from 'components/UI'
+import { Button, Dropdown, StatusIndicator, Text, Value } from 'components/UI'
 import { WalletName } from 'components/Util'
 import CheckAnimated from 'components/Icon/CheckAnimated'
 import ZapLogo from 'components/Icon/ZapLogo'
@@ -54,19 +54,23 @@ const Wallet = ({
           )}
         </Flex>
         <Box as="section">
-          <section className={styles.user}>
-            <div
-              className={`${styles.alias} ${settingsProps.settings.settingsOpen &&
-                styles.settingsOpen}`}
+          <Box css={{ position: 'relative' }}>
+            <Flex
+              className={`${settingsProps.settings.settingsOpen && 'settingsOpen'}`}
               onClick={settingsProps.toggleSettings}
+              css={{ cursor: 'pointer' }}
             >
-              <span className={styles.aliasText}>
+              <StatusIndicator variant="online" mr={2} />
+              <Box
+                className="settingsMenu"
+                css={{ '&:hover': { opacity: '0.5', transition: 'all 0.25s' } }}
+              >
                 <WalletName wallet={activeWalletSettings} />
-              </span>
-              {settingsProps.settings.settingsOpen ? <FaAngleUp /> : <FaAngleDown />}
-            </div>
+                {settingsProps.settings.settingsOpen ? <FaAngleUp /> : <FaAngleDown />}
+              </Box>
+            </Flex>
             {settingsProps.settings.settingsOpen && <Settings {...settingsProps} />}
-          </section>
+          </Box>
         </Box>
       </Flex>
 

@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Box } from 'rebass'
 import FaExternalLink from 'react-icons/lib/fa/external-link'
-import FaCircle from 'react-icons/lib/fa/circle'
 import FaRepeat from 'react-icons/lib/fa/repeat'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { btc, blockExplorer } from 'lib/utils'
 import Plus from 'components/Icon/Plus'
 import Search from 'components/Icon/Search'
-import { BackgroundTertiary, Text, Value } from 'components/UI'
+import { BackgroundTertiary, StatusIndicator, Text, Value } from 'components/UI'
 
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
@@ -283,18 +283,12 @@ class Network extends Component {
                     onClick={() => channelClicked(channel)}
                   >
                     <section className={styles.channelTitle}>
-                      <span
-                        className={`${styles[channelStatus(channelObj)]} hint--right`}
+                      <Box
+                        className="hint--right"
                         data-hint={intl.formatMessage({ ...messages[channelStatus(channelObj)] })}
                       >
-                        {closingChannelIds.includes(channel.chan_id) ? (
-                          <span className={styles.loading}>
-                            <i className={`${styles.spinner} ${styles.closing}`} />
-                          </span>
-                        ) : (
-                          <FaCircle />
-                        )}
-                      </span>
+                        <StatusIndicator variant={channelStatus(channelObj)} />
+                      </Box>
                       <span>{displayNodeName(channel)}</span>
                       {selectedChannel === channel && (
                         <span
