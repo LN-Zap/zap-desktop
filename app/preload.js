@@ -53,5 +53,34 @@ async function deleteLocalWallet(chain, network, wallet) {
   }
 
   const walletDir = join(remote.app.getPath('userData'), 'lnd', chain, network, wallet)
-  return await fsRimraf(walletDir)
+
+  return new Promise((resolve, reject) => {
+    remote.dialog.showMessageBox(
+      {
+        /* eslint-disable max-len */
+        type: 'warning',
+        message: 'Are you sure you want to delete this wallet?',
+        detail: `Deleting this wallet will remove all data from the wallet directory:\n\n${walletDir}\n\nThis action cannot be undone!\n\nPlease ensure that you have access to your wallet backup seed before proceeding.`,
+        checkboxLabel: `Yes, delete this wallet`,
+        cancelId: 1,
+        buttons: ['Delete', 'Cancel'],
+        defaultId: 0
+      },
+      async (choice, checkboxChecked) => {
+        if (choice === 0) {
+          if (checkboxChecked) {
+            await fsRimraf(walletDir)
+            return resolve()
+          } else {
+            remote.dialog.showErrorBox(
+              'Wallet not deleted',
+              'The wallet was not deleted as you did not select the confirmation checkbox.'
+            )
+          }
+        } else {
+          return reject()
+        }
+      }
+    )
+  })
 }
