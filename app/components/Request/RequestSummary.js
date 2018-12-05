@@ -5,7 +5,8 @@ import { FormattedMessage, FormattedRelative, injectIntl } from 'react-intl'
 import { decodePayReq } from 'lib/utils/crypto'
 import { showNotification } from 'lib/utils/notifications'
 import copy from 'copy-to-clipboard'
-import { Bar, DataRow, Button, Dropdown, QRCode, Text, Truncate, Value } from 'components/UI'
+import { Bar, DataRow, Button, Dropdown, QRCode, Text, Value } from 'components/UI'
+import { Truncate } from 'components/Util'
 import messages from './messages'
 
 class RequestSummary extends React.Component {
