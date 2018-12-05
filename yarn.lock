@@ -15916,10 +15916,10 @@ stylelint-processor-styled-components@1.5.1:
     "@babel/traverse" "^7.0.0"
     postcss "^6.0.14"
 
-stylelint-scss@3.4.0:
-  version "3.4.0"
-  resolved "https://registry.yarnpkg.com/stylelint-scss/-/stylelint-scss-3.4.0.tgz#263da8450e371bcf646063c6ac62f69225369697"
-  integrity sha512-sM1bsOrbmR35N1ZAg+7uLVI+n2QHqOVMZPRiAIyiOa1ITBrg0hajBH/i1F/ZxbsBUWLAeSq/NREwPw1+xF9exQ==
+stylelint-scss@3.4.1:
+  version "3.4.1"
+  resolved "https://registry.yarnpkg.com/stylelint-scss/-/stylelint-scss-3.4.1.tgz#b6155b99964a1c35db40b1643457a76b9f2bb96d"
+  integrity sha512-ENYTE25wd9ndSkwxMksr8hrXVdWYu+RfDKM1ef2MHEqxk4cU362WQv7mgJK3HZqdCZFxL21sFegQO9Kz2vzwGw==
   dependencies:
     lodash "^4.17.11"
     postcss-media-query-parser "^0.2.3"

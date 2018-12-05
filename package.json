@@ -286,7 +286,7 @@
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-formatter-pretty": "1.0.3",
     "stylelint-processor-styled-components": "1.5.1",
-    "stylelint-scss": "3.4.0",
+    "stylelint-scss": "3.4.1",
     "url-loader": "1.1.2",
     "webpack": "4.27.0",
     "webpack-bundle-analyzer": "3.0.3",
