@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Text } from 'components/UI'
-import { WalletName } from 'components/Home'
+import { WalletName } from 'components/Util'
 
 storiesOf('Containers.Home', module).addWithChapters('WalletName', {
   chapters: [

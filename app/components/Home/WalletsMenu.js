@@ -4,7 +4,7 @@ import { injectIntl } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Box } from 'rebass'
 import { Text } from 'components/UI'
-import { WalletName } from '.'
+import { WalletName } from 'components/Util'
 import messages from './messages'
 
 const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
