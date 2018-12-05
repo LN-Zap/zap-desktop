@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import db from 'store/db'
+import { setError } from './error'
 
 // ------------------------------------
 // Constants
@@ -8,6 +9,8 @@ export const SET_WALLETS = 'SET_WALLETS'
 export const SET_ACTIVE_WALLET = 'SET_ACTIVE_WALLET'
 export const SET_IS_WALLET_OPEN = 'SET_IS_WALLET_OPEN'
 export const DELETE_WALLET = 'DELETE_WALLET'
+export const DELETE_WALLET_SUCCESS = 'DELETE_WALLET_SUCCESS'
+export const DELETE_WALLET_FAILURE = 'DELETE_WALLET_FAILURE'
 export const PUT_WALLET = 'PUT_WALLET'
 
 // ------------------------------------
@@ -61,12 +64,34 @@ export const putWallet = wallet => async dispatch => {
   return wallet
 }
 
-export const deleteWallet = walletId => async dispatch => {
+export const deleteWallet = walletId => async (dispatch, getState) => {
   dispatch({ type: DELETE_WALLET, walletId })
-  await db.wallets.delete(walletId)
-  await dispatch(setActiveWallet(null))
-  await dispatch(setIsWalletOpen(false))
-  await dispatch(getWallets())
+
+  try {
+    const state = getState().wallet
+    const wallet = state.wallets.find(w => w.id === walletId)
+
+    // Delete the wallet from the filesystem.
+    if (wallet.type === 'local') {
+      await window.Zap.deleteLocalWallet(wallet.chain, wallet.network, wallet.wallet)
+    }
+
+    // Delete the wallet from the database.
+    await db.wallets.delete(walletId)
+
+    // Dispatch success message.
+    dispatch({ type: DELETE_WALLET_SUCCESS, walletId })
+
+    // Deslect and close the current wallet.
+    await dispatch(setActiveWallet(null))
+    await dispatch(setIsWalletOpen(false))
+
+    // Refresh the wallets state data.
+    await dispatch(getWallets())
+  } catch (error) {
+    dispatch(setError(error.message))
+    dispatch({ type: DELETE_WALLET_FAILURE, error })
+  }
 }
 
 export const initWallets = () => async dispatch => {
