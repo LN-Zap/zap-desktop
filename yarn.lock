@@ -15866,10 +15866,10 @@ styled-components@4.1.2:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
-styled-reset@1.6.1:
-  version "1.6.1"
-  resolved "https://registry.yarnpkg.com/styled-reset/-/styled-reset-1.6.1.tgz#80ec719bbcfffa6f7c1bd7781aec2c93145aa47d"
-  integrity sha512-XpEXPrE8HJB1s1s9w1EyZ3ML5zy2dDRhia0M9tvom+NZx+CZ8Z5TDDF/UppHqOd44cwP6CG3cxmTNfc/9bsSgw==
+styled-reset@1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/styled-reset/-/styled-reset-1.6.2.tgz#29bc122e29d174d51d60da80cff0e7b782daeafc"
+  integrity sha512-hfG0c6ET6SrS0PTW2lpfuoZc9RkRnCpHgdT59aIF0ssCWMkZ2qPuKsCxSozOSTHKUhPqxxMWAzjd3tWcPbrP4w==
 
 styled-system@^3.0.1, styled-system@^3.1.4:
   version "3.1.11"
