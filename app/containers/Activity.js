@@ -21,6 +21,7 @@ import { walletAddress, openWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
 import { setSettingsOpen, setActiveSubMenu, disableSubMenu } from 'reducers/settings'
 import { setTheme, themeSelectors } from 'reducers/theme'
+import { walletSelectors } from 'reducers/wallet'
 
 import Activity from 'components/Activity'
 
@@ -66,6 +67,7 @@ const mapStateToProps = state => ({
   currentLocale: state.intl.locale,
   locales: state.locale,
 
+  activeWalletSettings: walletSelectors.activeWalletSettings(state),
   currentTheme: themeSelectors.currentTheme(state),
   themes: themeSelectors.themes(state),
 
@@ -91,6 +93,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
 
   walletProps: {
     balance: stateProps.balance,
+    activeWalletSettings: stateProps.activeWalletSettings,
     address: stateProps.address.address,
     info: stateProps.info,
     ticker: stateProps.ticker,

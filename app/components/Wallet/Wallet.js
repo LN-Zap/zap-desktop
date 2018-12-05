@@ -6,6 +6,7 @@ import { Box, Flex } from 'rebass'
 import { btc, blockExplorer } from 'lib/utils'
 import Settings from 'components/Settings'
 import { Button, Dropdown, Text, Value } from 'components/UI'
+import { WalletName } from 'components/Util'
 import CheckAnimated from 'components/Icon/CheckAnimated'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Qrcode from 'components/Icon/Qrcode'
@@ -20,6 +21,7 @@ const Wallet = ({
   openReceiveModal,
   ticker,
   currentTicker,
+  activeWalletSettings,
   openPayForm,
   openRequestForm,
   showPayLoadingScreen,
@@ -58,7 +60,9 @@ const Wallet = ({
                 styles.settingsOpen}`}
               onClick={settingsProps.toggleSettings}
             >
-              <span className={styles.aliasText}>{info.data.alias}</span>
+              <span className={styles.aliasText}>
+                <WalletName wallet={activeWalletSettings} />
+              </span>
               {settingsProps.settings.settingsOpen ? <FaAngleUp /> : <FaAngleDown />}
             </div>
             {settingsProps.settings.settingsOpen && <Settings {...settingsProps} />}
@@ -164,6 +168,7 @@ Wallet.propTypes = {
   info: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
+  activeWalletSettings: PropTypes.object.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
   openReceiveModal: PropTypes.func.isRequired,
