@@ -1,0 +1,1 @@
+export WalletName from './WalletName'
