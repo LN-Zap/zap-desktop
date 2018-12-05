@@ -1,6 +1,6 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { Truncate } from 'components/UI'
+import { Truncate } from 'components/Util'
 
 describe('component.UI.Truncate', () => {
   it('should truncate text to 12 chars by default', () => {
