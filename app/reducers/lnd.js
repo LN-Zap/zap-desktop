@@ -359,8 +359,16 @@ const ACTION_HANDLERS = {
     ...state,
     blockHeight
   }),
-  [RECEIVE_LND_BLOCK_HEIGHT]: (state, { lndBlockHeight }) => ({ ...state, lndBlockHeight }),
-  [RECEIVE_LND_CFILTER_HEIGHT]: (state, { lndCfilterHeight }) => ({ ...state, lndCfilterHeight }),
+  [RECEIVE_LND_BLOCK_HEIGHT]: (state, { lndBlockHeight }) => ({
+    ...state,
+    lndBlockHeight,
+    lndFirstBlockHeight: state.lndFirstBlockHeight || lndBlockHeight
+  }),
+  [RECEIVE_LND_CFILTER_HEIGHT]: (state, { lndCfilterHeight }) => ({
+    ...state,
+    lndCfilterHeight,
+    lndFirstCfilterHeight: state.lndFirstCfilterHeight || lndCfilterHeight
+  }),
 
   [STARTING_LND]: state => ({
     ...state,
@@ -438,7 +446,9 @@ const initialState = {
   syncStatus: 'pending',
   blockHeight: 0,
   lndBlockHeight: 0,
-  lndCfilterHeight: 0
+  lndFirstBlockHeight: 0,
+  lndCfilterHeight: 0,
+  lndFirstCfilterHeight: 0
 }
 
 // ------------------------------------
@@ -447,16 +457,32 @@ const initialState = {
 const lndSelectors = {}
 const blockHeightSelector = state => state.lnd.blockHeight
 const lndBlockHeightSelector = state => state.lnd.lndBlockHeight
+const lndFirstBlockHeightSelector = state => state.lnd.lndFirstBlockHeight
 const lndCfilterHeightSelector = state => state.lnd.lndCfilterHeight
+const lndFirstCfilterHeightSelector = state => state.lnd.lndFirstCfilterHeight
 
 lndSelectors.syncPercentage = createSelector(
   blockHeightSelector,
   lndBlockHeightSelector,
+  lndFirstBlockHeightSelector,
   lndCfilterHeightSelector,
-  (blockHeight, lndBlockHeight, lndCfilterHeight) => {
-    // We set the total amount to the blockheight x 2 because there are twi pahases to the sync process that each
-    // take about the same amount of time (syncing blocks and syncing cfilters)
-    const percentage = Math.floor(((lndBlockHeight + lndCfilterHeight) / (blockHeight * 2)) * 100)
+  lndFirstCfilterHeightSelector,
+  (blockHeight, lndBlockHeight, lndFirstBlockHeight, lndCfilterHeight, lndFirstCfilterHeight) => {
+    // blocks
+    const blocksToSync = blockHeight - lndFirstBlockHeight
+    const blocksRemaining = blockHeight - lndBlockHeight
+    const blocksDone = blocksToSync - blocksRemaining
+
+    // filters
+    const filtersToSync = blockHeight - lndFirstCfilterHeight
+    const filtersRemaining = blockHeight - lndCfilterHeight
+    const filtersDone = filtersToSync - filtersRemaining
+
+    // totals
+    const totalToSync = blocksToSync + filtersToSync
+    const done = blocksDone + filtersDone
+
+    const percentage = Math.floor((done / totalToSync) * 100)
 
     if (percentage === Infinity || Number.isNaN(percentage)) {
       return undefined

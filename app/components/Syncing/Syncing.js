@@ -101,11 +101,11 @@ class Syncing extends Component {
     if (syncStatus === 'waiting') {
       syncMessage = intl.formatMessage({ ...messages.waiting_for_peers })
     } else if (syncStatus === 'in-progress') {
-      if (typeof syncPercentage === 'undefined' || Number(syncPercentage) <= 0) {
+      if (typeof syncPercentage === 'undefined') {
         syncMessage = intl.formatMessage({ ...messages.preparing })
         syncMessageDetail = null
         syncMessageExtraDetail = null
-      } else if (syncPercentage) {
+      } else {
         syncMessage = `${syncPercentage}%`
         syncMessageDetail = intl.formatMessage(
           { ...messages.block_progress },
