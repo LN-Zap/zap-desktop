@@ -37,7 +37,7 @@ class Settings extends React.Component {
       // as that will cause us to double toggle and re-open it
       if (
         typeof event.target.className === 'string' &&
-        event.target.className.includes('aliasText')
+        event.target.className.includes('settingsMenu')
       ) {
         return
       }
