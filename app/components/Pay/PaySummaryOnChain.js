@@ -5,7 +5,8 @@ import { FormattedNumber, FormattedMessage } from 'react-intl'
 import get from 'lodash.get'
 import { satoshisToFiat } from 'lib/utils/btc'
 import BigArrowRight from 'components/Icon/BigArrowRight'
-import { Bar, DataRow, Dropdown, Spinner, Text, Truncate, Value } from 'components/UI'
+import { Bar, DataRow, Dropdown, Spinner, Text, Value } from 'components/UI'
+import { Truncate } from 'components/Util'
 import messages from './messages'
 
 class PaySummaryOnChain extends React.Component {
