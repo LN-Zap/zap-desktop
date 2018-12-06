@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { debounce } from 'lodash.debounce'
 import { btc } from 'lib/utils'
 import { requestSuggestedNodes } from 'lib/utils/api'
 import db from 'store/db'
@@ -306,7 +307,10 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
 
   // if our node or any of our chanels were involved in this update, fetch an updated channel list.
   if (hasUpdates) {
-    dispatch(fetchChannels())
+    // We can receive a lot of channel updates from channel graph subscription in a short space of time. If these
+    // nvolve our our channels we make a call to fetchChannels and then fetchBalances in order to refresh our channel
+    // and balance data. Debounce these calls so that we don't fire too many times in quick succession.
+    debounce(() => dispatch(fetchChannels), 1000, { leading: true, trailing: true, maxWait: 3000 })
   }
 }
 
