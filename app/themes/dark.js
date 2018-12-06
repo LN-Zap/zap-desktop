@@ -47,6 +47,9 @@ const buttons = {
   },
   secondary: {
     opacity: 0.6,
+    '&.active': {
+      opacity: 1
+    },
     backgroundColor: 'transparent',
     color: colors.primaryText,
     '&:hover:enabled': {

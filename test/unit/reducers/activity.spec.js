@@ -2,7 +2,6 @@ import activityReducer, {
   SHOW_ACTIVITY_MODAL,
   HIDE_ACTIVITY_MODAL,
   CHANGE_FILTER,
-  TOGGLE_PULLDOWN,
   UPDATE_SEARCH_ACTIVE,
   UPDATE_SEARCH_TEXT
 } from 'reducers/activity'
@@ -19,10 +18,6 @@ describe('reducers', () => {
 
     it('should have CHANGE_FILTER', () => {
       expect(CHANGE_FILTER).toEqual('CHANGE_FILTER')
-    })
-
-    it('should have TOGGLE_PULLDOWN', () => {
-      expect(TOGGLE_PULLDOWN).toEqual('TOGGLE_PULLDOWN')
     })
 
     it('should have UPDATE_SEARCH_ACTIVE', () => {
@@ -45,12 +40,6 @@ describe('reducers', () => {
 
     it('should correctly changeFilter', () => {
       expect(activityReducer(undefined, { type: CHANGE_FILTER })).toMatchSnapshot()
-    })
-
-    it('should correctly togglePulldown', () => {
-      expect(
-        activityReducer(undefined, { type: TOGGLE_PULLDOWN, invoice: 'foo' })
-      ).toMatchSnapshot()
     })
 
     it('should correctly updateSearchActive', () => {
