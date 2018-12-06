@@ -4,7 +4,6 @@ import { createSelector } from 'reselect'
 // Initial State
 // ------------------------------------
 const initialState = {
-  filterPulldown: false,
   filter: { key: 'ALL_ACTIVITY', name: 'All Activity' },
   filters: [
     { key: 'ALL_ACTIVITY', name: 'all' },
@@ -26,13 +25,8 @@ const initialState = {
 // ------------------------------------
 export const SHOW_ACTIVITY_MODAL = 'SHOW_ACTIVITY_MODAL'
 export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
-
 export const CHANGE_FILTER = 'CHANGE_FILTER'
-
-export const TOGGLE_PULLDOWN = 'TOGGLE_PULLDOWN'
-
 export const TOGGLE_EXPIRED_REQUESTS = 'TOGGLE_EXPIRED_REQUESTS'
-
 export const UPDATE_SEARCH_ACTIVE = 'UPDATE_SEARCH_ACTIVE'
 export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 
@@ -57,12 +51,6 @@ export function changeFilter(filter) {
   return {
     type: CHANGE_FILTER,
     filter
-  }
-}
-
-export function toggleFilterPulldown() {
-  return {
-    type: TOGGLE_PULLDOWN
   }
 }
 
@@ -95,8 +83,7 @@ const ACTION_HANDLERS = {
     modal: { itemType, itemId }
   }),
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { itemType: null, itemId: null } }),
-  [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter, filterPulldown: false }),
-  [TOGGLE_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
+  [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter }),
   [TOGGLE_EXPIRED_REQUESTS]: state => ({
     ...state,
     showExpiredRequests: !state.showExpiredRequests

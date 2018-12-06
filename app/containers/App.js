@@ -18,7 +18,6 @@ import {
   closeChannel,
   channelsSelectors,
   currentChannels,
-  toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
   setSelectedChannel
@@ -59,7 +58,6 @@ const mapDispatchToProps = {
   fetchSuggestedNodes,
   openChannel,
   closeChannel,
-  toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
   setSelectedChannel,
@@ -126,7 +124,6 @@ const mapStateToProps = state => ({
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
   nonActiveChannelPubkeys: channelsSelectors.nonActiveChannelPubkeys(state),
   pendingOpenChannelPubkeys: channelsSelectors.pendingOpenChannelPubkeys(state),
-  nonActiveFilters: channelsSelectors.nonActiveFilters(state),
   channelNodes: channelsSelectors.channelNodes(state)
 })
 
@@ -145,7 +142,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currentTicker: stateProps.currentTicker,
     contactsform: stateProps.contactsform,
     nodes: stateProps.network.nodes,
-    nonActiveFilters: stateProps.nonActiveFilters,
     ticker: stateProps.ticker,
     network: stateProps.info.network,
     currencyName: stateProps.currencyName,
@@ -154,7 +150,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     openContactsForm: dispatchProps.openContactsForm,
     contactFormSelectors: dispatchProps.contactFormSelectors,
     updateManualFormError: dispatchProps.updateManualFormErrors,
-    toggleFilterPulldown: dispatchProps.toggleFilterPulldown,
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
     setSelectedChannel: dispatchProps.setSelectedChannel,

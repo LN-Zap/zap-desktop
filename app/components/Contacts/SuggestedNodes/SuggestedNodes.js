@@ -1,62 +1,76 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { FormattedMessage } from 'react-intl'
+import { Box, Flex } from 'rebass'
+import { Button, Spinner, Text } from 'components/UI'
 import messages from './messages'
 
-import styles from './SuggestedNodes.scss'
+const SuggestedNode = ({ node, nodeClicked, ...rest }) => (
+  <Flex justifyContent="space-between" {...rest} alignItems="center">
+    <Box css={{ overflow: 'hidden' }}>
+      <Text fontWeight="normal">{node.nickname}</Text>
+      <Text color="gray" css={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+        {node.pubkey}
+      </Text>
+    </Box>
+    <Box ml={2}>
+      <Button type="button" variant="secondary" onClick={() => nodeClicked(node)}>
+        <Text fontSize="s">
+          <FormattedMessage {...messages.connect} />
+        </Text>
+      </Button>
+    </Box>
+  </Flex>
+)
 
 const SuggestedNodes = ({
   suggestedNodesLoading,
   suggestedNodes,
   setNode,
-  openSubmitChannelForm
+  openSubmitChannelForm,
+  ...rest
 }) => {
+  /**
+   * Set the node public key and open the submit form.
+   */
   const nodeClicked = n => {
-    // set the node public key for the submit form
     setNode({ pub_key: n.pubkey, addresses: [{ addr: n.host }] })
-    // open the submit form
     openSubmitChannelForm()
   }
-  if (suggestedNodesLoading) {
-    return (
-      <div className={styles.spinnerContainer}>
-        <span className={styles.loading}>
-          <i className={`${styles.spinner} ${styles.closing}`} />
-        </span>
-      </div>
-    )
-  }
+
+  /**
+   * Render a list of nodes.
+   */
+  const renderNodes = () => (
+    <>
+      <Text mb={4} textAlign="justify">
+        <FormattedMessage {...messages.empty_description} />
+      </Text>
+      {suggestedNodes.map(node => (
+        <SuggestedNode key={node.pubkey} node={node} nodeClicked={nodeClicked} mb={2} />
+      ))}
+    </>
+  )
+
+  /**
+   * Text to display if no nodes were found.
+   */
+  const renderAltText = () => (
+    <Text>
+      <FormattedMessage {...messages.empty_description_alt} />
+    </Text>
+  )
 
   return (
-    <div className={styles.container}>
-      <header>
-        {suggestedNodes.length > 0 ? (
-          <div>
-            <FormattedMessage {...messages.empty_description} />
-            <ul className={styles.suggestedNodes}>
-              {suggestedNodes.map(node => (
-                <li key={node.pubkey}>
-                  <section>
-                    <span>{node.nickname}</span>
-                    <span>{`${node.pubkey.substring(0, 30)}...`}</span>
-                  </section>
-                  <section>
-                    <span onClick={() => nodeClicked(node)}>
-                      <FormattedMessage {...messages.connect} />
-                    </span>
-                  </section>
-                </li>
-              ))}
-            </ul>
-          </div>
-        ) : (
-          <div>
-            <FormattedMessage {...messages.empty_description_alt} />
-          </div>
-        )}
-      </header>
-    </div>
+    <Box {...rest}>
+      {suggestedNodesLoading && (
+        <Text textAlign="center">
+          <Spinner />
+        </Text>
+      )}
+      {!suggestedNodesLoading && suggestedNodes.length > 0 && renderNodes()}
+      {!suggestedNodesLoading && suggestedNodes.length == 0 && renderAltText()}
+    </Box>
   )
 }
 

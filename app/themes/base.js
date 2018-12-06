@@ -64,7 +64,7 @@ const statuses = {
     color: palette.lightningOrange
   },
   closing: {
-    color: palette.lightningOrange
+    color: palette.superRed
   },
   offline: {
     color: palette.gray

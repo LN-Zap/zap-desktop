@@ -29,7 +29,12 @@ class Modal extends React.Component {
   render() {
     const { children, onClose, withClose, withHeader, ...rest } = this.props
     return (
-      <Panel width={1} bg="primaryColor" color="primaryText">
+      <Panel
+        width={1}
+        css={{ height: '100vh', 'z-index': '999', position: 'absolute', top: 0 }}
+        bg="primaryColor"
+        color="primaryText"
+      >
         <Panel.Header p={3}>
           <Flex justifyContent="space-between">
             <Box

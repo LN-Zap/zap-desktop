@@ -9,9 +9,7 @@ import ReceiveModal from 'components/Wallet/ReceiveModal'
 import ActivityModal from 'components/Activity/ActivityModal'
 
 import Activity from 'containers/Activity'
-
-import { Box } from 'rebass'
-import styles from './App.scss'
+import { MainContent, Sidebar } from 'components/UI'
 
 class App extends React.Component {
   static propTypes = {
@@ -62,20 +60,22 @@ class App extends React.Component {
     }
 
     return (
-      <Box width={1} className={`${currentTheme}`}>
+      <>
         <ChannelForm {...channelFormProps} />
         <ReceiveModal {...receiveModalProps} />
         <ActivityModal {...activityModalProps} />
-        <Box className={styles.content}>
-          <Activity />
-        </Box>
-        {contactsFormProps.contactsform.isOpen ? (
-          <AddChannel {...contactsFormProps} />
-        ) : (
-          <Network {...networkTabProps} />
-        )}
         <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
-      </Box>
+        <MainContent className={`${currentTheme}`}>
+          <Activity />
+        </MainContent>
+        <Sidebar.medium>
+          {contactsFormProps.contactsform.isOpen ? (
+            <AddChannel {...contactsFormProps} />
+          ) : (
+            <Network {...networkTabProps} />
+          )}
+        </Sidebar.medium>
+      </>
     )
   }
 }

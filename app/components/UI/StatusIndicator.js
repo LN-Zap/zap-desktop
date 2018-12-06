@@ -17,7 +17,7 @@ const StyledStatusIndicator = styled(Box)(indicatorStyle)
  */
 const StatusIndicator = ({ variant, ...rest }) => (
   <StyledStatusIndicator variant={variant} {...rest}>
-    {variant === 'closing' ? <Spinner /> : <FaCircle size="0.5em" />}
+    {['loading'].includes(variant) ? <Spinner size="0.5em" /> : <FaCircle size="0.5em" />}
   </StyledStatusIndicator>
 )
 StatusIndicator.propTypes = {

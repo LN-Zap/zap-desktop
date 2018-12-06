@@ -4,7 +4,9 @@ exports[`component.UI.StatusIndicator closing should render correctly 1`] = `
 <Styled(styled.div)
   variant="closing"
 >
-  <WrappedSpinner />
+  <FaCircle
+    size="0.5em"
+  />
 </Styled(styled.div)>
 `;
 

@@ -1,12 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import X from 'components/Icon/X'
-
+import { Modal } from 'components/UI'
 import TransactionModal from '../TransactionModal'
 import PaymentModal from '../PaymentModal'
 import InvoiceModal from '../InvoiceModal'
 
-import styles from './ActivityModal.scss'
+const MODAL_COMPONENTS = {
+  TRANSACTION: TransactionModal,
+  PAYMENT: PaymentModal,
+  INVOICE: InvoiceModal
+}
 
 const ActivityModal = ({
   itemType,
@@ -14,16 +17,9 @@ const ActivityModal = ({
   ticker,
   currentTicker,
   network,
-
   hideActivityModal,
   toggleCurrencyProps
 }) => {
-  const MODAL_COMPONENTS = {
-    TRANSACTION: TransactionModal,
-    PAYMENT: PaymentModal,
-    INVOICE: InvoiceModal
-  }
-
   if (!item) {
     return null
   }
@@ -31,12 +27,7 @@ const ActivityModal = ({
   const SpecificModal = MODAL_COMPONENTS[itemType]
 
   return (
-    <div className={styles.container}>
-      <div className={styles.closeContainer}>
-        <span onClick={() => hideActivityModal()}>
-          <X />
-        </span>
-      </div>
+    <Modal onClose={hideActivityModal}>
       <SpecificModal
         item={item}
         network={network}
@@ -44,7 +35,7 @@ const ActivityModal = ({
         currentTicker={currentTicker}
         toggleCurrencyProps={toggleCurrencyProps}
       />
-    </div>
+    </Modal>
   )
 }
 

@@ -4,9 +4,12 @@ const { join } = require('path')
 const { promisify } = require('util')
 const rimraf = require('rimraf')
 const assert = require('assert')
+const url = require('url')
 
 const fsReaddir = promisify(readdir)
 const fsRimraf = promisify(rimraf)
+
+const WHITELISTED_DOMAINS = ['ln-zap.github.io', 'blockstream.info']
 
 init()
 
@@ -16,6 +19,7 @@ function init() {
   // !CAREFUL! do not expose any functionality or APIs that could compromise the
   // user's computer. E.g. don't directly expose core Electron (even IPC) or node.js modules.
   window.Zap = {
+    openExternal,
     openHelpPage,
     getLocalWallets,
     deleteLocalWallet
@@ -23,10 +27,23 @@ function init() {
 }
 
 /**
+ * Open an external web page. Only allow whitelisted domains.
+ */
+function openExternal(urlString) {
+  const parsedUrl = url.parse(urlString)
+  if (!parsedUrl.hostname) {
+    return
+  }
+  if (WHITELISTED_DOMAINS.includes(parsedUrl.hostname)) {
+    shell.openExternal(urlString)
+  }
+}
+
+/**
  * Open the help page in a new browser window.
  */
 function openHelpPage() {
-  shell.openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
+  openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
 }
 
 /**
