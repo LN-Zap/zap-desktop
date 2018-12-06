@@ -7,7 +7,6 @@ import Spinner from './Spinner'
 const Wrapper = styled(BaseButton)`
   transition: all 0.25s;
   outline: none;
-  border-radius: 5;
   font-weight: 300;
   line-height: '18px';
   white-space: nowrap;
@@ -30,17 +29,19 @@ class Button extends React.PureComponent {
   static displayName = 'Button'
   static defaultProps = {
     processing: false,
+    active: false,
     size: 'medium',
     variant: 'normal'
   }
   static propTypes = {
     processing: PropTypes.bool,
+    active: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium']),
     variant: PropTypes.string
   }
 
   render() {
-    let { children, processing, size, variant, ...rest } = this.props
+    let { children, active, processing, size, variant, ...rest } = this.props
     const sizes = {
       small: {
         x: 3,
@@ -57,8 +58,17 @@ class Button extends React.PureComponent {
       size.x = 0
     }
 
+    const borderRadius = variant === 'secondary' ? 0 : 5
+
     return (
-      <Wrapper px={size['x']} py={size['y']} variant={variant} {...rest}>
+      <Wrapper
+        px={size['x']}
+        py={size['y']}
+        borderRadius={borderRadius}
+        variant={variant}
+        className={active ? 'active' : null}
+        {...rest}
+      >
         {processing ? (
           <Flex alignItems="center">
             {processing && <Spinner />}

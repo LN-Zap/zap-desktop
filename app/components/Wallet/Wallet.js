@@ -43,9 +43,9 @@ const Wallet = ({
   )
 
   return (
-    <div className={`${styles.wallet}`}>
+    <Box pt={4} px={5} pb={3} bg="secondaryColor">
       <Flex as="header" justifyContent="space-between">
-        <Flex as="section" alignItems="center">
+        <Flex as="section" alignItems="center" mt={3}>
           <ZapLogo width="70px" height="32px" />
           {info.data.testnet && (
             <Text color="superGreen" fontSize={1} ml={2}>
@@ -74,7 +74,7 @@ const Wallet = ({
         </Box>
       </Flex>
 
-      <Flex as="header" justifyContent="space-between" mt={5}>
+      <Flex as="header" justifyContent="space-between" mt={4}>
         <Box as="section">
           <Flex alignItems="center">
             <Box onClick={openReceiveModal} className={styles.qrCode} mr={3}>
@@ -163,7 +163,7 @@ const Wallet = ({
           )}
         </div>
       </Box>
-    </div>
+    </Box>
   )
 }
 

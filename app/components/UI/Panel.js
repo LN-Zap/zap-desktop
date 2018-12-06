@@ -15,7 +15,8 @@ const PanelBody = ({ children, css, ...rest }) => (
     as="section"
     css={Object.assign(
       {
-        flex: 1
+        flex: 1,
+        overflow: 'scroll'
       },
       css
     )}

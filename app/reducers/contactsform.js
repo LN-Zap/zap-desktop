@@ -233,7 +233,7 @@ contactFormSelectors.showManualForm = createSelector(
   contactFormSelectors.filteredNetworkNodes,
   (searchQuery, filteredNetworkNodes) => {
     if (!searchQuery.length) {
-      return false
+      return true
     }
 
     const connectableNodes = filteredNetworkNodes.filter(node => node.addresses.length > 0)

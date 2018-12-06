@@ -1,57 +1,166 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { Box, Flex } from 'rebass'
+import { Bar, Button, Form, Heading, Input, Panel, Spinner, Text } from 'components/UI'
 import Search from 'components/Icon/Search'
 import X from 'components/Icon/X'
-import FaRepeat from 'react-icons/lib/fa/repeat'
-
-import { FormattedMessage, injectIntl } from 'react-intl'
-import { Flex } from 'rebass'
-import { Button, Text } from 'components/UI'
+import ChainLink from 'components/Icon/ChainLink'
+import Clock from 'components/Icon/Clock'
+import Zap from 'components/Icon/Zap'
 import Wallet from 'components/Wallet'
 import Invoice from './Invoice'
 import Payment from './Payment'
 import Transaction from './Transaction'
-
-import styles from './Activity.scss'
-
 import messages from './messages'
 
 class Activity extends Component {
-  constructor(props) {
-    super(props)
-    this.renderActivity = this.renderActivity.bind(this)
-
-    this.state = {
-      refreshing: false
-    }
+  state = {
+    refreshing: false
   }
 
   componentDidMount() {
-    const {
-      fetchPayments,
-      fetchInvoices,
-      fetchTransactions,
-      fetchBalance,
-      fetchChannels
-    } = this.props
+    this.refreshClicked()
+  }
 
+  refreshClicked = () => {
+    const { fetchPayments, fetchInvoices, fetchTransactions, fetchBalance } = this.props
+    // turn the spinner on
+    this.setState({ refreshing: true })
+
+    // fetch data
     fetchBalance()
     fetchPayments()
     fetchInvoices()
     fetchTransactions()
-    fetchChannels()
 
-    // HACK: wait 10 seconds and fetch channels again, allowing the node to establish connections with the remote party
-    const timer = setTimeout(() => fetchChannels(), 10000)
-    this.setState({ timer })
+    // Turn the spinner off after 1 second.
+    const refreshTimeout = setTimeout(() => {
+      this.setState({ refreshing: false })
+      clearTimeout(refreshTimeout)
+    }, 1000)
   }
 
-  componentWillUnmount() {
-    const { timer } = this.state
-    clearInterval(timer)
+  renderSearchBar = () => {
+    const {
+      activity: { searchText },
+      updateSearchActive,
+      updateSearchText,
+      intl
+    } = this.props
+    return (
+      <>
+        <Form width={1}>
+          <Input
+            field="search"
+            id="search"
+            type="text"
+            variant="thin"
+            border={0}
+            placeholder={intl.formatMessage({ ...messages.search })}
+            value={searchText}
+            onChange={event => updateSearchText(event.target.value)}
+          />
+        </Form>
+
+        <Button
+          variant="secondary"
+          size="small"
+          type="button"
+          onClick={() => {
+            updateSearchActive(false)
+            updateSearchText('')
+          }}
+        >
+          <X />
+        </Button>
+      </>
+    )
   }
 
-  renderActivity(activity) {
+  renderControlBar = () => {
+    const {
+      activity: { filters, filter },
+      changeFilter,
+      updateSearchActive
+    } = this.props
+    const { refreshing } = this.state
+
+    return (
+      <>
+        <Flex justifyContent="space-between" alignItems="center">
+          {filters.map(f => (
+            <Flex mr={3} key={f.key} flexDirection="column" alignItems="center">
+              <Button
+                variant="secondary"
+                size="small"
+                onClick={() => changeFilter(f)}
+                px={3}
+                active={f.key === filter.key}
+              >
+                <Text fontWeight="normal">
+                  <FormattedMessage {...messages[f.name]} />
+                </Text>
+              </Button>
+              {f.key === filter.key && (
+                <Bar
+                  width={1}
+                  borderColor="lightningOrange"
+                  opacity={1}
+                  css={{ 'max-width': '50px' }}
+                />
+              )}
+            </Flex>
+          ))}
+        </Flex>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Button variant="secondary" onClick={this.refreshClicked} mr={3} px={3}>
+            {refreshing ? <Spinner /> : <FormattedMessage {...messages.refresh} />}
+          </Button>
+          <Button variant="secondary" onClick={() => updateSearchActive(true)}>
+            <Search />
+          </Button>
+        </Flex>
+      </>
+    )
+  }
+
+  renderActivityList = () => {
+    const { currentActivity, currencyName } = this.props
+
+    if (!currencyName) {
+      return null
+    }
+
+    return currentActivity.map((activityBlock, index) => (
+      <Box key={index} mb={4}>
+        <Heading.h4 fontWeight="normal">{activityBlock.title}</Heading.h4>
+        <Bar py={1} />
+        {activityBlock.activity.map((activity, i) => {
+          return (
+            <Flex key={i} justifyContent="space-between" alignItems="center">
+              <Text width={24} ml={-35} color="gray" textAlign="center">
+                {this.renderActivityIcon(activity.el)}
+              </Text>
+              <Box width={1}>{this.renderActivity(activity.el)}</Box>
+            </Flex>
+          )
+        })}
+      </Box>
+    ))
+  }
+
+  renderActivityIcon = activity => {
+    if (activity.block_hash) {
+      return <ChainLink />
+    } else if (activity.payment_request) {
+      return <Clock />
+    } else {
+      return <Zap width="1.6em" height="1.6em" />
+    }
+  }
+
+  renderActivity = activity => {
     const { ticker, currentTicker, showActivityModal, network, currencyName } = this.props
 
     if (!currencyName) {
@@ -94,160 +203,63 @@ class Activity extends Component {
     )
   }
 
+  renderFooterControls = () => {
+    const {
+      activity: { showExpiredRequests },
+      toggleExpiredRequests
+    } = this.props
+
+    return (
+      <Flex justifyContent="center">
+        <Button size="small" onClick={toggleExpiredRequests} mx="auto">
+          <FormattedMessage {...messages[showExpiredRequests ? 'hide_expired' : 'show_expired']} />
+        </Button>
+      </Flex>
+    )
+  }
+
   render() {
     const {
+      activity: { searchActive },
       balance,
-      activity: { filters, filter, filterPulldown, searchActive, searchText, showExpiredRequests },
-      changeFilter,
       currentActivity,
       currentTicker,
-      showExpiredToggle,
-      toggleExpiredRequests,
-
-      fetchPayments,
-      fetchInvoices,
-      fetchTransactions,
-      fetchBalance,
-
-      updateSearchActive,
-      updateSearchText,
       walletProps,
-      intl
+      showExpiredToggle
     } = this.props
 
     if (!currentTicker || balance.channelBalance === null || balance.walletBalance === null) {
       return null
     }
 
-    const refreshClicked = () => {
-      // turn the spinner on
-      this.setState({ refreshing: true })
-
-      // store event in icon so we dont get an error when react clears it
-      const icon = this.repeat.childNodes
-
-      // fetch data
-      fetchBalance()
-      fetchPayments()
-      fetchInvoices()
-      fetchTransactions()
-
-      // wait for the svg to appear as child
-      const svgTimeout = setTimeout(() => {
-        if (icon[0].tagName === 'svg') {
-          // spin icon for 1 sec
-          icon[0].style.animation = 'spin 1000ms linear 1'
-          clearTimeout(svgTimeout)
-        }
-      }, 1)
-
-      // clear animation after the second so we can reuse it
-      const refreshTimeout = setTimeout(() => {
-        icon[0].style.animation = ''
-        this.setState({ refreshing: false })
-        clearTimeout(refreshTimeout)
-      }, 1000)
-    }
-
-    const { refreshing } = this.state
     return (
-      <div>
-        <Wallet {...walletProps} />
+      <Panel>
+        <Panel.Header>
+          <Wallet {...walletProps} />
 
-        <div className={styles.activities}>
-          {searchActive ? (
-            <header className={`${styles.header} ${styles.search}`}>
-              <section>
-                <input
-                  placeholder={intl.formatMessage({ ...messages.search })}
-                  value={searchText}
-                  onChange={event => updateSearchText(event.target.value)}
-                />
-              </section>
-              <section
-                onClick={() => {
-                  updateSearchActive(false)
-                  updateSearchText('')
-                }}
-              >
-                <span className={styles.xIcon}>
-                  <X />
-                </span>
-              </section>
-            </header>
-          ) : (
-            <header className={styles.header}>
-              <section>
-                <ul className={styles.filters}>
-                  {filters.map(f => (
-                    <li
-                      key={f.key}
-                      className={f.key === filter.key ? styles.activeFilter : undefined}
-                      onClick={() => changeFilter(f)}
-                    >
-                      <Text fontWeight="normal">
-                        <FormattedMessage {...messages[f.name]} />
-                      </Text>
-                      <div className={f.key === filter.key ? styles.activeBorder : undefined} />
-                    </li>
-                  ))}
-                </ul>
-              </section>
-              <section>
-                <ul className={styles.actions}>
-                  <li onClick={refreshClicked}>
-                    <span
-                      className={styles.refresh}
-                      ref={ref => {
-                        this.repeat = ref
-                      }}
-                    >
-                      {refreshing ? (
-                        <FaRepeat />
-                      ) : (
-                        <Text fontWeight="normal">
-                          <FormattedMessage {...messages.refresh} />
-                        </Text>
-                      )}
-                    </span>
-                  </li>
-                  <li className={styles.activeFilter} onClick={() => updateSearchActive(true)}>
-                    <Search />
-                  </li>
-                </ul>
-              </section>
-            </header>
-          )}
-          <ul
-            className={`${styles.activityContainer} ${
-              filterPulldown ? styles.pulldown : undefined
-            }`}
+          <Flex
+            as="nav"
+            justifyContent="space-between"
+            alignItems="center"
+            mx={5}
+            mt={3}
+            css={{ height: '50px' }}
           >
-            {currentActivity.map((activityBlock, index) => (
-              <li className={styles.activity} key={index}>
-                <h2>{activityBlock.title}</h2>
-                <ul>
-                  {activityBlock.activity.map((activity, i) => (
-                    <li key={i}>{this.renderActivity(activity.el)}</li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-            {showExpiredToggle &&
-              currentActivity.length > 0 && (
-                <Flex justifyContent="center">
-                  <Button size="small" onClick={toggleExpiredRequests} mx="auto">
-                    {showExpiredRequests ? (
-                      <FormattedMessage {...messages.hide_expired} />
-                    ) : (
-                      <FormattedMessage {...messages.show_expired} />
-                    )}
-                  </Button>
-                </Flex>
-              )}
-          </ul>
-        </div>
-      </div>
+            {searchActive ? this.renderSearchBar() : this.renderControlBar()}
+          </Flex>
+        </Panel.Header>
+
+        <Panel.Body py={3}>
+          <Box as="section" mx={5} mt={3}>
+            {this.renderActivityList()}
+          </Box>
+        </Panel.Body>
+
+        {showExpiredToggle &&
+          currentActivity.length > 0 && (
+            <Panel.Footer py={2}>{this.renderFooterControls()}</Panel.Footer>
+          )}
+      </Panel>
     )
   }
 }
@@ -257,7 +269,6 @@ Activity.propTypes = {
   fetchInvoices: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
   fetchBalance: PropTypes.func.isRequired,
-  fetchChannels: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object,

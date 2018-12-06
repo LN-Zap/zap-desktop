@@ -1,14 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ChainLink from 'components/Icon/ChainLink'
-
-import { btc } from 'lib/utils'
-import { Value } from 'components/UI'
-
 import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { Box, Flex } from 'rebass'
+import { btc } from 'lib/utils'
+import { Span, Text, Value } from 'components/UI'
 import messages from './messages'
-
-import styles from '../Activity.scss'
 
 const Transaction = ({
   transaction,
@@ -18,39 +14,40 @@ const Transaction = ({
   currencyName,
   intl
 }) => (
-  <div
-    className={styles.container}
+  <Flex
+    justifyContent="space-between"
+    alignItems="center"
     onClick={() => showActivityModal('TRANSACTION', transaction.tx_hash)}
+    py={2}
   >
-    <div className={styles.activityTypeIcon}>
-      <ChainLink />
-    </div>
-
-    <div
-      className={`hint--top-right ${styles.data}`}
+    <Box
+      width={1 / 2}
+      className="hint--top-right"
       data-hint={intl.formatMessage({ ...messages.type })}
     >
-      <div className={styles.title}>
-        <h3>
-          {transaction.received ? (
-            <FormattedMessage {...messages.received} />
-          ) : (
-            <FormattedMessage {...messages.sent} />
-          )}
-        </h3>
-      </div>
-      <div className={styles.subtitle}>
+      <Text mb={1}>
+        <FormattedMessage {...messages[transaction.received ? 'received' : 'sent']} />
+      </Text>
+      <Text color="gray" fontSize="xs" fontWeight="normal">
         <FormattedTime value={transaction.time_stamp * 1000} />
-      </div>
-    </div>
-    <div
-      className={`hint--top-left ${styles.amount}`}
+      </Text>
+    </Box>
+
+    <Box
+      width={1 / 2}
+      className="hint--top-left"
       data-hint={intl.formatMessage({ ...messages.amount })}
     >
-      <span>
-        <i className={transaction.received ? styles.plus : styles.minus}>
-          {transaction.received ? '+' : '-'}
-        </i>
+      <Text mb={1} textAlign="right">
+        {transaction.received ? (
+          <Span color="superGreen" fontWeight="normal" mr={1}>
+            +
+          </Span>
+        ) : (
+          <Span color="superRed" fontWeight="normal" mr={1}>
+            -
+          </Span>
+        )}
         <Value
           value={transaction.amount}
           currency={ticker.currency}
@@ -58,14 +55,16 @@ const Transaction = ({
           fiatTicker={ticker.fiatTicker}
         />
         <i> {currencyName}</i>
-      </span>
-      <FormattedNumber
-        currency={ticker.fiatTicker}
-        style="currency"
-        value={btc.convert('sats', 'fiat', transaction.amount, currentTicker[ticker.fiatTicker])}
-      />
-    </div>
-  </div>
+      </Text>
+      <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
+        <FormattedNumber
+          currency={ticker.fiatTicker}
+          style="currency"
+          value={btc.convert('sats', 'fiat', transaction.value, currentTicker[ticker.fiatTicker])}
+        />
+      </Text>
+    </Box>
+  </Flex>
 )
 
 Transaction.propTypes = {

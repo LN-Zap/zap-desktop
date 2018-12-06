@@ -12,7 +12,8 @@ const Bar = system(
   'borders',
   'borderColor',
   'space',
-  'opacity'
+  'opacity',
+  'width'
 )
 
 Bar.displayName = 'Bar'

@@ -1,12 +1,5 @@
 @import 'styles/variables.scss';
 
-.wallet {
-  background: var(--secondaryColor);
-  color: var(--primaryText);
-  height: 200px;
-  padding: 20px 40px;
-}
-
 .qrCode {
   cursor: pointer;
   svg {

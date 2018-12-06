@@ -70,6 +70,7 @@ class Input extends React.Component {
 
   render() {
     const {
+      border,
       css,
       description,
       onChange,
@@ -114,6 +115,18 @@ class Input extends React.Component {
       borderColor = theme.colors.superGreen
     }
 
+    const cssProps = Object.assign(
+      {
+        outline: 'none'
+      },
+      css
+    )
+
+    if (border) {
+      cssProps['&:not([readOnly]):not([disabled]):focus'] = {
+        border: `1px solid ${isValid ? theme.colors.superGreen : theme.colors.lightningOrange} }`
+      }
+    }
     return (
       <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
         {label && (
@@ -130,18 +143,9 @@ class Input extends React.Component {
         <SystemInput
           p={variant === 'thin' ? 2 : 3}
           width={1}
+          border={border}
           borderColor={borderColor || theme.colors.gray}
-          css={Object.assign(
-            {
-              outline: 'none',
-              '&:not([readOnly]):not([disabled]):focus': {
-                border: `1px solid ${
-                  isValid ? theme.colors.superGreen : theme.colors.lightningOrange
-                } }`
-              }
-            },
-            css
-          )}
+          css={cssProps}
           {...rest}
           field={field}
           ref={this.inputRef}
