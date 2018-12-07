@@ -15,7 +15,7 @@ const MainContent = ({ css, ...rest }) => (
     css={Object.assign(
       {
         position: 'relative',
-        'overflow-y': 'scroll'
+        'overflow-y': 'auto'
       },
       css
     )}
