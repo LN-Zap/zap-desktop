@@ -6,7 +6,7 @@ exports[`component.UI.MainContent should render correctly 1`] = `
   color: primaryText;
   background-color: primaryColor;
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 <article
