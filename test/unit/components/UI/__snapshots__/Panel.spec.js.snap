@@ -5,7 +5,7 @@ exports[`component.UI.Panel should render correctly 1`] = `
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 .c2 {
