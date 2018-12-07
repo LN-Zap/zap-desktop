@@ -28,7 +28,6 @@ export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 
 export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
 
-export const TOGGLE_CHANNEL_PULLDOWN = 'TOGGLE_CHANNEL_PULLDOWN'
 export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
 
 export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
@@ -314,12 +313,6 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
 // IPC event for channel graph status
 export const channelGraphStatus = () => () => {}
 
-export function toggleFilterPulldown() {
-  return {
-    type: TOGGLE_CHANNEL_PULLDOWN
-  }
-}
-
 export function changeFilter(channelFilter) {
   return {
     type: CHANGE_CHANNEL_FILTER,
@@ -355,10 +348,8 @@ const ACTION_HANDLERS = {
 
   [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
 
-  [TOGGLE_CHANNEL_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
   [CHANGE_CHANNEL_FILTER]: (state, { channelFilter }) => ({
     ...state,
-    filterPulldown: false,
     filter: channelFilter
   }),
 
@@ -412,7 +403,6 @@ const pendingForceClosedChannelsSelector = state =>
   state.channels.pendingChannels.pending_force_closing_channels
 const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waiting_close_channels
 const channelSearchQuerySelector = state => state.channels.searchQuery
-const filtersSelector = state => state.channels.filters
 const filterSelector = state => state.channels.filter
 const nodesSelector = state => state.network.nodes
 
@@ -468,12 +458,6 @@ channelsSelectors.closingPendingChannels = createSelector(
 
 channelsSelectors.activeChanIds = createSelector(channelsSelector, channels =>
   channels.map(channel => channel.chan_id)
-)
-
-channelsSelectors.nonActiveFilters = createSelector(
-  filtersSelector,
-  filterSelector,
-  (filters, channelFilter) => filters.filter(f => f.key !== channelFilter.key)
 )
 
 channelsSelectors.channelNodes = createSelector(
@@ -607,7 +591,6 @@ const initialState = {
   searchQuery: '',
   viewType: 0,
 
-  filterPulldown: false,
   filter: { key: 'ALL_CHANNELS', name: 'All' },
   filters: [
     { key: 'ALL_CHANNELS', name: 'All' },

@@ -25,10 +25,6 @@ exports[`component.UI.Input should render correctly 1`] = `
   outline: none;
 }
 
-.c1:not([readOnly]):not([disabled]):focus {
-  border: 1px solid #fd9800;
-}
-
 <form
   onReset={[Function]}
   onSubmit={[Function]}

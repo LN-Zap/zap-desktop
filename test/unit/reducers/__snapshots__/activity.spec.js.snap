@@ -3,7 +3,6 @@
 exports[`reducers activityReducer should correctly changeFilter 1`] = `
 Object {
   "filter": undefined,
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
@@ -38,7 +37,6 @@ Object {
     "key": "ALL_ACTIVITY",
     "name": "All Activity",
   },
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
@@ -73,7 +71,6 @@ Object {
     "key": "ALL_ACTIVITY",
     "name": "All Activity",
   },
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
@@ -102,48 +99,12 @@ Object {
 }
 `;
 
-exports[`reducers activityReducer should correctly togglePulldown 1`] = `
-Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
-  "filterPulldown": true,
-  "filters": Array [
-    Object {
-      "key": "ALL_ACTIVITY",
-      "name": "all",
-    },
-    Object {
-      "key": "SENT_ACTIVITY",
-      "name": "sent",
-    },
-    Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
-    },
-    Object {
-      "key": "PENDING_ACTIVITY",
-      "name": "pending",
-    },
-  ],
-  "modal": Object {
-    "itemId": null,
-    "itemType": null,
-  },
-  "searchActive": false,
-  "searchText": "",
-  "showExpiredRequests": false,
-}
-`;
-
 exports[`reducers activityReducer should correctly updateSearchActive 1`] = `
 Object {
   "filter": Object {
     "key": "ALL_ACTIVITY",
     "name": "All Activity",
   },
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
@@ -178,7 +139,6 @@ Object {
     "key": "ALL_ACTIVITY",
     "name": "All Activity",
   },
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",

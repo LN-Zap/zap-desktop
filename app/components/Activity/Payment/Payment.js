@@ -1,14 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Zap from 'components/Icon/Zap'
-
+import { Box, Flex } from 'rebass'
 import { btc } from 'lib/utils'
-import { Value } from 'components/UI'
-
+import { Span, Text, Value } from 'components/UI'
 import { FormattedNumber, FormattedTime, injectIntl } from 'react-intl'
 import messages from './messages'
-
-import styles from '../Activity.scss'
 
 const Payment = ({
   payment,
@@ -21,40 +17,39 @@ const Payment = ({
 }) => {
   const displayNodeName = pubkey => {
     const node = nodes.find(n => pubkey === n.pub_key)
-
     if (node && node.alias.length) {
       return node.alias
     }
-
     return pubkey.substring(0, 10)
   }
 
   return (
-    <div
-      className={styles.container}
+    <Flex
+      justifyContent="space-between"
+      alignItems="center"
       onClick={() => showActivityModal('PAYMENT', payment.payment_hash)}
+      py={2}
     >
-      <div className={styles.activityTypeIcon}>
-        <Zap />
-      </div>
-
-      <div
-        className={`hint--top-right ${styles.data}`}
+      <Box
+        width={1 / 2}
+        className="hint--top-right"
         data-hint={intl.formatMessage({ ...messages.type })}
       >
-        <div className={styles.title}>
-          <h3>{displayNodeName(payment.path[payment.path.length - 1])}</h3>
-        </div>
-        <div className={styles.subtitle}>
+        <Text mb={1}>{displayNodeName(payment.path[payment.path.length - 1])}</Text>
+        <Text color="gray" fontSize="xs" fontWeight="normal">
           <FormattedTime value={payment.creation_date * 1000} />
-        </div>
-      </div>
-      <div
-        className={`hint--top-left ${styles.amount}`}
+        </Text>
+      </Box>
+
+      <Box
+        width={1 / 2}
+        className="hint--top-left"
         data-hint={intl.formatMessage({ ...messages.amount })}
       >
-        <span>
-          <i className={styles.minus}>-</i>
+        <Text mb={1} textAlign="right">
+          <Span color="superRed" fontWeight="normal" mr={1}>
+            -
+          </Span>
           <Value
             value={payment.value}
             currency={ticker.currency}
@@ -62,14 +57,16 @@ const Payment = ({
             fiatTicker={ticker.fiatTicker}
           />
           <i> {currencyName}</i>
-        </span>
-        <FormattedNumber
-          currency={ticker.fiatTicker}
-          style="currency"
-          value={btc.convert('sats', 'fiat', payment.value, currentTicker[ticker.fiatTicker])}
-        />
-      </div>
-    </div>
+        </Text>
+        <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
+          <FormattedNumber
+            currency={ticker.fiatTicker}
+            style="currency"
+            value={btc.convert('sats', 'fiat', payment.value, currentTicker[ticker.fiatTicker])}
+          />
+        </Text>
+      </Box>
+    </Flex>
   )
 }
 
