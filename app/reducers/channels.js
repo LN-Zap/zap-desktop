@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { debounce } from 'lodash.debounce'
+import throttle from 'lodash.throttle'
 import { btc } from 'lib/utils'
 import { requestSuggestedNodes } from 'lib/utils/api'
 import db from 'store/db'
@@ -277,6 +277,15 @@ export const pushclosechannelstatus = () => dispatch => {
   dispatch(fetchChannels())
 }
 
+/**
+ * Throttled dispatch to fetchChannels.
+ * Calls fetchChannels no more than once per second.
+ */
+const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1000, {
+  leading: true,
+  trailing: true
+})
+
 // IPC event for channel graph data
 export const channelGraphData = (event, data) => (dispatch, getState) => {
   const { info, channels } = getState()
@@ -309,8 +318,8 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
   if (hasUpdates) {
     // We can receive a lot of channel updates from channel graph subscription in a short space of time. If these
     // nvolve our our channels we make a call to fetchChannels and then fetchBalances in order to refresh our channel
-    // and balance data. Debounce these calls so that we don't fire too many times in quick succession.
-    debounce(() => dispatch(fetchChannels), 1000, { leading: true, trailing: true, maxWait: 3000 })
+    // and balance data. Throttle these calls so that we don't attempt to fetch channels to often.
+    throttledFetchChannels(dispatch)
   }
 }
 
