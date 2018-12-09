@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { decodePayReq, getMinFee, getMaxFee, getFeeRange, isOnchain, isLn } from 'lib/utils/crypto'
+import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from 'lib/utils/crypto'
 import { convert } from 'lib/utils/btc'
 import {
   Bar,
@@ -624,15 +624,6 @@ class Pay extends React.Component {
           const showBack = currentStep !== 'address'
           const showSubmit = currentStep !== 'address' || (isOnchain || isLn)
 
-          // Determine wether we have a route to the sender.
-          let hasRoute = true
-          if (isLn && currentStep === 'summary') {
-            const { min, max } = getFeeRange(routes || [])
-            if (min === null || max === null) {
-              hasRoute = false
-            }
-          }
-
           // Determine wether we have enough funds available.
           let hasEnoughFunds = true
           if (isLn && invoice) {
@@ -683,14 +674,6 @@ class Pay extends React.Component {
                   {styles => (
                     <Box style={styles}>
                       {currentStep === 'summary' &&
-                        !isQueryingRoutes &&
-                        !hasRoute && (
-                          <Message variant="error" justifyContent="center" mb={2}>
-                            <FormattedMessage {...messages.error_no_route} />
-                          </Message>
-                        )}
-
-                      {currentStep === 'summary' &&
                         !hasEnoughFunds && (
                           <Message variant="error" justifyContent="center" mb={2}>
                             <FormattedMessage {...messages.error_not_enough_funds} />
@@ -702,7 +685,7 @@ class Pay extends React.Component {
                           formState.pristine ||
                           formState.invalid ||
                           isProcessing ||
-                          (currentStep === 'summary' && (!hasRoute || !hasEnoughFunds))
+                          (currentStep === 'summary' && !hasEnoughFunds)
                         }
                         nextButtonText={nextButtonText}
                         processing={isProcessing}
