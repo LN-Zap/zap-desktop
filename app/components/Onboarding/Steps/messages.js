@@ -13,8 +13,6 @@ export default defineMessages({
   btcpay_page_description: 'Enter the connection details for your BTCPay Server node.',
   btcpay_connection_string_description:
     "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled 'Click here to open the configuration file' in your BTCPay Server gRPC settings.",
-  btcpay_connection_type_description:
-    'Connect to your own BTCPay Server instance to access your BTCPay Server wallet.',
   btcpay_description: 'Enter the connection details for your BTCPay Server node.',
   btcpay_error: 'Invalid connection string.',
   btcpay_title: 'Connect to BTCPay Server',
@@ -32,8 +30,6 @@ export default defineMessages({
     'Looks like you are new here. Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future',
   create_wallet_password_title: 'Welcome!',
   custom: 'Custom',
-  custom_description:
-    'Connect to your own node. You will need to provide your own connection settings so this is for advanced users only.',
   default: 'Default',
   default_description:
     'By selecting the defualt mode we will do everything for you. Just click and go!',
@@ -65,6 +61,17 @@ export default defineMessages({
   seed_warning:
     'Keep this private! If someone gains access to this list they can steal your money.',
   signup_create: 'Create new wallet',
+  connection_type_create_label: 'Create new wallet',
+  connection_type_create_description:
+    'Let Zap create a new bitcoin wallet and lightning node for you.',
+  connection_type_import_label: 'Import existing wallet',
+  connection_type_import_description: 'Import your own seed to recover an existing wallet.',
+  connection_type_custom_label: 'Connect your own node',
+  connection_type_custom_description:
+    'Enter the connection details for your own Lightning node to access access it with Zap.',
+  connection_type_btcpayserver_label: 'BTCPay Server',
+  connection_type_btcpayserver_description:
+    'Connect to your own BTCPay Server instance to access your BTCPay Server wallet.',
   signup_description: 'Would you like to create a new wallet or import an existing one?',
   signup_import: 'Import existing wallet',
   signup_title: "Alright, let's get set up",
