@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { btc } from 'lib/utils'
 import { Message, Span, Text, Value } from 'components/UI'
-import { FormattedNumber, FormattedTime, injectIntl } from 'react-intl'
+import { FormattedMessage, FormattedNumber, FormattedTime, injectIntl } from 'react-intl'
 import messages from './messages'
 
 const Payment = ({
@@ -40,15 +40,17 @@ const Payment = ({
           <>
             {payment.status === 'sending' && (
               <Message variant="processing">
-                Zap is processing your payment. This can take up to 01:00 min.
+                <FormattedMessage {...messages.status_processing} />
               </Message>
             )}
             {payment.status === 'successful' && (
-              <Message variant="success">Your payment was successful.</Message>
+              <Message variant="success">
+                <FormattedMessage {...messages.status_success} />
+              </Message>
             )}
             {payment.status === 'failed' && (
               <Message variant="error">
-                There was a problem sending your payment. {payment.error}
+                <FormattedMessage {...messages.status_error} /> {payment.error}
               </Message>
             )}
           </>
