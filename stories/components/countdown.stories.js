@@ -8,17 +8,19 @@ storiesOf('Components', module).addWithChapters('Countdown', {
       sections: [
         {
           title: 'Default',
-          sectionFn: () => <Countdown date={Date.now() + 5000} />
+          sectionFn: () => <Countdown date={Math.round(new Date() / 1000) + 5000} />
         },
         {
           title: 'Stop after expire',
-          sectionFn: () => <Countdown date={Date.now() + 5000} countUpAfterExpire={false} />
+          sectionFn: () => (
+            <Countdown date={Math.round(new Date() / 1000) + 5000} countUpAfterExpire={false} />
+          )
         },
         {
           title: 'Custom colors',
           sectionFn: () => (
             <Countdown
-              date={Date.now() + 5000}
+              date={Math.round(new Date() / 1000) + 5000}
               colorActive="lightningOrange"
               colorExpired="yellow"
             />

@@ -42,7 +42,7 @@ import { receiveBalance } from './balance'
 import {
   receiveTransactions,
   transactionSuccessful,
-  transactionError,
+  transactionFailed,
   newTransaction
 } from './transaction'
 
@@ -104,7 +104,7 @@ const ipc = createIpc({
 
   receiveTransactions,
   transactionSuccessful,
-  transactionError,
+  transactionFailed,
   newTransaction,
 
   receiveDescribeNetwork,

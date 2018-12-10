@@ -3,11 +3,10 @@ import PropTypes from 'prop-types'
 import FaAngleUp from 'react-icons/lib/fa/angle-up'
 import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { Box, Flex } from 'rebass'
-import { btc, blockExplorer } from 'lib/utils'
+import { btc } from 'lib/utils'
 import Settings from 'components/Settings'
 import { Button, Dropdown, StatusIndicator, Text, Value } from 'components/UI'
 import { WalletName } from 'components/Util'
-import CheckAnimated from 'components/Icon/CheckAnimated'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Qrcode from 'components/Icon/Qrcode'
 import { FormattedNumber, FormattedMessage } from 'react-intl'
@@ -24,14 +23,9 @@ const Wallet = ({
   activeWalletSettings,
   openPayForm,
   openRequestForm,
-  showPayLoadingScreen,
-  showSuccessPayScreen,
-  successTransactionScreen,
   currencyFilters,
   setCurrency,
-  network,
-  settingsProps,
-  paymentTimeout
+  settingsProps
 }) => {
   if (!ticker.currency) {
     return null
@@ -120,49 +114,6 @@ const Wallet = ({
           </Button>
         </Box>
       </Flex>
-
-      <Box mt={2}>
-        <div className={styles.notificationBox}>
-          {showPayLoadingScreen && (
-            <span>
-              <div className={styles.spinnerContainer}>
-                <section className={`${styles.spinner} ${styles.icon}`} />
-                <span className={styles.timeout}>{paymentTimeout / 1000}</span>
-              </div>
-              <section>
-                <FormattedMessage {...messages.sending_tx} />
-              </section>
-            </span>
-          )}
-          {showSuccessPayScreen && (
-            <span>
-              <section className={styles.icon}>
-                <CheckAnimated />
-              </section>
-              <section>
-                <FormattedMessage {...messages.payment_success} />
-              </section>
-            </span>
-          )}
-          {successTransactionScreen.show && (
-            <span>
-              <section className={styles.icon}>
-                <CheckAnimated />
-              </section>
-              <section>
-                <span
-                  className={styles.txLink}
-                  onClick={() => {
-                    return blockExplorer.showTransaction(network, successTransactionScreen.txid)
-                  }}
-                >
-                  <FormattedMessage {...messages.transaction_success} />
-                </span>
-              </section>
-            </span>
-          )}
-        </div>
-      </Box>
     </Box>
   )
 }
@@ -176,13 +127,9 @@ Wallet.propTypes = {
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
   openReceiveModal: PropTypes.func.isRequired,
-  showPayLoadingScreen: PropTypes.bool.isRequired,
-  showSuccessPayScreen: PropTypes.bool.isRequired,
   network: PropTypes.object.isRequired,
-  successTransactionScreen: PropTypes.object.isRequired,
   settingsProps: PropTypes.object.isRequired,
   currencyFilters: PropTypes.array.isRequired,
-  paymentTimeout: PropTypes.number.isRequired,
   setCurrency: PropTypes.func.isRequired
 }
 

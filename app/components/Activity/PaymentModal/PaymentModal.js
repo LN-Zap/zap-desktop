@@ -55,12 +55,12 @@ const PaymentModal = ({
 
     <div className={styles.date}>
       <FormattedDate
-        value={new Date(payment.creation_date * 1000)}
+        value={payment.creation_date * 1000}
         year="numeric"
         month="long"
         day="2-digit"
       />{' '}
-      <FormattedTime value={new Date(payment.creation_date * 1000)} />
+      <FormattedTime value={payment.creation_date * 1000} />
     </div>
 
     <footer className={styles.footer}>

@@ -15,12 +15,15 @@ import Transaction from './Transaction'
 import messages from './messages'
 
 const ActivityIcon = ({ activity }) => {
-  if (activity.block_hash) {
-    return <ChainLink />
-  } else if (activity.payment_request) {
-    return <Clock />
-  } else {
-    return <Zap width="1.6em" height="1.6em" />
+  switch (activity.type) {
+    case 'transaction':
+      return <ChainLink />
+    case 'payment':
+      return <Zap width="1.6em" height="1.6em" />
+    case 'invoice':
+      return <Clock />
+    default:
+      return null
   }
 }
 
@@ -37,8 +40,8 @@ const ActivityListItem = ({
     <Text width={24} ml={-35} color="gray" textAlign="center">
       <ActivityIcon activity={activity} />
     </Text>
-    <Box width={1}>
-      {activity.block_hash ? (
+    <Box width={1} css={!activity.sending ? { cursor: 'pointer' } : null}>
+      {activity.type === 'transaction' && (
         <Transaction
           transaction={activity}
           ticker={ticker}
@@ -46,7 +49,9 @@ const ActivityListItem = ({
           showActivityModal={showActivityModal}
           currencyName={currencyName}
         />
-      ) : activity.payment_request ? (
+      )}
+
+      {activity.type === 'invoice' && (
         <Invoice
           invoice={activity}
           ticker={ticker}
@@ -54,7 +59,9 @@ const ActivityListItem = ({
           showActivityModal={showActivityModal}
           currencyName={currencyName}
         />
-      ) : (
+      )}
+
+      {activity.type === 'payment' && (
         <Payment
           payment={activity}
           ticker={ticker}
@@ -212,16 +219,6 @@ class Activity extends Component {
         ))}
       </Box>
     ))
-  }
-
-  renderActivityIcon = activity => {
-    if (activity.block_hash) {
-      return <ChainLink />
-    } else if (activity.payment_request) {
-      return <Clock />
-    } else {
-      return <Zap width="1.6em" height="1.6em" />
-    }
   }
 
   renderFooterControls = () => {

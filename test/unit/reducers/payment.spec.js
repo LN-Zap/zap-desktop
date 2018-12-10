@@ -5,7 +5,7 @@ import paymentReducer, {
   GET_PAYMENTS,
   RECEIVE_PAYMENTS,
   SEND_PAYMENT,
-  PAYMENT_SUCCESSFULL,
+  PAYMENT_SUCCESSFUL,
   PAYMENT_FAILED
 } from 'reducers/payment'
 
@@ -27,8 +27,8 @@ describe('reducers', () => {
       expect(SEND_PAYMENT).toEqual('SEND_PAYMENT')
     })
 
-    it('should have PAYMENT_SUCCESSFULL', () => {
-      expect(PAYMENT_SUCCESSFULL).toEqual('PAYMENT_SUCCESSFULL')
+    it('should have PAYMENT_SUCCESSFUL', () => {
+      expect(PAYMENT_SUCCESSFUL).toEqual('PAYMENT_SUCCESSFUL')
     })
 
     it('should have PAYMENT_FAILED', () => {
@@ -51,7 +51,7 @@ describe('reducers', () => {
 
     it('should correctly paymentSuccessful', () => {
       expect(
-        paymentReducer(undefined, { type: PAYMENT_SUCCESSFULL, payment: 'foo' })
+        paymentReducer(undefined, { type: PAYMENT_SUCCESSFUL, payment: 'foo' })
       ).toMatchSnapshot()
     })
   })

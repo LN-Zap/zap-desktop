@@ -141,7 +141,7 @@ class Syncing extends Component {
           <Bar my={3} />
         </Panel.Header>
 
-        <Panel.Body width={9 / 16} mx="auto" mb={3}>
+        <Panel.Body width={9 / 16} mx="auto" mb={3} css={{ overflow: 'hidden' }}>
           {hasSynced === false &&
             address &&
             address.length && (

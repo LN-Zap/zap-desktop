@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { decodePayReq } from 'lib/utils/crypto'
 
 // ------------------------------------
 // Initial State
@@ -102,15 +103,54 @@ const filterSelector = state => state.activity.filter
 const searchSelector = state => state.activity.searchText
 const showExpiredSelector = state => state.activity.showExpiredRequests
 const paymentsSelector = state => state.payment.payments
+const paymentsSendingSelector = state => state.payment.paymentsSending
 const invoicesSelector = state => state.invoice.invoices
 const transactionsSelector = state => state.transaction.transactions
+const transactionsSendingSelector = state => state.transaction.transactionsSending
 const modalItemTypeSelector = state => state.activity.modal.itemType
 const modalItemIdSelector = state => state.activity.modal.itemId
 
 const invoiceExpired = invoice => {
   const expiresAt = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
-  return expiresAt < Date.now() / 1000
+  return expiresAt < Math.round(new Date() / 1000)
 }
+
+/**
+ * Map sending payments to something that looks like normal payments.
+ */
+const paymentsSending = createSelector(paymentsSendingSelector, paymentsSending => {
+  const payments = paymentsSending.map(payment => {
+    const invoice = decodePayReq(payment.paymentRequest)
+    return {
+      type: 'payment',
+      creation_date: payment.timestamp,
+      value: invoice.satoshis || payment.amt,
+      path: [invoice.payeeNodeKey],
+      payment_hash: invoice.tags.find(t => t.tagName === 'payment_hash').data,
+      sending: true,
+      status: payment.status,
+      error: payment.error
+    }
+  })
+  return payments
+})
+
+/**
+ * Map sending transactions to something that looks like normal transactions.
+ */
+const transactionsSending = createSelector(transactionsSendingSelector, transactionsSending => {
+  const transactions = transactionsSending.map(transaction => {
+    return {
+      type: 'transaction',
+      time_stamp: transaction.timestamp,
+      amount: transaction.amount,
+      sending: true,
+      status: transaction.status,
+      error: transaction.error
+    }
+  })
+  return transactions
+})
 
 activitySelectors.activityModalItem = createSelector(
   paymentsSelector,
@@ -133,17 +173,15 @@ activitySelectors.activityModalItem = createSelector(
 )
 
 // helper function that returns invoice, payment or transaction timestamp
-function returnTimestamp(transaction) {
-  // if on-chain txn
-  if (Object.prototype.hasOwnProperty.call(transaction, 'time_stamp')) {
-    return transaction.time_stamp
+function returnTimestamp(activity) {
+  switch (activity.type) {
+    case 'transaction':
+      return activity.time_stamp
+    case 'invoice':
+      return activity.settled ? activity.settle_date : activity.creation_date
+    case 'payment':
+      return activity.creation_date
   }
-  // if invoice that has been paid
-  if (transaction.settled) {
-    return transaction.settle_date
-  }
-  // if invoice that has not been paid or an LN payment
-  return transaction.creation_date
 }
 
 // getMonth() returns the month in 0 index (0 for Jan), so we create an arr of the
@@ -174,10 +212,10 @@ function groupData(data) {
       arr[title] = []
     }
 
-    arr[title].push({ el })
+    arr[title].push(el)
 
     // sort the activity within a day new -> old
-    arr[title].sort((a, b) => returnTimestamp(b.el) - returnTimestamp(a.el))
+    arr[title].sort((a, b) => returnTimestamp(b) - returnTimestamp(a))
 
     return arr
   }, {})
@@ -202,30 +240,43 @@ function groupAll(data) {
 
 const allActivity = createSelector(
   searchSelector,
+  paymentsSending,
+  transactionsSending,
   paymentsSelector,
-  invoicesSelector,
   transactionsSelector,
+  invoicesSelector,
   showExpiredSelector,
-  (searchText, payments, invoices, transactions, showExpired) => {
+  (
+    searchText,
+    paymentsSending,
+    transactionsSending,
+    payments,
+    transactions,
+    invoices,
+    showExpired
+  ) => {
     const filteredInvoices = invoices.filter(
       invoice => showExpired || invoice.settled || !invoiceExpired(invoice)
     )
 
-    const searchedArr = [...payments, ...filteredInvoices, ...transactions].filter(tx => {
-      if (
+    const allData = [
+      ...paymentsSending,
+      ...transactionsSending,
+      ...payments,
+      ...transactions,
+      ...filteredInvoices
+    ]
+
+    if (!searchText) {
+      return groupAll(allData)
+    }
+
+    const searchedArr = allData.filter(
+      tx =>
         (tx.tx_hash && tx.tx_hash.includes(searchText)) ||
         (tx.payment_hash && tx.payment_hash.includes(searchText)) ||
         (tx.payment_request && tx.payment_request.includes(searchText))
-      ) {
-        return true
-      }
-
-      return false
-    })
-
-    if (!searchedArr.length) {
-      return []
-    }
+    )
 
     return groupAll(searchedArr)
   }
@@ -239,10 +290,18 @@ const invoiceActivity = createSelector(
 )
 
 const sentActivity = createSelector(
-  transactionsSelector,
+  paymentsSending,
+  transactionsSending,
   paymentsSelector,
-  (transactions, payments) =>
-    groupAll([...transactions.filter(transaction => !transaction.received), ...payments])
+  transactionsSelector,
+  (paymentsSending, transactionsSending, payments, transactions) => {
+    return groupAll([
+      ...paymentsSending,
+      ...transactionsSending,
+      ...payments,
+      ...transactions.filter(transaction => !transaction.received)
+    ])
+  }
 )
 
 const pendingActivity = createSelector(invoicesSelector, invoices =>

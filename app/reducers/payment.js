@@ -3,27 +3,30 @@ import { ipcRenderer } from 'electron'
 import { btc } from 'lib/utils'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
-import { setError } from './error'
+import { changeFilter } from './activity'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const SET_PAYMENT = 'SET_PAYMENT'
-
 export const GET_PAYMENTS = 'GET_PAYMENTS'
 export const RECEIVE_PAYMENTS = 'RECEIVE_PAYMENTS'
-
 export const SEND_PAYMENT = 'SEND_PAYMENT'
-
-export const TICK_TIMEOUT = 'TICK_TIMEOUT'
-export const SET_INTERVAL = 'SET_INTERVAL'
-export const RESET_TIMEOUT = 'RESET_TIMEOUT'
-
-export const PAYMENT_SUCCESSFULL = 'PAYMENT_SUCCESSFULL'
+export const PAYMENT_SUCCESSFUL = 'PAYMENT_SUCCESSFUL'
 export const PAYMENT_FAILED = 'PAYMENT_FAILED'
+export const PAYMENT_COMPLETE = 'PAYMENT_COMPLETE'
 
-export const SHOW_SUCCESS_SCREEN = 'SHOW_SUCCESS_SCREEN'
-export const HIDE_SUCCESS_SCREEN = 'HIDE_SUCCESS_SCREEN'
+// ------------------------------------
+// Helpers
+// ------------------------------------
+
+// Decorate transaction object with custom/computed properties.
+const decoratePayment = payment => {
+  payment.type = 'payment'
+  return payment
+}
+
+const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 // ------------------------------------
 // Actions
@@ -41,47 +44,14 @@ export function getPayments() {
   }
 }
 
-export function sendPayment() {
+export function sendPayment(data) {
+  const payment = Object.assign({}, data, {
+    status: 'sending',
+    timestamp: Math.round(new Date() / 1000)
+  })
   return {
-    type: SEND_PAYMENT
-  }
-}
-
-export function tickTimeout() {
-  return {
-    type: TICK_TIMEOUT
-  }
-}
-
-export function setPaymentInterval(paymentInterval) {
-  return {
-    type: SET_INTERVAL,
-    paymentInterval
-  }
-}
-
-export function resetTimeout() {
-  return {
-    type: RESET_TIMEOUT
-  }
-}
-
-export function paymentSuccessfull(payment) {
-  return {
-    type: PAYMENT_SUCCESSFULL,
+    type: SEND_PAYMENT,
     payment
-  }
-}
-
-export function showSuccessScreen() {
-  return {
-    type: SHOW_SUCCESS_SCREEN
-  }
-}
-
-export function hideSuccessScreen() {
-  return {
-    type: HIDE_SUCCESS_SCREEN
   }
 }
 
@@ -92,60 +62,61 @@ export const fetchPayments = () => dispatch => {
 }
 
 // Receive IPC event for payments
-export const receivePayments = (event, { payments }) => dispatch =>
+export const receivePayments = (event, { payments }) => dispatch => {
+  payments.forEach(payment => {
+    decoratePayment(payment)
+  })
   dispatch({ type: RECEIVE_PAYMENTS, payments })
-
-// Receive IPC event for successful payment
-// TODO: Add payment to state, not a total re-fetch
-export const paymentSuccessful = () => dispatch => {
-  // Dispatch successful payment to stop loading screen
-  dispatch(paymentSuccessfull())
-
-  // Show successful payment state for 5 seconds
-  dispatch(showSuccessScreen())
-  setTimeout(() => dispatch(hideSuccessScreen()), 5000)
-  // Refetch payments (TODO: dont do a full refetch, rather append new tx to list)
-  dispatch(fetchPayments())
-
-  // Fetch new balance
-  dispatch(fetchBalance())
 }
 
-export const paymentFailed = (event, { error }) => dispatch => {
-  dispatch({ type: PAYMENT_FAILED })
-  dispatch(setError(error))
-}
-
-export const payInvoice = ({ addr, value, currency = 'sats', feeLimit }) => (
-  dispatch,
-  getState
-) => {
+export const payInvoice = ({ addr, value, currency, feeLimit }) => dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
   const amt = btc.convert(currency, 'sats', value)
 
-  dispatch(sendPayment())
-  ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest: addr, feeLimit, amt } })
-
-  // Set an interval to call tick which will continuously tick down the ticker until the payment goes through or it hits
-  // 0 and throws an error. We also call setPaymentInterval so we are storing the interval. This allows us to clear the
-  // interval in flexible ways whenever we need to
-  const paymentInterval = setInterval(() => tick(dispatch, getState), 1000)
-  dispatch(setPaymentInterval(paymentInterval))
+  const data = { paymentRequest: addr, feeLimit, amt }
+  ipcRenderer.send('lnd', { msg: 'sendPayment', data })
+  dispatch(sendPayment(data))
 
   // Close the form modal once the payment has been sent
+  dispatch(changeFilter({ key: 'ALL_ACTIVITY', name: 'all' }))
   dispatch(setFormType(null))
 }
 
-// Tick checks if the payment is sending and checks the timeout every second. If the payment is still sending and the
-// timeout is above 0 it will continue to tick it down, once we hit 0 we fire an error to the user and reset the reducer
-const tick = (dispatch, getState) => {
-  const { payment } = getState()
+// Receive IPC event for successful payment.
+export const paymentSuccessful = (event, { paymentRequest }) => async (dispatch, getState) => {
+  const state = getState()
+  const { timestamp } = state.payment.paymentsSending.find(p => p.paymentRequest === paymentRequest)
 
-  if (payment.sendingPayment && payment.paymentTimeout <= 0) {
-    dispatch(paymentFailed(null, { error: 'Shoot, there was some trouble sending your payment.' }))
-  } else {
-    dispatch(tickTimeout())
-  }
+  // Ensure payment stays in sending state for at least 2 seconds.
+  await delay(2000 - (Date.now() - timestamp * 1000))
+
+  // Mark the payment as successful.
+  dispatch({ type: PAYMENT_SUCCESSFUL, paymentRequest })
+
+  // Wait for another second.
+  await delay(1000)
+
+  // Mark the payment as successful.
+  dispatch({ type: PAYMENT_COMPLETE, paymentRequest })
+
+  // Refetch payments.
+  // TODO: dont do a full refetch, rather append new tx to list.
+  dispatch(fetchPayments())
+
+  // Fetch new balance.
+  dispatch(fetchBalance())
+}
+
+// Receive IPC event for failed payment.
+export const paymentFailed = (event, { paymentRequest, error }) => async (dispatch, getState) => {
+  const state = getState()
+  const { timestamp } = state.payment.paymentsSending.find(p => p.paymentRequest === paymentRequest)
+
+  // Ensure payment stays in sending state for at least 2 seconds.
+  await delay(2000 - (Date.now() - timestamp * 1000))
+
+  // Mark the payment as failed.
+  dispatch({ type: PAYMENT_FAILED, paymentRequest, error })
 }
 
 // ------------------------------------
@@ -154,52 +125,49 @@ const tick = (dispatch, getState) => {
 const ACTION_HANDLERS = {
   [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
-
   [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
-
-  [SEND_PAYMENT]: state => ({ ...state, sendingPayment: true }),
-
-  [TICK_TIMEOUT]: state => ({ ...state, paymentTimeout: state.paymentTimeout - 1000 }),
-  [SET_INTERVAL]: (state, { paymentInterval }) => ({ ...state, paymentInterval }),
-
-  [PAYMENT_SUCCESSFULL]: state => {
-    clearInterval(state.paymentInterval)
-
+  [SEND_PAYMENT]: (state, { payment }) => ({
+    ...state,
+    paymentsSending: [...state.paymentsSending, payment]
+  }),
+  [PAYMENT_SUCCESSFUL]: (state, { paymentRequest }) => {
     return {
       ...state,
-      sendingPayment: false,
-      paymentInterval: null,
-      paymentTimeout: 60000
+      paymentsSending: state.paymentsSending.map(item => {
+        if (item.paymentRequest !== paymentRequest) {
+          return item
+        }
+        item.status = 'successful'
+        return item
+      })
     }
   },
-  [PAYMENT_FAILED]: state => {
-    clearInterval(state.paymentInterval)
-
+  [PAYMENT_FAILED]: (state, { paymentRequest, error }) => {
     return {
       ...state,
-      sendingPayment: false,
-      paymentInterval: null,
-      paymentTimeout: 60000
+      paymentsSending: state.paymentsSending.map(item => {
+        if (item.paymentRequest !== paymentRequest) {
+          return item
+        }
+        item.status = 'failed'
+        item.error = error
+        return item
+      })
     }
   },
-
-  [SHOW_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: true }),
-  [HIDE_SUCCESS_SCREEN]: state => ({ ...state, showSuccessPayScreen: false })
+  [PAYMENT_COMPLETE]: (state, { paymentRequest }) => {
+    return {
+      ...state,
+      paymentsSending: state.paymentsSending.filter(item => item.paymentRequest !== paymentRequest)
+    }
+  }
 }
 
-const sendingTransactionSelector = state => state.transaction.sendingTransaction
-const sendingPaymentSelector = state => state.payment.sendingPayment
 const modalPaymentSelector = state => state.payment.payment
 
 const paymentSelectors = {}
 
 paymentSelectors.paymentModalOpen = createSelector(modalPaymentSelector, payment => !!payment)
-
-paymentSelectors.showPayLoadingScreen = createSelector(
-  sendingTransactionSelector,
-  sendingPaymentSelector,
-  (sendingTransaction, sendingPayment) => sendingTransaction || sendingPayment
-)
 
 export { paymentSelectors }
 
@@ -207,13 +175,10 @@ export { paymentSelectors }
 // Reducer
 // ------------------------------------
 const initialState = {
-  sendingPayment: false,
   paymentLoading: false,
-  paymentTimeout: 60000,
-  paymentInterval: null,
-  payments: [],
   payment: null,
-  showSuccessPayScreen: false
+  payments: [],
+  paymentsSending: []
 }
 
 export default function paymentReducer(state = initialState, action) {
