@@ -35,15 +35,17 @@ const Transaction = ({
         <>
           {transaction.status === 'sending' && (
             <Message variant="processing">
-              Zap is processing your transaction. This can take up to 01:00 min.
+              <FormattedMessage {...messages.status_processing} />
             </Message>
           )}
           {transaction.status === 'successful' && (
-            <Message variant="success">Your transaction was successful.</Message>
+            <Message variant="success">
+              <FormattedMessage {...messages.status_success} />
+            </Message>
           )}
           {transaction.status === 'failed' && (
             <Message variant="error">
-              There was a problem sending your transaction. {transaction.error}
+              <FormattedMessage {...messages.status_error} /> {transaction.error}
             </Message>
           )}
         </>
