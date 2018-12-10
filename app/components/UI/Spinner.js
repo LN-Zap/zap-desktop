@@ -47,7 +47,7 @@ const WrappedSpinner = ({ element, size, ...rest }) => {
   const Element = renderSpinner(Icon)
   return (
     <Wrapper {...rest}>
-      <Element />
+      <Element {...sizeProps} />
     </Wrapper>
   )
 }

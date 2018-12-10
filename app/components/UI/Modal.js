@@ -61,7 +61,7 @@ class Modal extends React.Component {
             </Flex>
           )}
         </Panel.Header>
-        <Panel.Body px={4} pb={4} {...rest}>
+        <Panel.Body px={4} pb={4} {...rest} css={{ overflow: 'hidden' }}>
           {' '}
           {children}
         </Panel.Body>

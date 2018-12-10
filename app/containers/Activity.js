@@ -4,7 +4,7 @@ import { setLocale } from 'reducers/locale'
 import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
 import { fetchInvoices, setInvoice, invoiceSelectors } from 'reducers/invoice'
-import { setPayment, fetchPayments, paymentSelectors } from 'reducers/payment'
+import { fetchPayments, paymentSelectors } from 'reducers/payment'
 import { fetchTransactions } from 'reducers/transaction'
 import {
   showActivityModal,
@@ -27,7 +27,6 @@ const mapDispatchToProps = {
   setLocale,
   setCurrency,
   setFiatTicker,
-  setPayment,
   setInvoice,
   fetchPayments,
   fetchInvoices,
@@ -77,9 +76,7 @@ const mapStateToProps = state => ({
 
   currentActivity: activitySelectors.currentActivity(state)(state),
   nonActiveFilters: activitySelectors.nonActiveFilters(state),
-  showExpiredToggle: activitySelectors.showExpiredToggle(state),
-
-  showPayLoadingScreen: paymentSelectors.showPayLoadingScreen(state)
+  showExpiredToggle: activitySelectors.showExpiredToggle(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
@@ -94,13 +91,9 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     info: stateProps.info,
     ticker: stateProps.ticker,
     currentTicker: stateProps.currentTicker,
-    showPayLoadingScreen: stateProps.showPayLoadingScreen,
-    showSuccessPayScreen: stateProps.payment.showSuccessPayScreen,
-    successTransactionScreen: stateProps.transaction.successTransactionScreen,
     currencyFilters: stateProps.currencyFilters,
     currencyName: stateProps.currencyName,
     network: stateProps.info.network,
-    paymentTimeout: stateProps.payment.paymentTimeout,
     theme: stateProps.currentTheme,
 
     setCurrency: dispatchProps.setCurrency,

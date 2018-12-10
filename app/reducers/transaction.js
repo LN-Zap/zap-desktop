@@ -4,24 +4,19 @@ import { btc } from 'lib/utils'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
-import { setError } from './error'
 import { fetchChannels } from './channels'
+import { changeFilter } from './activity'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const GET_TRANSACTIONS = 'GET_TRANSACTIONS'
 export const RECEIVE_TRANSACTIONS = 'RECEIVE_TRANSACTIONS'
-
 export const SEND_TRANSACTION = 'SEND_TRANSACTION'
-
-export const TRANSACTION_SUCCESSFULL = 'TRANSACTION_SUCCESSFULL'
+export const TRANSACTION_SUCCESSFUL = 'TRANSACTION_SUCCESSFUL'
 export const TRANSACTION_FAILED = 'TRANSACTION_FAILED'
-
+export const TRANSACTION_COMPLETE = 'TRANSACTION_COMPLETE'
 export const ADD_TRANSACTION = 'ADD_TRANSACTION'
-
-export const SHOW_SUCCESS_TRANSACTION_SCREEN = 'SHOW_SUCCESS_TRANSACTION_SCREEN'
-export const HIDE_SUCCESS_TRANSACTION_SCREEN = 'HIDE_SUCCESS_TRANSACTION_SCREEN'
 
 // ------------------------------------
 // Helpers
@@ -29,9 +24,12 @@ export const HIDE_SUCCESS_TRANSACTION_SCREEN = 'HIDE_SUCCESS_TRANSACTION_SCREEN'
 
 // Decorate transaction object with custom/computed properties.
 const decorateTransaction = transaction => {
+  transaction.type = 'transaction'
   transaction.received = transaction.amount > 0
   return transaction
 }
+
+const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 // ------------------------------------
 // Actions
@@ -42,22 +40,14 @@ export function getTransactions() {
   }
 }
 
-export function sendTransaction() {
+export function sendTransaction(data) {
+  const transaction = Object.assign({}, data, {
+    status: 'sending',
+    timestamp: Math.round(new Date() / 1000)
+  })
   return {
-    type: SEND_TRANSACTION
-  }
-}
-
-export function showSuccessTransactionScreen(txid) {
-  return {
-    type: SHOW_SUCCESS_TRANSACTION_SCREEN,
-    txid
-  }
-}
-
-export function hideSuccessTransactionScreen() {
-  return {
-    type: HIDE_SUCCESS_TRANSACTION_SCREEN
+    type: SEND_TRANSACTION,
+    transaction
   }
 }
 
@@ -90,34 +80,46 @@ export const sendCoins = ({ value, addr, currency, targetConf, satPerByte }) => 
   const amount = btc.convert(currency, 'sats', value)
 
   // submit the transaction to LND
-  dispatch(sendTransaction())
+  const data = { amount, addr, target_conf: targetConf, sat_per_byte: satPerByte }
   ipcRenderer.send('lnd', {
     msg: 'sendCoins',
-    data: { amount, addr, currency, target_conf: targetConf, sat_per_byte: satPerByte }
+    data
   })
+  dispatch(sendTransaction(data))
 
-  // Close the form modal once the payment was sent to LND
-  // we will do the loading/success UX on the main page
-  // so we aren't blocking the user
+  // Close the form modal once the transaction has been sent
+  dispatch(changeFilter({ key: 'ALL_ACTIVITY', name: 'all' }))
   dispatch(setFormType(null))
 }
 
-// Receive IPC event for successful payment
-// TODO: Add payment to state, not a total re-fetch
-export const transactionSuccessful = (event, { txid }) => dispatch => {
-  // Get the new list of transactions (TODO dont do an entire new fetch)
-  dispatch(fetchTransactions())
-  // Show successful payment state
-  dispatch({ type: TRANSACTION_SUCCESSFULL })
+// Receive IPC event for successful payment.
+export const transactionSuccessful = (event, { addr }) => async (dispatch, getState) => {
+  const state = getState()
+  const { timestamp } = state.transaction.transactionsSending.find(t => t.addr === addr)
 
-  // Show successful tx state for 5 seconds
-  dispatch(showSuccessTransactionScreen(txid))
-  setTimeout(() => dispatch(hideSuccessTransactionScreen()), 5000)
+  // Ensure payment stays in sending state for at least 2 seconds.
+  await delay(2000 - (Date.now() - timestamp * 1000))
+
+  // Mark the payment as successful.
+  dispatch({ type: TRANSACTION_SUCCESSFUL, addr })
+
+  // Wait for another second.
+  await delay(1000)
+
+  // Mark the payment as successful.
+  dispatch({ type: TRANSACTION_COMPLETE, addr })
 }
 
-export const transactionError = (event, { error }) => dispatch => {
-  dispatch({ type: TRANSACTION_FAILED })
-  dispatch(setError(error))
+// Receive IPC event for failed payment.
+export const transactionFailed = (event, { addr, error }) => async (dispatch, getState) => {
+  const state = getState()
+  const { timestamp } = state.transaction.transactionsSending.find(t => t.addr === addr)
+
+  // Ensure payment stays in sending state for at least 2 seconds.
+  await delay(2000 - (Date.now() - timestamp * 1000))
+
+  // Mark the payment as failed.
+  dispatch({ type: TRANSACTION_FAILED, addr, error })
 }
 
 // Listener for when a new transaction is pushed from the subscriber
@@ -133,10 +135,11 @@ export const newTransaction = (event, { transaction }) => (dispatch, getState) =
 
     dispatch({ type: ADD_TRANSACTION, transaction })
 
+    // Refetch transactions.
+    dispatch(fetchTransactions())
+
     // fetch updated channels
     dispatch(fetchChannels())
-    // fetch new balance
-    dispatch(fetchBalance())
 
     // HTML 5 desktop notification for the new transaction
     if (transaction.received) {
@@ -159,39 +162,59 @@ export const newTransaction = (event, { transaction }) => (dispatch, getState) =
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_TRANSACTIONS]: state => ({ ...state, transactionLoading: true }),
-  [SEND_TRANSACTION]: state => ({ ...state, sendingTransaction: true }),
+  [SEND_TRANSACTION]: (state, { transaction }) => ({
+    ...state,
+    transactionsSending: [...state.transactionsSending, transaction]
+  }),
   [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({
     ...state,
     transactionLoading: false,
     transactions
   }),
-  [TRANSACTION_SUCCESSFULL]: state => ({ ...state, sendingTransaction: false }),
-  [TRANSACTION_FAILED]: state => ({ ...state, sendingTransaction: false }),
   [ADD_TRANSACTION]: (state, { transaction }) => ({
     ...state,
     transactions: [transaction, ...state.transactions]
   }),
-  [SHOW_SUCCESS_TRANSACTION_SCREEN]: (state, { txid }) => ({
-    ...state,
-    successTransactionScreen: { show: true, txid }
-  }),
-  [HIDE_SUCCESS_TRANSACTION_SCREEN]: state => ({
-    ...state,
-    successTransactionScreen: { show: false, txid: '' }
-  })
+  [TRANSACTION_SUCCESSFUL]: (state, { addr }) => {
+    return {
+      ...state,
+      transactionsSending: state.transactionsSending.map(item => {
+        if (item.addr !== addr) {
+          return item
+        }
+        item.status = 'successful'
+        return item
+      })
+    }
+  },
+  [TRANSACTION_FAILED]: (state, { addr, error }) => {
+    return {
+      ...state,
+      transactionsSending: state.transactionsSending.map(item => {
+        if (item.addr !== addr) {
+          return item
+        }
+        item.status = 'failed'
+        item.error = error
+        return item
+      })
+    }
+  },
+  [TRANSACTION_COMPLETE]: (state, { addr }) => {
+    return {
+      ...state,
+      transactionsSending: state.transactionsSending.filter(item => item.addr !== addr)
+    }
+  }
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  sendingTransaction: false,
   transactionLoading: false,
   transactions: [],
-  successTransactionScreen: {
-    show: false,
-    txid: ''
-  }
+  transactionsSending: []
 }
 
 export default function transactionReducer(state = initialState, action) {

@@ -76,12 +76,12 @@ const TransactionModal = ({
 
     <div className={styles.date}>
       <FormattedDate
-        value={new Date(transaction.time_stamp * 1000)}
+        value={transaction.time_stamp * 1000}
         year="numeric"
         month="long"
         day="2-digit"
       />{' '}
-      <FormattedTime value={new Date(transaction.time_stamp * 1000)} />
+      <FormattedTime value={transaction.time_stamp * 1000} />
     </div>
 
     <footer className={styles.footer}>

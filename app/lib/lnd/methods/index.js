@@ -186,7 +186,7 @@ export default function(lnd, log, event, msg, data) {
         })
         .catch(error => {
           log.error('error: ', error)
-          event.sender.send('paymentFailed', { error: error.toString() })
+          event.sender.send('paymentFailed', Object.assign(data, { error: error.toString() }))
         })
       break
     case 'sendCoins':
@@ -195,11 +195,11 @@ export default function(lnd, log, event, msg, data) {
       walletController
         .sendCoins(lnd, data)
         .then(({ txid }) =>
-          event.sender.send('transactionSuccessful', { amount: data.amount, addr: data.addr, txid })
+          event.sender.send('transactionSuccessful', Object.assign(data, { txid }))
         )
         .catch(error => {
           log.error('error: ', error)
-          event.sender.send('transactionError', { error: error.toString() })
+          event.sender.send('transactionFailed', Object.assign(data, { error: error.toString() }))
         })
       break
     case 'openChannel':

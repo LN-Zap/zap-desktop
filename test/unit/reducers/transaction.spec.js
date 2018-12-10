@@ -2,11 +2,9 @@ import transactionReducer, {
   GET_TRANSACTIONS,
   RECEIVE_TRANSACTIONS,
   SEND_TRANSACTION,
-  TRANSACTION_SUCCESSFULL,
+  TRANSACTION_SUCCESSFUL,
   TRANSACTION_FAILED,
-  ADD_TRANSACTION,
-  SHOW_SUCCESS_TRANSACTION_SCREEN,
-  HIDE_SUCCESS_TRANSACTION_SCREEN
+  ADD_TRANSACTION
 } from 'reducers/transaction'
 
 describe('reducers', () => {
@@ -27,8 +25,8 @@ describe('reducers', () => {
       expect(SEND_TRANSACTION).toEqual('SEND_TRANSACTION')
     })
 
-    it('should have TRANSACTION_SUCCESSFULL', () => {
-      expect(TRANSACTION_SUCCESSFULL).toEqual('TRANSACTION_SUCCESSFULL')
+    it('should have TRANSACTION_SUCCESSFUL', () => {
+      expect(TRANSACTION_SUCCESSFUL).toEqual('TRANSACTION_SUCCESSFUL')
     })
 
     it('should have TRANSACTION_FAILED', () => {
@@ -37,14 +35,6 @@ describe('reducers', () => {
 
     it('should have ADD_TRANSACTION', () => {
       expect(ADD_TRANSACTION).toEqual('ADD_TRANSACTION')
-    })
-
-    it('should have SHOW_SUCCESS_TRANSACTION_SCREEN', () => {
-      expect(SHOW_SUCCESS_TRANSACTION_SCREEN).toEqual('SHOW_SUCCESS_TRANSACTION_SCREEN')
-    })
-
-    it('should have HIDE_SUCCESS_TRANSACTION_SCREEN', () => {
-      expect(HIDE_SUCCESS_TRANSACTION_SCREEN).toEqual('HIDE_SUCCESS_TRANSACTION_SCREEN')
     })
 
     it('should correctly getTransactions', () => {
@@ -64,7 +54,7 @@ describe('reducers', () => {
     })
 
     it('should correctly transactionSuccessful', () => {
-      expect(transactionReducer(undefined, { type: TRANSACTION_SUCCESSFULL })).toMatchSnapshot()
+      expect(transactionReducer(undefined, { type: TRANSACTION_SUCCESSFUL })).toMatchSnapshot()
     })
 
     it('should correctly transactionFailed', () => {
@@ -73,18 +63,6 @@ describe('reducers', () => {
 
     it('should correctly addTransaction', () => {
       expect(transactionReducer(undefined, { type: ADD_TRANSACTION })).toMatchSnapshot()
-    })
-
-    it('should correctly showSuccessTransactionScreen', () => {
-      expect(
-        transactionReducer(undefined, { type: SHOW_SUCCESS_TRANSACTION_SCREEN })
-      ).toMatchSnapshot()
-    })
-
-    it('should correctly hideSuccessTransactionScreen', () => {
-      expect(
-        transactionReducer(undefined, { type: HIDE_SUCCESS_TRANSACTION_SCREEN })
-      ).toMatchSnapshot()
     })
   })
 })

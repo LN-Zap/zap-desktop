@@ -10,7 +10,6 @@ import Btcpay from 'components/Icon/Btcpay'
 import ChainLink from 'components/Icon/ChainLink'
 import Channels from 'components/Icon/Channels'
 import Check from 'components/Icon/Check'
-import CheckAnimated from 'components/Icon/CheckAnimated'
 import CheckCircle from 'components/Icon/CheckCircle'
 import Clock from 'components/Icon/Clock'
 import Cloudbolt from 'components/Icon/Cloudbolt'
@@ -63,7 +62,6 @@ const zapIconsList = {
   ChainLink,
   Channels,
   Check,
-  CheckAnimated,
   CheckCircle,
   Clock,
   Cloudbolt,

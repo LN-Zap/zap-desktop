@@ -64,7 +64,7 @@ const InvoiceModal = ({
                   month="long"
                   day="2-digit"
                 />{' '}
-                <FormattedTime value={new Date(invoice.creation_date * 1000)} />
+                <FormattedTime value={invoice.creation_date * 1000} />
               </p>
               {!invoice.settled && (
                 <p className={styles.notPaid}>
