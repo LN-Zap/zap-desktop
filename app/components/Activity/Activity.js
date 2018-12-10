@@ -14,6 +14,60 @@ import Payment from './Payment'
 import Transaction from './Transaction'
 import messages from './messages'
 
+const ActivityIcon = ({ activity }) => {
+  if (activity.block_hash) {
+    return <ChainLink />
+  } else if (activity.payment_request) {
+    return <Clock />
+  } else {
+    return <Zap width="1.6em" height="1.6em" />
+  }
+}
+
+const ActivityListItem = ({
+  activity,
+  currencyName,
+  currentTicker,
+  network,
+  ticker,
+  showActivityModal,
+  ...rest
+}) => (
+  <Flex justifyContent="space-between" alignItems="center" {...rest}>
+    <Text width={24} ml={-35} color="gray" textAlign="center">
+      <ActivityIcon activity={activity} />
+    </Text>
+    <Box width={1}>
+      {activity.block_hash ? (
+        <Transaction
+          transaction={activity}
+          ticker={ticker}
+          currentTicker={currentTicker}
+          showActivityModal={showActivityModal}
+          currencyName={currencyName}
+        />
+      ) : activity.payment_request ? (
+        <Invoice
+          invoice={activity}
+          ticker={ticker}
+          currentTicker={currentTicker}
+          showActivityModal={showActivityModal}
+          currencyName={currencyName}
+        />
+      ) : (
+        <Payment
+          payment={activity}
+          ticker={ticker}
+          currentTicker={currentTicker}
+          showActivityModal={showActivityModal}
+          nodes={network.nodes}
+          currencyName={currencyName}
+        />
+      )}
+    </Box>
+  </Flex>
+)
+
 class Activity extends Component {
   state = {
     refreshing: false
@@ -126,7 +180,14 @@ class Activity extends Component {
   }
 
   renderActivityList = () => {
-    const { currentActivity, currencyName } = this.props
+    const {
+      currentActivity,
+      currencyName,
+      ticker,
+      currentTicker,
+      showActivityModal,
+      network
+    } = this.props
 
     if (!currencyName) {
       return null
@@ -136,16 +197,19 @@ class Activity extends Component {
       <Box key={index} mb={4}>
         <Heading.h4 fontWeight="normal">{activityBlock.title}</Heading.h4>
         <Bar py={1} />
-        {activityBlock.activity.map((activity, i) => {
-          return (
-            <Flex key={i} justifyContent="space-between" alignItems="center">
-              <Text width={24} ml={-35} color="gray" textAlign="center">
-                {this.renderActivityIcon(activity.el)}
-              </Text>
-              <Box width={1}>{this.renderActivity(activity.el)}</Box>
-            </Flex>
-          )
-        })}
+        {activityBlock.activity.map((activity, i) => (
+          <ActivityListItem
+            key={i}
+            {...{
+              activity,
+              currencyName,
+              currentTicker,
+              showActivityModal,
+              network,
+              ticker
+            }}
+          />
+        ))}
       </Box>
     ))
   }
@@ -158,49 +222,6 @@ class Activity extends Component {
     } else {
       return <Zap width="1.6em" height="1.6em" />
     }
-  }
-
-  renderActivity = activity => {
-    const { ticker, currentTicker, showActivityModal, network, currencyName } = this.props
-
-    if (!currencyName) {
-      return null
-    }
-
-    if (Object.prototype.hasOwnProperty.call(activity, 'block_hash')) {
-      // activity is an on-chain tx
-      return (
-        <Transaction
-          transaction={activity}
-          ticker={ticker}
-          currentTicker={currentTicker}
-          showActivityModal={showActivityModal}
-          currencyName={currencyName}
-        />
-      )
-    } else if (Object.prototype.hasOwnProperty.call(activity, 'payment_request')) {
-      // activity is an LN invoice
-      return (
-        <Invoice
-          invoice={activity}
-          ticker={ticker}
-          currentTicker={currentTicker}
-          showActivityModal={showActivityModal}
-          currencyName={currencyName}
-        />
-      )
-    }
-    // activity is an LN payment
-    return (
-      <Payment
-        payment={activity}
-        ticker={ticker}
-        currentTicker={currentTicker}
-        showActivityModal={showActivityModal}
-        nodes={network.nodes}
-        currencyName={currencyName}
-      />
-    )
   }
 
   renderFooterControls = () => {
