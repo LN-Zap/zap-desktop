@@ -60,7 +60,7 @@ const Transaction = ({
         <FormattedNumber
           currency={ticker.fiatTicker}
           style="currency"
-          value={btc.convert('sats', 'fiat', transaction.value, currentTicker[ticker.fiatTicker])}
+          value={btc.convert('sats', 'fiat', transaction.amount, currentTicker[ticker.fiatTicker])}
         />
       </Text>
     </Box>
