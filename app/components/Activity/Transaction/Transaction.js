@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { btc } from 'lib/utils'
-import { Span, Text, Value } from 'components/UI'
+import { Message, Span, Text, Value } from 'components/UI'
 import messages from './messages'
 
 const Transaction = ({
@@ -17,7 +17,9 @@ const Transaction = ({
   <Flex
     justifyContent="space-between"
     alignItems="center"
-    onClick={() => showActivityModal('TRANSACTION', transaction.tx_hash)}
+    onClick={
+      !transaction.sending ? () => showActivityModal('TRANSACTION', transaction.tx_hash) : null
+    }
     py={2}
   >
     <Box
@@ -28,9 +30,28 @@ const Transaction = ({
       <Text mb={1}>
         <FormattedMessage {...messages[transaction.received ? 'received' : 'sent']} />
       </Text>
-      <Text color="gray" fontSize="xs" fontWeight="normal">
-        <FormattedTime value={transaction.time_stamp * 1000} />
-      </Text>
+
+      {transaction.sending ? (
+        <>
+          {transaction.status === 'sending' && (
+            <Message variant="processing">
+              Zap is processing your transaction. This can take up to 01:00 min.
+            </Message>
+          )}
+          {transaction.status === 'successful' && (
+            <Message variant="success">Your transaction was successful.</Message>
+          )}
+          {transaction.status === 'failed' && (
+            <Message variant="error">
+              There was a problem sending your transaction. {transaction.error}
+            </Message>
+          )}
+        </>
+      ) : (
+        <Text color="gray" fontSize="xs" fontWeight="normal">
+          <FormattedTime value={transaction.time_stamp * 1000} />
+        </Text>
+      )}
     </Box>
 
     <Box
@@ -38,31 +59,40 @@ const Transaction = ({
       className="hint--top-left"
       data-hint={intl.formatMessage({ ...messages.amount })}
     >
-      <Text mb={1} textAlign="right">
-        {transaction.received ? (
-          <Span color="superGreen" fontWeight="normal" mr={1}>
-            +
-          </Span>
-        ) : (
-          <Span color="superRed" fontWeight="normal" mr={1}>
-            -
-          </Span>
-        )}
-        <Value
-          value={transaction.amount}
-          currency={ticker.currency}
-          currentTicker={currentTicker}
-          fiatTicker={ticker.fiatTicker}
-        />
-        <i> {currencyName}</i>
-      </Text>
-      <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-        <FormattedNumber
-          currency={ticker.fiatTicker}
-          style="currency"
-          value={btc.convert('sats', 'fiat', transaction.amount, currentTicker[ticker.fiatTicker])}
-        />
-      </Text>
+      <Box css={transaction.status == 'failed' ? { opacity: 0.5 } : null}>
+        <Text mb={1} textAlign="right">
+          {transaction.received && (
+            <Span color="superGreen" fontWeight="normal" mr={1}>
+              +
+            </Span>
+          )}
+          {!transaction.received &&
+            transaction.status !== 'failed' && (
+              <Span color="superRed" fontWeight="normal" mr={1}>
+                -
+              </Span>
+            )}
+          <Value
+            value={transaction.amount}
+            currency={ticker.currency}
+            currentTicker={currentTicker}
+            fiatTicker={ticker.fiatTicker}
+          />
+          <i> {currencyName}</i>
+        </Text>
+        <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
+          <FormattedNumber
+            currency={ticker.fiatTicker}
+            style="currency"
+            value={btc.convert(
+              'sats',
+              'fiat',
+              transaction.amount,
+              currentTicker[ticker.fiatTicker]
+            )}
+          />
+        </Text>
+      </Box>
     </Box>
   </Flex>
 )

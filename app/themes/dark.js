@@ -83,6 +83,9 @@ const messages = {
   },
   error: {
     color: colors.superRed
+  },
+  processing: {
+    color: colors.lightningOrange
   }
 }
 

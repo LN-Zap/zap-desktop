@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { btc } from 'lib/utils'
-import { Span, Text, Value } from 'components/UI'
+import { Message, Span, Text, Value } from 'components/UI'
 import { FormattedNumber, FormattedTime, injectIntl } from 'react-intl'
 import messages from './messages'
 
@@ -27,7 +27,7 @@ const Payment = ({
     <Flex
       justifyContent="space-between"
       alignItems="center"
-      onClick={() => showActivityModal('PAYMENT', payment.payment_hash)}
+      onClick={!payment.sending ? () => showActivityModal('PAYMENT', payment.payment_hash) : null}
       py={2}
     >
       <Box
@@ -36,9 +36,27 @@ const Payment = ({
         data-hint={intl.formatMessage({ ...messages.type })}
       >
         <Text mb={1}>{displayNodeName(payment.path[payment.path.length - 1])}</Text>
-        <Text color="gray" fontSize="xs" fontWeight="normal">
-          <FormattedTime value={payment.creation_date * 1000} />
-        </Text>
+        {payment.sending ? (
+          <>
+            {payment.status === 'sending' && (
+              <Message variant="processing">
+                Zap is processing your payment. This can take up to 01:00 min.
+              </Message>
+            )}
+            {payment.status === 'successful' && (
+              <Message variant="success">Your payment was successful.</Message>
+            )}
+            {payment.status === 'failed' && (
+              <Message variant="error">
+                There was a problem sending your payment. {payment.error}
+              </Message>
+            )}
+          </>
+        ) : (
+          <Text color="gray" fontSize="xs" fontWeight="normal">
+            <FormattedTime value={payment.creation_date * 1000} />
+          </Text>
+        )}
       </Box>
 
       <Box
@@ -46,25 +64,29 @@ const Payment = ({
         className="hint--top-left"
         data-hint={intl.formatMessage({ ...messages.amount })}
       >
-        <Text mb={1} textAlign="right">
-          <Span color="superRed" fontWeight="normal" mr={1}>
-            -
-          </Span>
-          <Value
-            value={payment.value}
-            currency={ticker.currency}
-            currentTicker={currentTicker}
-            fiatTicker={ticker.fiatTicker}
-          />
-          <i> {currencyName}</i>
-        </Text>
-        <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-          <FormattedNumber
-            currency={ticker.fiatTicker}
-            style="currency"
-            value={btc.convert('sats', 'fiat', payment.value, currentTicker[ticker.fiatTicker])}
-          />
-        </Text>
+        <Box css={payment.status == 'failed' ? { opacity: 0.5 } : null}>
+          <Text mb={1} textAlign="right">
+            {payment.status !== 'failed' && (
+              <Span color="superRed" fontWeight="normal" mr={1}>
+                -
+              </Span>
+            )}
+            <Value
+              value={payment.value}
+              currency={ticker.currency}
+              currentTicker={currentTicker}
+              fiatTicker={ticker.fiatTicker}
+            />
+            <i> {currencyName}</i>
+          </Text>
+          <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
+            <FormattedNumber
+              currency={ticker.fiatTicker}
+              style="currency"
+              value={btc.convert('sats', 'fiat', payment.value, currentTicker[ticker.fiatTicker])}
+            />
+          </Text>
+        </Box>
       </Box>
     </Flex>
   )

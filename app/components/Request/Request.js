@@ -323,7 +323,7 @@ class Request extends React.Component {
                 />
                 <Bar pt={2} />
               </Panel.Header>
-              <Panel.Body py={3}>
+              <Panel.Body py={3} css={{ overflow: 'visible' }}>
                 {currentStep == 'form' ? (
                   <React.Fragment>
                     {this.renderHelpText()}

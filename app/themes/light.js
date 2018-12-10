@@ -72,6 +72,9 @@ const cards = {
   error: {
     backgroundColor: colors.lightRed,
     color: colors.superRed
+  },
+  processing: {
+    color: colors.lightningOrange
   }
 }
 const messages = {
