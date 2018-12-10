@@ -31,7 +31,7 @@ const Payment = ({
       py={2}
     >
       <Box
-        width={1 / 2}
+        width={3 / 4}
         className="hint--top-right"
         data-hint={intl.formatMessage({ ...messages.type })}
       >
@@ -42,7 +42,7 @@ const Payment = ({
       </Box>
 
       <Box
-        width={1 / 2}
+        width={1 / 4}
         className="hint--top-left"
         data-hint={intl.formatMessage({ ...messages.amount })}
       >
