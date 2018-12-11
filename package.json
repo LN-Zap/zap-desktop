@@ -232,7 +232,7 @@
     "css-loader": "1.0.1",
     "electron-builder": "20.38.2",
     "electron-devtools-installer": "2.2.4",
-    "electron-updater": "4.0.5",
+    "electron-updater": "4.0.6",
     "enzyme": "3.8.0",
     "enzyme-adapter-react-16": "1.7.0",
     "enzyme-to-json": "3.3.5",
