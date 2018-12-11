@@ -11,6 +11,8 @@ import messages from './messages'
 
 class PaySummaryLightning extends React.PureComponent {
   static propTypes = {
+    /** Amount to send (in satoshis). */
+    amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Current ticker data as provided by blockchain.info */
     currentTicker: PropTypes.object.isRequired,
     /** Currently selected cryptocurrency (key). */
@@ -50,6 +52,7 @@ class PaySummaryLightning extends React.PureComponent {
 
   render() {
     const {
+      amount,
       cryptoCurrency,
       cryptoCurrencyTicker,
       cryptoCurrencies,
@@ -74,7 +77,8 @@ class PaySummaryLightning extends React.PureComponent {
     const { satoshis, payeeNodeKey } = invoice
     const descriptionTag = invoice.tags.find(tag => tag.tagName === 'description') || {}
     const memo = descriptionTag.data
-    const fiatAmount = satoshisToFiat(satoshis, currentTicker[fiatCurrency])
+    const amountInSatoshis = Number(satoshis || amount)
+    const fiatAmount = satoshisToFiat(amountInSatoshis, currentTicker[fiatCurrency])
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
 
     // Select an appropriate fee message...
@@ -102,7 +106,7 @@ class PaySummaryLightning extends React.PureComponent {
               <Flex flexWrap="wrap" alignItems="baseline">
                 <Box>
                   <Text textAlign="left" fontSize={6}>
-                    <Value value={satoshis} currency={cryptoCurrency} />
+                    <Value value={amountInSatoshis} currency={cryptoCurrency} />
                   </Text>
                 </Box>
                 <Dropdown
@@ -155,7 +159,8 @@ class PaySummaryLightning extends React.PureComponent {
           left={<FormattedMessage {...messages.total} />}
           right={
             <React.Fragment>
-              <Value value={satoshis + maxFee} currency={cryptoCurrency} /> {cryptoCurrencyTicker}
+              <Value value={amountInSatoshis + maxFee} currency={cryptoCurrency} />{' '}
+              {cryptoCurrencyTicker}
             </React.Fragment>
           }
         />
