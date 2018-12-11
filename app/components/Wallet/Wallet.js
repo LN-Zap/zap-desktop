@@ -43,9 +43,9 @@ const Wallet = ({
   )
 
   return (
-    <Box pt={4} px={5} pb={3} bg="secondaryColor">
-      <Flex as="header" justifyContent="space-between">
-        <Flex as="section" alignItems="center" mt={3}>
+    <Box pt={3} px={5} pb={3} bg="secondaryColor">
+      <Flex as="header" justifyContent="space-between" pt={2}>
+        <Flex as="section" alignItems="center" mt={4}>
           <ZapLogo width="70px" height="32px" />
           {info.data.testnet && (
             <Text color="superGreen" fontSize={1} ml={2}>
