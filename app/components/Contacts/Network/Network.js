@@ -155,9 +155,9 @@ class Network extends Component {
     )
 
     return (
-      <Panel>
-        <Panel.Header>
-          <Flex justifyContent="space-between" mx={3} mt={3}>
+      <Panel pt={3}>
+        <Panel.Header pt={2}>
+          <Flex justifyContent="space-between" mx={3}>
             <Heading.h4 fontWeight="normal" mb={3}>
               <FormattedMessage {...messages.title} />
             </Heading.h4>
