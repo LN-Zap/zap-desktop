@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withTheme } from 'styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Form, Input, Panel, Spinner, Text } from 'components/UI'
@@ -14,6 +15,7 @@ const AddChannel = ({
   updateContactFormSearchQuery,
   updateManualFormSearchQuery,
   setNode,
+  theme,
   activeChannelPubkeys,
   nonActiveChannelPubkeys,
   pendingOpenChannelPubkeys,
@@ -23,6 +25,35 @@ const AddChannel = ({
   openManualForm,
   intl
 }) => {
+  /**
+   * Check if a node can be connected to.
+   */
+  const canConnect = node =>
+    !loadingChannelPubkeys.includes(node.pub_key) &&
+    !activeChannelPubkeys.includes(node.pub_key) &&
+    !nonActiveChannelPubkeys.includes(node.pub_key) &&
+    !pendingOpenChannelPubkeys.includes(node.pub_key) &&
+    node.addresses.length
+
+  /**
+   * Handle connect to node click.
+   */
+  const handleClickConnect = node => {
+    setNode(node)
+    openSubmitChannelForm()
+  }
+
+  /**
+   * Handle search input update.
+   */
+  const searchUpdated = search => {
+    updateContactFormSearchQuery(search)
+
+    if (search.includes('@') && search.split('@')[0].length === 66) {
+      updateManualFormSearchQuery(search)
+    }
+  }
+
   const renderRightSide = node => {
     if (loadingChannelPubkeys.includes(node.pub_key)) {
       return <Spinner />
@@ -30,7 +61,7 @@ const AddChannel = ({
 
     if (activeChannelPubkeys.includes(node.pub_key)) {
       return (
-        <Text color="superGreen">
+        <Text fontSize="s" color="superGreen">
           <FormattedMessage {...messages.online} />
         </Text>
       )
@@ -38,7 +69,7 @@ const AddChannel = ({
 
     if (nonActiveChannelPubkeys.includes(node.pub_key)) {
       return (
-        <Text color="gray">
+        <Text fontSize="s" color="gray">
           <FormattedMessage {...messages.offline} />
         </Text>
       )
@@ -46,7 +77,7 @@ const AddChannel = ({
 
     if (pendingOpenChannelPubkeys.includes(node.pub_key)) {
       return (
-        <Text color="lightningOrange">
+        <Text fontSize="s" color="lightningOrange">
           <FormattedMessage {...messages.pending} />
         </Text>
       )
@@ -54,37 +85,17 @@ const AddChannel = ({
 
     if (!node.addresses.length) {
       return (
-        <Text color="gray">
+        <Text fontSize="s" color="gray">
           <FormattedMessage {...messages.private} />
         </Text>
       )
     }
 
     return (
-      <Button
-        type="button"
-        variant="secondary"
-        size="small"
-        onClick={() => {
-          // set the node public key for the submit form
-          setNode(node)
-          // open the submit form
-          openSubmitChannelForm()
-        }}
-      >
-        <Text fontSize="s">
-          <FormattedMessage {...messages.connect} />
-        </Text>
-      </Button>
+      <Text fontSize="s">
+        <FormattedMessage {...messages.connect} />
+      </Text>
     )
-  }
-
-  const searchUpdated = search => {
-    updateContactFormSearchQuery(search)
-
-    if (search.includes('@') && search.split('@')[0].length === 66) {
-      updateManualFormSearchQuery(search)
-    }
   }
 
   const renderSearchBar = () => {
@@ -111,41 +122,71 @@ const AddChannel = ({
   }
 
   return (
-    <Panel mx={3} mt={4}>
-      <Panel.Header>{renderSearchBar()}</Panel.Header>
+    <Panel pt={3}>
+      <Panel.Header pt={2} mx={3}>
+        {renderSearchBar()}
+      </Panel.Header>
 
-      <Bar my={3} mx={-3} borderColor="gray" css={{ opacity: 0.3 }} />
+      <Bar my={3} borderColor="gray" css={{ opacity: 0.3 }} />
 
       <Panel.Body>
         {filteredNetworkNodes.length > 0 &&
-          filteredNetworkNodes.map(node => (
-            <Flex key={node.pub_key} justifyContent="space-between" alignItems="center" py={2}>
-              <Box>
-                {node.alias.length > 0 ? (
-                  <>
-                    <Text>{node.alias.trim()}</Text>
-                    <Text color="gray" fontSize="s">
-                      <Truncate text={node.pub_key} maxlen={25} />
-                    </Text>
-                  </>
-                ) : (
-                  <Text>{node.pub_key}</Text>
-                )}
-              </Box>
+          filteredNetworkNodes.map(node => {
+            const canConnectToNode = canConnect(node)
+            return (
+              <Flex
+                key={node.pub_key}
+                justifyContent="space-between"
+                alignItems="center"
+                py={2}
+                px={3}
+                css={
+                  canConnectToNode
+                    ? {
+                        cursor: 'pointer',
+                        '&:hover': {
+                          'background-color': theme.colors.secondaryColor
+                        }
+                      }
+                    : null
+                }
+                onClick={canConnectToNode ? () => handleClickConnect(node) : null}
+              >
+                <Box css={{ overflow: 'hidden' }} mr={3}>
+                  {node.alias.length > 0 ? (
+                    <>
+                      <Text
+                        css={{
+                          overflow: 'hidden',
+                          'white=space': 'nowrap',
+                          'text-overflow': 'ellipsis'
+                        }}
+                      >
+                        {node.alias.trim()}
+                      </Text>
+                      <Text color="gray" fontSize="xs">
+                        <Truncate text={node.pub_key} maxlen={25} />
+                      </Text>
+                    </>
+                  ) : (
+                    <Text>{node.pub_key}</Text>
+                  )}
+                </Box>
 
-              <Box>{renderRightSide(node)}</Box>
-            </Flex>
-          ))}
+                <Box>{renderRightSide(node)}</Box>
+              </Flex>
+            )
+          })}
 
         {showManualForm && (
-          <>
+          <Flex px={3} alignItems="center" flexDirection="column">
             <Text mb={3}>
               <FormattedMessage {...messages.manual_description} />
             </Text>
-            <Button onClick={openManualForm} variant="primary" width={1}>
+            <Button onClick={openManualForm} mx="auto">
               <FormattedMessage {...messages.manual_button} />
             </Button>
-          </>
+          </Flex>
         )}
       </Panel.Body>
     </Panel>
@@ -168,4 +209,4 @@ AddChannel.propTypes = {
   openManualForm: PropTypes.func.isRequired
 }
 
-export default injectIntl(AddChannel)
+export default injectIntl(withTheme(AddChannel))
