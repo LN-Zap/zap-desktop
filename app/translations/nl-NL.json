@@ -170,7 +170,6 @@
   "components.Pay.calculating": "",
   "components.Pay.current_balance": "",
   "components.Pay.description": "",
-  "components.Pay.error_no_route": "",
   "components.Pay.error_not_enough_funds": "",
   "components.Pay.fee": "",
   "components.Pay.fee_less_than_1": "",
