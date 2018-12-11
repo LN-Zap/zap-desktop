@@ -116,7 +116,7 @@ app.on('ready', async () => {
     useContentSize: true,
     titleBarStyle: 'hidden',
     width: 1020,
-    height: 650,
+    height: 680,
     minWidth: 900,
     minHeight: 425,
     backgroundColor: get(theme, 'colors.primaryColor', '#242633'),

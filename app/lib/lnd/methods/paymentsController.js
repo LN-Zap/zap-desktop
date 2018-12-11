@@ -4,10 +4,10 @@
  * @param  {[type]} paymentRequest [description]
  * @return {[type]}                [description]
  */
-export function sendPaymentSync(lnd, { paymentRequest, feeLimit }) {
+export function sendPaymentSync(lnd, { paymentRequest, amt, feeLimit }) {
   return new Promise((resolve, reject) => {
     lnd.sendPaymentSync(
-      { payment_request: paymentRequest, fee_limit: { fixed: feeLimit } },
+      { payment_request: paymentRequest, amt, fee_limit: { fixed: feeLimit } },
       (error, data) => {
         if (error) {
           return reject(error)
@@ -26,10 +26,10 @@ export function sendPaymentSync(lnd, { paymentRequest, feeLimit }) {
  * @param  {[type]} paymentRequest [description]
  * @return {[type]}                [description]
  */
-export function sendPayment(lnd, { paymentRequest, feeLimit }) {
+export function sendPayment(lnd, { paymentRequest, amt, feeLimit }) {
   return new Promise((resolve, reject) => {
     lnd.sendPayment(
-      { payment_request: paymentRequest, fee_limit: { fixed: feeLimit } },
+      { payment_request: paymentRequest, amt, fee_limit: { fixed: feeLimit } },
       (err, data) => {
         if (err) {
           return reject(err)

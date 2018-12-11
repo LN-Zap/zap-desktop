@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import { btc } from 'lib/utils'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { setError } from './error'
@@ -115,9 +116,15 @@ export const paymentFailed = (event, { error }) => dispatch => {
   dispatch(setError(error))
 }
 
-export const payInvoice = (paymentRequest, feeLimit) => (dispatch, getState) => {
+export const payInvoice = ({ addr, value, currency = 'sats', feeLimit }) => (
+  dispatch,
+  getState
+) => {
+  // backend needs amount in satoshis no matter what currency we are using
+  const amt = btc.convert(currency, 'sats', value)
+
   dispatch(sendPayment())
-  ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest, feeLimit } })
+  ipcRenderer.send('lnd', { msg: 'sendPayment', data: { paymentRequest: addr, feeLimit, amt } })
 
   // Set an interval to call tick which will continuously tick down the ticker until the payment goes through or it hits
   // 0 and throws an error. We also call setPaymentInterval so we are storing the interval. This allows us to clear the

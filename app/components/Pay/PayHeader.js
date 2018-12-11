@@ -12,7 +12,7 @@ import messages from './messages'
  */
 class PayHeader extends React.PureComponent {
   static propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.node.isRequired,
     type: PropTypes.oneOf(['onchain', 'offchain'])
   }
 
