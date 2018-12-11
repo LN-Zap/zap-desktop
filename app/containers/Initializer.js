@@ -16,9 +16,10 @@ class Initializer extends React.Component {
     history: PropTypes.object.isRequired,
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
-    isWalletOpen: PropTypes.bool,
-    lightningGrpcActive: PropTypes.bool,
-    walletUnlockerGrpcActive: PropTypes.bool,
+    hasWallets: PropTypes.bool.isRequired,
+    isWalletOpen: PropTypes.bool.isRequired,
+    lightningGrpcActive: PropTypes.bool.isRequired,
+    walletUnlockerGrpcActive: PropTypes.bool.isRequired,
     startActiveWallet: PropTypes.func.isRequired,
     fetchSuggestedNodes: PropTypes.func.isRequired,
     fetchTicker: PropTypes.func.isRequired,
@@ -44,9 +45,10 @@ class Initializer extends React.Component {
    */
   componentDidUpdate(prevProps) {
     const {
-      history,
       activeWallet,
       activeWalletSettings,
+      hasWallets,
+      history,
       isWalletOpen,
       lightningGrpcActive,
       walletUnlockerGrpcActive,
@@ -62,10 +64,9 @@ class Initializer extends React.Component {
           return history.push(`/home/wallet/${activeWallet}`)
         }
       }
-      // If we have an active wallet set, but can't find it's settings then send the user to the homepage.
-      else {
-        return history.push('/home')
-      }
+      // If we have an at least one wallet send the user to the homepage.
+      // Otherwise send them to the onboarding processes.
+      return hasWallets ? history.push('/home') : history.push('/onboarding')
     }
 
     // If the wallet unlocker became active, switch to the login screen
@@ -92,6 +93,7 @@ const mapStateToProps = state => ({
   onboarding: state.onboarding.onboarding,
   activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
+  hasWallets: walletSelectors.hasWallets(state),
   lightningGrpcActive: state.lnd.lightningGrpcActive,
   walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
   isWalletOpen: state.wallet.isWalletOpen
