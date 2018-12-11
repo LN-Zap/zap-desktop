@@ -81,26 +81,32 @@ class ConnectionType extends React.Component {
           >
             <Radio
               value="create"
-              label={<FormattedMessage {...messages.signup_create} />}
-              description="Let Zap crearte a new bitcoin wallet and lightning node for you."
+              label={<FormattedMessage {...messages.connection_type_create_label} />}
+              description={<FormattedMessage {...messages.connection_type_create_description} />}
+              mb={4}
             />
 
             <Radio
               value="import"
-              label={<FormattedMessage {...messages.signup_import} />}
-              description="Import your own priivate key to recover an existing wallet."
+              label={<FormattedMessage {...messages.connection_type_import_label} />}
+              description={<FormattedMessage {...messages.connection_type_import_description} />}
+              mb={4}
             />
 
             <Radio
               value="custom"
-              label="Connect your own node"
-              description={<FormattedMessage {...messages.custom_description} />}
+              label={<FormattedMessage {...messages.connection_type_custom_label} />}
+              description={<FormattedMessage {...messages.connection_type_custom_description} />}
+              mb={4}
             />
 
             <Radio
               value="btcpayserver"
-              label="BTCPay Server"
-              description={<FormattedMessage {...messages.btcpay_description} />}
+              label={<FormattedMessage {...messages.connection_type_btcpayserver_label} />}
+              description={
+                <FormattedMessage {...messages.connection_type_btcpayserver_description} />
+              }
+              mb={4}
             />
           </RadioGroup>
         </Form>
