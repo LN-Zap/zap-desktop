@@ -361,9 +361,9 @@ class Pay extends React.Component {
         native
         items={currentStep === 'address'}
         from={{ opacity: 0, height: 0 }}
-        enter={{ opacity: 1, height: 'auto' }}
+        enter={{ opacity: 1, height: 80 }}
         leave={{ opacity: 0, height: 0 }}
-        initial={{ opacity: 1, height: 'auto' }}
+        initial={{ opacity: 1, height: 80 }}
       >
         {show =>
           show &&
@@ -675,17 +675,11 @@ class Pay extends React.Component {
                 <Bar pt={2} />
               </Panel.Header>
 
-              <Panel.Body py={3} css={{ overflow: 'hidden' }}>
-                <Box width={1} css={{ position: 'relative' }}>
-                  {this.renderHelpText()}
-                  <Box width={1} css={{ position: 'absolute' }}>
-                    {this.renderAddressField()}
-                    {this.renderAmountFields()}
-                  </Box>
-                  <Box width={1} css={{ position: 'absolute' }}>
-                    {this.renderSummary()}
-                  </Box>
-                </Box>
+              <Panel.Body py={3}>
+                {this.renderHelpText()}
+                {this.renderAddressField()}
+                {this.renderAmountFields()}
+                {this.renderSummary()}
               </Panel.Body>
               <Panel.Footer>
                 <ShowHideButtons state={showBack || showSubmit ? 'show' : 'show'}>
