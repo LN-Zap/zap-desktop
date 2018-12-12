@@ -14013,10 +14013,10 @@ react-split-pane@^0.1.77, react-split-pane@^0.1.84:
     react-lifecycles-compat "^3.0.4"
     react-style-proptype "^3.0.0"
 
-react-spring@6.1.10:
-  version "6.1.10"
-  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-6.1.10.tgz#ae28796dccfb32baa02d34fb94289c2088f63a1b"
-  integrity sha512-msMoHyXHzb3KdHNY6Yo6wm1t+1GKjy6k2kqaYT3bG6nM//HOL5798OD6Qg719SEDskRDh2vXxIyJ5KEoAUbecA==
+react-spring@7.0.0:
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/react-spring/-/react-spring-7.0.0.tgz#a19151672176a63938be53b488f57e4bd6c8c900"
+  integrity sha512-HvWtCDalaHhQYn6VqYV8GHWI8ZuWCC9AzOpMq1f7GQcsbnbHzPwaoYETT5IFMSxne8n1PN4BE19W98ifkZU4RA==
   dependencies:
     "@babel/runtime" "^7.0.0"
 
