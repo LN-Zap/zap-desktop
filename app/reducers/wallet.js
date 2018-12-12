@@ -37,24 +37,24 @@ export const getWallets = () => async dispatch => {
 }
 
 export const setActiveWallet = activeWallet => async dispatch => {
-  await db.settings.put({
-    key: 'activeWallet',
-    value: activeWallet
-  })
   dispatch({
     type: SET_ACTIVE_WALLET,
     activeWallet
   })
+  await db.settings.put({
+    key: 'activeWallet',
+    value: activeWallet
+  })
 }
 
 export const setIsWalletOpen = isWalletOpen => async dispatch => {
-  await db.settings.put({
-    key: 'isWalletOpen',
-    value: isWalletOpen
-  })
   dispatch({
     type: SET_IS_WALLET_OPEN,
     isWalletOpen
+  })
+  await db.settings.put({
+    key: 'isWalletOpen',
+    value: isWalletOpen
   })
 }
 
