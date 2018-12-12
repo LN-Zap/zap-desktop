@@ -17,5 +17,7 @@ export default defineMessages({
   tutorials_list_description:
     'While waiting you could have a look at our Tutorials and learn how things are working.',
   tutorials_button_text: 'Zap Tutorials',
-  copy_address: 'Copy address'
+  copy_address: 'Copy address',
+  address_copied_notification_title: 'Address copied',
+  address_copied_notification_description: 'Payment address has been copied to your clipboard'
 })

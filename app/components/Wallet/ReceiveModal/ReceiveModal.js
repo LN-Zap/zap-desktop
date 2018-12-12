@@ -20,9 +20,23 @@ class ReceiveModal extends React.Component {
   }
 
   render() {
-    const copyOnClick = data => {
-      copy(data)
-      showNotification('Noice', 'Successfully copied to clipboard')
+    const { isOpen, pubkey, address, alias, closeReceiveModal, network, intl } = this.props
+    const { qrCodeType } = this.state
+
+    const copyPubkeyToClipboard = () => {
+      const { pubkey } = this.props
+      copy(pubkey)
+      const notifTitle = intl.formatMessage({ ...messages.pubkey_copied_notification_title })
+      const notifBody = intl.formatMessage({ ...messages.pubkey_copied_notification_description })
+      showNotification(notifTitle, notifBody)
+    }
+
+    const copyAddressToClipboard = () => {
+      const { address } = this.props
+      copy(address)
+      const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
+      const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
+      showNotification(notifTitle, notifBody)
     }
 
     const changeQrCode = () => {
@@ -33,10 +47,6 @@ class ReceiveModal extends React.Component {
         this.setState({ qrCodeType: 1 })
       }
     }
-
-    const { isOpen, pubkey, address, alias, closeReceiveModal, network, intl } = this.props
-
-    const { qrCodeType } = this.state
 
     if (!isOpen) {
       return null
@@ -86,7 +96,7 @@ class ReceiveModal extends React.Component {
                 <p>
                   <span className={styles.data}>{pubkey}</span>
                   <span
-                    onClick={() => copyOnClick(pubkey)}
+                    onClick={copyPubkeyToClipboard}
                     className={`${styles.copy} hint--left`}
                     data-hint={intl.formatMessage({ ...messages.copy_pubkey })}
                   >
@@ -103,7 +113,7 @@ class ReceiveModal extends React.Component {
                 <p>
                   <span className={styles.data}>{address}</span>
                   <span
-                    onClick={() => copyOnClick(address)}
+                    onClick={copyAddressToClipboard}
                     className={`${styles.copy} hint--left`}
                     data-hint={intl.formatMessage({ ...messages.copy_address })}
                   >
