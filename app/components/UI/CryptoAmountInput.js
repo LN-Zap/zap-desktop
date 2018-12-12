@@ -52,18 +52,21 @@ class CryptoAmountInput extends React.Component {
     const { currency } = this.props
     switch (currency) {
       case 'btc':
+      case 'ltc':
         return {
           precision: 8,
           placeholder: '0.00000000',
           pattern: '[0-9]*.?[0-9]{0,8}?'
         }
       case 'bits':
+      case 'phots':
         return {
           precision: 2,
           placeholder: '0.00',
           pattern: '[0-9]*.?[0-9]{0,2}?'
         }
       case 'sats':
+      case 'lits':
         return {
           precision: 0,
           placeholder: '00000000',

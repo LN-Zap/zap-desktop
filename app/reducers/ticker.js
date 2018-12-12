@@ -118,13 +118,14 @@ tickerSelectors.currentTicker = createSelector(
 tickerSelectors.cryptoName = createSelector(cryptoSelector, crypto => cryptoNames[crypto])
 
 tickerSelectors.currencyFilters = createSelector(
+  cryptoSelector,
   infoSelectors.networkSelector,
   currencyFiltersSelector,
-  (network, currencyFilters = []) => {
-    if (!network || !network.unitPrefix) {
-      return currencyFilters
+  (crypto, network, currencyFilters) => {
+    if (!crypto || !network) {
+      return []
     }
-    return currencyFilters.map(item => {
+    return currencyFilters[crypto].map(item => {
       item.name = `${network.unitPrefix}${item.name}`
       return item
     })
@@ -158,20 +159,36 @@ const initialState = {
   ltcTicker: null,
   fiatTicker: getDefaultCurrency(),
   fiatTickers: currencies,
-  currencyFilters: [
-    {
-      key: 'btc',
-      name: 'BTC'
-    },
-    {
-      key: 'bits',
-      name: 'bits'
-    },
-    {
-      key: 'sats',
-      name: 'satoshis'
-    }
-  ]
+  currencyFilters: {
+    bitcoin: [
+      {
+        key: 'btc',
+        name: 'BTC'
+      },
+      {
+        key: 'bits',
+        name: 'bits'
+      },
+      {
+        key: 'sats',
+        name: 'satoshis'
+      }
+    ],
+    litecoin: [
+      {
+        key: 'ltc',
+        name: 'LTC'
+      },
+      {
+        key: 'phots',
+        name: 'photons'
+      },
+      {
+        key: 'lits',
+        name: 'litoshis'
+      }
+    ]
+  }
 }
 
 export default function tickerReducer(state = initialState, action) {

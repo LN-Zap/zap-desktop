@@ -93,64 +93,65 @@ export function fiatToSatoshis(fiat, price) {
   return btcToFiat(satoshisToBtc(satoshis), price)
 }
 
-export function renderCurrency(currency) {
-  switch (currency) {
-    case 'btc':
-      return 'BTC'
-    case 'bits':
-      return 'bits'
-    case 'sats':
-      return 'satoshis'
-    default:
-      return 'satoshis'
-  }
-}
-
 export function convert(from, to, amount, price) {
   switch (from) {
     case 'btc':
+    case 'ltc':
       switch (to) {
         case 'bits':
+        case 'phots':
           return btcToBits(amount)
         case 'sats':
+        case 'lits':
           return btcToSatoshis(amount)
         case 'fiat':
           return btcToFiat(amount, price)
         case 'btc':
+        case 'ltc':
           return amount
       }
       break
     case 'bits':
+    case 'phots':
       switch (to) {
         case 'btc':
           return bitsToBtc(amount)
         case 'sats':
+        case 'lits':
           return bitsToSatoshis(amount)
         case 'fiat':
           return bitsToFiat(amount, price)
         case 'bits':
+        case 'phots':
           return amount
       }
       break
     case 'sats':
+    case 'lits':
       switch (to) {
         case 'btc':
+        case 'ltc':
           return satoshisToBtc(amount)
         case 'bits':
+        case 'phots':
           return satoshisToBits(amount)
         case 'fiat':
           return satoshisToFiat(amount, price)
         case 'sats':
+        case 'lits':
           return amount
       }
       break
     case 'fiat':
       switch (to) {
         case 'btc':
+        case 'ltc':
           return fiatToBtc(amount, price)
         case 'bits':
+        case 'phots':
           return fiatToBits(amount, price)
         case 'sats':
+        case 'lits':
           return fiatToSatoshis(amount, price)
         case 'fiat':
           return amount
@@ -172,8 +173,6 @@ export default {
   satoshisToBtc,
   satoshisToBits,
   satoshisToFiat,
-
-  renderCurrency,
 
   convert
 }
