@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import get from 'lodash.get'
 import db from 'store/db'
 import { setError } from './error'
 
@@ -95,59 +96,52 @@ export const deleteWallet = walletId => async (dispatch, getState) => {
 }
 
 export const initWallets = () => async dispatch => {
-  let activeWallet
-  let isWalletOpen
-  try {
-    // Fetch wallets from db.
-    const dbWallets = await dispatch(getWallets())
+  // Fetch the current wallet settings.
+  let [activeWallet, isWalletOpen, dbWallets] = await Promise.all([
+    db.settings.get({ key: 'activeWallet' }),
+    db.settings.get({ key: 'isWalletOpen' }),
+    dispatch(getWallets())
+  ])
 
-    // Fetch wallets from the filesystem.
-    const supportedChains = ['bitcoin']
-    const supportedNetworks = ['testnet', 'mainnet']
+  activeWallet = get(activeWallet || {}, 'value', null)
+  isWalletOpen = get(isWalletOpen || {}, 'value', false)
 
-    // Create wallet entry in the datanbase if one doesn't exist already.
-    await supportedChains.forEach(async chain => {
-      return supportedNetworks.forEach(async network => {
-        const fsWallets = await window.Zap.getLocalWallets(chain, network)
-        return fsWallets.filter(wallet => wallet !== 'wallet-tmp').forEach(async wallet => {
-          if (
-            !dbWallets.find(
-              w =>
-                w.type === 'local' &&
-                w.chain === chain &&
-                w.network === network &&
-                w.wallet === wallet
-            )
-          ) {
-            const walletDetails = {
-              type: 'local',
-              chain,
-              network,
-              wallet
-            }
-            const id = Number(wallet.split('-')[1])
-            if (id && !Number.isNaN(id)) {
-              walletDetails.id = id
-            }
-            await dispatch(putWallet(walletDetails))
+  dispatch(setIsWalletOpen(isWalletOpen))
+  dispatch(setActiveWallet(activeWallet))
+
+  // Fetch wallets from the filesystem.
+  const supportedChains = ['bitcoin']
+  const supportedNetworks = ['testnet', 'mainnet']
+
+  // Create wallet entry in the datanbase if one doesn't exist already.
+  supportedChains.forEach(chain => {
+    return supportedNetworks.forEach(async network => {
+      const fsWallets = await window.Zap.getLocalWallets(chain, network)
+      return fsWallets.filter(wallet => wallet !== 'wallet-tmp').forEach(wallet => {
+        if (
+          !dbWallets.find(
+            w =>
+              w.type === 'local' &&
+              w.chain === chain &&
+              w.network === network &&
+              w.wallet === wallet
+          )
+        ) {
+          const walletDetails = {
+            type: 'local',
+            chain,
+            network,
+            wallet
           }
-        })
+          const id = Number(wallet.split('-')[1])
+          if (id && !Number.isNaN(id)) {
+            walletDetails.id = id
+          }
+          dispatch(putWallet(walletDetails))
+        }
       })
     })
-
-    // Fetch the current active wallet.
-    activeWallet = await db.settings.get({ key: 'activeWallet' })
-    activeWallet = activeWallet.value || null
-
-    // Fetch the current isWalletOpen setting.
-    isWalletOpen = await db.settings.get({ key: 'isWalletOpen' })
-    isWalletOpen = isWalletOpen.value
-  } catch (e) {
-    activeWallet = null
-    isWalletOpen = false
-  }
-  await dispatch(setIsWalletOpen(isWalletOpen))
-  await dispatch(setActiveWallet(activeWallet))
+  })
 }
 
 // ------------------------------------
