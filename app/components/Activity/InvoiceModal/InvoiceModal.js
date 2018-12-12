@@ -4,7 +4,7 @@ import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
 import { showNotification } from 'lib/utils/notifications'
 import { Countdown, Dropdown, Value } from 'components/UI'
-import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
+import { FormattedDate, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 import styles from './InvoiceModal.scss'
 
@@ -12,12 +12,14 @@ const InvoiceModal = ({
   item: invoice,
   ticker,
   currentTicker,
-
+  intl,
   toggleCurrencyProps: { currencyFilters, setCurrency }
 }) => {
-  const copyPaymentRequest = () => {
-    copy(invoice.payment_request)
-    showNotification('Noice', <FormattedMessage {...messages.copied} />)
+  const copyToClipboard = data => {
+    copy(data)
+    const notifTitle = intl.formatMessage({ ...messages.invoice_copied_notification_title })
+    const notifBody = intl.formatMessage({ ...messages.invoice_copied_notification_description })
+    showNotification(notifTitle, notifBody)
   }
 
   const countDownDate = (parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)) * 1000
@@ -99,7 +101,7 @@ const InvoiceModal = ({
         <div>
           <FormattedMessage {...messages.save} />
         </div>
-        <div onClick={copyPaymentRequest}>
+        <div onClick={() => copyToClipboard(invoice.payment_request)}>
           <FormattedMessage {...messages.copy} />
         </div>
       </div>
@@ -114,4 +116,4 @@ InvoiceModal.propTypes = {
   toggleCurrencyProps: PropTypes.object.isRequired
 }
 
-export default InvoiceModal
+export default injectIntl(InvoiceModal)

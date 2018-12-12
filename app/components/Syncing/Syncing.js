@@ -89,14 +89,17 @@ class Syncing extends Component {
     } = this.props
     let { syncMessageDetail, syncMessageExtraDetail } = this.state
 
+    const copyToClipboard = data => {
+      copy(data)
+      const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
+      const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
+      showNotification(notifTitle, notifBody)
+    }
+
     if (lightningGrpcActive && syncStatus === 'complete') {
       return <Redirect to="/app" />
     }
 
-    const copyClicked = () => {
-      copy(address)
-      showNotification('Noice', 'Successfully copied to clipboard')
-    }
     let syncMessage
     if (syncStatus === 'waiting') {
       syncMessage = intl.formatMessage({ ...messages.waiting_for_peers })
@@ -153,7 +156,7 @@ class Syncing extends Component {
               >
                 <QRCode value={address} mx="auto" />
                 <Text my={3}>{address}</Text>
-                <Button size="small" onClick={copyClicked} mx="auto">
+                <Button size="small" onClick={() => copyToClipboard(address)} mx="auto">
                   <FormattedMessage {...messages.copy_address} />
                 </Button>
               </Flex>
