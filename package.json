@@ -268,7 +268,7 @@
     "mini-css-extract-plugin": "0.5.0",
     "minimist": "1.2.0",
     "mock-spawn": "0.2.6",
-    "node-sass": "4.10.0",
+    "node-sass": "4.11.0",
     "prettier": "1.14.3",
     "react-storybook-addon-chapters": "2.1.9",
     "react-test-renderer": "16.6.3",
