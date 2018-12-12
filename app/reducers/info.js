@@ -36,23 +36,22 @@ export const fetchInfo = () => async dispatch => {
 
 // Receive IPC event for info
 export const receiveInfo = (event, data) => async (dispatch, getState) => {
-  // Determine the node's current sync state.
+  // Save the node info.
+  dispatch({ type: RECEIVE_INFO, data })
+
   const state = getState()
+
   if (typeof state.info.hasSynced === 'undefined') {
     const node = await db.nodes.get({ id: data.identity_pubkey })
     const hasSynced = node ? node.hasSynced : false
     dispatch(setHasSynced(hasSynced))
   }
 
-  // Save the node info.
-  dispatch({ type: RECEIVE_INFO, data })
-
   // Now that we have the node info, get the current wallet address.
   dispatch(walletAddress('np2wkh'))
 
   // Update the active wallet settings with info discovered from getinfo.
   const wallet = walletSelectors.activeWalletSettings(state)
-
   const chain = get(data, 'chains[0]')
   const network = data.testnet ? networks.testnet.id : networks.mainnet.id
   if (wallet.chain !== chain || wallet.network !== network) {

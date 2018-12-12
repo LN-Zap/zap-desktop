@@ -24,9 +24,10 @@ db.version(1).stores({
 export const Wallet = db.wallets.defineClass({
   id: Number,
   type: String,
-  currency: String,
   network: String,
+  chain: String,
   alias: String,
+  name: String,
   autopilot: Boolean,
   cert: String,
   host: String,

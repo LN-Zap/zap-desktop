@@ -92,7 +92,7 @@ export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
   // Once we we have established a connection, save the wallet settings.
   if (lndConfig.id !== 'tmp') {
     const wallet = await dispatch(putWallet(lndConfig))
-    dispatch(setActiveWallet(wallet.id))
+    await dispatch(setActiveWallet(wallet.id))
   }
 
   // Fetch info from lnd.
@@ -109,7 +109,7 @@ export const walletUnlockerGrpcActive = (event, lndConfig) => async dispatch => 
   // Once we we have established a connection, save the wallet settings.
   if (lndConfig.id !== 'tmp') {
     const wallet = await dispatch(putWallet(lndConfig))
-    dispatch(setActiveWallet(wallet.id))
+    await dispatch(setActiveWallet(wallet.id))
   }
 
   // Let the onboarding process know that the wallet unlocker has started.
