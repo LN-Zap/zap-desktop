@@ -20,8 +20,21 @@ class ReceiveModal extends React.Component {
   }
 
   render() {
-    const { isOpen, pubkey, address, alias, closeReceiveModal, network, intl } = this.props
+    const {
+      isOpen,
+      pubkey,
+      address,
+      alias,
+      closeReceiveModal,
+      cryptoName,
+      network,
+      intl
+    } = this.props
     const { qrCodeType } = this.state
+
+    if (!cryptoName) {
+      return null
+    }
 
     const copyPubkeyToClipboard = () => {
       const { pubkey } = this.props
@@ -71,7 +84,7 @@ class ReceiveModal extends React.Component {
                     className={qrCodeType === 2 ? styles.active : undefined}
                     onClick={changeQrCode}
                   >
-                    <FormattedMessage {...messages.bitcoin_address} />
+                    <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />
                   </div>
                 </div>
               </header>
@@ -107,7 +120,7 @@ class ReceiveModal extends React.Component {
 
               <div className={styles.address}>
                 <h4>
-                  <FormattedMessage {...messages.bitcoin_address} />{' '}
+                  <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />{' '}
                   {network && network.name.toLowerCase() === 'testnet' && network.name}
                 </h4>
                 <p>
@@ -133,6 +146,7 @@ ReceiveModal.propTypes = {
   network: PropTypes.shape({
     name: PropTypes.string
   }).isRequired,
+  cryptoName: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string,
   address: PropTypes.string,

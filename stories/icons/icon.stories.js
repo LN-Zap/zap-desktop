@@ -36,7 +36,6 @@ import PlusCircle from 'components/Icon/PlusCircle'
 import Qrcode from 'components/Icon/Qrcode'
 import Search from 'components/Icon/Search'
 import Settings from 'components/Icon/Settings'
-import SkinnyBitcoin from 'components/Icon/SkinnyBitcoin'
 import Spinner from 'components/Icon/Spinner'
 import Success from 'components/Icon/Success'
 import SystemArrowLeft from 'components/Icon/SystemArrowLeft'
@@ -88,7 +87,6 @@ const zapIconsList = {
   Qrcode,
   Search,
   Settings,
-  SkinnyBitcoin,
   Spinner,
   Success,
   SystemArrowLeft,

@@ -348,7 +348,7 @@ class Pay extends React.Component {
   }
 
   renderHelpText = () => {
-    const { initialPayReq } = this.props
+    const { cryptoName, cryptoCurrencyTicker, initialPayReq } = this.props
     const { currentStep, previousStep } = this.state
 
     // Do not render the help text if the form has just loadad with an initial payment request.
@@ -371,7 +371,10 @@ class Pay extends React.Component {
             <animated.div style={styles}>
               <Box mb={4}>
                 <Text textAlign="justify">
-                  <FormattedMessage {...messages.description} />
+                  <FormattedMessage
+                    {...messages.description}
+                    values={{ chain: cryptoName, ticker: cryptoCurrencyTicker }}
+                  />
                 </Text>
               </Box>
             </animated.div>
