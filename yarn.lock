@@ -4592,13 +4592,14 @@ body-parser@1.18.3:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
-"bolt11@https://github.com/bitcoinjs/bolt11.git":
+bolt11@LN-Zap/bolt11#7872de0f53a420d2b9c99c7022f7e94339d80682:
   version "1.0.0"
-  resolved "https://github.com/bitcoinjs/bolt11.git#d543a7aba5c3dd747627f523187abaf85976f19c"
+  resolved "https://codeload.github.com/LN-Zap/bolt11/tar.gz/7872de0f53a420d2b9c99c7022f7e94339d80682"
   dependencies:
     bech32 "^1.1.2"
     bitcoinjs-lib "^3.3.1"
     bn.js "^4.11.8"
+    coininfo cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2
     lodash "^4.17.4"
     safe-buffer "^5.1.1"
     secp256k1 "^3.4.0"
@@ -5489,6 +5490,12 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
+
+coininfo@cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2:
+  version "4.3.0"
+  resolved "https://codeload.github.com/cryptocoinjs/coininfo/tar.gz/c7e003b2fc0db165b89e6f98f6d6360ad22616b2"
+  dependencies:
+    safe-buffer "^5.1.1"
 
 collapse-white-space@^1.0.2:
   version "1.0.4"
