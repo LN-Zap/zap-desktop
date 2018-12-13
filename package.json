@@ -302,6 +302,7 @@
     "bip39-en": "1.1.1",
     "bitcoinjs-lib": "4.0.2",
     "bolt11": "LN-Zap/bolt11#7872de0f53a420d2b9c99c7022f7e94339d80682",
+    "coininfo": "cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2",
     "connected-react-router": "5.0.1",
     "copy-to-clipboard": "3.0.8",
     "country-data-lookup": "0.0.3",

@@ -1,6 +1,7 @@
 import bitcoin from 'bitcoinjs-lib'
 import bech32 from 'lib/utils/bech32'
 import lightningRequestReq from 'bolt11'
+import coininfo from 'coininfo'
 
 export const decodePayReq = (payReq, addDefaults = true) => {
   const data = lightningRequestReq.decode(payReq)
@@ -73,20 +74,25 @@ export const parseNumber = (_value, precision) => {
  * @param {String} [network='mainnet'] network to check (mainnet, testnet).
  * @return {Boolean} boolean indicating wether the address is a valid on-chain address.
  */
-export const isOnchain = (input, chain = 'bitcoin', network = 'mainnet') => {
-  if (typeof input !== 'string') {
+export const isOnchain = (input, chain, network) => {
+  if (!input || !chain || !network) {
     return false
   }
 
-  if (chain !== 'bitcoin') {
-    // TODO: Implement address checking for litecoin.
-    return true
+  const networkMap = {
+    bitcoin: {
+      mainnet: coininfo.bitcoin.main.toBitcoinJS(),
+      testnet: coininfo.bitcoin.test.toBitcoinJS(),
+      regtest: coininfo.bitcoin.regtest.toBitcoinJS()
+    },
+    litecoin: {
+      mainnet: coininfo.litecoin.main.toBitcoinJS(),
+      testnet: coininfo.litecoin.test.toBitcoinJS()
+    }
   }
+
   try {
-    bitcoin.address.toOutputScript(
-      input,
-      network === 'mainnet' ? bitcoin.networks.bitcoin : bitcoin.networks.testnet
-    )
+    bitcoin.address.toOutputScript(input, networkMap[chain][network])
     return true
   } catch (e) {
     return false
