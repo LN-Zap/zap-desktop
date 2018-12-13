@@ -12,21 +12,55 @@ Object {
 
 exports[`reducers infoReducer should correctly receiveInfo 1`] = `
 Object {
-  "chain": undefined,
-  "data": "foo",
+  "chain": "bitcoin",
+  "data": Object {
+    "chains": Array [
+      "bitcoin",
+    ],
+  },
   "hasSynced": undefined,
   "infoLoading": false,
   "network": Object {
     "bitcoinJsNetwork": Object {
-      "bech32": "bc",
       "bip32": Object {
         "private": 76066276,
         "public": 76067358,
       },
-      "messagePrefix": "Bitcoin Signed Message:
+      "dustThreshold": null,
+      "hashGenesisBlock": "000000000019d6689c085ae165831e934ff763ae46a2a6c172b3f1b60a8ce26f",
+      "messagePrefix": "undefined Signed Message:
 ",
+      "name": "Bitcoin",
+      "per1": 100000000,
+      "port": 8333,
+      "portRpc": 8332,
+      "protocol": Object {
+        "magic": 3652501241,
+      },
       "pubKeyHash": 0,
       "scriptHash": 5,
+      "seedsDns": Array [
+        "seed.bitcoin.sipa.be",
+        "dnsseed.bluematt.me",
+        "dnsseed.bitcoin.dashjr.org",
+        "seed.bitcoinstats.com",
+        "bitseed.xf2.org",
+        "seed.bitcoin.jonasschnelli.ch",
+      ],
+      "testnet": false,
+      "toBitcoinJS": [Function],
+      "toBitcore": [Function],
+      "unit": "BTC",
+      "versions": Object {
+        "bip32": Object {
+          "private": 76066276,
+          "public": 76067358,
+        },
+        "bip44": 0,
+        "private": 128,
+        "public": 0,
+        "scripthash": 5,
+      },
       "wif": 128,
     },
     "explorerUrl": "https://blockstream.info",

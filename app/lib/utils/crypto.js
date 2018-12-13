@@ -3,6 +3,18 @@ import bech32 from 'lib/utils/bech32'
 import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'
 
+export const networks = {
+  bitcoin: {
+    mainnet: coininfo.bitcoin.main.toBitcoinJS(),
+    testnet: coininfo.bitcoin.test.toBitcoinJS(),
+    regtest: coininfo.bitcoin.regtest.toBitcoinJS()
+  },
+  litecoin: {
+    mainnet: coininfo.litecoin.main.toBitcoinJS(),
+    testnet: coininfo.litecoin.test.toBitcoinJS()
+  }
+}
+
 export const decodePayReq = (payReq, addDefaults = true) => {
   const data = lightningRequestReq.decode(payReq)
   const expiry = data.tags.find(t => t.tagName === 'expire_time')
@@ -79,20 +91,8 @@ export const isOnchain = (input, chain, network) => {
     return false
   }
 
-  const networkMap = {
-    bitcoin: {
-      mainnet: coininfo.bitcoin.main.toBitcoinJS(),
-      testnet: coininfo.bitcoin.test.toBitcoinJS(),
-      regtest: coininfo.bitcoin.regtest.toBitcoinJS()
-    },
-    litecoin: {
-      mainnet: coininfo.litecoin.main.toBitcoinJS(),
-      testnet: coininfo.litecoin.test.toBitcoinJS()
-    }
-  }
-
   try {
-    bitcoin.address.toOutputScript(input, networkMap[chain][network])
+    bitcoin.address.toOutputScript(input, networks[chain][network])
     return true
   } catch (e) {
     return false

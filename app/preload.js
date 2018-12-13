@@ -9,7 +9,12 @@ const url = require('url')
 const fsReaddir = promisify(readdir)
 const fsRimraf = promisify(rimraf)
 
-const WHITELISTED_DOMAINS = ['ln-zap.github.io', 'blockstream.info']
+const WHITELISTED_DOMAINS = [
+  'ln-zap.github.io',
+  'blockstream.info',
+  'testnet.litecore.io',
+  'litecore.io'
+]
 
 init()
 
