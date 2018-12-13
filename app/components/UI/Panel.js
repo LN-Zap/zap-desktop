@@ -10,17 +10,7 @@ const PanelHeader = ({ children, ...rest }) => (
 PanelHeader.propTypes = { children: PropTypes.node }
 
 const PanelBody = ({ children, css, ...rest }) => (
-  <Box
-    {...rest}
-    as="section"
-    css={Object.assign(
-      {
-        flex: 1,
-        'overflow-y': 'auto'
-      },
-      css
-    )}
-  >
+  <Box {...rest} as="section" css={Object.assign({ flex: 1 }, css)}>
     {children}
   </Box>
 )

@@ -267,7 +267,7 @@ class Activity extends Component {
           </Flex>
         </Panel.Header>
 
-        <Panel.Body py={3}>
+        <Panel.Body py={3} css={{ 'overflow-y': 'auto' }}>
           <Box as="section" mx={5} mt={3}>
             {this.renderActivityList()}
           </Box>
