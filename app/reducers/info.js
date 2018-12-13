@@ -1,7 +1,7 @@
-import bitcoin from 'bitcoinjs-lib'
 import { ipcRenderer } from 'electron'
 import get from 'lodash.get'
 import db from 'store/db'
+import { networks } from 'lib/utils/crypto'
 import { walletAddress } from './address'
 import { putWallet, walletSelectors } from './wallet'
 
@@ -11,6 +11,41 @@ import { putWallet, walletSelectors } from './wallet'
 export const GET_INFO = 'GET_INFO'
 export const RECEIVE_INFO = 'RECEIVE_INFO'
 export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
+
+const networkInfo = {
+  bitcoin: {
+    mainnet: {
+      id: 'mainnet',
+      name: 'Mainnet',
+      explorerUrl: 'https://blockstream.info',
+      bitcoinJsNetwork: networks.bitcoin.mainnet,
+      unitPrefix: ''
+    },
+    testnet: {
+      id: 'testnet',
+      name: 'Testnet',
+      explorerUrl: 'https://blockstream.info/testnet',
+      bitcoinJsNetwork: networks.bitcoin.testnet,
+      unitPrefix: 't'
+    }
+  },
+  litecoin: {
+    mainnet: {
+      id: 'mainnet',
+      name: 'Mainnet',
+      explorerUrl: 'https://insight.litecore.io',
+      bitcoinJsNetwork: networks.litecoin.mainnet,
+      unitPrefix: ''
+    },
+    testnet: {
+      id: 'testnet',
+      name: 'Testnet',
+      explorerUrl: 'https://testnet.litecore.io',
+      bitcoinJsNetwork: networks.litecoin.testnet,
+      unitPrefix: 't'
+    }
+  }
+}
 
 // ------------------------------------
 // Actions
@@ -53,28 +88,11 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
   // Update the active wallet settings with info discovered from getinfo.
   const wallet = walletSelectors.activeWalletSettings(state)
   const chain = get(data, 'chains[0]')
-  const network = data.testnet ? networks.testnet.id : networks.mainnet.id
+  const network = data.testnet ? 'testnet' : 'mainnet'
   if (wallet.chain !== chain || wallet.network !== network) {
     wallet.chain = chain
     wallet.network = network
     await dispatch(putWallet(wallet))
-  }
-}
-
-const networks = {
-  testnet: {
-    id: 'testnet',
-    name: 'Testnet',
-    explorerUrl: 'https://blockstream.info/testnet',
-    bitcoinJsNetwork: bitcoin.networks.testnet,
-    unitPrefix: 't'
-  },
-  mainnet: {
-    id: 'mainnet',
-    name: 'Mainnet',
-    explorerUrl: 'https://blockstream.info',
-    bitcoinJsNetwork: bitcoin.networks.bitcoin,
-    unitPrefix: ''
   }
 }
 
@@ -87,13 +105,18 @@ const ACTION_HANDLERS = {
     hasSynced
   }),
   [GET_INFO]: state => ({ ...state, infoLoading: true }),
-  [RECEIVE_INFO]: (state, { data }) => ({
-    ...state,
-    infoLoading: false,
-    network: data.testnet ? networks.testnet : networks.mainnet,
-    chain: get(data, 'chains[0]'),
-    data
-  })
+  [RECEIVE_INFO]: (state, { data }) => {
+    const chain = get(data, 'chains[0]')
+    const network = data.testnet ? 'testnet' : 'mainnet'
+    const networkData = get(networkInfo, `${chain}.${network}`)
+    return {
+      ...state,
+      infoLoading: false,
+      network: networkData,
+      chain,
+      data
+    }
+  }
 }
 
 // ------------------------------------
