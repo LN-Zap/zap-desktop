@@ -49,11 +49,16 @@ class LightningInvoiceInput extends React.Component {
   }
 
   render() {
-    const { intl } = this.props
+    const { chain, intl } = this.props
 
     return (
       <InformedTextArea
-        placeholder={intl.formatMessage({ ...messages.payreq_placeholder })}
+        placeholder={intl.formatMessage(
+          {
+            ...messages.payreq_placeholder
+          },
+          { chain }
+        )}
         rows={5}
         {...this.props}
         spellCheck="false"

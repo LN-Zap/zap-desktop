@@ -25,5 +25,5 @@ export default defineMessages({
   total: 'Total',
   memo: 'Memo',
   description:
-    'You can send Bitcoin (BTC) through the Lightning Network or make a On-Chain Transaction. Just paste your Lightning Payment Request or the Bitcoin Address in the field below. Zap will guide you to the process.'
+    'You can send {chain} ({ticker}) through the Lightning Network or make a On-Chain Transaction. Just paste your Lightning Payment Request or the {chain} Address in the field below. Zap will guide you to the process.'
 })

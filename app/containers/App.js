@@ -114,6 +114,7 @@ const mapStateToProps = state => ({
   currencyFilters: tickerSelectors.currencyFilters(state),
   currencyName: tickerSelectors.currencyName(state),
   syncPercentage: lndSelectors.syncPercentage(state),
+  cryptoName: tickerSelectors.cryptoName(state),
 
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
   showManualForm: contactFormSelectors.showManualForm(state),
@@ -209,6 +210,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const receiveModalProps = {
     isOpen: stateProps.address.walletModal,
     network: stateProps.info.network,
+    cryptoName: stateProps.cryptoName,
     pubkey: get(stateProps.info, 'data.uris[0]') || get(stateProps.info, 'data.identity_pubkey'),
     address: stateProps.address.address,
     alias: stateProps.info.data.alias,
