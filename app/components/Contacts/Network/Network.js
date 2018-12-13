@@ -175,23 +175,23 @@ class Network extends Component {
           </Flex>
 
           <Box mx={3}>
-            {Boolean(balance.channelBalance) && (
-              <Text>
-                <Value
-                  value={balance.channelBalance}
-                  currency={ticker.currency}
-                  currentTicker={currentTicker}
-                  fiatTicker={ticker.fiatTicker}
-                />
-                <i> {currencyName}</i>
-              </Text>
-            )}
-            {Boolean(fiatAmount) && (
-              <Text color="gray">
-                {' ≈ '}
-                <FormattedNumber currency={ticker.fiatTicker} style="currency" value={fiatAmount} />
-              </Text>
-            )}
+            <Text>
+              <Value
+                value={balance.channelBalance || 0}
+                currency={ticker.currency}
+                currentTicker={currentTicker}
+                fiatTicker={ticker.fiatTicker}
+              />
+              <i> {currencyName}</i>
+            </Text>
+            <Text color="gray">
+              {' ≈ '}
+              <FormattedNumber
+                currency={ticker.fiatTicker}
+                style="currency"
+                value={fiatAmount || 0}
+              />
+            </Text>
           </Box>
 
           <Bar my={3} borderColor="gray" css={{ opacity: 0.3 }} />
