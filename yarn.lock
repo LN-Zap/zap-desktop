@@ -14004,10 +14004,10 @@ react-inspector@^2.2.2, react-inspector@^2.3.0:
     babel-runtime "^6.26.0"
     is-dom "^1.0.9"
 
-react-intl-redux@2.0.2:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/react-intl-redux/-/react-intl-redux-2.0.2.tgz#1a5efff87d2429f1a94a6724488460ca1a564d2d"
-  integrity sha512-moS6yuOqJ9BL5Ix1JlBp/hY04KVVwyohKD09NRAwaHisroWBxcFdRq52jf4kMAa3+0w9AYTyc9BUskoNEJlKXA==
+react-intl-redux@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/react-intl-redux/-/react-intl-redux-2.1.0.tgz#f757a4f455b873cbe3757f2d6764451569c57a5e"
+  integrity sha512-RpV3ch/DcCD7zfG2kwHLPZ9kyZ15YCySh0j6r8CSF7LbqbPT/MN90p5nKQTy0rEfXJU02kmzcZ3swMQUMdHHjw==
   dependencies:
     prop-types "^15.6.2"
 

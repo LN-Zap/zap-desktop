@@ -325,7 +325,7 @@
     "react-dom": "16.6.3",
     "react-hot-loader": "4.3.12",
     "react-intl": "2.7.2",
-    "react-intl-redux": "2.0.2",
+    "react-intl-redux": "2.1.0",
     "react-redux": "5.1.1",
     "react-router-dom": "4.3.1",
     "react-router-redux": "5.0.0-alpha.9",
