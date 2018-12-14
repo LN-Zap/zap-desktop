@@ -39,6 +39,8 @@ class Onboarding extends React.Component {
     startLndMacaroonError: PropTypes.string,
     onboarded: PropTypes.bool,
     fetchingSeed: PropTypes.bool,
+    lndConnect: PropTypes.object,
+
     // DISPATCH
     createNewWallet: PropTypes.func.isRequired,
     fetchSeed: PropTypes.func.isRequired,
@@ -50,6 +52,7 @@ class Onboarding extends React.Component {
     setConnectionCert: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
     setConnectionString: PropTypes.func.isRequired,
+    setLndconnect: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
@@ -83,6 +86,8 @@ class Onboarding extends React.Component {
       startLndMacaroonError,
       unlockWalletError,
       fetchingSeed,
+      lndConnect,
+
       // DISPATCH
       setAutopilot,
       setConnectionType,
@@ -93,6 +98,7 @@ class Onboarding extends React.Component {
       setName,
       setUnlockWalletError,
       setPassword,
+      setLndconnect,
       startLnd,
       validateHost,
       validateCert,
@@ -152,6 +158,8 @@ class Onboarding extends React.Component {
               connectionHost,
               connectionCert,
               connectionMacaroon,
+              lndConnect,
+              setLndconnect,
               startLndHostError,
               startLndCertError,
               startLndMacaroonError,
@@ -228,7 +236,7 @@ class Onboarding extends React.Component {
       <Wizard.Step
         key="ConnectionType"
         component={ConnectionType}
-        {...{ connectionType, setConnectionType, resetOnboarding, stopLnd }}
+        {...{ connectionType, setConnectionType, lndConnect, resetOnboarding, stopLnd }}
       />,
       ...formSteps
     ]

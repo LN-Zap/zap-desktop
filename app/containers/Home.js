@@ -4,6 +4,7 @@ import { setUnlockWalletError, stopLnd, startLnd, unlockWallet } from 'reducers/
 import { Home } from 'components/Home'
 
 const mapStateToProps = state => ({
+  lndConnect: state.onboarding.lndConnect,
   wallets: state.wallet.wallets,
   activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),

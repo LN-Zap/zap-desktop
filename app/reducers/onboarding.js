@@ -22,6 +22,7 @@ export const VALIDATING_HOST = 'VALIDATING_HOST'
 export const VALIDATING_CERT = 'VALIDATING_CERT'
 export const VALIDATING_MACAROON = 'VALIDATING_MACAROON'
 export const RESET_ONBOARDING = 'RESET_ONBOARDING'
+export const SET_LNDCONNECT = 'SET_LNDCONNECT'
 
 // ------------------------------------
 // Helpers
@@ -128,6 +129,13 @@ export function setSeed(seed) {
   }
 }
 
+export function setLndconnect(lndConnect) {
+  return {
+    type: SET_LNDCONNECT,
+    lndConnect
+  }
+}
+
 export const validateHost = host => async dispatch => {
   try {
     dispatch({ type: VALIDATING_HOST, validatingHost: true })
@@ -175,9 +183,14 @@ export const startOnboarding = () => dispatch => {
 }
 
 export const lndconnectUri = (event, { host, cert, macaroon }) => dispatch => {
-  dispatch(setConnectionHost(host))
-  dispatch(setConnectionMacaroon(macaroon))
-  dispatch(setConnectionCert(cert))
+  dispatch(
+    setLndconnect({
+      connectionType: 'custom',
+      connectionHost: host,
+      connectionCert: cert,
+      connectionMacaroon: macaroon
+    })
+  )
 }
 
 // ------------------------------------
@@ -193,6 +206,7 @@ const ACTION_HANDLERS = {
   [SET_NAME]: (state, { name }) => ({ ...state, name }),
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, fetchingSeed: false }),
+  [SET_LNDCONNECT]: (state, { lndConnect }) => ({ ...state, lndConnect }),
   [SET_PASSWORD]: (state, { password }) => ({ ...state, password }),
   [ONBOARDING_STARTED]: state => ({ ...state, onboarding: true, onboarded: false }),
   [ONBOARDING_FINISHED]: state => ({ ...state, onboarding: false, onboarded: true }),
@@ -237,6 +251,7 @@ const initialState = {
   validatingHost: false,
   validatingCert: false,
   validatingMacaroon: false,
+  lndConnect: null,
   connectionType: 'create',
   connectionString: '',
   connectionHost: '',

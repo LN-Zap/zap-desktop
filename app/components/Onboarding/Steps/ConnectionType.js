@@ -8,6 +8,8 @@ class ConnectionType extends React.Component {
   static propTypes = {
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
+    lndConnect: PropTypes.object,
+
     resetOnboarding: PropTypes.func.isRequired,
     setConnectionType: PropTypes.func.isRequired,
     stopLnd: PropTypes.func.isRequired
@@ -19,9 +21,22 @@ class ConnectionType extends React.Component {
   }
 
   componentDidMount() {
-    const { resetOnboarding, stopLnd } = this.props
+    const { lndConnect, resetOnboarding, stopLnd } = this.props
     stopLnd()
-    resetOnboarding()
+    if (lndConnect) {
+      this.formApi.setValue('connectionType', lndConnect.connectionType)
+      this.formApi.submitForm()
+    } else {
+      resetOnboarding()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { lndConnect } = this.props
+    if (lndConnect && lndConnect !== prevProps.lndConnect) {
+      this.formApi.setValue('connectionType', lndConnect.connectionType)
+      this.formApi.submitForm()
+    }
   }
 
   handleSubmit = values => {

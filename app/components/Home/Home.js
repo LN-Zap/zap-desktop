@@ -22,6 +22,7 @@ class Home extends React.Component {
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
     deleteWallet: PropTypes.func.isRequired,
+    lndConnect: PropTypes.object,
     lightningGrpcActive: PropTypes.bool.isRequired,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
     wallets: PropTypes.array.isRequired,
@@ -41,6 +42,13 @@ class Home extends React.Component {
     const { activeWallet, activeWalletSettings, history } = this.props
     if (activeWallet && activeWalletSettings && history.location.pathname === '/home') {
       history.push(`/home/wallet/${activeWallet}`)
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { lndConnect, history } = this.props
+    if (lndConnect && lndConnect !== prevProps.lndConnect) {
+      history.push(`/onboarding`)
     }
   }
 
