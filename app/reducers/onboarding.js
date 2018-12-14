@@ -174,6 +174,12 @@ export const startOnboarding = () => dispatch => {
   dispatch(onboardingStarted())
 }
 
+export const lndconnectUri = (event, { host, cert, macaroon }) => dispatch => {
+  dispatch(setConnectionHost(host))
+  dispatch(setConnectionMacaroon(macaroon))
+  dispatch(setConnectionCert(cert))
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------

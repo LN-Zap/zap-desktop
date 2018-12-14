@@ -48,6 +48,16 @@ class ConnectionDetails extends React.Component {
     }
   }
 
+  componentDidUpdate(prevProps) {
+    const { props } = this
+    const fields = ['connectionHost', 'connectionCert', 'connectionMacaroon']
+    fields.forEach(field => {
+      if (props[field] !== prevProps[field]) {
+        this.formApi.setValue(field, props[field])
+      }
+    })
+  }
+
   handleConnectionHostChange = () => {
     const formState = this.formApi.getState()
     delete formState.asyncErrors.connectionHost
