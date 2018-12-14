@@ -15,7 +15,9 @@ class ConnectionDetails extends React.Component {
     startLndHostError: PropTypes.string,
     startLndCertError: PropTypes.string,
     startLndMacaroonError: PropTypes.string,
+    lndConnect: PropTypes.object,
 
+    setLndconnect: PropTypes.func.isRequired,
     setConnectionHost: PropTypes.func.isRequired,
     setConnectionCert: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
@@ -36,7 +38,14 @@ class ConnectionDetails extends React.Component {
   }
 
   componentDidMount() {
-    const { startLndHostError, startLndCertError, startLndMacaroonError } = this.props
+    const { props, formApi } = this
+    const {
+      lndConnect,
+      setLndconnect,
+      startLndHostError,
+      startLndCertError,
+      startLndMacaroonError
+    } = props
     if (startLndHostError) {
       this.formApi.setError('connectionHost', startLndHostError)
     }
@@ -46,16 +55,32 @@ class ConnectionDetails extends React.Component {
     if (startLndMacaroonError) {
       this.formApi.setError('connectionMacaroon', startLndMacaroonError)
     }
+
+    if (lndConnect) {
+      const fields = ['connectionHost', 'connectionCert', 'connectionMacaroon']
+      fields.forEach(field => {
+        if (lndConnect[field] !== formApi.getValue(field)) {
+          this.formApi.setValue(field, lndConnect[field])
+          this.formApi.setTouched(field, true)
+        }
+      })
+      setLndconnect(null)
+    }
   }
 
   componentDidUpdate(prevProps) {
-    const { props } = this
-    const fields = ['connectionHost', 'connectionCert', 'connectionMacaroon']
-    fields.forEach(field => {
-      if (props[field] !== prevProps[field]) {
-        this.formApi.setValue(field, props[field])
-      }
-    })
+    const { props, formApi } = this
+    const { setLndconnect, lndConnect } = props
+    if (lndConnect && lndConnect !== prevProps.lndConnect) {
+      const fields = ['connectionHost', 'connectionCert', 'connectionMacaroon']
+      fields.forEach(field => {
+        if (lndConnect[field] !== formApi.getValue(field)) {
+          this.formApi.setValue(field, lndConnect[field])
+          this.formApi.setTouched(field, true)
+        }
+      })
+      setLndconnect(null)
+    }
   }
 
   handleConnectionHostChange = () => {
@@ -124,6 +149,7 @@ class ConnectionDetails extends React.Component {
       setConnectionHost,
       setConnectionCert,
       setConnectionMacaroon,
+      setLndconnect,
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,
