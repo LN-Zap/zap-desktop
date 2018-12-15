@@ -262,7 +262,7 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "23.6.0",
     "jest-styled-components": "6.3.1",
-    "jsdom": "13.0.0",
+    "jsdom": "13.1.0",
     "lint-staged": "8.0.4",
     "lnd-binary": "0.3.9",
     "mini-css-extract-plugin": "0.5.0",
