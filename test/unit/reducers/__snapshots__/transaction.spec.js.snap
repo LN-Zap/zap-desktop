@@ -2,122 +2,70 @@
 
 exports[`reducers transactionReducer should correctly addTransaction 1`] = `
 Object {
-  "sendingTransaction": false,
-  "successTransactionScreen": Object {
-    "show": false,
-    "txid": "",
-  },
   "transactionLoading": false,
   "transactions": Array [
     undefined,
   ],
+  "transactionsSending": Array [],
 }
 `;
 
 exports[`reducers transactionReducer should correctly getTransactions 1`] = `
 Object {
-  "sendingTransaction": false,
-  "successTransactionScreen": Object {
-    "show": false,
-    "txid": "",
-  },
   "transactionLoading": true,
   "transactions": Array [],
-}
-`;
-
-exports[`reducers transactionReducer should correctly hideSuccessTransactionScreen 1`] = `
-Object {
-  "sendingTransaction": false,
-  "successTransactionScreen": Object {
-    "show": false,
-    "txid": "",
-  },
-  "transactionLoading": false,
-  "transactions": Array [],
+  "transactionsSending": Array [],
 }
 `;
 
 exports[`reducers transactionReducer should correctly receiveTransactions 1`] = `
 Object {
-  "sendingTransaction": false,
-  "successTransactionScreen": Object {
-    "show": false,
-    "txid": "",
-  },
   "transactionLoading": false,
   "transactions": undefined,
+  "transactionsSending": Array [],
 }
 `;
 
 exports[`reducers transactionReducer should correctly sendTransaction 1`] = `
 Object {
-  "sendingTransaction": true,
-  "successTransactionScreen": Object {
-    "show": false,
-    "txid": "",
-  },
   "transactionLoading": false,
   "transactions": Array [],
+  "transactionsSending": Array [
+    undefined,
+  ],
 }
 `;
 
 exports[`reducers transactionReducer should correctly sendTransactions 1`] = `
 Object {
-  "sendingTransaction": true,
-  "successTransactionScreen": Object {
-    "show": false,
-    "txid": "",
-  },
   "transactionLoading": false,
   "transactions": Array [],
-}
-`;
-
-exports[`reducers transactionReducer should correctly showSuccessTransactionScreen 1`] = `
-Object {
-  "sendingTransaction": false,
-  "successTransactionScreen": Object {
-    "show": true,
-    "txid": undefined,
-  },
-  "transactionLoading": false,
-  "transactions": Array [],
+  "transactionsSending": Array [
+    undefined,
+  ],
 }
 `;
 
 exports[`reducers transactionReducer should correctly transactionFailed 1`] = `
 Object {
-  "sendingTransaction": false,
-  "successTransactionScreen": Object {
-    "show": false,
-    "txid": "",
-  },
   "transactionLoading": false,
   "transactions": Array [],
+  "transactionsSending": Array [],
 }
 `;
 
 exports[`reducers transactionReducer should correctly transactionSuccessful 1`] = `
 Object {
-  "sendingTransaction": false,
-  "successTransactionScreen": Object {
-    "show": false,
-    "txid": "",
-  },
   "transactionLoading": false,
   "transactions": Array [],
+  "transactionsSending": Array [],
 }
 `;
 
 exports[`reducers transactionReducer should handle initial state 1`] = `
 Object {
-  "sendingTransaction": false,
-  "successTransactionScreen": Object {
-    "show": false,
-    "txid": "",
-  },
   "transactionLoading": false,
   "transactions": Array [],
+  "transactionsSending": Array [],
 }
 `;

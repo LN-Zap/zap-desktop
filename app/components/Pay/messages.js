@@ -4,7 +4,6 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   calculating: 'calculating',
   current_balance: 'Your current balance',
-  error_no_route: 'We were unable to find a route to your destination. Please try again later.',
   error_not_enough_funds: 'You do not have enough funds available to make this payment.',
   request_label_combined: 'Payment Request or Address',
   request_label_offchain: 'Payment Request',
@@ -26,5 +25,5 @@ export default defineMessages({
   total: 'Total',
   memo: 'Memo',
   description:
-    'You can send Bitcoin (BTC) through the Lightning Network or make a On-Chain Transaction. Just paste your Lightning Payment Request or the Bitcoin Address in the field below. Zap will guide you to the process.'
+    'You can send {chain} ({ticker}) through the Lightning Network or make a On-Chain Transaction. Just paste your Lightning Payment Request or the {chain} Address in the field below. Zap will guide you to the process.'
 })

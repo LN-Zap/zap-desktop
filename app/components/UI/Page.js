@@ -14,9 +14,9 @@ const Page = ({ css, ...rest }) => (
     css={Object.assign(
       {
         height: '100%',
-        'min-width': '950px',
-        'min-height': '600px',
-        'overflow-y': 'hidden',
+        overflow: 'hidden',
+        'min-width': '900px',
+        'min-height': '425px',
         'box-shadow': '0 20px 70px rgba(0, 0, 0, 0.55)'
       },
       css

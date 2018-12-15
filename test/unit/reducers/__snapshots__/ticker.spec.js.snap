@@ -5,20 +5,36 @@ Object {
   "btcTicker": null,
   "crypto": null,
   "currency": null,
-  "currencyFilters": Array [
-    Object {
-      "key": "btc",
-      "name": "BTC",
-    },
-    Object {
-      "key": "bits",
-      "name": "bits",
-    },
-    Object {
-      "key": "sats",
-      "name": "satoshis",
-    },
-  ],
+  "currencyFilters": Object {
+    "bitcoin": Array [
+      Object {
+        "key": "btc",
+        "name": "BTC",
+      },
+      Object {
+        "key": "bits",
+        "name": "bits",
+      },
+      Object {
+        "key": "sats",
+        "name": "satoshis",
+      },
+    ],
+    "litecoin": Array [
+      Object {
+        "key": "ltc",
+        "name": "LTC",
+      },
+      Object {
+        "key": "phots",
+        "name": "photons",
+      },
+      Object {
+        "key": "lits",
+        "name": "litoshis",
+      },
+    ],
+  },
   "fiatTicker": "USD",
   "fiatTickers": Array [
     "USD",
@@ -55,20 +71,36 @@ Object {
   "btcTicker": undefined,
   "crypto": null,
   "currency": null,
-  "currencyFilters": Array [
-    Object {
-      "key": "btc",
-      "name": "BTC",
-    },
-    Object {
-      "key": "bits",
-      "name": "bits",
-    },
-    Object {
-      "key": "sats",
-      "name": "satoshis",
-    },
-  ],
+  "currencyFilters": Object {
+    "bitcoin": Array [
+      Object {
+        "key": "btc",
+        "name": "BTC",
+      },
+      Object {
+        "key": "bits",
+        "name": "bits",
+      },
+      Object {
+        "key": "sats",
+        "name": "satoshis",
+      },
+    ],
+    "litecoin": Array [
+      Object {
+        "key": "ltc",
+        "name": "LTC",
+      },
+      Object {
+        "key": "phots",
+        "name": "photons",
+      },
+      Object {
+        "key": "lits",
+        "name": "litoshis",
+      },
+    ],
+  },
   "fiatTicker": "USD",
   "fiatTickers": Array [
     "USD",
@@ -105,20 +137,36 @@ Object {
   "btcTicker": null,
   "crypto": "foo",
   "currency": null,
-  "currencyFilters": Array [
-    Object {
-      "key": "btc",
-      "name": "BTC",
-    },
-    Object {
-      "key": "bits",
-      "name": "bits",
-    },
-    Object {
-      "key": "sats",
-      "name": "satoshis",
-    },
-  ],
+  "currencyFilters": Object {
+    "bitcoin": Array [
+      Object {
+        "key": "btc",
+        "name": "BTC",
+      },
+      Object {
+        "key": "bits",
+        "name": "bits",
+      },
+      Object {
+        "key": "sats",
+        "name": "satoshis",
+      },
+    ],
+    "litecoin": Array [
+      Object {
+        "key": "ltc",
+        "name": "LTC",
+      },
+      Object {
+        "key": "phots",
+        "name": "photons",
+      },
+      Object {
+        "key": "lits",
+        "name": "litoshis",
+      },
+    ],
+  },
   "fiatTicker": "USD",
   "fiatTickers": Array [
     "USD",
@@ -155,20 +203,36 @@ Object {
   "btcTicker": null,
   "crypto": null,
   "currency": "foo",
-  "currencyFilters": Array [
-    Object {
-      "key": "btc",
-      "name": "BTC",
-    },
-    Object {
-      "key": "bits",
-      "name": "bits",
-    },
-    Object {
-      "key": "sats",
-      "name": "satoshis",
-    },
-  ],
+  "currencyFilters": Object {
+    "bitcoin": Array [
+      Object {
+        "key": "btc",
+        "name": "BTC",
+      },
+      Object {
+        "key": "bits",
+        "name": "bits",
+      },
+      Object {
+        "key": "sats",
+        "name": "satoshis",
+      },
+    ],
+    "litecoin": Array [
+      Object {
+        "key": "ltc",
+        "name": "LTC",
+      },
+      Object {
+        "key": "phots",
+        "name": "photons",
+      },
+      Object {
+        "key": "lits",
+        "name": "litoshis",
+      },
+    ],
+  },
   "fiatTicker": "USD",
   "fiatTickers": Array [
     "USD",
@@ -205,20 +269,36 @@ Object {
   "btcTicker": null,
   "crypto": null,
   "currency": null,
-  "currencyFilters": Array [
-    Object {
-      "key": "btc",
-      "name": "BTC",
-    },
-    Object {
-      "key": "bits",
-      "name": "bits",
-    },
-    Object {
-      "key": "sats",
-      "name": "satoshis",
-    },
-  ],
+  "currencyFilters": Object {
+    "bitcoin": Array [
+      Object {
+        "key": "btc",
+        "name": "BTC",
+      },
+      Object {
+        "key": "bits",
+        "name": "bits",
+      },
+      Object {
+        "key": "sats",
+        "name": "satoshis",
+      },
+    ],
+    "litecoin": Array [
+      Object {
+        "key": "ltc",
+        "name": "LTC",
+      },
+      Object {
+        "key": "phots",
+        "name": "photons",
+      },
+      Object {
+        "key": "lits",
+        "name": "litoshis",
+      },
+    ],
+  },
   "fiatTicker": "USD",
   "fiatTickers": Array [
     "USD",

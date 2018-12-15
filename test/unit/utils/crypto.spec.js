@@ -55,7 +55,7 @@ const VALID_BITCOIN_MAINNET = '3QJmV3qfvL9SuYo34YihAf3sRCW3qSinyC'
 const VALID_BITCOIN_TESTNET = '2NBMEX8USTXf5uPiW16QYX2AETytrJBCK52'
 
 const VALID_LITECOIN_MAINNET = 'LW9Q7QU8dgaGBerVkxbmVfurr2E1cFudrn'
-const VALID_LITECOIN_TESTNET = '2MvCEgZGPnwA5HmZ3GDXB4EteMZzxgS54it'
+const VALID_LITECOIN_TESTNET = 'Qbssgb8huSkT8adTGoyoSZpHrbcUEz2vnY'
 
 describe('Crypto.isOnchain', () => {
   describe('Bitcoin', () => {
@@ -82,18 +82,16 @@ describe('Crypto.isOnchain', () => {
       it('should pass with a valid address ', () => {
         expect(isOnchain(VALID_LITECOIN_MAINNET, 'litecoin', 'mainnet')).toBeTruthy()
       })
-      // FIXME: TWe don't yet fully support litecoin, so this check always returns true for litecoin addresses
-      it('should pass with an invalid address ', () => {
-        expect(isOnchain(VALID_LITECOIN_TESTNET, 'litecoin', 'mainnet')).toBeTruthy()
+      it('should fail with an invalid address ', () => {
+        expect(isOnchain(VALID_LITECOIN_TESTNET, 'litecoin', 'mainnet')).toBeFalsy()
       })
     })
     describe('Testnet', () => {
       it('should pass with a valid address', () => {
         expect(isOnchain(VALID_LITECOIN_TESTNET, 'litecoin', 'testnet')).toBeTruthy()
       })
-      // FIXME: TWe don't yet fully support litecoin, so this check always returns true for litecoin addresses
-      it('should pass with an invalid address ', () => {
-        expect(isOnchain(VALID_LITECOIN_MAINNET, 'litecoin', 'testnet')).toBeTruthy()
+      it('should fail with an invalid address ', () => {
+        expect(isOnchain(VALID_LITECOIN_MAINNET, 'litecoin', 'testnet')).toBeFalsy()
       })
     })
   })

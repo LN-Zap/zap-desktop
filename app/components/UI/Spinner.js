@@ -26,14 +26,30 @@ const Wrapper = system(
  * @example
  * <Spinner />
  */
-const SpinningSpinner = styled(Spinner)`
-  animation: ${rotate360} 1s linear infinite;
-`
+const renderSpinner = Element => {
+  return styled(Element)`
+    animation: ${rotate360} 1s linear infinite;
+  `
+}
 
-const WrappedSpinner = props => (
-  <Wrapper {...props}>
-    <SpinningSpinner />
-  </Wrapper>
-)
+const WrappedSpinner = ({ element, size, ...rest }) => {
+  const sizeProps = {}
+  if (size) {
+    sizeProps.width = size
+    sizeProps.height = size
+  }
+
+  let Icon = Spinner
+  if (element) {
+    Icon = element
+  }
+
+  const Element = renderSpinner(Icon)
+  return (
+    <Wrapper {...rest}>
+      <Element {...sizeProps} />
+    </Wrapper>
+  )
+}
 
 export default WrappedSpinner

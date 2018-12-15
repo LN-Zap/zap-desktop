@@ -18,6 +18,10 @@ storiesOf('Components', module).addWithChapters('Message', {
         {
           title: 'Error',
           sectionFn: () => <Message variant="error">Error message</Message>
+        },
+        {
+          title: 'Processing',
+          sectionFn: () => <Message variant="processing">Processing</Message>
         }
       ]
     }

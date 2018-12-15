@@ -14,6 +14,7 @@ class AmountInput extends React.Component {
     const { currency } = this.props
     switch (currency) {
       case 'btc':
+      case 'ltc':
         this.rules = {
           precision: 8,
           placeholder: '0.00000000',
@@ -21,6 +22,7 @@ class AmountInput extends React.Component {
         }
         break
       case 'bits':
+      case 'phots':
         this.rules = {
           precision: 2,
           placeholder: '0.00',
@@ -28,6 +30,7 @@ class AmountInput extends React.Component {
         }
         break
       case 'sats':
+      case 'lits':
         this.rules = {
           precision: 0,
           placeholder: '00000000',

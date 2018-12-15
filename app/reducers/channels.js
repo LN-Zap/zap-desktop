@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import throttle from 'lodash.throttle'
 import { btc } from 'lib/utils'
 import { requestSuggestedNodes } from 'lib/utils/api'
 import db from 'store/db'
@@ -28,7 +29,6 @@ export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 
 export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
 
-export const TOGGLE_CHANNEL_PULLDOWN = 'TOGGLE_CHANNEL_PULLDOWN'
 export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
 
 export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
@@ -277,6 +277,15 @@ export const pushclosechannelstatus = () => dispatch => {
   dispatch(fetchChannels())
 }
 
+/**
+ * Throttled dispatch to fetchChannels.
+ * Calls fetchChannels no more than once per second.
+ */
+const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1000, {
+  leading: true,
+  trailing: true
+})
+
 // IPC event for channel graph data
 export const channelGraphData = (event, data) => (dispatch, getState) => {
   const { info, channels } = getState()
@@ -307,18 +316,15 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
 
   // if our node or any of our chanels were involved in this update, fetch an updated channel list.
   if (hasUpdates) {
-    dispatch(fetchChannels())
+    // We can receive a lot of channel updates from channel graph subscription in a short space of time. If these
+    // nvolve our our channels we make a call to fetchChannels and then fetchBalances in order to refresh our channel
+    // and balance data. Throttle these calls so that we don't attempt to fetch channels to often.
+    throttledFetchChannels(dispatch)
   }
 }
 
 // IPC event for channel graph status
 export const channelGraphStatus = () => () => {}
-
-export function toggleFilterPulldown() {
-  return {
-    type: TOGGLE_CHANNEL_PULLDOWN
-  }
-}
 
 export function changeFilter(channelFilter) {
   return {
@@ -355,10 +361,8 @@ const ACTION_HANDLERS = {
 
   [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
 
-  [TOGGLE_CHANNEL_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
   [CHANGE_CHANNEL_FILTER]: (state, { channelFilter }) => ({
     ...state,
-    filterPulldown: false,
     filter: channelFilter
   }),
 
@@ -412,7 +416,6 @@ const pendingForceClosedChannelsSelector = state =>
   state.channels.pendingChannels.pending_force_closing_channels
 const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waiting_close_channels
 const channelSearchQuerySelector = state => state.channels.searchQuery
-const filtersSelector = state => state.channels.filters
 const filterSelector = state => state.channels.filter
 const nodesSelector = state => state.network.nodes
 
@@ -468,12 +471,6 @@ channelsSelectors.closingPendingChannels = createSelector(
 
 channelsSelectors.activeChanIds = createSelector(channelsSelector, channels =>
   channels.map(channel => channel.chan_id)
-)
-
-channelsSelectors.nonActiveFilters = createSelector(
-  filtersSelector,
-  filterSelector,
-  (filters, channelFilter) => filters.filter(f => f.key !== channelFilter.key)
 )
 
 channelsSelectors.channelNodes = createSelector(
@@ -607,7 +604,6 @@ const initialState = {
   searchQuery: '',
   viewType: 0,
 
-  filterPulldown: false,
   filter: { key: 'ALL_CHANNELS', name: 'All' },
   filters: [
     { key: 'ALL_CHANNELS', name: 'All' },

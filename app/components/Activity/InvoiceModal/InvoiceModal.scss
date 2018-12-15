@@ -2,13 +2,13 @@
 
 .container {
   color: var(--primaryText);
+  background: var(--secondaryColor);
 }
 
 .content {
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: var(--primaryColor);
   width: 85%;
   margin: 50px auto;
   padding: 30px 0;
@@ -104,7 +104,7 @@
     margin: 35px 10px;
     width: 235px;
     padding: 20px 10px;
-    background: var(--secondaryColor);
+    background: var(--tertiaryColor);
     cursor: pointer;
     transition: 0.25s all;
     opacity: 0.75;

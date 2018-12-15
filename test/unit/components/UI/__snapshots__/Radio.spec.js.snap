@@ -1,0 +1,203 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Radio should render correctly 1`] = `
+.c2 {
+  font-size: 13px;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.c3 {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #959595;
+  line-height: 1.4;
+}
+
+.c1 {
+  margin-bottom: 16px;
+  font-size: 13px;
+  color: #ffffff;
+  color: #ffffff;
+  font-weight: 300;
+  display: block;
+}
+
+.c0 .container {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c0 .container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.c0 .selection {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  height: 16px;
+  width: 16px;
+  border: 1px solid #959595;
+  border-radius: 50%;
+}
+
+.c0 .container:hover input ~ .selection {
+  border: 1px solid #fd9800;
+}
+
+.c0 .container input:checked ~ .selection {
+  border: 1px solid #fd9800;
+}
+
+.c0 .selection:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.c0 .container input:checked ~ .selection:after {
+  display: block;
+}
+
+.c0 .container .selection:after {
+  top: 3px;
+  left: 3px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fd9800;
+}
+
+<form
+  className=""
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <div
+    className="c0"
+  >
+    <label
+      className="container c1"
+      color="primaryText"
+      display="block"
+      fontSize="m"
+      fontWeight="light"
+      htmlFor="item1"
+      opacity={null}
+    >
+      <div
+        className="c2"
+        color="primaryText"
+        fontSize="m"
+      >
+        Item 1
+      </div>
+      <input
+        checked={false}
+        id="item1"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="radio"
+        value="item1"
+      />
+      <span
+        className="selection"
+      />
+      <div
+        className="c3"
+        color="gray"
+        fontSize="m"
+      >
+        Radio buttons
+      </div>
+    </label>
+  </div>
+  <div
+    className="c0"
+  >
+    <label
+      className="container c1"
+      color="primaryText"
+      display="block"
+      fontSize="m"
+      fontWeight="light"
+      htmlFor="item2"
+      opacity={null}
+    >
+      <div
+        className="c2"
+        color="primaryText"
+        fontSize="m"
+      >
+        Item 2
+      </div>
+      <input
+        checked={false}
+        id="item2"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="radio"
+        value="item2"
+      />
+      <span
+        className="selection"
+      />
+      <div
+        className="c3"
+        color="gray"
+        fontSize="m"
+      >
+        can have an optional title
+      </div>
+    </label>
+  </div>
+  <div
+    className="c0"
+  >
+    <label
+      className="container c1"
+      color="primaryText"
+      display="block"
+      fontSize="m"
+      fontWeight="light"
+      htmlFor="item3"
+      opacity={null}
+    >
+      <div
+        className="c2"
+        color="primaryText"
+        fontSize="m"
+      >
+        Item 3
+      </div>
+      <input
+        checked={false}
+        id="item3"
+        onBlur={[Function]}
+        onChange={[Function]}
+        type="radio"
+        value="item3"
+      />
+      <span
+        className="selection"
+      />
+      <div
+        className="c3"
+        color="gray"
+        fontSize="m"
+      >
+        and description
+      </div>
+    </label>
+  </div>
+</form>
+`;

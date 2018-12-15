@@ -5,7 +5,8 @@ import { FormattedMessage, FormattedRelative, injectIntl } from 'react-intl'
 import { decodePayReq } from 'lib/utils/crypto'
 import { showNotification } from 'lib/utils/notifications'
 import copy from 'copy-to-clipboard'
-import { Bar, DataRow, Button, Dropdown, QRCode, Text, Truncate, Value } from 'components/UI'
+import { Bar, DataRow, Button, Dropdown, QRCode, Text, Value } from 'components/UI'
+import { Truncate } from 'components/Util'
 import messages from './messages'
 
 class RequestSummary extends React.Component {
@@ -60,24 +61,24 @@ class RequestSummary extends React.Component {
     clearInterval(timer)
   }
 
-  copyPaymentRequest = () => {
-    const { intl, payReq } = this.props
-    copy(payReq)
-    showNotification(
-      intl.formatMessage({ ...messages.address_notification_title }),
-      intl.formatMessage({ ...messages.copied_notification_description })
-    )
-  }
-
   render() {
     const {
       cryptoCurrency,
       cryptoCurrencies,
       isPaid,
       payReq,
+      intl,
       setCryptoCurrency,
       ...rest
     } = this.props
+
+    const copyToClipboard = data => {
+      copy(data)
+      const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
+      const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
+      showNotification(notifTitle, notifBody)
+    }
+
     const { isExpired } = this.state
     let invoice
     try {
@@ -140,7 +141,7 @@ class RequestSummary extends React.Component {
             >
               <Truncate text={payReq} maxlen={40} />
             </Text>
-            <Button type="button" size="small" onClick={this.copyPaymentRequest}>
+            <Button type="button" size="small" onClick={() => copyToClipboard(payReq)}>
               <FormattedMessage {...messages.copy_button_text} />
             </Button>
           </React.Fragment>

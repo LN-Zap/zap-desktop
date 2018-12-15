@@ -17,12 +17,6 @@ db.version(1).stores({
   nodes: 'id'
 })
 
-// Wallet with ID 1 will always be a local bitcoin wallet.
-// This ensures that useres upgrading from older versions do not loose their initial wallet.
-db.on('populate', () => {
-  db.wallets.add({ type: 'local', currency: 'bitcoin' })
-})
-
 /**
  * @class Wallet
  * Wallet helper class.
@@ -30,9 +24,10 @@ db.on('populate', () => {
 export const Wallet = db.wallets.defineClass({
   id: Number,
   type: String,
-  currency: String,
   network: String,
+  chain: String,
   alias: String,
+  name: String,
   autopilot: Boolean,
   cert: String,
   host: String,

@@ -19,7 +19,8 @@ type onboardingOptions = {
   cert?: string,
   macaroon?: string,
   alias?: string,
-  autopilot?: boolean
+  autopilot?: boolean,
+  name?: string
 }
 
 const grpcSslCipherSuites = connectionType =>
@@ -69,6 +70,7 @@ class ZapController {
         { name: 'startOnboarding', from: '*', to: 'onboarding' },
         { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
         { name: 'startRemoteLnd', from: 'onboarding', to: 'connected' },
+        { name: 'stopLnd', from: '*', to: 'onboarding' },
         { name: 'terminate', from: '*', to: 'terminated' }
       ],
       methods: {
@@ -76,6 +78,7 @@ class ZapController {
         onStartOnboarding: this.onStartOnboarding.bind(this),
         onBeforeStartLocalLnd: this.onBeforeStartLocalLnd.bind(this),
         onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
+        onBeforeStopLnd: this.onBeforeStopLnd.bind(this),
         onTerminated: this.onTerminated.bind(this),
         onTerminate: this.onTerminate.bind(this)
       }
@@ -102,7 +105,7 @@ class ZapController {
       this.mainWindow.show()
       this.mainWindow.focus()
 
-      // Start the onboarding process.
+      // // Start the onboarding process.
       this.startOnboarding()
     })
 
@@ -134,6 +137,9 @@ class ZapController {
   startRemoteLnd(...args: any[]) {
     return this.fsm.startRemoteLnd(...args)
   }
+  stopLnd(...args: any[]) {
+    return this.fsm.stopLnd(...args)
+  }
   terminate(...args: any[]) {
     return this.fsm.terminate(...args)
   }
@@ -157,9 +163,14 @@ class ZapController {
     // Register IPC listeners so that we can react to instructions coming from the app.
     this._registerIpcListeners()
 
-    // Disconnect any pre-existing lightning wallet connection.
-    if (lifecycle.from === 'connected' && this.lightning && this.lightning.can('disconnect')) {
-      this.lightning.disconnect()
+    // Disconnect from any existing lightning wallet connection.
+    if (lifecycle.from === 'connected') {
+      if (this.lightning && this.lightning.can('disconnect')) {
+        this.lightning.disconnect()
+      }
+      if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
+        this.walletUnlocker.disconnect()
+      }
     }
 
     // If we are comming from a running state, stop the Neutrino process.
@@ -168,7 +179,7 @@ class ZapController {
     }
 
     // Give the grpc connections a chance to be properly closed out.
-    return new Promise(resolve => setTimeout(resolve, 200))
+    await new Promise(resolve => setTimeout(resolve, 200))
   }
 
   onStartOnboarding() {
@@ -195,47 +206,58 @@ class ZapController {
     mainLog.info(' > cert:', this.lndConfig.cert)
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
 
-    return this.startLightningWallet()
-      .then(() => this.sendMessage('walletConnected'))
-      .catch(e => {
-        const errors = {}
-        // There was a problem connecting to the host.
-        if (e.code === 'LND_GRPC_HOST_ERROR') {
-          errors.host = e.message
-        }
-        // There was a problem accessing the ssl cert.
-        if (e.code === 'LND_GRPC_CERT_ERROR') {
-          errors.cert = e.message
-        }
-        //  There was a problem accessing the macaroon file.
-        else if (e.code === 'LND_GRPC_MACAROON_ERROR') {
-          errors.macaroon = e.message
-        }
-        // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
-        else {
-          errors.host = `Unable to connect to host: ${e.details || e.message}`
-        }
+    return this.startLightningWallet().catch(e => {
+      const errors = {}
+      // There was a problem connecting to the host.
+      if (e.code === 'LND_GRPC_HOST_ERROR') {
+        errors.host = e.message
+      }
+      // There was a problem accessing the ssl cert.
+      if (e.code === 'LND_GRPC_CERT_ERROR') {
+        errors.cert = e.message
+      }
+      //  There was a problem accessing the macaroon file.
+      else if (
+        e.code === 'LND_GRPC_MACAROON_ERROR' ||
+        e.message.includes('cannot determine data format of binary-encoded macaroon')
+      ) {
+        errors.macaroon = e.message
+      }
+      // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
+      else {
+        errors.host = `Unable to connect to host: ${e.details || e.message}`
+      }
 
-        // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
-        // verify that it is accessible. If it is not, an error 12 is thrown which is the gRPC code for `UNIMPLEMENTED`
-        // which indicates that the requested operation is not implemented or not supported/enabled in the service.
-        // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
-        if (e.code === 12) {
-          return this.startWalletUnlocker()
-        }
+      // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
+      // verify that it is accessible. If it is not, an error 12 is thrown which is the gRPC code for `UNIMPLEMENTED`
+      // which indicates that the requested operation is not implemented or not supported/enabled in the service.
+      // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
+      if (e.code === 12) {
+        this.sendMessage('startLndSuccess')
+        return this.startWalletUnlocker()
+      }
 
-        // Notify the app of errors.
-        this.sendMessage('startLndError', errors)
-        throw e
-      })
+      // Notify the app of errors.
+      this.sendMessage('startLndError', errors)
+      throw e
+    })
+  }
+
+  onBeforeStopLnd() {
+    mainLog.debug('[FSM] onBeforeStopLnd...')
   }
 
   async onTerminated(lifecycle: any) {
     mainLog.debug('[FSM] onTerminated...')
 
     // Disconnect from any existing lightning wallet connection.
-    if (lifecycle.from === 'connected' && this.lightning && this.lightning.can('disconnect')) {
-      this.lightning.disconnect()
+    if (lifecycle.from === 'connected') {
+      if (this.lightning && this.lightning.can('disconnect')) {
+        this.lightning.disconnect()
+      }
+      if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
+        this.walletUnlocker.disconnect()
+      }
     }
     // If we are comming from a running state, stop the Neutrino process.
     else if (lifecycle.from === 'running') {
@@ -321,7 +343,7 @@ class ZapController {
    * Starts the LND node and attach event listeners.
    * @return {Neutrino} Neutrino instance.
    */
-  startNeutrino() {
+  async startNeutrino() {
     mainLog.info('Starting Neutrino...')
     this.neutrino = new Neutrino(this.lndConfig)
 
@@ -335,7 +357,8 @@ class ZapController {
 
     this.neutrino.on('exit', (code, signal, lastError) => {
       mainLog.info(`Lnd process has shut down (code: ${code}, signal: ${signal})`)
-      if (this.is('running') || this.is('connected')) {
+      this.sendMessage('lndStopped')
+      if (this.is('running') || (this.is('connected') && !this.is('onboarding'))) {
         dialog.showMessageBox({
           type: 'error',
           message: `Lnd has unexpectedly quit:\n\nError code: ${code}\nExit signal: ${signal}\nLast error: ${lastError}`
@@ -376,7 +399,13 @@ class ZapController {
       this.sendMessage('lndCfilterHeight', Number(height))
     })
 
-    return this.neutrino.start()
+    try {
+      const pid = await this.neutrino.start()
+      this.sendMessage('lndStarted', this.lndConfig)
+      return pid
+    } catch (e) {
+      // console.error(e)
+    }
   }
 
   /**
@@ -448,7 +477,13 @@ class ZapController {
    * Add IPC event listeners...
    */
   _registerIpcListeners() {
-    ipcMain.on('startLnd', (event, options: onboardingOptions) => this.startLnd(options))
+    ipcMain.on('startLnd', async (event, options: onboardingOptions) => {
+      try {
+        await this.startLnd(options)
+      } catch (e) {
+        mainLog.error('Unable to start lnd: %s', e.message)
+      }
+    })
     ipcMain.on('startLightningWallet', () =>
       this.startLightningWallet().catch(e => {
         // Notify the app of errors.
@@ -458,6 +493,7 @@ class ZapController {
         return this.startOnboarding()
       })
     )
+    ipcMain.on('stopLnd', () => this.stopLnd())
   }
 
   /**
@@ -465,6 +501,7 @@ class ZapController {
    */
   _removeIpcListeners() {
     ipcMain.removeAllListeners('startLnd')
+    ipcMain.removeAllListeners('stopLnd')
     ipcMain.removeAllListeners('startLightningWallet')
     ipcMain.removeAllListeners('walletUnlocker')
     ipcMain.removeAllListeners('lnd')

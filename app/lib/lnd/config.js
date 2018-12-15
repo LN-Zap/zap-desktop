@@ -30,12 +30,20 @@ export const networks = {
 
 // Type definition for for local connection settings.
 type LndConfigSettingsLocalType = {|
+  name?: string,
   alias?: string,
-  autopilot?: boolean
+  autopilot?: boolean,
+  autopilotMaxchannels?: number,
+  autopilotAllocation?: number,
+  autopilotMinchansize?: number,
+  autopilotMaxchansize?: number,
+  autopilotPrivate?: boolean,
+  autopilotMinconfs?: number
 |}
 
 // Type definition for for custom connection settings.
 type LndConfigSettingsCustomType = {|
+  name?: string,
   host: string,
   cert: string,
   macaroon: string
@@ -43,6 +51,7 @@ type LndConfigSettingsCustomType = {|
 
 // Type definition for for BTCPay Server connection settings.
 type LndConfigSettingsBtcPayServerType = {|
+  name?: string,
   string: string,
   host: string,
   macaroon: string
@@ -83,9 +92,41 @@ const safeUntildify = <T>(val: ?T): ?T => (typeof val === 'string' ? untildify(v
  */
 class LndConfig {
   static SETTINGS_PROPS = {
-    local: ['alias', 'autopilot'],
-    custom: ['host', 'cert', 'macaroon'],
-    btcpayserver: ['host', 'macaroon', 'string']
+    local: [
+      'name',
+      'alias',
+      'autopilot',
+      'autopilotMaxchannels',
+      'autopilotAllocation',
+      'autopilotMinchansize',
+      'autopilotMaxchansize',
+      'autopilotPrivate',
+      'autopilotMinconfs'
+    ],
+    custom: ['name', 'host', 'cert', 'macaroon'],
+    btcpayserver: ['name', 'host', 'macaroon', 'string']
+  }
+
+  static SETTINGS_DEFAULTS = {
+    name: null,
+    autopilot: true,
+    autopilotMaxchannels: 5,
+    autopilotMinchansize: 20000,
+    autopilotMaxchansize: 16777215,
+    autopilotAllocation: 0.6,
+    autopilotPrivate: true,
+    autopilotMinconfs: 0
+  }
+
+  static SETTINGS_DEFAULTS = {
+    name: null,
+    autopilot: true,
+    autopilotMaxchannels: 5,
+    autopilotMinchansize: 20000,
+    autopilotMaxchansize: 16777215,
+    autopilotAllocation: 0.6,
+    autopilotPrivate: true,
+    autopilotMinconfs: 0
   }
 
   // Type descriptor properties.
@@ -99,8 +140,15 @@ class LndConfig {
   cert: ?string
   macaroon: ?string
   string: ?string
+  name: ?string
   alias: ?string
   autopilot: ?boolean
+  autopilotMaxchannels: ?number
+  autopilotMinchansize: ?number
+  autopilotMaxchansize: ?number
+  autopilotAllocation: ?number
+  autopilotPrivate: ?boolean
+  autopilotMinconfs: ?number
 
   // Read only data properties.
   +wallet: string
@@ -220,11 +268,30 @@ class LndConfig {
       this.chain = options.chain
       this.network = options.network
 
-      // If settings were provided then clean them up and assign them to the instance for easy access.
-      if (options.settings) {
-        debug('Setting settings as: %o', options.settings)
-        Object.assign(this, options.settings)
-      }
+      // Merge in other whitelisted settings.
+      let settings = Object.assign({}, LndConfig.SETTINGS_DEFAULTS, options.settings)
+      const filteredSettings = Object.keys(settings)
+        .filter(key => LndConfig.SETTINGS_PROPS[this.type].includes(key))
+        .reduce((obj, key) => {
+          let value = settings[key]
+          if (
+            [
+              'autopilotMaxchannels',
+              'autopilotMinchansize',
+              'autopilotMaxchansize',
+              'autopilotAllocation',
+              'autopilotMinconfs'
+            ].includes(key)
+          ) {
+            value = Number(settings[key])
+          }
+          return {
+            ...obj,
+            [key]: value
+          }
+        }, {})
+      debug('Setting settings as: %o', filteredSettings)
+      Object.assign(this, filteredSettings)
     }
 
     // For local configs host/cert/macaroon are auto-generated.

@@ -2,14 +2,14 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Box, Flex } from 'rebass'
 
-import BigArrowLeft from 'components/Icon/BigArrowLeft'
+import ArrowLeft from 'components/Icon/ArrowLeft'
+import ArrowRight from 'components/Icon/ArrowRight'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import Bitcoin from 'components/Icon/Bitcoin'
 import Btcpay from 'components/Icon/Btcpay'
 import ChainLink from 'components/Icon/ChainLink'
 import Channels from 'components/Icon/Channels'
 import Check from 'components/Icon/Check'
-import CheckAnimated from 'components/Icon/CheckAnimated'
 import CheckCircle from 'components/Icon/CheckCircle'
 import Clock from 'components/Icon/Clock'
 import Cloudbolt from 'components/Icon/Cloudbolt'
@@ -36,7 +36,6 @@ import PlusCircle from 'components/Icon/PlusCircle'
 import Qrcode from 'components/Icon/Qrcode'
 import Search from 'components/Icon/Search'
 import Settings from 'components/Icon/Settings'
-import SkinnyBitcoin from 'components/Icon/SkinnyBitcoin'
 import Spinner from 'components/Icon/Spinner'
 import Success from 'components/Icon/Success'
 import SystemArrowLeft from 'components/Icon/SystemArrowLeft'
@@ -50,19 +49,18 @@ import Warning from 'components/Icon/Warning'
 import X from 'components/Icon/X'
 import Zap from 'components/Icon/Zap'
 import ZapLogo from 'components/Icon/ZapLogo'
-import ZapLogoBlack from 'components/Icon/ZapLogoBlack'
 
 const iconSizes = [16, 32, 64, 128]
 
 const zapIconsList = {
-  BigArrowLeft,
+  ArrowLeft,
+  ArrowRight,
   BigArrowRight,
   Bitcoin,
   Btcpay,
   ChainLink,
   Channels,
   Check,
-  CheckAnimated,
   CheckCircle,
   Clock,
   Cloudbolt,
@@ -89,7 +87,6 @@ const zapIconsList = {
   Qrcode,
   Search,
   Settings,
-  SkinnyBitcoin,
   Spinner,
   Success,
   SystemArrowLeft,
@@ -102,8 +99,7 @@ const zapIconsList = {
   Warning,
   X,
   Zap,
-  ZapLogo,
-  ZapLogoBlack
+  ZapLogo
 }
 
 const zapIconStories = storiesOf('Icons', module)

@@ -1,3 +1,1 @@
-import Onboarding from './Onboarding'
-
-export default Onboarding
+export Onboarding from './Onboarding'

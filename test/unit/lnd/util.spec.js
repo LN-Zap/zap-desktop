@@ -1,4 +1,4 @@
-import { validateHost } from 'lib/lnd/util'
+import { validateHost } from 'lib/utils/validateHost'
 
 jest.mock('dns')
 

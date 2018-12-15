@@ -1,55 +1,28 @@
 import { createSelector } from 'reselect'
-import { ipcRenderer } from 'electron'
 import get from 'lodash.get'
-import db from 'store/db'
-import { fetchInfo } from './info'
-import { setError } from './error'
+import { validateHost as doHostValidation } from 'lib/utils/validateHost'
+import { fileExists } from 'lib/utils/fileExists'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const ONBOARDING_STARTED = 'ONBOARDING_STARTED'
+export const ONBOARDING_FINISHED = 'ONBOARDING_FINISHED'
 export const SET_CONNECTION_TYPE = 'SET_CONNECTION_TYPE'
 export const SET_CONNECTION_STRING = 'SET_CONNECTION_STRING'
 export const SET_CONNECTION_HOST = 'SET_CONNECTION_HOST'
 export const SET_CONNECTION_CERT = 'SET_CONNECTION_CERT'
 export const SET_CONNECTION_MACAROON = 'SET_CONNECTION_MACAROON'
-
-export const UPDATE_ALIAS = 'UPDATE_ALIAS'
-export const UPDATE_PASSWORD = 'UPDATE_PASSWORD'
-export const UPDATE_CREATE_WALLET_PASSWORD = 'UPDATE_CREATE_WALLET_PASSWORD'
-export const UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION =
-  'UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION'
-export const UPDATE_RE_ENTER_SEED_INPUT = 'UPDATE_RE_ENTER_SEED_INPUT'
-export const UPDATE_RECOVER_SEED_INPUT = 'UPDATE_RECOVER_SEED_INPUT'
-
-export const CHANGE_STEP = 'CHANGE_STEP'
-
+export const SET_ALIAS = 'SET_ALIAS'
+export const SET_NAME = 'SET_NAME'
 export const SET_AUTOPILOT = 'SET_AUTOPILOT'
-
-export const FETCH_SEED = 'FETCH_SEED'
+export const SET_PASSWORD = 'SET_PASSWORD'
 export const SET_SEED = 'SET_SEED'
-export const SET_HAS_SEED = 'SET_HAS_SEED'
-export const SET_RE_ENTER_SEED_INDEXES = 'SET_RE_ENTER_SEED_INDEXES'
-
-export const ONBOARDING_STARTED = 'ONBOARDING_STARTED'
-export const ONBOARDING_FINISHED = 'ONBOARDING_FINISHED'
-
-export const STARTING_LND = 'STARTING_LND'
-export const LND_STARTED = 'LND_STARTED'
-export const SET_START_LND_ERROR = 'SET_START_LND_ERROR'
-
-export const LOADING_EXISTING_WALLET = 'LOADING_EXISTING_WALLET'
-
-export const CREATING_NEW_WALLET = 'CREATING_NEW_WALLET'
-
-export const RECOVERING_OLD_WALLET = 'RECOVERING_OLD_WALLET'
-
-export const UNLOCKING_WALLET = 'UNLOCKING_WALLET'
-export const WALLET_UNLOCKED = 'WALLET_UNLOCKED'
-export const SET_UNLOCK_WALLET_ERROR = 'SET_UNLOCK_WALLET_ERROR'
-
-export const SET_SIGNUP_CREATE = 'SET_SIGNUP_CREATE'
-export const SET_SIGNUP_IMPORT = 'SET_SIGNUP_IMPORT'
+export const VALIDATING_HOST = 'VALIDATING_HOST'
+export const VALIDATING_CERT = 'VALIDATING_CERT'
+export const VALIDATING_MACAROON = 'VALIDATING_MACAROON'
+export const RESET_ONBOARDING = 'RESET_ONBOARDING'
+export const SET_LNDCONNECT = 'SET_LNDCONNECT'
 
 // ------------------------------------
 // Helpers
@@ -65,25 +38,21 @@ function prettyPrint(json) {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const setConnectionType = connectionType => async (dispatch, getState) => {
-  const previousType = connectionTypeSelector(getState())
 
-  // When changing the connection type, load any saved settings.
-  if (previousType !== connectionType) {
-    const wallet = (await db.wallets.get({ type: connectionType })) || {}
-    dispatch(setConnectionString(wallet.string || initialState.connectionString))
-    dispatch(setConnectionHost(wallet.host || initialState.connectionHost))
-    dispatch(setConnectionCert(wallet.cert || initialState.connectionCert))
-    dispatch(setConnectionMacaroon(wallet.macaroon || initialState.connectionMacaroon))
-    dispatch(updateAlias(wallet.alias || initialState.alias))
-    dispatch(setAutopilot(wallet.autopilot || initialState.autopilot))
-    dispatch(setStartLndError({}))
+export const resetOnboarding = () => dispatch => {
+  dispatch({ type: RESET_ONBOARDING })
+}
+
+export function onboardingStarted() {
+  return {
+    type: ONBOARDING_STARTED
   }
+}
 
-  dispatch({
-    type: SET_CONNECTION_TYPE,
-    connectionType
-  })
+export function onboardingFinished() {
+  return {
+    type: ONBOARDING_FINISHED
+  }
 }
 
 export const setConnectionString = connectionString => (dispatch, getState) => {
@@ -97,18 +66,27 @@ export const setConnectionString = connectionString => (dispatch, getState) => {
   dispatch(setConnectionCert(''))
 }
 
+export function setConnectionType(connectionType) {
+  return {
+    type: SET_CONNECTION_TYPE,
+    connectionType
+  }
+}
+
 export function setConnectionHost(connectionHost) {
   return {
     type: SET_CONNECTION_HOST,
     connectionHost
   }
 }
+
 export function setConnectionCert(connectionCert) {
   return {
     type: SET_CONNECTION_CERT,
     connectionCert
   }
 }
+
 export function setConnectionMacaroon(connectionMacaroon) {
   return {
     type: SET_CONNECTION_MACAROON,
@@ -116,45 +94,17 @@ export function setConnectionMacaroon(connectionMacaroon) {
   }
 }
 
-export function updateAlias(alias) {
+export function setAlias(alias) {
   return {
-    type: UPDATE_ALIAS,
+    type: SET_ALIAS,
     alias
   }
 }
 
-export function updatePassword(password) {
+export function setName(name) {
   return {
-    type: UPDATE_PASSWORD,
-    password
-  }
-}
-
-export function updateCreateWalletPassword(createWalletPassword) {
-  return {
-    type: UPDATE_CREATE_WALLET_PASSWORD,
-    createWalletPassword
-  }
-}
-
-export function updateCreateWalletPasswordConfirmation(createWalletPasswordConfirmation) {
-  return {
-    type: UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION,
-    createWalletPasswordConfirmation
-  }
-}
-
-export function updateReEnterSeedInput(inputSeedObj) {
-  return {
-    type: UPDATE_RE_ENTER_SEED_INPUT,
-    inputSeedObj
-  }
-}
-
-export function updateRecoverSeedInput(inputSeedObj) {
-  return {
-    type: UPDATE_RECOVER_SEED_INPUT,
-    inputSeedObj
+    type: SET_NAME,
+    name
   }
 }
 
@@ -165,233 +115,82 @@ export function setAutopilot(autopilot) {
   }
 }
 
-export function setSignupCreate() {
+export function setPassword(password) {
   return {
-    type: SET_SIGNUP_CREATE
+    type: SET_PASSWORD,
+    password
   }
 }
 
-export function setSignupImport() {
+export function setSeed(seed) {
   return {
-    type: SET_SIGNUP_IMPORT
+    type: SET_SEED,
+    seed
   }
 }
 
-export function changeStep(step) {
+export function setLndconnect(lndConnect) {
   return {
-    type: CHANGE_STEP,
-    step
+    type: SET_LNDCONNECT,
+    lndConnect
   }
 }
 
-export const startLnd = options => async dispatch => {
-  // Attempt to load the wallet settings.
-  // TODO: Currently, this only support a single wallet config per type.
-  let wallet = await db.wallets.get({ type: options.type })
-
-  // If a wallet was found, merge in our user selected options and update in the db.
-  if (wallet) {
-    Object.assign(wallet, options)
-    await db.wallets.put(wallet)
-  }
-
-  // Otherwise, save the new wallet config.
-  else {
-    const id = await db.wallets.put(options)
-    wallet = Object.assign(options, { id })
-  }
-
-  // Tell the main process to start lnd using the supplied connection details.
-  ipcRenderer.send('startLnd', wallet)
-
-  // Update the store.
-  dispatch({ type: STARTING_LND })
-}
-
-export const lndStarted = () => async dispatch => {
-  dispatch({ type: LND_STARTED })
-}
-
-export function setStartLndError(errors) {
-  return {
-    type: SET_START_LND_ERROR,
-    errors
+export const validateHost = host => async dispatch => {
+  try {
+    dispatch({ type: VALIDATING_HOST, validatingHost: true })
+    const res = await doHostValidation(host)
+    dispatch({ type: VALIDATING_HOST, validatingHost: false })
+    return res
+  } catch (e) {
+    dispatch({ type: VALIDATING_HOST, validatingHost: false })
+    throw e.message
   }
 }
 
-export function setReEnterSeedIndexes() {
-  // we only want the user to have to verify 3 random indexes from the seed they were just given
-  const INDEX_AMOUNT = 3
-
-  const seedIndexesArr = []
-  while (seedIndexesArr.length < INDEX_AMOUNT) {
-    // add 1 because we dont want this to be 0 index based
-    const ranNum = Math.floor(Math.random() * 24) + 1
-
-    if (seedIndexesArr.indexOf(ranNum) > -1) {
-      continue
+export const validateCert = certPath => async dispatch => {
+  try {
+    dispatch({ type: VALIDATING_CERT, validatingCert: true })
+    const res = await fileExists(certPath)
+    dispatch({ type: VALIDATING_CERT, validatingCert: false })
+    return res
+  } catch (e) {
+    dispatch({ type: VALIDATING_CERT, validatingCert: false })
+    if (e.code === 'ENOENT') {
+      e.message = 'no such file or directory'
     }
-
-    seedIndexesArr[seedIndexesArr.length] = ranNum
-  }
-
-  return {
-    type: SET_RE_ENTER_SEED_INDEXES,
-    seedIndexesArr
+    throw e.message
   }
 }
 
-/**
- * As soon as we have an active connection to a WalletUnlocker service, attempt to generate a new seed which kicks off
- * the process of creating or unlocking a wallet.
- */
-export const lndWalletUnlockerStarted = () => dispatch => {
-  ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
-  dispatch({ type: FETCH_SEED })
-}
-
-/**
- * As soon as we have an active connection to an unlocked wallet, fetch the wallet info so that we have the key data as
- * early as possible.
- */
-export const lndWalletStarted = lndConfig => async dispatch => {
-  // Save the wallet settings.
-  const walletId = await db.wallets.put(lndConfig)
-
-  // Save the active wallet config.
-  await db.settings.put({
-    key: 'activeWallet',
-    value: walletId
-  })
-
-  dispatch(fetchInfo())
-  dispatch(lndStarted(lndConfig))
-}
-
-export const submitNewWallet = (
-  wallet_password,
-  cipher_seed_mnemonic,
-  aezeed_passphrase
-) => dispatch => {
-  // once the user submits the data needed to start LND we will alert the app that it should start LND
-  ipcRenderer.send('walletUnlocker', {
-    msg: 'initWallet',
-    data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase }
-  })
-  dispatch({ type: CREATING_NEW_WALLET })
-}
-
-export const recoverOldWallet = (
-  wallet_password,
-  cipher_seed_mnemonic,
-  aezeed_passphrase
-) => dispatch => {
-  // once the user submits the data needed to start LND we will alert the app that it should start LND
-  ipcRenderer.send('walletUnlocker', {
-    msg: 'initWallet',
-    data: { wallet_password, cipher_seed_mnemonic, aezeed_passphrase, recovery_window: 250 }
-  })
-  dispatch({ type: RECOVERING_OLD_WALLET })
-}
-
-// Listener for errors connecting to LND gRPC
-export const startOnboarding = () => async dispatch => {
-  // If we have an active wallet saved, load it's settings.
-  const activeWallet = await db.settings.get({ key: 'activeWallet' })
-  if (activeWallet) {
-    const wallet = await db.wallets.get({ id: activeWallet.value })
-    if (wallet) {
-      dispatch(setConnectionType(wallet.type))
-
-      switch (wallet.type) {
-        case 'local':
-          dispatch(updateAlias(wallet.alias))
-          dispatch(setAutopilot(wallet.autopilot))
-          break
-        case 'custom':
-          dispatch(setConnectionHost(wallet.host))
-          dispatch(setConnectionCert(wallet.cert))
-          dispatch(setConnectionMacaroon(wallet.macaroon))
-          break
-        case 'btcpayserver':
-          dispatch(setConnectionString(wallet.string))
-          break
-      }
+export const validateMacaroon = macaroonPath => async dispatch => {
+  try {
+    dispatch({ type: VALIDATING_MACAROON, validatingMacaroon: true })
+    const res = await fileExists(macaroonPath)
+    dispatch({ type: VALIDATING_MACAROON, validatingMacaroon: false })
+    return res
+  } catch (e) {
+    dispatch({ type: VALIDATING_MACAROON, validatingMacaroon: false })
+    if (e.code === 'ENOENT') {
+      e.message = 'no such file or directory'
     }
-  }
-  dispatch({ type: ONBOARDING_STARTED })
-}
-
-// Listener for errors connecting to LND gRPC
-export const startLndError = (event, errors) => (dispatch, getState) => {
-  const connectionType = connectionTypeSelector(getState())
-
-  switch (connectionType) {
-    case 'local':
-      dispatch(setError(errors))
-      dispatch({ type: CHANGE_STEP, step: 0.1 })
-      break
-    case 'custom':
-      dispatch(setStartLndError(errors))
-      dispatch({ type: CHANGE_STEP, step: 0.2 })
-      break
-    case 'btcpayserver':
-      dispatch(setStartLndError(errors))
-      dispatch({ type: CHANGE_STEP, step: 0.3 })
-      break
+    throw e.message
   }
 }
 
-export const createWallet = () => dispatch => {
-  ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
-  dispatch({ type: CHANGE_STEP, step: 4 })
+export const startOnboarding = () => dispatch => {
+  dispatch(onboardingStarted())
 }
 
-export const finishOnboarding = () => dispatch => dispatch({ type: ONBOARDING_FINISHED })
-
-// Listener for when LND creates and sends us a generated seed
-export const receiveSeed = (event, { cipher_seed_mnemonic }) => dispatch => {
-  dispatch({ type: CHANGE_STEP, step: 4 })
-  // there was no seed and we just generated a new one, send user to the login component
-  dispatch({ type: SET_SEED, seed: cipher_seed_mnemonic })
-}
-
-// Listener for when LND throws an error on seed creation
-export const receiveSeedError = (event, error) => dispatch => {
-  dispatch({ type: SET_HAS_SEED, hasSeed: true })
-  // there is already a seed, send user to the login component
-  dispatch({ type: CHANGE_STEP, step: 3 })
-  dispatch({
-    type: LOADING_EXISTING_WALLET,
-    existingWalletDir: get(error, 'context.lndDataDir')
-  })
-}
-
-// Unlock an existing wallet with a wallet password
-export const unlockWallet = wallet_password => dispatch => {
-  ipcRenderer.send('walletUnlocker', { msg: 'unlockWallet', data: { wallet_password } })
-  dispatch({ type: UNLOCKING_WALLET })
-}
-
-export const walletCreated = () => dispatch => {
-  dispatch({ type: WALLET_UNLOCKED })
-  dispatch({ type: ONBOARDING_FINISHED })
-  ipcRenderer.send('startLightningWallet')
-}
-
-export const walletUnlocked = () => dispatch => {
-  dispatch({ type: WALLET_UNLOCKED })
-  dispatch({ type: ONBOARDING_FINISHED })
-  ipcRenderer.send('startLightningWallet')
-}
-
-export const walletConnected = () => dispatch => {
-  dispatch({ type: WALLET_UNLOCKED })
-  dispatch({ type: ONBOARDING_FINISHED })
-}
-
-export const unlockWalletError = () => dispatch => {
-  dispatch({ type: SET_UNLOCK_WALLET_ERROR })
+export const lndconnectUri = (event, { host, cert, macaroon }) => dispatch => {
+  dispatch(
+    setLndconnect({
+      connectionType: 'custom',
+      connectionHost: host,
+      connectionCert: cert,
+      connectionMacaroon: macaroon
+    })
+  )
 }
 
 // ------------------------------------
@@ -403,125 +202,26 @@ const ACTION_HANDLERS = {
   [SET_CONNECTION_HOST]: (state, { connectionHost }) => ({ ...state, connectionHost }),
   [SET_CONNECTION_CERT]: (state, { connectionCert }) => ({ ...state, connectionCert }),
   [SET_CONNECTION_MACAROON]: (state, { connectionMacaroon }) => ({ ...state, connectionMacaroon }),
-  [UPDATE_ALIAS]: (state, { alias }) => ({ ...state, alias }),
-  [UPDATE_PASSWORD]: (state, { password }) => ({ ...state, password }),
-  [UPDATE_CREATE_WALLET_PASSWORD]: (state, { createWalletPassword }) => ({
-    ...state,
-    createWalletPassword
-  }),
-  [UPDATE_CREATE_WALLET_PASSWORD_CONFIRMATION]: (state, { createWalletPasswordConfirmation }) => ({
-    ...state,
-    createWalletPasswordConfirmation
-  }),
-  [UPDATE_RE_ENTER_SEED_INPUT]: (state, { inputSeedObj }) => ({
-    ...state,
-    reEnterSeedInput: { ...state.reEnterSeedInput, [inputSeedObj.index]: inputSeedObj.word }
-  }),
-  [UPDATE_RECOVER_SEED_INPUT]: (state, { inputSeedObj }) => ({
-    ...state,
-    recoverSeedInput: Object.assign([], state.recoverSeedInput, {
-      [inputSeedObj.index]: inputSeedObj
-    })
-  }),
-
+  [SET_ALIAS]: (state, { alias }) => ({ ...state, alias }),
+  [SET_NAME]: (state, { name }) => ({ ...state, name }),
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
-
-  [FETCH_SEED]: state => ({ ...state, fetchingSeed: true }),
-  [SET_HAS_SEED]: (state, { hasSeed }) => ({ ...state, hasSeed, fetchingSeed: false }),
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, fetchingSeed: false }),
-  [SET_RE_ENTER_SEED_INDEXES]: (state, { seedIndexesArr }) => ({ ...state, seedIndexesArr }),
-
-  [CHANGE_STEP]: (state, { step }) => ({ ...state, step, previousStep: state.step }),
-
+  [SET_LNDCONNECT]: (state, { lndConnect }) => ({ ...state, lndConnect }),
+  [SET_PASSWORD]: (state, { password }) => ({ ...state, password }),
   [ONBOARDING_STARTED]: state => ({ ...state, onboarding: true, onboarded: false }),
   [ONBOARDING_FINISHED]: state => ({ ...state, onboarding: false, onboarded: true }),
-
-  [STARTING_LND]: state => ({ ...state, startingLnd: true }),
-  [LND_STARTED]: state => ({ ...state, startingLnd: false }),
-  [SET_START_LND_ERROR]: (state, { errors }) => ({
-    ...state,
-    startingLnd: false,
-    startLndHostError: errors.host,
-    startLndCertError: errors.cert,
-    startLndMacaroonError: errors.macaroon
-  }),
-
-  [LOADING_EXISTING_WALLET]: (state, { existingWalletDir }) => ({ ...state, existingWalletDir }),
-
-  [CREATING_NEW_WALLET]: state => ({ ...state, creatingNewWallet: true }),
-
-  [RECOVERING_OLD_WALLET]: state => ({ ...state, recoveringOldWallet: true }),
-
-  [UNLOCKING_WALLET]: state => ({ ...state, unlockingWallet: true }),
-  [WALLET_UNLOCKED]: state => ({
-    ...state,
-    unlockingWallet: false,
-    unlockWalletError: { isError: false, message: '' }
-  }),
-  [SET_UNLOCK_WALLET_ERROR]: state => ({
-    ...state,
-    unlockingWallet: false,
-    unlockWalletError: { isError: true, message: 'Incorrect password' }
-  }),
-
-  [SET_SIGNUP_CREATE]: state => ({ ...state, signupForm: { create: true, import: false } }),
-  [SET_SIGNUP_IMPORT]: state => ({ ...state, signupForm: { create: false, import: true } })
+  [VALIDATING_HOST]: (state, { validatingHost }) => ({ ...state, validatingHost }),
+  [VALIDATING_CERT]: (state, { validatingCert }) => ({ ...state, validatingCert }),
+  [VALIDATING_MACAROON]: (state, { validatingMacaroon }) => ({ ...state, validatingMacaroon }),
+  [RESET_ONBOARDING]: state => ({ ...state, ...initialState })
 }
 
 // ------------------------------------
 // Selector
 // ------------------------------------
 const onboardingSelectors = {}
-const passwordSelector = state => state.onboarding.password
-
-const createWalletPasswordSelector = state => state.onboarding.createWalletPassword
-const createWalletPasswordConfirmationSelector = state =>
-  state.onboarding.createWalletPasswordConfirmation
-
-const seedSelector = state => state.onboarding.seed
-const seedIndexesArrSelector = state => state.onboarding.seedIndexesArr
-const reEnterSeedInputSelector = state => state.onboarding.reEnterSeedInput
 
 const connectionStringSelector = state => state.onboarding.connectionString
-const connectionTypeSelector = state => state.onboarding.connectionType
-const connectionHostSelector = state => state.onboarding.connectionHost
-
-onboardingSelectors.startingLnd = state => state.onboarding.startingLnd
-
-onboardingSelectors.passwordIsValid = createSelector(
-  passwordSelector,
-  password => password.length >= 8
-)
-
-onboardingSelectors.passwordMinCharsError = createSelector(
-  createWalletPasswordSelector,
-  createWalletPasswordConfirmationSelector,
-  (pass1, pass2) => pass1 === pass2 && pass1.length < 8 && pass1.length > 0
-)
-
-onboardingSelectors.showCreateWalletPasswordConfirmationError = createSelector(
-  createWalletPasswordSelector,
-  createWalletPasswordConfirmationSelector,
-  (pass1, pass2) => pass1 !== pass2 && pass2.length > 0
-)
-
-onboardingSelectors.reEnterSeedChecker = createSelector(
-  seedSelector,
-  seedIndexesArrSelector,
-  reEnterSeedInputSelector,
-  (seed, seedIndexArr, reEnterSeedInput) =>
-    Object.keys(reEnterSeedInput).length >= seedIndexArr.length &&
-    seedIndexArr.every(
-      index => reEnterSeedInput[index] && reEnterSeedInput[index] === seed[index - 1]
-    )
-)
-
-onboardingSelectors.connectionHostIsValid = createSelector(
-  connectionHostSelector,
-  connectionHost => {
-    return connectionHost.length > 0
-  }
-)
 
 onboardingSelectors.connectionStringParamsSelector = createSelector(
   connectionStringSelector,
@@ -538,14 +238,6 @@ onboardingSelectors.connectionStringParamsSelector = createSelector(
   }
 )
 
-onboardingSelectors.connectionStringIsValid = createSelector(
-  onboardingSelectors.connectionStringParamsSelector,
-  connectionStringParams => {
-    const { host, port, macaroon } = connectionStringParams
-    return Boolean(host && port && macaroon)
-  }
-)
-
 export { onboardingSelectors }
 
 // ------------------------------------
@@ -555,52 +247,20 @@ export { onboardingSelectors }
 const initialState = {
   onboarding: false,
   onboarded: false,
-  step: 0.1,
-  connectionType: 'default',
+  autopilot: true,
+  validatingHost: false,
+  validatingCert: false,
+  validatingMacaroon: false,
+  lndConnect: null,
+  connectionType: 'create',
   connectionString: '',
   connectionHost: '',
   connectionCert: '',
   connectionMacaroon: '',
   alias: '',
-  autopilot: true,
+  name: '',
   password: '',
-
-  startingLnd: false,
-  startLndHostError: '',
-  startLndCertError: '',
-  startLndMacaroonError: '',
-
-  fetchingSeed: false,
-  hasSeed: false,
-  seed: [],
-
-  // wallet password. password used to encrypt the wallet and is required to unlock the daemon after set
-  createWalletPassword: '',
-  createWalletPasswordConfirmation: '',
-  creatingNewWallet: false,
-  recoveringOldWallet: false,
-
-  existingWalletDir: null,
-  unlockingWallet: false,
-  unlockWalletError: {
-    isError: false,
-    message: ''
-  },
-
-  seedIndexesArr: [],
-  // object of inputs for when the user re-enters their seed
-  // {
-  // index: word,
-  // index: word,
-  // index: word
-  // }
-  reEnterSeedInput: {},
-  recoverSeedInput: [],
-  // step where the user decides whether they want a newly created seed or to import an existing one
-  signupForm: {
-    create: true,
-    import: false
-  }
+  seed: []
 }
 
 // ------------------------------------

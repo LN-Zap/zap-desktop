@@ -61,14 +61,14 @@ export const configureStore = initialState => {
                     nodes:
                       network.nodes.length > MAX_NODES
                         ? [
-                            ...network.nodes.splice(0, MAX_NODES),
+                            ...network.nodes.slice(0, MAX_NODES),
                             `<<${network.nodes.length - MAX_NODES}_MORE_NODES>>`
                           ]
                         : network.nodes,
                     edges:
                       network.edges.length > MAX_EDGES
                         ? [
-                            ...network.edges.splice(0, MAX_EDGES),
+                            ...network.edges.slice(0, MAX_EDGES),
                             `<<${network.edges.length - MAX_EDGES}_MORE_NODES>>`
                           ]
                         : network.edges

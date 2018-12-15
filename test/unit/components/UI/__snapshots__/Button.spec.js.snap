@@ -25,13 +25,13 @@ exports[`component.UI.Button should render correctly 1`] = `
   text-decoration: none;
   font-weight: bold;
   border: 0;
-  border-radius: 4px;
+  border-radius: 5px;
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
   outline: none;
-  border-radius: 5;
   font-weight: 300;
   line-height: '18px';
+  white-space: nowrap;
 }
 
 .c0:disabled {

@@ -56,11 +56,27 @@ export const letterSpacings = {
   caps: '0.025em'
 }
 
+const statuses = {
+  online: {
+    color: palette.superGreen
+  },
+  pending: {
+    color: palette.lightningOrange
+  },
+  closing: {
+    color: palette.superRed
+  },
+  offline: {
+    color: palette.gray
+  }
+}
+
 export default {
   space,
   fontSizes,
   fontWeights,
   fonts,
   letterSpacings,
-  palette
+  palette,
+  statuses
 }

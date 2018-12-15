@@ -1,36 +1,56 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import FaExternalLink from 'react-icons/lib/fa/external-link'
-import FaCircle from 'react-icons/lib/fa/circle'
-import FaRepeat from 'react-icons/lib/fa/repeat'
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
-import { btc, blockExplorer } from 'lib/utils'
-import Plus from 'components/Icon/Plus'
-import Search from 'components/Icon/Search'
-import { BackgroundTertiary, Text, Value } from 'components/UI'
-
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
+import { Box, Flex } from 'rebass'
+import FaExternalLink from 'react-icons/lib/fa/external-link'
+import blockExplorer from 'lib/utils/blockExplorer'
+import { satoshisToFiat } from 'lib/utils/btc'
+import PlusCircle from 'components/Icon/PlusCircle'
+import Search from 'components/Icon/Search'
+import {
+  Bar,
+  Button,
+  Dropdown,
+  Form,
+  Heading,
+  Input,
+  Panel,
+  Spinner,
+  StatusIndicator,
+  Text,
+  Value
+} from 'components/UI'
+import SuggestedNodes from '../SuggestedNodes'
 import messages from './messages'
 
-import SuggestedNodes from '../SuggestedNodes'
-
-import styles from './Network.scss'
-
 class Network extends Component {
-  constructor(props) {
-    super(props)
+  state = {
+    refreshing: false
+  }
 
-    this.state = {
-      refreshing: false
+  componentDidMount() {
+    const { fetchChannels } = this.props
+    fetchChannels()
+  }
+
+  componentDidUpdate(prevProps) {
+    const { refreshing } = this.state
+    const { channels } = this.props
+    if (refreshing && !channels.channelsLoading && prevProps.channels.channelsLoading) {
+      this.clearRefreshing()
     }
+  }
+
+  clearRefreshing = () => {
+    this.setState({ refreshing: false })
   }
 
   render() {
     const {
       channels: {
         searchQuery,
-        filterPulldown,
         filter,
+        filters,
         selectedChannel,
         loadingChannelPubkeys,
         closingChannelIds,
@@ -41,26 +61,15 @@ class Network extends Component {
       balance,
       ticker,
       currentTicker,
-
       nodes,
-
       fetchChannels,
       openContactsForm,
-
-      nonActiveFilters,
-      toggleFilterPulldown,
       changeFilter,
-
       updateChannelSearchQuery,
-
       setSelectedChannel,
-
       closeChannel,
-
       suggestedNodesProps,
-
       network,
-
       currencyName,
       intl
     } = this.props
@@ -70,30 +79,8 @@ class Network extends Component {
     }
 
     const refreshClicked = () => {
-      // turn the spinner on
       this.setState({ refreshing: true })
-
-      // store event in icon so we dont get an error when react clears it
-      const icon = this.repeat.childNodes
-
-      // fetch channels
       fetchChannels()
-
-      // wait for the svg to appear as child
-      const svgTimeout = setTimeout(() => {
-        if (icon[0].tagName === 'svg') {
-          // spin icon for 1 sec
-          icon[0].style.animation = 'spin 1000ms linear 1'
-          clearTimeout(svgTimeout)
-        }
-      }, 1)
-
-      // clear animation after the second so we can reuse it
-      const refreshTimeout = setTimeout(() => {
-        icon[0].style.animation = ''
-        this.setState({ refreshing: false })
-        clearTimeout(refreshTimeout)
-      }, 1000)
     }
 
     // when the user clicks the action to close the channel
@@ -107,7 +94,6 @@ class Network extends Component {
 
     // when a user clicks a channel
     const channelClicked = clickedChannel => {
-      // selectedChannel === channel ? setSelectedChannel(null) : setSelectedChannel(channel)
       if (selectedChannel === clickedChannel) {
         setSelectedChannel(null)
       } else {
@@ -123,7 +109,7 @@ class Network extends Component {
 
       const node = nodes.find(n => n.pub_key === remote_node_pubkey)
 
-      if (node && node.alias.length) {
+      if (node && node.alias && node.alias.length) {
         return node.alias
       }
 
@@ -162,231 +148,264 @@ class Network extends Component {
       return 'online'
     }
 
-    const fiatAmount = btc.satoshisToFiat(balance.channelBalance, currentTicker[ticker.fiatTicker])
+    const fiatAmount = satoshisToFiat(balance.channelBalance, currentTicker[ticker.fiatTicker])
     const { refreshing } = this.state
+    const hasChannels = Boolean(
+      loadingChannelPubkeys.length || pending_open_channels.length || channels.length
+    )
+
     return (
-      <BackgroundTertiary className={styles.network}>
-        <header className={styles.header}>
-          <section>
-            <h2>
+      <Panel pt={3}>
+        <Panel.Header pt={2}>
+          <Flex justifyContent="space-between" mx={3}>
+            <Heading.h4 fontWeight="normal" mb={3}>
               <FormattedMessage {...messages.title} />
-            </h2>
-            <span className={styles.channelAmount}>
-              {Boolean(balance.channelBalance) && (
-                <span>
-                  <Value
-                    value={balance.channelBalance}
-                    currency={ticker.currency}
-                    currentTicker={currentTicker}
-                    fiatTicker={ticker.fiatTicker}
-                  />
-                  <i> {currencyName}</i>
-                </span>
-              )}
-              {Boolean(fiatAmount) && (
-                <span>
-                  {' ≈ '}
-                  <FormattedNumber
-                    currency={ticker.fiatTicker}
-                    style="currency"
-                    value={fiatAmount}
-                  />
-                </span>
-              )}
-            </span>
-          </section>
-          <section
-            className={`${styles.addChannel} hint--bottom-left`}
-            onClick={openContactsForm}
-            data-hint={intl.formatMessage({ ...messages.open_channel })}
-          >
-            <Text fontSize="xl">
-              <Plus />
+            </Heading.h4>
+            <Box
+              onClick={openContactsForm}
+              className="hint--right"
+              data-hint={intl.formatMessage({ ...messages.open_channel })}
+              css={{ cursor: 'pointer', '&:hover': { opacity: 0.5 } }}
+              width={1 / 2}
+            >
+              <Text fontSize="22px" textAlign="right">
+                <PlusCircle />
+              </Text>
+            </Box>
+          </Flex>
+
+          <Box mx={3}>
+            <Text>
+              <Value
+                value={balance.channelBalance || 0}
+                currency={ticker.currency}
+                currentTicker={currentTicker}
+                fiatTicker={ticker.fiatTicker}
+              />
+              <i> {currencyName}</i>
             </Text>
-          </section>
-        </header>
+            <Text color="gray">
+              {' ≈ '}
+              <FormattedNumber
+                currency={ticker.fiatTicker}
+                style="currency"
+                value={fiatAmount || 0}
+              />
+            </Text>
+          </Box>
 
-        <div className={styles.channels}>
-          {loadingChannelPubkeys.length || pending_open_channels.length || channels.length ? (
-            <header className={styles.listHeader}>
-              <section>
-                <h2 onClick={toggleFilterPulldown} className={styles.filterTitle}>
-                  {filter.name}{' '}
-                  <span className={filterPulldown ? styles.pulldown : undefined}>
-                    <FaAngleDown />
-                  </span>
-                </h2>
-                <ul className={`${styles.filters} ${filterPulldown ? styles.active : undefined}`}>
-                  {nonActiveFilters.map(f => (
-                    <li key={f.key} onClick={() => changeFilter(f)}>
-                      {f.name}
-                    </li>
-                  ))}
-                </ul>
-              </section>
-              <section className={styles.refreshContainer}>
-                <span
-                  className={styles.refresh}
-                  onClick={refreshClicked}
-                  ref={ref => {
-                    this.repeat = ref
-                  }}
-                >
-                  {refreshing ? <FaRepeat /> : <FormattedMessage {...messages.refresh} />}
-                </span>
-              </section>
-            </header>
-          ) : (
-            <SuggestedNodes {...suggestedNodesProps} />
+          <Bar my={3} borderColor="gray" css={{ opacity: 0.3 }} />
+
+          {hasChannels && (
+            <Flex justifyContent="space-between" alignItems="center" mx={3} mb={3}>
+              <Dropdown
+                activeKey={filter.key}
+                items={filters}
+                onChange={key => changeFilter(filters.find(f => f.key === key))}
+              />
+              <Button
+                size="small"
+                variant="secondary"
+                onClick={refreshClicked}
+                ref={ref => {
+                  this.repeat = ref
+                }}
+              >
+                {refreshing ? <Spinner /> : <FormattedMessage {...messages.refresh} />}
+              </Button>
+            </Flex>
           )}
+        </Panel.Header>
 
-          <ul className={filterPulldown ? styles.fade : undefined}>
-            {loadingChannelPubkeys.length > 0 &&
-              loadingChannelPubkeys.map(loadingPubkey => {
-                // TODO(jimmymow): refactor this out. same logic is in displayNodeName above
-                const node = nodes.find(n => loadingPubkey === n.pub_key)
-                const nodeDisplay = () => {
-                  if (node && node.alias.length) {
-                    return node.alias
+        <Panel.Body css={{ 'overflow-y': 'auto' }}>
+          {!hasChannels && <SuggestedNodes {...suggestedNodesProps} py={3} mx={3} />}
+
+          {hasChannels && (
+            <Box>
+              {loadingChannelPubkeys.length > 0 &&
+                loadingChannelPubkeys.map(loadingPubkey => {
+                  const node = nodes.find(n => loadingPubkey === n.pub_key)
+                  const nodeDisplay = () => {
+                    if (node && node.alias.length) {
+                      return node.alias
+                    }
+
+                    return loadingPubkey.substring(0, 10)
                   }
 
-                  return loadingPubkey.substring(0, 10)
-                }
-
-                return (
-                  <li key={loadingPubkey} className={styles.channel}>
-                    <section className={styles.channelTitle}>
-                      <span
-                        className={`${styles.loading} hint--right`}
+                  return (
+                    <Flex as="header" key={loadingPubkey} py={3} mx={3} css={{ cursor: 'pointer' }}>
+                      <Box
+                        mr={2}
+                        className="hint--right"
                         data-hint={intl.formatMessage({ ...messages.loading })}
                       >
-                        <i className={styles.spinner} />
-                      </span>
-                      <span>{nodeDisplay()}</span>
-                    </section>
-                  </li>
-                )
-              })}
-            {currentChannels.length > 0 &&
-              currentChannels.map((channelObj, index) => {
-                const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel')
-                  ? channelObj.channel
-                  : channelObj
-                const pubkey = channel.remote_node_pub || channel.remote_pubkey
+                        <StatusIndicator variant="loading" />
+                      </Box>
+                      <Text>{nodeDisplay()}</Text>
+                    </Flex>
+                  )
+                })}
 
-                return (
-                  <li
-                    key={index}
-                    className={`${styles.channel} ${
-                      selectedChannel === channel ? styles.selectedChannel : undefined
-                    }`}
-                    onClick={() => channelClicked(channel)}
-                  >
-                    <section className={styles.channelTitle}>
-                      <span
-                        className={`${styles[channelStatus(channelObj)]} hint--right`}
-                        data-hint={intl.formatMessage({ ...messages[channelStatus(channelObj)] })}
-                      >
-                        {closingChannelIds.includes(channel.chan_id) ? (
-                          <span className={styles.loading}>
-                            <i className={`${styles.spinner} ${styles.closing}`} />
-                          </span>
-                        ) : (
-                          <FaCircle />
-                        )}
-                      </span>
-                      <span>{displayNodeName(channel)}</span>
-                      {selectedChannel === channel && (
-                        <span
-                          onClick={() =>
-                            blockExplorer.showTransaction(
-                              network,
-                              channelObj.closing_txid || channel.channel_point.split(':')[0]
-                            )
-                          }
+              {currentChannels.length > 0 &&
+                currentChannels.map((channelObj, index) => {
+                  const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel')
+                    ? channelObj.channel
+                    : channelObj
+                  const pubkey = channel.remote_node_pub || channel.remote_pubkey
+                  const isSelected = selectedChannel === channel
+                  const status = channelStatus(channelObj)
+
+                  return (
+                    <Box
+                      key={index}
+                      onClick={() => channelClicked(channel)}
+                      bg={isSelected ? 'secondaryColor' : null}
+                      pb={1}
+                    >
+                      <Flex as="header" py={2} my={1} mx={3} css={{ cursor: 'pointer' }}>
+                        <Box
+                          mr={2}
+                          className="hint--right"
+                          data-hint={intl.formatMessage({ ...messages[status] })}
                         >
-                          <FaExternalLink />
-                        </span>
-                      )}
-                    </section>
-
-                    <section className={styles.channelDetails}>
-                      <header>
-                        <h4>{`${pubkey.substring(0, 30)}...`}</h4>
-                      </header>
-
-                      <div className={styles.limits}>
-                        <section>
-                          <h5>
-                            <FormattedMessage {...messages.pay_limit} />
-                          </h5>
-                          <p>
-                            <Value
-                              value={channel.local_balance}
-                              currency={ticker.currency}
-                              currentTicker={currentTicker}
-                              fiatTicker={ticker.fiatTicker}
-                            />
-                            <i> {currencyName}</i>
-                          </p>
-                        </section>
-                        <section>
-                          <h5>
-                            <FormattedMessage {...messages.req_limit} />
-                          </h5>
-                          <p>
-                            <Value
-                              value={channel.remote_balance}
-                              currency={ticker.currency}
-                              currentTicker={currentTicker}
-                              fiatTicker={ticker.fiatTicker}
-                            />
-                            <i> {currencyName}</i>
-                          </p>
-                        </section>
-                      </div>
-                      <div className={styles.actions}>
-                        {closingChannelIds.includes(channel.chan_id) && (
-                          <section>
-                            <span
-                              className={`${styles.loading} hint--right`}
-                              data-hint={intl.formatMessage({ ...messages.closing })}
-                            >
-                              <i>Closing</i> <i className={`${styles.spinner} ${styles.closing}`} />
-                            </span>
-                          </section>
+                          <StatusIndicator variant={status} />
+                        </Box>
+                        <Text css={{ '&:hover': { opacity: 0.5 } }}>
+                          {displayNodeName(channel)}
+                        </Text>
+                        {isSelected && (
+                          <Button
+                            variant="secondary"
+                            size="small"
+                            ml="auto"
+                            px={0}
+                            py={0}
+                            onClick={() =>
+                              blockExplorer.showTransaction(
+                                network,
+                                channelObj.closing_txid || channel.channel_point.split(':')[0]
+                              )
+                            }
+                          >
+                            <FaExternalLink />
+                          </Button>
                         )}
-                        {Object.prototype.hasOwnProperty.call(channel, 'active') &&
-                          !closingChannelIds.includes(channel.chan_id) && (
-                            <section onClick={() => removeClicked(channel)}>
-                              <div>Disconnect</div>
-                            </section>
+                      </Flex>
+
+                      {isSelected && (
+                        <Box as="section" py={2} bg={isSelected ? 'secondaryColor' : null}>
+                          <Text color="gray" fontSize="s" mx={3}>{`${pubkey.substring(
+                            0,
+                            30
+                          )}...`}</Text>
+
+                          <Bar borderColor="primaryColor" borderBottom={2} my={3} />
+
+                          <Flex justifyContent="space-between">
+                            <Flex width={1 / 2} flexDirection="column" alignItems="center">
+                              <Text fontWeight="normal">
+                                <FormattedMessage {...messages.pay_limit} />
+                              </Text>
+                              <Text fontSize="s">
+                                <Value
+                                  value={channel.local_balance}
+                                  currency={ticker.currency}
+                                  currentTicker={currentTicker}
+                                  fiatTicker={ticker.fiatTicker}
+                                />
+                                <i> {currencyName}</i>
+                              </Text>
+                            </Flex>
+                            <Flex width={1 / 2} flexDirection="column" alignItems="center">
+                              <Text fontWeight="normal">
+                                <FormattedMessage {...messages.req_limit} />
+                              </Text>
+                              <Text fontSize="s">
+                                <Value
+                                  value={channel.remote_balance}
+                                  currency={ticker.currency}
+                                  currentTicker={currentTicker}
+                                  fiatTicker={ticker.fiatTicker}
+                                />
+                                <i> {currencyName}</i>
+                              </Text>
+                            </Flex>
+                          </Flex>
+
+                          {closingChannelIds.includes(channel.chan_id) && (
+                            <Box as="footer">
+                              <Bar borderColor="primaryColor" borderBottom={2} my={3} />
+
+                              <Flex
+                                py={2}
+                                color="lightningOrange"
+                                alignItems="center"
+                                justifyContent="center"
+                              >
+                                <Flex>
+                                  <Spinner mr={2} />
+                                  <FormattedMessage {...messages.closing} />
+                                </Flex>
+                              </Flex>
+                            </Box>
                           )}
-                      </div>
-                    </section>
-                  </li>
-                )
-              })}
-          </ul>
-        </div>
+                          {['online', 'offline'].includes(status) &&
+                            !closingChannelIds.includes(channel.chan_id) && (
+                              <Box as="footer">
+                                <Bar borderColor="primaryColor" borderBottom={2} my={3} />
+
+                                <Text
+                                  onClick={() => removeClicked(channel)}
+                                  py={2}
+                                  color="superRed"
+                                  textAlign="center"
+                                  css={{ cursor: 'pointer', '&:hover': { opacity: 0.5 } }}
+                                >
+                                  <FormattedMessage
+                                    {...messages[
+                                      status === 'online' ? 'channel_close' : 'channel_force_close'
+                                    ]}
+                                  />
+                                </Text>
+                              </Box>
+                            )}
+                        </Box>
+                      )}
+                    </Box>
+                  )
+                })}
+            </Box>
+          )}
+        </Panel.Body>
+
         {Boolean(
           loadingChannelPubkeys.length || pending_open_channels.length || channels.length
         ) && (
-          <footer className={styles.search}>
-            <label htmlFor="search" className={`${styles.label} ${styles.input}`}>
-              <Search />
-            </label>
-            <input
-              id="search"
-              type="text"
-              className={`${styles.text} ${styles.input}`}
-              placeholder={intl.formatMessage({ ...messages.search_placeholder })}
-              value={searchQuery}
-              onChange={event => updateChannelSearchQuery(event.target.value)}
-            />
-          </footer>
+          <>
+            <Bar mt={3} borderColor="gray" css={{ opacity: 0.3 }} />
+            <Panel.Footer as="footer" px={3} py={3}>
+              <Flex alignItems="center" width={1}>
+                <Text fontSize="l" css={{ opacity: 0.5 }} mt={2}>
+                  {!searchQuery && <Search />}
+                </Text>
+                <Form width={1}>
+                  <Input
+                    field="search"
+                    id="search"
+                    type="text"
+                    variant="thin"
+                    border={0}
+                    placeholder={intl.formatMessage({ ...messages.search_placeholder })}
+                    value={searchQuery}
+                    onChange={event => updateChannelSearchQuery(event.target.value)}
+                  />
+                </Form>
+              </Flex>
+            </Panel.Footer>
+          </>
         )}
-      </BackgroundTertiary>
+      </Panel>
     )
   }
 }
@@ -394,24 +413,18 @@ class Network extends Component {
 Network.propTypes = {
   currentChannels: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
-  nonActiveFilters: PropTypes.array.isRequired,
-
   channels: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   suggestedNodesProps: PropTypes.object.isRequired,
-
   network: PropTypes.object.isRequired,
-
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,
-  toggleFilterPulldown: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
   setSelectedChannel: PropTypes.func.isRequired,
   closeChannel: PropTypes.func.isRequired,
-
   currencyName: PropTypes.string
 }
 

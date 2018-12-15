@@ -3,17 +3,16 @@
 exports[`component.Form.DataRow should render correctly 1`] = `
 <Styled(styled.div)
   alignItems="center"
+  justifyContent="space-between"
   py={3}
 >
   <Text
     fontWeight="normal"
-    width={0.5}
   >
     left contnet
   </Text>
   <Text
     textAlign="right"
-    width={0.5}
   >
     right content
   </Text>

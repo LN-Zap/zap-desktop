@@ -3,62 +3,47 @@
 exports[`reducers paymentReducer should correctly getPayments 1`] = `
 Object {
   "payment": null,
-  "paymentInterval": null,
   "paymentLoading": true,
-  "paymentTimeout": 60000,
   "payments": Array [],
-  "sendingPayment": false,
-  "showSuccessPayScreen": false,
+  "paymentsSending": Array [],
 }
 `;
 
 exports[`reducers paymentReducer should correctly paymentSuccessful 1`] = `
 Object {
   "payment": null,
-  "paymentInterval": null,
   "paymentLoading": false,
-  "paymentTimeout": 60000,
   "payments": Array [],
-  "sendingPayment": false,
-  "showSuccessPayScreen": false,
+  "paymentsSending": Array [],
 }
 `;
 
 exports[`reducers paymentReducer should correctly receivePayments 1`] = `
 Object {
   "payment": null,
-  "paymentInterval": null,
   "paymentLoading": false,
-  "paymentTimeout": 60000,
   "payments": Array [
     1,
     2,
   ],
-  "sendingPayment": false,
-  "showSuccessPayScreen": false,
+  "paymentsSending": Array [],
 }
 `;
 
 exports[`reducers paymentReducer should correctly sendPayment 1`] = `
 Object {
   "payment": "foo",
-  "paymentInterval": null,
   "paymentLoading": false,
-  "paymentTimeout": 60000,
   "payments": Array [],
-  "sendingPayment": false,
-  "showSuccessPayScreen": false,
+  "paymentsSending": Array [],
 }
 `;
 
 exports[`reducers paymentReducer should handle initial state 1`] = `
 Object {
   "payment": null,
-  "paymentInterval": null,
   "paymentLoading": false,
-  "paymentTimeout": 60000,
   "payments": Array [],
-  "sendingPayment": false,
-  "showSuccessPayScreen": false,
+  "paymentsSending": Array [],
 }
 `;

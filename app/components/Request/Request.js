@@ -173,10 +173,14 @@ class Request extends React.Component {
   }
 
   renderHelpText = () => {
+    const { cryptoName, cryptoCurrencyTicker } = this.props
     return (
       <Box mb={4}>
         <Text textAlign="justify">
-          <FormattedMessage {...messages.description} />
+          <FormattedMessage
+            {...messages.description}
+            values={{ chain: cryptoName, ticker: cryptoCurrencyTicker }}
+          />
         </Text>
       </Box>
     )

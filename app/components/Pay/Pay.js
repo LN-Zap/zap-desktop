@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring'
-import { FormattedMessage, injectIntl } from 'react-intl'
-import { decodePayReq, getMinFee, getMaxFee, getFeeRange, isOnchain, isLn } from 'lib/utils/crypto'
+import { FormattedMessage } from 'react-intl'
+import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from 'lib/utils/crypto'
 import { convert } from 'lib/utils/btc'
 import {
   Bar,
@@ -15,7 +15,8 @@ import {
   Label,
   LightningInvoiceInput,
   Panel,
-  Text
+  Text,
+  Value
 } from 'components/UI'
 
 import PayButtons from './PayButtons'
@@ -30,7 +31,7 @@ const ShowHidePayReq = Keyframes.Spring({
   small: { height: 48 },
   big: async (next, cancel, ownProps) => {
     ownProps.context.focusPayReqInput()
-    await next({ height: 130, immediate: true })
+    await next({ height: 110, immediate: true })
   }
 })
 
@@ -186,18 +187,24 @@ class Pay extends React.Component {
    * @param  {Object} values submitted form values.
    */
   onSubmit = values => {
-    const { currentStep, isOnchain } = this.state
+    const { currentStep, isOnchain, invoice } = this.state
     const { cryptoCurrency, onchainFees, payInvoice, routes, sendCoins } = this.props
-    const feeLimit = getMaxFee(routes)
     if (currentStep === 'summary') {
-      return isOnchain
-        ? sendCoins({
-            value: values.amountCrypto,
-            addr: values.payReq,
-            currency: cryptoCurrency,
-            satPerByte: onchainFees.fastestFee
-          })
-        : payInvoice(values.payReq, feeLimit)
+      if (isOnchain) {
+        return sendCoins({
+          addr: values.payReq,
+          value: values.amountCrypto,
+          currency: cryptoCurrency,
+          satPerByte: onchainFees.fastestFee
+        })
+      } else {
+        return payInvoice({
+          addr: values.payReq,
+          value: invoice.satoshis || values.amountCrypto,
+          currency: invoice.satoshis ? 'sats' : cryptoCurrency,
+          feeLimit: getMaxFee(routes)
+        })
+      }
     } else {
       this.nextStep()
     }
@@ -232,10 +239,17 @@ class Pay extends React.Component {
    * Liost of enabled form steps.
    */
   steps = () => {
-    const { isLn, isOnchain } = this.state
+    const { isLn, isOnchain, invoice } = this.state
     let steps = ['address']
     if (isLn) {
-      steps = ['address', 'summary']
+      // If we have an invoice and the invoice has an amount, this is a 2 step form.
+      if (invoice && invoice.satoshis) {
+        steps.push('summary')
+      }
+      // Othersise, it will be a three step process.
+      else {
+        steps = ['address', 'amount', 'summary']
+      }
     } else if (isOnchain) {
       steps = ['address', 'amount', 'summary']
     }
@@ -334,7 +348,7 @@ class Pay extends React.Component {
   }
 
   renderHelpText = () => {
-    const { initialPayReq } = this.props
+    const { cryptoName, cryptoCurrencyTicker, initialPayReq } = this.props
     const { currentStep, previousStep } = this.state
 
     // Do not render the help text if the form has just loadad with an initial payment request.
@@ -347,9 +361,9 @@ class Pay extends React.Component {
         native
         items={currentStep === 'address'}
         from={{ opacity: 0, height: 0 }}
-        enter={{ opacity: 1, height: 'auto' }}
+        enter={{ opacity: 1, height: 80 }}
         leave={{ opacity: 0, height: 0 }}
-        initial={{ opacity: 1, height: 'auto' }}
+        initial={{ opacity: 1, height: 80 }}
       >
         {show =>
           show &&
@@ -357,7 +371,10 @@ class Pay extends React.Component {
             <animated.div style={styles}>
               <Box mb={4}>
                 <Text textAlign="justify">
-                  <FormattedMessage {...messages.description} />
+                  <FormattedMessage
+                    {...messages.description}
+                    values={{ chain: cryptoName, ticker: cryptoCurrencyTicker }}
+                  />
                 </Text>
               </Box>
             </animated.div>
@@ -384,7 +401,7 @@ class Pay extends React.Component {
           </Label>
         </Box>
 
-        <ShowHidePayReq state={currentStep === 'address' ? 'big' : 'small'} context={this}>
+        <ShowHidePayReq state={currentStep === 'address' || isLn ? 'big' : 'small'} context={this}>
           {styles => (
             <React.Fragment>
               <LightningInvoiceInput
@@ -414,7 +431,7 @@ class Pay extends React.Component {
   }
 
   renderAmountFields = () => {
-    const { currentStep, isOnchain } = this.state
+    const { currentStep } = this.state
     const {
       cryptoCurrency,
       cryptoCurrencies,
@@ -424,11 +441,6 @@ class Pay extends React.Component {
       initialAmountCrypto,
       initialAmountFiat
     } = this.props
-
-    // Do not render unless we are working with an onchain address.
-    if (!isOnchain) {
-      return null
-    }
 
     return (
       <ShowHideAmount
@@ -456,7 +468,7 @@ class Pay extends React.Component {
                     validateOnBlur
                     onChange={this.handleAmountCryptoChange}
                     forwardedRef={this.amountInput}
-                    disabled={currentStep === 'address'}
+                    disabled={currentStep !== 'amount'}
                   />
                 </Box>
                 <Dropdown
@@ -480,7 +492,7 @@ class Pay extends React.Component {
                     currentTicker={currentTicker}
                     width={150}
                     onChange={this.handleAmountFiatChange}
-                    disabled={currentStep === 'address'}
+                    disabled={currentStep !== 'amount'}
                   />
                 </Box>
 
@@ -525,8 +537,9 @@ class Pay extends React.Component {
 
     const render = () => {
       // convert entered amount to satoshis
+      const amountInSatoshis = convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
+
       if (isOnchain) {
-        const amountInSatoshis = convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
         return (
           <PaySummaryOnChain
             mt={-3}
@@ -557,6 +570,7 @@ class Pay extends React.Component {
             maxFee={maxFee}
             nodes={nodes}
             payReq={formState.values.payReq}
+            amount={amountInSatoshis}
             setCryptoCurrency={setCryptoCurrency}
           />
         )
@@ -596,7 +610,6 @@ class Pay extends React.Component {
       initialPayReq,
       initialAmountCrypto,
       initialAmountFiat,
-      intl,
       isProcessing,
       isQueryingFees,
       isQueryingRoutes,
@@ -624,72 +637,57 @@ class Pay extends React.Component {
           const showBack = currentStep !== 'address'
           const showSubmit = currentStep !== 'address' || (isOnchain || isLn)
 
-          // Determine wether we have a route to the sender.
-          let hasRoute = true
-          if (isLn && currentStep === 'summary') {
-            const { min, max } = getFeeRange(routes || [])
-            if (min === null || max === null) {
-              hasRoute = false
-            }
+          let amountInSatoshis = formState.values.amountCrypto
+          if (isLn) {
+            amountInSatoshis =
+              invoice.satoshis || convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
           }
 
           // Determine wether we have enough funds available.
           let hasEnoughFunds = true
           if (isLn && invoice) {
-            hasEnoughFunds = invoice.satoshis <= channelBalance
+            hasEnoughFunds = amountInSatoshis <= channelBalance
           } else if (isOnchain) {
-            const valueInSats = convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
-            hasEnoughFunds = valueInSats <= walletBalance
+            hasEnoughFunds = amountInSatoshis <= walletBalance
           }
 
           // Determine what the text should be for the next button.
-          let nextButtonText = intl.formatMessage({ ...messages.next })
+          let nextButtonText = <FormattedMessage {...messages.next} />
           if (currentStep === 'summary') {
-            const value =
-              isLn && invoice
-                ? convert('sats', cryptoCurrency, invoice.satoshis)
-                : formState.values.amountCrypto
-            nextButtonText = `${intl.formatMessage({
-              ...messages.send
-            })} ${value} ${cryptoCurrencyTicker}`
+            nextButtonText = (
+              <>
+                <FormattedMessage {...messages.send} />
+                {` `}
+                <Value value={amountInSatoshis} currency={cryptoCurrency} />
+                {` `}
+                {cryptoCurrencyTicker}
+              </>
+            )
           }
-
           return (
             <Panel>
               <Panel.Header>
                 <PayHeader
-                  title={`${intl.formatMessage({
-                    ...messages.send
-                  })} ${cryptoName} (${cryptoCurrencyTicker})`}
+                  title={
+                    <>
+                      <FormattedMessage {...messages.send} /> {cryptoName} ({cryptoCurrencyTicker})
+                    </>
+                  }
                   type={isLn ? 'offchain' : isOnchain ? 'onchain' : null}
                 />
                 <Bar pt={2} />
               </Panel.Header>
 
               <Panel.Body py={3}>
-                <Box width={1} css={{ position: 'relative' }}>
-                  {this.renderHelpText()}
-                  <Box width={1} css={{ position: 'absolute' }}>
-                    {this.renderAddressField()}
-                    {this.renderAmountFields()}
-                  </Box>
-                  <Box width={1} css={{ position: 'absolute' }}>
-                    {this.renderSummary()}
-                  </Box>
-                </Box>
+                {this.renderHelpText()}
+                {this.renderAddressField()}
+                {this.renderAmountFields()}
+                {this.renderSummary()}
               </Panel.Body>
               <Panel.Footer>
                 <ShowHideButtons state={showBack || showSubmit ? 'show' : 'show'}>
                   {styles => (
                     <Box style={styles}>
-                      {currentStep === 'summary' &&
-                        !isQueryingRoutes &&
-                        !hasRoute && (
-                          <Message variant="error" justifyContent="center" mb={2}>
-                            <FormattedMessage {...messages.error_no_route} />
-                          </Message>
-                        )}
-
                       {currentStep === 'summary' &&
                         !hasEnoughFunds && (
                           <Message variant="error" justifyContent="center" mb={2}>
@@ -702,7 +700,7 @@ class Pay extends React.Component {
                           formState.pristine ||
                           formState.invalid ||
                           isProcessing ||
-                          (currentStep === 'summary' && (!hasRoute || !hasEnoughFunds))
+                          (currentStep === 'summary' && !hasEnoughFunds)
                         }
                         nextButtonText={nextButtonText}
                         processing={isProcessing}
@@ -740,4 +738,4 @@ class Pay extends React.Component {
   }
 }
 
-export default injectIntl(Pay)
+export default Pay

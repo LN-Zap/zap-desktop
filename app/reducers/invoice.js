@@ -35,6 +35,7 @@ export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 
 // Decorate invoice object with custom/computed properties.
 const decorateInvoice = invoice => {
+  invoice.type = 'invoice'
   invoice.finalAmount = invoice.amt_paid_sat ? invoice.amt_paid_sat : invoice.value
   return invoice
 }
@@ -111,7 +112,7 @@ export const createInvoice = (amount, currency, memo) => async dispatch => {
   // (both manual and autopilot ones). In order for these clients to receive money through these channels the invoices
   // need to come with routing hints for private channels
   const activeWallet = await db.settings.get({ key: 'activeWallet' })
-  const wallet = db.wallets.get({ id: activeWallet.value })
+  const wallet = await db.wallets.get({ id: activeWallet.value })
 
   ipcRenderer.send('lnd', {
     msg: 'createInvoice',
@@ -168,10 +169,9 @@ const ACTION_HANDLERS = {
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
 
   [SEND_INVOICE]: state => ({ ...state, invoiceLoading: true }),
-  [INVOICE_SUCCESSFUL]: (state, { invoice }) => ({
+  [INVOICE_SUCCESSFUL]: state => ({
     ...state,
-    invoiceLoading: false,
-    invoices: [...state.invoices, invoice]
+    invoiceLoading: false
   }),
   [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null }),
 

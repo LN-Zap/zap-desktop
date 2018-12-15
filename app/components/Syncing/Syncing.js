@@ -1,24 +1,21 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
-import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
-import Copy from 'components/Icon/Copy'
-import ZapLogo from 'components/Icon/ZapLogo'
-import ZapLogoBlack from 'components/Icon/ZapLogoBlack'
+import { Box, Flex } from 'rebass'
+import { Bar, Button, Heading, Header, Panel, QRCode, Text } from 'components/UI'
 import { showNotification } from 'lib/utils/notifications'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
-import styles from './Syncing.scss'
 
 class Syncing extends Component {
   static propTypes = {
     address: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
     hasSynced: PropTypes.bool,
     syncStatus: PropTypes.string.isRequired,
     syncPercentage: PropTypes.number,
     blockHeight: PropTypes.number,
+    setIsWalletOpen: PropTypes.func.isRequired,
     lndBlockHeight: PropTypes.number,
     lndCfilterHeight: PropTypes.number,
     lightningGrpcActive: PropTypes.bool
@@ -30,24 +27,52 @@ class Syncing extends Component {
     syncMessageExtraDetail: null
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    const { setIsWalletOpen, syncStatus } = this.props
+    setIsWalletOpen(true)
+    if (syncStatus === 'waiting') {
+      this.setWaitingTimer()
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    const { syncStatus } = this.props
+    if (syncStatus === 'waiting' && prevProps.syncStatus !== 'waiting') {
+      this.setWaitingTimer()
+    }
+    if (syncStatus !== 'waiting' && prevProps.syncStatus === 'waiting') {
+      this.clearWaitingTimer()
+    }
+  }
+
+  componentWillUnmount() {
+    const { timer } = this.state
+    clearInterval(timer)
+  }
+
+  setWaitingTimer = () => {
     const { syncStatus, intl } = this.props
 
     // If we are still waiting for peers after some time, advise te user it could take a wile.
     let timer = setTimeout(() => {
       if (syncStatus === 'waiting') {
         this.setState({
-          syncMessageDetail: intl.formatMessage({ ...messages.grab_coffee })
+          syncMessageDetail: intl.formatMessage({ ...messages.taking_time }),
+          syncMessageExtraDetail: intl.formatMessage({ ...messages.grab_coffee })
         })
       }
-    }, 10000)
+    }, 5000)
 
     this.setState({ timer })
   }
 
-  componentWillUnmount() {
+  clearWaitingTimer = () => {
     const { timer } = this.state
     clearInterval(timer)
+    this.setState({
+      syncMessageDetail: null,
+      syncMessageExtraDetail: null
+    })
   }
 
   render() {
@@ -60,27 +85,30 @@ class Syncing extends Component {
       lndBlockHeight,
       lndCfilterHeight,
       lightningGrpcActive,
-      intl,
-      theme
+      intl
     } = this.props
     let { syncMessageDetail, syncMessageExtraDetail } = this.state
+
+    const copyToClipboard = data => {
+      copy(data)
+      const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
+      const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
+      showNotification(notifTitle, notifBody)
+    }
 
     if (lightningGrpcActive && syncStatus === 'complete') {
       return <Redirect to="/app" />
     }
 
-    const copyClicked = () => {
-      copy(address)
-      showNotification('Noice', 'Successfully copied to clipboard')
-    }
     let syncMessage
     if (syncStatus === 'waiting') {
       syncMessage = intl.formatMessage({ ...messages.waiting_for_peers })
     } else if (syncStatus === 'in-progress') {
-      if (typeof syncPercentage === 'undefined' || syncPercentage <= 0) {
+      if (typeof syncPercentage === 'undefined') {
         syncMessage = intl.formatMessage({ ...messages.preparing })
         syncMessageDetail = null
-      } else if (syncPercentage) {
+        syncMessageExtraDetail = null
+      } else {
         syncMessage = `${syncPercentage}%`
         syncMessageDetail = intl.formatMessage(
           { ...messages.block_progress },
@@ -100,90 +128,81 @@ class Syncing extends Component {
     }
 
     return (
-      <div className={`${styles.container} ${theme.name}`}>
-        <div className={styles.content}>
-          <header>
-            {theme.name === 'light' ? (
-              <ZapLogoBlack width="70px" height="32px" />
-            ) : (
-              <ZapLogo width="70px" height="32px" />
+      <Panel width={1}>
+        <Panel.Header width={9 / 16} mx="auto">
+          {hasSynced ? (
+            <Header
+              title={<FormattedMessage {...messages.sync_title} />}
+              subtitle={<FormattedMessage {...messages.sync_description} />}
+            />
+          ) : (
+            <Header
+              title={<FormattedMessage {...messages.fund_title} />}
+              subtitle={<FormattedMessage {...messages.fund_description} />}
+            />
+          )}
+          <Bar my={3} />
+        </Panel.Header>
+
+        <Panel.Body width={9 / 16} mx="auto" mb={3}>
+          {hasSynced === false &&
+            address &&
+            address.length && (
+              <Flex
+                alignItems="center"
+                flexDirection="column"
+                justifyContent="center"
+                css={{ height: '100%' }}
+              >
+                <QRCode value={address} mx="auto" />
+                <Text my={3}>{address}</Text>
+                <Button size="small" onClick={() => copyToClipboard(address)} mx="auto">
+                  <FormattedMessage {...messages.copy_address} />
+                </Button>
+              </Flex>
             )}
-          </header>
-
-          {hasSynced === true && (
-            <div className={styles.hasNotSynced}>
-              <div className={styles.title}>
-                <h1>
-                  <FormattedMessage {...messages.sync_title} />
-                </h1>
-                <p>
-                  <FormattedMessage {...messages.sync_description} />
-                </p>
-              </div>
-            </div>
+          {hasSynced && (
+            <Flex
+              alignItems="center"
+              flexDirection="column"
+              justifyContent="center"
+              css={{ height: '100%' }}
+            >
+              <Text my={3}>
+                <FormattedMessage {...messages.tutorials_list_description} />
+              </Text>
+              <Button size="small" onClick={() => window.Zap.openHelpPage()} mx="auto">
+                <FormattedMessage {...messages.tutorials_button_text} />
+              </Button>
+            </Flex>
           )}
+        </Panel.Body>
 
-          {hasSynced === false && (
-            <div className={styles.hasSynced}>
-              <div className={styles.title}>
-                <h1>
-                  <FormattedMessage {...messages.fund_title} />
-                </h1>
-                <p>
-                  <FormattedMessage {...messages.fund_description} />
-                </p>
-              </div>
-              {address && address.length ? (
-                <div className={styles.address}>
-                  <div className={styles.qrConatiner}>
-                    <QRCode
-                      value={address}
-                      renderAs="svg"
-                      size={100}
-                      bgColor="white"
-                      fgColor="#252832"
-                      level="L"
-                      className={styles.qrcode}
-                    />
-                  </div>
-                  <section className={styles.textAddress}>
-                    <span className={styles.text}>{address}</span>
-                    <span className={styles.icon} onClick={copyClicked}>
-                      <Copy />
-                    </span>
-                  </section>
-                </div>
-              ) : (
-                <div className={styles.loading}>
-                  <div className={styles.spinner} />
-                </div>
-              )}
-            </div>
-          )}
-
-          <section className={styles.progressContainer}>
-            <h3>
+        <Panel.Footer bg="secondaryColor" p={3} css={{ 'min-height': '160px' }}>
+          <Flex
+            alignItems="center"
+            flexDirection="column"
+            justifyContent="center"
+            width={9 / 16}
+            mx="auto"
+          >
+            <Text fontWeight="normal" mb={3}>
               <FormattedMessage {...messages.sync_caption} />
-            </h3>
-            <div className={styles.progressBar}>
-              <div
-                className={styles.progress}
-                style={{ width: syncPercentage ? `${syncPercentage}%` : 0 }}
+            </Text>
+            <Heading.h1 mb={2}>{syncMessage}</Heading.h1>
+            <Box width={1} css={{ height: '4px' }} bg="grey" mb={2}>
+              <Box
+                width={syncPercentage ? `${syncPercentage}%` : 0}
+                css={{ height: '100%' }}
+                bg="lightningOrange"
               />
-            </div>
-            <h4>{syncMessage}</h4>
-            {syncMessageDetail && (
-              <span className={styles.progressDetail}>{syncMessageDetail}</span>
-            )}
-            {syncMessageExtraDetail && (
-              <span className={styles.progressDetail}>
-                <br />
-                {syncMessageExtraDetail}
-              </span>
-            )}
-          </section>
-        </div>
-      </div>
+            </Box>
+
+            <Text>{syncMessageDetail}</Text>
+            <Text>{syncMessageExtraDetail}</Text>
+          </Flex>
+        </Panel.Footer>
+      </Panel>
     )
   }
 }

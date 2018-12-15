@@ -9,6 +9,7 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
     width={0.2}
   >
     <Button
+      active={false}
       disabled={false}
       onClick={[Function]}
       processing={false}
@@ -19,7 +20,7 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
     >
       <Styled(styled.div)>
         <Styled(styled.div)>
-          <SvgBigArrowLeft />
+          <SvgArrowLeft />
         </Styled(styled.div)>
         <Styled(styled.div)
           ml={1}
@@ -34,6 +35,7 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
     </Button>
   </styled.div>
   <Button
+    active={false}
     disabled={false}
     mx="auto"
     processing={false}

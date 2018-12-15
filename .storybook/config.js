@@ -19,7 +19,7 @@ const BackgroundPrimaryWithTheme = withTheme(({ theme, ...rest }) => (
   <BackgroundPrimary
     className={theme.name}
     p={3}
-    css={{ height: '100vh', 'overflow-y': 'scroll !important' }}
+    css={{ height: '100vh', 'overflow-y': 'auto !important' }}
     {...rest}
   />
 ))

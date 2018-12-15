@@ -12,6 +12,9 @@ import installExtension, {
   REDUX_DEVTOOLS
 } from 'electron-devtools-installer'
 import get from 'lodash.get'
+import path from 'path'
+import url from 'url'
+import querystring from 'querystring'
 import { mainLog } from './lib/utils/log'
 import ZapMenuBuilder from './lib/zap/menuBuilder'
 import ZapController from './lib/zap/controller'
@@ -114,11 +117,14 @@ app.on('ready', async () => {
     show: false,
     useContentSize: true,
     titleBarStyle: 'hidden',
-    width: 950,
-    height: 600,
-    minWidth: 950,
+    width: 1020,
+    height: 680,
+    minWidth: 900,
     minHeight: 425,
-    backgroundColor: get(theme, 'colors.primaryColor', '#242633')
+    backgroundColor: get(theme, 'colors.primaryColor', '#242633'),
+    webPreferences: {
+      preload: path.resolve(__dirname, './preload.js')
+    }
   })
 
   // Initialise the updater.
@@ -159,16 +165,46 @@ app.on('ready', async () => {
   }
 
   /**
-   * Add application event listener:
-   *  - Open zap payment form when lightning url is opened
+   * Handler for lightning: links
    */
-  app.setAsDefaultProtocolClient('lightning')
-  app.on('open-url', (event, url) => {
-    mainLog.debug('open-url')
-    event.preventDefault()
-    const payReq = url.split(':')[1]
+  const handleLightningLink = input => {
+    const payReq = input.split(':')[1]
     zap.sendMessage('lightningPaymentUri', { payReq })
     zap.mainWindow.show()
+  }
+
+  /**
+   * Handler for lndconnect: links
+   */
+  const handleLndconnectLink = input => {
+    const parsedUrl = url.parse(input)
+    const { host, cert, macaroon } = querystring.parse(parsedUrl.query)
+    zap.sendMessage('lndconnectUri', { host, cert, macaroon })
+    zap.mainWindow.show()
+  }
+
+  /**
+   * Add application event listeners:
+   *  - lightning: Open zap payment form when lightning url is opened
+   *  - lndconnect: Populate onboarding connection details form when lndconnect url is opened
+   */
+  app.setAsDefaultProtocolClient('lightning')
+  app.setAsDefaultProtocolClient('lndconnect')
+
+  app.on('open-url', (event, input) => {
+    mainLog.debug('open-url: %s', input)
+    event.preventDefault()
+
+    const type = input.split(':')[0]
+
+    switch (type) {
+      case 'lightning':
+        handleLightningLink(input)
+        break
+
+      case 'lndconnect':
+        handleLndconnectLink(input)
+    }
   })
 
   // HACK: patch webrequest to fix devtools incompatibility with electron 2.x.

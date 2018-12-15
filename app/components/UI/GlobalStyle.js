@@ -41,6 +41,30 @@ const GlobalStyle = createGlobalStyle`
     font-size: 13px;
   }
 
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track,
+  ::-webkit-scrollbar-corner {
+    background: rgba(0, 0, 0, 0.1);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 5px;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  pre {
+    font-family: "Lucida Console", Monaco, monospace;
+  }
+
   #root {
     height: 100%;
   }
@@ -218,62 +242,6 @@ const GlobalStyle = createGlobalStyle`
   .hint--left:hover::after,
   .hint--left:hover::before {
     transform: translateX(-8px);
-  }
-
-
-  /*
-   *Animated Checkmark
-   */
-
-  .checkmark__circle {
-    stroke-dasharray: 166;
-    stroke-dashoffset: 166;
-    stroke-width: 2;
-    stroke-miterlimit: 10;
-    stroke: ${props => props.theme.colors.superGreen};
-    fill: none;
-    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
-  }
-
-  .checkmark {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    stroke-width: 2;
-    stroke: #fff;
-    stroke-miterlimit: 10;
-    box-shadow: inset 0 0 0 ${props => props.theme.colors.superGreen};
-    animation: fill 0.4s ease-in-out 0.4s forwards, scale 0.3s ease-in-out 0.9s both;
-  }
-
-  .checkmark__check {
-    transform-origin: 50% 50%;
-    stroke-dasharray: 48;
-    stroke-dashoffset: 48;
-    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.8s forwards;
-  }
-
-  @keyframes stroke {
-    100% {
-      stroke-dashoffset: 0;
-    }
-  }
-
-  @keyframes scale {
-    0%,
-    100% {
-      transform: none;
-    }
-
-    50% {
-      transform: scale3d(1.1, 1.1, 1);
-    }
-  }
-
-  @keyframes fill {
-    100% {
-      box-shadow: inset 0 0 0 30px ${props => props.theme.colors.superGreen};
-    }
   }
 
   /*
