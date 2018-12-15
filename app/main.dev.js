@@ -167,7 +167,8 @@ app.on('ready', async () => {
   /**
    * Handler for lightning: links
    */
-  const handleLightningLink = payReq => {
+  const handleLightningLink = input => {
+    const payReq = input.split(':')[1]
     zap.sendMessage('lightningPaymentUri', { payReq })
     zap.mainWindow.show()
   }
@@ -175,8 +176,9 @@ app.on('ready', async () => {
   /**
    * Handler for lndconnect: links
    */
-  const handleLndconnectLink = query => {
-    const { host, cert, macaroon } = querystring.parse(query)
+  const handleLndconnectLink = input => {
+    const parsedUrl = url.parse(input)
+    const { host, cert, macaroon } = querystring.parse(parsedUrl.query)
     zap.sendMessage('lndconnectUri', { host, cert, macaroon })
     zap.mainWindow.show()
   }
@@ -193,15 +195,15 @@ app.on('ready', async () => {
     mainLog.debug('open-url: %s', input)
     event.preventDefault()
 
-    const parsedUrl = url.parse(input)
+    const type = input.split(':')[0]
 
-    switch (parsedUrl.protocol) {
-      case 'lightning:':
-        handleLightningLink(parsedUrl.host)
+    switch (type) {
+      case 'lightning':
+        handleLightningLink(input)
         break
 
-      case 'lndconnect:':
-        handleLndconnectLink(parsedUrl.query)
+      case 'lndconnect':
+        handleLndconnectLink(input)
     }
   })
 
