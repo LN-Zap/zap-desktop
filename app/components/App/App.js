@@ -38,7 +38,6 @@ class App extends React.Component {
     receiveModalProps: PropTypes.object,
     channelFormProps: PropTypes.object,
     setIsWalletOpen: PropTypes.func.isRequired,
-    fetchInfo: PropTypes.func.isRequired,
     fetchPeers: PropTypes.func.isRequired,
     fetchDescribeNetwork: PropTypes.func.isRequired
   }
@@ -63,27 +62,21 @@ class App extends React.Component {
    * node data quite frequently but as time goes on the frequency is reduced down to a maximum of MAX_REFETCH_INTERVAL
    */
   fetchData = () => {
+    const { fetchPeers, fetchDescribeNetwork } = this.props
     const { nextFetchIn } = this.state
     const next = Math.round(Math.min(nextFetchIn * BACKOFF_SCHEDULE, MAX_REFETCH_INTERVAL))
 
-    // Fetch data.
-    this.initNode()
+    // Fetch information about connected peers.
+    fetchPeers()
 
-    // Schedule next fetch.
-    const timer = setTimeout(this.fetchData, nextFetchIn)
+    // fetch LN network from nodes POV.
+    fetchDescribeNetwork()
+
+    // Schedule refetching of network info.
+    const timer = setTimeout(this.fetchDescribeNetwork, nextFetchIn)
 
     // Increment the next fetch interval.
     this.setState({ timer, nextFetchIn: next })
-  }
-
-  initNode = () => {
-    const { fetchInfo, fetchDescribeNetwork, fetchPeers } = this.props
-    // fetch node info.
-    fetchInfo()
-    // fetch LN network from nodes POV.
-    fetchDescribeNetwork()
-    // Fetch information about connected peers.
-    fetchPeers()
   }
 
   render() {
@@ -100,19 +93,21 @@ class App extends React.Component {
       channelFormProps
     } = this.props
 
-    if (!currentTicker) {
-      return null
-    }
-
     return (
       <>
-        <ChannelForm {...channelFormProps} />
-        <ReceiveModal {...receiveModalProps} />
-        <ActivityModal {...activityModalProps} />
-        <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
+        {currentTicker && (
+          <>
+            <ChannelForm {...channelFormProps} />
+            <ReceiveModal {...receiveModalProps} />
+            <ActivityModal {...activityModalProps} />
+            <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
+          </>
+        )}
+
         <MainContent className={`${currentTheme}`}>
           <Activity />
         </MainContent>
+
         <Sidebar.medium>
           {contactsFormProps.contactsform.isOpen ? (
             <AddChannel {...contactsFormProps} />
