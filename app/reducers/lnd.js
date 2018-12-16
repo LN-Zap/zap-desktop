@@ -103,14 +103,8 @@ export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
 }
 
 // Connected to WalletUnlocker gRPC interface (lnd is ready to unlock or create wallet)
-export const walletUnlockerGrpcActive = (event, lndConfig) => async dispatch => {
+export const walletUnlockerGrpcActive = () => async dispatch => {
   dispatch({ type: SET_WALLET_UNLOCKER_ACTIVE })
-
-  // Once we we have established a connection, save the wallet settings.
-  if (lndConfig.id !== 'tmp') {
-    const wallet = await dispatch(putWallet(lndConfig))
-    await dispatch(setActiveWallet(wallet.id))
-  }
 
   // Let the onboarding process know that the wallet unlocker has started.
   dispatch(lndWalletUnlockerStarted())
