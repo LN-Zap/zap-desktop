@@ -56,10 +56,10 @@ class Initializer extends React.Component {
     } = this.props
 
     // If we have just determined that the user has an active wallet, attempt to start it.
-    if (typeof activeWallet !== 'undefined') {
+    if (typeof activeWallet !== 'undefined' && activeWallet !== prevProps.activeWallet) {
       if (activeWalletSettings) {
         if (isWalletOpen) {
-          startActiveWallet()
+          return startActiveWallet()
         } else {
           return history.push(`/home/wallet/${activeWallet}`)
         }
