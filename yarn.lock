@@ -16084,10 +16084,10 @@ storybook-react-router@1.0.2:
   dependencies:
     prop-types "^15.6.1"
 
-storybook-styled-components@1.1.2:
-  version "1.1.2"
-  resolved "https://registry.yarnpkg.com/storybook-styled-components/-/storybook-styled-components-1.1.2.tgz#a1e9091fe0672e4d86a1e8bb56df27b864d8c702"
-  integrity sha512-F8vMkK3iFevK8y0aEtdPdAEWUtOZGbeKsOshLLB7KAF74nPHfmOJY7zJi4DZnpydxBaWiMUFv4J68O0fGGXuxw==
+storybook-styled-components@1.1.3:
+  version "1.1.3"
+  resolved "https://registry.yarnpkg.com/storybook-styled-components/-/storybook-styled-components-1.1.3.tgz#497a3656ea8245fdf9153de6cd3fb893048559f6"
+  integrity sha512-uKnp+L5FkRxpGMufVclxcV/PGtuZSuxs7jxwG0uRJzPQseXFyZP5hxFq+Jvnm8SvrUEMDiSsETsvEj2A4Jqpdg==
 
 stream-browserify@^2.0.1:
   version "2.0.1"
