@@ -123,7 +123,7 @@ app.on('ready', async () => {
     minHeight: 425,
     backgroundColor: get(theme, 'colors.primaryColor', '#242633'),
     webPreferences: {
-      preload: path.resolve(__dirname, './preload.js')
+      preload: path.resolve(__dirname, 'preload.js')
     }
   })
 
