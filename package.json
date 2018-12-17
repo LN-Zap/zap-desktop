@@ -277,7 +277,7 @@
     "rimraf": "2.6.2",
     "sass-loader": "7.1.0",
     "spectron": "5.0.0",
-    "storybook-addon-intl": "2.3.1",
+    "storybook-addon-intl": "2.3.2",
     "storybook-react-router": "1.0.2",
     "storybook-styled-components": "1.1.3",
     "style-loader": "0.23.1",
