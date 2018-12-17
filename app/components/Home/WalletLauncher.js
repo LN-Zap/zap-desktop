@@ -14,6 +14,9 @@ class WalletLauncher extends React.Component {
     startLnd: PropTypes.func.isRequired,
     lightningGrpcActive: PropTypes.bool.isRequired,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
+    startLndHostError: PropTypes.string,
+    setStartLndError: PropTypes.func.isRequired,
+    setError: PropTypes.func.isRequired,
     stopLnd: PropTypes.func.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired
@@ -29,7 +32,21 @@ class WalletLauncher extends React.Component {
    * Redirect to the login page when we establish a connection to lnd.
    */
   componentDidUpdate(prevProps) {
-    const { history, lightningGrpcActive, walletUnlockerGrpcActive, wallet } = this.props
+    const {
+      history,
+      lightningGrpcActive,
+      walletUnlockerGrpcActive,
+      startLndHostError,
+      setError,
+      setStartLndError,
+      wallet
+    } = this.props
+
+    // If the wallet unlocker became active, switch to the login screen
+    if (startLndHostError && !prevProps.startLndHostError) {
+      setError(startLndHostError)
+      setStartLndError(null)
+    }
 
     // If the wallet unlocker became active, switch to the login screen
     if (walletUnlockerGrpcActive && !prevProps.walletUnlockerGrpcActive) {
