@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
+import { withTheme } from 'styled-components'
 import { showNotification } from 'lib/utils/notifications'
 import { Countdown, Dropdown, Value } from 'components/UI'
 import { FormattedDate, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
@@ -13,6 +14,7 @@ const InvoiceModal = ({
   ticker,
   currentTicker,
   intl,
+  theme,
   toggleCurrencyProps: { currencyFilters, setCurrency }
 }) => {
   const copyToClipboard = data => {
@@ -25,7 +27,7 @@ const InvoiceModal = ({
   const countDownDate = (parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)) * 1000
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${theme.name}`}>
       <div className={styles.content}>
         <section className={styles.left}>
           <h2>
@@ -116,4 +118,4 @@ InvoiceModal.propTypes = {
   toggleCurrencyProps: PropTypes.object.isRequired
 }
 
-export default injectIntl(InvoiceModal)
+export default withTheme(injectIntl(InvoiceModal))
