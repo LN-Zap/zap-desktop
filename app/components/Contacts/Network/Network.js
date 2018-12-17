@@ -74,7 +74,7 @@ class Network extends Component {
       intl
     } = this.props
 
-    if (!currencyName) {
+    if (!currentTicker || !currencyName) {
       return null
     }
 
@@ -415,7 +415,7 @@ Network.propTypes = {
   nodes: PropTypes.array.isRequired,
   channels: PropTypes.object.isRequired,
   balance: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
+  currentTicker: PropTypes.object,
   ticker: PropTypes.object.isRequired,
   suggestedNodesProps: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,

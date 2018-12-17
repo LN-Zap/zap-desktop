@@ -7,7 +7,6 @@ import { btc } from 'lib/utils'
 import { themeSelectors } from 'reducers/theme'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
-import { fetchInfo } from 'reducers/info'
 import { setFormType } from 'reducers/form'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 import { lndSelectors } from 'reducers/lnd'
@@ -49,7 +48,6 @@ import withLoading from 'components/withLoading'
 const mapDispatchToProps = {
   setCurrency,
   closeWalletModal,
-  fetchInfo,
   setFormType,
   createInvoice,
   fetchInvoice,
