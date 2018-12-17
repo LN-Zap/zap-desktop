@@ -73,7 +73,7 @@ class App extends React.Component {
     fetchDescribeNetwork()
 
     // Schedule refetching of network info.
-    const timer = setTimeout(this.fetchDescribeNetwork, nextFetchIn)
+    const timer = setTimeout(fetchDescribeNetwork, nextFetchIn)
 
     // Increment the next fetch interval.
     this.setState({ timer, nextFetchIn: next })
