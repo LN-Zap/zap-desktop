@@ -4,6 +4,7 @@ import split2 from 'split2'
 import { spawn } from 'child_process'
 import EventEmitter from 'events'
 import getPort from 'get-port'
+import isDev from 'electron-is-dev'
 import { mainLog, lndLog, lndLogGetLevel } from '../utils/log'
 import { fetchBlockHeight } from './util'
 import LndConfig from './config'
@@ -22,6 +23,10 @@ const LIGHTNING_GRPC_ACTIVE = 'lightning-grpc-active'
 const GOT_CURRENT_BLOCK_HEIGHT = 'got-current-block-height'
 const GOT_LND_BLOCK_HEIGHT = 'got-lnd-block-height'
 const GOT_LND_CFILTER_HEIGHT = 'got-lnd-cfilter-height'
+
+// Settings
+const DEFAULT_RPC_PORT = 11009
+const DEFAULT_REST_PORT = 8180
 
 /**
  * Wrapper class for Lnd to run and monitor it in Neutrino mode.
@@ -79,11 +84,21 @@ class Neutrino extends EventEmitter {
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
 
     // Get a free port to use as the rpc listen address.
-    const rpcListen = await getPort({
-      host: 'localhost',
-      port: [10009, 10008, 10007, 10006, 10005, 10004, 10003, 10002, 10001]
-    })
+    const rpcListen = isDev
+      ? await getPort({
+          host: 'localhost',
+          port: [10009, 10008, 10007, 10006, 10005, 10004, 10003, 10002, 10001]
+        })
+      : DEFAULT_RPC_PORT
     this.lndConfig.host = `localhost:${rpcListen}`
+
+    // Get a free port to use as the rest listen address.
+    const restListen = isDev
+      ? await getPort({
+          host: 'localhost',
+          port: [8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089]
+        })
+      : DEFAULT_REST_PORT
 
     // Get a free port to use as the p2p listen address.
     const p2pListen = await getPort({
@@ -112,6 +127,7 @@ class Neutrino extends EventEmitter {
       `--lnddir=${this.lndConfig.lndDir}`,
       `--listen=0.0.0.0:${p2pListen}`,
       `--rpclisten=localhost:${rpcListen}`,
+      `--restlisten=localhost:${restListen}`,
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
       `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
       `${this.lndConfig.autopilotPrivate ? '--autopilot.private' : ''}`,
