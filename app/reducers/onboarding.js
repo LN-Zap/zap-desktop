@@ -245,7 +245,7 @@ export { onboardingSelectors }
 // ------------------------------------
 
 const initialState = {
-  onboarding: false,
+  onboarding: true,
   onboarded: false,
   autopilot: true,
   validatingHost: false,

@@ -66,6 +66,7 @@ class ZapController {
    */
   constructor(mainWindow: BrowserWindow) {
     this.fsm = new StateMachine({
+      init: 'onboarding',
       transitions: [
         { name: 'startOnboarding', from: '*', to: 'onboarding' },
         { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
@@ -104,9 +105,6 @@ class ZapController {
     this.mainWindow.webContents.on('did-finish-load', () => {
       this.mainWindow.show()
       this.mainWindow.focus()
-
-      // // Start the onboarding process.
-      this.startOnboarding()
     })
 
     // When the window is closed, just hide it unless we are force closing.
