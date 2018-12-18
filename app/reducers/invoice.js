@@ -1,12 +1,10 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import db from 'store/db'
-
 import { showNotification } from 'lib/utils/notifications'
 import { btc } from 'lib/utils'
-
 import { fetchBalance } from './balance'
 import { setError } from './error'
+import { walletSelectors } from './wallet'
 
 // ------------------------------------
 // Constants
@@ -101,7 +99,9 @@ export const receiveInvoices = (event, { invoices }) => dispatch => {
 }
 
 // Send IPC event for creating an invoice
-export const createInvoice = (amount, currency, memo) => async dispatch => {
+export const createInvoice = (amount, currency, memo) => async (dispatch, getState) => {
+  const state = getState()
+
   // backend needs value in satoshis no matter what currency we are using
   const value = btc.convert(currency, 'sats', amount)
 
@@ -111,12 +111,11 @@ export const createInvoice = (amount, currency, memo) => async dispatch => {
   // neutrino) we will have to flag private as true when creating this invoice. All light cliets open private channels
   // (both manual and autopilot ones). In order for these clients to receive money through these channels the invoices
   // need to come with routing hints for private channels
-  const activeWallet = await db.settings.get({ key: 'activeWallet' })
-  const wallet = await db.wallets.get({ id: activeWallet.value })
+  const activeWalletSettings = walletSelectors.activeWalletSettings(state)
 
   ipcRenderer.send('lnd', {
     msg: 'createInvoice',
-    data: { value, memo, private: wallet.type === 'local' }
+    data: { value, memo, private: activeWalletSettings.type === 'local' }
   })
 }
 

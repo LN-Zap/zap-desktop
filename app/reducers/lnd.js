@@ -4,7 +4,7 @@ import { showNotification } from 'lib/utils/notifications'
 import db from 'store/db'
 import { fetchBalance } from './balance'
 import { fetchInfo, setHasSynced, infoSelectors } from './info'
-import { putWallet, setActiveWallet } from './wallet'
+import { putWallet, setActiveWallet, walletSelectors } from './wallet'
 import { onboardingFinished, setSeed } from './onboarding'
 
 // ------------------------------------
@@ -295,16 +295,16 @@ export const createNewWallet = () => async (dispatch, getState) => {
 }
 
 export const recoverOldWallet = () => async (dispatch, getState) => {
-  const onboardingState = getState().onboarding
+  const state = getState()
 
   // Define the wallet config.
   let wallet = {
     type: 'local',
     chain: 'bitcoin',
     network: 'testnet',
-    autopilot: onboardingState.autopilot,
-    alias: onboardingState.alias,
-    name: onboardingState.name
+    autopilot: state.onboarding.autopilot,
+    alias: state.onboarding.alias,
+    name: state.onboarding.name
   }
 
   // Save the wallet config.
@@ -316,14 +316,11 @@ export const recoverOldWallet = () => async (dispatch, getState) => {
 }
 
 export const startActiveWallet = () => async (dispatch, getState) => {
-  const state = getState().lnd
-  if (!state.lndStarted && !state.startingLnd) {
-    const activeWallet = await db.settings.get({ key: 'activeWallet' })
-    if (activeWallet) {
-      const wallet = await db.wallets.get({ id: activeWallet.value })
-      if (wallet) {
-        dispatch(startLnd(wallet))
-      }
+  const state = getState()
+  if (!state.lnd.lndStarted && !state.lnd.startingLnd) {
+    const activeWalletSettings = walletSelectors.activeWalletSettings(state)
+    if (activeWalletSettings) {
+      dispatch(startLnd(activeWalletSettings))
     }
   }
 }

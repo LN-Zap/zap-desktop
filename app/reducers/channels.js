@@ -3,9 +3,9 @@ import { ipcRenderer } from 'electron'
 import throttle from 'lodash.throttle'
 import { btc } from 'lib/utils'
 import { requestSuggestedNodes } from 'lib/utils/api'
-import db from 'store/db'
 import { setError } from './error'
 import { fetchBalance } from './balance'
+import { walletSelectors } from './wallet'
 
 // ------------------------------------
 // Constants
@@ -191,12 +191,10 @@ export const openChannel = ({ pubkey, host, local_amt }) => async (dispatch, get
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
-  const activeWallet = await db.settings.get({ key: 'activeWallet' })
-  const wallet = (await db.wallets.get({ id: activeWallet.value })) || {}
-
+  const activeWalletSettings = walletSelectors.activeWalletSettings(state)
   ipcRenderer.send('lnd', {
     msg: 'connectAndOpen',
-    data: { pubkey, host, localamt, private: wallet.type === 'local' }
+    data: { pubkey, host, localamt, private: activeWalletSettings.type === 'local' }
   })
 }
 
