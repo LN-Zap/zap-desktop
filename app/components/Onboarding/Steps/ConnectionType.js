@@ -53,6 +53,7 @@ class ConnectionType extends React.Component {
       wizardApi,
       wizardState,
       connectionType,
+      lndConnect,
       setConnectionType,
       resetOnboarding,
       stopLnd,

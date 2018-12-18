@@ -55,17 +55,36 @@ class SeedView extends React.Component {
     wizardState: {}
   }
 
+  handleSubmit = async values => {
+    const { setSeed } = this.props
+    await setSeed(Object.values(values))
+  }
+
+  setFormApi = formApi => {
+    this.formApi = formApi
+  }
+
   render() {
-    const { wizardApi, wizardState, seed, intl, ...rest } = this.props
+    const { wizardApi, wizardState, seed, setSeed, intl, ...rest } = this.props
     const { getApi, preSubmit, onSubmit, onSubmitFailure } = wizardApi
     const indexes = Array.from(Array(24).keys())
 
     return (
       <Form
         {...rest}
-        getApi={getApi}
+        getApi={formApi => {
+          this.setFormApi(formApi)
+          if (getApi) {
+            getApi(formApi)
+          }
+        }}
         preSubmit={preSubmit}
-        onSubmit={onSubmit}
+        onSubmit={async values => {
+          await this.handleSubmit(values)
+          if (onSubmit) {
+            onSubmit(values)
+          }
+        }}
         onSubmitFailure={onSubmitFailure}
       >
         <Header
