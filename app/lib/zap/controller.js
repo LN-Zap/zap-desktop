@@ -1,5 +1,5 @@
 // @flow
-
+import os from 'os'
 import { app, ipcMain, dialog, BrowserWindow } from 'electron'
 import pick from 'lodash.pick'
 import StateMachine from 'javascript-state-machine'
@@ -109,7 +109,7 @@ class ZapController {
 
     // When the window is closed, just hide it unless we are force closing.
     this.mainWindow.on('close', e => {
-      if (process.platform === 'darwin' && !this.mainWindow.forceClose) {
+      if (os.platform() === 'darwin' && !this.mainWindow.forceClose) {
         e.preventDefault()
         this.mainWindow.hide()
       }
