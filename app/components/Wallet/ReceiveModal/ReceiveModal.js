@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react'
-import Copy from 'components/Icon/Copy'
+import { withTheme } from 'styled-components'
 import { showNotification } from 'lib/utils/notifications'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import { Modal } from 'components/UI'
+import Copy from 'components/Icon/Copy'
 import messages from './messages'
 
 import styles from './ReceiveModal.scss'
@@ -28,7 +29,8 @@ class ReceiveModal extends React.Component {
       closeReceiveModal,
       cryptoName,
       network,
-      intl
+      intl,
+      theme
     } = this.props
     const { qrCodeType } = this.state
 
@@ -67,7 +69,7 @@ class ReceiveModal extends React.Component {
 
     return (
       <Modal onClose={closeReceiveModal}>
-        <div className={styles.container}>
+        <div className={`${styles.container} ${theme.name}`}>
           <div className={styles.content}>
             <section className={styles.left}>
               <header className={styles.header}>
@@ -154,4 +156,4 @@ ReceiveModal.propTypes = {
   closeReceiveModal: PropTypes.func.isRequired
 }
 
-export default injectIntl(ReceiveModal)
+export default withTheme(injectIntl(ReceiveModal))

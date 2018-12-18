@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withTheme } from 'styled-components'
 import PaperPlane from 'components/Icon/PaperPlane'
 import Zap from 'components/Icon/Zap'
 import { Dropdown, Value } from 'components/UI'
@@ -11,10 +12,10 @@ const PaymentModal = ({
   item: payment,
   ticker,
   currentTicker,
-
+  theme,
   toggleCurrencyProps: { currencyName, currencyFilters, setCurrency }
 }) => (
-  <div className={styles.container}>
+  <div className={`${styles.container} ${theme.name}`}>
     <header className={styles.header}>
       <section>
         <PaperPlane />
@@ -73,8 +74,7 @@ PaymentModal.propTypes = {
   item: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
-
   toggleCurrencyProps: PropTypes.object.isRequired
 }
 
-export default PaymentModal
+export default withTheme(PaymentModal)
