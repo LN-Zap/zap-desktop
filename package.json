@@ -231,7 +231,7 @@
     "cross-spawn": "6.0.5",
     "csp-html-webpack-plugin": "2.4.0",
     "css-loader": "2.0.1",
-    "electron-builder": "20.38.2",
+    "electron-builder": "20.38.4",
     "electron-devtools-installer": "2.2.4",
     "electron-updater": "4.0.6",
     "enzyme": "3.8.0",
