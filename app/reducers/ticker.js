@@ -134,10 +134,10 @@ tickerSelectors.currencyFilters = createSelector(
     if (!crypto || !network) {
       return []
     }
-    return currencyFilters[crypto].map(item => {
-      item.name = `${network.unitPrefix}${item.name}`
-      return item
-    })
+    return currencyFilters[crypto].map(item => ({
+      ...item,
+      name: `${network.unitPrefix}${item.name}`
+    }))
   }
 )
 

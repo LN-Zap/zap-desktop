@@ -187,8 +187,10 @@ const ACTION_HANDLERS = {
         if (item.addr !== addr) {
           return item
         }
-        item.status = 'successful'
-        return item
+        return {
+          ...item,
+          status: 'successful'
+        }
       })
     }
   },
@@ -199,9 +201,11 @@ const ACTION_HANDLERS = {
         if (item.addr !== addr) {
           return item
         }
-        item.status = 'failed'
-        item.error = error
-        return item
+        return {
+          ...item,
+          status: 'failed',
+          error
+        }
       })
     }
   },
