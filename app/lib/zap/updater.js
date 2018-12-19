@@ -6,6 +6,14 @@ import { updaterLog } from '../utils/log'
 autoUpdater.logger = updaterLog
 
 /**
+ * Update Channel
+ * supported channels are 'alpha', 'beta' and 'latest'
+ * Refer electron-builder docs
+ */
+autoUpdater.channel = process.env.AUTOUPDATE_CHANNEL || 'beta'
+autoUpdater.allowDowngrade = false
+
+/**
  * @class ZapController
  *
  * The ZapUpdater class manages the electron auto update process.
