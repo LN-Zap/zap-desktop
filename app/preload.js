@@ -74,7 +74,7 @@ async function deleteLocalWallet(chain, network, wallet) {
     throw new Error(`Unknown wallet: (chain: ${chain}, network: ${network}, wallet: ${wallet}`)
   }
 
-  const walletDir = join(remote.app.getPath('userData'), 'lnd', chain, network, wallet)
+  let walletDir = join(remote.app.getPath('userData'), 'lnd', chain, network, wallet)
 
   return new Promise((resolve, reject) => {
     remote.dialog.showMessageBox(
@@ -91,16 +91,21 @@ async function deleteLocalWallet(chain, network, wallet) {
       async (choice, checkboxChecked) => {
         if (choice === 0) {
           if (checkboxChecked) {
-            await fsRimraf(walletDir)
-            return resolve()
+            try {
+              await fsRimraf(walletDir, { disableGlob: true })
+              return resolve()
+            } catch (e) {
+              return reject(new Error(`There was a problem deleting wallet: ${e.message}`))
+            }
           } else {
-            remote.dialog.showErrorBox(
-              'Wallet not deleted',
-              'The wallet was not deleted as you did not select the confirmation checkbox.'
+            return reject(
+              new Error(
+                'The wallet was not deleted as you did not select the confirmation checkbox.'
+              )
             )
           }
         } else {
-          return reject()
+          return reject(new Error('The wallet was not deleted.'))
         }
       }
     )

@@ -55,6 +55,7 @@ class Onboarding extends React.Component {
     setLndconnect: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
+    setSeed: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
     stopLnd: PropTypes.func.isRequired
   }
@@ -98,6 +99,7 @@ class Onboarding extends React.Component {
       setName,
       setUnlockWalletError,
       setPassword,
+      setSeed,
       setLndconnect,
       startLnd,
       validateHost,
@@ -138,7 +140,7 @@ class Onboarding extends React.Component {
       case 'import':
         formSteps = [
           ...formSteps,
-          <Wizard.Step key="Recover" component={Recover} {...{ seed }} />,
+          <Wizard.Step key="Recover" component={Recover} {...{ seed, setSeed }} />,
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,

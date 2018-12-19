@@ -193,40 +193,39 @@ export const unlockWallet = password => async dispatch => {
  * the process of creating or unlocking a wallet.
  */
 export const lndWalletUnlockerStarted = () => (dispatch, getState) => {
-  const state = getState().lnd
-  const onboardingState = getState().onboarding
+  const state = getState()
 
   // Handle generate seed.
-  if (state.fetchingSeed) {
+  if (state.lnd.fetchingSeed) {
     ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
   }
 
   // Handle unlock wallet.
-  else if (state.unlockingWallet) {
+  else if (state.lnd.unlockingWallet) {
     ipcRenderer.send('walletUnlocker', {
       msg: 'unlockWallet',
-      data: { wallet_password: onboardingState.password }
+      data: { wallet_password: state.onboarding.password }
     })
   }
 
   // Handle create wallet.
-  else if (state.creatingNewWallet) {
+  else if (state.lnd.creatingNewWallet) {
     ipcRenderer.send('walletUnlocker', {
       msg: 'initWallet',
       data: {
-        wallet_password: onboardingState.password,
-        cipher_seed_mnemonic: onboardingState.seed
+        wallet_password: state.onboarding.password,
+        cipher_seed_mnemonic: state.onboarding.seed
       }
     })
   }
 
   // Handle recover wallet.
-  else if (state.recoveringOldWallet) {
+  else if (state.lnd.recoveringOldWallet) {
     ipcRenderer.send('walletUnlocker', {
       msg: 'initWallet',
       data: {
-        wallet_password: onboardingState.password,
-        cipher_seed_mnemonic: onboardingState.seed,
+        wallet_password: state.onboarding.password,
+        cipher_seed_mnemonic: state.onboarding.seed,
         recovery_window: 250
       }
     })
@@ -274,16 +273,16 @@ export const fetchSeedError = (event, error) => dispatch => {
 }
 
 export const createNewWallet = () => async (dispatch, getState) => {
-  const onboardingState = getState().onboarding
+  const state = getState()
 
   // Define the wallet config.
   let wallet = {
     type: 'local',
     chain: 'bitcoin',
     network: 'testnet',
-    autopilot: onboardingState.autopilot,
-    alias: onboardingState.alias,
-    name: onboardingState.name
+    autopilot: state.onboarding.autopilot,
+    alias: state.onboarding.alias,
+    name: state.onboarding.name
   }
 
   // Save the wallet config.

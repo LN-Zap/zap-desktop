@@ -34,6 +34,12 @@ export const Wallet = db.wallets.defineClass({
   macaroon: String
 })
 
+Object.defineProperty(Wallet.prototype, 'wallet', {
+  get: function wallet() {
+    return `wallet-${this.id}`
+  }
+})
+
 /**
  * @class Node
  * Node helper class.
