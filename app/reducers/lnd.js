@@ -374,9 +374,9 @@ const ACTION_HANDLERS = {
   [SET_START_LND_ERROR]: (state, { errors }) => ({
     ...state,
     startingLnd: false,
-    startLndHostError: errors.host,
-    startLndCertError: errors.cert,
-    startLndMacaroonError: errors.macaroon
+    startLndHostError: errors ? errors.host : '',
+    startLndCertError: errors ? errors.cert : '',
+    startLndMacaroonError: errors ? errors.macaroon : ''
   }),
 
   [SET_WALLET_UNLOCKER_ACTIVE]: state => ({

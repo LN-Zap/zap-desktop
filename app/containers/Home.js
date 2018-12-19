@@ -1,6 +1,13 @@
 import { connect } from 'react-redux'
 import { setActiveWallet, walletSelectors, deleteWallet } from 'reducers/wallet'
-import { setUnlockWalletError, stopLnd, startLnd, unlockWallet } from 'reducers/lnd'
+import {
+  setUnlockWalletError,
+  stopLnd,
+  startLnd,
+  unlockWallet,
+  setStartLndError
+} from 'reducers/lnd'
+import { setError } from 'reducers/error'
 import { Home } from 'components/Home'
 
 const mapStateToProps = state => ({
@@ -10,6 +17,7 @@ const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   lightningGrpcActive: state.lnd.lightningGrpcActive,
   walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
+  startLndHostError: state.lnd.startLndHostError,
   unlockingWallet: state.lnd.unlockingWallet,
   unlockWalletError: state.lnd.unlockWalletError
 })
@@ -17,10 +25,12 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setActiveWallet,
   setUnlockWalletError,
+  setStartLndError,
   stopLnd,
   startLnd,
   unlockWallet,
-  deleteWallet
+  deleteWallet,
+  setError
 }
 
 export default connect(
