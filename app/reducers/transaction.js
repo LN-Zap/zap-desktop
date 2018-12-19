@@ -59,15 +59,20 @@ export const fetchTransactions = () => dispatch => {
 
 // Receive IPC event for payments
 export const receiveTransactions = (event, { transactions }) => (dispatch, getState) => {
-  dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
-  // If our current wallet address has been used, generate a new one.
   const state = getState()
+
   const currentAddress = state.address.address
   let usedAddresses = []
+
+  // Decorate transactions with additional metadata.
   transactions.forEach(transaction => {
     decorateTransaction(transaction)
+    // If our current wallet address has been used, generate a new one.
     usedAddresses = usedAddresses.concat(transaction.dest_addresses)
   })
+
+  dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
+
   if (usedAddresses.includes(currentAddress)) {
     dispatch(newAddress('np2wkh'))
   }
@@ -182,8 +187,10 @@ const ACTION_HANDLERS = {
         if (item.addr !== addr) {
           return item
         }
-        item.status = 'successful'
-        return item
+        return {
+          ...item,
+          status: 'successful'
+        }
       })
     }
   },
@@ -194,9 +201,11 @@ const ACTION_HANDLERS = {
         if (item.addr !== addr) {
           return item
         }
-        item.status = 'failed'
-        item.error = error
-        return item
+        return {
+          ...item,
+          status: 'failed',
+          error
+        }
       })
     }
   },
