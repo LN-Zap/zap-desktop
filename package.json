@@ -33,7 +33,7 @@
     "prestart": "npm run build",
     "start": "cross-env NODE_ENV=production electron ./app/",
     "start-main-dev": "cross-env HOT=1 NODE_ENV=development electron -r @babel/register ./app/main.dev",
-    "start-renderer-dev": "node --trace-warnings -r @babel/register ./node_modules/.bin/webpack-dev-server --config internals/webpack/webpack.config.renderer.dev.js  --progress",
+    "start-renderer-dev": "webpack-dev-server -r @babel/register --config internals/webpack/webpack.config.renderer.dev.js  --progress",
     "storybook": "start-storybook -p 6006",
     "storybook:build": "build-storybook",
     "storybook:deploy": "npm run storybook:build && gh-pages -t -d storybook-static -o origin -b gh-pages",
