@@ -32,15 +32,12 @@ class WalletSettingsFormLocal extends React.Component {
     }
   }
 
-  preSubmit = values => {
-    if (values.autopilotAllocation) {
-      values.autopilotAllocation = values.autopilotAllocation / 100
-    }
-    return values
-  }
-
   onSubmit = async values => {
     const { startLnd } = this.props
+
+    // Lnd expects the autopilot allocation to be a decimal.
+    values.autopilotAllocation = values.autopilotAllocation / 100
+
     return startLnd(values)
   }
 
@@ -54,7 +51,6 @@ class WalletSettingsFormLocal extends React.Component {
     return (
       <Form
         getApi={this.setFormApi}
-        preSubmit={this.preSubmit}
         onSubmit={this.onSubmit}
         {...rest}
         initialValues={wallet}
