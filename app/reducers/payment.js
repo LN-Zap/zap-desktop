@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import { btc } from 'lib/utils'
+import { convert } from 'lib/utils/btc'
+import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { changeFilter } from './activity'
@@ -71,7 +72,7 @@ export const receivePayments = (event, { payments }) => dispatch => {
 
 export const payInvoice = ({ addr, value, currency, feeLimit }) => dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
-  const amt = btc.convert(currency, 'sats', value)
+  const amt = convert(currency, 'sats', value)
 
   const data = { paymentRequest: addr, feeLimit, amt }
   ipcRenderer.send('lnd', { msg: 'sendPayment', data })
@@ -116,7 +117,7 @@ export const paymentFailed = (event, { paymentRequest, error }) => async (dispat
   await delay(2000 - (Date.now() - timestamp * 1000))
 
   // Mark the payment as failed.
-  dispatch({ type: PAYMENT_FAILED, paymentRequest, error })
+  dispatch({ type: PAYMENT_FAILED, paymentRequest, error: errorToUserFriendly(error) })
 }
 
 // ------------------------------------

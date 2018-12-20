@@ -1,6 +1,7 @@
 import { ipcRenderer } from 'electron'
 import { showNotification } from 'lib/utils/notifications'
-import { btc } from 'lib/utils'
+import { convert } from 'lib/utils/btc'
+import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
@@ -82,7 +83,7 @@ export const receiveTransactions = (event, { transactions }) => (dispatch, getSt
 
 export const sendCoins = ({ value, addr, currency, targetConf, satPerByte }) => dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
-  const amount = btc.convert(currency, 'sats', value)
+  const amount = convert(currency, 'sats', value)
 
   // submit the transaction to LND
   const data = { amount, addr, target_conf: targetConf, sat_per_byte: satPerByte }
@@ -124,7 +125,7 @@ export const transactionFailed = (event, { addr, error }) => async (dispatch, ge
   await delay(2000 - (Date.now() - timestamp * 1000))
 
   // Mark the payment as failed.
-  dispatch({ type: TRANSACTION_FAILED, addr, error })
+  dispatch({ type: TRANSACTION_FAILED, addr, error: errorToUserFriendly(error) })
 }
 
 // Listener for when a new transaction is pushed from the subscriber

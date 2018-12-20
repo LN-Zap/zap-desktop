@@ -4,6 +4,11 @@ const userFriendlyErrors = {
  Their public key may have changed or the server may no longer be responding."
 }
 
-const errorToUserFriendly = error => userFriendlyErrors[error] || error
+const errorToUserFriendly = (error = '') => {
+  const errorString = userFriendlyErrors[error] || error || ''
+
+  // ucfirst.
+  return errorString.charAt(0).toUpperCase() + errorString.slice(1)
+}
 
 export default errorToUserFriendly
