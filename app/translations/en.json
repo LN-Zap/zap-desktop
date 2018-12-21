@@ -139,7 +139,7 @@
   "components.Onboarding.Steps.create_wallet_password_title": "Welcome!",
   "components.Onboarding.Steps.custom": "Custom",
   "components.Onboarding.Steps.default": "Default",
-  "components.Onboarding.Steps.default_description": "By selecting the defualt mode we will do everything for you. Just click and go!",
+  "components.Onboarding.Steps.default_description": "By selecting the default mode we will do everything for you. Just click and go!",
   "components.Onboarding.Steps.disable": "Disable Autopilot",
   "components.Onboarding.Steps.enable": "Enable Autopilot",
   "components.Onboarding.Steps.generating_seed": "Generating Seed...",
