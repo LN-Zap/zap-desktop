@@ -32,7 +32,7 @@ export default defineMessages({
   custom: 'Custom',
   default: 'Default',
   default_description:
-    'By selecting the defualt mode we will do everything for you. Just click and go!',
+    'By selecting the default mode we will do everything for you. Just click and go!',
   disable: 'Disable Autopilot',
   enable: 'Enable Autopilot',
   help: 'Need Help?',
