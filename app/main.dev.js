@@ -23,6 +23,107 @@ import ZapUpdater from './lib/zap/updater'
 import themes from './themes'
 import { getDbName } from './store/db'
 
+/**
+ * Handler for open-link events.
+ */
+const handleOpenUrl = (protocolUrl = '') => {
+  mainLog.debug('open-url: %s', protocolUrl)
+  const type = protocolUrl.split(':')[0]
+
+  switch (type) {
+    case 'lightning':
+      handleLightningLink(protocolUrl)
+      break
+
+    case 'lndconnect':
+      handleLndconnectLink(protocolUrl)
+  }
+}
+
+/**
+ * Handler for lightning: links
+ */
+const handleLightningLink = input => {
+  const payReq = input.split(':')[1]
+  zap.sendMessage('lightningPaymentUri', { payReq })
+  mainWindow.show()
+}
+
+/**
+ * Handler for lndconnect: links
+ */
+const handleLndconnectLink = input => {
+  const parsedUrl = url.parse(input)
+  const { host, cert, macaroon } = querystring.parse(parsedUrl.query)
+  zap.sendMessage('lndconnectUri', { host, cert, macaroon })
+  mainWindow.show()
+}
+
+/**
+ * Fetch user settings from indexedDb.
+ * We do this by starting up a new browser window and accessing indexedDb from within it.
+ */
+const fetchSettings = () => {
+  const win = new BrowserWindow({ show: false, focusable: false })
+  if (process.env.HOT) {
+    const port = process.env.PORT || 1212
+    win.loadURL(`http://localhost:${port}/dist/empty.html`)
+  } else {
+    win.loadURL(`file://${__dirname}/dist/empty.html`)
+  }
+
+  // Once we have fetched (or failed to fetch) the user settings, destroy the window.
+  win.on('load-settings-done', () => process.nextTick(() => win.destroy()))
+
+  const dbName = getDbName()
+  mainLog.debug(`Fetching user settings from indexedDb (using database "%s")`, dbName)
+
+  return win.webContents
+    .executeJavaScript(
+      `
+      new Promise((resolve, reject) => {
+        var DBOpenRequest = window.indexedDB.open('${dbName}')
+        DBOpenRequest.onupgradeneeded = function(event) {
+          event.target.transaction.abort()
+          return reject(new Error('Database does not exist'))
+        }
+        DBOpenRequest.onerror = function() {
+          return reject(new Error('Error loading database'))
+        }
+        DBOpenRequest.onsuccess = function() {
+          const db = DBOpenRequest.result
+          var transaction = db.transaction(['settings'], 'readwrite')
+          transaction.onerror = function() {
+            return reject(transaction.error)
+          }
+          var objectStore = transaction.objectStore('settings')
+          var objectStoreRequest = objectStore.getAll()
+          objectStoreRequest.onsuccess = function() {
+            return resolve(objectStoreRequest.result)
+          }
+        }
+      })
+    `
+    )
+    .then(res => {
+      mainLog.debug('Got user settings: %o', res)
+      win.emit('load-settings-done')
+      return res
+    })
+    .catch(err => {
+      win.emit('load-settings-done')
+      throw err
+    })
+}
+
+/**
+ * Helper method to fetch a a settings property value.'
+ */
+const getSetting = (store, key) => {
+  const setting = store.find(s => s.key === key)
+  return setting && setting.hasOwnProperty('value') ? setting.value : null
+}
+
 // Set up a couple of timers to track the app startup progress.
 mainLog.time('Time until app is ready')
 
@@ -170,6 +271,11 @@ app.on('activate', () => {
   mainWindow.show()
 })
 
+app.on('open-url', (event, protocolUrl) => {
+  event.preventDefault()
+  handleOpenUrl(protocolUrl)
+})
+
 /**
  * Someone tried to run a second instance, we should focus our window.
  */
@@ -200,104 +306,3 @@ app.on('second-instance', (event, commandLine) => {
  */
 app.setAsDefaultProtocolClient('lightning')
 app.setAsDefaultProtocolClient('lndconnect')
-
-/**
- * Handler for open-link events.
- */
-const handleOpenUrl = (input = '') => {
-  mainLog.debug('open-url: %s', input)
-  const type = input.split(':')[0]
-
-  switch (type) {
-    case 'lightning':
-      handleLightningLink(input)
-      break
-
-    case 'lndconnect':
-      handleLndconnectLink(input)
-  }
-}
-
-/**
- * Handler for lightning: links
- */
-const handleLightningLink = input => {
-  const payReq = input.split(':')[1]
-  zap.sendMessage('lightningPaymentUri', { payReq })
-  mainWindow.show()
-}
-
-/**
- * Handler for lndconnect: links
- */
-const handleLndconnectLink = input => {
-  const parsedUrl = url.parse(input)
-  const { host, cert, macaroon } = querystring.parse(parsedUrl.query)
-  zap.sendMessage('lndconnectUri', { host, cert, macaroon })
-  mainWindow.show()
-}
-
-/**
- * Fetch user settings from indexedDb.
- * We do this by starting up a new browser window and accessing indexedDb from within it.
- */
-const fetchSettings = () => {
-  const win = new BrowserWindow({ show: false, focusable: false })
-  if (process.env.HOT) {
-    const port = process.env.PORT || 1212
-    win.loadURL(`http://localhost:${port}/dist/empty.html`)
-  } else {
-    win.loadURL(`file://${__dirname}/dist/empty.html`)
-  }
-
-  // Once we have fetched (or failed to fetch) the user settings, destroy the window.
-  win.on('load-settings-done', () => process.nextTick(() => win.destroy()))
-
-  const dbName = getDbName()
-  mainLog.debug(`Fetching user settings from indexedDb (using database "%s")`, dbName)
-
-  return win.webContents
-    .executeJavaScript(
-      `
-      new Promise((resolve, reject) => {
-        var DBOpenRequest = window.indexedDB.open('${dbName}')
-        DBOpenRequest.onupgradeneeded = function(event) {
-          event.target.transaction.abort()
-          return reject(new Error('Database does not exist'))
-        }
-        DBOpenRequest.onerror = function() {
-          return reject(new Error('Error loading database'))
-        }
-        DBOpenRequest.onsuccess = function() {
-          const db = DBOpenRequest.result
-          var transaction = db.transaction(['settings'], 'readwrite')
-          transaction.onerror = function() {
-            return reject(transaction.error)
-          }
-          var objectStore = transaction.objectStore('settings')
-          var objectStoreRequest = objectStore.getAll()
-          objectStoreRequest.onsuccess = function() {
-            return resolve(objectStoreRequest.result)
-          }
-        }
-      })
-    `
-    )
-    .then(res => {
-      mainLog.debug('Got user settings: %o', res)
-      win.emit('load-settings-done')
-      return res
-    })
-    .catch(err => {
-      win.emit('load-settings-done')
-      throw err
-    })
-}
-
-/**
- * Helper method to fetch a a settings property value.'
- */
-const getSetting = (store, key) => {
-  const setting = store.find(s => s.key === key)
-  return setting && setting.hasOwnProperty('value') ? setting.value : null
-}
