@@ -276,6 +276,12 @@ app.on('open-url', (event, protocolUrl) => {
   handleOpenUrl(protocolUrl)
 })
 
+app.on('window-all-closed', () => {
+  if (os.platform() !== 'darwin') {
+    app.quit()
+  }
+})
+
 /**
  * Someone tried to run a second instance, we should focus our window.
  */
