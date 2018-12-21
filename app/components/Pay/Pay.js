@@ -637,7 +637,7 @@ class Pay extends React.Component {
           const showBack = currentStep !== 'address'
           const showSubmit = currentStep !== 'address' || (isOnchain || isLn)
 
-          let amountInSatoshis = formState.values.amountCrypto
+          let amountInSatoshis = convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
           if (isLn) {
             amountInSatoshis =
               invoice.satoshis || convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
