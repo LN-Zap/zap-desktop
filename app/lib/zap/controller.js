@@ -1,5 +1,4 @@
 // @flow
-import os from 'os'
 import { app, ipcMain, dialog, BrowserWindow } from 'electron'
 import pick from 'lodash.pick'
 import StateMachine from 'javascript-state-machine'
@@ -105,20 +104,6 @@ class ZapController {
     this.mainWindow.webContents.on('did-finish-load', () => {
       this.mainWindow.show()
       this.mainWindow.focus()
-    })
-
-    // When the window is closed, just hide it unless we are force closing.
-    this.mainWindow.on('close', e => {
-      if (os.platform() === 'darwin' && !this.mainWindow.forceClose) {
-        e.preventDefault()
-        this.mainWindow.hide()
-      }
-    })
-
-    // Dereference the window object, usually you would store windows in an array if your app supports multi windows,
-    // this is the time when you should delete the corresponding element.
-    this.mainWindow.on('closed', () => {
-      this.mainWindow = null
     })
   }
 
@@ -257,6 +242,7 @@ class ZapController {
         this.walletUnlocker.disconnect()
       }
     }
+
     // If we are comming from a running state, stop the Neutrino process.
     else if (lifecycle.from === 'running') {
       await this.shutdownNeutrino()
@@ -437,11 +423,13 @@ class ZapController {
       }
       this.neutrino.once('exit', exitHandler)
 
-      // The Lightning service is only active once the wallet has been unlocked and a gRPC connection has been made.
-      // If it is active, disconnect from it before we terminate neutrino.
       if (this.lightning && this.lightning.can('terminate')) {
         await this.lightning.disconnect()
       }
+      if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
+        await this.walletUnlocker.disconnect()
+      }
+
       // Kill the Neutrino process (sends SIGINT to Neutrino process)
       this.neutrino.kill()
     }).then(() => mainLog.info('Neutrino shutdown complete'))
