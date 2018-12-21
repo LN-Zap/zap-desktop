@@ -17,6 +17,24 @@ db.version(1).stores({
   nodes: 'id'
 })
 
+// Set initial active wallet.
+db.on('populate', async function() {
+  // If there are already some bitcoin testnet wallet before the database has been created, import them into the
+  // database and set the active wallet as wallet 1. This is for users upgrading from versions prior to 0.3.0.
+  const fsWallets = await window.Zap.getLocalWallets('bitcoin', 'testnet')
+  if (fsWallets.length > 0) {
+    await fsWallets.filter(wallet => wallet !== 'wallet-tmp').forEach(async wallet => {
+      await db.wallets.add({
+        type: 'local',
+        chain: 'bitcoin',
+        network: 'testnet',
+        wallet
+      })
+    })
+    await db.settings.add({ key: 'activeWallet', value: 1 })
+  }
+})
+
 /**
  * @class Wallet
  * Wallet helper class.
