@@ -154,6 +154,7 @@ class ZapController {
       if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
         this.walletUnlocker.disconnect()
       }
+      this.sendMessage('lndStopped')
     }
 
     // If we are comming from a running state, stop the Neutrino process.
