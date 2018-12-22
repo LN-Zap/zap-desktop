@@ -146,6 +146,7 @@ if (!singleInstanceLock) {
  * Initialize Zap as soon as electron is ready.
  */
 app.on('ready', async () => {
+  mainLog.trace('app.ready')
   mainLog.timeEnd('Time until app is ready')
 
   // Get the users preference so that we can:
@@ -194,6 +195,7 @@ app.on('ready', async () => {
 
   // When the window is closed, just hide it unless we are force closing.
   mainWindow.on('close', event => {
+    mainLog.trace('mainWindow.close')
     if (os.platform() === 'darwin' && !mainWindow.forceClose) {
       event.preventDefault()
       mainWindow.hide()
@@ -202,6 +204,7 @@ app.on('ready', async () => {
 
   // Dereference the window object.
   mainWindow.on('closed', () => {
+    mainLog.trace('mainWindow.closed')
     mainWindow = null
     updater.mainWindow = null
     zap.mainWindow = null
@@ -254,6 +257,7 @@ app.on('ready', async () => {
  *  - Stop gRPC and kill lnd process before the app windows are closed and the app quits.
  */
 app.on('before-quit', event => {
+  mainLog.trace('app.before-quit')
   if (!zap.is('terminated')) {
     event.preventDefault()
     zap.terminate()
@@ -264,19 +268,30 @@ app.on('before-quit', event => {
   }
 })
 
+app.on('will-quit', () => {
+  mainLog.trace('app.will-quit')
+})
+
+app.on('quit', () => {
+  mainLog.trace('app.quit')
+})
+
 /**
  * On OS X it's common to re-open a window in the app when the dock icon is clicked.
  */
 app.on('activate', () => {
+  mainLog.trace('app.activate')
   mainWindow.show()
 })
 
 app.on('open-url', (event, protocolUrl) => {
+  mainLog.trace('app.open-url')
   event.preventDefault()
   handleOpenUrl(protocolUrl)
 })
 
 app.on('window-all-closed', () => {
+  mainLog.trace('app.window-all-closed')
   if (os.platform() !== 'darwin') {
     app.quit()
   }
@@ -286,6 +301,7 @@ app.on('window-all-closed', () => {
  * Someone tried to run a second instance, we should focus our window.
  */
 app.on('second-instance', (event, commandLine) => {
+  mainLog.trace('app.second-instance')
   if (os.platform !== 'darwin') {
     const protocolUrl = commandLine && commandLine.slice(1)[0]
     if (protocolUrl) {
