@@ -292,7 +292,7 @@ app.on('open-url', (event, protocolUrl) => {
 
 app.on('window-all-closed', () => {
   mainLog.trace('app.window-all-closed')
-  if (os.platform() !== 'darwin') {
+  if (os.platform() !== 'darwin' || mainWindow.forceClose) {
     app.quit()
   }
 })
