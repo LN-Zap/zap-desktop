@@ -65,7 +65,6 @@ class ZapController {
    */
   constructor(mainWindow: BrowserWindow) {
     this.fsm = new StateMachine({
-      init: 'onboarding',
       transitions: [
         { name: 'startOnboarding', from: '*', to: 'onboarding' },
         { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
@@ -100,10 +99,13 @@ class ZapController {
       this.mainWindow.loadURL(`file://${__dirname}/dist/index.html`)
     }
 
-    // Show the window as soon as the application has finished loading.
     this.mainWindow.webContents.on('did-finish-load', () => {
+      // Show the window as soon as the application has finished loading.
       this.mainWindow.show()
       this.mainWindow.focus()
+
+      // Start the onboarding process.
+      this.startOnboarding()
     })
   }
 

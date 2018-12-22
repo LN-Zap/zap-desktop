@@ -7,6 +7,7 @@ import { setError } from './error'
 // Constants
 // ------------------------------------
 export const SET_WALLETS = 'SET_WALLETS'
+export const SET_WALLETS_LOADED = 'SET_WALLETS_LOADED'
 export const SET_ACTIVE_WALLET = 'SET_ACTIVE_WALLET'
 export const SET_IS_WALLET_OPEN = 'SET_IS_WALLET_OPEN'
 export const DELETE_WALLET = 'DELETE_WALLET'
@@ -22,6 +23,12 @@ export function setWallets(wallets) {
   return {
     type: SET_WALLETS,
     wallets
+  }
+}
+
+export function setWalletsLoaded() {
+  return {
+    type: SET_WALLETS_LOADED
   }
 }
 
@@ -108,12 +115,13 @@ export const initWallets = () => async dispatch => {
 
   dispatch(setIsWalletOpen(isWalletOpen))
   dispatch(setActiveWallet(activeWallet))
+  dispatch(setWalletsLoaded(true))
 
   // Fetch wallets from the filesystem.
   const supportedChains = ['bitcoin']
   const supportedNetworks = ['testnet', 'mainnet']
 
-  // Create wallet entry in the datanbase if one doesn't exist already.
+  // Create wallet entry in the database if one doesn't exist already.
   supportedChains.forEach(chain => {
     return supportedNetworks.forEach(async network => {
       const fsWallets = await window.Zap.getLocalWallets(chain, network)
@@ -149,6 +157,7 @@ export const initWallets = () => async dispatch => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_WALLETS]: (state, { wallets }) => ({ ...state, wallets }),
+  [SET_WALLETS_LOADED]: state => ({ ...state, isWalletsLoaded: true }),
   [SET_ACTIVE_WALLET]: (state, { activeWallet }) => ({ ...state, activeWallet }),
   [SET_IS_WALLET_OPEN]: (state, { isWalletOpen }) => ({ ...state, isWalletOpen })
 }
@@ -177,8 +186,9 @@ export { walletSelectors }
 // ------------------------------------
 
 const initialState = {
+  isWalletsLoaded: false,
   isWalletOpen: false,
-  activeWallet: undefined,
+  activeWallet: null,
   wallets: []
 }
 
