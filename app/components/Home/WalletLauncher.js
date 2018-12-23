@@ -24,8 +24,14 @@ class WalletLauncher extends React.Component {
   }
 
   componentDidMount() {
-    const { stopLnd } = this.props
+    const { stopLnd, startLndHostError, setError, setStartLndError } = this.props
     stopLnd()
+
+    // If the wallet unlocker became active, switch to the login screen
+    if (startLndHostError) {
+      setError(startLndHostError)
+      setStartLndError(null)
+    }
   }
 
   /**
