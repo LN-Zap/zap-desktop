@@ -20,6 +20,7 @@ class Initializer extends React.Component {
     isWalletOpen: PropTypes.bool.isRequired,
     lightningGrpcActive: PropTypes.bool.isRequired,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
+    startLndHostError: PropTypes.string.isRequired,
     startActiveWallet: PropTypes.func.isRequired,
     fetchSuggestedNodes: PropTypes.func.isRequired,
     fetchTicker: PropTypes.func.isRequired,
@@ -51,6 +52,7 @@ class Initializer extends React.Component {
       history,
       isWalletOpen,
       lightningGrpcActive,
+      startLndHostError,
       walletUnlockerGrpcActive,
       startActiveWallet
     } = this.props
@@ -69,7 +71,12 @@ class Initializer extends React.Component {
       return hasWallets ? history.push('/home') : history.push('/onboarding')
     }
 
-    // If the wallet unlocker became active, switch to the login screen
+    // If there wad a problem starting lnd, swich to the wallet launcher.
+    if (startLndHostError && !prevProps.startLndHostError) {
+      return history.push(`/home/wallet/${activeWallet}`)
+    }
+
+    // If the wallet unlocker became active, switch to the login screen.
     if (walletUnlockerGrpcActive && !prevProps.walletUnlockerGrpcActive) {
       return history.push(`/home/wallet/${activeWallet}/unlock`)
     }
@@ -96,6 +103,7 @@ const mapStateToProps = state => ({
   hasWallets: walletSelectors.hasWallets(state),
   lightningGrpcActive: state.lnd.lightningGrpcActive,
   walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
+  startLndHostError: state.lnd.startLndHostError,
   isWalletOpen: state.wallet.isWalletOpen
 })
 
