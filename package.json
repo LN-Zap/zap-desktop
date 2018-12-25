@@ -230,7 +230,7 @@
     "cross-env": "5.2.0",
     "cross-spawn": "6.0.5",
     "csp-html-webpack-plugin": "2.5.0",
-    "css-loader": "2.0.2",
+    "css-loader": "2.1.0",
     "electron-builder": "20.38.2",
     "electron-devtools-installer": "2.2.4",
     "electron-updater": "4.0.6",
