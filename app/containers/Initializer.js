@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { withRouter } from 'react-router'
+import { appSelectors } from 'reducers/app'
 import { startActiveWallet } from 'reducers/lnd'
 import { initCurrency, initLocale } from 'reducers/locale'
 import { initWallets, walletSelectors } from 'reducers/wallet'
@@ -18,6 +19,7 @@ class Initializer extends React.Component {
     activeWalletSettings: PropTypes.object,
     hasWallets: PropTypes.bool.isRequired,
     isWalletOpen: PropTypes.bool.isRequired,
+    isReady: PropTypes.bool.isRequired,
     lightningGrpcActive: PropTypes.bool.isRequired,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
     startLndHostError: PropTypes.string.isRequired,
@@ -48,17 +50,18 @@ class Initializer extends React.Component {
     const {
       activeWallet,
       activeWalletSettings,
+      isReady,
+      isWalletOpen,
       hasWallets,
       history,
-      isWalletOpen,
       lightningGrpcActive,
       startLndHostError,
       walletUnlockerGrpcActive,
       startActiveWallet
     } = this.props
 
-    // If we have just determined that the user has an active wallet, attempt to start it.
-    if (typeof activeWallet !== 'undefined' && activeWallet !== prevProps.activeWallet) {
+    // If the app has just become ready, redirect the user to the most relevant location.
+    if (isReady && !prevProps.isReady) {
       if (activeWalletSettings) {
         if (isWalletOpen) {
           return startActiveWallet()
@@ -66,6 +69,7 @@ class Initializer extends React.Component {
           return history.push(`/home/wallet/${activeWallet}`)
         }
       }
+
       // If we have an at least one wallet send the user to the homepage.
       // Otherwise send them to the onboarding processes.
       return hasWallets ? history.push('/home') : history.push('/onboarding')
@@ -104,7 +108,8 @@ const mapStateToProps = state => ({
   lightningGrpcActive: state.lnd.lightningGrpcActive,
   walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
   startLndHostError: state.lnd.startLndHostError,
-  isWalletOpen: state.wallet.isWalletOpen
+  isWalletOpen: state.wallet.isWalletOpen,
+  isReady: appSelectors.isReady(state)
 })
 
 const mapDispatchToProps = {

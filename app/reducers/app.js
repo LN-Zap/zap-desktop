@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -51,6 +53,15 @@ const ACTION_HANDLERS = {
 const appSelectors = {}
 appSelectors.isLoading = state => state.app.isLoading
 appSelectors.isMounted = state => state.app.isMounted
+appSelectors.onboarding = state => state.onboarding.onboarding
+appSelectors.isWalletsLoaded = state => state.wallet.isWalletsLoaded
+appSelectors.isReady = createSelector(
+  appSelectors.onboarding,
+  appSelectors.isWalletsLoaded,
+  (onboarding, isWalletsLoaded) => {
+    return Boolean(onboarding && isWalletsLoaded)
+  }
+)
 
 export { appSelectors }
 
