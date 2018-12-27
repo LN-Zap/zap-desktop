@@ -79,17 +79,16 @@ const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
   return (
     <React.Fragment>
       <TextArea {...rest} />
-      {value &&
-        !fieldState.error && (
-          <Message variant="success" mt={2}>
-            <FormattedMessage
-              {...messages.valid_request}
-              values={{
-                chain: chainName
-              }}
-            />
-          </Message>
-        )}
+      {value && !fieldState.error && (
+        <Message variant="success" mt={2}>
+          <FormattedMessage
+            {...messages.valid_request}
+            values={{
+              chain: chainName
+            }}
+          />
+        </Message>
+      )}
     </React.Fragment>
   )
 })

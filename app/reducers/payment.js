@@ -172,7 +172,10 @@ const modalPaymentSelector = state => state.payment.payment
 
 const paymentSelectors = {}
 
-paymentSelectors.paymentModalOpen = createSelector(modalPaymentSelector, payment => !!payment)
+paymentSelectors.paymentModalOpen = createSelector(
+  modalPaymentSelector,
+  payment => !!payment
+)
 
 export { paymentSelectors }
 

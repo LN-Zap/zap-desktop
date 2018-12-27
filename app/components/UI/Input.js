@@ -184,12 +184,11 @@ class Input extends React.Component {
             {description}
           </Text>
         )}
-        {showMessage &&
-          (fieldState.error || fieldState.asyncError) && (
-            <Message variant={hasFocus ? 'warning' : 'error'} mt={1}>
-              {fieldState.error || fieldState.asyncError}
-            </Message>
-          )}
+        {showMessage && (fieldState.error || fieldState.asyncError) && (
+          <Message variant={hasFocus ? 'warning' : 'error'} mt={1}>
+            {fieldState.error || fieldState.asyncError}
+          </Message>
+        )}
       </Flex>
     )
   }

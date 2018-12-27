@@ -267,34 +267,42 @@ const currentRouteSelector = state => state.network.currentRoute
 //   }
 // )
 
-networkSelectors.selectedPeerPubkeys = createSelector(selectedPeersSelector, peers =>
-  peers.map(peer => peer.pub_key)
+networkSelectors.selectedPeerPubkeys = createSelector(
+  selectedPeersSelector,
+  peers => peers.map(peer => peer.pub_key)
 )
 
-networkSelectors.selectedChannelIds = createSelector(selectedChannelsSelector, channels =>
-  channels.map(channel => channel.chan_id)
+networkSelectors.selectedChannelIds = createSelector(
+  selectedChannelsSelector,
+  channels => channels.map(channel => channel.chan_id)
 )
 
-networkSelectors.payReqIsLn = createSelector(payReqSelector, input => {
-  if (!input.startsWith('ln')) {
-    return false
-  }
+networkSelectors.payReqIsLn = createSelector(
+  payReqSelector,
+  input => {
+    if (!input.startsWith('ln')) {
+      return false
+    }
 
-  try {
-    bech32.decode(input)
-    return true
-  } catch (e) {
-    return false
+    try {
+      bech32.decode(input)
+      return true
+    } catch (e) {
+      return false
+    }
   }
-})
+)
 
-networkSelectors.currentRouteChanIds = createSelector(currentRouteSelector, route => {
-  if (!route.hops || !route.hops.length) {
-    return []
+networkSelectors.currentRouteChanIds = createSelector(
+  currentRouteSelector,
+  route => {
+    if (!route.hops || !route.hops.length) {
+      return []
+    }
+
+    return route.hops.map(hop => hop.chan_id)
   }
-
-  return route.hops.map(hop => hop.chan_id)
-})
+)
 
 export { networkSelectors }
 

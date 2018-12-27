@@ -430,22 +430,29 @@ const channelMatchesQuery = (channel, nodes, searchQuery) => {
   )
 }
 
-channelsSelectors.channelModalOpen = createSelector(channelSelector, channel => !!channel)
-
-channelsSelectors.activeChannels = createSelector(channelsSelector, openChannels =>
-  openChannels.filter(channel => channel.active)
+channelsSelectors.channelModalOpen = createSelector(
+  channelSelector,
+  channel => !!channel
 )
 
-channelsSelectors.activeChannelPubkeys = createSelector(channelsSelector, openChannels =>
-  openChannels.filter(channel => channel.active).map(c => c.remote_pubkey)
+channelsSelectors.activeChannels = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => channel.active)
 )
 
-channelsSelectors.nonActiveChannels = createSelector(channelsSelector, openChannels =>
-  openChannels.filter(channel => !channel.active)
+channelsSelectors.activeChannelPubkeys = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => channel.active).map(c => c.remote_pubkey)
 )
 
-channelsSelectors.nonActiveChannelPubkeys = createSelector(channelsSelector, openChannels =>
-  openChannels.filter(channel => !channel.active).map(c => c.remote_pubkey)
+channelsSelectors.nonActiveChannels = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => !channel.active)
+)
+
+channelsSelectors.nonActiveChannelPubkeys = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => !channel.active).map(c => c.remote_pubkey)
 )
 
 channelsSelectors.pendingOpenChannels = pendingOpenChannelsSelector
@@ -467,8 +474,9 @@ channelsSelectors.closingPendingChannels = createSelector(
   ]
 )
 
-channelsSelectors.activeChanIds = createSelector(channelsSelector, channels =>
-  channels.map(channel => channel.chan_id)
+channelsSelectors.activeChanIds = createSelector(
+  channelsSelector,
+  channels => channels.map(channel => channel.chan_id)
 )
 
 channelsSelectors.channelNodes = createSelector(

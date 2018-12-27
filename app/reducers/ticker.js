@@ -124,7 +124,10 @@ tickerSelectors.currentTicker = createSelector(
   }
 )
 
-tickerSelectors.cryptoName = createSelector(cryptoSelector, crypto => cryptoNames[crypto])
+tickerSelectors.cryptoName = createSelector(
+  cryptoSelector,
+  crypto => cryptoNames[crypto]
+)
 
 tickerSelectors.currencyFilters = createSelector(
   cryptoSelector,

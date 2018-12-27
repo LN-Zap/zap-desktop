@@ -145,22 +145,20 @@ class Syncing extends Component {
         </Panel.Header>
 
         <Panel.Body width={9 / 16} mx="auto" mb={3}>
-          {hasSynced === false &&
-            address &&
-            address.length && (
-              <Flex
-                alignItems="center"
-                flexDirection="column"
-                justifyContent="center"
-                css={{ height: '100%' }}
-              >
-                <QRCode value={address} mx="auto" />
-                <Text my={3}>{address}</Text>
-                <Button size="small" onClick={() => copyToClipboard(address)} mx="auto">
-                  <FormattedMessage {...messages.copy_address} />
-                </Button>
-              </Flex>
-            )}
+          {hasSynced === false && address && address.length && (
+            <Flex
+              alignItems="center"
+              flexDirection="column"
+              justifyContent="center"
+              css={{ height: '100%' }}
+            >
+              <QRCode value={address} mx="auto" />
+              <Text my={3}>{address}</Text>
+              <Button size="small" onClick={() => copyToClipboard(address)} mx="auto">
+                <FormattedMessage {...messages.copy_address} />
+              </Button>
+            </Flex>
+          )}
           {hasSynced && (
             <Flex
               alignItems="center"

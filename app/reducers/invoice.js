@@ -200,7 +200,10 @@ const invoiceSelector = state => state.invoice.invoice
 const invoicesSelector = state => state.invoice.invoices
 const invoicesSearchTextSelector = state => state.invoice.invoicesSearchText
 
-invoiceSelectors.invoiceModalOpen = createSelector(invoiceSelector, invoice => !!invoice)
+invoiceSelectors.invoiceModalOpen = createSelector(
+  invoiceSelector,
+  invoice => !!invoice
+)
 
 invoiceSelectors.invoices = createSelector(
   invoicesSelector,

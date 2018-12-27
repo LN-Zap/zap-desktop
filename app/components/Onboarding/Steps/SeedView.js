@@ -69,36 +69,35 @@ class SeedView extends React.Component {
             <FormattedMessage {...messages.generating_seed} />
           </Text>
         )}
-        {!fetchingSeed &&
-          seed.length > 0 && (
-            <>
-              <Flex justifyContent="space-between" mb={3}>
-                <Flex flexDirection="column" as="ul">
-                  {seed.slice(0, 6).map((word, index) => (
-                    <SeedWord key={index} index={index + 1} word={word} />
-                  ))}
-                </Flex>
-                <Flex flexDirection="column" as="ul">
-                  {seed.slice(6, 12).map((word, index) => (
-                    <SeedWord key={index} index={index + 7} word={word} />
-                  ))}
-                </Flex>
-                <Flex flexDirection="column" as="ul">
-                  {seed.slice(12, 18).map((word, index) => (
-                    <SeedWord key={index} index={index + 13} word={word} />
-                  ))}
-                </Flex>
-                <Flex flexDirection="column" as="ul">
-                  {seed.slice(18, 24).map((word, index) => (
-                    <SeedWord key={index} index={index + 19} word={word} />
-                  ))}
-                </Flex>
+        {!fetchingSeed && seed.length > 0 && (
+          <>
+            <Flex justifyContent="space-between" mb={3}>
+              <Flex flexDirection="column" as="ul">
+                {seed.slice(0, 6).map((word, index) => (
+                  <SeedWord key={index} index={index + 1} word={word} />
+                ))}
               </Flex>
-              <Message variant="warning" justifyContent="center">
-                <FormattedMessage {...messages.seed_warning} />
-              </Message>
-            </>
-          )}
+              <Flex flexDirection="column" as="ul">
+                {seed.slice(6, 12).map((word, index) => (
+                  <SeedWord key={index} index={index + 7} word={word} />
+                ))}
+              </Flex>
+              <Flex flexDirection="column" as="ul">
+                {seed.slice(12, 18).map((word, index) => (
+                  <SeedWord key={index} index={index + 13} word={word} />
+                ))}
+              </Flex>
+              <Flex flexDirection="column" as="ul">
+                {seed.slice(18, 24).map((word, index) => (
+                  <SeedWord key={index} index={index + 19} word={word} />
+                ))}
+              </Flex>
+            </Flex>
+            <Message variant="warning" justifyContent="center">
+              <FormattedMessage {...messages.seed_warning} />
+            </Message>
+          </>
+        )}
       </Form>
     )
   }
