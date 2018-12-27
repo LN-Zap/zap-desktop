@@ -273,10 +273,9 @@ class Activity extends Component {
           </Box>
         </Panel.Body>
 
-        {showExpiredToggle &&
-          currentActivity.length > 0 && (
-            <Panel.Footer py={2}>{this.renderFooterControls()}</Panel.Footer>
-          )}
+        {showExpiredToggle && currentActivity.length > 0 && (
+          <Panel.Footer py={2}>{this.renderFooterControls()}</Panel.Footer>
+        )}
       </Panel>
     )
   }

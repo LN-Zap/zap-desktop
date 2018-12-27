@@ -118,39 +118,45 @@ const invoiceExpired = invoice => {
 /**
  * Map sending payments to something that looks like normal payments.
  */
-const paymentsSending = createSelector(paymentsSendingSelector, paymentsSending => {
-  const payments = paymentsSending.map(payment => {
-    const invoice = decodePayReq(payment.paymentRequest)
-    return {
-      type: 'payment',
-      creation_date: payment.timestamp,
-      value: invoice.satoshis || payment.amt,
-      path: [invoice.payeeNodeKey],
-      payment_hash: invoice.tags.find(t => t.tagName === 'payment_hash').data,
-      sending: true,
-      status: payment.status,
-      error: payment.error
-    }
-  })
-  return payments
-})
+const paymentsSending = createSelector(
+  paymentsSendingSelector,
+  paymentsSending => {
+    const payments = paymentsSending.map(payment => {
+      const invoice = decodePayReq(payment.paymentRequest)
+      return {
+        type: 'payment',
+        creation_date: payment.timestamp,
+        value: invoice.satoshis || payment.amt,
+        path: [invoice.payeeNodeKey],
+        payment_hash: invoice.tags.find(t => t.tagName === 'payment_hash').data,
+        sending: true,
+        status: payment.status,
+        error: payment.error
+      }
+    })
+    return payments
+  }
+)
 
 /**
  * Map sending transactions to something that looks like normal transactions.
  */
-const transactionsSending = createSelector(transactionsSendingSelector, transactionsSending => {
-  const transactions = transactionsSending.map(transaction => {
-    return {
-      type: 'transaction',
-      time_stamp: transaction.timestamp,
-      amount: transaction.amount,
-      sending: true,
-      status: transaction.status,
-      error: transaction.error
-    }
-  })
-  return transactions
-})
+const transactionsSending = createSelector(
+  transactionsSendingSelector,
+  transactionsSending => {
+    const transactions = transactionsSending.map(transaction => {
+      return {
+        type: 'transaction',
+        time_stamp: transaction.timestamp,
+        amount: transaction.amount,
+        sending: true,
+        status: transaction.status,
+        error: transaction.error
+      }
+    })
+    return transactions
+  }
+)
 
 activitySelectors.activityModalItem = createSelector(
   paymentsSelector,
@@ -304,8 +310,9 @@ const sentActivity = createSelector(
   }
 )
 
-const pendingActivity = createSelector(invoicesSelector, invoices =>
-  groupAll(invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice)))
+const pendingActivity = createSelector(
+  invoicesSelector,
+  invoices => groupAll(invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice)))
 )
 
 const FILTERS = {
@@ -315,7 +322,10 @@ const FILTERS = {
   PENDING_ACTIVITY: pendingActivity
 }
 
-activitySelectors.currentActivity = createSelector(filterSelector, filter => FILTERS[filter.key])
+activitySelectors.currentActivity = createSelector(
+  filterSelector,
+  filter => FILTERS[filter.key]
+)
 
 activitySelectors.nonActiveFilters = createSelector(
   filtersSelector,

@@ -68,12 +68,11 @@ const Transaction = ({
               +
             </Span>
           )}
-          {!transaction.received &&
-            transaction.status !== 'failed' && (
-              <Span color="superRed" fontWeight="normal" mr={1}>
-                -
-              </Span>
-            )}
+          {!transaction.received && transaction.status !== 'failed' && (
+            <Span color="superRed" fontWeight="normal" mr={1}>
+              -
+            </Span>
+          )}
           <Value
             value={transaction.amount}
             currency={ticker.currency}

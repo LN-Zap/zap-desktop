@@ -688,12 +688,11 @@ class Pay extends React.Component {
                 <ShowHideButtons state={showBack || showSubmit ? 'show' : 'show'}>
                   {styles => (
                     <Box style={styles}>
-                      {currentStep === 'summary' &&
-                        !hasEnoughFunds && (
-                          <Message variant="error" justifyContent="center" mb={2}>
-                            <FormattedMessage {...messages.error_not_enough_funds} />
-                          </Message>
-                        )}
+                      {currentStep === 'summary' && !hasEnoughFunds && (
+                        <Message variant="error" justifyContent="center" mb={2}>
+                          <FormattedMessage {...messages.error_not_enough_funds} />
+                        </Message>
+                      )}
 
                       <PayButtons
                         disabled={

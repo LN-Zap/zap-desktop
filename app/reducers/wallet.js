@@ -125,29 +125,31 @@ export const initWallets = () => async dispatch => {
   supportedChains.forEach(chain => {
     return supportedNetworks.forEach(async network => {
       const fsWallets = await window.Zap.getLocalWallets(chain, network)
-      return fsWallets.filter(wallet => wallet !== 'wallet-tmp').forEach(wallet => {
-        if (
-          !dbWallets.find(
-            w =>
-              w.type === 'local' &&
-              w.chain === chain &&
-              w.network === network &&
-              w.wallet === wallet
-          )
-        ) {
-          const walletDetails = {
-            type: 'local',
-            chain,
-            network,
-            wallet
+      return fsWallets
+        .filter(wallet => wallet !== 'wallet-tmp')
+        .forEach(wallet => {
+          if (
+            !dbWallets.find(
+              w =>
+                w.type === 'local' &&
+                w.chain === chain &&
+                w.network === network &&
+                w.wallet === wallet
+            )
+          ) {
+            const walletDetails = {
+              type: 'local',
+              chain,
+              network,
+              wallet
+            }
+            const id = Number(wallet.split('-')[1])
+            if (id && !Number.isNaN(id)) {
+              walletDetails.id = id
+            }
+            dispatch(putWallet(walletDetails))
           }
-          const id = Number(wallet.split('-')[1])
-          if (id && !Number.isNaN(id)) {
-            walletDetails.id = id
-          }
-          dispatch(putWallet(walletDetails))
-        }
-      })
+        })
     })
   })
 }
@@ -170,14 +172,23 @@ const walletSelectors = {}
 const activeWalletSelector = state => state.wallet.activeWallet
 const walletsSelector = state => state.wallet.wallets
 
-walletSelectors.wallets = createSelector(walletsSelector, wallets => wallets)
-walletSelectors.activeWallet = createSelector(activeWalletSelector, activeWallet => activeWallet)
+walletSelectors.wallets = createSelector(
+  walletsSelector,
+  wallets => wallets
+)
+walletSelectors.activeWallet = createSelector(
+  activeWalletSelector,
+  activeWallet => activeWallet
+)
 walletSelectors.activeWalletSettings = createSelector(
   walletsSelector,
   activeWalletSelector,
   (wallets, activeWallet) => wallets.find(wallet => wallet.id === activeWallet)
 )
-walletSelectors.hasWallets = createSelector(walletSelectors.wallets, wallets => wallets.length > 0)
+walletSelectors.hasWallets = createSelector(
+  walletSelectors.wallets,
+  wallets => wallets.length > 0
+)
 
 export { walletSelectors }
 

@@ -245,16 +245,19 @@ contactFormSelectors.showManualForm = createSelector(
   }
 )
 
-contactFormSelectors.manualFormIsValid = createSelector(manualSearchQuerySelector, input => {
-  const errors = {}
-  if (!input.length || !input.includes('@')) {
-    errors.manualInput = 'Invalid format'
+contactFormSelectors.manualFormIsValid = createSelector(
+  manualSearchQuerySelector,
+  input => {
+    const errors = {}
+    if (!input.length || !input.includes('@')) {
+      errors.manualInput = 'Invalid format'
+    }
+    return {
+      errors,
+      isValid: Object.keys(errors).length === 0
+    }
   }
-  return {
-    errors,
-    isValid: Object.keys(errors).length === 0
-  }
-})
+)
 
 contactFormSelectors.contactFormFiatAmount = createSelector(
   contactCapacitySelector,
