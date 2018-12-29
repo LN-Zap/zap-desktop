@@ -2,13 +2,15 @@ import { defineMessages } from 'react-intl'
 
 /* eslint-disable max-len */
 export default defineMessages({
-  copy: 'Copy Request',
-  invoice_copied_notification_title: 'Payment Request copied',
-  invoice_copied_notification_description: 'Payment Request has been copied to your clipboard',
+  title_received: 'Received',
+  title_requested: 'Requested',
+  subtitle: 'Lightning Payment',
   pay_req: 'Payment Request',
   memo: 'Memo',
-  request: 'Request',
-  save: 'Save as image',
+  amount: 'Amount',
+  date_requested: 'Date Requested',
+  status: 'Status',
   not_paid: 'Not Paid',
-  paid: 'Paid'
+  paid: 'Paid',
+  current_value: 'Current value'
 })
