@@ -1,8 +1,11 @@
 import { defineMessages } from 'react-intl'
 
-/* eslint-disable max-len */
 export default defineMessages({
-  sent: 'Sent',
-  fee: 'Fee',
-  lightning: 'Lightning Network'
+  title_sent: 'Sent',
+  subtitle: 'Lightning Payment',
+  amount: 'Amount',
+  date_sent: 'Date sent',
+  fee: 'Total fee',
+  current_value: 'Current value',
+  preimage: 'Payment Preimage'
 })
