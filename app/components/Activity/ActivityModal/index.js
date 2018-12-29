@@ -1,3 +1,1 @@
-import ActivityModal from './ActivityModal'
-
-export default ActivityModal
+export ActivityModal from './ActivityModal'

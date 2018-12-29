@@ -1,52 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Box } from 'rebass'
 import { Modal } from 'components/UI'
-import TransactionModal from '../TransactionModal'
-import PaymentModal from '../PaymentModal'
-import InvoiceModal from '../InvoiceModal'
+import InvoiceModalContainer from 'containers/Activity/InvoiceModalContainer'
+import PaymentModalContainer from 'containers/Activity/PaymentModalContainer'
+import TransactionModalContainer from 'containers/Activity/TransactionModalContainer'
 
 const MODAL_COMPONENTS = {
-  TRANSACTION: TransactionModal,
-  PAYMENT: PaymentModal,
-  INVOICE: InvoiceModal
+  transaction: TransactionModalContainer,
+  payment: PaymentModalContainer,
+  invoice: InvoiceModalContainer
 }
 
-const ActivityModal = ({
-  itemType,
-  item,
-  ticker,
-  currentTicker,
-  network,
-  hideActivityModal,
-  toggleCurrencyProps
-}) => {
-  if (!item) {
-    return null
+export default class ActivityModal extends React.PureComponent {
+  static propTypes = {
+    item: PropTypes.object,
+    hideActivityModal: PropTypes.func.isRequired
   }
 
-  const SpecificModal = MODAL_COMPONENTS[itemType]
+  render() {
+    const { item, hideActivityModal } = this.props
 
-  return (
-    <Modal onClose={hideActivityModal}>
-      <SpecificModal
-        item={item}
-        network={network}
-        ticker={ticker}
-        currentTicker={currentTicker}
-        toggleCurrencyProps={toggleCurrencyProps}
-      />
-    </Modal>
-  )
+    if (!item) {
+      return null
+    }
+
+    const SpecificModal = MODAL_COMPONENTS[item.type]
+
+    return (
+      <Modal onClose={hideActivityModal}>
+        <Box width={9 / 16} mx="auto">
+          <SpecificModal item={item} />
+        </Box>
+      </Modal>
+    )
+  }
 }
-
-ActivityModal.propTypes = {
-  ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
-  toggleCurrencyProps: PropTypes.object.isRequired,
-  network: PropTypes.object.isRequired,
-  item: PropTypes.object,
-  itemType: PropTypes.string,
-  hideActivityModal: PropTypes.func.isRequired
-}
-
-export default ActivityModal
