@@ -18,14 +18,14 @@ export default function(walletUnlocker, log, event, msg, data, lndConfig) {
     case 'genSeed':
       walletController
         .genSeed(walletUnlocker)
-        .then(genSeedData => event.sender.send('receiveSeed', genSeedData))
-        .catch(error => event.sender.send('receiveSeedError', decorateError(error)))
+        .then(genSeedData => event.sender.send('fetchSeedSuccess', genSeedData))
+        .catch(error => event.sender.send('fetchSeedError', decorateError(error)))
       break
     case 'unlockWallet':
       walletController
         .unlockWallet(walletUnlocker, data)
         .then(() => event.sender.send('walletUnlocked'))
-        .catch(() => event.sender.send('unlockWalletError'))
+        .catch(e => event.sender.send('setUnlockWalletError', e.message))
       break
     case 'initWallet':
       walletController

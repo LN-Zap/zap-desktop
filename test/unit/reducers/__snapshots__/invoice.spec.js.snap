@@ -55,9 +55,7 @@ Object {
   },
   "invoice": null,
   "invoiceLoading": false,
-  "invoices": Array [
-    "foo",
-  ],
+  "invoices": Array [],
   "invoicesSearchText": "",
 }
 `;

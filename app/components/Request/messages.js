@@ -5,8 +5,8 @@ export default defineMessages({
   amount: 'Amount',
   button_text: 'Request',
   copy_button_text: 'Copy invoice',
-  address_notification_title: 'Address copied',
-  copied_notification_description: 'Payment address has been copied to your clipboard',
+  address_copied_notification_title: 'Address copied',
+  address_copied_notification_description: 'Payment address has been copied to your clipboard',
   ln_invoice: 'Lightning Invoice',
   total: 'Total',
   memo: 'Memo',
@@ -18,5 +18,5 @@ export default defineMessages({
   title: 'Request',
   subtitle: 'through the Lightning Network',
   description:
-    'You can request Bitcoin (BTC) through the Lightning Network. Just enter the Amount you want to request in the field below. Zap will generate a QR-Code and a Lightning invoice after.'
+    'You can request {chain} ({ticker}) through the Lightning Network. Just enter the Amount you want to request in the field below. Zap will generate a QR-Code and a Lightning invoice after.'
 })

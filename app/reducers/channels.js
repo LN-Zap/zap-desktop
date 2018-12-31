@@ -1,10 +1,11 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
+import throttle from 'lodash.throttle'
 import { btc } from 'lib/utils'
-import { showNotification } from 'lib/utils/notifications'
 import { requestSuggestedNodes } from 'lib/utils/api'
-import db from 'store/db'
 import { setError } from './error'
+import { fetchBalance } from './balance'
+import { walletSelectors } from './wallet'
 
 // ------------------------------------
 // Constants
@@ -28,7 +29,6 @@ export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 
 export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
 
-export const TOGGLE_CHANNEL_PULLDOWN = 'TOGGLE_CHANNEL_PULLDOWN'
 export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
 
 export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
@@ -175,8 +175,10 @@ export const fetchChannels = () => async dispatch => {
 }
 
 // Receive IPC event for channels
-export const receiveChannels = (event, { channels, pendingChannels }) => dispatch =>
+export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => {
   dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
+  dispatch(fetchBalance())
+}
 
 // Send IPC event for opening a channel
 export const openChannel = ({ pubkey, host, local_amt }) => async (dispatch, getState) => {
@@ -189,12 +191,10 @@ export const openChannel = ({ pubkey, host, local_amt }) => async (dispatch, get
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
-  const activeWallet = await db.settings.get({ key: 'activeWallet' })
-  const wallet = (await db.wallets.get({ id: activeWallet.value })) || {}
-
+  const activeWalletSettings = walletSelectors.activeWalletSettings(state)
   ipcRenderer.send('lnd', {
     msg: 'connectAndOpen',
-    data: { pubkey, host, localamt, private: wallet.type === 'local' }
+    data: { pubkey, host, localamt, private: activeWalletSettings.type === 'local' }
   })
 }
 
@@ -275,54 +275,54 @@ export const pushclosechannelstatus = () => dispatch => {
   dispatch(fetchChannels())
 }
 
+/**
+ * Throttled dispatch to fetchChannels.
+ * Calls fetchChannels no more than once per second.
+ */
+const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1000, {
+  leading: true,
+  trailing: true
+})
+
 // IPC event for channel graph data
 export const channelGraphData = (event, data) => (dispatch, getState) => {
-  const { info } = getState()
+  const { info, channels } = getState()
   const {
     channelGraphData: { channel_updates }
   } = data
 
   // if there are any new channel updates
+  let hasUpdates = false
   if (channel_updates.length) {
-    // The network has updated, so fetch a new result
-    // TODO: can't do this now because of the SVG performance issues, after we fix this we can uncomment the line below
-    // dispatch(fetchDescribeNetwork())
-
     // loop through the channel updates
     for (let i = 0; i < channel_updates.length; i += 1) {
       const channel_update = channel_updates[i]
       const { advertising_node, connecting_node } = channel_update
 
-      // if our node is involved in this update we wanna show a notification
+      // Determine wether this update affected our node or any of our channels.
       if (
         info.data.identity_pubkey === advertising_node ||
-        info.data.identity_pubkey === connecting_node
+        info.data.identity_pubkey === connecting_node ||
+        channels.channels.find(channel => {
+          return [advertising_node, connecting_node].includes(channel.remote_pubkey)
+        })
       ) {
-        // this channel has to do with the user, lets fetch a new channel list for them
-        // TODO: full fetch is probably not necessary
-        dispatch(fetchChannels())
-
-        // Construct the notification
-        const otherParty =
-          info.data.identity_pubkey === advertising_node ? connecting_node : advertising_node
-        const notifBody = `No new friends, just new channels. Your channel with ${otherParty}`
-        const notifTitle = 'New channel detected'
-
-        // HTML 5 notification for channel updates involving our node
-        showNotification(notifTitle, notifBody)
+        hasUpdates = true
       }
     }
+  }
+
+  // if our node or any of our chanels were involved in this update, fetch an updated channel list.
+  if (hasUpdates) {
+    // We can receive a lot of channel updates from channel graph subscription in a short space of time. If these
+    // nvolve our our channels we make a call to fetchChannels and then fetchBalances in order to refresh our channel
+    // and balance data. Throttle these calls so that we don't attempt to fetch channels to often.
+    throttledFetchChannels(dispatch)
   }
 }
 
 // IPC event for channel graph status
 export const channelGraphStatus = () => () => {}
-
-export function toggleFilterPulldown() {
-  return {
-    type: TOGGLE_CHANNEL_PULLDOWN
-  }
-}
 
 export function changeFilter(channelFilter) {
   return {
@@ -359,10 +359,8 @@ const ACTION_HANDLERS = {
 
   [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
 
-  [TOGGLE_CHANNEL_PULLDOWN]: state => ({ ...state, filterPulldown: !state.filterPulldown }),
   [CHANGE_CHANNEL_FILTER]: (state, { channelFilter }) => ({
     ...state,
-    filterPulldown: false,
     filter: channelFilter
   }),
 
@@ -416,7 +414,6 @@ const pendingForceClosedChannelsSelector = state =>
   state.channels.pendingChannels.pending_force_closing_channels
 const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waiting_close_channels
 const channelSearchQuerySelector = state => state.channels.searchQuery
-const filtersSelector = state => state.channels.filters
 const filterSelector = state => state.channels.filter
 const nodesSelector = state => state.network.nodes
 
@@ -433,22 +430,29 @@ const channelMatchesQuery = (channel, nodes, searchQuery) => {
   )
 }
 
-channelsSelectors.channelModalOpen = createSelector(channelSelector, channel => !!channel)
-
-channelsSelectors.activeChannels = createSelector(channelsSelector, openChannels =>
-  openChannels.filter(channel => channel.active)
+channelsSelectors.channelModalOpen = createSelector(
+  channelSelector,
+  channel => !!channel
 )
 
-channelsSelectors.activeChannelPubkeys = createSelector(channelsSelector, openChannels =>
-  openChannels.filter(channel => channel.active).map(c => c.remote_pubkey)
+channelsSelectors.activeChannels = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => channel.active)
 )
 
-channelsSelectors.nonActiveChannels = createSelector(channelsSelector, openChannels =>
-  openChannels.filter(channel => !channel.active)
+channelsSelectors.activeChannelPubkeys = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => channel.active).map(c => c.remote_pubkey)
 )
 
-channelsSelectors.nonActiveChannelPubkeys = createSelector(channelsSelector, openChannels =>
-  openChannels.filter(channel => !channel.active).map(c => c.remote_pubkey)
+channelsSelectors.nonActiveChannels = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => !channel.active)
+)
+
+channelsSelectors.nonActiveChannelPubkeys = createSelector(
+  channelsSelector,
+  openChannels => openChannels.filter(channel => !channel.active).map(c => c.remote_pubkey)
 )
 
 channelsSelectors.pendingOpenChannels = pendingOpenChannelsSelector
@@ -470,14 +474,9 @@ channelsSelectors.closingPendingChannels = createSelector(
   ]
 )
 
-channelsSelectors.activeChanIds = createSelector(channelsSelector, channels =>
-  channels.map(channel => channel.chan_id)
-)
-
-channelsSelectors.nonActiveFilters = createSelector(
-  filtersSelector,
-  filterSelector,
-  (filters, channelFilter) => filters.filter(f => f.key !== channelFilter.key)
+channelsSelectors.activeChanIds = createSelector(
+  channelsSelector,
+  channels => channels.map(channel => channel.chan_id)
 )
 
 channelsSelectors.channelNodes = createSelector(
@@ -611,7 +610,6 @@ const initialState = {
   searchQuery: '',
   viewType: 0,
 
-  filterPulldown: false,
   filter: { key: 'ALL_CHANNELS', name: 'All' },
   filters: [
     { key: 'ALL_CHANNELS', name: 'All' },

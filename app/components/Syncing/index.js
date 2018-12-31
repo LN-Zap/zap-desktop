@@ -1,3 +1,1 @@
-import Syncing from './Syncing'
-
-export default Syncing
+export Syncing from './Syncing'

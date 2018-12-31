@@ -8,7 +8,7 @@ const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
   cryptoCurrency: state.ticker.currency,
   cryptoCurrencyTicker: tickerSelectors.currencyName(state),
-  cryptoCurrencies: state.ticker.currencyFilters,
+  cryptoCurrencies: tickerSelectors.currencyFilters(state),
   fiatCurrencies: state.ticker.fiatTickers,
   fiatCurrency: state.ticker.fiatTicker,
   isProcessing: state.invoice.invoiceLoading,

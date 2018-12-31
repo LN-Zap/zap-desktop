@@ -2,10 +2,11 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
 import QRCode from 'qrcode.react'
-import Copy from 'components/Icon/Copy'
-import X from 'components/Icon/X'
+import { withTheme } from 'styled-components'
 import { showNotification } from 'lib/utils/notifications'
 import { FormattedMessage, injectIntl } from 'react-intl'
+import { Modal } from 'components/UI'
+import Copy from 'components/Icon/Copy'
 import messages from './messages'
 
 import styles from './ReceiveModal.scss'
@@ -20,9 +21,37 @@ class ReceiveModal extends React.Component {
   }
 
   render() {
-    const copyOnClick = data => {
-      copy(data)
-      showNotification('Noice', 'Successfully copied to clipboard')
+    const {
+      isOpen,
+      pubkey,
+      address,
+      alias,
+      closeReceiveModal,
+      cryptoName,
+      network,
+      intl,
+      theme
+    } = this.props
+    const { qrCodeType } = this.state
+
+    if (!cryptoName) {
+      return null
+    }
+
+    const copyPubkeyToClipboard = () => {
+      const { pubkey } = this.props
+      copy(pubkey)
+      const notifTitle = intl.formatMessage({ ...messages.pubkey_copied_notification_title })
+      const notifBody = intl.formatMessage({ ...messages.pubkey_copied_notification_description })
+      showNotification(notifTitle, notifBody)
+    }
+
+    const copyAddressToClipboard = () => {
+      const { address } = this.props
+      copy(address)
+      const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
+      const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
+      showNotification(notifTitle, notifBody)
     }
 
     const changeQrCode = () => {
@@ -34,91 +63,83 @@ class ReceiveModal extends React.Component {
       }
     }
 
-    const { isOpen, pubkey, address, alias, closeReceiveModal, network, intl } = this.props
-
-    const { qrCodeType } = this.state
-
     if (!isOpen) {
       return null
     }
 
     return (
-      <div className={styles.container}>
-        <div className={styles.closeContainer}>
-          <span onClick={closeReceiveModal}>
-            <X />
-          </span>
-        </div>
+      <Modal onClose={closeReceiveModal}>
+        <div className={`${styles.container} ${theme.name}`}>
+          <div className={styles.content}>
+            <section className={styles.left}>
+              <header className={styles.header}>
+                <h2>{alias && alias.length ? alias : pubkey.substring(0, 10)}</h2>
 
-        <div className={styles.content}>
-          <section className={styles.left}>
-            <header className={styles.header}>
-              <h2>{alias && alias.length ? alias : pubkey.substring(0, 10)}</h2>
+                <div className={styles.qrCodeOptions}>
+                  <div
+                    className={qrCodeType === 1 ? styles.active : undefined}
+                    onClick={changeQrCode}
+                  >
+                    <FormattedMessage {...messages.node_pubkey} />
+                  </div>
+                  <div
+                    className={qrCodeType === 2 ? styles.active : undefined}
+                    onClick={changeQrCode}
+                  >
+                    <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />
+                  </div>
+                </div>
+              </header>
 
-              <div className={styles.qrCodeOptions}>
-                <div
-                  className={qrCodeType === 1 ? styles.active : undefined}
-                  onClick={changeQrCode}
-                >
-                  <FormattedMessage {...messages.node_pubkey} />
-                </div>
-                <div
-                  className={qrCodeType === 2 ? styles.active : undefined}
-                  onClick={changeQrCode}
-                >
-                  <FormattedMessage {...messages.bitcoin_address} />
-                </div>
+              <div className={styles.qrCodeContainer}>
+                <QRCode
+                  value={qrCodeType === 1 ? pubkey : address}
+                  renderAs="svg"
+                  size={150}
+                  bgColor="white"
+                  fgColor="#252832"
+                  level="L"
+                  className={styles.qrcode}
+                />
               </div>
-            </header>
+            </section>
+            <section className={styles.right}>
+              <div className={styles.pubkey}>
+                <h4>
+                  <FormattedMessage {...messages.node_public_key} />
+                </h4>
+                <p>
+                  <span className={styles.data}>{pubkey}</span>
+                  <span
+                    onClick={copyPubkeyToClipboard}
+                    className={`${styles.copy} hint--left`}
+                    data-hint={intl.formatMessage({ ...messages.copy_pubkey })}
+                  >
+                    <Copy />
+                  </span>
+                </p>
+              </div>
 
-            <div className={styles.qrCodeContainer}>
-              <QRCode
-                value={qrCodeType === 1 ? pubkey : address}
-                renderAs="svg"
-                size={150}
-                bgColor="white"
-                fgColor="#252832"
-                level="L"
-                className={styles.qrcode}
-              />
-            </div>
-          </section>
-          <section className={styles.right}>
-            <div className={styles.pubkey}>
-              <h4>
-                <FormattedMessage {...messages.node_public_key} />
-              </h4>
-              <p>
-                <span className={styles.data}>{pubkey}</span>
-                <span
-                  onClick={() => copyOnClick(pubkey)}
-                  className={`${styles.copy} hint--left`}
-                  data-hint={intl.formatMessage({ ...messages.copy_pubkey })}
-                >
-                  <Copy />
-                </span>
-              </p>
-            </div>
-
-            <div className={styles.address}>
-              <h4>
-                <FormattedMessage {...messages.bitcoin_address} />{' '}
-                {network && network.name.toLowerCase() === 'testnet' && network.name}
-              </h4>
-              <p>
-                <span className={styles.data}>{address}</span>
-                <span
-                  onClick={() => copyOnClick(address)}
-                  className={`${styles.copy} hint--left`}
-                  data-hint={intl.formatMessage({ ...messages.copy_address })}
-                >
-                  <Copy />
-                </span>
-              </p>
-            </div>
-          </section>
+              <div className={styles.address}>
+                <h4>
+                  <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />{' '}
+                  {network && network.name.toLowerCase() === 'testnet' && network.name}
+                </h4>
+                <p>
+                  <span className={styles.data}>{address}</span>
+                  <span
+                    onClick={copyAddressToClipboard}
+                    className={`${styles.copy} hint--left`}
+                    data-hint={intl.formatMessage({ ...messages.copy_address })}
+                  >
+                    <Copy />
+                  </span>
+                </p>
+              </div>
+            </section>
+          </div>
         </div>
-      </div>
+      </Modal>
     )
   }
 }
@@ -127,6 +148,7 @@ ReceiveModal.propTypes = {
   network: PropTypes.shape({
     name: PropTypes.string
   }).isRequired,
+  cryptoName: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string,
   address: PropTypes.string,
@@ -134,4 +156,4 @@ ReceiveModal.propTypes = {
   closeReceiveModal: PropTypes.func.isRequired
 }
 
-export default injectIntl(ReceiveModal)
+export default withTheme(injectIntl(ReceiveModal))

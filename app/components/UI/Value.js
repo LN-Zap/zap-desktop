@@ -8,7 +8,7 @@ const Value = ({ value, currency, currentTicker, fiatTicker }) => {
   }
   let price
   if (currency === 'fiat') {
-    price = currentTicker[fiatTicker].last
+    price = currentTicker[fiatTicker]
   }
   return (
     <i>

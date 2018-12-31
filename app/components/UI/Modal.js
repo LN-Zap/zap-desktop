@@ -2,6 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import X from 'components/Icon/X'
+import ZapLogo from 'components/Icon/ZapLogo'
+import { Panel, Text } from 'components/UI'
 
 /**
  * @render react
@@ -14,42 +16,56 @@ class Modal extends React.Component {
 
   static propTypes = {
     children: PropTypes.node,
-    onClose: PropTypes.func
+    onClose: PropTypes.func,
+    withClose: PropTypes.bool,
+    withHeader: PropTypes.bool
   }
 
-  state = {
-    hover: false
-  }
-
-  hoverOn = () => {
-    this.setState({ hover: true })
-  }
-
-  hoverOff = () => {
-    this.setState({ hover: false })
+  static defaultProps = {
+    withClose: true,
+    withHeader: false
   }
 
   render() {
-    const { hover } = this.state
-    const { children, onClose } = this.props
+    const { children, onClose, withClose, withHeader, ...rest } = this.props
     return (
-      <Flex flexDirection="column" width={1} p={3} bg="primaryColor" css={{ height: '100%' }}>
-        <Flex justifyContent="flex-end" as="header" color="primaryText">
-          <Box
-            css={{ cursor: 'pointer', opacity: hover ? 0.6 : 1 }}
-            ml="auto"
-            onClick={onClose}
-            onMouseEnter={this.hoverOn}
-            onMouseLeave={this.hoverOff}
-            p={2}
-          >
-            <X width="2em" height="2em" />
-          </Box>
-        </Flex>
-        <Box as="section" p={3} pt={1} css={{ flex: 1 }}>
+      <Panel
+        width={1}
+        css={{ height: '100vh', 'z-index': '999', position: 'absolute', top: 0 }}
+        bg="primaryColor"
+        color="primaryText"
+      >
+        <Panel.Header p={3}>
+          <Flex justifyContent="space-between">
+            <Box
+              css={{ height: '40px', cursor: 'pointer', opacity: 0.6, '&:hover': { opacity: 1 } }}
+              ml="auto"
+              onClick={onClose}
+              p={2}
+            >
+              {withClose && <X width={20} height={20} />}
+            </Box>
+          </Flex>
+          {withHeader && (
+            <Flex justifyContent="space-between" px={3}>
+              <Box color="primaryText">
+                <ZapLogo width="70px" height="32px" />
+              </Box>
+              <Text
+                fontWeight="normal"
+                css={{ cursor: 'pointer', opacity: 0.6, '&:hover': { opacity: 1 } }}
+                onClick={() => window.Zap.openHelpPage()}
+              >
+                Need Help?
+              </Text>
+            </Flex>
+          )}
+        </Panel.Header>
+        <Panel.Body px={4} pb={4} {...rest}>
+          {' '}
           {children}
-        </Box>
-      </Flex>
+        </Panel.Body>
+      </Panel>
     )
   }
 }

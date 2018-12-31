@@ -2,9 +2,9 @@ import { connect } from 'react-redux'
 import { withTheme } from 'styled-components'
 import { infoSelectors } from 'reducers/info'
 import { lndSelectors } from 'reducers/lnd'
-import { onboardingSelectors } from 'reducers/onboarding'
+import { setIsWalletOpen } from 'reducers/wallet'
 
-import Syncing from 'components/Syncing'
+import { Syncing } from 'components/Syncing'
 import withLoading from 'components/withLoading'
 
 const mapStateToProps = state => ({
@@ -15,7 +15,20 @@ const mapStateToProps = state => ({
   blockHeight: state.lnd.blockHeight,
   lndBlockHeight: state.lnd.lndBlockHeight,
   lndCfilterHeight: state.lnd.lndCfilterHeight,
-  isLoading: infoSelectors.infoLoading(state) || onboardingSelectors.startingLnd(state)
+  lightningGrpcActive: state.lnd.lightningGrpcActive,
+  isLoading:
+    infoSelectors.infoLoading(state) ||
+    state.lnd.syncStatus === 'pending' ||
+    !state.lnd.lightningGrpcActive ||
+    !state.lnd.blockHeight ||
+    !state.lnd.lndBlockHeight
 })
 
-export default connect(mapStateToProps)(withLoading(withTheme(Syncing)))
+const mapDispatchToProps = {
+  setIsWalletOpen
+}
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withLoading(withTheme(Syncing)))

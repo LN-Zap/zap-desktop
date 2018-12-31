@@ -13,23 +13,16 @@ exports[`component.UI.Input should render correctly 1`] = `
 
 .c1 {
   padding: 16px;
-  width: 100%;
-  font-size: 13px;
   color: #ffffff;
   background-color: transparent;
-  color: #ffffff;
-  background-color: transparent;
-  font-family: Roboto,system-ui,sans-serif;
-  font-weight: 300;
-  border: 1px solid;
   border: 1px solid;
   border-color: #959595;
   border-radius: 5px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  width: 100%;
   outline: none;
-}
-
-.c1:not([readOnly]):not([disabled]):focus {
-  border: 1px solid #fd9800;
 }
 
 <form
@@ -40,6 +33,7 @@ exports[`component.UI.Input should render correctly 1`] = `
     className="c0"
   >
     <input
+      autoFocus={false}
       className="c1"
       color="primaryText"
       fontFamily="sans"

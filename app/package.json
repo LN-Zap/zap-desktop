@@ -1,7 +1,7 @@
 {
   "name": "zap-desktop",
   "productName": "Zap",
-  "version": "0.2.3-beta",
+  "version": "0.3.2-beta",
   "description": "desktop application for the lightning network",
   "main": "./main.prod.js",
   "author": {
@@ -14,7 +14,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "grpc": "^1.15.0",
-    "react-icons": "^2.2.7"
+    "react-icons": "2.2.7",
+    "rimraf": "2.6.2"
   }
 }

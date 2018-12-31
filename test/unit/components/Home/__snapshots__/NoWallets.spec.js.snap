@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.NoWallets should render correctly (no selected wallet) 1`] = `
+<Styled(styled.div)
+  alignItems="center"
+  css={
+    Object {
+      "height": "100%",
+    }
+  }
+  flexDirection="column"
+  justifyContent="center"
+>
+  <Heading4>
+    <FormattedMessage
+      defaultMessage="Please select a wallet from the wallets menu."
+      id="components.Home.no_active_wallet_message"
+      values={Object {}}
+    />
+  </Heading4>
+  <Heading4
+    mt={2}
+  >
+    <FormattedMessage
+      defaultMessage="Start creating one from here:"
+      id="components.Home.create_wallet_promot"
+      values={Object {}}
+    />
+  </Heading4>
+  <CreateWalletButton
+    history={
+      Object {
+        "push": [MockFunction],
+      }
+    }
+    p={3}
+  />
+</Styled(styled.div)>
+`;
+
+exports[`component.NoWallets should render correctly (no wallets) 1`] = `
+<Styled(styled.div)
+  alignItems="center"
+  css={
+    Object {
+      "height": "100%",
+    }
+  }
+  flexDirection="column"
+  justifyContent="center"
+>
+  <Heading4>
+    <FormattedMessage
+      defaultMessage="Unfortunately you don’t have any wallets 😢"
+      id="components.Home.no_wallets_message"
+      values={Object {}}
+    />
+  </Heading4>
+  <Heading4
+    mt={2}
+  >
+    <FormattedMessage
+      defaultMessage="Start creating one from here:"
+      id="components.Home.create_wallet_promot"
+      values={Object {}}
+    />
+  </Heading4>
+  <CreateWalletButton
+    history={
+      Object {
+        "push": [MockFunction],
+      }
+    }
+    p={3}
+  />
+</Styled(styled.div)>
+`;

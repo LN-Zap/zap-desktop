@@ -50,8 +50,14 @@ export function setPayReq(payReq) {
 }
 
 export const lightningPaymentUri = (event, { payReq }) => dispatch => {
-  dispatch(setPayReq(payReq))
+  // First, clear the payment form.
+  dispatch(setFormType(null))
+
+  // Then load it fresh and set the payment request.
   dispatch(setFormType('PAY_FORM'))
+  dispatch(setPayReq(payReq))
+
+  // Finally, clear the payment request.
   dispatch(setPayReq(null))
 }
 

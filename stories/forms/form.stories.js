@@ -2,12 +2,12 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { Box } from 'rebass'
-import { Form } from 'informed'
 import {
   CryptoAmountInput,
   FiatAmountInput,
   Page,
   MainContent,
+  Form,
   Input,
   Label,
   LightningInvoiceInput,
@@ -15,6 +15,8 @@ import {
   TextArea,
   Button,
   Toggle,
+  Radio,
+  RadioGroup,
   Range
 } from 'components/UI'
 
@@ -33,9 +35,22 @@ const selectItems = [
 
 storiesOf('Forms', module)
   .add('Input', () => (
-    <Form>
-      <Input field="fieldName" id="field-name" />
-    </Form>
+    <>
+      <Form mb={4}>
+        <Input field="fieldName" id="field-name" />
+      </Form>
+      <Form mb={4}>
+        <Input field="fieldName" id="field-name" label="Field with Label" />
+      </Form>
+      <Form mb={4}>
+        <Input
+          field="fieldName"
+          id="field-name"
+          label="Field with Label and description"
+          description="This field also has a description."
+        />
+      </Form>
+    </>
   ))
   .add('Label', () => (
     <Form>
@@ -50,64 +65,48 @@ storiesOf('Forms', module)
   .add('CryptoAmountInput', () => (
     <Form>
       <Box my={4}>
-        <Box>
-          <Label htmlFor="cryptoBtc">BTC</Label>
-        </Box>
-        <CryptoAmountInput field="cryptoBtc" currency="btc" width={150} />
+        <CryptoAmountInput field="cryptoBtc" currency="btc" width={150} label="BTC" />
       </Box>
 
       <Box my={4}>
-        <Box>
-          <Label htmlFor="cryptoBits">Bits</Label>
-        </Box>
-        <CryptoAmountInput field="cryptoBits" currency="bits" width={150} />
+        <CryptoAmountInput field="cryptoBits" currency="bits" width={150} label="Bits" />
       </Box>
 
       <Box my={4}>
-        <Box>
-          <Label htmlFor="cryptoSats">Sats</Label>
-        </Box>
-        <CryptoAmountInput field="cryptoSats" currency="sats" width={150} />
+        <CryptoAmountInput field="cryptoSats" currency="sats" width={150} label="Sats" />
       </Box>
     </Form>
   ))
   .add('FiatAmountInput', () => (
     <Form>
       <Box my={4}>
-        <Box>
-          <Label htmlFor="fiat">USD</Label>
-        </Box>
-        <FiatAmountInput field="fiat" currency="usd" width={150} />
+        <FiatAmountInput field="fiat" currency="usd" width={150} label="USD" />
       </Box>
     </Form>
   ))
   .add('Lightning Invoice Textarea', () => (
     <React.Fragment>
       <Box my={4}>
-        <Box>
-          <Label htmlFor="testnet">Bitcoin or Lightning address (testnet)</Label>
-        </Box>
         <Form id="testnet">
           <LightningInvoiceInput
             chain="bitcoin"
             network="testnet"
             field="testnet"
             id="testnet"
+            label="Bitcoin or Lightning address (testnet)"
             validateOnBlur
             validateOnChange
           />
         </Form>
       </Box>
       <Box>
-        <Box>
-          <Label htmlFor="mainnet">Bitcoin or Lightning address (mainnet)</Label>
-        </Box>
         <Form id="testnet">
           <LightningInvoiceInput
             chain="bitcoin"
             network="mainnet"
             field="mainnet"
             id="mainnet"
+            label="Bitcoin or Lightning address (mainnet)"
             validateOnBlur
             validateOnChange
           />
@@ -118,6 +117,15 @@ storiesOf('Forms', module)
   .add('Select', () => (
     <Form>
       <Select field="fieldName" items={selectItems} />
+    </Form>
+  ))
+  .add('Radio', () => (
+    <Form>
+      <RadioGroup field="radio">
+        <Radio value="item1" label="Item 1" description="Radio buttons" />
+        <Radio value="item2" label="Item 2" description="can have an optional title" />
+        <Radio value="item3" label="Item 3" description="and description" />
+      </RadioGroup>
     </Form>
   ))
   .add('Toggle', () => (
@@ -137,56 +145,44 @@ storiesOf('Forms', module)
           {({ formState }) => (
             <React.Fragment>
               <Box my={4}>
-                <Box>
-                  <Label htmlFor="input1">Example Field</Label>
-                </Box>
-                <Box>
-                  <Input
-                    field="input1"
-                    id="field-name"
-                    placeholder="Type here"
-                    validate={validate}
-                    validateOnBlur
-                  />
-                </Box>
+                <Input
+                  field="input1"
+                  id="field-name"
+                  label="Example Field"
+                  placeholder="Type here"
+                  validate={validate}
+                  validateOnBlur
+                />
               </Box>
 
               <Box my={4}>
-                <Box>
-                  <Label htmlFor="textarea1">Example Textarea</Label>
-                </Box>
-                <Box>
-                  <TextArea
-                    field="textarea1"
-                    placeholder="Type here"
-                    validate={validate}
-                    validateOnBlur
-                  />
-                </Box>
+                <TextArea
+                  field="textarea1"
+                  placeholder="Type here"
+                  label="Example TextArea"
+                  validate={validate}
+                  validateOnBlur
+                />
               </Box>
 
               <Box my={4}>
-                <Box>
-                  <Label htmlFor="testnet">Bitcoin or Lightning address (testnet)</Label>
-                </Box>
                 <LightningInvoiceInput
                   chain="bitcoin"
                   network="testnet"
                   field="testnet"
                   id="testnet"
+                  label="Bitcoin or Lightning address (testnet)"
                   validateOnBlur
                   validateOnChange
                 />
               </Box>
               <Box>
-                <Box>
-                  <Label htmlFor="mainnet">Bitcoin or Lightning address (mainnet)</Label>
-                </Box>
                 <LightningInvoiceInput
                   chain="bitcoin"
                   network="mainnet"
                   field="mainnet"
                   id="mainnet"
+                  label="Bitcoin or Lightning address (mainnet)"
                   validateOnBlur
                   validateOnChange
                 />
@@ -194,7 +190,9 @@ storiesOf('Forms', module)
 
               <Box my={4}>
                 <Box>
-                  <Label htmlFor="selectfield1">Example Select</Label>
+                  <Label htmlFor="selectfield1" mb={2}>
+                    Example Select
+                  </Label>
                 </Box>
                 <Box>
                   <Select
@@ -208,17 +206,29 @@ storiesOf('Forms', module)
               </Box>
 
               <Box my={4}>
+                <RadioGroup field="radio">
+                  <Radio value="item1" label="Item 1" description="Radio buttons" />
+                  <Radio value="item2" label="Item 2" description="can have an optional title" />
+                  <Radio value="item3" label="Item 3" description="and description" />
+                </RadioGroup>
+              </Box>
+
+              <Box my={4}>
                 <Box>
-                  <Label htmlFor="checkbox1">Example Toggle</Label>
+                  <Label htmlFor="checkbox1" mb={2}>
+                    Example Toggle
+                  </Label>
                 </Box>
                 <Box>
-                  <Toggle field="checkbox1" onChange={action('change')} />
+                  <Toggle field="checkbox1" onChange={action('change')} label="Example Toggle" />
                 </Box>
               </Box>
 
               <Box my={4}>
                 <Box>
-                  <Label htmlFor="slider1">Example Range</Label>
+                  <Label htmlFor="slider1" mb={2}>
+                    Example Range
+                  </Label>
                 </Box>
                 <Box>
                   <Range field="slider1" initialValue={25} onChange={action('change')} />

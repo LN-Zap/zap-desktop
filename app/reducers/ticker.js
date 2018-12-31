@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { requestTicker } from 'lib/utils/api'
+import { requestTickers } from 'lib/utils/api'
 import { currencies, getDefaultCurrency } from 'lib/i18n'
 import db from 'store/db'
 import { infoSelectors } from './info'
@@ -68,9 +68,10 @@ export function recieveTickers({ btcTicker, ltcTicker }) {
 
 export const fetchTicker = () => async dispatch => {
   dispatch(getTickers())
-  const btcTicker = await requestTicker()
-  dispatch(recieveTickers({ btcTicker }))
-  return btcTicker
+  const tickers = await requestTickers(['btc', 'ltc'])
+  dispatch(recieveTickers(tickers))
+
+  return tickers
 }
 
 // Receive IPC event for receiveCryptocurrency
@@ -111,22 +112,35 @@ tickerSelectors.currentTicker = createSelector(
   cryptoSelector,
   bitcoinTickerSelector,
   litecoinTickerSelector,
-  (crypto, btcTicker, ltcTicker) => (crypto === 'bitcoin' ? btcTicker : ltcTicker)
+  (crypto, btcTicker, ltcTicker) => {
+    switch (crypto) {
+      case 'bitcoin':
+        return btcTicker
+      case 'litecoin':
+        return ltcTicker
+      default:
+        return null
+    }
+  }
 )
 
-tickerSelectors.cryptoName = createSelector(cryptoSelector, crypto => cryptoNames[crypto])
+tickerSelectors.cryptoName = createSelector(
+  cryptoSelector,
+  crypto => cryptoNames[crypto]
+)
 
 tickerSelectors.currencyFilters = createSelector(
+  cryptoSelector,
   infoSelectors.networkSelector,
   currencyFiltersSelector,
-  (network, currencyFilters = []) => {
-    if (!network || !network.unitPrefix) {
-      return currencyFilters
+  (crypto, network, currencyFilters) => {
+    if (!crypto || !network) {
+      return []
     }
-    return currencyFilters.map(item => {
-      item.name = `${network.unitPrefix}${item.name}`
-      return item
-    })
+    return currencyFilters[crypto].map(item => ({
+      ...item,
+      name: `${network.unitPrefix}${item.name}`
+    }))
   }
 )
 
@@ -157,20 +171,36 @@ const initialState = {
   ltcTicker: null,
   fiatTicker: getDefaultCurrency(),
   fiatTickers: currencies,
-  currencyFilters: [
-    {
-      key: 'btc',
-      name: 'BTC'
-    },
-    {
-      key: 'bits',
-      name: 'bits'
-    },
-    {
-      key: 'sats',
-      name: 'satoshis'
-    }
-  ]
+  currencyFilters: {
+    bitcoin: [
+      {
+        key: 'btc',
+        name: 'BTC'
+      },
+      {
+        key: 'bits',
+        name: 'bits'
+      },
+      {
+        key: 'sats',
+        name: 'satoshis'
+      }
+    ],
+    litecoin: [
+      {
+        key: 'ltc',
+        name: 'LTC'
+      },
+      {
+        key: 'phots',
+        name: 'photons'
+      },
+      {
+        key: 'lits',
+        name: 'litoshis'
+      }
+    ]
+  }
 }
 
 export default function tickerReducer(state = initialState, action) {

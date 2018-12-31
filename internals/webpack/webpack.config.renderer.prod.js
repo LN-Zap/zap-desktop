@@ -8,6 +8,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import CleanWebpackPlugin from 'clean-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
 import merge from 'webpack-merge'
 import baseConfig, { rootDir } from './webpack.config.base'
 
@@ -95,12 +96,14 @@ export default merge.smart(baseConfig, {
       template: path.join('app', 'app.html')
     }),
 
+    new CopyWebpackPlugin([path.join('app', 'empty.html')]),
+
     new CspHtmlWebpackPlugin({
       'default-src': "'self'",
       'object-src': "'none'",
       'connect-src': [
         "'self'",
-        'https://blockchain.info',
+        'https://api.coinbase.com',
         'https://bitcoinfees.earn.com',
         'https://zap.jackmallers.com'
       ],

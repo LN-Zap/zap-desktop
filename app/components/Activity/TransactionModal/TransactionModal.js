@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withTheme } from 'styled-components'
 import PaperPlane from 'components/Icon/PaperPlane'
 import Hand from 'components/Icon/Hand'
 import ChainLink from 'components/Icon/ChainLink'
@@ -14,10 +15,10 @@ const TransactionModal = ({
   ticker,
   currentTicker,
   network,
-
+  theme,
   toggleCurrencyProps: { currencyName, currencyFilters, setCurrency }
 }) => (
-  <div className={styles.container}>
+  <div className={`${styles.container} ${theme.name}`}>
     <header className={styles.header}>
       {transaction.received ? (
         <section>
@@ -76,12 +77,12 @@ const TransactionModal = ({
 
     <div className={styles.date}>
       <FormattedDate
-        value={new Date(transaction.time_stamp * 1000)}
+        value={transaction.time_stamp * 1000}
         year="numeric"
         month="long"
         day="2-digit"
       />{' '}
-      <FormattedTime value={new Date(transaction.time_stamp * 1000)} />
+      <FormattedTime value={transaction.time_stamp * 1000} />
     </div>
 
     <footer className={styles.footer}>
@@ -96,10 +97,8 @@ TransactionModal.propTypes = {
   item: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
-
   toggleCurrencyProps: PropTypes.object.isRequired,
-
   network: PropTypes.object.isRequired
 }
 
-export default TransactionModal
+export default withTheme(TransactionModal)

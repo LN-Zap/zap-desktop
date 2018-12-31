@@ -47,6 +47,9 @@ const buttons = {
   },
   secondary: {
     opacity: 0.6,
+    '&.active': {
+      opacity: 1
+    },
     backgroundColor: 'transparent',
     color: colors.primaryText,
     '&:hover:enabled': {
@@ -69,6 +72,9 @@ const cards = {
   error: {
     backgroundColor: colors.lightRed,
     color: colors.superRed
+  },
+  processing: {
+    color: colors.lightningOrange
   }
 }
 const messages = {

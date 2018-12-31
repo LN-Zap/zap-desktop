@@ -144,7 +144,10 @@ const peerSelector = state => state.peers.peer
 const peersSelector = state => state.peers.peers
 const peersSearchQuerySelector = state => state.peers.searchQuery
 
-peersSelectors.peerModalOpen = createSelector(peerSelector, peer => !!peer)
+peersSelectors.peerModalOpen = createSelector(
+  peerSelector,
+  peer => !!peer
+)
 
 peersSelectors.filteredPeers = createSelector(
   peersSelector,

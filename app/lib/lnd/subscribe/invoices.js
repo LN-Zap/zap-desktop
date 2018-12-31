@@ -1,4 +1,4 @@
-import { status } from 'grpc'
+import { status } from '@grpc/grpc-js'
 import { mainLog } from '../../utils/log'
 
 export default function subscribeToInvoices() {
@@ -10,7 +10,7 @@ export default function subscribeToInvoices() {
       this.mainWindow.send('invoiceUpdate', { invoice })
     }
   })
-  call.on('end', () => mainLog.info('end'))
+  call.on('end', () => mainLog.info('INVOICE END'))
   call.on('error', error => error.code !== status.CANCELLED && mainLog.error(error))
   call.on('status', status => mainLog.info('INVOICE STATUS:', status))
 

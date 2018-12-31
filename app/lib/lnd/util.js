@@ -1,4 +1,3 @@
-import dns from 'dns'
 import fs from 'fs'
 import axios from 'axios'
 import { promisify } from 'util'
@@ -6,15 +5,11 @@ import { basename, dirname, join, normalize } from 'path'
 import { platform } from 'os'
 import { app } from 'electron'
 import isDev from 'electron-is-dev'
-import grpc from 'grpc'
-import isFQDN from 'validator/lib/isFQDN'
-import isIP from 'validator/lib/isIP'
-import isPort from 'validator/lib/isPort'
+import { credentials, Metadata } from '@grpc/grpc-js'
 import get from 'lodash.get'
 import { mainLog } from '../utils/log'
 
 const fsReadFile = promisify(fs.readFile)
-const dnsLookup = promisify(dns.lookup)
 
 // ------------------------------------
 // Constants
@@ -108,40 +103,6 @@ export const getDeadline = timeoutSecs => {
 }
 
 /**
- * Helper function to check a hostname in the format hostname:port is valid for passing to node-grpc.
- * @param {string} host A hostname + optional port in the format [hostname]:[port?]
- * @returns {Promise<Boolean>}
- */
-export const validateHost = async host => {
-  var splits = host.split(':')
-  const lndHost = splits[0]
-  const lndPort = splits[1]
-
-  // If the hostname starts with a number, ensure that it is a valid IP address.
-  if (!isFQDN(lndHost, { require_tld: false }) && !isIP(lndHost)) {
-    const error = new Error(`${lndHost} is not a valid IP address or hostname`)
-    error.code = 'LND_GRPC_HOST_ERROR'
-    return Promise.reject(error)
-  }
-
-  // If the host includes a port, ensure that it is a valid.
-  if (lndPort && !isPort(lndPort)) {
-    const error = new Error(`${lndPort} is not a valid port`)
-    error.code = 'LND_GRPC_HOST_ERROR'
-    return Promise.reject(error)
-  }
-
-  // Do a DNS lookup to ensure that the host is reachable.
-  return dnsLookup(lndHost)
-    .then(() => true)
-    .catch(e => {
-      const error = new Error(`${lndHost} is not accessible: ${e.message}`)
-      error.code = 'LND_GRPC_HOST_ERROR'
-      return Promise.reject(error)
-    })
-}
-
-/**
  * Validates and creates the ssl channel credentials from the specified file path
  * @param {String} certPath
  * @returns {grpc.ChanelCredentials}
@@ -155,7 +116,7 @@ export const createSslCreds = async certPath => {
       throw error
     })
   }
-  return grpc.credentials.createSsl(lndCert)
+  return credentials.createSsl(lndCert)
 }
 
 /**
@@ -164,7 +125,7 @@ export const createSslCreds = async certPath => {
  * @returns {grpc.CallCredentials}
  */
 export const createMacaroonCreds = async macaroonPath => {
-  const metadata = new grpc.Metadata()
+  const metadata = new Metadata()
 
   if (macaroonPath) {
     // If it's not a filepath, then assume it is a hex encoded string.
@@ -179,9 +140,7 @@ export const createMacaroonCreds = async macaroonPath => {
       metadata.add('macaroon', macaroon.toString('hex'))
     }
   }
-  return grpc.credentials.createFromMetadataGenerator((params, callback) =>
-    callback(null, metadata)
-  )
+  return credentials.createFromMetadataGenerator((params, callback) => callback(null, metadata))
 }
 
 /**

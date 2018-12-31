@@ -1,8 +1,9 @@
-import bitcoin from 'bitcoinjs-lib'
 import { ipcRenderer } from 'electron'
 import get from 'lodash.get'
 import db from 'store/db'
+import { networks } from 'lib/utils/crypto'
 import { walletAddress } from './address'
+import { putWallet, walletSelectors } from './wallet'
 
 // ------------------------------------
 // Constants
@@ -10,6 +11,41 @@ import { walletAddress } from './address'
 export const GET_INFO = 'GET_INFO'
 export const RECEIVE_INFO = 'RECEIVE_INFO'
 export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
+
+const networkInfo = {
+  bitcoin: {
+    mainnet: {
+      id: 'mainnet',
+      name: 'Mainnet',
+      explorerUrl: 'https://blockstream.info',
+      bitcoinJsNetwork: networks.bitcoin.mainnet,
+      unitPrefix: ''
+    },
+    testnet: {
+      id: 'testnet',
+      name: 'Testnet',
+      explorerUrl: 'https://blockstream.info/testnet',
+      bitcoinJsNetwork: networks.bitcoin.testnet,
+      unitPrefix: 't'
+    }
+  },
+  litecoin: {
+    mainnet: {
+      id: 'mainnet',
+      name: 'Mainnet',
+      explorerUrl: 'https://insight.litecore.io',
+      bitcoinJsNetwork: networks.litecoin.mainnet,
+      unitPrefix: ''
+    },
+    testnet: {
+      id: 'testnet',
+      name: 'Testnet',
+      explorerUrl: 'https://testnet.litecore.io',
+      bitcoinJsNetwork: networks.litecoin.testnet,
+      unitPrefix: 't'
+    }
+  }
+}
 
 // ------------------------------------
 // Actions
@@ -35,32 +71,28 @@ export const fetchInfo = () => async dispatch => {
 
 // Receive IPC event for info
 export const receiveInfo = (event, data) => async (dispatch, getState) => {
-  // Determine the node's current sync state.
+  // Save the node info.
+  dispatch({ type: RECEIVE_INFO, data })
+
   const state = getState()
+
   if (typeof state.info.hasSynced === 'undefined') {
     const node = await db.nodes.get({ id: data.identity_pubkey })
     const hasSynced = node ? node.hasSynced : false
     dispatch(setHasSynced(hasSynced))
   }
 
-  dispatch({ type: RECEIVE_INFO, data })
-
   // Now that we have the node info, get the current wallet address.
   dispatch(walletAddress('np2wkh'))
-}
 
-const networks = {
-  testnet: {
-    name: 'Testnet',
-    explorerUrl: 'https://testnet.smartbit.com.au',
-    bitcoinJsNetwork: bitcoin.networks.testnet,
-    unitPrefix: 't'
-  },
-  mainnet: {
-    name: 'Mainnet',
-    explorerUrl: 'https://smartbit.com.au',
-    bitcoinJsNetwork: bitcoin.networks.bitcoin,
-    unitPrefix: ''
+  // Update the active wallet settings with info discovered from getinfo.
+  const wallet = walletSelectors.activeWalletSettings(state)
+  const chain = get(data, 'chains[0]')
+  const network = data.testnet ? 'testnet' : 'mainnet'
+  if (wallet.chain !== chain || wallet.network !== network) {
+    wallet.chain = chain
+    wallet.network = network
+    await dispatch(putWallet(wallet))
   }
 }
 
@@ -73,13 +105,18 @@ const ACTION_HANDLERS = {
     hasSynced
   }),
   [GET_INFO]: state => ({ ...state, infoLoading: true }),
-  [RECEIVE_INFO]: (state, { data }) => ({
-    ...state,
-    infoLoading: false,
-    network: data.testnet ? networks.testnet : networks.mainnet,
-    chain: get(data, 'chains[0]'),
-    data
-  })
+  [RECEIVE_INFO]: (state, { data }) => {
+    const chain = get(data, 'chains[0]')
+    const network = data.testnet ? 'testnet' : 'mainnet'
+    const networkData = get(networkInfo, `${chain}.${network}`)
+    return {
+      ...state,
+      infoLoading: false,
+      network: networkData,
+      chain,
+      data
+    }
+  }
 }
 
 // ------------------------------------

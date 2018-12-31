@@ -2,32 +2,43 @@
 
 exports[`component.UI.Range should render correctly 1`] = `
 .c0 {
-  overflow: hidden;
-  width: 100%;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  background: none;
+  cursor: pointer;
+  display: inline-block;
+  height: 100%;
+  min-height: 20px;
+  overflow: hidden;
+  width: 200px;
+}
+
+.c0:focus {
+  box-shadow: none;
   outline: none;
 }
 
 .c0::-webkit-slider-runnable-track {
-  height: 8px;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #959595;
-  margin-top: -1px;
+  background: #fd9800;
+  content: '';
+  height: 4px;
+  pointer-events: none;
+  border: 0px solid white;
+  border-radius: 3px;
 }
 
 .c0::-webkit-slider-thumb {
   width: 8px;
+  height: 8px;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
-  height: 8px;
-  cursor: ew-resize;
   background: #ffffff;
-  box-shadow: -1000px 0 0 1000px orange;
+  border-radius: 50%;
+  box-shadow: 4px 0px 0 -2px #959595,5px 0px 0 -2px #959595,6px 0px 0 -2px #959595,7px 0px 0 -2px #959595,8px 0px 0 -2px #959595,9px 0px 0 -2px #959595,10px 0px 0 -2px #959595,11px 0px 0 -2px #959595,12px 0px 0 -2px #959595,13px 0px 0 -2px #959595,14px 0px 0 -2px #959595,15px 0px 0 -2px #959595,16px 0px 0 -2px #959595,17px 0px 0 -2px #959595,18px 0px 0 -2px #959595,19px 0px 0 -2px #959595,20px 0px 0 -2px #959595,21px 0px 0 -2px #959595,22px 0px 0 -2px #959595,23px 0px 0 -2px #959595,24px 0px 0 -2px #959595,25px 0px 0 -2px #959595,26px 0px 0 -2px #959595,27px 0px 0 -2px #959595,28px 0px 0 -2px #959595,29px 0px 0 -2px #959595,30px 0px 0 -2px #959595,31px 0px 0 -2px #959595,32px 0px 0 -2px #959595,33px 0px 0 -2px #959595,34px 0px 0 -2px #959595,35px 0px 0 -2px #959595,36px 0px 0 -2px #959595,37px 0px 0 -2px #959595,38px 0px 0 -2px #959595,39px 0px 0 -2px #959595,40px 0px 0 -2px #959595,41px 0px 0 -2px #959595,42px 0px 0 -2px #959595,43px 0px 0 -2px #959595,44px 0px 0 -2px #959595,45px 0px 0 -2px #959595,46px 0px 0 -2px #959595,47px 0px 0 -2px #959595,48px 0px 0 -2px #959595,49px 0px 0 -2px #959595,50px 0px 0 -2px #959595,51px 0px 0 -2px #959595,52px 0px 0 -2px #959595,53px 0px 0 -2px #959595,54px 0px 0 -2px #959595,55px 0px 0 -2px #959595,56px 0px 0 -2px #959595,57px 0px 0 -2px #959595,58px 0px 0 -2px #959595,59px 0px 0 -2px #959595,60px 0px 0 -2px #959595,61px 0px 0 -2px #959595,62px 0px 0 -2px #959595,63px 0px 0 -2px #959595,64px 0px 0 -2px #959595,65px 0px 0 -2px #959595,66px 0px 0 -2px #959595,67px 0px 0 -2px #959595,68px 0px 0 -2px #959595,69px 0px 0 -2px #959595,70px 0px 0 -2px #959595,71px 0px 0 -2px #959595,72px 0px 0 -2px #959595,73px 0px 0 -2px #959595,74px 0px 0 -2px #959595,75px 0px 0 -2px #959595,76px 0px 0 -2px #959595,77px 0px 0 -2px #959595,78px 0px 0 -2px #959595,79px 0px 0 -2px #959595,80px 0px 0 -2px #959595,81px 0px 0 -2px #959595,82px 0px 0 -2px #959595,83px 0px 0 -2px #959595,84px 0px 0 -2px #959595,85px 0px 0 -2px #959595,86px 0px 0 -2px #959595,87px 0px 0 -2px #959595,88px 0px 0 -2px #959595,89px 0px 0 -2px #959595,90px 0px 0 -2px #959595,91px 0px 0 -2px #959595,92px 0px 0 -2px #959595,93px 0px 0 -2px #959595,94px 0px 0 -2px #959595,95px 0px 0 -2px #959595,96px 0px 0 -2px #959595,97px 0px 0 -2px #959595,98px 0px 0 -2px #959595,99px 0px 0 -2px #959595,100px 0px 0 -2px #959595,101px 0px 0 -2px #959595,102px 0px 0 -2px #959595,103px 0px 0 -2px #959595,104px 0px 0 -2px #959595,105px 0px 0 -2px #959595,106px 0px 0 -2px #959595,107px 0px 0 -2px #959595,108px 0px 0 -2px #959595,109px 0px 0 -2px #959595,110px 0px 0 -2px #959595,111px 0px 0 -2px #959595,112px 0px 0 -2px #959595,113px 0px 0 -2px #959595,114px 0px 0 -2px #959595,115px 0px 0 -2px #959595,116px 0px 0 -2px #959595,117px 0px 0 -2px #959595,118px 0px 0 -2px #959595,119px 0px 0 -2px #959595,120px 0px 0 -2px #959595,121px 0px 0 -2px #959595,122px 0px 0 -2px #959595,123px 0px 0 -2px #959595,124px 0px 0 -2px #959595,125px 0px 0 -2px #959595,126px 0px 0 -2px #959595,127px 0px 0 -2px #959595,128px 0px 0 -2px #959595,129px 0px 0 -2px #959595,130px 0px 0 -2px #959595,131px 0px 0 -2px #959595,132px 0px 0 -2px #959595,133px 0px 0 -2px #959595,134px 0px 0 -2px #959595,135px 0px 0 -2px #959595,136px 0px 0 -2px #959595,137px 0px 0 -2px #959595,138px 0px 0 -2px #959595,139px 0px 0 -2px #959595,140px 0px 0 -2px #959595,141px 0px 0 -2px #959595,142px 0px 0 -2px #959595,143px 0px 0 -2px #959595,144px 0px 0 -2px #959595,145px 0px 0 -2px #959595,146px 0px 0 -2px #959595,147px 0px 0 -2px #959595,148px 0px 0 -2px #959595,149px 0px 0 -2px #959595,150px 0px 0 -2px #959595,151px 0px 0 -2px #959595,152px 0px 0 -2px #959595,153px 0px 0 -2px #959595,154px 0px 0 -2px #959595,155px 0px 0 -2px #959595,156px 0px 0 -2px #959595,157px 0px 0 -2px #959595,158px 0px 0 -2px #959595,159px 0px 0 -2px #959595,160px 0px 0 -2px #959595,161px 0px 0 -2px #959595,162px 0px 0 -2px #959595,163px 0px 0 -2px #959595,164px 0px 0 -2px #959595,165px 0px 0 -2px #959595,166px 0px 0 -2px #959595,167px 0px 0 -2px #959595,168px 0px 0 -2px #959595,169px 0px 0 -2px #959595,170px 0px 0 -2px #959595,171px 0px 0 -2px #959595,172px 0px 0 -2px #959595,173px 0px 0 -2px #959595,174px 0px 0 -2px #959595,175px 0px 0 -2px #959595,176px 0px 0 -2px #959595,177px 0px 0 -2px #959595,178px 0px 0 -2px #959595,179px 0px 0 -2px #959595,180px 0px 0 -2px #959595,181px 0px 0 -2px #959595,182px 0px 0 -2px #959595,183px 0px 0 -2px #959595,184px 0px 0 -2px #959595,185px 0px 0 -2px #959595,186px 0px 0 -2px #959595,187px 0px 0 -2px #959595,188px 0px 0 -2px #959595,189px 0px 0 -2px #959595,190px 0px 0 -2px #959595,191px 0px 0 -2px #959595,192px 0px 0 -2px #959595,193px 0px 0 -2px #959595,194px 0px 0 -2px #959595,195px 0px 0 -2px #959595,196px 0px 0 -2px #959595,197px 0px 0 -2px #959595,198px 0px 0 -2px #959595,199px 0px 0 -2px #959595,0 2px 4px 0 rgba(0,0,0,0.5);
+  margin-top: -2px;
+  border: 0px solid black;
 }
 
 <form

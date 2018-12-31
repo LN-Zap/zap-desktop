@@ -26,7 +26,7 @@ export function addInvoice(lnd, { memo, value, private: privateInvoice }) {
  */
 export function listInvoices(lnd) {
   return new Promise((resolve, reject) => {
-    lnd.listInvoices({}, (err, data) => {
+    lnd.listInvoices({ num_max_invoices: 1000 }, (err, data) => {
       if (err) {
         return reject(err)
       }

@@ -7,6 +7,8 @@
   top: 30px;
   left: -100px;
   z-index: z('settings-form', 'modal');
+  border-radius: 3px;
+  box-shadow: 0 3px 4px 0 rgba(30, 30, 30, 0.5);
 
   li {
     padding: 20px;

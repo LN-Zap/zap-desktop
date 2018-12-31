@@ -45,6 +45,12 @@ script:
   - yarn test-ci || travis_terminate 1
   - yarn coveralls || travis_terminate 1
 
+after_success:
+  - test $TRAVIS_REPO_SLUG = 'LN-Zap/zap-desktop' &&
+    test $TRAVIS_BRANCH = "master" &&
+    test $TRAVIS_PULL_REQUEST = "false" &&
+    yarn storybook:deploy
+
 branches:
   only:
     - master

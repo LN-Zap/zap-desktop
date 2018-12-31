@@ -7,7 +7,6 @@ import { btc } from 'lib/utils'
 import { themeSelectors } from 'reducers/theme'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
-import { fetchInfo, infoSelectors } from 'reducers/info'
 import { setFormType } from 'reducers/form'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
 import { lndSelectors } from 'reducers/lnd'
@@ -18,7 +17,6 @@ import {
   closeChannel,
   channelsSelectors,
   currentChannels,
-  toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
   setSelectedChannel
@@ -39,27 +37,27 @@ import {
   updateManualFormErrors
 } from 'reducers/contactsform'
 import { fetchBalance } from 'reducers/balance'
+import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
 import { clearError } from 'reducers/error'
 import { hideActivityModal, activitySelectors } from 'reducers/activity'
-
+import { setIsWalletOpen } from 'reducers/wallet'
 import App from 'components/App'
 import withLoading from 'components/withLoading'
 
 const mapDispatchToProps = {
   setCurrency,
   closeWalletModal,
-  fetchInfo,
   setFormType,
   createInvoice,
   fetchInvoice,
   clearError,
   fetchBalance,
+  fetchPeers,
   fetchChannels,
   fetchSuggestedNodes,
   openChannel,
   closeChannel,
-  toggleFilterPulldown,
   changeFilter,
   updateChannelSearchQuery,
   setSelectedChannel,
@@ -77,7 +75,8 @@ const mapDispatchToProps = {
   updateManualFormErrors,
   setChannelFormType,
   fetchDescribeNetwork,
-  hideActivityModal
+  hideActivityModal,
+  setIsWalletOpen
 }
 
 const mapStateToProps = state => ({
@@ -98,10 +97,11 @@ const mapStateToProps = state => ({
   error: state.error,
   network: state.network,
   settings: state.settings,
+  wallet: state.wallet,
 
   isLoading:
-    infoSelectors.infoLoading(state) ||
-    tickerSelectors.tickerLoading(state) ||
+    !tickerSelectors.currentTicker(state) ||
+    !tickerSelectors.currencyName(state) ||
     state.balance.channelBalance === null ||
     state.balance.walletBalance === null,
 
@@ -112,6 +112,7 @@ const mapStateToProps = state => ({
   currencyFilters: tickerSelectors.currencyFilters(state),
   currencyName: tickerSelectors.currencyName(state),
   syncPercentage: lndSelectors.syncPercentage(state),
+  cryptoName: tickerSelectors.cryptoName(state),
 
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
   showManualForm: contactFormSelectors.showManualForm(state),
@@ -123,7 +124,6 @@ const mapStateToProps = state => ({
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
   nonActiveChannelPubkeys: channelsSelectors.nonActiveChannelPubkeys(state),
   pendingOpenChannelPubkeys: channelsSelectors.pendingOpenChannelPubkeys(state),
-  nonActiveFilters: channelsSelectors.nonActiveFilters(state),
   channelNodes: channelsSelectors.channelNodes(state)
 })
 
@@ -142,7 +142,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currentTicker: stateProps.currentTicker,
     contactsform: stateProps.contactsform,
     nodes: stateProps.network.nodes,
-    nonActiveFilters: stateProps.nonActiveFilters,
     ticker: stateProps.ticker,
     network: stateProps.info.network,
     currencyName: stateProps.currencyName,
@@ -151,7 +150,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     openContactsForm: dispatchProps.openContactsForm,
     contactFormSelectors: dispatchProps.contactFormSelectors,
     updateManualFormError: dispatchProps.updateManualFormErrors,
-    toggleFilterPulldown: dispatchProps.toggleFilterPulldown,
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
     setSelectedChannel: dispatchProps.setSelectedChannel,
@@ -210,6 +208,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const receiveModalProps = {
     isOpen: stateProps.address.walletModal,
     network: stateProps.info.network,
+    cryptoName: stateProps.cryptoName,
     pubkey: get(stateProps.info, 'data.uris[0]') || get(stateProps.info, 'data.identity_pubkey'),
     address: stateProps.address.address,
     alias: stateProps.info.data.alias,

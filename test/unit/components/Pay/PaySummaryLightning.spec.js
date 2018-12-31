@@ -5,15 +5,9 @@ import { PaySummaryLightning } from 'components/Pay'
 
 const props = {
   currentTicker: {
-    USD: {
-      last: 6477.78
-    },
-    EUR: {
-      last: 5656.01
-    },
-    GBP: {
-      last: 5052.73
-    }
+    USD: 6477.78,
+    EUR: 5656.01,
+    GBP: 5052.73
   },
   cryptoCurrency: 'btc',
   cryptoCurrencyTicker: 'BTC',

@@ -1,12 +1,10 @@
 import { createSelector } from 'reselect'
 import { ipcRenderer } from 'electron'
-import db from 'store/db'
-
 import { showNotification } from 'lib/utils/notifications'
 import { btc } from 'lib/utils'
-
 import { fetchBalance } from './balance'
 import { setError } from './error'
+import { walletSelectors } from './wallet'
 
 // ------------------------------------
 // Constants
@@ -35,6 +33,7 @@ export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 
 // Decorate invoice object with custom/computed properties.
 const decorateInvoice = invoice => {
+  invoice.type = 'invoice'
   invoice.finalAmount = invoice.amt_paid_sat ? invoice.amt_paid_sat : invoice.value
   return invoice
 }
@@ -95,12 +94,14 @@ export const fetchInvoices = () => dispatch => {
 
 // Receive IPC event for invoices
 export const receiveInvoices = (event, { invoices }) => dispatch => {
-  dispatch({ type: RECEIVE_INVOICES, invoices })
   invoices.forEach(decorateInvoice)
+  dispatch({ type: RECEIVE_INVOICES, invoices })
 }
 
 // Send IPC event for creating an invoice
-export const createInvoice = (amount, currency, memo) => async dispatch => {
+export const createInvoice = (amount, currency, memo) => async (dispatch, getState) => {
+  const state = getState()
+
   // backend needs value in satoshis no matter what currency we are using
   const value = btc.convert(currency, 'sats', amount)
 
@@ -110,12 +111,11 @@ export const createInvoice = (amount, currency, memo) => async dispatch => {
   // neutrino) we will have to flag private as true when creating this invoice. All light cliets open private channels
   // (both manual and autopilot ones). In order for these clients to receive money through these channels the invoices
   // need to come with routing hints for private channels
-  const activeWallet = await db.settings.get({ key: 'activeWallet' })
-  const wallet = db.wallets.get({ id: activeWallet.value })
+  const activeWalletSettings = walletSelectors.activeWalletSettings(state)
 
   ipcRenderer.send('lnd', {
     msg: 'createInvoice',
-    data: { value, memo, private: wallet.type === 'local' }
+    data: { value, memo, private: activeWalletSettings.type === 'local' }
   })
 }
 
@@ -137,12 +137,12 @@ export const invoiceFailed = (event, { error }) => dispatch => {
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices
 export const invoiceUpdate = (event, { invoice }) => dispatch => {
+  decorateInvoice(invoice)
+
   dispatch({ type: UPDATE_INVOICE, invoice })
 
   // Fetch new balance
   dispatch(fetchBalance())
-
-  decorateInvoice(invoice)
 
   if (invoice.settled) {
     // HTML 5 desktop notification for the invoice update
@@ -168,24 +168,28 @@ const ACTION_HANDLERS = {
   [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
 
   [SEND_INVOICE]: state => ({ ...state, invoiceLoading: true }),
-  [INVOICE_SUCCESSFUL]: (state, { invoice }) => ({
+  [INVOICE_SUCCESSFUL]: state => ({
     ...state,
-    invoiceLoading: false,
-    invoices: [invoice, ...state.invoices]
+    invoiceLoading: false
   }),
   [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null }),
 
   [UPDATE_INVOICE]: (state, action) => {
+    let isNew = true
     const updatedInvoices = state.invoices.map(invoice => {
-      if (invoice.r_hash.toString('hex') !== action.invoice.r_hash.toString('hex')) {
-        return invoice
+      if (invoice.r_hash.toString('hex') === action.invoice.r_hash.toString('hex')) {
+        isNew = false
+        return {
+          ...invoice,
+          ...action.invoice
+        }
       }
-
-      return {
-        ...invoice,
-        ...action.invoice
-      }
+      return invoice
     })
+
+    if (isNew) {
+      updatedInvoices.push(action.invoice)
+    }
 
     return { ...state, invoices: updatedInvoices }
   }
@@ -196,7 +200,10 @@ const invoiceSelector = state => state.invoice.invoice
 const invoicesSelector = state => state.invoice.invoices
 const invoicesSearchTextSelector = state => state.invoice.invoicesSearchText
 
-invoiceSelectors.invoiceModalOpen = createSelector(invoiceSelector, invoice => !!invoice)
+invoiceSelectors.invoiceModalOpen = createSelector(
+  invoiceSelector,
+  invoice => !!invoice
+)
 
 invoiceSelectors.invoices = createSelector(
   invoicesSelector,

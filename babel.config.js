@@ -3,22 +3,16 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        targets: {
-          node: 8,
-          browsers: 'electron 2.0'
-        },
-        useBuiltIns: 'usage'
+        useBuiltIns: 'usage',
+        include: ['proposal-object-rest-spread', 'transform-classes', 'transform-destructuring']
       }
     ],
     '@babel/preset-flow',
     '@babel/react'
   ],
   plugins: [
-    '@babel/plugin-proposal-object-rest-spread',
     '@babel/plugin-proposal-class-properties',
     '@babel/plugin-proposal-export-default-from',
-    '@babel/plugin-transform-classes',
-    '@babel/plugin-transform-destructuring',
     'babel-plugin-styled-components',
     [
       'react-intl-auto',
@@ -30,7 +24,12 @@ module.exports = {
   ],
   env: {
     production: {
-      presets: ['react-optimize']
+      plugins: [
+        '@babel/transform-react-constant-elements',
+        '@babel/transform-react-inline-elements',
+        'transform-react-remove-prop-types',
+        'transform-react-pure-class-to-function'
+      ]
     }
   }
 }

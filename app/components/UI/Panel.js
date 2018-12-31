@@ -9,8 +9,8 @@ const PanelHeader = ({ children, ...rest }) => (
 )
 PanelHeader.propTypes = { children: PropTypes.node }
 
-const PanelBody = ({ children, ...rest }) => (
-  <Box {...rest} as="section" css={{ flex: 1 }}>
+const PanelBody = ({ children, css, ...rest }) => (
+  <Box {...rest} as="section" css={Object.assign({ flex: 1 }, css)}>
     {children}
   </Box>
 )

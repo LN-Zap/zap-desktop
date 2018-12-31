@@ -49,11 +49,16 @@ class LightningInvoiceInput extends React.Component {
   }
 
   render() {
-    const { intl } = this.props
+    const { chain, intl } = this.props
 
     return (
       <InformedTextArea
-        placeholder={intl.formatMessage({ ...messages.payreq_placeholder })}
+        placeholder={intl.formatMessage(
+          {
+            ...messages.payreq_placeholder
+          },
+          { chain }
+        )}
         rows={5}
         {...this.props}
         spellCheck="false"
@@ -74,17 +79,16 @@ const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
   return (
     <React.Fragment>
       <TextArea {...rest} />
-      {value &&
-        !fieldState.error && (
-          <Message variant="success" mt={2}>
-            <FormattedMessage
-              {...messages.valid_request}
-              values={{
-                chain: chainName
-              }}
-            />
-          </Message>
-        )}
+      {value && !fieldState.error && (
+        <Message variant="success" mt={2}>
+          <FormattedMessage
+            {...messages.valid_request}
+            values={{
+              chain: chainName
+            }}
+          />
+        </Message>
+      )}
     </React.Fragment>
   )
 })

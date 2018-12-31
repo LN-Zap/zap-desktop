@@ -17,7 +17,6 @@ Object {
     "key": "ALL_CHANNELS",
     "name": "All",
   },
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
@@ -77,7 +76,6 @@ Object {
     "key": "ALL_CHANNELS",
     "name": "All",
   },
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
@@ -140,7 +138,6 @@ Object {
     "key": "ALL_CHANNELS",
     "name": "All",
   },
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
@@ -197,7 +194,6 @@ Object {
     "key": "ALL_CHANNELS",
     "name": "All",
   },
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
@@ -257,7 +253,6 @@ Object {
     "key": "ALL_CHANNELS",
     "name": "All",
   },
-  "filterPulldown": false,
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",

@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import QRCode from 'qrcode.react'
 import copy from 'copy-to-clipboard'
+import { withTheme } from 'styled-components'
 import { showNotification } from 'lib/utils/notifications'
 import { Countdown, Dropdown, Value } from 'components/UI'
-import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
+import { FormattedDate, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 import styles from './InvoiceModal.scss'
 
@@ -12,18 +13,21 @@ const InvoiceModal = ({
   item: invoice,
   ticker,
   currentTicker,
-
+  intl,
+  theme,
   toggleCurrencyProps: { currencyFilters, setCurrency }
 }) => {
-  const copyPaymentRequest = () => {
-    copy(invoice.payment_request)
-    showNotification('Noice', <FormattedMessage {...messages.copied} />)
+  const copyToClipboard = data => {
+    copy(data)
+    const notifTitle = intl.formatMessage({ ...messages.invoice_copied_notification_title })
+    const notifBody = intl.formatMessage({ ...messages.invoice_copied_notification_description })
+    showNotification(notifTitle, notifBody)
   }
 
   const countDownDate = (parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)) * 1000
 
   return (
-    <div className={styles.container}>
+    <div className={`${styles.container} ${theme.name}`}>
       <div className={styles.content}>
         <section className={styles.left}>
           <h2>
@@ -64,7 +68,7 @@ const InvoiceModal = ({
                   month="long"
                   day="2-digit"
                 />{' '}
-                <FormattedTime value={new Date(invoice.creation_date * 1000)} />
+                <FormattedTime value={invoice.creation_date * 1000} />
               </p>
               {!invoice.settled && (
                 <p className={styles.notPaid}>
@@ -99,7 +103,7 @@ const InvoiceModal = ({
         <div>
           <FormattedMessage {...messages.save} />
         </div>
-        <div onClick={copyPaymentRequest}>
+        <div onClick={() => copyToClipboard(invoice.payment_request)}>
           <FormattedMessage {...messages.copy} />
         </div>
       </div>
@@ -114,4 +118,4 @@ InvoiceModal.propTypes = {
   toggleCurrencyProps: PropTypes.object.isRequired
 }
 
-export default InvoiceModal
+export default withTheme(injectIntl(InvoiceModal))

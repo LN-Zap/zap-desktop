@@ -3,7 +3,6 @@
  */
 
 import path from 'path'
-import webpack from 'webpack'
 import merge from 'webpack-merge'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import baseConfig, { rootDir } from './webpack.config.base'
@@ -30,16 +29,6 @@ export default merge.smart(baseConfig, {
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
       openAnalyzer: process.env.OPEN_ANALYZER === 'true'
-    }),
-
-    /**
-     * Create global constants which can be configured at compile time.
-     *
-     * Useful for allowing different behaviour between development builds and
-     * release builds
-     */
-    new webpack.EnvironmentPlugin({
-      DEBUG_PROD: false
     })
   ],
 

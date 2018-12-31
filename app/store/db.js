@@ -17,10 +17,24 @@ db.version(1).stores({
   nodes: 'id'
 })
 
-// Wallet with ID 1 will always be a local bitcoin wallet.
-// This ensures that useres upgrading from older versions do not loose their initial wallet.
-db.on('populate', () => {
-  db.wallets.add({ type: 'local', currency: 'bitcoin' })
+// Set initial active wallet.
+db.on('populate', async function() {
+  // If there are already some bitcoin testnet wallet before the database has been created, import them into the
+  // database and set the active wallet as wallet 1. This is for users upgrading from versions prior to 0.3.0.
+  const fsWallets = await window.Zap.getLocalWallets('bitcoin', 'testnet')
+  if (fsWallets.length > 0) {
+    await fsWallets
+      .filter(wallet => wallet !== 'wallet-tmp')
+      .forEach(async wallet => {
+        await db.wallets.add({
+          type: 'local',
+          chain: 'bitcoin',
+          network: 'testnet',
+          wallet
+        })
+      })
+    await db.settings.add({ key: 'activeWallet', value: 1 })
+  }
 })
 
 /**
@@ -30,13 +44,20 @@ db.on('populate', () => {
 export const Wallet = db.wallets.defineClass({
   id: Number,
   type: String,
-  currency: String,
   network: String,
+  chain: String,
   alias: String,
+  name: String,
   autopilot: Boolean,
   cert: String,
   host: String,
   macaroon: String
+})
+
+Object.defineProperty(Wallet.prototype, 'wallet', {
+  get: function wallet() {
+    return `wallet-${this.id}`
+  }
 })
 
 /**

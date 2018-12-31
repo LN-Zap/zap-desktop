@@ -1,4 +1,5 @@
 // @flow
+import os from 'os'
 import { app, Menu, shell, BrowserWindow, ipcMain } from 'electron'
 import { getLanguageName, locales } from '../i18n'
 
@@ -17,7 +18,7 @@ export default class ZapMenuBuilder {
     }
 
     let template
-    if (process.platform === 'darwin') {
+    if (os.platform() === 'darwin') {
       template = this.buildDarwinTemplate()
     } else {
       template = this.buildDefaultTemplate()
