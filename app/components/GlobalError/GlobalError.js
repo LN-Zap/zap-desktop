@@ -32,7 +32,7 @@ class GlobalError extends React.Component {
         {show =>
           show &&
           (springStyles => (
-            <Box mt="22px" px={3} width={1} css={{ position: 'absolute', 'z-index': '100' }}>
+            <Box mt="22px" px={3} width={1} css={{ position: 'absolute', 'z-index': '99999' }}>
               <animated.div style={springStyles}>
                 <Notification variant="error" onClick={clearError}>
                   {errorToUserFriendly(error)}
