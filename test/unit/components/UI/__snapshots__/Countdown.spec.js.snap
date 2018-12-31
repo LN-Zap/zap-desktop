@@ -13,7 +13,7 @@ exports[`component.UI.Countdown should render correctly with default props 1`] =
   <FormattedRelative
     style="best fit"
     updateInterval={1000}
-    value={Date { NaN }}
+    value={1970-01-01T00:00:00.000Z}
   />
 </Text>
 `;
