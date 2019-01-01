@@ -236,7 +236,7 @@
   "components.Syncing.fund_title": "Fund your Zap wallet",
   "components.Syncing.grab_coffee": "you might want to grab a coffee or try again later!",
   "components.Syncing.preparing": "Preparing…",
-  "components.Syncing.sync_caption": "Syncing to the blockchain",
+  "components.Syncing.sync_caption": "Syncing with the blockchain",
   "components.Syncing.sync_description": "Please wait a while whilst we fetch all of your latest data from the blockchain.",
   "components.Syncing.sync_title": "Welcome back to your Zap wallet!",
   "components.Syncing.taking_time": "It looks like this could take some time",

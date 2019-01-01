@@ -11,7 +11,7 @@ export default defineMessages({
     'Please wait a while whilst we fetch all of your latest data from the blockchain.',
   fund_title: 'Fund your Zap wallet',
   fund_description: 'Might as well fund your wallet while you’re waiting to sync.',
-  sync_caption: 'Syncing to the blockchain',
+  sync_caption: 'Syncing with the blockchain',
   block_progress: 'Block {currentBlock} of {totalBlocks}',
   filter_progress: 'Commitment Filter {currentFilter} of {totalFilters}',
   tutorials_list_description:
