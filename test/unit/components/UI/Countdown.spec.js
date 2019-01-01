@@ -5,7 +5,7 @@ import { Countdown } from 'components/UI'
 
 describe('component.UI.Countdown', () => {
   it('should render correctly with default props', () => {
-    const wrapper = shallow(<Countdown />)
+    const wrapper = shallow(<Countdown date={new Date('2009-01-03T18:15:05+00:00')} />)
     expect(toJSON(wrapper)).toMatchSnapshot()
   })
 })
