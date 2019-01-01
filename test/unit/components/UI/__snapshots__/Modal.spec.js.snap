@@ -30,10 +30,12 @@ exports[`component.UI.Modal should render correctly 1`] = `
   width: 100%;
   color: primaryText;
   background-color: primaryColor;
-  height: 100vh;
   z-index: 999;
   position: absolute;
   top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
