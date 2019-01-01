@@ -10,7 +10,7 @@ describe('component.UI.LightningInvoiceInput', () => {
   it('should render correctly', () => {
     const tree = renderer
       .create(
-        <IntlProvider>
+        <IntlProvider locale="en">
           <ThemeProvider theme={dark}>
             <Form>
               <LightningInvoiceInput field="name" chain="bitcoin" network="mainnet" theme={dark} />
