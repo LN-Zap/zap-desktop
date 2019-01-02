@@ -4082,7 +4082,12 @@ binary@^0.3.0, binary@~0.3.0:
     buffers "~0.1.1"
     chainsaw "~0.1.0"
 
-bindings@^1.2.1, bindings@^1.3.0:
+bindings@^1.2.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.3.1.tgz#21fc7c6d67c18516ec5aaa2815b145ff77b26ea5"
+  integrity sha512-i47mqjF9UbjxJhxGf+pZ6kSxrnI3wBLlnGI2ArWJ4r0VrvDS7ZYXkprq/pLaBWYq4GM0r4zdHY+NNRqEMU7uew==
+
+bindings@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/bindings/-/bindings-1.3.0.tgz#b346f6ecf6a95f5a815c5839fc7cdb22502f1ed7"
   integrity sha512-DpLh5EzMR2kzvX1KIlVC0VkC3iZtHKTgdtZ0a3pglBZdaQFjt5S9g9xd1lE+YvXyfd6mtCeRnrUfOLYiTMlNSw==
@@ -4211,14 +4216,15 @@ body-parser@1.18.3:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
-bolt11@LN-Zap/bolt11#7fe8d5c7b643067bb109fac3cd557e231f62f1c1:
-  version "1.2.0"
-  resolved "https://codeload.github.com/LN-Zap/bolt11/tar.gz/7fe8d5c7b643067bb109fac3cd557e231f62f1c1"
+bolt11@1.2.1:
+  version "1.2.1"
+  resolved "https://registry.yarnpkg.com/bolt11/-/bolt11-1.2.1.tgz#67ee574385ec4143a40112ad9ad093a26309b545"
+  integrity sha512-7y2FmvBH1DOLFkygSngZpBYSzkS5IfSfxY4Zt06T4nwnZilt0pkQrFMeKDXzgIf+XnTGZzif3UznZ6GRzwWwtg==
   dependencies:
     bech32 "^1.1.2"
     bitcoinjs-lib "^3.3.1"
     bn.js "^4.11.8"
-    coininfo cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2
+    coininfo "git+https://github.com/cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2"
     lodash "^4.17.4"
     safe-buffer "^5.1.1"
     secp256k1 "^3.4.0"
@@ -5064,9 +5070,9 @@ code-point-at@^1.0.0:
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
   integrity sha1-DQcLTQQ6W+ozovGkDi7bPZpMz3c=
 
-coininfo@cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2:
+"coininfo@git+https://github.com/cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2":
   version "4.3.0"
-  resolved "https://codeload.github.com/cryptocoinjs/coininfo/tar.gz/c7e003b2fc0db165b89e6f98f6d6360ad22616b2"
+  resolved "git+https://github.com/cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2"
   dependencies:
     safe-buffer "^5.1.1"
 
@@ -11166,10 +11172,15 @@ mute-stream@0.0.7:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.7.tgz#3075ce93bc21b8fab43e1bc4da7e8115ed1e7bab"
   integrity sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s=
 
-nan@^2.10.0, nan@^2.2.1, nan@^2.9.2:
+nan@^2.10.0, nan@^2.9.2:
   version "2.11.1"
   resolved "https://registry.yarnpkg.com/nan/-/nan-2.11.1.tgz#90e22bccb8ca57ea4cd37cc83d3819b52eea6766"
   integrity sha512-iji6k87OSXa0CcrLl9z+ZiYSuR2o+c0bGuNmXdrhTQTakxytAFsC56SArGYoiHlJlFoHSnvmhpceZJaXkVuOtA==
+
+nan@^2.2.1:
+  version "2.12.1"
+  resolved "https://registry.yarnpkg.com/nan/-/nan-2.12.1.tgz#7b1aa193e9aa86057e3c7bbd0ac448e770925552"
+  integrity sha512-JY7V6lRkStKcKTvHO5NVSQRv+RV+FIL5pvDoLiAtSL9pKlC5x9PKQcZDsq7m4FO4d57mkhC6Z+QhAh3Jdk5JFw==
 
 nanomatch@^1.2.9:
   version "1.2.13"
@@ -14033,9 +14044,9 @@ seamless-immutable@^7.1.3:
   integrity sha512-XiUO1QP4ki4E2PHegiGAlu6r82o5A+6tRh7IkGGTVg/h+UoeX4nFBeCGPOhb4CYjvkqsfm/TUtvOMYC1xmV30A==
 
 secp256k1@^3.4.0:
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-3.5.2.tgz#f95f952057310722184fe9c914e6b71281f2f2ae"
-  integrity sha512-iin3kojdybY6NArd+UFsoTuapOF7bnJNf2UbcWXaY3z+E1sJDipl60vtzB5hbO/uquBu7z0fd4VC4Irp+xoFVQ==
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/secp256k1/-/secp256k1-3.6.1.tgz#f0475d42096218ff00e45a127242abdff9285335"
+  integrity sha512-utLpWv4P4agEw7hakR73wlWX0NBmC5t/vkJ0TAfTyvETAUzo0tm6aFKPYetVYRaVubxMeWm5Ekv9ETwOgcDCqw==
   dependencies:
     bindings "^1.2.1"
     bip66 "^1.1.3"
