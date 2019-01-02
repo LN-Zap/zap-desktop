@@ -200,6 +200,14 @@ const invoiceSelector = state => state.invoice.invoice
 const invoicesSelector = state => state.invoice.invoices
 const invoicesSearchTextSelector = state => state.invoice.invoicesSearchText
 
+const invoiceIsPaid = state => {
+  const invoice = invoiceSelector(state)
+  const allInvoices = invoicesSelector(state)
+  return Boolean(allInvoices.find(item => item.payment_request === invoice && item.settled))
+}
+
+invoiceSelectors.isPaid = invoiceIsPaid
+
 invoiceSelectors.invoiceModalOpen = createSelector(
   invoiceSelector,
   invoice => !!invoice
