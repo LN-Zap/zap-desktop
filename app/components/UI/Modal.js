@@ -31,7 +31,14 @@ class Modal extends React.Component {
     return (
       <Panel
         width={1}
-        css={{ height: '100vh', 'z-index': '999', position: 'absolute', top: 0 }}
+        css={{
+          'z-index': '999',
+          position: 'absolute',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0
+        }}
         bg="primaryColor"
         color="primaryText"
       >

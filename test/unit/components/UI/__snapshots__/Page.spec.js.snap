@@ -3,6 +3,7 @@
 exports[`component.UI.Page should render correctly 1`] = `
 .c0 {
   background-color: primaryColor;
+  position: relative;
   height: 100%;
   overflow: hidden;
   min-width: 900px;

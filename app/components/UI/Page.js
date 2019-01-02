@@ -13,6 +13,7 @@ const Page = ({ css, ...rest }) => (
     as="article"
     css={Object.assign(
       {
+        position: 'relative',
         height: '100%',
         overflow: 'hidden',
         'min-width': '900px',
