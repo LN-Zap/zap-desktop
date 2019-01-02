@@ -43,7 +43,7 @@ const SuggestedNodes = ({
    */
   const renderNodes = () => (
     <>
-      <Text mb={4} textAlign="justify">
+      <Text mb={4}>
         <FormattedMessage {...messages.empty_description} />
       </Text>
       {suggestedNodes.map(node => (

@@ -1,6 +1,7 @@
 @import 'styles/variables.scss';
 
 .submenuHeader {
+  cursor: pointer;
   padding: 20px;
   background: var(--primaryColor);
   font-size: 10px;
