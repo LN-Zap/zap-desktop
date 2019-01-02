@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
   fiatCurrency: state.ticker.fiatTicker,
   isProcessing: state.invoice.invoiceLoading,
   payReq: state.invoice.invoice,
-  isPaid: invoiceSelectors.isPaid(state)
+  invoice: invoiceSelectors.invoice(state)
 })
 
 const mapDispatchToProps = {

@@ -50,8 +50,8 @@ class Request extends React.Component {
     fiatCurrency: PropTypes.string.isRequired,
     /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
     isProcessing: PropTypes.bool,
-    /** Boolean indicating wether the invoice has already been paid. */
-    isPaid: PropTypes.bool,
+    /** Lnd invoice object for the payment request */
+    invoice: PropTypes.bool,
     /** Lightning Payment request. */
     payReq: PropTypes.string,
     /** Set the current cryptocurrency. */
@@ -64,7 +64,6 @@ class Request extends React.Component {
 
   static defaultProps = {
     isProcessing: false,
-    isPaid: false,
     payReq: null
   }
 
@@ -291,7 +290,7 @@ class Request extends React.Component {
       fiatCurrency,
       intl,
       isProcessing,
-      isPaid,
+      invoice,
       payReq,
       setCryptoCurrency,
       setFiatCurrency,
@@ -341,8 +340,10 @@ class Request extends React.Component {
                     cryptoCurrency={cryptoCurrency}
                     cryptoCurrencies={cryptoCurrencies}
                     currentTicker={currentTicker}
+                    fiatCurrency={fiatCurrency}
+                    fiatCurrencies={fiatCurrencies}
+                    invoice={invoice}
                     payReq={payReq}
-                    isPaid={isPaid}
                     // Dispatch
                     setCryptoCurrency={setCryptoCurrency}
                     setFiatCurrency={setFiatCurrency}
