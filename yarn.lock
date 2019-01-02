@@ -6822,10 +6822,10 @@ eslint-plugin-jsx-a11y@6.1.2:
     has "^1.0.3"
     jsx-ast-utils "^2.0.1"
 
-eslint-plugin-markdown@1.0.0-rc.1:
-  version "1.0.0-rc.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-markdown/-/eslint-plugin-markdown-1.0.0-rc.1.tgz#479ec9d33f307b507711ab6ce7c8cd44be82d4cc"
-  integrity sha512-9VsN3Eml5SzL1kVKS+xS9AfjkY3oyrElAGGwx04I1l3uopndpzpT3sooD/KbdiZjE3h1iKxYno6NI8+YOvSygQ==
+eslint-plugin-markdown@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-markdown/-/eslint-plugin-markdown-1.0.0.tgz#2d381b44fcf367f1bb53ae166eccf111cd4e1174"
+  integrity sha512-YIrClt3yLgyGov+rInjIoC/05zMxb/c6YXQZkyI9UKuBRFLgCrL37cxthj0JYWiTYtiHq0p8O0Nt0/HrvO48iQ==
   dependencies:
     object-assign "^4.0.1"
     remark-parse "^5.0.0"
