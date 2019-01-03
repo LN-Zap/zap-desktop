@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaAngleUp from 'react-icons/lib/fa/angle-up'
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
 import { Box, Flex } from 'rebass'
 import { btc } from 'lib/utils'
 import Settings from 'components/Settings'
 import { Button, Dropdown, StatusIndicator, Text, Value } from 'components/UI'
 import { WalletName } from 'components/Util'
+import AngleUp from 'components/Icon/AngleUp'
+import AngleDown from 'components/Icon/AngleDown'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Qrcode from 'components/Icon/Qrcode'
 import { FormattedNumber, FormattedMessage } from 'react-intl'
@@ -50,18 +50,26 @@ const Wallet = ({
         <Box as="section">
           <Box css={{ position: 'relative' }}>
             <Flex
+              alignItems="center"
               className={`${settingsProps.settings.settingsOpen && 'settingsOpen'}`}
               onClick={settingsProps.toggleSettings}
               css={{ cursor: 'pointer' }}
             >
               <StatusIndicator variant="online" mr={2} />
-              <Box
+              <Flex
+                alignItems="center"
                 className="settingsMenu"
                 css={{ '&:hover': { opacity: '0.5', transition: 'all 0.25s' } }}
               >
-                <WalletName wallet={activeWalletSettings} />
-                {settingsProps.settings.settingsOpen ? <FaAngleUp /> : <FaAngleDown />}
-              </Box>
+                <Text textAlign="left" mr={1}>
+                  <WalletName wallet={activeWalletSettings} />
+                </Text>
+                {settingsProps.settings.settingsOpen ? (
+                  <AngleUp width="0.7em" />
+                ) : (
+                  <AngleDown width="0.7em" />
+                )}
+              </Flex>
             </Flex>
             {settingsProps.settings.settingsOpen && <Settings {...settingsProps} />}
           </Box>

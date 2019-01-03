@@ -1,9 +1,10 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
+import { Flex, Box } from 'rebass'
 import { Button } from 'components/UI'
-import SystemNavPrevious from 'components/Icon/SystemNavPrevious'
-import SystemNavNext from 'components/Icon/SystemNavNext'
+import ArrowLeft from 'components/Icon/ArrowLeft'
+import ArrowRight from 'components/Icon/ArrowRight'
 
 storiesOf('Components', module).addWithChapters('Button', {
   subtitle: 'Buttons for forms and anything else that the user might want to click on.',
@@ -19,12 +20,20 @@ storiesOf('Components', module).addWithChapters('Button', {
           sectionFn: () => (
             <section>
               <Button onClick={action('clicked')}>
-                <SystemNavPrevious />
-                Previous
+                <Flex alignItems="center">
+                  <Box>
+                    <ArrowLeft />
+                  </Box>
+                  <Box ml={1}>Back</Box>
+                </Flex>
               </Button>{' '}
               <Button onClick={action('clicked')}>
-                Next
-                <SystemNavNext />
+                <Flex alignItems="center">
+                  <Box mr={1}>Next</Box>
+                  <Box>
+                    <ArrowRight />
+                  </Box>
+                </Flex>
               </Button>
             </section>
           )

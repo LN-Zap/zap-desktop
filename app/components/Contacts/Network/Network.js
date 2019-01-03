@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import FaExternalLink from 'react-icons/lib/fa/external-link'
 import blockExplorer from 'lib/utils/blockExplorer'
 import { satoshisToFiat } from 'lib/utils/btc'
+import ExternalLink from 'components/Icon/ExternalLink'
 import PlusCircle from 'components/Icon/PlusCircle'
 import Search from 'components/Icon/Search'
 import {
@@ -234,7 +234,15 @@ class Network extends Component {
                   }
 
                   return (
-                    <Flex as="header" key={loadingPubkey} py={3} mx={3} css={{ cursor: 'pointer' }}>
+                    <Flex
+                      as="header"
+                      alignItems="center"
+                      key={loadingPubkey}
+                      py={2}
+                      my={1}
+                      mx={3}
+                      css={{ cursor: 'pointer' }}
+                    >
                       <Box
                         mr={2}
                         className="hint--right"
@@ -263,7 +271,14 @@ class Network extends Component {
                       bg={isSelected ? 'secondaryColor' : null}
                       pb={1}
                     >
-                      <Flex as="header" py={2} my={1} mx={3} css={{ cursor: 'pointer' }}>
+                      <Flex
+                        as="header"
+                        alignItems="center"
+                        py={2}
+                        my={1}
+                        mx={3}
+                        css={{ cursor: 'pointer' }}
+                      >
                         <Box
                           mr={2}
                           className="hint--right"
@@ -288,7 +303,7 @@ class Network extends Component {
                               )
                             }
                           >
-                            <FaExternalLink />
+                            <ExternalLink />
                           </Button>
                         )}
                       </Flex>
