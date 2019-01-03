@@ -1,6 +1,10 @@
 import { createSelector } from 'reselect'
 import { decodePayReq } from 'lib/utils/crypto'
 
+import { fetchTransactions } from './transaction'
+import { fetchPayments } from './payment'
+import { fetchInvoices } from './invoice'
+import { fetchBalance } from './balance'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -73,6 +77,20 @@ export function toggleExpiredRequests() {
   return {
     type: TOGGLE_EXPIRED_REQUESTS
   }
+}
+
+/**
+ * Fetches user activity history. Which includes:
+ * Balance
+ * Payments
+ * Invoices
+ * Transactions
+ */
+export const fetchActivityHistory = () => dispatch => {
+  dispatch(fetchBalance())
+  dispatch(fetchPayments())
+  dispatch(fetchInvoices())
+  dispatch(fetchTransactions())
 }
 
 // ------------------------------------
