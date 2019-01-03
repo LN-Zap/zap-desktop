@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
-import AngleDown from 'components/Icon/AngleDown'
+import AngleLeft from 'components/Icon/AngleLeft'
+import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
+import AngleDown from 'components/Icon/AngleDown'
 import Check from 'components/Icon/Check'
 import Text from 'components/UI/Text'
 
@@ -43,16 +45,18 @@ DropdownButton.defaultProps = {
 /**
  * Menu
  */
-const MenuContainer = styled(Box)({
+export const MenuContainer = styled(Box)({
   position: 'relative'
 })
 
-const Menu = styled(Box)({
+export const Menu = styled(Box)({
   cursor: 'pointer',
   display: 'inline-block',
   position: 'absolute',
-  'z-index': '999',
+  'z-index': '40',
   'min-width': '70px',
+  'max-height': '300px',
+  'overflow-y': 'auto',
   'list-style-type': 'none',
   'border-radius': '3px',
   'box-shadow': '0 3px 4px 0 rgba(30, 30, 30, 0.5)'
@@ -68,17 +72,44 @@ Menu.defaultProps = {
 /**
  * MenuItem
  */
-const MenuItem = styled(Box)`
-  cursor: pointer;
-  &:hover {
-    background-color: ${props => props.theme.colors.primaryColor};
-  }
-`
-MenuItem.defaultProps = {
-  as: 'li',
-  px: 2,
-  py: 2
-}
+export const MenuItem = withTheme(
+  ({ item, onClick, active, theme, hasParent, hasChildren, ...rest }) => (
+    <Text
+      as="li"
+      px={2}
+      py={2}
+      css={{
+        cursor: 'pointer',
+        'white-space': 'nowrap',
+        '&:hover': {
+          'background-color': theme.colors.primaryColor
+        }
+      }}
+      key={item.key}
+      onClick={() => onClick(item.key)}
+      {...rest}
+    >
+      <Flex alignItems="center" pr={2}>
+        {hasParent && (
+          <Text width="20px" textAlign="center" color="gray">
+            <AngleLeft />
+          </Text>
+        )}
+        {!hasParent && (
+          <Text width="20px" textAlign="center" color="superGreen">
+            {active && <Check height="0.95em" />}
+          </Text>
+        )}
+        <Text mr={2}>{item.name}</Text>
+        {hasChildren && (
+          <Text ml="auto" color="gray">
+            <AngleRight />
+          </Text>
+        )}
+      </Flex>
+    </Text>
+  )
+)
 
 /**
  * @render react
@@ -93,10 +124,6 @@ class Dropdown extends React.Component {
   state = {
     isOpen: false
   }
-  onChange = this.onChange.bind(this)
-  toggleMenu = this.toggleMenu.bind(this)
-  setWrapperRef = this.setWrapperRef.bind(this)
-  handleClickOutside = this.handleClickOutside.bind(this)
 
   static propTypes = {
     activeKey: PropTypes.string.isRequired,
@@ -112,7 +139,11 @@ class Dropdown extends React.Component {
     document.removeEventListener('mousedown', this.handleClickOutside)
   }
 
-  onChange(key) {
+  setWrapperRef = node => {
+    this.wrapperRef = node
+  }
+
+  handleClick = key => {
     const { onChange, activeKey } = this.props
     if (key !== activeKey) {
       if (onChange) {
@@ -122,17 +153,13 @@ class Dropdown extends React.Component {
     this.setState({ isOpen: false })
   }
 
-  setWrapperRef(node) {
-    this.wrapperRef = node
-  }
-
-  handleClickOutside(event) {
+  handleClickOutside = event => {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
       this.setState({ isOpen: false })
     }
   }
 
-  toggleMenu() {
+  toggleMenu = () => {
     const { isOpen } = this.state
     this.setState({ isOpen: !isOpen })
   }
@@ -167,16 +194,12 @@ class Dropdown extends React.Component {
               <Menu css={justify === 'right' ? { right: 0 } : null}>
                 {items.map(item => {
                   return (
-                    <MenuItem key={item.key} onClick={() => this.onChange(item.key)}>
-                      <Flex alignItems="center" pr={2}>
-                        <Text width="20px" textAlign="center">
-                          {activeKey === item.key && (
-                            <Check height="0.95em" color={theme.colors.superGreen} />
-                          )}
-                        </Text>
-                        <Text>{item.name}</Text>
-                      </Flex>
-                    </MenuItem>
+                    <MenuItem
+                      key={item.key}
+                      item={item}
+                      onClick={() => this.handleClick(item.key)}
+                      active={activeKey === item.key}
+                    />
                   )
                 })}
               </Menu>

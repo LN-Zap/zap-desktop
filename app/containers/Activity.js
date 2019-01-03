@@ -108,6 +108,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
       toggleSettings: () => {
         if (stateProps.settings.settingsOpen) {
           dispatchProps.setSettingsOpen(false)
+          dispatchProps.disableSubMenu()
         } else {
           dispatchProps.setSettingsOpen(true)
         }
