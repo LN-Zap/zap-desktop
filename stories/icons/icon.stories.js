@@ -2,6 +2,10 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Box, Flex } from 'rebass'
 
+import AngleRight from 'components/Icon/AngleRight'
+import AngleLeft from 'components/Icon/AngleLeft'
+import AngleUp from 'components/Icon/AngleUp'
+import AngleDown from 'components/Icon/AngleDown'
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import ArrowRight from 'components/Icon/ArrowRight'
 import BigArrowRight from 'components/Icon/BigArrowRight'
@@ -38,10 +42,6 @@ import Search from 'components/Icon/Search'
 import Settings from 'components/Icon/Settings'
 import Spinner from 'components/Icon/Spinner'
 import Success from 'components/Icon/Success'
-import SystemArrowLeft from 'components/Icon/SystemArrowLeft'
-import SystemArrowRight from 'components/Icon/SystemArrowRight'
-import SystemNavNext from 'components/Icon/SystemNavNext'
-import SystemNavPrevious from 'components/Icon/SystemNavPrevious'
 import User from 'components/Icon/User'
 import Wallet from 'components/Icon/Wallet'
 import Wallet2 from 'components/Icon/Wallet2'
@@ -53,6 +53,10 @@ import ZapLogo from 'components/Icon/ZapLogo'
 const iconSizes = [16, 32, 64, 128]
 
 const zapIconsList = {
+  AngleLeft,
+  AngleRight,
+  AngleUp,
+  AngleDown,
   ArrowLeft,
   ArrowRight,
   BigArrowRight,
@@ -89,10 +93,6 @@ const zapIconsList = {
   Settings,
   Spinner,
   Success,
-  SystemArrowLeft,
-  SystemArrowRight,
-  SystemNavNext,
-  SystemNavPrevious,
   User,
   Wallet,
   Wallet2,

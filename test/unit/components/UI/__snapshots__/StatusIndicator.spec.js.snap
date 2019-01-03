@@ -4,8 +4,8 @@ exports[`component.UI.StatusIndicator closing should render correctly 1`] = `
 <Styled(styled.div)
   variant="closing"
 >
-  <FaCircle
-    size="0.5em"
+  <SvgCircle
+    width="0.7em"
   />
 </Styled(styled.div)>
 `;
@@ -14,8 +14,8 @@ exports[`component.UI.StatusIndicator offline should render correctly 1`] = `
 <Styled(styled.div)
   variant="offline"
 >
-  <FaCircle
-    size="0.5em"
+  <SvgCircle
+    width="0.7em"
   />
 </Styled(styled.div)>
 `;
@@ -24,8 +24,8 @@ exports[`component.UI.StatusIndicator online should render correctly 1`] = `
 <Styled(styled.div)
   variant="online"
 >
-  <FaCircle
-    size="0.5em"
+  <SvgCircle
+    width="0.7em"
   />
 </Styled(styled.div)>
 `;
@@ -34,8 +34,8 @@ exports[`component.UI.StatusIndicator pending should render correctly 1`] = `
 <Styled(styled.div)
   variant="pending"
 >
-  <FaCircle
-    size="0.5em"
+  <SvgCircle
+    width="0.7em"
   />
 </Styled(styled.div)>
 `;

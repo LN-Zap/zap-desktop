@@ -1,12 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaAngleLeft from 'react-icons/lib/fa/angle-left'
 import { getLanguageName } from 'lib/i18n'
+import { Span } from 'components/UI'
+import AngleLeft from 'components/Icon/AngleLeft'
 import Check from 'components/Icon/Check'
-
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'
-
 import styles from './Locale.scss'
 
 const Translate = ({ locales, disableSubMenu, currentLocale, setLocale }) => {
@@ -17,8 +16,10 @@ const Translate = ({ locales, disableSubMenu, currentLocale, setLocale }) => {
   return (
     <div>
       <header className={styles.submenuHeader} onClick={disableSubMenu}>
-        <FaAngleLeft />
-        <FormattedMessage {...messages.title} />
+        <AngleLeft color="gray" width="1.5em" height="1.5em" />
+        <Span ml={2}>
+          <FormattedMessage {...messages.title} />
+        </Span>
       </header>
       <ul className={styles.locales}>
         {Object.keys(locales).map(lang => {

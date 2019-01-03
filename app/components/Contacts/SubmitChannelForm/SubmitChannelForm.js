@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import FaExclamationCircle from 'react-icons/lib/fa/exclamation-circle'
-import { AmountInput, Button, Dropdown } from 'components/UI'
+import { AmountInput, Button, Dropdown, Message } from 'components/UI'
 import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
 import styles from './SubmitChannelForm.scss'
@@ -99,8 +98,7 @@ class SubmitChannelForm extends React.Component {
 
         {dupeChanInfo && (
           <section className={styles.warn}>
-            <FaExclamationCircle className={styles.exclamation} style={{ verticalAlign: 'top' }} />
-            {renderWarning(dupeChanInfo)}
+            <Message variant="warning">{renderWarning(dupeChanInfo)}</Message>
           </section>
         )}
 

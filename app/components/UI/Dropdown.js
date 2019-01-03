@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
-import FaAngleDown from 'react-icons/lib/fa/angle-down'
-import FaAngleUp from 'react-icons/lib/fa/angle-up'
+import AngleDown from 'components/Icon/AngleDown'
+import AngleUp from 'components/Icon/AngleUp'
 import Check from 'components/Icon/Check'
 import Text from 'components/UI/Text'
 
@@ -155,10 +155,12 @@ class Dropdown extends React.Component {
       <div style={{ display: 'inline-block' }}>
         <DropdownContainer ref={this.setWrapperRef} {...rest}>
           <DropdownButton type="button" onClick={this.toggleMenu}>
-            <Text textAlign="left">
-              {selectedItem ? selectedItem.name : activeKey}{' '}
-              {isOpen ? <FaAngleUp /> : <FaAngleDown />}
-            </Text>
+            <Flex alignItems="center">
+              <Text textAlign="left" mr={1}>
+                {selectedItem ? selectedItem.name : activeKey}{' '}
+              </Text>
+              {isOpen ? <AngleUp width="0.7em" /> : <AngleDown width="0.7em" />}
+            </Flex>
           </DropdownButton>
           {isOpen && (
             <MenuContainer>
@@ -166,7 +168,7 @@ class Dropdown extends React.Component {
                 {items.map(item => {
                   return (
                     <MenuItem key={item.key} onClick={() => this.onChange(item.key)}>
-                      <Flex alignItems="center">
+                      <Flex alignItems="center" pr={2}>
                         <Text width="20px" textAlign="center">
                           {activeKey === item.key && (
                             <Check height="0.95em" color={theme.colors.superGreen} />
