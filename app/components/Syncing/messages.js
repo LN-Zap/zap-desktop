@@ -7,8 +7,7 @@ export default defineMessages({
   waiting_for_peers: 'Waiting for peers…',
   preparing: 'Preparing…',
   sync_title: 'Welcome back to your Zap wallet!',
-  sync_description:
-    'Please wait a while whilst we fetch all of your latest data from the blockchain.',
+  sync_description: 'Please wait while we fetch all of your latest data from the blockchain.',
   fund_title: 'Fund your Zap wallet',
   fund_description: 'Might as well fund your wallet while you’re waiting to sync.',
   sync_caption: 'Syncing with the blockchain',
