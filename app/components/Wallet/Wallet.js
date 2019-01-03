@@ -12,8 +12,6 @@ import Qrcode from 'components/Icon/Qrcode'
 import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
 
-import styles from './Wallet.scss'
-
 const Wallet = ({
   balance,
   info,
@@ -79,8 +77,10 @@ const Wallet = ({
       <Flex as="header" justifyContent="space-between" mt={4}>
         <Box as="section">
           <Flex alignItems="center">
-            <Box onClick={openReceiveModal} className={styles.qrCode} mr={3}>
-              <Qrcode width="21px" height="21px" />
+            <Box onClick={openReceiveModal} mr={3}>
+              <Button variant="secondary">
+                <Qrcode width="21px" height="21px" />
+              </Button>
             </Box>
 
             <Box>
