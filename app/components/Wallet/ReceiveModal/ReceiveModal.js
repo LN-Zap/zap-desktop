@@ -1,23 +1,40 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
-import QRCode from 'qrcode.react'
 import { withTheme } from 'styled-components'
-import { showNotification } from 'lib/utils/notifications'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Modal } from 'components/UI'
+import { showNotification } from 'lib/utils/notifications'
+import { Box, Flex } from 'rebass'
+import { Button, Heading, Modal, QRCode, Text } from 'components/UI'
 import Copy from 'components/Icon/Copy'
 import messages from './messages'
 
-import styles from './ReceiveModal.scss'
+const QRCODE_TYPE_ADDRESS = 'address'
+const QRCODE_TYPE_PUBKEY = 'pubkey'
 
 class ReceiveModal extends React.Component {
-  constructor(props) {
-    super(props)
+  state = {
+    qrCodeType: QRCODE_TYPE_ADDRESS
+  }
 
-    this.state = {
-      qrCodeType: 1
-    }
+  copyPubkeyToClipboard = () => {
+    const { pubkey, intl } = this.props
+    copy(pubkey)
+    const notifTitle = intl.formatMessage({ ...messages.pubkey_copied_notification_title })
+    const notifBody = intl.formatMessage({ ...messages.pubkey_copied_notification_description })
+    showNotification(notifTitle, notifBody)
+  }
+
+  copyAddressToClipboard = () => {
+    const { address, intl } = this.props
+    copy(address)
+    const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
+    const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
+    showNotification(notifTitle, notifBody)
+  }
+
+  setQrcode = type => {
+    this.setState({ qrCodeType: type })
   }
 
   render() {
@@ -29,8 +46,7 @@ class ReceiveModal extends React.Component {
       closeReceiveModal,
       cryptoName,
       network,
-      intl,
-      theme
+      intl
     } = this.props
     const { qrCodeType } = this.state
 
@@ -38,107 +54,123 @@ class ReceiveModal extends React.Component {
       return null
     }
 
-    const copyPubkeyToClipboard = () => {
-      const { pubkey } = this.props
-      copy(pubkey)
-      const notifTitle = intl.formatMessage({ ...messages.pubkey_copied_notification_title })
-      const notifBody = intl.formatMessage({ ...messages.pubkey_copied_notification_description })
-      showNotification(notifTitle, notifBody)
-    }
-
-    const copyAddressToClipboard = () => {
-      const { address } = this.props
-      copy(address)
-      const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
-      const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
-      showNotification(notifTitle, notifBody)
-    }
-
-    const changeQrCode = () => {
-      const { qrCodeType } = this.state
-      if (qrCodeType === 1) {
-        this.setState({ qrCodeType: 2 })
-      } else {
-        this.setState({ qrCodeType: 1 })
-      }
-    }
-
     if (!isOpen) {
       return null
     }
 
+    let qrCode
+    switch (qrCodeType) {
+      case QRCODE_TYPE_ADDRESS:
+        qrCode = address
+        break
+      case QRCODE_TYPE_PUBKEY:
+        qrCode = pubkey
+        break
+    }
+
     return (
       <Modal onClose={closeReceiveModal}>
-        <div className={`${styles.container} ${theme.name}`}>
-          <div className={styles.content}>
-            <section className={styles.left}>
-              <header className={styles.header}>
-                <h2>{alias && alias.length ? alias : pubkey.substring(0, 10)}</h2>
-
-                <div className={styles.qrCodeOptions}>
-                  <div
-                    className={qrCodeType === 1 ? styles.active : undefined}
-                    onClick={changeQrCode}
+        <Flex justifyContent="center" alignItems="center" css={{ height: '100%' }}>
+          <Flex
+            justifyContent="space-between"
+            alignItems="center"
+            width={1}
+            bg="secondaryColor"
+            p={4}
+          >
+            <Flex as="section" flexDirection="column" alignItems="center" width={1 / 3}>
+              <Box>
+                <Heading.h3 textAlign="center">
+                  {alias && alias.length ? alias : pubkey.substring(0, 10)}
+                </Heading.h3>
+                <Flex justifyContent="space-between" width={1} mb={3}>
+                  <Button
+                    active={qrCode === pubkey}
+                    variant="secondary"
+                    size="small"
+                    onClick={() => this.setQrcode(QRCODE_TYPE_PUBKEY)}
                   >
                     <FormattedMessage {...messages.node_pubkey} />
-                  </div>
-                  <div
-                    className={qrCodeType === 2 ? styles.active : undefined}
-                    onClick={changeQrCode}
+                  </Button>
+                  <Button
+                    active={qrCode === address}
+                    variant="secondary"
+                    size="small"
+                    onClick={() => this.setQrcode(QRCODE_TYPE_ADDRESS)}
                   >
                     <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />
-                  </div>
-                </div>
-              </header>
+                  </Button>
+                </Flex>
+                {qrCode && <QRCode value={qrCode} size="180px" />}
+              </Box>
+            </Flex>
 
-              <div className={styles.qrCodeContainer}>
-                <QRCode
-                  value={qrCodeType === 1 ? pubkey : address}
-                  renderAs="svg"
-                  size={150}
-                  bgColor="white"
-                  fgColor="#252832"
-                  level="L"
-                  className={styles.qrcode}
-                />
-              </div>
-            </section>
-            <section className={styles.right}>
-              <div className={styles.pubkey}>
-                <h4>
+            <Box as="section" width={2 / 3}>
+              <Box mb={4}>
+                <Heading.h4 mb={2} fontWeight="normal">
                   <FormattedMessage {...messages.node_public_key} />
-                </h4>
-                <p>
-                  <span className={styles.data}>{pubkey}</span>
-                  <span
-                    onClick={copyPubkeyToClipboard}
-                    className={`${styles.copy} hint--left`}
+                </Heading.h4>
+                <Flex bg="tertiaryColor" justifyContent="space-between" width={1}>
+                  <Text
+                    p={3}
+                    fontSize="s"
+                    css={{
+                      overflow: 'hidden',
+                      'white=space': 'nowrap',
+                      'text-overflow': 'ellipsis'
+                    }}
+                  >
+                    {pubkey}
+                  </Text>
+                  <Button
+                    variant="secondary"
+                    py={0}
+                    px={0}
+                    onClick={this.copyPubkeyToClipboard}
+                    className="hint--left"
                     data-hint={intl.formatMessage({ ...messages.copy_pubkey })}
                   >
-                    <Copy />
-                  </span>
-                </p>
-              </div>
+                    <Box bg="primaryColor" p={3}>
+                      <Copy />
+                    </Box>
+                  </Button>
+                </Flex>
+              </Box>
 
-              <div className={styles.address}>
-                <h4>
+              <Box>
+                <Heading.h4 mb={2} fontWeight="normal">
                   <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />{' '}
                   {network && network.name.toLowerCase() === 'testnet' && network.name}
-                </h4>
-                <p>
-                  <span className={styles.data}>{address}</span>
-                  <span
-                    onClick={copyAddressToClipboard}
-                    className={`${styles.copy} hint--left`}
+                </Heading.h4>
+                <Flex bg="tertiaryColor" justifyContent="space-between" width={1}>
+                  <Text
+                    p={3}
+                    fontSize="s"
+                    css={{
+                      overflow: 'hidden',
+                      'white=space': 'nowrap',
+                      'text-overflow': 'ellipsis'
+                    }}
+                  >
+                    {address}
+                  </Text>
+                  <Button
+                    variant="secondary"
+                    py={0}
+                    px={0}
+                    onClick={this.copyAddressToClipboard}
+                    className="hint--left"
                     data-hint={intl.formatMessage({ ...messages.copy_address })}
                   >
-                    <Copy />
-                  </span>
-                </p>
-              </div>
-            </section>
-          </div>
-        </div>
+                    <Box bg="primaryColor" p={3}>
+                      <Copy />
+                    </Box>
+                  </Button>
+                </Flex>
+              </Box>
+            </Box>
+          </Flex>
+        </Flex>
       </Modal>
     )
   }
