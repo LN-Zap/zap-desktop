@@ -113,6 +113,7 @@ class Activity extends Component {
       <>
         <Form width={1}>
           <Input
+            autoFocus
             field="search"
             id="search"
             type="text"
