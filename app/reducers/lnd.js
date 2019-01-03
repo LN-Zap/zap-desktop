@@ -6,6 +6,10 @@ import { fetchBalance } from './balance'
 import { fetchInfo, setHasSynced, infoSelectors } from './info'
 import { putWallet, setActiveWallet, walletSelectors } from './wallet'
 import { onboardingFinished, setSeed } from './onboarding'
+import { fetchChannels } from './channels'
+import { fetchTransactions } from './transaction'
+import { fetchPayments } from './payment'
+import { fetchInvoices } from './invoice'
 
 // ------------------------------------
 // Constants
@@ -100,6 +104,23 @@ export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
 
   // Let the onboarding process know that the wallet has started.
   dispatch(onboardingFinished())
+  //fetch user data. channels, balances, payments, invoices and transactions
+  dispatch(fetchChannels())
+  dispatch(fetchActivityHistory())
+}
+
+/**
+ * Fetches user activity history. Which includes:
+ * Balance
+ * Payments
+ * Invoices
+ * Transactions
+ */
+export const fetchActivityHistory = () => dispatch => {
+  dispatch(fetchBalance())
+  dispatch(fetchPayments())
+  dispatch(fetchInvoices())
+  dispatch(fetchTransactions())
 }
 
 // Connected to WalletUnlocker gRPC interface (lnd is ready to unlock or create wallet)
