@@ -1,20 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Box } from 'rebass'
 import Menu from './Menu'
 import Fiat from './Fiat'
 import Locale from './Locale'
 import Theme from './Theme'
-import styles from './Settings.scss'
 
 class Settings extends React.Component {
-  constructor(props) {
-    super(props)
-
-    this.setWrapperRef = this.setWrapperRef.bind(this)
-    this.handleClickOutside = this.handleClickOutside.bind(this)
-    this.renderSettings = this.renderSettings.bind(this)
-  }
-
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside)
   }
@@ -24,12 +16,12 @@ class Settings extends React.Component {
   }
 
   // Set the wrapper ref
-  setWrapperRef(node) {
+  setWrapperRef = node => {
     this.wrapperRef = node
   }
 
   // Alert if clicked on outside of element
-  handleClickOutside(event) {
+  handleClickOutside = event => {
     const { toggleSettings, settings } = this.props
 
     if (this.wrapperRef && !this.wrapperRef.contains(event.target) && settings.settingsOpen) {
@@ -48,7 +40,7 @@ class Settings extends React.Component {
     }
   }
 
-  renderSettings() {
+  renderSettings = () => {
     const { settings, fiatProps, localeProps, themeProps, setActiveSubMenu } = this.props
 
     switch (settings.activeSubMenu) {
@@ -64,11 +56,7 @@ class Settings extends React.Component {
   }
 
   render() {
-    return (
-      <div className={styles.container} ref={this.setWrapperRef}>
-        {this.renderSettings()}
-      </div>
-    )
+    return <Box ref={this.setWrapperRef}>{this.renderSettings()}</Box>
   }
 }
 

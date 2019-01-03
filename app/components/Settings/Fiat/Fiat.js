@@ -1,33 +1,28 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Span } from 'components/UI'
-import AngleLeft from 'components/Icon/AngleLeft'
-import Check from 'components/Icon/Check'
+import { MenuContainer, Menu, MenuItem } from 'components/UI/Dropdown'
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'
-import styles from './Fiat.scss'
 
 const Fiat = ({ fiatTicker, fiatTickers, disableSubMenu, setFiatTicker }) => (
-  <div>
-    <header className={styles.submenuHeader} onClick={disableSubMenu}>
-      <AngleLeft color="gray" width="1.5em" height="1.5em" />
-      <Span ml={2}>
-        <FormattedMessage {...messages.title} />
-      </Span>
-    </header>
-    <ul className={styles.fiatTickers}>
+  <MenuContainer>
+    <Menu onClick={disableSubMenu}>
+      <MenuItem
+        item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
+        onClick={disableSubMenu}
+        bg="primaryColor"
+        hasParent
+      />
       {fiatTickers.map(ft => (
-        <li
+        <MenuItem
           key={ft}
-          className={fiatTicker === ft ? styles.active : ''}
+          item={{ key: ft, name: ft }}
           onClick={() => setFiatTicker(ft)}
-        >
-          <span>{ft}</span>
-          {fiatTicker === ft && <Check />}
-        </li>
+          active={fiatTicker === ft}
+        />
       ))}
-    </ul>
-  </div>
+    </Menu>
+  </MenuContainer>
 )
 
 Fiat.propTypes = {

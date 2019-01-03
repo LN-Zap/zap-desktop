@@ -54,11 +54,7 @@ const Wallet = ({
               css={{ cursor: 'pointer' }}
             >
               <StatusIndicator variant="online" mr={2} />
-              <Flex
-                alignItems="center"
-                className="settingsMenu"
-                css={{ '&:hover': { opacity: '0.5', transition: 'all 0.25s' } }}
-              >
+              <Flex alignItems="center" className="settingsMenu">
                 <Text textAlign="left" mr={1}>
                   <WalletName wallet={activeWalletSettings} />
                 </Text>
