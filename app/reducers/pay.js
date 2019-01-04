@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
 import { requestFees } from 'lib/utils/api'
 import { setFormType } from './form'
@@ -32,7 +32,7 @@ export const queryFees = () => async dispatch => {
 
 export const queryRoutes = (pubKey, amount) => dispatch => {
   dispatch({ type: QUERY_ROUTES, pubKey })
-  ipcRenderer.send('lnd', { msg: 'queryRoutes', data: { pubkey: pubKey, amount } })
+  dispatch(send('lnd', { msg: 'queryRoutes', data: { pubkey: pubKey, amount } }))
 }
 
 export const queryRoutesSuccess = (event, { routes }) => dispatch =>

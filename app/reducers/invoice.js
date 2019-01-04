@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
 import { showNotification } from 'lib/utils/notifications'
 import { btc } from 'lib/utils'
 import { fetchBalance } from './balance'
@@ -83,13 +83,13 @@ export function sendInvoice() {
 // Send IPC event for a specific invoice
 export const fetchInvoice = payreq => dispatch => {
   dispatch(getInvoice())
-  ipcRenderer.send('lnd', { msg: 'invoice', data: { payreq } })
+  dispatch(send('lnd', { msg: 'invoice', data: { payreq } }))
 }
 
 // Send IPC event for invoices
 export const fetchInvoices = () => dispatch => {
   dispatch(getInvoices())
-  ipcRenderer.send('lnd', { msg: 'invoices' })
+  dispatch(send('lnd', { msg: 'invoices' }))
 }
 
 // Receive IPC event for invoices
@@ -113,10 +113,12 @@ export const createInvoice = (amount, currency, memo) => async (dispatch, getSta
   // need to come with routing hints for private channels
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
 
-  ipcRenderer.send('lnd', {
-    msg: 'createInvoice',
-    data: { value, memo, private: activeWalletSettings.type === 'local' }
-  })
+  dispatch(
+    send('lnd', {
+      msg: 'createInvoice',
+      data: { value, memo, private: activeWalletSettings.type === 'local' }
+    })
+  )
 }
 
 // Receive IPC event for newly created invoice

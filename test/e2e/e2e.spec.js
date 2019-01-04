@@ -12,7 +12,8 @@ describe('main window', function spec() {
       args: [path.join(__dirname, '..', '..', 'app')],
       waitTimeout: 10000,
       startTimeout: 10000,
-      quitTimeout: 2000
+      quitTimeout: 2000,
+      requireName: 'electronRequire' // Use requre that we reference in preload.js
     })
 
     await this.app.start()

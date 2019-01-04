@@ -17,6 +17,7 @@ import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import baseConfig, { rootDir } from './webpack.config.base'
 import { mainLog } from '../../app/lib/utils/log'
+import { dependencies as externals } from '../../app/package.json'
 
 const port = process.env.PORT || 1212
 const publicPath = `http://localhost:${port}/dist`
@@ -36,11 +37,13 @@ if (!(fs.existsSync(dll) && fs.existsSync(manifest))) {
 export default merge.smart(baseConfig, {
   devtool: 'inline-source-map',
 
-  target: 'electron-renderer',
+  target: 'web',
 
   mode: 'development',
 
-  entry: ['webpack/hot/only-dev-server', path.join(rootDir, 'app', 'index.js')],
+  externals: new webpack.ExternalsPlugin('commonjs', [...Object.keys(externals || {})]),
+
+  entry: ['webpack/hot/only-dev-server', path.join(rootDir, 'app', 'index')],
 
   output: {
     publicPath: `http://localhost:${port}/dist/`
@@ -63,7 +66,7 @@ export default merge.smart(baseConfig, {
           }
         }
       },
-      // Add SASS support  - compile all .global.scss files and pipe it to style.css
+      // Add SASS support  - compile all .global.scss files and pipe it to main.css
       {
         test: /\.global\.scss$/,
         use: [
@@ -83,7 +86,7 @@ export default merge.smart(baseConfig, {
           }
         ]
       },
-      // Add SASS support  - compile all other .scss files and pipe it to style.css
+      // Add SASS support  - compile all other .scss files and pipe it to main.css
       {
         test: /^((?!\.global).)*\.scss$/,
         use: [

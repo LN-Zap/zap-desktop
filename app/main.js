@@ -4,7 +4,7 @@
  * through IPC.
  *
  * When running `npm run build` or `npm run build-main`, this file is compiled to
- * `./app/main.prod.js` using webpack. This gives us some performance wins.
+ * `./app/dist/main.prod.js` using webpack. This gives us some performance wins.
  */
 import { app, BrowserWindow, session } from 'electron'
 import installExtension, {
@@ -64,12 +64,18 @@ const handleLndconnectLink = input => {
  * We do this by starting up a new browser window and accessing indexedDb from within it.
  */
 const fetchSettings = () => {
-  const win = new BrowserWindow({ show: false, focusable: false })
+  const win = new BrowserWindow({
+    show: false,
+    focusable: false,
+    webPreferences: {
+      nodeIntegration: false
+    }
+  })
   if (process.env.HOT) {
     const port = process.env.PORT || 1212
     win.loadURL(`http://localhost:${port}/dist/empty.html`)
   } else {
-    win.loadURL(`file://${__dirname}/dist/empty.html`)
+    win.loadURL(`file://${__dirname}/empty.html`)
   }
 
   // Once we have fetched (or failed to fetch) the user settings, destroy the window.
@@ -177,7 +183,10 @@ app.on('ready', async () => {
     minHeight: 425,
     backgroundColor: get(theme, 'colors.primaryColor', '#242633'),
     webPreferences: {
-      preload: path.resolve(__dirname, 'preload.js')
+      nodeIntegration: false,
+      preload: process.env.HOT
+        ? path.resolve(__dirname, 'preload.js')
+        : path.resolve(__dirname, 'preload.prod.js')
     }
   })
 

@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
 import db from 'store/db'
 
 // ------------------------------------
@@ -64,7 +64,7 @@ export const walletAddress = type => async (dispatch, getState) => {
 // Send IPC event for getinfo
 export const newAddress = type => dispatch => {
   dispatch(getAddress())
-  ipcRenderer.send('lnd', { msg: 'newaddress', data: { type: addressTypes[type] } })
+  dispatch(send('lnd', { msg: 'newaddress', data: { type: addressTypes[type] } }))
 }
 
 // Receive IPC event for info

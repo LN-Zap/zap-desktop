@@ -1,4 +1,5 @@
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -17,7 +18,7 @@ export function getBalance() {
 // Send IPC event for balance
 export const fetchBalance = () => async dispatch => {
   dispatch(getBalance())
-  ipcRenderer.send('lnd', { msg: 'balance' })
+  dispatch(send('lnd', { msg: 'balance' }))
 }
 
 // Receive IPC event for balance

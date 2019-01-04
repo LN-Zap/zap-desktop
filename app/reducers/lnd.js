@@ -1,4 +1,4 @@
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import { showNotification } from 'lib/utils/notifications'
 import db from 'store/db'
@@ -143,15 +143,15 @@ export const startLnd = options => async (dispatch, getState) => {
   return new Promise((resolve, reject) => {
     // Tell the main process to start lnd using the supplied connection details.
     dispatch({ type: STARTING_LND })
-    ipcRenderer.send('startLnd', options)
+    dispatch(send('startLnd', options))
 
-    ipcRenderer.once('startLndError', error => {
-      ipcRenderer.removeListener('startLndSuccess', resolve)
+    window.ipcRenderer.once('startLndError', error => {
+      window.ipcRenderer.removeListener('startLndSuccess', resolve)
       reject(error)
     })
 
-    ipcRenderer.once('startLndSuccess', res => {
-      ipcRenderer.removeListener('startLndError', reject)
+    window.ipcRenderer.once('startLndSuccess', res => {
+      window.ipcRenderer.removeListener('startLndError', reject)
       resolve(res)
     })
   })
@@ -173,7 +173,7 @@ export const stopLnd = () => async (dispatch, getState) => {
   const state = getState().lnd
   if ((state.walletUnlockerGrpcActive || state.lightningGrpcActive) && !state.stoppingLnd) {
     dispatch({ type: STOPPING_LND })
-    ipcRenderer.send('stopLnd')
+    dispatch(send('stopLnd'))
   }
 }
 
@@ -187,10 +187,12 @@ export const lndStarted = () => async dispatch => {
 
 export const unlockWallet = password => async dispatch => {
   dispatch({ type: UNLOCKING_WALLET })
-  ipcRenderer.send('walletUnlocker', {
-    msg: 'unlockWallet',
-    data: { wallet_password: password }
-  })
+  dispatch(
+    send('walletUnlocker', {
+      msg: 'unlockWallet',
+      data: { wallet_password: password }
+    })
+  )
 }
 
 /**
@@ -202,51 +204,57 @@ export const lndWalletUnlockerStarted = () => (dispatch, getState) => {
 
   // Handle generate seed.
   if (state.lnd.fetchingSeed) {
-    ipcRenderer.send('walletUnlocker', { msg: 'genSeed' })
+    dispatch(send('walletUnlocker', { msg: 'genSeed' }))
   }
 
   // Handle unlock wallet.
   else if (state.lnd.unlockingWallet) {
-    ipcRenderer.send('walletUnlocker', {
-      msg: 'unlockWallet',
-      data: { wallet_password: state.onboarding.password }
-    })
+    dispatch(
+      send('walletUnlocker', {
+        msg: 'unlockWallet',
+        data: { wallet_password: state.onboarding.password }
+      })
+    )
   }
 
   // Handle create wallet.
   else if (state.lnd.creatingNewWallet) {
-    ipcRenderer.send('walletUnlocker', {
-      msg: 'initWallet',
-      data: {
-        wallet_password: state.onboarding.password,
-        cipher_seed_mnemonic: state.onboarding.seed
-      }
-    })
+    dispatch(
+      send('walletUnlocker', {
+        msg: 'initWallet',
+        data: {
+          wallet_password: state.onboarding.password,
+          cipher_seed_mnemonic: state.onboarding.seed
+        }
+      })
+    )
   }
 
   // Handle recover wallet.
   else if (state.lnd.recoveringOldWallet) {
-    ipcRenderer.send('walletUnlocker', {
-      msg: 'initWallet',
-      data: {
-        wallet_password: state.onboarding.password,
-        cipher_seed_mnemonic: state.onboarding.seed,
-        recovery_window: 250
-      }
-    })
+    dispatch(
+      send('walletUnlocker', {
+        msg: 'initWallet',
+        data: {
+          wallet_password: state.onboarding.password,
+          cipher_seed_mnemonic: state.onboarding.seed,
+          recovery_window: 250
+        }
+      })
+    )
   }
 }
 
 export const walletCreated = () => dispatch => {
   dispatch({ type: WALLET_UNLOCKED })
   dispatch(onboardingFinished())
-  ipcRenderer.send('startLightningWallet')
+  dispatch(send('startLightningWallet'))
 }
 
 export const walletUnlocked = () => dispatch => {
   dispatch({ type: WALLET_UNLOCKED })
   dispatch(onboardingFinished())
-  ipcRenderer.send('startLightningWallet')
+  dispatch(send('startLightningWallet'))
 }
 
 export const setUnlockWalletError = (event, unlockWalletError) => dispatch => {

@@ -1,5 +1,5 @@
+import { send } from 'redux-electron-ipc'
 import { updateIntl } from 'react-intl-redux'
-import { ipcRenderer } from 'electron'
 import translations from 'lib/i18n/translation'
 import db from 'store/db'
 import { setFiatTicker } from './ticker'
@@ -23,7 +23,7 @@ export const setLocale = locale => (dispatch, getState) => {
   db.settings.put({ key: 'locale', value: locale })
 
   // Let the main process know the locale has changed.
-  ipcRenderer.send('setLocale', locale)
+  dispatch(send('setLocale', locale))
 }
 
 export const receiveLocale = (event, locale) => dispatch => {

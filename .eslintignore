@@ -37,15 +37,9 @@ flow-typed/module_vx.x.x.js
 
 # App packaged
 release
-app/main.prod.js
-app/main.prod.js.map
-app/renderer.prod.js
-app/renderer.prod.js.map
 app/lib/utils/bech32.js
 dist
 dll
-main.js
-main.js.map
 
 .idea
 npm-debug.log.*

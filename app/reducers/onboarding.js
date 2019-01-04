@@ -1,7 +1,5 @@
 import { createSelector } from 'reselect'
 import get from 'lodash.get'
-import { validateHost as doHostValidation } from 'lib/utils/validateHost'
-import { fileExists } from 'lib/utils/fileExists'
 
 // ------------------------------------
 // Constants
@@ -139,7 +137,7 @@ export function setLndconnect(lndConnect) {
 export const validateHost = host => async dispatch => {
   try {
     dispatch({ type: VALIDATING_HOST, validatingHost: true })
-    const res = await doHostValidation(host)
+    const res = await window.Zap.validateHost(host)
     dispatch({ type: VALIDATING_HOST, validatingHost: false })
     return res
   } catch (e) {
@@ -151,7 +149,7 @@ export const validateHost = host => async dispatch => {
 export const validateCert = certPath => async dispatch => {
   try {
     dispatch({ type: VALIDATING_CERT, validatingCert: true })
-    const res = await fileExists(certPath)
+    const res = await window.Zap.fileExists(certPath)
     dispatch({ type: VALIDATING_CERT, validatingCert: false })
     return res
   } catch (e) {
@@ -166,7 +164,7 @@ export const validateCert = certPath => async dispatch => {
 export const validateMacaroon = macaroonPath => async dispatch => {
   try {
     dispatch({ type: VALIDATING_MACAROON, validatingMacaroon: true })
-    const res = await fileExists(macaroonPath)
+    const res = await window.Zap.fileExists(macaroonPath)
     dispatch({ type: VALIDATING_MACAROON, validatingMacaroon: false })
     return res
   } catch (e) {

@@ -10,7 +10,8 @@ import axios from 'axios'
 //
 // In order to mitigate the CORS issue, we instead access these remote resources through a local proxy that we have
 // defined on the webpack dev server.
-const scheme = process.env.HOT ? '/proxy/' : 'https://'
+const scheme =
+  (process && process.env.HOT) || (window.env && window.env.HOT) ? '/proxy/' : 'https://'
 
 export function requestTicker(id) {
   const BASE_URL = `${scheme}api.coinbase.com/v2/exchange-rates?currency=${id}`

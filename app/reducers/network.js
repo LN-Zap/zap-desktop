@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { ipcRenderer } from 'electron'
+import { send } from 'redux-electron-ipc'
 import { bech32 } from 'lib/utils'
 import { setError } from './error'
 
@@ -132,7 +132,7 @@ export function clearSelectedChannels() {
 // Send IPC event for describeNetwork
 export const fetchDescribeNetwork = () => dispatch => {
   dispatch(getDescribeNetwork())
-  ipcRenderer.send('lnd', { msg: 'describeNetwork' })
+  dispatch(send('lnd', { msg: 'describeNetwork' }))
 }
 
 // Receive IPC event for describeNetwork
@@ -141,7 +141,7 @@ export const receiveDescribeNetwork = (event, { nodes, edges }) => dispatch =>
 
 export const queryRoutes = (pubkey, amount) => dispatch => {
   dispatch(getQueryRoutes(pubkey))
-  ipcRenderer.send('lnd', { msg: 'queryRoutes', data: { pubkey, amount } })
+  dispatch(send('lnd', { msg: 'queryRoutes', data: { pubkey, amount } }))
 }
 
 export const queryRoutesFailed = (event, { error }) => dispatch => {
@@ -155,7 +155,7 @@ export const receiveQueryRoutes = (event, { routes }) => dispatch =>
 // take a payreq and query routes for it
 export const fetchInvoiceAndQueryRoutes = payreq => dispatch => {
   dispatch(getInvoiceAndQueryRoutes())
-  ipcRenderer.send('lnd', { msg: 'getInvoiceAndQueryRoutes', data: { payreq } })
+  dispatch(send('lnd', { msg: 'getInvoiceAndQueryRoutes', data: { payreq } }))
 }
 
 export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch =>
