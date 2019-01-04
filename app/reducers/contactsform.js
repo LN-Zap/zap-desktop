@@ -12,13 +12,7 @@ const initialState = {
   formType: null,
 
   searchQuery: '',
-  manualSearchQuery: '',
-  contactCapacity: 0,
   node: {},
-  showErrors: {
-    manualInput: false
-  },
-
   manualFormOpen: false,
   submitChannelFormOpen: false
 }
@@ -31,8 +25,6 @@ export const CLOSE_CONTACTS_FORM = 'CLOSE_CONTACTS_FORM'
 export const OPEN_CHANNEL_FORM_FORM = 'OPEN_CHANNEL_FORM_FORM'
 export const CLOSE_CHANNEL_FORM_FORM = 'CLOSE_CHANNEL_FORM_FORM'
 
-export const SET_CHANNEL_FORM_TYPE = 'SET_CHANNEL_FORM_TYPE'
-
 export const OPEN_MANUAL_FORM = 'OPEN_MANUAL_FORM'
 export const CLOSE_MANUAL_FORM = 'CLOSE_MANUAL_FORM'
 
@@ -42,12 +34,6 @@ export const CLOSE_SUBMIT_CHANNEL_FORM = 'CLOSE_SUBMIT_CHANNEL_FORM'
 export const SET_NODE = 'SET_NODE'
 
 export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUERY'
-
-export const UPDATE_CONTACT_CAPACITY = 'UPDATE_CONTACT_CAPACITY'
-
-export const UPDATE_MANUAL_FORM_ERRORS = 'UPDATE_MANUAL_FORM_ERRORS'
-
-export const UPDATE_MANUAL_FORM_SEARCH_QUERY = 'UPDATE_MANUAL_FORM_SEARCH_QUERY'
 
 // ------------------------------------
 // Actions
@@ -73,13 +59,6 @@ export function openChannelForm() {
 export function closeChannelForm() {
   return {
     type: CLOSE_CONTACTS_FORM
-  }
-}
-
-export function setChannelFormType(formType) {
-  return {
-    type: SET_CHANNEL_FORM_TYPE,
-    formType
   }
 }
 
@@ -114,31 +93,10 @@ export function updateContactFormSearchQuery(searchQuery) {
   }
 }
 
-export function updateManualFormSearchQuery(manualSearchQuery) {
-  return {
-    type: UPDATE_MANUAL_FORM_SEARCH_QUERY,
-    manualSearchQuery
-  }
-}
-
-export function updateContactCapacity(contactCapacity) {
-  return {
-    type: UPDATE_CONTACT_CAPACITY,
-    contactCapacity
-  }
-}
-
 export function setNode(node) {
   return {
     type: SET_NODE,
     node
-  }
-}
-
-export function updateManualFormErrors(errorsObject) {
-  return {
-    type: UPDATE_MANUAL_FORM_ERRORS,
-    errorsObject
   }
 }
 
@@ -149,31 +107,27 @@ const ACTION_HANDLERS = {
   [OPEN_CONTACTS_FORM]: state => ({ ...state, isOpen: true }),
   [CLOSE_CONTACTS_FORM]: state => ({ ...state, isOpen: false }),
 
-  [SET_CHANNEL_FORM_TYPE]: (state, { formType }) => ({ ...state, formType }),
+  [OPEN_MANUAL_FORM]: state => ({
+    ...state,
+    manualFormOpen: true,
+    formType: 'MANUAL_FORM'
+  }),
+  [CLOSE_MANUAL_FORM]: state => ({ ...state, manualFormOpen: false, formType: null }),
 
-  [OPEN_MANUAL_FORM]: state => ({ ...state, manualFormOpen: true }),
-  [CLOSE_MANUAL_FORM]: state => ({ ...state, manualFormOpen: false }),
-
-  [OPEN_SUBMIT_CHANNEL_FORM]: state => ({ ...state, submitChannelFormOpen: true }),
-  [CLOSE_SUBMIT_CHANNEL_FORM]: state => ({ ...state, submitChannelFormOpen: false }),
+  [OPEN_SUBMIT_CHANNEL_FORM]: state => ({
+    ...state,
+    submitChannelFormOpen: true,
+    formType: 'SUBMIT_CHANNEL_FORM'
+  }),
+  [CLOSE_SUBMIT_CHANNEL_FORM]: state => ({
+    ...state,
+    submitChannelFormOpen: false,
+    formType: null
+  }),
 
   [UPDATE_CONTACT_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 
-  [UPDATE_MANUAL_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
-
-  [UPDATE_CONTACT_CAPACITY]: (state, { contactCapacity }) => ({ ...state, contactCapacity }),
-
-  [SET_NODE]: (state, { node }) => ({ ...state, node }),
-
-  [UPDATE_MANUAL_FORM_ERRORS]: (state, { errorsObject }) => ({
-    ...state,
-    showErrors: Object.assign(state.showErrors, errorsObject)
-  }),
-
-  [UPDATE_MANUAL_FORM_SEARCH_QUERY]: (state, { manualSearchQuery }) => ({
-    ...state,
-    manualSearchQuery
-  })
+  [SET_NODE]: (state, { node }) => ({ ...state, node })
 }
 
 // ------------------------------------
@@ -182,10 +136,7 @@ const ACTION_HANDLERS = {
 const contactFormSelectors = {}
 const networkNodesSelector = state => state.network.nodes
 const searchQuerySelector = state => state.contactsform.searchQuery
-const manualSearchQuerySelector = state => state.contactsform.manualSearchQuery
-const contactCapacitySelector = state => state.contactsform.contactCapacity
 const currencySelector = state => state.ticker.currency
-const fiatTickerSelector = state => state.ticker.fiatTicker
 const nodeSelector = state => state.contactsform.node
 const channelsSelector = state => state.channels.channels
 const peersSelector = state => state.peers.peers
@@ -242,34 +193,6 @@ contactFormSelectors.showManualForm = createSelector(
     }
 
     return false
-  }
-)
-
-contactFormSelectors.manualFormIsValid = createSelector(
-  manualSearchQuerySelector,
-  input => {
-    const errors = {}
-    if (!input.length || !input.includes('@')) {
-      errors.manualInput = 'Invalid format'
-    }
-    return {
-      errors,
-      isValid: Object.keys(errors).length === 0
-    }
-  }
-)
-
-contactFormSelectors.contactFormFiatAmount = createSelector(
-  contactCapacitySelector,
-  currencySelector,
-  tickerSelectors.currentTicker,
-  fiatTickerSelector,
-  (amount, currency, currentTicker, fiatTicker) => {
-    if (!currentTicker || !currentTicker[fiatTicker]) {
-      return false
-    }
-
-    return btc.convert(currency, 'fiat', amount, currentTicker[fiatTicker])
   }
 )
 
