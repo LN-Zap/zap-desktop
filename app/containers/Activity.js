@@ -1,7 +1,5 @@
 import { connect } from 'react-redux'
-
-import { setLocale } from 'reducers/locale'
-import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
+import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { fetchBalance } from 'reducers/balance'
 import { fetchInvoices, setInvoice, invoiceSelectors } from 'reducers/invoice'
 import { fetchPayments, paymentSelectors } from 'reducers/payment'
@@ -17,16 +15,11 @@ import {
 } from 'reducers/activity'
 import { walletAddress, openWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
-import { setSettingsOpen, setActiveSubMenu, disableSubMenu } from 'reducers/settings'
-import { setTheme, themeSelectors } from 'reducers/theme'
-import { walletSelectors } from 'reducers/wallet'
 
 import Activity from 'components/Activity'
 
 const mapDispatchToProps = {
-  setLocale,
   setCurrency,
-  setFiatTicker,
   setInvoice,
   fetchPayments,
   fetchInvoices,
@@ -40,11 +33,7 @@ const mapDispatchToProps = {
   fetchBalance,
   updateSearchActive,
   updateSearchText,
-  setFormType,
-  setSettingsOpen,
-  setActiveSubMenu,
-  disableSubMenu,
-  setTheme
+  setFormType
 }
 
 const mapStateToProps = state => ({
@@ -58,22 +47,11 @@ const mapStateToProps = state => ({
   invoices: invoiceSelectors.invoices(state),
   ticker: state.ticker,
   network: state.network,
-  settings: state.settings,
-  currentLocale: state.intl.locale,
-  locales: state.locale,
-
-  activeWalletSettings: walletSelectors.activeWalletSettings(state),
-  currentTheme: themeSelectors.currentTheme(state),
-  themes: themeSelectors.themes(state),
-
   paymentModalOpen: paymentSelectors.paymentModalOpen(state),
   invoiceModalOpen: invoiceSelectors.invoiceModalOpen(state),
-
   currentTicker: tickerSelectors.currentTicker(state),
   currencyFilters: tickerSelectors.currencyFilters(state),
-
   currencyName: tickerSelectors.currencyName(state),
-
   currentActivity: activitySelectors.currentActivity(state)(state),
   nonActiveFilters: activitySelectors.nonActiveFilters(state),
   showExpiredToggle: activitySelectors.showExpiredToggle(state)
@@ -95,49 +73,11 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
     currencyName: stateProps.currencyName,
     network: stateProps.info.network,
     theme: stateProps.currentTheme,
-
     setCurrency: dispatchProps.setCurrency,
     walletAddress: dispatchProps.walletAddress,
     openReceiveModal: dispatchProps.openWalletModal,
     openPayForm: () => dispatchProps.setFormType('PAY_FORM'),
-    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM'),
-
-    settingsProps: {
-      settings: stateProps.settings,
-
-      toggleSettings: () => {
-        if (stateProps.settings.settingsOpen) {
-          dispatchProps.setSettingsOpen(false)
-          dispatchProps.disableSubMenu()
-        } else {
-          dispatchProps.setSettingsOpen(true)
-        }
-
-        return
-      },
-      setActiveSubMenu: dispatchProps.setActiveSubMenu,
-
-      fiatProps: {
-        fiatTicker: stateProps.ticker.fiatTicker,
-        fiatTickers: stateProps.ticker.fiatTickers,
-        disableSubMenu: dispatchProps.disableSubMenu,
-        setFiatTicker: dispatchProps.setFiatTicker
-      },
-
-      localeProps: {
-        locales: stateProps.locales,
-        currentLocale: stateProps.currentLocale,
-        disableSubMenu: dispatchProps.disableSubMenu,
-        setLocale: dispatchProps.setLocale
-      },
-
-      themeProps: {
-        themes: stateProps.themes,
-        currentTheme: stateProps.currentTheme,
-        setTheme: dispatchProps.setTheme,
-        disableSubMenu: dispatchProps.disableSubMenu
-      }
-    }
+    openRequestForm: () => dispatchProps.setFormType('REQUEST_FORM')
   }
 })
 

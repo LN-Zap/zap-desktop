@@ -6,7 +6,7 @@ import messages from './messages'
 
 const Fiat = ({ fiatTicker, fiatTickers, disableSubMenu, setFiatTicker }) => (
   <MenuContainer>
-    <Menu onClick={disableSubMenu}>
+    <Menu>
       <MenuItem
         item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
         onClick={disableSubMenu}
@@ -29,7 +29,7 @@ Fiat.propTypes = {
   fiatTicker: PropTypes.string.isRequired,
   fiatTickers: PropTypes.array.isRequired,
   disableSubMenu: PropTypes.func.isRequired,
-  setFiatTicker: PropTypes.func
+  setFiatTicker: PropTypes.func.isRequired
 }
 
 export default Fiat

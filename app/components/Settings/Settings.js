@@ -1,12 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass'
+import { Box, Flex } from 'rebass'
+import { StatusIndicator, Text } from 'components/UI'
+import { WalletName } from 'components/Util'
+import AngleUp from 'components/Icon/AngleUp'
+import AngleDown from 'components/Icon/AngleDown'
 import Menu from './Menu'
 import Fiat from './Fiat'
 import Locale from './Locale'
 import Theme from './Theme'
 
 class Settings extends React.Component {
+  menuRef = React.createRef()
+  buttonRef = React.createRef()
+
   componentDidMount() {
     document.addEventListener('mousedown', this.handleClickOutside)
   }
@@ -15,35 +22,36 @@ class Settings extends React.Component {
     document.removeEventListener('mousedown', this.handleClickOutside)
   }
 
-  // Set the wrapper ref
-  setWrapperRef = node => {
-    this.wrapperRef = node
+  setButtonRef = node => {
+    this.buttonRef = node
   }
 
-  // Alert if clicked on outside of element
+  setWrapperRef = node => {
+    this.menuRef = node
+  }
+
+  handleButtonClick = event => {
+    const { isSettingsOpen, closeSettings, openSettings } = this.props
+    if (this.buttonRef && this.buttonRef.contains(event.target)) {
+      isSettingsOpen ? closeSettings() : openSettings()
+    }
+  }
+
   handleClickOutside = event => {
-    const { toggleSettings, settings } = this.props
-
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target) && settings.settingsOpen) {
-      // Do not toggle the settings if they user clicked on their alias
-      // as that will cause us to double toggle and re-open it
-      if (
-        typeof event.target.className === 'string' &&
-        event.target.className.includes('settingsMenu')
-      ) {
-        return
-      }
-
-      // The user clicked outside of the settings box and not on the
-      // alias so we should toggle the settings
-      toggleSettings()
+    const { isSettingsOpen, closeSettings } = this.props
+    if (
+      this.menuRef &&
+      (this.menuRef && !this.menuRef.contains(event.target)) &&
+      (this.buttonRef && !this.buttonRef.contains(event.target)) &&
+      isSettingsOpen
+    ) {
+      closeSettings()
     }
   }
 
   renderSettings = () => {
-    const { settings, fiatProps, localeProps, themeProps, setActiveSubMenu } = this.props
-
-    switch (settings.activeSubMenu) {
+    const { activeSubMenu, fiatProps, localeProps, themeProps, setActiveSubMenu } = this.props
+    switch (activeSubMenu) {
       case 'fiat':
         return <Fiat {...fiatProps} />
       case 'locale':
@@ -56,17 +64,37 @@ class Settings extends React.Component {
   }
 
   render() {
-    return <Box ref={this.setWrapperRef}>{this.renderSettings()}</Box>
+    const { activeWalletSettings, isSettingsOpen } = this.props
+
+    return (
+      <Box css={{ position: 'relative' }}>
+        <Flex
+          ref={this.setButtonRef}
+          alignItems="center"
+          css={{ cursor: 'pointer' }}
+          onClick={this.handleButtonClick}
+        >
+          <StatusIndicator variant="online" mr={2} />
+          <Flex alignItems="center">
+            <Text textAlign="left" mr={1}>
+              <WalletName wallet={activeWalletSettings} />
+            </Text>
+            {isSettingsOpen ? <AngleUp width="0.7em" /> : <AngleDown width="0.7em" />}
+          </Flex>
+        </Flex>
+        <Box ref={this.setWrapperRef}>{isSettingsOpen && this.renderSettings()}</Box>
+      </Box>
+    )
   }
 }
 
 Settings.propTypes = {
-  settings: PropTypes.object.isRequired,
-  setActiveSubMenu: PropTypes.func.isRequired,
-  toggleSettings: PropTypes.func.isRequired,
   fiatProps: PropTypes.object.isRequired,
   localeProps: PropTypes.object.isRequired,
-  themeProps: PropTypes.object.isRequired
+  themeProps: PropTypes.object.isRequired,
+  setActiveSubMenu: PropTypes.func.isRequired,
+  openSettings: PropTypes.func.isRequired,
+  closeSettings: PropTypes.func.isRequired
 }
 
 export default Settings

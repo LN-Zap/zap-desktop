@@ -12,7 +12,7 @@ const Translate = ({ locales, disableSubMenu, currentLocale, setLocale }) => {
 
   return (
     <MenuContainer>
-      <Menu onClick={disableSubMenu}>
+      <Menu>
         <MenuItem
           item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
           onClick={disableSubMenu}

@@ -1,5 +1,6 @@
 import settingsReducer, {
-  SET_SETTINGS_OPEN,
+  OPEN_SETTINGS,
+  CLOSE_SETTINGS,
   SET_ACTIVE_SUBMENU,
   DISABLE_SUBMENU
 } from 'reducers/settings'
@@ -10,8 +11,12 @@ describe('reducers', () => {
       expect(settingsReducer(undefined, {})).toMatchSnapshot()
     })
 
-    it('should have SET_SETTINGS_OPEN', () => {
-      expect(SET_SETTINGS_OPEN).toEqual('SET_SETTINGS_OPEN')
+    it('should have OPEN_SETTINGS', () => {
+      expect(OPEN_SETTINGS).toEqual('OPEN_SETTINGS')
+    })
+
+    it('should have CLOSE_SETTINGS', () => {
+      expect(CLOSE_SETTINGS).toEqual('CLOSE_SETTINGS')
     })
 
     it('should have SET_ACTIVE_SUBMENU', () => {
@@ -22,9 +27,19 @@ describe('reducers', () => {
       expect(DISABLE_SUBMENU).toEqual('DISABLE_SUBMENU')
     })
 
-    it('should correctly setSettingsOpen', () => {
+    it('should correctly openSettings', () => {
       expect(
-        settingsReducer(undefined, { type: SET_SETTINGS_OPEN, settingsOpen: true })
+        settingsReducer(undefined, { type: OPEN_SETTINGS, settingsOpen: true })
+      ).toMatchSnapshot()
+    })
+
+    it('should correctly closeSettings', () => {
+      expect(
+        settingsReducer(undefined, {
+          type: CLOSE_SETTINGS,
+          settingsOpen: false,
+          activeSubMenu: null
+        })
       ).toMatchSnapshot()
     })
 
