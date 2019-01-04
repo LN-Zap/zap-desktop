@@ -1,3 +1,1 @@
-import TransactionModal from './TransactionModal'
-
-export default TransactionModal
+export TransactionModal from './TransactionModal'

@@ -1,9 +1,15 @@
 import { defineMessages } from 'react-intl'
 
-/* eslint-disable max-len */
 export default defineMessages({
-  fee: 'Fee',
-  on_chain: 'On-Chain',
-  received: 'Received',
-  sent: 'Sent'
+  title_sent: 'Sent',
+  title_received: 'Received',
+  subtitle: 'On-Chain Payment',
+  amount: 'Amount',
+  date_confirmed: 'Date of confirmation',
+  fee: 'Total fee',
+  status: 'Status',
+  current_value: 'Current value',
+  address: 'Address',
+  block_height: 'Confirmed in Block',
+  tx_hash: 'Transaction ID'
 })

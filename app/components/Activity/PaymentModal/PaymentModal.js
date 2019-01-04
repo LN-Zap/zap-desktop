@@ -1,80 +1,136 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withTheme } from 'styled-components'
-import PaperPlane from 'components/Icon/PaperPlane'
-import Zap from 'components/Icon/Zap'
-import { Dropdown, Value } from 'components/UI'
 import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
+import { Flex } from 'rebass'
+import { Bar, DataRow, Dropdown, Header, Panel, Text, Value } from 'components/UI'
+import { Truncate } from 'components/Util'
+import Lightning from 'components/Icon/Lightning'
 import messages from './messages'
-import styles from './PaymentModal.scss'
 
-const PaymentModal = ({
-  item: payment,
-  ticker,
-  currentTicker,
-  theme,
-  toggleCurrencyProps: { currencyName, currencyFilters, setCurrency }
-}) => (
-  <div className={`${styles.container} ${theme.name}`}>
-    <header className={styles.header}>
-      <section>
-        <PaperPlane />
-        <FormattedMessage {...messages.sent} />
-      </section>
-      <section className={styles.details}>
-        <div>
-          <Zap />
-          <span className={styles.zap}>
-            <FormattedMessage {...messages.lightning} />
-          </span>
-        </div>
-        <div>
-          <Value
-            value={payment.fee}
-            currency={ticker.currency}
-            currentTicker={currentTicker}
-            fiatTicker={ticker.fiatTicker}
+export default class PaymentModal extends React.PureComponent {
+  static propTypes = {
+    /** Invoice */
+    item: PropTypes.object.isRequired,
+    /** Current ticker data as provided by blockchain.info */
+    currentTicker: PropTypes.object.isRequired,
+    /** Currently selected cryptocurrency (key). */
+    cryptoCurrency: PropTypes.string.isRequired,
+    /** List of supported cryptocurrencies. */
+    cryptoCurrencies: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+      })
+    ).isRequired,
+    /** List of supported fiat currencies. */
+    fiatCurrencies: PropTypes.array.isRequired,
+    /** Currently selected fiat currency (key). */
+    fiatCurrency: PropTypes.string.isRequired,
+
+    /** Set the current cryptocurrency. */
+    setCryptoCurrency: PropTypes.func.isRequired,
+    /** Set the current fiat currency */
+    setFiatCurrency: PropTypes.func.isRequired
+  }
+
+  render() {
+    const {
+      item,
+      cryptoCurrency,
+      cryptoCurrencies,
+      currentTicker,
+      fiatCurrency,
+      fiatCurrencies,
+      setCryptoCurrency,
+      setFiatCurrency,
+      ...rest
+    } = this.props
+    return (
+      <Panel {...rest}>
+        <Panel.Header>
+          <Header
+            title={<FormattedMessage {...messages.title_sent} />}
+            subtitle={<FormattedMessage {...messages.subtitle} />}
+            logo={<Lightning height="45px" width="45px" />}
           />
-          <span>
-            {' '}
-            {currencyName} <FormattedMessage {...messages.fee} />
-          </span>
-        </div>
-      </section>
-    </header>
+          <Bar pt={2} />
+        </Panel.Header>
 
-    <div className={styles.amount}>
-      <i className={`${styles.symbol} ${payment.value > 0 ? styles.active : undefined}`}>-</i>
-      <Value
-        value={payment.value}
-        currency={ticker.currency}
-        currentTicker={currentTicker}
-        fiatTicker={ticker.fiatTicker}
-      />
-      <Dropdown activeKey={ticker.currency} items={currencyFilters} onChange={setCurrency} ml={2} />
-    </div>
+        <Panel.Body>
+          <DataRow
+            left={<FormattedMessage {...messages.amount} />}
+            right={
+              <Flex alignItems="center">
+                <Dropdown
+                  activeKey={cryptoCurrency}
+                  items={cryptoCurrencies}
+                  onChange={setCryptoCurrency}
+                  mr={2}
+                />
+                <Text fontSize="xxl">
+                  <Value
+                    value={item.value}
+                    currency={cryptoCurrency}
+                    currentTicker={currentTicker}
+                    fiatTicker={fiatCurrency}
+                  />
+                </Text>
+              </Flex>
+            }
+          />
 
-    <div className={styles.date}>
-      <FormattedDate
-        value={payment.creation_date * 1000}
-        year="numeric"
-        month="long"
-        day="2-digit"
-      />{' '}
-      <FormattedTime value={payment.creation_date * 1000} />
-    </div>
+          <Bar />
 
-    <footer className={styles.footer}>
-      <p>{payment.payment_preimage}</p>
-    </footer>
-  </div>
-)
+          <DataRow
+            left={<FormattedMessage {...messages.current_value} />}
+            right={
+              <Flex alignItems="center">
+                <Dropdown
+                  activeKey={fiatCurrency}
+                  items={fiatCurrencies}
+                  onChange={setFiatCurrency}
+                  mr={2}
+                />
+                <Value
+                  value={item.value}
+                  currency="fiat"
+                  currentTicker={currentTicker}
+                  fiatTicker={fiatCurrency}
+                />
+              </Flex>
+            }
+          />
 
-PaymentModal.propTypes = {
-  item: PropTypes.object.isRequired,
-  ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
-  toggleCurrencyProps: PropTypes.object.isRequired
+          <Bar />
+
+          <DataRow
+            left={<FormattedMessage {...messages.date_sent} />}
+            right={
+              <>
+                <FormattedDate
+                  value={item.creation_date * 1000}
+                  year="numeric"
+                  month="long"
+                  day="2-digit"
+                />
+                <br />
+                <FormattedTime value={item.creation_date * 1000} />
+              </>
+            }
+          />
+
+          <Bar />
+
+          <DataRow
+            left={<FormattedMessage {...messages.preimage} />}
+            right={
+              <Text className="hint--bottom-left" data-hint={item.payment_preimage}>
+                <Truncate text={item.payment_preimage} />
+              </Text>
+            }
+          />
+        </Panel.Body>
+      </Panel>
+    )
+  }
 }
-
-export default withTheme(PaymentModal)

@@ -105,7 +105,7 @@ storiesOf('Containers.Request', module)
               fiatCurrency={store.get('fiatCurrency')}
               fiatCurrencies={store.get('fiatCurrencies')}
               isProcessing={store.get('isProcessing')}
-              isPaid={store.get('isPaid')}
+              invoice={store.get('invoice')}
               payReq={store.get('payReq')}
               // Dispatch
               createInvoice={mockCreateInvoice}
@@ -133,6 +133,7 @@ storiesOf('Containers.Request', module)
               cryptoCurrency={store.get('cryptoCurrency')}
               cryptoCurrencies={store.get('cryptoCurrencies')}
               currentTicker={store.get('currentTicker')}
+              invoice={store.get('invoice')}
               payReq={store.get('payReq')}
               // Dispatch
               setCryptoCurrency={setCryptoCurrency}

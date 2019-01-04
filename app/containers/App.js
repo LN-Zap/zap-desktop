@@ -40,7 +40,6 @@ import { fetchBalance } from 'reducers/balance'
 import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
 import { clearError } from 'reducers/error'
-import { hideActivityModal, activitySelectors } from 'reducers/activity'
 import { setIsWalletOpen } from 'reducers/wallet'
 import App from 'components/App'
 import withLoading from 'components/withLoading'
@@ -75,12 +74,10 @@ const mapDispatchToProps = {
   updateManualFormErrors,
   setChannelFormType,
   fetchDescribeNetwork,
-  hideActivityModal,
   setIsWalletOpen
 }
 
 const mapStateToProps = state => ({
-  activity: state.activity,
   lnd: state.lnd,
   ticker: state.ticker,
   address: state.address,
@@ -105,7 +102,6 @@ const mapStateToProps = state => ({
     state.balance.channelBalance === null ||
     state.balance.walletBalance === null,
 
-  activityModalItem: activitySelectors.activityModalItem(state),
   currentTheme: themeSelectors.currentTheme(state),
 
   currentTicker: tickerSelectors.currentTicker(state),
@@ -185,24 +181,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     activeChannelPubkeys: stateProps.activeChannelPubkeys,
     nonActiveChannelPubkeys: stateProps.nonActiveChannelPubkeys,
     pendingOpenChannelPubkeys: stateProps.pendingOpenChannelPubkeys
-  }
-
-  const activityModalProps = {
-    itemType: stateProps.activity.modal.itemType,
-    itemId: stateProps.activity.modal.itemId,
-    item: stateProps.activityModalItem,
-
-    ticker: stateProps.ticker,
-    currentTicker: stateProps.currentTicker,
-    network: stateProps.info.network,
-
-    hideActivityModal: dispatchProps.hideActivityModal,
-
-    toggleCurrencyProps: {
-      currencyFilters: stateProps.currencyFilters,
-      currencyName: stateProps.currencyName,
-      setCurrency: dispatchProps.setCurrency
-    }
   }
 
   const receiveModalProps = {
@@ -286,8 +264,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     contactsFormProps,
     // props for the receive modal
     receiveModalProps,
-    // props for the activity modals
-    activityModalProps,
     // props for the form to open a channel
     submitChannelFormProps,
     // props for the form to connect manually to a peer

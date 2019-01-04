@@ -1,3 +1,1 @@
-import PaymentModal from './PaymentModal'
-
-export default PaymentModal
+export PaymentModal from './PaymentModal'

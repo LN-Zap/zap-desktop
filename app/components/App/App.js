@@ -6,7 +6,7 @@ import ChannelForm from 'components/Contacts/ChannelForm'
 import Network from 'components/Contacts/Network'
 import AddChannel from 'components/Contacts/AddChannel'
 import ReceiveModal from 'components/Wallet/ReceiveModal'
-import ActivityModal from 'components/Activity/ActivityModal'
+import { ActivityModalContainer } from 'containers/Activity/ActivityModalContainer'
 
 import Activity from 'containers/Activity'
 import { MainContent, Sidebar } from 'components/UI'
@@ -34,7 +34,6 @@ class App extends React.Component {
     currentTicker: PropTypes.object,
     contactsFormProps: PropTypes.object,
     networkTabProps: PropTypes.object,
-    activityModalProps: PropTypes.object,
     receiveModalProps: PropTypes.object,
     channelFormProps: PropTypes.object,
     setIsWalletOpen: PropTypes.func.isRequired,
@@ -89,7 +88,6 @@ class App extends React.Component {
       contactsFormProps,
       networkTabProps,
       receiveModalProps,
-      activityModalProps,
       channelFormProps
     } = this.props
 
@@ -99,7 +97,7 @@ class App extends React.Component {
           <>
             <ChannelForm {...channelFormProps} />
             <ReceiveModal {...receiveModalProps} />
-            <ActivityModal {...activityModalProps} />
+            <ActivityModalContainer />
             <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
           </>
         )}
