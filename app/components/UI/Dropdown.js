@@ -91,9 +91,9 @@ export const MenuItem = withTheme(
     >
       <Flex alignItems="center" pr={2}>
         {hasParent && (
-          <Text width="20px" textAlign="center" color="gray">
+          <Flex alignItems="center" width="20px" color="gray">
             <AngleLeft />
-          </Text>
+          </Flex>
         )}
         {!hasParent && (
           <Text width="20px" textAlign="center" color="superGreen">
@@ -101,11 +101,10 @@ export const MenuItem = withTheme(
           </Text>
         )}
         <Text mr={2}>{item.name}</Text>
-        {hasChildren && (
-          <Text ml="auto" color="gray">
-            <AngleRight />
-          </Text>
-        )}
+
+        <Flex alignItems="center" justifyContent="flex-end" width="20px" color="gray" ml="auto">
+          {hasChildren && <AngleRight />}
+        </Flex>
       </Flex>
     </Text>
   )
