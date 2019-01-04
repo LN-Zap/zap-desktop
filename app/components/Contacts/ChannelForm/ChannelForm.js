@@ -1,8 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Modal } from 'components/UI'
-import { ConnectManuallyContainer } from '../ConnectManually'
-import { SubmitChannelFormContainer } from '../SubmitChannelForm'
+import ConnectManually from 'containers/Contacts/ConnectManually'
+import SubmitChannelForm from 'containers/Contacts/SubmitChannelForm'
 
 const ChannelForm = ({ formType, closeForm }) => {
   if (!formType) {
@@ -13,14 +13,14 @@ const ChannelForm = ({ formType, closeForm }) => {
     case 'MANUAL_FORM':
       return (
         <Modal onClose={closeForm}>
-          <ConnectManuallyContainer width={9 / 16} mx="auto" />
+          <ConnectManually width={9 / 16} mx="auto" />
         </Modal>
       )
 
     case 'SUBMIT_CHANNEL_FORM':
       return (
         <Modal onClose={closeForm}>
-          <SubmitChannelFormContainer width={9 / 16} mx="auto" />
+          <SubmitChannelForm width={9 / 16} mx="auto" />
         </Modal>
       )
   }

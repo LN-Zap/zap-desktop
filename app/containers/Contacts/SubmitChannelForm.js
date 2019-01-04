@@ -2,8 +2,7 @@ import { connect } from 'react-redux'
 import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
 import { closeContactsForm, closeChannelForm, contactFormSelectors } from 'reducers/contactsform'
 import { openChannel } from 'reducers/channels'
-
-import { SubmitChannelForm } from '.'
+import SubmitChannelForm from 'components/Contacts/SubmitChannelForm'
 
 const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
