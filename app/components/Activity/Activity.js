@@ -5,75 +5,12 @@ import { Box, Flex } from 'rebass'
 import { Bar, Button, Form, Heading, Input, Panel, Spinner, Text } from 'components/UI'
 import Search from 'components/Icon/Search'
 import X from 'components/Icon/X'
-import ChainLink from 'components/Icon/ChainLink'
-import Clock from 'components/Icon/Clock'
-import Zap from 'components/Icon/Zap'
+
 import Wallet from 'components/Wallet'
-import Invoice from './Invoice'
-import Payment from './Payment'
-import Transaction from './Transaction'
+
 import messages from './messages'
 
-const ActivityIcon = ({ activity }) => {
-  switch (activity.type) {
-    case 'transaction':
-      return <ChainLink />
-    case 'payment':
-      return <Zap width="1.6em" height="1.6em" />
-    case 'invoice':
-      return <Clock />
-    default:
-      return null
-  }
-}
-
-const ActivityListItem = ({
-  activity,
-  currencyName,
-  currentTicker,
-  network,
-  ticker,
-  showActivityModal,
-  ...rest
-}) => (
-  <Flex justifyContent="space-between" alignItems="center" {...rest}>
-    <Text width={24} ml={-35} color="gray" textAlign="center">
-      <ActivityIcon activity={activity} />
-    </Text>
-    <Box width={1} css={!activity.sending ? { cursor: 'pointer' } : null}>
-      {activity.type === 'transaction' && (
-        <Transaction
-          transaction={activity}
-          ticker={ticker}
-          currentTicker={currentTicker}
-          showActivityModal={showActivityModal}
-          currencyName={currencyName}
-        />
-      )}
-
-      {activity.type === 'invoice' && (
-        <Invoice
-          invoice={activity}
-          ticker={ticker}
-          currentTicker={currentTicker}
-          showActivityModal={showActivityModal}
-          currencyName={currencyName}
-        />
-      )}
-
-      {activity.type === 'payment' && (
-        <Payment
-          payment={activity}
-          ticker={ticker}
-          currentTicker={currentTicker}
-          showActivityModal={showActivityModal}
-          nodes={network.nodes}
-          currencyName={currencyName}
-        />
-      )}
-    </Box>
-  </Flex>
-)
+import ActivityListItem from './ActivityListItem'
 
 class Activity extends Component {
   state = {
