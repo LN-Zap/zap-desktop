@@ -26,7 +26,7 @@ export const locales = [
   'zh-TW'
 ]
 
-// Defaine list of currencies that we will support.
+// Define list of currencies that we will support.
 export const currencies = [
   'USD',
   'EUR',
@@ -49,7 +49,8 @@ export const currencies = [
   'SEK',
   'SGD',
   'THB',
-  'TWB'
+  'TWB',
+  'UAH'
 ]
 
 /**
