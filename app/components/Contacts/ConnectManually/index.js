@@ -1,3 +1,2 @@
-import ConnectManually from './ConnectManually'
-
-export default ConnectManually
+export ConnectManually from './ConnectManually'
+export ConnectManuallyContainer from './ConnectManuallyContainer'

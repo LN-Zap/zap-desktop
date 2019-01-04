@@ -1,108 +1,104 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { Button } from 'components/UI'
+import { Bar, Button, Form, Header, Input, Panel } from 'components/UI'
+import * as yup from 'yup'
 import messages from './messages'
 
-import styles from './ConnectManually.scss'
-
 class ConnectManually extends React.Component {
-  render() {
-    const {
-      manualSearchQuery,
+  static propTypes = {
+    closeManualForm: PropTypes.func.isRequired,
+    openSubmitChannelForm: PropTypes.func.isRequired,
+    setNode: PropTypes.func.isRequired
+  }
 
-      manualFormIsValid,
-      updateManualFormErrors,
-
-      openSubmitChannelForm,
-      updateManualFormSearchQuery,
-
-      setNode,
-
-      showErrors,
-      intl
-    } = this.props
-
-    const formSubmitted = () => {
-      if (!manualFormIsValid.isValid) {
-        updateManualFormErrors(manualFormIsValid.errors)
-
-        return
-      }
-      // clear any existing errors
-      updateManualFormErrors({ manualInput: null })
-
-      const [pub_key, addr] = manualSearchQuery && manualSearchQuery.split('@')
-
-      // the SubmitChannel component is expecting a node object that looks like the following
-      // {
-      //    pub_key: 'some_string',
-      //    addresses: [
-      //      {
-      //        addr: 'some_host_address'
-      //      }
-      //    ]
-      // }
-      // knowing this we will set the node object with the known format and plug in the pubkey + host accordingly
-      setNode({ pub_key, addresses: [{ addr }] })
-
-      // now we close the ConnectManually form and open the SubmitChannel form by chaning the channelFormType
-      openSubmitChannelForm()
+  validateAddress = value => {
+    const { disabled, required } = this.props
+    if (disabled) {
+      return
     }
+    try {
+      let validator = yup.string().matches(/(.+@.+)/, 'Invalid format')
+      if (required) {
+        validator = validator.required()
+      }
+      validator.validateSync(value)
+    } catch (error) {
+      return error.message
+    }
+  }
+
+  onSubmit = values => {
+    const { closeManualForm, openSubmitChannelForm, setNode } = this.props
+
+    const [pub_key, addr] = values.address.split('@')
+
+    // the SubmitChannel component is expecting a node object that looks like the following
+    // {
+    //    pub_key: 'some_string',
+    //    addresses: [
+    //      {
+    //        addr: 'some_host_address'
+    //      }
+    //    ]
+    // }
+    // knowing this we will set the node object with the known format and plug in the pubkey + host accordingly
+    setNode({ pub_key, addresses: [{ addr }] })
+
+    // now we close the ConnectManually form and open the SubmitChannel form by chaning the channelFormType
+    closeManualForm()
+    openSubmitChannelForm()
+  }
+
+  /**
+   * Store the formApi on the component context to make it available at this.formApi.
+   */
+  setFormApi = formApi => {
+    this.formApi = formApi
+  }
+
+  render() {
+    const { closeManualForm, openSubmitChannelForm, setNode, intl, ...rest } = this.props
 
     return (
-      <div className={styles.content}>
-        <header className={styles.header}>
-          <h1>
-            <FormattedMessage {...messages.title} />
-          </h1>
-          <p>
-            <FormattedMessage {...messages.description} />
-          </p>
-        </header>
+      <Form css={{ height: '100%' }} {...rest} getApi={this.setFormApi} onSubmit={this.onSubmit}>
+        {({ formState }) => {
+          const shouldValidateInline = formState.submits > 0
 
-        <section className={styles.peer}>
-          <div className={styles.input}>
-            <input
-              type="text"
-              placeholder={intl.formatMessage({ ...messages.placeholder })}
-              value={manualSearchQuery}
-              onChange={event => updateManualFormSearchQuery(event.target.value)}
-            />
-          </div>
-        </section>
+          return (
+            <Panel {...rest} width={1}>
+              <Panel.Header>
+                <Header
+                  title={<FormattedMessage {...messages.title} />}
+                  subtitle={<FormattedMessage {...messages.description} />}
+                />
+                <Bar mt={2} />
+              </Panel.Header>
 
-        <section
-          className={`${styles.errorMessage} ${showErrors.manualInput ? styles.active : undefined}`}
-        >
-          {showErrors.manualInput && (
-            <span>{manualFormIsValid && manualFormIsValid.errors.manualInput}</span>
-          )}
-        </section>
+              <Panel.Body py={3}>
+                <Input
+                  field="address"
+                  label={intl.formatMessage({ ...messages.address_label })}
+                  description={intl.formatMessage({ ...messages.address_description })}
+                  placeholder={intl.formatMessage({ ...messages.placeholder })}
+                  validate={this.validateAddress}
+                  validateOnBlur={shouldValidateInline}
+                  validateOnChange={shouldValidateInline}
+                  required
+                />
+              </Panel.Body>
 
-        <section className={styles.submit}>
-          <Button disabled={!manualFormIsValid.isValid} onClick={formSubmitted}>
-            <FormattedMessage {...messages.submit} />
-          </Button>
-        </section>
-      </div>
+              <Panel.Footer mx="auto">
+                <Button disabled={formState.pristine || formState.invalid}>
+                  <FormattedMessage {...messages.submit} />
+                </Button>
+              </Panel.Footer>
+            </Panel>
+          )
+        }}
+      </Form>
     )
   }
-}
-
-ConnectManually.propTypes = {
-  manualSearchQuery: PropTypes.string.isRequired,
-
-  manualFormIsValid: PropTypes.object.isRequired,
-  updateManualFormErrors: PropTypes.func.isRequired,
-
-  openSubmitChannelForm: PropTypes.func.isRequired,
-  updateManualFormSearchQuery: PropTypes.func.isRequired,
-
-  setNode: PropTypes.func.isRequired,
-
-  showErrors: PropTypes.object.isRequired
 }
 
 export default injectIntl(ConnectManually)
