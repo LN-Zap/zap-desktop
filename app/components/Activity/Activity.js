@@ -7,9 +7,7 @@ import Search from 'components/Icon/Search'
 import X from 'components/Icon/X'
 
 import Wallet from 'components/Wallet'
-
 import messages from './messages'
-
 import ActivityListItem from './ActivityListItem'
 
 class Activity extends Component {
@@ -18,15 +16,12 @@ class Activity extends Component {
   }
 
   refreshClicked = () => {
-    const { fetchPayments, fetchInvoices, fetchTransactions, fetchBalance } = this.props
+    const { fetchActivityHistory } = this.props
     // turn the spinner on
     this.setState({ refreshing: true })
 
     // fetch data
-    fetchBalance()
-    fetchPayments()
-    fetchInvoices()
-    fetchTransactions()
+    fetchActivityHistory()
 
     // Turn the spinner off after 1 second.
     const refreshTimeout = setTimeout(() => {
@@ -216,10 +211,7 @@ class Activity extends Component {
 }
 
 Activity.propTypes = {
-  fetchPayments: PropTypes.func.isRequired,
-  fetchInvoices: PropTypes.func.isRequired,
-  fetchTransactions: PropTypes.func.isRequired,
-  fetchBalance: PropTypes.func.isRequired,
+  fetchActivityHistory: PropTypes.func.isRequired,
 
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object,
