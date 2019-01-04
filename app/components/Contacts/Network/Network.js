@@ -28,11 +28,6 @@ class Network extends Component {
     refreshing: false
   }
 
-  componentDidMount() {
-    const { fetchChannels } = this.props
-    fetchChannels()
-  }
-
   componentDidUpdate(prevProps) {
     const { refreshing } = this.state
     const { channels } = this.props

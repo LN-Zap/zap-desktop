@@ -80,10 +80,6 @@ class Activity extends Component {
     refreshing: false
   }
 
-  componentDidMount() {
-    this.refreshClicked()
-  }
-
   refreshClicked = () => {
     const { fetchPayments, fetchInvoices, fetchTransactions, fetchBalance } = this.props
     // turn the spinner on
