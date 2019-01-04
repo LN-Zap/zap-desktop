@@ -29,7 +29,6 @@ const SettingsMenu = ({ history, setActiveSubMenu }) => (
       <MenuItem
         item={{ key: 'logout', name: <FormattedMessage {...messages.logout} /> }}
         onClick={() => history.push('/logout')}
-        hasChildren
       />
     </Menu>
   </MenuContainer>
