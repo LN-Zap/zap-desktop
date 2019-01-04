@@ -1,17 +1,23 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_SETTINGS_OPEN = 'SET_SETTINGS_OPEN'
+export const OPEN_SETTINGS = 'OPEN_SETTINGS'
+export const CLOSE_SETTINGS = 'CLOSE_SETTINGS'
 export const SET_ACTIVE_SUBMENU = 'SET_ACTIVE_SUBMENU'
 export const DISABLE_SUBMENU = 'DISABLE_SUBMENU'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function setSettingsOpen(settingsOpen) {
+export function openSettings() {
   return {
-    type: SET_SETTINGS_OPEN,
-    settingsOpen
+    type: OPEN_SETTINGS
+  }
+}
+
+export function closeSettings() {
+  return {
+    type: CLOSE_SETTINGS
   }
 }
 
@@ -32,7 +38,8 @@ export function disableSubMenu() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_SETTINGS_OPEN]: (state, { settingsOpen }) => ({ ...state, settingsOpen }),
+  [OPEN_SETTINGS]: state => ({ ...state, isSettingsOpen: true }),
+  [CLOSE_SETTINGS]: state => ({ ...state, isSettingsOpen: false, activeSubMenu: null }),
   [SET_ACTIVE_SUBMENU]: (state, { activeSubMenu }) => ({ ...state, activeSubMenu }),
   [DISABLE_SUBMENU]: state => ({ ...state, activeSubMenu: null })
 }
@@ -41,7 +48,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  settingsOpen: false,
+  isSettingsOpen: false,
   activeSubMenu: null
 }
 

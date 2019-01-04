@@ -2,11 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { btc } from 'lib/utils'
-import Settings from 'components/Settings'
-import { Button, Dropdown, StatusIndicator, Text, Value } from 'components/UI'
-import { WalletName } from 'components/Util'
-import AngleUp from 'components/Icon/AngleUp'
-import AngleDown from 'components/Icon/AngleDown'
+import Settings from 'containers/Settings'
+import { Button, Dropdown, Text, Value } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Qrcode from 'components/Icon/Qrcode'
 import { FormattedNumber, FormattedMessage } from 'react-intl'
@@ -18,12 +15,10 @@ const Wallet = ({
   openReceiveModal,
   ticker,
   currentTicker,
-  activeWalletSettings,
   openPayForm,
   openRequestForm,
   currencyFilters,
-  setCurrency,
-  settingsProps
+  setCurrency
 }) => {
   if (!ticker.currency) {
     return null
@@ -46,27 +41,7 @@ const Wallet = ({
           )}
         </Flex>
         <Box as="section">
-          <Box css={{ position: 'relative' }}>
-            <Flex
-              alignItems="center"
-              className={`${settingsProps.settings.settingsOpen && 'settingsOpen'}`}
-              onClick={settingsProps.toggleSettings}
-              css={{ cursor: 'pointer' }}
-            >
-              <StatusIndicator variant="online" mr={2} />
-              <Flex alignItems="center" className="settingsMenu">
-                <Text textAlign="left" mr={1}>
-                  <WalletName wallet={activeWalletSettings} />
-                </Text>
-                {settingsProps.settings.settingsOpen ? (
-                  <AngleUp width="0.7em" />
-                ) : (
-                  <AngleDown width="0.7em" />
-                )}
-              </Flex>
-            </Flex>
-            {settingsProps.settings.settingsOpen && <Settings {...settingsProps} />}
-          </Box>
+          <Settings />
         </Box>
       </Flex>
 
@@ -127,12 +102,10 @@ Wallet.propTypes = {
   info: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
   currentTicker: PropTypes.object.isRequired,
-  activeWalletSettings: PropTypes.object.isRequired,
   openPayForm: PropTypes.func.isRequired,
   openRequestForm: PropTypes.func.isRequired,
   openReceiveModal: PropTypes.func.isRequired,
   network: PropTypes.object.isRequired,
-  settingsProps: PropTypes.object.isRequired,
   currencyFilters: PropTypes.array.isRequired,
   setCurrency: PropTypes.func.isRequired
 }
