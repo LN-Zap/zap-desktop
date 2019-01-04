@@ -2,6 +2,7 @@ import { defineMessages } from 'react-intl'
 
 /* eslint-disable max-len */
 export default defineMessages({
+  amount: 'Amount',
   expires: 'Expires',
   expired: 'Expired',
   required_field: 'This is a required field',
