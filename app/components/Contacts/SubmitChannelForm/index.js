@@ -1,3 +1,2 @@
-import SubmitChannelForm from './SubmitChannelForm'
-
-export default SubmitChannelForm
+export SubmitChannelForm from './SubmitChannelForm'
+export SubmitChannelFormContainer from './SubmitChannelFormContainer'
