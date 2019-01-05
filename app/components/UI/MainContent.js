@@ -7,6 +7,8 @@ import { BackgroundPrimary } from 'components/UI'
  * @example
  * <MainContent>Some content</MainContent>
  */
-const MainContent = ({ css, ...rest }) => <BackgroundPrimary as="article" width={1} {...rest} />
+const MainContent = ({ css, ...rest }) => (
+  <BackgroundPrimary as="article" width={1} css={{ 'overflow-y': 'auto' }} {...rest} />
+)
 
 export default MainContent
