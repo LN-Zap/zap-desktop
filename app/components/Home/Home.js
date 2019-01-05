@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
-import { Bar, MainContent, Sidebar } from 'components/UI'
+import { Bar, MainContent, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import { CreateWalletButton, NoWallets, WalletLauncher, WalletsMenu, WalletUnlocker } from '.'
 
@@ -77,20 +77,26 @@ class Home extends React.Component {
 
     return (
       <>
-        <Sidebar.small p={3} pt={40}>
-          <ZapLogo width="70px" height="32px" />
-
-          <WalletsMenu
-            wallets={wallets}
-            mt={30}
-            activeWallet={activeWallet}
-            setActiveWallet={setActiveWallet}
-          />
-
-          <Box width={1} css={{ position: 'absolute', left: 0, bottom: 0 }} px={3}>
-            <Bar mx={-3} />
-            <CreateWalletButton history={history} width={1} p={3} />
-          </Box>
+        <Sidebar.small px={4} pt={40}>
+          <Panel>
+            <Panel.Header>
+              <ZapLogo width="70px" height="32px" />
+            </Panel.Header>
+            <Panel.Body>
+              <WalletsMenu
+                wallets={wallets}
+                mt={30}
+                activeWallet={activeWallet}
+                setActiveWallet={setActiveWallet}
+              />
+            </Panel.Body>
+            <Panel.Footer>
+              <Bar mx={-4} />
+              <Box py={2}>
+                <CreateWalletButton history={history} width={1} />
+              </Box>
+            </Panel.Footer>
+          </Panel>
         </Sidebar.small>
 
         <MainContent pt={40}>

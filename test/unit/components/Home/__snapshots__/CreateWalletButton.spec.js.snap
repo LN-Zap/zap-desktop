@@ -5,7 +5,7 @@ exports[`component.CreateWalletButton should render correctly 1`] = `
   active={false}
   onClick={[Function]}
   processing={false}
-  size="medium"
+  size="small"
   variant="secondary"
 >
   <Styled(styled.div)
