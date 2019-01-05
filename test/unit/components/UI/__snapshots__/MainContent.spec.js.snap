@@ -5,6 +5,7 @@ exports[`component.UI.MainContent should render correctly 1`] = `
   width: 100%;
   color: primaryText;
   background-color: primaryColor;
+  overflow-y: auto;
 }
 
 <article
