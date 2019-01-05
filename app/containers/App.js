@@ -1,8 +1,6 @@
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import get from 'lodash.get'
-
-import { themeSelectors } from 'reducers/theme'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
@@ -91,8 +89,6 @@ const mapStateToProps = state => ({
     !tickerSelectors.currencyName(state) ||
     state.balance.channelBalance === null ||
     state.balance.walletBalance === null,
-
-  currentTheme: themeSelectors.currentTheme(state),
 
   currentTicker: tickerSelectors.currentTicker(state),
   currencyFilters: tickerSelectors.currencyFilters(state),

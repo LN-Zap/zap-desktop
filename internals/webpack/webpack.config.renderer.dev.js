@@ -66,49 +66,6 @@ export default merge.smart(baseConfig, {
           }
         }
       },
-      // Add SASS support  - compile all .global.scss files and pipe it to main.css
-      {
-        test: /\.global\.scss$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-              includePaths: ['app']
-            }
-          }
-        ]
-      },
-      // Add SASS support  - compile all other .scss files and pipe it to main.css
-      {
-        test: /^((?!\.global).)*\.scss$/,
-        use: [
-          'style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              sourceMap: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-              includePaths: ['app']
-            }
-          }
-        ]
-      },
       // SVG Font
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,

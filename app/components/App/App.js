@@ -30,7 +30,6 @@ class App extends React.Component {
     form: PropTypes.object.isRequired,
     formProps: PropTypes.object.isRequired,
     closeForm: PropTypes.func.isRequired,
-    currentTheme: PropTypes.string.isRequired,
     currentTicker: PropTypes.object,
     contactsFormProps: PropTypes.object,
     networkTabProps: PropTypes.object,
@@ -80,7 +79,6 @@ class App extends React.Component {
 
   render() {
     const {
-      currentTheme,
       currentTicker,
       form,
       formProps,
@@ -102,7 +100,7 @@ class App extends React.Component {
           </>
         )}
 
-        <MainContent className={`${currentTheme}`}>
+        <MainContent>
           <Activity />
         </MainContent>
 
