@@ -7,7 +7,7 @@ import PlusCircle from 'components/Icon/PlusCircle'
 import messages from './messages'
 
 const CreateWalletButton = ({ history, ...rest }) => (
-  <Button variant="secondary" onClick={() => history.push('/onboarding')} {...rest}>
+  <Button size="small" variant="secondary" onClick={() => history.push('/onboarding')} {...rest}>
     <Flex alignItem="center">
       <Text color="lightningOrange">
         <PlusCircle width="22px" height="22px" />
