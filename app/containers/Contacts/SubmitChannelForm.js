@@ -1,6 +1,10 @@
 import { connect } from 'react-redux'
 import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
-import { closeContactsForm, closeChannelForm, contactFormSelectors } from 'reducers/contactsform'
+import {
+  closeContactsForm,
+  closeSubmitChannelForm,
+  contactFormSelectors
+} from 'reducers/contactsform'
 import { openChannel } from 'reducers/channels'
 import SubmitChannelForm from 'components/Contacts/SubmitChannelForm'
 
@@ -15,8 +19,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  closeChannelForm: closeChannelForm,
   closeContactsForm: closeContactsForm,
+  closeSubmitChannelForm: closeSubmitChannelForm,
   openChannel: openChannel,
   setCryptoCurrency: setCurrency,
   setFiatCurrency: setFiatTicker

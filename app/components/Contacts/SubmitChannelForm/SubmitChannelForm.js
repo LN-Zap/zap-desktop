@@ -38,8 +38,8 @@ class SubmitChannelForm extends React.Component {
     /** Information about the node we are trying to connect to. */
     node: PropTypes.object.isRequired,
 
-    /** Close the chanel form. */
-    closeChannelForm: PropTypes.func.isRequired,
+    /** Close the submit chanel form. */
+    closeSubmitChannelForm: PropTypes.func.isRequired,
     /** Close the contacts form. */
     closeContactsForm: PropTypes.func.isRequired,
     /** Open a Lightning channel */
@@ -51,7 +51,13 @@ class SubmitChannelForm extends React.Component {
   }
 
   onSubmit = values => {
-    const { cryptoCurrency, closeChannelForm, closeContactsForm, node, openChannel } = this.props
+    const {
+      cryptoCurrency,
+      closeSubmitChannelForm,
+      closeContactsForm,
+      node,
+      openChannel
+    } = this.props
 
     // Convert amount to satoshis.
     const amountInSatoshis = convert(cryptoCurrency, 'sats', values.amountCrypto)
@@ -62,8 +68,8 @@ class SubmitChannelForm extends React.Component {
       host: node.addresses[0].addr,
       localamt: amountInSatoshis
     })
-    // close the ChannelForm component
-    closeChannelForm()
+    // close the SubmitChannelForm component
+    closeSubmitChannelForm()
     // close the AddChannel component
     closeContactsForm()
   }
@@ -103,7 +109,7 @@ class SubmitChannelForm extends React.Component {
       setCryptoCurrency,
       setFiatCurrency,
       intl,
-      closeChannelForm,
+      closeSubmitChannelForm,
       closeContactsForm,
       node,
       openChannel,
