@@ -146,6 +146,7 @@ class ConnectionDetails extends React.Component {
       connectionHost,
       connectionCert,
       connectionMacaroon,
+      lndConnect,
       setConnectionHost,
       setConnectionCert,
       setConnectionMacaroon,
