@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 
-import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
+import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { setInvoice, invoiceSelectors } from 'reducers/invoice'
 import { paymentSelectors } from 'reducers/payment'
 import { fetchActivityHistory } from 'reducers/activity'
