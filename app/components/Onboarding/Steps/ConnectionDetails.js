@@ -28,13 +28,7 @@ class ConnectionDetails extends React.Component {
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {},
-    connectionHost: '',
-    connectionCert: '',
-    connectionMacaroon: '',
-    startLndHostError: '',
-    startLndCertError: '',
-    startLndMacaroonError: ''
+    wizardState: {}
   }
 
   componentDidMount() {

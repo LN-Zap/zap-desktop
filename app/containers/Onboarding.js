@@ -24,7 +24,8 @@ import {
   fetchSeed,
   createNewWallet,
   recoverOldWallet,
-  unlockWallet
+  unlockWallet,
+  lndSelectors
 } from 'reducers/lnd'
 
 const mapStateToProps = state => ({
@@ -39,9 +40,9 @@ const mapStateToProps = state => ({
   lndConnect: state.onboarding.lndConnect,
   lightningGrpcActive: state.lnd.lightningGrpcActive,
   walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
-  startLndHostError: state.lnd.startLndHostError,
-  startLndCertError: state.lnd.startLndCertError,
-  startLndMacaroonError: state.lnd.startLndMacaroonError,
+  startLndHostError: lndSelectors.startLndHostError(state),
+  startLndCertError: lndSelectors.startLndCertError(state),
+  startLndMacaroonError: lndSelectors.startLndMacaroonError(state),
   seed: state.onboarding.seed,
   unlockWalletError: state.lnd.unlockWalletError,
   onboarded: state.onboarding.onboarded,

@@ -145,14 +145,14 @@ export const startLnd = options => async (dispatch, getState) => {
     dispatch({ type: STARTING_LND })
     dispatch(send('startLnd', options))
 
-    window.ipcRenderer.once('startLndError', error => {
+    window.ipcRenderer.once('startLndError', (event, error) => {
       window.ipcRenderer.removeListener('startLndSuccess', resolve)
       reject(error)
     })
 
-    window.ipcRenderer.once('startLndSuccess', res => {
+    window.ipcRenderer.once('startLndSuccess', () => {
       window.ipcRenderer.removeListener('startLndError', reject)
-      resolve(res)
+      resolve()
     })
   })
 }
@@ -332,7 +332,7 @@ export const startActiveWallet = () => async (dispatch, getState) => {
   if (!state.lnd.lndStarted && !state.lnd.startingLnd) {
     const activeWalletSettings = walletSelectors.activeWalletSettings(state)
     if (activeWalletSettings) {
-      dispatch(startLnd(activeWalletSettings))
+      await dispatch(startLnd(activeWalletSettings))
     }
   }
 }
@@ -386,9 +386,7 @@ const ACTION_HANDLERS = {
   [SET_START_LND_ERROR]: (state, { errors }) => ({
     ...state,
     startingLnd: false,
-    startLndHostError: errors ? errors.host : '',
-    startLndCertError: errors ? errors.cert : '',
-    startLndMacaroonError: errors ? errors.macaroon : ''
+    startLndError: errors
   }),
 
   [SET_WALLET_UNLOCKER_ACTIVE]: state => ({
@@ -441,11 +439,9 @@ const initialState = {
   unlockingWallet: false,
   walletUnlockerGrpcActive: false,
   lightningGrpcActive: false,
-  unlockWalletError: '',
-  startLndHostError: '',
-  startLndCertError: '',
-  startLndMacaroonError: '',
-  fetchSeedError: '',
+  unlockWalletError: null,
+  startLndError: null,
+  fetchSeedError: null,
   syncStatus: 'pending',
   blockHeight: 0,
   lndBlockHeight: 0,
@@ -463,6 +459,22 @@ const lndBlockHeightSelector = state => state.lnd.lndBlockHeight
 const lndFirstBlockHeightSelector = state => state.lnd.lndFirstBlockHeight
 const lndCfilterHeightSelector = state => state.lnd.lndCfilterHeight
 const lndFirstCfilterHeightSelector = state => state.lnd.lndFirstCfilterHeight
+const startLndErrorSelector = state => state.lnd.startLndError
+
+lndSelectors.startLndHostError = createSelector(
+  startLndErrorSelector,
+  startLndError => (startLndError ? startLndError.host : null)
+)
+
+lndSelectors.startLndCertError = createSelector(
+  startLndErrorSelector,
+  startLndError => (startLndError ? startLndError.cert : null)
+)
+
+lndSelectors.startLndMacaroonError = createSelector(
+  startLndErrorSelector,
+  startLndError => (startLndError ? startLndError.macaroon : null)
+)
 
 lndSelectors.syncPercentage = createSelector(
   blockHeightSelector,

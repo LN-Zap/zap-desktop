@@ -40,14 +40,7 @@ class ConnectionConfirm extends React.Component {
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {},
-    connectionHost: '',
-    connectionCert: '',
-    connectionMacaroon: '',
-    connectionString: '',
-    startLndHostError: '',
-    startLndCertError: '',
-    startLndMacaroonError: ''
+    wizardState: {}
   }
 
   handleSubmit = async () => {

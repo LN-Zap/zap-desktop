@@ -23,7 +23,7 @@ class Home extends React.Component {
     activeWalletSettings: PropTypes.object,
     deleteWallet: PropTypes.func.isRequired,
     lndConnect: PropTypes.object,
-    startLndHostError: PropTypes.string,
+    startLndError: PropTypes.object,
     lightningGrpcActive: PropTypes.bool.isRequired,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
     wallets: PropTypes.array.isRequired,
@@ -61,7 +61,7 @@ class Home extends React.Component {
       activeWallet,
       deleteWallet,
       startLnd,
-      startLndHostError,
+      startLndError,
       unlockWallet,
       wallets,
       setActiveWallet,
@@ -117,7 +117,7 @@ class Home extends React.Component {
                       stopLnd={stopLnd}
                       lightningGrpcActive={lightningGrpcActive}
                       walletUnlockerGrpcActive={walletUnlockerGrpcActive}
-                      startLndHostError={startLndHostError}
+                      startLndError={startLndError}
                       setError={setError}
                       setStartLndError={setStartLndError}
                       deleteWallet={deleteWallet}

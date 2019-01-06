@@ -14,7 +14,7 @@ class WalletLauncher extends React.Component {
     startLnd: PropTypes.func.isRequired,
     lightningGrpcActive: PropTypes.bool.isRequired,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
-    startLndHostError: PropTypes.string,
+    startLndError: PropTypes.object,
     setStartLndError: PropTypes.func.isRequired,
     setError: PropTypes.func.isRequired,
     stopLnd: PropTypes.func.isRequired,
@@ -24,12 +24,12 @@ class WalletLauncher extends React.Component {
   }
 
   componentDidMount() {
-    const { stopLnd, startLndHostError, setError, setStartLndError } = this.props
+    const { stopLnd, startLndError, setError, setStartLndError } = this.props
     stopLnd()
 
-    // If the wallet unlocker became active, switch to the login screen
-    if (startLndHostError) {
-      setError(startLndHostError)
+    // If there are lnd start errors, show as a global error.
+    if (startLndError) {
+      setError(startLndError)
       setStartLndError(null)
     }
   }
@@ -42,15 +42,15 @@ class WalletLauncher extends React.Component {
       history,
       lightningGrpcActive,
       walletUnlockerGrpcActive,
-      startLndHostError,
+      startLndError,
       setError,
       setStartLndError,
       wallet
     } = this.props
 
-    // If the wallet unlocker became active, switch to the login screen
-    if (startLndHostError && !prevProps.startLndHostError) {
-      setError(startLndHostError)
+    // If we got lnd start errors, show as a global error.
+    if (startLndError && !prevProps.startLndError) {
+      setError(startLndError)
       setStartLndError(null)
     }
 
