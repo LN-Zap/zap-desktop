@@ -1,0 +1,35 @@
+{
+    "compilerOptions": {
+      "baseUrl": "./app",
+      "allowJs": true,
+      "checkJs": true,
+      "noEmit": true,
+      "strict": false,
+      "target": "esnext",
+      "module": "esnext",
+      "moduleResolution": "node",
+      "pretty": true,
+      "newLine": "LF",
+      "allowSyntheticDefaultImports": true,
+      "noUnusedLocals": false,
+      "noUnusedParameters": false,
+      "sourceMap": false,
+      "skipLibCheck": true,
+      "jsx": "preserve",
+      "allowUnreachableCode": false,
+      "declaration": false,
+      "noImplicitAny": false,
+      "noImplicitReturns": false,
+      "suppressImplicitAnyIndexErrors": true
+    },
+    "include": [
+      "./app/index.js",
+      "./app/main.dev.js"
+    ],
+    "exclude": [
+      "./app/node_modules",
+      "node_modules",
+      "test",
+      "stories"
+    ]
+  }  

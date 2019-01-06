@@ -104,6 +104,11 @@ export default merge.smart(baseConfig, {
 
   entry: {
     renderer: Object.keys(dependencies)
+      /*
+        Need this to avoid Webpack try to resolve TypeScript type
+        definition files as dependencies. Without this you get errors.
+      */
+      .filter(key => key.indexOf('@types') === -1)
   },
 
   output: {
