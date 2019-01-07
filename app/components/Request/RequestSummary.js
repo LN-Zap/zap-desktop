@@ -166,21 +166,23 @@ class RequestSummary extends React.Component {
 
         <DataRow
           left={<FormattedMessage {...messages.ln_invoice} />}
-          right=<React.Fragment>
-            <Text
-              fontSize="xs"
-              fontWeight="normal"
-              mb={2}
-              css={{ 'word-wrap': 'break-word' }}
-              className="hint--bottom-left"
-              data-hint={payReq}
-            >
-              <Truncate text={payReq} maxlen={40} />
-            </Text>
-            <Button type="button" size="small" onClick={() => copyToClipboard(payReq)}>
-              <FormattedMessage {...messages.copy_button_text} />
-            </Button>
-          </React.Fragment>
+          right={
+            <React.Fragment>
+              <Text
+                fontSize="xs"
+                fontWeight="normal"
+                mb={2}
+                css={{ 'word-wrap': 'break-word' }}
+                className="hint--bottom-left"
+                data-hint={payReq}
+              >
+                <Truncate text={payReq} maxlen={40} />
+              </Text>
+              <Button type="button" size="small" onClick={() => copyToClipboard(payReq)}>
+                <FormattedMessage {...messages.copy_button_text} />
+              </Button>
+            </React.Fragment>
+          }
         />
 
         <Bar />
