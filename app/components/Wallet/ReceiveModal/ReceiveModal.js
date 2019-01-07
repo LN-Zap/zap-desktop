@@ -79,30 +79,30 @@ class ReceiveModal extends React.Component {
             p={4}
           >
             <Flex as="section" flexDirection="column" alignItems="center" width={1 / 3}>
-              <Box>
-                <Heading.h3 textAlign="center">
-                  {alias && alias.length ? alias : pubkey.substring(0, 10)}
-                </Heading.h3>
-                <Flex justifyContent="space-between" width={1} mb={3}>
-                  <Button
-                    active={qrCode === pubkey}
-                    variant="secondary"
-                    size="small"
-                    onClick={() => this.setQrcode(QRCODE_TYPE_PUBKEY)}
-                  >
-                    <FormattedMessage {...messages.node_pubkey} />
-                  </Button>
-                  <Button
-                    active={qrCode === address}
-                    variant="secondary"
-                    size="small"
-                    onClick={() => this.setQrcode(QRCODE_TYPE_ADDRESS)}
-                  >
-                    <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />
-                  </Button>
-                </Flex>
-                {qrCode && <QRCode value={qrCode} size="180px" />}
-              </Box>
+              <Heading.h3 textAlign="center">
+                {alias && alias.length ? alias : pubkey.substring(0, 10)}
+              </Heading.h3>
+              <Flex justifyContent="center" mb={3}>
+                <Button
+                  active={qrCode === pubkey}
+                  variant="secondary"
+                  size="small"
+                  onClick={() => this.setQrcode(QRCODE_TYPE_PUBKEY)}
+                  mr={2}
+                >
+                  <FormattedMessage {...messages.node_pubkey} />
+                </Button>
+                <Button
+                  active={qrCode === address}
+                  variant="secondary"
+                  size="small"
+                  onClick={() => this.setQrcode(QRCODE_TYPE_ADDRESS)}
+                  ml={2}
+                >
+                  <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />
+                </Button>
+              </Flex>
+              {qrCode && <QRCode value={qrCode} size="small" />}
             </Flex>
 
             <Box as="section" width={2 / 3}>

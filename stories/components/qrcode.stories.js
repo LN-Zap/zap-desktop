@@ -8,18 +8,32 @@ storiesOf('Components', module).addWithChapters('QR Code', {
     {
       sections: [
         {
-          title: 'default size',
+          title: 'small',
           sectionFn: () => (
             /* eslint-disable max-len */
-            <QRCode value="w35x2gzfdech26tnd96xjan9yqks6cqzysxqr23s8wgz42uvfa833nhl75vxewpmsu3up7dnw5pl3nurp0tcagsl6lg5f3ty" />
+            <QRCode
+              size="small"
+              value="LNBC50N1PWRXM0CPP5H0SFHH3484XMJ6DHZA33MUKD0J4HG25AEGWZ5VPUQQZGQMQ9RLDQDPSDP68GURN8GHJ7MRFVA58GMNFDENJ6UN0W4KX2AR5V5HXXMMDCQZYSXQYP2XQ7XLTG2QGD7Y908EFJ524C4LAQZ5L3K0Y88E0M2V4LCUE7WKQXJDHCLDYMXPLLEEP9ZCNLTYY9NMWHF2J6NYCK2N0XXC85X8UPNGQYYGQU7G5UT"
+            />
           )
         },
         {
-          title: 'custom size',
+          title: 'medium',
           sectionFn: () => (
+            /* eslint-disable max-len */
             <QRCode
-              value="w35x2gzfdech26tnd96xjan9yqks6cqzysxqr23s8wgz42uvfa833nhl75vxewpmsu3up7dnw5pl3nurp0tcagsl6lg5f3ty"
-              size="100px"
+              size="medium"
+              value="LNBC50N1PWRXM0CPP5H0SFHH3484XMJ6DHZA33MUKD0J4HG25AEGWZ5VPUQQZGQMQ9RLDQDPSDP68GURN8GHJ7MRFVA58GMNFDENJ6UN0W4KX2AR5V5HXXMMDCQZYSXQYP2XQ7XLTG2QGD7Y908EFJ524C4LAQZ5L3K0Y88E0M2V4LCUE7WKQXJDHCLDYMXPLLEEP9ZCNLTYY9NMWHF2J6NYCK2N0XXC85X8UPNGQYYGQU7G5UT"
+            />
+          )
+        },
+        {
+          title: 'large',
+          sectionFn: () => (
+            /* eslint-disable max-len */
+            <QRCode
+              size="large"
+              value="LNBC50N1PWRXM0CPP5H0SFHH3484XMJ6DHZA33MUKD0J4HG25AEGWZ5VPUQQZGQMQ9RLDQDPSDP68GURN8GHJ7MRFVA58GMNFDENJ6UN0W4KX2AR5V5HXXMMDCQZYSXQYP2XQ7XLTG2QGD7Y908EFJ524C4LAQZ5L3K0Y88E0M2V4LCUE7WKQXJDHCLDYMXPLLEEP9ZCNLTYY9NMWHF2J6NYCK2N0XXC85X8UPNGQYYGQU7G5UT"
             />
           )
         }

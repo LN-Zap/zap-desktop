@@ -154,23 +154,12 @@ class RequestSummary extends React.Component {
         )}
 
         <DataRow
-          left={<FormattedMessage {...messages.qrcode} />}
-          right={
-            <Text>
-              <QRCode value={payReq} size="120px" />
-            </Text>
-          }
-        />
-
-        <Bar />
-
-        <DataRow
-          left={<FormattedMessage {...messages.ln_invoice} />}
-          right={
+          left={
             <React.Fragment>
+              <FormattedMessage {...messages.payment_request} />
               <Text
                 fontSize="xs"
-                fontWeight="normal"
+                fontWeight="light"
                 mb={2}
                 css={{ 'word-wrap': 'break-word' }}
                 className="hint--bottom-left"
@@ -182,6 +171,11 @@ class RequestSummary extends React.Component {
                 <FormattedMessage {...messages.copy_button_text} />
               </Button>
             </React.Fragment>
+          }
+          right={
+            <Text>
+              <QRCode value={payReq} />
+            </Text>
           }
         />
 

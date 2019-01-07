@@ -208,7 +208,7 @@
   "components.Request.button_text": "Vyžádat platbu",
   "components.Request.copy_button_text": "",
   "components.Request.description": "",
-  "components.Request.ln_invoice": "",
+  "components.Request.payment_request": "",
   "components.Request.memo": "Poznámka",
   "components.Request.memo_placeholder": "",
   "components.Request.not_paid": "Nezaplaceno",

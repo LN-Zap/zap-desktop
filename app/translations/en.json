@@ -208,7 +208,7 @@
   "components.Request.button_text": "Request",
   "components.Request.copy_button_text": "Copy invoice",
   "components.Request.description": "You can request {chain} ({ticker}) through the Lightning Network. Just enter the Amount you want to request in the field below. Zap will generate a QR-Code and a Lightning invoice after.",
-  "components.Request.ln_invoice": "Lightning Invoice",
+  "components.Request.payment_request": "Payment Request",
   "components.Request.memo": "Memo",
   "components.Request.memo_placeholder": "For example \"Dinner last night\"",
   "components.Request.not_paid": "not paid",

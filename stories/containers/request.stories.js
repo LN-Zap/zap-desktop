@@ -120,7 +120,7 @@ storiesOf('Containers.Request', module)
   .add('RequestSummary', () => {
     store.set({
       payReq: text(
-        'Lightning Invoice',
+        'Payment Request',
         'lntb10170n1pda7tarpp59kjlzct447ttxper43kek78lhwgxk4gy8nfvpjdr7yzkscu2ds5qdzy2pshjmt9de6zqen0wgsrzvp3xus8q6tcv4k8xgrpwss8xct5daeks6tn9ecxcctrv5hqxqzjccqp2yvpzcn2xazu9rt8nrhn2xf6nyrj8fsfw9hafsf0p80trypu4tp58km5mn7wz50uh06kxf4t8kdj64f86u6l5ksl75r500zl7urhacxspcm4ye9'
       )
     })
