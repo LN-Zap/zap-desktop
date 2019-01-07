@@ -1,5 +1,5 @@
+import get from 'lodash.get'
 import bitcoin from 'bitcoinjs-lib'
-import bech32 from 'lib/utils/bech32'
 import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'
 
@@ -12,6 +12,18 @@ export const networks = {
   litecoin: {
     mainnet: coininfo.litecoin.main.toBitcoinJS(),
     testnet: coininfo.litecoin.test.toBitcoinJS()
+  }
+}
+
+export const coinTypes = {
+  bitcoin: {
+    mainnet: 'bitcoin',
+    testnet: 'testnet',
+    regtest: 'regtest'
+  },
+  litecoin: {
+    mainnet: 'litecoin',
+    testnet: 'litecoin_testnet'
   }
 }
 
@@ -107,45 +119,14 @@ export const isOnchain = (input, chain, network) => {
  * @return {Boolean} boolean indicating wether the address is a lightning address.
  */
 export const isLn = (input, chain = 'bitcoin', network = 'mainnet') => {
-  if (typeof input !== 'string') {
+  if (!input || typeof input !== 'string') {
     return false
   }
-
-  let prefix = 'ln'
-  // Prefixes come from SLIP-0173
-  // See https://github.com/satoshilabs/slips/blob/master/slip-0173.md
-  if (chain === 'bitcoin') {
-    switch (network) {
-      case 'mainnet':
-        prefix = 'lnbc'
-        break
-      case 'testnet':
-        prefix = 'lntb'
-        break
-      case 'regtest':
-        prefix = 'lnbcrt'
-        break
-    }
-  } else if (chain === 'litecoin') {
-    switch (network) {
-      case 'mainnet':
-        prefix = 'lnltc'
-        break
-      case 'testnet':
-        prefix = 'lntltc'
-        break
-      case 'regtest':
-        prefix = 'lnrltc'
-        break
-    }
-  }
-
-  if (!input.startsWith(prefix)) {
-    return false
-  }
-
   try {
-    bech32.decode(input)
+    const decoded = lightningRequestReq.decode(input)
+    if (decoded.coinType !== get(coinTypes, `${chain}.${network}`)) {
+      throw new Error('Invalid coin type')
+    }
     return true
   } catch (e) {
     return false
