@@ -2,30 +2,32 @@
 
 import sb from 'satoshi-bitcoin'
 
+const isEmptyAmount = amount => amount === undefined || amount === null || amount === ''
+
 //////////////////////
 // BTC to things /////
 /////////////////////
 export function btcToBits(btc) {
-  if (btc === undefined || btc === null || btc === '') return null
+  if (isEmptyAmount(btc)) return null
 
   return satoshisToBits(Number(sb.toSatoshi(btc))) || 0
 }
 
 export function btcToSatoshis(btc) {
-  if (btc === undefined || btc === null || btc === '') return null
+  if (isEmptyAmount(btc)) return null
 
   return Number(sb.toSatoshi(btc)) || 0
 }
 
 export function btcToMillisatoshis(btc) {
-  if (btc === undefined || btc === null || btc === '') return null
+  if (isEmptyAmount(btc)) return null
 
   const satoshiAmount = Number(sb.toSatoshi(btc))
   return satoshisToMillisatoshis(satoshiAmount) || 0
 }
 
 export function btcToFiat(btc, price) {
-  if (btc === undefined || btc === null || btc === '') return null
+  if (isEmptyAmount(btc)) return null
 
   return parseFloat(btc * price) || 0
 }
@@ -35,26 +37,26 @@ export function btcToFiat(btc, price) {
 //////////////////////////
 
 export function bitsToBtc(bits, price) {
-  if (bits === undefined || bits === null || bits === '') return null
+  if (isEmptyAmount(bits)) return null
   const sats = bits * 100
 
   return satoshisToBtc(sats) || 0
 }
 
 export function bitsToSatoshis(bits, price) {
-  if (bits === undefined || bits === null || bits === '') return null
+  if (isEmptyAmount(bits)) return null
 
   return bits * 100 || 0
 }
 
 export function bitsToMillisatoshis(bits, price) {
-  if (bits === undefined || bits === null || bits === '') return null
+  if (isEmptyAmount(bits)) return null
 
   return bits * 100 * 1000 || 0
 }
 
 export function bitsToFiat(bits, price) {
-  if (bits === undefined || bits === null || bits === '') return null
+  if (isEmptyAmount(bits)) return null
   const sats = bits * 100
 
   return satoshisToFiat(sats, price) || 0
@@ -65,7 +67,7 @@ export function bitsToFiat(bits, price) {
 //////////////////////////
 
 export function satoshisToBtc(satoshis) {
-  if (satoshis === undefined || satoshis === null || satoshis === '') return null
+  if (isEmptyAmount(satoshis)) return null
 
   // Make sure we are not passing a non-whole number to sb.toBitcoin(). If the number isn't whole we round up
   const numSats = satoshis % 1 === 0 ? satoshis : Math.ceil(satoshis)
@@ -74,19 +76,19 @@ export function satoshisToBtc(satoshis) {
 }
 
 export function satoshisToBits(satoshis) {
-  if (satoshis === undefined || satoshis === null || satoshis === '') return null
+  if (isEmptyAmount(satoshis)) return null
 
   return satoshis / 100 || 0
 }
 
 export function satoshisToMillisatoshis(satoshis) {
-  if (satoshis === undefined || satoshis === null || satoshis === '') return null
+  if (isEmptyAmount(satoshis)) return null
 
   return satoshisToBits(satoshis) * 1000 || 0
 }
 
 export function satoshisToFiat(satoshis, price) {
-  if (satoshis === undefined || satoshis === null || satoshis === '') return null
+  if (isEmptyAmount(satoshis)) return null
 
   return btcToFiat(satoshisToBtc(satoshis), price) || 0
 }
@@ -96,27 +98,27 @@ export function satoshisToFiat(satoshis, price) {
 ///////////////////////////////
 
 export function millisatoshisToBtc(msats) {
-  if (msats === undefined || msats === null || msats === '') return null
+  if (isEmptyAmount(msats)) return null
 
   const satoshis = millisatoshisToSatoshis(msats)
   return sb.toBitcoin(satoshis) || 0
 }
 
 export function millisatoshisToBits(msats) {
-  if (msats === undefined || msats === null || msats === '') return null
+  if (isEmptyAmount(msats)) return null
 
   const satsAmount = millisatoshisToSatoshis(msats)
   return satoshisToBits(satsAmount) || 0
 }
 
 export function millisatoshisToSatoshis(msats) {
-  if (msats === undefined || msats === null || msats === '') return null
+  if (isEmptyAmount(msats)) return null
 
   return msats / 1000 || 0
 }
 
 export function millisatoshisToFiat(msats, price) {
-  if (msats === undefined || msats === null || msats === '') return null
+  if (isEmptyAmount(msats)) return null
 
   return btcToFiat(millisatoshisToBtc(satoshis), price) || 0
 }
@@ -126,7 +128,7 @@ export function millisatoshisToFiat(msats, price) {
 //////////////////////////
 //////////////////////////
 export function fiatToBtc(fiat, price) {
-  if (fiat === undefined || fiat === null || fiat === '' || !price) return null
+  if (isEmptyAmount(fiat) || !price) return null
 
   return Number(fiat / price)
 }
