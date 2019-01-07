@@ -143,7 +143,7 @@
   "components.Onboarding.Steps.disable": "",
   "components.Onboarding.Steps.enable": "",
   "components.Onboarding.Steps.generating_seed": "",
-  "components.Onboarding.Steps.help": "Yardım ister misin?",
+  "components.UI.help": "Yardım ister misin?",
   "components.Onboarding.Steps.hostname_description": "Lnd gRPC arayüzünün ana makine adı ve portu. Örnek: localhost: 10009",
   "components.Onboarding.Steps.hostname_title": "",
   "components.Onboarding.Steps.import_description": "",

@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import X from 'components/Icon/X'
 import ZapLogo from 'components/Icon/ZapLogo'
 import { Panel, Text } from 'components/UI'
+import messages from './messages'
 
 /**
  * @render react
@@ -63,7 +65,7 @@ class Modal extends React.Component {
                 css={{ cursor: 'pointer', opacity: 0.6, '&:hover': { opacity: 1 } }}
                 onClick={() => window.Zap.openHelpPage()}
               >
-                Need Help?
+                <FormattedMessage {...messages.help} />
               </Text>
             </Flex>
           )}

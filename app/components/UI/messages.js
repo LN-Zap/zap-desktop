@@ -4,6 +4,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   expires: 'Expires',
   expired: 'Expired',
+  help: 'Need Help?',
   required_field: 'This is a required field',
   invalid_request: 'Not a valid {chain} request.',
   valid_request: 'Valid {chain} request',
