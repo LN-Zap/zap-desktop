@@ -7,57 +7,37 @@ import { Notification } from 'components/UI'
 
 class GlobalError extends React.Component {
   static propTypes = {
-    error: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
+    errors: PropTypes.array,
     clearError: PropTypes.func.isRequired
   }
 
-  componentDidUpdate(prevProps) {
-    const { clearError, error } = this.props
-    if (!prevProps.error && error) {
-      setTimeout(clearError, 10000)
-    }
-  }
-
   render() {
-    const { error, clearError } = this.props
-
-    let errors = []
-
-    if (error) {
-      if (Array.isArray(error)) {
-        errors = error
-      } else if (typeof error === 'string') {
-        errors.push(error)
-      } else if (typeof error === 'object') {
-        Object.keys(error).forEach(key => {
-          errors.push(`${key}: ${error[key]}`)
-        })
-      }
-    }
+    const { errors, clearError } = this.props
 
     return (
-      <Transition
-        native
-        items={error}
-        from={{ opacity: 0 }}
-        enter={{ opacity: 1 }}
-        leave={{ opacity: 0 }}
-      >
-        {show =>
-          show &&
-          (springStyles => (
-            <Box mt="22px" px={3} width={1} css={{ position: 'absolute', 'z-index': '99999' }}>
-              <animated.div style={springStyles}>
-                {errors.map(error => (
-                  <Notification key={error} variant="error" onClick={clearError}>
-                    {errorToUserFriendly(error)}
+      <Box mt="22px" px={3} width={1} css={{ position: 'absolute', 'z-index': '99999' }}>
+        {errors.map(item => (
+          <Transition
+            native
+            key={item.id}
+            items={item}
+            from={{ opacity: 0 }}
+            enter={{ opacity: 1 }}
+            leave={{ opacity: 0 }}
+          >
+            {show =>
+              show &&
+              (springStyles => (
+                <animated.div style={springStyles}>
+                  <Notification variant="error" onClick={() => clearError(item.id)} mb={2}>
+                    {errorToUserFriendly(item.message)}
                   </Notification>
-                ))}
-              </animated.div>
-            </Box>
-          ))
-        }
-      </Transition>
+                </animated.div>
+              ))
+            }
+          </Transition>
+        ))}
+      </Box>
     )
   }
 }

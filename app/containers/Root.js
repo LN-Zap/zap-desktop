@@ -34,7 +34,7 @@ class Root extends React.Component {
     hasWallets: PropTypes.bool,
     clearError: PropTypes.func.isRequired,
     theme: PropTypes.object,
-    error: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
+    errors: PropTypes.array.isRequired,
     history: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
 
@@ -76,7 +76,7 @@ class Root extends React.Component {
   }
 
   render() {
-    const { hasWallets, clearError, theme, error, history, isLoading } = this.props
+    const { hasWallets, clearError, theme, errors, history, isLoading } = this.props
 
     // Wait until we have loaded essential data before displaying anything.
     if (!theme) {
@@ -89,7 +89,7 @@ class Root extends React.Component {
           <React.Fragment>
             <GlobalStyle />
             <Titlebar />
-            <GlobalError error={error} clearError={clearError} />
+            <GlobalError errors={errors} clearError={clearError} />
             <PageWithLoading isLoading={isLoading}>
               <Switch>
                 <Route exact path="/" component={Initializer} />
@@ -125,7 +125,7 @@ class Root extends React.Component {
 
 const mapStateToProps = state => ({
   hasWallets: walletSelectors.hasWallets(state),
-  error: errorSelectors.getErrorState(state),
+  errors: errorSelectors.getErrorState(state),
   theme: themeSelectors.currentThemeSettings(state),
   isLoading: appSelectors.isLoading(state) || state.lnd.startingLnd,
   isMounted: appSelectors.isMounted(state)
