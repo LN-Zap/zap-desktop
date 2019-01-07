@@ -1,9 +1,10 @@
 import { connect } from 'react-redux'
+
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
-import { fetchBalance } from 'reducers/balance'
-import { fetchInvoices, setInvoice, invoiceSelectors } from 'reducers/invoice'
-import { fetchPayments, paymentSelectors } from 'reducers/payment'
-import { fetchTransactions } from 'reducers/transaction'
+import { setInvoice, invoiceSelectors } from 'reducers/invoice'
+import { paymentSelectors } from 'reducers/payment'
+import { fetchActivityHistory } from 'reducers/activity'
+
 import {
   showActivityModal,
   hideActivityModal,
@@ -21,16 +22,13 @@ import Activity from 'components/Activity'
 const mapDispatchToProps = {
   setCurrency,
   setInvoice,
-  fetchPayments,
-  fetchInvoices,
-  fetchTransactions,
+  fetchActivityHistory,
   showActivityModal,
   hideActivityModal,
   changeFilter,
   toggleExpiredRequests,
   walletAddress,
   openWalletModal,
-  fetchBalance,
   updateSearchActive,
   updateSearchText,
   setFormType
