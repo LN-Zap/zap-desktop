@@ -115,7 +115,7 @@ export const initWallets = () => async dispatch => {
 
   dispatch(setIsWalletOpen(isWalletOpen))
   dispatch(setActiveWallet(activeWallet))
-  dispatch(setWalletsLoaded(true))
+  dispatch(setWalletsLoaded())
 
   // Fetch wallets from the filesystem.
   const supportedChains = ['bitcoin']
