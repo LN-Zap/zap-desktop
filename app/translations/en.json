@@ -143,7 +143,7 @@
   "components.Onboarding.Steps.disable": "Disable Autopilot",
   "components.Onboarding.Steps.enable": "Enable Autopilot",
   "components.Onboarding.Steps.generating_seed": "Generating Seed...",
-  "components.Onboarding.Steps.help": "Need Help?",
+  "components.UI.help": "Need Help?",
   "components.Onboarding.Steps.hostname_description": "Hostname and port of the Lnd gRPC interface. Example: localhost:10009",
   "components.Onboarding.Steps.hostname_title": "Host",
   "components.Onboarding.Steps.import_description": "Recovering a wallet, nice. You don't need anyone else, you got yourself :)",

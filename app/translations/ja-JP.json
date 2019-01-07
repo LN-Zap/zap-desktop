@@ -143,7 +143,7 @@
   "components.Onboarding.Steps.disable": "",
   "components.Onboarding.Steps.enable": "",
   "components.Onboarding.Steps.generating_seed": "",
-  "components.Onboarding.Steps.help": "ヘルプが必要ですか。",
+  "components.UI.help": "ヘルプが必要ですか。",
   "components.Onboarding.Steps.hostname_description": "ホスト名とLnd gRPC インターフェイスのポート。例: localhost:10009",
   "components.Onboarding.Steps.hostname_title": "",
   "components.Onboarding.Steps.import_description": "",

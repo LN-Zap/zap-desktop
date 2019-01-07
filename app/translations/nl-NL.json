@@ -143,7 +143,7 @@
   "components.Onboarding.Steps.disable": "",
   "components.Onboarding.Steps.enable": "",
   "components.Onboarding.Steps.generating_seed": "",
-  "components.Onboarding.Steps.help": "Hulp nodig?",
+  "components.UI.help": "Hulp nodig?",
   "components.Onboarding.Steps.hostname_description": "Hostnaam en poort van de Lnd gRPC interface. Voorbeeld: localhost:10009",
   "components.Onboarding.Steps.hostname_title": "",
   "components.Onboarding.Steps.import_description": "",

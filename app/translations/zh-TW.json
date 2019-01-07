@@ -143,7 +143,7 @@
   "components.Onboarding.Steps.disable": "",
   "components.Onboarding.Steps.enable": "",
   "components.Onboarding.Steps.generating_seed": "",
-  "components.Onboarding.Steps.help": "需要帮助吗？",
+  "components.UI.help": "需要帮助吗？",
   "components.Onboarding.Steps.hostname_description": "Lnd gRPC 接口的主机名和端口。示例: localhost:10009",
   "components.Onboarding.Steps.hostname_title": "",
   "components.Onboarding.Steps.import_description": "",

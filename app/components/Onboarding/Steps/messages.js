@@ -35,7 +35,6 @@ export default defineMessages({
     'By selecting the default mode we will do everything for you. Just click and go!',
   disable: 'Disable Autopilot',
   enable: 'Enable Autopilot',
-  help: 'Need Help?',
   hostname_description: 'Hostname and port of the Lnd gRPC interface. Example: localhost:10009',
   hostname_title: 'Host',
   import_description: "Recovering a wallet, nice. You don't need anyone else, you got yourself :)",

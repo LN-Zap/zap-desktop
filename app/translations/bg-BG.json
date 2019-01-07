@@ -143,7 +143,7 @@
   "components.Onboarding.Steps.disable": "",
   "components.Onboarding.Steps.enable": "",
   "components.Onboarding.Steps.generating_seed": "",
-  "components.Onboarding.Steps.help": "Нужда от помощ?",
+  "components.UI.help": "Нужда от помощ?",
   "components.Onboarding.Steps.hostname_description": "Име на хост и порт на Lnd gRPC интерфейса. Пример: localhost:10009",
   "components.Onboarding.Steps.hostname_title": "Хост",
   "components.Onboarding.Steps.import_description": "",

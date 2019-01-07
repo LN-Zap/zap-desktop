@@ -143,7 +143,7 @@
   "components.Onboarding.Steps.disable": "",
   "components.Onboarding.Steps.enable": "",
   "components.Onboarding.Steps.generating_seed": "",
-  "components.Onboarding.Steps.help": "Precisa de ajuda?",
+  "components.UI.help": "Precisa de ajuda?",
   "components.Onboarding.Steps.hostname_description": "Hostname e porta da interface Lnd gRPC. Exemplo: localhost:10009",
   "components.Onboarding.Steps.hostname_title": "",
   "components.Onboarding.Steps.import_description": "",

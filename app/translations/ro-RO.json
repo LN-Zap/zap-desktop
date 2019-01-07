@@ -143,7 +143,7 @@
   "components.Onboarding.Steps.disable": "",
   "components.Onboarding.Steps.enable": "",
   "components.Onboarding.Steps.generating_seed": "",
-  "components.Onboarding.Steps.help": "Ai nevoie de ajutor?",
+  "components.UI.help": "Ai nevoie de ajutor?",
   "components.Onboarding.Steps.hostname_description": "Numele de gazdă şi port de interfaţă Lnd gRPC. Exemplu: localhost:10009",
   "components.Onboarding.Steps.hostname_title": "",
   "components.Onboarding.Steps.import_description": "",

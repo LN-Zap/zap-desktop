@@ -143,7 +143,7 @@
   "components.Onboarding.Steps.disable": "",
   "components.Onboarding.Steps.enable": "",
   "components.Onboarding.Steps.generating_seed": "",
-  "components.Onboarding.Steps.help": "Потрібна допомога?",
+  "components.UI.help": "Потрібна допомога?",
   "components.Onboarding.Steps.hostname_description": "Ім'я хоста і порту Lnd gRPC інтерфейсу. Приклад: localhost:10009",
   "components.Onboarding.Steps.hostname_title": "",
   "components.Onboarding.Steps.import_description": "",
