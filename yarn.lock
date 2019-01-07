@@ -3418,14 +3418,14 @@ body-parser@1.18.3:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
-"bolt11@https://github.com/ln-zap/bolt11.git#2bcd70d6291c1fb199bb859cd21fd1f67e28cd66":
-  version "1.2.1"
-  resolved "https://github.com/ln-zap/bolt11.git#2bcd70d6291c1fb199bb859cd21fd1f67e28cd66"
+"bolt11@https://github.com/ln-zap/bolt11.git#a56f814ec101adf62c15f47dd4a6b3ae0b3c5720":
+  version "1.0.0"
+  uid a56f814ec101adf62c15f47dd4a6b3ae0b3c5720
+  resolved "https://github.com/ln-zap/bolt11.git#a56f814ec101adf62c15f47dd4a6b3ae0b3c5720"
   dependencies:
     bech32 "^1.1.2"
     bitcoinjs-lib "^3.3.1"
     bn.js "^4.11.8"
-    coininfo "git+https://github.com/cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2"
     lodash "^4.17.4"
     safe-buffer "^5.1.1"
     secp256k1 "^3.4.0"
