@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedNumber, FormattedMessage } from 'react-intl'
-import { satoshisToFiat } from 'lib/utils/btc'
+import { convert } from 'lib/utils/btc'
 import { decodePayReq, getNodeAlias } from 'lib/utils/crypto'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Dropdown, Spinner, Text, Value } from 'components/UI'
@@ -74,11 +74,11 @@ class PaySummaryLightning extends React.PureComponent {
       return null
     }
 
-    const { satoshis, payeeNodeKey } = invoice
+    const { satoshis, millisatoshis, payeeNodeKey } = invoice
     const descriptionTag = invoice.tags.find(tag => tag.tagName === 'description') || {}
     const memo = descriptionTag.data
-    const amountInSatoshis = Number(satoshis || amount)
-    const fiatAmount = satoshisToFiat(amountInSatoshis, currentTicker[fiatCurrency])
+    const amountInSatoshis = satoshis || convert('msats', 'sats', millisatoshis) || amount
+    const fiatAmount = convert('sats', 'fiat', amountInSatoshis, currentTicker[fiatCurrency])
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
 
     // Select an appropriate fee message...

@@ -3,16 +3,15 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { number, select, text } from '@storybook/addon-knobs'
+import { boolean, number, select, text } from '@storybook/addon-knobs'
 import { State, Store } from '@sambego/storybook-state'
 import { Modal, Page } from 'components/UI'
 import { Pay, PayButtons, PayHeader, PaySummaryLightning, PaySummaryOnChain } from 'components/Pay'
+import { mockCreateInvoice } from '../helpers'
 
 const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 const store = new Store({
-  chain: 'bitcoin',
-  network: 'testnet',
   cryptoName: 'Bitcoin',
   walletBalance: 10000000,
   channelBalance: 25000,
@@ -152,14 +151,31 @@ const setFiatCurrency = key => {
 
 storiesOf('Containers.Pay', module)
   .add('Pay', () => {
-    const network = select(
-      'Network',
+    const hasInvoicePreset = boolean('Use invoice preset', false)
+    const coinType = select(
+      'Coin Type',
       {
-        Testnet: 'testnet',
-        Mainnet: 'mainnet'
+        'Bitcoin mainnet': 'bitcoin',
+        'Bitcoin testnet': 'testnet',
+        'Litecoin mainnet': 'litecoin',
+        'Litecoin testnet': 'litecoin_testnet'
       },
-      'testnet'
+      'bitcoin'
     )
+    const unit = select(
+      'Unit',
+      {
+        Satoshis: 'satoshis',
+        Millisatoshis: 'millisatoshis'
+      },
+      'satoshis'
+    )
+    const amount = number('Amount')
+    const memo = text('Memo')
+    const payReq = hasInvoicePreset ? mockCreateInvoice(coinType, amount, unit, memo) : null
+
+    const chain = ['bitcoin', 'testnet'].includes(coinType) ? 'bitcoin' : 'litecoin'
+    const network = ['bitcoin', 'testnet'].includes(coinType) ? 'mainnet' : 'testnet'
 
     return (
       <Page css={{ height: 'calc(100vh - 40px)' }}>
@@ -171,9 +187,9 @@ storiesOf('Containers.Pay', module)
               // State
               // initialPayReq="lntb100n1pdaetlfpp5rkj5acj5usdlqekv3548nx5zc58tsqghm8qy6pdkrn3h37ep5aqsdqqcqzysxqyz5vq7vsxfsnak9yd0rf0zxpg9tukykxjqwef72apfwq2meg7wlz8zg0nxh3fmmc0ayv8ac5xhnlwlxajatqwnh3qwdx6uruyqn47enq9w6qplzqccc"
               isProcessing={store.get('isProcessing')}
-              chain={store.get('chain')}
-              channelBalance={store.get('channelBalance')}
+              chain={chain}
               network={network}
+              channelBalance={store.get('channelBalance')}
               cryptoCurrency={store.get('cryptoCurrency')}
               cryptoCurrencyTicker={store.get('cryptoCurrencyTicker')}
               cryptoCurrencies={store.get('cryptoCurrencies')}
@@ -185,6 +201,7 @@ storiesOf('Containers.Pay', module)
               isQueryingRoutes={store.get('isQueryingRoutes')}
               nodes={store.get('nodes')}
               walletBalance={store.get('walletBalance')}
+              payReq={payReq}
               // Dispatch
               payInvoice={mockPayInvoice}
               setCryptoCurrency={setCryptoCurrency}

@@ -86,8 +86,6 @@ class Pay extends React.Component {
     fiatCurrencies: PropTypes.array.isRequired,
     /** Currently selected fiat currency (key). */
     fiatCurrency: PropTypes.string.isRequired,
-    /** Payment address or invoice to populate the payReq field with when the form first loads. */
-    initialPayReq: PropTypes.string,
     /** Amount value to populate the amountCrypto field with when the form first loads. */
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Amount value to populate the amountFiat field with when the form first loads. */
@@ -106,6 +104,8 @@ class Pay extends React.Component {
       halfHourFee: PropTypes.number,
       hourFee: PropTypes.number
     }),
+    /** Payment request to load into the form. */
+    payReq: PropTypes.string,
     /** Routing information */
     routes: PropTypes.array,
     /** Current wallet balance (in satoshis). */
@@ -125,7 +125,7 @@ class Pay extends React.Component {
   }
 
   static defaultProps = {
-    initialPayReq: null,
+    payReq: null,
     initialAmountCrypto: null,
     initialAmountFiat: null,
     isProcessing: false,
@@ -138,6 +138,7 @@ class Pay extends React.Component {
 
   state = {
     currentStep: 'address',
+    initialPayReq: null,
     previousStep: null,
     isLn: null,
     isOnchain: null
@@ -146,14 +147,30 @@ class Pay extends React.Component {
   amountInput = React.createRef()
   payReqInput = React.createRef()
 
-  componentDidUpdate(prevProps, prevState) {
-    const { initialPayReq, queryRoutes } = this.props
-    const { currentStep, invoice, isLn, isOnchain } = this.state
+  componentDidMount() {
+    const { payReq: initialPayReq } = this.props
+    // If we mount with a payReq, set it in the state in order to trigger form submission once the form is loaded..
+    // See componentDidUpdate().
+    if (initialPayReq) {
+      this.setState({ initialPayReq })
+    }
+  }
 
-    // If initialPayReq has been set, reset the form and submit as new
-    if (initialPayReq && initialPayReq !== prevProps.initialPayReq) {
+  componentDidUpdate(prevProps, prevState) {
+    const { payReq, queryRoutes } = this.props
+    const { currentStep, initialPayReq, invoice, isOnchain } = this.state
+
+    // If initialPayReq was been set in the state when the component mounted, reset the form and submit as new.
+    if (initialPayReq && initialPayReq !== prevState.initialPayReq) {
       this.formApi.reset()
       this.formApi.setValue('payReq', initialPayReq)
+      this.handlePayReqChange()
+    }
+
+    // If payReq has changed, reset the form and submit as new.
+    if (payReq && payReq !== prevProps.payReq) {
+      this.formApi.reset()
+      this.formApi.setValue('payReq', payReq)
       this.handlePayReqChange()
     }
 
@@ -171,14 +188,26 @@ class Pay extends React.Component {
       this.formApi.submitForm()
     }
 
-    // If we now have a valid offchain address, trigger the form submit.
-    if (isLn && isLn !== prevState.isLn) {
+    // If we now have a valid lightning invoice, call queryRoutes and submit the form.
+    if (invoice && invoice !== prevState.invoice) {
       this.formApi.submitForm()
-      // And if now have a valid lightning invoice, call queryRoutes.
-      if (invoice) {
-        const { satoshis, payeeNodeKey } = invoice
-        queryRoutes(payeeNodeKey, satoshis)
-      }
+      const { payeeNodeKey } = invoice
+      queryRoutes(payeeNodeKey, this.amountInSats())
+    }
+  }
+
+  amountInSats = () => {
+    const { isLn, isOnchain, invoice } = this.state
+    const { cryptoCurrency } = this.props
+    if (isLn && invoice) {
+      const { satoshis, millisatoshis } = invoice
+      return (
+        satoshis ||
+        convert('msats', 'sats', millisatoshis) ||
+        convert(cryptoCurrency, 'sats', this.formApi.getValue('amountCrypto'))
+      )
+    } else if (isOnchain) {
+      return convert(cryptoCurrency, 'sats', this.formApi.getValue('amountCrypto'))
     }
   }
 
@@ -199,9 +228,9 @@ class Pay extends React.Component {
         })
       } else {
         return payInvoice({
-          addr: values.payReq,
-          value: invoice.satoshis || values.amountCrypto,
-          currency: invoice.satoshis ? 'sats' : cryptoCurrency,
+          payReq: values.payReq,
+          value: invoice.satoshis || invoice.millisatoshis ? null : values.amountCrypto,
+          currency: cryptoCurrency,
           feeLimit: getMaxFee(routes)
         })
       }
@@ -236,14 +265,14 @@ class Pay extends React.Component {
   }
 
   /**
-   * Liost of enabled form steps.
+   * List of enabled form steps.
    */
   steps = () => {
     const { isLn, isOnchain, invoice } = this.state
     let steps = ['address']
     if (isLn) {
       // If we have an invoice and the invoice has an amount, this is a 2 step form.
-      if (invoice && invoice.satoshis) {
+      if (invoice && (invoice.satoshis || invoice.millisatoshis)) {
         steps.push('summary')
       }
       // Othersise, it will be a three step process.
@@ -285,6 +314,7 @@ class Pay extends React.Component {
     const { chain, network } = this.props
     const payReq = this.formApi.getValue('payReq')
     const state = {
+      currentStep: 'address',
       isLn: null,
       isOnchain: null,
       invoice: null
@@ -348,11 +378,11 @@ class Pay extends React.Component {
   }
 
   renderHelpText = () => {
-    const { cryptoName, cryptoCurrencyTicker, initialPayReq } = this.props
+    const { cryptoName, cryptoCurrencyTicker, payReq } = this.props
     const { currentStep, previousStep } = this.state
 
     // Do not render the help text if the form has just loadad with an initial payment request.
-    if (initialPayReq && !previousStep) {
+    if (payReq && !previousStep) {
       return null
     }
 
@@ -386,7 +416,8 @@ class Pay extends React.Component {
 
   renderAddressField = () => {
     const { currentStep, isLn } = this.state
-    const { chain, initialPayReq, network } = this.props
+    const { chain, payReq, network } = this.props
+
     return (
       <Box className={currentStep !== 'summary' ? 'element-show' : 'element-hide'}>
         <Box pb={2}>
@@ -408,7 +439,7 @@ class Pay extends React.Component {
                 field="payReq"
                 name="payReq"
                 style={styles}
-                initialValue={initialPayReq}
+                initialValue={payReq}
                 required
                 chain={chain}
                 network={network}
@@ -537,13 +568,13 @@ class Pay extends React.Component {
 
     const render = () => {
       // convert entered amount to satoshis
-      const amountInSatoshis = convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
+      const amount = this.amountInSats()
 
       if (isOnchain) {
         return (
           <PaySummaryOnChain
             mt={-3}
-            amount={amountInSatoshis}
+            amount={amount}
             address={formState.values.payReq}
             cryptoCurrency={cryptoCurrency}
             cryptoCurrencyTicker={cryptoCurrencyTicker}
@@ -570,7 +601,7 @@ class Pay extends React.Component {
             maxFee={maxFee}
             nodes={nodes}
             payReq={formState.values.payReq}
-            amount={amountInSatoshis}
+            amount={amount}
             setCryptoCurrency={setCryptoCurrency}
           />
         )
@@ -607,7 +638,7 @@ class Pay extends React.Component {
       cryptoName,
       fiatCurrencies,
       fiatCurrency,
-      initialPayReq,
+      payReq,
       initialAmountCrypto,
       initialAmountFiat,
       isProcessing,
@@ -637,18 +668,15 @@ class Pay extends React.Component {
           const showBack = currentStep !== 'address'
           const showSubmit = currentStep !== 'address' || (isOnchain || isLn)
 
-          let amountInSatoshis = convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
-          if (isLn) {
-            amountInSatoshis =
-              invoice.satoshis || convert(cryptoCurrency, 'sats', formState.values.amountCrypto)
-          }
+          // convert entered amount to satoshis
+          let amountInSats = this.amountInSats()
 
           // Determine wether we have enough funds available.
           let hasEnoughFunds = true
           if (isLn && invoice) {
-            hasEnoughFunds = amountInSatoshis <= channelBalance
+            hasEnoughFunds = amountInSats <= channelBalance
           } else if (isOnchain) {
-            hasEnoughFunds = amountInSatoshis <= walletBalance
+            hasEnoughFunds = amountInSats <= walletBalance
           }
 
           // Determine what the text should be for the next button.
@@ -658,7 +686,7 @@ class Pay extends React.Component {
               <>
                 <FormattedMessage {...messages.send} />
                 {` `}
-                <Value value={amountInSatoshis} currency={cryptoCurrency} />
+                <Value value={amountInSats} currency={cryptoCurrency} />
                 {` `}
                 {cryptoCurrencyTicker}
               </>
@@ -714,12 +742,12 @@ class Pay extends React.Component {
                             <FormattedMessage {...messages.current_balance} />:
                           </Text>
                           <Text textAlign="center" fontSize="xs">
-                            {convert('sats', cryptoCurrency, walletBalance)}
+                            <Value value={walletBalance} currency={cryptoCurrency} />
                             {` `}
                             {cryptoCurrencyTicker} (onchain),
                           </Text>
                           <Text textAlign="center" fontSize="xs">
-                            {convert('sats', cryptoCurrency, channelBalance)}
+                            <Value value={channelBalance} currency={cryptoCurrency} />
                             {` `}
                             {cryptoCurrencyTicker} (in channels)
                           </Text>
