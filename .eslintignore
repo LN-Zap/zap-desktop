@@ -37,7 +37,6 @@ flow-typed/module_vx.x.x.js
 
 # App packaged
 release
-app/lib/utils/bech32.js
 dist
 dll
 

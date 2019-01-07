@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
-import { bech32 } from 'lib/utils'
 import { setError } from './error'
 
 // ------------------------------------
@@ -255,7 +254,6 @@ const ACTION_HANDLERS = {
 const networkSelectors = {}
 const selectedPeersSelector = state => state.network.selectedPeers
 const selectedChannelsSelector = state => state.network.selectedChannels
-const payReqSelector = state => state.network.pay_req
 const currentRouteSelector = state => state.network.currentRoute
 
 // networkSelectors.currentRouteHopChanIds = createSelector(
@@ -275,22 +273,6 @@ networkSelectors.selectedPeerPubkeys = createSelector(
 networkSelectors.selectedChannelIds = createSelector(
   selectedChannelsSelector,
   channels => channels.map(channel => channel.chan_id)
-)
-
-networkSelectors.payReqIsLn = createSelector(
-  payReqSelector,
-  input => {
-    if (!input.startsWith('ln')) {
-      return false
-    }
-
-    try {
-      bech32.decode(input)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
 )
 
 networkSelectors.currentRouteChanIds = createSelector(
