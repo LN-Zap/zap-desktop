@@ -1,15 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring'
 import { FormattedMessage } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from 'lib/utils/crypto'
 import { convert } from 'lib/utils/btc'
 import {
   Bar,
-  CryptoAmountInput,
-  Dropdown,
-  FiatAmountInput,
+  CurrencyFieldGroup,
   Form,
   Message,
   Label,
@@ -439,7 +437,9 @@ class Pay extends React.Component {
       fiatCurrency,
       fiatCurrencies,
       initialAmountCrypto,
-      initialAmountFiat
+      initialAmountFiat,
+      setCryptoCurrency,
+      setFiatCurrency
     } = this.props
 
     return (
@@ -450,61 +450,21 @@ class Pay extends React.Component {
         {styles => (
           <Box style={styles}>
             <Bar my={3} />
-            <Label htmlFor="amountCrypto" pb={2}>
-              <FormattedMessage {...messages.amount} />
-            </Label>
 
-            <Flex justifyContent="space-between" alignItems="flex-start" mb={3}>
-              <Flex width={6 / 13}>
-                <Box width={150}>
-                  <CryptoAmountInput
-                    field="amountCrypto"
-                    name="amountCrypto"
-                    initialValue={initialAmountCrypto}
-                    currency={cryptoCurrency}
-                    required
-                    width={150}
-                    validateOnChange
-                    validateOnBlur
-                    onChange={this.handleAmountCryptoChange}
-                    forwardedRef={this.amountInput}
-                    disabled={currentStep !== 'amount'}
-                  />
-                </Box>
-                <Dropdown
-                  activeKey={cryptoCurrency}
-                  items={cryptoCurrencies}
-                  onChange={this.handleCryptoCurrencyChange}
-                  mt={2}
-                  ml={2}
-                />
-              </Flex>
-              <Text textAlign="center" mt={3} width={1 / 11}>
-                =
-              </Text>
-              <Flex width={6 / 13}>
-                <Box width={150} ml="auto">
-                  <FiatAmountInput
-                    field="amountFiat"
-                    name="amountFiat"
-                    initialValue={initialAmountFiat}
-                    currency={fiatCurrency}
-                    currentTicker={currentTicker}
-                    width={150}
-                    onChange={this.handleAmountFiatChange}
-                    disabled={currentStep !== 'amount'}
-                  />
-                </Box>
-
-                <Dropdown
-                  activeKey={fiatCurrency}
-                  items={fiatCurrencies}
-                  onChange={this.handleFiatCurrencyChange}
-                  mt={2}
-                  ml={2}
-                />
-              </Flex>
-            </Flex>
+            <CurrencyFieldGroup
+              currentTicker={currentTicker}
+              cryptoCurrency={cryptoCurrency}
+              cryptoCurrencies={cryptoCurrencies}
+              disabled={currentStep !== 'amount'}
+              fiatCurrencies={fiatCurrencies}
+              fiatCurrency={fiatCurrency}
+              forwardedRef={this.amountInput}
+              initialAmountCrypto={initialAmountCrypto}
+              initialAmountFiat={initialAmountFiat}
+              setCryptoCurrency={setCryptoCurrency}
+              setFiatCurrency={setFiatCurrency}
+              formApi={this.formApi}
+            />
           </Box>
         )}
       </ShowHideAmount>

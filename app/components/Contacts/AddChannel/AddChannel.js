@@ -13,7 +13,6 @@ const AddChannel = ({
   closeContactsForm,
   openSubmitChannelForm,
   updateContactFormSearchQuery,
-  updateManualFormSearchQuery,
   setNode,
   theme,
   activeChannelPubkeys,
@@ -48,10 +47,6 @@ const AddChannel = ({
    */
   const searchUpdated = search => {
     updateContactFormSearchQuery(search)
-
-    if (search.includes('@') && search.split('@')[0].length === 66) {
-      updateManualFormSearchQuery(search)
-    }
   }
 
   const renderRightSide = node => {
@@ -198,7 +193,6 @@ AddChannel.propTypes = {
   closeContactsForm: PropTypes.func.isRequired,
   openSubmitChannelForm: PropTypes.func.isRequired,
   updateContactFormSearchQuery: PropTypes.func.isRequired,
-  updateManualFormSearchQuery: PropTypes.func.isRequired,
   setNode: PropTypes.func.isRequired,
   activeChannelPubkeys: PropTypes.array.isRequired,
   nonActiveChannelPubkeys: PropTypes.array.isRequired,

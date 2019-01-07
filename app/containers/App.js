@@ -2,8 +2,6 @@ import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import get from 'lodash.get'
 
-import { btc } from 'lib/utils'
-
 import { themeSelectors } from 'reducers/theme'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
@@ -24,17 +22,13 @@ import {
 import {
   openContactsForm,
   closeContactsForm,
-  setChannelFormType,
   openManualForm,
   closeManualForm,
   openSubmitChannelForm,
   closeSubmitChannelForm,
   updateContactFormSearchQuery,
-  updateManualFormSearchQuery,
-  updateContactCapacity,
   setNode,
-  contactFormSelectors,
-  updateManualFormErrors
+  contactFormSelectors
 } from 'reducers/contactsform'
 import { fetchBalance } from 'reducers/balance'
 import { fetchPeers } from 'reducers/peers'
@@ -67,12 +61,8 @@ const mapDispatchToProps = {
   openManualForm,
   closeManualForm,
   updateContactFormSearchQuery,
-  updateManualFormSearchQuery,
-  updateContactCapacity,
   setNode,
   contactFormSelectors,
-  updateManualFormErrors,
-  setChannelFormType,
   fetchDescribeNetwork,
   setIsWalletOpen
 }
@@ -112,9 +102,6 @@ const mapStateToProps = state => ({
 
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
   showManualForm: contactFormSelectors.showManualForm(state),
-  manualFormIsValid: contactFormSelectors.manualFormIsValid(state),
-  contactFormFiatAmount: contactFormSelectors.contactFormFiatAmount(state),
-  dupeChanInfo: contactFormSelectors.dupeChanInfo(state),
 
   currentChannels: currentChannels(state),
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
@@ -145,7 +132,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     fetchChannels: dispatchProps.fetchChannels,
     openContactsForm: dispatchProps.openContactsForm,
     contactFormSelectors: dispatchProps.contactFormSelectors,
-    updateManualFormError: dispatchProps.updateManualFormErrors,
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
     setSelectedChannel: dispatchProps.setSelectedChannel,
@@ -158,26 +144,22 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
         : stateProps.channels.suggestedNodes.mainnet,
 
       setNode: dispatchProps.setNode,
-      openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM')
+      openSubmitChannelForm: () => dispatchProps.openSubmitChannelForm()
     }
   }
 
   const contactsFormProps = {
     closeContactsForm: dispatchProps.closeContactsForm,
-    openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM'),
+    openSubmitChannelForm: dispatchProps.openSubmitChannelForm,
     updateContactFormSearchQuery: dispatchProps.updateContactFormSearchQuery,
-    updateManualFormSearchQuery: dispatchProps.updateManualFormSearchQuery,
-    updateContactCapacity: dispatchProps.updateContactCapacity,
     setNode: dispatchProps.setNode,
     openChannel: dispatchProps.openChannel,
-    updateManualFormErrors: dispatchProps.updateManualFormErrors,
-    openManualForm: () => dispatchProps.setChannelFormType('MANUAL_FORM'),
+    openManualForm: dispatchProps.openManualForm,
 
     contactsform: stateProps.contactsform,
     filteredNetworkNodes: stateProps.filteredNetworkNodes,
     loadingChannelPubkeys: stateProps.channels.loadingChannelPubkeys,
     showManualForm: stateProps.showManualForm,
-    manualFormIsValid: stateProps.manualFormIsValid,
     activeChannelPubkeys: stateProps.activeChannelPubkeys,
     nonActiveChannelPubkeys: stateProps.nonActiveChannelPubkeys,
     pendingOpenChannelPubkeys: stateProps.pendingOpenChannelPubkeys
@@ -193,64 +175,12 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     closeReceiveModal: dispatchProps.closeWalletModal
   }
 
-  const submitChannelFormProps = {
-    submitChannelFormOpen: stateProps.contactsform.submitChannelFormOpen,
-    node: stateProps.contactsform.node,
-    contactCapacity: stateProps.contactsform.contactCapacity,
-    fiatTicker: stateProps.ticker.fiatTicker,
-    dupeChanInfo: stateProps.dupeChanInfo,
-
-    updateContactCapacity: dispatchProps.updateContactCapacity,
-
-    closeChannelForm: () => dispatchProps.setChannelFormType(null),
-    closeContactsForm: dispatchProps.closeContactsForm,
-
-    openChannel: dispatchProps.openChannel,
-
-    ticker: stateProps.ticker,
-
-    toggleCurrencyProps: {
-      currencyFilters: stateProps.currencyFilters,
-      currencyName: stateProps.currencyName,
-      contactFormFiatAmount: stateProps.contactFormFiatAmount,
-      setCurrency: dispatchProps.setCurrency,
-      onCurrencyFilterClick: currency => {
-        dispatchProps.updateContactCapacity(
-          btc.convert(stateProps.ticker.currency, currency, stateProps.contactsform.contactCapacity)
-        )
-        dispatchProps.setCurrency(currency)
-      }
-    }
-  }
-
-  const connectManuallyProps = {
-    closeManualForm: dispatchProps.closeManualForm,
-    updateManualFormSearchQuery: dispatchProps.updateManualFormSearchQuery,
-    updateManualFormErrors: dispatchProps.updateManualFormErrors,
-    setNode: dispatchProps.setNode,
-    openSubmitChannelForm: () => dispatchProps.setChannelFormType('SUBMIT_CHANNEL_FORM'),
-
-    manualFormOpen: stateProps.contactsform.manualFormOpen,
-    manualSearchQuery: stateProps.contactsform.manualSearchQuery,
-    manualFormIsValid: stateProps.manualFormIsValid,
-    showErrors: stateProps.contactsform.showErrors
-  }
-
-  const calcChannelFormProps = formType => {
-    if (formType === 'MANUAL_FORM') {
-      return connectManuallyProps
-    }
-    if (formType === 'SUBMIT_CHANNEL_FORM') {
-      return submitChannelFormProps
-    }
-
-    return {}
-  }
-
   const channelFormProps = {
     formType: stateProps.contactsform.formType,
-    formProps: calcChannelFormProps(stateProps.contactsform.formType),
-    closeForm: () => dispatchProps.setChannelFormType(null)
+    closeForm: () => {
+      dispatchProps.closeManualForm()
+      dispatchProps.closeSubmitChannelForm()
+    }
   }
 
   return {
@@ -264,10 +194,6 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     contactsFormProps,
     // props for the receive modal
     receiveModalProps,
-    // props for the form to open a channel
-    submitChannelFormProps,
-    // props for the form to connect manually to a peer
-    connectManuallyProps,
     // props for the channel form wrapper
     channelFormProps,
     // Props to pass to the request form

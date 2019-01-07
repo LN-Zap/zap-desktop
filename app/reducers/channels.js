@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
 import { send } from 'redux-electron-ipc'
-import { btc } from 'lib/utils'
 import { requestSuggestedNodes } from 'lib/utils/api'
 import { setError } from './error'
 import { fetchBalance } from './balance'
@@ -181,21 +180,20 @@ export const receiveChannels = (event, { channels, pendingChannels }) => dispatc
 }
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, host, local_amt }) => async (dispatch, getState) => {
-  const state = getState()
-  const localamt = btc.convert(state.ticker.currency, 'sats', local_amt)
-
-  dispatch(openingChannel())
-  dispatch(addLoadingPubkey(pubkey))
-
+export const openChannel = ({ pubkey, host, localamt }) => async (dispatch, getState) => {
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
+  const state = getState()
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
+  const isPrivate = activeWalletSettings.type === 'local'
+
+  dispatch(openingChannel())
+  dispatch(addLoadingPubkey(pubkey))
   dispatch(
     send('lnd', {
       msg: 'connectAndOpen',
-      data: { pubkey, host, localamt, private: activeWalletSettings.type === 'local' }
+      data: { pubkey, host, localamt, private: isPrivate }
     })
   )
 }

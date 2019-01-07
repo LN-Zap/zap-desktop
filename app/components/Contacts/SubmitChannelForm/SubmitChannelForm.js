@@ -1,157 +1,181 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { AmountInput, Button, Dropdown, Message } from 'components/UI'
-import { FormattedNumber, FormattedMessage } from 'react-intl'
+import { Box, Card } from 'rebass'
+import { convert } from 'lib/utils/btc'
+import {
+  Bar,
+  CurrencyFieldGroup,
+  Button,
+  Form,
+  Header,
+  Message,
+  Panel,
+  Span,
+  Text
+} from 'components/UI'
+import { FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
-import styles from './SubmitChannelForm.scss'
 
 class SubmitChannelForm extends React.Component {
-  constructor(props) {
-    super(props)
-    this.amountInput = React.createRef()
+  static propTypes = {
+    /** Current ticker data as provided by blockchain.info */
+    currentTicker: PropTypes.object.isRequired,
+    /** Currently selected cryptocurrency (key). */
+    cryptoCurrency: PropTypes.string.isRequired,
+    /** List of supported cryptocurrencies. */
+    cryptoCurrencies: PropTypes.arrayOf(
+      PropTypes.shape({
+        key: PropTypes.string.isRequired,
+        name: PropTypes.string.isRequired
+      })
+    ).isRequired,
+    /** List of supported fiat currencies. */
+    fiatCurrencies: PropTypes.array.isRequired,
+    /** Currently selected fiat currency (key). */
+    fiatCurrency: PropTypes.string.isRequired,
+    /** Information about existing active channel to the node we are trying to connect to. */
+    dupeChanInfo: PropTypes.object,
+    /** Information about the node we are trying to connect to. */
+    node: PropTypes.object.isRequired,
+
+    /** Close the submit chanel form. */
+    closeSubmitChannelForm: PropTypes.func.isRequired,
+    /** Close the contacts form. */
+    closeContactsForm: PropTypes.func.isRequired,
+    /** Open a Lightning channel */
+    openChannel: PropTypes.func.isRequired,
+    /** Set the current cryptocurrency. */
+    setCryptoCurrency: PropTypes.func.isRequired,
+    /** Set the current fiat currency */
+    setFiatCurrency: PropTypes.func.isRequired
   }
 
-  componentDidMount() {
-    // Clear and Focus the amount input field.
-    this.amountInput.current.focusTextInput()
+  onSubmit = values => {
+    const {
+      cryptoCurrency,
+      closeSubmitChannelForm,
+      closeContactsForm,
+      node,
+      openChannel
+    } = this.props
+
+    // Convert amount to satoshis.
+    const amountInSatoshis = convert(cryptoCurrency, 'sats', values.amountCrypto)
+
+    // submit the channel to LND
+    openChannel({
+      pubkey: node.pub_key,
+      host: node.addresses[0].addr,
+      localamt: amountInSatoshis
+    })
+    // close the SubmitChannelForm component
+    closeSubmitChannelForm()
+    // close the AddChannel component
+    closeContactsForm()
+  }
+
+  /**
+   * Store the formApi on the component context to make it available at this.formApi.
+   */
+  setFormApi = formApi => {
+    this.formApi = formApi
+  }
+
+  renderWarning = dupeChanInfo => {
+    const { alias, activeChannels, capacity, currencyName } = dupeChanInfo
+    const aliasMsg = alias ? alias : 'this_node'
+
+    return (
+      <p>
+        <FormattedMessage
+          {...messages.duplicate_warnig}
+          values={{
+            activeChannels,
+            aliasMsg
+          }}
+        />{' '}
+        {capacity} {currencyName}.
+      </p>
+    )
   }
 
   render() {
     const {
-      closeChannelForm,
+      currentTicker,
+      cryptoCurrency,
+      cryptoCurrencies,
+      fiatCurrencies,
+      fiatCurrency,
+      setCryptoCurrency,
+      setFiatCurrency,
+      intl,
+      closeSubmitChannelForm,
       closeContactsForm,
-
       node,
-      contactCapacity,
-      updateContactCapacity,
       openChannel,
-      fiatTicker,
       dupeChanInfo,
-
-      ticker,
-
-      toggleCurrencyProps: { currencyFilters, onCurrencyFilterClick, contactFormFiatAmount }
+      ...rest
     } = this.props
-
-    const renderTitle = () => {
-      // if the node has an alias set we will show that with the pubkey in parens
-      // if not, just show the pubkey (would look ugly with rando parens)
-      if (node.alias && node.alias.length) {
-        return `${node.alias} (${node.pub_key})`
-      }
-
-      return node.pub_key
-    }
-
-    const renderWarning = dupeChanInfo => {
-      const { alias, activeChannels, capacity, currencyName } = dupeChanInfo
-      const aliasMsg = alias ? <span className={styles.alias}>{alias}</span> : 'this_node'
-
-      return (
-        <p>
-          <FormattedMessage
-            {...messages.duplicate_warnig}
-            values={{
-              activeChannels,
-              aliasMsg
-            }}
-          />{' '}
-          {capacity} {currencyName}.
-        </p>
-      )
-    }
-
-    const formSubmitted = () => {
-      // dont submit to LND if they havent set channel capacity amount
-      if (contactCapacity <= 0) {
-        return
-      }
-
-      // submit the channel to LND
-      openChannel({
-        pubkey: node.pub_key,
-        host: node.addresses[0].addr,
-        local_amt: contactCapacity
-      })
-
-      // close the ChannelForm component
-      closeChannelForm()
-
-      // close the AddChannel component
-      closeContactsForm()
-    }
-
     return (
-      <div className={styles.content}>
-        <header className={styles.header}>
-          <h1>
-            <FormattedMessage {...messages.title} />
-          </h1>
-          <p>
-            <FormattedMessage {...messages.description} />
-          </p>
-        </header>
+      <Form css={{ height: '100%' }} {...rest} getApi={this.setFormApi} onSubmit={this.onSubmit}>
+        {({ formApi, formState }) => (
+          <Panel {...rest} width={1}>
+            <Panel.Header>
+              <Header
+                title={<FormattedMessage {...messages.title} />}
+                subtitle={<FormattedMessage {...messages.description} />}
+              />
+              <Bar mt={2} />
+            </Panel.Header>
 
-        <section className={styles.title}>
-          <h2>{renderTitle()}</h2>
-        </section>
+            <Panel.Body py={3}>
+              <Card borderRadius={8} bg="tertiaryColor" width={1} mb={4}>
+                <Text
+                  p={3}
+                  fontSize="s"
+                  css={{
+                    overflow: 'hidden',
+                    'white-space': 'nowrap',
+                    'text-overflow': 'ellipsis'
+                  }}
+                >
+                  {node.alias && node.alias.length > 0 && (
+                    <Span fontWeight="normal">{node.alias}: </Span>
+                  )}
+                  {node.pub_key}
+                </Text>
+              </Card>
 
-        {dupeChanInfo && (
-          <section className={styles.warn}>
-            <Message variant="warning">{renderWarning(dupeChanInfo)}</Message>
-          </section>
+              {dupeChanInfo && (
+                <Box my={3}>
+                  <Message variant="warning">{this.renderWarning(dupeChanInfo)}</Message>
+                </Box>
+              )}
+
+              <CurrencyFieldGroup
+                currentTicker={currentTicker}
+                cryptoCurrency={cryptoCurrency}
+                cryptoCurrencies={cryptoCurrencies}
+                fiatCurrencies={fiatCurrencies}
+                fiatCurrency={fiatCurrency}
+                setCryptoCurrency={setCryptoCurrency}
+                setFiatCurrency={setFiatCurrency}
+                formApi={formApi}
+              />
+            </Panel.Body>
+
+            <Panel.Footer mx="auto">
+              <Button
+                disabled={!formState.values.amountCrypto || formState.values.amountCrypto <= 0}
+              >
+                <FormattedMessage {...messages.submit} />
+              </Button>
+            </Panel.Footer>
+          </Panel>
         )}
-
-        <section className={styles.amount}>
-          <div className={styles.input}>
-            <AmountInput
-              id="amount"
-              amount={contactCapacity}
-              currency={ticker.currency}
-              onChangeEvent={updateContactCapacity}
-              ref={this.amountInput}
-            />
-            <Dropdown
-              activeKey={ticker.currency}
-              items={currencyFilters}
-              onChange={onCurrencyFilterClick}
-              ml={2}
-            />
-          </div>
-          <div className={styles.fiatAmount}>
-            {'≈ '}
-            <FormattedNumber
-              currency={fiatTicker}
-              style="currency"
-              value={contactFormFiatAmount || 0}
-            />
-          </div>
-        </section>
-
-        <section className={styles.submit}>
-          <Button disabled={!(contactCapacity > 0)} onClick={formSubmitted}>
-            <FormattedMessage {...messages.submit} />
-          </Button>
-        </section>
-      </div>
+      </Form>
     )
   }
 }
 
-SubmitChannelForm.propTypes = {
-  closeChannelForm: PropTypes.func.isRequired,
-  closeContactsForm: PropTypes.func.isRequired,
-
-  node: PropTypes.object.isRequired,
-  contactCapacity: PropTypes.PropTypes.oneOfType([PropTypes.number, PropTypes.string]),
-  updateContactCapacity: PropTypes.func.isRequired,
-  openChannel: PropTypes.func.isRequired,
-  fiatTicker: PropTypes.string.isRequired,
-  dupeChanInfo: PropTypes.object,
-
-  ticker: PropTypes.object.isRequired,
-
-  toggleCurrencyProps: PropTypes.object.isRequired
-}
-
-export default SubmitChannelForm
+export default injectIntl(SubmitChannelForm)
