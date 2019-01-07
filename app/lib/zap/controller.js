@@ -205,7 +205,8 @@ class ZapController {
       //  There was a problem accessing the macaroon file.
       else if (
         e.code === 'LND_GRPC_MACAROON_ERROR' ||
-        e.message.includes('cannot determine data format of binary-encoded macaroon')
+        e.message.includes('cannot determine data format of binary-encoded macaroon') ||
+        e.message.includes('verification failed: signature mismatch after caveat verification')
       ) {
         errors.macaroon = e.message
       }

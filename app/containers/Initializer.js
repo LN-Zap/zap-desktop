@@ -22,7 +22,7 @@ class Initializer extends React.Component {
     isReady: PropTypes.bool.isRequired,
     lightningGrpcActive: PropTypes.bool.isRequired,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
-    startLndHostError: PropTypes.string.isRequired,
+    startLndError: PropTypes.object,
     startActiveWallet: PropTypes.func.isRequired,
     fetchSuggestedNodes: PropTypes.func.isRequired,
     fetchTicker: PropTypes.func.isRequired,
@@ -55,7 +55,7 @@ class Initializer extends React.Component {
       hasWallets,
       history,
       lightningGrpcActive,
-      startLndHostError,
+      startLndError,
       walletUnlockerGrpcActive,
       startActiveWallet
     } = this.props
@@ -64,7 +64,9 @@ class Initializer extends React.Component {
     if (isReady && !prevProps.isReady) {
       if (activeWalletSettings) {
         if (isWalletOpen) {
-          return startActiveWallet()
+          // Catch the error and swallow it with a noop.
+          // Errors are handled below by listening for updates to the startLndError prop.
+          return startActiveWallet().catch(() => {})
         } else {
           return history.push(`/home/wallet/${activeWallet}`)
         }
@@ -75,8 +77,8 @@ class Initializer extends React.Component {
       return hasWallets ? history.push('/home') : history.push('/onboarding')
     }
 
-    // If there wad a problem starting lnd, swich to the wallet launcher.
-    if (startLndHostError && !prevProps.startLndHostError) {
+    // If there was a problem starting lnd, swich to the wallet launcher.
+    if (startLndError && !prevProps.startLndError) {
       return history.push(`/home/wallet/${activeWallet}`)
     }
 
@@ -107,7 +109,7 @@ const mapStateToProps = state => ({
   hasWallets: walletSelectors.hasWallets(state),
   lightningGrpcActive: state.lnd.lightningGrpcActive,
   walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
-  startLndHostError: state.lnd.startLndHostError,
+  startLndError: state.lnd.startLndError,
   isWalletOpen: state.wallet.isWalletOpen,
   isReady: appSelectors.isReady(state)
 })

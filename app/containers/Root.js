@@ -34,7 +34,7 @@ class Root extends React.Component {
     hasWallets: PropTypes.bool,
     clearError: PropTypes.func.isRequired,
     theme: PropTypes.object,
-    error: PropTypes.string,
+    error: PropTypes.oneOfType([PropTypes.string, PropTypes.array, PropTypes.object]),
     history: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
 
