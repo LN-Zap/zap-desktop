@@ -38,7 +38,7 @@ export function bitsToBtc(bits, price) {
   if (bits === undefined || bits === null || bits === '') return null
   const sats = bits * 100
 
-  return satoshisToBtc(sats, price) || 0
+  return satoshisToBtc(sats) || 0
 }
 
 export function bitsToSatoshis(bits, price) {
@@ -136,13 +136,13 @@ export function fiatToBits(fiat, price) {
 }
 
 export function fiatToSatoshis(fiat, price) {
-  return btcToSatoshis(fiatToBtc(fiat, price))
-  return btcToFiat(satoshisToBtc(satoshis), price)
+  const btcAmount = fiatToBtc(fiat, price)
+  return btcToSatoshis(btcAmount)
 }
 
 export function fiatToMilliSatoshis(fiat, price) {
-  return btcToMillisatoshis(fiatToBtc(fiat, price))
-  return btcToFiat(millisatoshisToBtc(satoshis), price)
+  const btcAmount = fiatToBtc(fiat, price)
+  return btcToMillisatoshis(btcAmount)
 }
 
 export function convert(from, to, amount, price) {
