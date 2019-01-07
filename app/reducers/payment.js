@@ -70,11 +70,14 @@ export const receivePayments = (event, { payments }) => dispatch => {
   dispatch({ type: RECEIVE_PAYMENTS, payments })
 }
 
-export const payInvoice = ({ addr, value, currency, feeLimit }) => dispatch => {
-  // backend needs amount in satoshis no matter what currency we are using
-  const amt = convert(currency, 'sats', value)
+export const payInvoice = ({ payReq, value, currency = 'sats', feeLimit }) => dispatch => {
+  // If a custom value has been passed, convert it to sats as this is what is expected by the backend.
+  let amt
+  if (value) {
+    amt = convert(currency, 'sats', value)
+  }
 
-  const data = { paymentRequest: addr, feeLimit, amt }
+  const data = { paymentRequest: payReq, feeLimit, amt }
   dispatch(send('lnd', { msg: 'sendPayment', data }))
   dispatch(sendPayment(data))
 

@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
   cryptoCurrencies: tickerSelectors.currencyFilters(state),
   fiatCurrencies: state.ticker.fiatTickers,
   fiatCurrency: state.ticker.fiatTicker,
-  initialPayReq: state.pay.payReq,
+  payReq: state.pay.payReq,
   isQueryingFees: state.pay.isQueryingFees,
   isQueryingRoutes: state.pay.isQueryingRoutes,
   nodes: state.network.nodes,
