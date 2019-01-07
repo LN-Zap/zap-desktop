@@ -4,7 +4,6 @@
 
 import path from 'path'
 import { ExternalsPlugin } from 'webpack'
-import MiniCssExtractPlugin from 'mini-css-extract-plugin'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
@@ -38,52 +37,6 @@ export default merge.smart(baseConfig, {
 
   module: {
     rules: [
-      // Add SASS support  - compile all .global.scss files and pipe it to renderer.css
-      {
-        test: /\.global\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          'css-loader',
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: ['app']
-            }
-          }
-        ]
-      },
-      // Add SASS support  - compile all other .scss files and pipe it to renderer.css
-      {
-        test: /^((?!\.global).)*\.scss$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          {
-            loader: 'css-loader',
-            options: {
-              modules: true,
-              importLoaders: 1,
-              localIdentName: '[name]__[local]__[hash:base64:5]'
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              includePaths: ['app']
-            }
-          }
-        ]
-      },
-      // SVG Font
-      {
-        test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
-        use: {
-          loader: 'url-loader',
-          options: {
-            limit: 10000,
-            mimetype: 'image/svg+xml'
-          }
-        }
-      },
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
@@ -96,8 +49,6 @@ export default merge.smart(baseConfig, {
     new CleanWebpackPlugin([path.resolve('app', 'dist')], {
       root: path.resolve('..', '..')
     }),
-
-    new MiniCssExtractPlugin(),
 
     new HtmlWebpackPlugin({
       template: path.join('app', 'app.html')

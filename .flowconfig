@@ -21,12 +21,7 @@ esproposal.export_star_as=enable
 module.system.node.resolve_dirname=node_modules
 module.system.node.resolve_dirname=app/node_modules
 
-# Map stylesheets to csssmodule tyoe def
-module.name_mapper.extension='css' -> '<PROJECT_ROOT>/internals/flow/CSSModule.js.flow'
-module.name_mapper.extension='styl' -> '<PROJECT_ROOT>/internals/flow/CSSModule.js.flow'
-module.name_mapper.extension='scss' -> '<PROJECT_ROOT>/internals/flow/CSSModule.js.flow'
-
-# Map stylesheets to csssmodule tyoe def
+# Map images to WebpackAsset tyoe def
 module.name_mapper.extension='png' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
 module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
 module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'

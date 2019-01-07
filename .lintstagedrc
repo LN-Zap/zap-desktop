@@ -1,6 +1,6 @@
 {
   "linters": {
     "*.{js,json,md}": ["npm run lint-fix-base", "git add"],
-    "*.scss": ["npm run lint-styles-fix-base", "git add"]
+    "*.js": ["npm run lint-styles-fix-base", "git add"]
   }
 }

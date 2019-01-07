@@ -7,9 +7,6 @@ import { getDefaultLocale } from './lib/i18n'
 import Root from './containers/Root'
 import db from './store/db'
 
-// Load global styles.
-import './styles/app.global.scss'
-
 // Register supported locales.
 import './lib/i18n/locale'
 
