@@ -50,7 +50,9 @@ const Payment = ({
             )}
             {payment.status === 'failed' && (
               <Message variant="error">
-                <FormattedMessage {...messages.status_error} /> {payment.error}
+                <FormattedMessage {...messages.status_error} />
+                {` `}
+                {payment.error}
               </Message>
             )}
           </>
