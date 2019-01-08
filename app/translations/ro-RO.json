@@ -208,7 +208,7 @@
   "components.Request.button_text": "Cere plată",
   "components.Request.copy_button_text": "",
   "components.Request.description": "",
-  "components.Request.ln_invoice": "",
+  "components.Request.payment_request": "",
   "components.Request.memo": "Notificare",
   "components.Request.memo_placeholder": "",
   "components.Request.not_paid": "Neachitat",
