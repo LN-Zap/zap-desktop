@@ -1,3 +1,5 @@
+// If we are running in test mode, set the userData to a temporary location.
+// This ensure that the app starts with a clean environment.
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -15,6 +17,7 @@ import get from 'lodash.get'
 import path from 'path'
 import url from 'url'
 import os from 'os'
+import fs from 'fs'
 import querystring from 'querystring'
 import { mainLog } from './lib/utils/log'
 import ZapMenuBuilder from './lib/zap/menuBuilder'
@@ -22,6 +25,12 @@ import ZapController from './lib/zap/controller'
 import ZapUpdater from './lib/zap/updater'
 import themes from './themes'
 import { getDbName } from './store/db'
+
+if (process.env.USER_DIR) {
+  const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'zap-'))
+  mainLog.info('Using temporary directory %s for userData', folder)
+  app.setPath('userData', folder)
+}
 
 /**
  * Handler for open-link events.

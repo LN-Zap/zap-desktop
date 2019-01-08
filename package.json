@@ -179,7 +179,7 @@
       "app/node_modules",
       "node_modules"
     ],
-    "setupTestFrameworkScriptFile": "./test/unit/__helpers__/setup-tests.js",
+    "setupTestFrameworkScriptFile": "./test/setup.js",
     "transform": {
       "^.+\\.js$": "babel-jest"
     }

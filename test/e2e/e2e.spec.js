@@ -1,39 +1,29 @@
-import { Application } from 'spectron'
-import electronPath from 'electron'
-import path from 'path'
+import { startApp, stopApp } from './helpers'
 
-jest.setTimeout(25000)
-jest.unmock('electron')
-
-describe('main window', function spec() {
+describe('e2e tests', function spec() {
   beforeAll(async () => {
-    this.app = new Application({
-      path: electronPath,
-      args: [path.join(__dirname, '..', '..', 'app')],
-      waitTimeout: 10000,
-      startTimeout: 10000,
-      quitTimeout: 2000,
-      requireName: 'electronRequire' // Use requre that we reference in preload.js
-    })
-
-    await this.app.start()
-    await this.app.client.waitUntilWindowLoaded()
+    this.app = await startApp()
   })
 
   afterAll(async () => {
-    if (this.app && this.app.isRunning()) {
-      await this.app.stop()
-    }
+    await stopApp(this.app)
   })
 
-  it('should open window', async () => {
+  it('opens a window', async () => {
+    const { client } = this.app
+
+    const windowCount = await client.getWindowCount()
+    expect(windowCount).toBeGreaterThanOrEqual(1)
+  })
+
+  it('sets the window title as "Zap"', async () => {
     const { browserWindow } = this.app
 
     const title = await browserWindow.getTitle()
     expect(title).toBe('Zap')
   })
 
-  it("should haven't any logs in console of main window", async () => {
+  it("doesn't have any logs in console of main window", async () => {
     const { client } = this.app
 
     const logs = await client.getRenderProcessLogs()
