@@ -2,28 +2,41 @@
 // Initial State
 // ------------------------------------
 const initialState = {
-  error: null
+  errors: []
 }
 
 // ------------------------------------
 // Constants
 // ------------------------------------
+const ERROR_TIMEOUT = 10000
 export const SET_ERROR = 'SET_ERROR'
 export const CLEAR_ERROR = 'CLEAR_ERROR'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function setError(error) {
-  return {
-    type: SET_ERROR,
-    error
+export const setError = error => dispatch => {
+  // Cooerce the error into an error item with a random id that we can use for clearning the error later.
+  const errorItem = {
+    id: Math.random()
+      .toString(36)
+      .substring(7),
+    message: error
   }
+
+  // Set a timer to clear the error after 10 seconds.
+  setTimeout(() => dispatch(clearError(errorItem.id)), ERROR_TIMEOUT)
+
+  return dispatch({
+    type: SET_ERROR,
+    errorItem
+  })
 }
 
-export function clearError() {
+export function clearError(id) {
   return {
-    type: CLEAR_ERROR
+    type: CLEAR_ERROR,
+    id
   }
 }
 
@@ -31,8 +44,14 @@ export function clearError() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_ERROR]: (state, { error }) => ({ ...state, error }),
-  [CLEAR_ERROR]: () => initialState
+  [SET_ERROR]: (state, { errorItem }) => ({
+    ...state,
+    errors: [...state.errors, errorItem]
+  }),
+  [CLEAR_ERROR]: (state, { id }) => ({
+    ...state,
+    errors: state.errors.filter(item => item.id !== id)
+  })
 }
 
 // ------------------------------------
@@ -40,7 +59,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 
 const errorSelectors = {}
-errorSelectors.getErrorState = state => state.error.error
+errorSelectors.getErrorState = state => state.error.errors
 
 export { errorSelectors }
 

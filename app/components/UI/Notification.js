@@ -27,23 +27,18 @@ class Notification extends React.Component {
     variant: PropTypes.string
   }
 
-  constructor(props) {
-    super(props)
-    this.state = { hover: false }
-    this.hoverOn = this.hoverOn.bind(this)
-    this.hoverOff = this.hoverOff.bind(this)
-  }
+  state = { hover: false }
 
-  hoverOn() {
+  hoverOn = () => {
     this.setState({ hover: true })
   }
 
-  hoverOff() {
+  hoverOff = () => {
     this.setState({ hover: false })
   }
 
   render() {
-    const { children, processing, variant } = this.props
+    const { children, processing, variant, ...rest } = this.props
     const { hover } = this.state
     return (
       <Card
@@ -55,6 +50,7 @@ class Notification extends React.Component {
         {...this.props}
         onMouseEnter={this.hoverOn}
         onMouseLeave={this.hoverOff}
+        {...rest}
       >
         <Flex justifyContent="space-between">
           <Flex alignItems="center">
