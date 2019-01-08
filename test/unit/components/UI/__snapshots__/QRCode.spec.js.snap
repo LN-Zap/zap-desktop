@@ -3,69 +3,69 @@
 exports[`component.UI.QRCode should render correctly 1`] = `
 .c0 {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
   display: inline-block;
 }
 
 .c1 {
   position: relative;
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
 }
 
 .c2 {
   border: 1px solid;
-  border-color: lightningOrange;
+  border-color: #fd9800;
   border-radius: 10%;
   position: absolute;
   top: 0;
   left: 0;
   display: inline-block;
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
   -webkit-clip-path: polygon(0 0,25% 0,25% 25%,0 25%);
   clip-path: polygon(0 0,25% 0,25% 25%,0 25%);
 }
 
 .c3 {
   border: 1px solid;
-  border-color: lightningOrange;
+  border-color: #fd9800;
   border-radius: 10%;
   position: absolute;
   top: 0;
   right: 0;
   display: inline-block;
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
   -webkit-clip-path: polygon(75% 0,100% 0%,100% 25%,75% 25%);
   clip-path: polygon(75% 0,100% 0%,100% 25%,75% 25%);
 }
 
 .c4 {
   border: 1px solid;
-  border-color: lightningOrange;
+  border-color: #fd9800;
   border-radius: 10%;
   position: absolute;
   bottom: 0;
   left: 0;
   display: inline-block;
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
   -webkit-clip-path: polygon(0 75%,25% 75%,25% 100%,0 100%);
   clip-path: polygon(0 75%,25% 75%,25% 100%,0 100%);
 }
 
 .c5 {
   border: 1px solid;
-  border-color: lightningOrange;
+  border-color: #fd9800;
   border-radius: 10%;
   position: absolute;
   bottom: 0;
   right: 0;
   display: inline-block;
-  width: 140px;
-  height: 140px;
+  width: 180px;
+  height: 180px;
   -webkit-clip-path: polygon(75% 75%,100% 75%,100% 100%,75% 100%);
   clip-path: polygon(75% 75%,100% 75%,100% 100%,75% 100%);
 }
@@ -73,45 +73,197 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 .c6 {
   border-style: solid;
   border-color: white;
-  border-width: 4px;
+  border-width: 8px;
   position: absolute;
-  top: 10%;
-  left: 10%;
+  top: calc(10% - 2px);
+  left: calc(10% - 2px);
 }
 
 <div
   className="c0"
-  size="140px"
+  size={150}
 >
   <div
     className="c1"
-    size="140px"
+    size={150}
   >
     <div
       className="c2"
-      size="140px"
+      size={150}
     />
     <div
       className="c3"
-      size="140px"
+      size={150}
     />
     <div
       className="c4"
-      size="140px"
+      size={150}
     />
     <div
       className="c5"
-      size="140px"
+      size={150}
     />
   </div>
   <svg
     bg="white"
     className="c6"
     color="black"
-    height="80%"
+    height={150}
     shapeRendering="crispEdges"
+    theme={
+      Object {
+        "buttons": Object {
+          "normal": Object {
+            "&:focus": Object {
+              "backgroundColor": "#353745",
+            },
+            "&:hover:enabled": Object {
+              "backgroundColor": "#353745",
+            },
+            "backgroundColor": "#313340",
+            "color": "#fd9800",
+          },
+          "primary": Object {
+            "backgroundColor": "#fd9800",
+            "color": undefined,
+          },
+          "secondary": Object {
+            "&.active": Object {
+              "opacity": 1,
+            },
+            "&:focus": Object {
+              "opacity": 1,
+            },
+            "&:hover:enabled": Object {
+              "opacity": 1,
+            },
+            "backgroundColor": "transparent",
+            "color": "#ffffff",
+            "opacity": 0.6,
+          },
+        },
+        "cards": Object {
+          "error": Object {
+            "backgroundColor": "#330d0d",
+            "color": "#e63939",
+          },
+          "success": Object {
+            "backgroundColor": "#0d331a",
+            "color": "#39e673",
+          },
+          "warning": Object {
+            "backgroundColor": "#4a2c00",
+            "color": "#fd9800",
+          },
+        },
+        "colors": Object {
+          "gray": "#959595",
+          "highlight": "#353745",
+          "lightningBrown": "#4a2c00",
+          "lightningOrange": "#fd9800",
+          "mudBrown": "#330d0d",
+          "pineGreen": "#0d331a",
+          "primaryColor": "#242633",
+          "primaryText": "#ffffff",
+          "secondaryColor": "#373947",
+          "superGreen": "#39e673",
+          "superRed": "#e63939",
+          "tertiaryColor": "#313340",
+        },
+        "fontSizes": Object {
+          "0": "8px",
+          "1": "10px",
+          "2": "11px",
+          "3": "13px",
+          "4": "15px",
+          "5": "18px",
+          "6": "30px",
+          "7": "60px",
+          "l": "15px",
+          "m": "13px",
+          "s": "11px",
+          "xl": "18px",
+          "xs": "10px",
+          "xxl": "30px",
+          "xxs": "8px",
+          "xxxl": "60px",
+        },
+        "fontWeights": Object {
+          "light": 300,
+          "normal": 400,
+        },
+        "fonts": Object {
+          "0": "Roboto, system-ui, sans-serif",
+          "sans": "Roboto, system-ui, sans-serif",
+        },
+        "letterSpacings": Object {
+          "caps": "0.025em",
+          "normal": "normal",
+        },
+        "messages": Object {
+          "error": Object {
+            "color": "#e63939",
+          },
+          "processing": Object {
+            "color": "#fd9800",
+          },
+          "success": Object {
+            "color": "#39e673",
+          },
+          "warning": Object {
+            "color": "#fd9800",
+          },
+        },
+        "name": "dark",
+        "palette": Object {
+          "black": "#000000",
+          "deepseaBlue": "#242633",
+          "gray": "#959595",
+          "hoverSeaBlue": "#353745",
+          "hoverSeaGray": "#f2f2f2",
+          "lightGreen": "#eefff4",
+          "lightOrange": "#fff3e1",
+          "lightRed": "#ffeded",
+          "lightningBrown": "#4a2c00",
+          "lightningOrange": "#fd9800",
+          "mudBrown": "#330d0d",
+          "pineGreen": "#0d331a",
+          "seaBlue": "#313340",
+          "seaGray": "#f3f3f3",
+          "superGreen": "#39e673",
+          "superRed": "#e63939",
+          "underwaterBlue": "#373947",
+          "underwaterGray": "#ebebeb",
+          "white": "#ffffff",
+        },
+        "space": Array [
+          0,
+          4,
+          8,
+          16,
+          32,
+          45,
+          72,
+          108,
+        ],
+        "statuses": Object {
+          "closing": Object {
+            "color": "#e63939",
+          },
+          "offline": Object {
+            "color": "#959595",
+          },
+          "online": Object {
+            "color": "#39e673",
+          },
+          "pending": Object {
+            "color": "#fd9800",
+          },
+        },
+      }
+    }
     viewBox="0 0 21 21"
-    width="80%"
+    width={150}
   >
     <path
       d="M0,0 h21v21H0z"

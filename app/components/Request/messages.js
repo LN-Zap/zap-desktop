@@ -8,7 +8,7 @@ export default defineMessages({
   copy_button_text: 'Copy invoice',
   address_copied_notification_title: 'Address copied',
   address_copied_notification_description: 'Payment address has been copied to your clipboard',
-  ln_invoice: 'Lightning Invoice',
+  payment_request: 'Payment Request',
   total: 'Total',
   memo: 'Memo',
   memo_placeholder: 'For example "Dinner last night"',

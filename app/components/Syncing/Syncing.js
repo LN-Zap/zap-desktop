@@ -152,7 +152,7 @@ class Syncing extends Component {
               justifyContent="center"
               css={{ height: '100%' }}
             >
-              <QRCode value={address} mx="auto" />
+              <QRCode value={address} mx="auto" size="small" />
               <Text my={3}>{address}</Text>
               <Button size="small" onClick={() => copyToClipboard(address)} mx="auto">
                 <FormattedMessage {...messages.copy_address} />
