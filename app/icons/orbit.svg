@@ -1,16 +1,13 @@
 <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
-  <defs>
-    <bx:guide x="19.983" y="127.197" angle="0"></bx:guide>
-  </defs>
-  <g bx:origin="0 0" transform="matrix(-0.707107, 0.707107, -0.707107, -0.707107, 241.421051, 99.999451)" origin="0.454539 0.492415">
-    <circle style="fill: rgb(253, 152, 0);" cx="20" cy="100" r="15" bx:origin="0 0" origin="3.1672 0.5"></circle>
-    <path style="fill: none; paint-order: stroke; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-width: 2.8px;" d="M 100.403 180 C 162.938 180 198.672 113.334 169.922 60.001 C 138.997 6.667 61.687 6.667 30.763 60.001 C 23.713 72.163 20 85.957 20 100.002" bx:origin="0 0" transform="matrix(0.707107, 0.707107, -0.707107, 0.707107, 99.999965, -41.421415)" origin="0.5 0.499998"></path>
+  <g transform="matrix(-0.707107, 0.707107, -0.707107, -0.707107, 241.421051, 99.999451)" origin="0.454539 0.492415">
+    <circle style="fill: rgb(253, 152, 0);" cx="20" cy="100" r="15" origin="3.1672 0.5"></circle>
+    <path style="fill: none; paint-order: stroke; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-width: 2.8px;" d="M 100.403 180 C 162.938 180 198.672 113.334 169.922 60.001 C 138.997 6.667 61.687 6.667 30.763 60.001 C 23.713 72.163 20 85.957 20 100.002" transform="matrix(0.707107, 0.707107, -0.707107, 0.707107, 99.999965, -41.421415)" origin="0.5 0.499998"></path>
   </g>
-  <g transform="matrix(0.641515, 0.113116, -0.113116, 0.641515, 45.383427, 26.837219)" bx:origin="0 0" origin="0.454538 0.492415">
+  <g transform="matrix(0.641515, 0.113116, -0.113116, 0.641515, 45.383427, 26.837219)" origin="0.454538 0.492415">
     <circle style="fill: rgb(253, 152, 0);" cx="21.478" cy="96.049" r="15.351" origin="3.125068 0.49999"></circle>
     <path style="fill: none; paint-order: stroke; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-width: 7.36861px;" d="M 102.479 176.643 C 165.478 176.643 201.478 109.481 172.514 55.752 C 141.36 2.022 63.475 2.022 32.322 55.752 C 25.219 68.005 21.479 81.901 21.479 96.05" transform="matrix(0.707107, 0.707107, -0.707107, 0.707107, 97.813187, -44.044418)" origin="0.499999 0.5"></path>
   </g>
-  <g bx:origin="0 0" transform="matrix(-0.12289, -0.337638, 0.336718, -0.122555, 83.045967, 146.287384)" origin="0.454588 0.49247">
+  <g transform="matrix(-0.12289, -0.337638, 0.336718, -0.122555, 83.045967, 146.287384)" origin="0.454588 0.49247">
     <circle style="fill: rgb(253, 152, 0);" cx="28.276" cy="88.641" r="13.916" origin="3.253673 0.500016"></circle>
     <path style="fill: none; paint-order: stroke; stroke: rgb(255, 255, 255); stroke-linecap: round; stroke-width: 7.80342px;" d="M 105.092 165.386 C 164.919 165.386 199.28 101.433 171.914 50.269 C 142.468 -0.894 68.505 -0.894 38.781 50.269 C 32.004 61.937 28.417 75.17 28.38 88.644" transform="matrix(0.707084, 0.709061, -0.705203, 0.707084, 93.241804, -48.42771)" origin="0.5 0.5"></path>
   </g>
