@@ -40,6 +40,10 @@ export function clearError(id) {
   }
 }
 
+export const receiveError = (event, error) => dispatch => {
+  dispatch(setError(error))
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------

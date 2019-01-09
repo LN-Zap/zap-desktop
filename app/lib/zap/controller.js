@@ -349,12 +349,19 @@ class ZapController {
     this.neutrino.on('exit', (code, signal, lastError) => {
       mainLog.info(`Lnd process has shut down (code: ${code}, signal: ${signal})`)
       this.sendMessage('lndStopped')
-      if (this.is('running') || (this.is('connected') && !this.is('onboarding'))) {
-        dialog.showMessageBox({
-          type: 'error',
-          message: `Lnd has unexpectedly quit:\n\nError code: ${code}\nExit signal: ${signal}\nLast error: ${lastError}`
-        })
-        this.terminate()
+      if (this.is('running')) {
+        const messages = ['Lnd has unexpectedly quit']
+        if (code) {
+          messages.push(`Exit code: ${code}`)
+        }
+        if (signal) {
+          messages.push(`Exit signal: ${signal}`)
+        }
+        if (lastError) {
+          messages.push(`Last error: ${lastError}`)
+        }
+        this.sendMessage('receiveError', messages.join(' : '))
+        this.stopLnd()
       }
     })
 
@@ -419,7 +426,7 @@ class ZapController {
         this.neutrino.removeListener('exit', exitHandler)
         if (this.neutrino) {
           mainLog.warn('Graceful shutdown failed to complete within 10 seconds.')
-          this.neutrino.kill('SIGTERM')
+          this.neutrino.kill('SIGKILL')
           resolve()
         }
       }, 1000 * 10)
@@ -487,6 +494,14 @@ class ZapController {
       })
     )
     ipcMain.on('stopLnd', () => this.stopLnd())
+
+    ipcMain.on('killLnd', (event, signal = 'SIGKILL') => {
+      if (this.neutrino && this.neutrino.process) {
+        event.returnValue = this.neutrino.process.pid
+        this.neutrino.kill(signal)
+      }
+      event.returnValue = undefined
+    })
   }
 
   /**
@@ -495,6 +510,7 @@ class ZapController {
   _removeIpcListeners() {
     ipcMain.removeAllListeners('startLnd')
     ipcMain.removeAllListeners('stopLnd')
+    ipcMain.removeAllListeners('killLnd')
     ipcMain.removeAllListeners('startLightningWallet')
     ipcMain.removeAllListeners('walletUnlocker')
     ipcMain.removeAllListeners('lnd')

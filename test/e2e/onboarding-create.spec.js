@@ -1,5 +1,11 @@
 import { waitForReact } from 'testcafe-react-selectors'
-import { getBaseUrl, assertNoConsoleErrors, deleteUserData, deleteDatabase } from './utils/helpers'
+import {
+  getBaseUrl,
+  assertNoConsoleErrors,
+  deleteUserData,
+  deleteDatabase,
+  killLnd
+} from './utils/helpers'
 import Onboarding from './pages/onboarding'
 import Syncing from './pages/syncing'
 import Loading from './pages/loading'
@@ -15,8 +21,9 @@ fixture('Onboarding (create)')
   })
   .afterEach(async t => {
     await assertNoConsoleErrors(t)
-    await deleteUserData(t)
-    await deleteDatabase(t)
+    await killLnd()
+    await deleteUserData()
+    await deleteDatabase()
   })
 
 test('should create a new wallet', async t => {
@@ -26,8 +33,7 @@ test('should create a new wallet', async t => {
     .ok()
     .click(onboarding.nextButton)
 
-  // Wait for SeedView to generate seed and then submit the form.
-  await t
+    // Wait for SeedView to generate seed and then submit the form.
     .expect(onboarding.seedView.withProps({ fetchingSeed: false }).exists)
     .ok()
     .click(onboarding.nextButton)

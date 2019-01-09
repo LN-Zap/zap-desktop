@@ -4,13 +4,6 @@ import Loading from './pages/loading'
 
 const loadingPage = new Loading()
 
-fixture('Onboarding')
-  .page(getBaseUrl())
-  .beforeEach(async () => {
-    await waitForReact()
-  })
-  .afterEach(assertNoConsoleErrors)
-
 fixture('App')
   .page(getBaseUrl())
   .beforeEach(async () => {

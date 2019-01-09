@@ -1,5 +1,11 @@
 import { waitForReact } from 'testcafe-react-selectors'
-import { getBaseUrl, assertNoConsoleErrors, deleteDatabase, deleteUserData } from './utils/helpers'
+import {
+  getBaseUrl,
+  assertNoConsoleErrors,
+  deleteDatabase,
+  deleteUserData,
+  killLnd
+} from './utils/helpers'
 import Onboarding from './pages/onboarding'
 
 const onboarding = new Onboarding()
@@ -11,8 +17,9 @@ fixture('Onboarding (import)')
   })
   .afterEach(async t => {
     await assertNoConsoleErrors(t)
-    await deleteUserData(t)
-    await deleteDatabase(t)
+    await killLnd()
+    await deleteUserData()
+    await deleteDatabase()
   })
 
 test('should import a wallet from an existing seed', async t => {
