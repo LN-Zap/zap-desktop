@@ -11,6 +11,7 @@ module.exports = {
     'eslint:recommended',
     'plugin:react/recommended',
     'plugin:flowtype/recommended',
+    'plugin:testcafe/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
     'plugin:jsx-a11y/strict',
@@ -74,7 +75,17 @@ module.exports = {
     'prefer-promise-reject-errors': 0,
     'no-param-reassign': [2, { props: false }]
   },
-  plugins: ['flowtype', 'import', 'json', 'markdown', 'prettier', 'promise', 'compat', 'react'],
+  plugins: [
+    'flowtype',
+    'import',
+    'json',
+    'markdown',
+    'prettier',
+    'promise',
+    'testcafe',
+    'compat',
+    'react'
+  ],
   settings: {
     'import/resolver': {
       node: {

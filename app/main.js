@@ -1,5 +1,3 @@
-// If we are running in test mode, set the userData to a temporary location.
-// This ensure that the app starts with a clean environment.
 /**
  * This module executes inside of electron's main process. You can start
  * electron renderer process from here and communicate with the other processes
@@ -26,7 +24,9 @@ import ZapUpdater from './lib/zap/updater'
 import themes from './themes'
 import { getDbName } from './store/db'
 
-if (process.env.USER_DIR) {
+// Set the Electron userDir to a temporary directory if the ELECTRON_USER_DIR_TEMP env var is set.
+// This provides an easy way to run the app with a completely fresh environment, useful for e2e tests.
+if (process.env.ELECTRON_USER_DIR_TEMP) {
   const folder = fs.mkdtempSync(path.join(os.tmpdir(), 'zap-'))
   mainLog.info('Using temporary directory %s for userData', folder)
   app.setPath('userData', folder)
@@ -240,7 +240,7 @@ app.on('ready', async () => {
   /**
    * In development mode or when DEBUG_PROD is set, enable debugging tools.
    */
-  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD) {
+  if (process.env.NODE_ENV !== 'production' || process.env.DEBUG_PROD) {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then(name => mainLog.debug(`Added Extension: ${name}`))
       .catch(err => mainLog.warn(`An error occurred when installing REACT_DEVELOPER_TOOLS: ${err}`))

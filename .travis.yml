@@ -27,6 +27,9 @@ addons:
     packages:
       - xvfb
 
+before_install:
+  - stty cols 80
+
 install:
   - yarn
   - |
@@ -41,7 +44,6 @@ before_script:
 
 script:
   - yarn lint-ci || travis_terminate 1
-  - yarn build || travis_terminate 1
   - yarn test-ci || travis_terminate 1
   - yarn coveralls || travis_terminate 1
 

@@ -85,6 +85,10 @@ export default merge.smart(baseConfig, {
       debug: true
     }),
 
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'development'
+    }),
+
     new HtmlWebpackPlugin({
       template: path.join('app', 'app.html')
     }),
@@ -149,7 +153,7 @@ export default merge.smart(baseConfig, {
     historyApiFallback: true,
     // Start the main process as soon as the server is listening.
     after: () => {
-      if (process.env.START_HOT) {
+      if (process.env.HOT) {
         spawn('npm', ['run', 'start-main-dev'], {
           shell: true,
           env: process.env,

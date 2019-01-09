@@ -2,39 +2,17 @@ import Dexie from 'dexie'
 
 // Suffex the database name with NODE_ENV so that wer can have per-env databases.
 export const getDbName = () => {
-  let name = `ZapDesktop`
-  if (process.env.NODE_ENV) {
-    name += `.${process.env.NODE_ENV}`
-  }
-  return name
+  const env = process.env.NODE_ENV || 'development'
+  return `ZapDesktop.${env}`
 }
 
 // Define the database.
 const db = new Dexie(getDbName())
+
 db.version(1).stores({
   settings: 'key',
   wallets: '++id, type, chain, network',
   nodes: 'id'
-})
-
-// Set initial active wallet.
-db.on('populate', async function() {
-  // If there are already some bitcoin testnet wallet before the database has been created, import them into the
-  // database and set the active wallet as wallet 1. This is for users upgrading from versions prior to 0.3.0.
-  const fsWallets = await window.Zap.getLocalWallets('bitcoin', 'testnet')
-  if (fsWallets.length > 0) {
-    await fsWallets
-      .filter(wallet => wallet !== 'wallet-tmp')
-      .forEach(async wallet => {
-        await db.wallets.add({
-          type: 'local',
-          chain: 'bitcoin',
-          network: 'testnet',
-          wallet
-        })
-      })
-    await db.settings.add({ key: 'activeWallet', value: 1 })
-  }
 })
 
 /**
