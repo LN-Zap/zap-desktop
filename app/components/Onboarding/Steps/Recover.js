@@ -43,7 +43,7 @@ class SeedWord extends React.Component {
 
 const SeedWordWithIntl = injectIntl(SeedWord)
 
-class SeedView extends React.Component {
+class Recover extends React.Component {
   static propTypes = {
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
@@ -121,4 +121,4 @@ class SeedView extends React.Component {
   }
 }
 
-export default injectIntl(SeedView)
+export default injectIntl(Recover)

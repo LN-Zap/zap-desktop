@@ -1,6 +1,31 @@
 import { ReactSelector } from 'testcafe-react-selectors'
 
+class ConnectionTypeOption {
+  constructor(key) {
+    this.label = ReactSelector('ConnectionType Radio')
+      .find('label')
+      .withAttribute('for', key)
+    this.radio = this.label.find('input[type=radio]')
+  }
+}
+
+class SeedWordAtIndex {
+  constructor(index) {
+    this.label = ReactSelector('Recover')
+      .find('label')
+      .withAttribute('for', `word${index + 1}`)
+    this.input = this.label.sibling().find('input')
+  }
+}
+
 class Onboarding {
+  constructor() {
+    this.seedWordInputs = []
+    Array.from(Array(24).keys()).forEach(async index => {
+      this.seedWordInputs.push(new SeedWordAtIndex(index).input)
+    })
+  }
+
   // Controls
   backButton = ReactSelector('BackButton')
   nextButton = ReactSelector('NextButton')
@@ -11,6 +36,12 @@ class Onboarding {
   seedConfirm = ReactSelector('SeedConfirm')
   password = ReactSelector('Password')
   autopilot = ReactSelector('Autopilot')
+
+  // Connection type radio options.
+  connectionTypes = {
+    create: new ConnectionTypeOption('create'),
+    import: new ConnectionTypeOption('import')
+  }
 
   // Inputs
   seeedWordInput1 = ReactSelector('SeedConfirm Input')

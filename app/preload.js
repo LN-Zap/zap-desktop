@@ -82,7 +82,7 @@ async function getLocalWallets(chain, network) {
 /**
  * Delete a local wallet from the filesystem.
  */
-async function deleteLocalWallet(chain, network, wallet) {
+async function deleteLocalWallet(chain, network, wallet, needsConfirm = true) {
   try {
     assert(chain && network && wallet)
   } catch (err) {
@@ -90,6 +90,10 @@ async function deleteLocalWallet(chain, network, wallet) {
   }
 
   let walletDir = join(remote.app.getPath('userData'), 'lnd', chain, network, wallet)
+
+  if (!needsConfirm) {
+    return await fsRimraf(walletDir, { disableGlob: true })
+  }
 
   return new Promise((resolve, reject) => {
     remote.dialog.showMessageBox(
