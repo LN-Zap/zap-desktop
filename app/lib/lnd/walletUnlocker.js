@@ -1,7 +1,7 @@
 // @flow
 
 import { loadPackageDefinition } from '@grpc/grpc-js'
-import { loadSync } from '@grpc/proto-loader'
+import { load } from '@grpc/proto-loader'
 import StateMachine from 'javascript-state-machine'
 import LndConfig from './config'
 import { getDeadline, createSslCreds } from './util'
@@ -75,7 +75,7 @@ class WalletUnlocker {
         defaults: true,
         oneofs: true
       }
-      const packageDefinition = loadSync(rpcProtoPath, options)
+      const packageDefinition = await load(rpcProtoPath, options)
 
       // Load gRPC package definition as a gRPC object hierarchy.
       const rpc = loadPackageDefinition(packageDefinition)
