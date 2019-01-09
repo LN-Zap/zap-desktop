@@ -21,10 +21,8 @@ const MAX_REFETCH_INTERVAL = 1000 * 60 * 10
 const BACKOFF_SCHEDULE = 1.5
 
 class App extends React.Component {
-  state = {
-    timer: null,
-    nextFetchIn: INITIAL_REFETCH_INTERVAL
-  }
+  timer = undefined
+  nextFetchIn = INITIAL_REFETCH_INTERVAL
 
   static propTypes = {
     form: PropTypes.object.isRequired,
@@ -51,17 +49,16 @@ class App extends React.Component {
   }
 
   componentWillUnmount() {
-    const { timer } = this.state
-    clearTimeout(timer)
+    this.clearFetchTimer()
   }
 
   /**
-   * Fetch node data on an expontially incrementing backoff schedule so that when the app is first mounted, we fetch
+   * Fetch node data on an exponentially incrementing backoff schedule so that when the app is first mounted, we fetch
    * node data quite frequently but as time goes on the frequency is reduced down to a maximum of MAX_REFETCH_INTERVAL
    */
   fetchData = () => {
     const { fetchPeers, fetchDescribeNetwork } = this.props
-    const { nextFetchIn } = this.state
+    const { nextFetchIn } = this
     const next = Math.round(Math.min(nextFetchIn * BACKOFF_SCHEDULE, MAX_REFETCH_INTERVAL))
 
     // Fetch information about connected peers.
@@ -70,11 +67,19 @@ class App extends React.Component {
     // fetch LN network from nodes POV.
     fetchDescribeNetwork()
 
-    // Schedule refetching of network info.
-    const timer = setTimeout(fetchDescribeNetwork, nextFetchIn)
+    // ensure previous timer is cleared if it exists
+    this.clearFetchTimer()
 
+    this.timer = setTimeout(fetchDescribeNetwork, nextFetchIn)
     // Increment the next fetch interval.
-    this.setState({ timer, nextFetchIn: next })
+    this.nextFetchIn = next
+  }
+
+  clearFetchTimer() {
+    const { timer } = this
+    if (typeof timer !== 'undefined') {
+      clearTimeout(timer)
+    }
   }
 
   render() {
