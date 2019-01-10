@@ -32,6 +32,8 @@ class Onboarding {
 
   // Steps
   connectionType = ReactSelector('ConnectionType')
+  connectionDetails = ReactSelector('ConnectionDetails')
+  connectionConfirm = ReactSelector('ConnectionConfirm')
   seedView = ReactSelector('SeedView')
   seedConfirm = ReactSelector('SeedConfirm')
   password = ReactSelector('Password')
@@ -40,7 +42,8 @@ class Onboarding {
   // Connection type radio options.
   connectionTypes = {
     create: new ConnectionTypeOption('create'),
-    import: new ConnectionTypeOption('import')
+    import: new ConnectionTypeOption('import'),
+    custom: new ConnectionTypeOption('custom')
   }
 
   // Inputs
@@ -55,6 +58,16 @@ class Onboarding {
     .find('input')
   passwordInput = ReactSelector('Password Input').find('input')
   nameInput = ReactSelector('Name Input').find('input')
+
+  hostInput = ReactSelector('ConnectionDetails Input')
+    .nth(0)
+    .find('input')
+  certInput = ReactSelector('ConnectionDetails Input')
+    .nth(1)
+    .find('input')
+  macaroonInput = ReactSelector('ConnectionDetails Input')
+    .nth(2)
+    .find('input')
 }
 
 export default Onboarding
