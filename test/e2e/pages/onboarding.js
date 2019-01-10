@@ -34,6 +34,7 @@ class Onboarding {
   connectionType = ReactSelector('ConnectionType')
   connectionDetails = ReactSelector('ConnectionDetails')
   connectionConfirm = ReactSelector('ConnectionConfirm')
+  btcPayServer = ReactSelector('BtcPayServer')
   seedView = ReactSelector('SeedView')
   seedConfirm = ReactSelector('SeedConfirm')
   password = ReactSelector('Password')
@@ -43,7 +44,8 @@ class Onboarding {
   connectionTypes = {
     create: new ConnectionTypeOption('create'),
     import: new ConnectionTypeOption('import'),
-    custom: new ConnectionTypeOption('custom')
+    custom: new ConnectionTypeOption('custom'),
+    btcpayserver: new ConnectionTypeOption('btcpayserver')
   }
 
   // Inputs
@@ -68,6 +70,7 @@ class Onboarding {
   macaroonInput = ReactSelector('ConnectionDetails Input')
     .nth(2)
     .find('input')
+  connectionStringInput = ReactSelector('BtcPayServer TextArea').find('textarea')
 }
 
 export default Onboarding
