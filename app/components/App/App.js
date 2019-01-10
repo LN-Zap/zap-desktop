@@ -70,7 +70,7 @@ class App extends React.Component {
     // ensure previous timer is cleared if it exists
     this.clearFetchTimer()
 
-    this.timer = setTimeout(fetchDescribeNetwork, nextFetchIn)
+    this.timer = setTimeout(this.fetchData, nextFetchIn)
     // Increment the next fetch interval.
     this.nextFetchIn = next
   }
