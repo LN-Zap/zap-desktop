@@ -154,23 +154,16 @@ class TextArea extends React.PureComponent {
           required={required}
           error={fieldState.error}
         />
-        <Flex>
-          {description && (
-            <Text color="gray" fontSize="s" mt={1} mr="auto">
-              {description}
-            </Text>
-          )}
-          {showMessage && (fieldState.error || fieldState.asyncError) && (
-            <Message
-              variant={hasFocus ? 'warning' : 'error'}
-              justifyContent={justifyContent}
-              mt={1}
-              ml="auto"
-            >
-              {fieldState.error || fieldState.asyncError}
-            </Message>
-          )}
-        </Flex>
+        {description && (
+          <Text color="gray" fontSize="s" mt={1}>
+            {description}
+          </Text>
+        )}
+        {showMessage && (fieldState.error || fieldState.asyncError) && (
+          <Message variant={hasFocus ? 'warning' : 'error'} mt={1}>
+            {fieldState.error || fieldState.asyncError}
+          </Message>
+        )}
       </Flex>
     )
   }

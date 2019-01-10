@@ -19,10 +19,14 @@ class BtcPayServer extends React.Component {
     wizardState: {}
   }
 
-  componentDidUpdate(prevProps) {
-    const { startLndHostError } = this.props
-    if (startLndHostError && startLndHostError !== prevProps.startLndHostError) {
-      this.formApi.setError('connectionString', startLndHostError)
+  componentDidMount() {
+    const { props, formApi } = this
+    const { startLndHostError, startLndMacaroonError } = props
+    if (startLndHostError) {
+      formApi.setError('connectionString', startLndHostError)
+    }
+    if (startLndMacaroonError) {
+      formApi.setError('connectionString', startLndMacaroonError)
     }
   }
 

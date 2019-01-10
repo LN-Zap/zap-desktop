@@ -83,10 +83,14 @@ class ConnectionConfirm extends React.Component {
       ...rest
     } = this.props
     const { getApi, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    let hostname
 
-    // Determine the hostname.
-    let hostname = connectionHost.split(':')[0]
-    if (connectionString) {
+    // If we have a hostname, use it as is.
+    if (connectionHost) {
+      hostname = connectionHost.split(':')[0]
+    }
+    // Otherwise, if we have a connection string, parse the host details from that.
+    else if (connectionString) {
       const { host } = parseConnectionString(connectionString)
       hostname = host
     }
@@ -117,13 +121,22 @@ class ConnectionConfirm extends React.Component {
 
         <Bar my={4} />
 
-        <Text>
-          <FormattedMessage {...messages.verify_host_title} />{' '}
-          <Span color="superGreen">{hostname}</Span>?{' '}
-        </Text>
-        <Text mt={2}>
-          <FormattedMessage {...messages.verify_host_description} />
-        </Text>
+        {!hostname && (
+          <Text>
+            <FormattedMessage {...messages.btcpay_error} />
+          </Text>
+        )}
+        {hostname && (
+          <>
+            <Text>
+              <FormattedMessage {...messages.verify_host_title} />{' '}
+              <Span color="superGreen">{hostname}</Span>?{' '}
+            </Text>
+            <Text mt={2}>
+              <FormattedMessage {...messages.verify_host_description} />
+            </Text>
+          </>
+        )}
       </Form>
     )
   }
