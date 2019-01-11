@@ -1,0 +1,99 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Header should render correctly with one button 1`] = `
+<Styled(styled.div)
+  bg="secondaryColor"
+  borderRadius={5}
+  width={550}
+>
+  <CloseButton
+    onClick={[Function]}
+  />
+  <Styled(styled.div)
+    alignItems="center"
+    alignSelf="stretch"
+    flexDirection="column"
+    justifyContent="center"
+    pb={60}
+    pt={30}
+  >
+    <Heading2
+      mb={40}
+    >
+      Title
+    </Heading2>
+    <Styled(styled.div)
+      alignSelf="stretch"
+      flexDirection="row"
+      justifyContent="space-evenly"
+      pl={40}
+      pr={40}
+    >
+      <Button
+        active={false}
+        key="Ok"
+        onClick={[Function]}
+        processing={false}
+        size="medium"
+        variant="primary"
+      >
+        Ok
+      </Button>
+    </Styled(styled.div)>
+  </Styled(styled.div)>
+</Styled(styled.div)>
+`;
+
+exports[`component.UI.Header should render correctly with two buttons 1`] = `
+<Styled(styled.div)
+  bg="secondaryColor"
+  borderRadius={5}
+  width={550}
+>
+  <CloseButton
+    onClick={[Function]}
+  />
+  <Styled(styled.div)
+    alignItems="center"
+    alignSelf="stretch"
+    flexDirection="column"
+    justifyContent="center"
+    pb={60}
+    pt={30}
+  >
+    <Heading2
+      mb={40}
+    >
+      Title
+    </Heading2>
+    <Styled(styled.div)
+      alignSelf="stretch"
+      flexDirection="row"
+      justifyContent="space-evenly"
+      pl={40}
+      pr={40}
+    >
+      <Button
+        active={false}
+        key="Delete"
+        onClick={[Function]}
+        processing={false}
+        size="medium"
+        variant="primary"
+      >
+        Delete
+      </Button>
+      <Button
+        active={false}
+        key="Cancel"
+        onClick={[Function]}
+        processing={false}
+        size="medium"
+        variant="normal"
+      >
+        Cancel
+      </Button>
+    </Styled(styled.div)>
+  </Styled(styled.div)>
+</Styled(styled.div)>
+`;
