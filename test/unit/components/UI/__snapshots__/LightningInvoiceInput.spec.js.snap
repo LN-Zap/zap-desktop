@@ -11,13 +11,6 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
   flex-direction: column;
 }
 
-.c2 {
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-}
-
 .c1 {
   padding: 16px;
   width: 100%;
@@ -62,9 +55,6 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
       spellCheck="false"
       value=""
       width={1}
-    />
-    <div
-      className="c2"
     />
   </div>
 </form>
