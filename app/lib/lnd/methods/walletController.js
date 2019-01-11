@@ -1,18 +1,13 @@
+import { promisifiedCall } from '../../utils'
+
 /**
  * Returns the sum of all confirmed unspent outputs under control by the wallet
  * @param  {[type]} lnd [description]
  * @return {[type]}     [description]
  */
-export function walletBalance(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.walletBalance({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
 
-      resolve(data)
-    })
-  })
+export function walletBalance(lnd) {
+  return promisifiedCall(lnd, lnd.walletBalance, {})
 }
 
 /**
@@ -22,15 +17,7 @@ export function walletBalance(lnd) {
  * @return {[type]}      [description]
  */
 export function newAddress(lnd, type) {
-  return new Promise((resolve, reject) => {
-    lnd.newAddress({ type }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.newAddress, { type })
 }
 
 /**
@@ -39,15 +26,7 @@ export function newAddress(lnd, type) {
  * @return {[type]}     [description]
  */
 export function newWitnessAddress(lnd, { addr }) {
-  return new Promise((resolve, reject) => {
-    lnd.newWitnessAddress({ address: addr }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.newWitnessAddress, { address: addr })
 }
 
 /**
@@ -56,15 +35,7 @@ export function newWitnessAddress(lnd, { addr }) {
  * @return {[type]}     [description]
  */
 export function getTransactions(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.getTransactions({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.getTransactions, {})
 }
 
 /**
@@ -75,15 +46,7 @@ export function getTransactions(lnd) {
  * @return {[type]}        [description]
  */
 export function sendCoins(lnd, { addr, amount, target_conf, sat_per_byte }) {
-  return new Promise((resolve, reject) => {
-    lnd.sendCoins({ addr, amount, target_conf, sat_per_byte }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.sendCoins, { addr, amount, target_conf, sat_per_byte })
 }
 
 /**
@@ -91,30 +54,14 @@ export function sendCoins(lnd, { addr, amount, target_conf, sat_per_byte }) {
  * @param  {[type]} new_alias [description]
  */
 export function setAlias(lnd, { new_alias }) {
-  return new Promise((resolve, reject) => {
-    lnd.setAlias({ new_alias }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.setAlias, { new_alias })
 }
 
 /**
  * Generates a seed for the wallet
  */
 export function genSeed(walletUnlocker) {
-  return new Promise((resolve, reject) => {
-    walletUnlocker.genSeed({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(walletUnlocker, walletUnlocker.genSeed, {})
 }
 
 /**
@@ -122,14 +69,8 @@ export function genSeed(walletUnlocker) {
  * @param  {[type]} password [description]
  */
 export function unlockWallet(walletUnlocker, { wallet_password }) {
-  return new Promise((resolve, reject) => {
-    walletUnlocker.unlockWallet({ wallet_password: Buffer.from(wallet_password) }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
+  return promisifiedCall(walletUnlocker, walletUnlocker.unlockWallet, {
+    wallet_password: Buffer.from(wallet_password)
   })
 }
 
@@ -142,21 +83,10 @@ export function initWallet(
   walletUnlocker,
   { wallet_password, cipher_seed_mnemonic, aezeed_passphrase = '', recovery_window }
 ) {
-  return new Promise((resolve, reject) => {
-    walletUnlocker.initWallet(
-      {
-        wallet_password: Buffer.from(wallet_password),
-        cipher_seed_mnemonic,
-        aezeed_passphrase: Buffer.from(aezeed_passphrase, 'hex'),
-        recovery_window
-      },
-      (err, data) => {
-        if (err) {
-          return reject(err)
-        }
-
-        resolve(data)
-      }
-    )
+  return promisifiedCall(walletUnlocker, walletUnlocker.initWallet, {
+    wallet_password: Buffer.from(wallet_password),
+    cipher_seed_mnemonic,
+    aezeed_passphrase: Buffer.from(aezeed_passphrase, 'hex'),
+    recovery_window
   })
 }
