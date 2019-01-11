@@ -44,7 +44,7 @@ class Message extends React.Component {
       <StyledMessage fontSize="s" fontWeight="normal" variant={variant} {...rest}>
         <Flex alignItems="center" justifyContent={justifyContent}>
           {this.renderIcon()}
-          <Box>{children}</Box>
+          <Text>{children}</Text>
         </Flex>
       </StyledMessage>
     )

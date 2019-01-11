@@ -1,44 +1,59 @@
+import promiseTimeout from '../../utils/promiseTimeout'
+
+const PAYMENT_TIMEOUT = 60 * 1000
+
 /**
  * Dispatches a bi-directional streaming RPC for sending payments through the Lightning Network.
- * @param  {[type]} lnd            [description]
- * @param  {[type]} paymentRequest [description]
- * @return {[type]}                [description]
+ * @param  {[type]} lnd     [description]
+ * @param  {[type]} payload [description]
+ * @return {[type]}         [description]
  */
-export function sendPaymentSync(lnd, { paymentRequest, amt, feeLimit }) {
+export function sendPayment(lnd, { paymentRequest, amt, feeLimit }) {
   return new Promise((resolve, reject) => {
-    lnd.sendPaymentSync(
-      { payment_request: paymentRequest, amt, fee_limit: { fixed: feeLimit } },
-      (error, data) => {
-        if (error) {
-          return reject(error)
-        } else if (!data || !data.payment_route) {
-          return reject(data.payment_error)
-        }
-        resolve(data)
-      }
-    )
+    const request = {
+      payment_request: paymentRequest,
+      amt,
+      fee_limit: { fixed: feeLimit }
+    }
+    const call = lnd.sendPayment({})
+    call.on('data', resolve)
+    call.on('error', reject)
+    call.write(request)
   })
 }
 
 /**
  * Synchronous non-streaming version of SendPayment
- * @param  {[type]} lnd            [description]
- * @param  {[type]} paymentRequest [description]
- * @return {[type]}                [description]
+ * @param  {[type]} lnd     [description]
+ * @param  {[type]} payload [description]
+ * @return {[type]}         [description]
  */
-export function sendPayment(lnd, { paymentRequest, amt, feeLimit }) {
-  return new Promise((resolve, reject) => {
-    lnd.sendPayment(
-      { payment_request: paymentRequest, amt, fee_limit: { fixed: feeLimit } },
-      (err, data) => {
+export function sendPaymentSync(lnd, { paymentRequest, amt, feeLimit }) {
+  const doSendPaymentSync = function() {
+    return new Promise((resolve, reject) => {
+      const request = {
+        payment_request: paymentRequest,
+        amt,
+        fee_limit: { fixed: feeLimit }
+      }
+      lnd.sendPaymentSync(request, (err, data) => {
         if (err) {
           return reject(err)
+        } else if (data && data.payment_error) {
+          return reject(data.payment_error)
+        } else if (data && !data.payment_route) {
+          return reject('No payment route')
+        } else if (data && !data.payment_preimage) {
+          return reject('No payment preimage')
         }
-
         resolve(data)
-      }
-    )
-  })
+      })
+    })
+  }
+
+  // Lnd timees the payment out after 60 seconds.
+  // Reject this promise if we don't get a response from lnd in time.
+  return promiseTimeout(PAYMENT_TIMEOUT, doSendPaymentSync())
 }
 
 /**

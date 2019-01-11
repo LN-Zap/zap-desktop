@@ -180,12 +180,11 @@ export default function(lnd, log, event, msg, data) {
         .then(payment => {
           log.info('payment:', payment)
           const { payment_route } = payment
-          log.info('payinvoice success:', payment_route)
           event.sender.send('paymentSuccessful', Object.assign(data, { payment_route }))
           return payment
         })
         .catch(error => {
-          log.error('error: ', error)
+          log.error('payment error: ', error)
           event.sender.send('paymentFailed', Object.assign(data, { error: error.toString() }))
         })
       break
