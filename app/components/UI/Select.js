@@ -125,7 +125,7 @@ class Select extends React.PureComponent {
                 })}
               />
             </div>
-            <SelectOptionList {...getMenuProps()}>
+            <SelectOptionList {...getMenuProps({}, { suppressRefError: true })}>
               {isOpen
                 ? items.map((item, index) => (
                     <SelectOptionItem
