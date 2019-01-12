@@ -9,7 +9,8 @@ import { credentials, Metadata } from '@grpc/grpc-js'
 import get from 'lodash.get'
 import { mainLog } from '../utils/log'
 
-const fsReadFile = promisify(fs.readFile)
+const readFile = promisify(fs.readFile)
+const stat = promisify(fs.stat)
 
 // ------------------------------------
 // Constants
@@ -110,7 +111,7 @@ export const getDeadline = timeoutSecs => {
 export const createSslCreds = async certPath => {
   let lndCert
   if (certPath) {
-    lndCert = await fsReadFile(certPath).catch(e => {
+    lndCert = await readFile(certPath).catch(e => {
       const error = new Error(`SSL cert path could not be accessed: ${e.message}`)
       error.code = 'LND_GRPC_CERT_ERROR'
       throw error
@@ -132,7 +133,7 @@ export const createMacaroonCreds = async macaroonPath => {
     if (macaroonPath === basename(macaroonPath)) {
       metadata.add('macaroon', macaroonPath)
     } else {
-      const macaroon = await fsReadFile(macaroonPath).catch(e => {
+      const macaroon = await readFile(macaroonPath).catch(e => {
         const error = new Error(`Macaroon path could not be accessed: ${e.message}`)
         error.code = 'LND_GRPC_MACAROON_ERROR'
         throw error
@@ -151,30 +152,35 @@ export const waitForFile = (filepath, timeout = 1000) => {
   let timeoutId
   let intervalId
 
-  // Promise A rejects after the timeout has passed.
-  let promiseA = new Promise((resolve, reject) => {
+  // This promise rejects after the timeout has passed.
+  let timeoutPromise = new Promise((resolve, reject) => {
     timeoutId = setTimeout(() => {
       mainLog.debug('deadline (%sms) exceeded before file (%s) was found', timeout, filepath)
+      // Timout was reached, so clear all remaining timers.
       clearInterval(intervalId)
       clearTimeout(timeoutId)
       reject(new Error(`Unable to find file: ${filepath}`))
     }, timeout)
   })
 
-  // Promise B resolves when the file has been found.
-  let promiseB = new Promise(resolve => {
-    let intervalId = setInterval(() => {
+  // This promise checks the filsystem every 200ms looking for the file, and resolves when the file has been found.
+  let checkFileExists = new Promise(resolve => {
+    let intervalId = setInterval(async () => {
       mainLog.debug('waiting for file: %s', filepath)
-      if (!fs.existsSync(filepath)) {
+      try {
+        await stat(filepath)
+        mainLog.debug('found file: %s', filepath)
+        // The file was found, so clear all remaining timers.
+        clearInterval(intervalId)
+        clearTimeout(timeoutId)
+        resolve()
+      } catch {
+        // If the file wasn't found with stat, do nothing, we will check again in 200ms.
         return
       }
-      mainLog.debug('found file: %s', filepath)
-      clearInterval(intervalId)
-      clearTimeout(timeoutId)
-      resolve()
     }, 200)
   })
 
   // Let's race our promises.
-  return Promise.race([promiseA, promiseB])
+  return Promise.race([timeoutPromise, checkFileExists])
 }

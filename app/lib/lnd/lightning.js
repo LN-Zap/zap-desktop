@@ -1,7 +1,7 @@
 // @flow
 
 import { credentials, loadPackageDefinition } from '@grpc/grpc-js'
-import { loadSync } from '@grpc/proto-loader'
+import { load } from '@grpc/proto-loader'
 import { BrowserWindow } from 'electron'
 import StateMachine from 'javascript-state-machine'
 import LndConfig from './config'
@@ -106,7 +106,7 @@ class Lightning {
             defaults: true,
             oneofs: true
           }
-          const packageDefinition = loadSync(rpcProtoPath, options)
+          const packageDefinition = await load(rpcProtoPath, options)
 
           // Load gRPC package definition as a gRPC object hierarchy.
           const rpc = loadPackageDefinition(packageDefinition)
