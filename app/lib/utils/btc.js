@@ -120,7 +120,7 @@ export function millisatoshisToSatoshis(msats) {
 export function millisatoshisToFiat(msats, price) {
   if (isEmptyAmount(msats)) return null
 
-  return btcToFiat(millisatoshisToBtc(satoshis), price) || 0
+  return btcToFiat(millisatoshisToBtc(msats), price) || 0
 }
 
 ////////////////////////////
