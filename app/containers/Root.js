@@ -127,7 +127,7 @@ const mapStateToProps = state => ({
   hasWallets: walletSelectors.hasWallets(state),
   errors: errorSelectors.getErrorState(state),
   theme: themeSelectors.currentThemeSettings(state),
-  isLoading: appSelectors.isLoading(state) || state.lnd.startingLnd,
+  isLoading: appSelectors.isLoading(state),
   isMounted: appSelectors.isMounted(state)
 })
 
