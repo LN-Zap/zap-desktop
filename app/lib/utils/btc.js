@@ -84,7 +84,7 @@ export function satoshisToBits(satoshis) {
 export function satoshisToMillisatoshis(satoshis) {
   if (isEmptyAmount(satoshis)) return null
 
-  return satoshisToBits(satoshis) * 1000 || 0
+  return satoshis * 1000 || 0
 }
 
 export function satoshisToFiat(satoshis, price) {
