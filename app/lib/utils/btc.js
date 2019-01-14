@@ -43,13 +43,13 @@ export function bitsToBtc(bits, price) {
   return satoshisToBtc(sats) || 0
 }
 
-export function bitsToSatoshis(bits, price) {
+export function bitsToSatoshis(bits) {
   if (isEmptyAmount(bits)) return null
 
   return bits * 100 || 0
 }
 
-export function bitsToMillisatoshis(bits, price) {
+export function bitsToMillisatoshis(bits) {
   if (isEmptyAmount(bits)) return null
 
   return bits * 100 * 1000 || 0
