@@ -284,7 +284,7 @@
     "webpack-merge": "4.2.1"
   },
   "dependencies": {
-    "@grpc/grpc-js": "0.3.2",
+    "@grpc/grpc-js": "0.3.3",
     "@grpc/proto-loader": "0.3.0",
     "@rebass/components": "4.0.0-1",
     "axios": "0.18.0",
