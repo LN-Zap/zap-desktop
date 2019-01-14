@@ -28,7 +28,7 @@ class Password extends React.Component {
 
   render() {
     const { wizardApi, wizardState, setPassword, intl, ...rest } = this.props
-    const { getApi, onChange, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
     return (
@@ -41,7 +41,6 @@ class Password extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        preSubmit={preSubmit}
         onSubmit={async values => {
           await this.handleSubmit(values)
           if (onSubmit) {

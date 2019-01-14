@@ -48,7 +48,7 @@ class Login extends React.Component {
       intl,
       ...rest
     } = this.props
-    const { getApi, onChange, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
     return (
@@ -61,7 +61,6 @@ class Login extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        preSubmit={preSubmit}
         onSubmit={async values => {
           try {
             await this.handleSubmit(values)

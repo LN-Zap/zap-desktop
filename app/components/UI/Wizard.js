@@ -275,7 +275,6 @@ class Wizard extends React.Component {
             previous: this.handlePrevious,
             next: this.handleNext,
             navigateTo: this.navigateTo,
-            preSubmit: this.preSubmit,
             onSubmit: this.onSubmit,
             onSubmitFailure: this.onSubmitFailure,
             onChange: this.onChange,

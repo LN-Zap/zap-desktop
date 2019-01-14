@@ -36,7 +36,7 @@ class WalletCreate extends React.Component {
       createNewWallet,
       ...rest
     } = this.props
-    const { getApi, onChange, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (
       <Form
@@ -48,7 +48,6 @@ class WalletCreate extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        preSubmit={preSubmit}
         onSubmit={values => {
           this.handleSubmit(values)
           if (onSubmit) {

@@ -82,7 +82,7 @@ class ConnectionConfirm extends React.Component {
       startLnd,
       ...rest
     } = this.props
-    const { getApi, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onSubmit, onSubmitFailure } = wizardApi
     let hostname
 
     // If we have a hostname, use it as is.
@@ -99,7 +99,6 @@ class ConnectionConfirm extends React.Component {
       <Form
         {...rest}
         getApi={getApi}
-        preSubmit={preSubmit}
         onSubmit={async values => {
           try {
             await this.handleSubmit(values)

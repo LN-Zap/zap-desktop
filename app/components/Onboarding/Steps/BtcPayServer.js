@@ -69,7 +69,7 @@ class BtcPayServer extends React.Component {
       startLndHostError,
       ...rest
     } = this.props
-    const { getApi, onChange, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
     return (
@@ -82,7 +82,6 @@ class BtcPayServer extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        preSubmit={preSubmit}
         onSubmit={values => {
           this.handleSubmit(values)
           if (onSubmit) {

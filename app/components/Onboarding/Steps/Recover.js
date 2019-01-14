@@ -66,7 +66,7 @@ class SeedView extends React.Component {
 
   render() {
     const { wizardApi, wizardState, seed, setSeed, intl, ...rest } = this.props
-    const { getApi, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onSubmit, onSubmitFailure } = wizardApi
     const indexes = Array.from(Array(24).keys())
 
     return (
@@ -78,7 +78,6 @@ class SeedView extends React.Component {
             getApi(formApi)
           }
         }}
-        preSubmit={preSubmit}
         onSubmit={async values => {
           await this.handleSubmit(values)
           if (onSubmit) {
