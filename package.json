@@ -277,7 +277,7 @@
     "stylelint-formatter-pretty": "1.0.3",
     "stylelint-processor-styled-components": "1.5.1",
     "url-loader": "1.1.2",
-    "webpack": "4.28.3",
+    "webpack": "4.28.4",
     "webpack-bundle-analyzer": "3.0.3",
     "webpack-cli": "3.1.2",
     "webpack-dev-server": "3.1.14",
