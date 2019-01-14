@@ -4878,6 +4878,13 @@ coffeescript@^2.3.1:
   dependencies:
     safe-buffer "^5.1.1"
 
+"coininfo@git+https://v1.5293e25c4c79de12cd7981bf8c8fe65ef8495dcd@github.com/cryptocoinjs/coininfo.git#299bf3b01a70c932772a7149837c1abe1acb2d41":
+  version "4.3.0"
+  uid "299bf3b01a70c932772a7149837c1abe1acb2d41"
+  resolved "git+https://v1.5293e25c4c79de12cd7981bf8c8fe65ef8495dcd@github.com/cryptocoinjs/coininfo.git#299bf3b01a70c932772a7149837c1abe1acb2d41"
+  dependencies:
+    safe-buffer "^5.1.1"
+
 collapse-white-space@^1.0.2:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/collapse-white-space/-/collapse-white-space-1.0.4.tgz#ce05cf49e54c3277ae573036a26851ba430a0091"

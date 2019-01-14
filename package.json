@@ -300,7 +300,7 @@
     "bip39-en": "1.1.1",
     "bitcoinjs-lib": "4.0.2",
     "bolt11": "1.2.2",
-    "coininfo": "git+https://github.com/cryptocoinjs/coininfo.git#c7e003b2fc0db165b89e6f98f6d6360ad22616b2",
+    "coininfo": "git+https://github.com/cryptocoinjs/coininfo.git#299bf3b01a70c932772a7149837c1abe1acb2d41",
     "connected-react-router": "5.0.1",
     "copy-to-clipboard": "3.0.8",
     "country-data-lookup": "0.0.3",
