@@ -3406,9 +3406,10 @@ body-parser@1.18.3:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
-"bolt11@https://github.com/ln-zap/bolt11.git#2bcd70d6291c1fb199bb859cd21fd1f67e28cd66":
-  version "1.2.1"
-  resolved "https://github.com/ln-zap/bolt11.git#2bcd70d6291c1fb199bb859cd21fd1f67e28cd66"
+bolt11@1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/bolt11/-/bolt11-1.2.2.tgz#1d8ddaa46f5d4085efee3db4d84dd43756f028b8"
+  integrity sha512-hvmXNrNMrB7V2km3yotI/f23jodSnWVyoJqUsySFvLDcieDJf5Nox0+cleviSExM2YJt33PzxF44UFha/lwCJw==
   dependencies:
     bech32 "^1.1.2"
     bitcoinjs-lib "^3.3.1"
