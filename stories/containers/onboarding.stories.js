@@ -3,10 +3,9 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { State, Store } from '@sambego/storybook-state'
+import delay from 'lib/utils/delay'
 import { Modal, Page } from 'components/UI'
 import { Onboarding } from 'components/Onboarding'
-
-const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 const initialValues = {
   name: '',

@@ -1,3 +1,5 @@
+import delay from 'lib/utils/delay'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -15,7 +17,7 @@ export const CLEAR_ERROR = 'CLEAR_ERROR'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const setError = error => dispatch => {
+export const setError = error => async dispatch => {
   // Cooerce the error into an error item with a random id that we can use for clearning the error later.
   const errorItem = {
     id: Math.random()
@@ -25,7 +27,9 @@ export const setError = error => dispatch => {
   }
 
   // Set a timer to clear the error after 10 seconds.
-  setTimeout(() => dispatch(clearError(errorItem.id)), ERROR_TIMEOUT)
+  await delay(ERROR_TIMEOUT)
+
+  dispatch(clearError(errorItem.id))
 
   return dispatch({
     type: SET_ERROR,

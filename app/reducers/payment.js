@@ -2,6 +2,7 @@ import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import { convert } from 'lib/utils/btc'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
+import delay from 'lib/utils/delay'
 import { fetchBalance } from './balance'
 import { setFormType } from './form'
 import { changeFilter } from './activity'
@@ -26,8 +27,6 @@ const decoratePayment = payment => {
   payment.type = 'payment'
   return payment
 }
-
-const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 // ------------------------------------
 // Actions

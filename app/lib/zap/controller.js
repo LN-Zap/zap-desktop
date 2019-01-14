@@ -3,6 +3,7 @@ import { app, ipcMain, dialog, BrowserWindow } from 'electron'
 import pick from 'lodash.pick'
 import StateMachine from 'javascript-state-machine'
 import { mainLog } from '../utils/log'
+import delay from '../utils/delay'
 
 import LndConfig, { chains, networks, types } from '../lnd/config'
 import Lightning from '../lnd/lightning'
@@ -165,7 +166,7 @@ class ZapController {
     }
 
     // Give the grpc connections a chance to be properly closed out.
-    await new Promise(resolve => setTimeout(resolve, 200))
+    await delay(200)
   }
 
   onStartOnboarding() {
