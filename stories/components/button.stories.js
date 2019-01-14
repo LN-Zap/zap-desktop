@@ -58,6 +58,14 @@ storiesOf('Components', module).addWithChapters('Button', {
               Secondary button
             </Button>
           )
+        },
+        {
+          title: 'Danger',
+          sectionFn: () => (
+            <Button onClick={action('clicked')} variant="danger">
+              A very dangerous button
+            </Button>
+          )
         }
       ]
     },

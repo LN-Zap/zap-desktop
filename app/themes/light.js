@@ -58,6 +58,10 @@ const buttons = {
     '&:focus': {
       opacity: 1
     }
+  },
+  danger: {
+    backgroundColor: colors.superRed,
+    color: colors.white
   }
 }
 const cards = {
