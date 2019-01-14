@@ -30,7 +30,7 @@ class Alias extends React.Component {
 
   render() {
     const { wizardApi, wizardState, alias, setAlias, intl, ...rest } = this.props
-    const { getApi, onChange, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
     return (
@@ -43,7 +43,6 @@ class Alias extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        preSubmit={preSubmit}
         onSubmit={values => {
           this.handleSubmit(values)
           if (onSubmit) {

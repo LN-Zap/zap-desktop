@@ -46,16 +46,10 @@ class SeedView extends React.Component {
 
   render() {
     const { wizardApi, wizardState, seed, fetchSeed, fetchingSeed, intl, ...rest } = this.props
-    const { getApi, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onSubmit, onSubmitFailure } = wizardApi
 
     return (
-      <Form
-        {...rest}
-        getApi={getApi}
-        preSubmit={preSubmit}
-        onSubmit={onSubmit}
-        onSubmitFailure={onSubmitFailure}
-      >
+      <Form {...rest} getApi={getApi} onSubmit={onSubmit} onSubmitFailure={onSubmitFailure}>
         <Header
           title={<FormattedMessage {...messages.save_seed_title} />}
           subtitle={<FormattedMessage {...messages.save_seed_description} />}
