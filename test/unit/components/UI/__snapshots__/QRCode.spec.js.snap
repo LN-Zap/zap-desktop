@@ -113,6 +113,10 @@ exports[`component.UI.QRCode should render correctly 1`] = `
     theme={
       Object {
         "buttons": Object {
+          "danger": Object {
+            "backgroundColor": "#e63939",
+            "color": undefined,
+          },
           "normal": Object {
             "&:focus": Object {
               "backgroundColor": "#353745",
