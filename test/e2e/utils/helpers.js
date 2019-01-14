@@ -13,20 +13,9 @@ export const killLnd = ClientFunction(() => window.Zap.killLnd())
 export const deleteUserData = ClientFunction(() =>
   window.Zap.deleteLocalWallet('bitcoin', 'testnet', 'wallet-1', true)
 )
-// Delete persistent data from indexeddb
-export const deleteDatabase = ClientFunction(
-  () =>
-    new Promise((resolve, reject) => {
-      var DBDeleteRequest = window.indexedDB.deleteDatabase('ZapDesktop.production')
 
-      DBDeleteRequest.onerror = function() {
-        reject(new Error('Error deleting database.'))
-      }
-      DBDeleteRequest.onsuccess = function() {
-        resolve()
-      }
-    })
-)
+// Delete persistent data from indexeddb.
+export const deleteDatabase = ClientFunction(() => window.db.delete())
 
 // Ensure there are no errors in the console.
 export const assertNoConsoleErrors = async t => {

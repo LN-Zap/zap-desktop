@@ -64,25 +64,6 @@ class ZapController {
    * @param {BrowserWindow} mainWindow BrowserWindow instance to interact with.
    */
   constructor(mainWindow: BrowserWindow) {
-    this.fsm = new StateMachine({
-      transitions: [
-        { name: 'startOnboarding', from: '*', to: 'onboarding' },
-        { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
-        { name: 'startRemoteLnd', from: 'onboarding', to: 'connected' },
-        { name: 'stopLnd', from: '*', to: 'onboarding' },
-        { name: 'terminate', from: '*', to: 'terminated' }
-      ],
-      methods: {
-        onOnboarding: this.onOnboarding.bind(this),
-        onStartOnboarding: this.onStartOnboarding.bind(this),
-        onBeforeStartLocalLnd: this.onBeforeStartLocalLnd.bind(this),
-        onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
-        onBeforeStopLnd: this.onBeforeStopLnd.bind(this),
-        onTerminated: this.onTerminated.bind(this),
-        onTerminate: this.onTerminate.bind(this)
-      }
-    })
-
     // Variable to hold the main window instance.
     this.mainWindow = mainWindow
   }
@@ -99,7 +80,28 @@ class ZapController {
       this.mainWindow.loadURL(`file://${__dirname}/index.html`)
     }
 
+    // Once the winow content has fully loaded, bootstrap the app.
     this.mainWindow.webContents.on('did-finish-load', () => {
+      // Initialise a state machine that we will use to control application state transitions.
+      this.fsm = new StateMachine({
+        transitions: [
+          { name: 'startOnboarding', from: '*', to: 'onboarding' },
+          { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
+          { name: 'startRemoteLnd', from: 'onboarding', to: 'connected' },
+          { name: 'stopLnd', from: '*', to: 'onboarding' },
+          { name: 'terminate', from: '*', to: 'terminated' }
+        ],
+        methods: {
+          onOnboarding: this.onOnboarding.bind(this),
+          onStartOnboarding: this.onStartOnboarding.bind(this),
+          onBeforeStartLocalLnd: this.onBeforeStartLocalLnd.bind(this),
+          onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
+          onBeforeStopLnd: this.onBeforeStopLnd.bind(this),
+          onTerminated: this.onTerminated.bind(this),
+          onTerminate: this.onTerminate.bind(this)
+        }
+      })
+
       // Show the window as soon as the application has finished loading.
       this.mainWindow.show()
       this.mainWindow.focus()
@@ -139,7 +141,7 @@ class ZapController {
   // FSM Callbacks
   // ------------------------------------
 
-  async onOnboarding(lifecycle: any) {
+  async onOnboarding() {
     mainLog.debug('[FSM] onOnboarding...')
 
     // Remove any existing IPC listeners so that we can start fresh.
@@ -149,20 +151,16 @@ class ZapController {
     this._registerIpcListeners()
 
     // Disconnect from any existing lightning wallet connection.
-    if (lifecycle.from === 'connected') {
-      if (this.lightning && this.lightning.can('disconnect')) {
-        this.lightning.disconnect()
-      }
-      if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
-        this.walletUnlocker.disconnect()
-      }
-      this.sendMessage('lndStopped')
+    if (this.lightning && this.lightning.can('disconnect')) {
+      this.lightning.disconnect()
     }
+    if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
+      this.walletUnlocker.disconnect()
+    }
+    this.sendMessage('lndStopped')
 
-    // If we are comming from a running state, stop the Neutrino process.
-    else if (lifecycle.from === 'running') {
-      await this.shutdownNeutrino()
-    }
+    // Shut down Neutrino.
+    await this.shutdownNeutrino()
 
     // Give the grpc connections a chance to be properly closed out.
     await new Promise(resolve => setTimeout(resolve, 200))
@@ -250,10 +248,8 @@ class ZapController {
       }
     }
 
-    // If we are comming from a running state, stop the Neutrino process.
-    else if (lifecycle.from === 'running') {
-      await this.shutdownNeutrino()
-    }
+    // Stop the Neutrino process.
+    await this.shutdownNeutrino()
   }
 
   onTerminate() {
@@ -411,7 +407,11 @@ class ZapController {
    */
   async shutdownNeutrino() {
     // We only want to shut down LND if we are running it locally.
-    if (this.lndConfig.type !== 'local' || !this.neutrino || !this.neutrino.process) {
+    if (
+      (this.lndConfig && this.lndConfig.type !== 'local') ||
+      !this.neutrino ||
+      !this.neutrino.process
+    ) {
       return Promise.resolve()
     }
 
