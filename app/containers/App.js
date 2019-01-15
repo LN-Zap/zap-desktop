@@ -116,7 +116,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const networkTabProps = {
     currentChannels: stateProps.currentChannels,
     channels: stateProps.channels,
-    balance: stateProps.balance,
+    channelBalance: stateProps.balance.channelBalance,
     currentTicker: stateProps.currentTicker,
     contactsform: stateProps.contactsform,
     nodes: stateProps.network.nodes,

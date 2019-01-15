@@ -10,7 +10,7 @@ import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
 
 const Wallet = ({
-  balance,
+  totalBalance,
   currencyFilters,
   currentTicker,
   info,
@@ -19,19 +19,11 @@ const Wallet = ({
   setCurrency,
   setFormType
 }) => {
-  if (
-    !currentTicker ||
-    !ticker.currency ||
-    balance.channelBalance === null ||
-    balance.walletBalance === null
-  ) {
+  if (!currentTicker || !ticker.currency) {
     return null
   }
 
-  const fiatAmount = btc.satoshisToFiat(
-    parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
-    currentTicker[ticker.fiatTicker]
-  )
+  const fiatAmount = btc.satoshisToFiat(totalBalance, currentTicker[ticker.fiatTicker])
 
   return (
     <Box pt={3} px={5} pb={3} bg="secondaryColor">
@@ -62,7 +54,7 @@ const Wallet = ({
               <Flex alignItems="baseline">
                 <Text fontSize="xxl">
                   <Value
-                    value={parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance)}
+                    value={totalBalance}
                     currency={ticker.currency}
                     currentTicker={currentTicker}
                     fiatTicker={ticker.fiatTicker}
@@ -75,16 +67,10 @@ const Wallet = ({
                   ml={1}
                 />
               </Flex>
-              {Boolean(fiatAmount) && (
-                <Text color="gray">
-                  {'≈ '}
-                  <FormattedNumber
-                    currency={ticker.fiatTicker}
-                    style="currency"
-                    value={fiatAmount}
-                  />
-                </Text>
-              )}
+              <Text color="gray">
+                {'≈ '}
+                <FormattedNumber currency={ticker.fiatTicker} style="currency" value={fiatAmount} />
+              </Text>
             </Box>
           </Flex>
         </Box>
@@ -103,7 +89,7 @@ const Wallet = ({
 
 Wallet.propTypes = {
   // Store props
-  balance: PropTypes.object.isRequired,
+  totalBalance: PropTypes.number,
   currencyFilters: PropTypes.array.isRequired,
   currentTicker: PropTypes.object,
   info: PropTypes.object.isRequired,
