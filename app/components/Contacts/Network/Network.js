@@ -5,6 +5,7 @@ import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import blockExplorer from 'lib/utils/blockExplorer'
 import { satoshisToFiat } from 'lib/utils/btc'
+import SuggestedNodes from 'containers/Contacts/SuggestedNodes'
 import ExternalLink from 'components/Icon/ExternalLink'
 import PlusCircle from 'components/Icon/PlusCircle'
 import Search from 'components/Icon/Search'
@@ -21,7 +22,6 @@ import {
   Text,
   Value
 } from 'components/UI'
-import SuggestedNodes from '../SuggestedNodes'
 import messages from './messages'
 
 class Network extends Component {
@@ -74,7 +74,6 @@ class Network extends Component {
       changeFilter,
       setSelectedChannel,
       closeChannel,
-      suggestedNodesProps,
       network,
       currencyName,
       intl
@@ -226,7 +225,7 @@ class Network extends Component {
         </Panel.Header>
 
         <Panel.Body css={{ 'overflow-y': 'auto' }}>
-          {!hasChannels && <SuggestedNodes {...suggestedNodesProps} py={3} mx={3} />}
+          {!hasChannels && <SuggestedNodes py={3} mx={3} />}
 
           {hasChannels && (
             <Box>
@@ -440,7 +439,6 @@ Network.propTypes = {
   balance: PropTypes.object.isRequired,
   currentTicker: PropTypes.object,
   ticker: PropTypes.object.isRequired,
-  suggestedNodesProps: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,
