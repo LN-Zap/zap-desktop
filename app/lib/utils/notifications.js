@@ -1,8 +1,7 @@
 export const showNotification = (title, body, onClick) => {
-  new Notification(title, {
-    body,
-    onClick
-  })
+  const notification = new Notification(title, { body })
+
+  notification.onClick = onClick
 }
 
 export default { showNotification }
