@@ -47,6 +47,7 @@
   "components.Activity.TransactionModal.title_received": "",
   "components.Activity.TransactionModal.title_sent": "",
   "components.Activity.TransactionModal.tx_hash": "",
+  "components.Activity.TransactionModal.unconfirmed": "",
   "components.Activity.all": "Alle",
   "components.Activity.hide_expired": "Verstecke abgelaufene Anfragen",
   "components.Activity.pending": "Ausstehend",
