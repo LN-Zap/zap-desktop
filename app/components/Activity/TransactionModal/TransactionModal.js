@@ -170,15 +170,22 @@ export default class TransactionModal extends React.PureComponent {
           )}
 
           <DataRow
-            left={<FormattedMessage {...messages.block_height} />}
+            left={<FormattedMessage {...messages.status} />}
             right={
-              <Link
-                className="hint--bottom-left"
-                data-hint={item.block_hash}
-                onClick={() => blockExplorer.showBlock(network, item.block_hash)}
-              >
-                {item.block_height}
-              </Link>
+              item.block_height ? (
+                <Link
+                  className="hint--bottom-left"
+                  data-hint={item.block_hash}
+                  onClick={() => blockExplorer.showBlock(network, item.block_hash)}
+                >
+                  <FormattedMessage
+                    {...messages.block_height}
+                    values={{ height: item.block_height }}
+                  />
+                </Link>
+              ) : (
+                <FormattedMessage {...messages.unconfirmed} />
+              )
             }
           />
 

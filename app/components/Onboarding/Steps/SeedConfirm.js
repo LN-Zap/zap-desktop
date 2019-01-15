@@ -61,7 +61,7 @@ class SeedConfirm extends React.Component {
   render() {
     const { wizardApi, wizardState, seed, intl, ...rest } = this.props
     const { seedWordIndexes } = this.state
-    const { getApi, onChange, preSubmit, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
     return (
@@ -74,7 +74,6 @@ class SeedConfirm extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        preSubmit={preSubmit}
         onSubmit={onSubmit}
         onSubmitFailure={onSubmitFailure}
       >

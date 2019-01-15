@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Form, Heading, Input, Panel, Spinner, Text } from 'components/UI'
 import Search from 'components/Icon/Search'
@@ -131,7 +131,9 @@ class Activity extends Component {
 
     return currentActivity.map((activityBlock, index) => (
       <Box key={index} mb={4}>
-        <Heading.h4 fontWeight="normal">{activityBlock.title}</Heading.h4>
+        <Heading.h4 fontWeight="normal">
+          <FormattedDate day="2-digit" month="short" year="numeric" value={activityBlock.title} />
+        </Heading.h4>
         <Bar py={1} />
         {activityBlock.activity.map((activity, i) => (
           <ActivityListItem

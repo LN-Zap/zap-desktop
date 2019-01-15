@@ -84,7 +84,7 @@ export function satoshisToBits(satoshis) {
 export function satoshisToMillisatoshis(satoshis) {
   if (isEmptyAmount(satoshis)) return null
 
-  return satoshisToBits(satoshis) * 1000 || 0
+  return satoshis * 1000 || 0
 }
 
 export function satoshisToFiat(satoshis, price) {
@@ -172,6 +172,7 @@ export function convert(from, to, amount, price) {
     case 'phots':
       switch (to) {
         case 'btc':
+        case 'ltc':
           return bitsToBtc(amount)
         case 'sats':
         case 'lits':
