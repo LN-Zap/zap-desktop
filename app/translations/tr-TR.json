@@ -47,6 +47,7 @@
   "components.Activity.TransactionModal.title_received": "",
   "components.Activity.TransactionModal.title_sent": "",
   "components.Activity.TransactionModal.tx_hash": "",
+  "components.Activity.TransactionModal.unconfirmed": "",
   "components.Activity.all": "Tüm",
   "components.Activity.hide_expired": "",
   "components.Activity.pending": "Bekleyen",

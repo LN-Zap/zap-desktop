@@ -10,6 +10,7 @@ export default defineMessages({
   status: 'Status',
   current_value: 'Current value',
   address: 'Address',
-  block_height: 'Confirmed in Block',
-  tx_hash: 'Transaction ID'
+  block_height: 'Confirmed in block {height}',
+  tx_hash: 'Transaction ID',
+  unconfirmed: 'Unconfirmed'
 })
