@@ -141,6 +141,9 @@ const nodeSelector = state => state.contactsform.node
 const channelsSelector = state => state.channels.channels
 const peersSelector = state => state.peers.peers
 const contactable = node => node.addresses.length > 0
+const testnetSelector = state => state.info.data.testnet
+const testnetNodesSelector = state => state.channels.suggestedNodes.testnet
+const mainnetNodesSelector = state => state.channels.suggestedNodes.mainnet
 
 // comparator to sort the contacts list with contactable contacts first
 const contactableFirst = (a, b) => {
@@ -151,6 +154,15 @@ const contactableFirst = (a, b) => {
   }
   return 0
 }
+
+contactFormSelectors.suggestedNodes = createSelector(
+  testnetSelector,
+  testnetNodesSelector,
+  mainnetNodesSelector,
+  (testnet, testnetNodes, mainnetNodes) => {
+    return testnet ? testnetNodes : mainnetNodes
+  }
+)
 
 contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
