@@ -72,7 +72,6 @@ const mapStateToProps = state => ({
   info: state.info,
   payment: state.payment,
   transaction: state.transaction,
-  peers: state.peers,
   channels: state.channels,
   contactsform: state.contactsform,
   balance: state.balance,
