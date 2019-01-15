@@ -11,16 +11,20 @@ import messages from './messages'
 
 const Wallet = ({
   balance,
-  info,
-  openReceiveModal,
-  ticker,
-  currentTicker,
-  openPayForm,
-  openRequestForm,
   currencyFilters,
-  setCurrency
+  currentTicker,
+  info,
+  ticker,
+  openWalletModal,
+  setCurrency,
+  setFormType
 }) => {
-  if (!ticker.currency) {
+  if (
+    !currentTicker ||
+    !ticker.currency ||
+    balance.channelBalance === null ||
+    balance.walletBalance === null
+  ) {
     return null
   }
 
@@ -48,7 +52,7 @@ const Wallet = ({
       <Flex as="header" justifyContent="space-between" mt={4}>
         <Box as="section">
           <Flex alignItems="center">
-            <Box onClick={openReceiveModal} mr={3}>
+            <Box onClick={openWalletModal} mr={3}>
               <Button variant="secondary">
                 <Qrcode width="21px" height="21px" />
               </Button>
@@ -85,10 +89,10 @@ const Wallet = ({
           </Flex>
         </Box>
         <Box as="section">
-          <Button onClick={openPayForm} mr={2} width={145}>
+          <Button onClick={() => setFormType('PAY_FORM')} mr={2} width={145}>
             <FormattedMessage {...messages.pay} />
           </Button>
-          <Button onClick={openRequestForm} width={145}>
+          <Button onClick={() => setFormType('REQUEST_FORM')} width={145}>
             <FormattedMessage {...messages.request} />
           </Button>
         </Box>
@@ -98,16 +102,17 @@ const Wallet = ({
 }
 
 Wallet.propTypes = {
+  // Store props
   balance: PropTypes.object.isRequired,
+  currencyFilters: PropTypes.array.isRequired,
+  currentTicker: PropTypes.object,
   info: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
-  openPayForm: PropTypes.func.isRequired,
-  openRequestForm: PropTypes.func.isRequired,
-  openReceiveModal: PropTypes.func.isRequired,
-  network: PropTypes.object.isRequired,
-  currencyFilters: PropTypes.array.isRequired,
-  setCurrency: PropTypes.func.isRequired
+
+  // Dispatch props
+  openWalletModal: PropTypes.func.isRequired,
+  setCurrency: PropTypes.func.isRequired,
+  setFormType: PropTypes.func.isRequired
 }
 
 export default Wallet
