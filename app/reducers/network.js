@@ -33,9 +33,18 @@ export const GET_INFO_AND_QUERY_ROUTES = 'GET_INFO_AND_QUERY_ROUTES'
 export const RECEIVE_INFO_AND_QUERY_ROUTES = 'RECEIVE_INFO_AND_QUERY_ROUTES'
 export const CLEAR_QUERY_ROUTES = 'CLEAR_QUERY_ROUTES'
 
+export const UPDATE_NODE_DATA = 'UPDATE_NODE_DATA'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function updateNodeData(nodeData) {
+  return {
+    type: UPDATE_NODE_DATA,
+    nodeData
+  }
+}
+
 export function getDescribeNetwork() {
   return {
     type: GET_DESCRIBE_NETWORK
@@ -161,9 +170,38 @@ export const receiveInvoiceAndQueryRoutes = (event, { routes }) => dispatch =>
   dispatch({ type: RECEIVE_INFO_AND_QUERY_ROUTES, routes })
 
 // ------------------------------------
+// Helpers
+// ------------------------------------
+const mergeNodeUpdates = (state, nodeData) => {
+  const { nodes: originalNodes } = state
+  // Check if this is an existing node
+  const index = originalNodes.findIndex(item => item.pub_key === nodeData.identity_key)
+  // If we didn't find the node, add it to the end of the nodes list.
+  // Otherwise update existing.
+  const nodes =
+    index < 0
+      ? [...originalNodes, nodeData]
+      : [
+          ...originalNodes.slice(0, index),
+          {
+            ...originalNodes[index],
+            ...nodeData,
+            last_update: Math.round(new Date() / 1000)
+          },
+          ...originalNodes.slice(index)
+        ]
+
+  return {
+    ...state,
+    nodes
+  }
+}
+
+// ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [UPDATE_NODE_DATA]: (state, { nodeData }) => nodeData.reduce(mergeNodeUpdates, state),
   [GET_DESCRIBE_NETWORK]: state => ({ ...state, networkLoading: true }),
   [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes, edges }) => ({
     ...state,
