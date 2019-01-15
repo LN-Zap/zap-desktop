@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 
 // ------------------------------------
@@ -38,6 +39,20 @@ const ACTION_HANDLERS = {
     channelBalance
   })
 }
+
+const channelBalanceSelector = state => state.balance.channelBalance
+const walletBalanceSelector = state => state.balance.walletBalance
+
+// Selectors
+const balanceSelectors = {}
+
+balanceSelectors.totalBalance = createSelector(
+  channelBalanceSelector,
+  walletBalanceSelector,
+  (channelBalance, walletBalance) => (channelBalance || 0) + (walletBalance || 0)
+)
+
+export { balanceSelectors }
 
 // ------------------------------------
 // Reducer
