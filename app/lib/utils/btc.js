@@ -172,6 +172,7 @@ export function convert(from, to, amount, price) {
     case 'phots':
       switch (to) {
         case 'btc':
+        case 'ltc':
           return bitsToBtc(amount)
         case 'sats':
         case 'lits':
