@@ -80,6 +80,7 @@ class Input extends React.Component {
       label,
       required,
       theme,
+      type,
       field,
       fieldApi,
       fieldState,
@@ -148,6 +149,7 @@ class Input extends React.Component {
           css={cssProps}
           {...rest}
           field={field}
+          type={type}
           ref={this.inputRef}
           value={!value && value !== 0 ? '' : value}
           onChange={e => {
@@ -179,12 +181,12 @@ class Input extends React.Component {
           }}
           required={required}
         />
-        {description && (
+        {type !== 'hidden' && description && (
           <Text color="gray" fontSize="s" mt={1}>
             {description}
           </Text>
         )}
-        {showMessage && (fieldState.error || fieldState.asyncError) && (
+        {type !== 'hidden' && showMessage && (fieldState.error || fieldState.asyncError) && (
           <Message variant={hasFocus ? 'warning' : 'error'} mt={1}>
             {fieldState.error || fieldState.asyncError}
           </Message>
