@@ -1,7 +1,7 @@
 {
   "name": "zap-desktop",
   "productName": "Zap",
-  "version": "0.3.3-beta",
+  "version": "0.3.4-beta",
   "description": "desktop application for the lightning network",
   "main": "./dist/main.prod.js",
   "author": {
