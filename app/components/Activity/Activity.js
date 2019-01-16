@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Bar, Button, Form, Heading, Input, Panel, Spinner, Text } from 'components/UI'
+import { Bar, Button, Form, Heading, Input, Panel, Spinner, Tabs } from 'components/UI'
 import Search from 'components/Icon/Search'
 import X from 'components/Icon/X'
 
@@ -79,29 +79,7 @@ class Activity extends Component {
     return (
       <>
         <Flex justifyContent="space-between" alignItems="center">
-          {filters.map(f => (
-            <Flex mr={3} key={f.key} flexDirection="column" alignItems="center">
-              <Button
-                variant="secondary"
-                size="small"
-                onClick={() => changeFilter(f)}
-                px={3}
-                active={f.key === filter.key}
-              >
-                <Text fontWeight="normal">
-                  <FormattedMessage {...messages[f.name]} />
-                </Text>
-              </Button>
-              {f.key === filter.key && (
-                <Bar
-                  width={1}
-                  borderColor="lightningOrange"
-                  opacity={1}
-                  css={{ 'max-width': '50px' }}
-                />
-              )}
-            </Flex>
-          ))}
+          <Tabs items={filters} onClick={changeFilter} activeKey={filter} />
         </Flex>
         <Flex justifyContent="space-between" alignItems="center">
           <Button variant="secondary" onClick={this.refreshClicked} mr={3} px={3}>

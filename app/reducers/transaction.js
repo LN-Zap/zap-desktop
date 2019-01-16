@@ -96,7 +96,7 @@ export const sendCoins = ({ value, addr, currency, targetConf, satPerByte }) => 
   dispatch(sendTransaction(data))
 
   // Close the form modal once the transaction has been sent
-  dispatch(changeFilter({ key: 'ALL_ACTIVITY', name: 'all' }))
+  dispatch(changeFilter('ALL_ACTIVITY'))
   dispatch(setFormType(null))
 }
 

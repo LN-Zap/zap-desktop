@@ -6,19 +6,19 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "all",
+      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "sent",
+      "name": "Sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
+      "name": "Requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "pending",
+      "name": "Pending",
     },
   ],
   "modal": Object {
@@ -33,26 +33,23 @@ Object {
 
 exports[`reducers activityReducer should correctly hideActivityModal 1`] = `
 Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
+  "filter": "ALL_ACTIVITY",
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "all",
+      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "sent",
+      "name": "Sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
+      "name": "Requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "pending",
+      "name": "Pending",
     },
   ],
   "modal": Object {
@@ -67,26 +64,23 @@ Object {
 
 exports[`reducers activityReducer should correctly showActivityModal 1`] = `
 Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
+  "filter": "ALL_ACTIVITY",
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "all",
+      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "sent",
+      "name": "Sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
+      "name": "Requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "pending",
+      "name": "Pending",
     },
   ],
   "modal": Object {
@@ -101,26 +95,23 @@ Object {
 
 exports[`reducers activityReducer should correctly updateSearchActive 1`] = `
 Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
+  "filter": "ALL_ACTIVITY",
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "all",
+      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "sent",
+      "name": "Sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
+      "name": "Requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "pending",
+      "name": "Pending",
     },
   ],
   "modal": Object {
@@ -135,26 +126,23 @@ Object {
 
 exports[`reducers activityReducer should correctly updateSearchText 1`] = `
 Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
+  "filter": "ALL_ACTIVITY",
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "all",
+      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "sent",
+      "name": "Sent",
     },
     Object {
       "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
+      "name": "Requested",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "pending",
+      "name": "Pending",
     },
   ],
   "modal": Object {
