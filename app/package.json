@@ -16,6 +16,6 @@
   "dependencies": {
     "rimraf": "2.6.3",
     "untildify": "3.0.3",
-    "validator": "10.10.0"
+    "validator": "10.11.0"
   }
 }
