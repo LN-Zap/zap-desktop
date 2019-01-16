@@ -36,9 +36,11 @@ test('should create a new wallet', async t => {
     // Wait for SeedView to generate seed and then submit the form.
     .expect(onboarding.seedView.withProps({ fetchingSeed: false }).exists)
     .ok()
+    .expect(onboarding.nextButton.hasAttribute('disabled'))
+    .notOk('ready to be clicked')
     .click(onboarding.nextButton)
 
-    // Fill out and submit seedConfirm form.
+    // Ensure we navigate to the SeedConfirm step next.
     .expect(onboarding.seedConfirm.exists)
     .ok()
 
