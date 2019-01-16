@@ -216,7 +216,7 @@
     "babel-plugin-react-intl-auto": "1.4.0",
     "babel-plugin-styled-components": "1.8.0",
     "babel-plugin-transform-react-pure-class-to-function": "1.0.1",
-    "babel-plugin-transform-react-remove-prop-types": "0.4.21",
+    "babel-plugin-transform-react-remove-prop-types": "0.4.22",
     "browserslist": "4.4.0",
     "clean-webpack-plugin": "1.0.0",
     "concurrently": "4.1.0",
