@@ -12,7 +12,7 @@ const SystemTextArea = system(
     as: 'textarea',
     border: 1,
     borderColor: 'gray',
-    borderRadius: '5px',
+    borderRadius: 5,
     bg: 'transparent',
     color: 'primaryText',
     fontFamily: 'sans',
@@ -22,7 +22,15 @@ const SystemTextArea = system(
     width: 1,
     rows: 5
   },
-  ...Object.keys(styles)
+  'space',
+  'color',
+  'borders',
+  'borderColor',
+  'borderRadius',
+  'fontFamily',
+  'fontSize',
+  'fontWeight',
+  'width'
 )
 
 /**
@@ -66,6 +74,7 @@ class TextArea extends React.PureComponent {
       fieldState,
       justifyContent,
       showMessage,
+      variant,
       ...rest
     } = this.props
     const { readOnly } = this.props
@@ -108,7 +117,6 @@ class TextArea extends React.PureComponent {
         )}
         <SystemTextArea
           borderColor={borderColor || theme.colors.gray}
-          opacity={readOnly ? 0.6 : null}
           css={Object.assign(
             {
               outline: 'none',
@@ -120,6 +128,8 @@ class TextArea extends React.PureComponent {
             },
             css
           )}
+          opacity={readOnly ? 0.6 : null}
+          p={variant === 'thin' ? 2 : 3}
           {...rest}
           field={field}
           ref={this.inputRef}
