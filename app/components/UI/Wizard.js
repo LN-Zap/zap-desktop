@@ -67,10 +67,7 @@ class NextButton extends React.Component {
                   wizardApi.next()
                 }
               }}
-              disabled={
-                wizardState.isSubmitting ||
-                (formState && formState.invalid && formState.submits > 0)
-              }
+              disabled={wizardState.isSubmitting || (formState && formState.invalid)}
               processing={wizardState.isSubmitting}
             >
               <Flex>
