@@ -263,14 +263,18 @@ export const setUnlockWalletError = (event, unlockWalletError) => dispatch => {
 
 export const fetchSeed = () => async dispatch => {
   dispatch({ type: FETCH_SEED })
-  await dispatch(
-    startLnd({
-      id: `tmp`,
-      type: 'local',
-      chain: 'bitcoin',
-      network: 'testnet'
-    })
-  )
+  try {
+    await dispatch(
+      startLnd({
+        id: `tmp`,
+        type: 'local',
+        chain: 'bitcoin',
+        network: 'testnet'
+      })
+    )
+  } catch (error) {
+    dispatch({ type: FETCH_SEED_ERROR, error })
+  }
 }
 
 // Listener for when LND creates and sends us a generated seed
