@@ -263,7 +263,7 @@
   "components.UI.amount": "",
   "components.UI.expired": "",
   "components.UI.expires": "",
-  "components.UI.help": "",
+  "components.UI.help": "تحتاج مساعدة؟",
   "components.UI.invalid_request": "",
   "components.UI.payreq_placeholder": "",
   "components.UI.required_field": "",
