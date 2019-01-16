@@ -1,11 +1,5 @@
 import { waitForReact } from 'testcafe-react-selectors'
-import {
-  getBaseUrl,
-  assertNoConsoleErrors,
-  deleteUserData,
-  deleteDatabase,
-  killLnd
-} from './utils/helpers'
+import { getBaseUrl, assertNoConsoleErrors, cleanTestEnvironment } from './utils/helpers'
 import Onboarding from './pages/onboarding'
 import Syncing from './pages/syncing'
 import Loading from './pages/loading'
@@ -21,9 +15,7 @@ fixture('Onboarding (create)')
   })
   .afterEach(async t => {
     await assertNoConsoleErrors(t)
-    await killLnd()
-    await deleteUserData()
-    await deleteDatabase()
+    await cleanTestEnvironment()
   })
 
 test('should create a new wallet', async t => {

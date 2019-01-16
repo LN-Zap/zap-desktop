@@ -22,3 +22,16 @@ export const assertNoConsoleErrors = async t => {
   const { error } = await t.getBrowserConsoleMessages()
   await t.expect(error).eql([])
 }
+
+// Simple delay.
+export const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
+
+// Clean out test environment.
+export const cleanTestEnvironment = async () => {
+  await killLnd()
+  await delay(1000)
+  await deleteUserData()
+  await delay(1000)
+  await deleteDatabase()
+  await delay(1000)
+}

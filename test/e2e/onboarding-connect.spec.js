@@ -1,12 +1,6 @@
 import path from 'path'
 import { waitForReact } from 'testcafe-react-selectors'
-import {
-  getBaseUrl,
-  assertNoConsoleErrors,
-  deleteUserData,
-  deleteDatabase,
-  killLnd
-} from './utils/helpers'
+import { getBaseUrl, assertNoConsoleErrors, cleanTestEnvironment } from './utils/helpers'
 import Onboarding from './pages/onboarding'
 import Loading from './pages/loading'
 
@@ -20,9 +14,7 @@ fixture('Onboarding (connect)')
   })
   .afterEach(async t => {
     await assertNoConsoleErrors(t)
-    await killLnd()
-    await deleteUserData()
-    await deleteDatabase()
+    await cleanTestEnvironment()
   })
 
 test('should connect to an external wallet (readonly)', async t => {
