@@ -35,6 +35,15 @@ Thanks for being willing to contribute!
 
 ## Contribution Guidelines
 
+### Making Changes
+
+We use two primary branches to manage development:
+
+- `master`: Stable branch that corresponds to the current production release. Only bug fixes and release ready code will be merged into the master branch with a view to including in the next patch release (patch number increment).
+- `next`: Primary development branch. All new features should be developed against the next branch. The next branch will generally be quite far ahead of the master branch and includes all new features that are being developed for the next major release (major or minor number increment).
+
+In general, most of the time you will want to develop against the `next` branch.
+
 ### Committing and Pushing changes
 
 We follow the [conventional changelog standard][convention] for commit messages. You don't have to follow this convention if you don't like to. Just know that when we merge your commit, we'll probably use "Squash and Merge" so we can change the commit message :)
@@ -53,7 +62,7 @@ Valid conventional commit types are:
 - `style`: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
 - `test`: Adding missing tests or correcting existing tests
 
-#### Example
+**Example:**
 
 ```bash
 git commit -m "feat(close-channel): wire up close channel to UI"
@@ -73,15 +82,21 @@ There are git hooks set up with this project that are automatically installed wh
 
 Branch names should start with a valid conventional commit type followed by `/description_of_branch`.
 
-#### Example
+**Example:**
 
 ```bash
 git branch feat/close-channel-ui
 ```
 
-### Pull Requests
+### Pull Request Reviews
 
-The `master` branch will be used for all pull requests for the time being. This may change as the repo and contributors grow.
+When reviewing Pull Requests (PRs) you should use the following conventions to denote the level of review that you have performed:
+
+- `Concept ACK`: Agree with the idea and overall direction, but haven't reviewed the code changes or tested them.
+- `utACK`: (untested ACK) Reviewed and agree with the code changes but haven't actually tested them.
+- `Tested ACK`: Reviewed the code changes and have verified the functionality or bug fix.
+- `ACK`: A loose ACK can be confusing. It's best to avoid them unless it's a documentation/comment only change in which case there is nothing to test/verify; therefore the tested/untested distinction is not there.
+- `NACK`: Disagree with the code changes/concept. Should be accompanied by an explanation.
 
 ### Style Guide
 
