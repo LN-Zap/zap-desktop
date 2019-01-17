@@ -2,6 +2,7 @@ import { dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import isDev from 'electron-is-dev'
 import { updaterLog } from '../utils/log'
+import delay from '../utils/delay'
 
 autoUpdater.logger = updaterLog
 
@@ -40,13 +41,12 @@ class ZapUpdater {
         title: 'Update available',
         message: 'An update is available. Restart the app and install?'
       }
-      dialog.showMessageBox(this.mainWindow, opt, choice => {
+      dialog.showMessageBox(this.mainWindow, opt, async choice => {
         if (choice !== 0) {
           return
         }
-        setTimeout(() => {
-          autoUpdater.quitAndInstall()
-        }, 100)
+        await delay(100)
+        autoUpdater.quitAndInstall()
       })
     })
 

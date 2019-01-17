@@ -6,6 +6,7 @@ import { Bar, Button, Form, Heading, Input, Panel, Spinner, Text } from 'compone
 import Search from 'components/Icon/Search'
 import X from 'components/Icon/X'
 
+import delay from 'lib/utils/delay'
 import Wallet from 'components/Wallet'
 import messages from './messages'
 import ActivityListItem from './ActivityListItem'
@@ -15,19 +16,19 @@ class Activity extends Component {
     refreshing: false
   }
 
-  refreshClicked = () => {
+  refreshClicked = async () => {
     const { fetchActivityHistory } = this.props
-    // turn the spinner on
+    // turn the spinner on.
     this.setState({ refreshing: true })
 
     // fetch data
     fetchActivityHistory()
 
-    // Turn the spinner off after 1 second.
-    const refreshTimeout = setTimeout(() => {
-      this.setState({ refreshing: false })
-      clearTimeout(refreshTimeout)
-    }, 1000)
+    // Wait a second.
+    await delay(1000)
+
+    // Turn the spinner off.
+    this.setState({ refreshing: false })
   }
 
   renderSearchBar = () => {

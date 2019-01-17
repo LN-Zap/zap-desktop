@@ -4,10 +4,9 @@ import { linkTo } from '@storybook/addon-links'
 import { boolean } from '@storybook/addon-knobs'
 import { State, Store } from '@sambego/storybook-state'
 import StoryRouter from 'storybook-react-router'
+import delay from 'lib/utils/delay'
 import { Page } from 'components/UI'
 import { Home } from 'components/Home'
-
-const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 const store = new Store({
   activeWallet: 1,

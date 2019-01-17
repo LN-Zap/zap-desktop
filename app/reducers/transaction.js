@@ -1,6 +1,7 @@
 import { send } from 'redux-electron-ipc'
 import { showNotification } from 'lib/utils/notifications'
 import { convert } from 'lib/utils/btc'
+import delay from 'lib/utils/delay'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
@@ -29,8 +30,6 @@ const decorateTransaction = transaction => {
   transaction.received = transaction.amount > 0
   return transaction
 }
-
-const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 // ------------------------------------
 // Actions

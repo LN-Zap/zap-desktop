@@ -6,11 +6,10 @@ import { action } from '@storybook/addon-actions'
 import { text } from '@storybook/addon-knobs'
 import { State, Store } from '@sambego/storybook-state'
 import lightningPayReq from 'bolt11'
+import delay from 'lib/utils/delay'
 import { convert } from 'lib/utils/btc'
 import { Modal, Page } from 'components/UI'
 import { Request, RequestSummary } from 'components/Request'
-
-const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 const store = new Store({
   chain: 'bitcoin',

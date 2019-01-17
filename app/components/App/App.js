@@ -71,6 +71,7 @@ class App extends React.Component {
     this.clearFetchTimer()
 
     this.timer = setTimeout(this.fetchData, nextFetchIn)
+
     // Increment the next fetch interval.
     this.nextFetchIn = next
   }

@@ -5,11 +5,10 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { boolean, number, select, text } from '@storybook/addon-knobs'
 import { State, Store } from '@sambego/storybook-state'
+import delay from 'lib/utils/delay'
 import { Modal, Page } from 'components/UI'
 import { Pay, PayButtons, PayHeader, PaySummaryLightning, PaySummaryOnChain } from 'components/Pay'
 import { mockCreateInvoice } from '../helpers'
-
-const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 const store = new Store({
   cryptoName: 'Bitcoin',
