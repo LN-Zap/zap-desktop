@@ -1,0 +1,102 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Checkbox should render correctly 1`] = `
+.c4 {
+  margin-left: 8px;
+  font-size: 13px;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.c3 {
+  width: 18px;
+  color: #242633;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  height: 18px;
+  border-radius: 5px;
+  border: 1px solid #959595;
+  background-color: transparent;
+}
+
+.c0 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.c0:hover .c2 {
+  border-color: #fd9800;
+}
+
+.c1 {
+  border: 0;
+  -webkit-clip: rect(0 0 0 0);
+  clip: rect(0 0 0 0);
+  -webkit-clip-path: inset(50%);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  white-space: nowrap;
+  width: 1px;
+}
+
+<form
+  onReset={[Function]}
+  onSubmit={[Function]}
+>
+  <div
+    checked={false}
+    className="c0"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <input
+      checked={false}
+      className="c1"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <div
+      checked={false}
+      className="c2 c3"
+      color="primaryColor"
+      disabled={false}
+      width={18}
+    />
+    <div
+      className="c4"
+      color="primaryText"
+      fontSize="m"
+    >
+      cb
+    </div>
+  </div>
+</form>
+`;

@@ -3,21 +3,22 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { Box } from 'rebass'
 import {
+  Button,
+  Checkbox,
   CryptoAmountInput,
   FiatAmountInput,
-  Page,
-  MainContent,
   Form,
   Input,
   Label,
   LightningInvoiceInput,
-  Select,
-  TextArea,
-  Button,
-  Toggle,
+  MainContent,
+  Page,
   Radio,
   RadioGroup,
-  Range
+  Range,
+  Select,
+  TextArea,
+  Toggle
 } from 'components/UI'
 
 const validate = value => {
@@ -138,6 +139,31 @@ storiesOf('Forms', module)
       <Range initialValue={25} field="range" />
     </Form>
   ))
+  .add('Checkbox', () => (
+    <Form>
+      <Label htmlFor="id">Unchecked</Label>
+      <Checkbox label="I agree that Zap is the best lightning wallet" field="checkbox" />
+      <Label htmlFor="id" mt={4}>
+        Checked
+      </Label>
+      <Checkbox
+        label="I agree that Zap is the best lightning wallet"
+        field="checkbox2"
+        mt={2}
+        checked
+      />
+      <Label htmlFor="id" mt={4}>
+        Disabled
+      </Label>
+      <Checkbox
+        label="I agree that Zap is the best lightning wallet"
+        field="checkbox2"
+        mt={2}
+        checked
+        disabled
+      />
+    </Form>
+  ))
   .add('Example form', () => (
     <Page>
       <MainContent>
@@ -232,6 +258,20 @@ storiesOf('Forms', module)
                 </Box>
                 <Box>
                   <Range field="slider1" initialValue={25} onChange={action('change')} />
+                </Box>
+              </Box>
+
+              <Box my={4}>
+                <Box>
+                  <Label htmlFor="checkbox2" mb={2}>
+                    Example Checkbox
+                  </Label>
+                </Box>
+                <Box>
+                  <Checkbox
+                    label="I agree that Zap is the best lightning wallet"
+                    field="checkbox2"
+                  />
                 </Box>
               </Box>
 
