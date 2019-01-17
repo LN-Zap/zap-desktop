@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import debounce from 'lodash.debounce'
 import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import blockExplorer from 'lib/utils/blockExplorer'
@@ -25,8 +26,12 @@ import messages from './messages'
 
 class Network extends Component {
   state = {
-    refreshing: false
+    refreshing: false,
+    searchQuery: ''
   }
+
+  /*eslint-disable react/destructuring-assignment*/
+  updateChannelSearchQuery = debounce(this.props.updateChannelSearchQuery, 300)
 
   componentDidUpdate(prevProps) {
     const { refreshing } = this.state
@@ -36,6 +41,14 @@ class Network extends Component {
     }
   }
 
+  onSearchTextChange = event => {
+    const { value } = event.target
+    this.setState({
+      searchQuery: value
+    })
+    this.updateChannelSearchQuery(value)
+  }
+
   clearRefreshing = () => {
     this.setState({ refreshing: false })
   }
@@ -43,7 +56,6 @@ class Network extends Component {
   render() {
     const {
       channels: {
-        searchQuery,
         filter,
         filters,
         selectedChannel,
@@ -60,7 +72,6 @@ class Network extends Component {
       fetchChannels,
       openContactsForm,
       changeFilter,
-      updateChannelSearchQuery,
       setSelectedChannel,
       closeChannel,
       suggestedNodesProps,
@@ -68,6 +79,8 @@ class Network extends Component {
       currencyName,
       intl
     } = this.props
+
+    const { searchQuery } = this.state
 
     if (!currentTicker || !currencyName) {
       return null
@@ -408,7 +421,7 @@ class Network extends Component {
                     border={0}
                     placeholder={intl.formatMessage({ ...messages.search_placeholder })}
                     value={searchQuery}
-                    onChange={event => updateChannelSearchQuery(event.target.value)}
+                    onChange={this.onSearchTextChange}
                   />
                 </Form>
               </Flex>
