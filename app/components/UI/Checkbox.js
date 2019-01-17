@@ -83,7 +83,7 @@ const DisabledCheck = styled.div`
   border-radius: 5px;
 `
 
-const Checkbox = ({ text, checked, disabled, color, onChange, ...rest }) => (
+const Checkbox = ({ label, checked, disabled, color, onChange, ...rest }) => (
   <Container
     flexDirection="row"
     alignItems="center"
@@ -104,9 +104,7 @@ const Checkbox = ({ text, checked, disabled, color, onChange, ...rest }) => (
     >
       <Checkmark checked={checked} disabled={disabled} />
     </CheckboxOutline>
-    <Text ml={2} color="gray">
-      {text}
-    </Text>
+    <Text ml={2}>{label}</Text>
   </Container>
 )
 
@@ -116,7 +114,7 @@ Checkbox.defaultProps = {
 }
 
 Checkbox.propTypes = {
-  text: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   checked: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired
@@ -135,7 +133,7 @@ const WrappedCheckboxAsField = ({ fieldState, fieldApi, ...rest }) => {
 }
 
 WrappedCheckboxAsField.propTypes = {
-  text: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   disabled: PropTypes.bool
 }
 

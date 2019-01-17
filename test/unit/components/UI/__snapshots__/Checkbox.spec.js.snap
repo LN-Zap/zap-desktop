@@ -4,7 +4,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
 .c4 {
   margin-left: 8px;
   font-size: 13px;
-  color: #959595;
+  color: #ffffff;
   line-height: 1.4;
 }
 
@@ -92,7 +92,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
     />
     <div
       className="c4"
-      color="gray"
+      color="primaryText"
       fontSize="m"
     >
       cb

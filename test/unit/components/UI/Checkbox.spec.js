@@ -11,7 +11,7 @@ describe('component.UI.Checkbox', () => {
       .create(
         <ThemeProvider theme={dark}>
           <Form>
-            <Checkbox field="name" text="cb" />
+            <Checkbox field="name" label="cb" />
           </Form>
         </ThemeProvider>
       )
