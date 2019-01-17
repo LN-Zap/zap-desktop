@@ -333,7 +333,7 @@
     "styled-reset": "1.6.4",
     "tildify": "1.2.0",
     "untildify": "3.0.3",
-    "validator": "10.10.0",
+    "validator": "10.11.0",
     "yup": "0.26.7"
   },
   "main": "internals/webpack/webpack.config.base.js",
