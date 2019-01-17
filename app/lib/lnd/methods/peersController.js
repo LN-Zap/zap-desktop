@@ -1,3 +1,4 @@
+import { promisifiedCall } from '../../utils'
 /**
  * Attempts to establish a connection to a remote peer
  * @param  {[type]} lnd    [description]
@@ -6,15 +7,7 @@
  * @return {[type]}        [description]
  */
 export function connectPeer(lnd, { pubkey, host }) {
-  return new Promise((resolve, reject) => {
-    lnd.connectPeer({ addr: { pubkey, host } }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.connectPeer, { addr: { pubkey, host } })
 }
 
 /**
@@ -24,15 +17,7 @@ export function connectPeer(lnd, { pubkey, host }) {
  * @return {[type]}        [description]
  */
 export function disconnectPeer(lnd, { pubkey }) {
-  return new Promise((resolve, reject) => {
-    lnd.disconnectPeer({ pub_key: pubkey }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.disconnectPeer, { pub_key: pubkey })
 }
 
 /**
@@ -41,13 +26,5 @@ export function disconnectPeer(lnd, { pubkey }) {
  * @return {[type]}     [description]
  */
 export function listPeers(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.listPeers({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.listPeers, {})
 }
