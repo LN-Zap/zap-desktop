@@ -219,7 +219,7 @@ export function convert(from, to, amount, price) {
         case 'lits':
           return millisatoshisToSatoshis(amount)
         case 'fiat':
-          return satoshisToFiat(amount, price)
+          return millisatoshisToFiat(amount, price)
         case 'msats':
         case 'mlits':
           return amount
