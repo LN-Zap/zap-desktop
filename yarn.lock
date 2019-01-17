@@ -3164,10 +3164,10 @@ babel-plugin-react-docgen@^2.0.0:
     lodash "^4.17.10"
     react-docgen "^3.0.0-rc.1"
 
-babel-plugin-react-intl-auto@1.4.0:
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl-auto/-/babel-plugin-react-intl-auto-1.4.0.tgz#acbed86a32a273eee63ce2218c736f0a90dac850"
-  integrity sha512-TnnQV7v65LfIraGzqGpPK1RGoEMp4nVy6y/30FweMKqe9jq45Cec4rJGmnrC4SSN4t1PArrEdDobIGgj8mK6TQ==
+babel-plugin-react-intl-auto@1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl-auto/-/babel-plugin-react-intl-auto-1.5.0.tgz#5ebd9e2526ec077f2bcc1d86ac90fc5b655746de"
+  integrity sha512-mjn6fAxXwQkvv+sFEOc6VlBFCVEhUJPmYmWC51lIQnFxhF4cNxnonGvA6U7IsUzA/o3KJ4S6k+UQldPJoq9iGA==
   dependencies:
     babel-types "^6.26.0"
     murmurhash3js "^3.0.1"
