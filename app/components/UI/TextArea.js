@@ -1,37 +1,85 @@
+/* eslint-disable react/no-multi-comp */
+
 import React from 'react'
 import { asField } from 'informed'
-import system from '@rebass/components'
+import styled, { withTheme } from 'styled-components'
 import { styles } from 'styled-system'
-import { withTheme } from 'styled-components'
+import system from '@rebass/components'
 import { Flex } from 'rebass'
 import { Message, Label, Span, Text } from 'components/UI'
+import withRequiredValidation from 'components/withRequiredValidation'
+
+function isFieldValid({ value, error, asyncError, touched }) {
+  return value && !error && !asyncError && touched
+}
+
+function mapDefaultBorderColor(props) {
+  const {
+    disabled,
+    readOnly,
+    fieldState,
+    fieldState: { error, asyncError },
+    theme: {
+      colors: { gray, superGreen, superRed }
+    }
+  } = props
+
+  let borderColor = gray
+  if (readOnly || disabled) {
+    borderColor = gray
+  } else if (error || asyncError) {
+    borderColor = superRed
+  } else if (isFieldValid(fieldState)) {
+    borderColor = superGreen
+  }
+  return borderColor
+}
+
+function mapFocusBorderColor(props) {
+  const {
+    fieldState,
+    theme: {
+      colors: { lightningOrange, superGreen }
+    }
+  } = props
+  return isFieldValid(fieldState) ? superGreen : lightningOrange
+}
 
 // Create an html textarea element that accepts all style props from styled-system.
-const SystemTextArea = system(
-  {
-    as: 'textarea',
-    border: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    bg: 'transparent',
-    color: 'primaryText',
-    fontFamily: 'sans',
-    fontSize: 'm',
-    fontWeight: 'light',
-    p: 3,
-    width: 1,
-    rows: 5
-  },
-  'space',
-  'color',
-  'borders',
-  'borderColor',
-  'borderRadius',
-  'fontFamily',
-  'fontSize',
-  'fontWeight',
-  'width'
-)
+const SystemTextArea = styled(
+  system(
+    {
+      as: 'textarea',
+      border: 1,
+      borderColor: 'gray',
+      borderRadius: 5,
+      bg: 'transparent',
+      color: 'primaryText',
+      fontFamily: 'sans',
+      fontSize: 'm',
+      fontWeight: 'light',
+      p: 3,
+      width: 1,
+      rows: 5
+    },
+    'space',
+    'color',
+    'borders',
+    'borderColor',
+    'borderRadius',
+    'fontFamily',
+    'fontSize',
+    'fontWeight',
+    'width'
+  )
+)`
+  opacity: ${props => (props.disabled || props.readOnly ? '0.6' : 'inherit')};
+  outline: none;
+  border-color: ${mapDefaultBorderColor};
+  &:not([readOnly]):not([disabled]):focus {
+    border-color: ${mapFocusBorderColor};
+  }
+`
 
 /**
  * @render react
@@ -60,7 +108,6 @@ class TextArea extends React.PureComponent {
 
   render() {
     const {
-      css,
       description,
       onChange,
       onBlur,
@@ -77,21 +124,9 @@ class TextArea extends React.PureComponent {
       variant,
       ...rest
     } = this.props
-    const { readOnly } = this.props
     const { hasFocus } = this.state
     const { setValue, setTouched } = fieldApi
     const { value } = fieldState
-    const isValid = value && !fieldState.error && !fieldState.asyncError && fieldState.touched
-
-    // Calculate the border color based on the current field state.
-    let borderColor
-    if (readOnly) {
-      borderColor = theme.colors.gray
-    } else if (fieldState.error || fieldState.asyncError) {
-      borderColor = theme.colors.superRed
-    } else if (isValid) {
-      borderColor = theme.colors.superGreen
-    }
 
     // Extract any styled-system space props so that we can apply them directly to the wrapper.
     const spaceProps = {}
@@ -116,24 +151,14 @@ class TextArea extends React.PureComponent {
           </Label>
         )}
         <SystemTextArea
-          borderColor={borderColor || theme.colors.gray}
-          css={Object.assign(
-            {
-              outline: 'none',
-              '&:not([readOnly]):not([disabled]):focus': {
-                border: `1px solid ${
-                  isValid ? theme.colors.superGreen : theme.colors.lightningOrange
-                } }`
-              }
-            },
-            css
-          )}
-          opacity={readOnly ? 0.6 : null}
           p={variant === 'thin' ? 2 : 3}
           {...rest}
           field={field}
+          theme={theme}
+          fieldState={fieldState}
           ref={this.inputRef}
           value={!value && value !== 0 ? '' : value}
+          required={required}
           onChange={e => {
             setValue(e.target.value)
             if (onChange) {
@@ -161,8 +186,6 @@ class TextArea extends React.PureComponent {
               onFocus(e)
             }
           }}
-          required={required}
-          error={fieldState.error}
         />
         {description && (
           <Text color="gray" fontSize="s" mt={1}>
@@ -179,4 +202,4 @@ class TextArea extends React.PureComponent {
   }
 }
 
-export default asField(withTheme(TextArea))
+export default withRequiredValidation(withTheme(asField(TextArea)))
