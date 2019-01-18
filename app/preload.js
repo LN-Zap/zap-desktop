@@ -194,6 +194,8 @@ window.Zap = {
 
 // Provide access to ipcRenderer.
 window.ipcRenderer = ipcRenderer
+//Provide access to electron remote
+window.showOpenDialog = remote.dialog.showOpenDialog
 
 // Provide access to whitelisted environment variables.
 window.env = Object.keys(process.env)

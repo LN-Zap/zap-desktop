@@ -131,6 +131,7 @@ class Input extends React.Component {
       showMessage,
       validate,
       variant,
+      className,
       ...rest
     } = this.props
     const { hasFocus } = this.state
@@ -147,7 +148,12 @@ class Input extends React.Component {
     })
 
     return (
-      <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
+      <Flex
+        flexDirection="column"
+        justifyContent={justifyContent}
+        {...spaceProps}
+        className={className}
+      >
         {label && (
           <Label htmlFor={field} mb={2}>
             {label}

@@ -41,7 +41,7 @@ class Button extends React.PureComponent {
   }
 
   render() {
-    let { children, active, processing, size, variant, ...rest } = this.props
+    let { children, active, processing, size, variant, className, ...rest } = this.props
     const sizes = {
       small: {
         x: 3,
@@ -60,13 +60,18 @@ class Button extends React.PureComponent {
 
     const borderRadius = variant === 'secondary' ? 0 : 5
 
+    //support custom styled and styled-components
+    const wrapperClasses = [className, active ? 'active' : null]
+      .filter(cls => Boolean(cls))
+      .join(' ')
+
     return (
       <Wrapper
         px={size['x']}
         py={size['y']}
         borderRadius={borderRadius}
         variant={variant}
-        className={active ? 'active' : null}
+        className={wrapperClasses}
         {...rest}
       >
         {processing ? (
