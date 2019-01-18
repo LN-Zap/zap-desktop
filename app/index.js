@@ -13,6 +13,9 @@ import './lib/i18n/locale'
 // Get translations.
 import translations from './lib/i18n/translation'
 
+// Make the db globally accessible.
+window.db = db
+
 // Initialise the database.
 db.open()
 

@@ -58,8 +58,9 @@ appSelectors.isWalletsLoaded = state => state.wallet.isWalletsLoaded
 appSelectors.isReady = createSelector(
   appSelectors.onboarding,
   appSelectors.isWalletsLoaded,
-  (onboarding, isWalletsLoaded) => {
-    return Boolean(onboarding && isWalletsLoaded)
+  appSelectors.isLoading,
+  (onboarding, isWalletsLoaded, isLoading) => {
+    return Boolean(onboarding && isWalletsLoaded && !isLoading)
   }
 )
 

@@ -3,7 +3,7 @@
  */
 
 import path from 'path'
-import { ExternalsPlugin } from 'webpack'
+import { EnvironmentPlugin, ExternalsPlugin } from 'webpack'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
@@ -48,6 +48,10 @@ export default merge.smart(baseConfig, {
   plugins: [
     new CleanWebpackPlugin([path.resolve('app', 'dist')], {
       root: path.resolve('..', '..')
+    }),
+
+    new EnvironmentPlugin({
+      NODE_ENV: 'production'
     }),
 
     new HtmlWebpackPlugin({

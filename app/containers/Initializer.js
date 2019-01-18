@@ -31,16 +31,19 @@ class Initializer extends React.Component {
     initWallets: PropTypes.func.isRequired
   }
 
+  nextLocation = null
+
   /**
    * Initialise app state.
    */
   componentDidMount() {
     const { fetchSuggestedNodes, fetchTicker, initLocale, initCurrency, initWallets } = this.props
+
     initLocale()
     initCurrency()
-    initWallets()
     fetchTicker()
     fetchSuggestedNodes()
+    initWallets()
   }
 
   /**
@@ -59,8 +62,7 @@ class Initializer extends React.Component {
       walletUnlockerGrpcActive,
       startActiveWallet
     } = this.props
-
-    // If the app has just become ready, redirect the user to the most relevant location.
+    // If the wallet settings have just been loaded, redirect the user to the most relevant location.
     if (isReady && !prevProps.isReady) {
       if (activeWalletSettings) {
         if (isWalletOpen) {
@@ -68,32 +70,37 @@ class Initializer extends React.Component {
           // Errors are handled below by listening for updates to the startLndError prop.
           return startActiveWallet().catch(() => {})
         } else {
-          return history.push(`/home/wallet/${activeWallet}`)
+          this.nextLocation = `/home/wallet/${activeWallet}`
         }
       }
 
       // If we have an at least one wallet send the user to the homepage.
       // Otherwise send them to the onboarding processes.
-      return hasWallets ? history.push('/home') : history.push('/onboarding')
+      this.nextLocation = hasWallets ? '/home' : '/onboarding'
     }
 
     // If there was a problem starting lnd, swich to the wallet launcher.
     if (startLndError && !prevProps.startLndError) {
-      return history.push(`/home/wallet/${activeWallet}`)
+      this.nextLocation = `/home/wallet/${activeWallet}`
     }
 
     // If the wallet unlocker became active, switch to the login screen.
     if (walletUnlockerGrpcActive && !prevProps.walletUnlockerGrpcActive) {
-      return history.push(`/home/wallet/${activeWallet}/unlock`)
+      this.nextLocation = `/home/wallet/${activeWallet}/unlock`
     }
 
     // If an active wallet connection has been established, switch to the app.
     if (lightningGrpcActive && !prevProps.lightningGrpcActive) {
       if (activeWalletSettings.type === 'local') {
-        return history.push('/syncing')
+        this.nextLocation = '/syncing'
       } else {
-        return history.push('/app')
+        this.nextLocation = '/app'
       }
+    }
+
+    // Once the app is ready, and we have determined the next location, redirect the user.
+    if (isReady && this.nextLocation) {
+      return history.push(this.nextLocation)
     }
   }
 
