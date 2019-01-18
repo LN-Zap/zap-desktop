@@ -143,34 +143,31 @@ export default function(lnd, log, event, msg, data) {
         .catch(error => log.error('balance:', error))
       break
     case 'createInvoice':
-      // Invoice looks like { r_hash: Buffer, payment_request: '' }
-      // { memo, value } = data
       invoicesController
         .addInvoice(lnd, data)
         .then(newinvoice =>
-          invoicesController
-            .getInvoice(lnd, { pay_req: newinvoice.payment_request })
-            .then(decodedInvoice =>
-              event.sender.send(
-                'createdInvoice',
-                Object.assign(decodedInvoice, {
-                  memo: data.memo,
-                  value: data.value,
-                  r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
-                  payment_request: newinvoice.payment_request,
-                  creation_date: Date.now() / 1000
-                })
-              )
-            )
-            .catch(error => {
-              log.error('decodedInvoice:', error)
-              event.sender.send('invoiceFailed', { error: error.toString() })
+          Promise.all([
+            newinvoice,
+            invoicesController.getInvoice(lnd, { pay_req: newinvoice.payment_request })
+          ])
+        )
+        .then(([newinvoice, decodedInvoice]) =>
+          event.sender.send(
+            'createdInvoice',
+            Object.assign(decodedInvoice, {
+              memo: data.memo,
+              value: data.value,
+              r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
+              payment_request: newinvoice.payment_request,
+              creation_date: Date.now() / 1000
             })
+          )
         )
         .catch(error => {
           log.error('addInvoice:', error)
           event.sender.send('invoiceFailed', { error: error.toString() })
         })
+
       break
     case 'sendPayment':
       // Payment looks like { payment_preimage: Buffer, payment_route: Object }
