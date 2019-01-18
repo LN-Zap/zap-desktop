@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import debounce from 'lodash.debounce'
 import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Form, Heading, Input, Panel, Spinner, Tabs } from 'components/UI'
@@ -13,8 +14,12 @@ import ActivityListItem from './ActivityListItem'
 
 class Activity extends Component {
   state = {
-    refreshing: false
+    refreshing: false,
+    searchText: ''
   }
+
+  /*eslint-disable react/destructuring-assignment*/
+  updateSearchText = debounce(this.props.updateSearchText, 300)
 
   refreshClicked = async () => {
     const { fetchActivityHistory } = this.props
@@ -31,13 +36,19 @@ class Activity extends Component {
     this.setState({ refreshing: false })
   }
 
+  onSearchTextChange = event => {
+    const { value } = event.target
+    this.setState({
+      searchText: value
+    })
+    this.updateSearchText(value)
+  }
+
   renderSearchBar = () => {
-    const {
-      activity: { searchText },
-      updateSearchActive,
-      updateSearchText,
-      intl
-    } = this.props
+    const { updateSearchActive, updateSearchText, intl } = this.props
+
+    const { searchText } = this.state
+
     return (
       <>
         <Form width={1}>
@@ -50,7 +61,7 @@ class Activity extends Component {
             border={0}
             placeholder={intl.formatMessage({ ...messages.search })}
             value={searchText}
-            onChange={event => updateSearchText(event.target.value)}
+            onChange={this.onSearchTextChange}
           />
         </Form>
 
