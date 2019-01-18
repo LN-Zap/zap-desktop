@@ -1,3 +1,4 @@
+import { promisifiedCall } from '../../utils'
 import promiseTimeout from '../../utils/promiseTimeout'
 
 const PAYMENT_TIMEOUT = 60 * 1000
@@ -63,15 +64,7 @@ export function sendPaymentSync(lnd, { paymentRequest, amt, feeLimit }) {
  * @return {[type]}        [description]
  */
 export function decodePayReq(lnd, { payReq }) {
-  return new Promise((resolve, reject) => {
-    lnd.decodePayReq({ pay_req: payReq }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.decodePayReq, { pay_req: payReq })
 }
 
 /**
@@ -80,15 +73,7 @@ export function decodePayReq(lnd, { payReq }) {
  * @return {[type]}     [description]
  */
 export function listPayments(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.listPayments({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.listPayments, {})
 }
 
 /**
@@ -97,13 +82,5 @@ export function listPayments(lnd) {
  * @return {[type]}     [description]
  */
 export function deleteAllPayments(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.deleteAllPayments({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.deleteAllPayments, {})
 }

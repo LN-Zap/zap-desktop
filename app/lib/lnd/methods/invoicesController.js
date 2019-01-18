@@ -1,4 +1,5 @@
 import pushinvoices from '../push/subscribeinvoice'
+import { promisifiedCall } from '../../utils'
 
 /**
  * Attempts to add a new invoice to the invoice database.
@@ -8,15 +9,7 @@ import pushinvoices from '../push/subscribeinvoice'
  * @return     [description]
  */
 export function addInvoice(lnd, { memo, value, private: privateInvoice }) {
-  return new Promise((resolve, reject) => {
-    lnd.addInvoice({ memo, value, private: privateInvoice, expiry: 600 }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.addInvoice, { memo, value, private: privateInvoice, expiry: 600 })
 }
 
 /**
@@ -25,15 +18,7 @@ export function addInvoice(lnd, { memo, value, private: privateInvoice }) {
  * @return {[type]}     [description]
  */
 export function listInvoices(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.listInvoices({ num_max_invoices: 1000 }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.listInvoices, { num_max_invoices: 1000 })
 }
 
 /**
@@ -41,15 +26,7 @@ export function listInvoices(lnd) {
  * @return {[type]}        [description]
  */
 export function getInvoice(lnd, { pay_req }) {
-  return new Promise((resolve, reject) => {
-    lnd.decodePayReq({ pay_req }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.decodePayReq, { pay_req })
 }
 
 /**
@@ -59,15 +36,7 @@ export function getInvoice(lnd, { pay_req }) {
  * @return {[type]}       [description]
  */
 export function lookupInvoice(lnd, { rhash }) {
-  return new Promise((resolve, reject) => {
-    lnd.lookupInvoice({ r_hash: rhash }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.lookupInvoice, { r_hash: rhash })
 }
 
 /**

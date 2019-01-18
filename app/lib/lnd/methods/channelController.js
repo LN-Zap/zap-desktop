@@ -1,5 +1,6 @@
 import { listPeers, connectPeer } from './peersController'
 import pushopenchannel from '../push/openchannel'
+import { promisifiedCall } from '../../utils'
 
 function ensurePeerConnected(lnd, pubkey, host) {
   return listPeers(lnd).then(({ peers }) => {
@@ -66,15 +67,7 @@ export function openChannel(lnd, event, payload) {
  * @return {[type]}     [description]
  */
 export function channelBalance(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.channelBalance({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.channelBalance, {})
 }
 
 /**
@@ -83,15 +76,7 @@ export function channelBalance(lnd) {
  * @return {[type]}     [description]
  */
 export function listChannels(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.listChannels({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.listChannels, {})
 }
 
 /**
@@ -144,15 +129,7 @@ export function closeChannel(lnd, event, payload) {
  * @return {[type]}     [description]
  */
 export function pendingChannels(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.pendingChannels({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.pendingChannels, {})
 }
 
 /**
@@ -162,13 +139,5 @@ export function pendingChannels(lnd) {
  * @return {[type]}           [description]
  */
 export function getChanInfo(lnd, { chanId }) {
-  return new Promise((resolve, reject) => {
-    lnd.getChanInfo({ chan_id: chanId }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.getChanInfo, { chan_id: chanId })
 }
