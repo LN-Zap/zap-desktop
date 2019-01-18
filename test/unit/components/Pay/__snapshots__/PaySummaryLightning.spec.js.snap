@@ -55,7 +55,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
           <FormattedNumber
             currency="USD"
             style="currency"
-            value={0.647778}
+            value="0.65"
           />
         </Text>
       </styled.div>

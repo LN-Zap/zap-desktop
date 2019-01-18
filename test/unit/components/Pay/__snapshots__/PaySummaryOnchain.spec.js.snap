@@ -69,7 +69,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
           <FormattedNumber
             currency="USD"
             style="currency"
-            value={0.0647778}
+            value="0.06"
           />
         </Text>
       </styled.div>
