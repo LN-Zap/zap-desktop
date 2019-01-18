@@ -2,38 +2,83 @@
 
 import React from 'react'
 import { asField } from 'informed'
-import { withTheme } from 'styled-components'
-import system from '@rebass/components'
+import styled, { withTheme } from 'styled-components'
 import { styles } from 'styled-system'
-import * as yup from 'yup'
+import system from '@rebass/components'
 import { Flex } from 'rebass'
 import { Message, Label, Span, Text } from 'components/UI'
+import withRequiredValidation from 'components/withRequiredValidation'
+
+function isFieldValid({ value, error, asyncError, touched }) {
+  return value && !error && !asyncError && touched
+}
+
+function mapDefaultBorderColor(props) {
+  const {
+    disabled,
+    readOnly,
+    fieldState,
+    fieldState: { error, asyncError },
+    theme: {
+      colors: { gray, superGreen, superRed }
+    }
+  } = props
+
+  let borderColor = gray
+  if (readOnly || disabled) {
+    borderColor = gray
+  } else if (error || asyncError) {
+    borderColor = superRed
+  } else if (isFieldValid(fieldState)) {
+    borderColor = superGreen
+  }
+  return borderColor
+}
+
+function mapFocusBorderColor(props) {
+  const {
+    fieldState,
+    theme: {
+      colors: { lightningOrange, superGreen }
+    }
+  } = props
+  return isFieldValid(fieldState) ? superGreen : lightningOrange
+}
 
 // Create an html input element that accepts all style props from styled-system.
-const SystemInput = system(
-  {
-    as: 'input',
-    border: 1,
-    borderColor: 'gray',
-    borderRadius: 5,
-    bg: 'transparent',
-    color: 'primaryText',
-    fontFamily: 'sans',
-    fontSize: 'm',
-    fontWeight: 'light',
-    p: 3,
-    width: 1
-  },
-  'space',
-  'color',
-  'borders',
-  'borderColor',
-  'borderRadius',
-  'fontFamily',
-  'fontSize',
-  'fontWeight',
-  'width'
-)
+const SystemInput = styled(
+  system(
+    {
+      as: 'input',
+      border: 1,
+      borderColor: 'gray',
+      borderRadius: 5,
+      bg: 'transparent',
+      color: 'primaryText',
+      fontFamily: 'sans',
+      fontSize: 'm',
+      fontWeight: 'light',
+      p: 3,
+      width: 1
+    },
+    'space',
+    'color',
+    'borders',
+    'borderColor',
+    'borderRadius',
+    'fontFamily',
+    'fontSize',
+    'fontWeight',
+    'width'
+  )
+)`
+  opacity: ${props => (props.disabled || props.readOnly ? '0.6' : 'inherit')};
+  outline: none;
+  border-color: ${mapDefaultBorderColor};
+  &:not([readOnly]):not([disabled]):focus {
+    border-color: ${mapFocusBorderColor};
+  }
+`
 
 /**
  * @render react
@@ -70,8 +115,6 @@ class Input extends React.Component {
 
   render() {
     const {
-      border,
-      css,
       description,
       onChange,
       onBlur,
@@ -80,6 +123,7 @@ class Input extends React.Component {
       label,
       required,
       theme,
+      type,
       field,
       fieldApi,
       fieldState,
@@ -89,6 +133,9 @@ class Input extends React.Component {
       variant,
       ...rest
     } = this.props
+    const { hasFocus } = this.state
+    const { setValue, setTouched } = fieldApi
+    const { value } = fieldState
 
     // Extract any styled-system space props so that we can apply them directly to the wrapper.
     const spaceProps = {}
@@ -99,34 +146,6 @@ class Input extends React.Component {
       }
     })
 
-    const { readOnly } = this.props
-    const { hasFocus } = this.state
-    const { setValue, setTouched } = fieldApi
-    const { value } = fieldState
-    const isValid = value && !fieldState.error && !fieldState.asyncError && fieldState.touched
-
-    // Calculate the border color based on the current field state.
-    let borderColor
-    if (readOnly) {
-      borderColor = theme.colors.gray
-    } else if (fieldState.error || fieldState.asyncError) {
-      borderColor = theme.colors.superRed
-    } else if (isValid) {
-      borderColor = theme.colors.superGreen
-    }
-
-    const cssProps = Object.assign(
-      {
-        outline: 'none'
-      },
-      css
-    )
-
-    if (border) {
-      cssProps['&:not([readOnly]):not([disabled]):focus'] = {
-        border: `1px solid ${isValid ? theme.colors.superGreen : theme.colors.lightningOrange} }`
-      }
-    }
     return (
       <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
         {label && (
@@ -140,16 +159,17 @@ class Input extends React.Component {
             )}
           </Label>
         )}
+
         <SystemInput
           p={variant === 'thin' ? 2 : 3}
-          width={1}
-          border={border}
-          borderColor={borderColor || theme.colors.gray}
-          css={cssProps}
           {...rest}
           field={field}
+          type={type}
+          theme={theme}
+          fieldState={fieldState}
           ref={this.inputRef}
           value={!value && value !== 0 ? '' : value}
+          required={required}
           onChange={e => {
             setValue(e.target.value)
             if (onChange) {
@@ -177,14 +197,13 @@ class Input extends React.Component {
               onFocus(e)
             }
           }}
-          required={required}
         />
-        {description && (
+        {type !== 'hidden' && description && (
           <Text color="gray" fontSize="s" mt={1}>
             {description}
           </Text>
         )}
-        {showMessage && (fieldState.error || fieldState.asyncError) && (
+        {type !== 'hidden' && showMessage && (fieldState.error || fieldState.asyncError) && (
           <Message variant={hasFocus ? 'warning' : 'error'} mt={1}>
             {fieldState.error || fieldState.asyncError}
           </Message>
@@ -194,33 +213,4 @@ class Input extends React.Component {
   }
 }
 
-const InputAsField = asField(Input)
-
-class WrappedInputAsField extends React.Component {
-  validate = value => {
-    const { disabled, required } = this.props
-    if (disabled) {
-      return
-    }
-    try {
-      if (required) {
-        const validator = yup.string().required()
-        validator.validateSync(value)
-      }
-    } catch (error) {
-      return error.message
-    }
-
-    // Run any additional validation provided by the caller.
-    const { validate } = this.props
-    if (validate) {
-      return validate(value)
-    }
-  }
-
-  render() {
-    return <InputAsField validate={this.validate} {...this.props} />
-  }
-}
-
-export default withTheme(WrappedInputAsField)
+export default withRequiredValidation(withTheme(asField(Input)))

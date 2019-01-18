@@ -22,7 +22,13 @@ exports[`component.UI.Input should render correctly 1`] = `
   font-size: 13px;
   font-weight: 300;
   width: 100%;
+  opacity: inherit;
   outline: none;
+  border-color: #959595;
+}
+
+.c1:not([readOnly]):not([disabled]):focus {
+  border-color: #fd9800;
 }
 
 <form

@@ -51,16 +51,73 @@ storiesOf('Forms', module)
           description="This field also has a description."
         />
       </Form>
+      <Form mb={4}>
+        <Input
+          field="fieldName"
+          id="field-name"
+          label="Required field"
+          required
+          validateOnBlur
+          validateOnChange
+        />
+      </Form>
+      <Form mb={4}>
+        <Input field="fieldName" id="field-name" label="Disabled field" disabled />
+      </Form>
+      <Form mb={4}>
+        <Input
+          field="fieldName"
+          id="field-name"
+          label="Read only field"
+          readOnly
+          initialValue="This is a read only field"
+        />
+      </Form>
+    </>
+  ))
+  .add('TextArea', () => (
+    <>
+      <Form mb={4}>
+        <TextArea field="fieldName" id="field-name" />
+      </Form>
+      <Form mb={4}>
+        <TextArea field="fieldName" id="field-name" label="TextArea with Label" />
+      </Form>
+      <Form mb={4}>
+        <TextArea
+          field="fieldName"
+          id="field-name"
+          label="TextArea with Label and description"
+          description="This field also has a description."
+        />
+      </Form>
+      <Form mb={4}>
+        <TextArea
+          field="fieldName"
+          id="field-name"
+          label="Required field"
+          required
+          validateOnBlur
+          validateOnChange
+        />
+      </Form>
+      <Form mb={4}>
+        <TextArea field="fieldName" id="field-name" label="Disabled field" disabled />
+      </Form>
+      <Form mb={4}>
+        <TextArea
+          field="fieldName"
+          id="field-name"
+          label="Read only field"
+          readOnly
+          initialValue="This is a read only field"
+        />
+      </Form>
     </>
   ))
   .add('Label', () => (
     <Form>
       <Label htmlFor="id">Label</Label>
-    </Form>
-  ))
-  .add('TextArea', () => (
-    <Form>
-      <TextArea field="fieldName" placeholder="Type here" />
     </Form>
   ))
   .add('CryptoAmountInput', () => (
@@ -178,6 +235,7 @@ storiesOf('Forms', module)
                   placeholder="Type here"
                   validate={validate}
                   validateOnBlur
+                  validateOnChange
                 />
               </Box>
 
@@ -188,6 +246,7 @@ storiesOf('Forms', module)
                   label="Example TextArea"
                   validate={validate}
                   validateOnBlur
+                  validateOnChange
                 />
               </Box>
 

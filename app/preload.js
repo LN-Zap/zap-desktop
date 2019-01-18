@@ -79,10 +79,14 @@ async function getLocalWallets(chain, network) {
   }
 }
 
+function killLnd() {
+  return ipcRenderer.sendSync('killLnd')
+}
+
 /**
  * Delete a local wallet from the filesystem.
  */
-async function deleteLocalWallet(chain, network, wallet) {
+async function deleteLocalWallet(chain, network, wallet, force = false) {
   try {
     assert(chain && network && wallet)
   } catch (err) {
@@ -90,6 +94,10 @@ async function deleteLocalWallet(chain, network, wallet) {
   }
 
   let walletDir = join(remote.app.getPath('userData'), 'lnd', chain, network, wallet)
+
+  if (force) {
+    return await fsRimraf(walletDir, { disableGlob: true })
+  }
 
   return new Promise((resolve, reject) => {
     remote.dialog.showMessageBox(
@@ -180,7 +188,8 @@ window.Zap = {
   getLocalWallets,
   deleteLocalWallet,
   validateHost,
-  fileExists
+  fileExists,
+  killLnd
 }
 
 // Provide access to ipcRenderer.

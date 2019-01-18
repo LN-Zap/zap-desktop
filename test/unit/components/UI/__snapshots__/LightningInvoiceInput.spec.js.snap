@@ -13,23 +13,22 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
 
 .c1 {
   padding: 16px;
-  width: 100%;
-  font-size: 13px;
   color: #ffffff;
   background-color: transparent;
-  color: #ffffff;
-  background-color: transparent;
-  font-family: Roboto,system-ui,sans-serif;
-  font-weight: 300;
-  border: 1px solid;
   border: 1px solid;
   border-color: #959595;
   border-radius: 5px;
+  font-family: Roboto,system-ui,sans-serif;
+  font-size: 13px;
+  font-weight: 300;
+  width: 100%;
+  opacity: inherit;
   outline: none;
+  border-color: #959595;
 }
 
 .c1:not([readOnly]):not([disabled]):focus {
-  border: 1px solid #fd9800;
+  border-color: #fd9800;
 }
 
 <form
@@ -48,7 +47,6 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
       onBlur={[Function]}
       onChange={[Function]}
       onFocus={[Function]}
-      opacity={null}
       placeholder="Paste a Lightning Payment Request or bitcoin Address here"
       required={false}
       rows={5}

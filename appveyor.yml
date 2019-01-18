@@ -32,7 +32,6 @@ install:
 
 test_script:
   - yarn lint-ci
-  - yarn build
   - yarn test-ci
 
 deploy_script:
