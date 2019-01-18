@@ -81,7 +81,7 @@ export const payInvoice = ({ payReq, value, currency = 'sats', feeLimit }) => di
   dispatch(sendPayment(data))
 
   // Close the form modal once the payment has been sent
-  dispatch(changeFilter({ key: 'ALL_ACTIVITY', name: 'all' }))
+  dispatch(changeFilter('ALL_ACTIVITY'))
   dispatch(setFormType(null))
 }
 

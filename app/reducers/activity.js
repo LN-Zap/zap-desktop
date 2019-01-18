@@ -9,12 +9,12 @@ import { fetchBalance } from './balance'
 // Initial State
 // ------------------------------------
 const initialState = {
-  filter: { key: 'ALL_ACTIVITY', name: 'All Activity' },
+  filter: 'ALL_ACTIVITY',
   filters: [
-    { key: 'ALL_ACTIVITY', name: 'all' },
-    { key: 'SENT_ACTIVITY', name: 'sent' },
-    { key: 'REQUESTED_ACTIVITY', name: 'requested' },
-    { key: 'PENDING_ACTIVITY', name: 'pending' }
+    { key: 'ALL_ACTIVITY', name: 'All' },
+    { key: 'SENT_ACTIVITY', name: 'Sent' },
+    { key: 'REQUESTED_ACTIVITY', name: 'Requested' },
+    { key: 'PENDING_ACTIVITY', name: 'Pending' }
   ],
   modal: {
     itemType: null,
@@ -342,18 +342,18 @@ const FILTERS = {
 
 activitySelectors.currentActivity = createSelector(
   filterSelector,
-  filter => FILTERS[filter.key]
+  filter => FILTERS[filter]
 )
 
 activitySelectors.nonActiveFilters = createSelector(
   filtersSelector,
   filterSelector,
-  (filters, filter) => filters.filter(f => f.key !== filter.key)
+  (filters, filter) => filters.filter(f => f.key !== filter)
 )
 
 activitySelectors.showExpiredToggle = createSelector(
   filterSelector,
-  filter => filter.key === 'REQUESTED_ACTIVITY' || filter.key === 'ALL_ACTIVITY'
+  filter => filter === 'REQUESTED_ACTIVITY' || filter === 'ALL_ACTIVITY'
 )
 
 export { activitySelectors }
