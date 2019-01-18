@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Box } from 'rebass'
-import { Bar, Form, Header, Input } from 'components/UI'
+import { Bar, Form, Header, Input, OpenDialogInput } from 'components/UI'
 import messages from './messages'
 
 class ConnectionDetails extends React.Component {
@@ -201,36 +201,33 @@ class ConnectionDetails extends React.Component {
                   required
                 />
               </Box>
+              <OpenDialogInput
+                field="connectionCert"
+                name="connectionCert"
+                width={1}
+                label={<FormattedMessage {...messages.cert_title} />}
+                description={<FormattedMessage {...messages.cert_description} />}
+                initialValue={connectionCert}
+                onValueChange={this.handleConnectionCertChange}
+                validateOnBlur={shouldValidateInline}
+                validateOnChange={shouldValidateInline}
+                asyncValidate={this.validateCert}
+                required
+              />
 
-              <Box mb={3}>
-                <Input
-                  field="connectionCert"
-                  name="connectionCert"
-                  label={<FormattedMessage {...messages.cert_title} />}
-                  description={<FormattedMessage {...messages.cert_description} />}
-                  initialValue={connectionCert}
-                  onValueChange={this.handleConnectionCertChange}
-                  validateOnBlur={shouldValidateInline}
-                  validateOnChange={shouldValidateInline}
-                  asyncValidate={this.validateCert}
-                  required
-                />
-              </Box>
-
-              <Box mb={3}>
-                <Input
-                  field="connectionMacaroon"
-                  name="connectionMacaroon"
-                  label="Macaroon"
-                  description={<FormattedMessage {...messages.macaroon_description} />}
-                  initialValue={connectionMacaroon}
-                  onValueChange={this.handleConnectionMacaroonChange}
-                  validateOnBlur={shouldValidateInline}
-                  validateOnChange={shouldValidateInline}
-                  asyncValidate={this.validateMacaroon}
-                  required
-                />
-              </Box>
+              <OpenDialogInput
+                field="connectionMacaroon"
+                name="connectionMacaroon"
+                label="Macaroon"
+                width={1}
+                description={<FormattedMessage {...messages.macaroon_description} />}
+                initialValue={connectionMacaroon}
+                onValueChange={this.handleConnectionMacaroonChange}
+                validateOnBlur={shouldValidateInline}
+                validateOnChange={shouldValidateInline}
+                asyncValidate={this.validateMacaroon}
+                required
+              />
             </>
           )
         }}
