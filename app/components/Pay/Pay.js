@@ -114,6 +114,8 @@ class Pay extends React.Component {
     setCryptoCurrency: PropTypes.func.isRequired,
     /** Set the current fiat currency */
     setFiatCurrency: PropTypes.func.isRequired,
+    /** Set the current payment request. */
+    setPayReq: PropTypes.func.isRequired,
     /** Method to process onChain transactions. Called when the form is submitted. */
     sendCoins: PropTypes.func.isRequired,
     /** Method to fetch fee information for onchain transactions. */
@@ -146,16 +148,19 @@ class Pay extends React.Component {
   payReqInput = React.createRef()
 
   componentDidMount() {
-    const { payReq: initialPayReq } = this.props
+    const { payReq, setPayReq } = this.props
     // If we mount with a payReq, set it in the state in order to trigger form submission once the form is loaded..
     // See componentDidUpdate().
-    if (initialPayReq) {
-      this.setState({ initialPayReq })
+    if (payReq) {
+      this.setState({ initialPayReq: payReq })
+
+      // Clear payReq now that it has been applied.
+      setPayReq(null)
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { payReq, queryRoutes } = this.props
+    const { setPayReq, payReq, queryRoutes } = this.props
     const { currentStep, initialPayReq, invoice, isOnchain } = this.state
 
     // If initialPayReq was been set in the state when the component mounted, reset the form and submit as new.
@@ -163,6 +168,9 @@ class Pay extends React.Component {
       this.formApi.reset()
       this.formApi.setValue('payReq', initialPayReq)
       this.handlePayReqChange()
+
+      // Clear payReq now that it has been applied.
+      setPayReq(null)
     }
 
     // If payReq has changed, reset the form and submit as new.
@@ -170,6 +178,9 @@ class Pay extends React.Component {
       this.formApi.reset()
       this.formApi.setValue('payReq', payReq)
       this.handlePayReqChange()
+
+      // Clear payReq now that it has been applied.
+      setPayReq(null)
     }
 
     // If we have gone back to the address step, unmark all fields from being touched.

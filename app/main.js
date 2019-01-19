@@ -37,20 +37,39 @@ if (!process.env.NODE_ENV) {
   process.env.NODE_ENV = 'development'
 }
 
+// Set up references to application helpers and controllers.
+let zap
+let updater
+let menuBuilder
+let mainWindow
+let protocolUrl
+
+// Set up a couple of timers to track the app startup progress.
+mainLog.time('Time until app is ready')
+
 /**
  * Handler for open-link events.
  */
-const handleOpenUrl = (protocolUrl = '') => {
-  mainLog.debug('open-url: %s', protocolUrl)
-  const type = protocolUrl.split(':')[0]
+const handleOpenUrl = (urlToOpen = '') => {
+  // If we already have the mainWindow, handle the link right away.
+  if (mainWindow) {
+    mainLog.debug('open-url: %s', urlToOpen)
+    const type = urlToOpen.split(':')[0]
 
-  switch (type) {
-    case 'lightning':
-      handleLightningLink(protocolUrl)
-      break
+    switch (type) {
+      case 'lightning':
+        handleLightningLink(urlToOpen)
+        break
 
-    case 'lndconnect':
-      handleLndconnectLink(protocolUrl)
+      case 'lndconnect':
+        handleLndconnectLink(urlToOpen)
+    }
+  }
+
+  // Otherwise, defer until the winow content has fully loaded.
+  // See mainWindow.webContents.on('did-finish-load') below.
+  else {
+    protocolUrl = urlToOpen
   }
 }
 
@@ -144,15 +163,6 @@ const getSetting = (store, key) => {
   return setting && setting.hasOwnProperty('value') ? setting.value : null
 }
 
-// Set up a couple of timers to track the app startup progress.
-mainLog.time('Time until app is ready')
-
-// Set up references to application helpers and controllers.
-let zap
-let updater
-let menuBuilder
-let mainWindow
-
 /**
  * If we are not able to get a single instnace lock, quit immediately.
  */
@@ -161,6 +171,14 @@ if (!singleInstanceLock) {
   mainLog.error('Unable to get single instance lock. It looks like you already have Zap open?')
   app.quit()
 }
+
+app.on('will-finish-launching', () => {
+  app.on('open-url', (event, urlToOpen) => {
+    mainLog.trace('app.open-url')
+    event.preventDefault()
+    handleOpenUrl(urlToOpen)
+  })
+})
 
 /**
  * Initialize Zap as soon as electron is ready.
@@ -216,6 +234,64 @@ app.on('ready', async () => {
   menuBuilder = new ZapMenuBuilder(mainWindow)
   menuBuilder.buildMenu(locale)
 
+  /**
+   * Add application event listener:
+   *  - Stop gRPC and kill lnd process before the app windows are closed and the app quits.
+   */
+  app.on('before-quit', event => {
+    mainLog.trace('app.before-quit')
+    if (!zap.is('terminated')) {
+      event.preventDefault()
+      zap.terminate()
+    } else {
+      if (mainWindow) {
+        mainWindow.forceClose = true
+      }
+    }
+  })
+
+  app.on('will-quit', () => {
+    mainLog.trace('app.will-quit')
+  })
+
+  app.on('quit', () => {
+    mainLog.trace('app.quit')
+  })
+
+  /**
+   * On OS X it's common to re-open a window in the app when the dock icon is clicked.
+   */
+  app.on('activate', () => {
+    mainLog.trace('app.activate')
+    mainWindow.show()
+  })
+
+  app.on('window-all-closed', () => {
+    mainLog.trace('app.window-all-closed')
+    if (os.platform() !== 'darwin' || mainWindow.forceClose) {
+      app.quit()
+    }
+  })
+
+  /**
+   * Someone tried to run a second instance, we should focus our window.
+   */
+  app.on('second-instance', (event, commandLine) => {
+    mainLog.trace('app.second-instance')
+    if (os.platform !== 'darwin') {
+      const urlToOpen = commandLine && commandLine.slice(1)[0]
+      if (urlToOpen) {
+        handleOpenUrl(urlToOpen)
+      }
+    }
+    if (mainWindow) {
+      if (mainWindow.isMinimized()) {
+        mainWindow.restore()
+      }
+      mainWindow.focus()
+    }
+  })
+
   // When the window is closed, just hide it unless we are force closing.
   mainWindow.on('close', event => {
     mainLog.trace('mainWindow.close')
@@ -232,6 +308,15 @@ app.on('ready', async () => {
     updater.mainWindow = null
     zap.mainWindow = null
     menuBuilder.mainWindow = null
+  })
+
+  // Once the app has finished loading, handle any deferred protocol urls.
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainLog.trace('webContents.did-finish-load')
+    if (protocolUrl) {
+      handleOpenUrl(protocolUrl)
+      protocolUrl = null
+    }
   })
 
   /**
@@ -255,6 +340,7 @@ app.on('ready', async () => {
       .catch(err => mainLog.warn(`An error occurred when installing REDUX_DEVTOOLS: ${err}`))
 
     mainWindow.webContents.once('dom-ready', () => {
+      mainLog.trace('webContents.dom-ready')
       mainWindow.openDevTools()
     })
   }
@@ -273,71 +359,6 @@ app.on('ready', async () => {
       callback({ cancel: false })
     }
   })
-})
-
-/**
- * Add application event listener:
- *  - Stop gRPC and kill lnd process before the app windows are closed and the app quits.
- */
-app.on('before-quit', event => {
-  mainLog.trace('app.before-quit')
-  if (!zap.is('terminated')) {
-    event.preventDefault()
-    zap.terminate()
-  } else {
-    if (mainWindow) {
-      mainWindow.forceClose = true
-    }
-  }
-})
-
-app.on('will-quit', () => {
-  mainLog.trace('app.will-quit')
-})
-
-app.on('quit', () => {
-  mainLog.trace('app.quit')
-})
-
-/**
- * On OS X it's common to re-open a window in the app when the dock icon is clicked.
- */
-app.on('activate', () => {
-  mainLog.trace('app.activate')
-  mainWindow.show()
-})
-
-app.on('open-url', (event, protocolUrl) => {
-  mainLog.trace('app.open-url')
-  event.preventDefault()
-  handleOpenUrl(protocolUrl)
-})
-
-app.on('window-all-closed', () => {
-  mainLog.trace('app.window-all-closed')
-  if (os.platform() !== 'darwin' || mainWindow.forceClose) {
-    app.quit()
-  }
-})
-
-/**
- * Someone tried to run a second instance, we should focus our window.
- */
-app.on('second-instance', (event, commandLine) => {
-  mainLog.trace('app.second-instance')
-  if (os.platform !== 'darwin') {
-    const protocolUrl = commandLine && commandLine.slice(1)[0]
-    if (protocolUrl) {
-      handleOpenUrl(protocolUrl)
-    }
-  }
-
-  if (mainWindow) {
-    if (mainWindow.isMinimized()) {
-      mainWindow.restore()
-    }
-    mainWindow.focus()
-  }
 })
 
 // ------------------------------------

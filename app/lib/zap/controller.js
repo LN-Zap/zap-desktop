@@ -82,6 +82,7 @@ class ZapController {
 
     // Once the winow content has fully loaded, bootstrap the app.
     this.mainWindow.webContents.on('did-finish-load', () => {
+      mainLog.trace('webContents.did-finish-load')
       // Initialise a state machine that we will use to control application state transitions.
       this.fsm = new StateMachine({
         transitions: [
