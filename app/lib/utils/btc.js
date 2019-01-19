@@ -29,7 +29,7 @@ export function btcToMillisatoshis(btc) {
 export function btcToFiat(btc, price) {
   if (isEmptyAmount(btc)) return null
 
-  return (btc * price).toFixed(2)
+  return Math.round(btc * price * 100) / 100
 }
 
 ////////////////////////////
