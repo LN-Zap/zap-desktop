@@ -28,6 +28,22 @@ class Modal extends React.Component {
     withHeader: false
   }
 
+  componentDidMount() {
+    document.addEventListener('keydown', this.closeOnEscape)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('keydown', this.closeOnEscape)
+  }
+
+  closeOnEscape = e => {
+    const { onClose } = this.props
+
+    if (e.key === 'Escape' && onClose) {
+      onClose()
+    }
+  }
+
   render() {
     const { children, onClose, withClose, withHeader, ...rest } = this.props
     return (
