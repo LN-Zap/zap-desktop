@@ -252,7 +252,7 @@
     "eslint-plugin-promise": "4.0.1",
     "eslint-plugin-react": "7.11.1",
     "eslint-plugin-testcafe": "0.2.1",
-    "extract-react-intl-messages": "0.11.1",
+    "extract-react-intl-messages": "0.11.2",
     "fake-indexeddb": "2.0.4",
     "flow-bin": "0.90.0",
     "flow-typed": "2.5.1",

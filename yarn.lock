@@ -6984,20 +6984,20 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-react-intl-messages@0.11.1:
-  version "0.11.1"
-  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-0.11.1.tgz#f696dd6a1e1987f3a8cfe870a27e2f85d605b7da"
-  integrity sha512-7nrGbwc1Ya9460VP3lzVv4kQLEValQ55DpOqRDZAgXEkv9oL13hqUGz0ZJA1xam77RuH38LYNrDAkcb4DEbNDQ==
+extract-react-intl-messages@0.11.2:
+  version "0.11.2"
+  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-0.11.2.tgz#1e77df7c0965f5b1f477c444fc77af1513e69d1f"
+  integrity sha512-LF0+z+oVEzBDEy2gpkn25yMuJmuiw40SYiv26AYOoDtav9SaIWmnwWeQ0NzHaPWdGHfJQYpGfWMV1QVKzjrnKg==
   dependencies:
     extract-react-intl "^0.6.0"
-    flat "^4.0.0"
+    flat "^4.1.0"
     js-yaml "^3.12.0"
-    load-json-file "^5.0.0"
+    load-json-file "^5.1.0"
     lodash.pick "^4.4.0"
     meow "^5.0.0"
     mkdirp "^0.5.1"
     sort-keys "^2.0.0"
-    write-json-file "^2.3.0"
+    write-json-file "^3.0.2"
 
 extract-react-intl@^0.6.0:
   version "0.6.0"
@@ -7327,7 +7327,7 @@ flat-cache@^1.2.1:
     rimraf "~2.6.2"
     write "^0.2.1"
 
-flat@^4.0.0:
+flat@^4.1.0:
   version "4.1.0"
   resolved "https://registry.yarnpkg.com/flat/-/flat-4.1.0.tgz#090bec8b05e39cba309747f1d588f04dbaf98db2"
   integrity sha512-Px/TiLIznH7gEDlPXcUD4KnBusa6kR6ayRUVcnEAbreRIuhkqow/mun59BuRXwoYk7ZQOLW1ZM05ilIvK38hFw==
@@ -10079,7 +10079,7 @@ load-json-file@^4.0.0:
     pify "^3.0.0"
     strip-bom "^3.0.0"
 
-load-json-file@^5.0.0:
+load-json-file@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-5.1.0.tgz#c062f048e0ee556bf7f535bb16f6e45bb9d06b18"
   integrity sha512-+ggO8OpTviHQ/zoyFxLJglsu1CylXUt1vpGa+mIUeesCkTC0G+JO6rdTS1/WcGBZDC7Nejo1aZ9MxbqflpmO6Q==
@@ -16314,15 +16314,15 @@ write-file-atomic@^2.0.0, write-file-atomic@^2.1.0:
     imurmurhash "^0.1.4"
     signal-exit "^3.0.2"
 
-write-json-file@^2.3.0:
-  version "2.3.0"
-  resolved "https://registry.yarnpkg.com/write-json-file/-/write-json-file-2.3.0.tgz#2b64c8a33004d54b8698c76d585a77ceb61da32f"
-  integrity sha1-K2TIozAE1UuGmMdtWFp3zrYdoy8=
+write-json-file@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/write-json-file/-/write-json-file-3.0.2.tgz#e2eba1a2c88271382198a49e4e8655253e4886e7"
+  integrity sha512-VE2pKv0vNAi2xzAYE187/a6Zfe5Y1Pblmeu3gS0sKmdyZgtEqDGUWWjwu5MJ4XzdHTiy4/VBQqoIco3dlJ/diQ==
   dependencies:
     detect-indent "^5.0.0"
     graceful-fs "^4.1.2"
     make-dir "^1.0.0"
-    pify "^3.0.0"
+    pify "^4.0.0"
     sort-keys "^2.0.0"
     write-file-atomic "^2.0.0"
 
