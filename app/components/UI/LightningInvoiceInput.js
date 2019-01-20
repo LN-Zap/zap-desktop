@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { asField } from 'informed'
 import { isOnchain, isLn } from 'lib/utils/crypto'
 import TextArea from 'components/UI/TextArea'
@@ -22,6 +22,7 @@ class LightningInvoiceInput extends React.Component {
   static displayName = 'LightningInvoiceInput'
 
   static propTypes = {
+    intl: intlShape.isRequired,
     required: PropTypes.bool,
     chain: PropTypes.oneOf(['bitcoin', 'litecoin']),
     network: PropTypes.oneOf(['mainnet', 'testnet', 'regtest'])

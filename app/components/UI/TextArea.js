@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
 import { styles } from 'styled-system'
@@ -99,6 +100,24 @@ const SystemTextArea = styled(
  */
 class TextArea extends React.PureComponent {
   static displayName = 'TextArea'
+
+  static propTypes = {
+    description: PropTypes.string,
+    forwardedRef: PropTypes.object,
+    label: PropTypes.string,
+    required: PropTypes.bool,
+    theme: PropTypes.object.isRequired,
+    field: PropTypes.string.isRequired,
+    fieldApi: PropTypes.object.isRequired,
+    fieldState: PropTypes.object.isRequired,
+    highlightOnValid: PropTypes.bool,
+    justifyContent: PropTypes.string,
+    showMessage: PropTypes.bool,
+    variant: PropTypes.string,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func
+  }
 
   static defaultProps = {
     description: null,

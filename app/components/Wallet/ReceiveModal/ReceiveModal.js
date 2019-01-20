@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
 import styled, { withTheme } from 'styled-components'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Heading, Message, Modal, QRCode, Tabs, Text } from 'components/UI'
 import { WalletName } from 'components/Util'
@@ -183,6 +183,7 @@ class ReceiveModal extends React.PureComponent {
 }
 
 ReceiveModal.propTypes = {
+  intl: intlShape.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string
@@ -198,7 +199,8 @@ ReceiveModal.propTypes = {
     host: PropTypes.string,
     name: PropTypes.string
   }).isRequired,
-  closeReceiveModal: PropTypes.func.isRequired
+  closeReceiveModal: PropTypes.func.isRequired,
+  showNotification: PropTypes.func.isRequired
 }
 
 export default withTheme(injectIntl(ReceiveModal))

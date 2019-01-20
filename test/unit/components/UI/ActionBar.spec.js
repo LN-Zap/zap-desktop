@@ -7,7 +7,6 @@ describe('component.UI.ActionBar', () => {
     const tree = renderer
       .create(
         <ActionBar
-          isOpen
           buttons={[{ name: 'Save', onClick: () => {} }, { name: 'Cancel', onClick: () => {} }]}
         />
       )

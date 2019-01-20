@@ -22,6 +22,7 @@ class Message extends React.Component {
   static displayName = 'Message'
 
   static propTypes = {
+    justifyContent: PropTypes.string,
     variant: PropTypes.string,
     children: PropTypes.node
   }

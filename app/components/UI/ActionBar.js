@@ -15,7 +15,7 @@ const createButtons = buttons =>
     </Button>
   ))
 
-const ActionBar = ({ isOpen, buttons, ...rest }) => {
+const ActionBar = ({ buttons, ...rest }) => {
   // check if buttons is a descriptive array  or a React renderable node
   const buttonsLayout = React.isValidElement(buttons) ? buttons : createButtons(buttons)
 

@@ -2,7 +2,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import bip39 from 'bip39-en'
 import { Flex } from 'rebass'
 import { Bar, Form, Header, Input, Label } from 'components/UI'
@@ -11,7 +11,7 @@ import messages from './messages'
 class SeedWord extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
-    intl: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     word: PropTypes.string
   }
 
@@ -47,7 +47,9 @@ class Recover extends React.Component {
   static propTypes = {
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    seed: PropTypes.array.isRequired
+    seed: PropTypes.array.isRequired,
+    setSeed: PropTypes.func.isRequired,
+    intl: intlShape.isRequired
   }
 
   static defaultProps = {

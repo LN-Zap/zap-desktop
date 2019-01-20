@@ -41,6 +41,7 @@ exports[`component.UI.LightningInvoiceInput should render correctly 1`] = `
     <textarea
       className="c1"
       color="primaryText"
+      disabled={false}
       fontFamily="sans"
       fontSize="m"
       fontWeight="light"

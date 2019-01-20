@@ -22,7 +22,6 @@ storiesOf('Containers.Channels', module)
               const channelId = 123
               const channelPubKey =
                 '0228e4b5e00a05f400411a0b556fa0fd4d7609555dc687bebb9b70419aff15cc3e'
-              const channelPubKeyShort = '0228e4b5e0'
               const channelFundingTxid =
                 '83c2839a4831c71d501ea41bdb0c3e01284bdb5302b1d16c9c52a876bd3ea6a7'
               const numUpdates = 12
@@ -47,7 +46,6 @@ storiesOf('Containers.Channels', module)
                 channelId,
                 channelName,
                 channelPubKey,
-                channelPubKeyShort,
                 channelFundingTxid,
                 numUpdates,
                 csvDelay,

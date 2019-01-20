@@ -1,15 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Bar, Button, Form, Header, Input, Panel } from 'components/UI'
 import * as yup from 'yup'
 import messages from './messages'
 
 class ConnectManually extends React.Component {
   static propTypes = {
+    intl: intlShape.isRequired,
+    disabled: PropTypes.bool,
+    required: PropTypes.bool,
     closeManualForm: PropTypes.func.isRequired,
     openSubmitChannelForm: PropTypes.func.isRequired,
     setNode: PropTypes.func.isRequired
+  }
+
+  static defaultProps = {
+    disabled: false,
+    required: false
   }
 
   validateAddress = value => {

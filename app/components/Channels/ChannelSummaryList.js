@@ -28,7 +28,11 @@ const ChannelSummaryList = ({ channels, showChannelDetail, networkInfo, ...rest 
 
 ChannelSummaryList.propTypes = {
   channels: PropTypes.array,
-  showChannelDetail: PropTypes.func.isRequired
+  showChannelDetail: PropTypes.func.isRequired,
+  networkInfo: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string
+  })
 }
 
 ChannelSummaryList.defaultProps = {

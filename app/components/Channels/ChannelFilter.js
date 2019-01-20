@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Form, Select } from 'components/UI'
 
 const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => {
@@ -22,6 +23,16 @@ const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => {
       />
     </Form>
   )
+}
+
+ChannelFilter.propTypes = {
+  changeFilter: PropTypes.func.isRequired,
+  filter: PropTypes.string,
+  filters: PropTypes.array
+}
+
+ChannelFilter.defaultProps = {
+  filters: []
 }
 
 export default ChannelFilter

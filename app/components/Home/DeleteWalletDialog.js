@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withFieldState } from 'informed'
 import styled from 'styled-components'
 import Delete from 'components/Icon/Delete'
@@ -82,7 +82,8 @@ DialogWrapper.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  walletDir: PropTypes.string
+  walletDir: PropTypes.string,
+  intl: intlShape.isRequired
 }
 
 export default injectIntl(DialogWrapper)

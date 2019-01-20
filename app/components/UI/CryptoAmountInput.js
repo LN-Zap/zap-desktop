@@ -14,6 +14,8 @@ import Input from 'components/UI/Input'
  */
 class CryptoAmountInput extends React.Component {
   static propTypes = {
+    fieldApi: PropTypes.object.isRequired,
+    fieldState: PropTypes.object.isRequired,
     currency: PropTypes.string.isRequired,
     required: PropTypes.bool,
     onChange: PropTypes.func,
@@ -121,6 +123,17 @@ class CryptoAmountInput extends React.Component {
 const CryptoAmountInputAsField = asField(CryptoAmountInput)
 
 class WrappedCryptoAmountInputAsField extends React.Component {
+  static propTypes = {
+    disabled: PropTypes.bool,
+    required: PropTypes.bool,
+    validate: PropTypes.func
+  }
+
+  static defaultProps = {
+    disabled: false,
+    required: false
+  }
+
   validate = value => {
     const { disabled, required } = this.props
     if (disabled) {

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Checkbox, asField } from 'informed'
 
@@ -62,5 +63,10 @@ const Toggle = ({ fieldState, ...props }) => (
     </label>
   </Wrapper>
 )
+
+Toggle.propTypes = {
+  fieldApi: PropTypes.object.isRequired,
+  fieldState: PropTypes.object.isRequired
+}
 
 export default asField(Toggle)

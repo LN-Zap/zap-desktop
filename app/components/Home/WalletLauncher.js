@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
 import styled from 'styled-components'
@@ -69,6 +69,7 @@ const unsafeShallowCompare = (obj1, obj2, whiteList) => {
 
 class WalletLauncher extends React.Component {
   static propTypes = {
+    intl: intlShape.isRequired,
     wallet: PropTypes.object.isRequired,
     deleteWallet: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
@@ -76,6 +77,8 @@ class WalletLauncher extends React.Component {
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
     startLndError: PropTypes.object,
     clearStartLndError: PropTypes.func.isRequired,
+    putWallet: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
     stopLnd: PropTypes.func.isRequired,
     history: PropTypes.shape({

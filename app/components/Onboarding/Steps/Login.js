@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Bar, Form, Header, PasswordInput } from 'components/UI'
 import messages from './messages'
 
 class Login extends React.Component {
   static propTypes = {
+    intl: intlShape.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
     unlockWalletError: PropTypes.string,

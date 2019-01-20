@@ -31,6 +31,7 @@ class Onboarding extends React.Component {
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
     lightningGrpcActive: PropTypes.bool,
+    unlockWalletError: PropTypes.string,
     walletUnlockerGrpcActive: PropTypes.bool,
     seed: PropTypes.array,
     startLndHostError: PropTypes.string,
@@ -56,8 +57,13 @@ class Onboarding extends React.Component {
     setName: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
     setSeed: PropTypes.func.isRequired,
+    setUnlockWalletError: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
-    stopLnd: PropTypes.func.isRequired
+    stopLnd: PropTypes.func.isRequired,
+    unlockWallet: PropTypes.func.isRequired,
+    validateHost: PropTypes.func.isRequired,
+    validateCert: PropTypes.func.isRequired,
+    validateMacaroon: PropTypes.func.isRequired
   }
 
   componentWillUnmount() {

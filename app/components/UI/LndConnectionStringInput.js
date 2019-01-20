@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { intlShape, injectIntl } from 'react-intl'
 import get from 'lodash.get'
 import decode from 'lndconnect/decode'
@@ -19,7 +20,8 @@ class LndConnectionStringInput extends React.Component {
   static displayName = 'LndConnectionStringInput'
 
   static propTypes = {
-    intl: intlShape.isRequired
+    intl: intlShape.isRequired,
+    initialValue: PropTypes.string
   }
 
   prettyPrint = json => {

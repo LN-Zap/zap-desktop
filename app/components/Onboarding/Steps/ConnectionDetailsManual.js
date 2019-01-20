@@ -133,7 +133,6 @@ class ConnectionDetailsManual extends React.Component {
       setConnectionHost,
       setConnectionCert,
       setConnectionMacaroon,
-      setConnectionString,
       setLndconnect,
       startLndHostError,
       startLndCertError,

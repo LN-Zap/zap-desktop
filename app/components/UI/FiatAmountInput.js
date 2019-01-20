@@ -14,6 +14,8 @@ import Input from 'components/UI/Input'
  */
 class FiatAmountInput extends React.Component {
   static propTypes = {
+    fieldApi: PropTypes.object.isRequired,
+    fieldState: PropTypes.object.isRequired,
     currency: PropTypes.string.isRequired,
     currentTicker: PropTypes.object.isRequired,
     required: PropTypes.bool,
@@ -99,6 +101,17 @@ class FiatAmountInput extends React.Component {
 const FiatAmountInputAsField = asField(FiatAmountInput)
 
 class WrappedFiatAmountInputAsField extends React.Component {
+  static propTypes = {
+    disabled: PropTypes.bool,
+    required: PropTypes.bool,
+    validate: PropTypes.func
+  }
+
+  static defaultProps = {
+    disabled: false,
+    required: false
+  }
+
   validate = value => {
     const { disabled, required } = this.props
     if (disabled) {

@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
 import { styles } from 'styled-system'
@@ -111,9 +112,30 @@ const SystemInput = styled(
 class Input extends React.Component {
   static displayName = 'Input'
 
+  static propTypes = {
+    autoFocus: PropTypes.bool,
+    type: PropTypes.string,
+    className: PropTypes.string,
+    description: PropTypes.string,
+    forwardedRef: PropTypes.object,
+    label: PropTypes.string,
+    required: PropTypes.bool,
+    theme: PropTypes.object.isRequired,
+    field: PropTypes.string.isRequired,
+    fieldApi: PropTypes.object.isRequired,
+    fieldState: PropTypes.object.isRequired,
+    highlightOnValid: PropTypes.bool,
+    iconSize: PropTypes.number,
+    justifyContent: PropTypes.string,
+    showMessage: PropTypes.bool,
+    variant: PropTypes.string,
+    onChange: PropTypes.func,
+    onBlur: PropTypes.func,
+    onFocus: PropTypes.func
+  }
+
   static defaultProps = {
-    description: null,
-    label: null,
+    required: false,
     showMessage: true,
     autoFocus: false,
     highlightOnValid: true,
@@ -154,7 +176,6 @@ class Input extends React.Component {
       iconSize,
       justifyContent,
       showMessage,
-      validate,
       variant,
       className,
       ...rest

@@ -37,7 +37,9 @@ class Button extends React.PureComponent {
     processing: PropTypes.bool,
     active: PropTypes.bool,
     size: PropTypes.oneOf(['small', 'medium']),
-    variant: PropTypes.string
+    variant: PropTypes.string,
+    className: PropTypes.string,
+    children: PropTypes.node
   }
 
   render() {

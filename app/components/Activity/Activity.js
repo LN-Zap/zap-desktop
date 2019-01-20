@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { space } from 'styled-system'
 import debounce from 'lodash.debounce'
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl'
+import { FormattedMessage, FormattedDate, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Form, Heading, Input, Panel, Spinner, Tabs } from 'components/UI'
 import Search from 'components/Icon/Search'
@@ -242,6 +242,7 @@ class Activity extends Component {
 }
 
 Activity.propTypes = {
+  intl: intlShape.isRequired,
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,
   currencyName: PropTypes.string,

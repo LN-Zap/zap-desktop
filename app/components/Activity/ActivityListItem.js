@@ -24,6 +24,10 @@ const ActivityIcon = ({ activity }) => {
   }
 }
 
+ActivityIcon.propTypes = {
+  activity: PropTypes.object.isRequired
+}
+
 export default class ActivityListItem extends PureComponent {
   static propTypes = {
     currentTicker: PropTypes.object,

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Button, Form, PasswordInput } from 'components/UI'
 import * as yup from 'yup'
@@ -18,6 +18,7 @@ class WalletUnlocker extends React.Component {
   static displayName = 'WalletUnlocker'
 
   static propTypes = {
+    intl: intlShape.isRequired,
     wallet: PropTypes.object.isRequired,
     lightningGrpcActive: PropTypes.bool.isRequired,
     history: PropTypes.shape({

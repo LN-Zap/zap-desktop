@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box } from 'rebass'
 import { Bar, DataRow, Input, Label, Text } from 'components/UI'
 import messages from './messages'
@@ -55,6 +55,7 @@ const WalletSettingsFormRemote = ({ intl, wallet }) => (
 )
 
 WalletSettingsFormRemote.propTypes = {
+  intl: intlShape.isRequired,
   wallet: PropTypes.object.isRequired
 }
 

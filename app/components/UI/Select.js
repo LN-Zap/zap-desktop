@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
 import Downshift from 'downshift'
@@ -72,6 +73,17 @@ const itemToString = item => (item ? item.value : '')
 class Select extends React.PureComponent {
   static displayName = 'Select'
 
+  static propTypes = {
+    color: PropTypes.string,
+    iconSize: PropTypes.number,
+    initialSelectedItem: PropTypes.string,
+    items: PropTypes.array,
+    theme: PropTypes.object.isRequired,
+    fieldApi: PropTypes.object.isRequired,
+    fieldState: PropTypes.object.isRequired,
+    onValueSelected: PropTypes.func.isRequired
+  }
+
   static defaultProps = {
     items: [],
     iconSize: 10
@@ -116,7 +128,6 @@ class Select extends React.PureComponent {
       items,
       theme,
       color,
-      onChange,
       onValueSelected,
       initialSelectedItem,
       ...rest
