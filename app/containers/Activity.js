@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { setInvoice, invoiceSelectors } from 'reducers/invoice'
 import { paymentSelectors } from 'reducers/payment'
-import { fetchActivityHistory } from 'reducers/activity'
 
 import {
   showActivityModal,
@@ -12,7 +11,8 @@ import {
   toggleExpiredRequests,
   activitySelectors,
   updateSearchActive,
-  updateSearchText
+  updateSearchText,
+  fetchActivityHistory
 } from 'reducers/activity'
 import { walletAddress, openWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'

@@ -141,6 +141,7 @@ class Input extends React.Component {
     // Extract any styled-system space props so that we can apply them directly to the wrapper.
     const spaceProps = {}
     Object.keys(rest).forEach(key => {
+      /*eslint-disable react/forbid-foreign-prop-types*/
       if ([...Object.keys(styles.space.propTypes), 'width'].includes(key)) {
         spaceProps[key] = rest[key]
         delete rest[key]
