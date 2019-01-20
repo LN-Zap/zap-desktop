@@ -84,55 +84,31 @@ function killLnd() {
 }
 
 /**
+ * Returns specified wallet files location
+ * @param {*} chain
+ * @param {*} network
+ * @param {*} wallet
+ */
+function getWalletDir(chain, network, wallet) {
+  return join(remote.app.getPath('userData'), 'lnd', chain, network, wallet)
+}
+
+/**
  * Delete a local wallet from the filesystem.
  */
-async function deleteLocalWallet(chain, network, wallet, force = false) {
+async function deleteLocalWallet(chain, network, wallet) {
   try {
     assert(chain && network && wallet)
   } catch (err) {
     throw new Error(`Unknown wallet: (chain: ${chain}, network: ${network}, wallet: ${wallet}`)
   }
 
-  let walletDir = join(remote.app.getPath('userData'), 'lnd', chain, network, wallet)
-
-  if (force) {
-    return await fsRimraf(walletDir, { disableGlob: true })
+  try {
+    let walletDir = getWalletDir(chain, network, wallet)
+    return fsRimraf(walletDir, { disableGlob: true })
+  } catch (e) {
+    throw new Error(`There was a problem deleting wallet: ${e.message}`)
   }
-
-  return new Promise((resolve, reject) => {
-    remote.dialog.showMessageBox(
-      {
-        /* eslint-disable max-len */
-        type: 'warning',
-        message: 'Are you sure you want to delete this wallet?',
-        detail: `Deleting this wallet will remove all data from the wallet directory:\n\n${walletDir}\n\nThis action cannot be undone!\n\nPlease ensure that you have access to your wallet backup seed before proceeding.`,
-        checkboxLabel: `Yes, delete this wallet`,
-        cancelId: 1,
-        buttons: ['Delete', 'Cancel'],
-        defaultId: 0
-      },
-      async (choice, checkboxChecked) => {
-        if (choice === 0) {
-          if (checkboxChecked) {
-            try {
-              await fsRimraf(walletDir, { disableGlob: true })
-              return resolve()
-            } catch (e) {
-              return reject(new Error(`There was a problem deleting wallet: ${e.message}`))
-            }
-          } else {
-            return reject(
-              new Error(
-                'The wallet was not deleted as you did not select the confirmation checkbox.'
-              )
-            )
-          }
-        } else {
-          return reject(new Error('The wallet was not deleted.'))
-        }
-      }
-    )
-  })
 }
 
 /**
@@ -186,6 +162,7 @@ window.Zap = {
   openExternal,
   openHelpPage,
   getLocalWallets,
+  getWalletDir,
   deleteLocalWallet,
   validateHost,
   fileExists,
