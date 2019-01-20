@@ -39,10 +39,13 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    const { setIsWalletOpen } = this.props
+    const { fetchDescribeNetwork, setIsWalletOpen } = this.props
 
     // Set wallet open state.
     setIsWalletOpen(true)
+
+    // fetch LN network from nodes POV.
+    fetchDescribeNetwork()
 
     // fetch node info.
     this.fetchData()
@@ -57,15 +60,12 @@ class App extends React.Component {
    * node data quite frequently but as time goes on the frequency is reduced down to a maximum of MAX_REFETCH_INTERVAL
    */
   fetchData = () => {
-    const { fetchPeers, fetchDescribeNetwork } = this.props
+    const { fetchPeers } = this.props
     const { nextFetchIn } = this
     const next = Math.round(Math.min(nextFetchIn * BACKOFF_SCHEDULE, MAX_REFETCH_INTERVAL))
 
     // Fetch information about connected peers.
     fetchPeers()
-
-    // fetch LN network from nodes POV.
-    fetchDescribeNetwork()
 
     // ensure previous timer is cleared if it exists
     this.clearFetchTimer()

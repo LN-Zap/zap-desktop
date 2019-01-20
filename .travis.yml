@@ -12,7 +12,6 @@ os:
 
 node_js:
   - node
-  - lts/*
 
 cache:
   apt: true

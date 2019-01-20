@@ -5,6 +5,7 @@ import { requestSuggestedNodes } from 'lib/utils/api'
 import { setError } from './error'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
+import { updateNodeData } from './network'
 
 // ------------------------------------
 // Constants
@@ -290,8 +291,13 @@ const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1
 export const channelGraphData = (event, data) => (dispatch, getState) => {
   const { info, channels } = getState()
   const {
-    channelGraphData: { channel_updates }
+    channelGraphData: { channel_updates, node_updates }
   } = data
+
+  // Process node updates.
+  if (node_updates.length) {
+    dispatch(updateNodeData(node_updates))
+  }
 
   // if there are any new channel updates
   let hasUpdates = false
