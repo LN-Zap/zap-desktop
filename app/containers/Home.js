@@ -1,5 +1,6 @@
+import React from 'react'
 import { connect } from 'react-redux'
-import { setActiveWallet, walletSelectors, deleteWallet } from 'reducers/wallet'
+import { setActiveWallet, walletSelectors, showDeleteWalletDialog } from 'reducers/wallet'
 import {
   setUnlockWalletError,
   stopLnd,
@@ -9,6 +10,14 @@ import {
 } from 'reducers/lnd'
 import { setError } from 'reducers/error'
 import { Home } from 'components/Home'
+import DeleteWalletDialog from './Home/DeleteWalletDialog'
+
+const HomeWrapper = props => (
+  <>
+    <Home {...props} />
+    <DeleteWalletDialog />
+  </>
+)
 
 const mapStateToProps = state => ({
   lndConnect: state.onboarding.lndConnect,
@@ -29,11 +38,11 @@ const mapDispatchToProps = {
   stopLnd,
   startLnd,
   unlockWallet,
-  deleteWallet,
+  deleteWallet: showDeleteWalletDialog,
   setError
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home)
+)(HomeWrapper)

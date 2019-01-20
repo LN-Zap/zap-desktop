@@ -11,6 +11,8 @@ export const SET_WALLETS_LOADED = 'SET_WALLETS_LOADED'
 export const SET_ACTIVE_WALLET = 'SET_ACTIVE_WALLET'
 export const SET_IS_WALLET_OPEN = 'SET_IS_WALLET_OPEN'
 export const DELETE_WALLET = 'DELETE_WALLET'
+export const OPEN_DELETE_WALLET_DIALOG = 'OPEN_DELETE_WALLET_DIALOG'
+export const CLOSE_DELETE_WALLET_DIALOG = 'CLOSE_DELETE_WALLET_DIALOG'
 export const DELETE_WALLET_SUCCESS = 'DELETE_WALLET_SUCCESS'
 export const DELETE_WALLET_FAILURE = 'DELETE_WALLET_FAILURE'
 export const PUT_WALLET = 'PUT_WALLET'
@@ -72,30 +74,38 @@ export const putWallet = wallet => async dispatch => {
   return wallet
 }
 
-export const deleteWallet = walletId => async (dispatch, getState) => {
-  dispatch({ type: DELETE_WALLET, walletId })
+export const showDeleteWalletDialog = () => ({ type: OPEN_DELETE_WALLET_DIALOG })
+export const hideDeleteWalletDialog = () => ({ type: CLOSE_DELETE_WALLET_DIALOG })
 
+export const deleteWallet = () => async (dispatch, getState) => {
   try {
-    const state = getState().wallet
-    const wallet = state.wallets.find(w => w.id === walletId)
+    const {
+      wallet: { activeWallet: walletId }
+    } = getState()
+    if (walletId) {
+      dispatch({ type: DELETE_WALLET, walletId })
+      dispatch(hideDeleteWalletDialog())
+      const state = getState().wallet
+      const wallet = state.wallets.find(w => w.id === walletId)
 
-    // Delete the wallet from the filesystem.
-    if (wallet.type === 'local') {
-      await window.Zap.deleteLocalWallet(wallet.chain, wallet.network, wallet.wallet)
+      // Delete the wallet from the filesystem.
+      if (wallet.type === 'local') {
+        await window.Zap.deleteLocalWallet(wallet.chain, wallet.network, wallet.wallet)
+      }
+
+      // Delete the wallet from the database.
+      await db.wallets.delete(walletId)
+
+      // Dispatch success message.
+      dispatch({ type: DELETE_WALLET_SUCCESS, walletId })
+
+      // Deselect and close the current wallet.
+      await dispatch(setActiveWallet(null))
+      await dispatch(setIsWalletOpen(false))
+
+      // Refresh the wallets state data.
+      await dispatch(getWallets())
     }
-
-    // Delete the wallet from the database.
-    await db.wallets.delete(walletId)
-
-    // Dispatch success message.
-    dispatch({ type: DELETE_WALLET_SUCCESS, walletId })
-
-    // Deslect and close the current wallet.
-    await dispatch(setActiveWallet(null))
-    await dispatch(setIsWalletOpen(false))
-
-    // Refresh the wallets state data.
-    await dispatch(getWallets())
   } catch (error) {
     dispatch(setError(error.message))
     dispatch({ type: DELETE_WALLET_FAILURE, error })
@@ -161,7 +171,15 @@ const ACTION_HANDLERS = {
   [SET_WALLETS]: (state, { wallets }) => ({ ...state, wallets }),
   [SET_WALLETS_LOADED]: state => ({ ...state, isWalletsLoaded: true }),
   [SET_ACTIVE_WALLET]: (state, { activeWallet }) => ({ ...state, activeWallet }),
-  [SET_IS_WALLET_OPEN]: (state, { isWalletOpen }) => ({ ...state, isWalletOpen })
+  [SET_IS_WALLET_OPEN]: (state, { isWalletOpen }) => ({ ...state, isWalletOpen }),
+  [OPEN_DELETE_WALLET_DIALOG]: state => ({
+    ...state,
+    isDeleteDialogOpen: true
+  }),
+  [CLOSE_DELETE_WALLET_DIALOG]: state => ({
+    ...state,
+    isDeleteDialogOpen: false
+  })
 }
 
 // ------------------------------------
@@ -171,6 +189,18 @@ const ACTION_HANDLERS = {
 const walletSelectors = {}
 const activeWalletSelector = state => state.wallet.activeWallet
 const walletsSelector = state => state.wallet.wallets
+
+walletSelectors.activeWalletDir = createSelector(
+  activeWalletSelector,
+  walletsSelector,
+  (activeWallet, wallets) => {
+    const wallet = wallets.find(w => w.id === activeWallet)
+    if (wallet && wallet.type === 'local') {
+      return window.Zap.getWalletDir(wallet.chain, wallet.network, wallet.wallet)
+    }
+    return null
+  }
+)
 
 walletSelectors.wallets = createSelector(
   walletsSelector,

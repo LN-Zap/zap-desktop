@@ -1,0 +1,88 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Flex } from 'rebass'
+import { FormattedMessage, injectIntl } from 'react-intl'
+import { withFieldState } from 'informed'
+import styled from 'styled-components'
+import Delete from 'components/Icon/Delete'
+import { Dialog, Text, Heading, Button, Checkbox, Form } from 'components/UI'
+import messages from './messages'
+
+const Overlay = styled(Flex)`
+  position: absolute;
+  z-index: 99999;
+  background-color: rgba(255, 255, 255, 0.25);
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`
+
+const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
+  if (!isOpen) {
+    return null
+  }
+  const checkboxFieldName = 'actionACK'
+
+  // bind button disabled state to a form field or ignore it if we are dealing with a remote
+  // wallet and don't have confirmation checkbox
+  const DeleteWalletButton = withFieldState(checkboxFieldName)(({ fieldState, ...rest }) => (
+    <Button disabled={walletDir && !fieldState.value} {...rest} />
+  ))
+
+  const buttons = (
+    <>
+      <DeleteWalletButton variant="danger" type="submit">
+        <FormattedMessage {...messages.delete_wallet_dialog_delete_text} />
+      </DeleteWalletButton>
+      <Button variant="secondary" type="button" onClick={onCancel}>
+        <FormattedMessage {...messages.delete_wallet_dialog_cancel_text} />
+      </Button>
+    </>
+  )
+
+  const header = (
+    <Flex flexDirection="column" alignItems="center">
+      <Delete color="#e8383a" width={72} height={72} />
+      <Heading.h1 mt={4} mb={3}>
+        <FormattedMessage {...messages.delete_wallet_dialog_header} />
+      </Heading.h1>
+    </Flex>
+  )
+
+  const handleSubmit = () => onDelete()
+
+  return (
+    <Overlay justifyContent="center" alignItems="center">
+      <Form onSubmit={handleSubmit}>
+        <Dialog header={header} buttons={buttons} onClose={onCancel} width={640}>
+          {walletDir && (
+            <Flex flexDirection="column" alignItems="center">
+              <Flex alignItems="flex-start" flexDirection="column">
+                <Text mb={2} color="gray" width={550}>
+                  <FormattedMessage {...messages.delete_wallet_dialog_warning} />
+                </Text>
+
+                <Text color="gray">{walletDir}</Text>
+              </Flex>
+              <Checkbox
+                label={intl.formatMessage({ ...messages.delete_wallet_dialog_acknowledgement })}
+                field={checkboxFieldName}
+                mt={4}
+              />
+            </Flex>
+          )}
+        </Dialog>
+      </Form>
+    </Overlay>
+  )
+}
+
+DialogWrapper.propTypes = {
+  isOpen: PropTypes.bool.isRequired,
+  onDelete: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  walletDir: PropTypes.string
+}
+
+export default injectIntl(DialogWrapper)
