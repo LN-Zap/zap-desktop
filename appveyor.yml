@@ -4,8 +4,6 @@ environment:
   DEBUG: electron-builder
   matrix:
     - nodejs_version: STABLE
-      publish_build: true
-    - nodejs_version: LTS
 
 cache:
   - node_modules -> package.json
@@ -35,4 +33,4 @@ test_script:
   - yarn test-ci
 
 deploy_script:
-  - cmd: powershell if (($env:appveyor_repo_name -eq 'LN-Zap/zap-desktop') -and ($env:appveyor_repo_branch -eq 'master') -and ($env:publish_build)) { yarn release --win }
+  - cmd: powershell if (($env:appveyor_repo_name -eq 'LN-Zap/zap-desktop') -and ($env:appveyor_repo_branch -eq 'master') { yarn release --win }
