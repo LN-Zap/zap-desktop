@@ -1,28 +1,25 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+
 import debounce from 'lodash.debounce'
-import { FormattedNumber, FormattedMessage, injectIntl } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { injectIntl } from 'react-intl'
+import { Box } from 'rebass'
+
 import blockExplorer from 'lib/utils/blockExplorer'
 import { satoshisToFiat } from 'lib/utils/btc'
-import ExternalLink from 'components/Icon/ExternalLink'
-import PlusCircle from 'components/Icon/PlusCircle'
-import Search from 'components/Icon/Search'
-import {
-  Bar,
-  Button,
-  Dropdown,
-  Form,
-  Heading,
-  Input,
-  Panel,
-  Spinner,
-  StatusIndicator,
-  Text,
-  Value
-} from 'components/UI'
+import { Bar, Panel } from 'components/UI'
 import SuggestedNodes from '../SuggestedNodes'
 import messages from './messages'
+
+import {
+  Header,
+  NetworkBalance,
+  SearchBar,
+  ChannelItem,
+  ChannelDetails,
+  NetworkActionBar,
+  LoadingChannels
+} from '.'
 
 class Network extends Component {
   state = {
@@ -165,64 +162,32 @@ class Network extends Component {
     return (
       <Panel pt={3}>
         <Panel.Header pt={2}>
-          <Flex justifyContent="space-between" mx={3}>
-            <Heading.h4 fontWeight="normal" mb={3}>
-              <FormattedMessage {...messages.title} />
-            </Heading.h4>
-            <Box
-              onClick={openContactsForm}
-              className="hint--right"
-              data-hint={intl.formatMessage({ ...messages.open_channel })}
-              css={{ cursor: 'pointer', '&:hover': { opacity: 0.5 } }}
-              width={1 / 2}
-            >
-              <Text fontSize="22px" textAlign="right">
-                <PlusCircle />
-              </Text>
-            </Box>
-          </Flex>
+          <Header
+            title={messages.title}
+            openContactsForm={openContactsForm}
+            hint={intl.formatMessage({ ...messages.open_channel })}
+          />
 
-          <Box mx={3}>
-            <Text>
-              <Value
-                value={balance.channelBalance || 0}
-                currency={ticker.currency}
-                currentTicker={currentTicker}
-                fiatTicker={ticker.fiatTicker}
-              />
-              <i> {currencyName}</i>
-            </Text>
-            <Text color="gray">
-              {' ≈ '}
-              <FormattedNumber
-                currency={ticker.fiatTicker}
-                style="currency"
-                value={fiatAmount || 0}
-              />
-            </Text>
-          </Box>
+          <NetworkBalance
+            currencyName={currencyName}
+            channelBalance={balance.channelBalance || 0}
+            currency={ticker.currency}
+            currentTicker={currentTicker}
+            fiatTicker={ticker.fiatTicker}
+            fiatAmount={fiatAmount || 0}
+          />
 
           <Bar my={3} borderColor="gray" css={{ opacity: 0.3 }} />
 
-          {hasChannels && (
-            <Flex justifyContent="space-between" alignItems="center" mx={3} mb={3}>
-              <Dropdown
-                activeKey={filter.key}
-                items={filters}
-                onChange={key => changeFilter(filters.find(f => f.key === key))}
-              />
-              <Button
-                size="small"
-                variant="secondary"
-                onClick={refreshClicked}
-                ref={ref => {
-                  this.repeat = ref
-                }}
-              >
-                {refreshing ? <Spinner /> : <FormattedMessage {...messages.refresh} />}
-              </Button>
-            </Flex>
-          )}
+          <NetworkActionBar
+            hasChannels={hasChannels}
+            filters={filters}
+            activeKey={filter.key}
+            refreshClicked={refreshClicked}
+            isRefreshing={refreshing}
+            refreshMessage={messages.refresh}
+            changeFilter={changeFilter}
+          />
         </Panel.Header>
 
         <Panel.Body css={{ 'overflow-y': 'auto' }}>
@@ -242,24 +207,11 @@ class Network extends Component {
                   }
 
                   return (
-                    <Flex
-                      as="header"
-                      alignItems="center"
+                    <LoadingChannels
                       key={loadingPubkey}
-                      py={2}
-                      my={1}
-                      mx={3}
-                      css={{ cursor: 'pointer' }}
-                    >
-                      <Box
-                        mr={2}
-                        className="hint--right"
-                        data-hint={intl.formatMessage({ ...messages.loading })}
-                      >
-                        <StatusIndicator variant="loading" />
-                      </Box>
-                      <Text>{nodeDisplay()}</Text>
-                    </Flex>
+                      message={intl.formatMessage({ ...messages.loading })}
+                      name={nodeDisplay()}
+                    />
                   )
                 })}
 
@@ -279,121 +231,41 @@ class Network extends Component {
                       bg={isSelected ? 'secondaryColor' : null}
                       pb={1}
                     >
-                      <Flex
-                        as="header"
-                        alignItems="center"
-                        py={2}
-                        my={1}
-                        mx={3}
-                        css={{ cursor: 'pointer' }}
-                      >
-                        <Box
-                          mr={2}
-                          className="hint--right"
-                          data-hint={intl.formatMessage({ ...messages[status] })}
-                        >
-                          <StatusIndicator variant={status} />
-                        </Box>
-                        <Text css={{ '&:hover': { opacity: 0.5 } }}>
-                          {displayNodeName(channel)}
-                        </Text>
-                        {isSelected && (
-                          <Button
-                            variant="secondary"
-                            size="small"
-                            ml="auto"
-                            px={0}
-                            py={0}
-                            onClick={() =>
-                              blockExplorer.showTransaction(
-                                network,
-                                channelObj.closing_txid || channel.channel_point.split(':')[0]
-                              )
-                            }
-                          >
-                            <ExternalLink />
-                          </Button>
-                        )}
-                      </Flex>
+                      <ChannelItem
+                        statusTooltip={intl.formatMessage({ ...messages[status] })}
+                        status={status}
+                        name={displayNodeName(channel)}
+                        isSelected={isSelected}
+                        onBrowseClick={() =>
+                          blockExplorer.showTransaction(
+                            network,
+                            channelObj.closing_txid || channel.channel_point.split(':')[0]
+                          )
+                        }
+                      />
 
                       {isSelected && (
-                        <Box as="section" py={2} bg={isSelected ? 'secondaryColor' : null}>
-                          <Text color="gray" fontSize="s" mx={3}>{`${pubkey.substring(
-                            0,
-                            30
-                          )}...`}</Text>
-
-                          <Bar borderColor="primaryColor" borderBottom={2} my={3} />
-
-                          <Flex justifyContent="space-between">
-                            <Flex width={1 / 2} flexDirection="column" alignItems="center">
-                              <Text fontWeight="normal">
-                                <FormattedMessage {...messages.pay_limit} />
-                              </Text>
-                              <Text fontSize="s">
-                                <Value
-                                  value={channel.local_balance}
-                                  currency={ticker.currency}
-                                  currentTicker={currentTicker}
-                                  fiatTicker={ticker.fiatTicker}
-                                />
-                                <i> {currencyName}</i>
-                              </Text>
-                            </Flex>
-                            <Flex width={1 / 2} flexDirection="column" alignItems="center">
-                              <Text fontWeight="normal">
-                                <FormattedMessage {...messages.req_limit} />
-                              </Text>
-                              <Text fontSize="s">
-                                <Value
-                                  value={channel.remote_balance}
-                                  currency={ticker.currency}
-                                  currentTicker={currentTicker}
-                                  fiatTicker={ticker.fiatTicker}
-                                />
-                                <i> {currencyName}</i>
-                              </Text>
-                            </Flex>
-                          </Flex>
-
-                          {closingChannelIds.includes(channel.chan_id) && (
-                            <Box as="footer">
-                              <Bar borderColor="primaryColor" borderBottom={2} my={3} />
-
-                              <Flex
-                                py={2}
-                                color="lightningOrange"
-                                alignItems="center"
-                                justifyContent="center"
-                              >
-                                <Flex>
-                                  <Spinner mr={2} />
-                                  <FormattedMessage {...messages.closing} />
-                                </Flex>
-                              </Flex>
-                            </Box>
-                          )}
-                          {['online', 'offline'].includes(status) &&
-                            !closingChannelIds.includes(channel.chan_id) && (
-                              <Box as="footer">
-                                <Bar borderColor="primaryColor" borderBottom={2} my={3} />
-
-                                <Text
-                                  onClick={() => removeClicked(channel)}
-                                  py={2}
-                                  color="superRed"
-                                  textAlign="center"
-                                  css={{ cursor: 'pointer', '&:hover': { opacity: 0.5 } }}
-                                >
-                                  <FormattedMessage
-                                    {...messages[
-                                      status === 'online' ? 'channel_close' : 'channel_force_close'
-                                    ]}
-                                  />
-                                </Text>
-                              </Box>
-                            )}
-                        </Box>
+                        <ChannelDetails
+                          isClosing={closingChannelIds.includes(channel.chan_id)}
+                          canClose={
+                            ['online', 'offline'].includes(status) &&
+                            !closingChannelIds.includes(channel.chan_id)
+                          }
+                          payLimitMsg={messages.pay_limit}
+                          reqLimitMsg={messages.req_limit}
+                          currencyName={currencyName}
+                          localBalance={channel.local_balance}
+                          remoteBalance={channel.remote_balance}
+                          currentTicker={currentTicker}
+                          currency={ticker.currency}
+                          fiatTicker={ticker.fiatTicker}
+                          onRemoveClick={() => removeClicked(channel)}
+                          closingMessage={messages.closing}
+                          pubkey={`${pubkey.substring(0, 30)}...`}
+                          status={
+                            messages[status === 'online' ? 'channel_close' : 'channel_force_close']
+                          }
+                        />
                       )}
                     </Box>
                   )
@@ -405,28 +277,11 @@ class Network extends Component {
         {Boolean(
           loadingChannelPubkeys.length || pending_open_channels.length || channels.length
         ) && (
-          <>
-            <Bar mt={3} borderColor="gray" css={{ opacity: 0.3 }} />
-            <Panel.Footer as="footer" px={3} py={3}>
-              <Flex alignItems="center" width={1}>
-                <Text fontSize="l" css={{ opacity: 0.5 }} mt={2}>
-                  {!searchQuery && <Search />}
-                </Text>
-                <Form width={1}>
-                  <Input
-                    field="search"
-                    id="search"
-                    type="text"
-                    variant="thin"
-                    border={0}
-                    placeholder={intl.formatMessage({ ...messages.search_placeholder })}
-                    value={searchQuery}
-                    onChange={this.onSearchTextChange}
-                  />
-                </Form>
-              </Flex>
-            </Panel.Footer>
-          </>
+          <SearchBar
+            searchQuery={searchQuery}
+            placeholder={intl.formatMessage({ ...messages.search_placeholder })}
+            onSearchQueryChanged={this.onSearchTextChange}
+          />
         )}
       </Panel>
     )
