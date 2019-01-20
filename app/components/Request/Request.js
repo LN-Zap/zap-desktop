@@ -51,7 +51,7 @@ class Request extends React.Component {
     /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
     isProcessing: PropTypes.bool,
     /** Lnd invoice object for the payment request */
-    invoice: PropTypes.bool,
+    invoice: PropTypes.object,
     /** Lightning Payment request. */
     payReq: PropTypes.string,
     /** Set the current cryptocurrency. */
