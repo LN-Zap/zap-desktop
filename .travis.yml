@@ -62,6 +62,7 @@ jobs:
   include:
     - stage: deploy
       name: Deploy to Github
+      if: (NOT type IN (pull_request)) AND (branch = master)
       script: skip
       deploy:
         skip_cleanup: true
@@ -73,6 +74,7 @@ jobs:
 
     - os: osx
       name: Deploy to Github
+      if: (NOT type IN (pull_request)) AND (branch = master)
       script: skip
       deploy:
         skip_cleanup: true
