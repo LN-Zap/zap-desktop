@@ -11,6 +11,12 @@ export default defineMessages({
   section_delete_title: 'Delete',
   create_wallet_button_text: 'Create new wallet',
   launch_wallet_button_text: 'Launch now',
+  delete_wallet_dialog_acknowledgement: 'I understand this is an irreversible action',
+  delete_wallet_dialog_warning:
+    'Deleting the wallet data may cause loss of funds. All data from the following wallet directory will be removed:',
+  delete_wallet_dialog_header: 'Are you sure you want to delete this wallet?',
+  delete_wallet_dialog_delete_text: 'Delete',
+  delete_wallet_dialog_cancel_text: 'Cancel',
   settings_title: 'Settings',
   delete_wallet_button_text: 'Delete wallet',
   wallet_settings_name_label: 'Wallet name',
