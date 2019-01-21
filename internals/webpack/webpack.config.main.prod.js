@@ -4,6 +4,7 @@
 
 import path from 'path'
 import merge from 'webpack-merge'
+import { EnvironmentPlugin } from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import baseConfig, { rootDir } from './webpack.config.base'
 
@@ -22,9 +23,10 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    /**
-     * Babli is an ES6+ aware minifier based on the Babel toolchain (beta)
-     */
+    new EnvironmentPlugin({
+      NODE_ENV: 'production'
+    }),
+
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
       openAnalyzer: process.env.OPEN_ANALYZER === 'true'
