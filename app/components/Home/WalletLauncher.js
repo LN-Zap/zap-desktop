@@ -70,8 +70,8 @@ class WalletLauncher extends React.Component {
   }
 
   handleDelete = () => {
-    const { deleteWallet, wallet } = this.props
-    deleteWallet(wallet.id)
+    const { deleteWallet } = this.props
+    deleteWallet()
   }
 
   render() {

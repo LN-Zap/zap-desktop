@@ -79,7 +79,9 @@ exports[`component.UI.Dialog should render correctly with one button 1`] = `
     >
       <Heading2
         mb={4}
-      />
+      >
+        Title
+      </Heading2>
     </Styled(styled.div)>
     <Styled(styled.div)
       alignSelf="stretch"

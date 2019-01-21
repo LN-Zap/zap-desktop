@@ -19,7 +19,7 @@ describe('component.UI.Dialog', () => {
 
   it('should render correctly with one button', () => {
     const wrapper = shallow(
-      <Dialog caption="Title" onClose={() => {}} buttons={[{ name: 'Ok', onClick: () => {} }]} />
+      <Dialog header="Title" onClose={() => {}} buttons={[{ name: 'Ok', onClick: () => {} }]} />
     )
     expect(toJSON(wrapper)).toMatchSnapshot()
   })
