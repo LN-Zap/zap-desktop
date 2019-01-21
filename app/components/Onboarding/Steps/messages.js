@@ -83,5 +83,6 @@ export default defineMessages({
   wallet_name_title: 'What do you want to call this wallet?',
   wallet_name_label: 'Wallet Name',
   word_placeholder: 'word',
-  generating_seed: 'Generating Seed...'
+  generating_seed: 'Generating Seed...',
+  importing_wallet: 'Importing wallet...'
 })

@@ -95,7 +95,7 @@ class SeedConfirm extends React.Component {
         <Bar my={4} />
 
         {seedWordIndexes.map((wordIndex, index) => {
-          // Only validate if the word has been entered connectly already or the form has been siubmitted.
+          // Only validate if the word has been entered correctly already or the form has been submitted.
           return (
             <Flex key={`word${index}`} justifyContent="flex-start" mb={3}>
               <Label htmlFor="alias" width={25} mt={18}>
