@@ -1,4 +1,3 @@
-export AmountInput from './AmountInput'
 export BackgroundPrimary from './BackgroundPrimary'
 export BackgroundTertiary from './BackgroundTertiary'
 export BackgroundSecondary from './BackgroundSecondary'

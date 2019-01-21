@@ -81,28 +81,31 @@ class CryptoAmountInput extends React.Component {
   }
 
   handleKeyDown = e => {
-    // Do nothing if the user did select all key combo.
-    if (e.metaKey && e.key === 'a') {
+    let { value } = e.target
+
+    // Do nothing if the key press includes a meta key (support copy/paste etc)
+    if (e.metaKey || e.ctrlKey) {
+      return
+    }
+
+    // Prevent non-numeric values.
+    if (e.key.length === 1 && !e.key.match(/^[0-9.]$/)) {
+      e.preventDefault()
       return
     }
 
     // Do not allow multiple dots.
-    let { value } = e.target
     if (e.key === '.') {
       if (value.search(/\./) >= 0) {
         e.preventDefault()
       }
       return
     }
-
-    if (e.key.length === 1 && !e.key.match(/^[0-9.]$/)) {
-      e.preventDefault()
-      return
-    }
   }
 
   render() {
     const rules = this.getRules()
+
     return (
       <Input
         {...this.props}
