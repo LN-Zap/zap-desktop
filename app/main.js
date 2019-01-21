@@ -32,6 +32,11 @@ if (process.env.ELECTRON_USER_DIR_TEMP) {
   app.setPath('userData', folder)
 }
 
+// By default, run the app in development mode.
+if (!process.env.NODE_ENV) {
+  process.env.NODE_ENV = 'development'
+}
+
 /**
  * Handler for open-link events.
  */
@@ -240,7 +245,7 @@ app.on('ready', async () => {
   /**
    * In development mode or when DEBUG_PROD is set, enable debugging tools.
    */
-  if (process.env.NODE_ENV !== 'production' || process.env.DEBUG_PROD) {
+  if (process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD) {
     installExtension(REACT_DEVELOPER_TOOLS)
       .then(name => mainLog.debug(`Added Extension: ${name}`))
       .catch(err => mainLog.warn(`An error occurred when installing REACT_DEVELOPER_TOOLS: ${err}`))
