@@ -65,7 +65,7 @@ class Network extends Component {
         pendingChannels: { pending_open_channels }
       },
       currentChannels,
-      balance,
+      channelBalance,
       ticker,
       currentTicker,
       nodes,
@@ -156,7 +156,7 @@ class Network extends Component {
       return 'online'
     }
 
-    const fiatAmount = satoshisToFiat(balance.channelBalance, currentTicker[ticker.fiatTicker])
+    const fiatAmount = satoshisToFiat(channelBalance || 0, currentTicker[ticker.fiatTicker])
     const { refreshing } = this.state
     const hasChannels = Boolean(
       loadingChannelPubkeys.length || pending_open_channels.length || channels.length
@@ -185,7 +185,7 @@ class Network extends Component {
           <Box mx={3}>
             <Text>
               <Value
-                value={balance.channelBalance || 0}
+                value={channelBalance || 0}
                 currency={ticker.currency}
                 currentTicker={currentTicker}
                 fiatTicker={ticker.fiatTicker}
@@ -437,7 +437,7 @@ Network.propTypes = {
   currentChannels: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
   channels: PropTypes.object.isRequired,
-  balance: PropTypes.object.isRequired,
+  channelBalance: PropTypes.number,
   currentTicker: PropTypes.object,
   ticker: PropTypes.object.isRequired,
   suggestedNodesProps: PropTypes.object.isRequired,

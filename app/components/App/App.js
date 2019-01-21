@@ -1,14 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import Form from 'components/Form'
 import ChannelForm from 'components/Contacts/ChannelForm'
 import Network from 'components/Contacts/Network'
 import AddChannel from 'components/Contacts/AddChannel'
 import ReceiveModal from 'components/Wallet/ReceiveModal'
 import { ActivityModalContainer } from 'containers/Activity/ActivityModalContainer'
-
 import Activity from 'containers/Activity'
+import Wallet from 'containers/Wallet'
 import { MainContent, Sidebar } from 'components/UI'
 
 // Initial refetch after 2 seconds.
@@ -106,6 +105,7 @@ class App extends React.Component {
         )}
 
         <MainContent>
+          <Wallet />
           <Activity />
         </MainContent>
 
