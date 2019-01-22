@@ -164,6 +164,7 @@
   "components.Onboarding.Steps.hostname_title": "",
   "components.Onboarding.Steps.import_description": "",
   "components.Onboarding.Steps.import_title": "",
+  "components.Onboarding.Steps.importing_wallet": "",
   "components.Onboarding.Steps.login_description": "",
   "components.Onboarding.Steps.login_title": "",
   "components.Onboarding.Steps.macaroon_description": "Ruta al archivo lnd macaroon. Ejemplo: /path/to/admin.macaroon",
