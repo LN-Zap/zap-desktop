@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setActiveWallet, walletSelectors, deleteWallet } from 'reducers/wallet'
+import { setActiveWallet, walletSelectors, setIsWalletOpen, deleteWallet } from 'reducers/wallet'
 import {
   setUnlockWalletError,
   stopLnd,
@@ -30,6 +30,7 @@ const mapDispatchToProps = {
   startLnd,
   unlockWallet,
   deleteWallet,
+  setIsWalletOpen,
   setError
 }
 
