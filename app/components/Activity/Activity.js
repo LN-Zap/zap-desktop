@@ -6,9 +6,7 @@ import { Box, Flex } from 'rebass'
 import { Bar, Button, Form, Heading, Input, Panel, Spinner, Tabs } from 'components/UI'
 import Search from 'components/Icon/Search'
 import X from 'components/Icon/X'
-
 import delay from 'lib/utils/delay'
-import Wallet from 'components/Wallet'
 import messages from './messages'
 import ActivityListItem from './ActivityListItem'
 
@@ -106,14 +104,7 @@ class Activity extends Component {
   }
 
   renderActivityList = () => {
-    const {
-      currentActivity,
-      currencyName,
-      ticker,
-      currentTicker,
-      showActivityModal,
-      network
-    } = this.props
+    const { currentActivity, currencyName, ticker, currentTicker, showActivityModal } = this.props
 
     if (!currencyName) {
       return null
@@ -133,7 +124,6 @@ class Activity extends Component {
               currencyName,
               currentTicker,
               showActivityModal,
-              network,
               ticker
             }}
           />
@@ -160,22 +150,18 @@ class Activity extends Component {
   render() {
     const {
       activity: { searchActive },
-      balance,
       currentActivity,
       currentTicker,
-      walletProps,
       showExpiredToggle
     } = this.props
 
-    if (!currentTicker || balance.channelBalance === null || balance.walletBalance === null) {
+    if (!currentTicker) {
       return null
     }
 
     return (
       <Panel>
         <Panel.Header>
-          <Wallet {...walletProps} />
-
           <Flex
             as="nav"
             justifyContent="space-between"
@@ -203,25 +189,19 @@ class Activity extends Component {
 }
 
 Activity.propTypes = {
-  fetchActivityHistory: PropTypes.func.isRequired,
-
-  ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object,
-  network: PropTypes.object.isRequired,
-
-  showActivityModal: PropTypes.func.isRequired,
-  changeFilter: PropTypes.func.isRequired,
-  updateSearchActive: PropTypes.func.isRequired,
-  updateSearchText: PropTypes.func.isRequired,
-  toggleExpiredRequests: PropTypes.func.isRequired,
-
   activity: PropTypes.object.isRequired,
   currentActivity: PropTypes.array.isRequired,
+  currencyName: PropTypes.string,
+  currentTicker: PropTypes.object,
+  ticker: PropTypes.object.isRequired,
   showExpiredToggle: PropTypes.bool.isRequired,
-  balance: PropTypes.object.isRequired,
-  walletProps: PropTypes.object.isRequired,
 
-  currencyName: PropTypes.string
+  changeFilter: PropTypes.func.isRequired,
+  fetchActivityHistory: PropTypes.func.isRequired,
+  showActivityModal: PropTypes.func.isRequired,
+  toggleExpiredRequests: PropTypes.func.isRequired,
+  updateSearchActive: PropTypes.func.isRequired,
+  updateSearchText: PropTypes.func.isRequired
 }
 
 export default injectIntl(Activity)

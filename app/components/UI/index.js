@@ -1,5 +1,4 @@
 export ActionBar from './ActionBar'
-export AmountInput from './AmountInput'
 export BackgroundPrimary from './BackgroundPrimary'
 export BackgroundSecondary from './BackgroundSecondary'
 export BackgroundTertiary from './BackgroundTertiary'

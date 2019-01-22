@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 
 import debounce from 'lodash.debounce'
-import { injectIntl } from 'react-intl'
+import { intlShape, injectIntl } from 'react-intl'
 import { Box } from 'rebass'
 
 import blockExplorer from 'lib/utils/blockExplorer'
 import { satoshisToFiat } from 'lib/utils/btc'
 import { Bar, Panel } from 'components/UI'
-import SuggestedNodes from '../SuggestedNodes'
+import SuggestedNodes from 'containers/Contacts/SuggestedNodes'
 import messages from './messages'
 
 import {
@@ -62,7 +62,7 @@ class Network extends Component {
         pendingChannels: { pending_open_channels }
       },
       currentChannels,
-      balance,
+      channelBalance,
       ticker,
       currentTicker,
       nodes,
@@ -71,7 +71,6 @@ class Network extends Component {
       changeFilter,
       setSelectedChannel,
       closeChannel,
-      suggestedNodesProps,
       network,
       currencyName,
       intl
@@ -153,7 +152,7 @@ class Network extends Component {
       return 'online'
     }
 
-    const fiatAmount = satoshisToFiat(balance.channelBalance, currentTicker[ticker.fiatTicker])
+    const fiatAmount = satoshisToFiat(channelBalance || 0, currentTicker[ticker.fiatTicker])
     const { refreshing } = this.state
     const hasChannels = Boolean(
       loadingChannelPubkeys.length || pending_open_channels.length || channels.length
@@ -170,7 +169,7 @@ class Network extends Component {
 
           <NetworkBalance
             currencyName={currencyName}
-            channelBalance={balance.channelBalance || 0}
+            channelBalance={channelBalance || 0}
             currency={ticker.currency}
             currentTicker={currentTicker}
             fiatTicker={ticker.fiatTicker}
@@ -191,7 +190,7 @@ class Network extends Component {
         </Panel.Header>
 
         <Panel.Body css={{ 'overflow-y': 'auto' }}>
-          {!hasChannels && <SuggestedNodes {...suggestedNodesProps} py={3} mx={3} />}
+          {!hasChannels && <SuggestedNodes py={3} mx={3} />}
 
           {hasChannels && (
             <Box>
@@ -289,13 +288,13 @@ class Network extends Component {
 }
 
 Network.propTypes = {
+  intl: intlShape.isRequired,
   currentChannels: PropTypes.array.isRequired,
   nodes: PropTypes.array.isRequired,
   channels: PropTypes.object.isRequired,
-  balance: PropTypes.object.isRequired,
+  channelBalance: PropTypes.number,
   currentTicker: PropTypes.object,
   ticker: PropTypes.object.isRequired,
-  suggestedNodesProps: PropTypes.object.isRequired,
   network: PropTypes.object.isRequired,
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,

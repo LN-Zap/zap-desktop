@@ -10,24 +10,20 @@ import { FormattedNumber, FormattedMessage } from 'react-intl'
 import messages from './messages'
 
 const Wallet = ({
-  balance,
-  info,
-  openReceiveModal,
-  ticker,
-  currentTicker,
-  openPayForm,
-  openRequestForm,
+  totalBalance,
   currencyFilters,
-  setCurrency
+  currentTicker,
+  info,
+  ticker,
+  openWalletModal,
+  setCurrency,
+  setFormType
 }) => {
-  if (!ticker.currency) {
+  if (!currentTicker || !ticker.currency) {
     return null
   }
 
-  const fiatAmount = btc.satoshisToFiat(
-    parseInt(balance.walletBalance, 10) + parseInt(balance.channelBalance, 10),
-    currentTicker[ticker.fiatTicker]
-  )
+  const fiatAmount = btc.satoshisToFiat(totalBalance, currentTicker[ticker.fiatTicker])
 
   return (
     <Box pt={3} px={5} pb={3} bg="secondaryColor">
@@ -48,7 +44,7 @@ const Wallet = ({
       <Flex as="header" justifyContent="space-between" mt={4}>
         <Box as="section">
           <Flex alignItems="center">
-            <Box onClick={openReceiveModal} mr={3}>
+            <Box onClick={openWalletModal} mr={3}>
               <Button variant="secondary">
                 <Qrcode width="21px" height="21px" />
               </Button>
@@ -58,7 +54,7 @@ const Wallet = ({
               <Flex alignItems="baseline">
                 <Text fontSize="xxl">
                   <Value
-                    value={parseFloat(balance.walletBalance) + parseFloat(balance.channelBalance)}
+                    value={totalBalance}
                     currency={ticker.currency}
                     currentTicker={currentTicker}
                     fiatTicker={ticker.fiatTicker}
@@ -71,24 +67,18 @@ const Wallet = ({
                   ml={1}
                 />
               </Flex>
-              {Boolean(fiatAmount) && (
-                <Text color="gray">
-                  {'≈ '}
-                  <FormattedNumber
-                    currency={ticker.fiatTicker}
-                    style="currency"
-                    value={fiatAmount}
-                  />
-                </Text>
-              )}
+              <Text color="gray">
+                {'≈ '}
+                <FormattedNumber currency={ticker.fiatTicker} style="currency" value={fiatAmount} />
+              </Text>
             </Box>
           </Flex>
         </Box>
         <Box as="section">
-          <Button onClick={openPayForm} mr={2} width={145}>
+          <Button onClick={() => setFormType('PAY_FORM')} mr={2} width={145}>
             <FormattedMessage {...messages.pay} />
           </Button>
-          <Button onClick={openRequestForm} width={145}>
+          <Button onClick={() => setFormType('REQUEST_FORM')} width={145}>
             <FormattedMessage {...messages.request} />
           </Button>
         </Box>
@@ -98,16 +88,17 @@ const Wallet = ({
 }
 
 Wallet.propTypes = {
-  balance: PropTypes.object.isRequired,
+  // Store props
+  totalBalance: PropTypes.number,
+  currencyFilters: PropTypes.array.isRequired,
+  currentTicker: PropTypes.object,
   info: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
-  openPayForm: PropTypes.func.isRequired,
-  openRequestForm: PropTypes.func.isRequired,
-  openReceiveModal: PropTypes.func.isRequired,
-  network: PropTypes.object.isRequired,
-  currencyFilters: PropTypes.array.isRequired,
-  setCurrency: PropTypes.func.isRequired
+
+  // Dispatch props
+  openWalletModal: PropTypes.func.isRequired,
+  setCurrency: PropTypes.func.isRequired,
+  setFormType: PropTypes.func.isRequired
 }
 
 export default Wallet

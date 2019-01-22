@@ -72,7 +72,6 @@ const mapStateToProps = state => ({
   info: state.info,
   payment: state.payment,
   transaction: state.transaction,
-  peers: state.peers,
   channels: state.channels,
   contactsform: state.contactsform,
   balance: state.balance,
@@ -117,7 +116,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
   const networkTabProps = {
     currentChannels: stateProps.currentChannels,
     channels: stateProps.channels,
-    balance: stateProps.balance,
+    channelBalance: stateProps.balance.channelBalance,
     currentTicker: stateProps.currentTicker,
     contactsform: stateProps.contactsform,
     nodes: stateProps.network.nodes,
@@ -131,17 +130,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     changeFilter: dispatchProps.changeFilter,
     updateChannelSearchQuery: dispatchProps.updateChannelSearchQuery,
     setSelectedChannel: dispatchProps.setSelectedChannel,
-    closeChannel: dispatchProps.closeChannel,
-
-    suggestedNodesProps: {
-      suggestedNodesLoading: stateProps.channels.suggestedNodesLoading,
-      suggestedNodes: stateProps.info.data.testnet
-        ? stateProps.channels.suggestedNodes.testnet
-        : stateProps.channels.suggestedNodes.mainnet,
-
-      setNode: dispatchProps.setNode,
-      openSubmitChannelForm: () => dispatchProps.openSubmitChannelForm()
-    }
+    closeChannel: dispatchProps.closeChannel
   }
 
   const contactsFormProps = {
