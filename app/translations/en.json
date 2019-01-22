@@ -164,6 +164,7 @@
   "components.Onboarding.Steps.hostname_title": "Host",
   "components.Onboarding.Steps.import_description": "Recovering a wallet, nice. You don't need anyone else, you got yourself :)",
   "components.Onboarding.Steps.import_title": "Import your seed",
+  "components.Onboarding.Steps.importing_wallet": "Importing wallet...",
   "components.Onboarding.Steps.login_description": "Please enter your wallet password to unlock it.",
   "components.Onboarding.Steps.login_title": "Welcome back!",
   "components.Onboarding.Steps.macaroon_description": "Path to the lnd macaroon file. Example: /path/to/admin.macaroon",

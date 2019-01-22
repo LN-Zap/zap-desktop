@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Form, Spinner, Text } from 'components/UI'
+import messages from './messages'
 
 class WalletRecover extends React.Component {
   static propTypes = {
@@ -58,7 +60,7 @@ class WalletRecover extends React.Component {
       >
         <Text textAlign="center">
           <Spinner />
-          Importing wallet...
+          <FormattedMessage {...messages.importing_wallet} />
         </Text>
       </Form>
     )
