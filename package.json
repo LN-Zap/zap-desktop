@@ -223,7 +223,7 @@
     "babel-plugin-transform-react-pure-class-to-function": "1.0.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.22",
     "browserslist": "4.4.1",
-    "clean-webpack-plugin": "1.0.0",
+    "clean-webpack-plugin": "1.0.1",
     "concurrently": "4.1.0",
     "copy-webpack-plugin": "4.6.0",
     "coveralls": "3.0.2",
