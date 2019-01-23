@@ -3,8 +3,29 @@
 exports[`component.UI.Checkbox should render correctly 1`] = `
 .c4 {
   margin-left: 8px;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  -webkit-align-items: flex-start;
+  -webkit-box-align: flex-start;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+}
+
+.c5 {
   font-size: 13px;
   color: #ffffff;
+  line-height: 1.4;
+}
+
+.c6 {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #959595;
   line-height: 1.4;
 }
 
@@ -34,13 +55,6 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-flex-direction: row;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -webkit-align-items: center;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -92,10 +106,52 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
     />
     <div
       className="c4"
-      color="primaryText"
-      fontSize="m"
     >
-      cb
+      <div
+        className="c5"
+        color="primaryText"
+        fontSize="m"
+      >
+        cb
+      </div>
+    </div>
+  </div>
+  <div
+    checked={false}
+    className="c0"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <input
+      checked={false}
+      className="c1"
+      onChange={[Function]}
+      type="checkbox"
+    />
+    <div
+      checked={false}
+      className="c2 c3"
+      color="primaryColor"
+      disabled={false}
+      width={18}
+    />
+    <div
+      className="c4"
+    >
+      <div
+        className="c5"
+        color="primaryText"
+        fontSize="m"
+      >
+        cb
+      </div>
+      <div
+        className="c6"
+        color="gray"
+        fontSize="m"
+      >
+        desc
+      </div>
     </div>
   </div>
 </form>

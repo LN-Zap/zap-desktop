@@ -199,7 +199,11 @@ storiesOf('Forms', module)
   .add('Checkbox', () => (
     <Form>
       <Label htmlFor="id">Unchecked</Label>
-      <Checkbox label="I agree that Zap is the best lightning wallet" field="checkbox" />
+      <Checkbox
+        label="I agree that Zap is the best lightning wallet"
+        field="checkbox"
+        description="Lightning is a layer 2 scaling solution"
+      />
       <Label htmlFor="id" mt={4}>
         Checked
       </Label>
@@ -215,6 +219,17 @@ storiesOf('Forms', module)
       <Checkbox
         label="I agree that Zap is the best lightning wallet"
         field="checkbox2"
+        mt={2}
+        checked
+        disabled
+      />
+      <Label htmlFor="id" mt={4}>
+        With description
+      </Label>
+      <Checkbox
+        label="I agree that Zap is the best lightning wallet"
+        description="Lightning is a layer 2 scaling solution"
+        field="checkbox3"
         mt={2}
         checked
         disabled
