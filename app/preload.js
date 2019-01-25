@@ -21,6 +21,13 @@ const fsReadFile = promisify(fs.readFile)
 const fsReaddir = promisify(readdir)
 const fsRimraf = promisify(rimraf)
 
+const { relative, isAbsolute } = require('path')
+
+function isSubDir(parent, dir) {
+  const isRelative = relative(parent, dir)
+  return Boolean(isRelative) && !isRelative.startsWith('..') && !isAbsolute(isRelative)
+}
+
 /**
  * Reference to the require method for Spectron to access (see e2e tests)
  * @type {Array}
@@ -98,16 +105,34 @@ function getWalletDir(chain, network, wallet) {
 
 /**
  * Delete a local wallet from the filesystem.
+ * @param {Object} location - wallet location desc
+ * @param {string} location.chain - chain
+ * @param {string} location.network - network
+ * @param {string} location.wallet - wallet id
+ * @param {string} location.dir - Direct location
+ * Must either specify @dir or @chain and @network and @wallet
  */
-async function deleteLocalWallet(chain, network, wallet) {
-  try {
-    assert(chain && network && wallet)
-  } catch (err) {
-    throw new Error(`Unknown wallet: (chain: ${chain}, network: ${network}, wallet: ${wallet}`)
+async function deleteLocalWallet({ chain, network, wallet, dir }) {
+  // returns wallet location based on arguments configuration
+  const getDir = () => {
+    if (typeof dir === 'string') {
+      return dir
+    }
+
+    try {
+      assert(chain && network && wallet)
+      return getWalletDir(chain, network, wallet)
+    } catch (err) {
+      throw new Error(`Unknown wallet: (chain: ${chain}, network: ${network}, wallet: ${wallet}`)
+    }
   }
 
   try {
-    let walletDir = getWalletDir(chain, network, wallet)
+    const walletDir = getDir()
+    // for security considerations make sure dir we are removing is actually a wallet dir
+    if (!isSubDir(join(remote.app.getPath('userData'), 'lnd'), walletDir)) {
+      throw new Error('Invalid directory specified')
+    }
     return fsRimraf(walletDir, { disableGlob: true })
   } catch (e) {
     throw new Error(`There was a problem deleting wallet: ${e.message}`)
@@ -150,7 +175,7 @@ async function validateHost(host) {
 
 /**
  * Check that a file exists.
- * @param {string} path Path of file to check gor existance.
+ * @param {string} path Path of file to check gor existence.
  * @returns {Promise<Boolean>}
  */
 async function fileExists(path) {
@@ -168,8 +193,8 @@ function getUserDataDir() {
 window.Zap = {
   openExternal,
   openHelpPage,
-  getLocalWallets,
   getWalletDir,
+  getLocalWallets,
   deleteLocalWallet,
   getUserDataDir,
   validateHost,

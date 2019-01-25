@@ -2,7 +2,6 @@ import { createSelector } from 'reselect'
 import get from 'lodash.get'
 import db from 'store/db'
 import { showError } from './notification'
-
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -90,7 +89,8 @@ export const deleteWallet = () => async (dispatch, getState) => {
 
       // Delete the wallet from the filesystem.
       if (wallet.type === 'local') {
-        await window.Zap.deleteLocalWallet(wallet.chain, wallet.network, wallet.wallet)
+        const { chain, network, wallet: walletName } = wallet
+        await window.Zap.deleteLocalWallet({ chain, network, wallet: walletName })
       }
 
       // Delete the wallet from the database.

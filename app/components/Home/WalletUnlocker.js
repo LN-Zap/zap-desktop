@@ -95,10 +95,12 @@ class WalletUnlocker extends React.Component {
         onSubmit={this.onSubmit}
         onSubmitFailure={this.onSubmitFailure}
         key={`wallet-unlocker-form-${wallet.id}`}
-        mt={72}
+        pt={4}
+        px={5}
+        pb={6}
       >
         {({ formState }) => (
-          <React.Fragment>
+          <>
             <WalletHeader wallet={wallet} />
 
             <PasswordInput
@@ -116,7 +118,7 @@ class WalletUnlocker extends React.Component {
             <Button type="submit" disable={unlockingWallet} processing={unlockingWallet}>
               <FormattedMessage {...messages.wallet_unlocker_button_label} />
             </Button>
-          </React.Fragment>
+          </>
         )}
       </Form>
     )

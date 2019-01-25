@@ -39,6 +39,7 @@ export default defineMessages({
   no_wallets_message: 'Unfortunately you don’t have any wallets 😢',
   create_wallet_promot: 'Start creating one from here:',
   saved_notification: 'Settings have been updated',
+  saved_error: 'Something went wrong',
   button_save: 'Save',
   button_cancel: 'Cancel'
 })

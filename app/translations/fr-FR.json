@@ -118,6 +118,7 @@
   "components.Home.network": "",
   "components.Home.no_active_wallet_message": "",
   "components.Home.no_wallets_message": "",
+  "components.Home.saved_error": "",
   "components.Home.saved_notification": "",
   "components.Home.section_autopilot_title": "",
   "components.Home.section_basic_title": "",
