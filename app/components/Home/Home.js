@@ -31,6 +31,7 @@ class Home extends React.Component {
     stopLnd: PropTypes.func.isRequired,
     setActiveWallet: PropTypes.func.isRequired,
     unlockWallet: PropTypes.func.isRequired,
+    setIsWalletOpen: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
     setStartLndError: PropTypes.func.isRequired,
     setError: PropTypes.func.isRequired,
@@ -42,10 +43,12 @@ class Home extends React.Component {
    * If there is an active wallet ensure it is selected on mount.
    */
   componentDidMount() {
-    const { activeWallet, activeWalletSettings, history } = this.props
+    const { activeWallet, activeWalletSettings, history, setIsWalletOpen } = this.props
     if (activeWallet && activeWalletSettings && history.location.pathname === '/home') {
       history.push(`/home/wallet/${activeWallet}`)
     }
+
+    setIsWalletOpen(false)
   }
 
   componentDidUpdate(prevProps) {

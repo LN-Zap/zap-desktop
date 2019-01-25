@@ -1,6 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { setActiveWallet, walletSelectors, showDeleteWalletDialog } from 'reducers/wallet'
+import {
+  setActiveWallet,
+  walletSelectors,
+  setIsWalletOpen,
+  showDeleteWalletDialog
+} from 'reducers/wallet'
 import {
   setUnlockWalletError,
   stopLnd,
@@ -39,6 +44,7 @@ const mapDispatchToProps = {
   startLnd,
   unlockWallet,
   deleteWallet: showDeleteWalletDialog,
+  setIsWalletOpen,
   setError
 }
 
