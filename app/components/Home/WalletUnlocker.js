@@ -12,8 +12,7 @@ import messages from './messages'
  * @example
  * <WalletUnlocker
      wallet={{ ... }}
-     unlockWallet={() => {}}
-     setError={() => {}} >
+     unlockWallet={() => {}}>
  */
 class WalletUnlocker extends React.Component {
   static displayName = 'WalletUnlocker'

@@ -31,7 +31,7 @@ const mapDispatchToProps = {
   unlockWallet,
   deleteWallet,
   setIsWalletOpen,
-  setError: showError
+  showError
 }
 
 export default connect(

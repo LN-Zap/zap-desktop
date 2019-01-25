@@ -16,7 +16,7 @@ class WalletLauncher extends React.Component {
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
     startLndError: PropTypes.object,
     setStartLndError: PropTypes.func.isRequired,
-    setError: PropTypes.func.isRequired,
+    showError: PropTypes.func.isRequired,
     stopLnd: PropTypes.func.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired
@@ -24,12 +24,12 @@ class WalletLauncher extends React.Component {
   }
 
   componentDidMount() {
-    const { stopLnd, startLndError, setError, setStartLndError } = this.props
+    const { stopLnd, startLndError, showError, setStartLndError } = this.props
     stopLnd()
 
     // If there are lnd start errors, show as a global error.
     if (startLndError) {
-      Object.keys(startLndError).forEach(key => setError(startLndError[key]))
+      Object.keys(startLndError).forEach(key => showError(startLndError[key]))
       setStartLndError(null)
     }
   }
@@ -43,14 +43,14 @@ class WalletLauncher extends React.Component {
       lightningGrpcActive,
       walletUnlockerGrpcActive,
       startLndError,
-      setError,
+      showError,
       setStartLndError,
       wallet
     } = this.props
 
     // If we got lnd start errors, show as a global error.
     if (startLndError && !prevProps.startLndError) {
-      Object.keys(startLndError).forEach(key => setError(startLndError[key]))
+      Object.keys(startLndError).forEach(key => showError(startLndError[key]))
       setStartLndError(null)
     }
 

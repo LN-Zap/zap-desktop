@@ -34,7 +34,7 @@ class Home extends React.Component {
     setIsWalletOpen: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
     setStartLndError: PropTypes.func.isRequired,
-    setError: PropTypes.func.isRequired,
+    showError: PropTypes.func.isRequired,
     unlockingWallet: PropTypes.bool,
     unlockWalletError: PropTypes.string
   }
@@ -68,7 +68,7 @@ class Home extends React.Component {
       unlockWallet,
       wallets,
       setActiveWallet,
-      setError,
+      showError,
       setStartLndError,
       stopLnd,
       lightningGrpcActive,
@@ -120,7 +120,7 @@ class Home extends React.Component {
                     lightningGrpcActive={lightningGrpcActive}
                     walletUnlockerGrpcActive={walletUnlockerGrpcActive}
                     startLndError={startLndError}
-                    setError={setError}
+                    showError={showError}
                     setStartLndError={setStartLndError}
                     deleteWallet={deleteWallet}
                     key={wallet.id}
