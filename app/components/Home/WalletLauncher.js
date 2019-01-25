@@ -50,7 +50,7 @@ class WalletLauncher extends React.Component {
 
     // If we got lnd start errors, show as a global error.
     if (startLndError && !prevProps.startLndError) {
-      Object.keys(startLndError).forEach(key => setError(startLndError.startLndError[key]))
+      Object.keys(startLndError).forEach(key => setError(startLndError[key]))
       setStartLndError(null)
     }
 

@@ -52,6 +52,7 @@ class Onboarding extends React.Component {
     setConnectionCert: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
     setConnectionString: PropTypes.func.isRequired,
+    setStartLndError: PropTypes.func.isRequired,
     setLndconnect: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
@@ -96,6 +97,7 @@ class Onboarding extends React.Component {
       setConnectionCert,
       setConnectionMacaroon,
       setConnectionString,
+      setStartLndError,
       setName,
       setUnlockWalletError,
       setPassword,
@@ -168,6 +170,7 @@ class Onboarding extends React.Component {
               setConnectionHost,
               setConnectionCert,
               setConnectionMacaroon,
+              setStartLndError,
               validateHost,
               validateCert,
               validateMacaroon

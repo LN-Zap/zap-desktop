@@ -19,6 +19,7 @@ import {
 } from 'reducers/onboarding'
 import {
   setUnlockWalletError,
+  setStartLndError,
   startLnd,
   stopLnd,
   fetchSeed,
@@ -57,6 +58,7 @@ const mapDispatchToProps = {
   setConnectionCert,
   setConnectionMacaroon,
   setConnectionString,
+  setStartLndError,
   setName,
   setPassword,
   setSeed,
