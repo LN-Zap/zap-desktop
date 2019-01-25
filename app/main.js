@@ -53,7 +53,7 @@ mainLog.time('Time until app is ready')
 const handleOpenUrl = (urlToOpen = '') => {
   // If we already have the mainWindow, handle the link right away.
   if (mainWindow) {
-    mainLog.debug('open-url: %s', urlToOpen)
+    mainLog.debug('handleOpenUrl: %s', urlToOpen)
     const type = urlToOpen.split(':')[0]
 
     switch (type) {
@@ -278,7 +278,7 @@ app.on('ready', async () => {
    */
   app.on('second-instance', (event, commandLine) => {
     mainLog.trace('app.second-instance')
-    if (os.platform !== 'darwin') {
+    if (os.platform() !== 'darwin') {
       const urlToOpen = commandLine && commandLine.slice(1)[0]
       if (urlToOpen) {
         handleOpenUrl(urlToOpen)
@@ -313,8 +313,13 @@ app.on('ready', async () => {
   // Once the app has finished loading, handle any deferred protocol urls.
   mainWindow.webContents.on('did-finish-load', () => {
     mainLog.trace('webContents.did-finish-load')
-    if (protocolUrl) {
-      handleOpenUrl(protocolUrl)
+
+    // Check to see if we have a protocol link to handle from app startup time.
+    // On the mac, `protocolUrl` will be set as a result of us trying to process the link from the `open-url` handler.
+    // On windows/linux the link will be passed to electron as the first process argument.
+    const urlToOpen = protocolUrl || process.argv.slice(1)[0]
+    if (urlToOpen) {
+      handleOpenUrl(urlToOpen)
       protocolUrl = null
     }
   })
