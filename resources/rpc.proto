@@ -1,9 +1,12 @@
-// Imported from https://raw.githubusercontent.com/lightningnetwork/lnd/v0.5.1-beta/lnrpc/rpc.proto
+// Imported from https://raw.githubusercontent.com/lightningnetwork/lnd/master/lnrpc/rpc.proto
 syntax = "proto3";
 
 // import "google/api/annotations.proto";
 
 package lnrpc;
+
+option go_package = "github.com/lightningnetwork/lnd/lnrpc";
+
 /**
  * Comments in this file will be directly parsed into the API
  * Documentation as descriptions of the associated method, message, or field.
@@ -232,6 +235,16 @@ service Lightning {
         };
     }
 
+    /** lncli: `listunspent`
+    ListUnspent returns a list of all utxos spendable by the wallet with a
+	number of confirmations between the specified minimum and maximum.
+    */
+    rpc ListUnspent (ListUnspentRequest) returns (ListUnspentResponse) {
+        option (google.api.http) = {
+            get: "/v1/utxos"
+        };
+    }
+
     /**
     SubscribeTransactions creates a uni-directional stream from the server to
     the client in which any newly discovered transactions relevant to the
@@ -261,7 +274,12 @@ service Lightning {
     signature string is `zbase32` encoded and pubkey recoverable, meaning that
     only the message digest and signature are needed for verification.
     */
-    rpc SignMessage (SignMessageRequest) returns (SignMessageResponse);
+    rpc SignMessage (SignMessageRequest) returns (SignMessageResponse) {
+        option (google.api.http) = {
+            post: "/v1/signmessage"
+            body: "*"
+        };
+    }
 
     /** lncli: `verifymessage`
     VerifyMessage verifies a signature over a msg. The signature must be
@@ -269,7 +287,12 @@ service Lightning {
     channel database. In addition to returning the validity of the signature,
     VerifyMessage also returns the recovered pubkey from the signature.
     */
-    rpc VerifyMessage (VerifyMessageRequest) returns (VerifyMessageResponse);
+    rpc VerifyMessage (VerifyMessageRequest) returns (VerifyMessageResponse) {
+        option (google.api.http) = {
+            post: "/v1/verifymessage"
+            body: "*"
+        };
+    }
 
     /** lncli: `connect`
     ConnectPeer attempts to establish a connection to a remote peer. This is at
@@ -648,6 +671,28 @@ service Lightning {
     };
 }
 
+message Utxo {
+	/// The type of address
+	AddressType type = 1 [json_name = "address_type"];
+
+	/// The address
+	string address = 2 [json_name = "address"];
+
+	/// The value of the unspent coin in satoshis
+	int64 amount_sat = 3 [json_name = "amount_sat"];
+
+	/// The scriptpubkey in hex
+	string script_pubkey = 4 [json_name = "script_pubkey"];
+
+	/// The outpoint in format txid:n
+	/// Note that this reuses the `ChannelPoint` message but
+	/// is not actually a channel related outpoint, of course
+	ChannelPoint outpoint = 5 [json_name = "outpoint"];
+
+	/// The number of confirmations for the Utxo
+	int64 confirmations = 6 [json_name = "confirmations"];
+}
+
 message Transaction {
     /// The transaction hash
     string tx_hash = 1 [ json_name = "tx_hash" ];
@@ -731,6 +776,7 @@ message SendResponse {
     string payment_error = 1 [json_name = "payment_error"];
     bytes payment_preimage = 2 [json_name = "payment_preimage"];
     Route payment_route = 3 [json_name = "payment_route"];
+    bytes payment_hash = 4 [json_name = "payment_hash"];
 }
 
 message SendToRouteRequest {
@@ -792,10 +838,30 @@ message SendCoinsRequest {
 
     /// A manual fee rate set in sat/byte that should be used when crafting the transaction.
     int64 sat_per_byte = 5;
+
+    /**
+    If set, then the amount field will be ignored, and lnd will attempt to
+    send all the coins under control of the internal wallet to the specified
+    address.
+    */
+    bool send_all = 6; 
 }
 message SendCoinsResponse {
     /// The transaction ID of the transaction
     string txid = 1 [json_name = "txid"];
+}
+
+message ListUnspentRequest {
+	/// The minimum number of confirmations to be included.
+	int32 min_confs = 1;
+
+	/// The maximum number of confirmations to be included.
+	int32 max_confs = 2;
+}
+message ListUnspentResponse {
+	/// A list of utxos
+	repeated Utxo utxos = 1 [json_name = "utxos"];
+
 }
 
 /** 
@@ -804,12 +870,12 @@ message SendCoinsResponse {
 - `p2wkh`: Pay to witness key hash (`WITNESS_PUBKEY_HASH` = 0)
 - `np2wkh`: Pay to nested witness key hash (`NESTED_PUBKEY_HASH` = 1)
 */
-message NewAddressRequest {
-    enum AddressType {
+enum AddressType {
         WITNESS_PUBKEY_HASH = 0;
         NESTED_PUBKEY_HASH = 1;
-    }
+}
 
+message NewAddressRequest {
     /// The address type
     AddressType type = 1;
 }
@@ -945,8 +1011,11 @@ message Channel {
     */
     uint32 csv_delay = 16 [json_name = "csv_delay"];
 
-    /// Whether this channel is advertised to the network or not
+    /// Whether this channel is advertised to the network or not.
     bool private = 17 [json_name = "private"];
+
+    /// True if we were the ones that creted the channel.
+    bool initiator = 18 [json_name = "initiator"];
 }
 
 
@@ -1076,11 +1145,13 @@ message GetInfoResponse {
     /// Whether the wallet's view is synced to the main chain
     bool synced_to_chain = 9 [json_name = "synced_to_chain"];
 
-    /// Whether the current node is connected to testnet
-    bool testnet = 10 [json_name = "testnet"];
+    /** 
+    Whether the current node is connected to testnet. This field is 
+    deprecated and the network field should be used instead 
+    **/
+    bool testnet = 10 [json_name = "testnet", deprecated = true];
 
-    /// A list of active chains the node is connected to
-    repeated string chains = 11 [json_name = "chains"];
+    reserved 11;
 
     /// The URIs of the current node.
     repeated string uris = 12 [json_name = "uris"];
@@ -1093,6 +1164,17 @@ message GetInfoResponse {
 
     /// Number of inactive channels
     uint32 num_inactive_channels = 15 [json_name = "num_inactive_channels"];
+
+    /// A list of active chains the node is connected to
+    repeated Chain chains = 16 [json_name = "chains"];
+}
+
+message Chain {
+    /// The blockchain the node is on (eg bitcoin, litecoin)
+    string chain = 1 [json_name = "chain"];
+
+    /// The network the node is on (eg regtest, testnet, mainnet)
+    string network = 2 [json_name = "network"];
 }
 
 message ConfirmationUpdate {
@@ -1133,7 +1215,6 @@ message CloseChannelRequest {
 message CloseStatusUpdate {
     oneof update {
         PendingUpdate close_pending = 1 [json_name = "close_pending"];
-        ConfirmationUpdate confirmation = 2 [json_name = "confirmation"];
         ChannelCloseUpdate chan_close = 3 [json_name = "chan_close"];
     }
 }
@@ -1180,7 +1261,6 @@ message OpenChannelRequest {
 message OpenStatusUpdate {
     oneof update {
         PendingUpdate chan_pending = 1 [json_name = "chan_pending"];
-        ConfirmationUpdate confirmation = 2 [json_name = "confirmation"];
         ChannelOpenUpdate chan_open = 3 [json_name = "chan_open"];
     }
 }
@@ -1627,8 +1707,10 @@ message Invoice {
     */
     string memo = 1 [json_name = "memo"];
 
-    /// An optional cryptographic receipt of payment
-    bytes receipt = 2 [json_name = "receipt"];
+    /** Deprecated. An optional cryptographic receipt of payment which is not
+    implemented.
+    */
+    bytes receipt = 2 [json_name = "receipt", deprecated = true];
 
     /**
     The hex-encoded preimage (32 byte) which will allow settling an incoming
@@ -1643,7 +1725,7 @@ message Invoice {
     int64 value = 5 [json_name = "value"];
 
     /// Whether this invoice has been fulfilled
-    bool settled = 6 [json_name = "settled"];
+    bool settled = 6 [json_name = "settled", deprecated = true];
 
     /// When this invoice was created
     int64 creation_date = 7 [json_name = "creation_date"];
@@ -1721,7 +1803,18 @@ message Invoice {
     here as well.
     */
     int64 amt_paid_msat = 20 [json_name = "amt_paid_msat"];
+
+    enum InvoiceState {
+        OPEN = 0;
+        SETTLED = 1;
+    }
+
+    /**
+    The state the invoice is in.
+    */
+    InvoiceState state = 21 [json_name = "state"];
 }
+
 message AddInvoiceResponse {
     bytes r_hash = 1 [json_name = "r_hash"];
 
@@ -1954,14 +2047,17 @@ message ForwardingEvent {
     /// The outgoing channel ID that carried the preimage that completed the circuit.
     uint64 chan_id_out = 4 [json_name = "chan_id_out"];
 
-    /// The total amount of the incoming HTLC that created half the circuit.
+    /// The total amount (in satoshis) of the incoming HTLC that created half the circuit.
     uint64 amt_in = 5 [json_name = "amt_in"];
 
-    /// The total amount of the outgoign HTLC that created the second half of the circuit.
+    /// The total amount (in satoshis) of the outgoing HTLC that created the second half of the circuit.
     uint64 amt_out = 6 [json_name = "amt_out"];
 
-    /// The total fee that this payment circuit carried.
+    /// The total fee (in satoshis) that this payment circuit carried.
     uint64 fee = 7 [json_name = "fee"];
+
+    /// The total fee (in milli-satoshis) that this payment circuit carried.
+    uint64 fee_msat = 8 [json_name = "fee_msat"];
 
     // TODO(roasbeef): add settlement latency?
     //  * use FPE on the chan id?
@@ -1974,4 +2070,3 @@ message ForwardingHistoryResponse {
    /// The index of the last time in the set of returned forwarding events. Can be used to seek further, pagination style.
    uint32 last_offset_index = 2 [json_name = "last_offset_index"];
 }
-
