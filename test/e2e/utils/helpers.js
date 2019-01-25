@@ -11,7 +11,7 @@ export const killLnd = ClientFunction(() => window.Zap.killLnd())
 
 // Delete wallets that may have been created in the tests.
 export const deleteUserData = ClientFunction(() =>
-  window.Zap.deleteLocalWallet('bitcoin', 'testnet', 'wallet-1')
+  window.Zap.deleteLocalWallet({ chain: 'bitcoin', network: 'testnet', wallet: 'wallet-1' })
 )
 
 // Delete persistent data from indexeddb.

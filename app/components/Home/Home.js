@@ -34,6 +34,8 @@ class Home extends React.Component {
     setIsWalletOpen: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
     setStartLndError: PropTypes.func.isRequired,
+    putWallet: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
     unlockingWallet: PropTypes.bool,
     unlockWalletError: PropTypes.string
@@ -75,7 +77,9 @@ class Home extends React.Component {
       walletUnlockerGrpcActive,
       setUnlockWalletError,
       unlockingWallet,
-      unlockWalletError
+      unlockWalletError,
+      putWallet,
+      showNotification
     } = this.props
 
     return (
@@ -102,7 +106,7 @@ class Home extends React.Component {
           </Panel>
         </Sidebar.small>
 
-        <MainContent px={5} pt={40} css={{ height: '100%', 'overflow-y': 'auto' }}>
+        <MainContent css={{ position: 'relative' }}>
           <Switch>
             <Route
               exact
@@ -118,6 +122,8 @@ class Home extends React.Component {
                     startLnd={startLnd}
                     stopLnd={stopLnd}
                     lightningGrpcActive={lightningGrpcActive}
+                    putWallet={putWallet}
+                    showNotification={showNotification}
                     walletUnlockerGrpcActive={walletUnlockerGrpcActive}
                     startLndError={startLndError}
                     showError={showError}

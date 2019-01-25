@@ -3,8 +3,9 @@ import { connect } from 'react-redux'
 import {
   setActiveWallet,
   walletSelectors,
+  showDeleteWalletDialog,
   setIsWalletOpen,
-  showDeleteWalletDialog
+  putWallet
 } from 'reducers/wallet'
 import {
   setUnlockWalletError,
@@ -13,7 +14,7 @@ import {
   unlockWallet,
   setStartLndError
 } from 'reducers/lnd'
-import { showError } from 'reducers/notification'
+import { showError, showNotification } from 'reducers/notification'
 import { Home } from 'components/Home'
 import DeleteWalletDialog from './Home/DeleteWalletDialog'
 
@@ -41,6 +42,8 @@ const mapDispatchToProps = {
   setUnlockWalletError,
   setStartLndError,
   stopLnd,
+  putWallet,
+  showNotification,
   startLnd,
   unlockWallet,
   deleteWallet: showDeleteWalletDialog,
