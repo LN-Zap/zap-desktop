@@ -31,7 +31,7 @@ import {
 import { fetchBalance } from 'reducers/balance'
 import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
-import { clearError } from 'reducers/error'
+import { removeNotification } from 'reducers/notification'
 import { setIsWalletOpen } from 'reducers/wallet'
 import App from 'components/App'
 import withLoading from 'components/withLoading'
@@ -42,7 +42,7 @@ const mapDispatchToProps = {
   setFormType,
   createInvoice,
   fetchInvoice,
-  clearError,
+  removeNotification,
   fetchBalance,
   fetchPeers,
   fetchChannels,

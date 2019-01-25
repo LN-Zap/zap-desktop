@@ -1,6 +1,6 @@
 import createIpc from 'redux-electron-ipc'
 import { receiveLocale } from './locale'
-import { receiveError } from './error'
+import { receiveError } from './notification'
 import {
   currentBlockHeight,
   fetchSeedSuccess,

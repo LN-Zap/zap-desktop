@@ -1,7 +1,7 @@
-export const showNotification = (title, body, onClick) => {
+export const showSystemNotification = (title, body, onClick) => {
   const notification = new Notification(title, { body })
 
   notification.onClick = onClick
 }
 
-export default { showNotification }
+export default { showSystemNotification }

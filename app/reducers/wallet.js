@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import get from 'lodash.get'
 import db from 'store/db'
-import { setError } from './error'
+import { showError } from './notification'
 
 // ------------------------------------
 // Constants
@@ -97,7 +97,7 @@ export const deleteWallet = walletId => async (dispatch, getState) => {
     // Refresh the wallets state data.
     await dispatch(getWallets())
   } catch (error) {
-    dispatch(setError(error.message))
+    dispatch(showError(error.message))
     dispatch({ type: DELETE_WALLET_FAILURE, error })
   }
 }
