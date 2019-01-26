@@ -78,7 +78,6 @@ class Neutrino extends EventEmitter {
 
     mainLog.info('Starting lnd in neutrino mode')
     mainLog.info(' > binaryPath', this.lndConfig.binaryPath)
-    mainLog.info(' > rpcProtoPath:', this.lndConfig.rpcProtoPath)
     mainLog.info(' > host:', this.lndConfig.host)
     mainLog.info(' > cert:', this.lndConfig.cert)
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)

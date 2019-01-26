@@ -5,7 +5,7 @@ module.exports = {
   match: jest.fn(),
   app: {
     getPath: name => normalize(`/tmp/zap-test/${name}`),
-    getAppPath: () => normalize('/tmp/zap-test'),
+    getAppPath: () => normalize(`${__dirname}/../../`),
     getLocale: jest.fn()
   },
   remote: {

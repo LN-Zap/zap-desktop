@@ -22,7 +22,7 @@ describe('reducers', () => {
       expect(
         infoReducer(undefined, {
           type: RECEIVE_INFO,
-          data: { chains: [{ chain: 'bitcoin', network: 'mainnet' }] }
+          data: { semver: '0.5.2', chains: [{ chain: 'bitcoin', network: 'mainnet' }] }
         })
       ).toMatchSnapshot()
     })

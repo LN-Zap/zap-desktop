@@ -15,15 +15,32 @@ import * as networkController from './networkController'
 // TODO - SendPayment
 // TODO - DeleteAllPayments
 
-export default function(lnd, log, event, msg, data) {
+export default function(lightning, log, event, msg, data) {
+  const { version, service: lnd } = lightning
+
   log.info(`Calling lnd method: %o`, { msg, data })
+
   switch (msg) {
     case 'info':
       networkController
         .getInfo(lnd)
         .then(infoData => {
+          // Add semver info into info so that we can use it to customise functionality based on active version.
+          infoData.semver = version
+
+          // In older versions `chain` was a simple string and there was a separate boolean to indicate the network.
+          // Convert it to the current format for consistency.
+          if (typeof infoData.chains[0] === 'string') {
+            const chain = infoData.chains[0]
+            const network = infoData.testnet ? 'testnet' : 'mainnet'
+            delete infoData.testnet
+            infoData.chains = [{ chain, network }]
+          }
+
+          // Send the sanitized data to the client.
           event.sender.send('receiveInfo', infoData)
           event.sender.send('receiveCryptocurrency', infoData.chains[0].chain)
+
           return infoData
         })
         .catch(error => log.error('info:', error))

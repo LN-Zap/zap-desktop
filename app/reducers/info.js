@@ -86,8 +86,9 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
   dispatch(walletAddress('np2wkh'))
 
   // Update the active wallet settings with info discovered from getinfo.
-  const chain = get(data, 'chains[0].chain')
-  const network = get(data, 'chains[0].network')
+  const chain = get(state, 'info.chain')
+  const network = get(state, 'info.network.id')
+
   const wallet = walletSelectors.activeWalletSettings(state)
   if (wallet && (wallet.chain !== chain || wallet.network !== network)) {
     wallet.chain = chain

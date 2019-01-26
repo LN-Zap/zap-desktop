@@ -20,6 +20,7 @@ Object {
         "network": "mainnet",
       },
     ],
+    "semver": "0.5.2",
   },
   "hasSynced": undefined,
   "infoLoading": false,
