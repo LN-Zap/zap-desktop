@@ -15,7 +15,10 @@ Object {
   "chain": "bitcoin",
   "data": Object {
     "chains": Array [
-      "bitcoin",
+      Object {
+        "chain": "bitcoin",
+        "network": "mainnet",
+      },
     ],
   },
   "hasSynced": undefined,

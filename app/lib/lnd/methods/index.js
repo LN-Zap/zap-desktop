@@ -23,7 +23,7 @@ export default function(lnd, log, event, msg, data) {
         .getInfo(lnd)
         .then(infoData => {
           event.sender.send('receiveInfo', infoData)
-          event.sender.send('receiveCryptocurrency', infoData.chains[0])
+          event.sender.send('receiveCryptocurrency', infoData.chains[0].chain)
           return infoData
         })
         .catch(error => log.error('info:', error))
