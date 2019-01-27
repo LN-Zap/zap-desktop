@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.ProgressBar should render correctly (50%) 1`] = `
+<EmptyBar
+  bg="tertiaryColor"
+>
+  <ProgressBar__FilledBar
+    bg="lightningOrange"
+    justify="left"
+    width={0.5}
+  />
+</EmptyBar>
+`;
+
+exports[`component.UI.ProgressBar should render correctly (100%) 1`] = `
+<EmptyBar
+  bg="tertiaryColor"
+>
+  <ProgressBar__FilledBar
+    bg="lightningOrange"
+    justify="left"
+    width={1}
+  />
+</EmptyBar>
+`;
+
+exports[`component.UI.ProgressBar should render correctly (blue) 1`] = `
+<EmptyBar
+  bg="tertiaryColor"
+>
+  <ProgressBar__FilledBar
+    bg="superBlue"
+    justify="left"
+    width={0.5}
+  />
+</EmptyBar>
+`;
+
+exports[`component.UI.ProgressBar should render correctly (default) 1`] = `
+<EmptyBar
+  bg="tertiaryColor"
+/>
+`;
+
+exports[`component.UI.ProgressBar should render correctly (right justify) 1`] = `
+<EmptyBar
+  bg="tertiaryColor"
+>
+  <ProgressBar__FilledBar
+    bg="lightningOrange"
+    justify="right"
+    width={0.5}
+  />
+</EmptyBar>
+`;
