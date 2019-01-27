@@ -15,6 +15,7 @@ export const palette = {
   superGreen: '#39e673',
   pineGreen: '#0d331a',
   superRed: '#e63939',
+  superBlue: '#005dfc',
   mudBrown: '#330d0d',
   gray: '#959595',
   lightGreen: '#eefff4',
