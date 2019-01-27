@@ -12,6 +12,7 @@ const EmptyBar = ({ children, ...rest }) => (
     {children}
   </SystemCard>
 )
+
 EmptyBar.propTypes = {
   children: PropTypes.node
 }
