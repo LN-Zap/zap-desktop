@@ -4,7 +4,6 @@ import { Redirect } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Heading, Header, Panel, QRCode, Text } from 'components/UI'
-import { showNotification } from 'lib/utils/notifications'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 
@@ -16,6 +15,7 @@ class Syncing extends Component {
     syncPercentage: PropTypes.number,
     blockHeight: PropTypes.number,
     setIsWalletOpen: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
     lndBlockHeight: PropTypes.number,
     lndCfilterHeight: PropTypes.number,
     lightningGrpcActive: PropTypes.bool
@@ -85,15 +85,15 @@ class Syncing extends Component {
       lndBlockHeight,
       lndCfilterHeight,
       lightningGrpcActive,
-      intl
+      intl,
+      showNotification
     } = this.props
     let { syncMessageDetail, syncMessageExtraDetail } = this.state
 
     const copyToClipboard = data => {
       copy(data)
-      const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
       const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
-      showNotification(notifTitle, notifBody)
+      showNotification(notifBody)
     }
 
     if (lightningGrpcActive && syncStatus === 'complete') {

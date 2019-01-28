@@ -20,7 +20,7 @@ import address from './address'
 import transaction from './transaction'
 import activity from './activity'
 import network from './network'
-import error from './error'
+import notification from './notification'
 import settings from './settings'
 import wallet from './wallet'
 
@@ -50,7 +50,7 @@ export default history => {
     transaction,
     activity,
     network,
-    error,
+    notification,
     settings,
     wallet
   })

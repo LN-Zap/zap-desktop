@@ -5,13 +5,13 @@ import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { ThemeProvider } from 'styled-components'
 
-import { clearError, errorSelectors } from 'reducers/error'
+import { removeNotification, notificationSelectors } from 'reducers/notification'
 import { initTheme, themeSelectors } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
 import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
 import { Page, Titlebar, GlobalStyle, Modal } from 'components/UI'
-import GlobalError from 'components/GlobalError'
+import GlobalNotification from 'components/GlobalNotification'
 import withLoading from 'components/withLoading'
 import Initializer from './Initializer'
 import Logout from './Logout'
@@ -32,9 +32,9 @@ const SPLASH_SCREEN_TIME = 1500
 class Root extends React.Component {
   static propTypes = {
     hasWallets: PropTypes.bool,
-    clearError: PropTypes.func.isRequired,
+    removeNotification: PropTypes.func.isRequired,
     theme: PropTypes.object,
-    errors: PropTypes.array.isRequired,
+    notifications: PropTypes.array.isRequired,
     history: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
 
@@ -76,7 +76,7 @@ class Root extends React.Component {
   }
 
   render() {
-    const { hasWallets, clearError, theme, errors, history, isLoading } = this.props
+    const { hasWallets, removeNotification, theme, notifications, history, isLoading } = this.props
 
     // Wait until we have loaded essential data before displaying anything.
     if (!theme) {
@@ -89,7 +89,10 @@ class Root extends React.Component {
           <React.Fragment>
             <GlobalStyle />
             <Titlebar />
-            <GlobalError errors={errors} clearError={clearError} />
+            <GlobalNotification
+              notifications={notifications}
+              removeNotification={removeNotification}
+            />
             <PageWithLoading isLoading={isLoading}>
               <Switch>
                 <Route exact path="/" component={Initializer} />
@@ -125,15 +128,14 @@ class Root extends React.Component {
 
 const mapStateToProps = state => ({
   hasWallets: walletSelectors.hasWallets(state),
-  errors: errorSelectors.getErrorState(state),
+  notifications: notificationSelectors.getNotificationState(state),
   theme: themeSelectors.currentThemeSettings(state),
   isLoading: appSelectors.isLoading(state),
   isMounted: appSelectors.isMounted(state)
 })
 
 const mapDispatchToProps = {
-  clearError,
-
+  removeNotification,
   initTheme,
   setLoading,
   setMounted

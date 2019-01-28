@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedMessage, FormattedRelative, FormattedTime, injectIntl } from 'react-intl'
 import { decodePayReq } from 'lib/utils/crypto'
-import { showNotification } from 'lib/utils/notifications'
 import copy from 'copy-to-clipboard'
 import { Bar, DataRow, Button, Dropdown, QRCode, Text, Value } from 'components/UI'
 import { Truncate } from 'components/Util'
@@ -39,7 +38,8 @@ class RequestSummary extends React.Component {
     /** Set the current cryptocurrency. */
     setCryptoCurrency: PropTypes.func.isRequired,
     /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired
+    setFiatCurrency: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -78,14 +78,14 @@ class RequestSummary extends React.Component {
       intl,
       setCryptoCurrency,
       setFiatCurrency,
+      showNotification,
       ...rest
     } = this.props
 
     const copyToClipboard = data => {
       copy(data)
-      const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
       const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
-      showNotification(notifTitle, notifBody)
+      showNotification(notifBody)
     }
 
     const { isExpired } = this.state

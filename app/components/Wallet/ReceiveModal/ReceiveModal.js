@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
 import { withTheme } from 'styled-components'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import { showNotification } from 'lib/utils/notifications'
 import { Box, Flex } from 'rebass'
 import { Button, Heading, Modal, QRCode, Text } from 'components/UI'
 import Copy from 'components/Icon/Copy'
@@ -18,19 +17,17 @@ class ReceiveModal extends React.Component {
   }
 
   copyPubkeyToClipboard = () => {
-    const { pubkey, intl } = this.props
+    const { pubkey, intl, showNotification } = this.props
     copy(pubkey)
-    const notifTitle = intl.formatMessage({ ...messages.pubkey_copied_notification_title })
     const notifBody = intl.formatMessage({ ...messages.pubkey_copied_notification_description })
-    showNotification(notifTitle, notifBody)
+    showNotification(notifBody)
   }
 
   copyAddressToClipboard = () => {
-    const { address, intl } = this.props
+    const { address, intl, showNotification } = this.props
     copy(address)
-    const notifTitle = intl.formatMessage({ ...messages.address_copied_notification_title })
     const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
-    showNotification(notifTitle, notifBody)
+    showNotification(notifBody)
   }
 
   setQrcode = type => {

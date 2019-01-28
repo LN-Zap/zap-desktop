@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
-import { setError } from './error'
+import { showError } from './notification'
 
 // ------------------------------------
 // Constants
@@ -154,7 +154,7 @@ export const queryRoutes = (pubkey, amount) => dispatch => {
 
 export const queryRoutesFailed = (event, { error }) => dispatch => {
   dispatch({ type: RECEIVE_QUERY_ROUTES_FAILED })
-  dispatch(setError(error))
+  dispatch(showError(error))
 }
 
 export const receiveQueryRoutes = (event, { routes }) => dispatch =>

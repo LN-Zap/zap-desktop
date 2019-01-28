@@ -7,7 +7,7 @@ import {
   unlockWallet,
   setStartLndError
 } from 'reducers/lnd'
-import { setError } from 'reducers/error'
+import { showError } from 'reducers/notification'
 import { Home } from 'components/Home'
 
 const mapStateToProps = state => ({
@@ -31,7 +31,7 @@ const mapDispatchToProps = {
   unlockWallet,
   deleteWallet,
   setIsWalletOpen,
-  setError
+  showError
 }
 
 export default connect(

@@ -5,18 +5,27 @@ import { Box } from 'rebass'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import { Notification } from 'components/UI'
 
-class GlobalError extends React.Component {
+class GlobalNotification extends React.Component {
   static propTypes = {
-    errors: PropTypes.array,
-    clearError: PropTypes.func.isRequired
+    notifications: PropTypes.array,
+    removeNotification: PropTypes.func.isRequired
   }
 
   render() {
-    const { errors, clearError } = this.props
+    const { notifications, removeNotification } = this.props
+
+    const prepareMessage = (message, variant) => {
+      switch (variant) {
+        case 'error':
+          return errorToUserFriendly(message)
+        default:
+          return message
+      }
+    }
 
     return (
       <Box mt="22px" px={3} width={1} css={{ position: 'absolute', 'z-index': '99999' }}>
-        {errors.map(item => (
+        {notifications.map(item => (
           <Transition
             native
             key={item.id}
@@ -29,8 +38,12 @@ class GlobalError extends React.Component {
               show &&
               (springStyles => (
                 <animated.div style={springStyles}>
-                  <Notification variant="error" onClick={() => clearError(item.id)} mb={2}>
-                    {errorToUserFriendly(item.message)}
+                  <Notification
+                    variant={item.variant}
+                    onClick={() => removeNotification(item.id)}
+                    mb={2}
+                  >
+                    {prepareMessage(item.message, item.variant)}
                   </Notification>
                 </animated.div>
               ))
@@ -42,4 +55,4 @@ class GlobalError extends React.Component {
   }
 }
 
-export default GlobalError
+export default GlobalNotification

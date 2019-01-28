@@ -55,6 +55,7 @@ class Request extends React.Component {
     setCryptoCurrency: PropTypes.func.isRequired,
     /** Set the current fiat currency */
     setFiatCurrency: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
     /** Create an invoice using the supplied details */
     createInvoice: PropTypes.func.isRequired
   }
@@ -216,6 +217,7 @@ class Request extends React.Component {
       payReq,
       setCryptoCurrency,
       setFiatCurrency,
+      showNotification,
       ...rest
     } = this.props
     const { currentStep } = this.state
@@ -269,6 +271,7 @@ class Request extends React.Component {
                     // Dispatch
                     setCryptoCurrency={setCryptoCurrency}
                     setFiatCurrency={setFiatCurrency}
+                    showNotification={showNotification}
                   />
                 )}
               </Panel.Body>

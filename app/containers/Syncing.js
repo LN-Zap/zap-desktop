@@ -3,7 +3,7 @@ import { withTheme } from 'styled-components'
 import { infoSelectors } from 'reducers/info'
 import { lndSelectors } from 'reducers/lnd'
 import { setIsWalletOpen } from 'reducers/wallet'
-
+import { showNotification } from 'reducers/notification'
 import { Syncing } from 'components/Syncing'
 import withLoading from 'components/withLoading'
 
@@ -25,7 +25,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  setIsWalletOpen
+  setIsWalletOpen,
+  showNotification
 }
 
 export default connect(

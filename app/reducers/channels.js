@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
 import { send } from 'redux-electron-ipc'
 import { requestSuggestedNodes } from 'lib/utils/api'
-import { setError } from './error'
+import { showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
 import { updateNodeData } from './network'
@@ -220,7 +220,7 @@ export const pushchannelend = event => dispatch => {
 // Receive IPC event for channel error
 export const pushchannelerror = (event, { pubkey, error }) => dispatch => {
   dispatch(openingFailure())
-  dispatch(setError(error))
+  dispatch(showError(error))
   dispatch(removeLoadingPubkey(pubkey))
 }
 
@@ -269,7 +269,7 @@ export const pushclosechannelend = () => dispatch => {
 
 // Receive IPC event for closing channel error
 export const pushclosechannelerror = (event, { error, chan_id }) => dispatch => {
-  dispatch(setError(error))
+  dispatch(showError(error))
   dispatch(removeClosingChanId(chan_id))
 }
 
