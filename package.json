@@ -300,7 +300,7 @@
     "testcafe-live": "0.1.4",
     "testcafe-react-selectors": "3.0.3",
     "url-loader": "1.1.2",
-    "webpack": "4.29.0",
+    "webpack": "4.28.3",
     "webpack-bundle-analyzer": "3.0.3",
     "webpack-cli": "3.1.2",
     "webpack-dev-server": "3.1.14",
