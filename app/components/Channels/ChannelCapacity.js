@@ -11,14 +11,15 @@ const ChannelCapacity = ({
   cryptoCurrencies,
   localBalance,
   remoteBalance,
-  setCryptoCurrency
+  setCryptoCurrency,
+  ...rest
 }) => {
   const totalBalance = localBalance + remoteBalance
   const localBalancePercent = localBalance / totalBalance
   const remoteBalancePercent = remoteBalance / totalBalance
 
   return (
-    <Box as="article">
+    <Box as="article" {...rest}>
       <Flex as="header" justifyContent="space-between" alignItems="center">
         <Text width={1 / 3}>
           <Heading.h4 fontWeight="normal">
