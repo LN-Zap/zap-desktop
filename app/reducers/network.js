@@ -188,7 +188,7 @@ const mergeNodeUpdates = (state, nodeData) => {
             ...nodeData,
             last_update: Math.round(new Date() / 1000)
           },
-          ...originalNodes.slice(index)
+          ...originalNodes.slice(index + 1)
         ]
 
   return {
