@@ -17,7 +17,11 @@ const StyledStatusIndicator = styled(Box)(indicatorStyle)
  */
 const StatusIndicator = ({ variant, ...rest }) => (
   <StyledStatusIndicator variant={variant} {...rest}>
-    {['loading'].includes(variant) ? <Spinner size="0.7em" /> : <Circle width="0.7em" />}
+    {['loading'].includes(variant) ? (
+      <Spinner width="0.7em" height="0.7em" />
+    ) : (
+      <Circle width="0.7em" height="0.7em" />
+    )}
   </StyledStatusIndicator>
 )
 StatusIndicator.propTypes = {

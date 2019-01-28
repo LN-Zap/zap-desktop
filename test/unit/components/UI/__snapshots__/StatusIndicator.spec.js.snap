@@ -5,6 +5,7 @@ exports[`component.UI.StatusIndicator closing should render correctly 1`] = `
   variant="closing"
 >
   <SvgCircle
+    height="0.7em"
     width="0.7em"
   />
 </Styled(styled.div)>
@@ -15,6 +16,7 @@ exports[`component.UI.StatusIndicator offline should render correctly 1`] = `
   variant="offline"
 >
   <SvgCircle
+    height="0.7em"
     width="0.7em"
   />
 </Styled(styled.div)>
@@ -25,6 +27,7 @@ exports[`component.UI.StatusIndicator online should render correctly 1`] = `
   variant="online"
 >
   <SvgCircle
+    height="0.7em"
     width="0.7em"
   />
 </Styled(styled.div)>
@@ -35,6 +38,7 @@ exports[`component.UI.StatusIndicator pending should render correctly 1`] = `
   variant="pending"
 >
   <SvgCircle
+    height="0.7em"
     width="0.7em"
   />
 </Styled(styled.div)>

@@ -12,6 +12,7 @@ exports[`component.UI.Spinner should render correctly 1`] = `
 
 <div
   className="c0"
+  color="lightningOrange"
 >
   <svg
     className="c1"
