@@ -19,7 +19,7 @@ Uncaught TypeError: Cannot read property 'state' of undefined
    at beginWork (react-dom.development.js:15335)
 ```
 
-can be related to some incompatible extensions loaded in Electrum. 
+can be related to some incompatible extensions loaded in Electron. 
 
 Try to delete Electron folder.
 
@@ -27,3 +27,9 @@ On OSX that would be:
 ```
   rm -rf ~/Library/Application\ Support/Electron
 ```
+
+*Warning*
+
+Note hat your local wallets are stored in that dir.
+
+If you want to retain them, backup the `lnd` subdir
