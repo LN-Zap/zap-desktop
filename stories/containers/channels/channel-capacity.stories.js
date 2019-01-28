@@ -2,7 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { number } from '@storybook/addon-knobs'
 import { State, Store } from '@sambego/storybook-state'
-import ChannelCapacity from 'components/Channels/ChannelCapacity'
+import { ChannelCapacity } from 'components/Channels'
 
 const store = new Store({
   /** Currently selected cryptocurrency (key). */
@@ -37,24 +37,34 @@ storiesOf('Containers.Channels', module)
       disable: true
     }
   })
-  .add('ChannelCapacity', () => {
-    const localBalance = number('Local Balance', 150000)
-    const remoteBalance = number('Remote Balance', 75000)
+  .addWithChapters('ChannelCapacity', {
+    chapters: [
+      {
+        sections: [
+          {
+            sectionFn: () => {
+              const localBalance = number('Local Balance', 150000)
+              const remoteBalance = number('Remote Balance', 75000)
 
-    const stateProps = {
-      localBalance,
-      remoteBalance
-    }
+              const stateProps = {
+                localBalance,
+                remoteBalance
+              }
 
-    const dispatchProps = {
-      setCryptoCurrency
-    }
+              const dispatchProps = {
+                setCryptoCurrency
+              }
 
-    return (
-      <State store={store}>
-        {state => {
-          return <ChannelCapacity {...state} {...stateProps} {...dispatchProps} />
-        }}
-      </State>
-    )
+              return (
+                <State store={store}>
+                  {state => {
+                    return <ChannelCapacity {...state} {...stateProps} {...dispatchProps} />
+                  }}
+                </State>
+              )
+            }
+          }
+        ]
+      }
+    ]
   })

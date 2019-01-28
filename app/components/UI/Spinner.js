@@ -1,7 +1,7 @@
 import React from 'react'
 import styled, { keyframes } from 'styled-components'
+import { Box } from 'rebass'
 import Spinner from 'components/Icon/Spinner'
-import system from '@rebass/components'
 
 const rotate360 = keyframes`
   from {
@@ -11,14 +11,6 @@ const rotate360 = keyframes`
     transform: rotate(360deg);
   }
 `
-
-const Wrapper = system(
-  {
-    color: 'lightningOrange'
-  },
-  'space',
-  'color'
-)
 
 /**
  * @render react
@@ -32,24 +24,19 @@ const renderSpinner = Element => {
   `
 }
 
-const WrappedSpinner = ({ element, size, ...rest }) => {
-  const sizeProps = {}
-  if (size) {
-    sizeProps.width = size
-    sizeProps.height = size
-  }
-
-  let Icon = Spinner
-  if (element) {
-    Icon = element
-  }
-
+const WrappedSpinner = ({ element, width, height, ...rest }) => {
+  const Icon = element ? element : Spinner
   const Element = renderSpinner(Icon)
   return (
-    <Wrapper {...rest}>
-      <Element {...sizeProps} />
-    </Wrapper>
+    <Box color="lightningOrange" {...rest}>
+      <Element width={width} height={height} />
+    </Box>
   )
+}
+
+WrappedSpinner.defaultProps = {
+  width: '1em',
+  height: '1em'
 }
 
 export default WrappedSpinner
