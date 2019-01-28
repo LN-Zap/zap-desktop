@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedNumber } from 'react-intl'
 import { convert } from 'lib/utils/btc'
 
 const forcePositive = amount => (amount >= 0 ? amount : amount * -1)
@@ -41,7 +42,7 @@ const Value = ({ value, currency, currentTicker, fiatTicker }) => {
 
   // Convert to a string and remove all trailing zeros.
   const trimmedAmount = String(truncatedAmount).replace(/\.?0+$/, '')
-  return <span>{trimmedAmount}</span>
+  return <FormattedNumber value={trimmedAmount} />
 }
 
 Value.propTypes = {

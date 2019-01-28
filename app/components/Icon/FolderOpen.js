@@ -1,14 +1,7 @@
 import React from 'react'
 
 const SvgFolderOpen = props => (
-  <svg
-    viewBox="0 0 50 50"
-    width="1em"
-    height="1em"
-    stroke="currentColor"
-    strokeWidth={2}
-    {...props}
-  >
+  <svg viewBox="0 0 50 50" width="1em" height="1em" {...props}>
     <path
       style={{
         lineHeight: 'normal',
