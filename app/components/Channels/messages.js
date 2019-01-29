@@ -4,6 +4,7 @@ export default defineMessages({
   local_balance: 'Local Balance',
   remote_balance: 'Remote Balance',
   capacity: 'Capacity',
+  more_button_text: 'More',
   loading: 'loading',
   pending_open: 'pending open',
   pending_close: 'pending close',
