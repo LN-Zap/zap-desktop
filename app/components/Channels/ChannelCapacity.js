@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Box, Flex } from 'rebass'
+import { Card, Box, Flex } from 'rebass'
 import { Dropdown, Heading, ProgressBar, Text, Value } from 'components/UI'
 import ZapSolid from 'components/Icon/ZapSolid'
 import messages from './messages'
@@ -19,7 +19,7 @@ const ChannelCapacity = ({
   const remoteBalancePercent = remoteBalance / totalBalance
 
   return (
-    <Box as="article" {...rest}>
+    <Card as="article" {...rest}>
       <Flex as="header" justifyContent="space-between" alignItems="center">
         <Text width={1 / 3}>
           <Heading.h4 fontWeight="normal">
@@ -67,7 +67,7 @@ const ChannelCapacity = ({
           <Value value={remoteBalance} currency={cryptoCurrency} />
         </Text>
       </Flex>
-    </Box>
+    </Card>
   )
 }
 
