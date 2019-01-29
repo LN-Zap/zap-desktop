@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { Pay } from 'components/Pay'
 import { tickerSelectors, setCurrency, setFiatTicker } from 'reducers/ticker'
-import { queryFees, queryRoutes } from 'reducers/pay'
+import { setPayReq, queryFees, queryRoutes } from 'reducers/pay'
 import { infoSelectors } from 'reducers/info'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
@@ -30,6 +30,7 @@ const mapDispatchToProps = {
   payInvoice,
   setCryptoCurrency: setCurrency,
   setFiatCurrency: setFiatTicker,
+  setPayReq,
   sendCoins,
   queryFees,
   queryRoutes

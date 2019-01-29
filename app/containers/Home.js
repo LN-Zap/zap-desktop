@@ -13,7 +13,7 @@ import {
   unlockWallet,
   setStartLndError
 } from 'reducers/lnd'
-import { setError } from 'reducers/error'
+import { showError } from 'reducers/notification'
 import { Home } from 'components/Home'
 import DeleteWalletDialog from './Home/DeleteWalletDialog'
 
@@ -45,7 +45,7 @@ const mapDispatchToProps = {
   unlockWallet,
   deleteWallet: showDeleteWalletDialog,
   setIsWalletOpen,
-  setError
+  showError
 }
 
 export default connect(

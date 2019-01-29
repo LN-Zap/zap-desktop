@@ -1,5 +1,5 @@
 import { send } from 'redux-electron-ipc'
-import { showNotification } from 'lib/utils/notifications'
+import { showSystemNotification } from 'lib/utils/notifications'
 import { convert } from 'lib/utils/btc'
 import delay from 'lib/utils/delay'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
@@ -150,13 +150,13 @@ export const newTransaction = (event, { transaction }) => (dispatch, getState) =
 
     // HTML 5 desktop notification for the new transaction
     if (transaction.received) {
-      showNotification(
+      showSystemNotification(
         'On-chain Transaction Received!',
         "Lucky you, you just received a new on-chain transaction. I'm jealous."
       )
       dispatch(newAddress('np2wkh')) // Generate a new address
     } else {
-      showNotification(
+      showSystemNotification(
         'On-chain Transaction Sent!',
         "Hate to see 'em go but love to watch 'em leave. Your on-chain transaction successfully sent."
       )

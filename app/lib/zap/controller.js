@@ -83,6 +83,7 @@ class ZapController {
 
     // Once the winow content has fully loaded, bootstrap the app.
     this.mainWindow.webContents.on('did-finish-load', () => {
+      mainLog.trace('webContents.did-finish-load')
       // Initialise a state machine that we will use to control application state transitions.
       this.fsm = new StateMachine({
         transitions: [
@@ -483,17 +484,24 @@ class ZapController {
         await this.startLnd(options)
       } catch (e) {
         mainLog.error('Unable to start lnd: %s', e.message)
+
+        // Return back to the start of the onboarding process.
+        return this.startOnboarding()
       }
     })
-    ipcMain.on('startLightningWallet', () =>
-      this.startLightningWallet().catch(e => {
+    ipcMain.on('startLightningWallet', async () => {
+      try {
+        await this.startLightningWallet()
+      } catch (e) {
+        mainLog.error('Unable to connect to lightning wallet: %s', e.message)
+
         // Notify the app of errors.
         this.sendMessage('startLndError', e.message)
 
         // Return back to the start of the onboarding process.
         return this.startOnboarding()
-      })
-    )
+      }
+    })
     ipcMain.on('stopLnd', () => this.stopLnd())
 
     ipcMain.on('killLnd', (event, signal = 'SIGKILL') => {

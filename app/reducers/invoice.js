@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
-import { showNotification } from 'lib/utils/notifications'
+import { showSystemNotification } from 'lib/utils/notifications'
 import { btc } from 'lib/utils'
 import { fetchBalance } from './balance'
-import { setError } from './error'
+import { showError } from './notification'
 import { walletSelectors } from './wallet'
 
 // ------------------------------------
@@ -134,7 +134,7 @@ export const createdInvoice = (event, invoice) => dispatch => {
 
 export const invoiceFailed = (event, { error }) => dispatch => {
   dispatch({ type: INVOICE_FAILED })
-  dispatch(setError(error))
+  dispatch(showError(error))
 }
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices
@@ -151,7 +151,7 @@ export const invoiceUpdate = (event, { invoice }) => dispatch => {
     const notifTitle = "You've been Zapped"
     const notifBody = 'Congrats, someone just paid an invoice of yours'
 
-    showNotification(notifTitle, notifBody)
+    showSystemNotification(notifTitle, notifBody)
   }
 }
 // ------------------------------------

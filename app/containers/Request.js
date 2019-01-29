@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import { Request } from 'components/Request'
 import { tickerSelectors, setCurrency, setFiatTicker } from 'reducers/ticker'
 import { createInvoice, invoiceSelectors } from 'reducers/invoice'
+import { showNotification } from 'reducers/notification'
 
 const mapStateToProps = state => ({
   cryptoName: tickerSelectors.cryptoName(state),
@@ -19,7 +20,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   createInvoice,
   setCryptoCurrency: setCurrency,
-  setFiatCurrency: setFiatTicker
+  setFiatCurrency: setFiatTicker,
+  showNotification
 }
 
 export default connect(

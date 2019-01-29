@@ -92,6 +92,20 @@
         ]
       }
     ],
+    "protocols": [
+      {
+        "name": "Lightning",
+        "schemes": [
+          "lightning"
+        ]
+      },
+      {
+        "name": "Lnd Connect",
+        "schemes": [
+          "lndconnect"
+        ]
+      }
+    ],
     "artifactName": "${productName}-${platform}-${arch}-v${version}.${ext}",
     "mac": {
       "category": "public.app-category.finance",

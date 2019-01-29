@@ -21,6 +21,7 @@ class Initializer extends React.Component {
     isWalletOpen: PropTypes.bool.isRequired,
     isReady: PropTypes.bool.isRequired,
     lightningGrpcActive: PropTypes.bool.isRequired,
+    lndConnect: PropTypes.string,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
     startLndError: PropTypes.object,
     startActiveWallet: PropTypes.func.isRequired,
@@ -58,13 +59,20 @@ class Initializer extends React.Component {
       hasWallets,
       history,
       lightningGrpcActive,
+      lndConnect,
       startLndError,
       walletUnlockerGrpcActive,
       startActiveWallet
     } = this.props
     // If the wallet settings have just been loaded, redirect the user to the most relevant location.
     if (isReady && !prevProps.isReady) {
-      if (activeWalletSettings) {
+      // If we have an lndConnect link, send the user to the onboarding process.
+      if (lndConnect) {
+        this.nextLocation = '/onboarding'
+      }
+
+      // Otherwise, attempt to handle their current active wallet.
+      else if (activeWalletSettings) {
         if (isWalletOpen) {
           // Catch the error and swallow it with a noop.
           // Errors are handled below by listening for updates to the startLndError prop.
@@ -74,9 +82,11 @@ class Initializer extends React.Component {
         }
       }
 
-      // If we have an at least one wallet send the user to the homepage.
+      // If we have at least one wallet send the user to the homepage.
       // Otherwise send them to the onboarding processes.
-      this.nextLocation = hasWallets ? '/home' : '/onboarding'
+      else {
+        this.nextLocation = hasWallets ? '/home' : '/onboarding'
+      }
     }
 
     // If there was a problem starting lnd, swich to the wallet launcher.
@@ -111,6 +121,7 @@ class Initializer extends React.Component {
 
 const mapStateToProps = state => ({
   onboarding: state.onboarding.onboarding,
+  lndConnect: state.onboarding.lndConnect,
   activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   hasWallets: walletSelectors.hasWallets(state),

@@ -77,6 +77,11 @@ class ConnectionDetails extends React.Component {
     }
   }
 
+  componentWillUnmount() {
+    const { setStartLndError } = this.props
+    setStartLndError(null)
+  }
+
   handleConnectionHostChange = () => {
     const formState = this.formApi.getState()
     delete formState.asyncErrors.connectionHost
@@ -145,6 +150,7 @@ class ConnectionDetails extends React.Component {
       setConnectionCert,
       setConnectionMacaroon,
       setLndconnect,
+      setStartLndError,
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,

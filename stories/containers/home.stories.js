@@ -61,8 +61,8 @@ const store = new Store({
   ]
 })
 
-const setError = async error => {
-  console.log('setError', error)
+const showError = async error => {
+  console.log('showError', error)
 }
 const setStartLndError = async error => {
   console.log('setStartLndError', error)
@@ -119,7 +119,7 @@ storiesOf('Containers.Home', module)
               stopLnd={stopLnd}
               unlockWallet={unlockWallet}
               deleteWallet={deleteWallet}
-              setError={setError}
+              showError={showError}
               setStartLndError={setStartLndError}
               setUnlockWalletError={setUnlockWalletError}
               setActiveWallet={setActiveWallet}

@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
-import { setError } from './error'
+import { showError } from './notification'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -91,7 +91,7 @@ export const connectSuccess = (event, peer) => dispatch => dispatch({ type: CONN
 // Send IPC receive for unsuccessfully connecting to a peer
 export const connectFailure = (event, { error }) => dispatch => {
   dispatch({ type: CONNECT_FAILURE })
-  dispatch(setError(error))
+  dispatch(showError(error))
 }
 
 // Send IPC send for disconnecting from a peer

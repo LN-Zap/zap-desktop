@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
+import { showNotification } from 'reducers/notification'
 import { InvoiceModal } from 'components/Activity/InvoiceModal'
 
 const mapStateToProps = state => ({
@@ -12,7 +13,8 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   setCryptoCurrency: setCurrency,
-  setFiatCurrency: setFiatTicker
+  setFiatCurrency: setFiatTicker,
+  showNotification
 }
 
 export default connect(

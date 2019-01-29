@@ -1,6 +1,6 @@
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
-import { showNotification } from 'lib/utils/notifications'
+import { showSystemNotification } from 'lib/utils/notifications'
 import db from 'store/db'
 import { fetchBalance } from './balance'
 import { fetchInfo, setHasSynced, infoSelectors } from './info'
@@ -80,7 +80,7 @@ export const lndSyncStatus = (event, status) => async (dispatch, getState) => {
       dispatch(fetchInfo())
 
       // HTML 5 desktop notification for the new transaction
-      showNotification(notifTitle, notifBody)
+      showSystemNotification(notifTitle, notifBody)
       break
     default:
       dispatch({ type: SET_SYNC_STATUS_PENDING })

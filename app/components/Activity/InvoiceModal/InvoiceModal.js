@@ -29,7 +29,8 @@ export default class InvoiceModal extends React.PureComponent {
     /** Set the current cryptocurrency. */
     setCryptoCurrency: PropTypes.func.isRequired,
     /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired
+    setFiatCurrency: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired
   }
 
   render() {
@@ -42,6 +43,7 @@ export default class InvoiceModal extends React.PureComponent {
       item,
       setCryptoCurrency,
       setFiatCurrency,
+      showNotification,
       ...rest
     } = this.props
 
@@ -71,6 +73,7 @@ export default class InvoiceModal extends React.PureComponent {
             payReq={item.payment_request}
             setCryptoCurrency={setCryptoCurrency}
             setFiatCurrency={setFiatCurrency}
+            showNotification={showNotification}
           />
         </Panel.Body>
       </Panel>
