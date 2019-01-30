@@ -2,9 +2,10 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { linkTo } from '@storybook/addon-links'
 import { State, Store } from '@sambego/storybook-state'
-import { Modal, Page } from 'components/UI'
+import { Modal } from 'components/UI'
 import { Syncing } from 'components/Syncing'
 import { boolean, number, select } from '@storybook/addon-knobs'
+import { Window } from '../helpers'
 
 const store = new Store({
   address: '2MxZ2z7AodL6gxEgwL5tkq2imDBhkBMq2Jc',
@@ -15,6 +16,7 @@ const store = new Store({
 })
 
 const setIsWalletOpen = () => ({})
+const showNotification = () => ({})
 
 storiesOf('Containers.Syncing', module)
   .addParameters({
@@ -23,11 +25,11 @@ storiesOf('Containers.Syncing', module)
     }
   })
   .addDecorator(story => (
-    <Page css={{ height: 'calc(100vh - 40px)' }}>
+    <Window>
       <Modal withHeader onClose={linkTo('Containers.Home', 'Home')} pb={0} px={0}>
         {story()}
       </Modal>
-    </Page>
+    </Window>
   ))
   .add('Syncing', () => {
     const hasSynced = boolean('Has synced', false)
@@ -48,6 +50,7 @@ storiesOf('Containers.Syncing', module)
             isLoading={state.isLoading}
             // Dispatch
             setIsWalletOpen={setIsWalletOpen}
+            showNotification={showNotification}
           />
         )}
       </State>
