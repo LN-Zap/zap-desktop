@@ -36,6 +36,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
             >
               <Value
                 currency="btc"
+                style="decimal"
                 value={1000}
               />
             </Text>
@@ -145,6 +146,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
       <React.Fragment>
         <Value
           currency="btc"
+          style="decimal"
           value={1000}
         />
          
