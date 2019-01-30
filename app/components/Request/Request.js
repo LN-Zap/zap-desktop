@@ -2,17 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { FormattedMessage, injectIntl } from 'react-intl'
-import {
-  Bar,
-  Button,
-  CurrencyFieldGroup,
-  Form,
-  Header,
-  Label,
-  Panel,
-  Text,
-  TextArea
-} from 'components/UI'
+import { Bar, Button, Form, Header, Label, Panel, Text, TextArea } from 'components/UI'
+import { CurrencyFieldGroup } from 'containers/UI'
 import Lightning from 'components/Icon/Lightning'
 import { RequestSummary } from '.'
 import messages from './messages'
@@ -26,35 +17,19 @@ class Request extends React.Component {
   }
 
   static propTypes = {
-    /** Human readable chain name */
-    cryptoName: PropTypes.string.isRequired,
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
     /** Currently selected cryptocurrency (key). */
     cryptoCurrency: PropTypes.string.isRequired,
+    /** Human readable chain name */
+    cryptoName: PropTypes.string.isRequired,
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** List of supported fiat currencies. */
-    fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
     /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
     isProcessing: PropTypes.bool,
     /** Lnd invoice object for the payment request */
     invoice: PropTypes.object,
     /** Lightning Payment request. */
     payReq: PropTypes.string,
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired,
-    /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired,
+    /** Show a notification */
     showNotification: PropTypes.func.isRequired,
     /** Create an invoice using the supplied details */
     createInvoice: PropTypes.func.isRequired
@@ -148,30 +123,7 @@ class Request extends React.Component {
   }
 
   renderAmountFields = () => {
-    const {
-      cryptoCurrency,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      fiatCurrencies,
-      setCryptoCurrency,
-      setFiatCurrency
-    } = this.props
-
-    return (
-      <CurrencyFieldGroup
-        currentTicker={currentTicker}
-        cryptoCurrency={cryptoCurrency}
-        cryptoCurrencies={cryptoCurrencies}
-        fiatCurrencies={fiatCurrencies}
-        fiatCurrency={fiatCurrency}
-        forwardedRef={this.amountInput}
-        setCryptoCurrency={setCryptoCurrency}
-        setFiatCurrency={setFiatCurrency}
-        formApi={this.formApi}
-        mb={3}
-      />
-    )
+    return <CurrencyFieldGroup forwardedRef={this.amountInput} formApi={this.formApi} mb={3} />
   }
 
   renderMemoField = () => {
@@ -206,17 +158,11 @@ class Request extends React.Component {
       createInvoice,
       cryptoCurrency,
       cryptoCurrencyTicker,
-      cryptoCurrencies,
-      currentTicker,
       cryptoName,
-      fiatCurrencies,
-      fiatCurrency,
       intl,
       isProcessing,
       invoice,
       payReq,
-      setCryptoCurrency,
-      setFiatCurrency,
       showNotification,
       ...rest
     } = this.props
@@ -260,17 +206,8 @@ class Request extends React.Component {
                 ) : (
                   <RequestSummary
                     mt={-3}
-                    // State
-                    cryptoCurrency={cryptoCurrency}
-                    cryptoCurrencies={cryptoCurrencies}
-                    currentTicker={currentTicker}
-                    fiatCurrency={fiatCurrency}
-                    fiatCurrencies={fiatCurrencies}
                     invoice={invoice}
                     payReq={payReq}
-                    // Dispatch
-                    setCryptoCurrency={setCryptoCurrency}
-                    setFiatCurrency={setFiatCurrency}
                     showNotification={showNotification}
                   />
                 )}

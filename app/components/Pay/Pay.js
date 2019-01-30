@@ -5,21 +5,12 @@ import { animated, Keyframes, Transition } from 'react-spring'
 import { FormattedMessage } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from 'lib/utils/crypto'
 import { convert } from 'lib/utils/btc'
-import {
-  Bar,
-  CurrencyFieldGroup,
-  Form,
-  Message,
-  Label,
-  LightningInvoiceInput,
-  Panel,
-  Text,
-  Value
-} from 'components/UI'
-
+import { Bar, Form, Message, Label, LightningInvoiceInput, Panel, Text } from 'components/UI'
+import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
+import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
+import PaySummaryOnChain from 'containers/Pay/PaySummaryOnChain'
 import PayButtons from './PayButtons'
 import PayHeader from './PayHeader'
-import { PaySummaryLightning, PaySummaryOnChain } from '.'
 import messages from './messages'
 
 /**
@@ -67,35 +58,16 @@ class Pay extends React.Component {
     cryptoName: PropTypes.string.isRequired,
     /** Current channel balance (in satoshis). */
     channelBalance: PropTypes.number.isRequired,
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
     /** Currently selected cryptocurrency (key). */
     cryptoCurrency: PropTypes.string.isRequired,
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** List of supported fiat currencies. */
-    fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
     /** Amount value to populate the amountCrypto field with when the form first loads. */
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Amount value to populate the amountFiat field with when the form first loads. */
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
     isProcessing: PropTypes.bool,
-    /** Boolean indicating wether fee information is currently being fetched. */
-    isQueryingFees: PropTypes.bool,
-    /** Boolean indicating wether routing information is currently being fetched. */
-    isQueryingRoutes: PropTypes.bool,
-    /** List of known nodes */
-    nodes: PropTypes.array,
     /** Current fee information as provided by bitcoinfees.earn.com */
     onchainFees: PropTypes.shape({
       fastestFee: PropTypes.number,
@@ -108,18 +80,13 @@ class Pay extends React.Component {
     routes: PropTypes.array,
     /** Current wallet balance (in satoshis). */
     walletBalance: PropTypes.number.isRequired,
+
     /** Method to process offChain invoice payments. Called when the form is submitted. */
     payInvoice: PropTypes.func.isRequired,
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired,
-    /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired,
     /** Set the current payment request. */
     setPayReq: PropTypes.func.isRequired,
     /** Method to process onChain transactions. Called when the form is submitted. */
     sendCoins: PropTypes.func.isRequired,
-    /** Method to fetch fee information for onchain transactions. */
-    queryFees: PropTypes.func.isRequired,
     /** Method to collect route information for lightning invoices. */
     queryRoutes: PropTypes.func.isRequired
   }
@@ -129,9 +96,6 @@ class Pay extends React.Component {
     initialAmountCrypto: null,
     initialAmountFiat: null,
     isProcessing: false,
-    isQueryingFees: false,
-    isQueryingRoutes: false,
-    nodes: [],
     onchainFees: {},
     routes: []
   }
@@ -350,42 +314,6 @@ class Pay extends React.Component {
     this.setState(state)
   }
 
-  /**
-   * set the amountFiat field whenever the crypto amount changes.
-   */
-  handleAmountCryptoChange = e => {
-    const { cryptoCurrency, currentTicker, fiatCurrency } = this.props
-    const lastPrice = currentTicker[fiatCurrency]
-    const value = convert(cryptoCurrency, 'fiat', e.target.value, lastPrice)
-    this.formApi.setValue('amountFiat', value)
-  }
-
-  /**
-   * set the amountCrypto field whenever the fiat amount changes.
-   */
-  handleAmountFiatChange = e => {
-    const { cryptoCurrency, currentTicker, fiatCurrency } = this.props
-    const lastPrice = currentTicker[fiatCurrency]
-    const value = convert('fiat', cryptoCurrency, e.target.value, lastPrice)
-    this.formApi.setValue('amountCrypto', value)
-  }
-
-  /**
-   * Handle changes from the crypto currency dropdown.
-   */
-  handleCryptoCurrencyChange = value => {
-    const { setCryptoCurrency } = this.props
-    setCryptoCurrency(value)
-  }
-
-  /**
-   * Handle changes from the fiat currency dropdown.
-   */
-  handleFiatCurrencyChange = value => {
-    const { setFiatCurrency } = this.props
-    setFiatCurrency(value)
-  }
-
   renderHelpText = () => {
     const { cryptoName, cryptoCurrencyTicker, payReq } = this.props
     const { currentStep, previousStep } = this.state
@@ -472,17 +400,7 @@ class Pay extends React.Component {
 
   renderAmountFields = () => {
     const { currentStep } = this.state
-    const {
-      cryptoCurrency,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      fiatCurrencies,
-      initialAmountCrypto,
-      initialAmountFiat,
-      setCryptoCurrency,
-      setFiatCurrency
-    } = this.props
+    const { initialAmountCrypto, initialAmountFiat } = this.props
 
     return (
       <ShowHideAmount
@@ -494,17 +412,10 @@ class Pay extends React.Component {
             <Bar my={3} />
 
             <CurrencyFieldGroup
-              currentTicker={currentTicker}
-              cryptoCurrency={cryptoCurrency}
-              cryptoCurrencies={cryptoCurrencies}
               disabled={currentStep !== 'amount'}
-              fiatCurrencies={fiatCurrencies}
-              fiatCurrency={fiatCurrency}
               forwardedRef={this.amountInput}
               initialAmountCrypto={initialAmountCrypto}
               initialAmountFiat={initialAmountFiat}
-              setCryptoCurrency={setCryptoCurrency}
-              setFiatCurrency={setFiatCurrency}
               formApi={this.formApi}
             />
           </Box>
@@ -515,20 +426,7 @@ class Pay extends React.Component {
 
   renderSummary = () => {
     const { currentStep, isOnchain } = this.state
-    const {
-      cryptoCurrency,
-      cryptoCurrencyTicker,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      isQueryingFees,
-      isQueryingRoutes,
-      nodes,
-      onchainFees,
-      queryFees,
-      routes,
-      setCryptoCurrency
-    } = this.props
+    const { routes } = this.props
 
     const formState = this.formApi.getState()
     let minFee, maxFee
@@ -542,38 +440,15 @@ class Pay extends React.Component {
       const amount = this.amountInSats()
 
       if (isOnchain) {
-        return (
-          <PaySummaryOnChain
-            mt={-3}
-            amount={amount}
-            address={formState.values.payReq}
-            cryptoCurrency={cryptoCurrency}
-            cryptoCurrencyTicker={cryptoCurrencyTicker}
-            cryptoCurrencies={cryptoCurrencies}
-            currentTicker={currentTicker}
-            setCryptoCurrency={setCryptoCurrency}
-            fiatCurrency={fiatCurrency}
-            isQueryingFees={isQueryingFees}
-            onchainFees={onchainFees}
-            queryFees={queryFees}
-          />
-        )
+        return <PaySummaryOnChain mt={-3} amount={amount} address={formState.values.payReq} />
       } else if (isLn) {
         return (
           <PaySummaryLightning
             mt={-3}
-            currentTicker={currentTicker}
-            cryptoCurrency={cryptoCurrency}
-            cryptoCurrencyTicker={cryptoCurrencyTicker}
-            cryptoCurrencies={cryptoCurrencies}
-            fiatCurrency={fiatCurrency}
-            isQueryingRoutes={isQueryingRoutes}
             minFee={minFee}
             maxFee={maxFee}
-            nodes={nodes}
             payReq={formState.values.payReq}
             amount={amount}
-            setCryptoCurrency={setCryptoCurrency}
           />
         )
       }
@@ -604,17 +479,11 @@ class Pay extends React.Component {
       channelBalance,
       cryptoCurrency,
       cryptoCurrencyTicker,
-      cryptoCurrencies,
-      currentTicker,
       cryptoName,
-      fiatCurrencies,
-      fiatCurrency,
       payReq,
       initialAmountCrypto,
       initialAmountFiat,
       isProcessing,
-      isQueryingFees,
-      isQueryingRoutes,
       onchainFees,
       payInvoice,
       sendCoins,
@@ -658,7 +527,7 @@ class Pay extends React.Component {
               <>
                 <FormattedMessage {...messages.send} />
                 {` `}
-                <Value value={amountInSats} currency={cryptoCurrency} />
+                <CryptoValue value={amountInSats} />
                 {` `}
                 {cryptoCurrencyTicker}
               </>
@@ -714,12 +583,12 @@ class Pay extends React.Component {
                             <FormattedMessage {...messages.current_balance} />:
                           </Text>
                           <Text textAlign="center" fontSize="xs">
-                            <Value value={walletBalance} currency={cryptoCurrency} />
+                            <CryptoValue value={walletBalance} />
                             {` `}
                             {cryptoCurrencyTicker} (onchain),
                           </Text>
                           <Text textAlign="center" fontSize="xs">
-                            <Value value={channelBalance} currency={cryptoCurrency} />
+                            <CryptoValue value={channelBalance} />
                             {` `}
                             {cryptoCurrencyTicker} (in channels)
                           </Text>

@@ -1,12 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-
 import debounce from 'lodash.debounce'
 import { intlShape, injectIntl } from 'react-intl'
 import { Box } from 'rebass'
-
 import blockExplorer from 'lib/utils/blockExplorer'
-import { satoshisToFiat } from 'lib/utils/btc'
 import { Bar, Panel } from 'components/UI'
 import SuggestedNodes from 'containers/Contacts/SuggestedNodes'
 import messages from './messages'
@@ -63,7 +60,6 @@ class Network extends Component {
       },
       currentChannels,
       channelBalance,
-      ticker,
       currentTicker,
       nodes,
       fetchChannels,
@@ -71,14 +67,14 @@ class Network extends Component {
       changeFilter,
       setSelectedChannel,
       closeChannel,
-      network,
+      networkInfo,
       currencyName,
       intl
     } = this.props
 
     const { searchQuery } = this.state
 
-    if (!currentTicker || !currencyName) {
+    if (!currentTicker || !currencyName || !networkInfo) {
       return null
     }
 
@@ -152,7 +148,6 @@ class Network extends Component {
       return 'online'
     }
 
-    const fiatAmount = satoshisToFiat(channelBalance || 0, currentTicker[ticker.fiatTicker])
     const { refreshing } = this.state
     const hasChannels = Boolean(
       loadingChannelPubkeys.length || pending_open_channels.length || channels.length
@@ -167,14 +162,7 @@ class Network extends Component {
             hint={intl.formatMessage({ ...messages.open_channel })}
           />
 
-          <NetworkBalance
-            currencyName={currencyName}
-            channelBalance={channelBalance || 0}
-            currency={ticker.currency}
-            currentTicker={currentTicker}
-            fiatTicker={ticker.fiatTicker}
-            fiatAmount={fiatAmount || 0}
-          />
+          <NetworkBalance currencyName={currencyName} channelBalance={channelBalance || 0} />
 
           <Bar my={3} borderColor="gray" css={{ opacity: 0.3 }} />
 
@@ -237,7 +225,7 @@ class Network extends Component {
                         isSelected={isSelected}
                         onBrowseClick={() =>
                           blockExplorer.showTransaction(
-                            network,
+                            networkInfo,
                             channelObj.closing_txid || channel.channel_point.split(':')[0]
                           )
                         }
@@ -255,9 +243,6 @@ class Network extends Component {
                           currencyName={currencyName}
                           localBalance={channel.local_balance}
                           remoteBalance={channel.remote_balance}
-                          currentTicker={currentTicker}
-                          currency={ticker.currency}
-                          fiatTicker={ticker.fiatTicker}
                           onRemoveClick={() => removeClicked(channel)}
                           closingMessage={messages.closing}
                           pubkey={`${pubkey.substring(0, 30)}...`}
@@ -294,8 +279,10 @@ Network.propTypes = {
   channels: PropTypes.object.isRequired,
   channelBalance: PropTypes.number,
   currentTicker: PropTypes.object,
-  ticker: PropTypes.object.isRequired,
-  network: PropTypes.object.isRequired,
+  networkInfo: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string
+  }),
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,

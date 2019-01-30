@@ -2,18 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Card, Box, Flex } from 'rebass'
-import { Dropdown, Heading, ProgressBar, Text, Value } from 'components/UI'
+import { Heading, ProgressBar, Text } from 'components/UI'
+import { CryptoSelector, CryptoValue } from 'containers/UI'
 import ZapSolid from 'components/Icon/ZapSolid'
 import messages from './messages'
 
-const ChannelCapacity = ({
-  cryptoCurrency,
-  cryptoCurrencies,
-  localBalance,
-  remoteBalance,
-  setCryptoCurrency,
-  ...rest
-}) => {
+const ChannelCapacity = ({ localBalance, remoteBalance, ...rest }) => {
   const totalBalance = localBalance + remoteBalance
   const localBalancePercent = localBalance / totalBalance
   const remoteBalancePercent = remoteBalance / totalBalance
@@ -52,19 +46,14 @@ const ChannelCapacity = ({
 
       <Flex as="footer" justifyContent="space-between">
         <Text width={1 / 3}>
-          <Value value={localBalance} currency={cryptoCurrency} />
+          <CryptoValue value={localBalance} />
         </Text>
         <Text width={1 / 3} textAlign="center">
-          <Value value={totalBalance} currency={cryptoCurrency} />
-          <Dropdown
-            items={cryptoCurrencies}
-            activeKey={cryptoCurrency}
-            onChange={setCryptoCurrency}
-            ml={1}
-          />
+          <CryptoValue value={totalBalance} />
+          <CryptoSelector ml={1} />
         </Text>
         <Text width={1 / 3} textAlign="right">
-          <Value value={remoteBalance} currency={cryptoCurrency} />
+          <CryptoValue value={remoteBalance} />
         </Text>
       </Flex>
     </Card>
@@ -72,11 +61,8 @@ const ChannelCapacity = ({
 }
 
 ChannelCapacity.propTypes = {
-  cryptoCurrency: PropTypes.string.isRequired,
-  cryptoCurrencies: PropTypes.array.isRequired,
   localBalance: PropTypes.number.isRequired,
-  remoteBalance: PropTypes.number.isRequired,
-  setCryptoCurrency: PropTypes.func.isRequired
+  remoteBalance: PropTypes.number.isRequired
 }
 
 export default ChannelCapacity

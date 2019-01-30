@@ -78,7 +78,7 @@ class ReceiveModal extends React.PureComponent {
       closeReceiveModal,
       cryptoName,
       activeWalletSettings,
-      network,
+      networkInfo,
       intl
     } = this.props
     const { qrCodeType, reveal } = this.state
@@ -127,7 +127,7 @@ class ReceiveModal extends React.PureComponent {
         <Box width={9 / 16} mx="auto">
           <Heading.h1 textAlign="center">
             <WalletName wallet={activeWalletSettings} />
-            {network && network.name.toLowerCase() === 'testnet' && ` (${network.name})`}
+            {networkInfo && networkInfo.id === 'testnet' && networkInfo.name}
           </Heading.h1>
 
           <Bar pt={2} />
@@ -183,9 +183,10 @@ class ReceiveModal extends React.PureComponent {
 }
 
 ReceiveModal.propTypes = {
-  network: PropTypes.shape({
+  networkInfo: PropTypes.shape({
+    id: PropTypes.string,
     name: PropTypes.string
-  }).isRequired,
+  }),
   cryptoName: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string,

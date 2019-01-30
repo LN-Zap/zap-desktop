@@ -14,12 +14,9 @@ const ChannelSummaryListItem = ({
   channelName,
   channelPubKey,
   channelPubKeyShort,
-  cryptoCurrency,
-  cryptoCurrencies,
   localBalance,
   remoteBalance,
   status,
-  setCryptoCurrency,
   showChannelDetail,
   ...rest
 }) => {
@@ -41,9 +38,6 @@ const ChannelSummaryListItem = ({
         <ChannelCapacity
           localBalance={localBalance}
           remoteBalance={remoteBalance}
-          cryptoCurrency={cryptoCurrency}
-          cryptoCurrencies={cryptoCurrencies}
-          setCryptoCurrency={setCryptoCurrency}
           width={1 / 2}
           pl={4}
           pr={4}
@@ -64,12 +58,9 @@ ChannelSummaryListItem.propTypes = {
   channelName: PropTypes.string,
   channelPubKey: PropTypes.string.isRequired,
   channelPubKeyShort: PropTypes.string.isRequired,
-  cryptoCurrency: PropTypes.string.isRequired,
-  cryptoCurrencies: PropTypes.array.isRequired,
   localBalance: PropTypes.number.isRequired,
   remoteBalance: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,
-  setCryptoCurrency: PropTypes.func.isRequired,
   showChannelDetail: PropTypes.func.isRequired
 }
 

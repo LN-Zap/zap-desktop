@@ -131,15 +131,15 @@ tickerSelectors.cryptoName = createSelector(
 
 tickerSelectors.currencyFilters = createSelector(
   cryptoSelector,
-  infoSelectors.networkSelector,
+  infoSelectors.networkInfo,
   currencyFiltersSelector,
-  (crypto, network, currencyFilters) => {
-    if (!crypto || !network) {
+  (crypto, networkInfo, currencyFilters) => {
+    if (!crypto || !networkInfo) {
       return []
     }
     return currencyFilters[crypto].map(item => ({
       ...item,
-      name: `${network.unitPrefix}${item.name}`
+      name: `${networkInfo.unitPrefix}${item.name}`
     }))
   }
 )

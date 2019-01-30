@@ -2,9 +2,9 @@ import React, { PureComponent } from 'react'
 import { Box, Flex } from 'rebass'
 import PropTypes from 'prop-types'
 
-import InvoiceContainer from 'containers/Activity/InvoiceContainer'
-import PaymentContainer from 'containers/Activity/PaymentContainer'
-import TransactionContainer from 'containers/Activity/TransactionContainer'
+import Invoice from 'containers/Activity/Invoice'
+import Payment from 'containers/Activity/Payment'
+import Transaction from 'containers/Activity/Transaction'
 
 import ChainLink from 'components/Icon/ChainLink'
 import Clock from 'components/Icon/Clock'
@@ -41,9 +41,9 @@ export default class ActivityListItem extends PureComponent {
           <ActivityIcon activity={activity} />
         </Text>
         <Box width={1} css={!activity.sending ? { cursor: 'pointer' } : null}>
-          {activity.type === 'transaction' && <TransactionContainer transaction={activity} />}
-          {activity.type === 'invoice' && <InvoiceContainer invoice={activity} />}
-          {activity.type === 'payment' && <PaymentContainer payment={activity} />}
+          {activity.type === 'transaction' && <Transaction transaction={activity} />}
+          {activity.type === 'invoice' && <Invoice invoice={activity} />}
+          {activity.type === 'payment' && <Payment payment={activity} />}
         </Box>
       </Flex>
     )

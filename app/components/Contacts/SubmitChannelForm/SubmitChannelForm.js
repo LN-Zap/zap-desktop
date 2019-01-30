@@ -2,37 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Card } from 'rebass'
 import { convert } from 'lib/utils/btc'
-import {
-  Bar,
-  CurrencyFieldGroup,
-  Button,
-  Form,
-  Header,
-  Message,
-  Panel,
-  Span,
-  Text
-} from 'components/UI'
+import { Bar, Button, Form, Header, Message, Panel, Span, Text } from 'components/UI'
+import { CurrencyFieldGroup } from 'containers/UI'
 import { FormattedMessage, injectIntl } from 'react-intl'
 import messages from './messages'
 
 class SubmitChannelForm extends React.Component {
   static propTypes = {
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
     /** Currently selected cryptocurrency (key). */
     cryptoCurrency: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** List of supported fiat currencies. */
-    fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
     /** Information about existing active channel to the node we are trying to connect to. */
     dupeChanInfo: PropTypes.object,
     /** Information about the node we are trying to connect to. */
@@ -43,11 +21,7 @@ class SubmitChannelForm extends React.Component {
     /** Close the contacts form. */
     closeContactsForm: PropTypes.func.isRequired,
     /** Open a Lightning channel */
-    openChannel: PropTypes.func.isRequired,
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired,
-    /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired
+    openChannel: PropTypes.func.isRequired
   }
 
   onSubmit = values => {
@@ -101,13 +75,7 @@ class SubmitChannelForm extends React.Component {
 
   render() {
     const {
-      currentTicker,
       cryptoCurrency,
-      cryptoCurrencies,
-      fiatCurrencies,
-      fiatCurrency,
-      setCryptoCurrency,
-      setFiatCurrency,
       intl,
       closeSubmitChannelForm,
       closeContactsForm,
@@ -152,16 +120,7 @@ class SubmitChannelForm extends React.Component {
                 </Box>
               )}
 
-              <CurrencyFieldGroup
-                currentTicker={currentTicker}
-                cryptoCurrency={cryptoCurrency}
-                cryptoCurrencies={cryptoCurrencies}
-                fiatCurrencies={fiatCurrencies}
-                fiatCurrency={fiatCurrency}
-                setCryptoCurrency={setCryptoCurrency}
-                setFiatCurrency={setFiatCurrency}
-                formApi={formApi}
-              />
+              <CurrencyFieldGroup formApi={formApi} />
             </Panel.Body>
 
             <Panel.Footer mx="auto">

@@ -3,14 +3,7 @@ import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { ChannelSummaryListItem } from 'components/Channels'
 
-const ChannelSummaryList = ({
-  channels,
-  cryptoCurrency,
-  cryptoCurrencies,
-  setCryptoCurrency,
-  showChannelDetail,
-  ...rest
-}) => (
+const ChannelSummaryList = ({ channels, showChannelDetail, ...rest }) => (
   <Box as="article" {...rest}>
     {channels.map((channelObj, index) => {
       const channel = channelObj.channel || channelObj
@@ -18,9 +11,6 @@ const ChannelSummaryList = ({
       return (
         <ChannelSummaryListItem
           key={channel.chan_id || `${channel.remote_pubkey_short}-${index}`}
-          cryptoCurrency={cryptoCurrency}
-          cryptoCurrencies={cryptoCurrencies}
-          setCryptoCurrency={setCryptoCurrency}
           showChannelDetail={showChannelDetail}
           channelId={channel.chan_id}
           channelName={channel.display_name}
@@ -39,9 +29,6 @@ const ChannelSummaryList = ({
 
 ChannelSummaryList.propTypes = {
   channels: PropTypes.array,
-  cryptoCurrency: PropTypes.string.isRequired,
-  cryptoCurrencies: PropTypes.array.isRequired,
-  setCryptoCurrency: PropTypes.func.isRequired,
   showChannelDetail: PropTypes.func.isRequired
 }
 

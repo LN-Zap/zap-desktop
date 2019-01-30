@@ -1,19 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { btc } from 'lib/utils'
-import { Message, Span, Text, Value } from 'components/UI'
+import { Message, Span, Text } from 'components/UI'
+import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Transaction = ({
-  transaction,
-  ticker,
-  currentTicker,
-  showActivityModal,
-  currencyName,
-  intl
-}) => (
+const Transaction = ({ transaction, showActivityModal, currencyName, intl }) => (
   <Flex
     justifyContent="space-between"
     alignItems="center"
@@ -73,25 +66,11 @@ const Transaction = ({
               -
             </Span>
           )}
-          <Value
-            value={transaction.amount}
-            currency={ticker.currency}
-            currentTicker={currentTicker}
-            fiatTicker={ticker.fiatTicker}
-          />
+          <CryptoValue value={transaction.amount} />
           <i> {currencyName}</i>
         </Text>
         <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-          <FormattedNumber
-            currency={ticker.fiatTicker}
-            style="currency"
-            value={btc.convert(
-              'sats',
-              'fiat',
-              transaction.amount,
-              currentTicker[ticker.fiatTicker]
-            )}
-          />
+          <FiatValue value={transaction.amount} style="currency" />
         </Text>
       </Box>
     </Box>
@@ -100,8 +79,6 @@ const Transaction = ({
 
 Transaction.propTypes = {
   transaction: PropTypes.object.isRequired,
-  ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
   currencyName: PropTypes.string.isRequired
 }

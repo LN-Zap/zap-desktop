@@ -11,9 +11,6 @@ const ChannelDetails = ({
   currencyName,
   localBalance,
   remoteBalance,
-  currentTicker,
-  currency,
-  fiatTicker,
   closingMessage,
   status,
   onRemoveClick,
@@ -30,9 +27,6 @@ const ChannelDetails = ({
       currencyName={currencyName}
       localBalance={localBalance}
       remoteBalance={remoteBalance}
-      currentTicker={currentTicker}
-      currency={currency}
-      fiatTicker={fiatTicker}
     />
 
     {isClosing && <ClosingChannel message={closingMessage} />}
@@ -47,9 +41,6 @@ ChannelDetails.propTypes = {
   currencyName: PropTypes.string.isRequired,
   localBalance: PropTypes.number.isRequired,
   remoteBalance: PropTypes.number.isRequired,
-  currentTicker: PropTypes.object.isRequired,
-  currency: PropTypes.string.isRequired,
-  fiatTicker: PropTypes.string.isRequired,
   closingMessage: PropTypes.object.isRequired,
   status: PropTypes.object.isRequired,
   onRemoveClick: PropTypes.func.isRequired,
