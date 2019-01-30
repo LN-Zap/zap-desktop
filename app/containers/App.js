@@ -32,7 +32,7 @@ import { fetchBalance } from 'reducers/balance'
 import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
 import { showNotification, removeNotification } from 'reducers/notification'
-import { setIsWalletOpen } from 'reducers/wallet'
+import { setIsWalletOpen, walletSelectors } from 'reducers/wallet'
 import App from 'components/App'
 import withLoading from 'components/withLoading'
 
@@ -90,6 +90,7 @@ const mapStateToProps = state => ({
     state.balance.channelBalance === null ||
     state.balance.walletBalance === null,
 
+  activeWalletSettings: walletSelectors.activeWalletSettings(state),
   currentTicker: tickerSelectors.currentTicker(state),
   currencyFilters: tickerSelectors.currencyFilters(state),
   currencyName: tickerSelectors.currencyName(state),
@@ -157,6 +158,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     cryptoName: stateProps.cryptoName,
     pubkey: get(stateProps.info, 'data.uris[0]') || get(stateProps.info, 'data.identity_pubkey'),
     address: stateProps.address.address,
+    activeWalletSettings: stateProps.activeWalletSettings,
     alias: stateProps.info.data.alias,
     closeReceiveModal: dispatchProps.closeWalletModal,
     showNotification: dispatchProps.showNotification

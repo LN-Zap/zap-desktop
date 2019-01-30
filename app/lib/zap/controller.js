@@ -455,16 +455,21 @@ class ZapController {
    * Start or connect to lnd process after onboarding has been completed by the app.
    */
   async startLnd(options: onboardingOptions) {
-    mainLog.info('Starting lnd with options: %o', options)
-
-    // Save the lnd config options that we got from the renderer.
-    this.lndConfig = new LndConfig({
+    // Extract the config options.
+    const config = {
       id: options.id,
       type: options.type || 'local',
       chain: options.chain || 'bitcoin',
       network: options.network || 'testnet',
       settings: pick(options, LndConfig.SETTINGS_PROPS[options.type])
-    })
+    }
+    mainLog.info('Starting lnd with config: %o', config)
+
+    // Save the lnd config options that we got from the renderer.
+    this.lndConfig = new LndConfig(config)
+
+    // Wait for the config object to become ready.
+    await this.lndConfig.ready
 
     // Set up SSL with the cypher suits that we need based on the connection type.
     process.env.GRPC_SSL_CIPHER_SUITES =

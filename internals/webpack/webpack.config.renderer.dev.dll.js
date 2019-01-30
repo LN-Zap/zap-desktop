@@ -23,6 +23,7 @@ export default merge.smart(baseConfig, {
     'electron',
     'electron-is-dev',
     'get-port',
+    'lndconnect',
     'redux-electron-ipc',
     'rimraf',
     'source-map-support'

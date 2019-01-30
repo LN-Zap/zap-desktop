@@ -5,6 +5,7 @@ import { app } from 'electron'
 import createDebug from 'debug'
 import untildify from 'untildify'
 import tildify from 'tildify'
+import lndconnect from 'lndconnect'
 import { appRootPath, binaryPath } from './util'
 
 const debug = createDebug('zap:lnd-config')
@@ -79,6 +80,8 @@ const _host = new WeakMap()
 const _cert = new WeakMap()
 const _macaroon = new WeakMap()
 const _string = new WeakMap()
+const _lndConnect = new WeakMap()
+const _ready = new WeakMap()
 
 /**
  * Utility methods to clean and prepare data.
@@ -140,9 +143,11 @@ class LndConfig {
   autopilotMinconfs: ?number
 
   // Read only data properties.
+  +ready: Promise<boolean>
   +wallet: string
   +binaryPath: string
   +lndDir: string
+  +lndConnect: string
   +configPath: string
   +rpcProtoPath: string
 
@@ -162,6 +167,12 @@ class LndConfig {
     // flow currently doesn't support defineProperties properly (https://github.com/facebook/flow/issues/285)
     const { defineProperties } = Object
     defineProperties(this, {
+      ready: {
+        enumerable: true,
+        get() {
+          return _ready.get(this)
+        }
+      },
       wallet: {
         enumerable: true,
         get() {
@@ -182,6 +193,12 @@ class LndConfig {
           if (this.type === 'local') {
             return join(app.getPath('userData'), 'lnd', this.chain, this.network, this.wallet)
           }
+        }
+      },
+      lndConnect: {
+        enumerable: true,
+        get() {
+          return _lndConnect.get(this)
         }
       },
       configPath: {
@@ -293,6 +310,36 @@ class LndConfig {
       debug('Connection type is local. Assigning settings as: %o', defaultLocalOptions)
       Object.assign(this, defaultLocalOptions)
     }
+
+    // In order to calculate the `lndconnect` property value we must perform some async operations. This prevents us
+    // from being able to set the value directly in the constructor as we do for all the other properties. So, we define
+    // a `ready` property that resolves once we have calculated this value so that users of this class to wait until the
+    // `ready` property has been resolved before using the class instance in order to ensure that the instance has been
+    // fully instantiated.
+    const isReady = async () => {
+      try {
+        if (this.type === 'local') {
+          // We don't support lndconnect for local nodes.
+          return true
+        }
+
+        const { host, cert, macaroon } = this
+        const [encodedCert, encodedMacaroon] = await Promise.all([
+          lndconnect.encodeCert(cert),
+          lndconnect.encodeMacaroon(macaroon)
+        ])
+        const connectionstring = lndconnect.encode({
+          host,
+          cert: encodedCert,
+          macaroon: encodedMacaroon
+        })
+        _lndConnect.set(this, connectionstring)
+        return true
+      } catch {
+        return true
+      }
+    }
+    _ready.set(this, isReady())
   }
 }
 

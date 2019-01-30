@@ -153,7 +153,7 @@ const AddChannel = ({
                       <Text
                         css={{
                           overflow: 'hidden',
-                          'white=space': 'nowrap',
+                          'white-space': 'nowrap',
                           'text-overflow': 'ellipsis'
                         }}
                       >

@@ -73,6 +73,34 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 .c6 {
   border-style: solid;
   border-color: white;
+  position: absolute;
+  top: calc(10% - 2px);
+  left: calc(10% - 2px);
+  -webkit-filter: none;
+  filter: none;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.c8 {
+  background-color: white;
+  border-style: solid;
+  border-color: white;
+  position: absolute;
+  top: calc(25% - 2px);
+  left: calc(25% - 2px);
+  -webkit-filter: blur(4px);
+  filter: blur(4px);
+  width: 50%;
+  height: 50%;
+  opacity: 0;
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.c7 {
+  border-style: solid;
+  border-color: white;
   border-width: 8px;
   position: absolute;
   top: calc(10% - 2px);
@@ -104,181 +132,28 @@ exports[`component.UI.QRCode should render correctly 1`] = `
       size={150}
     />
   </div>
-  <svg
-    bg="white"
+  <div
     className="c6"
-    color="black"
-    height={150}
-    shapeRendering="crispEdges"
-    theme={
-      Object {
-        "buttons": Object {
-          "danger": Object {
-            "backgroundColor": "#e63939",
-            "color": undefined,
-          },
-          "normal": Object {
-            "&:focus": Object {
-              "backgroundColor": "#353745",
-            },
-            "&:hover:enabled": Object {
-              "backgroundColor": "#353745",
-            },
-            "backgroundColor": "#313340",
-            "color": "#fd9800",
-          },
-          "primary": Object {
-            "backgroundColor": "#fd9800",
-            "color": undefined,
-          },
-          "secondary": Object {
-            "&.active": Object {
-              "opacity": 1,
-            },
-            "&:focus": Object {
-              "opacity": 1,
-            },
-            "&:hover:enabled": Object {
-              "opacity": 1,
-            },
-            "backgroundColor": "transparent",
-            "color": "#ffffff",
-            "opacity": 0.6,
-          },
-        },
-        "cards": Object {
-          "error": Object {
-            "backgroundColor": "#330d0d",
-            "color": "#e63939",
-          },
-          "success": Object {
-            "backgroundColor": "#0d331a",
-            "color": "#39e673",
-          },
-          "warning": Object {
-            "backgroundColor": "#4a2c00",
-            "color": "#fd9800",
-          },
-        },
-        "colors": Object {
-          "gray": "#959595",
-          "highlight": "#353745",
-          "lightningBrown": "#4a2c00",
-          "lightningOrange": "#fd9800",
-          "mudBrown": "#330d0d",
-          "pineGreen": "#0d331a",
-          "primaryColor": "#242633",
-          "primaryText": "#ffffff",
-          "secondaryColor": "#373947",
-          "superBlue": "#005dfc",
-          "superGreen": "#39e673",
-          "superRed": "#e63939",
-          "tertiaryColor": "#313340",
-        },
-        "fontSizes": Object {
-          "0": "8px",
-          "1": "10px",
-          "2": "11px",
-          "3": "13px",
-          "4": "15px",
-          "5": "18px",
-          "6": "30px",
-          "7": "60px",
-          "l": "15px",
-          "m": "13px",
-          "s": "11px",
-          "xl": "18px",
-          "xs": "10px",
-          "xxl": "30px",
-          "xxs": "8px",
-          "xxxl": "60px",
-        },
-        "fontWeights": Object {
-          "light": 300,
-          "normal": 400,
-        },
-        "fonts": Object {
-          "0": "Roboto, system-ui, sans-serif",
-          "sans": "Roboto, system-ui, sans-serif",
-        },
-        "letterSpacings": Object {
-          "caps": "0.025em",
-          "normal": "normal",
-        },
-        "messages": Object {
-          "error": Object {
-            "color": "#e63939",
-          },
-          "processing": Object {
-            "color": "#fd9800",
-          },
-          "success": Object {
-            "color": "#39e673",
-          },
-          "warning": Object {
-            "color": "#fd9800",
-          },
-        },
-        "name": "dark",
-        "palette": Object {
-          "black": "#000000",
-          "deepseaBlue": "#242633",
-          "gray": "#959595",
-          "hoverSeaBlue": "#353745",
-          "hoverSeaGray": "#f2f2f2",
-          "lightGreen": "#eefff4",
-          "lightOrange": "#fff3e1",
-          "lightRed": "#ffeded",
-          "lightningBrown": "#4a2c00",
-          "lightningOrange": "#fd9800",
-          "mudBrown": "#330d0d",
-          "pineGreen": "#0d331a",
-          "seaBlue": "#313340",
-          "seaGray": "#f3f3f3",
-          "superBlue": "#005dfc",
-          "superGreen": "#39e673",
-          "superRed": "#e63939",
-          "underwaterBlue": "#373947",
-          "underwaterGray": "#ebebeb",
-          "white": "#ffffff",
-        },
-        "space": Array [
-          0,
-          4,
-          8,
-          16,
-          32,
-          45,
-          72,
-          108,
-        ],
-        "statuses": Object {
-          "closing": Object {
-            "color": "#e63939",
-          },
-          "offline": Object {
-            "color": "#959595",
-          },
-          "online": Object {
-            "color": "#39e673",
-          },
-          "pending": Object {
-            "color": "#fd9800",
-          },
-        },
-      }
-    }
-    viewBox="0 0 21 21"
-    width={150}
   >
-    <path
-      d="M0,0 h21v21H0z"
-      fill="white"
-    />
-    <path
-      d="M0 0h7v1H0zM8 0h1v1H8zM12 0h1v1H12zM14,0 h7v1H14zM0 1h1v1H0zM6 1h1v1H6zM8 1h2v1H8zM11 1h1v1H11zM14 1h1v1H14zM20,1 h1v1H20zM0 2h1v1H0zM2 2h3v1H2zM6 2h1v1H6zM8 2h5v1H8zM14 2h1v1H14zM16 2h3v1H16zM20,2 h1v1H20zM0 3h1v1H0zM2 3h3v1H2zM6 3h1v1H6zM8 3h1v1H8zM10 3h1v1H10zM12 3h1v1H12zM14 3h1v1H14zM16 3h3v1H16zM20,3 h1v1H20zM0 4h1v1H0zM2 4h3v1H2zM6 4h1v1H6zM9 4h4v1H9zM14 4h1v1H14zM16 4h3v1H16zM20,4 h1v1H20zM0 5h1v1H0zM6 5h1v1H6zM8 5h1v1H8zM10 5h1v1H10zM12 5h1v1H12zM14 5h1v1H14zM20,5 h1v1H20zM0 6h7v1H0zM8 6h1v1H8zM10 6h1v1H10zM12 6h1v1H12zM14,6 h7v1H14zM0 8h2v1H0zM4 8h3v1H4zM12 8h1v1H12zM15 8h1v1H15zM17,8 h4v1H17zM1 9h4v1H1zM8 9h1v1H8zM12 9h3v1H12zM17 9h2v1H17zM0 10h1v1H0zM4 10h3v1H4zM10 10h1v1H10zM12 10h2v1H12zM18 10h2v1H18zM1 11h1v1H1zM3 11h2v1H3zM7 11h6v1H7zM15 11h1v1H15zM19 11h1v1H19zM1 12h1v1H1zM3 12h5v1H3zM10 12h2v1H10zM14 12h3v1H14zM19,12 h2v1H19zM8 13h2v1H8zM11 13h2v1H11zM17 13h2v1H17zM0 14h7v1H0zM11 14h1v1H11zM14 14h3v1H14zM19 14h1v1H19zM0 15h1v1H0zM6 15h1v1H6zM8 15h2v1H8zM13 15h2v1H13zM16 15h1v1H16zM20,15 h1v1H20zM0 16h1v1H0zM2 16h3v1H2zM6 16h1v1H6zM8 16h1v1H8zM10 16h1v1H10zM12 16h3v1H12zM16 16h2v1H16zM20,16 h1v1H20zM0 17h1v1H0zM2 17h3v1H2zM6 17h1v1H6zM9 17h2v1H9zM12 17h5v1H12zM18,17 h3v1H18zM0 18h1v1H0zM2 18h3v1H2zM6 18h1v1H6zM12 18h2v1H12zM16 18h3v1H16zM0 19h1v1H0zM6 19h1v1H6zM8 19h5v1H8zM15 19h2v1H15zM0 20h7v1H0zM8 20h2v1H8zM11 20h1v1H11zM14 20h2v1H14zM17 20h1v1H17zM20,20 h1v1H20z"
-      fill="black"
-    />
-  </svg>
+    <svg
+      className="c7"
+      height={150}
+      shapeRendering="crispEdges"
+      viewBox="0 0 21 21"
+      width={150}
+    >
+      <path
+        d="M0,0 h21v21H0z"
+        fill="white"
+      />
+      <path
+        d="M0 0h7v1H0zM8 0h1v1H8zM12 0h1v1H12zM14,0 h7v1H14zM0 1h1v1H0zM6 1h1v1H6zM8 1h2v1H8zM11 1h1v1H11zM14 1h1v1H14zM20,1 h1v1H20zM0 2h1v1H0zM2 2h3v1H2zM6 2h1v1H6zM8 2h5v1H8zM14 2h1v1H14zM16 2h3v1H16zM20,2 h1v1H20zM0 3h1v1H0zM2 3h3v1H2zM6 3h1v1H6zM8 3h1v1H8zM10 3h1v1H10zM12 3h1v1H12zM14 3h1v1H14zM16 3h3v1H16zM20,3 h1v1H20zM0 4h1v1H0zM2 4h3v1H2zM6 4h1v1H6zM9 4h4v1H9zM14 4h1v1H14zM16 4h3v1H16zM20,4 h1v1H20zM0 5h1v1H0zM6 5h1v1H6zM8 5h1v1H8zM10 5h1v1H10zM12 5h1v1H12zM14 5h1v1H14zM20,5 h1v1H20zM0 6h7v1H0zM8 6h1v1H8zM10 6h1v1H10zM12 6h1v1H12zM14,6 h7v1H14zM0 8h2v1H0zM4 8h3v1H4zM12 8h1v1H12zM15 8h1v1H15zM17,8 h4v1H17zM1 9h4v1H1zM8 9h1v1H8zM12 9h3v1H12zM17 9h2v1H17zM0 10h1v1H0zM4 10h3v1H4zM10 10h1v1H10zM12 10h2v1H12zM18 10h2v1H18zM1 11h1v1H1zM3 11h2v1H3zM7 11h6v1H7zM15 11h1v1H15zM19 11h1v1H19zM1 12h1v1H1zM3 12h5v1H3zM10 12h2v1H10zM14 12h3v1H14zM19,12 h2v1H19zM8 13h2v1H8zM11 13h2v1H11zM17 13h2v1H17zM0 14h7v1H0zM11 14h1v1H11zM14 14h3v1H14zM19 14h1v1H19zM0 15h1v1H0zM6 15h1v1H6zM8 15h2v1H8zM13 15h2v1H13zM16 15h1v1H16zM20,15 h1v1H20zM0 16h1v1H0zM2 16h3v1H2zM6 16h1v1H6zM8 16h1v1H8zM10 16h1v1H10zM12 16h3v1H12zM16 16h2v1H16zM20,16 h1v1H20zM0 17h1v1H0zM2 17h3v1H2zM6 17h1v1H6zM9 17h2v1H9zM12 17h5v1H12zM18,17 h3v1H18zM0 18h1v1H0zM2 18h3v1H2zM6 18h1v1H6zM12 18h2v1H12zM16 18h3v1H16zM0 19h1v1H0zM6 19h1v1H6zM8 19h5v1H8zM15 19h2v1H15zM0 20h7v1H0zM8 20h2v1H8zM11 20h1v1H11zM14 20h2v1H14zM17 20h1v1H17zM20,20 h1v1H20z"
+        fill="black"
+      />
+    </svg>
+  </div>
+  <div
+    className="c8"
+  />
 </div>
 `;
