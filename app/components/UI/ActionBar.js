@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 import { Button } from 'components/UI'
 
-const ActionBar = ({ isOpen, buttons, ...rest }) => {
-  const buttonsLayout = buttons.map((entry, index) => (
+const createButtons = buttons =>
+  buttons.map((entry, index) => (
     <Button
       key={entry.name}
       variant={index === buttons.length - 1 ? 'normal' : 'secondary'}
@@ -14,6 +14,10 @@ const ActionBar = ({ isOpen, buttons, ...rest }) => {
       {entry.name}
     </Button>
   ))
+
+const ActionBar = ({ isOpen, buttons, ...rest }) => {
+  // check if buttons is a descriptive array  or a React renderable node
+  const buttonsLayout = React.isValidElement(buttons) ? buttons : createButtons(buttons)
 
   return (
     <Flex
@@ -31,12 +35,15 @@ const ActionBar = ({ isOpen, buttons, ...rest }) => {
 }
 
 ActionBar.propTypes = {
-  buttons: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      onClick: PropTypes.func.isRequired
-    })
-  ).isRequired
+  buttons: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(
+      PropTypes.shape({
+        name: PropTypes.string.isRequired,
+        onClick: PropTypes.func.isRequired
+      })
+    )
+  ]).isRequired
 }
 
 export default ActionBar
