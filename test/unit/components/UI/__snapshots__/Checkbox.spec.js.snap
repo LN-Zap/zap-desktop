@@ -16,19 +16,6 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
   align-items: flex-start;
 }
 
-.c5 {
-  font-size: 13px;
-  color: #ffffff;
-  line-height: 1.4;
-}
-
-.c6 {
-  margin-top: 8px;
-  font-size: 13px;
-  color: #959595;
-  line-height: 1.4;
-}
-
 .c3 {
   width: 18px;
   color: #242633;
@@ -79,6 +66,19 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
   position: absolute;
   white-space: nowrap;
   width: 1px;
+}
+
+.c5 {
+  font-size: 13px;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.c6 {
+  margin-top: 8px;
+  font-size: 13px;
+  color: #959595;
+  line-height: 1.4;
 }
 
 <form

@@ -1,5 +1,9 @@
 import React from 'react'
 import { Heading as BaseHeading } from 'rebass'
+import styled from 'styled-components'
+import { opacity } from 'styled-system'
+
+const StyledHeading = styled(BaseHeading)(opacity)
 
 /**
  * @render react
@@ -12,7 +16,7 @@ class Heading extends React.PureComponent {
 
   render() {
     return (
-      <BaseHeading
+      <StyledHeading
         as="h2"
         lineHeight="1.2"
         fontWeight="light"
