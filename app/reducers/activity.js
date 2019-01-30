@@ -225,41 +225,38 @@ const months = [
   'Dec'
 ]
 
-// groups the data by day
-function groupData(data) {
-  return data.reduce((arr, el) => {
-    const d = new Date(returnTimestamp(el) * 1000)
-    const date = d.getDate()
-    const title = `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`
-
-    if (!arr[title]) {
-      arr[title] = []
-    }
-
-    arr[title].push(el)
-
-    // sort the activity within a day new -> old
-    arr[title].sort((a, b) => returnTimestamp(b) - returnTimestamp(a))
-
-    return arr
-  }, {})
-}
-
-// takes the result of groupData and returns an array
-function groupArray(data) {
-  return Object.keys(data).map(title => ({ title, activity: data[title] }))
-}
-
-// sorts data form new to old according to the timestamp
-function sortNewToOld(data) {
-  return data.sort((a, b) => new Date(b.title).getTime() - new Date(a.title).getTime())
-}
-
-// take in a dataset and return an array grouped by day
+/**
+ * Sorts data by date and inserts grouping titles
+ * @param {*} data
+ */
 function groupAll(data) {
-  const groups = groupData(data)
-  const groupArrays = groupArray(groups)
-  return sortNewToOld(groupArrays)
+  // according too https://stackoverflow.com/a/11252167/3509860
+  // this provides an accurate measurement including handling of DST
+  const daysBetween = (t1, t2) => Math.round((t2 - t1) / 86400)
+
+  const createTitle = entry => {
+    const d = new Date(returnTimestamp(entry) * 1000)
+    const date = d.getDate()
+    return `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`
+  }
+
+  return data
+    .sort((a, b) => returnTimestamp(b) - returnTimestamp(a))
+    .reduce((acc, next) => {
+      const prev = acc[acc.length - 1]
+      //check if need insert a group title
+      if (prev) {
+        const days = daysBetween(returnTimestamp(next), returnTimestamp(prev))
+        if (days >= 1) {
+          acc.push({ title: createTitle(next) })
+        }
+      } else {
+        //This is a very first row. Insert title here too
+        acc.push({ title: createTitle(next) })
+      }
+      acc.push(next)
+      return acc
+    }, [])
 }
 
 const allActivity = createSelector(

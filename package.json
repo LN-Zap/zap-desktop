@@ -345,6 +345,7 @@
     "react-router-dom": "4.3.1",
     "react-spring": "7.2.8",
     "react-textfit": "1.1.0",
+    "react-virtualized": "9.21.0",
     "rebass": "3.0.0-9",
     "redux": "4.0.1",
     "redux-electron-ipc": "LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6",
