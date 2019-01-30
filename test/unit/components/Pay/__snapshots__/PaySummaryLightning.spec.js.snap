@@ -22,6 +22,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
             >
               <Value
                 currency="btc"
+                style="decimal"
                 value={10000}
               />
             </Text>
@@ -137,6 +138,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
       <React.Fragment>
         <Value
           currency="btc"
+          style="decimal"
           value={10000}
         />
          
