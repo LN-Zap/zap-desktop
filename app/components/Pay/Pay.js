@@ -618,6 +618,7 @@ class Pay extends React.Component {
       onchainFees,
       payInvoice,
       sendCoins,
+      setPayReq,
       setCryptoCurrency,
       setFiatCurrency,
       queryFees,

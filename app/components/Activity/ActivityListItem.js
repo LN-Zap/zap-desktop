@@ -37,7 +37,7 @@ export default class ActivityListItem extends PureComponent {
     const { activity, currencyName, currentTicker, ticker, showActivityModal, ...rest } = this.props
     return (
       <Flex justifyContent="space-between" alignItems="center" {...rest}>
-        <Text width={24} ml={-35} color="gray" textAlign="center">
+        <Text width={24} color="gray" textAlign="center" mr={10}>
           <ActivityIcon activity={activity} />
         </Text>
         <Box width={1} css={!activity.sending ? { cursor: 'pointer' } : null}>
