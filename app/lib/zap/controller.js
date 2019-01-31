@@ -1,56 +1,41 @@
 // @flow
 import { app, ipcMain, dialog, BrowserWindow } from 'electron'
-import pick from 'lodash.pick'
 import StateMachine from 'javascript-state-machine'
 import { mainLog } from '../utils/log'
 import delay from '../utils/delay'
-
-import LndConfig, { chains, networks, types } from '../lnd/config'
+import truncate from '../utils/truncate'
+import sanitize from '../utils/sanitize'
+import LndConfig, { type LndConfigOptions } from '../lnd/config'
 import Lightning from '../lnd/lightning'
 import Neutrino from '../lnd/neutrino'
 import WalletUnlocker from '../lnd/walletUnlocker'
-
-type onboardingOptions = {
-  id?: number,
-  type: $Keys<typeof types>,
-  chain?: $Keys<typeof chains>,
-  network?: $Keys<typeof networks>,
-  host?: string,
-  cert?: string,
-  macaroon?: string,
-  alias?: string,
-  autopilot?: boolean,
-  name?: string
-}
 
 type shutdownOptions = {
   signal?: string,
   timeout?: number
 }
 
-const grpcSslCipherSuites = connectionType =>
-  (connectionType === 'btcpayserver'
-    ? [
-        // BTCPay Server serves lnd behind an nginx proxy with a trusted SSL cert from Lets Encrypt.
-        // These certs use an RSA TLS cipher suite.
-        'ECDHE-RSA-AES256-GCM-SHA384',
-        'ECDHE-RSA-AES128-GCM-SHA256'
-      ]
-    : [
-        // Default is ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
-        // https://github.com/grpc/grpc/blob/master/doc/environment_variables.md
-        //
-        // Current LND cipher suites here:
-        // https://github.com/lightningnetwork/lnd/blob/master/lnd.go#L80
-        //
-        // We order the suites by priority, based on the recommendations provided by SSL Labs here:
-        // https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
-        'ECDHE-ECDSA-AES128-GCM-SHA256',
-        'ECDHE-ECDSA-AES256-GCM-SHA384',
-        'ECDHE-ECDSA-AES128-CBC-SHA256',
-        'ECDHE-ECDSA-CHACHA20-POLY1305'
-      ]
-  ).join(':')
+const grpcSslCipherSuites = () => {
+  return [
+    // Default is ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
+    // https://github.com/grpc/grpc/blob/master/doc/environment_variables.md
+    //
+    // Current LND cipher suites here:
+    // https://github.com/lightningnetwork/lnd/blob/master/lnd.go#L80
+    //
+    // We order the suites by priority, based on the recommendations provided by SSL Labs here:
+    // https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
+    'ECDHE-ECDSA-AES128-GCM-SHA256',
+    'ECDHE-ECDSA-AES256-GCM-SHA384',
+    'ECDHE-ECDSA-AES128-CBC-SHA256',
+    'ECDHE-ECDSA-CHACHA20-POLY1305',
+
+    // BTCPay Server serves lnd behind an nginx proxy with a trusted SSL cert from Lets Encrypt.
+    // These certs use an RSA TLS cipher suite.
+    'ECDHE-RSA-AES256-GCM-SHA384',
+    'ECDHE-RSA-AES128-GCM-SHA256'
+  ].join(':')
+}
 
 /**
  * @class ZapController
@@ -192,10 +177,10 @@ class ZapController {
 
   onBeforeStartRemoteLnd() {
     mainLog.debug('[FSM] onBeforeStartRemoteLnd...')
-    mainLog.info('Connecting to custom lnd instance')
+    mainLog.info('Connecting to lnd:')
     mainLog.info(' > host:', this.lndConfig.host)
-    mainLog.info(' > cert:', this.lndConfig.cert)
-    mainLog.info(' > macaroon:', this.lndConfig.macaroon)
+    mainLog.info(' > cert:', this.lndConfig.cert && truncate(this.lndConfig.cert))
+    mainLog.info(' > macaroon:', this.lndConfig.macaroon && truncate(this.lndConfig.macaroon))
 
     return this.startLightningWallet().catch(e => {
       const errors = {}
@@ -275,7 +260,10 @@ class ZapController {
    */
   sendMessage(msg: string, data: any) {
     if (this.mainWindow) {
-      mainLog.info('Sending message to renderer process: %o', { msg, data })
+      mainLog.info('Sending message to renderer process: %o', {
+        msg,
+        data: sanitize(data, ['lndconnectUri', 'lndconnectQRCode'])
+      })
       this.mainWindow.webContents.send(msg, data)
     } else {
       mainLog.warn('Unable to send message to renderer process (main window not available): %o', {
@@ -462,26 +450,20 @@ class ZapController {
   /**
    * Start or connect to lnd process after onboarding has been completed by the app.
    */
-  async startLnd(options: onboardingOptions) {
-    // Extract the config options.
-    const config = {
-      id: options.id,
-      type: options.type || 'local',
-      chain: options.chain || 'bitcoin',
-      network: options.network || 'testnet',
-      settings: pick(options, LndConfig.SETTINGS_PROPS[options.type])
-    }
-    mainLog.info('Starting lnd with config: %o', config)
+  async startLnd(options: LndConfigOptions) {
+    mainLog.info(
+      'Starting lnd with options: %o',
+      sanitize(options, ['lndconnectUri', 'lndconnectQRCode'])
+    )
 
     // Save the lnd config options that we got from the renderer.
-    this.lndConfig = new LndConfig(config)
+    this.lndConfig = new LndConfig(options)
 
     // Wait for the config object to become ready.
-    await this.lndConfig.ready
+    await this.lndConfig.isReady
 
-    // Set up SSL with the cypher suits that we need based on the connection type.
-    process.env.GRPC_SSL_CIPHER_SUITES =
-      process.env.GRPC_SSL_CIPHER_SUITES || grpcSslCipherSuites(options.type)
+    // Set up SSL with the cypher suits that we need.
+    process.env.GRPC_SSL_CIPHER_SUITES = process.env.GRPC_SSL_CIPHER_SUITES || grpcSslCipherSuites()
 
     // If the requested connection type is a local one then start up a new lnd instance.
     // Otherwise attempt to connect to an lnd instance using user supplied connection details.
@@ -492,7 +474,7 @@ class ZapController {
    * Add IPC event listeners...
    */
   _registerIpcListeners() {
-    ipcMain.on('startLnd', async (event, options: onboardingOptions) => {
+    ipcMain.on('startLnd', async (event, options: LndConfigOptions) => {
       try {
         await this.startLnd(options)
       } catch (e) {
@@ -509,7 +491,7 @@ class ZapController {
         mainLog.error('Unable to connect to lightning wallet: %s', e.message)
 
         // Notify the app of errors.
-        this.sendMessage('startLndError', e.message)
+        this.sendMessage('startLndError', { host: e.message })
 
         // Return back to the start of the onboarding process.
         return this.startOnboarding()

@@ -1,25 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import get from 'lodash.get'
+import encode from 'lndconnect/encode'
+import decode from 'lndconnect/decode'
+import parseConnectionString from 'lib/utils/btcpayserver'
 import { Bar, Form, Header, Span, Text } from 'components/UI'
 import messages from './messages'
-
-const parseConnectionString = value => {
-  let config = {}
-  try {
-    config = JSON.parse(value)
-  } catch (e) {
-    return new Error('Invalid connection string')
-  }
-  const configs = get(config, 'configurations', [])
-  const params = configs.find(c => c.type === 'grpc' && c.cryptoCode === 'BTC') || {}
-  const { host, port, macaroon } = params
-  if (!host || !port || !macaroon) {
-    return new Error('Invalid connection string')
-  }
-  return { host, port, macaroon }
-}
 
 class ConnectionConfirm extends React.Component {
   static propTypes = {
@@ -30,6 +16,7 @@ class ConnectionConfirm extends React.Component {
     connectionCert: PropTypes.string,
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
+    lndConnect: PropTypes.string,
     startLndHostError: PropTypes.string,
     startLndCertError: PropTypes.string,
     startLndMacaroonError: PropTypes.string,
@@ -43,26 +30,54 @@ class ConnectionConfirm extends React.Component {
     wizardState: {}
   }
 
+  componentDidUpdate(prevProps) {
+    const { wizardApi, lndConnect } = this.props
+    if (lndConnect && lndConnect !== prevProps.lndConnect) {
+      wizardApi.navigateTo(0)
+    }
+  }
+
   handleSubmit = async () => {
     let {
-      connectionType,
       connectionHost,
       connectionCert,
       connectionMacaroon,
       connectionString,
       startLnd
     } = this.props
-    let options = {
-      type: connectionType,
-      host: connectionHost,
-      cert: connectionCert,
-      macaroon: connectionMacaroon
+
+    // If we have a hostname, assume we are using the custom form in which host, cer and macaroon paths are supplied.
+    if (connectionHost) {
+      return startLnd({
+        type: 'custom',
+        decoder: 'lnd.lndconnect.v1',
+        lndconnectUri: encode({
+          host: connectionHost,
+          cert: connectionCert,
+          macaroon: connectionMacaroon
+        })
+      })
     }
-    if (connectionString) {
-      const { host, port, macaroon } = parseConnectionString(connectionString)
-      options = { type: connectionType, host: `${host}:${port}`, macaroon }
+
+    // If its already an lndconnect uri, use it as is.
+    if (connectionString.startsWith('lndconnect:')) {
+      return startLnd({
+        type: 'custom',
+        decoder: 'lnd.lndconnect.v1',
+        lndconnectUri: connectionString
+      })
     }
-    return startLnd(options)
+
+    // Otherwise, process it as a BtcPayServer connection string.
+    const { host, port, macaroon } = parseConnectionString(connectionString)
+    return startLnd({
+      type: 'custom',
+      decoder: 'lnd.lndconnect.v1',
+      lndconnectUri: encode({
+        host: `${host}:${port}`,
+        macaroon
+      })
+    })
   }
 
   render() {
@@ -74,6 +89,7 @@ class ConnectionConfirm extends React.Component {
       connectionCert,
       connectionMacaroon,
       connectionString,
+      lndConnect,
       lightningGrpcActive,
       walletUnlockerGrpcActive,
       startLndHostError,
@@ -87,12 +103,17 @@ class ConnectionConfirm extends React.Component {
 
     // If we have a hostname, use it as is.
     if (connectionHost) {
-      hostname = connectionHost.split(':')[0]
+      hostname = connectionHost
     }
-    // Otherwise, if we have a connection string, parse the host details from that.
+    // Otherwise, if we have a connection uri, parse the host details from that.
     else if (connectionString) {
-      const { host } = parseConnectionString(connectionString)
-      hostname = host
+      if (connectionString.startsWith('lndconnect:')) {
+        const { host } = decode(connectionString)
+        hostname = host
+      } else {
+        const { host } = parseConnectionString(connectionString)
+        hostname = host
+      }
     }
 
     return (
@@ -122,14 +143,14 @@ class ConnectionConfirm extends React.Component {
 
         {!hostname && (
           <Text>
-            <FormattedMessage {...messages.btcpay_error} />
+            <FormattedMessage {...messages.connection_string_invalid} />
           </Text>
         )}
         {hostname && (
           <>
             <Text>
               <FormattedMessage {...messages.verify_host_title} />{' '}
-              <Span color="superGreen">{hostname}</Span>?{' '}
+              <Span color="superGreen">{hostname.split(':')[0]}</Span>?{' '}
             </Text>
             <Text mt={2}>
               <FormattedMessage {...messages.verify_host_description} />

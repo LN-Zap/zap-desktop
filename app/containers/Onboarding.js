@@ -25,6 +25,7 @@ import {
   fetchSeed,
   createNewWallet,
   recoverOldWallet,
+  clearStartLndError,
   unlockWallet,
   lndSelectors
 } from 'reducers/lnd'
@@ -62,6 +63,7 @@ const mapDispatchToProps = {
   setName,
   setPassword,
   setSeed,
+  clearStartLndError,
   setUnlockWalletError,
   setLndconnect,
   startLnd,

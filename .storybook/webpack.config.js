@@ -13,6 +13,13 @@ const config = merge.smart(baseConfig, {
           enforce: 'pre'
         }
       ]
+    },
+
+    node: {
+      __dirname: false,
+      __filename: false,
+      fs: 'empty',
+      module: 'empty'
     }
   }
 })

@@ -6,7 +6,6 @@ import { Flex, Box } from 'rebass'
 import { Panel, Wizard } from 'components/UI'
 import {
   Autopilot,
-  BtcPayServer,
   ConnectionType,
   ConnectionDetails,
   ConnectionConfirm,
@@ -39,7 +38,7 @@ class Onboarding extends React.Component {
     startLndMacaroonError: PropTypes.string,
     onboarded: PropTypes.bool,
     fetchingSeed: PropTypes.bool,
-    lndConnect: PropTypes.object,
+    lndConnect: PropTypes.string,
 
     // DISPATCH
     createNewWallet: PropTypes.func.isRequired,
@@ -52,8 +51,8 @@ class Onboarding extends React.Component {
     setConnectionCert: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
     setConnectionString: PropTypes.func.isRequired,
-    setStartLndError: PropTypes.func.isRequired,
     setLndconnect: PropTypes.func.isRequired,
+    clearStartLndError: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
     setSeed: PropTypes.func.isRequired,
@@ -97,11 +96,11 @@ class Onboarding extends React.Component {
       setConnectionCert,
       setConnectionMacaroon,
       setConnectionString,
-      setStartLndError,
       setName,
       setUnlockWalletError,
       setPassword,
       setSeed,
+      clearStartLndError,
       setLndconnect,
       startLnd,
       validateHost,
@@ -162,6 +161,7 @@ class Onboarding extends React.Component {
               connectionHost,
               connectionCert,
               connectionMacaroon,
+              connectionString,
               lndConnect,
               setLndconnect,
               startLndHostError,
@@ -170,7 +170,8 @@ class Onboarding extends React.Component {
               setConnectionHost,
               setConnectionCert,
               setConnectionMacaroon,
-              setStartLndError,
+              setConnectionString,
+              clearStartLndError,
               validateHost,
               validateCert,
               validateMacaroon
@@ -184,42 +185,8 @@ class Onboarding extends React.Component {
               connectionHost,
               connectionCert,
               connectionMacaroon,
-              lightningGrpcActive,
-              walletUnlockerGrpcActive,
-              startLndHostError,
-              startLndCertError,
-              startLndMacaroonError,
-              startLnd
-            }}
-          />,
-          <Wizard.Step
-            key="Login"
-            component={Login}
-            {...{ unlockWallet, setUnlockWalletError, unlockWalletError }}
-          />
-        ]
-        break
-
-      /**
-       * Form steps for BTCPay Server connection flow.
-       */
-      case 'btcpayserver':
-        formSteps = [
-          <Wizard.Step
-            key="BtcPayServer"
-            component={BtcPayServer}
-            {...{
               connectionString,
-              startLndHostError,
-              setConnectionString
-            }}
-          />,
-          <Wizard.Step
-            key="ConnectionConfirm"
-            component={ConnectionConfirm}
-            {...{
-              connectionType,
-              connectionString,
+              lndConnect,
               lightningGrpcActive,
               walletUnlockerGrpcActive,
               startLndHostError,

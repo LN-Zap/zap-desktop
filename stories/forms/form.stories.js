@@ -11,6 +11,7 @@ import {
   Input,
   Label,
   LightningInvoiceInput,
+  LndConnectionStringInput,
   MainContent,
   Page,
   Radio,
@@ -142,7 +143,7 @@ storiesOf('Forms', module)
       </Box>
     </Form>
   ))
-  .add('Lightning Invoice Textarea', () => (
+  .add('Lightning Invoice', () => (
     <React.Fragment>
       <Box my={4}>
         <Form id="testnet">
@@ -171,6 +172,17 @@ storiesOf('Forms', module)
         </Form>
       </Box>
     </React.Fragment>
+  ))
+  .add('Lnd Connection String', () => (
+    <Form>
+      <LndConnectionStringInput
+        field="connectionString"
+        id="connectionString"
+        label="Connection String"
+        validateOnBlur
+        validateOnChange
+      />
+    </Form>
   ))
   .add('Select', () => (
     <Form>

@@ -9,6 +9,14 @@ class ConnectionTypeOption {
   }
 }
 
+class ConnectionDetailsTab {
+  constructor(key) {
+    this.button = ReactSelector('ConnectionDetailsTabs Tab')
+      .withProps('itemKey', key)
+      .findReact('Button')
+  }
+}
+
 class SeedWordAtIndex {
   constructor(index) {
     this.label = ReactSelector('Recover')
@@ -34,7 +42,6 @@ class Onboarding {
   connectionType = ReactSelector('ConnectionType')
   connectionDetails = ReactSelector('ConnectionDetails')
   connectionConfirm = ReactSelector('ConnectionConfirm')
-  btcPayServer = ReactSelector('BtcPayServer')
   seedView = ReactSelector('SeedView')
   seedConfirm = ReactSelector('SeedConfirm')
   password = ReactSelector('Password')
@@ -46,6 +53,11 @@ class Onboarding {
     import: new ConnectionTypeOption('import'),
     custom: new ConnectionTypeOption('custom'),
     btcpayserver: new ConnectionTypeOption('btcpayserver')
+  }
+
+  connectionDetailsTabs = {
+    string: new ConnectionDetailsTab('FORM_TYPE_CONNECTION_STRING'),
+    manual: new ConnectionDetailsTab('FORM_TYPE_MANUAL')
   }
 
   // Inputs
@@ -70,7 +82,9 @@ class Onboarding {
   macaroonInput = ReactSelector('ConnectionDetails Input')
     .nth(2)
     .find('input')
-  connectionStringInput = ReactSelector('BtcPayServer TextArea').find('textarea')
+  connectionStringInput = ReactSelector('ConnectionDetails TextArea')
+    .withProps({ field: 'connectionString' })
+    .find('textarea')
 }
 
 export default Onboarding

@@ -29,7 +29,7 @@ class ReceiveModal extends React.PureComponent {
     const {
       pubkey,
       address,
-      activeWalletSettings: { lndConnect },
+      activeWalletSettings: { lndconnectQRCode },
       intl,
       showNotification
     } = this.props
@@ -46,7 +46,7 @@ class ReceiveModal extends React.PureComponent {
         notifBody = intl.formatMessage({ ...messages.pubkey_copied_notification_description })
         break
       case QRCODE_TYPE_LNDCONNECT:
-        qrCode = lndConnect
+        qrCode = lndconnectQRCode
         notifBody = intl.formatMessage({ ...messages.lndconnect_copied_notification_description })
         break
     }
@@ -103,7 +103,7 @@ class ReceiveModal extends React.PureComponent {
         message = intl.formatMessage({ ...messages.copy_pubkey })
         break
       case QRCODE_TYPE_LNDCONNECT:
-        qrCode = activeWalletSettings.lndConnect
+        qrCode = activeWalletSettings.lndconnectQRCode
         message = intl.formatMessage({ ...messages.copy_uri })
         break
       default:
@@ -118,7 +118,7 @@ class ReceiveModal extends React.PureComponent {
         name: <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />
       }
     ]
-    if (activeWalletSettings.lndConnect) {
+    if (activeWalletSettings.lndconnectQRCode) {
       tabs.push({ key: QRCODE_TYPE_LNDCONNECT, name: <FormattedMessage {...messages.node_uri} /> })
     }
 
@@ -192,7 +192,7 @@ ReceiveModal.propTypes = {
   pubkey: PropTypes.string,
   address: PropTypes.string,
   activeWalletSettings: PropTypes.shape({
-    lndConnect: PropTypes.string,
+    lndconnectQRCode: PropTypes.string,
     id: PropTypes.number.isRequired,
     type: PropTypes.string.isRequired,
     host: PropTypes.string,

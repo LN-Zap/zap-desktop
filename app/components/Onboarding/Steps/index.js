@@ -1,6 +1,5 @@
 export Alias from './Alias'
 export Autopilot from './Autopilot'
-export BtcPayServer from './BtcPayServer'
 export ConnectionConfirm from './ConnectionConfirm'
 export ConnectionDetails from './ConnectionDetails'
 export ConnectionType from './ConnectionType'

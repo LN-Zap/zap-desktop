@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
+import { Box } from 'rebass'
 import { Bar, Form, Header, RadioGroup, Radio } from 'components/UI'
 import messages from './messages'
 
@@ -8,7 +9,7 @@ class ConnectionType extends React.Component {
   static propTypes = {
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    lndConnect: PropTypes.object,
+    lndConnect: PropTypes.string,
 
     resetOnboarding: PropTypes.func.isRequired,
     setConnectionType: PropTypes.func.isRequired,
@@ -24,7 +25,7 @@ class ConnectionType extends React.Component {
     const { lndConnect, resetOnboarding, stopLnd } = this.props
     stopLnd()
     if (lndConnect) {
-      this.formApi.setValue('connectionType', lndConnect.connectionType)
+      this.formApi.setValue('connectionType', 'custom')
       this.formApi.submitForm()
     } else {
       resetOnboarding()
@@ -34,7 +35,7 @@ class ConnectionType extends React.Component {
   componentDidUpdate(prevProps) {
     const { lndConnect } = this.props
     if (lndConnect && lndConnect !== prevProps.lndConnect) {
-      this.formApi.setValue('connectionType', lndConnect.connectionType)
+      this.formApi.setValue('connectionType', 'custom')
       this.formApi.submitForm()
     }
   }
@@ -62,7 +63,7 @@ class ConnectionType extends React.Component {
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (
-      <>
+      <Box css={{ visibility: lndConnect ? 'hidden' : 'visible' }}>
         <Header
           title={<FormattedMessage {...messages.connection_title} />}
           subtitle={<FormattedMessage {...messages.connection_description} />}
@@ -98,34 +99,24 @@ class ConnectionType extends React.Component {
               value="create"
               label={<FormattedMessage {...messages.connection_type_create_label} />}
               description={<FormattedMessage {...messages.connection_type_create_description} />}
-              mb={4}
+              mb={5}
             />
 
             <Radio
               value="import"
               label={<FormattedMessage {...messages.connection_type_import_label} />}
               description={<FormattedMessage {...messages.connection_type_import_description} />}
-              mb={4}
+              mb={5}
             />
 
             <Radio
               value="custom"
               label={<FormattedMessage {...messages.connection_type_custom_label} />}
               description={<FormattedMessage {...messages.connection_type_custom_description} />}
-              mb={4}
-            />
-
-            <Radio
-              value="btcpayserver"
-              label={<FormattedMessage {...messages.connection_type_btcpayserver_label} />}
-              description={
-                <FormattedMessage {...messages.connection_type_btcpayserver_description} />
-              }
-              mb={4}
             />
           </RadioGroup>
         </Form>
-      </>
+      </Box>
     )
   }
 }

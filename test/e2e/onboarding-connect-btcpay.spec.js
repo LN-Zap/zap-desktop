@@ -1,4 +1,3 @@
-import path from 'path'
 import { waitForReact } from 'testcafe-react-selectors'
 import {
   getBaseUrl,
@@ -13,7 +12,7 @@ import Loading from './pages/loading'
 const onboarding = new Onboarding()
 const loading = new Loading()
 
-fixture('Onboarding (connect)')
+fixture('Onboarding (connect btcpay)')
   .page(getBaseUrl())
   .beforeEach(async t => {
     await waitForReact()
@@ -27,7 +26,7 @@ fixture('Onboarding (connect)')
     await cleanElectronEnvironment(ctx)
   })
 
-test('should connect to an external wallet (readonly)', async t => {
+test('should connect to an external wallet (btcpay)', async t => {
   await t
     // Fill out and submit ConnectionType form.
     .expect(onboarding.connectionType.exists)
@@ -38,9 +37,21 @@ test('should connect to an external wallet (readonly)', async t => {
     // Fill out and submit ConnectionDetails form.
     .expect(onboarding.connectionDetails.exists)
     .ok()
-    .typeText(onboarding.hostInput, 'testnet1-lnd.zaphq.io:10009')
-    .typeText(onboarding.certInput, path.join(__dirname, 'fixtures', 'tls.cert'))
-    .typeText(onboarding.macaroonInput, path.join(__dirname, 'fixtures', 'readonly.macaroon'))
+    .click(onboarding.connectionDetailsTabs.string.button)
+    .typeText(
+      onboarding.connectionStringInput,
+      `{
+  "configurations": [
+    {
+      "type": "grpc",
+      "cryptoCode": "BTC",
+      "host": "example.com",
+      "port": "19000",
+      "macaroon": "macaroon"
+    }
+  ]
+}`
+    )
     .click(onboarding.nextButton)
 
     // Confirm connection details and submit
