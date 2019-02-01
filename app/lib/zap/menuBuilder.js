@@ -1,7 +1,34 @@
 // @flow
 import os from 'os'
 import { app, Menu, shell, BrowserWindow, ipcMain } from 'electron'
+import openAboutWindow from './about'
 import { getLanguageName, locales } from '../i18n'
+import { getPackageDetails } from '../utils'
+
+import { appRootPath } from '../lnd/util'
+
+const path = require('path')
+
+const buildAboutMenu = () => {
+  return {
+    label: 'About Zap',
+    click: () => {
+      const { productName, version } = getPackageDetails()
+      openAboutWindow(
+        {
+          icon_path: path.resolve(appRootPath(), 'resources', 'icons', 'icon.png'),
+          open_devtools: process.env.NODE_ENV !== 'production',
+          product_name: `${productName} ${version}`
+        },
+        `file://${path.resolve(
+          process.env.HOT ? 'app' : app.getAppPath(),
+          'lib/zap/about/public/',
+          'about.html'
+        )}`
+      )
+    }
+  }
+}
 
 export default class ZapMenuBuilder {
   mainWindow: BrowserWindow
@@ -65,7 +92,7 @@ export default class ZapMenuBuilder {
     const subMenuAbout = {
       label: 'Electron',
       submenu: [
-        { label: 'About Zap', selector: 'orderFrontStandardAboutPanel:' },
+        buildAboutMenu(),
         { type: 'separator' },
         { label: 'Hide Zap', accelerator: 'Command+H', selector: 'hide:' },
         {
@@ -266,7 +293,8 @@ export default class ZapMenuBuilder {
             click() {
               shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues')
             }
-          }
+          },
+          buildAboutMenu()
         ]
       },
       this.buildLanguageMenu()

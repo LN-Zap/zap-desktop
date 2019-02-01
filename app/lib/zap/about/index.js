@@ -1,3 +1,4 @@
+// based on https://github.com/rhysd/electron-about-window
 'use strict'
 
 import electron, { BrowserWindow } from 'electron'
