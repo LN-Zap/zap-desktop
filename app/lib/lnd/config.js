@@ -144,7 +144,6 @@ class LndConfig {
   +binaryPath: string
   +lndDir: string
   +configPath: string
-  +rpcProtoPath: string
 
   /**
    * Lnd configuration class.
@@ -188,12 +187,6 @@ class LndConfig {
         enumerable: true,
         get() {
           return join(appRootPath(), 'resources', 'lnd.conf')
-        }
-      },
-      rpcProtoPath: {
-        enumerable: true,
-        get() {
-          return join(appRootPath(), 'resources', 'rpc.proto')
         }
       },
 

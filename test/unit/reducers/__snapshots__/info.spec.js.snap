@@ -15,8 +15,12 @@ Object {
   "chain": "bitcoin",
   "data": Object {
     "chains": Array [
-      "bitcoin",
+      Object {
+        "chain": "bitcoin",
+        "network": "mainnet",
+      },
     ],
+    "semver": "0.5.2",
   },
   "hasSynced": undefined,
   "infoLoading": false,

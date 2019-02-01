@@ -46,7 +46,17 @@ export const binaryName = platform() === 'win32' ? 'lnd.exe' : 'lnd'
 export const binaryPath = () => {
   return isDev
     ? join(dirname(require.resolve('lnd-binary/package.json')), 'vendor', binaryName)
-    : join(appRootPath(), 'bin', binaryName)
+    : join(appRootPath(), 'resources', 'bin', binaryName)
+}
+
+/**
+ * Get the OS specific path to the rpc.proto files that are provided by lnd-grpc.
+ * @return {String} Path to the rpc.proto files.
+ */
+export const lndGpcProtoPath = () => {
+  return isDev
+    ? join(dirname(require.resolve('lnd-grpc/package.json')), 'proto', 'lnrpc')
+    : join(appRootPath(), 'resources', 'proto', 'lnrpc')
 }
 
 // ------------------------------------
@@ -183,4 +193,14 @@ export const waitForFile = (filepath, timeout = 1000) => {
 
   // Let's race our promises.
   return Promise.race([timeoutPromise, checkFileExists])
+}
+
+// The following options object closely approximates the existing behavior of grpc.load.
+// See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
+export const grpcOptions = {
+  keepCase: true,
+  longs: Number,
+  enums: String,
+  defaults: true,
+  oneofs: true
 }
