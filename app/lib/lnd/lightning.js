@@ -1,11 +1,20 @@
 // @flow
 
+import { join } from 'path'
 import { credentials, loadPackageDefinition } from '@grpc/grpc-js'
 import { load } from '@grpc/proto-loader'
+import lndgrpc from 'lnd-grpc'
 import { BrowserWindow } from 'electron'
 import StateMachine from 'javascript-state-machine'
 import LndConfig from './config'
-import { getDeadline, createSslCreds, createMacaroonCreds, waitForFile } from './util'
+import {
+  grpcOptions,
+  lndGpcProtoPath,
+  getDeadline,
+  createSslCreds,
+  createMacaroonCreds,
+  waitForFile
+} from './util'
 import { validateHost } from '../utils/validateHost'
 import methods from './methods'
 import { mainLog } from '../utils/log'
@@ -20,6 +29,8 @@ type LightningSubscriptionsType = {
   invoices: any,
   transactions: any
 }
+
+const _version = new WeakMap()
 
 /**
  * Creates an LND grpc client lightning service.
@@ -57,6 +68,11 @@ class Lightning {
     }
   }
 
+  // Define a read only getter property that returns the version of the api we are connected to, once known.
+  get version() {
+    return _version.get(this)
+  }
+
   // ------------------------------------
   // FSM Proxies
   // ------------------------------------
@@ -87,57 +103,40 @@ class Lightning {
    */
   async onBeforeConnect() {
     mainLog.info('Connecting to Lightning gRPC service')
-    const { rpcProtoPath, host, cert, macaroon, type } = this.lndConfig
+    const { host, macaroon, type } = this.lndConfig
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
     return (
       validateHost(host)
         // If we are trying to connect to the internal lnd, wait upto 20 seconds for the macaroon to be generated.
-        .then(() => (type === 'local' ? waitForFile(macaroon, 20000) : Promise.resolve()))
-        // Attempt to connect using the supplied credentials.
-        .then(async () => {
-          // Load the gRPC proto file.
-          // The following options object closely approximates the existing behavior of grpc.load.
-          // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-protobufjs/README.md
-          const options = {
-            keepCase: true,
-            longs: Number,
-            enums: String,
-            defaults: true,
-            oneofs: true
+        .then(() => {
+          if (type === 'local') {
+            return waitForFile(macaroon, 20000)
           }
-          const packageDefinition = await load(rpcProtoPath, options)
-
-          // Load gRPC package definition as a gRPC object hierarchy.
-          const rpc = loadPackageDefinition(packageDefinition)
-
-          // Create ssl and macaroon credentials to use with the gRPC client.
-          const [sslCreds, macaroonCreds] = await Promise.all([
-            createSslCreds(cert),
-            createMacaroonCreds(macaroon)
-          ])
-          const creds = credentials.combineChannelCredentials(sslCreds, macaroonCreds)
-
-          // Create a new gRPC client instance.
-          this.service = new rpc.lnrpc.Lightning(host, creds)
-
-          // Wait upto 20 seconds for the gRPC connection to be established.
-          return new Promise((resolve, reject) => {
-            this.service.waitForReady(getDeadline(20), err => {
-              if (err) {
-                return reject(err)
-              }
-              return resolve()
-            })
-          })
+          return
         })
-        // Once connected, make a call to getInfo to verify that we can make successful calls.
+
+        // Attempt to connect using the supplied credentials.
+        .then(() => this.establishConnection())
+
+        // Once connected, make a call to getInfo in order to determine the api version.
         .then(() => getInfo(this.service))
-        .catch(err => {
-          if (this.service) {
+
+        // Determine most relevant proto version and reconnect using the right rpc.proto if we need to.
+        .then(async info => {
+          const [closestProtoVersion, latestProtoVersion] = await Promise.all([
+            lndgrpc.getClosestProtoVersion(info.version, lndGpcProtoPath()),
+            lndgrpc.getLatestProtoVersion(lndGpcProtoPath())
+          ])
+          if (closestProtoVersion !== latestProtoVersion) {
+            mainLog.debug(
+              'Found better match. Reconnecting using rpc.proto version: %s',
+              closestProtoVersion
+            )
             this.service.close()
+            return this.establishConnection(closestProtoVersion)
           }
-          throw err
+          return
         })
     )
   }
@@ -174,10 +173,50 @@ class Lightning {
   // ------------------------------------
 
   /**
+   * Establish a connection to the Lightning interface.
+   */
+  async establishConnection(version: ?string) {
+    const { host, cert, macaroon } = this.lndConfig
+
+    // Find the rpc.proto file to use. If no version was supplied, attempt to use the latest version.
+    const versionToUse = version || (await lndgrpc.getLatestProtoVersion(lndGpcProtoPath()))
+    const filepath = join(lndGpcProtoPath(), `${versionToUse}.proto`)
+    mainLog.debug('Establishing gRPC connection with proto file %s', filepath)
+
+    // Save the version into a read only property that can be read from the outside.
+    _version.set(this, versionToUse)
+
+    // Load gRPC package definition as a gRPC object hierarchy.
+    const packageDefinition = await load(filepath, grpcOptions)
+    const rpc = loadPackageDefinition(packageDefinition)
+
+    // Create ssl and macaroon credentials to use with the gRPC client.
+    const [sslCreds, macaroonCreds] = await Promise.all([
+      createSslCreds(cert),
+      createMacaroonCreds(macaroon)
+    ])
+    const creds = credentials.combineChannelCredentials(sslCreds, macaroonCreds)
+
+    // Create a new gRPC client instance.
+    this.service = new rpc.lnrpc.Lightning(host, creds)
+
+    // Wait upto 20 seconds for the gRPC connection to be established.
+    return new Promise((resolve, reject) => {
+      this.service.waitForReady(getDeadline(20), err => {
+        if (err) {
+          this.service.close()
+          return reject(err)
+        }
+        return resolve()
+      })
+    })
+  }
+
+  /**
    * Hook up lnd restful methods.
    */
   registerMethods(event: Event, msg: string, data: any) {
-    return methods(this.service, mainLog, event, msg, data)
+    return methods(this, mainLog, event, msg, data)
   }
 
   /**

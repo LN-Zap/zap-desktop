@@ -51,7 +51,7 @@
   "config": {
     "style_paths": "app/components/**/*.js",
     "lnd-binary": {
-      "binaryVersion": "0.5.1-beta",
+      "binaryVersion": "0.5.1-beta-521-g6a78141a",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
@@ -83,13 +83,16 @@
     },
     "extraResources": [
       "resources/lnd.conf",
-      "resources/rpc.proto",
       {
         "from": "resources/bin/${os}/${arch}",
-        "to": "bin",
+        "to": "resources/bin",
         "filter": [
           "lnd*"
         ]
+      },
+      {
+        "from": "app/node_modules/lnd-grpc/proto",
+        "to": "resources/proto"
       }
     ],
     "protocols": [
@@ -354,6 +357,7 @@
     "redux-thunk": "2.3.0",
     "reselect": "4.0.0",
     "satoshi-bitcoin": "1.0.4",
+    "semver": "5.6.0",
     "source-map-support": "0.5.10",
     "split2": "3.1.0",
     "styled-components": "4.1.3",

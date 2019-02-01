@@ -14,6 +14,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "lnd-grpc": "0.1.3",
     "rimraf": "2.6.3",
     "untildify": "3.0.3",
     "validator": "10.11.0"

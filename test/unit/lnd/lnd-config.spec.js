@@ -17,10 +17,9 @@ describe('LndConfig', function() {
       expect(this.lndConfig.binaryPath).toEqual('binaryPath')
     })
     it('should have "configPath" set to "resources/lnd.conf" relative to app root from lib/lnd/util"', () => {
-      expect(this.lndConfig.configPath).toEqual(normalize('/tmp/resources/lnd.conf'))
-    })
-    it('should have "rpcProtoPath" set to "resources/rcp.proto" relative to app root from lib/lnd/util"', () => {
-      expect(this.lndConfig.rpcProtoPath).toEqual(normalize('/tmp/resources/rpc.proto'))
+      expect(this.lndConfig.configPath).toEqual(
+        normalize(`${__dirname}/../../../resources/lnd.conf`)
+      )
     })
   }
 

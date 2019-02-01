@@ -2,7 +2,7 @@ import { validateHost } from 'lib/utils/validateHost'
 
 jest.mock('dns')
 
-describe('Util', function() {
+describe('Utils', function() {
   describe('validateHost', () => {
     it('should resolve true for valid hostnames', async () => {
       await expect(validateHost('example.com')).resolves.toBeTruthy()
