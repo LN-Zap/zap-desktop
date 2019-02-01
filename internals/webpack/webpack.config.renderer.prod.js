@@ -60,7 +60,8 @@ export default merge.smart(baseConfig, {
 
     new CopyWebpackPlugin([
       path.join('app', 'empty.html'),
-      { from: path.join('app', 'preload.js'), to: 'preload.prod.js' }
+      { from: path.join('app', 'preload.js'), to: 'preload.prod.js' },
+      { from: path.join('app/lib/zap/about', 'preload.js'), to: 'about_preload.prod.js' }
     ]),
 
     new CspHtmlWebpackPlugin({
