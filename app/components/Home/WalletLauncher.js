@@ -145,7 +145,7 @@ class WalletLauncher extends React.Component {
       putWallet(formToWalletFormat(values))
       const message = intl.formatMessage({ ...messages.saved_notification })
       showNotification(message)
-    } catch {
+    } catch (e) {
       const message = intl.formatMessage({ ...messages.saved_error })
       showError(message)
     }

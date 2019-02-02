@@ -328,7 +328,7 @@ class LndConfig {
         })
         _lndConnect.set(this, connectionstring)
         return true
-      } catch {
+      } catch (e) {
         return true
       }
     }
