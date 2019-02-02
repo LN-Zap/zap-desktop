@@ -42,7 +42,7 @@
     "test": "npm run lint && npm run lint-styles && npm run flow && npm run build && npm run test-unit && npm run test-e2e",
     "test-base": "cross-env NODE_ENV=test BABEL_DISABLE_CACHE=true DISABLE_INIT=true ELECTRON_DISABLE_SECURITY_WARNINGS=true node --trace-warnings ./node_modules/jest/bin/jest",
     "test-unit": "npm run test-base -- --coverage ./test/unit",
-    "test-ci": "npm run test-e2e && npm run test-unit",
+    "test-ci": "npm run test-e2e --selector-timeout 500000 --assertion-timeout 10000 && npm run test-unit",
     "pretest-e2e": "npm run build-e2e",
     "test-e2e": "cross-env ELECTRON_USER_DIR_TEMP=1 testcafe electron:./ ./test/e2e",
     "pretest-e2e-live": "npm run build-e2e",
