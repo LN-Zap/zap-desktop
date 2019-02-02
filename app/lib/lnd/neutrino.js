@@ -161,8 +161,8 @@ class Neutrino extends EventEmitter {
           code,
           signal
         )
-        this.process = null
         this.emit(EXIT, code, signal, this.lastError)
+        this.process = null
       })
 
     // Listen for when neutrino prints data to stderr.

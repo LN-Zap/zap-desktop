@@ -80,7 +80,10 @@ async function getLocalWallets(chain, network) {
 }
 
 function killLnd() {
-  return ipcRenderer.sendSync('killLnd')
+  return new Promise(resolve => {
+    ipcRenderer.once('killLndSuccess', resolve)
+    ipcRenderer.send('killLnd', { signal: 'SIGKILL', timeout: 2500 })
+  })
 }
 
 /**

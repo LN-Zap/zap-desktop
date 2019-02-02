@@ -23,6 +23,11 @@ type onboardingOptions = {
   name?: string
 }
 
+type shutdownOptions = {
+  signal?: string,
+  timeout?: number
+}
+
 const grpcSslCipherSuites = connectionType =>
   (connectionType === 'btcpayserver'
     ? [
@@ -407,7 +412,10 @@ class ZapController {
   /**
    * Gracefully shutdown LND.
    */
-  async shutdownNeutrino() {
+  async shutdownNeutrino(options: shutdownOptions = {}) {
+    const signal = options.signal || 'SIGINT'
+    const timeout = options.timeout || 10000
+
     // We only want to shut down LND if we are running it locally.
     if (
       (this.lndConfig && this.lndConfig.type !== 'local') ||
@@ -421,7 +429,7 @@ class ZapController {
 
     return new Promise(async resolve => {
       // HACK: Sometimes there are errors during the shutdown process that prevent the daemon from shutting down at
-      // all. If we haven't received notification of the process closing within 10 seconds, kill it.
+      // all. If we haven't received notification of the process closing within the timeout, kill it.
       // See https://github.com/lightningnetwork/lnd/pull/1781
       // See https://github.com/lightningnetwork/lnd/pull/1783
       const shutdownTimeout = setTimeout(() => {
@@ -431,7 +439,7 @@ class ZapController {
           this.neutrino.kill('SIGKILL')
           resolve()
         }
-      }, 1000 * 10)
+      }, timeout)
 
       const exitHandler = () => {
         clearTimeout(shutdownTimeout)
@@ -447,7 +455,7 @@ class ZapController {
       }
 
       // Kill the Neutrino process (sends SIGINT to Neutrino process)
-      this.neutrino.kill()
+      this.neutrino.kill(signal)
     }).then(() => mainLog.info('Neutrino shutdown complete'))
   }
 
@@ -509,12 +517,9 @@ class ZapController {
     })
     ipcMain.on('stopLnd', () => this.stopLnd())
 
-    ipcMain.on('killLnd', (event, signal = 'SIGKILL') => {
-      if (this.neutrino && this.neutrino.process) {
-        event.returnValue = this.neutrino.process.pid
-        this.neutrino.kill(signal)
-      }
-      event.returnValue = undefined
+    ipcMain.on('killLnd', async (event, options: shutdownOptions = {}) => {
+      await this.shutdownNeutrino(options)
+      event.sender.send('killLndSuccess')
     })
   }
 
