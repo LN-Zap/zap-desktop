@@ -184,7 +184,7 @@ export const waitForFile = (filepath, timeout = 1000) => {
         clearInterval(intervalId)
         clearTimeout(timeoutId)
         resolve()
-      } catch {
+      } catch (e) {
         // If the file wasn't found with stat, do nothing, we will check again in 200ms.
         return
       }
