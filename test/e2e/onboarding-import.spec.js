@@ -1,17 +1,27 @@
 import { waitForReact } from 'testcafe-react-selectors'
-import { getBaseUrl, assertNoConsoleErrors, cleanTestEnvironment } from './utils/helpers'
+import {
+  getBaseUrl,
+  getUserDataDir,
+  assertNoConsoleErrors,
+  cleanTestEnvironment,
+  cleanElectronEnvironment
+} from './utils/helpers'
 import Onboarding from './pages/onboarding'
 
 const onboarding = new Onboarding()
 
 fixture('Onboarding (import)')
   .page(getBaseUrl())
-  .beforeEach(async () => {
+  .beforeEach(async t => {
     await waitForReact()
+    t.fixtureCtx.userDataDir = await getUserDataDir()
   })
   .afterEach(async t => {
     await assertNoConsoleErrors(t)
     await cleanTestEnvironment()
+  })
+  .after(async ctx => {
+    await cleanElectronEnvironment(ctx)
   })
 
 test('should import a wallet from an existing seed', async t => {

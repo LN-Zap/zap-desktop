@@ -181,6 +181,10 @@ async function fileExists(path) {
   return fsReadFile(untildify(path))
 }
 
+function getUserDataDir() {
+  return remote.app.getPath('userData')
+}
+
 // Expose a bridging API to by setting an global on `window`.
 //
 // !CAREFUL! do not expose any functionality or APIs that could compromise the
@@ -190,6 +194,7 @@ window.Zap = {
   openHelpPage,
   getLocalWallets,
   deleteLocalWallet,
+  getUserDataDir,
   validateHost,
   fileExists,
   killLnd
