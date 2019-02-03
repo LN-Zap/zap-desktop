@@ -1,5 +1,11 @@
 import { waitForReact } from 'testcafe-react-selectors'
-import { getBaseUrl, assertNoConsoleErrors, cleanTestEnvironment } from './utils/helpers'
+import {
+  getBaseUrl,
+  getUserDataDir,
+  assertNoConsoleErrors,
+  cleanTestEnvironment,
+  cleanElectronEnvironment
+} from './utils/helpers'
 import Onboarding from './pages/onboarding'
 import Syncing from './pages/syncing'
 import Loading from './pages/loading'
@@ -10,12 +16,16 @@ const loading = new Loading()
 
 fixture('Onboarding (create)')
   .page(getBaseUrl())
-  .beforeEach(async () => {
+  .beforeEach(async t => {
     await waitForReact()
+    t.fixtureCtx.userDataDir = await getUserDataDir()
   })
   .afterEach(async t => {
     await assertNoConsoleErrors(t)
     await cleanTestEnvironment()
+  })
+  .after(async ctx => {
+    await cleanElectronEnvironment(ctx)
   })
 
 test('should create a new wallet', async t => {

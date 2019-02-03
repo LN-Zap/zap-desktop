@@ -124,7 +124,7 @@ const AddChannel = ({
 
       <Bar my={3} borderColor="gray" css={{ opacity: 0.3 }} />
 
-      <Panel.Body css={{ 'overflow-y': 'auto' }}>
+      <Panel.Body css={{ 'overflow-y': 'overlay' }}>
         {filteredNetworkNodes.length > 0 &&
           filteredNetworkNodes.map(node => {
             const canConnectToNode = canConnect(node)

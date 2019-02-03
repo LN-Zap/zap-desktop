@@ -75,7 +75,8 @@
     "files": [
       "dist/",
       "node_modules/",
-      "package.json"
+      "package.json",
+      "lib/zap/about/"
     ],
     "directories": {
       "buildResources": "resources",
@@ -83,6 +84,8 @@
     },
     "extraResources": [
       "resources/lnd.conf",
+      "resources/rpc.proto",
+      "resources/icons/icon.png",
       {
         "from": "resources/bin/${os}/${arch}",
         "to": "resources/bin",

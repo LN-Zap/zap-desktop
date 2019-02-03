@@ -189,7 +189,7 @@ class Network extends Component {
           />
         </Panel.Header>
 
-        <Panel.Body css={{ 'overflow-y': 'auto' }}>
+        <Panel.Body css={{ 'overflow-y': 'overlay' }}>
           {!hasChannels && <SuggestedNodes py={3} mx={3} />}
 
           {hasChannels && (
