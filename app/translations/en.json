@@ -59,6 +59,7 @@
   "components.Channels.capacity": "Capacity",
   "components.Channels.loading": "loading",
   "components.Channels.local_balance": "Local Balance",
+  "components.Channels.more_button_text": "More",
   "components.Channels.offline": "offline",
   "components.Channels.open": "open",
   "components.Channels.pending_close": "pending close",
