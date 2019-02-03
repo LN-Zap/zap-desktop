@@ -10,13 +10,8 @@
     "url": "https://github.com/LN-Zap/zap-desktop"
   },
   "scripts": {
-    "postinstall": "npm rebuild --runtime=electron --target=3.0.0 --disturl=https://atom.io/download/electron"
+    "postinstall": "npm rebuild --runtime=electron --target=4.0.0 --disturl=https://atom.io/download/electron"
   },
   "license": "MIT",
-  "dependencies": {
-    "lnd-grpc": "0.1.4",
-    "rimraf": "2.6.3",
-    "untildify": "3.0.3",
-    "validator": "10.10.0"
-  }
+  "dependencies": {}
 }

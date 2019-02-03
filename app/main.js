@@ -217,7 +217,7 @@ app.on('ready', async () => {
     webPreferences: {
       nodeIntegration: false,
       preload: process.env.HOT
-        ? path.resolve(__dirname, 'preload.js')
+        ? path.resolve(__dirname, 'dist', 'preload.prod.js')
         : path.resolve(__dirname, 'preload.prod.js')
     }
   })
