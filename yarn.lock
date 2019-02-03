@@ -10383,6 +10383,14 @@ lnd-binary@0.3.9:
     "true-case-path" "^1.0.2"
     unzip-stream "^0.3.0"
 
+lnd-grpc@0.1.3:
+  version "0.1.3"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.3.tgz#fc2290453bd6d9ebf09484a6c5e97235792ca2be"
+  integrity sha512-KZFhGx+PUQ9ITevuVc14Xo3abIfWYghVM2EqJ1l4XgP29hCwUHk2o7QjjkRkbh1Pg2cfsa/R1DTDUU5Svh1vMA==
+  dependencies:
+    debug "^4.1.1"
+    semver "^5.6.0"
+
 lndconnect@0.1.7:
   version "0.1.7"
   resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.1.7.tgz#45d16e09edca7bb8feaec26f1858fde3f04e9e97"

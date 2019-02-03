@@ -58,10 +58,7 @@ export default merge.smart(baseConfig, {
       template: path.join('app', 'app.html')
     }),
 
-    new CopyWebpackPlugin([
-      path.join('app', 'empty.html'),
-      { from: path.join('app', 'preload.js'), to: 'preload.prod.js' }
-    ]),
+    new CopyWebpackPlugin([path.join('app', 'empty.html')]),
 
     new CspHtmlWebpackPlugin({
       'default-src': "'self'",

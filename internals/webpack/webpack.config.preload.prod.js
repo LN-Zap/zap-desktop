@@ -1,5 +1,5 @@
 /**
- * Webpack config for production electron main process
+ * Webpack config for production electron preload process
  */
 
 import path from 'path'
@@ -11,12 +11,12 @@ import baseConfig, { rootDir } from './webpack.config.base'
 export default merge.smart(baseConfig, {
   devtool: 'source-map',
 
-  target: 'electron-main',
+  target: 'electron-renderer',
 
   mode: 'production',
 
   entry: {
-    main: path.join(rootDir, 'app', 'main')
+    preload: path.join(rootDir, 'app', 'preload')
   },
 
   output: {
