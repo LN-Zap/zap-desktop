@@ -261,6 +261,7 @@
   "components.Request.total": "",
   "components.Settings.Fiat.title": "",
   "components.Settings.Locale.title": "",
+  "components.Settings.Menu.channels": "",
   "components.Settings.Menu.fiat": "",
   "components.Settings.Menu.locale": "",
   "components.Settings.Menu.logout": "",

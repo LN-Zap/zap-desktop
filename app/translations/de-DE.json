@@ -261,6 +261,7 @@
   "components.Request.total": "",
   "components.Settings.Fiat.title": "Fiat-Währung",
   "components.Settings.Locale.title": "Sprache",
+  "components.Settings.Menu.channels": "",
   "components.Settings.Menu.fiat": "Fiat-Währung",
   "components.Settings.Menu.locale": "Sprache",
   "components.Settings.Menu.logout": "",

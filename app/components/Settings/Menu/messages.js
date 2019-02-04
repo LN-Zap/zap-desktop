@@ -5,5 +5,6 @@ export default defineMessages({
   fiat: 'Fiat Currency',
   locale: 'Language',
   theme: 'Theme',
+  channels: 'Manage Channels',
   logout: 'Logout'
 })
