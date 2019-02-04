@@ -2,23 +2,18 @@
  * When running `npm run build` or `npm run build-preload`, this file is compiled to
  * `./app/dist/preload.prod.js` using webpack.
  */
-const { ipcRenderer, remote, shell } = require('electron')
-const { readdir } = require('fs')
-const { join } = require('path')
-const { promisify } = require('util')
-const assert = require('assert')
-const url = require('url')
-const fs = require('fs')
-const dns = require('dns')
-const untildify = require('untildify')
-const rimraf = require('rimraf')
-const isFQDN = require('validator/lib/isFQDN')
-const isIP = require('validator/lib/isIP')
-const isPort = require('validator/lib/isPort')
+import { ipcRenderer, remote, shell } from 'electron'
+import fs from 'fs'
+import { join } from 'path'
+import { promisify } from 'util'
+import assert from 'assert'
+import url from 'url'
+import untildify from 'untildify'
+import rimraf from 'rimraf'
+import { validateHost } from './lib/utils/validateHost'
 
-const dnsLookup = promisify(dns.lookup)
 const fsReadFile = promisify(fs.readFile)
-const fsReaddir = promisify(readdir)
+const fsReaddir = promisify(fs.readdir)
 const fsRimraf = promisify(rimraf)
 
 /**
@@ -136,40 +131,6 @@ async function deleteLocalWallet(chain, network, wallet, force = false) {
       }
     )
   })
-}
-
-/**
- * Helper function to check a hostname in the format hostname:port is valid for passing to node-grpc.
- * @param {string} host A hostname + optional port in the format [hostname]:[port?]
- * @returns {Promise<Boolean>}
- */
-async function validateHost(host) {
-  const splits = host.split(':')
-  const lndHost = splits[0]
-  const lndPort = splits[1]
-
-  // If the hostname starts with a number, ensure that it is a valid IP address.
-  if (!isFQDN(lndHost, { require_tld: false }) && !isIP(lndHost)) {
-    const error = new Error(`${lndHost} is not a valid IP address or hostname`)
-    error.code = 'LND_GRPC_HOST_ERROR'
-    return Promise.reject(error)
-  }
-
-  // If the host includes a port, ensure that it is a valid.
-  if (lndPort && !isPort(lndPort)) {
-    const error = new Error(`${lndPort} is not a valid port`)
-    error.code = 'LND_GRPC_HOST_ERROR'
-    return Promise.reject(error)
-  }
-
-  // Do a DNS lookup to ensure that the host is reachable.
-  return dnsLookup(lndHost)
-    .then(() => true)
-    .catch(e => {
-      const error = new Error(`${lndHost} is not accessible: ${e.message}`)
-      error.code = 'LND_GRPC_HOST_ERROR'
-      return Promise.reject(error)
-    })
 }
 
 /**
