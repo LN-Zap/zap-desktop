@@ -91,7 +91,9 @@ export const lndSyncStatus = (event, status) => async (dispatch, getState) => {
 export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
   dispatch({ type: SET_LIGHTNING_WALLET_ACTIVE })
 
-  // Once we we have established a connection, save the wallet settings.
+  // Once we we have established a connection, save the wallet settings
+  // after connection was successfully established. This is especially important
+  // for the first connection to be sure settings are correct
   if (lndConfig.id !== 'tmp') {
     const wallet = await dispatch(putWallet(lndConfig))
     await dispatch(setActiveWallet(wallet.id))
