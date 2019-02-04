@@ -5,6 +5,7 @@ export default defineMessages({
   remote_balance: 'Remote Balance',
   channels: 'Channels',
   capacity: 'Capacity',
+  total_capacity: 'Total Capacity',
   more_button_text: 'More',
   loading: 'loading',
   pending_open: 'pending open',

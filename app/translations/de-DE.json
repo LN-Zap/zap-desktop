@@ -67,6 +67,7 @@
   "components.Channels.pending_force_close": "",
   "components.Channels.pending_open": "",
   "components.Channels.remote_balance": "",
+  "components.Channels.total_capacity": "",
   "components.Channels.waiting_close": "",
   "components.Contacts.AddChannel.connect": "",
   "components.Contacts.AddChannel.manual_button": "Manuell verbinden",

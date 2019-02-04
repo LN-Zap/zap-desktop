@@ -67,6 +67,7 @@
   "components.Channels.pending_force_close": "pending force close",
   "components.Channels.pending_open": "pending open",
   "components.Channels.remote_balance": "Remote Balance",
+  "components.Channels.total_capacity": "Total Capacity",
   "components.Channels.waiting_close": "closing",
   "components.Contacts.AddChannel.connect": "Connect",
   "components.Contacts.AddChannel.manual_button": "Connect Manually",
