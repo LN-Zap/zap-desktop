@@ -6754,10 +6754,10 @@ eslint-config-prettier@3.6.0:
   dependencies:
     get-stdin "^6.0.0"
 
-eslint-formatter-pretty@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-formatter-pretty/-/eslint-formatter-pretty-2.1.0.tgz#dfd1661dcc9d7ec928604fa3c9919a1b0616a7ec"
-  integrity sha512-JdiUvqJeSuxFE1aNa+jlmhzjEZq/U22qIBsNelXf5N4eyLuEBzoqTkEotdP7nqxFsx9O7NLpl3UFmKMEnt3w4Q==
+eslint-formatter-pretty@2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/eslint-formatter-pretty/-/eslint-formatter-pretty-2.1.1.tgz#0794a1009195d14e448053fe99667413b7d02e44"
+  integrity sha512-gWfagucSWBn82WxzwFloBTLAcwYDgnpAfiV5pQfyAV5YpZikuLflRU8nc3Ts9wnNvLhwk4blzb42/C495Yw7BA==
   dependencies:
     ansi-escapes "^3.1.0"
     chalk "^2.1.0"
