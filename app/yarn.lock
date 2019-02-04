@@ -57,10 +57,10 @@ inherits@2:
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.3.tgz#633c2c83e3da42a502f52466022480f4208261de"
   integrity sha1-Yzwsg+PaQqUC9SRmAiSA9CCCYd4=
 
-lnd-grpc@0.1.3:
-  version "0.1.3"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.3.tgz#fc2290453bd6d9ebf09484a6c5e97235792ca2be"
-  integrity sha512-KZFhGx+PUQ9ITevuVc14Xo3abIfWYghVM2EqJ1l4XgP29hCwUHk2o7QjjkRkbh1Pg2cfsa/R1DTDUU5Svh1vMA==
+lnd-grpc@0.1.4:
+  version "0.1.4"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.4.tgz#90541037fe4e58c8cc4ca8ac62fbf82367c1fd47"
+  integrity sha512-r+MAk6/m71nTug3mOpifKX18hczaqqa/o7dfLjzjlLwgd3Ovs/PH6HxmbOMbV6xCNjv8vo4YvQ6VQEYA4zaQHw==
   dependencies:
     debug "^4.1.1"
     semver "^5.6.0"
