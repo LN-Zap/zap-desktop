@@ -57,6 +57,7 @@
   "components.Activity.sent": "Sent",
   "components.Activity.show_expired": "Show Expired Requests",
   "components.Channels.capacity": "Capacity",
+  "components.Channels.channels": "Channels",
   "components.Channels.loading": "loading",
   "components.Channels.local_balance": "Local Balance",
   "components.Channels.more_button_text": "More",

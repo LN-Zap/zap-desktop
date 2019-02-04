@@ -57,6 +57,7 @@
   "components.Activity.sent": "Poslano",
   "components.Activity.show_expired": "Prikaži istekle zahtjeve",
   "components.Channels.capacity": "",
+  "components.Channels.channels": "",
   "components.Channels.loading": "",
   "components.Channels.local_balance": "",
   "components.Channels.more_button_text": "",

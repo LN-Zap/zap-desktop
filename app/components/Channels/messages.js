@@ -3,6 +3,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   local_balance: 'Local Balance',
   remote_balance: 'Remote Balance',
+  channels: 'Channels',
   capacity: 'Capacity',
   more_button_text: 'More',
   loading: 'loading',
