@@ -157,7 +157,7 @@ class Network extends Component {
                   const channel = channelObj.channel || channelObj
                   const {
                     display_name,
-                    display_status,
+                    legacy_staus,
                     chan_id,
                     closing_txid,
                     channel_point,
@@ -176,8 +176,8 @@ class Network extends Component {
                       pb={1}
                     >
                       <ChannelItem
-                        statusTooltip={intl.formatMessage({ ...messages[display_status] })}
-                        status={display_status}
+                        statusTooltip={intl.formatMessage({ ...messages[legacy_staus] })}
+                        status={legacy_staus}
                         name={display_name}
                         isSelected={isSelected}
                         onBrowseClick={() =>
@@ -192,7 +192,7 @@ class Network extends Component {
                         <ChannelDetails
                           isClosing={closingChannelIds.includes(chan_id)}
                           canClose={
-                            ['online', 'offline'].includes(display_status) &&
+                            ['online', 'offline'].includes(legacy_staus) &&
                             !closingChannelIds.includes(chan_id)
                           }
                           payLimitMsg={messages.pay_limit}
@@ -205,7 +205,7 @@ class Network extends Component {
                           pubkey={display_name}
                           status={
                             messages[
-                              display_status === 'online' ? 'channel_close' : 'channel_force_close'
+                              legacy_staus === 'online' ? 'channel_close' : 'channel_force_close'
                             ]
                           }
                         />

@@ -135,7 +135,7 @@ export function pendingChannels(lnd) {
 /**
  * Returns the latest authenticated network announcement for the given channel
  * @param  {[type]} lnd       [description]
- * @param  {[type]} channelId [description]
+ * @param  {[type]} chanId    [description]
  * @return {[type]}           [description]
  */
 export function getChanInfo(lnd, { chanId }) {

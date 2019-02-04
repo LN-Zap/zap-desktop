@@ -13,7 +13,6 @@ const ChannelSummaryListItem = ({
   channelId,
   channelName,
   channelPubKey,
-  channelPubKeyShort,
   localBalance,
   remoteBalance,
   status,
@@ -28,7 +27,7 @@ const ChannelSummaryListItem = ({
         <Box width={8 / 20}>
           <ChannelStatus status={status} />
           <ClippedHeading my={1} opacity={opacity}>
-            {channelName || channelPubKeyShort}
+            {channelName}
           </ClippedHeading>
           <ClippedText fontSize="xs" opacity={opacity}>
             {channelPubKey}
@@ -45,7 +44,9 @@ const ChannelSummaryListItem = ({
         />
 
         <Flex width={2 / 20}>
-          <ChannelMoreButton onClick={() => showChannelDetail(channelId)} ml="auto" my="auto" />
+          {channelId && (
+            <ChannelMoreButton onClick={() => showChannelDetail(channelId)} ml="auto" my="auto" />
+          )}
         </Flex>
       </Flex>
     </Card>
@@ -54,10 +55,9 @@ const ChannelSummaryListItem = ({
 
 ChannelSummaryListItem.propTypes = {
   isAvailable: PropTypes.bool.isRequired,
-  channelId: PropTypes.string.isRequired,
+  channelId: PropTypes.number,
   channelName: PropTypes.string,
   channelPubKey: PropTypes.string.isRequired,
-  channelPubKeyShort: PropTypes.string.isRequired,
   localBalance: PropTypes.number.isRequired,
   remoteBalance: PropTypes.number.isRequired,
   status: PropTypes.string.isRequired,

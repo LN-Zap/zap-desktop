@@ -95,6 +95,41 @@ const getRemoteNodePubKey = channel => {
  * @return {String} Channel status name.
  */
 const getStatus = (channel, closingChannelIds) => {
+  // if the channel has a confirmation_height property that means it's pending.
+  if ('confirmation_height' in channel) {
+    return 'pending_open'
+  }
+  // if the channel has a closing txid and a limbo balance, that means it's force_closing.
+  if ('closing_txid' in channel && 'limbo_balance' in channel) {
+    return 'pending_force_close'
+  }
+  // if the channel has a closing txid but no limbo balance or it's in our internal list of closing transactions,
+  // that means it is pending closing.
+  if (
+    ('closing_txid' in channel && !('limbo_balance' in channel)) ||
+    closingChannelIds.includes(channel.chan_id)
+  ) {
+    return 'pending_close'
+  }
+  // If the channel has a limbo balance but no closing txid, it is waiting to close.
+  if (!('closing_txid' in channel) && 'limbo_balance' in channel) {
+    return 'waiting_close'
+  }
+  // if the channel isn't active that means the remote peer isn't online.
+  if (!channel.active) {
+    return 'offline'
+  }
+  // if all of the above conditionals fail we must have an open/active/online channel.
+  return 'open'
+}
+
+/**
+ * Determine the status of a channel (for old channel ui)
+ * @param  {Object} channel Channel object.
+ * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing.
+ * @return {String} Channel status name.
+ */
+const getLegacyStatus = (channel, closingChannelIds) => {
   // if the channel has a confirmation_height property that means it's pending
   if ('confirmation_height' in channel) {
     return 'pending'
@@ -134,7 +169,8 @@ const decorateChannel = (channelObj, nodes, closingChannelIds) => {
     ...channelData,
     display_pubkey: getRemoteNodePubKey(channelData),
     display_name: getDisplayName(channelData, nodes),
-    display_status: getStatus(channelObj, closingChannelIds)
+    display_status: getStatus(channelObj, closingChannelIds),
+    legacy_staus: getLegacyStatus(channelObj, closingChannelIds)
   }
 
   if (channelObj.channel) {
@@ -149,6 +185,13 @@ const decorateChannel = (channelObj, nodes, closingChannelIds) => {
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+export function showChannelDetail(channelId) {
+  return {
+    type: SHOW_CHANNEL_DETAILS,
+    channelId
+  }
+}
 
 export function changeFilter(filter) {
   return {
