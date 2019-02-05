@@ -27,12 +27,12 @@ const validate = value => {
 }
 
 const selectItems = [
-  { label: '- Please select -', value: '' },
-  { label: 'Apple', value: 'apple' },
-  { value: 'pear' },
-  { value: 'orange' },
-  { value: 'grape' },
-  { value: 'banana' }
+  { value: '- Please select -', key: '' },
+  { value: 'Apple', key: 'apple' },
+  { value: 'Pear', key: 'pear' },
+  { value: 'Orange', key: 'orange' },
+  { value: 'Grape', key: 'grape' },
+  { value: 'Banana', key: 'banana' }
 ]
 
 storiesOf('Forms', module)
@@ -61,6 +61,12 @@ storiesOf('Forms', module)
           validateOnBlur
           validateOnChange
         />
+      </Form>
+      <Form mb={4}>
+        <Input field="fieldName" id="field-name" type="search" label="Search field" />
+      </Form>
+      <Form mb={4}>
+        <Input field="fieldName" id="field-name" type="password" label="Password field" />
       </Form>
       <Form mb={4}>
         <Input field="fieldName" id="field-name" label="Disabled field" disabled />

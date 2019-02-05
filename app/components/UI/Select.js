@@ -1,15 +1,17 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { asField } from 'informed'
-import { Input } from 'components/UI'
 import styled, { withTheme } from 'styled-components'
 import Downshift from 'downshift'
-import { Box } from 'rebass'
+import { Box, Flex } from 'rebass'
 import system from '@rebass/components'
+import { Input, Text } from 'components/UI'
+import Check from 'components/Icon/Check'
+import AngleUp from 'components/Icon/AngleUp'
+import AngleDown from 'components/Icon/AngleDown'
 
 const SelectOptionList = styled.ul`
   padding: 0;
-  margin-top: 0;
+  margin-top: 4px;
   position: absolute;
   z-index: 2;
   width: 100%;
@@ -18,8 +20,9 @@ const SelectOptionList = styled.ul`
   overflow-x: hidden;
   outline: 0;
   transition: opacity 0.1s ease;
-  border: ${props => (props.isOpen ? null : 'none')};
   background-color: ${props => props.theme.colors.secondaryColor};
+  border-radius: 5px;
+  box-shadow: 0 3px 4px 0 rgba(30, 30, 30, 0.5);
 `
 
 const SelectOptionItem = styled(
@@ -27,8 +30,7 @@ const SelectOptionItem = styled(
     {
       extend: Box,
       as: 'li',
-      p: 3,
-      backgroundColor: 'secondaryColor'
+      p: 2
     },
     'space',
     'color'
@@ -38,38 +40,28 @@ const SelectOptionItem = styled(
   cursor: pointer;
 `
 
-const ControllerButton = styled('button')({
-  backgroundColor: 'transparent',
-  border: 'none',
-  position: 'absolute',
-  right: '5px',
-  top: 0,
-  cursor: 'pointer',
-  width: '47px',
-  display: 'flex',
-  flexDirection: 'column',
-  height: '50px',
-  justifyContent: 'center',
-  alignItems: 'center',
-  outline: 'none'
-})
+const getIconStyles = props => `
+  margin-left: -${props.width + 16}px;
+  width: ${props.width}px;
+  pointer-events: none;
+  color: ${props.color || props.theme.colors.gray};
+`
 
-const ArrowIcon = ({ isOpen }) => (
-  <svg
-    viewBox="0 0 20 20"
-    preserveAspectRatio="none"
-    width={16}
-    fill="transparent"
-    stroke="#979797"
-    strokeWidth="1.1px"
-    transform={isOpen ? 'rotate(180)' : null}
-  >
-    <path d="M1,6 L10,15 L19,6" />
-  </svg>
-)
-ArrowIcon.propTypes = {
-  isOpen: PropTypes.bool
-}
+const ArrowIconClosed = styled(AngleDown)`
+  ${props => getIconStyles(props)}
+`
+
+const ArrowIconOpen = styled(AngleUp)`
+  ${props => getIconStyles(props)}
+`
+
+const StyledInput = styled(Input)`
+  input {
+    cursor: pointer;
+    color: transparent;
+    text-shadow: 0 0 0 ${props => props.color || props.theme.colors.primaryText};
+  }
+`
 
 const itemToString = item => (item ? item.value : '')
 
@@ -81,41 +73,97 @@ class Select extends React.PureComponent {
   static displayName = 'Select'
 
   static defaultProps = {
-    items: []
+    items: [],
+    iconSize: 10
+  }
+
+  inputRef = React.createRef()
+
+  blurInput = () => {
+    if (this.inputRef.current) {
+      this.inputRef.current.blur()
+    }
+  }
+
+  renderSelectOptions = (highlightedIndex, selectedItem, getItemProps) => {
+    let { items, theme } = this.props
+
+    return items.map((item, index) => (
+      <SelectOptionItem
+        key={item.key}
+        {...getItemProps({
+          key: item.key,
+          index,
+          item
+        })}
+        bg={highlightedIndex === index ? theme.colors.primaryColor : null}
+        p={2}
+      >
+        <Flex alignItems="center" pr={2}>
+          <Text width="20px" textAlign="center" color="superGreen">
+            {selectedItem.key === item.key && <Check height="0.95em" />}
+          </Text>
+          <Text>{item.value}</Text>
+        </Flex>
+      </SelectOptionItem>
+    ))
   }
 
   render() {
-    const { fieldApi, items, theme, ...rest } = this.props
+    let {
+      fieldApi,
+      iconSize,
+      items,
+      theme,
+      color,
+      onChange,
+      onValueSelected,
+      initialSelectedItem,
+      ...rest
+    } = this.props
+    const { setValue, setTouched } = fieldApi
+
+    let initialInputValue
+    if (initialSelectedItem) {
+      initialSelectedItem = items.find(i => i.key === initialSelectedItem)
+      initialInputValue = itemToString(initialSelectedItem)
+    }
+
     return (
       <Downshift
         itemToString={itemToString}
         // When an item is selected, set the item in the Informed form state.
-        onSelect={item => fieldApi.setValue(item.value)}
+        onSelect={item => {
+          setValue(item.value)
+          setTouched(true)
+          if (onValueSelected) {
+            onValueSelected(item.key)
+          }
+          this.blurInput()
+        }}
         // If an invalid value has been typed into the input, set it back to the currently slected item.
         onInputValueChange={(inputValue, stateAndHelpers) => {
           if (inputValue && inputValue !== itemToString(stateAndHelpers.selectedItem)) {
             fieldApi.setValue(itemToString(stateAndHelpers.selectedItem))
           }
         }}
+        initialInputValue={initialInputValue}
+        initialSelectedItem={initialSelectedItem}
       >
         {({
           getInputProps,
           getItemProps,
           getMenuProps,
-          getToggleButtonProps,
           isOpen,
           highlightedIndex,
           selectedItem,
-          openMenu,
           closeMenu,
+          openMenu,
           toggleMenu
         }) => (
           <div style={{ position: 'relative' }}>
-            <div style={{ position: 'relative' }}>
-              <ControllerButton {...getToggleButtonProps()}>
-                <ArrowIcon isOpen={isOpen} />
-              </ControllerButton>
-              <Input
+            <Flex alignItems="center">
+              <StyledInput
                 placeholder="Please select"
                 {...rest}
                 {...getInputProps({
@@ -123,29 +171,18 @@ class Select extends React.PureComponent {
                   onFocus: openMenu,
                   onMouseDown: toggleMenu
                 })}
+                initialValue={selectedItem ? selectedItem.value : null}
+                forwardedRef={this.inputRef}
               />
-            </div>
-            <SelectOptionList {...getMenuProps({}, { suppressRefError: true })}>
-              {isOpen
-                ? items.map((item, index) => (
-                    <SelectOptionItem
-                      key=""
-                      {...getItemProps({
-                        key: item.value,
-                        index,
-                        item
-                      })}
-                      style={{
-                        backgroundColor:
-                          highlightedIndex === index ? theme.colors.lightningOrange : null,
-                        fontWeight: selectedItem === item ? 'normal' : 'light'
-                      }}
-                    >
-                      {item.label || item.value}
-                    </SelectOptionItem>
-                  ))
-                : null}
-            </SelectOptionList>
+              <Box>
+                {isOpen ? <ArrowIconOpen width={iconSize} /> : <ArrowIconClosed width={iconSize} />}
+              </Box>
+            </Flex>
+            {isOpen && (
+              <SelectOptionList {...getMenuProps({}, { suppressRefError: true })}>
+                {this.renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
+              </SelectOptionList>
+            )}
           </div>
         )}
       </Downshift>

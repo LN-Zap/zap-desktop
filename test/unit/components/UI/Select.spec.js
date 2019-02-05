@@ -8,12 +8,12 @@ import { Select } from 'components/UI'
 describe('component.UI.Toggle', () => {
   it('should render correctly', () => {
     const selectItems = [
-      { label: '- Please select -', value: '' },
-      { label: 'Apple', value: 'apple' },
-      { value: 'pear' },
-      { value: 'orange' },
-      { value: 'grape' },
-      { value: 'banana' }
+      { value: '- Please select -', key: '' },
+      { value: 'Apple', key: 'apple' },
+      { value: 'Pear', key: 'pear' },
+      { value: 'Orange', key: 'orange' },
+      { value: 'Grape', key: 'grape' },
+      { value: 'Banana', key: 'banana' }
     ]
     const tree = renderer
       .create(
