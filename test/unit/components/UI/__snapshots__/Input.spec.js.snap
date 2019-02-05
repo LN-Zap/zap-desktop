@@ -12,6 +12,17 @@ exports[`component.UI.Input should render correctly 1`] = `
 }
 
 .c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c2 {
   padding: 16px;
   color: #ffffff;
   background-color: transparent;
@@ -27,8 +38,13 @@ exports[`component.UI.Input should render correctly 1`] = `
   border-color: #959595;
 }
 
-.c1:not([readOnly]):not([disabled]):focus {
+.c2:not([readOnly]):not([disabled]):focus {
   border-color: #fd9800;
+}
+
+.c2::-webkit-search-decoration:hover,
+.c2::-webkit-search-cancel-button:hover {
+  cursor: pointer;
 }
 
 <form
@@ -38,19 +54,23 @@ exports[`component.UI.Input should render correctly 1`] = `
   <div
     className="c0"
   >
-    <input
-      autoFocus={false}
+    <div
       className="c1"
-      color="primaryText"
-      fontFamily="sans"
-      fontSize="m"
-      fontWeight="light"
-      onBlur={[Function]}
-      onChange={[Function]}
-      onFocus={[Function]}
-      value=""
-      width={1}
-    />
+    >
+      <input
+        autoFocus={false}
+        className="c2"
+        color="primaryText"
+        fontFamily="sans"
+        fontSize="m"
+        fontWeight="light"
+        onBlur={[Function]}
+        onChange={[Function]}
+        onFocus={[Function]}
+        value=""
+        width={1}
+      />
+    </div>
   </div>
 </form>
 `;

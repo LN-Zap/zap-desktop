@@ -12,6 +12,20 @@ exports[`component.UI.Toggle should render correctly 1`] = `
 }
 
 .c2 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-align-items: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+}
+
+.c3 {
   padding: 16px;
   color: #ffffff;
   background-color: transparent;
@@ -27,11 +41,16 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   border-color: #959595;
 }
 
-.c2:not([readOnly]):not([disabled]):focus {
+.c3:not([readOnly]):not([disabled]):focus {
   border-color: #fd9800;
 }
 
-.c3 {
+.c3::-webkit-search-decoration:hover,
+.c3::-webkit-search-cancel-button:hover {
+  cursor: pointer;
+}
+
+.c4 {
   padding: 0;
   margin-top: 0;
   position: absolute;
@@ -126,33 +145,37 @@ exports[`component.UI.Toggle should render correctly 1`] = `
       <div
         className="c1"
       >
-        <input
-          aria-activedescendant={null}
-          aria-autocomplete="list"
-          aria-controls={null}
-          aria-labelledby="downshift-0-label"
-          autoComplete="off"
-          autoFocus={false}
+        <div
           className="c2"
-          color="primaryText"
-          fontFamily="sans"
-          fontSize="m"
-          fontWeight="light"
-          id="downshift-0-input"
-          onBlur={[Function]}
-          onChange={[Function]}
-          onFocus={[Function]}
-          onKeyDown={[Function]}
-          onMouseDown={[Function]}
-          placeholder="Please select"
-          value=""
-          width={1}
-        />
+        >
+          <input
+            aria-activedescendant={null}
+            aria-autocomplete="list"
+            aria-controls={null}
+            aria-labelledby="downshift-0-label"
+            autoComplete="off"
+            autoFocus={false}
+            className="c3"
+            color="primaryText"
+            fontFamily="sans"
+            fontSize="m"
+            fontWeight="light"
+            id="downshift-0-input"
+            onBlur={[Function]}
+            onChange={[Function]}
+            onFocus={[Function]}
+            onKeyDown={[Function]}
+            onMouseDown={[Function]}
+            placeholder="Please select"
+            value=""
+            width={1}
+          />
+        </div>
       </div>
     </div>
     <ul
       aria-labelledby="downshift-0-label"
-      className="c3"
+      className="c4"
       id="downshift-0-menu"
       role="listbox"
     />

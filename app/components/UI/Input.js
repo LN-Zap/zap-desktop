@@ -8,6 +8,7 @@ import system from '@rebass/components'
 import { Flex } from 'rebass'
 import { Message, Label, Span, Text } from 'components/UI'
 import withRequiredValidation from 'components/withRequiredValidation'
+import Search from 'components/Icon/Search'
 
 function isFieldValid({ value, error, asyncError, touched }) {
   return value && !error && !asyncError && touched
@@ -25,6 +26,11 @@ function mapDefaultBorderColor(props) {
   } = props
 
   let borderColor = gray
+
+  if (!props.highlightOnValid) {
+    return borderColor
+  }
+
   if (readOnly || disabled) {
     borderColor = gray
   } else if (error || asyncError) {
@@ -42,8 +48,20 @@ function mapFocusBorderColor(props) {
       colors: { lightningOrange, superGreen }
     }
   } = props
-  return isFieldValid(fieldState) ? superGreen : lightningOrange
+
+  if (!props.highlightOnValid) {
+    return lightningOrange
+  }
+
+  return fieldState.touched && isFieldValid(fieldState) ? superGreen : lightningOrange
 }
+
+const SearchIcon = styled(Search)`
+  margin-right: -${props => props.width}px;
+  width: ${props => props.width}px;
+  height: 15px;
+  color: ${props => props.color || props.theme.colors.gray};
+`
 
 // Create an html input element that accepts all style props from styled-system.
 const SystemInput = styled(
@@ -78,6 +96,10 @@ const SystemInput = styled(
   &:not([readOnly]):not([disabled]):focus {
     border-color: ${mapFocusBorderColor};
   }
+  ::-webkit-search-decoration:hover,
+  ::-webkit-search-cancel-button:hover {
+    cursor: pointer;
+  }
 `
 
 /**
@@ -93,7 +115,9 @@ class Input extends React.Component {
     description: null,
     label: null,
     showMessage: true,
-    autoFocus: false
+    autoFocus: false,
+    highlightOnValid: true,
+    iconSize: 46
   }
 
   state = {
@@ -127,6 +151,7 @@ class Input extends React.Component {
       field,
       fieldApi,
       fieldState,
+      iconSize,
       justifyContent,
       showMessage,
       validate,
@@ -167,44 +192,49 @@ class Input extends React.Component {
           </Label>
         )}
 
-        <SystemInput
-          p={variant === 'thin' ? 2 : 3}
-          {...rest}
-          field={field}
-          type={type}
-          theme={theme}
-          fieldState={fieldState}
-          ref={this.inputRef}
-          value={!value && value !== 0 ? '' : value}
-          required={required}
-          onChange={e => {
-            setValue(e.target.value)
-            if (onChange) {
-              onChange(e)
-            }
-          }}
-          onBlur={e => {
-            setTouched()
-            // Make the state aware that the element is now focused.
-            const newHasFocus = document.activeElement === this.inputRef.current
-            if (hasFocus !== newHasFocus) {
-              this.setState({ hasFocus: newHasFocus })
-            }
-            if (onBlur) {
-              onBlur(e)
-            }
-          }}
-          onFocus={e => {
-            // Make the state aware that the element is no longer focused.
-            const newHasFocus = document.activeElement === this.inputRef.current
-            if (hasFocus !== newHasFocus) {
-              this.setState({ hasFocus: newHasFocus })
-            }
-            if (onFocus) {
-              onFocus(e)
-            }
-          }}
-        />
+        <Flex alignItems="center">
+          {type === 'search' && <SearchIcon width={iconSize} />}
+          <SystemInput
+            p={variant === 'thin' ? 2 : 3}
+            {...rest}
+            field={field}
+            type={type}
+            theme={theme}
+            fieldState={fieldState}
+            ref={this.inputRef}
+            value={!value && value !== 0 ? '' : value}
+            required={required}
+            onChange={e => {
+              setValue(e.target.value)
+              if (onChange) {
+                onChange(e)
+              }
+            }}
+            onBlur={e => {
+              setTouched()
+              // Make the state aware that the element is now focused.
+              const newHasFocus = document.activeElement === this.inputRef.current
+              if (hasFocus !== newHasFocus) {
+                this.setState({ hasFocus: newHasFocus })
+              }
+              if (onBlur) {
+                onBlur(e)
+              }
+            }}
+            onFocus={e => {
+              // Make the state aware that the element is no longer focused.
+              const newHasFocus = document.activeElement === this.inputRef.current
+              if (hasFocus !== newHasFocus) {
+                this.setState({ hasFocus: newHasFocus })
+              }
+              if (onFocus) {
+                onFocus(e)
+              }
+            }}
+            pl={type === 'search' ? 35 : null}
+          />
+        </Flex>
+
         {type !== 'hidden' && description && (
           <Text color="gray" fontSize="s" mt={1}>
             {description}
