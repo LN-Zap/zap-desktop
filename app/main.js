@@ -88,7 +88,7 @@ const handleLightningLink = input => {
 const handleLndconnectLink = input => {
   const parsedUrl = url.parse(input)
   const { host, cert, macaroon } = querystring.parse(parsedUrl.query)
-  zap.sendMessage('lndconnectUri', { host, cert, macaroon })
+  zap.sendMessage('lndconnectUri', { host: host || parsedUrl.host, cert, macaroon })
   mainWindow.show()
 }
 
