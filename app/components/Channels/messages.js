@@ -13,5 +13,6 @@ export default defineMessages({
   pending_force_close: 'pending force close',
   waiting_close: 'closing',
   open: 'open',
-  offline: 'offline'
+  offline: 'offline',
+  search_placeholder: 'Search Channels'
 })
