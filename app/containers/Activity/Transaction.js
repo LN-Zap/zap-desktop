@@ -10,9 +10,7 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   currencyName: tickerSelectors.currencyName(state),
-  currentTicker: tickerSelectors.currentTicker(state),
-  nodes: state.network.nodes,
-  ticker: state.ticker
+  nodes: state.network.nodes
 })
 
 export default connect(

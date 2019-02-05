@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { FormattedNumber, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import get from 'lodash.get'
-import { satoshisToFiat } from 'lib/utils/btc'
 import BigArrowRight from 'components/Icon/BigArrowRight'
-import { Bar, DataRow, Dropdown, Spinner, Text, Value } from 'components/UI'
+import { Bar, DataRow, Spinner, Text } from 'components/UI'
+import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
 
@@ -15,34 +15,19 @@ class PaySummaryOnChain extends React.Component {
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     /** Onchain address of recipient. */
     address: PropTypes.string.isRequired,
-    /** Currently selected cryptocurrency (key). */
-    cryptoCurrency: PropTypes.string.isRequired,
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
     /** Current fee information as provided by bitcoinfees.earn.com */
     onchainFees: PropTypes.shape({
       fastestFee: PropTypes.number,
       halfHourFee: PropTypes.number,
       hourFee: PropTypes.number
     }),
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
     /** Boolean indicating wether routing information is currently being fetched. */
     isQueryingFees: PropTypes.bool,
 
     /** Method to fetch fee information for onchain transactions. */
-    queryFees: PropTypes.func.isRequired,
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired
+    queryFees: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -59,18 +44,12 @@ class PaySummaryOnChain extends React.Component {
     const {
       amount,
       address,
-      cryptoCurrency,
       cryptoCurrencyTicker,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
       onchainFees,
       isQueryingFees,
-      setCryptoCurrency,
       ...rest
     } = this.props
 
-    const fiatAmount = satoshisToFiat(amount, currentTicker[fiatCurrency])
     const fee = get(onchainFees, 'fastestFee', null)
     return (
       <Box {...rest}>
@@ -80,19 +59,14 @@ class PaySummaryOnChain extends React.Component {
               <Flex flexWrap="wrap" alignItems="baseline">
                 <Box>
                   <Text textAlign="left" fontSize={6}>
-                    <Value value={amount} currency={cryptoCurrency} />
+                    <CryptoValue value={amount} />
                   </Text>
                 </Box>
-                <Dropdown
-                  activeKey={cryptoCurrency}
-                  items={cryptoCurrencies}
-                  onChange={setCryptoCurrency}
-                  ml={2}
-                />
+                <CryptoSelector ml={2} />
               </Flex>
               <Text color="gray">
                 {' ≈ '}
-                <FormattedNumber currency={fiatCurrency} style="currency" value={fiatAmount} />
+                <FiatValue style="currency" value={amount} />
               </Text>
             </Box>
             <Box width={1 / 11}>
@@ -142,7 +116,7 @@ class PaySummaryOnChain extends React.Component {
           left={<FormattedMessage {...messages.total} />}
           right={
             <React.Fragment>
-              <Value value={amount} currency={cryptoCurrency} /> {cryptoCurrencyTicker}
+              <CryptoValue value={amount} /> {cryptoCurrencyTicker}
               {!isQueryingFees && fee && <Text fontSize="s">(+ {fee} satoshis per byte)</Text>}
             </React.Fragment>
           }

@@ -3,51 +3,19 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
-import { State, Store } from '@sambego/storybook-state'
-import { Modal, Page } from 'components/UI'
+import { Modal } from 'components/UI'
 import ConnectManually from 'components/Contacts/ConnectManually'
 import SubmitChannelForm from 'components/Contacts/SubmitChannelForm'
-
-const store = new Store({
-  /** Current ticker data as provided by blockchain.info */
-  currentTicker: {
-    USD: 6477.78,
-    EUR: 5656.01,
-    GBP: 5052.73
-  },
-  /** Currently selected cryptocurrency (key). */
-  cryptoCurrency: 'btc',
-  /** List of supported cryptocurrencies. */
-  cryptoCurrencies: [
-    {
-      key: 'btc',
-      name: 'BTC'
-    },
-    {
-      key: 'bits',
-      name: 'bits'
-    },
-    {
-      key: 'sats',
-      name: 'satoshis'
-    }
-  ],
-  /** List of supported fiat currencies. */
-  fiatCurrencies: ['USD', 'EUR', 'GBP'],
-  /** Currently selected fiat currency (key). */
-  fiatCurrency: 'USD'
-})
+import { Provider } from '../Provider'
+import { Window } from '../helpers'
 
 storiesOf('Containers.Contacts', module)
-  .addParameters({
-    info: {
-      disable: true
-    }
-  })
+  .addParameters({ info: { disable: true } })
+  .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => (
-    <Page css={{ height: 'calc(100vh - 40px)' }}>
+    <Window>
       <Modal>{story()}</Modal>
-    </Page>
+    </Window>
   ))
   .add('ConnectManually', () => {
     const dispatchProps = {
@@ -66,24 +34,7 @@ storiesOf('Containers.Contacts', module)
     const dispatchProps = {
       closeChannelForm: action('closeChannelForm'),
       closeContactsForm: action('closeContactsForm'),
-      openChannel: action('openChanel'),
-      setCryptoCurrency: key => {
-        const items = store.get('cryptoCurrencies')
-        const item = items.find(i => i.key === key)
-        store.set({ cryptoCurrency: item.key })
-        store.set({ cryptoCurrencyTicker: item.name })
-      },
-      setFiatCurrency: key => {
-        store.set({ fiatCurrency: key })
-      }
+      openChannel: action('openChanel')
     }
-    return (
-      <State store={store}>
-        {state => {
-          return (
-            <SubmitChannelForm {...state} {...dispatchProps} node={node} width={9 / 16} mx="auto" />
-          )
-        }}
-      </State>
-    )
+    return <SubmitChannelForm {...dispatchProps} node={node} width={9 / 16} mx="auto" />
   })

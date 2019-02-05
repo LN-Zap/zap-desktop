@@ -1,79 +1,23 @@
-/* eslint-disable max-len */
-
 import React from 'react'
 import { storiesOf } from '@storybook/react'
+import { action } from '@storybook/addon-actions'
 import { boolean } from '@storybook/addon-knobs'
-import { State, Store } from '@sambego/storybook-state'
 import lightningPayReq from 'bolt11'
-import { Modal, Page } from 'components/UI'
+import { Modal } from 'components/UI'
 import { InvoiceModal } from 'components/Activity/InvoiceModal'
 import { PaymentModal } from 'components/Activity/PaymentModal'
 import { TransactionModal } from 'components/Activity/TransactionModal'
-
-// Mock globals from preload.
-window.Zap = {
-  openExternal: uri => window.open(uri, '_blank')
-}
-
-const store = new Store({
-  /** Current ticker data as provided by blockchain.info */
-  currentTicker: {
-    USD: 6477.78,
-    EUR: 5656.01,
-    GBP: 5052.73
-  },
-  /** Currently selected cryptocurrency (key). */
-  cryptoCurrency: 'btc',
-  /** List of supported cryptocurrencies. */
-  cryptoCurrencies: [
-    {
-      key: 'btc',
-      name: 'BTC'
-    },
-    {
-      key: 'bits',
-      name: 'bits'
-    },
-    {
-      key: 'sats',
-      name: 'satoshis'
-    }
-  ],
-  /** List of supported fiat currencies. */
-  fiatCurrencies: ['USD', 'EUR', 'GBP'],
-  /** Currently selected fiat currency (key). */
-  fiatCurrency: 'USD',
-  /** Network info  */
-  network: {
-    id: 'testnet',
-    name: 'Testnet',
-    explorerUrl: 'https://blockstream.info/testnet',
-    unitPrefix: 't'
-  }
-})
-
-const dispatchProps = {
-  setCryptoCurrency: key => {
-    const items = store.get('cryptoCurrencies')
-    const item = items.find(i => i.key === key)
-    store.set({ cryptoCurrency: item.key })
-    store.set({ cryptoCurrencyTicker: item.name })
-  },
-  setFiatCurrency: key => {
-    store.set({ fiatCurrency: key })
-  }
-}
+import { infoSelectors } from 'reducers/info'
+import { Provider, store } from '../Provider'
+import { Window } from '../helpers'
 
 storiesOf('Containers.Activity', module)
-  .addParameters({
-    info: {
-      disable: true
-    }
-  })
+  .addParameters({ info: { disable: true } })
+  .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => (
-    <Page css={{ height: 'calc(100vh - 40px)' }}>
+    <Window>
       <Modal>{story()}</Modal>
-    </Page>
+    </Window>
   ))
   .add('InvoiceModal', () => {
     const encoded = lightningPayReq.encode({
@@ -110,13 +54,12 @@ storiesOf('Containers.Activity', module)
       tx_hash: '1ae44a23c141a2892c55eb3fe9de45195d88e89b36b5070e10df92d4130e4028'
     }
     return (
-      <State store={store}>
-        {state => {
-          return (
-            <InvoiceModal width={9 / 16} mx="auto" {...state} {...dispatchProps} item={invoice} />
-          )
-        }}
-      </State>
+      <InvoiceModal
+        width={9 / 16}
+        mx="auto"
+        item={invoice}
+        showNotification={action('showNotification')}
+      />
     )
   })
   .add('PaymentModal', () => {
@@ -125,15 +68,7 @@ storiesOf('Containers.Activity', module)
       creation_date: Math.round(new Date().getTime() / 1000),
       payment_preimage: '46914421ed5eafea1ec40726338bc5059e80e128660b9c7c8a5817e59429af30'
     }
-    return (
-      <State store={store}>
-        {state => {
-          return (
-            <PaymentModal width={9 / 16} mx="auto" {...state} {...dispatchProps} item={payment} />
-          )
-        }}
-      </State>
-    )
+    return <PaymentModal width={9 / 16} mx="auto" item={payment} />
   })
   .add('TransactionModal', () => {
     const transaction = {
@@ -147,18 +82,11 @@ storiesOf('Containers.Activity', module)
       tx_hash: '1ae44a23c141a2892c55eb3fe9de45195d88e89b36b5070e10df92d4130e4028'
     }
     return (
-      <State store={store}>
-        {state => {
-          return (
-            <TransactionModal
-              width={9 / 16}
-              mx="auto"
-              {...state}
-              {...dispatchProps}
-              item={transaction}
-            />
-          )
-        }}
-      </State>
+      <TransactionModal
+        width={9 / 16}
+        mx="auto"
+        item={transaction}
+        networkInfo={infoSelectors.networkInfo(store.getState())}
+      />
     )
   })

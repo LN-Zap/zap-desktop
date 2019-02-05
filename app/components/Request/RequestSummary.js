@@ -4,7 +4,8 @@ import { Box, Flex } from 'rebass'
 import { FormattedMessage, FormattedRelative, FormattedTime, injectIntl } from 'react-intl'
 import { decodePayReq } from 'lib/utils/crypto'
 import copy from 'copy-to-clipboard'
-import { Bar, DataRow, Button, Dropdown, QRCode, Text, Value } from 'components/UI'
+import { Bar, DataRow, Button, QRCode, Text } from 'components/UI'
+import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
 
@@ -15,30 +16,11 @@ class RequestSummary extends React.Component {
   }
 
   static propTypes = {
-    /** Currently selected cryptocurrency (key). */
-    cryptoCurrency: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
-    /** List of supported fiat currencies. */
-    fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
     /** Lnd invoice object for the payment request */
     invoice: PropTypes.object,
     /** Lightning Payment request. */
     payReq: PropTypes.string.isRequired,
-
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired,
-    /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired,
+    /** Show a notification. */
     showNotification: PropTypes.func.isRequired
   }
 
@@ -67,20 +49,7 @@ class RequestSummary extends React.Component {
   }
 
   render() {
-    const {
-      cryptoCurrency,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      fiatCurrencies,
-      invoice = {},
-      payReq,
-      intl,
-      setCryptoCurrency,
-      setFiatCurrency,
-      showNotification,
-      ...rest
-    } = this.props
+    const { invoice = {}, payReq, intl, showNotification, ...rest } = this.props
 
     const copyToClipboard = data => {
       copy(data)
@@ -107,17 +76,9 @@ class RequestSummary extends React.Component {
         <DataRow
           left={<FormattedMessage {...messages.amount} />}
           right={
-            <Flex alignItems="center" justifyContent="flex-end">
-              <Dropdown
-                activeKey={cryptoCurrency}
-                items={cryptoCurrencies}
-                onChange={setCryptoCurrency}
-                justify="right"
-                mr={2}
-              />
-              <Text fontSize="xxl">
-                <Value value={satoshis} currency={cryptoCurrency} />
-              </Text>
+            <Flex alignItems="center">
+              <CryptoSelector mr={2} />
+              <CryptoValue value={satoshis} fontSize="xxl" />
             </Flex>
           }
         />
@@ -128,18 +89,8 @@ class RequestSummary extends React.Component {
           left={<FormattedMessage {...messages.current_value} />}
           right={
             <Flex alignItems="center">
-              <Dropdown
-                activeKey={fiatCurrency}
-                items={fiatCurrencies}
-                onChange={setFiatCurrency}
-                mr={2}
-              />
-              <Value
-                value={satoshis}
-                currency="fiat"
-                currentTicker={currentTicker}
-                fiatTicker={fiatCurrency}
-              />
+              <FiatSelector mr={2} />
+              <FiatValue value={satoshis} />
             </Flex>
           }
         />

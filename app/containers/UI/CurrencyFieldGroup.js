@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
-import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
-import { PaymentModal } from 'components/Activity/PaymentModal'
+import { CurrencyFieldGroup } from 'components/UI'
+import { tickerSelectors, setCurrency, setFiatTicker } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
@@ -18,4 +18,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PaymentModal)
+)(CurrencyFieldGroup)

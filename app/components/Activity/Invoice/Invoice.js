@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { btc } from 'lib/utils'
-import { Span, Text, Value } from 'components/UI'
+import { Span, Text } from 'components/UI'
+import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyName, intl }) => (
+const Invoice = ({ invoice, showActivityModal, currencyName, intl }) => (
   <Flex
     justifyContent="space-between"
     alignItems="center"
@@ -37,20 +37,11 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
         <Span color="superGreen" fontWeight="normal" mr={1}>
           +
         </Span>
-        <Value
-          value={invoice.value}
-          currency={ticker.currency}
-          currentTicker={currentTicker}
-          fiatTicker={ticker.fiatTicker}
-        />
+        <CryptoValue value={invoice.value} />
         <i> {currencyName}</i>
       </Text>
       <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-        <FormattedNumber
-          currency={ticker.fiatTicker}
-          style="currency"
-          value={btc.convert('sats', 'fiat', invoice.value, currentTicker[ticker.fiatTicker])}
-        />
+        <FiatValue value={invoice.value} style="currency" />
       </Text>
     </Box>
   </Flex>
@@ -58,8 +49,6 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
 
 Invoice.propTypes = {
   invoice: PropTypes.object.isRequired,
-  ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
   currencyName: PropTypes.string.isRequired
 }

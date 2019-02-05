@@ -2,44 +2,14 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { number, select } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
-import { State, Store } from '@sambego/storybook-state'
 import { ChannelSummaryListItem } from 'components/Channels'
-
-const store = new Store({
-  /** Currently selected cryptocurrency (key). */
-  cryptoCurrency: 'sats',
-  /** List of supported cryptocurrencies. */
-  cryptoCurrencies: [
-    {
-      key: 'btc',
-      name: 'BTC'
-    },
-    {
-      key: 'bits',
-      name: 'bits'
-    },
-    {
-      key: 'sats',
-      name: 'satoshis'
-    }
-  ]
-})
-
-const setCryptoCurrency = key => {
-  const items = store.get('cryptoCurrencies')
-  const item = items.find(i => i.key === key)
-  store.set({ cryptoCurrency: item.key })
-  store.set({ cryptoCurrencyTicker: item.name })
-}
+import { Provider } from '../../Provider'
 
 const showChannelDetail = action('showChannelDetail')
 
 storiesOf('Containers.Channels', module)
-  .addParameters({
-    info: {
-      disable: true
-    }
-  })
+  .addParameters({ info: { disable: true } })
+  .addDecorator(story => <Provider story={story()} />)
   .addWithChapters('ChannelSummaryListItem', {
     chapters: [
       {
@@ -83,22 +53,10 @@ storiesOf('Containers.Channels', module)
               }
 
               const dispatchProps = {
-                setCryptoCurrency,
                 showChannelDetail
               }
 
-              return (
-                <State store={store}>
-                  {state => (
-                    <ChannelSummaryListItem
-                      key={channelId}
-                      {...state}
-                      {...stateProps}
-                      {...dispatchProps}
-                    />
-                  )}
-                </State>
-              )
+              return <ChannelSummaryListItem key={channelId} {...stateProps} {...dispatchProps} />
             }
           },
           {
@@ -140,22 +98,10 @@ storiesOf('Containers.Channels', module)
               }
 
               const dispatchProps = {
-                setCryptoCurrency,
                 showChannelDetail
               }
 
-              return (
-                <State store={store}>
-                  {state => (
-                    <ChannelSummaryListItem
-                      key={channelId}
-                      {...state}
-                      {...stateProps}
-                      {...dispatchProps}
-                    />
-                  )}
-                </State>
-              )
+              return <ChannelSummaryListItem key={channelId} {...stateProps} {...dispatchProps} />
             }
           }
         ]

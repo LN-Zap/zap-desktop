@@ -5,7 +5,7 @@ import ChannelForm from 'components/Contacts/ChannelForm'
 import Network from 'components/Contacts/Network'
 import AddChannel from 'components/Contacts/AddChannel'
 import ReceiveModal from 'components/Wallet/ReceiveModal'
-import { ActivityModalContainer } from 'containers/Activity/ActivityModalContainer'
+import ActivityModal from 'containers/Activity/ActivityModal'
 import Activity from 'containers/Activity'
 import Wallet from 'containers/Wallet'
 import { MainContent, Sidebar } from 'components/UI'
@@ -100,7 +100,7 @@ class App extends React.Component {
           <>
             <ChannelForm {...channelFormProps} />
             <ReceiveModal {...receiveModalProps} />
-            <ActivityModalContainer />
+            <ActivityModal />
             <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
           </>
         )}

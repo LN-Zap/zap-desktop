@@ -1,20 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { btc } from 'lib/utils'
-import { Message, Span, Text, Value } from 'components/UI'
-import { FormattedMessage, FormattedNumber, FormattedTime, injectIntl } from 'react-intl'
+import { Message, Span, Text } from 'components/UI'
+import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Payment = ({
-  payment,
-  ticker,
-  currentTicker,
-  showActivityModal,
-  nodes,
-  currencyName,
-  intl
-}) => {
+const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
   const displayNodeName = pubkey => {
     const node = nodes.find(n => pubkey === n.pub_key)
     if (node && node.alias.length) {
@@ -75,20 +67,11 @@ const Payment = ({
                 -
               </Span>
             )}
-            <Value
-              value={payment.value}
-              currency={ticker.currency}
-              currentTicker={currentTicker}
-              fiatTicker={ticker.fiatTicker}
-            />
+            <CryptoValue value={payment.value} />
             <i> {currencyName}</i>
           </Text>
           <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-            <FormattedNumber
-              currency={ticker.fiatTicker}
-              style="currency"
-              value={btc.convert('sats', 'fiat', payment.value, currentTicker[ticker.fiatTicker])}
-            />
+            <FiatValue value={payment.value} style="currency" />
           </Text>
         </Box>
       </Box>
@@ -99,8 +82,6 @@ const Payment = ({
 Payment.propTypes = {
   currencyName: PropTypes.string.isRequired,
   payment: PropTypes.object.isRequired,
-  ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
   nodes: PropTypes.array.isRequired,
   showActivityModal: PropTypes.func.isRequired,
   intl: PropTypes.object.isRequired

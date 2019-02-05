@@ -5,6 +5,7 @@ import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
+import { infoSelectors } from 'reducers/info'
 import { lndSelectors } from 'reducers/lnd'
 import {
   fetchChannels,
@@ -100,6 +101,7 @@ const mapStateToProps = state => ({
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
   showManualForm: contactFormSelectors.showManualForm(state),
 
+  networkInfo: infoSelectors.networkInfo(state),
   currentChannels: currentChannels(state),
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
   nonActiveChannelPubkeys: channelsSelectors.nonActiveChannelPubkeys(state),
@@ -122,8 +124,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currentTicker: stateProps.currentTicker,
     contactsform: stateProps.contactsform,
     nodes: stateProps.network.nodes,
-    ticker: stateProps.ticker,
-    network: stateProps.info.network,
+    networkInfo: stateProps.networkInfo,
     currencyName: stateProps.currencyName,
 
     fetchChannels: dispatchProps.fetchChannels,

@@ -1,29 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { btc } from 'lib/utils'
 import Settings from 'containers/Settings'
-import { Button, Dropdown, Text, Value } from 'components/UI'
+import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
+import { Button, Text } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Qrcode from 'components/Icon/Qrcode'
-import { FormattedNumber, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import messages from './messages'
 
-const Wallet = ({
-  totalBalance,
-  currencyFilters,
-  currentTicker,
-  info,
-  ticker,
-  openWalletModal,
-  setCurrency,
-  setFormType
-}) => {
+const Wallet = ({ totalBalance, currentTicker, info, ticker, openWalletModal, setFormType }) => {
   if (!currentTicker || !ticker.currency) {
     return null
   }
-
-  const fiatAmount = btc.satoshisToFiat(totalBalance, currentTicker[ticker.fiatTicker])
 
   return (
     <Box pt={3} px={5} pb={3} bg="secondaryColor">
@@ -53,23 +42,13 @@ const Wallet = ({
             <Box>
               <Flex alignItems="baseline">
                 <Text fontSize="xxl">
-                  <Value
-                    value={totalBalance}
-                    currency={ticker.currency}
-                    currentTicker={currentTicker}
-                    fiatTicker={ticker.fiatTicker}
-                  />
+                  <CryptoValue value={totalBalance} />
                 </Text>
-                <Dropdown
-                  activeKey={ticker.currency}
-                  items={currencyFilters}
-                  onChange={setCurrency}
-                  ml={1}
-                />
+                <CryptoSelector ml={1} />
               </Flex>
               <Text color="gray">
                 {'≈ '}
-                <FormattedNumber currency={ticker.fiatTicker} style="currency" value={fiatAmount} />
+                <FiatValue style="currency" value={totalBalance} />
               </Text>
             </Box>
           </Flex>
@@ -90,14 +69,12 @@ const Wallet = ({
 Wallet.propTypes = {
   // Store props
   totalBalance: PropTypes.number,
-  currencyFilters: PropTypes.array.isRequired,
   currentTicker: PropTypes.object,
   info: PropTypes.object.isRequired,
   ticker: PropTypes.object.isRequired,
 
   // Dispatch props
   openWalletModal: PropTypes.func.isRequired,
-  setCurrency: PropTypes.func.isRequired,
   setFormType: PropTypes.func.isRequired
 }
 

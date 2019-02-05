@@ -10,42 +10,12 @@ export default class InvoiceModal extends React.PureComponent {
   static propTypes = {
     /** Invoice */
     item: PropTypes.object.isRequired,
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
-    /** Currently selected cryptocurrency (key). */
-    cryptoCurrency: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** List of supported fiat currencies. */
-    fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
-
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired,
-    /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired,
+    /** Show a notification. */
     showNotification: PropTypes.func.isRequired
   }
 
   render() {
-    const {
-      cryptoCurrency,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      fiatCurrencies,
-      item,
-      setCryptoCurrency,
-      setFiatCurrency,
-      showNotification,
-      ...rest
-    } = this.props
+    const { item, showNotification, ...rest } = this.props
 
     return (
       <Panel {...rest}>
@@ -64,15 +34,8 @@ export default class InvoiceModal extends React.PureComponent {
 
         <Panel.Body>
           <RequestSummary
-            cryptoCurrency={cryptoCurrency}
-            cryptoCurrencies={cryptoCurrencies}
-            currentTicker={currentTicker}
-            fiatCurrency={fiatCurrency}
-            fiatCurrencies={fiatCurrencies}
             invoice={item}
             payReq={item.payment_request}
-            setCryptoCurrency={setCryptoCurrency}
-            setFiatCurrency={setFiatCurrency}
             showNotification={showNotification}
           />
         </Panel.Body>

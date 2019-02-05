@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
 import db from 'store/db'
@@ -87,7 +88,7 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
 
   // Update the active wallet settings with info discovered from getinfo.
   const chain = get(state, 'info.chain')
-  const network = get(state, 'info.network.id')
+  const network = get(state, 'info.network')
 
   const wallet = walletSelectors.activeWalletSettings(state)
   if (wallet && (wallet.chain !== chain || wallet.network !== network)) {
@@ -109,12 +110,11 @@ const ACTION_HANDLERS = {
   [RECEIVE_INFO]: (state, { data }) => {
     const chain = get(data, 'chains[0].chain')
     const network = get(data, 'chains[0].network')
-    const networkData = get(networkInfo, `${chain}.${network}`)
     return {
       ...state,
       infoLoading: false,
-      network: networkData,
       chain,
+      network,
       data
     }
   }
@@ -126,17 +126,26 @@ const ACTION_HANDLERS = {
 const initialState = {
   infoLoading: false,
   hasSynced: undefined,
-  network: {},
+  chain: null,
+  network: null,
   data: {},
-  chain: null
+  networks: networkInfo
 }
 
 // Selectors
 const infoSelectors = {}
-infoSelectors.testnetSelector = state => state.info.data.testnet
+infoSelectors.chainSelector = state => state.info.chain
 infoSelectors.networkSelector = state => state.info.network
+infoSelectors.networksSelector = state => state.info.networks
 infoSelectors.infoLoading = state => state.info.infoLoading
 infoSelectors.hasSynced = state => state.info.hasSynced
+
+infoSelectors.networkInfo = createSelector(
+  infoSelectors.chainSelector,
+  infoSelectors.networkSelector,
+  infoSelectors.networksSelector,
+  (chain, network, networks) => get(networks, `${chain}.${network}`)
+)
 
 export { infoSelectors }
 
