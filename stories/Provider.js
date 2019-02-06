@@ -7,12 +7,16 @@ import { Provider as ReduxProvider } from 'react-intl-redux'
 import jstz from 'jstimezonedetect'
 import { configureStore } from 'store/configureStore'
 import { getDefaultLocale } from 'lib/i18n'
+import { getDb } from 'store/db'
+import { getDbName } from 'lib/utils/db'
 
-export db from 'store/db'
+export const db = getDb(getDbName(CONFIG))
+db.open()
 
 window.Zap = {
   openExternal: uri => window.open(uri, '_blank')
 }
+
 window.ipcRenderer = new EventEmitter()
 
 window.env = {

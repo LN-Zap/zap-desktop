@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
-import db from 'store/db'
 import { networks } from 'lib/utils/crypto'
 import { walletAddress } from './address'
 import { putWallet, walletSelectors } from './wallet'
@@ -78,7 +77,7 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
   const state = getState()
 
   if (typeof state.info.hasSynced === 'undefined') {
-    const node = await db.nodes.get({ id: data.identity_pubkey })
+    const node = await window.db.nodes.get({ id: data.identity_pubkey })
     const hasSynced = node ? node.hasSynced : false
     dispatch(setHasSynced(hasSynced))
   }

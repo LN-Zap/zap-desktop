@@ -1,5 +1,4 @@
 import { send } from 'redux-electron-ipc'
-import db from 'store/db'
 
 // ------------------------------------
 // Constants
@@ -47,7 +46,7 @@ export const walletAddress = type => async (dispatch, getState) => {
   const pubKey = state.info.data.identity_pubkey
 
   if (pubKey) {
-    const node = await db.nodes.get({ id: pubKey })
+    const node = await window.db.nodes.get({ id: pubKey })
     if (node) {
       address = node.getCurrentAddress(type)
     }
@@ -75,11 +74,11 @@ export const receiveAddress = (event, data) => async (dispatch, getState) => {
   // If we know the node's public key, store the address for reuse.
   if (pubKey) {
     const type = Object.keys(addressTypes).find(key => addressTypes[key] === data.type)
-    const node = await db.nodes.get(pubKey)
+    const node = await window.db.nodes.get(pubKey)
     if (node) {
       await node.setCurrentAddress(type, data.address)
     } else {
-      await db.nodes.put({ id: pubKey, addresses: { [type]: data.address } })
+      await window.db.nodes.put({ id: pubKey, addresses: { [type]: data.address } })
     }
   }
 

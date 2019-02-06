@@ -15,6 +15,8 @@ export default merge.smart(baseConfig, {
 
   mode: 'production',
 
+  externals: ['config'],
+
   entry: {
     main: path.join(rootDir, 'app', 'main')
   },

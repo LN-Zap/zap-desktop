@@ -20,6 +20,7 @@ export default merge.smart(baseConfig, {
   externals: [
     '@grpc/grpc-js',
     '@grpc/proto-loader',
+    'config',
     'electron',
     'electron-is-dev',
     'get-port',

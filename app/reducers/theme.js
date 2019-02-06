@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { dark, light } from 'themes'
-import db from 'store/db'
 
 // ------------------------------------
 // Constants
@@ -16,7 +15,7 @@ const DEFAULT_THEME = 'dark'
 export const initTheme = () => async (dispatch, getState) => {
   let theme
   try {
-    const userTheme = await db.settings.get({ key: 'theme' })
+    const userTheme = await window.db.settings.get({ key: 'theme' })
     theme = userTheme.value || DEFAULT_THEME
   } catch (e) {
     theme = DEFAULT_THEME
@@ -32,7 +31,7 @@ export const initTheme = () => async (dispatch, getState) => {
 
 export function setTheme(currentTheme) {
   // Persist the new fiatTicker in our ticker store
-  db.settings.put({ key: 'theme', value: currentTheme })
+  window.db.settings.put({ key: 'theme', value: currentTheme })
 
   return {
     type: SET_THEME,

@@ -22,7 +22,17 @@ import ZapMenuBuilder from './lib/zap/menuBuilder'
 import ZapController from './lib/zap/controller'
 import ZapUpdater from './lib/zap/updater'
 import themes from './themes'
-import { getDbName } from './store/db'
+import { getDbName } from './lib/utils/db'
+
+// When we run in production mode, this file is processd with webpack and our config is made available in the
+// global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
+// directly without processing with webpack), so we require the config module directly in this case.
+let config
+try {
+  config = CONFIG
+} catch (e) {
+  config = require('config')
+}
 
 // Set the Electron userDir to a temporary directory if the ELECTRON_USER_DIR_TEMP env var is set.
 // This provides an easy way to run the app with a completely fresh environment, useful for e2e tests.
@@ -114,7 +124,7 @@ const fetchSettings = () => {
   // Once we have fetched (or failed to fetch) the user settings, destroy the window.
   win.on('load-settings-done', () => process.nextTick(() => win.destroy()))
 
-  const dbName = getDbName()
+  const dbName = getDbName(config)
   mainLog.debug(`Fetching user settings from indexedDb (using database "%s")`, dbName)
 
   return win.webContents

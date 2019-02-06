@@ -25,6 +25,9 @@ module.exports = {
     browser: true,
     node: true
   },
+  globals: {
+    CONFIG: 'readable'
+  },
   rules: {
     'prettier/prettier': 'error',
     'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
