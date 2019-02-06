@@ -1,6 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { number, select } from '@storybook/addon-knobs'
+import { number, select, text } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 import { ChannelSummaryListItem } from 'components/Channels'
 import { Provider } from '../../Provider'
@@ -15,10 +15,9 @@ storiesOf('Containers.Channels', module)
       {
         sections: [
           {
-            title: 'Node with alias',
             options: { allowPropTablesToggling: false },
             sectionFn: () => {
-              const channelName = 'lnd1.zaphq.io'
+              const channelName = text('Alias', 'lnd1.zaphq.io')
               const channelId = 123
               const channelPubKey =
                 '0228e4b5e00a05f400411a0b556fa0fd4d7609555dc687bebb9b70419aff15cc3e'
@@ -81,8 +80,7 @@ storiesOf('Containers.Channels', module)
                   'waiting_close',
                   'offline'
                 ],
-                'pending_close',
-                groupId2
+                'open'
               )
 
               const stateProps = {

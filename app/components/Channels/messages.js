@@ -14,5 +14,11 @@ export default defineMessages({
   waiting_close: 'closing',
   open: 'open',
   offline: 'offline',
-  search_placeholder: 'Search Channels'
+  search_placeholder: 'Search Channels',
+  view_mode_list: 'View as a list',
+  view_mode_card: 'View as cards',
+  remote_pubkey: 'Remote PubKey',
+  funding_transaction: 'Funding Transaction',
+  num_updates: 'Number of Updates',
+  cvs_delay: 'Block Time Lock'
 })

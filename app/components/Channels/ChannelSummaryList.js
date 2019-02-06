@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { ChannelSummaryListItem } from 'components/Channels'
 
-const ChannelSummaryList = ({ channels, showChannelDetail, ...rest }) => (
+const ChannelSummaryList = ({ channels, showChannelDetail, networkInfo, ...rest }) => (
   <Box as="article" {...rest}>
     {channels.map((channelObj, index) => {
       const channel = channelObj.channel || channelObj

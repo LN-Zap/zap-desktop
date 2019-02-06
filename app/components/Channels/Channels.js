@@ -2,7 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
 import { Panel } from 'components/UI'
-import { ChannelsHeader, ChannelSummaryList } from 'components/Channels'
+import { ChannelsHeader, ChannelCardList, ChannelSummaryList } from 'components/Channels'
+
+export const VIEW_MODE_SUMMARY = 'VIEW_MODE_SUMMARY'
+export const VIEW_MODE_CARD = 'VIEW_MODE_CARD'
 
 class Channels extends React.Component {
   static propTypes = {
@@ -14,7 +17,13 @@ class Channels extends React.Component {
     searchQuery: PropTypes.string,
     changeFilter: PropTypes.func.isRequired,
     showChannelDetail: PropTypes.func.isRequired,
-    updateChannelSearchQuery: PropTypes.func.isRequired
+    updateChannelSearchQuery: PropTypes.func.isRequired,
+    channelViewMode: PropTypes.string.isRequired,
+    setChannelViewMode: PropTypes.func.isRequired,
+    networkInfo: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string
+    })
   }
 
   static defaultProps = {
@@ -32,13 +41,23 @@ class Channels extends React.Component {
       channels,
       channelBalance,
       changeFilter,
+      channelViewMode,
       filter,
       filters,
+      networkInfo,
+      setChannelViewMode,
       showChannelDetail,
       updateChannelSearchQuery,
       searchQuery,
       ...rest
     } = this.props
+
+    const VIEW_MODES = {
+      [VIEW_MODE_SUMMARY]: ChannelSummaryList,
+      [VIEW_MODE_CARD]: ChannelCardList
+    }
+
+    const ChannelListView = VIEW_MODES[channelViewMode]
 
     return (
       <Panel {...rest}>
@@ -49,12 +68,18 @@ class Channels extends React.Component {
             filter={filter}
             filters={filters}
             updateChannelSearchQuery={this.updateChannelSearchQuery}
+            channelViewMode={channelViewMode}
+            setChannelViewMode={setChannelViewMode}
             searchQuery={searchQuery}
             changeFilter={changeFilter}
           />
         </Panel.Header>
         <Panel.Body px={4} css={{ 'overflow-y': 'auto', 'overflow-x': 'hidden' }}>
-          <ChannelSummaryList channels={channels} showChannelDetail={showChannelDetail} />
+          <ChannelListView
+            channels={channels}
+            showChannelDetail={showChannelDetail}
+            networkInfo={networkInfo}
+          />
         </Panel.Body>
       </Panel>
     )

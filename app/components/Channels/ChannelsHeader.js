@@ -6,10 +6,12 @@ import { ChannelsInfo, ChannelsActions } from 'components/Channels'
 const ChannelsHeader = ({
   channels,
   channelBalance,
+  channelViewMode,
   changeFilter,
   filter,
   filters,
   updateChannelSearchQuery,
+  setChannelViewMode,
   searchQuery,
   ...rest
 }) => (
@@ -21,6 +23,8 @@ const ChannelsHeader = ({
       changeFilter={changeFilter}
       updateChannelSearchQuery={updateChannelSearchQuery}
       searchQuery={searchQuery}
+      channelViewMode={channelViewMode}
+      setChannelViewMode={setChannelViewMode}
     />
   </Box>
 )
@@ -32,7 +36,9 @@ ChannelsHeader.propTypes = {
   filters: PropTypes.array.isRequired,
   searchQuery: PropTypes.string,
   changeFilter: PropTypes.func.isRequired,
-  updateChannelSearchQuery: PropTypes.func.isRequired
+  updateChannelSearchQuery: PropTypes.func.isRequired,
+  channelViewMode: PropTypes.string.isRequired,
+  setChannelViewMode: PropTypes.func.isRequired
 }
 
 ChannelsHeader.defaultProps = {

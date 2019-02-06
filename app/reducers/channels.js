@@ -10,6 +10,7 @@ import { updateNodeData } from './network'
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const SET_CHANNEL_VIEW_MODE = 'SET_CHANNEL_VIEW_MODE'
 export const SHOW_CHANNEL_DETAILS = 'SHOW_CHANNEL_DETAILS'
 export const SET_CHANNEL_FORM = 'SET_CHANNEL_FORM'
 
@@ -190,6 +191,13 @@ export function showChannelDetail(channelId) {
   return {
     type: SHOW_CHANNEL_DETAILS,
     channelId
+  }
+}
+
+export function setChannelViewMode(viewMode) {
+  return {
+    type: SET_CHANNEL_VIEW_MODE,
+    viewMode
   }
 }
 
@@ -475,6 +483,7 @@ export const channelGraphStatus = () => () => {}
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [SET_CHANNEL_VIEW_MODE]: (state, { viewMode }) => ({ ...state, viewMode }),
   [SET_CHANNEL_FORM]: (state, { form }) => ({
     ...state,
     channelForm: Object.assign({}, state.channelForm, form)
@@ -739,6 +748,7 @@ const initialState = {
   closingChannelIds: [],
 
   selectedChannel: null,
+  viewMode: 'VIEW_MODE_CARD',
 
   // nodes stored at zap.jackmallers.com/suggested-peers manages by JimmyMow
   // we store this node list here and if the user doesnt have any channels
