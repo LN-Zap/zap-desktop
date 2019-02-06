@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import { requestTickers } from 'lib/utils/api'
 import { currencies, getDefaultCurrency } from 'lib/i18n'
-import db from 'store/db'
 import { infoSelectors } from './info'
 
 // ------------------------------------
@@ -44,7 +43,7 @@ export function setCrypto(crypto) {
 
 export function setFiatTicker(fiatTicker) {
   // Persist the new fiatTicker in our ticker store
-  db.settings.put({ key: 'fiatTicker', value: fiatTicker })
+  window.db.settings.put({ key: 'fiatTicker', value: fiatTicker })
 
   return {
     type: SET_FIAT_TICKER,

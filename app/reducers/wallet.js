@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import get from 'lodash.get'
-import db from 'store/db'
 import { showError } from './notification'
 // ------------------------------------
 // Constants
@@ -36,7 +35,7 @@ export function setWalletsLoaded() {
 export const getWallets = () => async dispatch => {
   let wallets
   try {
-    wallets = await db.wallets.toArray()
+    wallets = await window.db.wallets.toArray()
   } catch (e) {
     wallets = []
   }
@@ -49,7 +48,7 @@ export const setActiveWallet = activeWallet => async dispatch => {
     type: SET_ACTIVE_WALLET,
     activeWallet
   })
-  await db.settings.put({
+  await window.db.settings.put({
     key: 'activeWallet',
     value: activeWallet
   })
@@ -60,7 +59,7 @@ export const setIsWalletOpen = isWalletOpen => async dispatch => {
     type: SET_IS_WALLET_OPEN,
     isWalletOpen
   })
-  await db.settings.put({
+  await window.db.settings.put({
     key: 'isWalletOpen',
     value: isWalletOpen
   })
@@ -68,7 +67,7 @@ export const setIsWalletOpen = isWalletOpen => async dispatch => {
 
 export const putWallet = wallet => async dispatch => {
   dispatch({ type: PUT_WALLET, wallet })
-  wallet.id = await db.wallets.put(wallet)
+  wallet.id = await window.db.wallets.put(wallet)
   await dispatch(getWallets())
   return wallet
 }
@@ -94,7 +93,7 @@ export const deleteWallet = () => async (dispatch, getState) => {
       }
 
       // Delete the wallet from the database.
-      await db.wallets.delete(walletId)
+      await window.db.wallets.delete(walletId)
 
       // Dispatch success message.
       dispatch({ type: DELETE_WALLET_SUCCESS, walletId })
@@ -115,8 +114,8 @@ export const deleteWallet = () => async (dispatch, getState) => {
 export const initWallets = () => async dispatch => {
   // Fetch the current wallet settings.
   let [activeWallet, isWalletOpen, dbWallets] = await Promise.all([
-    db.settings.get({ key: 'activeWallet' }),
-    db.settings.get({ key: 'isWalletOpen' }),
+    window.db.settings.get({ key: 'activeWallet' }),
+    window.db.settings.get({ key: 'isWalletOpen' }),
     dispatch(getWallets())
   ])
 

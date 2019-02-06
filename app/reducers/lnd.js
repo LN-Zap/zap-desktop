@@ -1,7 +1,6 @@
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import { showSystemNotification } from 'lib/utils/notifications'
-import db from 'store/db'
 import { fetchBalance } from './balance'
 import { fetchInfo, setHasSynced, infoSelectors } from './info'
 import { putWallet, setActiveWallet, walletSelectors } from './wallet'
@@ -57,9 +56,9 @@ export const lndSyncStatus = (event, status) => async (dispatch, getState) => {
   const hasSynced = infoSelectors.hasSynced(state)
 
   if (pubKey && !hasSynced) {
-    const updated = await db.nodes.update(pubKey, { hasSynced: true })
+    const updated = await window.db.nodes.update(pubKey, { hasSynced: true })
     if (!updated) {
-      await db.nodes.add({ id: pubKey, hasSynced: true })
+      await window.db.nodes.add({ id: pubKey, hasSynced: true })
     }
   }
 

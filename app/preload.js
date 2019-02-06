@@ -18,14 +18,6 @@ const fsReaddir = promisify(fs.readdir)
 const fsRimraf = promisify(rimraf)
 
 /**
- * Reference to the require method for Spectron to access (see e2e tests)
- * @type {Array}
- */
-if (process.env.NODE_ENV === 'test') {
-  window.electronRequire = require
-}
-
-/**
  * List of domains that we will allow users to be redirected to.
  * @type {Array}
  */

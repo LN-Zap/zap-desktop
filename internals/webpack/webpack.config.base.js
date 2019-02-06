@@ -3,7 +3,8 @@
  */
 
 import path from 'path'
-import { IgnorePlugin } from 'webpack'
+import { DefinePlugin, IgnorePlugin } from 'webpack'
+import config from 'config'
 
 export const rootDir = path.join(__dirname, '..', '..')
 
@@ -66,7 +67,13 @@ export default {
     modules: [path.resolve(rootDir, 'app'), 'node_modules', 'app/node_modules']
   },
 
-  plugins: [new IgnorePlugin(/^\.\/locale$/, /moment$/)],
+  plugins: [
+    new IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+    // Make config object available at global CONFIG var.
+    // See https://github.com/lorenwest/node-config/wiki/Webpack-Usage#option-1
+    new DefinePlugin({ CONFIG: JSON.stringify(config) })
+  ],
 
   optimization: {
     namedModules: true
