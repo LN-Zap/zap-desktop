@@ -81,5 +81,12 @@ export default merge.smart(baseConfig, {
       analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
       openAnalyzer: process.env.OPEN_ANALYZER === 'true'
     })
-  ]
+  ],
+
+  node: {
+    __dirname: false,
+    __filename: false,
+    fs: 'empty',
+    module: 'empty'
+  }
 })

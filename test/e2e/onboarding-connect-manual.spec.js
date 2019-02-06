@@ -1,3 +1,4 @@
+import path from 'path'
 import { waitForReact } from 'testcafe-react-selectors'
 import {
   getBaseUrl,
@@ -12,7 +13,7 @@ import Loading from './pages/loading'
 const onboarding = new Onboarding()
 const loading = new Loading()
 
-fixture('Onboarding (btcpay)')
+fixture('Onboarding (connect manual)')
   .page(getBaseUrl())
   .beforeEach(async t => {
     await waitForReact()
@@ -26,31 +27,21 @@ fixture('Onboarding (btcpay)')
     await cleanElectronEnvironment(ctx)
   })
 
-test('should connect to a btcpayserver wallet', async t => {
+test('should connect to an external wallet (manual)', async t => {
   await t
     // Fill out and submit ConnectionType form.
     .expect(onboarding.connectionType.exists)
     .ok()
-    .click(onboarding.connectionTypes.btcpayserver.radio)
+    .click(onboarding.connectionTypes.custom.radio)
     .click(onboarding.nextButton)
 
     // Fill out and submit ConnectionDetails form.
-    .expect(onboarding.btcPayServer.exists)
+    .expect(onboarding.connectionDetails.exists)
     .ok()
-    .typeText(
-      onboarding.connectionStringInput,
-      `{
-  "configurations": [
-    {
-      "type": "grpc",
-      "cryptoCode": "BTC",
-      "host": "example.com",
-      "port": "19000",
-      "macaroon": "macaroon"
-    }
-  ]
-}`
-    )
+    .click(onboarding.connectionDetailsTabs.manual.button)
+    .typeText(onboarding.hostInput, 'testnet1-lnd.zaphq.io:10009')
+    .typeText(onboarding.certInput, path.join(__dirname, 'fixtures', 'tls.cert'))
+    .typeText(onboarding.macaroonInput, path.join(__dirname, 'fixtures', 'readonly.macaroon'))
     .click(onboarding.nextButton)
 
     // Confirm connection details and submit
@@ -58,10 +49,7 @@ test('should connect to a btcpayserver wallet', async t => {
     .ok()
     .click(onboarding.nextButton)
 
-    // Verify that we show the loading bolt
-    // TODO: We are testing with invalid connection details since we dont have readyly available access to a
-    // BTCPayServer test instance that we can connect with. Ideally, we would set one up, connect to that and verify
-    // a successful connection.
+    // Verify that we show the loading bolt and then the wallet page.
     .expect(loading.loadingBolt.exists)
     .ok()
 })

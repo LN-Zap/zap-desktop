@@ -12,7 +12,7 @@ import {
   stopLnd,
   startLnd,
   unlockWallet,
-  setStartLndError
+  clearStartLndError
 } from 'reducers/lnd'
 import { showError, showNotification } from 'reducers/notification'
 import { Home } from 'components/Home'
@@ -40,7 +40,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   setActiveWallet,
   setUnlockWalletError,
-  setStartLndError,
+  clearStartLndError,
   stopLnd,
   putWallet,
   showNotification,

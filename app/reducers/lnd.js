@@ -26,6 +26,7 @@ export const SET_LIGHTNING_WALLET_ACTIVE = 'SET_LIGHTNING_WALLET_ACTIVE'
 export const STARTING_LND = 'STARTING_LND'
 export const LND_STARTED = 'LND_STARTED'
 export const SET_START_LND_ERROR = 'SET_START_LND_ERROR'
+export const CLEAR_START_LND_ERROR = 'CLEAR_START_LND_ERROR'
 
 export const STOPPING_LND = 'STOPPING_LND'
 export const LND_STOPPED = 'LND_STOPPED'
@@ -141,6 +142,10 @@ export const startLnd = options => async (dispatch, getState) => {
   ) {
     return
   }
+
+  // Set default options.
+  options.decoder = options.decoder || 'lnd.lndconnect.v1'
+
   return new Promise((resolve, reject) => {
     // Tell the main process to start lnd using the supplied connection details.
     dispatch({ type: STARTING_LND })
@@ -158,16 +163,13 @@ export const startLnd = options => async (dispatch, getState) => {
   })
 }
 
+export const setStartLndError = () => ({ type: SET_START_LND_ERROR })
+
+export const clearStartLndError = () => ({ type: CLEAR_START_LND_ERROR })
+
 // Listener for errors connecting to LND gRPC
 export const startLndError = (event, errors) => dispatch => {
   dispatch(setStartLndError(errors))
-}
-
-export function setStartLndError(errors) {
-  return {
-    type: SET_START_LND_ERROR,
-    errors
-  }
 }
 
 export const stopLnd = () => async (dispatch, getState) => {
@@ -393,7 +395,10 @@ const ACTION_HANDLERS = {
     startingLnd: false,
     startLndError: errors
   }),
-
+  [CLEAR_START_LND_ERROR]: state => ({
+    ...state,
+    startLndError: null
+  }),
   [SET_WALLET_UNLOCKER_ACTIVE]: state => ({
     ...state,
     startingLnd: false,

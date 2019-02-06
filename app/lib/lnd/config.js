@@ -1,20 +1,28 @@
 // @flow
 
-import { join } from 'path'
+import { join, isAbsolute } from 'path'
 import { app } from 'electron'
 import createDebug from 'debug'
 import untildify from 'untildify'
 import tildify from 'tildify'
 import lndconnect from 'lndconnect'
+import fs from 'fs'
+import util from 'util'
+import pick from 'lodash.pick'
+import { mainLog } from '../utils/log'
 import { appRootPath, binaryPath } from './util'
+
+const readFile = util.promisify(fs.readFile)
 
 const debug = createDebug('zap:lnd-config')
 
+const LNDCONFIG_TYPE_LOCAL = 'local'
+const LNDCONFIG_TYPE_CUSTOM = 'custom'
+
 // Supported connection types.
 export const types = {
-  local: 'Local',
-  custom: 'Custom',
-  btcpayserver: 'BTCPay Server'
+  [LNDCONFIG_TYPE_LOCAL]: 'Local',
+  [LNDCONFIG_TYPE_CUSTOM]: 'Custom'
 }
 
 // Supported chains.
@@ -29,8 +37,19 @@ export const networks = {
   testnet: 'Testnet'
 }
 
-// Type definition for for local connection settings.
-type LndConfigSettingsLocalType = {|
+// Type definition for LndConfig constructor options.
+export type LndConfigOptions = {
+  id?: number,
+  type: $Keys<typeof types>,
+  chain: $Keys<typeof chains>,
+  network: $Keys<typeof networks>,
+
+  decoder: string,
+  lndconnectUri?: string,
+  host?: string,
+  cert?: string,
+  macaroon?: string,
+
   name?: string,
   alias?: string,
   autopilot?: boolean,
@@ -40,48 +59,10 @@ type LndConfigSettingsLocalType = {|
   autopilotMaxchansize?: number,
   autopilotPrivate?: boolean,
   autopilotMinconfs?: number
-|}
+}
 
-// Type definition for for custom connection settings.
-type LndConfigSettingsCustomType = {|
-  name?: string,
-  host: string,
-  cert: string,
-  macaroon: string
-|}
-
-// Type definition for for BTCPay Server connection settings.
-type LndConfigSettingsBtcPayServerType = {|
-  name?: string,
-  string: string,
-  host: string,
-  macaroon: string
-|}
-
-// Type definition for for BTCPay Server connection settings.
-type LndConfigSettingsType = {|
-  id?: number,
-  wallet?: string,
-  type: $Keys<typeof types>,
-  chain: $Keys<typeof chains>,
-  network: $Keys<typeof networks>
-|}
-
-// Type definition for LndConfig constructor options.
-type LndConfigOptions = {|
-  ...LndConfigSettingsType,
-  settings?:
-    | LndConfigSettingsLocalType
-    | LndConfigSettingsCustomType
-    | LndConfigSettingsBtcPayServerType
-|}
-
-const _host = new WeakMap()
-const _cert = new WeakMap()
-const _macaroon = new WeakMap()
-const _string = new WeakMap()
-const _lndConnect = new WeakMap()
-const _ready = new WeakMap()
+const _isReady = new WeakMap()
+const _lndconnectQRCode = new WeakMap()
 
 /**
  * Utility methods to clean and prepare data.
@@ -95,23 +76,8 @@ const safeUntildify = <T>(val: ?T): ?T => (typeof val === 'string' ? untildify(v
  */
 class LndConfig {
   static SETTINGS_PROPS = {
-    local: [
-      'name',
-      'alias',
-      'autopilot',
-      'autopilotMaxchannels',
-      'autopilotAllocation',
-      'autopilotMinchansize',
-      'autopilotMaxchansize',
-      'autopilotPrivate',
-      'autopilotMinconfs'
-    ],
-    custom: ['name', 'host', 'cert', 'macaroon'],
-    btcpayserver: ['name', 'host', 'macaroon', 'string']
-  }
-
-  static SETTINGS_DEFAULTS = {
     name: null,
+    alias: null,
     autopilot: true,
     autopilotMaxchannels: 5,
     autopilotMinchansize: 20000,
@@ -127,11 +93,14 @@ class LndConfig {
   chain: string
   network: string
 
-  // User configurable settings.
+  // connection properties
+  decoder: string
+  lndconnectUri: ?string
   host: ?string
   cert: ?string
   macaroon: ?string
-  string: ?string
+
+  // Settings properties
   name: ?string
   alias: ?string
   autopilot: ?boolean
@@ -143,165 +112,111 @@ class LndConfig {
   autopilotMinconfs: ?number
 
   // Read only data properties.
-  +ready: Promise<boolean>
   +wallet: string
   +binaryPath: string
   +lndDir: string
-  +lndConnect: string
   +configPath: string
+  +isReady: Promise<boolean>
 
   /**
    * Lnd configuration class.
    *
    * @param {LndConfigOptions} [options] Lnd config options.
-   * @param {string} options.type config type (Local|custom|btcpayserver)
-   * @param {string} options.chain config chain (bitcoin|litecoin)
-   * @param {string} options.network config network (mainnet|testnet)
-   * @param {Object} [options.settings] config settings used to initialise the config with.
    */
   constructor(options?: LndConfigOptions) {
-    debug('Constructor called with options: %o', options)
+    debug('LndConfig constructor called with options: %o', options)
 
     // Define properties that we support with custom getters and setters as needed.
     // flow currently doesn't support defineProperties properly (https://github.com/facebook/flow/issues/285)
     const { defineProperties } = Object
     defineProperties(this, {
-      ready: {
-        enumerable: true,
-        get() {
-          return _ready.get(this)
-        }
-      },
       wallet: {
         enumerable: true,
         get() {
-          if (this.type === 'local') {
-            return `wallet-${this.id}`
-          }
+          return `wallet-${this.id}`
+        }
+      },
+      lndconnectQRCode: {
+        enumerable: true,
+        get() {
+          return _lndconnectQRCode.get(this)
+        }
+      },
+
+      isReady: {
+        enumerable: false,
+        get() {
+          return _isReady.get(this)
         }
       },
       binaryPath: {
-        enumerable: true,
+        enumerable: false,
         get() {
           return binaryPath()
         }
       },
       lndDir: {
-        enumerable: true,
+        enumerable: false,
         get() {
-          if (this.type === 'local') {
+          if (this.type === LNDCONFIG_TYPE_LOCAL) {
             return join(app.getPath('userData'), 'lnd', this.chain, this.network, this.wallet)
           }
         }
       },
-      lndConnect: {
-        enumerable: true,
-        get() {
-          return _lndConnect.get(this)
-        }
-      },
       configPath: {
-        enumerable: true,
+        enumerable: false,
         get() {
           return join(appRootPath(), 'resources', 'lnd.conf')
         }
       },
 
-      // Getters / Setters for host property.
-      //  - Trim value before saving.
       host: {
-        enumerable: true,
-        get() {
-          return _host.get(this)
+        enumerable: false,
+        set(host) {
+          return this.setConnectionProp('host', host)
         },
-        set(value: string) {
-          _host.set(this, safeTrim(value))
+        get() {
+          return this.getConnectionProp('host')
         }
       },
-
-      // Getters / Setters for cert property.
-      //  - Untildify value on retrieval.
-      //  - Trim value before saving.
       cert: {
-        enumerable: true,
-        get() {
-          return safeUntildify(_cert.get(this))
+        enumerable: false,
+        set(cert) {
+          return this.setConnectionProp('cert', cert)
         },
-        set(value: string) {
-          _cert.set(this, safeTildify(safeTrim(value)))
+        get() {
+          return this.getConnectionProp('cert')
         }
       },
-
-      // Getters / Setters for macaroon property.
-      //  - Untildify value on retrieval.
-      //  - Trim value before saving.
       macaroon: {
-        enumerable: true,
-        get() {
-          return safeUntildify(_macaroon.get(this))
+        enumerable: false,
+        set(macaroon) {
+          return this.setConnectionProp('macaroon', macaroon)
         },
-        set(value: string) {
-          _macaroon.set(this, safeTildify(safeTrim(value)))
-        }
-      },
-
-      // Getters / Setters for string property.
-      //  - Trim value before saving.
-      string: {
-        enumerable: true,
         get() {
-          return _string.get(this)
-        },
-        set(value: string) {
-          _string.set(this, safeTrim(value))
+          return this.getConnectionProp('macaroon')
         }
       }
     })
 
     // If options were provided, use them to initialise the instance.
     if (options) {
-      if (options.id) {
-        this.id = options.id
-      }
-      this.type = options.type
-      this.chain = options.chain
-      this.network = options.network
+      // Set base config.
+      const baseConfig = pick(options, ['id', 'type', 'chain', 'network', 'decoder'])
+      Object.assign(this, baseConfig)
 
-      // Merge in other whitelisted settings.
-      let settings = Object.assign({}, LndConfig.SETTINGS_DEFAULTS, options.settings)
-      const filteredSettings = Object.keys(settings)
-        .filter(key => LndConfig.SETTINGS_PROPS[this.type].includes(key))
-        .reduce((obj, key) => {
-          let value = settings[key]
-          if (
-            [
-              'autopilotMaxchannels',
-              'autopilotMinchansize',
-              'autopilotMaxchansize',
-              'autopilotAllocation',
-              'autopilotMinconfs'
-            ].includes(key)
-          ) {
-            value = Number(settings[key])
-          }
-          return {
-            ...obj,
-            [key]: value
-          }
-        }, {})
-      debug('Setting settings as: %o', filteredSettings)
-      Object.assign(this, filteredSettings)
-    }
+      // Merge in whitelisted settings.
+      const userSettings = pick(options, Object.keys(LndConfig.SETTINGS_PROPS))
+      const settings = { ...LndConfig.SETTINGS_PROPS, ...userSettings }
+      debug('Applying settings as: %o', settings)
+      Object.assign(this, settings)
 
-    // For local configs host/cert/macaroon are auto-generated.
-    if (this.type === 'local') {
-      const defaultLocalOptions = {
-        host: 'localhost:10009',
-        cert: join(this.lndDir, 'tls.cert'),
-        macaroon: join(this.lndDir, 'data', 'chain', this.chain, this.network, 'admin.macaroon')
+      // Generate lndConenct uri.
+      const lndconnectUri = this.generateLndconnectUri(options)
+      if (lndconnectUri) {
+        debug('Generated lndconnectUri: %s', lndconnectUri)
+        this.lndconnectUri = lndconnectUri
       }
-      debug('Connection type is local. Assigning settings as: %o', defaultLocalOptions)
-      Object.assign(this, defaultLocalOptions)
     }
 
     // In order to calculate the `lndconnect` property value we must perform some async operations. This prevents us
@@ -311,28 +226,88 @@ class LndConfig {
     // fully instantiated.
     const isReady = async () => {
       try {
-        if (this.type === 'local') {
-          // We don't support lndconnect for local nodes.
-          return true
+        if (this.lndconnectUri) {
+          const lndconnectQRCode = await this.generateLndconnectQRCode()
+          _lndconnectQRCode.set(this, lndconnectQRCode)
         }
-
-        const { host, cert, macaroon } = this
-        const [encodedCert, encodedMacaroon] = await Promise.all([
-          lndconnect.encodeCert(cert),
-          lndconnect.encodeMacaroon(macaroon)
-        ])
-        const connectionstring = lndconnect.encode({
-          host,
-          cert: encodedCert,
-          macaroon: encodedMacaroon
-        })
-        _lndConnect.set(this, connectionstring)
         return true
       } catch (e) {
+        mainLog.error('Unable to generate lndconnect uri: %s', e)
         return true
       }
     }
-    _ready.set(this, isReady())
+    _isReady.set(this, isReady())
+  }
+
+  /**
+   * Generate an lndconnect uri based on the config options.
+   */
+  generateLndconnectUri(options: LndConfigOptions) {
+    let { lndconnectUri, host, cert, macaroon } = options
+
+    // If lndconnectUri is provided, use it as is.
+    if (lndconnectUri) {
+      return lndconnectUri
+    }
+
+    // If this is a custom type, assign the host, cert, and macaroon. This will generate the lndconnectUri.
+    else if (this.type === LNDCONFIG_TYPE_CUSTOM) {
+      return lndconnect.encode({ host, cert, macaroon })
+    }
+
+    // Otherwise if this is a local wallet, set the lnd connection details based on wallet config.
+    else if (this.type === LNDCONFIG_TYPE_LOCAL) {
+      host = 'localhost:10009'
+      cert = join(this.lndDir, 'tls.cert')
+      macaroon = join(this.lndDir, 'data', 'chain', this.chain, this.network, 'admin.macaroon')
+      return lndconnect.encode({ host, cert, macaroon })
+    }
+  }
+
+  /**
+   * Generate a flattened lnd connect uri. This will follow any filepaths, read the files and add the decoded content.
+   */
+  async generateLndconnectQRCode() {
+    const { decoder, lndconnectUri } = this
+    switch (decoder) {
+      case 'lnd.lndconnect.v1':
+        if (lndconnectUri) {
+          return LndConfig.qrcodeFromLndconnectUri(lndconnectUri)
+        }
+        break
+    }
+  }
+
+  /**
+   * Setter helper for connection properties.
+   */
+  setConnectionProp(key: string, value: ?string) {
+    if (this.decoder === 'lnd.lndconnect.v1') {
+      const decoded = lndconnect.decode(this.lndconnectUri)
+      this.lndconnectUri = lndconnect.encode({ ...decoded, [key]: safeTildify(safeTrim(value)) })
+    }
+  }
+
+  /**
+   * Getter helper for connection keyerties.
+   */
+  getConnectionProp(key: string) {
+    if (this.decoder === 'lnd.lndconnect.v1') {
+      const decoded = lndconnect.decode(this.lndconnectUri)
+      return safeUntildify(decoded[key])
+    }
+  }
+
+  /**
+   * Generate an lndconnect QR code from an lndconenctUri.
+   */
+  static async qrcodeFromLndconnectUri(lndconnectUri: string) {
+    const { host, cert, macaroon } = lndconnect.decode(lndconnectUri)
+    const [certData, macaroonData] = await Promise.all([
+      isAbsolute(cert) ? readFile(cert) : cert,
+      isAbsolute(macaroon) ? readFile(macaroon) : macaroon
+    ])
+    return lndconnect.encode({ host, cert: certData, macaroon: macaroonData })
   }
 }
 

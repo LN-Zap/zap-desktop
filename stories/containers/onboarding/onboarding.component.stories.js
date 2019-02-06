@@ -3,7 +3,6 @@ import { storiesOf } from '@storybook/react'
 import {
   Alias,
   Autopilot,
-  BtcPayServer,
   ConnectionType,
   ConnectionDetails,
   ConnectionConfirm,
@@ -33,7 +32,6 @@ storiesOf('Containers.Onboarding.Forms', module)
     />
   ))
   .add('ConnectionConfirm', () => <ConnectionConfirm connectionHost="example.com:10009" />)
-  .add('BtcPayServer', () => <BtcPayServer />)
   .add('Login', () => <Login />)
   .add('Password', () => <Password />)
   .add('Recover', () => <Recover seed={[]} />)

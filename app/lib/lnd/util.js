@@ -7,6 +7,7 @@ import { app } from 'electron'
 import isDev from 'electron-is-dev'
 import { credentials, Metadata } from '@grpc/grpc-js'
 import get from 'lodash.get'
+import lndconnect from 'lndconnect'
 import { mainLog } from '../utils/log'
 
 const readFile = promisify(fs.readFile)
@@ -121,11 +122,23 @@ export const getDeadline = timeoutSecs => {
 export const createSslCreds = async certPath => {
   let lndCert
   if (certPath) {
-    lndCert = await readFile(certPath).catch(e => {
-      const error = new Error(`SSL cert path could not be accessed: ${e.message}`)
-      error.code = 'LND_GRPC_CERT_ERROR'
-      throw error
-    })
+    // If the cert has been provided in PEM format, use as is.
+    if (certPath.split(/\n/)[0] === '-----BEGIN CERTIFICATE-----') {
+      lndCert = new Buffer.from(certPath)
+    }
+    // If it's not a filepath, then assume it is a base64url encoded string.
+    else if (certPath === basename(certPath)) {
+      lndCert = lndconnect.decodeCert(certPath)
+      lndCert = new Buffer.from(lndCert)
+    }
+    // Otherwise, lets treat it as a file path.
+    else {
+      lndCert = await readFile(certPath).catch(e => {
+        const error = new Error(`SSL cert path could not be accessed: ${e.message}`)
+        error.code = 'LND_GRPC_CERT_ERROR'
+        throw error
+      })
+    }
   }
   return credentials.createSsl(lndCert)
 }
@@ -139,10 +152,13 @@ export const createMacaroonCreds = async macaroonPath => {
   const metadata = new Metadata()
 
   if (macaroonPath) {
-    // If it's not a filepath, then assume it is a hex encoded string.
-    if (macaroonPath === basename(macaroonPath)) {
+    // If the macaroon is already in hex format, add as is.
+    const isHex = /^[0-9a-fA-F]+$/.test(macaroonPath)
+    if (isHex) {
       metadata.add('macaroon', macaroonPath)
-    } else {
+    }
+    // Otherwise, treat it as a file path - load the file and convert to hex.
+    else {
       const macaroon = await readFile(macaroonPath).catch(e => {
         const error = new Error(`Macaroon path could not be accessed: ${e.message}`)
         error.code = 'LND_GRPC_MACAROON_ERROR'

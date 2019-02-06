@@ -40,11 +40,6 @@ const setConnectionType = connectionType => store.set({ connectionType })
 const setConnectionHost = connectionHost => store.set({ connectionHost })
 const setConnectionCert = connectionCert => store.set({ connectionCert })
 const setConnectionMacaroon = connectionMacaroon => store.set({ connectionMacaroon })
-const setConnectionString = connectionString => store.set({ connectionString })
-const setStartLndError = startLndError => store.set({ startLndError })
-const setLndconnect = lndConnect => store.set({ lndConnect })
-const setSeed = setSeed => store.set({ setSeed })
-
 const setName = name => store.set({ name })
 const setAutopilot = autopilot => store.set({ autopilot })
 const setPassword = password => store.set({ password })
@@ -143,10 +138,6 @@ storiesOf('Containers.Onboarding', module)
           setConnectionHost={setConnectionHost}
           setConnectionCert={setConnectionCert}
           setConnectionMacaroon={setConnectionMacaroon}
-          setConnectionString={setConnectionString}
-          setStartLndError={setStartLndError}
-          setLndconnect={setLndconnect}
-          setSeed={setSeed}
           setPassword={setPassword}
           createNewWallet={createNewWallet}
           recoverOldWallet={recoverOldWallet}

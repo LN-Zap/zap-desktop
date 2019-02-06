@@ -148,6 +148,7 @@ export const initWallets = () => async dispatch => {
           ) {
             const walletDetails = {
               type: 'local',
+              decoder: 'lnd.lndconnect.v1',
               chain,
               network,
               wallet

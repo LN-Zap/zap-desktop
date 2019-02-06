@@ -13,10 +13,8 @@ import installExtension, {
 } from 'electron-devtools-installer'
 import get from 'lodash.get'
 import path from 'path'
-import url from 'url'
 import os from 'os'
 import fs from 'fs'
-import querystring from 'querystring'
 import { mainLog } from './lib/utils/log'
 import ZapMenuBuilder from './lib/zap/menuBuilder'
 import ZapController from './lib/zap/controller'
@@ -96,10 +94,12 @@ const handleLightningLink = input => {
  * Handler for lndconnect: links
  */
 const handleLndconnectLink = input => {
-  const parsedUrl = url.parse(input)
-  const { host, cert, macaroon } = querystring.parse(parsedUrl.query)
-  zap.sendMessage('lndconnectUri', { host: host || parsedUrl.host, cert, macaroon })
-  mainWindow.show()
+  try {
+    zap.sendMessage('lndconnectUri', input)
+    mainWindow.show()
+  } catch (e) {
+    mainLog.warn('Unable to process lndconnect uri: %s', e)
+  }
 }
 
 /**

@@ -1,13 +1,10 @@
-import { createSelector } from 'reselect'
-import get from 'lodash.get'
-
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const ONBOARDING_STARTED = 'ONBOARDING_STARTED'
 export const ONBOARDING_FINISHED = 'ONBOARDING_FINISHED'
 export const SET_CONNECTION_TYPE = 'SET_CONNECTION_TYPE'
-export const SET_CONNECTION_STRING = 'SET_CONNECTION_STRING'
+export const SET_CONNECTION_URI = 'SET_CONNECTION_URI'
 export const SET_CONNECTION_HOST = 'SET_CONNECTION_HOST'
 export const SET_CONNECTION_CERT = 'SET_CONNECTION_CERT'
 export const SET_CONNECTION_MACAROON = 'SET_CONNECTION_MACAROON'
@@ -21,17 +18,6 @@ export const VALIDATING_CERT = 'VALIDATING_CERT'
 export const VALIDATING_MACAROON = 'VALIDATING_MACAROON'
 export const RESET_ONBOARDING = 'RESET_ONBOARDING'
 export const SET_LNDCONNECT = 'SET_LNDCONNECT'
-
-// ------------------------------------
-// Helpers
-// ------------------------------------
-function prettyPrint(json) {
-  try {
-    return JSON.stringify(JSON.parse(json), undefined, 4)
-  } catch (e) {
-    return json
-  }
-}
 
 // ------------------------------------
 // Actions
@@ -53,15 +39,11 @@ export function onboardingFinished() {
   }
 }
 
-export const setConnectionString = connectionString => (dispatch, getState) => {
-  dispatch({
-    type: SET_CONNECTION_STRING,
-    connectionString: prettyPrint(connectionString)
-  })
-  const { host, port, macaroon } = onboardingSelectors.connectionStringParamsSelector(getState())
-  dispatch(setConnectionHost([host, port].join(':')))
-  dispatch(setConnectionMacaroon(macaroon))
-  dispatch(setConnectionCert(''))
+export function setConnectionString(connectionString) {
+  return {
+    type: SET_CONNECTION_URI,
+    connectionString
+  }
 }
 
 export function setConnectionType(connectionType) {
@@ -180,15 +162,8 @@ export const startOnboarding = () => dispatch => {
   dispatch(onboardingStarted())
 }
 
-export const lndconnectUri = (event, { host, cert, macaroon }) => dispatch => {
-  dispatch(
-    setLndconnect({
-      connectionType: 'custom',
-      connectionHost: host,
-      connectionCert: cert,
-      connectionMacaroon: macaroon
-    })
-  )
+export const lndconnectUri = (event, lndConnect) => dispatch => {
+  dispatch(setLndconnect(lndConnect))
 }
 
 // ------------------------------------
@@ -196,7 +171,7 @@ export const lndconnectUri = (event, { host, cert, macaroon }) => dispatch => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_CONNECTION_TYPE]: (state, { connectionType }) => ({ ...state, connectionType }),
-  [SET_CONNECTION_STRING]: (state, { connectionString }) => ({ ...state, connectionString }),
+  [SET_CONNECTION_URI]: (state, { connectionString }) => ({ ...state, connectionString }),
   [SET_CONNECTION_HOST]: (state, { connectionHost }) => ({ ...state, connectionHost }),
   [SET_CONNECTION_CERT]: (state, { connectionCert }) => ({ ...state, connectionCert }),
   [SET_CONNECTION_MACAROON]: (state, { connectionMacaroon }) => ({ ...state, connectionMacaroon }),
@@ -213,30 +188,6 @@ const ACTION_HANDLERS = {
   [VALIDATING_MACAROON]: (state, { validatingMacaroon }) => ({ ...state, validatingMacaroon }),
   [RESET_ONBOARDING]: state => ({ ...state, ...initialState })
 }
-
-// ------------------------------------
-// Selector
-// ------------------------------------
-const onboardingSelectors = {}
-
-const connectionStringSelector = state => state.onboarding.connectionString
-
-onboardingSelectors.connectionStringParamsSelector = createSelector(
-  connectionStringSelector,
-  connectionString => {
-    let config = {}
-    try {
-      config = JSON.parse(connectionString)
-    } catch (e) {
-      return {}
-    }
-
-    const configurations = get(config, 'configurations', [])
-    return configurations.find(c => c.type === 'grpc' && c.cryptoCode === 'BTC') || {}
-  }
-)
-
-export { onboardingSelectors }
 
 // ------------------------------------
 // Reducer
