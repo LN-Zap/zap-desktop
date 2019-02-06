@@ -1,7 +1,7 @@
 {
   "name": "zap-desktop",
   "productName": "ZapDesktop",
-  "version": "0.3.4-beta",
+  "version": "0.4.0-alpha",
   "description": "desktop application for the lightning network",
   "scripts": {
     "build": "concurrently --raw \"npm:build-main\" \"npm:build-preload\" \"npm:build-renderer\"",
