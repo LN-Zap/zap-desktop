@@ -5636,13 +5636,15 @@ crypto-random-string@^1.0.0:
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
 
-csp-html-webpack-plugin@2.5.0:
-  version "2.5.0"
-  resolved "https://registry.yarnpkg.com/csp-html-webpack-plugin/-/csp-html-webpack-plugin-2.5.0.tgz#e198a06983fb8512406d63678309a6ccbda4a6af"
-  integrity sha512-cL3fiTv1ebu5FnfmgJUZG6lSI/k0K+QDcza2rZyHw9xcWE4hGoD0cL3rAPvCAPa+OrFMrbj35RqkHXISWwm2Uw==
+csp-html-webpack-plugin@3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/csp-html-webpack-plugin/-/csp-html-webpack-plugin-3.0.0.tgz#8d34f1dea0f7e0d253c767551a3a8d819adfba60"
+  integrity sha512-3zRF4vcFO9O6/EC/7nG1KlDIuwtP5IEJC/4Zi/rBGHWw3eNIvPXvurVrkpMtIJyBP/PSJmo+12KbI/raWEyANw==
   dependencies:
+    babel-jest "^23.6.0"
     cheerio "^1.0.0-rc.2"
     lodash "^4.17.11"
+    memory-fs "^0.4.1"
 
 css-color-keywords@^1.0.0:
   version "1.0.0"
@@ -10948,7 +10950,7 @@ memory-fs@^0.2.0:
   resolved "https://registry.yarnpkg.com/memory-fs/-/memory-fs-0.2.0.tgz#f2bb25368bc121e391c2520de92969caee0a0290"
   integrity sha1-8rslNovBIeORwlIN6Slpyu4KApA=
 
-memory-fs@^0.4.0, memory-fs@~0.4.1:
+memory-fs@^0.4.0, memory-fs@^0.4.1, memory-fs@~0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/memory-fs/-/memory-fs-0.4.1.tgz#3a9a20b8462523e447cfbc7e8bb80ed667bfc552"
   integrity sha1-OpoguEYlI+RHz7x+i7gO1me/xVI=
