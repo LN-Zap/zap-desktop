@@ -288,7 +288,7 @@
     "lnd-binary": "0.3.9",
     "minimist": "1.2.0",
     "mock-spawn": "0.2.6",
-    "prettier": "1.16.1",
+    "prettier": "1.16.4",
     "react-hot-loader": "4.6.3",
     "react-storybook-addon-chapters": "3.0.3",
     "react-test-renderer": "16.7.0",
