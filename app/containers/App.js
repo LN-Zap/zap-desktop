@@ -121,6 +121,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currentTicker: stateProps.currentTicker,
     contactsform: stateProps.contactsform,
     nodes: stateProps.network.nodes,
+    searchQuery: stateProps.channels.searchQuery,
     ticker: stateProps.ticker,
     networkInfo: stateProps.networkInfo,
     currencyName: stateProps.currencyName,
