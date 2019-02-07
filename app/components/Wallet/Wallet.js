@@ -13,7 +13,7 @@ const Wallet = ({
   totalBalance,
   currencyFilters,
   currentTicker,
-  info,
+  networkInfo,
   ticker,
   openWalletModal,
   setCurrency,
@@ -30,9 +30,9 @@ const Wallet = ({
       <Flex as="header" justifyContent="space-between" pt={2}>
         <Flex as="section" alignItems="center" mt={4}>
           <ZapLogo width="70px" height="32px" />
-          {info.data.testnet && (
+          {networkInfo.id !== 'mainnet' && (
             <Text color="superGreen" fontSize={1} ml={2}>
-              Testnet
+              {networkInfo.name}
             </Text>
           )}
         </Flex>
@@ -92,7 +92,10 @@ Wallet.propTypes = {
   totalBalance: PropTypes.number,
   currencyFilters: PropTypes.array.isRequired,
   currentTicker: PropTypes.object,
-  info: PropTypes.object.isRequired,
+  networkInfo: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string
+  }),
   ticker: PropTypes.object.isRequired,
 
   // Dispatch props

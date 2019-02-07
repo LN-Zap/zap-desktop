@@ -42,7 +42,7 @@ class ReceiveModal extends React.Component {
       alias,
       closeReceiveModal,
       cryptoName,
-      network,
+      networkInfo,
       intl
     } = this.props
     const { qrCodeType } = this.state
@@ -137,7 +137,7 @@ class ReceiveModal extends React.Component {
               <Box>
                 <Heading.h4 mb={2} fontWeight="normal">
                   <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />{' '}
-                  {network && network.name.toLowerCase() === 'testnet' && network.name}
+                  {networkInfo && networkInfo.id === 'testnet' && networkInfo.name}
                 </Heading.h4>
                 <Flex bg="tertiaryColor" justifyContent="space-between" width={1}>
                   <Text
@@ -174,9 +174,10 @@ class ReceiveModal extends React.Component {
 }
 
 ReceiveModal.propTypes = {
-  network: PropTypes.shape({
+  networkInfo: PropTypes.shape({
+    id: PropTypes.string,
     name: PropTypes.string
-  }).isRequired,
+  }),
   cryptoName: PropTypes.string,
   isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string,

@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { setCurrency, setFiatTicker, tickerSelectors } from 'reducers/ticker'
+import { infoSelectors } from 'reducers/info'
 import { TransactionModal } from 'components/Activity/TransactionModal'
 
 const mapStateToProps = state => ({
@@ -8,7 +9,7 @@ const mapStateToProps = state => ({
   cryptoCurrencies: tickerSelectors.currencyFilters(state),
   fiatCurrencies: state.ticker.fiatTickers,
   fiatCurrency: state.ticker.fiatTicker,
-  network: state.info.network
+  network: infoSelectors.networkInfo(state)
 })
 
 const mapDispatchToProps = {
