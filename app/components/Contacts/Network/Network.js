@@ -74,7 +74,7 @@ class Network extends Component {
       changeFilter,
       setSelectedChannel,
       closeChannel,
-      network,
+      networkInfo,
       currencyName,
       intl
     } = this.props
@@ -305,7 +305,7 @@ class Network extends Component {
                             py={0}
                             onClick={() =>
                               blockExplorer.showTransaction(
-                                network,
+                                networkInfo,
                                 channelObj.closing_txid || channel.channel_point.split(':')[0]
                               )
                             }
@@ -439,7 +439,10 @@ Network.propTypes = {
   channelBalance: PropTypes.number,
   currentTicker: PropTypes.object,
   ticker: PropTypes.object.isRequired,
-  network: PropTypes.object.isRequired,
+  networkInfo: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string
+  }),
   fetchChannels: PropTypes.func.isRequired,
   openContactsForm: PropTypes.func.isRequired,
   changeFilter: PropTypes.func.isRequired,

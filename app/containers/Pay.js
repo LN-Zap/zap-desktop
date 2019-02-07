@@ -2,13 +2,12 @@ import { connect } from 'react-redux'
 import { Pay } from 'components/Pay'
 import { tickerSelectors, setCurrency, setFiatTicker } from 'reducers/ticker'
 import { setPayReq, queryFees, queryRoutes } from 'reducers/pay'
-import { infoSelectors } from 'reducers/info'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
 
 const mapStateToProps = state => ({
   chain: state.info.chain,
-  network: infoSelectors.testnetSelector(state) ? 'testnet' : 'mainnet',
+  network: state.info.network,
   cryptoName: tickerSelectors.cryptoName(state),
   channelBalance: state.balance.channelBalance,
   currentTicker: tickerSelectors.currentTicker(state),

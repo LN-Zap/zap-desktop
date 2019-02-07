@@ -5,6 +5,7 @@ import { setCurrency, tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
 import { setFormType } from 'reducers/form'
 import { createInvoice, fetchInvoice } from 'reducers/invoice'
+import { infoSelectors } from 'reducers/info'
 import { lndSelectors } from 'reducers/lnd'
 import {
   fetchChannels,
@@ -99,6 +100,7 @@ const mapStateToProps = state => ({
   filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
   showManualForm: contactFormSelectors.showManualForm(state),
 
+  networkInfo: infoSelectors.networkInfo(state),
   currentChannels: currentChannels(state),
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
   nonActiveChannelPubkeys: channelsSelectors.nonActiveChannelPubkeys(state),
@@ -122,7 +124,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     contactsform: stateProps.contactsform,
     nodes: stateProps.network.nodes,
     ticker: stateProps.ticker,
-    network: stateProps.info.network,
+    networkInfo: stateProps.networkInfo,
     currencyName: stateProps.currencyName,
 
     fetchChannels: dispatchProps.fetchChannels,
@@ -153,7 +155,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const receiveModalProps = {
     isOpen: stateProps.address.walletModal,
-    network: stateProps.info.network,
+    networkInfo: stateProps.networkInfo,
     cryptoName: stateProps.cryptoName,
     pubkey: get(stateProps.info, 'data.uris[0]') || get(stateProps.info, 'data.identity_pubkey'),
     address: stateProps.address.address,
