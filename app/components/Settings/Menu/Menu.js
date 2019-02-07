@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { MenuContainer, Menu, MenuItem } from 'components/UI/Dropdown'
 import messages from './messages'
 
-const SettingsMenu = ({ history, setActiveSubMenu }) => (
+const SettingsMenu = ({ history, setActiveSubMenu, setFormType }) => (
   <MenuContainer>
     <Menu>
       <MenuItem
@@ -27,6 +27,11 @@ const SettingsMenu = ({ history, setActiveSubMenu }) => (
       />
 
       <MenuItem
+        item={{ key: 'channels', name: <FormattedMessage {...messages.channels} /> }}
+        onClick={() => setFormType('CHANNELS')}
+      />
+
+      <MenuItem
         item={{ key: 'logout', name: <FormattedMessage {...messages.logout} /> }}
         onClick={() => history.push('/logout')}
       />
@@ -36,6 +41,7 @@ const SettingsMenu = ({ history, setActiveSubMenu }) => (
 
 SettingsMenu.propTypes = {
   setActiveSubMenu: PropTypes.func.isRequired,
+  setFormType: PropTypes.func.isRequired,
   history: PropTypes.object.isRequired
 }
 

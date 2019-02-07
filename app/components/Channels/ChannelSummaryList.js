@@ -14,12 +14,11 @@ const ChannelSummaryList = ({ channels, showChannelDetail, ...rest }) => (
           showChannelDetail={showChannelDetail}
           channelId={channel.chan_id}
           channelName={channel.display_name}
-          channelPubKey={channel.remote_pubkey}
-          channelPubKeyShort={channel.remote_pubkey_short}
+          channelPubKey={channel.display_pubkey}
           localBalance={channel.local_balance}
           remoteBalance={channel.remote_balance}
-          status={channel.status}
-          isAvailable={channel.isAvailable}
+          status={channel.display_status}
+          isAvailable={Boolean(channel.active)}
           mb={3}
         />
       )

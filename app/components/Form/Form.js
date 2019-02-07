@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { Modal } from 'components/UI'
 import Pay from 'containers/Pay'
 import Request from 'containers/Request'
+import Channels from 'containers/Channels'
 
 const Form = ({ formType, closeForm }) => {
   if (!formType) {
@@ -21,6 +22,13 @@ const Form = ({ formType, closeForm }) => {
       return (
         <Modal onClose={closeForm}>
           <Request width={9 / 16} mx="auto" />
+        </Modal>
+      )
+
+    case 'CHANNELS':
+      return (
+        <Modal onClose={closeForm} mt={-3} mx={-4}>
+          <Channels />
         </Modal>
       )
   }
