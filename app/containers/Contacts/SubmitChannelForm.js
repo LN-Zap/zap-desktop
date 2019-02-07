@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  closeContactsForm: closeContactsForm,
+  closeContactsForm,
   closeSubmitChannelForm: closeSubmitChannelForm,
   openChannel: openChannel,
   setCryptoCurrency: setCurrency,
