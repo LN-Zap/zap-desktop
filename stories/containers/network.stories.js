@@ -3,7 +3,7 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { MainContent, Sidebar } from 'components/UI'
 import Network from 'components/Contacts/Network'
-import { currentChannels } from 'reducers/channels'
+import { channelsSelectors } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
 import { tickerSelectors } from 'reducers/ticker'
 import { Provider, store } from '../Provider'
@@ -78,7 +78,7 @@ storiesOf('Containers.Network', module)
         <Sidebar.medium>
           <Network
             {...dispatchProps}
-            currentChannels={currentChannels(state)}
+            currentChannels={channelsSelectors.currentChannels(state)}
             nodes={[]}
             channels={state.channels}
             currentTicker={tickerSelectors.currentTicker(state)}
