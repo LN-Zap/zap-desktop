@@ -4,6 +4,13 @@ exports[`component.UI.BackgroundPrimary should render correctly 1`] = `
 .c0 {
   color: primaryText;
   background-color: primaryColor;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
 }
 
 <div

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box } from 'rebass'
+import { Flex } from 'rebass'
 
 /**
  * @render react
@@ -9,7 +9,7 @@ import { Box } from 'rebass'
  */
 class BackgroundPrimary extends React.Component {
   render() {
-    return <Box bg="primaryColor" color="primaryText" {...this.props} />
+    return <Flex flexDirection="column" bg="primaryColor" color="primaryText" {...this.props} />
   }
 }
 
