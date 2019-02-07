@@ -368,7 +368,7 @@ class Network extends Component {
             <Panel.Footer as="footer" px={3} py={3}>
               <Form width={1} getApi={this.setFormApi}>
                 {({ formState }) => (
-                  <Flex alignItems="center" justifyContet="space-between" width={1}>
+                  <Flex alignItems="center">
                     <Text fontSize="l" css={{ opacity: 0.5 }} mt={2}>
                       <Search />
                     </Text>
@@ -389,7 +389,6 @@ class Network extends Component {
                         size="small"
                         type="button"
                         onClick={this.clearSearchQuery}
-                        ml="auto"
                       >
                         <X />
                       </Button>
