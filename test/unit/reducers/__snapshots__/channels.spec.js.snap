@@ -44,7 +44,7 @@ Object {
     "total_limbo_balance": "",
     "waiting_close_channels": Array [],
   },
-  "searchQuery": "",
+  "searchQuery": null,
   "selectedChannel": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
@@ -99,7 +99,7 @@ Object {
     "total_limbo_balance": "",
     "waiting_close_channels": Array [],
   },
-  "searchQuery": "",
+  "searchQuery": null,
   "selectedChannel": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
@@ -154,7 +154,7 @@ Object {
     3,
     4,
   ],
-  "searchQuery": "",
+  "searchQuery": null,
   "selectedChannel": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
@@ -209,7 +209,7 @@ Object {
     "total_limbo_balance": "",
     "waiting_close_channels": Array [],
   },
-  "searchQuery": "",
+  "searchQuery": null,
   "selectedChannel": null,
   "suggestedNodes": Object {
     "mainnet": Array [],

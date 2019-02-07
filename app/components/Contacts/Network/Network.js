@@ -9,6 +9,7 @@ import SuggestedNodes from 'containers/Contacts/SuggestedNodes'
 import ExternalLink from 'components/Icon/ExternalLink'
 import PlusCircle from 'components/Icon/PlusCircle'
 import Search from 'components/Icon/Search'
+import X from 'components/Icon/X'
 import {
   Bar,
   Button,
@@ -26,8 +27,7 @@ import messages from './messages'
 
 class Network extends Component {
   state = {
-    refreshing: false,
-    searchQuery: ''
+    refreshing: false
   }
 
   /*eslint-disable react/destructuring-assignment*/
@@ -41,16 +41,21 @@ class Network extends Component {
     }
   }
 
-  onSearchTextChange = event => {
-    const { value } = event.target
-    this.setState({
-      searchQuery: value
-    })
+  onSearchTextChange = value => {
     this.updateChannelSearchQuery(value)
+  }
+
+  clearSearchQuery = () => {
+    this.updateChannelSearchQuery(null)
+    this.formApi.setValue('search', '')
   }
 
   clearRefreshing = () => {
     this.setState({ refreshing: false })
+  }
+
+  setFormApi = formApi => {
+    this.formApi = formApi
   }
 
   render() {
@@ -66,6 +71,7 @@ class Network extends Component {
       },
       currentChannels,
       channelBalance,
+      searchQuery,
       ticker,
       currentTicker,
       nodes,
@@ -78,8 +84,6 @@ class Network extends Component {
       currencyName,
       intl
     } = this.props
-
-    const { searchQuery } = this.state
 
     if (!currentTicker || !currencyName) {
       return null
@@ -362,23 +366,37 @@ class Network extends Component {
           <>
             <Bar mt={3} borderColor="gray" css={{ opacity: 0.3 }} />
             <Panel.Footer as="footer" px={3} py={3}>
-              <Flex alignItems="center" width={1}>
-                <Text fontSize="l" css={{ opacity: 0.5 }} mt={2}>
-                  {!searchQuery && <Search />}
-                </Text>
-                <Form width={1}>
-                  <Input
-                    field="search"
-                    id="search"
-                    type="text"
-                    variant="thin"
-                    border={0}
-                    placeholder={intl.formatMessage({ ...messages.search_placeholder })}
-                    value={searchQuery}
-                    onChange={this.onSearchTextChange}
-                  />
-                </Form>
-              </Flex>
+              <Form width={1} getApi={this.setFormApi}>
+                {({ formState }) => (
+                  <Flex alignItems="center" justifyContet="space-between" width={1}>
+                    <Text fontSize="l" css={{ opacity: 0.5 }} mt={2}>
+                      <Search />
+                    </Text>
+                    <Input
+                      field="search"
+                      id="search"
+                      type="text"
+                      variant="thin"
+                      border={0}
+                      placeholder={intl.formatMessage({ ...messages.search_placeholder })}
+                      initialValue={searchQuery}
+                      onValueChange={this.onSearchTextChange}
+                      width={1}
+                    />
+                    {formState.values.search && (
+                      <Button
+                        variant="secondary"
+                        size="small"
+                        type="button"
+                        onClick={this.clearSearchQuery}
+                        ml="auto"
+                      >
+                        <X />
+                      </Button>
+                    )}
+                  </Flex>
+                )}
+              </Form>
             </Panel.Footer>
           </>
         )}
@@ -393,6 +411,7 @@ Network.propTypes = {
   channels: PropTypes.object.isRequired,
   channelBalance: PropTypes.number,
   currentTicker: PropTypes.object,
+  searchQuery: PropTypes.string,
   ticker: PropTypes.object.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,

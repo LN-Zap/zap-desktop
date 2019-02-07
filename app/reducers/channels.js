@@ -680,7 +680,7 @@ const initialState = {
   },
   openingChannel: false,
   closingChannel: false,
-  searchQuery: '',
+  searchQuery: null,
   viewType: 0,
 
   filter: 'ALL_CHANNELS',
