@@ -2,7 +2,6 @@
 
 exports[`reducers channelsReducer should correctly getChannels 1`] = `
 Object {
-  "channel": null,
   "channelForm": Object {
     "isOpen": false,
     "local_amt": "",
@@ -13,10 +12,7 @@ Object {
   "channelsLoading": true,
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "filter": Object {
-    "key": "ALL_CHANNELS",
-    "name": "All",
-  },
+  "filter": "ALL_CHANNELS",
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
@@ -48,7 +44,7 @@ Object {
     "total_limbo_balance": "",
     "waiting_close_channels": Array [],
   },
-  "searchQuery": "",
+  "searchQuery": null,
   "selectedChannel": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
@@ -61,7 +57,6 @@ Object {
 
 exports[`reducers channelsReducer should correctly openingChannel 1`] = `
 Object {
-  "channel": null,
   "channelForm": Object {
     "isOpen": false,
     "local_amt": "",
@@ -72,10 +67,7 @@ Object {
   "channelsLoading": false,
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "filter": Object {
-    "key": "ALL_CHANNELS",
-    "name": "All",
-  },
+  "filter": "ALL_CHANNELS",
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
@@ -107,7 +99,7 @@ Object {
     "total_limbo_balance": "",
     "waiting_close_channels": Array [],
   },
-  "searchQuery": "",
+  "searchQuery": null,
   "selectedChannel": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
@@ -120,7 +112,6 @@ Object {
 
 exports[`reducers channelsReducer should correctly receiveChannel 1`] = `
 Object {
-  "channel": null,
   "channelForm": Object {
     "isOpen": false,
     "local_amt": "",
@@ -134,10 +125,7 @@ Object {
   "channelsLoading": false,
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "filter": Object {
-    "key": "ALL_CHANNELS",
-    "name": "All",
-  },
+  "filter": "ALL_CHANNELS",
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
@@ -166,66 +154,7 @@ Object {
     3,
     4,
   ],
-  "searchQuery": "",
-  "selectedChannel": null,
-  "suggestedNodes": Object {
-    "mainnet": Array [],
-    "testnet": Array [],
-  },
-  "suggestedNodesLoading": false,
-  "viewType": 0,
-}
-`;
-
-exports[`reducers channelsReducer should correctly setChannel 1`] = `
-Object {
-  "channel": "channel",
-  "channelForm": Object {
-    "isOpen": false,
-    "local_amt": "",
-    "node_key": "",
-    "push_amt": "",
-  },
-  "channels": Array [],
-  "channelsLoading": false,
-  "closingChannel": false,
-  "closingChannelIds": Array [],
-  "filter": Object {
-    "key": "ALL_CHANNELS",
-    "name": "All",
-  },
-  "filters": Array [
-    Object {
-      "key": "ALL_CHANNELS",
-      "name": "All",
-    },
-    Object {
-      "key": "ACTIVE_CHANNELS",
-      "name": "Online",
-    },
-    Object {
-      "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline",
-    },
-    Object {
-      "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending",
-    },
-    Object {
-      "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing",
-    },
-  ],
-  "loadingChannelPubkeys": Array [],
-  "openingChannel": false,
-  "pendingChannels": Object {
-    "pending_closing_channels": Array [],
-    "pending_force_closing_channels": Array [],
-    "pending_open_channels": Array [],
-    "total_limbo_balance": "",
-    "waiting_close_channels": Array [],
-  },
-  "searchQuery": "",
+  "searchQuery": null,
   "selectedChannel": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
@@ -238,7 +167,6 @@ Object {
 
 exports[`reducers channelsReducer should handle initial state 1`] = `
 Object {
-  "channel": null,
   "channelForm": Object {
     "isOpen": false,
     "local_amt": "",
@@ -249,10 +177,7 @@ Object {
   "channelsLoading": false,
   "closingChannel": false,
   "closingChannelIds": Array [],
-  "filter": Object {
-    "key": "ALL_CHANNELS",
-    "name": "All",
-  },
+  "filter": "ALL_CHANNELS",
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
@@ -284,7 +209,7 @@ Object {
     "total_limbo_balance": "",
     "waiting_close_channels": Array [],
   },
-  "searchQuery": "",
+  "searchQuery": null,
   "selectedChannel": null,
   "suggestedNodes": Object {
     "mainnet": Array [],

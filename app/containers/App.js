@@ -13,7 +13,6 @@ import {
   openChannel,
   closeChannel,
   channelsSelectors,
-  currentChannels,
   changeFilter,
   updateChannelSearchQuery,
   setSelectedChannel
@@ -102,11 +101,10 @@ const mapStateToProps = state => ({
   showManualForm: contactFormSelectors.showManualForm(state),
 
   networkInfo: infoSelectors.networkInfo(state),
-  currentChannels: currentChannels(state),
+  currentChannels: channelsSelectors.currentChannels(state),
   activeChannelPubkeys: channelsSelectors.activeChannelPubkeys(state),
   nonActiveChannelPubkeys: channelsSelectors.nonActiveChannelPubkeys(state),
-  pendingOpenChannelPubkeys: channelsSelectors.pendingOpenChannelPubkeys(state),
-  channelNodes: channelsSelectors.channelNodes(state)
+  pendingOpenChannelPubkeys: channelsSelectors.pendingOpenChannelPubkeys(state)
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
@@ -124,6 +122,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     currentTicker: stateProps.currentTicker,
     contactsform: stateProps.contactsform,
     nodes: stateProps.network.nodes,
+    searchQuery: stateProps.channels.searchQuery,
     networkInfo: stateProps.networkInfo,
     currencyName: stateProps.currencyName,
 

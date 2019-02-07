@@ -20,8 +20,7 @@ import {
 
 class Network extends Component {
   state = {
-    refreshing: false,
-    searchQuery: ''
+    refreshing: false
   }
 
   /*eslint-disable react/destructuring-assignment*/
@@ -35,12 +34,13 @@ class Network extends Component {
     }
   }
 
-  onSearchTextChange = event => {
-    const { value } = event.target
-    this.setState({
-      searchQuery: value
-    })
+  onSearchTextChange = value => {
     this.updateChannelSearchQuery(value)
+  }
+
+  clearSearchQuery = () => {
+    this.updateChannelSearchQuery(null)
+    this.formApi.setValue('search', '')
   }
 
   clearRefreshing = () => {
@@ -60,6 +60,7 @@ class Network extends Component {
       },
       currentChannels,
       channelBalance,
+      searchQuery,
       currentTicker,
       nodes,
       fetchChannels,
@@ -72,8 +73,6 @@ class Network extends Component {
       intl
     } = this.props
 
-    const { searchQuery } = this.state
-
     if (!currentTicker || !currencyName || !networkInfo) {
       return null
     }
@@ -85,67 +84,17 @@ class Network extends Component {
 
     // when the user clicks the action to close the channel
     const removeClicked = removeChannel => {
-      closeChannel({
-        channel_point: removeChannel.channel_point,
-        chan_id: removeChannel.chan_id,
-        force: !removeChannel.active
-      })
+      const { channel_point, chan_id, active } = removeChannel
+      closeChannel({ channel_point, chan_id, force: !active })
     }
 
     // when a user clicks a channel
     const channelClicked = clickedChannel => {
-      if (selectedChannel === clickedChannel) {
+      if (selectedChannel && selectedChannel.channel_point === clickedChannel.channel_point) {
         setSelectedChannel(null)
       } else {
         setSelectedChannel(clickedChannel)
       }
-    }
-
-    const displayNodeName = displayedChannel => {
-      // due to inconsistent API vals the remote nodes pubkey will be under remote_pubkey for active channels and
-      // remote_node_pub for closing channels. remote_node_pubkey gets the remote pubkey depending on what type of
-      // channel we have
-      const remote_node_pubkey = displayedChannel.remote_pubkey || displayedChannel.remote_node_pub
-
-      const node = nodes.find(n => n.pub_key === remote_node_pubkey)
-
-      if (node && node.alias && node.alias.length) {
-        return node.alias
-      }
-
-      return displayedChannel.remote_pubkey
-        ? displayedChannel.remote_pubkey.substring(0, 10)
-        : displayedChannel.remote_node_pub.substring(0, 10)
-    }
-
-    const channelStatus = statusChannel => {
-      // if the channel has a confirmation_height property that means it's pending
-      if (Object.prototype.hasOwnProperty.call(statusChannel, 'confirmation_height')) {
-        return 'pending'
-      }
-
-      // if the channel has a closing tx that means it's closing
-      if (Object.prototype.hasOwnProperty.call(statusChannel, 'closing_txid')) {
-        return 'closing'
-      }
-
-      // if the channel is in waiting_close_channels phase
-      if (Object.prototype.hasOwnProperty.call(statusChannel, 'limbo_balance')) {
-        return 'closing'
-      }
-
-      // if we are in the process of closing this channel
-      if (closingChannelIds.includes(statusChannel.chan_id)) {
-        return 'closing'
-      }
-
-      // if the channel isn't active that means the remote peer isn't online
-      if (!statusChannel.active) {
-        return 'offline'
-      }
-
-      // if all of the above conditionals fail we can assume the node is online :)
-      return 'online'
     }
 
     const { refreshing } = this.state
@@ -169,7 +118,7 @@ class Network extends Component {
           <NetworkActionBar
             hasChannels={hasChannels}
             filters={filters}
-            activeKey={filter.key}
+            activeKey={filter}
             refreshClicked={refreshClicked}
             isRefreshing={refreshing}
             refreshMessage={messages.refresh}
@@ -177,7 +126,7 @@ class Network extends Component {
           />
         </Panel.Header>
 
-        <Panel.Body css={{ 'overflow-y': 'overlay' }}>
+        <Panel.Body css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
           {!hasChannels && <SuggestedNodes py={3} mx={3} />}
 
           {hasChannels && (
@@ -203,51 +152,61 @@ class Network extends Component {
                 })}
 
               {currentChannels.length > 0 &&
-                currentChannels.map((channelObj, index) => {
-                  const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel')
-                    ? channelObj.channel
-                    : channelObj
-                  const pubkey = channel.remote_node_pub || channel.remote_pubkey
-                  const isSelected = selectedChannel === channel
-                  const status = channelStatus(channelObj)
+                currentChannels.map(channelObj => {
+                  // If this is a pending channel, the channel data will be stored under the `channel` key.
+                  const channel = channelObj.channel || channelObj
+                  const {
+                    display_name,
+                    display_status,
+                    chan_id,
+                    closing_txid,
+                    channel_point,
+                    local_balance,
+                    remote_balance
+                  } = channel
+                  const isSelected = Boolean(
+                    selectedChannel && selectedChannel.channel_point === channel_point
+                  )
 
                   return (
                     <Box
-                      key={index}
+                      key={channel_point}
                       onClick={() => channelClicked(channel)}
                       bg={isSelected ? 'secondaryColor' : null}
                       pb={1}
                     >
                       <ChannelItem
-                        statusTooltip={intl.formatMessage({ ...messages[status] })}
-                        status={status}
-                        name={displayNodeName(channel)}
+                        statusTooltip={intl.formatMessage({ ...messages[display_status] })}
+                        status={display_status}
+                        name={display_name}
                         isSelected={isSelected}
                         onBrowseClick={() =>
                           blockExplorer.showTransaction(
                             networkInfo,
-                            channelObj.closing_txid || channel.channel_point.split(':')[0]
+                            closing_txid || channel_point.split(':')[0]
                           )
                         }
                       />
 
                       {isSelected && (
                         <ChannelDetails
-                          isClosing={closingChannelIds.includes(channel.chan_id)}
+                          isClosing={closingChannelIds.includes(chan_id)}
                           canClose={
-                            ['online', 'offline'].includes(status) &&
-                            !closingChannelIds.includes(channel.chan_id)
+                            ['online', 'offline'].includes(display_status) &&
+                            !closingChannelIds.includes(chan_id)
                           }
                           payLimitMsg={messages.pay_limit}
                           reqLimitMsg={messages.req_limit}
                           currencyName={currencyName}
-                          localBalance={channel.local_balance}
-                          remoteBalance={channel.remote_balance}
+                          localBalance={local_balance}
+                          remoteBalance={remote_balance}
                           onRemoveClick={() => removeClicked(channel)}
                           closingMessage={messages.closing}
-                          pubkey={`${pubkey.substring(0, 30)}...`}
+                          pubkey={display_name}
                           status={
-                            messages[status === 'online' ? 'channel_close' : 'channel_force_close']
+                            messages[
+                              display_status === 'online' ? 'channel_close' : 'channel_force_close'
+                            ]
                           }
                         />
                       )}
@@ -279,6 +238,7 @@ Network.propTypes = {
   channels: PropTypes.object.isRequired,
   channelBalance: PropTypes.number,
   currentTicker: PropTypes.object,
+  searchQuery: PropTypes.string,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string
