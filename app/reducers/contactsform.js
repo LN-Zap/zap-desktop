@@ -141,7 +141,7 @@ const nodeSelector = state => state.contactsform.node
 const channelsSelector = state => state.channels.channels
 const peersSelector = state => state.peers.peers
 const contactable = node => node.addresses.length > 0
-const testnetSelector = state => state.info.data.testnet
+const networkSelector = state => state.info.network
 const testnetNodesSelector = state => state.channels.suggestedNodes.testnet
 const mainnetNodesSelector = state => state.channels.suggestedNodes.mainnet
 
@@ -156,11 +156,11 @@ const contactableFirst = (a, b) => {
 }
 
 contactFormSelectors.suggestedNodes = createSelector(
-  testnetSelector,
+  networkSelector,
   testnetNodesSelector,
   mainnetNodesSelector,
-  (testnet, testnetNodes, mainnetNodes) => {
-    return testnet ? testnetNodes : mainnetNodes
+  (network, testnetNodes, mainnetNodes) => {
+    return network === 'testnet' ? testnetNodes : mainnetNodes
   }
 )
 
@@ -188,7 +188,10 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
 
     // list of the nodes
     return nodes
-      .filter(node => node.alias.includes(query) || node.pub_key.includes(query))
+      .filter(node => {
+        const { alias, pub_key } = node
+        return (alias && alias.includes(query)) || (pub_key && pub_key.includes(query))
+      })
       .sort(contactableFirst)
       .slice(0, LIMIT)
   }

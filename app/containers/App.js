@@ -155,7 +155,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
 
   const receiveModalProps = {
     isOpen: stateProps.address.walletModal,
-    network: stateProps.info.network,
+    networkInfo: stateProps.networkInfo,
     cryptoName: stateProps.cryptoName,
     pubkey: get(stateProps.info, 'data.uris[0]') || get(stateProps.info, 'data.identity_pubkey'),
     address: stateProps.address.address,

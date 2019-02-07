@@ -9,7 +9,14 @@ import Qrcode from 'components/Icon/Qrcode'
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'
 
-const Wallet = ({ totalBalance, currentTicker, info, ticker, openWalletModal, setFormType }) => {
+const Wallet = ({
+  totalBalance,
+  currentTicker,
+  networkInfo,
+  ticker,
+  openWalletModal,
+  setFormType
+}) => {
   if (!currentTicker || !ticker.currency) {
     return null
   }
@@ -19,9 +26,9 @@ const Wallet = ({ totalBalance, currentTicker, info, ticker, openWalletModal, se
       <Flex as="header" justifyContent="space-between" pt={2}>
         <Flex as="section" alignItems="center" mt={4}>
           <ZapLogo width="70px" height="32px" />
-          {info.data.testnet && (
+          {networkInfo.id !== 'mainnet' && (
             <Text color="superGreen" fontSize={1} ml={2}>
-              Testnet
+              {networkInfo.name}
             </Text>
           )}
         </Flex>
@@ -70,7 +77,10 @@ Wallet.propTypes = {
   // Store props
   totalBalance: PropTypes.number,
   currentTicker: PropTypes.object,
-  info: PropTypes.object.isRequired,
+  networkInfo: PropTypes.shape({
+    id: PropTypes.string,
+    name: PropTypes.string
+  }),
   ticker: PropTypes.object.isRequired,
 
   // Dispatch props
