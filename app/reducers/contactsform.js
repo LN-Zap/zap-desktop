@@ -45,8 +45,12 @@ export function openContactsForm() {
 }
 
 export function closeContactsForm() {
-  return {
-    type: CLOSE_CONTACTS_FORM
+  return dispatch => {
+    //clear search on close
+    dispatch(updateContactFormSearchQuery(''))
+    dispatch({
+      type: CLOSE_CONTACTS_FORM
+    })
   }
 }
 
