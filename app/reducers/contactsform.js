@@ -188,7 +188,10 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
 
     // list of the nodes
     return nodes
-      .filter(node => node.alias.includes(query) || node.pub_key.includes(query))
+      .filter(node => {
+        const { alias, pub_key } = node
+        return (alias && alias.includes(query)) || (pub_key && pub_key.includes(query))
+      })
       .sort(contactableFirst)
       .slice(0, LIMIT)
   }
