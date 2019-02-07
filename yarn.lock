@@ -10444,10 +10444,10 @@ lnd-binary@0.3.9:
     "true-case-path" "^1.0.2"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.4.tgz#90541037fe4e58c8cc4ca8ac62fbf82367c1fd47"
-  integrity sha512-r+MAk6/m71nTug3mOpifKX18hczaqqa/o7dfLjzjlLwgd3Ovs/PH6HxmbOMbV6xCNjv8vo4YvQ6VQEYA4zaQHw==
+lnd-grpc@0.1.5:
+  version "0.1.5"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.5.tgz#7d0e716d15f512789fdc3c0bc88ca266814dc62e"
+  integrity sha512-Utohnn5MxqzZk+qAly1p7dqX9ESvy3UxQRQHK7Rvzm6ERoNpiDhWCBMEH3+ZWisjgx7yg78NY9VDoGO4wWu9iA==
   dependencies:
     debug "^4.1.1"
     semver "^5.6.0"
@@ -17065,19 +17065,7 @@ yauzl@2.4.1:
   dependencies:
     fd-slicer "~1.0.1"
 
-yup@0.26.10:
-  version "0.26.10"
-  resolved "https://registry.yarnpkg.com/yup/-/yup-0.26.10.tgz#3545839663289038faf25facfc07e11fd67c0cb1"
-  integrity sha512-keuNEbNSnsOTOuGCt3UJW69jDE3O4P+UHAakO7vSeFMnjaitcmlbij/a3oNb9g1Y1KvSKH/7O1R2PQ4m4TRylw==
-  dependencies:
-    "@babel/runtime" "7.0.0"
-    fn-name "~2.0.1"
-    lodash "^4.17.10"
-    property-expr "^1.5.0"
-    synchronous-promise "^2.0.5"
-    toposort "^2.0.2"
-
-yup@^0.26.10:
+yup@0.26.10, yup@^0.26.10:
   version "0.26.10"
   resolved "https://registry.yarnpkg.com/yup/-/yup-0.26.10.tgz#3545839663289038faf25facfc07e11fd67c0cb1"
   integrity sha512-keuNEbNSnsOTOuGCt3UJW69jDE3O4P+UHAakO7vSeFMnjaitcmlbij/a3oNb9g1Y1KvSKH/7O1R2PQ4m4TRylw==
