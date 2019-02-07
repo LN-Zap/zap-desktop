@@ -2,7 +2,6 @@
 
 import channelsReducer, {
   SET_CHANNEL_FORM,
-  SET_CHANNEL,
   GET_CHANNELS,
   RECEIVE_CHANNELS,
   OPENING_CHANNEL,
@@ -18,10 +17,6 @@ describe('reducers', () => {
 
     it('should have SET_CHANNEL_FORM', () => {
       expect(SET_CHANNEL_FORM).toEqual('SET_CHANNEL_FORM')
-    })
-
-    it('should have SET_CHANNEL', () => {
-      expect(SET_CHANNEL).toEqual('SET_CHANNEL')
     })
 
     it('should have GET_CHANNELS', () => {
@@ -42,12 +37,6 @@ describe('reducers', () => {
 
     it('should have OPENING_FAILURE', () => {
       expect(OPENING_FAILURE).toEqual('OPENING_FAILURE')
-    })
-
-    it('should correctly setChannel', () => {
-      expect(
-        channelsReducer(undefined, { type: SET_CHANNEL, channel: 'channel' })
-      ).toMatchSnapshot()
     })
 
     it('should correctly getChannels', () => {
