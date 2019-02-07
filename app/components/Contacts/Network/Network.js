@@ -101,58 +101,11 @@ class Network extends Component {
 
     // when a user clicks a channel
     const channelClicked = clickedChannel => {
-      if (selectedChannel === clickedChannel) {
+      if (selectedChannel && selectedChannel.channel_point === clickedChannel.channel_point) {
         setSelectedChannel(null)
       } else {
         setSelectedChannel(clickedChannel)
       }
-    }
-
-    const displayNodeName = displayedChannel => {
-      // due to inconsistent API vals the remote nodes pubkey will be under remote_pubkey for active channels and
-      // remote_node_pub for closing channels. remote_node_pubkey gets the remote pubkey depending on what type of
-      // channel we have
-      const remote_node_pubkey = displayedChannel.remote_pubkey || displayedChannel.remote_node_pub
-
-      const node = nodes.find(n => n.pub_key === remote_node_pubkey)
-
-      if (node && node.alias && node.alias.length) {
-        return node.alias
-      }
-
-      return displayedChannel.remote_pubkey
-        ? displayedChannel.remote_pubkey.substring(0, 10)
-        : displayedChannel.remote_node_pub.substring(0, 10)
-    }
-
-    const channelStatus = statusChannel => {
-      // if the channel has a confirmation_height property that means it's pending
-      if (Object.prototype.hasOwnProperty.call(statusChannel, 'confirmation_height')) {
-        return 'pending'
-      }
-
-      // if the channel has a closing tx that means it's closing
-      if (Object.prototype.hasOwnProperty.call(statusChannel, 'closing_txid')) {
-        return 'closing'
-      }
-
-      // if the channel is in waiting_close_channels phase
-      if (Object.prototype.hasOwnProperty.call(statusChannel, 'limbo_balance')) {
-        return 'closing'
-      }
-
-      // if we are in the process of closing this channel
-      if (closingChannelIds.includes(statusChannel.chan_id)) {
-        return 'closing'
-      }
-
-      // if the channel isn't active that means the remote peer isn't online
-      if (!statusChannel.active) {
-        return 'offline'
-      }
-
-      // if all of the above conditionals fail we can assume the node is online :)
-      return 'online'
     }
 
     const fiatAmount = satoshisToFiat(channelBalance || 0, currentTicker[ticker.fiatTicker])
@@ -205,11 +158,7 @@ class Network extends Component {
 
           {hasChannels && (
             <Flex justifyContent="space-between" alignItems="center" mx={3} mb={3}>
-              <Dropdown
-                activeKey={filter.key}
-                items={filters}
-                onChange={key => changeFilter(filters.find(f => f.key === key))}
-              />
+              <Dropdown activeKey={filter} items={filters} onChange={changeFilter} />
               <Button
                 size="small"
                 variant="secondary"
@@ -263,17 +212,24 @@ class Network extends Component {
                 })}
 
               {currentChannels.length > 0 &&
-                currentChannels.map((channelObj, index) => {
-                  const channel = Object.prototype.hasOwnProperty.call(channelObj, 'channel')
-                    ? channelObj.channel
-                    : channelObj
-                  const pubkey = channel.remote_node_pub || channel.remote_pubkey
-                  const isSelected = selectedChannel === channel
-                  const status = channelStatus(channelObj)
+                currentChannels.map(channelObj => {
+                  // If this is a pending channel, the channel data will be stored under the `channel` key.
+                  const channel = channelObj.channel || channelObj
+                  const {
+                    display_name,
+                    display_status,
+                    chan_id,
+                    closing_txid,
+                    channel_point,
+                    local_balance,
+                    remote_balance
+                  } = channel
+                  const isSelected =
+                    selectedChannel && selectedChannel.channel_point === channel.channel_point
 
                   return (
                     <Box
-                      key={index}
+                      key={channel_point}
                       onClick={() => channelClicked(channel)}
                       bg={isSelected ? 'secondaryColor' : null}
                       pb={1}
@@ -289,13 +245,11 @@ class Network extends Component {
                         <Box
                           mr={2}
                           className="hint--right"
-                          data-hint={intl.formatMessage({ ...messages[status] })}
+                          data-hint={intl.formatMessage({ ...messages[display_status] })}
                         >
-                          <StatusIndicator variant={status} />
+                          <StatusIndicator variant={display_status} />
                         </Box>
-                        <Text css={{ '&:hover': { opacity: 0.5 } }}>
-                          {displayNodeName(channel)}
-                        </Text>
+                        <Text css={{ '&:hover': { opacity: 0.5 } }}>{display_name}</Text>
                         {isSelected && (
                           <Button
                             variant="secondary"
@@ -306,7 +260,7 @@ class Network extends Component {
                             onClick={() =>
                               blockExplorer.showTransaction(
                                 networkInfo,
-                                channelObj.closing_txid || channel.channel_point.split(':')[0]
+                                closing_txid || channel_point.split(':')[0]
                               )
                             }
                           >
@@ -317,10 +271,9 @@ class Network extends Component {
 
                       {isSelected && (
                         <Box as="section" py={2} bg={isSelected ? 'secondaryColor' : null}>
-                          <Text color="gray" fontSize="s" mx={3}>{`${pubkey.substring(
-                            0,
-                            30
-                          )}...`}</Text>
+                          <Text color="gray" fontSize="s" mx={3}>
+                            {display_name}
+                          </Text>
 
                           <Bar borderColor="primaryColor" borderBottom={2} my={3} />
 
@@ -331,7 +284,7 @@ class Network extends Component {
                               </Text>
                               <Text fontSize="s">
                                 <Value
-                                  value={channel.local_balance}
+                                  value={local_balance}
                                   currency={ticker.currency}
                                   currentTicker={currentTicker}
                                   fiatTicker={ticker.fiatTicker}
@@ -345,7 +298,7 @@ class Network extends Component {
                               </Text>
                               <Text fontSize="s">
                                 <Value
-                                  value={channel.remote_balance}
+                                  value={remote_balance}
                                   currency={ticker.currency}
                                   currentTicker={currentTicker}
                                   fiatTicker={ticker.fiatTicker}
@@ -355,7 +308,7 @@ class Network extends Component {
                             </Flex>
                           </Flex>
 
-                          {closingChannelIds.includes(channel.chan_id) && (
+                          {closingChannelIds.includes(chan_id) && (
                             <Box as="footer">
                               <Bar borderColor="primaryColor" borderBottom={2} my={3} />
 
@@ -372,8 +325,8 @@ class Network extends Component {
                               </Flex>
                             </Box>
                           )}
-                          {['online', 'offline'].includes(status) &&
-                            !closingChannelIds.includes(channel.chan_id) && (
+                          {['online', 'offline'].includes(display_status) &&
+                            !closingChannelIds.includes(chan_id) && (
                               <Box as="footer">
                                 <Bar borderColor="primaryColor" borderBottom={2} my={3} />
 
@@ -386,7 +339,9 @@ class Network extends Component {
                                 >
                                   <FormattedMessage
                                     {...messages[
-                                      status === 'online' ? 'channel_close' : 'channel_force_close'
+                                      display_status === 'online'
+                                        ? 'channel_close'
+                                        : 'channel_force_close'
                                     ]}
                                   />
                                 </Text>
