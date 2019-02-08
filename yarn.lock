@@ -7262,10 +7262,10 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-react-intl-messages@0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-0.13.0.tgz#0e24bd26d65ef97d4e28229e459ef3c799927226"
-  integrity sha512-ukeadRAk/gOfyi9pBmxz52rWrDgtgXND5b/k3ewphjvGzmsccga2RK7efImwCfqpyKnNxb1y0ngvbEJYPT7Ijg==
+extract-react-intl-messages@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-1.0.0.tgz#8bd57725ddae47b47fb442514166f017b43da15c"
+  integrity sha512-EtjU1E0j9qrrFJtbE45HDsEVzJIpv+4/e2JSWnl0PZS+3DajcJ66q8cq+iEQqJbrwrHtEqS+0z0QqC/1H/+T3w==
   dependencies:
     extract-react-intl "^0.9.0"
     flat "^4.1.0"
