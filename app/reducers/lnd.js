@@ -163,7 +163,7 @@ export const startLnd = options => async (dispatch, getState) => {
   })
 }
 
-export const setStartLndError = () => ({ type: SET_START_LND_ERROR })
+export const setStartLndError = errors => ({ type: SET_START_LND_ERROR, errors })
 
 export const clearStartLndError = () => ({ type: CLEAR_START_LND_ERROR })
 
