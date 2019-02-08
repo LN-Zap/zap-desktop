@@ -7310,10 +7310,10 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-fake-indexeddb@2.0.4:
-  version "2.0.4"
-  resolved "https://registry.yarnpkg.com/fake-indexeddb/-/fake-indexeddb-2.0.4.tgz#401715deb7fc9501866c9f329bde7742599e2de8"
-  integrity sha1-QBcV3rf8lQGGbJ8ym953QlmeLeg=
+fake-indexeddb@2.0.5:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/fake-indexeddb/-/fake-indexeddb-2.0.5.tgz#829685232f79bcb9d182b8dd33934e9e5657ed18"
+  integrity sha512-C68kh3Ec3L6JZaTpRm6+TjY5AOs4bwtEOXazzb6733UL0F0jLR7j939e+TdlUmJdxumFQmXIzFhyLu5ZifQc5w==
   dependencies:
     core-js "^2.4.1"
     realistic-structured-clone "^2.0.1"
@@ -17065,19 +17065,7 @@ yauzl@2.4.1:
   dependencies:
     fd-slicer "~1.0.1"
 
-yup@0.26.10:
-  version "0.26.10"
-  resolved "https://registry.yarnpkg.com/yup/-/yup-0.26.10.tgz#3545839663289038faf25facfc07e11fd67c0cb1"
-  integrity sha512-keuNEbNSnsOTOuGCt3UJW69jDE3O4P+UHAakO7vSeFMnjaitcmlbij/a3oNb9g1Y1KvSKH/7O1R2PQ4m4TRylw==
-  dependencies:
-    "@babel/runtime" "7.0.0"
-    fn-name "~2.0.1"
-    lodash "^4.17.10"
-    property-expr "^1.5.0"
-    synchronous-promise "^2.0.5"
-    toposort "^2.0.2"
-
-yup@^0.26.10:
+yup@0.26.10, yup@^0.26.10:
   version "0.26.10"
   resolved "https://registry.yarnpkg.com/yup/-/yup-0.26.10.tgz#3545839663289038faf25facfc07e11fd67c0cb1"
   integrity sha512-keuNEbNSnsOTOuGCt3UJW69jDE3O4P+UHAakO7vSeFMnjaitcmlbij/a3oNb9g1Y1KvSKH/7O1R2PQ4m4TRylw==
