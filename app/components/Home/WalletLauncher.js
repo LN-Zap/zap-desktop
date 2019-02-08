@@ -210,7 +210,7 @@ class WalletLauncher extends React.Component {
       <Box css={{ height: '100%', 'overflow-y': 'overlay' }} pt={4} px={5} pb={6}>
         <Form getApi={this.setFormApi} onSubmit={this.onSubmit} initialValues={walletConverted}>
           {() => (
-            <>
+            <Box>
               <Flex mb={4} alignItems="center">
                 <Box width="75%" mr={3}>
                   <WalletHeader wallet={wallet} />
@@ -249,7 +249,7 @@ class WalletLauncher extends React.Component {
               </Flex>
 
               {this.hasChanges() && <WalletActionBar buttons={actionBarButtons} />}
-            </>
+            </Box>
           )}
         </Form>
       </Box>

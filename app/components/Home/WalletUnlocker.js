@@ -115,7 +115,7 @@ class WalletUnlocker extends React.Component {
               validateOnChange={formState.invalid}
             />
 
-            <Button type="submit" disable={unlockingWallet} processing={unlockingWallet}>
+            <Button type="submit" disabled={unlockingWallet} processing={unlockingWallet}>
               <FormattedMessage {...messages.wallet_unlocker_button_label} />
             </Button>
           </>
