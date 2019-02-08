@@ -12,6 +12,7 @@ class WalletLauncher extends React.Component {
     wallet: PropTypes.object.isRequired,
     deleteWallet: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
+    startingLnd: PropTypes.bool.isRequired,
     lightningGrpcActive: PropTypes.bool.isRequired,
     walletUnlockerGrpcActive: PropTypes.bool.isRequired,
     startLndError: PropTypes.object,
@@ -75,7 +76,7 @@ class WalletLauncher extends React.Component {
   }
 
   render() {
-    const { startLnd, wallet } = this.props
+    const { startLnd, startingLnd, wallet } = this.props
 
     return (
       <Box>
@@ -84,7 +85,14 @@ class WalletLauncher extends React.Component {
             <WalletHeader wallet={wallet} />
           </Box>
           <Flex ml="auto" justifyContent="flex-end" flexDirection="column">
-            <Button type="submit" size="small" form={`wallet-settings-form-${wallet.id}`} ml={2}>
+            <Button
+              type="submit"
+              size="small"
+              disabled={startingLnd}
+              processing={startingLnd}
+              form={`wallet-settings-form-${wallet.id}`}
+              ml={2}
+            >
               <FormattedMessage {...messages.launch_wallet_button_text} />
             </Button>
           </Flex>
