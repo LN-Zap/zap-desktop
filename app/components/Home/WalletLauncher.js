@@ -78,7 +78,7 @@ class WalletLauncher extends React.Component {
     const { startLnd, wallet } = this.props
 
     return (
-      <React.Fragment>
+      <Box>
         <Flex mb={4} alignItems="center">
           <Box width="75%" mr={3}>
             <WalletHeader wallet={wallet} />
@@ -126,7 +126,7 @@ class WalletLauncher extends React.Component {
             <FormattedMessage {...messages.delete_wallet_button_text} />
           </Button>
         </Flex>
-      </React.Fragment>
+      </Box>
     )
   }
 }
