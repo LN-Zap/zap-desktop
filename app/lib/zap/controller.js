@@ -10,6 +10,11 @@ import Lightning from '../lnd/lightning'
 import Neutrino from '../lnd/neutrino'
 import WalletUnlocker from '../lnd/walletUnlocker'
 
+const LND_GRPC_HOST_ERROR = 'LND_GRPC_HOST_ERROR'
+const LND_GRPC_CERT_ERROR = 'LND_GRPC_CERT_ERROR'
+const LND_GRPC_MACAROON_ERROR = 'LND_GRPC_MACAROON_ERROR'
+const LND_METHOD_UNAVAILABLE = 12
+
 type shutdownOptions = {
   signal?: string,
   timeout?: number
@@ -175,32 +180,60 @@ class ZapController {
     return this.startNeutrino()
   }
 
-  onBeforeStartRemoteLnd() {
+  async onBeforeStartRemoteLnd() {
     mainLog.debug('[FSM] onBeforeStartRemoteLnd...')
     mainLog.info('Connecting to lnd:')
     mainLog.info(' > host:', this.lndConfig.host)
     mainLog.info(' > cert:', this.lndConfig.cert && truncate(this.lndConfig.cert))
     mainLog.info(' > macaroon:', this.lndConfig.macaroon && truncate(this.lndConfig.macaroon))
 
-    return this.startLightningWallet().catch(e => {
+    try {
+      await this.startLightningWallet()
+    } catch (e) {
+      /*
+        In the GRPC API, there are 2 separate services:
+
+        1) `WalletUnlocker`
+        2) `Lightning`
+
+        The `WalletUnlocker` is used for provisioning and unlocking wallets, and the `Lightning` service
+        is used for interacting with unlocked wallets.
+
+        Before we connect to lnd, we have no way to know what state the wallet is in, and therefore which
+        service we need to connect to. The only way for us to find out is to try making a call against it.
+        Only one of the services is available at any given time
+
+        The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
+        verify that it is accessible. If it is not, an error 12 is thrown which is the gRPC code for `UNIMPLEMENTED`
+        which indicates that the requested operation is not implemented or not supported/enabled in the service.
+        See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
+      */
+
+      const isSuccess = code => code === LND_METHOD_UNAVAILABLE
+
+      // first check for the successful case
+      if (isSuccess(e.code)) {
+        // connection successful
+        this.sendMessage('startLndSuccess')
+        return this.startWalletUnlocker()
+      }
+      // error messages to help identify certain type of errors
+      const MACAROON_ERROR_MESSAGES = [
+        'cannot determine data format of binary-encoded macaroon',
+        'verification failed: signature mismatch after caveat verification',
+        'unmarshal v2: section extends past end of buffer'
+      ]
+      // else try to figure out the error
       const errors = {}
-      // There was a problem connecting to the host.
-      if (e.code === 'LND_GRPC_HOST_ERROR') {
+      if (e.code === LND_GRPC_HOST_ERROR) {
         errors.host = e.message
       }
       // There was a problem accessing the ssl cert.
-      if (e.code === 'LND_GRPC_CERT_ERROR') {
+      else if (e.code === LND_GRPC_CERT_ERROR) {
         errors.cert = e.message
       }
       //  There was a problem accessing the macaroon file.
-      else if (
-        e.code === 'LND_GRPC_MACAROON_ERROR' ||
-        [
-          'cannot determine data format of binary-encoded macaroon',
-          'verification failed: signature mismatch after caveat verification',
-          'unmarshal v2: section extends past end of buffer'
-        ].includes(e.message)
-      ) {
+      else if (e.code === LND_GRPC_MACAROON_ERROR || MACAROON_ERROR_MESSAGES.includes(e.message)) {
         errors.macaroon = e.message
       }
       // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
@@ -208,19 +241,10 @@ class ZapController {
         errors.host = `Unable to connect to host: ${e.details || e.message}`
       }
 
-      // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
-      // verify that it is accessible. If it is not, an error 12 is thrown which is the gRPC code for `UNIMPLEMENTED`
-      // which indicates that the requested operation is not implemented or not supported/enabled in the service.
-      // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
-      if (e.code === 12) {
-        this.sendMessage('startLndSuccess')
-        return this.startWalletUnlocker()
-      }
-
       // Notify the app of errors.
       this.sendMessage('startLndError', errors)
       throw e
-    })
+    }
   }
 
   onBeforeStopLnd() {
