@@ -163,12 +163,6 @@ class WalletLauncher extends React.Component {
   }
 
   hasChanges = () => {
-    const whiteList = {
-      ...autopilotDefaults,
-      autopilot: '',
-      alias: '',
-      name: ''
-    }
     const { wallet } = this.props
     const formState = this.formApi.getState()
     // to properly compare changes between current form state and db config
@@ -179,13 +173,23 @@ class WalletLauncher extends React.Component {
     // 4. wallet type
     // 5. it is required to use unsafe shallow compare so "5" equals 5
     if (wallet.type !== 'local') {
-      return !unsafeShallowCompare(clean(wallet), clean(formState.values), whiteList)
+      return !unsafeShallowCompare(clean(wallet), clean(formState.values), { name: '' })
     }
 
+    const whiteList = {
+      ...autopilotDefaults,
+      autopilot: '',
+      alias: '',
+      name: ''
+    }
     // local node
     return !unsafeShallowCompare(
-      clean(Object.assign({}, formToWalletFormat(autopilotDefaults), wallet)),
-      clean(formToWalletFormat(Object.assign({}, autopilotDefaults, formState.values))),
+      clean(Object.assign({}, { autopilot: false }, formToWalletFormat(autopilotDefaults), wallet)),
+      clean(
+        formToWalletFormat(
+          Object.assign({}, { autopilot: false }, autopilotDefaults, formState.values)
+        )
+      ),
       whiteList
     )
   }
