@@ -27,6 +27,8 @@ import Hand from 'components/Icon/Hand'
 import Help from 'components/Icon/Help'
 import Help2 from 'components/Icon/Help2'
 import IconPlus from 'components/Icon/IconPlus'
+import LayoutCards from 'components/Icon/LayoutCards'
+import LayoutList from 'components/Icon/LayoutList'
 import Lightning from 'components/Icon/Lightning'
 import Litecoin from 'components/Icon/Litecoin'
 import LndLogo from 'components/Icon/LndLogo'
@@ -77,6 +79,8 @@ const zapIconsList = {
   Hand,
   Help,
   Help2,
+  LayoutCards,
+  LayoutList,
   IconPlus,
   Lightning,
   Litecoin,
