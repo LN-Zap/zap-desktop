@@ -1,29 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
-import { ChannelBalance, ChannelCount } from 'components/Channels'
+import { Box } from 'rebass'
+import { ChannelsInfo, ChannelsActions } from 'components/Channels'
 
-const Channels = ({
+const ChannelsHeader = ({
   channels,
   channelBalance,
-  cryptoCurrency,
-  cryptoCurrencies,
-  setCryptoCurrency,
+  changeFilter,
+  filter,
+  filters,
+  updateChannelSearchQuery,
+  searchQuery,
   ...rest
 }) => (
-  <Flex as="header" mb={3} alignItems="center" {...rest}>
-    <ChannelCount channels={channels} mr={4} />
-    <ChannelBalance channelBalance={channelBalance} />
-  </Flex>
+  <Box as="header" mb={3} {...rest}>
+    <ChannelsInfo channels={channels} channelBalance={channelBalance} mb={3} />
+    <ChannelsActions
+      filter={filter}
+      filters={filters}
+      changeFilter={changeFilter}
+      updateChannelSearchQuery={updateChannelSearchQuery}
+      searchQuery={searchQuery}
+    />
+  </Box>
 )
 
-Channels.propTypes = {
+ChannelsHeader.propTypes = {
   channels: PropTypes.array,
-  channelBalance: PropTypes.number.isRequired
+  channelBalance: PropTypes.number.isRequired,
+  filter: PropTypes.string.isRequired,
+  filters: PropTypes.array.isRequired,
+  searchQuery: PropTypes.string,
+  changeFilter: PropTypes.func.isRequired,
+  updateChannelSearchQuery: PropTypes.func.isRequired
 }
 
-Channels.defaultProps = {
+ChannelsHeader.defaultProps = {
   channels: []
 }
 
-export default Channels
+export default ChannelsHeader

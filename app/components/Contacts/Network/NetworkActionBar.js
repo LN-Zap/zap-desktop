@@ -15,11 +15,7 @@ const NetworkActionBar = ({
 }) =>
   hasChannels && (
     <Flex justifyContent="space-between" alignItems="center" mx={3} mb={3}>
-      <Dropdown
-        activeKey={activeKey}
-        items={filters}
-        onChange={key => changeFilter(filters.find(f => f.key === key))}
-      />
+      <Dropdown activeKey={activeKey} items={filters} onChange={changeFilter} />
       <Button size="small" variant="secondary" onClick={refreshClicked}>
         {isRefreshing ? <Spinner /> : <FormattedMessage {...refreshMessage} />}
       </Button>

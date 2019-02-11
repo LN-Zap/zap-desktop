@@ -25,6 +25,11 @@ function mapDefaultBorderColor(props) {
   } = props
 
   let borderColor = gray
+
+  if (!props.highlightOnValid) {
+    return borderColor
+  }
+
   if (readOnly || disabled) {
     borderColor = gray
   } else if (error || asyncError) {
@@ -42,6 +47,11 @@ function mapFocusBorderColor(props) {
       colors: { lightningOrange, superGreen }
     }
   } = props
+
+  if (!props.highlightOnValid) {
+    return lightningOrange
+  }
+
   return isFieldValid(fieldState) ? superGreen : lightningOrange
 }
 
@@ -93,7 +103,8 @@ class TextArea extends React.PureComponent {
   static defaultProps = {
     description: null,
     label: null,
-    showMessage: true
+    showMessage: true,
+    highlightOnValid: true
   }
 
   state = {
