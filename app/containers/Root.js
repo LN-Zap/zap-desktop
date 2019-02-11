@@ -8,6 +8,7 @@ import { ThemeProvider } from 'styled-components'
 import { removeNotification, notificationSelectors } from 'reducers/notification'
 import { initTheme, themeSelectors } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
+import { isLoading } from 'reducers/utils'
 import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
 import { Page, Titlebar, GlobalStyle, Modal } from 'components/UI'
@@ -109,7 +110,7 @@ const mapStateToProps = state => ({
   hasWallets: walletSelectors.hasWallets(state),
   notifications: notificationSelectors.getNotificationState(state),
   theme: themeSelectors.currentThemeSettings(state),
-  isLoading: appSelectors.isLoading(state),
+  isLoading: isLoading(state),
   isMounted: appSelectors.isMounted(state)
 })
 

@@ -60,7 +60,6 @@ const ipc = createIpc({
   lndBlockHeight,
   lndCfilterHeight,
   lightningGrpcActive,
-
   receiveInfo,
 
   receivePeers,

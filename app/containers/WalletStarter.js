@@ -6,7 +6,7 @@ import { Redirect } from 'react-router'
 import { walletSelectors } from 'reducers/wallet'
 
 /**
- * Auxiliary router path that starts wallet or gRPC
+ * Auxiliary router path that starts wallet or unlocker gRPC
  * connection and redirects to a relevant path when complete
  */
 class WalletStarter extends Component {
