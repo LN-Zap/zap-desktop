@@ -1,6 +1,6 @@
 # Troubleshooting
 
-If you're encountering some issues when trying to develop, build, or run Zap Desktop, here's a list of resolutions to some of the problems you may be experiencing.
+If you're encountering some issues when trying to develop, build, or run Zap, here's a list of resolutions to some of the problems you may be experiencing.
 
 ## Table of Contents
 

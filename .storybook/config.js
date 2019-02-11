@@ -65,7 +65,7 @@ addDecorator(withKnobs)
 // Options
 addDecorator(
   withOptions({
-    name: 'Zap Desktop',
+    name: 'Zap',
     url: 'https://ln-zap.github.io/zap-desktop',
     theme: themes.dark,
     hierarchySeparator: /\./

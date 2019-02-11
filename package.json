@@ -1,6 +1,6 @@
 {
   "name": "zap-desktop",
-  "productName": "ZapDesktop",
+  "productName": "Zap",
   "version": "0.3.4-beta",
   "description": "desktop application for the lightning network",
   "scripts": {
@@ -71,8 +71,8 @@
     "yarn": ">=0.21.3"
   },
   "build": {
-    "productName": "ZapDesktop",
-    "appId": "org.develar.ZapDesktop",
+    "productName": "Zap",
+    "appId": "org.develar.Zap",
     "generateUpdatesFilesForAllChannels": true,
     "files": [
       "dist/",
