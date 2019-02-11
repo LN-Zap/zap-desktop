@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Bar, Button, Form, Header, Label, Panel, Text, TextArea } from 'components/UI'
 import { CurrencyFieldGroup } from 'containers/UI'
 import Lightning from 'components/Icon/Lightning'
@@ -32,7 +32,8 @@ class Request extends React.Component {
     /** Show a notification */
     showNotification: PropTypes.func.isRequired,
     /** Create an invoice using the supplied details */
-    createInvoice: PropTypes.func.isRequired
+    createInvoice: PropTypes.func.isRequired,
+    intl: intlShape.isRequired
   }
 
   static defaultProps = {

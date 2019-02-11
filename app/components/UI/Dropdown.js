@@ -125,6 +125,8 @@ class Dropdown extends React.Component {
   }
 
   static propTypes = {
+    theme: PropTypes.object.isRequired,
+    justify: PropTypes.string,
     activeKey: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired,
     onChange: PropTypes.func

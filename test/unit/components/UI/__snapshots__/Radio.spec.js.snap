@@ -92,7 +92,6 @@ exports[`component.UI.Radio should render correctly 1`] = `
       fontSize="m"
       fontWeight="light"
       htmlFor="item1"
-      opacity={null}
     >
       <div
         className="c2"
@@ -131,7 +130,6 @@ exports[`component.UI.Radio should render correctly 1`] = `
       fontSize="m"
       fontWeight="light"
       htmlFor="item2"
-      opacity={null}
     >
       <div
         className="c2"
@@ -170,7 +168,6 @@ exports[`component.UI.Radio should render correctly 1`] = `
       fontSize="m"
       fontWeight="light"
       htmlFor="item3"
-      opacity={null}
     >
       <div
         className="c2"

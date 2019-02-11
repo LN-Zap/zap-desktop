@@ -2,13 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { withFormApi, withFormState } from 'informed'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, DataRow, Input, Label, Range, Text, Toggle } from 'components/UI'
 import messages from './messages'
 
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
+    intl: intlShape.isRequired,
+    autopilotDefaults: PropTypes.object.isRequired,
+    formApi: PropTypes.object.isRequired,
+    formState: PropTypes.object.isRequired,
     wallet: PropTypes.object.isRequired
   }
 

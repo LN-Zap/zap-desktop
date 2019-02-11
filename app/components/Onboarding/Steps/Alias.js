@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Box } from 'rebass'
 import { Bar, Form, Header, Input } from 'components/UI'
 import messages from './messages'
 
 class Alias extends React.Component {
   static propTypes = {
+    intl: intlShape.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
     alias: PropTypes.string,

@@ -25,8 +25,7 @@ class Label extends React.PureComponent {
   static displayName = 'Label'
 
   render() {
-    const { readOnly } = this.props
-    return <SystemLabel {...this.props} opacity={readOnly ? 0.6 : null} />
+    return <SystemLabel {...this.props} />
   }
 }
 

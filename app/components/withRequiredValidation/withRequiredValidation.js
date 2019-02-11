@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import * as yup from 'yup'
 
 /**
@@ -8,6 +9,17 @@ import * as yup from 'yup'
 const withRequiredValidation = Component =>
   class extends React.Component {
     static displayName = 'withRequiredValidation'
+
+    static propTypes = {
+      disabled: PropTypes.bool,
+      required: PropTypes.bool,
+      validate: PropTypes.func
+    }
+
+    static defaultProps = {
+      disabled: false,
+      required: false
+    }
 
     validate = value => {
       const { disabled, required } = this.props

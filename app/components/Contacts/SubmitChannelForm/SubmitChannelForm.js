@@ -4,7 +4,7 @@ import { Box, Card } from 'rebass'
 import { convert } from 'lib/utils/btc'
 import { Bar, Button, Form, Header, Message, Panel, Span, Text } from 'components/UI'
 import { CurrencyFieldGroup } from 'containers/UI'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import messages from './messages'
 
 class SubmitChannelForm extends React.Component {
@@ -15,6 +15,7 @@ class SubmitChannelForm extends React.Component {
     dupeChanInfo: PropTypes.object,
     /** Information about the node we are trying to connect to. */
     node: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
 
     /** Close the submit chanel form. */
     closeSubmitChannelForm: PropTypes.func.isRequired,

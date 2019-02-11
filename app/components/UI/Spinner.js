@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled, { keyframes } from 'styled-components'
 import { Box } from 'rebass'
 import Spinner from 'components/Icon/Spinner'
@@ -32,6 +33,12 @@ const WrappedSpinner = ({ element, width, height, ...rest }) => {
       <Element width={width} height={height} />
     </Box>
   )
+}
+
+WrappedSpinner.propTypes = {
+  element: PropTypes.node,
+  width: PropTypes.string,
+  height: PropTypes.string
 }
 
 WrappedSpinner.defaultProps = {

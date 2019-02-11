@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, FormattedTime, injectIntl } from 'react-intl'
+import { FormattedMessage, FormattedTime, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Message, Span, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
@@ -84,7 +84,7 @@ Payment.propTypes = {
   payment: PropTypes.object.isRequired,
   nodes: PropTypes.array.isRequired,
   showActivityModal: PropTypes.func.isRequired,
-  intl: PropTypes.object.isRequired
+  intl: intlShape.isRequired
 }
 
 export default injectIntl(Payment)

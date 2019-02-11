@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
 import { Bar, Form, Header, Input, Message, Spinner, Text } from 'components/UI'
 import messages from './messages'
@@ -27,6 +27,7 @@ class SeedView extends React.Component {
     wizardState: PropTypes.object,
     seed: PropTypes.array,
     fetchingSeed: PropTypes.bool,
+    intl: intlShape.isRequired,
     fetchSeed: PropTypes.func.isRequired
   }
 

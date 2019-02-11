@@ -22,7 +22,6 @@ const ChannelCardListItem = ({
   channelId,
   channelName,
   channelPubKey,
-  channelPubKeyShort,
   channelFundingTxid,
   numUpdates,
   csvDelay,

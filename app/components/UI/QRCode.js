@@ -102,7 +102,8 @@ class ZapQRCode extends React.PureComponent {
     bg: PropTypes.string,
     border: PropTypes.number,
     obfuscate: PropTypes.bool,
-    theme: PropTypes.object.isRequired
+    theme: PropTypes.object.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
   }
 
   static defaultProps = {

@@ -14,7 +14,7 @@ const PanelBody = ({ children, css, ...rest }) => (
     {children}
   </Box>
 )
-PanelBody.propTypes = { children: PropTypes.node }
+PanelBody.propTypes = { children: PropTypes.node, css: PropTypes.object }
 
 const PanelFooter = ({ children, ...rest }) => (
   <Box {...rest} as="footer" pt="auto">
@@ -27,6 +27,11 @@ class Panel extends React.Component {
   static Header = PanelHeader
   static Body = PanelBody
   static Footer = PanelFooter
+
+  static propTypes = {
+    css: PropTypes.object,
+    children: PropTypes.node
+  }
 
   render() {
     const { children, ...rest } = this.props

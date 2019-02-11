@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { withTheme } from 'styled-components'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Form, Input, Panel, Spinner, Text } from 'components/UI'
 import { Truncate } from 'components/Util'
@@ -189,6 +189,8 @@ const AddChannel = ({
 }
 
 AddChannel.propTypes = {
+  intl: intlShape.isRequired,
+  theme: PropTypes.object.isRequired,
   contactsform: PropTypes.object.isRequired,
   closeContactsForm: PropTypes.func.isRequired,
   openSubmitChannelForm: PropTypes.func.isRequired,

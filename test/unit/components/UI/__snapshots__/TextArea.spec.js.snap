@@ -61,12 +61,14 @@ exports[`component.UI.Input should render correctly 1`] = `
         autoFocus={false}
         className="c2"
         color="primaryText"
+        disabled={false}
         fontFamily="sans"
         fontSize="m"
         fontWeight="light"
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        required={false}
         value=""
         width={1}
       />

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedTime, FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Span, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
@@ -48,6 +48,7 @@ const Invoice = ({ invoice, showActivityModal, currencyName, intl }) => (
 )
 
 Invoice.propTypes = {
+  intl: intlShape.isRequired,
   invoice: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
   currencyName: PropTypes.string.isRequired

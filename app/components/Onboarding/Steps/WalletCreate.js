@@ -6,7 +6,8 @@ class WalletCreate extends React.Component {
   static propTypes = {
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    createNewWallet: PropTypes.func.isRequired
+    createNewWallet: PropTypes.func.isRequired,
+    setWalletCreate: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -28,14 +29,7 @@ class WalletCreate extends React.Component {
   }
 
   render() {
-    const {
-      wizardApi,
-      wizardState,
-      autopilot,
-      setWalletCreate,
-      createNewWallet,
-      ...rest
-    } = this.props
+    const { wizardApi, wizardState, setWalletCreate, createNewWallet, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (

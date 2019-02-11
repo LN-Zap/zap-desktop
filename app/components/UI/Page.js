@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 
 /**
@@ -25,5 +26,9 @@ const Page = ({ css, ...rest }) => (
     {...rest}
   />
 )
+
+Page.propTypes = {
+  css: PropTypes.object
+}
 
 export default Page

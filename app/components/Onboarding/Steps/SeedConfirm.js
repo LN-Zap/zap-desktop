@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
 import { Bar, Form, Header, Input, Label } from 'components/UI'
 import messages from './messages'
@@ -11,6 +11,7 @@ class SeedConfirm extends React.Component {
   }
 
   static propTypes = {
+    intl: intlShape.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
     seed: PropTypes.array.isRequired

@@ -96,6 +96,9 @@ class Settings extends React.Component {
 }
 
 Settings.propTypes = {
+  isSettingsOpen: PropTypes.bool,
+  activeSubMenu: PropTypes.string,
+  activeWalletSettings: PropTypes.object,
   fiatProps: PropTypes.object.isRequired,
   localeProps: PropTypes.object.isRequired,
   themeProps: PropTypes.object.isRequired,

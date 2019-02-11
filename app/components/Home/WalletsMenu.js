@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
+import { intlShape, injectIntl } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Box } from 'rebass'
 import { Text } from 'components/UI'
@@ -39,10 +39,21 @@ const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
   </Box>
 )
 
+WalletGroup.propTypes = {
+  setActiveWallet: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  wallets: PropTypes.array
+}
+
+WalletGroup.defaultProps = {
+  wallets: []
+}
+
 class WalletsMenu extends React.Component {
   static displayName = 'WalletsMenu'
 
   static propTypes = {
+    intl: intlShape.isRequired,
     setActiveWallet: PropTypes.func.isRequired,
     wallets: PropTypes.array.isRequired
   }

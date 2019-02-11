@@ -83,7 +83,7 @@ const DisabledCheck = styled.div`
   border-radius: 5px;
 `
 
-const Checkbox = ({ label, description, checked, disabled, color, onChange, ...rest }) => (
+const Checkbox = ({ label, description, checked, disabled, onChange, ...rest }) => (
   <Container onClick={onChange} {...rest} disabled={disabled} checked={checked}>
     <HiddenCheckbox checked={checked} onChange={() => {}} />
     <CheckboxOutline
@@ -115,6 +115,7 @@ Checkbox.defaultProps = {
 
 Checkbox.propTypes = {
   label: PropTypes.string.isRequired,
+  description: PropTypes.string,
   checked: PropTypes.bool,
   disabled: PropTypes.bool,
   onChange: PropTypes.func.isRequired
@@ -133,6 +134,8 @@ const WrappedCheckboxAsField = ({ fieldState, fieldApi, ...rest }) => {
 }
 
 WrappedCheckboxAsField.propTypes = {
+  fieldState: PropTypes.object.isRequired,
+  fieldApi: PropTypes.object.isRequired,
   label: PropTypes.string.isRequired,
   disabled: PropTypes.bool,
   description: PropTypes.node

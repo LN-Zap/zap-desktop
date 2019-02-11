@@ -1,7 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { FormattedMessage, FormattedRelative, FormattedTime, injectIntl } from 'react-intl'
+import {
+  FormattedMessage,
+  FormattedRelative,
+  FormattedTime,
+  intlShape,
+  injectIntl
+} from 'react-intl'
 import { decodePayReq } from 'lib/utils/crypto'
 import copy from 'copy-to-clipboard'
 import { Bar, DataRow, Button, QRCode, Text } from 'components/UI'
@@ -16,6 +22,7 @@ class RequestSummary extends React.Component {
   }
 
   static propTypes = {
+    intl: intlShape.isRequired,
     /** Lnd invoice object for the payment request */
     invoice: PropTypes.object,
     /** Lightning Payment request. */

@@ -12,7 +12,6 @@ storiesOf('Components', module).addWithChapters('ActionBar', {
           title: 'Two buttons',
           sectionFn: () => (
             <ActionBar
-              isOpen
               buttons={[
                 { name: 'Cancel', onClick: () => alert('Cancel') },
                 { name: 'Save', onClick: () => alert('Save') }

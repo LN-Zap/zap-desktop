@@ -94,6 +94,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
             autoFocus={false}
             className="c3"
             color="primaryText"
+            disabled={false}
             fontFamily="sans"
             fontSize="m"
             fontWeight="light"
@@ -104,6 +105,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
             onKeyDown={[Function]}
             onMouseDown={[Function]}
             placeholder="Please select"
+            required={false}
             value=""
             width={1}
           />

@@ -23,6 +23,11 @@ const SuggestedNode = ({ node, nodeClicked, ...rest }) => (
   </Flex>
 )
 
+SuggestedNode.propTypes = {
+  node: PropTypes.object.isRequired,
+  nodeClicked: PropTypes.func.isRequired
+}
+
 const SuggestedNodes = ({
   suggestedNodesLoading,
   suggestedNodes,

@@ -79,10 +79,14 @@ const Radio = ({ value, label, description, fontWeight, onChange, onBlur, ...res
     </Label>
   </Wrapper>
 )
+
 Radio.propTypes = {
+  fontWeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   value: PropTypes.string.isRequired,
   label: PropTypes.node,
-  description: PropTypes.node
+  description: PropTypes.node,
+  onChange: PropTypes.func,
+  onBlur: PropTypes.func
 }
 
 export default Radio

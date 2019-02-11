@@ -3,14 +3,7 @@ import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 import { ChannelBalance, ChannelCount } from 'components/Channels'
 
-const ChannelsInfo = ({
-  channels,
-  channelBalance,
-  cryptoCurrency,
-  cryptoCurrencies,
-  setCryptoCurrency,
-  ...rest
-}) => (
+const ChannelsInfo = ({ channels, channelBalance, ...rest }) => (
   <Flex as="section" alignItems="center" {...rest}>
     <ChannelCount channels={channels} mr={4} />
     <ChannelBalance channelBalance={channelBalance} />

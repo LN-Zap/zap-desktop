@@ -20,7 +20,7 @@ storiesOf('Layouts', module).addWithChapters('Panel', {
         {
           sectionFn: () => (
             <Wrapper>
-              <Panel width={1} css={{ height: '100%' }}>
+              <Panel width={1}>
                 <Panel.Header bg="green">
                   <Content>Panel Header</Content>
                 </Panel.Header>
