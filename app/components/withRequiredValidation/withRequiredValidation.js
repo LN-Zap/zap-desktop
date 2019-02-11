@@ -1,5 +1,6 @@
 import React from 'react'
 import * as yup from 'yup'
+import getDisplayName from 'lib/utils/getDisplayName'
 
 /**
  * A HOC that will add validation of a `required` property to a field.
@@ -7,7 +8,7 @@ import * as yup from 'yup'
  */
 const withRequiredValidation = Component =>
   class extends React.Component {
-    static displayName = 'withRequiredValidation'
+    static displayName = `WithRequiredValidation(${getDisplayName(Component)})`
 
     validate = value => {
       const { disabled, required } = this.props
@@ -31,7 +32,7 @@ const withRequiredValidation = Component =>
     }
 
     render() {
-      return <Component validate={this.validate} {...this.props} />
+      return <Component {...this.props} validate={this.validate} />
     }
   }
 

@@ -7,6 +7,7 @@ import * as yup from 'yup'
 import { convert } from 'lib/utils/btc'
 import { formatValue, parseNumber } from 'lib/utils/crypto'
 import Input from 'components/UI/Input'
+import withNumberInputMask from 'components/withNumberInputMask'
 
 /**
  * @render react
@@ -59,44 +60,15 @@ class FiatAmountInput extends React.Component {
     }
   }
 
-  handleKeyDown = e => {
-    let { value } = e.target
-
-    // Do nothing if the key press includes a meta key (support copy/paste etc)
-    if (e.metaKey || e.ctrlKey) {
-      return
-    }
-
-    // Prevent non-numeric values.
-    if (e.key.length === 1 && !e.key.match(/^[0-9.]$/)) {
-      e.preventDefault()
-      return
-    }
-
-    // Do not allow multiple dots.
-    if (e.key === '.') {
-      if (value.search(/\./) >= 0) {
-        e.preventDefault()
-      }
-      return
-    }
-  }
-
   render() {
     const rules = this.getRules()
     return (
-      <Input
-        {...this.props}
-        type="text"
-        placeholder={rules.placeholder}
-        pattern={rules.pattern}
-        onKeyDown={this.handleKeyDown}
-      />
+      <Input {...this.props} type="text" placeholder={rules.placeholder} pattern={rules.pattern} />
     )
   }
 }
 
-const FiatAmountInputAsField = asField(FiatAmountInput)
+const FiatAmountInputAsField = FiatAmountInput
 
 class WrappedFiatAmountInputAsField extends React.Component {
   validate = value => {
@@ -130,4 +102,4 @@ class WrappedFiatAmountInputAsField extends React.Component {
   }
 }
 
-export default WrappedFiatAmountInputAsField
+export default asField(withNumberInputMask(WrappedFiatAmountInputAsField))
