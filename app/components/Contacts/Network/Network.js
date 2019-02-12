@@ -52,7 +52,7 @@ class Network extends Component {
       channels: {
         filter,
         filters,
-        selectedChannel,
+        selectedChannelId,
         loadingChannelPubkeys,
         closingChannelIds,
         channels,
@@ -90,10 +90,10 @@ class Network extends Component {
 
     // when a user clicks a channel
     const channelClicked = clickedChannel => {
-      if (selectedChannel && selectedChannel.channel_point === clickedChannel.channel_point) {
+      if (selectedChannelId && selectedChannelId === clickedChannel.channel_point) {
         setSelectedChannel(null)
       } else {
-        setSelectedChannel(clickedChannel)
+        setSelectedChannel(clickedChannel.channel_point)
       }
     }
 
@@ -156,6 +156,7 @@ class Network extends Component {
                   // If this is a pending channel, the channel data will be stored under the `channel` key.
                   const channel = channelObj.channel || channelObj
                   const {
+                    can_close,
                     display_name,
                     legacy_staus,
                     chan_id,
@@ -165,7 +166,7 @@ class Network extends Component {
                     remote_balance
                   } = channel
                   const isSelected = Boolean(
-                    selectedChannel && selectedChannel.channel_point === channel_point
+                    selectedChannelId && selectedChannelId === channel_point
                   )
 
                   return (
@@ -191,10 +192,7 @@ class Network extends Component {
                       {isSelected && (
                         <ChannelDetails
                           isClosing={closingChannelIds.includes(chan_id)}
-                          canClose={
-                            ['online', 'offline'].includes(legacy_staus) &&
-                            !closingChannelIds.includes(chan_id)
-                          }
+                          canClose={can_close}
                           payLimitMsg={messages.pay_limit}
                           reqLimitMsg={messages.req_limit}
                           currencyName={currencyName}

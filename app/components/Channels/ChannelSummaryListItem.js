@@ -8,45 +8,43 @@ import withEllipsis from 'components/withEllipsis'
 const ClippedHeading = withEllipsis(Heading.h1)
 const ClippedText = withEllipsis(Text)
 
-const ChannelSummaryListItem = ({
-  isAvailable,
-  channelId,
-  channelName,
-  channelPubKey,
-  localBalance,
-  remoteBalance,
-  status,
-  showChannelDetail,
-  ...rest
-}) => {
-  const opacity = isAvailable ? 1 : 0.3
+const ChannelSummaryListItem = props => {
+  const { channel, setSelectedChannel, ...rest } = props
+  const {
+    channel_point,
+    display_name,
+    display_pubkey,
+    local_balance,
+    remote_balance,
+    display_status,
+    active
+  } = channel
+  const opacity = active ? 1 : 0.3
 
   return (
     <Card {...rest}>
       <Flex>
         <Box width={8 / 20}>
-          <ChannelStatus status={status} />
+          <ChannelStatus status={display_status} />
           <ClippedHeading my={1} opacity={opacity}>
-            {channelName}
+            {display_name}
           </ClippedHeading>
           <ClippedText fontSize="xs" opacity={opacity}>
-            {channelPubKey}
+            {display_pubkey}
           </ClippedText>
         </Box>
 
         <ChannelCapacity
-          localBalance={localBalance}
-          remoteBalance={remoteBalance}
+          localBalance={local_balance}
+          remoteBalance={remote_balance}
           width={1 / 2}
           pl={4}
           pr={4}
           opacity={opacity}
         />
 
-        <Flex width={2 / 20}>
-          {channelId && (
-            <ChannelMoreButton onClick={() => showChannelDetail(channelId)} ml="auto" my="auto" />
-          )}
+        <Flex width={2 / 20} alignItems="center" flexDirection="column">
+          <ChannelMoreButton onClick={() => setSelectedChannel(channel_point)} />
         </Flex>
       </Flex>
     </Card>
@@ -54,14 +52,8 @@ const ChannelSummaryListItem = ({
 }
 
 ChannelSummaryListItem.propTypes = {
-  isAvailable: PropTypes.bool.isRequired,
-  channelId: PropTypes.number,
-  channelName: PropTypes.string,
-  channelPubKey: PropTypes.string.isRequired,
-  localBalance: PropTypes.number.isRequired,
-  remoteBalance: PropTypes.number.isRequired,
-  status: PropTypes.string.isRequired,
-  showChannelDetail: PropTypes.func.isRequired
+  channel: PropTypes.object.isRequired,
+  setSelectedChannel: PropTypes.func.isRequired
 }
 
 export default ChannelSummaryListItem

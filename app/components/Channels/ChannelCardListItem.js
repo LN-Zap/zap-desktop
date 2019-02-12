@@ -2,53 +2,52 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import styled from 'styled-components'
-import { opacity, height } from 'styled-system'
+import { opacity } from 'styled-system'
 import { Box as BaseBox, Flex as BaseFlex } from 'rebass'
-import { Bar, Card, DataRow, Heading, Link, Text } from 'components/UI'
-import { ChannelCapacity, ChannelMoreButton, ChannelStatus } from 'components/Channels'
-import { blockExplorer } from 'lib/utils'
-import { Truncate } from 'components/Util'
+import { Bar, Heading, Text } from 'components/UI'
+import { ChannelData, ChannelCapacity, ChannelMoreButton, ChannelStatus } from 'components/Channels'
 import withEllipsis from 'components/withEllipsis'
 import messages from './messages'
 
 const ClippedHeading = withEllipsis(Heading.h1)
 const ClippedText = withEllipsis(Text)
 const Box = styled(BaseBox)(opacity)
-const Flex = styled(BaseFlex)(opacity, height)
+const Flex = styled(BaseFlex)(opacity)
 
 const ChannelCardListItem = ({
   intl,
-  isAvailable,
-  channelId,
-  channelName,
-  channelPubKey,
-  channelFundingTxid,
-  numUpdates,
-  csvDelay,
-  localBalance,
-  remoteBalance,
-  status,
-  showChannelDetail,
+  channel,
+  currencyName,
+  setSelectedChannel,
   networkInfo,
   ...rest
 }) => {
-  const opacity = isAvailable ? 1 : 0.3
+  const {
+    channel_point,
+    display_name,
+    display_pubkey,
+    local_balance,
+    remote_balance,
+    display_status,
+    active
+  } = channel
+  const opacity = active ? 1 : 0.3
 
   return (
-    <Card {...rest}>
+    <Box {...rest}>
       <Box as="header">
         <Flex justifyContent="space-between">
           <ClippedHeading my={1} opacity={opacity}>
-            {channelName}
+            {display_name}
           </ClippedHeading>
 
-          <ChannelStatus status={status} mb="auto" />
+          <ChannelStatus status={display_status} mb="auto" />
         </Flex>
         <Flex justifyContent="space-between" opacity={opacity}>
           <Text fontWeight="normal">
             <FormattedMessage {...messages.remote_pubkey} />
           </Text>
-          <ClippedText width={2 / 3}>{channelPubKey}</ClippedText>
+          <ClippedText width={2 / 3}>{display_pubkey}</ClippedText>
         </Flex>
         <Box opacity={opacity}>
           <Bar my={2} opacity={0.3} />
@@ -56,62 +55,36 @@ const ChannelCardListItem = ({
       </Box>
 
       <ChannelCapacity
-        localBalance={localBalance}
-        remoteBalance={remoteBalance}
+        localBalance={local_balance}
+        remoteBalance={remote_balance}
         opacity={opacity}
         my={4}
       />
 
-      <Box as="section" opacity={opacity}>
-        <Bar opacity={0.3} />
-        <DataRow
-          left={intl.formatMessage({ ...messages.funding_transaction })}
-          right={
-            <Link
-              onClick={() =>
-                networkInfo && blockExplorer.showTransaction(networkInfo, channelFundingTxid)
-              }
-            >
-              <Truncate text={channelFundingTxid} maxlen={25} />
-            </Link>
-          }
-          py={2}
-        />
-        <Bar opacity={0.3} />
-        <DataRow left={intl.formatMessage({ ...messages.num_updates })} right={numUpdates} py={2} />
-        <Bar opacity={0.3} />
-        <DataRow left={intl.formatMessage({ ...messages.cvs_delay })} right={csvDelay} py={2} />
-      </Box>
+      <ChannelData
+        channel={channel}
+        currencyName={currencyName}
+        networkInfo={networkInfo}
+        as="section"
+        opacity={opacity}
+      />
 
-      <Flex as="footer" justifyContent="center" height="40px" alignItems="flex-end">
-        {channelId && <ChannelMoreButton onClick={() => showChannelDetail(channelId)} />}
+      <Flex as="footer" justifyContent="center" alignItems="flex-end">
+        <ChannelMoreButton onClick={() => setSelectedChannel(channel_point)} />
       </Flex>
-    </Card>
+    </Box>
   )
 }
 
 ChannelCardListItem.propTypes = {
   intl: intlShape.isRequired,
-  isAvailable: PropTypes.bool.isRequired,
-  channelId: PropTypes.number,
-  channelName: PropTypes.string,
-  channelPubKey: PropTypes.string.isRequired,
-  channelFundingTxid: PropTypes.string.isRequired,
-  numUpdates: PropTypes.number,
-  csvDelay: PropTypes.number,
-  localBalance: PropTypes.number.isRequired,
-  remoteBalance: PropTypes.number.isRequired,
-  status: PropTypes.string.isRequired,
-  showChannelDetail: PropTypes.func.isRequired,
+  channel: PropTypes.object.isRequired,
+  currencyName: PropTypes.string.isRequired,
+  setSelectedChannel: PropTypes.func.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string
-  })
-}
-
-ChannelCardListItem.defaultProps = {
-  numUpdates: 0,
-  csvDelay: 0
+  }).isRequired
 }
 
 export default injectIntl(ChannelCardListItem)

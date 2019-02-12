@@ -11,8 +11,11 @@ import { updateNodeData } from './network'
 // Constants
 // ------------------------------------
 export const SET_CHANNEL_VIEW_MODE = 'SET_CHANNEL_VIEW_MODE'
-export const SHOW_CHANNEL_DETAILS = 'SHOW_CHANNEL_DETAILS'
 export const SET_CHANNEL_FORM = 'SET_CHANNEL_FORM'
+export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
+
+export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
+export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 
 export const GET_CHANNELS = 'GET_CHANNELS'
 export const RECEIVE_CHANNELS = 'RECEIVE_CHANNELS'
@@ -25,19 +28,11 @@ export const CLOSING_CHANNEL = 'CLOSING_CHANNEL'
 export const CLOSING_SUCCESSFUL = 'CLOSING_SUCCESSFUL'
 export const CLOSING_FAILURE = 'CLOSING_FAILURE'
 
-export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
-
-export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
-
-export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
-
 export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
 export const REMOVE_LOADING_PUBKEY = 'REMOVE_LOADING_PUBKEY'
 
 export const ADD_ClOSING_CHAN_ID = 'ADD_ClOSING_CHAN_ID'
 export const REMOVE_ClOSING_CHAN_ID = 'REMOVE_ClOSING_CHAN_ID'
-
-export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
 
 export const GET_SUGGESTED_NODES = 'GET_SUGGESTED_NODES'
 export const RECEIVE_SUGGESTED_NODES_ERROR = 'RECEIVE_SUGGESTED_NODES_ERROR'
@@ -165,13 +160,17 @@ const getLegacyStatus = (channel, closingChannelIds) => {
 const decorateChannel = (channelObj, nodes, closingChannelIds) => {
   // If this is a pending channel, the channel data will be stored under the `channel` key.
   const channelData = getChannelData(channelObj)
+  const status = getStatus(channelObj, closingChannelIds)
+  const legacyStatus = getLegacyStatus(channelObj, closingChannelIds)
 
   const updatedChannelData = {
     ...channelData,
     display_pubkey: getRemoteNodePubKey(channelData),
     display_name: getDisplayName(channelData, nodes),
-    display_status: getStatus(channelObj, closingChannelIds),
-    legacy_staus: getLegacyStatus(channelObj, closingChannelIds)
+    display_status: status,
+    legacy_staus: legacyStatus,
+    can_close:
+      ['open', 'offline'].includes(status) && !closingChannelIds.includes(channelData.chan_id)
   }
 
   if (channelObj.channel) {
@@ -186,13 +185,6 @@ const decorateChannel = (channelObj, nodes, closingChannelIds) => {
 // ------------------------------------
 // Actions
 // ------------------------------------
-
-export function showChannelDetail(channelId) {
-  return {
-    type: SHOW_CHANNEL_DETAILS,
-    channelId
-  }
-}
 
 export function setChannelViewMode(viewMode) {
   return {
@@ -245,13 +237,6 @@ export function updateChannelSearchQuery(searchQuery) {
   }
 }
 
-export function setViewType(viewType) {
-  return {
-    type: SET_VIEW_TYPE,
-    viewType
-  }
-}
-
 export function addLoadingPubkey(pubkey) {
   return {
     type: ADD_LOADING_PUBKEY,
@@ -280,10 +265,10 @@ export function removeClosingChanId(chanId) {
   }
 }
 
-export function setSelectedChannel(selectedChannel) {
+export function setSelectedChannel(selectedChannelId) {
   return {
     type: SET_SELECTED_CHANNEL,
-    selectedChannel
+    selectedChannelId
   }
 }
 
@@ -488,7 +473,6 @@ const ACTION_HANDLERS = {
     ...state,
     channelForm: Object.assign({}, state.channelForm, form)
   }),
-
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => ({
     ...state,
@@ -503,8 +487,6 @@ const ACTION_HANDLERS = {
   [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true }),
 
   [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
-
-  [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
 
   [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({
     ...state,
@@ -531,7 +513,7 @@ const ACTION_HANDLERS = {
     closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId)
   }),
 
-  [SET_SELECTED_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
+  [SET_SELECTED_CHANNEL]: (state, { selectedChannelId }) => ({ ...state, selectedChannelId }),
 
   [GET_SUGGESTED_NODES]: state => ({ ...state, suggestedNodesLoading: true }),
   [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => ({
@@ -551,6 +533,7 @@ const ACTION_HANDLERS = {
 
 const channelsSelectors = {}
 const channelsSelector = state => state.channels.channels
+const selectedChannelIdSelector = state => state.channels.selectedChannelId
 const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
 const pendingClosedChannelsSelector = state =>
   state.channels.pendingChannels.pending_closing_channels
@@ -709,6 +692,18 @@ channelsSelectors.currentChannels = createSelector(
   }
 )
 
+channelsSelectors.selectedChannel = createSelector(
+  selectedChannelIdSelector,
+  channelsSelectors.allChannels,
+  (selectedChannelId, allChannels) => {
+    const channel = allChannels.find(channel => {
+      const channelData = getChannelData(channel)
+      return channelData.channel_point === selectedChannelId
+    })
+    return channel && getChannelData(channel)
+  }
+)
+
 export { channelsSelectors }
 
 // ------------------------------------
@@ -747,7 +742,7 @@ const initialState = {
   loadingChannelPubkeys: [],
   closingChannelIds: [],
 
-  selectedChannel: null,
+  selectedChannelId: null,
   viewMode: 'VIEW_MODE_CARD',
 
   // nodes stored at zap.jackmallers.com/suggested-peers manages by JimmyMow

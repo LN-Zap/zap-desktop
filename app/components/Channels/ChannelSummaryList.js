@@ -3,22 +3,16 @@ import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { ChannelSummaryListItem } from 'components/Channels'
 
-const ChannelSummaryList = ({ channels, showChannelDetail, networkInfo, ...rest }) => (
+const ChannelSummaryList = ({ channels, setSelectedChannel, ...rest }) => (
   <Box as="article" {...rest}>
-    {channels.map((channelObj, index) => {
+    {channels.map(channelObj => {
       const channel = channelObj.channel || channelObj
 
       return (
         <ChannelSummaryListItem
-          key={channel.chan_id || `${channel.remote_pubkey_short}-${index}`}
-          showChannelDetail={showChannelDetail}
-          channelId={channel.chan_id}
-          channelName={channel.display_name}
-          channelPubKey={channel.display_pubkey}
-          localBalance={channel.local_balance}
-          remoteBalance={channel.remote_balance}
-          status={channel.display_status}
-          isAvailable={Boolean(channel.active)}
+          key={channel.channel_point}
+          channel={channel}
+          setSelectedChannel={setSelectedChannel}
           mb={3}
         />
       )
@@ -28,11 +22,7 @@ const ChannelSummaryList = ({ channels, showChannelDetail, networkInfo, ...rest 
 
 ChannelSummaryList.propTypes = {
   channels: PropTypes.array,
-  showChannelDetail: PropTypes.func.isRequired,
-  networkInfo: PropTypes.shape({
-    id: PropTypes.string,
-    name: PropTypes.string
-  })
+  setSelectedChannel: PropTypes.func.isRequired
 }
 
 ChannelSummaryList.defaultProps = {
