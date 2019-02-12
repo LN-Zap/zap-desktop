@@ -86,7 +86,7 @@ class Settings extends React.Component {
             <Text textAlign="left" mr={1}>
               <WalletName wallet={activeWalletSettings} />
             </Text>
-            {isSettingsOpen ? <AngleUp width="0.7em" /> : <AngleDown width="0.7em" />}
+            {isSettingsOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
           </Flex>
         </Flex>
         <Box ref={this.setWrapperRef}>{isSettingsOpen && this.renderSettings()}</Box>

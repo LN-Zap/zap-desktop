@@ -86,7 +86,7 @@ class Select extends React.PureComponent {
 
   static defaultProps = {
     items: [],
-    iconSize: 10
+    iconSize: 8
   }
 
   inputRef = React.createRef()
