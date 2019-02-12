@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import get from 'lodash.get'
+import { setLoading } from './app'
 
 // ------------------------------------
 // Constants
@@ -178,6 +179,7 @@ export const validateMacaroon = macaroonPath => async dispatch => {
 
 export const startOnboarding = () => dispatch => {
   dispatch(onboardingStarted())
+  dispatch(setLoading(false))
 }
 
 export const lndconnectUri = (event, { host, cert, macaroon }) => dispatch => {
