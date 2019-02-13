@@ -81,12 +81,12 @@ class Select extends React.PureComponent {
     theme: PropTypes.object.isRequired,
     fieldApi: PropTypes.object.isRequired,
     fieldState: PropTypes.object.isRequired,
-    onValueSelected: PropTypes.func.isRequired
+    onValueSelected: PropTypes.func
   }
 
   static defaultProps = {
     items: [],
-    iconSize: 10
+    iconSize: 8
   }
 
   inputRef = React.createRef()

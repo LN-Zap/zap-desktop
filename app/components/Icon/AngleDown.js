@@ -1,14 +1,8 @@
 import React from 'react'
 
 const SvgAngleDown = props => (
-  <svg width="1em" height="1em" viewBox="0 0 8 4" {...props}>
-    <path
-      fill="none"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      d="M1 0l3 4 3-4"
-    />
+  <svg viewBox="6.295 8.295 12 7.41" width="1em" height="1em" {...props}>
+    <path fill="currentColor" d="M18.295 9.705l-1.41-1.41-4.59 4.58-4.59-4.58-1.41 1.41 6 6z" />
   </svg>
 )
 

@@ -1,8 +1,8 @@
 import React from 'react'
 
 const SvgAngleLeft = props => (
-  <svg width="1em" height="1em" viewBox="0 0 24 24" {...props}>
-    <path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z" />
+  <svg viewBox="8.59 6 7.41 12" width="1em" height="1em" {...props}>
+    <path fill="currentColor" d="M14.59 18L16 16.59 11.42 12 16 7.41 14.59 6l-6 6z" />
   </svg>
 )
 

@@ -92,7 +92,7 @@ export const MenuItem = withTheme(
       <Flex alignItems="center" pr={2}>
         {hasParent && (
           <Flex alignItems="center" width="20px" color="gray">
-            <AngleLeft />
+            <AngleLeft height="8px" />
           </Flex>
         )}
         {!hasParent && (
@@ -103,7 +103,7 @@ export const MenuItem = withTheme(
         <Text mr={2}>{item.name}</Text>
 
         <Flex alignItems="center" justifyContent="flex-end" width="20px" color="gray" ml="auto">
-          {hasChildren && <AngleRight />}
+          {hasChildren && <AngleRight height="8px" />}
         </Flex>
       </Flex>
     </Text>
@@ -187,7 +187,7 @@ class Dropdown extends React.Component {
               <Text textAlign="left" mr={1}>
                 {selectedItem ? selectedItem.name : activeKey}{' '}
               </Text>
-              {isOpen ? <AngleUp width="0.7em" /> : <AngleDown width="0.7em" />}
+              {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
             </Flex>
           </DropdownButton>
           {isOpen && (

@@ -1,11 +1,11 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { number, select, text } from '@storybook/addon-knobs'
+import { number, select } from '@storybook/addon-knobs'
 import { action } from '@storybook/addon-actions'
 import { ChannelSummaryListItem } from 'components/Channels'
 import { Provider } from '../../Provider'
 
-const showChannelDetail = action('showChannelDetail')
+const setSelectedChannel = action('setSelectedChannel')
 
 storiesOf('Containers.Channels', module)
   .addParameters({ info: { disable: true } })
@@ -17,87 +17,40 @@ storiesOf('Containers.Channels', module)
           {
             options: { allowPropTablesToggling: false },
             sectionFn: () => {
-              const channelName = text('Alias', 'lnd1.zaphq.io')
-              const channelId = 123
-              const channelPubKey =
-                '0228e4b5e00a05f400411a0b556fa0fd4d7609555dc687bebb9b70419aff15cc3e'
-
-              const groupId1 = 'Node with alias'
-              const localBalance1 = number('Local Balance 1', 150400, {}, groupId1)
-              const remoteBalance1 = number('Remote Balance 1', 80044, {}, groupId1)
-              const status1 = select(
-                'Status 1',
-                [
-                  'open',
-                  'pending_open',
-                  'open',
-                  'pending_close',
-                  'pending_force_close',
-                  'waiting_close',
-                  'offline'
-                ],
-                'open',
-                groupId1
-              )
+              const channel = {
+                chan_id: 1,
+                display_name: 'lnd1.zaphq.io',
+                display_pubkey:
+                  '03cf5a37ed661e3c61c7943941834771631cd880985340ed7543ad79a968cea454',
+                channel_point: '83c2839a4831c71d501ea41bdb0c3e01284bdb5302b1d16c9c52a876bd3ea6a7:1',
+                csv_delay: 2016,
+                num_updates: 12,
+                local_balance: number('Local Balance', 150400),
+                remote_balance: number('Remote Balance', 80044),
+                display_status: select(
+                  'Status',
+                  [
+                    'open',
+                    'pending_open',
+                    'open',
+                    'pending_close',
+                    'pending_force_close',
+                    'waiting_close',
+                    'offline'
+                  ],
+                  'open'
+                ),
+                active: true
+              }
 
               const stateProps = {
-                channelId,
-                channelName,
-                channelPubKey,
-                localBalance: localBalance1,
-                remoteBalance: remoteBalance1,
-                status: status1,
-                isAvailable: true
+                channel
               }
-
               const dispatchProps = {
-                showChannelDetail
+                setSelectedChannel
               }
 
-              return <ChannelSummaryListItem key={channelId} {...stateProps} {...dispatchProps} />
-            }
-          },
-          {
-            title: 'Node without alias',
-            options: { allowPropTablesToggling: false },
-            sectionFn: () => {
-              const channelName = ''
-              const channelId = undefined
-              const channelPubKey =
-                '4ab79fd8b15c53ddb19307826c74a030171377ee7fea9f6fb5f27c06ab163853'
-
-              const groupId2 = 'Node without alias'
-              const localBalance2 = number('Local Balance 2', 1856825, {}, groupId2)
-              const remoteBalance2 = number('Remote Balance 2', 6862382, {}, groupId2)
-              const status2 = select(
-                'Status 2',
-                [
-                  'open',
-                  'pending_open',
-                  'open',
-                  'pending_close',
-                  'pending_force_close',
-                  'waiting_close',
-                  'offline'
-                ],
-                'open'
-              )
-
-              const stateProps = {
-                channelId,
-                channelName,
-                channelPubKey,
-                localBalance: localBalance2,
-                remoteBalance: remoteBalance2,
-                status: status2,
-                isAvailable: false
-              }
-
-              const dispatchProps = {
-                showChannelDetail
-              }
-
-              return <ChannelSummaryListItem key={channelId} {...stateProps} {...dispatchProps} />
+              return <ChannelSummaryListItem {...stateProps} {...dispatchProps} />
             }
           }
         ]

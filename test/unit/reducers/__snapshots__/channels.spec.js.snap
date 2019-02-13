@@ -45,7 +45,7 @@ Object {
     "waiting_close_channels": Array [],
   },
   "searchQuery": null,
-  "selectedChannel": null,
+  "selectedChannelId": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
@@ -101,7 +101,7 @@ Object {
     "waiting_close_channels": Array [],
   },
   "searchQuery": null,
-  "selectedChannel": null,
+  "selectedChannelId": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
@@ -157,7 +157,7 @@ Object {
     4,
   ],
   "searchQuery": null,
-  "selectedChannel": null,
+  "selectedChannelId": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
@@ -213,7 +213,7 @@ Object {
     "waiting_close_channels": Array [],
   },
   "searchQuery": null,
-  "selectedChannel": null,
+  "selectedChannelId": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
