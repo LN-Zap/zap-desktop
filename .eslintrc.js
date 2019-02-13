@@ -76,7 +76,8 @@ module.exports = {
       }
     ],
     'prefer-promise-reject-errors': 0,
-    'no-param-reassign': [2, { props: false }]
+    'no-param-reassign': [2, { props: false }],
+    'react-hooks/rules-of-hooks': 'error'
   },
   plugins: [
     'flowtype',
@@ -87,7 +88,8 @@ module.exports = {
     'promise',
     'testcafe',
     'compat',
-    'react'
+    'react',
+    'react-hooks'
   ],
   settings: {
     'import/resolver': {
