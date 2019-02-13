@@ -30,6 +30,7 @@ import IconPlus from 'components/Icon/IconPlus'
 import LayoutCards from 'components/Icon/LayoutCards'
 import LayoutList from 'components/Icon/LayoutList'
 import Lightning from 'components/Icon/Lightning'
+import LightningChannel from 'components/Icon/LightningChannel'
 import Litecoin from 'components/Icon/Litecoin'
 import LndLogo from 'components/Icon/LndLogo'
 import LtcLogo from 'components/Icon/LtcLogo'
@@ -83,6 +84,7 @@ const zapIconsList = {
   LayoutList,
   IconPlus,
   Lightning,
+  LightningChannel,
   Litecoin,
   LndLogo,
   LtcLogo,
