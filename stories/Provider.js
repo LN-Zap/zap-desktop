@@ -78,3 +78,8 @@ store.dispatch({
   type: 'SET_CURRENCY',
   currency: 'btc'
 })
+store.dispatch({
+  type: 'RECEIVE_BALANCE',
+  walletBalance: 47238944,
+  channelBalance: 256474
+})
