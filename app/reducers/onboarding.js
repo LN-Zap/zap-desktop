@@ -1,3 +1,9 @@
+import delay from 'lib/utils/delay'
+import { setLoading } from './app'
+import { walletSelectors } from './wallet'
+
+const { hasOpenWallet } = walletSelectors
+
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -158,8 +164,11 @@ export const validateMacaroon = macaroonPath => async dispatch => {
   }
 }
 
-export const startOnboarding = () => dispatch => {
+export const startOnboarding = () => async (dispatch, getState) => {
   dispatch(onboardingStarted())
+  // add some delay if the app is starting for the first time vs logging out of the the opened wallet
+  await delay(hasOpenWallet(getState()) ? 0 : 1500)
+  dispatch(setLoading(false))
 }
 
 export const lndconnectUri = (event, lndConnect) => dispatch => {

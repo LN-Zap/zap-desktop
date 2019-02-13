@@ -90,7 +90,6 @@ export const lndSyncStatus = (event, status) => async (dispatch, getState) => {
 // Connected to Lightning gRPC interface (lnd wallet is connected and unlocked)
 export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
   dispatch({ type: SET_LIGHTNING_WALLET_ACTIVE })
-
   // Once we we have established a connection, save the wallet settings
   // after connection was successfully established. This is especially important
   // for the first connection to be sure settings are correct
@@ -470,6 +469,7 @@ const lndFirstBlockHeightSelector = state => state.lnd.lndFirstBlockHeight
 const lndCfilterHeightSelector = state => state.lnd.lndCfilterHeight
 const lndFirstCfilterHeightSelector = state => state.lnd.lndFirstCfilterHeight
 const startLndErrorSelector = state => state.lnd.startLndError
+const isStartingLndSelector = state => state.lnd.startingLnd
 
 lndSelectors.startLndHostError = createSelector(
   startLndErrorSelector,
@@ -484,6 +484,11 @@ lndSelectors.startLndCertError = createSelector(
 lndSelectors.startLndMacaroonError = createSelector(
   startLndErrorSelector,
   startLndError => (startLndError ? startLndError.macaroon : null)
+)
+
+lndSelectors.isStartingLnd = createSelector(
+  isStartingLndSelector,
+  isStarting => isStarting
 )
 
 lndSelectors.syncPercentage = createSelector(

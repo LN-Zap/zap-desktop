@@ -33,6 +33,7 @@ const mapStateToProps = state => ({
   lightningGrpcActive: state.lnd.lightningGrpcActive,
   walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
   startLndError: state.lnd.startLndError,
+  startingLnd: state.lnd.startingLnd,
   unlockingWallet: state.lnd.unlockingWallet,
   unlockWalletError: state.lnd.unlockWalletError
 })
