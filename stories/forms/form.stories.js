@@ -12,6 +12,7 @@ import {
   Label,
   LightningInvoiceInput,
   LndConnectionStringInput,
+  NodePubkeyInput,
   MainContent,
   Page,
   Radio,
@@ -190,6 +191,19 @@ storiesOf('Forms', module)
       />
     </Form>
   ))
+  .add('Node Pubkey', () => (
+    <Box>
+      <Form>
+        <NodePubkeyInput
+          field="pubkey"
+          id="pubkey"
+          label="Node Pubkey"
+          validateOnBlur
+          validateOnChange
+        />
+      </Form>
+    </Box>
+  ))
   .add('Select', () => (
     <Form>
       <Select field="fieldName" items={selectItems} />
@@ -301,6 +315,16 @@ storiesOf('Forms', module)
                   field="mainnet"
                   id="mainnet"
                   label="Bitcoin or Lightning address (mainnet)"
+                  validateOnBlur
+                  validateOnChange
+                />
+              </Box>
+
+              <Box my={4}>
+                <NodePubkeyInput
+                  field="pubkey"
+                  id="pubkey"
+                  label="Node Pubkey"
                   validateOnBlur
                   validateOnChange
                 />
