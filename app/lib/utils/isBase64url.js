@@ -4,11 +4,10 @@
  */
 const isBase64url = str => {
   try {
-    //convert from base64 url to base64
+    //convert from base64url to base64
     window.atob(str.replace(/-/g, '+').replace(/_/g, '/'))
     return true
   } catch (e) {
-    // console.log(e)
     return false
   }
 }

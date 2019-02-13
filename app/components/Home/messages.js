@@ -9,6 +9,7 @@ export default defineMessages({
   section_autopilot_title: 'Autopilot',
   section_naming_title: 'Naming',
   section_delete_title: 'Delete',
+  section_connection_details: 'Connection details',
   create_wallet_button_text: 'Create new wallet',
   launch_wallet_button_text: 'Launch now',
   delete_wallet_dialog_acknowledgement: 'I understand this is an irreversible action',

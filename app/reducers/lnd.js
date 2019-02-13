@@ -8,6 +8,7 @@ import { onboardingFinished, setSeed } from './onboarding'
 import { fetchChannels } from './channels'
 import { fetchActivityHistory } from './activity'
 
+const { ipcRenderer } = window
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -115,6 +116,20 @@ export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
   dispatch(fetchActivityHistory())
 }
 
+/**
+ * Re-generates config that includes updated lndconnectUri and QR
+ * host, cert and macaroon values
+ */
+export const refreshLndConnectURI = wallet => dispatch => {
+  dispatch(send('generateLndConfig', wallet))
+
+  return new Promise(resolve => {
+    ipcRenderer.once('receiveLndConfig', (event, config) => {
+      resolve(config)
+    })
+  })
+}
+
 // Connected to WalletUnlocker gRPC interface (lnd is ready to unlock or create wallet)
 export const walletUnlockerGrpcActive = () => async dispatch => {
   dispatch({ type: SET_WALLET_UNLOCKER_ACTIVE })
@@ -157,13 +172,13 @@ export const startLnd = options => async (dispatch, getState) => {
     dispatch({ type: STARTING_LND })
     dispatch(send('startLnd', options))
 
-    window.ipcRenderer.once('startLndError', (event, error) => {
-      window.ipcRenderer.removeListener('startLndSuccess', resolve)
+    ipcRenderer.once('startLndError', (event, error) => {
+      ipcRenderer.removeListener('startLndSuccess', resolve)
       reject(error)
     })
 
-    window.ipcRenderer.once('startLndSuccess', () => {
-      window.ipcRenderer.removeListener('startLndError', reject)
+    ipcRenderer.once('startLndSuccess', () => {
+      ipcRenderer.removeListener('startLndError', reject)
       resolve()
     })
   })

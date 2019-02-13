@@ -12,6 +12,7 @@ import {
   stopLnd,
   startLnd,
   unlockWallet,
+  refreshLndConnectURI,
   clearStartLndError
 } from 'reducers/lnd'
 import { showError, showNotification } from 'reducers/notification'
@@ -49,7 +50,8 @@ const mapDispatchToProps = {
   unlockWallet,
   deleteWallet: showDeleteWalletDialog,
   setIsWalletOpen,
-  showError
+  showError,
+  refreshLndConnectURI
 }
 
 export default connect(
