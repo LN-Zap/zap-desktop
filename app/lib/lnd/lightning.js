@@ -15,6 +15,7 @@ import {
   createMacaroonCreds,
   waitForFile
 } from './util'
+import { promisifiedCall } from '../utils'
 import { validateHost } from '../utils/validateHost'
 import methods from './methods'
 import { mainLog } from '../utils/log'
@@ -104,41 +105,33 @@ class Lightning {
   async onBeforeConnect() {
     mainLog.info('Connecting to Lightning gRPC service')
     const { host, macaroon, type } = this.lndConfig
-
     // Verify that the host is valid before creating a gRPC client that is connected to it.
-    return (
-      validateHost(host)
-        // If we are trying to connect to the internal lnd, wait upto 20 seconds for the macaroon to be generated.
-        .then(() => {
-          if (type === 'local') {
-            return waitForFile(macaroon, 20000)
-          }
-          return
-        })
+    await validateHost(host)
+    // If we are trying to connect to the internal lnd, wait up to 20 seconds for the macaroon to be generated.
+    if (type === 'local') {
+      await waitForFile(macaroon, 20000)
+    }
 
-        // Attempt to connect using the supplied credentials.
-        .then(() => this.establishConnection())
+    await this.establishConnection()
+    // Once connected, make a call to getInfo in order to determine the api version.
+    const { service } = this
+    const info = await getInfo(service)
+    // Determine most relevant proto version and reconnect using the right rpc.proto if we need to.
+    const [closestProtoVersion, latestProtoVersion] = await Promise.all([
+      lndgrpc.getClosestProtoVersion(info.version, lndGpcProtoPath()),
+      lndgrpc.getLatestProtoVersion(lndGpcProtoPath())
+    ])
 
-        // Once connected, make a call to getInfo in order to determine the api version.
-        .then(() => getInfo(this.service))
+    if (closestProtoVersion !== latestProtoVersion) {
+      mainLog.debug(
+        'Found better match. Reconnecting using rpc.proto version: %s',
+        closestProtoVersion
+      )
+      service.close()
+      return this.establishConnection(closestProtoVersion)
+    }
 
-        // Determine most relevant proto version and reconnect using the right rpc.proto if we need to.
-        .then(async info => {
-          const [closestProtoVersion, latestProtoVersion] = await Promise.all([
-            lndgrpc.getClosestProtoVersion(info.version, lndGpcProtoPath()),
-            lndgrpc.getLatestProtoVersion(lndGpcProtoPath())
-          ])
-          if (closestProtoVersion !== latestProtoVersion) {
-            mainLog.debug(
-              'Found better match. Reconnecting using rpc.proto version: %s',
-              closestProtoVersion
-            )
-            this.service.close()
-            return this.establishConnection(closestProtoVersion)
-          }
-          return
-        })
-    )
+    return Promise.resolve()
   }
 
   /**
@@ -199,17 +192,14 @@ class Lightning {
 
     // Create a new gRPC client instance.
     this.service = new rpc.lnrpc.Lightning(host, creds)
-
-    // Wait upto 20 seconds for the gRPC connection to be established.
-    return new Promise((resolve, reject) => {
-      this.service.waitForReady(getDeadline(20), err => {
-        if (err) {
-          this.service.close()
-          return reject(err)
-        }
-        return resolve()
-      })
-    })
+    try {
+      // Wait up to 20 seconds for the gRPC connection to be established.
+      return await promisifiedCall(this.service, this.service.waitForReady, getDeadline(20))
+    } catch (e) {
+      mainLog.debug(e)
+      this.service.close()
+      return Promise.reject(e)
+    }
   }
 
   /**

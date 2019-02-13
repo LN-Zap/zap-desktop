@@ -171,6 +171,7 @@ const ACTION_HANDLERS = {
 const walletSelectors = {}
 const activeWalletSelector = state => state.wallet.activeWallet
 const walletsSelector = state => state.wallet.wallets
+const hasOpenWalletSelector = state => state.wallet.isWalletOpen
 
 walletSelectors.wallets = createSelector(
   walletsSelector,
@@ -188,6 +189,11 @@ walletSelectors.activeWalletSettings = createSelector(
 walletSelectors.hasWallets = createSelector(
   walletSelectors.wallets,
   wallets => wallets.length > 0
+)
+
+walletSelectors.hasOpenWallet = createSelector(
+  hasOpenWalletSelector,
+  isOpen => isOpen
 )
 
 export { walletSelectors }

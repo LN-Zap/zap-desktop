@@ -8,6 +8,7 @@ import { ThemeProvider } from 'styled-components'
 import { removeNotification, notificationSelectors } from 'reducers/notification'
 import { initTheme, themeSelectors } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
+import { isLoading } from 'reducers/utils'
 import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
 import { Page, Titlebar, GlobalStyle, Modal } from 'components/UI'
@@ -19,12 +20,10 @@ import Home from './Home'
 import Onboarding from './Onboarding'
 import Syncing from './Syncing'
 import App from './App'
+import WalletStarter from './WalletStarter'
 
-// Wrap the apge with our isLoading HOC so that the app displays the loading graphic whhen it first mounts.
+// Wrap the page with our isLoading HOC so that the app displays the loading graphic whhen it first mounts.
 const PageWithLoading = withLoading(Page)
-
-// The minimum amount of time that we will show the loading component when the app mounts.
-const SPLASH_SCREEN_TIME = 1500
 
 /**
  * Root component that deals with mounting the app and managing top level routing.
@@ -40,39 +39,19 @@ class Root extends React.Component {
 
     initTheme: PropTypes.func.isRequired,
     isMounted: PropTypes.bool.isRequired,
-    setMounted: PropTypes.func.isRequired,
-    setLoading: PropTypes.func.isRequired
+    setMounted: PropTypes.func.isRequired
   }
-
-  state = {
-    timer: null
-  }
-
   /**
    * // Show the loading bold briefly before showing the user the app.
    */
   componentDidMount() {
-    const { initTheme, isLoading, isMounted, setLoading, setMounted, theme } = this.props
+    const { initTheme, isMounted, setMounted } = this.props
 
-    // If this is the first time the app has mounted, initialise things.
+    // If this is the first time the app has mounted, initialize things.
     if (!isMounted) {
       setMounted(true)
       initTheme()
     }
-
-    // Hide the loading screen after a set time.
-    if (isLoading || !theme) {
-      const timer = setTimeout(() => setLoading(false), SPLASH_SCREEN_TIME)
-      this.setState({ timer })
-    }
-  }
-
-  /**
-   * Remove the timer when the component unmounts.
-   */
-  componentWillUnmount() {
-    const { timer } = this.state
-    clearTimeout(timer)
   }
 
   render() {
@@ -96,6 +75,7 @@ class Root extends React.Component {
             <PageWithLoading isLoading={isLoading}>
               <Switch>
                 <Route exact path="/" component={Initializer} />
+                <Route exact path="/wallet-starter" component={WalletStarter} />
                 <Route path="/home" component={Home} />
                 <Route
                   exact
@@ -130,7 +110,7 @@ const mapStateToProps = state => ({
   hasWallets: walletSelectors.hasWallets(state),
   notifications: notificationSelectors.getNotificationState(state),
   theme: themeSelectors.currentThemeSettings(state),
-  isLoading: appSelectors.isLoading(state),
+  isLoading: isLoading(state),
   isMounted: appSelectors.isMounted(state)
 })
 
