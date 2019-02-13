@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import getDisplayName from 'lib/utils/getDisplayName'
 
 /**
@@ -8,6 +9,11 @@ import getDisplayName from 'lib/utils/getDisplayName'
 const withNumberInputMask = Component =>
   class extends React.Component {
     static displayName = `WithNumberInputMask(${getDisplayName(Component)})`
+
+    static propTypes = {
+      fieldApi: PropTypes.object.isRequired,
+      onKeyDown: PropTypes.func
+    }
 
     handleKeyDown = e => {
       const { fieldApi } = this.props
