@@ -53,11 +53,12 @@ const FullPageGradient = styled(Flex)`
 
 class LoadingBolt extends React.PureComponent {
   static propTypes = {
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    message: PropTypes.string
   }
 
   render() {
-    const { isLoading } = this.props
+    const { isLoading, message } = this.props
 
     return (
       <Transition
@@ -77,6 +78,7 @@ class LoadingBolt extends React.PureComponent {
                   <Heading.h2 mt={4}>
                     <FormattedMessage {...messages.loading} />
                   </Heading.h2>
+                  {message && <Heading.h2 mt={4}>{message}</Heading.h2>}
                 </Flex>
               </FullPageGradient>
             </Container>
