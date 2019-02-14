@@ -4,7 +4,7 @@ import { setFormType } from 'reducers/form'
 import {
   changeFilter,
   channelsSelectors,
-  closeChannel,
+  showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
   updateChannelSearchQuery
@@ -27,7 +27,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   changeFilter,
-  closeChannel,
+  closeChannel: showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
   setFormType,

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex, Box } from 'rebass'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withFieldState } from 'informed'
 import Delete from 'components/Icon/Delete'
@@ -32,7 +32,9 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
 
   const header = (
     <Flex flexDirection="column" alignItems="center">
-      <Delete color="#e8383a" width={72} height={72} />
+      <Box color="superRed">
+        <Delete width={72} height={72} />
+      </Box>
       <Heading.h1 mt={4} mb={3}>
         <FormattedMessage {...messages.delete_wallet_dialog_header} />
       </Heading.h1>

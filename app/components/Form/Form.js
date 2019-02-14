@@ -5,6 +5,7 @@ import Pay from 'containers/Pay'
 import Request from 'containers/Request'
 import Channels from 'containers/Channels'
 import ChannelCreate from 'containers/Channels/ChannelCreate'
+import ChannelCloseDialog from 'containers/Channels/ChannelCloseDialog'
 
 const Form = ({ formType, closeForm }) => {
   if (!formType) {
@@ -30,6 +31,7 @@ const Form = ({ formType, closeForm }) => {
       return (
         <Modal onClose={closeForm} mt={-3} mx={-4}>
           <Channels />
+          <ChannelCloseDialog />
         </Modal>
       )
 
