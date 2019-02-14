@@ -3,20 +3,9 @@ import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withFieldState } from 'informed'
-import styled from 'styled-components'
 import Delete from 'components/Icon/Delete'
-import { Dialog, Text, Heading, Button, Checkbox, Form } from 'components/UI'
+import { Dialog, Text, Heading, Button, Checkbox, Form, DialogOverlay } from 'components/UI'
 import messages from './messages'
-
-const Overlay = styled(Flex)`
-  position: absolute;
-  z-index: 99999;
-  background-color: rgba(255, 255, 255, 0.25);
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
 
 const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
   if (!isOpen) {
@@ -53,7 +42,7 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
   const handleSubmit = () => onDelete()
 
   return (
-    <Overlay justifyContent="center" alignItems="center">
+    <DialogOverlay justifyContent="center" alignItems="center">
       <Form onSubmit={handleSubmit}>
         <Dialog header={header} buttons={buttons} onClose={onCancel} width={640}>
           {walletDir && (
@@ -74,7 +63,7 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
           )}
         </Dialog>
       </Form>
-    </Overlay>
+    </DialogOverlay>
   )
 }
 
