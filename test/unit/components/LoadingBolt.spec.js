@@ -17,6 +17,6 @@ describe('component.LoadingBolt', () => {
   )
   it('should show defaults', () => {
     expect(el.find(CloudLightning)).toHaveLength(1)
-    expect(el.text()).toContain('loading')
+    expect(el.text()).toContain('Loading')
   })
 })

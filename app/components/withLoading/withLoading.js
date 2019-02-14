@@ -16,7 +16,7 @@ const withLoading = Component =>
     static propTypes = {
       children: PropTypes.node,
       isLoading: PropTypes.bool.isRequired,
-      loadingMessage: PropTypes.string
+      loadingMessage: PropTypes.object
     }
 
     /**

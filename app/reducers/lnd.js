@@ -42,6 +42,10 @@ export const FETCH_SEED = 'FETCH_SEED'
 export const FETCH_SEED_ERROR = 'FETCH_SEED_ERROR'
 export const FETCH_SEED_SUCCESS = 'FETCH_SEED_SUCCESS'
 
+// track initialization status
+export const START_NEUTRINO = 'START_NEUTRINO'
+export const START_WALLET_UNLOCKER = 'START_WALLET_UNLOCKER'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -86,6 +90,9 @@ export const lndSyncStatus = (event, status) => async (dispatch, getState) => {
       dispatch({ type: SET_SYNC_STATUS_PENDING })
   }
 }
+
+export const startNeutrino = (event, value) => ({ type: START_NEUTRINO, value })
+export const startWalletUnlocker = (event, value) => ({ type: START_WALLET_UNLOCKER, value })
 
 // Connected to Lightning gRPC interface (lnd wallet is connected and unlocked)
 export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
@@ -432,7 +439,10 @@ const ACTION_HANDLERS = {
     ...state,
     unlockingWallet: false,
     unlockWalletError
-  })
+  }),
+
+  [START_NEUTRINO]: (state, { value }) => ({ ...state, startNeutrino: value }),
+  [START_WALLET_UNLOCKER]: (state, { value }) => ({ ...state, startWalletUnlocker: value })
 }
 
 // ------------------------------------
@@ -470,6 +480,8 @@ const lndCfilterHeightSelector = state => state.lnd.lndCfilterHeight
 const lndFirstCfilterHeightSelector = state => state.lnd.lndFirstCfilterHeight
 const startLndErrorSelector = state => state.lnd.startLndError
 const isStartingLndSelector = state => state.lnd.startingLnd
+const isStartingNeutrinoSelector = state => state.lnd.startNeutrino
+const isStartingUnlockerSelector = state => state.lnd.startWalletUnlocker
 
 lndSelectors.startLndHostError = createSelector(
   startLndErrorSelector,
@@ -488,6 +500,16 @@ lndSelectors.startLndMacaroonError = createSelector(
 
 lndSelectors.isStartingLnd = createSelector(
   isStartingLndSelector,
+  isStarting => isStarting
+)
+
+lndSelectors.isStartingNeutrino = createSelector(
+  isStartingNeutrinoSelector,
+  isStarting => isStarting
+)
+
+lndSelectors.isStartingUnlocker = createSelector(
+  isStartingUnlockerSelector,
   isStarting => isStarting
 )
 

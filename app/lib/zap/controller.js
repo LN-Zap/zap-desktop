@@ -303,7 +303,7 @@ class ZapController {
   async startWalletUnlocker() {
     mainLog.info('Establishing connection to Wallet Unlocker gRPC interface...')
     this.walletUnlocker = new WalletUnlocker(this.lndConfig)
-
+    this.sendMessage('startWalletUnlocker', true)
     // Connect to the WalletUnlocker interface.
     try {
       await this.walletUnlocker.connect()
@@ -318,6 +318,8 @@ class ZapController {
     } catch (err) {
       mainLog.warn('Unable to connect to WalletUnlocker gRPC interface: %o', err)
       throw err
+    } finally {
+      this.sendMessage('startWalletUnlocker', false)
     }
   }
 
@@ -327,7 +329,6 @@ class ZapController {
   async startLightningWallet() {
     mainLog.info('Establishing connection to Lightning gRPC interface...')
     this.lightning = new Lightning(this.lndConfig)
-
     // Connect to the Lightning interface.
     try {
       await this.lightning.connect()
@@ -352,7 +353,7 @@ class ZapController {
   async startNeutrino() {
     mainLog.info('Starting Neutrino...')
     this.neutrino = new Neutrino(this.lndConfig)
-
+    this.sendMessage('startNeutrino', true)
     this.neutrino.on('error', error => {
       mainLog.error(`Got error from lnd process: ${error})`)
       dialog.showMessageBox({
@@ -381,11 +382,13 @@ class ZapController {
     })
 
     this.neutrino.on('wallet-unlocker-grpc-active', () => {
+      this.sendMessage('startNeutrino', false)
       mainLog.info('Wallet unlocker gRPC active')
       this.startWalletUnlocker()
     })
 
     this.neutrino.on('chain-sync-waiting', () => {
+      this.sendMessage('startNeutrino', false)
       mainLog.info('Neutrino sync waiting')
       this.sendMessage('lndSyncStatus', 'waiting')
     })

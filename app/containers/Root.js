@@ -8,7 +8,8 @@ import { ThemeProvider } from 'styled-components'
 import { removeNotification, notificationSelectors } from 'reducers/notification'
 import { initTheme, themeSelectors } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
-import { isLoading, isLoadingPerPath } from 'reducers/utils'
+
+import { isLoading, isLoadingPerPath, getLoadingMessage } from 'reducers/utils'
 import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
 import { Page, Titlebar, GlobalStyle, Modal as ModalOverlay } from 'components/UI'
@@ -23,7 +24,7 @@ import Syncing from './Syncing'
 import App from './App'
 import WalletStarter from './WalletStarter'
 
-// Wrap the page with our isLoading HOC so that the app displays the loading graphic whhen it first mounts.
+// Wrap the page with our isLoading HOC so that the app displays the loading graphic when it first mounts.
 const PageWithLoading = withLoading(Page)
 
 /**
@@ -34,6 +35,7 @@ class Root extends React.Component {
     hasWallets: PropTypes.bool,
     removeNotification: PropTypes.func.isRequired,
     theme: PropTypes.object,
+    loadingMessage: PropTypes.string,
     notifications: PropTypes.array.isRequired,
     history: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
@@ -66,7 +68,15 @@ class Root extends React.Component {
   }
 
   render() {
-    const { hasWallets, removeNotification, theme, notifications, history, isLoading } = this.props
+    const {
+      hasWallets,
+      removeNotification,
+      theme,
+      notifications,
+      history,
+      isLoading,
+      loadingMessage
+    } = this.props
 
     // Wait until we have loaded essential data before displaying anything.
     if (!theme) {
@@ -84,7 +94,7 @@ class Root extends React.Component {
               removeNotification={removeNotification}
             />
             <Modal />
-            <PageWithLoading isLoading={isLoading}>
+            <PageWithLoading isLoading={isLoading} loadingMessage={loadingMessage}>
               <Switch>
                 <Route exact path="/" component={Initializer} />
                 <Route exact path="/wallet-starter" component={WalletStarter} />
@@ -131,6 +141,7 @@ const mapStateToProps = state => ({
   notifications: notificationSelectors.getNotificationState(state),
   theme: themeSelectors.currentThemeSettings(state),
   isLoading: isLoading(state) || isLoadingPerPath(state),
+  loadingMessage: getLoadingMessage(state),
   isMounted: appSelectors.isMounted(state)
 })
 
