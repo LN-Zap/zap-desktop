@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 
 import { ChannelCloseDialog } from 'components/Channels'
 import { hideCloseChannelDialog, closeChannel, channelsSelectors } from 'reducers/channels'
+import { showNotification } from 'reducers/notification'
 
 const isForceCloseDialog = state => {
   const selectedChannel = channelsSelectors.selectedChannel(state)
@@ -16,9 +17,10 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = dispatch => ({
-  onClose() {
+  onClose(message) {
     dispatch(closeChannel())
     dispatch(hideCloseChannelDialog())
+    dispatch(showNotification(message))
   },
 
   onCancel() {

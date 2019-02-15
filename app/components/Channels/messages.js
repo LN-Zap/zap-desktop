@@ -57,5 +57,6 @@ export default defineMessages({
   close_channel_dialog_header: 'Close channel',
   close_channel_dialog_warning: 'Are you sure you want to close this channel?',
   close_channel_dialog_force_warning: 'Are you sure you want to force close this channel?',
-  close_channel_dialog_acknowledgement: 'I understand this is an irreversible action'
+  close_channel_dialog_acknowledgement: 'I understand this is an irreversible action',
+  close_channel_notification: 'Channel closing initiated'
 })

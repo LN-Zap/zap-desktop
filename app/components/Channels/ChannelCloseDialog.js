@@ -51,7 +51,7 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel }) => {
     </Flex>
   )
 
-  const handleSubmit = () => onClose()
+  const handleSubmit = () => onClose(intl.formatMessage({ ...messages.close_channel_notification }))
 
   return (
     <DialogOverlay justifyContent="center" alignItems="center">
@@ -82,7 +82,8 @@ DialogWrapper.propTypes = {
   isForceClose: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
-  intl: intlShape.isRequired
+  intl: intlShape.isRequired,
+  closeNotification: PropTypes.string.isRequired
 }
 
 export default injectIntl(DialogWrapper)
