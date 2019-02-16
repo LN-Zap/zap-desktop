@@ -67,6 +67,7 @@ module.exports = {
     'no-mixed-operators': 'error',
     'no-new': 0,
     'no-tabs': 'error',
+    'comma-dangle': ['error', 'never'],
     'compat/compat': 'error',
     'prefer-destructuring': [
       'error',
