@@ -320,7 +320,7 @@
     "@rebass/components": "4.0.0-1",
     "axios": "0.18.0",
     "bip39-en": "1.1.1",
-    "bitcoinjs-lib": "4.0.2",
+    "bitcoinjs-lib": "4.0.3",
     "bolt11": "1.2.2",
     "coininfo": "git+https://github.com/cryptocoinjs/coininfo.git#299bf3b01a70c932772a7149837c1abe1acb2d41",
     "config": "3.0.1",
