@@ -1052,6 +1052,15 @@
     lodash "^4.17.10"
     to-fast-properties "^2.0.0"
 
+"@babel/types@^7.3.2":
+  version "7.3.2"
+  resolved "https://registry.yarnpkg.com/@babel/types/-/types-7.3.2.tgz#424f5be4be633fff33fb83ab8d67e4a8290f5a2f"
+  integrity sha512-3Y6H8xlUlpbGR+XvawiH0UXehqydTmNmEpozWcXymqwcrwYAl5KMvKtQ+TF6f6E08V6Jur7v/ykdDSF+WDEIXQ==
+  dependencies:
+    esutils "^2.0.2"
+    lodash "^4.17.10"
+    to-fast-properties "^2.0.0"
+
 "@commitlint/cli@7.5.0":
   version "7.5.0"
   resolved "https://registry.yarnpkg.com/@commitlint/cli/-/cli-7.5.0.tgz#6967633e45239daa09f1ff080cbd66e6e9ac11bc"
@@ -3349,12 +3358,12 @@ babel-plugin-react-docgen@^2.0.0:
     lodash "^4.17.10"
     react-docgen "^3.0.0-rc.1"
 
-babel-plugin-react-intl-auto@1.6.0:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl-auto/-/babel-plugin-react-intl-auto-1.6.0.tgz#6fc2f39941fc4af70ad1429ed8fd47789f8f4559"
-  integrity sha512-nmQoUS67+NG2sR0Z6LPJjTbUQELCqQNdRMzh+fLeCmAwtjewukFWzRc1wAI+jNC1rrKV7S9Uf4SamaH7QaRQMQ==
+babel-plugin-react-intl-auto@1.6.1:
+  version "1.6.1"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl-auto/-/babel-plugin-react-intl-auto-1.6.1.tgz#1ce5b1c325dbd27ec7a4fd8715a7f180ffbb035e"
+  integrity sha512-w1rGwphjJ59zccMfhUh4V07bUwpKIFev8z488Wq3jp2xO/KkkAOcny821gN0KUaNsTHry1bAT30QJe8DwNPXGg==
   dependencies:
-    "@babel/types" "^7.0.0"
+    "@babel/types" "^7.3.2"
     murmurhash3js "^3.0.1"
 
 babel-plugin-react-intl@3.0.1:
