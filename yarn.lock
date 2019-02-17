@@ -11818,10 +11818,10 @@ onetime@^2.0.0, onetime@^2.0.1:
   dependencies:
     mimic-fn "^1.0.0"
 
-opencollective-postinstall@2.0.1:
-  version "2.0.1"
-  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.1.tgz#798e83e168f7b91949061c2683f762af747f17cc"
-  integrity sha512-saQQ9hjLwu/oS0492eyYotoh+bra1819cfAT5rjY/e4REWwuc8IgZ844Oo44SiftWcJuBiqp0SA0BFVbmLX0IQ==
+opencollective-postinstall@2.0.2:
+  version "2.0.2"
+  resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.2.tgz#5657f1bede69b6e33a45939b061eb53d3c6c3a89"
+  integrity sha512-pVOEP16TrAO2/fjej1IdOyupJY8KDUM1CvsaScRbw6oddvpQoOfGk4ywha0HKKVAD6RkW4x6Q+tNBwhf3Bgpuw==
 
 opencollective@^1.0.3:
   version "1.0.3"
@@ -15103,13 +15103,13 @@ styled-components@4.1.3:
     stylis-rule-sheet "^0.0.10"
     supports-color "^5.5.0"
 
-styled-reset@1.6.6:
-  version "1.6.6"
-  resolved "https://registry.yarnpkg.com/styled-reset/-/styled-reset-1.6.6.tgz#456888bea926671987f116fe4c5a5e35333e28b1"
-  integrity sha512-ZbV1vWAlJD2ztW+4FbUsKC/GxhpTvqEJ4jowSB0bWi8LP0HF3r0hU05J+9hJhgZ+4/n2uNwcp5iFpxxpYsTmTw==
+styled-reset@1.6.8:
+  version "1.6.8"
+  resolved "https://registry.yarnpkg.com/styled-reset/-/styled-reset-1.6.8.tgz#965ecfbee9f11cf88019a4e8f1d80462d5529f0f"
+  integrity sha512-L2R80kKO514kHEdWGROwV+ZtZkmwXMveTAKnYFPkcxhfTSNjshe3KSmYMwJyWb2P9NrBDia4TuD8bXpd2N7TOg==
   dependencies:
     opencollective "^1.0.3"
-    opencollective-postinstall "2.0.1"
+    opencollective-postinstall "2.0.2"
 
 styled-system@^3.0.1, styled-system@^3.1.4:
   version "3.2.0"
