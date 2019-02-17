@@ -39,7 +39,7 @@
     semver "^5.4.1"
     source-map "^0.5.0"
 
-"@babel/core@7.2.2", "@babel/core@>=7.1.0", "@babel/core@^7.0.0", "@babel/core@^7.1.6":
+"@babel/core@7.2.2", "@babel/core@>=7.1.0", "@babel/core@^7.1.6":
   version "7.2.2"
   resolved "https://registry.yarnpkg.com/@babel/core/-/core-7.2.2.tgz#07adba6dde27bb5ad8d8672f15fde3e08184a687"
   integrity sha512-59vB0RWt09cAct5EIe58+NzGP4TFSD3Bz//2/ELy3ZeTeKF6VTD1AXlH8BGGbCX0PuobZBsIzO7IAI9PH67eKw==
@@ -3357,12 +3357,21 @@ babel-plugin-react-intl-auto@1.6.0:
     "@babel/types" "^7.0.0"
     murmurhash3js "^3.0.1"
 
-babel-plugin-react-intl@3.0.1, babel-plugin-react-intl@^3.0.1:
+babel-plugin-react-intl@3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-3.0.1.tgz#4abc7fff04a7bbbb7034aec0a675713f2e52181c"
   integrity sha512-FqnEO+Tq7kJVUPKsSG3s5jaHi3pAC4RUR11IrscvjsfkOApLP2DtzNo6dtQ+tX+OzEzJx7cUms8aCw5BFyW5xg==
   dependencies:
     "@babel/runtime" "^7.0.0"
+    intl-messageformat-parser "^1.2.0"
+    mkdirp "^0.5.1"
+
+babel-plugin-react-intl@^2.3.1:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/babel-plugin-react-intl/-/babel-plugin-react-intl-2.4.0.tgz#292fca8030603a9e0476973290836aa0c7da17e2"
+  integrity sha512-r67nOQdpKxPtDFiJHquTt9dBG0xOlBk1u3rForULNrDXvTzg5RRHbB7RLqqMWOvqfP2znTo0C+e/PLnPKt+JXA==
+  dependencies:
+    babel-runtime "^6.2.0"
     intl-messageformat-parser "^1.2.0"
     mkdirp "^0.5.1"
 
@@ -3955,7 +3964,7 @@ babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.26.0, babel-runtime@6.x.x, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0, babel-runtime@^6.5.0, babel-runtime@^6.9.0:
+babel-runtime@6.26.0, babel-runtime@6.x.x, babel-runtime@^6.11.6, babel-runtime@^6.18.0, babel-runtime@^6.2.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0, babel-runtime@^6.5.0, babel-runtime@^6.9.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   integrity sha1-llxwWGaOgrVde/4E/yM3vItWR/4=
@@ -7269,12 +7278,12 @@ extglob@^2.0.4:
     snapdragon "^0.8.1"
     to-regex "^3.0.1"
 
-extract-react-intl-messages@0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-0.13.0.tgz#0e24bd26d65ef97d4e28229e459ef3c799927226"
-  integrity sha512-ukeadRAk/gOfyi9pBmxz52rWrDgtgXND5b/k3ewphjvGzmsccga2RK7efImwCfqpyKnNxb1y0ngvbEJYPT7Ijg==
+extract-react-intl-messages@0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/extract-react-intl-messages/-/extract-react-intl-messages-0.14.0.tgz#9fcb146565ec993e4f8e4f5fbe7648e6155145f5"
+  integrity sha512-54fgnFzFJGpLhOuSUjfVmwXy+kEw1Y55oKbicsCWjIhmwlASXiefMkWFszSQftth1QUCIuxsL/Dh2+zNYZWqpQ==
   dependencies:
-    extract-react-intl "^0.9.0"
+    extract-react-intl "0.7.1"
     flat "^4.1.0"
     js-yaml "^3.12.1"
     load-json-file "^5.1.0"
@@ -7284,18 +7293,17 @@ extract-react-intl-messages@0.13.0:
     sort-keys "^2.0.0"
     write-json-file "^3.0.2"
 
-extract-react-intl@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/extract-react-intl/-/extract-react-intl-0.9.0.tgz#7eb9de48d222d483eefd4975afc965a1a43e667a"
-  integrity sha512-O/AqANf7QIXlZPvXeuBr8aXbK/sFMZ0gn26YcRXUSsBaSSFHEvXVrLlQO6nGTAOOVghLoVRS52im5ylPbpdD6g==
+extract-react-intl@0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/extract-react-intl/-/extract-react-intl-0.7.1.tgz#68568f2f66948cec10028e25acff5a21498f6c51"
+  integrity sha512-flEGtpJJ48TfmNDgWP7R39AO54k+tF5eF5u3F8VAatYbSKWn+6IOVXuM+QdwrTKOGrHjEbNxmf9h/yrYWKx8/g==
   dependencies:
-    "@babel/core" "^7.0.0"
-    babel-plugin-react-intl "^3.0.1"
+    babel-plugin-react-intl "^2.3.1"
     glob "^7.1.3"
     lodash.merge "^4.6.1"
     lodash.mergewith "^4.6.1"
-    pify "^4.0.1"
-    read-babelrc-up "^0.3.1"
+    pify "^4.0.0"
+    read-babelrc-up "^0.3.0"
 
 extract-zip@^1.0.3:
   version "1.6.7"
@@ -13393,7 +13401,7 @@ reactcss@^1.2.0:
   dependencies:
     lodash "^4.0.1"
 
-read-babelrc-up@^0.3.1:
+read-babelrc-up@^0.3.0:
   version "0.3.1"
   resolved "https://registry.yarnpkg.com/read-babelrc-up/-/read-babelrc-up-0.3.1.tgz#4903b773ce68c00ca9f2aec4cace3ef72f851eb7"
   integrity sha512-DAFetxQZKpiIAmjpnbxTAJ5lohBaKhRTfcfexApDmkVBGgg8ScbXCFhzZ3KYlagTNK0Bja0xPvQwcGLer6ukxg==
