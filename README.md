@@ -25,8 +25,9 @@ We have an active [slack][slack] channel where you can join the discussion on de
 
 - [Security](#security)
 - [Install](#install)
-- [Usage](#usage)
+- [Usage](#usage)(
 - [Advanced Usage](#advanced-usage)
+- [FAQ](#FAQ)
 - [Get Help](#get-help)
 - [Maintainers](#maintainers)
 - [Contribute](#contribute)
@@ -95,6 +96,10 @@ Once you have the .AppImage file extracted, you can either **double click** the 
 ## Advanced Usage
 
 If you would like to install from source, run a full bitcoin node, or connect to a custom lnd instance please see the [advanced usage](ADVANCED.md) page.
+
+## FAQ
+
+A quick reference for [Frequently Asked Questions](FAQ.md) from the community. 
 
 ## Get Help
 
