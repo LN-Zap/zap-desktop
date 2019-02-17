@@ -7,7 +7,7 @@ import messages from './messages'
 
 const SettingsMenu = ({ history, setActiveSubMenu, setFormType }) => (
   <MenuContainer>
-    <Menu>
+    <Menu justify="right">
       <MenuItem
         item={{ key: 'fiat', name: <FormattedMessage {...messages.fiat} /> }}
         onClick={() => setActiveSubMenu('fiat')}
