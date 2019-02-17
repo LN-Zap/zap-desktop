@@ -25,7 +25,7 @@ We have an active [slack][slack] channel where you can join the discussion on de
 
 - [Security](#security)
 - [Install](#install)
-- [Usage](#usage)(
+- [Usage](#usage)
 - [Advanced Usage](#advanced-usage)
 - [FAQ](#FAQ)
 - [Get Help](#get-help)
