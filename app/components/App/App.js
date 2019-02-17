@@ -1,14 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import Form from 'components/Form'
-import ChannelForm from 'components/Contacts/ChannelForm'
-import Network from 'components/Contacts/Network'
-import AddChannel from 'components/Contacts/AddChannel'
 import ReceiveModal from 'components/Wallet/ReceiveModal'
 import ActivityModal from 'containers/Activity/ActivityModal'
 import Activity from 'containers/Activity'
 import Wallet from 'containers/Wallet'
-import { MainContent, Sidebar } from 'components/UI'
+import { MainContent } from 'components/UI'
 
 // Initial refetch after 2 seconds.
 const INITIAL_REFETCH_INTERVAL = 2000
@@ -28,10 +25,7 @@ class App extends React.Component {
     formProps: PropTypes.object.isRequired,
     closeForm: PropTypes.func.isRequired,
     currentTicker: PropTypes.object,
-    contactsFormProps: PropTypes.object,
-    networkTabProps: PropTypes.object,
     receiveModalProps: PropTypes.object,
-    channelFormProps: PropTypes.object,
     setIsWalletOpen: PropTypes.func.isRequired,
     fetchPeers: PropTypes.func.isRequired,
     fetchDescribeNetwork: PropTypes.func.isRequired
@@ -83,22 +77,12 @@ class App extends React.Component {
   }
 
   render() {
-    const {
-      currentTicker,
-      form,
-      formProps,
-      closeForm,
-      contactsFormProps,
-      networkTabProps,
-      receiveModalProps,
-      channelFormProps
-    } = this.props
+    const { currentTicker, form, formProps, closeForm, receiveModalProps } = this.props
 
     return (
       <>
         {currentTicker && (
           <>
-            <ChannelForm {...channelFormProps} />
             <ReceiveModal {...receiveModalProps} />
             <ActivityModal />
             <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
@@ -109,14 +93,6 @@ class App extends React.Component {
           <Wallet />
           <Activity />
         </MainContent>
-
-        <Sidebar.medium>
-          {contactsFormProps.contactsform.isOpen ? (
-            <AddChannel {...contactsFormProps} />
-          ) : (
-            <Network {...networkTabProps} />
-          )}
-        </Sidebar.medium>
       </>
     )
   }
