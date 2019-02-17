@@ -306,7 +306,7 @@
     "testcafe": "1.0.1",
     "testcafe-browser-provider-electron": "0.0.8",
     "testcafe-live": "0.1.4",
-    "testcafe-react-selectors": "3.0.3",
+    "testcafe-react-selectors": "3.1.0",
     "url-loader": "1.1.2",
     "webpack": "4.29.4",
     "webpack-bundle-analyzer": "3.0.4",

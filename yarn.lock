@@ -15699,10 +15699,10 @@ testcafe-live@0.1.4:
     log-update-async-hook "^2.0.2"
     wrap-ansi "^3.0.1"
 
-testcafe-react-selectors@3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/testcafe-react-selectors/-/testcafe-react-selectors-3.0.3.tgz#4426566d69d465e896e31e46fc9b96a063440030"
-  integrity sha512-EA0VmJJQNVtQK+gF39y7VemNb8bAXONfV0TtqM64TJ8cH2geIxeX2pUxBaJ6zRA/vtSofeJNqTm4+fxoQW2voA==
+testcafe-react-selectors@3.1.0:
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/testcafe-react-selectors/-/testcafe-react-selectors-3.1.0.tgz#c531d6d6a856935971dd3331f5416df420b65aa9"
+  integrity sha512-o2APYvtIqWdi7wkCFoQLbC5SjboqCA3iW1k9PvfbxxerjQuvUfZMv4QAwVi4SNQ8veK/NSiuSNRP7na0YqNDyQ==
 
 testcafe-reporter-json@^2.1.0:
   version "2.1.0"
