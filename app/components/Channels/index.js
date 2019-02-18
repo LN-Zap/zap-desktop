@@ -23,6 +23,7 @@ export ChannelsInfo from './ChannelsInfo'
 export ChannelSummaryList from './ChannelSummaryList'
 export ChannelSummaryListItem from './ChannelSummaryListItem'
 export ChannelsViewSwitcher from './ChannelsViewSwitcher'
+export ChannelCloseDialog from './ChannelCloseDialog'
 
 export { VIEW_MODE_SUMMARY } from './ChannelList'
 export { VIEW_MODE_CARD } from './ChannelList'

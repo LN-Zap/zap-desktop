@@ -38,6 +38,9 @@ export const GET_SUGGESTED_NODES = 'GET_SUGGESTED_NODES'
 export const RECEIVE_SUGGESTED_NODES_ERROR = 'RECEIVE_SUGGESTED_NODES_ERROR'
 export const RECEIVE_SUGGESTED_NODES = 'RECEIVE_SUGGESTED_NODES'
 
+export const OPEN_CLOSE_CHANNEL_DIALOG = 'OPEN_CLOSE_CHANNEL_DIALOG'
+export const CLOSE_CLOSE_CHANNEL_DIALOG = 'CLOSE_CLOSE_CHANNEL_DIALOG'
+
 // ------------------------------------
 // Helpers
 // ------------------------------------
@@ -51,14 +54,14 @@ export const RECEIVE_SUGGESTED_NODES = 'RECEIVE_SUGGESTED_NODES'
 const getChannelData = channelObj => channelObj.channel || channelObj
 
 /**
- * Get a name to display for the channe.
+ * Get a name to display for the channel.
  *
  * This will either be:
- *  - the alias of the node at the othe end of the channel
+ *  - the alias of the node at the other end of the channel
  *  - a shortened public key.
  * @param  {Object} channel Channel object.
  * @param  {Array} nodes Array of nodes.
- * @return {SAtring} Channel display name.
+ * @return {String} Channel display name.
  */
 const getDisplayName = (channel, nodes) => {
   const remoteNodePubkey = getRemoteNodePubKey(channel)
@@ -151,7 +154,7 @@ const getLegacyStatus = (channel, closingChannelIds) => {
 }
 
 /**
- * Decorate a channbel object with additiopnal calculated properties.
+ * Decorate a channel object with additional calculated properties.
  * @param  {Object} channelObj Channel object.
  * @param  {Array} nodes Array of node data.
  * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing.
@@ -361,25 +364,32 @@ export const pushchannelstatus = () => dispatch => {
   dispatch(fetchChannels())
 }
 
-// Send IPC event for opening a channel
-export const closeChannel = ({ channel_point, chan_id, force }) => dispatch => {
-  dispatch(closingChannel())
-  dispatch(addClosingChanId(chan_id))
+export const showCloseChannelDialog = () => ({ type: OPEN_CLOSE_CHANNEL_DIALOG })
+export const hideCloseChannelDialog = () => ({ type: CLOSE_CLOSE_CHANNEL_DIALOG })
 
-  const [funding_txid, output_index] = channel_point.split(':')
-  dispatch(
-    send('lnd', {
-      msg: 'closeChannel',
-      data: {
-        channel_point: {
-          funding_txid,
-          output_index
-        },
-        chan_id,
-        force
-      }
-    })
-  )
+// Send IPC event for opening a channel
+export const closeChannel = () => (dispatch, getState) => {
+  const selectedChannel = channelsSelectors.selectedChannel(getState())
+  if (selectedChannel) {
+    const { channel_point, chan_id, active } = selectedChannel
+    dispatch(closingChannel())
+    dispatch(addClosingChanId(chan_id))
+
+    const [funding_txid, output_index] = channel_point.split(':')
+    dispatch(
+      send('lnd', {
+        msg: 'closeChannel',
+        data: {
+          channel_point: {
+            funding_txid,
+            output_index
+          },
+          chan_id,
+          force: !active
+        }
+      })
+    )
+  }
 }
 
 // TODO: Decide how to handle streamed updates for closing channels
@@ -452,10 +462,10 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
     }
   }
 
-  // if our node or any of our chanels were involved in this update, fetch an updated channel list.
+  // if our node or any of our channels were involved in this update, fetch an updated channel list.
   if (hasUpdates) {
     // We can receive a lot of channel updates from channel graph subscription in a short space of time. If these
-    // nvolve our our channels we make a call to fetchChannels and then fetchBalances in order to refresh our channel
+    // involve our our channels we make a call to fetchChannels and then fetchBalances in order to refresh our channel
     // and balance data. Throttle these calls so that we don't attempt to fetch channels to often.
     throttledFetchChannels(dispatch)
   }
@@ -528,6 +538,14 @@ const ACTION_HANDLERS = {
       mainnet: [],
       testnet: []
     }
+  }),
+  [OPEN_CLOSE_CHANNEL_DIALOG]: state => ({
+    ...state,
+    isCloseDialogOpen: true
+  }),
+  [CLOSE_CLOSE_CHANNEL_DIALOG]: state => ({
+    ...state,
+    isCloseDialogOpen: false
   })
 }
 

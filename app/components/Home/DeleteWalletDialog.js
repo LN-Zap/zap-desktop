@@ -1,24 +1,16 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Flex } from 'rebass'
+import { Flex, Box } from 'rebass'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withFieldState } from 'informed'
-import styled from 'styled-components'
 import Delete from 'components/Icon/Delete'
-import { Dialog, Text, Heading, Button, Checkbox, Form } from 'components/UI'
+import { Dialog, Text, Heading, Button, Checkbox, Form, DialogOverlay } from 'components/UI'
+import { useCloseOnUnmount } from 'components/Util/hooks'
 import messages from './messages'
 
-const Overlay = styled(Flex)`
-  position: absolute;
-  z-index: 99999;
-  background-color: rgba(255, 255, 255, 0.25);
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
-
 const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
+  useCloseOnUnmount(isOpen, onCancel)
+
   if (!isOpen) {
     return null
   }
@@ -43,7 +35,9 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
 
   const header = (
     <Flex flexDirection="column" alignItems="center">
-      <Delete color="#e8383a" width={72} height={72} />
+      <Box color="superRed">
+        <Delete width={72} height={72} />
+      </Box>
       <Heading.h1 mt={4} mb={3}>
         <FormattedMessage {...messages.delete_wallet_dialog_header} />
       </Heading.h1>
@@ -53,7 +47,7 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
   const handleSubmit = () => onDelete()
 
   return (
-    <Overlay justifyContent="center" alignItems="center">
+    <DialogOverlay justifyContent="center" alignItems="center">
       <Form onSubmit={handleSubmit}>
         <Dialog header={header} buttons={buttons} onClose={onCancel} width={640}>
           {walletDir && (
@@ -74,7 +68,7 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
           )}
         </Dialog>
       </Form>
-    </Overlay>
+    </DialogOverlay>
   )
 }
 
