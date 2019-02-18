@@ -34,7 +34,6 @@ import { fetchDescribeNetwork } from 'reducers/network'
 import { showNotification, removeNotification } from 'reducers/notification'
 import { setIsWalletOpen, walletSelectors } from 'reducers/wallet'
 import App from 'components/App'
-import withLoading from 'components/withLoading'
 
 const mapDispatchToProps = {
   setCurrency,
@@ -83,12 +82,6 @@ const mapStateToProps = state => ({
   network: state.network,
   settings: state.settings,
   wallet: state.wallet,
-
-  isLoading:
-    !tickerSelectors.currentTicker(state) ||
-    !tickerSelectors.currencyName(state) ||
-    state.balance.channelBalance === null ||
-    state.balance.walletBalance === null,
 
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   currentTicker: tickerSelectors.currentTicker(state),
@@ -197,5 +190,5 @@ export default withRouter(
     mapStateToProps,
     mapDispatchToProps,
     mergeProps
-  )(withLoading(App))
+  )(App)
 )

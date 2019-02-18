@@ -25,8 +25,8 @@ const withLoading = Component =>
       const { isLoading, children, ...rest } = this.props
       return (
         <React.Fragment>
-          <LoadingBoltWithTheme isLoading={isLoading} />
           <Component {...rest}>{children}</Component>
+          <LoadingBoltWithTheme isLoading={isLoading} />
         </React.Fragment>
       )
     }

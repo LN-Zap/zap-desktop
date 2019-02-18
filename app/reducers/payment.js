@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
-import { convert } from 'lib/utils/btc'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import delay from 'lib/utils/delay'
 import { fetchBalance } from './balance'
@@ -69,13 +68,7 @@ export const receivePayments = (event, { payments }) => dispatch => {
   dispatch({ type: RECEIVE_PAYMENTS, payments })
 }
 
-export const payInvoice = ({ payReq, value, currency = 'sats', feeLimit }) => dispatch => {
-  // If a custom value has been passed, convert it to sats as this is what is expected by the backend.
-  let amt
-  if (value) {
-    amt = convert(currency, 'sats', value)
-  }
-
+export const payInvoice = ({ payReq, amt, feeLimit }) => dispatch => {
   const data = { paymentRequest: payReq, feeLimit, amt }
   dispatch(send('lnd', { msg: 'sendPayment', data }))
   dispatch(sendPayment(data))
