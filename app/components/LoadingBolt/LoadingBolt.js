@@ -20,6 +20,15 @@ const gradientMotion = keyframes`
   }
 `
 
+const Container = styled(animated.div)`
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`
+
 const FullPageGradient = styled(Flex)`
   position: absolute;
   z-index: 1000;
@@ -61,7 +70,7 @@ class LoadingBolt extends React.PureComponent {
         {show =>
           show &&
           (springStyles => (
-            <animated.div style={springStyles}>
+            <Container style={springStyles}>
               <FullPageGradient justifyContent="center" alignItems="center" color="primaryText">
                 <Flex alignItems="center" flexDirection="column">
                   <CloudLightning height="140px" width="140px" />
@@ -70,7 +79,7 @@ class LoadingBolt extends React.PureComponent {
                   </Heading.h2>
                 </Flex>
               </FullPageGradient>
-            </animated.div>
+            </Container>
           ))
         }
       </Transition>
