@@ -4,6 +4,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   local_balance: 'Local Balance',
   remote_balance: 'Remote Balance',
+  calculating: 'calculating',
   channels: 'Channels',
   capacity: 'Capacity',
   total_capacity: 'Total Capacity',
@@ -16,6 +17,15 @@ export default defineMessages({
   waiting_close: 'closing',
   open: 'open',
   offline: 'offline',
+  fee: 'Fee',
+  fee_unknown: 'unknown',
+  fee_per_byte: 'per byte',
+  transaction_speed_slow: 'Slow',
+  transaction_speed_slow_description: 'Estimated Delivery: 1 hour',
+  transaction_speed_medium: 'Medium',
+  transaction_speed_medium_description: 'Estimated Delivery: 30 minutes',
+  transaction_speed_fast: 'Fast',
+  transaction_speed_fast_description: 'Estimated Delivery: 10 minutes',
   open_channel_form_title: 'Open a Channel',
   open_channel_form_subtitle: 'Lightning Network',
   open_channel_form_description:
