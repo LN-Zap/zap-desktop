@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from 'lib/utils/crypto'
 import { convert } from 'lib/utils/btc'
-import { Bar, Form, Message, Label, LightningInvoiceInput, Panel, Text } from 'components/UI'
+import { Bar, Form, Message, LightningInvoiceInput, Panel, Text } from 'components/UI'
 import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
 import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
 import PaySummaryOnChain from 'containers/Pay/PaySummaryOnChain'
@@ -50,6 +50,7 @@ const ShowHideAmount = Keyframes.Spring({
  */
 class Pay extends React.Component {
   static propTypes = {
+    intl: intlShape.isRequired,
     /** The currently active chain (bitcoin, litecoin etc) */
     chain: PropTypes.string.isRequired,
     /** The currently active chain (mainnet, testnet) */
@@ -353,28 +354,24 @@ class Pay extends React.Component {
 
   renderAddressField = () => {
     const { currentStep, isLn } = this.state
-    const { chain, payReq, network } = this.props
+    const { chain, payReq, network, intl } = this.props
+
+    const payReq_label =
+      currentStep === 'address'
+        ? 'request_label_combined'
+        : isLn
+        ? 'request_label_offchain'
+        : 'request_label_onchain'
 
     return (
       <Box className={currentStep !== 'summary' ? 'element-show' : 'element-hide'}>
-        <Box pb={2}>
-          <Label htmlFor="payReq" readOnly={currentStep !== 'address'}>
-            {currentStep === 'address' ? (
-              <FormattedMessage {...messages.request_label_combined} />
-            ) : isLn ? (
-              <FormattedMessage {...messages.request_label_offchain} />
-            ) : (
-              <FormattedMessage {...messages.request_label_onchain} />
-            )}
-          </Label>
-        </Box>
-
         <ShowHidePayReq state={currentStep === 'address' || isLn ? 'big' : 'small'} context={this}>
           {styles => (
             <React.Fragment>
               <LightningInvoiceInput
                 field="payReq"
                 name="payReq"
+                label={intl.formatMessage({ ...messages[payReq_label] })}
                 style={styles}
                 initialValue={payReq}
                 required
@@ -603,4 +600,4 @@ class Pay extends React.Component {
   }
 }
 
-export default Pay
+export default injectIntl(Pay)

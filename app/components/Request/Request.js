@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
-import { Bar, Button, Form, Header, Label, Panel, Text, TextArea } from 'components/UI'
+import { Bar, Button, Form, Header, Panel, Text, TextArea } from 'components/UI'
 import { CurrencyFieldGroup } from 'containers/UI'
 import Lightning from 'components/Icon/Lightning'
 import { RequestSummary } from '.'
@@ -130,24 +130,17 @@ class Request extends React.Component {
   renderMemoField = () => {
     const { intl } = this.props
     return (
-      <Box>
-        <Box pb={2}>
-          <Label htmlFor="memo">
-            <FormattedMessage {...messages.memo} />
-          </Label>
-        </Box>
-
-        <TextArea
-          field="memo"
-          name="memo"
-          validateOnBlur
-          validateOnChange
-          placeholder={intl.formatMessage({ ...messages.memo_placeholder })}
-          width={1}
-          rows={3}
-          css={{ resize: 'vertical', 'min-height': '48px' }}
-        />
-      </Box>
+      <TextArea
+        field="memo"
+        name="memo"
+        validateOnBlur
+        validateOnChange
+        label={intl.formatMessage({ ...messages.memo })}
+        placeholder={intl.formatMessage({ ...messages.memo_placeholder })}
+        width={1}
+        rows={3}
+        css={{ resize: 'vertical', 'min-height': '48px' }}
+      />
     )
   }
 
