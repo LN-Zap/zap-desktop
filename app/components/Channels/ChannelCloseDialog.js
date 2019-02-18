@@ -7,13 +7,24 @@ import Delete from 'components/Icon/Delete'
 import { Dialog, Text, Heading, Button, Checkbox, Form, DialogOverlay } from 'components/UI'
 import messages from './messages'
 
-const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel }) => {
+function useCloseOnUnmount(isOpen, onCancel) {
   useEffect(() => {
     return () => {
       // Ensure dialog is always closed even in case unmounted together with parent
       !isOpen && onCancel()
     }
   }, [])
+}
+
+const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel }) => {
+  useCloseOnUnmount(isOpen, onCancel)
+
+  // useEffect(() => {
+  //   return () => {
+  //     // Ensure dialog is always closed even in case unmounted together with parent
+  //     !isOpen && onCancel()
+  //   }
+  // }, [])
 
   if (!isOpen) {
     return null
