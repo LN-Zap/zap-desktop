@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import Form from 'components/Form'
 import ReceiveModal from 'components/Wallet/ReceiveModal'
 import ActivityModal from 'containers/Activity/ActivityModal'
 import Activity from 'containers/Activity'
@@ -21,9 +20,6 @@ class App extends React.Component {
   nextFetchIn = INITIAL_REFETCH_INTERVAL
 
   static propTypes = {
-    form: PropTypes.object.isRequired,
-    formProps: PropTypes.object.isRequired,
-    closeForm: PropTypes.func.isRequired,
     currentTicker: PropTypes.object,
     receiveModalProps: PropTypes.object,
     setIsWalletOpen: PropTypes.func.isRequired,
@@ -77,7 +73,7 @@ class App extends React.Component {
   }
 
   render() {
-    const { currentTicker, form, formProps, closeForm, receiveModalProps } = this.props
+    const { currentTicker, receiveModalProps } = this.props
 
     return (
       <>
@@ -85,7 +81,6 @@ class App extends React.Component {
           <>
             <ReceiveModal {...receiveModalProps} />
             <ActivityModal />
-            <Form formType={form.formType} formProps={formProps} closeForm={closeForm} />
           </>
         )}
 

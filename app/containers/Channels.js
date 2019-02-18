@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import Channels from 'components/Channels'
-import { setFormType } from 'reducers/form'
+import { openModal } from 'reducers/modal'
 import {
   changeFilter,
   channelsSelectors,
@@ -30,7 +30,7 @@ const mapDispatchToProps = {
   closeChannel: showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
-  setFormType,
+  openModal,
   updateChannelSearchQuery
 }
 

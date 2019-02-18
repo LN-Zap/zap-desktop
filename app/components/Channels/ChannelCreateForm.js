@@ -4,7 +4,6 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { convert } from 'lib/utils/btc'
 import { Bar, Button, Form, Header, NodePubkeyInput, Panel, Text } from 'components/UI'
-import { ChannelBackButton } from 'components/Channels'
 import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
 import LightningChannel from 'components/Icon/LightningChannel'
 import messages from './messages'
@@ -16,7 +15,6 @@ class ChannelCreateForm extends React.Component {
     currency: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
     onSubmit: PropTypes.func.isRequired,
-    onCancel: PropTypes.func,
     openChannel: PropTypes.func.isRequired
   }
 
@@ -45,15 +43,7 @@ class ChannelCreateForm extends React.Component {
   }
 
   render() {
-    const {
-      intl,
-      channelBalance,
-      currencyName,
-      onSubmit,
-      onCancel,
-      openChannel,
-      ...rest
-    } = this.props
+    const { intl, channelBalance, currencyName, onSubmit, openChannel, ...rest } = this.props
 
     return (
       <Form
@@ -101,15 +91,10 @@ class ChannelCreateForm extends React.Component {
             </Panel.Body>
 
             <Panel.Footer>
-              <Flex alignItems="center" mb={3}>
-                <Box width={1 / 4}>
-                  {onCancel && <ChannelBackButton onClick={onCancel} mr="auto" />}
-                </Box>
-                <Flex width={2 / 4} justifyContent="center">
-                  <Button type="submit" disabled={formState.submits > 0 && formState.invalid}>
-                    <FormattedMessage {...messages.open_channel_form_next_button_text} />
-                  </Button>
-                </Flex>
+              <Flex alignItems="center" justifyContent="center" mb={3}>
+                <Button type="submit" disabled={formState.submits > 0 && formState.invalid}>
+                  <FormattedMessage {...messages.open_channel_form_next_button_text} />
+                </Button>
               </Flex>
 
               <Text textAlign="center">

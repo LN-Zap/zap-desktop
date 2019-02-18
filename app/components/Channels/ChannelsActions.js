@@ -14,7 +14,7 @@ const ChannelsActions = ({
   changeFilter,
   updateChannelSearchQuery,
   setChannelViewMode,
-  setFormType,
+  openModal,
   intl,
   ...rest
 }) => (
@@ -39,7 +39,7 @@ const ChannelsActions = ({
       setChannelViewMode={setChannelViewMode}
     />
 
-    <Button onClick={() => setFormType('CHANNEL_CREATE_FORM')} ml="auto">
+    <Button onClick={() => openModal('CHANNEL_CREATE_FORM')} ml="auto">
       <FormattedMessage {...messages.create_new_button_text} />
     </Button>
   </Flex>
@@ -54,7 +54,7 @@ ChannelsActions.propTypes = {
   updateChannelSearchQuery: PropTypes.func.isRequired,
   channelViewMode: PropTypes.string.isRequired,
   setChannelViewMode: PropTypes.func.isRequired,
-  setFormType: PropTypes.func.isRequired
+  openModal: PropTypes.func.isRequired
 }
 
 export default injectIntl(ChannelsActions)

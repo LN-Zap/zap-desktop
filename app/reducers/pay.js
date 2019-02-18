@@ -1,7 +1,7 @@
 import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
 import { requestFees } from 'lib/utils/api'
-import { setFormType } from './form'
+import { openModal, closeModal } from './modal'
 
 // ------------------------------------
 // Constants
@@ -51,10 +51,10 @@ export function setPayReq(payReq) {
 
 export const lightningPaymentUri = (event, { payReq }) => dispatch => {
   // First, clear the payment form.
-  dispatch(setFormType(null))
+  dispatch(closeModal())
 
   // Then load it fresh and set the payment request.
-  dispatch(setFormType('PAY_FORM'))
+  dispatch(openModal('PAY_FORM'))
   dispatch(setPayReq(payReq))
 }
 

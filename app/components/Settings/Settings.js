@@ -56,7 +56,7 @@ class Settings extends React.Component {
       localeProps,
       themeProps,
       setActiveSubMenu,
-      setFormType
+      openModal
     } = this.props
     switch (activeSubMenu) {
       case 'fiat':
@@ -66,7 +66,7 @@ class Settings extends React.Component {
       case 'theme':
         return <Theme {...themeProps} />
       default:
-        return <Menu setActiveSubMenu={setActiveSubMenu} setFormType={setFormType} />
+        return <Menu setActiveSubMenu={setActiveSubMenu} openModal={openModal} />
     }
   }
 
@@ -103,7 +103,7 @@ Settings.propTypes = {
   localeProps: PropTypes.object.isRequired,
   themeProps: PropTypes.object.isRequired,
   setActiveSubMenu: PropTypes.func.isRequired,
-  setFormType: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   openSettings: PropTypes.func.isRequired,
   closeSettings: PropTypes.func.isRequired
 }
