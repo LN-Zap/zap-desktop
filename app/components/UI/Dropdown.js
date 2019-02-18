@@ -45,22 +45,24 @@ DropdownButton.defaultProps = {
 /**
  * Menu
  */
-export const MenuContainer = styled(Box)({
-  position: 'relative'
-})
+export const MenuContainer = styled(Box)`
+  position: relative;
+`
 
-export const Menu = styled(Box)({
-  cursor: 'pointer',
-  display: 'inline-block',
-  position: 'absolute',
-  'z-index': '40',
-  'min-width': '70px',
-  'max-height': '300px',
-  'overflow-y': 'auto',
-  'list-style-type': 'none',
-  'border-radius': '3px',
-  'box-shadow': '0 3px 4px 0 rgba(30, 30, 30, 0.5)'
-})
+export const Menu = styled(Box)`
+  cursor: pointer;
+  display: inline-block;
+  position: absolute;
+  z-index: 40;
+  min-width: 70px;
+  max-height: 300px;
+  overflow-y: auto;
+  list-style-type: none;
+  border-radius: 3px;
+  box-shadow: 0 3px 4px 0 rgba(30, 30, 30, 0.5);
+  right: ${props => (props.justify === 'right' ? 0 : null)};
+`
+
 Menu.defaultProps = {
   as: 'ul',
   m: 0,
@@ -192,7 +194,7 @@ class Dropdown extends React.Component {
           </DropdownButton>
           {isOpen && (
             <MenuContainer>
-              <Menu css={justify === 'right' ? { right: 0 } : null}>
+              <Menu justify={justify}>
                 {items.map(item => {
                   return (
                     <MenuItem

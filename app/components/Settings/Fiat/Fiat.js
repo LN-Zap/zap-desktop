@@ -6,7 +6,7 @@ import messages from './messages'
 
 const Fiat = ({ fiatTicker, fiatTickers, disableSubMenu, setFiatTicker }) => (
   <MenuContainer>
-    <Menu>
+    <Menu justify="right">
       <MenuItem
         item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
         onClick={disableSubMenu}

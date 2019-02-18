@@ -71,10 +71,10 @@ class Settings extends React.Component {
   }
 
   render() {
-    const { activeWalletSettings, isSettingsOpen } = this.props
+    const { activeWalletSettings, isSettingsOpen, ...rest } = this.props
 
     return (
-      <Box css={{ position: 'relative' }}>
+      <Box {...rest}>
         <Flex
           ref={this.setButtonRef}
           alignItems="center"
