@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import get from 'lodash.get'
 import { requestTickers } from 'lib/utils/api'
 import { currencies, getDefaultCurrency } from 'lib/i18n'
 import db from 'store/db'
@@ -14,13 +15,13 @@ export const GET_TICKERS = 'GET_TICKERS'
 export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
 
 // Map for crypto codes to crypto tickers
-const cryptoTickers = {
+const DEFAULT_CRYPTO_UNITS = {
   bitcoin: 'btc',
   litecoin: 'ltc'
 }
 
 // Map for crypto names to crypto tickers
-const cryptoNames = {
+const CRYPTO_NAMES = {
   bitcoin: 'Bitcoin',
   litecoin: 'Litecoin'
 }
@@ -28,10 +29,20 @@ const cryptoNames = {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function setCurrency(currency) {
-  return {
+export const setCurrency = unit => async (dispatch, getState) => {
+  dispatch({
     type: SET_CURRENCY,
-    currency
+    currency: unit
+  })
+
+  const chain = cryptoSelector(getState())
+  const chainSettings = (await db.settings.get({ key: `chain.${chain}` })) || {}
+  const savedUnit = get(chainSettings, 'value.unit')
+
+  if (unit !== savedUnit) {
+    const value = chainSettings.value || {}
+    value.unit = unit || DEFAULT_CRYPTO_UNITS[chain]
+    await db.settings.put({ key: `chain.${chain}`, value })
   }
 }
 
@@ -75,9 +86,15 @@ export const fetchTicker = () => async dispatch => {
 }
 
 // Receive IPC event for receiveCryptocurrency
-export const receiveCryptocurrency = (event, currency) => dispatch => {
-  dispatch({ type: SET_CURRENCY, currency: cryptoTickers[currency] })
-  dispatch({ type: SET_CRYPTO, crypto: currency })
+export const receiveCryptocurrency = (event, chain) => async dispatch => {
+  dispatch(setCrypto(chain))
+
+  // Load saved settings for the chain.
+  const chainSettings = await db.settings.get({ key: `chain.${chain}` })
+
+  // Set currency unit based on saved setting, or fallback to default value.
+  const unit = get(chainSettings, 'value.unit', DEFAULT_CRYPTO_UNITS[chain])
+  dispatch(setCurrency(unit))
 }
 
 // ------------------------------------
@@ -126,7 +143,7 @@ tickerSelectors.currentTicker = createSelector(
 
 tickerSelectors.cryptoName = createSelector(
   cryptoSelector,
-  crypto => cryptoNames[crypto]
+  crypto => CRYPTO_NAMES[crypto]
 )
 
 tickerSelectors.currencyFilters = createSelector(
