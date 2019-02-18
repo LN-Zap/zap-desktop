@@ -148,7 +148,7 @@ class Input extends React.Component {
 
     return (
       <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
-        {label && (
+        {typeof label !== 'undefined' && label !== null && (
           <Label htmlFor={field} mb={2}>
             {label}
             {required && (

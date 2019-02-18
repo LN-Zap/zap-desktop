@@ -169,6 +169,7 @@ class Request extends React.Component {
         setCryptoCurrency={setCryptoCurrency}
         setFiatCurrency={setFiatCurrency}
         formApi={this.formApi}
+        required
         mb={3}
       />
     )

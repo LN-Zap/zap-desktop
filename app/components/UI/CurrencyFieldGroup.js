@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 import { convert } from 'lib/utils/btc'
-import { CryptoAmountInput, Dropdown, FiatAmountInput, Label, Text } from 'components/UI'
+import { CryptoAmountInput, Dropdown, FiatAmountInput } from 'components/UI'
 import messages from './messages'
 
 class CurrencyFieldGroup extends React.Component {
@@ -33,6 +33,8 @@ class CurrencyFieldGroup extends React.Component {
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Amount value to populate the amountFiat field with when the form first loads. */
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    /** Boolean indicating if form fields are required */
+    required: PropTypes.bool,
     /** Set the current cryptocurrency. */
     setCryptoCurrency: PropTypes.func.isRequired,
     /** Set the current fiat currency */
@@ -91,24 +93,22 @@ class CurrencyFieldGroup extends React.Component {
       fiatCurrencies,
       initialAmountCrypto,
       initialAmountFiat,
+      required,
       ...rest
     } = this.props
 
     return (
       <Box {...rest}>
-        <Label htmlFor="amountCrypto" pb={2}>
-          <FormattedMessage {...messages.amount} />
-        </Label>
-
-        <Flex justifyContent="space-between" alignItems="flex-start">
-          <Flex width={6 / 13}>
+        <Flex justifyContent="space-between" alignItems="center">
+          <Flex width={6 / 13} alignItems="center">
             <Box width={150}>
               <CryptoAmountInput
                 field="amountCrypto"
                 name="amountCrypto"
                 initialValue={initialAmountCrypto}
                 currency={cryptoCurrency}
-                required
+                required={required}
+                label={<FormattedMessage {...messages.amount} />}
                 width={150}
                 validateOnChange
                 validateOnBlur
@@ -125,10 +125,10 @@ class CurrencyFieldGroup extends React.Component {
               ml={2}
             />
           </Flex>
-          <Text textAlign="center" mt={3} width={1 / 11}>
+          <Flex alignItems="center" justifyContent="center" width={1 / 11} mt={3}>
             =
-          </Text>
-          <Flex width={6 / 13}>
+          </Flex>
+          <Flex width={6 / 13} alignItems="center">
             <Box width={150} ml="auto">
               <FiatAmountInput
                 field="amountFiat"
@@ -136,6 +136,7 @@ class CurrencyFieldGroup extends React.Component {
                 initialValue={initialAmountFiat}
                 currency={fiatCurrency}
                 currentTicker={currentTicker}
+                label="&nbsp;"
                 width={150}
                 onChange={this.handleAmountFiatChange}
                 disabled={disabled}
