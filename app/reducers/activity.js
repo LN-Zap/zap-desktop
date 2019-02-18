@@ -5,6 +5,7 @@ import { fetchTransactions } from './transaction'
 import { fetchPayments } from './payment'
 import { fetchInvoices } from './invoice'
 import { fetchBalance } from './balance'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -144,7 +145,7 @@ const paymentsSending = createSelector(
       return {
         type: 'payment',
         creation_date: payment.timestamp,
-        value: invoice.satoshis || payment.amt,
+        value: payment.amt,
         path: [invoice.payeeNodeKey],
         payment_hash: invoice.tags.find(t => t.tagName === 'payment_hash').data,
         sending: true,
