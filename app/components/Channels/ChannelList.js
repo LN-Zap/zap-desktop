@@ -18,6 +18,7 @@ class ChannelList extends React.Component {
     searchQuery: PropTypes.string,
     changeFilter: PropTypes.func.isRequired,
     setSelectedChannel: PropTypes.func.isRequired,
+    setFormType: PropTypes.func.isRequired,
     updateChannelSearchQuery: PropTypes.func.isRequired,
     channelViewMode: PropTypes.string.isRequired,
     setChannelViewMode: PropTypes.func.isRequired,
@@ -47,6 +48,7 @@ class ChannelList extends React.Component {
       filters,
       networkInfo,
       setChannelViewMode,
+      setFormType,
       setSelectedChannel,
       updateChannelSearchQuery,
       searchQuery,
@@ -71,6 +73,7 @@ class ChannelList extends React.Component {
             updateChannelSearchQuery={this.updateChannelSearchQuery}
             channelViewMode={channelViewMode}
             setChannelViewMode={setChannelViewMode}
+            setFormType={setFormType}
             searchQuery={searchQuery}
             changeFilter={changeFilter}
           />

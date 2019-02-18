@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl, intlShape } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Flex } from 'rebass'
+import { Button } from 'components/UI'
 import { ChannelFilter, ChannelSearch, ChannelsViewSwitcher } from 'components/Channels'
 import messages from './messages'
 
@@ -13,6 +14,7 @@ const ChannelsActions = ({
   changeFilter,
   updateChannelSearchQuery,
   setChannelViewMode,
+  setFormType,
   intl,
   ...rest
 }) => (
@@ -36,6 +38,10 @@ const ChannelsActions = ({
       channelViewMode={channelViewMode}
       setChannelViewMode={setChannelViewMode}
     />
+
+    <Button onClick={() => setFormType('CHANNEL_CREATE_FORM')} ml="auto">
+      <FormattedMessage {...messages.create_new_button_text} />
+    </Button>
   </Flex>
 )
 
@@ -47,7 +53,8 @@ ChannelsActions.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
   channelViewMode: PropTypes.string.isRequired,
-  setChannelViewMode: PropTypes.func.isRequired
+  setChannelViewMode: PropTypes.func.isRequired,
+  setFormType: PropTypes.func.isRequired
 }
 
 export default injectIntl(ChannelsActions)

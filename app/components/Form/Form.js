@@ -4,6 +4,7 @@ import { Modal } from 'components/UI'
 import Pay from 'containers/Pay'
 import Request from 'containers/Request'
 import Channels from 'containers/Channels'
+import ChannelCreate from 'containers/Channels/ChannelCreate'
 
 const Form = ({ formType, closeForm }) => {
   if (!formType) {
@@ -29,6 +30,13 @@ const Form = ({ formType, closeForm }) => {
       return (
         <Modal onClose={closeForm} mt={-3} mx={-4}>
           <Channels />
+        </Modal>
+      )
+
+    case 'CHANNEL_CREATE_FORM':
+      return (
+        <Modal onClose={closeForm}>
+          <ChannelCreate width={9 / 16} mx="auto" />
         </Modal>
       )
   }

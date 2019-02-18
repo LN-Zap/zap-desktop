@@ -15,6 +15,7 @@ class Channels extends React.Component {
     selectedChannel: PropTypes.object,
     changeFilter: PropTypes.func.isRequired,
     setSelectedChannel: PropTypes.func.isRequired,
+    setFormType: PropTypes.func.isRequired,
     updateChannelSearchQuery: PropTypes.func.isRequired,
     channelViewMode: PropTypes.string.isRequired,
     closeChannel: PropTypes.func.isRequired,
@@ -52,6 +53,7 @@ class Channels extends React.Component {
       networkInfo,
       selectedChannel,
       setChannelViewMode,
+      setFormType,
       setSelectedChannel,
       updateChannelSearchQuery,
       searchQuery,
@@ -77,6 +79,7 @@ class Channels extends React.Component {
         updateChannelSearchQuery={this.updateChannelSearchQuery}
         channelViewMode={channelViewMode}
         setChannelViewMode={setChannelViewMode}
+        setFormType={setFormType}
         searchQuery={searchQuery}
         changeFilter={changeFilter}
         setSelectedChannel={setSelectedChannel}

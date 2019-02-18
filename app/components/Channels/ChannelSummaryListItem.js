@@ -23,7 +23,7 @@ const ChannelSummaryListItem = props => {
 
   return (
     <Card {...rest}>
-      <Flex>
+      <Flex alignItems="center">
         <Box width={8 / 20}>
           <ChannelStatus status={display_status} />
           <ClippedHeading my={1} opacity={opacity}>
