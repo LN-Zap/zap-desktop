@@ -8,11 +8,18 @@ const isForceCloseDialog = state => {
   const selectedChannel = channelsSelectors.selectedChannel(state)
   return selectedChannel && !selectedChannel.active
 }
+
+const csvDelay = state => {
+  const selectedChannel = channelsSelectors.selectedChannel(state)
+  return selectedChannel && selectedChannel.csv_delay
+}
+
 const mapStateToProps = state => {
   const isOpen = Boolean(state.channels.isCloseDialogOpen)
   return {
     isOpen,
-    isForceClose: isForceCloseDialog(state)
+    isForceClose: isForceCloseDialog(state),
+    csvDelay: csvDelay(state)
   }
 }
 

@@ -56,7 +56,8 @@ export default defineMessages({
   close_channel_dialog_cancel_text: 'Cancel',
   close_channel_dialog_header: 'Close channel',
   close_channel_dialog_warning: 'Are you sure you want to close this channel?',
-  close_channel_dialog_force_warning: 'Are you sure you want to force close this channel?',
+  close_channel_dialog_force_warning:
+    'Are you sure you want to force close this channel? By performing an uncooperative close (force close), your funds will be locked for {csvDelay, plural, zero {0 blocks} one {1 block} other {{csvDelay} blocks}} before being spendable again in your wallet.',
   close_channel_dialog_acknowledgement: 'I understand this is an irreversible action',
   close_channel_notification: 'Channel closing initiated'
 })

@@ -1,39 +1,23 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex, Box } from 'rebass'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withFieldState } from 'informed'
 import Delete from 'components/Icon/Delete'
 import { Dialog, Text, Heading, Button, Checkbox, Form, DialogOverlay } from 'components/UI'
+import { useCloseOnUnmount } from 'components/Util/hooks'
 import messages from './messages'
 
-function useCloseOnUnmount(isOpen, onCancel) {
-  useEffect(() => {
-    return () => {
-      // Ensure dialog is always closed even in case unmounted together with parent
-      !isOpen && onCancel()
-    }
-  }, [])
-}
-
-const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel }) => {
+const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay }) => {
   useCloseOnUnmount(isOpen, onCancel)
-
-  // useEffect(() => {
-  //   return () => {
-  //     // Ensure dialog is always closed even in case unmounted together with parent
-  //     !isOpen && onCancel()
-  //   }
-  // }, [])
 
   if (!isOpen) {
     return null
   }
   const checkboxFieldName = 'actionACK'
-
   // bind button disabled state to a form field
   const CloseChannelButton = withFieldState(checkboxFieldName)(({ fieldState, ...rest }) => (
-    <Button disabled={!fieldState.value} {...rest} />
+    <Button disabled={isForceClose && !fieldState.value} {...rest} />
   ))
 
   const buttons = (
@@ -69,18 +53,21 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel }) => {
       <Form onSubmit={handleSubmit}>
         <Dialog header={header} buttons={buttons} onClose={onCancel} width={640}>
           <Flex flexDirection="column" alignItems="center">
-            <Text mb={2} color="gray">
+            <Text mb={2} color="gray" width={500} textAlign={isForceClose ? 'left' : 'center'}>
               <FormattedMessage
                 {...(isForceClose
                   ? messages.close_channel_dialog_force_warning
                   : messages.close_channel_dialog_warning)}
+                values={{ csvDelay: csvDelay }}
               />
             </Text>
-            <Checkbox
-              label={intl.formatMessage({ ...messages.close_channel_dialog_acknowledgement })}
-              field={checkboxFieldName}
-              mt={4}
-            />
+            {isForceClose && (
+              <Checkbox
+                label={intl.formatMessage({ ...messages.close_channel_dialog_acknowledgement })}
+                field={checkboxFieldName}
+                mt={4}
+              />
+            )}
           </Flex>
         </Dialog>
       </Form>
@@ -94,7 +81,8 @@ DialogWrapper.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
-  closeNotification: PropTypes.string.isRequired
+  closeNotification: PropTypes.string.isRequired,
+  csvDelay: PropTypes.number.isRequired
 }
 
 export default injectIntl(DialogWrapper)
