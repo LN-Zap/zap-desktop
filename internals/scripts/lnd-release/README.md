@@ -1,6 +1,6 @@
 # lnd-release
 
-We use [GoReleaser](https://goreleaser.com/) to build and publish the lnd binaries that we distribute with Zap Desktop. These are the steps to create a new release.
+We use [GoReleaser](https://goreleaser.com/) to build and publish the lnd binaries that we distribute with Zap. These are the steps to create a new release.
 
 ### 1. Install GoReleaser
 

@@ -53,7 +53,7 @@ const store = new Store({
 storiesOf('General', module)
   .addDecorator(StateDecorator(store))
   .addWithChapters('Zap Style Guide', {
-    subtitle: 'Reusable components for Zap Desktop.',
+    subtitle: 'Reusable components for Zap.',
     info: `The Zap style guide showcases and documents our library of reusable React components. Below is a sample of
     these components. You can see more examples and full documentation of each component using the navigation on the
     left. Use the Theme Picker in the bottom panel to view components in one of our alternate themes.`,

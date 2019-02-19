@@ -1,7 +1,6 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-
 ---
 
 <!--- Provide a general summary of the issue in the Title above -->
@@ -40,5 +39,5 @@ about: Create a report to help us improve
 
 <!--- Include as many relevant details about the environment you experienced the bug in -->
 
-- Zap Desktop version:
+- Zap version:
 - Operating System and version:
