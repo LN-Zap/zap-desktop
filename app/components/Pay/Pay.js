@@ -505,6 +505,7 @@ class Pay extends React.Component {
               setCryptoCurrency={setCryptoCurrency}
               setFiatCurrency={setFiatCurrency}
               formApi={this.formApi}
+              required
             />
           </Box>
         )}

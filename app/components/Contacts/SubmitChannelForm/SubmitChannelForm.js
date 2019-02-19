@@ -161,6 +161,7 @@ class SubmitChannelForm extends React.Component {
                 setCryptoCurrency={setCryptoCurrency}
                 setFiatCurrency={setFiatCurrency}
                 formApi={formApi}
+                required
               />
             </Panel.Body>
 
