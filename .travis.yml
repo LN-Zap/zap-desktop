@@ -60,7 +60,7 @@ jobs:
   include:
     - stage: deploy
       name: Deploy to Github
-      if: (NOT type IN (pull_request)) AND (branch = master)
+      if: (NOT type IN (pull_request)) AND (branch IN (master, next))
       script: skip
       deploy:
         skip_cleanup: true
@@ -68,11 +68,10 @@ jobs:
         script: yarn release --linux
         on:
           repo: LN-Zap/zap-desktop
-          branch: master
 
     - os: osx
       name: Deploy to Github
-      if: (NOT type IN (pull_request)) AND (branch = master)
+      if: (NOT type IN (pull_request)) AND (branch IN (master, next))
       script: skip
       deploy:
         skip_cleanup: true
@@ -80,4 +79,3 @@ jobs:
         script: yarn release --mac
         on:
           repo: LN-Zap/zap-desktop
-          branch: master
