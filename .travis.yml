@@ -47,7 +47,7 @@ script:
 
 after_success:
   - test $TRAVIS_REPO_SLUG = 'LN-Zap/zap-desktop' &&
-    (test $TRAVIS_BRANCH = "master" || test $TRAVIS_BRANCH = "next") &&
+    test $TRAVIS_BRANCH = "master" &&
     test $TRAVIS_PULL_REQUEST = "false" &&
     yarn storybook:deploy
 
@@ -68,6 +68,10 @@ jobs:
         script: yarn release --linux
         on:
           repo: LN-Zap/zap-desktop
+          branches:
+            only:
+              - master
+              - next
 
     - os: osx
       name: Deploy to Github
@@ -79,3 +83,7 @@ jobs:
         script: yarn release --mac
         on:
           repo: LN-Zap/zap-desktop
+          branches:
+            only:
+              - master
+              - next
