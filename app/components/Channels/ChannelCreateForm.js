@@ -87,7 +87,7 @@ class ChannelCreateForm extends React.Component {
 
               <Bar my={3} opacity={0.3} />
 
-              <CurrencyFieldGroup formApi={this.formApi} />
+              <CurrencyFieldGroup formApi={this.formApi} required />
             </Panel.Body>
 
             <Panel.Footer>

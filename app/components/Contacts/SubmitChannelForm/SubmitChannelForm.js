@@ -121,7 +121,7 @@ class SubmitChannelForm extends React.Component {
                 </Box>
               )}
 
-              <CurrencyFieldGroup formApi={formApi} />
+              <CurrencyFieldGroup formApi={formApi} required />
             </Panel.Body>
 
             <Panel.Footer mx="auto">

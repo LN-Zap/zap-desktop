@@ -201,7 +201,7 @@ class Input extends React.Component {
         {...spaceProps}
         className={className}
       >
-        {label && (
+        {typeof label !== 'undefined' && label !== null && (
           <Label htmlFor={field} mb={2}>
             {label}
             {required && (

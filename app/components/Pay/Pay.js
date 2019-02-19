@@ -413,6 +413,7 @@ class Pay extends React.Component {
               initialAmountCrypto={initialAmountCrypto}
               initialAmountFiat={initialAmountFiat}
               formApi={this.formApi}
+              required
             />
           </Box>
         )}

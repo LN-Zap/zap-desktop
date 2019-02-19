@@ -124,7 +124,9 @@ class Request extends React.Component {
   }
 
   renderAmountFields = () => {
-    return <CurrencyFieldGroup forwardedRef={this.amountInput} formApi={this.formApi} mb={3} />
+    return (
+      <CurrencyFieldGroup forwardedRef={this.amountInput} formApi={this.formApi} required mb={3} />
+    )
   }
 
   renderMemoField = () => {
