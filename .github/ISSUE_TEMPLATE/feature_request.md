@@ -1,7 +1,6 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-
 ---
 
 <!--- Provide a general summary of the issue in the Title above -->
@@ -23,5 +22,5 @@ about: Suggest an idea for this project
 
 <!--- Include as many relevant details about the environment you experienced the bug in -->
 
-- Zap Desktop version:
+- Zap version:
 - Operating System and version:

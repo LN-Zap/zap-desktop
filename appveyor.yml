@@ -33,4 +33,4 @@ test_script:
   - yarn test-ci
 
 deploy_script:
-  - cmd: powershell if (($env:appveyor_repo_name -eq 'LN-Zap/zap-desktop') -and ($env:appveyor_repo_branch -eq 'master')) { yarn release --win }
+  - cmd: powershell if (($env:appveyor_repo_name -eq 'LN-Zap/zap-desktop') -and (($env:appveyor_repo_branch -eq 'master') -or ($env:appveyor_repo_branch -eq 'next'))) { yarn release --win }
