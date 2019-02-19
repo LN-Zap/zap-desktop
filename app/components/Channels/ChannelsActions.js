@@ -39,7 +39,7 @@ const ChannelsActions = ({
       setChannelViewMode={setChannelViewMode}
     />
 
-    <Button onClick={() => openModal('CHANNEL_CREATE_FORM')} ml="auto">
+    <Button onClick={() => openModal('CHANNEL_CREATE')} ml="auto">
       <FormattedMessage {...messages.create_new_button_text} />
     </Button>
   </Flex>

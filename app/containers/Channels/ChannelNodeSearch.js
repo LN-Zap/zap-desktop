@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
-import ChannelCreate from 'components/Channels/ChannelCreate'
+import ChannelNodeSearch from 'components/Channels/ChannelNodeSearch'
 import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/contactsform'
 
 const mapStateToProps = state => ({
   searchQuery: state.contactsform.searchQuery,
-  isSearchValidNodeAddress: contactFormSelectors.isSearchValidNodeAddress(state)
+  filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state)
 })
 
 const mapDispatchToProps = {
@@ -14,4 +14,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(ChannelCreate)
+)(ChannelNodeSearch)

@@ -9,9 +9,9 @@ import { useOnKeydown } from 'components/Util/hooks'
 import Pay from 'containers/Pay'
 import Request from 'containers/Request'
 import Channels from 'containers/Channels'
-import ChannelCreateForm from 'containers/Channels/ChannelCreateForm'
 import ChannelCloseDialog from 'containers/Channels/ChannelCloseDialog'
 import ChannelDetail from 'containers/Channels/ChannelDetail'
+import ChannelCreate from 'containers/Channels/ChannelCreate'
 
 const Container = styled(animated.div)`
   ${ModalOverlayStyles}
@@ -28,8 +28,8 @@ const ModalContent = ({ type, closeModal }) => {
     case 'CHANNELS':
       return <Channels mx={-4} />
 
-    case 'CHANNEL_CREATE_FORM':
-      return <ChannelCreateForm onSubmit={() => closeModal()} width={9 / 16} mx="auto" />
+    case 'CHANNEL_CREATE':
+      return <ChannelCreate onSubmit={() => closeModal()} width={9 / 16} mx="auto" />
 
     case 'CHANNEL_DETAIL':
       return (
