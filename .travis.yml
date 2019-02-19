@@ -47,7 +47,7 @@ script:
 
 after_success:
   - test $TRAVIS_REPO_SLUG = 'LN-Zap/zap-desktop' &&
-    test $TRAVIS_BRANCH = "master" &&
+    (test $TRAVIS_BRANCH = "master" || test $TRAVIS_BRANCH = "next") &&
     test $TRAVIS_PULL_REQUEST = "false" &&
     yarn storybook:deploy
 
