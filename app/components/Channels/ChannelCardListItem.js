@@ -18,6 +18,7 @@ const ChannelCardListItem = ({
   intl,
   channel,
   currencyName,
+  openModal,
   setSelectedChannel,
   networkInfo,
   ...rest
@@ -70,7 +71,12 @@ const ChannelCardListItem = ({
       />
 
       <Flex as="footer" justifyContent="center" alignItems="flex-end">
-        <ChannelMoreButton onClick={() => setSelectedChannel(channel_point)} />
+        <ChannelMoreButton
+          onClick={() => {
+            setSelectedChannel(channel_point)
+            openModal('CHANNEL_DETAIL')
+          }}
+        />
       </Flex>
     </Box>
   )
@@ -81,6 +87,7 @@ ChannelCardListItem.propTypes = {
   channel: PropTypes.object.isRequired,
   currencyName: PropTypes.string.isRequired,
   setSelectedChannel: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string

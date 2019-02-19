@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import { tickerSelectors } from 'reducers/ticker'
 import { openWalletModal } from 'reducers/address'
-import { setFormType } from 'reducers/form'
+import { openModal } from 'reducers/modal'
 import { balanceSelectors } from 'reducers/balance'
 import { infoSelectors } from 'reducers/info'
 import Wallet from 'components/Wallet'
 
 const mapDispatchToProps = {
   openWalletModal,
-  setFormType
+  openModal
 }
 
 const mapStateToProps = state => ({

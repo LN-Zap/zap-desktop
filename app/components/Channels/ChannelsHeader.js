@@ -13,7 +13,7 @@ const ChannelsHeader = ({
   updateChannelSearchQuery,
   setChannelViewMode,
   searchQuery,
-  setFormType,
+  openModal,
   ...rest
 }) => (
   <Box as="header" mb={3} {...rest}>
@@ -26,7 +26,7 @@ const ChannelsHeader = ({
       searchQuery={searchQuery}
       channelViewMode={channelViewMode}
       setChannelViewMode={setChannelViewMode}
-      setFormType={setFormType}
+      openModal={openModal}
     />
   </Box>
 )
@@ -41,7 +41,7 @@ ChannelsHeader.propTypes = {
   updateChannelSearchQuery: PropTypes.func.isRequired,
   channelViewMode: PropTypes.string.isRequired,
   setChannelViewMode: PropTypes.func.isRequired,
-  setFormType: PropTypes.func.isRequired
+  openModal: PropTypes.func.isRequired
 }
 
 ChannelsHeader.defaultProps = {

@@ -3,7 +3,7 @@ import { setLocale } from 'reducers/locale'
 import { setFiatTicker } from 'reducers/ticker'
 import { openSettings, closeSettings, setActiveSubMenu, disableSubMenu } from 'reducers/settings'
 import { setTheme } from 'reducers/theme'
-import { setFormType } from 'reducers/form'
+import { openModal } from 'reducers/modal'
 import { walletSelectors } from 'reducers/wallet'
 
 import Settings from 'components/Settings'
@@ -24,7 +24,7 @@ const mapDispatchToProps = {
   openSettings,
   closeSettings,
   setActiveSubMenu,
-  setFormType,
+  openModal,
   disableSubMenu,
   setFiatTicker,
   setLocale,
@@ -38,7 +38,7 @@ const mergeProps = (stateProps, dispatchProps) => ({
   openSettings: dispatchProps.openSettings,
   closeSettings: dispatchProps.closeSettings,
   setActiveSubMenu: dispatchProps.setActiveSubMenu,
-  setFormType: dispatchProps.setFormType,
+  openModal: dispatchProps.openModal,
 
   fiatProps: {
     fiatTicker: stateProps.fiatTicker,

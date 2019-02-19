@@ -1,4 +1,5 @@
 import delay from 'lib/utils/delay'
+import genId from 'lib/utils/genId'
 
 // ------------------------------------
 // Initial State
@@ -13,14 +14,6 @@ const initialState = {
 const NOTIFICATION_TIMEOUT = 10000
 export const ENQUEUE_NOTIFICATION = 'ENQUEUE_NOTIFICATION'
 export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION'
-
-/**
- * Generates uniq id for notifications
- */
-const genId = () =>
-  Math.random()
-    .toString(36)
-    .substring(7)
 
 // ------------------------------------
 // Actions

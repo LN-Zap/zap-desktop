@@ -15,7 +15,7 @@ const Wallet = ({
   networkInfo,
   ticker,
   openWalletModal,
-  setFormType
+  openModal
 }) => {
   if (!currentTicker || !ticker.currency) {
     return null
@@ -61,10 +61,10 @@ const Wallet = ({
           </Flex>
         </Box>
         <Box as="section">
-          <Button onClick={() => setFormType('PAY_FORM')} mr={2} width={145}>
+          <Button onClick={() => openModal('PAY_FORM')} mr={2} width={145}>
             <FormattedMessage {...messages.pay} />
           </Button>
-          <Button onClick={() => setFormType('REQUEST_FORM')} width={145}>
+          <Button onClick={() => openModal('REQUEST_FORM')} width={145}>
             <FormattedMessage {...messages.request} />
           </Button>
         </Box>
@@ -85,7 +85,7 @@ Wallet.propTypes = {
 
   // Dispatch props
   openWalletModal: PropTypes.func.isRequired,
-  setFormType: PropTypes.func.isRequired
+  openModal: PropTypes.func.isRequired
 }
 
 export default Wallet

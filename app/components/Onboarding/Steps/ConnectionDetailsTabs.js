@@ -23,9 +23,9 @@ class ConnectionDetailsTabs extends React.PureComponent {
   render() {
     return (
       <ConnectionDetailsContext.Consumer>
-        {({ formType, setFormType }) => {
+        {({ formType, openModal }) => {
           return (
-            <Tabs items={this.items} activeKey={formType} onClick={setFormType} {...this.props} />
+            <Tabs items={this.items} activeKey={formType} onClick={openModal} {...this.props} />
           )
         }}
       </ConnectionDetailsContext.Consumer>

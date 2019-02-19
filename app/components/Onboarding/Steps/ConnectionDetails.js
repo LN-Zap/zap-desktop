@@ -8,7 +8,7 @@ export const FORM_TYPE_MANUAL = 'FORM_TYPE_MANUAL'
 export const FORM_TYPE_CONNECTION_STRING = 'FORM_TYPE_CONNECTION_STRING'
 
 export const ConnectionDetailsContext = createContext({
-  setFormType: () => {}
+  openModal: () => {}
 })
 
 class ConnectionDetails extends React.Component {
@@ -42,9 +42,9 @@ class ConnectionDetails extends React.Component {
     const { connectionHost, connectionCert, connectionMacaroon } = this.props
 
     if (connectionHost || connectionCert || connectionMacaroon) {
-      this.setFormType(FORM_TYPE_MANUAL)
+      this.openModal(FORM_TYPE_MANUAL)
     } else {
-      this.setFormType(FORM_TYPE_CONNECTION_STRING)
+      this.openModal(FORM_TYPE_CONNECTION_STRING)
     }
   }
 
@@ -71,11 +71,11 @@ class ConnectionDetails extends React.Component {
       }
     }
     if (lndConnect && lndConnect !== prevProps.lndConnect) {
-      this.setFormType(FORM_TYPE_CONNECTION_STRING)
+      this.openModal(FORM_TYPE_CONNECTION_STRING)
     }
   }
 
-  setFormType = formType => {
+  openModal = formType => {
     this.setState({ formType })
   }
 
@@ -112,7 +112,7 @@ class ConnectionDetails extends React.Component {
         <ConnectionDetailsContext.Provider
           value={{
             formType,
-            setFormType: this.setFormType
+            openModal: this.openModal
           }}
         >
           {formType === FORM_TYPE_CONNECTION_STRING ? (

@@ -3,7 +3,7 @@ import { send } from 'redux-electron-ipc'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import delay from 'lib/utils/delay'
 import { fetchBalance } from './balance'
-import { setFormType } from './form'
+import { closeModal } from './modal'
 import { changeFilter } from './activity'
 
 // ------------------------------------
@@ -75,7 +75,7 @@ export const payInvoice = ({ payReq, amt, feeLimit }) => dispatch => {
 
   // Close the form modal once the payment has been sent
   dispatch(changeFilter('ALL_ACTIVITY'))
-  dispatch(setFormType(null))
+  dispatch(closeModal())
 }
 
 // Receive IPC event for successful payment.

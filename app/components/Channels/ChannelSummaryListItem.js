@@ -9,7 +9,7 @@ const ClippedHeading = withEllipsis(Heading.h1)
 const ClippedText = withEllipsis(Text)
 
 const ChannelSummaryListItem = props => {
-  const { channel, setSelectedChannel, ...rest } = props
+  const { channel, openModal, setSelectedChannel, ...rest } = props
   const {
     channel_point,
     display_name,
@@ -44,7 +44,12 @@ const ChannelSummaryListItem = props => {
         />
 
         <Flex width={2 / 20} alignItems="center" flexDirection="column">
-          <ChannelMoreButton onClick={() => setSelectedChannel(channel_point)} />
+          <ChannelMoreButton
+            onClick={() => {
+              setSelectedChannel(channel_point)
+              openModal('CHANNEL_DETAIL')
+            }}
+          />
         </Flex>
       </Flex>
     </Card>
@@ -53,6 +58,7 @@ const ChannelSummaryListItem = props => {
 
 ChannelSummaryListItem.propTypes = {
   channel: PropTypes.object.isRequired,
+  openModal: PropTypes.func.isRequired,
   setSelectedChannel: PropTypes.func.isRequired
 }
 

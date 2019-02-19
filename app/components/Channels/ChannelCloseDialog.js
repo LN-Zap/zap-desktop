@@ -81,7 +81,6 @@ DialogWrapper.propTypes = {
   onClose: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
-  closeNotification: PropTypes.string.isRequired,
   csvDelay: PropTypes.number.isRequired
 }
 

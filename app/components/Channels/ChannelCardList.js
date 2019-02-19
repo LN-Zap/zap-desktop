@@ -4,7 +4,14 @@ import { Box, Flex } from 'rebass'
 import { Card } from 'components/UI'
 import { ChannelCardListItem } from 'components/Channels'
 
-const ChannelCardList = ({ channels, currencyName, setSelectedChannel, networkInfo, ...rest }) => (
+const ChannelCardList = ({
+  channels,
+  currencyName,
+  openModal,
+  setSelectedChannel,
+  networkInfo,
+  ...rest
+}) => (
   <Flex as="article" {...rest} width={1} flexWrap="wrap">
     {channels.map((channelObj, index) => {
       const channel = channelObj.channel || channelObj
@@ -21,6 +28,7 @@ const ChannelCardList = ({ channels, currencyName, setSelectedChannel, networkIn
             <ChannelCardListItem
               channel={channel}
               currencyName={currencyName}
+              openModal={openModal}
               setSelectedChannel={setSelectedChannel}
               networkInfo={networkInfo}
             />
@@ -34,6 +42,7 @@ const ChannelCardList = ({ channels, currencyName, setSelectedChannel, networkIn
 ChannelCardList.propTypes = {
   channels: PropTypes.array,
   currencyName: PropTypes.string.isRequired,
+  openModal: PropTypes.func.isRequired,
   setSelectedChannel: PropTypes.func.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,

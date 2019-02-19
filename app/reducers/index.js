@@ -13,13 +13,13 @@ import payment from './payment'
 import peers from './peers'
 import channels from './channels'
 import contactsform from './contactsform'
-import form from './form'
 import pay from './pay'
 import invoice from './invoice'
 import address from './address'
 import transaction from './transaction'
 import activity from './activity'
 import network from './network'
+import modal from './modal'
 import notification from './notification'
 import settings from './settings'
 import wallet from './wallet'
@@ -43,13 +43,13 @@ export default history => {
     peers,
     channels,
     contactsform,
-    form,
     pay,
     invoice,
     address,
     transaction,
     activity,
     network,
+    modal,
     notification,
     settings,
     wallet

@@ -1,7 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
-import { ChannelDetail, ChannelList } from 'components/Channels'
+import { Panel } from 'components/UI'
+import { ChannelsHeader, ChannelCardList, ChannelSummaryList } from 'components/Channels'
+
+export const VIEW_MODE_SUMMARY = 'VIEW_MODE_SUMMARY'
+export const VIEW_MODE_CARD = 'VIEW_MODE_CARD'
 
 class Channels extends React.Component {
   static propTypes = {
@@ -12,13 +16,11 @@ class Channels extends React.Component {
     filter: PropTypes.string.isRequired,
     filters: PropTypes.array.isRequired,
     searchQuery: PropTypes.string,
-    selectedChannel: PropTypes.object,
     changeFilter: PropTypes.func.isRequired,
     setSelectedChannel: PropTypes.func.isRequired,
-    setFormType: PropTypes.func.isRequired,
+    openModal: PropTypes.func.isRequired,
     updateChannelSearchQuery: PropTypes.func.isRequired,
     channelViewMode: PropTypes.string.isRequired,
-    closeChannel: PropTypes.func.isRequired,
     setChannelViewMode: PropTypes.func.isRequired,
     networkInfo: PropTypes.shape({
       id: PropTypes.string,
@@ -34,11 +36,6 @@ class Channels extends React.Component {
   /*eslint-disable react/destructuring-assignment*/
   updateChannelSearchQuery = debounce(this.props.updateChannelSearchQuery, 300)
 
-  componentWillUnmount() {
-    const { setSelectedChannel } = this.props
-    setSelectedChannel(null)
-  }
-
   render() {
     const {
       allChannels,
@@ -47,45 +44,50 @@ class Channels extends React.Component {
       changeFilter,
       channelViewMode,
       currencyName,
-      closeChannel,
       filter,
       filters,
       networkInfo,
-      selectedChannel,
       setChannelViewMode,
-      setFormType,
+      openModal,
       setSelectedChannel,
       updateChannelSearchQuery,
       searchQuery,
       ...rest
     } = this.props
 
-    return selectedChannel ? (
-      <ChannelDetail
-        channel={selectedChannel}
-        closeChannel={closeChannel}
-        currencyName={currencyName}
-        setSelectedChannel={setSelectedChannel}
-        networkInfo={networkInfo}
-      />
-    ) : (
-      <ChannelList
-        allChannels={allChannels}
-        channels={channels}
-        channelBalance={channelBalance}
-        currencyName={currencyName}
-        filter={filter}
-        filters={filters}
-        updateChannelSearchQuery={this.updateChannelSearchQuery}
-        channelViewMode={channelViewMode}
-        setChannelViewMode={setChannelViewMode}
-        setFormType={setFormType}
-        searchQuery={searchQuery}
-        changeFilter={changeFilter}
-        setSelectedChannel={setSelectedChannel}
-        networkInfo={networkInfo}
-        {...rest}
-      />
+    const VIEW_MODES = {
+      [VIEW_MODE_SUMMARY]: ChannelSummaryList,
+      [VIEW_MODE_CARD]: ChannelCardList
+    }
+
+    const ChannelsView = VIEW_MODES[channelViewMode]
+
+    return (
+      <Panel {...rest}>
+        <Panel.Header mx={4}>
+          <ChannelsHeader
+            channels={allChannels}
+            channelBalance={channelBalance}
+            filter={filter}
+            filters={filters}
+            updateChannelSearchQuery={this.updateChannelSearchQuery}
+            channelViewMode={channelViewMode}
+            setChannelViewMode={setChannelViewMode}
+            openModal={openModal}
+            searchQuery={searchQuery}
+            changeFilter={changeFilter}
+          />
+        </Panel.Header>
+        <Panel.Body px={4} pt={2} css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
+          <ChannelsView
+            channels={channels}
+            currencyName={currencyName}
+            openModal={openModal}
+            setSelectedChannel={setSelectedChannel}
+            networkInfo={networkInfo}
+          />
+        </Panel.Body>
+      </Panel>
     )
   }
 }

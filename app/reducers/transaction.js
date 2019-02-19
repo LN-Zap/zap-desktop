@@ -5,7 +5,7 @@ import delay from 'lib/utils/delay'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
-import { setFormType } from './form'
+import { closeModal } from './modal'
 import { fetchChannels } from './channels'
 import { changeFilter } from './activity'
 
@@ -96,7 +96,7 @@ export const sendCoins = ({ value, addr, currency, targetConf, satPerByte }) => 
 
   // Close the form modal once the transaction has been sent
   dispatch(changeFilter('ALL_ACTIVITY'))
-  dispatch(setFormType(null))
+  dispatch(closeModal())
 }
 
 // Receive IPC event for successful payment.

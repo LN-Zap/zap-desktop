@@ -34,11 +34,7 @@ const ChannelDetail = ({
     </Panel.Body>
 
     <Panel.Footer px={4} mt={2}>
-      <ChannelFooter
-        channel={channel}
-        setSelectedChannel={setSelectedChannel}
-        closeChannel={closeChannel}
-      />
+      <ChannelFooter channel={channel} closeChannel={closeChannel} />
     </Panel.Footer>
   </Panel>
 )

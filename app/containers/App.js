@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import get from 'lodash.get'
 import { tickerSelectors } from 'reducers/ticker'
 import { closeWalletModal } from 'reducers/address'
-import { setFormType } from 'reducers/form'
+import { openModal } from 'reducers/modal'
 import { infoSelectors } from 'reducers/info'
 import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
@@ -13,7 +13,7 @@ import App from 'components/App'
 
 const mapDispatchToProps = {
   closeWalletModal,
-  setFormType,
+  openModal,
   removeNotification,
   fetchPeers,
   fetchDescribeNetwork,
@@ -30,7 +30,6 @@ const mapStateToProps = state => ({
   transaction: state.transaction,
   channels: state.channels,
   balance: state.balance,
-  form: state.form,
   requestform: state.requestform,
   invoice: state.invoice,
   error: state.error,
@@ -47,13 +46,6 @@ const mapStateToProps = state => ({
 })
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => {
-  const formProps = formType => {
-    if (!formType) {
-      return {}
-    }
-    return {}
-  }
-
   const receiveModalProps = {
     isOpen: stateProps.address.walletModal,
     networkInfo: stateProps.networkInfo,
@@ -70,13 +62,8 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => {
     ...stateProps,
     ...dispatchProps,
     ...ownProps,
-
     // props for the receive modal
-    receiveModalProps,
-    // Props to pass to the request form
-    formProps: formProps(stateProps.form.formType),
-    // action to close form
-    closeForm: () => dispatchProps.setFormType(null)
+    receiveModalProps
   }
 }
 
