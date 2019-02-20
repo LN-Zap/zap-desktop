@@ -12,13 +12,13 @@ import { walletSelectors } from 'reducers/wallet'
 import { isLoading, isLoadingPerPath, getLoadingMessage } from 'reducers/utils'
 import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
-import { Page, Titlebar, GlobalStyle, Modal as ModalOverlay } from 'components/UI'
+import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalNotification from 'components/GlobalNotification'
 import withLoading from 'components/withLoading'
 import Initializer from './Initializer'
 import Logout from './Logout'
 import Home from './Home'
-import Modal from './Modal'
+import ModalStack from './ModalStack'
 import Onboarding from './Onboarding'
 import Syncing from './Syncing'
 import App from './App'
@@ -93,8 +93,9 @@ class Root extends React.Component {
               notifications={notifications}
               removeNotification={removeNotification}
             />
-            <Modal />
+            <ModalStack />
             <PageWithLoading isLoading={isLoading} loadingMessage={loadingMessage}>
+
               <Switch>
                 <Route exact path="/" component={Initializer} />
                 <Route exact path="/wallet-starter" component={WalletStarter} />
@@ -102,28 +103,14 @@ class Root extends React.Component {
                 <Route
                   exact
                   path="/onboarding"
-                  render={() => {
-                    return (
-                      <ModalOverlay
-                        withClose={hasWallets}
-                        onClose={this.redirectToHome}
-                        pt={hasWallets ? 0 : 4}
-                      >
-                        <Onboarding />
-                      </ModalOverlay>
-                    )
-                  }}
+                  render={() => (
+                    <Onboarding hasWallets={hasWallets} onClose={this.redirectToHome} />
+                  )}
                 />
                 <Route
                   exact
                   path="/syncing"
-                  render={() => {
-                    return (
-                      <ModalOverlay withHeader onClose={this.redirectToLogout} pb={0} px={0}>
-                        <Syncing />
-                      </ModalOverlay>
-                    )
-                  }}
+                  render={() => <Syncing onClose={this.redirectToLogout} pb={0} px={0} />}
                 />
                 <Route path="/app" component={App} />
                 <Route path="/logout" component={Logout} />

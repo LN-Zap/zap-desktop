@@ -1,4 +1,8 @@
+import React from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Modal, ModalOverlayStyles } from 'components/UI'
 import { Onboarding } from 'components/Onboarding'
 import {
   setAlias,
@@ -78,7 +82,27 @@ const mapDispatchToProps = {
   unlockWallet
 }
 
-export default connect(
+const OnboardingContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Onboarding)
+
+const ModalOverlay = styled.div`
+  ${ModalOverlayStyles}
+`
+function OnboardingModal({ hasWallets, onClose }) {
+  return (
+    <ModalOverlay>
+      <Modal withClose={hasWallets} onClose={onClose} pt={hasWallets ? 0 : 4}>
+        <OnboardingContainer />
+      </Modal>
+    </ModalOverlay>
+  )
+}
+
+OnboardingModal.propTypes = {
+  hasWallets: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
+}
+
+export default OnboardingModal
