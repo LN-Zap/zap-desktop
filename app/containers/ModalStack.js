@@ -1,11 +1,11 @@
-import React, { PureComponent } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { animated, Transition } from 'react-spring'
 import styled from 'styled-components'
 import { closeModal, modalSelectors } from 'reducers/modal'
 import { Modal, ModalOverlayStyles } from 'components/UI'
-
+import { useOnKeydown } from 'components/Util/hooks'
 import Pay from 'containers/Pay'
 import Request from 'containers/Request'
 import Channels from 'containers/Channels'
@@ -46,35 +46,37 @@ ModalContent.propTypes = {
   closeModal: PropTypes.func.isRequired
 }
 
-class ModalStack extends PureComponent {
-  static propTypes = {
-    modals: PropTypes.array.isRequired,
-    closeModal: PropTypes.func.isRequired
-  }
+function ModalStack(props) {
+  const { modals, closeModal } = props
 
-  render() {
-    const { modals, closeModal } = this.props
-    return (
-      <Transition
-        items={modals}
-        keys={item => item.id}
-        from={{ opacity: 0 }}
-        enter={{ opacity: 1 }}
-        leave={{ opacity: 0 }}
-      >
-        {modal =>
-          modal &&
-          (styles => (
-            <Container style={styles}>
-              <Modal onClose={() => closeModal(modal.id)}>
-                <ModalContent type={modal.type} closeModal={closeModal} />
-              </Modal>
-            </Container>
-          ))
-        }
-      </Transition>
-    )
-  }
+  useOnKeydown('Escape', closeModal)
+
+  return (
+    <Transition
+      items={modals}
+      keys={item => item.id}
+      from={{ opacity: 0 }}
+      enter={{ opacity: 1 }}
+      leave={{ opacity: 0 }}
+    >
+      {modal =>
+        modal &&
+        /* eslint-disable react/display-name */
+        (styles => (
+          <Container style={styles}>
+            <Modal onClose={() => closeModal(modal.id)}>
+              <ModalContent type={modal.type} closeModal={closeModal} />
+            </Modal>
+          </Container>
+        ))
+      }
+    </Transition>
+  )
+}
+
+ModalStack.propTypes = {
+  modals: PropTypes.array.isRequired,
+  closeModal: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({

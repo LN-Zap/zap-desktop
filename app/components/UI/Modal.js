@@ -6,6 +6,7 @@ import { Box, Flex } from 'rebass'
 import X from 'components/Icon/X'
 import ZapLogo from 'components/Icon/ZapLogo'
 import { Panel, Text } from 'components/UI'
+
 import messages from './messages'
 
 const ModalCloseButtonWrapper = styled(Box)`
@@ -59,56 +60,33 @@ const ModalHeader = () => (
  * @example
  * <Modal>Some content</Modal>
  */
-class Modal extends React.Component {
-  static displayName = 'Modal'
-
-  static propTypes = {
-    children: PropTypes.node,
-    onClose: PropTypes.func,
-    withClose: PropTypes.bool,
-    withHeader: PropTypes.bool
-  }
-
-  static defaultProps = {
-    withClose: true,
-    withHeader: false
-  }
-
-  componentDidMount() {
-    document.addEventListener('keydown', this.closeOnEscape)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.closeOnEscape)
-  }
-
-  closeOnEscape = e => {
-    const { onClose } = this.props
-
-    if (e.key === 'Escape' && onClose) {
-      onClose()
-    }
-  }
-
-  render() {
-    const { children, onClose, withClose, withHeader, ...rest } = this.props
-    return (
-      <Panel bg="primaryColor" color="primaryText">
-        <Panel.Header pt={3} px={3}>
-          {withClose && <ModalCloseButton onClose={onClose} />}
-          {withHeader && <ModalHeader />}
-        </Panel.Header>
-        <Panel.Body
-          px={4}
-          pb={4}
-          {...rest}
-          css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}
-        >
-          {children}
-        </Panel.Body>
-      </Panel>
-    )
-  }
+function Modal(props) {
+  const { children, onClose, withClose, withHeader, ...rest } = props
+  return (
+    <Panel bg="primaryColor" color="primaryText">
+      <Panel.Header pt={3} px={3}>
+        {withClose && <ModalCloseButton onClose={onClose} />}
+        {withHeader && <ModalHeader />}
+      </Panel.Header>
+      <Panel.Body px={4} pb={4} {...rest} css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
+        {children}
+      </Panel.Body>
+    </Panel>
+  )
 }
+
+Modal.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func,
+  withClose: PropTypes.bool,
+  withHeader: PropTypes.bool
+}
+
+Modal.defaultProps = {
+  withClose: true,
+  withHeader: false
+}
+
+Modal.displayName = 'Modal'
 
 export default Modal
