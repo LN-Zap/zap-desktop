@@ -53,11 +53,16 @@ const FullPageGradient = styled(Flex)`
 
 class LoadingBolt extends React.PureComponent {
   static propTypes = {
-    isLoading: PropTypes.bool.isRequired
+    isLoading: PropTypes.bool.isRequired,
+    message: PropTypes.object
+  }
+
+  static defaultProps = {
+    message: messages.loading
   }
 
   render() {
-    const { isLoading } = this.props
+    const { isLoading, message } = this.props
 
     return (
       <Transition
@@ -75,7 +80,7 @@ class LoadingBolt extends React.PureComponent {
                 <Flex alignItems="center" flexDirection="column">
                   <CloudLightning height="140px" width="140px" />
                   <Heading.h2 mt={4}>
-                    <FormattedMessage {...messages.loading} />
+                    <FormattedMessage {...message} />
                   </Heading.h2>
                 </Flex>
               </FullPageGradient>

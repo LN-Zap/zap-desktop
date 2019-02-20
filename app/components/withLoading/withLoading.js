@@ -15,19 +15,20 @@ const withLoading = Component =>
 
     static propTypes = {
       children: PropTypes.node,
-      isLoading: PropTypes.bool.isRequired
+      isLoading: PropTypes.bool.isRequired,
+      loadingMessage: PropTypes.object
     }
 
     /**
      * Render the loading bolt ontop of the wrapped component for as long as needed.
      */
     render() {
-      const { isLoading, children, ...rest } = this.props
+      const { isLoading, loadingMessage, children, ...rest } = this.props
       return (
-        <React.Fragment>
+        <>
           <Component {...rest}>{children}</Component>
-          <LoadingBoltWithTheme isLoading={isLoading} />
-        </React.Fragment>
+          <LoadingBoltWithTheme isLoading={isLoading} message={loadingMessage} />
+        </>
       )
     }
   }

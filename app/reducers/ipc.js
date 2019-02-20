@@ -15,7 +15,9 @@ import {
   startLndError,
   walletCreated,
   walletUnlocked,
-  walletUnlockerGrpcActive
+  walletUnlockerGrpcActive,
+  startNeutrino,
+  startWalletUnlocker
 } from './lnd'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
@@ -122,7 +124,10 @@ const ipc = createIpc({
   fetchSeedError,
   walletCreated,
   walletUnlocked,
-  setUnlockWalletError
+  setUnlockWalletError,
+
+  startNeutrino,
+  startWalletUnlocker
 })
 
 export default ipc
