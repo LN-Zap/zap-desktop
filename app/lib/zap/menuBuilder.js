@@ -182,7 +182,7 @@ export default class ZapMenuBuilder {
         {
           label: 'Documentation',
           click() {
-            shell.openExternal('https://github.com/LN-Zap/zap-desktop')
+            shell.openExternal('https://github.com/LN-Zap/zap-desktop#table-of-contents')
           }
         },
         {
