@@ -8,7 +8,7 @@ import withEllipsis from 'components/withEllipsis'
 const ClippedHeading = withEllipsis(Heading.h1)
 const ClippedText = withEllipsis(Text)
 
-const ChannelSummaryListItem = props => {
+const ChannelSummaryListItem = React.memo(props => {
   const { channel, openModal, setSelectedChannel, ...rest } = props
   const {
     channel_point,
@@ -54,7 +54,9 @@ const ChannelSummaryListItem = props => {
       </Flex>
     </Card>
   )
-}
+})
+
+ChannelSummaryListItem.displayName = 'ChannelSummaryListItem'
 
 ChannelSummaryListItem.propTypes = {
   channel: PropTypes.object.isRequired,
