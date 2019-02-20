@@ -17,6 +17,15 @@ const ModalCloseButtonWrapper = styled(Box)`
   }
 `
 
+export const ModalOverlayStyles = () => `
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+`
+
 const ModalCloseButton = ({ onClose }) => (
   <Flex justifyContent="flex-end">
     <ModalCloseButtonWrapper onClick={onClose} p={2}>
