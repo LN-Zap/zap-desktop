@@ -95,7 +95,6 @@ class Root extends React.Component {
             />
             <ModalStack />
             <PageWithLoading isLoading={isLoading} loadingMessage={loadingMessage}>
-
               <Switch>
                 <Route exact path="/" component={Initializer} />
                 <Route exact path="/wallet-starter" component={WalletStarter} />

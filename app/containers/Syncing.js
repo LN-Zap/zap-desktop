@@ -8,6 +8,7 @@ import { setIsWalletOpen } from 'reducers/wallet'
 import { showNotification } from 'reducers/notification'
 import { Syncing } from 'components/Syncing'
 import { Modal, ModalOverlayStyles } from 'components/UI'
+import { useOnKeydown } from 'components/Util/hooks'
 
 const mapStateToProps = state => ({
   address: state.address.address,
@@ -35,6 +36,7 @@ const ModalOverlay = styled.div`
 `
 
 function SyncingModal({ onClose, ...rest }) {
+  useOnKeydown('Escape', onClose)
   return (
     <ModalOverlay>
       <Modal withClose onClose={onClose} {...rest}>

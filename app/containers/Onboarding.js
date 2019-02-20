@@ -4,6 +4,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Modal, ModalOverlayStyles } from 'components/UI'
 import { Onboarding } from 'components/Onboarding'
+import { useOnKeydown } from 'components/Util/hooks'
 import {
   setAlias,
   setAutopilot,
@@ -91,6 +92,7 @@ const ModalOverlay = styled.div`
   ${ModalOverlayStyles}
 `
 function OnboardingModal({ hasWallets, onClose }) {
+  useOnKeydown('Escape', onClose)
   return (
     <ModalOverlay>
       <Modal withClose={hasWallets} onClose={onClose} pt={hasWallets ? 0 : 4}>
