@@ -1,10 +1,14 @@
+import React from 'react'
 import { connect } from 'react-redux'
-import { withTheme } from 'styled-components'
+import PropTypes from 'prop-types'
+import styled, { withTheme } from 'styled-components'
 import { infoSelectors } from 'reducers/info'
 import { lndSelectors } from 'reducers/lnd'
 import { setIsWalletOpen } from 'reducers/wallet'
 import { showNotification } from 'reducers/notification'
 import { Syncing } from 'components/Syncing'
+import { Modal, ModalOverlayStyles } from 'components/UI'
+import { useOnKeydown } from 'components/Util/hooks'
 
 const mapStateToProps = state => ({
   address: state.address.address,
@@ -22,7 +26,28 @@ const mapDispatchToProps = {
   showNotification
 }
 
-export default connect(
+const SyncingContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(withTheme(Syncing))
+
+const ModalOverlay = styled.div`
+  ${ModalOverlayStyles}
+`
+
+function SyncingModal({ onClose, ...rest }) {
+  useOnKeydown('Escape', onClose)
+  return (
+    <ModalOverlay>
+      <Modal withClose onClose={onClose} {...rest}>
+        <SyncingContainer />
+      </Modal>
+    </ModalOverlay>
+  )
+}
+
+SyncingModal.propTypes = {
+  onClose: PropTypes.func.isRequired
+}
+
+export default SyncingModal
