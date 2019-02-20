@@ -69,5 +69,10 @@ export default defineMessages({
   close_channel_dialog_force_warning:
     'Are you sure you want to force close this channel? By performing an uncooperative close (force close), your funds will be locked for {csvDelay, plural, zero {0 blocks} one {1 block} other {{csvDelay} blocks}} before being spendable again in your wallet.',
   close_channel_dialog_acknowledgement: 'I understand this is an irreversible action',
-  close_channel_notification: 'Channel closing initiated'
+  close_channel_notification: 'Channel closing initiated',
+  connect: 'Connect',
+  node_search_label: 'Search the network',
+  node_search_placeholder: 'Search',
+  node_search_description: 'Search for a node or paste a node pubkey. Example: publickey@host',
+  node_search_results_header: 'All Nodes'
 })

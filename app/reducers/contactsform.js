@@ -11,7 +11,7 @@ const initialState = {
   // if this is not null the ChannelForm component will be open
   formType: null,
 
-  searchQuery: '',
+  searchQuery: null,
   node: {},
   manualFormOpen: false,
   submitChannelFormOpen: false
@@ -193,11 +193,25 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
     // list of the nodes
     return nodes
       .filter(node => {
-        const { alias, pub_key } = node
-        return (alias && alias.includes(query)) || (pub_key && pub_key.includes(query))
+        const { alias, pub_key, addresses } = node
+        const matchesSearch =
+          (alias && alias.includes(query)) || (pub_key && pub_key.includes(query))
+        const hasAddress = addresses.length > 0
+        return matchesSearch && hasAddress
       })
       .sort(contactableFirst)
       .slice(0, LIMIT)
+  }
+)
+
+contactFormSelectors.isSearchValidNodeAddress = createSelector(
+  searchQuerySelector,
+  searchQuery => {
+    if (!searchQuery || searchQuery.length < 3) {
+      return false
+    }
+    const [pubkey, host] = searchQuery.split('@')
+    return Boolean(pubkey && host)
   }
 )
 

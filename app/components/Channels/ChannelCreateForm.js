@@ -8,7 +8,6 @@ import {
   Bar,
   Button,
   Form,
-  Header,
   NodePubkeyInput,
   Panel,
   Radio,
@@ -17,7 +16,8 @@ import {
   Text
 } from 'components/UI'
 import { CurrencyFieldGroup, CryptoValue, CryptoSelector } from 'containers/UI'
-import LightningChannel from 'components/Icon/LightningChannel'
+import { ChannelBackButton, ChannelCreateHeader } from 'components/Channels'
+
 import messages from './messages'
 import {
   TRANSACTION_SPEED_SLOW,
@@ -42,7 +42,9 @@ class ChannelCreateForm extends React.Component {
     }),
     onSubmit: PropTypes.func.isRequired,
     openChannel: PropTypes.func.isRequired,
-    queryFees: PropTypes.func.isRequired
+    queryFees: PropTypes.func.isRequired,
+    searchQuery: PropTypes.string,
+    updateContactFormSearchQuery: PropTypes.func.isRequired
   }
 
   static defaultProps = {
@@ -89,6 +91,11 @@ class ChannelCreateForm extends React.Component {
     openChannel({ pubkey, host, localamt: amountInSatoshis, satPerByte })
   }
 
+  clearSearchQuery = () => {
+    const { updateContactFormSearchQuery } = this.props
+    updateContactFormSearchQuery(null)
+  }
+
   /**
    * Store the formApi on the component context to make it available at this.formApi.
    */
@@ -106,6 +113,8 @@ class ChannelCreateForm extends React.Component {
       onSubmit,
       openChannel,
       queryFees,
+      searchQuery,
+      updateContactFormSearchQuery,
       ...rest
     } = this.props
 
@@ -133,11 +142,7 @@ class ChannelCreateForm extends React.Component {
           return (
             <Panel>
               <Panel.Header>
-                <Header
-                  title={<FormattedMessage {...messages.open_channel_form_title} />}
-                  subtitle={<FormattedMessage {...messages.open_channel_form_subtitle} />}
-                  logo={<LightningChannel height="48px" width="48px" />}
-                />
+                <ChannelCreateHeader />
                 <Bar pt={2} />
               </Panel.Header>
 
@@ -150,10 +155,12 @@ class ChannelCreateForm extends React.Component {
 
                 <NodePubkeyInput
                   field="nodePubkey"
+                  initialValue={searchQuery}
                   label={intl.formatMessage({ ...messages.remote_pubkey })}
                   required
                   validateOnChange
                   validateOnBlur
+                  disabled={Boolean(searchQuery)}
                 />
 
                 <Bar my={3} opacity={0.3} />
@@ -210,10 +217,15 @@ class ChannelCreateForm extends React.Component {
               </Panel.Body>
 
               <Panel.Footer>
-                <Flex alignItems="center" justifyContent="center" mb={3}>
-                  <Button type="submit" disabled={formState.submits > 0 && formState.invalid}>
-                    <FormattedMessage {...messages.open_channel_form_next_button_text} />
-                  </Button>
+                <Flex alignItems="center" mb={3}>
+                  <Box width={1 / 4}>
+                    <ChannelBackButton onClick={this.clearSearchQuery} mr="auto" />
+                  </Box>
+                  <Flex width={2 / 4} justifyContent="center">
+                    <Button type="submit" disabled={formState.submits > 0 && formState.invalid}>
+                      <FormattedMessage {...messages.open_channel_form_next_button_text} />
+                    </Button>
+                  </Flex>
                 </Flex>
 
                 <Text textAlign="center">
