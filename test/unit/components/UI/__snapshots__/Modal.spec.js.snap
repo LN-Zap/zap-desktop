@@ -1,13 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Modal should render correctly 1`] = `
-.c2 {
+.c1 {
   padding-top: 16px;
   padding-left: 16px;
   padding-right: 16px;
 }
 
-.c5 {
+.c4 {
   padding-bottom: 32px;
   padding-left: 32px;
   padding-right: 32px;
@@ -18,7 +18,7 @@ exports[`component.UI.Modal should render correctly 1`] = `
   overflow-x: hidden;
 }
 
-.c1 {
+.c0 {
   color: primaryText;
   background-color: primaryColor;
   height: 100%;
@@ -31,7 +31,7 @@ exports[`component.UI.Modal should render correctly 1`] = `
   flex-direction: column;
 }
 
-.c3 {
+.c2 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -42,69 +42,56 @@ exports[`component.UI.Modal should render correctly 1`] = `
   justify-content: flex-end;
 }
 
-.c0 {
-  z-index: 999;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-}
-
-.c4 {
+.c3 {
   padding: 8px;
   height: 40px;
   cursor: pointer;
   opacity: 0.6;
 }
 
-.c4:hover: {
+.c3:hover: {
   opacity: 1;
 }
 
-<div
+<article
   className="c0"
+  color="primaryText"
 >
-  <article
+  <header
     className="c1"
-    color="primaryText"
   >
-    <header
+    <div
       className="c2"
     >
       <div
         className="c3"
       >
-        <div
-          className="c4"
+        <svg
+          height={20}
+          viewBox="0 0 22 20"
+          width={20}
         >
-          <svg
-            height={20}
-            viewBox="0 0 22 20"
-            width={20}
-          >
-            <defs>
-              <path
-                d="M10 10L0 20l10-10L0 0l10 10L20 0l-8.394 8.394L10 10l1.606 1.606L20 20 10 10z"
-                id="x_svg__a"
-              />
-            </defs>
-            <use
-              fill="none"
-              fillRule="evenodd"
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              transform="translate(1)"
-              xlinkHref="#x_svg__a"
+          <defs>
+            <path
+              d="M10 10L0 20l10-10L0 0l10 10L20 0l-8.394 8.394L10 10l1.606 1.606L20 20 10 10z"
+              id="x_svg__a"
             />
-          </svg>
-        </div>
+          </defs>
+          <use
+            fill="none"
+            fillRule="evenodd"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            transform="translate(1)"
+            xlinkHref="#x_svg__a"
+          />
+        </svg>
       </div>
-    </header>
-    <section
-      className="c5"
-    />
-  </article>
-</div>
+    </div>
+  </header>
+  <section
+    className="c4"
+  />
+</article>
 `;

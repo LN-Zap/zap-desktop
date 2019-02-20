@@ -8,15 +8,6 @@ import ZapLogo from 'components/Icon/ZapLogo'
 import { Panel, Text } from 'components/UI'
 import messages from './messages'
 
-const Overlay = styled(Box)`
-  z-index: 999;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-`
-
 const ModalCloseButtonWrapper = styled(Box)`
   height: 40px;
   cursor: pointer;
@@ -93,22 +84,20 @@ class Modal extends React.Component {
   render() {
     const { children, onClose, withClose, withHeader, ...rest } = this.props
     return (
-      <Overlay>
-        <Panel bg="primaryColor" color="primaryText">
-          <Panel.Header pt={3} px={3}>
-            {withClose && <ModalCloseButton onClose={onClose} />}
-            {withHeader && <ModalHeader />}
-          </Panel.Header>
-          <Panel.Body
-            px={4}
-            pb={4}
-            {...rest}
-            css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}
-          >
-            {children}
-          </Panel.Body>
-        </Panel>
-      </Overlay>
+      <Panel bg="primaryColor" color="primaryText">
+        <Panel.Header pt={3} px={3}>
+          {withClose && <ModalCloseButton onClose={onClose} />}
+          {withHeader && <ModalHeader />}
+        </Panel.Header>
+        <Panel.Body
+          px={4}
+          pb={4}
+          {...rest}
+          css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}
+        >
+          {children}
+        </Panel.Body>
+      </Panel>
     )
   }
 }

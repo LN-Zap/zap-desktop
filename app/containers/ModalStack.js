@@ -1,14 +1,21 @@
-import React from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { animated, Transition } from 'react-spring'
+import styled from 'styled-components'
 import { closeModal, modalSelectors } from 'reducers/modal'
-import { Modal as ModalOverlay } from 'components/UI'
+import { Modal, ModalOverlayStyles } from 'components/UI'
+
 import Pay from 'containers/Pay'
 import Request from 'containers/Request'
 import Channels from 'containers/Channels'
 import ChannelCreateForm from 'containers/Channels/ChannelCreateForm'
 import ChannelCloseDialog from 'containers/Channels/ChannelCloseDialog'
 import ChannelDetail from 'containers/Channels/ChannelDetail'
+
+const Container = styled(animated.div)`
+  ${ModalOverlayStyles}
+`
 
 const ModalContent = ({ type, closeModal }) => {
   switch (type) {
@@ -39,18 +46,35 @@ ModalContent.propTypes = {
   closeModal: PropTypes.func.isRequired
 }
 
-const Modal = ({ modals, closeModal }) =>
-  modals.map(modal => {
-    return (
-      <ModalOverlay onClose={() => closeModal(modal.id)} key={modal.id}>
-        <ModalContent type={modal.type} closeModal={closeModal} />
-      </ModalOverlay>
-    )
-  })
+class ModalStack extends PureComponent {
+  static propTypes = {
+    modals: PropTypes.array.isRequired,
+    closeModal: PropTypes.func.isRequired
+  }
 
-Modal.propTypes = {
-  modals: PropTypes.array.isRequired,
-  closeModal: PropTypes.func.isRequired
+  render() {
+    const { modals, closeModal } = this.props
+    return (
+      <Transition
+        items={modals}
+        keys={item => item.id}
+        from={{ opacity: 0 }}
+        enter={{ opacity: 1 }}
+        leave={{ opacity: 0 }}
+      >
+        {modal =>
+          modal &&
+          (styles => (
+            <Container style={styles}>
+              <Modal onClose={() => closeModal(modal.id)}>
+                <ModalContent type={modal.type} closeModal={closeModal} />
+              </Modal>
+            </Container>
+          ))
+        }
+      </Transition>
+    )
+  }
 }
 
 const mapStateToProps = state => ({
@@ -64,4 +88,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Modal)
+)(ModalStack)
