@@ -317,7 +317,10 @@ export const receiveChannels = (event, { channels, pendingChannels }) => dispatc
 }
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, host, localamt }) => async (dispatch, getState) => {
+export const openChannel = ({ pubkey, host, localamt, satPerByte }) => async (
+  dispatch,
+  getState
+) => {
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
@@ -330,7 +333,7 @@ export const openChannel = ({ pubkey, host, localamt }) => async (dispatch, getS
   dispatch(
     send('lnd', {
       msg: 'connectAndOpen',
-      data: { pubkey, host, localamt, private: isPrivate }
+      data: { pubkey, host, localamt, private: isPrivate, satPerByte }
     })
   )
 }

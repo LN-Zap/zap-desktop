@@ -212,9 +212,9 @@ storiesOf('Forms', module)
   .add('Radio', () => (
     <Form>
       <RadioGroup field="radio">
-        <Radio value="item1" label="Item 1" description="Radio buttons" />
-        <Radio value="item2" label="Item 2" description="can have an optional title" />
-        <Radio value="item3" label="Item 3" description="and description" />
+        <Radio value="item1" label="Item 1" description="Radio buttons" mb={3} />
+        <Radio value="item2" label="Item 2" description="can have an optional title" mb={3} />
+        <Radio value="item3" label="Item 3" description="and description" mb={3} />
       </RadioGroup>
     </Form>
   ))
@@ -349,9 +349,14 @@ storiesOf('Forms', module)
 
               <Box my={4}>
                 <RadioGroup field="radio">
-                  <Radio value="item1" label="Item 1" description="Radio buttons" />
-                  <Radio value="item2" label="Item 2" description="can have an optional title" />
-                  <Radio value="item3" label="Item 3" description="and description" />
+                  <Radio value="item1" label="Item 1" description="Radio buttons" mb={3} />
+                  <Radio
+                    value="item2"
+                    label="Item 2"
+                    description="can have an optional title"
+                    mb={3}
+                  />
+                  <Radio value="item3" label="Item 3" description="and description" mb={3} />
                 </RadioGroup>
               </Box>
 
