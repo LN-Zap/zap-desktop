@@ -1,9 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { animated, Transition } from 'react-spring'
+import styled from 'styled-components'
 import { Box } from 'rebass'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import { Notification } from 'components/UI'
+
+const Wrapper = styled(Box)`
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 99999;
+`
 
 class GlobalNotification extends React.Component {
   static propTypes = {
@@ -24,7 +32,7 @@ class GlobalNotification extends React.Component {
     }
 
     return (
-      <Box mt="22px" px={3} width={1} css={{ position: 'absolute', 'z-index': '99999' }}>
+      <Wrapper mt="22px" px={3} width={0.9} mx="auto">
         {notifications.map(item => (
           <Transition
             native
@@ -50,7 +58,7 @@ class GlobalNotification extends React.Component {
             }
           </Transition>
         ))}
-      </Box>
+      </Wrapper>
     )
   }
 }
