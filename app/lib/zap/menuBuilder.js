@@ -188,7 +188,7 @@ export default class ZapMenuBuilder {
         {
           label: 'Community Discussions',
           click() {
-            shell.openExternal('zaphq.slack.com')
+            shell.openExternal('https://zaphq.slack.com')
           }
         },
         {
