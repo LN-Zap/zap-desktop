@@ -9,16 +9,7 @@ const ChannelFooter = ({ channel, closeChannel }) => {
   return (
     <Flex alignItems="center" justifyContent="center">
       {channel.can_close && (
-        <Button
-          variant="danger"
-          onClick={() =>
-            closeChannel({
-              channel_point: channel.channel_point,
-              chan_id: channel.chan_id,
-              force: !channel.active
-            })
-          }
-        >
+        <Button variant="danger" onClick={closeChannel}>
           <FormattedMessage {...messages[channel.active ? 'close_button' : 'force_close_button']} />
         </Button>
       )}
