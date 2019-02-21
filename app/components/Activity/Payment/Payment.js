@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { btc } from 'lib/utils'
-import { Message, Span, Text, Value } from 'components/UI'
+import { Message, Text, Value } from 'components/UI'
 import { FormattedMessage, FormattedNumber, FormattedTime, injectIntl } from 'react-intl'
 import messages from './messages'
 
@@ -68,13 +68,9 @@ const Payment = ({
         className="hint--top-left"
         data-hint={intl.formatMessage({ ...messages.amount })}
       >
-        <Box css={payment.status == 'failed' ? { opacity: 0.5 } : null}>
+        <Box css={payment.status == 'failed' ? { opacity: 0.3 } : null}>
           <Text mb={1} textAlign="right">
-            {payment.status !== 'failed' && (
-              <Span color="superRed" fontWeight="normal" mr={1}>
-                -
-              </Span>
-            )}
+            {'- '}
             <Value
               value={payment.value}
               currency={ticker.currency}

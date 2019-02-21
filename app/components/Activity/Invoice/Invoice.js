@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { btc } from 'lib/utils'
-import { Span, Text, Value } from 'components/UI'
+import { Text, Value } from 'components/UI'
 import messages from './messages'
 
 const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyName, intl }) => (
@@ -33,10 +33,8 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
       className="hint--top-left"
       data-hint={intl.formatMessage({ ...messages.amount })}
     >
-      <Text mb={1} textAlign="right">
-        <Span color="superGreen" fontWeight="normal" mr={1}>
-          +
-        </Span>
+      <Text mb={1} textAlign="right" color="superGreen">
+        {'+ '}
         <Value
           value={invoice.value}
           currency={ticker.currency}
