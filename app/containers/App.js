@@ -1,4 +1,3 @@
-import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
 import { fetchPeers } from 'reducers/peers'
 import { fetchDescribeNetwork } from 'reducers/network'
@@ -11,9 +10,7 @@ const mapDispatchToProps = {
   setIsWalletOpen
 }
 
-export default withRouter(
-  connect(
-    null,
-    mapDispatchToProps
-  )(App)
-)
+export default connect(
+  null,
+  mapDispatchToProps
+)(App)
