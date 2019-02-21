@@ -7028,10 +7028,10 @@ eslint-plugin-promise@4.0.1:
   resolved "https://registry.yarnpkg.com/eslint-plugin-promise/-/eslint-plugin-promise-4.0.1.tgz#2d074b653f35a23d1ba89d8e976a985117d1c6a2"
   integrity sha512-Si16O0+Hqz1gDHsys6RtFRrW7cCTB6P7p3OJmKp3Y3dxpQE2qwOA7d3xnV+0mBmrPoi0RBnxlCKvqu70te6wjg==
 
-eslint-plugin-react-hooks@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-1.0.1.tgz#76b6fb4edafab02eab0090078977687157605dd9"
-  integrity sha512-yNhvY7EFBp0mq0Bt8BHoS57GwJ4e1qSYdvDFSfPnjmiSmyGUfQFQGcQs4K0JQFDGopWkURWq58psbUJIhWZ2Kg==
+eslint-plugin-react-hooks@1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-react-hooks/-/eslint-plugin-react-hooks-1.2.0.tgz#a1c78e792b8d7d3e9c2a2aad28df80b9b5cd1101"
+  integrity sha512-pb/pwyHg0K3Ss/8loSwCGRSXIsvPBHWfzcP/6jeei0SgWBOyXRbcKFpGxolg0xSmph0jQKLyM27B74clbZM/YQ==
 
 eslint-plugin-react@7.12.4:
   version "7.12.4"
