@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { decodePayReq } from 'lib/utils/crypto'
 
+import { openModal, closeModal } from './modal'
 import { fetchTransactions } from './transaction'
 import { fetchPayments } from './payment'
 import { fetchInvoices } from './invoice'
@@ -40,16 +41,16 @@ export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 // Actions
 // ------------------------------------
 export function showActivityModal(itemType, itemId) {
-  return {
-    type: SHOW_ACTIVITY_MODAL,
-    itemType,
-    itemId
+  return dispatch => {
+    dispatch({ type: SHOW_ACTIVITY_MODAL, itemType, itemId })
+    dispatch(openModal('ACTIVITY_MODAL'))
   }
 }
 
 export function hideActivityModal() {
-  return {
-    type: HIDE_ACTIVITY_MODAL
+  return dispatch => {
+    dispatch({ type: HIDE_ACTIVITY_MODAL })
+    dispatch(closeModal('ACTIVITY_MODAL'))
   }
 }
 

@@ -1,6 +1,5 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ActivityModal from 'containers/Activity/ActivityModal'
 import Activity from 'containers/Activity'
 import Wallet from 'containers/Wallet'
 import { MainContent } from 'components/UI'
@@ -19,7 +18,6 @@ class App extends React.Component {
   nextFetchIn = INITIAL_REFETCH_INTERVAL
 
   static propTypes = {
-    currentTicker: PropTypes.object,
     setIsWalletOpen: PropTypes.func.isRequired,
     fetchPeers: PropTypes.func.isRequired,
     fetchDescribeNetwork: PropTypes.func.isRequired
@@ -71,16 +69,11 @@ class App extends React.Component {
   }
 
   render() {
-    const { currentTicker } = this.props
-
     return (
-      <>
-        {currentTicker && <ActivityModal />}
-        <MainContent>
-          <Wallet />
-          <Activity />
-        </MainContent>
-      </>
+      <MainContent>
+        <Wallet />
+        <Activity />
+      </MainContent>
     )
   }
 }
