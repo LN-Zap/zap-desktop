@@ -1,5 +1,5 @@
 import { send } from 'redux-electron-ipc'
-
+import { openModal, closeModal } from './modal'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -25,17 +25,8 @@ export function getAddress() {
   }
 }
 
-export function openWalletModal() {
-  return {
-    type: OPEN_WALLET_MODAL
-  }
-}
-
-export function closeWalletModal() {
-  return {
-    type: CLOSE_WALLET_MODAL
-  }
-}
+export const openWalletModal = () => dispatch => dispatch(openModal('RECEIVE_MODAL'))
+export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_MODAL'))
 
 // Get our existing address if there is one, otherwise generate a new one.
 export const walletAddress = type => async (dispatch, getState) => {

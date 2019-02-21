@@ -4,7 +4,7 @@ import copy from 'copy-to-clipboard'
 import styled, { withTheme } from 'styled-components'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Bar, Button, Heading, Message, Modal, QRCode, Tabs, Text } from 'components/UI'
+import { Bar, Button, Heading, Message, QRCode, Tabs, Text } from 'components/UI'
 import { WalletName } from 'components/Util'
 import Copy from 'components/Icon/Copy'
 import messages from './messages'
@@ -72,22 +72,17 @@ class ReceiveModal extends React.PureComponent {
 
   render() {
     const {
-      isOpen,
       pubkey,
       address,
-      closeReceiveModal,
       cryptoName,
       activeWalletSettings,
       networkInfo,
-      intl
+      intl,
+      ...rest
     } = this.props
     const { qrCodeType, reveal } = this.state
 
     if (!cryptoName) {
-      return null
-    }
-
-    if (!isOpen) {
       return null
     }
 
@@ -123,61 +118,59 @@ class ReceiveModal extends React.PureComponent {
     }
 
     return (
-      <Modal onClose={closeReceiveModal}>
-        <Box width={9 / 16} mx="auto">
-          <Heading.h1 textAlign="center">
-            <WalletName wallet={activeWalletSettings} />
-            {networkInfo && networkInfo.id === 'testnet' && networkInfo.name}
-          </Heading.h1>
+      <Box {...rest}>
+        <Heading.h1 textAlign="center">
+          <WalletName wallet={activeWalletSettings} />
+          {networkInfo && networkInfo.id === 'testnet' && networkInfo.name}
+        </Heading.h1>
 
-          <Bar pt={2} />
+        <Bar pt={2} />
 
-          <Flex justifyContent="center" my={3}>
-            <Tabs onClick={this.setQrcode} activeKey={qrCodeType} items={tabs} />
-          </Flex>
+        <Flex justifyContent="center" my={3}>
+          <Tabs onClick={this.setQrcode} activeKey={qrCodeType} items={tabs} />
+        </Flex>
 
-          <Flex mt={4} mb={3} alignItems="center" flexDirection="column">
-            {qrCode && qrCodeType !== QRCODE_TYPE_LNDCONNECT && (
-              <QRCode value={qrCode} size="xlarge" />
-            )}
-            {qrCodeType === QRCODE_TYPE_LNDCONNECT && (
-              <>
-                <QRCode
-                  value={qrCode}
-                  size="xlarge"
-                  obfuscate={qrCodeType === QRCODE_TYPE_LNDCONNECT && !reveal}
+        <Flex mt={4} mb={3} alignItems="center" flexDirection="column">
+          {qrCode && qrCodeType !== QRCODE_TYPE_LNDCONNECT && (
+            <QRCode value={qrCode} size="xlarge" />
+          )}
+          {qrCodeType === QRCODE_TYPE_LNDCONNECT && (
+            <>
+              <QRCode
+                value={qrCode}
+                size="xlarge"
+                obfuscate={qrCodeType === QRCODE_TYPE_LNDCONNECT && !reveal}
+              />
+              <Message variant="warning" justifyContent="center" my={3}>
+                <FormattedMessage {...messages.lndconnect_warning} />
+              </Message>
+              <Button size="small" onClick={this.toggleReveal}>
+                <FormattedMessage
+                  {...messages[reveal ? 'lndconnect_hide_button' : 'lndconnect_reveal_button']}
                 />
-                <Message variant="warning" justifyContent="center" my={3}>
-                  <FormattedMessage {...messages.lndconnect_warning} />
-                </Message>
-                <Button size="small" onClick={this.toggleReveal}>
-                  <FormattedMessage
-                    {...messages[reveal ? 'lndconnect_hide_button' : 'lndconnect_reveal_button']}
-                  />
-                </Button>
-              </>
-            )}
-          </Flex>
+              </Button>
+            </>
+          )}
+        </Flex>
 
-          <Flex bg="tertiaryColor" justifyContent="space-between">
-            <ClippedText p={3} width={1} fontSize="s" textAlign="center">
-              {qrCode}
-            </ClippedText>
-            <Button
-              variant="secondary"
-              py={0}
-              px={0}
-              onClick={this.copyToClipboard}
-              className="hint--left"
-              data-hint={message}
-            >
-              <Box bg="primaryColor" p={3} width={1}>
-                <Copy />
-              </Box>
-            </Button>
-          </Flex>
-        </Box>
-      </Modal>
+        <Flex bg="tertiaryColor" justifyContent="space-between">
+          <ClippedText p={3} width={1} fontSize="s" textAlign="center">
+            {qrCode}
+          </ClippedText>
+          <Button
+            variant="secondary"
+            py={0}
+            px={0}
+            onClick={this.copyToClipboard}
+            className="hint--left"
+            data-hint={message}
+          >
+            <Box bg="primaryColor" p={3} width={1}>
+              <Copy />
+            </Box>
+          </Button>
+        </Flex>
+      </Box>
     )
   }
 }
@@ -189,7 +182,6 @@ ReceiveModal.propTypes = {
     name: PropTypes.string
   }),
   cryptoName: PropTypes.string,
-  isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string,
   address: PropTypes.string,
   activeWalletSettings: PropTypes.shape({
@@ -199,7 +191,6 @@ ReceiveModal.propTypes = {
     host: PropTypes.string,
     name: PropTypes.string
   }).isRequired,
-  closeReceiveModal: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired
 }
 

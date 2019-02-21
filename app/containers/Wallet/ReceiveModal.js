@@ -8,7 +8,6 @@ import { showNotification } from 'reducers/notification'
 import { closeWalletModal } from 'reducers/address'
 
 const mapStateToProps = state => ({
-  isOpen: state.address.walletModal,
   networkInfo: infoSelectors.networkInfo(state),
   cryptoName: tickerSelectors.currencyName(state),
   pubkey: get(state.info, 'data.uris[0]') || get(state.info, 'data.identity_pubkey'),

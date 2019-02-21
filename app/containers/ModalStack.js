@@ -12,6 +12,7 @@ import Channels from 'containers/Channels'
 import ChannelCloseDialog from 'containers/Channels/ChannelCloseDialog'
 import ChannelDetail from 'containers/Channels/ChannelDetail'
 import ChannelCreate from 'containers/Channels/ChannelCreate'
+import ReceiveModal from 'containers/Wallet/ReceiveModal'
 
 const Container = styled(animated.div)`
   ${ModalOverlayStyles}
@@ -24,6 +25,9 @@ const ModalContent = ({ type, closeModal }) => {
 
     case 'REQUEST_FORM':
       return <Request width={9 / 16} mx="auto" />
+
+    case 'RECEIVE_MODAL':
+      return <ReceiveModal width={9 / 16} mx="auto" />
 
     case 'CHANNELS':
       return <Channels mx={-4} />
