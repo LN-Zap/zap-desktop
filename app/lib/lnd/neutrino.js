@@ -72,7 +72,7 @@ class Neutrino extends EventEmitter {
   async start() {
     if (this.process) {
       return Promise.reject(
-        new Error('Neutrino process with PID ${this.process.pid} already exists.')
+        new Error(`Neutrino process with PID ${this.process.pid} already exists.`)
       )
     }
 
