@@ -104,6 +104,7 @@
   "components.Channels.pending_close": "pending close",
   "components.Channels.pending_force_close": "pending force close",
   "components.Channels.pending_open": "pending open",
+  "components.Channels.private_label": "Keep this channel private",
   "components.Channels.remote_balance": "Remote Balance",
   "components.Channels.remote_pubkey": "Remote PubKey",
   "components.Channels.search_placeholder": "Search Channels",
