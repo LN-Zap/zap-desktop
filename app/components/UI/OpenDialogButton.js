@@ -6,7 +6,8 @@ import styled from 'styled-components'
 
 const CustomButton = styled(Button)`
   margin-left: -46px;
-  margin-top: 5px;
+  height: 46px;
+  margin-top: 0px;
   padding: 0;
   border-radius: 0 5px 5px 0;
   overflow: hidden;
