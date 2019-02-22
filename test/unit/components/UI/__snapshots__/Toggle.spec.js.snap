@@ -1,6 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Toggle should render correctly 1`] = `
+.c1 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .c0 {
   position: relative;
 }
@@ -62,20 +69,24 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   <div
     className="c0"
   >
-    <label
-      className="switch"
+    <div
+      className="c1"
     >
-      <input
-        checked={false}
-        name="name"
-        onBlur={[Function]}
-        onChange={[Function]}
-        type="checkbox"
-      />
-      <span
-        className="slider round"
-      />
-    </label>
+      <label
+        className="switch"
+      >
+        <input
+          checked={false}
+          name="name"
+          onBlur={[Function]}
+          onChange={[Function]}
+          type="checkbox"
+        />
+        <span
+          className="slider round"
+        />
+      </label>
+    </div>
   </div>
 </form>
 `;
