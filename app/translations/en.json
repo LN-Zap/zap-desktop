@@ -101,6 +101,7 @@
   "components.Channels.open_channel_form_onchain_balance": "Your current on-chain balance:",
   "components.Channels.open_channel_form_subtitle": "Lightning Network",
   "components.Channels.open_channel_form_title": "Open a Channel",
+  "components.Channels.open_channel_notification": "Channel opening initiated",
   "components.Channels.pending_close": "pending close",
   "components.Channels.pending_force_close": "pending force close",
   "components.Channels.pending_open": "pending open",

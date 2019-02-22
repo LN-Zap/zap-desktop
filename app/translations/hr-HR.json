@@ -101,6 +101,7 @@
   "components.Channels.open_channel_form_onchain_balance": "",
   "components.Channels.open_channel_form_subtitle": "",
   "components.Channels.open_channel_form_title": "",
+  "components.Channels.open_channel_notification": "",
   "components.Channels.pending_close": "",
   "components.Channels.pending_force_close": "",
   "components.Channels.pending_open": "",
