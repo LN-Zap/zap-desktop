@@ -68,9 +68,9 @@ class LoadingBolt extends React.PureComponent {
       <Transition
         native
         items={isLoading}
-        from={{ opacity: 1 }}
-        enter={{ opacity: 1 }}
-        leave={{ opacity: 0 }}
+        from={{ opacity: 1, pointerEvents: 'auto' }}
+        enter={{ opacity: 1, pointerEvents: 'auto' }}
+        leave={{ opacity: 0, pointerEvents: 'none' }}
       >
         {show =>
           show &&
