@@ -56,7 +56,7 @@
  * https://github.com/paulmillr/es6-shim/
  */
 
-/** @license React v16.6.1
+/** @license React v16.7.0
  * react.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
@@ -101,7 +101,7 @@ object-assign
   All rights reserved.
 */
 
-/** @license React v16.6.1
+/** @license React v16.7.0
  * react-dom.production.min.js
  *
  * Copyright (c) Facebook, Inc. and its affiliates.
