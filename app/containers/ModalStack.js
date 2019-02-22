@@ -63,9 +63,9 @@ function ModalStack(props) {
     <Transition
       items={modals}
       keys={item => item.id}
-      from={{ opacity: 0 }}
-      enter={{ opacity: 1 }}
-      leave={{ opacity: 0 }}
+      from={{ opacity: 0, pointerEvents: 'auto' }}
+      enter={{ opacity: 1, pointerEvents: 'auto' }}
+      leave={{ opacity: 0, pointerEvents: 'none' }}
     >
       {modal =>
         modal &&
