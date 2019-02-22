@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedTime, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Message, Span, Text } from 'components/UI'
+import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
@@ -60,13 +60,9 @@ const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
         className="hint--top-left"
         data-hint={intl.formatMessage({ ...messages.amount })}
       >
-        <Box css={payment.status == 'failed' ? { opacity: 0.5 } : null}>
+        <Box css={payment.status == 'failed' ? { opacity: 0.3 } : null}>
           <Text mb={1} textAlign="right">
-            {payment.status !== 'failed' && (
-              <Span color="superRed" fontWeight="normal" mr={1}>
-                -
-              </Span>
-            )}
+            {'- '}
             <CryptoValue value={payment.value} />
             <i> {currencyName}</i>
           </Text>

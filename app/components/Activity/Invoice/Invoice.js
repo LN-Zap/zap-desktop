@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedTime, FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Span, Text } from 'components/UI'
+import { Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
@@ -33,10 +33,8 @@ const Invoice = ({ invoice, showActivityModal, currencyName, intl }) => (
       className="hint--top-left"
       data-hint={intl.formatMessage({ ...messages.amount })}
     >
-      <Text mb={1} textAlign="right">
-        <Span color="superGreen" fontWeight="normal" mr={1}>
-          +
-        </Span>
+      <Text mb={1} textAlign="right" color="superGreen">
+        {'+ '}
         <CryptoValue value={invoice.value} />
         <i> {currencyName}</i>
       </Text>
