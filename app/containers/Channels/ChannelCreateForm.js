@@ -4,8 +4,10 @@ import { tickerSelectors } from 'reducers/ticker'
 import { openChannel } from 'reducers/channels'
 import { queryFees } from 'reducers/pay'
 import { updateContactFormSearchQuery } from 'reducers/contactsform'
+import { walletSelectors } from 'reducers/wallet'
 
 const mapStateToProps = state => ({
+  activeWalletSettings: walletSelectors.activeWalletSettings(state),
   searchQuery: state.contactsform.searchQuery,
   currency: tickerSelectors.currency(state),
   channelBalance: state.balance.channelBalance,

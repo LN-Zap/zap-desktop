@@ -317,7 +317,7 @@ export const receiveChannels = (event, { channels, pendingChannels }) => dispatc
 }
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, host, localamt, satPerByte }) => async (
+export const openChannel = ({ pubkey, host, localamt, satPerByte, isPrivate }) => async (
   dispatch,
   getState
 ) => {
@@ -326,14 +326,19 @@ export const openChannel = ({ pubkey, host, localamt, satPerByte }) => async (
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
   const state = getState()
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
-  const isPrivate = activeWalletSettings.type === 'local'
 
   dispatch(openingChannel())
   dispatch(addLoadingPubkey(pubkey))
   dispatch(
     send('lnd', {
       msg: 'connectAndOpen',
-      data: { pubkey, host, localamt, private: isPrivate, satPerByte }
+      data: {
+        pubkey,
+        host,
+        localamt,
+        private: isPrivate || activeWalletSettings.type === 'local',
+        satPerByte
+      }
     })
   )
 }

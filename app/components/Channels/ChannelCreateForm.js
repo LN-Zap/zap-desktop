@@ -9,14 +9,18 @@ import {
   Button,
   Form,
   NodePubkeyInput,
+  Label,
   Panel,
   Radio,
   RadioGroup,
+  Span,
   Spinner,
-  Text
+  Text,
+  Toggle
 } from 'components/UI'
 import { CurrencyFieldGroup, CryptoValue, CryptoSelector } from 'containers/UI'
 import { ChannelBackButton, ChannelCreateHeader } from 'components/Channels'
+import Padlock from 'components/Icon/Padlock'
 
 import messages from './messages'
 import {
@@ -31,6 +35,9 @@ const defaultSpeed = TRANSACTION_SPEED_SLOW
 class ChannelCreateForm extends React.Component {
   static propTypes = {
     intl: intlShape.isRequired,
+    activeWalletSettings: PropTypes.shape({
+      type: PropTypes.string.isRequired
+    }).isRequired,
     channelBalance: PropTypes.number.isRequired,
     currency: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
@@ -88,7 +95,7 @@ class ChannelCreateForm extends React.Component {
     const satPerByte = this.getFeeRate(speed)
 
     // submit the channel to LND.
-    openChannel({ pubkey, host, localamt: amountInSatoshis, satPerByte })
+    openChannel({ pubkey, host, localamt: amountInSatoshis, satPerByte, isPrivate: values.private })
   }
 
   clearSearchQuery = () => {
@@ -106,6 +113,7 @@ class ChannelCreateForm extends React.Component {
   render() {
     const {
       intl,
+      activeWalletSettings,
       channelBalance,
       currencyName,
       isQueryingFees,
@@ -156,7 +164,6 @@ class ChannelCreateForm extends React.Component {
                 <NodePubkeyInput
                   field="nodePubkey"
                   initialValue={searchQuery}
-                  label={intl.formatMessage({ ...messages.remote_pubkey })}
                   required
                   validateOnChange
                   validateOnBlur
@@ -214,6 +221,25 @@ class ChannelCreateForm extends React.Component {
                     )}
                   </Box>
                 </Flex>
+
+                {activeWalletSettings.type !== 'local' && (
+                  <>
+                    <Bar my={3} opacity={0.3} />
+                    <Flex justifyContent="space-between" alignItems="center">
+                      <Flex>
+                        <Span color="gray" fontSize="s" mr={2}>
+                          <Padlock />
+                        </Span>
+                        <Label htmlFor="private">
+                          <FormattedMessage {...messages.private_label} />
+                        </Label>
+                      </Flex>
+                      <Flex>
+                        <Toggle field="private" />
+                      </Flex>
+                    </Flex>
+                  </>
+                )}
               </Panel.Body>
 
               <Panel.Footer>

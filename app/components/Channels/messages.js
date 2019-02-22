@@ -29,9 +29,10 @@ export default defineMessages({
   open_channel_form_title: 'Open a Channel',
   open_channel_form_subtitle: 'Lightning Network',
   open_channel_form_description:
-    "Make funds available for sending over the Lightning Network by opening a channel to another node on the network. To open a channel, enter the desired node's publickey@host, set the amount of BTC you'd like to commit to the channel, and submit.",
+    "To open a channel, enter the desired node's publickey@host, set the amount of BTC you'd like to commit to the channel, and submit.",
   open_channel_form_next_button_text: 'Next',
   open_channel_form_onchain_balance: 'Your current on-chain balance:',
+  private_label: 'Keep this channel private',
   search_placeholder: 'Search Channels',
   view_mode_list: 'View as a list',
   view_mode_card: 'View as cards',

@@ -96,7 +96,7 @@
   "components.Channels.num_updates_label": "Number of Updates",
   "components.Channels.offline": "offline",
   "components.Channels.open": "open",
-  "components.Channels.open_channel_form_description": "Make funds available for sending over the Lightning Network by opening a channel to another node on the network. To open a channel, enter the desired node's publickey@host, set the amount of BTC you'd like to commit to the channel, and submit.",
+  "components.Channels.open_channel_form_description": "To open a channel, enter the desired node's publickey@host, set the amount of BTC you'd like to commit to the channel, and submit.",
   "components.Channels.open_channel_form_next_button_text": "Next",
   "components.Channels.open_channel_form_onchain_balance": "Your current on-chain balance:",
   "components.Channels.open_channel_form_subtitle": "Lightning Network",
