@@ -771,7 +771,7 @@ const initialState = {
   selectedChannelId: null,
   viewMode: 'VIEW_MODE_CARD',
 
-  // nodes stored at zap.jackmallers.com/suggested-peers manages by JimmyMow
+  // nodes stored at zap.jackmallers.com/api/v1/suggested-peers manages by JimmyMow
   // we store this node list here and if the user doesnt have any channels
   // we show them this list in case they wanna use our suggestions to connect
   // to the network and get started
