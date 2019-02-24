@@ -5,6 +5,7 @@ import { openChannel } from 'reducers/channels'
 import { queryFees } from 'reducers/pay'
 import { updateContactFormSearchQuery } from 'reducers/contactsform'
 import { walletSelectors } from 'reducers/wallet'
+import { showNotification } from 'reducers/notification'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
@@ -19,7 +20,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   openChannel,
   queryFees,
-  updateContactFormSearchQuery
+  updateContactFormSearchQuery,
+  showNotification
 }
 
 export default connect(
