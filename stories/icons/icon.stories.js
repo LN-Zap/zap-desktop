@@ -36,6 +36,7 @@ import LndLogo from 'components/Icon/LndLogo'
 import LtcLogo from 'components/Icon/LtcLogo'
 import Network from 'components/Icon/Network'
 import Onchain from 'components/Icon/Onchain'
+import Padlock from 'components/Icon/Padlock'
 import PaperPlane from 'components/Icon/PaperPlane'
 import Peers from 'components/Icon/Peers'
 import Plus from 'components/Icon/Plus'
@@ -90,6 +91,7 @@ const zapIconsList = {
   LtcLogo,
   Network,
   Onchain,
+  Padlock,
   PaperPlane,
   Peers,
   Plus,

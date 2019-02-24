@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import { Flex } from 'rebass'
 import { Checkbox, asField } from 'informed'
+import { Text } from 'components/UI'
 
 const Wrapper = styled.div`
   position: relative;
@@ -53,20 +55,26 @@ const Wrapper = styled.div`
   }
 `
 
-const Toggle = ({ fieldState, ...props }) => (
+const Toggle = ({ fieldState, onLabel, offLabel, ...props }) => (
   <Wrapper>
-    <label // eslint-disable-line jsx-a11y/label-has-for,jsx-a11y/label-has-associated-control
-      className="switch"
-    >
-      <Checkbox type="checkbox" fieldState={fieldState} {...props} />
-      <span className="slider round" />
-    </label>
+    <Flex>
+      <label // eslint-disable-line jsx-a11y/label-has-for,jsx-a11y/label-has-associated-control
+        className="switch"
+      >
+        <Checkbox type="checkbox" fieldState={fieldState} {...props} />
+        <span className="slider round" />
+      </label>
+      {fieldState.value && onLabel && <Text ml={2}>{onLabel}</Text>}
+      {!fieldState.value && offLabel && <Text ml={2}>{offLabel}</Text>}
+    </Flex>
   </Wrapper>
 )
 
 Toggle.propTypes = {
   fieldApi: PropTypes.object.isRequired,
-  fieldState: PropTypes.object.isRequired
+  fieldState: PropTypes.object.isRequired,
+  onLabel: PropTypes.node,
+  offLabel: PropTypes.node
 }
 
 export default asField(Toggle)
