@@ -199,6 +199,11 @@ class LndConfig {
       }
     })
 
+    // Assign default options.
+    this.type = 'local'
+    this.chain = global.CONFIG.neutrino.chain
+    this.network = global.CONFIG.neutrino.network
+
     // If options were provided, use them to initialise the instance.
     if (options) {
       // Set base config.

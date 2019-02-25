@@ -26,11 +26,10 @@ import { getDbName } from './lib/utils/db'
 // When we run in production mode, this file is processd with webpack and our config is made available in the
 // global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
 // directly without processing with webpack), so we require the config module directly in this case.
-let config
 try {
-  config = CONFIG
+  global.CONFIG = CONFIG
 } catch (e) {
-  config = require('config')
+  global.CONFIG = require('config')
 }
 
 // Set the Electron userDir to a temporary directory if the ELECTRON_USER_DIR_TEMP env var is set.
@@ -125,7 +124,7 @@ const fetchSettings = () => {
   // Once we have fetched (or failed to fetch) the user settings, destroy the window.
   win.on('load-settings-done', () => process.nextTick(() => win.destroy()))
 
-  const dbName = getDbName(config)
+  const dbName = getDbName(global.CONFIG)
   mainLog.debug(`Fetching user settings from indexedDb (using database "%s")`, dbName)
 
   return win.webContents
