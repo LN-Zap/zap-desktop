@@ -34,17 +34,17 @@ class App extends React.Component {
     channelFormProps: PropTypes.object,
     setIsWalletOpen: PropTypes.func.isRequired,
     fetchPeers: PropTypes.func.isRequired,
-    fetchDescribeNetwork: PropTypes.func.isRequired
+    fetchActivityHistory: PropTypes.func.isRequired
   }
 
   componentDidMount() {
-    const { fetchDescribeNetwork, setIsWalletOpen } = this.props
+    const { fetchActivityHistory, setIsWalletOpen } = this.props
 
     // Set wallet open state.
     setIsWalletOpen(true)
 
-    // fetch LN network from nodes POV.
-    fetchDescribeNetwork()
+    // fetch data from lnd.
+    fetchActivityHistory()
 
     // fetch node info.
     this.fetchData()

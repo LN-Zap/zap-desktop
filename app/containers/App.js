@@ -30,9 +30,9 @@ import {
 } from 'reducers/contactsform'
 import { fetchBalance } from 'reducers/balance'
 import { fetchPeers } from 'reducers/peers'
-import { fetchDescribeNetwork } from 'reducers/network'
 import { showNotification, removeNotification } from 'reducers/notification'
 import { setIsWalletOpen } from 'reducers/wallet'
+import { fetchActivityHistory } from 'reducers/activity'
 import App from 'components/App'
 
 const mapDispatchToProps = {
@@ -44,6 +44,7 @@ const mapDispatchToProps = {
   removeNotification,
   fetchBalance,
   fetchPeers,
+  fetchActivityHistory,
   fetchChannels,
   fetchSuggestedNodes,
   openChannel,
@@ -60,7 +61,6 @@ const mapDispatchToProps = {
   updateContactFormSearchQuery,
   setNode,
   contactFormSelectors,
-  fetchDescribeNetwork,
   setIsWalletOpen,
   showNotification
 }
