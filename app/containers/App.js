@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
 import { fetchPeers } from 'reducers/peers'
-import { fetchDescribeNetwork } from 'reducers/network'
 import { setIsWalletOpen } from 'reducers/wallet'
+import { fetchActivityHistory } from 'reducers/activity'
 import App from 'components/App'
 
 const mapDispatchToProps = {
   fetchPeers,
-  fetchDescribeNetwork,
+  fetchActivityHistory,
   setIsWalletOpen
 }
 

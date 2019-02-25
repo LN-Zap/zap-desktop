@@ -33,8 +33,8 @@ export const isLoadingPerPath = state => {
   }
 
   if (pathname === '/syncing') {
-    const { syncStatus, lightningGrpcActive, blockHeight, lndBlockHeight } = state.lnd
-    return syncStatus === 'pending' || !lightningGrpcActive || !blockHeight || !lndBlockHeight
+    const { syncStatus, lightningGrpcActive } = state.lnd
+    return syncStatus === 'pending' || !lightningGrpcActive
   }
 
   return false

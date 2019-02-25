@@ -2,10 +2,12 @@ import { createSelector } from 'reselect'
 import { decodePayReq } from 'lib/utils/crypto'
 
 import { openModal, closeModal } from './modal'
+import { fetchDescribeNetwork } from './network'
 import { fetchTransactions } from './transaction'
 import { fetchPayments } from './payment'
 import { fetchInvoices } from './invoice'
 import { fetchBalance } from './balance'
+import { fetchChannels } from './channels'
 
 // ------------------------------------
 // Initial State
@@ -89,6 +91,8 @@ export function toggleExpiredRequests() {
  * Transactions
  */
 export const fetchActivityHistory = () => dispatch => {
+  dispatch(fetchDescribeNetwork())
+  dispatch(fetchChannels())
   dispatch(fetchBalance())
   dispatch(fetchPayments())
   dispatch(fetchInvoices())
