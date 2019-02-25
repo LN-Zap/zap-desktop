@@ -30,6 +30,7 @@ export const delay = time => new Promise(resolve => setTimeout(() => resolve(), 
 export const cleanTestEnvironment = async () => {
   await killLnd()
   await delay(3000)
+  await killLnd()
   await deleteDatabase()
   await delay(3000)
 }
@@ -37,6 +38,6 @@ export const cleanTestEnvironment = async () => {
 // Clean out test environment.
 export const cleanElectronEnvironment = async ctx => {
   if (ctx.userDataDir) {
-    rimraf.sync(path.join(ctx.userDataDir, 'lnd'), { disableGlob: false })
+    rimraf.sync(path.join(ctx.userDataDir, 'lnd'), { disableGlob: false, maxBusyTries: 10 })
   }
 }

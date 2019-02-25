@@ -76,6 +76,16 @@ class Neutrino extends EventEmitter {
       )
     }
 
+    // The height returned from the LND log output may not be the actual current block height (this is the case
+    // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
+    // some block explorers so that we have a good starting point.
+    try {
+      const blockHeight = await fetchBlockHeight()
+      this.setCurrentBlockHeight(blockHeight)
+    } catch (err) {
+      mainLog.warn(`Unable to fetch block height: ${err.message}`)
+    }
+
     mainLog.info('Starting lnd in neutrino mode')
     mainLog.info(' > binaryPath', this.lndConfig.binaryPath)
     mainLog.info(' > host:', this.lndConfig.host)
@@ -229,14 +239,6 @@ class Neutrino extends EventEmitter {
           // This is the latest block that BTCd is aware of.
           const btcdHeight = match[1]
           this.setCurrentBlockHeight(btcdHeight)
-
-          // The height returned from the LND log output may not be the actual current block height (this is the case
-          // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
-          // some block explorers just incase.
-          fetchBlockHeight()
-            .then(height => (height > btcdHeight ? this.setCurrentBlockHeight(height) : null))
-            // If we were unable to fetch from bock explorers at least we already have what BTCd gave us so just warn.
-            .catch(err => mainLog.warn(`Unable to fetch block height: ${err.message}`))
         }
       }
 
