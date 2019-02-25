@@ -19,6 +19,7 @@ import { mainLog } from './lib/utils/log'
 import ZapMenuBuilder from './lib/zap/menuBuilder'
 import ZapController from './lib/zap/controller'
 import ZapUpdater from './lib/zap/updater'
+import ZapMigrator from './lib/zap/migrator'
 import themes from './themes'
 import { getDbName } from './lib/utils/db'
 
@@ -231,6 +232,10 @@ app.on('ready', async () => {
         : path.resolve(__dirname, 'preload.prod.js')
     }
   })
+
+  // Initialise the migrator and run any pending migrations.
+  const migrator = new ZapMigrator()
+  await migrator.up()
 
   // Initialise the updater.
   updater = new ZapUpdater(mainWindow)
