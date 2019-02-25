@@ -11,10 +11,10 @@ import url from 'url'
 import untildify from 'untildify'
 import rimraf from 'rimraf'
 import isSubDir from './lib/utils/isSubDir'
+import { getAllLocalWallets } from './lib/utils/localWallets'
 import { validateHost } from './lib/utils/validateHost'
 
 const fsReadFile = promisify(fs.readFile)
-const fsReaddir = promisify(fs.readdir)
 const fsRimraf = promisify(rimraf)
 
 /**
@@ -52,19 +52,6 @@ function openExternal(urlString) {
  */
 function openHelpPage() {
   openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
-}
-
-/**
- * Get a list of local wallets from the filesystem.
- */
-async function getLocalWallets(chain, network) {
-  try {
-    assert(chain && network)
-    const walletDir = join(remote.app.getPath('userData'), 'lnd', chain, network)
-    return await fsReaddir(walletDir)
-  } catch (err) {
-    return []
-  }
 }
 
 function killLnd() {
@@ -141,7 +128,7 @@ window.Zap = {
   openExternal,
   openHelpPage,
   getWalletDir,
-  getLocalWallets,
+  getAllLocalWallets,
   deleteLocalWallet,
   getUserDataDir,
   validateHost,
