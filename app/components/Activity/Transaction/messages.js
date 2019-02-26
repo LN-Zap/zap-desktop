@@ -4,6 +4,8 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   received: 'Received',
   sent: 'Sent',
+  funding: 'Channel Funding',
+  closing: 'Channel Closing',
   amount: 'Transaction amount',
   fee: 'Transaction fee',
   type: 'On-chain transaction',

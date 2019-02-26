@@ -3,7 +3,7 @@ import { decodePayReq } from 'lib/utils/crypto'
 
 import { openModal, closeModal } from './modal'
 import { fetchDescribeNetwork } from './network'
-import { fetchTransactions } from './transaction'
+import { fetchTransactions, transactionsSelectors } from './transaction'
 import { fetchPayments } from './payment'
 import { fetchInvoices } from './invoice'
 import { fetchBalance } from './balance'
@@ -18,7 +18,8 @@ const initialState = {
     { key: 'ALL_ACTIVITY', name: 'All' },
     { key: 'SENT_ACTIVITY', name: 'Sent' },
     { key: 'REQUESTED_ACTIVITY', name: 'Requested' },
-    { key: 'PENDING_ACTIVITY', name: 'Pending' }
+    { key: 'PENDING_ACTIVITY', name: 'Pending' },
+    { key: 'INTERNAL_ACTIVITY', name: 'Internal' }
   ],
   modal: {
     itemType: null,
@@ -129,7 +130,7 @@ const showExpiredSelector = state => state.activity.showExpiredRequests
 const paymentsSelector = state => state.payment.payments
 const paymentsSendingSelector = state => state.payment.paymentsSending
 const invoicesSelector = state => state.invoice.invoices
-const transactionsSelector = state => state.transaction.transactions
+const transactionsSelector = state => transactionsSelectors.transactionsSelector(state)
 const transactionsSendingSelector = state => state.transaction.transactionsSending
 const modalItemTypeSelector = state => state.activity.modal.itemType
 const modalItemIdSelector = state => state.activity.modal.itemId
@@ -290,7 +291,7 @@ const allActivity = createSelector(
       ...paymentsSending,
       ...transactionsSending,
       ...payments,
-      ...transactions,
+      ...transactions.filter(transaction => !transaction.isFunding && !transaction.isClosing),
       ...filteredInvoices
     ]
 
@@ -336,11 +337,21 @@ const pendingActivity = createSelector(
   invoices => groupAll(invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice)))
 )
 
+const internalActivity = createSelector(
+  transactionsSelector,
+  transactions => {
+    return groupAll(
+      transactions.filter(transaction => transaction.isFunding || transaction.isClosing)
+    )
+  }
+)
+
 const FILTERS = {
   ALL_ACTIVITY: allActivity,
   SENT_ACTIVITY: sentActivity,
   REQUESTED_ACTIVITY: invoiceActivity,
-  PENDING_ACTIVITY: pendingActivity
+  PENDING_ACTIVITY: pendingActivity,
+  INTERNAL_ACTIVITY: internalActivity
 }
 
 activitySelectors.currentActivity = createSelector(

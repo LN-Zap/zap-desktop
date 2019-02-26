@@ -51,7 +51,7 @@ export const CLOSE_CLOSE_CHANNEL_DIALOG = 'CLOSE_CLOSE_CHANNEL_DIALOG'
  * @param  {Object} channelObj Channel object
  * @return {Object} Channel data
  */
-const getChannelData = channelObj => channelObj.channel || channelObj
+export const getChannelData = channelObj => channelObj.channel || channelObj
 
 /**
  * Get a name to display for the channel.
@@ -311,8 +311,11 @@ export const fetchChannels = () => async dispatch => {
 }
 
 // Receive IPC event for channels
-export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => {
-  dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
+export const receiveChannels = (
+  event,
+  { channels, pendingChannels, closedChannels }
+) => dispatch => {
+  dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels, closedChannels })
   dispatch(fetchBalance())
 }
 
@@ -492,11 +495,12 @@ const ACTION_HANDLERS = {
     channelForm: Object.assign({}, state.channelForm, form)
   }),
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
-  [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => ({
+  [RECEIVE_CHANNELS]: (state, { channels, pendingChannels, closedChannels }) => ({
     ...state,
     channelsLoading: false,
     channels,
-    pendingChannels
+    pendingChannels,
+    closedChannels
   }),
 
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
@@ -559,6 +563,7 @@ const ACTION_HANDLERS = {
 
 const channelsSelectors = {}
 const channelsSelector = state => state.channels.channels
+const closedChannelsSelector = state => state.channels.closedChannels
 const selectedChannelIdSelector = state => state.channels.selectedChannelId
 const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
 const pendingClosedChannelsSelector = state =>
@@ -657,6 +662,14 @@ channelsSelectors.closingChannelIds = createSelector(
   ]
 )
 
+channelsSelectors.closedChannels = createSelector(
+  closedChannelsSelector,
+  nodesSelector,
+  closingChannelIdsSelector,
+  (closedChannels, nodes, closingChannelIds) =>
+    closedChannels.map(channelObj => decorateChannel(channelObj, nodes, closingChannelIds))
+)
+
 channelsSelectors.allChannels = createSelector(
   channelsSelectors.activeChannels,
   channelsSelectors.pendingOpenChannels,
@@ -668,6 +681,32 @@ channelsSelectors.allChannels = createSelector(
       ...pendingOpenChannels,
       ...closingPendingChannels,
       ...nonActiveChannels
+    ]
+  }
+)
+
+channelsSelectors.allChannelsRaw = createSelector(
+  channelsSelector,
+  closedChannelsSelector,
+  pendingOpenChannelsSelector,
+  pendingClosedChannelsSelector,
+  pendingForceClosedChannelsSelector,
+  waitingCloseChannelsSelector,
+  (
+    channels,
+    closedChannels,
+    pendingOpenChannels,
+    pendingClosedChannels,
+    pendingForceClosedChannels,
+    waitingCloseChannels
+  ) => {
+    return [
+      ...channels,
+      ...closedChannels,
+      ...pendingOpenChannels,
+      ...pendingClosedChannels,
+      ...pendingForceClosedChannels,
+      ...waitingCloseChannels
     ]
   }
 )
@@ -745,6 +784,7 @@ const initialState = {
     pending_force_closing_channels: [],
     waiting_close_channels: []
   },
+  closedChannels: [],
   channelForm: {
     isOpen: false,
     node_key: '',
