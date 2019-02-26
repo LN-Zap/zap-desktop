@@ -4,16 +4,15 @@ import debounce from 'lodash.debounce'
 import { withTheme } from 'styled-components'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Bar, Button, Form, Heading, Input, Panel, Text } from 'components/UI'
-import { ChannelCreateHeader } from 'components/Channels'
+import { Bar, Button, Form, Heading, Input, Text } from 'components/UI'
 import { Truncate } from 'components/Util'
 import withEllipsis from 'components/withEllipsis'
 import messages from './messages'
 
 const ClippedText = withEllipsis(Text)
 
-const SearchReasults = ({ filteredNetworkNodes, onClickConnect }) => (
-  <Box>
+const SearchResults = ({ filteredNetworkNodes, onClickConnect, ...rest }) => (
+  <Box {...rest}>
     {filteredNetworkNodes.map(node => {
       return (
         <React.Fragment key={node.pub_key}>
@@ -41,10 +40,12 @@ const SearchReasults = ({ filteredNetworkNodes, onClickConnect }) => (
   </Box>
 )
 
-SearchReasults.propTypes = {
+SearchResults.propTypes = {
   filteredNetworkNodes: PropTypes.array.isRequired,
   onClickConnect: PropTypes.func.isRequired
 }
+
+const NoSearchResults = () => <Text color="gray">Your seach did not return any results.</Text>
 
 class ChannelNodeSearch extends React.PureComponent {
   static propTypes = {
@@ -61,7 +62,8 @@ class ChannelNodeSearch extends React.PureComponent {
    * Handle connect to node click.
    */
   handleClickConnect = node => {
-    this.formApi.setValue('search', `${node.pub_key}@${node.addresses[0].addr}`)
+    const { updateContactFormSearchQuery } = this.props
+    updateContactFormSearchQuery(`${node.pub_key}@${node.addresses[0].addr}`)
   }
 
   /**
@@ -88,48 +90,42 @@ class ChannelNodeSearch extends React.PureComponent {
     } = this.props
 
     return (
-      <Panel {...rest}>
-        <Panel.Header>
-          <ChannelCreateHeader />
+      <Box {...rest}>
+        <Box mb={3}>
+          <Text textAlign="justify">
+            <FormattedMessage {...messages.node_search_form_description} />
+          </Text>
+        </Box>
 
-          <Bar pt={2} mb={3} />
+        <Form getApi={this.setFormApi}>
+          <Input
+            field="search"
+            id="search"
+            type="search"
+            placeholder={intl.formatMessage({ ...messages.node_search_placeholder })}
+            description={intl.formatMessage({ ...messages.node_search_description })}
+            onValueChange={this.handleSearchUpdated}
+            initialValue={searchQuery}
+            required
+          />
+        </Form>
 
-          <Box mb={3}>
-            <Text textAlign="justify">
-              <FormattedMessage {...messages.open_channel_form_description} />
-            </Text>
-          </Box>
-
-          <Form getApi={this.setFormApi}>
-            <Input
-              field="search"
-              id="search"
-              type="search"
-              label={intl.formatMessage({ ...messages.node_search_label })}
-              placeholder={intl.formatMessage({ ...messages.node_search_placeholder })}
-              description={intl.formatMessage({ ...messages.node_search_description })}
-              onValueChange={this.handleSearchUpdated}
-              initialValue={searchQuery}
-              required
-            />
-          </Form>
-
-          {searchQuery && (
-            <Heading.h1 pt={3}>
+        {searchQuery && (
+          <>
+            <Heading.h1 mt={4}>
               <FormattedMessage {...messages.node_search_results_header} />
             </Heading.h1>
-          )}
-        </Panel.Header>
-
-        <Panel.Body css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
-          {searchQuery && (
-            <SearchReasults
-              filteredNetworkNodes={filteredNetworkNodes}
-              onClickConnect={this.handleClickConnect}
-            />
-          )}
-        </Panel.Body>
-      </Panel>
+            {filteredNetworkNodes.length > 0 ? (
+              <SearchResults
+                filteredNetworkNodes={filteredNetworkNodes}
+                onClickConnect={this.handleClickConnect}
+              />
+            ) : (
+              <NoSearchResults />
+            )}
+          </>
+        )}
+      </Box>
     )
   }
 }

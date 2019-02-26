@@ -72,6 +72,7 @@ export default merge.smart(baseConfig, {
         'https://bitcoinfees.earn.com',
         'https://zap.jackmallers.com'
       ],
+      'img-src': ['http://www.zap.jackmallers.com'],
       'script-src': ["'self'"],
       'font-src': ["'self'", 'data:', 'https://s3.amazonaws.com', 'https://fonts.gstatic.com'],
       'style-src': ["'self'", 'blob:', 'https://s3.amazonaws.com', "'unsafe-inline'"]

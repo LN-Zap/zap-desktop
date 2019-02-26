@@ -1,3 +1,4 @@
+import get from 'lodash.get'
 import { createSelector } from 'reselect'
 import partition from 'lodash.partition'
 import { btc } from 'lib/utils'
@@ -146,8 +147,8 @@ const channelsSelector = state => state.channels.channels
 const peersSelector = state => state.peers.peers
 const contactable = node => node.addresses.length > 0
 const networkSelector = state => state.info.network
-const testnetNodesSelector = state => state.channels.suggestedNodes.testnet
-const mainnetNodesSelector = state => state.channels.suggestedNodes.mainnet
+const chainSelector = state => state.info.chain
+const suggestedNodesSelector = state => state.channels.suggestedNodes
 
 // comparator to sort the contacts list with contactable contacts first
 const contactableFirst = (a, b) => {
@@ -160,11 +161,11 @@ const contactableFirst = (a, b) => {
 }
 
 contactFormSelectors.suggestedNodes = createSelector(
+  chainSelector,
   networkSelector,
-  testnetNodesSelector,
-  mainnetNodesSelector,
-  (network, testnetNodes, mainnetNodes) => {
-    return network === 'testnet' ? testnetNodes : mainnetNodes
+  suggestedNodesSelector,
+  (chain, network, suggestedNodes) => {
+    return get(suggestedNodes, `${chain}.${network}`, [])
   }
 )
 

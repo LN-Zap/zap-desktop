@@ -37,7 +37,7 @@ const ModalContent = ({ type, closeModal }) => {
       return <Channels mx={-4} />
 
     case 'CHANNEL_CREATE':
-      return <ChannelCreate onSubmit={() => closeModal()} width={9 / 16} mx="auto" />
+      return <ChannelCreate mx={-4} onSubmit={() => closeModal()} />
 
     case 'CHANNEL_DETAIL':
       return (

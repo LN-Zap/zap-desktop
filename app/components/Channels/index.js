@@ -26,6 +26,8 @@ export ChannelSummaryList from './ChannelSummaryList'
 export ChannelSummaryListItem from './ChannelSummaryListItem'
 export ChannelsViewSwitcher from './ChannelsViewSwitcher'
 export ChannelCloseDialog from './ChannelCloseDialog'
+export NodeCardList from './NodeCardList'
+export NodeCardView from './NodeCardView'
 
 export { VIEW_MODE_SUMMARY } from './Channels'
 export { VIEW_MODE_CARD } from './Channels'

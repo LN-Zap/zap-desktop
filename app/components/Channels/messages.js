@@ -73,8 +73,10 @@ export default defineMessages({
   close_channel_dialog_acknowledgement: 'I understand this is an irreversible action',
   close_channel_notification: 'Channel closing initiated',
   connect: 'Connect',
-  node_search_label: 'Search the network',
-  node_search_placeholder: 'Search',
-  node_search_description: 'Search for a node or paste a node pubkey. Example: publickey@host',
-  node_search_results_header: 'All Nodes'
+  node_search_form_description:
+    'Make funds available for sending over the Lightning Network by opening channels to other nodes on the network.',
+  node_search_placeholder: 'Search the network',
+  node_search_description: 'Search for nodes by name, public key, or paste their pubkey@host',
+  node_search_results_header: 'All Nodes',
+  node_suggestions_title: 'Suggested Nodes'
 })

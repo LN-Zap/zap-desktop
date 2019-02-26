@@ -19,7 +19,7 @@ import {
   Toggle
 } from 'components/UI'
 import { CurrencyFieldGroup, CryptoValue, CryptoSelector } from 'containers/UI'
-import { ChannelBackButton, ChannelCreateHeader } from 'components/Channels'
+import { ChannelBackButton } from 'components/Channels'
 import Padlock from 'components/Icon/Padlock'
 
 import messages from './messages'
@@ -153,12 +153,7 @@ class ChannelCreateForm extends React.Component {
 
           return (
             <Panel>
-              <Panel.Header>
-                <ChannelCreateHeader />
-                <Bar pt={2} />
-              </Panel.Header>
-
-              <Panel.Body py={3}>
+              <Panel.Body>
                 <Box mb={3}>
                   <Text textAlign="justify">
                     <FormattedMessage {...messages.open_channel_form_description} />

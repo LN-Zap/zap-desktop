@@ -31,7 +31,7 @@ export function requestTickers(ids) {
 }
 
 export function requestSuggestedNodes() {
-  const BASE_URL = `${scheme}zap.jackmallers.com/suggested-peers`
+  const BASE_URL = `${scheme}zap.jackmallers.com/api/v1/suggested-peers`
   return axios({
     method: 'get',
     url: BASE_URL
