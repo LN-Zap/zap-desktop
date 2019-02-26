@@ -5819,12 +5819,11 @@ crypto-random-string@^1.0.0:
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
 
-csp-html-webpack-plugin@3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/csp-html-webpack-plugin/-/csp-html-webpack-plugin-3.0.0.tgz#8d34f1dea0f7e0d253c767551a3a8d819adfba60"
-  integrity sha512-3zRF4vcFO9O6/EC/7nG1KlDIuwtP5IEJC/4Zi/rBGHWw3eNIvPXvurVrkpMtIJyBP/PSJmo+12KbI/raWEyANw==
+csp-html-webpack-plugin@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/csp-html-webpack-plugin/-/csp-html-webpack-plugin-3.0.1.tgz#dd217fa133571a6a1f7818b00292fb8f6ef83bb9"
+  integrity sha512-oUzxLZqyDIpnCUmWdER1aCqz7D1CwSf9xiK6688sc5dBcwYoWTW5KVziTnbV72zsuQbkIhyvn7653Gorb6Ni3A==
   dependencies:
-    babel-jest "^23.6.0"
     cheerio "^1.0.0-rc.2"
     lodash "^4.17.11"
     memory-fs "^0.4.1"
