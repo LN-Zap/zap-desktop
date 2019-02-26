@@ -49,7 +49,7 @@ import {
   newTransaction
 } from './transaction'
 
-import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoutes } from './network'
+import { receiveDescribeNetwork } from './network'
 
 import { lndconnectUri, startOnboarding } from './onboarding'
 
@@ -111,8 +111,6 @@ const ipc = createIpc({
   newTransaction,
 
   receiveDescribeNetwork,
-  receiveQueryRoutes,
-  receiveInvoiceAndQueryRoutes,
 
   lndconnectUri,
   startOnboarding,

@@ -61,19 +61,6 @@ export default function(lightning, log, event, msg, data) {
           event.sender.send('queryRoutesFailure', { error: error.toString() })
         })
       break
-    case 'getInvoiceAndQueryRoutes':
-      // Data looks like { pubkey: String, amount: Number }
-      invoicesController
-        .getInvoice(lnd, { pay_req: data.payreq })
-        .then(invoiceData =>
-          networkController.queryRoutes(lnd, {
-            pubkey: invoiceData.destination,
-            amount: invoiceData.num_satoshis
-          })
-        )
-        .then(routes => event.sender.send('receiveInvoiceAndQueryRoutes', routes))
-        .catch(error => log.error('getInvoiceAndQueryRoutes invoice:', error))
-      break
     case 'newaddress':
       // Data looks like { address: '' }
       walletController
