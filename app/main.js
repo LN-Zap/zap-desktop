@@ -233,8 +233,10 @@ app.on('ready', async () => {
   })
 
   // Initialise the migrator and run any pending migrations.
-  const migrator = new ZapMigrator()
-  await migrator.up()
+  if (!process.env.DISABLE_INIT) {
+    const migrator = new ZapMigrator()
+    await migrator.up()
+  }
 
   // Initialise the updater.
   updater = new ZapUpdater(mainWindow)

@@ -16,5 +16,9 @@ module.exports = {
       testnet: ['testnet3-btcd.zaphq.io', 'testnet4-btcd.zaphq.io'],
       mainnet: ['mainnet1-btcd.zaphq.io', 'mainnet2-btcd.zaphq.io']
     }
-  }
+  },
+
+  chains: ['bitcoin'],
+
+  networks: ['testnet', 'mainnet']
 }

@@ -4,6 +4,7 @@ import assert from 'assert'
 import { join } from 'path'
 import { readdir } from 'fs'
 import rimraf from 'rimraf'
+import root from 'window-or-global'
 
 const fsReaddir = promisify(readdir)
 const fsRimraf = promisify(rimraf)
@@ -32,8 +33,8 @@ export async function getLocalWallets(chain, network) {
  * Get a list of local wallets from the filesystem.
  */
 export async function getAllLocalWallets() {
-  const supportedChains = ['bitcoin']
-  const supportedNetworks = ['testnet', 'mainnet']
+  const supportedChains = root.CONFIG.chains
+  const supportedNetworks = root.CONFIG.networks
   const configs = []
   supportedChains.forEach(chain => {
     supportedNetworks.forEach(network => {

@@ -148,3 +148,5 @@ window.env = Object.keys(process.env)
     obj[key] = process.env[key]
     return obj
   }, {})
+
+window.CONFIG = CONFIG
