@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
 import { Panel } from 'components/UI'
+import PersistentTabControl from 'components/TabControl/PersistentTabControl'
 import { ChannelsHeader, ChannelCardList, ChannelSummaryList } from 'components/Channels'
 
 export const VIEW_MODE_SUMMARY = 'VIEW_MODE_SUMMARY'
@@ -55,13 +56,6 @@ class Channels extends React.Component {
       ...rest
     } = this.props
 
-    const VIEW_MODES = {
-      [VIEW_MODE_SUMMARY]: ChannelSummaryList,
-      [VIEW_MODE_CARD]: ChannelCardList
-    }
-
-    const ChannelsView = VIEW_MODES[channelViewMode]
-
     return (
       <Panel {...rest}>
         <Panel.Header mx={4}>
@@ -79,13 +73,22 @@ class Channels extends React.Component {
           />
         </Panel.Header>
         <Panel.Body px={4} pt={2} css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
-          <ChannelsView
-            channels={channels}
-            currencyName={currencyName}
-            openModal={openModal}
-            setSelectedChannel={setSelectedChannel}
-            networkInfo={networkInfo}
-          />
+          <PersistentTabControl activeTab={channelViewMode === VIEW_MODE_CARD ? 0 : 1}>
+            <ChannelCardList
+              channels={channels}
+              currencyName={currencyName}
+              openModal={openModal}
+              setSelectedChannel={setSelectedChannel}
+              networkInfo={networkInfo}
+            />
+            <ChannelSummaryList
+              channels={channels}
+              currencyName={currencyName}
+              openModal={openModal}
+              setSelectedChannel={setSelectedChannel}
+              networkInfo={networkInfo}
+            />
+          </PersistentTabControl>
         </Panel.Body>
       </Panel>
     )
