@@ -9,6 +9,9 @@ import { Input, OpenDialogButton } from 'components/UI'
 const InnerInput = styled(Input)`
   input {
     padding-right: 50px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 `
 

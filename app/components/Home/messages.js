@@ -9,6 +9,7 @@ export default defineMessages({
   section_autopilot_title: 'Autopilot',
   section_naming_title: 'Naming',
   section_delete_title: 'Delete',
+  section_connection_details: 'Connection details',
   create_wallet_button_text: 'Create new wallet',
   launch_wallet_button_text: 'Launch now',
   delete_wallet_dialog_acknowledgement: 'I understand this is an irreversible action',
@@ -41,5 +42,11 @@ export default defineMessages({
   saved_notification: 'Settings have been updated',
   saved_error: 'Something went wrong',
   button_save: 'Save',
-  button_cancel: 'Cancel'
+  button_cancel: 'Cancel',
+  hostname_title: 'Host',
+  cert_title: 'TLS Certificate',
+  macaroon_title: 'Macaroon',
+  cert_description: 'Path to the lnd tls cert.',
+  hostname_description: 'Hostname and port of the Lnd gRPC interface.',
+  macaroon_description: 'Path to the lnd macaroon file.'
 })

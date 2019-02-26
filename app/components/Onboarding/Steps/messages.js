@@ -11,6 +11,7 @@ export default defineMessages({
   back: 'back',
   cert_description: 'Path to the lnd tls cert. Example: /path/to/tls.cert',
   cert_title: 'TLS Certificate',
+  macaroon_title: 'Macaroon',
   confirm_connection_description: 'Confirm the connection details for your Lightning node.',
   confirm_connection_title: 'Confirm connection',
   connection_description: 'Let Zap spin up and manage a node for you, or connect to your own node.',

@@ -37,6 +37,7 @@ class Home extends React.Component {
     clearStartLndError: PropTypes.func.isRequired,
     putWallet: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
+    refreshLndConnectURI: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
     unlockingWallet: PropTypes.bool,
     unlockWalletError: PropTypes.string
@@ -81,7 +82,8 @@ class Home extends React.Component {
       unlockingWallet,
       unlockWalletError,
       putWallet,
-      showNotification
+      showNotification,
+      refreshLndConnectURI
     } = this.props
 
     return (
@@ -127,6 +129,7 @@ class Home extends React.Component {
                     lightningGrpcActive={lightningGrpcActive}
                     putWallet={putWallet}
                     showNotification={showNotification}
+                    refreshLndConnectURI={refreshLndConnectURI}
                     walletUnlockerGrpcActive={walletUnlockerGrpcActive}
                     startLndError={startLndError}
                     showError={showError}

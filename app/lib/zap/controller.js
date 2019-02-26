@@ -530,6 +530,14 @@ class ZapController {
       await this.shutdownNeutrino(options)
       event.sender.send('killLndSuccess')
     })
+
+    ipcMain.on('generateLndConfig', async (event, options) => {
+      const lndConfig = new LndConfig(options)
+      await lndConfig.isReady
+      // create a copy to ensure getters are serialized into flat props before sending
+      // to the renderer process
+      this.sendMessage('receiveLndConfig', Object.assign({}, lndConfig))
+    })
   }
 
   /**
@@ -542,6 +550,7 @@ class ZapController {
     ipcMain.removeAllListeners('startLightningWallet')
     ipcMain.removeAllListeners('walletUnlocker')
     ipcMain.removeAllListeners('lnd')
+    ipcMain.removeAllListeners('generateLndConfig')
   }
 }
 

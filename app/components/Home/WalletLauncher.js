@@ -5,8 +5,10 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
 import styled from 'styled-components'
-import { Bar, Button, Heading, Text, ActionBar, Form } from 'components/UI'
 
+import parse from 'lndconnect/parse'
+import { isBase64url } from 'lib/utils'
+import { Bar, Button, Heading, Text, ActionBar, Form } from 'components/UI'
 import { WalletSettingsFormLocal, WalletSettingsFormRemote, WalletHeader } from '.'
 import messages from './messages'
 
@@ -67,6 +69,25 @@ const unsafeShallowCompare = (obj1, obj2, whiteList) => {
   return Object.keys(whiteList).every(key => obj1[key] == obj2[key])
 }
 
+/**
+ * Parses lndconnect uri and returns decoded cert, macaroon and host
+ */
+const parseLndConnectURI = uri => {
+  const { host, cert, macaroon } = parse(uri)
+  return {
+    host: decodeURIComponent(host),
+    cert: decodeURIComponent(cert),
+    macaroon: decodeURIComponent(macaroon)
+  }
+}
+/**
+ * checks if lndconnect uri contains raw cert or macaroon and not paths
+ */
+const isEmbeddedLndConnectURI = uri => {
+  const { cert, macaroon } = parse(uri)
+  return isBase64url(cert) || isBase64url(macaroon)
+}
+
 class WalletLauncher extends React.Component {
   static propTypes = {
     intl: intlShape.isRequired,
@@ -81,6 +102,7 @@ class WalletLauncher extends React.Component {
     showNotification: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
     stopLnd: PropTypes.func.isRequired,
+    refreshLndConnectURI: PropTypes.func.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired
     })
@@ -132,19 +154,65 @@ class WalletLauncher extends React.Component {
     }
   }
 
-  onSubmit = values => {
-    const { startLnd } = this.props
+  onSubmit = async values => {
+    const { startLnd, wallet } = this.props
+    // for the remote wallets we need to initiate lndconnect URI re-generation before launching
+    if (wallet.type !== 'local' && this.hasChanges()) {
+      const config = await this.saveSettings()
+      return startLnd(config)
+    }
     return startLnd(formToWalletFormat(values))
   }
 
-  saveSettings = () => {
-    const { putWallet, showNotification, showError, intl } = this.props
+  /**
+   * Saves current lnd config based on current form state
+   * Returns the actual config that was saved
+   * @memberof WalletLauncher
+   */
+  saveSettings = async () => {
+    const {
+      refreshLndConnectURI,
+      putWallet,
+      showNotification,
+      showError,
+      intl,
+      wallet
+    } = this.props
     try {
-      const formState = this.formApi.getState()
+      const { formApi } = this
+      const formState = formApi.getState()
       const { values } = formState
-      putWallet(formToWalletFormat(values))
+      let result = values
+
+      // for the remote wallets we need to re-generate lndconnectUri and QR using updated
+      // host, cert and macaroon values. This is done in the main process
+      // this process is skipped if original lndconnect uri contains raw cert or macaroon and not paths
+      if (wallet.type !== 'local' && !isEmbeddedLndConnectURI(wallet.lndconnectUri)) {
+        // wait for the config generate complete message from the main process
+        const generatedConfig = formToWalletFormat(
+          await refreshLndConnectURI(
+            Object.assign({}, values, {
+              lndconnectUri: undefined, // delete wallets so the main process re-generates them
+              lndconnectQRCode: undefined
+            })
+          )
+        )
+
+        // update form state with decoded host, cert and macaroon since they are derived from
+        // lndconnect uri and thus corresponding fields will go blank after new config is set
+        const { host, cert, macaroon } = parseLndConnectURI(generatedConfig.lndconnectUri)
+        formApi.setValues(Object.assign({}, generatedConfig, { host, cert, macaroon }))
+        result = generatedConfig
+      } else {
+        result = formToWalletFormat(values)
+      }
+
+      putWallet(result)
+
       const message = intl.formatMessage({ ...messages.saved_notification })
       showNotification(message)
+
+      return result
     } catch (e) {
       const message = intl.formatMessage({ ...messages.saved_error })
       showError(message)
@@ -153,7 +221,14 @@ class WalletLauncher extends React.Component {
 
   resetForm = () => {
     const { wallet } = this.props
-    this.formApi.setValues(walletToFormFormat(wallet))
+    // for remote wallets manually reset cert, macaroon and host since they are derived from
+    // lndconnect uri
+    const resetValues =
+      wallet.type === 'local'
+        ? wallet
+        : Object.assign({}, { ...parseLndConnectURI(wallet.lndconnectUri) }, wallet)
+
+    this.formApi.setValues(walletToFormFormat(resetValues))
   }
 
   setFormApi = formApi => {
@@ -176,7 +251,22 @@ class WalletLauncher extends React.Component {
     // 4. wallet type
     // 5. it is required to use unsafe shallow compare so "5" equals 5
     if (wallet.type !== 'local') {
-      return !unsafeShallowCompare(clean(wallet), clean(formState.values), { name: '' })
+      if (isEmbeddedLndConnectURI(wallet.lndconnectUri)) {
+        return !unsafeShallowCompare(clean(wallet), clean(formState.values), { name: '' })
+      }
+
+      const { host, cert, macaroon } = parseLndConnectURI(wallet.lndconnectUri)
+      return !unsafeShallowCompare(
+        // include derived host, cert, macaroon values to detect changes
+        clean(Object.assign({}, { host, cert, macaroon }, wallet)),
+        clean(formState.values),
+        {
+          name: '',
+          cert: '',
+          host: '',
+          macaroon: ''
+        }
+      )
     }
 
     const whiteList = {
@@ -241,7 +331,11 @@ class WalletLauncher extends React.Component {
                   />
                 </>
               ) : (
-                <WalletSettingsFormRemote wallet={walletConverted} />
+                <WalletSettingsFormRemote
+                  wallet={walletConverted}
+                  showConnectionSettings={!isEmbeddedLndConnectURI(wallet.lndconnectUri)}
+                  {...parseLndConnectURI(wallet.lndconnectUri)}
+                />
               )}
 
               <Text mt={4} fontWeight="normal">
