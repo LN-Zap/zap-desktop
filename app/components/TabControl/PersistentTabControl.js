@@ -10,12 +10,12 @@ const Container = styled.div`
   display: ${props => (props.isActive ? 'display' : 'none')};
 `
 
-const PersistentTabControl = ({ activeTab, children }) => (
+const PersistentTabControl = ({ activeTab, children, className }) => (
   <>
     {React.Children.map(children, (tab, index) => {
       const isActive = index === activeTab
       return (
-        <Container key={index} isActive={isActive}>
+        <Container key={index} isActive={isActive} className={className}>
           <Tab isActive={isActive}>{tab}</Tab>
         </Container>
       )
@@ -25,6 +25,7 @@ const PersistentTabControl = ({ activeTab, children }) => (
 
 PersistentTabControl.propTypes = {
   activeTab: PropTypes.number.isRequired,
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
+  className: PropTypes.string
 }
 export default PersistentTabControl
