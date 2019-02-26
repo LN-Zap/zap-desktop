@@ -3,13 +3,14 @@ import ChannelCreateForm from 'components/Channels/ChannelCreateForm'
 import { tickerSelectors } from 'reducers/ticker'
 import { openChannel } from 'reducers/channels'
 import { queryFees } from 'reducers/pay'
-import { updateContactFormSearchQuery } from 'reducers/contactsform'
+import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/contactsform'
 import { walletSelectors } from 'reducers/wallet'
 import { showNotification } from 'reducers/notification'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   searchQuery: state.contactsform.searchQuery,
+  selectedNodeDisplayName: contactFormSelectors.selectedNodeDisplayName(state),
   currency: tickerSelectors.currency(state),
   walletBalance: state.balance.walletBalance,
   currencyName: tickerSelectors.currencyName(state),

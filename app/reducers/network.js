@@ -8,6 +8,20 @@ export const RECEIVE_DESCRIBE_NETWORK = 'RECEIVE_DESCRIBE_NETWORK'
 export const UPDATE_NODE_DATA = 'UPDATE_NODE_DATA'
 
 // ------------------------------------
+// Helpers
+// ------------------------------------
+
+export const getNodeDisplayName = node => {
+  if (node && node.alias && node.alias.length) {
+    return node.alias
+  }
+
+  return truncateNodePubkey(node.pub_key)
+}
+
+export const truncateNodePubkey = pubkey => pubkey.substring(0, 10)
+
+// ------------------------------------
 // Actions
 // ------------------------------------
 export function updateNodeData(nodeData) {

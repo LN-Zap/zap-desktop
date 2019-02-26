@@ -5,7 +5,7 @@ import { requestSuggestedNodes } from 'lib/utils/api'
 import { showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
-import { updateNodeData } from './network'
+import { getNodeDisplayName, truncateNodePubkey, updateNodeData } from './network'
 
 // ------------------------------------
 // Constants
@@ -67,11 +67,7 @@ const getDisplayName = (channel, nodes) => {
   const remoteNodePubkey = getRemoteNodePubKey(channel)
   const node = nodes.find(n => n.pub_key === remoteNodePubkey)
 
-  if (node && node.alias && node.alias.length) {
-    return node.alias
-  }
-
-  return remoteNodePubkey.substring(0, 10)
+  return node ? getNodeDisplayName(node) : truncateNodePubkey(remoteNodePubkey)
 }
 
 /**

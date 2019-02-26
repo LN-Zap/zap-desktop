@@ -1,6 +1,7 @@
 import get from 'lodash.get'
 import { createSelector } from 'reselect'
 import partition from 'lodash.partition'
+import { getNodeDisplayName, truncateNodePubkey } from './network'
 
 // Initial State
 const initialState = {
@@ -103,6 +104,20 @@ contactFormSelectors.isSearchValidNodeAddress = createSelector(
     }
     const [pubkey, host] = searchQuery.split('@')
     return Boolean(pubkey && host)
+  }
+)
+
+contactFormSelectors.selectedNodeDisplayName = createSelector(
+  searchQuerySelector,
+  contactFormSelectors.isSearchValidNodeAddress,
+  networkNodesSelector,
+  (searchQuery, isSearchValidNodeAddress, nodes) => {
+    if (isSearchValidNodeAddress) {
+      const pubkey = searchQuery.split('@')[0]
+      const node = nodes.find(n => n.pub_key === pubkey)
+      return node ? getNodeDisplayName(node) : truncateNodePubkey(pubkey)
+    }
+    return null
   }
 )
 
