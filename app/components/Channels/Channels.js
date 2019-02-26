@@ -1,12 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
+import styled from 'styled-components'
 import { Panel } from 'components/UI'
 import PersistentTabControl from 'components/TabControl/PersistentTabControl'
 import { ChannelsHeader, ChannelCardList, ChannelSummaryList } from 'components/Channels'
 
 export const VIEW_MODE_SUMMARY = 'VIEW_MODE_SUMMARY'
 export const VIEW_MODE_CARD = 'VIEW_MODE_CARD'
+
+const StyledPersistentTabControl = styled(PersistentTabControl)`
+  height: 100%;
+`
 
 class Channels extends React.Component {
   static propTypes = {
@@ -72,8 +77,8 @@ class Channels extends React.Component {
             changeFilter={changeFilter}
           />
         </Panel.Header>
-        <Panel.Body px={4} pt={2} css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
-          <PersistentTabControl activeTab={channelViewMode === VIEW_MODE_CARD ? 0 : 1}>
+        <Panel.Body css={{ overflow: 'hidden' }}>
+          <StyledPersistentTabControl activeTab={channelViewMode === VIEW_MODE_CARD ? 0 : 1}>
             <ChannelCardList
               channels={channels}
               currencyName={currencyName}
@@ -88,7 +93,7 @@ class Channels extends React.Component {
               setSelectedChannel={setSelectedChannel}
               networkInfo={networkInfo}
             />
-          </PersistentTabControl>
+          </StyledPersistentTabControl>
         </Panel.Body>
       </Panel>
     )
