@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass'
 import { StatusIndicator, Text } from 'components/UI'
@@ -15,14 +16,20 @@ const variantMap = {
   offline: 'offline'
 }
 
+const StatusText = styled(Text)`
+  white-space: nowrap;
+  font-weight: normal;
+  line-height: 1em;
+`
+
 const ChannelStatus = ({ status, ...rest }) => (
   <Flex alignItems="center" {...rest}>
     <Text fontWeight="normal" lineHeight="1em" mr={1}>
       <StatusIndicator variant={variantMap[status]} />
     </Text>
-    <Text fontWeight="normal" lineHeight="1em">
+    <StatusText>
       <FormattedMessage {...messages[status]} />
-    </Text>
+    </StatusText>
   </Flex>
 )
 
