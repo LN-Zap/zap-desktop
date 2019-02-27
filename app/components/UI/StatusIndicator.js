@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import styled from 'styled-components'
 import { variant } from 'styled-system'
-import { Spinner } from 'components/UI'
 import Circle from 'components/Icon/Circle'
+import Spinner from './Spinner'
 
 const indicatorStyle = variant({ key: 'statuses' })
 const StyledStatusIndicator = styled(Box)(indicatorStyle)

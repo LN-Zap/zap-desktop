@@ -82,6 +82,10 @@ class Pay extends React.Component {
     /** Current wallet balance (in satoshis). */
     walletBalance: PropTypes.number.isRequired,
 
+    /** Method to clean activity  filter */
+    changeFilter: PropTypes.func.isRequired,
+    /** Method to close the current modal */
+    closeModal: PropTypes.func.isRequired,
     /** Method to process offChain invoice payments. Called when the form is submitted. */
     payInvoice: PropTypes.func.isRequired,
     /** Set the current payment request. */
@@ -191,21 +195,35 @@ class Pay extends React.Component {
    */
   onSubmit = values => {
     const { currentStep, isOnchain } = this.state
-    const { cryptoCurrency, onchainFees, payInvoice, routes, sendCoins } = this.props
+    const {
+      cryptoCurrency,
+      onchainFees,
+      payInvoice,
+      routes,
+      sendCoins,
+      changeFilter,
+      closeModal
+    } = this.props
     if (currentStep === 'summary') {
       if (isOnchain) {
-        return sendCoins({
+        sendCoins({
           addr: values.payReq,
           value: values.amountCrypto,
           currency: cryptoCurrency,
           satPerByte: onchainFees.fastestFee
         })
+        // Close the form modal once the transaction has been sent
+        changeFilter('ALL_ACTIVITY')
+        closeModal()
       } else {
-        return payInvoice({
+        payInvoice({
           payReq: values.payReq,
           amt: this.amountInSats(),
           feeLimit: getMaxFee(routes)
         })
+        // Close the form modal once the payment has been sent
+        changeFilter('ALL_ACTIVITY')
+        closeModal()
       }
     } else {
       this.nextStep()
@@ -474,6 +492,8 @@ class Pay extends React.Component {
       chain,
       network,
       channelBalance,
+      changeFilter,
+      closeModal,
       cryptoCurrency,
       cryptoCurrencyTicker,
       cryptoName,

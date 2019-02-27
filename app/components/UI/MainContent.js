@@ -1,5 +1,5 @@
 import React from 'react'
-import { BackgroundPrimary } from 'components/UI'
+import BackgroundPrimary from './BackgroundPrimary'
 
 /**
  * @render react

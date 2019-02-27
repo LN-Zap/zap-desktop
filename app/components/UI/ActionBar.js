@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
-import { Button } from 'components/UI'
+import Button from './Button'
 
 const createButtons = buttons =>
   buttons.map((entry, index) => (

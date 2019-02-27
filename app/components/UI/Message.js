@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { variant } from 'styled-system'
 import { Box, Flex, Text } from 'rebass'
-import { Spinner } from 'components/UI'
 import Success from 'components/Icon/Success'
 import Warning from 'components/Icon/Warning'
 import Error from 'components/Icon/Error'
-
-import styled from 'styled-components'
-import { variant } from 'styled-system'
+import Spinner from './Spinner'
 
 const messageStyle = variant({ key: 'messages' })
 const StyledMessage = styled(Text)(messageStyle)

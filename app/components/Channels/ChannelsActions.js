@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Flex } from 'rebass'
 import { Button } from 'components/UI'
-import { ChannelFilter, ChannelSearch, ChannelsViewSwitcher } from 'components/Channels'
+import ChannelFilter from './ChannelFilter'
+import ChannelSearch from './ChannelSearch'
+import ChannelsViewSwitcher from './ChannelsViewSwitcher'
 import messages from './messages'
 
 const ChannelsActions = ({

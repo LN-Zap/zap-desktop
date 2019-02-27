@@ -4,9 +4,9 @@ import { injectIntl } from 'react-intl'
 import styled from 'styled-components'
 import { Flex } from 'rebass'
 import { Button } from 'components/UI'
-import { VIEW_MODE_SUMMARY, VIEW_MODE_CARD } from 'components/Channels'
 import LayoutCards from 'components/Icon/LayoutCards'
 import LayoutList from 'components/Icon/LayoutList'
+import { VIEW_MODE_SUMMARY, VIEW_MODE_CARD } from './constants'
 import messages from './messages'
 
 const StyledButton = styled(Button)`

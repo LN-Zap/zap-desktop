@@ -7,8 +7,11 @@ import styled, { withTheme } from 'styled-components'
 import { styles } from 'styled-system'
 import system from '@rebass/components'
 import { Flex } from 'rebass'
-import { Message, Label, Span, Text } from 'components/UI'
 import withRequiredValidation from 'components/withRequiredValidation'
+import Message from './Message'
+import Label from './Label'
+import Span from './Span'
+import Text from './Text'
 
 function isFieldValid({ value, error, asyncError, touched }) {
   return value && !error && !asyncError && touched

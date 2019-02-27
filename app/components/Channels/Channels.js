@@ -4,10 +4,10 @@ import debounce from 'lodash.debounce'
 import styled from 'styled-components'
 import { Panel } from 'components/UI'
 import PersistentTabControl from 'components/TabControl/PersistentTabControl'
-import { ChannelsHeader, ChannelCardList, ChannelSummaryList } from 'components/Channels'
-
-export const VIEW_MODE_SUMMARY = 'VIEW_MODE_SUMMARY'
-export const VIEW_MODE_CARD = 'VIEW_MODE_CARD'
+import ChannelsHeader from './ChannelsHeader'
+import ChannelCardList from './ChannelCardList'
+import ChannelSummaryList from './ChannelSummaryList'
+import { VIEW_MODE_CARD } from './constants'
 
 const StyledPersistentTabControl = styled(PersistentTabControl)`
   height: 100%;

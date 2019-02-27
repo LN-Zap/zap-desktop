@@ -19,8 +19,8 @@ import {
   Toggle
 } from 'components/UI'
 import { CurrencyFieldGroup, CryptoValue, CryptoSelector } from 'containers/UI'
-import { ChannelBackButton } from 'components/Channels'
 import Padlock from 'components/Icon/Padlock'
+import ChannelBackButton from './ChannelBackButton'
 
 import messages from './messages'
 import {

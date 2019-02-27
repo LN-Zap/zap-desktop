@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass'
 import { Heading } from 'components/UI'
-import { CreateWalletButton } from '.'
+import CreateWalletButton from './CreateWalletButton'
 import messages from './messages'
 
 const NoWallets = ({ history, wallets }) => (

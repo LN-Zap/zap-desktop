@@ -4,7 +4,11 @@ import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
 import { Bar, MainContent, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
-import { CreateWalletButton, NoWallets, WalletLauncher, WalletsMenu, WalletUnlocker } from '.'
+import CreateWalletButton from './CreateWalletButton'
+import NoWallets from './NoWallets'
+import WalletLauncher from './WalletLauncher'
+import WalletsMenu from './WalletsMenu'
+import WalletUnlocker from './WalletUnlocker'
 
 const NoMatch = ({ history, wallets }) => (
   <Flex flexDirection="column" justifyContent="center" alignItems="center" css={{ height: '100%' }}>

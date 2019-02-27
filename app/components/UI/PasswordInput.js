@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import * as yup from 'yup'
-import Input from 'components/UI/Input'
+import Input from './Input'
 
 /**
  * @render react

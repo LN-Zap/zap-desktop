@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex } from 'rebass'
 import { Checkbox, asField } from 'informed'
-import { Text } from 'components/UI'
+import Text from './Text'
 
 const Wrapper = styled.div`
   position: relative;

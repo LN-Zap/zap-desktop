@@ -6,7 +6,7 @@ import { Transition, config } from 'react-spring'
 import { Box, Flex } from 'rebass'
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import ArrowRight from 'components/Icon/ArrowRight'
-import { Button } from 'components/UI'
+import Button from './Button'
 
 export const WizardContext = createContext()
 

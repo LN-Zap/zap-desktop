@@ -1,5 +1,5 @@
 import React from 'react'
-import { BackgroundTertiary } from 'components/UI'
+import BackgroundTertiary from './BackgroundTertiary'
 
 /**
  * @render react

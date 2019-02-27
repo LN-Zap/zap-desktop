@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Heading } from 'components/UI'
-import { NodeCardView } from 'components/Channels'
+import NodeCardView from './NodeCardView'
 import messages from './messages'
 
 const NodeCardList = ({ nodes, updateContactFormSearchQuery, ...rest }) => (

@@ -5,10 +5,11 @@ import styled, { withTheme } from 'styled-components'
 import Downshift from 'downshift'
 import { Box, Flex } from 'rebass'
 import system from '@rebass/components'
-import { Input, Text } from 'components/UI'
 import Check from 'components/Icon/Check'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
+import Text from './Text'
+import Input from './Input'
 
 const SelectOptionList = styled.ul`
   padding: 0;

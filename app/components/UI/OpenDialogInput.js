@@ -2,9 +2,9 @@ import React from 'react'
 import styled from 'styled-components'
 import { asField } from 'informed'
 import { Flex } from 'rebass'
-
 import WithOpenDialog from 'components/withOpenDialog'
-import { Input, OpenDialogButton } from 'components/UI'
+import Input from './Input'
+import OpenDialogButton from './OpenDialogButton'
 
 const InnerInput = styled(Input)`
   input {

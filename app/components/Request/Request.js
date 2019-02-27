@@ -5,7 +5,7 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Bar, Button, Form, Header, Panel, Text, TextArea } from 'components/UI'
 import { CurrencyFieldGroup } from 'containers/UI'
 import Lightning from 'components/Icon/Lightning'
-import { RequestSummary } from '.'
+import RequestSummary from './RequestSummary'
 import messages from './messages'
 
 /**

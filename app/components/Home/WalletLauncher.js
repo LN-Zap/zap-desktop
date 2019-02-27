@@ -5,11 +5,12 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
 import styled from 'styled-components'
-
 import parse from 'lndconnect/parse'
 import { isBase64url } from 'lib/utils'
 import { Bar, Button, Heading, Text, ActionBar, Form } from 'components/UI'
-import { WalletSettingsFormLocal, WalletSettingsFormRemote, WalletHeader } from '.'
+import WalletSettingsFormLocal from './WalletSettingsFormLocal'
+import WalletSettingsFormRemote from './WalletSettingsFormRemote'
+import WalletHeader from './WalletHeader'
 import messages from './messages'
 
 const WalletActionBar = styled(ActionBar)`

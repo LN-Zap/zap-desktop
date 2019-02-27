@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { intlShape, injectIntl } from 'react-intl'
 import get from 'lodash.get'
 import decode from 'lndconnect/decode'
-import TextArea from 'components/UI/TextArea'
+import TextArea from './TextArea'
 import messages from './messages'
 
 /**

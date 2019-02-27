@@ -1,4 +1,6 @@
-export Home from './Home'
+import Home from './Home'
+
+export default Home
 export CreateWalletButton from './CreateWalletButton'
 export NoWallets from './NoWallets'
 export WalletsMenu from './WalletsMenu'

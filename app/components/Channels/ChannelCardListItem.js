@@ -5,8 +5,11 @@ import styled from 'styled-components'
 import { opacity } from 'styled-system'
 import { Box as BaseBox, Flex as BaseFlex } from 'rebass'
 import { Bar, Heading, Text } from 'components/UI'
-import { ChannelData, ChannelCapacity, ChannelMoreButton, ChannelStatus } from 'components/Channels'
 import withEllipsis from 'components/withEllipsis'
+import ChannelData from './ChannelData'
+import ChannelCapacity from './ChannelCapacity'
+import ChannelMoreButton from './ChannelMoreButton'
+import ChannelStatus from './ChannelStatus'
 import messages from './messages'
 
 const ClippedHeading = withEllipsis(Heading.h1)
