@@ -38,7 +38,7 @@ class ChannelCreateForm extends React.Component {
     activeWalletSettings: PropTypes.shape({
       type: PropTypes.string.isRequired
     }).isRequired,
-    channelBalance: PropTypes.number.isRequired,
+    walletBalance: PropTypes.number.isRequired,
     currency: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
     isQueryingFees: PropTypes.bool,
@@ -118,7 +118,7 @@ class ChannelCreateForm extends React.Component {
     const {
       intl,
       activeWalletSettings,
-      channelBalance,
+      walletBalance,
       currencyName,
       isQueryingFees,
       onchainFees,
@@ -256,7 +256,7 @@ class ChannelCreateForm extends React.Component {
                 <Text textAlign="center">
                   <FormattedMessage {...messages.open_channel_form_onchain_balance} />
                   {` `}
-                  <CryptoValue value={channelBalance} />
+                  <CryptoValue value={walletBalance} />
                   {` `}
                   {currencyName}
                 </Text>

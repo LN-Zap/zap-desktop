@@ -11,7 +11,7 @@ const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   searchQuery: state.contactsform.searchQuery,
   currency: tickerSelectors.currency(state),
-  channelBalance: state.balance.channelBalance,
+  walletBalance: state.balance.walletBalance,
   currencyName: tickerSelectors.currencyName(state),
   isQueryingFees: state.pay.isQueryingFees,
   onchainFees: state.pay.onchainFees
