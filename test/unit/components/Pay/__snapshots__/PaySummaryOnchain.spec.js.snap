@@ -34,7 +34,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
       ],
       "results": Array [
         Object {
-          "isThrow": false,
+          "type": "return",
           "value": undefined,
         },
       ],
