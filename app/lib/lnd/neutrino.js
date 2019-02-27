@@ -213,7 +213,7 @@ class Neutrino extends EventEmitter {
       }
 
       if (this.is(CHAIN_SYNC_PENDING) || this.is(CHAIN_SYNC_IN_PROGRESS)) {
-        // If we cant get a connectionn to the backend.
+        // If we can't get a connectionn to the backend.
         if (
           line.includes('Waiting for chain backend to finish sync') ||
           line.includes('Waiting for block headers to sync, then will start cfheaders sync')
@@ -303,7 +303,7 @@ class Neutrino extends EventEmitter {
   }
 
   /**
-   * Check if the current state matches the passted in state.
+   * Check if the current state matches the pasted in state.
    * @param  {String} state State to compare against the current state.
    * @return {Boolean} Boolean indicating if the current state matches the passed in state.
    */
@@ -312,7 +312,7 @@ class Neutrino extends EventEmitter {
   }
 
   /**
-   * Set the current state and emit an event to notify others if te state as canged.
+   * Set the current state and emit an event to notify others if the state as changed.
    * @param {String} state Target state.
    */
   setState(state: string) {
