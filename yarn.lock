@@ -2249,6 +2249,13 @@
     "@svgr/plugin-svgo" "^4.0.3"
     loader-utils "^1.1.0"
 
+"@types/bn.js@^4.11.3":
+  version "4.11.4"
+  resolved "https://registry.yarnpkg.com/@types/bn.js/-/bn.js-4.11.4.tgz#a7bed5bdef9f16b25c92ba27745ab261374787d7"
+  integrity sha512-AO8WW+aRcKWKQAYTfKLzwnpL6U+TfPqS+haRrhCy5ff04Da8WZud3ZgVjspQXaEXJDcTlsjUEVvL39wegDek5w==
+  dependencies:
+    "@types/node" "*"
+
 "@types/error-stack-parser@^1.3.18":
   version "1.3.18"
   resolved "https://registry.yarnpkg.com/@types/error-stack-parser/-/error-stack-parser-1.3.18.tgz#e01c9f8c85ca83b610320c62258b0c9026ade0f7"
@@ -4562,11 +4569,12 @@ body-parser@1.18.3:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
-bolt11@1.2.2:
-  version "1.2.2"
-  resolved "https://registry.yarnpkg.com/bolt11/-/bolt11-1.2.2.tgz#1d8ddaa46f5d4085efee3db4d84dd43756f028b8"
-  integrity sha512-hvmXNrNMrB7V2km3yotI/f23jodSnWVyoJqUsySFvLDcieDJf5Nox0+cleviSExM2YJt33PzxF44UFha/lwCJw==
+bolt11@1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/bolt11/-/bolt11-1.2.4.tgz#a6ec990fefa92d835280126bb5f715e2ce7c8374"
+  integrity sha512-Sz8H7aKDA9mksqg1I9divIkTVco6IEo9ATJwPJFaQhxVOB/OiRCaAnj5n7Tj9jbIQhkqadR1hZPQwFVQFfwZ9Q==
   dependencies:
+    "@types/bn.js" "^4.11.3"
     bech32 "^1.1.2"
     bitcoinjs-lib "^3.3.1"
     bn.js "^4.11.8"
