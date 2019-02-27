@@ -16,7 +16,7 @@ import {
   clearStartLndError
 } from 'reducers/lnd'
 import { showError, showNotification } from 'reducers/notification'
-import { Home } from 'components/Home'
+import Home from 'components/Home'
 import DeleteWalletDialog from './Home/DeleteWalletDialog'
 
 const HomeWrapper = props => (

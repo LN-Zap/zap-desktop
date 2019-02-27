@@ -7,7 +7,7 @@ import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
 import Check from 'components/Icon/Check'
-import Text from 'components/UI/Text'
+import Text from './Text'
 
 /**
  * Container

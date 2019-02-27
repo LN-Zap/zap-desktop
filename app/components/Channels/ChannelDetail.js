@@ -1,7 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Panel } from 'components/UI'
-import { ChannelCapacity, ChannelData, ChannelFooter, ChannelHeader } from 'components/Channels'
+import ChannelCapacity from './ChannelCapacity'
+import ChannelData from './ChannelData'
+import ChannelFooter from './ChannelFooter'
+import ChannelHeader from './ChannelHeader'
 
 const ChannelDetail = ({
   channel,

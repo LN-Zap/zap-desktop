@@ -1,11 +1,8 @@
 import React from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Tabs } from 'components/UI'
-import {
-  ConnectionDetailsContext,
-  FORM_TYPE_CONNECTION_STRING,
-  FORM_TYPE_MANUAL
-} from './ConnectionDetails'
+import ConnectionDetailsContext from './ConnectionDetailsContext'
+import { FORM_TYPE_CONNECTION_STRING, FORM_TYPE_MANUAL } from './constants'
 import messages from './messages'
 
 class ConnectionDetailsTabs extends React.PureComponent {

@@ -6,8 +6,8 @@ import { asField } from 'informed'
 import * as yup from 'yup'
 import { convert } from 'lib/utils/btc'
 import { formatValue, parseNumber } from 'lib/utils/crypto'
-import Input from 'components/UI/Input'
 import withNumberInputMask from 'components/withNumberInputMask'
+import Input from './Input'
 
 /**
  * @render react

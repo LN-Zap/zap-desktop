@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { Grid, AutoSizer } from 'react-virtualized'
 import { space as baseSpace } from 'themes/base'
 import { Card } from 'components/UI'
-import { ChannelCardListItem } from 'components/Channels'
+import ChannelCardListItem from './ChannelCardListItem'
 
 const StyledList = styled(Grid)`
   outline: none;

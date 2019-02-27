@@ -1,15 +1,10 @@
-import React, { createContext } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import ConnectionDetailsManual from './ConnectionDetailsManual'
 import ConnectionDetailsString from './ConnectionDetailsString'
-
-export const FORM_TYPE_MANUAL = 'FORM_TYPE_MANUAL'
-export const FORM_TYPE_CONNECTION_STRING = 'FORM_TYPE_CONNECTION_STRING'
-
-export const ConnectionDetailsContext = createContext({
-  openModal: () => {}
-})
+import ConnectionDetailsContext from './ConnectionDetailsContext'
+import { FORM_TYPE_CONNECTION_STRING, FORM_TYPE_MANUAL } from './constants'
 
 class ConnectionDetails extends React.Component {
   state = {

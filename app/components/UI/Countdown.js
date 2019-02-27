@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
 import { FormattedMessage, FormattedRelative } from 'react-intl'
-import { Text } from 'components/UI'
+import Text from './Text'
 import messages from './messages'
 
 class Countdown extends React.Component {

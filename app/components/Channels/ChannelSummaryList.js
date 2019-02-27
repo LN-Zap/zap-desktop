@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { List, AutoSizer } from 'react-virtualized'
-import { ChannelSummaryListItem } from 'components/Channels'
 import { space as baseSpace } from 'themes/base'
+import ChannelSummaryListItem from './ChannelSummaryListItem'
 
 const StyledList = styled(List)`
   outline: none;

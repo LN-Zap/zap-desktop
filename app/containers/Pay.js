@@ -2,8 +2,10 @@ import { connect } from 'react-redux'
 import { Pay } from 'components/Pay'
 import { tickerSelectors } from 'reducers/ticker'
 import { setPayReq, queryRoutes } from 'reducers/pay'
+import { changeFilter } from 'reducers/activity'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
+import { closeModal } from 'reducers/modal'
 
 const mapStateToProps = state => ({
   chain: state.info.chain,
@@ -19,6 +21,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
+  changeFilter,
+  closeModal,
   payInvoice,
   setPayReq,
   sendCoins,

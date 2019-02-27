@@ -3,7 +3,9 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 import { convert } from 'lib/utils/btc'
-import { CryptoAmountInput, Dropdown, FiatAmountInput } from 'components/UI'
+import CryptoAmountInput from './CryptoAmountInput'
+import Dropdown from './Dropdown'
+import FiatAmountInput from './FiatAmountInput'
 import messages from './messages'
 
 class CurrencyFieldGroup extends React.Component {

@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { Text } from 'components/UI'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleDown from 'components/Icon/AngleDown'
+import Text from './Text'
 
 class DataRow extends React.PureComponent {
   state = {

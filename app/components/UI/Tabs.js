@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
-import { Bar, Button, Text } from 'components/UI'
+import Bar from './Bar'
+import Button from './Button'
+import Text from './Text'
 
 const Tab = ({ itemKey, itemValue, isActive, onClick }) => (
   <Flex mr={3} flexDirection="column" alignItems="center">

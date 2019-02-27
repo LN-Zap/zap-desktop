@@ -2,8 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Radio as InformedRadio } from 'informed'
 import styled from 'styled-components'
-import { Label, Text } from 'components/UI'
 import { Box } from 'rebass'
+import Label from './Label'
+import Text from './Text'
 
 const Wrapper = styled(Box)`
   /* The container */

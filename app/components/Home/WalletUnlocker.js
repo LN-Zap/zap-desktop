@@ -4,7 +4,7 @@ import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Button, Form, PasswordInput } from 'components/UI'
 import * as yup from 'yup'
-import { WalletHeader } from '.'
+import WalletHeader from './WalletHeader'
 import messages from './messages'
 /**
  * @render react

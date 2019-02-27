@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
-import { Heading, Text } from 'components/UI'
+import Heading from './Heading'
+import Text from './Text'
 
 const Header = ({ title, subtitle, align, logo }) => (
   <Flex alignItems={align} as="header" flexDirection="column" justifyContent={align}>

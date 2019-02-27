@@ -5,7 +5,8 @@ import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 import X from 'components/Icon/X'
 import ZapLogo from 'components/Icon/ZapLogo'
-import { Panel, Text } from 'components/UI'
+import Panel from './Panel'
+import Text from './Text'
 
 import messages from './messages'
 
@@ -60,7 +61,7 @@ const ModalHeader = () => (
  * @example
  * <Modal>Some content</Modal>
  */
-function Modal(props) {
+const Modal = props => {
   const { children, onClose, withClose, withHeader, ...rest } = props
   return (
     <Panel bg="primaryColor" color="primaryText">
@@ -86,7 +87,5 @@ Modal.defaultProps = {
   withClose: true,
   withHeader: false
 }
-
-Modal.displayName = 'Modal'
 
 export default Modal

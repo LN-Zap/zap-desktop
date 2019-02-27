@@ -1,8 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Card, Flex, Box } from 'rebass'
-import { Heading, Button } from 'components/UI'
 import X from 'components/Icon/X'
+import Button from './Button'
+import Heading from './Heading'
 
 const CloseButton = ({ onClick }) => (
   <Flex justifyContent="space-between" color="primaryText">

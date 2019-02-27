@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { asField } from 'informed'
 import { isOnchain, isLn } from 'lib/utils/crypto'
-import TextArea from 'components/UI/TextArea'
-import Message from 'components/UI/Message'
+import TextArea from './TextArea'
+import Message from './Message'
 import messages from './messages'
 
 /**

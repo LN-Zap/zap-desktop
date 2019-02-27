@@ -2,10 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
 import { Bar, Panel } from 'components/UI'
-import { ChannelCreateHeader } from 'components/Channels'
 import ChannelNodeSearch from 'containers/Channels/ChannelNodeSearch'
 import ChannelCreateForm from 'containers/Channels/ChannelCreateForm'
 import NodeCardList from 'containers/Channels/NodeCardList'
+import ChannelCreateHeader from './ChannelCreateHeader'
 
 class ChannelCreate extends React.Component {
   static propTypes = {
