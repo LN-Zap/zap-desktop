@@ -348,7 +348,7 @@
     "lodash.throttle": "4.1.1",
     "polished": "2.3.3",
     "prop-types": "15.7.2",
-    "qrcode.react": "0.9.2",
+    "qrcode.react": "0.9.3",
     "react": "16.8.1",
     "react-dom": "16.8.1",
     "react-intl": "2.8.0",
