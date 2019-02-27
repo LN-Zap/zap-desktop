@@ -45,14 +45,14 @@ const ChannelCapacity = ({ localBalance, remoteBalance, ...rest }) => {
       </Flex>
 
       <Flex as="footer" justifyContent="space-between">
-        <Text width={1 / 3}>
+        <Text width={1 / 3.2}>
           <CryptoValue value={localBalance} />
         </Text>
-        <Text width={1 / 3} textAlign="center">
+        <Text width={1 / 2.6} textAlign="center">
           <CryptoValue value={totalBalance} />
           <CryptoSelector ml={1} />
         </Text>
-        <Text width={1 / 3} textAlign="right">
+        <Text width={1 / 3.2} textAlign="right">
           <CryptoValue value={remoteBalance} />
         </Text>
       </Flex>

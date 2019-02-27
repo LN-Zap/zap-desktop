@@ -1,25 +1,53 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass'
+import styled from 'styled-components'
+import { List, AutoSizer } from 'react-virtualized'
 import { ChannelSummaryListItem } from 'components/Channels'
+import { space as baseSpace } from 'themes/base'
 
-const ChannelSummaryList = ({ channels, openModal, setSelectedChannel, ...rest }) => (
-  <Box as="article" {...rest}>
-    {channels.map(channelObj => {
-      const channel = channelObj.channel || channelObj
+const StyledList = styled(List)`
+  outline: none;
+  overflow-y: overlay !important;
+  overflow-x: hidden !important;
+`
 
-      return (
+const ChannelSummaryList = ({ channels, openModal, setSelectedChannel }) => {
+  const ROW_MARGIN_TOP = 3
+  // current row height + margin bottom
+  const ROW_HEIGHT = 107 + baseSpace[ROW_MARGIN_TOP]
+
+  const renderRow = rowProps => {
+    const { index, key, style } = rowProps
+    const channel = channels[index].channel || channels[index]
+    return (
+      <div style={style} key={key}>
         <ChannelSummaryListItem
-          key={channel.channel_point}
+          mx={4}
           channel={channel}
           openModal={openModal}
           setSelectedChannel={setSelectedChannel}
-          mb={3}
+          mt={ROW_MARGIN_TOP}
         />
-      )
-    })}
-  </Box>
-)
+      </div>
+    )
+  }
+
+  return (
+    <AutoSizer>
+      {({ width, height }) => {
+        return (
+          <StyledList
+            width={width}
+            height={height}
+            rowHeight={ROW_HEIGHT}
+            rowRenderer={renderRow}
+            rowCount={channels.length}
+          />
+        )
+      }}
+    </AutoSizer>
+  )
+}
 
 ChannelSummaryList.propTypes = {
   channels: PropTypes.array,

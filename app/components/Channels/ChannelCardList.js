@@ -1,43 +1,78 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Box } from 'rebass'
+import styled from 'styled-components'
+import { Grid, AutoSizer } from 'react-virtualized'
+import { space as baseSpace } from 'themes/base'
 import { Card } from 'components/UI'
 import { ChannelCardListItem } from 'components/Channels'
+
+const StyledList = styled(Grid)`
+  outline: none;
+  overflow-y: overlay !important;
+  overflow-x: hidden !important;
+`
 
 const ChannelCardList = ({
   channels,
   currencyName,
   openModal,
   setSelectedChannel,
-  networkInfo,
-  ...rest
-}) => (
-  <Flex as="article" {...rest} width={1} flexWrap="wrap">
-    {channels.map((channelObj, index) => {
-      const channel = channelObj.channel || channelObj
-      return (
-        <Box
-          width={1 / 2}
-          pr={index % 2 ? 0 : 3}
-          pl={index % 2 ? 3 : 0}
-          pb={3}
-          mb={3}
-          key={channel.channel_point}
-        >
-          <Card>
-            <ChannelCardListItem
-              channel={channel}
-              currencyName={currencyName}
-              openModal={openModal}
-              setSelectedChannel={setSelectedChannel}
-              networkInfo={networkInfo}
-            />
-          </Card>
-        </Box>
-      )
-    })}
-  </Flex>
-)
+  networkInfo
+}) => {
+  const ROW_MARGIN_BOTTOM = 3
+  // current row height + margin bottom
+  const ROW_HEIGHT = 392 + baseSpace[ROW_MARGIN_BOTTOM]
+  const renderRow = rowProps => {
+    const { columnIndex, rowIndex, key, style } = rowProps
+    const index = rowIndex * 2 + columnIndex
+    // index may exceed total number of elements because of 2 column layout
+    if (index >= channels.length) {
+      return null
+    }
+
+    const channel = channels[index].channel || channels[index]
+    return (
+      <Box
+        width={1 / 2}
+        pr={index % 2 ? 4 : 3}
+        pl={index % 2 ? 3 : 4}
+        pt={3}
+        mb={ROW_MARGIN_BOTTOM}
+        style={style}
+        key={key}
+      >
+        <Card>
+          <ChannelCardListItem
+            channel={channel}
+            currencyName={currencyName}
+            openModal={openModal}
+            setSelectedChannel={setSelectedChannel}
+            networkInfo={networkInfo}
+          />
+        </Card>
+      </Box>
+    )
+  }
+
+  return (
+    <AutoSizer>
+      {({ width, height }) => {
+        return (
+          <StyledList
+            width={width}
+            height={height}
+            columnCount={2}
+            columnWidth={width / 2}
+            rowHeight={ROW_HEIGHT}
+            cellRenderer={renderRow}
+            rowCount={Math.ceil(channels.length / 2)}
+          />
+        )
+      }}
+    </AutoSizer>
+  )
+}
 
 ChannelCardList.propTypes = {
   channels: PropTypes.array,
