@@ -5468,9 +5468,10 @@ coffeescript@^2.3.1:
   resolved "https://registry.yarnpkg.com/coffeescript/-/coffeescript-2.3.2.tgz#e854a7020dfe47b7cf4dd412042e32ef1e269810"
   integrity sha512-YObiFDoukx7qPBi/K0kUKyntEZDfBQiqs/DbrR1xzASKOBjGT7auD85/DiPeRr9k++lRj7l3uA9TNMLfyfcD/Q==
 
-"coininfo@git+https://github.com/cryptocoinjs/coininfo.git#299bf3b01a70c932772a7149837c1abe1acb2d41":
-  version "4.3.0"
-  resolved "git+https://github.com/cryptocoinjs/coininfo.git#299bf3b01a70c932772a7149837c1abe1acb2d41"
+coininfo@4.4.0:
+  version "4.4.0"
+  resolved "https://registry.yarnpkg.com/coininfo/-/coininfo-4.4.0.tgz#975d037f333cc2d3b7bf8b8d4a2454ada0ed2283"
+  integrity sha512-n6TQd5Gi84VWC0X/sUbk8boBUmhiF6RpBWuQBC1hCUuyoroEj+ZPnmygtKIxBAvRgdO97NNBVofPUkfaP50g5g==
   dependencies:
     safe-buffer "^5.1.1"
 
