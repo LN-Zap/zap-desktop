@@ -15197,10 +15197,10 @@ stealthy-require@^1.1.0:
   resolved "https://registry.yarnpkg.com/stealthy-require/-/stealthy-require-1.1.1.tgz#35b09875b4ff49f26a777e509b3090a3226bf24b"
   integrity sha1-NbCYdbT/SfJqd35QmzCQoyJr8ks=
 
-storybook-addon-intl@2.3.2:
-  version "2.3.2"
-  resolved "https://registry.yarnpkg.com/storybook-addon-intl/-/storybook-addon-intl-2.3.2.tgz#4186802cdc9bdc406ec5afae4966759776b2b872"
-  integrity sha512-bMx8q3QXqW0wkQIViLESSj5AarzVjZHhwv8SUh7jPfLoCBaJRu5+OtnQ9rwA9QV7iBvp0sZow+qc0p+m10eUwA==
+storybook-addon-intl@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/storybook-addon-intl/-/storybook-addon-intl-2.4.0.tgz#3492f39255b288736aba9705f5169dba8a02dba8"
+  integrity sha512-DH0hYyRUhK3wP9jmuA/o6hNFmxOfUsoRwg562gvKiNrtcPuA5X3xF63QoiX3a80m46POQ82s1r/VP15JkyFNcA==
   dependencies:
     prop-types "^15.5.0"
 
