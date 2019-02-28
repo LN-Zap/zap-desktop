@@ -15855,10 +15855,10 @@ testcafe-browser-tools@1.6.5:
     read-file-relative "^1.2.0"
     which-promise "^1.0.0"
 
-testcafe-hammerhead@14.4.14:
-  version "14.4.14"
-  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-14.4.14.tgz#7c32f97e0a65653214acbeb301eb6f19ebf9e0de"
-  integrity sha512-vpwe8RQ3CmXmk2QbSizCIZ4sDNW18vHH9NUH+g4swqPSbDBSvpirY7x3HUD514qJ7j9lOf+s7p1e070AYXzZ4g==
+testcafe-hammerhead@14.5.1:
+  version "14.5.1"
+  resolved "https://registry.yarnpkg.com/testcafe-hammerhead/-/testcafe-hammerhead-14.5.1.tgz#e92df0a26a86a5670bde3fdabb38e7cea86a868d"
+  integrity sha512-ZDAFpSwxcCpG0owLVBWeYokhd/cYWMBgJIRl4frpykxhmPujhrprOPHWbu3dZVZItsTi4gY3Rl3iYmlXGFRzZA==
   dependencies:
     acorn-hammerhead "^0.1.2"
     bowser "1.6.0"
@@ -15946,10 +15946,10 @@ testcafe-reporter-xunit@^2.1.0:
   resolved "https://registry.yarnpkg.com/testcafe-reporter-xunit/-/testcafe-reporter-xunit-2.1.0.tgz#e6d66c572ce15af266706af0fd610b2a841dd443"
   integrity sha1-5tZsVyzhWvJmcGrw/WELKoQd1EM=
 
-testcafe@1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-1.0.1.tgz#704245639a4c97f6f19bd90c1cca574a7b188d27"
-  integrity sha512-Wx/8vgsZIMTf8+RAnjcdks8z4qyPkJiPnGVuJ40dmpWIk5erQX1YT/DIbLbU2MZ2XtZbORSmxIBAN0LXg6jNqA==
+testcafe@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/testcafe/-/testcafe-1.1.0.tgz#084f999efd54e30a4708faa418dffd1d12885857"
+  integrity sha512-QvpC/ovesgrC9FRh3ehIsuxOkh6DW/2dxma7ROldJQ3qY/3mRUplRwOVYv7xDo/8mAJp4xNdgMG0QvKkzechBQ==
   dependencies:
     "@types/node" "^10.12.19"
     async-exit-hook "^1.1.2"
@@ -16012,7 +16012,7 @@ testcafe@1.0.1:
     source-map-support "^0.5.5"
     strip-bom "^2.0.0"
     testcafe-browser-tools "1.6.5"
-    testcafe-hammerhead "14.4.14"
+    testcafe-hammerhead "14.5.1"
     testcafe-legacy-api "3.1.10"
     testcafe-reporter-json "^2.1.0"
     testcafe-reporter-list "^2.1.0"
@@ -16022,7 +16022,7 @@ testcafe@1.0.1:
     time-limit-promise "^1.0.2"
     tmp "0.0.28"
     tree-kill "^1.1.0"
-    typescript "^2.2.2"
+    typescript "^3.3.3"
     useragent "^2.1.7"
 
 text-extensions@^1.0.0:
@@ -16348,10 +16348,10 @@ typeforce@^1.11.3, typeforce@^1.11.5:
   resolved "https://registry.yarnpkg.com/typeforce/-/typeforce-1.18.0.tgz#d7416a2c5845e085034d70fcc5b6cc4a90edbfdc"
   integrity sha512-7uc1O8h1M1g0rArakJdf0uLRSSgFcYexrVoKo+bzJd32gd4gDy2L/Z+8/FjPnU9ydY3pEnVPtr9FyscYY60K1g==
 
-typescript@^2.2.2:
-  version "2.9.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
-  integrity sha512-Gr4p6nFNaoufRIY4NMdpQRNmgxVIGMs4Fcu/ujdYk3nAZqk7supzBE9idmvfZIlH/Cuj//dvi+019qEue9lV0w==
+typescript@^3.3.3:
+  version "3.3.3333"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-3.3.3333.tgz#171b2c5af66c59e9431199117a3bcadc66fdcfd6"
+  integrity sha512-JjSKsAfuHBE/fB2oZ8NxtRTk5iGcg6hkYXMnZ3Wc+b2RSqejEqTaem11mHASMnFilHrax3sLK0GDzcJrekZYLw==
 
 typeson-registry@^1.0.0-alpha.20:
   version "1.0.0-alpha.26"
