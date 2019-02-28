@@ -257,6 +257,7 @@ class ChannelCreateForm extends React.Component {
           validateOnChange={formState.submits > 0}
           validateOnBlur={formState.submits > 0}
           required
+          css={{ height: '88px' }}
         />
 
         <Bar my={3} opacity={0.3} />
