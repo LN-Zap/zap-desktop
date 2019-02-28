@@ -264,12 +264,7 @@ class ChannelCreateForm extends React.Component {
 
         <Flex justifyContent="space-between" alignItems="center">
           <Box>
-            <RadioGroup
-              field="speed"
-              label={intl.formatMessage({ ...messages.fee })}
-              description={<FormattedMessage {...messages[speed.toLowerCase() + '_description']} />}
-              required
-            >
+            <RadioGroup field="speed" label={intl.formatMessage({ ...messages.fee })} required>
               <Flex>
                 {speeds.map(speed => (
                   <Radio
@@ -297,11 +292,16 @@ class ChannelCreateForm extends React.Component {
             {!isQueryingFees && !fee && <FormattedMessage {...messages.fee_unknown} />}
 
             {!isQueryingFees && fee && (
-              <>
-                <CryptoValue value={fee} />
-                <CryptoSelector mx={2} />
-                <FormattedMessage {...messages.fee_per_byte} />
-              </>
+              <Flex flexDirection="column" alignItems="flex-end">
+                <Box>
+                  <CryptoValue value={fee} />
+                  <CryptoSelector mx={2} />
+                  <FormattedMessage {...messages.fee_per_byte} />
+                </Box>
+                <Text color="gray">
+                  <FormattedMessage {...messages[speed.toLowerCase() + '_description']} />
+                </Text>
+              </Flex>
             )}
           </Box>
         </Flex>
