@@ -91,7 +91,7 @@
   "components.Channels.node_search_description": "Search for nodes by name, public key, or paste their pubkey@host",
   "components.Channels.node_search_form_description": "Make funds available for sending over the Lightning Network by opening channels to other nodes on the network.",
   "components.Channels.node_search_placeholder": "Search the network",
-  "components.Channels.node_search_results_header": "All Nodes",
+  "components.Channels.node_search_results_header": "{count, plural, =0 {No results} other {Search results ({count})}}",
   "components.Channels.node_suggestions_title": "Suggested Nodes",
   "components.Channels.num_updates_description": "The total number of updates within this channel.",
   "components.Channels.num_updates_label": "Number of Updates",
