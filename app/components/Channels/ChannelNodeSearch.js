@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import debounce from 'lodash.debounce'
-import { withTheme } from 'styled-components'
+import styled, { withTheme } from 'styled-components'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Form, Heading, Input, Text } from 'components/UI'
@@ -11,13 +11,17 @@ import messages from './messages'
 
 const ClippedText = withEllipsis(Text)
 
+const NodeNameContainer = styled(Box)`
+  min-width: 0;
+`
+
 const SearchResults = ({ filteredNetworkNodes, onClickConnect, ...rest }) => (
   <Box {...rest}>
     {filteredNetworkNodes.map(node => {
       return (
         <React.Fragment key={node.pub_key}>
           <Flex justifyContent="space-between" alignItems="center" py={2} pr={2}>
-            <Box mr={3}>
+            <NodeNameContainer mr={3}>
               {node.alias.length > 0 ? (
                 <>
                   <ClippedText>{node.alias.trim()}</ClippedText>
@@ -28,7 +32,7 @@ const SearchResults = ({ filteredNetworkNodes, onClickConnect, ...rest }) => (
               ) : (
                 <ClippedText>{node.pub_key}</ClippedText>
               )}
-            </Box>
+            </NodeNameContainer>
             <Button size="small" type="button" onClick={() => onClickConnect(node)}>
               <FormattedMessage {...messages.connect} />
             </Button>
