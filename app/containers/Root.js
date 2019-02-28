@@ -35,7 +35,7 @@ class Root extends React.Component {
     hasWallets: PropTypes.bool,
     removeNotification: PropTypes.func.isRequired,
     theme: PropTypes.object,
-    loadingMessage: PropTypes.string,
+    loadingMessage: PropTypes.object,
     notifications: PropTypes.array.isRequired,
     history: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,

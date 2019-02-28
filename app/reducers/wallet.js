@@ -126,42 +126,28 @@ export const initWallets = () => async dispatch => {
   dispatch(setActiveWallet(activeWallet))
   dispatch(setWalletsLoaded())
 
-  // Fetch wallets from the filesystem.
-  const supportedChains = ['bitcoin']
-  const supportedNetworks = ['testnet', 'mainnet']
-
   // Create wallet entry in the database if one doesn't exist already.
-  supportedChains.forEach(chain => {
-    return supportedNetworks.forEach(async network => {
-      const fsWallets = await window.Zap.getLocalWallets(chain, network)
-      return fsWallets
-        .filter(wallet => wallet !== 'wallet-tmp')
-        .forEach(wallet => {
-          if (
-            !dbWallets.find(
-              w =>
-                w.type === 'local' &&
-                w.chain === chain &&
-                w.network === network &&
-                w.wallet === wallet
-            )
-          ) {
-            const walletDetails = {
-              type: 'local',
-              decoder: 'lnd.lndconnect.v1',
-              chain,
-              network,
-              wallet
-            }
-            const id = Number(wallet.split('-')[1])
-            if (id && !Number.isNaN(id)) {
-              walletDetails.id = id
-            }
-            dispatch(putWallet(walletDetails))
-          }
-        })
+  const fsWallets = await window.Zap.getAllLocalWallets()
+  return fsWallets
+    .filter(wallet => wallet.wallet !== 'wallet-tmp')
+    .forEach(walletDetails => {
+      if (
+        !dbWallets.find(
+          w =>
+            w.type === 'local' &&
+            w.chain === walletDetails.chain &&
+            w.network === walletDetails.network &&
+            w.wallet === walletDetails.wallet
+        )
+      ) {
+        walletDetails.decoder = 'lnd.lndconnect.v1'
+        const id = Number(walletDetails.wallet.split('-')[1])
+        if (id && !Number.isNaN(id)) {
+          walletDetails.id = id
+        }
+        dispatch(putWallet(walletDetails))
+      }
     })
-  })
 }
 
 // ------------------------------------

@@ -53,7 +53,7 @@
   "config": {
     "style_paths": "app/components/**/*.js",
     "lnd-binary": {
-      "binaryVersion": "0.5.1-beta-521-g6a78141a",
+      "binaryVersion": "0.5.1-beta-795-ga6ba965b",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
@@ -372,6 +372,7 @@
     "tildify": "1.2.0",
     "untildify": "3.0.3",
     "validator": "10.11.0",
+    "window-or-global": "1.0.1",
     "yup": "0.26.10"
   },
   "main": "internals/webpack/webpack.config.base.js",
