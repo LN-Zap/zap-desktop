@@ -57,10 +57,17 @@ export function getInfo() {
   }
 }
 
-export const setHasSynced = hasSynced => {
-  return {
-    type: SET_HAS_SYNCED,
-    hasSynced
+export const setHasSynced = hasSynced => async (dispatch, getState) => {
+  dispatch({ type: SET_HAS_SYNCED, hasSynced })
+
+  const state = getState()
+  const pubKey = get(state, 'info.data.identity_pubkey')
+
+  if (pubKey) {
+    const updated = await db.nodes.update(pubKey, { hasSynced })
+    if (!updated) {
+      await db.nodes.add({ id: pubKey, hasSynced })
+    }
   }
 }
 
@@ -77,10 +84,10 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
 
   const state = getState()
 
-  if (typeof state.info.hasSynced === 'undefined') {
-    const node = await db.nodes.get({ id: data.identity_pubkey })
-    const hasSynced = node ? node.hasSynced : false
-    dispatch(setHasSynced(hasSynced))
+  // Now that we have the node info, load it's sync state.
+  const node = await db.nodes.get({ id: data.identity_pubkey })
+  if (node) {
+    dispatch(setHasSynced(node.hasSynced))
   }
 
   // Now that we have the node info, get the current wallet address.
