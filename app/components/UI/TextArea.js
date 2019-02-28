@@ -177,7 +177,7 @@ class TextArea extends React.PureComponent {
           <Label htmlFor={field} mb={2}>
             {label}
             {required && (
-              <Span fontSize="s" css={{ 'vertical-align': 'super' }}>
+              <Span fontSize="s" css={{ 'vertical-align': 'top' }}>
                 {' '}
                 *
               </Span>

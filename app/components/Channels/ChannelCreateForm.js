@@ -170,7 +170,7 @@ class ChannelCreateForm extends React.Component {
     const [pubkey, host] = nodePubkey.split('@')
 
     // Determine the fee rate to use.
-    const speed = values.speed || defaultSpeed
+    const { speed = defaultSpeed } = values
     const satPerByte = this.getFeeRate(speed)
 
     // submit the channel to LND.
@@ -180,9 +180,42 @@ class ChannelCreateForm extends React.Component {
     showNotification(intl.formatMessage({ ...messages.open_channel_notification }))
   }
 
+  /**
+   * Clear the current search query.
+   */
   clearSearchQuery = () => {
     const { updateContactFormSearchQuery } = this.props
     updateContactFormSearchQuery(null)
+  }
+
+  /**
+   * Get the current per byte fee based on the form values.
+   */
+  getFee = () => {
+    const formState = this.formApi.getState()
+    const { speed = defaultSpeed } = formState.values
+    return this.getFeeRate(speed)
+  }
+
+  /**
+   * Custom validation for the amount input.
+   */
+  validateAmount = value => {
+    if (!value) {
+      return
+    }
+
+    const { intl, currency, walletBalance } = this.props
+    const fee = this.getFee()
+    const amount = convert(currency, 'sats', value)
+
+    // FIXME: The fee here is a per byte fee, however what we realy need is the projected fee for the transaction.
+    // This is not currently available in lnd, but will be in it's upcoming fee estimation API.
+    const totalAmount = amount + fee
+
+    if (totalAmount > walletBalance) {
+      return intl.formatMessage({ ...messages.error_not_enough_funds })
+    }
   }
 
   /**
@@ -196,7 +229,7 @@ class ChannelCreateForm extends React.Component {
     const { intl, activeWalletSettings, isQueryingFees, searchQuery } = this.props
 
     const formState = this.formApi.getState()
-    const speed = formState.values.speed || defaultSpeed
+    const { speed = defaultSpeed } = formState.values
     const fee = this.getFeeRate(speed)
 
     return (
@@ -218,20 +251,22 @@ class ChannelCreateForm extends React.Component {
 
         <Bar my={3} opacity={0.3} />
 
-        <CurrencyFieldGroup formApi={this.formApi} required />
+        <CurrencyFieldGroup
+          formApi={this.formApi}
+          validate={this.validateAmount}
+          validateOnChange={formState.submits > 0}
+          validateOnBlur={formState.submits > 0}
+          required
+        />
 
         <Bar my={3} opacity={0.3} />
 
-        <Flex justifyContent="space-between">
+        <Flex justifyContent="space-between" alignItems="center">
           <Box>
             <RadioGroup
               field="speed"
               label={intl.formatMessage({ ...messages.fee })}
-              description={
-                <FormattedMessage
-                  {...messages[formState.values.speed.toLowerCase() + '_description']}
-                />
-              }
+              description={<FormattedMessage {...messages[speed.toLowerCase() + '_description']} />}
               required
             >
               <Flex>

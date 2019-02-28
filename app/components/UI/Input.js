@@ -208,7 +208,7 @@ class Input extends React.Component {
           <Label htmlFor={field} mb={2}>
             {label}
             {required && (
-              <Span fontSize="s" css={{ 'vertical-align': 'super' }}>
+              <Span fontSize="s" css={{ 'vertical-align': 'top' }}>
                 {' '}
                 *
               </Span>
