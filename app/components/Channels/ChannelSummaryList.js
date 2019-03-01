@@ -16,6 +16,11 @@ const ChannelSummaryList = ({ channels, openModal, setSelectedChannel }) => {
   // current row height + margin bottom
   const ROW_HEIGHT = 107 + baseSpace[ROW_MARGIN_TOP]
 
+  const isLastItem = index => index === channels.length - 1
+  // add some bottom padding for the last item to properly render shadow
+  const getRowHeight = ({ index }) =>
+    ROW_HEIGHT + (isLastItem(index) ? baseSpace[ROW_MARGIN_TOP] : 0)
+
   const renderRow = rowProps => {
     const { index, key, style } = rowProps
     const channel = channels[index].channel || channels[index]
@@ -27,6 +32,7 @@ const ChannelSummaryList = ({ channels, openModal, setSelectedChannel }) => {
           openModal={openModal}
           setSelectedChannel={setSelectedChannel}
           mt={ROW_MARGIN_TOP}
+          mb={isLastItem(index) ? ROW_MARGIN_TOP : 0}
         />
       </div>
     )
@@ -39,9 +45,10 @@ const ChannelSummaryList = ({ channels, openModal, setSelectedChannel }) => {
           <StyledList
             width={width}
             height={height}
-            rowHeight={ROW_HEIGHT}
+            rowHeight={getRowHeight}
             rowRenderer={renderRow}
             rowCount={channels.length}
+            pb={3}
           />
         )
       }}
