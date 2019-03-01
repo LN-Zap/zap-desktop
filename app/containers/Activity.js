@@ -13,7 +13,6 @@ const mapStateToProps = state => ({
   currentActivity: activitySelectors.currentActivity(state)(state),
   currencyName: tickerSelectors.currencyName(state),
   currentTicker: tickerSelectors.currentTicker(state),
-  showExpiredToggle: activitySelectors.showExpiredToggle(state),
   ticker: state.ticker
 })
 

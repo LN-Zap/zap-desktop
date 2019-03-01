@@ -3,11 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { space } from 'styled-system'
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
-import { FormattedMessage, FormattedDate, injectIntl, intlShape } from 'react-intl'
-import { Box, Flex } from 'rebass'
-import { Bar, Button, Heading, Panel } from 'components/UI'
+import { FormattedDate, injectIntl, intlShape } from 'react-intl'
+import { Box } from 'rebass'
+import { Bar, Heading, Panel } from 'components/UI'
 import ActivityActions from 'containers/Activity/ActivityActions'
-import messages from './messages'
 import ActivityListItem from './ActivityListItem'
 
 const StyledList = styled(List)`
@@ -79,7 +78,7 @@ class Activity extends Component {
         {({ width, height }) => {
           return (
             <StyledList
-              pr={5}
+              pr={4}
               ref={ref => (this._list = ref)}
               width={width}
               height={height}
@@ -94,23 +93,8 @@ class Activity extends Component {
     )
   }
 
-  renderFooterControls = () => {
-    const {
-      activity: { showExpiredRequests },
-      toggleExpiredRequests
-    } = this.props
-
-    return (
-      <Flex justifyContent="center">
-        <Button size="small" onClick={toggleExpiredRequests} mx="auto">
-          <FormattedMessage {...messages[showExpiredRequests ? 'hide_expired' : 'show_expired']} />
-        </Button>
-      </Flex>
-    )
-  }
-
   render() {
-    const { currentActivity, currentTicker, showExpiredToggle } = this.props
+    const { currentTicker } = this.props
 
     if (!currentTicker) {
       return null
@@ -118,15 +102,11 @@ class Activity extends Component {
 
     return (
       <Panel>
-        <Panel.Header>
-          <ActivityActions mx={5} mt={3} />
+        <Panel.Header my={3}>
+          <ActivityActions mx={5} />
         </Panel.Header>
 
         <Panel.Body>{this.renderActivityList()}</Panel.Body>
-
-        {showExpiredToggle && currentActivity.length > 0 && (
-          <Panel.Footer py={2}>{this.renderFooterControls()}</Panel.Footer>
-        )}
       </Panel>
     )
   }
@@ -139,9 +119,7 @@ Activity.propTypes = {
   currencyName: PropTypes.string,
   currentTicker: PropTypes.object,
   ticker: PropTypes.object.isRequired,
-  showExpiredToggle: PropTypes.bool.isRequired,
-  showActivityModal: PropTypes.func.isRequired,
-  toggleExpiredRequests: PropTypes.func.isRequired
+  showActivityModal: PropTypes.func.isRequired
 }
 
 export default injectIntl(Activity)

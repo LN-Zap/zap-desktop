@@ -13,12 +13,16 @@ Object {
       "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
@@ -47,12 +51,16 @@ Object {
       "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
@@ -81,12 +89,16 @@ Object {
       "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
@@ -115,12 +127,16 @@ Object {
       "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
