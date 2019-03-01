@@ -12737,10 +12737,10 @@ pngjs@^3.3.1:
   resolved "https://registry.yarnpkg.com/pngjs/-/pngjs-3.3.3.tgz#85173703bde3edac8998757b96e5821d0966a21b"
   integrity sha512-1n3Z4p3IOxArEs1VRXnZ/RXdfEniAUS9jb68g58FIXMNkPJeZd+Qh4Uq7/e0LVxAQGos1eIUrqrt4FpjdnEd+Q==
 
-polished@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/polished/-/polished-3.0.1.tgz#e9b7c9d7043aac78f3cd1470330227068cc56649"
-  integrity sha512-rhel+zWmzx9SzxiX2osdQ+n1Cl4zFI0aoMtfr7fZT5EhlQUIwfPJUnpEAZkJrN+/fBTkIYgtr5sq6bZssMuvCg==
+polished@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/polished/-/polished-3.0.2.tgz#fb4e56947d6b0c382eb9f3ec6ee892f5f65f5cdf"
+  integrity sha512-JavLo6vtJSkp2ttpCULD01cYQFXAlDCfR8GFXrW0va6Jc1uFTFeoZvwV3aJ/sh6WAwGg2u3VjfgjR5jl7XKIgg==
   dependencies:
     "@babel/runtime" "^7.3.1"
     babel-plugin-preval "3.0.1"
