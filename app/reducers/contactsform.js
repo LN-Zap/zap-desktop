@@ -60,11 +60,22 @@ contactFormSelectors.suggestedNodes = createSelector(
   }
 )
 
+/**
+ * @param {array} suggestedNodes
+ * @return search results compatible version of suggested nodes array
+ */
+const fromSuggestedToRegular = suggestedNodes =>
+  suggestedNodes &&
+  suggestedNodes.map(node => ({
+    ...node,
+    addresses: [{ addr: node.host }]
+  }))
 contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
   searchQuerySelector,
   peersSelector,
-  (nodes, searchQuery, peers) => {
+  contactFormSelectors.suggestedNodes,
+  (nodes, searchQuery, peers, suggestedNodes) => {
     const LIMIT = 50
 
     // If there is no search query default to showing the first 50 nodes from the nodes array
@@ -84,6 +95,7 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
     const queryLowerCase = query && query.toLowerCase()
     // list of the nodes
     return nodes
+      .concat(fromSuggestedToRegular(suggestedNodes) || [])
       .filter(node => {
         const { alias, pub_key, addresses } = node
         const matchesSearch =
