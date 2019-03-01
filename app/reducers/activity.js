@@ -321,11 +321,13 @@ const pendingActivity = createSelector(
   searchSelector,
   paymentsSending,
   transactionsSending,
+  transactionsSelector,
   invoicesSelector,
-  (searchText, paymentsSending, transactionsSending, invoices) => {
+  (searchText, paymentsSending, transactionsSending, transactions, invoices) => {
     const allData = [
       ...paymentsSending,
       ...transactionsSending,
+      ...transactions.filter(transaction => transaction.isPending),
       ...invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice))
     ]
     return searchText ? groupAll(applySearch(allData, searchText)) : groupAll(allData)
