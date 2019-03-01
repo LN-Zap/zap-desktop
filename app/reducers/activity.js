@@ -25,7 +25,6 @@ const initialState = {
     itemType: null,
     itemId: null
   },
-  searchActive: false,
   searchText: '',
   showExpiredRequests: false
 }
@@ -37,7 +36,6 @@ export const SHOW_ACTIVITY_MODAL = 'SHOW_ACTIVITY_MODAL'
 export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 export const TOGGLE_EXPIRED_REQUESTS = 'TOGGLE_EXPIRED_REQUESTS'
-export const UPDATE_SEARCH_ACTIVE = 'UPDATE_SEARCH_ACTIVE'
 export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
 
 // ------------------------------------
@@ -61,13 +59,6 @@ export function changeFilter(filter) {
   return {
     type: CHANGE_FILTER,
     filter
-  }
-}
-
-export function updateSearchActive(searchActive) {
-  return {
-    type: UPDATE_SEARCH_ACTIVE,
-    searchActive
   }
 }
 
@@ -114,8 +105,6 @@ const ACTION_HANDLERS = {
     ...state,
     showExpiredRequests: !state.showExpiredRequests
   }),
-
-  [UPDATE_SEARCH_ACTIVE]: (state, { searchActive }) => ({ ...state, searchActive }),
   [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText })
 }
 
