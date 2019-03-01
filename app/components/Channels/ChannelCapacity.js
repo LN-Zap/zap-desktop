@@ -1,20 +1,25 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { opacity } from 'styled-system'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
-import { Card, Box, Flex } from 'rebass'
-import { Heading, ProgressBar, Text } from 'components/UI'
+import { Card, Box, Flex as BaseFlex } from 'rebass'
+import { Heading, ProgressBar, Text as BaseText } from 'components/UI'
 import { CryptoSelector, CryptoValue } from 'containers/UI'
 import ZapSolid from 'components/Icon/ZapSolid'
 import messages from './messages'
 
-const ChannelCapacity = ({ localBalance, remoteBalance, ...rest }) => {
+const Flex = styled(BaseFlex)(opacity)
+const Text = styled(BaseText)(opacity)
+
+const ChannelCapacity = ({ localBalance, remoteBalance, opacity, ...rest }) => {
   const totalBalance = localBalance + remoteBalance
   const localBalancePercent = localBalance / totalBalance
   const remoteBalancePercent = remoteBalance / totalBalance
 
   return (
     <Card as="article" {...rest}>
-      <Flex as="header" justifyContent="space-between" alignItems="center">
+      <Flex as="header" justifyContent="space-between" alignItems="center" opacity={opacity}>
         <Text width={1 / 3}>
           <Heading.h4 fontWeight="normal">
             <FormattedMessage {...messages.local_balance} />
@@ -32,7 +37,7 @@ const ChannelCapacity = ({ localBalance, remoteBalance, ...rest }) => {
         </Text>
       </Flex>
 
-      <Flex as="section" justifyContent="space-between" alignItems="center" my={2}>
+      <Flex as="header" justifyContent="space-between" alignItems="center" my={2} opacity={opacity}>
         <Box width="calc(50% - 15px)">
           <ProgressBar progress={localBalancePercent} />
         </Box>
@@ -45,14 +50,17 @@ const ChannelCapacity = ({ localBalance, remoteBalance, ...rest }) => {
       </Flex>
 
       <Flex as="footer" justifyContent="space-between">
-        <Text width={1 / 3.2}>
+        <Text width={1 / 3.2} opacity={opacity}>
           <CryptoValue value={localBalance} />
         </Text>
-        <Text width={1 / 2.6} textAlign="center">
-          <CryptoValue value={totalBalance} />
-          <CryptoSelector ml={1} />
-        </Text>
-        <Text width={1 / 3.2} textAlign="right">
+        <Flex width={1 / 2.6} justifyContent="center" alignItems="center">
+          <Text textAlign="center" lineHeight="1" opacity={opacity}>
+            <CryptoValue value={totalBalance} />
+          </Text>
+          <CryptoSelector ml={1} buttonOpacity={opacity} />
+        </Flex>
+
+        <Text width={1 / 3.2} textAlign="right" opacity={opacity}>
           <CryptoValue value={remoteBalance} />
         </Text>
       </Flex>
@@ -62,7 +70,8 @@ const ChannelCapacity = ({ localBalance, remoteBalance, ...rest }) => {
 
 ChannelCapacity.propTypes = {
   localBalance: PropTypes.number.isRequired,
-  remoteBalance: PropTypes.number.isRequired
+  remoteBalance: PropTypes.number.isRequired,
+  opacity: PropTypes.number
 }
 
 export default ChannelCapacity

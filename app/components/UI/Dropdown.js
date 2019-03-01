@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
+import { opacity } from 'styled-system'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
@@ -22,7 +23,8 @@ DropdownContainer.defaultProps = {
 /**
  * Button
  */
-const DropdownButton = styled(Box)({
+const ButtonBox = styled(Box)(opacity)
+const DropdownButton = styled(ButtonBox)({
   appearance: 'none',
   display: 'inline-block',
   textAlign: 'center',
@@ -131,7 +133,8 @@ class Dropdown extends React.Component {
     justify: PropTypes.string,
     activeKey: PropTypes.string.isRequired,
     items: PropTypes.array.isRequired,
-    onChange: PropTypes.func
+    onChange: PropTypes.func,
+    buttonOpacity: PropTypes.number
   }
 
   componentDidMount() {
@@ -169,7 +172,7 @@ class Dropdown extends React.Component {
 
   render() {
     const { isOpen } = this.state
-    let { activeKey, items, justify, theme, ...rest } = this.props
+    let { activeKey, items, justify, theme, buttonOpacity, ...rest } = this.props
     // coerce array of strings into array of objects.
     items = items.map(item => {
       if (typeof item === 'string') {
@@ -184,7 +187,7 @@ class Dropdown extends React.Component {
     return (
       <div style={{ display: 'inline-block' }}>
         <DropdownContainer ref={this.setWrapperRef} {...rest}>
-          <DropdownButton type="button" onClick={this.toggleMenu}>
+          <DropdownButton type="button" onClick={this.toggleMenu} opacity={buttonOpacity}>
             <Flex alignItems="center">
               <Text textAlign="left" mr={1}>
                 {selectedItem ? selectedItem.name : activeKey}{' '}
