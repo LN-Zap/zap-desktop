@@ -81,13 +81,14 @@ contactFormSelectors.filteredNetworkNodes = createSelector(
     // if there is an '@' in the search query we are assuming they are using the format pubkey@host
     // we can ignore the '@' and the host and just grab the pubkey for our search
     const query = searchQuery.includes('@') ? searchQuery.split('@')[0] : searchQuery
-
+    const queryLowerCase = query && query.toLowerCase()
     // list of the nodes
     return nodes
       .filter(node => {
         const { alias, pub_key, addresses } = node
         const matchesSearch =
-          (alias && alias.includes(query)) || (pub_key && pub_key.includes(query))
+          (alias && alias.toLowerCase().includes(queryLowerCase)) ||
+          (pub_key && pub_key.includes(queryLowerCase))
         const hasAddress = addresses.length > 0
         return matchesSearch && hasAddress
       })
