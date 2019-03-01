@@ -25,72 +25,71 @@ Wrapper.displayName = 'Button'
  * @example
  * <Button><Basic button</Button>
  */
-class Button extends React.PureComponent {
-  static displayName = 'Button'
-  static defaultProps = {
-    processing: false,
-    active: false,
-    size: 'medium',
-    variant: 'normal'
-  }
-  static propTypes = {
-    processing: PropTypes.bool,
-    active: PropTypes.bool,
-    size: PropTypes.oneOf(['small', 'medium']),
-    variant: PropTypes.string,
-    className: PropTypes.string,
-    children: PropTypes.node
+const Button = React.forwardRef((props, ref) => {
+  let { children, active, processing, size, variant, className, ...rest } = props
+  const sizes = {
+    small: {
+      x: 3,
+      y: 2
+    },
+    medium: {
+      x: 5,
+      y: 3
+    }
   }
 
-  render() {
-    let { children, active, processing, size, variant, className, ...rest } = this.props
-    const sizes = {
-      small: {
-        x: 3,
-        y: 2
-      },
-      medium: {
-        x: 5,
-        y: 3
-      }
-    }
+  size = sizes[size] || sizes['medium']
+  if (variant === 'secondary') {
+    size.x = 0
+  }
 
-    size = sizes[size] || sizes['medium']
-    if (variant === 'secondary') {
-      size.x = 0
-    }
+  const borderRadius = variant === 'secondary' ? 0 : 5
 
-    const borderRadius = variant === 'secondary' ? 0 : 5
+  //support custom styled and styled-components
+  const wrapperClasses = [className, active ? 'active' : null].filter(cls => Boolean(cls)).join(' ')
 
-    //support custom styled and styled-components
-    const wrapperClasses = [className, active ? 'active' : null]
-      .filter(cls => Boolean(cls))
-      .join(' ')
-
-    return (
-      <Wrapper
-        px={size['x']}
-        py={size['y']}
-        borderRadius={borderRadius}
-        variant={variant}
-        className={wrapperClasses}
-        {...rest}
-      >
-        {processing ? (
-          <Flex alignItems="center">
-            {processing && <Spinner />}
-            <Text fontWeight="normal" fontFamily="sans" ml={2}>
-              {children}
-            </Text>
-          </Flex>
-        ) : (
-          <Text fontWeight="normal" fontFamily="sans">
+  return (
+    <Wrapper
+      px={size['x']}
+      py={size['y']}
+      borderRadius={borderRadius}
+      variant={variant}
+      className={wrapperClasses}
+      ref={ref}
+      {...rest}
+    >
+      {processing ? (
+        <Flex alignItems="center">
+          {processing && <Spinner />}
+          <Text fontWeight="normal" fontFamily="sans" ml={2}>
             {children}
           </Text>
-        )}
-      </Wrapper>
-    )
-  }
+        </Flex>
+      ) : (
+        <Text fontWeight="normal" fontFamily="sans">
+          {children}
+        </Text>
+      )}
+    </Wrapper>
+  )
+})
+
+Button.displayName = 'Button'
+
+Button.propTypes = {
+  processing: PropTypes.bool,
+  active: PropTypes.bool,
+  size: PropTypes.oneOf(['small', 'medium']),
+  variant: PropTypes.string,
+  className: PropTypes.string,
+  children: PropTypes.node
+}
+
+Button.defaultProps = {
+  processing: false,
+  active: false,
+  size: 'medium',
+  variant: 'normal'
 }
 
 export default Button
