@@ -2,7 +2,7 @@ import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import { showSystemNotification } from 'lib/utils/notifications'
 import { fetchBalance } from './balance'
-import { fetchInfo, setHasSynced, infoSelectors } from './info'
+import { fetchInfo, setHasSynced } from './info'
 import { putWallet, setActiveWallet, walletSelectors } from './wallet'
 import { onboardingFinished, setSeed } from './onboarding'
 
@@ -50,21 +50,9 @@ export const START_WALLET_UNLOCKER = 'START_WALLET_UNLOCKER'
 // ------------------------------------
 
 // Receive IPC event for LND sync status change.
-export const lndSyncStatus = (event, status) => async (dispatch, getState) => {
+export const lndSyncStatus = (event, status) => async dispatch => {
   const notifTitle = 'Lightning Node Synced'
   const notifBody = "Visa who? You're your own payment processor now!"
-
-  // Persist the fact that the wallet has been synced at least once.
-  const state = getState()
-  const pubKey = state.info.data.identity_pubkey
-  const hasSynced = infoSelectors.hasSynced(state)
-
-  if (pubKey && !hasSynced) {
-    const updated = await window.db.nodes.update(pubKey, { hasSynced: true })
-    if (!updated) {
-      await window.db.nodes.add({ id: pubKey, hasSynced: true })
-    }
-  }
 
   switch (status) {
     case 'waiting':
@@ -76,11 +64,12 @@ export const lndSyncStatus = (event, status) => async (dispatch, getState) => {
     case 'complete':
       dispatch({ type: SET_SYNC_STATUS_COMPLETE })
 
-      dispatch(setHasSynced(true))
-
       // Fetch data now that we know LND is synced
       dispatch(fetchBalance())
       dispatch(fetchInfo())
+
+      // Persist the fact that the wallet has been synced at least once.
+      dispatch(setHasSynced(true))
 
       // HTML 5 desktop notification for the new transaction
       showSystemNotification(notifTitle, notifBody)

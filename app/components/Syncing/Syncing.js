@@ -146,7 +146,7 @@ class Syncing extends Component {
         </Panel.Header>
 
         <Panel.Body width={9 / 16} mx="auto" mb={3}>
-          {hasSynced === false && address && address.length && (
+          {!hasSynced && address && address.length && (
             <Flex
               alignItems="center"
               flexDirection="column"
