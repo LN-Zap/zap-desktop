@@ -81,6 +81,15 @@ export function listChannels(lnd) {
 }
 
 /**
+ * Returns a description of all the closed channels that this node was a participant in.
+ * @param  {[type]} lnd [description]
+ * @return {[type]}     [description]
+ */
+export function closedChannels(lnd) {
+  return promisifiedCall(lnd, lnd.closedChannels, {})
+}
+
+/**
  * Attempts to close an active channel identified by its channel outpoint (ChannelPoint)
  * @param  {[type]} lnd     [description]
  * @param  {[type]} event   [description]

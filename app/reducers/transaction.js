@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import { showSystemNotification } from 'lib/utils/notifications'
 import { convert } from 'lib/utils/btc'
@@ -5,7 +6,7 @@ import delay from 'lib/utils/delay'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
-import { fetchChannels } from './channels'
+import { fetchChannels, channelsSelectors, getChannelData } from './channels'
 
 // ------------------------------------
 // Constants
@@ -212,6 +213,33 @@ const ACTION_HANDLERS = {
     }
   }
 }
+
+const transactionsSelectors = {}
+const transactionsSelector = state => state.transaction.transactions
+
+transactionsSelectors.transactionsSelector = createSelector(
+  transactionsSelector,
+  channelsSelectors.allChannelsRaw,
+  (transactions, allChannelsRaw) =>
+    transactions.map(transaction => {
+      const fundedChannel = allChannelsRaw.find(channelObj => {
+        const channelData = getChannelData(channelObj)
+        return transaction.tx_hash === channelData.channel_point.split(':')[0]
+      })
+      const closedChannel = allChannelsRaw.find(channelObj => {
+        const channelData = getChannelData(channelObj)
+        return [channelData.closing_tx_hash, channelObj.closing_txid].includes(transaction.tx_hash)
+      })
+      return {
+        ...transaction,
+        closeType: closedChannel ? closedChannel.close_type : null,
+        isFunding: Boolean(fundedChannel),
+        isClosing: Boolean(closedChannel)
+      }
+    })
+)
+
+export { transactionsSelectors }
 
 // ------------------------------------
 // Reducer

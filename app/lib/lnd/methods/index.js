@@ -94,12 +94,17 @@ export default function(lightning, log, event, msg, data) {
       //   }
       // ]
       Promise.all(
-        [channelController.listChannels, channelController.pendingChannels].map(func => func(lnd))
+        [
+          channelController.listChannels,
+          channelController.pendingChannels,
+          channelController.closedChannels
+        ].map(func => func(lnd))
       )
         .then(channelsData =>
           event.sender.send('receiveChannels', {
             channels: channelsData[0].channels,
-            pendingChannels: channelsData[1]
+            pendingChannels: channelsData[1],
+            closedChannels: channelsData[2].channels
           })
         )
         .catch(error => log.error('channels:', error))

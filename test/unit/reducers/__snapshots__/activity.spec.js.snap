@@ -20,6 +20,10 @@ Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
     },
+    Object {
+      "key": "INTERNAL_ACTIVITY",
+      "name": "Internal",
+    },
   ],
   "modal": Object {
     "itemId": null,
@@ -50,6 +54,10 @@ Object {
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "INTERNAL_ACTIVITY",
+      "name": "Internal",
     },
   ],
   "modal": Object {
@@ -82,6 +90,10 @@ Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
     },
+    Object {
+      "key": "INTERNAL_ACTIVITY",
+      "name": "Internal",
+    },
   ],
   "modal": Object {
     "itemId": undefined,
@@ -113,6 +125,10 @@ Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
     },
+    Object {
+      "key": "INTERNAL_ACTIVITY",
+      "name": "Internal",
+    },
   ],
   "modal": Object {
     "itemId": null,
@@ -143,6 +159,10 @@ Object {
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "INTERNAL_ACTIVITY",
+      "name": "Internal",
     },
   ],
   "modal": Object {
