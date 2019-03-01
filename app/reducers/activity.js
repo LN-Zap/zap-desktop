@@ -338,11 +338,20 @@ const pendingActivity = createSelector(
 )
 
 const internalActivity = createSelector(
+  searchSelector,
   transactionsSelector,
-  transactions => {
-    return groupAll(
-      transactions.filter(transaction => transaction.isFunding || transaction.isClosing)
+  (searchText, transactions) => {
+    const allData = transactions.filter(
+      transaction => transaction.isFunding || transaction.isClosing
     )
+
+    if (!searchText) {
+      return groupAll(allData)
+    }
+
+    const searchedArr = allData.filter(tx => tx.tx_hash && tx.tx_hash.includes(searchText))
+
+    return groupAll(searchedArr)
   }
 )
 
