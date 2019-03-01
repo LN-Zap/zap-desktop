@@ -4,10 +4,11 @@ import get from 'lodash.get'
 import { FormattedDate, FormattedTime, FormattedMessage, FormattedNumber } from 'react-intl'
 import { Flex } from 'rebass'
 import { blockExplorer } from 'lib/utils'
-import { Bar, DataRow, Header, Link, Panel, Text } from 'components/UI'
+import { Bar, DataRow, Header, Link, Panel, Span, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Onchain from 'components/Icon/Onchain'
+import Padlock from 'components/Icon/Padlock'
 import messages from './messages'
 
 export default class TransactionModal extends React.PureComponent {
@@ -37,14 +38,14 @@ export default class TransactionModal extends React.PureComponent {
   render() {
     const { item, ...rest } = this.props
     const destAddress = get(item, 'dest_addresses[0]')
+    const amount = item.amount || item.limboAmount || 0
+    const isIncoming = item.received || item.limboAmount > 0
 
     return (
       <Panel {...rest}>
         <Panel.Header>
           <Header
-            title={
-              <FormattedMessage {...messages[item.received ? 'title_received' : 'title_sent']} />
-            }
+            title={<FormattedMessage {...messages[isIncoming ? 'title_received' : 'title_sent']} />}
             subtitle={<FormattedMessage {...messages.subtitle} />}
             logo={<Onchain height="45px" width="45px" />}
           />
@@ -57,7 +58,7 @@ export default class TransactionModal extends React.PureComponent {
             right={
               <Flex alignItems="center">
                 <CryptoSelector mr={2} />
-                <CryptoValue value={item.amount} fontSize="xxl" />
+                <CryptoValue value={amount} fontSize="xxl" />
               </Flex>
             }
           />
@@ -69,7 +70,7 @@ export default class TransactionModal extends React.PureComponent {
             right={
               <Flex alignItems="center">
                 <FiatSelector mr={2} />
-                <FiatValue value={item.amount} />
+                <FiatValue value={amount} />
               </Flex>
             }
           />
@@ -127,7 +128,7 @@ export default class TransactionModal extends React.PureComponent {
 
           <Bar />
 
-          {!item.received && (
+          {!isIncoming && (
             <>
               <DataRow
                 left={<FormattedMessage {...messages.fee} />}
@@ -147,16 +148,32 @@ export default class TransactionModal extends React.PureComponent {
             left={<FormattedMessage {...messages.status} />}
             right={
               item.block_height ? (
-                <Link
-                  className="hint--bottom-left"
-                  data-hint={item.block_hash}
-                  onClick={() => this.showBlock(item.block_hash)}
-                >
-                  <FormattedMessage
-                    {...messages.block_height}
-                    values={{ height: item.block_height }}
-                  />
-                </Link>
+                <>
+                  <Link
+                    className="hint--bottom-left"
+                    data-hint={item.block_hash}
+                    onClick={() => this.showBlock(item.block_hash)}
+                  >
+                    <FormattedMessage
+                      {...messages.block_height}
+                      values={{ height: item.block_height }}
+                    />
+                  </Link>
+
+                  {item.maturityHeight && (
+                    <Flex mt={1} alignItems="center">
+                      <Span color="gray" fontSize="s" mr={1}>
+                        <Padlock />
+                      </Span>
+                      <Text>
+                        <FormattedMessage
+                          {...messages.maturity_height}
+                          values={{ height: item.maturityHeight }}
+                        />
+                      </Text>
+                    </Flex>
+                  )}
+                </>
               ) : (
                 <FormattedMessage {...messages.unconfirmed} />
               )

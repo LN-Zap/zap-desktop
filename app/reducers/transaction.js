@@ -242,7 +242,9 @@ transactionsSelectors.transactionsSelector = createSelector(
         closeType: closedChannel ? closedChannel.close_type : null,
         isFunding: Boolean(fundedChannel),
         isClosing: Boolean(closedChannel),
-        isPending: Boolean(pendingChannel)
+        isPending: Boolean(pendingChannel),
+        limboAmount: pendingChannel && pendingChannel.limbo_balance,
+        maturityHeight: pendingChannel && pendingChannel.maturity_height
       }
     })
 )

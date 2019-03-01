@@ -7,7 +7,9 @@ import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
 const Transaction = ({ transaction, showActivityModal, currencyName, intl }) => {
-  let type = transaction.received ? 'received' : 'sent'
+  const amount = transaction.amount || transaction.limboAmount || 0
+  const isIncoming = transaction.received || transaction.limboAmount > 0
+  let type = isIncoming ? 'received' : 'sent'
   if (transaction.isFunding) {
     type = 'funding'
   } else if (transaction.isClosing) {
@@ -67,13 +69,13 @@ const Transaction = ({ transaction, showActivityModal, currencyName, intl }) => 
         data-hint={intl.formatMessage({ ...messages.amount })}
       >
         <Box css={transaction.status == 'failed' ? { opacity: 0.2 } : null}>
-          <Text mb={1} textAlign="right" color={transaction.received ? 'superGreen' : null}>
-            {transaction.received ? `+ ` : `- `}
-            <CryptoValue value={transaction.amount} />
+          <Text mb={1} textAlign="right" color={isIncoming ? 'superGreen' : null}>
+            {isIncoming ? `+ ` : `- `}
+            <CryptoValue value={amount} />
             <i> {currencyName}</i>
           </Text>
           <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-            <FiatValue value={transaction.amount} style="currency" />
+            <FiatValue value={amount} style="currency" />
           </Text>
         </Box>
       </Box>
