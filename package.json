@@ -346,7 +346,7 @@
     "lodash.partition": "4.6.0",
     "lodash.pick": "4.4.0",
     "lodash.throttle": "4.1.1",
-    "polished": "3.0.1",
+    "polished": "3.0.2",
     "prop-types": "15.7.2",
     "qrcode.react": "0.9.3",
     "react": "16.8.3",
