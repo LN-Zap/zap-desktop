@@ -333,7 +333,7 @@
     "downshift": "3.2.6",
     "electron": "4.0.6",
     "electron-is-dev": "1.0.1",
-    "get-port": "4.1.0",
+    "get-port": "4.2.0",
     "history": "4.7.2",
     "informed": "1.10.12",
     "is-electron-renderer": "2.0.1",
