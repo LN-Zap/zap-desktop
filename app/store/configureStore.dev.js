@@ -91,7 +91,6 @@ export const configureStore = initialState => {
   const store = createStore(createRootReducer(history), initialState, enhancer)
 
   if (module.hot) {
-    // eslint-disable-next-line global-require
     module.hot.accept('../reducers', () => {
       store.replaceReducer(createRootReducer(history))
     })

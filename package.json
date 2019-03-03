@@ -290,7 +290,6 @@
     "minimist": "1.2.0",
     "mock-spawn": "0.2.6",
     "prettier": "1.16.4",
-    "react-hot-loader": "4.7.2",
     "react-storybook-addon-chapters": "3.0.3",
     "react-test-renderer": "16.8.3",
     "redux-logger": "3.0.6",
@@ -317,6 +316,7 @@
   "dependencies": {
     "@grpc/grpc-js": "0.3.5",
     "@grpc/proto-loader": "0.4.0",
+    "@hot-loader/react-dom": "16.8.3",
     "@rebass/components": "4.0.0-1",
     "axios": "0.18.0",
     "bip39-en": "1.1.1",
@@ -351,6 +351,7 @@
     "qrcode.react": "0.9.3",
     "react": "16.8.3",
     "react-dom": "16.8.3",
+    "react-hot-loader": "4.7.2",
     "react-intl": "2.8.0",
     "react-intl-redux": "2.1.0",
     "react-redux": "5.1.1",
