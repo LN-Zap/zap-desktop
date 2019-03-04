@@ -256,12 +256,18 @@ function groupAll(data) {
 }
 
 const applySearch = (data, searchText) => {
-  return data.filter(
-    item =>
-      (item.tx_hash && item.tx_hash.includes(searchText)) ||
-      (item.payment_hash && item.payment_hash.includes(searchText)) ||
-      (item.payment_request && item.payment_request.includes(searchText))
-  )
+  return searchText
+    ? data.filter(
+        item =>
+          (item.tx_hash && item.tx_hash.includes(searchText)) ||
+          (item.payment_hash && item.payment_hash.includes(searchText)) ||
+          (item.payment_request && item.payment_request.includes(searchText))
+      )
+    : data
+}
+
+const prepareData = (data, searchText) => {
+  return groupAll(applySearch(data, searchText))
 }
 
 const allActivity = createSelector(
@@ -279,7 +285,7 @@ const allActivity = createSelector(
       ...transactions.filter(transaction => !transaction.isFunding && !transaction.isClosing),
       ...invoices.filter(invoice => invoice.settled || !invoiceExpired(invoice))
     ]
-    return searchText ? groupAll(applySearch(allData, searchText)) : groupAll(allData)
+    return prepareData(allData, searchText)
   }
 )
 
@@ -298,7 +304,7 @@ const sentActivity = createSelector(
         transaction => !transaction.received && !transaction.isFunding && !transaction.isClosing
       )
     ]
-    return searchText ? groupAll(applySearch(allData, searchText)) : groupAll(allData)
+    return prepareData(allData, searchText)
   }
 )
 
@@ -313,7 +319,7 @@ const receivedActivity = createSelector(
         transaction => transaction.received && !transaction.isFunding && !transaction.isClosing
       )
     ]
-    return searchText ? groupAll(applySearch(allData, searchText)) : groupAll(allData)
+    return prepareData(allData, searchText)
   }
 )
 
@@ -330,7 +336,7 @@ const pendingActivity = createSelector(
       ...transactions.filter(transaction => transaction.isPending),
       ...invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice))
     ]
-    return searchText ? groupAll(applySearch(allData, searchText)) : groupAll(allData)
+    return prepareData(allData, searchText)
   }
 )
 
@@ -339,7 +345,7 @@ const expiredActivity = createSelector(
   invoicesSelector,
   (searchText, invoices) => {
     const allData = invoices.filter(invoice => !invoice.settled && invoiceExpired(invoice))
-    return searchText ? groupAll(applySearch(allData, searchText)) : groupAll(allData)
+    return prepareData(allData, searchText)
   }
 )
 
@@ -350,7 +356,7 @@ const internalActivity = createSelector(
     const allData = transactions.filter(
       transaction => transaction.isFunding || transaction.isClosing
     )
-    return searchText ? groupAll(applySearch(allData, searchText)) : groupAll(allData)
+    return prepareData(allData, searchText)
   }
 )
 
