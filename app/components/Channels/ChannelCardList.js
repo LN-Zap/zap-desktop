@@ -4,7 +4,6 @@ import { Box } from 'rebass'
 import styled from 'styled-components'
 import { Grid, AutoSizer } from 'react-virtualized'
 import { space as baseSpace } from 'themes/base'
-import { Card } from 'components/UI'
 import ChannelCardListItem from './ChannelCardListItem'
 
 const StyledList = styled(Grid)`
@@ -20,9 +19,9 @@ const ChannelCardList = ({
   setSelectedChannel,
   networkInfo
 }) => {
-  const ROW_MARGIN_BOTTOM = 3
+  const ROW_PADDING_BOTTOM = 3
   // current row height + margin bottom
-  const ROW_HEIGHT = 392 + baseSpace[ROW_MARGIN_BOTTOM]
+  const ROW_HEIGHT = 392 + baseSpace[ROW_PADDING_BOTTOM]
   const renderRow = rowProps => {
     const { columnIndex, rowIndex, key, style } = rowProps
     const index = rowIndex * 2 + columnIndex
@@ -38,19 +37,18 @@ const ChannelCardList = ({
         pr={index % 2 ? 4 : 3}
         pl={index % 2 ? 3 : 4}
         pt={3}
-        mb={ROW_MARGIN_BOTTOM}
+        pb={ROW_PADDING_BOTTOM}
         style={style}
         key={key}
       >
-        <Card>
-          <ChannelCardListItem
-            channel={channel}
-            currencyName={currencyName}
-            openModal={openModal}
-            setSelectedChannel={setSelectedChannel}
-            networkInfo={networkInfo}
-          />
-        </Card>
+        <ChannelCardListItem
+          channel={channel}
+          currencyName={currencyName}
+          openModal={openModal}
+          setSelectedChannel={setSelectedChannel}
+          networkInfo={networkInfo}
+          css={{ height: '100%' }}
+        />
       </Box>
     )
   }

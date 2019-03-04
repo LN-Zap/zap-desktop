@@ -4,7 +4,7 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'
 import { Box as BaseBox, Flex as BaseFlex } from 'rebass'
-import { Bar, Heading, Text } from 'components/UI'
+import { Bar, Card, Heading, Panel, Text } from 'components/UI'
 import withEllipsis from 'components/withEllipsis'
 import ChannelData from './ChannelData'
 import ChannelCapacity from './ChannelCapacity'
@@ -30,50 +30,56 @@ const ChannelCardListItem = React.memo(
     } = channel
     const opacity = active ? 1 : 0.3
     return (
-      <Box {...rest}>
-        <Box as="header">
-          <Flex justifyContent="space-between">
-            <ClippedHeading my={1} opacity={opacity}>
-              {display_name}
-            </ClippedHeading>
+      <Card {...rest}>
+        <Panel>
+          <Panel.Header>
+            <Flex justifyContent="space-between">
+              <ClippedHeading my={1} opacity={opacity}>
+                {display_name}
+              </ClippedHeading>
 
-            <ChannelStatus status={display_status} mb="auto" />
-          </Flex>
-          <Flex justifyContent="space-between" opacity={opacity}>
-            <Text fontWeight="normal">
-              <FormattedMessage {...messages.remote_pubkey} />
-            </Text>
-            <ClippedText width={2 / 3}>{display_pubkey}</ClippedText>
-          </Flex>
-          <Box opacity={opacity}>
-            <Bar my={2} opacity={0.3} />
-          </Box>
-        </Box>
+              <ChannelStatus status={display_status} mb="auto" />
+            </Flex>
+            <Flex justifyContent="space-between" opacity={opacity}>
+              <Text fontWeight="normal">
+                <FormattedMessage {...messages.remote_pubkey} />
+              </Text>
+              <ClippedText width={2 / 3}>{display_pubkey}</ClippedText>
+            </Flex>
+            <Box opacity={opacity}>
+              <Bar my={2} opacity={0.3} />
+            </Box>
+          </Panel.Header>
 
-        <ChannelCapacity
-          localBalance={local_balance}
-          remoteBalance={remote_balance}
-          opacity={opacity}
-          my={4}
-        />
+          <Panel.Body>
+            <ChannelCapacity
+              localBalance={local_balance}
+              remoteBalance={remote_balance}
+              opacity={opacity}
+              my={4}
+            />
 
-        <ChannelData
-          channel={channel}
-          currencyName={currencyName}
-          networkInfo={networkInfo}
-          as="section"
-          opacity={opacity}
-        />
+            <ChannelData
+              channel={channel}
+              currencyName={currencyName}
+              networkInfo={networkInfo}
+              as="section"
+              opacity={opacity}
+            />
+          </Panel.Body>
 
-        <Flex as="footer" justifyContent="center" alignItems="flex-end">
-          <ChannelMoreButton
-            onClick={() => {
-              setSelectedChannel(channel_point)
-              openModal('CHANNEL_DETAIL')
-            }}
-          />
-        </Flex>
-      </Box>
+          <Panel.Footer>
+            <Flex as="footer" justifyContent="center" alignItems="flex-end">
+              <ChannelMoreButton
+                onClick={() => {
+                  setSelectedChannel(channel_point)
+                  openModal('CHANNEL_DETAIL')
+                }}
+              />
+            </Flex>
+          </Panel.Footer>
+        </Panel>
+      </Card>
     )
   }
 )

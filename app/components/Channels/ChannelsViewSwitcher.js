@@ -6,7 +6,7 @@ import { Flex } from 'rebass'
 import { Button } from 'components/UI'
 import LayoutCards from 'components/Icon/LayoutCards'
 import LayoutList from 'components/Icon/LayoutList'
-import { VIEW_MODE_SUMMARY, VIEW_MODE_CARD } from './constants'
+import { CHANNEL_LIST_VIEW_MODE_SUMMARY, CHANNEL_LIST_VIEW_MODE_CARD } from './constants'
 import messages from './messages'
 
 const StyledButton = styled(Button)`
@@ -61,14 +61,14 @@ ListButton.propTypes = {
 const ChannelsViewSwitcher = ({ channelViewMode, setChannelViewMode, ...rest }) => (
   <Flex as="section" alignItems="center" {...rest}>
     <CardButton
-      active={channelViewMode === VIEW_MODE_CARD}
-      onClick={() => setChannelViewMode(VIEW_MODE_CARD)}
+      active={channelViewMode === CHANNEL_LIST_VIEW_MODE_CARD}
+      onClick={() => setChannelViewMode(CHANNEL_LIST_VIEW_MODE_CARD)}
       px={2}
       py={1}
     />
     <ListButton
-      active={channelViewMode === VIEW_MODE_SUMMARY}
-      onClick={() => setChannelViewMode(VIEW_MODE_SUMMARY)}
+      active={channelViewMode === CHANNEL_LIST_VIEW_MODE_SUMMARY}
+      onClick={() => setChannelViewMode(CHANNEL_LIST_VIEW_MODE_SUMMARY)}
       px={2}
       py={1}
     />

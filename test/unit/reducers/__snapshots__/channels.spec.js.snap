@@ -52,7 +52,7 @@ Object {
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
-  "viewMode": "VIEW_MODE_CARD",
+  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
   "viewType": 0,
 }
 `;
@@ -109,7 +109,7 @@ Object {
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
-  "viewMode": "VIEW_MODE_CARD",
+  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
   "viewType": 0,
 }
 `;
@@ -166,7 +166,7 @@ Object {
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
-  "viewMode": "VIEW_MODE_CARD",
+  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
   "viewType": 0,
 }
 `;
@@ -223,7 +223,7 @@ Object {
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
-  "viewMode": "VIEW_MODE_CARD",
+  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
   "viewType": 0,
 }
 `;

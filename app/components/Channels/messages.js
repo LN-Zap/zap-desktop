@@ -49,6 +49,9 @@ export default defineMessages({
   funding_transaction_id_label: 'Funding Transaction',
   funding_transaction_id_description:
     'The transaction that opened this channel, as recorded in the blockchain. You can click the link on the right to view this transaction in a block explorer.',
+  closing_transaction_id_label: 'Closing Transaction',
+  closing_transaction_id_description:
+    'The transaction that closed this channel, as recorded in the blockchain. You can click the link on the right to view this transaction in a block explorer.',
   num_updates_label: 'Number of Updates',
   num_updates_description: 'The total number of updates within this channel.',
   csv_delay_label: 'Time Lock',
