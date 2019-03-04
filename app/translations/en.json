@@ -86,6 +86,7 @@
   "components.Channels.csv_delay_description": "In the event of an uncooperative close (force close) of this channel, the time lock is the number of blocks you will have to wait before you can claim your funds again.",
   "components.Channels.csv_delay_label": "Time Lock",
   "components.Channels.csv_delay_value": "{csvDelay, plural, zero {0 blocks} one {1 block} other {{csvDelay} blocks}}",
+  "components.Channels.error_not_enough_funds": "Not enough funds",
   "components.Channels.fee": "Fee",
   "components.Channels.fee_per_byte": "per byte",
   "components.Channels.fee_unknown": "unknown",

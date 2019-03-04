@@ -37,6 +37,12 @@ class CurrencyFieldGroup extends React.Component {
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Boolean indicating if form fields are required */
     required: PropTypes.bool,
+    /** Additional field validation */
+    validate: PropTypes.func.isRequired,
+    /** Boolean indicating if form fields should validate on blur */
+    validateOnBlur: PropTypes.bool,
+    /** Boolean indicating if form fields should validate on change */
+    validateOnChange: PropTypes.bool,
     /** Set the current cryptocurrency. */
     setCryptoCurrency: PropTypes.func.isRequired,
     /** Set the current fiat currency */
@@ -46,7 +52,9 @@ class CurrencyFieldGroup extends React.Component {
   static defaultProps = {
     disabled: false,
     initialAmountCrypto: null,
-    initialAmountFiat: null
+    initialAmountFiat: null,
+    validateOnBlur: true,
+    validateOnChange: true
   }
 
   /**
@@ -96,13 +104,16 @@ class CurrencyFieldGroup extends React.Component {
       initialAmountCrypto,
       initialAmountFiat,
       required,
+      validate,
+      validateOnBlur,
+      validateOnChange,
       ...rest
     } = this.props
 
     return (
       <Box {...rest}>
-        <Flex justifyContent="space-between" alignItems="center">
-          <Flex width={6 / 13} alignItems="center">
+        <Flex justifyContent="space-between">
+          <Flex width={6 / 13}>
             <Box width={150}>
               <CryptoAmountInput
                 field="amountCrypto"
@@ -112,8 +123,9 @@ class CurrencyFieldGroup extends React.Component {
                 required={required}
                 label={<FormattedMessage {...messages.amount} />}
                 width={150}
-                validateOnChange
-                validateOnBlur
+                validate={validate}
+                validateOnBlur={validateOnBlur}
+                validateOnChange={validateOnChange}
                 onChange={this.handleAmountCryptoChange}
                 forwardedRef={this.forwardedRef}
                 disabled={disabled}
@@ -123,14 +135,14 @@ class CurrencyFieldGroup extends React.Component {
               activeKey={cryptoCurrency}
               items={cryptoCurrencies}
               onChange={this.handleCryptoCurrencyChange}
-              mt={3}
+              mt={36}
               ml={2}
             />
           </Flex>
-          <Flex alignItems="center" justifyContent="center" width={1 / 11} mt={3}>
+          <Flex justifyContent="center" width={1 / 11} mt={38}>
             =
           </Flex>
-          <Flex width={6 / 13} alignItems="center">
+          <Flex width={6 / 13}>
             <Box width={150} ml="auto">
               <FiatAmountInput
                 field="amountFiat"
@@ -149,7 +161,7 @@ class CurrencyFieldGroup extends React.Component {
               activeKey={fiatCurrency}
               items={fiatCurrencies}
               onChange={this.handleFiatCurrencyChange}
-              mt={3}
+              mt={36}
               ml={2}
             />
           </Flex>

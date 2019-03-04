@@ -6,12 +6,20 @@ describe('reducers', () => {
       expect(balanceReducer(undefined, {})).toMatchSnapshot()
     })
 
-    it('should handle INCREMENT_COUNTER', () => {
+    it('should handle GET_BALANCE', () => {
       expect(balanceReducer(undefined, { type: GET_BALANCE })).toMatchSnapshot()
     })
 
-    it('should handle DECREMENT_COUNTER', () => {
-      expect(balanceReducer(undefined, { type: RECEIVE_BALANCE })).toMatchSnapshot()
+    it('should handle RECEIVE_BALANCE', () => {
+      const walletBalance = {
+        total_balance: 1,
+        confirmed_balance: 1,
+        unconfirmed_balance: 1
+      }
+      const channelBalance = 1
+      expect(
+        balanceReducer(undefined, { type: RECEIVE_BALANCE, walletBalance, channelBalance })
+      ).toMatchSnapshot()
     })
 
     it('should handle unknown action type', () => {

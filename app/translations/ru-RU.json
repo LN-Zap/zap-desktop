@@ -86,6 +86,7 @@
   "components.Channels.csv_delay_description": "",
   "components.Channels.csv_delay_label": "",
   "components.Channels.csv_delay_value": "",
+  "components.Channels.error_not_enough_funds": "",
   "components.Channels.fee": "",
   "components.Channels.fee_per_byte": "",
   "components.Channels.fee_unknown": "",

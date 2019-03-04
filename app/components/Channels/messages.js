@@ -7,6 +7,7 @@ export default defineMessages({
   calculating: 'calculating',
   channels: 'Channels',
   capacity: 'Capacity',
+  error_not_enough_funds: 'Not enough funds',
   total_capacity: 'Total Capacity',
   more_button_text: 'More',
   create_new_button_text: 'Create New',

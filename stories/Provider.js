@@ -81,5 +81,7 @@ store.dispatch({
 store.dispatch({
   type: 'RECEIVE_BALANCE',
   walletBalance: 47238944,
+  walletBalanceConfirmed: 37236599,
+  walletBalanceUnconfirmed: 10002345,
   channelBalance: 256474
 })

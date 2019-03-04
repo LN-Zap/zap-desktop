@@ -12,7 +12,9 @@ import { Window, mockCreateInvoice } from '../helpers'
 
 const data = {
   cryptoName: 'Bitcoin',
-  walletBalance: 10000000,
+  walletBalance: 47238944,
+  walletBalanceConfirmed: 37236599,
+  walletBalanceUnconfirmed: 10002345,
   channelBalance: 25000,
   onchainFees: {
     fastestFee: 100,

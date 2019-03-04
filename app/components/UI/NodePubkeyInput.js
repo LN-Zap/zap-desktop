@@ -63,7 +63,7 @@ const NodePubkeyInputAsField = asField(({ fieldState, fieldApi, ...rest }) => {
     <React.Fragment>
       <Input {...rest} />
       {value && !error && (
-        <Message variant="success" mt={1}>
+        <Message variant="success" mt={2}>
           <FormattedMessage {...messages.valid_pubkey} />
         </Message>
       )}

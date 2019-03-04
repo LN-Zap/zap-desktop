@@ -35,20 +35,23 @@ const ACTION_HANDLERS = {
   [RECEIVE_BALANCE]: (state, { walletBalance, channelBalance }) => ({
     ...state,
     balanceLoading: false,
-    walletBalance,
+    walletBalance: walletBalance.total_balance,
+    walletBalanceConfirmed: walletBalance.confirmed_balance,
+    walletBalanceUnconfirmed: walletBalance.unconfirmed_balance,
     channelBalance
   })
 }
 
-const channelBalanceSelector = state => state.balance.channelBalance
-const walletBalanceSelector = state => state.balance.walletBalance
-
 // Selectors
 const balanceSelectors = {}
+balanceSelectors.channelBalance = state => state.balance.channelBalance
+balanceSelectors.walletBalance = state => state.balance.walletBalance
+balanceSelectors.walletBalanceConfirmed = state => state.balance.walletBalanceConfirmed
+balanceSelectors.walletBalanceUnconfirmed = state => state.balance.walletBalanceUnconfirmed
 
 balanceSelectors.totalBalance = createSelector(
-  channelBalanceSelector,
-  walletBalanceSelector,
+  balanceSelectors.channelBalance,
+  balanceSelectors.walletBalance,
   (channelBalance, walletBalance) => (channelBalance || 0) + (walletBalance || 0)
 )
 
@@ -60,6 +63,8 @@ export { balanceSelectors }
 const initialState = {
   balanceLoading: false,
   walletBalance: null,
+  walletBalanceConfirmed: null,
+  walletBalanceUnconfirmed: null,
   channelBalance: null
 }
 
