@@ -617,8 +617,13 @@ channelsSelectors.nonActiveChannelPubkeys = createSelector(
   openChannels => openChannels.map(c => c.remote_pubkey)
 )
 
-channelsSelectors.pendingOpenChannels = createSelector(
+channelsSelectors.pendingOpenChannelsRaw = createSelector(
   pendingOpenChannelsSelector,
+  pendingOpenChannels => pendingOpenChannels
+)
+
+channelsSelectors.pendingOpenChannels = createSelector(
+  channelsSelectors.pendingOpenChannelsRaw,
   nodesSelector,
   closingChannelIdsSelector,
   (pendingOpenChannels, nodes, closingChannelIds) =>
@@ -631,22 +636,23 @@ channelsSelectors.pendingOpenChannelPubkeys = createSelector(
     pendingOpenChannels.map(pendingChannel => pendingChannel.channel.remote_node_pub)
 )
 
-channelsSelectors.closingPendingChannels = createSelector(
+channelsSelectors.closingPendingChannelsRaw = createSelector(
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
   waitingCloseChannelsSelector,
+  (pendingClosedChannels, pendingForcedClosedChannels, waitingCloseChannels) => [
+    ...pendingClosedChannels,
+    ...pendingForcedClosedChannels,
+    ...waitingCloseChannels
+  ]
+)
+
+channelsSelectors.closingPendingChannels = createSelector(
+  channelsSelectors.closingPendingChannelsRaw,
   nodesSelector,
   closingChannelIdsSelector,
-  (
-    pendingClosedChannels,
-    pendingForcedClosedChannels,
-    waitingCloseChannels,
-    nodes,
-    closingChannelIds
-  ) =>
-    [...pendingClosedChannels, ...pendingForcedClosedChannels, ...waitingCloseChannels].map(
-      channelObj => decorateChannel(channelObj, nodes, closingChannelIds)
-    )
+  (closingPendingChannels, nodes, closingChannelIds) =>
+    closingPendingChannels.map(channelObj => decorateChannel(channelObj, nodes, closingChannelIds))
 )
 
 channelsSelectors.closingChannelIds = createSelector(

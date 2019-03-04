@@ -46,6 +46,7 @@ import Search from 'components/Icon/Search'
 import Settings from 'components/Icon/Settings'
 import Spinner from 'components/Icon/Spinner'
 import Success from 'components/Icon/Success'
+import Sync from 'components/Icon/Sync'
 import User from 'components/Icon/User'
 import Wallet from 'components/Icon/Wallet'
 import Wallet2 from 'components/Icon/Wallet2'
@@ -101,6 +102,7 @@ const zapIconsList = {
   Settings,
   Spinner,
   Success,
+  Sync,
   User,
   Wallet,
   Wallet2,

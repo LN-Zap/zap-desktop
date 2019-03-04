@@ -13,12 +13,16 @@ Object {
       "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
@@ -29,7 +33,6 @@ Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchActive": false,
   "searchText": "",
   "showExpiredRequests": false,
 }
@@ -48,12 +51,16 @@ Object {
       "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
@@ -64,7 +71,6 @@ Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchActive": false,
   "searchText": "",
   "showExpiredRequests": false,
 }
@@ -83,12 +89,16 @@ Object {
       "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
@@ -99,42 +109,6 @@ Object {
     "itemId": undefined,
     "itemType": undefined,
   },
-  "searchActive": false,
-  "searchText": "",
-  "showExpiredRequests": false,
-}
-`;
-
-exports[`reducers activityReducer should correctly updateSearchActive 1`] = `
-Object {
-  "filter": "ALL_ACTIVITY",
-  "filters": Array [
-    Object {
-      "key": "ALL_ACTIVITY",
-      "name": "All",
-    },
-    Object {
-      "key": "SENT_ACTIVITY",
-      "name": "Sent",
-    },
-    Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
-    },
-    Object {
-      "key": "PENDING_ACTIVITY",
-      "name": "Pending",
-    },
-    Object {
-      "key": "INTERNAL_ACTIVITY",
-      "name": "Internal",
-    },
-  ],
-  "modal": Object {
-    "itemId": null,
-    "itemType": null,
-  },
-  "searchActive": undefined,
   "searchText": "",
   "showExpiredRequests": false,
 }
@@ -153,12 +127,16 @@ Object {
       "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "Requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
       "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
@@ -169,7 +147,6 @@ Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchActive": false,
   "searchText": undefined,
   "showExpiredRequests": false,
 }

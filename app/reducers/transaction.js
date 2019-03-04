@@ -220,7 +220,9 @@ const transactionsSelector = state => state.transaction.transactions
 transactionsSelectors.transactionsSelector = createSelector(
   transactionsSelector,
   channelsSelectors.allChannelsRaw,
-  (transactions, allChannelsRaw) =>
+  channelsSelectors.closingPendingChannelsRaw,
+  channelsSelectors.pendingOpenChannelsRaw,
+  (transactions, allChannelsRaw, closingPendingChannelsRaw, pendingOpenChannelsRaw) =>
     transactions.map(transaction => {
       const fundedChannel = allChannelsRaw.find(channelObj => {
         const channelData = getChannelData(channelObj)
@@ -230,11 +232,17 @@ transactionsSelectors.transactionsSelector = createSelector(
         const channelData = getChannelData(channelObj)
         return [channelData.closing_tx_hash, channelObj.closing_txid].includes(transaction.tx_hash)
       })
+      const pendingChannel = [...closingPendingChannelsRaw, ...pendingOpenChannelsRaw].find(
+        channelObj => {
+          return channelObj.closing_txid === transaction.tx_hash
+        }
+      )
       return {
         ...transaction,
         closeType: closedChannel ? closedChannel.close_type : null,
         isFunding: Boolean(fundedChannel),
-        isClosing: Boolean(closedChannel)
+        isClosing: Boolean(closedChannel),
+        isPending: Boolean(pendingChannel)
       }
     })
 )

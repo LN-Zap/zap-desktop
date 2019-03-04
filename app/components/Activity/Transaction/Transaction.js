@@ -29,8 +29,11 @@ const Transaction = ({ transaction, showActivityModal, currencyName, intl }) => 
         data-hint={intl.formatMessage({ ...messages.type })}
       >
         <Text mb={1}>
-          <FormattedMessage {...messages[type]} />
-          {transaction.closeType && <Text color="gray">{transaction.closeType}</Text>}
+          {transaction.closeType ? (
+            <FormattedMessage {...messages[`closetype_${transaction.closeType.toLowerCase()}`]} />
+          ) : (
+            <FormattedMessage {...messages[type]} />
+          )}
         </Text>
 
         {transaction.sending ? (

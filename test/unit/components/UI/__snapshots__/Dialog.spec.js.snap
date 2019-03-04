@@ -4,22 +4,22 @@ exports[`component.UI.Dialog should render correctly with custom content 1`] = `
 <Dialog
   buttons={
     <React.Fragment>
-      <Button
+      <ForwardRef
         active={false}
         processing={false}
         size="medium"
         variant="primary"
       >
         Primary
-      </Button>
-      <Button
+      </ForwardRef>
+      <ForwardRef
         active={false}
         processing={false}
         size="medium"
         variant="secondary"
       >
         Secondary
-      </Button>
+      </ForwardRef>
     </React.Fragment>
   }
   header={

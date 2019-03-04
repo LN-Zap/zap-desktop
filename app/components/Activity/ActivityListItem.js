@@ -11,14 +11,16 @@ import Clock from 'components/Icon/Clock'
 import Zap from 'components/Icon/Zap'
 import { Text } from 'components/UI'
 
+const ZapIcon = () => <Zap width="1.6em" height="1.6em" />
+
 const ActivityIcon = ({ activity }) => {
   switch (activity.type) {
     case 'transaction':
       return <ChainLink />
     case 'payment':
-      return <Zap width="1.6em" height="1.6em" />
+      return <ZapIcon />
     case 'invoice':
-      return <Clock />
+      return activity.settled ? <ZapIcon /> : <Clock />
     default:
       return null
   }
