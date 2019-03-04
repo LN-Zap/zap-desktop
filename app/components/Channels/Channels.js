@@ -7,7 +7,7 @@ import PersistentTabControl from 'components/TabControl/PersistentTabControl'
 import ChannelsHeader from './ChannelsHeader'
 import ChannelCardList from './ChannelCardList'
 import ChannelSummaryList from './ChannelSummaryList'
-import { VIEW_MODE_CARD } from './constants'
+import { CHANNEL_LIST_VIEW_MODE_CARD } from './constants'
 
 const StyledPersistentTabControl = styled(PersistentTabControl)`
   height: 100%;
@@ -78,7 +78,9 @@ class Channels extends React.Component {
           />
         </Panel.Header>
         <Panel.Body css={{ overflow: 'hidden' }}>
-          <StyledPersistentTabControl activeTab={channelViewMode === VIEW_MODE_CARD ? 0 : 1}>
+          <StyledPersistentTabControl
+            activeTab={channelViewMode === CHANNEL_LIST_VIEW_MODE_CARD ? 0 : 1}
+          >
             <ChannelCardList
               channels={channels}
               currencyName={currencyName}

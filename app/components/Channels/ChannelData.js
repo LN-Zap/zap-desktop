@@ -8,6 +8,7 @@ import { blockExplorer } from 'lib/utils'
 import { Bar, DataRow, Link } from 'components/UI'
 import { Truncate } from 'components/Util'
 import { CryptoValue } from 'containers/UI'
+import { CHANNEL_DATA_VIEW_MODE_BASIC, CHANNEL_DATA_VIEW_MODE_FULL } from './constants'
 import messages from './messages'
 
 const Box = styled(BaseBox)(opacity)
@@ -15,6 +16,7 @@ const Box = styled(BaseBox)(opacity)
 const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) => {
   const {
     channel_point,
+    closing_txid,
     commit_fee,
     fee_per_kw,
     total_satoshis_sent,
@@ -23,9 +25,10 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
     num_updates
   } = channel
   const [fundingTxid] = channel_point.split(':')
+
   const data = [
     {
-      id: 'funding_transaction_id',
+      id: 'channel_point',
       label: <FormattedMessage {...messages.funding_transaction_id_label} />,
       body: <FormattedMessage {...messages.funding_transaction_id_description} />,
       value: (
@@ -37,104 +40,105 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
       )
     },
     {
+      id: 'closing_txid',
+      label: <FormattedMessage {...messages.closing_transaction_id_label} />,
+      body: <FormattedMessage {...messages.closing_transaction_id_description} />,
+      value: (
+        <Link
+          onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, closing_txid)}
+        >
+          <Truncate text={closing_txid} maxlen={25} />
+        </Link>
+      )
+    },
+    {
       id: 'num_updates',
       label: <FormattedMessage {...messages.num_updates_label} />,
       body: <FormattedMessage {...messages.num_updates_description} />,
-      value:
-        typeof num_updates !== 'undefined' ? (
-          num_updates
-        ) : (
-          <FormattedMessage {...messages.unknown} />
-        )
+      value: num_updates
     },
     {
       id: 'csv_delay',
       label: <FormattedMessage {...messages.csv_delay_label} />,
       body: <FormattedMessage {...messages.csv_delay_description} />,
-      value:
-        typeof csv_delay !== 'undefined' ? (
-          <FormattedMessage {...messages.csv_delay_value} values={{ csvDelay: csv_delay }} />
-        ) : (
-          <FormattedMessage {...messages.unknown} />
-        )
+      value: csv_delay
+    },
+    {
+      id: 'total_satoshis_sent',
+      label: <FormattedMessage {...messages.total_sent_label} />,
+      body: <FormattedMessage {...messages.total_sent_description} />,
+      value: (
+        <>
+          <CryptoValue value={total_satoshis_sent} />
+          {` `}
+          {currencyName}
+        </>
+      )
+    },
+    {
+      id: 'total_satoshis_received',
+      label: <FormattedMessage {...messages.total_received_label} />,
+      body: <FormattedMessage {...messages.total_received_description} />,
+      value: (
+        <>
+          <CryptoValue value={total_satoshis_received} />
+          {` `}
+          {currencyName}
+        </>
+      )
+    },
+    {
+      id: 'commit_fee',
+      label: <FormattedMessage {...messages.commit_fee_label} />,
+      body: <FormattedMessage {...messages.commit_fee_description} />,
+      value: (
+        <>
+          <CryptoValue value={commit_fee} />
+          {` `}
+          {currencyName}
+        </>
+      )
+    },
+    {
+      id: 'fee_per_kw',
+      label: <FormattedMessage {...messages.base_fee_label} />,
+      body: <FormattedMessage {...messages.base_fee_description} values={{ currencyName }} />,
+      value: (
+        <>
+          <CryptoValue value={fee_per_kw} />
+          {` `}
+          {currencyName}
+        </>
+      )
     }
   ]
 
-  if (viewMode === 'full') {
-    data.push(
-      {
-        id: 'total_sent',
-        label: <FormattedMessage {...messages.total_sent_label} />,
-        body: <FormattedMessage {...messages.total_sent_description} />,
-        value:
-          typeof total_satoshis_sent !== 'undefined' ? (
-            <>
-              <CryptoValue value={total_satoshis_sent} />
-              {` `}
-              {currencyName}
-            </>
-          ) : (
-            <FormattedMessage {...messages.unknown} />
-          )
-      },
-      {
-        id: 'total_received',
-        label: <FormattedMessage {...messages.total_received_label} />,
-        body: <FormattedMessage {...messages.total_received_description} />,
-        value:
-          typeof total_satoshis_received !== 'undefined' ? (
-            <>
-              <CryptoValue value={total_satoshis_received} />
-              {` `}
-              {currencyName}
-            </>
-          ) : (
-            <FormattedMessage {...messages.unknown} />
-          )
-      },
-      {
-        id: 'commit_fee',
-        label: <FormattedMessage {...messages.commit_fee_label} />,
-        body: <FormattedMessage {...messages.commit_fee_description} />,
-        value:
-          typeof commit_fee !== 'undefined' ? (
-            <>
-              <CryptoValue value={commit_fee} />
-              {` `}
-              {currencyName}
-            </>
-          ) : (
-            <FormattedMessage {...messages.unknown} />
-          )
-      },
-      {
-        id: 'base_fee',
-        label: <FormattedMessage {...messages.base_fee_label} />,
-        body: <FormattedMessage {...messages.base_fee_description} values={{ currencyName }} />,
-        value:
-          typeof fee_per_kw !== 'undefined' ? (
-            <>
-              <CryptoValue value={fee_per_kw} />
-              {` `}
-              {currencyName}
-            </>
-          ) : (
-            <FormattedMessage {...messages.unknown} />
-          )
-      }
-    )
-  }
+  const idsToInclude =
+    viewMode === CHANNEL_DATA_VIEW_MODE_BASIC
+      ? ['channel_point', 'num_updates', 'csv_delay']
+      : [
+          'channel_point',
+          'closing_txid',
+          'num_updates',
+          'csv_delay',
+          'total_satoshis_sent',
+          'total_satoshis_received',
+          'commit_fee',
+          'fee_per_kw'
+        ]
+
+  const rows = idsToInclude.filter(id => channel[id] != null).map(id => data.find(d => d.id === id))
 
   return (
     <Box {...rest}>
-      {data.map(item => (
-        <React.Fragment key={item.id}>
+      {rows.map(row => (
+        <React.Fragment key={row.id}>
           <Bar opacity={0.3} />
           <DataRow
-            left={item.label}
-            right={item.value}
-            body={viewMode === 'full' ? item.body : null}
-            py={viewMode === 'full' ? 3 : 2}
+            left={row.label}
+            right={row.value}
+            body={viewMode === CHANNEL_DATA_VIEW_MODE_FULL ? row.body : null}
+            py={viewMode === CHANNEL_DATA_VIEW_MODE_FULL ? 3 : 2}
             pr={2}
           />
         </React.Fragment>
@@ -146,7 +150,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
 ChannelData.propTypes = {
   channel: PropTypes.object.isRequired,
   currencyName: PropTypes.string.isRequired,
-  viewMode: PropTypes.oneOf(['basic', 'full']),
+  viewMode: PropTypes.oneOf([CHANNEL_DATA_VIEW_MODE_BASIC, CHANNEL_DATA_VIEW_MODE_FULL]),
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string
@@ -154,7 +158,7 @@ ChannelData.propTypes = {
 }
 
 ChannelData.defaultProps = {
-  viewMode: 'basic'
+  viewMode: CHANNEL_DATA_VIEW_MODE_BASIC
 }
 
 export default ChannelData

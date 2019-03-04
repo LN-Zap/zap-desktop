@@ -172,6 +172,10 @@ const decorateChannel = (channelObj, nodes, closingChannelIds) => {
       ['open', 'offline'].includes(status) && !closingChannelIds.includes(channelData.chan_id)
   }
 
+  if (channelObj.closing_txid) {
+    updatedChannelData.closing_txid = channelObj.closing_txid
+  }
+
   if (channelObj.channel) {
     return {
       ...channelObj,
@@ -811,7 +815,7 @@ const initialState = {
   closingChannelIds: [],
 
   selectedChannelId: null,
-  viewMode: 'VIEW_MODE_CARD',
+  viewMode: 'CHANNEL_LIST_VIEW_MODE_CARD',
 
   // nodes stored at zap.jackmallers.com/api/v1/suggested-peers manages by JimmyMow
   // we store this node list here and if the user doesnt have any channels

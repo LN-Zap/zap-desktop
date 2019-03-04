@@ -5,6 +5,7 @@ import ChannelCapacity from './ChannelCapacity'
 import ChannelData from './ChannelData'
 import ChannelFooter from './ChannelFooter'
 import ChannelHeader from './ChannelHeader'
+import { CHANNEL_DATA_VIEW_MODE_FULL } from './constants'
 
 const ChannelDetail = ({
   channel,
@@ -30,7 +31,7 @@ const ChannelDetail = ({
         channel={channel}
         currencyName={currencyName}
         networkInfo={networkInfo}
-        viewMode="full"
+        viewMode={CHANNEL_DATA_VIEW_MODE_FULL}
         width={9 / 16}
         mx="auto"
       />
