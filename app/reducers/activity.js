@@ -282,7 +282,9 @@ const allActivity = createSelector(
       ...paymentsSending,
       ...transactionsSending,
       ...payments,
-      ...transactions.filter(transaction => !transaction.isFunding && !transaction.isClosing),
+      ...transactions.filter(
+        transaction => !transaction.isFunding && !transaction.isClosing && !transaction.isPending
+      ),
       ...invoices.filter(invoice => invoice.settled || !invoiceExpired(invoice))
     ]
     return prepareData(allData, searchText)
@@ -301,7 +303,11 @@ const sentActivity = createSelector(
       ...transactionsSending,
       ...payments,
       ...transactions.filter(
-        transaction => !transaction.received && !transaction.isFunding && !transaction.isClosing
+        transaction =>
+          !transaction.received &&
+          !transaction.isFunding &&
+          !transaction.isClosing &&
+          !transaction.isPending
       )
     ]
     return prepareData(allData, searchText)
@@ -316,7 +322,11 @@ const receivedActivity = createSelector(
     const allData = [
       ...invoices.filter(invoice => invoice.settled),
       ...transactions.filter(
-        transaction => transaction.received && !transaction.isFunding && !transaction.isClosing
+        transaction =>
+          transaction.received &&
+          !transaction.isFunding &&
+          !transaction.isClosing &&
+          !transaction.isPending
       )
     ]
     return prepareData(allData, searchText)
@@ -354,7 +364,7 @@ const internalActivity = createSelector(
   transactionsSelector,
   (searchText, transactions) => {
     const allData = transactions.filter(
-      transaction => transaction.isFunding || transaction.isClosing
+      transaction => transaction.isFunding || (transaction.isClosing && !transaction.isPending)
     )
     return prepareData(allData, searchText)
   }
