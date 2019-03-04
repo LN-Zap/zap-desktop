@@ -52,6 +52,7 @@
   "components.Activity.TransactionModal.current_value": "Current value",
   "components.Activity.TransactionModal.date_confirmed": "Date of confirmation",
   "components.Activity.TransactionModal.fee": "Total fee",
+  "components.Activity.TransactionModal.num_confirmations": "Confirmations",
   "components.Activity.TransactionModal.status": "Status",
   "components.Activity.TransactionModal.subtitle": "On-Chain Payment",
   "components.Activity.TransactionModal.title_received": "Received",
