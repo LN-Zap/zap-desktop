@@ -30,11 +30,7 @@ const ActivityRefresh = injectIntl(({ intl, onClick, ...rest }) => {
   useEffect(() => {
     if (status === 'fetching') {
       fetchActivity()
-    }
-  }, [status])
-
-  useEffect(() => {
-    if (status === 'done') {
+    } else if (status === 'done') {
       buttonRef.current.blur()
     }
   }, [status])
