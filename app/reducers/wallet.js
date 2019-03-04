@@ -1,13 +1,12 @@
 import { createSelector } from 'reselect'
-import get from 'lodash.get'
 import { showError } from './notification'
+import { putSetting } from './settings'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const SET_WALLETS = 'SET_WALLETS'
 export const SET_WALLETS_LOADED = 'SET_WALLETS_LOADED'
-export const SET_ACTIVE_WALLET = 'SET_ACTIVE_WALLET'
-export const SET_IS_WALLET_OPEN = 'SET_IS_WALLET_OPEN'
 export const DELETE_WALLET = 'DELETE_WALLET'
 export const OPEN_DELETE_WALLET_DIALOG = 'OPEN_DELETE_WALLET_DIALOG'
 export const CLOSE_DELETE_WALLET_DIALOG = 'CLOSE_DELETE_WALLET_DIALOG'
@@ -44,25 +43,11 @@ export const getWallets = () => async dispatch => {
 }
 
 export const setActiveWallet = activeWallet => async dispatch => {
-  dispatch({
-    type: SET_ACTIVE_WALLET,
-    activeWallet
-  })
-  await window.db.settings.put({
-    key: 'activeWallet',
-    value: activeWallet
-  })
+  dispatch(putSetting('activeWallet', activeWallet))
 }
 
 export const setIsWalletOpen = isWalletOpen => async dispatch => {
-  dispatch({
-    type: SET_IS_WALLET_OPEN,
-    isWalletOpen
-  })
-  await window.db.settings.put({
-    key: 'isWalletOpen',
-    value: isWalletOpen
-  })
+  dispatch(putSetting('isWalletOpen', isWalletOpen))
 }
 
 export const putWallet = wallet => async dispatch => {
@@ -112,18 +97,9 @@ export const deleteWallet = () => async (dispatch, getState) => {
 }
 
 export const initWallets = () => async dispatch => {
-  // Fetch the current wallet settings.
-  let [activeWallet, isWalletOpen, dbWallets] = await Promise.all([
-    window.db.settings.get({ key: 'activeWallet' }),
-    window.db.settings.get({ key: 'isWalletOpen' }),
-    dispatch(getWallets())
-  ])
+  // Fetch wallet details.
+  const dbWallets = await dispatch(getWallets())
 
-  activeWallet = get(activeWallet || {}, 'value', null)
-  isWalletOpen = get(isWalletOpen || {}, 'value', false)
-
-  dispatch(setIsWalletOpen(isWalletOpen))
-  dispatch(setActiveWallet(activeWallet))
   dispatch(setWalletsLoaded())
 
   // Create wallet entry in the database if one doesn't exist already.
@@ -156,8 +132,6 @@ export const initWallets = () => async dispatch => {
 const ACTION_HANDLERS = {
   [SET_WALLETS]: (state, { wallets }) => ({ ...state, wallets }),
   [SET_WALLETS_LOADED]: state => ({ ...state, isWalletsLoaded: true }),
-  [SET_ACTIVE_WALLET]: (state, { activeWallet }) => ({ ...state, activeWallet }),
-  [SET_IS_WALLET_OPEN]: (state, { isWalletOpen }) => ({ ...state, isWalletOpen }),
   [OPEN_DELETE_WALLET_DIALOG]: state => ({
     ...state,
     isDeleteDialogOpen: true
@@ -173,9 +147,9 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 
 const walletSelectors = {}
-const activeWalletSelector = state => state.wallet.activeWallet
 const walletsSelector = state => state.wallet.wallets
-const hasOpenWalletSelector = state => state.wallet.isWalletOpen
+const activeWalletSelector = state => state.settings.activeWallet
+const isWalletOpenSelector = state => state.settings.isWalletOpen
 
 walletSelectors.activeWalletDir = createSelector(
   activeWalletSelector,
@@ -207,8 +181,8 @@ walletSelectors.hasWallets = createSelector(
   wallets => wallets.length > 0
 )
 
-walletSelectors.hasOpenWallet = createSelector(
-  hasOpenWalletSelector,
+walletSelectors.isWalletOpen = createSelector(
+  isWalletOpenSelector,
   isOpen => isOpen
 )
 
@@ -220,8 +194,6 @@ export { walletSelectors }
 
 const initialState = {
   isWalletsLoaded: false,
-  isWalletOpen: false,
-  activeWallet: null,
   wallets: []
 }
 
