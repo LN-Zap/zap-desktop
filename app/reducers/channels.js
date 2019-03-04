@@ -6,6 +6,7 @@ import { showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
 import { getNodeDisplayName, truncateNodePubkey, updateNodeData } from './network'
+import { putSetting } from './settings'
 
 // ------------------------------------
 // Constants
@@ -185,11 +186,21 @@ const decorateChannel = (channelObj, nodes, closingChannelIds) => {
 // Actions
 // ------------------------------------
 
-export function setChannelViewMode(viewMode) {
-  return {
+export const initChannels = () => async (dispatch, getState) => {
+  const state = getState()
+  const userViewMode = state.settings.channelViewMode
+  const channelViewMode = state.channels.viewMode
+  if (userViewMode && userViewMode !== channelViewMode) {
+    dispatch(setChannelViewMode(userViewMode))
+  }
+}
+
+export const setChannelViewMode = viewMode => dispatch => {
+  dispatch({
     type: SET_CHANNEL_VIEW_MODE,
     viewMode
-  }
+  })
+  dispatch(putSetting('channelViewMode', viewMode))
 }
 
 export function changeFilter(filter) {

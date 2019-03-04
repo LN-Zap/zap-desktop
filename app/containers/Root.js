@@ -6,9 +6,9 @@ import { ConnectedRouter } from 'connected-react-router'
 import { ThemeProvider } from 'styled-components'
 
 import { removeNotification, notificationSelectors } from 'reducers/notification'
+import { initSettings } from 'reducers/settings'
 import { initTheme, themeSelectors } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
-
 import { isLoading, isLoadingPerPath, getLoadingMessage } from 'reducers/utils'
 import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
@@ -40,19 +40,19 @@ class Root extends React.Component {
     history: PropTypes.object.isRequired,
     isLoading: PropTypes.bool.isRequired,
 
+    initSettings: PropTypes.func.isRequired,
     initTheme: PropTypes.func.isRequired,
     isMounted: PropTypes.bool.isRequired,
     setMounted: PropTypes.func.isRequired
   }
-  /**
-   * // Show the loading bold briefly before showing the user the app.
-   */
-  componentDidMount() {
-    const { initTheme, isMounted, setMounted } = this.props
+
+  async componentDidMount() {
+    const { initSettings, initTheme, isMounted, setMounted } = this.props
 
     // If this is the first time the app has mounted, initialize things.
     if (!isMounted) {
       setMounted(true)
+      await initSettings()
       initTheme()
     }
   }
@@ -133,6 +133,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   removeNotification,
+  initSettings,
   initTheme,
   setLoading,
   setMounted

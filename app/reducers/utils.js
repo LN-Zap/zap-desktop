@@ -9,7 +9,7 @@ import { tickerSelectors } from './ticker'
  */
 export const isLoading = createSelector(
   appSelectors.isLoading,
-  walletSelectors.hasOpenWallet,
+  walletSelectors.isWalletOpen,
   lndSelectors.isStartingLnd,
   (isAppLoading, isWalletOpen, isStartingLnd) => isAppLoading || (isStartingLnd && isWalletOpen)
 )
