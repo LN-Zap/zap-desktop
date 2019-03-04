@@ -6,6 +6,7 @@ export default defineMessages({
   subtitle: 'On-Chain Payment',
   amount: 'Amount',
   date_confirmed: 'Date of confirmation',
+  num_confirmations: 'Confirmations',
   fee: 'Total fee',
   status: 'Status',
   current_value: 'Current value',
