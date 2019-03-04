@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
+import get from 'lodash.get'
+import { FormattedDate, FormattedTime, FormattedMessage, FormattedNumber } from 'react-intl'
 import { Flex } from 'rebass'
 import { blockExplorer } from 'lib/utils'
-import { Bar, DataRow, Header, Link, Panel } from 'components/UI'
+import { Bar, DataRow, Header, Link, Panel, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Onchain from 'components/Icon/Onchain'
@@ -35,6 +36,7 @@ export default class TransactionModal extends React.PureComponent {
 
   render() {
     const { item, ...rest } = this.props
+    const destAddress = get(item, 'dest_addresses[0]')
 
     return (
       <Panel {...rest}>
@@ -72,38 +74,56 @@ export default class TransactionModal extends React.PureComponent {
             }
           />
 
-          <Bar />
+          {item.num_confirmations > 0 && (
+            <>
+              <Bar />
 
-          <DataRow
-            left={<FormattedMessage {...messages.date_confirmed} />}
-            right={
-              <>
-                <FormattedDate
-                  value={item.time_stamp * 1000}
-                  year="numeric"
-                  month="long"
-                  day="2-digit"
-                />
-                <br />
-                <FormattedTime value={item.time_stamp * 1000} />
-              </>
-            }
-          />
+              <DataRow
+                left={<FormattedMessage {...messages.date_confirmed} />}
+                right={
+                  item.num_confirmations ? (
+                    <>
+                      <Text>
+                        <FormattedDate
+                          value={item.time_stamp * 1000}
+                          year="numeric"
+                          month="long"
+                          day="2-digit"
+                        />
+                      </Text>
+                      <Text>
+                        <FormattedTime value={item.time_stamp * 1000} />
+                      </Text>
+                    </>
+                  ) : (
+                    <FormattedMessage {...messages.unconfirmed} />
+                  )
+                }
+              />
 
-          <Bar />
+              <Bar />
 
-          <DataRow
-            left={<FormattedMessage {...messages.address} />}
-            right={
-              <Link
-                className="hint--bottom-left"
-                data-hint={item.dest_addresses[0]}
-                onClick={() => this.showAddress(item.dest_addresses[0])}
-              >
-                <Truncate text={item.dest_addresses[0]} />
-              </Link>
-            }
-          />
+              <DataRow
+                left={<FormattedMessage {...messages.num_confirmations} />}
+                right={<FormattedNumber value={item.num_confirmations} />}
+              />
+
+              <Bar />
+
+              <DataRow
+                left={<FormattedMessage {...messages.address} />}
+                right={
+                  <Link
+                    className="hint--bottom-left"
+                    data-hint={destAddress}
+                    onClick={() => this.showAddress(destAddress)}
+                  >
+                    <Truncate text={destAddress} />
+                  </Link>
+                }
+              />
+            </>
+          )}
 
           <Bar />
 
