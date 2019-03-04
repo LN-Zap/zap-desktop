@@ -8,7 +8,7 @@ import { setIsWalletOpen } from 'reducers/wallet'
 import { showNotification } from 'reducers/notification'
 import { Syncing } from 'components/Syncing'
 import { Modal, ModalOverlayStyles } from 'components/UI'
-import { useOnKeydown } from 'components/Util/hooks'
+import { useOnKeydown } from 'hooks'
 
 const mapStateToProps = state => ({
   address: state.address.address,

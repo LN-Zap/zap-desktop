@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { asField } from 'informed'
 import { Flex } from 'rebass'
-import WithOpenDialog from 'components/withOpenDialog'
+import { WithOpenDialog } from 'hocs'
 import Input from './Input'
 import OpenDialogButton from './OpenDialogButton'
 

@@ -6,7 +6,7 @@ import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
-import withEllipsis from 'components/withEllipsis'
+import { withEllipsis } from 'hocs'
 import {
   TRANSACTION_SPEED_SLOW,
   TRANSACTION_SPEED_MEDIUM,

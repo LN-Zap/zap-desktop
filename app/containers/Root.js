@@ -14,7 +14,7 @@ import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalNotification from 'components/GlobalNotification'
-import withLoading from 'components/withLoading'
+import { withLoading } from 'hocs'
 import Initializer from './Initializer'
 import Logout from './Logout'
 import Home from './Home'

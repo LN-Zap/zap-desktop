@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Modal, ModalOverlayStyles } from 'components/UI'
 import { Onboarding } from 'components/Onboarding'
-import { useOnKeydown } from 'components/Util/hooks'
+import { useOnKeydown } from 'hooks'
 import {
   setAlias,
   setAutopilot,
