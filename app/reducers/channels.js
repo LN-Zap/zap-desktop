@@ -120,37 +120,6 @@ const getStatus = (channel, closingChannelIds) => {
 }
 
 /**
- * Determine the status of a channel (for old channel ui)
- * @param  {Object} channel Channel object.
- * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing.
- * @return {String} Channel status name.
- */
-const getLegacyStatus = (channel, closingChannelIds) => {
-  // if the channel has a confirmation_height property that means it's pending
-  if ('confirmation_height' in channel) {
-    return 'pending'
-  }
-  // if the channel has a closing tx that means it's closing
-  if ('closing_txid' in channel) {
-    return 'closing'
-  }
-  // if the channel is in waiting_close_channels phase
-  if ('limbo_balance' in channel) {
-    return 'closing'
-  }
-  // if we are in the process of closing this channel
-  if (closingChannelIds.includes(channel.chan_id)) {
-    return 'closing'
-  }
-  // if the channel isn't active that means the remote peer isn't online
-  if (!channel.active) {
-    return 'offline'
-  }
-  // if all of the above conditionals fail we can assume the node is online :)
-  return 'online'
-}
-
-/**
  * Decorate a channel object with additional calculated properties.
  * @param  {Object} channelObj Channel object.
  * @param  {Array} nodes Array of node data.
@@ -161,14 +130,12 @@ const decorateChannel = (channelObj, nodes, closingChannelIds) => {
   // If this is a pending channel, the channel data will be stored under the `channel` key.
   const channelData = getChannelData(channelObj)
   const status = getStatus(channelObj, closingChannelIds)
-  const legacyStatus = getLegacyStatus(channelObj, closingChannelIds)
 
   const updatedChannelData = {
     ...channelData,
     display_pubkey: getRemoteNodePubKey(channelData),
     display_name: getDisplayName(channelData, nodes),
     display_status: status,
-    legacy_staus: legacyStatus,
     can_close:
       ['open', 'offline'].includes(status) && !closingChannelIds.includes(channelData.chan_id)
   }
