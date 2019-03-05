@@ -37,7 +37,7 @@ const SearchResults = ({ filteredNetworkNodes, onClickConnect, ...rest }) => (
               <FormattedMessage {...messages.connect} />
             </Button>
           </Flex>
-          <Bar opacity={0.3} />
+          <Bar variant="light" />
         </React.Fragment>
       )
     })}

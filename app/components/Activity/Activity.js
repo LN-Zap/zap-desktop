@@ -56,7 +56,7 @@ class Activity extends Component {
                 <Heading.h4 fontWeight="normal">
                   <FormattedDate day="2-digit" month="short" year="numeric" value={item.title} />
                 </Heading.h4>
-                <Bar py={1} />
+                <Bar my={1} />
               </Box>
             ) : (
               <ActivityListItem

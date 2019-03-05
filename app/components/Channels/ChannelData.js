@@ -133,7 +133,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
     <Box {...rest}>
       {rows.map(row => (
         <React.Fragment key={row.id}>
-          <Bar opacity={0.3} />
+          <Bar variant="light" />
           <DataRow
             left={row.label}
             right={row.value}

@@ -29,7 +29,7 @@ export default class InvoiceModal extends React.PureComponent {
             subtitle={<FormattedMessage {...messages.subtitle} />}
             logo={<Lightning height="45px" width="45px" />}
           />
-          <Bar pt={2} />
+          <Bar mt={2} />
         </Panel.Header>
 
         <Panel.Body>

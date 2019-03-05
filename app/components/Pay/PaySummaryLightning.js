@@ -108,7 +108,7 @@ class PaySummaryLightning extends React.Component {
           </Flex>
         </Box>
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.fee} />}
@@ -127,7 +127,7 @@ class PaySummaryLightning extends React.Component {
           }
         />
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.total} />}
@@ -138,7 +138,7 @@ class PaySummaryLightning extends React.Component {
           }
         />
 
-        <Bar />
+        <Bar variant="light" />
 
         {memo && <DataRow left={<FormattedMessage {...messages.memo} />} right={memo} />}
       </Box>

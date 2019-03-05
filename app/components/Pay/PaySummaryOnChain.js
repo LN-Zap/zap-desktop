@@ -82,7 +82,7 @@ class PaySummaryOnChain extends React.Component {
           </Flex>
         </Box>
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.fee} />}
@@ -110,7 +110,7 @@ class PaySummaryOnChain extends React.Component {
           }
         />
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.total} />}

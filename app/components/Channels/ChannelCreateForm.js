@@ -249,7 +249,7 @@ class ChannelCreateForm extends React.Component {
           disabled={Boolean(searchQuery)}
         />
 
-        <Bar my={3} opacity={0.3} />
+        <Bar my={3} variant="light" />
 
         <CurrencyFieldGroup
           formApi={this.formApi}
@@ -260,7 +260,7 @@ class ChannelCreateForm extends React.Component {
           css={{ height: '88px' }}
         />
 
-        <Bar my={3} opacity={0.3} />
+        <Bar my={3} variant="light" />
 
         <Flex justifyContent="space-between" alignItems="center">
           <Box>
@@ -308,7 +308,7 @@ class ChannelCreateForm extends React.Component {
 
         {activeWalletSettings.type !== 'local' && (
           <>
-            <Bar my={3} opacity={0.3} />
+            <Bar my={3} variant="light" />
             <Flex justifyContent="space-between" alignItems="center">
               <Flex>
                 <Span color="gray" fontSize="s" mr={2}>

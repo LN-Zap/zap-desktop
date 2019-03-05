@@ -47,7 +47,7 @@ const ChannelCardListItem = React.memo(
               <ClippedText width={2 / 3}>{display_pubkey}</ClippedText>
             </Flex>
             <Box opacity={opacity}>
-              <Bar my={2} opacity={0.3} />
+              <Bar my={2} variant="light" />
             </Box>
           </Panel.Header>
 
