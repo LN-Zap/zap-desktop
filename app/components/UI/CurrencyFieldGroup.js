@@ -38,7 +38,7 @@ class CurrencyFieldGroup extends React.Component {
     /** Boolean indicating if form fields are required */
     required: PropTypes.bool,
     /** Additional field validation */
-    validate: PropTypes.func.isRequired,
+    validate: PropTypes.func,
     /** Boolean indicating if form fields should validate on blur */
     validateOnBlur: PropTypes.bool,
     /** Boolean indicating if form fields should validate on change */
