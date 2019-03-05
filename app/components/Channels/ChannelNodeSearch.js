@@ -6,7 +6,7 @@ import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import { Bar, Button, Form, Heading, Input, Text } from 'components/UI'
 import { Truncate } from 'components/Util'
-import withEllipsis from 'components/withEllipsis'
+import { withEllipsis } from 'hocs'
 import messages from './messages'
 
 const ClippedText = withEllipsis(Text)

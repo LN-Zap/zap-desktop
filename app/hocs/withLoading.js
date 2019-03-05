@@ -1,9 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { withTheme } from 'styled-components'
 import LoadingBolt from 'components/LoadingBolt'
-
-const LoadingBoltWithTheme = withTheme(LoadingBolt)
 
 /**
  * A HOC that will display the LoadingBolt component whilast the wrapped component is loading.
@@ -27,7 +24,7 @@ const withLoading = Component =>
       return (
         <>
           <Component {...rest}>{children}</Component>
-          <LoadingBoltWithTheme isLoading={isLoading} message={loadingMessage} />
+          <LoadingBolt isLoading={isLoading} message={loadingMessage} />
         </>
       )
     }

@@ -6,7 +6,7 @@ import { asField } from 'informed'
 import * as yup from 'yup'
 import { convert } from 'lib/utils/btc'
 import { formatValue, parseNumber } from 'lib/utils/crypto'
-import withNumberInputMask from 'components/withNumberInputMask'
+import { withNumberInputMask } from 'hocs'
 import Input from './Input'
 
 /**
