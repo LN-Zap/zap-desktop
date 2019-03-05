@@ -257,7 +257,7 @@
     "enzyme": "3.9.0",
     "enzyme-adapter-react-16": "1.10.0",
     "enzyme-to-json": "3.3.5",
-    "eslint": "5.15.0",
+    "eslint": "5.15.1",
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-formatter-pretty": "2.1.1",
