@@ -29,7 +29,7 @@ class ChannelCreate extends React.Component {
           <Flex justifyContent="center">
             <Panel.Header width={9 / 16}>
               <ChannelCreateHeader />
-              <Bar pt={2} mb={3} />
+              <Bar mt={2} mb={3} />
             </Panel.Header>
           </Flex>
 

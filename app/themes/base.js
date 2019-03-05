@@ -72,6 +72,15 @@ const statuses = {
   }
 }
 
+const bars = {
+  normal: {
+    opacity: 0.6
+  },
+  light: {
+    opacity: 0.3
+  }
+}
+
 export default {
   space,
   fontSizes,
@@ -79,5 +88,6 @@ export default {
   fonts,
   letterSpacings,
   palette,
-  statuses
+  statuses,
+  bars
 }

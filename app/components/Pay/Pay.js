@@ -423,7 +423,7 @@ class Pay extends React.Component {
       >
         {styles => (
           <Box style={styles}>
-            <Bar my={3} />
+            <Bar my={3} variant="light" />
 
             <CurrencyFieldGroup
               disabled={currentStep !== 'amount'}
@@ -558,7 +558,7 @@ class Pay extends React.Component {
                   }
                   type={isLn ? 'offchain' : isOnchain ? 'onchain' : null}
                 />
-                <Bar pt={2} />
+                <Bar mt={2} />
               </Panel.Header>
 
               <Panel.Body py={3}>

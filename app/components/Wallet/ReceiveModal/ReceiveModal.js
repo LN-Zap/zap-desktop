@@ -124,7 +124,7 @@ class ReceiveModal extends React.PureComponent {
           {networkInfo && networkInfo.id === 'testnet' && networkInfo.name}
         </Heading.h1>
 
-        <Bar pt={2} />
+        <Bar mt={2} />
 
         <Flex justifyContent="center" my={3}>
           <Tabs onClick={this.setQrcode} activeKey={qrCodeType} items={tabs} />

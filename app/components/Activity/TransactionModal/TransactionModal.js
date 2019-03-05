@@ -49,7 +49,7 @@ export default class TransactionModal extends React.PureComponent {
             subtitle={<FormattedMessage {...messages.subtitle} />}
             logo={<Onchain height="45px" width="45px" />}
           />
-          <Bar pt={2} />
+          <Bar mt={2} />
         </Panel.Header>
 
         <Panel.Body>
@@ -63,7 +63,7 @@ export default class TransactionModal extends React.PureComponent {
             }
           />
 
-          <Bar />
+          <Bar variant="light" />
 
           <DataRow
             left={<FormattedMessage {...messages.current_value} />}
@@ -77,7 +77,7 @@ export default class TransactionModal extends React.PureComponent {
 
           {item.num_confirmations > 0 && (
             <>
-              <Bar />
+              <Bar variant="light" />
 
               <DataRow
                 left={<FormattedMessage {...messages.date_confirmed} />}
@@ -102,14 +102,14 @@ export default class TransactionModal extends React.PureComponent {
                 }
               />
 
-              <Bar />
+              <Bar variant="light" />
 
               <DataRow
                 left={<FormattedMessage {...messages.num_confirmations} />}
                 right={<FormattedNumber value={item.num_confirmations} />}
               />
 
-              <Bar />
+              <Bar variant="light" />
 
               <DataRow
                 left={<FormattedMessage {...messages.address} />}
@@ -126,10 +126,10 @@ export default class TransactionModal extends React.PureComponent {
             </>
           )}
 
-          <Bar />
-
           {!isIncoming && (
             <>
+              <Bar variant="light" />
+
               <DataRow
                 left={<FormattedMessage {...messages.fee} />}
                 right={
@@ -139,11 +139,10 @@ export default class TransactionModal extends React.PureComponent {
                   </Flex>
                 }
               />
-
-              <Bar />
             </>
           )}
 
+          <Bar variant="light" />
           <DataRow
             left={<FormattedMessage {...messages.status} />}
             right={
@@ -180,7 +179,7 @@ export default class TransactionModal extends React.PureComponent {
             }
           />
 
-          <Bar />
+          <Bar variant="light" />
 
           <DataRow
             left={<FormattedMessage {...messages.tx_hash} />}

@@ -23,7 +23,7 @@ export default class PaymentModal extends React.PureComponent {
             subtitle={<FormattedMessage {...messages.subtitle} />}
             logo={<Lightning height="45px" width="45px" />}
           />
-          <Bar pt={2} />
+          <Bar mt={2} />
         </Panel.Header>
 
         <Panel.Body>
@@ -37,7 +37,7 @@ export default class PaymentModal extends React.PureComponent {
             }
           />
 
-          <Bar />
+          <Bar variant="light" />
 
           <DataRow
             left={<FormattedMessage {...messages.current_value} />}
@@ -49,7 +49,7 @@ export default class PaymentModal extends React.PureComponent {
             }
           />
 
-          <Bar />
+          <Bar variant="light" />
 
           <DataRow
             left={<FormattedMessage {...messages.date_sent} />}
@@ -67,7 +67,7 @@ export default class PaymentModal extends React.PureComponent {
             }
           />
 
-          <Bar />
+          <Bar variant="light" />
 
           <DataRow
             left={<FormattedMessage {...messages.preimage} />}

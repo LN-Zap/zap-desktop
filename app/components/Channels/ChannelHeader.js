@@ -23,7 +23,7 @@ const ChannelHeader = ({ intl, channel, ...rest }) => {
       </Flex>
       <ClippedText>{display_pubkey}</ClippedText>
       <Box>
-        <Bar my={3} opacity={0.3} />
+        <Bar my={3} />
       </Box>
     </Box>
   )

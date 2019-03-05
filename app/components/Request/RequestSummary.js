@@ -90,7 +90,7 @@ class RequestSummary extends React.Component {
           }
         />
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.current_value} />}
@@ -102,14 +102,14 @@ class RequestSummary extends React.Component {
           }
         />
 
-        <Bar />
-
         {memo && (
           <>
+            <Bar variant="light" />
             <DataRow left={<FormattedMessage {...messages.memo} />} right={memo} />
-            <Bar />
           </>
         )}
+
+        <Bar variant="light" />
 
         <DataRow
           left={
@@ -137,7 +137,7 @@ class RequestSummary extends React.Component {
           }
         />
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.status} />}

@@ -76,7 +76,7 @@ class ChannelCreateSummary extends React.Component {
 
         {fee > 0 && (
           <>
-            <Bar />
+            <Bar variant="light" />
 
             <DataRow
               left={<FormattedMessage {...messages.fee} />}
@@ -93,7 +93,7 @@ class ChannelCreateSummary extends React.Component {
               }
             />
 
-            <Bar />
+            <Bar variant="light" />
 
             <DataRow
               left={<FormattedMessage {...messages.total} />}
