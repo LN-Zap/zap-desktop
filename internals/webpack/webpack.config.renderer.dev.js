@@ -17,7 +17,6 @@ import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import baseConfig, { rootDir } from './webpack.config.base'
 import { mainLog } from '../../app/lib/utils/log'
-import { dependencies as externals } from '../../app/package.json'
 
 const port = process.env.PORT || 1212
 const publicPath = `http://localhost:${port}/dist`
@@ -41,9 +40,7 @@ export default merge.smart(baseConfig, {
 
   mode: 'development',
 
-  externals: new webpack.ExternalsPlugin('commonjs', [...Object.keys(externals || {})]),
-
-  entry: ['webpack/hot/only-dev-server', path.join(rootDir, 'app', 'index')],
+  entry: path.join(rootDir, 'app', 'index'),
 
   output: {
     publicPath: `http://localhost:${port}/dist/`
@@ -51,6 +48,12 @@ export default merge.smart(baseConfig, {
 
   stats: {
     children: false
+  },
+
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom'
+    }
   },
 
   module: {
@@ -61,8 +64,7 @@ export default merge.smart(baseConfig, {
         use: {
           loader: 'babel-loader',
           options: {
-            cacheDirectory: true,
-            plugins: ['react-hot-loader/babel']
+            cacheDirectory: true
           }
         }
       },
@@ -97,8 +99,6 @@ export default merge.smart(baseConfig, {
       filepath: path.join('dll', 'renderer.dev.dll.js'),
       includeSourcemap: false
     }),
-
-    new webpack.HotModuleReplacementPlugin(),
 
     new CspHtmlWebpackPlugin({
       'default-src': "'self'",

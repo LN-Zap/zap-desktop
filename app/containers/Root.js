@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
 import { ConnectedRouter } from 'connected-react-router'
 import { ThemeProvider } from 'styled-components'
+import { hot } from 'react-hot-loader/root'
 
 import { removeNotification, notificationSelectors } from 'reducers/notification'
 import { initSettings } from 'reducers/settings'
@@ -139,7 +140,9 @@ const mapDispatchToProps = {
   setMounted
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Root)
+export default hot(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(Root)
+)

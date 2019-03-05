@@ -64,8 +64,14 @@ export const setHasSynced = hasSynced => async (dispatch, getState) => {
 
   if (pubKey) {
     const updated = await window.db.nodes.update(pubKey, { hasSynced })
-    if (!updated) {
-      await window.db.nodes.add({ id: pubKey, hasSynced })
+    if (updated === 0) {
+      // The reason for a result of 0 can be either that the provided key was not found, or if the provided data was
+      // identical to existing data so that nothing was updated. If we got a 0, try to add a new entry for the node.
+      try {
+        await window.db.nodes.add({ id: pubKey, hasSynced })
+      } catch (e) {
+        // Do nothing if there was an error - this indicates that the item already exists and was unchanged.
+      }
     }
   }
 }
