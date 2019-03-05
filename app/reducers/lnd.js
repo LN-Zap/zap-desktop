@@ -278,7 +278,7 @@ export const fetchSeed = () => async dispatch => {
         id: `tmp`,
         type: 'local',
         chain: 'bitcoin',
-        network: 'testnet'
+        network: 'mainnet'
       })
     )
   } catch (error) {
@@ -305,7 +305,7 @@ export const createNewWallet = () => async (dispatch, getState) => {
   let wallet = {
     type: 'local',
     chain: 'bitcoin',
-    network: 'testnet',
+    network: 'mainnet',
     autopilot: state.onboarding.autopilot,
     alias: state.onboarding.alias,
     name: state.onboarding.name
@@ -326,7 +326,7 @@ export const recoverOldWallet = () => async (dispatch, getState) => {
   let wallet = {
     type: 'local',
     chain: 'bitcoin',
-    network: 'testnet',
+    network: 'mainnet',
     autopilot: state.onboarding.autopilot,
     alias: state.onboarding.alias,
     name: state.onboarding.name

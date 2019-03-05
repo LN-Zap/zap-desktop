@@ -7,8 +7,9 @@ import truncate from '../utils/truncate'
 import sanitize from '../utils/sanitize'
 import LndConfig, { type LndConfigOptions } from '../lnd/config'
 import Lightning from '../lnd/lightning'
-import Neutrino from '../lnd/neutrino'
+import Mainnet from '../lnd/mainnet'
 import WalletUnlocker from '../lnd/walletUnlocker'
+import Bitcoind from '../bitcoind/bitcoind'
 
 const LND_GRPC_HOST_ERROR = 'LND_GRPC_HOST_ERROR'
 const LND_GRPC_CERT_ERROR = 'LND_GRPC_CERT_ERROR'
@@ -49,7 +50,7 @@ const grpcSslCipherSuites = () => {
  */
 class ZapController {
   mainWindow: BrowserWindow
-  neutrino: Neutrino
+  mainnet: Mainnet
   lightning: Lightning
   walletUnlocker: WalletUnlocker
   lndConfig: LndConfig
@@ -156,8 +157,8 @@ class ZapController {
     }
     this.sendMessage('lndStopped')
 
-    // Shut down Neutrino.
-    await this.shutdownNeutrino()
+    // Shut down Mainnet.
+    await this.shutdownMainnet()
 
     // Give the grpc connections a chance to be properly closed out.
     await delay(200)
@@ -177,7 +178,7 @@ class ZapController {
     mainLog.info(' > alias:', this.lndConfig.alias)
     mainLog.info(' > autopilot:', this.lndConfig.autopilot)
 
-    return this.startNeutrino()
+    this.startBitcoind()
   }
 
   async onBeforeStartRemoteLnd() {
@@ -264,8 +265,8 @@ class ZapController {
       }
     }
 
-    // Stop the Neutrino process.
-    await this.shutdownNeutrino()
+    // Stop the Mainnet process.
+    await this.shutdownMainnet()
   }
 
   onTerminate() {
@@ -347,14 +348,96 @@ class ZapController {
   }
 
   /**
-   * Starts the LND node and attach event listeners.
-   * @return {Neutrino} Neutrino instance.
+   * Starts the Bitcoind node and attach event listeners.
+   * @return {Bitcoind} Bitcoind instance.
    */
-  async startNeutrino() {
-    mainLog.info('Starting Neutrino...')
-    this.neutrino = new Neutrino(this.lndConfig)
-    this.sendMessage('startNeutrino', true)
-    this.neutrino.on('error', error => {
+  async startBitcoind() {
+    mainLog.info('Starting Bitcoind...')
+
+    this.bitcoind = new Bitcoind()
+    this.sendMessage('startBitcoind', true)
+    this.bitcoind.on('error', error => {
+      mainLog.error(`Got error from bitcoind process: ${error})`)
+      dialog.showMessageBox({
+        type: 'error',
+        message: `bitcoind error: ${error}`
+      })
+    })
+
+    this.bitcoind.on('exit', (code, signal, lastError) => {
+      mainLog.info(`Bitcoind process has shut down (code: ${code}, signal: ${signal})`)
+      this.sendMessage('bitcoindStopped')
+      if (this.is('running')) {
+        const messages = ['Bitcoind has unexpectedly quit']
+        if (code) {
+          messages.push(`Exit code: ${code}`)
+        }
+        if (signal) {
+          messages.push(`Exit signal: ${signal}`)
+        }
+        if (lastError) {
+          messages.push(`Last error: ${lastError}`)
+        }
+        this.sendMessage('receiveError', messages.join(' : '))
+        this.stopBitcoind()
+      }
+    })
+
+    this.bitcoind.on('bitcoind-grpc-active', () => {
+      mainLog.info('Bitcoind grpc active')
+      // start mainnet when bitcoind has started
+      this.startMainnet()
+    })
+
+    this.bitcoind.on('chain-sync-waiting', () => {
+      this.sendMessage('startBitcoind', false)
+      mainLog.info('Bitcoind sync waiting')
+      this.sendMessage('bitcoindSyncStatus', 'waiting')
+    })
+
+    this.bitcoind.on('chain-sync-waiting', () => {
+      this.sendMessage('startBitcoind', false)
+      mainLog.info('Bitcoind sync waiting')
+      this.sendMessage('bitcoindSyncStatus', 'waiting')
+    })
+
+    this.bitcoind.on('chain-sync-started', () => {
+      mainLog.info('Bitcoind sync started')
+      this.sendMessage('bitcoindSyncStatus', 'in-progress')
+    })
+
+    this.bitcoind.on('chain-sync-finished', () => {
+      mainLog.info('Bitcoind sync finished')
+      this.sendMessage('bitcoindSyncStatus', 'complete')
+    })
+
+    this.bitcoind.on('got-bitcoind-current-block-height', height => {
+      this.sendMessage('currentBlockHeight', Number(height))
+    })
+
+    this.bitcoind.on('got-bitcoind-block-height', height => {
+      this.sendMessage('bitcoindBlockHeight', Number(height))
+    })
+
+    try {
+      const pid = await this.bitcoind.start()
+      this.sendMessage('bitcoindStarted')
+      return pid
+    } catch (e) {
+      // console.error(e)
+    }
+  }
+
+  /**
+   * Starts the LND node and attach event listeners.
+   * @return {Mainnet} Mainnet instance.
+   */
+  async startMainnet() {
+    mainLog.info('Starting Mainnet...')
+
+    this.mainnet = new Mainnet(this.lndConfig)
+    this.sendMessage('startMainnet', true)
+    this.mainnet.on('error', error => {
       mainLog.error(`Got error from lnd process: ${error})`)
       dialog.showMessageBox({
         type: 'error',
@@ -362,7 +445,7 @@ class ZapController {
       })
     })
 
-    this.neutrino.on('exit', (code, signal, lastError) => {
+    this.mainnet.on('exit', (code, signal, lastError) => {
       mainLog.info(`Lnd process has shut down (code: ${code}, signal: ${signal})`)
       this.sendMessage('lndStopped')
       if (this.is('running')) {
@@ -381,42 +464,42 @@ class ZapController {
       }
     })
 
-    this.neutrino.on('wallet-unlocker-grpc-active', () => {
-      this.sendMessage('startNeutrino', false)
+    this.mainnet.on('wallet-unlocker-grpc-active', () => {
+      this.sendMessage('startMainnet', false)
       mainLog.info('Wallet unlocker gRPC active')
       this.startWalletUnlocker()
     })
 
-    this.neutrino.on('chain-sync-waiting', () => {
-      this.sendMessage('startNeutrino', false)
-      mainLog.info('Neutrino sync waiting')
+    this.mainnet.on('chain-sync-waiting', () => {
+      this.sendMessage('startMainnet', false)
+      mainLog.info('Mainnet sync waiting')
       this.sendMessage('lndSyncStatus', 'waiting')
     })
 
-    this.neutrino.on('chain-sync-started', () => {
-      mainLog.info('Neutrino sync started')
+    this.mainnet.on('chain-sync-started', () => {
+      mainLog.info('Mainnet sync started')
       this.sendMessage('lndSyncStatus', 'in-progress')
     })
 
-    this.neutrino.on('chain-sync-finished', () => {
-      mainLog.info('Neutrino sync finished')
+    this.mainnet.on('chain-sync-finished', () => {
+      mainLog.info('Mainnet sync finished')
       this.sendMessage('lndSyncStatus', 'complete')
     })
 
-    this.neutrino.on('got-current-block-height', height => {
+    this.mainnet.on('got-current-block-height', height => {
       this.sendMessage('currentBlockHeight', Number(height))
     })
 
-    this.neutrino.on('got-lnd-block-height', height => {
+    this.mainnet.on('got-lnd-block-height', height => {
       this.sendMessage('lndBlockHeight', Number(height))
     })
 
-    this.neutrino.on('got-lnd-cfilter-height', height => {
+    this.mainnet.on('got-lnd-cfilter-height', height => {
       this.sendMessage('lndCfilterHeight', Number(height))
     })
 
     try {
-      const pid = await this.neutrino.start()
+      const pid = await this.mainnet.start()
       this.sendMessage('lndStarted', this.lndConfig)
       return pid
     } catch (e) {
@@ -427,20 +510,20 @@ class ZapController {
   /**
    * Gracefully shutdown LND.
    */
-  async shutdownNeutrino(options: shutdownOptions = {}) {
+  async shutdownMainnet(options: shutdownOptions = {}) {
     const signal = options.signal || 'SIGINT'
     const timeout = options.timeout || 10000
 
     // We only want to shut down LND if we are running it locally.
     if (
       (this.lndConfig && this.lndConfig.type !== 'local') ||
-      !this.neutrino ||
-      !this.neutrino.process
+      !this.mainnet ||
+      !this.mainnet.process
     ) {
       return Promise.resolve()
     }
 
-    mainLog.info('Shutting down Neutrino...')
+    mainLog.info('Shutting down Mainnet...')
 
     return new Promise(async resolve => {
       // HACK: Sometimes there are errors during the shutdown process that prevent the daemon from shutting down at
@@ -448,10 +531,11 @@ class ZapController {
       // See https://github.com/lightningnetwork/lnd/pull/1781
       // See https://github.com/lightningnetwork/lnd/pull/1783
       const shutdownTimeout = setTimeout(() => {
-        this.neutrino.removeListener('exit', exitHandler)
-        if (this.neutrino) {
+        this.mainnet.removeListener('exit', exitHandler)
+        if (this.mainnet) {
           mainLog.warn('Graceful shutdown failed to complete within 10 seconds.')
-          this.neutrino.kill('SIGKILL')
+          this.mainnet.kill('SIGKILL')
+          this.bitcoind.kill()
           resolve()
         }
       }, timeout)
@@ -460,7 +544,7 @@ class ZapController {
         clearTimeout(shutdownTimeout)
         resolve()
       }
-      this.neutrino.once('exit', exitHandler)
+      this.mainnet.once('exit', exitHandler)
 
       if (this.lightning && this.lightning.can('terminate')) {
         await this.lightning.disconnect()
@@ -469,9 +553,10 @@ class ZapController {
         await this.walletUnlocker.disconnect()
       }
 
-      // Kill the Neutrino process (sends SIGINT to Neutrino process)
-      this.neutrino.kill(signal)
-    }).then(() => mainLog.info('Neutrino shutdown complete'))
+      // Kill the Mainnet process (sends SIGINT to Mainnet process)
+      this.mainnet.kill(signal)
+      this.bitcoind.kill()
+    }).then(() => mainLog.info('Mainnet shutdown complete'))
   }
 
   /**
@@ -527,7 +612,7 @@ class ZapController {
     ipcMain.on('stopLnd', () => this.stopLnd())
 
     ipcMain.on('killLnd', async (event, options: shutdownOptions = {}) => {
-      await this.shutdownNeutrino(options)
+      await this.shutdownMainnet(options)
       event.sender.send('killLndSuccess')
     })
   }
