@@ -9,7 +9,7 @@ import { promisifiedCall } from '../../utils'
  * @return     [description]
  */
 export function addInvoice(lnd, { memo, value, private: privateInvoice }) {
-  return promisifiedCall(lnd, lnd.addInvoice, { memo, value, private: privateInvoice, expiry: 600 })
+  return promisifiedCall(lnd, lnd.addInvoice, { memo, value, private: privateInvoice, expiry: 86400 })
 }
 
 /**
