@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Header } from 'components/UI'
 import Lightning from 'components/Icon/Lightning'
 import Onchain from 'components/Icon/Onchain'
-import PaperPlane from 'components/Icon/PaperPlane'
+import Send from 'components/Icon/Send'
 import messages from './messages'
 
 /**
@@ -30,7 +30,7 @@ class PayHeader extends React.PureComponent {
         subtitle = <FormattedMessage {...messages.subtitle_offchain} />
         break
       default:
-        logo = <PaperPlane height="38px" width="38px" />
+        logo = <Send height="45px" width="45px" />
         subtitle = <span>&nbsp;</span>
     }
 

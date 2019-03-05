@@ -23,7 +23,6 @@ import Copy from 'components/Icon/Copy'
 import Error from 'components/Icon/Error'
 import Eye from 'components/Icon/Eye'
 import Globe from 'components/Icon/Globe'
-import Hand from 'components/Icon/Hand'
 import Help from 'components/Icon/Help'
 import Help2 from 'components/Icon/Help2'
 import IconPlus from 'components/Icon/IconPlus'
@@ -37,12 +36,13 @@ import LtcLogo from 'components/Icon/LtcLogo'
 import Network from 'components/Icon/Network'
 import Onchain from 'components/Icon/Onchain'
 import Padlock from 'components/Icon/Padlock'
-import PaperPlane from 'components/Icon/PaperPlane'
 import Peers from 'components/Icon/Peers'
 import Plus from 'components/Icon/Plus'
 import PlusCircle from 'components/Icon/PlusCircle'
 import Qrcode from 'components/Icon/Qrcode'
+import Receive from 'components/Icon/Receive'
 import Search from 'components/Icon/Search'
+import Send from 'components/Icon/Send'
 import Settings from 'components/Icon/Settings'
 import Spinner from 'components/Icon/Spinner'
 import Success from 'components/Icon/Success'
@@ -79,7 +79,6 @@ const zapIconsList = {
   Error,
   Eye,
   Globe,
-  Hand,
   Help,
   Help2,
   LayoutCards,
@@ -93,12 +92,13 @@ const zapIconsList = {
   Network,
   Onchain,
   Padlock,
-  PaperPlane,
   Peers,
   Plus,
   PlusCircle,
   Qrcode,
+  Receive,
   Search,
+  Send,
   Settings,
   Spinner,
   Success,
