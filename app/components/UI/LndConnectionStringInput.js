@@ -1,8 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { intlShape, injectIntl } from 'react-intl'
-import get from 'lodash.get'
-import decode from 'lndconnect/decode'
+import { isValidLndConnectUri, isValidBtcPayConfig } from 'lib/utils/connectionString'
 import TextArea from './TextArea'
 import messages from './messages'
 
@@ -39,43 +38,9 @@ class LndConnectionStringInput extends React.Component {
    */
   validate = value => {
     const { intl } = this.props
-    const isValid = this.isValidLndConnectUri(value) || this.isValidBtcPayConfig(value)
+    const isValid = isValidLndConnectUri(value) || isValidBtcPayConfig(value)
     if (!isValid) {
       return intl.formatMessage({ ...messages.invalid_lnd_connection_string })
-    }
-  }
-
-  /**
-   * Check for a valid lndconnect uri.
-   * @param  {String}  value String to validate.
-   * @return {Boolean}       Boolean indicating wether the string is a valid or not.
-   */
-  isValidLndConnectUri = value => {
-    let config = {}
-    try {
-      config = decode(value)
-      const { host } = config
-      return Boolean(host)
-    } catch (e) {
-      return false
-    }
-  }
-
-  /**
-   * Check for a valid BtcPayServer connection string.
-   * @param  {String}  value String to validate.
-   * @return {Boolean}       Boolean indicating wether the string is a valid or not.
-   */
-  isValidBtcPayConfig = value => {
-    try {
-      let config = {}
-      config = JSON.parse(value)
-      const allConfigs = get(config, 'configurations', [])
-      const params = allConfigs.find(c => c.type === 'grpc' && c.cryptoCode === 'BTC') || {}
-      const { host, port, macaroon } = params
-      return Boolean(host && port && macaroon)
-    } catch (e) {
-      return false
     }
   }
 
