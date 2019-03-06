@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Пам'ятка",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Не сплачені",
   "components.Request.paid": "Сплачені",
   "components.Request.payment_request": "",

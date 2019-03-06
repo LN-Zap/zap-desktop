@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Meabhrán",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Gan Íoctha",
   "components.Request.paid": "Íoctha",
   "components.Request.payment_request": "",

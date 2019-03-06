@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Nicht bezahlt",
   "components.Request.paid": "Bezahlt",
   "components.Request.payment_request": "",

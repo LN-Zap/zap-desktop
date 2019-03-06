@@ -304,6 +304,7 @@
   "components.Request.description": "Du kan anmode {chain} ({ticker}) gennem Lightning Network. Bare indtast beløbet du vil anmode i feltet herunder. Zap vil generere en QR-kode og en Lightning faktura efter.",
   "components.Request.memo": "Notat",
   "components.Request.memo_placeholder": "For eksempel \"Aftensmad i går aftes\"",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "ikke betalt",
   "components.Request.paid": "betalt",
   "components.Request.payment_request": "Betalings Anmodning",

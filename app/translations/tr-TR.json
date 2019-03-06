@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Kısa Not",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Ödenmeyen",
   "components.Request.paid": "Ödenen",
   "components.Request.payment_request": "",

@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "メモ",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "支払われていません。",
   "components.Request.paid": "支払った",
   "components.Request.payment_request": "",

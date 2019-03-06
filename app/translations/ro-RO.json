@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Notificare",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Neachitat",
   "components.Request.paid": "Plătit",
   "components.Request.payment_request": "",

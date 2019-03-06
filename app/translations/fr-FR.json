@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Note",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Non payé",
   "components.Request.paid": "Payé",
   "components.Request.payment_request": "",

@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Bilješka",
   "components.Request.memo_placeholder": "Na primjer \"večera od sinoć”",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Nije plaćeno",
   "components.Request.paid": "Plaćeno",
   "components.Request.payment_request": "Zahtjev za plaćanje",

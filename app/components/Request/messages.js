@@ -12,6 +12,8 @@ export default defineMessages({
   total: 'Total',
   memo: 'Memo',
   memo_placeholder: 'For example "Dinner last night"',
+  memo_tooltip:
+    'Add some describer text to your payment request for the recipient to see when paying.',
   not_paid: 'not paid',
   paid: 'paid',
   qrcode: 'QR-Code',
