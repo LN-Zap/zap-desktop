@@ -28,9 +28,6 @@ function LndConnectionStringEditor({ formApi, field, hideStringMessage, ...rest 
         disabled={isDisabled}
         field={field}
         rows={12}
-        validateOnBlur
-        validateOnChange
-        required
       />
       <Flex justifyContent="space-between" alignItems="center" mt={3}>
         <Flex>

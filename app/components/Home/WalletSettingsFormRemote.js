@@ -1,8 +1,17 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box } from 'rebass'
-import { Bar, DataRow, Input, Text, OpenDialogInput, RowLabel } from 'components/UI'
+import {
+  Bar,
+  DataRow,
+  Input,
+  Text,
+  OpenDialogInput,
+  RowLabel,
+  LndConnectionStringEditor
+} from 'components/UI'
 
 import messages from './messages'
 
@@ -12,7 +21,7 @@ const WalletSettingsFormRemote = ({
   host,
   cert,
   macaroon,
-  showConnectionSettings
+  isEmbeddedConnectionString
 }) => {
   return (
     <>
@@ -25,67 +34,85 @@ const WalletSettingsFormRemote = ({
         <DataRow py={2} left={<FormattedMessage {...messages.chain} />} right={wallet.chain} />
         <DataRow py={2} left={<FormattedMessage {...messages.network} />} right={wallet.network} />
       </Box>
-      {showConnectionSettings && (
-        <Box mb={4} as="section">
-          <Text fontWeight="normal">
-            <FormattedMessage {...messages.section_connection_details} />
-          </Text>
-          <Bar mt={2} mb={4} />
-          <DataRow
-            py={2}
-            left={
-              <RowLabel
-                htmlFor="host"
-                nameMessage={messages.hostname_title}
-                descMessage={messages.hostname_description}
-              />
-            }
-            right={
-              <Input
-                field="host"
-                id="host"
-                placeholder={intl.formatMessage({
-                  ...messages.hostname_title
-                })}
-                width={300}
-                ml="auto"
-                initialValue={host}
-                justifyContent="right"
-                css={{ 'text-align': 'right' }}
-              />
-            }
+      <Box mb={4} as="section">
+        <Text fontWeight="normal">
+          <FormattedMessage {...messages.section_connection_details} />
+        </Text>
+        <Bar mt={2} mb={4} />
+
+        {isEmbeddedConnectionString ? (
+          <LndConnectionStringEditor
+            field="lndconnectUri"
+            name="lndconnectUri"
+            hideStringMessage={<FormattedMessage {...messages.hide_connection_string} />}
+            label={intl.formatMessage({
+              ...messages.connection_string
+            })}
+            placeholder={intl.formatMessage({
+              ...messages.connection_string
+            })}
+            validateOnBlur
+            validateOnChange
+            required
           />
-          <DataRow
-            py={2}
-            left={
-              <RowLabel
-                htmlFor="cert"
-                nameMessage={messages.cert_title}
-                descMessage={messages.cert_description}
-              />
-            }
-            right={<OpenDialogInput field="cert" name="cert" initialValue={cert} width={300} />}
-          />
-          <DataRow
-            py={2}
-            left={
-              <RowLabel
-                htmlFor="macaroon"
-                nameMessage={messages.macaroon_title}
-                descMessage={messages.macaroon_description}
-              />
-            }
-            right={
-              <OpenDialogInput
-                field="macaroon"
-                name="macaroon"
-                initialValue={macaroon}
-                width={300}
-              />
-            }
-          />
-        </Box>
-      )}
+        ) : (
+          <>
+            <DataRow
+              py={2}
+              left={
+                <RowLabel
+                  htmlFor="host"
+                  nameMessage={messages.hostname_title}
+                  descMessage={messages.hostname_description}
+                />
+              }
+              right={
+                <Input
+                  field="host"
+                  id="host"
+                  placeholder={intl.formatMessage({
+                    ...messages.hostname_title
+                  })}
+                  width={300}
+                  ml="auto"
+                  initialValue={host}
+                  justifyContent="right"
+                  css={{ 'text-align': 'right' }}
+                />
+              }
+            />
+            <DataRow
+              py={2}
+              left={
+                <RowLabel
+                  htmlFor="cert"
+                  nameMessage={messages.cert_title}
+                  descMessage={messages.cert_description}
+                />
+              }
+              right={<OpenDialogInput field="cert" name="cert" initialValue={cert} width={300} />}
+            />
+            <DataRow
+              py={2}
+              left={
+                <RowLabel
+                  htmlFor="macaroon"
+                  nameMessage={messages.macaroon_title}
+                  descMessage={messages.macaroon_description}
+                />
+              }
+              right={
+                <OpenDialogInput
+                  field="macaroon"
+                  name="macaroon"
+                  initialValue={macaroon}
+                  width={300}
+                />
+              }
+            />
+          </>
+        )}
+      </Box>
       <Box mb={4} as="section">
         <Text fontWeight="normal">
           <FormattedMessage {...messages.section_naming_title} />
@@ -126,7 +153,7 @@ WalletSettingsFormRemote.propTypes = {
   host: PropTypes.string.isRequired,
   cert: PropTypes.string.isRequired,
   macaroon: PropTypes.string.isRequired,
-  showConnectionSettings: PropTypes.bool.isRequired
+  isEmbeddedConnectionString: PropTypes.bool.isRequired
 }
 
 export default injectIntl(WalletSettingsFormRemote)

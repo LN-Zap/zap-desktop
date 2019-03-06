@@ -186,25 +186,32 @@ class WalletLauncher extends React.Component {
       const { values } = formState
       let result = values
 
-      // for the remote wallets we need to re-generate lndconnectUri and QR using updated
-      // host, cert and macaroon values. This is done in the main process
-      // this process is skipped if original lndconnect uri contains raw cert or macaroon and not paths
-      if (wallet.type !== 'local' && !isEmbeddedLndConnectURI(wallet.lndconnectUri)) {
-        // wait for the config generate complete message from the main process
-        const generatedConfig = formToWalletFormat(
-          await refreshLndConnectURI(
-            Object.assign({}, values, {
-              lndconnectUri: undefined, // delete wallets so the main process re-generates them
-              lndconnectQRCode: undefined
-            })
+      if (wallet.type !== 'local') {
+        if (isEmbeddedLndConnectURI(wallet.lndconnectUri)) {
+          result = formToWalletFormat(
+            await refreshLndConnectURI(
+              Object.assign({}, { lndconnectQRCode: values.lndconnectUri }, values)
+            )
           )
-        )
-
-        // update form state with decoded host, cert and macaroon since they are derived from
-        // lndconnect uri and thus corresponding fields will go blank after new config is set
-        const { host, cert, macaroon } = parseLndConnectURI(generatedConfig.lndconnectUri)
-        formApi.setValues(Object.assign({}, generatedConfig, { host, cert, macaroon }))
-        result = generatedConfig
+        } else {
+          // for the remote wallets we need to re-generate lndconnectUri and QR using updated
+          // host, cert and macaroon values. This is done in the main process
+          // this process is skipped if original lndconnect uri contains raw cert or macaroon and not paths
+          const generatedConfig = formToWalletFormat(
+            await refreshLndConnectURI(
+              // wait for the config generate complete message from the main process
+              Object.assign({}, values, {
+                lndconnectUri: undefined, // delete wallets so the main process re-generates them
+                lndconnectQRCode: undefined
+              })
+            )
+          )
+          // update form state with decoded host, cert and macaroon since they are derived from
+          // lndconnect uri and thus corresponding fields will go blank after new config is set
+          const { host, cert, macaroon } = parseLndConnectURI(generatedConfig.lndconnectUri)
+          formApi.setValues(Object.assign({}, generatedConfig, { host, cert, macaroon }))
+          result = generatedConfig
+        }
       } else {
         result = formToWalletFormat(values)
       }
@@ -254,7 +261,10 @@ class WalletLauncher extends React.Component {
     // 5. it is required to use unsafe shallow compare so "5" equals 5
     if (wallet.type !== 'local') {
       if (isEmbeddedLndConnectURI(wallet.lndconnectUri)) {
-        return !unsafeShallowCompare(clean(wallet), clean(formState.values), { name: '' })
+        return !unsafeShallowCompare(clean(wallet), clean(formState.values), {
+          name: '',
+          lndconnectUri: ''
+        })
       }
 
       const { host, cert, macaroon } = parseLndConnectURI(wallet.lndconnectUri)
@@ -341,7 +351,7 @@ class WalletLauncher extends React.Component {
               ) : (
                 <WalletSettingsFormRemote
                   wallet={walletConverted}
-                  showConnectionSettings={!isEmbeddedLndConnectURI(wallet.lndconnectUri)}
+                  isEmbeddedConnectionString={isEmbeddedLndConnectURI(wallet.lndconnectUri)}
                   {...parseLndConnectURI(wallet.lndconnectUri)}
                 />
               )}
