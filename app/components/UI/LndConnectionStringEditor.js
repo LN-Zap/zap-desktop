@@ -25,7 +25,7 @@ function LndConnectionStringEditor({ formApi, field, hideStringMessage, ...rest 
       <LndConnectionStringInput
         {...rest}
         {...getValue(isDisabled)}
-        disabled={isDisabled}
+        readOnly={isDisabled}
         field={field}
         rows={12}
       />

@@ -47,7 +47,7 @@ class SeedConfirm extends React.Component {
     if (!error) {
       this.formApi.setTouched(`word${fieldIndex}`, true)
     }
-    // Otherwise reset the field state to prevent highlightning as valid.
+    // Otherwise reset the field state to prevent highlighting as valid.
     else {
       this.formApi.setTouched(`word${fieldIndex}`, false)
       this.formApi.setError(`word${fieldIndex}`, null)

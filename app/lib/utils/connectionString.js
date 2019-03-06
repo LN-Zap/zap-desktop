@@ -1,5 +1,8 @@
 import decode from 'lndconnect/decode'
+import parse from 'lndconnect/parse'
 import get from 'lodash.get'
+
+import { isBase64url } from '.'
 /**
  * Check for a valid lndconnect uri.
  * @param  {String}  value String to validate.
@@ -28,5 +31,17 @@ export function isValidBtcPayConfig(value) {
     return Boolean(host && port && macaroon)
   } catch (e) {
     return false
+  }
+}
+
+/**
+ * checks if lndconnect uri contains raw cert or macaroon and not paths
+ */
+export function isEmbeddedLndConnectURI(uri) {
+  try {
+    const { cert, macaroon } = parse(uri)
+    return isBase64url(cert) || isBase64url(macaroon)
+  } catch (e) {
+    return true
   }
 }
