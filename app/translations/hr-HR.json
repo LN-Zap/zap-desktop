@@ -302,6 +302,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Bilješka",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Nije plaćeno",
   "components.Request.paid": "Plaćeno",
   "components.Request.payment_request": "",

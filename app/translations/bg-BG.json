@@ -302,6 +302,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Бележка",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Не платени",
   "components.Request.paid": "Платени",
   "components.Request.payment_request": "",

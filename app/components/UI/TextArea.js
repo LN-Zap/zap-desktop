@@ -12,6 +12,7 @@ import Message from './Message'
 import Label from './Label'
 import Span from './Span'
 import Text from './Text'
+import Tooltip from './Tooltip'
 
 function isFieldValid({ value, error, asyncError, touched }) {
   return value && !error && !asyncError && touched
@@ -119,14 +120,16 @@ class TextArea extends React.PureComponent {
     variant: PropTypes.string,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
-    onFocus: PropTypes.func
+    onFocus: PropTypes.func,
+    tooltip: PropTypes.string
   }
 
   static defaultProps = {
     description: null,
     label: null,
     showMessage: true,
-    highlightOnValid: true
+    highlightOnValid: true,
+    tooltip: null
   }
 
   state = {
@@ -155,6 +158,7 @@ class TextArea extends React.PureComponent {
       justifyContent,
       showMessage,
       variant,
+      tooltip,
       ...rest
     } = this.props
     const { hasFocus } = this.state
@@ -174,15 +178,18 @@ class TextArea extends React.PureComponent {
     return (
       <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
         {label && (
-          <Label htmlFor={field} mb={2}>
-            {label}
-            {required && (
-              <Span fontSize="s" css={{ 'vertical-align': 'top' }}>
-                {' '}
-                *
-              </Span>
-            )}
-          </Label>
+          <Flex mb={2}>
+            <Label htmlFor={field} mb={2}>
+              {label}
+              {required && (
+                <Span fontSize="s" css={{ 'vertical-align': 'top' }}>
+                  {' '}
+                  *
+                </Span>
+              )}
+            </Label>
+            {tooltip && <Tooltip>{tooltip}</Tooltip>}
+          </Flex>
         )}
         <SystemTextArea
           p={variant === 'thin' ? 2 : 3}

@@ -13,6 +13,7 @@ import Message from './Message'
 import Label from './Label'
 import Span from './Span'
 import Text from './Text'
+import Tooltip from './Tooltip'
 
 function isFieldValid({ value, error, asyncError, touched }) {
   return value && !error && !asyncError && touched
@@ -134,7 +135,8 @@ class Input extends React.Component {
     variant: PropTypes.string,
     onChange: PropTypes.func,
     onBlur: PropTypes.func,
-    onFocus: PropTypes.func
+    onFocus: PropTypes.func,
+    tooltip: PropTypes.string
   }
 
   static defaultProps = {
@@ -142,7 +144,8 @@ class Input extends React.Component {
     showMessage: true,
     autoFocus: false,
     highlightOnValid: true,
-    iconSize: 46
+    iconSize: 46,
+    tooltip: null
   }
 
   state = {
@@ -181,6 +184,7 @@ class Input extends React.Component {
       showMessage,
       variant,
       className,
+      tooltip,
       ...rest
     } = this.props
     const { hasFocus } = this.state
@@ -204,16 +208,19 @@ class Input extends React.Component {
         {...spaceProps}
         className={className}
       >
-        {typeof label !== 'undefined' && label !== null && (
-          <Label htmlFor={field} mb={2}>
-            {label}
-            {required && (
-              <Span fontSize="s" css={{ 'vertical-align': 'top' }}>
-                {' '}
-                *
-              </Span>
-            )}
-          </Label>
+        {label && (
+          <Flex mb={2}>
+            <Label htmlFor={field}>
+              {label}
+              {required && (
+                <Span fontSize="s" css={{ 'vertical-align': 'top' }}>
+                  {' '}
+                  *
+                </Span>
+              )}
+            </Label>
+            {tooltip && <Tooltip>{tooltip}</Tooltip>}
+          </Flex>
         )}
 
         <Flex alignItems="center">
