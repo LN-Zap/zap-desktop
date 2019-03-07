@@ -62,9 +62,7 @@ export const hideDeleteWalletDialog = () => ({ type: CLOSE_DELETE_WALLET_DIALOG 
 
 export const deleteWallet = () => async (dispatch, getState) => {
   try {
-    const {
-      wallet: { activeWallet: walletId }
-    } = getState()
+    const walletId = activeWalletSelector(getState())
     if (walletId) {
       dispatch({ type: DELETE_WALLET, walletId })
       dispatch(hideDeleteWalletDialog())
