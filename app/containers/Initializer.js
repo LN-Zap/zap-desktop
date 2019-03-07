@@ -16,8 +16,8 @@ class Initializer extends React.Component {
   static propTypes = {
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
-    hasWallets: PropTypes.bool.isRequired,
-    isWalletOpen: PropTypes.bool.isRequired,
+    hasWallets: PropTypes.bool,
+    isWalletOpen: PropTypes.bool,
     isReady: PropTypes.bool.isRequired,
     lndConnect: PropTypes.string,
     fetchSuggestedNodes: PropTypes.func.isRequired,
