@@ -1,0 +1,28 @@
+# Configuration for new-issue-welcome - https://github.com/behaviorbot/new-issue-welcome
+
+# Comment to be posted to on first time issues
+newIssueWelcomeComment: |
+  👋 Thanks for opening your first issue here! If you're reporting a 🐞 bug, please make sure you include steps to reproduce it.
+  To help make it easier for us to investigate your issue, please follow the [contributing guidelines](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md).
+# Configuration for new-pr-welcome - https://github.com/behaviorbot/new-pr-welcome
+
+# Comment to be posted to on PRs from first time contributors in your repository
+newPRWelcomeComment: |
+  ⚡️ Thanks for opening this pull request! ⚡️
+  We use [conventional commits](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md#committing-and-pushing-changes) to streamline the release process. Before your pull request can be merged, you should **squash your commits and reword your commit messages** to follow the conventional commit message format.
+  Examples of commit messages with semantic prefixes:
+  - `fix(ui): ensure search input is cleared after submit`
+  - `feat(wallet): add new transaction detail view`
+  - `perf(channels): prevent double render in channel list`
+  Things that will help get your PR across the finish line:
+  - Run `yarn lint` locally to catch formatting errors earlier.
+  - Run `yarn test` locally to catch test failures early.
+  - Run `yarn extract-messages` locally to extract new transaction strings.
+  - Document any user-facing changes you've made.
+  - Include tests when adding/changing behavior.
+  - Include screenshots and animated GIFs whenever possible.
+# Configuration for first-pr-merge - https://github.com/behaviorbot/first-pr-merge
+
+# Comment to be posted to on pull requests merged by a first time user
+firstPRMergeComment: >
+  Congrats on merging your first pull request! ⚡️⚡️⚡️
