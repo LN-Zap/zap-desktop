@@ -1,10 +1,7 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { configure, mount } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { mount } from 'enzyme'
 import { Heading } from 'components/UI'
-
-configure({ adapter: new Adapter() })
 
 describe('component.UI.Heading', () => {
   it('should render correctly', () => {
