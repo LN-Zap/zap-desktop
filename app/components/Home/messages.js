@@ -48,5 +48,7 @@ export default defineMessages({
   macaroon_title: 'Macaroon',
   cert_description: 'Path to the lnd tls cert.',
   hostname_description: 'Hostname and port of the Lnd gRPC interface.',
-  macaroon_description: 'Path to the lnd macaroon file.'
+  macaroon_description: 'Path to the lnd macaroon file.',
+  hide_connection_string: 'Hide connection string',
+  connection_string: 'Connection string'
 })

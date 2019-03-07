@@ -6,7 +6,8 @@ import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
 import styled from 'styled-components'
 import parse from 'lndconnect/parse'
-import { isBase64url } from 'lib/utils'
+import { isValidBtcPayConfig, isEmbeddedLndConnectURI } from 'lib/utils/connectionString'
+import parseConnectionString from 'lib/utils/btcpayserver'
 import { Bar, Button, Heading, Text, ActionBar, Form } from 'components/UI'
 import WalletSettingsFormLocal from './WalletSettingsFormLocal'
 import WalletSettingsFormRemote from './WalletSettingsFormRemote'
@@ -70,23 +71,42 @@ const unsafeShallowCompare = (obj1, obj2, whiteList) => {
   return Object.keys(whiteList).every(key => obj1[key] == obj2[key])
 }
 
+const LNDCONNECT_BTCPAY_SERVER = 'LNDCONNECT_BTCPAY_SERVER'
+const LNDCONNECT_EMBEDDED = 'LNDCONNECT_EMBEDDED'
+const LNDCONNECT_REGULAR = 'LNDCONNECT_REGULAR'
+
+const getLndConnectType = lndconnectUri => {
+  if (isValidBtcPayConfig(lndconnectUri)) {
+    return LNDCONNECT_BTCPAY_SERVER
+  }
+  return isEmbeddedLndConnectURI(lndconnectUri) ? LNDCONNECT_EMBEDDED : LNDCONNECT_REGULAR
+}
+
 /**
  * Parses lndconnect uri and returns decoded cert, macaroon and host
  */
 const parseLndConnectURI = uri => {
-  const { host, cert, macaroon } = parse(uri)
-  return {
-    host: decodeURIComponent(host),
-    cert: decodeURIComponent(cert),
-    macaroon: decodeURIComponent(macaroon)
+  const parseBtcPayString = uri => {
+    const { host, port, macaroon } = parseConnectionString(uri)
+    return { host: `${host}:${port}`, macaroon, cert: '' }
   }
-}
-/**
- * checks if lndconnect uri contains raw cert or macaroon and not paths
- */
-const isEmbeddedLndConnectURI = uri => {
-  const { cert, macaroon } = parse(uri)
-  return isBase64url(cert) || isBase64url(macaroon)
+
+  try {
+    const parseFunc =
+      getLndConnectType(uri) === LNDCONNECT_BTCPAY_SERVER ? parseBtcPayString : parse
+    const { host, cert, macaroon } = parseFunc(uri)
+    return {
+      host: host && decodeURIComponent(host),
+      cert: cert && decodeURIComponent(cert),
+      macaroon: macaroon && decodeURIComponent(macaroon)
+    }
+  } catch (e) {
+    return {
+      host: '',
+      cert: '',
+      macaroon: ''
+    }
+  }
 }
 
 class WalletLauncher extends React.Component {
@@ -156,14 +176,10 @@ class WalletLauncher extends React.Component {
     }
   }
 
-  onSubmit = async values => {
+  launchWallet = () => {
     const { startLnd, wallet } = this.props
-    // for the remote wallets we need to initiate lndconnect URI re-generation before launching
-    if (wallet.type !== 'local' && this.hasChanges()) {
-      const config = await this.saveSettings()
-      return startLnd(config)
-    }
-    return startLnd(formToWalletFormat(values))
+    // discard settings edits and just launch current saved config
+    return startLnd(wallet)
   }
 
   /**
@@ -186,25 +202,40 @@ class WalletLauncher extends React.Component {
       const { values } = formState
       let result = values
 
-      // for the remote wallets we need to re-generate lndconnectUri and QR using updated
-      // host, cert and macaroon values. This is done in the main process
-      // this process is skipped if original lndconnect uri contains raw cert or macaroon and not paths
-      if (wallet.type !== 'local' && !isEmbeddedLndConnectURI(wallet.lndconnectUri)) {
-        // wait for the config generate complete message from the main process
-        const generatedConfig = formToWalletFormat(
-          await refreshLndConnectURI(
-            Object.assign({}, values, {
-              lndconnectUri: undefined, // delete wallets so the main process re-generates them
-              lndconnectQRCode: undefined
-            })
+      if (wallet.type !== 'local') {
+        const hasHideLndConnectUri = typeof formApi.getValue('hideLndConnectUri') !== 'undefined'
+        const lndconnectType = getLndConnectType(values.lndconnectUri)
+        if (lndconnectType === LNDCONNECT_EMBEDDED) {
+          result = formToWalletFormat(
+            await refreshLndConnectURI(
+              Object.assign({}, { lndconnectQRCode: values.lndconnectUri }, values)
+            )
           )
-        )
+        } else {
+          // for the remote wallets that use raw paths or btcpay config we need to re-generate lndconnectUri and
+          // QR using updated host, cert and macaroon values. This is done in the main process
+          // this process is skipped if original lndconnect uri contains raw cert or macaroon and not paths
 
-        // update form state with decoded host, cert and macaroon since they are derived from
-        // lndconnect uri and thus corresponding fields will go blank after new config is set
-        const { host, cert, macaroon } = parseLndConnectURI(generatedConfig.lndconnectUri)
-        formApi.setValues(Object.assign({}, generatedConfig, { host, cert, macaroon }))
-        result = generatedConfig
+          // In addition if a user has passed btcpay config we must break it down into  host, cert and macaroon first
+          const config = Object.assign({}, values, {
+            ...parseLndConnectURI(values.lndconnectUri),
+            lndconnectUri: undefined, // delete uris so the main process re-generates them
+            lndconnectQRCode: undefined
+          })
+          const generatedConfig = formToWalletFormat(
+            await refreshLndConnectURI(config) // wait for the config generate complete message from the main process
+          )
+          // update form state with decoded host, cert and macaroon since they are derived from
+          // lndconnect uri and thus corresponding fields will go blank after new config is set
+          const { host, cert, macaroon } = parseLndConnectURI(generatedConfig.lndconnectUri)
+          formApi.setValues(Object.assign({}, generatedConfig, { host, cert, macaroon }))
+
+          result = generatedConfig
+        }
+        // hide lnd connect after save is complete
+        if (hasHideLndConnectUri) {
+          formApi.setValue('hideLndConnectUri', true)
+        }
       } else {
         result = formToWalletFormat(values)
       }
@@ -223,6 +254,7 @@ class WalletLauncher extends React.Component {
 
   resetForm = () => {
     const { wallet } = this.props
+    const { formApi } = this
     // for remote wallets manually reset cert, macaroon and host since they are derived from
     // lndconnect uri
     const resetValues =
@@ -230,7 +262,13 @@ class WalletLauncher extends React.Component {
         ? wallet
         : Object.assign({}, { ...parseLndConnectURI(wallet.lndconnectUri) }, wallet)
 
-    this.formApi.setValues(walletToFormFormat(resetValues))
+    formApi.setValues(walletToFormFormat(resetValues))
+
+    // reset errors
+    if (formApi.getValue('lndconnectUri')) {
+      formApi.setTouched('lndconnectUri', false)
+      formApi.setError('lndconnectUri', null)
+    }
   }
 
   setFormApi = formApi => {
@@ -253,8 +291,11 @@ class WalletLauncher extends React.Component {
     // 4. wallet type
     // 5. it is required to use unsafe shallow compare so "5" equals 5
     if (wallet.type !== 'local') {
-      if (isEmbeddedLndConnectURI(wallet.lndconnectUri)) {
-        return !unsafeShallowCompare(clean(wallet), clean(formState.values), { name: '' })
+      if (getLndConnectType(wallet.lndconnectUri) === LNDCONNECT_EMBEDDED) {
+        return !unsafeShallowCompare(clean(wallet), clean(formState.values), {
+          name: '',
+          lndconnectUri: ''
+        })
       }
 
       const { host, cert, macaroon } = parseLndConnectURI(wallet.lndconnectUri)
@@ -291,13 +332,18 @@ class WalletLauncher extends React.Component {
 
   render() {
     const { wallet, startingLnd } = this.props
-    const actionBarButtons = (
+    const actionBarButtons = formState => (
       <>
         <Button type="button" key="cancel" variant="secondary" mr={6} onClick={this.resetForm}>
           <FormattedMessage {...messages.button_cancel} />
         </Button>
 
-        <Button type="button" key="save" variant="normal" onClick={this.saveSettings}>
+        <Button
+          type="submit"
+          key="save"
+          variant="normal"
+          disabled={formState.submits > 0 && formState.invalid}
+        >
           <FormattedMessage {...messages.button_save} />
         </Button>
       </>
@@ -307,8 +353,8 @@ class WalletLauncher extends React.Component {
 
     return (
       <Box css={{ height: '100%', 'overflow-y': 'overlay' }} pt={4} px={5} pb={6}>
-        <Form getApi={this.setFormApi} onSubmit={this.onSubmit} initialValues={walletConverted}>
-          {() => (
+        <Form getApi={this.setFormApi} onSubmit={this.saveSettings} initialValues={walletConverted}>
+          {({ formState }) => (
             <Box>
               <Flex mb={4} alignItems="center">
                 <Box width="75%" mr={3}>
@@ -316,11 +362,12 @@ class WalletLauncher extends React.Component {
                 </Box>
                 <Flex ml="auto" justifyContent="flex-end" flexDirection="column">
                   <Button
-                    type="submit"
+                    type="button"
                     size="small"
                     ml={2}
                     disabled={startingLnd}
                     processing={startingLnd}
+                    onClick={this.launchWallet}
                   >
                     <FormattedMessage {...messages.launch_wallet_button_text} />
                   </Button>
@@ -341,7 +388,7 @@ class WalletLauncher extends React.Component {
               ) : (
                 <WalletSettingsFormRemote
                   wallet={walletConverted}
-                  showConnectionSettings={!isEmbeddedLndConnectURI(wallet.lndconnectUri)}
+                  isEmbeddedConnectionString={isEmbeddedLndConnectURI(wallet.lndconnectUri)}
                   {...parseLndConnectURI(wallet.lndconnectUri)}
                 />
               )}
@@ -357,7 +404,7 @@ class WalletLauncher extends React.Component {
                 </Button>
               </Flex>
 
-              {this.hasChanges() && <WalletActionBar buttons={actionBarButtons} />}
+              {this.hasChanges() && <WalletActionBar buttons={actionBarButtons(formState)} />}
             </Box>
           )}
         </Form>

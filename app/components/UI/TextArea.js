@@ -186,7 +186,6 @@ class TextArea extends React.PureComponent {
         )}
         <SystemTextArea
           p={variant === 'thin' ? 2 : 3}
-          {...rest}
           field={field}
           theme={theme}
           fieldState={fieldState}
@@ -220,6 +219,7 @@ class TextArea extends React.PureComponent {
               onFocus(e)
             }
           }}
+          {...rest}
         />
         {description && (
           <Text color="gray" fontSize="s" mt={1}>

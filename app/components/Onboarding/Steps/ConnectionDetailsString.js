@@ -70,13 +70,12 @@ class ConnectionDetailsString extends React.Component {
   componentDidUpdate(prevProps) {
     const { lndConnect, setLndconnect } = this.props
 
-    // If we have an lndConnect link, populate the form annd submit immediately.
+    // If we have an lndConnect link, populate the form and submit immediately.
     if (lndConnect && lndConnect !== prevProps.lndConnect) {
       this.formApi.setValue('connectionString', lndConnect)
       this.formApi.setTouched('connectionString', true)
       this.formApi.submitForm()
       setLndconnect(null)
-      return
     }
   }
 
