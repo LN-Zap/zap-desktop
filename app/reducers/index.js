@@ -22,6 +22,7 @@ import network from './network'
 import modal from './modal'
 import notification from './notification'
 import settings from './settings'
+import settingsmenu from './settingsmenu'
 import wallet from './wallet'
 
 export default history => {
@@ -50,6 +51,7 @@ export default history => {
     payment,
     peers,
     settings,
+    settingsmenu,
     ticker,
     transaction,
     wallet

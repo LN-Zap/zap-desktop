@@ -1,7 +1,12 @@
 import { connect } from 'react-redux'
 import { setLocale } from 'reducers/locale'
 import { setFiatTicker } from 'reducers/ticker'
-import { openSettings, closeSettings, setActiveSubMenu, disableSubMenu } from 'reducers/settings'
+import {
+  openSettings,
+  closeSettings,
+  setActiveSubMenu,
+  disableSubMenu
+} from 'reducers/settingsmenu'
 import { setTheme } from 'reducers/theme'
 import { openModal } from 'reducers/modal'
 import { walletSelectors } from 'reducers/wallet'
@@ -17,7 +22,7 @@ const mapStateToProps = state => ({
   currentLocale: state.intl.locale,
   themes: state.theme.themes,
   currentTheme: state.theme.currentTheme,
-  isSettingsOpen: state.settings.isSettingsOpen
+  isSettingsOpen: state.settingsmenu.isSettingsOpen
 })
 
 const mapDispatchToProps = {

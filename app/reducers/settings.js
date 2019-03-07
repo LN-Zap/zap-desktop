@@ -1,41 +1,12 @@
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const OPEN_SETTINGS = 'OPEN_SETTINGS'
-export const CLOSE_SETTINGS = 'CLOSE_SETTINGS'
-export const SET_ACTIVE_SUBMENU = 'SET_ACTIVE_SUBMENU'
-export const DISABLE_SUBMENU = 'DISABLE_SUBMENU'
 export const SET_SETTINGS = 'SET_SETTINGS'
 export const SET_SETTING = 'SET_SETTING'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function openSettings() {
-  return {
-    type: OPEN_SETTINGS
-  }
-}
-
-export function closeSettings() {
-  return {
-    type: CLOSE_SETTINGS
-  }
-}
-
-export function setActiveSubMenu(activeSubMenu) {
-  return {
-    type: SET_ACTIVE_SUBMENU,
-    activeSubMenu
-  }
-}
-
-export function disableSubMenu() {
-  return {
-    type: DISABLE_SUBMENU
-  }
-}
-
 export function setSettings(settings) {
   return {
     type: SET_SETTINGS,
@@ -71,10 +42,6 @@ export const putSetting = (key, value) => async dispatch => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [OPEN_SETTINGS]: state => ({ ...state, isSettingsOpen: true }),
-  [CLOSE_SETTINGS]: state => ({ ...state, isSettingsOpen: false, activeSubMenu: null }),
-  [SET_ACTIVE_SUBMENU]: (state, { activeSubMenu }) => ({ ...state, activeSubMenu }),
-  [DISABLE_SUBMENU]: state => ({ ...state, activeSubMenu: null }),
   [SET_SETTINGS]: (state, { settings }) => ({
     ...state,
     ...settings.reduce((obj, item) => {

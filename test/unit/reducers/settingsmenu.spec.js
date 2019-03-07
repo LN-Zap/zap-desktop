@@ -3,7 +3,7 @@ import settingsReducer, {
   CLOSE_SETTINGS,
   SET_ACTIVE_SUBMENU,
   DISABLE_SUBMENU
-} from 'reducers/settings'
+} from 'reducers/settingsmenu'
 
 describe('reducers', () => {
   describe('settingsReducer', () => {
