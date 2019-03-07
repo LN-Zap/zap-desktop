@@ -18,7 +18,16 @@ const MAX_REFETCH_INTERVAL = 1000 * 60 * 10
 // Amount to increment re-fetch timer by after each fetch.
 const BACKOFF_SCHEDULE = 1.5
 
-function App({ fetchActivityHistory, setIsWalletOpen, fetchPeers, fetchTransactions }) {
+function App({
+  modals,
+  networkInfo,
+  payReq,
+  fetchActivityHistory,
+  setIsWalletOpen,
+  fetchPeers,
+  fetchTransactions,
+  openModal,
+}) {
   const [nextFetchIn, setNextFetchIn] = useState(INITIAL_REFETCH_INTERVAL)
   /**
    * Fetch node data on an exponentially incrementing backoff schedule so that when the app is first mounted, we fetch
@@ -39,6 +48,15 @@ function App({ fetchActivityHistory, setIsWalletOpen, fetchPeers, fetchTransacti
     fetchPeers()
   }, [])
 
+  // Open the pay form when a payment link is used.
+  useEffect(() => {
+    if (networkInfo && payReq) {
+      if (!modals.find(m => m.type === 'PAY_FORM')) {
+        openModal('PAY_FORM')
+      }
+    }
+  }, [networkInfo, payReq])
+
   useInterval(fetchData, nextFetchIn)
   useInterval(fetchTransactions, TX_REFETCH_INTERVAL)
 
@@ -51,10 +69,14 @@ function App({ fetchActivityHistory, setIsWalletOpen, fetchPeers, fetchTransacti
 }
 
 App.propTypes = {
-  fetchActivityHistory: PropTypes.func.isRequired,
-  fetchPeers: PropTypes.func.isRequired,
-  fetchTransactions: PropTypes.func.isRequired,
+  modals: PropTypes.array.isRequired,
+  networkInfo: PropTypes.object,
+  payReq: PropTypes.object,
   setIsWalletOpen: PropTypes.func.isRequired,
+  fetchTransactions: PropTypes.func.isRequired,
+  fetchPeers: PropTypes.func.isRequired,
+  fetchActivityHistory: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
 }
 
 export default App

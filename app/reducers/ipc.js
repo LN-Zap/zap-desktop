@@ -38,7 +38,12 @@ import {
   channelGraphData,
   channelGraphStatus,
 } from './channels'
-import { lightningPaymentUri, queryRoutesSuccess, queryRoutesFailure } from './pay'
+import {
+  bitcoinPaymentUri,
+  lightningPaymentUri,
+  queryRoutesSuccess,
+  queryRoutesFailure,
+} from './pay'
 import { receivePayments, paymentSuccessful, paymentFailed } from './payment'
 import { receiveInvoices, createdInvoice, invoiceUpdate, invoiceFailed } from './invoice'
 import { receiveBalance } from './balance'
@@ -77,6 +82,7 @@ const ipc = createIpc({
 
   receiveBalance,
 
+  bitcoinPaymentUri,
   lightningPaymentUri,
 
   queryRoutesSuccess,

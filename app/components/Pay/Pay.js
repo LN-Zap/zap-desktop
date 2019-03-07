@@ -82,8 +82,8 @@ class Pay extends React.Component {
     /** Current wallet balance (in satoshis). */
     payInvoice: PropTypes.func.isRequired,
 
-    /** Method to clean activity  filter */
-    payReq: PropTypes.string,
+    /** Payment request to load into the form. */
+    payReq: PropTypes.object,
     /** Method to close the current modal */
     queryRoutes: PropTypes.func.isRequired,
     /** Method to process offChain invoice payments. Called when the form is submitted. */
@@ -107,8 +107,8 @@ class Pay extends React.Component {
 
   state = {
     currentStep: 'address',
-    initialPayReq: null,
     previousStep: null,
+    isPayReqSetOnMount: false,
     isLn: null,
     isOnchain: null,
   }
@@ -116,40 +116,34 @@ class Pay extends React.Component {
   amountInput = React.createRef()
   payReqInput = React.createRef()
 
-  componentDidMount() {
-    const { payReq, setPayReq } = this.props
-    // If we mount with a payReq, set it in the state in order to trigger form submission once the form is loaded..
-    // See componentDidUpdate().
-    if (payReq) {
-      this.setState({ initialPayReq: payReq })
+  isAutofill = false
 
-      // Clear payReq now that it has been applied.
-      setPayReq(null)
+  // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
+  componentDidMount() {
+    const { payReq } = this.props
+    if (payReq) {
+      this.setState({ isPayReqSetOnMount: true })
     }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { setPayReq, payReq, queryRoutes } = this.props
-    const { currentStep, initialPayReq, invoice, isOnchain } = this.state
+    const { payReq, queryRoutes } = this.props
+    const { currentStep, isPayReqSetOnMount, invoice, isOnchain } = this.state
 
-    // If initialPayReq was been set in the state when the component mounted, reset the form and submit as new.
-    if (initialPayReq && initialPayReq !== prevState.initialPayReq) {
-      this.formApi.reset()
-      this.formApi.setValue('payReq', initialPayReq)
-      this.handlePayReqChange()
+    const { address, amount } = payReq || {}
+    const { payReq: prevPayReq } = prevProps || {}
+    const { address: prevAddress, amount: prevAmount } = prevPayReq || {}
 
-      // Clear payReq now that it has been applied.
-      setPayReq(null)
+    // If isPayReqSetOnMount was set in the when the component mounted, reset the form and submit as new.
+    if (isPayReqSetOnMount && isPayReqSetOnMount !== prevState.isPayReqSetOnMount) {
+      return this.autoFillForm(address, amount)
     }
 
-    // If payReq has changed, reset the form and submit as new.
-    if (payReq && payReq !== prevProps.payReq) {
-      this.formApi.reset()
-      this.formApi.setValue('payReq', payReq)
-      this.handlePayReqChange()
-
-      // Clear payReq now that it has been applied.
-      setPayReq(null)
+    // If payReq address or amount has has changed update the relevant form values.
+    const isChangedAddress = address !== prevAddress
+    const isChangedAmount = amount !== prevAmount
+    if (isChangedAddress || isChangedAmount) {
+      return this.autoFillForm(address, amount)
     }
 
     // If we have gone back to the address step, unmark all fields from being touched.
@@ -161,31 +155,65 @@ class Pay extends React.Component {
       }
     }
 
-    // If we now have a valid onchain address, trigger the form submit.
-    if (isOnchain && isOnchain !== prevState.isOnchain) {
+    // If we now have a valid onchain address, trigger the form submit to move to the amount step.
+    const isNowOnchain = isOnchain && isOnchain !== prevState.isOnchain
+    if (!this.isAutofill && currentStep === 'form' && isNowOnchain) {
       this.formApi.submitForm()
     }
 
     // If we now have a valid lightning invoice, call queryRoutes and submit the form.
-    if (invoice && invoice !== prevState.invoice) {
+    const isNowLightning = invoice && invoice !== prevState.invoice
+    if (!this.isAutofill && currentStep === 'form' && isNowLightning) {
       this.formApi.submitForm()
       const { payeeNodeKey } = invoice
       queryRoutes(payeeNodeKey, this.amountInSats())
     }
   }
 
+  componentWillUnmount() {
+    const { setPayReq } = this.props
+    setPayReq(null)
+  }
+
+  /**
+   * Autofill the form and submit to the latest possible point.
+   */
+  autoFillForm = (address, amount) => {
+    if (address && amount) {
+      this.isAutofill = true
+      this.setState({ currentStep: 'form' }, () => {
+        this.formApi.reset()
+        this.formApi.setValue('payReq', address)
+        this.formApi.submitForm()
+        this.formApi.setValue('amountCrypto', amount)
+        this.formApi.submitForm()
+        this.isAutofill = false
+      })
+    } else if (address) {
+      this.isAutofill = true
+      this.setState({ currentStep: 'form' }, () => {
+        this.formApi.reset()
+        this.formApi.setValue('payReq', address)
+        this.formApi.submitForm()
+        this.isAutofill = false
+      })
+    }
+  }
+
   amountInSats = () => {
     const { isLn, isOnchain, invoice } = this.state
     const { cryptoCurrency } = this.props
+    const amount = this.formApi.getValue('amountCrypto')
+
     if (isLn && invoice) {
       const { satoshis, millisatoshis } = invoice
       return (
         satoshis ||
         convert('msats', 'sats', millisatoshis) ||
-        convert(cryptoCurrency, 'sats', this.formApi.getValue('amountCrypto'))
+        convert(cryptoCurrency, 'sats', amount)
       )
     } else if (isOnchain) {
-      return convert(cryptoCurrency, 'sats', this.formApi.getValue('amountCrypto'))
+      return convert(cryptoCurrency, 'sats', amount)
     }
   }
 
@@ -301,9 +329,8 @@ class Pay extends React.Component {
   /**
    * Set isLn/isOnchain state based on payReq value.
    */
-  handlePayReqChange = () => {
+  handlePayReqChange = payReq => {
     const { chain, network } = this.props
-    const payReq = this.formApi.getValue('payReq')
     const state = {
       currentStep: 'address',
       isLn: null,
@@ -393,13 +420,13 @@ class Pay extends React.Component {
                 }}
                 field="payReq"
                 forwardedRef={this.payReqInput}
-                initialValue={payReq}
+                initialValue={payReq && payReq.address}
                 isReadOnly={currentStep !== 'address'}
                 isRequired
                 label={intl.formatMessage({ ...messages[payReq_label] })}
                 name="payReq"
                 network={network}
-                onChange={this.handlePayReqChange}
+                onValueChange={this.handlePayReqChange}
                 style={styles}
                 validateOnBlur
                 validateOnChange
