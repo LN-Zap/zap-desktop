@@ -22,6 +22,7 @@ import network from './network'
 import modal from './modal'
 import notification from './notification'
 import settings from './settings'
+import settingsmenu from './settingsmenu'
 import wallet from './wallet'
 
 export default history => {
@@ -33,33 +34,34 @@ export default history => {
     theme,
 
     // Custom reducers
+    activity,
+    address,
     app,
-    onboarding,
-    lnd,
-    ticker,
-    info,
     balance,
-    payment,
-    peers,
     channels,
     contactsform,
-    pay,
+    info,
     invoice,
-    address,
-    transaction,
-    activity,
-    network,
+    lnd,
     modal,
+    network,
     notification,
+    onboarding,
+    pay,
+    payment,
+    peers,
     settings,
+    settingsmenu,
+    ticker,
+    transaction,
     wallet
   })
 
   return (state, action) => {
-    // Reset all reducers except for the app and theme reducers.
+    // Reset all reducers except for the app, theme, settings, and wallet reducers.
     if (action.type === 'RESET_APP') {
-      const { app, theme } = state
-      return appReducer({ app, theme }, action)
+      const { app, settings, theme, wallet } = state
+      return appReducer({ app, settings, theme, wallet }, action)
     }
     return appReducer(state, action)
   }
