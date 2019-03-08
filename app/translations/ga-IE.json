@@ -192,7 +192,7 @@
   "components.LoadingBolt.connecting_to_lnd": "",
   "components.LoadingBolt.connecting_to_unlocker": "",
   "components.LoadingBolt.fetching_tickers": "",
-  "components.LoadingBolt.loading": "",
+  "components.LoadingBolt.loading": "ag lódáil",
   "components.LoadingBolt.starting_lnd": "",
   "components.LoadingBolt.starting_neutrino": "",
   "components.LoadingBolt.starting_wallet_unlocker": "",
