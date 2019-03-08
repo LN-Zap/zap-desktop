@@ -11,22 +11,22 @@ const ActivitySearch = ({ searchQuery, placeholder, updateActivitySearchQuery, .
     <Form {...rest}>
       <Input
         field="activity-search"
-        id="activity-search"
-        type="search"
-        placeholder={placeholder}
-        initialValue={searchQuery}
-        onValueChange={setValue}
         highlightOnValid={false}
+        id="activity-search"
+        initialValue={searchQuery}
         mr={2}
+        onValueChange={setValue}
+        placeholder={placeholder}
+        type="search"
       />
     </Form>
   )
 }
 
 ActivitySearch.propTypes = {
-  searchQuery: PropTypes.string,
   placeholder: PropTypes.string.isRequired,
-  updateActivitySearchQuery: PropTypes.func.isRequired
+  searchQuery: PropTypes.string,
+  updateActivitySearchQuery: PropTypes.func.isRequired,
 }
 
 export default ActivitySearch

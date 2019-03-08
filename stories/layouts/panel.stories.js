@@ -8,7 +8,7 @@ const Wrapper = ({ children }) => (
   <Page css={{ height: '500px', 'min-height': '500px' }}>{children}</Page>
 )
 Wrapper.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 storiesOf('Layouts', module).addWithChapters('Panel', {
@@ -32,9 +32,9 @@ storiesOf('Layouts', module).addWithChapters('Panel', {
                 </Panel.Footer>
               </Panel>
             </Wrapper>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

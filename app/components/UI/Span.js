@@ -2,7 +2,7 @@ import system from '@rebass/components'
 
 const Span = system(
   {
-    as: 'span'
+    as: 'span',
   },
   'space',
   'color',

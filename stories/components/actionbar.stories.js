@@ -14,12 +14,12 @@ storiesOf('Components', module).addWithChapters('ActionBar', {
             <ActionBar
               buttons={[
                 { name: 'Cancel', onClick: () => alert('Cancel') },
-                { name: 'Save', onClick: () => alert('Save') }
+                { name: 'Save', onClick: () => alert('Save') },
               ]}
             />
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

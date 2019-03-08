@@ -20,14 +20,14 @@ const initialState = {
     { key: 'RECEIVED_ACTIVITY', name: 'Received' },
     { key: 'PENDING_ACTIVITY', name: 'Pending' },
     { key: 'EXPIRED_ACTIVITY', name: 'Expired' },
-    { key: 'INTERNAL_ACTIVITY', name: 'Internal' }
+    { key: 'INTERNAL_ACTIVITY', name: 'Internal' },
   ],
   modal: {
     itemType: null,
-    itemId: null
+    itemId: null,
   },
   searchText: '',
-  showExpiredRequests: false
+  showExpiredRequests: false,
 }
 
 // ------------------------------------
@@ -59,20 +59,20 @@ export function hideActivityModal() {
 export function changeFilter(filter) {
   return {
     type: CHANGE_FILTER,
-    filter
+    filter,
   }
 }
 
 export function updateSearchText(searchText) {
   return {
     type: UPDATE_SEARCH_TEXT,
-    searchText
+    searchText,
   }
 }
 
 export function toggleExpiredRequests() {
   return {
-    type: TOGGLE_EXPIRED_REQUESTS
+    type: TOGGLE_EXPIRED_REQUESTS,
   }
 }
 
@@ -98,15 +98,15 @@ export const fetchActivityHistory = () => dispatch => {
 const ACTION_HANDLERS = {
   [SHOW_ACTIVITY_MODAL]: (state, { itemType, itemId }) => ({
     ...state,
-    modal: { itemType, itemId }
+    modal: { itemType, itemId },
   }),
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { itemType: null, itemId: null } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter }),
   [TOGGLE_EXPIRED_REQUESTS]: state => ({
     ...state,
-    showExpiredRequests: !state.showExpiredRequests
+    showExpiredRequests: !state.showExpiredRequests,
   }),
-  [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText })
+  [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText }),
 }
 
 // ------------------------------------
@@ -145,7 +145,7 @@ const paymentsSending = createSelector(
         payment_hash: invoice.tags.find(t => t.tagName === 'payment_hash').data,
         sending: true,
         status: payment.status,
-        error: payment.error
+        error: payment.error,
       }
     })
     return payments
@@ -165,7 +165,7 @@ const transactionsSending = createSelector(
         amount: transaction.amount,
         sending: true,
         status: transaction.status,
-        error: transaction.error
+        error: transaction.error,
       }
     })
     return transactions
@@ -218,7 +218,7 @@ const months = [
   'Sep',
   'Oct',
   'Nov',
-  'Dec'
+  'Dec',
 ]
 
 /**
@@ -285,7 +285,7 @@ const allActivity = createSelector(
       ...transactions.filter(
         transaction => !transaction.isFunding && !transaction.isClosing && !transaction.isPending
       ),
-      ...invoices.filter(invoice => invoice.settled || !invoiceExpired(invoice))
+      ...invoices.filter(invoice => invoice.settled || !invoiceExpired(invoice)),
     ]
     return prepareData(allData, searchText)
   }
@@ -308,7 +308,7 @@ const sentActivity = createSelector(
           !transaction.isFunding &&
           !transaction.isClosing &&
           !transaction.isPending
-      )
+      ),
     ]
     return prepareData(allData, searchText)
   }
@@ -327,7 +327,7 @@ const receivedActivity = createSelector(
           !transaction.isFunding &&
           !transaction.isClosing &&
           !transaction.isPending
-      )
+      ),
     ]
     return prepareData(allData, searchText)
   }
@@ -344,7 +344,7 @@ const pendingActivity = createSelector(
       ...paymentsSending,
       ...transactionsSending,
       ...transactions.filter(transaction => transaction.isPending),
-      ...invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice))
+      ...invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice)),
     ]
     return prepareData(allData, searchText)
   }
@@ -376,7 +376,7 @@ const FILTERS = {
   RECEIVED_ACTIVITY: receivedActivity,
   PENDING_ACTIVITY: pendingActivity,
   EXPIRED_ACTIVITY: expiredActivity,
-  INTERNAL_ACTIVITY: internalActivity
+  INTERNAL_ACTIVITY: internalActivity,
 }
 
 activitySelectors.currentActivity = createSelector(

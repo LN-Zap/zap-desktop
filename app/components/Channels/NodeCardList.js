@@ -21,10 +21,10 @@ const NodeCardList = ({ nodes, updateContactFormSearchQuery, ...rest }) => (
         return (
           <Flex
             key={nodeInfo.pubkey}
-            width={1 / 3}
+            pb={4}
             pl={isLeft ? 0 : isMiddle ? 3 : 4}
             pr={isRight ? 0 : isMiddle ? 3 : 4}
-            pb={4}
+            width={1 / 3}
           >
             <NodeCardView {...nodeInfo} nodeClicked={updateContactFormSearchQuery} width={1} />
           </Flex>
@@ -36,11 +36,11 @@ const NodeCardList = ({ nodes, updateContactFormSearchQuery, ...rest }) => (
 
 NodeCardList.propTypes = {
   nodes: PropTypes.array,
-  updateContactFormSearchQuery: PropTypes.func.isRequired
+  updateContactFormSearchQuery: PropTypes.func.isRequired,
 }
 
 NodeCardList.defaultProps = {
-  nodes: []
+  nodes: [],
 }
 
 export default React.memo(NodeCardList)

@@ -54,7 +54,7 @@ export default history => {
     settingsmenu,
     ticker,
     transaction,
-    wallet
+    wallet,
   })
 
   return (state, action) => {

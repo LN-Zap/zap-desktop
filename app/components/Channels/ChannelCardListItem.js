@@ -26,7 +26,7 @@ const ChannelCardListItem = React.memo(
       local_balance,
       remote_balance,
       display_status,
-      active
+      active,
     } = channel
     const opacity = active ? 1 : 0.3
     return (
@@ -38,7 +38,7 @@ const ChannelCardListItem = React.memo(
                 {display_name}
               </ClippedHeading>
 
-              <ChannelStatus status={display_status} mb="auto" />
+              <ChannelStatus mb="auto" status={display_status} />
             </Flex>
             <Flex justifyContent="space-between" opacity={opacity}>
               <Text fontWeight="normal">
@@ -54,22 +54,22 @@ const ChannelCardListItem = React.memo(
           <Panel.Body>
             <ChannelCapacity
               localBalance={local_balance}
-              remoteBalance={remote_balance}
-              opacity={opacity}
               my={4}
+              opacity={opacity}
+              remoteBalance={remote_balance}
             />
 
             <ChannelData
+              as="section"
               channel={channel}
               currencyName={currencyName}
               networkInfo={networkInfo}
-              as="section"
               opacity={opacity}
             />
           </Panel.Body>
 
           <Panel.Footer>
-            <Flex as="footer" justifyContent="center" alignItems="flex-end">
+            <Flex alignItems="flex-end" as="footer" justifyContent="center">
               <ChannelMoreButton
                 onClick={() => {
                   setSelectedChannel(channel_point)
@@ -87,15 +87,15 @@ const ChannelCardListItem = React.memo(
 ChannelCardListItem.displayName = 'ChannelCardListItem'
 
 ChannelCardListItem.propTypes = {
-  intl: intlShape.isRequired,
   channel: PropTypes.object.isRequired,
   currencyName: PropTypes.string.isRequired,
-  setSelectedChannel: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
-    name: PropTypes.string
-  }).isRequired
+    name: PropTypes.string,
+  }).isRequired,
+  openModal: PropTypes.func.isRequired,
+  setSelectedChannel: PropTypes.func.isRequired,
 }
 
 export default injectIntl(ChannelCardListItem)

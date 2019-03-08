@@ -71,32 +71,32 @@ const Range = asField(({ fieldState, fieldApi, ...props }) => {
     thumbBackground: 'primaryText',
     shadowSize: '-2px',
     fitThumbInSlider: '-2px',
-    backgroundFilledSlider: 'lightningOrange'
+    backgroundFilledSlider: 'lightningOrange',
   }
 
   return (
     <>
       <Input
         {...styleProps}
-        min={0}
         max={100}
+        min={0}
         step={1}
         {...rest}
-        type="range"
         ref={forwardedRef}
-        value={value || 0}
-        onChange={e => {
-          setValue(e.target.value)
-          if (onChange) {
-            onChange(e)
-          }
-        }}
         onBlur={e => {
           setTouched()
           if (onBlur) {
             onBlur(e)
           }
         }}
+        onChange={e => {
+          setValue(e.target.value)
+          if (onChange) {
+            onChange(e)
+          }
+        }}
+        type="range"
+        value={value || 0}
       />
     </>
   )

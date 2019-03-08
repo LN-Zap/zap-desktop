@@ -9,21 +9,21 @@ const SettingsMenu = ({ history, setActiveSubMenu, openModal }) => (
   <MenuContainer>
     <Menu justify="right">
       <MenuItem
+        hasChildren
         item={{ key: 'fiat', name: <FormattedMessage {...messages.fiat} /> }}
         onClick={() => setActiveSubMenu('fiat')}
-        hasChildren
       />
 
       <MenuItem
+        hasChildren
         item={{ key: 'locale', name: <FormattedMessage {...messages.locale} /> }}
         onClick={() => setActiveSubMenu('locale')}
-        hasChildren
       />
 
       <MenuItem
+        hasChildren
         item={{ key: 'theme', name: <FormattedMessage {...messages.theme} /> }}
         onClick={() => setActiveSubMenu('theme')}
-        hasChildren
       />
 
       <MenuItem
@@ -40,9 +40,9 @@ const SettingsMenu = ({ history, setActiveSubMenu, openModal }) => (
 )
 
 SettingsMenu.propTypes = {
-  setActiveSubMenu: PropTypes.func.isRequired,
+  history: PropTypes.object.isRequired,
   openModal: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
+  setActiveSubMenu: PropTypes.func.isRequired,
 }
 
 export default withRouter(SettingsMenu)

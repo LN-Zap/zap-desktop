@@ -36,24 +36,24 @@ storiesOf('Containers.Channels', module)
                     'pending_close',
                     'pending_force_close',
                     'waiting_close',
-                    'offline'
+                    'offline',
                   ],
                   'open'
                 ),
-                active: true
+                active: true,
               }
 
               const stateProps = {
-                channel
+                channel,
               }
               const dispatchProps = {
-                setSelectedChannel
+                setSelectedChannel,
               }
 
               return <ChannelSummaryListItem {...stateProps} {...dispatchProps} />
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   })

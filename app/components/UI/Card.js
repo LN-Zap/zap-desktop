@@ -6,10 +6,10 @@ const Card = ({ children, ...rest }) => (
   <BaseCard
     as="section"
     bg="primaryColor"
-    color="primaryText"
-    p={3}
     borderRadius={5}
     boxShadow="0 2px 24px 0 rgba(0, 0, 0, 0.5)"
+    color="primaryText"
+    p={3}
     {...rest}
   >
     {children}
@@ -17,7 +17,7 @@ const Card = ({ children, ...rest }) => (
 )
 
 Card.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 export default Card

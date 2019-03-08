@@ -5,12 +5,12 @@ import { showActivityModal } from 'reducers/activity'
 import Payment from 'components/Activity/Payment'
 
 const mapDispatchToProps = {
-  showActivityModal
+  showActivityModal,
 }
 
 const mapStateToProps = state => ({
   currencyName: tickerSelectors.currencyName(state),
-  nodes: state.network.nodes
+  nodes: state.network.nodes,
 })
 
 export default connect(

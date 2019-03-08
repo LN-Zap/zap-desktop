@@ -39,7 +39,7 @@ const translations = {
   es: esTranslationMessages,
   sv: svTranslationMessages,
   tr: trTranslationMessages,
-  uk: ukTranslationMessages
+  uk: ukTranslationMessages,
 }
 
 export default translations

@@ -7,7 +7,7 @@ import messages from './messages'
 
 const ChannelCount = ({ channels, ...rest }) => {
   return (
-    <Flex as="section" alignItems="center" {...rest}>
+    <Flex alignItems="center" as="section" {...rest}>
       <Text fontWeight="normal" mr={2}>
         <FormattedMessage {...messages.channels} />
       </Text>
@@ -17,7 +17,7 @@ const ChannelCount = ({ channels, ...rest }) => {
 }
 
 ChannelCount.propTypes = {
-  channels: PropTypes.array.isRequired
+  channels: PropTypes.array.isRequired,
 }
 
 export default ChannelCount

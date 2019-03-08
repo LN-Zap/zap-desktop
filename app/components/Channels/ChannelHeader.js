@@ -19,7 +19,7 @@ const ChannelHeader = ({ intl, channel, ...rest }) => {
     <Box {...rest}>
       <Flex justifyContent="space-between">
         <ClippedHeading my={1}>{display_name}</ClippedHeading>
-        <ChannelStatus status={display_status} mb="auto" />
+        <ChannelStatus mb="auto" status={display_status} />
       </Flex>
       <ClippedText>{display_pubkey}</ClippedText>
       <Box>
@@ -30,8 +30,8 @@ const ChannelHeader = ({ intl, channel, ...rest }) => {
 }
 
 ChannelHeader.propTypes = {
+  channel: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
-  channel: PropTypes.object.isRequired
 }
 
 export default injectIntl(ChannelHeader)

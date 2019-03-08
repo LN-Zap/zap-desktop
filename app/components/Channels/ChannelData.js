@@ -22,7 +22,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
     total_satoshis_sent,
     total_satoshis_received,
     csv_delay,
-    num_updates
+    num_updates,
   } = channel
   const [fundingTxid] = channel_point.split(':')
 
@@ -35,9 +35,9 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
         <Link
           onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, fundingTxid)}
         >
-          <Truncate text={fundingTxid} maxlen={25} />
+          <Truncate maxlen={25} text={fundingTxid} />
         </Link>
-      )
+      ),
     },
     {
       id: 'closing_txid',
@@ -47,21 +47,21 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
         <Link
           onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, closing_txid)}
         >
-          <Truncate text={closing_txid} maxlen={25} />
+          <Truncate maxlen={25} text={closing_txid} />
         </Link>
-      )
+      ),
     },
     {
       id: 'num_updates',
       label: <FormattedMessage {...messages.num_updates_label} />,
       body: <FormattedMessage {...messages.num_updates_description} />,
-      value: num_updates
+      value: num_updates,
     },
     {
       id: 'csv_delay',
       label: <FormattedMessage {...messages.csv_delay_label} />,
       body: <FormattedMessage {...messages.csv_delay_description} />,
-      value: csv_delay
+      value: csv_delay,
     },
     {
       id: 'total_satoshis_sent',
@@ -73,7 +73,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           {` `}
           {currencyName}
         </>
-      )
+      ),
     },
     {
       id: 'total_satoshis_received',
@@ -85,7 +85,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           {` `}
           {currencyName}
         </>
-      )
+      ),
     },
     {
       id: 'commit_fee',
@@ -97,7 +97,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           {` `}
           {currencyName}
         </>
-      )
+      ),
     },
     {
       id: 'fee_per_kw',
@@ -109,8 +109,8 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           {` `}
           {currencyName}
         </>
-      )
-    }
+      ),
+    },
   ]
 
   const idsToInclude =
@@ -124,7 +124,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           'total_satoshis_sent',
           'total_satoshis_received',
           'commit_fee',
-          'fee_per_kw'
+          'fee_per_kw',
         ]
 
   const rows = idsToInclude.filter(id => channel[id] != null).map(id => data.find(d => d.id === id))
@@ -135,11 +135,11 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
         <React.Fragment key={row.id}>
           <Bar variant="light" />
           <DataRow
-            left={row.label}
-            right={row.value}
             body={viewMode === CHANNEL_DATA_VIEW_MODE_FULL ? row.body : null}
-            py={viewMode === CHANNEL_DATA_VIEW_MODE_FULL ? 3 : 2}
+            left={row.label}
             pr={2}
+            py={viewMode === CHANNEL_DATA_VIEW_MODE_FULL ? 3 : 2}
+            right={row.value}
           />
         </React.Fragment>
       ))}
@@ -150,15 +150,15 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
 ChannelData.propTypes = {
   channel: PropTypes.object.isRequired,
   currencyName: PropTypes.string.isRequired,
-  viewMode: PropTypes.oneOf([CHANNEL_DATA_VIEW_MODE_BASIC, CHANNEL_DATA_VIEW_MODE_FULL]),
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
-    name: PropTypes.string
-  }).isRequired
+    name: PropTypes.string,
+  }).isRequired,
+  viewMode: PropTypes.oneOf([CHANNEL_DATA_VIEW_MODE_BASIC, CHANNEL_DATA_VIEW_MODE_FULL]),
 }
 
 ChannelData.defaultProps = {
-  viewMode: CHANNEL_DATA_VIEW_MODE_BASIC
+  viewMode: CHANNEL_DATA_VIEW_MODE_BASIC,
 }
 
 export default ChannelData

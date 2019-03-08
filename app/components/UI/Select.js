@@ -32,7 +32,7 @@ const SelectOptionItem = styled(
     {
       extend: Box,
       as: 'li',
-      p: 2
+      p: 2,
     },
     'space',
     'color'
@@ -76,18 +76,18 @@ class Select extends React.PureComponent {
 
   static propTypes = {
     color: PropTypes.string,
+    fieldApi: PropTypes.object.isRequired,
+    fieldState: PropTypes.object.isRequired,
     iconSize: PropTypes.number,
     initialSelectedItem: PropTypes.string,
     items: PropTypes.array,
+    onValueSelected: PropTypes.func,
     theme: PropTypes.object.isRequired,
-    fieldApi: PropTypes.object.isRequired,
-    fieldState: PropTypes.object.isRequired,
-    onValueSelected: PropTypes.func
   }
 
   static defaultProps = {
     items: [],
-    iconSize: 8
+    iconSize: 8,
   }
 
   inputRef = React.createRef()
@@ -107,13 +107,13 @@ class Select extends React.PureComponent {
         {...getItemProps({
           key: item.key,
           index,
-          item
+          item,
         })}
         bg={highlightedIndex === index ? theme.colors.primaryColor : null}
         p={2}
       >
         <Flex alignItems="center" pr={2}>
-          <Text width="20px" textAlign="center" color="superGreen">
+          <Text color="superGreen" textAlign="center" width="20px">
             {selectedItem.key === item.key && <Check height="0.95em" />}
           </Text>
           <Text>{item.value}</Text>
@@ -143,8 +143,16 @@ class Select extends React.PureComponent {
 
     return (
       <Downshift
-        itemToString={itemToString}
+        initialInputValue={initialInputValue}
         // When an item is selected, set the item in the Informed form state.
+        initialSelectedItem={initialSelectedItem}
+        // If an invalid value has been typed into the input, set it back to the currently slected item.
+        itemToString={itemToString}
+        onInputValueChange={(inputValue, stateAndHelpers) => {
+          if (inputValue && inputValue !== itemToString(stateAndHelpers.selectedItem)) {
+            fieldApi.setValue(itemToString(stateAndHelpers.selectedItem))
+          }
+        }}
         onSelect={item => {
           setValue(item.value)
           setTouched(true)
@@ -153,14 +161,6 @@ class Select extends React.PureComponent {
           }
           this.blurInput()
         }}
-        // If an invalid value has been typed into the input, set it back to the currently slected item.
-        onInputValueChange={(inputValue, stateAndHelpers) => {
-          if (inputValue && inputValue !== itemToString(stateAndHelpers.selectedItem)) {
-            fieldApi.setValue(itemToString(stateAndHelpers.selectedItem))
-          }
-        }}
-        initialInputValue={initialInputValue}
-        initialSelectedItem={initialSelectedItem}
       >
         {({
           getInputProps,
@@ -171,7 +171,7 @@ class Select extends React.PureComponent {
           selectedItem,
           closeMenu,
           openMenu,
-          toggleMenu
+          toggleMenu,
         }) => (
           <div style={{ position: 'relative' }}>
             <Flex alignItems="center">
@@ -181,10 +181,10 @@ class Select extends React.PureComponent {
                 {...getInputProps({
                   onBlur: closeMenu,
                   onFocus: openMenu,
-                  onMouseDown: toggleMenu
+                  onMouseDown: toggleMenu,
                 })}
-                initialValue={selectedItem ? selectedItem.value : null}
                 forwardedRef={this.inputRef}
+                initialValue={selectedItem ? selectedItem.value : null}
               />
               <Box>
                 {isOpen ? <ArrowIconOpen width={iconSize} /> : <ArrowIconClosed width={iconSize} />}

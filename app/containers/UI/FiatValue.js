@@ -7,7 +7,7 @@ import { Span, Value } from 'components/UI'
 const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
   fiatTicker: state.ticker.fiatTicker,
-  currency: 'fiat'
+  currency: 'fiat',
 })
 
 const ConnectedValue = connect(mapStateToProps)(Value)
@@ -15,14 +15,14 @@ const ConnectedValue = connect(mapStateToProps)(Value)
 const FiatValue = ({ value, style, ...rest }) => {
   return (
     <Span {...rest}>
-      <ConnectedValue value={value} style={style} />
+      <ConnectedValue style={style} value={value} />
     </Span>
   )
 }
 
 FiatValue.propTypes = {
   style: PropTypes.oneOf(['decimal', 'currency']),
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export default FiatValue

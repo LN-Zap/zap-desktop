@@ -21,7 +21,7 @@ const wallets = [
     autopilotPrivate: true,
     chain: 'bitcoin',
     network: 'testnet',
-    type: 'local'
+    type: 'local',
   },
   {
     id: 2,
@@ -29,21 +29,21 @@ const wallets = [
     chain: 'bitcoin',
     network: 'mainnet',
     type: 'local',
-    name: 'Small Change'
+    name: 'Small Change',
   },
   {
     id: 3,
     type: 'custom',
     chain: 'bitcoin',
     network: 'testnet',
-    host: 'mynode.local'
+    host: 'mynode.local',
   },
   {
     id: 4,
     type: 'btcpayserver',
     chain: 'bitcoin',
     network: 'testnet',
-    host: 'example.btcpaywithreallylongname.store'
+    host: 'example.btcpaywithreallylongname.store',
   },
   {
     id: 5,
@@ -51,8 +51,8 @@ const wallets = [
     chain: 'bitcoin',
     network: 'testnet',
     host: 'example.btcpay.store',
-    name: 'The Lightning Store'
-  }
+    name: 'The Lightning Store',
+  },
 ]
 
 const showError = async error => {
@@ -64,17 +64,17 @@ const setStartLndError = async error => {
 const startLnd = async wallet => {
   console.log('startLnd', wallet)
   await delay(500)
-  store.set({ walletUnlockerGrpcActive: true, lightningGrpcActive: false })
+  store.set({ isWalletUnlockerGrpcActive: true, isLightningGrpcActive: false })
 }
 const stopLnd = async () => {
   console.log('stopLnd')
   await delay(500)
-  store.set({ walletUnlockerGrpcActive: false, lightningGrpcActive: false })
+  store.set({ isWalletUnlockerGrpcActive: false, isLightningGrpcActive: false })
 }
 const unlockWallet = async (wallet, password) => {
   console.log('unlockWallet', wallet, password)
   await delay(300)
-  store.set({ walletUnlockerGrpcActive: false, lightningGrpcActive: true })
+  store.set({ isWalletUnlockerGrpcActive: false, isLightningGrpcActive: true })
 }
 const deleteWallet = async walletId => {
   console.log('deleteWallet', walletId)
@@ -89,7 +89,7 @@ storiesOf('Containers.Home', module)
     StoryRouter({
       '/onboarding': linkTo('Containers.Onboarding', 'Onboarding'),
       '/syncing': linkTo('Containers.Syncing', 'Syncing'),
-      '/app': linkTo('Containers.App', 'App')
+      '/app': linkTo('Containers.App', 'App'),
     })
   )
   .addDecorator(story => <Provider story={story()} />)
@@ -98,16 +98,16 @@ storiesOf('Containers.Home', module)
     const hasWallets = boolean('Has wallets', true)
     return (
       <Home
-        wallets={hasWallets ? wallets : []}
+        deleteWallet={deleteWallet}
+        setActiveWallet={setActiveWallet}
+        setIsWalletOpen={action('setIsWalletOpen')}
+        setStartLndError={setStartLndError}
+        setUnlockWalletError={setUnlockWalletError}
+        showError={showError}
         startLnd={startLnd}
         stopLnd={stopLnd}
         unlockWallet={unlockWallet}
-        deleteWallet={deleteWallet}
-        showError={showError}
-        setStartLndError={setStartLndError}
-        setUnlockWalletError={setUnlockWalletError}
-        setActiveWallet={setActiveWallet}
-        setIsWalletOpen={action('setIsWalletOpen')}
+        wallets={hasWallets ? wallets : []}
       />
     )
   })

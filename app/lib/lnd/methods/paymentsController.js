@@ -14,7 +14,7 @@ export function sendPayment(lnd, { paymentRequest, amt, feeLimit }) {
     const request = {
       payment_request: paymentRequest,
       amt,
-      fee_limit: { fixed: feeLimit }
+      fee_limit: { fixed: feeLimit },
     }
     const call = lnd.sendPayment({})
     call.on('data', resolve)
@@ -35,7 +35,7 @@ export function sendPaymentSync(lnd, { paymentRequest, amt, feeLimit }) {
       const request = {
         payment_request: paymentRequest,
         amt,
-        fee_limit: { fixed: feeLimit }
+        fee_limit: { fixed: feeLimit },
       }
       lnd.sendPaymentSync(request, (err, data) => {
         if (err) {

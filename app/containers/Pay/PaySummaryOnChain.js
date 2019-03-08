@@ -7,11 +7,11 @@ const mapStateToProps = state => ({
   cryptoCurrencyTicker: tickerSelectors.currencyName(state),
   isQueryingFees: state.pay.isQueryingFees,
   nodes: state.network.nodes,
-  onchainFees: state.pay.onchainFees
+  onchainFees: state.pay.onchainFees,
 })
 
 const mapDispatchToProps = {
-  queryFees
+  queryFees,
 }
 
 export default connect(

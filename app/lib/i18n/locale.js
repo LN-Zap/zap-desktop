@@ -39,5 +39,5 @@ addLocaleData([
   ...sv,
   ...tr,
   ...uk,
-  ...zh
+  ...zh,
 ])

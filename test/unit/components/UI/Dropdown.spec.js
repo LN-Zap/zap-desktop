@@ -6,16 +6,16 @@ import { dark } from 'themes'
 const currencies = [
   {
     key: 'btc',
-    name: 'BTC'
+    name: 'BTC',
   },
   {
     key: 'bits',
-    name: 'bits'
+    name: 'bits',
   },
   {
     key: 'sats',
-    name: 'satoshis'
-  }
+    name: 'satoshis',
+  },
 ]
 
 const setCurrency = jest.fn()
@@ -23,7 +23,7 @@ const setCurrency = jest.fn()
 describe('component.Dropdown', () => {
   it('should render correctly', () => {
     const tree = renderer
-      .create(<Dropdown theme={dark} activeKey="btc" items={currencies} onClick={setCurrency} />)
+      .create(<Dropdown activeKey="btc" items={currencies} onClick={setCurrency} theme={dark} />)
       .toJSON()
     expect(tree).toMatchSnapshot()
   })

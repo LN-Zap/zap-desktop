@@ -13,10 +13,10 @@ class WalletStarter extends Component {
   static propTypes = {
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
+    isLightningGrpcActive: PropTypes.bool,
+    isWalletUnlockerGrpcActive: PropTypes.bool,
+    startActiveWallet: PropTypes.func.isRequired,
     startLndError: PropTypes.object,
-    lightningGrpcActive: PropTypes.bool,
-    walletUnlockerGrpcActive: PropTypes.bool,
-    startActiveWallet: PropTypes.func.isRequired
   }
 
   componentDidMount() {
@@ -30,9 +30,9 @@ class WalletStarter extends Component {
     const {
       activeWallet,
       activeWalletSettings,
-      lightningGrpcActive,
+      isLightningGrpcActive,
       startLndError,
-      walletUnlockerGrpcActive
+      isWalletUnlockerGrpcActive,
     } = this.props
 
     // If there was a problem starting lnd, switch to the wallet launcher.
@@ -41,12 +41,12 @@ class WalletStarter extends Component {
     }
 
     // If the wallet unlocker became active, switch to the login screen.
-    if (walletUnlockerGrpcActive) {
+    if (isWalletUnlockerGrpcActive) {
       return `/home/wallet/${activeWallet}/unlock`
     }
 
     // If an active wallet connection has been established, switch to the app.
-    if (lightningGrpcActive) {
+    if (isLightningGrpcActive) {
       return activeWalletSettings.type === 'local' ? '/syncing' : '/app'
     }
 
@@ -64,13 +64,13 @@ const mapStateToProps = state => ({
   activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   hasWallets: walletSelectors.hasWallets(state),
-  lightningGrpcActive: state.lnd.lightningGrpcActive,
-  walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
-  startLndError: state.lnd.startLndError
+  isLightningGrpcActive: state.lnd.isLightningGrpcActive,
+  isWalletUnlockerGrpcActive: state.lnd.isWalletUnlockerGrpcActive,
+  startLndError: state.lnd.startLndError,
 })
 
 const mapDispatchToProps = {
-  startActiveWallet
+  startActiveWallet,
 }
 
 export default connect(

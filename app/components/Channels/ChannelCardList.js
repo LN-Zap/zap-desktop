@@ -17,7 +17,7 @@ const ChannelCardList = ({
   currencyName,
   openModal,
   setSelectedChannel,
-  networkInfo
+  networkInfo,
 }) => {
   const ROW_PADDING_BOTTOM = 3
   // current row height + margin bottom
@@ -33,21 +33,21 @@ const ChannelCardList = ({
     const channel = channels[index].channel || channels[index]
     return (
       <Box
-        width={1 / 2}
-        pr={index % 2 ? 4 : 3}
-        pl={index % 2 ? 3 : 4}
-        pt={3}
-        pb={ROW_PADDING_BOTTOM}
-        style={style}
         key={key}
+        pb={ROW_PADDING_BOTTOM}
+        pl={index % 2 ? 3 : 4}
+        pr={index % 2 ? 4 : 3}
+        pt={3}
+        style={style}
+        width={1 / 2}
       >
         <ChannelCardListItem
           channel={channel}
+          css={{ height: '100%' }}
           currencyName={currencyName}
+          networkInfo={networkInfo}
           openModal={openModal}
           setSelectedChannel={setSelectedChannel}
-          networkInfo={networkInfo}
-          css={{ height: '100%' }}
         />
       </Box>
     )
@@ -58,13 +58,13 @@ const ChannelCardList = ({
       {({ width, height }) => {
         return (
           <StyledList
-            width={width}
-            height={height}
+            cellRenderer={renderRow}
             columnCount={2}
             columnWidth={width / 2}
-            rowHeight={ROW_HEIGHT}
-            cellRenderer={renderRow}
+            height={height}
             rowCount={Math.ceil(channels.length / 2)}
+            rowHeight={ROW_HEIGHT}
+            width={width}
           />
         )
       }}
@@ -75,16 +75,16 @@ const ChannelCardList = ({
 ChannelCardList.propTypes = {
   channels: PropTypes.array,
   currencyName: PropTypes.string.isRequired,
-  openModal: PropTypes.func.isRequired,
-  setSelectedChannel: PropTypes.func.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
-    name: PropTypes.string
-  })
+    name: PropTypes.string,
+  }),
+  openModal: PropTypes.func.isRequired,
+  setSelectedChannel: PropTypes.func.isRequired,
 }
 
 ChannelCardList.defaultProps = {
-  channels: []
+  channels: [],
 }
 
 export default ChannelCardList

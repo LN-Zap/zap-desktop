@@ -17,12 +17,12 @@ storiesOf('Containers.Channels', module)
                 fee: 88,
                 speed: 'TRANSACTION_SPEED_SLOW',
                 nodePubkey: '03cf5a37ed661e3c61c7943941834771631cd880985340ed7543ad79a968cea454',
-                nodeDisplayName: 'Sparky'
+                nodeDisplayName: 'Sparky',
               }
               return <ChannelCreateSummary {...stateProps} />
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   })

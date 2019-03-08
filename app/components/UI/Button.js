@@ -26,16 +26,16 @@ Wrapper.displayName = 'Button'
  * <Button><Basic button</Button>
  */
 const Button = React.forwardRef((props, ref) => {
-  let { children, active, processing, size, variant, className, ...rest } = props
+  let { children, isActive, isDisabled, isProcessing, size, variant, className, ...rest } = props
   const sizes = {
     small: {
       x: 3,
-      y: 2
+      y: 2,
     },
     medium: {
       x: 5,
-      y: 3
-    }
+      y: 3,
+    },
   }
 
   size = sizes[size] || sizes['medium']
@@ -46,27 +46,30 @@ const Button = React.forwardRef((props, ref) => {
   const borderRadius = variant === 'secondary' ? 0 : 5
 
   //support custom styled and styled-components
-  const wrapperClasses = [className, active ? 'active' : null].filter(cls => Boolean(cls)).join(' ')
+  const wrapperClasses = [className, isActive ? 'active' : null]
+    .filter(cls => Boolean(cls))
+    .join(' ')
 
   return (
     <Wrapper
+      ref={ref}
+      borderRadius={borderRadius}
+      className={wrapperClasses}
+      disabled={isDisabled}
       px={size['x']}
       py={size['y']}
-      borderRadius={borderRadius}
       variant={variant}
-      className={wrapperClasses}
-      ref={ref}
       {...rest}
     >
-      {processing ? (
+      {isProcessing ? (
         <Flex alignItems="center">
-          {processing && <Spinner />}
-          <Text fontWeight="normal" fontFamily="sans" ml={2}>
+          {isProcessing && <Spinner />}
+          <Text fontFamily="sans" fontWeight="normal" ml={2}>
             {children}
           </Text>
         </Flex>
       ) : (
-        <Text fontWeight="normal" fontFamily="sans">
+        <Text fontFamily="sans" fontWeight="normal">
           {children}
         </Text>
       )}
@@ -77,19 +80,21 @@ const Button = React.forwardRef((props, ref) => {
 Button.displayName = 'Button'
 
 Button.propTypes = {
-  processing: PropTypes.bool,
-  active: PropTypes.bool,
+  children: PropTypes.node,
+  className: PropTypes.string,
+  isActive: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  isProcessing: PropTypes.bool,
   size: PropTypes.oneOf(['small', 'medium']),
   variant: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node
 }
 
 Button.defaultProps = {
-  processing: false,
-  active: false,
+  isProcessing: false,
+  isActive: false,
+  isDisabled: false,
   size: 'medium',
-  variant: 'normal'
+  variant: 'normal',
 }
 
 export default Button

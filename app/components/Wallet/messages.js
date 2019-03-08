@@ -6,5 +6,5 @@ export default defineMessages({
   request: 'Request',
   sending_tx: 'Sending your transaction…',
   payment_success: 'Successfully sent payment',
-  transaction_success: 'Successfully sent transaction'
+  transaction_success: 'Successfully sent transaction',
 })

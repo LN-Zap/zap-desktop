@@ -29,14 +29,14 @@ class Panel extends React.Component {
   static Footer = PanelFooter
 
   static propTypes = {
+    children: PropTypes.node,
     css: PropTypes.object,
-    children: PropTypes.node
   }
 
   render() {
     const { children, ...rest } = this.props
     return (
-      <Flex {...rest} as="article" flexDirection="column" css={{ height: '100%' }} {...rest}>
+      <Flex {...rest} as="article" css={{ height: '100%' }} flexDirection="column" {...rest}>
         {children}
       </Flex>
     )

@@ -11,26 +11,26 @@ export const DISABLE_SUBMENU = 'DISABLE_SUBMENU'
 // ------------------------------------
 export function openSettings() {
   return {
-    type: OPEN_SETTINGS
+    type: OPEN_SETTINGS,
   }
 }
 
 export function closeSettings() {
   return {
-    type: CLOSE_SETTINGS
+    type: CLOSE_SETTINGS,
   }
 }
 
 export function setActiveSubMenu(activeSubMenu) {
   return {
     type: SET_ACTIVE_SUBMENU,
-    activeSubMenu
+    activeSubMenu,
   }
 }
 
 export function disableSubMenu() {
   return {
-    type: DISABLE_SUBMENU
+    type: DISABLE_SUBMENU,
   }
 }
 
@@ -41,7 +41,7 @@ const ACTION_HANDLERS = {
   [OPEN_SETTINGS]: state => ({ ...state, isSettingsOpen: true }),
   [CLOSE_SETTINGS]: state => ({ ...state, isSettingsOpen: false, activeSubMenu: null }),
   [SET_ACTIVE_SUBMENU]: (state, { activeSubMenu }) => ({ ...state, activeSubMenu }),
-  [DISABLE_SUBMENU]: state => ({ ...state, activeSubMenu: null })
+  [DISABLE_SUBMENU]: state => ({ ...state, activeSubMenu: null }),
 }
 
 // ------------------------------------
@@ -49,7 +49,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   isSettingsOpen: false,
-  activeSubMenu: null
+  activeSubMenu: null,
 }
 
 export default function settingsReducer(state = initialState, action) {

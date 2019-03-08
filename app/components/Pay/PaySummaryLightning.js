@@ -25,14 +25,14 @@ class PaySummaryLightning extends React.Component {
     /** List of nodes as returned by lnd */
     nodes: PropTypes.array,
     /** Lightning Payment request */
-    payReq: PropTypes.string.isRequired
+    payReq: PropTypes.string.isRequired,
   }
 
   static defaultProps = {
     isQueryingRoutes: false,
     minFee: null,
     maxFee: null,
-    nodes: []
+    nodes: [],
   }
 
   render() {
@@ -82,9 +82,9 @@ class PaySummaryLightning extends React.Component {
         <Box py={3}>
           <Flex alignItems="center">
             <Box width={5 / 11}>
-              <Flex flexWrap="wrap" alignItems="baseline">
+              <Flex alignItems="baseline" flexWrap="wrap">
                 <Box>
-                  <Text textAlign="left" fontSize={6}>
+                  <Text fontSize={6} textAlign="left">
                     <CryptoValue value={amountInSatoshis} />
                   </Text>
                 </Box>
@@ -96,13 +96,13 @@ class PaySummaryLightning extends React.Component {
               </Text>
             </Box>
             <Box width={1 / 11}>
-              <Text textAlign="center" color="lightningOrange">
-                <BigArrowRight width="40px" height="28px" />
+              <Text color="lightningOrange" textAlign="center">
+                <BigArrowRight height="28px" width="40px" />
               </Text>
             </Box>
             <Box width={5 / 11}>
-              <Text textAlign="right" className="hint--bottom-left" data-hint={payeeNodeKey}>
-                {<Truncate text={nodeAlias || payeeNodeKey} maxlen={nodeAlias ? 30 : 15} />}
+              <Text className="hint--bottom-left" data-hint={payeeNodeKey} textAlign="right">
+                {<Truncate maxlen={nodeAlias ? 30 : 15} text={nodeAlias || payeeNodeKey} />}
               </Text>
             </Box>
           </Flex>
@@ -114,7 +114,7 @@ class PaySummaryLightning extends React.Component {
           left={<FormattedMessage {...messages.fee} />}
           right={
             isQueryingRoutes ? (
-              <Flex ml="auto" alignItems="center" justifyContent="flex-end">
+              <Flex alignItems="center" justifyContent="flex-end" ml="auto">
                 <Text mr={2}>
                   <FormattedMessage {...messages.searching_routes} />
                   &hellip;

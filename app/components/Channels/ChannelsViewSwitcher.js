@@ -16,17 +16,17 @@ const StyledButton = styled(Button)`
   }
 `
 StyledButton.propTypes = {
-  active: PropTypes.bool
+  active: PropTypes.bool,
 }
 
 const CardButton = injectIntl(({ active, onClick, intl, ...rest }) => (
   <StyledButton
-    variant="secondary"
-    size="small"
     active={active}
-    onClick={onClick}
     className="hint--bottom-left"
     data-hint={intl.formatMessage({ ...messages.view_mode_card })}
+    onClick={onClick}
+    size="small"
+    variant="secondary"
     {...rest}
   >
     <LayoutCards height="16px" width="16px" />
@@ -35,18 +35,18 @@ const CardButton = injectIntl(({ active, onClick, intl, ...rest }) => (
 
 CardButton.propTypes = {
   active: PropTypes.bool,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 const ListButton = injectIntl(({ active, onClick, intl, ...rest }) => (
   <StyledButton
-    alignSelf="center"
-    variant="secondary"
-    size="small"
     active={active}
-    onClick={onClick}
+    alignSelf="center"
     className="hint--bottom-left"
     data-hint={intl.formatMessage({ ...messages.view_mode_list })}
+    onClick={onClick}
+    size="small"
+    variant="secondary"
     {...rest}
   >
     <LayoutList height="16px" width="16px" />
@@ -55,11 +55,11 @@ const ListButton = injectIntl(({ active, onClick, intl, ...rest }) => (
 
 ListButton.propTypes = {
   active: PropTypes.bool,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 const ChannelsViewSwitcher = ({ channelViewMode, setChannelViewMode, ...rest }) => (
-  <Flex as="section" alignItems="center" {...rest}>
+  <Flex alignItems="center" as="section" {...rest}>
     <CardButton
       active={channelViewMode === CHANNEL_LIST_VIEW_MODE_CARD}
       onClick={() => setChannelViewMode(CHANNEL_LIST_VIEW_MODE_CARD)}
@@ -77,7 +77,7 @@ const ChannelsViewSwitcher = ({ channelViewMode, setChannelViewMode, ...rest }) 
 
 ChannelsViewSwitcher.propTypes = {
   channelViewMode: PropTypes.string.isRequired,
-  setChannelViewMode: PropTypes.func.isRequired
+  setChannelViewMode: PropTypes.func.isRequired,
 }
 
 export default ChannelsViewSwitcher

@@ -72,23 +72,23 @@ export const fetchBlockHeight = () => {
   const sources = [
     {
       baseUrl: `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
-      path: 'blocks[0].height'
+      path: 'blocks[0].height',
     },
     {
       baseUrl: `https://tchain.api.btc.com/v3/block/latest`,
-      path: 'data.height'
+      path: 'data.height',
     },
     {
       baseUrl: `https://api.blockcypher.com/v1/btc/test3`,
-      path: 'height'
-    }
+      path: 'height',
+    },
   ]
   const fetchData = (baseUrl, path) => {
     mainLog.info(`Fetching current block height from ${baseUrl}`)
     return axios({
       method: 'get',
       timeout: 5000,
-      url: baseUrl
+      url: baseUrl,
     })
       .then(response => {
         const height = Number(get(response.data, path))
@@ -218,5 +218,5 @@ export const grpcOptions = {
   longs: Number,
   enums: String,
   defaults: true,
-  oneofs: true
+  oneofs: true,
 }

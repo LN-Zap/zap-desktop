@@ -5,7 +5,7 @@ import {
   getUserDataDir,
   assertNoConsoleErrors,
   cleanTestEnvironment,
-  cleanElectronEnvironment
+  cleanElectronEnvironment,
 } from './utils/helpers'
 import Onboarding from './pages/onboarding'
 import Loading from './pages/loading'

@@ -17,7 +17,7 @@ import {
   Span,
   Spinner,
   Text,
-  Toggle
+  Toggle,
 } from 'components/UI'
 import { CurrencyFieldGroup, CryptoValue, CryptoSelector } from 'containers/UI'
 import Padlock from 'components/Icon/Padlock'
@@ -28,7 +28,7 @@ import messages from './messages'
 import {
   TRANSACTION_SPEED_SLOW,
   TRANSACTION_SPEED_MEDIUM,
-  TRANSACTION_SPEED_FAST
+  TRANSACTION_SPEED_FAST,
 } from './constants'
 
 const speeds = [TRANSACTION_SPEED_SLOW, TRANSACTION_SPEED_MEDIUM, TRANSACTION_SPEED_FAST]
@@ -42,16 +42,16 @@ const ShowHide = Keyframes.Spring({
     await next({ pointerEvents: 'auto' })
     await next({ opacity: 1 })
   },
-  hide: { opacity: 0, pointerEvents: 'none' }
+  hide: { opacity: 0, pointerEvents: 'none' },
 })
 
 const FormButtons = ({ isNextButtonDisabled, nextButtonText, onBack }) => (
   <Flex alignItems="center" mb={3}>
     <Box width={1 / 4}>
-      <ChannelBackButton onClick={onBack} mr="auto" />
+      <ChannelBackButton mr="auto" onClick={onBack} />
     </Box>
-    <Flex width={2 / 4} justifyContent="center">
-      <Button type="submit" disabled={isNextButtonDisabled}>
+    <Flex justifyContent="center" width={2 / 4}>
+      <Button isDisabled={isNextButtonDisabled} type="submit">
         {nextButtonText}
       </Button>
     </Flex>
@@ -61,7 +61,7 @@ const FormButtons = ({ isNextButtonDisabled, nextButtonText, onBack }) => (
 FormButtons.propTypes = {
   isNextButtonDisabled: PropTypes.bool,
   nextButtonText: PropTypes.node.isRequired,
-  onBack: PropTypes.func.isRequired
+  onBack: PropTypes.func.isRequired,
 }
 
 const FormFooter = ({ walletBalance, currencyName }) => (
@@ -77,28 +77,27 @@ const FormFooter = ({ walletBalance, currencyName }) => (
 )
 
 FormFooter.propTypes = {
+  currencyName: PropTypes.string.isRequired,
   walletBalance: PropTypes.number.isRequired,
-  currencyName: PropTypes.string.isRequired
 }
 
 class ChannelCreateForm extends React.Component {
   state = {
-    step: 'form'
+    step: 'form',
   }
 
   static propTypes = {
-    intl: intlShape.isRequired,
     activeWalletSettings: PropTypes.shape({
-      type: PropTypes.string.isRequired
+      type: PropTypes.string.isRequired,
     }).isRequired,
-    walletBalance: PropTypes.number.isRequired,
     currency: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
+    intl: intlShape.isRequired,
     isQueryingFees: PropTypes.bool,
     onchainFees: PropTypes.shape({
       fastestFee: PropTypes.number,
       halfHourFee: PropTypes.number,
-      hourFee: PropTypes.number
+      hourFee: PropTypes.number,
     }),
     onSubmit: PropTypes.func.isRequired,
     openChannel: PropTypes.func.isRequired,
@@ -106,12 +105,13 @@ class ChannelCreateForm extends React.Component {
     searchQuery: PropTypes.string,
     selectedNodeDisplayName: PropTypes.string,
     showNotification: PropTypes.func.isRequired,
-    updateContactFormSearchQuery: PropTypes.func.isRequired
+    updateContactFormSearchQuery: PropTypes.func.isRequired,
+    walletBalance: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
     isQueryingFees: false,
-    onchainFees: {}
+    onchainFees: {},
   }
 
   componentDidMount() {
@@ -243,36 +243,36 @@ class ChannelCreateForm extends React.Component {
         <NodePubkeyInput
           field="nodePubkey"
           initialValue={searchQuery}
-          required
-          validateOnChange
+          isDisabled={Boolean(searchQuery)}
+          isRequired
           validateOnBlur
-          disabled={Boolean(searchQuery)}
+          validateOnChange
         />
 
         <Bar my={3} variant="light" />
 
         <CurrencyFieldGroup
-          formApi={this.formApi}
-          validate={this.validateAmount}
-          validateOnChange={formState.submits > 0}
-          validateOnBlur={formState.submits > 0}
-          required
           css={{ height: '88px' }}
+          formApi={this.formApi}
+          isRequired
+          validate={this.validateAmount}
+          validateOnBlur={formState.submits > 0}
+          validateOnChange={formState.submits > 0}
         />
 
         <Bar my={3} variant="light" />
 
-        <Flex justifyContent="space-between" alignItems="center">
+        <Flex alignItems="center" justifyContent="space-between">
           <Box>
-            <RadioGroup field="speed" label={intl.formatMessage({ ...messages.fee })} required>
+            <RadioGroup field="speed" isRequired label={intl.formatMessage({ ...messages.fee })}>
               <Flex>
                 {speeds.map(speed => (
                   <Radio
                     key={speed}
-                    value={speed}
                     label={<FormattedMessage {...messages[speed.toLowerCase()]} />}
-                    mr={4}
                     mb={0}
+                    mr={4}
+                    value={speed}
                   />
                 ))}
               </Flex>
@@ -280,7 +280,7 @@ class ChannelCreateForm extends React.Component {
           </Box>
           <Box>
             {isQueryingFees && (
-              <Flex ml="auto" alignItems="center" justifyContent="flex-end">
+              <Flex alignItems="center" justifyContent="flex-end" ml="auto">
                 <Text mr={2}>
                   <FormattedMessage {...messages.calculating} />
                   &hellip;
@@ -292,7 +292,7 @@ class ChannelCreateForm extends React.Component {
             {!isQueryingFees && !fee && <FormattedMessage {...messages.fee_unknown} />}
 
             {!isQueryingFees && fee && (
-              <Flex flexDirection="column" alignItems="flex-end">
+              <Flex alignItems="flex-end" flexDirection="column">
                 <Box>
                   <CryptoValue value={fee} />
                   <CryptoSelector mx={2} />
@@ -309,7 +309,7 @@ class ChannelCreateForm extends React.Component {
         {activeWalletSettings.type !== 'local' && (
           <>
             <Bar my={3} variant="light" />
-            <Flex justifyContent="space-between" alignItems="center">
+            <Flex alignItems="center" justifyContent="space-between">
               <Flex>
                 <Span color="gray" fontSize="s" mr={2}>
                   <Padlock />
@@ -340,9 +340,9 @@ class ChannelCreateForm extends React.Component {
       <ChannelCreateSummary
         amount={amount}
         fee={fee}
-        speed={speed}
-        nodePubkey={nodePubkey}
         nodeDisplayName={selectedNodeDisplayName}
+        nodePubkey={nodePubkey}
+        speed={speed}
       />
     )
   }
@@ -383,7 +383,7 @@ class ChannelCreateForm extends React.Component {
               <Panel.Body css={{ position: 'relative' }}>
                 <ShowHide state={step === 'form' ? 'show' : 'hide'}>
                   {styles => (
-                    <Box style={styles} css={{ position: 'absolute' }}>
+                    <Box css={{ position: 'absolute' }} style={styles}>
                       {this.renderFormFields()}
                     </Box>
                   )}
@@ -398,6 +398,7 @@ class ChannelCreateForm extends React.Component {
 
               <Panel.Footer>
                 <FormButtons
+                  isNextButtonDisabled={formState.submits > 0 && formState.invalid}
                   nextButtonText={
                     <FormattedMessage
                       {...messages[
@@ -408,10 +409,9 @@ class ChannelCreateForm extends React.Component {
                       values={{ amount: `${amountCrypto} ${currency}` }}
                     />
                   }
-                  isNextButtonDisabled={formState.submits > 0 && formState.invalid}
                   onBack={this.onBack}
                 />
-                <FormFooter walletBalance={walletBalance} currencyName={currencyName} />
+                <FormFooter currencyName={currencyName} walletBalance={walletBalance} />
               </Panel.Footer>
             </Panel>
           )

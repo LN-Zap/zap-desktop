@@ -10,7 +10,7 @@ import messages from './messages'
 
 export default class PaymentModal extends React.PureComponent {
   static propTypes = {
-    item: PropTypes.object.isRequired
+    item: PropTypes.object.isRequired,
   }
 
   render() {
@@ -19,9 +19,9 @@ export default class PaymentModal extends React.PureComponent {
       <Panel {...rest}>
         <Panel.Header>
           <Header
-            title={<FormattedMessage {...messages.title_sent} />}
-            subtitle={<FormattedMessage {...messages.subtitle} />}
             logo={<Lightning height="45px" width="45px" />}
+            subtitle={<FormattedMessage {...messages.subtitle} />}
+            title={<FormattedMessage {...messages.title_sent} />}
           />
           <Bar mt={2} />
         </Panel.Header>
@@ -32,7 +32,7 @@ export default class PaymentModal extends React.PureComponent {
             right={
               <Flex alignItems="center">
                 <CryptoSelector mr={2} />
-                <CryptoValue value={item.value} fontSize="xxl" />
+                <CryptoValue fontSize="xxl" value={item.value} />
               </Flex>
             }
           />
@@ -56,10 +56,10 @@ export default class PaymentModal extends React.PureComponent {
             right={
               <>
                 <FormattedDate
+                  day="2-digit"
+                  month="long"
                   value={item.creation_date * 1000}
                   year="numeric"
-                  month="long"
-                  day="2-digit"
                 />
                 <br />
                 <FormattedTime value={item.creation_date * 1000} />

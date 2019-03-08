@@ -25,7 +25,7 @@ const autopilotDefaults = {
   autopilotMaxchannels: 5,
   autopilotMinchansize: 20000,
   autopilotMaxchansize: 16777215,
-  autopilotAllocation: 60
+  autopilotAllocation: 60,
 }
 
 // converts form format to db/lnd compatible format
@@ -98,36 +98,36 @@ const parseLndConnectURI = uri => {
     return {
       host: host && decodeURIComponent(host),
       cert: cert && decodeURIComponent(cert),
-      macaroon: macaroon && decodeURIComponent(macaroon)
+      macaroon: macaroon && decodeURIComponent(macaroon),
     }
   } catch (e) {
     return {
       host: '',
       cert: '',
-      macaroon: ''
+      macaroon: '',
     }
   }
 }
 
 class WalletLauncher extends React.Component {
   static propTypes = {
-    intl: intlShape.isRequired,
-    wallet: PropTypes.object.isRequired,
-    deleteWallet: PropTypes.func.isRequired,
-    startLnd: PropTypes.func.isRequired,
-    lightningGrpcActive: PropTypes.bool.isRequired,
-    walletUnlockerGrpcActive: PropTypes.bool.isRequired,
-    startLndError: PropTypes.object,
-    startingLnd: PropTypes.bool.isRequired,
     clearStartLndError: PropTypes.func.isRequired,
-    putWallet: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    showError: PropTypes.func.isRequired,
-    stopLnd: PropTypes.func.isRequired,
-    refreshLndConnectURI: PropTypes.func.isRequired,
+    deleteWallet: PropTypes.func.isRequired,
     history: PropTypes.shape({
-      push: PropTypes.func.isRequired
-    })
+      push: PropTypes.func.isRequired,
+    }),
+    intl: intlShape.isRequired,
+    isLightningGrpcActive: PropTypes.bool.isRequired,
+    isStartingLnd: PropTypes.bool.isRequired,
+    isWalletUnlockerGrpcActive: PropTypes.bool.isRequired,
+    putWallet: PropTypes.func.isRequired,
+    refreshLndConnectURI: PropTypes.func.isRequired,
+    showError: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
+    startLnd: PropTypes.func.isRequired,
+    startLndError: PropTypes.object,
+    stopLnd: PropTypes.func.isRequired,
+    wallet: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -147,12 +147,12 @@ class WalletLauncher extends React.Component {
   componentDidUpdate(prevProps) {
     const {
       history,
-      lightningGrpcActive,
-      walletUnlockerGrpcActive,
+      isLightningGrpcActive,
+      isWalletUnlockerGrpcActive,
       startLndError,
       showError,
       clearStartLndError,
-      wallet
+      wallet,
     } = this.props
 
     // If we got lnd start errors, show as a global error.
@@ -162,12 +162,12 @@ class WalletLauncher extends React.Component {
     }
 
     // If the wallet unlocker became active, switch to the login screen
-    if (walletUnlockerGrpcActive && !prevProps.walletUnlockerGrpcActive) {
+    if (isWalletUnlockerGrpcActive && !prevProps.isWalletUnlockerGrpcActive) {
       history.push(`/home/wallet/${wallet.id}/unlock`)
     }
 
     // If an active wallet connection has been established, switch to the app.
-    if (lightningGrpcActive && !prevProps.lightningGrpcActive) {
+    if (isLightningGrpcActive && !prevProps.isLightningGrpcActive) {
       if (wallet.type === 'local') {
         history.push('/syncing')
       } else {
@@ -194,7 +194,7 @@ class WalletLauncher extends React.Component {
       showNotification,
       showError,
       intl,
-      wallet
+      wallet,
     } = this.props
     try {
       const { formApi } = this
@@ -202,7 +202,9 @@ class WalletLauncher extends React.Component {
       const { values } = formState
       let result = values
 
-      if (wallet.type !== 'local') {
+      if (wallet.type === 'local') {
+        result = formToWalletFormat(values)
+      } else {
         const hasHideLndConnectUri = typeof formApi.getValue('hideLndConnectUri') !== 'undefined'
         const lndconnectType = getLndConnectType(values.lndconnectUri)
         if (lndconnectType === LNDCONNECT_EMBEDDED) {
@@ -220,7 +222,7 @@ class WalletLauncher extends React.Component {
           const config = Object.assign({}, values, {
             ...parseLndConnectURI(values.lndconnectUri),
             lndconnectUri: undefined, // delete uris so the main process re-generates them
-            lndconnectQRCode: undefined
+            lndconnectQRCode: undefined,
           })
           const generatedConfig = formToWalletFormat(
             await refreshLndConnectURI(config) // wait for the config generate complete message from the main process
@@ -236,8 +238,6 @@ class WalletLauncher extends React.Component {
         if (hasHideLndConnectUri) {
           formApi.setValue('hideLndConnectUri', true)
         }
-      } else {
-        result = formToWalletFormat(values)
       }
 
       putWallet(result)
@@ -294,7 +294,7 @@ class WalletLauncher extends React.Component {
       if (getLndConnectType(wallet.lndconnectUri) === LNDCONNECT_EMBEDDED) {
         return !unsafeShallowCompare(clean(wallet), clean(formState.values), {
           name: '',
-          lndconnectUri: ''
+          lndconnectUri: '',
         })
       }
 
@@ -307,7 +307,7 @@ class WalletLauncher extends React.Component {
           name: '',
           cert: '',
           host: '',
-          macaroon: ''
+          macaroon: '',
         }
       )
     }
@@ -316,7 +316,7 @@ class WalletLauncher extends React.Component {
       ...autopilotDefaults,
       autopilot: '',
       alias: '',
-      name: ''
+      name: '',
     }
     // local node
     return !unsafeShallowCompare(
@@ -331,18 +331,18 @@ class WalletLauncher extends React.Component {
   }
 
   render() {
-    const { wallet, startingLnd } = this.props
+    const { wallet, isStartingLnd } = this.props
     const actionBarButtons = formState => (
       <>
-        <Button type="button" key="cancel" variant="secondary" mr={6} onClick={this.resetForm}>
+        <Button key="cancel" mr={6} onClick={this.resetForm} type="button" variant="secondary">
           <FormattedMessage {...messages.button_cancel} />
         </Button>
 
         <Button
-          type="submit"
           key="save"
+          isDisabled={formState.submits > 0 && formState.invalid}
+          type="submit"
           variant="normal"
-          disabled={formState.submits > 0 && formState.invalid}
         >
           <FormattedMessage {...messages.button_save} />
         </Button>
@@ -352,22 +352,22 @@ class WalletLauncher extends React.Component {
     const walletConverted = walletToFormFormat(wallet)
 
     return (
-      <Box css={{ height: '100%', 'overflow-y': 'overlay' }} pt={4} px={5} pb={6}>
-        <Form getApi={this.setFormApi} onSubmit={this.saveSettings} initialValues={walletConverted}>
+      <Box css={{ height: '100%', 'overflow-y': 'overlay' }} pb={6} pt={4} px={5}>
+        <Form getApi={this.setFormApi} initialValues={walletConverted} onSubmit={this.saveSettings}>
           {({ formState }) => (
             <Box>
-              <Flex mb={4} alignItems="center">
-                <Box width="75%" mr={3}>
+              <Flex alignItems="center" mb={4}>
+                <Box mr={3} width="75%">
                   <WalletHeader wallet={wallet} />
                 </Box>
-                <Flex ml="auto" justifyContent="flex-end" flexDirection="column">
+                <Flex flexDirection="column" justifyContent="flex-end" ml="auto">
                   <Button
-                    type="button"
-                    size="small"
+                    isDisabled={isStartingLnd}
+                    isProcessing={isStartingLnd}
                     ml={2}
-                    disabled={startingLnd}
-                    processing={startingLnd}
                     onClick={this.launchWallet}
+                    size="small"
+                    type="button"
                   >
                     <FormattedMessage {...messages.launch_wallet_button_text} />
                   </Button>
@@ -387,19 +387,19 @@ class WalletLauncher extends React.Component {
                 </>
               ) : (
                 <WalletSettingsFormRemote
-                  wallet={walletConverted}
                   isEmbeddedConnectionString={isEmbeddedLndConnectURI(wallet.lndconnectUri)}
+                  wallet={walletConverted}
                   {...parseLndConnectURI(wallet.lndconnectUri)}
                 />
               )}
 
-              <Text mt={4} fontWeight="normal">
+              <Text fontWeight="normal" mt={4}>
                 <FormattedMessage {...messages.section_delete_title} />
               </Text>
               <Bar my={2} />
 
               <Flex justifyContent="center" my={4}>
-                <Button size="small" onClick={this.handleDelete} type="button">
+                <Button onClick={this.handleDelete} size="small" type="button">
                   <FormattedMessage {...messages.delete_wallet_button_text} />
                 </Button>
               </Flex>

@@ -58,7 +58,6 @@ exports[`component.UI.Input should render correctly 1`] = `
       className="c1"
     >
       <input
-        autoFocus={false}
         className="c2"
         color="primaryText"
         disabled={false}
@@ -68,6 +67,7 @@ exports[`component.UI.Input should render correctly 1`] = `
         onBlur={[Function]}
         onChange={[Function]}
         onFocus={[Function]}
+        readOnly={false}
         required={false}
         value=""
         width={1}

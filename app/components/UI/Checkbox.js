@@ -8,24 +8,24 @@ import Text from './Text'
 
 const mapOutlineBorderColor = props => {
   const {
-    disabled,
-    checked,
+    isDisabled,
+    isChecked,
     theme: {
-      colors: { gray, lightningOrange }
-    }
+      colors: { gray, lightningOrange },
+    },
   } = props
-  return !checked || disabled ? gray : lightningOrange
+  return !isChecked || isDisabled ? gray : lightningOrange
 }
 
 const mapOutlineBackgroundColor = props => {
   const {
-    disabled,
-    checked,
+    isDisabled,
+    isChecked,
     theme: {
-      colors: { lightningOrange }
-    }
+      colors: { lightningOrange },
+    },
   } = props
-  return !checked || disabled ? 'transparent' : lightningOrange
+  return !isChecked || isDisabled ? 'transparent' : lightningOrange
 }
 
 const CheckboxOutline = styled(Flex)`
@@ -37,16 +37,16 @@ const CheckboxOutline = styled(Flex)`
 
 function mapContainerBorderColor(props) {
   const {
-    disabled,
+    isDisabled,
     theme: {
-      colors: { gray, lightningOrange }
-    }
+      colors: { gray, lightningOrange },
+    },
   } = props
-  return disabled ? gray : lightningOrange
+  return isDisabled ? gray : lightningOrange
 }
 
 const Container = styled(Flex)`
-  cursor: ${props => (props.disabled ? 'auto' : 'pointer')};
+  cursor: ${props => (props.isDisabled ? 'auto' : 'pointer')};
   user-select: none;
   &:hover ${CheckboxOutline} {
     border-color: ${mapContainerBorderColor};
@@ -68,11 +68,11 @@ const HiddenCheckbox = styled.input.attrs({ type: 'checkbox' })`
   width: 1px;
 `
 
-const Checkmark = ({ checked, disabled }) => {
-  if (disabled) {
+const Checkmark = ({ isChecked, isDisabled }) => {
+  if (isDisabled) {
     return <DisabledCheck />
   }
-  return checked && <Check width={13} height={13} />
+  return isChecked && <Check height={13} width={13} />
 }
 
 const DisabledCheck = styled.div`
@@ -82,24 +82,24 @@ const DisabledCheck = styled.div`
   border-radius: 5px;
 `
 
-const Checkbox = ({ label, description, checked, disabled, onChange, ...rest }) => (
-  <Container onClick={onChange} {...rest} disabled={disabled} checked={checked}>
-    <HiddenCheckbox checked={checked} onChange={() => {}} />
+const Checkbox = ({ label, description, isChecked, isDisabled, onChange, ...rest }) => (
+  <Container onClick={onChange} {...rest} isChecked={isChecked} isDisabled={isDisabled}>
+    <HiddenCheckbox checked={isChecked} onChange={() => {}} />
     <CheckboxOutline
-      borderRadius={6}
-      width={18}
-      disabled={disabled}
-      color={disabled ? 'gray' : 'primaryColor'}
-      checked={checked}
       alignItems="center"
+      borderRadius={6}
+      color={isDisabled ? 'gray' : 'primaryColor'}
+      isChecked={isChecked}
+      isDisabled={isDisabled}
       justifyContent="center"
+      width={18}
     >
-      <Checkmark checked={checked} disabled={disabled} />
+      <Checkmark isChecked={isChecked} isDisabled={isDisabled} />
     </CheckboxOutline>
-    <Flex flexDirection="column" alignItems="flex-start" ml={2}>
+    <Flex alignItems="flex-start" flexDirection="column" ml={2}>
       <Text>{label}</Text>
       {description && (
-        <Text mt={2} color="gray">
+        <Text color="gray" mt={2}>
           {description}
         </Text>
       )}
@@ -108,16 +108,16 @@ const Checkbox = ({ label, description, checked, disabled, onChange, ...rest }) 
 )
 
 Checkbox.defaultProps = {
-  checked: false,
-  disabled: false
+  isChecked: false,
+  isDisabled: false,
 }
 
 Checkbox.propTypes = {
-  label: PropTypes.string.isRequired,
   description: PropTypes.string,
-  checked: PropTypes.bool,
-  disabled: PropTypes.bool,
-  onChange: PropTypes.func.isRequired
+  isChecked: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  label: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 }
 
 const WrappedCheckboxAsField = ({ fieldState, fieldApi, ...rest }) => {
@@ -129,15 +129,15 @@ const WrappedCheckboxAsField = ({ fieldState, fieldApi, ...rest }) => {
     setValue(!value)
   }
 
-  return <Checkbox checked={value} onChange={onChange} {...rest} />
+  return <Checkbox isChecked={value} onChange={onChange} {...rest} />
 }
 
 WrappedCheckboxAsField.propTypes = {
-  fieldState: PropTypes.object.isRequired,
+  description: PropTypes.node,
   fieldApi: PropTypes.object.isRequired,
+  fieldState: PropTypes.object.isRequired,
+  isDisabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
-  disabled: PropTypes.bool,
-  description: PropTypes.node
 }
 
 export default asField(WrappedCheckboxAsField)

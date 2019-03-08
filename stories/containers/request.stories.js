@@ -20,21 +20,21 @@ const mockCreateInvoice = async (amount, currency, memo = '') => {
     tags: [
       {
         tagName: 'purpose_commit_hash',
-        data: '3925b6f67e2c340036ed12093dd44e0368df1b6ea26c53dbe4811f58fd5db8c1'
+        data: '3925b6f67e2c340036ed12093dd44e0368df1b6ea26c53dbe4811f58fd5db8c1',
       },
       {
         tagName: 'payment_hash',
-        data: '0001020304050607080900010203040506070809000102030405060708090102'
+        data: '0001020304050607080900010203040506070809000102030405060708090102',
       },
       {
         tagName: 'expire_time',
-        data: 30
+        data: 30,
       },
       {
         tagName: 'description',
-        data: memo
-      }
-    ]
+        data: memo,
+      },
+    ],
   })
   var privateKeyHex = 'e126f68f7eafcc8b74f54d269fe206be715000f94dac067d1c04a8ca3b2db734'
   var signed = lightningPayReq.sign(encoded, privateKeyHex)
@@ -55,17 +55,17 @@ storiesOf('Containers.Request', module)
     const state = store.getState()
     return (
       <Request
-        width={9 / 16}
-        mx="auto"
-        // State
+        createInvoice={mockCreateInvoice}
         cryptoCurrency={state.ticker.currency}
+        // State
         cryptoCurrencyTicker={tickerSelectors.currencyName(state)}
         cryptoName={tickerSelectors.cryptoName(state)}
         invoice={mockCreateInvoice()}
+        mx="auto"
         payReq={payReq}
         // Dispatch
-        createInvoice={mockCreateInvoice}
         showNotification={action('showNotification')}
+        width={9 / 16}
       />
     )
   })

@@ -7,12 +7,12 @@ import { ActivityModal } from 'components/Activity/ActivityModal'
 const mapStateToProps = state => ({
   item: activitySelectors.activityModalItem(state),
   network: state.info.network,
-  networkInfo: infoSelectors.networkInfo(state)
+  networkInfo: infoSelectors.networkInfo(state),
 })
 
 const mapDispatchToProps = {
   hideActivityModal,
-  showNotification
+  showNotification,
 }
 
 export default connect(

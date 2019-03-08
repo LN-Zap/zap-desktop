@@ -9,7 +9,7 @@ const mapDispatchToProps = {
   fetchPeers,
   fetchActivityHistory,
   setIsWalletOpen,
-  fetchTransactions
+  fetchTransactions,
 }
 
 export default connect(

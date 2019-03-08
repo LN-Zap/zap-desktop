@@ -35,7 +35,7 @@ describe('component.UI.Notification', () => {
 
   describe('processing', () => {
     it('should render with the spinner', () => {
-      const wrapper = shallow(<Notification processing />)
+      const wrapper = shallow(<Notification isProcessing />)
       expect(wrapper.find(Spinner)).toHaveLength(1)
     })
   })

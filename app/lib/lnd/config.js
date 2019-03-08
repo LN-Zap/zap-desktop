@@ -22,19 +22,19 @@ const LNDCONFIG_TYPE_CUSTOM = 'custom'
 // Supported connection types.
 export const types = {
   [LNDCONFIG_TYPE_LOCAL]: 'Local',
-  [LNDCONFIG_TYPE_CUSTOM]: 'Custom'
+  [LNDCONFIG_TYPE_CUSTOM]: 'Custom',
 }
 
 // Supported chains.
 export const chains = {
   bitcoin: 'Bitcoin',
-  litecoin: 'Litecoin'
+  litecoin: 'Litecoin',
 }
 
 // Supported networks.
 export const networks = {
   mainnet: 'Mainnet',
-  testnet: 'Testnet'
+  testnet: 'Testnet',
 }
 
 // Type definition for LndConfig constructor options.
@@ -58,7 +58,7 @@ export type LndConfigOptions = {
   autopilotMinchansize?: number,
   autopilotMaxchansize?: number,
   autopilotPrivate?: boolean,
-  autopilotMinconfs?: number
+  autopilotMinconfs?: number,
 }
 
 const _isReady = new WeakMap()
@@ -84,7 +84,7 @@ class LndConfig {
     autopilotMaxchansize: 16777215,
     autopilotAllocation: 0.6,
     autopilotPrivate: true,
-    autopilotMinconfs: 0
+    autopilotMinconfs: 0,
   }
 
   // Type descriptor properties.
@@ -134,26 +134,26 @@ class LndConfig {
         enumerable: true,
         get() {
           return `wallet-${this.id}`
-        }
+        },
       },
       lndconnectQRCode: {
         enumerable: true,
         get() {
           return _lndconnectQRCode.get(this)
-        }
+        },
       },
 
       isReady: {
         enumerable: false,
         get() {
           return _isReady.get(this)
-        }
+        },
       },
       binaryPath: {
         enumerable: false,
         get() {
           return binaryPath()
-        }
+        },
       },
       lndDir: {
         enumerable: false,
@@ -161,13 +161,13 @@ class LndConfig {
           if (this.type === LNDCONFIG_TYPE_LOCAL) {
             return join(app.getPath('userData'), 'lnd', this.chain, this.network, this.wallet)
           }
-        }
+        },
       },
       configPath: {
         enumerable: false,
         get() {
           return join(appRootPath(), 'resources', 'lnd.conf')
-        }
+        },
       },
 
       host: {
@@ -177,7 +177,7 @@ class LndConfig {
         },
         get() {
           return this.getConnectionProp('host')
-        }
+        },
       },
       cert: {
         enumerable: false,
@@ -186,7 +186,7 @@ class LndConfig {
         },
         get() {
           return this.getConnectionProp('cert')
-        }
+        },
       },
       macaroon: {
         enumerable: false,
@@ -195,8 +195,8 @@ class LndConfig {
         },
         get() {
           return this.getConnectionProp('macaroon')
-        }
-      }
+        },
+      },
     })
 
     // Assign default options.
@@ -310,7 +310,7 @@ class LndConfig {
     const { host, cert, macaroon } = lndconnect.decode(lndconnectUri)
     const [certData, macaroonData] = await Promise.all([
       isAbsolute(cert) ? readFile(cert) : cert,
-      isAbsolute(macaroon) ? readFile(macaroon) : macaroon
+      isAbsolute(macaroon) ? readFile(macaroon) : macaroon,
     ])
     return lndconnect.encode({ host, cert: certData, macaroon: macaroonData })
   }

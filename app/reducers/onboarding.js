@@ -35,90 +35,90 @@ export const resetOnboarding = () => dispatch => {
 
 export function onboardingStarted() {
   return {
-    type: ONBOARDING_STARTED
+    type: ONBOARDING_STARTED,
   }
 }
 
 export function onboardingFinished() {
   return {
-    type: ONBOARDING_FINISHED
+    type: ONBOARDING_FINISHED,
   }
 }
 
 export function setConnectionString(connectionString) {
   return {
     type: SET_CONNECTION_URI,
-    connectionString
+    connectionString,
   }
 }
 
 export function setConnectionType(connectionType) {
   return {
     type: SET_CONNECTION_TYPE,
-    connectionType
+    connectionType,
   }
 }
 
 export function setConnectionHost(connectionHost) {
   return {
     type: SET_CONNECTION_HOST,
-    connectionHost
+    connectionHost,
   }
 }
 
 export function setConnectionCert(connectionCert) {
   return {
     type: SET_CONNECTION_CERT,
-    connectionCert
+    connectionCert,
   }
 }
 
 export function setConnectionMacaroon(connectionMacaroon) {
   return {
     type: SET_CONNECTION_MACAROON,
-    connectionMacaroon
+    connectionMacaroon,
   }
 }
 
 export function setAlias(alias) {
   return {
     type: SET_ALIAS,
-    alias
+    alias,
   }
 }
 
 export function setName(name) {
   return {
     type: SET_NAME,
-    name
+    name,
   }
 }
 
 export function setAutopilot(autopilot) {
   return {
     type: SET_AUTOPILOT,
-    autopilot
+    autopilot,
   }
 }
 
 export function setPassword(password) {
   return {
     type: SET_PASSWORD,
-    password
+    password,
   }
 }
 
 export function setSeed(seed) {
   return {
     type: SET_SEED,
-    seed
+    seed,
   }
 }
 
 export function setLndconnect(lndConnect) {
   return {
     type: SET_LNDCONNECT,
-    lndConnect
+    lndConnect,
   }
 }
 
@@ -187,15 +187,15 @@ const ACTION_HANDLERS = {
   [SET_ALIAS]: (state, { alias }) => ({ ...state, alias }),
   [SET_NAME]: (state, { name }) => ({ ...state, name }),
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
-  [SET_SEED]: (state, { seed }) => ({ ...state, seed, fetchingSeed: false }),
+  [SET_SEED]: (state, { seed }) => ({ ...state, seed, isFetchingSeed: false }),
   [SET_LNDCONNECT]: (state, { lndConnect }) => ({ ...state, lndConnect }),
   [SET_PASSWORD]: (state, { password }) => ({ ...state, password }),
-  [ONBOARDING_STARTED]: state => ({ ...state, onboarding: true, onboarded: false }),
-  [ONBOARDING_FINISHED]: state => ({ ...state, onboarding: false, onboarded: true }),
+  [ONBOARDING_STARTED]: state => ({ ...state, onboarding: true, isOnboarded: false }),
+  [ONBOARDING_FINISHED]: state => ({ ...state, onboarding: false, isOnboarded: true }),
   [VALIDATING_HOST]: (state, { validatingHost }) => ({ ...state, validatingHost }),
   [VALIDATING_CERT]: (state, { validatingCert }) => ({ ...state, validatingCert }),
   [VALIDATING_MACAROON]: (state, { validatingMacaroon }) => ({ ...state, validatingMacaroon }),
-  [RESET_ONBOARDING]: state => ({ ...state, ...initialState })
+  [RESET_ONBOARDING]: state => ({ ...state, ...initialState }),
 }
 
 // ------------------------------------
@@ -204,7 +204,7 @@ const ACTION_HANDLERS = {
 
 const initialState = {
   onboarding: false,
-  onboarded: false,
+  isOnboarded: false,
   autopilot: true,
   validatingHost: false,
   validatingCert: false,
@@ -218,7 +218,7 @@ const initialState = {
   alias: '',
   name: '',
   password: '',
-  seed: []
+  seed: [],
 }
 
 // ------------------------------------

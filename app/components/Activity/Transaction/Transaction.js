@@ -18,17 +18,17 @@ const Transaction = ({ transaction, showActivityModal, currencyName, intl }) => 
 
   return (
     <Flex
-      justifyContent="space-between"
       alignItems="center"
+      justifyContent="space-between"
       onClick={
-        !transaction.sending ? () => showActivityModal('TRANSACTION', transaction.tx_hash) : null
+        transaction.sending ? null : () => showActivityModal('TRANSACTION', transaction.tx_hash)
       }
       py={2}
     >
       <Box
-        width={3 / 4}
         className="hint--top-right"
         data-hint={intl.formatMessage({ ...messages.type })}
+        width={3 / 4}
       >
         <Text mb={1}>
           {transaction.closeType ? (
@@ -64,18 +64,18 @@ const Transaction = ({ transaction, showActivityModal, currencyName, intl }) => 
       </Box>
 
       <Box
-        width={1 / 4}
         className="hint--top-left"
         data-hint={intl.formatMessage({ ...messages.amount })}
+        width={1 / 4}
       >
         <Box css={transaction.status == 'failed' ? { opacity: 0.2 } : null}>
-          <Text mb={1} textAlign="right" color={isIncoming ? 'superGreen' : null}>
+          <Text color={isIncoming ? 'superGreen' : null} mb={1} textAlign="right">
             {isIncoming ? `+ ` : `- `}
             <CryptoValue value={amount} />
             <i> {currencyName}</i>
           </Text>
-          <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-            <FiatValue value={amount} style="currency" />
+          <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
+            <FiatValue style="currency" value={amount} />
           </Text>
         </Box>
       </Box>
@@ -84,10 +84,10 @@ const Transaction = ({ transaction, showActivityModal, currencyName, intl }) => 
 }
 
 Transaction.propTypes = {
+  currencyName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
-  transaction: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
-  currencyName: PropTypes.string.isRequired
+  transaction: PropTypes.object.isRequired,
 }
 
 export default injectIntl(Transaction)

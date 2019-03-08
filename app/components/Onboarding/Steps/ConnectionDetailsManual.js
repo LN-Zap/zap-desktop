@@ -7,30 +7,30 @@ import messages from './messages'
 
 class ConnectionDetailsManual extends React.Component {
   static propTypes = {
-    wizardApi: PropTypes.object,
-    wizardState: PropTypes.object,
-    connectionHost: PropTypes.string,
+    clearStartLndError: PropTypes.func.isRequired,
     connectionCert: PropTypes.string,
+    connectionHost: PropTypes.string,
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
-    startLndHostError: PropTypes.string,
-    startLndCertError: PropTypes.string,
-    startLndMacaroonError: PropTypes.string,
     lndConnect: PropTypes.string,
-
-    setLndconnect: PropTypes.func.isRequired,
-    setConnectionHost: PropTypes.func.isRequired,
     setConnectionCert: PropTypes.func.isRequired,
+    setConnectionHost: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
-    clearStartLndError: PropTypes.func.isRequired,
-    validateHost: PropTypes.func.isRequired,
+    setLndconnect: PropTypes.func.isRequired,
+
+    startLndCertError: PropTypes.string,
+    startLndHostError: PropTypes.string,
+    startLndMacaroonError: PropTypes.string,
     validateCert: PropTypes.func.isRequired,
-    validateMacaroon: PropTypes.func.isRequired
+    validateHost: PropTypes.func.isRequired,
+    validateMacaroon: PropTypes.func.isRequired,
+    wizardApi: PropTypes.object,
+    wizardState: PropTypes.object,
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidMount() {
@@ -38,7 +38,7 @@ class ConnectionDetailsManual extends React.Component {
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,
-      clearStartLndError
+      clearStartLndError,
     } = this.props
 
     // If at least one of the fields has an error, set them all as touched so that they get highlighted.
@@ -176,56 +176,56 @@ class ConnectionDetailsManual extends React.Component {
           return (
             <>
               <Header
-                title={<FormattedMessage {...messages.connection_details_custom_title} />}
-                subtitle={<FormattedMessage {...messages.connection_details_custom_description} />}
                 align="left"
+                subtitle={<FormattedMessage {...messages.connection_details_custom_description} />}
+                title={<FormattedMessage {...messages.connection_details_custom_title} />}
               />
 
-              <Bar mt={4} mb={1} />
+              <Bar mb={1} mt={4} />
 
               <ConnectionDetailsTabs mb={3} />
 
               <Input
-                autoFocus
-                field="connectionHost"
-                name="connectionHost"
-                mb={3}
-                label={<FormattedMessage {...messages.hostname_title} />}
+                asyncValidate={this.validateHost}
                 description={<FormattedMessage {...messages.hostname_description} />}
+                field="connectionHost"
                 initialValue={connectionHost}
+                isRequired
+                label={<FormattedMessage {...messages.hostname_title} />}
+                mb={3}
+                name="connectionHost"
                 onValueChange={this.handleConnectionHostChange}
                 validateOnBlur={shouldValidateInline}
                 validateOnChange={shouldValidateInline}
-                asyncValidate={this.validateHost}
-                required
+                willAutoFocus
               />
 
               <OpenDialogInput
-                field="connectionCert"
-                name="connectionCert"
-                width={1}
-                label={<FormattedMessage {...messages.cert_title} />}
+                asyncValidate={this.validateCert}
                 description={<FormattedMessage {...messages.cert_description} />}
+                field="connectionCert"
                 initialValue={connectionCert}
+                isRequired
+                label={<FormattedMessage {...messages.cert_title} />}
+                name="connectionCert"
                 onValueChange={this.handleConnectionCertChange}
                 validateOnBlur={shouldValidateInline}
                 validateOnChange={shouldValidateInline}
-                asyncValidate={this.validateCert}
-                required
+                width={1}
               />
 
               <OpenDialogInput
-                field="connectionMacaroon"
-                name="connectionMacaroon"
-                label="Macaroon"
-                width={1}
+                asyncValidate={this.validateMacaroon}
                 description={<FormattedMessage {...messages.macaroon_description} />}
+                field="connectionMacaroon"
                 initialValue={connectionMacaroon}
+                isRequired
+                label="Macaroon"
+                name="connectionMacaroon"
                 onValueChange={this.handleConnectionMacaroonChange}
                 validateOnBlur={shouldValidateInline}
                 validateOnChange={shouldValidateInline}
-                asyncValidate={this.validateMacaroon}
-                required
+                width={1}
               />
             </>
           )

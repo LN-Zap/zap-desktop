@@ -2,7 +2,7 @@ import settingsReducer, {
   OPEN_SETTINGS,
   CLOSE_SETTINGS,
   SET_ACTIVE_SUBMENU,
-  DISABLE_SUBMENU
+  DISABLE_SUBMENU,
 } from 'reducers/settingsmenu'
 
 describe('reducers', () => {
@@ -38,7 +38,7 @@ describe('reducers', () => {
         settingsReducer(undefined, {
           type: CLOSE_SETTINGS,
           settingsOpen: false,
-          activeSubMenu: null
+          activeSubMenu: null,
         })
       ).toMatchSnapshot()
     })

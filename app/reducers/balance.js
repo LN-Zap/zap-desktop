@@ -12,7 +12,7 @@ export const RECEIVE_BALANCE = 'RECEIVE_BALANCE'
 // ------------------------------------
 export function getBalance() {
   return {
-    type: GET_BALANCE
+    type: GET_BALANCE,
   }
 }
 
@@ -38,8 +38,8 @@ const ACTION_HANDLERS = {
     walletBalance: walletBalance.total_balance,
     walletBalanceConfirmed: walletBalance.confirmed_balance,
     walletBalanceUnconfirmed: walletBalance.unconfirmed_balance,
-    channelBalance
-  })
+    channelBalance,
+  }),
 }
 
 // Selectors
@@ -65,7 +65,7 @@ const initialState = {
   walletBalance: null,
   walletBalanceConfirmed: null,
   walletBalanceUnconfirmed: null,
-  channelBalance: null
+  channelBalance: null,
 }
 
 export default function balanceReducer(state = initialState, action) {

@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
   payReq: state.pay.payReq,
   onchainFees: state.pay.onchainFees,
   routes: state.pay.routes,
-  walletBalance: state.balance.walletBalance
+  walletBalance: state.balance.walletBalance,
 })
 
 const mapDispatchToProps = {
@@ -26,7 +26,7 @@ const mapDispatchToProps = {
   payInvoice,
   setPayReq,
   sendCoins,
-  queryRoutes
+  queryRoutes,
 }
 
 export default connect(

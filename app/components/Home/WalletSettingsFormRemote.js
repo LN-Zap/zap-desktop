@@ -10,7 +10,7 @@ import {
   Text,
   OpenDialogInput,
   RowLabel,
-  LndConnectionStringEditor
+  LndConnectionStringEditor,
 } from 'components/UI'
 
 import messages from './messages'
@@ -21,91 +21,91 @@ const WalletSettingsFormRemote = ({
   host,
   cert,
   macaroon,
-  isEmbeddedConnectionString
+  isEmbeddedConnectionString,
 }) => {
   return (
     <>
-      <Box mb={4} as="section">
+      <Box as="section" mb={4}>
         <Text fontWeight="normal">
           <FormattedMessage {...messages.section_basic_title} />
         </Text>
-        <Bar mt={2} mb={4} />
+        <Bar mb={4} mt={2} />
 
-        <DataRow py={2} left={<FormattedMessage {...messages.chain} />} right={wallet.chain} />
-        <DataRow py={2} left={<FormattedMessage {...messages.network} />} right={wallet.network} />
+        <DataRow left={<FormattedMessage {...messages.chain} />} py={2} right={wallet.chain} />
+        <DataRow left={<FormattedMessage {...messages.network} />} py={2} right={wallet.network} />
       </Box>
-      <Box mb={4} as="section">
+      <Box as="section" mb={4}>
         <Text fontWeight="normal">
           <FormattedMessage {...messages.section_connection_details} />
         </Text>
-        <Bar mt={2} mb={4} />
+        <Bar mb={4} mt={2} />
 
         {isEmbeddedConnectionString ? (
           <LndConnectionStringEditor
             field="lndconnectUri"
-            name="lndconnectUri"
             hideStringMessage={<FormattedMessage {...messages.hide_connection_string} />}
+            isRequired
             label={intl.formatMessage({
-              ...messages.connection_string
+              ...messages.connection_string,
             })}
+            name="lndconnectUri"
             placeholder={intl.formatMessage({
-              ...messages.connection_string
+              ...messages.connection_string,
             })}
             validateOnBlur
             validateOnChange
-            required
           />
         ) : (
           <>
             <DataRow
-              py={2}
               left={
                 <RowLabel
+                  descMessage={messages.hostname_description}
                   htmlFor="host"
                   nameMessage={messages.hostname_title}
-                  descMessage={messages.hostname_description}
                 />
               }
+              py={2}
               right={
                 <Input
+                  css={{ 'text-align': 'right' }}
                   field="host"
                   id="host"
-                  placeholder={intl.formatMessage({
-                    ...messages.hostname_title
-                  })}
-                  width={300}
-                  ml="auto"
                   initialValue={host}
                   justifyContent="right"
-                  css={{ 'text-align': 'right' }}
+                  ml="auto"
+                  placeholder={intl.formatMessage({
+                    ...messages.hostname_title,
+                  })}
+                  width={300}
                 />
               }
             />
             <DataRow
-              py={2}
               left={
                 <RowLabel
+                  descMessage={messages.cert_description}
                   htmlFor="cert"
                   nameMessage={messages.cert_title}
-                  descMessage={messages.cert_description}
                 />
               }
-              right={<OpenDialogInput field="cert" name="cert" initialValue={cert} width={300} />}
+              py={2}
+              right={<OpenDialogInput field="cert" initialValue={cert} name="cert" width={300} />}
             />
             <DataRow
-              py={2}
               left={
                 <RowLabel
+                  descMessage={messages.macaroon_description}
                   htmlFor="macaroon"
                   nameMessage={messages.macaroon_title}
-                  descMessage={messages.macaroon_description}
                 />
               }
+              py={2}
               right={
                 <OpenDialogInput
                   field="macaroon"
-                  name="macaroon"
                   initialValue={macaroon}
+                  name="macaroon"
                   width={300}
                 />
               }
@@ -113,32 +113,32 @@ const WalletSettingsFormRemote = ({
           </>
         )}
       </Box>
-      <Box mb={4} as="section">
+      <Box as="section" mb={4}>
         <Text fontWeight="normal">
           <FormattedMessage {...messages.section_naming_title} />
         </Text>
-        <Bar mt={2} mb={4} />
+        <Bar mb={4} mt={2} />
 
         <DataRow
-          py={2}
           left={
             <RowLabel
+              descMessage={messages.wallet_settings_name_description}
               htmlFor="name"
               nameMessage={messages.wallet_settings_name_label}
-              descMessage={messages.wallet_settings_name_description}
             />
           }
+          py={2}
           right={
             <Input
+              css={{ 'text-align': 'right' }}
               field="name"
               id="name"
+              justifyContent="right"
+              ml="auto"
               placeholder={intl.formatMessage({
-                ...messages.wallet_settings_name_placeholder
+                ...messages.wallet_settings_name_placeholder,
               })}
               width={300}
-              ml="auto"
-              justifyContent="right"
-              css={{ 'text-align': 'right' }}
             />
           }
         />
@@ -148,12 +148,12 @@ const WalletSettingsFormRemote = ({
 }
 
 WalletSettingsFormRemote.propTypes = {
-  intl: intlShape.isRequired,
-  wallet: PropTypes.object.isRequired,
-  host: PropTypes.string.isRequired,
   cert: PropTypes.string.isRequired,
+  host: PropTypes.string.isRequired,
+  intl: intlShape.isRequired,
+  isEmbeddedConnectionString: PropTypes.bool.isRequired,
   macaroon: PropTypes.string.isRequired,
-  isEmbeddedConnectionString: PropTypes.bool.isRequired
+  wallet: PropTypes.object.isRequired,
 }
 
 export default injectIntl(WalletSettingsFormRemote)

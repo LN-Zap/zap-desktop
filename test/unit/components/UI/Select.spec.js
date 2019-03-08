@@ -13,7 +13,7 @@ describe('component.UI.Toggle', () => {
       { value: 'Pear', key: 'pear' },
       { value: 'Orange', key: 'orange' },
       { value: 'Grape', key: 'grape' },
-      { value: 'Banana', key: 'banana' }
+      { value: 'Banana', key: 'banana' },
     ]
     const tree = renderer
       .create(

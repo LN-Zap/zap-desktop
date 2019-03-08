@@ -19,7 +19,7 @@ const OpenDialogInput = asField(props => {
   return (
     <WithOpenDialog
       render={({ openDialog }) => (
-        <Flex mb={3} flexDirection="row" alignItems="center">
+        <Flex alignItems="center" flexDirection="row" mb={3}>
           <InnerInput width={1} {...props} />
           <OpenDialogButton
             onClick={() => {

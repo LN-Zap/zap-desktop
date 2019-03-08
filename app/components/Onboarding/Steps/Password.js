@@ -8,14 +8,14 @@ import messages from './messages'
 class Password extends React.Component {
   static propTypes = {
     intl: intlShape.isRequired,
+    setPassword: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    setPassword: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   handleSubmit = async values => {
@@ -55,24 +55,24 @@ class Password extends React.Component {
           return (
             <>
               <Header
-                title={<FormattedMessage {...messages.create_wallet_password_title} />}
-                subtitle={<FormattedMessage {...messages.create_wallet_password_description} />}
                 align="left"
+                subtitle={<FormattedMessage {...messages.create_wallet_password_description} />}
+                title={<FormattedMessage {...messages.create_wallet_password_title} />}
               />
 
               <Bar my={4} />
 
               <Box>
                 <PasswordInput
-                  autoFocus
+                  autoComplete="current-password"
                   field="password"
-                  name="password"
+                  isRequired
                   label={<FormattedMessage {...messages.password_label} />}
-                  required
+                  name="password"
+                  placeholder={intl.formatMessage({ ...messages.password_placeholder })}
                   validateOnBlur={shouldValidateInline}
                   validateOnChange={shouldValidateInline}
-                  placeholder={intl.formatMessage({ ...messages.password_placeholder })}
-                  autoComplete="current-password"
+                  willAutoFocus
                 />
               </Box>
             </>

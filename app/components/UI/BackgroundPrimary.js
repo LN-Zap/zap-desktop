@@ -9,7 +9,7 @@ import { Flex } from 'rebass'
  */
 class BackgroundPrimary extends React.Component {
   render() {
-    return <Flex flexDirection="column" bg="primaryColor" color="primaryText" {...this.props} />
+    return <Flex bg="primaryColor" color="primaryText" flexDirection="column" {...this.props} />
   }
 }
 

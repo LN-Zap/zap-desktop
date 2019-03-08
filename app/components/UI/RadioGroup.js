@@ -5,13 +5,13 @@ import Label from './Label'
 import Span from './Span'
 import Text from './Text'
 
-const RadioGroup = ({ label, field, description, required, children, ...rest }) => (
+const RadioGroup = ({ label, field, description, isRequired, children, ...rest }) => (
   <>
     {label && (
       <Label htmlFor={field} mb={2}>
         {label}
-        {required && (
-          <Span fontSize="s" css={{ 'vertical-align': 'top' }}>
+        {isRequired && (
+          <Span css={{ 'vertical-align': 'top' }} fontSize="s">
             {' '}
             *
           </Span>
@@ -19,7 +19,7 @@ const RadioGroup = ({ label, field, description, required, children, ...rest }) 
       </Label>
     )}
 
-    <InformedRadioGroup field={field} required={required} {...rest}>
+    <InformedRadioGroup field={field} required={isRequired} {...rest}>
       {children}
     </InformedRadioGroup>
 
@@ -32,11 +32,11 @@ const RadioGroup = ({ label, field, description, required, children, ...rest }) 
 )
 
 RadioGroup.propTypes = {
+  children: PropTypes.node,
   description: PropTypes.node,
-  label: PropTypes.node,
   field: PropTypes.string.isRequired,
-  required: PropTypes.bool,
-  children: PropTypes.node
+  isRequired: PropTypes.bool,
+  label: PropTypes.node,
 }
 
 export default RadioGroup

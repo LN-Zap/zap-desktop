@@ -21,7 +21,7 @@ const ShowHidePayReq = Keyframes.Spring({
   big: async (next, cancel, ownProps) => {
     ownProps.context.focusPayReqInput()
     await next({ height: 110, immediate: true })
-  }
+  },
 })
 
 /**
@@ -29,7 +29,7 @@ const ShowHidePayReq = Keyframes.Spring({
  */
 const ShowHideButtons = Keyframes.Spring({
   show: { opacity: 1 },
-  hide: { opacity: 0 }
+  hide: { opacity: 0 },
 })
 
 /**
@@ -42,7 +42,7 @@ const ShowHideAmount = Keyframes.Spring({
     await next({ opacity: 1, height: 'auto' })
   },
   hide: { opacity: 0, height: 0, display: 'none' },
-  remove: { opacity: 0, height: 0, display: 'none', immediate: true }
+  remove: { opacity: 0, height: 0, display: 'none', immediate: true },
 })
 
 /**
@@ -50,50 +50,50 @@ const ShowHideAmount = Keyframes.Spring({
  */
 class Pay extends React.Component {
   static propTypes = {
-    intl: intlShape.isRequired,
-    /** The currently active chain (bitcoin, litecoin etc) */
     chain: PropTypes.string.isRequired,
+    /** The currently active chain (bitcoin, litecoin etc) */
+    changeFilter: PropTypes.func.isRequired,
     /** The currently active chain (mainnet, testnet) */
-    network: PropTypes.string.isRequired,
-    /** Human readable chain name */
-    cryptoName: PropTypes.string.isRequired,
-    /** Current channel balance (in satoshis). */
     channelBalance: PropTypes.number.isRequired,
-    /** Currently selected cryptocurrency (key). */
+    /** Human readable chain name */
+    closeModal: PropTypes.func.isRequired,
+    /** Current channel balance (in satoshis). */
     cryptoCurrency: PropTypes.string.isRequired,
-    /** Ticker symbol of the currently selected cryptocurrency. */
+    /** Currently selected cryptocurrency (key). */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
+    /** Ticker symbol of the currently selected cryptocurrency. */
+    cryptoName: PropTypes.string.isRequired,
     /** Amount value to populate the amountCrypto field with when the form first loads. */
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Amount value to populate the amountFiat field with when the form first loads. */
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
-    isProcessing: PropTypes.bool,
+    intl: intlShape.isRequired,
     /** Current fee information as provided by bitcoinfees.earn.com */
+    isProcessing: PropTypes.bool,
+    /** Payment request to load into the form. */
+    network: PropTypes.string.isRequired,
+    /** Routing information */
     onchainFees: PropTypes.shape({
       fastestFee: PropTypes.number,
       halfHourFee: PropTypes.number,
-      hourFee: PropTypes.number
+      hourFee: PropTypes.number,
     }),
-    /** Payment request to load into the form. */
-    payReq: PropTypes.string,
-    /** Routing information */
-    routes: PropTypes.array,
     /** Current wallet balance (in satoshis). */
-    walletBalance: PropTypes.number.isRequired,
+    payInvoice: PropTypes.func.isRequired,
 
     /** Method to clean activity  filter */
-    changeFilter: PropTypes.func.isRequired,
+    payReq: PropTypes.string,
     /** Method to close the current modal */
-    closeModal: PropTypes.func.isRequired,
+    queryRoutes: PropTypes.func.isRequired,
     /** Method to process offChain invoice payments. Called when the form is submitted. */
-    payInvoice: PropTypes.func.isRequired,
+    routes: PropTypes.array,
     /** Set the current payment request. */
-    setPayReq: PropTypes.func.isRequired,
-    /** Method to process onChain transactions. Called when the form is submitted. */
     sendCoins: PropTypes.func.isRequired,
+    /** Method to process onChain transactions. Called when the form is submitted. */
+    setPayReq: PropTypes.func.isRequired,
     /** Method to collect route information for lightning invoices. */
-    queryRoutes: PropTypes.func.isRequired
+    walletBalance: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -102,7 +102,7 @@ class Pay extends React.Component {
     initialAmountFiat: null,
     isProcessing: false,
     onchainFees: {},
-    routes: []
+    routes: [],
   }
 
   state = {
@@ -110,7 +110,7 @@ class Pay extends React.Component {
     initialPayReq: null,
     previousStep: null,
     isLn: null,
-    isOnchain: null
+    isOnchain: null,
   }
 
   amountInput = React.createRef()
@@ -202,7 +202,7 @@ class Pay extends React.Component {
       routes,
       sendCoins,
       changeFilter,
-      closeModal
+      closeModal,
     } = this.props
     if (currentStep === 'summary') {
       if (isOnchain) {
@@ -210,7 +210,7 @@ class Pay extends React.Component {
           addr: values.payReq,
           value: values.amountCrypto,
           currency: cryptoCurrency,
-          satPerByte: onchainFees.fastestFee
+          satPerByte: onchainFees.fastestFee,
         })
         // Close the form modal once the transaction has been sent
         changeFilter('ALL_ACTIVITY')
@@ -219,7 +219,7 @@ class Pay extends React.Component {
         payInvoice({
           payReq: values.payReq,
           amt: this.amountInSats(),
-          feeLimit: getMaxFee(routes)
+          feeLimit: getMaxFee(routes),
         })
         // Close the form modal once the payment has been sent
         changeFilter('ALL_ACTIVITY')
@@ -308,7 +308,7 @@ class Pay extends React.Component {
       currentStep: 'address',
       isLn: null,
       isOnchain: null,
-      invoice: null
+      invoice: null,
     }
 
     // See if the user has entered a valid lightning payment request.
@@ -343,12 +343,12 @@ class Pay extends React.Component {
 
     return (
       <Transition
-        native
-        items={currentStep === 'address'}
-        from={{ opacity: 0, height: 0 }}
         enter={{ opacity: 1, height: 80 }}
-        leave={{ opacity: 0, height: 0 }}
+        from={{ opacity: 0, height: 0 }}
         initial={{ opacity: 1, height: 80 }}
+        items={currentStep === 'address'}
+        leave={{ opacity: 0, height: 0 }}
+        native
       >
         {show =>
           show &&
@@ -381,29 +381,29 @@ class Pay extends React.Component {
         : 'request_label_onchain'
 
     return (
-      <Box className={currentStep !== 'summary' ? 'element-show' : 'element-hide'}>
-        <ShowHidePayReq state={currentStep === 'address' || isLn ? 'big' : 'small'} context={this}>
+      <Box className={currentStep === 'summary' ? 'element-hide' : 'element-show'}>
+        <ShowHidePayReq context={this} state={currentStep === 'address' || isLn ? 'big' : 'small'}>
           {styles => (
             <React.Fragment>
               <LightningInvoiceInput
-                field="payReq"
-                name="payReq"
-                label={intl.formatMessage({ ...messages[payReq_label] })}
-                style={styles}
-                initialValue={payReq}
-                required
                 chain={chain}
-                network={network}
-                validateOnBlur
-                validateOnChange
-                onChange={this.handlePayReqChange}
-                width={1}
-                readOnly={currentStep !== 'address'}
-                forwardedRef={this.payReqInput}
                 css={{
                   resize: 'vertical',
-                  'min-height': '48px'
+                  'min-height': '48px',
                 }}
+                field="payReq"
+                forwardedRef={this.payReqInput}
+                initialValue={payReq}
+                isReadOnly={currentStep !== 'address'}
+                isRequired
+                label={intl.formatMessage({ ...messages[payReq_label] })}
+                name="payReq"
+                network={network}
+                onChange={this.handlePayReqChange}
+                style={styles}
+                validateOnBlur
+                validateOnChange
+                width={1}
               />
             </React.Fragment>
           )}
@@ -418,20 +418,20 @@ class Pay extends React.Component {
 
     return (
       <ShowHideAmount
-        state={currentStep === 'amount' ? 'show' : currentStep === 'address' ? 'hide' : 'remove'}
         context={this}
+        state={currentStep === 'amount' ? 'show' : currentStep === 'address' ? 'hide' : 'remove'}
       >
         {styles => (
           <Box style={styles}>
             <Bar my={3} variant="light" />
 
             <CurrencyFieldGroup
-              disabled={currentStep !== 'amount'}
+              formApi={this.formApi}
               forwardedRef={this.amountInput}
               initialAmountCrypto={initialAmountCrypto}
               initialAmountFiat={initialAmountFiat}
-              formApi={this.formApi}
-              required
+              isDisabled={currentStep !== 'amount'}
+              isRequired
             />
           </Box>
         )}
@@ -455,15 +455,15 @@ class Pay extends React.Component {
       const amount = this.amountInSats()
 
       if (isOnchain) {
-        return <PaySummaryOnChain mt={-3} amount={amount} address={formState.values.payReq} />
+        return <PaySummaryOnChain address={formState.values.payReq} amount={amount} mt={-3} />
       } else if (isLn) {
         return (
           <PaySummaryLightning
-            mt={-3}
-            minFee={minFee}
-            maxFee={maxFee}
-            payReq={formState.values.payReq}
             amount={amount}
+            maxFee={maxFee}
+            minFee={minFee}
+            mt={-3}
+            payReq={formState.values.payReq}
           />
         )
       }
@@ -471,12 +471,12 @@ class Pay extends React.Component {
 
     return (
       <Transition
-        native
-        items={currentStep === 'summary'}
-        from={{ opacity: 0, height: 0 }}
         enter={{ opacity: 1, height: 'auto' }}
-        leave={{ opacity: 0, height: 0 }}
+        from={{ opacity: 0, height: 0 }}
         initial={{ opacity: 1, height: 'auto' }}
+        items={currentStep === 'summary'}
+        leave={{ opacity: 0, height: 0 }}
+        native
       >
         {show => show && (styles => <animated.div style={styles}>{render()}</animated.div>)}
       </Transition>
@@ -512,16 +512,16 @@ class Pay extends React.Component {
     } = this.props
     return (
       <Form
-        width={1}
         css={{ height: '100%' }}
+        width={1}
         {...rest}
         getApi={this.setFormApi}
         onSubmit={this.onSubmit}
       >
         {({ formState }) => {
           // Deterine which buttons should be visible.
-          const showBack = currentStep !== 'address'
-          const showSubmit = currentStep !== 'address' || (isOnchain || isLn)
+          const hasBackButton = currentStep !== 'address'
+          const hasSubmitButton = currentStep !== 'address' || (isOnchain || isLn)
 
           // convert entered amount to satoshis
           let amountInSats = this.amountInSats()
@@ -568,40 +568,40 @@ class Pay extends React.Component {
                 {this.renderSummary()}
               </Panel.Body>
               <Panel.Footer>
-                <ShowHideButtons state={showBack || showSubmit ? 'show' : 'show'}>
+                <ShowHideButtons state={hasBackButton || hasSubmitButton ? 'show' : 'show'}>
                   {styles => (
                     <Box style={styles}>
                       {currentStep === 'summary' && !hasEnoughFunds && (
-                        <Message variant="error" justifyContent="center" mb={2}>
+                        <Message justifyContent="center" mb={2} variant="error">
                           <FormattedMessage {...messages.error_not_enough_funds} />
                         </Message>
                       )}
 
                       <PayButtons
-                        disabled={
+                        hasBackButton={hasBackButton}
+                        hasSubmitButton={hasSubmitButton}
+                        isDisabled={
                           formState.pristine ||
                           formState.invalid ||
                           isProcessing ||
                           (currentStep === 'summary' && !hasEnoughFunds)
                         }
+                        isProcessing={isProcessing}
                         nextButtonText={nextButtonText}
-                        processing={isProcessing}
-                        showBack={showBack}
-                        showSubmit={showSubmit}
                         previousStep={this.previousStep}
                       />
 
                       {walletBalance !== null && (
                         <React.Fragment>
-                          <Text textAlign="center" mt={3} fontWeight="normal">
+                          <Text fontWeight="normal" mt={3} textAlign="center">
                             <FormattedMessage {...messages.current_balance} />:
                           </Text>
-                          <Text textAlign="center" fontSize="xs">
+                          <Text fontSize="xs" textAlign="center">
                             <CryptoValue value={walletBalance} />
                             {` `}
                             {cryptoCurrencyTicker} (onchain),
                           </Text>
-                          <Text textAlign="center" fontSize="xs">
+                          <Text fontSize="xs" textAlign="center">
                             <CryptoValue value={channelBalance} />
                             {` `}
                             {cryptoCurrencyTicker} (in channels)

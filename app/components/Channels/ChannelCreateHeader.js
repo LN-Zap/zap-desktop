@@ -8,9 +8,9 @@ import messages from './messages'
 const ChannelCreateHeader = props => (
   <Box {...props}>
     <Header
-      title={<FormattedMessage {...messages.open_channel_form_title} />}
-      subtitle={<FormattedMessage {...messages.open_channel_form_subtitle} />}
       logo={<LightningChannel height="48px" width="48px" />}
+      subtitle={<FormattedMessage {...messages.open_channel_form_subtitle} />}
+      title={<FormattedMessage {...messages.open_channel_form_title} />}
     />
   </Box>
 )

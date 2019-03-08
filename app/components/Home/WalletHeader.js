@@ -6,14 +6,14 @@ import { WalletName } from 'components/Util'
 
 const WalletHeader = ({ wallet }) => (
   <Heading.h1>
-    <Textfit mode="single" min={16} max={60}>
+    <Textfit max={60} min={16} mode="single">
       <WalletName wallet={wallet} />
     </Textfit>
   </Heading.h1>
 )
 
 WalletHeader.propTypes = {
-  wallet: PropTypes.object.isRequired
+  wallet: PropTypes.object.isRequired,
 }
 
 export default WalletHeader

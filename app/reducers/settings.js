@@ -10,7 +10,7 @@ export const SET_SETTING = 'SET_SETTING'
 export function setSettings(settings) {
   return {
     type: SET_SETTINGS,
-    settings
+    settings,
   }
 }
 
@@ -18,7 +18,7 @@ export function setSetting(key, value) {
   return {
     type: SET_SETTING,
     key,
-    value
+    value,
   }
 }
 
@@ -47,12 +47,12 @@ const ACTION_HANDLERS = {
     ...settings.reduce((obj, item) => {
       obj[item.key] = item.value
       return obj
-    }, {})
+    }, {}),
   }),
   [SET_SETTING]: (state, { key, value }) => ({
     ...state,
-    ...{ ...state.settings, [key]: value }
-  })
+    ...{ ...state.settings, [key]: value },
+  }),
 }
 
 // ------------------------------------
@@ -60,7 +60,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   isSettingsOpen: false,
-  activeSubMenu: null
+  activeSubMenu: null,
 }
 
 export default function settingsReducer(state = initialState, action) {

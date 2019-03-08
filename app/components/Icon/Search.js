@@ -2,15 +2,15 @@ import React from 'react'
 
 const SvgSearch = props => (
   <svg
-    width="1em"
-    height="1em"
-    viewBox="0 0 24 24"
+    className="search_svg__feather search_svg__feather-search"
     fill="none"
+    height="1em"
     stroke="currentColor"
-    strokeWidth={2}
     strokeLinecap="round"
     strokeLinejoin="round"
-    className="search_svg__feather search_svg__feather-search"
+    strokeWidth={2}
+    viewBox="0 0 24 24"
+    width="1em"
     {...props}
   >
     <circle cx={10.5} cy={10.5} r={7.5} />

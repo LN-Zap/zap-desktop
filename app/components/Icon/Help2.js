@@ -1,15 +1,15 @@
 import React from 'react'
 
 const SvgHelp2 = props => (
-  <svg width="1em" height="1em" viewBox="0 0 18 18" {...props}>
+  <svg height="1em" viewBox="0 0 18 18" width="1em" {...props}>
     <g
-      transform="translate(1 1)"
-      stroke="currentColor"
-      strokeWidth={0.8}
       fill="none"
       fillRule="evenodd"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
+      strokeWidth={0.8}
+      transform="translate(1 1)"
     >
       <circle cx={8} cy={8} r={8} />
       <circle cx={8} cy={8} r={3.2} />

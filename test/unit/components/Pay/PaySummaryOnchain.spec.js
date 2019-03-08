@@ -9,27 +9,27 @@ const props = {
   currentTicker: {
     USD: 6477.78,
     EUR: 5656.01,
-    GBP: 5052.73
+    GBP: 5052.73,
   },
   cryptoCurrency: 'btc',
   cryptoCurrencyTicker: 'BTC',
   cryptoCurrencies: [
     {
       key: 'btc',
-      name: 'BTC'
+      name: 'BTC',
     },
     {
       key: 'bits',
-      name: 'bits'
+      name: 'bits',
     },
     {
       key: 'sats',
-      name: 'satoshis'
-    }
+      name: 'satoshis',
+    },
   ],
   fiatCurrency: 'USD',
   queryFees: jest.fn(),
-  setCryptoCurrency: jest.fn()
+  setCryptoCurrency: jest.fn(),
 }
 
 describe('component.Form.PaySummaryOnchain', () => {

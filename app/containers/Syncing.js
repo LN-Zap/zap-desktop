@@ -18,12 +18,12 @@ const mapStateToProps = state => ({
   blockHeight: state.lnd.blockHeight,
   lndBlockHeight: state.lnd.lndBlockHeight,
   lndCfilterHeight: state.lnd.lndCfilterHeight,
-  lightningGrpcActive: state.lnd.lightningGrpcActive
+  isLightningGrpcActive: state.lnd.isLightningGrpcActive,
 })
 
 const mapDispatchToProps = {
   setIsWalletOpen,
-  showNotification
+  showNotification,
 }
 
 const SyncingContainer = connect(
@@ -39,7 +39,7 @@ function SyncingModal({ onClose, ...rest }) {
   useOnKeydown('Escape', onClose)
   return (
     <ModalOverlay>
-      <Modal withClose onClose={onClose} {...rest}>
+      <Modal hasClose onClose={onClose} {...rest}>
         <SyncingContainer />
       </Modal>
     </ModalOverlay>
@@ -47,7 +47,7 @@ function SyncingModal({ onClose, ...rest }) {
 }
 
 SyncingModal.propTypes = {
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 }
 
 export default SyncingModal

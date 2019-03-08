@@ -25,14 +25,14 @@ const ChannelSummaryList = ({ channels, openModal, setSelectedChannel }) => {
     const { index, key, style } = rowProps
     const channel = channels[index].channel || channels[index]
     return (
-      <div style={style} key={key}>
+      <div key={key} style={style}>
         <ChannelSummaryListItem
-          mx={4}
           channel={channel}
+          mb={isLastItem(index) ? ROW_MARGIN_TOP : 0}
+          mt={ROW_MARGIN_TOP}
+          mx={4}
           openModal={openModal}
           setSelectedChannel={setSelectedChannel}
-          mt={ROW_MARGIN_TOP}
-          mb={isLastItem(index) ? ROW_MARGIN_TOP : 0}
         />
       </div>
     )
@@ -43,12 +43,12 @@ const ChannelSummaryList = ({ channels, openModal, setSelectedChannel }) => {
       {({ width, height }) => {
         return (
           <StyledList
-            width={width}
             height={height}
+            pb={3}
+            rowCount={channels.length}
             rowHeight={getRowHeight}
             rowRenderer={renderRow}
-            rowCount={channels.length}
-            pb={3}
+            width={width}
           />
         )
       }}
@@ -59,11 +59,11 @@ const ChannelSummaryList = ({ channels, openModal, setSelectedChannel }) => {
 ChannelSummaryList.propTypes = {
   channels: PropTypes.array,
   openModal: PropTypes.func.isRequired,
-  setSelectedChannel: PropTypes.func.isRequired
+  setSelectedChannel: PropTypes.func.isRequired,
 }
 
 ChannelSummaryList.defaultProps = {
-  channels: []
+  channels: [],
 }
 
 export default ChannelSummaryList

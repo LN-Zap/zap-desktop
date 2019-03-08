@@ -35,7 +35,7 @@ class Tooltip extends React.Component {
   static displayName = 'Tooltip'
 
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   state = { hover: false }
@@ -55,28 +55,28 @@ class Tooltip extends React.Component {
     return (
       <Box
         style={{
-          position: 'relative'
+          position: 'relative',
         }}
         {...rest}
       >
         <StyledTooltipIconBox
           bg="primaryText"
+          ml={1}
           onMouseEnter={this.hoverOn}
           onMouseLeave={this.hoverOff}
-          ml={1}
         >
-          <Text fontWeight="bold" color="primaryColor" fontSize="s">
+          <Text color="primaryColor" fontSize="s" fontWeight="bold">
             ?
           </Text>
         </StyledTooltipIconBox>
         {hover && (
           <StyledTooltipWrapper
             bg="secondaryColor"
-            p={2}
-            pl={3}
+            border="1px solid gray"
             borderRadius={5}
             boxShadow="0 3px 4px 0 rgba(30, 30, 30, 0.5)"
-            border="1px solid gray"
+            p={2}
+            pl={3}
           >
             <Text fontWeight="light" ml={2}>
               {children}

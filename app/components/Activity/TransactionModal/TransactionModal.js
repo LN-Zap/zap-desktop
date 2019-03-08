@@ -16,8 +16,8 @@ export default class TransactionModal extends React.PureComponent {
     item: PropTypes.object.isRequired,
     networkInfo: PropTypes.shape({
       id: PropTypes.string,
-      name: PropTypes.string
-    })
+      name: PropTypes.string,
+    }),
   }
 
   showBlock = hash => {
@@ -45,9 +45,9 @@ export default class TransactionModal extends React.PureComponent {
       <Panel {...rest}>
         <Panel.Header>
           <Header
-            title={<FormattedMessage {...messages[isIncoming ? 'title_received' : 'title_sent']} />}
-            subtitle={<FormattedMessage {...messages.subtitle} />}
             logo={<Onchain height="45px" width="45px" />}
+            subtitle={<FormattedMessage {...messages.subtitle} />}
+            title={<FormattedMessage {...messages[isIncoming ? 'title_received' : 'title_sent']} />}
           />
           <Bar mt={2} />
         </Panel.Header>
@@ -58,7 +58,7 @@ export default class TransactionModal extends React.PureComponent {
             right={
               <Flex alignItems="center">
                 <CryptoSelector mr={2} />
-                <CryptoValue value={amount} fontSize="xxl" />
+                <CryptoValue fontSize="xxl" value={amount} />
               </Flex>
             }
           />
@@ -86,10 +86,10 @@ export default class TransactionModal extends React.PureComponent {
                     <>
                       <Text>
                         <FormattedDate
+                          day="2-digit"
+                          month="long"
                           value={item.time_stamp * 1000}
                           year="numeric"
-                          month="long"
-                          day="2-digit"
                         />
                       </Text>
                       <Text>
@@ -160,7 +160,7 @@ export default class TransactionModal extends React.PureComponent {
                   </Link>
 
                   {item.maturityHeight && (
-                    <Flex mt={1} alignItems="center">
+                    <Flex alignItems="center" mt={1}>
                       <Span color="gray" fontSize="s" mr={1}>
                         <Padlock />
                       </Span>

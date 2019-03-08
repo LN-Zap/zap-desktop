@@ -13,32 +13,32 @@ import messages from './messages'
  */
 class Request extends React.Component {
   state = {
-    currentStep: 'form'
+    currentStep: 'form',
   }
 
   static propTypes = {
     /** Currently selected cryptocurrency (key). */
-    cryptoCurrency: PropTypes.string.isRequired,
+    createInvoice: PropTypes.func.isRequired,
     /** Human readable chain name */
-    cryptoName: PropTypes.string.isRequired,
+    cryptoCurrency: PropTypes.string.isRequired,
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
     /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
-    isProcessing: PropTypes.bool,
+    cryptoName: PropTypes.string.isRequired,
     /** Lnd invoice object for the payment request */
-    invoice: PropTypes.object,
+    intl: intlShape.isRequired,
     /** Lightning Payment request. */
-    payReq: PropTypes.string,
+    invoice: PropTypes.object,
     /** Show a notification */
-    showNotification: PropTypes.func.isRequired,
+    isProcessing: PropTypes.bool,
     /** Create an invoice using the supplied details */
-    createInvoice: PropTypes.func.isRequired,
-    intl: intlShape.isRequired
+    payReq: PropTypes.string,
+    showNotification: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     isProcessing: false,
-    payReq: null
+    payReq: null,
   }
 
   amountInput = React.createRef()
@@ -125,7 +125,12 @@ class Request extends React.Component {
 
   renderAmountFields = () => {
     return (
-      <CurrencyFieldGroup forwardedRef={this.amountInput} formApi={this.formApi} required mb={3} />
+      <CurrencyFieldGroup
+        formApi={this.formApi}
+        forwardedRef={this.amountInput}
+        isRequired
+        mb={3}
+      />
     )
   }
 
@@ -133,16 +138,16 @@ class Request extends React.Component {
     const { intl } = this.props
     return (
       <TextArea
+        css={{ resize: 'vertical', 'min-height': '48px' }}
         field="memo"
+        label={intl.formatMessage({ ...messages.memo })}
         name="memo"
+        placeholder={intl.formatMessage({ ...messages.memo_placeholder })}
+        rows={3}
+        tooltip={intl.formatMessage({ ...messages.memo_tooltip })}
         validateOnBlur
         validateOnChange
-        label={intl.formatMessage({ ...messages.memo })}
-        placeholder={intl.formatMessage({ ...messages.memo_placeholder })}
-        tooltip={intl.formatMessage({ ...messages.memo_tooltip })}
         width={1}
-        rows={3}
-        css={{ resize: 'vertical', 'min-height': '48px' }}
       />
     )
   }
@@ -166,8 +171,8 @@ class Request extends React.Component {
     const { currentStep } = this.state
     return (
       <Form
-        width={1}
         css={{ height: '100%' }}
+        width={1}
         {...rest}
         getApi={this.setFormApi}
         onSubmit={this.onSubmit}
@@ -177,7 +182,7 @@ class Request extends React.Component {
           let nextButtonText = intl.formatMessage({ ...messages.button_text })
           if (formState.values.amountCrypto) {
             nextButtonText = `${intl.formatMessage({
-              ...messages.button_text
+              ...messages.button_text,
             })} ${formState.values.amountCrypto} ${cryptoCurrencyTicker}`
           }
 
@@ -185,11 +190,11 @@ class Request extends React.Component {
             <Panel>
               <Panel.Header>
                 <Header
-                  title={`${intl.formatMessage({
-                    ...messages.title
-                  })} ${cryptoName} (${cryptoCurrencyTicker})`}
-                  subtitle={<FormattedMessage {...messages.subtitle} />}
                   logo={<Lightning height="45px" width="45px" />}
+                  subtitle={<FormattedMessage {...messages.subtitle} />}
+                  title={`${intl.formatMessage({
+                    ...messages.title,
+                  })} ${cryptoName} (${cryptoCurrencyTicker})`}
                 />
                 <Bar mt={2} />
               </Panel.Header>
@@ -202,8 +207,8 @@ class Request extends React.Component {
                   </React.Fragment>
                 ) : (
                   <RequestSummary
-                    mt={-3}
                     invoice={invoice}
+                    mt={-3}
                     payReq={payReq}
                     showNotification={showNotification}
                   />
@@ -213,10 +218,10 @@ class Request extends React.Component {
                 <Panel.Footer>
                   <Text textAlign="center">
                     <Button
-                      type="submit"
-                      disabled={formState.pristine || formState.invalid || isProcessing}
-                      processing={isProcessing}
+                      isDisabled={formState.pristine || formState.invalid || isProcessing}
+                      isProcessing={isProcessing}
                       mx="auto"
+                      type="submit"
                     >
                       {nextButtonText}
                     </Button>

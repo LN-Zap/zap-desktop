@@ -8,7 +8,7 @@ import messages from './messages'
 
 const ChannelBalance = ({ channelBalance, ...rest }) => {
   return (
-    <Flex as="section" alignItems="center" {...rest}>
+    <Flex alignItems="center" as="section" {...rest}>
       <Text fontWeight="normal" mr={2}>
         <FormattedMessage {...messages.total_capacity} />
       </Text>
@@ -19,7 +19,7 @@ const ChannelBalance = ({ channelBalance, ...rest }) => {
 }
 
 ChannelBalance.propTypes = {
-  channelBalance: PropTypes.number.isRequired
+  channelBalance: PropTypes.number.isRequired,
 }
 
 export default ChannelBalance

@@ -10,9 +10,9 @@ import ChannelCreateHeader from './ChannelCreateHeader'
 class ChannelCreate extends React.Component {
   static propTypes = {
     isSearchValidNodeAddress: PropTypes.bool,
-    searchQuery: PropTypes.string,
     onSubmit: PropTypes.func,
-    updateContactFormSearchQuery: PropTypes.func.isRequired
+    searchQuery: PropTypes.string,
+    updateContactFormSearchQuery: PropTypes.func.isRequired,
   }
 
   componentWillUnmount() {
@@ -29,14 +29,14 @@ class ChannelCreate extends React.Component {
           <Flex justifyContent="center">
             <Panel.Header width={9 / 16}>
               <ChannelCreateHeader />
-              <Bar mt={2} mb={3} />
+              <Bar mb={3} mt={2} />
             </Panel.Header>
           </Flex>
 
           <Panel.Body css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
-            <Flex flexDirection="column" alignItems="center" css={{ height: '100%' }}>
+            <Flex alignItems="center" css={{ height: '100%' }} flexDirection="column">
               {isSearchValidNodeAddress ? (
-                <ChannelCreateForm width={9 / 16} onSubmit={onSubmit} {...rest} />
+                <ChannelCreateForm onSubmit={onSubmit} width={9 / 16} {...rest} />
               ) : (
                 <>
                   <ChannelNodeSearch width={9 / 16} />

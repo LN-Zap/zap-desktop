@@ -17,5 +17,5 @@ export default defineMessages({
   closetype_remote_force_close: 'Remote force close',
   closetype_breach_close: 'Breach',
   closetype_funding_canceled: 'Funding Canceled',
-  closetype_abandoned: 'Abandoned'
+  closetype_abandoned: 'Abandoned',
 })

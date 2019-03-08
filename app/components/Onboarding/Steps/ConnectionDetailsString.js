@@ -8,22 +8,22 @@ import messages from './messages'
 
 class ConnectionDetailsString extends React.Component {
   static propTypes = {
+    clearStartLndError: PropTypes.func.isRequired,
+    connectionString: PropTypes.string,
+    lndConnect: PropTypes.string,
+    setConnectionString: PropTypes.func.isRequired,
+    setLndconnect: PropTypes.func.isRequired,
+    startLndCertError: PropTypes.string,
+    startLndHostError: PropTypes.string,
+
+    startLndMacaroonError: PropTypes.string,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    connectionString: PropTypes.string,
-    startLndHostError: PropTypes.string,
-    startLndCertError: PropTypes.string,
-    startLndMacaroonError: PropTypes.string,
-    lndConnect: PropTypes.string,
-
-    setLndconnect: PropTypes.func.isRequired,
-    setConnectionString: PropTypes.func.isRequired,
-    clearStartLndError: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidMount() {
@@ -33,7 +33,7 @@ class ConnectionDetailsString extends React.Component {
       startLndMacaroonError,
       clearStartLndError,
       setLndconnect,
-      lndConnect
+      lndConnect,
     } = this.props
 
     // If we have an lndConnect link, populate the form annd submit immediately.
@@ -132,18 +132,16 @@ class ConnectionDetailsString extends React.Component {
           return (
             <>
               <Header
-                title={<FormattedMessage {...messages.connection_details_custom_title} />}
-                subtitle={<FormattedMessage {...messages.connection_details_custom_description} />}
                 align="left"
+                subtitle={<FormattedMessage {...messages.connection_details_custom_description} />}
+                title={<FormattedMessage {...messages.connection_details_custom_title} />}
               />
 
-              <Bar mt={4} mb={1} />
+              <Bar mb={1} mt={4} />
 
               <ConnectionDetailsTabs mb={4} />
 
               <LndConnectionStringInput
-                autoFocus
-                field="connectionString"
                 description={
                   <>
                     <Box mb={2}>
@@ -155,11 +153,13 @@ class ConnectionDetailsString extends React.Component {
                     </Box>
                   </>
                 }
+                field="connectionString"
                 initialValue={connectionString}
+                isRequired
+                rows="12"
                 validateOnBlur={shouldValidateInline}
                 validateOnChange={shouldValidateInline}
-                required
-                rows="12"
+                willAutoFocus
               />
             </>
           )

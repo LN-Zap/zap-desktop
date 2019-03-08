@@ -3,11 +3,11 @@ import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/con
 import NodeCardList from 'components/Channels/NodeCardList'
 
 const mapStateToProps = state => ({
-  nodes: contactFormSelectors.suggestedNodes(state)
+  nodes: contactFormSelectors.suggestedNodes(state),
 })
 
 const mapDispatchToProps = {
-  updateContactFormSearchQuery
+  updateContactFormSearchQuery,
 }
 
 export default connect(

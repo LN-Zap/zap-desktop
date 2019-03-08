@@ -7,7 +7,7 @@ jest.mock('lib/lnd/util', () => {
   return {
     ...jest.requireActual('lib/lnd/util'),
     binaryName: 'binaryName',
-    binaryPath: () => 'binaryPath'
+    binaryPath: () => 'binaryPath',
   }
 })
 
@@ -55,7 +55,7 @@ describe('LndConfig', function() {
           id: 1,
           type: this.type,
           chain: this.chain,
-          network: this.network
+          network: this.network,
         })
       })
 
@@ -85,8 +85,8 @@ describe('LndConfig', function() {
           settings: {
             host: this.host,
             cert: this.cert,
-            macaroon: this.macaroon
-          }
+            macaroon: this.macaroon,
+          },
         })
       })
 

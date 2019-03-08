@@ -4,7 +4,7 @@ import {
   getUserDataDir,
   assertNoConsoleErrors,
   cleanTestEnvironment,
-  cleanElectronEnvironment
+  cleanElectronEnvironment,
 } from './utils/helpers'
 import Onboarding from './pages/onboarding'
 
@@ -49,7 +49,7 @@ test('should import a wallet from an existing seed', async t => {
     'slender',
     'blue',
     'day',
-    'fix'
+    'fix',
   ]
 
   await t

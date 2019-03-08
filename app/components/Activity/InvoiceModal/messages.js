@@ -12,5 +12,5 @@ export default defineMessages({
   status: 'Status',
   not_paid: 'Not Paid',
   paid: 'Paid',
-  current_value: 'Current value'
+  current_value: 'Current value',
 })

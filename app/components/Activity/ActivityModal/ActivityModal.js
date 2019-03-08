@@ -10,9 +10,9 @@ export default class ActivityModal extends React.PureComponent {
     item: PropTypes.object,
     networkInfo: PropTypes.shape({
       id: PropTypes.string,
-      name: PropTypes.string
+      name: PropTypes.string,
     }),
-    showNotification: PropTypes.func.isRequired
+    showNotification: PropTypes.func.isRequired,
   }
 
   render() {
@@ -25,16 +25,16 @@ export default class ActivityModal extends React.PureComponent {
     const MODAL_COMPONENTS = {
       transaction: {
         component: TransactionModal,
-        props: { item, networkInfo }
+        props: { item, networkInfo },
       },
       payment: {
         component: PaymentModal,
-        props: { item }
+        props: { item },
       },
       invoice: {
         component: InvoiceModal,
-        props: { item, showNotification }
-      }
+        props: { item, showNotification },
+      },
     }
 
     const SpecificModal = MODAL_COMPONENTS[item.type].component

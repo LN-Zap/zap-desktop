@@ -22,16 +22,16 @@ const Container = styled(animated.div)`
 const ModalContent = ({ type, closeModal }) => {
   switch (type) {
     case 'PAY_FORM':
-      return <Pay width={9 / 16} mx="auto" />
+      return <Pay mx="auto" width={9 / 16} />
 
     case 'REQUEST_FORM':
-      return <Request width={9 / 16} mx="auto" />
+      return <Request mx="auto" width={9 / 16} />
 
     case 'RECEIVE_MODAL':
-      return <ReceiveModal width={9 / 16} mx="auto" />
+      return <ReceiveModal mx="auto" width={9 / 16} />
 
     case 'ACTIVITY_MODAL':
-      return <ActivityModal width={9 / 16} mx="auto" />
+      return <ActivityModal mx="auto" width={9 / 16} />
 
     case 'CHANNELS':
       return <Channels mx={-4} />
@@ -50,8 +50,8 @@ const ModalContent = ({ type, closeModal }) => {
 }
 
 ModalContent.propTypes = {
+  closeModal: PropTypes.func.isRequired,
   type: PropTypes.string.isRequired,
-  closeModal: PropTypes.func.isRequired
 }
 
 function ModalStack(props) {
@@ -61,10 +61,10 @@ function ModalStack(props) {
 
   return (
     <Transition
+      enter={{ opacity: 1, pointerEvents: 'auto' }}
+      from={{ opacity: 0, pointerEvents: 'auto' }}
       items={modals}
       keys={item => item.id}
-      from={{ opacity: 0, pointerEvents: 'auto' }}
-      enter={{ opacity: 1, pointerEvents: 'auto' }}
       leave={{ opacity: 0, pointerEvents: 'none' }}
     >
       {modal =>
@@ -73,7 +73,7 @@ function ModalStack(props) {
         (styles => (
           <Container style={styles}>
             <Modal onClose={() => closeModal(modal.id)}>
-              <ModalContent type={modal.type} closeModal={closeModal} />
+              <ModalContent closeModal={closeModal} type={modal.type} />
             </Modal>
           </Container>
         ))
@@ -83,16 +83,16 @@ function ModalStack(props) {
 }
 
 ModalStack.propTypes = {
+  closeModal: PropTypes.func.isRequired,
   modals: PropTypes.array.isRequired,
-  closeModal: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
-  modals: modalSelectors.getModalState(state)
+  modals: modalSelectors.getModalState(state),
 })
 
 const mapDispatchToProps = {
-  closeModal
+  closeModal,
 }
 
 export default connect(

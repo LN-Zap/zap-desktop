@@ -6,16 +6,16 @@ import messages from './messages'
 
 class Autopilot extends React.Component {
   static propTypes = {
+    autopilot: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
+    setAutopilot: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    autopilot: PropTypes.bool,
-    setAutopilot: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
-    autopilot: 'enable'
+    autopilot: 'enable',
   }
 
   handleSubmit = values => {
@@ -50,20 +50,20 @@ class Autopilot extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         <Header
-          title={<FormattedMessage {...messages.autopilot_title} />}
-          subtitle={<FormattedMessage {...messages.autopilot_description} />}
           align="left"
+          subtitle={<FormattedMessage {...messages.autopilot_description} />}
+          title={<FormattedMessage {...messages.autopilot_title} />}
         />
         <Bar my={4} />
         <RadioGroup
-          required
           field="autopilot"
-          name="autopilot"
           initialValue={autopilot ? 'enable' : 'disable'}
+          isRequired
+          name="autopilot"
         >
-          <Radio value="enable" label={<FormattedMessage {...messages.enable} />} />
+          <Radio label={<FormattedMessage {...messages.enable} />} value="enable" />
 
-          <Radio value="disable" label={<FormattedMessage {...messages.disable} />} />
+          <Radio label={<FormattedMessage {...messages.disable} />} value="disable" />
         </RadioGroup>
       </Form>
     )

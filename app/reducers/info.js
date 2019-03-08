@@ -19,15 +19,15 @@ const networkInfo = {
       name: 'Mainnet',
       explorerUrl: 'https://blockstream.info',
       bitcoinJsNetwork: networks.bitcoin.mainnet,
-      unitPrefix: ''
+      unitPrefix: '',
     },
     testnet: {
       id: 'testnet',
       name: 'Testnet',
       explorerUrl: 'https://blockstream.info/testnet',
       bitcoinJsNetwork: networks.bitcoin.testnet,
-      unitPrefix: 't'
-    }
+      unitPrefix: 't',
+    },
   },
   litecoin: {
     mainnet: {
@@ -35,16 +35,16 @@ const networkInfo = {
       name: 'Mainnet',
       explorerUrl: 'https://insight.litecore.io',
       bitcoinJsNetwork: networks.litecoin.mainnet,
-      unitPrefix: ''
+      unitPrefix: '',
     },
     testnet: {
       id: 'testnet',
       name: 'Testnet',
       explorerUrl: 'https://testnet.litecore.io',
       bitcoinJsNetwork: networks.litecoin.testnet,
-      unitPrefix: 't'
-    }
-  }
+      unitPrefix: 't',
+    },
+  },
 }
 
 // ------------------------------------
@@ -52,7 +52,7 @@ const networkInfo = {
 // ------------------------------------
 export function getInfo() {
   return {
-    type: GET_INFO
+    type: GET_INFO,
   }
 }
 
@@ -116,7 +116,7 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
 const ACTION_HANDLERS = {
   [SET_HAS_SYNCED]: (state, { hasSynced }) => ({
     ...state,
-    hasSynced
+    hasSynced,
   }),
   [GET_INFO]: state => ({ ...state, infoLoading: true }),
   [RECEIVE_INFO]: (state, { data }) => {
@@ -127,9 +127,9 @@ const ACTION_HANDLERS = {
       infoLoading: false,
       chain,
       network,
-      data
+      data,
     }
-  }
+  },
 }
 
 // ------------------------------------
@@ -141,7 +141,7 @@ const initialState = {
   chain: null,
   network: null,
   data: {},
-  networks: networkInfo
+  networks: networkInfo,
 }
 
 // Selectors

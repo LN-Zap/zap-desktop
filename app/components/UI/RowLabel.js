@@ -18,7 +18,7 @@ export default function RowLabel({ nameMessage, descMessage, htmlFor }) {
 }
 
 RowLabel.propTypes = {
-  nameMessage: PropTypes.object.isRequired,
   descMessage: PropTypes.object.isRequired,
-  htmlFor: PropTypes.string
+  htmlFor: PropTypes.string,
+  nameMessage: PropTypes.object.isRequired,
 }

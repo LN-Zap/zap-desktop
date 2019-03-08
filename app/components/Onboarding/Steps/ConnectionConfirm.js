@@ -9,25 +9,25 @@ import messages from './messages'
 
 class ConnectionConfirm extends React.Component {
   static propTypes = {
-    wizardApi: PropTypes.object,
-    wizardState: PropTypes.object,
-    connectionType: PropTypes.string.isRequired,
-    connectionHost: PropTypes.string,
     connectionCert: PropTypes.string,
+    connectionHost: PropTypes.string,
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
+    connectionType: PropTypes.string.isRequired,
+    isLightningGrpcActive: PropTypes.bool,
+    isWalletUnlockerGrpcActive: PropTypes.bool,
     lndConnect: PropTypes.string,
-    startLndHostError: PropTypes.string,
-    startLndCertError: PropTypes.string,
-    startLndMacaroonError: PropTypes.string,
     startLnd: PropTypes.func.isRequired,
-    walletUnlockerGrpcActive: PropTypes.bool,
-    lightningGrpcActive: PropTypes.bool
+    startLndCertError: PropTypes.string,
+    startLndHostError: PropTypes.string,
+    startLndMacaroonError: PropTypes.string,
+    wizardApi: PropTypes.object,
+    wizardState: PropTypes.object,
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidUpdate(prevProps) {
@@ -43,7 +43,7 @@ class ConnectionConfirm extends React.Component {
       connectionCert,
       connectionMacaroon,
       connectionString,
-      startLnd
+      startLnd,
     } = this.props
 
     // If we have a hostname, assume we are using the custom form in which host, cer and macaroon paths are supplied.
@@ -54,8 +54,8 @@ class ConnectionConfirm extends React.Component {
         lndconnectUri: encode({
           host: connectionHost,
           cert: connectionCert,
-          macaroon: connectionMacaroon
-        })
+          macaroon: connectionMacaroon,
+        }),
       })
     }
 
@@ -64,7 +64,7 @@ class ConnectionConfirm extends React.Component {
       return startLnd({
         type: 'custom',
         decoder: 'lnd.lndconnect.v1',
-        lndconnectUri: connectionString
+        lndconnectUri: connectionString,
       })
     }
 
@@ -75,8 +75,8 @@ class ConnectionConfirm extends React.Component {
       decoder: 'lnd.lndconnect.v1',
       lndconnectUri: encode({
         host: `${host}:${port}`,
-        macaroon
-      })
+        macaroon,
+      }),
     })
   }
 
@@ -90,8 +90,8 @@ class ConnectionConfirm extends React.Component {
       connectionMacaroon,
       connectionString,
       lndConnect,
-      lightningGrpcActive,
-      walletUnlockerGrpcActive,
+      isLightningGrpcActive,
+      isWalletUnlockerGrpcActive,
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,
@@ -134,9 +134,9 @@ class ConnectionConfirm extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         <Header
-          title={<FormattedMessage {...messages.confirm_connection_title} />}
-          subtitle={<FormattedMessage {...messages.confirm_connection_description} />}
           align="left"
+          subtitle={<FormattedMessage {...messages.confirm_connection_description} />}
+          title={<FormattedMessage {...messages.confirm_connection_title} />}
         />
 
         <Bar my={4} />

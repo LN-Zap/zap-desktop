@@ -14,7 +14,7 @@ const StyledButton = styled(Button)`
   }
 `
 StyledButton.propTypes = {
-  active: PropTypes.bool
+  active: PropTypes.bool,
 }
 
 const ActivityRefresh = injectIntl(({ intl, onClick, ...rest }) => {
@@ -41,13 +41,13 @@ const ActivityRefresh = injectIntl(({ intl, onClick, ...rest }) => {
 
   return (
     <StyledButton
-      variant="secondary"
-      size="small"
-      active={status === 'fetching'}
-      onClick={handleClick}
       ref={buttonRef}
+      active={status === 'fetching'}
       className="hint--bottom-left"
       data-hint={intl.formatMessage({ ...messages.refresh_button_hint })}
+      onClick={handleClick}
+      size="small"
+      variant="secondary"
       {...rest}
     >
       {status === 'fetching' ? <Spinner /> : <Sync height="16px" width="16px" />}
@@ -56,7 +56,7 @@ const ActivityRefresh = injectIntl(({ intl, onClick, ...rest }) => {
 })
 
 ActivityRefresh.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 export default ActivityRefresh

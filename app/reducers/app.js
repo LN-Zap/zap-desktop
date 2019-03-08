@@ -5,7 +5,7 @@ import { createSelector } from 'reselect'
 // ------------------------------------
 const initialState = {
   isLoading: true,
-  isMounted: false
+  isMounted: false,
 }
 
 // ------------------------------------
@@ -21,20 +21,20 @@ export const RESET_APP = 'RESET_APP'
 export function setLoading(isLoading) {
   return {
     type: SET_LOADING,
-    isLoading
+    isLoading,
   }
 }
 
 export function setMounted(isMounted) {
   return {
     type: SET_MOUNTED,
-    isMounted
+    isMounted,
   }
 }
 
 export function resetApp() {
   return {
-    type: RESET_APP
+    type: RESET_APP,
   }
 }
 
@@ -43,7 +43,7 @@ export function resetApp() {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_LOADING]: (state, { isLoading }) => ({ ...state, isLoading }),
-  [SET_MOUNTED]: (state, { isMounted }) => ({ ...state, isMounted })
+  [SET_MOUNTED]: (state, { isMounted }) => ({ ...state, isMounted }),
 }
 
 // ------------------------------------

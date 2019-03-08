@@ -13,12 +13,12 @@ const mapStateToProps = state => ({
   pubkey: get(state.info, 'data.uris[0]') || get(state.info, 'data.identity_pubkey'),
   address: state.address.address,
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
-  alias: state.info.data.alias
+  alias: state.info.data.alias,
 })
 
 const mapDispatchToProps = {
   onClose: closeWalletModal,
-  showNotification
+  showNotification,
 }
 
 export default connect(

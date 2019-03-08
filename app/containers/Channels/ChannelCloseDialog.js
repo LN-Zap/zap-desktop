@@ -19,7 +19,7 @@ const mapStateToProps = state => {
   return {
     isOpen,
     isForceClose: isForceCloseDialog(state),
-    csvDelay: csvDelay(state)
+    csvDelay: csvDelay(state),
   }
 }
 
@@ -32,7 +32,7 @@ const mapDispatchToProps = dispatch => ({
 
   onCancel() {
     dispatch(hideCloseChannelDialog())
-  }
+  },
 })
 
 export default connect(

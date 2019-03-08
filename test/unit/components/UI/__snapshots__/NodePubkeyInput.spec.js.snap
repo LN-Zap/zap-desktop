@@ -58,7 +58,6 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
       className="c1"
     >
       <input
-        autoFocus={false}
         className="c2"
         color="primaryText"
         disabled={false}
@@ -69,6 +68,7 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
         onChange={[Function]}
         onFocus={[Function]}
         placeholder="pubkey@host:port"
+        readOnly={false}
         required={false}
         type="text"
         value=""

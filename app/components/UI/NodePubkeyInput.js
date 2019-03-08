@@ -14,19 +14,19 @@ import messages from './messages'
 class NodePubkeyInput extends React.Component {
   static propTypes = {
     intl: intlShape.isRequired,
-    disabled: PropTypes.bool,
-    required: PropTypes.bool,
-    validate: PropTypes.func
+    isDisabled: PropTypes.bool,
+    isRequired: PropTypes.bool,
+    validate: PropTypes.func,
   }
 
   validate = value => {
-    const { disabled, required, validate } = this.props
-    if (disabled) {
+    const { isDisabled, isRequired, validate } = this.props
+    if (isDisabled) {
       return
     }
     try {
       let validator = yup.string()
-      if (required) {
+      if (isRequired) {
         validator = validator.required()
       }
       validator = validator.matches(/(.+@.+)/, 'Invalid format')
@@ -49,8 +49,8 @@ class NodePubkeyInput extends React.Component {
       <NodePubkeyInputAsField
         placeholder={intl.formatMessage({ ...messages.pubkey_placeholder })}
         {...rest}
-        validate={this.validate}
         type="text"
+        validate={this.validate}
       />
     )
   }
@@ -63,7 +63,7 @@ const NodePubkeyInputAsField = asField(({ fieldState, fieldApi, ...rest }) => {
     <React.Fragment>
       <Input {...rest} />
       {value && !error && (
-        <Message variant="success" mt={2}>
+        <Message mt={2} variant="success">
           <FormattedMessage {...messages.valid_pubkey} />
         </Message>
       )}

@@ -6,5 +6,5 @@ export default defineMessages({
   requested: 'Requested payment',
   type_paid: 'Lightning invoice (paid)',
   type_unpaid: 'Lightning invoice (unpaid)',
-  amount: 'Invoice amount'
+  amount: 'Invoice amount',
 })

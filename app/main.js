@@ -9,7 +9,7 @@
 import { app, BrowserWindow, session } from 'electron'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
-  REDUX_DEVTOOLS
+  REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
 import get from 'lodash.get'
 import path from 'path'
@@ -111,8 +111,8 @@ const fetchSettings = () => {
     show: false,
     focusable: false,
     webPreferences: {
-      nodeIntegration: false
-    }
+      nodeIntegration: false,
+    },
   })
   if (process.env.HOT) {
     const port = process.env.PORT || 1212
@@ -228,8 +228,8 @@ app.on('ready', async () => {
       nodeIntegration: false,
       preload: process.env.HOT
         ? path.resolve(__dirname, 'dist', 'preload.prod.js')
-        : path.resolve(__dirname, 'preload.prod.js')
-    }
+        : path.resolve(__dirname, 'preload.prod.js'),
+    },
   })
 
   // Initialise the migrator and run any pending migrations.
@@ -256,13 +256,13 @@ app.on('ready', async () => {
    */
   app.on('before-quit', event => {
     mainLog.trace('app.before-quit')
-    if (!zap.is('terminated')) {
-      event.preventDefault()
-      zap.terminate()
-    } else {
+    if (zap.is('terminated')) {
       if (mainWindow) {
         mainWindow.forceClose = true
       }
+    } else {
+      event.preventDefault()
+      zap.terminate()
     }
   })
 
@@ -369,15 +369,15 @@ app.on('ready', async () => {
   // HACK: patch webrequest to fix devtools incompatibility with electron 2.x.
   // See https://github.com/electron/electron/issues/13008#issuecomment-400261941
   session.defaultSession.webRequest.onBeforeRequest({}, (details, callback) => {
-    if (details.url.indexOf('7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33') !== -1) {
+    if (details.url.indexOf('7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33') === -1) {
+      callback({ cancel: false })
+    } else {
       callback({
         redirectURL: details.url.replace(
           '7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33',
           '57c9d07b416b5a2ea23d28247300e4af36329bdc'
-        )
+        ),
       })
-    } else {
-      callback({ cancel: false })
     }
   })
 })

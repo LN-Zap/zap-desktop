@@ -39,7 +39,7 @@ export function queryRoutes(lnd, { pubkey, amount, numRoutes = 15 }) {
   return promisifiedCall(lnd, lnd.queryRoutes, {
     pub_key: pubkey,
     amt: amount,
-    num_routes: numRoutes
+    num_routes: numRoutes,
   })
 }
 

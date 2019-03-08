@@ -8,7 +8,7 @@ import BackgroundTertiary from './BackgroundTertiary'
  * <Sidebar>Some content</Sidebar>
  */
 const Sidebar = ({ ...props }) => (
-  <BackgroundTertiary as="aside" width={3 / 12} css={{ overflow: 'hidden' }} {...props} />
+  <BackgroundTertiary as="aside" css={{ overflow: 'hidden' }} width={3 / 12} {...props} />
 )
 
 Sidebar.small = props => <Sidebar {...props} width={4 / 16} />

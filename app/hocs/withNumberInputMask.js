@@ -12,7 +12,7 @@ const withNumberInputMask = Component =>
 
     static propTypes = {
       fieldApi: PropTypes.object.isRequired,
-      onKeyDown: PropTypes.func
+      onKeyDown: PropTypes.func,
     }
 
     handleKeyDown = e => {

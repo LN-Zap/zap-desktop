@@ -19,8 +19,8 @@ class LndConnectionStringInput extends React.Component {
   static displayName = 'LndConnectionStringInput'
 
   static propTypes = {
+    initialValue: PropTypes.string,
     intl: intlShape.isRequired,
-    initialValue: PropTypes.string
   }
 
   prettyPrint = json => {
@@ -53,9 +53,9 @@ class LndConnectionStringInput extends React.Component {
 
     return (
       <TextArea
-        placeholder={intl.formatMessage({ ...messages.lnd_connection_string_placeholder })}
         css={{ 'word-break': 'break-all' }}
         initialValue={initialValue}
+        placeholder={intl.formatMessage({ ...messages.lnd_connection_string_placeholder })}
         {...rest}
         spellCheck="false"
         validate={this.validate}

@@ -4,5 +4,5 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   next: 'Next',
   previous: 'Back',
-  start_over: 'Start over'
+  start_over: 'Start over',
 })

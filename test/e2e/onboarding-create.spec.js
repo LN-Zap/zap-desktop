@@ -4,7 +4,7 @@ import {
   getUserDataDir,
   assertNoConsoleErrors,
   cleanTestEnvironment,
-  cleanElectronEnvironment
+  cleanElectronEnvironment,
 } from './utils/helpers'
 import Onboarding from './pages/onboarding'
 import Syncing from './pages/syncing'
@@ -36,7 +36,7 @@ test('should create a new wallet', async t => {
     .click(onboarding.nextButton)
 
     // Wait for SeedView to generate seed and then submit the form.
-    .expect(onboarding.seedView.withProps({ fetchingSeed: false }).exists)
+    .expect(onboarding.seedView.withProps({ isFetchingSeed: false }).exists)
     .ok()
     .expect(onboarding.nextButton.hasAttribute('disabled'))
     .notOk('ready to be clicked')

@@ -51,10 +51,10 @@ function App({ fetchActivityHistory, setIsWalletOpen, fetchPeers, fetchTransacti
 }
 
 App.propTypes = {
-  setIsWalletOpen: PropTypes.func.isRequired,
-  fetchTransactions: PropTypes.func.isRequired,
+  fetchActivityHistory: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
-  fetchActivityHistory: PropTypes.func.isRequired
+  fetchTransactions: PropTypes.func.isRequired,
+  setIsWalletOpen: PropTypes.func.isRequired,
 }
 
 export default App

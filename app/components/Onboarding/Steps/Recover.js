@@ -12,7 +12,7 @@ class SeedWord extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     intl: intlShape.isRequired,
-    word: PropTypes.string
+    word: PropTypes.string,
   }
 
   validateWord = value => {
@@ -22,19 +22,19 @@ class SeedWord extends React.Component {
   render() {
     const { index, intl, word } = this.props
     return (
-      <Flex key={`word${index}`} justifyContent="flex-start" alignItems="center" as="li" my={1}>
-        <Label htmlFor={`word${index}`} width={35} mb={0}>
+      <Flex key={`word${index}`} alignItems="center" as="li" justifyContent="flex-start" my={1}>
+        <Label htmlFor={`word${index}`} mb={0} width={35}>
           {index}
         </Label>
         <Input
-          autoFocus={index === 1}
-          initialValue={word}
           field={`word${index}`}
-          validate={this.validateWord}
-          variant="thin"
-          validateOnChange
+          hasMessage={false}
+          initialValue={word}
           placeholder={intl.formatMessage({ ...messages.word_placeholder })}
-          showMessage={false}
+          validate={this.validateWord}
+          validateOnChange
+          variant="thin"
+          willAutoFocus={index === 1}
         />
       </Flex>
     )
@@ -45,16 +45,16 @@ const SeedWordWithIntl = injectIntl(SeedWord)
 
 class Recover extends React.Component {
   static propTypes = {
-    wizardApi: PropTypes.object,
-    wizardState: PropTypes.object,
+    intl: intlShape.isRequired,
     seed: PropTypes.array.isRequired,
     setSeed: PropTypes.func.isRequired,
-    intl: intlShape.isRequired
+    wizardApi: PropTypes.object,
+    wizardState: PropTypes.object,
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   handleSubmit = async values => {
@@ -89,30 +89,30 @@ class Recover extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         <Header
-          title={<FormattedMessage {...messages.import_title} />}
-          subtitle={<FormattedMessage {...messages.import_description} />}
           align="left"
+          subtitle={<FormattedMessage {...messages.import_description} />}
+          title={<FormattedMessage {...messages.import_title} />}
         />
 
         <Bar my={4} />
 
         <Flex justifyContent="space-between">
-          <Flex flexDirection="column" as="ul" mr={2}>
+          <Flex as="ul" flexDirection="column" mr={2}>
             {indexes.slice(0, 6).map(word => (
               <SeedWordWithIntl key={word + 1} index={word + 1} word={seed[word]} />
             ))}
           </Flex>
-          <Flex flexDirection="column" as="ul" mx={2}>
+          <Flex as="ul" flexDirection="column" mx={2}>
             {indexes.slice(6, 12).map(word => (
               <SeedWordWithIntl key={word + 1} index={word + 1} word={seed[word]} />
             ))}
           </Flex>
-          <Flex flexDirection="column" as="ul" mx={2}>
+          <Flex as="ul" flexDirection="column" mx={2}>
             {indexes.slice(12, 18).map(word => (
               <SeedWordWithIntl key={word + 1} index={word + 1} word={seed[word]} />
             ))}
           </Flex>
-          <Flex flexDirection="column" as="ul" ml={2}>
+          <Flex as="ul" flexDirection="column" ml={2}>
             {indexes.slice(18, 24).map(word => (
               <SeedWordWithIntl key={word + 1} index={word + 1} word={seed[word]} />
             ))}

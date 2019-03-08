@@ -12,7 +12,7 @@ const store = new Store({
   blockHeight: 123123,
   lndBlockHeight: 1000,
   lndCfilterHeight: 100,
-  isLoading: false
+  isLoading: false,
 })
 
 const setIsWalletOpen = () => ({})
@@ -22,7 +22,7 @@ storiesOf('Containers.Syncing', module)
   .addParameters({ info: { disable: true } })
   .addDecorator(story => <Window>{story()}</Window>)
   .addDecorator(story => (
-    <Modal withHeader onClose={linkTo('Containers.Home', 'Home')} pb={0} px={0}>
+    <Modal onClose={linkTo('Containers.Home', 'Home')} pb={0} px={0} withHeader>
       {story()}
     </Modal>
   ))
@@ -35,17 +35,17 @@ storiesOf('Containers.Syncing', module)
         {state => (
           <Syncing
             // State
-            hasSynced={hasSynced}
-            syncPercentage={syncPercentage}
-            syncStatus={syncStatus}
             address={state.address}
             blockHeight={state.blockHeight}
+            hasSynced={hasSynced}
+            isLoading={state.isLoading}
             lndBlockHeight={state.lndBlockHeight}
             lndCfilterHeight={state.lndCfilterHeight}
-            isLoading={state.isLoading}
-            // Dispatch
             setIsWalletOpen={setIsWalletOpen}
             showNotification={showNotification}
+            // Dispatch
+            syncPercentage={syncPercentage}
+            syncStatus={syncStatus}
           />
         )}
       </State>

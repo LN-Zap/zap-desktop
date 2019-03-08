@@ -18,36 +18,36 @@ const ActivityActions = ({
   intl,
   ...rest
 }) => (
-  <Flex as="nav" alignItems="center" {...rest}>
+  <Flex alignItems="center" as="nav" {...rest}>
     <ActivitySearch
-      width={13 / 16}
       placeholder={intl.formatMessage({ ...messages.search_placeholder })}
       searchQuery={searchQuery}
       updateActivitySearchQuery={updateActivitySearchQuery}
+      width={13 / 16}
     />
 
     <ActivityFilter
-      width={2.5 / 16}
+      changeFilter={changeFilter}
       filter={filter}
       filters={filters}
-      changeFilter={changeFilter}
       mr={1}
+      width={2.5 / 16}
     />
 
-    <Flex as="section" alignItems="center" ml={3}>
+    <Flex alignItems="center" as="section" ml={3}>
       <ActivityRefresh onClick={fetchActivityHistory} />
     </Flex>
   </Flex>
 )
 
 ActivityActions.propTypes = {
+  changeFilter: PropTypes.func.isRequired,
+  fetchActivityHistory: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
   searchQuery: PropTypes.string,
-  changeFilter: PropTypes.func.isRequired,
-  fetchActivityHistory: PropTypes.func.isRequired,
-  updateActivitySearchQuery: PropTypes.func.isRequired
+  updateActivitySearchQuery: PropTypes.func.isRequired,
 }
 
 export default injectIntl(ActivityActions)

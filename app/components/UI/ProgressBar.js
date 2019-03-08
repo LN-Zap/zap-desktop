@@ -8,13 +8,13 @@ import { tint } from 'polished'
 const SystemCard = system({ extend: BaseCard }, 'height')
 
 const EmptyBar = ({ children, ...rest }) => (
-  <SystemCard color="primaryText" height={10} borderRadius={8} {...rest}>
+  <SystemCard borderRadius={8} color="primaryText" height={10} {...rest}>
     {children}
   </SystemCard>
 )
 
 EmptyBar.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 const FilledBar = styled(EmptyBar)`
@@ -28,22 +28,22 @@ const FilledBar = styled(EmptyBar)`
 
 const ProgressBar = ({ progress, color, bg, justify, ...rest }) => (
   <EmptyBar bg={bg} {...rest}>
-    {progress > 0 && <FilledBar width={progress} bg={color} justify={justify} />}
+    {progress > 0 && <FilledBar bg={color} justify={justify} width={progress} />}
   </EmptyBar>
 )
 
 ProgressBar.propTypes = {
-  progress: PropTypes.number,
   bg: PropTypes.string,
   color: PropTypes.string,
-  justify: PropTypes.string
+  justify: PropTypes.string,
+  progress: PropTypes.number,
 }
 
 ProgressBar.defaultProps = {
   progress: 0,
   bg: 'tertiaryColor',
   color: 'lightningOrange',
-  justify: 'left'
+  justify: 'left',
 }
 
 export default ProgressBar

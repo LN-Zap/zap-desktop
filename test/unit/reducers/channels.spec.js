@@ -6,7 +6,7 @@ import channelsReducer, {
   RECEIVE_CHANNELS,
   OPENING_CHANNEL,
   OPENING_SUCCESSFUL,
-  OPENING_FAILURE
+  OPENING_FAILURE,
 } from 'reducers/channels'
 
 describe('reducers', () => {
@@ -48,7 +48,7 @@ describe('reducers', () => {
         channelsReducer(undefined, {
           type: RECEIVE_CHANNELS,
           channels: [1, 2],
-          pendingChannels: [3, 4]
+          pendingChannels: [3, 4],
         })
       ).toMatchSnapshot()
     })

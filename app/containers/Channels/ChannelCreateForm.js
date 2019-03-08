@@ -16,14 +16,14 @@ const mapStateToProps = state => ({
   walletBalance: balanceSelectors.walletBalanceConfirmed(state),
   currencyName: tickerSelectors.currencyName(state),
   isQueryingFees: state.pay.isQueryingFees,
-  onchainFees: state.pay.onchainFees
+  onchainFees: state.pay.onchainFees,
 })
 
 const mapDispatchToProps = {
   openChannel,
   queryFees,
   updateContactFormSearchQuery,
-  showNotification
+  showNotification,
 }
 
 export default connect(

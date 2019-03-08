@@ -15,17 +15,17 @@ const Wallet = ({
   networkInfo,
   ticker,
   openWalletModal,
-  openModal
+  openModal,
 }) => {
   if (!currentTicker || !ticker.currency) {
     return null
   }
 
   return (
-    <Box pt={3} px={5} pb={3} bg="secondaryColor">
+    <Box bg="secondaryColor" pb={3} pt={3} px={5}>
       <Flex as="header" justifyContent="space-between" pt={2}>
-        <Flex as="section" alignItems="center" mt={4}>
-          <ZapLogo width="70px" height="32px" />
+        <Flex alignItems="center" as="section" mt={4}>
+          <ZapLogo height="32px" width="70px" />
           {networkInfo.id !== 'mainnet' && (
             <Text color="superGreen" fontSize={1} ml={2}>
               {networkInfo.name}
@@ -40,9 +40,9 @@ const Wallet = ({
       <Flex as="header" justifyContent="space-between" mt={4}>
         <Box as="section">
           <Flex alignItems="center">
-            <Box onClick={openWalletModal} mr={3}>
+            <Box mr={3} onClick={openWalletModal}>
               <Button variant="secondary">
-                <Qrcode width="21px" height="21px" />
+                <Qrcode height="21px" width="21px" />
               </Button>
             </Box>
 
@@ -61,7 +61,7 @@ const Wallet = ({
           </Flex>
         </Box>
         <Box as="section">
-          <Button onClick={() => openModal('PAY_FORM')} mr={2} width={145}>
+          <Button mr={2} onClick={() => openModal('PAY_FORM')} width={145}>
             <FormattedMessage {...messages.pay} />
           </Button>
           <Button onClick={() => openModal('REQUEST_FORM')} width={145}>
@@ -75,17 +75,17 @@ const Wallet = ({
 
 Wallet.propTypes = {
   // Store props
-  totalBalance: PropTypes.number,
   currentTicker: PropTypes.object,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
   }),
-  ticker: PropTypes.object.isRequired,
+  openModal: PropTypes.func.isRequired,
+  openWalletModal: PropTypes.func.isRequired,
 
   // Dispatch props
-  openWalletModal: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired
+  ticker: PropTypes.object.isRequired,
+  totalBalance: PropTypes.number,
 }
 
 export default Wallet

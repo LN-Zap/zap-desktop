@@ -7,17 +7,17 @@ import messages from './messages'
 
 class Alias extends React.Component {
   static propTypes = {
+    alias: PropTypes.string,
     intl: intlShape.isRequired,
+    setAlias: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    alias: PropTypes.string,
-    setAlias: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
-    alias: ''
+    alias: '',
   }
 
   setFormApi = formApi => {
@@ -57,20 +57,20 @@ class Alias extends React.Component {
           return (
             <>
               <Header
-                title={<FormattedMessage {...messages.alias_title} />}
-                subtitle={<FormattedMessage {...messages.alias_description} />}
                 align="left"
+                subtitle={<FormattedMessage {...messages.alias_description} />}
+                title={<FormattedMessage {...messages.alias_title} />}
               />
               <Bar my={4} />
               <Box>
                 <Input
-                  autoFocus
                   field="alias"
-                  name="alias"
-                  label={<FormattedMessage {...messages.alias_label} />}
                   initialValue={alias}
+                  label={<FormattedMessage {...messages.alias_label} />}
+                  name="alias"
                   validateOnBlur={shouldValidateInline}
                   validateOnChange={shouldValidateInline}
+                  willAutoFocus
                 />
               </Box>
             </>

@@ -15,9 +15,9 @@ storiesOf('Containers.Channels', module)
             sectionFn: () => {
               const channelBalance = number('Channel Balance', 1237474)
               return <ChannelBalance channelBalance={channelBalance} />
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   })

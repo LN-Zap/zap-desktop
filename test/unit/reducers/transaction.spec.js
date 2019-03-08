@@ -4,7 +4,7 @@ import transactionReducer, {
   SEND_TRANSACTION,
   TRANSACTION_SUCCESSFUL,
   TRANSACTION_FAILED,
-  ADD_TRANSACTION
+  ADD_TRANSACTION,
 } from 'reducers/transaction'
 
 describe('reducers', () => {

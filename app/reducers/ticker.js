@@ -17,13 +17,13 @@ export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
 // Map for crypto codes to crypto tickers
 const DEFAULT_CRYPTO_UNITS = {
   bitcoin: 'btc',
-  litecoin: 'ltc'
+  litecoin: 'ltc',
 }
 
 // Map for crypto names to crypto tickers
 const CRYPTO_NAMES = {
   bitcoin: 'Bitcoin',
-  litecoin: 'Litecoin'
+  litecoin: 'Litecoin',
 }
 
 // ------------------------------------
@@ -45,7 +45,7 @@ export const initTickers = () => async (dispatch, getState) => {
 export const setCurrency = unit => async (dispatch, getState) => {
   dispatch({
     type: SET_CURRENCY,
-    currency: unit
+    currency: unit,
   })
 
   const state = getState()
@@ -62,7 +62,7 @@ export const setCurrency = unit => async (dispatch, getState) => {
 export function setCrypto(crypto) {
   return {
     type: SET_CRYPTO,
-    crypto
+    crypto,
   }
 }
 
@@ -70,7 +70,7 @@ export const setFiatTicker = fiatTicker => async dispatch => {
   // Persist the new fiatTicker in the store.
   dispatch({
     type: SET_FIAT_TICKER,
-    fiatTicker
+    fiatTicker,
   })
 
   // Persist the new fiatTicker saetting.
@@ -79,7 +79,7 @@ export const setFiatTicker = fiatTicker => async dispatch => {
 
 export function getTickers() {
   return {
-    type: GET_TICKERS
+    type: GET_TICKERS,
   }
 }
 
@@ -87,7 +87,7 @@ export function recieveTickers({ btcTicker, ltcTicker }) {
   return {
     type: RECIEVE_TICKERS,
     btcTicker,
-    ltcTicker
+    ltcTicker,
   }
 }
 
@@ -124,8 +124,8 @@ const ACTION_HANDLERS = {
     ...state,
     tickerLoading: false,
     btcTicker,
-    ltcTicker
-  })
+    ltcTicker,
+  }),
 }
 
 // Selectors
@@ -172,7 +172,7 @@ tickerSelectors.currencyFilters = createSelector(
     }
     return currencyFilters[crypto].map(item => ({
       ...item,
-      name: `${networkInfo.unitPrefix}${item.name}`
+      name: `${networkInfo.unitPrefix}${item.name}`,
     }))
   }
 )
@@ -208,32 +208,32 @@ const initialState = {
     bitcoin: [
       {
         key: 'btc',
-        name: 'BTC'
+        name: 'BTC',
       },
       {
         key: 'bits',
-        name: 'bits'
+        name: 'bits',
       },
       {
         key: 'sats',
-        name: 'satoshis'
-      }
+        name: 'satoshis',
+      },
     ],
     litecoin: [
       {
         key: 'ltc',
-        name: 'LTC'
+        name: 'LTC',
       },
       {
         key: 'phots',
-        name: 'photons'
+        name: 'photons',
       },
       {
         key: 'lits',
-        name: 'litoshis'
-      }
-    ]
-  }
+        name: 'litoshis',
+      },
+    ],
+  },
 }
 
 export default function tickerReducer(state = initialState, action) {

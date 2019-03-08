@@ -1,7 +1,7 @@
 import { createContext } from 'react'
 
 const ConnectionDetailsContext = createContext({
-  openModal: () => {}
+  openModal: () => {},
 })
 
 export default ConnectionDetailsContext

@@ -13,7 +13,7 @@ storiesOf('Components', module).addWithChapters('Button', {
       sections: [
         {
           title: 'Basic',
-          sectionFn: () => <Button onClick={action('clicked')}>Basic button</Button>
+          sectionFn: () => <Button onClick={action('clicked')}>Basic button</Button>,
         },
         {
           title: 'With Icon',
@@ -36,9 +36,9 @@ storiesOf('Components', module).addWithChapters('Button', {
                 </Flex>
               </Button>
             </section>
-          )
-        }
-      ]
+          ),
+        },
+      ],
     },
     {
       title: 'Variants',
@@ -49,7 +49,7 @@ storiesOf('Components', module).addWithChapters('Button', {
             <Button onClick={action('clicked')} variant="primary">
               Primary button
             </Button>
-          )
+          ),
         },
         {
           title: 'Secondary',
@@ -57,7 +57,7 @@ storiesOf('Components', module).addWithChapters('Button', {
             <Button onClick={action('clicked')} variant="secondary">
               Secondary button
             </Button>
-          )
+          ),
         },
         {
           title: 'Danger',
@@ -65,9 +65,9 @@ storiesOf('Components', module).addWithChapters('Button', {
             <Button onClick={action('clicked')} variant="danger">
               A very dangerous button
             </Button>
-          )
-        }
-      ]
+          ),
+        },
+      ],
     },
     {
       title: 'States',
@@ -75,27 +75,27 @@ storiesOf('Components', module).addWithChapters('Button', {
         {
           title: 'Processing',
           sectionFn: () => (
-            <Button processing onClick={action('clicked')}>
+            <Button isProcessing onClick={action('clicked')}>
               Processing
             </Button>
-          )
+          ),
         },
         {
           title: 'Disabled',
           sectionFn: () => (
-            <Button disabled onClick={action('clicked')}>
+            <Button isDisabled onClick={action('clicked')}>
               Disabled button
             </Button>
-          )
-        }
-      ]
+          ),
+        },
+      ],
     },
     {
       title: 'Sizes',
       sections: [
         {
           title: 'Medium',
-          sectionFn: () => <Button onClick={action('clicked')}>Medium button</Button>
+          sectionFn: () => <Button onClick={action('clicked')}>Medium button</Button>,
         },
         {
           title: 'Small',
@@ -103,9 +103,9 @@ storiesOf('Components', module).addWithChapters('Button', {
             <Button onClick={action('clicked')} size="small">
               Small button
             </Button>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

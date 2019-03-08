@@ -1,11 +1,11 @@
 import React from 'react'
 
 const SvgBigArrowRight = props => (
-  <svg width="1em" height="1em" viewBox="0 0 40 28" {...props}>
+  <svg height="1em" viewBox="0 0 40 28" width="1em" {...props}>
     <g
-      stroke="currentColor"
       fill="none"
       fillRule="evenodd"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
     >

@@ -31,23 +31,23 @@ export const ModalOverlayStyles = () => `
 const ModalCloseButton = ({ onClose }) => (
   <Flex justifyContent="flex-end">
     <ModalCloseButtonWrapper onClick={onClose} p={2}>
-      <X width={20} height={20} />
+      <X height={20} width={20} />
     </ModalCloseButtonWrapper>
   </Flex>
 )
 
 ModalCloseButton.propTypes = {
-  onClose: PropTypes.func
+  onClose: PropTypes.func,
 }
 
 const ModalHeader = () => (
   <Flex justifyContent="space-between" px={3}>
     <Box color="primaryText">
-      <ZapLogo width="70px" height="32px" />
+      <ZapLogo height="32px" width="70px" />
     </Box>
     <Text
-      fontWeight="normal"
       css={{ cursor: 'pointer', opacity: 0.6, '&:hover': { opacity: 1 } }}
+      fontWeight="normal"
       onClick={() => window.Zap.openHelpPage()}
     >
       <FormattedMessage {...messages.help} />
@@ -62,14 +62,14 @@ const ModalHeader = () => (
  * <Modal>Some content</Modal>
  */
 const Modal = props => {
-  const { children, onClose, withClose, withHeader, ...rest } = props
+  const { children, onClose, hasClose, hasHeader, ...rest } = props
   return (
     <Panel bg="primaryColor" color="primaryText">
       <Panel.Header pt={3} px={3}>
-        {withClose && <ModalCloseButton onClose={onClose} />}
-        {withHeader && <ModalHeader />}
+        {hasClose && <ModalCloseButton onClose={onClose} />}
+        {hasHeader && <ModalHeader />}
       </Panel.Header>
-      <Panel.Body px={4} pb={4} {...rest} css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
+      <Panel.Body pb={4} px={4} {...rest} css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
         {children}
       </Panel.Body>
     </Panel>
@@ -78,14 +78,14 @@ const Modal = props => {
 
 Modal.propTypes = {
   children: PropTypes.node,
+  hasClose: PropTypes.bool,
+  hasHeader: PropTypes.bool,
   onClose: PropTypes.func,
-  withClose: PropTypes.bool,
-  withHeader: PropTypes.bool
 }
 
 Modal.defaultProps = {
-  withClose: true,
-  withHeader: false
+  hasClose: true,
+  hasHeader: false,
 }
 
 export default Modal

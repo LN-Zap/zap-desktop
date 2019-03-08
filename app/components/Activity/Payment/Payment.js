@@ -17,15 +17,15 @@ const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
 
   return (
     <Flex
-      justifyContent="space-between"
       alignItems="center"
-      onClick={!payment.sending ? () => showActivityModal('PAYMENT', payment.payment_hash) : null}
+      justifyContent="space-between"
+      onClick={payment.sending ? null : () => showActivityModal('PAYMENT', payment.payment_hash)}
       py={2}
     >
       <Box
-        width={3 / 4}
         className="hint--top-right"
         data-hint={intl.formatMessage({ ...messages.type })}
+        width={3 / 4}
       >
         <Text mb={1}>{displayNodeName(payment.path[payment.path.length - 1])}</Text>
         {payment.sending ? (
@@ -56,9 +56,9 @@ const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
       </Box>
 
       <Box
-        width={1 / 4}
         className="hint--top-left"
         data-hint={intl.formatMessage({ ...messages.amount })}
+        width={1 / 4}
       >
         <Box css={payment.status == 'failed' ? { opacity: 0.3 } : null}>
           <Text mb={1} textAlign="right">
@@ -66,8 +66,8 @@ const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
             <CryptoValue value={payment.value} />
             <i> {currencyName}</i>
           </Text>
-          <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-            <FiatValue value={payment.value} style="currency" />
+          <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
+            <FiatValue style="currency" value={payment.value} />
           </Text>
         </Box>
       </Box>
@@ -77,10 +77,10 @@ const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
 
 Payment.propTypes = {
   currencyName: PropTypes.string.isRequired,
-  payment: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
   nodes: PropTypes.array.isRequired,
+  payment: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
-  intl: intlShape.isRequired
 }
 
 export default injectIntl(Payment)

@@ -30,20 +30,20 @@ const WrappedSpinner = ({ element, width, height, ...rest }) => {
   const Element = renderSpinner(Icon)
   return (
     <Box color="lightningOrange" {...rest}>
-      <Element width={width} height={height} />
+      <Element height={height} width={width} />
     </Box>
   )
 }
 
 WrappedSpinner.propTypes = {
   element: PropTypes.node,
+  height: PropTypes.string,
   width: PropTypes.string,
-  height: PropTypes.string
 }
 
 WrappedSpinner.defaultProps = {
   width: '1em',
-  height: '1em'
+  height: '1em',
 }
 
 export default WrappedSpinner

@@ -7,7 +7,7 @@ import CreateWalletButton from './CreateWalletButton'
 import messages from './messages'
 
 const NoWallets = ({ history, wallets }) => (
-  <Flex flexDirection="column" justifyContent="center" alignItems="center" css={{ height: '100%' }}>
+  <Flex alignItems="center" css={{ height: '100%' }} flexDirection="column" justifyContent="center">
     {wallets.length === 0 ? (
       <>
         <Heading.h4>
@@ -28,8 +28,8 @@ const NoWallets = ({ history, wallets }) => (
   </Flex>
 )
 NoWallets.propTypes = {
+  history: PropTypes.object.isRequired,
   wallets: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired
 }
 
 export default NoWallets

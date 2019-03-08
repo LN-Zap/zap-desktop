@@ -9,7 +9,7 @@ const ChannelFooter = ({ channel, closeChannel }) => {
   return (
     <Flex alignItems="center" justifyContent="center">
       {channel.can_close && (
-        <Button variant="danger" onClick={closeChannel}>
+        <Button onClick={closeChannel} variant="danger">
           <FormattedMessage {...messages[channel.active ? 'close_button' : 'force_close_button']} />
         </Button>
       )}
@@ -19,7 +19,7 @@ const ChannelFooter = ({ channel, closeChannel }) => {
 
 ChannelFooter.propTypes = {
   channel: PropTypes.object.isRequired,
-  closeChannel: PropTypes.func.isRequired
+  closeChannel: PropTypes.func.isRequired,
 }
 
 export default ChannelFooter

@@ -13,7 +13,7 @@ const {
   pineGreen,
   superRed,
   mudBrown,
-  gray
+  gray,
 } = palette
 
 const colors = {
@@ -29,7 +29,7 @@ const colors = {
   pineGreen,
   superRed,
   mudBrown,
-  gray
+  gray,
 }
 
 const buttons = {
@@ -37,62 +37,62 @@ const buttons = {
     backgroundColor: colors.tertiaryColor,
     color: colors.lightningOrange,
     '&:hover:enabled': {
-      backgroundColor: colors.highlight
+      backgroundColor: colors.highlight,
     },
     '&:focus': {
-      backgroundColor: colors.highlight
-    }
+      backgroundColor: colors.highlight,
+    },
   },
   primary: {
     backgroundColor: colors.lightningOrange,
-    color: colors.white
+    color: colors.white,
   },
   secondary: {
     opacity: 0.6,
     '&.active': {
-      opacity: 1
+      opacity: 1,
     },
     backgroundColor: 'transparent',
     color: colors.primaryText,
     '&:hover:enabled': {
-      opacity: 1
+      opacity: 1,
     },
     '&:focus': {
-      opacity: 1
-    }
+      opacity: 1,
+    },
   },
   danger: {
     backgroundColor: colors.superRed,
-    color: colors.white
-  }
+    color: colors.white,
+  },
 }
 const cards = {
   success: {
     backgroundColor: colors.pineGreen,
-    color: colors.superGreen
+    color: colors.superGreen,
   },
   warning: {
     backgroundColor: colors.lightningBrown,
-    color: colors.lightningOrange
+    color: colors.lightningOrange,
   },
   error: {
     backgroundColor: colors.mudBrown,
-    color: colors.superRed
-  }
+    color: colors.superRed,
+  },
 }
 const messages = {
   success: {
-    color: colors.superGreen
+    color: colors.superGreen,
   },
   warning: {
-    color: colors.lightningOrange
+    color: colors.lightningOrange,
   },
   error: {
-    color: colors.superRed
+    color: colors.superRed,
   },
   processing: {
-    color: colors.lightningOrange
-  }
+    color: colors.lightningOrange,
+  },
 }
 
 export default {
@@ -101,5 +101,5 @@ export default {
   colors,
   buttons,
   cards,
-  messages
+  messages,
 }

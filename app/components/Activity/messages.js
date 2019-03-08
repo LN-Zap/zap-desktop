@@ -7,5 +7,5 @@ export default defineMessages({
   requested: 'Received',
   pending: 'Pending',
   expired: 'Expired',
-  internal: 'Internal'
+  internal: 'Internal',
 })

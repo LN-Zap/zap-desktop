@@ -6,33 +6,33 @@ import Button from './Button'
 import Text from './Text'
 
 const Tab = ({ itemKey, itemValue, isActive, onClick }) => (
-  <Flex mr={3} flexDirection="column" alignItems="center">
+  <Flex alignItems="center" flexDirection="column" mr={3}>
     <Button
-      variant="secondary"
-      size="small"
+      active={isActive}
       onClick={() => onClick(itemKey)}
       px={3}
-      active={isActive}
+      size="small"
+      variant="secondary"
     >
       <Text fontWeight="normal">{itemValue}</Text>
     </Button>
     {isActive && (
-      <Bar width={1} borderColor="lightningOrange" opacity={1} css={{ 'max-width': '50px' }} />
+      <Bar borderColor="lightningOrange" css={{ 'max-width': '50px' }} opacity={1} width={1} />
     )}
   </Flex>
 )
 Tab.propTypes = {
+  isActive: PropTypes.bool.isRequired,
   itemKey: PropTypes.string.isRequired,
   itemValue: PropTypes.node.isRequired,
-  isActive: PropTypes.bool.isRequired,
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 class Tabs extends React.PureComponent {
   static propTypes = {
-    items: PropTypes.array.isRequired,
     activeKey: PropTypes.string,
-    onClick: PropTypes.func
+    items: PropTypes.array.isRequired,
+    onClick: PropTypes.func,
   }
 
   handleClick = key => {
@@ -51,9 +51,9 @@ class Tabs extends React.PureComponent {
         {items.map(item => (
           <Tab
             key={item.key}
+            isActive={item.key === activeKey}
             itemKey={item.key}
             itemValue={item.name}
-            isActive={item.key === activeKey}
             onClick={this.handleClick}
           />
         ))}

@@ -19,26 +19,26 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
   // bind button disabled state to a form field or ignore it if we are dealing with a remote
   // wallet and don't have confirmation checkbox
   const DeleteWalletButton = withFieldState(checkboxFieldName)(({ fieldState, ...rest }) => (
-    <Button disabled={walletDir && !fieldState.value} {...rest} />
+    <Button isDisabled={walletDir && !fieldState.value} {...rest} />
   ))
 
   const buttons = (
     <>
-      <DeleteWalletButton variant="danger" type="submit">
+      <DeleteWalletButton type="submit" variant="danger">
         <FormattedMessage {...messages.delete_wallet_dialog_delete_text} />
       </DeleteWalletButton>
-      <Button variant="secondary" type="button" onClick={onCancel}>
+      <Button onClick={onCancel} type="button" variant="secondary">
         <FormattedMessage {...messages.delete_wallet_dialog_cancel_text} />
       </Button>
     </>
   )
 
   const header = (
-    <Flex flexDirection="column" alignItems="center">
+    <Flex alignItems="center" flexDirection="column">
       <Box color="superRed">
-        <Delete width={72} height={72} />
+        <Delete height={72} width={72} />
       </Box>
-      <Heading.h1 mt={4} mb={3}>
+      <Heading.h1 mb={3} mt={4}>
         <FormattedMessage {...messages.delete_wallet_dialog_header} />
       </Heading.h1>
     </Flex>
@@ -47,21 +47,21 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
   const handleSubmit = () => onDelete()
 
   return (
-    <DialogOverlay justifyContent="center" alignItems="center">
+    <DialogOverlay alignItems="center" justifyContent="center">
       <Form onSubmit={handleSubmit}>
-        <Dialog header={header} buttons={buttons} onClose={onCancel} width={640}>
+        <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
           {walletDir && (
-            <Flex flexDirection="column" alignItems="center">
+            <Flex alignItems="center" flexDirection="column">
               <Flex alignItems="flex-start" flexDirection="column">
-                <Text mb={2} color="gray" width={550}>
+                <Text color="gray" mb={2} width={550}>
                   <FormattedMessage {...messages.delete_wallet_dialog_warning} />
                 </Text>
 
                 <Text color="gray">{walletDir}</Text>
               </Flex>
               <Checkbox
-                label={intl.formatMessage({ ...messages.delete_wallet_dialog_acknowledgement })}
                 field={checkboxFieldName}
+                label={intl.formatMessage({ ...messages.delete_wallet_dialog_acknowledgement })}
                 mt={4}
               />
             </Flex>
@@ -73,11 +73,11 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
 }
 
 DialogWrapper.propTypes = {
+  intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  onDelete: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
   walletDir: PropTypes.string,
-  intl: intlShape.isRequired
 }
 
 export default injectIntl(DialogWrapper)

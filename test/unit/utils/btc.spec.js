@@ -16,7 +16,7 @@ import {
   millisatoshisToBits,
   millisatoshisToBtc,
   millisatoshisToFiat,
-  convert
+  convert,
 } from 'lib/utils/btc'
 
 describe('btc.btcToBits', () => {

@@ -7,7 +7,7 @@ const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => {
   const items = filters.map(f => {
     return {
       key: f.key,
-      value: f.name
+      value: f.name,
     }
   })
 
@@ -15,11 +15,11 @@ const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => {
     <Form {...rest}>
       <Select
         field="channel-filter"
-        id="channel-filter"
-        items={items}
-        initialSelectedItem={filter}
-        onValueSelected={changeFilter}
         highlightOnValid={false}
+        id="channel-filter"
+        initialSelectedItem={filter}
+        items={items}
+        onValueSelected={changeFilter}
       />
     </Form>
   )
@@ -28,11 +28,11 @@ const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => {
 ChannelFilter.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   filter: PropTypes.string,
-  filters: PropTypes.array
+  filters: PropTypes.array,
 }
 
 ChannelFilter.defaultProps = {
-  filters: []
+  filters: [],
 }
 
 export default ChannelFilter

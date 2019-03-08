@@ -10,7 +10,7 @@ const SystemLabel = system(
     color: 'primaryText',
     fontSize: 'm',
     fontWeight: 'normal',
-    mb: 1
+    mb: 1,
   },
   ...Object.keys(styles)
 )

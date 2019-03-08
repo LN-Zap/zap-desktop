@@ -8,15 +8,15 @@ import messages from './messages'
 
 const Invoice = ({ invoice, showActivityModal, currencyName, intl }) => (
   <Flex
-    justifyContent="space-between"
     alignItems="center"
+    justifyContent="space-between"
     onClick={() => showActivityModal('INVOICE', invoice.payment_request)}
     py={2}
   >
     <Box
-      width={3 / 4}
       className="hint--top-right"
       data-hint={intl.formatMessage({ ...messages[invoice.settled ? 'type_paid' : 'type_unpaid'] })}
+      width={3 / 4}
     >
       <Text mb={1}>
         <FormattedMessage {...messages[invoice.settled ? 'received' : 'requested']} />
@@ -29,27 +29,27 @@ const Invoice = ({ invoice, showActivityModal, currencyName, intl }) => (
     </Box>
 
     <Box
-      width={1 / 4}
       className="hint--top-left"
       data-hint={intl.formatMessage({ ...messages.amount })}
+      width={1 / 4}
     >
-      <Text mb={1} textAlign="right" color="superGreen">
+      <Text color="superGreen" mb={1} textAlign="right">
         {'+ '}
         <CryptoValue value={invoice.value} />
         <i> {currencyName}</i>
       </Text>
-      <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-        <FiatValue value={invoice.value} style="currency" />
+      <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
+        <FiatValue style="currency" value={invoice.value} />
       </Text>
     </Box>
   </Flex>
 )
 
 Invoice.propTypes = {
+  currencyName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   invoice: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
-  currencyName: PropTypes.string.isRequired
 }
 
 export default injectIntl(Invoice)

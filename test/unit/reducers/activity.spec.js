@@ -2,7 +2,7 @@ import activityReducer, {
   SHOW_ACTIVITY_MODAL,
   HIDE_ACTIVITY_MODAL,
   CHANGE_FILTER,
-  UPDATE_SEARCH_TEXT
+  UPDATE_SEARCH_TEXT,
 } from 'reducers/activity'
 
 describe('reducers', () => {

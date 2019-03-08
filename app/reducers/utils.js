@@ -33,8 +33,8 @@ export const isLoadingPerPath = state => {
   }
 
   if (pathname === '/syncing') {
-    const { syncStatus, lightningGrpcActive } = state.lnd
-    return syncStatus === 'pending' || !lightningGrpcActive
+    const { syncStatus, isLightningGrpcActive } = state.lnd
+    return syncStatus === 'pending' || !isLightningGrpcActive
   }
 
   return false
@@ -54,7 +54,7 @@ export const getLoadingMessage = state => {
     starting_wallet_unlocker,
     connecting_to_unlocker,
     starting_neutrino,
-    fetching_tickers
+    fetching_tickers,
   } = messages
   if (lndSelectors.isStartingLnd(state)) {
     return isLocal ? starting_lnd : connecting_to_lnd
@@ -71,8 +71,8 @@ export const getLoadingMessage = state => {
   // path specific messages
   const { pathname } = state.router.location
   if (pathname === '/syncing') {
-    const { lightningGrpcActive } = state.lnd
-    if (!lightningGrpcActive) {
+    const { isLightningGrpcActive } = state.lnd
+    if (!isLightningGrpcActive) {
       return starting_lnd
     }
   }

@@ -68,12 +68,12 @@ const Wrapper = styled(Box)`
 `
 const Radio = ({ value, label, description, fontWeight, onChange, onBlur, ...rest }) => (
   <Wrapper>
-    <Label htmlFor={value} className="container" fontWeight="light" mb={3} {...rest}>
+    <Label className="container" fontWeight="light" htmlFor={value} mb={3} {...rest}>
       <Text>{label}</Text>
-      <InformedRadio value={value} id={value} onChange={onChange} onBlur={onBlur} />
+      <InformedRadio id={value} onBlur={onBlur} onChange={onChange} value={value} />
       <span className="selection" />
       {description && (
-        <Text mt={2} color="gray">
+        <Text color="gray" mt={2}>
           {description}
         </Text>
       )}
@@ -82,12 +82,12 @@ const Radio = ({ value, label, description, fontWeight, onChange, onBlur, ...res
 )
 
 Radio.propTypes = {
-  fontWeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  value: PropTypes.string.isRequired,
-  label: PropTypes.node,
   description: PropTypes.node,
+  fontWeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  label: PropTypes.node,
+  onBlur: PropTypes.func,
   onChange: PropTypes.func,
-  onBlur: PropTypes.func
+  value: PropTypes.string.isRequired,
 }
 
 export default Radio

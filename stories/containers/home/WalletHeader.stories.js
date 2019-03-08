@@ -13,13 +13,13 @@ storiesOf('Containers.Home', module).addWithChapters('WalletHeader', {
             <WalletHeader
               wallet={{
                 type: 'local',
-                Name: 'Small Changee'
+                Name: 'Small Changee',
               }}
             />
           ),
           options: {
-            decorator: story => <Text>{story()}</Text>
-          }
+            decorator: story => <Text>{story()}</Text>,
+          },
         },
         {
           title: 'Wallet with long name',
@@ -27,15 +27,15 @@ storiesOf('Containers.Home', module).addWithChapters('WalletHeader', {
             <WalletHeader
               wallet={{
                 type: 'custom',
-                host: 'example.btcpaywithareallyreallylongnamethatdoesntfitwell.store'
+                host: 'example.btcpaywithareallyreallylongnamethatdoesntfitwell.store',
               }}
             />
           ),
           options: {
-            decorator: story => <Text>{story()}</Text>
-          }
-        }
-      ]
-    }
-  ]
+            decorator: story => <Text>{story()}</Text>,
+          },
+        },
+      ],
+    },
+  ],
 })

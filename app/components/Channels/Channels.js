@@ -16,27 +16,27 @@ const StyledPersistentTabControl = styled(PersistentTabControl)`
 class Channels extends React.Component {
   static propTypes = {
     allChannels: PropTypes.array,
-    channels: PropTypes.array,
+    changeFilter: PropTypes.func.isRequired,
     channelBalance: PropTypes.number.isRequired,
+    channels: PropTypes.array,
+    channelViewMode: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
     filter: PropTypes.string.isRequired,
     filters: PropTypes.array.isRequired,
-    searchQuery: PropTypes.string,
-    changeFilter: PropTypes.func.isRequired,
-    setSelectedChannel: PropTypes.func.isRequired,
-    openModal: PropTypes.func.isRequired,
-    updateChannelSearchQuery: PropTypes.func.isRequired,
-    channelViewMode: PropTypes.string.isRequired,
-    setChannelViewMode: PropTypes.func.isRequired,
     networkInfo: PropTypes.shape({
       id: PropTypes.string,
-      name: PropTypes.string
-    })
+      name: PropTypes.string,
+    }),
+    openModal: PropTypes.func.isRequired,
+    searchQuery: PropTypes.string,
+    setChannelViewMode: PropTypes.func.isRequired,
+    setSelectedChannel: PropTypes.func.isRequired,
+    updateChannelSearchQuery: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     allChannels: [],
-    channels: []
+    channels: [],
   }
 
   /*eslint-disable react/destructuring-assignment*/
@@ -65,16 +65,16 @@ class Channels extends React.Component {
       <Panel {...rest}>
         <Panel.Header mx={4}>
           <ChannelsHeader
-            channels={allChannels}
+            changeFilter={changeFilter}
             channelBalance={channelBalance}
+            channels={allChannels}
+            channelViewMode={channelViewMode}
             filter={filter}
             filters={filters}
-            updateChannelSearchQuery={this.updateChannelSearchQuery}
-            channelViewMode={channelViewMode}
-            setChannelViewMode={setChannelViewMode}
             openModal={openModal}
             searchQuery={searchQuery}
-            changeFilter={changeFilter}
+            setChannelViewMode={setChannelViewMode}
+            updateChannelSearchQuery={this.updateChannelSearchQuery}
           />
         </Panel.Header>
         <Panel.Body css={{ overflow: 'hidden' }}>
@@ -84,16 +84,16 @@ class Channels extends React.Component {
             <ChannelCardList
               channels={channels}
               currencyName={currencyName}
+              networkInfo={networkInfo}
               openModal={openModal}
               setSelectedChannel={setSelectedChannel}
-              networkInfo={networkInfo}
             />
             <ChannelSummaryList
               channels={channels}
               currencyName={currencyName}
+              networkInfo={networkInfo}
               openModal={openModal}
               setSelectedChannel={setSelectedChannel}
-              networkInfo={networkInfo}
             />
           </StyledPersistentTabControl>
         </Panel.Body>

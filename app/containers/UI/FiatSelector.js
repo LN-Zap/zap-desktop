@@ -4,11 +4,11 @@ import { setFiatTicker } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   activeKey: state.ticker.fiatTicker,
-  items: state.ticker.fiatTickers
+  items: state.ticker.fiatTickers,
 })
 
 const mapDispatchToProps = {
-  onChange: setFiatTicker
+  onChange: setFiatTicker,
 }
 
 export default connect(

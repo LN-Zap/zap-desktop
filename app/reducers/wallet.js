@@ -21,13 +21,13 @@ export const PUT_WALLET = 'PUT_WALLET'
 export function setWallets(wallets) {
   return {
     type: SET_WALLETS,
-    wallets
+    wallets,
   }
 }
 
 export function setWalletsLoaded() {
   return {
-    type: SET_WALLETS_LOADED
+    type: SET_WALLETS_LOADED,
   }
 }
 
@@ -132,12 +132,12 @@ const ACTION_HANDLERS = {
   [SET_WALLETS_LOADED]: state => ({ ...state, isWalletsLoaded: true }),
   [OPEN_DELETE_WALLET_DIALOG]: state => ({
     ...state,
-    isDeleteDialogOpen: true
+    isDeleteDialogOpen: true,
   }),
   [CLOSE_DELETE_WALLET_DIALOG]: state => ({
     ...state,
-    isDeleteDialogOpen: false
-  })
+    isDeleteDialogOpen: false,
+  }),
 }
 
 // ------------------------------------
@@ -192,7 +192,7 @@ export { walletSelectors }
 
 const initialState = {
   isWalletsLoaded: false,
-  wallets: []
+  wallets: [],
 }
 
 export default function walletReducer(state = initialState, action) {

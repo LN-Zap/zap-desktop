@@ -39,7 +39,7 @@ class ZapUpdater {
         type: 'question',
         buttons: ['Install', 'Later'],
         title: 'Update available',
-        message: 'An update is available. Restart the app and install?'
+        message: 'An update is available. Restart the app and install?',
       }
       dialog.showMessageBox(this.mainWindow, opt, async choice => {
         if (choice !== 0) {

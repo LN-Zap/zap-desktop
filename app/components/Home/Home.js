@@ -11,40 +11,40 @@ import WalletsMenu from './WalletsMenu'
 import WalletUnlocker from './WalletUnlocker'
 
 const NoMatch = ({ history, wallets }) => (
-  <Flex flexDirection="column" justifyContent="center" alignItems="center" css={{ height: '100%' }}>
+  <Flex alignItems="center" css={{ height: '100%' }} flexDirection="column" justifyContent="center">
     <NoWallets history={history} wallets={wallets} />
   </Flex>
 )
 NoMatch.propTypes = {
+  history: PropTypes.object.isRequired,
   wallets: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired
 }
 
 class Home extends React.Component {
   static propTypes = {
-    history: PropTypes.object.isRequired,
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
+    clearStartLndError: PropTypes.func.isRequired,
     deleteWallet: PropTypes.func.isRequired,
+    history: PropTypes.object.isRequired,
+    isLightningGrpcActive: PropTypes.bool.isRequired,
+    isStartingLnd: PropTypes.bool,
+    isUnlockingWallet: PropTypes.bool,
+    isWalletUnlockerGrpcActive: PropTypes.bool.isRequired,
     lndConnect: PropTypes.string,
-    startLndError: PropTypes.object,
-    startingLnd: PropTypes.bool,
-    lightningGrpcActive: PropTypes.bool.isRequired,
-    walletUnlockerGrpcActive: PropTypes.bool.isRequired,
-    wallets: PropTypes.array.isRequired,
-    startLnd: PropTypes.func.isRequired,
-    stopLnd: PropTypes.func.isRequired,
+    putWallet: PropTypes.func.isRequired,
+    refreshLndConnectURI: PropTypes.func.isRequired,
     setActiveWallet: PropTypes.func.isRequired,
-    unlockWallet: PropTypes.func.isRequired,
     setIsWalletOpen: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
-    clearStartLndError: PropTypes.func.isRequired,
-    putWallet: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
-    refreshLndConnectURI: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
-    unlockingWallet: PropTypes.bool,
-    unlockWalletError: PropTypes.string
+    showNotification: PropTypes.func.isRequired,
+    startLnd: PropTypes.func.isRequired,
+    startLndError: PropTypes.object,
+    stopLnd: PropTypes.func.isRequired,
+    unlockWallet: PropTypes.func.isRequired,
+    unlockWalletError: PropTypes.string,
+    wallets: PropTypes.array.isRequired,
   }
 
   /**
@@ -73,21 +73,21 @@ class Home extends React.Component {
       deleteWallet,
       startLnd,
       startLndError,
-      startingLnd,
+      isStartingLnd,
       unlockWallet,
       wallets,
       setActiveWallet,
       clearStartLndError,
       showError,
       stopLnd,
-      lightningGrpcActive,
-      walletUnlockerGrpcActive,
+      isLightningGrpcActive,
+      isWalletUnlockerGrpcActive,
       setUnlockWalletError,
-      unlockingWallet,
+      isUnlockingWallet,
       unlockWalletError,
       putWallet,
       showNotification,
-      refreshLndConnectURI
+      refreshLndConnectURI,
     } = this.props
 
     return (
@@ -95,14 +95,14 @@ class Home extends React.Component {
         <Sidebar.medium pl={4} pt={40}>
           <Panel>
             <Panel.Header>
-              <ZapLogo width="70px" height="32px" />
+              <ZapLogo height="32px" width="70px" />
             </Panel.Header>
             <Panel.Body css={{ 'overflow-y': 'auto' }}>
               <WalletsMenu
-                wallets={wallets}
-                mt={30}
                 activeWallet={activeWallet}
+                mt={30}
                 setActiveWallet={setActiveWallet}
+                wallets={wallets}
               />
             </Panel.Body>
             <Panel.Footer>
@@ -126,20 +126,20 @@ class Home extends React.Component {
                 }
                 return (
                   <WalletLauncher
-                    wallet={wallet}
-                    startLnd={startLnd}
-                    stopLnd={stopLnd}
-                    startingLnd={startingLnd}
-                    lightningGrpcActive={lightningGrpcActive}
-                    putWallet={putWallet}
-                    showNotification={showNotification}
-                    refreshLndConnectURI={refreshLndConnectURI}
-                    walletUnlockerGrpcActive={walletUnlockerGrpcActive}
-                    startLndError={startLndError}
-                    showError={showError}
+                    key={wallet.id}
                     clearStartLndError={clearStartLndError}
                     deleteWallet={deleteWallet}
-                    key={wallet.id}
+                    isLightningGrpcActive={isLightningGrpcActive}
+                    isStartingLnd={isStartingLnd}
+                    isWalletUnlockerGrpcActive={isWalletUnlockerGrpcActive}
+                    putWallet={putWallet}
+                    refreshLndConnectURI={refreshLndConnectURI}
+                    showError={showError}
+                    showNotification={showNotification}
+                    startLnd={startLnd}
+                    startLndError={startLndError}
+                    stopLnd={stopLnd}
+                    wallet={wallet}
                   />
                 )
               }}
@@ -154,13 +154,13 @@ class Home extends React.Component {
                 }
                 return (
                   <WalletUnlocker
-                    wallet={wallet}
-                    unlockWallet={unlockWallet}
-                    lightningGrpcActive={lightningGrpcActive}
-                    setUnlockWalletError={setUnlockWalletError}
-                    unlockingWallet={unlockingWallet}
-                    unlockWalletError={unlockWalletError}
                     key={wallet.id}
+                    isLightningGrpcActive={isLightningGrpcActive}
+                    isUnlockingWallet={isUnlockingWallet}
+                    setUnlockWalletError={setUnlockWalletError}
+                    unlockWallet={unlockWallet}
+                    unlockWalletError={unlockWalletError}
+                    wallet={wallet}
                   />
                 )
               }}

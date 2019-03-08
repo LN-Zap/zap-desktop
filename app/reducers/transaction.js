@@ -35,18 +35,18 @@ const decorateTransaction = transaction => {
 // ------------------------------------
 export function getTransactions() {
   return {
-    type: GET_TRANSACTIONS
+    type: GET_TRANSACTIONS,
   }
 }
 
 export function sendTransaction(data) {
   const transaction = Object.assign({}, data, {
     status: 'sending',
-    timestamp: Math.round(new Date() / 1000)
+    timestamp: Math.round(new Date() / 1000),
   })
   return {
     type: SEND_TRANSACTION,
-    transaction
+    transaction,
   }
 }
 
@@ -88,7 +88,7 @@ export const sendCoins = ({ value, addr, currency, targetConf, satPerByte }) => 
   dispatch(
     send('lnd', {
       msg: 'sendCoins',
-      data
+      data,
     })
   )
   dispatch(sendTransaction(data))
@@ -166,16 +166,16 @@ const ACTION_HANDLERS = {
   [GET_TRANSACTIONS]: state => ({ ...state, transactionLoading: true }),
   [SEND_TRANSACTION]: (state, { transaction }) => ({
     ...state,
-    transactionsSending: [...state.transactionsSending, transaction]
+    transactionsSending: [...state.transactionsSending, transaction],
   }),
   [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({
     ...state,
     transactionLoading: false,
-    transactions
+    transactions,
   }),
   [ADD_TRANSACTION]: (state, { transaction }) => ({
     ...state,
-    transactions: [transaction, ...state.transactions]
+    transactions: [transaction, ...state.transactions],
   }),
   [TRANSACTION_SUCCESSFUL]: (state, { addr }) => {
     return {
@@ -186,9 +186,9 @@ const ACTION_HANDLERS = {
         }
         return {
           ...item,
-          status: 'successful'
+          status: 'successful',
         }
-      })
+      }),
     }
   },
   [TRANSACTION_FAILED]: (state, { addr, error }) => {
@@ -201,17 +201,17 @@ const ACTION_HANDLERS = {
         return {
           ...item,
           status: 'failed',
-          error
+          error,
         }
-      })
+      }),
     }
   },
   [TRANSACTION_COMPLETE]: (state, { addr }) => {
     return {
       ...state,
-      transactionsSending: state.transactionsSending.filter(item => item.addr !== addr)
+      transactionsSending: state.transactionsSending.filter(item => item.addr !== addr),
     }
-  }
+  },
 }
 
 const transactionsSelectors = {}
@@ -244,7 +244,7 @@ transactionsSelectors.transactionsSelector = createSelector(
         isClosing: Boolean(closedChannel),
         isPending: Boolean(pendingChannel),
         limboAmount: pendingChannel && pendingChannel.limbo_balance,
-        maturityHeight: pendingChannel && pendingChannel.maturity_height
+        maturityHeight: pendingChannel && pendingChannel.maturity_height,
       }
     })
 )
@@ -257,7 +257,7 @@ export { transactionsSelectors }
 const initialState = {
   transactionLoading: false,
   transactions: [],
-  transactionsSending: []
+  transactionsSending: [],
 }
 
 export default function transactionReducer(state = initialState, action) {

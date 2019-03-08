@@ -7,24 +7,24 @@ import messages from './messages'
 class Countdown extends React.Component {
   state = {
     isExpired: null,
-    timer: null
+    timer: null,
   }
 
   static propTypes = {
     colorActive: PropTypes.string,
     colorExpired: PropTypes.string,
-    date: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date)]).isRequired,
     countdownStyle: PropTypes.string,
-    countUpAfterExpire: PropTypes.bool,
-    updateInterval: PropTypes.number
+    date: PropTypes.oneOfType([PropTypes.number, PropTypes.instanceOf(Date)]).isRequired,
+    isContinual: PropTypes.bool,
+    updateInterval: PropTypes.number,
   }
 
   static defaultProps = {
     colorActive: 'superGreen',
     colorExpired: 'superRed',
     countdownStyle: 'best fit',
-    countUpAfterExpire: true,
-    updateInterval: 1000
+    isContinual: true,
+    updateInterval: 1000,
   }
 
   componentDidMount() {
@@ -53,7 +53,7 @@ class Countdown extends React.Component {
       colorActive,
       colorExpired,
       countdownStyle,
-      countUpAfterExpire,
+      isContinual,
       date,
       updateInterval,
       ...rest
@@ -66,13 +66,13 @@ class Countdown extends React.Component {
         ) : (
           <FormattedMessage {...messages.expires} />
         )}
-        {(!isExpired || (isExpired && countUpAfterExpire)) && (
+        {(!isExpired || (isExpired && isContinual)) && (
           <React.Fragment>
             {` `}
             <FormattedRelative
-              value={new Date(date)}
-              updateInterval={updateInterval}
               style={countdownStyle}
+              updateInterval={updateInterval}
+              value={new Date(date)}
             />
           </React.Fragment>
         )}

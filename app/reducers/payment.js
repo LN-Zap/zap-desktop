@@ -31,24 +31,24 @@ const decoratePayment = payment => {
 export function setPayment(payment) {
   return {
     type: SET_PAYMENT,
-    payment
+    payment,
   }
 }
 
 export function getPayments() {
   return {
-    type: GET_PAYMENTS
+    type: GET_PAYMENTS,
   }
 }
 
 export function sendPayment(data) {
   const payment = Object.assign({}, data, {
     status: 'sending',
-    timestamp: Math.round(new Date() / 1000)
+    timestamp: Math.round(new Date() / 1000),
   })
   return {
     type: SEND_PAYMENT,
-    payment
+    payment,
   }
 }
 
@@ -118,7 +118,7 @@ const ACTION_HANDLERS = {
   [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
   [SEND_PAYMENT]: (state, { payment }) => ({
     ...state,
-    paymentsSending: [...state.paymentsSending, payment]
+    paymentsSending: [...state.paymentsSending, payment],
   }),
   [PAYMENT_SUCCESSFUL]: (state, { paymentRequest }) => {
     return {
@@ -129,9 +129,9 @@ const ACTION_HANDLERS = {
         }
         return {
           ...item,
-          status: 'successful'
+          status: 'successful',
         }
-      })
+      }),
     }
   },
   [PAYMENT_FAILED]: (state, { paymentRequest, error }) => {
@@ -144,17 +144,17 @@ const ACTION_HANDLERS = {
         return {
           ...item,
           status: 'failed',
-          error
+          error,
         }
-      })
+      }),
     }
   },
   [PAYMENT_COMPLETE]: (state, { paymentRequest }) => {
     return {
       ...state,
-      paymentsSending: state.paymentsSending.filter(item => item.paymentRequest !== paymentRequest)
+      paymentsSending: state.paymentsSending.filter(item => item.paymentRequest !== paymentRequest),
     }
-  }
+  },
 }
 
 const modalPaymentSelector = state => state.payment.payment
@@ -175,7 +175,7 @@ const initialState = {
   paymentLoading: false,
   payment: null,
   payments: [],
-  paymentsSending: []
+  paymentsSending: [],
 }
 
 export default function paymentReducer(state = initialState, action) {

@@ -20,7 +20,7 @@ describe('Lightning', function() {
         expect(this.lightning.subscriptions).toMatchObject({
           channelGraph: null,
           invoices: null,
-          transactions: null
+          transactions: null,
         })
       })
     })

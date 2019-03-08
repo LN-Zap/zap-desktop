@@ -13,7 +13,7 @@ describe('component.UI.Truncate', () => {
   it('should truncate test to a specific length when the maxlen parm is provided', () => {
     const tree = renderer
       .create(
-        <Truncate text="Lorem ipsum dolor sit amet, consectetur adipiscing elit" maxlen={30} />
+        <Truncate maxlen={30} text="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
       )
       .toJSON()
     expect(tree).toMatchSnapshot()

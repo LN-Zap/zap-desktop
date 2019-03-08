@@ -18,16 +18,16 @@ class Steps extends React.Component {
           const fade = {
             from: { opacity: 0, height: '100%' },
             enter: { opacity: 1 },
-            leave: { opacity: 0, height: 0 }
+            leave: { opacity: 0, height: 0 },
           }
           const animationProps = fade
 
           return (
             <Transition
+              config={config.gentle}
               initial={null}
               items={steps[wizardState.currentStep]}
               keys={item => item.key}
-              config={config.gentle}
               {...animationProps}
             >
               {item => props => <Box style={props}>{item}</Box>}
@@ -42,12 +42,12 @@ class Steps extends React.Component {
 class NextButton extends React.Component {
   static propTypes = {
     children: PropTypes.node,
-    navigateTo: PropTypes.number
+    navigateTo: PropTypes.number,
   }
 
   static defaultProps = {
     children: 'Next',
-    navigateTo: null
+    navigateTo: null,
   }
 
   render() {
@@ -59,16 +59,16 @@ class NextButton extends React.Component {
           const { formState } = wizardState
           return (
             <Button
-              type="submit"
+              isDisabled={wizardState.isSubmitting || (formState && formState.invalid)}
+              isProcessing={wizardState.isSubmitting}
               onClick={() => {
-                if (navigateTo !== null) {
-                  wizardApi.navigateTo(navigateTo)
-                } else {
+                if (navigateTo === null) {
                   wizardApi.next()
+                } else {
+                  wizardApi.navigateTo(navigateTo)
                 }
               }}
-              disabled={wizardState.isSubmitting || (formState && formState.invalid)}
-              processing={wizardState.isSubmitting}
+              type="submit"
             >
               <Flex>
                 <Box mr={1}>{children}</Box>
@@ -87,12 +87,12 @@ class NextButton extends React.Component {
 class BackButton extends React.Component {
   static propTypes = {
     children: PropTypes.node,
-    navigateTo: PropTypes.number
+    navigateTo: PropTypes.number,
   }
 
   static defaultProps = {
     children: 'Back',
-    navigateTo: null
+    navigateTo: null,
   }
 
   render() {
@@ -105,16 +105,16 @@ class BackButton extends React.Component {
           }
           return (
             <Button
-              type="button"
-              variant="secondary"
+              isDisabled={wizardState.isSubmitting}
               onClick={() => {
-                if (navigateTo !== null) {
-                  wizardApi.navigateTo(navigateTo)
-                } else {
+                if (navigateTo === null) {
                   wizardApi.previous()
+                } else {
+                  wizardApi.navigateTo(navigateTo)
                 }
               }}
-              disabled={wizardState.isSubmitting}
+              type="button"
+              variant="secondary"
             >
               <Flex>
                 <Box>
@@ -142,7 +142,7 @@ class Debug extends React.Component {
 
 class Step extends React.Component {
   static propTypes = {
-    component: PropTypes.func.isRequired
+    component: PropTypes.func.isRequired,
   }
 
   render() {
@@ -167,7 +167,7 @@ class Wizard extends React.Component {
 
   static propTypes = {
     children: PropTypes.node,
-    steps: PropTypes.array
+    steps: PropTypes.array,
   }
 
   constructor(props) {
@@ -178,7 +178,7 @@ class Wizard extends React.Component {
       currentStep: 0,
       direction: 'next',
       isSubmitting: false,
-      formState: {}
+      formState: {},
     }
   }
 
@@ -191,7 +191,7 @@ class Wizard extends React.Component {
         currentItem: steps[nextStep].key,
         currentStep: nextStep,
         direction: 'previous',
-        formState: {}
+        formState: {},
       })
     }
   }
@@ -205,7 +205,7 @@ class Wizard extends React.Component {
         currentItem: steps[nextStep].key,
         currentStep: nextStep,
         direction: 'next',
-        formState: {}
+        formState: {},
       })
     }
   }
@@ -229,7 +229,7 @@ class Wizard extends React.Component {
       currentItem: steps[stepId].key,
       currentStep: stepId,
       direction: 'previous',
-      formState: {}
+      formState: {},
     })
   }
 
@@ -276,10 +276,10 @@ class Wizard extends React.Component {
             onSubmitFailure: this.onSubmitFailure,
             onChange: this.onChange,
             getApi: this.getApi,
-            getState: () => this.state
+            getState: () => this.state,
           },
           wizardState: this.state,
-          steps
+          steps,
         }}
       >
         {children}

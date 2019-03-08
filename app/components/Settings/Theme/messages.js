@@ -4,5 +4,5 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   title: 'Theme',
   dark: 'Dark',
-  light: 'Light'
+  light: 'Light',
 })

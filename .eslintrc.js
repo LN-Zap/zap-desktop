@@ -34,7 +34,7 @@ module.exports = {
     'compat/compat': 'error',
     'comma-dangle': ['error', 'always-multiline'],
     // 'prettier/prettier': 0,
-    'react/boolean-prop-naming': 'error',
+    'react/boolean-prop-naming': ['error', { rule: '^(is|has|will|(.*)On)[A-Z]([A-Za-z0-9]?)+' }],
     'react/forbid-prop-types': 0,
     'react-hooks/rules-of-hooks': 'error',
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],

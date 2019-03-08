@@ -51,24 +51,24 @@ const Value = ({ value, currency, currentTicker, fiatTicker, style }) => {
   const trimmedAmount = String(truncatedAmount).replace(/\.?0+$/, '')
   return (
     <FormattedNumber
-      value={trimmedAmount}
+      currency={fiatTicker}
       maximumFractionDigits={dp}
       style={style}
-      currency={fiatTicker}
+      value={trimmedAmount}
     />
   )
 }
 
 Value.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   currency: PropTypes.string.isRequired,
   currentTicker: PropTypes.object,
   fiatTicker: PropTypes.string,
-  style: PropTypes.oneOf(['decimal', 'currency'])
+  style: PropTypes.oneOf(['decimal', 'currency']),
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 Value.defaultProps = {
-  style: 'decimal'
+  style: 'decimal',
 }
 
 export default Value

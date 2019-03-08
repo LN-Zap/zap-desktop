@@ -21,7 +21,7 @@ storiesOf('Layouts', module).addWithChapters('Page', {
                 <Content>MainContent</Content>
               </MainContent>
             </Page>
-          )
+          ),
         },
         {
           title: 'Page with large right sidebar',
@@ -34,9 +34,9 @@ storiesOf('Layouts', module).addWithChapters('Page', {
                 <Content>Sidebar</Content>
               </Sidebar.large>
             </Page>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

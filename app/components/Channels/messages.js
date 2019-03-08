@@ -84,5 +84,5 @@ export default defineMessages({
   node_search_placeholder: 'Search the network',
   node_search_description: 'Search for nodes by name, public key, or paste their pubkey@host',
   node_search_results_header: '{count, plural, =0 {No results}  other {Search results ({count})}}',
-  node_suggestions_title: 'Suggested Nodes'
+  node_suggestions_title: 'Suggested Nodes',
 })

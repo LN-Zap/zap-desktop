@@ -13,7 +13,7 @@ const variantMap = {
   pending_close: 'closing',
   pending_force_close: 'closing',
   waiting_close: 'closing',
-  offline: 'offline'
+  offline: 'offline',
 }
 
 const StatusText = styled(Text)`
@@ -34,7 +34,7 @@ const ChannelStatus = ({ status, ...rest }) => (
 )
 
 ChannelStatus.propTypes = {
-  status: PropTypes.oneOf(Object.keys(variantMap))
+  status: PropTypes.oneOf(Object.keys(variantMap)),
 }
 
 export default ChannelStatus

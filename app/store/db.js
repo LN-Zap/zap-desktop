@@ -10,7 +10,7 @@ export const getDb = name => {
   db.version(1).stores({
     settings: 'key',
     wallets: '++id, type, chain, network',
-    nodes: 'id'
+    nodes: 'id',
   })
 
   // Migrate custom wallets to lndconnect.
@@ -72,13 +72,13 @@ export const getDb = name => {
     autopilotMinchansize: Number,
     autopilotMaxchansize: Number,
     autopilotPrivate: Boolean,
-    autopilotMinconfs: Number
+    autopilotMinconfs: Number,
   })
 
   Object.defineProperty(Wallet.prototype, 'wallet', {
     get: function() {
       return `wallet-${this.id}`
-    }
+    },
   })
 
   const props = ['host', 'cert', 'macaroon']
@@ -91,7 +91,7 @@ export const getDb = name => {
           return data[prop]
         }
         return
-      }
+      },
     })
   })
 
@@ -102,7 +102,7 @@ export const getDb = name => {
   const Node = db.nodes.defineClass({
     id: String,
     hasSynced: Boolean,
-    addresses: Object
+    addresses: Object,
   })
 
   /**

@@ -15,7 +15,7 @@ export const setLocale = locale => (dispatch, getState) => {
   dispatch(
     updateIntl({
       locale,
-      messages: state.locale[locale]
+      messages: state.locale[locale],
     })
   )
 
@@ -49,7 +49,7 @@ export const initCurrency = () => async (dispatch, getState) => {
 }
 
 export const localeSelectors = {
-  currentLocale: state => state.intl.locale
+  currentLocale: state => state.intl.locale,
 }
 
 // ------------------------------------

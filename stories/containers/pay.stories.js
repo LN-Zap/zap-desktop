@@ -19,24 +19,24 @@ const data = {
   onchainFees: {
     fastestFee: 100,
     halfHourFee: 70,
-    hourFee: 30
+    hourFee: 30,
   },
 
   nodes: [
     {
       pub_key: '03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463',
-      alias: 'htlc.me'
-    }
+      alias: 'htlc.me',
+    },
   ],
   routes: [],
 
   currentTicker: {
     USD: 6477.78,
     EUR: 5656.01,
-    GBP: 5052.73
+    GBP: 5052.73,
   },
 
-  isProcessing: false
+  isProcessing: false,
 }
 
 const mockPayInvoice = async () => {
@@ -68,7 +68,7 @@ storiesOf('Containers.Pay', module)
         'Bitcoin mainnet': 'bitcoin',
         'Bitcoin testnet': 'testnet',
         'Litecoin mainnet': 'litecoin',
-        'Litecoin testnet': 'litecoin_testnet'
+        'Litecoin testnet': 'litecoin_testnet',
       },
       'bitcoin'
     )
@@ -76,7 +76,7 @@ storiesOf('Containers.Pay', module)
       'Unit',
       {
         Satoshis: 'satoshis',
-        Millisatoshis: 'millisatoshis'
+        Millisatoshis: 'millisatoshis',
       },
       'satoshis'
     )
@@ -91,24 +91,24 @@ storiesOf('Containers.Pay', module)
 
     return (
       <Pay
-        width={9 / 16}
-        mx="auto"
+        chain={chain}
+        channelBalance={data.channelBalance}
         // State
         // initialPayReq="lntb100n1pdaetlfpp5rkj5acj5usdlqekv3548nx5zc58tsqghm8qy6pdkrn3h37ep5aqsdqqcqzysxqyz5vq7vsxfsnak9yd0rf0zxpg9tukykxjqwef72apfwq2meg7wlz8zg0nxh3fmmc0ayv8ac5xhnlwlxajatqwnh3qwdx6uruyqn47enq9w6qplzqccc"
-        isProcessing={data.isProcessing}
-        chain={chain}
-        network={network}
-        channelBalance={data.channelBalance}
         cryptoCurrency={state.ticker.currency}
         cryptoCurrencyTicker={tickerSelectors.currencyName(state)}
         cryptoName={data.cryptoName}
-        walletBalance={data.walletBalance}
-        payReq={payReq}
-        // Dispatch
+        isProcessing={data.isProcessing}
+        mx="auto"
+        network={network}
         payInvoice={mockPayInvoice}
-        sendCoins={mockSendCoins}
+        payReq={payReq}
         queryRoutes={mockQueryRoutes}
+        // Dispatch
+        sendCoins={mockSendCoins}
         setPayReq={mockSetPayReq}
+        walletBalance={data.walletBalance}
+        width={9 / 16}
       />
     )
   })

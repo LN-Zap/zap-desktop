@@ -22,26 +22,26 @@ class LightningInvoiceInput extends React.Component {
   static displayName = 'LightningInvoiceInput'
 
   static propTypes = {
-    intl: intlShape.isRequired,
-    required: PropTypes.bool,
     chain: PropTypes.oneOf(['bitcoin', 'litecoin']),
-    network: PropTypes.oneOf(['mainnet', 'testnet', 'regtest'])
+    intl: intlShape.isRequired,
+    isRequired: PropTypes.bool,
+    network: PropTypes.oneOf(['mainnet', 'testnet', 'regtest']),
   }
 
   static defaultProps = {
-    required: false
+    isRequired: false,
   }
 
   validate = value => {
     const { intl } = this.props
-    const { network, chain, required } = this.props
+    const { network, chain, isRequired } = this.props
 
     let chainName = `${chain}/lightning`
     if (network !== 'mainnet') {
       chainName += ` (${network})`
     }
 
-    if (required && (!value || value.trim() === '')) {
+    if (isRequired && (!value || value.trim() === '')) {
       return intl.formatMessage({ ...messages.required_field })
     }
     if (value && !isLn(value, chain, network) && !isOnchain(value, chain, network)) {
@@ -56,7 +56,7 @@ class LightningInvoiceInput extends React.Component {
       <InformedTextArea
         placeholder={intl.formatMessage(
           {
-            ...messages.payreq_placeholder
+            ...messages.payreq_placeholder,
           },
           { chain }
         )}
@@ -81,11 +81,11 @@ const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
     <React.Fragment>
       <TextArea {...rest} />
       {value && !fieldState.error && (
-        <Message variant="success" mt={2}>
+        <Message mt={2} variant="success">
           <FormattedMessage
             {...messages.valid_request}
             values={{
-              chain: chainName
+              chain: chainName,
             }}
           />
         </Message>

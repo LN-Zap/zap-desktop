@@ -11,7 +11,7 @@ export default class InvoiceModal extends React.PureComponent {
     /** Invoice */
     item: PropTypes.object.isRequired,
     /** Show a notification. */
-    showNotification: PropTypes.func.isRequired
+    showNotification: PropTypes.func.isRequired,
   }
 
   render() {
@@ -21,13 +21,13 @@ export default class InvoiceModal extends React.PureComponent {
       <Panel {...rest}>
         <Panel.Header>
           <Header
+            logo={<Lightning height="45px" width="45px" />}
+            subtitle={<FormattedMessage {...messages.subtitle} />}
             title={
               <FormattedMessage
                 {...messages[item.settled ? 'title_received' : 'title_requested']}
               />
             }
-            subtitle={<FormattedMessage {...messages.subtitle} />}
-            logo={<Lightning height="45px" width="45px" />}
           />
           <Bar mt={2} />
         </Panel.Header>

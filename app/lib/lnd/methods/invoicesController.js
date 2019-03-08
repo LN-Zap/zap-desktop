@@ -13,7 +13,7 @@ export function addInvoice(lnd, { memo, value, private: privateInvoice }) {
     memo,
     value,
     private: privateInvoice,
-    expiry: 86400
+    expiry: 86400,
   })
 }
 

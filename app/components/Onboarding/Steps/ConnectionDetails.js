@@ -8,29 +8,29 @@ import { FORM_TYPE_CONNECTION_STRING, FORM_TYPE_MANUAL } from './constants'
 
 class ConnectionDetails extends React.Component {
   state = {
-    formType: null
+    formType: null,
   }
 
   static propTypes = {
-    wizardApi: PropTypes.object,
-    wizardState: PropTypes.object,
-    connectionHost: PropTypes.string,
+    clearStartLndError: PropTypes.func.isRequired,
     connectionCert: PropTypes.string,
+    connectionHost: PropTypes.string,
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
-    startLndHostError: PropTypes.string,
-    startLndCertError: PropTypes.string,
-    startLndMacaroonError: PropTypes.string,
     lndConnect: PropTypes.string,
-    setLndconnect: PropTypes.func.isRequired,
-    setConnectionHost: PropTypes.func.isRequired,
     setConnectionCert: PropTypes.func.isRequired,
+    setConnectionHost: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
     setConnectionString: PropTypes.func.isRequired,
-    clearStartLndError: PropTypes.func.isRequired,
-    validateHost: PropTypes.func.isRequired,
+    setLndconnect: PropTypes.func.isRequired,
+    startLndCertError: PropTypes.string,
+    startLndHostError: PropTypes.string,
+    startLndMacaroonError: PropTypes.string,
     validateCert: PropTypes.func.isRequired,
-    validateMacaroon: PropTypes.func.isRequired
+    validateHost: PropTypes.func.isRequired,
+    validateMacaroon: PropTypes.func.isRequired,
+    wizardApi: PropTypes.object,
+    wizardState: PropTypes.object,
   }
 
   componentDidMount() {
@@ -49,7 +49,7 @@ class ConnectionDetails extends React.Component {
       setConnectionHost,
       setConnectionCert,
       setConnectionMacaroon,
-      setConnectionString
+      setConnectionString,
     } = this.props
     const { formType } = this.state
     if (formType && formType !== prevState.formType && prevState.formType) {
@@ -94,7 +94,7 @@ class ConnectionDetails extends React.Component {
       clearStartLndError,
       validateHost,
       validateCert,
-      validateMacaroon
+      validateMacaroon,
     } = this.props
     const { formType } = this.state
 
@@ -107,42 +107,42 @@ class ConnectionDetails extends React.Component {
         <ConnectionDetailsContext.Provider
           value={{
             formType,
-            openModal: this.openModal
+            openModal: this.openModal,
           }}
         >
           {formType === FORM_TYPE_CONNECTION_STRING ? (
             <ConnectionDetailsString
+              clearStartLndError={clearStartLndError}
+              connectionString={connectionString}
+              lndConnect={lndConnect}
+              setConnectionString={setConnectionString}
+              setLndconnect={setLndconnect}
+              startLndCertError={startLndCertError}
+              startLndHostError={startLndHostError}
+              startLndMacaroonError={startLndMacaroonError}
               wizardApi={wizardApi}
               wizardState={wizardState}
-              connectionString={connectionString}
-              startLndHostError={startLndHostError}
-              startLndCertError={startLndCertError}
-              startLndMacaroonError={startLndMacaroonError}
-              lndConnect={lndConnect}
-              setLndconnect={setLndconnect}
-              setConnectionString={setConnectionString}
-              clearStartLndError={clearStartLndError}
             />
           ) : (
             <ConnectionDetailsManual
-              wizardApi={wizardApi}
-              wizardState={wizardState}
-              connectionHost={connectionHost}
+              clearStartLndError={clearStartLndError}
               connectionCert={connectionCert}
+              connectionHost={connectionHost}
               connectionMacaroon={connectionMacaroon}
               connectionString={connectionString}
-              startLndHostError={startLndHostError}
-              startLndCertError={startLndCertError}
-              startLndMacaroonError={startLndMacaroonError}
               lndConnect={lndConnect}
-              setLndconnect={setLndconnect}
-              setConnectionHost={setConnectionHost}
               setConnectionCert={setConnectionCert}
+              setConnectionHost={setConnectionHost}
               setConnectionMacaroon={setConnectionMacaroon}
-              clearStartLndError={clearStartLndError}
-              validateHost={validateHost}
+              setLndconnect={setLndconnect}
+              startLndCertError={startLndCertError}
+              startLndHostError={startLndHostError}
+              startLndMacaroonError={startLndMacaroonError}
               validateCert={validateCert}
+              validateHost={validateHost}
               validateMacaroon={validateMacaroon}
+              wizardApi={wizardApi}
+              wizardState={wizardState}
             />
           )}
         </ConnectionDetailsContext.Provider>

@@ -104,6 +104,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   <button
     className="c1"
     color="white"
+    disabled={false}
     fontSize="inherit"
     fontWeight="bold"
     onClick={[Function]}
@@ -119,6 +120,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   <button
     className="c3"
     color="white"
+    disabled={false}
     fontSize="inherit"
     fontWeight="bold"
     onClick={[Function]}

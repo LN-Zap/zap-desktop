@@ -8,5 +8,5 @@ export default defineMessages({
   starting_wallet_unlocker: 'Starting wallet unlocker',
   connecting_to_unlocker: 'Connecting to unlocker interface',
   starting_neutrino: 'Starting Neutrino',
-  fetching_tickers: 'Fetching tickers'
+  fetching_tickers: 'Fetching tickers',
 })
