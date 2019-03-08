@@ -14,7 +14,7 @@ import { walletSelectors } from 'reducers/wallet'
 import Settings from 'components/Settings'
 
 const mapStateToProps = state => ({
-  activeSubMenu: state.settings.activeSubMenu,
+  activeSubMenu: state.settingsmenu.activeSubMenu,
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   fiatTicker: state.ticker.fiatTicker,
   fiatTickers: state.ticker.fiatTickers,
