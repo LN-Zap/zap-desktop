@@ -112,3 +112,14 @@ Tests should try to be written for every feature/fix and pass `npm run test` bef
 [issues]: https://github.com/LN-Zap/zap-desktop/issues
 [prettier]: https://prettier.io/
 [slack]: https://join.slack.com/t/zaphq/shared_invite/enQtMzgyNDA2NDI2Nzg0LTQwZWQ2ZWEzOWFhMjRiNWZkZWMwYTA4MzA5NzhjMDNhNTM5YzliNDA4MmZkZWZkZTFmODM4ODJkYzU3YmI3ZmI
+
+### Releases
+
+Before making a new release, the version number should be incremented in the following files:
+
+- `package.json`: The main repo package file.
+- `app/package.json`: The electron app package file.
+
+If the release is a major or minor number increment (eg, `0.3.x` -> `0.4.x`), you should also update `STABLE_VERSION` in the main app config file to reference the correct new stable version (this is used to determine the app's database namespace):
+
+- `config/default.js`: The app config file.

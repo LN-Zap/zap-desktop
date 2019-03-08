@@ -1,12 +1,15 @@
-const semver = require('semver')
-const { getPackageDetails } = require('../app/lib/utils')
+const { getPackageDetails, isStableVersion } = require('../app/lib/utils')
+
+// The current stable base version.
+// If the current version is in the same range asd this, the default database domain will be used.
+const STABLE_VERSION = '0.3.x'
 
 const { version } = getPackageDetails()
 
 module.exports = {
   db: {
     namespace: 'ZapDesktop',
-    domain: semver.lt(version, '0.4.0-alpha') ? null : 'next'
+    domain: isStableVersion(version, STABLE_VERSION) ? null : 'next'
   },
 
   neutrino: {
