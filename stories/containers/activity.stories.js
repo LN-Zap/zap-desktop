@@ -13,12 +13,9 @@ import { Window } from '../helpers'
 
 storiesOf('Containers.Activity', module)
   .addParameters({ info: { disable: true } })
+  .addDecorator(story => <Window>{story()}</Window>)
   .addDecorator(story => <Provider story={story()} />)
-  .addDecorator(story => (
-    <Window>
-      <Modal>{story()}</Modal>
-    </Window>
-  ))
+  .addDecorator(story => <Modal>{story()}</Modal>)
   .add('InvoiceModal', () => {
     const encoded = lightningPayReq.encode({
       coinType: 'testnet',

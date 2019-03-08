@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { boolean, number, select, text } from '@storybook/addon-knobs'
 import { Modal } from 'components/UI'
-import { Pay, PayButtons, PayHeader, PaySummaryLightning, PaySummaryOnChain } from 'components/Pay'
+import { Pay } from 'components/Pay'
 import { tickerSelectors } from 'reducers/ticker'
 import { Provider, store } from '../Provider'
 import { Window, mockCreateInvoice } from '../helpers'
@@ -47,10 +47,6 @@ const mockSendCoins = async () => {
   action('mockSendCoins')
 }
 
-const mockQueryFees = async () => {
-  action('mockQueryFees')
-}
-
 const mockQueryRoutes = async pubKey => {
   action('mockQueryRoutes', pubKey)
 }
@@ -61,12 +57,9 @@ const mockSetPayReq = async payReq => {
 
 storiesOf('Containers.Pay', module)
   .addParameters({ info: { disable: true } })
+  .addDecorator(story => <Window>{story()}</Window>)
   .addDecorator(story => <Provider story={story()} />)
-  .addDecorator(story => (
-    <Window>
-      <Modal onClose={action('clicked')}>{story()}</Modal>
-    </Window>
-  ))
+  .addDecorator(story => <Modal onClose={action('clicked')}>{story()}</Modal>)
   .add('Pay', () => {
     const hasInvoicePreset = boolean('Use invoice preset', false)
     const coinType = select(
@@ -118,91 +111,4 @@ storiesOf('Containers.Pay', module)
         setPayReq={mockSetPayReq}
       />
     )
-  })
-  .addWithChapters('PayHeader', {
-    chapters: [
-      {
-        sections: [
-          {
-            title: 'On-chain',
-            sectionFn: () => <PayHeader title="Send Bitcoin" type="onchain" />
-          },
-          {
-            title: 'Off-chain',
-            sectionFn: () => <PayHeader title="Send Bitcoin" type="offchain" />
-          },
-          {
-            title: 'Generic',
-            sectionFn: () => <PayHeader title="Send Bitcoin" />
-          }
-        ]
-      }
-    ]
-  })
-  .addWithChapters('PaySummary', {
-    chapters: [
-      {
-        sections: [
-          {
-            title: 'PaySummaryLightning',
-            sectionFn: () => {
-              const state = store.getState()
-              return (
-                <PaySummaryLightning
-                  // State
-                  cryptoCurrency={state.ticker.currency}
-                  cryptoCurrencyTicker={tickerSelectors.currencyName(state)}
-                  minFee={12}
-                  maxFee={18}
-                  nodes={data.nodes}
-                  payReq={text(
-                    'Payment Request',
-                    'lntb100u1pdaxza7pp5x73t3j7xgvkzgcdvzgpdg74k4pn0uhwuxlxu9qssytjn77x7zs4qdqqcqzysxqyz5vqd20eaq5uferzgzwasu5te3pla7gv8tzk8gcdxlj7lpkygvfdwndhwtl3ezn9ltjejl3hsp36ps3z3e5pp4rzp2hgqjqql80ec3hyzucq4d9axl'
-                  )}
-                />
-              )
-            }
-          },
-          {
-            title: 'PaySummaryOnChain',
-            sectionFn: () => {
-              mockQueryFees()
-              const state = store.getState()
-              return (
-                <PaySummaryOnChain
-                  // State
-                  address={text('Address', 'mmxyr3LNKbnbrf6jdGXZpCE4EDpMSZRf4c')}
-                  amount={number('Amount (satoshis)', 10000)}
-                  cryptoCurrency={state.ticker.currency}
-                  cryptoCurrencyTicker={tickerSelectors.currencyName(state)}
-                  onchainFees={data.onchainFees}
-                  // Dispatch
-                  queryFees={mockQueryFees}
-                />
-              )
-            }
-          }
-        ]
-      }
-    ]
-  })
-  .addWithChapters('PayButtons', {
-    chapters: [
-      {
-        sections: [
-          {
-            title: 'Default',
-            sectionFn: () => <PayButtons previousStep={action('clicked')} />
-          },
-          {
-            title: 'Disabled',
-            sectionFn: () => <PayButtons previousStep={action('clicked')} disabled />
-          },
-          {
-            title: 'Processing',
-            sectionFn: () => <PayButtons previousStep={action('clicked')} processing />
-          }
-        ]
-      }
-    ]
   })

@@ -4,8 +4,9 @@ import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { State, Store } from '@sambego/storybook-state'
 import delay from 'lib/utils/delay'
-import { Modal, Page } from 'components/UI'
+import { Modal } from 'components/UI'
 import { Onboarding } from 'components/Onboarding'
+import { Window } from '../helpers'
 
 const initialValues = {
   name: '',
@@ -116,16 +117,9 @@ const recoverOldWallet = async () => action('recoverOldWallet')
 const createNewWallet = async () => action('recoverOldWallet')
 
 storiesOf('Containers.Onboarding', module)
-  .addParameters({
-    info: {
-      disable: true
-    }
-  })
-  .addDecorator(story => (
-    <Page css={{ height: 'calc(100vh - 40px)' }}>
-      <Modal onClose={linkTo('Containers.Home', 'Home')}>{story()}</Modal>
-    </Page>
-  ))
+  .addParameters({ info: { disable: true } })
+  .addDecorator(story => <Window>{story()}</Window>)
+  .addDecorator(story => <Modal onClose={linkTo('Containers.Home', 'Home')}>{story()}</Modal>)
   .add('Onboarding', () => {
     return (
       <State store={store}>
