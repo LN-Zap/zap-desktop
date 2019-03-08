@@ -53,13 +53,28 @@ const ACTION_HANDLERS = {
 const appSelectors = {}
 appSelectors.isLoading = state => state.app.isLoading
 appSelectors.isMounted = state => state.app.isMounted
+appSelectors.currency = state => state.ticker.currency
+appSelectors.infoLoaded = state => state.info.infoLoaded
 appSelectors.onboarding = state => state.onboarding.onboarding
 appSelectors.isWalletsLoaded = state => state.wallet.isWalletsLoaded
-appSelectors.isReady = createSelector(
+appSelectors.walletBalance = state => state.balance.walletBalance
+appSelectors.channelBalance = state => state.balance.channelBalance
+
+appSelectors.isRootReady = createSelector(
   appSelectors.onboarding,
   appSelectors.isWalletsLoaded,
   (onboarding, isWalletsLoaded) => {
     return Boolean(onboarding && isWalletsLoaded)
+  }
+)
+
+appSelectors.isAppReady = createSelector(
+  appSelectors.infoLoaded,
+  appSelectors.currency,
+  appSelectors.walletBalance,
+  appSelectors.channelBalance,
+  (infoLoaded, currency, walletBalance, channelBalance) => {
+    return Boolean(infoLoaded && currency && channelBalance !== null && walletBalance !== null)
   }
 )
 

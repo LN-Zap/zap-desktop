@@ -9,81 +9,64 @@ import Qrcode from 'components/Icon/Qrcode'
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'
 
-const Wallet = ({
-  totalBalance,
-  currentTicker,
-  networkInfo,
-  ticker,
-  openWalletModal,
-  openModal,
-}) => {
-  if (!currentTicker || !ticker.currency) {
-    return null
-  }
-
-  return (
-    <Box bg="secondaryColor" pb={3} pt={3} px={5}>
-      <Flex as="header" justifyContent="space-between" pt={2}>
-        <Flex alignItems="center" as="section" mt={4}>
-          <ZapLogo height="32px" width="70px" />
-          {networkInfo.id !== 'mainnet' && (
-            <Text color="superGreen" fontSize={1} ml={2}>
-              {networkInfo.name}
-            </Text>
-          )}
-        </Flex>
-        <Box as="section">
-          <Settings />
-        </Box>
+const Wallet = ({ totalBalance, networkInfo, openWalletModal, openModal }) => (
+  <Box bg="secondaryColor" pb={3} pt={3} px={5}>
+    <Flex as="header" justifyContent="space-between" pt={2}>
+      <Flex alignItems="center" as="section" mt={4}>
+        <ZapLogo height="32px" width="70px" />
+        {networkInfo.id !== 'mainnet' && (
+          <Text color="superGreen" fontSize={1} ml={2}>
+            {networkInfo.name}
+          </Text>
+        )}
       </Flex>
+      <Box as="section">
+        <Settings />
+      </Box>
+    </Flex>
 
-      <Flex as="header" justifyContent="space-between" mt={4}>
-        <Box as="section">
-          <Flex alignItems="center">
-            <Box mr={3} onClick={openWalletModal}>
-              <Button variant="secondary">
-                <Qrcode height="21px" width="21px" />
-              </Button>
-            </Box>
+    <Flex as="header" justifyContent="space-between" mt={4}>
+      <Box as="section">
+        <Flex alignItems="center">
+          <Box mr={3} onClick={openWalletModal}>
+            <Button variant="secondary">
+              <Qrcode height="21px" width="21px" />
+            </Button>
+          </Box>
 
-            <Box>
-              <Flex alignItems="baseline">
-                <Text fontSize="xxl">
-                  <CryptoValue value={totalBalance} />
-                </Text>
-                <CryptoSelector ml={1} />
-              </Flex>
-              <Text color="gray">
-                {'≈ '}
-                <FiatValue style="currency" value={totalBalance} />
+          <Box>
+            <Flex alignItems="baseline">
+              <Text fontSize="xxl">
+                <CryptoValue value={totalBalance} />
               </Text>
-            </Box>
-          </Flex>
-        </Box>
-        <Box as="section">
-          <Button mr={2} onClick={() => openModal('PAY_FORM')} width={145}>
-            <FormattedMessage {...messages.pay} />
-          </Button>
-          <Button onClick={() => openModal('REQUEST_FORM')} width={145}>
-            <FormattedMessage {...messages.request} />
-          </Button>
-        </Box>
-      </Flex>
-    </Box>
-  )
-}
+              <CryptoSelector ml={1} />
+            </Flex>
+            <Text color="gray">
+              {'≈ '}
+              <FiatValue style="currency" value={totalBalance} />
+            </Text>
+          </Box>
+        </Flex>
+      </Box>
+      <Box as="section">
+        <Button mr={2} onClick={() => openModal('PAY_FORM')} width={145}>
+          <FormattedMessage {...messages.pay} />
+        </Button>
+        <Button onClick={() => openModal('REQUEST_FORM')} width={145}>
+          <FormattedMessage {...messages.request} />
+        </Button>
+      </Box>
+    </Flex>
+  </Box>
+)
 
 Wallet.propTypes = {
-  // Store props
-  currentTicker: PropTypes.object,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
-  }),
+  }).isRequired,
   openModal: PropTypes.func.isRequired,
   openWalletModal: PropTypes.func.isRequired,
-
-  // Dispatch props
   ticker: PropTypes.object.isRequired,
   totalBalance: PropTypes.number,
 }

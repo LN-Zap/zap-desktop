@@ -19,8 +19,8 @@ const MAX_REFETCH_INTERVAL = 1000 * 60 * 10
 const BACKOFF_SCHEDULE = 1.5
 
 function App({
+  isAppReady,
   modals,
-  networkInfo,
   payReq,
   fetchActivityHistory,
   setIsWalletOpen,
@@ -50,15 +50,19 @@ function App({
 
   // Open the pay form when a payment link is used.
   useEffect(() => {
-    if (networkInfo && payReq) {
+    if (isAppReady && payReq) {
       if (!modals.find(m => m.type === 'PAY_FORM')) {
         setModals(['PAY_FORM'])
       }
     }
-  }, [networkInfo, payReq])
+  }, [payReq, isAppReady])
 
   useInterval(fetchData, nextFetchIn)
   useInterval(fetchTransactions, TX_REFETCH_INTERVAL)
+
+  if (!isAppReady) {
+    return null
+  }
 
   return (
     <MainContent>
@@ -69,13 +73,13 @@ function App({
 }
 
 App.propTypes = {
+  fetchActivityHistory: PropTypes.func.isRequired,
+  fetchPeers: PropTypes.func.isRequired,
+  fetchTransactions: PropTypes.func.isRequired,
+  isAppReady: PropTypes.bool.isRequired,
   modals: PropTypes.array.isRequired,
-  networkInfo: PropTypes.object,
   payReq: PropTypes.object,
   setIsWalletOpen: PropTypes.func.isRequired,
-  fetchTransactions: PropTypes.func.isRequired,
-  fetchPeers: PropTypes.func.isRequired,
-  fetchActivityHistory: PropTypes.func.isRequired,
   setModals: PropTypes.func.isRequired,
 }
 

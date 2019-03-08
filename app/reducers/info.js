@@ -125,6 +125,7 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       infoLoading: false,
+      infoLoaded: true,
       chain,
       network,
       data,
@@ -137,6 +138,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   infoLoading: false,
+  infoLoaded: false,
   hasSynced: undefined,
   chain: null,
   network: null,
@@ -150,6 +152,7 @@ infoSelectors.chainSelector = state => state.info.chain
 infoSelectors.networkSelector = state => state.info.network
 infoSelectors.networksSelector = state => state.info.networks
 infoSelectors.infoLoading = state => state.info.infoLoading
+infoSelectors.infoLoaded = state => state.info.infoLoaded
 infoSelectors.hasSynced = state => state.info.hasSynced
 
 infoSelectors.networkInfo = createSelector(

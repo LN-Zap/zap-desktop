@@ -23,7 +23,7 @@ class Initializer extends React.Component {
     initLocale: PropTypes.func.isRequired,
     initTickers: PropTypes.func.isRequired,
     initWallets: PropTypes.func.isRequired,
-    isReady: PropTypes.bool.isRequired,
+    isRootReady: PropTypes.bool.isRequired,
     isWalletOpen: PropTypes.bool,
     lndConnect: PropTypes.string,
   }
@@ -56,14 +56,14 @@ class Initializer extends React.Component {
     const {
       activeWallet,
       activeWalletSettings,
-      isReady,
+      isRootReady,
       isWalletOpen,
       hasWallets,
       lndConnect,
     } = this.props
 
     // still initializing - no location change
-    if (!isReady) {
+    if (!isRootReady) {
       return null
     }
 
@@ -95,7 +95,7 @@ const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   hasWallets: walletSelectors.hasWallets(state),
   isWalletOpen: walletSelectors.isWalletOpen(state),
-  isReady: appSelectors.isReady(state),
+  isRootReady: appSelectors.isRootReady(state),
 })
 
 const mapDispatchToProps = {
