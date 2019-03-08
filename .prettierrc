@@ -3,10 +3,18 @@
   "printWidth": 100,
   "semi": false,
   "singleQuote": true,
-  "trailingComma": "none",
+  "trailingComma": "es5",
   "overrides": [
     {
-      "files": [".babelrc", ".commitlintrc", ".eslintrc", ".huskyrc", ".lintstagedrc", ".prettierrc", ".stylelintrc"],
+      "files": [
+        ".babelrc",
+        ".commitlintrc",
+        ".eslintrc",
+        ".huskyrc",
+        ".lintstagedrc",
+        ".prettierrc",
+        ".stylelintrc"
+      ],
       "options": {
         "parser": "json"
       }
