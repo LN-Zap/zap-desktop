@@ -12,6 +12,8 @@ const initialState = {
 // ------------------------------------
 export const OPEN_MODAL = 'OPEN_MODAL'
 export const CLOSE_MODAL = 'CLOSE_MODAL'
+export const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
+export const SET_MODALS = 'SET_MODALS'
 
 // ------------------------------------
 // Actions
@@ -31,6 +33,23 @@ export function closeModal(id) {
   return {
     type: CLOSE_MODAL,
     id,
+  }
+}
+
+export function closeAllModals() {
+  return {
+    type: CLOSE_ALL_MODALS,
+  }
+}
+
+export function setModals(modalList = []) {
+  const modals = modalList.map(type => ({
+    id: genId(),
+    type,
+  }))
+  return {
+    type: SET_MODALS,
+    modals,
   }
 }
 
@@ -54,6 +73,14 @@ const ACTION_HANDLERS = {
       modals: [...state.modals.slice(0, -1)],
     }
   },
+  [CLOSE_ALL_MODALS]: state => ({
+    ...state,
+    modals: [],
+  }),
+  [SET_MODALS]: (state, { modals }) => ({
+    ...state,
+    modals,
+  }),
 }
 
 // ------------------------------------

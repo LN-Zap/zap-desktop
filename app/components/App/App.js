@@ -26,7 +26,7 @@ function App({
   setIsWalletOpen,
   fetchPeers,
   fetchTransactions,
-  openModal,
+  setModals,
 }) {
   const [nextFetchIn, setNextFetchIn] = useState(INITIAL_REFETCH_INTERVAL)
   /**
@@ -52,7 +52,7 @@ function App({
   useEffect(() => {
     if (networkInfo && payReq) {
       if (!modals.find(m => m.type === 'PAY_FORM')) {
-        openModal('PAY_FORM')
+        setModals(['PAY_FORM'])
       }
     }
   }, [networkInfo, payReq])
@@ -76,7 +76,7 @@ App.propTypes = {
   fetchTransactions: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
   fetchActivityHistory: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired,
+  setModals: PropTypes.func.isRequired,
 }
 
 export default App

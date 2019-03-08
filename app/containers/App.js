@@ -4,7 +4,7 @@ import { setIsWalletOpen } from 'reducers/wallet'
 import { fetchActivityHistory } from 'reducers/activity'
 import { fetchTransactions } from 'reducers/transaction'
 import { infoSelectors } from 'reducers/info'
-import { openModal, modalSelectors } from 'reducers/modal'
+import { setModals, modalSelectors } from 'reducers/modal'
 import App from 'components/App'
 
 const mapStateToProps = state => ({
@@ -18,7 +18,7 @@ const mapDispatchToProps = {
   fetchActivityHistory,
   setIsWalletOpen,
   fetchTransactions,
-  openModal,
+  setModals,
 }
 
 export default connect(
