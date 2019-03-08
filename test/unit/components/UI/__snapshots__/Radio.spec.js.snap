@@ -16,6 +16,7 @@ exports[`component.UI.Radio should render correctly 1`] = `
 
 .c1 {
   margin-bottom: 16px;
+  padding-left: 30px;
   font-size: 13px;
   color: #ffffff;
   color: #ffffff;
@@ -26,7 +27,6 @@ exports[`component.UI.Radio should render correctly 1`] = `
 .c0 .container {
   display: block;
   position: relative;
-  padding-left: 30px;
   cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;

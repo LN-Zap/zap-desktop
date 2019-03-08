@@ -11,7 +11,6 @@ const Wrapper = styled(Box)`
   .container {
     display: block;
     position: relative;
-    padding-left: 30px;
     cursor: pointer;
     user-select: none;
   }
@@ -68,7 +67,14 @@ const Wrapper = styled(Box)`
 `
 const Radio = ({ value, label, description, fontWeight, onChange, onBlur, ...rest }) => (
   <Wrapper>
-    <Label className="container" fontWeight="light" htmlFor={value} mb={3} {...rest}>
+    <Label
+      className="container"
+      fontWeight="light"
+      htmlFor={value}
+      mb={3}
+      pl={label || description ? 30 : 0}
+      {...rest}
+    >
       <Text>{label}</Text>
       <InformedRadio id={value} onBlur={onBlur} onChange={onChange} value={value} />
       <span className="selection" />
