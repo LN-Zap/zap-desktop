@@ -19,17 +19,12 @@ const setIsWalletOpen = () => ({})
 const showNotification = () => ({})
 
 storiesOf('Containers.Syncing', module)
-  .addParameters({
-    info: {
-      disable: true
-    }
-  })
+  .addParameters({ info: { disable: true } })
+  .addDecorator(story => <Window>{story()}</Window>)
   .addDecorator(story => (
-    <Window>
-      <Modal withHeader onClose={linkTo('Containers.Home', 'Home')} pb={0} px={0}>
-        {story()}
-      </Modal>
-    </Window>
+    <Modal withHeader onClose={linkTo('Containers.Home', 'Home')} pb={0} px={0}>
+      {story()}
+    </Modal>
   ))
   .add('Syncing', () => {
     const hasSynced = boolean('Has synced', false)

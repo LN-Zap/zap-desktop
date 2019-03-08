@@ -1,9 +1,8 @@
 import React from 'react'
-import { addDecorator, configure, setAddon } from '@storybook/react'
+import { addParameters, addDecorator, configure, setAddon } from '@storybook/react'
 import { withThemes } from 'storybook-styled-components'
 import { withTheme } from 'styled-components'
-import { themes } from '@storybook/components'
-import { withOptions } from '@storybook/addon-options'
+import { themes } from '@storybook/theming'
 import { withInfo } from '@storybook/addon-info'
 import chaptersAddon, { setDefaults } from 'react-storybook-addon-chapters'
 import { withConsole } from '@storybook/addon-console'
@@ -63,14 +62,14 @@ addDecorator((storyFn, context) => withConsole()(storyFn)(context))
 addDecorator(withKnobs)
 
 // Options
-addDecorator(
-  withOptions({
+addParameters({
+  options: {
     name: 'Zap',
     url: 'https://ln-zap.github.io/zap-desktop',
     theme: themes.dark,
     hierarchySeparator: /\./
-  })
-)
+  }
+})
 
 // Zap Global style.
 addDecorator(story => (

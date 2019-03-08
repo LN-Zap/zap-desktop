@@ -6,11 +6,8 @@ import { action } from '@storybook/addon-actions'
 import { text } from '@storybook/addon-knobs'
 import lightningPayReq from 'bolt11'
 import { convert } from 'lib/utils/btc'
-import { Modal } from 'components/UI'
-import { Request } from 'components/Request'
-import { tickerSelectors } from 'reducers/ticker'
-import { Provider, store } from '../Provider'
-import { Window } from '../helpers'
+import { RequestSummary } from 'components/Request'
+import { Provider } from '../../Provider'
 
 const mockCreateInvoice = async (amount, currency, memo = '') => {
   const satoshis = convert(currency, 'sats', amount)
@@ -48,23 +45,12 @@ const payReq = text(
 
 storiesOf('Containers.Request', module)
   .addParameters({ info: { disable: true } })
-  .addDecorator(story => <Window>{story()}</Window>)
   .addDecorator(story => <Provider story={story()} />)
-  .addDecorator(story => <Modal onClose={action('clicked')}>{story()}</Modal>)
-  .add('Request', () => {
-    const state = store.getState()
+  .add('RequestSummary', () => {
     return (
-      <Request
-        width={9 / 16}
-        mx="auto"
-        // State
-        cryptoCurrency={state.ticker.currency}
-        cryptoCurrencyTicker={tickerSelectors.currencyName(state)}
-        cryptoName={tickerSelectors.cryptoName(state)}
+      <RequestSummary
         invoice={mockCreateInvoice()}
         payReq={payReq}
-        // Dispatch
-        createInvoice={mockCreateInvoice}
         showNotification={action('showNotification')}
       />
     )
