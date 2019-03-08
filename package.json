@@ -312,7 +312,7 @@
     "webpack-merge": "4.2.1"
   },
   "dependencies": {
-    "@grpc/grpc-js": "0.3.5",
+    "@grpc/grpc-js": "0.3.6",
     "@grpc/proto-loader": "0.4.0",
     "@hot-loader/react-dom": "16.8.4",
     "@rebass/components": "4.0.0-1",
