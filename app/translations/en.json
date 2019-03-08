@@ -304,6 +304,7 @@
   "components.Request.description": "You can request {chain} ({ticker}) through the Lightning Network. Just enter the Amount you want to request in the field below. Zap will generate a QR-Code and a Lightning invoice after.",
   "components.Request.memo": "Memo",
   "components.Request.memo_placeholder": "For example \"Dinner last night\"",
+  "components.Request.memo_tooltip": "Add some describer text to your payment request for the recipient to see when paying.",
   "components.Request.not_paid": "not paid",
   "components.Request.paid": "paid",
   "components.Request.payment_request": "Payment Request",

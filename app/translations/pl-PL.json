@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Notatka",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "",
   "components.Request.paid": "",
   "components.Request.payment_request": "",

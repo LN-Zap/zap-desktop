@@ -139,6 +139,7 @@ class Request extends React.Component {
         validateOnChange
         label={intl.formatMessage({ ...messages.memo })}
         placeholder={intl.formatMessage({ ...messages.memo_placeholder })}
+        tooltip={intl.formatMessage({ ...messages.memo_tooltip })}
         width={1}
         rows={3}
         css={{ resize: 'vertical', 'min-height': '48px' }}

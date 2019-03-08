@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "备注",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "未支付",
   "components.Request.paid": "已支付",
   "components.Request.payment_request": "",

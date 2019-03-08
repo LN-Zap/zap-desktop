@@ -304,6 +304,7 @@
   "components.Request.description": "",
   "components.Request.memo": "Τιμολόγιο",
   "components.Request.memo_placeholder": "",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Δεν καταβάλλεται",
   "components.Request.paid": "Καταβάλλεται",
   "components.Request.payment_request": "",

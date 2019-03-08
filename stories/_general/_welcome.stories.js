@@ -13,7 +13,8 @@ import {
   Notification,
   Range,
   TextArea,
-  Toggle
+  Toggle,
+  Tooltip
 } from 'components/UI'
 import { Column, Group, Element } from '../helpers'
 
@@ -99,6 +100,16 @@ storiesOf('General', module)
                   <Group title="Input with Label">
                     <Form>
                       <Label htmlFor="input">Input Label</Label>
+                      <Input field="input" />
+                    </Form>
+                  </Group>
+
+                  <Group title="Input with Label and Tooltip">
+                    <Form>
+                      <Flex>
+                        <Label htmlFor="input">Input Label</Label>
+                        <Tooltip>Input label tooltip content</Tooltip>
+                      </Flex>
                       <Input field="input" />
                     </Form>
                   </Group>

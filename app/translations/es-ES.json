@@ -304,6 +304,7 @@
   "components.Request.description": "Puede solicitar {chain} ({ticker}) a través de Lightning Network. Simplemente ingrese la cantidad que desea solicitar en el campo a continuación. Despues, Zap generará un código QR y una factura Lightning.",
   "components.Request.memo": "Memo",
   "components.Request.memo_placeholder": "Por ejemplo \"La cena de anoche\"",
+  "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "No pagado",
   "components.Request.paid": "Pagado",
   "components.Request.payment_request": "Solicitud de Pago",
