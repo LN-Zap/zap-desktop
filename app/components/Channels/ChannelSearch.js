@@ -6,21 +6,21 @@ const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...
   <Form {...rest}>
     <Input
       field="channel-search"
-      id="channel-search"
-      type="search"
-      placeholder={placeholder}
-      initialValue={searchQuery}
-      onValueChange={updateChannelSearchQuery}
       highlightOnValid={false}
+      id="channel-search"
+      initialValue={searchQuery}
       mr={2}
+      onValueChange={updateChannelSearchQuery}
+      placeholder={placeholder}
+      type="search"
     />
   </Form>
 )
 
 ChannelSearch.propTypes = {
-  searchQuery: PropTypes.string,
   placeholder: PropTypes.string.isRequired,
-  updateChannelSearchQuery: PropTypes.func.isRequired
+  searchQuery: PropTypes.string,
+  updateChannelSearchQuery: PropTypes.func.isRequired,
 }
 
 export default ChannelSearch

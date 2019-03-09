@@ -9,21 +9,21 @@ storiesOf('Components', module).addWithChapters('Message', {
       sections: [
         {
           title: 'Success',
-          sectionFn: () => <Message variant="success">Success message</Message>
+          sectionFn: () => <Message variant="success">Success message</Message>,
         },
         {
           title: 'Warning',
-          sectionFn: () => <Message variant="warning">Warning message</Message>
+          sectionFn: () => <Message variant="warning">Warning message</Message>,
         },
         {
           title: 'Error',
-          sectionFn: () => <Message variant="error">Error message</Message>
+          sectionFn: () => <Message variant="error">Error message</Message>,
         },
         {
           title: 'Processing',
-          sectionFn: () => <Message variant="processing">Processing</Message>
-        }
-      ]
-    }
-  ]
+          sectionFn: () => <Message variant="processing">Processing</Message>,
+        },
+      ],
+    },
+  ],
 })

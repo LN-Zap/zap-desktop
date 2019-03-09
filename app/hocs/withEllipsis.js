@@ -17,7 +17,7 @@ const withEllipsis = Component => {
     static displayName = 'withEllipsis'
 
     static propTypes = {
-      children: PropTypes.node
+      children: PropTypes.node,
     }
 
     render() {

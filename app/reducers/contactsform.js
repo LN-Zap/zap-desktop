@@ -5,7 +5,7 @@ import { getNodeDisplayName, truncateNodePubkey } from './network'
 
 // Initial State
 const initialState = {
-  searchQuery: null
+  searchQuery: null,
 }
 
 // Constants
@@ -18,7 +18,7 @@ export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUER
 export function updateContactFormSearchQuery(searchQuery) {
   return {
     type: UPDATE_CONTACT_FORM_SEARCH_QUERY,
-    searchQuery
+    searchQuery,
   }
 }
 
@@ -26,7 +26,7 @@ export function updateContactFormSearchQuery(searchQuery) {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [UPDATE_CONTACT_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery })
+  [UPDATE_CONTACT_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 }
 
 // ------------------------------------
@@ -68,7 +68,7 @@ const fromSuggestedToRegular = suggestedNodes =>
   suggestedNodes &&
   suggestedNodes.map(node => ({
     ...node,
-    addresses: [{ addr: node.host }]
+    addresses: [{ addr: node.host }],
   }))
 contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,

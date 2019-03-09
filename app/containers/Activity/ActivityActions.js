@@ -5,13 +5,13 @@ import ActivityActions from 'components/Activity/ActivityActions'
 const mapDispatchToProps = {
   changeFilter,
   fetchActivityHistory,
-  updateActivitySearchQuery: updateSearchText
+  updateActivitySearchQuery: updateSearchText,
 }
 
 const mapStateToProps = state => ({
   filter: state.activity.filter,
   filters: state.activity.filters,
-  searchQuery: state.activity.searchText
+  searchQuery: state.activity.searchText,
 })
 
 export default connect(

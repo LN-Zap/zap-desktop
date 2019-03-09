@@ -9,25 +9,25 @@ storiesOf('Components', module).addWithChapters('Notification', {
       sections: [
         {
           title: 'Success',
-          sectionFn: () => <Notification variant="success">Success notification</Notification>
+          sectionFn: () => <Notification variant="success">Success notification</Notification>,
         },
         {
           title: 'Warning',
-          sectionFn: () => <Notification variant="warning">Warning notification</Notification>
+          sectionFn: () => <Notification variant="warning">Warning notification</Notification>,
         },
         {
           title: 'Error',
-          sectionFn: () => <Notification variant="error">Error notification</Notification>
+          sectionFn: () => <Notification variant="error">Error notification</Notification>,
         },
         {
           title: 'Processing',
           sectionFn: () => (
-            <Notification variant="warning" processing>
+            <Notification isProcessing variant="warning">
               Processing notification
             </Notification>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

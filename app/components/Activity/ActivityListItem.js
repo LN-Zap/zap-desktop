@@ -11,7 +11,7 @@ import Clock from 'components/Icon/Clock'
 import Zap from 'components/Icon/Zap'
 import { Text } from 'components/UI'
 
-const ZapIcon = () => <Zap width="1.6em" height="1.6em" />
+const ZapIcon = () => <Zap height="1.6em" width="1.6em" />
 
 const ActivityIcon = ({ activity }) => {
   switch (activity.type) {
@@ -27,26 +27,26 @@ const ActivityIcon = ({ activity }) => {
 }
 
 ActivityIcon.propTypes = {
-  activity: PropTypes.object.isRequired
+  activity: PropTypes.object.isRequired,
 }
 
 export default class ActivityListItem extends PureComponent {
   static propTypes = {
+    activity: PropTypes.object.isRequired,
+    currencyName: PropTypes.string,
     currentTicker: PropTypes.object,
     showActivityModal: PropTypes.func.isRequired,
-    currencyName: PropTypes.string,
     ticker: PropTypes.object.isRequired,
-    activity: PropTypes.object.isRequired
   }
 
   render() {
     const { activity, currencyName, currentTicker, ticker, showActivityModal, ...rest } = this.props
     return (
-      <Flex justifyContent="space-between" alignItems="center" {...rest}>
-        <Text width={24} color="gray" textAlign="center" mr={10}>
+      <Flex alignItems="center" justifyContent="space-between" {...rest}>
+        <Text color="gray" mr={10} textAlign="center" width={24}>
           <ActivityIcon activity={activity} />
         </Text>
-        <Box width={1} css={!activity.sending ? { cursor: 'pointer' } : null}>
+        <Box css={activity.sending ? null : { cursor: 'pointer' }} width={1}>
           {activity.type === 'transaction' && <Transaction transaction={activity} />}
           {activity.type === 'invoice' && <Invoice invoice={activity} />}
           {activity.type === 'payment' && <Payment payment={activity} />}

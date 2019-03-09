@@ -16,5 +16,5 @@ export default {
   showTransaction,
   showBlock,
   showChannelClosing,
-  showChannelPoint
+  showChannelPoint,
 }

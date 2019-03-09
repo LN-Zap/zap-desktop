@@ -7,19 +7,19 @@ import messages from './messages'
 
 class SeedConfirm extends React.Component {
   state = {
-    seedWordIndexes: []
+    seedWordIndexes: [],
   }
 
   static propTypes = {
     intl: intlShape.isRequired,
+    seed: PropTypes.array.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    seed: PropTypes.array.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidMount() {
@@ -42,15 +42,15 @@ class SeedConfirm extends React.Component {
   }
 
   handleWordChange = (value, fieldIndex, wordIndex) => {
-    // If the word has been determined as valid, mark the field touched to trigger field highlighting.
     const error = this.validateWord(wordIndex, value)
-    if (!error) {
-      this.formApi.setTouched(`word${fieldIndex}`, true)
-    }
-    // Otherwise reset the field state to prevent highlighting as valid.
-    else {
+    // reset the field state to prevent highlighting as valid.
+    if (error) {
       this.formApi.setTouched(`word${fieldIndex}`, false)
       this.formApi.setError(`word${fieldIndex}`, null)
+    }
+    // Otherwise the word has been determined as valid, mark the field touched to trigger field highlighting.
+    else {
+      this.formApi.setTouched(`word${fieldIndex}`, true)
     }
   }
 
@@ -79,18 +79,18 @@ class SeedConfirm extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         <Header
-          title={<FormattedMessage {...messages.retype_seed_title} />}
+          align="left"
           subtitle={
             <FormattedMessage
               {...messages.retype_seed_description}
               values={{
                 word1: seedWordIndexes[0],
                 word2: seedWordIndexes[1],
-                word3: seedWordIndexes[2]
+                word3: seedWordIndexes[2],
               }}
             />
           }
-          align="left"
+          title={<FormattedMessage {...messages.retype_seed_title} />}
         />
 
         <Bar my={4} />
@@ -99,18 +99,18 @@ class SeedConfirm extends React.Component {
           // Only validate if the word has been entered correctly already or the form has been submitted.
           return (
             <Flex key={`word${index}`} justifyContent="flex-start" mb={3}>
-              <Label htmlFor="alias" width={25} mt={18}>
+              <Label htmlFor="alias" mt={18} width={25}>
                 {wordIndex}
               </Label>
               <Input
                 field={`word${index}`}
                 name={`word${index}`}
-                validateOnBlur
-                validateOnChange
-                validate={value => this.validateWord.call(null, wordIndex - 1, value)}
                 onChange={e => this.handleWordChange(e.target.value, index, wordIndex - 1)}
                 placeholder={intl.formatMessage({ ...messages.word_placeholder })}
-                autoFocus={index === 0}
+                validate={value => this.validateWord.call(null, wordIndex - 1, value)}
+                validateOnBlur
+                validateOnChange
+                willAutoFocus={index === 0}
               />
             </Flex>
           )

@@ -25,11 +25,11 @@ function LndConnectionStringEditor({ formApi, field, hideStringMessage, ...rest 
       <LndConnectionStringInput
         {...rest}
         {...getValue(isDisabled)}
-        readOnly={isDisabled}
         field={field}
+        isReadOnly={isDisabled}
         rows={12}
       />
-      <Flex justifyContent="space-between" alignItems="center" mt={3}>
+      <Flex alignItems="center" justifyContent="space-between" mt={3}>
         <Flex>
           <Span color="gray" fontSize="s" mr={2}>
             <Padlock />
@@ -45,9 +45,9 @@ function LndConnectionStringEditor({ formApi, field, hideStringMessage, ...rest 
 }
 
 LndConnectionStringEditor.propTypes = {
+  field: PropTypes.string.isRequired,
   formApi: PropTypes.object.isRequired,
   hideStringMessage: PropTypes.object.isRequired,
-  field: PropTypes.string.isRequired
 }
 
 export default withFormApi(LndConnectionStringEditor)

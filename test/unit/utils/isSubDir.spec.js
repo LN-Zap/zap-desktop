@@ -20,7 +20,7 @@ describe('isSubDir', () => {
     ['/foo', '/foo/../bar'],
     ['/foo', '/foo/./bar'],
     ['/bar/../foo', '/foo/bar'],
-    ['/foo', './bar']
+    ['/foo', './bar'],
   ]
 
   const result = mapSamples(tests)

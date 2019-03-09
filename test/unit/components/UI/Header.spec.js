@@ -21,7 +21,7 @@ describe('component.UI.Header', () => {
     expect(toJSON(wrapper)).toMatchSnapshot()
   })
   it('should render correctly with title, subtitle, and logo', () => {
-    const wrapper = shallow(<Header title="title here" subtitle="logo here" logo="logo here" />)
+    const wrapper = shallow(<Header logo="logo here" subtitle="logo here" title="title here" />)
     expect(toJSON(wrapper)).toMatchSnapshot()
   })
 })

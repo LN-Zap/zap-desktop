@@ -7,7 +7,7 @@ export default function(walletUnlocker, log, event, msg, data, lndConfig) {
       // wallet already exists
       case 2:
         error.context = {
-          lndDataDir: dirname(lndConfig.cert)
+          lndDataDir: dirname(lndConfig.cert),
         }
     }
     return error

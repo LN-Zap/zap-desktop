@@ -5,16 +5,18 @@ exports[`component.UI.Dialog should render correctly with custom content 1`] = `
   buttons={
     <React.Fragment>
       <ForwardRef
-        active={false}
-        processing={false}
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
         size="medium"
         variant="primary"
       >
         Primary
       </ForwardRef>
       <ForwardRef
-        active={false}
-        processing={false}
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
         size="medium"
         variant="secondary"
       >
@@ -92,10 +94,11 @@ exports[`component.UI.Dialog should render correctly with one button 1`] = `
       pr={6}
     >
       <Button
-        active={false}
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
         key="Ok"
         onClick={[Function]}
-        processing={false}
         size="medium"
         variant="primary"
       >
@@ -143,20 +146,22 @@ exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
       pr={6}
     >
       <Button
-        active={false}
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
         key="Delete"
         onClick={[Function]}
-        processing={false}
         size="medium"
         variant="primary"
       >
         Delete
       </Button>
       <Button
-        active={false}
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
         key="Cancel"
         onClick={[Function]}
-        processing={false}
         size="medium"
         variant="normal"
       >

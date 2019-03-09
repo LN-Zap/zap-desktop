@@ -4,15 +4,15 @@ import { Form, Spinner, Text } from 'components/UI'
 
 class WalletCreate extends React.Component {
   static propTypes = {
+    createNewWallet: PropTypes.func.isRequired,
+    setWalletCreate: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    createNewWallet: PropTypes.func.isRequired,
-    setWalletCreate: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidMount() {

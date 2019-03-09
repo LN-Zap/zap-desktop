@@ -6,7 +6,7 @@ import Button from './Button'
 import Heading from './Heading'
 
 const CloseButton = ({ onClick }) => (
-  <Flex justifyContent="space-between" color="primaryText">
+  <Flex color="primaryText" justifyContent="space-between">
     <Box
       css={{ height: '32px', cursor: 'pointer', opacity: 0.6, '&:hover': { opacity: 1 } }}
       ml="auto"
@@ -14,18 +14,18 @@ const CloseButton = ({ onClick }) => (
       p={2}
       px={10}
     >
-      <X width={15} height={15} />
+      <X height={15} width={15} />
     </Box>
   </Flex>
 )
 
 CloseButton.propTypes = {
-  onClick: PropTypes.func.isRequired
+  onClick: PropTypes.func.isRequired,
 }
 
 const createButtons = buttons =>
   buttons.map((entry, index) => (
-    <Button key={entry.name} variant={index === 0 ? 'primary' : 'normal'} onClick={entry.onClick}>
+    <Button key={entry.name} onClick={entry.onClick} variant={index === 0 ? 'primary' : 'normal'}>
       {entry.name}
     </Button>
   ))
@@ -44,30 +44,30 @@ const Dialog = ({ header, onClose, buttons, width, children }) => {
   return (
     <Card
       bg="primaryColor"
-      width={width}
       borderRadius={5}
       boxShadow="0 3px 4px 0 rgba(0, 0, 0, 0.5)"
+      width={width}
     >
       <CloseButton onClick={onClose} />
       <Flex
-        flexDirection="column"
         alignItems="center"
-        justifyContent="center"
         alignSelf="stretch"
+        flexDirection="column"
+        justifyContent="center"
         pb={4}
       >
-        <Flex flexDirection="column" alignItems="flex-start" justifyContent="center">
+        <Flex alignItems="flex-start" flexDirection="column" justifyContent="center">
           {headerLayout}
           {children}
         </Flex>
 
         <Flex
-          flexDirection="row"
           alignSelf="stretch"
+          flexDirection="row"
           justifyContent="space-evenly"
+          mt={4}
           pl={6}
           pr={6}
-          mt={4}
         >
           {buttonsLayout}
         </Flex>
@@ -77,23 +77,23 @@ const Dialog = ({ header, onClose, buttons, width, children }) => {
 }
 
 Dialog.defaultProps = {
-  width: 550
+  width: 550,
 }
 
 Dialog.propTypes = {
-  header: PropTypes.node.isRequired,
-  children: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
-  width: PropTypes.number,
   buttons: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
-        onClick: PropTypes.func.isRequired
+        onClick: PropTypes.func.isRequired,
       })
-    )
-  ]).isRequired
+    ),
+  ]).isRequired,
+  children: PropTypes.node,
+  header: PropTypes.node.isRequired,
+  onClose: PropTypes.func.isRequired,
+  width: PropTypes.number,
 }
 
 export default Dialog

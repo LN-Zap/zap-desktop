@@ -20,12 +20,12 @@ describe('component.UI.ProgressBar', () => {
   })
 
   it('should render correctly (right justify)', () => {
-    const wrapper = shallow(<ProgressBar progress={0.5} justify="right" />)
+    const wrapper = shallow(<ProgressBar justify="right" progress={0.5} />)
     expect(toJSON(wrapper)).toMatchSnapshot()
   })
 
   it('should render correctly (blue)', () => {
-    const wrapper = shallow(<ProgressBar progress={0.5} color="superBlue" />)
+    const wrapper = shallow(<ProgressBar color="superBlue" progress={0.5} />)
     expect(toJSON(wrapper)).toMatchSnapshot()
   })
 })

@@ -28,8 +28,8 @@ const initialState = {
   intl: {
     locale: defaultLocale,
     messages: translations[defaultLocale],
-    timeZone: jstz.determine().name()
-  }
+    timeZone: jstz.determine().name(),
+  },
 }
 
 // Set up the redux store.

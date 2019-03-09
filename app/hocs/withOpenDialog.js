@@ -8,7 +8,7 @@
  */
 function openDialog(mode = 'openFile') {
   const result = window.showOpenDialog({
-    properties: [mode]
+    properties: [mode],
   })
 
   if (result && result.length) {

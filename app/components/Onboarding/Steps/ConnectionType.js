@@ -7,18 +7,18 @@ import messages from './messages'
 
 class ConnectionType extends React.Component {
   static propTypes = {
-    wizardApi: PropTypes.object,
-    wizardState: PropTypes.object,
-    lndConnect: PropTypes.string,
     connectionType: PropTypes.string,
+    lndConnect: PropTypes.string,
     resetOnboarding: PropTypes.func.isRequired,
     setConnectionType: PropTypes.func.isRequired,
-    stopLnd: PropTypes.func.isRequired
+    stopLnd: PropTypes.func.isRequired,
+    wizardApi: PropTypes.object,
+    wizardState: PropTypes.object,
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidMount() {
@@ -65,9 +65,9 @@ class ConnectionType extends React.Component {
     return (
       <Box css={{ visibility: lndConnect ? 'hidden' : 'visible' }}>
         <Header
-          title={<FormattedMessage {...messages.connection_title} />}
-          subtitle={<FormattedMessage {...messages.connection_description} />}
           align="left"
+          subtitle={<FormattedMessage {...messages.connection_description} />}
+          title={<FormattedMessage {...messages.connection_title} />}
         />
 
         <Bar my={4} />
@@ -90,29 +90,29 @@ class ConnectionType extends React.Component {
           onSubmitFailure={onSubmitFailure}
         >
           <RadioGroup
-            required
             field="connectionType"
-            name="connectionType"
             initialValue={connectionType}
+            isRequired
+            name="connectionType"
           >
             <Radio
-              value="create"
-              label={<FormattedMessage {...messages.connection_type_create_label} />}
               description={<FormattedMessage {...messages.connection_type_create_description} />}
+              label={<FormattedMessage {...messages.connection_type_create_label} />}
               mb={5}
+              value="create"
             />
 
             <Radio
-              value="import"
-              label={<FormattedMessage {...messages.connection_type_import_label} />}
               description={<FormattedMessage {...messages.connection_type_import_description} />}
+              label={<FormattedMessage {...messages.connection_type_import_label} />}
               mb={5}
+              value="import"
             />
 
             <Radio
-              value="custom"
-              label={<FormattedMessage {...messages.connection_type_custom_label} />}
               description={<FormattedMessage {...messages.connection_type_custom_description} />}
+              label={<FormattedMessage {...messages.connection_type_custom_label} />}
+              value="custom"
             />
           </RadioGroup>
         </Form>

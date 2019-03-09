@@ -45,7 +45,7 @@ export const queryRoutesFailure = () => dispatch => {
 export function setPayReq(payReq) {
   return {
     type: SET_PAY_REQ,
-    payReq
+    payReq,
   }
 }
 
@@ -66,44 +66,44 @@ const ACTION_HANDLERS = {
     ...state,
     isQueryingFees: true,
     onchainFees: {},
-    queryFeesError: null
+    queryFeesError: null,
   }),
   [QUERY_FEES_SUCCESS]: (state, { onchainFees }) => ({
     ...state,
     isQueryingFees: false,
     onchainFees,
-    queryFeesError: null
+    queryFeesError: null,
   }),
   [QUERY_FEES_FAILURE]: (state, { error }) => ({
     ...state,
     isQueryingFees: false,
     onchainFees: {},
-    queryFeesError: error
+    queryFeesError: error,
   }),
   [QUERY_ROUTES]: (state, { pubKey }) => ({
     ...state,
     isQueryingRoutes: true,
     pubKey,
     queryRoutesError: null,
-    routes: []
+    routes: [],
   }),
   [QUERY_ROUTES_SUCCESS]: (state, { routes }) => ({
     ...state,
     isQueryingRoutes: false,
     queryRoutesError: null,
-    routes
+    routes,
   }),
   [QUERY_ROUTES_FAILURE]: (state, { error }) => ({
     ...state,
     isQueryingRoutes: false,
     pubKey: null,
     queryRoutesError: error,
-    routes: []
+    routes: [],
   }),
   [SET_PAY_REQ]: (state, { payReq }) => ({
     ...state,
-    payReq
-  })
+    payReq,
+  }),
 }
 
 // ------------------------------------
@@ -115,13 +115,13 @@ const initialState = {
   onchainFees: {
     fastestFee: null,
     halfHourFee: null,
-    hourFee: null
+    hourFee: null,
   },
   payReq: null,
   pubKey: null,
   queryFeesError: null,
   queryRoutesError: null,
-  routes: []
+  routes: [],
 }
 
 // ------------------------------------

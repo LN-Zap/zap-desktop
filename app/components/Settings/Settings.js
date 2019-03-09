@@ -56,7 +56,7 @@ class Settings extends React.Component {
       localeProps,
       themeProps,
       setActiveSubMenu,
-      openModal
+      openModal,
     } = this.props
     switch (activeSubMenu) {
       case 'fiat':
@@ -66,7 +66,7 @@ class Settings extends React.Component {
       case 'theme':
         return <Theme {...themeProps} />
       default:
-        return <Menu setActiveSubMenu={setActiveSubMenu} openModal={openModal} />
+        return <Menu openModal={openModal} setActiveSubMenu={setActiveSubMenu} />
     }
   }
 
@@ -81,9 +81,9 @@ class Settings extends React.Component {
           css={{ cursor: 'pointer' }}
           onClick={this.handleButtonClick}
         >
-          <StatusIndicator variant="online" mr={2} />
+          <StatusIndicator mr={2} variant="online" />
           <Flex alignItems="center">
-            <Text textAlign="left" mr={1}>
+            <Text mr={1} textAlign="left">
               <WalletName wallet={activeWalletSettings} />
             </Text>
             {isSettingsOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
@@ -96,16 +96,16 @@ class Settings extends React.Component {
 }
 
 Settings.propTypes = {
-  isSettingsOpen: PropTypes.bool,
   activeSubMenu: PropTypes.string,
   activeWalletSettings: PropTypes.object,
+  closeSettings: PropTypes.func.isRequired,
   fiatProps: PropTypes.object.isRequired,
+  isSettingsOpen: PropTypes.bool,
   localeProps: PropTypes.object.isRequired,
-  themeProps: PropTypes.object.isRequired,
-  setActiveSubMenu: PropTypes.func.isRequired,
   openModal: PropTypes.func.isRequired,
   openSettings: PropTypes.func.isRequired,
-  closeSettings: PropTypes.func.isRequired
+  setActiveSubMenu: PropTypes.func.isRequired,
+  themeProps: PropTypes.object.isRequired,
 }
 
 export default Settings

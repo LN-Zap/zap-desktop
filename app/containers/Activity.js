@@ -5,7 +5,7 @@ import Activity from 'components/Activity'
 
 const mapDispatchToProps = {
   showActivityModal,
-  toggleExpiredRequests
+  toggleExpiredRequests,
 }
 
 const mapStateToProps = state => ({
@@ -13,7 +13,7 @@ const mapStateToProps = state => ({
   currentActivity: activitySelectors.currentActivity(state)(state),
   currencyName: tickerSelectors.currencyName(state),
   currentTicker: tickerSelectors.currentTicker(state),
-  ticker: state.ticker
+  ticker: state.ticker,
 })
 
 export default connect(

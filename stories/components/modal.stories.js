@@ -13,10 +13,10 @@ storiesOf('Components', module).addWithChapters('Modal', {
       sections: [
         {
           sectionFn: () => {
-            const withHeader = boolean('With header', false)
+            const hasHeader = boolean('With header', false)
             return (
               <Page>
-                <Modal onClose={action('clicked')} withHeader={withHeader}>
+                <Modal hasHeader={hasHeader} onClose={action('clicked')}>
                   <Text>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
@@ -28,9 +28,9 @@ storiesOf('Components', module).addWithChapters('Modal', {
                 </Modal>
               </Page>
             )
-          }
-        }
-      ]
-    }
-  ]
+          },
+        },
+      ],
+    },
+  ],
 })

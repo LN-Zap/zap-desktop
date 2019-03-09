@@ -97,14 +97,14 @@ export default function(lightning, log, event, msg, data) {
         [
           channelController.listChannels,
           channelController.pendingChannels,
-          channelController.closedChannels
+          channelController.closedChannels,
         ].map(func => func(lnd))
       )
         .then(channelsData =>
           event.sender.send('receiveChannels', {
             channels: channelsData[0].channels,
             pendingChannels: channelsData[1],
-            closedChannels: channelsData[2].channels
+            closedChannels: channelsData[2].channels,
           })
         )
         .catch(error => log.error('channels:', error))
@@ -145,7 +145,7 @@ export default function(lightning, log, event, msg, data) {
         .then(balance => {
           event.sender.send('receiveBalance', {
             walletBalance: balance[0],
-            channelBalance: balance[1].balance
+            channelBalance: balance[1].balance,
           })
           return balance
         })
@@ -157,7 +157,7 @@ export default function(lightning, log, event, msg, data) {
         .then(newinvoice =>
           Promise.all([
             newinvoice,
-            invoicesController.getInvoice(lnd, { pay_req: newinvoice.payment_request })
+            invoicesController.getInvoice(lnd, { pay_req: newinvoice.payment_request }),
           ])
         )
         .then(([newinvoice, decodedInvoice]) =>
@@ -168,7 +168,7 @@ export default function(lightning, log, event, msg, data) {
               value: data.value,
               r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
               payment_request: newinvoice.payment_request,
-              creation_date: Date.now() / 1000
+              creation_date: Date.now() / 1000,
             })
           )
         )

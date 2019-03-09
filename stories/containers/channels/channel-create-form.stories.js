@@ -14,4 +14,4 @@ storiesOf('Containers.Channels', module)
       <Modal onClose={action('clicked')}>{story()}</Modal>
     </Window>
   ))
-  .add('ChannelCreateForm', () => <ChannelCreateForm width={9 / 16} mx="auto" />)
+  .add('ChannelCreateForm', () => <ChannelCreateForm mx="auto" width={9 / 16} />)

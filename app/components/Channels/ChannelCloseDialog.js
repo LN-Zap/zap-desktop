@@ -17,30 +17,30 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay
   const checkboxFieldName = 'actionACK'
   // bind button disabled state to a form field
   const CloseChannelButton = withFieldState(checkboxFieldName)(({ fieldState, ...rest }) => (
-    <Button disabled={isForceClose && !fieldState.value} {...rest} />
+    <Button isDisabled={isForceClose && !fieldState.value} {...rest} />
   ))
 
   const buttons = (
     <>
-      <CloseChannelButton variant="danger" type="submit">
+      <CloseChannelButton type="submit" variant="danger">
         <FormattedMessage
           {...(isForceClose
             ? messages.close_channel_dialog_force_close_text
             : messages.close_channel_dialog_close_text)}
         />
       </CloseChannelButton>
-      <Button variant="secondary" type="button" onClick={onCancel}>
+      <Button onClick={onCancel} type="button" variant="secondary">
         <FormattedMessage {...messages.close_channel_dialog_cancel_text} />
       </Button>
     </>
   )
 
   const header = (
-    <Flex flexDirection="column" alignItems="center" alignSelf="center">
+    <Flex alignItems="center" alignSelf="center" flexDirection="column">
       <Box color="superRed">
-        <Delete width={72} height={72} />
+        <Delete height={72} width={72} />
       </Box>
-      <Heading.h1 mt={4} mb={3}>
+      <Heading.h1 mb={3} mt={4}>
         <FormattedMessage {...messages.close_channel_dialog_header} />
       </Heading.h1>
     </Flex>
@@ -49,11 +49,11 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay
   const handleSubmit = () => onClose(intl.formatMessage({ ...messages.close_channel_notification }))
 
   return (
-    <DialogOverlay justifyContent="center" alignItems="center">
+    <DialogOverlay alignItems="center" justifyContent="center">
       <Form onSubmit={handleSubmit}>
-        <Dialog header={header} buttons={buttons} onClose={onCancel} width={640}>
-          <Flex flexDirection="column" alignItems="center">
-            <Text mb={2} color="gray" width={500} textAlign={isForceClose ? 'left' : 'center'}>
+        <Dialog buttons={buttons} header={header} onClose={onCancel} width={640}>
+          <Flex alignItems="center" flexDirection="column">
+            <Text color="gray" mb={2} textAlign={isForceClose ? 'left' : 'center'} width={500}>
               <FormattedMessage
                 {...(isForceClose
                   ? messages.close_channel_dialog_force_warning
@@ -63,8 +63,8 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay
             </Text>
             {isForceClose && (
               <Checkbox
-                label={intl.formatMessage({ ...messages.close_channel_dialog_acknowledgement })}
                 field={checkboxFieldName}
+                label={intl.formatMessage({ ...messages.close_channel_dialog_acknowledgement })}
                 mt={4}
               />
             )}
@@ -76,12 +76,12 @@ const DialogWrapper = ({ intl, isForceClose, isOpen, onClose, onCancel, csvDelay
 }
 
 DialogWrapper.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  isForceClose: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  csvDelay: PropTypes.number.isRequired,
   intl: intlShape.isRequired,
-  csvDelay: PropTypes.number.isRequired
+  isForceClose: PropTypes.bool.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onCancel: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
 }
 
 export default injectIntl(DialogWrapper)

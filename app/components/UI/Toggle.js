@@ -61,7 +61,7 @@ const Toggle = ({ fieldState, onLabel, offLabel, ...props }) => (
       <label // eslint-disable-line jsx-a11y/label-has-for,jsx-a11y/label-has-associated-control
         className="switch"
       >
-        <Checkbox type="checkbox" fieldState={fieldState} {...props} />
+        <Checkbox fieldState={fieldState} type="checkbox" {...props} />
         <span className="slider round" />
       </label>
       {fieldState.value && onLabel && <Text ml={2}>{onLabel}</Text>}
@@ -73,8 +73,8 @@ const Toggle = ({ fieldState, onLabel, offLabel, ...props }) => (
 Toggle.propTypes = {
   fieldApi: PropTypes.object.isRequired,
   fieldState: PropTypes.object.isRequired,
+  offLabel: PropTypes.node,
   onLabel: PropTypes.node,
-  offLabel: PropTypes.node
 }
 
 export default asField(Toggle)

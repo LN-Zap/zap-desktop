@@ -16,30 +16,30 @@ storiesOf('Components', module).addWithChapters('QR Code', {
           sectionFn: () => (
             /* eslint-disable max-len */
             <>
-              <QRCode size="small" value={code} mr={4} />
-              <QRCode size="small" value={code} obfuscate />
+              <QRCode mr={4} size="small" value={code} />
+              <QRCode isObfuscated size="small" value={code} />
             </>
-          )
+          ),
         },
         {
           title: 'medium',
           sectionFn: () => (
             <>
-              <QRCode size="medium" value={code} mr={4} />
-              <QRCode size="medium" value={code} obfuscate />
+              <QRCode mr={4} size="medium" value={code} />
+              <QRCode isObfuscated size="medium" value={code} />
             </>
-          )
+          ),
         },
         {
           title: 'large',
           sectionFn: () => (
             <>
-              <QRCode size="large" value={code} mr={4} />
-              <QRCode size="large" value={code} obfuscate />
+              <QRCode mr={4} size="large" value={code} />
+              <QRCode isObfuscated size="large" value={code} />
             </>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

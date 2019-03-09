@@ -27,13 +27,13 @@ export const truncateNodePubkey = pubkey => pubkey.substring(0, 10)
 export function updateNodeData(nodeData) {
   return {
     type: UPDATE_NODE_DATA,
-    nodeData
+    nodeData,
   }
 }
 
 export function getDescribeNetwork() {
   return {
-    type: GET_DESCRIBE_NETWORK
+    type: GET_DESCRIBE_NETWORK,
   }
 }
 
@@ -64,14 +64,14 @@ const mergeNodeUpdates = (state, nodeData) => {
           {
             ...originalNodes[index],
             ...nodeData,
-            last_update: Math.round(new Date() / 1000)
+            last_update: Math.round(new Date() / 1000),
           },
-          ...originalNodes.slice(index + 1)
+          ...originalNodes.slice(index + 1),
         ]
 
   return {
     ...state,
-    nodes
+    nodes,
   }
 }
 
@@ -85,8 +85,8 @@ const ACTION_HANDLERS = {
     ...state,
     networkLoading: false,
     nodes,
-    edges
-  })
+    edges,
+  }),
 }
 
 // ------------------------------------
@@ -95,7 +95,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   networkLoading: false,
   nodes: [],
-  edges: []
+  edges: [],
 }
 
 // ------------------------------------

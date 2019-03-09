@@ -27,9 +27,9 @@ storiesOf('Components', module).addWithChapters('Card', {
                 </Button>
               </Flex>
             </Card>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

@@ -1,14 +1,14 @@
 import React from 'react'
 
 const SvgPeers = props => (
-  <svg width="1em" height="1em" viewBox="0 0 24 19" {...props}>
+  <svg height="1em" viewBox="0 0 24 19" width="1em" {...props}>
     <g
-      transform="translate(1 1)"
-      stroke="currentColor"
       fill="none"
       fillRule="evenodd"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
+      transform="translate(1 1)"
     >
       <path d="M16 18v-2a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v2" />
       <circle cx={8} cy={4} r={4} />

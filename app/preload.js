@@ -25,7 +25,7 @@ const WHITELISTED_DOMAINS = [
   'ln-zap.github.io',
   'blockstream.info',
   'testnet.litecore.io',
-  'litecore.io'
+  'litecore.io',
 ]
 
 /**
@@ -133,7 +133,7 @@ window.Zap = {
   getUserDataDir,
   validateHost,
   fileExists,
-  killLnd
+  killLnd,
 }
 
 // Provide access to ipcRenderer.

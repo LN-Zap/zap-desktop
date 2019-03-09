@@ -7,12 +7,12 @@ const mapStateToProps = state => ({
   cryptoCurrency: state.ticker.currency,
   cryptoCurrencies: tickerSelectors.currencyFilters(state),
   fiatCurrencies: state.ticker.fiatTickers,
-  fiatCurrency: state.ticker.fiatTicker
+  fiatCurrency: state.ticker.fiatTicker,
 })
 
 const mapDispatchToProps = {
   setCryptoCurrency: setCurrency,
-  setFiatCurrency: setFiatTicker
+  setFiatCurrency: setFiatTicker,
 }
 
 export default connect(

@@ -13,7 +13,7 @@ import messages from './messages'
 class PayHeader extends React.PureComponent {
   static propTypes = {
     title: PropTypes.node.isRequired,
-    type: PropTypes.oneOf(['onchain', 'offchain'])
+    type: PropTypes.oneOf(['onchain', 'offchain']),
   }
 
   render() {
@@ -34,7 +34,7 @@ class PayHeader extends React.PureComponent {
         subtitle = <span>&nbsp;</span>
     }
 
-    return <Header title={title} subtitle={subtitle} logo={logo} />
+    return <Header logo={logo} subtitle={subtitle} title={title} />
   }
 }
 

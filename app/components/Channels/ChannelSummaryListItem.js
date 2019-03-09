@@ -19,7 +19,7 @@ const ChannelSummaryListItem = React.memo(props => {
     local_balance,
     remote_balance,
     display_status,
-    active
+    active,
   } = channel
   const opacity = active ? 1 : 0.3
 
@@ -38,14 +38,14 @@ const ChannelSummaryListItem = React.memo(props => {
 
         <ChannelCapacity
           localBalance={local_balance}
-          remoteBalance={remote_balance}
-          width={1 / 2}
+          opacity={opacity}
           pl={4}
           pr={4}
-          opacity={opacity}
+          remoteBalance={remote_balance}
+          width={1 / 2}
         />
 
-        <Flex width={2 / 20} alignItems="center" flexDirection="column">
+        <Flex alignItems="center" flexDirection="column" width={2 / 20}>
           <ChannelMoreButton
             onClick={() => {
               setSelectedChannel(channel_point)
@@ -63,7 +63,7 @@ ChannelSummaryListItem.displayName = 'ChannelSummaryListItem'
 ChannelSummaryListItem.propTypes = {
   channel: PropTypes.object.isRequired,
   openModal: PropTypes.func.isRequired,
-  setSelectedChannel: PropTypes.func.isRequired
+  setSelectedChannel: PropTypes.func.isRequired,
 }
 
 export default ChannelSummaryListItem

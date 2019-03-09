@@ -16,19 +16,19 @@ storiesOf('Containers.Channels', module)
               const channelBalance = number('Channel', 2343455)
               const channels = [
                 {
-                  key: 1
+                  key: 1,
                 },
                 {
-                  key: 2
+                  key: 2,
                 },
                 {
-                  key: 3
-                }
+                  key: 3,
+                },
               ]
-              return <ChannelsHeader channels={channels} channelBalance={channelBalance} />
-            }
-          }
-        ]
-      }
-    ]
+              return <ChannelsHeader channelBalance={channelBalance} channels={channels} />
+            },
+          },
+        ],
+      },
+    ],
   })

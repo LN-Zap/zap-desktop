@@ -4,11 +4,11 @@ import { tickerSelectors, setCurrency } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   activeKey: state.ticker.currency,
-  items: tickerSelectors.currencyFilters(state)
+  items: tickerSelectors.currencyFilters(state),
 })
 
 const mapDispatchToProps = {
-  onChange: setCurrency
+  onChange: setCurrency,
 }
 
 export default connect(

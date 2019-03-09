@@ -12,23 +12,23 @@ const withRequiredValidation = Component =>
     static displayName = `WithRequiredValidation(${getDisplayName(Component)})`
 
     static propTypes = {
-      disabled: PropTypes.bool,
-      required: PropTypes.bool,
-      validate: PropTypes.func
+      isDisabled: PropTypes.bool,
+      isRequired: PropTypes.bool,
+      validate: PropTypes.func,
     }
 
     static defaultProps = {
-      disabled: false,
-      required: false
+      isDisabled: false,
+      isRequired: false,
     }
 
     validate = value => {
-      const { disabled, required } = this.props
-      if (disabled) {
+      const { isDisabled, isRequired } = this.props
+      if (isDisabled) {
         return
       }
       try {
-        if (required) {
+        if (isRequired) {
           const validator = yup.string().required()
           validator.validateSync(value)
         }

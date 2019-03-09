@@ -5,19 +5,19 @@ import ChannelBalance from './ChannelBalance'
 import ChannelCount from './ChannelCount'
 
 const ChannelsInfo = ({ channels, channelBalance, ...rest }) => (
-  <Flex as="section" alignItems="center" {...rest}>
+  <Flex alignItems="center" as="section" {...rest}>
     <ChannelCount channels={channels} mr={4} />
     <ChannelBalance channelBalance={channelBalance} />
   </Flex>
 )
 
 ChannelsInfo.propTypes = {
+  channelBalance: PropTypes.number.isRequired,
   channels: PropTypes.array,
-  channelBalance: PropTypes.number.isRequired
 }
 
 ChannelsInfo.defaultProps = {
-  channels: []
+  channels: [],
 }
 
 export default ChannelsInfo

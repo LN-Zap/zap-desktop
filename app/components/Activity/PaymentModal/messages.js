@@ -7,5 +7,5 @@ export default defineMessages({
   date_sent: 'Date sent',
   fee: 'Total fee',
   current_value: 'Current value',
-  preimage: 'Payment Preimage'
+  preimage: 'Payment Preimage',
 })

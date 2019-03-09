@@ -12,14 +12,14 @@ const Swatch = ({ name, color }) => (
     <Flex mb={2}>
       <Card
         // bg={color}
-        width={50}
-        mr={21}
         borderRadius={8}
         boxShadow="0 2px 6px rgba(0, 0, 0, 0.3)"
         css={{
           background: color,
-          height: '50px'
+          height: '50px',
         }}
+        mr={21}
+        width={50}
       />
       <Box>
         <Text fontWeight="normal">{name}</Text>
@@ -29,14 +29,14 @@ const Swatch = ({ name, color }) => (
   </Element>
 )
 Swatch.propTypes = {
+  color: PropTypes.string,
   name: PropTypes.string,
-  color: PropTypes.string
 }
 
 const Palette = withTheme(({ theme, ...rest }) => (
   <Box {...rest}>
     {Object.keys(theme.colors).map(key => (
-      <Swatch key={key} name={key} color={theme.colors[key]} />
+      <Swatch key={key} color={theme.colors[key]} name={key} />
     ))}
   </Box>
 ))
@@ -53,12 +53,12 @@ storiesOf('General', module).addWithChapters('Color palette', {
             showSource: false,
             allowSourceToggling: false,
             showPropTables: false,
-            allowPropTablesToggling: false
+            allowPropTablesToggling: false,
           },
           sectionFn: () => (
             <Flex>
               <Column>
-                <Group title="Dark" withBar={false}>
+                <Group hasBar={false} title="Dark">
                   <ThemeProvider theme={dark}>
                     <BackgroundPrimary p={3}>
                       <Palette />
@@ -68,7 +68,7 @@ storiesOf('General', module).addWithChapters('Color palette', {
               </Column>
 
               <Column>
-                <Group title="Light" withBar={false}>
+                <Group hasBar={false} title="Light">
                   <ThemeProvider theme={light}>
                     <BackgroundPrimary p={3}>
                       <Palette />
@@ -77,9 +77,9 @@ storiesOf('General', module).addWithChapters('Color palette', {
                 </Group>
               </Column>
             </Flex>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

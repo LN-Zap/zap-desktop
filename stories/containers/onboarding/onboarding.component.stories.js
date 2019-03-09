@@ -11,7 +11,7 @@ import {
   Password,
   Recover,
   SeedConfirm,
-  SeedView
+  SeedView,
 } from 'components/Onboarding/Steps'
 
 const setConnectionHost = () => ({})
@@ -22,12 +22,12 @@ const resetOnboarding = () => ({})
 
 storiesOf('Containers.Onboarding.Forms', module)
   .add('ConnectionType', () => (
-    <ConnectionType stopLnd={stopLnd} resetOnboarding={resetOnboarding} />
+    <ConnectionType resetOnboarding={resetOnboarding} stopLnd={stopLnd} />
   ))
   .add('ConnectionDetails', () => (
     <ConnectionDetails
-      setConnectionHost={setConnectionHost}
       setConnectionCert={setConnectionCert}
+      setConnectionHost={setConnectionHost}
       setConnectionMacaroon={setConnectionMacaroon}
     />
   ))
@@ -64,7 +64,7 @@ storiesOf('Containers.Onboarding.Forms', module)
         'slender',
         'blue',
         'day',
-        'fix'
+        'fix',
       ]}
     />
   ))
@@ -94,7 +94,7 @@ storiesOf('Containers.Onboarding.Forms', module)
         'slender',
         'blue',
         'day',
-        'fix'
+        'fix',
       ]}
     />
   ))

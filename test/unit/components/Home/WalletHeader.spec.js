@@ -9,7 +9,7 @@ describe('component.WalletHeader', () => {
       type: 'local',
       id: 1,
       host: 'local.host',
-      name: 'Wallet name'
+      name: 'Wallet name',
     }
     const wrapper = shallow(<WalletHeader wallet={wallet} />)
     expect(toJSON(wrapper)).toMatchSnapshot()

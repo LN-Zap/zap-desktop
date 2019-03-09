@@ -16,54 +16,54 @@ import {
   SeedConfirm,
   SeedView,
   WalletCreate,
-  WalletRecover
+  WalletRecover,
 } from './Steps'
 import messages from './messages'
 
 class Onboarding extends React.Component {
   static propTypes = {
     // STATE
-    autopilot: PropTypes.bool,
-    name: PropTypes.string,
-    connectionType: PropTypes.string,
-    connectionHost: PropTypes.string,
+    autopilot: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
+    clearStartLndError: PropTypes.func.isRequired,
     connectionCert: PropTypes.string,
+    connectionHost: PropTypes.string,
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
-    lightningGrpcActive: PropTypes.bool,
-    unlockWalletError: PropTypes.string,
-    walletUnlockerGrpcActive: PropTypes.bool,
-    seed: PropTypes.array,
-    startLndHostError: PropTypes.string,
-    startLndCertError: PropTypes.string,
-    startLndMacaroonError: PropTypes.string,
-    onboarded: PropTypes.bool,
-    fetchingSeed: PropTypes.bool,
-    lndConnect: PropTypes.string,
-
-    // DISPATCH
+    connectionType: PropTypes.string,
     createNewWallet: PropTypes.func.isRequired,
     fetchSeed: PropTypes.func.isRequired,
+    isFetchingSeed: PropTypes.bool,
+    isLightningGrpcActive: PropTypes.bool,
+    isOnboarded: PropTypes.bool,
+    isWalletUnlockerGrpcActive: PropTypes.bool,
+    lndConnect: PropTypes.string,
+    name: PropTypes.string,
     recoverOldWallet: PropTypes.func.isRequired,
     resetOnboarding: PropTypes.func.isRequired,
+
+    // DISPATCH
+    seed: PropTypes.array,
     setAutopilot: PropTypes.func.isRequired,
-    setConnectionType: PropTypes.func.isRequired,
-    setConnectionHost: PropTypes.func.isRequired,
     setConnectionCert: PropTypes.func.isRequired,
+    setConnectionHost: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
     setConnectionString: PropTypes.func.isRequired,
+    setConnectionType: PropTypes.func.isRequired,
     setLndconnect: PropTypes.func.isRequired,
-    clearStartLndError: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
     setSeed: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
+    startLndCertError: PropTypes.string,
+    startLndHostError: PropTypes.string,
+    startLndMacaroonError: PropTypes.string,
     stopLnd: PropTypes.func.isRequired,
     unlockWallet: PropTypes.func.isRequired,
-    validateHost: PropTypes.func.isRequired,
+    unlockWalletError: PropTypes.string,
     validateCert: PropTypes.func.isRequired,
-    validateMacaroon: PropTypes.func.isRequired
+    validateHost: PropTypes.func.isRequired,
+    validateMacaroon: PropTypes.func.isRequired,
   }
 
   componentWillUnmount() {
@@ -85,14 +85,14 @@ class Onboarding extends React.Component {
       connectionCert,
       connectionMacaroon,
       connectionString,
-      lightningGrpcActive,
-      walletUnlockerGrpcActive,
+      isLightningGrpcActive,
+      isWalletUnlockerGrpcActive,
       seed,
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,
       unlockWalletError,
-      fetchingSeed,
+      isFetchingSeed,
       lndConnect,
 
       // DISPATCH
@@ -117,7 +117,7 @@ class Onboarding extends React.Component {
       createNewWallet,
       recoverOldWallet,
       stopLnd,
-      unlockWallet
+      unlockWallet,
     } = this.props
 
     let formSteps = []
@@ -131,13 +131,13 @@ class Onboarding extends React.Component {
           <Wizard.Step
             key="SeedView"
             component={SeedView}
-            {...{ seed, fetchSeed, fetchingSeed }}
+            {...{ seed, fetchSeed, isFetchingSeed }}
           />,
           <Wizard.Step key="SeedConfirm" component={SeedConfirm} {...{ seed }} />,
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
-          <Wizard.Step key="WalletCreate" component={WalletCreate} {...{ createNewWallet }} />
+          <Wizard.Step key="WalletCreate" component={WalletCreate} {...{ createNewWallet }} />,
         ]
         break
 
@@ -151,7 +151,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
-          <Wizard.Step key="WalletRecover" component={WalletRecover} {...{ recoverOldWallet }} />
+          <Wizard.Step key="WalletRecover" component={WalletRecover} {...{ recoverOldWallet }} />,
         ]
         break
 
@@ -180,7 +180,7 @@ class Onboarding extends React.Component {
               clearStartLndError,
               validateHost,
               validateCert,
-              validateMacaroon
+              validateMacaroon,
             }}
           />,
           <Wizard.Step
@@ -193,19 +193,19 @@ class Onboarding extends React.Component {
               connectionMacaroon,
               connectionString,
               lndConnect,
-              lightningGrpcActive,
-              walletUnlockerGrpcActive,
+              isLightningGrpcActive,
+              isWalletUnlockerGrpcActive,
               startLndHostError,
               startLndCertError,
               startLndMacaroonError,
-              startLnd
+              startLnd,
             }}
           />,
           <Wizard.Step
             key="Login"
             component={Login}
             {...{ unlockWallet, setUnlockWalletError, unlockWalletError }}
-          />
+          />,
         ]
         break
     }
@@ -216,7 +216,7 @@ class Onboarding extends React.Component {
         component={ConnectionType}
         {...{ connectionType, setConnectionType, lndConnect, resetOnboarding, stopLnd }}
       />,
-      ...formSteps
+      ...formSteps,
     ]
     return steps
   }
@@ -244,12 +244,12 @@ class Onboarding extends React.Component {
   }
 
   render() {
-    const { connectionType, onboarded } = this.props
+    const { connectionType, isOnboarded } = this.props
     const steps = this.getSteps()
     const previousStep = this.getPreviousStep()
     const backButtonText = this.getBackButtonText()
 
-    if (onboarded) {
+    if (isOnboarded) {
       return <Redirect to={['create', 'import'].includes(connectionType) ? '/syncing' : '/app'} />
     }
 
@@ -257,7 +257,7 @@ class Onboarding extends React.Component {
       <Wizard steps={steps}>
         <Flex css={{ height: '100%' }}>
           <Panel width={1}>
-            <Panel.Body width={9 / 16} mx="auto">
+            <Panel.Body mx="auto" width={9 / 16}>
               <Wizard.Steps />
             </Panel.Body>
 

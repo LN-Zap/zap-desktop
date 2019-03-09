@@ -6,7 +6,7 @@ import {
   FormattedRelative,
   FormattedTime,
   intlShape,
-  injectIntl
+  injectIntl,
 } from 'react-intl'
 import { decodePayReq } from 'lib/utils/crypto'
 import copy from 'copy-to-clipboard'
@@ -18,7 +18,7 @@ import messages from './messages'
 class RequestSummary extends React.Component {
   state = {
     isExpired: null,
-    timer: null
+    timer: null,
   }
 
   static propTypes = {
@@ -28,7 +28,7 @@ class RequestSummary extends React.Component {
     /** Lightning Payment request. */
     payReq: PropTypes.string.isRequired,
     /** Show a notification. */
-    showNotification: PropTypes.func.isRequired
+    showNotification: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -85,7 +85,7 @@ class RequestSummary extends React.Component {
           right={
             <Flex alignItems="center">
               <CryptoSelector mr={2} />
-              <CryptoValue value={satoshis} fontSize="xxl" />
+              <CryptoValue fontSize="xxl" value={satoshis} />
             </Flex>
           }
         />
@@ -116,16 +116,16 @@ class RequestSummary extends React.Component {
             <React.Fragment>
               <FormattedMessage {...messages.payment_request} />
               <Text
+                className="hint--bottom-left"
+                css={{ 'word-wrap': 'break-word' }}
+                data-hint={payReq}
                 fontSize="xs"
                 fontWeight="light"
                 mb={2}
-                css={{ 'word-wrap': 'break-word' }}
-                className="hint--bottom-left"
-                data-hint={payReq}
               >
-                <Truncate text={payReq} maxlen={40} />
+                <Truncate maxlen={40} text={payReq} />
               </Text>
-              <Button type="button" size="small" onClick={() => copyToClipboard(payReq)}>
+              <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
                 <FormattedMessage {...messages.copy_button_text} />
               </Button>
             </React.Fragment>
@@ -152,8 +152,8 @@ class RequestSummary extends React.Component {
               <Text color="superRed" fontWeight="normal">
                 {isExpired ? 'Expired ' : 'Expires '}
                 <FormattedRelative
-                  value={decodedInvoice.timeExpireDateString}
                   updateInterval={1000}
+                  value={decodedInvoice.timeExpireDateString}
                 />
                 <br />
                 <FormattedMessage {...messages.not_paid} />

@@ -6,7 +6,7 @@ import Globe from 'components/Icon/Globe'
 
 storiesOf('Components', module)
   .addDecorator(story => (
-    <Page pl={4} css={{ backgroundColor: '#313340' }}>
+    <Page css={{ backgroundColor: '#313340' }} pl={4}>
       {story()}
     </Page>
   ))
@@ -19,32 +19,32 @@ storiesOf('Components', module)
             title: 'Two buttons',
             sectionFn: () => (
               <Dialog
-                header={`Are you sure you want to delete "MyWallet" ?`}
-                onClose={() => alert('closed')}
                 buttons={[
                   { name: 'Delete', onClick: () => alert('Delete') },
-                  { name: 'Cancel', onClick: () => alert('Cancel') }
+                  { name: 'Cancel', onClick: () => alert('Cancel') },
                 ]}
+                header={`Are you sure you want to delete "MyWallet" ?`}
+                onClose={() => alert('closed')}
               />
-            )
+            ),
           },
           {
             title: 'Message box mode',
             sectionFn: () => (
               <Dialog
+                buttons={[{ name: 'Ok', onClick: () => alert('Ok') }]}
                 header="Your wallet has been removed"
                 onClose={() => alert('closed')}
-                buttons={[{ name: 'Ok', onClick: () => alert('Ok') }]}
               />
-            )
+            ),
           },
           {
             title: 'Custom dialog',
             sectionFn: () => {
               const date = new Date(new Date().getTime() + 60000)
               const customHeader = (
-                <Flex flexDirection="column" alignItems="center" mb={3} alignSelf="stretch">
-                  <Globe width={64} height={64} color="white" />
+                <Flex alignItems="center" alignSelf="stretch" flexDirection="column" mb={3}>
+                  <Globe color="white" height={64} width={64} />
                   <Heading.h2>Custom heading</Heading.h2>
                 </Flex>
               )
@@ -62,19 +62,19 @@ storiesOf('Components', module)
 
               return (
                 <Dialog
+                  buttons={customButtons}
                   header={customHeader}
                   onClose={() => alert('closed')}
-                  buttons={customButtons}
                 >
-                  <Flex flexDirection="column" alignItems="center">
+                  <Flex alignItems="center" flexDirection="column">
                     <Text fontSize="xl">This is a custom body</Text>
                     <Countdown date={date} />
                   </Flex>
                 </Dialog>
               )
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   })

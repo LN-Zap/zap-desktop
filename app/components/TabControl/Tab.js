@@ -8,7 +8,7 @@ const Tab = React.memo(({ children }) => <>{children}</>, shouldUpdate)
 Tab.displayName = 'Tab'
 
 Tab.propTypes = {
-  children: PropTypes.node.isRequired
+  children: PropTypes.node.isRequired,
 }
 
 export default Tab

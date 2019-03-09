@@ -16,8 +16,8 @@ const Truncate = ({ text, maxlen = 12 }) => {
 }
 
 Truncate.propTypes = {
+  maxlen: PropTypes.number,
   text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  maxlen: PropTypes.number
 }
 
 export default Truncate

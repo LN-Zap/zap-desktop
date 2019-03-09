@@ -86,9 +86,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
   onSubmit={[Function]}
 >
   <div
-    checked={false}
     className="c0"
-    disabled={false}
     onClick={[Function]}
   >
     <input
@@ -98,10 +96,8 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
       type="checkbox"
     />
     <div
-      checked={false}
       className="c2 c3"
       color="primaryColor"
-      disabled={false}
       width={18}
     />
     <div
@@ -117,9 +113,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
     </div>
   </div>
   <div
-    checked={false}
     className="c0"
-    disabled={false}
     onClick={[Function]}
   >
     <input
@@ -129,10 +123,8 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
       type="checkbox"
     />
     <div
-      checked={false}
       className="c2 c3"
       color="primaryColor"
-      disabled={false}
       width={18}
     />
     <div

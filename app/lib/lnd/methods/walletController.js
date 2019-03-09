@@ -70,7 +70,7 @@ export function genSeed(walletUnlocker) {
  */
 export function unlockWallet(walletUnlocker, { wallet_password }) {
   return promisifiedCall(walletUnlocker, walletUnlocker.unlockWallet, {
-    wallet_password: Buffer.from(wallet_password)
+    wallet_password: Buffer.from(wallet_password),
   })
 }
 
@@ -87,6 +87,6 @@ export function initWallet(
     wallet_password: Buffer.from(wallet_password),
     cipher_seed_mnemonic,
     aezeed_passphrase: Buffer.from(aezeed_passphrase, 'hex'),
-    recovery_window
+    recovery_window,
   })
 }

@@ -6,15 +6,15 @@ import messages from './messages'
 
 class WalletRecover extends React.Component {
   static propTypes = {
+    recoverOldWallet: PropTypes.func.isRequired,
+    setWalletRecover: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    recoverOldWallet: PropTypes.func.isRequired,
-    setWalletRecover: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidMount() {

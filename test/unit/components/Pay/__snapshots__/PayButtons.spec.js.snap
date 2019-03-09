@@ -9,10 +9,10 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
     width={0.2}
   >
     <Button
-      active={false}
-      disabled={false}
+      isActive={false}
+      isDisabled={false}
+      isProcessing={false}
       onClick={[Function]}
-      processing={false}
       px={0}
       size="medium"
       type="button"
@@ -35,10 +35,10 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
     </Button>
   </styled.div>
   <Button
-    active={false}
-    disabled={false}
+    isActive={false}
+    isDisabled={false}
+    isProcessing={false}
     mx="auto"
-    processing={false}
     size="medium"
     type="submit"
     variant="normal"

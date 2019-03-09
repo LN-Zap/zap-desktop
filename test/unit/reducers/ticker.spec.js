@@ -4,7 +4,7 @@ import tickerReducer, {
   SET_CURRENCY,
   SET_CRYPTO,
   GET_TICKERS,
-  RECIEVE_TICKERS
+  RECIEVE_TICKERS,
 } from 'reducers/ticker'
 
 describe('reducers', () => {

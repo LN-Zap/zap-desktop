@@ -18,35 +18,35 @@ const ChannelsHeader = ({
   ...rest
 }) => (
   <Box as="header" mb={3} {...rest}>
-    <ChannelsInfo channels={channels} channelBalance={channelBalance} mb={3} />
+    <ChannelsInfo channelBalance={channelBalance} channels={channels} mb={3} />
     <ChannelsActions
+      changeFilter={changeFilter}
+      channelViewMode={channelViewMode}
       filter={filter}
       filters={filters}
-      changeFilter={changeFilter}
-      updateChannelSearchQuery={updateChannelSearchQuery}
-      searchQuery={searchQuery}
-      channelViewMode={channelViewMode}
-      setChannelViewMode={setChannelViewMode}
       openModal={openModal}
+      searchQuery={searchQuery}
+      setChannelViewMode={setChannelViewMode}
+      updateChannelSearchQuery={updateChannelSearchQuery}
     />
   </Box>
 )
 
 ChannelsHeader.propTypes = {
-  channels: PropTypes.array,
+  changeFilter: PropTypes.func.isRequired,
   channelBalance: PropTypes.number.isRequired,
+  channels: PropTypes.array,
+  channelViewMode: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
   filters: PropTypes.array.isRequired,
+  openModal: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
-  changeFilter: PropTypes.func.isRequired,
-  updateChannelSearchQuery: PropTypes.func.isRequired,
-  channelViewMode: PropTypes.string.isRequired,
   setChannelViewMode: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired
+  updateChannelSearchQuery: PropTypes.func.isRequired,
 }
 
 ChannelsHeader.defaultProps = {
-  channels: []
+  channels: [],
 }
 
 export default ChannelsHeader

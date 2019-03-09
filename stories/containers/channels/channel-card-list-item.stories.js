@@ -38,27 +38,27 @@ storiesOf('Containers.Channels', module)
                     'pending_close',
                     'pending_force_close',
                     'waiting_close',
-                    'offline'
+                    'offline',
                   ],
                   'open'
                 ),
-                active: true
+                active: true,
               }
 
               const state = store.getState()
               const stateProps = {
                 channel,
                 networkInfo: infoSelectors.networkInfo(state),
-                currencyName: tickerSelectors.currencyName(state)
+                currencyName: tickerSelectors.currencyName(state),
               }
               const dispatchProps = {
-                setSelectedChannel
+                setSelectedChannel,
               }
 
               return <ChannelCardListItem {...stateProps} {...dispatchProps} width={0.5} />
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   })

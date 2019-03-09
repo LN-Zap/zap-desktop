@@ -27,7 +27,7 @@ export const setTheme = currentTheme => async dispatch => {
   // Persist the new theme in the store.
   dispatch({
     type: SET_THEME,
-    currentTheme
+    currentTheme,
   })
 
   // Persist the new theme setting.
@@ -38,7 +38,7 @@ export const setTheme = currentTheme => async dispatch => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_THEME]: (state, { currentTheme }) => ({ ...state, currentTheme })
+  [SET_THEME]: (state, { currentTheme }) => ({ ...state, currentTheme }),
 }
 
 // ------------------------------------
@@ -71,7 +71,7 @@ export { themeSelectors }
 
 const initialState = {
   currentTheme: null,
-  themes: { dark, light }
+  themes: { dark, light },
 }
 
 export default function themeReducer(state = initialState, action) {

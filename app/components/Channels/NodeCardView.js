@@ -44,7 +44,7 @@ const TextOverlay = styled(Flex)`
 const NodeCardView = ({ description, host, image, nickname, nodeClicked, pubkey, ...rest }) => (
   <CardWithBg src={image} {...rest} onClick={() => nodeClicked(`${pubkey}@${host}`)}>
     <GradientOverlay />
-    <TextOverlay justifyContent="center" alignItems="center">
+    <TextOverlay alignItems="center" justifyContent="center">
       <Heading.h1 fontWeight="normal" textAlign="center">
         {nickname}
       </Heading.h1>
@@ -58,7 +58,7 @@ NodeCardView.propTypes = {
   image: PropTypes.string.isRequired,
   nickname: PropTypes.string.isRequired,
   nodeClicked: PropTypes.func.isRequired,
-  pubkey: PropTypes.string.isRequired
+  pubkey: PropTypes.string.isRequired,
 }
 
 export default React.memo(NodeCardView)

@@ -5,7 +5,7 @@ import {
   currentBlockHeight,
   fetchSeedSuccess,
   fetchSeedError,
-  lightningGrpcActive,
+  lightningWalletStarted,
   lndSyncStatus,
   lndStopped,
   lndStarted,
@@ -15,9 +15,9 @@ import {
   startLndError,
   walletCreated,
   walletUnlocked,
-  walletUnlockerGrpcActive,
+  walletUnlockerStarted,
   startNeutrino,
-  startWalletUnlocker
+  startWalletUnlocker,
 } from './lnd'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
@@ -36,7 +36,7 @@ import {
   pushclosechannelerror,
   pushclosechannelstatus,
   channelGraphData,
-  channelGraphStatus
+  channelGraphStatus,
 } from './channels'
 import { lightningPaymentUri, queryRoutesSuccess, queryRoutesFailure } from './pay'
 import { receivePayments, paymentSuccessful, paymentFailed } from './payment'
@@ -46,7 +46,7 @@ import {
   receiveTransactions,
   transactionSuccessful,
   transactionFailed,
-  newTransaction
+  newTransaction,
 } from './transaction'
 
 import { receiveDescribeNetwork } from './network'
@@ -61,7 +61,7 @@ const ipc = createIpc({
   currentBlockHeight,
   lndBlockHeight,
   lndCfilterHeight,
-  lightningGrpcActive,
+  lightningWalletStarted,
   receiveInfo,
 
   receivePeers,
@@ -117,7 +117,7 @@ const ipc = createIpc({
   startLndError,
   lndStopped,
   lndStarted,
-  walletUnlockerGrpcActive,
+  walletUnlockerStarted,
   fetchSeedSuccess,
   fetchSeedError,
   walletCreated,
@@ -125,7 +125,7 @@ const ipc = createIpc({
   setUnlockWalletError,
 
   startNeutrino,
-  startWalletUnlocker
+  startWalletUnlocker,
 })
 
 export default ipc

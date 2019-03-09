@@ -20,8 +20,8 @@ class ZapMigrator {
     return [
       {
         id: 1,
-        up: migration_1
-      }
+        up: migration_1,
+      },
     ]
   }
 
@@ -71,7 +71,7 @@ class ZapMigrator {
   async setLastMigration(id) {
     const data = {
       id: id.toString(),
-      date: new Date()
+      date: new Date(),
     }
     await fsWriteFile(this.logFile(), JSON.stringify(data))
   }

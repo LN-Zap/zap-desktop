@@ -35,8 +35,8 @@ const DEFAULT_REST_PORT = 8180
 class Neutrino extends EventEmitter {
   lndConfig: LndConfig
   process: any
-  walletUnlockerGrpcActive: boolean
-  lightningGrpcActive: boolean
+  isWalletUnlockerGrpcActive: boolean
+  isLightningGrpcActive: boolean
   chainSyncStatus: string
   currentBlockHeight: number
   lndBlockHeight: number
@@ -47,8 +47,8 @@ class Neutrino extends EventEmitter {
     super()
     this.lndConfig = lndConfig
     this.process = null
-    this.walletUnlockerGrpcActive = false
-    this.lightningGrpcActive = false
+    this.isWalletUnlockerGrpcActive = false
+    this.isLightningGrpcActive = false
     this.chainSyncStatus = CHAIN_SYNC_PENDING
     this.currentBlockHeight = 0
     this.lndBlockHeight = 0
@@ -96,7 +96,7 @@ class Neutrino extends EventEmitter {
     const rpcListen = isDev
       ? await getPort({
           host: 'localhost',
-          port: [10009, 10008, 10007, 10006, 10005, 10004, 10003, 10002, 10001]
+          port: [10009, 10008, 10007, 10006, 10005, 10004, 10003, 10002, 10001],
         })
       : DEFAULT_RPC_PORT
     this.lndConfig.host = `localhost:${rpcListen}`
@@ -105,14 +105,14 @@ class Neutrino extends EventEmitter {
     const restListen = isDev
       ? await getPort({
           host: 'localhost',
-          port: [8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089]
+          port: [8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089],
         })
       : DEFAULT_REST_PORT
 
     // Get a free port to use as the p2p listen address.
     const p2pListen = await getPort({
       host: '0.0.0.0',
-      port: [9735, 9734, 9733, 9732, 9731, 9736, 9737, 9738, 9739]
+      port: [9735, 9734, 9733, 9732, 9731, 9736, 9737, 9738, 9739],
     })
 
     // Genreate autopilot config.
@@ -121,7 +121,7 @@ class Neutrino extends EventEmitter {
       autopilotMaxchannels: '--autopilot.maxchannels',
       autopilotMinchansize: '--autopilot.minchansize',
       autopilotMaxchansize: '--autopilot.maxchansize',
-      autopilotMinconfs: '--autopilot.minconfs'
+      autopilotMinconfs: '--autopilot.minconfs',
     }
     const autopilotConf = []
     Object.entries(this.lndConfig).forEach(([key, value]) => {
@@ -140,7 +140,7 @@ class Neutrino extends EventEmitter {
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
       `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
       `${this.lndConfig.autopilotPrivate ? '--autopilot.private' : ''}`,
-      ...autopilotConf
+      ...autopilotConf,
     ]
 
     // Configure neutrino backend.
@@ -188,17 +188,17 @@ class Neutrino extends EventEmitter {
       }
 
       // password RPC server listening (wallet unlocker started).
-      if (!this.walletUnlockerGrpcActive && !this.lightningGrpcActive) {
+      if (!this.isWalletUnlockerGrpcActive && !this.isLightningGrpcActive) {
         if (line.includes('RPC server listening on') && line.includes('password')) {
-          this.walletUnlockerGrpcActive = true
+          this.isWalletUnlockerGrpcActive = true
           this.emit(WALLET_UNLOCKER_GRPC_ACTIVE)
         }
       }
 
       // RPC server listening (wallet unlocked).
-      if (!this.lightningGrpcActive) {
+      if (!this.isLightningGrpcActive) {
         if (line.includes('RPC server listening on') && !line.includes('password')) {
-          this.lightningGrpcActive = true
+          this.isLightningGrpcActive = true
           this.emit(LIGHTNING_GRPC_ACTIVE)
         }
       }

@@ -7,7 +7,7 @@ import mockSpawn from 'mock-spawn'
 jest.mock('child_process', () => {
   var mockSpawn = require('mock-spawn')
   return {
-    spawn: mockSpawn()
+    spawn: mockSpawn(),
   }
 })
 
@@ -21,11 +21,11 @@ describe('Neutrino', function() {
       it('should set the "process" property to null', () => {
         expect(this.neutrino.process).toEqual(null)
       })
-      it('should set the "walletUnlockerGrpcActive" property to false', () => {
-        expect(this.neutrino.walletUnlockerGrpcActive).toEqual(false)
+      it('should set the "isWalletUnlockerGrpcActive" property to false', () => {
+        expect(this.neutrino.isWalletUnlockerGrpcActive).toEqual(false)
       })
-      it('should set the "lightningGrpcActive" property to false', () => {
-        expect(this.neutrino.lightningGrpcActive).toEqual(false)
+      it('should set the "isLightningGrpcActive" property to false', () => {
+        expect(this.neutrino.isLightningGrpcActive).toEqual(false)
       })
       it('should set the "chainSyncStatus" property to "chain-sync-pending"', () => {
         expect(this.neutrino.chainSyncStatus).toEqual('chain-sync-pending')

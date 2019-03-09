@@ -14,5 +14,5 @@ export default defineMessages({
   block_height: 'Confirmed in block {height}',
   maturity_height: 'Locked until block {height} ',
   tx_hash: 'Transaction ID',
-  unconfirmed: 'Unconfirmed'
+  unconfirmed: 'Unconfirmed',
 })

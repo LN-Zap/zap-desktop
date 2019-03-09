@@ -20,20 +20,20 @@ const SearchResults = ({ filteredNetworkNodes, onClickConnect, ...rest }) => (
     {filteredNetworkNodes.map(node => {
       return (
         <React.Fragment key={node.pub_key}>
-          <Flex justifyContent="space-between" alignItems="center" py={2} pr={2}>
+          <Flex alignItems="center" justifyContent="space-between" pr={2} py={2}>
             <NodeNameContainer mr={3}>
               {node.alias.length > 0 ? (
                 <>
                   <ClippedText>{node.alias.trim()}</ClippedText>
                   <Text color="gray" fontSize="s">
-                    <Truncate text={node.pub_key} maxlen={25} />
+                    <Truncate maxlen={25} text={node.pub_key} />
                   </Text>
                 </>
               ) : (
                 <ClippedText>{node.pub_key}</ClippedText>
               )}
             </NodeNameContainer>
-            <Button size="small" type="button" onClick={() => onClickConnect(node)}>
+            <Button onClick={() => onClickConnect(node)} size="small" type="button">
               <FormattedMessage {...messages.connect} />
             </Button>
           </Flex>
@@ -46,17 +46,17 @@ const SearchResults = ({ filteredNetworkNodes, onClickConnect, ...rest }) => (
 
 SearchResults.propTypes = {
   filteredNetworkNodes: PropTypes.array.isRequired,
-  onClickConnect: PropTypes.func.isRequired
+  onClickConnect: PropTypes.func.isRequired,
 }
 
 const NoSearchResults = () => <Text color="gray">Your seach did not return any results.</Text>
 
 class ChannelNodeSearch extends React.PureComponent {
   static propTypes = {
+    filteredNetworkNodes: PropTypes.array.isRequired,
     intl: intlShape.isRequired,
     searchQuery: PropTypes.string,
     updateContactFormSearchQuery: PropTypes.func.isRequired,
-    filteredNetworkNodes: PropTypes.array.isRequired
   }
 
   /*eslint-disable react/destructuring-assignment*/
@@ -103,14 +103,14 @@ class ChannelNodeSearch extends React.PureComponent {
 
         <Form getApi={this.setFormApi}>
           <Input
+            description={intl.formatMessage({ ...messages.node_search_description })}
             field="search"
             id="search"
-            type="search"
-            placeholder={intl.formatMessage({ ...messages.node_search_placeholder })}
-            description={intl.formatMessage({ ...messages.node_search_description })}
-            onValueChange={this.handleSearchUpdated}
             initialValue={searchQuery}
-            required
+            isRequired
+            onValueChange={this.handleSearchUpdated}
+            placeholder={intl.formatMessage({ ...messages.node_search_placeholder })}
+            type="search"
           />
         </Form>
 

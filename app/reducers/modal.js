@@ -4,7 +4,7 @@ import genId from 'lib/utils/genId'
 // Initial State
 // ------------------------------------
 const initialState = {
-  modals: []
+  modals: [],
 }
 
 // ------------------------------------
@@ -19,18 +19,18 @@ export const CLOSE_MODAL = 'CLOSE_MODAL'
 export function openModal(type) {
   const modal = {
     id: genId(),
-    type
+    type,
   }
   return {
     type: OPEN_MODAL,
-    modal
+    modal,
   }
 }
 
 export function closeModal(id) {
   return {
     type: CLOSE_MODAL,
-    id
+    id,
   }
 }
 
@@ -40,20 +40,20 @@ export function closeModal(id) {
 const ACTION_HANDLERS = {
   [OPEN_MODAL]: (state, { modal }) => ({
     ...state,
-    modals: [...state.modals, modal]
+    modals: [...state.modals, modal],
   }),
   [CLOSE_MODAL]: (state, { id }) => {
     if (id) {
       return {
         ...state,
-        modals: state.modals.filter(item => item.id !== id)
+        modals: state.modals.filter(item => item.id !== id),
       }
     }
     return {
       ...state,
-      modals: [...state.modals.slice(0, -1)]
+      modals: [...state.modals.slice(0, -1)],
     }
-  }
+  },
 }
 
 // ------------------------------------

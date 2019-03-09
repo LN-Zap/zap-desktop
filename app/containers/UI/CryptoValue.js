@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Span, Value } from 'components/UI'
 
 const mapStateToProps = state => ({
-  currency: state.ticker.currency
+  currency: state.ticker.currency,
 })
 
 const ConnectedValue = connect(mapStateToProps)(Value)
@@ -18,7 +18,7 @@ const CryptoValue = ({ value, ...rest }) => {
 }
 
 CryptoValue.propTypes = {
-  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 export default CryptoValue

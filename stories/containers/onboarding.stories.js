@@ -30,8 +30,8 @@ const initialValues = {
   startLndMacaroonError: '',
   password: '',
   seed: [],
-  onboarded: false,
-  onboarding: true
+  isOnboarded: false,
+  onboarding: true,
 }
 
 const store = new Store(initialValues)
@@ -49,7 +49,7 @@ const resetOnboarding = () => {
 }
 
 const fetchSeed = async () => {
-  store.set({ fetchingSeed: true })
+  store.set({ isFetchingSeed: true })
   await delay(1000)
   store.set({
     seed: [
@@ -76,10 +76,10 @@ const fetchSeed = async () => {
       'slender',
       'blue',
       'day',
-      'fix'
-    ]
+      'fix',
+    ],
   })
-  store.set({ fetchingSeed: false })
+  store.set({ isFetchingSeed: false })
 }
 
 const startLnd = async () => {
@@ -125,22 +125,22 @@ storiesOf('Containers.Onboarding', module)
       <State store={store}>
         <Onboarding
           // DISPATCH
-          resetOnboarding={resetOnboarding}
-          setName={setName}
-          setAutopilot={setAutopilot}
-          setConnectionType={setConnectionType}
-          setConnectionHost={setConnectionHost}
-          setConnectionCert={setConnectionCert}
-          setConnectionMacaroon={setConnectionMacaroon}
-          setPassword={setPassword}
           createNewWallet={createNewWallet}
+          fetchSeed={fetchSeed}
           recoverOldWallet={recoverOldWallet}
+          resetOnboarding={resetOnboarding}
+          setAutopilot={setAutopilot}
+          setConnectionCert={setConnectionCert}
+          setConnectionHost={setConnectionHost}
+          setConnectionMacaroon={setConnectionMacaroon}
+          setConnectionType={setConnectionType}
+          setName={setName}
+          setPassword={setPassword}
           startLnd={startLnd}
           stopLnd={stopLnd}
-          validateHost={validateHost}
           validateCert={validateCert}
+          validateHost={validateHost}
           validateMacaroon={validateMacaroon}
-          fetchSeed={fetchSeed}
         />
       </State>
     )

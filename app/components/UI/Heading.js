@@ -18,10 +18,10 @@ class Heading extends React.PureComponent {
     return (
       <StyledHeading
         as="h2"
-        lineHeight="1.2"
-        fontWeight="light"
-        fontSize={5}
         color="primaryText"
+        fontSize={5}
+        fontWeight="light"
+        lineHeight="1.2"
         {...this.props}
       />
     )

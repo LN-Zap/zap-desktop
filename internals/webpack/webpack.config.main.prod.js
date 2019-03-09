@@ -18,23 +18,23 @@ export default merge.smart(baseConfig, {
   externals: ['config'],
 
   entry: {
-    main: path.join(rootDir, 'app', 'main')
+    main: path.join(rootDir, 'app', 'main'),
   },
 
   output: {
     path: path.join(rootDir, 'app', 'dist'),
-    filename: '[name].prod.js'
+    filename: '[name].prod.js',
   },
 
   plugins: [
     new EnvironmentPlugin({
-      NODE_ENV: 'production'
+      NODE_ENV: 'production',
     }),
 
     new BundleAnalyzerPlugin({
       analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
-      openAnalyzer: process.env.OPEN_ANALYZER === 'true'
-    })
+      openAnalyzer: process.env.OPEN_ANALYZER === 'true',
+    }),
   ],
 
   /**
@@ -44,6 +44,6 @@ export default merge.smart(baseConfig, {
    */
   node: {
     __dirname: false,
-    __filename: false
-  }
+    __filename: false,
+  },
 })

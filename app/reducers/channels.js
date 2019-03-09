@@ -137,7 +137,7 @@ const decorateChannel = (channelObj, nodes, closingChannelIds) => {
     display_name: getDisplayName(channelData, nodes),
     display_status: status,
     can_close:
-      ['open', 'offline'].includes(status) && !closingChannelIds.includes(channelData.chan_id)
+      ['open', 'offline'].includes(status) && !closingChannelIds.includes(channelData.chan_id),
   }
 
   if (channelObj.closing_txid) {
@@ -147,7 +147,7 @@ const decorateChannel = (channelObj, nodes, closingChannelIds) => {
   if (channelObj.channel) {
     return {
       ...channelObj,
-      channel: updatedChannelData
+      channel: updatedChannelData,
     }
   }
   return updatedChannelData
@@ -169,7 +169,7 @@ export const initChannels = () => async (dispatch, getState) => {
 export const setChannelViewMode = viewMode => dispatch => {
   dispatch({
     type: SET_CHANNEL_VIEW_MODE,
-    viewMode
+    viewMode,
   })
   dispatch(putSetting('channelViewMode', viewMode))
 }
@@ -177,98 +177,98 @@ export const setChannelViewMode = viewMode => dispatch => {
 export function changeFilter(filter) {
   return {
     type: CHANGE_CHANNEL_FILTER,
-    filter
+    filter,
   }
 }
 
 export function getChannels() {
   return {
-    type: GET_CHANNELS
+    type: GET_CHANNELS,
   }
 }
 
 export function openingChannel() {
   return {
-    type: OPENING_CHANNEL
+    type: OPENING_CHANNEL,
   }
 }
 
 export function closingChannel() {
   return {
-    type: CLOSING_CHANNEL
+    type: CLOSING_CHANNEL,
   }
 }
 
 export function openingSuccessful() {
   return {
-    type: OPENING_SUCCESSFUL
+    type: OPENING_SUCCESSFUL,
   }
 }
 
 export function openingFailure() {
   return {
-    type: OPENING_FAILURE
+    type: OPENING_FAILURE,
   }
 }
 
 export function updateChannelSearchQuery(searchQuery) {
   return {
     type: UPDATE_SEARCH_QUERY,
-    searchQuery
+    searchQuery,
   }
 }
 
 export function addLoadingPubkey(pubkey) {
   return {
     type: ADD_LOADING_PUBKEY,
-    pubkey
+    pubkey,
   }
 }
 
 export function removeLoadingPubkey(pubkey) {
   return {
     type: REMOVE_LOADING_PUBKEY,
-    pubkey
+    pubkey,
   }
 }
 
 export function addClosingChanId(chanId) {
   return {
     type: ADD_ClOSING_CHAN_ID,
-    chanId
+    chanId,
   }
 }
 
 export function removeClosingChanId(chanId) {
   return {
     type: REMOVE_ClOSING_CHAN_ID,
-    chanId
+    chanId,
   }
 }
 
 export function setSelectedChannel(selectedChannelId) {
   return {
     type: SET_SELECTED_CHANNEL,
-    selectedChannelId
+    selectedChannelId,
   }
 }
 
 export function getSuggestedNodes() {
   return {
-    type: GET_SUGGESTED_NODES
+    type: GET_SUGGESTED_NODES,
   }
 }
 
 export function receiveSuggestedNodesError() {
   return {
-    type: RECEIVE_SUGGESTED_NODES_ERROR
+    type: RECEIVE_SUGGESTED_NODES_ERROR,
   }
 }
 
 export function receiveSuggestedNodes(suggestedNodes) {
   return {
     type: RECEIVE_SUGGESTED_NODES,
-    suggestedNodes
+    suggestedNodes,
   }
 }
 
@@ -318,8 +318,8 @@ export const openChannel = ({ pubkey, host, localamt, satPerByte, isPrivate }) =
         host,
         localamt,
         private: isPrivate || activeWalletSettings.type === 'local',
-        satPerByte
-      }
+        satPerByte,
+      },
     })
   )
 }
@@ -371,11 +371,11 @@ export const closeChannel = () => (dispatch, getState) => {
         data: {
           channel_point: {
             funding_txid,
-            output_index
+            output_index,
           },
           chan_id,
-          force: !active
-        }
+          force: !active,
+        },
       })
     )
   }
@@ -415,14 +415,14 @@ export const pushclosechannelstatus = () => dispatch => {
  */
 const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1000, {
   leading: true,
-  trailing: true
+  trailing: true,
 })
 
 // IPC event for channel graph data
 export const channelGraphData = (event, data) => (dispatch, getState) => {
   const { info, channels } = getState()
   const {
-    channelGraphData: { channel_updates, node_updates }
+    channelGraphData: { channel_updates, node_updates },
   } = data
 
   // Process node updates.
@@ -470,7 +470,7 @@ const ACTION_HANDLERS = {
   [SET_CHANNEL_VIEW_MODE]: (state, { viewMode }) => ({ ...state, viewMode }),
   [SET_CHANNEL_FORM]: (state, { form }) => ({
     ...state,
-    channelForm: Object.assign({}, state.channelForm, form)
+    channelForm: Object.assign({}, state.channelForm, form),
   }),
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
   [RECEIVE_CHANNELS]: (state, { channels, pendingChannels, closedChannels }) => ({
@@ -478,7 +478,7 @@ const ACTION_HANDLERS = {
     channelsLoading: false,
     channels,
     pendingChannels,
-    closedChannels
+    closedChannels,
   }),
 
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
@@ -490,27 +490,27 @@ const ACTION_HANDLERS = {
 
   [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({
     ...state,
-    filter
+    filter,
   }),
 
   [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({
     ...state,
-    loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys]
+    loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys],
   }),
   [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({
     ...state,
     loadingChannelPubkeys: state.loadingChannelPubkeys.filter(
       loadingPubkey => loadingPubkey !== pubkey
-    )
+    ),
   }),
 
   [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => ({
     ...state,
-    closingChannelIds: [chanId, ...state.closingChannelIds]
+    closingChannelIds: [chanId, ...state.closingChannelIds],
   }),
   [REMOVE_ClOSING_CHAN_ID]: (state, { chanId }) => ({
     ...state,
-    closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId)
+    closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId),
   }),
 
   [SET_SELECTED_CHANNEL]: (state, { selectedChannelId }) => ({ ...state, selectedChannelId }),
@@ -519,24 +519,24 @@ const ACTION_HANDLERS = {
   [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => ({
     ...state,
     suggestedNodesLoading: false,
-    suggestedNodes
+    suggestedNodes,
   }),
   [RECEIVE_SUGGESTED_NODES_ERROR]: state => ({
     ...state,
     suggestedNodesLoading: false,
     suggestedNodes: {
       mainnet: [],
-      testnet: []
-    }
+      testnet: [],
+    },
   }),
   [OPEN_CLOSE_CHANNEL_DIALOG]: state => ({
     ...state,
-    isCloseDialogOpen: true
+    isCloseDialogOpen: true,
   }),
   [CLOSE_CLOSE_CHANNEL_DIALOG]: state => ({
     ...state,
-    isCloseDialogOpen: false
-  })
+    isCloseDialogOpen: false,
+  }),
 }
 
 const channelsSelectors = {}
@@ -625,7 +625,7 @@ channelsSelectors.closingPendingChannelsRaw = createSelector(
   (pendingClosedChannels, pendingForcedClosedChannels, waitingCloseChannels) => [
     ...pendingClosedChannels,
     ...pendingForcedClosedChannels,
-    ...waitingCloseChannels
+    ...waitingCloseChannels,
   ]
 )
 
@@ -642,7 +642,7 @@ channelsSelectors.closingChannelIds = createSelector(
   channelsSelectors.closingPendingChannels,
   (closingChannelIds, closingPendingChannels) => [
     ...closingChannelIds,
-    ...closingPendingChannels.map(pendingChannel => pendingChannel.channel.chan_id)
+    ...closingPendingChannels.map(pendingChannel => pendingChannel.channel.chan_id),
   ]
 )
 
@@ -664,7 +664,7 @@ channelsSelectors.allChannels = createSelector(
       ...activeChannels,
       ...pendingOpenChannels,
       ...closingPendingChannels,
-      ...nonActiveChannels
+      ...nonActiveChannels,
     ]
   }
 )
@@ -690,7 +690,7 @@ channelsSelectors.allChannelsRaw = createSelector(
       ...pendingOpenChannels,
       ...pendingClosedChannels,
       ...pendingForceClosedChannels,
-      ...waitingCloseChannels
+      ...waitingCloseChannels,
     ]
   }
 )
@@ -766,14 +766,14 @@ const initialState = {
     pending_open_channels: [],
     pending_closing_channels: [],
     pending_force_closing_channels: [],
-    waiting_close_channels: []
+    waiting_close_channels: [],
   },
   closedChannels: [],
   channelForm: {
     isOpen: false,
     node_key: '',
     local_amt: '',
-    push_amt: ''
+    push_amt: '',
   },
   openingChannel: false,
   closingChannel: false,
@@ -786,7 +786,7 @@ const initialState = {
     { key: 'ACTIVE_CHANNELS', name: 'Online' },
     { key: 'NON_ACTIVE_CHANNELS', name: 'Offline' },
     { key: 'OPEN_PENDING_CHANNELS', name: 'Pending' },
-    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing' }
+    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing' },
   ],
 
   loadingChannelPubkeys: [],
@@ -809,9 +809,9 @@ const initialState = {
   // ****
   suggestedNodes: {
     mainnet: [],
-    testnet: []
+    testnet: [],
   },
-  suggestedNodesLoading: false
+  suggestedNodesLoading: false,
 }
 
 export default function channelsReducer(state = initialState, action) {

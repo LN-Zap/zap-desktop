@@ -62,8 +62,8 @@ const CodeWrapper = styled(Box)`
   position: absolute;
   top: calc(10% - 2px);
   left: calc(10% - 2px);
-  filter: ${props => (props.obfuscate ? 'blur(3px)' : 'none')};
-  transition: ${props => (props.obfuscate ? 'none' : 'all 0.5s ease')};
+  filter: ${props => (props.isObfuscated ? 'blur(3px)' : 'none')};
+  transition: ${props => (props.isObfuscated ? 'none' : 'all 0.5s ease')};
 `
 const Mask = styled(Box)`
   background-color: white;
@@ -75,8 +75,8 @@ const Mask = styled(Box)`
   filter: blur(4px);
   width: 50%;
   height: 50%;
-  opacity: ${props => (props.obfuscate ? 100 : 0)};
-  transition: ${props => (props.obfuscate ? 'none' : 'all 0.5s ease')};
+  opacity: ${props => (props.isObfuscated ? 100 : 0)};
+  transition: ${props => (props.isObfuscated ? 'none' : 'all 0.5s ease')};
 `
 const Code = styled(QRCode)`
   border-style: solid;
@@ -97,13 +97,13 @@ class ZapQRCode extends React.PureComponent {
   static displayName = 'QRCode'
 
   static propTypes = {
-    size: PropTypes.string,
-    color: PropTypes.string,
     bg: PropTypes.string,
     border: PropTypes.number,
-    obfuscate: PropTypes.bool,
+    color: PropTypes.string,
+    isObfuscated: PropTypes.bool,
+    size: PropTypes.string,
     theme: PropTypes.object.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number])
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   }
 
   static defaultProps = {
@@ -111,11 +111,11 @@ class ZapQRCode extends React.PureComponent {
     color: 'black',
     bg: 'white',
     border: 1,
-    obfuscate: false
+    isObfuscated: false,
   }
 
   render() {
-    let { bg, color, size, border, obfuscate, theme, value, ...rest } = this.props
+    let { bg, color, size, border, isObfuscated, theme, value, ...rest } = this.props
 
     switch (size) {
       case QRCODE_SIZE_SMALL:
@@ -137,32 +137,32 @@ class ZapQRCode extends React.PureComponent {
     return (
       <Container size={size} {...rest}>
         <CropWrapper size={size}>
-          <TopLeft size={size} border={border} borderRadius="10%" borderColor="lightningOrange" />
-          <TopRight size={size} border={border} borderRadius="10%" borderColor="lightningOrange" />
+          <TopLeft border={border} borderColor="lightningOrange" borderRadius="10%" size={size} />
+          <TopRight border={border} borderColor="lightningOrange" borderRadius="10%" size={size} />
           <BottomLeft
-            size={size}
             border={border}
-            borderRadius="10%"
             borderColor="lightningOrange"
+            borderRadius="10%"
+            size={size}
           />
           <BottomRight
-            size={size}
             border={border}
-            borderRadius="10%"
             borderColor="lightningOrange"
+            borderRadius="10%"
+            size={size}
           />
         </CropWrapper>
-        <CodeWrapper obfuscate={obfuscate}>
+        <CodeWrapper isObfuscated={isObfuscated}>
           <Code
-            value={value}
-            size={size}
-            renderAs="svg"
-            fgColor={(theme && theme.colors[color]) || color}
             bgColor={(theme && theme.colors[bg]) || bg}
+            fgColor={(theme && theme.colors[color]) || color}
             level="L"
+            renderAs="svg"
+            size={size}
+            value={value}
           />
         </CodeWrapper>
-        <Mask obfuscate={obfuscate} />
+        <Mask isObfuscated={isObfuscated} />
       </Container>
     )
   }

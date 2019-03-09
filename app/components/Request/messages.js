@@ -21,5 +21,5 @@ export default defineMessages({
   title: 'Request',
   subtitle: 'through the Lightning Network',
   description:
-    'You can request {chain} ({ticker}) through the Lightning Network. Just enter the Amount you want to request in the field below. Zap will generate a QR-Code and a Lightning invoice after.'
+    'You can request {chain} ({ticker}) through the Lightning Network. Just enter the Amount you want to request in the field below. Zap will generate a QR-Code and a Lightning invoice after.',
 })

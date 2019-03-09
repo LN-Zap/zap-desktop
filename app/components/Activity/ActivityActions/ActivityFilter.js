@@ -7,7 +7,7 @@ const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => {
   const items = filters.map(f => {
     return {
       key: f.key,
-      value: f.name
+      value: f.name,
     }
   })
 
@@ -15,11 +15,11 @@ const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => {
     <Form {...rest}>
       <Select
         field="activity-filter"
-        id="activity-filter"
-        items={items}
-        initialSelectedItem={filter}
-        onValueSelected={changeFilter}
         highlightOnValid={false}
+        id="activity-filter"
+        initialSelectedItem={filter}
+        items={items}
+        onValueSelected={changeFilter}
       />
     </Form>
   )
@@ -28,11 +28,11 @@ const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => {
 ActivityFilter.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   filter: PropTypes.string,
-  filters: PropTypes.array
+  filters: PropTypes.array,
 }
 
 ActivityFilter.defaultProps = {
-  filters: []
+  filters: [],
 }
 
 export default ActivityFilter

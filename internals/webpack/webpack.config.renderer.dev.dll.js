@@ -28,7 +28,7 @@ export default merge.smart(baseConfig, {
     'lnd-grpc',
     'redux-electron-ipc',
     'rimraf',
-    'source-map-support'
+    'source-map-support',
   ],
 
   /**
@@ -40,30 +40,30 @@ export default merge.smart(baseConfig, {
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: 'url-loader'
-      }
-    ]
+        use: 'url-loader',
+      },
+    ],
   },
 
   resolve: {
-    modules: ['app']
+    modules: ['app'],
   },
 
   entry: {
-    renderer: Object.keys(dependencies)
+    renderer: Object.keys(dependencies),
   },
 
   output: {
     path: path.join(rootDir, 'dll'),
     library: 'renderer',
     filename: '[name].dev.dll.js',
-    libraryTarget: 'var'
+    libraryTarget: 'var',
   },
 
   plugins: [
     new webpack.DllPlugin({
       path: path.join('dll', '[name].json'),
-      name: '[name]'
+      name: '[name]',
     }),
 
     new webpack.LoaderOptionsPlugin({
@@ -71,9 +71,9 @@ export default merge.smart(baseConfig, {
       options: {
         context: path.join(rootDir, 'app'),
         output: {
-          path: path.join(rootDir, 'dll')
-        }
-      }
-    })
-  ]
+          path: path.join(rootDir, 'dll'),
+        },
+      },
+    }),
+  ],
 })

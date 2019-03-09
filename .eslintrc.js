@@ -4,7 +4,7 @@ module.exports = {
   parser: 'babel-eslint',
   parserOptions: {
     sourceType: 'module',
-    allowImportExportEverywhere: true
+    allowImportExportEverywhere: true,
   },
   extends: [
     'airbnb',
@@ -16,23 +16,39 @@ module.exports = {
     'plugin:import/warnings',
     'plugin:jsx-a11y/strict',
     'plugin:promise/recommended',
+    'plugin:prettier/recommended',
     'prettier',
     'prettier/flowtype',
     'prettier/react',
-    'plugin:prettier/recommended'
   ],
   env: {
     browser: true,
-    node: true
+    node: true,
   },
   globals: {
-    CONFIG: 'readable'
+    CONFIG: 'readable',
   },
   rules: {
-    'prettier/prettier': 'error',
-    'react/jsx-filename-extension': [1, { extensions: ['.js', '.jsx'] }],
+    camelcase: 0,
+    curly: ['error', 'all'],
+    'compat/compat': 'error',
+    'comma-dangle': ['error', 'always-multiline'],
+    // 'prettier/prettier': 0,
+    'react/boolean-prop-naming': ['error', { rule: '^(is|has|will|(.*)On)[A-Z]([A-Za-z0-9]?)+' }],
+    'react/forbid-prop-types': 0,
+    'react-hooks/rules-of-hooks': 'error',
+    'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
+    'react/jsx-sort-props': 'error',
+    'react/no-array-index-key': 0,
     'react/no-did-mount-set-state': 0,
-    'jsx-a11y/anchor-is-valid': [1, { components: [] }],
+    'react/prefer-stateless-function': 0,
+    'react/require-default-props': 0,
+    'react/sort-prop-types': 'error',
+    'react/style-prop-object': 0,
+    // 'sort-imports': 'error',
+    'import/no-extraneous-dependencies': 0,
+    'import/prefer-default-export': 0,
+    'jsx-a11y/anchor-is-valid': ['error', { components: [] }],
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 0,
     'jsx-a11y/click-events-have-key-events': 0,
@@ -41,43 +57,33 @@ module.exports = {
       {
         components: ['Label'],
         required: {
-          every: ['id']
+          every: ['id'],
         },
-        allowChildren: false
-      }
+        allowChildren: false,
+      },
     ],
     'jsx-a11y/label-has-associated-control': [
       2,
       {
-        depth: 1
-      }
+        depth: 1,
+      },
     ],
-    'react/no-array-index-key': 0,
-    'react/forbid-prop-types': 0,
-    camelcase: 0,
-    curly: ['error', 'all'],
-    'react/prefer-stateless-function': 0,
-    'react/require-default-props': 0,
-    'react/style-prop-object': 0,
     'max-len': ['error', { code: 120, ignoreUrls: true }],
-    'import/no-extraneous-dependencies': 0,
-    'import/prefer-default-export': 0,
     'no-cond-assign': ['error', 'except-parens'],
     'no-confusing-arrow': 'error',
     'no-mixed-operators': 'error',
+    'no-negated-condition': 'error',
+    'no-param-reassign': ['error', { props: false }],
     'no-new': 0,
     'no-tabs': 'error',
-    'compat/compat': 'error',
     'prefer-destructuring': [
       'error',
       {
         array: false,
-        object: true
-      }
+        object: true,
+      },
     ],
     'prefer-promise-reject-errors': 0,
-    'no-param-reassign': [2, { props: false }],
-    'react-hooks/rules-of-hooks': 'error'
   },
   plugins: [
     'flowtype',
@@ -89,16 +95,16 @@ module.exports = {
     'testcafe',
     'compat',
     'react',
-    'react-hooks'
+    'react-hooks',
   ],
   settings: {
     'import/resolver': {
       node: {
-        moduleDirectory: ['app', 'node_modules', 'app/node_modules']
+        moduleDirectory: ['app', 'node_modules', 'app/node_modules'],
       },
       webpack: {
-        config: path.resolve(__dirname, 'internals', 'webpack', 'webpack.config.eslint.js')
-      }
-    }
-  }
+        config: path.resolve(__dirname, 'internals', 'webpack', 'webpack.config.eslint.js'),
+      },
+    },
+  },
 }

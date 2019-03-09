@@ -52,12 +52,12 @@ class Onboarding {
     create: new ConnectionTypeOption('create'),
     import: new ConnectionTypeOption('import'),
     custom: new ConnectionTypeOption('custom'),
-    btcpayserver: new ConnectionTypeOption('btcpayserver')
+    btcpayserver: new ConnectionTypeOption('btcpayserver'),
   }
 
   connectionDetailsTabs = {
     string: new ConnectionDetailsTab('FORM_TYPE_CONNECTION_STRING'),
-    manual: new ConnectionDetailsTab('FORM_TYPE_MANUAL')
+    manual: new ConnectionDetailsTab('FORM_TYPE_MANUAL'),
   }
 
   // Inputs

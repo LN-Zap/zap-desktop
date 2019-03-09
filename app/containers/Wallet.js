@@ -8,14 +8,14 @@ import Wallet from 'components/Wallet'
 
 const mapDispatchToProps = {
   openWalletModal,
-  openModal
+  openModal,
 }
 
 const mapStateToProps = state => ({
   networkInfo: infoSelectors.networkInfo(state),
   ticker: state.ticker,
   totalBalance: balanceSelectors.totalBalance(state),
-  currentTicker: tickerSelectors.currentTicker(state)
+  currentTicker: tickerSelectors.currentTicker(state),
 })
 
 export default connect(

@@ -10,8 +10,8 @@ import { Flex } from 'rebass'
  */
 const Page = ({ css, ...rest }) => (
   <Flex
-    bg="primaryColor"
     as="article"
+    bg="primaryColor"
     css={Object.assign(
       {
         position: 'relative',
@@ -19,7 +19,7 @@ const Page = ({ css, ...rest }) => (
         overflow: 'hidden',
         'min-width': '900px',
         'min-height': '425px',
-        'box-shadow': '0 20px 70px rgba(0, 0, 0, 0.55)'
+        'box-shadow': '0 20px 70px rgba(0, 0, 0, 0.55)',
       },
       css
     )}
@@ -28,7 +28,7 @@ const Page = ({ css, ...rest }) => (
 )
 
 Page.propTypes = {
-  css: PropTypes.object
+  css: PropTypes.object,
 }
 
 export default Page

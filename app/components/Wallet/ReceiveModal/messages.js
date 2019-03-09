@@ -18,5 +18,5 @@ export default defineMessages({
   lndconnect_warning:
     'Keep this private! If someone gains access to this QR Code they can steal your money.',
   lndconnect_reveal_button: 'Click to reveal QR Code',
-  lndconnect_hide_button: 'Click to hide QR Code'
+  lndconnect_hide_button: 'Click to hide QR Code',
 })

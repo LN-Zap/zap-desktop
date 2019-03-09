@@ -9,9 +9,9 @@ storiesOf('Components', module).addWithChapters('Spinner', {
     {
       sections: [
         {
-          sectionFn: () => <Spinner />
-        }
-      ]
-    }
-  ]
+          sectionFn: () => <Spinner />,
+        },
+      ],
+    },
+  ],
 })

@@ -20,43 +20,43 @@ const ChannelsActions = ({
   intl,
   ...rest
 }) => (
-  <Flex as="section" alignItems="center" {...rest}>
+  <Flex alignItems="center" as="section" {...rest}>
     <ChannelSearch
-      width={7.5 / 16}
       placeholder={intl.formatMessage({ ...messages.search_placeholder })}
       searchQuery={searchQuery}
       updateChannelSearchQuery={updateChannelSearchQuery}
+      width={7.5 / 16}
     />
 
     <ChannelFilter
-      width={2.5 / 16}
+      changeFilter={changeFilter}
       filter={filter}
       filters={filters}
-      changeFilter={changeFilter}
       mr={1}
+      width={2.5 / 16}
     />
     <ChannelsViewSwitcher
-      ml={3}
       channelViewMode={channelViewMode}
+      ml={3}
       setChannelViewMode={setChannelViewMode}
     />
 
-    <Button onClick={() => openModal('CHANNEL_CREATE')} ml="auto">
+    <Button ml="auto" onClick={() => openModal('CHANNEL_CREATE')}>
       <FormattedMessage {...messages.create_new_button_text} />
     </Button>
   </Flex>
 )
 
 ChannelsActions.propTypes = {
+  changeFilter: PropTypes.func.isRequired,
+  channelViewMode: PropTypes.string.isRequired,
   filter: PropTypes.string.isRequired,
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
+  openModal: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
-  changeFilter: PropTypes.func.isRequired,
-  updateChannelSearchQuery: PropTypes.func.isRequired,
-  channelViewMode: PropTypes.string.isRequired,
   setChannelViewMode: PropTypes.func.isRequired,
-  openModal: PropTypes.func.isRequired
+  updateChannelSearchQuery: PropTypes.func.isRequired,
 }
 
 export default injectIntl(ChannelsActions)

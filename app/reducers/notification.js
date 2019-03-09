@@ -5,7 +5,7 @@ import genId from 'lib/utils/genId'
 // Initial State
 // ------------------------------------
 const initialState = {
-  notifications: []
+  notifications: [],
 }
 
 // ------------------------------------
@@ -22,12 +22,12 @@ export const enqueueNotification = (message, variant, timeout) => async dispatch
   const notification = {
     id: genId(),
     message,
-    variant
+    variant,
   }
 
   const notificationAction = dispatch({
     type: ENQUEUE_NOTIFICATION,
-    notification
+    notification,
   })
   // Set a timer to clear the error after 10 seconds.
   if (timeout) {
@@ -41,7 +41,7 @@ export const enqueueNotification = (message, variant, timeout) => async dispatch
 export function removeNotification(id) {
   return {
     type: REMOVE_NOTIFICATION,
-    id
+    id,
   }
 }
 
@@ -62,12 +62,12 @@ export const showWarning = (message, delay = NOTIFICATION_TIMEOUT) =>
 const ACTION_HANDLERS = {
   [ENQUEUE_NOTIFICATION]: (state, { notification }) => ({
     ...state,
-    notifications: [...state.notifications, notification]
+    notifications: [...state.notifications, notification],
   }),
   [REMOVE_NOTIFICATION]: (state, { id }) => ({
     ...state,
-    notifications: state.notifications.filter(item => item.id !== id)
-  })
+    notifications: state.notifications.filter(item => item.id !== id),
+  }),
 }
 
 // ------------------------------------

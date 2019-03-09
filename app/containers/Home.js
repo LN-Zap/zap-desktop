@@ -5,7 +5,7 @@ import {
   walletSelectors,
   showDeleteWalletDialog,
   setIsWalletOpen,
-  putWallet
+  putWallet,
 } from 'reducers/wallet'
 import {
   setUnlockWalletError,
@@ -13,7 +13,7 @@ import {
   startLnd,
   unlockWallet,
   refreshLndConnectURI,
-  clearStartLndError
+  clearStartLndError,
 } from 'reducers/lnd'
 import { showError, showNotification } from 'reducers/notification'
 import Home from 'components/Home'
@@ -31,12 +31,12 @@ const mapStateToProps = state => ({
   wallets: state.wallet.wallets,
   activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
-  lightningGrpcActive: state.lnd.lightningGrpcActive,
-  walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
+  isLightningGrpcActive: state.lnd.isLightningGrpcActive,
+  isWalletUnlockerGrpcActive: state.lnd.isWalletUnlockerGrpcActive,
   startLndError: state.lnd.startLndError,
-  startingLnd: state.lnd.startingLnd,
-  unlockingWallet: state.lnd.unlockingWallet,
-  unlockWalletError: state.lnd.unlockWalletError
+  isStartingLnd: state.lnd.isStartingLnd,
+  isUnlockingWallet: state.lnd.isUnlockingWallet,
+  unlockWalletError: state.lnd.unlockWalletError,
 })
 
 const mapDispatchToProps = {
@@ -51,7 +51,7 @@ const mapDispatchToProps = {
   deleteWallet: showDeleteWalletDialog,
   setIsWalletOpen,
   showError,
-  refreshLndConnectURI
+  refreshLndConnectURI,
 }
 
 export default connect(

@@ -10,12 +10,12 @@ const mapStateToProps = state => ({
   cryptoCurrencyTicker: tickerSelectors.currencyName(state),
   isProcessing: state.invoice.invoiceLoading,
   payReq: state.invoice.invoice,
-  invoice: invoiceSelectors.invoice(state)
+  invoice: invoiceSelectors.invoice(state),
 })
 
 const mapDispatchToProps = {
   createInvoice,
-  showNotification
+  showNotification,
 }
 
 export default connect(

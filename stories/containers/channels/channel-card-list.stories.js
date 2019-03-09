@@ -15,7 +15,7 @@ const channels = [
     local_balance: 686679,
     remote_balance: 75000,
     display_status: 'open',
-    active: true
+    active: true,
   },
   {
     chan_id: 2,
@@ -25,7 +25,7 @@ const channels = [
     local_balance: 1000,
     remote_balance: 10909,
     display_status: 'open',
-    active: true
+    active: true,
   },
   {
     chan_id: 3,
@@ -35,7 +35,7 @@ const channels = [
     local_balance: 48887,
     remote_balance: 89987,
     display_status: 'loading',
-    active: false
+    active: false,
   },
   {
     // chan_id: 4,
@@ -45,7 +45,7 @@ const channels = [
     local_balance: 686679,
     remote_balance: 75000,
     display_status: 'pending_open',
-    active: false
+    active: false,
   },
   {
     // chan_id: 5,
@@ -55,7 +55,7 @@ const channels = [
     local_balance: 345,
     remote_balance: 5607,
     display_status: 'pending_close',
-    active: false
+    active: false,
   },
   {
     // chan_id: 6,
@@ -65,7 +65,7 @@ const channels = [
     local_balance: 1345,
     remote_balance: 65435,
     display_status: 'pending_force_close',
-    active: false
+    active: false,
   },
   {
     // chan_id: 7,
@@ -75,7 +75,7 @@ const channels = [
     local_balance: 6932868,
     remote_balance: 4346674,
     display_status: 'waiting_close',
-    active: false
+    active: false,
   },
   {
     chan_id: 8,
@@ -85,8 +85,8 @@ const channels = [
     local_balance: 4677,
     remote_balance: 465,
     display_status: 'offline',
-    active: false
-  }
+    active: false,
+  },
 ]
 
 const setSelectedChannel = action('setSelectedChannel')
@@ -104,16 +104,16 @@ storiesOf('Containers.Channels', module)
               const stateProps = {
                 channels,
                 networkInfo: infoSelectors.networkInfo(state),
-                currencyName: tickerSelectors.currencyName(state)
+                currencyName: tickerSelectors.currencyName(state),
               }
               const dispatchProps = {
-                setSelectedChannel
+                setSelectedChannel,
               }
 
               return <ChannelCardList {...stateProps} {...dispatchProps} />
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   })

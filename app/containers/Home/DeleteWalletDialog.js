@@ -7,7 +7,7 @@ const mapStateToProps = state => {
   const isOpen = Boolean(state.wallet.isDeleteDialogOpen)
   return {
     isOpen,
-    walletDir: isOpen ? walletSelectors.activeWalletDir(state) : ''
+    walletDir: isOpen ? walletSelectors.activeWalletDir(state) : '',
   }
 }
 
@@ -18,7 +18,7 @@ const mapDispatchToProps = dispatch => ({
 
   onCancel() {
     dispatch(hideDeleteWalletDialog())
-  }
+  },
 })
 
 export default connect(

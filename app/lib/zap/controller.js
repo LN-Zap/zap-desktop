@@ -17,7 +17,7 @@ const LND_METHOD_UNAVAILABLE = 12
 
 type shutdownOptions = {
   signal?: string,
-  timeout?: number
+  timeout?: number,
 }
 
 const grpcSslCipherSuites = () => {
@@ -38,7 +38,7 @@ const grpcSslCipherSuites = () => {
     // BTCPay Server serves lnd behind an nginx proxy with a trusted SSL cert from Lets Encrypt.
     // These certs use an RSA TLS cipher suite.
     'ECDHE-RSA-AES256-GCM-SHA384',
-    'ECDHE-RSA-AES128-GCM-SHA256'
+    'ECDHE-RSA-AES128-GCM-SHA256',
   ].join(':')
 }
 
@@ -86,7 +86,7 @@ class ZapController {
           { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
           { name: 'startRemoteLnd', from: 'onboarding', to: 'connected' },
           { name: 'stopLnd', from: '*', to: 'onboarding' },
-          { name: 'terminate', from: '*', to: 'terminated' }
+          { name: 'terminate', from: '*', to: 'terminated' },
         ],
         methods: {
           onOnboarding: this.onOnboarding.bind(this),
@@ -95,8 +95,8 @@ class ZapController {
           onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
           onBeforeStopLnd: this.onBeforeStopLnd.bind(this),
           onTerminated: this.onTerminated.bind(this),
-          onTerminate: this.onTerminate.bind(this)
-        }
+          onTerminate: this.onTerminate.bind(this),
+        },
       })
 
       // Show the window as soon as the application has finished loading.
@@ -221,7 +221,7 @@ class ZapController {
       const MACAROON_ERROR_MESSAGES = [
         'cannot determine data format of binary-encoded macaroon',
         'verification failed: signature mismatch after caveat verification',
-        'unmarshal v2: section extends past end of buffer'
+        'unmarshal v2: section extends past end of buffer',
       ]
       // else try to figure out the error
       const errors = {}
@@ -286,13 +286,13 @@ class ZapController {
     if (this.mainWindow) {
       mainLog.info('Sending message to renderer process: %o', {
         msg,
-        data: sanitize(data, ['lndconnectUri', 'lndconnectQRCode'])
+        data: sanitize(data, ['lndconnectUri', 'lndconnectQRCode']),
       })
       this.mainWindow.webContents.send(msg, data)
     } else {
       mainLog.warn('Unable to send message to renderer process (main window not available): %o', {
         msg,
-        data
+        data,
       })
     }
   }
@@ -314,7 +314,7 @@ class ZapController {
       )
 
       // Notify the renderer that the wallet unlocker is active.
-      this.sendMessage('walletUnlockerGrpcActive', this.lndConfig)
+      this.sendMessage('walletUnlockerStarted', this.lndConfig)
     } catch (err) {
       mainLog.warn('Unable to connect to WalletUnlocker gRPC interface: %o', err)
       throw err
@@ -339,7 +339,7 @@ class ZapController {
       ipcMain.on('lnd', (event, { msg, data }) => this.lightning.registerMethods(event, msg, data))
 
       // Let the renderer know that we are connected.
-      this.sendMessage('lightningGrpcActive', this.lndConfig)
+      this.sendMessage('lightningWalletStarted', this.lndConfig)
     } catch (err) {
       mainLog.warn('Unable to connect to Lightning gRPC interface: %o', err)
       throw err
@@ -358,7 +358,7 @@ class ZapController {
       mainLog.error(`Got error from lnd process: ${error})`)
       dialog.showMessageBox({
         type: 'error',
-        message: `lnd error: ${error}`
+        message: `lnd error: ${error}`,
       })
     })
 

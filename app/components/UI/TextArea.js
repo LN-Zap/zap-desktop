@@ -20,13 +20,13 @@ function isFieldValid({ value, error, asyncError, touched }) {
 
 function mapDefaultBorderColor(props) {
   const {
-    disabled,
-    readOnly,
+    isDisabled,
+    isReadOnly,
     fieldState,
     fieldState: { error, asyncError },
     theme: {
-      colors: { gray, superGreen, superRed }
-    }
+      colors: { gray, superGreen, superRed },
+    },
   } = props
 
   let borderColor = gray
@@ -35,7 +35,7 @@ function mapDefaultBorderColor(props) {
     return borderColor
   }
 
-  if (readOnly || disabled) {
+  if (isReadOnly || isDisabled) {
     borderColor = gray
   } else if (error || asyncError) {
     borderColor = superRed
@@ -49,8 +49,8 @@ function mapFocusBorderColor(props) {
   const {
     fieldState,
     theme: {
-      colors: { lightningOrange, superGreen }
-    }
+      colors: { lightningOrange, superGreen },
+    },
   } = props
 
   if (!props.highlightOnValid) {
@@ -75,7 +75,7 @@ const SystemTextArea = styled(
       fontWeight: 'light',
       p: 3,
       width: 1,
-      rows: 5
+      rows: 5,
     },
     'space',
     'color',
@@ -88,7 +88,7 @@ const SystemTextArea = styled(
     'width'
   )
 )`
-  opacity: ${props => (props.disabled || props.readOnly ? '0.6' : 'inherit')};
+  opacity: ${props => (props.isDisabled || props.isReadOnly ? '0.6' : 'inherit')};
   outline: none;
   border-color: ${mapDefaultBorderColor};
   &:not([readOnly]):not([disabled]):focus {
@@ -107,33 +107,35 @@ class TextArea extends React.PureComponent {
 
   static propTypes = {
     description: PropTypes.string,
-    forwardedRef: PropTypes.object,
-    label: PropTypes.string,
-    required: PropTypes.bool,
-    theme: PropTypes.object.isRequired,
     field: PropTypes.string.isRequired,
     fieldApi: PropTypes.object.isRequired,
     fieldState: PropTypes.object.isRequired,
+    forwardedRef: PropTypes.object,
+    hasMessage: PropTypes.bool,
     highlightOnValid: PropTypes.bool,
+    isDisabled: PropTypes.bool,
+    isReadOnly: PropTypes.bool,
+    isRequired: PropTypes.bool,
     justifyContent: PropTypes.string,
-    showMessage: PropTypes.bool,
-    variant: PropTypes.string,
-    onChange: PropTypes.func,
+    label: PropTypes.string,
     onBlur: PropTypes.func,
+    onChange: PropTypes.func,
     onFocus: PropTypes.func,
-    tooltip: PropTypes.string
+    theme: PropTypes.object.isRequired,
+    tooltip: PropTypes.string,
+    variant: PropTypes.string,
   }
 
   static defaultProps = {
     description: null,
     label: null,
-    showMessage: true,
+    hasMessage: true,
     highlightOnValid: true,
-    tooltip: null
+    tooltip: null,
   }
 
   state = {
-    hasFocus: false
+    hasFocus: false,
   }
 
   constructor(props) {
@@ -150,13 +152,15 @@ class TextArea extends React.PureComponent {
       onFocus,
       forwardedRef,
       label,
-      required,
+      isDisabled,
+      isRequired,
+      isReadOnly,
       theme,
       field,
       fieldApi,
       fieldState,
       justifyContent,
-      showMessage,
+      hasMessage,
       variant,
       tooltip,
       ...rest
@@ -181,8 +185,8 @@ class TextArea extends React.PureComponent {
           <Flex mb={2}>
             <Label htmlFor={field} mb={2}>
               {label}
-              {required && (
-                <Span fontSize="s" css={{ 'vertical-align': 'top' }}>
+              {isRequired && (
+                <Span css={{ 'vertical-align': 'top' }} fontSize="s">
                   {' '}
                   *
                 </Span>
@@ -192,19 +196,10 @@ class TextArea extends React.PureComponent {
           </Flex>
         )}
         <SystemTextArea
-          p={variant === 'thin' ? 2 : 3}
-          field={field}
-          theme={theme}
-          fieldState={fieldState}
           ref={this.inputRef}
-          value={!value && value !== 0 ? '' : value}
-          required={required}
-          onChange={e => {
-            setValue(e.target.value)
-            if (onChange) {
-              onChange(e)
-            }
-          }}
+          disabled={isDisabled}
+          field={field}
+          fieldState={fieldState}
           onBlur={e => {
             setTouched()
             // Make the state aware that the element is now focused.
@@ -214,6 +209,12 @@ class TextArea extends React.PureComponent {
             }
             if (onBlur) {
               onBlur(e)
+            }
+          }}
+          onChange={e => {
+            setValue(e.target.value)
+            if (onChange) {
+              onChange(e)
             }
           }}
           onFocus={e => {
@@ -226,6 +227,11 @@ class TextArea extends React.PureComponent {
               onFocus(e)
             }
           }}
+          p={variant === 'thin' ? 2 : 3}
+          readOnly={isReadOnly}
+          required={isRequired}
+          theme={theme}
+          value={!value && value !== 0 ? '' : value}
           {...rest}
         />
         {description && (
@@ -233,8 +239,8 @@ class TextArea extends React.PureComponent {
             {description}
           </Text>
         )}
-        {showMessage && (fieldState.error || fieldState.asyncError) && (
-          <Message variant={hasFocus ? 'warning' : 'error'} mt={1}>
+        {hasMessage && (fieldState.error || fieldState.asyncError) && (
+          <Message mt={1} variant={hasFocus ? 'warning' : 'error'}>
             {fieldState.error || fieldState.asyncError}
           </Message>
         )}

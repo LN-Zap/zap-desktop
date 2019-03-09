@@ -4,11 +4,11 @@ import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/con
 
 const mapStateToProps = state => ({
   searchQuery: state.contactsform.searchQuery,
-  filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state)
+  filteredNetworkNodes: contactFormSelectors.filteredNetworkNodes(state),
 })
 
 const mapDispatchToProps = {
-  updateContactFormSearchQuery
+  updateContactFormSearchQuery,
 }
 
 export default connect(

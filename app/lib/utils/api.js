@@ -17,7 +17,7 @@ export function requestTicker(id) {
   const BASE_URL = `${scheme}api.coinbase.com/v2/exchange-rates?currency=${id}`
   return axios({
     method: 'get',
-    url: BASE_URL
+    url: BASE_URL,
   }).then(response => response.data)
 }
 
@@ -25,7 +25,7 @@ export function requestTickers(ids) {
   return axios.all(ids.map(id => requestTicker(id))).then(
     axios.spread((btcTicker, ltcTicker) => ({
       btcTicker: btcTicker.data.rates,
-      ltcTicker: ltcTicker.data.rates
+      ltcTicker: ltcTicker.data.rates,
     }))
   )
 }
@@ -34,7 +34,7 @@ export function requestSuggestedNodes() {
   const BASE_URL = `${scheme}zap.jackmallers.com/api/v1/suggested-peers`
   return axios({
     method: 'get',
-    url: BASE_URL
+    url: BASE_URL,
   }).then(response => response.data)
 }
 
@@ -42,6 +42,6 @@ export function requestFees() {
   const BASE_URL = 'https://bitcoinfees.earn.com/api/v1/fees/recommended'
   return axios({
     method: 'get',
-    url: BASE_URL
+    url: BASE_URL,
   }).then(response => response.data)
 }

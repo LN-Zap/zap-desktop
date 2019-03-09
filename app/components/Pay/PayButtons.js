@@ -11,43 +11,43 @@ import messages from './messages'
  */
 class PayButtons extends React.PureComponent {
   static propTypes = {
-    disabled: PropTypes.bool,
+    hasBackButton: PropTypes.bool,
+    hasSubmitButton: PropTypes.bool,
+    isDisabled: PropTypes.bool,
+    isProcessing: PropTypes.bool,
     nextButtonText: PropTypes.node,
     previousStep: PropTypes.func,
-    processing: PropTypes.bool,
-    showBack: PropTypes.bool,
-    showSubmit: PropTypes.bool
   }
 
   static defaultProps = {
-    disabled: false,
+    isDisabled: false,
     nextButtonText: <FormattedMessage {...messages.next} />,
     previousStep: () => ({}),
-    processing: false,
-    showBack: true,
-    showSubmit: true
+    isProcessing: false,
+    hasBackButton: true,
+    hasSubmitButton: true,
   }
 
   render() {
     const {
-      disabled,
+      isDisabled,
       nextButtonText,
       previousStep,
-      processing,
-      showBack,
-      showSubmit,
+      isProcessing,
+      hasBackButton,
+      hasSubmitButton,
       ...rest
     } = this.props
     return (
-      <Flex {...rest} justifyContent="space-between" alignItems="center">
+      <Flex {...rest} alignItems="center" justifyContent="space-between">
         <Box width={1 / 5}>
-          {showBack && (
+          {hasBackButton && (
             <Button
-              type="button"
-              variant="secondary"
+              isDisabled={isProcessing}
               onClick={previousStep}
               px={0}
-              disabled={processing}
+              type="button"
+              variant="secondary"
             >
               <Flex>
                 <Text>
@@ -60,8 +60,13 @@ class PayButtons extends React.PureComponent {
             </Button>
           )}
         </Box>
-        {showSubmit && (
-          <Button type="submit" mx="auto" disabled={disabled || processing} processing={processing}>
+        {hasSubmitButton && (
+          <Button
+            isDisabled={isDisabled || isProcessing}
+            isProcessing={isProcessing}
+            mx="auto"
+            type="submit"
+          >
             {nextButtonText}
           </Button>
         )}

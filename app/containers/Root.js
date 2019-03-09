@@ -34,17 +34,17 @@ const PageWithLoading = withLoading(Page)
 class Root extends React.Component {
   static propTypes = {
     hasWallets: PropTypes.bool,
-    removeNotification: PropTypes.func.isRequired,
-    theme: PropTypes.object,
-    loadingMessage: PropTypes.object,
-    notifications: PropTypes.array.isRequired,
     history: PropTypes.object.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-
     initSettings: PropTypes.func.isRequired,
     initTheme: PropTypes.func.isRequired,
+    isLoading: PropTypes.bool.isRequired,
     isMounted: PropTypes.bool.isRequired,
-    setMounted: PropTypes.func.isRequired
+    loadingMessage: PropTypes.object,
+
+    notifications: PropTypes.array.isRequired,
+    removeNotification: PropTypes.func.isRequired,
+    setMounted: PropTypes.func.isRequired,
+    theme: PropTypes.object,
   }
 
   async componentDidMount() {
@@ -76,7 +76,7 @@ class Root extends React.Component {
       notifications,
       history,
       isLoading,
-      loadingMessage
+      loadingMessage,
     } = this.props
 
     // Wait until we have loaded essential data before displaying anything.
@@ -97,9 +97,9 @@ class Root extends React.Component {
             <ModalStack />
             <PageWithLoading isLoading={isLoading} loadingMessage={loadingMessage}>
               <Switch>
-                <Route exact path="/" component={Initializer} />
-                <Route exact path="/wallet-starter" component={WalletStarter} />
-                <Route path="/home" component={Home} />
+                <Route component={Initializer} exact path="/" />
+                <Route component={WalletStarter} exact path="/wallet-starter" />
+                <Route component={Home} path="/home" />
                 <Route
                   exact
                   path="/onboarding"
@@ -112,8 +112,8 @@ class Root extends React.Component {
                   path="/syncing"
                   render={() => <Syncing onClose={this.redirectToLogout} pb={0} px={0} />}
                 />
-                <Route path="/app" component={App} />
-                <Route path="/logout" component={Logout} />
+                <Route component={App} path="/app" />
+                <Route component={Logout} path="/logout" />
               </Switch>
             </PageWithLoading>
           </React.Fragment>
@@ -129,7 +129,7 @@ const mapStateToProps = state => ({
   theme: themeSelectors.currentThemeSettings(state),
   isLoading: isLoading(state) || isLoadingPerPath(state),
   loadingMessage: getLoadingMessage(state),
-  isMounted: appSelectors.isMounted(state)
+  isMounted: appSelectors.isMounted(state),
 })
 
 const mapDispatchToProps = {
@@ -137,7 +137,7 @@ const mapDispatchToProps = {
   initSettings,
   initTheme,
   setLoading,
-  setMounted
+  setMounted,
 }
 
 export default hot(

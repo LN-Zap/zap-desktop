@@ -7,18 +7,18 @@ import Text from './Text'
 
 class DataRow extends React.PureComponent {
   state = {
-    collapsed: true
+    collapsed: true,
   }
 
   static propTypes = {
+    body: PropTypes.any,
     left: PropTypes.any,
     right: PropTypes.any,
-    body: PropTypes.any
   }
 
   toggleBody = () => {
     this.setState(prevState => ({
-      collapsed: !prevState.collapsed
+      collapsed: !prevState.collapsed,
     }))
   }
 
@@ -31,7 +31,7 @@ class DataRow extends React.PureComponent {
         <Flex alignItems="center" justifyContent="space-between">
           {body ? (
             <Flex alignItems="center" css={{ cursor: 'pointer' }} onClick={this.toggleBody}>
-              <Flex width={8} alignItems="center" flexDirection="column" mr={2}>
+              <Flex alignItems="center" flexDirection="column" mr={2} width={8}>
                 {collapsed ? <AngleRight height="8px" /> : <AngleDown width="8px" />}
               </Flex>
 

@@ -4,11 +4,11 @@ import { State, Store } from '@sambego/storybook-state'
 import { Tabs } from 'components/UI'
 
 const store = new Store({
-  activeKey: 'all'
+  activeKey: 'all',
 })
 
 const dispatchProps = {
-  onClick: activeKey => store.set({ activeKey })
+  onClick: activeKey => store.set({ activeKey }),
 }
 storiesOf('Components', module).addWithChapters('Tabs', {
   subtitle: 'List of buttons formatted as tabs',
@@ -26,14 +26,14 @@ storiesOf('Components', module).addWithChapters('Tabs', {
                     { key: 'all', name: 'All' },
                     { key: 'sent', name: 'Send' },
                     { key: 'received', name: 'Received' },
-                    { key: 'pending', name: 'Pending' }
+                    { key: 'pending', name: 'Pending' },
                   ]}
                 />
               )}
             </State>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

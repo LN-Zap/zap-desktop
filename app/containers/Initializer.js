@@ -16,16 +16,16 @@ class Initializer extends React.Component {
   static propTypes = {
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
-    hasWallets: PropTypes.bool,
-    isWalletOpen: PropTypes.bool,
-    isReady: PropTypes.bool.isRequired,
-    lndConnect: PropTypes.string,
     fetchSuggestedNodes: PropTypes.func.isRequired,
-    initTickers: PropTypes.func.isRequired,
-    initLocale: PropTypes.func.isRequired,
+    hasWallets: PropTypes.bool,
+    initChannels: PropTypes.func.isRequired,
     initCurrency: PropTypes.func.isRequired,
+    initLocale: PropTypes.func.isRequired,
+    initTickers: PropTypes.func.isRequired,
     initWallets: PropTypes.func.isRequired,
-    initChannels: PropTypes.func.isRequired
+    isReady: PropTypes.bool.isRequired,
+    isWalletOpen: PropTypes.bool,
+    lndConnect: PropTypes.string,
   }
 
   /**
@@ -38,7 +38,7 @@ class Initializer extends React.Component {
       initLocale,
       initCurrency,
       initWallets,
-      initChannels
+      initChannels,
     } = this.props
     initTickers()
     initLocale()
@@ -59,7 +59,7 @@ class Initializer extends React.Component {
       isReady,
       isWalletOpen,
       hasWallets,
-      lndConnect
+      lndConnect,
     } = this.props
 
     // still initializing - no location change
@@ -95,7 +95,7 @@ const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   hasWallets: walletSelectors.hasWallets(state),
   isWalletOpen: walletSelectors.isWalletOpen(state),
-  isReady: appSelectors.isReady(state)
+  isReady: appSelectors.isReady(state),
 })
 
 const mapDispatchToProps = {
@@ -105,7 +105,7 @@ const mapDispatchToProps = {
   initCurrency,
   initLocale,
   initWallets,
-  initChannels
+  initChannels,
 }
 
 export default connect(

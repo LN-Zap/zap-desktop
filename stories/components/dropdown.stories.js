@@ -14,19 +14,19 @@ storiesOf('Components', module).addWithChapters('Dropdown', {
             const items = [
               {
                 key: 'btc',
-                name: 'BTC'
+                name: 'BTC',
               },
               {
                 key: 'bits',
-                name: 'bits'
+                name: 'bits',
               },
               {
                 key: 'sats',
-                name: 'satoshis'
-              }
+                name: 'satoshis',
+              },
             ]
             return <Dropdown activeKey={activeKey} items={items} onChange={action('onChange')} />
-          }
+          },
         },
         {
           title: 'Right justify',
@@ -35,28 +35,28 @@ storiesOf('Components', module).addWithChapters('Dropdown', {
             const items = [
               {
                 key: 'usd',
-                name: 'USD'
+                name: 'USD',
               },
               {
                 key: 'eur',
-                name: 'EUR'
+                name: 'EUR',
               },
               {
                 key: 'gbp',
-                name: 'GBP'
-              }
+                name: 'GBP',
+              },
             ]
             return (
               <Dropdown
                 activeKey={activeKey}
                 items={items}
-                onChange={action('onChange')}
                 justify="right"
+                onChange={action('onChange')}
               />
             )
-          }
-        }
-      ]
-    }
-  ]
+          },
+        },
+      ],
+    },
+  ],
 })

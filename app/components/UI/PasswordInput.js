@@ -20,24 +20,24 @@ const PasswordInputAsField = asField(PasswordInput)
 
 class WrappedPasswordInputAsField extends React.Component {
   static propTypes = {
-    disabled: PropTypes.bool,
-    required: PropTypes.bool,
-    validate: PropTypes.func
+    isDisabled: PropTypes.bool,
+    isRequired: PropTypes.bool,
+    validate: PropTypes.func,
   }
 
   static defaultProps = {
-    disabled: false,
-    required: false
+    isDisabled: false,
+    isRequired: false,
   }
 
   validate = value => {
-    const { disabled, required } = this.props
-    if (disabled) {
+    const { isDisabled, isRequired } = this.props
+    if (isDisabled) {
       return
     }
     try {
       let validator = yup.string().min(8)
-      if (required) {
+      if (isRequired) {
         validator = validator.required()
       }
       validator.validateSync(value)

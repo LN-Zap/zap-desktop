@@ -10,25 +10,25 @@ storiesOf('Components', module).addWithChapters('ProgressBar', {
       sections: [
         {
           title: 'Default, 0%',
-          sectionFn: () => <ProgressBar />
+          sectionFn: () => <ProgressBar />,
         },
         {
           title: 'Default, 30%',
-          sectionFn: () => <ProgressBar progress={0.3} />
+          sectionFn: () => <ProgressBar progress={0.3} />,
         },
         {
           title: 'Default, 70%, right justify',
-          sectionFn: () => <ProgressBar progress={0.7} justify="right" />
+          sectionFn: () => <ProgressBar justify="right" progress={0.7} />,
         },
         {
           title: 'Blue, 70%',
-          sectionFn: () => <ProgressBar progress={0.7} color="superBlue" />
+          sectionFn: () => <ProgressBar color="superBlue" progress={0.7} />,
         },
         {
           title: 'Blue, 30%, right justify',
-          sectionFn: () => <ProgressBar progress={0.3} justify="right" color="superBlue" />
-        }
-      ]
-    }
-  ]
+          sectionFn: () => <ProgressBar color="superBlue" justify="right" progress={0.3} />,
+        },
+      ],
+    },
+  ],
 })

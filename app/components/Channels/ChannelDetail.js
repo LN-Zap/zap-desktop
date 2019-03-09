@@ -16,28 +16,28 @@ const ChannelDetail = ({
   ...rest
 }) => (
   <Panel {...rest}>
-    <Panel.Header width={9 / 16} mx="auto">
+    <Panel.Header mx="auto" width={9 / 16}>
       <ChannelHeader channel={channel} />
     </Panel.Header>
     <Panel.Body css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
       <ChannelCapacity
         localBalance={channel.local_balance}
-        remoteBalance={channel.remote_balance}
-        width={9 / 16}
         mx="auto"
         my={4}
+        remoteBalance={channel.remote_balance}
+        width={9 / 16}
       />
       <ChannelData
         channel={channel}
         currencyName={currencyName}
+        mx="auto"
         networkInfo={networkInfo}
         viewMode={CHANNEL_DATA_VIEW_MODE_FULL}
         width={9 / 16}
-        mx="auto"
       />
     </Panel.Body>
 
-    <Panel.Footer px={4} mt={2}>
+    <Panel.Footer mt={2} px={4}>
       <ChannelFooter channel={channel} closeChannel={closeChannel} />
     </Panel.Footer>
   </Panel>
@@ -45,13 +45,13 @@ const ChannelDetail = ({
 
 ChannelDetail.propTypes = {
   channel: PropTypes.object.isRequired,
-  currencyName: PropTypes.string.isRequired,
   closeChannel: PropTypes.func.isRequired,
-  setSelectedChannel: PropTypes.func.isRequired,
+  currencyName: PropTypes.string.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
-    name: PropTypes.string
-  })
+    name: PropTypes.string,
+  }),
+  setSelectedChannel: PropTypes.func.isRequired,
 }
 
 export default ChannelDetail

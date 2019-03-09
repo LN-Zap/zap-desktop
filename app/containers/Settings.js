@@ -5,7 +5,7 @@ import {
   openSettings,
   closeSettings,
   setActiveSubMenu,
-  disableSubMenu
+  disableSubMenu,
 } from 'reducers/settingsmenu'
 import { setTheme } from 'reducers/theme'
 import { openModal } from 'reducers/modal'
@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
   currentLocale: state.intl.locale,
   themes: state.theme.themes,
   currentTheme: state.theme.currentTheme,
-  isSettingsOpen: state.settingsmenu.isSettingsOpen
+  isSettingsOpen: state.settingsmenu.isSettingsOpen,
 })
 
 const mapDispatchToProps = {
@@ -33,7 +33,7 @@ const mapDispatchToProps = {
   disableSubMenu,
   setFiatTicker,
   setLocale,
-  setTheme
+  setTheme,
 }
 
 const mergeProps = (stateProps, dispatchProps) => ({
@@ -49,22 +49,22 @@ const mergeProps = (stateProps, dispatchProps) => ({
     fiatTicker: stateProps.fiatTicker,
     fiatTickers: stateProps.fiatTickers,
     disableSubMenu: dispatchProps.disableSubMenu,
-    setFiatTicker: dispatchProps.setFiatTicker
+    setFiatTicker: dispatchProps.setFiatTicker,
   },
 
   localeProps: {
     locales: stateProps.locales,
     currentLocale: stateProps.currentLocale,
     disableSubMenu: dispatchProps.disableSubMenu,
-    setLocale: dispatchProps.setLocale
+    setLocale: dispatchProps.setLocale,
   },
 
   themeProps: {
     themes: stateProps.themes,
     currentTheme: stateProps.currentTheme,
     disableSubMenu: dispatchProps.disableSubMenu,
-    setTheme: dispatchProps.setTheme
-  }
+    setTheme: dispatchProps.setTheme,
+  },
 })
 
 export default connect(

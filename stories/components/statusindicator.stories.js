@@ -9,21 +9,21 @@ storiesOf('Components', module).addWithChapters('StatusIndicator', {
       sections: [
         {
           title: 'Online',
-          sectionFn: () => <StatusIndicator variant="online" />
+          sectionFn: () => <StatusIndicator variant="online" />,
         },
         {
           title: 'Pending',
-          sectionFn: () => <StatusIndicator variant="pending" />
+          sectionFn: () => <StatusIndicator variant="pending" />,
         },
         {
           title: 'Closing',
-          sectionFn: () => <StatusIndicator variant="closing" />
+          sectionFn: () => <StatusIndicator variant="closing" />,
         },
         {
           title: 'Offline',
-          sectionFn: () => <StatusIndicator variant="offline" />
-        }
-      ]
-    }
-  ]
+          sectionFn: () => <StatusIndicator variant="offline" />,
+        },
+      ],
+    },
+  ],
 })

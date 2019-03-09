@@ -8,6 +8,6 @@ import rendererProdConf from './webpack.config.renderer.prod'
 // Disable minification for compatibility with testcafe-react-selectors.
 export default merge.smart(rendererProdConf, {
   optimization: {
-    minimizer: []
-  }
+    minimizer: [],
+  },
 })

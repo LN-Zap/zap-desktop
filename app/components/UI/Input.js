@@ -21,13 +21,13 @@ function isFieldValid({ value, error, asyncError, touched }) {
 
 function mapDefaultBorderColor(props) {
   const {
-    disabled,
-    readOnly,
+    isDisabled,
+    isReadOnly,
     fieldState,
     fieldState: { error, asyncError },
     theme: {
-      colors: { gray, superGreen, superRed }
-    }
+      colors: { gray, superGreen, superRed },
+    },
   } = props
 
   let borderColor = gray
@@ -36,7 +36,7 @@ function mapDefaultBorderColor(props) {
     return borderColor
   }
 
-  if (readOnly || disabled) {
+  if (isReadOnly || isDisabled) {
     borderColor = gray
   } else if (error || asyncError) {
     borderColor = superRed
@@ -50,8 +50,8 @@ function mapFocusBorderColor(props) {
   const {
     fieldState,
     theme: {
-      colors: { lightningOrange, superGreen }
-    }
+      colors: { lightningOrange, superGreen },
+    },
   } = props
 
   if (!props.highlightOnValid) {
@@ -82,7 +82,7 @@ const SystemInput = styled(
       fontSize: 'm',
       fontWeight: 'light',
       p: 3,
-      width: 1
+      width: 1,
     },
     'space',
     'color',
@@ -95,7 +95,7 @@ const SystemInput = styled(
     'width'
   )
 )`
-  opacity: ${props => (props.disabled || props.readOnly ? '0.6' : 'inherit')};
+  opacity: ${props => (props.isDisabled || props.isReadOnly ? '0.6' : 'inherit')};
   outline: none;
   border-color: ${mapDefaultBorderColor};
   &:not([readOnly]):not([disabled]):focus {
@@ -117,39 +117,43 @@ class Input extends React.Component {
   static displayName = 'Input'
 
   static propTypes = {
-    autoFocus: PropTypes.bool,
-    type: PropTypes.string,
     className: PropTypes.string,
     description: PropTypes.node,
-    forwardedRef: PropTypes.object,
-    label: PropTypes.node,
-    required: PropTypes.bool,
-    theme: PropTypes.object.isRequired,
     field: PropTypes.string.isRequired,
     fieldApi: PropTypes.object.isRequired,
     fieldState: PropTypes.object.isRequired,
+    forwardedRef: PropTypes.object,
+    hasMessage: PropTypes.bool,
     highlightOnValid: PropTypes.bool,
     iconSize: PropTypes.number,
+    isDisabled: PropTypes.bool,
+    isReadOnly: PropTypes.bool,
+    isRequired: PropTypes.bool,
     justifyContent: PropTypes.string,
-    showMessage: PropTypes.bool,
-    variant: PropTypes.string,
-    onChange: PropTypes.func,
+    label: PropTypes.node,
     onBlur: PropTypes.func,
+    onChange: PropTypes.func,
     onFocus: PropTypes.func,
-    tooltip: PropTypes.string
+    theme: PropTypes.object.isRequired,
+    tooltip: PropTypes.string,
+    type: PropTypes.string,
+    variant: PropTypes.string,
+    willAutoFocus: PropTypes.bool,
   }
 
   static defaultProps = {
-    required: false,
-    showMessage: true,
-    autoFocus: false,
+    isRequired: false,
+    isReadOnly: false,
+    isDisabled: false,
+    hasMessage: true,
+    willAutoFocus: false,
     highlightOnValid: true,
     iconSize: 46,
-    tooltip: null
+    tooltip: null,
   }
 
   state = {
-    hasFocus: false
+    hasFocus: false,
   }
 
   constructor(props) {
@@ -159,8 +163,8 @@ class Input extends React.Component {
   }
 
   componentDidMount() {
-    const { autoFocus } = this.props
-    if (autoFocus) {
+    const { willAutoFocus } = this.props
+    if (willAutoFocus) {
       this.inputRef.current.focus()
     }
   }
@@ -173,7 +177,9 @@ class Input extends React.Component {
       onFocus,
       forwardedRef,
       label,
-      required,
+      isDisabled,
+      isReadOnly,
+      isRequired,
       theme,
       type,
       field,
@@ -181,7 +187,7 @@ class Input extends React.Component {
       fieldState,
       iconSize,
       justifyContent,
-      showMessage,
+      hasMessage,
       variant,
       className,
       tooltip,
@@ -212,8 +218,8 @@ class Input extends React.Component {
           <Flex mb={2}>
             <Label htmlFor={field}>
               {label}
-              {required && (
-                <Span fontSize="s" css={{ 'vertical-align': 'top' }}>
+              {isRequired && (
+                <Span css={{ 'vertical-align': 'top' }} fontSize="s">
                   {' '}
                   *
                 </Span>
@@ -228,19 +234,10 @@ class Input extends React.Component {
           <SystemInput
             p={variant === 'thin' ? 2 : 3}
             {...rest}
-            field={field}
-            type={type}
-            theme={theme}
-            fieldState={fieldState}
             ref={this.inputRef}
-            value={!value && value !== 0 ? '' : value}
-            required={required}
-            onChange={e => {
-              setValue(e.target.value)
-              if (onChange) {
-                onChange(e)
-              }
-            }}
+            disabled={isDisabled}
+            field={field}
+            fieldState={fieldState}
             onBlur={e => {
               setTouched()
               // Make the state aware that the element is now focused.
@@ -250,6 +247,12 @@ class Input extends React.Component {
               }
               if (onBlur) {
                 onBlur(e)
+              }
+            }}
+            onChange={e => {
+              setValue(e.target.value)
+              if (onChange) {
+                onChange(e)
               }
             }}
             onFocus={e => {
@@ -263,6 +266,11 @@ class Input extends React.Component {
               }
             }}
             pl={type === 'search' ? 35 : null}
+            readOnly={isReadOnly}
+            required={isRequired}
+            theme={theme}
+            type={type}
+            value={!value && value !== 0 ? '' : value}
           />
         </Flex>
 
@@ -271,8 +279,8 @@ class Input extends React.Component {
             {description}
           </Text>
         )}
-        {type !== 'hidden' && showMessage && (fieldState.error || fieldState.asyncError) && (
-          <Message variant={hasFocus ? 'warning' : 'error'} mt={1}>
+        {type !== 'hidden' && hasMessage && (fieldState.error || fieldState.asyncError) && (
+          <Message mt={1} variant={hasFocus ? 'warning' : 'error'}>
             {fieldState.error || fieldState.asyncError}
           </Message>
         )}

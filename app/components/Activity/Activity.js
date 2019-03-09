@@ -18,7 +18,7 @@ const StyledList = styled(List)`
 class Activity extends Component {
   cache = new CellMeasurerCache({
     fixedWidth: true,
-    minHeight: 52
+    minHeight: 52,
   })
 
   componentDidUpdate() {
@@ -49,12 +49,12 @@ class Activity extends Component {
     const renderRow = ({ index, key, style, parent }) => {
       const item = currentActivity[index]
       return (
-        <CellMeasurer key={key} cache={this.cache} parent={parent} columnIndex={0} rowIndex={index}>
+        <CellMeasurer key={key} cache={this.cache} columnIndex={0} parent={parent} rowIndex={index}>
           <div style={style}>
             {item.title ? (
-              <Box pl={4} mt={4}>
+              <Box mt={4} pl={4}>
                 <Heading.h4 fontWeight="normal">
-                  <FormattedDate day="2-digit" month="short" year="numeric" value={item.title} />
+                  <FormattedDate day="2-digit" month="short" value={item.title} year="numeric" />
                 </Heading.h4>
                 <Bar my={1} />
               </Box>
@@ -65,7 +65,7 @@ class Activity extends Component {
                   currencyName,
                   currentTicker,
                   showActivityModal,
-                  ticker
+                  ticker,
                 }}
               />
             )}
@@ -78,14 +78,14 @@ class Activity extends Component {
         {({ width, height }) => {
           return (
             <StyledList
-              pr={4}
               ref={ref => (this._list = ref)}
-              width={width}
+              deferredMeasurementCache={this.cache}
               height={height}
+              pr={4}
+              rowCount={currentActivity.length}
               rowHeight={this.cache.rowHeight}
               rowRenderer={renderRow}
-              rowCount={currentActivity.length}
-              deferredMeasurementCache={this.cache}
+              width={width}
             />
           )
         }}
@@ -113,13 +113,13 @@ class Activity extends Component {
 }
 
 Activity.propTypes = {
-  intl: intlShape.isRequired,
   activity: PropTypes.object.isRequired,
-  currentActivity: PropTypes.array.isRequired,
   currencyName: PropTypes.string,
+  currentActivity: PropTypes.array.isRequired,
   currentTicker: PropTypes.object,
+  intl: intlShape.isRequired,
+  showActivityModal: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
-  showActivityModal: PropTypes.func.isRequired
 }
 
 export default injectIntl(Activity)

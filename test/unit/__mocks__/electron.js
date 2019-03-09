@@ -6,16 +6,16 @@ module.exports = {
   app: {
     getPath: name => normalize(`/tmp/zap-test/${name}`),
     getAppPath: () => normalize(`${__dirname}/../../`),
-    getLocale: jest.fn()
+    getLocale: jest.fn(),
   },
   remote: {
     app: {
-      getLocale: jest.fn()
-    }
+      getLocale: jest.fn(),
+    },
   },
   dialog: jest.fn(),
   BrowserWindow: jest.fn(),
   ipcMain: {
-    on: jest.fn()
-  }
+    on: jest.fn(),
+  },
 }

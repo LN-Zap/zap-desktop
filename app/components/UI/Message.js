@@ -21,15 +21,15 @@ class Message extends React.Component {
   static displayName = 'Message'
 
   static propTypes = {
+    children: PropTypes.node,
     justifyContent: PropTypes.string,
     variant: PropTypes.string,
-    children: PropTypes.node
   }
 
   renderIcon = () => {
     const { variant } = this.props
     return (
-      <Box mr={1} width="14px" css={{ height: '14px' }}>
+      <Box css={{ height: '14px' }} mr={1} width="14px">
         {variant === 'success' && <Success height="14px" width="14px" />}
         {variant === 'warning' && <Warning height="14px" width="14px" />}
         {variant === 'error' && <Error height="14px" width="14px" />}

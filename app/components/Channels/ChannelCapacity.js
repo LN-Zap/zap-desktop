@@ -19,48 +19,48 @@ const ChannelCapacity = ({ localBalance, remoteBalance, opacity, ...rest }) => {
 
   return (
     <Card as="article" {...rest}>
-      <Flex as="header" justifyContent="space-between" alignItems="center" opacity={opacity}>
+      <Flex alignItems="center" as="header" justifyContent="space-between" opacity={opacity}>
         <Text width={1 / 3}>
           <Heading.h4 fontWeight="normal">
             <FormattedMessage {...messages.local_balance} />
           </Heading.h4>
         </Text>
-        <Text width={1 / 3} textAlign="center">
+        <Text textAlign="center" width={1 / 3}>
           <Heading.h4 fontWeight="normal">
             <FormattedMessage {...messages.capacity} />
           </Heading.h4>
         </Text>
-        <Text width={1 / 3} textAlign="right">
+        <Text textAlign="right" width={1 / 3}>
           <Heading.h4 fontWeight="normal">
             <FormattedMessage {...messages.remote_balance} />
           </Heading.h4>
         </Text>
       </Flex>
 
-      <Flex as="header" justifyContent="space-between" alignItems="center" my={2} opacity={opacity}>
+      <Flex alignItems="center" as="header" justifyContent="space-between" my={2} opacity={opacity}>
         <Box width="calc(50% - 15px)">
           <ProgressBar progress={localBalancePercent} />
         </Box>
-        <Text width={30} textAlign="center" color="lightningOrange">
-          <ZapSolid height="20px" fill="currentColor" />
+        <Text color="lightningOrange" textAlign="center" width={30}>
+          <ZapSolid fill="currentColor" height="20px" />
         </Text>
         <Box width="calc(50% - 15px)">
-          <ProgressBar progress={remoteBalancePercent} justify="right" color="superBlue" />
+          <ProgressBar color="superBlue" justify="right" progress={remoteBalancePercent} />
         </Box>
       </Flex>
 
       <Flex as="footer" justifyContent="space-between">
-        <Text width={1 / 3.2} opacity={opacity}>
+        <Text opacity={opacity} width={1 / 3.2}>
           <CryptoValue value={localBalance} />
         </Text>
-        <Flex width={1 / 2.6} justifyContent="center" alignItems="center">
-          <Text textAlign="center" lineHeight="1" opacity={opacity}>
+        <Flex alignItems="center" justifyContent="center" width={1 / 2.6}>
+          <Text lineHeight="1" opacity={opacity} textAlign="center">
             <CryptoValue value={totalBalance} />
           </Text>
-          <CryptoSelector ml={1} buttonOpacity={opacity} />
+          <CryptoSelector buttonOpacity={opacity} ml={1} />
         </Flex>
 
-        <Text width={1 / 3.2} textAlign="right" opacity={opacity}>
+        <Text opacity={opacity} textAlign="right" width={1 / 3.2}>
           <CryptoValue value={remoteBalance} />
         </Text>
       </Flex>
@@ -70,8 +70,8 @@ const ChannelCapacity = ({ localBalance, remoteBalance, opacity, ...rest }) => {
 
 ChannelCapacity.propTypes = {
   localBalance: PropTypes.number.isRequired,
+  opacity: PropTypes.number,
   remoteBalance: PropTypes.number.isRequired,
-  opacity: PropTypes.number
 }
 
 export default ChannelCapacity

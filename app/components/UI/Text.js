@@ -16,13 +16,13 @@ class Text extends React.PureComponent {
   static displayName = 'Text'
 
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   render() {
     const { children } = this.props
     return (
-      <StyledText lineHeight="1.4" fontSize="m" color="primaryText" {...this.props}>
+      <StyledText color="primaryText" fontSize="m" lineHeight="1.4" {...this.props}>
         {children}
       </StyledText>
     )

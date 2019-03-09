@@ -50,5 +50,5 @@ export default defineMessages({
   hostname_description: 'Hostname and port of the Lnd gRPC interface.',
   macaroon_description: 'Path to the lnd macaroon file.',
   hide_connection_string: 'Hide connection string',
-  connection_string: 'Connection string'
+  connection_string: 'Connection string',
 })

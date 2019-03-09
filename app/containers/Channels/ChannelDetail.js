@@ -7,12 +7,12 @@ import { tickerSelectors } from 'reducers/ticker'
 const mapStateToProps = state => ({
   currencyName: tickerSelectors.currencyName(state),
   networkInfo: infoSelectors.networkInfo(state),
-  channel: channelsSelectors.selectedChannel(state)
+  channel: channelsSelectors.selectedChannel(state),
 })
 
 const mapDispatchToProps = {
   closeChannel: showCloseChannelDialog,
-  setSelectedChannel
+  setSelectedChannel,
 }
 
 export default connect(

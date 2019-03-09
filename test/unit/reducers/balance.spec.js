@@ -14,7 +14,7 @@ describe('reducers', () => {
       const walletBalance = {
         total_balance: 1,
         confirmed_balance: 1,
-        unconfirmed_balance: 1
+        unconfirmed_balance: 1,
       }
       const channelBalance = 1
       expect(

@@ -21,16 +21,16 @@ storiesOf('Containers.Channels', module)
                 image:
                   'https://pbs.twimg.com/profile_images/1062081653013647360/X2pAwJEu_400x400.jpg',
                 nickname: 'Zap technologies',
-                pubkey: '03634bda49c9c42afd876d8288802942c49e58fbec3844ff54b46143bfcb6cdfaf'
+                pubkey: '03634bda49c9c42afd876d8288802942c49e58fbec3844ff54b46143bfcb6cdfaf',
               }
               const dispatchProps = {
-                nodeClicked
+                nodeClicked,
               }
 
               return <NodeCardView {...stateProps} {...dispatchProps} width={1 / 3} />
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   })

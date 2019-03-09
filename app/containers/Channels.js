@@ -7,7 +7,7 @@ import {
   showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
-  updateChannelSearchQuery
+  updateChannelSearchQuery,
 } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
 import { tickerSelectors } from 'reducers/ticker'
@@ -22,7 +22,7 @@ const mapStateToProps = state => ({
   filters: state.channels.filters,
   networkInfo: infoSelectors.networkInfo(state),
   searchQuery: state.channels.searchQuery,
-  selectedChannel: channelsSelectors.selectedChannel(state)
+  selectedChannel: channelsSelectors.selectedChannel(state),
 })
 
 const mapDispatchToProps = {
@@ -31,7 +31,7 @@ const mapDispatchToProps = {
   setSelectedChannel,
   setChannelViewMode,
   openModal,
-  updateChannelSearchQuery
+  updateChannelSearchQuery,
 }
 
 export default connect(

@@ -12,7 +12,7 @@ class Link extends React.PureComponent {
   static displayName = 'Link'
 
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   render() {

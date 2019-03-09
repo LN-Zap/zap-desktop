@@ -28,7 +28,7 @@ export function connectAndOpen(lnd, event, payload) {
         node_pubkey: Buffer.from(pubkey, 'hex'),
         local_funding_amount: Number(localamt),
         private: privateChannel,
-        sat_per_byte: satPerByte
+        sat_per_byte: satPerByte,
       })
 
       call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
@@ -56,7 +56,7 @@ export function openChannel(lnd, event, payload) {
   const req = {
     node_pubkey: Buffer.from(pubkey, 'hex'),
     local_funding_amount: Number(localamt),
-    push_sat: Number(pushamt)
+    push_sat: Number(pushamt),
   }
 
   return pushopenchannel(lnd, event, req)
@@ -100,7 +100,7 @@ export function closeChannel(lnd, event, payload) {
   const {
     channel_point: { funding_txid, output_index },
     chan_id,
-    force
+    force,
   } = payload
   const tx = funding_txid
     .match(/.{2}/g)
@@ -110,9 +110,9 @@ export function closeChannel(lnd, event, payload) {
   const res = {
     channel_point: {
       funding_txid_bytes: Buffer.from(tx, 'hex'),
-      output_index: Number(output_index)
+      output_index: Number(output_index),
     },
-    force
+    force,
   }
 
   return new Promise((resolve, reject) => {

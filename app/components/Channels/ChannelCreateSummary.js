@@ -10,7 +10,7 @@ import { withEllipsis } from 'hocs'
 import {
   TRANSACTION_SPEED_SLOW,
   TRANSACTION_SPEED_MEDIUM,
-  TRANSACTION_SPEED_FAST
+  TRANSACTION_SPEED_FAST,
 } from './constants'
 import messages from './messages'
 
@@ -20,13 +20,13 @@ class ChannelCreateSummary extends React.Component {
   static propTypes = {
     amount: PropTypes.number,
     fee: PropTypes.number.isRequired,
+    nodeDisplayName: PropTypes.string,
+    nodePubkey: PropTypes.string.isRequired,
     speed: PropTypes.oneOf([
       TRANSACTION_SPEED_SLOW,
       TRANSACTION_SPEED_MEDIUM,
-      TRANSACTION_SPEED_FAST
+      TRANSACTION_SPEED_FAST,
     ]),
-    nodePubkey: PropTypes.string.isRequired,
-    nodeDisplayName: PropTypes.string
   }
 
   render() {
@@ -39,8 +39,8 @@ class ChannelCreateSummary extends React.Component {
         <Box py={3}>
           <Flex alignItems="center">
             <Box width={5 / 11}>
-              <Flex flexWrap="wrap" alignItems="baseline">
-                <Text textAlign="left" fontSize={6}>
+              <Flex alignItems="baseline" flexWrap="wrap">
+                <Text fontSize={6} textAlign="left">
                   <CryptoValue value={amount} />
                 </Text>
                 <CryptoSelector ml={2} />
@@ -50,24 +50,24 @@ class ChannelCreateSummary extends React.Component {
                 <FiatValue style="currency" value={amount} />
               </Text>
             </Box>
-            <Flex justifyContent="center" width={1 / 11} color="lightningOrange">
-              <BigArrowRight width="40px" height="28px" />
+            <Flex color="lightningOrange" justifyContent="center" width={1 / 11}>
+              <BigArrowRight height="28px" width="40px" />
             </Flex>
             <Flex
-              flexDirection="column"
-              width={5 / 11}
               className="hint--bottom-left"
               data-hint={nodePubkey}
+              flexDirection="column"
               ml={3}
+              width={5 / 11}
             >
               {nodeDisplayName && (
-                <ClippedText textAlign="right" fontSize="xl">
+                <ClippedText fontSize="xl" textAlign="right">
                   {nodeDisplayName}
                 </ClippedText>
               )}
               {nodePubkey && (
-                <Text textAlign="right" color={nodeDisplayName ? 'gray' : null}>
-                  <Truncate text={pubkey} maxlen={25} />
+                <Text color={nodeDisplayName ? 'gray' : null} textAlign="right">
+                  <Truncate maxlen={25} text={pubkey} />
                 </Text>
               )}
             </Flex>
@@ -81,10 +81,10 @@ class ChannelCreateSummary extends React.Component {
             <DataRow
               left={<FormattedMessage {...messages.fee} />}
               right={
-                <Flex flexDirection="column" alignItems="flex-end">
+                <Flex alignItems="flex-end" flexDirection="column">
                   <Flex alignItems="center">
                     <CryptoValue value={fee} />
-                    <CryptoSelector ml={2} justify="right" />
+                    <CryptoSelector justify="right" ml={2} />
                   </Flex>
                   <Text color="gray">
                     <FormattedMessage {...messages[speedTitleMessageKey]} />
@@ -100,7 +100,7 @@ class ChannelCreateSummary extends React.Component {
               right={
                 <>
                   <CryptoValue value={amount + fee} />
-                  <CryptoSelector ml={2} justify="right" />
+                  <CryptoSelector justify="right" ml={2} />
                 </>
               }
             />

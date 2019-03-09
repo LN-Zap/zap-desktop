@@ -16,9 +16,9 @@ storiesOf('Containers.Channels', module)
               const localBalance = number('Local Balance', 150000)
               const remoteBalance = number('Remote Balance', 75000)
               return <ChannelCapacity localBalance={localBalance} remoteBalance={remoteBalance} />
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   })

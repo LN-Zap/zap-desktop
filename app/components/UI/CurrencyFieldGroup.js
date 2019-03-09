@@ -11,50 +11,50 @@ import messages from './messages'
 class CurrencyFieldGroup extends React.Component {
   static propTypes = {
     /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
-    /** Currently selected cryptocurrency (key). */
-    cryptoCurrency: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
     cryptoCurrencies: PropTypes.arrayOf(
       PropTypes.shape({
         key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
+        name: PropTypes.string.isRequired,
       })
     ).isRequired,
+    /** Currently selected cryptocurrency (key). */
+    cryptoCurrency: PropTypes.string.isRequired,
+    /** List of supported cryptocurrencies. */
+    currentTicker: PropTypes.object.isRequired,
     /** Boolean indicating if form fields are disabled */
-    disabled: PropTypes.bool,
-    /** List of supported fiat currencies. */
     fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
+    /** List of supported fiat currencies. */
     fiatCurrency: PropTypes.string.isRequired,
-    /** FormApi */
+    /** Currently selected fiat currency (key). */
     formApi: PropTypes.object.isRequired,
-    /** forward ref for amount crypto field */
+    /** FormApi */
     forwardedRef: PropTypes.object,
-    /** Amount value to populate the amountCrypto field with when the form first loads. */
+    /** forward ref for amount crypto field */
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    /** Amount value to populate the amountFiat field with when the form first loads. */
+    /** Amount value to populate the amountCrypto field with when the form first loads. */
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    /** Amount value to populate the amountFiat field with when the form first loads. */
+    isDisabled: PropTypes.bool,
     /** Boolean indicating if form fields are required */
-    required: PropTypes.bool,
+    isRequired: PropTypes.bool,
     /** Additional field validation */
-    validate: PropTypes.func,
-    /** Boolean indicating if form fields should validate on blur */
-    validateOnBlur: PropTypes.bool,
-    /** Boolean indicating if form fields should validate on change */
-    validateOnChange: PropTypes.bool,
-    /** Set the current cryptocurrency. */
     setCryptoCurrency: PropTypes.func.isRequired,
+    /** Boolean indicating if form fields should validate on blur */
+    setFiatCurrency: PropTypes.func.isRequired,
+    /** Boolean indicating if form fields should validate on change */
+    validate: PropTypes.func,
+    /** Set the current cryptocurrency. */
+    validateOnBlur: PropTypes.bool,
     /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired
+    validateOnChange: PropTypes.bool,
   }
 
   static defaultProps = {
-    disabled: false,
+    isDisabled: false,
     initialAmountCrypto: null,
     initialAmountFiat: null,
     validateOnBlur: true,
-    validateOnChange: true
+    validateOnChange: true,
   }
 
   /**
@@ -98,12 +98,12 @@ class CurrencyFieldGroup extends React.Component {
       cryptoCurrency,
       cryptoCurrencies,
       currentTicker,
-      disabled,
+      isDisabled,
       fiatCurrency,
       fiatCurrencies,
       initialAmountCrypto,
       initialAmountFiat,
-      required,
+      isRequired,
       validate,
       validateOnBlur,
       validateOnChange,
@@ -116,53 +116,53 @@ class CurrencyFieldGroup extends React.Component {
           <Flex width={6 / 13}>
             <Box width={150}>
               <CryptoAmountInput
-                field="amountCrypto"
-                name="amountCrypto"
-                initialValue={initialAmountCrypto}
                 currency={cryptoCurrency}
-                required={required}
+                field="amountCrypto"
+                forwardedRef={this.forwardedRef}
+                initialValue={initialAmountCrypto}
+                isDisabled={isDisabled}
+                isRequired={isRequired}
                 label={<FormattedMessage {...messages.amount} />}
-                width={150}
+                name="amountCrypto"
+                onChange={this.handleAmountCryptoChange}
                 validate={validate}
                 validateOnBlur={validateOnBlur}
                 validateOnChange={validateOnChange}
-                onChange={this.handleAmountCryptoChange}
-                forwardedRef={this.forwardedRef}
-                disabled={disabled}
+                width={150}
               />
             </Box>
             <Dropdown
               activeKey={cryptoCurrency}
               items={cryptoCurrencies}
-              onChange={this.handleCryptoCurrencyChange}
-              mt={36}
               ml={2}
+              mt={36}
+              onChange={this.handleCryptoCurrencyChange}
             />
           </Flex>
-          <Flex justifyContent="center" width={1 / 11} mt={38}>
+          <Flex justifyContent="center" mt={38} width={1 / 11}>
             =
           </Flex>
           <Flex width={6 / 13}>
-            <Box width={150} ml="auto">
+            <Box ml="auto" width={150}>
               <FiatAmountInput
-                field="amountFiat"
-                name="amountFiat"
-                initialValue={initialAmountFiat}
                 currency={fiatCurrency}
                 currentTicker={currentTicker}
+                field="amountFiat"
+                initialValue={initialAmountFiat}
+                isDisabled={isDisabled}
                 label="&nbsp;"
-                width={150}
+                name="amountFiat"
                 onChange={this.handleAmountFiatChange}
-                disabled={disabled}
+                width={150}
               />
             </Box>
 
             <Dropdown
               activeKey={fiatCurrency}
               items={fiatCurrencies}
-              onChange={this.handleFiatCurrencyChange}
-              mt={36}
               ml={2}
+              mt={36}
+              onChange={this.handleFiatCurrencyChange}
             />
           </Flex>
         </Flex>

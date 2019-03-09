@@ -4,11 +4,11 @@ module.exports = {
       '@babel/preset-env',
       {
         useBuiltIns: 'usage',
-        include: ['proposal-object-rest-spread', 'transform-classes', 'transform-destructuring']
-      }
+        include: ['proposal-object-rest-spread', 'transform-classes', 'transform-destructuring'],
+      },
     ],
     '@babel/preset-flow',
-    '@babel/react'
+    '@babel/react',
   ],
   plugins: [
     '@babel/plugin-proposal-class-properties',
@@ -18,9 +18,9 @@ module.exports = {
       'react-intl-auto',
       {
         removePrefix: 'app/',
-        filebase: false
-      }
-    ]
+        filebase: false,
+      },
+    ],
   ],
   env: {
     production: {
@@ -28,8 +28,8 @@ module.exports = {
         '@babel/transform-react-constant-elements',
         '@babel/transform-react-inline-elements',
         'transform-react-remove-prop-types',
-        'transform-react-pure-class-to-function'
-      ]
-    }
-  }
+        'transform-react-pure-class-to-function',
+      ],
+    },
+  },
 }

@@ -8,7 +8,7 @@ describe('isStableVersion', () => {
       ['0.3.0-beta', STABLE_VERSION, true],
       ['0.3.1-beta', STABLE_VERSION, true],
       ['0.3.2-alpha', STABLE_VERSION, true],
-      ['0.3.0', STABLE_VERSION, true]
+      ['0.3.0', STABLE_VERSION, true],
     ]
 
     positiveTests.map(test => {
@@ -26,7 +26,7 @@ describe('isStableVersion', () => {
       ['0.2.0-alpha', STABLE_VERSION, false],
       ['0.2.0', STABLE_VERSION, false],
       ['0.4.0-alpha', STABLE_VERSION, false],
-      ['0.4.0-beta', STABLE_VERSION, false]
+      ['0.4.0-beta', STABLE_VERSION, false],
     ]
 
     negativeTests.map(test => {

@@ -14,17 +14,17 @@ const Translate = ({ locales, disableSubMenu, currentLocale, setLocale }) => {
     <MenuContainer>
       <Menu justify="right">
         <MenuItem
-          item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
-          onClick={disableSubMenu}
           bg="primaryColor"
           hasParent
+          item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
+          onClick={disableSubMenu}
         />
         {Object.keys(locales).map(lang => (
           <MenuItem
             key={lang}
+            active={currentLocale === lang}
             item={{ key: lang, name: getLanguageName(lang) }}
             onClick={() => changeLocale(lang)}
-            active={currentLocale === lang}
           />
         ))}
       </Menu>
@@ -33,10 +33,10 @@ const Translate = ({ locales, disableSubMenu, currentLocale, setLocale }) => {
 }
 
 Translate.propTypes = {
-  locales: PropTypes.object.isRequired,
   currentLocale: PropTypes.string.isRequired,
+  disableSubMenu: PropTypes.func.isRequired,
+  locales: PropTypes.object.isRequired,
   setLocale: PropTypes.func.isRequired,
-  disableSubMenu: PropTypes.func.isRequired
 }
 
 export default Translate

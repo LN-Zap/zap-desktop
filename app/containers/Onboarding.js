@@ -20,7 +20,7 @@ import {
   validateHost,
   validateCert,
   validateMacaroon,
-  resetOnboarding
+  resetOnboarding,
 } from 'reducers/onboarding'
 import {
   setUnlockWalletError,
@@ -32,7 +32,7 @@ import {
   recoverOldWallet,
   clearStartLndError,
   unlockWallet,
-  lndSelectors
+  lndSelectors,
 } from 'reducers/lnd'
 
 const mapStateToProps = state => ({
@@ -45,15 +45,15 @@ const mapStateToProps = state => ({
   connectionMacaroon: state.onboarding.connectionMacaroon,
   connectionString: state.onboarding.connectionString,
   lndConnect: state.onboarding.lndConnect,
-  lightningGrpcActive: state.lnd.lightningGrpcActive,
-  walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
+  isLightningGrpcActive: state.lnd.isLightningGrpcActive,
+  isWalletUnlockerGrpcActive: state.lnd.isWalletUnlockerGrpcActive,
   startLndHostError: lndSelectors.startLndHostError(state),
   startLndCertError: lndSelectors.startLndCertError(state),
   startLndMacaroonError: lndSelectors.startLndMacaroonError(state),
   seed: state.onboarding.seed,
   unlockWalletError: state.lnd.unlockWalletError,
-  onboarded: state.onboarding.onboarded,
-  fetchingSeed: state.lnd.fetchingSeed
+  isOnboarded: state.onboarding.isOnboarded,
+  isFetchingSeed: state.lnd.isFetchingSeed,
 })
 
 const mapDispatchToProps = {
@@ -80,7 +80,7 @@ const mapDispatchToProps = {
   createNewWallet,
   recoverOldWallet,
   resetOnboarding,
-  unlockWallet
+  unlockWallet,
 }
 
 const OnboardingContainer = connect(
@@ -95,7 +95,7 @@ function OnboardingModal({ hasWallets, onClose }) {
   useOnKeydown('Escape', onClose)
   return (
     <ModalOverlay>
-      <Modal withClose={hasWallets} onClose={onClose} pt={hasWallets ? 0 : 4}>
+      <Modal hasClose={hasWallets} onClose={onClose} pt={hasWallets ? 0 : 4}>
         <OnboardingContainer />
       </Modal>
     </ModalOverlay>
@@ -104,7 +104,7 @@ function OnboardingModal({ hasWallets, onClose }) {
 
 OnboardingModal.propTypes = {
   hasWallets: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
+  onClose: PropTypes.func.isRequired,
 }
 
 export default OnboardingModal

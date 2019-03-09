@@ -2,7 +2,7 @@ import styled from 'styled-components'
 import { variant, space, height } from 'styled-system'
 
 const bars = variant({
-  key: 'bars'
+  key: 'bars',
 })
 
 const Bar = styled.hr`
@@ -17,7 +17,7 @@ const Bar = styled.hr`
 `
 
 Bar.defaultProps = {
-  variant: 'normal'
+  variant: 'normal',
 }
 
 Bar.displayName = 'Bar'

@@ -7,9 +7,9 @@ const createButtons = buttons =>
   buttons.map((entry, index) => (
     <Button
       key={entry.name}
-      variant={index === buttons.length - 1 ? 'normal' : 'secondary'}
       mr={index < buttons.length - 1 ? 6 : 0}
       onClick={entry.onClick}
+      variant={index === buttons.length - 1 ? 'normal' : 'secondary'}
     >
       {entry.name}
     </Button>
@@ -21,12 +21,12 @@ const ActionBar = ({ buttons, ...rest }) => {
 
   return (
     <Flex
+      bg="secondaryColor"
       flexDirection="row"
       justifyContent="flex-end"
-      bg="secondaryColor"
+      pb={2}
       pr={5}
       pt={2}
-      pb={2}
       {...rest}
     >
       {buttonsLayout}
@@ -40,10 +40,10 @@ ActionBar.propTypes = {
     PropTypes.arrayOf(
       PropTypes.shape({
         name: PropTypes.string.isRequired,
-        onClick: PropTypes.func.isRequired
+        onClick: PropTypes.func.isRequired,
       })
-    )
-  ]).isRequired
+    ),
+  ]).isRequired,
 }
 
 export default ActionBar

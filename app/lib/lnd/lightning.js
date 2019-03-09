@@ -13,7 +13,7 @@ import {
   getDeadline,
   createSslCreds,
   createMacaroonCreds,
-  waitForFile
+  waitForFile,
 } from './util'
 import { promisifiedCall } from '../utils'
 import { validateHost } from '../utils/validateHost'
@@ -28,7 +28,7 @@ import { getInfo } from './methods/networkController'
 type LightningSubscriptionsType = {
   channelGraph: any,
   invoices: any,
-  transactions: any
+  transactions: any,
 }
 
 const _version = new WeakMap()
@@ -50,13 +50,13 @@ class Lightning {
       transitions: [
         { name: 'connect', from: 'ready', to: 'connected' },
         { name: 'disconnect', from: 'connected', to: 'ready' },
-        { name: 'terminate', from: 'connected', to: 'ready' }
+        { name: 'terminate', from: 'connected', to: 'ready' },
       ],
       methods: {
         onBeforeConnect: this.onBeforeConnect.bind(this),
         onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
-        onBeforeTerminate: this.onBeforeTerminate.bind(this)
-      }
+        onBeforeTerminate: this.onBeforeTerminate.bind(this),
+      },
     })
 
     this.mainWindow = null
@@ -65,7 +65,7 @@ class Lightning {
     this.subscriptions = {
       channelGraph: null,
       invoices: null,
-      transactions: null
+      transactions: null,
     }
   }
 
@@ -119,7 +119,7 @@ class Lightning {
     // Determine most relevant proto version and reconnect using the right rpc.proto if we need to.
     const [closestProtoVersion, latestProtoVersion] = await Promise.all([
       lndgrpc.getClosestProtoVersion(info.version, lndGpcProtoPath()),
-      lndgrpc.getLatestProtoVersion(lndGpcProtoPath())
+      lndgrpc.getLatestProtoVersion(lndGpcProtoPath()),
     ])
 
     if (closestProtoVersion !== latestProtoVersion) {
@@ -186,7 +186,7 @@ class Lightning {
     // Create ssl and macaroon credentials to use with the gRPC client.
     const [sslCreds, macaroonCreds] = await Promise.all([
       createSslCreds(cert),
-      createMacaroonCreds(macaroon)
+      createMacaroonCreds(macaroon),
     ])
     const creds = credentials.combineChannelCredentials(sslCreds, macaroonCreds)
 

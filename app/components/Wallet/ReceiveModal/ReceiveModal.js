@@ -22,7 +22,7 @@ const ClippedText = styled(Text)`
 class ReceiveModal extends React.PureComponent {
   state = {
     qrCodeType: QRCODE_TYPE_ADDRESS,
-    reveal: false
+    reveal: false,
   }
 
   copyToClipboard = () => {
@@ -31,7 +31,7 @@ class ReceiveModal extends React.PureComponent {
       address,
       activeWalletSettings: { lndconnectQRCode },
       intl,
-      showNotification
+      showNotification,
     } = this.props
     const { qrCodeType } = this.state
 
@@ -57,7 +57,7 @@ class ReceiveModal extends React.PureComponent {
 
   toggleReveal = () => {
     this.setState(prevState => ({
-      reveal: !prevState.reveal
+      reveal: !prevState.reveal,
     }))
   }
 
@@ -110,8 +110,8 @@ class ReceiveModal extends React.PureComponent {
       { key: QRCODE_TYPE_PUBKEY, name: <FormattedMessage {...messages.node_pubkey} /> },
       {
         key: QRCODE_TYPE_ADDRESS,
-        name: <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />
-      }
+        name: <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />,
+      },
     ]
     if (activeWalletSettings.lndconnectQRCode) {
       tabs.push({ key: QRCODE_TYPE_LNDCONNECT, name: <FormattedMessage {...messages.node_uri} /> })
@@ -127,24 +127,24 @@ class ReceiveModal extends React.PureComponent {
         <Bar mt={2} />
 
         <Flex justifyContent="center" my={3}>
-          <Tabs onClick={this.setQrcode} activeKey={qrCodeType} items={tabs} />
+          <Tabs activeKey={qrCodeType} items={tabs} onClick={this.setQrcode} />
         </Flex>
 
-        <Flex mt={4} mb={3} alignItems="center" flexDirection="column">
+        <Flex alignItems="center" flexDirection="column" mb={3} mt={4}>
           {qrCode && qrCodeType !== QRCODE_TYPE_LNDCONNECT && (
-            <QRCode value={qrCode} size="xlarge" />
+            <QRCode size="xlarge" value={qrCode} />
           )}
           {qrCodeType === QRCODE_TYPE_LNDCONNECT && (
             <>
               <QRCode
-                value={qrCode}
+                isObfuscated={qrCodeType === QRCODE_TYPE_LNDCONNECT && !reveal}
                 size="xlarge"
-                obfuscate={qrCodeType === QRCODE_TYPE_LNDCONNECT && !reveal}
+                value={qrCode}
               />
-              <Message variant="warning" justifyContent="center" my={3}>
+              <Message justifyContent="center" my={3} variant="warning">
                 <FormattedMessage {...messages.lndconnect_warning} />
               </Message>
-              <Button size="small" onClick={this.toggleReveal}>
+              <Button onClick={this.toggleReveal} size="small">
                 <FormattedMessage
                   {...messages[reveal ? 'lndconnect_hide_button' : 'lndconnect_reveal_button']}
                 />
@@ -154,16 +154,16 @@ class ReceiveModal extends React.PureComponent {
         </Flex>
 
         <Flex bg="tertiaryColor" justifyContent="space-between">
-          <ClippedText p={3} width={1} fontSize="s" textAlign="center">
+          <ClippedText fontSize="s" p={3} textAlign="center" width={1}>
             {qrCode}
           </ClippedText>
           <Button
-            variant="secondary"
-            py={0}
-            px={0}
-            onClick={this.copyToClipboard}
             className="hint--left"
             data-hint={message}
+            onClick={this.copyToClipboard}
+            px={0}
+            py={0}
+            variant="secondary"
           >
             <Box bg="primaryColor" p={3} width={1}>
               <Copy />
@@ -176,22 +176,22 @@ class ReceiveModal extends React.PureComponent {
 }
 
 ReceiveModal.propTypes = {
+  activeWalletSettings: PropTypes.shape({
+    host: PropTypes.string,
+    id: PropTypes.number.isRequired,
+    lndconnectQRCode: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string.isRequired,
+  }).isRequired,
+  address: PropTypes.string,
+  cryptoName: PropTypes.string,
   intl: intlShape.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
   }),
-  cryptoName: PropTypes.string,
   pubkey: PropTypes.string,
-  address: PropTypes.string,
-  activeWalletSettings: PropTypes.shape({
-    lndconnectQRCode: PropTypes.string,
-    id: PropTypes.number.isRequired,
-    type: PropTypes.string.isRequired,
-    host: PropTypes.string,
-    name: PropTypes.string
-  }).isRequired,
-  showNotification: PropTypes.func.isRequired
+  showNotification: PropTypes.func.isRequired,
 }
 
 export default withTheme(injectIntl(ReceiveModal))

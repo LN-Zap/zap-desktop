@@ -21,14 +21,14 @@ Logout.propTypes = {
   resetApp: PropTypes.func.isRequired,
   setIsWalletOpen: PropTypes.func.isRequired,
   startOnboarding: PropTypes.func.isRequired,
-  stopLnd: PropTypes.func.isRequired
+  stopLnd: PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = {
   resetApp,
   stopLnd,
   setIsWalletOpen,
-  startOnboarding
+  startOnboarding,
 }
 
 export default connect(

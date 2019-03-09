@@ -17,24 +17,24 @@ const data = {
   onchainFees: {
     fastestFee: 100,
     halfHourFee: 70,
-    hourFee: 30
+    hourFee: 30,
   },
 
   nodes: [
     {
       pub_key: '03c856d2dbec7454c48f311031f06bb99e3ca1ab15a9b9b35de14e139aa663b463',
-      alias: 'htlc.me'
-    }
+      alias: 'htlc.me',
+    },
   ],
   routes: [],
 
   currentTicker: {
     USD: 6477.78,
     EUR: 5656.01,
-    GBP: 5052.73
+    GBP: 5052.73,
   },
 
-  isProcessing: false
+  isProcessing: false,
 }
 
 const mockQueryFees = async () => {
@@ -49,19 +49,19 @@ storiesOf('Containers.Pay', module)
         sections: [
           {
             title: 'On-chain',
-            sectionFn: () => <PayHeader title="Send Bitcoin" type="onchain" />
+            sectionFn: () => <PayHeader title="Send Bitcoin" type="onchain" />,
           },
           {
             title: 'Off-chain',
-            sectionFn: () => <PayHeader title="Send Bitcoin" type="offchain" />
+            sectionFn: () => <PayHeader title="Send Bitcoin" type="offchain" />,
           },
           {
             title: 'Generic',
-            sectionFn: () => <PayHeader title="Send Bitcoin" />
-          }
-        ]
-      }
-    ]
+            sectionFn: () => <PayHeader title="Send Bitcoin" />,
+          },
+        ],
+      },
+    ],
   })
   .addWithChapters('PaySummary', {
     chapters: [
@@ -76,8 +76,8 @@ storiesOf('Containers.Pay', module)
                   // State
                   cryptoCurrency={state.ticker.currency}
                   cryptoCurrencyTicker={tickerSelectors.currencyName(state)}
-                  minFee={12}
                   maxFee={18}
+                  minFee={12}
                   nodes={data.nodes}
                   payReq={text(
                     'Payment Request',
@@ -85,7 +85,7 @@ storiesOf('Containers.Pay', module)
                   )}
                 />
               )
-            }
+            },
           },
           {
             title: 'PaySummaryOnChain',
@@ -104,11 +104,11 @@ storiesOf('Containers.Pay', module)
                   queryFees={mockQueryFees}
                 />
               )
-            }
-          }
-        ]
-      }
-    ]
+            },
+          },
+        ],
+      },
+    ],
   })
   .addWithChapters('PayButtons', {
     chapters: [
@@ -116,17 +116,17 @@ storiesOf('Containers.Pay', module)
         sections: [
           {
             title: 'Default',
-            sectionFn: () => <PayButtons previousStep={action('clicked')} />
+            sectionFn: () => <PayButtons previousStep={action('clicked')} />,
           },
           {
             title: 'Disabled',
-            sectionFn: () => <PayButtons previousStep={action('clicked')} disabled />
+            sectionFn: () => <PayButtons disabled previousStep={action('clicked')} />,
           },
           {
             title: 'Processing',
-            sectionFn: () => <PayButtons previousStep={action('clicked')} processing />
-          }
-        ]
-      }
-    ]
+            sectionFn: () => <PayButtons previousStep={action('clicked')} processing />,
+          },
+        ],
+      },
+    ],
   })

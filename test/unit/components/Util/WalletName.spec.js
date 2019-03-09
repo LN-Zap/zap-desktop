@@ -10,7 +10,7 @@ describe('component.WalletName', () => {
         type: 'local',
         id: 1,
         host: 'local.host',
-        name: 'Wallet name'
+        name: 'Wallet name',
       }
       const wrapper = shallow(<WalletName wallet={wallet} />)
       expect(toJSON(wrapper)).toMatchSnapshot()
@@ -21,7 +21,7 @@ describe('component.WalletName', () => {
       const wallet = {
         type: 'local',
         id: 1,
-        host: 'local.host'
+        host: 'local.host',
       }
       const wrapper = shallow(<WalletName wallet={wallet} />)
       expect(toJSON(wrapper)).toMatchSnapshot()
@@ -34,7 +34,7 @@ describe('component.WalletName', () => {
         type: 'custom',
         id: 1,
         host: 'local.host',
-        name: 'Wallet name'
+        name: 'Wallet name',
       }
       const wrapper = shallow(<WalletName wallet={wallet} />)
       expect(toJSON(wrapper)).toMatchSnapshot()
@@ -45,7 +45,7 @@ describe('component.WalletName', () => {
       const wallet = {
         type: 'custom',
         id: 1,
-        host: 'local.host'
+        host: 'local.host',
       }
       const wrapper = shallow(<WalletName wallet={wallet} />)
       expect(toJSON(wrapper)).toMatchSnapshot()

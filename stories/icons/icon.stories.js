@@ -109,7 +109,7 @@ const zapIconsList = {
   Warning,
   X,
   Zap,
-  ZapLogo
+  ZapLogo,
 }
 
 const zapIconStories = storiesOf('Icons', module)
@@ -123,7 +123,7 @@ Object.keys(zapIconsList).forEach(name => {
           <Box mr={2}>
             {size} x {size}:
           </Box>
-          <Icon width={size} height={size} />
+          <Icon height={size} width={size} />
         </Flex>
       ))}
     </React.Fragment>

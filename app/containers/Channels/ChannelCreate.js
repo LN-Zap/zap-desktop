@@ -4,11 +4,11 @@ import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/con
 
 const mapStateToProps = state => ({
   searchQuery: state.contactsform.searchQuery,
-  isSearchValidNodeAddress: contactFormSelectors.isSearchValidNodeAddress(state)
+  isSearchValidNodeAddress: contactFormSelectors.isSearchValidNodeAddress(state),
 })
 
 const mapDispatchToProps = {
-  updateContactFormSearchQuery
+  updateContactFormSearchQuery,
 }
 
 export default connect(

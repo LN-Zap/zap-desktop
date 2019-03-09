@@ -22,7 +22,7 @@ export async function getLocalWallets(chain, network) {
       type: 'local',
       chain,
       network,
-      wallet
+      wallet,
     }))
   } catch (err) {
     return []
@@ -40,7 +40,7 @@ export async function getAllLocalWallets() {
     supportedNetworks.forEach(network => {
       configs.push({
         chain,
-        network
+        network,
       })
     })
   })

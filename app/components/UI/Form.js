@@ -5,7 +5,7 @@ import { Form as InformedForm } from 'informed'
 // Create an html input element that accepts all style props from styled-system.
 const Form = system(
   {
-    extend: InformedForm
+    extend: InformedForm,
   },
   ...Object.keys(styles)
 )
