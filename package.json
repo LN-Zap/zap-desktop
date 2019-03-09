@@ -328,7 +328,7 @@
     "debug": "4.1.1",
     "debug-logger": "0.4.1",
     "dexie": "2.0.4",
-    "downshift": "3.2.6",
+    "downshift": "3.2.7",
     "electron": "4.0.8",
     "electron-is-dev": "1.0.1",
     "get-port": "4.2.0",
