@@ -12,14 +12,12 @@ import {
   NodePubkeyInput,
   Label,
   Panel,
-  Radio,
-  RadioGroup,
   Span,
-  Spinner,
   Text,
   Toggle,
+  TransactionFeeInput,
 } from 'components/UI'
-import { CurrencyFieldGroup, CryptoValue, CryptoSelector } from 'containers/UI'
+import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
 import Padlock from 'components/Icon/Padlock'
 import ChannelBackButton from './ChannelBackButton'
 import ChannelCreateSummary from './ChannelCreateSummary'
@@ -31,7 +29,6 @@ import {
   TRANSACTION_SPEED_FAST,
 } from './constants'
 
-const speeds = [TRANSACTION_SPEED_SLOW, TRANSACTION_SPEED_MEDIUM, TRANSACTION_SPEED_FAST]
 const defaultSpeed = TRANSACTION_SPEED_SLOW
 
 /**
@@ -262,49 +259,13 @@ class ChannelCreateForm extends React.Component {
 
         <Bar my={3} variant="light" />
 
-        <Flex alignItems="center" justifyContent="space-between">
-          <Box>
-            <RadioGroup field="speed" isRequired label={intl.formatMessage({ ...messages.fee })}>
-              <Flex>
-                {speeds.map(speed => (
-                  <Radio
-                    key={speed}
-                    label={<FormattedMessage {...messages[speed.toLowerCase()]} />}
-                    mb={0}
-                    mr={4}
-                    value={speed}
-                  />
-                ))}
-              </Flex>
-            </RadioGroup>
-          </Box>
-          <Box>
-            {isQueryingFees && (
-              <Flex alignItems="center" justifyContent="flex-end" ml="auto">
-                <Text mr={2}>
-                  <FormattedMessage {...messages.calculating} />
-                  &hellip;
-                </Text>
-                <Spinner color="lightningOrange" />
-              </Flex>
-            )}
-
-            {!isQueryingFees && !fee && <FormattedMessage {...messages.fee_unknown} />}
-
-            {!isQueryingFees && fee && (
-              <Flex alignItems="flex-end" flexDirection="column">
-                <Box>
-                  <CryptoValue value={fee} />
-                  <CryptoSelector mx={2} />
-                  <FormattedMessage {...messages.fee_per_byte} />
-                </Box>
-                <Text color="gray">
-                  <FormattedMessage {...messages[speed.toLowerCase() + '_description']} />
-                </Text>
-              </Flex>
-            )}
-          </Box>
-        </Flex>
+        <TransactionFeeInput
+          fee={fee}
+          field="speed"
+          isQueryingFees={isQueryingFees}
+          label={intl.formatMessage({ ...messages.fee })}
+          required
+        />
 
         {activeWalletSettings.type !== 'local' && (
           <>

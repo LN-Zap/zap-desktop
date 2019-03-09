@@ -4,7 +4,6 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   local_balance: 'Local Balance',
   remote_balance: 'Remote Balance',
-  calculating: 'calculating',
   channels: 'Channels',
   capacity: 'Capacity',
   error_not_enough_funds: 'Not enough funds',
@@ -23,9 +22,7 @@ export default defineMessages({
   fee_per_byte: 'per byte',
   total: 'Total',
   transaction_speed_slow: 'Slow',
-  transaction_speed_slow_description: 'Estimated Delivery: 1-24 hours',
   transaction_speed_medium: 'Medium',
-  transaction_speed_medium_description: 'Estimated Delivery: 1-6 hours',
   transaction_speed_fast: 'Fast',
   transaction_speed_fast_description: 'Estimated Delivery: less than 1 hour',
   open_channel_form_title: 'Open a Channel',
