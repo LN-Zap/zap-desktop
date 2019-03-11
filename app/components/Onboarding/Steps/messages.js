@@ -14,7 +14,7 @@ export default defineMessages({
   macaroon_title: 'Macaroon',
   confirm_connection_description: 'Confirm the connection details for your Lightning node.',
   confirm_connection_title: 'Confirm connection',
-  connection_description: 'Let Zap spin up and manage a node for you, or connect to your own node.',
+  connection_description: 'Create a new Lightning enabled Bitcoin wallet',
   connection_details_custom_description: 'Enter the connection details for your Lightning node.',
   connection_uri_btcpay_description:
     "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled 'Click here to open the configuration file' in your BTCPay Server gRPC settings.",
@@ -28,7 +28,7 @@ export default defineMessages({
   connection_uri_lndconnect_description:
     'Paste an Lnd Connect URI. You can generate one of these using the lndconnect utility. Example: "lndconnect://1.2.3.4:10009?cert=x&macaroon=y"',
   connection_string_invalid: 'Invalid Connection String',
-  connection_title: 'How do you want to connect to the Lightning Network?',
+  connection_title: 'How will you connect to the Lightning Network?',
   create_wallet_password_description:
     'Looks like you are new here. Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future',
   create_wallet_password_title: 'Welcome!',
@@ -63,14 +63,12 @@ export default defineMessages({
   seed_warning:
     'Keep this private! If someone gains access to this list they can steal your money.',
   signup_create: 'Create new wallet',
-  connection_type_create_label: 'Create new wallet',
-  connection_type_create_description:
-    'Let Zap create a new bitcoin wallet and lightning node for you.',
-  connection_type_import_label: 'Import existing wallet',
-  connection_type_import_description: 'Import your own seed to recover an existing wallet.',
-  connection_type_custom_label: 'Connect your own node',
-  connection_type_custom_description:
-    'Enter the connection details for your own Lightning node to access access it with Zap.',
+  connection_type_create_label: 'Create',
+  connection_type_create_description: 'Create a new wallet',
+  connection_type_import_label: 'Recover',
+  connection_type_import_description: 'Recover your wallet',
+  connection_type_custom_label: 'Connect',
+  connection_type_custom_description: 'Connect to your node',
   connection_type_btcpayserver_label: 'BTCPay Server',
   connection_type_btcpayserver_description:
     'Connect to your own BTCPay Server instance to access your BTCPay Server wallet.',

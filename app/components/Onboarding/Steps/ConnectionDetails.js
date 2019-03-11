@@ -103,7 +103,7 @@ class ConnectionDetails extends React.Component {
     }
 
     return (
-      <Box css={{ visibility: lndConnect ? 'hidden' : 'visible' }}>
+      <Box css={{ visibility: lndConnect ? 'hidden' : 'visible', width: '100%' }}>
         <ConnectionDetailsContext.Provider
           value={{
             formType,

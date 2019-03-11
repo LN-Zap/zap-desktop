@@ -68,6 +68,7 @@ class SeedView extends React.Component {
     return (
       <Form
         {...rest}
+        css={{ width: '100%' }}
         getApi={formApi => {
           this.setFormApi(formApi)
           if (getApi) {

@@ -2,10 +2,7 @@ import { ReactSelector } from 'testcafe-react-selectors'
 
 class ConnectionTypeOption {
   constructor(key) {
-    this.label = ReactSelector('ConnectionType Radio')
-      .find('label')
-      .withAttribute('for', key)
-    this.radio = this.label.find('input[type=radio]')
+    this.radio = ReactSelector('ConnectionType  ConnectionTypeItem').withProps({ value: key })
   }
 }
 

@@ -1,9 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Box } from 'rebass'
-import { Bar, Form, Header, RadioGroup, Radio } from 'components/UI'
+import { withFieldApi } from 'informed'
+import styled from 'styled-components'
+import { Box, Flex } from 'rebass'
+import { Form, RadioGroup } from 'components/UI'
+import ZapLogo from 'components/Icon/ZapLogoBolt'
+import BaseConnectionTypeItem from './ConnectionTypeItem'
 import messages from './messages'
+
+const ConnectionTypeItem = withFieldApi('connectionType')(BaseConnectionTypeItem)
+
+const Container = styled(Flex)`
+  position: absolute;
+  top: -30px;
+  bottom: 0;
+  visibility: ${props => (props.lndConnect ? 'hidden' : 'visible')};
+`
 
 class ConnectionType extends React.Component {
   static propTypes = {
@@ -62,15 +75,12 @@ class ConnectionType extends React.Component {
     } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
-    return (
-      <Box css={{ visibility: lndConnect ? 'hidden' : 'visible' }}>
-        <Header
-          align="left"
-          subtitle={<FormattedMessage {...messages.connection_description} />}
-          title={<FormattedMessage {...messages.connection_title} />}
-        />
 
-        <Bar my={4} />
+    return (
+      <Container alignItems="center" flexDirection="column" justifyContent="center">
+        <Box mb={6}>
+          <ZapLogo height={60} width={60} />
+        </Box>
 
         <Form
           {...rest}
@@ -95,28 +105,34 @@ class ConnectionType extends React.Component {
             isRequired
             name="connectionType"
           >
-            <Radio
-              description={<FormattedMessage {...messages.connection_type_create_description} />}
-              label={<FormattedMessage {...messages.connection_type_create_label} />}
-              mb={5}
-              value="create"
-            />
-
-            <Radio
-              description={<FormattedMessage {...messages.connection_type_import_description} />}
-              label={<FormattedMessage {...messages.connection_type_import_label} />}
-              mb={5}
-              value="import"
-            />
-
-            <Radio
-              description={<FormattedMessage {...messages.connection_type_custom_description} />}
-              label={<FormattedMessage {...messages.connection_type_custom_label} />}
-              value="custom"
-            />
+            <Flex alignItems="space-around" justifyContent="center" mt={3}>
+              <ConnectionTypeItem
+                description={<FormattedMessage {...messages.connection_type_create_description} />}
+                label={<FormattedMessage {...messages.connection_type_create_label} />}
+                mb={5}
+                mr={3}
+                value="create"
+                width={1 / 3}
+              />
+              <ConnectionTypeItem
+                description={<FormattedMessage {...messages.connection_type_custom_description} />}
+                label={<FormattedMessage {...messages.connection_type_custom_label} />}
+                mx={5}
+                value="custom"
+                width={1 / 3}
+              />
+              <ConnectionTypeItem
+                description={<FormattedMessage {...messages.connection_type_import_description} />}
+                label={<FormattedMessage {...messages.connection_type_import_label} />}
+                mb={5}
+                ml={3}
+                value="import"
+                width={1 / 3}
+              />
+            </Flex>
           </RadioGroup>
         </Form>
-      </Box>
+      </Container>
     )
   }
 }
