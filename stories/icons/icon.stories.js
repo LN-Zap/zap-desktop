@@ -2,12 +2,14 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Box, Flex } from 'rebass'
 
-import AngleRight from 'components/Icon/AngleRight'
-import AngleLeft from 'components/Icon/AngleLeft'
-import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
+import AngleLeft from 'components/Icon/AngleLeft'
+import AngleRight from 'components/Icon/AngleRight'
+import AngleUp from 'components/Icon/AngleUp'
+import ArrowDown from 'components/Icon/ArrowDown'
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import ArrowRight from 'components/Icon/ArrowRight'
+import ArrowUp from 'components/Icon/ArrowUp'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import Bitcoin from 'components/Icon/Bitcoin'
 import Btcpay from 'components/Icon/Btcpay'
@@ -58,12 +60,14 @@ import ZapLogo from 'components/Icon/ZapLogo'
 const iconSizes = [16, 32, 64, 128]
 
 const zapIconsList = {
+  AngleDown,
   AngleLeft,
   AngleRight,
   AngleUp,
-  AngleDown,
+  ArrowDown,
   ArrowLeft,
   ArrowRight,
+  ArrowUp,
   BigArrowRight,
   Bitcoin,
   Btcpay,
