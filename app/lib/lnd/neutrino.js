@@ -80,7 +80,7 @@ class Neutrino extends EventEmitter {
     // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
     // some block explorers so that we have a good starting point.
     try {
-      const blockHeight = await fetchBlockHeight()
+      const blockHeight = await fetchBlockHeight(this.lndConfig.chain, this.lndConfig.network)
       this.setCurrentBlockHeight(blockHeight)
     } catch (err) {
       mainLog.warn(`Unable to fetch block height: ${err.message}`)

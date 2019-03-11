@@ -68,21 +68,57 @@ export const lndGpcProtoPath = () => {
  * Helper function to get the current block height.
  * @return {Number} The current block height.
  */
-export const fetchBlockHeight = () => {
-  const sources = [
-    {
-      baseUrl: `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
-      path: 'blocks[0].height',
+export const fetchBlockHeight = (chain, network) => {
+  const allSources = {
+    bitcoin: {
+      mainnet: [
+        {
+          baseUrl: `https://api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
+          path: 'blocks[0].height',
+        },
+        {
+          baseUrl: `https://chain.api.btc.com/v3/block/latest`,
+          path: 'data.height',
+        },
+        {
+          baseUrl: `https://api.blockcypher.com/v1/btc/main`,
+          path: 'height',
+        },
+      ],
+      testnet: [
+        {
+          baseUrl: `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
+          path: 'blocks[0].height',
+        },
+        {
+          baseUrl: `https://tchain.api.btc.com/v3/block/latest`,
+          path: 'data.height',
+        },
+        {
+          baseUrl: `https://api.blockcypher.com/v1/btc/test3`,
+          path: 'height',
+        },
+      ],
     },
-    {
-      baseUrl: `https://tchain.api.btc.com/v3/block/latest`,
-      path: 'data.height',
+    litecoin: {
+      mainnet: [
+        {
+          baseUrl: `https://chain.so/api/v2/get_info/LTC`,
+          path: 'data.blocks',
+        },
+        {
+          baseUrl: `https://api.blockcypher.com/v1/ltc/main`,
+          path: 'height',
+        },
+      ],
+      testnet: [
+        {
+          baseUrl: `https://chain.so/api/v2/get_info/LTCTEST`,
+          path: 'data.blocks',
+        },
+      ],
     },
-    {
-      baseUrl: `https://api.blockcypher.com/v1/btc/test3`,
-      path: 'height',
-    },
-  ]
+  }
   const fetchData = (baseUrl, path) => {
     mainLog.info(`Fetching current block height from ${baseUrl}`)
     return axios({
@@ -100,6 +136,7 @@ export const fetchBlockHeight = () => {
       })
   }
 
+  const sources = get(allSources, `${chain}.${network}`, [])
   return Promise.race(sources.map(source => fetchData(source.baseUrl, source.path)))
 }
 
