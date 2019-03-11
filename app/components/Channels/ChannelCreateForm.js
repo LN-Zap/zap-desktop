@@ -29,8 +29,6 @@ import {
   TRANSACTION_SPEED_FAST,
 } from './constants'
 
-const defaultSpeed = TRANSACTION_SPEED_SLOW
-
 /**
  * Animation to handle showing/hiding the amount fields.
  */
@@ -116,6 +114,15 @@ class ChannelCreateForm extends React.Component {
     queryFees()
   }
 
+  /**
+   * Get the current per byte fee based on the form values.
+   */
+  getFee = () => {
+    const formState = this.formApi.getState()
+    const { speed } = formState.values
+    return this.getFeeRate(speed)
+  }
+
   getFeeRate = speed => {
     const { onchainFees } = this.props
 
@@ -167,8 +174,7 @@ class ChannelCreateForm extends React.Component {
     const [pubkey, host] = nodePubkey.split('@')
 
     // Determine the fee rate to use.
-    const { speed = defaultSpeed } = values
-    const satPerByte = this.getFeeRate(speed)
+    const satPerByte = this.getFee()
 
     // submit the channel to LND.
     openChannel({ pubkey, host, localamt: amountInSatoshis, satPerByte, isPrivate: values.private })
@@ -183,15 +189,6 @@ class ChannelCreateForm extends React.Component {
   clearSearchQuery = () => {
     const { updateContactFormSearchQuery } = this.props
     updateContactFormSearchQuery(null)
-  }
-
-  /**
-   * Get the current per byte fee based on the form values.
-   */
-  getFee = () => {
-    const formState = this.formApi.getState()
-    const { speed = defaultSpeed } = formState.values
-    return this.getFeeRate(speed)
   }
 
   /**
@@ -226,8 +223,8 @@ class ChannelCreateForm extends React.Component {
     const { intl, activeWalletSettings, isQueryingFees, searchQuery } = this.props
 
     const formState = this.formApi.getState()
-    const { speed = defaultSpeed } = formState.values
-    const fee = this.getFeeRate(speed)
+    const { speed } = formState.values
+    const fee = this.getFee(speed)
 
     return (
       <Box>
@@ -293,8 +290,8 @@ class ChannelCreateForm extends React.Component {
     const { currency, selectedNodeDisplayName } = this.props
 
     const formState = this.formApi.getState()
-    const { speed = defaultSpeed, amountCrypto, nodePubkey } = formState.values
-    const fee = this.getFeeRate(speed)
+    const { speed, amountCrypto, nodePubkey } = formState.values
+    const fee = this.getFee()
     const amount = convert(currency, 'sats', amountCrypto)
 
     return (
@@ -332,7 +329,6 @@ class ChannelCreateForm extends React.Component {
         css={{ height: '100%' }}
         {...rest}
         getApi={this.setFormApi}
-        initialValues={{ speed: defaultSpeed }}
         onSubmit={this.handleSubmit}
       >
         {({ formState }) => {

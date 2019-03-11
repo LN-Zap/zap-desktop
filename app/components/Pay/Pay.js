@@ -4,13 +4,27 @@ import { Box } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from 'lib/utils/crypto'
+import get from 'lodash.get'
 import { convert } from 'lib/utils/btc'
-import { Bar, Form, Message, LightningInvoiceInput, Panel, Text } from 'components/UI'
+import {
+  Bar,
+  Form,
+  Message,
+  LightningInvoiceInput,
+  Panel,
+  Text,
+  TransactionFeeInput,
+} from 'components/UI'
 import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
 import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
 import PaySummaryOnChain from 'containers/Pay/PaySummaryOnChain'
 import PayButtons from './PayButtons'
 import PayHeader from './PayHeader'
+import {
+  TRANSACTION_SPEED_SLOW,
+  TRANSACTION_SPEED_MEDIUM,
+  TRANSACTION_SPEED_FAST,
+} from './constants'
 import messages from './messages'
 
 /**
@@ -71,6 +85,7 @@ class Pay extends React.Component {
     intl: intlShape.isRequired,
     /** Current fee information as provided by bitcoinfees.earn.com */
     isProcessing: PropTypes.bool,
+    isQueryingFees: PropTypes.bool,
     /** Payment request to load into the form. */
     network: PropTypes.string.isRequired,
     /** Routing information */
@@ -85,6 +100,7 @@ class Pay extends React.Component {
     /** Payment request to load into the form. */
     payReq: PropTypes.object,
     /** Method to close the current modal */
+    queryFees: PropTypes.func.isRequired,
     queryRoutes: PropTypes.func.isRequired,
     /** Method to process offChain invoice payments. Called when the form is submitted. */
     routes: PropTypes.array,
@@ -120,10 +136,11 @@ class Pay extends React.Component {
 
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
   componentDidMount() {
-    const { payReq } = this.props
+    const { payReq, queryFees } = this.props
     if (payReq) {
       this.setState({ isPayReqSetOnMount: true })
     }
+    queryFees()
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -200,6 +217,28 @@ class Pay extends React.Component {
     }
   }
 
+  /**
+   * Get the current per byte fee based on the form values.
+   */
+  getFee = () => {
+    const formState = this.formApi.getState()
+    const { speed } = formState.values
+    return this.getFeeRate(speed)
+  }
+
+  getFeeRate = speed => {
+    const { onchainFees } = this.props
+
+    switch (speed) {
+      case TRANSACTION_SPEED_SLOW:
+        return get(onchainFees, 'hourFee', null)
+      case TRANSACTION_SPEED_MEDIUM:
+        return get(onchainFees, 'halfHourFee', null)
+      case TRANSACTION_SPEED_FAST:
+        return get(onchainFees, 'fastestFee', null)
+    }
+  }
+
   amountInSats = () => {
     const { isLn, isOnchain, invoice } = this.state
     const { cryptoCurrency } = this.props
@@ -223,22 +262,18 @@ class Pay extends React.Component {
    */
   onSubmit = values => {
     const { currentStep, isOnchain } = this.state
-    const {
-      cryptoCurrency,
-      onchainFees,
-      payInvoice,
-      routes,
-      sendCoins,
-      changeFilter,
-      closeModal,
-    } = this.props
+    const { cryptoCurrency, payInvoice, routes, sendCoins, changeFilter, closeModal } = this.props
     if (currentStep === 'summary') {
       if (isOnchain) {
+        // Determine the fee rate to use.
+        const satPerByte = this.getFee()
+
+        // Send the coins.
         sendCoins({
           addr: values.payReq,
           value: values.amountCrypto,
           currency: cryptoCurrency,
-          satPerByte: onchainFees.fastestFee,
+          satPerByte: satPerByte,
         })
         // Close the form modal once the transaction has been sent
         changeFilter('ALL_ACTIVITY')
@@ -441,7 +476,8 @@ class Pay extends React.Component {
 
   renderAmountFields = () => {
     const { currentStep } = this.state
-    const { initialAmountCrypto, initialAmountFiat } = this.props
+    const { intl, initialAmountCrypto, initialAmountFiat, isQueryingFees } = this.props
+    const fee = this.getFee()
 
     return (
       <ShowHideAmount
@@ -459,6 +495,16 @@ class Pay extends React.Component {
               initialAmountFiat={initialAmountFiat}
               isDisabled={currentStep !== 'amount'}
               isRequired
+            />
+
+            <Bar my={3} variant="light" />
+
+            <TransactionFeeInput
+              fee={fee}
+              field="speed"
+              isQueryingFees={isQueryingFees}
+              label={intl.formatMessage({ ...messages.fee })}
+              required
             />
           </Box>
         )}
@@ -528,10 +574,12 @@ class Pay extends React.Component {
       initialAmountCrypto,
       initialAmountFiat,
       isProcessing,
+      isQueryingFees,
       onchainFees,
       payInvoice,
       sendCoins,
       setPayReq,
+      queryFees,
       queryRoutes,
       routes,
       walletBalance,

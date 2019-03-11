@@ -19,18 +19,18 @@ import {
 
 const speeds = [TRANSACTION_SPEED_SLOW, TRANSACTION_SPEED_MEDIUM, TRANSACTION_SPEED_FAST]
 
-function TransactionFeeInput({ isQueryingFees, label, field, formApi, fee }) {
+function TransactionFeeInput({ isQueryingFees, initialValue, label, field, formApi, fee }) {
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Box>
-        <RadioGroup field={field} label={label} required>
+        <RadioGroup field={field} initialValue={initialValue} label={label} required>
           <Flex>
             {speeds.map(speed => (
               <Radio
                 key={speed}
                 label={<FormattedMessage {...messages[speed.toLowerCase()]} />}
                 mb={0}
-                mr={4}
+                mr={3}
                 value={speed}
               />
             ))}
@@ -50,7 +50,7 @@ function TransactionFeeInput({ isQueryingFees, label, field, formApi, fee }) {
 
         {!isQueryingFees && !fee && <FormattedMessage {...messages.fee_unknown} />}
 
-        {!isQueryingFees && fee && (
+        {!isQueryingFees && fee && formApi.getValue(field) && (
           <Flex alignItems="flex-end" flexDirection="column">
             <Box>
               <CryptoValue value={fee} />
@@ -73,8 +73,13 @@ TransactionFeeInput.propTypes = {
   fee: PropTypes.number,
   field: PropTypes.string.isRequired,
   formApi: PropTypes.object.isRequired,
+  initialValue: PropTypes.string,
   isQueryingFees: PropTypes.bool,
   label: PropTypes.string,
+}
+
+TransactionFeeInput.defaultProps = {
+  initialValue: TRANSACTION_SPEED_SLOW,
 }
 
 export default withFormApi(TransactionFeeInput)
