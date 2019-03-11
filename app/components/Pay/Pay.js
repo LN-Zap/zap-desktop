@@ -116,8 +116,6 @@ class Pay extends React.Component {
   amountInput = React.createRef()
   payReqInput = React.createRef()
 
-  isAutofill = false
-
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
   componentDidMount() {
     const { payReq } = this.props
@@ -157,13 +155,13 @@ class Pay extends React.Component {
 
     // If we now have a valid onchain address, trigger the form submit to move to the amount step.
     const isNowOnchain = isOnchain && isOnchain !== prevState.isOnchain
-    if (!this.isAutofill && currentStep === 'form' && isNowOnchain) {
+    if (currentStep === 'address' && isNowOnchain) {
       this.formApi.submitForm()
     }
 
     // If we now have a valid lightning invoice, call queryRoutes and submit the form.
     const isNowLightning = invoice && invoice !== prevState.invoice
-    if (!this.isAutofill && currentStep === 'form' && isNowLightning) {
+    if (currentStep === 'address' && isNowLightning) {
       this.formApi.submitForm()
       const { payeeNodeKey } = invoice
       queryRoutes(payeeNodeKey, this.amountInSats())
@@ -180,22 +178,16 @@ class Pay extends React.Component {
    */
   autoFillForm = (address, amount) => {
     if (address && amount) {
-      this.isAutofill = true
-      this.setState({ currentStep: 'form' }, () => {
+      this.setState({ currentStep: 'address' }, () => {
         this.formApi.reset()
         this.formApi.setValue('payReq', address)
-        this.formApi.submitForm()
         this.formApi.setValue('amountCrypto', amount)
         this.formApi.submitForm()
-        this.isAutofill = false
       })
     } else if (address) {
-      this.isAutofill = true
-      this.setState({ currentStep: 'form' }, () => {
+      this.setState({ currentStep: 'address' }, () => {
         this.formApi.reset()
         this.formApi.setValue('payReq', address)
-        this.formApi.submitForm()
-        this.isAutofill = false
       })
     }
   }
