@@ -19,9 +19,8 @@ export default defineMessages({
   connection_uri_btcpay_description:
     "Paste the full content of your BTCPay Server connection config file. This can be found by clicking the link entitled 'Click here to open the configuration file' in your BTCPay Server gRPC settings.",
   connection_details_custom_title: 'Connection details',
-  connection_details_tab_custom_paths: 'Custom',
+  connection_details_tab_custom_paths: 'Files',
   connection_details_tab_lndconnect: 'Connection String',
-  connection_details_tab_btcpayserver: 'BTCPay Server',
   connection_string_label: 'Connection String',
   connection_string_placeholder: 'BTCPay Server Connection String',
   connection_uri_label: 'Connection String',
