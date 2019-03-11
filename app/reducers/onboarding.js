@@ -17,6 +17,8 @@ export const SET_CONNECTION_MACAROON = 'SET_CONNECTION_MACAROON'
 export const SET_ALIAS = 'SET_ALIAS'
 export const SET_NAME = 'SET_NAME'
 export const SET_AUTOPILOT = 'SET_AUTOPILOT'
+export const SET_CHAIN = 'SET_CHAIN'
+export const SET_NETWORK = 'SET_NETWORK'
 export const SET_PASSWORD = 'SET_PASSWORD'
 export const SET_SEED = 'SET_SEED'
 export const VALIDATING_HOST = 'VALIDATING_HOST'
@@ -98,6 +100,20 @@ export function setAutopilot(autopilot) {
   return {
     type: SET_AUTOPILOT,
     autopilot,
+  }
+}
+
+export function setChain(chain) {
+  return {
+    type: SET_CHAIN,
+    chain,
+  }
+}
+
+export function setNetwork(network) {
+  return {
+    type: SET_NETWORK,
+    network,
   }
 }
 
@@ -187,6 +203,8 @@ const ACTION_HANDLERS = {
   [SET_ALIAS]: (state, { alias }) => ({ ...state, alias }),
   [SET_NAME]: (state, { name }) => ({ ...state, name }),
   [SET_AUTOPILOT]: (state, { autopilot }) => ({ ...state, autopilot }),
+  [SET_CHAIN]: (state, { chain }) => ({ ...state, chain }),
+  [SET_NETWORK]: (state, { network }) => ({ ...state, network }),
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, isFetchingSeed: false }),
   [SET_LNDCONNECT]: (state, { lndConnect }) => ({ ...state, lndConnect }),
   [SET_PASSWORD]: (state, { password }) => ({ ...state, password }),
@@ -206,6 +224,8 @@ const initialState = {
   onboarding: false,
   isOnboarded: false,
   autopilot: true,
+  chain: CONFIG.neutrino.chain,
+  network: CONFIG.neutrino.network,
   validatingHost: false,
   validatingCert: false,
   validatingMacaroon: false,

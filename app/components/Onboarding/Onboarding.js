@@ -11,6 +11,7 @@ import {
   ConnectionConfirm,
   Login,
   Name,
+  Network,
   Password,
   Recover,
   SeedConfirm,
@@ -38,6 +39,7 @@ class Onboarding extends React.Component {
     isWalletUnlockerGrpcActive: PropTypes.bool,
     lndConnect: PropTypes.string,
     name: PropTypes.string,
+    network: PropTypes.string,
     recoverOldWallet: PropTypes.func.isRequired,
     resetOnboarding: PropTypes.func.isRequired,
 
@@ -51,6 +53,7 @@ class Onboarding extends React.Component {
     setConnectionType: PropTypes.func.isRequired,
     setLndconnect: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
+    setNetwork: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
     setSeed: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
@@ -80,6 +83,7 @@ class Onboarding extends React.Component {
       // STATE
       autopilot,
       name,
+      network,
       connectionType,
       connectionHost,
       connectionCert,
@@ -103,6 +107,7 @@ class Onboarding extends React.Component {
       setConnectionMacaroon,
       setConnectionString,
       setName,
+      setNetwork,
       setUnlockWalletError,
       setPassword,
       setSeed,
@@ -136,6 +141,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="SeedConfirm" component={SeedConfirm} {...{ seed }} />,
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
+          <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step key="WalletCreate" component={WalletCreate} {...{ createNewWallet }} />,
         ]
@@ -150,6 +156,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Recover" component={Recover} {...{ seed, setSeed }} />,
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
+          <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step key="WalletRecover" component={WalletRecover} {...{ recoverOldWallet }} />,
         ]

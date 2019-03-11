@@ -151,6 +151,11 @@ class Neutrino extends EventEmitter {
       neutrinoArgs.push(`--neutrino.connect=${node}`)
     )
 
+    // When not on mainnet, enable the experimental assumechanvalid flag.
+    if (this.lndConfig.network !== 'mainnet') {
+      neutrinoArgs.push(`--routing.assumechanvalid`)
+    }
+
     // Log the final config.
     mainLog.info(
       'Spawning Neutrino process: %s %s',

@@ -43,6 +43,7 @@ class Onboarding {
   seedConfirm = ReactSelector('SeedConfirm')
   password = ReactSelector('Password')
   autopilot = ReactSelector('Autopilot')
+  network = ReactSelector('Network')
 
   // Connection type radio options.
   connectionTypes = {

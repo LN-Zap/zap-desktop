@@ -270,14 +270,16 @@ export const setUnlockWalletError = (event, unlockWalletError) => dispatch => {
 }
 
 export const fetchSeed = () => async dispatch => {
+  const { chain: defaultChain, network: defaultNetwork } = window.CONFIG.neutrino
+
   dispatch({ type: FETCH_SEED })
   try {
     await dispatch(
       startLnd({
         id: `tmp`,
         type: 'local',
-        chain: 'bitcoin',
-        network: 'testnet',
+        chain: defaultChain,
+        network: defaultNetwork,
       })
     )
   } catch (error) {
@@ -299,12 +301,13 @@ export const fetchSeedError = (event, error) => dispatch => {
 
 export const createNewWallet = () => async (dispatch, getState) => {
   const state = getState()
+  const { chain: defaultChain, network: defaultNetwork } = window.CONFIG.neutrino
 
   // Define the wallet config.
   let wallet = {
     type: 'local',
-    chain: 'bitcoin',
-    network: 'testnet',
+    chain: state.onboarding.chain || defaultChain,
+    network: state.onboarding.network || defaultNetwork,
     autopilot: state.onboarding.autopilot,
     alias: state.onboarding.alias,
     name: state.onboarding.name,
@@ -320,12 +323,13 @@ export const createNewWallet = () => async (dispatch, getState) => {
 
 export const recoverOldWallet = () => async (dispatch, getState) => {
   const state = getState()
+  const { chain: defaultChain, network: defaultNetwork } = window.CONFIG.neutrino
 
   // Define the wallet config.
   let wallet = {
     type: 'local',
-    chain: 'bitcoin',
-    network: 'testnet',
+    chain: state.onboarding.chain || defaultChain,
+    network: state.onboarding.network || defaultNetwork,
     autopilot: state.onboarding.autopilot,
     alias: state.onboarding.alias,
     name: state.onboarding.name,

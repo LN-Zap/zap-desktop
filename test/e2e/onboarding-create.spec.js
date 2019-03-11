@@ -68,6 +68,11 @@ test('should create a new wallet', async t => {
     .typeText(onboarding.nameInput, 'My Test Wallet')
     .click(onboarding.nextButton)
 
+    // Fill out and submit Network form.
+    .expect(onboarding.network.exists)
+    .ok()
+    .click(onboarding.nextButton)
+
     // Fill out and submit Autopilot form.
     .expect(onboarding.autopilot.exists)
     .ok()
