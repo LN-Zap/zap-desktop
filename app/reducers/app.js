@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect'
+import { tickerSelectors } from './ticker'
 
 // ------------------------------------
 // Initial State
@@ -70,11 +71,14 @@ appSelectors.isRootReady = createSelector(
 
 appSelectors.isAppReady = createSelector(
   appSelectors.infoLoaded,
-  appSelectors.currency,
+  tickerSelectors.currency,
+  tickerSelectors.currentTicker,
   appSelectors.walletBalance,
   appSelectors.channelBalance,
-  (infoLoaded, currency, walletBalance, channelBalance) => {
-    return Boolean(infoLoaded && currency && channelBalance !== null && walletBalance !== null)
+  (infoLoaded, currency, currentTicker, walletBalance, channelBalance) => {
+    return Boolean(
+      infoLoaded && currency && currentTicker && channelBalance !== null && walletBalance !== null
+    )
   }
 )
 
