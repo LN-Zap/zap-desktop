@@ -257,7 +257,7 @@
     "cross-env": "5.2.0",
     "cross-spawn": "6.0.5",
     "csp-html-webpack-plugin": "3.0.1",
-    "electron-builder": "20.38.5",
+    "electron-builder": "20.39.0",
     "electron-devtools-installer": "2.2.4",
     "electron-updater": "4.0.6",
     "enzyme": "3.9.0",
