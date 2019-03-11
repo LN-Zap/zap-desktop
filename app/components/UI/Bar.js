@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { variant, space, height } from 'styled-system'
+import { variant, space, height, color } from 'styled-system'
 
 const bars = variant({
   key: 'bars',
@@ -14,6 +14,7 @@ const Bar = styled.hr`
   ${space}
   ${height}
   ${bars}
+  ${color}
 `
 
 Bar.defaultProps = {
