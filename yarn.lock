@@ -10843,10 +10843,10 @@ lnd-binary@0.3.9:
     "true-case-path" "^1.0.2"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.1.7:
-  version "0.1.7"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.7.tgz#94c01ba212d1caf5be5a5e9970f49e615c7d1423"
-  integrity sha512-c2iAEZ2/keeOM33CQvb3fCHobWTHa6wiHfS3Iup+7q2Z0b8L9HodQFMXyb00zGeaY0YIhwbMoOCZi7aZeLOXGA==
+lnd-grpc@0.1.8:
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.8.tgz#58b25b55673712a4d228f29efccc9161e3b89eb2"
+  integrity sha512-Pgtb2BXzVoSBdQktCtsWwMn22rOIr3rmxmChNPahN+UiKH9CI83cqRyjdpte8deByyKMli1oK0rSY5EM1QOVUQ==
   dependencies:
     debug "^4.1.1"
     semver "^5.6.0"
