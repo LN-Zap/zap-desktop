@@ -17,7 +17,7 @@ exports[`component.Dropdown should render correctly 1`] = `
   font-size: m;
   color: primaryText;
   text-align: left;
-  line-height: 1.4;
+  line-height: normal;
 }
 
 .c0 {

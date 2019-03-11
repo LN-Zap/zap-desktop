@@ -22,7 +22,7 @@ class Text extends React.PureComponent {
   render() {
     const { children } = this.props
     return (
-      <StyledText color="primaryText" fontSize="m" lineHeight="1.4" {...this.props}>
+      <StyledText color="primaryText" fontSize="m" lineHeight="normal" {...this.props}>
         {children}
       </StyledText>
     )

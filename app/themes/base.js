@@ -33,18 +33,14 @@ export const fontSizes = {
   xxl: '30px',
   xxxl: '60px',
 }
-fontSizes[0] = fontSizes['xxs']
-fontSizes[1] = fontSizes['xs']
-fontSizes[2] = fontSizes['s']
-fontSizes[3] = fontSizes['m']
-fontSizes[4] = fontSizes['l']
-fontSizes[5] = fontSizes['xl']
-fontSizes[6] = fontSizes['xxl']
-fontSizes[7] = fontSizes['xxxl']
 
 export const fontWeights = {
   light: 300,
   normal: 400,
+}
+
+export const lineHeights = {
+  normal: 1.4,
 }
 
 export const fonts = {
@@ -87,6 +83,7 @@ export default {
   fontWeights,
   fonts,
   letterSpacings,
+  lineHeights,
   palette,
   statuses,
   bars,

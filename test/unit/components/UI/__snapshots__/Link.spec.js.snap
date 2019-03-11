@@ -7,7 +7,7 @@ exports[`component.UI.Link should render correctly 1`] = `
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
-  line-height: 1.4;
+  line-height: normal;
 }
 
 <a

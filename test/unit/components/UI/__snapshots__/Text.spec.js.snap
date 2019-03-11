@@ -4,7 +4,7 @@ exports[`component.UI.Text should render correctly 1`] = `
 .c0 {
   font-size: m;
   color: primaryText;
-  line-height: 1.4;
+  line-height: normal;
 }
 
 <div
