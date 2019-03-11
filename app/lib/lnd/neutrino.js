@@ -88,6 +88,8 @@ class Neutrino extends EventEmitter {
 
     mainLog.info('Starting lnd in neutrino mode')
     mainLog.info(' > binaryPath', this.lndConfig.binaryPath)
+    mainLog.info(' > chain', this.lndConfig.chain)
+    mainLog.info(' > network', this.lndConfig.network)
     mainLog.info(' > host:', this.lndConfig.host)
     mainLog.info(' > cert:', this.lndConfig.cert)
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
@@ -144,6 +146,7 @@ class Neutrino extends EventEmitter {
     ]
 
     // Configure neutrino backend.
+    neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
     global.CONFIG.neutrino.connect[this.lndConfig.network].forEach(node =>
       neutrinoArgs.push(`--neutrino.connect=${node}`)
     )
