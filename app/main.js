@@ -15,6 +15,7 @@ import get from 'lodash.get'
 import path from 'path'
 import os from 'os'
 import fs from 'fs'
+import bip21 from 'bip21'
 import { mainLog } from './lib/utils/log'
 import ZapMenuBuilder from './lib/zap/menuBuilder'
 import ZapController from './lib/zap/controller'
@@ -65,12 +66,17 @@ const handleOpenUrl = (urlToOpen = '') => {
     const type = urlToOpen.split(':')[0]
 
     switch (type) {
+      case 'bitcoin':
+        handleBitcoinLink(urlToOpen)
+        break
+
       case 'lightning':
         handleLightningLink(urlToOpen)
         break
 
       case 'lndconnect':
         handleLndconnectLink(urlToOpen)
+        break
     }
   }
 
@@ -78,6 +84,19 @@ const handleOpenUrl = (urlToOpen = '') => {
   // See mainWindow.webContents.on('did-finish-load') below.
   else {
     protocolUrl = urlToOpen
+  }
+}
+
+/**
+ * Handler for lndconnect: links
+ */
+const handleBitcoinLink = input => {
+  try {
+    const decoded = bip21.decode(input)
+    zap.sendMessage('bitcoinPaymentUri', decoded)
+    mainWindow.show()
+  } catch (e) {
+    mainLog.warn('Unable to process bitcoin uri: %s', e)
   }
 }
 
@@ -388,8 +407,10 @@ app.on('ready', async () => {
 
 /**
  * Add application event listeners:
+ *  - lightning: Open zap payment form when bitcoin url is opened
  *  - lightning: Open zap payment form when lightning url is opened
  *  - lndconnect: Populate onboarding connection details form when lndconnect url is opened
  */
+app.setAsDefaultProtocolClient('bitcoin')
 app.setAsDefaultProtocolClient('lightning')
 app.setAsDefaultProtocolClient('lndconnect')

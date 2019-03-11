@@ -19,7 +19,9 @@ const sanitize = (data, properties = []) => {
   if (isObject(data)) {
     sanitizedData = { ...data }
     properties.forEach(key => {
-      sanitizedData[key] = truncate(data[key])
+      if (data[key]) {
+        sanitizedData[key] = truncate(data[key])
+      }
     })
   }
   return sanitizedData || data

@@ -60,11 +60,11 @@ class CurrencyFieldGroup extends React.Component {
   /**
    * set the amountFiat field whenever the crypto amount changes.
    */
-  handleAmountCryptoChange = e => {
+  handleAmountCryptoChange = value => {
     const { cryptoCurrency, currentTicker, formApi, fiatCurrency } = this.props
     const lastPrice = currentTicker[fiatCurrency]
-    const value = convert(cryptoCurrency, 'fiat', e.target.value, lastPrice)
-    formApi.setValue('amountFiat', value)
+    const amount = convert(cryptoCurrency, 'fiat', value, lastPrice)
+    formApi.setValue('amountFiat', amount)
   }
 
   /**
@@ -124,7 +124,7 @@ class CurrencyFieldGroup extends React.Component {
                 isRequired={isRequired}
                 label={<FormattedMessage {...messages.amount} />}
                 name="amountCrypto"
-                onChange={this.handleAmountCryptoChange}
+                onValueChange={this.handleAmountCryptoChange}
                 validate={validate}
                 validateOnBlur={validateOnBlur}
                 validateOnChange={validateOnChange}

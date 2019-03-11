@@ -23,13 +23,7 @@ export const isLoadingPerPath = state => {
   const { pathname } = state.router.location
 
   if (pathname === '/app') {
-    const { walletBalance, channelBalance } = state.balance
-    return (
-      !tickerSelectors.currentTicker(state) ||
-      !tickerSelectors.currencyName(state) ||
-      channelBalance === null ||
-      walletBalance === null
-    )
+    return !appSelectors.isAppReady(state)
   }
 
   if (pathname === '/syncing') {
