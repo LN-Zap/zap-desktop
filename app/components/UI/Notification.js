@@ -54,7 +54,7 @@ class Notification extends React.Component {
       >
         <Flex justifyContent="space-between">
           <Flex alignItems="center">
-            <Text fontSize={17}>
+            <Text fontSize="xl">
               {isProcessing && <Spinner mr="0.5em" size="2em" />}
               {!isProcessing && variant === 'success' && <Success />}
               {!isProcessing && variant === 'warning' && <Warning />}

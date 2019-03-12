@@ -15,7 +15,7 @@ const Wallet = ({ totalBalance, networkInfo, openWalletModal, openModal }) => (
       <Flex alignItems="center" as="section" mt={4}>
         <ZapLogo height="32px" width="70px" />
         {networkInfo.id !== 'mainnet' && (
-          <Text color="superGreen" fontSize={1} ml={2}>
+          <Text color="superGreen" fontSize="xs" ml={2}>
             {networkInfo.name}
           </Text>
         )}
