@@ -148,7 +148,7 @@
   "components.Home.chain": "",
   "components.Home.connection_string": "",
   "components.Home.create_wallet_button_text": "",
-  "components.Home.create_wallet_promot": "",
+  "components.Home.create_wallet_prompt": "",
   "components.Home.delete_wallet_button_text": "",
   "components.Home.delete_wallet_dialog_acknowledgement": "",
   "components.Home.delete_wallet_dialog_cancel_text": "",

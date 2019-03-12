@@ -38,7 +38,7 @@ export default defineMessages({
   wallet_unlocker_button_label: 'Enter',
   no_active_wallet_message: 'Please select a wallet from the wallets menu.',
   no_wallets_message: 'Unfortunately you don’t have any wallets 😢',
-  create_wallet_promot: 'Start creating one from here:',
+  create_wallet_prompt: 'Start creating one from here:',
   saved_notification: 'Settings have been updated',
   saved_error: 'Something went wrong',
   button_save: 'Save',

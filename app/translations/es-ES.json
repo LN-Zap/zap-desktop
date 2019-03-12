@@ -148,7 +148,7 @@
   "components.Home.chain": "Cadena",
   "components.Home.connection_string": "",
   "components.Home.create_wallet_button_text": "Crear nuevo monedero",
-  "components.Home.create_wallet_promot": "Empezar a crear desde aquí",
+  "components.Home.create_wallet_prompt": "Empezar a crear desde aquí",
   "components.Home.delete_wallet_button_text": "Eliminar monedero",
   "components.Home.delete_wallet_dialog_acknowledgement": "Yo Entiendo que esta acción es irreversible",
   "components.Home.delete_wallet_dialog_cancel_text": "Cancelar",
