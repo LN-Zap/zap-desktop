@@ -145,7 +145,7 @@ export default function(lightning, log, event, msg, data) {
         .then(balance => {
           event.sender.send('receiveBalance', {
             walletBalance: balance[0],
-            channelBalance: balance[1].balance,
+            channelBalance: balance[1],
           })
           return balance
         })

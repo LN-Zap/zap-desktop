@@ -38,7 +38,7 @@ const ACTION_HANDLERS = {
     walletBalance: walletBalance.total_balance,
     walletBalanceConfirmed: walletBalance.confirmed_balance,
     walletBalanceUnconfirmed: walletBalance.unconfirmed_balance,
-    channelBalance,
+    channelBalance: channelBalance.balance + channelBalance.pending_open_balance,
   }),
 }
 

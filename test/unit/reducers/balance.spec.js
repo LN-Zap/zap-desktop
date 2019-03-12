@@ -16,7 +16,10 @@ describe('reducers', () => {
         confirmed_balance: 1,
         unconfirmed_balance: 1,
       }
-      const channelBalance = 1
+      const channelBalance = {
+        balance: 1,
+        pending_open_balance: 1,
+      }
       expect(
         balanceReducer(undefined, { type: RECEIVE_BALANCE, walletBalance, channelBalance })
       ).toMatchSnapshot()
