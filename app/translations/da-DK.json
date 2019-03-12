@@ -145,7 +145,7 @@
   "components.Home.chain": "Chain",
   "components.Home.connection_string": "",
   "components.Home.create_wallet_button_text": "Opret en ny Wallet",
-  "components.Home.create_wallet_promot": "Start med at oprette en herfra:",
+  "components.Home.create_wallet_prompt": "Start med at oprette en herfra:",
   "components.Home.delete_wallet_button_text": "Slet Wallet",
   "components.Home.delete_wallet_dialog_acknowledgement": "",
   "components.Home.delete_wallet_dialog_cancel_text": "",

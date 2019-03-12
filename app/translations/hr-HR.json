@@ -145,7 +145,7 @@
   "components.Home.chain": "Lanac",
   "components.Home.connection_string": "",
   "components.Home.create_wallet_button_text": "Stvori novi novčanik",
-  "components.Home.create_wallet_promot": "Započni stvaranje jednog odavde:",
+  "components.Home.create_wallet_prompt": "Započni stvaranje jednog odavde:",
   "components.Home.delete_wallet_button_text": "Obrišite novčanik",
   "components.Home.delete_wallet_dialog_acknowledgement": "",
   "components.Home.delete_wallet_dialog_cancel_text": "",

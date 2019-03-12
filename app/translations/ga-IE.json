@@ -145,7 +145,7 @@
   "components.Home.chain": "Slabhra",
   "components.Home.connection_string": "",
   "components.Home.create_wallet_button_text": "Cruthaigh sparán nua",
-  "components.Home.create_wallet_promot": "Tosaigh a dheanamh ceann a anseo:",
+  "components.Home.create_wallet_prompt": "Tosaigh a dheanamh ceann a anseo:",
   "components.Home.delete_wallet_button_text": "Scrios sparán",
   "components.Home.delete_wallet_dialog_acknowledgement": "",
   "components.Home.delete_wallet_dialog_cancel_text": "",

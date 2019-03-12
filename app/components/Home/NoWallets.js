@@ -22,7 +22,7 @@ const NoWallets = ({ history, wallets }) => (
       </>
     )}
     <Heading.h4 mt={2}>
-      <FormattedMessage {...messages.create_wallet_promot} />
+      <FormattedMessage {...messages.create_wallet_prompt} />
     </Heading.h4>
     <CreateWalletButton history={history} p={3} />
   </Flex>

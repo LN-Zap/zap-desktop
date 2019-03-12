@@ -145,7 +145,7 @@
   "components.Home.chain": "Chain",
   "components.Home.connection_string": "Connection string",
   "components.Home.create_wallet_button_text": "Create new wallet",
-  "components.Home.create_wallet_promot": "Start creating one from here:",
+  "components.Home.create_wallet_prompt": "Start creating one from here:",
   "components.Home.delete_wallet_button_text": "Delete wallet",
   "components.Home.delete_wallet_dialog_acknowledgement": "I understand this is an irreversible action",
   "components.Home.delete_wallet_dialog_cancel_text": "Cancel",
