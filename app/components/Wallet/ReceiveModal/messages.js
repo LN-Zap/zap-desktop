@@ -3,7 +3,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   node_public_key: 'Node Public Key',
   node_pubkey: 'Node Pubkey',
-  node_uri: 'Node URI',
+  lndconnect_uri: 'LndConnect',
   wallet_address: '{chain} Address',
   copy: 'Copy',
   copy_address: 'Copy address',
