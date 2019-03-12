@@ -52,6 +52,3 @@ storybook-static
 
 # Local config overrides
 config/local*
-
-# Bitcoind daemon
-app/lib/bitcoind/Bitcoin
