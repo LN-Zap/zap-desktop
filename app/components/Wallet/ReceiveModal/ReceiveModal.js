@@ -114,7 +114,10 @@ class ReceiveModal extends React.PureComponent {
       },
     ]
     if (activeWalletSettings.lndconnectQRCode) {
-      tabs.push({ key: QRCODE_TYPE_LNDCONNECT, name: <FormattedMessage {...messages.node_uri} /> })
+      tabs.push({
+        key: QRCODE_TYPE_LNDCONNECT,
+        name: <FormattedMessage {...messages.lndconnect_uri} />,
+      })
     }
 
     return (
