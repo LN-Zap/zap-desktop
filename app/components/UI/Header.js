@@ -7,7 +7,7 @@ import Text from './Text'
 const Header = ({ title, subtitle, align, logo }) => (
   <Flex alignItems={align} as="header" flexDirection="column" justifyContent={align}>
     {logo && (
-      <Text css={{ height: '50px' }} fontSize="50px" lineHeight="1em" textAlign={align}>
+      <Text css={{ height: '50px' }} fontSize="50px" lineHeight="1" textAlign={align}>
         {logo}
       </Text>
     )}

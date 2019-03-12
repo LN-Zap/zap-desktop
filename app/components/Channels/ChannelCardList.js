@@ -21,7 +21,7 @@ const ChannelCardList = ({
 }) => {
   const ROW_PADDING_BOTTOM = 3
   // current row height + margin bottom
-  const ROW_HEIGHT = 392 + baseSpace[ROW_PADDING_BOTTOM]
+  const ROW_HEIGHT = 396 + baseSpace[ROW_PADDING_BOTTOM]
   const renderRow = rowProps => {
     const { columnIndex, rowIndex, key, style } = rowProps
     const index = rowIndex * 2 + columnIndex

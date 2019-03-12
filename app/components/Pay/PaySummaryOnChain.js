@@ -58,7 +58,7 @@ class PaySummaryOnChain extends React.Component {
             <Box width={5 / 11}>
               <Flex alignItems="baseline" flexWrap="wrap">
                 <Box>
-                  <Text fontSize={6} textAlign="left">
+                  <Text fontSize="xxl" textAlign="left">
                     <CryptoValue value={amount} />
                   </Text>
                 </Box>

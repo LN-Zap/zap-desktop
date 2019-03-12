@@ -57,7 +57,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
         >
           <styled.div>
             <Text
-              fontSize={6}
+              fontSize="xxl"
               textAlign="left"
             >
               <CryptoValue

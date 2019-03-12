@@ -28,9 +28,9 @@ class Heading extends React.PureComponent {
   }
 }
 
-Heading.h1 = props => <Heading fontSize="xxl" {...props} as="h1" />
-Heading.h2 = props => <Heading fontSize="xl" {...props} as="h2" />
-Heading.h3 = props => <Heading fontSize="l" {...props} as="h3" />
+Heading.h1 = props => <Heading fontSize="xxl" lineHeight="1.1" {...props} as="h1" />
+Heading.h2 = props => <Heading fontSize="xl" lineHeight="1.2" {...props} as="h2" />
+Heading.h3 = props => <Heading fontSize="l" lineHeight="1.3" {...props} as="h3" />
 Heading.h4 = props => <Heading fontSize="m" {...props} as="h4" />
 Heading.h5 = props => <Heading fontSize="m" {...props} as="h5" />
 Heading.h6 = props => <Heading fontSize="m" {...props} as="h6" />

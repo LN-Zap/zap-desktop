@@ -40,7 +40,7 @@ class ChannelCreateSummary extends React.Component {
           <Flex alignItems="center">
             <Box width={5 / 11}>
               <Flex alignItems="baseline" flexWrap="wrap">
-                <Text fontSize={6} textAlign="left">
+                <Text fontSize="xxl" textAlign="left">
                   <CryptoValue value={amount} />
                 </Text>
                 <CryptoSelector ml={2} />

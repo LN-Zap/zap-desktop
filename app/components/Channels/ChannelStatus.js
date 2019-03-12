@@ -24,7 +24,7 @@ const StatusText = styled(Text)`
 
 const ChannelStatus = ({ status, ...rest }) => (
   <Flex alignItems="center" {...rest}>
-    <Text fontWeight="normal" lineHeight="1em" mr={1}>
+    <Text fontWeight="normal" lineHeight="1" mr={1}>
       <StatusIndicator variant={variantMap[status]} />
     </Text>
     <StatusText>
