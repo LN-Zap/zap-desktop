@@ -42,9 +42,9 @@ class Message extends React.Component {
     const { children, justifyContent, variant, ...rest } = this.props
     return (
       <StyledMessage fontSize="s" fontWeight="normal" variant={variant} {...rest}>
-        <Flex alignItems="center" justifyContent={justifyContent}>
+        <Flex alignItems="flex-start" justifyContent={justifyContent}>
           {this.renderIcon()}
-          <Text>{children}</Text>
+          <Text lineHeight="1.4">{children}</Text>
         </Flex>
       </StyledMessage>
     )

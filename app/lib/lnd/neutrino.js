@@ -80,7 +80,7 @@ class Neutrino extends EventEmitter {
     // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
     // some block explorers so that we have a good starting point.
     try {
-      const blockHeight = await fetchBlockHeight()
+      const blockHeight = await fetchBlockHeight(this.lndConfig.chain, this.lndConfig.network)
       this.setCurrentBlockHeight(blockHeight)
     } catch (err) {
       mainLog.warn(`Unable to fetch block height: ${err.message}`)
@@ -88,6 +88,8 @@ class Neutrino extends EventEmitter {
 
     mainLog.info('Starting lnd in neutrino mode')
     mainLog.info(' > binaryPath', this.lndConfig.binaryPath)
+    mainLog.info(' > chain', this.lndConfig.chain)
+    mainLog.info(' > network', this.lndConfig.network)
     mainLog.info(' > host:', this.lndConfig.host)
     mainLog.info(' > cert:', this.lndConfig.cert)
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
@@ -144,9 +146,15 @@ class Neutrino extends EventEmitter {
     ]
 
     // Configure neutrino backend.
+    neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
     global.CONFIG.neutrino.connect[this.lndConfig.network].forEach(node =>
       neutrinoArgs.push(`--neutrino.connect=${node}`)
     )
+
+    // When not on mainnet, enable the experimental assumechanvalid flag.
+    if (this.lndConfig.network !== 'mainnet') {
+      neutrinoArgs.push(`--routing.assumechanvalid`)
+    }
 
     // Log the final config.
     mainLog.info(

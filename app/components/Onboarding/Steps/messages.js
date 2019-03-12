@@ -44,6 +44,12 @@ export default defineMessages({
   login_description: 'Please enter your wallet password to unlock it.',
   login_title: 'Welcome back!',
   macaroon_description: 'Path to the lnd macaroon file. Example: /path/to/admin.macaroon',
+  network_title: 'Network',
+  network_description: 'Select the network your wallet will be connected to',
+  network_mainnet: 'Mainnet',
+  network_testnet: 'Testnet',
+  network_warning:
+    'This is experimental and not recommended. There are known issues such as lack of channel backups, lack of watchtower support, and lack of thorough testing. Losing funds is a risk and we advise users to use testnet for the time being.',
   next: 'Next',
   only: 'only',
   password_confirm_placeholder: 'Confirm Password',

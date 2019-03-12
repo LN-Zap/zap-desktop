@@ -11,19 +11,47 @@ storiesOf('General', module).addWithChapters('Typography', {
       sections: [
         {
           title: 'h1',
-          sectionFn: () => <Heading.h1>The quick brown fox jumps over the lazy dog</Heading.h1>,
+          sectionFn: () => (
+            <Heading.h1>
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Heading.h1>
+          ),
         },
         {
           title: 'h2',
-          sectionFn: () => <Heading.h2>The quick brown fox jumps over the lazy dog</Heading.h2>,
+          sectionFn: () => (
+            <Heading.h2>
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Heading.h2>
+          ),
         },
         {
           title: 'h3',
-          sectionFn: () => <Heading.h3>The quick brown fox jumps over the lazy dog</Heading.h3>,
+          sectionFn: () => (
+            <Heading.h3>
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Heading.h3>
+          ),
         },
         {
           title: 'h4',
-          sectionFn: () => <Heading.h4>The quick brown fox jumps over the lazy dog</Heading.h4>,
+          sectionFn: () => (
+            <Heading.h4>
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Heading.h4>
+          ),
         },
       ],
     },
@@ -33,12 +61,24 @@ storiesOf('General', module).addWithChapters('Typography', {
         {
           title: 'Normal',
           sectionFn: () => (
-            <Text fontWeight="normal">The quick brown fox jumps over the lazy dog</Text>
+            <Text fontWeight="normal">
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Text>
           ),
         },
         {
           title: 'Light',
-          sectionFn: () => <Text>The quick brown fox jumps over the lazy dog</Text>,
+          sectionFn: () => (
+            <Text>
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Text>
+          ),
         },
       ],
     },
@@ -47,31 +87,80 @@ storiesOf('General', module).addWithChapters('Typography', {
       sections: [
         {
           title: 'Extra Extra large',
-          sectionFn: () => <Text fontSize="xxl">The quick brown fox jumps over the lazy dog</Text>,
+          sectionFn: () => (
+            <Text fontSize="xxl">
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Text>
+          ),
         },
         {
           title: 'Extra Large',
-          sectionFn: () => <Text fontSize="xl">The quick brown fox jumps over the lazy dog</Text>,
+          sectionFn: () => (
+            <Text fontSize="xl">
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Text>
+          ),
         },
         {
           title: 'Large',
-          sectionFn: () => <Text fontSize="l">The quick brown fox jumps over the lazy dog</Text>,
+          sectionFn: () => (
+            <Text fontSize="l">
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Text>
+          ),
         },
         {
           title: 'Medium',
-          sectionFn: () => <Text fontSize="m">The quick brown fox jumps over the lazy dog</Text>,
+          sectionFn: () => (
+            <Text fontSize="m">
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Text>
+          ),
         },
         {
           title: 'Small',
-          sectionFn: () => <Text fontSize="s">The quick brown fox jumps over the lazy dog</Text>,
+          sectionFn: () => (
+            <Text fontSize="s">
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Text>
+          ),
         },
         {
           title: 'Extra Small',
-          sectionFn: () => <Text fontSize="xs">The quick brown fox jumps over the lazy dog</Text>,
+          sectionFn: () => (
+            <Text fontSize="xs">
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Text>
+          ),
         },
         {
           title: 'Extra Extra Small',
-          sectionFn: () => <Text fontSize="xxs">The quick brown fox jumps over the lazy dog</Text>,
+          sectionFn: () => (
+            <Text fontSize="xxs">
+              The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the lazy
+              dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over the
+              lazy dog. The quick brown fox jumps over the lazy dog. The quick brown fox jumps over
+              the lazy dog.
+            </Text>
+          ),
         },
       ],
     },
