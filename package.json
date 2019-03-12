@@ -252,7 +252,7 @@
     "browserslist": "4.4.2",
     "clean-webpack-plugin": "1.0.1",
     "concurrently": "4.1.0",
-    "copy-webpack-plugin": "5.0.0",
+    "copy-webpack-plugin": "5.0.1",
     "coveralls": "3.0.3",
     "cross-env": "5.2.0",
     "cross-spawn": "6.0.5",
