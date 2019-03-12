@@ -16,7 +16,9 @@ const Tab = ({ itemKey, itemValue, isActive, onClick }) => (
     >
       <Text fontWeight="normal">{itemValue}</Text>
     </Button>
-    {isActive && <Bar bg="lightningOrange" style={{ maxWidth: '50px', width: '100%' }} />}
+    {isActive && (
+      <Bar bg="lightningOrange" style={{ maxWidth: '50px', width: '100%', height: '2px' }} />
+    )}
   </Flex>
 )
 Tab.propTypes = {
