@@ -1,7 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { Span, Value } from 'components/UI'
+import Span from 'components/UI/Span'
+import Value from 'components/UI/Value'
 
 const mapStateToProps = state => ({
   currency: state.ticker.currency,

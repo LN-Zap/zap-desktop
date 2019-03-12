@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { Pay } from 'components/Pay'
 import { tickerSelectors } from 'reducers/ticker'
-import { setPayReq, queryRoutes } from 'reducers/pay'
+import { setPayReq, queryFees, queryRoutes } from 'reducers/pay'
 import { changeFilter } from 'reducers/activity'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
@@ -14,6 +14,7 @@ const mapStateToProps = state => ({
   channelBalance: state.balance.channelBalance,
   cryptoCurrency: state.ticker.currency,
   cryptoCurrencyTicker: tickerSelectors.currencyName(state),
+  isQueryingFees: state.pay.isQueryingFees,
   payReq: state.pay.payReq,
   onchainFees: state.pay.onchainFees,
   routes: state.pay.routes,
@@ -26,6 +27,7 @@ const mapDispatchToProps = {
   payInvoice,
   setPayReq,
   sendCoins,
+  queryFees,
   queryRoutes,
 }
 
