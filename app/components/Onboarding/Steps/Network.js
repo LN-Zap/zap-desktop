@@ -47,21 +47,39 @@ class Network extends React.Component {
           }
         }}
         onSubmitFailure={onSubmitFailure}
+        width={1}
       >
-        <Header
-          align="left"
-          subtitle={<FormattedMessage {...messages.network_description} />}
-          title={<FormattedMessage {...messages.network_title} />}
-        />
-        <Bar my={4} />
-        <RadioGroup field="network" initialValue={network} isRequired name="network">
-          <Radio label={<FormattedMessage {...messages.network_testnet} />} value="testnet" />
-          <Radio label={<FormattedMessage {...messages.network_mainnet} />} value="mainnet" />
-        </RadioGroup>
+        {({ formState }) => {
+          const isMainnet = formState.values.network === 'mainnet'
+          return (
+            <>
+              <Header
+                align="left"
+                subtitle={<FormattedMessage {...messages.network_description} />}
+                title={<FormattedMessage {...messages.network_title} />}
+              />
+              <Bar my={4} />
+              <RadioGroup field="network" initialValue={network} isRequired name="network">
+                <Radio
+                  description=<FormattedMessage {...messages.network_testnet_description} />
+                  label={<FormattedMessage {...messages.network_testnet} />}
+                  value="testnet"
+                />
+                <Radio
+                  description=<FormattedMessage {...messages.network_mainnet_description} />
+                  label={<FormattedMessage {...messages.network_mainnet} />}
+                  value="mainnet"
+                />
+              </RadioGroup>
 
-        <Message justifyContent="center" mt={3} variant="warning">
-          <FormattedMessage {...messages.network_warning} />
-        </Message>
+              {isMainnet && (
+                <Message justifyContent="center" mt={3} variant="warning">
+                  <FormattedMessage {...messages.network_warning} />
+                </Message>
+              )}
+            </>
+          )
+        }}
       </Form>
     )
   }

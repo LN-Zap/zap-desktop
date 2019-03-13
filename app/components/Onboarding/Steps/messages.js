@@ -47,9 +47,11 @@ export default defineMessages({
   network_title: 'Network',
   network_description: 'Select the network your wallet will be connected to',
   network_mainnet: 'Mainnet',
+  network_mainnet_description: 'Connect to the live Bitcoin network and use real funds.',
   network_testnet: 'Testnet',
+  network_testnet_description: 'Experiment with test bitcoin that has no monetary value.',
   network_warning:
-    'This is experimental and not recommended. There are known issues such as lack of channel backups, lack of watchtower support, and lack of thorough testing. Losing funds is a risk and we advise users to use testnet for the time being.',
+    'WARNING: You may lose your funds. Mainnet support is experimental and has not been thoroughly tested. Use Testnet to experiment without risk.',
   next: 'Next',
   only: 'only',
   password_confirm_placeholder: 'Confirm Password',
@@ -74,9 +76,6 @@ export default defineMessages({
   connection_type_import_description: 'Recover your wallet',
   connection_type_custom_label: 'Connect',
   connection_type_custom_description: 'Connect to your node',
-  connection_type_btcpayserver_label: 'BTCPay Server',
-  connection_type_btcpayserver_description:
-    'Connect to your own BTCPay Server instance to access your BTCPay Server wallet.',
   signup_description: 'Would you like to create a new wallet or import an existing one?',
   signup_import: 'Import existing wallet',
   signup_title: "Alright, let's get set up",
