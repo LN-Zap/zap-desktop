@@ -6,6 +6,7 @@ import styled from 'styled-components'
 import { closeModal, modalSelectors } from 'reducers/modal'
 import { Modal, ModalOverlayStyles } from 'components/UI'
 import { useOnKeydown } from 'hooks'
+import Autopay from 'containers/Autopay'
 import Pay from 'containers/Pay'
 import Request from 'containers/Request'
 import Channels from 'containers/Channels'
@@ -21,6 +22,9 @@ const Container = styled(animated.div)`
 
 const ModalContent = ({ type, closeModal }) => {
   switch (type) {
+    case 'AUTOPAY':
+      return <Autopay mx={-4} />
+
     case 'PAY_FORM':
       return <Pay mx="auto" width={9 / 16} />
 

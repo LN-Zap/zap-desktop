@@ -32,6 +32,11 @@ const SettingsMenu = ({ history, setActiveSubMenu, openModal }) => (
       />
 
       <MenuItem
+        item={{ key: 'Autopay', name: <FormattedMessage {...messages.autopay} /> }}
+        onClick={() => openModal('AUTOPAY')}
+      />
+
+      <MenuItem
         item={{ key: 'logout', name: <FormattedMessage {...messages.logout} /> }}
         onClick={() => history.push('/logout')}
       />
