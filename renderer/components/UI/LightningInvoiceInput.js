@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { asField } from 'informed'
 import { isOnchain, isLn } from '@zap/utils/crypto'
-import TextArea from './TextArea'
+import { BasicTextArea } from './TextArea'
 import Message from './Message'
 import messages from './messages'
 
@@ -79,7 +79,7 @@ const InformedTextArea = asField(({ fieldState, fieldApi, ...props }) => {
   }
   return (
     <React.Fragment>
-      <TextArea {...rest} />
+      <BasicTextArea {...rest} fieldApi={fieldApi} fieldState={fieldState} />
       {value && !fieldState.error && (
         <Message mt={2} variant="success">
           <FormattedMessage
