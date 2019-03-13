@@ -59,8 +59,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  isSettingsOpen: false,
-  activeSubMenu: null,
+  settings: {},
 }
 
 export default function settingsReducer(state = initialState, action) {
