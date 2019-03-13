@@ -22,6 +22,7 @@ const fsRimraf = promisify(rimraf)
  * @type {Array}
  */
 const WHITELISTED_DOMAINS = [
+  'coinfaucet.eu',
   'ln-zap.github.io',
   'blockstream.info',
   'testnet.litecore.io',
@@ -52,6 +53,13 @@ function openExternal(urlString) {
  */
 function openHelpPage() {
   openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
+}
+
+/**
+ * Open a testnet faucet in a new browser window.
+ */
+function openTestnetFaucet() {
+  openExternal('https://coinfaucet.eu/en/btc-testnet/')
 }
 
 function killLnd() {
@@ -127,6 +135,7 @@ function getUserDataDir() {
 window.Zap = {
   openExternal,
   openHelpPage,
+  openTestnetFaucet,
   getWalletDir,
   getAllLocalWallets,
   deleteLocalWallet,
