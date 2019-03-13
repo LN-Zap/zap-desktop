@@ -2,6 +2,7 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { Box, Flex } from 'rebass'
 
+import Autopay from 'components/Icon/Autopay'
 import AngleDown from 'components/Icon/AngleDown'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
@@ -60,6 +61,7 @@ import ZapLogo from 'components/Icon/ZapLogo'
 const iconSizes = [16, 32, 64, 128]
 
 const zapIconsList = {
+  Autopay,
   AngleDown,
   AngleLeft,
   AngleRight,
