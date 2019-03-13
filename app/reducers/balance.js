@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
+import { channelsSelectors } from './channels'
 
 // ------------------------------------
 // Constants
@@ -48,11 +49,14 @@ balanceSelectors.channelBalance = state => state.balance.channelBalance
 balanceSelectors.walletBalance = state => state.balance.walletBalance
 balanceSelectors.walletBalanceConfirmed = state => state.balance.walletBalanceConfirmed
 balanceSelectors.walletBalanceUnconfirmed = state => state.balance.walletBalanceUnconfirmed
+balanceSelectors.limboBalance = state => channelsSelectors.totalLimboBalanceSelector(state)
 
 balanceSelectors.totalBalance = createSelector(
   balanceSelectors.channelBalance,
   balanceSelectors.walletBalance,
-  (channelBalance, walletBalance) => (channelBalance || 0) + (walletBalance || 0)
+  balanceSelectors.limboBalance,
+  (channelBalance = 0, walletBalance = 0, limboBalance = 0) =>
+    channelBalance + walletBalance + limboBalance
 )
 
 export { balanceSelectors }
