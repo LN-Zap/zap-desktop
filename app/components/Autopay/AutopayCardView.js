@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { Flex } from 'rebass'
+import { themeGet } from 'styled-system'
+import { Box, Flex } from 'rebass'
 import { Card, Heading } from 'components/UI'
+import AutopayAddButton from './AutopayAddButton'
 
 const CardWithBg = styled(Card)`
   position: relative;
@@ -14,16 +16,22 @@ const CardWithBg = styled(Card)`
   width: 195px;
   border-radius: 40px;
   padding: 0;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
   cursor: pointer;
+`
+
+const Overlay = styled(Flex)`
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  pointer-events: none;
 `
 
 const GradientOverlay = styled(Card)`
   position: absolute;
   background-image: linear-gradient(
     146deg,
-    ${props => props.theme.colors.tertiaryColor},
-    ${props => props.theme.colors.primaryColor}
+    ${themeGet('colors.tertiaryColor')},
+    ${themeGet('colors.primaryColor')}
   );
   opacity: 0.5;
   width: 100%;
@@ -35,22 +43,24 @@ const GradientOverlay = styled(Card)`
   }
 `
 
-const TextOverlay = styled(Flex)`
-  position: absolute;
-  pointer-events: none;
-  width: 100%;
-  height: 100%;
+const TextOverlay = styled(Overlay)`
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 `
 
 const AutopayCardView = ({ merchant: { host, image, nickname, pubkey }, onClick, ...rest }) => (
-  <CardWithBg src={image} {...rest} onClick={() => onClick(`${pubkey}@${host}`)}>
-    <GradientOverlay />
-    <TextOverlay alignItems="center" flexDirection="column" justifyContent="center" p={3}>
-      <Heading.h1 fontWeight="normal" textAlign="center">
-        {nickname}
-      </Heading.h1>
-    </TextOverlay>
-  </CardWithBg>
+  <Box {...rest} onClick={() => onClick(`${pubkey}@${host}`)}>
+    <CardWithBg mb="12px" src={image}>
+      <GradientOverlay />
+      <TextOverlay alignItems="center" flexDirection="column" justifyContent="center" p={3}>
+        <Heading.h1 fontWeight="normal" textAlign="center">
+          {nickname}
+        </Heading.h1>
+      </TextOverlay>
+      <Overlay alignItems="flex-end" justifyContent="center" mt="12px">
+        <AutopayAddButton />
+      </Overlay>
+    </CardWithBg>
+  </Box>
 )
 
 AutopayCardView.propTypes = {
