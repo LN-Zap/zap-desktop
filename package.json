@@ -20,7 +20,7 @@
     "fetch-lnd": "node ./internals/scripts/fetch-lnd-for-packaging.js",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
-    "generate-icons": "npx @svgr/cli --icon -d app/components/Icon app/icons",
+    "generate-icons": "npx @svgr/cli --icon -d app/components/Icon app/icons && npm run lint-fix -- app/components/Icon",
     "lint-base": "eslint --cache --format=node_modules/eslint-formatter-pretty",
     "lint": "npm run lint-base -- .",
     "lint-fix-base": "npm run lint-base -- --fix",
