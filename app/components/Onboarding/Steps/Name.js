@@ -67,6 +67,7 @@ class Name extends React.Component {
                   field="name"
                   initialValue={name}
                   label={<FormattedMessage {...messages.wallet_name_label} />}
+                  maxLength={30}
                   name="name"
                   validateOnBlur={shouldValidateInline}
                   validateOnChange={shouldValidateInline}
