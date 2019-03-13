@@ -2,6 +2,7 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
 import { styles } from 'styled-system'
@@ -106,7 +107,7 @@ class TextArea extends React.PureComponent {
   static displayName = 'TextArea'
 
   static propTypes = {
-    description: PropTypes.string,
+    description: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
     field: PropTypes.string.isRequired,
     fieldApi: PropTypes.object.isRequired,
     fieldState: PropTypes.object.isRequired,
@@ -201,7 +202,7 @@ class TextArea extends React.PureComponent {
           field={field}
           fieldState={fieldState}
           onBlur={e => {
-            setTouched()
+            setTouched(true)
             // Make the state aware that the element is now focused.
             const newHasFocus = document.activeElement === this.inputRef.current
             if (hasFocus !== newHasFocus) {
@@ -249,4 +250,11 @@ class TextArea extends React.PureComponent {
   }
 }
 
-export default withRequiredValidation(withTheme(asField(TextArea)))
+const BasicTextArea = withTheme(TextArea)
+
+export { BasicTextArea }
+
+export default compose(
+  withRequiredValidation,
+  asField
+)(BasicTextArea)
