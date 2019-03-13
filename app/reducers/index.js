@@ -4,6 +4,7 @@ import { intlReducer as intl } from 'react-intl-redux'
 import locale from './locale'
 import theme from './theme'
 import app from './app'
+import autopay from './autopay'
 import onboarding from './onboarding'
 import lnd from './lnd'
 import ticker from './ticker'
@@ -37,6 +38,7 @@ export default history => {
     activity,
     address,
     app,
+    autopay,
     balance,
     channels,
     contactsform,
