@@ -549,6 +549,7 @@ const pendingClosedChannelsSelector = state =>
 const pendingForceClosedChannelsSelector = state =>
   state.channels.pendingChannels.pending_force_closing_channels
 const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waiting_close_channels
+const totalLimboBalanceSelector = state => state.channels.pendingChannels.total_limbo_balance
 const closingChannelIdsSelector = state => state.channels.closingChannelIds
 const channelSearchQuerySelector = state => state.channels.searchQuery
 const filterSelector = state => state.channels.filter
@@ -570,6 +571,8 @@ const channelMatchesQuery = (channelObj, searchQuery) => {
     remoteNodePub.includes(query) || remotePubkey.includes(query) || displayName.includes(query)
   )
 }
+
+channelsSelectors.totalLimboBalanceSelector = totalLimboBalanceSelector
 
 channelsSelectors.channelsSelector = createSelector(
   channelsSelector,
