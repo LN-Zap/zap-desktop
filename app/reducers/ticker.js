@@ -16,8 +16,8 @@ export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
 
 // Map for crypto codes to crypto tickers
 const DEFAULT_CRYPTO_UNITS = {
-  bitcoin: 'btc',
-  litecoin: 'ltc',
+  bitcoin: window.CONFIG.bitcoin.currency,
+  litecoin: window.CONFIG.litecoin.currency,
 }
 
 // Map for crypto names to crypto tickers
@@ -105,10 +105,10 @@ export const receiveCryptocurrency = (event, chain) => async (dispatch, getState
 
   // Load saved settings for the chain.
   const state = getState()
-  const chainSettings = state.settings[`chain.${chain}`]
+  const chainSettings = state.settings[`chain.${chain}`] || {}
 
   // Set currency unit based on saved setting, or fallback to default value.
-  const unit = get(chainSettings, 'value.unit', DEFAULT_CRYPTO_UNITS[chain])
+  const unit = get(chainSettings, 'unit', DEFAULT_CRYPTO_UNITS[chain])
   dispatch(setCurrency(unit))
 }
 

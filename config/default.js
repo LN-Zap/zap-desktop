@@ -24,4 +24,12 @@ module.exports = {
   chains: ['bitcoin'],
 
   networks: ['testnet', 'mainnet'],
+
+  bitcoin: {
+    currency: 'sats',
+  },
+
+  litecoin: {
+    currency: 'lits',
+  },
 }
