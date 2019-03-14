@@ -7795,10 +7795,10 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-fake-indexeddb@2.0.5:
-  version "2.0.5"
-  resolved "https://registry.yarnpkg.com/fake-indexeddb/-/fake-indexeddb-2.0.5.tgz#829685232f79bcb9d182b8dd33934e9e5657ed18"
-  integrity sha512-C68kh3Ec3L6JZaTpRm6+TjY5AOs4bwtEOXazzb6733UL0F0jLR7j939e+TdlUmJdxumFQmXIzFhyLu5ZifQc5w==
+fake-indexeddb@2.0.6:
+  version "2.0.6"
+  resolved "https://registry.yarnpkg.com/fake-indexeddb/-/fake-indexeddb-2.0.6.tgz#0e96ccab65eda769bac62019361d55e66470c7d8"
+  integrity sha512-xoS/fCfCM/o+KoVdsoSUlkKhJHNUJakWER+T8eVfQ/eBNe5/hGVVvbL6bXou1leYU6hxMheA72tUiYzg/VSKaA==
   dependencies:
     core-js "^2.4.1"
     realistic-structured-clone "^2.0.1"
