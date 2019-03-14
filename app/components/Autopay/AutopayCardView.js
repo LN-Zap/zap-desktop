@@ -47,8 +47,8 @@ const TextOverlay = styled(Overlay)`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 `
 
-const AutopayCardView = ({ merchant: { host, image, nickname, pubkey }, onClick, ...rest }) => (
-  <Box {...rest} onClick={() => onClick(`${pubkey}@${host}`)}>
+const AutopayCardView = ({ merchant: { image, nickname, pubkey }, onClick, ...rest }) => (
+  <Box {...rest} onClick={() => onClick(`${pubkey}`)}>
     <CardWithBg mb="12px" src={image}>
       <GradientOverlay />
       <TextOverlay alignItems="center" flexDirection="column" justifyContent="center" p={3}>
@@ -66,7 +66,6 @@ const AutopayCardView = ({ merchant: { host, image, nickname, pubkey }, onClick,
 AutopayCardView.propTypes = {
   merchant: PropTypes.shape({
     description: PropTypes.string.isRequired,
-    host: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     nickname: PropTypes.string.isRequired,
     pubkey: PropTypes.string.isRequired,

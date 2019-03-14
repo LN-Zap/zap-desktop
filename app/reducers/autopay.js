@@ -3,6 +3,7 @@ import { contactFormSelectors } from './contactsform'
 
 // Initial State
 const initialState = {
+  isCreateModalOpen: false,
   searchQuery: null,
   merchants: [],
 }
@@ -10,14 +11,36 @@ const initialState = {
 // Constants
 // ------------------------------------
 export const UPDATE_AUTOPAY_SEARCH_QUERY = 'UPDATE_AUTOPAY_SEARCH_QUERY'
+export const OPEN_AUTOPAY_CREATE_MODAL = 'OPEN_AUTOPAY_CREATE_MODAL'
+export const CLOSE_AUTOPAY_CREATE_MODAL = 'CLOSE_AUTOPAY_CREATE_MODAL'
+
+export const SET_SELECTED_MERCHANT = 'SET_SELECTED_MERCHANT'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+export function setSelectedMerchant(merchantId) {
+  return {
+    type: SET_SELECTED_MERCHANT,
+    selectedMerchantId: merchantId,
+  }
+}
+
 export function updateAutopaySearchQuery(searchQuery) {
   return {
     type: UPDATE_AUTOPAY_SEARCH_QUERY,
     searchQuery,
+  }
+}
+
+export function openAutopayCreateModal(merchantId) {
+  return dispatch => {
+    dispatch(setSelectedMerchant(merchantId))
+  }
+}
+export function closeAutopayCreateModal() {
+  return dispatch => {
+    dispatch(setSelectedMerchant())
   }
 }
 
@@ -26,6 +49,7 @@ export function updateAutopaySearchQuery(searchQuery) {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [UPDATE_AUTOPAY_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
+  [SET_SELECTED_MERCHANT]: (state, { selectedMerchantId }) => ({ ...state, selectedMerchantId }),
 }
 
 // ------------------------------------
@@ -33,8 +57,18 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const autopaySelectors = {}
 autopaySelectors.searchQuery = state => state.autopay.searchQuery
+autopaySelectors.isCreateModalOpen = state => state.autopay.isCreateModalOpen
+autopaySelectors.selectedMerchantId = state => state.autopay.selectedMerchantId
+
 autopaySelectors.merchants = state => contactFormSelectors.suggestedNodes(state)
 
+autopaySelectors.selectedMerchant = createSelector(
+  autopaySelectors.merchants,
+  autopaySelectors.selectedMerchantId,
+  (merchants, selectedMerchantId) => {
+    return merchants.find(m => m.pubkey === selectedMerchantId)
+  }
+)
 autopaySelectors.filteredMerchants = createSelector(
   autopaySelectors.merchants,
   autopaySelectors.searchQuery,

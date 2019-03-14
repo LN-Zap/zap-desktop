@@ -75,30 +75,28 @@ const Range = asField(({ fieldState, fieldApi, ...props }) => {
   }
 
   return (
-    <>
-      <Input
-        {...styleProps}
-        max={100}
-        min={0}
-        step={1}
-        {...rest}
-        ref={forwardedRef}
-        onBlur={e => {
-          setTouched()
-          if (onBlur) {
-            onBlur(e)
-          }
-        }}
-        onChange={e => {
-          setValue(e.target.value)
-          if (onChange) {
-            onChange(e)
-          }
-        }}
-        type="range"
-        value={value || 0}
-      />
-    </>
+    <Input
+      {...styleProps}
+      max={100}
+      min={0}
+      step={1}
+      {...rest}
+      ref={forwardedRef}
+      onBlur={e => {
+        setTouched()
+        if (onBlur) {
+          onBlur(e)
+        }
+      }}
+      onChange={e => {
+        setValue(e.target.value)
+        if (onChange) {
+          onChange(e)
+        }
+      }}
+      type="range"
+      value={value || 0}
+    />
   )
 })
 

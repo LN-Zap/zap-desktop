@@ -8,7 +8,7 @@ import { tint } from 'polished'
 const Gradient = styled(Card)`
   background: linear-gradient(
     to bottom,
-    ${props => tint(0.3, props.theme.colors[props.bg])},
+    ${props => tint(0.2, props.theme.colors[props.bg])},
     ${props => props.theme.colors[props.bg]}
   );
 `
@@ -16,9 +16,9 @@ const Gradient = styled(Card)`
 const AutopayAddButton = props => {
   return (
     <Gradient
-      bg="superBlue"
+      bg="lightningOrange"
       borderRadius="50%"
-      boxShadow={`0 0 24px 0 ${themeGet('colors.superBlue')(props)}`}
+      boxShadow={`0 0 24px 0 ${themeGet('colors.lightningOrange')(props)}`}
       css={{ height: '35px' }}
       width={35}
       {...props}
