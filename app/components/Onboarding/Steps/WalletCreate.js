@@ -5,7 +5,6 @@ import { Form, Spinner, Text } from 'components/UI'
 class WalletCreate extends React.Component {
   static propTypes = {
     createNewWallet: PropTypes.func.isRequired,
-    setWalletCreate: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
   }
@@ -29,7 +28,7 @@ class WalletCreate extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, setWalletCreate, createNewWallet, ...rest } = this.props
+    const { wizardApi, wizardState, createNewWallet, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (

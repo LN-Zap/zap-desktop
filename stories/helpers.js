@@ -4,7 +4,7 @@ import { Box, Flex } from 'rebass'
 import { Bar, Heading, Page } from 'components/UI'
 import lightningPayReq from 'bolt11'
 
-export const Window = props => <Page css={{ height: 'calc(100vh - 40px)' }} {...props} />
+export const Window = props => <Page css={{ height: 'calc(100vh - 120px)' }} {...props} />
 export const Column = props => <Box mr={5} width={1 / 2} {...props} />
 export const Group = ({ title, children, hasBar = true }) => (
   <Box mb={4}>

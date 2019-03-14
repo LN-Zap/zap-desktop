@@ -1,14 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 import X from 'components/Icon/X'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Panel from './Panel'
-import Text from './Text'
-
-import messages from './messages'
 
 const ModalCloseButtonWrapper = styled(Box)`
   height: 40px;
@@ -40,20 +36,23 @@ ModalCloseButton.propTypes = {
   onClose: PropTypes.func,
 }
 
-const ModalHeader = () => (
+const ModalHeader = ({ hasHeader }) => (
   <Flex justifyContent="space-between" px={3}>
-    <Box color="primaryText">
-      <ZapLogo height="32px" width="70px" />
-    </Box>
-    <Text
-      css={{ cursor: 'pointer', opacity: 0.6, '&:hover': { opacity: 1 } }}
-      fontWeight="normal"
-      onClick={() => window.Zap.openHelpPage()}
-    >
-      <FormattedMessage {...messages.help} />
-    </Text>
+    {hasHeader && (
+      <Box color="primaryText">
+        <ZapLogo height="32px" width="70px" />
+      </Box>
+    )}
   </Flex>
 )
+
+ModalHeader.propTypes = {
+  hasHeader: PropTypes.bool,
+}
+
+ModalHeader.defaultProps = {
+  hasHeader: true,
+}
 
 /**
  * @render react
@@ -67,7 +66,7 @@ const Modal = props => {
     <Panel bg="primaryColor" color="primaryText">
       <Panel.Header pt={3} px={3}>
         {hasClose && <ModalCloseButton onClose={onClose} />}
-        {hasHeader && <ModalHeader />}
+        {hasHeader && <ModalHeader hasHeader={hasHeader} />}
       </Panel.Header>
       <Panel.Body pb={4} px={4} {...rest} css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
         {children}
@@ -85,7 +84,6 @@ Modal.propTypes = {
 
 Modal.defaultProps = {
   hasClose: true,
-  hasHeader: false,
 }
 
 export default Modal

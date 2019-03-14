@@ -9,7 +9,6 @@ export default defineMessages({
   fee: 'Fee',
   fee_unknown: 'unknown',
   fee_per_byte: 'per byte',
-  help: 'Need Help?',
   required_field: 'This is a required field',
   invalid_request: 'Not a valid {chain} request.',
   valid_request: 'Valid {chain} request',

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
 import { Box, Flex } from 'rebass'
-import { Bar, Button, Heading, Header, Panel, QRCode, Text } from 'components/UI'
+import { Bar, Button, Heading, Header, Panel, QRCode, Text, Link } from 'components/UI'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import messages from './messages'
 
@@ -16,6 +16,7 @@ class Syncing extends Component {
     isLightningGrpcActive: PropTypes.bool,
     lndBlockHeight: PropTypes.number,
     lndCfilterHeight: PropTypes.number,
+    network: PropTypes.string,
     setIsWalletOpen: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     syncPercentage: PropTypes.number,
@@ -87,6 +88,7 @@ class Syncing extends Component {
       lndCfilterHeight,
       isLightningGrpcActive,
       intl,
+      network,
       showNotification,
     } = this.props
     let { syncMessageDetail, syncMessageExtraDetail } = this.state
@@ -138,7 +140,13 @@ class Syncing extends Component {
             />
           ) : (
             <Header
-              subtitle={<FormattedMessage {...messages.fund_description} />}
+              subtitle={
+                network === 'testnet' && (
+                  <Link onClick={() => window.Zap.openTestnetFaucet()}>
+                    <FormattedMessage {...messages.fund_link} />
+                  </Link>
+                )
+              }
               title={<FormattedMessage {...messages.fund_title} />}
             />
           )}

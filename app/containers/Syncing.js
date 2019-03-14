@@ -19,6 +19,7 @@ const mapStateToProps = state => ({
   lndBlockHeight: state.lnd.lndBlockHeight,
   lndCfilterHeight: state.lnd.lndCfilterHeight,
   isLightningGrpcActive: state.lnd.isLightningGrpcActive,
+  network: state.info.network,
 })
 
 const mapDispatchToProps = {
