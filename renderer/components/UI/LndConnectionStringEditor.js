@@ -12,25 +12,26 @@ function LndConnectionStringEditor({ formApi, field, hideStringMessage, ...rest 
   const isDisabled = formApi.getValue('hideLndConnectUri')
 
   const getValue = isDisabled => {
+    const value = formApi.getValue(field) || ''
     // create obfuscated value if TextArea is disabled
     if (isDisabled) {
       const LND_CONNECT_PREFIX = 'lndconnect://'
-      const lndconnectUri = formApi.getValue(field) || ''
-      const lndconnectUriBody = lndconnectUri.substr(lndconnectUri.indexOf(LND_CONNECT_PREFIX))
+
+      const lndconnectUriBody = value.substr(value.indexOf(LND_CONNECT_PREFIX))
       // replace all chars with *
-      return { value: `${LND_CONNECT_PREFIX}${lndconnectUriBody.replace(/./g, '*')}` }
+      return `${LND_CONNECT_PREFIX}${lndconnectUriBody.replace(/./g, '*')}`
     }
-    return {}
+    return value
   }
 
   return (
     <Box>
       <LndConnectionStringInput
         {...rest}
-        {...getValue(isDisabled)}
         field={field}
         isReadOnly={isDisabled}
         rows={12}
+        value={getValue(isDisabled)}
       />
       <Flex alignItems="center" justifyContent="space-between" mt={3}>
         <Flex>
