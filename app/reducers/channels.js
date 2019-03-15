@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
 import { send } from 'redux-electron-ipc'
 import { requestSuggestedNodes } from 'lib/utils/api'
-import { showError } from './notification'
+import { showNotification, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
 import { getNodeDisplayName, truncateNodePubkey, updateNodeData } from './network'
@@ -331,7 +331,12 @@ export const channelSuccessful = () => dispatch => {
 }
 
 // Receive IPC event for updated channel
-export const pushchannelupdated = (event, { pubkey }) => dispatch => {
+export const pushchannelupdated = (event, { pubkey, data }) => dispatch => {
+  // If the channel update is pending then show notification that the channel open was a success
+  if (data.update === 'chan_pending') {
+    dispatch(showNotification('Channel successfully created'))
+  }
+
   dispatch(fetchChannels())
   dispatch(removeLoadingPubkey(pubkey))
 }
