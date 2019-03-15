@@ -42,7 +42,7 @@ class CryptoAmountInput extends React.Component {
 
     // If the value has changed, reformat it if needed.
     const valueBefore = prevProps.fieldState.value
-    const valueAfter = fieldState.value ///fieldApi.getValue()
+    const valueAfter = fieldState.value
     if (valueAfter !== valueBefore) {
       const [integer, fractional] = parseNumber(valueAfter, this.getRules().precision)
       // Handle a corner case for the satoshis. sat number must be integer so
