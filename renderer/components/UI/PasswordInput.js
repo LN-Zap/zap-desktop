@@ -4,7 +4,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import * as yup from 'yup'
-import Input from './Input'
+import { BasicInput } from './Input'
 
 /**
  * @render react
@@ -12,7 +12,7 @@ import Input from './Input'
  */
 class PasswordInput extends React.Component {
   render() {
-    return <Input {...this.props} type="password" />
+    return <BasicInput {...this.props} type="password" />
   }
 }
 
