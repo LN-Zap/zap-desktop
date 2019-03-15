@@ -9,6 +9,7 @@ import { walletSelectors } from 'reducers/wallet'
 import { showNotification } from 'reducers/notification'
 
 const mapStateToProps = state => ({
+  cryptoCurrencyTicker: tickerSelectors.currencyName(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   searchQuery: state.contactsform.searchQuery,
   selectedNodeDisplayName: contactFormSelectors.selectedNodeDisplayName(state),

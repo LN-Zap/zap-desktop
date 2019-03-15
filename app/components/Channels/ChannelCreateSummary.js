@@ -82,26 +82,15 @@ class ChannelCreateSummary extends React.Component {
               left={<FormattedMessage {...messages.fee} />}
               right={
                 <Flex alignItems="flex-end" flexDirection="column">
-                  <Flex alignItems="center">
+                  <Text>
                     <CryptoValue value={fee} />
-                    <CryptoSelector justify="right" ml={2} />
-                  </Flex>
+                    <CryptoSelector mx={2} />
+                    <FormattedMessage {...messages.fee_per_byte} />
+                  </Text>
                   <Text color="gray">
                     <FormattedMessage {...messages[speedTitleMessageKey]} />
                   </Text>
                 </Flex>
-              }
-            />
-
-            <Bar variant="light" />
-
-            <DataRow
-              left={<FormattedMessage {...messages.total} />}
-              right={
-                <>
-                  <CryptoValue value={amount + fee} />
-                  <CryptoSelector justify="right" ml={2} />
-                </>
               }
             />
           </>
