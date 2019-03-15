@@ -9,7 +9,7 @@ import Check from 'components/Icon/Check'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
 import Text from './Text'
-import Input from './Input'
+import { BasicInput } from './Input'
 
 const SelectOptionList = styled.ul`
   padding: 0;
@@ -57,7 +57,7 @@ const ArrowIconOpen = styled(AngleUp)`
   ${props => getIconStyles(props)}
 `
 
-const StyledInput = styled(Input)`
+const StyledInput = styled(BasicInput)`
   input {
     cursor: pointer;
     color: transparent;
@@ -125,6 +125,7 @@ class Select extends React.PureComponent {
   render() {
     let {
       fieldApi,
+      fieldState,
       iconSize,
       items,
       theme,
@@ -183,6 +184,8 @@ class Select extends React.PureComponent {
                   onFocus: openMenu,
                   onMouseDown: toggleMenu,
                 })}
+                fieldApi={fieldApi}
+                fieldState={fieldState}
                 forwardedRef={this.inputRef}
                 initialValue={selectedItem ? selectedItem.value : null}
               />
@@ -202,4 +205,6 @@ class Select extends React.PureComponent {
   }
 }
 
-export default withTheme(asField(Select))
+const BasicSelect = withTheme(Select)
+export { BasicSelect }
+export default asField(BasicSelect)
