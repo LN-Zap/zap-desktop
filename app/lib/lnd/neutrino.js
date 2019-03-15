@@ -134,6 +134,7 @@ class Neutrino extends EventEmitter {
 
     // Configure lnd.
     const neutrinoArgs = [
+      `--routing.assumechanvalid`,
       `--configfile=${this.lndConfig.configPath}`,
       `--lnddir=${this.lndConfig.lndDir}`,
       `--listen=0.0.0.0:${p2pListen}`,
@@ -150,11 +151,6 @@ class Neutrino extends EventEmitter {
     global.CONFIG.neutrino.connect[this.lndConfig.network].forEach(node =>
       neutrinoArgs.push(`--neutrino.connect=${node}`)
     )
-
-    // When not on mainnet, enable the experimental assumechanvalid flag.
-    if (this.lndConfig.network !== 'mainnet') {
-      neutrinoArgs.push(`--routing.assumechanvalid`)
-    }
 
     // Log the final config.
     mainLog.info(
