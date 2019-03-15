@@ -4,14 +4,26 @@ import { action } from '@storybook/addon-actions'
 import { infoSelectors } from 'reducers/info'
 import { tickerSelectors } from 'reducers/ticker'
 import { ChannelCardList } from 'components/Channels'
+import { Window } from '../../helpers'
 import { Provider, store } from '../../Provider'
 
 const channels = [
+  {
+    chan_id: 0,
+    display_name: 'BeBop',
+    display_pubkey: '03cf5a37ed661e3c61c7943941834771631cd880985340ed7543ad79a968cea454',
+    local_balance: 686679,
+    remote_balance: 0,
+    display_status: 'loading',
+    active: false,
+  },
   {
     chan_id: 1,
     display_name: 'Spudnik',
     display_pubkey: '03cf5a37ed661e3c61c7943941834771631cd880985340ed7543ad79a968cea454',
     channel_point: 'fd2cdfefbff293e74d4d76e153615eafe139ade56f5ac00c3ede6b28a5f787ce:0',
+    csv_delay: 2016,
+    num_updates: 12,
     local_balance: 686679,
     remote_balance: 75000,
     display_status: 'open',
@@ -90,6 +102,7 @@ const channels = [
 ]
 
 const setSelectedChannel = action('setSelectedChannel')
+const openModal = action('openModal')
 
 storiesOf('Containers.Channels', module)
   .addParameters({ info: { disable: true } })
@@ -108,9 +121,14 @@ storiesOf('Containers.Channels', module)
               }
               const dispatchProps = {
                 setSelectedChannel,
+                openModal,
               }
 
-              return <ChannelCardList {...stateProps} {...dispatchProps} />
+              return (
+                <Window>
+                  <ChannelCardList {...stateProps} {...dispatchProps} />
+                </Window>
+              )
             },
           },
         ],

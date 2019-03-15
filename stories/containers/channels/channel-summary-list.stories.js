@@ -1,10 +1,22 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
+import { infoSelectors } from 'reducers/info'
+import { tickerSelectors } from 'reducers/ticker'
 import { ChannelSummaryList } from 'components/Channels'
-import { Provider } from '../../Provider'
+import { store, Provider } from '../../Provider'
+import { Window } from '../../helpers'
 
 const channels = [
+  {
+    chan_id: 0,
+    display_name: 'BeBop',
+    display_pubkey: '03cf5a37ed661e3c61c7943941834771631cd880985340ed7543ad79a968cea454',
+    local_balance: 686679,
+    remote_balance: 0,
+    display_status: 'loading',
+    active: false,
+  },
   {
     chan_id: 1,
     display_name: 'Spudnik',
@@ -88,6 +100,7 @@ const channels = [
 ]
 
 const setSelectedChannel = action('setSelectedChannel')
+const openModal = action('openModal')
 
 storiesOf('Containers.Channels', module)
   .addParameters({ info: { disable: true } })
@@ -98,11 +111,23 @@ storiesOf('Containers.Channels', module)
         sections: [
           {
             sectionFn: () => {
-              const dispatchProps = {
-                setSelectedChannel,
+              const state = store.getState()
+              const stateProps = {
+                channels,
+                networkInfo: infoSelectors.networkInfo(state),
+                currencyName: tickerSelectors.currencyName(state),
               }
 
-              return <ChannelSummaryList channels={channels} {...dispatchProps} />
+              const dispatchProps = {
+                setSelectedChannel,
+                openModal,
+              }
+
+              return (
+                <Window>
+                  <ChannelSummaryList {...stateProps} {...dispatchProps} />
+                </Window>
+              )
             },
           },
         ],

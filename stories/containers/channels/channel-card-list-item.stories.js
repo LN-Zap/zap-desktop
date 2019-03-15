@@ -8,6 +8,7 @@ import { ChannelCardListItem } from 'components/Channels'
 import { Provider, store } from '../../Provider'
 
 const setSelectedChannel = action('setSelectedChannel')
+const openModal = action('openModal')
 
 storiesOf('Containers.Channels', module)
   .addParameters({ info: { disable: true } })
@@ -53,6 +54,7 @@ storiesOf('Containers.Channels', module)
               }
               const dispatchProps = {
                 setSelectedChannel,
+                openModal,
               }
 
               return <ChannelCardListItem {...stateProps} {...dispatchProps} width={0.5} />
