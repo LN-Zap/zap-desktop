@@ -200,7 +200,7 @@ class WalletLauncher extends React.Component {
     try {
       const { formApi } = this
       const formState = formApi.getState()
-      const { values } = formState
+      const values = Object.assign({}, wallet, formState.values)
       let result = values
 
       if (wallet.type === 'local') {
