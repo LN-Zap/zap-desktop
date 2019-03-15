@@ -9,7 +9,6 @@ const ChannelCreateHeader = props => (
   <Box {...props}>
     <Header
       logo={<LightningChannel height="48px" width="48px" />}
-      subtitle={<FormattedMessage {...messages.open_channel_form_subtitle} />}
       title={<FormattedMessage {...messages.open_channel_form_title} />}
     />
   </Box>

@@ -332,7 +332,6 @@ class ChannelCreateForm extends React.Component {
         onSubmit={this.handleSubmit}
       >
         {({ formState }) => {
-          const { currency } = this.props
           const { amountCrypto } = formState.values
 
           return (
@@ -363,7 +362,9 @@ class ChannelCreateForm extends React.Component {
                           ? 'open_channel_form_next_button_text'
                           : 'open_channel_summary_next_button_text'
                       ]}
-                      values={{ amount: `${amountCrypto} ${currency}` }}
+                      values={{
+                        amount: `${amountCrypto} ${currencyName}`,
+                      }}
                     />
                   }
                   onBack={this.onBack}

@@ -112,7 +112,6 @@
   "components.Channels.open_channel_form_description": "Para abrir un canal, ingrese el host publickey @ host deseado, establezca la cantidad de BTC que desea comprometer en el canal y envíe.",
   "components.Channels.open_channel_form_next_button_text": "Próximo",
   "components.Channels.open_channel_form_onchain_balance": "Su balance actual en-cadena",
-  "components.Channels.open_channel_form_subtitle": "Red de Lightning",
   "components.Channels.open_channel_form_title": "Abrir un canal",
   "components.Channels.open_channel_notification": "Iniciando apertura de canal",
   "components.Channels.open_channel_summary_next_button_text": "Abrir un canal con cantidad {amount}",
