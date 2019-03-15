@@ -226,7 +226,8 @@ transactionsSelectors.transactionsSelector = createSelector(
     transactions.map(transaction => {
       const fundedChannel = allChannelsRaw.find(channelObj => {
         const channelData = getChannelData(channelObj)
-        return transaction.tx_hash === channelData.channel_point.split(':')[0]
+        const channelPoint = channelData.channel_point
+        return channelPoint ? transaction.tx_hash === channelPoint.split(':')[0] : null
       })
       const closedChannel = allChannelsRaw.find(channelObj => {
         const channelData = getChannelData(channelObj)

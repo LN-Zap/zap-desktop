@@ -1,7 +1,6 @@
 // @flow
 
 import channelsReducer, {
-  SET_CHANNEL_FORM,
   GET_CHANNELS,
   RECEIVE_CHANNELS,
   OPENING_CHANNEL,
@@ -13,10 +12,6 @@ describe('reducers', () => {
   describe('channelsReducer', () => {
     it('should handle initial state', () => {
       expect(channelsReducer(undefined, {})).toMatchSnapshot()
-    })
-
-    it('should have SET_CHANNEL_FORM', () => {
-      expect(SET_CHANNEL_FORM).toEqual('SET_CHANNEL_FORM')
     })
 
     it('should have GET_CHANNELS', () => {

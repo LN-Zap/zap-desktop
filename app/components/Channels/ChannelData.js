@@ -24,7 +24,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
     csv_delay,
     num_updates,
   } = channel
-  const [fundingTxid] = channel_point.split(':')
+  const [fundingTxid] = channel_point ? channel_point.split(':') : []
 
   const data = [
     {
