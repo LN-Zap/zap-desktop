@@ -71,6 +71,7 @@ const ChannelCardListItem = React.memo(
           <Panel.Footer>
             <Flex alignItems="flex-end" as="footer" justifyContent="center">
               <ChannelMoreButton
+                isDisabled={!channel_point}
                 onClick={() => {
                   setSelectedChannel(channel_point)
                   openModal('CHANNEL_DETAIL')

@@ -19,54 +19,25 @@ function ensurePeerConnected(lnd, pubkey, host) {
  * @param  {[type]} payload [description]
  * @return {[type]}         [description]
  */
-export function connectAndOpen(lnd, event, payload) {
-  const {
-    pubkey,
-    host,
-    localamt,
-    private: privateChannel,
-    satPerByte,
-    spendUnconfirmed = true,
-  } = payload
-
-  return ensurePeerConnected(lnd, pubkey, host)
-    .then(() => {
-      const call = lnd.openChannel({
-        node_pubkey: Buffer.from(pubkey, 'hex'),
-        local_funding_amount: Number(localamt),
-        private: privateChannel,
-        sat_per_byte: satPerByte,
-        spend_unconfirmed: spendUnconfirmed,
-      })
-
-      call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
-      call.on('error', error =>
-        event.sender.send('pushchannelerror', { pubkey, error: error.toString() })
-      )
-
-      return call
-    })
-    .catch(err => {
-      event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
-      throw err
-    })
-}
-
-/**
- * Attempts to open a singly funded channel specified in the request to a remote peer.
- * @param  {[type]} lnd     [description]
- * @param  {[type]} event   [description]
- * @param  {[type]} payload [description]
- * @return {[type]}         [description]
- */
-export function openChannel(lnd, event, payload) {
-  const { pubkey, localamt, pushamt } = payload
+export async function connectAndOpen(lnd, event, payload) {
+  const { pubkey, host, localamt, private: privateChannel, satPerByte, spendUnconfirmed } = payload
   const req = {
     node_pubkey: Buffer.from(pubkey, 'hex'),
     local_funding_amount: Number(localamt),
-    push_sat: Number(pushamt),
+    private: privateChannel,
+    sat_per_byte: satPerByte,
+    spend_unconfirmed: spendUnconfirmed,
   }
-
+  try {
+    await ensurePeerConnected(lnd, pubkey, host)
+  } catch (err) {
+    event.sender.send('pushchannelerror', {
+      ...req,
+      node_pubkey: pubkey,
+      error: err.toString(),
+    })
+    throw err
+  }
   return pushopenchannel(lnd, event, req)
 }
 

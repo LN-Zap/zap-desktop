@@ -2,12 +2,6 @@
 
 exports[`reducers channelsReducer should correctly getChannels 1`] = `
 Object {
-  "channelForm": Object {
-    "isOpen": false,
-    "local_amt": "",
-    "node_key": "",
-    "push_amt": "",
-  },
   "channels": Array [],
   "channelsLoading": true,
   "closedChannels": Array [],
@@ -36,7 +30,7 @@ Object {
       "name": "Closing",
     },
   ],
-  "loadingChannelPubkeys": Array [],
+  "loadingChannels": Array [],
   "openingChannel": false,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
@@ -59,12 +53,6 @@ Object {
 
 exports[`reducers channelsReducer should correctly openingChannel 1`] = `
 Object {
-  "channelForm": Object {
-    "isOpen": false,
-    "local_amt": "",
-    "node_key": "",
-    "push_amt": "",
-  },
   "channels": Array [],
   "channelsLoading": false,
   "closedChannels": Array [],
@@ -93,7 +81,7 @@ Object {
       "name": "Closing",
     },
   ],
-  "loadingChannelPubkeys": Array [],
+  "loadingChannels": Array [],
   "openingChannel": true,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
@@ -116,12 +104,6 @@ Object {
 
 exports[`reducers channelsReducer should correctly receiveChannel 1`] = `
 Object {
-  "channelForm": Object {
-    "isOpen": false,
-    "local_amt": "",
-    "node_key": "",
-    "push_amt": "",
-  },
   "channels": Array [
     1,
     2,
@@ -153,7 +135,7 @@ Object {
       "name": "Closing",
     },
   ],
-  "loadingChannelPubkeys": Array [],
+  "loadingChannels": Array [],
   "openingChannel": false,
   "pendingChannels": Array [
     3,
@@ -173,12 +155,6 @@ Object {
 
 exports[`reducers channelsReducer should handle initial state 1`] = `
 Object {
-  "channelForm": Object {
-    "isOpen": false,
-    "local_amt": "",
-    "node_key": "",
-    "push_amt": "",
-  },
   "channels": Array [],
   "channelsLoading": false,
   "closedChannels": Array [],
@@ -207,7 +183,7 @@ Object {
       "name": "Closing",
     },
   ],
-  "loadingChannelPubkeys": Array [],
+  "loadingChannels": Array [],
   "openingChannel": false,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],

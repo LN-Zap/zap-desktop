@@ -207,18 +207,6 @@ export default function(lightning, log, event, msg, data) {
           event.sender.send('transactionFailed', Object.assign(data, { error: error.toString() }))
         })
       break
-    case 'openChannel':
-      // Response is empty. Streaming updates on channel status and updates
-      // { pubkey, localamt, pushamt } = data
-      channelController
-        .openChannel(lnd, event, data)
-        .then(channel => {
-          log.info('CHANNEL: ', channel)
-          event.sender.send('channelSuccessful', { channel })
-          return channel
-        })
-        .catch(error => log.error('openChannel:', error))
-      break
     case 'closeChannel':
       // Response is empty. Streaming updates on channel status and updates
       // { channel_point, force } = data
@@ -261,18 +249,10 @@ export default function(lightning, log, event, msg, data) {
       break
     case 'connectAndOpen':
       // Connects to a peer if we aren't connected already and then attempt to open a channel
-      // {} = data
       channelController
         .connectAndOpen(lnd, event, data)
-        .then(channelData => {
-          log.info('connectAndOpen data: ', channelData)
-          // event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
-          return channelData
-        })
-        .catch(error => {
-          // event.sender.send('connectFailure', { error: error.toString() })
-          log.error('connectAndOpen:', error)
-        })
+        .then(() => log.info('connectAndOpen: %o', data))
+        .catch(error => log.error('connectAndOpen:', error))
       break
     default:
   }

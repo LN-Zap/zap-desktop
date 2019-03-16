@@ -25,7 +25,6 @@ import { receiveCryptocurrency } from './ticker'
 import { receivePeers, connectSuccess, disconnectSuccess, connectFailure } from './peers'
 import {
   receiveChannels,
-  channelSuccessful,
   pushchannelupdated,
   pushchannelend,
   pushchannelerror,
@@ -91,7 +90,6 @@ const ipc = createIpc({
   paymentSuccessful,
   paymentFailed,
 
-  channelSuccessful,
   pushchannelupdated,
   pushchannelend,
   pushchannelerror,

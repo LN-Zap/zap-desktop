@@ -12,6 +12,7 @@ const ClippedText = withEllipsis(Text)
 
 const ChannelSummaryListItem = React.memo(props => {
   const { channel, openModal, setSelectedChannel, ...rest } = props
+
   const {
     channel_point,
     display_name,
@@ -47,6 +48,7 @@ const ChannelSummaryListItem = React.memo(props => {
 
         <Flex alignItems="center" flexDirection="column" width={2 / 20}>
           <ChannelMoreButton
+            isDisabled={!channel_point}
             onClick={() => {
               setSelectedChannel(channel_point)
               openModal('CHANNEL_DETAIL')
