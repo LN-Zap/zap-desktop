@@ -24,23 +24,25 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
     csv_delay,
     num_updates,
   } = channel
-  const [fundingTxid] = channel_point ? channel_point.split(':') : []
 
-  const data = [
-    {
-      id: 'channel_point',
-      label: <FormattedMessage {...messages.funding_transaction_id_label} />,
-      body: <FormattedMessage {...messages.funding_transaction_id_description} />,
-      value: (
-        <Link
-          onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, fundingTxid)}
-        >
-          <Truncate maxlen={25} text={fundingTxid} />
-        </Link>
-      ),
+  // Define output for each data property that we might want to display.
+  const data = {
+    channel_point: () => {
+      const [fundingTxid] = channel_point ? channel_point.split(':') : []
+      return {
+        label: <FormattedMessage {...messages.funding_transaction_id_label} />,
+        body: <FormattedMessage {...messages.funding_transaction_id_description} />,
+        value: (
+          <Link
+            onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, fundingTxid)}
+          >
+            <Truncate maxlen={25} text={fundingTxid} />
+          </Link>
+        ),
+      }
     },
-    {
-      id: 'closing_txid',
+
+    closing_txid: () => ({
       label: <FormattedMessage {...messages.closing_transaction_id_label} />,
       body: <FormattedMessage {...messages.closing_transaction_id_description} />,
       value: (
@@ -50,21 +52,21 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           <Truncate maxlen={25} text={closing_txid} />
         </Link>
       ),
-    },
-    {
-      id: 'num_updates',
+    }),
+
+    num_updates: () => ({
       label: <FormattedMessage {...messages.num_updates_label} />,
       body: <FormattedMessage {...messages.num_updates_description} />,
       value: num_updates,
-    },
-    {
-      id: 'csv_delay',
+    }),
+
+    csv_delay: () => ({
       label: <FormattedMessage {...messages.csv_delay_label} />,
       body: <FormattedMessage {...messages.csv_delay_description} />,
       value: csv_delay,
-    },
-    {
-      id: 'total_satoshis_sent',
+    }),
+
+    total_satoshis_sent: () => ({
       label: <FormattedMessage {...messages.total_sent_label} />,
       body: <FormattedMessage {...messages.total_sent_description} />,
       value: (
@@ -74,9 +76,9 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           {currencyName}
         </>
       ),
-    },
-    {
-      id: 'total_satoshis_received',
+    }),
+
+    total_satoshis_received: () => ({
       label: <FormattedMessage {...messages.total_received_label} />,
       body: <FormattedMessage {...messages.total_received_description} />,
       value: (
@@ -86,9 +88,9 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           {currencyName}
         </>
       ),
-    },
-    {
-      id: 'commit_fee',
+    }),
+
+    commit_fee: () => ({
       label: <FormattedMessage {...messages.commit_fee_label} />,
       body: <FormattedMessage {...messages.commit_fee_description} />,
       value: (
@@ -98,9 +100,9 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           {currencyName}
         </>
       ),
-    },
-    {
-      id: 'fee_per_kw',
+    }),
+
+    fee_per_kw: () => ({
       label: <FormattedMessage {...messages.base_fee_label} />,
       body: <FormattedMessage {...messages.base_fee_description} values={{ currencyName }} />,
       value: (
@@ -110,10 +112,11 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           {currencyName}
         </>
       ),
-    },
-  ]
+    }),
+  }
 
-  const idsToInclude =
+  // Determine which of the properties we will display based on the active view mode.
+  const candidateProps =
     viewMode === CHANNEL_DATA_VIEW_MODE_BASIC
       ? ['channel_point', 'num_updates', 'csv_delay']
       : [
@@ -127,22 +130,37 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
           'fee_per_kw',
         ]
 
-  const rows = idsToInclude.filter(id => channel[id] != null).map(id => data.find(d => d.id === id))
+  // filter out keys where the value is null or undefined so that we don't render rows where we have no data.
+  const propsToRender = candidateProps.filter(id => channel[id] != null)
 
+  // Generate output for each row to be rendered.
+  const rows = propsToRender.map(id => ({
+    id,
+    data: data[id](),
+  }))
+
+  // Assemble the data into a series of data rows.
   return (
     <Box {...rest}>
-      {rows.map(row => (
-        <React.Fragment key={row.id}>
-          <Bar variant="light" />
-          <DataRow
-            body={viewMode === CHANNEL_DATA_VIEW_MODE_FULL ? row.body : null}
-            left={row.label}
-            pr={2}
-            py={viewMode === CHANNEL_DATA_VIEW_MODE_FULL ? 3 : 2}
-            right={row.value}
-          />
-        </React.Fragment>
-      ))}
+      {rows.map(row => {
+        const {
+          id,
+          data: { label, body, value },
+        } = row
+
+        return (
+          <React.Fragment key={id}>
+            <Bar variant="light" />
+            <DataRow
+              body={viewMode === CHANNEL_DATA_VIEW_MODE_FULL ? body : null}
+              left={label}
+              pr={2}
+              py={viewMode === CHANNEL_DATA_VIEW_MODE_FULL ? 3 : 2}
+              right={value}
+            />
+          </React.Fragment>
+        )
+      })}
     </Box>
   )
 }
