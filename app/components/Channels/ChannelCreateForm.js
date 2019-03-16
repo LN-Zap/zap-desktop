@@ -88,6 +88,7 @@ class ChannelCreateForm extends React.Component {
     currency: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
+    isOpeningChannel: PropTypes.bool.isRequired,
     isQueryingFees: PropTypes.bool,
     onchainFees: PropTypes.shape({
       fastestFee: PropTypes.number,
@@ -320,6 +321,7 @@ class ChannelCreateForm extends React.Component {
       selectedNodeDisplayName,
       showNotification,
       updateContactFormSearchQuery,
+      isOpeningChannel,
       ...rest
     } = this.props
     const { step } = this.state
@@ -354,7 +356,9 @@ class ChannelCreateForm extends React.Component {
 
               <Panel.Footer>
                 <FormButtons
-                  isNextButtonDisabled={formState.submits > 0 && formState.invalid}
+                  isNextButtonDisabled={
+                    isOpeningChannel || (formState.submits > 0 && formState.invalid)
+                  }
                   nextButtonText={
                     <FormattedMessage
                       {...messages[
