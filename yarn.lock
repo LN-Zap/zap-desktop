@@ -3224,6 +3224,11 @@ assign-symbols@^1.0.0:
   resolved "https://registry.yarnpkg.com/assign-symbols/-/assign-symbols-1.0.0.tgz#59667f41fadd4f20ccbc2bb96b8d4f7f78ec0367"
   integrity sha1-WWZ/QfrdTyDMvCu5a41Pf3jsA2c=
 
+ast-metadata-inferer@^0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/ast-metadata-inferer/-/ast-metadata-inferer-0.1.1.tgz#66e24fae9d30ca961fac4880b7fc466f09b25165"
+  integrity sha512-hc9w8Qrgg9Lf9iFcZVhNjUnhrd2BBpTlyCnegPVvCe6O0yMrF57a6Cmh7k+xUsfUOMh9wajOL5AsGOBNEyTCcw==
+
 ast-types-flow@0.0.7, ast-types-flow@^0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/ast-types-flow/-/ast-types-flow-0.0.7.tgz#f70b735c6bca1a5c9c22d982c3e39e7feba3bdad"
@@ -4862,7 +4867,7 @@ browserify-zlib@^0.2.0:
   dependencies:
     pako "~1.0.5"
 
-browserslist@4.4.1, browserslist@^4.4.1:
+browserslist@4.4.1:
   version "4.4.1"
   resolved "https://registry.yarnpkg.com/browserslist/-/browserslist-4.4.1.tgz#42e828954b6b29a7a53e352277be429478a69062"
   integrity sha512-pEBxEXg7JwaakBXjATYw/D1YZh4QUSCX/Mnd/wnqSRPPSi1U39iDhDoKGoBUcraKdxDlrYqJxSI5nNvD+dWP2A==
@@ -5177,10 +5182,10 @@ camelcase@^5.2.0:
   resolved "https://registry.yarnpkg.com/camelcase/-/camelcase-5.2.0.tgz#e7522abda5ed94cc0489e1b8466610e88404cf45"
   integrity sha512-IXFsBS2pC+X0j0N/GE7Dm7j3bsEBp+oTpb7F50dwEVX7rf3IgwO9XatnegTsDtniKCUtEJH4fSU6Asw7uoVLfQ==
 
-caniuse-db@^1.0.30000935:
-  version "1.0.30000935"
-  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000935.tgz#0b4210ae207013c76bc1a2e0e903b15bec742a08"
-  integrity sha512-HFqvW9MZZcWD02F3J2GV2ggQyIXiDr7DRPlOWSKVIihu8J1dtsYFqtMjmFqiYamfOmY4NHyn7xFaWAHBtFWgjQ==
+caniuse-db@^1.0.30000947:
+  version "1.0.30000948"
+  resolved "https://registry.yarnpkg.com/caniuse-db/-/caniuse-db-1.0.30000948.tgz#dbb2eee161743d5767850d259b916f25978a1a9b"
+  integrity sha512-nRxqRM1RmzrIELJ5f0qBJSDZHX5QWRYYA3ioYpvS7Y9MIZZYS6h2n7Yj0b9sJHMiN62SLgBaFptturgNKMJFVw==
 
 caniuse-lite@^1.0.30000844:
   version "1.0.30000929"
@@ -7306,15 +7311,17 @@ eslint-module-utils@^2.3.0:
     debug "^2.6.8"
     pkg-dir "^2.0.0"
 
-eslint-plugin-compat@2.7.0:
-  version "2.7.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-compat/-/eslint-plugin-compat-2.7.0.tgz#85043d41a84be4daa3aa6efbda90e5997fc7c3ff"
-  integrity sha512-3J4Ic1WS+SgF1smUOc62fdf7Cnrdsg0GNwKmGVPziPtWdrc2vV5Oq2ut4kG6SM5DJcxOoz/sWJIN7rkcsWh60Q==
+eslint-plugin-compat@3.0.1:
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-compat/-/eslint-plugin-compat-3.0.1.tgz#46b5b88a27257a153255b91b41f783da7910e864"
+  integrity sha512-i0hx+Fm2A2rn35xtCpRAdg1tawe+Gsv8ydR3s6UMINGy9HzW1Yw7ojnm9E/bSznWjdIatKN/cVAWbG/uy4Munw==
   dependencies:
-    "@babel/runtime" "^7.3.1"
-    browserslist "^4.4.1"
-    caniuse-db "^1.0.30000935"
-    mdn-browser-compat-data "^0.0.65"
+    "@babel/runtime" "^7.3.4"
+    ast-metadata-inferer "^0.1.1"
+    browserslist "^4.4.2"
+    caniuse-db "^1.0.30000947"
+    mdn-browser-compat-data "^0.0.70"
+    semver "^5.6.0"
 
 eslint-plugin-flowtype@3.4.2:
   version "3.4.2"
@@ -11376,10 +11383,10 @@ mdast-util-compact@^1.0.0:
   dependencies:
     unist-util-visit "^1.1.0"
 
-mdn-browser-compat-data@^0.0.65:
-  version "0.0.65"
-  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.65.tgz#e8076bac0e72f8b0062a0774043481612f238407"
-  integrity sha512-OC27wWCLD2mw2aW6+8zZTwCv0+9WMTOFxuvTBfWoCx8f9gVFNUXHxGYA16mhKyso7hEa4tw1hY+ruCB/kg3EzQ==
+mdn-browser-compat-data@^0.0.70:
+  version "0.0.70"
+  resolved "https://registry.yarnpkg.com/mdn-browser-compat-data/-/mdn-browser-compat-data-0.0.70.tgz#7eb8a7314f994538b70390e7048df1770fed9855"
+  integrity sha512-++gDpMmrHmZVIFTK9x3z7UjSAM3MYEwZe38yzNejVQe6OUHiLgRvlMW6TQznpIUGuWLesLGUGOg6iyj6JcTB2g==
   dependencies:
     extend "3.0.2"
 
