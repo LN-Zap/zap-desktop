@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass'
+import { Box, Flex } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from '@zap/utils/crypto'
@@ -14,6 +14,8 @@ import {
   Panel,
   Text,
   TransactionFeeInput,
+  Toggle,
+  Label,
 } from 'components/UI'
 import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
 import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
@@ -81,35 +83,36 @@ class Pay extends React.Component {
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Amount value to populate the amountFiat field with when the form first loads. */
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
+    /** intel-react */
     intl: intlShape.isRequired,
-    /** Current fee information as provided by bitcoinfees.earn.com */
+    /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
     isProcessing: PropTypes.bool,
-    isQueryingFees: PropTypes.bool,
     /** Payment request to load into the form. */
-    network: PropTypes.string.isRequired,
+    isQueryingFees: PropTypes.bool,
     /** Routing information */
+    network: PropTypes.string.isRequired,
+    /** Current wallet balance (in satoshis). */
     onchainFees: PropTypes.shape({
       fastestFee: PropTypes.number,
       halfHourFee: PropTypes.number,
       hourFee: PropTypes.number,
     }),
-    /** Current wallet balance (in satoshis). */
-    payInvoice: PropTypes.func.isRequired,
 
     /** Payment request to load into the form. */
-    payReq: PropTypes.object,
+    payInvoice: PropTypes.func.isRequired,
     /** Method to close the current modal */
+    payReq: PropTypes.object,
     queryFees: PropTypes.func.isRequired,
-    queryRoutes: PropTypes.func.isRequired,
     /** Method to process offChain invoice payments. Called when the form is submitted. */
-    routes: PropTypes.array,
+    queryRoutes: PropTypes.func.isRequired,
     /** Set the current payment request. */
-    sendCoins: PropTypes.func.isRequired,
+    routes: PropTypes.array,
     /** Method to process onChain transactions. Called when the form is submitted. */
-    setPayReq: PropTypes.func.isRequired,
+    sendCoins: PropTypes.func.isRequired,
     /** Method to collect route information for lightning invoices. */
-    walletBalance: PropTypes.number.isRequired,
+    setPayReq: PropTypes.func.isRequired,
+    /** If true, lnd will attempt to send all coins available to selected address  */
+    walletBalanceConfirmed: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -231,6 +234,14 @@ class Pay extends React.Component {
     }
   }
 
+  setCoinSweep = isEnabled => {
+    if (isEnabled) {
+      const { cryptoCurrency, walletBalanceConfirmed } = this.props
+      let onChainBalance = convert('sats', cryptoCurrency, walletBalanceConfirmed)
+      this.formApi.setValue('amountCrypto', onChainBalance.toString())
+    }
+  }
+
   amountInSats = () => {
     const { isLn, isOnchain, invoice } = this.state
     const { cryptoCurrency } = this.props
@@ -266,6 +277,7 @@ class Pay extends React.Component {
           value: values.amountCrypto,
           currency: cryptoCurrency,
           satPerByte: satPerByte,
+          isCoinSweep: values.isCoinSweep,
         })
         // Close the form modal once the transaction has been sent
         changeFilter('ALL_ACTIVITY')
@@ -471,6 +483,9 @@ class Pay extends React.Component {
     const { intl, initialAmountCrypto, initialAmountFiat, isQueryingFees } = this.props
     const fee = this.getFee()
 
+    const formState = this.formApi.getState()
+    const { isCoinSweep } = formState.values
+
     return (
       <ShowHideAmount
         context={this}
@@ -485,12 +500,21 @@ class Pay extends React.Component {
               forwardedRef={this.amountInput}
               initialAmountCrypto={initialAmountCrypto}
               initialAmountFiat={initialAmountFiat}
-              isDisabled={currentStep !== 'amount'}
+              isDisabled={currentStep !== 'amount' || isCoinSweep}
               isRequired
             />
 
             {isOnchain && (
               <>
+                <Bar my={3} variant="light" />
+
+                <Flex alignItems="center" justifyContent="space-between">
+                  <Label htmlFor="isCoinSweep">
+                    <FormattedMessage {...messages.sweep_funds} />
+                  </Label>
+                  <Toggle field="isCoinSweep" id="isCoinSweep" onValueChange={this.setCoinSweep} />
+                </Flex>
+
                 <Bar my={3} variant="light" />
 
                 <TransactionFeeInput
@@ -513,7 +537,7 @@ class Pay extends React.Component {
     const { routes } = this.props
 
     const formState = this.formApi.getState()
-    const { speed, payReq } = formState.values
+    const { speed, payReq, isCoinSweep } = formState.values
     let minFee, maxFee
     if (routes.length) {
       minFee = getMinFee(routes)
@@ -529,6 +553,7 @@ class Pay extends React.Component {
             address={payReq}
             amount={amount}
             fee={this.getFee()}
+            isCoinSweep={isCoinSweep}
             mt={-3}
             speed={speed}
           />
@@ -586,7 +611,7 @@ class Pay extends React.Component {
       queryFees,
       queryRoutes,
       routes,
-      walletBalance,
+      walletBalanceConfirmed,
       ...rest
     } = this.props
     return (
@@ -610,21 +635,26 @@ class Pay extends React.Component {
           if (isLn && invoice) {
             hasEnoughFunds = amountInSats <= channelBalance
           } else if (isOnchain) {
-            hasEnoughFunds = amountInSats <= walletBalance
+            hasEnoughFunds = amountInSats <= walletBalanceConfirmed
           }
 
           // Determine what the text should be for the next button.
           let nextButtonText = <FormattedMessage {...messages.next} />
           if (currentStep === 'summary') {
-            nextButtonText = (
-              <>
-                <FormattedMessage {...messages.send} />
-                {` `}
-                <CryptoValue value={amountInSats} />
-                {` `}
-                {cryptoCurrencyTicker}
-              </>
-            )
+            const { isCoinSweep } = formState.values
+            if (isCoinSweep) {
+              nextButtonText = <FormattedMessage {...messages.send_all} />
+            } else {
+              nextButtonText = (
+                <>
+                  <FormattedMessage {...messages.send} />
+                  {` `}
+                  <CryptoValue value={amountInSats} />
+                  {` `}
+                  {cryptoCurrencyTicker}
+                </>
+              )
+            }
           }
           return (
             <Panel>
@@ -670,13 +700,13 @@ class Pay extends React.Component {
                         previousStep={this.previousStep}
                       />
 
-                      {walletBalance !== null && (
+                      {walletBalanceConfirmed !== null && (
                         <React.Fragment>
                           <Text fontWeight="normal" mt={3} textAlign="center">
                             <FormattedMessage {...messages.current_balance} />:
                           </Text>
                           <Text fontSize="xs" textAlign="center">
-                            <CryptoValue value={walletBalance} />
+                            <CryptoValue value={walletBalanceConfirmed} />
                             {` `}
                             {cryptoCurrencyTicker} (onchain),
                           </Text>
