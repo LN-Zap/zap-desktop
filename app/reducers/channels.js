@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
 import { send } from 'redux-electron-ipc'
 import { requestSuggestedNodes } from 'lib/utils/api'
-import { showNotification, showError } from './notification'
+import { updateNotification, showWarning, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
 import { getNodeDisplayName, truncateNodePubkey, updateNodeData } from './network'
@@ -94,10 +94,9 @@ const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = [
   const pubKey = getRemoteNodePubKey(channelData)
 
   // if the channel pubkey is in loadingChabnnels, set status as loading.
-  if (loadingChannelPubKeys.includes(pubKey)) {
+  if (loadingChannelPubKeys.includes(pubKey) && !channelData.channel_point) {
     return 'loading'
   }
-
   // if the channel has a confirmation_height property that means it's pending.
   if ('confirmation_height' in channelObj) {
     return 'pending_open'
@@ -313,8 +312,12 @@ export const openChannel = data => async (dispatch, getState) => {
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
   const state = getState()
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
-
   const channelIsPrivate = isPrivate || activeWalletSettings.type === 'local'
+
+  // Set channel opening state.
+  dispatch(openingChannel())
+
+  // Add channel loading state.
   const loadingChannel = {
     node_pubkey: pubkey,
     local_balance: Number(localamt),
@@ -322,9 +325,12 @@ export const openChannel = data => async (dispatch, getState) => {
     private: channelIsPrivate,
     sat_per_byte: satPerByte,
   }
-
-  dispatch(openingChannel())
   dispatch(addLoadingChannel(loadingChannel))
+
+  // Show notification.
+  dispatch(showWarning('Channel opening initiated', { payload: { pubkey }, isProcessing: true }))
+
+  // Attempt to open the channel.
   dispatch(
     send('lnd', {
       msg: 'connectAndOpen',
@@ -343,9 +349,18 @@ export const openChannel = data => async (dispatch, getState) => {
 // Receive IPC event for updated channel
 export const pushchannelupdated = (event, { node_pubkey, data }) => dispatch => {
   dispatch(fetchChannels())
-  dispatch(removeLoadingChannel(node_pubkey))
   if (data.update === 'chan_pending') {
-    dispatch(showNotification('Channel successfully created'))
+    dispatch(removeLoadingChannel(node_pubkey))
+    dispatch(
+      updateNotification(
+        { payload: { pubkey: node_pubkey } },
+        {
+          variant: 'success',
+          message: 'Channel successfully created',
+          isProcessing: false,
+        }
+      )
+    )
   }
 }
 
@@ -357,8 +372,17 @@ export const pushchannelend = () => dispatch => {
 // Receive IPC event for channel error
 export const pushchannelerror = (event, { node_pubkey, error }) => dispatch => {
   dispatch(openingFailure())
-  dispatch(showError(`Unable to open channel: ${error}`))
   dispatch(removeLoadingChannel(node_pubkey))
+  dispatch(
+    updateNotification(
+      { payload: { pubkey: node_pubkey } },
+      {
+        variant: 'error',
+        message: `Unable to open channel: ${error}`,
+        isProcessing: false,
+      }
+    )
+  )
 }
 
 // Receive IPC event for channel status
@@ -394,7 +418,6 @@ export const closeChannel = () => (dispatch, getState) => {
   }
 }
 
-// TODO: Decide how to handle streamed updates for closing channels
 // Receive IPC event for closeChannel
 export const closeChannelSuccessful = () => dispatch => {
   dispatch(fetchChannels())
