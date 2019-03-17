@@ -139,7 +139,7 @@ const paymentsSending = createSelector(
       const invoice = decodePayReq(payment.paymentRequest)
       return {
         type: 'payment',
-        creation_date: payment.timestamp,
+        creation_date: payment.creation_date,
         value: payment.amt,
         path: [invoice.payeeNodeKey],
         payment_hash: invoice.tags.find(t => t.tagName === 'payment_hash').data,
