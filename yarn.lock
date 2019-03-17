@@ -13810,10 +13810,10 @@ react-spring@7.2.11:
   dependencies:
     "@babel/runtime" "^7.0.0"
 
-react-storybook-addon-chapters@3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/react-storybook-addon-chapters/-/react-storybook-addon-chapters-3.1.1.tgz#f9249d8cd152d686ae60d3168ad83367d20c161d"
-  integrity sha512-q8N7Is/e7zeOQF7e5QJmCz9O1eSARbT4QIgGUhSG3P0rXD747zNWaqLtkVFbLkhOIr+rmWACbVth0uLnuDJLww==
+react-storybook-addon-chapters@3.1.2:
+  version "3.1.2"
+  resolved "https://registry.yarnpkg.com/react-storybook-addon-chapters/-/react-storybook-addon-chapters-3.1.2.tgz#f2e0a47c3a1d841b23dfb6506c4d3507bac9a20b"
+  integrity sha512-+RBazmES5IdWzLe0TxSBw7cKyNhj4mWUVhtbWZKadjL/AiaFbk55dVDFgE3fWl+dN4+0lE8T18Bu+njx9SXq2w==
   dependencies:
     "@babel/plugin-proposal-class-properties" "^7.3.4"
     "@babel/polyfill" "^7.2.5"
