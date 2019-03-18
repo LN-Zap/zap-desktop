@@ -3,6 +3,7 @@ import { send } from 'redux-electron-ipc'
 import { showSystemNotification } from 'lib/utils/notifications'
 import { btc } from 'lib/utils'
 import { fetchBalance } from './balance'
+import { fetchChannels } from './channels'
 import { showError } from './notification'
 import { walletSelectors } from './wallet'
 
@@ -145,6 +146,9 @@ export const invoiceUpdate = (event, { invoice }) => dispatch => {
 
   // Fetch new balance
   dispatch(fetchBalance())
+
+  // Fetch updated channels.
+  dispatch(fetchChannels())
 
   if (invoice.settled) {
     // HTML 5 desktop notification for the invoice update

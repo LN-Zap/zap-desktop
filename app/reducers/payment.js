@@ -3,6 +3,7 @@ import { send } from 'redux-electron-ipc'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import delay from 'lib/utils/delay'
 import { fetchBalance } from './balance'
+import { fetchChannels } from './channels'
 
 // ------------------------------------
 // Constants
@@ -95,6 +96,9 @@ export const paymentSuccessful = (event, { paymentRequest }) => async (dispatch,
 
   // Fetch new balance.
   dispatch(fetchBalance())
+
+  // Fetch updated channels.
+  dispatch(fetchChannels())
 }
 
 // Receive IPC event for failed payment.
