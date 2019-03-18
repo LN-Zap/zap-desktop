@@ -6,7 +6,6 @@ import { queryFees } from 'reducers/pay'
 import { balanceSelectors } from 'reducers/balance'
 import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/contactsform'
 import { walletSelectors } from 'reducers/wallet'
-import { showNotification } from 'reducers/notification'
 
 const mapStateToProps = state => ({
   cryptoCurrencyTicker: tickerSelectors.currencyName(state),
@@ -25,7 +24,6 @@ const mapDispatchToProps = {
   openChannel,
   queryFees,
   updateContactFormSearchQuery,
-  showNotification,
 }
 
 export default connect(

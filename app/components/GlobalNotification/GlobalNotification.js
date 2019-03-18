@@ -47,6 +47,7 @@ class GlobalNotification extends React.Component {
               (springStyles => (
                 <animated.div style={springStyles}>
                   <Notification
+                    isProcessing={item.isProcessing}
                     mb={2}
                     onClick={() => removeNotification(item.id)}
                     variant={item.variant}

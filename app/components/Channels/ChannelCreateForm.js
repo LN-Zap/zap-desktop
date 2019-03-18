@@ -100,7 +100,6 @@ class ChannelCreateForm extends React.Component {
     queryFees: PropTypes.func.isRequired,
     searchQuery: PropTypes.string,
     selectedNodeDisplayName: PropTypes.string,
-    showNotification: PropTypes.func.isRequired,
     updateContactFormSearchQuery: PropTypes.func.isRequired,
     walletBalance: PropTypes.number.isRequired,
   }
@@ -165,7 +164,7 @@ class ChannelCreateForm extends React.Component {
    * Open a channel using the supplied details.
    */
   onSubmit = values => {
-    const { currency, openChannel, showNotification, intl } = this.props
+    const { currency, openChannel } = this.props
     const { amountCrypto, nodePubkey } = values
 
     // Convert amount to satoshis.
@@ -178,10 +177,13 @@ class ChannelCreateForm extends React.Component {
     const satPerByte = this.getFee()
 
     // submit the channel to LND.
-    openChannel({ pubkey, host, localamt: amountInSatoshis, satPerByte, isPrivate: values.private })
-
-    // Notify about the new channel opening.
-    showNotification(intl.formatMessage({ ...messages.open_channel_notification }))
+    openChannel({
+      pubkey,
+      host,
+      localamt: amountInSatoshis,
+      satPerByte,
+      isPrivate: values.private,
+    })
   }
 
   /**
@@ -319,7 +321,6 @@ class ChannelCreateForm extends React.Component {
       queryFees,
       searchQuery,
       selectedNodeDisplayName,
-      showNotification,
       updateContactFormSearchQuery,
       isOpeningChannel,
       ...rest
