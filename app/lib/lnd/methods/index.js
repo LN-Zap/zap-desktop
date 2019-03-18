@@ -182,17 +182,8 @@ export default function(lightning, log, event, msg, data) {
       // Payment looks like { payment_preimage: Buffer, payment_route: Object }
       // { paymentRequest } = data
       paymentsController
-        .sendPaymentSync(lnd, data)
-        .then(payment => {
-          log.info('payment:', payment)
-          const { payment_route } = payment
-          event.sender.send('paymentSuccessful', Object.assign(data, { payment_route }))
-          return payment
-        })
-        .catch(error => {
-          log.error('payment error: ', error)
-          event.sender.send('paymentFailed', Object.assign(data, { error: error.toString() }))
-        })
+        .sendPayment(lnd, event, data)
+        .catch(error => log.error('sendPayment:', error))
       break
     case 'sendCoins':
       // Transaction looks like { txid: String }
@@ -251,7 +242,6 @@ export default function(lightning, log, event, msg, data) {
       // Connects to a peer if we aren't connected already and then attempt to open a channel
       channelController
         .connectAndOpen(lnd, event, data)
-        .then(() => log.info('connectAndOpen: %o', data))
         .catch(error => log.error('connectAndOpen:', error))
       break
     default:
