@@ -7813,10 +7813,10 @@ extsprintf@^1.2.0:
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.4.0.tgz#e2689f8f356fad62cca65a3a91c5df5f9551692f"
   integrity sha1-4mifjzVvrWLMplo6kcXfX5VRaS8=
 
-fake-indexeddb@2.0.6:
-  version "2.0.6"
-  resolved "https://registry.yarnpkg.com/fake-indexeddb/-/fake-indexeddb-2.0.6.tgz#0e96ccab65eda769bac62019361d55e66470c7d8"
-  integrity sha512-xoS/fCfCM/o+KoVdsoSUlkKhJHNUJakWER+T8eVfQ/eBNe5/hGVVvbL6bXou1leYU6hxMheA72tUiYzg/VSKaA==
+fake-indexeddb@2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/fake-indexeddb/-/fake-indexeddb-2.1.0.tgz#418780fff50b61540fa4fb6effe2e11528aa9dba"
+  integrity sha512-GDu/XA/znG1Z6E1rnf72fiqCG/YzhKShngrHtx8+Ij5h9uwqSISs7MPu0ZqAqhyNTl0uGwJhda0aX8ouwej1zw==
   dependencies:
     core-js "^2.4.1"
     realistic-structured-clone "^2.0.1"

@@ -281,7 +281,7 @@
     "eslint-plugin-react-hooks": "1.5.1",
     "eslint-plugin-testcafe": "0.2.1",
     "extract-react-intl-messages": "1.0.1",
-    "fake-indexeddb": "2.0.6",
+    "fake-indexeddb": "2.1.0",
     "flow-bin": "0.95.1",
     "flow-typed": "2.5.1",
     "gh-pages": "2.0.1",
