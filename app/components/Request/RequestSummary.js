@@ -78,6 +78,13 @@ class RequestSummary extends React.Component {
     const descriptionTag = tags.find(tag => tag.tagName === 'description') || {}
     const memo = descriptionTag.data
 
+    const getStatusColor = () => {
+      if (invoice.settled) {
+        return 'superGreen'
+      }
+      return isExpired ? 'superRed' : 'lightningOrange'
+    }
+
     return (
       <Box {...rest}>
         <DataRow
@@ -143,13 +150,13 @@ class RequestSummary extends React.Component {
           left={<FormattedMessage {...messages.status} />}
           right={
             invoice.settled ? (
-              <Text color="superGreen" fontWeight="normal">
+              <Text color={getStatusColor()} fontWeight="normal">
                 <FormattedMessage {...messages.paid} />
                 {` `}
                 <FormattedTime value={invoice.settle_date * 1000} />
               </Text>
             ) : (
-              <Text color="superRed" fontWeight="normal">
+              <Text color={getStatusColor()} fontWeight="normal">
                 {isExpired ? 'Expired ' : 'Expires '}
                 <FormattedRelative
                   updateInterval={1000}
