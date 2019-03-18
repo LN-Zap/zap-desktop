@@ -4,6 +4,8 @@ import { walletSelectors } from './wallet'
 import { lndSelectors } from './lnd'
 import { appSelectors } from './app'
 import { tickerSelectors } from './ticker'
+import { transactionsSelectors } from './transaction'
+import { channelsSelectors } from './channels'
 /**
  * Aggregated isLoading selector that accounts for current wallet and lnd state
  */
@@ -79,3 +81,23 @@ export const getLoadingMessage = state => {
 
   return loading
 }
+
+/**
+ * Creates a selected channel selector with an additional data
+ * such as funding  tx timestamp
+ */
+export const decoratedSelectedChannel = createSelector(
+  transactionsSelectors.rawTransactionsSelector,
+  channelsSelectors.selectedChannel,
+  (transactions, channelData) => {
+    if (channelData.channel_point) {
+      const [funding_txid] = channelData.channel_point.split(':')
+      // cross reference funding tx
+      const fundingTx = funding_txid && transactions.find(tx => tx.tx_hash === funding_txid)
+      if (fundingTx) {
+        return { ...channelData, fundingTxTimestamp: fundingTx.time_stamp }
+      }
+    }
+    return channelData
+  }
+)
