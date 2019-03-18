@@ -94,6 +94,8 @@
   "components.Channels.fee_per_byte": "por byte",
   "components.Channels.fee_unknown": "Desconocido",
   "components.Channels.force_close_button": "Cerrar canal a fuerza ",
+  "components.Channels.funding_date_description": "",
+  "components.Channels.funding_date_label": "",
   "components.Channels.funding_transaction_id_description": "La transacción que abrió este canal, como se registra en la cadena de bloques. Puede hacer clic en el enlace de la derecha para ver esta transacción en un explorador de bloques.",
   "components.Channels.funding_transaction_id_label": "Transacción de financiación",
   "components.Channels.last_update": "Ultima Actualización",
