@@ -34,11 +34,11 @@ const DialogWrapper = ({ intl, isOpen, walletDir, onDelete, onCancel }) => {
   )
 
   const header = (
-    <Flex alignItems="center" flexDirection="column">
-      <Box color="superRed">
+    <Flex alignItems="center" flexDirection="column" mb={4}>
+      <Box color="superRed" mb={2}>
         <Delete height={72} width={72} />
       </Box>
-      <Heading.h1 mb={3} mt={4}>
+      <Heading.h1>
         <FormattedMessage {...messages.delete_wallet_dialog_header} />
       </Heading.h1>
     </Flex>

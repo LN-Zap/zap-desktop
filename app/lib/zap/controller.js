@@ -93,7 +93,6 @@ class ZapController {
           onStartOnboarding: this.onStartOnboarding.bind(this),
           onBeforeStartLocalLnd: this.onBeforeStartLocalLnd.bind(this),
           onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
-          onBeforeStopLnd: this.onBeforeStopLnd.bind(this),
           onTerminated: this.onTerminated.bind(this),
           onTerminate: this.onTerminate.bind(this),
         },
@@ -154,7 +153,6 @@ class ZapController {
     if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
       this.walletUnlocker.disconnect()
     }
-    this.sendMessage('lndStopped')
 
     // Shut down Neutrino.
     await this.shutdownNeutrino()
@@ -245,10 +243,6 @@ class ZapController {
       this.sendMessage('startLndError', errors)
       throw e
     }
-  }
-
-  onBeforeStopLnd() {
-    mainLog.debug('[FSM] onBeforeStopLnd...')
   }
 
   async onTerminated(lifecycle: any) {
@@ -366,17 +360,7 @@ class ZapController {
       mainLog.info(`Lnd process has shut down (code: ${code}, signal: ${signal})`)
       this.sendMessage('lndStopped')
       if (this.is('running')) {
-        const messages = ['Lnd has unexpectedly quit']
-        if (code) {
-          messages.push(`Exit code: ${code}`)
-        }
-        if (signal) {
-          messages.push(`Exit signal: ${signal}`)
-        }
-        if (lastError) {
-          messages.push(`Last error: ${lastError}`)
-        }
-        this.sendMessage('receiveError', messages.join(' : '))
+        this.sendMessage('lndCrashed', { code, signal, lastError })
         this.stopLnd()
       }
     })
@@ -524,11 +508,14 @@ class ZapController {
         return this.startOnboarding()
       }
     })
-    ipcMain.on('stopLnd', () => this.stopLnd())
+    ipcMain.on('stopLnd', async () => {
+      await this.stopLnd()
+      this.sendMessage('stopLndSuccess')
+    })
 
     ipcMain.on('killLnd', async (event, options: shutdownOptions = {}) => {
       await this.shutdownNeutrino(options)
-      event.sender.send('killLndSuccess')
+      this.sendMessage('killLndSuccess')
     })
 
     ipcMain.on('generateLndConfig', async (event, options) => {

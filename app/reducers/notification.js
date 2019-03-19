@@ -75,10 +75,6 @@ export function removeNotification(id) {
   }
 }
 
-export const receiveError = (event, error) => dispatch => {
-  dispatch(showError(error))
-}
-
 export const showError = (message, options = {}) => {
   return enqueueNotification({ ...options, message, variant: 'error' })
 }

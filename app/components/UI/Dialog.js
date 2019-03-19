@@ -35,7 +35,7 @@ const Dialog = ({ header, onClose, buttons, width, children }) => {
   const buttonsLayout = React.isValidElement(buttons) ? buttons : createButtons(buttons)
 
   // check if header is a string or a React renderable node
-  const headerLayout = React.isValidElement(buttons) ? (
+  const headerLayout = React.isValidElement(header) ? (
     header
   ) : (
     <Heading.h2 mb={4}>{header}</Heading.h2>
@@ -56,7 +56,7 @@ const Dialog = ({ header, onClose, buttons, width, children }) => {
         justifyContent="center"
         pb={4}
       >
-        <Flex alignItems="flex-start" flexDirection="column" justifyContent="center">
+        <Flex alignItems="center" flexDirection="column" justifyContent="flex-start">
           {headerLayout}
           {children}
         </Flex>
@@ -85,7 +85,7 @@ Dialog.propTypes = {
     PropTypes.node,
     PropTypes.arrayOf(
       PropTypes.shape({
-        name: PropTypes.string.isRequired,
+        name: PropTypes.node.isRequired,
         onClick: PropTypes.func.isRequired,
       })
     ),
