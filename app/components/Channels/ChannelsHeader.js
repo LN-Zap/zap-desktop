@@ -9,6 +9,7 @@ const ChannelsHeader = ({
   channelBalance,
   channelViewMode,
   changeFilter,
+  fetchChannels,
   filter,
   filters,
   updateChannelSearchQuery,
@@ -22,6 +23,7 @@ const ChannelsHeader = ({
     <ChannelsActions
       changeFilter={changeFilter}
       channelViewMode={channelViewMode}
+      fetchChannels={fetchChannels}
       filter={filter}
       filters={filters}
       openModal={openModal}
@@ -37,6 +39,7 @@ ChannelsHeader.propTypes = {
   channelBalance: PropTypes.number.isRequired,
   channels: PropTypes.array,
   channelViewMode: PropTypes.string.isRequired,
+  fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
   filters: PropTypes.array.isRequired,
   openModal: PropTypes.func.isRequired,
