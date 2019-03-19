@@ -177,6 +177,21 @@ tickerSelectors.currencyFilters = createSelector(
   }
 )
 
+// selector for currency address name e.g BTC, tBTC etc
+tickerSelectors.currencyAddressName = createSelector(
+  cryptoSelector,
+  tickerSelectors.currencyFilters,
+  (crypto, currencyFilters = []) => {
+    // assume first entry is as a currency ticker name (e.g BTC, LTC etc)
+    const [selectedCurrency] = currencyFilters
+    if (selectedCurrency) {
+      return selectedCurrency.name
+    }
+    // fallback in case something is very wrong
+    return crypto
+  }
+)
+
 tickerSelectors.currencyName = createSelector(
   currencySelector,
   tickerSelectors.currencyFilters,

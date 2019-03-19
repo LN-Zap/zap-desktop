@@ -9,7 +9,7 @@ import { closeWalletModal } from 'reducers/address'
 
 const mapStateToProps = state => ({
   networkInfo: infoSelectors.networkInfo(state),
-  cryptoName: tickerSelectors.currencyName(state),
+  cryptoName: tickerSelectors.currencyAddressName(state),
   pubkey: get(state.info, 'data.uris[0]') || get(state.info, 'data.identity_pubkey'),
   address: state.address.address,
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
