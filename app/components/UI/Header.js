@@ -1,17 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Flex } from 'rebass'
-import { Heading, Text } from 'components/UI'
+import Heading from './Heading'
+import Text from './Text'
 
 const Header = ({ title, subtitle, align, logo }) => (
   <Flex alignItems={align} as="header" flexDirection="column" justifyContent={align}>
     {logo && (
-      <Text textAlign={align} fontSize="50px" lineHeight="1em" css={{ height: '50px' }}>
+      <Text css={{ height: '50px' }} fontSize="50px" lineHeight="1" textAlign={align}>
         {logo}
       </Text>
     )}
     {title && (
-      <Heading.h1 textAlign={align} mb={1}>
+      <Heading.h1 mb={1} textAlign={align}>
         {title}
       </Heading.h1>
     )}
@@ -19,13 +20,13 @@ const Header = ({ title, subtitle, align, logo }) => (
   </Flex>
 )
 Header.propTypes = {
-  title: PropTypes.node,
-  subtitle: PropTypes.node,
+  align: PropTypes.string,
   logo: PropTypes.node,
-  align: PropTypes.string
+  subtitle: PropTypes.node,
+  title: PropTypes.node,
 }
 Header.defaultProps = {
-  align: 'center'
+  align: 'center',
 }
 
 export default Header

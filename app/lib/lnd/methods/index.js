@@ -61,19 +61,6 @@ export default function(lightning, log, event, msg, data) {
           event.sender.send('queryRoutesFailure', { error: error.toString() })
         })
       break
-    case 'getInvoiceAndQueryRoutes':
-      // Data looks like { pubkey: String, amount: Number }
-      invoicesController
-        .getInvoice(lnd, { pay_req: data.payreq })
-        .then(invoiceData =>
-          networkController.queryRoutes(lnd, {
-            pubkey: invoiceData.destination,
-            amount: invoiceData.num_satoshis
-          })
-        )
-        .then(routes => event.sender.send('receiveInvoiceAndQueryRoutes', routes))
-        .catch(error => log.error('getInvoiceAndQueryRoutes invoice:', error))
-      break
     case 'newaddress':
       // Data looks like { address: '' }
       walletController
@@ -107,12 +94,17 @@ export default function(lightning, log, event, msg, data) {
       //   }
       // ]
       Promise.all(
-        [channelController.listChannels, channelController.pendingChannels].map(func => func(lnd))
+        [
+          channelController.listChannels,
+          channelController.pendingChannels,
+          channelController.closedChannels,
+        ].map(func => func(lnd))
       )
         .then(channelsData =>
           event.sender.send('receiveChannels', {
             channels: channelsData[0].channels,
-            pendingChannels: channelsData[1]
+            pendingChannels: channelsData[1],
+            closedChannels: channelsData[2].channels,
           })
         )
         .catch(error => log.error('channels:', error))
@@ -152,58 +144,46 @@ export default function(lightning, log, event, msg, data) {
       )
         .then(balance => {
           event.sender.send('receiveBalance', {
-            walletBalance: balance[0].total_balance,
-            channelBalance: balance[1].balance
+            walletBalance: balance[0],
+            channelBalance: balance[1],
           })
           return balance
         })
         .catch(error => log.error('balance:', error))
       break
     case 'createInvoice':
-      // Invoice looks like { r_hash: Buffer, payment_request: '' }
-      // { memo, value } = data
       invoicesController
         .addInvoice(lnd, data)
         .then(newinvoice =>
-          invoicesController
-            .getInvoice(lnd, { pay_req: newinvoice.payment_request })
-            .then(decodedInvoice =>
-              event.sender.send(
-                'createdInvoice',
-                Object.assign(decodedInvoice, {
-                  memo: data.memo,
-                  value: data.value,
-                  r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
-                  payment_request: newinvoice.payment_request,
-                  creation_date: Date.now() / 1000
-                })
-              )
-            )
-            .catch(error => {
-              log.error('decodedInvoice:', error)
-              event.sender.send('invoiceFailed', { error: error.toString() })
+          Promise.all([
+            newinvoice,
+            invoicesController.getInvoice(lnd, { pay_req: newinvoice.payment_request }),
+          ])
+        )
+        .then(([newinvoice, decodedInvoice]) =>
+          event.sender.send(
+            'createdInvoice',
+            Object.assign(decodedInvoice, {
+              memo: data.memo,
+              value: data.value,
+              r_hash: Buffer.from(newinvoice.r_hash, 'hex').toString('hex'),
+              payment_request: newinvoice.payment_request,
+              creation_date: Date.now() / 1000,
             })
+          )
         )
         .catch(error => {
           log.error('addInvoice:', error)
           event.sender.send('invoiceFailed', { error: error.toString() })
         })
+
       break
     case 'sendPayment':
       // Payment looks like { payment_preimage: Buffer, payment_route: Object }
       // { paymentRequest } = data
       paymentsController
-        .sendPaymentSync(lnd, data)
-        .then(payment => {
-          log.info('payment:', payment)
-          const { payment_route } = payment
-          event.sender.send('paymentSuccessful', Object.assign(data, { payment_route }))
-          return payment
-        })
-        .catch(error => {
-          log.error('payment error: ', error)
-          event.sender.send('paymentFailed', Object.assign(data, { error: error.toString() }))
-        })
+        .sendPayment(lnd, event, data)
+        .catch(error => log.error('sendPayment:', error))
       break
     case 'sendCoins':
       // Transaction looks like { txid: String }
@@ -217,18 +197,6 @@ export default function(lightning, log, event, msg, data) {
           log.error('error: ', error)
           event.sender.send('transactionFailed', Object.assign(data, { error: error.toString() }))
         })
-      break
-    case 'openChannel':
-      // Response is empty. Streaming updates on channel status and updates
-      // { pubkey, localamt, pushamt } = data
-      channelController
-        .openChannel(lnd, event, data)
-        .then(channel => {
-          log.info('CHANNEL: ', channel)
-          event.sender.send('channelSuccessful', { channel })
-          return channel
-        })
-        .catch(error => log.error('openChannel:', error))
       break
     case 'closeChannel':
       // Response is empty. Streaming updates on channel status and updates
@@ -272,18 +240,9 @@ export default function(lightning, log, event, msg, data) {
       break
     case 'connectAndOpen':
       // Connects to a peer if we aren't connected already and then attempt to open a channel
-      // {} = data
       channelController
         .connectAndOpen(lnd, event, data)
-        .then(channelData => {
-          log.info('connectAndOpen data: ', channelData)
-          // event.sender.send('connectSuccess', { pub_key: data.pubkey, address: data.host, peer_id })
-          return channelData
-        })
-        .catch(error => {
-          // event.sender.send('connectFailure', { error: error.toString() })
-          log.error('connectAndOpen:', error)
-        })
+        .catch(error => log.error('connectAndOpen:', error))
       break
     default:
   }

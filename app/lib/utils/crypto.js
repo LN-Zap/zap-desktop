@@ -7,24 +7,24 @@ export const networks = {
   bitcoin: {
     mainnet: coininfo.bitcoin.main.toBitcoinJS(),
     testnet: coininfo.bitcoin.test.toBitcoinJS(),
-    regtest: coininfo.bitcoin.regtest.toBitcoinJS()
+    regtest: coininfo.bitcoin.regtest.toBitcoinJS(),
   },
   litecoin: {
     mainnet: coininfo.litecoin.main.toBitcoinJS(),
-    testnet: coininfo.litecoin.test.toBitcoinJS()
-  }
+    testnet: coininfo.litecoin.test.toBitcoinJS(),
+  },
 }
 
 export const coinTypes = {
   bitcoin: {
     mainnet: 'bitcoin',
     testnet: 'testnet',
-    regtest: 'regtest'
+    regtest: 'regtest',
   },
   litecoin: {
     mainnet: 'litecoin',
-    testnet: 'litecoin_testnet'
-  }
+    testnet: 'litecoin_testnet',
+  },
 }
 
 export const decodePayReq = (payReq, addDefaults = true) => {
@@ -33,7 +33,7 @@ export const decodePayReq = (payReq, addDefaults = true) => {
   if (addDefaults && !expiry) {
     data.tags.push({
       tagName: 'expire_time',
-      data: 3600
+      data: 3600,
     })
     data.timeExpireDate = data.timestamp + 3600
     data.timeExpireDateString = new Date(data.timeExpireDate * 1000).toISOString()
@@ -180,5 +180,5 @@ export const getMaxFee = routes => {
  */
 export const getFeeRange = (routes = []) => ({
   min: getMinFee(routes),
-  max: getMaxFee(routes)
+  max: getMaxFee(routes),
 })

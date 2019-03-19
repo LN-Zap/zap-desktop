@@ -21,7 +21,7 @@ describe('ZapController', function() {
       beforeEach(() => {
         Lightning.mockImplementation(() => ({
           subscribe: jest.fn(),
-          connect: jest.fn().mockResolvedValue()
+          connect: jest.fn().mockResolvedValue(),
         }))
         this.controller = new ZapController()
       })
@@ -34,7 +34,7 @@ describe('ZapController', function() {
       beforeEach(() => {
         Lightning.mockImplementation(() => ({
           subscribe: jest.fn(),
-          connect: jest.fn().mockRejectedValue(new Error('Async error'))
+          connect: jest.fn().mockRejectedValue(new Error('Async error')),
         }))
         this.controller = new ZapController()
       })

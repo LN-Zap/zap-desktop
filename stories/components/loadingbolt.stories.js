@@ -17,9 +17,9 @@ storiesOf('Components', module).addWithChapters('LoadingBolt', {
                 <LoadingBolt isLoading={isLoading} />
               </Page>
             )
-          }
-        }
-      ]
-    }
-  ]
+          },
+        },
+      ],
+    },
+  ],
 })

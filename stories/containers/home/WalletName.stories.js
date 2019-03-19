@@ -15,13 +15,13 @@ storiesOf('Containers.Home', module).addWithChapters('WalletName', {
                 type: 'local',
                 id: 1,
                 host: 'local.host',
-                name: 'Wallet name'
+                name: 'Wallet name',
               }}
             />
           ),
           options: {
-            decorator: story => <Text>{story()}</Text>
-          }
+            decorator: story => <Text>{story()}</Text>,
+          },
         },
         {
           title: 'Local wallet, without name',
@@ -30,13 +30,13 @@ storiesOf('Containers.Home', module).addWithChapters('WalletName', {
               wallet={{
                 type: 'local',
                 id: 1,
-                host: 'local.host'
+                host: 'local.host',
               }}
             />
           ),
           options: {
-            decorator: story => <Text>{story()}</Text>
-          }
+            decorator: story => <Text>{story()}</Text>,
+          },
         },
         {
           title: 'Custom wallet, with name',
@@ -46,13 +46,13 @@ storiesOf('Containers.Home', module).addWithChapters('WalletName', {
                 type: 'custom',
                 id: 1,
                 host: 'local.host',
-                name: 'Wallet name'
+                name: 'Wallet name',
               }}
             />
           ),
           options: {
-            decorator: story => <Text>{story()}</Text>
-          }
+            decorator: story => <Text>{story()}</Text>,
+          },
         },
         {
           title: 'Custom wallet, without name',
@@ -61,15 +61,15 @@ storiesOf('Containers.Home', module).addWithChapters('WalletName', {
               wallet={{
                 type: 'custom',
                 id: 1,
-                host: 'local.host'
+                host: 'local.host',
               }}
             />
           ),
           options: {
-            decorator: story => <Text>{story()}</Text>
-          }
-        }
-      ]
-    }
-  ]
+            decorator: story => <Text>{story()}</Text>,
+          },
+        },
+      ],
+    },
+  ],
 })

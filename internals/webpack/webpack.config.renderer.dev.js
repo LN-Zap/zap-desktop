@@ -17,7 +17,6 @@ import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import baseConfig, { rootDir } from './webpack.config.base'
 import { mainLog } from '../../app/lib/utils/log'
-import { dependencies as externals } from '../../app/package.json'
 
 const port = process.env.PORT || 1212
 const publicPath = `http://localhost:${port}/dist`
@@ -41,16 +40,20 @@ export default merge.smart(baseConfig, {
 
   mode: 'development',
 
-  externals: new webpack.ExternalsPlugin('commonjs', [...Object.keys(externals || {})]),
-
-  entry: ['webpack/hot/only-dev-server', path.join(rootDir, 'app', 'index')],
+  entry: path.join(rootDir, 'app', 'index'),
 
   output: {
-    publicPath: `http://localhost:${port}/dist/`
+    publicPath: `http://localhost:${port}/dist/`,
   },
 
   stats: {
-    children: false
+    children: false,
+  },
+
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
   },
 
   module: {
@@ -62,43 +65,40 @@ export default merge.smart(baseConfig, {
           loader: 'babel-loader',
           options: {
             cacheDirectory: true,
-            plugins: ['react-hot-loader/babel']
-          }
-        }
+          },
+        },
       },
       // Common Image Formats
       {
         test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: 'url-loader'
-      }
-    ]
+        use: 'url-loader',
+      },
+    ],
   },
 
   plugins: [
     new webpack.DllReferencePlugin({
       context: process.cwd(),
       manifest: require(manifest),
-      sourceType: 'var'
+      sourceType: 'var',
     }),
 
     new webpack.LoaderOptionsPlugin({
-      debug: true
+      debug: true,
     }),
 
     new webpack.EnvironmentPlugin({
-      NODE_ENV: 'development'
+      NODE_ENV: 'development',
     }),
 
     new HtmlWebpackPlugin({
-      template: path.join('app', 'app.html')
+      template: path.join('app', 'app.html'),
     }),
 
     new AddAssetHtmlPlugin({
       filepath: path.join('dll', 'renderer.dev.dll.js'),
-      includeSourcemap: false
+      includeSourcemap: false,
     }),
-
-    new webpack.HotModuleReplacementPlugin(),
 
     new CspHtmlWebpackPlugin({
       'default-src': "'self'",
@@ -109,23 +109,26 @@ export default merge.smart(baseConfig, {
         'ws://localhost:*',
         'https://api.coinbase.com/',
         'https://bitcoinfees.earn.com',
-        'https://zap.jackmallers.com'
+        'https://zap.jackmallers.com',
       ],
+      'img-src': ['http://www.zap.jackmallers.com'],
       'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
       'font-src': [
         "'self'",
         'data:',
         'http://localhost:*',
         'https://s3.amazonaws.com',
-        'https://fonts.gstatic.com'
+        'https://fonts.gstatic.com',
       ],
-      'style-src': ["'self'", 'blob:', 'https://s3.amazonaws.com', "'unsafe-inline'"]
-    })
+      'style-src': ["'self'", 'blob:', 'https://s3.amazonaws.com', "'unsafe-inline'"],
+    }),
   ],
 
   node: {
     __dirname: false,
-    __filename: false
+    __filename: false,
+    fs: 'empty',
+    module: 'empty',
   },
 
   devServer: {
@@ -136,19 +139,19 @@ export default merge.smart(baseConfig, {
     watchOptions: {
       aggregateTimeout: 300,
       ignored: /node_modules/,
-      poll: 100
+      poll: 100,
     },
     proxy: {
       '/proxy/zap.jackmallers.com': {
         target: 'https://zap.jackmallers.com',
         pathRewrite: { '^/proxy/zap.jackmallers.com': '' },
-        changeOrigin: true
+        changeOrigin: true,
       },
       '/proxy/api.coinbase.com': {
         target: 'https://api.coinbase.com',
         pathRewrite: { '^/proxy/api.coinbase.com': '' },
-        changeOrigin: true
-      }
+        changeOrigin: true,
+      },
     },
     historyApiFallback: true,
     // Start the main process as soon as the server is listening.
@@ -157,15 +160,15 @@ export default merge.smart(baseConfig, {
         spawn('npm', ['run', 'start-main-dev'], {
           shell: true,
           env: process.env,
-          stdio: 'inherit'
+          stdio: 'inherit',
         })
           .on('close', code => process.exit(code))
           .on('error', spawnError => mainLog.error(spawnError))
       }
-    }
+    },
   },
 
   optimization: {
-    noEmitOnErrors: true
-  }
+    noEmitOnErrors: true,
+  },
 })

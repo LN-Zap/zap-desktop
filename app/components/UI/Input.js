@@ -1,13 +1,19 @@
 /* eslint-disable react/no-multi-comp */
 
 import React from 'react'
+import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
 import { styles } from 'styled-system'
 import system from '@rebass/components'
 import { Flex } from 'rebass'
-import { Message, Label, Span, Text } from 'components/UI'
-import withRequiredValidation from 'components/withRequiredValidation'
+import Search from 'components/Icon/Search'
+import { withRequiredValidation } from 'hocs'
+import Message from './Message'
+import Label from './Label'
+import Span from './Span'
+import Text from './Text'
+import Tooltip from './Tooltip'
 
 function isFieldValid({ value, error, asyncError, touched }) {
   return value && !error && !asyncError && touched
@@ -15,17 +21,22 @@ function isFieldValid({ value, error, asyncError, touched }) {
 
 function mapDefaultBorderColor(props) {
   const {
-    disabled,
-    readOnly,
+    isDisabled,
+    isReadOnly,
     fieldState,
     fieldState: { error, asyncError },
     theme: {
-      colors: { gray, superGreen, superRed }
-    }
+      colors: { gray, superGreen, superRed },
+    },
   } = props
 
   let borderColor = gray
-  if (readOnly || disabled) {
+
+  if (!props.highlightOnValid) {
+    return borderColor
+  }
+
+  if (isReadOnly || isDisabled) {
     borderColor = gray
   } else if (error || asyncError) {
     borderColor = superRed
@@ -39,11 +50,23 @@ function mapFocusBorderColor(props) {
   const {
     fieldState,
     theme: {
-      colors: { lightningOrange, superGreen }
-    }
+      colors: { lightningOrange, superGreen },
+    },
   } = props
-  return isFieldValid(fieldState) ? superGreen : lightningOrange
+
+  if (!props.highlightOnValid) {
+    return lightningOrange
+  }
+
+  return fieldState.touched && isFieldValid(fieldState) ? superGreen : lightningOrange
 }
+
+const SearchIcon = styled(Search)`
+  margin-right: -${props => props.width}px;
+  width: ${props => props.width}px;
+  height: 15px;
+  color: ${props => props.color || props.theme.colors.gray};
+`
 
 // Create an html input element that accepts all style props from styled-system.
 const SystemInput = styled(
@@ -59,7 +82,7 @@ const SystemInput = styled(
       fontSize: 'm',
       fontWeight: 'light',
       p: 3,
-      width: 1
+      width: 1,
     },
     'space',
     'color',
@@ -72,11 +95,15 @@ const SystemInput = styled(
     'width'
   )
 )`
-  opacity: ${props => (props.disabled || props.readOnly ? '0.6' : 'inherit')};
+  opacity: ${props => (props.isDisabled || props.isReadOnly ? '0.6' : 'inherit')};
   outline: none;
   border-color: ${mapDefaultBorderColor};
   &:not([readOnly]):not([disabled]):focus {
     border-color: ${mapFocusBorderColor};
+  }
+  ::-webkit-search-decoration:hover,
+  ::-webkit-search-cancel-button:hover {
+    cursor: pointer;
   }
 `
 
@@ -89,15 +116,44 @@ const SystemInput = styled(
 class Input extends React.Component {
   static displayName = 'Input'
 
+  static propTypes = {
+    className: PropTypes.string,
+    description: PropTypes.node,
+    field: PropTypes.string.isRequired,
+    fieldApi: PropTypes.object.isRequired,
+    fieldState: PropTypes.object.isRequired,
+    forwardedRef: PropTypes.object,
+    hasMessage: PropTypes.bool,
+    highlightOnValid: PropTypes.bool,
+    iconSize: PropTypes.number,
+    isDisabled: PropTypes.bool,
+    isReadOnly: PropTypes.bool,
+    isRequired: PropTypes.bool,
+    justifyContent: PropTypes.string,
+    label: PropTypes.node,
+    onBlur: PropTypes.func,
+    onChange: PropTypes.func,
+    onFocus: PropTypes.func,
+    theme: PropTypes.object.isRequired,
+    tooltip: PropTypes.string,
+    type: PropTypes.string,
+    variant: PropTypes.string,
+    willAutoFocus: PropTypes.bool,
+  }
+
   static defaultProps = {
-    description: null,
-    label: null,
-    showMessage: true,
-    autoFocus: false
+    isRequired: false,
+    isReadOnly: false,
+    isDisabled: false,
+    hasMessage: true,
+    willAutoFocus: false,
+    highlightOnValid: true,
+    iconSize: 46,
+    tooltip: null,
   }
 
   state = {
-    hasFocus: false
+    hasFocus: false,
   }
 
   constructor(props) {
@@ -107,8 +163,8 @@ class Input extends React.Component {
   }
 
   componentDidMount() {
-    const { autoFocus } = this.props
-    if (autoFocus) {
+    const { willAutoFocus } = this.props
+    if (willAutoFocus) {
       this.inputRef.current.focus()
     }
   }
@@ -121,16 +177,20 @@ class Input extends React.Component {
       onFocus,
       forwardedRef,
       label,
-      required,
+      isDisabled,
+      isReadOnly,
+      isRequired,
       theme,
       type,
       field,
       fieldApi,
       fieldState,
+      iconSize,
       justifyContent,
-      showMessage,
-      validate,
+      hasMessage,
       variant,
+      className,
+      tooltip,
       ...rest
     } = this.props
     const { hasFocus } = this.state
@@ -140,6 +200,7 @@ class Input extends React.Component {
     // Extract any styled-system space props so that we can apply them directly to the wrapper.
     const spaceProps = {}
     Object.keys(rest).forEach(key => {
+      /*eslint-disable react/forbid-foreign-prop-types*/
       if ([...Object.keys(styles.space.propTypes), 'width'].includes(key)) {
         spaceProps[key] = rest[key]
         delete rest[key]
@@ -147,64 +208,79 @@ class Input extends React.Component {
     })
 
     return (
-      <Flex flexDirection="column" justifyContent={justifyContent} {...spaceProps}>
-        {typeof label !== 'undefined' && label !== null && (
-          <Label htmlFor={field} mb={2}>
-            {label}
-            {required && (
-              <Span fontSize="s" css={{ 'vertical-align': 'super' }}>
-                {' '}
-                *
-              </Span>
-            )}
-          </Label>
+      <Flex
+        flexDirection="column"
+        justifyContent={justifyContent}
+        {...spaceProps}
+        className={className}
+      >
+        {label && (
+          <Flex mb={2}>
+            <Label htmlFor={field}>
+              {label}
+              {isRequired && (
+                <Span css={{ 'vertical-align': 'top' }} fontSize="s">
+                  {' '}
+                  *
+                </Span>
+              )}
+            </Label>
+            {tooltip && <Tooltip ml={1}>{tooltip}</Tooltip>}
+          </Flex>
         )}
 
-        <SystemInput
-          p={variant === 'thin' ? 2 : 3}
-          {...rest}
-          field={field}
-          type={type}
-          theme={theme}
-          fieldState={fieldState}
-          ref={this.inputRef}
-          value={!value && value !== 0 ? '' : value}
-          required={required}
-          onChange={e => {
-            setValue(e.target.value)
-            if (onChange) {
-              onChange(e)
-            }
-          }}
-          onBlur={e => {
-            setTouched()
-            // Make the state aware that the element is now focused.
-            const newHasFocus = document.activeElement === this.inputRef.current
-            if (hasFocus !== newHasFocus) {
-              this.setState({ hasFocus: newHasFocus })
-            }
-            if (onBlur) {
-              onBlur(e)
-            }
-          }}
-          onFocus={e => {
-            // Make the state aware that the element is no longer focused.
-            const newHasFocus = document.activeElement === this.inputRef.current
-            if (hasFocus !== newHasFocus) {
-              this.setState({ hasFocus: newHasFocus })
-            }
-            if (onFocus) {
-              onFocus(e)
-            }
-          }}
-        />
+        <Flex alignItems="center">
+          {type === 'search' && <SearchIcon width={iconSize} />}
+          <SystemInput
+            p={variant === 'thin' ? 2 : 3}
+            {...rest}
+            ref={this.inputRef}
+            disabled={isDisabled}
+            field={field}
+            fieldState={fieldState}
+            onBlur={e => {
+              setTouched()
+              // Make the state aware that the element is now focused.
+              const newHasFocus = document.activeElement === this.inputRef.current
+              if (hasFocus !== newHasFocus) {
+                this.setState({ hasFocus: newHasFocus })
+              }
+              if (onBlur) {
+                onBlur(e)
+              }
+            }}
+            onChange={e => {
+              setValue(e.target.value)
+              if (onChange) {
+                onChange(e)
+              }
+            }}
+            onFocus={e => {
+              // Make the state aware that the element is no longer focused.
+              const newHasFocus = document.activeElement === this.inputRef.current
+              if (hasFocus !== newHasFocus) {
+                this.setState({ hasFocus: newHasFocus })
+              }
+              if (onFocus) {
+                onFocus(e)
+              }
+            }}
+            pl={type === 'search' ? 35 : null}
+            readOnly={isReadOnly}
+            required={isRequired}
+            theme={theme}
+            type={type}
+            value={!value && value !== 0 ? '' : value}
+          />
+        </Flex>
+
         {type !== 'hidden' && description && (
           <Text color="gray" fontSize="s" mt={1}>
             {description}
           </Text>
         )}
-        {type !== 'hidden' && showMessage && (fieldState.error || fieldState.asyncError) && (
-          <Message variant={hasFocus ? 'warning' : 'error'} mt={1}>
+        {type !== 'hidden' && hasMessage && (fieldState.error || fieldState.asyncError) && (
+          <Message mt={1} variant={hasFocus ? 'warning' : 'error'}>
             {fieldState.error || fieldState.asyncError}
           </Message>
         )}

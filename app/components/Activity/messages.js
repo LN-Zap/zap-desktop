@@ -4,10 +4,8 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   all: 'All',
   sent: 'Sent',
-  requested: 'Requested',
+  requested: 'Received',
   pending: 'Pending',
-  refresh: 'Refresh',
-  search: 'Search',
-  hide_expired: 'Hide Expired Requests',
-  show_expired: 'Show Expired Requests'
+  expired: 'Expired',
+  internal: 'Internal',
 })

@@ -1,23 +1,24 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Bar, Form, Header, PasswordInput } from 'components/UI'
 import messages from './messages'
 
 class Login extends React.Component {
   static propTypes = {
+    intl: intlShape.isRequired,
+    setUnlockWalletError: PropTypes.func.isRequired,
+    unlockWallet: PropTypes.func.isRequired,
+    unlockWalletError: PropTypes.string,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    unlockWalletError: PropTypes.string,
-    setUnlockWalletError: PropTypes.func.isRequired,
-    unlockWallet: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
-    unlockWalletError: null
+    unlockWalletError: null,
   }
 
   componentDidUpdate(prevProps) {
@@ -78,25 +79,25 @@ class Login extends React.Component {
           return (
             <>
               <Header
-                title={<FormattedMessage {...messages.login_title} />}
-                subtitle={<FormattedMessage {...messages.login_description} />}
                 align="left"
+                subtitle={<FormattedMessage {...messages.login_description} />}
+                title={<FormattedMessage {...messages.login_title} />}
               />
 
               <Bar my={4} />
 
               <Box>
                 <PasswordInput
-                  autoFocus
-                  field="password"
-                  name="password"
-                  label={<FormattedMessage {...messages.password_label} />}
+                  autoComplete="current-password"
                   description={<FormattedMessage {...messages.password_description} />}
-                  required
+                  field="password"
+                  isRequired
+                  label={<FormattedMessage {...messages.password_label} />}
+                  name="password"
+                  placeholder={intl.formatMessage({ ...messages.password_placeholder })}
                   validateOnBlur={shouldValidateInline}
                   validateOnChange={shouldValidateInline}
-                  placeholder={intl.formatMessage({ ...messages.password_placeholder })}
-                  autoComplete="current-password"
+                  willAutoFocus
                 />
               </Box>
             </>

@@ -3,6 +3,7 @@ import { send } from 'redux-electron-ipc'
 import { showSystemNotification } from 'lib/utils/notifications'
 import { btc } from 'lib/utils'
 import { fetchBalance } from './balance'
+import { fetchChannels } from './channels'
 import { showError } from './notification'
 import { walletSelectors } from './wallet'
 
@@ -44,39 +45,39 @@ const decorateInvoice = invoice => {
 export function searchInvoices(invoicesSearchText) {
   return {
     type: SEARCH_INVOICES,
-    invoicesSearchText
+    invoicesSearchText,
   }
 }
 
 export function setInvoice(invoice) {
   return {
     type: SET_INVOICE,
-    invoice
+    invoice,
   }
 }
 
 export function getInvoice() {
   return {
-    type: GET_INVOICE
+    type: GET_INVOICE,
   }
 }
 
 export function receiveInvoice(invoice) {
   return {
     type: RECEIVE_INVOICE,
-    invoice
+    invoice,
   }
 }
 
 export function getInvoices() {
   return {
-    type: GET_INVOICES
+    type: GET_INVOICES,
   }
 }
 
 export function sendInvoice() {
   return {
-    type: SEND_INVOICE
+    type: SEND_INVOICE,
   }
 }
 
@@ -116,7 +117,7 @@ export const createInvoice = (amount, currency, memo) => async (dispatch, getSta
   dispatch(
     send('lnd', {
       msg: 'createInvoice',
-      data: { value, memo, private: activeWalletSettings.type === 'local' }
+      data: { value, memo, private: activeWalletSettings.type === 'local' },
     })
   )
 }
@@ -146,6 +147,9 @@ export const invoiceUpdate = (event, { invoice }) => dispatch => {
   // Fetch new balance
   dispatch(fetchBalance())
 
+  // Fetch updated channels.
+  dispatch(fetchChannels())
+
   if (invoice.settled) {
     // HTML 5 desktop notification for the invoice update
     const notifTitle = "You've been Zapped"
@@ -172,7 +176,7 @@ const ACTION_HANDLERS = {
   [SEND_INVOICE]: state => ({ ...state, invoiceLoading: true }),
   [INVOICE_SUCCESSFUL]: state => ({
     ...state,
-    invoiceLoading: false
+    invoiceLoading: false,
   }),
   [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null }),
 
@@ -183,7 +187,7 @@ const ACTION_HANDLERS = {
         isNew = false
         return {
           ...invoice,
-          ...action.invoice
+          ...action.invoice,
         }
       }
       return invoice
@@ -194,7 +198,7 @@ const ACTION_HANDLERS = {
     }
 
     return { ...state, invoices: updatedInvoices }
-  }
+  },
 }
 
 const invoiceSelectors = {}
@@ -234,8 +238,8 @@ const initialState = {
   formInvoice: {
     payreq: '',
     r_hash: '',
-    amount: '0'
-  }
+    amount: '0',
+  },
 }
 
 export default function invoiceReducer(state = initialState, action) {

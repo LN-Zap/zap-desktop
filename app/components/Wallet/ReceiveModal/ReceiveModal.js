@@ -1,189 +1,200 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import copy from 'copy-to-clipboard'
-import { withTheme } from 'styled-components'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import styled, { withTheme } from 'styled-components'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Button, Heading, Modal, QRCode, Text } from 'components/UI'
+import { Bar, Button, Heading, Message, QRCode, Tabs, Text } from 'components/UI'
+import { WalletName } from 'components/Util'
 import Copy from 'components/Icon/Copy'
 import messages from './messages'
 
 const QRCODE_TYPE_ADDRESS = 'address'
 const QRCODE_TYPE_PUBKEY = 'pubkey'
+const QRCODE_TYPE_LNDCONNECT = 'lndconnect'
 
-class ReceiveModal extends React.Component {
+const ClippedText = styled(Text)`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+`
+
+class ReceiveModal extends React.PureComponent {
   state = {
-    qrCodeType: QRCODE_TYPE_ADDRESS
+    qrCodeType: QRCODE_TYPE_ADDRESS,
+    reveal: false,
   }
 
-  copyPubkeyToClipboard = () => {
-    const { pubkey, intl, showNotification } = this.props
-    copy(pubkey)
-    const notifBody = intl.formatMessage({ ...messages.pubkey_copied_notification_description })
+  copyToClipboard = () => {
+    const {
+      pubkey,
+      address,
+      activeWalletSettings: { lndconnectQRCode },
+      intl,
+      showNotification,
+    } = this.props
+    const { qrCodeType } = this.state
+
+    let qrCode, notifBody
+    switch (qrCodeType) {
+      case QRCODE_TYPE_ADDRESS:
+        qrCode = address
+        notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
+        break
+      case QRCODE_TYPE_PUBKEY:
+        qrCode = pubkey
+        notifBody = intl.formatMessage({ ...messages.pubkey_copied_notification_description })
+        break
+      case QRCODE_TYPE_LNDCONNECT:
+        qrCode = lndconnectQRCode
+        notifBody = intl.formatMessage({ ...messages.lndconnect_copied_notification_description })
+        break
+    }
+
+    copy(qrCode)
     showNotification(notifBody)
   }
 
-  copyAddressToClipboard = () => {
-    const { address, intl, showNotification } = this.props
-    copy(address)
-    const notifBody = intl.formatMessage({ ...messages.address_copied_notification_description })
-    showNotification(notifBody)
+  toggleReveal = () => {
+    this.setState(prevState => ({
+      reveal: !prevState.reveal,
+    }))
+  }
+
+  setReveal = reveal => {
+    this.setState({ reveal })
   }
 
   setQrcode = type => {
     this.setState({ qrCodeType: type })
+    this.setReveal(false)
   }
 
   render() {
     const {
-      isOpen,
       pubkey,
       address,
-      alias,
-      closeReceiveModal,
       cryptoName,
+      activeWalletSettings,
       networkInfo,
-      intl
+      intl,
+      ...rest
     } = this.props
-    const { qrCodeType } = this.state
+    const { qrCodeType, reveal } = this.state
 
     if (!cryptoName) {
       return null
     }
 
-    if (!isOpen) {
-      return null
-    }
+    let qrCode, message
 
-    let qrCode
     switch (qrCodeType) {
       case QRCODE_TYPE_ADDRESS:
         qrCode = address
+        message = intl.formatMessage({ ...messages.copy_address })
         break
       case QRCODE_TYPE_PUBKEY:
         qrCode = pubkey
+        message = intl.formatMessage({ ...messages.copy_pubkey })
+        break
+      case QRCODE_TYPE_LNDCONNECT:
+        qrCode = activeWalletSettings.lndconnectQRCode
+        message = intl.formatMessage({ ...messages.copy_uri })
+        break
+      default:
+        message = intl.formatMessage({ ...messages.copy })
         break
     }
 
+    const tabs = [
+      { key: QRCODE_TYPE_PUBKEY, name: <FormattedMessage {...messages.node_pubkey} /> },
+      {
+        key: QRCODE_TYPE_ADDRESS,
+        name: <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />,
+      },
+    ]
+    if (activeWalletSettings.lndconnectQRCode) {
+      tabs.push({
+        key: QRCODE_TYPE_LNDCONNECT,
+        name: <FormattedMessage {...messages.lndconnect_uri} />,
+      })
+    }
+
     return (
-      <Modal onClose={closeReceiveModal}>
-        <Flex justifyContent="center" alignItems="center" css={{ height: '100%' }}>
-          <Flex
-            justifyContent="space-between"
-            alignItems="center"
-            width={1}
-            bg="secondaryColor"
-            p={4}
-          >
-            <Flex as="section" flexDirection="column" alignItems="center" width={1 / 3}>
-              <Heading.h3 textAlign="center">
-                {alias && alias.length ? alias : pubkey.substring(0, 10)}
-              </Heading.h3>
-              <Flex justifyContent="center" mb={3}>
-                <Button
-                  active={qrCode === pubkey}
-                  variant="secondary"
-                  size="small"
-                  onClick={() => this.setQrcode(QRCODE_TYPE_PUBKEY)}
-                  mr={2}
-                >
-                  <FormattedMessage {...messages.node_pubkey} />
-                </Button>
-                <Button
-                  active={qrCode === address}
-                  variant="secondary"
-                  size="small"
-                  onClick={() => this.setQrcode(QRCODE_TYPE_ADDRESS)}
-                  ml={2}
-                >
-                  <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />
-                </Button>
-              </Flex>
-              {qrCode && <QRCode value={qrCode} size="small" />}
-            </Flex>
+      <Box {...rest}>
+        <Heading.h1 textAlign="center">
+          <WalletName wallet={activeWalletSettings} />
+          {networkInfo && networkInfo.id === 'testnet' && networkInfo.name}
+        </Heading.h1>
 
-            <Box as="section" width={2 / 3}>
-              <Box mb={4}>
-                <Heading.h4 mb={2} fontWeight="normal">
-                  <FormattedMessage {...messages.node_public_key} />
-                </Heading.h4>
-                <Flex bg="tertiaryColor" justifyContent="space-between" width={1}>
-                  <Text
-                    p={3}
-                    fontSize="s"
-                    css={{
-                      overflow: 'hidden',
-                      'white=space': 'nowrap',
-                      'text-overflow': 'ellipsis'
-                    }}
-                  >
-                    {pubkey}
-                  </Text>
-                  <Button
-                    variant="secondary"
-                    py={0}
-                    px={0}
-                    onClick={this.copyPubkeyToClipboard}
-                    className="hint--left"
-                    data-hint={intl.formatMessage({ ...messages.copy_pubkey })}
-                  >
-                    <Box bg="primaryColor" p={3}>
-                      <Copy />
-                    </Box>
-                  </Button>
-                </Flex>
-              </Box>
+        <Bar mt={2} />
 
-              <Box>
-                <Heading.h4 mb={2} fontWeight="normal">
-                  <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />{' '}
-                  {networkInfo && networkInfo.id === 'testnet' && networkInfo.name}
-                </Heading.h4>
-                <Flex bg="tertiaryColor" justifyContent="space-between" width={1}>
-                  <Text
-                    p={3}
-                    fontSize="s"
-                    css={{
-                      overflow: 'hidden',
-                      'white=space': 'nowrap',
-                      'text-overflow': 'ellipsis'
-                    }}
-                  >
-                    {address}
-                  </Text>
-                  <Button
-                    variant="secondary"
-                    py={0}
-                    px={0}
-                    onClick={this.copyAddressToClipboard}
-                    className="hint--left"
-                    data-hint={intl.formatMessage({ ...messages.copy_address })}
-                  >
-                    <Box bg="primaryColor" p={3}>
-                      <Copy />
-                    </Box>
-                  </Button>
-                </Flex>
-              </Box>
-            </Box>
-          </Flex>
+        <Flex justifyContent="center" my={3}>
+          <Tabs activeKey={qrCodeType} items={tabs} onClick={this.setQrcode} />
         </Flex>
-      </Modal>
+
+        <Flex alignItems="center" flexDirection="column" mb={3} mt={4}>
+          {qrCode && qrCodeType !== QRCODE_TYPE_LNDCONNECT && (
+            <QRCode size="xlarge" value={qrCode} />
+          )}
+          {qrCodeType === QRCODE_TYPE_LNDCONNECT && (
+            <>
+              <QRCode
+                isObfuscated={qrCodeType === QRCODE_TYPE_LNDCONNECT && !reveal}
+                size="xlarge"
+                value={qrCode}
+              />
+              <Message justifyContent="center" my={3} variant="warning">
+                <FormattedMessage {...messages.lndconnect_warning} />
+              </Message>
+              <Button onClick={this.toggleReveal} size="small">
+                <FormattedMessage
+                  {...messages[reveal ? 'lndconnect_hide_button' : 'lndconnect_reveal_button']}
+                />
+              </Button>
+            </>
+          )}
+        </Flex>
+
+        <Flex bg="tertiaryColor" justifyContent="space-between">
+          <ClippedText fontSize="s" p={3} textAlign="center" width={1}>
+            {qrCode}
+          </ClippedText>
+          <Button
+            className="hint--left"
+            data-hint={message}
+            onClick={this.copyToClipboard}
+            px={0}
+            py={0}
+            variant="secondary"
+          >
+            <Box bg="primaryColor" p={3} width={1}>
+              <Copy />
+            </Box>
+          </Button>
+        </Flex>
+      </Box>
     )
   }
 }
 
 ReceiveModal.propTypes = {
+  activeWalletSettings: PropTypes.shape({
+    host: PropTypes.string,
+    id: PropTypes.number.isRequired,
+    lndconnectQRCode: PropTypes.string,
+    name: PropTypes.string,
+    type: PropTypes.string.isRequired,
+  }).isRequired,
+  address: PropTypes.string,
+  cryptoName: PropTypes.string,
+  intl: intlShape.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
-    name: PropTypes.string
+    name: PropTypes.string,
   }),
-  cryptoName: PropTypes.string,
-  isOpen: PropTypes.bool.isRequired,
   pubkey: PropTypes.string,
-  address: PropTypes.string,
-  alias: PropTypes.string,
-  closeReceiveModal: PropTypes.func.isRequired
+  showNotification: PropTypes.func.isRequired,
 }
 
 export default withTheme(injectIntl(ReceiveModal))

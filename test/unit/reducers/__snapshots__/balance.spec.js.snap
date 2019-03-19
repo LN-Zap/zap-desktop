@@ -1,18 +1,22 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers balanceReducer should handle DECREMENT_COUNTER 1`] = `
-Object {
-  "balanceLoading": false,
-  "channelBalance": undefined,
-  "walletBalance": undefined,
-}
-`;
-
-exports[`reducers balanceReducer should handle INCREMENT_COUNTER 1`] = `
+exports[`reducers balanceReducer should handle GET_BALANCE 1`] = `
 Object {
   "balanceLoading": true,
   "channelBalance": null,
   "walletBalance": null,
+  "walletBalanceConfirmed": null,
+  "walletBalanceUnconfirmed": null,
+}
+`;
+
+exports[`reducers balanceReducer should handle RECEIVE_BALANCE 1`] = `
+Object {
+  "balanceLoading": false,
+  "channelBalance": 2,
+  "walletBalance": 1,
+  "walletBalanceConfirmed": 1,
+  "walletBalanceUnconfirmed": 1,
 }
 `;
 
@@ -21,6 +25,8 @@ Object {
   "balanceLoading": false,
   "channelBalance": null,
   "walletBalance": null,
+  "walletBalanceConfirmed": null,
+  "walletBalanceUnconfirmed": null,
 }
 `;
 
@@ -29,5 +35,7 @@ Object {
   "balanceLoading": false,
   "channelBalance": null,
   "walletBalance": null,
+  "walletBalanceConfirmed": null,
+  "walletBalanceUnconfirmed": null,
 }
 `;

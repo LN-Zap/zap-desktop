@@ -1,0 +1,137 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.ActionBar should render correctly 1`] = `
+.c0 {
+  padding-bottom: 8px;
+  padding-right: 64px;
+  padding-top: 8px;
+  background-color: secondaryColor;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c2 {
+  font-family: sans;
+  font-weight: normal;
+}
+
+.c1 {
+  margin: 0px;
+  margin-right: 128px;
+  padding-left: 0px;
+  padding-right: 0px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: inherit;
+  color: white;
+  background-color: blue;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: bold;
+  border: 0;
+  border-radius: 0px;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  outline: none;
+  font-weight: 300;
+  line-height: '18px';
+  white-space: nowrap;
+}
+
+.c1:disabled {
+  opacity: 0.5;
+}
+
+.c1:hover:enabled {
+  cursor: pointer;
+}
+
+.c3 {
+  margin: 0px;
+  margin-right: 0px;
+  padding-left: 64px;
+  padding-right: 64px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  font-size: inherit;
+  color: white;
+  background-color: blue;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  text-align: center;
+  line-height: inherit;
+  -webkit-text-decoration: none;
+  text-decoration: none;
+  font-weight: bold;
+  border: 0;
+  border-radius: 5px;
+  -webkit-transition: all 0.25s;
+  transition: all 0.25s;
+  outline: none;
+  font-weight: 300;
+  line-height: '18px';
+  white-space: nowrap;
+}
+
+.c3:disabled {
+  opacity: 0.5;
+}
+
+.c3:hover:enabled {
+  cursor: pointer;
+}
+
+<div
+  className="c0"
+>
+  <button
+    className="c1"
+    color="white"
+    disabled={false}
+    fontSize="inherit"
+    fontWeight="bold"
+    onClick={[Function]}
+  >
+    <div
+      className="c2"
+      fontFamily="sans"
+      fontWeight="normal"
+    >
+      Save
+    </div>
+  </button>
+  <button
+    className="c3"
+    color="white"
+    disabled={false}
+    fontSize="inherit"
+    fontWeight="bold"
+    onClick={[Function]}
+  >
+    <div
+      className="c2"
+      fontFamily="sans"
+      fontWeight="normal"
+    >
+      Cancel
+    </div>
+  </button>
+</div>
+`;

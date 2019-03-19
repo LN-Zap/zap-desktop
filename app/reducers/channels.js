@@ -2,16 +2,20 @@ import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
 import { send } from 'redux-electron-ipc'
 import { requestSuggestedNodes } from 'lib/utils/api'
-import { showError } from './notification'
+import { updateNotification, showWarning, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
-import { updateNodeData } from './network'
+import { getNodeDisplayName, truncateNodePubkey, updateNodeData } from './network'
+import { putSetting } from './settings'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SHOW_CHANNEL_DETAILS = 'SHOW_CHANNEL_DETAILS'
-export const SET_CHANNEL_FORM = 'SET_CHANNEL_FORM'
+export const SET_CHANNEL_VIEW_MODE = 'SET_CHANNEL_VIEW_MODE'
+export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
+
+export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
+export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 
 export const GET_CHANNELS = 'GET_CHANNELS'
 export const RECEIVE_CHANNELS = 'RECEIVE_CHANNELS'
@@ -24,23 +28,18 @@ export const CLOSING_CHANNEL = 'CLOSING_CHANNEL'
 export const CLOSING_SUCCESSFUL = 'CLOSING_SUCCESSFUL'
 export const CLOSING_FAILURE = 'CLOSING_FAILURE'
 
-export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
-
-export const SET_VIEW_TYPE = 'SET_VIEW_TYPE'
-
-export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
-
 export const ADD_LOADING_PUBKEY = 'ADD_LOADING_PUBKEY'
 export const REMOVE_LOADING_PUBKEY = 'REMOVE_LOADING_PUBKEY'
 
 export const ADD_ClOSING_CHAN_ID = 'ADD_ClOSING_CHAN_ID'
 export const REMOVE_ClOSING_CHAN_ID = 'REMOVE_ClOSING_CHAN_ID'
 
-export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
-
 export const GET_SUGGESTED_NODES = 'GET_SUGGESTED_NODES'
 export const RECEIVE_SUGGESTED_NODES_ERROR = 'RECEIVE_SUGGESTED_NODES_ERROR'
 export const RECEIVE_SUGGESTED_NODES = 'RECEIVE_SUGGESTED_NODES'
+
+export const OPEN_CLOSE_CHANNEL_DIALOG = 'OPEN_CLOSE_CHANNEL_DIALOG'
+export const CLOSE_CLOSE_CHANNEL_DIALOG = 'CLOSE_CLOSE_CHANNEL_DIALOG'
 
 // ------------------------------------
 // Helpers
@@ -52,27 +51,23 @@ export const RECEIVE_SUGGESTED_NODES = 'RECEIVE_SUGGESTED_NODES'
  * @param  {Object} channelObj Channel object
  * @return {Object} Channel data
  */
-const getChannelData = channelObj => channelObj.channel || channelObj
+export const getChannelData = channelObj => channelObj.channel || channelObj
 
 /**
- * Get a name to display for the channe.
+ * Get a name to display for the channel.
  *
  * This will either be:
- *  - the alias of the node at the othe end of the channel
+ *  - the alias of the node at the other end of the channel
  *  - a shortened public key.
  * @param  {Object} channel Channel object.
  * @param  {Array} nodes Array of nodes.
- * @return {SAtring} Channel display name.
+ * @return {String} Channel display name.
  */
 const getDisplayName = (channel, nodes) => {
   const remoteNodePubkey = getRemoteNodePubKey(channel)
   const node = nodes.find(n => n.pub_key === remoteNodePubkey)
 
-  if (node && node.alias && node.alias.length) {
-    return node.alias
-  }
-
-  return remoteNodePubkey.substring(0, 10)
+  return node ? getNodeDisplayName(node) : truncateNodePubkey(remoteNodePubkey)
 }
 
 /**
@@ -85,7 +80,7 @@ const getDisplayName = (channel, nodes) => {
  * @return {[type]}         [description]
  */
 const getRemoteNodePubKey = channel => {
-  return channel.remote_pubkey || channel.remote_node_pub
+  return channel.node_pubkey || channel.remote_pubkey || channel.remote_node_pub
 }
 
 /**
@@ -94,53 +89,71 @@ const getRemoteNodePubKey = channel => {
  * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing.
  * @return {String} Channel status name.
  */
-const getStatus = (channel, closingChannelIds) => {
-  // if the channel has a confirmation_height property that means it's pending
-  if ('confirmation_height' in channel) {
-    return 'pending'
+const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = []) => {
+  const channelData = getChannelData(channelObj)
+  const pubKey = getRemoteNodePubKey(channelData)
+
+  // if the channel pubkey is in loadingChabnnels, set status as loading.
+  if (loadingChannelPubKeys.includes(pubKey) && !channelData.channel_point) {
+    return 'loading'
   }
-  // if the channel has a closing tx that means it's closing
-  if ('closing_txid' in channel) {
-    return 'closing'
+  // if the channel has a confirmation_height property that means it's pending.
+  if ('confirmation_height' in channelObj) {
+    return 'pending_open'
   }
-  // if the channel is in waiting_close_channels phase
-  if ('limbo_balance' in channel) {
-    return 'closing'
+  // if the channel has a closing txid and a limbo balance, that means it's force_closing.
+  if ('closing_txid' in channelObj && 'limbo_balance' in channelObj) {
+    return 'pending_force_close'
   }
-  // if we are in the process of closing this channel
-  if (closingChannelIds.includes(channel.chan_id)) {
-    return 'closing'
+  // if the channel has a closing txid but no limbo balance or it's in our internal list of closing transactions,
+  // that means it is pending closing.
+  if (
+    ('closing_txid' in channelObj && !('limbo_balance' in channelObj)) ||
+    closingChannelIds.includes(channelObj.chan_id)
+  ) {
+    return 'pending_close'
   }
-  // if the channel isn't active that means the remote peer isn't online
-  if (!channel.active) {
+  // If the channel has a limbo balance but no closing txid, it is waiting to close.
+  if (!('closing_txid' in channelObj) && 'limbo_balance' in channelObj) {
+    return 'waiting_close'
+  }
+  // if the channel isn't active that means the remote peer isn't online.
+  if (!channelObj.active) {
     return 'offline'
   }
-  // if all of the above conditionals fail we can assume the node is online :)
-  return 'online'
+  // if all of the above conditionals fail we must have an open/active/online channel.
+  return 'open'
 }
 
 /**
- * Decorate a channbel object with additiopnal calculated properties.
+ * Decorate a channel object with additional calculated properties.
  * @param  {Object} channelObj Channel object.
  * @param  {Array} nodes Array of node data.
  * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing.
  * @return {Object} Decorated channel object.
  */
-const decorateChannel = (channelObj, nodes, closingChannelIds) => {
+const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannels) => {
   // If this is a pending channel, the channel data will be stored under the `channel` key.
   const channelData = getChannelData(channelObj)
+  const status = getStatus(channelObj, closingChannelIds, loadingChannels)
 
   const updatedChannelData = {
     ...channelData,
     display_pubkey: getRemoteNodePubKey(channelData),
     display_name: getDisplayName(channelData, nodes),
-    display_status: getStatus(channelObj, closingChannelIds)
+    display_status: status,
+    can_close:
+      ['open', 'offline'].includes(status) && !closingChannelIds.includes(channelData.chan_id),
+  }
+
+  if (channelObj.closing_txid) {
+    updatedChannelData.closing_txid = channelObj.closing_txid
   }
 
   if (channelObj.channel) {
     return {
       ...channelObj,
-      channel: updatedChannelData
+      channel: updatedChannelData,
     }
   }
   return updatedChannelData
@@ -150,108 +163,118 @@ const decorateChannel = (channelObj, nodes, closingChannelIds) => {
 // Actions
 // ------------------------------------
 
+export const initChannels = () => async (dispatch, getState) => {
+  const state = getState()
+  const userViewMode = state.settings.channelViewMode
+  const channelViewMode = state.channels.viewMode
+  if (userViewMode && userViewMode !== channelViewMode) {
+    dispatch(setChannelViewMode(userViewMode))
+  }
+}
+
+export const setChannelViewMode = viewMode => dispatch => {
+  dispatch({
+    type: SET_CHANNEL_VIEW_MODE,
+    viewMode,
+  })
+  dispatch(putSetting('channelViewMode', viewMode))
+}
+
 export function changeFilter(filter) {
   return {
     type: CHANGE_CHANNEL_FILTER,
-    filter
+    filter,
   }
 }
 
 export function getChannels() {
   return {
-    type: GET_CHANNELS
+    type: GET_CHANNELS,
   }
 }
 
 export function openingChannel() {
   return {
-    type: OPENING_CHANNEL
+    type: OPENING_CHANNEL,
   }
 }
 
 export function closingChannel() {
   return {
-    type: CLOSING_CHANNEL
+    type: CLOSING_CHANNEL,
   }
 }
 
 export function openingSuccessful() {
   return {
-    type: OPENING_SUCCESSFUL
+    type: OPENING_SUCCESSFUL,
   }
 }
 
 export function openingFailure() {
   return {
-    type: OPENING_FAILURE
+    type: OPENING_FAILURE,
   }
 }
 
 export function updateChannelSearchQuery(searchQuery) {
   return {
     type: UPDATE_SEARCH_QUERY,
-    searchQuery
+    searchQuery,
   }
 }
 
-export function setViewType(viewType) {
-  return {
-    type: SET_VIEW_TYPE,
-    viewType
-  }
-}
-
-export function addLoadingPubkey(pubkey) {
+export function addLoadingChannel(data) {
   return {
     type: ADD_LOADING_PUBKEY,
-    pubkey
+    data,
   }
 }
 
-export function removeLoadingPubkey(pubkey) {
+export function removeLoadingChannel(pubkey) {
   return {
     type: REMOVE_LOADING_PUBKEY,
-    pubkey
+    pubkey,
   }
 }
 
 export function addClosingChanId(chanId) {
   return {
     type: ADD_ClOSING_CHAN_ID,
-    chanId
+    chanId,
   }
 }
 
 export function removeClosingChanId(chanId) {
   return {
     type: REMOVE_ClOSING_CHAN_ID,
-    chanId
+    chanId,
   }
 }
 
-export function setSelectedChannel(selectedChannel) {
+export function setSelectedChannel(selectedChannelId) {
   return {
     type: SET_SELECTED_CHANNEL,
-    selectedChannel
+    selectedChannelId,
   }
 }
 
 export function getSuggestedNodes() {
   return {
-    type: GET_SUGGESTED_NODES
+    type: GET_SUGGESTED_NODES,
   }
 }
 
 export function receiveSuggestedNodesError() {
   return {
-    type: RECEIVE_SUGGESTED_NODES_ERROR
+    type: RECEIVE_SUGGESTED_NODES_ERROR,
   }
 }
 
 export function receiveSuggestedNodes(suggestedNodes) {
   return {
     type: RECEIVE_SUGGESTED_NODES,
-    suggestedNodes
+    suggestedNodes,
   }
 }
 
@@ -272,40 +295,73 @@ export const fetchChannels = () => async dispatch => {
 }
 
 // Receive IPC event for channels
-export const receiveChannels = (event, { channels, pendingChannels }) => dispatch => {
-  dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels })
+export const receiveChannels = (
+  event,
+  { channels, pendingChannels, closedChannels }
+) => dispatch => {
+  dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels, closedChannels })
   dispatch(fetchBalance())
 }
 
 // Send IPC event for opening a channel
-export const openChannel = ({ pubkey, host, localamt }) => async (dispatch, getState) => {
+export const openChannel = data => async (dispatch, getState) => {
+  const { pubkey, host, localamt, satPerByte, isPrivate, spendUnconfirmed = true } = data
+
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will flag manually created channels as private. Other connections like remote node and BTCPay Server
   // we will announce to the network as these users are using Zap to drive nodes that are online 24/7
   const state = getState()
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
-  const isPrivate = activeWalletSettings.type === 'local'
+  const channelIsPrivate = isPrivate || activeWalletSettings.type === 'local'
 
+  // Set channel opening state.
   dispatch(openingChannel())
-  dispatch(addLoadingPubkey(pubkey))
+
+  // Add channel loading state.
+  const loadingChannel = {
+    node_pubkey: pubkey,
+    local_balance: Number(localamt),
+    remote_balance: 0,
+    private: channelIsPrivate,
+    sat_per_byte: satPerByte,
+  }
+  dispatch(addLoadingChannel(loadingChannel))
+
+  // Show notification.
+  dispatch(showWarning('Channel opening initiated', { payload: { pubkey }, isProcessing: true }))
+
+  // Attempt to open the channel.
   dispatch(
     send('lnd', {
       msg: 'connectAndOpen',
-      data: { pubkey, host, localamt, private: isPrivate }
+      data: {
+        pubkey,
+        host,
+        localamt,
+        private: channelIsPrivate,
+        satPerByte,
+        spendUnconfirmed,
+      },
     })
   )
 }
 
-// TODO: Decide how to handle streamed updates for channels
-// Receive IPC event for openChannel
-export const channelSuccessful = () => dispatch => {
-  dispatch(fetchChannels())
-}
-
 // Receive IPC event for updated channel
-export const pushchannelupdated = (event, { pubkey }) => dispatch => {
+export const pushchannelupdated = (event, { node_pubkey, data }) => dispatch => {
   dispatch(fetchChannels())
-  dispatch(removeLoadingPubkey(pubkey))
+  if (data.update === 'chan_pending') {
+    dispatch(removeLoadingChannel(node_pubkey))
+    dispatch(
+      updateNotification(
+        { payload: { pubkey: node_pubkey } },
+        {
+          variant: 'success',
+          message: 'Channel successfully created',
+          isProcessing: false,
+        }
+      )
+    )
+  }
 }
 
 // Receive IPC event for channel end
@@ -314,10 +370,19 @@ export const pushchannelend = () => dispatch => {
 }
 
 // Receive IPC event for channel error
-export const pushchannelerror = (event, { pubkey, error }) => dispatch => {
+export const pushchannelerror = (event, { node_pubkey, error }) => dispatch => {
   dispatch(openingFailure())
-  dispatch(showError(error))
-  dispatch(removeLoadingPubkey(pubkey))
+  dispatch(removeLoadingChannel(node_pubkey))
+  dispatch(
+    updateNotification(
+      { payload: { pubkey: node_pubkey } },
+      {
+        variant: 'error',
+        message: `Unable to open channel: ${error}`,
+        isProcessing: false,
+      }
+    )
+  )
 }
 
 // Receive IPC event for channel status
@@ -325,28 +390,34 @@ export const pushchannelstatus = () => dispatch => {
   dispatch(fetchChannels())
 }
 
-// Send IPC event for opening a channel
-export const closeChannel = ({ channel_point, chan_id, force }) => dispatch => {
-  dispatch(closingChannel())
-  dispatch(addClosingChanId(chan_id))
+export const showCloseChannelDialog = () => ({ type: OPEN_CLOSE_CHANNEL_DIALOG })
+export const hideCloseChannelDialog = () => ({ type: CLOSE_CLOSE_CHANNEL_DIALOG })
 
-  const [funding_txid, output_index] = channel_point.split(':')
-  dispatch(
-    send('lnd', {
-      msg: 'closeChannel',
-      data: {
-        channel_point: {
-          funding_txid,
-          output_index
+// Send IPC event for opening a channel
+export const closeChannel = () => (dispatch, getState) => {
+  const selectedChannel = channelsSelectors.selectedChannel(getState())
+  if (selectedChannel) {
+    const { channel_point, chan_id, active } = selectedChannel
+    dispatch(closingChannel())
+    dispatch(addClosingChanId(chan_id))
+
+    const [funding_txid, output_index] = channel_point.split(':')
+    dispatch(
+      send('lnd', {
+        msg: 'closeChannel',
+        data: {
+          channel_point: {
+            funding_txid,
+            output_index,
+          },
+          chan_id,
+          force: !active,
         },
-        chan_id,
-        force
-      }
-    })
-  )
+      })
+    )
+  }
 }
 
-// TODO: Decide how to handle streamed updates for closing channels
 // Receive IPC event for closeChannel
 export const closeChannelSuccessful = () => dispatch => {
   dispatch(fetchChannels())
@@ -380,14 +451,14 @@ export const pushclosechannelstatus = () => dispatch => {
  */
 const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1000, {
   leading: true,
-  trailing: true
+  trailing: true,
 })
 
 // IPC event for channel graph data
 export const channelGraphData = (event, data) => (dispatch, getState) => {
   const { info, channels } = getState()
   const {
-    channelGraphData: { channel_updates, node_updates }
+    channelGraphData: { channel_updates, node_updates },
   } = data
 
   // Process node updates.
@@ -416,10 +487,10 @@ export const channelGraphData = (event, data) => (dispatch, getState) => {
     }
   }
 
-  // if our node or any of our chanels were involved in this update, fetch an updated channel list.
+  // if our node or any of our channels were involved in this update, fetch an updated channel list.
   if (hasUpdates) {
     // We can receive a lot of channel updates from channel graph subscription in a short space of time. If these
-    // nvolve our our channels we make a call to fetchChannels and then fetchBalances in order to refresh our channel
+    // involve our our channels we make a call to fetchChannels and then fetchBalances in order to refresh our channel
     // and balance data. Throttle these calls so that we don't attempt to fetch channels to often.
     throttledFetchChannels(dispatch)
   }
@@ -432,17 +503,14 @@ export const channelGraphStatus = () => () => {}
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_CHANNEL_FORM]: (state, { form }) => ({
-    ...state,
-    channelForm: Object.assign({}, state.channelForm, form)
-  }),
-
+  [SET_CHANNEL_VIEW_MODE]: (state, { viewMode }) => ({ ...state, viewMode }),
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
-  [RECEIVE_CHANNELS]: (state, { channels, pendingChannels }) => ({
+  [RECEIVE_CHANNELS]: (state, { channels, pendingChannels, closedChannels }) => ({
     ...state,
     channelsLoading: false,
     channels,
-    pendingChannels
+    pendingChannels,
+    closedChannels,
   }),
 
   [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
@@ -452,59 +520,67 @@ const ACTION_HANDLERS = {
 
   [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 
-  [SET_VIEW_TYPE]: (state, { viewType }) => ({ ...state, viewType }),
-
   [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({
     ...state,
-    filter
+    filter,
   }),
 
-  [ADD_LOADING_PUBKEY]: (state, { pubkey }) => ({
+  [ADD_LOADING_PUBKEY]: (state, { data }) => ({
     ...state,
-    loadingChannelPubkeys: [pubkey, ...state.loadingChannelPubkeys]
+    loadingChannels: [data, ...state.loadingChannels],
   }),
   [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({
     ...state,
-    loadingChannelPubkeys: state.loadingChannelPubkeys.filter(
-      loadingPubkey => loadingPubkey !== pubkey
-    )
+    loadingChannels: state.loadingChannels.filter(data => data.node_pubkey !== pubkey),
   }),
 
   [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => ({
     ...state,
-    closingChannelIds: [chanId, ...state.closingChannelIds]
+    closingChannelIds: [chanId, ...state.closingChannelIds],
   }),
   [REMOVE_ClOSING_CHAN_ID]: (state, { chanId }) => ({
     ...state,
-    closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId)
+    closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId),
   }),
 
-  [SET_SELECTED_CHANNEL]: (state, { selectedChannel }) => ({ ...state, selectedChannel }),
+  [SET_SELECTED_CHANNEL]: (state, { selectedChannelId }) => ({ ...state, selectedChannelId }),
 
   [GET_SUGGESTED_NODES]: state => ({ ...state, suggestedNodesLoading: true }),
   [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => ({
     ...state,
     suggestedNodesLoading: false,
-    suggestedNodes
+    suggestedNodes,
   }),
   [RECEIVE_SUGGESTED_NODES_ERROR]: state => ({
     ...state,
     suggestedNodesLoading: false,
     suggestedNodes: {
       mainnet: [],
-      testnet: []
-    }
-  })
+      testnet: [],
+    },
+  }),
+  [OPEN_CLOSE_CHANNEL_DIALOG]: state => ({
+    ...state,
+    isCloseDialogOpen: true,
+  }),
+  [CLOSE_CLOSE_CHANNEL_DIALOG]: state => ({
+    ...state,
+    isCloseDialogOpen: false,
+  }),
 }
 
 const channelsSelectors = {}
 const channelsSelector = state => state.channels.channels
+const closedChannelsSelector = state => state.channels.closedChannels
+const loadingChannelsSelector = state => state.channels.loadingChannels
+const selectedChannelIdSelector = state => state.channels.selectedChannelId
 const pendingOpenChannelsSelector = state => state.channels.pendingChannels.pending_open_channels
 const pendingClosedChannelsSelector = state =>
   state.channels.pendingChannels.pending_closing_channels
 const pendingForceClosedChannelsSelector = state =>
   state.channels.pendingChannels.pending_force_closing_channels
 const waitingCloseChannelsSelector = state => state.channels.pendingChannels.waiting_close_channels
+const totalLimboBalanceSelector = state => state.channels.pendingChannels.total_limbo_balance
 const closingChannelIdsSelector = state => state.channels.closingChannelIds
 const channelSearchQuerySelector = state => state.channels.searchQuery
 const filterSelector = state => state.channels.filter
@@ -518,21 +594,49 @@ const channelMatchesQuery = (channelObj, searchQuery) => {
   const channel = getChannelData(channelObj)
   const query = searchQuery.toLowerCase()
 
+  const nodePubkey = (channel.node_pubkey || '').toLowerCase()
   const remoteNodePub = (channel.remote_node_pub || '').toLowerCase()
   const remotePubkey = (channel.remote_pubkey || '').toLowerCase()
   const displayName = (channel.display_name || '').toLowerCase()
 
   return (
-    remoteNodePub.includes(query) || remotePubkey.includes(query) || displayName.includes(query)
+    nodePubkey.includes(query) ||
+    remoteNodePub.includes(query) ||
+    remotePubkey.includes(query) ||
+    displayName.includes(query)
   )
 }
+
+channelsSelectors.totalLimboBalance = createSelector(
+  totalLimboBalanceSelector,
+  totalLimboBalance => totalLimboBalance
+)
+
+channelsSelectors.loadingChannelPubKeys = createSelector(
+  loadingChannelsSelector,
+  loadingChannels => loadingChannels.map(loadingChannel => loadingChannel.node_pubkey)
+)
+
+channelsSelectors.loadingChannels = createSelector(
+  loadingChannelsSelector,
+  nodesSelector,
+  closingChannelIdsSelector,
+  channelsSelectors.loadingChannelPubKeys,
+  (loadingChannels, nodes, closingChannelIds, loadingChannelPubKeys) =>
+    loadingChannels.map(channel =>
+      decorateChannel(channel, nodes, closingChannelIds, loadingChannelPubKeys)
+    )
+)
 
 channelsSelectors.channelsSelector = createSelector(
   channelsSelector,
   nodesSelector,
   closingChannelIdsSelector,
-  (channels, nodes, closingChannelIds) =>
-    channels.map(channel => decorateChannel(channel, nodes, closingChannelIds))
+  channelsSelectors.loadingChannelPubKeys,
+  (channels, nodes, closingChannelIds, loadingChannelPubKeys) =>
+    channels.map(channel =>
+      decorateChannel(channel, nodes, closingChannelIds, loadingChannelPubKeys)
+    )
 )
 
 channelsSelectors.activeChannels = createSelector(
@@ -555,12 +659,28 @@ channelsSelectors.nonActiveChannelPubkeys = createSelector(
   openChannels => openChannels.map(c => c.remote_pubkey)
 )
 
-channelsSelectors.pendingOpenChannels = createSelector(
+channelsSelectors.pendingOpenChannelsRaw = createSelector(
   pendingOpenChannelsSelector,
+  pendingOpenChannels => pendingOpenChannels
+)
+
+channelsSelectors.pendingOpenChannels = createSelector(
+  channelsSelectors.pendingOpenChannelsRaw,
   nodesSelector,
   closingChannelIdsSelector,
-  (pendingOpenChannels, nodes, closingChannelIds) =>
-    pendingOpenChannels.map(channelObj => decorateChannel(channelObj, nodes, closingChannelIds))
+  channelsSelectors.loadingChannelPubKeys,
+  (pendingOpenChannels, nodes, closingChannelIds, loadingChannelPubKeys) =>
+    pendingOpenChannels
+      .map(channelObj =>
+        decorateChannel(channelObj, nodes, closingChannelIds, loadingChannelPubKeys)
+      )
+      // Filter out channels from the loadingChannels array to prevent duplicates which can happen because the channel
+      // actualy moves into the pending channels array before we get an update from the openChannel stream to say that
+      // it is now in the pending state.
+      .filter(channel => {
+        const channelData = getChannelData(channel)
+        return !loadingChannelPubKeys.includes(channelData.display_pubkey)
+      })
 )
 
 channelsSelectors.pendingOpenChannelPubkeys = createSelector(
@@ -569,21 +689,25 @@ channelsSelectors.pendingOpenChannelPubkeys = createSelector(
     pendingOpenChannels.map(pendingChannel => pendingChannel.channel.remote_node_pub)
 )
 
-channelsSelectors.closingPendingChannels = createSelector(
+channelsSelectors.closingPendingChannelsRaw = createSelector(
   pendingClosedChannelsSelector,
   pendingForceClosedChannelsSelector,
   waitingCloseChannelsSelector,
+  (pendingClosedChannels, pendingForcedClosedChannels, waitingCloseChannels) => [
+    ...pendingClosedChannels,
+    ...pendingForcedClosedChannels,
+    ...waitingCloseChannels,
+  ]
+)
+
+channelsSelectors.closingPendingChannels = createSelector(
+  channelsSelectors.closingPendingChannelsRaw,
   nodesSelector,
   closingChannelIdsSelector,
-  (
-    pendingClosedChannels,
-    pendingForcedClosedChannels,
-    waitingCloseChannels,
-    nodes,
-    closingChannelIds
-  ) =>
-    [...pendingClosedChannels, ...pendingForcedClosedChannels, ...waitingCloseChannels].map(
-      channelObj => decorateChannel(channelObj, nodes, closingChannelIds)
+  channelsSelectors.loadingChannelPubKeys,
+  (closingPendingChannels, nodes, closingChannelIds, loadingChannelPubKeys) =>
+    closingPendingChannels.map(channelObj =>
+      decorateChannel(channelObj, nodes, closingChannelIds, loadingChannelPubKeys)
     )
 )
 
@@ -592,21 +716,64 @@ channelsSelectors.closingChannelIds = createSelector(
   channelsSelectors.closingPendingChannels,
   (closingChannelIds, closingPendingChannels) => [
     ...closingChannelIds,
-    ...closingPendingChannels.map(pendingChannel => pendingChannel.channel.chan_id)
+    ...closingPendingChannels.map(pendingChannel => pendingChannel.channel.chan_id),
   ]
 )
 
+channelsSelectors.closedChannels = createSelector(
+  closedChannelsSelector,
+  nodesSelector,
+  (closedChannels, nodes) => closedChannels.map(channelObj => decorateChannel(channelObj, nodes))
+)
+
 channelsSelectors.allChannels = createSelector(
+  channelsSelectors.loadingChannels,
   channelsSelectors.activeChannels,
   channelsSelectors.pendingOpenChannels,
   channelsSelectors.closingPendingChannels,
   channelsSelectors.nonActiveChannels,
-  (activeChannels, pendingOpenChannels, closingPendingChannels, nonActiveChannels) => {
+  (
+    loadingChannels,
+    activeChannels,
+    pendingOpenChannels,
+    closingPendingChannels,
+    nonActiveChannels
+  ) => {
     return [
+      ...loadingChannels,
       ...activeChannels,
       ...pendingOpenChannels,
       ...closingPendingChannels,
-      ...nonActiveChannels
+      ...nonActiveChannels,
+    ]
+  }
+)
+
+channelsSelectors.allChannelsRaw = createSelector(
+  loadingChannelsSelector,
+  channelsSelector,
+  closedChannelsSelector,
+  pendingOpenChannelsSelector,
+  pendingClosedChannelsSelector,
+  pendingForceClosedChannelsSelector,
+  waitingCloseChannelsSelector,
+  (
+    loadingChannels,
+    channels,
+    closedChannels,
+    pendingOpenChannels,
+    pendingClosedChannels,
+    pendingForceClosedChannels,
+    waitingCloseChannels
+  ) => {
+    return [
+      ...loadingChannels,
+      ...channels,
+      ...closedChannels,
+      ...pendingOpenChannels,
+      ...pendingClosedChannels,
+      ...pendingForceClosedChannels,
+      ...waitingCloseChannels,
     ]
   }
 )
@@ -618,7 +785,6 @@ channelsSelectors.currentChannels = createSelector(
   channelsSelectors.pendingOpenChannels,
   channelsSelectors.closingPendingChannels,
   channelsSelectors.nonActiveChannels,
-  channelsSelectors.closingChannelIds,
   filterSelector,
   channelSearchQuerySelector,
   (
@@ -628,7 +794,6 @@ channelsSelectors.currentChannels = createSelector(
     pendingOpenChannels,
     pendingClosedChannels,
     nonActiveChannelsArr,
-    closingChannelIds,
     channelFilter,
     searchQuery
   ) => {
@@ -657,6 +822,18 @@ channelsSelectors.currentChannels = createSelector(
   }
 )
 
+channelsSelectors.selectedChannel = createSelector(
+  selectedChannelIdSelector,
+  channelsSelectors.allChannels,
+  (selectedChannelId, allChannels) => {
+    const channel = allChannels.find(channel => {
+      const channelData = getChannelData(channel)
+      return channelData.channel_point === selectedChannelId
+    })
+    return channel && getChannelData(channel)
+  }
+)
+
 export { channelsSelectors }
 
 // ------------------------------------
@@ -664,20 +841,17 @@ export { channelsSelectors }
 // ------------------------------------
 const initialState = {
   channelsLoading: false,
+  loadingChannels: [],
   channels: [],
   pendingChannels: {
-    total_limbo_balance: '',
+    total_limbo_balance: null,
     pending_open_channels: [],
     pending_closing_channels: [],
     pending_force_closing_channels: [],
-    waiting_close_channels: []
+    waiting_close_channels: [],
   },
-  channelForm: {
-    isOpen: false,
-    node_key: '',
-    local_amt: '',
-    push_amt: ''
-  },
+  closedChannels: [],
+  closingChannelIds: [],
   openingChannel: false,
   closingChannel: false,
   searchQuery: null,
@@ -689,15 +863,13 @@ const initialState = {
     { key: 'ACTIVE_CHANNELS', name: 'Online' },
     { key: 'NON_ACTIVE_CHANNELS', name: 'Offline' },
     { key: 'OPEN_PENDING_CHANNELS', name: 'Pending' },
-    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing' }
+    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing' },
   ],
 
-  loadingChannelPubkeys: [],
-  closingChannelIds: [],
+  selectedChannelId: null,
+  viewMode: 'CHANNEL_LIST_VIEW_MODE_CARD',
 
-  selectedChannel: null,
-
-  // nodes stored at zap.jackmallers.com/suggested-peers manages by JimmyMow
+  // nodes stored at zap.jackmallers.com/api/v1/suggested-peers manages by JimmyMow
   // we store this node list here and if the user doesnt have any channels
   // we show them this list in case they wanna use our suggestions to connect
   // to the network and get started
@@ -711,9 +883,9 @@ const initialState = {
   // ****
   suggestedNodes: {
     mainnet: [],
-    testnet: []
+    testnet: [],
   },
-  suggestedNodesLoading: false
+  suggestedNodesLoading: false,
 }
 
 export default function channelsReducer(state = initialState, action) {

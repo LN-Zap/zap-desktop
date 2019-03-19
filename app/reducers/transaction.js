@@ -1,12 +1,12 @@
+import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import { showSystemNotification } from 'lib/utils/notifications'
 import { convert } from 'lib/utils/btc'
+import delay from 'lib/utils/delay'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
-import { setFormType } from './form'
-import { fetchChannels } from './channels'
-import { changeFilter } from './activity'
+import { fetchChannels, channelsSelectors, getChannelData } from './channels'
 
 // ------------------------------------
 // Constants
@@ -30,25 +30,23 @@ const decorateTransaction = transaction => {
   return transaction
 }
 
-const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
-
 // ------------------------------------
 // Actions
 // ------------------------------------
 export function getTransactions() {
   return {
-    type: GET_TRANSACTIONS
+    type: GET_TRANSACTIONS,
   }
 }
 
 export function sendTransaction(data) {
   const transaction = Object.assign({}, data, {
     status: 'sending',
-    timestamp: Math.round(new Date() / 1000)
+    timestamp: Math.round(new Date() / 1000),
   })
   return {
     type: SEND_TRANSACTION,
-    transaction
+    transaction,
   }
 }
 
@@ -90,14 +88,10 @@ export const sendCoins = ({ value, addr, currency, targetConf, satPerByte }) => 
   dispatch(
     send('lnd', {
       msg: 'sendCoins',
-      data
+      data,
     })
   )
   dispatch(sendTransaction(data))
-
-  // Close the form modal once the transaction has been sent
-  dispatch(changeFilter({ key: 'ALL_ACTIVITY', name: 'all' }))
-  dispatch(setFormType(null))
 }
 
 // Receive IPC event for successful payment.
@@ -172,16 +166,16 @@ const ACTION_HANDLERS = {
   [GET_TRANSACTIONS]: state => ({ ...state, transactionLoading: true }),
   [SEND_TRANSACTION]: (state, { transaction }) => ({
     ...state,
-    transactionsSending: [...state.transactionsSending, transaction]
+    transactionsSending: [...state.transactionsSending, transaction],
   }),
   [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({
     ...state,
     transactionLoading: false,
-    transactions
+    transactions,
   }),
   [ADD_TRANSACTION]: (state, { transaction }) => ({
     ...state,
-    transactions: [transaction, ...state.transactions]
+    transactions: [transaction, ...state.transactions],
   }),
   [TRANSACTION_SUCCESSFUL]: (state, { addr }) => {
     return {
@@ -192,9 +186,9 @@ const ACTION_HANDLERS = {
         }
         return {
           ...item,
-          status: 'successful'
+          status: 'successful',
         }
-      })
+      }),
     }
   },
   [TRANSACTION_FAILED]: (state, { addr, error }) => {
@@ -207,18 +201,61 @@ const ACTION_HANDLERS = {
         return {
           ...item,
           status: 'failed',
-          error
+          error,
         }
-      })
+      }),
     }
   },
   [TRANSACTION_COMPLETE]: (state, { addr }) => {
     return {
       ...state,
-      transactionsSending: state.transactionsSending.filter(item => item.addr !== addr)
+      transactionsSending: state.transactionsSending.filter(item => item.addr !== addr),
     }
-  }
+  },
 }
+
+const transactionsSelectors = {}
+const transactionsSelector = state => state.transaction.transactions
+
+transactionsSelectors.rawTransactionsSelector = createSelector(
+  transactionsSelector,
+  txs => txs
+)
+
+transactionsSelectors.transactionsSelector = createSelector(
+  transactionsSelector,
+  channelsSelectors.allChannelsRaw,
+  channelsSelectors.closingPendingChannelsRaw,
+  channelsSelectors.pendingOpenChannelsRaw,
+  (transactions, allChannelsRaw, closingPendingChannelsRaw, pendingOpenChannelsRaw) =>
+    transactions.map(transaction => {
+      const fundedChannel = allChannelsRaw.find(channelObj => {
+        const channelData = getChannelData(channelObj)
+        const channelPoint = channelData.channel_point
+        return channelPoint ? transaction.tx_hash === channelPoint.split(':')[0] : null
+      })
+      const closedChannel = allChannelsRaw.find(channelObj => {
+        const channelData = getChannelData(channelObj)
+        return [channelData.closing_tx_hash, channelObj.closing_txid].includes(transaction.tx_hash)
+      })
+      const pendingChannel = [...closingPendingChannelsRaw, ...pendingOpenChannelsRaw].find(
+        channelObj => {
+          return channelObj.closing_txid === transaction.tx_hash
+        }
+      )
+      return {
+        ...transaction,
+        closeType: closedChannel ? closedChannel.close_type : null,
+        isFunding: Boolean(fundedChannel),
+        isClosing: Boolean(closedChannel),
+        isPending: Boolean(pendingChannel),
+        limboAmount: pendingChannel && pendingChannel.limbo_balance,
+        maturityHeight: pendingChannel && pendingChannel.maturity_height,
+      }
+    })
+)
+
+export { transactionsSelectors }
 
 // ------------------------------------
 // Reducer
@@ -226,7 +263,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   transactionLoading: false,
   transactions: [],
-  transactionsSending: []
+  transactionsSending: [],
 }
 
 export default function transactionReducer(state = initialState, action) {

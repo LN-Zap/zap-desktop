@@ -3,11 +3,11 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass'
 import { Heading } from 'components/UI'
-import { CreateWalletButton } from '.'
+import CreateWalletButton from './CreateWalletButton'
 import messages from './messages'
 
 const NoWallets = ({ history, wallets }) => (
-  <Flex flexDirection="column" justifyContent="center" alignItems="center" css={{ height: '100%' }}>
+  <Flex alignItems="center" css={{ height: '100%' }} flexDirection="column" justifyContent="center">
     {wallets.length === 0 ? (
       <>
         <Heading.h4>
@@ -22,14 +22,14 @@ const NoWallets = ({ history, wallets }) => (
       </>
     )}
     <Heading.h4 mt={2}>
-      <FormattedMessage {...messages.create_wallet_promot} />
+      <FormattedMessage {...messages.create_wallet_prompt} />
     </Heading.h4>
     <CreateWalletButton history={history} p={3} />
   </Flex>
 )
 NoWallets.propTypes = {
+  history: PropTypes.object.isRequired,
   wallets: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired
 }
 
 export default NoWallets

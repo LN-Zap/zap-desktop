@@ -6,8 +6,8 @@ import { appSelectors } from 'reducers/app'
 import { startActiveWallet } from 'reducers/lnd'
 import { initCurrency, initLocale } from 'reducers/locale'
 import { initWallets, walletSelectors } from 'reducers/wallet'
-import { fetchTicker } from 'reducers/ticker'
-import { fetchSuggestedNodes } from 'reducers/channels'
+import { initTickers } from 'reducers/ticker'
+import { fetchSuggestedNodes, initChannels } from 'reducers/channels'
 
 /**
  * Root component that deals with mounting the app and managing top level routing.
@@ -16,28 +16,36 @@ class Initializer extends React.Component {
   static propTypes = {
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
-    hasWallets: PropTypes.bool.isRequired,
-    isWalletOpen: PropTypes.bool.isRequired,
-    isReady: PropTypes.bool.isRequired,
-    lndConnect: PropTypes.string,
     fetchSuggestedNodes: PropTypes.func.isRequired,
-    fetchTicker: PropTypes.func.isRequired,
-    initLocale: PropTypes.func.isRequired,
+    hasWallets: PropTypes.bool,
+    initChannels: PropTypes.func.isRequired,
     initCurrency: PropTypes.func.isRequired,
-    initWallets: PropTypes.func.isRequired
+    initLocale: PropTypes.func.isRequired,
+    initTickers: PropTypes.func.isRequired,
+    initWallets: PropTypes.func.isRequired,
+    isRootReady: PropTypes.bool.isRequired,
+    isWalletOpen: PropTypes.bool,
+    lndConnect: PropTypes.string,
   }
 
   /**
    * Initialize app state.
    */
-  componentDidMount() {
-    const { fetchSuggestedNodes, fetchTicker, initLocale, initCurrency, initWallets } = this.props
-
+  async componentDidMount() {
+    const {
+      fetchSuggestedNodes,
+      initTickers,
+      initLocale,
+      initCurrency,
+      initWallets,
+      initChannels,
+    } = this.props
+    initTickers()
     initLocale()
     initCurrency()
-    fetchTicker()
-    fetchSuggestedNodes()
     initWallets()
+    initChannels()
+    fetchSuggestedNodes()
   }
 
   /**
@@ -48,14 +56,14 @@ class Initializer extends React.Component {
     const {
       activeWallet,
       activeWalletSettings,
-      isReady,
+      isRootReady,
       isWalletOpen,
       hasWallets,
-      lndConnect
+      lndConnect,
     } = this.props
 
     // still initializing - no location change
-    if (!isReady) {
+    if (!isRootReady) {
       return null
     }
 
@@ -86,17 +94,18 @@ const mapStateToProps = state => ({
   activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   hasWallets: walletSelectors.hasWallets(state),
-  isWalletOpen: state.wallet.isWalletOpen,
-  isReady: appSelectors.isReady(state)
+  isWalletOpen: walletSelectors.isWalletOpen(state),
+  isRootReady: appSelectors.isRootReady(state),
 })
 
 const mapDispatchToProps = {
   startActiveWallet,
   fetchSuggestedNodes,
-  fetchTicker,
+  initTickers,
   initCurrency,
   initLocale,
-  initWallets
+  initWallets,
+  initChannels,
 }
 
 export default connect(

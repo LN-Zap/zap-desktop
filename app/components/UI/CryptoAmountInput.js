@@ -6,8 +6,8 @@ import { asField } from 'informed'
 import * as yup from 'yup'
 import { convert } from 'lib/utils/btc'
 import { formatValue, parseNumber } from 'lib/utils/crypto'
-import Input from 'components/UI/Input'
-import withNumberInputMask from 'components/withNumberInputMask'
+import { withNumberInputMask } from 'hocs'
+import Input from './Input'
 
 /**
  * @render react
@@ -16,9 +16,11 @@ import withNumberInputMask from 'components/withNumberInputMask'
 class CryptoAmountInput extends React.Component {
   static propTypes = {
     currency: PropTypes.string.isRequired,
-    required: PropTypes.bool,
+    fieldApi: PropTypes.object.isRequired,
+    fieldState: PropTypes.object.isRequired,
+    isRequired: PropTypes.bool,
+    onBlur: PropTypes.func,
     onChange: PropTypes.func,
-    onBlur: PropTypes.func
   }
 
   /**
@@ -60,26 +62,26 @@ class CryptoAmountInput extends React.Component {
         return {
           precision: 8,
           placeholder: '0.00000000',
-          pattern: '[0-9]*.?[0-9]{0,8}?'
+          pattern: '[0-9]*.?[0-9]{0,8}?',
         }
       case 'bits':
       case 'phots':
         return {
           precision: 2,
           placeholder: '0.00',
-          pattern: '[0-9]*.?[0-9]{0,2}?'
+          pattern: '[0-9]*.?[0-9]{0,2}?',
         }
       case 'sats':
       case 'lits':
         return {
           precision: 0,
           placeholder: '00000000',
-          pattern: '[0-9]*'
+          pattern: '[0-9]*',
         }
       default:
         return {
           precision: 2,
-          pattern: '[0-9]*'
+          pattern: '[0-9]*',
         }
     }
   }
@@ -88,7 +90,7 @@ class CryptoAmountInput extends React.Component {
     const rules = this.getRules()
 
     return (
-      <Input {...this.props} type="text" placeholder={rules.placeholder} pattern={rules.pattern} />
+      <Input {...this.props} pattern={rules.pattern} placeholder={rules.placeholder} type="text" />
     )
   }
 }
@@ -96,9 +98,20 @@ class CryptoAmountInput extends React.Component {
 const CryptoAmountInputAsField = CryptoAmountInput
 
 class WrappedCryptoAmountInputAsField extends React.Component {
+  static propTypes = {
+    isDisabled: PropTypes.bool,
+    isRequired: PropTypes.bool,
+    validate: PropTypes.func,
+  }
+
+  static defaultProps = {
+    isDisabled: false,
+    isRequired: false,
+  }
+
   validate = value => {
-    const { disabled, required } = this.props
-    if (disabled) {
+    const { isDisabled, isRequired } = this.props
+    if (isDisabled) {
       return
     }
     try {
@@ -107,7 +120,7 @@ class WrappedCryptoAmountInputAsField extends React.Component {
         .positive()
         .min(0)
         .typeError('A number is required')
-      if (required) {
+      if (isRequired) {
         validator = validator.required().moreThan(0)
       }
       validator.validateSync(Number(value))

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BackgroundTertiary } from 'components/UI'
+import BackgroundTertiary from './BackgroundTertiary'
 
 /**
  * @render react
@@ -8,12 +8,12 @@ import { BackgroundTertiary } from 'components/UI'
  * <Sidebar>Some content</Sidebar>
  */
 const Sidebar = ({ ...props }) => (
-  <BackgroundTertiary as="aside" width={3 / 12} css={{ overflow: 'hidden' }} {...props} />
+  <BackgroundTertiary as="aside" css={{ overflow: 'hidden' }} width={3 / 12} {...props} />
 )
 
-Sidebar.small = props => <Sidebar {...props} width={3 / 12} />
-Sidebar.medium = props => <Sidebar {...props} width={4 / 12} />
-Sidebar.large = props => <Sidebar {...props} width={5 / 12} />
+Sidebar.small = props => <Sidebar {...props} width={4 / 16} />
+Sidebar.medium = props => <Sidebar {...props} width={5 / 16} />
+Sidebar.large = props => <Sidebar {...props} width={6 / 16} />
 
 Sidebar.small.displayName = 'Sidebar Small'
 Sidebar.medium.displayName = 'Sidebar Medium'

@@ -1,13 +1,10 @@
 import React from 'react'
 import renderer from 'react-test-renderer'
-import { configure, shallow } from 'enzyme'
-import Adapter from 'enzyme-adapter-react-16'
+import { shallow } from 'enzyme'
 import Success from 'components/Icon/Success'
 import Warning from 'components/Icon/Warning'
 import Error from 'components/Icon/Error'
 import { Notification, Spinner } from 'components/UI'
-
-configure({ adapter: new Adapter() })
 
 describe('component.UI.Notification', () => {
   it('should render correctly', () => {
@@ -38,7 +35,7 @@ describe('component.UI.Notification', () => {
 
   describe('processing', () => {
     it('should render with the spinner', () => {
-      const wrapper = shallow(<Notification processing />)
+      const wrapper = shallow(<Notification isProcessing />)
       expect(wrapper.find(Spinner)).toHaveLength(1)
     })
   })

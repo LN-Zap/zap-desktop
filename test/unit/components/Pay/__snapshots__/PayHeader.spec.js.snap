@@ -4,9 +4,9 @@ exports[`component.Pay.PayHeader generic should render correctly 1`] = `
 <Header
   align="center"
   logo={
-    <SvgPaperPlane
-      height="38px"
-      width="38px"
+    <SvgSend
+      height="45px"
+      width="45px"
     />
   }
   subtitle={

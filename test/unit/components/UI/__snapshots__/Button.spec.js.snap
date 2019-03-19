@@ -45,6 +45,7 @@ exports[`component.UI.Button should render correctly 1`] = `
 <button
   className="c0"
   color="white"
+  disabled={false}
   fontSize="inherit"
   fontWeight="bold"
 >

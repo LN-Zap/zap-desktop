@@ -5,25 +5,30 @@ import { FormattedMessage } from 'react-intl'
 import { MenuContainer, Menu, MenuItem } from 'components/UI/Dropdown'
 import messages from './messages'
 
-const SettingsMenu = ({ history, setActiveSubMenu }) => (
+const SettingsMenu = ({ history, setActiveSubMenu, openModal }) => (
   <MenuContainer>
-    <Menu>
+    <Menu justify="right">
       <MenuItem
+        hasChildren
         item={{ key: 'fiat', name: <FormattedMessage {...messages.fiat} /> }}
         onClick={() => setActiveSubMenu('fiat')}
-        hasChildren
       />
 
       <MenuItem
+        hasChildren
         item={{ key: 'locale', name: <FormattedMessage {...messages.locale} /> }}
         onClick={() => setActiveSubMenu('locale')}
-        hasChildren
       />
 
       <MenuItem
+        hasChildren
         item={{ key: 'theme', name: <FormattedMessage {...messages.theme} /> }}
         onClick={() => setActiveSubMenu('theme')}
-        hasChildren
+      />
+
+      <MenuItem
+        item={{ key: 'channels', name: <FormattedMessage {...messages.channels} /> }}
+        onClick={() => openModal('CHANNELS')}
       />
 
       <MenuItem
@@ -35,8 +40,9 @@ const SettingsMenu = ({ history, setActiveSubMenu }) => (
 )
 
 SettingsMenu.propTypes = {
+  history: PropTypes.object.isRequired,
+  openModal: PropTypes.func.isRequired,
   setActiveSubMenu: PropTypes.func.isRequired,
-  history: PropTypes.object.isRequired
 }
 
 export default withRouter(SettingsMenu)

@@ -6,19 +6,19 @@ import messages from './messages'
 
 const Theme = ({ currentTheme, disableSubMenu, setTheme, themes }) => (
   <MenuContainer>
-    <Menu>
+    <Menu justify="right">
       <MenuItem
-        item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
-        onClick={disableSubMenu}
         bg="primaryColor"
         hasParent
+        item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
+        onClick={disableSubMenu}
       />
       {Object.keys(themes).map(theme => (
         <MenuItem
           key={theme}
+          active={currentTheme === theme}
           item={{ key: theme, name: <FormattedMessage {...messages[theme]} /> }}
           onClick={() => setTheme(theme)}
-          active={currentTheme === theme}
         />
       ))}
     </Menu>
@@ -29,7 +29,7 @@ Theme.propTypes = {
   currentTheme: PropTypes.string.isRequired,
   disableSubMenu: PropTypes.func.isRequired,
   setTheme: PropTypes.func.isRequired,
-  themes: PropTypes.object.isRequired
+  themes: PropTypes.object.isRequired,
 }
 
 export default Theme

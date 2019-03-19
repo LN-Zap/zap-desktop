@@ -2,15 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Radio as InformedRadio } from 'informed'
 import styled from 'styled-components'
-import { Label, Text } from 'components/UI'
 import { Box } from 'rebass'
+import Label from './Label'
+import Text from './Text'
 
 const Wrapper = styled(Box)`
   /* The container */
   .container {
     display: block;
     position: relative;
-    padding-left: 30px;
     cursor: pointer;
     user-select: none;
   }
@@ -67,22 +67,33 @@ const Wrapper = styled(Box)`
 `
 const Radio = ({ value, label, description, fontWeight, onChange, onBlur, ...rest }) => (
   <Wrapper>
-    <Label htmlFor={value} className="container" fontWeight="light" mb={3} {...rest}>
+    <Label
+      className="container"
+      fontWeight="light"
+      htmlFor={value}
+      mb={3}
+      pl={label || description ? 30 : 0}
+      {...rest}
+    >
       <Text>{label}</Text>
-      <InformedRadio value={value} id={value} onChange={onChange} onBlur={onBlur} />
+      <InformedRadio id={value} onBlur={onBlur} onChange={onChange} value={value} />
       <span className="selection" />
       {description && (
-        <Text mt={2} color="gray">
+        <Text color="gray" mt={2}>
           {description}
         </Text>
       )}
     </Label>
   </Wrapper>
 )
+
 Radio.propTypes = {
-  value: PropTypes.string.isRequired,
+  description: PropTypes.node,
+  fontWeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.node,
-  description: PropTypes.node
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  value: PropTypes.string.isRequired,
 }
 
 export default Radio

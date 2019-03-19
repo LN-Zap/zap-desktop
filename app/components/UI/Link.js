@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Text } from 'components/UI'
+import Text from './Text'
 
 /**
  * @render react
@@ -12,7 +12,7 @@ class Link extends React.PureComponent {
   static displayName = 'Link'
 
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   render() {

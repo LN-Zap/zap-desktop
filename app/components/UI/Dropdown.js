@@ -2,12 +2,13 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
+import { opacity } from 'styled-system'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
 import Check from 'components/Icon/Check'
-import Text from 'components/UI/Text'
+import Text from './Text'
 
 /**
  * Container
@@ -16,13 +17,14 @@ const DropdownContainer = styled(Flex)({})
 DropdownContainer.defaultProps = {
   flexDirection: 'column',
   flexWrap: 'none',
-  position: 'relative'
+  position: 'relative',
 }
 
 /**
  * Button
  */
-const DropdownButton = styled(Box)({
+const ButtonBox = styled(Box)(opacity)
+const DropdownButton = styled(ButtonBox)({
   appearance: 'none',
   display: 'inline-block',
   textAlign: 'center',
@@ -32,41 +34,43 @@ const DropdownButton = styled(Box)({
   outline: 'none',
   background: 'transparent',
   color: 'inherit',
-  cursor: 'pointer'
+  cursor: 'pointer',
 })
 DropdownButton.defaultProps = {
   as: 'button',
   m: 0,
   p: 0,
   textAlign: 'left',
-  justify: 'left'
+  justify: 'left',
 }
 
 /**
  * Menu
  */
-export const MenuContainer = styled(Box)({
-  position: 'relative'
-})
+export const MenuContainer = styled(Box)`
+  position: relative;
+`
 
-export const Menu = styled(Box)({
-  cursor: 'pointer',
-  display: 'inline-block',
-  position: 'absolute',
-  'z-index': '40',
-  'min-width': '70px',
-  'max-height': '300px',
-  'overflow-y': 'auto',
-  'list-style-type': 'none',
-  'border-radius': '3px',
-  'box-shadow': '0 3px 4px 0 rgba(30, 30, 30, 0.5)'
-})
+export const Menu = styled(Box)`
+  cursor: pointer;
+  display: inline-block;
+  position: absolute;
+  z-index: 40;
+  min-width: 70px;
+  max-height: 300px;
+  overflow-y: auto;
+  list-style-type: none;
+  border-radius: 3px;
+  box-shadow: 0 3px 4px 0 rgba(30, 30, 30, 0.5);
+  right: ${props => (props.justify === 'right' ? 0 : null)};
+`
+
 Menu.defaultProps = {
   as: 'ul',
   m: 0,
   mt: 1,
   p: 0,
-  bg: 'secondaryColor'
+  bg: 'secondaryColor',
 }
 
 /**
@@ -75,35 +79,35 @@ Menu.defaultProps = {
 export const MenuItem = withTheme(
   ({ item, onClick, active, theme, hasParent, hasChildren, ...rest }) => (
     <Text
+      key={item.key}
       as="li"
-      px={2}
-      py={2}
       css={{
         cursor: 'pointer',
         'white-space': 'nowrap',
         '&:hover': {
-          'background-color': theme.colors.primaryColor
-        }
+          'background-color': theme.colors.primaryColor,
+        },
       }}
-      key={item.key}
       onClick={() => onClick(item.key)}
+      px={2}
+      py={2}
       {...rest}
     >
       <Flex alignItems="center" pr={2}>
         {hasParent && (
-          <Flex alignItems="center" width="20px" color="gray">
-            <AngleLeft />
+          <Flex alignItems="center" color="gray" width="20px">
+            <AngleLeft height="8px" />
           </Flex>
         )}
         {!hasParent && (
-          <Text width="20px" textAlign="center" color="superGreen">
+          <Text color="superGreen" textAlign="center" width="20px">
             {active && <Check height="0.95em" />}
           </Text>
         )}
         <Text mr={2}>{item.name}</Text>
 
-        <Flex alignItems="center" justifyContent="flex-end" width="20px" color="gray" ml="auto">
-          {hasChildren && <AngleRight />}
+        <Flex alignItems="center" color="gray" justifyContent="flex-end" ml="auto" width="20px">
+          {hasChildren && <AngleRight height="8px" />}
         </Flex>
       </Flex>
     </Text>
@@ -121,13 +125,16 @@ export const MenuItem = withTheme(
  */
 class Dropdown extends React.Component {
   state = {
-    isOpen: false
+    isOpen: false,
   }
 
   static propTypes = {
     activeKey: PropTypes.string.isRequired,
+    buttonOpacity: PropTypes.number,
     items: PropTypes.array.isRequired,
-    onChange: PropTypes.func
+    justify: PropTypes.string,
+    onChange: PropTypes.func,
+    theme: PropTypes.object.isRequired,
   }
 
   componentDidMount() {
@@ -165,13 +172,13 @@ class Dropdown extends React.Component {
 
   render() {
     const { isOpen } = this.state
-    let { activeKey, items, justify, theme, ...rest } = this.props
+    let { activeKey, items, justify, theme, buttonOpacity, ...rest } = this.props
     // coerce array of strings into array of objects.
     items = items.map(item => {
       if (typeof item === 'string') {
         return {
           name: item,
-          key: item
+          key: item,
         }
       }
       return item
@@ -180,24 +187,24 @@ class Dropdown extends React.Component {
     return (
       <div style={{ display: 'inline-block' }}>
         <DropdownContainer ref={this.setWrapperRef} {...rest}>
-          <DropdownButton type="button" onClick={this.toggleMenu}>
+          <DropdownButton onClick={this.toggleMenu} opacity={buttonOpacity} type="button">
             <Flex alignItems="center">
-              <Text textAlign="left" mr={1}>
+              <Text mr={1} textAlign="left">
                 {selectedItem ? selectedItem.name : activeKey}{' '}
               </Text>
-              {isOpen ? <AngleUp width="0.7em" /> : <AngleDown width="0.7em" />}
+              {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
             </Flex>
           </DropdownButton>
           {isOpen && (
             <MenuContainer>
-              <Menu css={justify === 'right' ? { right: 0 } : null}>
+              <Menu justify={justify}>
                 {items.map(item => {
                   return (
                     <MenuItem
                       key={item.key}
+                      active={activeKey === item.key}
                       item={item}
                       onClick={() => this.handleClick(item.key)}
-                      active={activeKey === item.key}
                     />
                   )
                 })}

@@ -3,21 +3,24 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { Box } from 'rebass'
 import {
+  Button,
+  Checkbox,
   CryptoAmountInput,
   FiatAmountInput,
-  Page,
-  MainContent,
   Form,
   Input,
   Label,
   LightningInvoiceInput,
-  Select,
-  TextArea,
-  Button,
-  Toggle,
+  LndConnectionStringInput,
+  NodePubkeyInput,
+  MainContent,
+  Page,
   Radio,
   RadioGroup,
-  Range
+  Range,
+  Select,
+  TextArea,
+  Toggle,
 } from 'components/UI'
 
 const validate = value => {
@@ -25,12 +28,12 @@ const validate = value => {
 }
 
 const selectItems = [
-  { label: '- Please select -', value: '' },
-  { label: 'Apple', value: 'apple' },
-  { value: 'pear' },
-  { value: 'orange' },
-  { value: 'grape' },
-  { value: 'banana' }
+  { value: '- Please select -', key: '' },
+  { value: 'Apple', key: 'apple' },
+  { value: 'Pear', key: 'pear' },
+  { value: 'Orange', key: 'orange' },
+  { value: 'Grape', key: 'grape' },
+  { value: 'Banana', key: 'banana' },
 ]
 
 storiesOf('Forms', module)
@@ -44,32 +47,38 @@ storiesOf('Forms', module)
       </Form>
       <Form mb={4}>
         <Input
+          description="This field also has a description."
           field="fieldName"
           id="field-name"
           label="Field with Label and description"
-          description="This field also has a description."
         />
       </Form>
       <Form mb={4}>
         <Input
           field="fieldName"
           id="field-name"
+          isRequired
           label="Required field"
-          required
           validateOnBlur
           validateOnChange
         />
       </Form>
       <Form mb={4}>
-        <Input field="fieldName" id="field-name" label="Disabled field" disabled />
+        <Input field="fieldName" id="field-name" label="Search field" type="search" />
+      </Form>
+      <Form mb={4}>
+        <Input field="fieldName" id="field-name" label="Password field" type="password" />
+      </Form>
+      <Form mb={4}>
+        <Input field="fieldName" id="field-name" isDisabled label="Disabled field" />
       </Form>
       <Form mb={4}>
         <Input
           field="fieldName"
           id="field-name"
-          label="Read only field"
-          readOnly
           initialValue="This is a read only field"
+          isReadOnly
+          label="Read only field"
         />
       </Form>
     </>
@@ -84,32 +93,32 @@ storiesOf('Forms', module)
       </Form>
       <Form mb={4}>
         <TextArea
+          description="This field also has a description."
           field="fieldName"
           id="field-name"
           label="TextArea with Label and description"
-          description="This field also has a description."
         />
       </Form>
       <Form mb={4}>
         <TextArea
           field="fieldName"
           id="field-name"
+          isRequired
           label="Required field"
-          required
           validateOnBlur
           validateOnChange
         />
       </Form>
       <Form mb={4}>
-        <TextArea field="fieldName" id="field-name" label="Disabled field" disabled />
+        <TextArea field="fieldName" id="field-name" isDisabled label="Disabled field" />
       </Form>
       <Form mb={4}>
         <TextArea
           field="fieldName"
           id="field-name"
-          label="Read only field"
-          readOnly
           initialValue="This is a read only field"
+          isReadOnly
+          label="Read only field"
         />
       </Form>
     </>
@@ -122,35 +131,35 @@ storiesOf('Forms', module)
   .add('CryptoAmountInput', () => (
     <Form>
       <Box my={4}>
-        <CryptoAmountInput field="cryptoBtc" currency="btc" width={150} label="BTC" />
+        <CryptoAmountInput currency="btc" field="cryptoBtc" label="BTC" width={150} />
       </Box>
 
       <Box my={4}>
-        <CryptoAmountInput field="cryptoBits" currency="bits" width={150} label="Bits" />
+        <CryptoAmountInput currency="bits" field="cryptoBits" label="Bits" width={150} />
       </Box>
 
       <Box my={4}>
-        <CryptoAmountInput field="cryptoSats" currency="sats" width={150} label="Sats" />
+        <CryptoAmountInput currency="sats" field="cryptoSats" label="Sats" width={150} />
       </Box>
     </Form>
   ))
   .add('FiatAmountInput', () => (
     <Form>
       <Box my={4}>
-        <FiatAmountInput field="fiat" currency="usd" width={150} label="USD" />
+        <FiatAmountInput currency="usd" field="fiat" label="USD" width={150} />
       </Box>
     </Form>
   ))
-  .add('Lightning Invoice Textarea', () => (
+  .add('Lightning Invoice', () => (
     <React.Fragment>
       <Box my={4}>
         <Form id="testnet">
           <LightningInvoiceInput
             chain="bitcoin"
-            network="testnet"
             field="testnet"
             id="testnet"
             label="Bitcoin or Lightning address (testnet)"
+            network="testnet"
             validateOnBlur
             validateOnChange
           />
@@ -160,16 +169,40 @@ storiesOf('Forms', module)
         <Form id="testnet">
           <LightningInvoiceInput
             chain="bitcoin"
-            network="mainnet"
             field="mainnet"
             id="mainnet"
             label="Bitcoin or Lightning address (mainnet)"
+            network="mainnet"
             validateOnBlur
             validateOnChange
           />
         </Form>
       </Box>
     </React.Fragment>
+  ))
+  .add('Lnd Connection String', () => (
+    <Form>
+      <LndConnectionStringInput
+        field="connectionString"
+        id="connectionString"
+        label="Connection String"
+        validateOnBlur
+        validateOnChange
+      />
+    </Form>
+  ))
+  .add('Node Pubkey', () => (
+    <Box>
+      <Form>
+        <NodePubkeyInput
+          field="pubkey"
+          id="pubkey"
+          label="Node Pubkey"
+          validateOnBlur
+          validateOnChange
+        />
+      </Form>
+    </Box>
   ))
   .add('Select', () => (
     <Form>
@@ -179,9 +212,9 @@ storiesOf('Forms', module)
   .add('Radio', () => (
     <Form>
       <RadioGroup field="radio">
-        <Radio value="item1" label="Item 1" description="Radio buttons" />
-        <Radio value="item2" label="Item 2" description="can have an optional title" />
-        <Radio value="item3" label="Item 3" description="and description" />
+        <Radio description="Radio buttons" label="Item 1" mb={3} value="item1" />
+        <Radio description="can have an optional title" label="Item 2" mb={3} value="item2" />
+        <Radio description="and description" label="Item 3" mb={3} value="item3" />
       </RadioGroup>
     </Form>
   ))
@@ -192,7 +225,41 @@ storiesOf('Forms', module)
   ))
   .add('Range', () => (
     <Form>
-      <Range initialValue={25} field="range" />
+      <Range field="range" initialValue={25} />
+    </Form>
+  ))
+  .add('Checkbox', () => (
+    <Form>
+      <Label htmlFor="checkbox">Unchecked</Label>
+      <Checkbox description="Lightning is a layer 2 scaling solution" field="checkbox" />
+      <Label htmlFor="checkbox2" mt={4}>
+        Checked
+      </Label>
+      <Checkbox
+        field="checkbox2"
+        isChecked
+        label="I agree that Zap is the best lightning wallet"
+        mt={2}
+      />
+      <Label htmlFor="checkbox3" mt={4}>
+        Disabled
+      </Label>
+      <Checkbox
+        field="checkbox3"
+        isChecked
+        isDisabled
+        label="I agree that Zap is the best lightning wallet"
+        mt={2}
+      />
+      <Label htmlFor="checkbox4" mt={4}>
+        With description
+      </Label>
+      <Checkbox
+        description="Lightning is a layer 2 scaling solution"
+        field="checkbox4"
+        label="I agree that Zap is the best lightning wallet"
+        mt={2}
+      />
     </Form>
   ))
   .add('Example form', () => (
@@ -216,8 +283,8 @@ storiesOf('Forms', module)
               <Box my={4}>
                 <TextArea
                   field="textarea1"
-                  placeholder="Type here"
                   label="Example TextArea"
+                  placeholder="Type here"
                   validate={validate}
                   validateOnBlur
                   validateOnChange
@@ -227,10 +294,10 @@ storiesOf('Forms', module)
               <Box my={4}>
                 <LightningInvoiceInput
                   chain="bitcoin"
-                  network="testnet"
                   field="testnet"
                   id="testnet"
                   label="Bitcoin or Lightning address (testnet)"
+                  network="testnet"
                   validateOnBlur
                   validateOnChange
                 />
@@ -238,10 +305,20 @@ storiesOf('Forms', module)
               <Box>
                 <LightningInvoiceInput
                   chain="bitcoin"
-                  network="mainnet"
                   field="mainnet"
                   id="mainnet"
                   label="Bitcoin or Lightning address (mainnet)"
+                  network="mainnet"
+                  validateOnBlur
+                  validateOnChange
+                />
+              </Box>
+
+              <Box my={4}>
+                <NodePubkeyInput
+                  field="pubkey"
+                  id="pubkey"
+                  label="Node Pubkey"
                   validateOnBlur
                   validateOnChange
                 />
@@ -266,9 +343,14 @@ storiesOf('Forms', module)
 
               <Box my={4}>
                 <RadioGroup field="radio">
-                  <Radio value="item1" label="Item 1" description="Radio buttons" />
-                  <Radio value="item2" label="Item 2" description="can have an optional title" />
-                  <Radio value="item3" label="Item 3" description="and description" />
+                  <Radio description="Radio buttons" label="Item 1" mb={3} value="item1" />
+                  <Radio
+                    description="can have an optional title"
+                    label="Item 2"
+                    mb={3}
+                    value="item2"
+                  />
+                  <Radio description="and description" label="Item 3" mb={3} value="item3" />
                 </RadioGroup>
               </Box>
 
@@ -279,7 +361,7 @@ storiesOf('Forms', module)
                   </Label>
                 </Box>
                 <Box>
-                  <Toggle field="checkbox1" onChange={action('change')} label="Example Toggle" />
+                  <Toggle field="checkbox1" label="Example Toggle" onChange={action('change')} />
                 </Box>
               </Box>
 
@@ -291,6 +373,20 @@ storiesOf('Forms', module)
                 </Box>
                 <Box>
                   <Range field="slider1" initialValue={25} onChange={action('change')} />
+                </Box>
+              </Box>
+
+              <Box my={4}>
+                <Box>
+                  <Label htmlFor="checkbox2" mb={2}>
+                    Example Checkbox
+                  </Label>
+                </Box>
+                <Box>
+                  <Checkbox
+                    field="checkbox2"
+                    label="I agree that Zap is the best lightning wallet"
+                  />
                 </Box>
               </Box>
 

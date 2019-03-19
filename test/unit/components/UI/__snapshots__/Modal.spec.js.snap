@@ -2,19 +2,9 @@
 
 exports[`component.UI.Modal should render correctly 1`] = `
 .c1 {
-  padding: 16px;
-}
-
-.c3 {
-  margin-left: auto;
-  padding: 8px;
-  height: 40px;
-  cursor: pointer;
-  opacity: 0.6;
-}
-
-.c3:hover {
-  opacity: 1;
+  padding-top: 16px;
+  padding-left: 16px;
+  padding-right: 16px;
 }
 
 .c4 {
@@ -29,15 +19,9 @@ exports[`component.UI.Modal should render correctly 1`] = `
 }
 
 .c0 {
-  width: 100%;
   color: primaryText;
   background-color: primaryColor;
-  z-index: 999;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  height: 100%;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -52,16 +36,26 @@ exports[`component.UI.Modal should render correctly 1`] = `
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-  -ms-flex-pack: justify;
-  justify-content: space-between;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+  -ms-flex-pack: end;
+  justify-content: flex-end;
+}
+
+.c3 {
+  padding: 8px;
+  height: 40px;
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.c3:hover: {
+  opacity: 1;
 }
 
 <article
   className="c0"
   color="primaryText"
-  width={1}
 >
   <header
     className="c1"
@@ -98,8 +92,6 @@ exports[`component.UI.Modal should render correctly 1`] = `
   </header>
   <section
     className="c4"
-  >
-     
-  </section>
+  />
 </article>
 `;

@@ -2,24 +2,29 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from 'lib/utils/crypto'
+import get from 'lodash.get'
 import { convert } from 'lib/utils/btc'
 import {
   Bar,
-  CurrencyFieldGroup,
   Form,
   Message,
-  Label,
   LightningInvoiceInput,
   Panel,
   Text,
-  Value
+  TransactionFeeInput,
 } from 'components/UI'
-
+import { CurrencyFieldGroup, CryptoValue } from 'containers/UI'
+import PaySummaryLightning from 'containers/Pay/PaySummaryLightning'
+import PaySummaryOnChain from 'containers/Pay/PaySummaryOnChain'
 import PayButtons from './PayButtons'
 import PayHeader from './PayHeader'
-import { PaySummaryLightning, PaySummaryOnChain } from '.'
+import {
+  TRANSACTION_SPEED_SLOW,
+  TRANSACTION_SPEED_MEDIUM,
+  TRANSACTION_SPEED_FAST,
+} from './constants'
 import messages from './messages'
 
 /**
@@ -30,7 +35,7 @@ const ShowHidePayReq = Keyframes.Spring({
   big: async (next, cancel, ownProps) => {
     ownProps.context.focusPayReqInput()
     await next({ height: 110, immediate: true })
-  }
+  },
 })
 
 /**
@@ -38,7 +43,7 @@ const ShowHidePayReq = Keyframes.Spring({
  */
 const ShowHideButtons = Keyframes.Spring({
   show: { opacity: 1 },
-  hide: { opacity: 0 }
+  hide: { opacity: 0 },
 })
 
 /**
@@ -51,7 +56,7 @@ const ShowHideAmount = Keyframes.Spring({
     await next({ opacity: 1, height: 'auto' })
   },
   hide: { opacity: 0, height: 0, display: 'none' },
-  remove: { opacity: 0, height: 0, display: 'none', immediate: true }
+  remove: { opacity: 0, height: 0, display: 'none', immediate: true },
 })
 
 /**
@@ -59,69 +64,52 @@ const ShowHideAmount = Keyframes.Spring({
  */
 class Pay extends React.Component {
   static propTypes = {
-    /** The currently active chain (bitcoin, litecoin etc) */
     chain: PropTypes.string.isRequired,
+    /** The currently active chain (bitcoin, litecoin etc) */
+    changeFilter: PropTypes.func.isRequired,
     /** The currently active chain (mainnet, testnet) */
-    network: PropTypes.string.isRequired,
-    /** Human readable chain name */
-    cryptoName: PropTypes.string.isRequired,
-    /** Current channel balance (in satoshis). */
     channelBalance: PropTypes.number.isRequired,
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
-    /** Currently selected cryptocurrency (key). */
+    /** Human readable chain name */
+    closeModal: PropTypes.func.isRequired,
+    /** Current channel balance (in satoshis). */
     cryptoCurrency: PropTypes.string.isRequired,
-    /** Ticker symbol of the currently selected cryptocurrency. */
+    /** Currently selected cryptocurrency (key). */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** List of supported fiat currencies. */
-    fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
+    /** Ticker symbol of the currently selected cryptocurrency. */
+    cryptoName: PropTypes.string.isRequired,
     /** Amount value to populate the amountCrypto field with when the form first loads. */
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Amount value to populate the amountFiat field with when the form first loads. */
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
-    isProcessing: PropTypes.bool,
-    /** Boolean indicating wether fee information is currently being fetched. */
-    isQueryingFees: PropTypes.bool,
-    /** Boolean indicating wether routing information is currently being fetched. */
-    isQueryingRoutes: PropTypes.bool,
-    /** List of known nodes */
-    nodes: PropTypes.array,
+    intl: intlShape.isRequired,
     /** Current fee information as provided by bitcoinfees.earn.com */
+    isProcessing: PropTypes.bool,
+    isQueryingFees: PropTypes.bool,
+    /** Payment request to load into the form. */
+    network: PropTypes.string.isRequired,
+    /** Routing information */
     onchainFees: PropTypes.shape({
       fastestFee: PropTypes.number,
       halfHourFee: PropTypes.number,
-      hourFee: PropTypes.number
+      hourFee: PropTypes.number,
     }),
-    /** Payment request to load into the form. */
-    payReq: PropTypes.string,
-    /** Routing information */
-    routes: PropTypes.array,
     /** Current wallet balance (in satoshis). */
-    walletBalance: PropTypes.number.isRequired,
-    /** Method to process offChain invoice payments. Called when the form is submitted. */
     payInvoice: PropTypes.func.isRequired,
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired,
-    /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired,
-    /** Set the current payment request. */
-    setPayReq: PropTypes.func.isRequired,
-    /** Method to process onChain transactions. Called when the form is submitted. */
-    sendCoins: PropTypes.func.isRequired,
-    /** Method to fetch fee information for onchain transactions. */
+
+    /** Payment request to load into the form. */
+    payReq: PropTypes.object,
+    /** Method to close the current modal */
     queryFees: PropTypes.func.isRequired,
+    queryRoutes: PropTypes.func.isRequired,
+    /** Method to process offChain invoice payments. Called when the form is submitted. */
+    routes: PropTypes.array,
+    /** Set the current payment request. */
+    sendCoins: PropTypes.func.isRequired,
+    /** Method to process onChain transactions. Called when the form is submitted. */
+    setPayReq: PropTypes.func.isRequired,
     /** Method to collect route information for lightning invoices. */
-    queryRoutes: PropTypes.func.isRequired
+    walletBalance: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
@@ -129,58 +117,48 @@ class Pay extends React.Component {
     initialAmountCrypto: null,
     initialAmountFiat: null,
     isProcessing: false,
-    isQueryingFees: false,
-    isQueryingRoutes: false,
-    nodes: [],
     onchainFees: {},
-    routes: []
+    routes: [],
   }
 
   state = {
     currentStep: 'address',
-    initialPayReq: null,
     previousStep: null,
+    isPayReqSetOnMount: false,
     isLn: null,
-    isOnchain: null
+    isOnchain: null,
   }
 
   amountInput = React.createRef()
   payReqInput = React.createRef()
 
+  // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
   componentDidMount() {
-    const { payReq, setPayReq } = this.props
-    // If we mount with a payReq, set it in the state in order to trigger form submission once the form is loaded..
-    // See componentDidUpdate().
+    const { payReq, queryFees } = this.props
     if (payReq) {
-      this.setState({ initialPayReq: payReq })
-
-      // Clear payReq now that it has been applied.
-      setPayReq(null)
+      this.setState({ isPayReqSetOnMount: true })
     }
+    queryFees()
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { setPayReq, payReq, queryRoutes } = this.props
-    const { currentStep, initialPayReq, invoice, isOnchain } = this.state
+    const { payReq, queryRoutes } = this.props
+    const { currentStep, isPayReqSetOnMount, invoice, isOnchain } = this.state
 
-    // If initialPayReq was been set in the state when the component mounted, reset the form and submit as new.
-    if (initialPayReq && initialPayReq !== prevState.initialPayReq) {
-      this.formApi.reset()
-      this.formApi.setValue('payReq', initialPayReq)
-      this.handlePayReqChange()
+    const { address, amount } = payReq || {}
+    const { payReq: prevPayReq } = prevProps || {}
+    const { address: prevAddress, amount: prevAmount } = prevPayReq || {}
 
-      // Clear payReq now that it has been applied.
-      setPayReq(null)
+    // If isPayReqSetOnMount was set in the when the component mounted, reset the form and submit as new.
+    if (isPayReqSetOnMount && isPayReqSetOnMount !== prevState.isPayReqSetOnMount) {
+      return this.autoFillForm(address, amount)
     }
 
-    // If payReq has changed, reset the form and submit as new.
-    if (payReq && payReq !== prevProps.payReq) {
-      this.formApi.reset()
-      this.formApi.setValue('payReq', payReq)
-      this.handlePayReqChange()
-
-      // Clear payReq now that it has been applied.
-      setPayReq(null)
+    // If payReq address or amount has has changed update the relevant form values.
+    const isChangedAddress = address !== prevAddress
+    const isChangedAmount = amount !== prevAmount
+    if (isChangedAddress || isChangedAmount) {
+      return this.autoFillForm(address, amount)
     }
 
     // If we have gone back to the address step, unmark all fields from being touched.
@@ -192,31 +170,81 @@ class Pay extends React.Component {
       }
     }
 
-    // If we now have a valid onchain address, trigger the form submit.
-    if (isOnchain && isOnchain !== prevState.isOnchain) {
+    // If we now have a valid onchain address, trigger the form submit to move to the amount step.
+    const isNowOnchain = isOnchain && isOnchain !== prevState.isOnchain
+    if (currentStep === 'address' && isNowOnchain) {
       this.formApi.submitForm()
     }
 
     // If we now have a valid lightning invoice, call queryRoutes and submit the form.
-    if (invoice && invoice !== prevState.invoice) {
+    const isNowLightning = invoice && invoice !== prevState.invoice
+    if (currentStep === 'address' && isNowLightning) {
       this.formApi.submitForm()
       const { payeeNodeKey } = invoice
       queryRoutes(payeeNodeKey, this.amountInSats())
     }
   }
 
+  componentWillUnmount() {
+    const { setPayReq } = this.props
+    setPayReq(null)
+  }
+
+  /**
+   * Autofill the form and submit to the latest possible point.
+   */
+  autoFillForm = (address, amount) => {
+    if (address && amount) {
+      this.setState({ currentStep: 'address' }, () => {
+        this.formApi.reset()
+        this.formApi.setValue('payReq', address)
+        this.formApi.setValue('amountCrypto', amount)
+        this.formApi.submitForm()
+      })
+    } else if (address) {
+      this.setState({ currentStep: 'address' }, () => {
+        this.formApi.reset()
+        this.formApi.setValue('payReq', address)
+      })
+    }
+  }
+
+  /**
+   * Get the current per byte fee based on the form values.
+   */
+  getFee = () => {
+    const formState = this.formApi.getState()
+    const { speed } = formState.values
+    return this.getFeeRate(speed)
+  }
+
+  getFeeRate = speed => {
+    const { onchainFees } = this.props
+
+    switch (speed) {
+      case TRANSACTION_SPEED_SLOW:
+        return get(onchainFees, 'hourFee', null)
+      case TRANSACTION_SPEED_MEDIUM:
+        return get(onchainFees, 'halfHourFee', null)
+      case TRANSACTION_SPEED_FAST:
+        return get(onchainFees, 'fastestFee', null)
+    }
+  }
+
   amountInSats = () => {
     const { isLn, isOnchain, invoice } = this.state
     const { cryptoCurrency } = this.props
+    const amount = this.formApi.getValue('amountCrypto')
+
     if (isLn && invoice) {
       const { satoshis, millisatoshis } = invoice
       return (
         satoshis ||
         convert('msats', 'sats', millisatoshis) ||
-        convert(cryptoCurrency, 'sats', this.formApi.getValue('amountCrypto'))
+        convert(cryptoCurrency, 'sats', amount)
       )
     } else if (isOnchain) {
-      return convert(cryptoCurrency, 'sats', this.formApi.getValue('amountCrypto'))
+      return convert(cryptoCurrency, 'sats', amount)
     }
   }
 
@@ -226,21 +254,31 @@ class Pay extends React.Component {
    */
   onSubmit = values => {
     const { currentStep, isOnchain } = this.state
-    const { cryptoCurrency, onchainFees, payInvoice, routes, sendCoins } = this.props
+    const { cryptoCurrency, payInvoice, routes, sendCoins, changeFilter, closeModal } = this.props
     if (currentStep === 'summary') {
       if (isOnchain) {
-        return sendCoins({
+        // Determine the fee rate to use.
+        const satPerByte = this.getFee()
+
+        // Send the coins.
+        sendCoins({
           addr: values.payReq,
           value: values.amountCrypto,
           currency: cryptoCurrency,
-          satPerByte: onchainFees.fastestFee
+          satPerByte: satPerByte,
         })
+        // Close the form modal once the transaction has been sent
+        changeFilter('ALL_ACTIVITY')
+        closeModal()
       } else {
-        return payInvoice({
+        payInvoice({
           payReq: values.payReq,
           amt: this.amountInSats(),
-          feeLimit: getMaxFee(routes)
+          feeLimit: getMaxFee(routes),
         })
+        // Close the form modal once the payment has been sent
+        changeFilter('ALL_ACTIVITY')
+        closeModal()
       }
     } else {
       this.nextStep()
@@ -318,14 +356,13 @@ class Pay extends React.Component {
   /**
    * Set isLn/isOnchain state based on payReq value.
    */
-  handlePayReqChange = () => {
+  handlePayReqChange = payReq => {
     const { chain, network } = this.props
-    const payReq = this.formApi.getValue('payReq')
     const state = {
       currentStep: 'address',
       isLn: null,
       isOnchain: null,
-      invoice: null
+      invoice: null,
     }
 
     // See if the user has entered a valid lightning payment request.
@@ -349,42 +386,6 @@ class Pay extends React.Component {
     this.setState(state)
   }
 
-  /**
-   * set the amountFiat field whenever the crypto amount changes.
-   */
-  handleAmountCryptoChange = e => {
-    const { cryptoCurrency, currentTicker, fiatCurrency } = this.props
-    const lastPrice = currentTicker[fiatCurrency]
-    const value = convert(cryptoCurrency, 'fiat', e.target.value, lastPrice)
-    this.formApi.setValue('amountFiat', value)
-  }
-
-  /**
-   * set the amountCrypto field whenever the fiat amount changes.
-   */
-  handleAmountFiatChange = e => {
-    const { cryptoCurrency, currentTicker, fiatCurrency } = this.props
-    const lastPrice = currentTicker[fiatCurrency]
-    const value = convert('fiat', cryptoCurrency, e.target.value, lastPrice)
-    this.formApi.setValue('amountCrypto', value)
-  }
-
-  /**
-   * Handle changes from the crypto currency dropdown.
-   */
-  handleCryptoCurrencyChange = value => {
-    const { setCryptoCurrency } = this.props
-    setCryptoCurrency(value)
-  }
-
-  /**
-   * Handle changes from the fiat currency dropdown.
-   */
-  handleFiatCurrencyChange = value => {
-    const { setFiatCurrency } = this.props
-    setFiatCurrency(value)
-  }
-
   renderHelpText = () => {
     const { cryptoName, cryptoCurrencyTicker, payReq } = this.props
     const { currentStep, previousStep } = this.state
@@ -396,12 +397,12 @@ class Pay extends React.Component {
 
     return (
       <Transition
-        native
-        items={currentStep === 'address'}
-        from={{ opacity: 0, height: 0 }}
         enter={{ opacity: 1, height: 80 }}
-        leave={{ opacity: 0, height: 0 }}
+        from={{ opacity: 0, height: 0 }}
         initial={{ opacity: 1, height: 80 }}
+        items={currentStep === 'address'}
+        leave={{ opacity: 0, height: 0 }}
+        native
       >
         {show =>
           show &&
@@ -424,43 +425,39 @@ class Pay extends React.Component {
 
   renderAddressField = () => {
     const { currentStep, isLn } = this.state
-    const { chain, payReq, network } = this.props
+    const { chain, payReq, network, intl } = this.props
+
+    const payReq_label =
+      currentStep === 'address'
+        ? 'request_label_combined'
+        : isLn
+        ? 'request_label_offchain'
+        : 'request_label_onchain'
 
     return (
-      <Box className={currentStep !== 'summary' ? 'element-show' : 'element-hide'}>
-        <Box pb={2}>
-          <Label htmlFor="payReq" readOnly={currentStep !== 'address'}>
-            {currentStep === 'address' ? (
-              <FormattedMessage {...messages.request_label_combined} />
-            ) : isLn ? (
-              <FormattedMessage {...messages.request_label_offchain} />
-            ) : (
-              <FormattedMessage {...messages.request_label_onchain} />
-            )}
-          </Label>
-        </Box>
-
-        <ShowHidePayReq state={currentStep === 'address' || isLn ? 'big' : 'small'} context={this}>
+      <Box className={currentStep === 'summary' ? 'element-hide' : 'element-show'}>
+        <ShowHidePayReq context={this} state={currentStep === 'address' || isLn ? 'big' : 'small'}>
           {styles => (
             <React.Fragment>
               <LightningInvoiceInput
-                field="payReq"
-                name="payReq"
-                style={styles}
-                initialValue={payReq}
-                required
                 chain={chain}
-                network={network}
-                validateOnBlur
-                validateOnChange
-                onChange={this.handlePayReqChange}
-                width={1}
-                readOnly={currentStep !== 'address'}
-                forwardedRef={this.payReqInput}
                 css={{
                   resize: 'vertical',
-                  'min-height': '48px'
+                  'min-height': '48px',
                 }}
+                field="payReq"
+                forwardedRef={this.payReqInput}
+                initialValue={payReq && payReq.address}
+                isReadOnly={currentStep !== 'address'}
+                isRequired
+                label={intl.formatMessage({ ...messages[payReq_label] })}
+                name="payReq"
+                network={network}
+                onValueChange={this.handlePayReqChange}
+                style={styles}
+                validateOnBlur
+                validateOnChange
+                width={1}
               />
             </React.Fragment>
           )}
@@ -470,43 +467,41 @@ class Pay extends React.Component {
   }
 
   renderAmountFields = () => {
-    const { currentStep } = this.state
-    const {
-      cryptoCurrency,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      fiatCurrencies,
-      initialAmountCrypto,
-      initialAmountFiat,
-      setCryptoCurrency,
-      setFiatCurrency
-    } = this.props
+    const { currentStep, isOnchain } = this.state
+    const { intl, initialAmountCrypto, initialAmountFiat, isQueryingFees } = this.props
+    const fee = this.getFee()
 
     return (
       <ShowHideAmount
-        state={currentStep === 'amount' ? 'show' : currentStep === 'address' ? 'hide' : 'remove'}
         context={this}
+        state={currentStep === 'amount' ? 'show' : currentStep === 'address' ? 'hide' : 'remove'}
       >
         {styles => (
           <Box style={styles}>
-            <Bar my={3} />
+            <Bar my={3} variant="light" />
 
             <CurrencyFieldGroup
-              currentTicker={currentTicker}
-              cryptoCurrency={cryptoCurrency}
-              cryptoCurrencies={cryptoCurrencies}
-              disabled={currentStep !== 'amount'}
-              fiatCurrencies={fiatCurrencies}
-              fiatCurrency={fiatCurrency}
+              formApi={this.formApi}
               forwardedRef={this.amountInput}
               initialAmountCrypto={initialAmountCrypto}
               initialAmountFiat={initialAmountFiat}
-              setCryptoCurrency={setCryptoCurrency}
-              setFiatCurrency={setFiatCurrency}
-              formApi={this.formApi}
-              required
+              isDisabled={currentStep !== 'amount'}
+              isRequired
             />
+
+            {isOnchain && (
+              <>
+                <Bar my={3} variant="light" />
+
+                <TransactionFeeInput
+                  fee={fee}
+                  field="speed"
+                  isQueryingFees={isQueryingFees}
+                  label={intl.formatMessage({ ...messages.fee })}
+                  required
+                />
+              </>
+            )}
           </Box>
         )}
       </ShowHideAmount>
@@ -515,20 +510,7 @@ class Pay extends React.Component {
 
   renderSummary = () => {
     const { currentStep, isOnchain } = this.state
-    const {
-      cryptoCurrency,
-      cryptoCurrencyTicker,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      isQueryingFees,
-      isQueryingRoutes,
-      nodes,
-      onchainFees,
-      queryFees,
-      routes,
-      setCryptoCurrency
-    } = this.props
+    const { routes } = this.props
 
     const formState = this.formApi.getState()
     let minFee, maxFee
@@ -542,38 +524,15 @@ class Pay extends React.Component {
       const amount = this.amountInSats()
 
       if (isOnchain) {
-        return (
-          <PaySummaryOnChain
-            mt={-3}
-            amount={amount}
-            address={formState.values.payReq}
-            cryptoCurrency={cryptoCurrency}
-            cryptoCurrencyTicker={cryptoCurrencyTicker}
-            cryptoCurrencies={cryptoCurrencies}
-            currentTicker={currentTicker}
-            setCryptoCurrency={setCryptoCurrency}
-            fiatCurrency={fiatCurrency}
-            isQueryingFees={isQueryingFees}
-            onchainFees={onchainFees}
-            queryFees={queryFees}
-          />
-        )
+        return <PaySummaryOnChain address={formState.values.payReq} amount={amount} mt={-3} />
       } else if (isLn) {
         return (
           <PaySummaryLightning
-            mt={-3}
-            currentTicker={currentTicker}
-            cryptoCurrency={cryptoCurrency}
-            cryptoCurrencyTicker={cryptoCurrencyTicker}
-            cryptoCurrencies={cryptoCurrencies}
-            fiatCurrency={fiatCurrency}
-            isQueryingRoutes={isQueryingRoutes}
-            minFee={minFee}
-            maxFee={maxFee}
-            nodes={nodes}
-            payReq={formState.values.payReq}
             amount={amount}
-            setCryptoCurrency={setCryptoCurrency}
+            maxFee={maxFee}
+            minFee={minFee}
+            mt={-3}
+            payReq={formState.values.payReq}
           />
         )
       }
@@ -581,12 +540,12 @@ class Pay extends React.Component {
 
     return (
       <Transition
-        native
-        items={currentStep === 'summary'}
-        from={{ opacity: 0, height: 0 }}
         enter={{ opacity: 1, height: 'auto' }}
-        leave={{ opacity: 0, height: 0 }}
+        from={{ opacity: 0, height: 0 }}
         initial={{ opacity: 1, height: 'auto' }}
+        items={currentStep === 'summary'}
+        leave={{ opacity: 0, height: 0 }}
+        native
       >
         {show => show && (styles => <animated.div style={styles}>{render()}</animated.div>)}
       </Transition>
@@ -602,25 +561,20 @@ class Pay extends React.Component {
       chain,
       network,
       channelBalance,
+      changeFilter,
+      closeModal,
       cryptoCurrency,
       cryptoCurrencyTicker,
-      cryptoCurrencies,
-      currentTicker,
       cryptoName,
-      fiatCurrencies,
-      fiatCurrency,
       payReq,
       initialAmountCrypto,
       initialAmountFiat,
       isProcessing,
       isQueryingFees,
-      isQueryingRoutes,
       onchainFees,
       payInvoice,
       sendCoins,
       setPayReq,
-      setCryptoCurrency,
-      setFiatCurrency,
       queryFees,
       queryRoutes,
       routes,
@@ -629,16 +583,16 @@ class Pay extends React.Component {
     } = this.props
     return (
       <Form
-        width={1}
         css={{ height: '100%' }}
+        width={1}
         {...rest}
         getApi={this.setFormApi}
         onSubmit={this.onSubmit}
       >
         {({ formState }) => {
           // Deterine which buttons should be visible.
-          const showBack = currentStep !== 'address'
-          const showSubmit = currentStep !== 'address' || (isOnchain || isLn)
+          const hasBackButton = currentStep !== 'address'
+          const hasSubmitButton = currentStep !== 'address' || (isOnchain || isLn)
 
           // convert entered amount to satoshis
           let amountInSats = this.amountInSats()
@@ -658,7 +612,7 @@ class Pay extends React.Component {
               <>
                 <FormattedMessage {...messages.send} />
                 {` `}
-                <Value value={amountInSats} currency={cryptoCurrency} />
+                <CryptoValue value={amountInSats} />
                 {` `}
                 {cryptoCurrencyTicker}
               </>
@@ -675,7 +629,7 @@ class Pay extends React.Component {
                   }
                   type={isLn ? 'offchain' : isOnchain ? 'onchain' : null}
                 />
-                <Bar pt={2} />
+                <Bar mt={2} />
               </Panel.Header>
 
               <Panel.Body py={3}>
@@ -685,41 +639,41 @@ class Pay extends React.Component {
                 {this.renderSummary()}
               </Panel.Body>
               <Panel.Footer>
-                <ShowHideButtons state={showBack || showSubmit ? 'show' : 'show'}>
+                <ShowHideButtons state={hasBackButton || hasSubmitButton ? 'show' : 'show'}>
                   {styles => (
                     <Box style={styles}>
                       {currentStep === 'summary' && !hasEnoughFunds && (
-                        <Message variant="error" justifyContent="center" mb={2}>
+                        <Message justifyContent="center" mb={2} variant="error">
                           <FormattedMessage {...messages.error_not_enough_funds} />
                         </Message>
                       )}
 
                       <PayButtons
-                        disabled={
+                        hasBackButton={hasBackButton}
+                        hasSubmitButton={hasSubmitButton}
+                        isDisabled={
                           formState.pristine ||
                           formState.invalid ||
                           isProcessing ||
                           (currentStep === 'summary' && !hasEnoughFunds)
                         }
+                        isProcessing={isProcessing}
                         nextButtonText={nextButtonText}
-                        processing={isProcessing}
-                        showBack={showBack}
-                        showSubmit={showSubmit}
                         previousStep={this.previousStep}
                       />
 
                       {walletBalance !== null && (
                         <React.Fragment>
-                          <Text textAlign="center" mt={3} fontWeight="normal">
+                          <Text fontWeight="normal" mt={3} textAlign="center">
                             <FormattedMessage {...messages.current_balance} />:
                           </Text>
-                          <Text textAlign="center" fontSize="xs">
-                            <Value value={walletBalance} currency={cryptoCurrency} />
+                          <Text fontSize="xs" textAlign="center">
+                            <CryptoValue value={walletBalance} />
                             {` `}
                             {cryptoCurrencyTicker} (onchain),
                           </Text>
-                          <Text textAlign="center" fontSize="xs">
-                            <Value value={channelBalance} currency={cryptoCurrency} />
+                          <Text fontSize="xs" textAlign="center">
+                            <CryptoValue value={channelBalance} />
                             {` `}
                             {cryptoCurrencyTicker} (in channels)
                           </Text>
@@ -737,4 +691,4 @@ class Pay extends React.Component {
   }
 }
 
-export default Pay
+export default injectIntl(Pay)

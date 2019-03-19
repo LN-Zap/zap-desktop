@@ -1,9 +1,67 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`component.UI.Header should render correctly with one button 1`] = `
+exports[`component.UI.Dialog should render correctly with custom content 1`] = `
+<Dialog
+  buttons={
+    <React.Fragment>
+      <ForwardRef
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
+        size="medium"
+        variant="primary"
+      >
+        Primary
+      </ForwardRef>
+      <ForwardRef
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
+        size="medium"
+        variant="secondary"
+      >
+        Secondary
+      </ForwardRef>
+    </React.Fragment>
+  }
+  header={
+    <ForwardRef
+      alignItems="center"
+      alignSelf="stretch"
+      flexDirection="column"
+      mb={3}
+    >
+      <SvgGlobe
+        color="white"
+        height={64}
+        width={64}
+      />
+      <Heading2>
+        Custom heading
+      </Heading2>
+    </ForwardRef>
+  }
+  onClose={[Function]}
+  width={550}
+>
+  <Styled(styled.div)
+    alignItems="center"
+    flexDirection="column"
+  >
+    <Text
+      fontSize="xl"
+    >
+      This is a custom body
+    </Text>
+  </Styled(styled.div)>
+</Dialog>
+`;
+
+exports[`component.UI.Dialog should render correctly with one button 1`] = `
 <Styled(styled.div)
-  bg="secondaryColor"
+  bg="primaryColor"
   borderRadius={5}
+  boxShadow="0 3px 4px 0 rgba(0, 0, 0, 0.5)"
   width={550}
 >
   <CloseButton
@@ -14,26 +72,33 @@ exports[`component.UI.Header should render correctly with one button 1`] = `
     alignSelf="stretch"
     flexDirection="column"
     justifyContent="center"
-    pb={60}
-    pt={30}
+    pb={4}
   >
-    <Heading2
-      mb={40}
+    <Styled(styled.div)
+      alignItems="center"
+      flexDirection="column"
+      justifyContent="flex-start"
     >
-      Title
-    </Heading2>
+      <Heading2
+        mb={4}
+      >
+        Title
+      </Heading2>
+    </Styled(styled.div)>
     <Styled(styled.div)
       alignSelf="stretch"
       flexDirection="row"
       justifyContent="space-evenly"
-      pl={40}
-      pr={40}
+      mt={4}
+      pl={6}
+      pr={6}
     >
       <Button
-        active={false}
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
         key="Ok"
         onClick={[Function]}
-        processing={false}
         size="medium"
         variant="primary"
       >
@@ -44,10 +109,11 @@ exports[`component.UI.Header should render correctly with one button 1`] = `
 </Styled(styled.div)>
 `;
 
-exports[`component.UI.Header should render correctly with two buttons 1`] = `
+exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
 <Styled(styled.div)
-  bg="secondaryColor"
+  bg="primaryColor"
   borderRadius={5}
+  boxShadow="0 3px 4px 0 rgba(0, 0, 0, 0.5)"
   width={550}
 >
   <CloseButton
@@ -58,36 +124,44 @@ exports[`component.UI.Header should render correctly with two buttons 1`] = `
     alignSelf="stretch"
     flexDirection="column"
     justifyContent="center"
-    pb={60}
-    pt={30}
+    pb={4}
   >
-    <Heading2
-      mb={40}
+    <Styled(styled.div)
+      alignItems="center"
+      flexDirection="column"
+      justifyContent="flex-start"
     >
-      Title
-    </Heading2>
+      <Heading2
+        mb={4}
+      >
+        Title
+      </Heading2>
+    </Styled(styled.div)>
     <Styled(styled.div)
       alignSelf="stretch"
       flexDirection="row"
       justifyContent="space-evenly"
-      pl={40}
-      pr={40}
+      mt={4}
+      pl={6}
+      pr={6}
     >
       <Button
-        active={false}
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
         key="Delete"
         onClick={[Function]}
-        processing={false}
         size="medium"
         variant="primary"
       >
         Delete
       </Button>
       <Button
-        active={false}
+        isActive={false}
+        isDisabled={false}
+        isProcessing={false}
         key="Cancel"
         onClick={[Function]}
-        processing={false}
         size="medium"
         variant="normal"
       >

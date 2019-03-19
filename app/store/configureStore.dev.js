@@ -19,7 +19,7 @@ export const configureStore = initialState => {
   // Logging Middleware
   const logger = createLogger({
     level: 'info',
-    collapsed: true
+    collapsed: true,
   })
   middleware.push(logger)
 
@@ -34,7 +34,7 @@ export const configureStore = initialState => {
     typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
           actionCreators: {
-            ...routerActions
+            ...routerActions,
           },
           stateSanitizer: state => {
             const { invoice, locale, network } = state
@@ -52,7 +52,7 @@ export const configureStore = initialState => {
                       invoice.r_hash = '<<R_HASH_BUFFER_DATA>>'
                       invoice.r_preimage = '<<R_PREIMAGE_BUFFER_DATA>>'
                       return invoice
-                    })
+                    }),
                   },
 
                   // Slim down the nodes list.
@@ -62,23 +62,25 @@ export const configureStore = initialState => {
                       network.nodes.length > MAX_NODES
                         ? [
                             ...network.nodes.slice(0, MAX_NODES),
-                            `<<${network.nodes.length - MAX_NODES}_MORE_NODES>>`
+                            `<<${network.nodes.length - MAX_NODES}_MORE_NODES>>`,
                           ]
                         : network.nodes,
                     edges:
                       network.edges.length > MAX_EDGES
                         ? [
                             ...network.edges.slice(0, MAX_EDGES),
-                            `<<${network.edges.length - MAX_EDGES}_MORE_NODES>>`
+                            `<<${network.edges.length - MAX_EDGES}_MORE_NODES>>`,
                           ]
-                        : network.edges
+                        : network.edges,
                   },
 
                   // Strip out translation strings.
-                  locale: Object.keys(locale).map(key => ({ [key]: `<<_LOCALE_DATA_FOR_${key}>>` }))
+                  locale: Object.keys(locale).map(key => ({
+                    [key]: `<<_LOCALE_DATA_FOR_${key}>>`,
+                  })),
                 }
               : state
-          }
+          },
         })
       : compose
   /* eslint-enable no-underscore-dangle */
@@ -91,7 +93,6 @@ export const configureStore = initialState => {
   const store = createStore(createRootReducer(history), initialState, enhancer)
 
   if (module.hot) {
-    // eslint-disable-next-line global-require
     module.hot.accept('../reducers', () => {
       store.replaceReducer(createRootReducer(history))
     })

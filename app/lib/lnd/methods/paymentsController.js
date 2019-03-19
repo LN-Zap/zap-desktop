@@ -1,6 +1,5 @@
-import promiseTimeout from '../../utils/promiseTimeout'
-
-const PAYMENT_TIMEOUT = 60 * 1000
+import pushpayment from '../push/sendpayment'
+import { promisifiedCall } from '../../utils'
 
 /**
  * Dispatches a bi-directional streaming RPC for sending payments through the Lightning Network.
@@ -8,52 +7,13 @@ const PAYMENT_TIMEOUT = 60 * 1000
  * @param  {[type]} payload [description]
  * @return {[type]}         [description]
  */
-export function sendPayment(lnd, { paymentRequest, amt, feeLimit }) {
-  return new Promise((resolve, reject) => {
-    const request = {
-      payment_request: paymentRequest,
-      amt,
-      fee_limit: { fixed: feeLimit }
-    }
-    const call = lnd.sendPayment({})
-    call.on('data', resolve)
-    call.on('error', reject)
-    call.write(request)
-  })
-}
-
-/**
- * Synchronous non-streaming version of SendPayment
- * @param  {[type]} lnd     [description]
- * @param  {[type]} payload [description]
- * @return {[type]}         [description]
- */
-export function sendPaymentSync(lnd, { paymentRequest, amt, feeLimit }) {
-  const doSendPaymentSync = function() {
-    return new Promise((resolve, reject) => {
-      const request = {
-        payment_request: paymentRequest,
-        amt,
-        fee_limit: { fixed: feeLimit }
-      }
-      lnd.sendPaymentSync(request, (err, data) => {
-        if (err) {
-          return reject(err)
-        } else if (data && data.payment_error) {
-          return reject(data.payment_error)
-        } else if (data && !data.payment_route) {
-          return reject('No payment route')
-        } else if (data && !data.payment_preimage) {
-          return reject('No payment preimage')
-        }
-        resolve(data)
-      })
-    })
+export function sendPayment(lnd, event, { paymentRequest, amt, feeLimit }) {
+  const request = {
+    payment_request: paymentRequest,
+    amt,
+    fee_limit: { fixed: feeLimit },
   }
-
-  // Lnd timees the payment out after 60 seconds.
-  // Reject this promise if we don't get a response from lnd in time.
-  return promiseTimeout(PAYMENT_TIMEOUT, doSendPaymentSync())
+  return pushpayment(lnd, event, request)
 }
 
 /**
@@ -63,15 +23,7 @@ export function sendPaymentSync(lnd, { paymentRequest, amt, feeLimit }) {
  * @return {[type]}        [description]
  */
 export function decodePayReq(lnd, { payReq }) {
-  return new Promise((resolve, reject) => {
-    lnd.decodePayReq({ pay_req: payReq }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.decodePayReq, { pay_req: payReq })
 }
 
 /**
@@ -80,15 +32,7 @@ export function decodePayReq(lnd, { payReq }) {
  * @return {[type]}     [description]
  */
 export function listPayments(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.listPayments({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.listPayments, {})
 }
 
 /**
@@ -97,13 +41,5 @@ export function listPayments(lnd) {
  * @return {[type]}     [description]
  */
 export function deleteAllPayments(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.deleteAllPayments({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.deleteAllPayments, {})
 }

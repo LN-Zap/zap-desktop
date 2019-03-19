@@ -2,14 +2,9 @@
 
 exports[`reducers channelsReducer should correctly getChannels 1`] = `
 Object {
-  "channelForm": Object {
-    "isOpen": false,
-    "local_amt": "",
-    "node_key": "",
-    "push_amt": "",
-  },
   "channels": Array [],
   "channelsLoading": true,
+  "closedChannels": Array [],
   "closingChannel": false,
   "closingChannelIds": Array [],
   "filter": "ALL_CHANNELS",
@@ -35,36 +30,32 @@ Object {
       "name": "Closing",
     },
   ],
-  "loadingChannelPubkeys": Array [],
+  "loadingChannels": Array [],
   "openingChannel": false,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
     "pending_force_closing_channels": Array [],
     "pending_open_channels": Array [],
-    "total_limbo_balance": "",
+    "total_limbo_balance": null,
     "waiting_close_channels": Array [],
   },
   "searchQuery": null,
-  "selectedChannel": null,
+  "selectedChannelId": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
+  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
   "viewType": 0,
 }
 `;
 
 exports[`reducers channelsReducer should correctly openingChannel 1`] = `
 Object {
-  "channelForm": Object {
-    "isOpen": false,
-    "local_amt": "",
-    "node_key": "",
-    "push_amt": "",
-  },
   "channels": Array [],
   "channelsLoading": false,
+  "closedChannels": Array [],
   "closingChannel": false,
   "closingChannelIds": Array [],
   "filter": "ALL_CHANNELS",
@@ -90,39 +81,35 @@ Object {
       "name": "Closing",
     },
   ],
-  "loadingChannelPubkeys": Array [],
+  "loadingChannels": Array [],
   "openingChannel": true,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
     "pending_force_closing_channels": Array [],
     "pending_open_channels": Array [],
-    "total_limbo_balance": "",
+    "total_limbo_balance": null,
     "waiting_close_channels": Array [],
   },
   "searchQuery": null,
-  "selectedChannel": null,
+  "selectedChannelId": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
+  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
   "viewType": 0,
 }
 `;
 
 exports[`reducers channelsReducer should correctly receiveChannel 1`] = `
 Object {
-  "channelForm": Object {
-    "isOpen": false,
-    "local_amt": "",
-    "node_key": "",
-    "push_amt": "",
-  },
   "channels": Array [
     1,
     2,
   ],
   "channelsLoading": false,
+  "closedChannels": undefined,
   "closingChannel": false,
   "closingChannelIds": Array [],
   "filter": "ALL_CHANNELS",
@@ -148,33 +135,29 @@ Object {
       "name": "Closing",
     },
   ],
-  "loadingChannelPubkeys": Array [],
+  "loadingChannels": Array [],
   "openingChannel": false,
   "pendingChannels": Array [
     3,
     4,
   ],
   "searchQuery": null,
-  "selectedChannel": null,
+  "selectedChannelId": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
+  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
   "viewType": 0,
 }
 `;
 
 exports[`reducers channelsReducer should handle initial state 1`] = `
 Object {
-  "channelForm": Object {
-    "isOpen": false,
-    "local_amt": "",
-    "node_key": "",
-    "push_amt": "",
-  },
   "channels": Array [],
   "channelsLoading": false,
+  "closedChannels": Array [],
   "closingChannel": false,
   "closingChannelIds": Array [],
   "filter": "ALL_CHANNELS",
@@ -200,22 +183,23 @@ Object {
       "name": "Closing",
     },
   ],
-  "loadingChannelPubkeys": Array [],
+  "loadingChannels": Array [],
   "openingChannel": false,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
     "pending_force_closing_channels": Array [],
     "pending_open_channels": Array [],
-    "total_limbo_balance": "",
+    "total_limbo_balance": null,
     "waiting_close_channels": Array [],
   },
   "searchQuery": null,
-  "selectedChannel": null,
+  "selectedChannelId": null,
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
+  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
   "viewType": 0,
 }
 `;

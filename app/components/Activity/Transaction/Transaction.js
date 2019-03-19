@@ -1,100 +1,93 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedTime, FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { btc } from 'lib/utils'
-import { Message, Text, Value } from 'components/UI'
+import { Message, Text } from 'components/UI'
+import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Transaction = ({
-  transaction,
-  ticker,
-  currentTicker,
-  showActivityModal,
-  currencyName,
-  intl
-}) => (
-  <Flex
-    justifyContent="space-between"
-    alignItems="center"
-    onClick={
-      !transaction.sending ? () => showActivityModal('TRANSACTION', transaction.tx_hash) : null
-    }
-    py={2}
-  >
-    <Box
-      width={3 / 4}
-      className="hint--top-right"
-      data-hint={intl.formatMessage({ ...messages.type })}
-    >
-      <Text mb={1}>
-        <FormattedMessage {...messages[transaction.received ? 'received' : 'sent']} />
-      </Text>
+const Transaction = ({ transaction, showActivityModal, currencyName, intl }) => {
+  const amount = transaction.amount || transaction.limboAmount || 0
+  const isIncoming = transaction.received || transaction.limboAmount > 0
+  let type = isIncoming ? 'received' : 'sent'
+  if (transaction.isFunding) {
+    type = 'funding'
+  } else if (transaction.isClosing) {
+    type = 'closing'
+  }
 
-      {transaction.sending ? (
-        <>
-          {transaction.status === 'sending' && (
-            <Message variant="processing">
-              <FormattedMessage {...messages.status_processing} />
-            </Message>
-          )}
-          {transaction.status === 'successful' && (
-            <Message variant="success">
-              <FormattedMessage {...messages.status_success} />
-            </Message>
-          )}
-          {transaction.status === 'failed' && (
-            <Message variant="error">
-              <FormattedMessage {...messages.status_error} /> {transaction.error}
-            </Message>
-          )}
-        </>
-      ) : (
-        <Text color="gray" fontSize="xs" fontWeight="normal">
-          <FormattedTime value={transaction.time_stamp * 1000} />
-        </Text>
-      )}
-    </Box>
-
-    <Box
-      width={1 / 4}
-      className="hint--top-left"
-      data-hint={intl.formatMessage({ ...messages.amount })}
+  return (
+    <Flex
+      alignItems="center"
+      justifyContent="space-between"
+      onClick={
+        transaction.sending ? null : () => showActivityModal('TRANSACTION', transaction.tx_hash)
+      }
+      py={2}
     >
-      <Box css={transaction.status == 'failed' ? { opacity: 0.2 } : null}>
-        <Text mb={1} textAlign="right" color={transaction.received ? 'superGreen' : null}>
-          {transaction.received ? `+ ` : `- `}
-          <Value
-            value={transaction.amount}
-            currency={ticker.currency}
-            currentTicker={currentTicker}
-            fiatTicker={ticker.fiatTicker}
-          />
-          <i> {currencyName}</i>
+      <Box
+        className="hint--top-right"
+        data-hint={intl.formatMessage({ ...messages.type })}
+        width={3 / 4}
+      >
+        <Text mb={1}>
+          {transaction.closeType ? (
+            <FormattedMessage {...messages[`closetype_${transaction.closeType.toLowerCase()}`]} />
+          ) : (
+            <FormattedMessage {...messages[type]} />
+          )}
         </Text>
-        <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-          <FormattedNumber
-            currency={ticker.fiatTicker}
-            style="currency"
-            value={btc.convert(
-              'sats',
-              'fiat',
-              transaction.amount,
-              currentTicker[ticker.fiatTicker]
+
+        {transaction.sending ? (
+          <>
+            {transaction.status === 'sending' && (
+              <Message variant="processing">
+                <FormattedMessage {...messages.status_processing} />
+              </Message>
             )}
-          />
-        </Text>
+            {transaction.status === 'successful' && (
+              <Message variant="success">
+                <FormattedMessage {...messages.status_success} />
+              </Message>
+            )}
+            {transaction.status === 'failed' && (
+              <Message variant="error">
+                <FormattedMessage {...messages.status_error} /> {transaction.error}
+              </Message>
+            )}
+          </>
+        ) : (
+          <Text color="gray" fontSize="xs" fontWeight="normal">
+            <FormattedTime value={transaction.time_stamp * 1000} />
+          </Text>
+        )}
       </Box>
-    </Box>
-  </Flex>
-)
+
+      <Box
+        className="hint--top-left"
+        data-hint={intl.formatMessage({ ...messages.amount })}
+        width={1 / 4}
+      >
+        <Box css={transaction.status == 'failed' ? { opacity: 0.2 } : null}>
+          <Text color={isIncoming ? 'superGreen' : null} mb={1} textAlign="right">
+            {isIncoming ? `+ ` : `- `}
+            <CryptoValue value={amount} />
+            <i> {currencyName}</i>
+          </Text>
+          <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
+            <FiatValue style="currency" value={amount} />
+          </Text>
+        </Box>
+      </Box>
+    </Flex>
+  )
+}
 
 Transaction.propTypes = {
-  transaction: PropTypes.object.isRequired,
-  ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
+  currencyName: PropTypes.string.isRequired,
+  intl: intlShape.isRequired,
   showActivityModal: PropTypes.func.isRequired,
-  currencyName: PropTypes.string.isRequired
+  transaction: PropTypes.object.isRequired,
 }
 
 export default injectIntl(Transaction)

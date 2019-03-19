@@ -1,5 +1,10 @@
+import React from 'react'
 import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { Modal, ModalOverlayStyles } from 'components/UI'
 import { Onboarding } from 'components/Onboarding'
+import { useOnKeydown } from 'hooks'
 import {
   setAlias,
   setAutopilot,
@@ -9,13 +14,14 @@ import {
   setConnectionMacaroon,
   setConnectionString,
   setName,
+  setNetwork,
   setPassword,
   setSeed,
   setLndconnect,
   validateHost,
   validateCert,
   validateMacaroon,
-  resetOnboarding
+  resetOnboarding,
 } from 'reducers/onboarding'
 import {
   setUnlockWalletError,
@@ -25,8 +31,9 @@ import {
   fetchSeed,
   createNewWallet,
   recoverOldWallet,
+  clearStartLndError,
   unlockWallet,
-  lndSelectors
+  lndSelectors,
 } from 'reducers/lnd'
 
 const mapStateToProps = state => ({
@@ -39,15 +46,16 @@ const mapStateToProps = state => ({
   connectionMacaroon: state.onboarding.connectionMacaroon,
   connectionString: state.onboarding.connectionString,
   lndConnect: state.onboarding.lndConnect,
-  lightningGrpcActive: state.lnd.lightningGrpcActive,
-  walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
+  network: state.onboarding.network,
+  isLightningGrpcActive: state.lnd.isLightningGrpcActive,
+  isWalletUnlockerGrpcActive: state.lnd.isWalletUnlockerGrpcActive,
   startLndHostError: lndSelectors.startLndHostError(state),
   startLndCertError: lndSelectors.startLndCertError(state),
   startLndMacaroonError: lndSelectors.startLndMacaroonError(state),
   seed: state.onboarding.seed,
   unlockWalletError: state.lnd.unlockWalletError,
-  onboarded: state.onboarding.onboarded,
-  fetchingSeed: state.lnd.fetchingSeed
+  isOnboarded: state.onboarding.isOnboarded,
+  isFetchingSeed: state.lnd.isFetchingSeed,
 })
 
 const mapDispatchToProps = {
@@ -60,8 +68,10 @@ const mapDispatchToProps = {
   setConnectionString,
   setStartLndError,
   setName,
+  setNetwork,
   setPassword,
   setSeed,
+  clearStartLndError,
   setUnlockWalletError,
   setLndconnect,
   startLnd,
@@ -73,10 +83,31 @@ const mapDispatchToProps = {
   createNewWallet,
   recoverOldWallet,
   resetOnboarding,
-  unlockWallet
+  unlockWallet,
 }
 
-export default connect(
+const OnboardingContainer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Onboarding)
+
+const ModalOverlay = styled.div`
+  ${ModalOverlayStyles}
+`
+function OnboardingModal({ hasWallets, onClose }) {
+  useOnKeydown('Escape', onClose)
+  return (
+    <ModalOverlay>
+      <Modal hasClose={hasWallets} onClose={onClose} pt={hasWallets ? 0 : 4}>
+        <OnboardingContainer />
+      </Modal>
+    </ModalOverlay>
+  )
+}
+
+OnboardingModal.propTypes = {
+  hasWallets: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+}
+
+export default OnboardingModal

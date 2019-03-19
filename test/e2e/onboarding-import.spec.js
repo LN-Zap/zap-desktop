@@ -4,7 +4,7 @@ import {
   getUserDataDir,
   assertNoConsoleErrors,
   cleanTestEnvironment,
-  cleanElectronEnvironment
+  cleanElectronEnvironment,
 } from './utils/helpers'
 import Onboarding from './pages/onboarding'
 
@@ -49,7 +49,7 @@ test('should import a wallet from an existing seed', async t => {
     'slender',
     'blue',
     'day',
-    'fix'
+    'fix',
   ]
 
   await t
@@ -74,6 +74,11 @@ test('should import a wallet from an existing seed', async t => {
 
     // Fill out and submit Name form.
     .typeText(onboarding.nameInput, 'My Test Wallet')
+    .click(onboarding.nextButton)
+
+    // Fill out and submit Network form.
+    .expect(onboarding.network.exists)
+    .ok()
     .click(onboarding.nextButton)
 
     // Fill out and submit Autopilot form.

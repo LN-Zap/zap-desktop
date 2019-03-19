@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
+import { channelsSelectors } from './channels'
 
 // ------------------------------------
 // Constants
@@ -12,7 +13,7 @@ export const RECEIVE_BALANCE = 'RECEIVE_BALANCE'
 // ------------------------------------
 export function getBalance() {
   return {
-    type: GET_BALANCE
+    type: GET_BALANCE,
   }
 }
 
@@ -35,21 +36,27 @@ const ACTION_HANDLERS = {
   [RECEIVE_BALANCE]: (state, { walletBalance, channelBalance }) => ({
     ...state,
     balanceLoading: false,
-    walletBalance,
-    channelBalance
-  })
+    walletBalance: walletBalance.total_balance,
+    walletBalanceConfirmed: walletBalance.confirmed_balance,
+    walletBalanceUnconfirmed: walletBalance.unconfirmed_balance,
+    channelBalance: channelBalance.balance + channelBalance.pending_open_balance,
+  }),
 }
-
-const channelBalanceSelector = state => state.balance.channelBalance
-const walletBalanceSelector = state => state.balance.walletBalance
 
 // Selectors
 const balanceSelectors = {}
+balanceSelectors.channelBalance = state => state.balance.channelBalance
+balanceSelectors.walletBalance = state => state.balance.walletBalance
+balanceSelectors.walletBalanceConfirmed = state => state.balance.walletBalanceConfirmed
+balanceSelectors.walletBalanceUnconfirmed = state => state.balance.walletBalanceUnconfirmed
+balanceSelectors.limboBalance = state => channelsSelectors.totalLimboBalance(state)
 
 balanceSelectors.totalBalance = createSelector(
-  channelBalanceSelector,
-  walletBalanceSelector,
-  (channelBalance, walletBalance) => (channelBalance || 0) + (walletBalance || 0)
+  balanceSelectors.channelBalance,
+  balanceSelectors.walletBalance,
+  balanceSelectors.limboBalance,
+  (channelBalance = 0, walletBalance = 0, limboBalance = 0) =>
+    channelBalance + walletBalance + limboBalance
 )
 
 export { balanceSelectors }
@@ -60,7 +67,9 @@ export { balanceSelectors }
 const initialState = {
   balanceLoading: false,
   walletBalance: null,
-  channelBalance: null
+  walletBalanceConfirmed: null,
+  walletBalanceUnconfirmed: null,
+  channelBalance: null,
 }
 
 export default function balanceReducer(state = initialState, action) {

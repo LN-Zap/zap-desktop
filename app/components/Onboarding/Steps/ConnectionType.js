@@ -1,30 +1,44 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
-import { Bar, Form, Header, RadioGroup, Radio } from 'components/UI'
+import { withFieldApi } from 'informed'
+import styled from 'styled-components'
+import { Box, Flex } from 'rebass'
+import { Form, RadioGroup } from 'components/UI'
+import ZapLogo from 'components/Icon/ZapLogoBolt'
+import BaseConnectionTypeItem from './ConnectionTypeItem'
 import messages from './messages'
+
+const ConnectionTypeItem = withFieldApi('connectionType')(BaseConnectionTypeItem)
+
+const Container = styled(Flex)`
+  position: absolute;
+  top: -30px;
+  bottom: 0;
+  visibility: ${props => (props.lndConnect ? 'hidden' : 'visible')};
+`
 
 class ConnectionType extends React.Component {
   static propTypes = {
-    wizardApi: PropTypes.object,
-    wizardState: PropTypes.object,
-    lndConnect: PropTypes.object,
-
+    connectionType: PropTypes.string,
+    lndConnect: PropTypes.string,
     resetOnboarding: PropTypes.func.isRequired,
     setConnectionType: PropTypes.func.isRequired,
-    stopLnd: PropTypes.func.isRequired
+    stopLnd: PropTypes.func.isRequired,
+    wizardApi: PropTypes.object,
+    wizardState: PropTypes.object,
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidMount() {
     const { lndConnect, resetOnboarding, stopLnd } = this.props
     stopLnd()
     if (lndConnect) {
-      this.formApi.setValue('connectionType', lndConnect.connectionType)
+      this.formApi.setValue('connectionType', 'custom')
       this.formApi.submitForm()
     } else {
       resetOnboarding()
@@ -34,7 +48,7 @@ class ConnectionType extends React.Component {
   componentDidUpdate(prevProps) {
     const { lndConnect } = this.props
     if (lndConnect && lndConnect !== prevProps.lndConnect) {
-      this.formApi.setValue('connectionType', lndConnect.connectionType)
+      this.formApi.setValue('connectionType', 'custom')
       this.formApi.submitForm()
     }
   }
@@ -61,15 +75,12 @@ class ConnectionType extends React.Component {
     } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
-    return (
-      <>
-        <Header
-          title={<FormattedMessage {...messages.connection_title} />}
-          subtitle={<FormattedMessage {...messages.connection_description} />}
-          align="left"
-        />
 
-        <Bar my={4} />
+    return (
+      <Container alignItems="center" flexDirection="column" justifyContent="center">
+        <Box mb={6}>
+          <ZapLogo height={60} width={60} />
+        </Box>
 
         <Form
           {...rest}
@@ -89,43 +100,39 @@ class ConnectionType extends React.Component {
           onSubmitFailure={onSubmitFailure}
         >
           <RadioGroup
-            required
             field="connectionType"
-            name="connectionType"
             initialValue={connectionType}
+            isRequired
+            name="connectionType"
           >
-            <Radio
-              value="create"
-              label={<FormattedMessage {...messages.connection_type_create_label} />}
-              description={<FormattedMessage {...messages.connection_type_create_description} />}
-              mb={4}
-            />
-
-            <Radio
-              value="import"
-              label={<FormattedMessage {...messages.connection_type_import_label} />}
-              description={<FormattedMessage {...messages.connection_type_import_description} />}
-              mb={4}
-            />
-
-            <Radio
-              value="custom"
-              label={<FormattedMessage {...messages.connection_type_custom_label} />}
-              description={<FormattedMessage {...messages.connection_type_custom_description} />}
-              mb={4}
-            />
-
-            <Radio
-              value="btcpayserver"
-              label={<FormattedMessage {...messages.connection_type_btcpayserver_label} />}
-              description={
-                <FormattedMessage {...messages.connection_type_btcpayserver_description} />
-              }
-              mb={4}
-            />
+            <Flex alignItems="space-around" justifyContent="center" mt={3}>
+              <ConnectionTypeItem
+                description={<FormattedMessage {...messages.connection_type_create_description} />}
+                label={<FormattedMessage {...messages.connection_type_create_label} />}
+                mb={5}
+                mr={3}
+                value="create"
+                width={1 / 3}
+              />
+              <ConnectionTypeItem
+                description={<FormattedMessage {...messages.connection_type_custom_description} />}
+                label={<FormattedMessage {...messages.connection_type_custom_label} />}
+                mx={5}
+                value="custom"
+                width={1 / 3}
+              />
+              <ConnectionTypeItem
+                description={<FormattedMessage {...messages.connection_type_import_description} />}
+                label={<FormattedMessage {...messages.connection_type_import_label} />}
+                mb={5}
+                ml={3}
+                value="import"
+                width={1 / 3}
+              />
+            </Flex>
           </RadioGroup>
         </Form>
-      </>
+      </Container>
     )
   }
 }

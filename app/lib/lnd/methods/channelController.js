@@ -1,5 +1,6 @@
 import { listPeers, connectPeer } from './peersController'
 import pushopenchannel from '../push/openchannel'
+import { promisifiedCall } from '../../utils'
 
 function ensurePeerConnected(lnd, pubkey, host) {
   return listPeers(lnd).then(({ peers }) => {
@@ -18,45 +19,25 @@ function ensurePeerConnected(lnd, pubkey, host) {
  * @param  {[type]} payload [description]
  * @return {[type]}         [description]
  */
-export function connectAndOpen(lnd, event, payload) {
-  const { pubkey, host, localamt, private: privateChannel } = payload
-
-  return ensurePeerConnected(lnd, pubkey, host)
-    .then(() => {
-      const call = lnd.openChannel({
-        node_pubkey: Buffer.from(pubkey, 'hex'),
-        local_funding_amount: Number(localamt),
-        private: privateChannel
-      })
-
-      call.on('data', data => event.sender.send('pushchannelupdated', { pubkey, data }))
-      call.on('error', error =>
-        event.sender.send('pushchannelerror', { pubkey, error: error.toString() })
-      )
-
-      return call
-    })
-    .catch(err => {
-      event.sender.send('pushchannelerror', { pubkey, error: err.toString() })
-      throw err
-    })
-}
-
-/**
- * Attempts to open a singly funded channel specified in the request to a remote peer.
- * @param  {[type]} lnd     [description]
- * @param  {[type]} event   [description]
- * @param  {[type]} payload [description]
- * @return {[type]}         [description]
- */
-export function openChannel(lnd, event, payload) {
-  const { pubkey, localamt, pushamt } = payload
+export async function connectAndOpen(lnd, event, payload) {
+  const { pubkey, host, localamt, private: privateChannel, satPerByte, spendUnconfirmed } = payload
   const req = {
     node_pubkey: Buffer.from(pubkey, 'hex'),
     local_funding_amount: Number(localamt),
-    push_sat: Number(pushamt)
+    private: privateChannel,
+    sat_per_byte: satPerByte,
+    spend_unconfirmed: spendUnconfirmed,
   }
-
+  try {
+    await ensurePeerConnected(lnd, pubkey, host)
+  } catch (err) {
+    event.sender.send('pushchannelerror', {
+      ...req,
+      node_pubkey: pubkey,
+      error: err.toString(),
+    })
+    throw err
+  }
   return pushopenchannel(lnd, event, req)
 }
 
@@ -66,15 +47,7 @@ export function openChannel(lnd, event, payload) {
  * @return {[type]}     [description]
  */
 export function channelBalance(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.channelBalance({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.channelBalance, {})
 }
 
 /**
@@ -83,15 +56,16 @@ export function channelBalance(lnd) {
  * @return {[type]}     [description]
  */
 export function listChannels(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.listChannels({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
+  return promisifiedCall(lnd, lnd.listChannels, {})
+}
 
-      resolve(data)
-    })
-  })
+/**
+ * Returns a description of all the closed channels that this node was a participant in.
+ * @param  {[type]} lnd [description]
+ * @return {[type]}     [description]
+ */
+export function closedChannels(lnd) {
+  return promisifiedCall(lnd, lnd.closedChannels, {})
 }
 
 /**
@@ -105,7 +79,7 @@ export function closeChannel(lnd, event, payload) {
   const {
     channel_point: { funding_txid, output_index },
     chan_id,
-    force
+    force,
   } = payload
   const tx = funding_txid
     .match(/.{2}/g)
@@ -115,9 +89,9 @@ export function closeChannel(lnd, event, payload) {
   const res = {
     channel_point: {
       funding_txid_bytes: Buffer.from(tx, 'hex'),
-      output_index: Number(output_index)
+      output_index: Number(output_index),
     },
-    force
+    force,
   }
 
   return new Promise((resolve, reject) => {
@@ -144,31 +118,15 @@ export function closeChannel(lnd, event, payload) {
  * @return {[type]}     [description]
  */
 export function pendingChannels(lnd) {
-  return new Promise((resolve, reject) => {
-    lnd.pendingChannels({}, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.pendingChannels, {})
 }
 
 /**
  * Returns the latest authenticated network announcement for the given channel
  * @param  {[type]} lnd       [description]
- * @param  {[type]} channelId [description]
+ * @param  {[type]} chanId    [description]
  * @return {[type]}           [description]
  */
 export function getChanInfo(lnd, { chanId }) {
-  return new Promise((resolve, reject) => {
-    lnd.getChanInfo({ chan_id: chanId }, (err, data) => {
-      if (err) {
-        return reject(err)
-      }
-
-      resolve(data)
-    })
-  })
+  return promisifiedCall(lnd, lnd.getChanInfo, { chan_id: chanId })
 }

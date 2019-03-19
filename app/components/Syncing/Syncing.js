@@ -3,28 +3,30 @@ import PropTypes from 'prop-types'
 import { Redirect } from 'react-router-dom'
 import copy from 'copy-to-clipboard'
 import { Box, Flex } from 'rebass'
-import { Bar, Button, Heading, Header, Panel, QRCode, Text } from 'components/UI'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { Bar, Button, Heading, Header, Panel, QRCode, Text, Link } from 'components/UI'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import messages from './messages'
 
 class Syncing extends Component {
   static propTypes = {
     address: PropTypes.string.isRequired,
-    hasSynced: PropTypes.bool,
-    syncStatus: PropTypes.string.isRequired,
-    syncPercentage: PropTypes.number,
     blockHeight: PropTypes.number,
-    setIsWalletOpen: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
+    hasSynced: PropTypes.bool,
+    intl: intlShape.isRequired,
+    isLightningGrpcActive: PropTypes.bool,
     lndBlockHeight: PropTypes.number,
     lndCfilterHeight: PropTypes.number,
-    lightningGrpcActive: PropTypes.bool
+    network: PropTypes.string,
+    setIsWalletOpen: PropTypes.func.isRequired,
+    showNotification: PropTypes.func.isRequired,
+    syncPercentage: PropTypes.number,
+    syncStatus: PropTypes.string.isRequired,
   }
 
   state = {
     timer: null,
     syncMessageDetail: null,
-    syncMessageExtraDetail: null
+    syncMessageExtraDetail: null,
   }
 
   componentDidMount() {
@@ -58,7 +60,7 @@ class Syncing extends Component {
       if (syncStatus === 'waiting') {
         this.setState({
           syncMessageDetail: intl.formatMessage({ ...messages.taking_time }),
-          syncMessageExtraDetail: intl.formatMessage({ ...messages.grab_coffee })
+          syncMessageExtraDetail: intl.formatMessage({ ...messages.grab_coffee }),
         })
       }
     }, 5000)
@@ -71,7 +73,7 @@ class Syncing extends Component {
     clearInterval(timer)
     this.setState({
       syncMessageDetail: null,
-      syncMessageExtraDetail: null
+      syncMessageExtraDetail: null,
     })
   }
 
@@ -84,9 +86,10 @@ class Syncing extends Component {
       blockHeight,
       lndBlockHeight,
       lndCfilterHeight,
-      lightningGrpcActive,
+      isLightningGrpcActive,
       intl,
-      showNotification
+      network,
+      showNotification,
     } = this.props
     let { syncMessageDetail, syncMessageExtraDetail } = this.state
 
@@ -96,7 +99,7 @@ class Syncing extends Component {
       showNotification(notifBody)
     }
 
-    if (lightningGrpcActive && syncStatus === 'complete') {
+    if (isLightningGrpcActive && syncStatus === 'complete') {
       return <Redirect to="/app" />
     }
 
@@ -114,14 +117,14 @@ class Syncing extends Component {
           { ...messages.block_progress },
           {
             currentBlock: lndBlockHeight.toLocaleString(),
-            totalBlocks: blockHeight.toLocaleString()
+            totalBlocks: blockHeight.toLocaleString(),
           }
         )
         syncMessageExtraDetail = intl.formatMessage(
           { ...messages.filter_progress },
           {
             currentFilter: lndCfilterHeight.toLocaleString(),
-            totalFilters: blockHeight.toLocaleString()
+            totalFilters: blockHeight.toLocaleString(),
           }
         )
       }
@@ -129,32 +132,38 @@ class Syncing extends Component {
 
     return (
       <Panel width={1}>
-        <Panel.Header width={9 / 16} mx="auto">
+        <Panel.Header mx="auto" width={9 / 16}>
           {hasSynced ? (
             <Header
-              title={<FormattedMessage {...messages.sync_title} />}
               subtitle={<FormattedMessage {...messages.sync_description} />}
+              title={<FormattedMessage {...messages.sync_title} />}
             />
           ) : (
             <Header
+              subtitle={
+                network === 'testnet' && (
+                  <Link onClick={() => window.Zap.openTestnetFaucet()}>
+                    <FormattedMessage {...messages.fund_link} />
+                  </Link>
+                )
+              }
               title={<FormattedMessage {...messages.fund_title} />}
-              subtitle={<FormattedMessage {...messages.fund_description} />}
             />
           )}
           <Bar my={3} />
         </Panel.Header>
 
-        <Panel.Body width={9 / 16} mx="auto" mb={3}>
+        <Panel.Body mb={3} mx="auto" width={9 / 16}>
           {!hasSynced && address && address.length && (
             <Flex
               alignItems="center"
+              css={{ height: '100%' }}
               flexDirection="column"
               justifyContent="center"
-              css={{ height: '100%' }}
             >
-              <QRCode value={address} mx="auto" size="small" />
+              <QRCode mx="auto" size="small" value={address} />
               <Text my={3}>{address}</Text>
-              <Button size="small" onClick={() => copyToClipboard(address)} mx="auto">
+              <Button mx="auto" onClick={() => copyToClipboard(address)} size="small">
                 <FormattedMessage {...messages.copy_address} />
               </Button>
             </Flex>
@@ -162,37 +171,37 @@ class Syncing extends Component {
           {hasSynced && (
             <Flex
               alignItems="center"
+              css={{ height: '100%' }}
               flexDirection="column"
               justifyContent="center"
-              css={{ height: '100%' }}
             >
               <Text my={3}>
                 <FormattedMessage {...messages.tutorials_list_description} />
               </Text>
-              <Button size="small" onClick={() => window.Zap.openHelpPage()} mx="auto">
+              <Button mx="auto" onClick={() => window.Zap.openHelpPage()} size="small">
                 <FormattedMessage {...messages.tutorials_button_text} />
               </Button>
             </Flex>
           )}
         </Panel.Body>
 
-        <Panel.Footer bg="secondaryColor" p={3} css={{ 'min-height': '160px' }}>
+        <Panel.Footer bg="secondaryColor" css={{ 'min-height': '160px' }} p={3}>
           <Flex
             alignItems="center"
             flexDirection="column"
             justifyContent="center"
-            width={9 / 16}
             mx="auto"
+            width={9 / 16}
           >
             <Text fontWeight="normal" mb={3}>
               <FormattedMessage {...messages.sync_caption} />
             </Text>
             <Heading.h1 mb={2}>{syncMessage}</Heading.h1>
-            <Box width={1} css={{ height: '4px' }} bg="grey" mb={2}>
+            <Box bg="grey" css={{ height: '4px' }} mb={2} width={1}>
               <Box
-                width={syncPercentage ? `${syncPercentage}%` : 0}
-                css={{ height: '100%' }}
                 bg="lightningOrange"
+                css={{ height: '100%' }}
+                width={syncPercentage ? `${syncPercentage}%` : 0}
               />
             </Box>
 

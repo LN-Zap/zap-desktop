@@ -6,7 +6,7 @@ exports[`component.UI.Message should render correctly with default props 1`] = `
   fontWeight="normal"
 >
   <Styled(styled.div)
-    alignItems="center"
+    alignItems="flex-start"
   >
     <styled.div
       css={
@@ -17,7 +17,9 @@ exports[`component.UI.Message should render correctly with default props 1`] = `
       mr={1}
       width="14px"
     />
-    <Styled(styled.div)>
+    <Styled(styled.div)
+      lineHeight="normal"
+    >
       A message
     </Styled(styled.div)>
   </Styled(styled.div)>

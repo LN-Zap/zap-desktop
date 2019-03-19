@@ -1,45 +1,34 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { FormattedMessage, FormattedRelative, FormattedTime, injectIntl } from 'react-intl'
+import {
+  FormattedMessage,
+  FormattedRelative,
+  FormattedTime,
+  intlShape,
+  injectIntl,
+} from 'react-intl'
 import { decodePayReq } from 'lib/utils/crypto'
 import copy from 'copy-to-clipboard'
-import { Bar, DataRow, Button, Dropdown, QRCode, Text, Value } from 'components/UI'
+import { Bar, DataRow, Button, QRCode, Text } from 'components/UI'
+import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
 
 class RequestSummary extends React.Component {
   state = {
     isExpired: null,
-    timer: null
+    timer: null,
   }
 
   static propTypes = {
-    /** Currently selected cryptocurrency (key). */
-    cryptoCurrency: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
-    /** List of supported fiat currencies. */
-    fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
+    intl: intlShape.isRequired,
     /** Lnd invoice object for the payment request */
     invoice: PropTypes.object,
     /** Lightning Payment request. */
     payReq: PropTypes.string.isRequired,
-
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired,
-    /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired
+    /** Show a notification. */
+    showNotification: PropTypes.func.isRequired,
   }
 
   componentDidMount() {
@@ -67,20 +56,7 @@ class RequestSummary extends React.Component {
   }
 
   render() {
-    const {
-      cryptoCurrency,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      fiatCurrencies,
-      invoice = {},
-      payReq,
-      intl,
-      setCryptoCurrency,
-      setFiatCurrency,
-      showNotification,
-      ...rest
-    } = this.props
+    const { invoice = {}, payReq, intl, showNotification, ...rest } = this.props
 
     const copyToClipboard = data => {
       copy(data)
@@ -102,72 +78,61 @@ class RequestSummary extends React.Component {
     const descriptionTag = tags.find(tag => tag.tagName === 'description') || {}
     const memo = descriptionTag.data
 
+    const getStatusColor = () => {
+      if (invoice.settled) {
+        return 'superGreen'
+      }
+      return isExpired ? 'superRed' : 'lightningOrange'
+    }
+
     return (
       <Box {...rest}>
         <DataRow
           left={<FormattedMessage {...messages.amount} />}
           right={
-            <Flex alignItems="center" justifyContent="flex-end">
-              <Dropdown
-                activeKey={cryptoCurrency}
-                items={cryptoCurrencies}
-                onChange={setCryptoCurrency}
-                justify="right"
-                mr={2}
-              />
-              <Text fontSize="xxl">
-                <Value value={satoshis} currency={cryptoCurrency} />
-              </Text>
+            <Flex alignItems="center">
+              <CryptoSelector mr={2} />
+              <CryptoValue fontSize="xxl" value={satoshis} />
             </Flex>
           }
         />
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.current_value} />}
           right={
             <Flex alignItems="center">
-              <Dropdown
-                activeKey={fiatCurrency}
-                items={fiatCurrencies}
-                onChange={setFiatCurrency}
-                mr={2}
-              />
-              <Value
-                value={satoshis}
-                currency="fiat"
-                currentTicker={currentTicker}
-                fiatTicker={fiatCurrency}
-              />
+              <FiatSelector mr={2} />
+              <FiatValue value={satoshis} />
             </Flex>
           }
         />
 
-        <Bar />
-
         {memo && (
           <>
+            <Bar variant="light" />
             <DataRow left={<FormattedMessage {...messages.memo} />} right={memo} />
-            <Bar />
           </>
         )}
+
+        <Bar variant="light" />
 
         <DataRow
           left={
             <React.Fragment>
               <FormattedMessage {...messages.payment_request} />
               <Text
+                className="hint--bottom-left"
+                css={{ 'word-wrap': 'break-word' }}
+                data-hint={payReq}
                 fontSize="xs"
                 fontWeight="light"
                 mb={2}
-                css={{ 'word-wrap': 'break-word' }}
-                className="hint--bottom-left"
-                data-hint={payReq}
               >
-                <Truncate text={payReq} maxlen={40} />
+                <Truncate maxlen={40} text={payReq} />
               </Text>
-              <Button type="button" size="small" onClick={() => copyToClipboard(payReq)}>
+              <Button onClick={() => copyToClipboard(payReq)} size="small" type="button">
                 <FormattedMessage {...messages.copy_button_text} />
               </Button>
             </React.Fragment>
@@ -179,23 +144,23 @@ class RequestSummary extends React.Component {
           }
         />
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.status} />}
           right={
             invoice.settled ? (
-              <Text color="superGreen" fontWeight="normal">
+              <Text color={getStatusColor()} fontWeight="normal">
                 <FormattedMessage {...messages.paid} />
                 {` `}
                 <FormattedTime value={invoice.settle_date * 1000} />
               </Text>
             ) : (
-              <Text color="superRed" fontWeight="normal">
+              <Text color={getStatusColor()} fontWeight="normal">
                 {isExpired ? 'Expired ' : 'Expires '}
                 <FormattedRelative
-                  value={decodedInvoice.timeExpireDateString}
                   updateInterval={1000}
+                  value={decodedInvoice.timeExpireDateString}
                 />
                 <br />
                 <FormattedMessage {...messages.not_paid} />

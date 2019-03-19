@@ -6,26 +6,33 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "all",
+      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "sent",
+      "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "pending",
+      "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
+    },
+    Object {
+      "key": "INTERNAL_ACTIVITY",
+      "name": "Internal",
     },
   ],
   "modal": Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchActive": false,
   "searchText": "",
   "showExpiredRequests": false,
 }
@@ -33,33 +40,37 @@ Object {
 
 exports[`reducers activityReducer should correctly hideActivityModal 1`] = `
 Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
+  "filter": "ALL_ACTIVITY",
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "all",
+      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "sent",
+      "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "pending",
+      "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
+    },
+    Object {
+      "key": "INTERNAL_ACTIVITY",
+      "name": "Internal",
     },
   ],
   "modal": Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchActive": false,
   "searchText": "",
   "showExpiredRequests": false,
 }
@@ -67,67 +78,37 @@ Object {
 
 exports[`reducers activityReducer should correctly showActivityModal 1`] = `
 Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
+  "filter": "ALL_ACTIVITY",
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "all",
+      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "sent",
+      "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "pending",
+      "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
+    },
+    Object {
+      "key": "INTERNAL_ACTIVITY",
+      "name": "Internal",
     },
   ],
   "modal": Object {
     "itemId": undefined,
     "itemType": undefined,
   },
-  "searchActive": false,
-  "searchText": "",
-  "showExpiredRequests": false,
-}
-`;
-
-exports[`reducers activityReducer should correctly updateSearchActive 1`] = `
-Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
-  "filters": Array [
-    Object {
-      "key": "ALL_ACTIVITY",
-      "name": "all",
-    },
-    Object {
-      "key": "SENT_ACTIVITY",
-      "name": "sent",
-    },
-    Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
-    },
-    Object {
-      "key": "PENDING_ACTIVITY",
-      "name": "pending",
-    },
-  ],
-  "modal": Object {
-    "itemId": null,
-    "itemType": null,
-  },
-  "searchActive": undefined,
   "searchText": "",
   "showExpiredRequests": false,
 }
@@ -135,33 +116,37 @@ Object {
 
 exports[`reducers activityReducer should correctly updateSearchText 1`] = `
 Object {
-  "filter": Object {
-    "key": "ALL_ACTIVITY",
-    "name": "All Activity",
-  },
+  "filter": "ALL_ACTIVITY",
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "all",
+      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "sent",
+      "name": "Sent",
     },
     Object {
-      "key": "REQUESTED_ACTIVITY",
-      "name": "requested",
+      "key": "RECEIVED_ACTIVITY",
+      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "pending",
+      "name": "Pending",
+    },
+    Object {
+      "key": "EXPIRED_ACTIVITY",
+      "name": "Expired",
+    },
+    Object {
+      "key": "INTERNAL_ACTIVITY",
+      "name": "Internal",
     },
   ],
   "modal": Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchActive": false,
   "searchText": undefined,
   "showExpiredRequests": false,
 }

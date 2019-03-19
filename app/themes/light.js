@@ -9,10 +9,11 @@ const {
   hoverSeaGray,
   underwaterGray,
   superGreen,
+  superBlue,
   lightGreen,
   superRed,
   lightRed,
-  gray
+  gray,
 } = palette
 
 const colors = {
@@ -24,10 +25,11 @@ const colors = {
   lightningOrange,
   lightOrange,
   superGreen,
+  superBlue,
   lightGreen,
   superRed,
   lightRed,
-  gray
+  gray,
 }
 
 const buttons = {
@@ -35,58 +37,62 @@ const buttons = {
     backgroundColor: colors.tertiaryColor,
     color: colors.lightningOrange,
     '&:hover:enabled': {
-      backgroundColor: colors.highlight
+      backgroundColor: colors.highlight,
     },
     '&:focus': {
-      backgroundColor: colors.highlight
-    }
+      backgroundColor: colors.highlight,
+    },
   },
   primary: {
     backgroundColor: colors.lightningOrange,
-    color: colors.white
+    color: colors.white,
   },
   secondary: {
     opacity: 0.6,
     '&.active': {
-      opacity: 1
+      opacity: 1,
     },
     backgroundColor: 'transparent',
     color: colors.primaryText,
     '&:hover:enabled': {
-      opacity: 1
+      opacity: 1,
     },
     '&:focus': {
-      opacity: 1
-    }
-  }
+      opacity: 1,
+    },
+  },
+  danger: {
+    backgroundColor: colors.superRed,
+    color: colors.white,
+  },
 }
 const cards = {
   success: {
     backgroundColor: colors.lightGreen,
-    color: colors.superGreen
+    color: colors.superGreen,
   },
   warning: {
     backgroundColor: colors.lightOrange,
-    color: colors.lightningOrange
+    color: colors.lightningOrange,
   },
   error: {
     backgroundColor: colors.lightRed,
-    color: colors.superRed
+    color: colors.superRed,
   },
   processing: {
-    color: colors.lightningOrange
-  }
+    color: colors.lightningOrange,
+  },
 }
 const messages = {
   success: {
-    color: colors.superGreen
+    color: colors.superGreen,
   },
   warning: {
-    color: colors.lightningOrange
+    color: colors.lightningOrange,
   },
   error: {
-    color: colors.superRed
-  }
+    color: colors.superRed,
+  },
 }
 
 export default {
@@ -95,5 +101,5 @@ export default {
   colors,
   buttons,
   cards,
-  messages
+  messages,
 }

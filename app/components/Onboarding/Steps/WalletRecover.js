@@ -6,14 +6,15 @@ import messages from './messages'
 
 class WalletRecover extends React.Component {
   static propTypes = {
+    recoverOldWallet: PropTypes.func.isRequired,
+    setWalletRecover: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    recoverOldWallet: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidMount() {
@@ -30,14 +31,7 @@ class WalletRecover extends React.Component {
   }
 
   render() {
-    const {
-      wizardApi,
-      wizardState,
-      autopilot,
-      setWalletRecover,
-      recoverOldWallet,
-      ...rest
-    } = this.props
+    const { wizardApi, wizardState, setWalletRecover, recoverOldWallet, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (

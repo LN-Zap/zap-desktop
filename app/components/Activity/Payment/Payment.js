@@ -1,20 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage, FormattedTime, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { btc } from 'lib/utils'
-import { Message, Text, Value } from 'components/UI'
-import { FormattedMessage, FormattedNumber, FormattedTime, injectIntl } from 'react-intl'
+import { Message, Text } from 'components/UI'
+import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Payment = ({
-  payment,
-  ticker,
-  currentTicker,
-  showActivityModal,
-  nodes,
-  currencyName,
-  intl
-}) => {
+const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
   const displayNodeName = pubkey => {
     const node = nodes.find(n => pubkey === n.pub_key)
     if (node && node.alias.length) {
@@ -25,15 +17,15 @@ const Payment = ({
 
   return (
     <Flex
-      justifyContent="space-between"
       alignItems="center"
-      onClick={!payment.sending ? () => showActivityModal('PAYMENT', payment.payment_hash) : null}
+      justifyContent="space-between"
+      onClick={payment.sending ? null : () => showActivityModal('PAYMENT', payment.payment_hash)}
       py={2}
     >
       <Box
-        width={3 / 4}
         className="hint--top-right"
         data-hint={intl.formatMessage({ ...messages.type })}
+        width={3 / 4}
       >
         <Text mb={1}>{displayNodeName(payment.path[payment.path.length - 1])}</Text>
         {payment.sending ? (
@@ -64,27 +56,18 @@ const Payment = ({
       </Box>
 
       <Box
-        width={1 / 4}
         className="hint--top-left"
         data-hint={intl.formatMessage({ ...messages.amount })}
+        width={1 / 4}
       >
         <Box css={payment.status == 'failed' ? { opacity: 0.3 } : null}>
           <Text mb={1} textAlign="right">
             {'- '}
-            <Value
-              value={payment.value}
-              currency={ticker.currency}
-              currentTicker={currentTicker}
-              fiatTicker={ticker.fiatTicker}
-            />
+            <CryptoValue value={payment.value} />
             <i> {currencyName}</i>
           </Text>
-          <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-            <FormattedNumber
-              currency={ticker.fiatTicker}
-              style="currency"
-              value={btc.convert('sats', 'fiat', payment.value, currentTicker[ticker.fiatTicker])}
-            />
+          <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
+            <FiatValue style="currency" value={payment.value} />
           </Text>
         </Box>
       </Box>
@@ -94,12 +77,10 @@ const Payment = ({
 
 Payment.propTypes = {
   currencyName: PropTypes.string.isRequired,
-  payment: PropTypes.object.isRequired,
-  ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
   nodes: PropTypes.array.isRequired,
+  payment: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
-  intl: PropTypes.object.isRequired
 }
 
 export default injectIntl(Payment)

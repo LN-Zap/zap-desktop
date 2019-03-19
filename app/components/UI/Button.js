@@ -25,65 +25,76 @@ Wrapper.displayName = 'Button'
  * @example
  * <Button><Basic button</Button>
  */
-class Button extends React.PureComponent {
-  static displayName = 'Button'
-  static defaultProps = {
-    processing: false,
-    active: false,
-    size: 'medium',
-    variant: 'normal'
-  }
-  static propTypes = {
-    processing: PropTypes.bool,
-    active: PropTypes.bool,
-    size: PropTypes.oneOf(['small', 'medium']),
-    variant: PropTypes.string
+const Button = React.forwardRef((props, ref) => {
+  let { children, isActive, isDisabled, isProcessing, size, variant, className, ...rest } = props
+  const sizes = {
+    small: {
+      x: 3,
+      y: 2,
+    },
+    medium: {
+      x: 5,
+      y: 3,
+    },
   }
 
-  render() {
-    let { children, active, processing, size, variant, ...rest } = this.props
-    const sizes = {
-      small: {
-        x: 3,
-        y: 2
-      },
-      medium: {
-        x: 5,
-        y: 3
-      }
-    }
+  size = sizes[size] || sizes['medium']
+  if (variant === 'secondary') {
+    size.x = 0
+  }
 
-    size = sizes[size] || sizes['medium']
-    if (variant === 'secondary') {
-      size.x = 0
-    }
+  const borderRadius = variant === 'secondary' ? 0 : 5
 
-    const borderRadius = variant === 'secondary' ? 0 : 5
+  //support custom styled and styled-components
+  const wrapperClasses = [className, isActive ? 'active' : null]
+    .filter(cls => Boolean(cls))
+    .join(' ')
 
-    return (
-      <Wrapper
-        px={size['x']}
-        py={size['y']}
-        borderRadius={borderRadius}
-        variant={variant}
-        className={active ? 'active' : null}
-        {...rest}
-      >
-        {processing ? (
-          <Flex alignItems="center">
-            {processing && <Spinner />}
-            <Text fontWeight="normal" fontFamily="sans" ml={2}>
-              {children}
-            </Text>
-          </Flex>
-        ) : (
-          <Text fontWeight="normal" fontFamily="sans">
+  return (
+    <Wrapper
+      ref={ref}
+      borderRadius={borderRadius}
+      className={wrapperClasses}
+      disabled={isDisabled}
+      px={size['x']}
+      py={size['y']}
+      variant={variant}
+      {...rest}
+    >
+      {isProcessing ? (
+        <Flex alignItems="center">
+          {isProcessing && <Spinner />}
+          <Text fontFamily="sans" fontWeight="normal" ml={2}>
             {children}
           </Text>
-        )}
-      </Wrapper>
-    )
-  }
+        </Flex>
+      ) : (
+        <Text fontFamily="sans" fontWeight="normal">
+          {children}
+        </Text>
+      )}
+    </Wrapper>
+  )
+})
+
+Button.displayName = 'Button'
+
+Button.propTypes = {
+  children: PropTypes.node,
+  className: PropTypes.string,
+  isActive: PropTypes.bool,
+  isDisabled: PropTypes.bool,
+  isProcessing: PropTypes.bool,
+  size: PropTypes.oneOf(['small', 'medium']),
+  variant: PropTypes.string,
+}
+
+Button.defaultProps = {
+  isProcessing: false,
+  isActive: false,
+  isDisabled: false,
+  size: 'medium',
+  variant: 'normal',
 }
 
 export default Button

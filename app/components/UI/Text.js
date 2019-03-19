@@ -1,6 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Text as BaseText } from 'rebass'
+import styled from 'styled-components'
+import { opacity } from 'styled-system'
+
+const StyledText = styled(BaseText)(opacity)
 
 /**
  * @render react
@@ -12,15 +16,15 @@ class Text extends React.PureComponent {
   static displayName = 'Text'
 
   static propTypes = {
-    children: PropTypes.node
+    children: PropTypes.node,
   }
 
   render() {
     const { children } = this.props
     return (
-      <BaseText lineHeight="1.4" fontSize="m" color="primaryText" {...this.props}>
+      <StyledText color="primaryText" fontSize="m" lineHeight="normal" {...this.props}>
         {children}
-      </BaseText>
+      </StyledText>
     )
   }
 }

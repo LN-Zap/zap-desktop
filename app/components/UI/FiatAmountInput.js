@@ -6,8 +6,8 @@ import { asField } from 'informed'
 import * as yup from 'yup'
 import { convert } from 'lib/utils/btc'
 import { formatValue, parseNumber } from 'lib/utils/crypto'
-import Input from 'components/UI/Input'
-import withNumberInputMask from 'components/withNumberInputMask'
+import { withNumberInputMask } from 'hocs'
+import Input from './Input'
 
 /**
  * @render react
@@ -17,9 +17,11 @@ class FiatAmountInput extends React.Component {
   static propTypes = {
     currency: PropTypes.string.isRequired,
     currentTicker: PropTypes.object.isRequired,
-    required: PropTypes.bool,
+    fieldApi: PropTypes.object.isRequired,
+    fieldState: PropTypes.object.isRequired,
+    isRequired: PropTypes.bool,
+    onBlur: PropTypes.func,
     onChange: PropTypes.func,
-    onBlur: PropTypes.func
   }
 
   componentDidUpdate(prevProps) {
@@ -56,14 +58,14 @@ class FiatAmountInput extends React.Component {
     return {
       precision: 2,
       placeholder: '0.00',
-      pattern: '[0-9]*.?[0-9]{0,2}?'
+      pattern: '[0-9]*.?[0-9]{0,2}?',
     }
   }
 
   render() {
     const rules = this.getRules()
     return (
-      <Input {...this.props} type="text" placeholder={rules.placeholder} pattern={rules.pattern} />
+      <Input {...this.props} pattern={rules.pattern} placeholder={rules.placeholder} type="text" />
     )
   }
 }
@@ -71,9 +73,20 @@ class FiatAmountInput extends React.Component {
 const FiatAmountInputAsField = FiatAmountInput
 
 class WrappedFiatAmountInputAsField extends React.Component {
+  static propTypes = {
+    isDisabled: PropTypes.bool,
+    isRequired: PropTypes.bool,
+    validate: PropTypes.func,
+  }
+
+  static defaultProps = {
+    isDisabled: false,
+    isRequired: false,
+  }
+
   validate = value => {
-    const { disabled, required } = this.props
-    if (disabled) {
+    const { isDisabled, isRequired } = this.props
+    if (isDisabled) {
       return
     }
     try {
@@ -82,7 +95,7 @@ class WrappedFiatAmountInputAsField extends React.Component {
         .positive()
         .min(0)
         .typeError('A number is required')
-      if (required) {
+      if (isRequired) {
         validator = validator.required().moreThan(0)
       }
       validator.validateSync(Number(value))

@@ -1,33 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { FormattedNumber, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import { convert } from 'lib/utils/btc'
 import { decodePayReq, getNodeAlias } from 'lib/utils/crypto'
 import BigArrowRight from 'components/Icon/BigArrowRight'
-import { Bar, DataRow, Dropdown, Spinner, Text, Value } from 'components/UI'
+import { Bar, DataRow, Spinner, Text } from 'components/UI'
+import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
 
-class PaySummaryLightning extends React.PureComponent {
+class PaySummaryLightning extends React.Component {
   static propTypes = {
     /** Amount to send (in satoshis). */
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
-    /** Currently selected cryptocurrency (key). */
-    cryptoCurrency: PropTypes.string.isRequired,
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
     /** Boolean indicating wether routing information is currently being fetched. */
     isQueryingRoutes: PropTypes.bool,
     /** Maximum fee for the payment */
@@ -38,32 +26,24 @@ class PaySummaryLightning extends React.PureComponent {
     nodes: PropTypes.array,
     /** Lightning Payment request */
     payReq: PropTypes.string.isRequired,
-
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     isQueryingRoutes: false,
     minFee: null,
     maxFee: null,
-    nodes: []
+    nodes: [],
   }
 
   render() {
     const {
       amount,
-      cryptoCurrency,
       cryptoCurrencyTicker,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
       isQueryingRoutes,
       maxFee,
       minFee,
       nodes,
       payReq,
-      setCryptoCurrency,
       ...rest
     } = this.props
 
@@ -78,7 +58,6 @@ class PaySummaryLightning extends React.PureComponent {
     const descriptionTag = invoice.tags.find(tag => tag.tagName === 'description') || {}
     const memo = descriptionTag.data
     const amountInSatoshis = satoshis || convert('msats', 'sats', millisatoshis) || amount
-    const fiatAmount = convert('sats', 'fiat', amountInSatoshis, currentTicker[fiatCurrency])
     const nodeAlias = getNodeAlias(payeeNodeKey, nodes)
 
     // Select an appropriate fee message...
@@ -103,44 +82,39 @@ class PaySummaryLightning extends React.PureComponent {
         <Box py={3}>
           <Flex alignItems="center">
             <Box width={5 / 11}>
-              <Flex flexWrap="wrap" alignItems="baseline">
+              <Flex alignItems="baseline" flexWrap="wrap">
                 <Box>
-                  <Text textAlign="left" fontSize={6}>
-                    <Value value={amountInSatoshis} currency={cryptoCurrency} />
+                  <Text fontSize="xxl" textAlign="left">
+                    <CryptoValue value={amountInSatoshis} />
                   </Text>
                 </Box>
-                <Dropdown
-                  activeKey={cryptoCurrency}
-                  items={cryptoCurrencies}
-                  onChange={setCryptoCurrency}
-                  ml={2}
-                />
+                <CryptoSelector ml={2} />
               </Flex>
               <Text color="gray">
                 {'≈ '}
-                <FormattedNumber currency={fiatCurrency} style="currency" value={fiatAmount} />
+                <FiatValue style="currency" value={amountInSatoshis} />
               </Text>
             </Box>
             <Box width={1 / 11}>
-              <Text textAlign="center" color="lightningOrange">
-                <BigArrowRight width="40px" height="28px" />
+              <Text color="lightningOrange" textAlign="center">
+                <BigArrowRight height="28px" width="40px" />
               </Text>
             </Box>
             <Box width={5 / 11}>
-              <Text textAlign="right" className="hint--bottom-left" data-hint={payeeNodeKey}>
-                {<Truncate text={nodeAlias || payeeNodeKey} maxlen={nodeAlias ? 30 : 15} />}
+              <Text className="hint--bottom-left" data-hint={payeeNodeKey} textAlign="right">
+                {<Truncate maxlen={nodeAlias ? 30 : 15} text={nodeAlias || payeeNodeKey} />}
               </Text>
             </Box>
           </Flex>
         </Box>
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.fee} />}
           right={
             isQueryingRoutes ? (
-              <Flex ml="auto" alignItems="center" justifyContent="flex-end">
+              <Flex alignItems="center" justifyContent="flex-end" ml="auto">
                 <Text mr={2}>
                   <FormattedMessage {...messages.searching_routes} />
                   &hellip;
@@ -153,19 +127,18 @@ class PaySummaryLightning extends React.PureComponent {
           }
         />
 
-        <Bar />
+        <Bar variant="light" />
 
         <DataRow
           left={<FormattedMessage {...messages.total} />}
           right={
             <React.Fragment>
-              <Value value={amountInSatoshis + maxFee} currency={cryptoCurrency} />{' '}
-              {cryptoCurrencyTicker}
+              <CryptoValue value={amountInSatoshis + maxFee} /> {cryptoCurrencyTicker}
             </React.Fragment>
           }
         />
 
-        <Bar />
+        <Bar variant="light" />
 
         {memo && <DataRow left={<FormattedMessage {...messages.memo} />} right={memo} />}
       </Box>

@@ -11,13 +11,13 @@ storiesOf('Components', module).addWithChapters('Header', {
         {
           sectionFn: () => (
             <Header
-              title="This is a heading"
-              subtitle="You can add an optional subtitle too."
               logo={<Lightning />}
+              subtitle="You can add an optional subtitle too."
+              title="This is a heading"
             />
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

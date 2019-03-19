@@ -23,7 +23,7 @@ exports[`component.UI.Header should render correctly with logo 1`] = `
       }
     }
     fontSize="50px"
-    lineHeight="1em"
+    lineHeight="1"
     textAlign="center"
   >
     logo here
@@ -76,7 +76,7 @@ exports[`component.UI.Header should render correctly with title, subtitle, and l
       }
     }
     fontSize="50px"
-    lineHeight="1em"
+    lineHeight="1"
     textAlign="center"
   >
     logo here

@@ -1,20 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
-import { FormattedMessage, injectIntl } from 'react-intl'
-import {
-  Bar,
-  Button,
-  CurrencyFieldGroup,
-  Form,
-  Header,
-  Label,
-  Panel,
-  Text,
-  TextArea
-} from 'components/UI'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { Bar, Button, Form, Header, Panel, Text, TextArea } from 'components/UI'
+import { CurrencyFieldGroup } from 'containers/UI'
 import Lightning from 'components/Icon/Lightning'
-import { RequestSummary } from '.'
+import RequestSummary from './RequestSummary'
 import messages from './messages'
 
 /**
@@ -22,47 +13,32 @@ import messages from './messages'
  */
 class Request extends React.Component {
   state = {
-    currentStep: 'form'
+    currentStep: 'form',
   }
 
   static propTypes = {
-    /** Human readable chain name */
-    cryptoName: PropTypes.string.isRequired,
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
     /** Currently selected cryptocurrency (key). */
+    createInvoice: PropTypes.func.isRequired,
+    /** Human readable chain name */
     cryptoCurrency: PropTypes.string.isRequired,
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** List of supported fiat currencies. */
-    fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
     /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
-    isProcessing: PropTypes.bool,
+    cryptoName: PropTypes.string.isRequired,
     /** Lnd invoice object for the payment request */
-    invoice: PropTypes.object,
+    intl: intlShape.isRequired,
     /** Lightning Payment request. */
-    payReq: PropTypes.string,
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired,
-    /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired,
-    showNotification: PropTypes.func.isRequired,
+    invoice: PropTypes.object,
+    /** Show a notification */
+    isProcessing: PropTypes.bool,
     /** Create an invoice using the supplied details */
-    createInvoice: PropTypes.func.isRequired
+    payReq: PropTypes.string,
+    showNotification: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
     isProcessing: false,
-    payReq: null
+    payReq: null,
   }
 
   amountInput = React.createRef()
@@ -148,28 +124,11 @@ class Request extends React.Component {
   }
 
   renderAmountFields = () => {
-    const {
-      cryptoCurrency,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      fiatCurrencies,
-      setCryptoCurrency,
-      setFiatCurrency
-    } = this.props
-
     return (
       <CurrencyFieldGroup
-        currentTicker={currentTicker}
-        cryptoCurrency={cryptoCurrency}
-        cryptoCurrencies={cryptoCurrencies}
-        fiatCurrencies={fiatCurrencies}
-        fiatCurrency={fiatCurrency}
-        forwardedRef={this.amountInput}
-        setCryptoCurrency={setCryptoCurrency}
-        setFiatCurrency={setFiatCurrency}
         formApi={this.formApi}
-        required
+        forwardedRef={this.amountInput}
+        isRequired
         mb={3}
       />
     )
@@ -178,24 +137,18 @@ class Request extends React.Component {
   renderMemoField = () => {
     const { intl } = this.props
     return (
-      <Box>
-        <Box pb={2}>
-          <Label htmlFor="memo">
-            <FormattedMessage {...messages.memo} />
-          </Label>
-        </Box>
-
-        <TextArea
-          field="memo"
-          name="memo"
-          validateOnBlur
-          validateOnChange
-          placeholder={intl.formatMessage({ ...messages.memo_placeholder })}
-          width={1}
-          rows={3}
-          css={{ resize: 'vertical', 'min-height': '48px' }}
-        />
-      </Box>
+      <TextArea
+        css={{ resize: 'vertical', 'min-height': '48px' }}
+        field="memo"
+        label={intl.formatMessage({ ...messages.memo })}
+        name="memo"
+        placeholder={intl.formatMessage({ ...messages.memo_placeholder })}
+        rows={3}
+        tooltip={intl.formatMessage({ ...messages.memo_tooltip })}
+        validateOnBlur
+        validateOnChange
+        width={1}
+      />
     )
   }
 
@@ -207,25 +160,19 @@ class Request extends React.Component {
       createInvoice,
       cryptoCurrency,
       cryptoCurrencyTicker,
-      cryptoCurrencies,
-      currentTicker,
       cryptoName,
-      fiatCurrencies,
-      fiatCurrency,
       intl,
       isProcessing,
       invoice,
       payReq,
-      setCryptoCurrency,
-      setFiatCurrency,
       showNotification,
       ...rest
     } = this.props
     const { currentStep } = this.state
     return (
       <Form
-        width={1}
         css={{ height: '100%' }}
+        width={1}
         {...rest}
         getApi={this.setFormApi}
         onSubmit={this.onSubmit}
@@ -235,7 +182,7 @@ class Request extends React.Component {
           let nextButtonText = intl.formatMessage({ ...messages.button_text })
           if (formState.values.amountCrypto) {
             nextButtonText = `${intl.formatMessage({
-              ...messages.button_text
+              ...messages.button_text,
             })} ${formState.values.amountCrypto} ${cryptoCurrencyTicker}`
           }
 
@@ -243,13 +190,13 @@ class Request extends React.Component {
             <Panel>
               <Panel.Header>
                 <Header
-                  title={`${intl.formatMessage({
-                    ...messages.title
-                  })} ${cryptoName} (${cryptoCurrencyTicker})`}
-                  subtitle={<FormattedMessage {...messages.subtitle} />}
                   logo={<Lightning height="45px" width="45px" />}
+                  subtitle={<FormattedMessage {...messages.subtitle} />}
+                  title={`${intl.formatMessage({
+                    ...messages.title,
+                  })} ${cryptoName} (${cryptoCurrencyTicker})`}
                 />
-                <Bar pt={2} />
+                <Bar mt={2} />
               </Panel.Header>
               <Panel.Body py={3}>
                 {currentStep == 'form' ? (
@@ -260,18 +207,9 @@ class Request extends React.Component {
                   </React.Fragment>
                 ) : (
                   <RequestSummary
-                    mt={-3}
-                    // State
-                    cryptoCurrency={cryptoCurrency}
-                    cryptoCurrencies={cryptoCurrencies}
-                    currentTicker={currentTicker}
-                    fiatCurrency={fiatCurrency}
-                    fiatCurrencies={fiatCurrencies}
                     invoice={invoice}
+                    mt={-3}
                     payReq={payReq}
-                    // Dispatch
-                    setCryptoCurrency={setCryptoCurrency}
-                    setFiatCurrency={setFiatCurrency}
                     showNotification={showNotification}
                   />
                 )}
@@ -280,10 +218,10 @@ class Request extends React.Component {
                 <Panel.Footer>
                   <Text textAlign="center">
                     <Button
-                      type="submit"
-                      disabled={formState.pristine || formState.invalid || isProcessing}
-                      processing={isProcessing}
+                      isDisabled={formState.pristine || formState.invalid || isProcessing}
+                      isProcessing={isProcessing}
                       mx="auto"
+                      type="submit"
                     >
                       {nextButtonText}
                     </Button>

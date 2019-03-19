@@ -17,14 +17,14 @@ class Notification extends React.Component {
   static displayName = 'Notification'
 
   static defaultProps = {
-    processing: false,
-    variant: 'success'
+    isProcessing: false,
+    variant: 'success',
   }
 
   static propTypes = {
     children: PropTypes.node,
-    processing: PropTypes.bool,
-    variant: PropTypes.string
+    isProcessing: PropTypes.bool,
+    variant: PropTypes.string,
   }
 
   state = { hover: false }
@@ -38,15 +38,15 @@ class Notification extends React.Component {
   }
 
   render() {
-    const { children, processing, variant, ...rest } = this.props
+    const { children, isProcessing, variant, ...rest } = this.props
     const { hover } = this.state
     return (
       <Card
-        px={3}
-        py={3}
         borderRadius="5px"
         boxShadow="0 3px 4px 0 rgba(30, 30, 30, 0.5)"
         css={{ cursor: 'pointer' }}
+        px={3}
+        py={3}
         {...this.props}
         onMouseEnter={this.hoverOn}
         onMouseLeave={this.hoverOff}
@@ -54,11 +54,11 @@ class Notification extends React.Component {
       >
         <Flex justifyContent="space-between">
           <Flex alignItems="center">
-            <Text fontSize={17}>
-              {processing && <Spinner size="2em" mr="0.5em" />}
-              {!processing && variant === 'success' && <Success />}
-              {!processing && variant === 'warning' && <Warning />}
-              {!processing && variant === 'error' && <Error />}
+            <Text fontSize="xl">
+              {isProcessing && <Spinner mr="0.5em" size="2em" />}
+              {!isProcessing && variant === 'success' && <Success />}
+              {!isProcessing && variant === 'warning' && <Warning />}
+              {!isProcessing && variant === 'error' && <Error />}
             </Text>
             <Text fontWeight="normal" ml={2}>
               {children}

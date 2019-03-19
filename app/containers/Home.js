@@ -1,41 +1,60 @@
+import React from 'react'
 import { connect } from 'react-redux'
-import { setActiveWallet, walletSelectors, setIsWalletOpen, deleteWallet } from 'reducers/wallet'
+import {
+  setActiveWallet,
+  walletSelectors,
+  showDeleteWalletDialog,
+  setIsWalletOpen,
+  putWallet,
+} from 'reducers/wallet'
 import {
   setUnlockWalletError,
   stopLnd,
   startLnd,
   unlockWallet,
-  setStartLndError
+  refreshLndConnectURI,
+  clearStartLndError,
 } from 'reducers/lnd'
-import { showError } from 'reducers/notification'
-import { Home } from 'components/Home'
+import { showError, showNotification } from 'reducers/notification'
+import Home from 'components/Home'
+import DeleteWalletDialog from './Home/DeleteWalletDialog'
+
+const HomeWrapper = props => (
+  <>
+    <Home {...props} />
+    <DeleteWalletDialog />
+  </>
+)
 
 const mapStateToProps = state => ({
   lndConnect: state.onboarding.lndConnect,
   wallets: state.wallet.wallets,
   activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
-  lightningGrpcActive: state.lnd.lightningGrpcActive,
-  walletUnlockerGrpcActive: state.lnd.walletUnlockerGrpcActive,
+  isLightningGrpcActive: state.lnd.isLightningGrpcActive,
+  isWalletUnlockerGrpcActive: state.lnd.isWalletUnlockerGrpcActive,
   startLndError: state.lnd.startLndError,
-  startingLnd: state.lnd.startingLnd,
-  unlockingWallet: state.lnd.unlockingWallet,
-  unlockWalletError: state.lnd.unlockWalletError
+  isStartingLnd: state.lnd.isStartingLnd,
+  isUnlockingWallet: state.lnd.isUnlockingWallet,
+  unlockWalletError: state.lnd.unlockWalletError,
 })
 
 const mapDispatchToProps = {
   setActiveWallet,
   setUnlockWalletError,
-  setStartLndError,
+  clearStartLndError,
   stopLnd,
+  putWallet,
+  showNotification,
   startLnd,
   unlockWallet,
-  deleteWallet,
+  deleteWallet: showDeleteWalletDialog,
   setIsWalletOpen,
-  showError
+  showError,
+  refreshLndConnectURI,
 }
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Home)
+)(HomeWrapper)

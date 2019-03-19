@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { injectIntl } from 'react-intl'
+import { intlShape, injectIntl } from 'react-intl'
 import { NavLink } from 'react-router-dom'
 import { Box } from 'rebass'
 import { Text } from 'components/UI'
@@ -15,22 +15,22 @@ const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
     {wallets.map(wallet => (
       <Text
         key={wallet.id}
-        mb={1}
         css={{
-          a: { opacity: 0.6, '&:hover': { opacity: 1 }, '&.selected': { opacity: 1 } }
+          a: { opacity: 0.6, '&:hover': { opacity: 1 }, '&.selected': { opacity: 1 } },
         }}
+        mb={1}
       >
         <NavLink
-          to={`/home/wallet/${wallet.id}`}
-          activeStyle={{ fontWeight: 'normal' }}
           activeClassName="selected"
+          activeStyle={{ fontWeight: 'normal' }}
           onClick={() => setActiveWallet(wallet.id)}
           style={{
             display: 'block',
             whiteSpace: 'nowrap',
             overflow: 'hidden',
-            textOverflow: 'ellipsis'
+            textOverflow: 'ellipsis',
           }}
+          to={`/home/wallet/${wallet.id}`}
         >
           <WalletName wallet={wallet} />
         </NavLink>
@@ -39,12 +39,23 @@ const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
   </Box>
 )
 
+WalletGroup.propTypes = {
+  setActiveWallet: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
+  wallets: PropTypes.array,
+}
+
+WalletGroup.defaultProps = {
+  wallets: [],
+}
+
 class WalletsMenu extends React.Component {
   static displayName = 'WalletsMenu'
 
   static propTypes = {
+    intl: intlShape.isRequired,
     setActiveWallet: PropTypes.func.isRequired,
-    wallets: PropTypes.array.isRequired
+    wallets: PropTypes.array.isRequired,
   }
 
   render() {
@@ -55,16 +66,16 @@ class WalletsMenu extends React.Component {
     return (
       <Box {...rest}>
         <WalletGroup
+          mb={5}
+          setActiveWallet={setActiveWallet}
           title={intl.formatMessage({ ...messages.wallets_menu_local_title })}
           wallets={localWallets}
-          setActiveWallet={setActiveWallet}
-          mb={5}
         />
         {otherWallets.length > 0 && (
           <WalletGroup
+            setActiveWallet={setActiveWallet}
             title={intl.formatMessage({ ...messages.wallets_menu_other_title })}
             wallets={otherWallets}
-            setActiveWallet={setActiveWallet}
           />
         )}
       </Box>

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
 import { Bar, Form, Header, Input, Message, Spinner, Text } from 'components/UI'
 import messages from './messages'
@@ -18,23 +18,24 @@ const SeedWord = ({ index, word }) => (
 )
 SeedWord.propTypes = {
   index: PropTypes.number.isRequired,
-  word: PropTypes.string.isRequired
+  word: PropTypes.string.isRequired,
 }
 
 class SeedView extends React.Component {
   static propTypes = {
+    fetchSeed: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
+    isFetchingSeed: PropTypes.bool,
+    seed: PropTypes.array,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    seed: PropTypes.array,
-    fetchingSeed: PropTypes.bool,
-    fetchSeed: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
     seed: [],
-    fetchingSeed: false
+    isFetchingSeed: false,
   }
 
   componentDidMount() {
@@ -45,11 +46,11 @@ class SeedView extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { fetchingSeed, seed } = this.props
+    const { isFetchingSeed, seed } = this.props
     if (seed && seed !== prevProps.seed) {
       this.formApi.setValue('seed', seed)
     }
-    if (fetchingSeed && fetchingSeed !== prevProps.fetchingSeed) {
+    if (isFetchingSeed && isFetchingSeed !== prevProps.isFetchingSeed) {
       this.formApi.setValue('seed', null)
       this.formApi.setTouched('seed', true)
     }
@@ -60,13 +61,14 @@ class SeedView extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, seed, fetchSeed, fetchingSeed, intl, ...rest } = this.props
+    const { wizardApi, wizardState, seed, fetchSeed, isFetchingSeed, intl, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
     return (
       <Form
         {...rest}
+        css={{ width: '100%' }}
         getApi={formApi => {
           this.setFormApi(formApi)
           if (getApi) {
@@ -80,43 +82,43 @@ class SeedView extends React.Component {
         {() => (
           <>
             <Header
-              title={<FormattedMessage {...messages.save_seed_title} />}
-              subtitle={<FormattedMessage {...messages.save_seed_description} />}
               align="left"
+              subtitle={<FormattedMessage {...messages.save_seed_description} />}
+              title={<FormattedMessage {...messages.save_seed_title} />}
             />
             <Bar my={4} />
 
-            {fetchingSeed && (
+            {isFetchingSeed && (
               <Text textAlign="center">
                 <Spinner />
                 <FormattedMessage {...messages.generating_seed} />
               </Text>
             )}
-            {!fetchingSeed && seed.length > 0 && (
+            {!isFetchingSeed && seed.length > 0 && (
               <>
                 <Flex justifyContent="space-between">
-                  <Flex flexDirection="column" as="ul">
+                  <Flex as="ul" flexDirection="column">
                     {seed.slice(0, 6).map((word, index) => (
                       <SeedWord key={index} index={index + 1} word={word} />
                     ))}
                   </Flex>
-                  <Flex flexDirection="column" as="ul">
+                  <Flex as="ul" flexDirection="column">
                     {seed.slice(6, 12).map((word, index) => (
                       <SeedWord key={index} index={index + 7} word={word} />
                     ))}
                   </Flex>
-                  <Flex flexDirection="column" as="ul">
+                  <Flex as="ul" flexDirection="column">
                     {seed.slice(12, 18).map((word, index) => (
                       <SeedWord key={index} index={index + 13} word={word} />
                     ))}
                   </Flex>
-                  <Flex flexDirection="column" as="ul">
+                  <Flex as="ul" flexDirection="column">
                     {seed.slice(18, 24).map((word, index) => (
                       <SeedWord key={index} index={index + 19} word={word} />
                     ))}
                   </Flex>
                 </Flex>
-                <Message variant="warning" justifyContent="center" mt={3}>
+                <Message justifyContent="center" mt={3} variant="warning">
                   <FormattedMessage {...messages.seed_warning} />
                 </Message>
               </>
@@ -124,11 +126,11 @@ class SeedView extends React.Component {
 
             <Input
               field="seed"
+              isRequired
               name="seed"
               type="hidden"
               validateOnBlur
               validateOnChange
-              required
             />
           </>
         )}

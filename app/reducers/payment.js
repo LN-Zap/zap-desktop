@@ -1,9 +1,11 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
+import { decodePayReq } from 'lib/utils/crypto'
+import delay from 'lib/utils/delay'
 import { fetchBalance } from './balance'
-import { setFormType } from './form'
-import { changeFilter } from './activity'
+import { fetchChannels } from './channels'
+import { showError } from './notification'
 
 // ------------------------------------
 // Constants
@@ -14,7 +16,6 @@ export const RECEIVE_PAYMENTS = 'RECEIVE_PAYMENTS'
 export const SEND_PAYMENT = 'SEND_PAYMENT'
 export const PAYMENT_SUCCESSFUL = 'PAYMENT_SUCCESSFUL'
 export const PAYMENT_FAILED = 'PAYMENT_FAILED'
-export const PAYMENT_COMPLETE = 'PAYMENT_COMPLETE'
 
 // ------------------------------------
 // Helpers
@@ -26,33 +27,42 @@ const decoratePayment = payment => {
   return payment
 }
 
-const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
-
 // ------------------------------------
 // Actions
 // ------------------------------------
 export function setPayment(payment) {
   return {
     type: SET_PAYMENT,
-    payment
+    payment,
   }
 }
 
 export function getPayments() {
   return {
-    type: GET_PAYMENTS
+    type: GET_PAYMENTS,
   }
 }
 
-export function sendPayment(data) {
-  const payment = Object.assign({}, data, {
-    status: 'sending',
-    timestamp: Math.round(new Date() / 1000)
-  })
-  return {
-    type: SEND_PAYMENT,
-    payment
+export const sendPayment = data => dispatch => {
+  const invoice = decodePayReq(data.paymentRequest)
+  const paymentHashTag = invoice.tags ? invoice.tags.find(t => t.tagName === 'payment_hash') : null
+
+  if (!paymentHashTag || !paymentHashTag.data) {
+    dispatch(showError('Unable to send payment: Invalid invoice (no payment hash)'))
+    return
   }
+
+  const payment = {
+    ...data,
+    status: 'sending',
+    creation_date: Math.round(new Date() / 1000),
+    payment_hash: paymentHashTag.data,
+  }
+
+  dispatch({
+    type: SEND_PAYMENT,
+    payment,
+  })
 }
 
 // Send IPC event for payments
@@ -73,47 +83,60 @@ export const payInvoice = ({ payReq, amt, feeLimit }) => dispatch => {
   const data = { paymentRequest: payReq, feeLimit, amt }
   dispatch(send('lnd', { msg: 'sendPayment', data }))
   dispatch(sendPayment(data))
-
-  // Close the form modal once the payment has been sent
-  dispatch(changeFilter({ key: 'ALL_ACTIVITY', name: 'all' }))
-  dispatch(setFormType(null))
 }
 
 // Receive IPC event for successful payment.
-export const paymentSuccessful = (event, { paymentRequest }) => async (dispatch, getState) => {
+export const paymentSuccessful = (event, { payment_request }) => async (dispatch, getState) => {
   const state = getState()
-  const { timestamp } = state.payment.paymentsSending.find(p => p.paymentRequest === paymentRequest)
 
-  // Ensure payment stays in sending state for at least 2 seconds.
-  await delay(2000 - (Date.now() - timestamp * 1000))
+  // Find the latest temporary paymentsSending entry for the payment.
+  const paymentSending = [...state.payment.paymentsSending]
+    .sort((a, b) => b.creation_date - a.creation_date)
+    .find(p => p.paymentRequest === payment_request)
 
-  // Mark the payment as successful.
-  dispatch({ type: PAYMENT_SUCCESSFUL, paymentRequest })
+  // If we found a related entery in paymentsSending, gracefully remove it and handle as success case.
+  if (paymentSending) {
+    const { creation_date, paymentRequest } = paymentSending
 
-  // Wait for another second.
-  await delay(1000)
+    // Ensure payment stays in sending state for at least 2 seconds.
+    await delay(2000 - (Date.now() - creation_date * 1000))
 
-  // Mark the payment as successful.
-  dispatch({ type: PAYMENT_COMPLETE, paymentRequest })
+    // Mark the payment as successful.
+    dispatch({ type: PAYMENT_SUCCESSFUL, paymentRequest })
+
+    // Wait for another second.
+    await delay(1500)
+  }
 
   // Refetch payments.
-  // TODO: dont do a full refetch, rather append new tx to list.
   dispatch(fetchPayments())
 
   // Fetch new balance.
   dispatch(fetchBalance())
+
+  // Fetch updated channels.
+  dispatch(fetchChannels())
 }
 
 // Receive IPC event for failed payment.
-export const paymentFailed = (event, { paymentRequest, error }) => async (dispatch, getState) => {
+export const paymentFailed = (event, { payment_request, error }) => async (dispatch, getState) => {
   const state = getState()
-  const { timestamp } = state.payment.paymentsSending.find(p => p.paymentRequest === paymentRequest)
 
-  // Ensure payment stays in sending state for at least 2 seconds.
-  await delay(2000 - (Date.now() - timestamp * 1000))
+  // Find the latest temporary paymentsSending entry for the payment.
+  const paymentSending = [...state.payment.paymentsSending]
+    .sort((a, b) => b.creation_date - a.creation_date)
+    .find(p => p.paymentRequest === payment_request)
 
-  // Mark the payment as failed.
-  dispatch({ type: PAYMENT_FAILED, paymentRequest, error: errorToUserFriendly(error) })
+  // If we found a related entery in paymentsSending, gracefully remove it and handle as error case.
+  if (paymentSending) {
+    const { creation_date, paymentRequest } = paymentSending
+
+    // Ensure payment stays in sending state for at least 2 seconds.
+    await delay(2000 - (Date.now() - creation_date * 1000))
+
+    // Mark the payment as failed.
+    dispatch({ type: PAYMENT_FAILED, paymentRequest, error: errorToUserFriendly(error) })
+  }
 }
 
 // ------------------------------------
@@ -121,11 +144,18 @@ export const paymentFailed = (event, { paymentRequest, error }) => async (dispat
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
-  [RECEIVE_PAYMENTS]: (state, { payments }) => ({ ...state, paymentLoading: false, payments }),
+  [RECEIVE_PAYMENTS]: (state, { payments }) => ({
+    ...state,
+    paymentLoading: false,
+    payments,
+    paymentsSending: state.paymentsSending.filter(
+      item => !payments.find(p => p.payment_hash === item.payment_hash)
+    ),
+  }),
   [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
   [SEND_PAYMENT]: (state, { payment }) => ({
     ...state,
-    paymentsSending: [...state.paymentsSending, payment]
+    paymentsSending: [...state.paymentsSending, payment],
   }),
   [PAYMENT_SUCCESSFUL]: (state, { paymentRequest }) => {
     return {
@@ -136,9 +166,9 @@ const ACTION_HANDLERS = {
         }
         return {
           ...item,
-          status: 'successful'
+          status: 'successful',
         }
-      })
+      }),
     }
   },
   [PAYMENT_FAILED]: (state, { paymentRequest, error }) => {
@@ -151,17 +181,11 @@ const ACTION_HANDLERS = {
         return {
           ...item,
           status: 'failed',
-          error
+          error,
         }
-      })
+      }),
     }
   },
-  [PAYMENT_COMPLETE]: (state, { paymentRequest }) => {
-    return {
-      ...state,
-      paymentsSending: state.paymentsSending.filter(item => item.paymentRequest !== paymentRequest)
-    }
-  }
 }
 
 const modalPaymentSelector = state => state.payment.payment
@@ -182,7 +206,7 @@ const initialState = {
   paymentLoading: false,
   payment: null,
   payments: [],
-  paymentsSending: []
+  paymentsSending: [],
 }
 
 export default function paymentReducer(state = initialState, action) {

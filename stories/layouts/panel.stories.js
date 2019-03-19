@@ -8,7 +8,7 @@ const Wrapper = ({ children }) => (
   <Page css={{ height: '500px', 'min-height': '500px' }}>{children}</Page>
 )
 Wrapper.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 storiesOf('Layouts', module).addWithChapters('Panel', {
@@ -20,7 +20,7 @@ storiesOf('Layouts', module).addWithChapters('Panel', {
         {
           sectionFn: () => (
             <Wrapper>
-              <Panel width={1} css={{ height: '100%' }}>
+              <Panel width={1}>
                 <Panel.Header bg="green">
                   <Content>Panel Header</Content>
                 </Panel.Header>
@@ -32,9 +32,9 @@ storiesOf('Layouts', module).addWithChapters('Panel', {
                 </Panel.Footer>
               </Panel>
             </Wrapper>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

@@ -18,7 +18,7 @@ const buildAboutMenu = () => {
         {
           icon_path: path.resolve(appRootPath(), 'resources', 'icons', 'icon.png'),
           open_devtools: process.env.NODE_ENV !== 'production',
-          product_name: `${productName} ${version}`
+          product_name: `${productName} ${version}`,
         },
         `file://${path.resolve(
           process.env.HOT ? 'app' : app.getAppPath(),
@@ -26,7 +26,7 @@ const buildAboutMenu = () => {
           'about.html'
         )}`
       )
-    }
+    },
   }
 }
 
@@ -63,7 +63,7 @@ export default class ZapMenuBuilder {
     const selectionMenu = Menu.buildFromTemplate([
       { role: 'copy' },
       { type: 'separator' },
-      { role: 'selectall' }
+      { role: 'selectall' },
     ])
 
     const inputMenu = Menu.buildFromTemplate([
@@ -74,7 +74,7 @@ export default class ZapMenuBuilder {
       { role: 'copy' },
       { role: 'paste' },
       { type: 'separator' },
-      { role: 'selectall' }
+      { role: 'selectall' },
     ])
 
     this.mainWindow.webContents.on('context-menu', (e, props) => {
@@ -98,7 +98,7 @@ export default class ZapMenuBuilder {
         {
           label: 'Hide Others',
           accelerator: 'Command+Shift+H',
-          selector: 'hideOtherApplications:'
+          selector: 'hideOtherApplications:',
         },
         { label: 'Show All', selector: 'unhideAllApplications:' },
         { type: 'separator' },
@@ -107,9 +107,9 @@ export default class ZapMenuBuilder {
           accelerator: 'Command+Q',
           click: () => {
             app.quit()
-          }
-        }
-      ]
+          },
+        },
+      ],
     }
     const subMenuEdit = {
       label: 'Edit',
@@ -120,8 +120,8 @@ export default class ZapMenuBuilder {
         { label: 'Cut', accelerator: 'Command+X', selector: 'cut:' },
         { label: 'Copy', accelerator: 'Command+C', selector: 'copy:' },
         { label: 'Paste', accelerator: 'Command+V', selector: 'paste:' },
-        { label: 'Select All', accelerator: 'Command+A', selector: 'selectAll:' }
-      ]
+        { label: 'Select All', accelerator: 'Command+A', selector: 'selectAll:' },
+      ],
     }
     const subMenuViewDev = {
       label: 'View',
@@ -131,23 +131,23 @@ export default class ZapMenuBuilder {
           accelerator: 'Command+R',
           click: () => {
             this.mainWindow.webContents.reload()
-          }
+          },
         },
         {
           label: 'Toggle Full Screen',
           accelerator: 'Ctrl+Command+F',
           click: () => {
             this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
-          }
+          },
         },
         {
           label: 'Toggle Developer Tools',
           accelerator: 'Alt+Command+I',
           click: () => {
             this.mainWindow.toggleDevTools()
-          }
-        }
-      ]
+          },
+        },
+      ],
     }
     const subMenuViewProd = {
       label: 'View',
@@ -157,9 +157,9 @@ export default class ZapMenuBuilder {
           accelerator: 'Ctrl+Command+F',
           click: () => {
             this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
-          }
-        }
-      ]
+          },
+        },
+      ],
     }
     const subMenuWindow = {
       label: 'Window',
@@ -167,8 +167,8 @@ export default class ZapMenuBuilder {
         { label: 'Minimize', accelerator: 'Command+M', selector: 'performMiniaturize:' },
         { label: 'Close', accelerator: 'Command+W', selector: 'performClose:' },
         { type: 'separator' },
-        { label: 'Bring All to Front', selector: 'arrangeInFront:' }
-      ]
+        { label: 'Bring All to Front', selector: 'arrangeInFront:' },
+      ],
     }
     const subMenuHelp = {
       label: 'Help',
@@ -177,27 +177,27 @@ export default class ZapMenuBuilder {
           label: 'Learn More',
           click() {
             shell.openExternal('https://zap.jackmallers.com/')
-          }
+          },
         },
         {
           label: 'Documentation',
           click() {
             shell.openExternal('https://github.com/LN-Zap/zap-desktop')
-          }
+          },
         },
         {
           label: 'Community Discussions',
           click() {
             shell.openExternal('https://zaphq.slack.com')
-          }
+          },
         },
         {
           label: 'Search Issues',
           click() {
             shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues')
-          }
-        }
-      ]
+          },
+        },
+      ],
     }
 
     const subMenuView = process.env.NODE_ENV === 'development' ? subMenuViewDev : subMenuViewProd
@@ -208,7 +208,7 @@ export default class ZapMenuBuilder {
       subMenuView,
       subMenuWindow,
       subMenuHelp,
-      this.buildLanguageMenu()
+      this.buildLanguageMenu(),
     ]
   }
 
@@ -219,16 +219,16 @@ export default class ZapMenuBuilder {
         submenu: [
           {
             label: '&Open',
-            accelerator: 'Ctrl+O'
+            accelerator: 'Ctrl+O',
           },
           {
             label: '&Close',
             accelerator: 'Ctrl+W',
             click: () => {
               this.mainWindow.close()
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
       {
         label: '&View',
@@ -240,22 +240,22 @@ export default class ZapMenuBuilder {
                   accelerator: 'Ctrl+R',
                   click: () => {
                     this.mainWindow.webContents.reload()
-                  }
+                  },
                 },
                 {
                   label: 'Toggle &Full Screen',
                   accelerator: 'F11',
                   click: () => {
                     this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
-                  }
+                  },
                 },
                 {
                   label: 'Toggle &Developer Tools',
                   accelerator: 'Alt+Ctrl+I',
                   click: () => {
                     this.mainWindow.toggleDevTools()
-                  }
-                }
+                  },
+                },
               ]
             : [
                 {
@@ -263,9 +263,9 @@ export default class ZapMenuBuilder {
                   accelerator: 'F11',
                   click: () => {
                     this.mainWindow.setFullScreen(!this.mainWindow.isFullScreen())
-                  }
-                }
-              ]
+                  },
+                },
+              ],
       },
       {
         label: 'Help',
@@ -274,30 +274,30 @@ export default class ZapMenuBuilder {
             label: 'Learn More',
             click() {
               shell.openExternal('https://zap.jackmallers.com/')
-            }
+            },
           },
           {
             label: 'Documentation',
             click() {
               shell.openExternal('https://github.com/LN-Zap/zap-desktop')
-            }
+            },
           },
           {
             label: 'Community Discussions',
             click() {
               shell.openExternal('zaphq.slack.com')
-            }
+            },
           },
           {
             label: 'Search Issues',
             click() {
               shell.openExternal('https://github.com/LN-Zap/zap-desktop/issues')
-            }
+            },
           },
-          buildAboutMenu()
-        ]
+          buildAboutMenu(),
+        ],
       },
-      this.buildLanguageMenu()
+      this.buildLanguageMenu(),
     ]
 
     return templateDefault
@@ -310,10 +310,10 @@ export default class ZapMenuBuilder {
         return {
           label: getLanguageName(locale),
           type: 'radio',
-          checked: this.locale === locale,
-          click: () => this.mainWindow.webContents.send('receiveLocale', locale)
+          isChecked: this.locale === locale,
+          click: () => this.mainWindow.webContents.send('receiveLocale', locale),
         }
-      })
+      }),
     }
   }
 }

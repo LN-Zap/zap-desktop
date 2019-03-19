@@ -1,107 +1,74 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { btc } from 'lib/utils'
 import Settings from 'containers/Settings'
-import { Button, Dropdown, Text, Value } from 'components/UI'
+import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
+import { Button, Text } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Qrcode from 'components/Icon/Qrcode'
-import { FormattedNumber, FormattedMessage } from 'react-intl'
+import { FormattedMessage } from 'react-intl'
 import messages from './messages'
 
-const Wallet = ({
-  totalBalance,
-  currencyFilters,
-  currentTicker,
-  networkInfo,
-  ticker,
-  openWalletModal,
-  setCurrency,
-  setFormType
-}) => {
-  if (!currentTicker || !ticker.currency) {
-    return null
-  }
-
-  const fiatAmount = btc.satoshisToFiat(totalBalance, currentTicker[ticker.fiatTicker])
-
-  return (
-    <Box pt={3} px={5} pb={3} bg="secondaryColor">
-      <Flex as="header" justifyContent="space-between" pt={2}>
-        <Flex as="section" alignItems="center" mt={4}>
-          <ZapLogo width="70px" height="32px" />
-          {networkInfo.id !== 'mainnet' && (
-            <Text color="superGreen" fontSize={1} ml={2}>
-              {networkInfo.name}
-            </Text>
-          )}
-        </Flex>
-        <Box as="section">
-          <Settings />
-        </Box>
+const Wallet = ({ totalBalance, networkInfo, openWalletModal, openModal }) => (
+  <Box bg="secondaryColor" pb={3} pt={3} px={5}>
+    <Flex as="header" justifyContent="space-between" pt={2}>
+      <Flex alignItems="center" as="section" mt={4}>
+        <ZapLogo height="32px" width="70px" />
+        {networkInfo.id !== 'mainnet' && (
+          <Text color="superGreen" fontSize="xs" ml={2}>
+            {networkInfo.name}
+          </Text>
+        )}
       </Flex>
+      <Box as="section">
+        <Settings />
+      </Box>
+    </Flex>
 
-      <Flex as="header" justifyContent="space-between" mt={4}>
-        <Box as="section">
-          <Flex alignItems="center">
-            <Box onClick={openWalletModal} mr={3}>
-              <Button variant="secondary">
-                <Qrcode width="21px" height="21px" />
-              </Button>
-            </Box>
+    <Flex as="header" justifyContent="space-between" mt={4}>
+      <Box as="section">
+        <Flex alignItems="center">
+          <Box mr={3} onClick={openWalletModal}>
+            <Button variant="secondary">
+              <Qrcode height="21px" width="21px" />
+            </Button>
+          </Box>
 
-            <Box>
-              <Flex alignItems="baseline">
-                <Text fontSize="xxl">
-                  <Value
-                    value={totalBalance}
-                    currency={ticker.currency}
-                    currentTicker={currentTicker}
-                    fiatTicker={ticker.fiatTicker}
-                  />
-                </Text>
-                <Dropdown
-                  activeKey={ticker.currency}
-                  items={currencyFilters}
-                  onChange={setCurrency}
-                  ml={1}
-                />
-              </Flex>
-              <Text color="gray">
-                {'≈ '}
-                <FormattedNumber currency={ticker.fiatTicker} style="currency" value={fiatAmount} />
+          <Box>
+            <Flex alignItems="baseline">
+              <Text fontSize="xxl">
+                <CryptoValue value={totalBalance} />
               </Text>
-            </Box>
-          </Flex>
-        </Box>
-        <Box as="section">
-          <Button onClick={() => setFormType('PAY_FORM')} mr={2} width={145}>
-            <FormattedMessage {...messages.pay} />
-          </Button>
-          <Button onClick={() => setFormType('REQUEST_FORM')} width={145}>
-            <FormattedMessage {...messages.request} />
-          </Button>
-        </Box>
-      </Flex>
-    </Box>
-  )
-}
+              <CryptoSelector ml={1} />
+            </Flex>
+            <Text color="gray">
+              {'≈ '}
+              <FiatValue style="currency" value={totalBalance} />
+            </Text>
+          </Box>
+        </Flex>
+      </Box>
+      <Box as="section">
+        <Button mr={2} onClick={() => openModal('PAY_FORM')} width={145}>
+          <FormattedMessage {...messages.pay} />
+        </Button>
+        <Button onClick={() => openModal('REQUEST_FORM')} width={145}>
+          <FormattedMessage {...messages.request} />
+        </Button>
+      </Box>
+    </Flex>
+  </Box>
+)
 
 Wallet.propTypes = {
-  // Store props
-  totalBalance: PropTypes.number,
-  currencyFilters: PropTypes.array.isRequired,
-  currentTicker: PropTypes.object,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
-    name: PropTypes.string
-  }),
-  ticker: PropTypes.object.isRequired,
-
-  // Dispatch props
+    name: PropTypes.string,
+  }).isRequired,
+  openModal: PropTypes.func.isRequired,
   openWalletModal: PropTypes.func.isRequired,
-  setCurrency: PropTypes.func.isRequired,
-  setFormType: PropTypes.func.isRequired
+  ticker: PropTypes.object.isRequired,
+  totalBalance: PropTypes.number,
 }
 
 export default Wallet

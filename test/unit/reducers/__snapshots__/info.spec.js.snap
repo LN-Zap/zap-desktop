@@ -5,6 +5,7 @@ Object {
   "chain": null,
   "data": Object {},
   "hasSynced": undefined,
+  "infoLoaded": false,
   "infoLoading": true,
   "network": null,
   "networks": Object {
@@ -204,6 +205,7 @@ Object {
     "semver": "0.5.2",
   },
   "hasSynced": undefined,
+  "infoLoaded": true,
   "infoLoading": false,
   "network": "mainnet",
   "networks": Object {
@@ -395,6 +397,7 @@ Object {
   "chain": null,
   "data": Object {},
   "hasSynced": undefined,
+  "infoLoaded": false,
   "infoLoading": false,
   "network": null,
   "networks": Object {

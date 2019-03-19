@@ -7,6 +7,7 @@ import { app } from 'electron'
 import isDev from 'electron-is-dev'
 import { credentials, Metadata } from '@grpc/grpc-js'
 import get from 'lodash.get'
+import lndconnect from 'lndconnect'
 import { mainLog } from '../utils/log'
 
 const readFile = promisify(fs.readFile)
@@ -67,27 +68,63 @@ export const lndGpcProtoPath = () => {
  * Helper function to get the current block height.
  * @return {Number} The current block height.
  */
-export const fetchBlockHeight = () => {
-  const sources = [
-    {
-      baseUrl: `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
-      path: 'blocks[0].height'
+export const fetchBlockHeight = (chain, network) => {
+  const allSources = {
+    bitcoin: {
+      mainnet: [
+        {
+          baseUrl: `https://api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
+          path: 'blocks[0].height',
+        },
+        {
+          baseUrl: `https://chain.api.btc.com/v3/block/latest`,
+          path: 'data.height',
+        },
+        {
+          baseUrl: `https://api.blockcypher.com/v1/btc/main`,
+          path: 'height',
+        },
+      ],
+      testnet: [
+        {
+          baseUrl: `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
+          path: 'blocks[0].height',
+        },
+        {
+          baseUrl: `https://tchain.api.btc.com/v3/block/latest`,
+          path: 'data.height',
+        },
+        {
+          baseUrl: `https://api.blockcypher.com/v1/btc/test3`,
+          path: 'height',
+        },
+      ],
     },
-    {
-      baseUrl: `https://tchain.api.btc.com/v3/block/latest`,
-      path: 'data.height'
+    litecoin: {
+      mainnet: [
+        {
+          baseUrl: `https://chain.so/api/v2/get_info/LTC`,
+          path: 'data.blocks',
+        },
+        {
+          baseUrl: `https://api.blockcypher.com/v1/ltc/main`,
+          path: 'height',
+        },
+      ],
+      testnet: [
+        {
+          baseUrl: `https://chain.so/api/v2/get_info/LTCTEST`,
+          path: 'data.blocks',
+        },
+      ],
     },
-    {
-      baseUrl: `https://api.blockcypher.com/v1/btc/test3`,
-      path: 'height'
-    }
-  ]
+  }
   const fetchData = (baseUrl, path) => {
     mainLog.info(`Fetching current block height from ${baseUrl}`)
     return axios({
       method: 'get',
       timeout: 5000,
-      url: baseUrl
+      url: baseUrl,
     })
       .then(response => {
         const height = Number(get(response.data, path))
@@ -99,6 +136,7 @@ export const fetchBlockHeight = () => {
       })
   }
 
+  const sources = get(allSources, `${chain}.${network}`, [])
   return Promise.race(sources.map(source => fetchData(source.baseUrl, source.path)))
 }
 
@@ -121,11 +159,23 @@ export const getDeadline = timeoutSecs => {
 export const createSslCreds = async certPath => {
   let lndCert
   if (certPath) {
-    lndCert = await readFile(certPath).catch(e => {
-      const error = new Error(`SSL cert path could not be accessed: ${e.message}`)
-      error.code = 'LND_GRPC_CERT_ERROR'
-      throw error
-    })
+    // If the cert has been provided in PEM format, use as is.
+    if (certPath.split(/\n/)[0] === '-----BEGIN CERTIFICATE-----') {
+      lndCert = new Buffer.from(certPath)
+    }
+    // If it's not a filepath, then assume it is a base64url encoded string.
+    else if (certPath === basename(certPath)) {
+      lndCert = lndconnect.decodeCert(certPath)
+      lndCert = new Buffer.from(lndCert)
+    }
+    // Otherwise, lets treat it as a file path.
+    else {
+      lndCert = await readFile(certPath).catch(e => {
+        const error = new Error(`SSL cert path could not be accessed: ${e.message}`)
+        error.code = 'LND_GRPC_CERT_ERROR'
+        throw error
+      })
+    }
   }
   return credentials.createSsl(lndCert)
 }
@@ -139,10 +189,13 @@ export const createMacaroonCreds = async macaroonPath => {
   const metadata = new Metadata()
 
   if (macaroonPath) {
-    // If it's not a filepath, then assume it is a hex encoded string.
-    if (macaroonPath === basename(macaroonPath)) {
+    // If the macaroon is already in hex format, add as is.
+    const isHex = /^[0-9a-fA-F]+$/.test(macaroonPath)
+    if (isHex) {
       metadata.add('macaroon', macaroonPath)
-    } else {
+    }
+    // Otherwise, treat it as a file path - load the file and convert to hex.
+    else {
       const macaroon = await readFile(macaroonPath).catch(e => {
         const error = new Error(`Macaroon path could not be accessed: ${e.message}`)
         error.code = 'LND_GRPC_MACAROON_ERROR'
@@ -202,5 +255,5 @@ export const grpcOptions = {
   longs: Number,
   enums: String,
   defaults: true,
-  oneofs: true
+  oneofs: true,
 }

@@ -8,7 +8,7 @@ import peersReducer, {
   SET_PEER_FORM,
   SET_PEER,
   GET_PEERS,
-  RECEIVE_PEERS
+  RECEIVE_PEERS,
 } from 'reducers/peers'
 
 describe('reducers', () => {

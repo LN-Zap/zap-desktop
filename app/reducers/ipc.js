@@ -1,21 +1,23 @@
 import createIpc from 'redux-electron-ipc'
 import { receiveLocale } from './locale'
-import { receiveError } from './notification'
 import {
   currentBlockHeight,
   fetchSeedSuccess,
   fetchSeedError,
-  lightningGrpcActive,
+  lightningWalletStarted,
   lndSyncStatus,
-  lndStopped,
   lndStarted,
+  lndStopped,
+  lndCrashed,
   lndBlockHeight,
   lndCfilterHeight,
   setUnlockWalletError,
   startLndError,
   walletCreated,
   walletUnlocked,
-  walletUnlockerGrpcActive
+  walletUnlockerStarted,
+  startNeutrino,
+  startWalletUnlocker,
 } from './lnd'
 import { receiveInfo } from './info'
 import { receiveAddress } from './address'
@@ -23,7 +25,6 @@ import { receiveCryptocurrency } from './ticker'
 import { receivePeers, connectSuccess, disconnectSuccess, connectFailure } from './peers'
 import {
   receiveChannels,
-  channelSuccessful,
   pushchannelupdated,
   pushchannelend,
   pushchannelerror,
@@ -34,9 +35,14 @@ import {
   pushclosechannelerror,
   pushclosechannelstatus,
   channelGraphData,
-  channelGraphStatus
+  channelGraphStatus,
 } from './channels'
-import { lightningPaymentUri, queryRoutesSuccess, queryRoutesFailure } from './pay'
+import {
+  bitcoinPaymentUri,
+  lightningPaymentUri,
+  queryRoutesSuccess,
+  queryRoutesFailure,
+} from './pay'
 import { receivePayments, paymentSuccessful, paymentFailed } from './payment'
 import { receiveInvoices, createdInvoice, invoiceUpdate, invoiceFailed } from './invoice'
 import { receiveBalance } from './balance'
@@ -44,22 +50,21 @@ import {
   receiveTransactions,
   transactionSuccessful,
   transactionFailed,
-  newTransaction
+  newTransaction,
 } from './transaction'
 
-import { receiveDescribeNetwork, receiveQueryRoutes, receiveInvoiceAndQueryRoutes } from './network'
+import { receiveDescribeNetwork } from './network'
 
 import { lndconnectUri, startOnboarding } from './onboarding'
 
 // Import all receiving IPC event handlers and pass them into createIpc
 const ipc = createIpc({
   receiveLocale,
-  receiveError,
   lndSyncStatus,
   currentBlockHeight,
   lndBlockHeight,
   lndCfilterHeight,
-  lightningGrpcActive,
+  lightningWalletStarted,
   receiveInfo,
 
   receivePeers,
@@ -75,6 +80,7 @@ const ipc = createIpc({
 
   receiveBalance,
 
+  bitcoinPaymentUri,
   lightningPaymentUri,
 
   queryRoutesSuccess,
@@ -83,7 +89,6 @@ const ipc = createIpc({
   paymentSuccessful,
   paymentFailed,
 
-  channelSuccessful,
   pushchannelupdated,
   pushchannelend,
   pushchannelerror,
@@ -109,20 +114,22 @@ const ipc = createIpc({
   newTransaction,
 
   receiveDescribeNetwork,
-  receiveQueryRoutes,
-  receiveInvoiceAndQueryRoutes,
 
   lndconnectUri,
   startOnboarding,
   startLndError,
-  lndStopped,
   lndStarted,
-  walletUnlockerGrpcActive,
+  lndStopped,
+  lndCrashed,
+  walletUnlockerStarted,
   fetchSeedSuccess,
   fetchSeedError,
   walletCreated,
   walletUnlocked,
-  setUnlockWalletError
+  setUnlockWalletError,
+
+  startNeutrino,
+  startWalletUnlocker,
 })
 
 export default ipc

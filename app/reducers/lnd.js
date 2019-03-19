@@ -6,6 +6,7 @@ import { fetchInfo, setHasSynced } from './info'
 import { putWallet, setActiveWallet, walletSelectors } from './wallet'
 import { onboardingFinished, setSeed } from './onboarding'
 
+const { ipcRenderer } = window
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -24,9 +25,13 @@ export const SET_LIGHTNING_WALLET_ACTIVE = 'SET_LIGHTNING_WALLET_ACTIVE'
 export const STARTING_LND = 'STARTING_LND'
 export const LND_STARTED = 'LND_STARTED'
 export const SET_START_LND_ERROR = 'SET_START_LND_ERROR'
+export const CLEAR_START_LND_ERROR = 'CLEAR_START_LND_ERROR'
 
 export const STOPPING_LND = 'STOPPING_LND'
 export const LND_STOPPED = 'LND_STOPPED'
+
+export const LND_CRASHED = 'LND_CRASHED'
+export const LND_RESET = 'LND_RESET'
 
 export const CREATING_NEW_WALLET = 'CREATING_NEW_WALLET'
 export const RECOVERING_OLD_WALLET = 'RECOVERING_OLD_WALLET'
@@ -38,6 +43,10 @@ export const SET_UNLOCK_WALLET_ERROR = 'SET_UNLOCK_WALLET_ERROR'
 export const FETCH_SEED = 'FETCH_SEED'
 export const FETCH_SEED_ERROR = 'FETCH_SEED_ERROR'
 export const FETCH_SEED_SUCCESS = 'FETCH_SEED_SUCCESS'
+
+// track initialization status
+export const START_NEUTRINO = 'START_NEUTRINO'
+export const START_WALLET_UNLOCKER = 'START_WALLET_UNLOCKER'
 
 // ------------------------------------
 // Actions
@@ -73,8 +82,11 @@ export const lndSyncStatus = (event, status) => async dispatch => {
   }
 }
 
+export const startNeutrino = (event, value) => ({ type: START_NEUTRINO, value })
+export const startWalletUnlocker = (event, value) => ({ type: START_WALLET_UNLOCKER, value })
+
 // Connected to Lightning gRPC interface (lnd wallet is connected and unlocked)
-export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
+export const lightningWalletStarted = (event, lndConfig) => async dispatch => {
   dispatch({ type: SET_LIGHTNING_WALLET_ACTIVE })
   // Once we we have established a connection, save the wallet settings
   // after connection was successfully established. This is especially important
@@ -91,8 +103,22 @@ export const lightningGrpcActive = (event, lndConfig) => async dispatch => {
   dispatch(onboardingFinished())
 }
 
+/**
+ * Re-generates config that includes updated lndconnectUri and QR
+ * host, cert and macaroon values
+ */
+export const refreshLndConnectURI = wallet => dispatch => {
+  dispatch(send('generateLndConfig', wallet))
+
+  return new Promise(resolve => {
+    ipcRenderer.once('receiveLndConfig', (event, config) => {
+      resolve(config)
+    })
+  })
+}
+
 // Connected to WalletUnlocker gRPC interface (lnd is ready to unlock or create wallet)
-export const walletUnlockerGrpcActive = () => async dispatch => {
+export const walletUnlockerStarted = () => async dispatch => {
   dispatch({ type: SET_WALLET_UNLOCKER_ACTIVE })
 
   // Let the onboarding process know that the wallet unlocker has started.
@@ -117,45 +143,46 @@ export const lndCfilterHeight = (event, height) => dispatch => {
 export const startLnd = options => async (dispatch, getState) => {
   const state = getState().lnd
   if (
-    state.walletUnlockerGrpcActive ||
-    state.lightningGrpcActive ||
-    state.startingLnd ||
+    state.isWalletUnlockerGrpcActive ||
+    state.isLightningGrpcActive ||
+    state.isStartingLnd ||
     state.stoppingLnd
   ) {
     return
   }
+
+  // Set default options.
+  options.decoder = options.decoder || 'lnd.lndconnect.v1'
+
   return new Promise((resolve, reject) => {
     // Tell the main process to start lnd using the supplied connection details.
     dispatch({ type: STARTING_LND })
     dispatch(send('startLnd', options))
 
-    window.ipcRenderer.once('startLndError', (event, error) => {
-      window.ipcRenderer.removeListener('startLndSuccess', resolve)
+    ipcRenderer.once('startLndError', (event, error) => {
+      ipcRenderer.removeListener('startLndSuccess', resolve)
       reject(error)
     })
 
-    window.ipcRenderer.once('startLndSuccess', () => {
-      window.ipcRenderer.removeListener('startLndError', reject)
+    ipcRenderer.once('startLndSuccess', () => {
+      ipcRenderer.removeListener('startLndError', reject)
       resolve()
     })
   })
 }
+
+export const setStartLndError = errors => ({ type: SET_START_LND_ERROR, errors })
+
+export const clearStartLndError = () => ({ type: CLEAR_START_LND_ERROR })
 
 // Listener for errors connecting to LND gRPC
 export const startLndError = (event, errors) => dispatch => {
   dispatch(setStartLndError(errors))
 }
 
-export function setStartLndError(errors) {
-  return {
-    type: SET_START_LND_ERROR,
-    errors
-  }
-}
-
 export const stopLnd = () => async (dispatch, getState) => {
   const state = getState().lnd
-  if ((state.walletUnlockerGrpcActive || state.lightningGrpcActive) && !state.stoppingLnd) {
+  if ((state.isWalletUnlockerGrpcActive || state.isLightningGrpcActive) && !state.stoppingLnd) {
     dispatch({ type: STOPPING_LND })
     dispatch(send('stopLnd'))
   }
@@ -169,12 +196,20 @@ export const lndStarted = () => async dispatch => {
   dispatch({ type: LND_STARTED })
 }
 
+export const lndCrashed = (event, { code, signal, lastError }) => async dispatch => {
+  dispatch({ type: LND_CRASHED, code, signal, lastError })
+}
+
+export const lndReset = () => async dispatch => {
+  dispatch({ type: LND_RESET })
+}
+
 export const unlockWallet = password => async dispatch => {
   dispatch({ type: UNLOCKING_WALLET })
   dispatch(
     send('walletUnlocker', {
       msg: 'unlockWallet',
-      data: { wallet_password: password }
+      data: { wallet_password: password },
     })
   )
 }
@@ -187,16 +222,16 @@ export const lndWalletUnlockerStarted = () => (dispatch, getState) => {
   const state = getState()
 
   // Handle generate seed.
-  if (state.lnd.fetchingSeed) {
+  if (state.lnd.isFetchingSeed) {
     dispatch(send('walletUnlocker', { msg: 'genSeed' }))
   }
 
   // Handle unlock wallet.
-  else if (state.lnd.unlockingWallet) {
+  else if (state.lnd.isUnlockingWallet) {
     dispatch(
       send('walletUnlocker', {
         msg: 'unlockWallet',
-        data: { wallet_password: state.onboarding.password }
+        data: { wallet_password: state.onboarding.password },
       })
     )
   }
@@ -208,8 +243,8 @@ export const lndWalletUnlockerStarted = () => (dispatch, getState) => {
         msg: 'initWallet',
         data: {
           wallet_password: state.onboarding.password,
-          cipher_seed_mnemonic: state.onboarding.seed
-        }
+          cipher_seed_mnemonic: state.onboarding.seed,
+        },
       })
     )
   }
@@ -222,8 +257,8 @@ export const lndWalletUnlockerStarted = () => (dispatch, getState) => {
         data: {
           wallet_password: state.onboarding.password,
           cipher_seed_mnemonic: state.onboarding.seed,
-          recovery_window: 250
-        }
+          recovery_window: 250,
+        },
       })
     )
   }
@@ -246,14 +281,16 @@ export const setUnlockWalletError = (event, unlockWalletError) => dispatch => {
 }
 
 export const fetchSeed = () => async dispatch => {
+  const { chain: defaultChain, network: defaultNetwork } = CONFIG.neutrino
+
   dispatch({ type: FETCH_SEED })
   try {
     await dispatch(
       startLnd({
         id: `tmp`,
         type: 'local',
-        chain: 'bitcoin',
-        network: 'testnet'
+        chain: defaultChain,
+        network: defaultNetwork,
       })
     )
   } catch (error) {
@@ -275,15 +312,16 @@ export const fetchSeedError = (event, error) => dispatch => {
 
 export const createNewWallet = () => async (dispatch, getState) => {
   const state = getState()
+  const { chain: defaultChain, network: defaultNetwork } = CONFIG.neutrino
 
   // Define the wallet config.
   let wallet = {
     type: 'local',
-    chain: 'bitcoin',
-    network: 'testnet',
+    chain: state.onboarding.chain || defaultChain,
+    network: state.onboarding.network || defaultNetwork,
     autopilot: state.onboarding.autopilot,
     alias: state.onboarding.alias,
-    name: state.onboarding.name
+    name: state.onboarding.name,
   }
 
   // Save the wallet config.
@@ -296,15 +334,16 @@ export const createNewWallet = () => async (dispatch, getState) => {
 
 export const recoverOldWallet = () => async (dispatch, getState) => {
   const state = getState()
+  const { chain: defaultChain, network: defaultNetwork } = CONFIG.neutrino
 
   // Define the wallet config.
   let wallet = {
     type: 'local',
-    chain: 'bitcoin',
-    network: 'testnet',
+    chain: state.onboarding.chain || defaultChain,
+    network: state.onboarding.network || defaultNetwork,
     autopilot: state.onboarding.autopilot,
     alias: state.onboarding.alias,
-    name: state.onboarding.name
+    name: state.onboarding.name,
   }
 
   // Save the wallet config.
@@ -317,7 +356,7 @@ export const recoverOldWallet = () => async (dispatch, getState) => {
 
 export const startActiveWallet = () => async (dispatch, getState) => {
   const state = getState()
-  if (!state.lnd.lndStarted && !state.lnd.startingLnd) {
+  if (!state.lnd.lndStarted && !state.lnd.isStartingLnd) {
     const activeWalletSettings = walletSelectors.activeWalletSettings(state)
     if (activeWalletSettings) {
       await dispatch(startLnd(activeWalletSettings))
@@ -329,16 +368,16 @@ export const startActiveWallet = () => async (dispatch, getState) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [FETCH_SEED]: state => ({ ...state, fetchingSeed: true }),
+  [FETCH_SEED]: state => ({ ...state, isFetchingSeed: true }),
   [FETCH_SEED_SUCCESS]: state => ({
     ...state,
-    fetchingSeed: false,
-    fetchSeedError: ''
+    isFetchingSeed: false,
+    fetchSeedError: '',
   }),
   [FETCH_SEED_ERROR]: (state, { error }) => ({
     ...state,
-    fetchingSeed: false,
-    fetchSeedError: error
+    isFetchingSeed: false,
+    fetchSeedError: error,
   }),
 
   [SET_SYNC_STATUS_PENDING]: state => ({ ...state, syncStatus: 'pending' }),
@@ -348,85 +387,106 @@ const ACTION_HANDLERS = {
 
   [RECEIVE_CURRENT_BLOCK_HEIGHT]: (state, { blockHeight }) => ({
     ...state,
-    blockHeight
+    blockHeight,
   }),
   [RECEIVE_LND_BLOCK_HEIGHT]: (state, { lndBlockHeight }) => ({
     ...state,
     lndBlockHeight,
-    lndFirstBlockHeight: state.lndFirstBlockHeight || lndBlockHeight
+    lndFirstBlockHeight: state.lndFirstBlockHeight || lndBlockHeight,
   }),
   [RECEIVE_LND_CFILTER_HEIGHT]: (state, { lndCfilterHeight }) => ({
     ...state,
     lndCfilterHeight,
-    lndFirstCfilterHeight: state.lndFirstCfilterHeight || lndCfilterHeight
+    lndFirstCfilterHeight: state.lndFirstCfilterHeight || lndCfilterHeight,
   }),
 
   [STARTING_LND]: state => ({
     ...state,
-    startingLnd: true,
-    lndStarted: false
+    isStartingLnd: true,
+    lndStarted: false,
   }),
   [LND_STARTED]: state => ({
     ...state,
-    startingLnd: false,
-    lndStarted: true
+    isStartingLnd: false,
+    lndStarted: true,
   }),
   [SET_START_LND_ERROR]: (state, { errors }) => ({
     ...state,
-    startingLnd: false,
-    startLndError: errors
+    isStartingLnd: false,
+    startLndError: errors,
   }),
-
+  [CLEAR_START_LND_ERROR]: state => ({
+    ...state,
+    startLndError: null,
+  }),
   [SET_WALLET_UNLOCKER_ACTIVE]: state => ({
     ...state,
-    startingLnd: false,
-    walletUnlockerGrpcActive: true,
-    lightningGrpcActive: false
+    isStartingLnd: false,
+    isWalletUnlockerGrpcActive: true,
+    isLightningGrpcActive: false,
   }),
   [SET_LIGHTNING_WALLET_ACTIVE]: state => ({
     ...state,
-    startingLnd: false,
-    lightningGrpcActive: true,
-    walletUnlockerGrpcActive: false
+    isStartingLnd: false,
+    isLightningGrpcActive: true,
+    isWalletUnlockerGrpcActive: false,
   }),
 
   [STOPPING_LND]: state => ({
     ...state,
-    stoppingLnd: true
+    stoppingLnd: true,
   }),
   [LND_STOPPED]: state => ({
     ...state,
-    ...initialState
+    ...initialState,
+  }),
+  [LND_CRASHED]: (state, { code, signal, lastError }) => ({
+    ...state,
+    isLndCrashed: true,
+    lndCrashCode: code,
+    lndCrashSignal: signal,
+    lndCrashLastError: lastError,
+  }),
+  [LND_RESET]: state => ({
+    ...state,
+    ...initialState,
   }),
 
   [CREATING_NEW_WALLET]: state => ({ ...state, creatingNewWallet: true }),
   [RECOVERING_OLD_WALLET]: state => ({ ...state, recoveringOldWallet: true }),
-  [UNLOCKING_WALLET]: state => ({ ...state, unlockingWallet: true }),
+  [UNLOCKING_WALLET]: state => ({ ...state, isUnlockingWallet: true }),
   [WALLET_UNLOCKED]: state => ({
     ...state,
-    unlockingWallet: false,
-    unlockWalletError: ''
+    isUnlockingWallet: false,
+    unlockWalletError: '',
   }),
   [SET_UNLOCK_WALLET_ERROR]: (state, { unlockWalletError }) => ({
     ...state,
-    unlockingWallet: false,
-    unlockWalletError
-  })
+    isUnlockingWallet: false,
+    unlockWalletError,
+  }),
+
+  [START_NEUTRINO]: (state, { value }) => ({ ...state, startNeutrino: value }),
+  [START_WALLET_UNLOCKER]: (state, { value }) => ({ ...state, startWalletUnlocker: value }),
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  fetchingSeed: false,
-  startingLnd: false,
+  isFetchingSeed: false,
+  isStartingLnd: false,
+  isLndCrashed: false,
   stoppingLnd: false,
   lndStarted: false,
+  lndCrashCode: null,
+  lndCrashSignal: null,
+  lndCrashLastError: null,
   creatingNewWallet: false,
   recoveringOldWallet: false,
-  unlockingWallet: false,
-  walletUnlockerGrpcActive: false,
-  lightningGrpcActive: false,
+  isUnlockingWallet: false,
+  isWalletUnlockerGrpcActive: false,
+  isLightningGrpcActive: false,
   unlockWalletError: null,
   startLndError: null,
   fetchSeedError: null,
@@ -435,7 +495,7 @@ const initialState = {
   lndBlockHeight: 0,
   lndFirstBlockHeight: 0,
   lndCfilterHeight: 0,
-  lndFirstCfilterHeight: 0
+  lndFirstCfilterHeight: 0,
 }
 
 // ------------------------------------
@@ -448,7 +508,13 @@ const lndFirstBlockHeightSelector = state => state.lnd.lndFirstBlockHeight
 const lndCfilterHeightSelector = state => state.lnd.lndCfilterHeight
 const lndFirstCfilterHeightSelector = state => state.lnd.lndFirstCfilterHeight
 const startLndErrorSelector = state => state.lnd.startLndError
-const isStartingLndSelector = state => state.lnd.startingLnd
+const isStartingLndSelector = state => state.lnd.isStartingLnd
+const isStartingNeutrinoSelector = state => state.lnd.startNeutrino
+const isStartingUnlockerSelector = state => state.lnd.startWalletUnlocker
+const isLndCrashedSelector = state => state.lnd.isLndCrashed
+const lndCrashCodeSelector = state => state.lnd.lndCrashCode
+const lndCrashSignalSelector = state => state.lnd.lndCrashSignal
+const lndCrashLastErrorSelector = state => state.lnd.lndCrashLastError
 
 lndSelectors.startLndHostError = createSelector(
   startLndErrorSelector,
@@ -468,6 +534,32 @@ lndSelectors.startLndMacaroonError = createSelector(
 lndSelectors.isStartingLnd = createSelector(
   isStartingLndSelector,
   isStarting => isStarting
+)
+
+lndSelectors.isStartingNeutrino = createSelector(
+  isStartingNeutrinoSelector,
+  isStarting => isStarting
+)
+
+lndSelectors.isStartingUnlocker = createSelector(
+  isStartingUnlockerSelector,
+  isStarting => isStarting
+)
+
+lndSelectors.isLndCrashed = createSelector(
+  isLndCrashedSelector,
+  isLndCrashed => isLndCrashed
+)
+
+lndSelectors.lndCrashReason = createSelector(
+  lndCrashCodeSelector,
+  lndCrashSignalSelector,
+  lndCrashLastErrorSelector,
+  (code, signal, error) => ({
+    code,
+    signal,
+    error,
+  })
 )
 
 lndSelectors.syncPercentage = createSelector(

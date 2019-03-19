@@ -13,7 +13,8 @@ import {
   Notification,
   Range,
   TextArea,
-  Toggle
+  Toggle,
+  Tooltip,
 } from 'components/UI'
 import { Column, Group, Element } from '../helpers'
 
@@ -23,31 +24,31 @@ const store = new Store({
   cryptoCurrencies: [
     {
       key: 'btc',
-      name: 'BTC'
+      name: 'BTC',
     },
     {
       key: 'bits',
-      name: 'bits'
+      name: 'bits',
     },
     {
       key: 'sats',
-      name: 'satoshis'
-    }
+      name: 'satoshis',
+    },
   ],
   fiatCurrencies: [
     {
       key: 'usd',
-      name: 'USD'
+      name: 'USD',
     },
     {
       key: 'eur',
-      name: 'EUR'
+      name: 'EUR',
     },
     {
       key: 'gbp',
-      name: 'GBP'
-    }
-  ]
+      name: 'GBP',
+    },
+  ],
 })
 
 storiesOf('General', module)
@@ -65,7 +66,7 @@ storiesOf('General', module)
               showSource: false,
               allowSourceToggling: false,
               showPropTables: false,
-              allowPropTablesToggling: false
+              allowPropTablesToggling: false,
             },
             sectionFn: () => (
               <Flex>
@@ -103,6 +104,16 @@ storiesOf('General', module)
                     </Form>
                   </Group>
 
+                  <Group title="Input with Label and Tooltip">
+                    <Form>
+                      <Flex>
+                        <Label htmlFor="input">Input Label</Label>
+                        <Tooltip>Input label tooltip content</Tooltip>
+                      </Flex>
+                      <Input field="input" />
+                    </Form>
+                  </Group>
+
                   <Group title="TextArea with Label">
                     <Form>
                       <Label htmlFor="input">Input Label</Label>
@@ -113,14 +124,14 @@ storiesOf('General', module)
                   <Group title="Lightning Invoice Input">
                     <Form>
                       <LightningInvoiceInput
-                        field="input"
                         chain="bitcoin"
+                        field="input"
+                        /* eslint-disable max-len */
+                        initialValue="lntb100u1pdaxza7pp5x73t3j7xgvkzgcdvzgpdg74k4pn0uhwuxlxu9qssytjn77x7zs4qdqqcqzysxqyz5vqd20eaq5uferzgzwasu5te3pla7gv8tzk8gcdxlj7lpkygvfdwndhwtl3ezn9ltjejl3hsp36ps3z3e5pp4rzp2hgqjqql80ec3hyzucq4d9axl"
                         network="testnet"
                         rows={7}
                         validateOnBlur
                         validateOnChange
-                        /* eslint-disable max-len */
-                        initialValue="lntb100u1pdaxza7pp5x73t3j7xgvkzgcdvzgpdg74k4pn0uhwuxlxu9qssytjn77x7zs4qdqqcqzysxqyz5vqd20eaq5uferzgzwasu5te3pla7gv8tzk8gcdxlj7lpkygvfdwndhwtl3ezn9ltjejl3hsp36ps3z3e5pp4rzp2hgqjqql80ec3hyzucq4d9axl"
                       />
                     </Form>
                   </Group>
@@ -147,7 +158,7 @@ storiesOf('General', module)
                       <Button>Send 0.1235 BTC</Button>
                     </Element>
                     <Element>
-                      <Button processing disabled>
+                      <Button isDisabled isProcessing>
                         Send 0.1235 BTC
                       </Button>
                     </Element>
@@ -178,9 +189,9 @@ storiesOf('General', module)
                   </Group>
                 </Column>
               </Flex>
-            )
-          }
-        ]
-      }
-    ]
+            ),
+          },
+        ],
+      },
+    ],
   })

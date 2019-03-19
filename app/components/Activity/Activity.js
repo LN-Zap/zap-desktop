@@ -2,15 +2,11 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { space } from 'styled-system'
-import debounce from 'lodash.debounce'
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
-import { FormattedMessage, injectIntl, FormattedDate } from 'react-intl'
-import { Box, Flex } from 'rebass'
-import { Bar, Button, Form, Heading, Input, Panel, Spinner, Text } from 'components/UI'
-import Search from 'components/Icon/Search'
-import X from 'components/Icon/X'
-
-import messages from './messages'
+import { FormattedDate, injectIntl, intlShape } from 'react-intl'
+import { Box } from 'rebass'
+import { Bar, Heading, Panel } from 'components/UI'
+import ActivityActions from 'containers/Activity/ActivityActions'
 import ActivityListItem from './ActivityListItem'
 
 const StyledList = styled(List)`
@@ -20,45 +16,14 @@ const StyledList = styled(List)`
 `
 
 class Activity extends Component {
-  state = {
-    refreshing: false,
-    searchText: ''
-  }
-
   cache = new CellMeasurerCache({
     fixedWidth: true,
-    minHeight: 52
+    minHeight: 52,
   })
-
-  /*eslint-disable react/destructuring-assignment*/
-  updateSearchText = debounce(this.props.updateSearchText, 300)
 
   componentDidUpdate() {
     // update list since item heights might have changed
     this.updateList()
-  }
-
-  refreshClicked = async () => {
-    const { fetchActivityHistory } = this.props
-    // turn the spinner on
-    this.setState({ refreshing: true })
-
-    // fetch data
-    fetchActivityHistory()
-
-    // Turn the spinner off after 1 second.
-    const refreshTimeout = setTimeout(() => {
-      this.setState({ refreshing: false })
-      clearTimeout(refreshTimeout)
-    }, 1000)
-  }
-
-  onSearchTextChange = event => {
-    const { value } = event.target
-    this.setState({
-      searchText: value
-    })
-    this.updateSearchText(value)
   }
 
   updateList = () => {
@@ -74,89 +39,6 @@ class Activity extends Component {
     this._prevListWidth = width
   }
 
-  renderSearchBar = () => {
-    const { updateSearchActive, updateSearchText, intl } = this.props
-
-    const { searchText } = this.state
-
-    return (
-      <>
-        <Form width={1}>
-          <Input
-            autoFocus
-            field="search"
-            id="search"
-            type="text"
-            variant="thin"
-            border={0}
-            placeholder={intl.formatMessage({ ...messages.search })}
-            value={searchText}
-            onChange={this.onSearchTextChange}
-          />
-        </Form>
-
-        <Button
-          variant="secondary"
-          size="small"
-          type="button"
-          onClick={() => {
-            updateSearchActive(false)
-            updateSearchText('')
-          }}
-        >
-          <X />
-        </Button>
-      </>
-    )
-  }
-
-  renderControlBar = () => {
-    const {
-      activity: { filters, filter },
-      changeFilter,
-      updateSearchActive
-    } = this.props
-    const { refreshing } = this.state
-
-    return (
-      <>
-        <Flex justifyContent="space-between" alignItems="center">
-          {filters.map(f => (
-            <Flex mr={3} key={f.key} flexDirection="column" alignItems="center">
-              <Button
-                variant="secondary"
-                size="small"
-                onClick={() => changeFilter(f)}
-                px={3}
-                active={f.key === filter.key}
-              >
-                <Text fontWeight="normal">
-                  <FormattedMessage {...messages[f.name]} />
-                </Text>
-              </Button>
-              {f.key === filter.key && (
-                <Bar
-                  width={1}
-                  borderColor="lightningOrange"
-                  opacity={1}
-                  css={{ 'max-width': '50px' }}
-                />
-              )}
-            </Flex>
-          ))}
-        </Flex>
-        <Flex justifyContent="space-between" alignItems="center">
-          <Button variant="secondary" onClick={this.refreshClicked} mr={3} px={3}>
-            {refreshing ? <Spinner /> : <FormattedMessage {...messages.refresh} />}
-          </Button>
-          <Button variant="secondary" onClick={() => updateSearchActive(true)}>
-            <Search />
-          </Button>
-        </Flex>
-      </>
-    )
-  }
-
   renderActivityList = () => {
     const { currentActivity, currencyName, ticker, currentTicker, showActivityModal } = this.props
 
@@ -167,14 +49,14 @@ class Activity extends Component {
     const renderRow = ({ index, key, style, parent }) => {
       const item = currentActivity[index]
       return (
-        <CellMeasurer key={key} cache={this.cache} parent={parent} columnIndex={0} rowIndex={index}>
+        <CellMeasurer key={key} cache={this.cache} columnIndex={0} parent={parent} rowIndex={index}>
           <div style={style}>
             {item.title ? (
-              <Box pl={4} mt={4}>
+              <Box mt={4} pl={4}>
                 <Heading.h4 fontWeight="normal">
-                  <FormattedDate day="2-digit" month="short" year="numeric" value={item.title} />
+                  <FormattedDate day="2-digit" month="short" value={item.title} year="numeric" />
                 </Heading.h4>
-                <Bar py={1} />
+                <Bar my={1} />
               </Box>
             ) : (
               <ActivityListItem
@@ -183,7 +65,7 @@ class Activity extends Component {
                   currencyName,
                   currentTicker,
                   showActivityModal,
-                  ticker
+                  ticker,
                 }}
               />
             )}
@@ -196,14 +78,14 @@ class Activity extends Component {
         {({ width, height }) => {
           return (
             <StyledList
-              pr={5}
               ref={ref => (this._list = ref)}
-              width={width}
+              deferredMeasurementCache={this.cache}
               height={height}
+              pr={4}
+              rowCount={currentActivity.length}
               rowHeight={this.cache.rowHeight}
               rowRenderer={renderRow}
-              rowCount={currentActivity.length}
-              deferredMeasurementCache={this.cache}
+              width={width}
             />
           )
         }}
@@ -211,28 +93,8 @@ class Activity extends Component {
     )
   }
 
-  renderFooterControls = () => {
-    const {
-      activity: { showExpiredRequests },
-      toggleExpiredRequests
-    } = this.props
-
-    return (
-      <Flex justifyContent="center">
-        <Button size="small" onClick={toggleExpiredRequests} mx="auto">
-          <FormattedMessage {...messages[showExpiredRequests ? 'hide_expired' : 'show_expired']} />
-        </Button>
-      </Flex>
-    )
-  }
-
   render() {
-    const {
-      activity: { searchActive },
-      currentActivity,
-      currentTicker,
-      showExpiredToggle
-    } = this.props
+    const { currentTicker } = this.props
 
     if (!currentTicker) {
       return null
@@ -240,24 +102,11 @@ class Activity extends Component {
 
     return (
       <Panel>
-        <Panel.Header>
-          <Flex
-            as="nav"
-            justifyContent="space-between"
-            alignItems="center"
-            mx={5}
-            mt={3}
-            css={{ height: '50px' }}
-          >
-            {searchActive ? this.renderSearchBar() : this.renderControlBar()}
-          </Flex>
+        <Panel.Header my={3}>
+          <ActivityActions mx={5} />
         </Panel.Header>
 
         <Panel.Body>{this.renderActivityList()}</Panel.Body>
-
-        {showExpiredToggle && currentActivity.length > 0 && (
-          <Panel.Footer py={2}>{this.renderFooterControls()}</Panel.Footer>
-        )}
       </Panel>
     )
   }
@@ -265,18 +114,12 @@ class Activity extends Component {
 
 Activity.propTypes = {
   activity: PropTypes.object.isRequired,
-  currentActivity: PropTypes.array.isRequired,
   currencyName: PropTypes.string,
+  currentActivity: PropTypes.array.isRequired,
   currentTicker: PropTypes.object,
-  ticker: PropTypes.object.isRequired,
-  showExpiredToggle: PropTypes.bool.isRequired,
-
-  changeFilter: PropTypes.func.isRequired,
-  fetchActivityHistory: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
   showActivityModal: PropTypes.func.isRequired,
-  toggleExpiredRequests: PropTypes.func.isRequired,
-  updateSearchActive: PropTypes.func.isRequired,
-  updateSearchText: PropTypes.func.isRequired
+  ticker: PropTypes.object.isRequired,
 }
 
 export default injectIntl(Activity)

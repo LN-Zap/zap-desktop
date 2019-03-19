@@ -5,7 +5,8 @@ import jstz from 'jstimezonedetect'
 import { configureStore, history } from './store/configureStore'
 import { getDefaultLocale } from './lib/i18n'
 import Root from './containers/Root'
-import db from './store/db'
+import { getDb } from './store/db'
+import { getDbName } from './lib/utils/db'
 
 // Register supported locales.
 import './lib/i18n/locale'
@@ -14,10 +15,10 @@ import './lib/i18n/locale'
 import translations from './lib/i18n/translation'
 
 // Make the db globally accessible.
-window.db = db
+window.db = getDb(getDbName(CONFIG))
 
 // Initialise the database.
-db.open()
+window.db.open()
 
 // Default the locale to English.
 const defaultLocale = getDefaultLocale()
@@ -27,8 +28,8 @@ const initialState = {
   intl: {
     locale: defaultLocale,
     messages: translations[defaultLocale],
-    timeZone: jstz.determine().name()
-  }
+    timeZone: jstz.determine().name(),
+  },
 }
 
 // Set up the redux store.

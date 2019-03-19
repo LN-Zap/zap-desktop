@@ -1,11 +1,12 @@
 import { createSelector } from 'reselect'
+import { tickerSelectors } from './ticker'
 
 // ------------------------------------
 // Initial State
 // ------------------------------------
 const initialState = {
   isLoading: true,
-  isMounted: false
+  isMounted: false,
 }
 
 // ------------------------------------
@@ -21,20 +22,20 @@ export const RESET_APP = 'RESET_APP'
 export function setLoading(isLoading) {
   return {
     type: SET_LOADING,
-    isLoading
+    isLoading,
   }
 }
 
 export function setMounted(isMounted) {
   return {
     type: SET_MOUNTED,
-    isMounted
+    isMounted,
   }
 }
 
 export function resetApp() {
   return {
-    type: RESET_APP
+    type: RESET_APP,
   }
 }
 
@@ -43,7 +44,7 @@ export function resetApp() {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [SET_LOADING]: (state, { isLoading }) => ({ ...state, isLoading }),
-  [SET_MOUNTED]: (state, { isMounted }) => ({ ...state, isMounted })
+  [SET_MOUNTED]: (state, { isMounted }) => ({ ...state, isMounted }),
 }
 
 // ------------------------------------
@@ -53,13 +54,31 @@ const ACTION_HANDLERS = {
 const appSelectors = {}
 appSelectors.isLoading = state => state.app.isLoading
 appSelectors.isMounted = state => state.app.isMounted
+appSelectors.currency = state => state.ticker.currency
+appSelectors.infoLoaded = state => state.info.infoLoaded
 appSelectors.onboarding = state => state.onboarding.onboarding
 appSelectors.isWalletsLoaded = state => state.wallet.isWalletsLoaded
-appSelectors.isReady = createSelector(
+appSelectors.walletBalance = state => state.balance.walletBalance
+appSelectors.channelBalance = state => state.balance.channelBalance
+
+appSelectors.isRootReady = createSelector(
   appSelectors.onboarding,
   appSelectors.isWalletsLoaded,
   (onboarding, isWalletsLoaded) => {
     return Boolean(onboarding && isWalletsLoaded)
+  }
+)
+
+appSelectors.isAppReady = createSelector(
+  appSelectors.infoLoaded,
+  tickerSelectors.currency,
+  tickerSelectors.currentTicker,
+  appSelectors.walletBalance,
+  appSelectors.channelBalance,
+  (infoLoaded, currency, currentTicker, walletBalance, channelBalance) => {
+    return Boolean(
+      infoLoaded && currency && currentTicker && channelBalance !== null && walletBalance !== null
+    )
   }
 )
 

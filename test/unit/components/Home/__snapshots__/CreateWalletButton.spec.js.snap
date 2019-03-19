@@ -2,9 +2,10 @@
 
 exports[`component.CreateWalletButton should render correctly 1`] = `
 <Button
-  active={false}
+  isActive={false}
+  isDisabled={false}
+  isProcessing={false}
   onClick={[Function]}
-  processing={false}
   size="small"
   variant="secondary"
 >

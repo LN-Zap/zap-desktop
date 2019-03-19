@@ -1,13 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
+import { variant } from 'styled-system'
 import { Box, Flex, Text } from 'rebass'
-import { Spinner } from 'components/UI'
 import Success from 'components/Icon/Success'
 import Warning from 'components/Icon/Warning'
 import Error from 'components/Icon/Error'
-
-import styled from 'styled-components'
-import { variant } from 'styled-system'
+import Spinner from './Spinner'
 
 const messageStyle = variant({ key: 'messages' })
 const StyledMessage = styled(Text)(messageStyle)
@@ -22,14 +21,15 @@ class Message extends React.Component {
   static displayName = 'Message'
 
   static propTypes = {
+    children: PropTypes.node,
+    justifyContent: PropTypes.string,
     variant: PropTypes.string,
-    children: PropTypes.node
   }
 
   renderIcon = () => {
     const { variant } = this.props
     return (
-      <Box mr={1} width="14px" css={{ height: '14px' }}>
+      <Box css={{ height: '14px' }} mr={1} width="14px">
         {variant === 'success' && <Success height="14px" width="14px" />}
         {variant === 'warning' && <Warning height="14px" width="14px" />}
         {variant === 'error' && <Error height="14px" width="14px" />}
@@ -42,9 +42,9 @@ class Message extends React.Component {
     const { children, justifyContent, variant, ...rest } = this.props
     return (
       <StyledMessage fontSize="s" fontWeight="normal" variant={variant} {...rest}>
-        <Flex alignItems="center" justifyContent={justifyContent}>
+        <Flex alignItems="flex-start" justifyContent={justifyContent}>
           {this.renderIcon()}
-          <Text>{children}</Text>
+          <Text lineHeight="normal">{children}</Text>
         </Flex>
       </StyledMessage>
     )

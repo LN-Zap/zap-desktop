@@ -1,38 +1,34 @@
 import { connect } from 'react-redux'
 import { Pay } from 'components/Pay'
-import { tickerSelectors, setCurrency, setFiatTicker } from 'reducers/ticker'
+import { tickerSelectors } from 'reducers/ticker'
 import { setPayReq, queryFees, queryRoutes } from 'reducers/pay'
+import { changeFilter } from 'reducers/activity'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
+import { closeModal } from 'reducers/modal'
 
 const mapStateToProps = state => ({
   chain: state.info.chain,
   network: state.info.network,
   cryptoName: tickerSelectors.cryptoName(state),
   channelBalance: state.balance.channelBalance,
-  currentTicker: tickerSelectors.currentTicker(state),
   cryptoCurrency: state.ticker.currency,
   cryptoCurrencyTicker: tickerSelectors.currencyName(state),
-  cryptoCurrencies: tickerSelectors.currencyFilters(state),
-  fiatCurrencies: state.ticker.fiatTickers,
-  fiatCurrency: state.ticker.fiatTicker,
-  payReq: state.pay.payReq,
   isQueryingFees: state.pay.isQueryingFees,
-  isQueryingRoutes: state.pay.isQueryingRoutes,
-  nodes: state.network.nodes,
+  payReq: state.pay.payReq,
   onchainFees: state.pay.onchainFees,
   routes: state.pay.routes,
-  walletBalance: state.balance.walletBalance
+  walletBalance: state.balance.walletBalance,
 })
 
 const mapDispatchToProps = {
+  changeFilter,
+  closeModal,
   payInvoice,
-  setCryptoCurrency: setCurrency,
-  setFiatCurrency: setFiatTicker,
   setPayReq,
   sendCoins,
   queryFees,
-  queryRoutes
+  queryRoutes,
 }
 
 export default connect(

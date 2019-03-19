@@ -1,22 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedNumber, FormattedTime, FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedTime, FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { btc } from 'lib/utils'
-import { Text, Value } from 'components/UI'
+import { Text } from 'components/UI'
+import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyName, intl }) => (
+const Invoice = ({ invoice, showActivityModal, currencyName, intl }) => (
   <Flex
-    justifyContent="space-between"
     alignItems="center"
+    justifyContent="space-between"
     onClick={() => showActivityModal('INVOICE', invoice.payment_request)}
     py={2}
   >
     <Box
-      width={3 / 4}
       className="hint--top-right"
       data-hint={intl.formatMessage({ ...messages[invoice.settled ? 'type_paid' : 'type_unpaid'] })}
+      width={3 / 4}
     >
       <Text mb={1}>
         <FormattedMessage {...messages[invoice.settled ? 'received' : 'requested']} />
@@ -29,37 +29,27 @@ const Invoice = ({ invoice, ticker, currentTicker, showActivityModal, currencyNa
     </Box>
 
     <Box
-      width={1 / 4}
       className="hint--top-left"
       data-hint={intl.formatMessage({ ...messages.amount })}
+      width={1 / 4}
     >
-      <Text mb={1} textAlign="right" color="superGreen">
+      <Text color="superGreen" mb={1} textAlign="right">
         {'+ '}
-        <Value
-          value={invoice.value}
-          currency={ticker.currency}
-          currentTicker={currentTicker}
-          fiatTicker={ticker.fiatTicker}
-        />
+        <CryptoValue value={invoice.value} />
         <i> {currencyName}</i>
       </Text>
-      <Text textAlign="right" color="gray" fontSize="xs" fontWeight="normal">
-        <FormattedNumber
-          currency={ticker.fiatTicker}
-          style="currency"
-          value={btc.convert('sats', 'fiat', invoice.value, currentTicker[ticker.fiatTicker])}
-        />
+      <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
+        <FiatValue style="currency" value={invoice.value} />
       </Text>
     </Box>
   </Flex>
 )
 
 Invoice.propTypes = {
+  currencyName: PropTypes.string.isRequired,
+  intl: intlShape.isRequired,
   invoice: PropTypes.object.isRequired,
-  ticker: PropTypes.object.isRequired,
-  currentTicker: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
-  currencyName: PropTypes.string.isRequired
 }
 
 export default injectIntl(Invoice)

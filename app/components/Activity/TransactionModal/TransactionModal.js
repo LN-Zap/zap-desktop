@@ -1,66 +1,55 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
+import get from 'lodash.get'
+import { FormattedDate, FormattedTime, FormattedMessage, FormattedNumber } from 'react-intl'
 import { Flex } from 'rebass'
 import { blockExplorer } from 'lib/utils'
-import { Bar, DataRow, Dropdown, Header, Link, Panel, Text, Value } from 'components/UI'
+import { Bar, DataRow, Header, Link, Panel, Span, Text } from 'components/UI'
+import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Onchain from 'components/Icon/Onchain'
+import Padlock from 'components/Icon/Padlock'
 import messages from './messages'
 
 export default class TransactionModal extends React.PureComponent {
   static propTypes = {
-    /** Invoice */
     item: PropTypes.object.isRequired,
-    /** Current ticker data as provided by blockchain.info */
-    currentTicker: PropTypes.object.isRequired,
-    /** Currently selected cryptocurrency (key). */
-    cryptoCurrency: PropTypes.string.isRequired,
-    /** List of supported cryptocurrencies. */
-    cryptoCurrencies: PropTypes.arrayOf(
-      PropTypes.shape({
-        key: PropTypes.string.isRequired,
-        name: PropTypes.string.isRequired
-      })
-    ).isRequired,
-    /** List of supported fiat currencies. */
-    fiatCurrencies: PropTypes.array.isRequired,
-    /** Currently selected fiat currency (key). */
-    fiatCurrency: PropTypes.string.isRequired,
-    /** Network info  */
-    network: PropTypes.object.isRequired,
+    networkInfo: PropTypes.shape({
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+  }
 
-    /** Set the current cryptocurrency. */
-    setCryptoCurrency: PropTypes.func.isRequired,
-    /** Set the current fiat currency */
-    setFiatCurrency: PropTypes.func.isRequired
+  showBlock = hash => {
+    const { networkInfo } = this.props
+    return networkInfo && blockExplorer.showBlock(networkInfo, hash)
+  }
+
+  showAddress = address => {
+    const { networkInfo } = this.props
+    return networkInfo && blockExplorer.showAddress(networkInfo, address)
+  }
+
+  showTransaction = hash => {
+    const { networkInfo } = this.props
+    return networkInfo && blockExplorer.showTransaction(networkInfo, hash)
   }
 
   render() {
-    const {
-      item,
-      cryptoCurrency,
-      cryptoCurrencies,
-      currentTicker,
-      fiatCurrency,
-      fiatCurrencies,
-      network,
-      setCryptoCurrency,
-      setFiatCurrency,
-      ...rest
-    } = this.props
+    const { item, ...rest } = this.props
+    const destAddress = get(item, 'dest_addresses[0]')
+    const amount = item.amount || item.limboAmount || 0
+    const isIncoming = item.received || item.limboAmount > 0
 
     return (
       <Panel {...rest}>
         <Panel.Header>
           <Header
-            title={
-              <FormattedMessage {...messages[item.received ? 'title_received' : 'title_sent']} />
-            }
-            subtitle={<FormattedMessage {...messages.subtitle} />}
             logo={<Onchain height="45px" width="45px" />}
+            subtitle={<FormattedMessage {...messages.subtitle} />}
+            title={<FormattedMessage {...messages[isIncoming ? 'title_received' : 'title_sent']} />}
           />
-          <Bar pt={2} />
+          <Bar mt={2} />
         </Panel.Header>
 
         <Panel.Body>
@@ -68,128 +57,129 @@ export default class TransactionModal extends React.PureComponent {
             left={<FormattedMessage {...messages.amount} />}
             right={
               <Flex alignItems="center">
-                <Dropdown
-                  activeKey={cryptoCurrency}
-                  items={cryptoCurrencies}
-                  onChange={setCryptoCurrency}
-                  mr={2}
-                />
-                <Text fontSize="xxl">
-                  <Value
-                    value={item.amount}
-                    currency={cryptoCurrency}
-                    currentTicker={currentTicker}
-                    fiatTicker={fiatCurrency}
-                  />
-                </Text>
+                <CryptoSelector mr={2} />
+                <CryptoValue fontSize="xxl" value={amount} />
               </Flex>
             }
           />
 
-          <Bar />
+          <Bar variant="light" />
 
           <DataRow
             left={<FormattedMessage {...messages.current_value} />}
             right={
               <Flex alignItems="center">
-                <Dropdown
-                  activeKey={fiatCurrency}
-                  items={fiatCurrencies}
-                  onChange={setFiatCurrency}
-                  mr={2}
-                />
-                <Value
-                  value={item.amount}
-                  currency="fiat"
-                  currentTicker={currentTicker}
-                  fiatTicker={fiatCurrency}
-                />
+                <FiatSelector mr={2} />
+                <FiatValue value={amount} />
               </Flex>
             }
           />
 
-          <Bar />
-
-          <DataRow
-            left={<FormattedMessage {...messages.date_confirmed} />}
-            right={
-              <>
-                <FormattedDate
-                  value={item.time_stamp * 1000}
-                  year="numeric"
-                  month="long"
-                  day="2-digit"
-                />
-                <br />
-                <FormattedTime value={item.time_stamp * 1000} />
-              </>
-            }
-          />
-
-          <Bar />
-
-          <DataRow
-            left={<FormattedMessage {...messages.address} />}
-            right={
-              <Link
-                className="hint--bottom-left"
-                data-hint={item.dest_addresses[0]}
-                onClick={() => blockExplorer.showAddress(network, item.dest_addresses[0])}
-              >
-                <Truncate text={item.dest_addresses[0]} />
-              </Link>
-            }
-          />
-
-          <Bar />
-
-          {!item.received && (
+          {item.num_confirmations > 0 && (
             <>
+              <Bar variant="light" />
+
+              <DataRow
+                left={<FormattedMessage {...messages.date_confirmed} />}
+                right={
+                  item.num_confirmations ? (
+                    <>
+                      <Text>
+                        <FormattedDate
+                          day="2-digit"
+                          month="long"
+                          value={item.time_stamp * 1000}
+                          year="numeric"
+                        />
+                      </Text>
+                      <Text>
+                        <FormattedTime value={item.time_stamp * 1000} />
+                      </Text>
+                    </>
+                  ) : (
+                    <FormattedMessage {...messages.unconfirmed} />
+                  )
+                }
+              />
+
+              <Bar variant="light" />
+
+              <DataRow
+                left={<FormattedMessage {...messages.num_confirmations} />}
+                right={<FormattedNumber value={item.num_confirmations} />}
+              />
+
+              <Bar variant="light" />
+
+              <DataRow
+                left={<FormattedMessage {...messages.address} />}
+                right={
+                  <Link
+                    className="hint--bottom-left"
+                    data-hint={destAddress}
+                    onClick={() => this.showAddress(destAddress)}
+                  >
+                    <Truncate text={destAddress} />
+                  </Link>
+                }
+              />
+            </>
+          )}
+
+          {!isIncoming && (
+            <>
+              <Bar variant="light" />
+
               <DataRow
                 left={<FormattedMessage {...messages.fee} />}
                 right={
                   <Flex alignItems="center">
-                    <Dropdown
-                      activeKey={fiatCurrency}
-                      items={fiatCurrencies}
-                      onChange={setFiatCurrency}
-                      mr={2}
-                    />
-                    <Value
-                      value={item.total_fees}
-                      currency="fiat"
-                      currentTicker={currentTicker}
-                      fiatTicker={fiatCurrency}
-                    />
+                    <FiatSelector mr={2} />
+                    <FiatValue value={item.total_fees} />
                   </Flex>
                 }
               />
-
-              <Bar />
             </>
           )}
 
+          <Bar variant="light" />
           <DataRow
             left={<FormattedMessage {...messages.status} />}
             right={
               item.block_height ? (
-                <Link
-                  className="hint--bottom-left"
-                  data-hint={item.block_hash}
-                  onClick={() => blockExplorer.showBlock(network, item.block_hash)}
-                >
-                  <FormattedMessage
-                    {...messages.block_height}
-                    values={{ height: item.block_height }}
-                  />
-                </Link>
+                <>
+                  <Link
+                    className="hint--bottom-left"
+                    data-hint={item.block_hash}
+                    onClick={() => this.showBlock(item.block_hash)}
+                  >
+                    <FormattedMessage
+                      {...messages.block_height}
+                      values={{ height: item.block_height }}
+                    />
+                  </Link>
+
+                  {item.maturityHeight && (
+                    <Flex alignItems="center" mt={1}>
+                      <Span color="gray" fontSize="s" mr={1}>
+                        <Padlock />
+                      </Span>
+                      <Text>
+                        <FormattedMessage
+                          {...messages.maturity_height}
+                          values={{ height: item.maturityHeight }}
+                        />
+                      </Text>
+                    </Flex>
+                  )}
+                </>
               ) : (
                 <FormattedMessage {...messages.unconfirmed} />
               )
             }
           />
 
-          <Bar />
+          <Bar variant="light" />
 
           <DataRow
             left={<FormattedMessage {...messages.tx_hash} />}
@@ -197,7 +187,7 @@ export default class TransactionModal extends React.PureComponent {
               <Link
                 className="hint--bottom-left"
                 data-hint={item.tx_hash}
-                onClick={() => blockExplorer.showTransaction(network, item.tx_hash)}
+                onClick={() => this.showTransaction(item.tx_hash)}
               >
                 <Truncate text={item.tx_hash} />
               </Link>

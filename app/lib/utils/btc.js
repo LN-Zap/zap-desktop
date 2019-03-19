@@ -165,7 +165,7 @@ export function convert(from, to, amount, price) {
           return btcToFiat(amount, price)
         case 'btc':
         case 'ltc':
-          return amount
+          return Number(amount)
       }
       break
     case 'bits':
@@ -184,7 +184,7 @@ export function convert(from, to, amount, price) {
           return bitsToFiat(amount, price)
         case 'bits':
         case 'phots':
-          return amount
+          return Number(amount)
       }
       break
     case 'sats':
@@ -203,7 +203,7 @@ export function convert(from, to, amount, price) {
           return satoshisToFiat(amount, price)
         case 'sats':
         case 'lits':
-          return amount
+          return Number(amount)
       }
       break
     case 'msats':
@@ -222,7 +222,7 @@ export function convert(from, to, amount, price) {
           return millisatoshisToFiat(amount, price)
         case 'msats':
         case 'mlits':
-          return amount
+          return Number(amount)
       }
       break
     case 'fiat':
@@ -240,7 +240,7 @@ export function convert(from, to, amount, price) {
         case 'mlits':
           return fiatToMilliSatoshis(amount, price)
         case 'fiat':
-          return amount
+          return Number(amount)
       }
     default:
       return ''

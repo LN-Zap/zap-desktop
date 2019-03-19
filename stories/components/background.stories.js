@@ -8,7 +8,7 @@ const Wrapper = ({ children }) => (
   <Page css={{ height: '50px', 'min-height': '200px' }}>{children}</Page>
 )
 Wrapper.propTypes = {
-  children: PropTypes.node
+  children: PropTypes.node,
 }
 
 storiesOf('Components', module).addWithChapters('Background', {
@@ -17,50 +17,50 @@ storiesOf('Components', module).addWithChapters('Background', {
       sections: [
         {
           options: {
-            decorator: story => <Wrapper>{story()}</Wrapper>
+            decorator: story => <Wrapper>{story()}</Wrapper>,
           },
           sectionFn: () => (
             <BackgroundPrimary
-              width={1}
               css={{
-                height: '100%'
+                height: '100%',
               }}
+              width={1}
             >
               <Content>BackgroundPrimary</Content>
             </BackgroundPrimary>
-          )
+          ),
         },
         {
           options: {
-            decorator: story => <Wrapper>{story()}</Wrapper>
+            decorator: story => <Wrapper>{story()}</Wrapper>,
           },
           sectionFn: () => (
             <BackgroundSecondary
-              width={1}
               css={{
-                height: '100%'
+                height: '100%',
               }}
+              width={1}
             >
               <Content>BackgroundSecondary</Content>
             </BackgroundSecondary>
-          )
+          ),
         },
         {
           options: {
-            decorator: story => <Wrapper>{story()}</Wrapper>
+            decorator: story => <Wrapper>{story()}</Wrapper>,
           },
           sectionFn: () => (
             <BackgroundTertiary
-              width={1}
               css={{
-                height: '100%'
+                height: '100%',
               }}
+              width={1}
             >
               <Content>BackgroundTertiary</Content>
             </BackgroundTertiary>
-          )
-        }
-      ]
-    }
-  ]
+          ),
+        },
+      ],
+    },
+  ],
 })

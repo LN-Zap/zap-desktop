@@ -1,285 +1,250 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { compose } from 'redux'
+import { withFormApi, withFormState } from 'informed'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Bar, Button, DataRow, Form, Input, Label, Range, Text, Toggle } from 'components/UI'
-import * as yup from 'yup'
+import { Bar, Button, DataRow, Input, Label, Range, Text, Toggle } from 'components/UI'
 import messages from './messages'
 
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
+    autopilotDefaults: PropTypes.object.isRequired,
+    formApi: PropTypes.object.isRequired,
+    formState: PropTypes.object.isRequired,
+    intl: intlShape.isRequired,
     wallet: PropTypes.object.isRequired,
-    startLnd: PropTypes.func.isRequired
   }
 
   resetAutopilotSettings = () => {
-    const defaults = {
-      autopilotMaxchannels: 5,
-      autopilotMinchansize: 20000,
-      autopilotMaxchansize: 16777215,
-      autopilotAllocation: 60
-    }
-    Object.entries(defaults).forEach(([field, value]) => {
-      this.formApi.setValue(field, value)
+    const { formApi, autopilotDefaults } = this.props
+
+    Object.entries(autopilotDefaults).forEach(([field, value]) => {
+      formApi.setValue(field, value)
     })
   }
 
-  validateAutopilot = value => {
-    try {
-      yup.boolean().validateSync(value)
-    } catch (error) {
-      return error.message
-    }
-  }
-
-  onSubmit = async values => {
-    const { startLnd } = this.props
-
-    // Lnd expects the autopilot allocation to be a decimal.
-    values.autopilotAllocation = values.autopilotAllocation / 100
-
-    return startLnd(values)
-  }
-
-  setFormApi = formApi => {
-    this.formApi = formApi
-  }
-
   render() {
-    const { intl, wallet, startLnd, ...rest } = this.props
+    const { intl, formState, autopilotDefaults, wallet } = this.props
+    const { chain, network } = wallet
+
+    const {
+      autopilotMaxchannels,
+      autopilotMinchansize,
+      autopilotMaxchansize,
+      autopilotAllocation,
+    } = wallet
 
     return (
-      <Form
-        getApi={this.setFormApi}
-        onSubmit={this.onSubmit}
-        {...rest}
-        initialValues={wallet}
-        wallet={wallet}
-      >
-        {({ formState }) => (
-          <React.Fragment>
-            <Box mb={4} as="section">
-              <Text fontWeight="normal">
-                <FormattedMessage {...messages.section_basic_title} />
-              </Text>
-              <Bar mt={2} mb={4} />
+      <>
+        <Box as="section" mb={4}>
+          <Text fontWeight="normal">
+            <FormattedMessage {...messages.section_basic_title} />
+          </Text>
+          <Bar mb={4} mt={2} />
 
-              <DataRow
-                py={2}
-                left={<FormattedMessage {...messages.chain} />}
-                right={wallet.chain}
+          <DataRow left={<FormattedMessage {...messages.chain} />} py={2} right={chain} />
+          <DataRow left={<FormattedMessage {...messages.network} />} py={2} right={network} />
+        </Box>
+
+        <Box as="section" mb={4}>
+          <Text fontWeight="normal">
+            <FormattedMessage {...messages.section_naming_title} />
+          </Text>
+          <Bar mb={4} mt={2} />
+
+          <DataRow
+            left={
+              <>
+                <Label htmlFor="name" mb={2}>
+                  <FormattedMessage {...messages.wallet_settings_name_label} />
+                </Label>
+                <Text color="gray" fontWeight="light">
+                  <FormattedMessage {...messages.wallet_settings_name_description} />
+                </Text>
+              </>
+            }
+            py={2}
+            right={
+              <Input
+                css={{ 'text-align': 'right' }}
+                field="name"
+                id="name"
+                justifyContent="right"
+                ml="auto"
+                placeholder={intl.formatMessage({
+                  ...messages.wallet_settings_name_placeholder,
+                })}
+                width={1}
               />
-              <DataRow
-                py={2}
-                left={<FormattedMessage {...messages.network} />}
-                right={wallet.network}
+            }
+          />
+
+          <DataRow
+            left={
+              <>
+                <Label htmlFor="alias" mb={2}>
+                  <FormattedMessage {...messages.wallet_settings_alias_label} />
+                </Label>
+                <Text color="gray" fontWeight="light">
+                  <FormattedMessage {...messages.wallet_settings_alias_description} />
+                </Text>
+              </>
+            }
+            py={2}
+            right={
+              <Input
+                css={{ 'text-align': 'right' }}
+                field="alias"
+                id="alias"
+                justifyContent="right"
+                ml="auto"
+                placeholder={intl.formatMessage({
+                  ...messages.wallet_settings_alias_placeholder,
+                })}
+                width={1}
               />
-            </Box>
+            }
+          />
+        </Box>
 
-            <Box mb={4} as="section">
-              <Text fontWeight="normal">
-                <FormattedMessage {...messages.section_naming_title} />
-              </Text>
-              <Bar mt={2} mb={4} />
+        <Box as="section" mb={4}>
+          <DataRow
+            left={
+              <Label htmlFor="autopilot">
+                <FormattedMessage {...messages.section_autopilot_title} />
+              </Label>
+            }
+            mt={4}
+            py={2}
+            right={<Toggle field="autopilot" id="autopilot" />}
+          />
 
+          <Bar mb={4} mt={2} />
+
+          {formState.values.autopilot ? (
+            <>
               <DataRow
-                py={2}
                 left={
-                  <>
-                    <Label htmlFor="name" mb={2}>
-                      <FormattedMessage {...messages.wallet_settings_name_label} />
-                    </Label>
-                    <Text color="gray" fontWeight="light">
-                      <FormattedMessage {...messages.wallet_settings_name_description} />
-                    </Text>
-                  </>
-                }
-                right={
-                  <Input
-                    field="name"
-                    id="name"
-                    initialValue={wallet.name}
-                    placeholder={intl.formatMessage({
-                      ...messages.wallet_settings_name_placeholder
-                    })}
-                    width={1}
-                    ml="auto"
-                    justifyContent="right"
-                    css={{ 'text-align': 'right' }}
-                  />
-                }
-              />
-
-              <DataRow
-                py={2}
-                left={
-                  <>
-                    <Label htmlFor="alias" mb={2}>
-                      <FormattedMessage {...messages.wallet_settings_alias_label} />
-                    </Label>
-                    <Text color="gray" fontWeight="light">
-                      <FormattedMessage {...messages.wallet_settings_alias_description} />
-                    </Text>
-                  </>
-                }
-                right={
-                  <Input
-                    field="alias"
-                    id="alias"
-                    initialValue={wallet.alias}
-                    placeholder={intl.formatMessage({
-                      ...messages.wallet_settings_alias_placeholder
-                    })}
-                    width={1}
-                    ml="auto"
-                    justifyContent="right"
-                    css={{ 'text-align': 'right' }}
-                  />
-                }
-              />
-            </Box>
-
-            <Box mb={4} as="section">
-              <DataRow
-                py={2}
-                mt={4}
-                left={
-                  <Label htmlFor="autopilot">
-                    <FormattedMessage {...messages.section_autopilot_title} />
+                  <Label htmlFor="autopilotAllocation">
+                    <FormattedMessage {...messages.wallet_settings_autopilotAllocation_label} />
                   </Label>
                 }
-                right={<Toggle field="autopilot" id="autopilot" initialValue={wallet.autopilot} />}
+                py={2}
+                right={
+                  <Flex alignItems="center" justifyContent="flex-end">
+                    <Range
+                      field="autopilotAllocation"
+                      id="autopilotAllocation"
+                      initialValue={autopilotAllocation || autopilotDefaults.autopilotAllocation}
+                      max="100"
+                      min="0"
+                      ml="auto"
+                      sliderWidthNumber={200}
+                      step="1"
+                    />
+                    <Input
+                      css={{ 'text-align': 'right' }}
+                      field="autopilotAllocation"
+                      id="autopilotAllocation"
+                      justifyContent="right"
+                      max="100"
+                      min="0"
+                      ml={2}
+                      step="1"
+                      type="number"
+                      width={70}
+                    />
+                  </Flex>
+                }
               />
 
-              <Bar mt={2} mb={4} />
-
-              {formState.values.autopilot ? (
-                <React.Fragment>
-                  <DataRow
-                    py={2}
-                    left={
-                      <Label htmlFor="autopilotAllocation">
-                        <FormattedMessage {...messages.wallet_settings_autopilotAllocation_label} />
-                      </Label>
-                    }
-                    right={
-                      <Flex alignItems="center" justifyContent="flex-end">
-                        <Range
-                          field="autopilotAllocation"
-                          id="autopilotAllocation"
-                          initialValue={wallet.autopilotAllocation * 100}
-                          min="0"
-                          max="100"
-                          step="1"
-                          sliderWidthNumber={200}
-                          ml="auto"
-                        />
-                        <Input
-                          field="autopilotAllocation"
-                          id="autopilotAllocation"
-                          type="number"
-                          min="0"
-                          max="100"
-                          step="1"
-                          width={70}
-                          ml={2}
-                          justifyContent="right"
-                          css={{ 'text-align': 'right' }}
-                        />
-                      </Flex>
-                    }
+              <DataRow
+                left={
+                  <Label htmlFor="autopilotMaxchannels">
+                    <FormattedMessage {...messages.wallet_settings_autopilotMaxchannels_label} />
+                  </Label>
+                }
+                py={2}
+                right={
+                  <Input
+                    css={{ 'text-align': 'right' }}
+                    field="autopilotMaxchannels"
+                    id="autopilotMaxchannels"
+                    initialValue={autopilotMaxchannels || autopilotDefaults.autopilotMaxchannels}
+                    justifyContent="right"
+                    min="1"
+                    ml="auto"
+                    step="1"
+                    type="number"
+                    width={150}
                   />
+                }
+              />
 
-                  <DataRow
-                    py={2}
-                    left={
-                      <Label htmlFor="autopilotMaxchannels">
-                        <FormattedMessage
-                          {...messages.wallet_settings_autopilotMaxchannels_label}
-                        />
-                      </Label>
-                    }
-                    right={
-                      <Input
-                        field="autopilotMaxchannels"
-                        id="autopilotMaxchannels"
-                        type="number"
-                        initialValue={wallet.autopilotMaxchannels}
-                        min="1"
-                        step="1"
-                        width={150}
-                        ml="auto"
-                        justifyContent="right"
-                        css={{ 'text-align': 'right' }}
-                      />
-                    }
+              <DataRow
+                left={
+                  <Label htmlFor="autopilotMinchansize">
+                    <FormattedMessage {...messages.wallet_settings_autopilotMinchansize_label} />
+                  </Label>
+                }
+                py={2}
+                right={
+                  <Input
+                    css={{ 'text-align': 'right' }}
+                    field="autopilotMinchansize"
+                    id="autopilotMinchansize"
+                    initialValue={autopilotMinchansize || autopilotDefaults.autopilotMinchansize}
+                    justifyContent="right"
+                    max={autopilotDefaults.autopilotMaxchansize}
+                    min={autopilotDefaults.autopilotMinchansize}
+                    ml="auto"
+                    step="1"
+                    type="number"
+                    width={150}
                   />
+                }
+              />
 
-                  <DataRow
-                    py={2}
-                    left={
-                      <Label htmlFor="autopilotMinchansize">
-                        <FormattedMessage
-                          {...messages.wallet_settings_autopilotMinchansize_label}
-                        />
-                      </Label>
-                    }
-                    right={
-                      <Input
-                        field="autopilotMinchansize"
-                        id="autopilotMinchansize"
-                        type="number"
-                        min="20000"
-                        max="16777215"
-                        step="1"
-                        initialValue={wallet.autopilotMinchansize}
-                        width={150}
-                        ml="auto"
-                        justifyContent="right"
-                        css={{ 'text-align': 'right' }}
-                      />
-                    }
+              <DataRow
+                left={
+                  <Label htmlFor="autopilotMaxchansize">
+                    <FormattedMessage {...messages.wallet_settings_autopilotMaxchansize_label} />
+                  </Label>
+                }
+                py={2}
+                right={
+                  <Input
+                    css={{ 'text-align': 'right' }}
+                    field="autopilotMaxchansize"
+                    id="autopilotMaxchansize"
+                    initialValue={autopilotMaxchansize || autopilotDefaults.autopilotMaxchansize}
+                    justifyContent="right"
+                    max={autopilotDefaults.autopilotMaxchansize}
+                    min={autopilotDefaults.autopilotMinchansize}
+                    ml="auto"
+                    step="1"
+                    type="number"
+                    width={150}
                   />
+                }
+              />
 
-                  <DataRow
-                    py={2}
-                    left={
-                      <Label htmlFor="autopilotMaxchansize">
-                        <FormattedMessage
-                          {...messages.wallet_settings_autopilotMaxchansize_label}
-                        />
-                      </Label>
-                    }
-                    right={
-                      <Input
-                        field="autopilotMaxchansize"
-                        id="autopilotMaxchansize"
-                        type="number"
-                        min="20000"
-                        max="16777215"
-                        step="1"
-                        initialValue={wallet.autopilotMaxchansize}
-                        width={150}
-                        ml="auto"
-                        justifyContent="right"
-                        css={{ 'text-align': 'right' }}
-                      />
-                    }
-                  />
-
-                  <Flex justifyContent="center" my={4}>
-                    <Button type="button" size="small" onClick={this.resetAutopilotSettings}>
-                      <FormattedMessage {...messages.wallet_settings_reset_autopilot_button_text} />
-                    </Button>
-                  </Flex>
-                </React.Fragment>
-              ) : null}
-            </Box>
-          </React.Fragment>
-        )}
-      </Form>
+              <Flex justifyContent="center" my={4}>
+                <Button onClick={this.resetAutopilotSettings} size="small" type="button">
+                  <FormattedMessage {...messages.wallet_settings_reset_autopilot_button_text} />
+                </Button>
+              </Flex>
+            </>
+          ) : null}
+        </Box>
+      </>
     )
   }
 }
 
-export default injectIntl(WalletSettingsFormLocal)
+export default compose(
+  withFormApi,
+  withFormState,
+  injectIntl
+)(WalletSettingsFormLocal)

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Header } from 'components/UI'
 import Lightning from 'components/Icon/Lightning'
 import Onchain from 'components/Icon/Onchain'
-import PaperPlane from 'components/Icon/PaperPlane'
+import Send from 'components/Icon/Send'
 import messages from './messages'
 
 /**
@@ -13,7 +13,7 @@ import messages from './messages'
 class PayHeader extends React.PureComponent {
   static propTypes = {
     title: PropTypes.node.isRequired,
-    type: PropTypes.oneOf(['onchain', 'offchain'])
+    type: PropTypes.oneOf(['onchain', 'offchain']),
   }
 
   render() {
@@ -30,11 +30,11 @@ class PayHeader extends React.PureComponent {
         subtitle = <FormattedMessage {...messages.subtitle_offchain} />
         break
       default:
-        logo = <PaperPlane height="38px" width="38px" />
+        logo = <Send height="45px" width="45px" />
         subtitle = <span>&nbsp;</span>
     }
 
-    return <Header title={title} subtitle={subtitle} logo={logo} />
+    return <Header logo={logo} subtitle={subtitle} title={title} />
   }
 }
 

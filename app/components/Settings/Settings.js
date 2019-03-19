@@ -50,7 +50,14 @@ class Settings extends React.Component {
   }
 
   renderSettings = () => {
-    const { activeSubMenu, fiatProps, localeProps, themeProps, setActiveSubMenu } = this.props
+    const {
+      activeSubMenu,
+      fiatProps,
+      localeProps,
+      themeProps,
+      setActiveSubMenu,
+      openModal,
+    } = this.props
     switch (activeSubMenu) {
       case 'fiat':
         return <Fiat {...fiatProps} />
@@ -59,27 +66,27 @@ class Settings extends React.Component {
       case 'theme':
         return <Theme {...themeProps} />
       default:
-        return <Menu setActiveSubMenu={setActiveSubMenu} />
+        return <Menu openModal={openModal} setActiveSubMenu={setActiveSubMenu} />
     }
   }
 
   render() {
-    const { activeWalletSettings, isSettingsOpen } = this.props
+    const { activeWalletSettings, isSettingsOpen, ...rest } = this.props
 
     return (
-      <Box css={{ position: 'relative' }}>
+      <Box {...rest}>
         <Flex
           ref={this.setButtonRef}
           alignItems="center"
           css={{ cursor: 'pointer' }}
           onClick={this.handleButtonClick}
         >
-          <StatusIndicator variant="online" mr={2} />
+          <StatusIndicator mr={2} variant="online" />
           <Flex alignItems="center">
-            <Text textAlign="left" mr={1}>
+            <Text mr={1} textAlign="left">
               <WalletName wallet={activeWalletSettings} />
             </Text>
-            {isSettingsOpen ? <AngleUp width="0.7em" /> : <AngleDown width="0.7em" />}
+            {isSettingsOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
           </Flex>
         </Flex>
         <Box ref={this.setWrapperRef}>{isSettingsOpen && this.renderSettings()}</Box>
@@ -89,12 +96,16 @@ class Settings extends React.Component {
 }
 
 Settings.propTypes = {
+  activeSubMenu: PropTypes.string,
+  activeWalletSettings: PropTypes.object,
+  closeSettings: PropTypes.func.isRequired,
   fiatProps: PropTypes.object.isRequired,
+  isSettingsOpen: PropTypes.bool,
   localeProps: PropTypes.object.isRequired,
-  themeProps: PropTypes.object.isRequired,
-  setActiveSubMenu: PropTypes.func.isRequired,
+  openModal: PropTypes.func.isRequired,
   openSettings: PropTypes.func.isRequired,
-  closeSettings: PropTypes.func.isRequired
+  setActiveSubMenu: PropTypes.func.isRequired,
+  themeProps: PropTypes.object.isRequired,
 }
 
 export default Settings

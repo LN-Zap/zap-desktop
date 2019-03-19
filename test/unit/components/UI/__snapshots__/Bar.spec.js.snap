@@ -2,10 +2,11 @@
 
 exports[`component.UI.Bar should render correctly 1`] = `
 .c0 {
+  height: 1px;
+  margin: 0;
+  padding: 0;
   border: 0;
-  border-bottom: 1px solid;
-  border-color: primaryText;
-  margin: 0px;
+  background-color: #ffffff;
   opacity: 0.6;
 }
 

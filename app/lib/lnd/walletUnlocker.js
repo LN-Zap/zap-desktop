@@ -25,12 +25,12 @@ class WalletUnlocker {
       init: 'ready',
       transitions: [
         { name: 'connect', from: 'ready', to: 'connected' },
-        { name: 'disconnect', from: 'connected', to: 'ready' }
+        { name: 'disconnect', from: 'connected', to: 'ready' },
       ],
       methods: {
         onBeforeConnect: this.onBeforeConnect.bind(this),
-        onBeforeDisconnect: this.onBeforeDisconnect.bind(this)
-      }
+        onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
+      },
     })
     this.service = null
     this.lndConfig = lndConfig

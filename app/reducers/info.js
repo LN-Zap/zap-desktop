@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
-import db from 'store/db'
 import { networks } from 'lib/utils/crypto'
 import { walletAddress } from './address'
 import { putWallet, walletSelectors } from './wallet'
@@ -20,15 +19,15 @@ const networkInfo = {
       name: 'Mainnet',
       explorerUrl: 'https://blockstream.info',
       bitcoinJsNetwork: networks.bitcoin.mainnet,
-      unitPrefix: ''
+      unitPrefix: '',
     },
     testnet: {
       id: 'testnet',
       name: 'Testnet',
       explorerUrl: 'https://blockstream.info/testnet',
       bitcoinJsNetwork: networks.bitcoin.testnet,
-      unitPrefix: 't'
-    }
+      unitPrefix: 't',
+    },
   },
   litecoin: {
     mainnet: {
@@ -36,16 +35,16 @@ const networkInfo = {
       name: 'Mainnet',
       explorerUrl: 'https://insight.litecore.io',
       bitcoinJsNetwork: networks.litecoin.mainnet,
-      unitPrefix: ''
+      unitPrefix: '',
     },
     testnet: {
       id: 'testnet',
       name: 'Testnet',
       explorerUrl: 'https://testnet.litecore.io',
       bitcoinJsNetwork: networks.litecoin.testnet,
-      unitPrefix: 't'
-    }
-  }
+      unitPrefix: 't',
+    },
+  },
 }
 
 // ------------------------------------
@@ -53,7 +52,7 @@ const networkInfo = {
 // ------------------------------------
 export function getInfo() {
   return {
-    type: GET_INFO
+    type: GET_INFO,
   }
 }
 
@@ -64,9 +63,15 @@ export const setHasSynced = hasSynced => async (dispatch, getState) => {
   const pubKey = get(state, 'info.data.identity_pubkey')
 
   if (pubKey) {
-    const updated = await db.nodes.update(pubKey, { hasSynced })
-    if (!updated) {
-      await db.nodes.add({ id: pubKey, hasSynced })
+    const updated = await window.db.nodes.update(pubKey, { hasSynced })
+    if (updated === 0) {
+      // The reason for a result of 0 can be either that the provided key was not found, or if the provided data was
+      // identical to existing data so that nothing was updated. If we got a 0, try to add a new entry for the node.
+      try {
+        await window.db.nodes.add({ id: pubKey, hasSynced })
+      } catch (e) {
+        // Do nothing if there was an error - this indicates that the item already exists and was unchanged.
+      }
     }
   }
 }
@@ -85,7 +90,7 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
   const state = getState()
 
   // Now that we have the node info, load it's sync state.
-  const node = await db.nodes.get({ id: data.identity_pubkey })
+  const node = await window.db.nodes.get({ id: data.identity_pubkey })
   if (node) {
     dispatch(setHasSynced(node.hasSynced))
   }
@@ -111,7 +116,7 @@ export const receiveInfo = (event, data) => async (dispatch, getState) => {
 const ACTION_HANDLERS = {
   [SET_HAS_SYNCED]: (state, { hasSynced }) => ({
     ...state,
-    hasSynced
+    hasSynced,
   }),
   [GET_INFO]: state => ({ ...state, infoLoading: true }),
   [RECEIVE_INFO]: (state, { data }) => {
@@ -120,11 +125,12 @@ const ACTION_HANDLERS = {
     return {
       ...state,
       infoLoading: false,
+      infoLoaded: true,
       chain,
       network,
-      data
+      data,
     }
-  }
+  },
 }
 
 // ------------------------------------
@@ -132,11 +138,12 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 const initialState = {
   infoLoading: false,
+  infoLoaded: false,
   hasSynced: undefined,
   chain: null,
   network: null,
   data: {},
-  networks: networkInfo
+  networks: networkInfo,
 }
 
 // Selectors
@@ -145,6 +152,7 @@ infoSelectors.chainSelector = state => state.info.chain
 infoSelectors.networkSelector = state => state.info.network
 infoSelectors.networksSelector = state => state.info.networks
 infoSelectors.infoLoading = state => state.info.infoLoading
+infoSelectors.infoLoaded = state => state.info.infoLoaded
 infoSelectors.hasSynced = state => state.info.hasSynced
 
 infoSelectors.networkInfo = createSelector(

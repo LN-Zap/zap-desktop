@@ -10,7 +10,7 @@ import invoiceReducer, {
   RECEIVE_INVOICES,
   SEND_INVOICE,
   INVOICE_SUCCESSFUL,
-  INVOICE_FAILED
+  INVOICE_FAILED,
 } from 'reducers/invoice'
 
 describe('reducers', () => {

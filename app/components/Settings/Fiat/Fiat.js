@@ -6,19 +6,19 @@ import messages from './messages'
 
 const Fiat = ({ fiatTicker, fiatTickers, disableSubMenu, setFiatTicker }) => (
   <MenuContainer>
-    <Menu>
+    <Menu justify="right">
       <MenuItem
-        item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
-        onClick={disableSubMenu}
         bg="primaryColor"
         hasParent
+        item={{ key: 'fiat', name: <FormattedMessage {...messages.title} /> }}
+        onClick={disableSubMenu}
       />
       {fiatTickers.map(ft => (
         <MenuItem
           key={ft}
+          active={fiatTicker === ft}
           item={{ key: ft, name: ft }}
           onClick={() => setFiatTicker(ft)}
-          active={fiatTicker === ft}
         />
       ))}
     </Menu>
@@ -26,10 +26,10 @@ const Fiat = ({ fiatTicker, fiatTickers, disableSubMenu, setFiatTicker }) => (
 )
 
 Fiat.propTypes = {
+  disableSubMenu: PropTypes.func.isRequired,
   fiatTicker: PropTypes.string.isRequired,
   fiatTickers: PropTypes.array.isRequired,
-  disableSubMenu: PropTypes.func.isRequired,
-  setFiatTicker: PropTypes.func.isRequired
+  setFiatTicker: PropTypes.func.isRequired,
 }
 
 export default Fiat

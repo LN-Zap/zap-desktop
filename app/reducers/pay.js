@@ -1,7 +1,6 @@
 import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
 import { requestFees } from 'lib/utils/api'
-import { setFormType } from './form'
 
 // ------------------------------------
 // Constants
@@ -45,17 +44,16 @@ export const queryRoutesFailure = () => dispatch => {
 export function setPayReq(payReq) {
   return {
     type: SET_PAY_REQ,
-    payReq
+    payReq,
   }
 }
 
-export const lightningPaymentUri = (event, { payReq }) => dispatch => {
-  // First, clear the payment form.
-  dispatch(setFormType(null))
+export const bitcoinPaymentUri = (event, { address, options: { amount } }) => dispatch => {
+  dispatch(setPayReq({ address, amount }))
+}
 
-  // Then load it fresh and set the payment request.
-  dispatch(setFormType('PAY_FORM'))
-  dispatch(setPayReq(payReq))
+export const lightningPaymentUri = (event, { payReq: address }) => dispatch => {
+  dispatch(setPayReq({ address }))
 }
 
 // ------------------------------------
@@ -66,44 +64,44 @@ const ACTION_HANDLERS = {
     ...state,
     isQueryingFees: true,
     onchainFees: {},
-    queryFeesError: null
+    queryFeesError: null,
   }),
   [QUERY_FEES_SUCCESS]: (state, { onchainFees }) => ({
     ...state,
     isQueryingFees: false,
     onchainFees,
-    queryFeesError: null
+    queryFeesError: null,
   }),
   [QUERY_FEES_FAILURE]: (state, { error }) => ({
     ...state,
     isQueryingFees: false,
     onchainFees: {},
-    queryFeesError: error
+    queryFeesError: error,
   }),
   [QUERY_ROUTES]: (state, { pubKey }) => ({
     ...state,
     isQueryingRoutes: true,
     pubKey,
     queryRoutesError: null,
-    routes: []
+    routes: [],
   }),
   [QUERY_ROUTES_SUCCESS]: (state, { routes }) => ({
     ...state,
     isQueryingRoutes: false,
     queryRoutesError: null,
-    routes
+    routes,
   }),
   [QUERY_ROUTES_FAILURE]: (state, { error }) => ({
     ...state,
     isQueryingRoutes: false,
     pubKey: null,
     queryRoutesError: error,
-    routes: []
+    routes: [],
   }),
   [SET_PAY_REQ]: (state, { payReq }) => ({
     ...state,
-    payReq
-  })
+    payReq,
+  }),
 }
 
 // ------------------------------------
@@ -115,13 +113,13 @@ const initialState = {
   onchainFees: {
     fastestFee: null,
     halfHourFee: null,
-    hourFee: null
+    hourFee: null,
   },
   payReq: null,
   pubKey: null,
   queryFeesError: null,
   queryRoutesError: null,
-  routes: []
+  routes: [],
 }
 
 // ------------------------------------

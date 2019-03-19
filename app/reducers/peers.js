@@ -26,46 +26,46 @@ export const RECEIVE_PEERS = 'RECEIVE_PEERS'
 // ------------------------------------
 export function connectPeer() {
   return {
-    type: CONNECT_PEER
+    type: CONNECT_PEER,
   }
 }
 
 export function disconnectPeer() {
   return {
-    type: DISCONNECT_PEER
+    type: DISCONNECT_PEER,
   }
 }
 
 export function disconnectFailure() {
   return {
-    type: DISCONNECT_FAILURE
+    type: DISCONNECT_FAILURE,
   }
 }
 
 export function setPeerForm(form) {
   return {
     type: SET_PEER_FORM,
-    form
+    form,
   }
 }
 
 export function setPeer(peer) {
   return {
     type: SET_PEER,
-    peer
+    peer,
   }
 }
 
 export function getPeers() {
   return {
-    type: GET_PEERS
+    type: GET_PEERS,
   }
 }
 
 export function updateSearchQuery(searchQuery) {
   return {
     type: UPDATE_SEARCH_QUERY,
-    searchQuery
+    searchQuery,
   }
 }
 
@@ -113,7 +113,7 @@ const ACTION_HANDLERS = {
     ...state,
     disconnecting: false,
     peer: null,
-    peers: state.peers.filter(peer => peer.pub_key !== pubkey)
+    peers: state.peers.filter(peer => peer.pub_key !== pubkey),
   }),
   [DISCONNECT_FAILURE]: state => ({ ...state, disconnecting: false }),
 
@@ -122,13 +122,13 @@ const ACTION_HANDLERS = {
     ...state,
     connecting: false,
     peerForm: { pubkey: '', host: '', isOpen: false },
-    peers: [...state.peers, peer]
+    peers: [...state.peers, peer],
   }),
   [CONNECT_FAILURE]: state => ({ ...state, connecting: false }),
 
   [SET_PEER_FORM]: (state, { form }) => ({
     ...state,
-    peerForm: Object.assign({}, state.peerForm, form)
+    peerForm: Object.assign({}, state.peerForm, form),
   }),
 
   [SET_PEER]: (state, { peer }) => ({ ...state, peer }),
@@ -136,7 +136,7 @@ const ACTION_HANDLERS = {
   [GET_PEERS]: state => ({ ...state, peersLoading: true }),
   [RECEIVE_PEERS]: (state, { peers }) => ({ ...state, peersLoading: false, peers }),
 
-  [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery })
+  [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 }
 
 const peersSelectors = {}
@@ -168,11 +168,11 @@ const initialState = {
   peerForm: {
     isOpen: false,
     pubkey: '',
-    host: ''
+    host: '',
   },
   searchQuery: '',
   connecting: false,
-  disconnecting: false
+  disconnecting: false,
 }
 
 export default function peersReducer(state = initialState, action) {

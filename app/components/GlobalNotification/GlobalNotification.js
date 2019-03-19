@@ -16,7 +16,7 @@ const Wrapper = styled(Box)`
 class GlobalNotification extends React.Component {
   static propTypes = {
     notifications: PropTypes.array,
-    removeNotification: PropTypes.func.isRequired
+    removeNotification: PropTypes.func.isRequired,
   }
 
   render() {
@@ -32,24 +32,25 @@ class GlobalNotification extends React.Component {
     }
 
     return (
-      <Wrapper mt="22px" px={3} width={0.9} mx="auto">
+      <Wrapper mt="22px" mx="auto" px={3} width={0.9}>
         {notifications.map(item => (
           <Transition
-            native
             key={item.id}
-            items={item}
-            from={{ opacity: 0 }}
             enter={{ opacity: 1 }}
+            from={{ opacity: 0 }}
+            items={item}
             leave={{ opacity: 0 }}
+            native
           >
             {show =>
               show &&
               (springStyles => (
                 <animated.div style={springStyles}>
                   <Notification
-                    variant={item.variant}
-                    onClick={() => removeNotification(item.id)}
+                    isProcessing={item.isProcessing}
                     mb={2}
+                    onClick={() => removeNotification(item.id)}
+                    variant={item.variant}
                   >
                     {prepareMessage(item.message, item.variant)}
                   </Notification>

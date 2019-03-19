@@ -1,87 +1,159 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box } from 'rebass'
-import { Bar, DataRow, Form, Input, Label, Text } from 'components/UI'
+import {
+  Bar,
+  DataRow,
+  Input,
+  Text,
+  OpenDialogInput,
+  RowLabel,
+  LndConnectionStringEditor,
+} from 'components/UI'
+
 import messages from './messages'
 
-class WalletSettingsFormRemote extends React.Component {
-  static propTypes = {
-    wallet: PropTypes.object.isRequired,
-    startLnd: PropTypes.func.isRequired
-  }
+const WalletSettingsFormRemote = ({
+  intl,
+  wallet,
+  host,
+  cert,
+  macaroon,
+  isEmbeddedConnectionString,
+}) => {
+  return (
+    <>
+      <Box as="section" mb={4}>
+        <Text fontWeight="normal">
+          <FormattedMessage {...messages.section_basic_title} />
+        </Text>
+        <Bar mb={4} mt={2} />
 
-  onSubmit = async values => {
-    const { startLnd } = this.props
-    return startLnd(values)
-  }
+        <DataRow left={<FormattedMessage {...messages.chain} />} py={2} right={wallet.chain} />
+        <DataRow left={<FormattedMessage {...messages.network} />} py={2} right={wallet.network} />
+      </Box>
+      <Box as="section" mb={4}>
+        <Text fontWeight="normal">
+          <FormattedMessage {...messages.section_connection_details} />
+        </Text>
+        <Bar mb={4} mt={2} />
 
-  setFormApi = formApi => {
-    this.formApi = formApi
-  }
-
-  render() {
-    const { intl, wallet, startLnd, ...rest } = this.props
-    return (
-      <Form
-        getApi={this.setFormApi}
-        onSubmit={this.onSubmit}
-        initialValues={wallet}
-        wallet={wallet}
-        {...rest}
-      >
-        <Box mb={4} as="section">
-          <Text fontWeight="normal">
-            <FormattedMessage {...messages.section_basic_title} />
-          </Text>
-          <Bar mt={2} mb={4} />
-
-          <DataRow py={2} left={<FormattedMessage {...messages.chain} />} right={wallet.chain} />
-          <DataRow
-            py={2}
-            left={<FormattedMessage {...messages.network} />}
-            right={wallet.network}
+        {isEmbeddedConnectionString ? (
+          <LndConnectionStringEditor
+            field="lndconnectUri"
+            hideStringMessage={<FormattedMessage {...messages.hide_connection_string} />}
+            isRequired
+            label={intl.formatMessage({
+              ...messages.connection_string,
+            })}
+            name="lndconnectUri"
+            placeholder={intl.formatMessage({
+              ...messages.connection_string,
+            })}
+            validateOnBlur
+            validateOnChange
           />
-          <DataRow py={2} left={<FormattedMessage {...messages.host} />} right={wallet.host} />
-        </Box>
+        ) : (
+          <>
+            <DataRow
+              left={
+                <RowLabel
+                  descMessage={messages.hostname_description}
+                  htmlFor="host"
+                  nameMessage={messages.hostname_title}
+                />
+              }
+              py={2}
+              right={
+                <Input
+                  css={{ 'text-align': 'right' }}
+                  field="host"
+                  id="host"
+                  initialValue={host}
+                  justifyContent="right"
+                  ml="auto"
+                  placeholder={intl.formatMessage({
+                    ...messages.hostname_title,
+                  })}
+                  width={300}
+                />
+              }
+            />
+            <DataRow
+              left={
+                <RowLabel
+                  descMessage={messages.cert_description}
+                  htmlFor="cert"
+                  nameMessage={messages.cert_title}
+                />
+              }
+              py={2}
+              right={<OpenDialogInput field="cert" initialValue={cert} name="cert" width={300} />}
+            />
+            <DataRow
+              left={
+                <RowLabel
+                  descMessage={messages.macaroon_description}
+                  htmlFor="macaroon"
+                  nameMessage={messages.macaroon_title}
+                />
+              }
+              py={2}
+              right={
+                <OpenDialogInput
+                  field="macaroon"
+                  initialValue={macaroon}
+                  name="macaroon"
+                  width={300}
+                />
+              }
+            />
+          </>
+        )}
+      </Box>
+      <Box as="section" mb={4}>
+        <Text fontWeight="normal">
+          <FormattedMessage {...messages.section_naming_title} />
+        </Text>
+        <Bar mb={4} mt={2} />
 
-        <Box mb={4} as="section">
-          <Text fontWeight="normal">
-            <FormattedMessage {...messages.section_naming_title} />
-          </Text>
-          <Bar mt={2} mb={4} />
+        <DataRow
+          left={
+            <RowLabel
+              descMessage={messages.wallet_settings_name_description}
+              htmlFor="name"
+              nameMessage={messages.wallet_settings_name_label}
+            />
+          }
+          py={2}
+          right={
+            <Input
+              css={{ 'text-align': 'right' }}
+              field="name"
+              id="name"
+              justifyContent="right"
+              ml="auto"
+              placeholder={intl.formatMessage({
+                ...messages.wallet_settings_name_placeholder,
+              })}
+              width={300}
+            />
+          }
+        />
+      </Box>
+    </>
+  )
+}
 
-          <DataRow
-            py={2}
-            left={
-              <>
-                <Label htmlFor="name" mb={2}>
-                  <FormattedMessage {...messages.wallet_settings_name_label} />
-                </Label>
-                <Text color="gray" fontWeight="light">
-                  <FormattedMessage {...messages.wallet_settings_name_description} />
-                </Text>
-              </>
-            }
-            right={
-              <Input
-                field="name"
-                id="name"
-                initialValue={wallet.name}
-                placeholder={intl.formatMessage({
-                  ...messages.wallet_settings_name_placeholder
-                })}
-                width={1}
-                ml="auto"
-                justifyContent="right"
-                css={{ 'text-align': 'right' }}
-              />
-            }
-          />
-        </Box>
-      </Form>
-    )
-  }
+WalletSettingsFormRemote.propTypes = {
+  cert: PropTypes.string.isRequired,
+  host: PropTypes.string.isRequired,
+  intl: intlShape.isRequired,
+  isEmbeddedConnectionString: PropTypes.bool.isRequired,
+  macaroon: PropTypes.string.isRequired,
+  wallet: PropTypes.object.isRequired,
 }
 
 export default injectIntl(WalletSettingsFormRemote)

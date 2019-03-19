@@ -23,10 +23,10 @@ export const locales = [
   'tr',
   'uk',
   'zh-CN',
-  'zh-TW'
+  'zh-TW',
 ]
 
-// Defaine list of currencies that we will support.
+// Define list of currencies that we will support.
 export const currencies = [
   'USD',
   'EUR',
@@ -49,7 +49,8 @@ export const currencies = [
   'SEK',
   'SGD',
   'THB',
-  'TWB'
+  'TWB',
+  'UAH',
 ]
 
 /**
@@ -88,7 +89,7 @@ export const getLanguageName = lang => {
   const customNames = {
     el: 'Greek',
     'zh-CN': 'Chinese (Simplified, PRC)',
-    'zh-TW': 'Chinese (Traditional, Taiwan)'
+    'zh-TW': 'Chinese (Traditional, Taiwan)',
   }
   if (customNames[lang]) {
     return customNames[lang]

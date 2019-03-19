@@ -49,3 +49,6 @@ resources/bin/
 
 # Storybook
 storybook-static
+
+# Local config overrides
+config/local*

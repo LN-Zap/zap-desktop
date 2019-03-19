@@ -13,7 +13,7 @@ describe('component.UI.LightningInvoiceInput', () => {
         <IntlProvider locale="en">
           <ThemeProvider theme={dark}>
             <Form>
-              <LightningInvoiceInput field="name" chain="bitcoin" network="mainnet" theme={dark} />
+              <LightningInvoiceInput chain="bitcoin" field="name" network="mainnet" theme={dark} />
             </Form>
           </ThemeProvider>
         </IntlProvider>

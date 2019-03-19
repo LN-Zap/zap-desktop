@@ -1,6 +1,5 @@
 import { send } from 'redux-electron-ipc'
-import db from 'store/db'
-
+import { openModal, closeModal } from './modal'
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -14,7 +13,7 @@ export const CLOSE_WALLET_MODAL = 'CLOSE_WALLET_MODAL'
 const addressTypes = {
   p2wkh: 0,
   np2wkh: 1,
-  p2pkh: 2
+  p2pkh: 2,
 }
 
 // ------------------------------------
@@ -22,21 +21,12 @@ const addressTypes = {
 // ------------------------------------
 export function getAddress() {
   return {
-    type: GET_ADDRESS
+    type: GET_ADDRESS,
   }
 }
 
-export function openWalletModal() {
-  return {
-    type: OPEN_WALLET_MODAL
-  }
-}
-
-export function closeWalletModal() {
-  return {
-    type: CLOSE_WALLET_MODAL
-  }
-}
+export const openWalletModal = () => dispatch => dispatch(openModal('RECEIVE_MODAL'))
+export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_MODAL'))
 
 // Get our existing address if there is one, otherwise generate a new one.
 export const walletAddress = type => async (dispatch, getState) => {
@@ -47,7 +37,7 @@ export const walletAddress = type => async (dispatch, getState) => {
   const pubKey = state.info.data.identity_pubkey
 
   if (pubKey) {
-    const node = await db.nodes.get({ id: pubKey })
+    const node = await window.db.nodes.get({ id: pubKey })
     if (node) {
       address = node.getCurrentAddress(type)
     }
@@ -75,11 +65,11 @@ export const receiveAddress = (event, data) => async (dispatch, getState) => {
   // If we know the node's public key, store the address for reuse.
   if (pubKey) {
     const type = Object.keys(addressTypes).find(key => addressTypes[key] === data.type)
-    const node = await db.nodes.get(pubKey)
+    const node = await window.db.nodes.get(pubKey)
     if (node) {
       await node.setCurrentAddress(type, data.address)
     } else {
-      await db.nodes.put({ id: pubKey, addresses: { [type]: data.address } })
+      await window.db.nodes.put({ id: pubKey, addresses: { [type]: data.address } })
     }
   }
 
@@ -94,7 +84,7 @@ const ACTION_HANDLERS = {
   [RECEIVE_ADDRESS]: (state, { address }) => ({ ...state, addressLoading: false, address }),
 
   [OPEN_WALLET_MODAL]: state => ({ ...state, walletModal: true }),
-  [CLOSE_WALLET_MODAL]: state => ({ ...state, walletModal: false })
+  [CLOSE_WALLET_MODAL]: state => ({ ...state, walletModal: false }),
 }
 
 // ------------------------------------
@@ -103,7 +93,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   addressLoading: false,
   address: '',
-  walletModal: false
+  walletModal: false,
 }
 
 export default function addressReducer(state = initialState, action) {

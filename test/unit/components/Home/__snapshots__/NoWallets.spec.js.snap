@@ -23,7 +23,7 @@ exports[`component.NoWallets should render correctly (no selected wallet) 1`] = 
   >
     <FormattedMessage
       defaultMessage="Start creating one from here:"
-      id="components.Home.create_wallet_promot"
+      id="components.Home.create_wallet_prompt"
       values={Object {}}
     />
   </Heading4>
@@ -61,7 +61,7 @@ exports[`component.NoWallets should render correctly (no wallets) 1`] = `
   >
     <FormattedMessage
       defaultMessage="Start creating one from here:"
-      id="components.Home.create_wallet_promot"
+      id="components.Home.create_wallet_prompt"
       values={Object {}}
     />
   </Heading4>

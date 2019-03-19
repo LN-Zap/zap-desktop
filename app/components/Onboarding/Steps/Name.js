@@ -1,22 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage, injectIntl } from 'react-intl'
+import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Box } from 'rebass'
 import { Bar, Form, Header, Input } from 'components/UI'
 import messages from './messages'
 
 class Name extends React.Component {
   static propTypes = {
+    intl: intlShape.isRequired,
+    name: PropTypes.string,
+    setName: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    name: PropTypes.string,
-    setName: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
     wizardState: {},
-    name: ''
+    name: '',
   }
 
   setFormApi = formApi => {
@@ -56,20 +57,20 @@ class Name extends React.Component {
           return (
             <>
               <Header
-                title={<FormattedMessage {...messages.wallet_name_title} />}
-                subtitle={<FormattedMessage {...messages.wallet_name_description} />}
                 align="left"
+                subtitle={<FormattedMessage {...messages.wallet_name_description} />}
+                title={<FormattedMessage {...messages.wallet_name_title} />}
               />
               <Bar my={4} />
               <Box>
                 <Input
-                  autoFocus
                   field="name"
-                  name="name"
-                  label={<FormattedMessage {...messages.wallet_name_label} />}
                   initialValue={name}
+                  label={<FormattedMessage {...messages.wallet_name_label} />}
+                  name="name"
                   validateOnBlur={shouldValidateInline}
                   validateOnChange={shouldValidateInline}
+                  willAutoFocus
                 />
               </Box>
             </>

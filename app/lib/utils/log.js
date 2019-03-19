@@ -2,7 +2,7 @@ import debugLogger from 'debug-logger'
 
 // Enable colours for object inspection.
 debugLogger.inspectOptions = {
-  colors: true
+  colors: true,
 }
 
 // Enable all zap logs if DEBUG has not been explicitly set.
@@ -19,36 +19,36 @@ const logConfig = name => ({
   levels: {
     trace: {
       prefix: '[TRC]  ',
-      namespaceSuffix: `:${name}`
+      namespaceSuffix: `:${name}`,
     },
     debug: {
       prefix: '[DBG]  ',
-      namespaceSuffix: `:${name}`
+      namespaceSuffix: `:${name}`,
     },
     log: {
       prefix: '[LOG]  ',
-      namespaceSuffix: `:${name}`
+      namespaceSuffix: `:${name}`,
     },
     info: {
       prefix: '[INF]  ',
-      namespaceSuffix: `:${name}`
+      namespaceSuffix: `:${name}`,
     },
     warn: {
       prefix: '[WRN]  ',
-      namespaceSuffix: `:${name}`
+      namespaceSuffix: `:${name}`,
     },
     error: {
       prefix: '[ERR]  ',
-      namespaceSuffix: `:${name}`
+      namespaceSuffix: `:${name}`,
     },
     critical: {
       color: debugLogger.colors.magenta,
       prefix: '[CRT]  ',
       namespaceSuffix: `:${name}`,
       level: 6,
-      fd: 2
-    }
-  }
+      fd: 2,
+    },
+  },
 })
 
 // Create logs for use in the app.
@@ -65,7 +65,7 @@ export const lndLogGetLevel = msg => {
     INF: 'info',
     WRN: 'warn',
     ERR: 'error',
-    CRT: 'critical'
+    CRT: 'critical',
   }
 
   // Parse the log line to determine its level.

@@ -1,141 +1,77 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
 import { Box } from 'rebass'
-import { Bar, Form, Header, Input } from 'components/UI'
-import messages from './messages'
+import ConnectionDetailsManual from './ConnectionDetailsManual'
+import ConnectionDetailsString from './ConnectionDetailsString'
+import ConnectionDetailsContext from './ConnectionDetailsContext'
+import { FORM_TYPE_CONNECTION_STRING, FORM_TYPE_MANUAL } from './constants'
 
 class ConnectionDetails extends React.Component {
-  static propTypes = {
-    wizardApi: PropTypes.object,
-    wizardState: PropTypes.object,
-    connectionHost: PropTypes.string,
-    connectionCert: PropTypes.string,
-    connectionMacaroon: PropTypes.string,
-    startLndHostError: PropTypes.string,
-    startLndCertError: PropTypes.string,
-    startLndMacaroonError: PropTypes.string,
-    lndConnect: PropTypes.object,
-
-    setLndconnect: PropTypes.func.isRequired,
-    setConnectionHost: PropTypes.func.isRequired,
-    setConnectionCert: PropTypes.func.isRequired,
-    setConnectionMacaroon: PropTypes.func.isRequired,
-    validateHost: PropTypes.func.isRequired,
-    validateCert: PropTypes.func.isRequired,
-    validateMacaroon: PropTypes.func.isRequired
+  state = {
+    formType: null,
   }
 
-  static defaultProps = {
-    wizardApi: {},
-    wizardState: {}
+  static propTypes = {
+    clearStartLndError: PropTypes.func.isRequired,
+    connectionCert: PropTypes.string,
+    connectionHost: PropTypes.string,
+    connectionMacaroon: PropTypes.string,
+    connectionString: PropTypes.string,
+    lndConnect: PropTypes.string,
+    setConnectionCert: PropTypes.func.isRequired,
+    setConnectionHost: PropTypes.func.isRequired,
+    setConnectionMacaroon: PropTypes.func.isRequired,
+    setConnectionString: PropTypes.func.isRequired,
+    setLndconnect: PropTypes.func.isRequired,
+    startLndCertError: PropTypes.string,
+    startLndHostError: PropTypes.string,
+    startLndMacaroonError: PropTypes.string,
+    validateCert: PropTypes.func.isRequired,
+    validateHost: PropTypes.func.isRequired,
+    validateMacaroon: PropTypes.func.isRequired,
+    wizardApi: PropTypes.object,
+    wizardState: PropTypes.object,
   }
 
   componentDidMount() {
-    const { props, formApi } = this
+    const { connectionHost, connectionCert, connectionMacaroon } = this.props
+
+    if (connectionHost || connectionCert || connectionMacaroon) {
+      this.openModal(FORM_TYPE_MANUAL)
+    } else {
+      this.openModal(FORM_TYPE_CONNECTION_STRING)
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
     const {
       lndConnect,
-      setLndconnect,
-      startLndHostError,
-      startLndCertError,
-      startLndMacaroonError
-    } = props
-    if (startLndHostError) {
-      this.formApi.setError('connectionHost', startLndHostError)
-    }
-    if (startLndCertError) {
-      this.formApi.setError('connectionCert', startLndCertError)
-    }
-    if (startLndMacaroonError) {
-      this.formApi.setError('connectionMacaroon', startLndMacaroonError)
-    }
+      setConnectionHost,
+      setConnectionCert,
+      setConnectionMacaroon,
+      setConnectionString,
+    } = this.props
+    const { formType } = this.state
+    if (formType && formType !== prevState.formType && prevState.formType) {
+      switch (formType) {
+        case FORM_TYPE_CONNECTION_STRING:
+          setConnectionHost(null)
+          setConnectionCert(null)
+          setConnectionMacaroon(null)
 
-    if (lndConnect) {
-      const fields = ['connectionHost', 'connectionCert', 'connectionMacaroon']
-      fields.forEach(field => {
-        if (lndConnect[field] !== formApi.getValue(field)) {
-          this.formApi.setValue(field, lndConnect[field])
-          this.formApi.setTouched(field, true)
-        }
-      })
-      setLndconnect(null)
+          break
+        case FORM_TYPE_MANUAL:
+          setConnectionString(null)
+          break
+      }
     }
-  }
-
-  componentDidUpdate(prevProps) {
-    const { props, formApi } = this
-    const { setLndconnect, lndConnect } = props
     if (lndConnect && lndConnect !== prevProps.lndConnect) {
-      const fields = ['connectionHost', 'connectionCert', 'connectionMacaroon']
-      fields.forEach(field => {
-        if (lndConnect[field] !== formApi.getValue(field)) {
-          this.formApi.setValue(field, lndConnect[field])
-          this.formApi.setTouched(field, true)
-        }
-      })
-      setLndconnect(null)
+      this.openModal(FORM_TYPE_CONNECTION_STRING)
     }
   }
 
-  componentWillUnmount() {
-    const { setStartLndError } = this.props
-    setStartLndError(null)
-  }
-
-  handleConnectionHostChange = () => {
-    const formState = this.formApi.getState()
-    delete formState.asyncErrors.connectionHost
-    this.formApi.setState(formState)
-  }
-
-  handleConnectionCertChange = () => {
-    const formState = this.formApi.getState()
-    delete formState.asyncErrors.connectionCert
-    this.formApi.setState(formState)
-  }
-
-  handleConnectionMacaroonChange = () => {
-    const formState = this.formApi.getState()
-    delete formState.asyncErrors.connectionMacaroon
-    this.formApi.setState(formState)
-  }
-
-  handleSubmit = values => {
-    const { setConnectionHost, setConnectionCert, setConnectionMacaroon } = this.props
-    setConnectionHost(values.connectionHost)
-    setConnectionCert(values.connectionCert)
-    setConnectionMacaroon(values.connectionMacaroon)
-  }
-
-  validateHost = async value => {
-    const { validateHost } = this.props
-    try {
-      await validateHost(value)
-    } catch (e) {
-      return e.toString()
-    }
-  }
-
-  validateCert = async value => {
-    const { validateCert } = this.props
-    try {
-      await validateCert(value)
-    } catch (e) {
-      return e.toString()
-    }
-  }
-
-  validateMacaroon = async value => {
-    const { validateMacaroon } = this.props
-    try {
-      await validateMacaroon(value)
-    } catch (e) {
-      return e.toString()
-    }
-  }
-
-  setFormApi = formApi => {
-    this.formApi = formApi
+  openModal = formType => {
+    this.setState({ formType })
   }
 
   render() {
@@ -145,102 +81,72 @@ class ConnectionDetails extends React.Component {
       connectionHost,
       connectionCert,
       connectionMacaroon,
-      lndConnect,
-      setConnectionHost,
-      setConnectionCert,
-      setConnectionMacaroon,
-      setLndconnect,
-      setStartLndError,
+      connectionString,
       startLndHostError,
       startLndCertError,
       startLndMacaroonError,
+      lndConnect,
+      setLndconnect,
+      setConnectionHost,
+      setConnectionCert,
+      setConnectionMacaroon,
+      setConnectionString,
+      clearStartLndError,
       validateHost,
       validateCert,
       validateMacaroon,
-      ...rest
     } = this.props
-    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
-    const { currentItem } = wizardState
+    const { formType } = this.state
+
+    if (!formType) {
+      return null
+    }
+
     return (
-      <Form
-        {...rest}
-        getApi={formApi => {
-          this.setFormApi(formApi)
-          if (getApi) {
-            getApi(formApi)
-          }
-        }}
-        onChange={onChange && (formState => onChange(formState, currentItem))}
-        onSubmit={values => {
-          this.handleSubmit(values)
-          if (onSubmit) {
-            onSubmit(values)
-          }
-        }}
-        onSubmitFailure={onSubmitFailure}
-      >
-        {({ formState }) => {
-          const shouldValidateInline =
-            formState.submits > 0 || startLndHostError || startLndCertError || startLndMacaroonError
-          return (
-            <>
-              <Header
-                title={<FormattedMessage {...messages.connection_details_custom_title} />}
-                subtitle={<FormattedMessage {...messages.connection_details_custom_description} />}
-                align="left"
-              />
-
-              <Bar my={4} />
-
-              <Box mb={3}>
-                <Input
-                  autoFocus
-                  field="connectionHost"
-                  name="connectionHost"
-                  label={<FormattedMessage {...messages.hostname_title} />}
-                  description={<FormattedMessage {...messages.hostname_description} />}
-                  initialValue={connectionHost}
-                  onValueChange={this.handleConnectionHostChange}
-                  validateOnBlur={shouldValidateInline}
-                  validateOnChange={shouldValidateInline}
-                  asyncValidate={this.validateHost}
-                  required
-                />
-              </Box>
-
-              <Box mb={3}>
-                <Input
-                  field="connectionCert"
-                  name="connectionCert"
-                  label={<FormattedMessage {...messages.cert_title} />}
-                  description={<FormattedMessage {...messages.cert_description} />}
-                  initialValue={connectionCert}
-                  onValueChange={this.handleConnectionCertChange}
-                  validateOnBlur={shouldValidateInline}
-                  validateOnChange={shouldValidateInline}
-                  asyncValidate={this.validateCert}
-                  required
-                />
-              </Box>
-
-              <Box mb={3}>
-                <Input
-                  field="connectionMacaroon"
-                  name="connectionMacaroon"
-                  label="Macaroon"
-                  description={<FormattedMessage {...messages.macaroon_description} />}
-                  initialValue={connectionMacaroon}
-                  onValueChange={this.handleConnectionMacaroonChange}
-                  validateOnBlur={shouldValidateInline}
-                  validateOnChange={shouldValidateInline}
-                  asyncValidate={this.validateMacaroon}
-                  required
-                />
-              </Box>
-            </>
-          )
-        }}
-      </Form>
+      <Box css={{ visibility: lndConnect ? 'hidden' : 'visible', width: '100%' }}>
+        <ConnectionDetailsContext.Provider
+          value={{
+            formType,
+            openModal: this.openModal,
+          }}
+        >
+          {formType === FORM_TYPE_CONNECTION_STRING ? (
+            <ConnectionDetailsString
+              clearStartLndError={clearStartLndError}
+              connectionString={connectionString}
+              lndConnect={lndConnect}
+              setConnectionString={setConnectionString}
+              setLndconnect={setLndconnect}
+              startLndCertError={startLndCertError}
+              startLndHostError={startLndHostError}
+              startLndMacaroonError={startLndMacaroonError}
+              wizardApi={wizardApi}
+              wizardState={wizardState}
+            />
+          ) : (
+            <ConnectionDetailsManual
+              clearStartLndError={clearStartLndError}
+              connectionCert={connectionCert}
+              connectionHost={connectionHost}
+              connectionMacaroon={connectionMacaroon}
+              connectionString={connectionString}
+              lndConnect={lndConnect}
+              setConnectionCert={setConnectionCert}
+              setConnectionHost={setConnectionHost}
+              setConnectionMacaroon={setConnectionMacaroon}
+              setLndconnect={setLndconnect}
+              startLndCertError={startLndCertError}
+              startLndHostError={startLndHostError}
+              startLndMacaroonError={startLndMacaroonError}
+              validateCert={validateCert}
+              validateHost={validateHost}
+              validateMacaroon={validateMacaroon}
+              wizardApi={wizardApi}
+              wizardState={wizardState}
+            />
+          )}
+        </ConnectionDetailsContext.Provider>
+      </Box>
     )
   }
 }

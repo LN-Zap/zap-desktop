@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`component.UI.Card should render correctly 1`] = `
+<Styled(styled.div)
+  as="section"
+  bg="primaryColor"
+  borderRadius={5}
+  boxShadow="0 2px 24px 0 rgba(0, 0, 0, 0.5)"
+  color="primaryText"
+  p={3}
+>
+  content
+</Styled(styled.div)>
+`;

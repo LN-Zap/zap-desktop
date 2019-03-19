@@ -4,14 +4,14 @@ import { Form, Spinner, Text } from 'components/UI'
 
 class WalletCreate extends React.Component {
   static propTypes = {
+    createNewWallet: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
-    createNewWallet: PropTypes.func.isRequired
   }
 
   static defaultProps = {
     wizardApi: {},
-    wizardState: {}
+    wizardState: {},
   }
 
   componentDidMount() {
@@ -28,14 +28,7 @@ class WalletCreate extends React.Component {
   }
 
   render() {
-    const {
-      wizardApi,
-      wizardState,
-      autopilot,
-      setWalletCreate,
-      createNewWallet,
-      ...rest
-    } = this.props
+    const { wizardApi, wizardState, createNewWallet, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (

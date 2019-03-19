@@ -15,11 +15,12 @@ export const palette = {
   superGreen: '#39e673',
   pineGreen: '#0d331a',
   superRed: '#e63939',
+  superBlue: '#005dfc',
   mudBrown: '#330d0d',
   gray: '#959595',
   lightGreen: '#eefff4',
   lightOrange: '#fff3e1',
-  lightRed: '#ffeded'
+  lightRed: '#ffeded',
 }
 
 export const fontSizes = {
@@ -30,45 +31,50 @@ export const fontSizes = {
   l: '15px',
   xl: '18px',
   xxl: '30px',
-  xxxl: '60px'
+  xxxl: '60px',
 }
-fontSizes[0] = fontSizes['xxs']
-fontSizes[1] = fontSizes['xs']
-fontSizes[2] = fontSizes['s']
-fontSizes[3] = fontSizes['m']
-fontSizes[4] = fontSizes['l']
-fontSizes[5] = fontSizes['xl']
-fontSizes[6] = fontSizes['xxl']
-fontSizes[7] = fontSizes['xxxl']
 
 export const fontWeights = {
   light: 300,
-  normal: 400
+  normal: 400,
+}
+
+export const lineHeights = {
+  normal: 1.4,
 }
 
 export const fonts = {
   0: 'Roboto, system-ui, sans-serif',
-  sans: 'Roboto, system-ui, sans-serif'
+  sans: 'Roboto, system-ui, sans-serif',
 }
 
 export const letterSpacings = {
   normal: 'normal',
-  caps: '0.025em'
+  caps: '0.025em',
 }
 
 const statuses = {
   online: {
-    color: palette.superGreen
+    color: palette.superGreen,
   },
   pending: {
-    color: palette.lightningOrange
+    color: palette.lightningOrange,
   },
   closing: {
-    color: palette.superRed
+    color: palette.superRed,
   },
   offline: {
-    color: palette.gray
-  }
+    color: palette.gray,
+  },
+}
+
+const bars = {
+  normal: {
+    opacity: 0.6,
+  },
+  light: {
+    opacity: 0.3,
+  },
 }
 
 export default {
@@ -77,6 +83,8 @@ export default {
   fontWeights,
   fonts,
   letterSpacings,
+  lineHeights,
   palette,
-  statuses
+  statuses,
+  bars,
 }

@@ -1,55 +1,46 @@
 // @flow
 import { app, ipcMain, dialog, BrowserWindow } from 'electron'
-import pick from 'lodash.pick'
 import StateMachine from 'javascript-state-machine'
 import { mainLog } from '../utils/log'
-
-import LndConfig, { chains, networks, types } from '../lnd/config'
+import delay from '../utils/delay'
+import truncate from '../utils/truncate'
+import sanitize from '../utils/sanitize'
+import LndConfig, { type LndConfigOptions } from '../lnd/config'
 import Lightning from '../lnd/lightning'
 import Neutrino from '../lnd/neutrino'
 import WalletUnlocker from '../lnd/walletUnlocker'
 
-type onboardingOptions = {
-  id?: number,
-  type: $Keys<typeof types>,
-  chain?: $Keys<typeof chains>,
-  network?: $Keys<typeof networks>,
-  host?: string,
-  cert?: string,
-  macaroon?: string,
-  alias?: string,
-  autopilot?: boolean,
-  name?: string
-}
+const LND_GRPC_HOST_ERROR = 'LND_GRPC_HOST_ERROR'
+const LND_GRPC_CERT_ERROR = 'LND_GRPC_CERT_ERROR'
+const LND_GRPC_MACAROON_ERROR = 'LND_GRPC_MACAROON_ERROR'
+const LND_METHOD_UNAVAILABLE = 12
 
 type shutdownOptions = {
   signal?: string,
-  timeout?: number
+  timeout?: number,
 }
 
-const grpcSslCipherSuites = connectionType =>
-  (connectionType === 'btcpayserver'
-    ? [
-        // BTCPay Server serves lnd behind an nginx proxy with a trusted SSL cert from Lets Encrypt.
-        // These certs use an RSA TLS cipher suite.
-        'ECDHE-RSA-AES256-GCM-SHA384',
-        'ECDHE-RSA-AES128-GCM-SHA256'
-      ]
-    : [
-        // Default is ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
-        // https://github.com/grpc/grpc/blob/master/doc/environment_variables.md
-        //
-        // Current LND cipher suites here:
-        // https://github.com/lightningnetwork/lnd/blob/master/lnd.go#L80
-        //
-        // We order the suites by priority, based on the recommendations provided by SSL Labs here:
-        // https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
-        'ECDHE-ECDSA-AES128-GCM-SHA256',
-        'ECDHE-ECDSA-AES256-GCM-SHA384',
-        'ECDHE-ECDSA-AES128-CBC-SHA256',
-        'ECDHE-ECDSA-CHACHA20-POLY1305'
-      ]
-  ).join(':')
+const grpcSslCipherSuites = () => {
+  return [
+    // Default is ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
+    // https://github.com/grpc/grpc/blob/master/doc/environment_variables.md
+    //
+    // Current LND cipher suites here:
+    // https://github.com/lightningnetwork/lnd/blob/master/lnd.go#L80
+    //
+    // We order the suites by priority, based on the recommendations provided by SSL Labs here:
+    // https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
+    'ECDHE-ECDSA-AES128-GCM-SHA256',
+    'ECDHE-ECDSA-AES256-GCM-SHA384',
+    'ECDHE-ECDSA-AES128-CBC-SHA256',
+    'ECDHE-ECDSA-CHACHA20-POLY1305',
+
+    // BTCPay Server serves lnd behind an nginx proxy with a trusted SSL cert from Lets Encrypt.
+    // These certs use an RSA TLS cipher suite.
+    'ECDHE-RSA-AES256-GCM-SHA384',
+    'ECDHE-RSA-AES128-GCM-SHA256',
+  ].join(':')
+}
 
 /**
  * @class ZapController
@@ -95,17 +86,16 @@ class ZapController {
           { name: 'startLocalLnd', from: 'onboarding', to: 'running' },
           { name: 'startRemoteLnd', from: 'onboarding', to: 'connected' },
           { name: 'stopLnd', from: '*', to: 'onboarding' },
-          { name: 'terminate', from: '*', to: 'terminated' }
+          { name: 'terminate', from: '*', to: 'terminated' },
         ],
         methods: {
           onOnboarding: this.onOnboarding.bind(this),
           onStartOnboarding: this.onStartOnboarding.bind(this),
           onBeforeStartLocalLnd: this.onBeforeStartLocalLnd.bind(this),
           onBeforeStartRemoteLnd: this.onBeforeStartRemoteLnd.bind(this),
-          onBeforeStopLnd: this.onBeforeStopLnd.bind(this),
           onTerminated: this.onTerminated.bind(this),
-          onTerminate: this.onTerminate.bind(this)
-        }
+          onTerminate: this.onTerminate.bind(this),
+        },
       })
 
       // Show the window as soon as the application has finished loading.
@@ -163,13 +153,12 @@ class ZapController {
     if (this.walletUnlocker && this.walletUnlocker.can('disconnect')) {
       this.walletUnlocker.disconnect()
     }
-    this.sendMessage('lndStopped')
 
     // Shut down Neutrino.
     await this.shutdownNeutrino()
 
     // Give the grpc connections a chance to be properly closed out.
-    await new Promise(resolve => setTimeout(resolve, 200))
+    await delay(200)
   }
 
   onStartOnboarding() {
@@ -189,32 +178,60 @@ class ZapController {
     return this.startNeutrino()
   }
 
-  onBeforeStartRemoteLnd() {
+  async onBeforeStartRemoteLnd() {
     mainLog.debug('[FSM] onBeforeStartRemoteLnd...')
-    mainLog.info('Connecting to custom lnd instance')
+    mainLog.info('Connecting to lnd:')
     mainLog.info(' > host:', this.lndConfig.host)
-    mainLog.info(' > cert:', this.lndConfig.cert)
-    mainLog.info(' > macaroon:', this.lndConfig.macaroon)
+    mainLog.info(' > cert:', this.lndConfig.cert && truncate(this.lndConfig.cert))
+    mainLog.info(' > macaroon:', this.lndConfig.macaroon && truncate(this.lndConfig.macaroon))
 
-    return this.startLightningWallet().catch(e => {
+    try {
+      await this.startLightningWallet()
+    } catch (e) {
+      /*
+        In the GRPC API, there are 2 separate services:
+
+        1) `WalletUnlocker`
+        2) `Lightning`
+
+        The `WalletUnlocker` is used for provisioning and unlocking wallets, and the `Lightning` service
+        is used for interacting with unlocked wallets.
+
+        Before we connect to lnd, we have no way to know what state the wallet is in, and therefore which
+        service we need to connect to. The only way for us to find out is to try making a call against it.
+        Only one of the services is available at any given time
+
+        The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
+        verify that it is accessible. If it is not, an error 12 is thrown which is the gRPC code for `UNIMPLEMENTED`
+        which indicates that the requested operation is not implemented or not supported/enabled in the service.
+        See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
+      */
+
+      const isSuccess = code => code === LND_METHOD_UNAVAILABLE
+
+      // first check for the successful case
+      if (isSuccess(e.code)) {
+        // connection successful
+        this.sendMessage('startLndSuccess')
+        return this.startWalletUnlocker()
+      }
+      // error messages to help identify certain type of errors
+      const MACAROON_ERROR_MESSAGES = [
+        'cannot determine data format of binary-encoded macaroon',
+        'verification failed: signature mismatch after caveat verification',
+        'unmarshal v2: section extends past end of buffer',
+      ]
+      // else try to figure out the error
       const errors = {}
-      // There was a problem connecting to the host.
-      if (e.code === 'LND_GRPC_HOST_ERROR') {
+      if (e.code === LND_GRPC_HOST_ERROR) {
         errors.host = e.message
       }
       // There was a problem accessing the ssl cert.
-      if (e.code === 'LND_GRPC_CERT_ERROR') {
+      else if (e.code === LND_GRPC_CERT_ERROR) {
         errors.cert = e.message
       }
       //  There was a problem accessing the macaroon file.
-      else if (
-        e.code === 'LND_GRPC_MACAROON_ERROR' ||
-        [
-          'cannot determine data format of binary-encoded macaroon',
-          'verification failed: signature mismatch after caveat verification',
-          'unmarshal v2: section extends past end of buffer'
-        ].includes(e.message)
-      ) {
+      else if (e.code === LND_GRPC_MACAROON_ERROR || MACAROON_ERROR_MESSAGES.includes(e.message)) {
         errors.macaroon = e.message
       }
       // Other error codes such as UNAVAILABLE most likely indicate that there is a problem with the host.
@@ -222,23 +239,10 @@ class ZapController {
         errors.host = `Unable to connect to host: ${e.details || e.message}`
       }
 
-      // The `startLightningWallet` call attempts to call the `getInfo` method on the Lightning service in order to
-      // verify that it is accessible. If it is not, an error 12 is thrown which is the gRPC code for `UNIMPLEMENTED`
-      // which indicates that the requested operation is not implemented or not supported/enabled in the service.
-      // See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
-      if (e.code === 12) {
-        this.sendMessage('startLndSuccess')
-        return this.startWalletUnlocker()
-      }
-
       // Notify the app of errors.
       this.sendMessage('startLndError', errors)
       throw e
-    })
-  }
-
-  onBeforeStopLnd() {
-    mainLog.debug('[FSM] onBeforeStopLnd...')
+    }
   }
 
   async onTerminated(lifecycle: any) {
@@ -274,12 +278,15 @@ class ZapController {
    */
   sendMessage(msg: string, data: any) {
     if (this.mainWindow) {
-      mainLog.info('Sending message to renderer process: %o', { msg, data })
+      mainLog.info('Sending message to renderer process: %o', {
+        msg,
+        data: sanitize(data, ['lndconnectUri', 'lndconnectQRCode']),
+      })
       this.mainWindow.webContents.send(msg, data)
     } else {
       mainLog.warn('Unable to send message to renderer process (main window not available): %o', {
         msg,
-        data
+        data,
       })
     }
   }
@@ -290,7 +297,7 @@ class ZapController {
   async startWalletUnlocker() {
     mainLog.info('Establishing connection to Wallet Unlocker gRPC interface...')
     this.walletUnlocker = new WalletUnlocker(this.lndConfig)
-
+    this.sendMessage('startWalletUnlocker', true)
     // Connect to the WalletUnlocker interface.
     try {
       await this.walletUnlocker.connect()
@@ -301,10 +308,12 @@ class ZapController {
       )
 
       // Notify the renderer that the wallet unlocker is active.
-      this.sendMessage('walletUnlockerGrpcActive', this.lndConfig)
+      this.sendMessage('walletUnlockerStarted', this.lndConfig)
     } catch (err) {
       mainLog.warn('Unable to connect to WalletUnlocker gRPC interface: %o', err)
       throw err
+    } finally {
+      this.sendMessage('startWalletUnlocker', false)
     }
   }
 
@@ -314,7 +323,6 @@ class ZapController {
   async startLightningWallet() {
     mainLog.info('Establishing connection to Lightning gRPC interface...')
     this.lightning = new Lightning(this.lndConfig)
-
     // Connect to the Lightning interface.
     try {
       await this.lightning.connect()
@@ -325,7 +333,7 @@ class ZapController {
       ipcMain.on('lnd', (event, { msg, data }) => this.lightning.registerMethods(event, msg, data))
 
       // Let the renderer know that we are connected.
-      this.sendMessage('lightningGrpcActive', this.lndConfig)
+      this.sendMessage('lightningWalletStarted', this.lndConfig)
     } catch (err) {
       mainLog.warn('Unable to connect to Lightning gRPC interface: %o', err)
       throw err
@@ -339,12 +347,12 @@ class ZapController {
   async startNeutrino() {
     mainLog.info('Starting Neutrino...')
     this.neutrino = new Neutrino(this.lndConfig)
-
+    this.sendMessage('startNeutrino', true)
     this.neutrino.on('error', error => {
       mainLog.error(`Got error from lnd process: ${error})`)
       dialog.showMessageBox({
         type: 'error',
-        message: `lnd error: ${error}`
+        message: `lnd error: ${error}`,
       })
     })
 
@@ -352,27 +360,19 @@ class ZapController {
       mainLog.info(`Lnd process has shut down (code: ${code}, signal: ${signal})`)
       this.sendMessage('lndStopped')
       if (this.is('running')) {
-        const messages = ['Lnd has unexpectedly quit']
-        if (code) {
-          messages.push(`Exit code: ${code}`)
-        }
-        if (signal) {
-          messages.push(`Exit signal: ${signal}`)
-        }
-        if (lastError) {
-          messages.push(`Last error: ${lastError}`)
-        }
-        this.sendMessage('receiveError', messages.join(' : '))
+        this.sendMessage('lndCrashed', { code, signal, lastError })
         this.stopLnd()
       }
     })
 
     this.neutrino.on('wallet-unlocker-grpc-active', () => {
+      this.sendMessage('startNeutrino', false)
       mainLog.info('Wallet unlocker gRPC active')
       this.startWalletUnlocker()
     })
 
     this.neutrino.on('chain-sync-waiting', () => {
+      this.sendMessage('startNeutrino', false)
       mainLog.info('Neutrino sync waiting')
       this.sendMessage('lndSyncStatus', 'waiting')
     })
@@ -461,21 +461,20 @@ class ZapController {
   /**
    * Start or connect to lnd process after onboarding has been completed by the app.
    */
-  async startLnd(options: onboardingOptions) {
-    mainLog.info('Starting lnd with options: %o', options)
+  async startLnd(options: LndConfigOptions) {
+    mainLog.info(
+      'Starting lnd with options: %o',
+      sanitize(options, ['lndconnectUri', 'lndconnectQRCode'])
+    )
 
     // Save the lnd config options that we got from the renderer.
-    this.lndConfig = new LndConfig({
-      id: options.id,
-      type: options.type || 'local',
-      chain: options.chain || 'bitcoin',
-      network: options.network || 'testnet',
-      settings: pick(options, LndConfig.SETTINGS_PROPS[options.type])
-    })
+    this.lndConfig = new LndConfig(options)
 
-    // Set up SSL with the cypher suits that we need based on the connection type.
-    process.env.GRPC_SSL_CIPHER_SUITES =
-      process.env.GRPC_SSL_CIPHER_SUITES || grpcSslCipherSuites(options.type)
+    // Wait for the config object to become ready.
+    await this.lndConfig.isReady
+
+    // Set up SSL with the cypher suits that we need.
+    process.env.GRPC_SSL_CIPHER_SUITES = process.env.GRPC_SSL_CIPHER_SUITES || grpcSslCipherSuites()
 
     // If the requested connection type is a local one then start up a new lnd instance.
     // Otherwise attempt to connect to an lnd instance using user supplied connection details.
@@ -486,7 +485,7 @@ class ZapController {
    * Add IPC event listeners...
    */
   _registerIpcListeners() {
-    ipcMain.on('startLnd', async (event, options: onboardingOptions) => {
+    ipcMain.on('startLnd', async (event, options: LndConfigOptions) => {
       try {
         await this.startLnd(options)
       } catch (e) {
@@ -503,17 +502,28 @@ class ZapController {
         mainLog.error('Unable to connect to lightning wallet: %s', e.message)
 
         // Notify the app of errors.
-        this.sendMessage('startLndError', e.message)
+        this.sendMessage('startLndError', { host: e.message })
 
         // Return back to the start of the onboarding process.
         return this.startOnboarding()
       }
     })
-    ipcMain.on('stopLnd', () => this.stopLnd())
+    ipcMain.on('stopLnd', async () => {
+      await this.stopLnd()
+      this.sendMessage('stopLndSuccess')
+    })
 
     ipcMain.on('killLnd', async (event, options: shutdownOptions = {}) => {
       await this.shutdownNeutrino(options)
-      event.sender.send('killLndSuccess')
+      this.sendMessage('killLndSuccess')
+    })
+
+    ipcMain.on('generateLndConfig', async (event, options) => {
+      const lndConfig = new LndConfig(options)
+      await lndConfig.isReady
+      // create a copy to ensure getters are serialized into flat props before sending
+      // to the renderer process
+      this.sendMessage('receiveLndConfig', Object.assign({}, lndConfig))
     })
   }
 
@@ -527,6 +537,7 @@ class ZapController {
     ipcMain.removeAllListeners('startLightningWallet')
     ipcMain.removeAllListeners('walletUnlocker')
     ipcMain.removeAllListeners('lnd')
+    ipcMain.removeAllListeners('generateLndConfig')
   }
 }
 

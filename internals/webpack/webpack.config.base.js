@@ -3,7 +3,8 @@
  */
 
 import path from 'path'
-import { IgnorePlugin } from 'webpack'
+import { DefinePlugin, IgnorePlugin } from 'webpack'
+import config from 'config'
 
 export const rootDir = path.join(__dirname, '..', '..')
 
@@ -19,9 +20,9 @@ export default {
         use: {
           loader: 'babel-loader',
           options: {
-            cacheDirectory: true
-          }
-        }
+            cacheDirectory: true,
+          },
+        },
       },
       // WOFF Font
       {
@@ -30,9 +31,9 @@ export default {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'application/font-woff'
-          }
-        }
+            mimetype: 'application/font-woff',
+          },
+        },
       },
       // WOFF2 Font
       {
@@ -41,9 +42,9 @@ export default {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'application/font-woff'
-          }
-        }
+            mimetype: 'application/font-woff',
+          },
+        },
       },
       // TTF Font
       {
@@ -52,23 +53,29 @@ export default {
           loader: 'url-loader',
           options: {
             limit: 10000,
-            mimetype: 'application/octet-stream'
-          }
-        }
-      }
-    ]
+            mimetype: 'application/octet-stream',
+          },
+        },
+      },
+    ],
   },
 
   /**
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    modules: [path.resolve(rootDir, 'app'), 'node_modules', 'app/node_modules']
+    modules: [path.resolve(rootDir, 'app'), 'node_modules', 'app/node_modules'],
   },
 
-  plugins: [new IgnorePlugin(/^\.\/locale$/, /moment$/)],
+  plugins: [
+    new IgnorePlugin(/^\.\/locale$/, /moment$/),
+
+    // Make config object available at global CONFIG var.
+    // See https://github.com/lorenwest/node-config/wiki/Webpack-Usage#option-1
+    new DefinePlugin({ CONFIG: JSON.stringify(config) }),
+  ],
 
   optimization: {
-    namedModules: true
-  }
+    namedModules: true,
+  },
 }

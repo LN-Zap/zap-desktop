@@ -12,7 +12,12 @@ const WalletName = ({ wallet }) => {
 }
 
 WalletName.propTypes = {
-  wallet: PropTypes.object.isRequired
+  wallet: PropTypes.shape({
+    host: PropTypes.string,
+    id: PropTypes.number.isRequired,
+    name: PropTypes.string,
+    type: PropTypes.string.isRequired,
+  }),
 }
 
 export default WalletName

@@ -11,9 +11,9 @@ describe('component.UI.Radio', () => {
         <ThemeProvider theme={dark}>
           <Form>
             <RadioGroup field="radio">
-              <Radio value="item1" label="Item 1" description="Radio buttons" />
-              <Radio value="item2" label="Item 2" description="can have an optional title" />
-              <Radio value="item3" label="Item 3" description="and description" />
+              <Radio description="Radio buttons" label="Item 1" value="item1" />
+              <Radio description="can have an optional title" label="Item 2" value="item2" />
+              <Radio description="and description" label="Item 3" value="item3" />
             </RadioGroup>
           </Form>
         </ThemeProvider>

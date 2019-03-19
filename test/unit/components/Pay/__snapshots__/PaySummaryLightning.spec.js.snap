@@ -1,7 +1,34 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
-<styled.div>
+<styled.div
+  cryptoCurrencies={
+    Array [
+      Object {
+        "key": "btc",
+        "name": "BTC",
+      },
+      Object {
+        "key": "bits",
+        "name": "bits",
+      },
+      Object {
+        "key": "sats",
+        "name": "satoshis",
+      },
+    ]
+  }
+  cryptoCurrency="btc"
+  currentTicker={
+    Object {
+      "EUR": 5656.01,
+      "GBP": 5052.73,
+      "USD": 6477.78,
+    }
+  }
+  fiatCurrency="USD"
+  setCryptoCurrency={[MockFunction]}
+>
   <styled.div
     py={3}
   >
@@ -17,46 +44,25 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
         >
           <styled.div>
             <Text
-              fontSize={6}
+              fontSize="xxl"
               textAlign="left"
             >
-              <Value
-                currency="btc"
-                style="decimal"
+              <CryptoValue
                 value={10000}
               />
             </Text>
           </styled.div>
-          <WithTheme(Dropdown)
-            activeKey="btc"
-            items={
-              Array [
-                Object {
-                  "key": "btc",
-                  "name": "BTC",
-                },
-                Object {
-                  "key": "bits",
-                  "name": "bits",
-                },
-                Object {
-                  "key": "sats",
-                  "name": "satoshis",
-                },
-              ]
-            }
+          <Connect(WithTheme(Dropdown))
             ml={2}
-            onChange={[MockFunction]}
           />
         </Styled(styled.div)>
         <Text
           color="gray"
         >
           ≈ 
-          <FormattedNumber
-            currency="USD"
+          <FiatValue
             style="currency"
-            value={0.65}
+            value={10000}
           />
         </Text>
       </styled.div>
@@ -90,12 +96,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
     </Styled(styled.div)>
   </styled.div>
   <Bar
-    border={0}
-    borderBottom={1}
-    borderColor="primaryText"
-    is="hr"
-    m={0}
-    opacity={0.6}
+    variant="light"
   />
   <DataRow
     left={
@@ -119,12 +120,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
     }
   />
   <Bar
-    border={0}
-    borderBottom={1}
-    borderColor="primaryText"
-    is="hr"
-    m={0}
-    opacity={0.6}
+    variant="light"
   />
   <DataRow
     left={
@@ -136,9 +132,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
     }
     right={
       <React.Fragment>
-        <Value
-          currency="btc"
-          style="decimal"
+        <CryptoValue
           value={10000}
         />
          
@@ -147,12 +141,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
     }
   />
   <Bar
-    border={0}
-    borderBottom={1}
-    borderColor="primaryText"
-    is="hr"
-    m={0}
-    opacity={0.6}
+    variant="light"
   />
 </styled.div>
 `;

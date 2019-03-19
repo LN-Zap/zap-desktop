@@ -9,20 +9,29 @@
 import { app, BrowserWindow, session } from 'electron'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
-  REDUX_DEVTOOLS
+  REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
 import get from 'lodash.get'
 import path from 'path'
-import url from 'url'
 import os from 'os'
 import fs from 'fs'
-import querystring from 'querystring'
+import bip21 from 'bip21'
 import { mainLog } from './lib/utils/log'
 import ZapMenuBuilder from './lib/zap/menuBuilder'
 import ZapController from './lib/zap/controller'
 import ZapUpdater from './lib/zap/updater'
+import ZapMigrator from './lib/zap/migrator'
 import themes from './themes'
-import { getDbName } from './store/db'
+import { getDbName } from './lib/utils/db'
+
+// When we run in production mode, this file is processd with webpack and our config is made available in the
+// global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
+// directly without processing with webpack), so we require the config module directly in this case.
+try {
+  global.CONFIG = CONFIG
+} catch (e) {
+  global.CONFIG = require('config')
+}
 
 // Set the Electron userDir to a temporary directory if the ELECTRON_USER_DIR_TEMP env var is set.
 // This provides an easy way to run the app with a completely fresh environment, useful for e2e tests.
@@ -57,12 +66,17 @@ const handleOpenUrl = (urlToOpen = '') => {
     const type = urlToOpen.split(':')[0]
 
     switch (type) {
+      case 'bitcoin':
+        handleBitcoinLink(urlToOpen)
+        break
+
       case 'lightning':
         handleLightningLink(urlToOpen)
         break
 
       case 'lndconnect':
         handleLndconnectLink(urlToOpen)
+        break
     }
   }
 
@@ -70,6 +84,19 @@ const handleOpenUrl = (urlToOpen = '') => {
   // See mainWindow.webContents.on('did-finish-load') below.
   else {
     protocolUrl = urlToOpen
+  }
+}
+
+/**
+ * Handler for lndconnect: links
+ */
+const handleBitcoinLink = input => {
+  try {
+    const decoded = bip21.decode(input)
+    zap.sendMessage('bitcoinPaymentUri', decoded)
+    mainWindow.show()
+  } catch (e) {
+    mainLog.warn('Unable to process bitcoin uri: %s', e)
   }
 }
 
@@ -86,10 +113,12 @@ const handleLightningLink = input => {
  * Handler for lndconnect: links
  */
 const handleLndconnectLink = input => {
-  const parsedUrl = url.parse(input)
-  const { host, cert, macaroon } = querystring.parse(parsedUrl.query)
-  zap.sendMessage('lndconnectUri', { host: host || parsedUrl.host, cert, macaroon })
-  mainWindow.show()
+  try {
+    zap.sendMessage('lndconnectUri', input)
+    mainWindow.show()
+  } catch (e) {
+    mainLog.warn('Unable to process lndconnect uri: %s', e)
+  }
 }
 
 /**
@@ -101,8 +130,8 @@ const fetchSettings = () => {
     show: false,
     focusable: false,
     webPreferences: {
-      nodeIntegration: false
-    }
+      nodeIntegration: false,
+    },
   })
   if (process.env.HOT) {
     const port = process.env.PORT || 1212
@@ -114,7 +143,7 @@ const fetchSettings = () => {
   // Once we have fetched (or failed to fetch) the user settings, destroy the window.
   win.on('load-settings-done', () => process.nextTick(() => win.destroy()))
 
-  const dbName = getDbName()
+  const dbName = getDbName(global.CONFIG)
   mainLog.debug(`Fetching user settings from indexedDb (using database "%s")`, dbName)
 
   return win.webContents
@@ -209,7 +238,7 @@ app.on('ready', async () => {
     show: false,
     useContentSize: true,
     titleBarStyle: 'hidden',
-    width: 1020,
+    width: 900,
     height: 680,
     minWidth: 900,
     minHeight: 425,
@@ -218,9 +247,15 @@ app.on('ready', async () => {
       nodeIntegration: false,
       preload: process.env.HOT
         ? path.resolve(__dirname, 'dist', 'preload.prod.js')
-        : path.resolve(__dirname, 'preload.prod.js')
-    }
+        : path.resolve(__dirname, 'preload.prod.js'),
+    },
   })
+
+  // Initialise the migrator and run any pending migrations.
+  if (!process.env.DISABLE_INIT) {
+    const migrator = new ZapMigrator()
+    await migrator.up()
+  }
 
   // Initialise the updater.
   updater = new ZapUpdater(mainWindow)
@@ -240,13 +275,13 @@ app.on('ready', async () => {
    */
   app.on('before-quit', event => {
     mainLog.trace('app.before-quit')
-    if (!zap.is('terminated')) {
-      event.preventDefault()
-      zap.terminate()
-    } else {
+    if (zap.is('terminated')) {
       if (mainWindow) {
         mainWindow.forceClose = true
       }
+    } else {
+      event.preventDefault()
+      zap.terminate()
     }
   })
 
@@ -353,15 +388,15 @@ app.on('ready', async () => {
   // HACK: patch webrequest to fix devtools incompatibility with electron 2.x.
   // See https://github.com/electron/electron/issues/13008#issuecomment-400261941
   session.defaultSession.webRequest.onBeforeRequest({}, (details, callback) => {
-    if (details.url.indexOf('7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33') !== -1) {
+    if (details.url.indexOf('7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33') === -1) {
+      callback({ cancel: false })
+    } else {
       callback({
         redirectURL: details.url.replace(
           '7accc8730b0f99b5e7c0702ea89d1fa7c17bfe33',
           '57c9d07b416b5a2ea23d28247300e4af36329bdc'
-        )
+        ),
       })
-    } else {
-      callback({ cancel: false })
     }
   })
 })
@@ -372,8 +407,10 @@ app.on('ready', async () => {
 
 /**
  * Add application event listeners:
+ *  - lightning: Open zap payment form when bitcoin url is opened
  *  - lightning: Open zap payment form when lightning url is opened
  *  - lndconnect: Populate onboarding connection details form when lndconnect url is opened
  */
+app.setAsDefaultProtocolClient('bitcoin')
 app.setAsDefaultProtocolClient('lightning')
 app.setAsDefaultProtocolClient('lndconnect')

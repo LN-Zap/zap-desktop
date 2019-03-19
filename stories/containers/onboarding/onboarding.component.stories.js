@@ -3,16 +3,16 @@ import { storiesOf } from '@storybook/react'
 import {
   Alias,
   Autopilot,
-  BtcPayServer,
   ConnectionType,
   ConnectionDetails,
   ConnectionConfirm,
   Login,
   Name,
+  Network,
   Password,
   Recover,
   SeedConfirm,
-  SeedView
+  SeedView,
 } from 'components/Onboarding/Steps'
 
 const setConnectionHost = () => ({})
@@ -23,22 +23,22 @@ const resetOnboarding = () => ({})
 
 storiesOf('Containers.Onboarding.Forms', module)
   .add('ConnectionType', () => (
-    <ConnectionType stopLnd={stopLnd} resetOnboarding={resetOnboarding} />
+    <ConnectionType resetOnboarding={resetOnboarding} stopLnd={stopLnd} />
   ))
   .add('ConnectionDetails', () => (
     <ConnectionDetails
-      setConnectionHost={setConnectionHost}
       setConnectionCert={setConnectionCert}
+      setConnectionHost={setConnectionHost}
       setConnectionMacaroon={setConnectionMacaroon}
     />
   ))
   .add('ConnectionConfirm', () => <ConnectionConfirm connectionHost="example.com:10009" />)
-  .add('BtcPayServer', () => <BtcPayServer />)
   .add('Login', () => <Login />)
   .add('Password', () => <Password />)
   .add('Recover', () => <Recover seed={[]} />)
   .add('Alias', () => <Alias />)
   .add('Name', () => <Name />)
+  .add('Network', () => <Network />)
   .add('Autopilot', () => <Autopilot />)
   .add('SeedConfirm', () => (
     <SeedConfirm
@@ -66,7 +66,7 @@ storiesOf('Containers.Onboarding.Forms', module)
         'slender',
         'blue',
         'day',
-        'fix'
+        'fix',
       ]}
     />
   ))
@@ -96,7 +96,7 @@ storiesOf('Containers.Onboarding.Forms', module)
         'slender',
         'blue',
         'day',
-        'fix'
+        'fix',
       ]}
     />
   ))

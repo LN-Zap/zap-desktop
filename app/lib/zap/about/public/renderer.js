@@ -22,7 +22,7 @@ window.ipcRenderer.on('about-window:info', (_, info) => {
   }
 
   if (info.css_path) {
-    const css_paths = !Array.isArray(info.css_path) ? [info.css_path] : info.css_path
+    const css_paths = Array.isArray(info.css_path) ? info.css_path : [info.css_path]
     for (const css_path of css_paths) {
       const link = document.createElement('link')
       link.rel = 'stylesheet'

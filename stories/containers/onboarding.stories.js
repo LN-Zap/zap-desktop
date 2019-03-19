@@ -3,10 +3,10 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
 import { State, Store } from '@sambego/storybook-state'
-import { Modal, Page } from 'components/UI'
+import delay from 'lib/utils/delay'
+import { Modal } from 'components/UI'
 import { Onboarding } from 'components/Onboarding'
-
-const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
+import { Window } from '../helpers'
 
 const initialValues = {
   name: '',
@@ -30,8 +30,8 @@ const initialValues = {
   startLndMacaroonError: '',
   password: '',
   seed: [],
-  onboarded: false,
-  onboarding: true
+  isOnboarded: false,
+  onboarding: true,
 }
 
 const store = new Store(initialValues)
@@ -41,17 +41,15 @@ const setConnectionType = connectionType => store.set({ connectionType })
 const setConnectionHost = connectionHost => store.set({ connectionHost })
 const setConnectionCert = connectionCert => store.set({ connectionCert })
 const setConnectionMacaroon = connectionMacaroon => store.set({ connectionMacaroon })
-const setConnectionString = connectionString => store.set({ connectionString })
 const setName = name => store.set({ name })
 const setAutopilot = autopilot => store.set({ autopilot })
 const setPassword = password => store.set({ password })
-
 const resetOnboarding = () => {
   store.set(initialValues)
 }
 
 const fetchSeed = async () => {
-  store.set({ fetchingSeed: true })
+  store.set({ isFetchingSeed: true })
   await delay(1000)
   store.set({
     seed: [
@@ -78,10 +76,10 @@ const fetchSeed = async () => {
       'slender',
       'blue',
       'day',
-      'fix'
-    ]
+      'fix',
+    ],
   })
-  store.set({ fetchingSeed: false })
+  store.set({ isFetchingSeed: false })
 }
 
 const startLnd = async () => {
@@ -119,38 +117,30 @@ const recoverOldWallet = async () => action('recoverOldWallet')
 const createNewWallet = async () => action('recoverOldWallet')
 
 storiesOf('Containers.Onboarding', module)
-  .addParameters({
-    info: {
-      disable: true
-    }
-  })
-  .addDecorator(story => (
-    <Page css={{ height: 'calc(100vh - 40px)' }}>
-      <Modal onClose={linkTo('Containers.Home', 'Home')}>{story()}</Modal>
-    </Page>
-  ))
+  .addParameters({ info: { disable: true } })
+  .addDecorator(story => <Window>{story()}</Window>)
+  .addDecorator(story => <Modal onClose={linkTo('Containers.Home', 'Home')}>{story()}</Modal>)
   .add('Onboarding', () => {
     return (
       <State store={store}>
         <Onboarding
           // DISPATCH
-          resetOnboarding={resetOnboarding}
-          setName={setName}
-          setAutopilot={setAutopilot}
-          setConnectionType={setConnectionType}
-          setConnectionHost={setConnectionHost}
-          setConnectionCert={setConnectionCert}
-          setConnectionMacaroon={setConnectionMacaroon}
-          setConnectionString={setConnectionString}
-          setPassword={setPassword}
           createNewWallet={createNewWallet}
+          fetchSeed={fetchSeed}
           recoverOldWallet={recoverOldWallet}
+          resetOnboarding={resetOnboarding}
+          setAutopilot={setAutopilot}
+          setConnectionCert={setConnectionCert}
+          setConnectionHost={setConnectionHost}
+          setConnectionMacaroon={setConnectionMacaroon}
+          setConnectionType={setConnectionType}
+          setName={setName}
+          setPassword={setPassword}
           startLnd={startLnd}
           stopLnd={stopLnd}
-          validateHost={validateHost}
           validateCert={validateCert}
+          validateHost={validateHost}
           validateMacaroon={validateMacaroon}
-          fetchSeed={fetchSeed}
         />
       </State>
     )
