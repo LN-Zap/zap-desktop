@@ -94,6 +94,8 @@
   "components.Channels.fee_per_byte": "per byte",
   "components.Channels.fee_unknown": "unknown",
   "components.Channels.force_close_button": "Force Close Channel",
+  "components.Channels.funding_date_description": "Channel funding transaction date and time.",
+  "components.Channels.funding_date_label": "Channel opening date",
   "components.Channels.funding_transaction_id_description": "The transaction that opened this channel, as recorded in the blockchain. You can click the link on the right to view this transaction in a block explorer.",
   "components.Channels.funding_transaction_id_label": "Funding Transaction",
   "components.Channels.last_update": "Last Update",

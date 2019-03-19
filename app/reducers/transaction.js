@@ -217,6 +217,11 @@ const ACTION_HANDLERS = {
 const transactionsSelectors = {}
 const transactionsSelector = state => state.transaction.transactions
 
+transactionsSelectors.rawTransactionsSelector = createSelector(
+  transactionsSelector,
+  txs => txs
+)
+
 transactionsSelectors.transactionsSelector = createSelector(
   transactionsSelector,
   channelsSelectors.allChannelsRaw,

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'
 import { Box as BaseBox } from 'rebass'
@@ -23,6 +23,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
     total_satoshis_received,
     csv_delay,
     num_updates,
+    fundingTxTimestamp,
   } = channel
 
   // Define output for each data property that we might want to display.
@@ -41,6 +42,22 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
         ),
       }
     },
+
+    fundingTxTimestamp: () => ({
+      label: <FormattedMessage {...messages.funding_date_label} />,
+      body: <FormattedMessage {...messages.funding_date_description} />,
+      value: (
+        <>
+          <FormattedDate
+            day="2-digit"
+            month="short"
+            value={fundingTxTimestamp * 1000}
+            year="numeric"
+          />{' '}
+          <FormattedTime value={fundingTxTimestamp * 1000} />
+        </>
+      ),
+    }),
 
     closing_txid: () => ({
       label: <FormattedMessage {...messages.closing_transaction_id_label} />,
@@ -121,6 +138,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
       ? ['channel_point', 'num_updates', 'csv_delay']
       : [
           'channel_point',
+          'fundingTxTimestamp',
           'closing_txid',
           'num_updates',
           'csv_delay',

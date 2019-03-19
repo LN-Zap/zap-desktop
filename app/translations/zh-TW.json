@@ -94,6 +94,8 @@
   "components.Channels.fee_per_byte": "",
   "components.Channels.fee_unknown": "",
   "components.Channels.force_close_button": "",
+  "components.Channels.funding_date_description": "",
+  "components.Channels.funding_date_label": "",
   "components.Channels.funding_transaction_id_description": "",
   "components.Channels.funding_transaction_id_label": "",
   "components.Channels.last_update": "",
