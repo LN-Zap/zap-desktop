@@ -121,6 +121,7 @@
   "components.Channels.pending_force_close": "Pendiente de cierre a fuerza",
   "components.Channels.pending_open": "Pendiente apertura",
   "components.Channels.private_label": "Mantener este canal privado",
+  "components.Channels.refresh_button_hint": "",
   "components.Channels.remote_balance": "Balance Remoto",
   "components.Channels.remote_pubkey": "Pubkey Remoto",
   "components.Channels.search_placeholder": "Buscar Canales",
