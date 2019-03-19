@@ -467,7 +467,7 @@ class Pay extends React.Component {
   }
 
   renderAmountFields = () => {
-    const { currentStep } = this.state
+    const { currentStep, isOnchain } = this.state
     const { intl, initialAmountCrypto, initialAmountFiat, isQueryingFees } = this.props
     const fee = this.getFee()
 
@@ -489,15 +489,19 @@ class Pay extends React.Component {
               isRequired
             />
 
-            <Bar my={3} variant="light" />
+            {isOnchain && (
+              <>
+                <Bar my={3} variant="light" />
 
-            <TransactionFeeInput
-              fee={fee}
-              field="speed"
-              isQueryingFees={isQueryingFees}
-              label={intl.formatMessage({ ...messages.fee })}
-              required
-            />
+                <TransactionFeeInput
+                  fee={fee}
+                  field="speed"
+                  isQueryingFees={isQueryingFees}
+                  label={intl.formatMessage({ ...messages.fee })}
+                  required
+                />
+              </>
+            )}
           </Box>
         )}
       </ShowHideAmount>
