@@ -607,7 +607,10 @@ const channelMatchesQuery = (channelObj, searchQuery) => {
   )
 }
 
-channelsSelectors.totalLimboBalanceSelector = totalLimboBalanceSelector
+channelsSelectors.totalLimboBalance = createSelector(
+  totalLimboBalanceSelector,
+  totalLimboBalance => totalLimboBalance
+)
 
 channelsSelectors.loadingChannelPubKeys = createSelector(
   loadingChannelsSelector,
@@ -841,7 +844,7 @@ const initialState = {
   loadingChannels: [],
   channels: [],
   pendingChannels: {
-    total_limbo_balance: '',
+    total_limbo_balance: null,
     pending_open_channels: [],
     pending_closing_channels: [],
     pending_force_closing_channels: [],

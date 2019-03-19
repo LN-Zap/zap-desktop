@@ -49,7 +49,7 @@ balanceSelectors.channelBalance = state => state.balance.channelBalance
 balanceSelectors.walletBalance = state => state.balance.walletBalance
 balanceSelectors.walletBalanceConfirmed = state => state.balance.walletBalanceConfirmed
 balanceSelectors.walletBalanceUnconfirmed = state => state.balance.walletBalanceUnconfirmed
-balanceSelectors.limboBalance = state => channelsSelectors.totalLimboBalanceSelector(state)
+balanceSelectors.limboBalance = state => channelsSelectors.totalLimboBalance(state)
 
 balanceSelectors.totalBalance = createSelector(
   balanceSelectors.channelBalance,
