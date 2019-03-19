@@ -64,7 +64,7 @@
   "components.Activity.expired": "",
   "components.Activity.internal": "",
   "components.Activity.pending": "In attesa",
-  "components.Activity.requested": "Ricevuto",
+  "components.Activity.requested": "Richiesto",
   "components.Activity.sent": "Inviato",
   "components.Channels.back_button": "",
   "components.Channels.base_fee_description": "",
