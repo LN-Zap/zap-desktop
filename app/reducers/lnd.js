@@ -30,6 +30,9 @@ export const CLEAR_START_LND_ERROR = 'CLEAR_START_LND_ERROR'
 export const STOPPING_LND = 'STOPPING_LND'
 export const LND_STOPPED = 'LND_STOPPED'
 
+export const LND_CRASHED = 'LND_CRASHED'
+export const LND_RESET = 'LND_RESET'
+
 export const CREATING_NEW_WALLET = 'CREATING_NEW_WALLET'
 export const RECOVERING_OLD_WALLET = 'RECOVERING_OLD_WALLET'
 
@@ -191,6 +194,14 @@ export const lndStopped = () => async dispatch => {
 
 export const lndStarted = () => async dispatch => {
   dispatch({ type: LND_STARTED })
+}
+
+export const lndCrashed = (event, { code, signal, lastError }) => async dispatch => {
+  dispatch({ type: LND_CRASHED, code, signal, lastError })
+}
+
+export const lndReset = () => async dispatch => {
+  dispatch({ type: LND_RESET })
 }
 
 export const unlockWallet = password => async dispatch => {
@@ -429,6 +440,17 @@ const ACTION_HANDLERS = {
     ...state,
     ...initialState,
   }),
+  [LND_CRASHED]: (state, { code, signal, lastError }) => ({
+    ...state,
+    isLndCrashed: true,
+    lndCrashCode: code,
+    lndCrashSignal: signal,
+    lndCrashLastError: lastError,
+  }),
+  [LND_RESET]: state => ({
+    ...state,
+    ...initialState,
+  }),
 
   [CREATING_NEW_WALLET]: state => ({ ...state, creatingNewWallet: true }),
   [RECOVERING_OLD_WALLET]: state => ({ ...state, recoveringOldWallet: true }),
@@ -454,8 +476,12 @@ const ACTION_HANDLERS = {
 const initialState = {
   isFetchingSeed: false,
   isStartingLnd: false,
+  isLndCrashed: false,
   stoppingLnd: false,
   lndStarted: false,
+  lndCrashCode: null,
+  lndCrashSignal: null,
+  lndCrashLastError: null,
   creatingNewWallet: false,
   recoveringOldWallet: false,
   isUnlockingWallet: false,
@@ -485,6 +511,10 @@ const startLndErrorSelector = state => state.lnd.startLndError
 const isStartingLndSelector = state => state.lnd.isStartingLnd
 const isStartingNeutrinoSelector = state => state.lnd.startNeutrino
 const isStartingUnlockerSelector = state => state.lnd.startWalletUnlocker
+const isLndCrashedSelector = state => state.lnd.isLndCrashed
+const lndCrashCodeSelector = state => state.lnd.lndCrashCode
+const lndCrashSignalSelector = state => state.lnd.lndCrashSignal
+const lndCrashLastErrorSelector = state => state.lnd.lndCrashLastError
 
 lndSelectors.startLndHostError = createSelector(
   startLndErrorSelector,
@@ -514,6 +544,22 @@ lndSelectors.isStartingNeutrino = createSelector(
 lndSelectors.isStartingUnlocker = createSelector(
   isStartingUnlockerSelector,
   isStarting => isStarting
+)
+
+lndSelectors.isLndCrashed = createSelector(
+  isLndCrashedSelector,
+  isLndCrashed => isLndCrashed
+)
+
+lndSelectors.lndCrashReason = createSelector(
+  lndCrashCodeSelector,
+  lndCrashSignalSelector,
+  lndCrashLastErrorSelector,
+  (code, signal, error) => ({
+    code,
+    signal,
+    error,
+  })
 )
 
 lndSelectors.syncPercentage = createSelector(

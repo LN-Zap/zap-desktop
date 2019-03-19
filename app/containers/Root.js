@@ -16,6 +16,7 @@ import { setLoading, setMounted, appSelectors } from 'reducers/app'
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalNotification from 'components/GlobalNotification'
 import { withLoading } from 'hocs'
+import { DialogLndCrashed } from './Dialog'
 import Initializer from './Initializer'
 import Logout from './Logout'
 import Home from './Home'
@@ -94,6 +95,7 @@ class Root extends React.Component {
               notifications={notifications}
               removeNotification={removeNotification}
             />
+            <DialogLndCrashed />
             <ModalStack />
             <PageWithLoading isLoading={isLoading} loadingMessage={loadingMessage}>
               <Switch>

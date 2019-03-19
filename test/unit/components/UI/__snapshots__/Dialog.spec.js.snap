@@ -75,9 +75,9 @@ exports[`component.UI.Dialog should render correctly with one button 1`] = `
     pb={4}
   >
     <Styled(styled.div)
-      alignItems="flex-start"
+      alignItems="center"
       flexDirection="column"
-      justifyContent="center"
+      justifyContent="flex-start"
     >
       <Heading2
         mb={4}
@@ -127,9 +127,9 @@ exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
     pb={4}
   >
     <Styled(styled.div)
-      alignItems="flex-start"
+      alignItems="center"
       flexDirection="column"
-      justifyContent="center"
+      justifyContent="flex-start"
     >
       <Heading2
         mb={4}
