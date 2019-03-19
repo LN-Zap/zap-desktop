@@ -21,6 +21,7 @@ class Channels extends React.Component {
     channels: PropTypes.array,
     channelViewMode: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
+    fetchChannels: PropTypes.func.isRequired,
     filter: PropTypes.string.isRequired,
     filters: PropTypes.array.isRequired,
     networkInfo: PropTypes.shape({
@@ -50,6 +51,7 @@ class Channels extends React.Component {
       changeFilter,
       channelViewMode,
       currencyName,
+      fetchChannels,
       filter,
       filters,
       networkInfo,
@@ -69,6 +71,7 @@ class Channels extends React.Component {
             channelBalance={channelBalance}
             channels={allChannels}
             channelViewMode={channelViewMode}
+            fetchChannels={fetchChannels}
             filter={filter}
             filters={filters}
             openModal={openModal}

@@ -5,7 +5,7 @@ import Sync from 'components/Icon/Sync'
 import { ActionButton } from 'components/UI'
 import messages from './messages'
 
-const ActivityRefresh = injectIntl(({ intl, onClick, ...rest }) => (
+const ChannelsRefresh = injectIntl(({ intl, onClick, ...rest }) => (
   <ActionButton
     hint={intl.formatMessage({ ...messages.refresh_button_hint })}
     onClick={onClick}
@@ -15,8 +15,8 @@ const ActivityRefresh = injectIntl(({ intl, onClick, ...rest }) => (
   </ActionButton>
 ))
 
-ActivityRefresh.propTypes = {
+ChannelsRefresh.propTypes = {
   onClick: PropTypes.func.isRequired,
 }
 
-export default ActivityRefresh
+export default ChannelsRefresh

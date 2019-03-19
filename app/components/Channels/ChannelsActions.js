@@ -5,10 +5,12 @@ import { Flex } from 'rebass'
 import { Button } from 'components/UI'
 import ChannelFilter from './ChannelFilter'
 import ChannelSearch from './ChannelSearch'
+import ChannelsRefresh from './ChannelsRefresh'
 import ChannelsViewSwitcher from './ChannelsViewSwitcher'
 import messages from './messages'
 
 const ChannelsActions = ({
+  fetchChannels,
   filter,
   filters,
   searchQuery,
@@ -40,6 +42,7 @@ const ChannelsActions = ({
       ml={3}
       setChannelViewMode={setChannelViewMode}
     />
+    <ChannelsRefresh bg="blue" ml={2} onClick={fetchChannels} />
 
     <Button ml="auto" onClick={() => openModal('CHANNEL_CREATE')}>
       <FormattedMessage {...messages.create_new_button_text} />
@@ -50,6 +53,7 @@ const ChannelsActions = ({
 ChannelsActions.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   channelViewMode: PropTypes.string.isRequired,
+  fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,

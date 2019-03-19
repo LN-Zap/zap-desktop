@@ -4,6 +4,7 @@ import { openModal } from 'reducers/modal'
 import {
   changeFilter,
   channelsSelectors,
+  fetchChannels,
   showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
@@ -32,6 +33,7 @@ const mapDispatchToProps = {
   setChannelViewMode,
   openModal,
   updateChannelSearchQuery,
+  fetchChannels,
 }
 
 export default connect(

@@ -20,6 +20,7 @@ const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => {
         initialSelectedItem={filter}
         items={items}
         onValueSelected={changeFilter}
+        width={1}
       />
     </Form>
   )

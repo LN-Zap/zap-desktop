@@ -121,6 +121,7 @@
   "components.Channels.pending_force_close": "",
   "components.Channels.pending_open": "",
   "components.Channels.private_label": "",
+  "components.Channels.refresh_button_hint": "",
   "components.Channels.remote_balance": "",
   "components.Channels.remote_pubkey": "",
   "components.Channels.search_placeholder": "",
