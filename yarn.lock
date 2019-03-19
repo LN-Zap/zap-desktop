@@ -10918,10 +10918,10 @@ lnd-grpc@0.1.11:
     debug "^4.1.1"
     semver "^5.6.0"
 
-lndconnect@0.2.2:
-  version "0.2.2"
-  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.2.tgz#a6019dda20e116c8b52eec89be41a4925f783e75"
-  integrity sha512-046UAMO7n1dzZXu186v8LEdSLcxQ2xAQPGqlrpBgyCOIncHiOMv0pfossQk9IoUCVBcBubwbNuXKCP0a/V9VJg==
+lndconnect@0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.3.tgz#73cdaa0533aebccce72a64830867b047f4a9523c"
+  integrity sha512-hpct0HRTfAxbmUUfYQoHTiIsIbARs2NxGP19iFfxqzU/DoDuyX+tpnAOxfSA1sD0TGITXl3aNXYJD9Mp1xIqvw==
   dependencies:
     base64url "^3.0.1"
     decode-uri-component "^0.2.0"
