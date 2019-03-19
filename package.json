@@ -361,7 +361,7 @@
     "react-intl": "2.8.0",
     "react-intl-redux": "2.1.0",
     "react-redux": "5.1.1",
-    "react-router-dom": "4.4.0",
+    "react-router-dom": "5.0.0",
     "react-spring": "7.2.11",
     "react-textfit": "1.1.0",
     "react-virtualized": "9.21.0",
