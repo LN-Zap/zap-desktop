@@ -5,7 +5,6 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import Delete from 'components/Icon/Delete'
 import { Dialog, Heading, DialogOverlay, Text } from 'components/UI'
-import { useCloseOnUnmount } from 'hooks'
 import messages from './messages'
 
 const ErrorRow = ({ messageKey, value }) => (
@@ -29,8 +28,6 @@ const DialogLndCrashed = ({ onCancel, lndCrashReason, history, isOpen }) => {
     onCancel()
     history.push('/logout')
   }
-
-  useCloseOnUnmount(isOpen, handleClose)
 
   if (!isOpen) {
     return null
