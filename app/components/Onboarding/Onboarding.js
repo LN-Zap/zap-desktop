@@ -75,6 +75,23 @@ class Onboarding extends React.Component {
   }
 
   /**
+   * Remove Autopilot form step if the currently selected network is mainnet.
+   * @param  {{key: string}[]} formSteps List of form steps.
+   * @return {{key: string}[]} Modified list of form steps.
+   */
+  removeAutopilotStepIfMainnet = formSteps => {
+    const { network, setAutopilot } = this.props
+    if (network === 'mainnet') {
+      const index = formSteps.findIndex(s => s.key === 'Autopilot')
+      if (index >= 0) {
+        formSteps.splice(index, 1)
+      }
+      setAutopilot(false)
+    }
+    return formSteps
+  }
+
+  /**
    * Dynamically generte form steps to use in the onboarding Wizzard.
    * @return {[Wizzard.Step]} A list of WizardSteps.
    */
@@ -225,6 +242,11 @@ class Onboarding extends React.Component {
       />,
       ...formSteps,
     ]
+
+    // It is currently not recommended to use autopilot on mainnet.
+    // If user has selected mainnet, remove the autopilot form step.
+    this.removeAutopilotStepIfMainnet(steps)
+
     return steps
   }
 
