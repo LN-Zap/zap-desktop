@@ -90,7 +90,7 @@ class WalletUnlocker {
     const { host, cert } = this.lndConfig
 
     // Find the most recent rpc.proto file
-    const version = await lndgrpc.getLatestProtoVersion(lndGpcProtoPath())
+    const version = await lndgrpc.getLatestProtoVersion({ path: lndGpcProtoPath() })
     const filepath = join(lndGpcProtoPath(), `${version}.proto`)
     mainLog.debug('Establishing gRPC connection with proto file %s', filepath)
 
