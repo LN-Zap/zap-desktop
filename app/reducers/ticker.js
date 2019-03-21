@@ -16,8 +16,8 @@ export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
 
 // Map for crypto codes to crypto tickers
 const DEFAULT_CRYPTO_UNITS = {
-  bitcoin: CONFIG.bitcoin.currency,
-  litecoin: CONFIG.litecoin.currency,
+  bitcoin: CONFIG.units.bitcoin,
+  litecoin: CONFIG.units.litecoin,
 }
 
 // Map for crypto names to crypto tickers
