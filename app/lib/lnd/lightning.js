@@ -113,17 +113,21 @@ class Lightning {
     }
 
     await this.establishConnection()
+
     // Once connected, make a call to getInfo in order to determine the api version.
     const { service } = this
     const info = await getInfo(service)
+
+    mainLog.info('Connected to Lightning gRPC:', info)
+
     // Determine most relevant proto version and reconnect using the right rpc.proto if we need to.
     const [closestProtoVersion, latestProtoVersion] = await Promise.all([
-      lndgrpc.getClosestProtoVersion(info.version, lndGpcProtoPath()),
-      lndgrpc.getLatestProtoVersion(lndGpcProtoPath()),
+      lndgrpc.getClosestProtoVersion(info.version, { path: lndGpcProtoPath() }),
+      lndgrpc.getLatestProtoVersion({ path: lndGpcProtoPath() }),
     ])
 
     if (closestProtoVersion !== latestProtoVersion) {
-      mainLog.debug(
+      mainLog.info(
         'Found better match. Reconnecting using rpc.proto version: %s',
         closestProtoVersion
       )
@@ -172,7 +176,8 @@ class Lightning {
     const { host, cert, macaroon } = this.lndConfig
 
     // Find the rpc.proto file to use. If no version was supplied, attempt to use the latest version.
-    const versionToUse = version || (await lndgrpc.getLatestProtoVersion(lndGpcProtoPath()))
+    const versionToUse =
+      version || (await lndgrpc.getLatestProtoVersion({ path: lndGpcProtoPath() }))
     const filepath = join(lndGpcProtoPath(), `${versionToUse}.proto`)
     mainLog.debug('Establishing gRPC connection with proto file %s', filepath)
 
