@@ -25,6 +25,8 @@ export default function(lightning, log, event, msg, data) {
       networkController
         .getInfo(lnd)
         .then(infoData => {
+          log.info('info:', infoData)
+
           // Add semver info into info so that we can use it to customise functionality based on active version.
           infoData.semver = version
 
