@@ -1,0 +1,76 @@
+{
+  "debug": "DEBUG",
+  "debugLevel": "DEBUG_LEVEL",
+
+  "db": {
+    "namespace": "DB_NAMESPACE",
+    "domain": "DB_DOMAIN"
+  },
+
+  "chains": {
+    "__name": "CHAINS",
+    "__format": "json"
+  },
+  "networks": {
+    "__name": "NETWORKS",
+    "__format": "json"
+  },
+
+  "chain": "CHAIN",
+  "network": "NETWORK",
+
+  "lnd": {
+    "rpc": {
+      "host": "RPC_HOST",
+      "port": {
+        "__name": "RPC_PORT",
+        "__format": "json"
+      }
+    },
+    "rest": {
+      "host": "REST_HOST",
+      "port": {
+        "__name": "REST_PORT",
+        "__format": "json"
+      }
+    },
+    "p2p": {
+      "host": "P2P_HOST",
+      "port": {
+        "__name": "P2P_PORT",
+        "__format": "json"
+      }
+    },
+    "neutrino": {
+      "bitcoin": {
+        "testnet": {
+          "__name": "NEUTRINO_BITCOIN_TESTNET",
+          "__format": "json"
+        },
+        "mainnet": {
+          "__name": "NEUTRINO_BITCOIN_MAINNET",
+          "__format": "json"
+        }
+      },
+      "litecoin": {
+        "testnet": {
+          "__name": "NEUTRINO_LITECOIN_TESTNET",
+          "__format": "json"
+        },
+        "mainnet": {
+          "__name": "NEUTRINO_LITECOIN_MAINNET",
+          "__format": "json"
+        }
+      }
+    }
+  },
+
+  "units": {
+    "bitcoin": "UNITS_BITCOIN",
+    "litecoin": "UNITS_LITECOIN"
+  },
+
+  "invoices": {
+    "expire": "INVOICES_EXPIRE"
+  }
+}
