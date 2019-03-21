@@ -137,12 +137,16 @@ autopaySelectors.selectedMerchant = createSelector(
 autopaySelectors.filteredMerchants = createSelector(
   autopaySelectors.merchants,
   autopaySelectors.searchQuery,
-  (merchants, searchQuery) => {
+  autopaySelectors.autopayList,
+  (merchants, searchQuery, autopayList) => {
+    const addIsActive = m => ({ ...m, isActive: [m.pubkey] in autopayList })
     if (!searchQuery) {
-      return merchants
+      return merchants.map(addIsActive)
     }
     const cleanedSearchQuery = searchQuery.toLowerCase()
-    return merchants.filter(m => m.nickname.toLowerCase().includes(cleanedSearchQuery))
+    return merchants
+      .filter(m => m.nickname.toLowerCase().includes(cleanedSearchQuery))
+      .map(addIsActive)
   }
 )
 

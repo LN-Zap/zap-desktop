@@ -5,6 +5,7 @@ import { themeGet } from 'styled-system'
 import { Box, Flex } from 'rebass'
 import { Card, Heading } from 'components/UI'
 import AutopayAddButton from './AutopayAddButton'
+import AutopayLimitBadge from './AutopayLimitBadge'
 
 const CardWithBg = styled(Card)`
   position: relative;
@@ -47,7 +48,7 @@ const TextOverlay = styled(Overlay)`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 `
 
-const AutopayCardView = ({ merchant: { image, nickname, pubkey }, onClick, ...rest }) => (
+const AutopayCardView = ({ merchant: { image, nickname, pubkey, isActive }, onClick, ...rest }) => (
   <Box {...rest} onClick={() => onClick(`${pubkey}`)}>
     <CardWithBg mb="12px" src={image}>
       <GradientOverlay />
@@ -57,7 +58,7 @@ const AutopayCardView = ({ merchant: { image, nickname, pubkey }, onClick, ...re
         </Heading.h1>
       </TextOverlay>
       <Overlay alignItems="flex-end" justifyContent="center" mt="12px">
-        <AutopayAddButton />
+        {isActive ? <AutopayLimitBadge /> : <AutopayAddButton />}
       </Overlay>
     </CardWithBg>
   </Box>
