@@ -11,10 +11,16 @@ jest.mock('child_process', () => {
   }
 })
 
+const lndConfigOptions = {
+  type: 'local',
+  chain: 'bitcoin',
+  network: 'testnet',
+}
+
 describe('Neutrino', function() {
   describe('Constructor', () => {
     beforeAll(() => {
-      this.neutrino = new Neutrino(new LndConfig())
+      this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
     })
 
     describe('initial values', () => {
@@ -48,7 +54,7 @@ describe('Neutrino', function() {
   describe('.setState', () => {
     describe('called with new state', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig())
+        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
         this.callback = jest.fn()
         this.newVal = 'chain-sync-finished'
         this.neutrino.on('chain-sync-finished', this.callback)
@@ -64,7 +70,7 @@ describe('Neutrino', function() {
     })
     describe('called with current state', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig())
+        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
         this.callback = jest.fn()
         this.newVal = 'chain-sync-pending'
         this.neutrino.on('chain-sync-pending', this.callback)
@@ -83,7 +89,7 @@ describe('Neutrino', function() {
   describe('.setCurrentBlockHeight', () => {
     describe('called with higher height', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig())
+        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
         this.callback = jest.fn()
         this.newVal = 100
         this.neutrino.on('got-current-block-height', this.callback)
@@ -100,7 +106,7 @@ describe('Neutrino', function() {
     })
     describe('called with lower height', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig())
+        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
         this.callback = jest.fn()
         this.newVal = -1
         this.neutrino.on('got-current-block-height', this.callback)
@@ -119,7 +125,7 @@ describe('Neutrino', function() {
   describe('.setLndBlockHeight', () => {
     describe('called with higher height', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig())
+        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
         this.callback = jest.fn()
         this.newVal = 100
         this.neutrino.on('got-lnd-block-height', this.callback)
@@ -141,7 +147,7 @@ describe('Neutrino', function() {
     })
     describe('called with lower height', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig())
+        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
         this.callback = jest.fn()
         this.newVal = -1
         this.neutrino.on('got-lnd-block-height', this.callback)
@@ -164,7 +170,7 @@ describe('Neutrino', function() {
   describe('.is', () => {
     describe('called with current state', () => {
       beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig())
+        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
       })
 
       it('should returnn true if the current state matches', () => {
@@ -179,7 +185,9 @@ describe('Neutrino', function() {
   describe('.start', () => {
     describe('called when neutrino is not running', () => {
       beforeEach(async () => {
-        this.neutrino = new Neutrino(new LndConfig())
+        const config = new LndConfig(lndConfigOptions)
+        await config.isReady
+        this.neutrino = new Neutrino(config)
         await this.neutrino.start()
       })
       it('should set the subprocess object on the `process` property', () => {
@@ -188,13 +196,15 @@ describe('Neutrino', function() {
     })
 
     describe('called when neutrino is already running', () => {
-      beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig())
+      beforeEach(async () => {
+        const config = new LndConfig(lndConfigOptions)
+        await config.isReady
+        this.neutrino = new Neutrino(config)
         this.neutrino.process = mockSpawn()
       })
       it('should throw an error', async () => {
         await expect(this.neutrino.start()).rejects.toThrowErrorMatchingInlineSnapshot(
-          `"Neutrino process with PID \${this.process.pid} already exists."`
+          `"Neutrino process with PID ${this.neutrino.process.pid} already exists."`
         )
       })
     })
