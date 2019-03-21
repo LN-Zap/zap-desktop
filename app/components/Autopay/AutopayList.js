@@ -7,9 +7,8 @@ import AutopaySearchNoResults from './AutopaySearchNoResults'
 
 const Grid = styled(Box)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, 195px);
+  grid-template-columns: repeat(auto-fit, 195px);
   grid-gap: 1rem;
-  justify-content: space-between;
 `
 
 const AutopayList = ({ merchants, openAutopayCreateModal, ...rest }) => {

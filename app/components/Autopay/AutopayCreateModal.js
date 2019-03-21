@@ -5,27 +5,46 @@ import { useCloseOnUnmount, useOnKeydown } from 'hooks'
 import AutopayCreateForm from './AutopayCreateForm'
 import AutopayModalBody from './AutopayModalBody'
 
-const AutopayCreateModal = ({ selectedMerchant, onCancel }) => {
+const AutopayCreateModal = ({
+  selectedMerchant,
+  onClose,
+  onCreateAutopay,
+  showError,
+  showNotification,
+}) => {
   const isOpen = Boolean(selectedMerchant)
-  useOnKeydown('Escape', onCancel)
-  useCloseOnUnmount(isOpen, onCancel)
+  useOnKeydown('Escape', onClose)
+  useCloseOnUnmount(isOpen, onClose)
   if (!isOpen) {
     return null
   }
-  const { nickname, pubkey } = selectedMerchant
+  const { nickname, pubkey, image, isActive } = selectedMerchant
 
   return (
     <DialogOverlay alignItems="center" justifyContent="center">
-      <AutopayModalBody onClose={onCancel}>
-        <AutopayCreateForm merchantName={nickname} merchantNickname={nickname} pubkey={pubkey} />
+      <AutopayModalBody onClose={onClose}>
+        <AutopayCreateForm
+          isActive={isActive}
+          merchantLogo={image}
+          merchantName={nickname}
+          merchantNickname={nickname}
+          onClose={onClose}
+          onCreateAutopay={onCreateAutopay}
+          pubkey={pubkey}
+          showError={showError}
+          showNotification={showNotification}
+        />
       </AutopayModalBody>
     </DialogOverlay>
   )
 }
 
 AutopayCreateModal.propTypes = {
-  onCancel: PropTypes.func.isRequired,
-  selectedMerchant: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onCreateAutopay: PropTypes.func.isRequired,
+  selectedMerchant: PropTypes.object,
+  showError: PropTypes.func.isRequired,
+  showNotification: PropTypes.func.isRequired,
 }
 
 export default AutopayCreateModal

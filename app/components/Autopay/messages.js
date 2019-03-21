@@ -14,4 +14,6 @@ export default defineMessages({
   max_text: 'max',
   remote_pubkey: 'Remote pubkey',
   merchant_name: 'Name',
+  add_error: 'Something went wrong',
+  add_success: 'Autopay successfully added',
 })

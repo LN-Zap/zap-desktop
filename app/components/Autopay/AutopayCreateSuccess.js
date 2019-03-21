@@ -2,12 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
+import { FormattedMessage, injectIntl } from 'react-intl'
+
 import { Text } from 'components/UI'
 import AutopayCheck from 'components/Icon/AutopayCheck'
+import messages from './messages'
 
 const Container = styled(Flex)`
-  height: 200px;
+  height: 195px;
+
   position: relative;
+  left: -50%;
   &:before {
     content: '';
     background-image: url(${props => props.src});
@@ -19,7 +24,7 @@ const Container = styled(Flex)`
     left: 0px;
     width: 100%;
     height: 100%;
-    opacity: 0.02; /* Here is your opacity */
+    opacity: 0.02;
   }
 `
 
@@ -34,7 +39,9 @@ const AutopayCreateSuccess = ({ merchantLogo }) => {
       <Box color="superGreen" mb={3}>
         <AutopayCheck height={128} width={128} />
       </Box>
-      <Text color="gray">You can change your Limit or turn of autopay anytime. Enjoy.</Text>
+      <Text color="gray">
+        <FormattedMessage {...messages.success_text} />
+      </Text>
     </Container>
   )
 }
@@ -43,4 +50,4 @@ AutopayCreateSuccess.propTypes = {
   merchantLogo: PropTypes.string.isRequired,
 }
 
-export default AutopayCreateSuccess
+export default injectIntl(AutopayCreateSuccess)
