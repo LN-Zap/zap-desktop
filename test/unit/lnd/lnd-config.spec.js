@@ -1,6 +1,6 @@
 // @flow
 
-import { join, normalize } from 'path'
+import { join } from 'path'
 import LndConfig from 'lib/lnd/config'
 
 jest.mock('lib/lnd/util', () => {
@@ -15,11 +15,6 @@ describe('LndConfig', function() {
   const checkForStaticProperties = () => {
     it('should have "binaryPath" set to the value returned by lib/lnd/util', () => {
       expect(this.lndConfig.binaryPath).toEqual('binaryPath')
-    })
-    it('should have "configPath" set to "resources/lnd.conf" relative to app root from lib/lnd/util"', () => {
-      expect(this.lndConfig.configPath).toEqual(
-        normalize(`${__dirname}/../../../resources/lnd.conf`)
-      )
     })
   }
 

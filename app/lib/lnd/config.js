@@ -5,12 +5,23 @@ import { app } from 'electron'
 import createDebug from 'debug'
 import untildify from 'untildify'
 import tildify from 'tildify'
+import getPort from 'get-port'
 import lndconnect from 'lndconnect'
 import fs from 'fs'
 import util from 'util'
 import pick from 'lodash.pick'
 import { mainLog } from '../utils/log'
-import { appRootPath, binaryPath } from './util'
+import { binaryPath } from './util'
+
+// When we run in production mode, this file is processd with webpack and our config is made available in the
+// global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
+// directly without processing with webpack), so we require the config module directly in this case.
+try {
+  declare var CONFIG: Object
+  global.CONFIG = CONFIG
+} catch (e) {
+  global.CONFIG = require('config')
+}
 
 const readFile = util.promisify(fs.readFile)
 
@@ -44,7 +55,7 @@ export type LndConfigOptions = {
   chain: $Keys<typeof chains>,
   network: $Keys<typeof networks>,
 
-  decoder: string,
+  decoder?: string,
   lndconnectUri?: string,
   host?: string,
   cert?: string,
@@ -75,18 +86,6 @@ const safeUntildify = <T>(val: ?T): ?T => (typeof val === 'string' ? untildify(v
  * LndConfig class
  */
 class LndConfig {
-  static SETTINGS_PROPS = {
-    name: null,
-    alias: null,
-    autopilot: true,
-    autopilotMaxchannels: 5,
-    autopilotMinchansize: 20000,
-    autopilotMaxchansize: 16777215,
-    autopilotAllocation: 0.6,
-    autopilotPrivate: true,
-    autopilotMinconfs: 0,
-  }
-
   // Type descriptor properties.
   id: number
   type: string
@@ -96,7 +95,7 @@ class LndConfig {
   // connection properties
   decoder: string
   lndconnectUri: ?string
-  host: ?string
+  host: string
   cert: ?string
   macaroon: ?string
 
@@ -115,15 +114,25 @@ class LndConfig {
   +wallet: string
   +binaryPath: string
   +lndDir: string
-  +configPath: string
   +isReady: Promise<boolean>
+
+  static getListen = async (type: string) => {
+    if (global.CONFIG.lnd[type].host) {
+      const port = await getPort({
+        host: global.CONFIG.lnd[type].host,
+        port: global.CONFIG.lnd[type].port,
+      })
+      return `${global.CONFIG.lnd[type].host}:${port}`
+    }
+    return 0
+  }
 
   /**
    * Lnd configuration class.
    *
    * @param {LndConfigOptions} [options] Lnd config options.
    */
-  constructor(options?: LndConfigOptions) {
+  constructor(options: LndConfigOptions) {
     debug('LndConfig constructor called with options: %o', options)
 
     // Define properties that we support with custom getters and setters as needed.
@@ -163,13 +172,6 @@ class LndConfig {
           }
         },
       },
-      configPath: {
-        enumerable: false,
-        get() {
-          return join(appRootPath(), 'resources', 'lnd.conf')
-        },
-      },
-
       host: {
         enumerable: false,
         set(host) {
@@ -201,28 +203,40 @@ class LndConfig {
 
     // Assign default options.
     this.type = 'local'
-    this.chain = global.CONFIG.neutrino.chain
-    this.network = global.CONFIG.neutrino.network
+    this.chain = global.CONFIG.chain
+    this.network = global.CONFIG.network
 
-    // If options were provided, use them to initialise the instance.
-    if (options) {
-      // Set base config.
-      const baseConfig = pick(options, ['id', 'type', 'chain', 'network', 'decoder'])
-      Object.assign(this, baseConfig)
+    // Set base config.
+    const baseConfig = pick(options, ['id', 'type', 'chain', 'network', 'decoder'])
+    Object.assign(this, baseConfig)
 
-      // Merge in whitelisted settings.
-      const userSettings = pick(options, Object.keys(LndConfig.SETTINGS_PROPS))
-      const settings = { ...LndConfig.SETTINGS_PROPS, ...userSettings }
-      debug('Applying settings as: %o', settings)
-      Object.assign(this, settings)
+    // Assign default settings.
+    const {
+      active: autopilot,
+      maxchannels: autopilotMaxchannels,
+      minchansize: autopilotMinchansize,
+      maxchansize: autopilotMaxchansize,
+      allocation: autopilotAllocation,
+      private: autopilotPrivate,
+      minconfs: autopilotMinconfs,
+    } = global.CONFIG.lnd.autopilot
 
-      // Generate lndConenct uri.
-      const lndconnectUri = this.generateLndconnectUri(options)
-      if (lndconnectUri) {
-        debug('Generated lndconnectUri: %s', lndconnectUri)
-        this.lndconnectUri = lndconnectUri
-      }
+    const lndDefaults = {
+      name: null,
+      alias: null,
+      autopilot,
+      autopilotMaxchannels,
+      autopilotMinchansize,
+      autopilotMaxchansize,
+      autopilotAllocation,
+      autopilotPrivate,
+      autopilotMinconfs,
     }
+    // Merge in whitelisted settings.
+    const userSettings = pick(options, Object.keys(lndDefaults))
+    const settings = { ...lndDefaults, ...userSettings }
+    debug('Applying settings as: %o', settings)
+    Object.assign(this, settings)
 
     // In order to calculate the `lndconnect` property value we must perform some async operations. This prevents us
     // from being able to set the value directly in the constructor as we do for all the other properties. So, we define
@@ -231,6 +245,13 @@ class LndConfig {
     // fully instantiated.
     const isReady = async () => {
       try {
+        // Generate lndConenct uri.
+        const lndconnectUri = await this.generateLndconnectUri(options)
+        if (lndconnectUri) {
+          debug('Generated lndconnectUri: %s', lndconnectUri)
+          this.lndconnectUri = lndconnectUri
+        }
+        // Generate lndConenct QR code..
         if (this.lndconnectUri) {
           const lndconnectQRCode = await this.generateLndconnectQRCode()
           _lndconnectQRCode.set(this, lndconnectQRCode)
@@ -247,24 +268,24 @@ class LndConfig {
   /**
    * Generate an lndconnect uri based on the config options.
    */
-  generateLndconnectUri(options: LndConfigOptions) {
+  async generateLndconnectUri(options: LndConfigOptions) {
     let { lndconnectUri, host, cert, macaroon } = options
 
+    // If this is a local wallet, set the lnd connection details based on wallet config.
+    if (this.type === LNDCONFIG_TYPE_LOCAL) {
+      host = await LndConfig.getListen('rpc')
+      cert = join(this.lndDir, 'tls.cert')
+      macaroon = join(this.lndDir, 'data', 'chain', this.chain, this.network, 'admin.macaroon')
+      return lndconnect.encode({ host, cert, macaroon })
+    }
+
     // If lndconnectUri is provided, use it as is.
-    if (lndconnectUri) {
+    else if (lndconnectUri) {
       return lndconnectUri
     }
 
     // If this is a custom type, assign the host, cert, and macaroon. This will generate the lndconnectUri.
     else if (this.type === LNDCONFIG_TYPE_CUSTOM) {
-      return lndconnect.encode({ host, cert, macaroon })
-    }
-
-    // Otherwise if this is a local wallet, set the lnd connection details based on wallet config.
-    else if (this.type === LNDCONFIG_TYPE_LOCAL) {
-      host = 'localhost:10009'
-      cert = join(this.lndDir, 'tls.cert')
-      macaroon = join(this.lndDir, 'data', 'chain', this.chain, this.network, 'admin.macaroon')
       return lndconnect.encode({ host, cert, macaroon })
     }
   }
