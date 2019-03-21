@@ -223,9 +223,9 @@ const ACTION_HANDLERS = {
 const initialState = {
   onboarding: false,
   isOnboarded: false,
-  autopilot: true,
-  chain: CONFIG.neutrino.chain,
-  network: CONFIG.neutrino.network,
+  autopilot: CONFIG.lnd.autopilot.active,
+  chain: CONFIG.chain,
+  network: CONFIG.network,
   validatingHost: false,
   validatingCert: false,
   validatingMacaroon: false,
