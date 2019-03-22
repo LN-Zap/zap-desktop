@@ -59,7 +59,7 @@ const AutopayCreateSettings = ({ min, max, intl, defaultValue, limit, merchantNa
 )
 
 AutopayCreateSettings.propTypes = {
-  defaultValue: PropTypes.number.isRequired,
+  defaultValue: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   limit: PropTypes.string.isRequired,
   max: PropTypes.string.isRequired,

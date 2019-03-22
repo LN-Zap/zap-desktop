@@ -9,6 +9,8 @@ import AutopayCreateSuccess from './AutopayCreateSuccess'
 import AutopayCreateSettings from './AutopayCreateSettings'
 import messages from './messages'
 
+const { min, max, defaultValue } = CONFIG.autopay
+
 const Container = styled(animated.div)`
   position: absolute;
   transform-origin: 50% 100px;
@@ -48,10 +50,7 @@ const AutopayCreateForm = props => {
   return (
     <Form {...rest} onSubmit={onSubmit}>
       {({ formState }) => {
-        const { limit = '0' } = formState.values
-        const min = '0'
-        const max = '1500000'
-        const defaultValue = '150000'
+        const { limit = min } = formState.values
         const back = <AutopayCreateSuccess merchantLogo={merchantLogo} />
         const front = (
           <AutopayCreateSettings

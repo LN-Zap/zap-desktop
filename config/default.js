@@ -79,4 +79,10 @@ module.exports = {
   invoices: {
     expire: 86400,
   },
+
+  autopay: {
+    min: '1',
+    max: '1500000',
+    defaultValue: '150000',
+  },
 }
