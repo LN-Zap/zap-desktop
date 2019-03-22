@@ -94,7 +94,7 @@ Once you have the .AppImage file extracted, you can either **double click** the 
 
 ## Advanced Usage
 
-If you would like to install from source, run a full bitcoin node, or connect to a custom lnd instance please see the [advanced usage](ADVANCED.md) page.
+If you would like to install from source, run a full bitcoin node, or connect to a custom lnd instance please see the [advanced usage](docs/ADVANCED.md) page.
 
 ## Get Help
 
@@ -123,7 +123,7 @@ Open source isn't just writing code. Zap could use your help with any of the fol
 
 If any of that sounds cool to you, feel free to dive in! [Open an issue][issues] or submit a pull request.
 
-If you would like to help contribute to the project, please see the [Contributing Guide](CONTRIBUTING.md)
+If you would like to help contribute to the project, please see the [Contributing Guide](docs/CONTRIBUTING.md)
 
 This project exists thanks to all the people who contribute.
 

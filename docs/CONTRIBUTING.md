@@ -11,7 +11,7 @@ Thanks for being willing to contribute!
 
 #### **Did you find a bug?**
 
-- **Do not open up a GitHub issue if the bug is a security vulnerability in Zap**, and instead to refer to our [Security Policy](README#security).
+- **Do not open up a GitHub issue if the bug is a security vulnerability in Zap**, and instead to refer to our [Security Policy](/README.md#security).
 
 - **Ensure the bug was not already reported** by searching on GitHub under [Issues][issues].
 
