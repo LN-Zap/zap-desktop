@@ -143,7 +143,13 @@ const fetchSettings = () => {
   // Once we have fetched (or failed to fetch) the user settings, destroy the window.
   win.on('load-settings-done', () => process.nextTick(() => win.destroy()))
 
-  const dbName = getDbName(global.CONFIG)
+  const { namespace, domain } = global.CONFIG.db
+  const { NODE_ENV: environment } = process.env
+  const dbName = getDbName({
+    namespace,
+    domain,
+    environment,
+  })
   mainLog.debug(`Fetching user settings from indexedDb (using database "%s")`, dbName)
 
   return win.webContents
@@ -246,7 +252,7 @@ app.on('ready', async () => {
     webPreferences: {
       nodeIntegration: false,
       preload: process.env.HOT
-        ? path.resolve(__dirname, 'dist', 'preload.prod.js')
+        ? path.resolve(__dirname, 'dist', 'preload.dev.js')
         : path.resolve(__dirname, 'preload.prod.js'),
     },
   })

@@ -13,6 +13,8 @@ import rimraf from 'rimraf'
 import isSubDir from './lib/utils/isSubDir'
 import { getAllLocalWallets } from './lib/utils/localWallets'
 import { validateHost } from './lib/utils/validateHost'
+import { getDb } from './store/db'
+import { getDbName } from './lib/utils/db'
 
 const fsReadFile = promisify(fs.readFile)
 const fsRimraf = promisify(rimraf)
@@ -128,6 +130,28 @@ function getUserDataDir() {
   return remote.app.getPath('userData')
 }
 
+// Expose global config.
+window.CONFIG = CONFIG
+
+// Provide access to whitelisted environment variables.
+window.env = Object.keys(process.env)
+  .filter(key => WHITELISTED_ENV_VARS.includes(key))
+  .reduce((obj, key) => {
+    obj[key] = process.env[key]
+    return obj
+  }, {})
+
+// Initialise the database and make it globally accessible.
+const { namespace, domain } = CONFIG.db
+const { NODE_ENV: environment } = process.env
+const dbName = getDbName({
+  namespace,
+  domain,
+  environment,
+})
+window.db = getDb(dbName)
+window.db.open()
+
 // Expose a bridging API to by setting an global on `window`.
 //
 // !CAREFUL! do not expose any functionality or APIs that could compromise the
@@ -147,15 +171,6 @@ window.Zap = {
 
 // Provide access to ipcRenderer.
 window.ipcRenderer = ipcRenderer
+
 //Provide access to electron remote
 window.showOpenDialog = remote.dialog.showOpenDialog
-
-// Provide access to whitelisted environment variables.
-window.env = Object.keys(process.env)
-  .filter(key => WHITELISTED_ENV_VARS.includes(key))
-  .reduce((obj, key) => {
-    obj[key] = process.env[key]
-    return obj
-  }, {})
-
-window.CONFIG = CONFIG

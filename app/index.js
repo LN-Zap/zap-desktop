@@ -5,20 +5,12 @@ import jstz from 'jstimezonedetect'
 import { configureStore, history } from './store/configureStore'
 import { getDefaultLocale } from './lib/i18n'
 import Root from './containers/Root'
-import { getDb } from './store/db'
-import { getDbName } from './lib/utils/db'
 
 // Register supported locales.
 import './lib/i18n/locale'
 
 // Get translations.
 import translations from './lib/i18n/translation'
-
-// Make the db globally accessible.
-window.db = getDb(getDbName(CONFIG))
-
-// Initialise the database.
-window.db.open()
 
 // Default the locale to English.
 const defaultLocale = getDefaultLocale()
