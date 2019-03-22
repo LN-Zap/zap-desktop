@@ -10901,10 +10901,10 @@ lnd-binary@0.3.9:
     "true-case-path" "^1.0.2"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.1.16:
-  version "0.1.16"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.16.tgz#fc4fe9dc6fd29e81007eaec235d6bc19d3b66c46"
-  integrity sha512-EKKM4/NTmjUwMdqe931ZxVcbWQv37tnCdTgT7Mbu05uNTQyzSV7aKeWUrLB00Z/KDekihR5pZEkrYJPwS71Vsw==
+lnd-grpc@0.1.19:
+  version "0.1.19"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.19.tgz#7c8da8b56dcd14ca9fb357ccb369a8cc0538b51b"
+  integrity sha512-00dFO+8hrWZeLsSyPCXUKgmWPACW3RLvxy8EMZh6mKRtmDKb5SFat7gZufrC/EtxE3jzA8wiWdu9bzV5ITnGgA==
   dependencies:
     debug "^4.1.1"
     semver "^5.6.0"

@@ -53,7 +53,7 @@
   "config": {
     "style_paths": "app/components/**/*.js",
     "lnd-binary": {
-      "binaryVersion": "0.5.1-beta-926-g764d8525",
+      "binaryVersion": "0.5.1-beta-982-gf9ba6759",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
@@ -342,7 +342,7 @@
     "is-electron-renderer": "2.0.1",
     "javascript-state-machine": "3.1.0",
     "jstimezonedetect": "1.0.6",
-    "lnd-grpc": "0.1.16",
+    "lnd-grpc": "0.1.19",
     "lndconnect": "0.2.3",
     "lodash.debounce": "4.0.8",
     "lodash.get": "4.4.2",
