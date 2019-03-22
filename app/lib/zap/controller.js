@@ -489,7 +489,7 @@ class ZapController {
       try {
         await this.startLnd(options)
       } catch (e) {
-        mainLog.error('Unable to start lnd: %s', e.message)
+        mainLog.error('Unable to start lnd:', e)
 
         // Return back to the start of the onboarding process.
         return this.startOnboarding()
@@ -499,7 +499,7 @@ class ZapController {
       try {
         await this.startLightningWallet()
       } catch (e) {
-        mainLog.error('Unable to connect to lightning wallet: %s', e.message)
+        mainLog.error('Unable to connect to lightning wallet', e)
 
         // Notify the app of errors.
         this.sendMessage('startLndError', { host: e.message })

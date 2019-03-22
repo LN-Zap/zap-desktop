@@ -281,7 +281,7 @@ export const setUnlockWalletError = (event, unlockWalletError) => dispatch => {
 }
 
 export const fetchSeed = () => async dispatch => {
-  const { chain: defaultChain, network: defaultNetwork } = CONFIG.neutrino
+  const { chain: defaultChain, network: defaultNetwork } = CONFIG
 
   dispatch({ type: FETCH_SEED })
   try {
@@ -312,7 +312,7 @@ export const fetchSeedError = (event, error) => dispatch => {
 
 export const createNewWallet = () => async (dispatch, getState) => {
   const state = getState()
-  const { chain: defaultChain, network: defaultNetwork } = CONFIG.neutrino
+  const { chain: defaultChain, network: defaultNetwork } = CONFIG
 
   // Define the wallet config.
   let wallet = {
@@ -334,7 +334,7 @@ export const createNewWallet = () => async (dispatch, getState) => {
 
 export const recoverOldWallet = () => async (dispatch, getState) => {
   const state = getState()
-  const { chain: defaultChain, network: defaultNetwork } = CONFIG.neutrino
+  const { chain: defaultChain, network: defaultNetwork } = CONFIG
 
   // Define the wallet config.
   let wallet = {

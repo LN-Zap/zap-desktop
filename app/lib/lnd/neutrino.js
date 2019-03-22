@@ -3,11 +3,19 @@
 import split2 from 'split2'
 import { spawn } from 'child_process'
 import EventEmitter from 'events'
-import getPort from 'get-port'
-import isDev from 'electron-is-dev'
 import { mainLog, lndLog, lndLogGetLevel } from '../utils/log'
 import { fetchBlockHeight } from './util'
 import LndConfig from './config'
+
+// When we run in production mode, this file is processd with webpack and our config is made available in the
+// global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
+// directly without processing with webpack), so we require the config module directly in this case.
+try {
+  declare var CONFIG: Object
+  global.CONFIG = CONFIG
+} catch (e) {
+  global.CONFIG = require('config')
+}
 
 // Sync statuses
 const CHAIN_SYNC_PENDING = 'chain-sync-pending'
@@ -23,10 +31,6 @@ const LIGHTNING_GRPC_ACTIVE = 'lightning-grpc-active'
 const GOT_CURRENT_BLOCK_HEIGHT = 'got-current-block-height'
 const GOT_LND_BLOCK_HEIGHT = 'got-lnd-block-height'
 const GOT_LND_CFILTER_HEIGHT = 'got-lnd-cfilter-height'
-
-// Settings
-const DEFAULT_RPC_PORT = 11009
-const DEFAULT_REST_PORT = 8180
 
 /**
  * Wrapper class for Lnd to run and monitor it in Neutrino mode.
@@ -72,7 +76,7 @@ class Neutrino extends EventEmitter {
   async start() {
     if (this.process) {
       return Promise.reject(
-        new Error('Neutrino process with PID ${this.process.pid} already exists.')
+        new Error(`Neutrino process with PID ${this.process.pid} already exists.`)
       )
     }
 
@@ -86,6 +90,9 @@ class Neutrino extends EventEmitter {
       mainLog.warn(`Unable to fetch block height: ${err.message}`)
     }
 
+    const listen = await LndConfig.getListen('p2p')
+    const restlisten = await LndConfig.getListen('rest')
+
     mainLog.info('Starting lnd in neutrino mode')
     mainLog.info(' > binaryPath', this.lndConfig.binaryPath)
     mainLog.info(' > chain', this.lndConfig.chain)
@@ -93,29 +100,6 @@ class Neutrino extends EventEmitter {
     mainLog.info(' > host:', this.lndConfig.host)
     mainLog.info(' > cert:', this.lndConfig.cert)
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
-
-    // Get a free port to use as the rpc listen address.
-    const rpcListen = isDev
-      ? await getPort({
-          host: 'localhost',
-          port: [10009, 10008, 10007, 10006, 10005, 10004, 10003, 10002, 10001],
-        })
-      : DEFAULT_RPC_PORT
-    this.lndConfig.host = `localhost:${rpcListen}`
-
-    // Get a free port to use as the rest listen address.
-    const restListen = isDev
-      ? await getPort({
-          host: 'localhost',
-          port: [8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089],
-        })
-      : DEFAULT_REST_PORT
-
-    // Get a free port to use as the p2p listen address.
-    const p2pListen = await getPort({
-      host: '0.0.0.0',
-      port: [9735, 9734, 9733, 9732, 9731, 9736, 9737, 9738, 9739],
-    })
 
     // Genreate autopilot config.
     const autopilotArgMap: Object = {
@@ -134,12 +118,12 @@ class Neutrino extends EventEmitter {
 
     // Configure lnd.
     const neutrinoArgs = [
-      `--routing.assumechanvalid`,
-      `--configfile=${this.lndConfig.configPath}`,
+      `--${this.lndConfig.chain}.active`,
       `--lnddir=${this.lndConfig.lndDir}`,
-      `--listen=0.0.0.0:${p2pListen}`,
-      `--rpclisten=localhost:${rpcListen}`,
-      `--restlisten=localhost:${restListen}`,
+      `--rpclisten=${this.lndConfig.host}`,
+      `--listen=${listen}`,
+      `--restlisten=${restlisten}`,
+      `--routing.assumechanvalid`,
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
       `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
       `${this.lndConfig.autopilotPrivate ? '--autopilot.private' : ''}`,
@@ -147,8 +131,9 @@ class Neutrino extends EventEmitter {
     ]
 
     // Configure neutrino backend.
+    neutrinoArgs.push('--bitcoin.node=neutrino')
     neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
-    global.CONFIG.neutrino.connect[this.lndConfig.network].forEach(node =>
+    global.CONFIG.lnd.neutrino[this.lndConfig.chain][this.lndConfig.network].forEach(node =>
       neutrinoArgs.push(`--neutrino.connect=${node}`)
     )
 
