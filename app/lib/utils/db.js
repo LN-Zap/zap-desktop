@@ -1,8 +1,4 @@
-export const getDbName = config => {
-  const {
-    db: { namespace, domain },
-  } = config
-  const env = process.env.NODE_ENV || 'development'
-
-  return [namespace, domain, env].filter(item => Boolean(item)).join('.')
+export const getDbName = options => {
+  const { namespace, domain, environment = 'development' } = options
+  return [namespace, domain, environment].filter(item => Boolean(item)).join('.')
 }
