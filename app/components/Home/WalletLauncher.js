@@ -21,11 +21,12 @@ const WalletActionBar = styled(ActionBar)`
   right: 0;
 `
 
+const { maxchannels, minchansize, maxchansize, allocation } = CONFIG.lnd.autopilot
 const autopilotDefaults = {
-  autopilotMaxchannels: 5,
-  autopilotMinchansize: 20000,
-  autopilotMaxchansize: 16777215,
-  autopilotAllocation: 60,
+  autopilotMaxchannels: maxchannels,
+  autopilotMinchansize: minchansize,
+  autopilotMaxchansize: maxchansize,
+  autopilotAllocation: allocation * 100,
 }
 
 // converts form format to db/lnd compatible format

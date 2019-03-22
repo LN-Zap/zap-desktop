@@ -4,7 +4,7 @@
   "version": "0.5.0-alpha",
   "description": "desktop application for the lightning network",
   "scripts": {
-    "build": "concurrently --raw \"npm:build-main\" \"npm:build-preload\" \"npm:build-renderer\"",
+    "build": "cross-env NODE_CONFIG_ENV=production concurrently --raw \"npm:build-main\" \"npm:build-preload\" \"npm:build-renderer\"",
     "build-e2e": "concurrently \"npm run build-main\" \"npm:build-preload\" \"npm run build-renderer-e2e\"",
     "build-dll": "webpack -r @babel/register --config internals/webpack/webpack.config.renderer.dev.dll.js",
     "build-main": "webpack -r @babel/register --config internals/webpack/webpack.config.main.prod.js",
@@ -34,7 +34,7 @@
     "package": "npm run build && npm run fetch-lnd && build",
     "release": "npm run package -- --publish onTagOrDraft",
     "postinstall": "concurrently --raw \"npm:flow-typed\" \"npm:build-dll\" \"build install-app-deps\"",
-    "prestart": "npm run build",
+    "prestart": "cross-env NODE_CONFIG_ENV=production npm run build",
     "start": "cross-env NODE_ENV=production electron ./app",
     "start-main-dev": "electron -r @babel/register ./app/main.js",
     "start-renderer-dev": "webpack-dev-server -r @babel/register --config internals/webpack/webpack.config.renderer.dev.js  --progress",
@@ -84,8 +84,6 @@
       "output": "release"
     },
     "extraResources": [
-      "resources/lnd.conf",
-      "resources/rpc.proto",
       "resources/icons/icon.png",
       {
         "from": "resources/bin/${os}/${arch}",
