@@ -2,6 +2,7 @@
 <PROJECT_ROOT>/app/dist/.*
 <PROJECT_ROOT>/resources/.*
 <PROJECT_ROOT>/release/.*
+<PROJECT_ROOT>/icons/.*
 <PROJECT_ROOT>/dll/.*
 <PROJECT_ROOT>/release/.*
 <PROJECT_ROOT>/storybook-static/.*

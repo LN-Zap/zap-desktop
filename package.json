@@ -84,7 +84,7 @@
       "output": "release"
     },
     "extraResources": [
-      "resources/icons/icon.png",
+      "resources/icon.png",
       {
         "from": "resources/bin/${os}/${arch}",
         "to": "resources/bin",
@@ -120,7 +120,7 @@
     "artifactName": "${productName}-${platform}-${arch}-v${version}.${ext}",
     "mac": {
       "category": "public.app-category.finance",
-      "icon": "resources/icons/icon.icns",
+      "icon": "resources/icon.icns",
       "target": [
         "dmg",
         "zip"
@@ -141,7 +141,7 @@
       ]
     },
     "win": {
-      "icon": "resources/icons/icon.ico",
+      "icon": "resources/icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -154,7 +154,7 @@
     },
     "linux": {
       "category": "Finance",
-      "icon": "resources/icons/icon.png",
+      "icon": "resources/icon.png",
       "target": [
         {
           "target": "deb",
