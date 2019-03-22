@@ -16,7 +16,7 @@ const buildAboutMenu = () => {
       const { productName, version } = getPackageDetails()
       openAboutWindow(
         {
-          icon_path: path.resolve(appRootPath(), 'resources', 'icons', 'icon.png'),
+          icon_path: path.resolve(appRootPath(), 'resources', 'icon.png'),
           open_devtools: process.env.NODE_ENV !== 'production',
           product_name: `${productName} ${version}`,
         },
