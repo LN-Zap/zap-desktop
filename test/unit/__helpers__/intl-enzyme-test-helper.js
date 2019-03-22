@@ -12,7 +12,7 @@ import { IntlProvider, intlShape } from 'react-intl'
 import { mount, shallow } from 'enzyme'
 
 // Ppass default messages to the IntlProvider.
-const messages = require('../../../app/translations/en.json')
+const messages = require('../../../translations/en.json')
 
 // Create the IntlProvider to retrieve context for wrapping around.
 const intlProvider = new IntlProvider({ locale: 'en', messages }, {})
