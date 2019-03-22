@@ -6,7 +6,7 @@ import path from 'path'
 import { DefinePlugin, IgnorePlugin } from 'webpack'
 import config from 'config'
 
-export const rootDir = path.join(__dirname, '..', '..')
+export const rootDir = path.join(__dirname, '..')
 
 export default {
   context: rootDir,

@@ -6,18 +6,18 @@
   "scripts": {
     "build": "cross-env NODE_CONFIG_ENV=production concurrently --raw \"npm:build-main\" \"npm:build-preload\" \"npm:build-renderer\"",
     "build-e2e": "concurrently \"npm run build-main\" \"npm:build-preload\" \"npm run build-renderer-e2e\"",
-    "build-dll": "webpack -r @babel/register --config internals/webpack/webpack.config.renderer.dev.dll.js",
-    "build-main": "webpack -r @babel/register --config internals/webpack/webpack.config.main.prod.js",
-    "build-preload": "webpack -r @babel/register --config internals/webpack/webpack.config.preload.prod.js",
-    "build-renderer": "webpack -r @babel/register --config internals/webpack/webpack.config.renderer.prod.js",
-    "build-renderer-e2e": "webpack -r @babel/register --config internals/webpack/webpack.config.renderer.e2e.js",
+    "build-dll": "webpack -r @babel/register --config webpack/webpack.config.renderer.dev.dll.js",
+    "build-main": "webpack -r @babel/register --config webpack/webpack.config.main.prod.js",
+    "build-preload": "webpack -r @babel/register --config webpack/webpack.config.preload.prod.js",
+    "build-renderer": "webpack -r @babel/register --config webpack/webpack.config.renderer.prod.js",
+    "build-renderer-e2e": "webpack -r @babel/register --config webpack/webpack.config.renderer.e2e.js",
     "clean": "rimraf node_modules app/node_modules dll app/dist coverage .eslintcache",
     "coverage": "open coverage/index.html",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "predev": "npm run build-preload",
     "dev": "cross-env HOT=1 npm run start-renderer-dev",
     "extract-messages": "extract-messages -l=af-ZA,ca-ES,de-DE,es-ES,ga-IE,hr-HR,ja-JP,no-NO,pt-PT,sr-SP,uk-UA,zh-TW,ar-SA,cs-CZ,el-GR,fi-FI,he-IL,hu-HU,ko-KR,pl-PL,ro-RO,sv-SE,vi-VN,bg-BG,da-DK,en,fr-FR,hi-IN,it-IT,nl-NL,pt-BR,ru-RU,tr-TR,zh-CN -o app/translations -d en --flat true app/**/messages.js",
-    "fetch-lnd": "node ./internals/scripts/fetch-lnd-for-packaging.js",
+    "fetch-lnd": "node ./scripts/fetch-lnd-for-packaging.js",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
     "generate-icons": "npx @svgr/cli --icon -d app/components/Icon app/icons && npm run lint-fix -- app/components/Icon",
@@ -37,7 +37,7 @@
     "prestart": "cross-env NODE_CONFIG_ENV=production npm run build",
     "start": "cross-env NODE_ENV=production electron ./app",
     "start-main-dev": "electron -r @babel/register ./app/main.js",
-    "start-renderer-dev": "webpack-dev-server -r @babel/register --config internals/webpack/webpack.config.renderer.dev.js  --progress",
+    "start-renderer-dev": "webpack-dev-server -r @babel/register --config webpack/webpack.config.renderer.dev.js  --progress",
     "storybook": "cross-env NODE_ENV=storybook start-storybook -p 6006",
     "storybook:build": "cross-env NODE_ENV=storybook build-storybook",
     "storybook:deploy": "npm run storybook:build && gh-pages -t -d storybook-static -o origin -b gh-pages",
@@ -197,7 +197,7 @@
       "html"
     ],
     "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/internals/mocks/fileMock.js"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/test/unit/__mocks__/fileMock.js"
     },
     "moduleFileExtensions": [
       "js",
@@ -380,7 +380,7 @@
     "window-or-global": "1.0.1",
     "yup": "0.26.10"
   },
-  "main": "internals/webpack/webpack.config.base.js",
+  "main": "webpack/webpack.config.base.js",
   "directories": {
     "test": "test"
   }
