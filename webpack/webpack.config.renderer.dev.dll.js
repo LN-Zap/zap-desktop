@@ -6,7 +6,7 @@ import webpack from 'webpack'
 import path from 'path'
 import merge from 'webpack-merge'
 import baseConfig, { rootDir } from './webpack.config.base'
-import { dependencies } from '../../package.json'
+import { dependencies } from '../package.json'
 
 export default merge.smart(baseConfig, {
   context: process.cwd(),
