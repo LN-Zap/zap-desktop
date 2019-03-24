@@ -50,6 +50,9 @@ export const getDb = name => {
       delete wallet.string
     })
   )
+  db.version(3).stores({
+    autopay: 'id',
+  })
 
   /**
    * @class Wallet

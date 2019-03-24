@@ -7,12 +7,11 @@ import AutopaySearchNoResults from './AutopaySearchNoResults'
 
 const Grid = styled(Box)`
   display: grid;
-  grid-template-columns: repeat(auto-fill, 195px);
+  grid-template-columns: repeat(auto-fit, 195px);
   grid-gap: 1rem;
-  justify-content: space-between;
 `
 
-const AutopayList = ({ merchants, ...rest }) => {
+const AutopayList = ({ merchants, openAutopayCreateModal, ...rest }) => {
   if (merchants.length === 0) {
     return <AutopaySearchNoResults {...rest} />
   }
@@ -23,7 +22,7 @@ const AutopayList = ({ merchants, ...rest }) => {
         {merchants.map(merchant => {
           return (
             <Box key={merchant.pubkey} py={2}>
-              <AutopayCardView merchant={merchant} onClick={() => alert('NOT IMPLEMENTED')} />
+              <AutopayCardView merchant={merchant} onClick={openAutopayCreateModal} />
             </Box>
           )
         })}
@@ -34,6 +33,7 @@ const AutopayList = ({ merchants, ...rest }) => {
 
 AutopayList.propTypes = {
   merchants: PropTypes.array,
+  openAutopayCreateModal: PropTypes.func.isRequired,
 }
 
 AutopayList.defaultProps = {

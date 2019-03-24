@@ -1,12 +1,16 @@
 import { connect } from 'react-redux'
 import AutopayList from 'components/Autopay/AutopayList'
-import { autopaySelectors } from 'reducers/autopay'
+import { openAutopayCreateModal, autopaySelectors } from 'reducers/autopay'
 
 const mapStateToProps = state => ({
   merchants: autopaySelectors.filteredMerchants(state),
 })
 
+const mapDispatchToProps = {
+  openAutopayCreateModal,
+}
+
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(AutopayList)
