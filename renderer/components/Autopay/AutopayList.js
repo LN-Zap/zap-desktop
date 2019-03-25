@@ -1,37 +1,27 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Box } from 'rebass'
-import styled from 'styled-components'
-import AutopayCardView from './AutopayCardView'
-import AutopaySearchNoResults from './AutopaySearchNoResults'
-
-const Grid = styled(Box)`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 195px);
-  grid-gap: 1rem;
-`
+import { Heading } from 'components/UI'
+import AutopayGrid from './AutopayGrid'
+import messages from './messages'
 
 const AutopayList = ({ merchants, openAutopayCreateModal, ...rest }) => {
-  if (merchants.length === 0) {
-    return <AutopaySearchNoResults {...rest} />
+  if (!merchants || !merchants.length) {
+    return null
   }
-
   return (
     <Box as="article" {...rest}>
-      <Grid>
-        {merchants.map(merchant => {
-          return (
-            <Box key={merchant.pubkey} py={2}>
-              <AutopayCardView merchant={merchant} onClick={openAutopayCreateModal} />
-            </Box>
-          )
-        })}
-      </Grid>
+      <Heading.h1 mb={3} mt={4}>
+        <FormattedMessage {...messages.active_list_title} />
+      </Heading.h1>
+      <AutopayGrid items={merchants} onClick={openAutopayCreateModal} />
     </Box>
   )
 }
 
 AutopayList.propTypes = {
+  invoiceCurrencyName: PropTypes.string,
   merchants: PropTypes.array,
   openAutopayCreateModal: PropTypes.func.isRequired,
 }

@@ -3,7 +3,7 @@ import AutopayList from 'components/Autopay/AutopayList'
 import { openAutopayCreateModal, autopaySelectors } from 'reducers/autopay'
 
 const mapStateToProps = state => ({
-  merchants: autopaySelectors.filteredMerchants(state),
+  merchants: autopaySelectors.autopayListAsArray(state),
 })
 
 const mapDispatchToProps = {

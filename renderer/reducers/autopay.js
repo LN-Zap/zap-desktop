@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { contactFormSelectors } from './contactsform'
+import { tickerSelectors } from './ticker'
 
 // Initial State
 const initialState = {
@@ -134,19 +135,44 @@ autopaySelectors.selectedMerchant = createSelector(
     )
   }
 )
+
 autopaySelectors.filteredMerchants = createSelector(
   autopaySelectors.merchants,
   autopaySelectors.searchQuery,
   autopaySelectors.autopayList,
   (merchants, searchQuery, autopayList) => {
-    const addIsActive = m => ({ ...m, isActive: [m.pubkey] in autopayList })
-    if (!searchQuery) {
-      return merchants.map(addIsActive)
+    const cleanedSearchQuery = searchQuery && searchQuery.toLowerCase()
+    const filterMerchants = merchant => {
+      const { nickname, pubkey } = merchant
+      return (
+        (!searchQuery || nickname.toLowerCase().includes(cleanedSearchQuery)) &&
+        !([pubkey] in autopayList)
+      )
     }
-    const cleanedSearchQuery = searchQuery.toLowerCase()
-    return merchants
-      .filter(m => m.nickname.toLowerCase().includes(cleanedSearchQuery))
-      .map(addIsActive)
+
+    return merchants.filter(filterMerchants)
+  }
+)
+
+/**
+ * Returns array of active autopay entries combined with a corresponding merchant data
+ */
+autopaySelectors.autopayListAsArray = createSelector(
+  autopaySelectors.merchants,
+  autopaySelectors.autopayList,
+  tickerSelectors.autopayCurrencyName,
+  (merchants, autopayList, autopayCurrencyName) => {
+    return merchants.reduce((acc, next) => {
+      if (autopayList[next.pubkey]) {
+        acc.push({
+          ...next,
+          isActive: true,
+          limit: autopayList[next.pubkey].limit,
+          limitCurrency: autopayCurrencyName,
+        })
+      }
+      return acc
+    }, [])
   }
 )
 

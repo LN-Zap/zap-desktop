@@ -48,7 +48,11 @@ const TextOverlay = styled(Overlay)`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 `
 
-const AutopayCardView = ({ merchant: { image, nickname, pubkey, isActive }, onClick, ...rest }) => (
+const AutopayCardView = ({
+  merchant: { image, nickname, pubkey, isActive, limit, limitCurrency },
+  onClick,
+  ...rest
+}) => (
   <Box {...rest} onClick={() => onClick(`${pubkey}`)}>
     <CardWithBg mb="12px" src={image}>
       <GradientOverlay />
@@ -57,8 +61,12 @@ const AutopayCardView = ({ merchant: { image, nickname, pubkey, isActive }, onCl
           {nickname}
         </Heading.h1>
       </TextOverlay>
-      <Overlay alignItems="flex-end" justifyContent="center" mt="12px">
-        {isActive ? <AutopayLimitBadge /> : <AutopayAddButton />}
+      <Overlay alignItems="flex-end" justifyContent="center" mt={isActive ? -15 : 12}>
+        {isActive ? (
+          <AutopayLimitBadge limit={limit} limitCurrency={limitCurrency} />
+        ) : (
+          <AutopayAddButton />
+        )}
       </Overlay>
     </CardWithBg>
   </Box>
