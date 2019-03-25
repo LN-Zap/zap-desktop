@@ -16,4 +16,6 @@ export default defineMessages({
   merchant_name: 'Name',
   add_error: 'Something went wrong',
   add_success: 'Autopay successfully added',
+  active_list_title: 'Your active autopay',
+  merchant_list_title: 'Explore Popular Merchants on the Lightning Network',
 })
