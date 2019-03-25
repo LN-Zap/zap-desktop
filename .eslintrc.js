@@ -103,7 +103,7 @@ module.exports = {
         moduleDirectory: ['app', 'node_modules', 'app/node_modules'],
       },
       webpack: {
-        config: path.resolve(__dirname, 'internals', 'webpack', 'webpack.config.eslint.js'),
+        config: path.resolve(__dirname, 'webpack', 'webpack.config.eslint.js'),
       },
     },
   },

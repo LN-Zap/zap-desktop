@@ -16,7 +16,7 @@ go get -d github.com/lightningnetwork/lnd
 
 ### 3. Copy release scripts
 
-Copy the scripts provided in `internals/scripts/lnd-release` over to the lnd working dir.
+Copy the scripts provided in `scripts/lnd-release` over to the lnd working dir.
 
 ```
 cp .goreleaser.yml $GOPATH/src/github.com/lightningnetwork/lnd/

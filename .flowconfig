@@ -2,6 +2,7 @@
 <PROJECT_ROOT>/app/dist/.*
 <PROJECT_ROOT>/resources/.*
 <PROJECT_ROOT>/release/.*
+<PROJECT_ROOT>/icons/.*
 <PROJECT_ROOT>/dll/.*
 <PROJECT_ROOT>/release/.*
 <PROJECT_ROOT>/storybook-static/.*
@@ -22,9 +23,9 @@ module.system.node.resolve_dirname=node_modules
 module.system.node.resolve_dirname=app/node_modules
 
 # Map images to WebpackAsset tyoe def
-module.name_mapper.extension='png' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
-module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
-module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/internals/flow/WebpackAsset.js.flow'
+module.name_mapper.extension='png' -> '<PROJECT_ROOT>/flow/WebpackAsset.js.flow'
+module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/flow/WebpackAsset.js.flow'
+module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/flow/WebpackAsset.js.flow'
 
 # Map webpack resolved module imports to the app directory
 # Example: components/Foo -> `<project_root>/app/components/Foo`

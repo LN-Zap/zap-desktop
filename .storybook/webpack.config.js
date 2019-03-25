@@ -1,6 +1,6 @@
 require('@babel/register')
 
-const baseConfig = require('../internals/webpack/webpack.config.base')
+const baseConfig = require('../webpack/webpack.config.base')
 const merge = require('webpack-merge')
 
 const config = merge.smart(baseConfig, {
@@ -10,18 +10,18 @@ const config = merge.smart(baseConfig, {
         {
           test: /\.stories\.jsx?$/,
           loaders: [require.resolve('@storybook/addon-storysource/loader')],
-          enforce: 'pre'
-        }
-      ]
+          enforce: 'pre',
+        },
+      ],
     },
 
     node: {
       __dirname: false,
       __filename: false,
       fs: 'empty',
-      module: 'empty'
-    }
-  }
+      module: 'empty',
+    },
+  },
 })
 
 module.exports = config

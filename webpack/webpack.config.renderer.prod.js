@@ -11,7 +11,7 @@ import CleanWebpackPlugin from 'clean-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import merge from 'webpack-merge'
 import baseConfig, { rootDir } from './webpack.config.base'
-import { dependencies as externals } from '../../app/package.json'
+import { dependencies as externals } from '../app/package.json'
 
 export default merge.smart(baseConfig, {
   devtool: 'source-map',
@@ -47,7 +47,7 @@ export default merge.smart(baseConfig, {
 
   plugins: [
     new CleanWebpackPlugin([path.resolve('app', 'dist')], {
-      root: path.resolve('..', '..'),
+      root: path.resolve(rootDir),
     }),
 
     new EnvironmentPlugin({

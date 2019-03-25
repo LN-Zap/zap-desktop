@@ -16,7 +16,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin'
 import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
 import baseConfig, { rootDir } from './webpack.config.base'
-import { mainLog } from '../../app/lib/utils/log'
+import { mainLog } from '../app/lib/utils/log'
 
 const port = process.env.PORT || 1212
 const publicPath = `http://localhost:${port}/dist`
