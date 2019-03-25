@@ -5,12 +5,7 @@ builds:
       - windows
     goarch:
       - amd64
-      - arm64
-      - arm
       - '386'
-    goarm:
-      - 6
-      - 7
     ldflags:
       - -X github.com/lightningnetwork/lnd/build.Commit={{.Tag}}
     flags:
@@ -21,12 +16,7 @@ builds:
       - windows
     goarch:
       - amd64
-      - arm64
-      - arm
       - '386'
-    goarm:
-      - 6
-      - 7
     binary: lncli
     main: ./cmd/lncli
     ldflags:
