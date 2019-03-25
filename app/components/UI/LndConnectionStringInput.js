@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { intlShape, injectIntl } from 'react-intl'
-import { isValidLndConnectUri, isValidBtcPayConfig } from 'lib/utils/connectionString'
+import { isValidLndConnectUri, isValidBtcPayConfig } from '@zap/utils/connectionString'
 import TextArea from './TextArea'
 import messages from './messages'
 

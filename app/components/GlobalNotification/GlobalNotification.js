@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { animated, Transition } from 'react-spring'
 import styled from 'styled-components'
 import { Box } from 'rebass'
-import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
+import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { Notification } from 'components/UI'
 
 const Wrapper = styled(Box)`

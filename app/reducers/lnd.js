@@ -1,6 +1,6 @@
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
-import { showSystemNotification } from 'lib/utils/notifications'
+import { showSystemNotification } from '@zap/utils/notifications'
 import { fetchBalance } from './balance'
 import { fetchInfo, setHasSynced } from './info'
 import { putWallet, setActiveWallet, walletSelectors } from './wallet'

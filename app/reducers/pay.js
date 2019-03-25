@@ -1,6 +1,6 @@
 import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
-import { requestFees } from 'lib/utils/api'
+import { requestFees } from '@zap/utils/api'
 
 // ------------------------------------
 // Constants

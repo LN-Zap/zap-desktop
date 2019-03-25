@@ -1,0 +1,13 @@
+{
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "root": ["./app"],
+        "alias": {
+          "^@zap/(.+)": "./\\1"
+        }
+      }
+    ]
+  ]
+}

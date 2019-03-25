@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedNumber } from 'react-intl'
-import { convert } from 'lib/utils/btc'
+import { convert } from '@zap/utils/btc'
 
 const forcePositiveNumber = amount => (amount >= 0 ? amount * 1 : amount * -1)
 

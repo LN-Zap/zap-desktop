@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { decodePayReq } from 'lib/utils/crypto'
+import { decodePayReq } from '@zap/utils/crypto'
 
 import { openModal, closeModal } from './modal'
 import { fetchDescribeNetwork } from './network'

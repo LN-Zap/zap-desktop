@@ -1,4 +1,4 @@
-import { isStableVersion } from 'lib/utils'
+import { isStableVersion } from '@zap/utils'
 
 const STABLE_VERSION = '0.3.x'
 

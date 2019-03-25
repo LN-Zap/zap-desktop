@@ -1,6 +1,6 @@
 import { send } from 'redux-electron-ipc'
 import { updateIntl } from 'react-intl-redux'
-import translations from 'lib/i18n/translation'
+import translations from '@zap/i18n/translation'
 import { setFiatTicker } from './ticker'
 import { putSetting } from './settings'
 

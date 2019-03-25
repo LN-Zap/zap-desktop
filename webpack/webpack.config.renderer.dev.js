@@ -15,8 +15,8 @@ import { spawn, execSync } from 'child_process'
 import HtmlWebpackPlugin from 'html-webpack-plugin'
 import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
 import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
+import { mainLog } from '@zap/utils/log'
 import baseConfig, { rootDir } from './webpack.config.base'
-import { mainLog } from '../app/lib/utils/log'
 
 const port = process.env.PORT || 1212
 const publicPath = `http://localhost:${port}/dist`

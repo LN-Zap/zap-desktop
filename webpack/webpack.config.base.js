@@ -20,6 +20,7 @@ export default {
         use: {
           loader: 'babel-loader',
           options: {
+            rootMode: 'upward',
             cacheDirectory: true,
           },
         },

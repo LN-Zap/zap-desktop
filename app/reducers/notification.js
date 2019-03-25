@@ -1,5 +1,5 @@
-import delay from 'lib/utils/delay'
-import genId from 'lib/utils/genId'
+import delay from '@zap/utils/delay'
+import genId from '@zap/utils/genId'
 import matches from 'lodash.matches'
 
 // ------------------------------------

@@ -2,8 +2,8 @@ import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { createMemoryHistory } from 'history'
 import { routerMiddleware } from 'connected-react-router'
-import createRootReducer from '../reducers'
-import ipc from '../reducers/ipc'
+import createRootReducer from 'reducers'
+import ipc from 'reducers/ipc'
 
 export const history = createMemoryHistory({ basename: window.location.pathname })
 

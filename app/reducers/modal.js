@@ -1,4 +1,4 @@
-import genId from 'lib/utils/genId'
+import genId from '@zap/utils/genId'
 
 // ------------------------------------
 // Initial State

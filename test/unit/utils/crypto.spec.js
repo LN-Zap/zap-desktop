@@ -1,5 +1,5 @@
 /* eslint-disable max-len */
-import { formatValue, isLn, isOnchain } from 'lib/utils/crypto'
+import { formatValue, isLn, isOnchain } from '@zap/utils/crypto'
 
 const VALID_BITCOIN_MAINNET_LN =
   'lnbc10u1pduey89pp57gt0mqvh9gv4m5kkxmy9a0a46ha5jlzr3mcfcz2fx8tzu63vpjksdq8w3jhxaqcqzystfg0drarrx89nvpegwykvfr4fypvwz2d9ktcr6tj5s08f0nn8gdjnv74y9amksk3rjw7englhjrsev70k77vwf603qh2pr4tnqeue6qp5n92gy'

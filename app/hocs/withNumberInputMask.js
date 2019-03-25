@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import getDisplayName from 'lib/utils/getDisplayName'
+import getDisplayName from '@zap/utils/getDisplayName'
 
 /**
  * A HOC that will add validation of a `required` property to a field.

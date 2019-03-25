@@ -1,7 +1,7 @@
 import Dexie from 'dexie'
 import decode from 'lndconnect/decode'
 import encode from 'lndconnect/encode'
-import parseConnectionString from '../lib/utils/btcpayserver'
+import parseConnectionString from '@zap/utils/btcpayserver'
 
 export const getDb = name => {
   // Define the database.

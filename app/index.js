@@ -2,15 +2,11 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-intl-redux'
 import jstz from 'jstimezonedetect'
+import '@zap/i18n/locale'
+import translations from '@zap/i18n/translation'
+import { getDefaultLocale } from '@zap/i18n'
 import { configureStore, history } from './store/configureStore'
-import { getDefaultLocale } from './lib/i18n'
 import Root from './containers/Root'
-
-// Register supported locales.
-import './lib/i18n/locale'
-
-// Get translations.
-import translations from './lib/i18n/translation'
 
 // Default the locale to English.
 const defaultLocale = getDefaultLocale()

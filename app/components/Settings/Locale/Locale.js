@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { getLanguageName } from 'lib/i18n'
+import { getLanguageName } from '@zap/i18n'
 import { MenuContainer, Menu, MenuItem } from 'components/UI/Dropdown'
 import { FormattedMessage } from 'react-intl'
 import messages from './messages'

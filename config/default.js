@@ -1,4 +1,4 @@
-const { getPackageDetails, isStableVersion } = require('../app/lib/utils')
+const { getPackageDetails, isStableVersion } = require('@zap/utils')
 
 // The current stable base version.
 // If the current version is in the same range asd this, the default database domain will be used.

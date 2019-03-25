@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
 import { send } from 'redux-electron-ipc'
-import { requestSuggestedNodes } from 'lib/utils/api'
+import { requestSuggestedNodes } from '@zap/utils/api'
 import { updateNotification, showWarning, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'

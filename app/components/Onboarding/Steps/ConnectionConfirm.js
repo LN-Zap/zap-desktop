@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import encode from 'lndconnect/encode'
 import decode from 'lndconnect/decode'
-import parseConnectionString from 'lib/utils/btcpayserver'
+import parseConnectionString from '@zap/utils/btcpayserver'
 import { Bar, Form, Header, Span, Text } from 'components/UI'
 import messages from './messages'
 

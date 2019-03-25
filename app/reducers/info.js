@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
-import { networks } from 'lib/utils/crypto'
+import { networks } from '@zap/utils/crypto'
 import { walletAddress } from './address'
 import { putWallet, walletSelectors } from './wallet'
 

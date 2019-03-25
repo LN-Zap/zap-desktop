@@ -3,7 +3,10 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { withFormApi } from 'informed'
 import Padlock from 'components/Icon/Padlock'
-import { LndConnectionStringInput, Toggle, Span, Label } from '.'
+import LndConnectionStringInput from './LndConnectionStringInput'
+import Toggle from './Toggle'
+import Span from './Span'
+import Label from './Label'
 
 function LndConnectionStringEditor({ formApi, field, hideStringMessage, ...rest }) {
   const isDisabled = formApi.getValue('hideLndConnectUri')

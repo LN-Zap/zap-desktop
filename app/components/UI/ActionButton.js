@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import delay from 'lib/utils/delay'
+import delay from '@zap/utils/delay'
 import Button from './Button'
 import Spinner from './Spinner'
 

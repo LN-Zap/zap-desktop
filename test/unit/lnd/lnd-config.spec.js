@@ -1,11 +1,11 @@
 // @flow
 
 import { join } from 'path'
-import LndConfig from 'lib/lnd/config'
+import LndConfig from '@zap/lnd/config'
 
-jest.mock('lib/lnd/util', () => {
+jest.mock('../../../lnd/util', () => {
   return {
-    ...jest.requireActual('lib/lnd/util'),
+    ...jest.requireActual('../../../lnd/util'),
     binaryName: 'binaryName',
     binaryPath: () => 'binaryPath',
   }

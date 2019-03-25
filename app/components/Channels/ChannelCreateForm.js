@@ -4,7 +4,7 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Keyframes } from 'react-spring'
 import get from 'lodash.get'
 import { Box, Flex } from 'rebass'
-import { convert } from 'lib/utils/btc'
+import { convert } from '@zap/utils/btc'
 import {
   Bar,
   Button,

@@ -1,4 +1,4 @@
-import delay from 'lib/utils/delay'
+import delay from '@zap/utils/delay'
 import { setLoading } from './app'
 import { walletSelectors } from './wallet'
 

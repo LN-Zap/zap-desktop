@@ -3,8 +3,8 @@ import thunk from 'redux-thunk'
 import { createMemoryHistory } from 'history'
 import { routerActions, routerMiddleware } from 'connected-react-router'
 import { createLogger } from 'redux-logger'
-import createRootReducer from '../reducers'
-import ipc from '../reducers/ipc'
+import createRootReducer from 'reducers'
+import ipc from 'reducers/ipc'
 
 export const history = createMemoryHistory()
 
@@ -93,7 +93,7 @@ export const configureStore = initialState => {
   const store = createStore(createRootReducer(history), initialState, enhancer)
 
   if (module.hot) {
-    module.hot.accept('../reducers', () => {
+    module.hot.accept('reducers', () => {
       store.replaceReducer(createRootReducer(history))
     })
   }

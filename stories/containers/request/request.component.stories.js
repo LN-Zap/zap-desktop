@@ -5,7 +5,7 @@ import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { text } from '@storybook/addon-knobs'
 import lightningPayReq from 'bolt11'
-import { convert } from 'lib/utils/btc'
+import { convert } from '@zap/utils/btc'
 import { RequestSummary } from 'components/Request'
 import { Provider } from '../../Provider'
 

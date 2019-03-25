@@ -1,4 +1,11 @@
 module.exports = {
+  babelrcRoots: [
+    // Keep the root as a root
+    '.',
+
+    // Also consider app as "root" and load it's .babelrc files.
+    './app/*',
+  ],
   presets: [
     [
       '@babel/preset-env',

@@ -36,8 +36,8 @@
     "release": "npm run package -- --publish onTagOrDraft",
     "postinstall": "concurrently --raw \"npm:flow-typed\" \"npm:build-dll\" \"build install-app-deps\"",
     "prestart": "cross-env NODE_CONFIG_ENV=production npm run build",
-    "start": "cross-env NODE_ENV=production electron ./app",
-    "start-main-dev": "electron -r @babel/register ./app/main.js",
+    "start": "cross-env NODE_ENV=production electron .",
+    "start-main-dev": "electron -r @babel/register ./electron/main.js",
     "start-renderer-dev": "webpack-dev-server -r @babel/register --config webpack/webpack.config.renderer.dev.js  --progress",
     "storybook": "cross-env NODE_ENV=storybook start-storybook -p 6006",
     "storybook:build": "cross-env NODE_ENV=storybook build-storybook",
@@ -60,7 +60,7 @@
   },
   "sideEffects": false,
   "browserslist": [
-    "electron 3.0"
+    "electron 4.0"
   ],
   "engines": {
     "node": ">=8.11.2",
@@ -78,7 +78,7 @@
     "files": [
       "dist/",
       "package.json",
-      "lib/zap/about/"
+      "electron/about/"
     ],
     "directories": {
       "buildResources": "resources",
@@ -243,6 +243,7 @@
     "babel-eslint": "10.0.1",
     "babel-jest": "24.5.0",
     "babel-loader": "8.0.5",
+    "babel-plugin-module-resolver": "3.2.0",
     "babel-plugin-react-intl": "3.0.1",
     "babel-plugin-react-intl-auto": "1.7.0",
     "babel-plugin-styled-components": "1.8.0",
@@ -256,6 +257,7 @@
     "cross-env": "5.2.0",
     "cross-spawn": "6.0.5",
     "csp-html-webpack-plugin": "3.0.1",
+    "electron": "4.1.1",
     "electron-builder": "20.39.0",
     "electron-devtools-installer": "2.2.4",
     "electron-updater": "4.0.6",
@@ -266,6 +268,7 @@
     "eslint-config-airbnb": "17.1.0",
     "eslint-config-prettier": "4.1.0",
     "eslint-formatter-pretty": "2.1.1",
+    "eslint-import-resolver-babel-module": "5.0.1",
     "eslint-import-resolver-webpack": "0.11.0",
     "eslint-plugin-compat": "3.0.1",
     "eslint-plugin-flowtype": "3.4.2",
@@ -335,7 +338,6 @@
     "debug-logger": "0.4.1",
     "dexie": "2.0.4",
     "downshift": "3.2.7",
-    "electron": "4.1.0",
     "electron-is-dev": "1.0.1",
     "get-port": "4.2.0",
     "history": "4.7.2",
@@ -381,8 +383,5 @@
     "window-or-global": "1.0.1",
     "yup": "0.26.10"
   },
-  "main": "webpack/webpack.config.base.js",
-  "directories": {
-    "test": "test"
-  }
+  "main": "./dist/main.prod.js"
 }

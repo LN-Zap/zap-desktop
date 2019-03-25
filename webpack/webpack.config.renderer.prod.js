@@ -11,7 +11,7 @@ import CleanWebpackPlugin from 'clean-webpack-plugin'
 import CopyWebpackPlugin from 'copy-webpack-plugin'
 import merge from 'webpack-merge'
 import baseConfig, { rootDir } from './webpack.config.base'
-import { dependencies as externals } from '../app/package.json'
+import { dependencies as externals } from '../package.json'
 
 export default merge.smart(baseConfig, {
   devtool: 'source-map',
@@ -27,7 +27,7 @@ export default merge.smart(baseConfig, {
   },
 
   output: {
-    path: path.join(rootDir, 'app', 'dist'),
+    path: path.join(rootDir, 'dist'),
     filename: '[name].prod.js',
   },
 
@@ -46,7 +46,7 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    new CleanWebpackPlugin([path.resolve('app', 'dist')], {
+    new CleanWebpackPlugin([path.resolve('dist')], {
       root: path.resolve(rootDir),
     }),
 
@@ -60,7 +60,7 @@ export default merge.smart(baseConfig, {
 
     new CopyWebpackPlugin([
       path.join('app', 'empty.html'),
-      { from: path.join('app/lib/zap/about', 'preload.js'), to: 'about_preload.prod.js' },
+      { from: path.join('electron/about', 'preload.js'), to: 'about_preload.prod.js' },
     ]),
 
     new CspHtmlWebpackPlugin({

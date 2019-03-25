@@ -17,7 +17,7 @@ import {
   millisatoshisToBtc,
   millisatoshisToFiat,
   convert,
-} from 'lib/utils/btc'
+} from '@zap/utils/btc'
 
 describe('btc.btcToBits', () => {
   it('should return 1 when 100 satoshis are passed in', () => {

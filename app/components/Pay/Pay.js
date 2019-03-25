@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
-import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from 'lib/utils/crypto'
+import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from '@zap/utils/crypto'
 import get from 'lodash.get'
-import { convert } from 'lib/utils/btc'
+import { convert } from '@zap/utils/btc'
 import {
   Bar,
   Form,

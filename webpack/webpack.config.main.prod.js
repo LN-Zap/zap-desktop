@@ -18,11 +18,11 @@ export default merge.smart(baseConfig, {
   externals: ['config'],
 
   entry: {
-    main: path.join(rootDir, 'app', 'main'),
+    main: path.join(rootDir, 'electron', 'main'),
   },
 
   output: {
-    path: path.join(rootDir, 'app', 'dist'),
+    path: path.join(rootDir, 'dist'),
     filename: '[name].prod.js',
   },
 

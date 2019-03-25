@@ -8,7 +8,7 @@ import {
   intlShape,
   injectIntl,
 } from 'react-intl'
-import { decodePayReq } from 'lib/utils/crypto'
+import { decodePayReq } from '@zap/utils/crypto'
 import copy from 'copy-to-clipboard'
 import { Bar, DataRow, Button, QRCode, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
