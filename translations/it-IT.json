@@ -64,7 +64,7 @@
   "components.Activity.expired": "",
   "components.Activity.internal": "",
   "components.Activity.pending": "In attesa",
-  "components.Activity.requested": "Ricevuto",
+  "components.Activity.requested": "Richiesto",
   "components.Activity.sent": "Inviato",
   "components.Autopay.add_button_text": "",
   "components.Autopay.close_button_text": "",
