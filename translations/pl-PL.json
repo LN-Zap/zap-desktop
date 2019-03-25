@@ -84,7 +84,7 @@
   "components.Channels.closing_transaction_id_label": "",
   "components.Channels.commit_fee_description": "",
   "components.Channels.commit_fee_label": "",
-  "components.Channels.connect": "Połącz",
+  "components.Channels.connect": "",
   "components.Channels.create_new_button_text": "",
   "components.Channels.csv_delay_description": "",
   "components.Channels.csv_delay_label": "",
