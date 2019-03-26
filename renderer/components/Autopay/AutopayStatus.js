@@ -6,8 +6,8 @@ import { FormattedMessage, injectIntl } from 'react-intl'
 import { Text } from 'components/UI'
 import messages from './messages'
 
-const AutopayStatus = ({ fieldState }) => (
-  <Text>
+const AutopayStatus = ({ fieldState, ...rest }) => (
+  <Text {...rest}>
     {
       <FormattedMessage
         {...(fieldState && fieldState.value

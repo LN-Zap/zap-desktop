@@ -1,21 +1,44 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
 import styled from 'styled-components'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Flex } from 'rebass'
 
 import { CryptoValue, CryptoSelector, FiatValue } from 'containers/UI'
-import { Bar, DataRow, Range, Text } from 'components/UI'
+import { Bar, DataRow, Range, Text, Toggle } from 'components/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
+import AutopayStatus from './AutopayStatus'
 
 const SettingsContainer = styled.div`
   position: relative;
   left: -50%;
 `
 
-const AutopayCreateSettings = ({ min, max, intl, defaultValue, limit, merchantName, pubkey }) => (
+const AutopayCreateSettings = ({
+  min,
+  max,
+  intl,
+  defaultValue,
+  limit,
+  merchantName,
+  pubkey,
+  isEditMode,
+}) => (
   <SettingsContainer>
+    {isEditMode && (
+      <DataRow
+        left={intl.formatMessage({ ...messages.autopay_status })}
+        right={
+          <Flex>
+            <Toggle field="isEnabled" id="isEnabled" />
+            <AutopayStatus ml={2} />
+          </Flex>
+        }
+      />
+    )}
+    <Bar variant="light" />
     <DataRow
       left={
         <>
@@ -61,6 +84,7 @@ const AutopayCreateSettings = ({ min, max, intl, defaultValue, limit, merchantNa
 AutopayCreateSettings.propTypes = {
   defaultValue: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
+  isEditMode: PropTypes.bool.isRequired,
   limit: PropTypes.string.isRequired,
   max: PropTypes.string.isRequired,
   merchantName: PropTypes.string.isRequired,

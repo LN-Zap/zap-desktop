@@ -32,7 +32,7 @@ const AutopayCreateForm = props => {
     showNotification,
     ...rest
   } = props
-
+  const isEditMode = true
   const onSubmit = async values => {
     try {
       const { limit } = values
@@ -55,6 +55,8 @@ const AutopayCreateForm = props => {
         const front = (
           <AutopayCreateSettings
             defaultValue={defaultValue}
+            editMode
+            isEditMode={isEditMode}
             limit={limit}
             max={max}
             merchantName={merchantName}
@@ -91,7 +93,7 @@ const AutopayCreateForm = props => {
               </Heading.h1>
               <Bar my={2} />
             </Panel.Header>
-            <Panel.Body css={{ height: '195px' }}>
+            <Panel.Body css={{ height: editMode ? '250px' : '195px' }}>
               <Spring
                 native
                 to={{
