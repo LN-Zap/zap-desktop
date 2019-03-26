@@ -18,7 +18,11 @@ export const CLOSE_AUTOPAY_CREATE_MODAL = 'CLOSE_AUTOPAY_CREATE_MODAL'
 
 export const SET_SELECTED_MERCHANT = 'SET_SELECTED_MERCHANT'
 export const ENABLE_AUTOPAY = 'ENABLE_AUTOPAY'
+export const DISABLE_AUTOPAY = 'DISABLE_AUTOPAY'
 export const SET_AUTOPAY_LIST = 'SET_AUTOPAY_LIST'
+
+export const SET_EDIT_MODE = 'SET_EDIT_MODE'
+export const RESET_EDIT_MODE = 'RESET_EDIT_MODE'
 
 // ------------------------------------
 // Actions
@@ -29,6 +33,16 @@ export function enableAutopay(merchantId, limit) {
     return dispatch({
       type: ENABLE_AUTOPAY,
       data: { merchantId, limit },
+    })
+  }
+}
+
+export function disableAutopay(merchantId) {
+  return async dispatch => {
+    await window.db.autopay.delete(merchantId)
+    return dispatch({
+      type: DISABLE_AUTOPAY,
+      merchantId,
     })
   }
 }
@@ -66,15 +80,27 @@ export function updateAutopaySearchQuery(searchQuery) {
     searchQuery,
   }
 }
+export function resetEditMode() {
+  return {
+    type: RESET_EDIT_MODE,
+  }
+}
 
-export function openAutopayCreateModal(merchantId) {
+export function openAutopayCreateModal(merchantId, isEditMode = false) {
   return dispatch => {
     dispatch(setSelectedMerchant(merchantId))
+    // set modal mode. Either we are creating a new autopay entry or
+    // editing an existing one
+    dispatch({
+      type: SET_EDIT_MODE,
+      isEditMode,
+    })
   }
 }
 export function closeAutopayCreateModal() {
   return dispatch => {
     dispatch(setSelectedMerchant())
+    dispatch(resetEditMode())
   }
 }
 
@@ -88,6 +114,12 @@ function addAutopayEntry(state, { data }) {
     ...state,
     list: { ...list, [merchantId]: { limit } },
   }
+}
+
+function removeAutopayEntry(state, { merchantId }) {
+  const list = { ...state.list }
+  delete list[merchantId]
+  return { ...state, list }
 }
 
 function setAutopayListFromArray(state, { list }) {
@@ -107,7 +139,14 @@ function setAutopayListFromArray(state, { list }) {
 const ACTION_HANDLERS = {
   [UPDATE_AUTOPAY_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
   [SET_SELECTED_MERCHANT]: (state, { selectedMerchantId }) => ({ ...state, selectedMerchantId }),
+  [SET_EDIT_MODE]: (state, { isEditMode }) => ({ ...state, isEditMode }),
+  [RESET_EDIT_MODE]: state => {
+    const newState = { ...state }
+    delete newState.isEditMode
+    return newState
+  },
   [ENABLE_AUTOPAY]: addAutopayEntry,
+  [DISABLE_AUTOPAY]: removeAutopayEntry,
   [SET_AUTOPAY_LIST]: setAutopayListFromArray,
 }
 
@@ -118,6 +157,7 @@ const autopaySelectors = {}
 autopaySelectors.searchQuery = state => state.autopay.searchQuery
 autopaySelectors.autopayList = state => state.autopay.list
 autopaySelectors.isCreateModalOpen = state => state.autopay.isCreateModalOpen
+autopaySelectors.isCreateModalEditMode = state => Boolean(state.autopay.isEditMode)
 autopaySelectors.selectedMerchantId = state => state.autopay.selectedMerchantId
 autopaySelectors.merchants = state => contactFormSelectors.suggestedNodes(state)
 
@@ -127,12 +167,16 @@ autopaySelectors.selectedMerchant = createSelector(
   autopaySelectors.autopayList,
   (merchants, selectedMerchantId, autopayList) => {
     const selectedMerchant = merchants.find(m => m.pubkey === selectedMerchantId)
-    return (
-      selectedMerchant && {
-        ...selectedMerchant,
-        isActive: [selectedMerchant.pubkey] in autopayList,
-      }
-    )
+    if (!selectedMerchant) {
+      return null
+    }
+    const { pubkey } = selectedMerchant
+    const isActive = [selectedMerchant.pubkey] in autopayList
+    return {
+      ...selectedMerchant,
+      limit: isActive ? autopayList[pubkey].limit : null,
+      isActive,
+    }
   }
 )
 

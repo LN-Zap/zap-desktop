@@ -20,25 +20,28 @@ const AutopayCreateSettings = ({
   min,
   max,
   intl,
-  defaultValue,
   limit,
+  defaultValue,
   merchantName,
   pubkey,
   isEditMode,
 }) => (
   <SettingsContainer>
     {isEditMode && (
-      <DataRow
-        left={intl.formatMessage({ ...messages.autopay_status })}
-        right={
-          <Flex>
-            <Toggle field="isEnabled" id="isEnabled" />
-            <AutopayStatus ml={2} />
-          </Flex>
-        }
-      />
+      <>
+        <DataRow
+          left={intl.formatMessage({ ...messages.autopay_status })}
+          right={
+            <Flex>
+              <Toggle field="isEnabled" id="isEnabled" initialValue />
+              <AutopayStatus ml={2} />
+            </Flex>
+          }
+        />
+        <Bar variant="light" />
+      </>
     )}
-    <Bar variant="light" />
+
     <DataRow
       left={
         <>
@@ -60,12 +63,12 @@ const AutopayCreateSettings = ({
       right={
         <Flex alignItems="flex-end" flexDirection="column" ml={4}>
           <Flex alignItems="baseline">
-            <CryptoValue fontSize="xxl" value={limit} />
+            <CryptoValue fontSize="xxl" value={limit || defaultValue} />
             <CryptoSelector ml={2} />
           </Flex>
           <Flex alignItems="baseline">
             <Text color="gray">=</Text>
-            <FiatValue color="gray" style="currency" value={limit} />
+            <FiatValue color="gray" style="currency" value={limit || defaultValue} />
           </Flex>
         </Flex>
       }
@@ -85,7 +88,7 @@ AutopayCreateSettings.propTypes = {
   defaultValue: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   isEditMode: PropTypes.bool.isRequired,
-  limit: PropTypes.string.isRequired,
+  limit: PropTypes.string,
   max: PropTypes.string.isRequired,
   merchantName: PropTypes.string.isRequired,
   min: PropTypes.string.isRequired,
