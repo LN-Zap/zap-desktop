@@ -18,7 +18,6 @@ cache:
   directories:
     - node_modules
     - flow-typed
-    - app/node_modules
 
 addons:
   apt:

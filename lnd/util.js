@@ -24,7 +24,7 @@ const stat = promisify(fs.stat)
  *
  * windows from source: "C:\myapp\node_modules\electron\dist\resources\default_app.asar"
  * mac from source: "/Users/me/dev/myapp/node_modules/electron/dist/Electron.app/Contents/Resources/default_app.asar"
- * mac from a package: <appRootPathsomewhere>"/my.app/Contents/Resources/app.asar"
+ * mac from a package: <appRootPathsomewhere>"/myapp/Contents/Resources/app.asar"
  *
  * If we are run from outside of a packaged app, our working directory is the right place to be.
  * And no, we can't just set our working directory to somewhere inside the asar. The OS can't handle that.

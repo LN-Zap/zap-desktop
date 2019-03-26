@@ -23,7 +23,7 @@ export default merge.smart(baseConfig, {
   externals: new ExternalsPlugin('commonjs', [...Object.keys(externals || {})]),
 
   entry: {
-    renderer: path.join(rootDir, 'app', 'index'),
+    renderer: path.join(rootDir, 'renderer', 'index'),
   },
 
   output: {
@@ -55,11 +55,11 @@ export default merge.smart(baseConfig, {
     }),
 
     new HtmlWebpackPlugin({
-      template: path.join('app', 'app.html'),
+      template: path.join('renderer', 'app.html'),
     }),
 
     new CopyWebpackPlugin([
-      path.join('app', 'empty.html'),
+      path.join('renderer', 'empty.html'),
       { from: path.join('electron/about', 'preload.js'), to: 'about_preload.prod.js' },
     ]),
 

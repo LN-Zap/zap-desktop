@@ -12,16 +12,16 @@
     "build-preload-dev": "webpack -r @babel/register --config webpack/webpack.config.preload.dev.js",
     "build-renderer": "webpack -r @babel/register --config webpack/webpack.config.renderer.prod.js",
     "build-renderer-e2e": "webpack -r @babel/register --config webpack/webpack.config.renderer.e2e.js",
-    "clean": "rimraf node_modules app/node_modules dll app/dist coverage .eslintcache",
+    "clean": "rimraf node_modules dll dist coverage .eslintcache",
     "coverage": "open coverage/index.html",
     "coveralls": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
     "predev": "npm run build-preload-dev",
     "dev": "cross-env HOT=1 npm run start-renderer-dev",
-    "extract-messages": "extract-messages -l=af-ZA,ca-ES,de-DE,es-ES,ga-IE,hr-HR,ja-JP,no-NO,pt-PT,sr-SP,uk-UA,zh-TW,ar-SA,cs-CZ,el-GR,fi-FI,he-IL,hu-HU,ko-KR,pl-PL,ro-RO,sv-SE,vi-VN,bg-BG,da-DK,en,fr-FR,hi-IN,it-IT,nl-NL,pt-BR,ru-RU,tr-TR,zh-CN -o translations -d en --flat true app/**/messages.js",
+    "extract-messages": "extract-messages -l=af-ZA,ca-ES,de-DE,es-ES,ga-IE,hr-HR,ja-JP,no-NO,pt-PT,sr-SP,uk-UA,zh-TW,ar-SA,cs-CZ,el-GR,fi-FI,he-IL,hu-HU,ko-KR,pl-PL,ro-RO,sv-SE,vi-VN,bg-BG,da-DK,en,fr-FR,hi-IN,it-IT,nl-NL,pt-BR,ru-RU,tr-TR,zh-CN -o translations -d en --flat true renderer/**/messages.js",
     "fetch-lnd": "node ./scripts/fetch-lnd-for-packaging.js",
     "flow": "flow",
     "flow-typed": "rimraf flow-typed/npm && flow-typed install --overwrite || true",
-    "generate-icons": "npx @svgr/cli --icon -d app/components/Icon icons && npm run lint-fix -- app/components/Icon",
+    "generate-icons": "npx @svgr/cli --icon -d renderer/components/Icon icons && npm run lint-fix -- renderer/components/Icon",
     "lint-base": "eslint --cache --format=node_modules/eslint-formatter-pretty",
     "lint": "npm run lint-base -- .",
     "lint-fix-base": "npm run lint-base -- --fix",
@@ -52,7 +52,7 @@
     "test-e2e-live": "cross-env ELECTRON_USER_DIR_TEMP=1 testcafe-live electron:./ ./test/e2e"
   },
   "config": {
-    "style_paths": "app/components/**/*.js",
+    "style_paths": "renderer/components/**/*.js",
     "lnd-binary": {
       "binaryVersion": "0.5.1-beta-982-gf9ba6759",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
@@ -186,10 +186,10 @@
   "homepage": "https://github.com/LN-Zap/zap-desktop#readme",
   "jest": {
     "collectCoverageFrom": [
-      "app/**/*.js",
-      "!app/dist/**",
-      "!app/dll/**",
-      "!app/coverage/**",
+      "renderer/**/*.js",
+      "!dist/**",
+      "!dll/**",
+      "!coverage/**",
       "!**/node_modules/**"
     ],
     "coverageReporters": [
@@ -205,8 +205,7 @@
       "json"
     ],
     "moduleDirectories": [
-      "app",
-      "app/node_modules",
+      "renderer",
       "node_modules"
     ],
     "setupFilesAfterEnv": [

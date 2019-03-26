@@ -4,8 +4,8 @@
   "search.exclude": {
     ".git": true,
     ".eslintcache": true,
-    "app/dist": true,
     "bower_components": true,
+    "dist": true,
     "dll": true,
     "flow-typed": true,
     "release": true,

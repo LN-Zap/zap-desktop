@@ -1,6 +1,6 @@
 /**
  * When running `npm run build` or `npm run build-preload`, this file is compiled to
- * `./app/dist/preload.prod.js` using webpack.
+ * `/dist/preload.prod.js` using webpack.
  */
 import { ipcRenderer, remote, shell } from 'electron'
 import fs from 'fs'
@@ -10,7 +10,7 @@ import assert from 'assert'
 import url from 'url'
 import untildify from 'untildify'
 import rimraf from 'rimraf'
-import { getDb } from '@zap/app/store/db'
+import { getDb } from '@zap/renderer/store/db'
 import isSubDir from '@zap/utils/isSubDir'
 import { getAllLocalWallets } from '@zap/utils/localWallets'
 import { validateHost } from '@zap/utils/validateHost'

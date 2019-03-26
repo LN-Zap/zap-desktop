@@ -40,7 +40,7 @@ export default merge.smart(baseConfig, {
 
   mode: 'development',
 
-  entry: path.join(rootDir, 'app', 'index'),
+  entry: path.join(rootDir, 'renderer', 'index'),
 
   output: {
     publicPath: `http://localhost:${port}/dist/`,
@@ -92,7 +92,7 @@ export default merge.smart(baseConfig, {
     }),
 
     new HtmlWebpackPlugin({
-      template: path.join('app', 'app.html'),
+      template: path.join('renderer', 'app.html'),
     }),
 
     new AddAssetHtmlPlugin({

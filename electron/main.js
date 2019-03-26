@@ -4,7 +4,7 @@
  * through IPC.
  *
  * When running `npm run build` or `npm run build-main`, this file is compiled to
- * `./app/dist/main.prod.js` using webpack. This gives us some performance wins.
+ * `/dist/main.prod.js` using webpack. This gives us some performance wins.
  */
 import { app, BrowserWindow, session } from 'electron'
 import installExtension, {
@@ -17,7 +17,7 @@ import os from 'os'
 import fs from 'fs'
 import bip21 from 'bip21'
 import { mainLog } from '@zap/utils/log'
-import themes from '@zap/app/themes'
+import themes from '@zap/renderer/themes'
 import { getDbName } from '@zap/utils/db'
 import ZapMenuBuilder from './menuBuilder'
 import ZapController from './controller'

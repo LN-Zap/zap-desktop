@@ -3,7 +3,7 @@
     [
       "module-resolver",
       {
-        "root": ["./app"],
+        "root": ["./renderer"],
         "alias": {
           "^@zap/(.+)": "./\\1"
         }

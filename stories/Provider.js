@@ -5,9 +5,9 @@ import translations from '@zap/i18n/translation'
 import EventEmitter from 'events'
 import { Provider as ReduxProvider } from 'react-intl-redux'
 import jstz from 'jstimezonedetect'
-import { configureStore } from '@zap/app/store/configureStore'
+import { configureStore } from '@zap/renderer/store/configureStore'
 import { getDefaultLocale } from '@zap/i18n'
-import { getDb } from '@zap/app/store/db'
+import { getDb } from '@zap/renderer/store/db'
 import { getDbName } from '@zap/utils/db'
 
 export const db = getDb(getDbName(CONFIG))

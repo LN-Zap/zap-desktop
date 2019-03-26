@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
-import { Bar, Heading, Page } from '@zap/app/components/UI'
+import { Bar, Heading, Page } from '@zap/renderer/components/UI'
 import lightningPayReq from 'bolt11'
 
 export const Window = props => <Page css={{ height: 'calc(100vh - 120px)' }} {...props} />

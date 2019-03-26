@@ -102,7 +102,7 @@ module.exports = {
       'babel-module': {},
     },
     node: {
-      moduleDirectory: ['app', 'node_modules', 'app/node_modules'],
+      moduleDirectory: ['renderer', 'node_modules'],
     },
     webpack: {
       config: path.resolve(__dirname, 'webpack', 'webpack.config.eslint.js'),
