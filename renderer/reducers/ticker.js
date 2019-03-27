@@ -205,6 +205,14 @@ tickerSelectors.currencyName = createSelector(
   }
 )
 
+/**
+ * Returns autopay limit currency unit name
+ */
+tickerSelectors.autopayCurrencyName = createSelector(
+  tickerSelectors.currencyFilters,
+  currencyFilters => currencyFilters && currencyFilters[currencyFilters.length - 1].name
+)
+
 export { tickerSelectors }
 
 // ------------------------------------

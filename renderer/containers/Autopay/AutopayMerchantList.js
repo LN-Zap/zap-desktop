@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
-import AutopayList from 'components/Autopay/AutopayList'
+import AutopayMerchantList from 'components/Autopay/AutopayMerchantList'
 import { openAutopayCreateModal, autopaySelectors } from 'reducers/autopay'
 
 const mapStateToProps = state => ({
-  merchants: autopaySelectors.autopayListAsArray(state),
+  merchants: autopaySelectors.filteredMerchants(state),
 })
 
 const mapDispatchToProps = {
@@ -13,4 +13,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AutopayList)
+)(AutopayMerchantList)
