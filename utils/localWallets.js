@@ -2,7 +2,7 @@ import electron, { remote } from 'electron'
 import { promisify } from 'util'
 import assert from 'assert'
 import { join } from 'path'
-import { readdir } from 'fs'
+import { readdir, existsSync } from 'fs'
 import rimraf from 'rimraf'
 import root from 'window-or-global'
 
@@ -18,7 +18,10 @@ export async function getLocalWallets(chain, network) {
     const app = electron.app || remote.app
     const walletDir = join(app.getPath('userData'), 'lnd', chain, network)
     const wallets = await fsReaddir(walletDir)
-    return wallets.map(wallet => ({
+
+    // Look for tls.cert file inside wallet dir to consider it a wallet candidate
+    const isWalletDir = wallet => existsSync(join(walletDir, wallet, 'tls.cert'))
+    return wallets.filter(isWalletDir).map(wallet => ({
       type: 'local',
       chain,
       network,
