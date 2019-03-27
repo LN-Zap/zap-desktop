@@ -1,4 +1,4 @@
-import errorToUserFriendly from 'lib/utils/userFriendlyErrors'
+import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 
 describe('userFriendlyErrors', () => {
   describe('errorToUserFriendly', () => {

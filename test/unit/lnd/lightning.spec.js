@@ -1,9 +1,9 @@
 import { BrowserWindow } from 'electron'
-import Lightning from 'lib/lnd/lightning'
+import Lightning from '@zap/lnd/lightning'
 
-jest.mock('lib/lnd/subscribe/transactions')
-jest.mock('lib/lnd/subscribe/invoices')
-jest.mock('lib/lnd/subscribe/channelgraph')
+jest.mock('@zap/lnd/subscribe/transactions')
+jest.mock('@zap/lnd/subscribe/invoices')
+jest.mock('@zap/lnd/subscribe/channelgraph')
 
 describe('Lightning', function() {
   describe('Constructor', () => {

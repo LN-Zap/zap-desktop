@@ -1,7 +1,7 @@
 // @flow
 
-import Neutrino from 'lib/lnd/neutrino'
-import LndConfig from 'lib/lnd/config'
+import Neutrino from '@zap/lnd/neutrino'
+import LndConfig from '@zap/lnd/config'
 import mockSpawn from 'mock-spawn'
 
 jest.mock('child_process', () => {

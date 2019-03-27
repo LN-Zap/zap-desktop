@@ -3,7 +3,7 @@ import path from 'path'
 import rimraf from 'rimraf'
 
 // Get the path to the index page.
-export const getBaseUrl = () => '../../app/dist/index.html'
+export const getBaseUrl = () => '../../dist/index.html'
 
 // Get the current page title.
 export const getPageTitle = ClientFunction(() => document.title)

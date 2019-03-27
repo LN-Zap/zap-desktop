@@ -1,7 +1,7 @@
-import ZapController from 'lib/zap/controller'
-import Lightning from 'lib/lnd/lightning'
+import ZapController from '@zap/electron/controller'
+import Lightning from '@zap/lnd/lightning'
 
-jest.mock('lib/lnd/lightning')
+jest.mock('@zap/lnd/lightning')
 
 describe('ZapController', function() {
   describe('Constructor', () => {
