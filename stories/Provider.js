@@ -1,14 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import 'lib/i18n/locale'
-import translations from 'lib/i18n/translation'
+import '@zap/i18n/locale'
+import translations from '@zap/i18n/translation'
 import EventEmitter from 'events'
 import { Provider as ReduxProvider } from 'react-intl-redux'
 import jstz from 'jstimezonedetect'
-import { configureStore } from 'store/configureStore'
-import { getDefaultLocale } from 'lib/i18n'
-import { getDb } from 'store/db'
-import { getDbName } from 'lib/utils/db'
+import { configureStore } from '@zap/renderer/store/configureStore'
+import { getDefaultLocale } from '@zap/i18n'
+import { getDb } from '@zap/renderer/store/db'
+import { getDbName } from '@zap/utils/db'
 
 export const db = getDb(getDbName(CONFIG))
 db.open()

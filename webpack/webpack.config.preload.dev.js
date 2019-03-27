@@ -16,11 +16,11 @@ export default merge.smart(baseConfig, {
   mode: 'development',
 
   entry: {
-    preload: path.join(rootDir, 'app', 'preload'),
+    preload: path.join(rootDir, 'electron', 'preload'),
   },
 
   output: {
-    path: path.join(rootDir, 'app', 'dist'),
+    path: path.join(rootDir, 'dist'),
     filename: '[name].dev.js',
   },
 

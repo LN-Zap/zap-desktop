@@ -45,10 +45,6 @@ export default merge.smart(baseConfig, {
     ],
   },
 
-  resolve: {
-    modules: ['app'],
-  },
-
   entry: {
     renderer: Object.keys(dependencies),
   },
@@ -69,7 +65,7 @@ export default merge.smart(baseConfig, {
     new webpack.LoaderOptionsPlugin({
       debug: true,
       options: {
-        context: path.join(rootDir, 'app'),
+        context: path.join(rootDir),
         output: {
           path: path.join(rootDir, 'dll'),
         },

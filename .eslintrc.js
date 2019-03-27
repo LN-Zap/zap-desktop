@@ -99,12 +99,13 @@ module.exports = {
   ],
   settings: {
     'import/resolver': {
-      node: {
-        moduleDirectory: ['app', 'node_modules', 'app/node_modules'],
-      },
-      webpack: {
-        config: path.resolve(__dirname, 'webpack', 'webpack.config.eslint.js'),
-      },
+      'babel-module': {},
+    },
+    node: {
+      moduleDirectory: ['renderer', 'node_modules'],
+    },
+    webpack: {
+      config: path.resolve(__dirname, 'webpack', 'webpack.config.eslint.js'),
     },
   },
 }

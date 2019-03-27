@@ -1,4 +1,11 @@
 module.exports = {
+  babelrcRoots: [
+    // Keep the root as a root
+    '.',
+
+    // Also consider renderer as "root" and load it's .babelrc files.
+    './renderer/*',
+  ],
   presets: [
     [
       '@babel/preset-env',
@@ -17,7 +24,7 @@ module.exports = {
     [
       'react-intl-auto',
       {
-        removePrefix: 'app/',
+        removePrefix: 'renderer/',
         filebase: false,
       },
     ],

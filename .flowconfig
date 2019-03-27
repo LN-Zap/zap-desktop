@@ -1,10 +1,9 @@
 [ignore]
-<PROJECT_ROOT>/app/dist/.*
 <PROJECT_ROOT>/resources/.*
 <PROJECT_ROOT>/release/.*
-<PROJECT_ROOT>/icons/.*
+<PROJECT_ROOT>/dist/.*
 <PROJECT_ROOT>/dll/.*
-<PROJECT_ROOT>/release/.*
+<PROJECT_ROOT>/icons/.*
 <PROJECT_ROOT>/storybook-static/.*
 <PROJECT_ROOT>/.git/.*
 .*/node_modules/config-chain/test/broken.json
@@ -20,7 +19,6 @@ esproposal.class_instance_fields=enable
 esproposal.export_star_as=enable
 
 module.system.node.resolve_dirname=node_modules
-module.system.node.resolve_dirname=app/node_modules
 
 # Map images to WebpackAsset tyoe def
 module.name_mapper.extension='png' -> '<PROJECT_ROOT>/flow/WebpackAsset.js.flow'
@@ -28,13 +26,13 @@ module.name_mapper.extension='jpg' -> '<PROJECT_ROOT>/flow/WebpackAsset.js.flow'
 module.name_mapper.extension='svg' -> '<PROJECT_ROOT>/flow/WebpackAsset.js.flow'
 
 # Map webpack resolved module imports to the app directory
-# Example: components/Foo -> `<project_root>/app/components/Foo`
-module.name_mapper='^components/\(.*\)$' -> '<PROJECT_ROOT>/app/components/\1'
-module.name_mapper='^containers/\(.*\)$' -> '<PROJECT_ROOT>/app/containers/\1'
-module.name_mapper='^icons/\(.*\)$' -> '<PROJECT_ROOT>/app/icons/\1'
-module.name_mapper='^lib/\(.*\)$' -> '<PROJECT_ROOT>/app/lib/\1'
-module.name_mapper='^reducers/\(.*\)$' -> '<PROJECT_ROOT>/app/reducers/\1'
-module.name_mapper='^store/\(.*\)$' -> '<PROJECT_ROOT>/app/store/\1'
-module.name_mapper='^themes/\(.*\)$' -> '<PROJECT_ROOT>/app/themes/\1'
-module.name_mapper='^hocs/\(.*\)$' -> '<PROJECT_ROOT>/app/hocs/\1'
-module.name_mapper='^hooks/\(.*\)$' -> '<PROJECT_ROOT>/app/hooks/\1'
+# Example: components/Foo -> `<project_root>/src/components/Foo`
+module.name_mapper='^components/\(.*\)$' -> '<PROJECT_ROOT>/renderer/components/\1'
+module.name_mapper='^containers/\(.*\)$' -> '<PROJECT_ROOT>/renderer/containers/\1'
+module.name_mapper='^reducers/\(.*\)$' -> '<PROJECT_ROOT>/renderer/reducers/\1'
+module.name_mapper='^store/\(.*\)$' -> '<PROJECT_ROOT>/renderer/store/\1'
+module.name_mapper='^themes/\(.*\)$' -> '<PROJECT_ROOT>/renderer/themes/\1'
+module.name_mapper='^hocs/\(.*\)$' -> '<PROJECT_ROOT>/renderer/hocs/\1'
+module.name_mapper='^hooks/\(.*\)$' -> '<PROJECT_ROOT>/renderer/hooks/\1'
+
+module.name_mapper='^@zap/\(.*\)$' -> '<PROJECT_ROOT>/\1'

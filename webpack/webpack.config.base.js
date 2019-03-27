@@ -20,6 +20,7 @@ export default {
         use: {
           loader: 'babel-loader',
           options: {
+            rootMode: 'upward',
             cacheDirectory: true,
           },
         },
@@ -64,7 +65,7 @@ export default {
    * Determine the array of extensions that should be used to resolve modules.
    */
   resolve: {
-    modules: [path.resolve(rootDir, 'app'), 'node_modules', 'app/node_modules'],
+    modules: [path.resolve(rootDir, 'renderer'), 'node_modules'],
   },
 
   plugins: [

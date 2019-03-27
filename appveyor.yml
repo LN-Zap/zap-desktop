@@ -7,7 +7,6 @@ environment:
 
 cache:
   - node_modules -> package.json
-  - app/node_modules -> app/package.json
   - flow-typed
 
 matrix:
