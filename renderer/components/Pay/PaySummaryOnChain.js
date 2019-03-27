@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
-import get from 'lodash.get'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Spinner, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
@@ -11,23 +10,26 @@ import messages from './messages'
 
 class PaySummaryOnChain extends React.Component {
   static propTypes = {
-    /** Amount to send (in satoshis). */
-    address: PropTypes.string.isRequired,
     /** Onchain address of recipient. */
+    address: PropTypes.string.isRequired,
+    /** Amount to send (in satoshis). */
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    /** Current fee information as provided by bitcoinfees.earn.com */
-    isQueryingFees: PropTypes.bool,
+    /** Fee in sats per byte */
+    fee: PropTypes.number,
     /** Boolean indicating wether routing information is currently being fetched. */
+    isQueryingFees: PropTypes.bool,
+    /** Current fee information as provided by bitcoinfees.earn.com */
     onchainFees: PropTypes.shape({
       fastestFee: PropTypes.number,
       halfHourFee: PropTypes.number,
       hourFee: PropTypes.number,
     }),
-
     /** Method to fetch fee information for onchain transactions. */
     queryFees: PropTypes.func.isRequired,
+    /** Confirmation speed */
+    speed: PropTypes.string,
   }
 
   static defaultProps = {
@@ -47,10 +49,11 @@ class PaySummaryOnChain extends React.Component {
       cryptoCurrencyTicker,
       onchainFees,
       isQueryingFees,
+      fee,
+      speed,
       ...rest
     } = this.props
 
-    const fee = get(onchainFees, 'fastestFee', null)
     return (
       <Box {...rest}>
         <Box py={3}>
@@ -101,7 +104,7 @@ class PaySummaryOnChain extends React.Component {
                   {fee} satoshis <FormattedMessage {...messages.fee_per_byte} />
                 </Text>
                 <Text fontSize="s">
-                  (<FormattedMessage {...messages.next_block_confirmation} />)
+                  <FormattedMessage {...messages[speed.toLowerCase() + '_description']} />
                 </Text>
               </React.Fragment>
             ) : (

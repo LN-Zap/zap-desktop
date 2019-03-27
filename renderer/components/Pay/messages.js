@@ -24,6 +24,9 @@ export default defineMessages({
   amount: 'Amount',
   total: 'Total',
   memo: 'Memo',
+  transaction_speed_slow_description: 'Estimated Delivery: 1-24 hours',
+  transaction_speed_medium_description: 'Estimated Delivery: 1-6 hours',
+  transaction_speed_fast_description: 'Estimated Delivery: less than 1 hour',
   description:
     'You can send {chain} ({ticker}) through the Lightning Network or make a On-Chain Transaction. Just paste your Lightning Payment Request or the {chain} Address in the field below. Zap will guide you to the process.',
 })
