@@ -321,7 +321,7 @@
   "dependencies": {
     "@grpc/grpc-js": "0.3.6",
     "@grpc/proto-loader": "0.4.0",
-    "@hot-loader/react-dom": "16.8.4",
+    "@hot-loader/react-dom": "16.8.6",
     "@rebass/components": "4.0.0-1",
     "axios": "0.18.0",
     "bip21": "2.0.2",
