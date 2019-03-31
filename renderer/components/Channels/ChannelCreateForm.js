@@ -79,6 +79,7 @@ FormFooter.propTypes = {
 class ChannelCreateForm extends React.Component {
   state = {
     step: 'form',
+    isSubmitComplete: false, // if we have succesfully initiated channel opening
   }
 
   static propTypes = {
@@ -88,7 +89,6 @@ class ChannelCreateForm extends React.Component {
     currency: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
     intl: intlShape.isRequired,
-    isOpeningChannel: PropTypes.bool.isRequired,
     isQueryingFees: PropTypes.bool,
     onchainFees: PropTypes.shape({
       fastestFee: PropTypes.number,
@@ -143,6 +143,10 @@ class ChannelCreateForm extends React.Component {
     if (step === 'form') {
       return this.setState({ step: 'summary' })
     }
+    // set submitted flag to prevent multiple submissions
+    this.setState({
+      isSubmitComplete: true,
+    })
     // Run our submit handler.
     this.onSubmit(values)
     // Then run any user supplied submit handler.
@@ -322,10 +326,9 @@ class ChannelCreateForm extends React.Component {
       searchQuery,
       selectedNodeDisplayName,
       updateContactFormSearchQuery,
-      isOpeningChannel,
       ...rest
     } = this.props
-    const { step } = this.state
+    const { step, isSubmitComplete } = this.state
 
     return (
       <Form
@@ -358,7 +361,8 @@ class ChannelCreateForm extends React.Component {
               <Panel.Footer>
                 <FormButtons
                   isNextButtonDisabled={
-                    isOpeningChannel || (formState.submits > 0 && formState.invalid)
+                    (isSubmitComplete && step === 'summary') ||
+                    (formState.submits > 0 && formState.invalid)
                   }
                   nextButtonText={
                     <FormattedMessage

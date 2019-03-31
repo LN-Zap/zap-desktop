@@ -513,18 +513,26 @@ class Pay extends React.Component {
     const { routes } = this.props
 
     const formState = this.formApi.getState()
+    const { speed, payReq } = formState.values
     let minFee, maxFee
     if (routes.length) {
       minFee = getMinFee(routes)
       maxFee = getMaxFee(routes)
     }
-
     const render = () => {
       // convert entered amount to satoshis
       const amount = this.amountInSats()
 
       if (isOnchain) {
-        return <PaySummaryOnChain address={formState.values.payReq} amount={amount} mt={-3} />
+        return (
+          <PaySummaryOnChain
+            address={payReq}
+            amount={amount}
+            fee={this.getFee()}
+            mt={-3}
+            speed={speed}
+          />
+        )
       } else if (isLn) {
         return (
           <PaySummaryLightning
@@ -532,7 +540,7 @@ class Pay extends React.Component {
             maxFee={maxFee}
             minFee={minFee}
             mt={-3}
-            payReq={formState.values.payReq}
+            payReq={payReq}
           />
         )
       }
