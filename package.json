@@ -300,7 +300,7 @@
     "redux-logger": "3.0.6",
     "rimraf": "2.6.3",
     "storybook-addon-intl": "2.4.0",
-    "storybook-react-router": "1.0.3",
+    "storybook-react-router": "1.0.5",
     "storybook-styled-components": "1.1.3",
     "stylelint": "9.10.1",
     "stylelint-config-recommended": "2.1.0",

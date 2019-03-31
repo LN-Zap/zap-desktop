@@ -15503,10 +15503,10 @@ storybook-addon-intl@2.4.0:
   dependencies:
     prop-types "^15.5.0"
 
-storybook-react-router@1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/storybook-react-router/-/storybook-react-router-1.0.3.tgz#86c76f092ab524d5129ad48f196c1aa691d542d5"
-  integrity sha512-F7dbKQ7SjYjkKDrBl+E3uSZ3tuizSI13O0yXPwAmOghv+CyZY3ahg8o2rwvi+7nCl0Sy/Q5CJzQTRt0FTwqGgA==
+storybook-react-router@1.0.5:
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/storybook-react-router/-/storybook-react-router-1.0.5.tgz#d955526406e5328251fadce4acfe3a6ce432d31e"
+  integrity sha512-br6y5MerG0Al2lz9I3XMTsKNKgzLiVZBX0F9QdlnSAhq9VMfBJtBwiO+qPaptizKOZ3HZaEuYwhil5dQFNmZdw==
   dependencies:
     prop-types "^15.7.2"
 
