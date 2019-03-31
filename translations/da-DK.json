@@ -303,7 +303,7 @@
   "components.Pay.send": "",
   "components.Pay.subtitle_offchain": "Lightning Betaling",
   "components.Pay.subtitle_onchain": "On-chain Betaling",
-  "components.Pay.total": "Total",
+  "components.Pay.total": "",
   "components.Pay.transaction_speed_fast_description": "",
   "components.Pay.transaction_speed_medium_description": "",
   "components.Pay.transaction_speed_slow_description": "",
