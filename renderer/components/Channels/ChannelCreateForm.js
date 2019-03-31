@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
-import { Keyframes } from 'react-spring'
+import { Keyframes } from 'react-spring/renderprops'
 import get from 'lodash.get'
 import { Box, Flex } from 'rebass'
 import { convert } from '@zap/utils/btc'
