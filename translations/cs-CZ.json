@@ -221,7 +221,7 @@
   "components.Onboarding.Steps.connection_string_placeholder": "",
   "components.Onboarding.Steps.connection_title": "",
   "components.Onboarding.Steps.connection_type_create_description": "",
-  "components.Onboarding.Steps.connection_type_create_label": "",
+  "components.Onboarding.Steps.connection_type_create_label": "Vytvořit novou peněženku",
   "components.Onboarding.Steps.connection_type_custom_description": "",
   "components.Onboarding.Steps.connection_type_custom_label": "",
   "components.Onboarding.Steps.connection_type_import_description": "",

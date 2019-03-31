@@ -109,7 +109,7 @@
   "components.Channels.node_suggestions_title": "",
   "components.Channels.num_updates_description": "",
   "components.Channels.num_updates_label": "",
-  "components.Channels.offline": "offline",
+  "components.Channels.offline": "",
   "components.Channels.open": "",
   "components.Channels.open_channel_form_description": "",
   "components.Channels.open_channel_form_next_button_text": "",
