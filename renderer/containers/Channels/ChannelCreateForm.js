@@ -17,7 +17,6 @@ const mapStateToProps = state => ({
   currencyName: tickerSelectors.currencyName(state),
   isQueryingFees: state.pay.isQueryingFees,
   onchainFees: state.pay.onchainFees,
-  isOpeningChannel: state.channels.openingChannel,
 })
 
 const mapDispatchToProps = {
