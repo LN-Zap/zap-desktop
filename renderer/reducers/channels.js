@@ -20,9 +20,7 @@ export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 export const GET_CHANNELS = 'GET_CHANNELS'
 export const RECEIVE_CHANNELS = 'RECEIVE_CHANNELS'
 
-export const OPENING_CHANNEL = 'OPENING_CHANNEL'
 export const OPENING_SUCCESSFUL = 'OPENING_SUCCESSFUL'
-export const OPENING_FAILURE = 'OPENING_FAILURE'
 
 export const CLOSING_CHANNEL = 'CLOSING_CHANNEL'
 export const CLOSING_SUCCESSFUL = 'CLOSING_SUCCESSFUL'
@@ -193,27 +191,9 @@ export function getChannels() {
   }
 }
 
-export function openingChannel() {
-  return {
-    type: OPENING_CHANNEL,
-  }
-}
-
 export function closingChannel() {
   return {
     type: CLOSING_CHANNEL,
-  }
-}
-
-export function openingSuccessful() {
-  return {
-    type: OPENING_SUCCESSFUL,
-  }
-}
-
-export function openingFailure() {
-  return {
-    type: OPENING_FAILURE,
   }
 }
 
@@ -314,9 +294,6 @@ export const openChannel = data => async (dispatch, getState) => {
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
   const channelIsPrivate = isPrivate || activeWalletSettings.type === 'local'
 
-  // Set channel opening state.
-  dispatch(openingChannel())
-
   // Add channel loading state.
   const loadingChannel = {
     node_pubkey: pubkey,
@@ -371,7 +348,6 @@ export const pushchannelend = () => dispatch => {
 
 // Receive IPC event for channel error
 export const pushchannelerror = (event, { node_pubkey, error }) => dispatch => {
-  dispatch(openingFailure())
   dispatch(removeLoadingChannel(node_pubkey))
   dispatch(
     updateNotification(
@@ -512,9 +488,6 @@ const ACTION_HANDLERS = {
     pendingChannels,
     closedChannels,
   }),
-
-  [OPENING_CHANNEL]: state => ({ ...state, openingChannel: true }),
-  [OPENING_FAILURE]: state => ({ ...state, openingChannel: false }),
 
   [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true }),
 
@@ -852,7 +825,6 @@ const initialState = {
   },
   closedChannels: [],
   closingChannelIds: [],
-  openingChannel: false,
   closingChannel: false,
   searchQuery: null,
   viewType: 0,
