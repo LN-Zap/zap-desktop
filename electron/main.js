@@ -338,7 +338,14 @@ app.on('ready', async () => {
     mainLog.trace('mainWindow.close')
     if (os.platform() === 'darwin' && !mainWindow.forceClose) {
       event.preventDefault()
-      mainWindow.hide()
+      if (mainWindow.isFullScreen()) {
+        mainWindow.once('leave-full-screen', () => {
+          mainWindow.hide()
+        })
+        mainWindow.setFullScreen(false)
+      } else {
+        mainWindow.hide()
+      }
     }
   })
 
