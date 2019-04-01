@@ -9,7 +9,7 @@ import ImportOnboarding from 'components/Icon/ImportOnboarding'
 import PlusOnboarding from 'components/Icon/PlusOnboarding'
 import BoltOnboarding from 'components/Icon/BoltOnboarding'
 
-import { animated, Transition } from 'react-spring/renderprops'
+import { animated, Transition } from 'react-spring/renderprops.cjs'
 
 const Card = styled(BaseCard)`
   position: relative;

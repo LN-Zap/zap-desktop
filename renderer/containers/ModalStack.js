@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
-import { animated, Transition } from 'react-spring/renderprops'
+import { animated, Transition } from 'react-spring/renderprops.cjs'
 import styled from 'styled-components'
 import { closeModal, modalSelectors } from 'reducers/modal'
 import { Modal, ModalOverlayStyles } from 'components/UI'

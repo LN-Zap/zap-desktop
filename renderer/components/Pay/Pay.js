@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
-import { animated, Keyframes, Transition } from 'react-spring/renderprops'
+import { animated, Keyframes, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from '@zap/utils/crypto'
 import get from 'lodash.get'

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { animated, Transition } from 'react-spring/renderprops'
+import { animated, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass'
 import styled, { keyframes, withTheme } from 'styled-components'

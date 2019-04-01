@@ -2,7 +2,7 @@
 
 import React, { createContext } from 'react'
 import PropTypes from 'prop-types'
-import { Transition, config } from 'react-spring/renderprops'
+import { Transition, config } from 'react-spring/renderprops.cjs'
 import { Box, Flex } from 'rebass'
 import ArrowLeft from 'components/Icon/ArrowLeft'
 import ArrowRight from 'components/Icon/ArrowRight'
