@@ -971,14 +971,6 @@
     pirates "^4.0.0"
     source-map-support "^0.5.9"
 
-"@babel/runtime-corejs2@^7.0.0-rc.1":
-  version "7.4.2"
-  resolved "https://registry.yarnpkg.com/@babel/runtime-corejs2/-/runtime-corejs2-7.4.2.tgz#a0cec2c41717fa415e9c204f32b603d88b1796c2"
-  integrity sha512-y/Br/9uQnumcqcakkmobFqOTzYCWSS6Kuy1b2o7LTXR4lpeU0AhaOcPqIHW85LCxRWUDW5Vg0pU1KlE3YkORlg==
-  dependencies:
-    core-js "^2.6.5"
-    regenerator-runtime "^0.13.2"
-
 "@babel/runtime@7.0.0":
   version "7.0.0"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.0.0.tgz#adeb78fedfc855aa05bc041640f3f6f98e85424c"
@@ -9180,12 +9172,13 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-informed@1.10.12:
-  version "1.10.12"
-  resolved "https://registry.yarnpkg.com/informed/-/informed-1.10.12.tgz#0077e0376be83e8c10d1229c4574f112b91b29f9"
-  integrity sha512-xug6ZKR8bj8zcqMdxcL3EMtJePugILCIZZALK9c0w5Mut93KEHjT/TUDViFrrorEgvt1VRyQEFo6jxlUxk5UcA==
+informed@2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/informed/-/informed-2.2.0.tgz#95f921fb8e295ce26aee34aded36e82a6cd6cb4b"
+  integrity sha512-OdR3kR8gF1F1S4lWYoWWKPSymJAphRLZDG3M7vM/38EROW3HkDJT3pu/VuMekGfwglm9tCDLy8SI6QoiOJcsew==
   dependencies:
-    "@babel/runtime-corejs2" "^7.0.0-rc.1"
+    debug "^4.1.1"
+    lodash "^4.17.11"
 
 inherits@2, inherits@2.0.3, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.0, inherits@~2.0.1, inherits@~2.0.3:
   version "2.0.3"
