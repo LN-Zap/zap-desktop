@@ -22,7 +22,7 @@ const withRequiredValidation = Component =>
       isRequired: false,
     }
 
-    validate = value => {
+    validate = (value = '') => {
       const { isDisabled, isRequired } = this.props
       if (isDisabled) {
         return

@@ -146,7 +146,7 @@ export const validateHost = host => async dispatch => {
     return res
   } catch (e) {
     dispatch({ type: VALIDATING_HOST, validatingHost: false })
-    throw e.message
+    return Promise.reject(e.message)
   }
 }
 

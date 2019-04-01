@@ -16,7 +16,7 @@ class SeedWord extends React.Component {
   }
 
   validateWord = value => {
-    return !value || !bip39.includes(value) ? 'incorrect' : null
+    return !value || !bip39.includes(value) ? 'incorrect' : undefined
   }
 
   render() {
