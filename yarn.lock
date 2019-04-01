@@ -15566,7 +15566,7 @@ symbol.prototype.description@^1.0.0:
   dependencies:
     has-symbols "^1.0.0"
 
-synchronous-promise@^2.0.5:
+synchronous-promise@^2.0.5, synchronous-promise@^2.0.6:
   version "2.0.7"
   resolved "https://registry.yarnpkg.com/synchronous-promise/-/synchronous-promise-2.0.7.tgz#3574b3d2fae86b145356a4b89103e1577f646fe3"
   integrity sha512-16GbgwTmFMYFyQMLvtQjvNWh30dsFe1cAW5Fg1wm5+dg84L9Pe36mftsIRU95/W2YsISxsz/xq4VB23sqpgb/A==
@@ -17346,7 +17346,19 @@ yauzl@2.4.1:
   dependencies:
     fd-slicer "~1.0.1"
 
-yup@0.26.10, yup@^0.26.10:
+yup@0.27.0:
+  version "0.27.0"
+  resolved "https://registry.yarnpkg.com/yup/-/yup-0.27.0.tgz#f8cb198c8e7dd2124beddc2457571329096b06e7"
+  integrity sha512-v1yFnE4+u9za42gG/b/081E7uNW9mUj3qtkmelLbW5YPROZzSH/KUUyJu9Wt8vxFJcT9otL/eZopS0YK1L5yPQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+    fn-name "~2.0.1"
+    lodash "^4.17.11"
+    property-expr "^1.5.0"
+    synchronous-promise "^2.0.6"
+    toposort "^2.0.2"
+
+yup@^0.26.10:
   version "0.26.10"
   resolved "https://registry.yarnpkg.com/yup/-/yup-0.26.10.tgz#3545839663289038faf25facfc07e11fd67c0cb1"
   integrity sha512-keuNEbNSnsOTOuGCt3UJW69jDE3O4P+UHAakO7vSeFMnjaitcmlbij/a3oNb9g1Y1KvSKH/7O1R2PQ4m4TRylw==

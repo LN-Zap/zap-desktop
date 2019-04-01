@@ -380,7 +380,7 @@
     "untildify": "3.0.3",
     "validator": "10.11.0",
     "window-or-global": "1.0.1",
-    "yup": "0.26.10"
+    "yup": "0.27.0"
   },
   "main": "./dist/main.prod.js"
 }
