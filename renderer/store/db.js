@@ -1,7 +1,6 @@
 import Dexie from 'dexie'
 import decode from 'lndconnect/decode'
 import encode from 'lndconnect/encode'
-import parseConnectionString from '@zap/utils/btcpayserver'
 
 export const getDb = name => {
   // Define the database.
@@ -16,31 +15,15 @@ export const getDb = name => {
   // Migrate custom wallets to lndconnect.
   db.version(2).upgrade(tx =>
     tx.wallets.toCollection().modify(wallet => {
-      if (wallet.type === 'local') {
-        wallet.decoder = 'lnd.lndconnect.v1'
-      }
+      // All configs are now stored as an lndconnect uri.
+      wallet.decoder = 'lnd.lndconnect.v1'
 
       // Convert old connection props to lndconnect uri.
-      else if (wallet.type === 'custom') {
+      if (['custom', 'btcpayserver'].includes(wallet.type)) {
         const { host, cert, macaroon } = wallet
         const lndconnectUri = encode({ host, cert, macaroon })
         wallet.type = 'custom'
-        wallet.decoder = 'lnd.lndconnect.v1'
         wallet.lndconnectUri = lndconnectUri
-      }
-
-      // Convert btcpayserver configs to lndconnect uri.
-      else if (wallet.type === 'btcpayserver') {
-        try {
-          const { host, port, macaroon } = parseConnectionString(wallet.string)
-          const lndconnectUri = encode({ host: `${host}:${port}`, macaroon })
-          wallet.type = 'custom'
-          wallet.decoder = 'lnd.lndconnect.v1'
-          wallet.lndconnectUri = lndconnectUri
-        } catch (e) {
-          // There was a problem migrating this wallet config.
-          // There isn't a way for us to recover from this so we do nothing and move on.
-        }
       }
 
       // Remove old props.
