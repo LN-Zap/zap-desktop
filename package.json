@@ -77,8 +77,7 @@
     "generateUpdatesFilesForAllChannels": true,
     "files": [
       "dist/",
-      "package.json",
-      "electron/about/"
+      "!node_modules/"
     ],
     "directories": {
       "buildResources": "resources",
