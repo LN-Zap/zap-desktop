@@ -52,7 +52,8 @@ after_success:
   - test $TRAVIS_REPO_SLUG = 'LN-Zap/zap-desktop' &&
     test $TRAVIS_BRANCH = "master" &&
     test $TRAVIS_PULL_REQUEST = "false" &&
-    yarn storybook:deploy
+    test $TRAVIS_OS_NAME = "osx" &&
+    yarn storybook:deploy -r https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
 
 branches:
   only:
