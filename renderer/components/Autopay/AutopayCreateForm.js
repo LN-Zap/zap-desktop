@@ -18,44 +18,72 @@ const Container = styled(animated.div)`
   width: 100%;
 `
 
+function getButtonText(isActive, isEditMode) {
+  if (isEditMode) {
+    return messages.edit_button_text
+  }
+
+  return isActive ? messages.close_button_text : messages.add_button_text
+}
+
 const AutopayCreateForm = props => {
   const {
     merchantNickname,
     merchantName,
     pubkey,
     isActive,
+    limit,
     merchantLogo,
+    onRemoveAutopay,
     onCreateAutopay,
     onClose,
     showError,
     intl,
+    isEditMode,
     showNotification,
     ...rest
   } = props
-
   const onSubmit = async values => {
     try {
-      const { limit } = values
-      await onCreateAutopay(pubkey, parseFloat(limit))
-      const message = intl.formatMessage({ ...messages.add_success })
-      showNotification(message)
+      if (isEditMode) {
+        const { limit, isEnabled } = values
+        if (isEnabled) {
+          await onCreateAutopay(pubkey, limit)
+          const message = intl.formatMessage({ ...messages.save_success })
+          onClose()
+          showNotification(message)
+        } else {
+          onRemoveAutopay(pubkey)
+          const message = intl.formatMessage({ ...messages.remove_success })
+          onClose()
+          showNotification(message)
+        }
+      } else {
+        const { limit } = values
+        await onCreateAutopay(pubkey, limit)
+        const message = intl.formatMessage({ ...messages.add_success })
+        showNotification(message)
+      }
     } catch (e) {
       const message = intl.formatMessage({ ...messages.add_error })
       showError(message)
     }
   }
 
+  // new autopay entry has just been added
+  const isNewItemAdded = isActive && !isEditMode
   const hide = { opacity: 0 }
   const show = { opacity: 1 }
+
   return (
     <Form {...rest} onSubmit={onSubmit}>
       {({ formState }) => {
-        const { limit = min } = formState.values
         const back = <AutopayCreateSuccess merchantLogo={merchantLogo} />
         const front = (
           <AutopayCreateSettings
-            defaultValue={defaultValue}
-            limit={limit}
+            defaultValue={limit || defaultValue}
+            isEditMode={isEditMode}
+            limit={formState.values.limit}
             max={max}
             merchantName={merchantName}
             min={min}
@@ -65,7 +93,6 @@ const AutopayCreateForm = props => {
 
         /* eslint-disable  react/display-name */
         /* eslint-disable   react/prop-types */
-
         const renderFlipper = isActive => ({ opacity }) => (
           <Container
             style={{
@@ -76,7 +103,7 @@ const AutopayCreateForm = props => {
               }),
             }}
           >
-            {isActive ? back : front}
+            {isNewItemAdded ? back : front}
           </Container>
         )
         /* eslint-disable */
@@ -91,7 +118,7 @@ const AutopayCreateForm = props => {
               </Heading.h1>
               <Bar my={2} />
             </Panel.Header>
-            <Panel.Body css={{ height: '195px' }}>
+            <Panel.Body css={{ height: isEditMode ? '250px' : '195px' }}>
               <Spring
                 native
                 to={{
@@ -118,13 +145,11 @@ const AutopayCreateForm = props => {
             <Panel.Footer mt={3}>
               <Flex justifyContent="center">
                 <Button
-                  onClick={() => isActive && onClose()}
-                  type={isActive ? 'button' : 'submit'}
+                  onClick={() => isNewItemAdded && onClose()}
+                  type={isNewItemAdded ? 'button' : 'submit'}
                   variant="primary"
                 >
-                  <FormattedMessage
-                    {...(isActive ? messages.close_button_text : messages.add_button_text)}
-                  />
+                  <FormattedMessage {...getButtonText(isActive, isEditMode)} />
                 </Button>
               </Flex>
             </Panel.Footer>
@@ -135,13 +160,20 @@ const AutopayCreateForm = props => {
   )
 }
 
+AutopayCreateForm.defaultProps = {
+  limit: defaultValue,
+}
+
 AutopayCreateForm.propTypes = {
   isActive: PropTypes.bool.isRequired,
+  isEditMode: PropTypes.bool.isRequired,
+  limit: PropTypes.string,
   merchantLogo: PropTypes.string.isRequired,
   merchantName: PropTypes.string.isRequired,
   merchantNickname: PropTypes.string.isRequired,
   showNotification: PropTypes.func.isRequired,
   showError: PropTypes.func.isRequired,
+  onRemoveAutopay: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   onClose: PropTypes.func.isRequired,
   onCreateAutopay: PropTypes.func.isRequired,

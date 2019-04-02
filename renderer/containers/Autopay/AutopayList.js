@@ -6,8 +6,12 @@ const mapStateToProps = state => ({
   merchants: autopaySelectors.autopayListAsArray(state),
 })
 
-const mapDispatchToProps = {
-  openAutopayCreateModal,
+const mapDispatchToProps = dispatch => {
+  return {
+    openAutopayCreateModal(merchantId) {
+      dispatch(openAutopayCreateModal(merchantId, true))
+    },
+  }
 }
 
 export default connect(

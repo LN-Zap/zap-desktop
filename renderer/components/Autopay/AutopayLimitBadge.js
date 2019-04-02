@@ -34,7 +34,7 @@ const AutopayLimitBadge = ({ limit, limitCurrency, ...rest }) => {
 }
 
 AutopayLimitBadge.propTypes = {
-  limit: PropTypes.number.isRequired,
+  limit: PropTypes.string.isRequired,
   limitCurrency: PropTypes.string.isRequired,
 }
 

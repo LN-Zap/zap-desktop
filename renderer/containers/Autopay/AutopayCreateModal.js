@@ -1,14 +1,18 @@
 import { connect } from 'react-redux'
 import AutopayCreateModal from 'components/Autopay/AutopayCreateModal'
-import { closeAutopayCreateModal, autopaySelectors, enableAutopay } from 'reducers/autopay'
+import {
+  closeAutopayCreateModal,
+  autopaySelectors,
+  enableAutopay,
+  disableAutopay,
+} from 'reducers/autopay'
 import { showNotification, showError } from 'reducers/notification'
 
-const mapStateToProps = state => {
-  const selectedMerchant = autopaySelectors.selectedMerchant(state)
-  return {
-    selectedMerchant,
-  }
-}
+const mapStateToProps = state => ({
+  selectedMerchant: autopaySelectors.selectedMerchant(state),
+  isEditMode: autopaySelectors.isCreateModalEditMode(state),
+})
+
 const mapDispatchToProps = dispatch => ({
   onClose() {
     dispatch(closeAutopayCreateModal())
@@ -16,6 +20,10 @@ const mapDispatchToProps = dispatch => ({
 
   onCreateAutopay(pubkey, limit) {
     dispatch(enableAutopay(pubkey, limit))
+  },
+
+  onRemoveAutopay(pubkey) {
+    dispatch(disableAutopay(pubkey))
   },
 
   showNotification(...args) {
