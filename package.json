@@ -283,7 +283,7 @@
     "eslint-plugin-testcafe": "0.2.1",
     "extract-react-intl-messages": "1.0.1",
     "fake-indexeddb": "2.1.0",
-    "flow-bin": "0.95.1",
+    "flow-bin": "0.96.0",
     "flow-typed": "2.5.1",
     "gh-pages": "2.0.1",
     "html-webpack-plugin": "3.2.0",
