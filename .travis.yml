@@ -26,6 +26,10 @@ addons:
 
 before_install:
   - stty cols 80
+  - |
+    if [ $TRAVIS_OS_NAME == "linux" ]; then
+      sudo apt-get install gcc-multilib g++-multilib
+    fi
 
 install:
   - yarn
