@@ -14,16 +14,25 @@ export const getDb = name => {
 
   // Migrate custom wallets to lndconnect.
   db.version(2).upgrade(tx =>
-    tx.wallets.toCollection().modify(wallet => {
+    tx.wallets.toCollection().modify((wallet, ref) => {
       // All configs are now stored as an lndconnect uri.
       wallet.decoder = 'lnd.lndconnect.v1'
 
       // Convert old connection props to lndconnect uri.
       if (['custom', 'btcpayserver'].includes(wallet.type)) {
-        const { host, cert, macaroon } = wallet
-        const lndconnectUri = encode({ host, cert, macaroon })
-        wallet.type = 'custom'
-        wallet.lndconnectUri = lndconnectUri
+        try {
+          const { host, cert, macaroon } = wallet
+          const lndconnectUri = encode({ host, cert, macaroon })
+          wallet.type = 'custom'
+          wallet.lndconnectUri = lndconnectUri
+        } catch (e) {
+          // There was a problem migrating this wallet config.
+          // There isn't a way for us to recover from this, so delete the wallet config to ensure that we don't end up
+          // with invalid configs in the database.
+          //
+          // See https://dexie.org/docs/Collection/Collection.modify()#sample-deleting-object
+          delete ref.value
+        }
       }
 
       // Remove old props.
