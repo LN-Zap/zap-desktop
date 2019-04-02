@@ -34,7 +34,7 @@
     "lint-ci": "npm run lint && npm run lint-styles",
     "package": "npm run build && npm run fetch-lnd && build",
     "release": "npm run package -- --publish onTagOrDraft",
-    "postinstall": "concurrently --raw \"npm:flow-typed\" \"npm:build-dll\" \"build install-app-deps\"",
+    "postinstall": "concurrently --raw \"npm:flow-typed\" \"npm:build-dll\"",
     "prestart": "cross-env NODE_CONFIG_ENV=production npm run build",
     "start": "cross-env NODE_ENV=production electron .",
     "start-main-dev": "electron -r @babel/register ./electron/main.js",
