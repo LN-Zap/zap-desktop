@@ -1,6 +1,7 @@
 // @flow
 import os from 'os'
 import { app, Menu, shell, BrowserWindow, ipcMain } from 'electron'
+import isDev from 'electron-is-dev'
 import { appRootPath } from '@zap/lnd/util'
 import { getLanguageName, locales } from '@zap/i18n'
 import { getPackageDetails } from '@zap/utils'
@@ -15,15 +16,17 @@ const buildAboutMenu = () => {
       const { productName, version } = getPackageDetails()
       openAboutWindow(
         {
-          icon_path: path.resolve(appRootPath(), 'resources', 'icon.png'),
+          icon_path: isDev
+            ? path.resolve('resources', 'icon.png')
+            : path.resolve(appRootPath(), 'resources', 'icon.png'),
           open_devtools: process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD,
           product_name: `${productName} ${version}`,
         },
-        `file://${path.resolve(
-          process.env.HOT ? '' : app.getAppPath(),
-          'electron/about/public/',
-          'about.html'
-        )}`
+        // When running in dev mode, load the about code from source directly.
+        // When the app is packaged for production, the about src code is copeid into the dist dir with WebpackCopy.
+        isDev
+          ? `file://${path.resolve('electron/about/public/', 'about.html')}`
+          : `file://${path.resolve(app.getAppPath(), 'dist/about/public/', 'about.html')}`
       )
     },
   }
