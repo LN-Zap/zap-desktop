@@ -1,7 +1,7 @@
 {
   "name": "zap-desktop",
   "productName": "Zap",
-  "version": "0.4.0-beta",
+  "version": "0.4.1-beta",
   "description": "desktop application for the lightning network",
   "scripts": {
     "build": "cross-env NODE_CONFIG_ENV=production concurrently --raw \"npm:build-main\" \"npm:build-preload\" \"npm:build-renderer\"",
