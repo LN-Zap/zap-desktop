@@ -3,9 +3,7 @@
 import channelsReducer, {
   GET_CHANNELS,
   RECEIVE_CHANNELS,
-  OPENING_CHANNEL,
   OPENING_SUCCESSFUL,
-  OPENING_FAILURE,
 } from 'reducers/channels'
 
 describe('reducers', () => {
@@ -22,16 +20,8 @@ describe('reducers', () => {
       expect(RECEIVE_CHANNELS).toEqual('RECEIVE_CHANNELS')
     })
 
-    it('should have OPENING_CHANNEL', () => {
-      expect(OPENING_CHANNEL).toEqual('OPENING_CHANNEL')
-    })
-
     it('should have OPENING_SUCCESSFUL', () => {
       expect(OPENING_SUCCESSFUL).toEqual('OPENING_SUCCESSFUL')
-    })
-
-    it('should have OPENING_FAILURE', () => {
-      expect(OPENING_FAILURE).toEqual('OPENING_FAILURE')
     })
 
     it('should correctly getChannels', () => {
@@ -46,10 +36,6 @@ describe('reducers', () => {
           pendingChannels: [3, 4],
         })
       ).toMatchSnapshot()
-    })
-
-    it('should correctly openingChannel', () => {
-      expect(channelsReducer(undefined, { type: OPENING_CHANNEL })).toMatchSnapshot()
     })
   })
 })

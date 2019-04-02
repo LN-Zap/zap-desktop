@@ -60,7 +60,7 @@ export default merge.smart(baseConfig, {
 
     new CopyWebpackPlugin([
       path.join('renderer', 'empty.html'),
-      { from: path.join('electron/about', 'preload.js'), to: 'about_preload.prod.js' },
+      { from: path.join('electron', 'about'), to: 'about' },
     ]),
 
     new CspHtmlWebpackPlugin({

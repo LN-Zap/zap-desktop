@@ -31,58 +31,6 @@ Object {
     },
   ],
   "loadingChannels": Array [],
-  "openingChannel": false,
-  "pendingChannels": Object {
-    "pending_closing_channels": Array [],
-    "pending_force_closing_channels": Array [],
-    "pending_open_channels": Array [],
-    "total_limbo_balance": null,
-    "waiting_close_channels": Array [],
-  },
-  "searchQuery": null,
-  "selectedChannelId": null,
-  "suggestedNodes": Object {
-    "mainnet": Array [],
-    "testnet": Array [],
-  },
-  "suggestedNodesLoading": false,
-  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
-  "viewType": 0,
-}
-`;
-
-exports[`reducers channelsReducer should correctly openingChannel 1`] = `
-Object {
-  "channels": Array [],
-  "channelsLoading": false,
-  "closedChannels": Array [],
-  "closingChannel": false,
-  "closingChannelIds": Array [],
-  "filter": "ALL_CHANNELS",
-  "filters": Array [
-    Object {
-      "key": "ALL_CHANNELS",
-      "name": "All",
-    },
-    Object {
-      "key": "ACTIVE_CHANNELS",
-      "name": "Online",
-    },
-    Object {
-      "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline",
-    },
-    Object {
-      "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending",
-    },
-    Object {
-      "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing",
-    },
-  ],
-  "loadingChannels": Array [],
-  "openingChannel": true,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
     "pending_force_closing_channels": Array [],
@@ -136,7 +84,6 @@ Object {
     },
   ],
   "loadingChannels": Array [],
-  "openingChannel": false,
   "pendingChannels": Array [
     3,
     4,
@@ -184,7 +131,6 @@ Object {
     },
   ],
   "loadingChannels": Array [],
-  "openingChannel": false,
   "pendingChannels": Object {
     "pending_closing_channels": Array [],
     "pending_force_closing_channels": Array [],

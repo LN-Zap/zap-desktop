@@ -2,6 +2,7 @@
 'use strict'
 
 import electron, { BrowserWindow } from 'electron'
+import isDev from 'electron-is-dev'
 
 const path = require('path')
 
@@ -22,9 +23,9 @@ function openAboutWindow(info, htmlPath) {
     icon: info.icon_path,
     webPreferences: {
       nodeIntegration: false,
-      preload: process.env.HOT
-        ? path.resolve(__dirname, 'preload.js')
-        : path.resolve(__dirname, 'about_preload.prod.js'),
+      preload: isDev
+        ? path.resolve('electron/about', 'preload.js')
+        : path.resolve(__dirname, 'about', 'preload.js'),
     },
   }
   window = new BrowserWindow(options)
