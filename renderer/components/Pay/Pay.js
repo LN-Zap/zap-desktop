@@ -279,6 +279,7 @@ class Pay extends React.Component {
           payReq: values.payReq,
           amt: this.amountInSats(),
           feeLimit: getMaxFee(routes),
+          retries: CONFIG.invoices.retryCount,
         })
         // Close the form modal once the payment has been sent
         changeFilter('ALL_ACTIVITY')
