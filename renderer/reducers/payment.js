@@ -16,6 +16,7 @@ export const RECEIVE_PAYMENTS = 'RECEIVE_PAYMENTS'
 export const SEND_PAYMENT = 'SEND_PAYMENT'
 export const PAYMENT_SUCCESSFUL = 'PAYMENT_SUCCESSFUL'
 export const PAYMENT_FAILED = 'PAYMENT_FAILED'
+export const DECREASE_PAYMENT_RETRIES = 'DECREASE_PAYMENT_RETRIES'
 
 // ------------------------------------
 // Helpers
@@ -79,21 +80,29 @@ export const receivePayments = (event, { payments }) => dispatch => {
   dispatch({ type: RECEIVE_PAYMENTS, payments })
 }
 
-export const payInvoice = ({ payReq, amt, feeLimit }) => dispatch => {
+const decPaymentRetry = paymentRequest => ({ type: DECREASE_PAYMENT_RETRIES, paymentRequest })
+
+export const payInvoice = ({ payReq, amt, feeLimit, isRetry = false, retries = 0 }) => dispatch => {
   const data = { paymentRequest: payReq, feeLimit, amt }
   dispatch(send('lnd', { msg: 'sendPayment', data }))
-  dispatch(sendPayment(data))
+  // if it's a retry - only decrease number of retries left
+  if (isRetry) {
+    dispatch(decPaymentRetry(payReq))
+  } else {
+    dispatch(sendPayment({ ...data, remainingRetries: retries, maxRetries: retries }))
+  }
 }
+
+// Find the latest temporary paymentsSending entry for the payment.
+const getLastSendingEntry = (state, paymentRequest) =>
+  [...state.payment.paymentsSending]
+    .sort((a, b) => b.creation_date - a.creation_date)
+    .find(p => p.paymentRequest === paymentRequest)
 
 // Receive IPC event for successful payment.
 export const paymentSuccessful = (event, { payment_request }) => async (dispatch, getState) => {
   const state = getState()
-
-  // Find the latest temporary paymentsSending entry for the payment.
-  const paymentSending = [...state.payment.paymentsSending]
-    .sort((a, b) => b.creation_date - a.creation_date)
-    .find(p => p.paymentRequest === payment_request)
-
+  const paymentSending = getLastSendingEntry(state, payment_request)
   // If we found a related entery in paymentsSending, gracefully remove it and handle as success case.
   if (paymentSending) {
     const { creation_date, paymentRequest } = paymentSending
@@ -121,21 +130,49 @@ export const paymentSuccessful = (event, { payment_request }) => async (dispatch
 // Receive IPC event for failed payment.
 export const paymentFailed = (event, { payment_request, error }) => async (dispatch, getState) => {
   const state = getState()
-
-  // Find the latest temporary paymentsSending entry for the payment.
-  const paymentSending = [...state.payment.paymentsSending]
-    .sort((a, b) => b.creation_date - a.creation_date)
-    .find(p => p.paymentRequest === payment_request)
+  const paymentSending = getLastSendingEntry(state, payment_request)
+  // errors that trigger retry mechanism
+  const RETRIABLE_ERRORS = [
+    'unable to find a path to destination', // ErrNoPathFound
+    'target not found', // ErrTargetNotInNetwork
+  ]
 
   // If we found a related entery in paymentsSending, gracefully remove it and handle as error case.
   if (paymentSending) {
-    const { creation_date, paymentRequest } = paymentSending
+    const { creation_date, paymentRequest, remainingRetries, maxRetries } = paymentSending
+    // if we have retries left and error is eligible for retry - rebroadcast payment
+    if (remainingRetries && RETRIABLE_ERRORS.includes(error)) {
+      const data = {
+        ...paymentSending,
+        payReq: paymentRequest,
+        isRetry: true,
+      }
+      const retryIndex = maxRetries - remainingRetries + 1
+      // add increasing delay
+      await delay(CONFIG.invoices.baseRetryDelay * retryIndex * retryIndex)
+      dispatch(payInvoice(data))
+    } else {
+      // Ensure payment stays in sending state for at least 2 seconds.
+      await delay(2000 - (Date.now() - creation_date * 1000))
 
-    // Ensure payment stays in sending state for at least 2 seconds.
-    await delay(2000 - (Date.now() - creation_date * 1000))
+      // Mark the payment as failed.
+      dispatch({ type: PAYMENT_FAILED, paymentRequest, error: errorToUserFriendly(error) })
+    }
+  }
+}
 
-    // Mark the payment as failed.
-    dispatch({ type: PAYMENT_FAILED, paymentRequest, error: errorToUserFriendly(error) })
+// Decreases number of retries left for the given @paymentRequest
+const handleDecreaseRetries = (state, { paymentRequest }) => {
+  const paymentsSending = state.paymentsSending.map(payment => {
+    if (payment.paymentRequest === paymentRequest) {
+      return { ...payment, remainingRetries: payment.remainingRetries - 1 }
+    }
+    return payment
+  })
+
+  return {
+    ...state,
+    paymentsSending,
   }
 }
 
@@ -157,6 +194,7 @@ const ACTION_HANDLERS = {
     ...state,
     paymentsSending: [...state.paymentsSending, payment],
   }),
+  [DECREASE_PAYMENT_RETRIES]: handleDecreaseRetries,
   [PAYMENT_SUCCESSFUL]: (state, { paymentRequest }) => {
     return {
       ...state,
