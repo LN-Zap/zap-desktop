@@ -8,7 +8,6 @@ import {
   disableSubMenu,
 } from 'reducers/settingsmenu'
 import { setTheme } from 'reducers/theme'
-import { openModal } from 'reducers/modal'
 import { walletSelectors } from 'reducers/wallet'
 
 import Settings from 'components/Settings'
@@ -29,21 +28,20 @@ const mapDispatchToProps = {
   openSettings,
   closeSettings,
   setActiveSubMenu,
-  openModal,
   disableSubMenu,
   setFiatTicker,
   setLocale,
   setTheme,
 }
 
-const mergeProps = (stateProps, dispatchProps) => ({
+const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   activeWalletSettings: stateProps.activeWalletSettings,
   activeSubMenu: stateProps.activeSubMenu,
   isSettingsOpen: stateProps.isSettingsOpen,
   openSettings: dispatchProps.openSettings,
   closeSettings: dispatchProps.closeSettings,
   setActiveSubMenu: dispatchProps.setActiveSubMenu,
-  openModal: dispatchProps.openModal,
+  ...ownProps,
 
   fiatProps: {
     fiatTicker: stateProps.fiatTicker,

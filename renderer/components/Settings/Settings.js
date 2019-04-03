@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
+import styled from 'styled-components'
 import { StatusIndicator, Text } from 'components/UI'
 import { WalletName } from 'components/Util'
 import AngleUp from 'components/Icon/AngleUp'
@@ -9,6 +10,14 @@ import Menu from './Menu'
 import Fiat from './Fiat'
 import Locale from './Locale'
 import Theme from './Theme'
+
+const StyledText = styled(Text)`
+  cursor: pointer;
+  transition: all 0.25s;
+  &:hover {
+    opacity: 0.6;
+  }
+`
 
 class Settings extends React.Component {
   menuRef = React.createRef()
@@ -50,14 +59,7 @@ class Settings extends React.Component {
   }
 
   renderSettings = () => {
-    const {
-      activeSubMenu,
-      fiatProps,
-      localeProps,
-      themeProps,
-      setActiveSubMenu,
-      openModal,
-    } = this.props
+    const { activeSubMenu, fiatProps, localeProps, themeProps, setActiveSubMenu } = this.props
     switch (activeSubMenu) {
       case 'fiat':
         return <Fiat {...fiatProps} />
@@ -66,7 +68,7 @@ class Settings extends React.Component {
       case 'theme':
         return <Theme {...themeProps} />
       default:
-        return <Menu openModal={openModal} setActiveSubMenu={setActiveSubMenu} />
+        return <Menu setActiveSubMenu={setActiveSubMenu} />
     }
   }
 
@@ -83,9 +85,9 @@ class Settings extends React.Component {
         >
           <StatusIndicator mr={2} variant="online" />
           <Flex alignItems="center">
-            <Text mr={1} textAlign="left">
+            <StyledText mr={1} textAlign="left">
               <WalletName wallet={activeWalletSettings} />
-            </Text>
+            </StyledText>
             {isSettingsOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
           </Flex>
         </Flex>
@@ -102,7 +104,6 @@ Settings.propTypes = {
   fiatProps: PropTypes.object.isRequired,
   isSettingsOpen: PropTypes.bool,
   localeProps: PropTypes.object.isRequired,
-  openModal: PropTypes.func.isRequired,
   openSettings: PropTypes.func.isRequired,
   setActiveSubMenu: PropTypes.func.isRequired,
   themeProps: PropTypes.object.isRequired,
