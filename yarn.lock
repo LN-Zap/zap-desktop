@@ -15245,10 +15245,10 @@ stylelint-formatter-pretty@1.0.3:
     plur "^2.1.2"
     string-width "^2.0.0"
 
-stylelint-processor-styled-components@1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/stylelint-processor-styled-components/-/stylelint-processor-styled-components-1.5.2.tgz#875e21baa2dd0a0c0d5de082430e47c45c7d14ce"
-  integrity sha512-sjOU/GtTQMR1McdntJWo6Za1wbdl5YuxQwWm5l2Nz6ELYoVI9WJTZbU9DQcvkOGjW3+HEk4ZKBytqFrMJPIx9Q==
+stylelint-processor-styled-components@1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/stylelint-processor-styled-components/-/stylelint-processor-styled-components-1.6.0.tgz#26e4317cd4ba1c3196bd6d832e8fcba3f159dd9d"
+  integrity sha512-ecqHh5G17rTPJUP/IMBxJf9kBspP4j5NrYl2aAWWBJxsK8RknT3PxO9Y5zHiYa7pGWmCRRdfR4ZOBO9CgouKjw==
   dependencies:
     "@babel/parser" "^7.0.0"
     "@babel/traverse" "^7.0.0"
