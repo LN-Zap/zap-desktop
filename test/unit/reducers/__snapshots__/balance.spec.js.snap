@@ -14,6 +14,8 @@ exports[`reducers balanceReducer should handle RECEIVE_BALANCE 1`] = `
 Object {
   "balanceLoading": false,
   "channelBalance": 2,
+  "channelBalanceConfirmed": 1,
+  "channelBalancePending": 1,
   "walletBalance": 1,
   "walletBalanceConfirmed": 1,
   "walletBalanceUnconfirmed": 1,
