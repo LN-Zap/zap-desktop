@@ -1,15 +1,11 @@
-// @flow
-
 import { join } from 'path'
 import { credentials, loadPackageDefinition } from '@grpc/grpc-js'
 import { load } from '@grpc/proto-loader'
 import lndgrpc from 'lnd-grpc'
-import { BrowserWindow } from 'electron'
 import StateMachine from 'javascript-state-machine'
 import { promisifiedCall } from '@zap/utils'
 import { validateHost } from '@zap/utils/validateHost'
 import { mainLog } from '@zap/utils/log'
-import LndConfig from './config'
 import {
   grpcOptions,
   lndGpcProtoPath,
@@ -24,13 +20,6 @@ import subscribeToInvoices from './subscribe/invoices'
 import subscribeToChannelGraph from './subscribe/channelgraph'
 import { getInfo } from './methods/networkController'
 
-// Type definition for subscriptions property.
-type LightningSubscriptionsType = {
-  channelGraph: any,
-  invoices: any,
-  transactions: any,
-}
-
 const _version = new WeakMap()
 
 /**
@@ -38,13 +27,7 @@ const _version = new WeakMap()
  * @returns {Lightning}
  */
 class Lightning {
-  mainWindow: BrowserWindow
-  service: any
-  lndConfig: LndConfig
-  subscriptions: LightningSubscriptionsType
-  fsm: StateMachine
-
-  constructor(lndConfig: LndConfig) {
+  constructor(lndConfig) {
     this.fsm = new StateMachine({
       init: 'ready',
       transitions: [
@@ -78,19 +61,19 @@ class Lightning {
   // FSM Proxies
   // ------------------------------------
 
-  connect(...args: any[]) {
+  connect(...args) {
     return this.fsm.connect(args)
   }
-  disconnect(...args: any[]) {
+  disconnect(...args) {
     return this.fsm.disconnect(args)
   }
-  terminate(...args: any[]) {
+  terminate(...args) {
     return this.fsm.terminate(args)
   }
-  is(...args: any[]) {
+  is(...args) {
     return this.fsm.is(args)
   }
-  can(...args: any[]) {
+  can(...args) {
     return this.fsm.can(args)
   }
 
@@ -172,7 +155,7 @@ class Lightning {
   /**
    * Establish a connection to the Lightning interface.
    */
-  async establishConnection(version: ?string) {
+  async establishConnection(version) {
     const { host, cert, macaroon } = this.lndConfig
 
     // Find the rpc.proto file to use. If no version was supplied, attempt to use the latest version.
@@ -210,14 +193,14 @@ class Lightning {
   /**
    * Hook up lnd restful methods.
    */
-  registerMethods(event: Event, msg: string, data: any) {
+  registerMethods(event, msg, data) {
     return methods(this, mainLog, event, msg, data)
   }
 
   /**
    * Subscribe to all bi-directional streams.
    */
-  subscribe(mainWindow: BrowserWindow) {
+  subscribe(mainWindow) {
     mainLog.info('Subscribing to Lightning gRPC streams')
     this.mainWindow = mainWindow
 

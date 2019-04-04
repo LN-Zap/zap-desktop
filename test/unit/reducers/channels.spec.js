@@ -1,5 +1,3 @@
-// @flow
-
 import channelsReducer, {
   GET_CHANNELS,
   RECEIVE_CHANNELS,

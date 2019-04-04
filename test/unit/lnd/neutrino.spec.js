@@ -1,5 +1,3 @@
-// @flow
-
 import Neutrino from '@zap/lnd/neutrino'
 import LndConfig from '@zap/lnd/config'
 import mockSpawn from 'mock-spawn'

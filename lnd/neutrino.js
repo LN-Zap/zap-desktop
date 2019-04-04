@@ -1,5 +1,3 @@
-// @flow
-
 import split2 from 'split2'
 import { spawn } from 'child_process'
 import EventEmitter from 'events'
@@ -11,7 +9,6 @@ import LndConfig from './config'
 // global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
 // directly without processing with webpack), so we require the config module directly in this case.
 try {
-  declare var CONFIG: Object
   global.CONFIG = CONFIG
 } catch (e) {
   global.CONFIG = require('config')
@@ -37,17 +34,7 @@ const GOT_LND_CFILTER_HEIGHT = 'got-lnd-cfilter-height'
  * @extends EventEmitter
  */
 class Neutrino extends EventEmitter {
-  lndConfig: LndConfig
-  process: any
-  isWalletUnlockerGrpcActive: boolean
-  isLightningGrpcActive: boolean
-  chainSyncStatus: string
-  currentBlockHeight: number
-  lndBlockHeight: number
-  lndCfilterHeight: number
-  lastError: ?string
-
-  constructor(lndConfig: LndConfig) {
+  constructor(lndConfig) {
     super()
     this.lndConfig = lndConfig
     this.process = null
@@ -60,7 +47,7 @@ class Neutrino extends EventEmitter {
     this.lastError = null
   }
 
-  static incrementIfHigher = (context: any, property: string, newVal: any): boolean => {
+  static incrementIfHigher = (context, property, newVal) => {
     const { [property]: oldVal } = context
     if (newVal > oldVal) {
       context[property] = newVal
@@ -102,7 +89,7 @@ class Neutrino extends EventEmitter {
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
 
     // Genreate autopilot config.
-    const autopilotArgMap: Object = {
+    const autopilotArgMap = {
       autopilotAllocation: '--autopilot.allocation',
       autopilotMaxchannels: '--autopilot.maxchannels',
       autopilotMinchansize: '--autopilot.minchansize',
@@ -280,7 +267,7 @@ class Neutrino extends EventEmitter {
   /**
    * Stop the Lnd process.
    */
-  kill(signalName: string = 'SIGINT') {
+  kill(signalName = 'SIGINT') {
     if (this.process) {
       mainLog.info('Killing Neutrino process...')
       this.process.kill(signalName)
@@ -292,7 +279,7 @@ class Neutrino extends EventEmitter {
    * @param  {String} state State to compare against the current state.
    * @return {Boolean} Boolean indicating if the current state matches the passed in state.
    */
-  is(state: string) {
+  is(state) {
     return this.chainSyncStatus === state
   }
 
@@ -300,7 +287,7 @@ class Neutrino extends EventEmitter {
    * Set the current state and emit an event to notify others if the state as changed.
    * @param {String} state Target state.
    */
-  setState(state: string) {
+  setState(state) {
     if (state !== this.chainSyncStatus) {
       this.chainSyncStatus = state
       this.emit(state)
@@ -311,7 +298,7 @@ class Neutrino extends EventEmitter {
    * Set the current block height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setCurrentBlockHeight(height: number | string) {
+  setCurrentBlockHeight(height) {
     const heightAsNumber = Number(height)
     const changed = Neutrino.incrementIfHigher(this, 'currentBlockHeight', heightAsNumber)
     if (changed) {
@@ -323,7 +310,7 @@ class Neutrino extends EventEmitter {
    * Set the lnd block height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setLndBlockHeight(height: number | string) {
+  setLndBlockHeight(height) {
     const heightAsNumber = Number(height)
     const changed = Neutrino.incrementIfHigher(this, 'lndBlockHeight', heightAsNumber)
     if (changed) {
@@ -336,7 +323,7 @@ class Neutrino extends EventEmitter {
    * Set the lnd cfilter height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setLndCfilterHeight(height: number | string) {
+  setLndCfilterHeight(height) {
     const heightAsNumber = Number(height)
     const changed = Neutrino.incrementIfHigher(this, 'lndCfilterHeight', heightAsNumber)
     if (changed) {

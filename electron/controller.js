@@ -1,11 +1,10 @@
-// @flow
-import { app, ipcMain, dialog, BrowserWindow } from 'electron'
+import { app, ipcMain, dialog } from 'electron'
 import StateMachine from 'javascript-state-machine'
 import { mainLog } from '@zap/utils/log'
 import delay from '@zap/utils/delay'
 import truncate from '@zap/utils/truncate'
 import sanitize from '@zap/utils/sanitize'
-import LndConfig, { type LndConfigOptions } from '@zap/lnd/config'
+import LndConfig from '@zap/lnd/config'
 import Lightning from '@zap/lnd/lightning'
 import Neutrino from '@zap/lnd/neutrino'
 import WalletUnlocker from '@zap/lnd/walletUnlocker'
@@ -14,11 +13,6 @@ const LND_GRPC_HOST_ERROR = 'LND_GRPC_HOST_ERROR'
 const LND_GRPC_CERT_ERROR = 'LND_GRPC_CERT_ERROR'
 const LND_GRPC_MACAROON_ERROR = 'LND_GRPC_MACAROON_ERROR'
 const LND_METHOD_UNAVAILABLE = 12
-
-type shutdownOptions = {
-  signal?: string,
-  timeout?: number,
-}
 
 const grpcSslCipherSuites = () => {
   return [
@@ -48,18 +42,11 @@ const grpcSslCipherSuites = () => {
  * The ZapController class coordinates actions between the the main nand renderer processes.
  */
 class ZapController {
-  mainWindow: BrowserWindow
-  neutrino: Neutrino
-  lightning: Lightning
-  walletUnlocker: WalletUnlocker
-  lndConfig: LndConfig
-  fsm: StateMachine
-
   /**
    * Create a new ZapController instance.
    * @param {BrowserWindow} mainWindow BrowserWindow instance to interact with.
    */
-  constructor(mainWindow: BrowserWindow) {
+  constructor(mainWindow) {
     // Variable to hold the main window instance.
     this.mainWindow = mainWindow
   }
@@ -111,25 +98,25 @@ class ZapController {
   // FSM Proxies
   // ------------------------------------
 
-  startOnboarding(...args: any[]) {
+  startOnboarding(...args) {
     return this.fsm.startOnboarding(...args)
   }
-  startLocalLnd(...args: any[]) {
+  startLocalLnd(...args) {
     return this.fsm.startLocalLnd(...args)
   }
-  startRemoteLnd(...args: any[]) {
+  startRemoteLnd(...args) {
     return this.fsm.startRemoteLnd(...args)
   }
-  stopLnd(...args: any[]) {
+  stopLnd(...args) {
     return this.fsm.stopLnd(...args)
   }
-  terminate(...args: any[]) {
+  terminate(...args) {
     return this.fsm.terminate(...args)
   }
-  is(...args: any[]) {
+  is(...args) {
     return this.fsm.is(...args)
   }
-  can(...args: any[]) {
+  can(...args) {
     return this.fsm.can(...args)
   }
 
@@ -245,7 +232,7 @@ class ZapController {
     }
   }
 
-  async onTerminated(lifecycle: any) {
+  async onTerminated(lifecycle) {
     mainLog.debug('[FSM] onTerminated...')
 
     // Disconnect from any existing lightning wallet connection.
@@ -276,7 +263,7 @@ class ZapController {
    * @param  {string} msg message to send.
    * @param  {[type]} data additional data to accompany the message.
    */
-  sendMessage(msg: string, data: any) {
+  sendMessage(msg, data) {
     if (this.mainWindow) {
       mainLog.info('Sending message to renderer process: %o', {
         msg,
@@ -411,7 +398,7 @@ class ZapController {
   /**
    * Gracefully shutdown LND.
    */
-  async shutdownNeutrino(options: shutdownOptions = {}) {
+  async shutdownNeutrino(options = {}) {
     const signal = options.signal || 'SIGINT'
     const timeout = options.timeout || 10000
 
@@ -461,7 +448,7 @@ class ZapController {
   /**
    * Start or connect to lnd process after onboarding has been completed by the app.
    */
-  async startLnd(options: LndConfigOptions) {
+  async startLnd(options) {
     mainLog.info(
       'Starting lnd with options: %o',
       sanitize(options, ['lndconnectUri', 'lndconnectQRCode'])
@@ -485,7 +472,7 @@ class ZapController {
    * Add IPC event listeners...
    */
   _registerIpcListeners() {
-    ipcMain.on('startLnd', async (event, options: LndConfigOptions) => {
+    ipcMain.on('startLnd', async (event, options) => {
       try {
         await this.startLnd(options)
       } catch (e) {
@@ -513,7 +500,7 @@ class ZapController {
       this.sendMessage('stopLndSuccess')
     })
 
-    ipcMain.on('killLnd', async (event, options: shutdownOptions = {}) => {
+    ipcMain.on('killLnd', async (event, options = {}) => {
       await this.shutdownNeutrino(options)
       this.sendMessage('killLndSuccess')
     })

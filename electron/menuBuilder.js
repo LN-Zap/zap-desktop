@@ -1,6 +1,5 @@
-// @flow
 import os from 'os'
-import { app, Menu, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, Menu, shell, ipcMain } from 'electron'
 import isDev from 'electron-is-dev'
 import { appRootPath } from '@zap/lnd/util'
 import { getLanguageName, locales } from '@zap/i18n'
@@ -33,15 +32,12 @@ const buildAboutMenu = () => {
 }
 
 export default class ZapMenuBuilder {
-  mainWindow: BrowserWindow
-  locale: string
-
-  constructor(mainWindow: BrowserWindow) {
+  constructor(mainWindow) {
     this.mainWindow = mainWindow
     ipcMain.on('setLocale', (event, locale) => this.buildMenu(locale))
   }
 
-  buildMenu(locale?: string) {
+  buildMenu(locale) {
     if (locale) {
       this.locale = locale
     }
