@@ -7,7 +7,6 @@ environment:
 
 cache:
   - node_modules -> package.json
-  - flow-typed
 
 matrix:
   fast_finish: true

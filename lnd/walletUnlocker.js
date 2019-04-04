@@ -1,5 +1,3 @@
-// @flow
-
 import { join } from 'path'
 import { loadPackageDefinition } from '@grpc/grpc-js'
 import { load } from '@grpc/proto-loader'
@@ -7,7 +5,6 @@ import lndgrpc from 'lnd-grpc'
 import StateMachine from 'javascript-state-machine'
 import { validateHost } from '@zap/utils/validateHost'
 import { mainLog } from '@zap/utils/log'
-import LndConfig from './config'
 import { grpcOptions, lndGpcProtoPath, getDeadline, createSslCreds } from './util'
 import methods from './walletUnlockerMethods'
 
@@ -16,11 +13,7 @@ import methods from './walletUnlockerMethods'
  * @returns {WalletUnlocker}
  */
 class WalletUnlocker {
-  service: any
-  lndConfig: LndConfig
-  fsm: StateMachine
-
-  constructor(lndConfig: LndConfig) {
+  constructor(lndConfig) {
     this.fsm = new StateMachine({
       init: 'ready',
       transitions: [
@@ -40,16 +33,16 @@ class WalletUnlocker {
   // FSM Proxies
   // ------------------------------------
 
-  connect(...args: any[]) {
+  connect(...args) {
     return this.fsm.connect(args)
   }
-  disconnect(...args: any[]) {
+  disconnect(...args) {
     return this.fsm.disconnect(args)
   }
-  is(...args: any[]) {
+  is(...args) {
     return this.fsm.is(args)
   }
-  can(...args: any[]) {
+  can(...args) {
     return this.fsm.can(args)
   }
 
@@ -119,7 +112,7 @@ class WalletUnlocker {
   /**
    * Hook up lnd restful methods.
    */
-  registerMethods(event: Event, msg: string, data: any) {
+  registerMethods(event, msg, data) {
     return methods(this.service, mainLog, event, msg, data, this.lndConfig)
   }
 }

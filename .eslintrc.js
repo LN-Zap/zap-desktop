@@ -10,7 +10,6 @@ module.exports = {
     'airbnb',
     'eslint:recommended',
     'plugin:react/recommended',
-    'plugin:flowtype/recommended',
     'plugin:testcafe/recommended',
     'plugin:import/errors',
     'plugin:import/warnings',
@@ -18,7 +17,6 @@ module.exports = {
     'plugin:promise/recommended',
     'plugin:prettier/recommended',
     'prettier',
-    'prettier/flowtype',
     'prettier/react',
   ],
   env: {
@@ -86,7 +84,6 @@ module.exports = {
     'prefer-promise-reject-errors': 0,
   },
   plugins: [
-    'flowtype',
     'import',
     'json',
     'markdown',

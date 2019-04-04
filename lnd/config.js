@@ -1,5 +1,3 @@
-// @flow
-
 import { join, isAbsolute } from 'path'
 import { app } from 'electron'
 import createDebug from 'debug'
@@ -17,7 +15,6 @@ import { binaryPath } from './util'
 // global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
 // directly without processing with webpack), so we require the config module directly in this case.
 try {
-  declare var CONFIG: Object
   global.CONFIG = CONFIG
 } catch (e) {
   global.CONFIG = require('config')
@@ -48,75 +45,21 @@ export const networks = {
   testnet: 'Testnet',
 }
 
-// Type definition for LndConfig constructor options.
-export type LndConfigOptions = {
-  id?: number,
-  type: $Keys<typeof types>,
-  chain: $Keys<typeof chains>,
-  network: $Keys<typeof networks>,
-
-  decoder?: string,
-  lndconnectUri?: string,
-  host?: string,
-  cert?: string,
-  macaroon?: string,
-
-  name?: string,
-  alias?: string,
-  autopilot?: boolean,
-  autopilotMaxchannels?: number,
-  autopilotAllocation?: number,
-  autopilotMinchansize?: number,
-  autopilotMaxchansize?: number,
-  autopilotPrivate?: boolean,
-  autopilotMinconfs?: number,
-}
-
 const _isReady = new WeakMap()
 const _lndconnectQRCode = new WeakMap()
 
 /**
  * Utility methods to clean and prepare data.
  */
-const safeTrim = <T>(val: ?T): ?T => (typeof val === 'string' ? val.trim() : val)
-const safeTildify = <T>(val: ?T): ?T => (typeof val === 'string' ? tildify(val) : val)
-const safeUntildify = <T>(val: ?T): ?T => (typeof val === 'string' ? untildify(val) : val)
+const safeTrim = val => (typeof val === 'string' ? val.trim() : val)
+const safeTildify = val => (typeof val === 'string' ? tildify(val) : val)
+const safeUntildify = val => (typeof val === 'string' ? untildify(val) : val)
 
 /**
  * LndConfig class
  */
 class LndConfig {
-  // Type descriptor properties.
-  id: number
-  type: string
-  chain: string
-  network: string
-
-  // connection properties
-  decoder: string
-  lndconnectUri: ?string
-  host: string
-  cert: ?string
-  macaroon: ?string
-
-  // Settings properties
-  name: ?string
-  alias: ?string
-  autopilot: ?boolean
-  autopilotMaxchannels: ?number
-  autopilotMinchansize: ?number
-  autopilotMaxchansize: ?number
-  autopilotAllocation: ?number
-  autopilotPrivate: ?boolean
-  autopilotMinconfs: ?number
-
-  // Read only data properties.
-  +wallet: string
-  +binaryPath: string
-  +lndDir: string
-  +isReady: Promise<boolean>
-
-  static getListen = async (type: string) => {
+  static getListen = async type => {
     if (global.CONFIG.lnd[type].host) {
       const port = await getPort({
         host: global.CONFIG.lnd[type].host,
@@ -132,13 +75,10 @@ class LndConfig {
    *
    * @param {LndConfigOptions} [options] Lnd config options.
    */
-  constructor(options: LndConfigOptions) {
+  constructor(options) {
     debug('LndConfig constructor called with options: %o', options)
 
-    // Define properties that we support with custom getters and setters as needed.
-    // flow currently doesn't support defineProperties properly (https://github.com/facebook/flow/issues/285)
-    const { defineProperties } = Object
-    defineProperties(this, {
+    Object.defineProperties(this, {
       wallet: {
         enumerable: true,
         get() {
@@ -170,6 +110,7 @@ class LndConfig {
           if (this.type === LNDCONFIG_TYPE_LOCAL) {
             return join(app.getPath('userData'), 'lnd', this.chain, this.network, this.wallet)
           }
+          return
         },
       },
       host: {
@@ -268,7 +209,7 @@ class LndConfig {
   /**
    * Generate an lndconnect uri based on the config options.
    */
-  async generateLndconnectUri(options: LndConfigOptions) {
+  async generateLndconnectUri(options) {
     let { lndconnectUri, host, cert, macaroon } = options
 
     // If this is a local wallet, set the lnd connection details based on wallet config.
@@ -307,7 +248,7 @@ class LndConfig {
   /**
    * Setter helper for connection properties.
    */
-  setConnectionProp(key: string, value: ?string) {
+  setConnectionProp(key, value) {
     if (this.decoder === 'lnd.lndconnect.v1') {
       const decoded = lndconnect.decode(this.lndconnectUri)
       this.lndconnectUri = lndconnect.encode({ ...decoded, [key]: safeTildify(safeTrim(value)) })
@@ -317,7 +258,7 @@ class LndConfig {
   /**
    * Getter helper for connection keyerties.
    */
-  getConnectionProp(key: string) {
+  getConnectionProp(key) {
     if (this.decoder === 'lnd.lndconnect.v1') {
       const decoded = lndconnect.decode(this.lndconnectUri)
       return safeUntildify(decoded[key])
@@ -327,7 +268,7 @@ class LndConfig {
   /**
    * Generate an lndconnect QR code from an lndconenctUri.
    */
-  static async qrcodeFromLndconnectUri(lndconnectUri: string) {
+  static async qrcodeFromLndconnectUri(lndconnectUri) {
     const { host, cert, macaroon } = lndconnect.decode(lndconnectUri)
     const [certData, macaroonData] = await Promise.all([
       isAbsolute(cert) ? readFile(cert) : cert,

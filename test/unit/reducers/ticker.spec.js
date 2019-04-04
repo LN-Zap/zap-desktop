@@ -1,5 +1,3 @@
-// @flow
-
 import tickerReducer, {
   SET_CURRENCY,
   SET_CRYPTO,

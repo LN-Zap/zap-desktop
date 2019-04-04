@@ -1,5 +1,3 @@
-// @flow
-
 import { join } from 'path'
 import LndConfig from '@zap/lnd/config'
 

@@ -14,7 +14,6 @@ module.exports = {
         include: ['proposal-object-rest-spread', 'transform-classes', 'transform-destructuring'],
       },
     ],
-    '@babel/preset-flow',
     '@babel/react',
   ],
   plugins: [
