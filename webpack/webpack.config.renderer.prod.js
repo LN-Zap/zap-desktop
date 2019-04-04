@@ -46,9 +46,7 @@ export default merge.smart(baseConfig, {
   },
 
   plugins: [
-    new CleanWebpackPlugin([path.resolve('dist')], {
-      root: path.resolve(rootDir),
-    }),
+    new CleanWebpackPlugin(),
 
     new EnvironmentPlugin({
       NODE_ENV: 'production',
