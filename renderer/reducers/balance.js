@@ -40,12 +40,16 @@ const ACTION_HANDLERS = {
     walletBalanceConfirmed: walletBalance.confirmed_balance,
     walletBalanceUnconfirmed: walletBalance.unconfirmed_balance,
     channelBalance: channelBalance.balance + channelBalance.pending_open_balance,
+    channelBalanceConfirmed: channelBalance.balance,
+    channelBalancePending: channelBalance.pending_open_balance,
   }),
 }
 
 // Selectors
 const balanceSelectors = {}
 balanceSelectors.channelBalance = state => state.balance.channelBalance
+balanceSelectors.channelBalanceConfirmed = state => state.balance.channelBalanceConfirmed
+balanceSelectors.channelBalancePending = state => state.balance.channelBalancePending
 balanceSelectors.walletBalance = state => state.balance.walletBalance
 balanceSelectors.walletBalanceConfirmed = state => state.balance.walletBalanceConfirmed
 balanceSelectors.walletBalanceUnconfirmed = state => state.balance.walletBalanceUnconfirmed

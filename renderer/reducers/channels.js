@@ -722,6 +722,11 @@ channelsSelectors.allChannels = createSelector(
   }
 )
 
+channelsSelectors.allChannelsCount = createSelector(
+  channelsSelectors.allChannels,
+  allChannels => allChannels.length
+)
+
 channelsSelectors.allChannelsRaw = createSelector(
   loadingChannelsSelector,
   channelsSelector,
