@@ -2867,7 +2867,7 @@
   resolved "https://registry.yarnpkg.com/@types/long/-/long-4.0.0.tgz#719551d2352d301ac8b81db732acb6bdc28dbdef"
   integrity sha512-1w52Nyx4Gq47uuu0EVcsHBxZFJgurQ+rTKS3qMHxR1GY2T8c2AJYd6vZoZ9q1rupaDjU0yT+Jc2XTyXkjeMA+Q==
 
-"@types/node@*", "@types/node@^10.1.0":
+"@types/node@*", "@types/node@10.12.18", "@types/node@^10.1.0":
   version "10.12.18"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-10.12.18.tgz#1d3ca764718915584fcd9f6344621b7672665c67"
   integrity sha512-fh+pAqt4xRzPfqA6eh3Z2y6fyZavRIumvjhaCL753+TVkGKGhpPeyrJG2JftD0T9q4GF00KjefsQ+PQNDdWQaQ==
@@ -4932,11 +4932,12 @@ bip21@2.0.2:
   dependencies:
     qs "^6.3.0"
 
-bip32@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/bip32/-/bip32-1.0.3.tgz#b1210b25155425aacb26dc11f5c02e35ce5ba670"
-  integrity sha512-rY7ie/4Nmcpgx1y4kAsJJLiluGzNzz20u44LFaElLXCGq3hQjfHV11r9fHwbtquKZ4JXL7BEMCnmpCzFko4ZLA==
+bip32@^2.0.0:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/bip32/-/bip32-2.0.1.tgz#9b57c86cbb31eab704819206e6b2ba1f7d4cdb71"
+  integrity sha512-NpKopXjm1d8EdKt++MrE1ETDQPljSaz/usstoVhP7qij39yTd3UcrS9HXT/oV/K4OQGprvI8mQfl/PZMW10s0A==
   dependencies:
+    "@types/node" "10.12.18"
     bs58check "^2.1.1"
     create-hash "^1.2.0"
     create-hmac "^1.1.7"
@@ -4961,13 +4962,14 @@ bitcoin-ops@^1.3.0, bitcoin-ops@^1.4.0:
   resolved "https://registry.yarnpkg.com/bitcoin-ops/-/bitcoin-ops-1.4.1.tgz#e45de620398e22fd4ca6023de43974ff42240278"
   integrity sha512-pef6gxZFztEhaE9RY9HmWVmiIHqCb2OyS4HPKkpc6CIiiOa3Qmuoylxc5P2EkU3w+5eTSifI9SEZC88idAIGow==
 
-bitcoinjs-lib@4.0.4:
-  version "4.0.4"
-  resolved "https://registry.yarnpkg.com/bitcoinjs-lib/-/bitcoinjs-lib-4.0.4.tgz#f79134fd9399f98a0fcb2fb6552ff1a9775efb89"
-  integrity sha512-IUeclLCD23wWwxxm0dxaJ77yDTNuN8Ugbs4tzjNjKFnRdYlkjogQv8Sizl6MiI94JHQ1JMkSzTo9X0aKEqdD9g==
+bitcoinjs-lib@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/bitcoinjs-lib/-/bitcoinjs-lib-5.0.0.tgz#489f0f87f5f34ab9f5d74fc73fd5d5c8a73ef94b"
+  integrity sha512-hqqZvSR8999tmw4E6qnXhOXyY+PDGdAfh7RIaNacCCw2PyOSf4CBgHPyx34evxkXgFi57kVGiAeD2OrrhXZDMg==
   dependencies:
+    "@types/node" "10.12.18"
     bech32 "^1.1.2"
-    bip32 "^1.0.3"
+    bip32 "^2.0.0"
     bip66 "^1.1.0"
     bitcoin-ops "^1.4.0"
     bs58check "^2.0.0"
@@ -4976,7 +4978,6 @@ bitcoinjs-lib@4.0.4:
     merkle-lib "^2.0.10"
     pushdata-bitcoin "^1.0.1"
     randombytes "^2.0.1"
-    safe-buffer "^5.1.1"
     tiny-secp256k1 "^1.0.0"
     typeforce "^1.11.3"
     varuint-bitcoin "^1.0.4"
