@@ -112,11 +112,25 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
   />
   <DataRow
     left={
-      <FormattedMessage
-        defaultMessage="Fee"
-        id="components.Pay.fee"
-        values={Object {}}
-      />
+      <ForwardRef>
+        <Text>
+          <FormattedMessage
+            defaultMessage="Fee"
+            id="components.Pay.fee"
+            values={Object {}}
+          />
+        </Text>
+        <Text
+          color="gray"
+          fontWeight="light"
+        >
+          <FormattedMessage
+            defaultMessage="Added to total"
+            id="components.Pay.fee_addition"
+            values={Object {}}
+          />
+        </Text>
+      </ForwardRef>
     }
     right={
       <FormattedMessage
@@ -124,27 +138,6 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
         id="components.Pay.fee_unknown"
         values={Object {}}
       />
-    }
-  />
-  <Bar
-    variant="light"
-  />
-  <DataRow
-    left={
-      <FormattedMessage
-        defaultMessage="Total"
-        id="components.Pay.total"
-        values={Object {}}
-      />
-    }
-    right={
-      <React.Fragment>
-        <CryptoValue
-          value={1000}
-        />
-         
-        BTC
-      </React.Fragment>
     }
   />
 </styled.div>

@@ -18,6 +18,8 @@ class PaySummaryOnChain extends React.Component {
     cryptoCurrencyTicker: PropTypes.string.isRequired,
     /** Fee in sats per byte */
     fee: PropTypes.number,
+    /** Boolean indicating wether transaction is a coin sweep. */
+    isCoinSweep: PropTypes.bool,
     /** Boolean indicating wether routing information is currently being fetched. */
     isQueryingFees: PropTypes.bool,
     /** Current fee information as provided by bitcoinfees.earn.com */
@@ -49,6 +51,7 @@ class PaySummaryOnChain extends React.Component {
       cryptoCurrencyTicker,
       onchainFees,
       isQueryingFees,
+      isCoinSweep,
       fee,
       speed,
       ...rest
@@ -88,7 +91,16 @@ class PaySummaryOnChain extends React.Component {
         <Bar variant="light" />
 
         <DataRow
-          left={<FormattedMessage {...messages.fee} />}
+          left={
+            <Box>
+              <Text>
+                <FormattedMessage {...messages.fee} />
+              </Text>
+              <Text color="gray" fontWeight="light">
+                <FormattedMessage {...messages[isCoinSweep ? 'fee_subtraction' : 'fee_addition']} />
+              </Text>
+            </Box>
+          }
           right={
             isQueryingFees ? (
               <Flex alignItems="center" justifyContent="flex-end" ml="auto">
@@ -110,18 +122,6 @@ class PaySummaryOnChain extends React.Component {
             ) : (
               <FormattedMessage {...messages.fee_unknown} />
             )
-          }
-        />
-
-        <Bar variant="light" />
-
-        <DataRow
-          left={<FormattedMessage {...messages.total} />}
-          right={
-            <React.Fragment>
-              <CryptoValue value={amount} /> {cryptoCurrencyTicker}
-              {!isQueryingFees && fee && <Text fontSize="s">(+ {fee} satoshis per byte)</Text>}
-            </React.Fragment>
           }
         />
       </Box>

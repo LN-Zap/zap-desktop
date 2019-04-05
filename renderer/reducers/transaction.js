@@ -79,12 +79,25 @@ export const receiveTransactions = (event, { transactions }) => (dispatch, getSt
   dispatch(fetchBalance())
 }
 
-export const sendCoins = ({ value, addr, currency, targetConf, satPerByte }) => dispatch => {
+export const sendCoins = ({
+  value,
+  addr,
+  currency,
+  targetConf,
+  satPerByte,
+  isCoinSweep,
+}) => dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
   const amount = convert(currency, 'sats', value)
 
   // submit the transaction to LND
-  const data = { amount, addr, target_conf: targetConf, sat_per_byte: satPerByte }
+  const data = {
+    amount: isCoinSweep ? null : amount,
+    addr,
+    target_conf: targetConf,
+    sat_per_byte: satPerByte,
+    send_all: isCoinSweep,
+  }
   dispatch(
     send('lnd', {
       msg: 'sendCoins',

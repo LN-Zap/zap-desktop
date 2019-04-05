@@ -40,13 +40,18 @@ export function getTransactions(lnd) {
 
 /**
  * Executes a request to send coins to a particular address
- * @param  {[type]} lnd    [description]
- * @param  {[type]} addr   [description]
- * @param  {[type]} amount [description]
- * @return {[type]}        [description]
+ * @param  {[type]} lnd  [description]
+ * @param  {[type]} data [description]
+ * @return {[type]}      [description]
  */
-export function sendCoins(lnd, { addr, amount, target_conf, sat_per_byte }) {
-  return promisifiedCall(lnd, lnd.sendCoins, { addr, amount, target_conf, sat_per_byte })
+export function sendCoins(lnd, { addr, amount, target_conf, sat_per_byte, send_all }) {
+  return promisifiedCall(lnd, lnd.sendCoins, {
+    addr,
+    amount,
+    target_conf,
+    sat_per_byte,
+    send_all,
+  })
 }
 
 /**
