@@ -183,6 +183,10 @@ class Pay extends React.Component {
     const isNowLightning = invoice && invoice !== prevState.invoice
     if (currentStep === 'address' && isNowLightning) {
       this.formApi.submitForm()
+    }
+
+    // update route
+    if (invoice && prevState.currentStep === 'address' && currentStep === 'summary') {
       const { payeeNodeKey } = invoice
       queryRoutes(payeeNodeKey, this.amountInSats())
     }
@@ -287,6 +291,7 @@ class Pay extends React.Component {
           payReq: values.payReq,
           amt: this.amountInSats(),
           feeLimit: getMaxFee(routes),
+          retries: CONFIG.invoices.retryCount,
         })
         // Close the form modal once the payment has been sent
         changeFilter('ALL_ACTIVITY')
@@ -359,9 +364,10 @@ class Pay extends React.Component {
    */
   nextStep = () => {
     const { currentStep } = this.state
-    const nextStep = Math.min(this.steps().indexOf(currentStep) + 1, this.steps().length - 1)
-    if (currentStep !== nextStep) {
-      this.setState({ currentStep: this.steps()[nextStep], previousStep: currentStep })
+    const nextStepIndex = Math.min(this.steps().indexOf(currentStep) + 1, this.steps().length - 1)
+    const nextStep = this.steps()[nextStepIndex]
+    if (currentStep !== nextStepIndex) {
+      this.setState({ currentStep: nextStep, previousStep: currentStep })
     }
   }
 

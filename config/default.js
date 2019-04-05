@@ -78,6 +78,8 @@ module.exports = {
   // Default invoice settings
   invoices: {
     expire: 86400,
+    baseRetryDelay: 1000,
+    retryCount: 3, // Number of retries for pay invoice failure
   },
 
   autopay: {
