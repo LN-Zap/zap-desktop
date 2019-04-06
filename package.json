@@ -331,7 +331,7 @@
     "dexie": "2.0.4",
     "downshift": "3.2.7",
     "electron-is-dev": "1.0.1",
-    "get-port": "4.2.0",
+    "get-port": "5.0.0",
     "history": "4.9.0",
     "informed": "1.10.12",
     "is-electron-renderer": "2.0.1",
