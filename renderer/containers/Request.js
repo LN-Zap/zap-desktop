@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { Request } from 'components/Request'
-import { tickerSelectors } from 'reducers/ticker'
+import { fetchTickers, tickerSelectors } from 'reducers/ticker'
 import { createInvoice, invoiceSelectors } from 'reducers/invoice'
 import { showNotification } from 'reducers/notification'
 
@@ -15,6 +15,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   createInvoice,
+  fetchTickers,
   showNotification,
 }
 

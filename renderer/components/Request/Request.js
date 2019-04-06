@@ -25,6 +25,8 @@ class Request extends React.Component {
     cryptoCurrencyTicker: PropTypes.string.isRequired,
     /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
     cryptoName: PropTypes.string.isRequired,
+    /** Fetch fiat ticker data. */
+    fetchTickers: PropTypes.func.isRequired,
     /** Lnd invoice object for the payment request */
     intl: intlShape.isRequired,
     /** Lightning Payment request. */
@@ -44,6 +46,8 @@ class Request extends React.Component {
   amountInput = React.createRef()
 
   componentDidMount() {
+    const { fetchTickers } = this.props
+    fetchTickers()
     this.focusAmountInput()
   }
 
