@@ -5,14 +5,14 @@ import { asField } from 'informed'
 import PropTypes from 'prop-types'
 import { BasicRange, BasicInput } from 'components/UI'
 
-const AutopilotAllocation = ({ fieldState, fieldApi, initialValue, sliderWidthNumber }) => {
+const AutopilotAllocation = ({ fieldState, fieldApi, sliderWidthNumber }) => {
   return (
     <Flex alignItems="center" justifyContent="flex-end">
       <BasicRange
+        field="autopilotAllocation"
         fieldApi={fieldApi}
         fieldState={fieldState}
         id="autopilotAllocation"
-        initialValue={initialValue}
         max="100"
         min="0"
         ml="auto"
@@ -21,6 +21,7 @@ const AutopilotAllocation = ({ fieldState, fieldApi, initialValue, sliderWidthNu
       />
       <BasicInput
         css={{ 'text-align': 'right' }}
+        field="autopilotAllocation"
         fieldApi={fieldApi}
         fieldState={fieldState}
         id="autopilotAllocation"
@@ -39,7 +40,6 @@ const AutopilotAllocation = ({ fieldState, fieldApi, initialValue, sliderWidthNu
 AutopilotAllocation.propTypes = {
   fieldApi: PropTypes.object.isRequired,
   fieldState: PropTypes.object.isRequired,
-  initialValue: PropTypes.object.isRequired,
   sliderWidthNumber: PropTypes.number,
 }
 
