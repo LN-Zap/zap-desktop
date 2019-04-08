@@ -322,7 +322,7 @@
     "bitcoinjs-lib": "4.0.5",
     "bolt11": "1.2.4",
     "coininfo": "4.4.0",
-    "config": "3.0.1",
+    "config": "3.1.0",
     "connected-react-router": "5.0.1",
     "copy-to-clipboard": "3.1.0",
     "country-data-lookup": "0.0.3",
