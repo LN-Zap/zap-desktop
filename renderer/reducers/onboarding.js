@@ -1,15 +1,8 @@
 import config from 'config'
-import delay from '@zap/utils/delay'
-import { setLoading } from './app'
-import { walletSelectors } from './wallet'
-
-const { isWalletOpen } = walletSelectors
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const ONBOARDING_STARTED = 'ONBOARDING_STARTED'
-export const ONBOARDING_FINISHED = 'ONBOARDING_FINISHED'
 export const SET_CONNECTION_TYPE = 'SET_CONNECTION_TYPE'
 export const SET_CONNECTION_URI = 'SET_CONNECTION_URI'
 export const SET_CONNECTION_HOST = 'SET_CONNECTION_HOST'
@@ -34,18 +27,6 @@ export const SET_LNDCONNECT = 'SET_LNDCONNECT'
 
 export const resetOnboarding = () => dispatch => {
   dispatch({ type: RESET_ONBOARDING })
-}
-
-export function onboardingStarted() {
-  return {
-    type: ONBOARDING_STARTED,
-  }
-}
-
-export function onboardingFinished() {
-  return {
-    type: ONBOARDING_FINISHED,
-  }
 }
 
 export function setConnectionString(connectionString) {
@@ -181,13 +162,6 @@ export const validateMacaroon = macaroonPath => async dispatch => {
   }
 }
 
-export const startOnboarding = () => async (dispatch, getState) => {
-  dispatch(onboardingStarted())
-  // add some delay if the app is starting for the first time vs logging out of the the opened wallet
-  await delay(isWalletOpen(getState()) ? 0 : 1500)
-  dispatch(setLoading(false))
-}
-
 export const lndconnectUri = (event, lndConnect) => dispatch => {
   dispatch(setLndconnect(lndConnect))
 }
@@ -209,8 +183,6 @@ const ACTION_HANDLERS = {
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, isFetchingSeed: false }),
   [SET_LNDCONNECT]: (state, { lndConnect }) => ({ ...state, lndConnect }),
   [SET_PASSWORD]: (state, { password }) => ({ ...state, password }),
-  [ONBOARDING_STARTED]: state => ({ ...state, onboarding: true, isOnboarded: false }),
-  [ONBOARDING_FINISHED]: state => ({ ...state, onboarding: false, isOnboarded: true }),
   [VALIDATING_HOST]: (state, { validatingHost }) => ({ ...state, validatingHost }),
   [VALIDATING_CERT]: (state, { validatingCert }) => ({ ...state, validatingCert }),
   [VALIDATING_MACAROON]: (state, { validatingMacaroon }) => ({ ...state, validatingMacaroon }),
@@ -222,7 +194,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 
 const initialState = {
-  onboarding: false,
+  isOnboarding: false,
   isOnboarded: false,
   autopilot: config.lnd.autopilot.active,
   chain: config.chain,

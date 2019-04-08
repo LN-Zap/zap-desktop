@@ -244,6 +244,7 @@ app.on('ready', async () => {
     backgroundColor: get(theme, 'colors.primaryColor', '#242633'),
     webPreferences: {
       nodeIntegration: false,
+      nodeIntegrationInWorker: true,
       preload: isDev
         ? path.resolve(__dirname, '..', 'dist', 'preload.js')
         : path.resolve(__dirname, 'preload.js'),

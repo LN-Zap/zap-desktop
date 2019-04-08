@@ -1,4 +1,5 @@
 import { join } from 'path'
+import EventEmitter from 'events'
 import { loadPackageDefinition } from '@grpc/grpc-js'
 import { load } from '@grpc/proto-loader'
 import lndgrpc from 'lnd-grpc'
@@ -6,17 +7,18 @@ import StateMachine from 'javascript-state-machine'
 import validateHost from '@zap/utils/validateHost'
 import { mainLog } from '@zap/utils/log'
 import grpcOptions from '@zap/utils/grpcOptions'
-import lndGrpcProtoPath from '@zap/utils/lndGrpcProtoPath'
 import getDeadline from '@zap/utils/getDeadline'
 import createSslCreds from '@zap/utils/createSslCreds'
-import methods from './walletUnlockerMethods'
+
+export const SUPPORTED_SERVICES = ['WalletUnlocker', 'Lightning']
 
 /**
- * Creates an LND grpc client lightning service.
- * @returns {WalletUnlocker}
+ * Creates an lnd grpc client service.
+ * @returns {GrpcService}
  */
-class WalletUnlocker {
-  constructor(lndConfig) {
+class GrpcService extends EventEmitter {
+  constructor() {
+    super()
     this.fsm = new StateMachine({
       init: 'ready',
       transitions: [
@@ -25,10 +27,34 @@ class WalletUnlocker {
       ],
       methods: {
         onBeforeConnect: this.onBeforeConnect.bind(this),
+        onAfterConnect: this.onAfterConnect.bind(this),
         onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
+        onAfterDisconnect: this.onAfterDisconnect.bind(this),
       },
     })
+    this.subscriptions = []
+    this.serviceName = null
     this.service = null
+    this.lndConfig = null
+  }
+
+  /**
+   * Initialize the service.
+   *
+   * Note: comline doesn't seem to properly support passing args via the constructor
+   *       which is why we do it here.
+   * @param  {[type]}  options [description]
+   * @return {Promise}         [description]
+   */
+  async init(lndConfig) {
+    if (!SUPPORTED_SERVICES.includes(this.serviceName)) {
+      throw new Error(
+        `Unsupported service (supported services are ${SUPPORTED_SERVICES.join(', ')})`
+      )
+    }
+
+    // Initialise the lnd config
+    mainLog.info(`Initializing ${this.serviceName} with lndConfig: %o`, lndConfig)
     this.lndConfig = lndConfig
   }
 
@@ -55,25 +81,29 @@ class WalletUnlocker {
 
   /**
    * Connect to the gRPC interface and verify it is functional.
-   * @return {Promise<rpc.lnrpc.WalletUnlocker>}
+   * @return {Promise<rpc.lnrpc.[serviceName]>}
    */
   async onBeforeConnect() {
-    mainLog.info('Connecting to WalletUnlocker gRPC service')
+    mainLog.info(`Connecting to ${this.serviceName} gRPC service`)
     const { host } = this.lndConfig
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
     return validateHost(host).then(() => this.establishConnection())
   }
 
+  onAfterConnect() {}
+
   /**
    * Discomnnect the gRPC service.
    */
   onBeforeDisconnect() {
-    mainLog.info('Disconnecting from WalletUnlocker gRPC service')
+    mainLog.info(`Disconnecting from ${this.serviceName} gRPC service`)
     if (this.service) {
       this.service.close()
     }
   }
+
+  onAfterDisconnect() {}
 
   // ------------------------------------
   // Helpers
@@ -83,12 +113,12 @@ class WalletUnlocker {
    * Establish a connection to the Lightning interface.
    */
   async establishConnection() {
-    const { host, cert } = this.lndConfig
+    const { host, cert, protoPath } = this.lndConfig
 
     // Find the most recent rpc.proto file
-    const version = await lndgrpc.getLatestProtoVersion({ path: lndGrpcProtoPath() })
-    const filepath = join(lndGrpcProtoPath(), `${version}.proto`)
-    mainLog.debug('Establishing gRPC connection with proto file %s', filepath)
+    const version = await lndgrpc.getLatestProtoVersion({ path: protoPath })
+    const filepath = join(protoPath, `${version}.proto`)
+    mainLog.info('Establishing gRPC connection with proto file %s', filepath, filepath, grpcOptions)
 
     // Load gRPC package definition as a gRPC object hierarchy.
     const packageDefinition = await load(filepath, grpcOptions)
@@ -98,7 +128,7 @@ class WalletUnlocker {
     const sslCreds = await createSslCreds(cert)
 
     // Create a new gRPC client instance.
-    this.service = new rpc.lnrpc.WalletUnlocker(host, sslCreds)
+    this.service = new rpc.lnrpc[this.serviceName](host, sslCreds)
 
     // Wait upto 20 seconds for the gRPC connection to be established.
     return new Promise((resolve, reject) => {
@@ -111,13 +141,6 @@ class WalletUnlocker {
       })
     })
   }
-
-  /**
-   * Hook up lnd restful methods.
-   */
-  registerMethods(event, msg, data) {
-    return methods(this.service, mainLog, event, msg, data, this.lndConfig)
-  }
 }
 
-export default WalletUnlocker
+export default GrpcService

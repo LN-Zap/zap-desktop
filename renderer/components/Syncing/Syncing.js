@@ -12,8 +12,8 @@ import messages from './messages'
 const getSyncMessages = ({
   syncStatus,
   syncPercentage,
-  lndBlockHeight,
-  lndCfilterHeight,
+  neutrinoBlockHeight,
+  neutrinoCfilterHeight,
   blockHeight,
   intl,
   syncMessageExtraDetail,
@@ -35,14 +35,14 @@ const getSyncMessages = ({
       detailMessage = intl.formatMessage(
         { ...messages.block_progress },
         {
-          currentBlock: lndBlockHeight.toLocaleString(),
+          currentBlock: neutrinoBlockHeight.toLocaleString(),
           totalBlocks: blockHeight.toLocaleString(),
         }
       )
       extraDetailMessage = intl.formatMessage(
         { ...messages.filter_progress },
         {
-          currentFilter: lndCfilterHeight.toLocaleString(),
+          currentFilter: neutrinoCfilterHeight.toLocaleString(),
           totalFilters: blockHeight.toLocaleString(),
         }
       )
@@ -81,8 +81,8 @@ const Syncing = props => {
     syncPercentage,
     address,
     blockHeight,
-    lndBlockHeight,
-    lndCfilterHeight,
+    neutrinoBlockHeight,
+    neutrinoCfilterHeight,
     isLightningGrpcActive,
     network,
     showNotification,
@@ -101,8 +101,8 @@ const Syncing = props => {
   const { mainMessage, extraDetailMessage, detailMessage } = getSyncMessages({
     syncStatus,
     syncPercentage,
-    lndBlockHeight,
-    lndCfilterHeight,
+    neutrinoBlockHeight,
+    neutrinoCfilterHeight,
     blockHeight,
     intl,
     syncMessageExtraDetail,
@@ -198,9 +198,9 @@ Syncing.propTypes = {
   hasSynced: PropTypes.bool,
   intl: intlShape.isRequired,
   isLightningGrpcActive: PropTypes.bool,
-  lndBlockHeight: PropTypes.number,
-  lndCfilterHeight: PropTypes.number,
   network: PropTypes.string,
+  neutrinoBlockHeight: PropTypes.number,
+  neutrinoCfilterHeight: PropTypes.number,
   setIsWalletOpen: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
   syncPercentage: PropTypes.number,

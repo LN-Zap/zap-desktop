@@ -2,77 +2,27 @@ import { join } from 'path'
 import { credentials, loadPackageDefinition } from '@grpc/grpc-js'
 import { load } from '@grpc/proto-loader'
 import lndgrpc from 'lnd-grpc'
-import StateMachine from 'javascript-state-machine'
+import { mainLog } from '@zap/utils/log'
 import promisifiedCall from '@zap/utils/promisifiedCall'
 import validateHost from '@zap/utils/validateHost'
-import { mainLog } from '@zap/utils/log'
+import waitForFile from '@zap/utils/waitForFile'
 import grpcOptions from '@zap/utils/grpcOptions'
-import lndGrpcProtoPath from '@zap/utils/lndGrpcProtoPath'
 import getDeadline from '@zap/utils/getDeadline'
 import createSslCreds from '@zap/utils/createSslCreds'
 import createMacaroonCreds from '@zap/utils/createMacaroonCreds'
-import waitForFile from '@zap/utils/waitForFile'
-import methods from './methods'
-import subscribeToTransactions from './subscribe/transactions'
-import subscribeToInvoices from './subscribe/invoices'
-import subscribeToChannelGraph from './subscribe/channelgraph'
-import { getInfo } from './methods/networkController'
-
-const _version = new WeakMap()
+import grpcSslCipherSuites from '@zap/utils/grpcSslCipherSuites'
+import LndGrpcService from '@zap/services/grpc/grpcService'
+import subscriptions from './lightning.subscriptions'
+import methods from './lightning.methods'
 
 /**
  * Creates an LND grpc client lightning service.
  * @returns {Lightning}
  */
-class Lightning {
-  constructor(lndConfig) {
-    this.fsm = new StateMachine({
-      init: 'ready',
-      transitions: [
-        { name: 'connect', from: 'ready', to: 'connected' },
-        { name: 'disconnect', from: 'connected', to: 'ready' },
-        { name: 'terminate', from: 'connected', to: 'ready' },
-      ],
-      methods: {
-        onBeforeConnect: this.onBeforeConnect.bind(this),
-        onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
-        onBeforeTerminate: this.onBeforeTerminate.bind(this),
-      },
-    })
-
-    this.mainWindow = null
-    this.service = null
-    this.lndConfig = lndConfig
-    this.subscriptions = {
-      channelGraph: null,
-      invoices: null,
-      transactions: null,
-    }
-  }
-
-  // Define a read only getter property that returns the version of the api we are connected to, once known.
-  get version() {
-    return _version.get(this)
-  }
-
-  // ------------------------------------
-  // FSM Proxies
-  // ------------------------------------
-
-  connect(...args) {
-    return this.fsm.connect(args)
-  }
-  disconnect(...args) {
-    return this.fsm.disconnect(args)
-  }
-  terminate(...args) {
-    return this.fsm.terminate(args)
-  }
-  is(...args) {
-    return this.fsm.is(args)
-  }
-  can(...args) {
-    return this.fsm.can(args)
+class Lightning extends LndGrpcService {
+  constructor() {
+    super()
+    this.serviceName = 'Lightning'
   }
 
   // ------------------------------------
@@ -85,7 +35,13 @@ class Lightning {
    */
   async onBeforeConnect() {
     mainLog.info('Connecting to Lightning gRPC service')
-    const { host, macaroon, type } = this.lndConfig
+
+    // Set up SSL with the cypher suits that we need.
+    process.env.GRPC_SSL_CIPHER_SUITES = grpcSslCipherSuites
+
+    // Get connection params from config.
+    const { host, macaroon, type, protoPath } = this.lndConfig
+
     // Verify that the host is valid before creating a gRPC client that is connected to it.
     await validateHost(host)
     // If we are trying to connect to the internal lnd, wait up to 20 seconds for the macaroon to be generated.
@@ -97,14 +53,14 @@ class Lightning {
 
     // Once connected, make a call to getInfo in order to determine the api version.
     const { service } = this
-    const info = await getInfo(service)
+    const info = await this.getInfo()
 
     mainLog.info('Connected to Lightning gRPC:', info)
 
     // Determine most relevant proto version and reconnect using the right rpc.proto if we need to.
     const [closestProtoVersion, latestProtoVersion] = await Promise.all([
-      lndgrpc.getClosestProtoVersion(info.version, { path: lndGrpcProtoPath() }),
-      lndgrpc.getLatestProtoVersion({ path: lndGrpcProtoPath() }),
+      lndgrpc.getClosestProtoVersion(info.version, { path: protoPath }),
+      lndgrpc.getLatestProtoVersion({ path: protoPath }),
     ])
 
     if (closestProtoVersion !== latestProtoVersion) {
@@ -120,30 +76,18 @@ class Lightning {
   }
 
   /**
-   * Discomnnect the gRPC service.
+   * Subscribe to streams after successfully connecting.
    */
-  onBeforeDisconnect() {
-    mainLog.info('Disconnecting from Lightning gRPC service')
-    this.unsubscribe()
-    if (this.service) {
-      this.service.close()
-    }
+  onAfterConnect() {
+    this.subscribe()
   }
 
   /**
-   * Gracefully shutdown the gRPC service.
+   * Discomnnect the gRPC service.
    */
-  async onBeforeTerminate() {
-    mainLog.info('Shutting down Lightning daemon')
+  onBeforeDisconnect() {
     this.unsubscribe()
-    return new Promise((resolve, reject) => {
-      this.service.stopDaemon({}, (err, data) => {
-        if (err) {
-          return reject(err)
-        }
-        resolve(data)
-      })
-    })
+    super.onBeforeDisconnect()
   }
 
   // ------------------------------------
@@ -154,16 +98,12 @@ class Lightning {
    * Establish a connection to the Lightning interface.
    */
   async establishConnection(version) {
-    const { host, cert, macaroon } = this.lndConfig
+    const { host, cert, macaroon, protoPath } = this.lndConfig
 
     // Find the rpc.proto file to use. If no version was supplied, attempt to use the latest version.
-    const versionToUse =
-      version || (await lndgrpc.getLatestProtoVersion({ path: lndGrpcProtoPath() }))
-    const filepath = join(lndGrpcProtoPath(), `${versionToUse}.proto`)
-    mainLog.debug('Establishing gRPC connection with proto file %s', filepath)
-
-    // Save the version into a read only property that can be read from the outside.
-    _version.set(this, versionToUse)
+    const versionToUse = version || (await lndgrpc.getLatestProtoVersion({ path: protoPath }))
+    const filepath = join(protoPath, `${versionToUse}.proto`)
+    mainLog.info('Establishing gRPC connection with proto file %s', filepath)
 
     // Load gRPC package definition as a gRPC object hierarchy.
     const packageDefinition = await load(filepath, grpcOptions)
@@ -182,29 +122,20 @@ class Lightning {
       // Wait up to 20 seconds for the gRPC connection to be established.
       return await promisifiedCall(this.service, this.service.waitForReady, getDeadline(20))
     } catch (e) {
-      mainLog.debug(e)
+      mainLog.warn(e)
       this.service.close()
       return Promise.reject(e)
     }
   }
 
   /**
-   * Hook up lnd restful methods.
-   */
-  registerMethods(event, msg, data) {
-    return methods(this, mainLog, event, msg, data)
-  }
-
-  /**
    * Subscribe to all bi-directional streams.
    */
-  subscribe(mainWindow) {
+  subscribe() {
     mainLog.info('Subscribing to Lightning gRPC streams')
-    this.mainWindow = mainWindow
-
-    this.subscriptions.channelGraph = subscribeToChannelGraph.call(this)
-    this.subscriptions.invoices = subscribeToInvoices.call(this)
-    this.subscriptions.transactions = subscribeToTransactions.call(this)
+    this.subscriptions['channelGraph'] = this.subscribeChannelGraph()
+    this.subscriptions['invoices'] = this.subscribeInvoices()
+    this.subscriptions['transactions'] = this.subscribeTransactions()
   }
 
   /**
@@ -212,14 +143,16 @@ class Lightning {
    */
   unsubscribe() {
     mainLog.info('Unsubscribing from Lightning gRPC streams')
-    this.mainWindow = null
     Object.keys(this.subscriptions).forEach(subscription => {
       if (this.subscriptions[subscription]) {
+        mainLog.info(` > Unsubscribing from ${subscription} stream`)
         this.subscriptions[subscription].cancel()
-        this.subscriptions[subscription] = null
       }
     })
   }
 }
+
+Object.assign(Lightning.prototype, subscriptions)
+Object.assign(Lightning.prototype, methods)
 
 export default Lightning

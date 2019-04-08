@@ -3,7 +3,6 @@ import { createSelector } from 'reselect'
 import get from 'lodash.get'
 import { requestTickers } from '@zap/utils/api'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
-import { infoSelectors } from './info'
 import { putSetting } from './settings'
 
 // ------------------------------------
@@ -101,7 +100,7 @@ export const fetchTickers = () => async dispatch => {
 }
 
 // Receive IPC event for receiveCryptocurrency
-export const receiveCryptocurrency = (event, chain) => async (dispatch, getState) => {
+export const receiveCryptocurrency = chain => async (dispatch, getState) => {
   dispatch(setCrypto(chain))
 
   // Load saved settings for the chain.
@@ -130,7 +129,6 @@ const ACTION_HANDLERS = {
 }
 
 // Selectors
-const tickerSelectors = {}
 const cryptoSelector = state => state.ticker.crypto
 const currencySelector = state => state.ticker.currency
 const currencyFiltersSelector = state => state.ticker.currencyFilters
@@ -138,6 +136,17 @@ const bitcoinTickerSelector = state => state.ticker.btcTicker
 const litecoinTickerSelector = state => state.ticker.ltcTicker
 const fiatTickerSelector = state => state.ticker.fiatTicker
 const tickerLoadingSelector = state => state.ticker.tickerLoading
+const chainSelector = state => state.info.chain
+const networkSelector = state => state.info.network
+const networksSelector = state => state.info.networks
+const networkInfoSelector = createSelector(
+  chainSelector,
+  networkSelector,
+  networksSelector,
+  (chain, network, networks) => get(networks, `${chain}.${network}`)
+)
+
+const tickerSelectors = {}
 
 tickerSelectors.currency = currencySelector
 tickerSelectors.tickerLoading = tickerLoadingSelector
@@ -165,7 +174,7 @@ tickerSelectors.cryptoName = createSelector(
 
 tickerSelectors.currencyFilters = createSelector(
   cryptoSelector,
-  infoSelectors.networkInfo,
+  networkInfoSelector,
   currencyFiltersSelector,
   (crypto, networkInfo, currencyFilters) => {
     if (!crypto || !networkInfo) {

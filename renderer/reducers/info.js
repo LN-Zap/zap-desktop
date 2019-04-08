@@ -1,9 +1,10 @@
 import { createSelector } from 'reselect'
-import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
 import { networks } from '@zap/utils/crypto'
+import { lightningService } from 'workers'
 import { walletAddress } from './address'
 import { putWallet, walletSelectors } from './wallet'
+import { receiveCryptocurrency } from './ticker'
 
 // ------------------------------------
 // Constants
@@ -79,15 +80,19 @@ export const setHasSynced = hasSynced => async (dispatch, getState) => {
 // Send IPC event for getinfo
 export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
-  dispatch(send('lnd', { msg: 'info' }))
+  const lightning = await lightningService
+  const info = await lightning.getInfo()
+  dispatch(receiveInfo(info))
 }
 
 // Receive IPC event for info
-export const receiveInfo = (event, data) => async (dispatch, getState) => {
+export const receiveInfo = data => async (dispatch, getState) => {
   // Save the node info.
   dispatch({ type: RECEIVE_INFO, data })
 
   const state = getState()
+
+  dispatch(receiveCryptocurrency(data.chains[0].chain))
 
   // Now that we have the node info, load it's sync state.
   const node = await window.db.nodes.get({ id: data.identity_pubkey })

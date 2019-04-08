@@ -130,15 +130,16 @@ class WalletLauncher extends React.Component {
   static propTypes = {
     clearStartLndError: PropTypes.func.isRequired,
     deleteWallet: PropTypes.func.isRequired,
+    generateLndConfigFromWallet: PropTypes.func.isRequired,
     history: PropTypes.shape({
       push: PropTypes.func.isRequired,
     }),
     intl: intlShape.isRequired,
     isLightningGrpcActive: PropTypes.bool.isRequired,
+    isNeutrinoRunning: PropTypes.bool.isRequired,
     isStartingLnd: PropTypes.bool.isRequired,
     isWalletUnlockerGrpcActive: PropTypes.bool.isRequired,
     putWallet: PropTypes.func.isRequired,
-    refreshLndConnectURI: PropTypes.func.isRequired,
     showError: PropTypes.func.isRequired,
     showNotification: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
@@ -206,7 +207,7 @@ class WalletLauncher extends React.Component {
    */
   saveSettings = async () => {
     const {
-      refreshLndConnectURI,
+      generateLndConfigFromWallet,
       putWallet,
       showNotification,
       showError,
@@ -230,7 +231,7 @@ class WalletLauncher extends React.Component {
             // re-generate lndconnectUri and
             // QR using updated host, cert and macaroon values. This is done in the main process
             result = formToWalletFormat(
-              await refreshLndConnectURI(
+              await generateLndConfigFromWallet(
                 Object.assign({}, { lndconnectQRCode: values.lndconnectUri }, values)
               )
             )
@@ -245,7 +246,7 @@ class WalletLauncher extends React.Component {
             })
             // re-generate lndconnectUri and
             // QR using updated host, cert and macaroon values. This is done in the main process
-            result = formToWalletFormat(await refreshLndConnectURI(config))
+            result = formToWalletFormat(await generateLndConfigFromWallet(config))
 
             formApi.setValues(Object.assign({}, values, { lndconnectUri: result.lndconnectUri }))
             break
@@ -258,7 +259,7 @@ class WalletLauncher extends React.Component {
 
             // re-generate lndconnectUri and
             // QR using updated host, cert and macaroon values. This is done in the main process
-            result = formToWalletFormat(await refreshLndConnectURI(config))
+            result = formToWalletFormat(await generateLndConfigFromWallet(config))
             break
           }
         }
@@ -362,7 +363,7 @@ class WalletLauncher extends React.Component {
   }
 
   render() {
-    const { wallet, isStartingLnd } = this.props
+    const { wallet, isStartingLnd, isNeutrinoRunning } = this.props
     const actionBarButtons = formState => (
       <>
         <Button key="cancel" mr={6} onClick={this.resetForm} type="button" variant="secondary">
@@ -393,7 +394,7 @@ class WalletLauncher extends React.Component {
                 </Box>
                 <Flex flexDirection="column" justifyContent="flex-end" ml="auto">
                   <Button
-                    isDisabled={isStartingLnd}
+                    isDisabled={isStartingLnd || isNeutrinoRunning}
                     isProcessing={isStartingLnd}
                     ml={2}
                     onClick={this.launchWallet}

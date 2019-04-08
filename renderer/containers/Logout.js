@@ -5,22 +5,19 @@ import { Redirect } from 'react-router'
 import { stopLnd } from 'reducers/lnd'
 import { resetApp } from 'reducers/app'
 import { setIsWalletOpen } from 'reducers/wallet'
-import { startOnboarding } from 'reducers/onboarding'
 
-function Logout({ resetApp, setIsWalletOpen, startOnboarding, stopLnd }) {
+function Logout({ resetApp, setIsWalletOpen, stopLnd }) {
   useEffect(() => {
     stopLnd()
     setIsWalletOpen(false)
     resetApp()
-    startOnboarding()
-  }, [resetApp, setIsWalletOpen, startOnboarding, stopLnd])
+  }, [resetApp, setIsWalletOpen, stopLnd])
   return <Redirect to="/" />
 }
 
 Logout.propTypes = {
   resetApp: PropTypes.func.isRequired,
   setIsWalletOpen: PropTypes.func.isRequired,
-  startOnboarding: PropTypes.func.isRequired,
   stopLnd: PropTypes.func.isRequired,
 }
 
@@ -28,7 +25,6 @@ const mapDispatchToProps = {
   resetApp,
   stopLnd,
   setIsWalletOpen,
-  startOnboarding,
 }
 
 export default connect(

@@ -1,4 +1,4 @@
-import { send } from 'redux-electron-ipc'
+import { lightningService } from 'workers'
 
 // ------------------------------------
 // Constants
@@ -38,13 +38,15 @@ export function getDescribeNetwork() {
 }
 
 // Send IPC event for describeNetwork
-export const fetchDescribeNetwork = () => dispatch => {
+export const fetchDescribeNetwork = () => async dispatch => {
   dispatch(getDescribeNetwork())
-  dispatch(send('lnd', { msg: 'describeNetwork' }))
+  const lightning = await lightningService
+  const data = await lightning.describeGraph()
+  dispatch(receiveDescribeNetwork(data))
 }
 
 // Receive IPC event for describeNetwork
-export const receiveDescribeNetwork = (event, { nodes }) => dispatch =>
+export const receiveDescribeNetwork = ({ nodes }) => dispatch =>
   dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes })
 
 // ------------------------------------

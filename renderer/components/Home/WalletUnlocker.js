@@ -36,7 +36,6 @@ class WalletUnlocker extends React.Component {
       isLightningGrpcActive,
       history,
       setUnlockWalletError,
-      isUnlockingWallet,
       unlockWalletError,
     } = this.props
 
@@ -44,15 +43,6 @@ class WalletUnlocker extends React.Component {
     if (unlockWalletError && !prevProps.unlockWalletError) {
       this.formApi.setError('password', unlockWalletError)
       setUnlockWalletError(null)
-    }
-
-    // Redirect to the app if the wallet was successfully unlocked.
-    if (!isUnlockingWallet && prevProps.isUnlockingWallet && !unlockWalletError) {
-      if (wallet.type === 'local') {
-        history.push('/syncing')
-      } else {
-        history.push('/app')
-      }
     }
 
     // If an active wallet connection has been established, switch to the app.

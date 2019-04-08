@@ -10,8 +10,8 @@ import { Window } from '../helpers'
 const store = new Store({
   address: '2MxZ2z7AodL6gxEgwL5tkq2imDBhkBMq2Jc',
   blockHeight: 123123,
-  lndBlockHeight: 1000,
-  lndCfilterHeight: 100,
+  neutrinoBlockHeight: 1000,
+  neutrinoCfilterHeight: 100,
   isLoading: false,
 })
 
@@ -39,8 +39,8 @@ storiesOf('Containers.Syncing', module)
             blockHeight={state.blockHeight}
             hasSynced={hasSynced}
             isLoading={state.isLoading}
-            lndBlockHeight={state.lndBlockHeight}
-            lndCfilterHeight={state.lndCfilterHeight}
+            neutrinoBlockHeight={state.neutrinoBlockHeight}
+            neutrinoCfilterHeight={state.neutrinoCfilterHeight}
             setIsWalletOpen={setIsWalletOpen}
             showNotification={showNotification}
             // Dispatch

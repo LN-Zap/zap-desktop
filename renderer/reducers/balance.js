@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { send } from 'redux-electron-ipc'
+import { lightningService } from 'workers'
 
 // ------------------------------------
 // Constants
@@ -19,11 +19,13 @@ export function getBalance() {
 // Send IPC event for balance
 export const fetchBalance = () => async dispatch => {
   dispatch(getBalance())
-  dispatch(send('lnd', { msg: 'balance' }))
+  const lightning = await lightningService
+  const balance = await lightning.getBalance()
+  dispatch(receiveBalance(balance))
 }
 
 // Receive IPC event for balance
-export const receiveBalance = (event, { walletBalance, channelBalance }) => dispatch => {
+export const receiveBalance = ({ walletBalance, channelBalance }) => dispatch => {
   dispatch({ type: RECEIVE_BALANCE, walletBalance, channelBalance })
 }
 

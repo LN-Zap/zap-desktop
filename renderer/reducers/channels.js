@@ -1,7 +1,8 @@
 import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
-import { send } from 'redux-electron-ipc'
+import { proxyValue } from 'comlinkjs'
 import { requestSuggestedNodes } from '@zap/utils/api'
+import { lightningService } from 'workers'
 import { updateNotification, showWarning, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
@@ -271,14 +272,13 @@ export const fetchSuggestedNodes = () => async dispatch => {
 // Send IPC event for peers
 export const fetchChannels = () => async dispatch => {
   dispatch(getChannels())
-  dispatch(send('lnd', { msg: 'channels' }))
+  const lightning = await lightningService
+  const channels = await lightning.getChannels()
+  dispatch(receiveChannels(channels))
 }
 
 // Receive IPC event for channels
-export const receiveChannels = (
-  event,
-  { channels, pendingChannels, closedChannels }
-) => dispatch => {
+export const receiveChannels = ({ channels, pendingChannels, closedChannels }) => dispatch => {
   dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels, closedChannels })
   dispatch(fetchBalance())
 }
@@ -308,23 +308,30 @@ export const openChannel = data => async (dispatch, getState) => {
   dispatch(showWarning('Channel opening initiated', { payload: { pubkey }, isProcessing: true }))
 
   // Attempt to open the channel.
-  dispatch(
-    send('lnd', {
-      msg: 'connectAndOpen',
-      data: {
-        pubkey,
-        host,
-        localamt,
-        private: channelIsPrivate,
-        satPerByte,
-        spendUnconfirmed,
-      },
+  const lightning = await lightningService
+  try {
+    const data = await lightning.connectAndOpen({
+      pubkey,
+      host,
+      localamt,
+      private: channelIsPrivate,
+      satPerByte,
+      spendUnconfirmed,
     })
-  )
+    dispatch(pushchannelupdated(data))
+    lightning.once('openChannel.data', proxyValue(data => dispatch(pushchannelupdated(data))))
+  } catch (e) {
+    dispatch(
+      pushchannelerror({
+        error: e.message,
+        node_pubkey: e.payload.node_pubkey,
+      })
+    )
+  }
 }
 
 // Receive IPC event for updated channel
-export const pushchannelupdated = (event, { node_pubkey, data }) => dispatch => {
+export const pushchannelupdated = ({ node_pubkey, data }) => dispatch => {
   dispatch(fetchChannels())
   if (data.update === 'chan_pending') {
     dispatch(removeLoadingChannel(node_pubkey))
@@ -341,13 +348,8 @@ export const pushchannelupdated = (event, { node_pubkey, data }) => dispatch => 
   }
 }
 
-// Receive IPC event for channel end
-export const pushchannelend = () => dispatch => {
-  dispatch(fetchChannels())
-}
-
 // Receive IPC event for channel error
-export const pushchannelerror = (event, { node_pubkey, error }) => dispatch => {
+export const pushchannelerror = ({ node_pubkey, error }) => dispatch => {
   dispatch(removeLoadingChannel(node_pubkey))
   dispatch(
     updateNotification(
@@ -361,64 +363,57 @@ export const pushchannelerror = (event, { node_pubkey, error }) => dispatch => {
   )
 }
 
-// Receive IPC event for channel status
-export const pushchannelstatus = () => dispatch => {
-  dispatch(fetchChannels())
-}
-
 export const showCloseChannelDialog = () => ({ type: OPEN_CLOSE_CHANNEL_DIALOG })
 export const hideCloseChannelDialog = () => ({ type: CLOSE_CLOSE_CHANNEL_DIALOG })
 
-// Send IPC event for opening a channel
-export const closeChannel = () => (dispatch, getState) => {
+// Send IPC event for closing a channel
+export const closeChannel = () => async (dispatch, getState) => {
   const selectedChannel = channelsSelectors.selectedChannel(getState())
+
   if (selectedChannel) {
     const { channel_point, chan_id, active } = selectedChannel
     dispatch(closingChannel())
     dispatch(addClosingChanId(chan_id))
 
     const [funding_txid, output_index] = channel_point.split(':')
-    dispatch(
-      send('lnd', {
-        msg: 'closeChannel',
-        data: {
-          channel_point: {
-            funding_txid,
-            output_index,
-          },
-          chan_id,
-          force: !active,
+
+    // Attempt to open the channel.
+    const lightning = await lightningService
+    try {
+      const data = await lightning.closeChannel({
+        channel_point: {
+          funding_txid,
+          output_index,
         },
+        chan_id,
+        force: !active,
       })
-    )
+      dispatch(pushclosechannelupdated(data))
+      lightning.once(
+        'closeChannel.data',
+        proxyValue(data => dispatch(pushclosechannelupdated(data)))
+      )
+    } catch (e) {
+      dispatch(
+        pushchannelerror({
+          error: e.message,
+          node_pubkey: e.payload.node_pubkey,
+        })
+      )
+    }
   }
 }
 
-// Receive IPC event for closeChannel
-export const closeChannelSuccessful = () => dispatch => {
-  dispatch(fetchChannels())
-}
-
 // Receive IPC event for updated closing channel
-export const pushclosechannelupdated = (event, data) => dispatch => {
+export const pushclosechannelupdated = ({ chan_id }) => dispatch => {
   dispatch(fetchChannels())
-  dispatch(removeClosingChanId(data.chan_id))
-}
-
-// Receive IPC event for closing channel end
-export const pushclosechannelend = () => dispatch => {
-  dispatch(fetchChannels())
-}
-
-// Receive IPC event for closing channel error
-export const pushclosechannelerror = (event, { error, chan_id }) => dispatch => {
-  dispatch(showError(error))
   dispatch(removeClosingChanId(chan_id))
 }
 
-// Receive IPC event for closing channel status
-export const pushclosechannelstatus = () => dispatch => {
-  dispatch(fetchChannels())
+// Receive IPC event for closing channel error
+export const pushclosechannelerror = ({ error, chan_id }) => dispatch => {
+  dispatch(showError(error))
+  dispatch(removeClosingChanId(chan_id))
 }
 
 /**

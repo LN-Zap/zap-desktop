@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
 import { appSelectors } from 'reducers/app'
-import { startActiveWallet } from 'reducers/lnd'
 import { initCurrency, initLocale } from 'reducers/locale'
 import { initWallets, walletSelectors } from 'reducers/wallet'
+import { initNeutrino } from 'reducers/neutrino'
+import { startActiveWallet } from 'reducers/lnd'
 import { initTickers } from 'reducers/ticker'
 import { initAutopay } from 'reducers/autopay'
 import { fetchSuggestedNodes, initChannels } from 'reducers/channels'
@@ -23,6 +24,7 @@ class Initializer extends React.Component {
     initChannels: PropTypes.func.isRequired,
     initCurrency: PropTypes.func.isRequired,
     initLocale: PropTypes.func.isRequired,
+    initNeutrino: PropTypes.func.isRequired,
     initTickers: PropTypes.func.isRequired,
     initWallets: PropTypes.func.isRequired,
     isRootReady: PropTypes.bool.isRequired,
@@ -33,7 +35,7 @@ class Initializer extends React.Component {
   /**
    * Initialize app state.
    */
-  async componentDidMount() {
+  componentDidMount() {
     const {
       fetchSuggestedNodes,
       initTickers,
@@ -42,12 +44,13 @@ class Initializer extends React.Component {
       initWallets,
       initChannels,
       initAutopay,
+      initNeutrino,
     } = this.props
+    initNeutrino()
     initTickers()
     initLocale()
     initCurrency()
     initAutopay()
-
     initWallets()
     initChannels()
     fetchSuggestedNodes()
@@ -94,7 +97,6 @@ class Initializer extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  onboarding: state.onboarding.onboarding,
   lndConnect: state.onboarding.lndConnect,
   activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
@@ -106,6 +108,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   startActiveWallet,
   fetchSuggestedNodes,
+  initNeutrino,
   initTickers,
   initCurrency,
   initLocale,

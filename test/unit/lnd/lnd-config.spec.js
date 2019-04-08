@@ -1,5 +1,13 @@
 import { join } from 'path'
-import LndConfig from '@zap/lnd/config'
+import LndConfig from '@zap/utils/lndConfig'
+
+const userDataDir = '/some/data/dir'
+const binaryPath = '/some/bin/dir'
+
+const lndOptions = {
+  userDataDir,
+  binaryPath,
+}
 
 describe('LndConfig', function() {
   const checkForConfigProperties = type => {
@@ -16,8 +24,8 @@ describe('LndConfig', function() {
       expect(this.lndConfig.wallet).toEqual(this.wallet)
     })
     it(`should have the "lndDir" set to a path derived from the config, under the app userData dir`, () => {
-      const baseDir = '/tmp/zap-test/userData/lnd/'
-      const expectedDataDir = join(baseDir, this.chain, this.network, this.wallet)
+      const baseDir = userDataDir
+      const expectedDataDir = join(baseDir, 'lnd', this.chain, this.network, this.wallet)
       expect(this.lndConfig.lndDir).toEqual(expectedDataDir)
     })
   }
@@ -31,6 +39,7 @@ describe('LndConfig', function() {
         this.network = 'mainnet'
 
         this.lndConfig = new LndConfig({
+          ...lndOptions,
           id: 1,
           type: this.type,
           chain: this.chain,
@@ -52,15 +61,14 @@ describe('LndConfig', function() {
         this.macaroon = 'some-macaroon'
 
         this.lndConfig = new LndConfig({
+          ...lndOptions,
           id: 1,
           type: this.type,
           chain: this.chain,
           network: this.network,
-          settings: {
-            host: this.host,
-            cert: this.cert,
-            macaroon: this.macaroon,
-          },
+          host: this.host,
+          cert: this.cert,
+          macaroon: this.macaroon,
         })
       })
 
