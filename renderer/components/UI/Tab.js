@@ -23,6 +23,7 @@ class Tab extends React.PureComponent {
           onClick={() => onClick(itemKey)}
           px={3}
           size="small"
+          type="button"
           variant="secondary"
         >
           <Text fontWeight="normal">{itemValue}</Text>
