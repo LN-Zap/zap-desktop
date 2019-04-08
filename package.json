@@ -319,7 +319,7 @@
     "axios": "0.18.0",
     "bip21": "2.0.2",
     "bip39-en": "1.1.1",
-    "bitcoinjs-lib": "4.0.4",
+    "bitcoinjs-lib": "4.0.5",
     "bolt11": "1.2.4",
     "coininfo": "4.4.0",
     "config": "3.0.1",
