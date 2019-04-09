@@ -117,6 +117,7 @@ class Input extends React.Component {
   static displayName = 'Input'
 
   static propTypes = {
+    children: PropTypes.node,
     className: PropTypes.string,
     description: PropTypes.node,
     field: PropTypes.string.isRequired,
@@ -191,6 +192,7 @@ class Input extends React.Component {
       variant,
       className,
       tooltip,
+      children,
       ...rest
     } = this.props
     const { hasFocus } = this.state
@@ -273,6 +275,7 @@ class Input extends React.Component {
             type={type}
             value={!value && value !== 0 ? '' : value}
           />
+          {children}
         </Flex>
 
         {type !== 'hidden' && description && (
