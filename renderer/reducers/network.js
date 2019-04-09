@@ -44,8 +44,8 @@ export const fetchDescribeNetwork = () => dispatch => {
 }
 
 // Receive IPC event for describeNetwork
-export const receiveDescribeNetwork = (event, { nodes, edges }) => dispatch =>
-  dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes, edges })
+export const receiveDescribeNetwork = (event, { nodes }) => dispatch =>
+  dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes })
 
 // ------------------------------------
 // Helpers
@@ -81,11 +81,10 @@ const mergeNodeUpdates = (state, nodeData) => {
 const ACTION_HANDLERS = {
   [UPDATE_NODE_DATA]: (state, { nodeData }) => nodeData.reduce(mergeNodeUpdates, state),
   [GET_DESCRIBE_NETWORK]: state => ({ ...state, networkLoading: true }),
-  [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes, edges }) => ({
+  [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes }) => ({
     ...state,
     networkLoading: false,
     nodes,
-    edges,
   }),
 }
 
@@ -95,7 +94,6 @@ const ACTION_HANDLERS = {
 const initialState = {
   networkLoading: false,
   nodes: [],
-  edges: [],
 }
 
 // ------------------------------------
