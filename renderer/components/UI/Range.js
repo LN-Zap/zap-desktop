@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
 
@@ -52,7 +53,7 @@ const Input = styled.input`
   }
 `
 
-const Range = asField(({ fieldState, fieldApi, ...props }) => {
+const Range = ({ fieldState, fieldApi, ...props }) => {
   const { value } = fieldState
   const { setValue, setTouched } = fieldApi
   const { onChange, onBlur, forwardedRef, sliderWidthNumber = 200, ...rest } = props
@@ -83,7 +84,7 @@ const Range = asField(({ fieldState, fieldApi, ...props }) => {
       {...rest}
       ref={forwardedRef}
       onBlur={e => {
-        setTouched()
+        setTouched(true)
         if (onBlur) {
           onBlur(e)
         }
@@ -98,6 +99,19 @@ const Range = asField(({ fieldState, fieldApi, ...props }) => {
       value={value || 0}
     />
   )
-})
+}
 
-export default withTheme(Range)
+Range.propTypes = {
+  fieldApi: PropTypes.object.isRequired,
+  fieldState: PropTypes.object.isRequired,
+  forwardedRef: PropTypes.object,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onFocus: PropTypes.func,
+  sliderWidthNumber: PropTypes.number,
+}
+
+const BasicRange = withTheme(Range)
+export { BasicRange }
+
+export default asField(BasicRange)

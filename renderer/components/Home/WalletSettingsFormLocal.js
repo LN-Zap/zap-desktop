@@ -4,8 +4,9 @@ import { compose } from 'redux'
 import { withFormApi, withFormState } from 'informed'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Bar, Button, DataRow, Input, Label, Range, Text, Toggle } from 'components/UI'
+import { Bar, Button, DataRow, Input, Label, Text, Toggle } from 'components/UI'
 import messages from './messages'
+import AutopilotAllocation from './AutopilotAllocation'
 
 class WalletSettingsFormLocal extends React.Component {
   static propTypes = {
@@ -122,7 +123,7 @@ class WalletSettingsFormLocal extends React.Component {
 
           <Bar mb={4} mt={2} />
 
-          {formState.values.autopilot ? (
+          {formState.values.autopilot && (
             <>
               <DataRow
                 left={
@@ -132,30 +133,11 @@ class WalletSettingsFormLocal extends React.Component {
                 }
                 py={2}
                 right={
-                  <Flex alignItems="center" justifyContent="flex-end">
-                    <Range
-                      field="autopilotAllocation"
-                      id="autopilotAllocation"
-                      initialValue={autopilotAllocation || autopilotDefaults.autopilotAllocation}
-                      max="100"
-                      min="0"
-                      ml="auto"
-                      sliderWidthNumber={200}
-                      step="1"
-                    />
-                    <Input
-                      css={{ 'text-align': 'right' }}
-                      field="autopilotAllocation"
-                      id="autopilotAllocation"
-                      justifyContent="right"
-                      max="100"
-                      min="0"
-                      ml={2}
-                      step="1"
-                      type="number"
-                      width={70}
-                    />
-                  </Flex>
+                  <AutopilotAllocation
+                    field="autopilotAllocation"
+                    initialValue={autopilotAllocation || autopilotDefaults.autopilotAllocation}
+                    sliderWidthNumber={200}
+                  />
                 }
               />
 
@@ -236,7 +218,7 @@ class WalletSettingsFormLocal extends React.Component {
                 </Button>
               </Flex>
             </>
-          ) : null}
+          )}
         </Box>
       </>
     )

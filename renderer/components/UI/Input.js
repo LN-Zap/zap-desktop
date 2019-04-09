@@ -1,6 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 
 import React from 'react'
+import { compose } from 'redux'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
@@ -15,8 +16,8 @@ import Span from './Span'
 import Text from './Text'
 import Tooltip from './Tooltip'
 
-function isFieldValid({ value, error, asyncError, touched }) {
-  return value && !error && !asyncError && touched
+function isFieldValid({ value, error, touched }) {
+  return value && !error && touched
 }
 
 function mapDefaultBorderColor(props) {
@@ -29,7 +30,6 @@ function mapDefaultBorderColor(props) {
       colors: { gray, superGreen, superRed },
     },
   } = props
-
   let borderColor = gray
 
   if (!props.highlightOnValid) {
@@ -117,6 +117,7 @@ class Input extends React.Component {
   static displayName = 'Input'
 
   static propTypes = {
+    children: PropTypes.node,
     className: PropTypes.string,
     description: PropTypes.node,
     field: PropTypes.string.isRequired,
@@ -191,6 +192,7 @@ class Input extends React.Component {
       variant,
       className,
       tooltip,
+      children,
       ...rest
     } = this.props
     const { hasFocus } = this.state
@@ -239,7 +241,8 @@ class Input extends React.Component {
             field={field}
             fieldState={fieldState}
             onBlur={e => {
-              setTouched()
+              // set touched to true to enforce validity hightlight
+              setTouched(true)
               // Make the state aware that the element is now focused.
               const newHasFocus = document.activeElement === this.inputRef.current
               if (hasFocus !== newHasFocus) {
@@ -272,6 +275,7 @@ class Input extends React.Component {
             type={type}
             value={!value && value !== 0 ? '' : value}
           />
+          {children}
         </Flex>
 
         {type !== 'hidden' && description && (
@@ -279,9 +283,9 @@ class Input extends React.Component {
             {description}
           </Text>
         )}
-        {type !== 'hidden' && hasMessage && (fieldState.error || fieldState.asyncError) && (
+        {type !== 'hidden' && hasMessage && fieldState.error && (
           <Message mt={1} variant={hasFocus ? 'warning' : 'error'}>
-            {fieldState.error || fieldState.asyncError}
+            {fieldState.error}
           </Message>
         )}
       </Flex>
@@ -289,4 +293,11 @@ class Input extends React.Component {
   }
 }
 
-export default withRequiredValidation(withTheme(asField(Input)))
+const BasicInput = withTheme(Input)
+
+export { BasicInput }
+
+export default compose(
+  withRequiredValidation,
+  asField
+)(BasicInput)

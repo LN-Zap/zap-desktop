@@ -29,11 +29,26 @@ const autopilotDefaults = {
   autopilotAllocation: allocation * 100,
 }
 
+// cleans up autopay settings if autopilot flag is turned
+const formatAutopilot = values => {
+  const result = Object.assign({}, values)
+  if (!values.autopilot) {
+    // remove autopilot related fields if it's turned off
+    delete result.autopilotAllocation
+    delete result.autopilotMaxchannels
+    delete result.autopilotMaxchansize
+    delete result.autopilotMinchansize
+    delete result.autopilotMinconfs
+    delete result.autopilotPrivate
+  }
+  return result
+}
+
 // converts form format to db/lnd compatible format
 const formToWalletFormat = values => {
-  const result = Object.assign({}, values)
-  const { autopilotAllocation } = result
-  if (autopilotAllocation) {
+  const result = Object.assign({}, formatAutopilot(values))
+  const { autopilot, autopilotAllocation } = result
+  if (autopilot && autopilotAllocation) {
     // result expects the autopilot allocation to be a decimal.
     result.autopilotAllocation = autopilotAllocation / 100
   }
@@ -42,9 +57,9 @@ const formToWalletFormat = values => {
 
 // converts db/lnd  format to form compatible format
 const walletToFormFormat = values => {
-  const result = Object.assign({}, values)
-  const { autopilotAllocation } = result
-  if (autopilotAllocation) {
+  const result = Object.assign({}, formatAutopilot(values))
+  const { autopilot, autopilotAllocation } = result
+  if (autopilot && autopilotAllocation) {
     // Lnd expects the autopilot allocation to be in [0..100]
     result.autopilotAllocation = autopilotAllocation * 100
   }
@@ -200,7 +215,7 @@ class WalletLauncher extends React.Component {
     try {
       const { formApi } = this
       const formState = formApi.getState()
-      const { values } = formState
+      const values = Object.assign({}, wallet, formState.values)
       let result = values
 
       if (wallet.type === 'local') {
@@ -321,7 +336,7 @@ class WalletLauncher extends React.Component {
     }
     // local node
     return !unsafeShallowCompare(
-      clean(Object.assign({}, { autopilot: false }, formToWalletFormat(autopilotDefaults), wallet)),
+      clean(formatAutopilot(Object.assign({}, { autopilot: false }, autopilotDefaults, wallet))),
       clean(
         formToWalletFormat(
           Object.assign({}, { autopilot: false }, autopilotDefaults, formState.values)

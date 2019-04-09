@@ -2,12 +2,14 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
 import { asField } from 'informed'
+import { withRequiredValidation } from 'hocs'
 import * as yup from 'yup'
 import { convert } from '@zap/utils/btc'
 import { formatValue, parseNumber } from '@zap/utils/crypto'
 import { withNumberInputMask } from 'hocs'
-import Input from './Input'
+import { BasicInput } from './Input'
 
 /**
  * @render react
@@ -27,12 +29,11 @@ class CryptoAmountInput extends React.Component {
    * Reformat the value when the currency unit has changed.
    */
   componentDidUpdate(prevProps) {
-    const { currency, fieldApi } = this.props
-
+    const { currency, fieldApi, fieldState } = this.props
     // Reformat the value when the currency unit has changed.
     if (currency !== prevProps.currency) {
       const { fieldApi } = this.props
-      let value = fieldApi.getValue()
+      let { value } = fieldState
       const convertedValue = convert(prevProps.currency, currency, value)
       const [integer, fractional] = parseNumber(convertedValue, this.getRules().precision)
       value = formatValue(integer, fractional)
@@ -41,7 +42,7 @@ class CryptoAmountInput extends React.Component {
 
     // If the value has changed, reformat it if needed.
     const valueBefore = prevProps.fieldState.value
-    const valueAfter = fieldApi.getValue()
+    const valueAfter = fieldState.value
     if (valueAfter !== valueBefore) {
       const [integer, fractional] = parseNumber(valueAfter, this.getRules().precision)
       // Handle a corner case for the satoshis. sat number must be integer so
@@ -90,7 +91,12 @@ class CryptoAmountInput extends React.Component {
     const rules = this.getRules()
 
     return (
-      <Input {...this.props} pattern={rules.pattern} placeholder={rules.placeholder} type="text" />
+      <BasicInput
+        {...this.props}
+        pattern={rules.pattern}
+        placeholder={rules.placeholder}
+        type="text"
+      />
     )
   }
 }
@@ -140,4 +146,10 @@ class WrappedCryptoAmountInputAsField extends React.Component {
   }
 }
 
-export default asField(withNumberInputMask(WrappedCryptoAmountInputAsField))
+const BasicCryptoAmountInput = withNumberInputMask(WrappedCryptoAmountInputAsField)
+export { WrappedCryptoAmountInputAsField as BasicCryptoAmountInput }
+
+export default compose(
+  withRequiredValidation,
+  asField
+)(BasicCryptoAmountInput)

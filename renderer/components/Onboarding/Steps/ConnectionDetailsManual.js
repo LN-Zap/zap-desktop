@@ -65,22 +65,26 @@ class ConnectionDetailsManual extends React.Component {
     }
   }
 
-  handleConnectionHostChange = () => {
-    const formState = this.formApi.getState()
-    delete formState.asyncErrors.connectionHost
-    this.formApi.setState(formState)
-  }
+  asyncValidateField = async (field, validator) => {
+    const value = this.formApi.getValue(field)
+    if (!value) {
+      return
+    }
 
-  handleConnectionCertChange = () => {
-    const formState = this.formApi.getState()
-    delete formState.asyncErrors.connectionCert
-    this.formApi.setState(formState)
-  }
+    const validatorWrapper = async () => {
+      try {
+        await validator(value)
+      } catch (e) {
+        return e.toString()
+      }
+    }
 
-  handleConnectionMacaroonChange = () => {
-    const formState = this.formApi.getState()
-    delete formState.asyncErrors.connectionMacaroon
-    this.formApi.setState(formState)
+    const result = await validatorWrapper(field, validator)
+    if (result === true) {
+      this.formApi.setError(field, undefined)
+    } else {
+      this.formApi.setError(field, result)
+    }
   }
 
   handleSubmit = values => {
@@ -90,31 +94,19 @@ class ConnectionDetailsManual extends React.Component {
     setConnectionMacaroon(values.connectionMacaroon)
   }
 
-  validateHost = async value => {
+  validateHost = () => {
     const { validateHost } = this.props
-    try {
-      await validateHost(value)
-    } catch (e) {
-      return e.toString()
-    }
+    return this.asyncValidateField('connectionHost', validateHost)
   }
 
-  validateCert = async value => {
+  validateCert = () => {
     const { validateCert } = this.props
-    try {
-      await validateCert(value)
-    } catch (e) {
-      return e.toString()
-    }
+    return this.asyncValidateField('connectionCert', validateCert)
   }
 
-  validateMacaroon = async value => {
+  validateMacaroon = () => {
     const { validateMacaroon } = this.props
-    try {
-      await validateMacaroon(value)
-    } catch (e) {
-      return e.toString()
-    }
+    return this.asyncValidateField('connectionMacaroon', validateMacaroon)
   }
 
   setFormApi = formApi => {
@@ -148,6 +140,7 @@ class ConnectionDetailsManual extends React.Component {
     return (
       <Form
         {...rest}
+        asyncValidators={[this.validateHost, this.validateCert, this.validateMacaroon]}
         getApi={formApi => {
           this.setFormApi(formApi)
           if (getApi) {
@@ -186,7 +179,6 @@ class ConnectionDetailsManual extends React.Component {
               <ConnectionDetailsTabs mb={3} />
 
               <Input
-                asyncValidate={this.validateHost}
                 description={<FormattedMessage {...messages.hostname_description} />}
                 field="connectionHost"
                 initialValue={connectionHost}
@@ -194,20 +186,19 @@ class ConnectionDetailsManual extends React.Component {
                 label={<FormattedMessage {...messages.hostname_title} />}
                 mb={3}
                 name="connectionHost"
-                onValueChange={this.handleConnectionHostChange}
-                validateOnBlur={shouldValidateInline}
-                validateOnChange={shouldValidateInline}
+                onBlur={this.validateHost}
                 willAutoFocus
               />
 
               <OpenDialogInput
-                asyncValidate={this.validateCert}
                 description={<FormattedMessage {...messages.cert_description} />}
                 field="connectionCert"
                 initialValue={connectionCert}
                 isRequired
                 label={<FormattedMessage {...messages.cert_title} />}
+                mb={3}
                 name="connectionCert"
+                onBlur={this.validateCert}
                 onValueChange={this.handleConnectionCertChange}
                 validateOnBlur={shouldValidateInline}
                 validateOnChange={shouldValidateInline}
@@ -215,13 +206,13 @@ class ConnectionDetailsManual extends React.Component {
               />
 
               <OpenDialogInput
-                asyncValidate={this.validateMacaroon}
                 description={<FormattedMessage {...messages.macaroon_description} />}
                 field="connectionMacaroon"
                 initialValue={connectionMacaroon}
                 isRequired
                 label="Macaroon"
                 name="connectionMacaroon"
+                onBlur={this.validateMacaroon}
                 onValueChange={this.handleConnectionMacaroonChange}
                 validateOnBlur={shouldValidateInline}
                 validateOnChange={shouldValidateInline}

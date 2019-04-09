@@ -7,7 +7,7 @@ import * as yup from 'yup'
 import { convert } from '@zap/utils/btc'
 import { formatValue, parseNumber } from '@zap/utils/crypto'
 import { withNumberInputMask } from 'hocs'
-import Input from './Input'
+import { BasicInput } from './Input'
 
 /**
  * @render react
@@ -25,12 +25,12 @@ class FiatAmountInput extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { currency, currentTicker, fieldApi } = this.props
+    const { currency, currentTicker, fieldApi, fieldState } = this.props
 
     // Reformat the value when the currency unit has changed.
     if (currency !== prevProps.currency) {
       const { fieldApi } = this.props
-      let value = fieldApi.getValue()
+      let { value } = fieldState
       const lastPriceInOrigCurrency = currentTicker[prevProps.currency]
       const lastPriceInNewCurrency = currentTicker[currency]
       // Convert to BTC.
@@ -44,7 +44,7 @@ class FiatAmountInput extends React.Component {
 
     // If the value has changed, reformat it if needed.
     const valueBefore = prevProps.fieldState.value
-    const valueAfter = fieldApi.getValue()
+    const valueAfter = fieldState.value
     if (valueAfter !== valueBefore) {
       const [integer, fractional] = parseNumber(valueAfter, this.getRules().precision)
       const formattedValue = formatValue(integer, fractional)
@@ -65,7 +65,12 @@ class FiatAmountInput extends React.Component {
   render() {
     const rules = this.getRules()
     return (
-      <Input {...this.props} pattern={rules.pattern} placeholder={rules.placeholder} type="text" />
+      <BasicInput
+        {...this.props}
+        pattern={rules.pattern}
+        placeholder={rules.placeholder}
+        type="text"
+      />
     )
   }
 }
@@ -115,4 +120,6 @@ class WrappedFiatAmountInputAsField extends React.Component {
   }
 }
 
-export default asField(withNumberInputMask(WrappedFiatAmountInputAsField))
+const BasicFiatAmountInput = withNumberInputMask(WrappedFiatAmountInputAsField)
+export { BasicFiatAmountInput }
+export default asField(BasicFiatAmountInput)

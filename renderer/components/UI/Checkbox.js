@@ -125,7 +125,7 @@ const WrappedCheckboxAsField = ({ fieldState, fieldApi, ...rest }) => {
   const { setValue, setTouched } = fieldApi
 
   const onChange = () => {
-    setTouched()
+    setTouched(true)
     setValue(!value)
   }
 
@@ -139,5 +139,7 @@ WrappedCheckboxAsField.propTypes = {
   isDisabled: PropTypes.bool,
   label: PropTypes.string.isRequired,
 }
+
+export { WrappedCheckboxAsField as BasicCheckbox }
 
 export default asField(WrappedCheckboxAsField)

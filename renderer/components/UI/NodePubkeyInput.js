@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import * as yup from 'yup'
 import { asField } from 'informed'
-import Input from './Input'
+import { BasicInput } from './Input'
 import Message from './Message'
 import messages from './messages'
 
@@ -46,7 +46,7 @@ class NodePubkeyInput extends React.Component {
     const { intl, ...rest } = this.props
 
     return (
-      <NodePubkeyInputAsField
+      <InternalNodePubkeyInput
         placeholder={intl.formatMessage({ ...messages.pubkey_placeholder })}
         {...rest}
         type="text"
@@ -56,12 +56,12 @@ class NodePubkeyInput extends React.Component {
   }
 }
 
-const NodePubkeyInputAsField = asField(({ fieldState, fieldApi, ...rest }) => {
+const InternalNodePubkeyInput = ({ fieldState, fieldApi, ...rest }) => {
   const { value, error } = fieldState
 
   return (
     <React.Fragment>
-      <Input {...rest} />
+      <BasicInput {...rest} fieldApi={fieldApi} fieldState={fieldState} />
       {value && !error && (
         <Message mt={2} variant="success">
           <FormattedMessage {...messages.valid_pubkey} />
@@ -69,6 +69,14 @@ const NodePubkeyInputAsField = asField(({ fieldState, fieldApi, ...rest }) => {
       )}
     </React.Fragment>
   )
-})
+}
 
-export default injectIntl(NodePubkeyInput)
+InternalNodePubkeyInput.propTypes = {
+  fieldApi: PropTypes.object.isRequired,
+  fieldState: PropTypes.object.isRequired,
+}
+
+const BasicNodePubkeyInput = injectIntl(NodePubkeyInput)
+export { BasicNodePubkeyInput }
+
+export default asField(BasicNodePubkeyInput)

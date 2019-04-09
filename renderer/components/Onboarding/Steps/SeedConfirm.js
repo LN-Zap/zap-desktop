@@ -56,7 +56,7 @@ class SeedConfirm extends React.Component {
 
   validateWord = (index, word) => {
     const { seed } = this.props
-    return !word || word !== seed[index] ? 'incorrect' : null
+    return !word || word !== seed[index] ? 'incorrect' : undefined
   }
 
   render() {

@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Flex } from 'rebass'
-import { Checkbox, asField } from 'informed'
+import { BasicCheckbox, asField } from 'informed'
 import Text from './Text'
 
 const Wrapper = styled.div`
@@ -61,7 +61,7 @@ const Toggle = ({ fieldState, onLabel, offLabel, ...props }) => (
       <label // eslint-disable-line jsx-a11y/label-has-for,jsx-a11y/label-has-associated-control
         className="switch"
       >
-        <Checkbox fieldState={fieldState} type="checkbox" {...props} />
+        <BasicCheckbox fieldState={fieldState} type="checkbox" {...props} />
         <span className="slider round" />
       </label>
       {fieldState.value && onLabel && <Text ml={2}>{onLabel}</Text>}
@@ -76,5 +76,7 @@ Toggle.propTypes = {
   offLabel: PropTypes.node,
   onLabel: PropTypes.node,
 }
+
+export { Toggle as BasicToggle }
 
 export default asField(Toggle)

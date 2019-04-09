@@ -1,12 +1,14 @@
 import React from 'react'
 import styled from 'styled-components'
+import { compose } from 'redux'
 import { asField } from 'informed'
-import { Flex } from 'rebass'
+import { withRequiredValidation } from 'hocs'
+import PropTypes from 'prop-types'
 import { WithOpenDialog } from 'hocs'
-import Input from './Input'
+import { BasicInput } from './Input'
 import OpenDialogButton from './OpenDialogButton'
 
-const InnerInput = styled(Input)`
+const InnerInput = styled(BasicInput)`
   input {
     padding-right: 50px;
     overflow: hidden;
@@ -15,12 +17,11 @@ const InnerInput = styled(Input)`
   }
 `
 
-const OpenDialogInput = asField(props => {
+const OpenDialogInput = props => {
   return (
     <WithOpenDialog
       render={({ openDialog }) => (
-        <Flex alignItems="center" flexDirection="row" mb={3}>
-          <InnerInput width={1} {...props} />
+        <InnerInput width={1} {...props}>
           <OpenDialogButton
             onClick={() => {
               const result = openDialog()
@@ -31,10 +32,19 @@ const OpenDialogInput = asField(props => {
               }
             }}
           />
-        </Flex>
+        </InnerInput>
       )}
     />
   )
-})
+}
 
-export default OpenDialogInput
+OpenDialogInput.propTypes = {
+  fieldApi: PropTypes.object.isRequired,
+}
+
+export { OpenDialogInput as BasicOpenDialogInput }
+
+export default compose(
+  withRequiredValidation,
+  asField
+)(OpenDialogInput)
