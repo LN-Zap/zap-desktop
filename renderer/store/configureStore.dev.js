@@ -27,6 +27,22 @@ export const configureStore = initialState => {
   const router = routerMiddleware(history)
   middleware.push(router)
 
+  // REDUX action profiling middle ware
+  /* eslint-enable no-underscore-dangle */
+  const userTiming = () => next => action => {
+    // user timing API is not available
+    if (!performance || !performance.mark) {
+      return next(action)
+    }
+
+    // measure redux action
+    performance.mark(`${action.type}_START`)
+    const result = next(action)
+    performance.mark(`${action.type}_END`)
+    performance.measure(`${action.type}`, `${action.type}_START`, `${action.type}_END`)
+    return result
+  }
+
   // Redux DevTools Configuration
   // If Redux DevTools Extension is installed use it, otherwise use Redux compose
   /* eslint-disable no-underscore-dangle */
@@ -83,10 +99,9 @@ export const configureStore = initialState => {
           },
         })
       : compose
-  /* eslint-enable no-underscore-dangle */
 
   // Apply Middleware & Compose Enhancers
-  enhancers.push(applyMiddleware(...middleware, ipc))
+  enhancers.push(applyMiddleware(...middleware, ipc, userTiming))
   const enhancer = composeEnhancers(...enhancers)
 
   // Create Store
