@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { compose } from 'redux'
 import { asField } from 'informed'
 import { withRequiredValidation } from 'hocs'
-import { Flex } from 'rebass'
 import PropTypes from 'prop-types'
 import { WithOpenDialog } from 'hocs'
 import { BasicInput } from './Input'
@@ -22,8 +21,7 @@ const OpenDialogInput = props => {
   return (
     <WithOpenDialog
       render={({ openDialog }) => (
-        <Flex alignItems="center" flexDirection="row" mb={3}>
-          <InnerInput width={1} {...props} />
+        <InnerInput width={1} {...props}>
           <OpenDialogButton
             onClick={() => {
               const result = openDialog()
@@ -34,7 +32,7 @@ const OpenDialogInput = props => {
               }
             }}
           />
-        </Flex>
+        </InnerInput>
       )}
     />
   )
