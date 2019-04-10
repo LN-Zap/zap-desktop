@@ -4,11 +4,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { asField } from 'informed'
-import { withRequiredValidation } from 'hocs'
 import * as yup from 'yup'
+import { withRequiredValidation, withNumberInputMask } from 'hocs'
 import { convert } from '@zap/utils/btc'
 import { formatValue, parseNumber } from '@zap/utils/crypto'
-import { withNumberInputMask } from 'hocs'
 import { BasicInput } from './Input'
 
 /**
