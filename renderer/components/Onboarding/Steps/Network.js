@@ -7,6 +7,7 @@ import messages from './messages'
 class Network extends React.Component {
   static propTypes = {
     network: PropTypes.string, // eslint-disable-line react/boolean-prop-naming
+    setAutopilot: PropTypes.func.isRequired,
     setNetwork: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
@@ -18,8 +19,15 @@ class Network extends React.Component {
   }
 
   handleSubmit = values => {
-    const { setNetwork } = this.props
-    setNetwork(values.network)
+    const { setNetwork, setAutopilot } = this.props
+    const { network } = values
+    setNetwork(network)
+
+    // It is currently not recommended to use autopilot on mainnet.
+    // If user has selected mainnet, disable it
+    if (network === 'mainnet') {
+      setAutopilot(false)
+    }
   }
 
   setFormApi = formApi => {
@@ -27,7 +35,7 @@ class Network extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, network, setNetwork, ...rest } = this.props
+    const { wizardApi, wizardState, network, setNetwork, setAutopilot, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (
