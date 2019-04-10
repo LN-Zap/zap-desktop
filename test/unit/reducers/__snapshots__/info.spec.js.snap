@@ -12,6 +12,7 @@ Object {
     "bitcoin": Object {
       "mainnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "bc",
           "bip32": Object {
             "private": 76066276,
             "public": 76067358,
@@ -32,10 +33,11 @@ Object {
           "seedsDns": Array [
             "seed.bitcoin.sipa.be",
             "dnsseed.bluematt.me",
-            "dnsseed.bitcoin.dashjr.org",
             "seed.bitcoinstats.com",
-            "bitseed.xf2.org",
             "seed.bitcoin.jonasschnelli.ch",
+            "seed.btc.petertodd.org",
+            "seed.bitcoin.sprovoost.nl",
+            "dnsseed.emzy.de",
           ],
           "testnet": false,
           "toBitcoinJS": [Function],
@@ -60,6 +62,7 @@ Object {
       },
       "testnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "tb",
           "bip32": Object {
             "private": 70615956,
             "public": 70617039,
@@ -108,6 +111,7 @@ Object {
     "litecoin": Object {
       "mainnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "ltc",
           "bip32": Object {
             "private": 27106558,
             "public": 27108450,
@@ -154,6 +158,7 @@ Object {
       },
       "testnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "tltc",
           "bip32": Object {
             "private": 70709117,
             "public": 70711009,
@@ -212,6 +217,7 @@ Object {
     "bitcoin": Object {
       "mainnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "bc",
           "bip32": Object {
             "private": 76066276,
             "public": 76067358,
@@ -232,10 +238,11 @@ Object {
           "seedsDns": Array [
             "seed.bitcoin.sipa.be",
             "dnsseed.bluematt.me",
-            "dnsseed.bitcoin.dashjr.org",
             "seed.bitcoinstats.com",
-            "bitseed.xf2.org",
             "seed.bitcoin.jonasschnelli.ch",
+            "seed.btc.petertodd.org",
+            "seed.bitcoin.sprovoost.nl",
+            "dnsseed.emzy.de",
           ],
           "testnet": false,
           "toBitcoinJS": [Function],
@@ -260,6 +267,7 @@ Object {
       },
       "testnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "tb",
           "bip32": Object {
             "private": 70615956,
             "public": 70617039,
@@ -308,6 +316,7 @@ Object {
     "litecoin": Object {
       "mainnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "ltc",
           "bip32": Object {
             "private": 27106558,
             "public": 27108450,
@@ -354,6 +363,7 @@ Object {
       },
       "testnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "tltc",
           "bip32": Object {
             "private": 70709117,
             "public": 70711009,
@@ -404,6 +414,7 @@ Object {
     "bitcoin": Object {
       "mainnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "bc",
           "bip32": Object {
             "private": 76066276,
             "public": 76067358,
@@ -424,10 +435,11 @@ Object {
           "seedsDns": Array [
             "seed.bitcoin.sipa.be",
             "dnsseed.bluematt.me",
-            "dnsseed.bitcoin.dashjr.org",
             "seed.bitcoinstats.com",
-            "bitseed.xf2.org",
             "seed.bitcoin.jonasschnelli.ch",
+            "seed.btc.petertodd.org",
+            "seed.bitcoin.sprovoost.nl",
+            "dnsseed.emzy.de",
           ],
           "testnet": false,
           "toBitcoinJS": [Function],
@@ -452,6 +464,7 @@ Object {
       },
       "testnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "tb",
           "bip32": Object {
             "private": 70615956,
             "public": 70617039,
@@ -500,6 +513,7 @@ Object {
     "litecoin": Object {
       "mainnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "ltc",
           "bip32": Object {
             "private": 27106558,
             "public": 27108450,
@@ -546,6 +560,7 @@ Object {
       },
       "testnet": Object {
         "bitcoinJsNetwork": Object {
+          "bech32": "tltc",
           "bip32": Object {
             "private": 70709117,
             "public": 70711009,
