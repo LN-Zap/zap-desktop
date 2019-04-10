@@ -4,11 +4,18 @@ const WalletName = ({ wallet }) => {
   if (!wallet) {
     return null
   }
+  const { name, host, type, id } = wallet
 
-  if (wallet.type === 'local') {
-    return wallet.name || `Wallet #${wallet.id}`
+  // For local wallets, display the wallet name if set.
+  // Otherwise fallback to the wallet id.
+  if (type === 'local') {
+    return name || `Wallet #${id}`
   }
-  return wallet.name || wallet.host.split(':')[0]
+
+  // For remote wallets, use the wallet name if set.
+  // Otherwise use the hostname.
+  // If neither are set, provide a fallback value.
+  return name || (host && host.split(':')[0]) || '[unnamed]'
 }
 
 WalletName.propTypes = {
