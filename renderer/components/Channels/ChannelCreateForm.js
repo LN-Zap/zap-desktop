@@ -88,6 +88,7 @@ class ChannelCreateForm extends React.Component {
     }).isRequired,
     currency: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
+    fetchTickers: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     isQueryingFees: PropTypes.bool,
     onchainFees: PropTypes.shape({
@@ -110,7 +111,8 @@ class ChannelCreateForm extends React.Component {
   }
 
   componentDidMount() {
-    const { queryFees } = this.props
+    const { fetchTickers, queryFees } = this.props
+    fetchTickers()
     queryFees()
   }
 

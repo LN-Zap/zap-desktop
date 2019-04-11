@@ -79,6 +79,8 @@ class Pay extends React.Component {
     cryptoCurrencyTicker: PropTypes.string.isRequired,
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoName: PropTypes.string.isRequired,
+    /** Fetch fiat ticker data. */
+    fetchTickers: PropTypes.func.isRequired,
     /** Amount value to populate the amountCrypto field with when the form first loads. */
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Amount value to populate the amountFiat field with when the form first loads. */
@@ -137,10 +139,11 @@ class Pay extends React.Component {
 
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
   componentDidMount() {
-    const { payReq, queryFees } = this.props
+    const { fetchTickers, payReq, queryFees } = this.props
     if (payReq) {
       this.setState({ isPayReqSetOnMount: true })
     }
+    fetchTickers()
     queryFees()
   }
 

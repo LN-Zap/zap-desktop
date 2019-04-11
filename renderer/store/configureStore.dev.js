@@ -55,7 +55,6 @@ export const configureStore = initialState => {
           stateSanitizer: state => {
             const { invoice, locale, network } = state
             const MAX_NODES = 10
-            const MAX_EDGES = 10
 
             return state.invoice
               ? {
@@ -81,13 +80,6 @@ export const configureStore = initialState => {
                             `<<${network.nodes.length - MAX_NODES}_MORE_NODES>>`,
                           ]
                         : network.nodes,
-                    edges:
-                      network.edges.length > MAX_EDGES
-                        ? [
-                            ...network.edges.slice(0, MAX_EDGES),
-                            `<<${network.edges.length - MAX_EDGES}_MORE_NODES>>`,
-                          ]
-                        : network.edges,
                   },
 
                   // Strip out translation strings.

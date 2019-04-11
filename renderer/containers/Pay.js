@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { Pay } from 'components/Pay'
-import { tickerSelectors } from 'reducers/ticker'
+import { fetchTickers, tickerSelectors } from 'reducers/ticker'
 import { setPayReq, queryFees, queryRoutes } from 'reducers/pay'
 import { balanceSelectors } from 'reducers/balance'
 import { changeFilter } from 'reducers/activity'
@@ -25,6 +25,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   changeFilter,
   closeModal,
+  fetchTickers,
   payInvoice,
   setPayReq,
   sendCoins,

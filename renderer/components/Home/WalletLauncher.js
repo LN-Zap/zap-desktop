@@ -223,33 +223,45 @@ class WalletLauncher extends React.Component {
       } else {
         const hasHideLndConnectUri = typeof formApi.getValue('hideLndConnectUri') !== 'undefined'
         const lndconnectType = getLndConnectType(values.lndconnectUri)
-        if (lndconnectType === LNDCONNECT_EMBEDDED) {
-          result = formToWalletFormat(
-            await refreshLndConnectURI(
-              Object.assign({}, { lndconnectQRCode: values.lndconnectUri }, values)
+
+        switch (lndconnectType) {
+          case LNDCONNECT_EMBEDDED:
+            // re-generate lndconnectUri and
+            // QR using updated host, cert and macaroon values. This is done in the main process
+            result = formToWalletFormat(
+              await refreshLndConnectURI(
+                Object.assign({}, { lndconnectQRCode: values.lndconnectUri }, values)
+              )
             )
-          )
-        } else {
-          // for the remote wallets that use raw paths or btcpay config we need to re-generate lndconnectUri and
-          // QR using updated host, cert and macaroon values. This is done in the main process
-          // this process is skipped if original lndconnect uri contains raw cert or macaroon and not paths
+            break
 
-          // In addition if a user has passed btcpay config we must break it down into  host, cert and macaroon first
-          const config = Object.assign({}, values, {
-            ...parseLndConnectURI(values.lndconnectUri),
-            lndconnectUri: undefined, // delete uris so the main process re-generates them
-            lndconnectQRCode: undefined,
-          })
-          const generatedConfig = formToWalletFormat(
-            await refreshLndConnectURI(config) // wait for the config generate complete message from the main process
-          )
-          // update form state with decoded host, cert and macaroon since they are derived from
-          // lndconnect uri and thus corresponding fields will go blank after new config is set
-          const { host, cert, macaroon } = parseLndConnectURI(generatedConfig.lndconnectUri)
-          formApi.setValues(Object.assign({}, generatedConfig, { host, cert, macaroon }))
+          case LNDCONNECT_BTCPAY_SERVER: {
+            const config = Object.assign({}, values, {
+              // btcpay config we needs to be decoded down to  host, cert and macaroon first
+              ...parseLndConnectURI(values.lndconnectUri),
+              lndconnectUri: undefined, // delete uris so the main process re-generates them
+              lndconnectQRCode: undefined,
+            })
+            // re-generate lndconnectUri and
+            // QR using updated host, cert and macaroon values. This is done in the main process
+            result = formToWalletFormat(await refreshLndConnectURI(config))
 
-          result = generatedConfig
+            formApi.setValues(Object.assign({}, values, { lndconnectUri: result.lndconnectUri }))
+            break
+          }
+          default: {
+            const config = Object.assign({}, values, {
+              lndconnectUri: undefined, // delete uris so the main process re-generates them
+              lndconnectQRCode: undefined,
+            })
+
+            // re-generate lndconnectUri and
+            // QR using updated host, cert and macaroon values. This is done in the main process
+            result = formToWalletFormat(await refreshLndConnectURI(config))
+            break
+          }
         }
+
         // hide lnd connect after save is complete
         if (hasHideLndConnectUri) {
           formApi.setValue('hideLndConnectUri', true)
@@ -281,9 +293,11 @@ class WalletLauncher extends React.Component {
     formApi.setValues(walletToFormFormat(resetValues))
 
     // reset errors
-    if (formApi.getValue('lndconnectUri')) {
+    if (formApi.getTouched('lndconnectUri')) {
       formApi.setTouched('lndconnectUri', false)
-      formApi.setError('lndconnectUri', null)
+    }
+    if (formApi.getError('lndconnectUri')) {
+      formApi.setError('lndconnectUri', undefined)
     }
   }
 

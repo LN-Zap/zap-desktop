@@ -286,7 +286,7 @@
   "components.Onboarding.Steps.next": "Next",
   "components.Onboarding.Steps.only": "only",
   "components.Onboarding.Steps.password_confirm_placeholder": "Confirm Password",
-  "components.Onboarding.Steps.password_description": "You would have set your password when first creating your walet. This is separate from your 24 word seed.",
+  "components.Onboarding.Steps.password_description": "You would have set your password when first creating your wallet. This is separate from your 24 word seed.",
   "components.Onboarding.Steps.password_error_length": "Password must be at least {passwordMinLength} characters long",
   "components.Onboarding.Steps.password_error_match": "Passwords do not match",
   "components.Onboarding.Steps.password_label": "Password",

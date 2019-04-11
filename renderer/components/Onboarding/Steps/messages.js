@@ -60,7 +60,7 @@ export default defineMessages({
   password_label: 'Password',
   password_placeholder: 'Enter your password',
   password_description:
-    'You would have set your password when first creating your walet. This is separate from your 24 word seed.',
+    'You would have set your password when first creating your wallet. This is separate from your 24 word seed.',
   retype_seed_description:
     "Your seed is important! If you lose your seed you'll have no way to recover your wallet. To make sure that you have properly saved your seed, please retype words {word1}, {word2} & {word3}",
   retype_seed_title: 'Retype your seed',

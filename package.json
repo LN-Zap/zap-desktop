@@ -321,7 +321,7 @@
     "bip39-en": "1.1.1",
     "bitcoinjs-lib": "4.0.5",
     "bolt11": "1.2.4",
-    "coininfo": "4.4.0",
+    "coininfo": "https://github.com/LN-Zap/coininfo#83b93f6ce772aeb624c2a791022ff9288face0d7",
     "config": "3.1.0",
     "connected-react-router": "5.0.1",
     "copy-to-clipboard": "3.1.0",
