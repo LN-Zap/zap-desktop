@@ -90,7 +90,7 @@ export const decoratedSelectedChannel = createSelector(
   transactionsSelectors.rawTransactionsSelector,
   channelsSelectors.selectedChannel,
   (transactions, channelData) => {
-    if (channelData.channel_point) {
+    if (channelData && channelData.channel_point) {
       const [funding_txid] = channelData.channel_point.split(':')
       // cross reference funding tx
       const fundingTx = funding_txid && transactions.find(tx => tx.tx_hash === funding_txid)
