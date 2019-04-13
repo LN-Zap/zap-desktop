@@ -35,6 +35,7 @@ module.exports = {
     'react/boolean-prop-naming': ['error', { rule: '^(is|has|will|(.*)On)[A-Z]([A-Za-z0-9]?)+' }],
     'react/forbid-prop-types': 0,
     'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-filename-extension': ['error', { extensions: ['.js', '.jsx'] }],
     'react/jsx-sort-props': 'error',
     'react/no-array-index-key': 0,
