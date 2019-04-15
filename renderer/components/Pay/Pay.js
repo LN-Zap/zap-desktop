@@ -182,7 +182,7 @@ class Pay extends React.Component {
       this.formApi.submitForm()
     }
 
-    // If we now have a valid lightning invoice, call queryRoutes and submit the form.
+    // If we now have a valid lightning invoice submit the form.
     const isNowLightning = invoice && invoice !== prevState.invoice
     if (currentStep === 'address' && isNowLightning) {
       this.formApi.submitForm()
@@ -272,7 +272,15 @@ class Pay extends React.Component {
    */
   onSubmit = values => {
     const { currentStep, isOnchain } = this.state
-    const { cryptoCurrency, payInvoice, routes, sendCoins, changeFilter, closeModal } = this.props
+    const {
+      cryptoCurrency,
+      payInvoice,
+      routes,
+      sendCoins,
+      changeFilter,
+      closeModal,
+      setPayReq,
+    } = this.props
     if (currentStep === 'summary') {
       if (isOnchain) {
         // Determine the fee rate to use.
@@ -296,6 +304,8 @@ class Pay extends React.Component {
           feeLimit: getMaxFee(routes),
           retries: CONFIG.invoices.retryCount,
         })
+        // clear payment request
+        setPayReq(null)
         // Close the form modal once the payment has been sent
         changeFilter('ALL_ACTIVITY')
         closeModal()
