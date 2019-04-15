@@ -1,4 +1,4 @@
-import { isSubDir } from '@zap/utils'
+import isSubDir from '@zap/utils/isSubDir'
 import os from 'os'
 
 describe('isSubDir', () => {

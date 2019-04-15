@@ -1,21 +1,7 @@
 import { join } from 'path'
 import LndConfig from '@zap/lnd/config'
 
-jest.mock('../../../lnd/util', () => {
-  return {
-    ...jest.requireActual('../../../lnd/util'),
-    binaryName: 'binaryName',
-    binaryPath: () => 'binaryPath',
-  }
-})
-
 describe('LndConfig', function() {
-  const checkForStaticProperties = () => {
-    it('should have "binaryPath" set to the value returned by lib/lnd/util', () => {
-      expect(this.lndConfig.binaryPath).toEqual('binaryPath')
-    })
-  }
-
   const checkForConfigProperties = type => {
     it(`should have the "type" property set to the ${type} value`, () => {
       expect(this.lndConfig.type).toEqual(this.type)
@@ -52,12 +38,7 @@ describe('LndConfig', function() {
         })
       })
 
-      describe('static properties', () => {
-        checkForStaticProperties()
-      })
-      describe('config properties', () => {
-        checkForConfigProperties('provided')
-      })
+      checkForConfigProperties('provided')
     })
 
     describe('New config with provided options and initial configuration', () => {
@@ -83,12 +64,7 @@ describe('LndConfig', function() {
         })
       })
 
-      describe('static properties', () => {
-        checkForStaticProperties()
-      })
-      describe('config properties', () => {
-        checkForConfigProperties('provided')
-      })
+      checkForConfigProperties('provided')
     })
   })
 })

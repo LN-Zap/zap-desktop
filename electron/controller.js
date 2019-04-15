@@ -4,6 +4,7 @@ import { mainLog } from '@zap/utils/log'
 import delay from '@zap/utils/delay'
 import truncate from '@zap/utils/truncate'
 import sanitize from '@zap/utils/sanitize'
+import grpcSslCipherSuites from '@zap/utils/grpcSslCipherSuites'
 import LndConfig from '@zap/lnd/config'
 import Lightning from '@zap/lnd/lightning'
 import Neutrino from '@zap/lnd/neutrino'
@@ -13,28 +14,6 @@ const LND_GRPC_HOST_ERROR = 'LND_GRPC_HOST_ERROR'
 const LND_GRPC_CERT_ERROR = 'LND_GRPC_CERT_ERROR'
 const LND_GRPC_MACAROON_ERROR = 'LND_GRPC_MACAROON_ERROR'
 const LND_METHOD_UNAVAILABLE = 12
-
-const grpcSslCipherSuites = () => {
-  return [
-    // Default is ECDHE-RSA-AES128-GCM-SHA256:ECDHE-RSA-AES256-GCM-SHA384
-    // https://github.com/grpc/grpc/blob/master/doc/environment_variables.md
-    //
-    // Current LND cipher suites here:
-    // https://github.com/lightningnetwork/lnd/blob/master/lnd.go#L80
-    //
-    // We order the suites by priority, based on the recommendations provided by SSL Labs here:
-    // https://github.com/ssllabs/research/wiki/SSL-and-TLS-Deployment-Best-Practices#23-use-secure-cipher-suites
-    'ECDHE-ECDSA-AES128-GCM-SHA256',
-    'ECDHE-ECDSA-AES256-GCM-SHA384',
-    'ECDHE-ECDSA-AES128-CBC-SHA256',
-    'ECDHE-ECDSA-CHACHA20-POLY1305',
-
-    // BTCPay Server serves lnd behind an nginx proxy with a trusted SSL cert from Lets Encrypt.
-    // These certs use an RSA TLS cipher suite.
-    'ECDHE-RSA-AES256-GCM-SHA384',
-    'ECDHE-RSA-AES128-GCM-SHA256',
-  ].join(':')
-}
 
 /**
  * @class ZapController
@@ -461,7 +440,7 @@ class ZapController {
     await this.lndConfig.isReady
 
     // Set up SSL with the cypher suits that we need.
-    process.env.GRPC_SSL_CIPHER_SUITES = process.env.GRPC_SSL_CIPHER_SUITES || grpcSslCipherSuites()
+    process.env.GRPC_SSL_CIPHER_SUITES = process.env.GRPC_SSL_CIPHER_SUITES || grpcSslCipherSuites
 
     // If the requested connection type is a local one then start up a new lnd instance.
     // Otherwise attempt to connect to an lnd instance using user supplied connection details.

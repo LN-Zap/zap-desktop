@@ -3,9 +3,12 @@ import { loadPackageDefinition } from '@grpc/grpc-js'
 import { load } from '@grpc/proto-loader'
 import lndgrpc from 'lnd-grpc'
 import StateMachine from 'javascript-state-machine'
-import { validateHost } from '@zap/utils/validateHost'
+import validateHost from '@zap/utils/validateHost'
 import { mainLog } from '@zap/utils/log'
-import { grpcOptions, lndGpcProtoPath, getDeadline, createSslCreds } from './util'
+import grpcOptions from '@zap/utils/grpcOptions'
+import lndGrpcProtoPath from '@zap/utils/lndGrpcProtoPath'
+import getDeadline from '@zap/utils/getDeadline'
+import createSslCreds from '@zap/utils/createSslCreds'
 import methods from './walletUnlockerMethods'
 
 /**
@@ -83,8 +86,8 @@ class WalletUnlocker {
     const { host, cert } = this.lndConfig
 
     // Find the most recent rpc.proto file
-    const version = await lndgrpc.getLatestProtoVersion({ path: lndGpcProtoPath() })
-    const filepath = join(lndGpcProtoPath(), `${version}.proto`)
+    const version = await lndgrpc.getLatestProtoVersion({ path: lndGrpcProtoPath() })
+    const filepath = join(lndGrpcProtoPath(), `${version}.proto`)
     mainLog.debug('Establishing gRPC connection with proto file %s', filepath)
 
     // Load gRPC package definition as a gRPC object hierarchy.

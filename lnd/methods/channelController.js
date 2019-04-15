@@ -1,4 +1,4 @@
-import { promisifiedCall } from '@zap/utils'
+import promisifiedCall from '@zap/utils/promisifiedCall'
 import { listPeers, connectPeer } from './peersController'
 import pushopenchannel from '../push/openchannel'
 

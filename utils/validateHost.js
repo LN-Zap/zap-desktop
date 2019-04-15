@@ -11,7 +11,7 @@ const dnsLookup = promisify(dns.lookup)
  * @param {string} host A hostname + optional port in the format [hostname]:[port?]
  * @returns {Promise<Boolean>}
  */
-export const validateHost = async host => {
+const validateHost = async host => {
   const createError = (msg, code) => {
     const error = new Error(msg)
     error.code = code
@@ -42,3 +42,5 @@ export const validateHost = async host => {
     return createError(`Host is invalid`, 'LND_GRPC_HOST_ERROR')
   }
 }
+
+export default validateHost

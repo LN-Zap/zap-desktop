@@ -1,4 +1,4 @@
-import { promisifiedCall } from '@zap/utils'
+import promisifiedCall from '@zap/utils/promisifiedCall'
 
 /**
  * Returns the sum of all confirmed unspent outputs under control by the wallet

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import { showSystemNotification } from '@zap/utils/notifications'
-import { btc } from '@zap/utils'
+import { convert } from '@zap/utils/btc'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 import { showError } from './notification'
@@ -104,7 +104,7 @@ export const createInvoice = (amount, currency, memo) => async (dispatch, getSta
   const state = getState()
 
   // backend needs value in satoshis no matter what currency we are using
-  const value = btc.convert(currency, 'sats', amount)
+  const value = convert(currency, 'sats', amount)
 
   dispatch(sendInvoice())
 
