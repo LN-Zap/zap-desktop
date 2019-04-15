@@ -104,11 +104,12 @@ const useScrollDrag = isReversed => {
   }
 
   useEffect(() => {
+    const { current } = scroller
     window.addEventListener('mousemove', onMouseMove, false)
     window.addEventListener('mouseup', onMouseUp, false)
-    scroller.current && scroller.current.addEventListener('mousedown', onMouseDown, false)
+    current && current.addEventListener('mousedown', onMouseDown, false)
 
-    scroller.current && scroller.current.addEventListener('touchstart', onTouchStart, false)
+    current && current.addEventListener('touchstart', onTouchStart, false)
     window.addEventListener('touchmove', onTouchMove, false)
     window.addEventListener('touchcancel', onTouchCancel, false)
     window.addEventListener('touchend', onTouchEnd, false)
@@ -116,9 +117,9 @@ const useScrollDrag = isReversed => {
     return () => {
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
-      scroller.current && scroller.current.removeEventListener('mousedown', onMouseDown)
+      current && current.removeEventListener('mousedown', onMouseDown)
 
-      scroller.current && scroller.current.removeEventListener('touchstart', onTouchStart)
+      current && current.removeEventListener('touchstart', onTouchStart)
       window.removeEventListener('touchmove', onTouchMove)
       window.removeEventListener('touchcancel', onTouchCancel)
       window.removeEventListener('touchend', onTouchEnd)
