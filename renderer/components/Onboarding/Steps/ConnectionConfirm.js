@@ -61,10 +61,22 @@ class ConnectionConfirm extends React.Component {
 
     // If its already an lndconnect uri, use it as is.
     if (connectionString.startsWith('lndconnect:')) {
+      // In order to support legacy style lndconnect links we first pass the connection string through
+      // lndconnect.decode (which supports legacy style links where the host is provided as a querystring). Then encode
+      // the result. This ensures that we always store the link the current lndconnect format (with the host part in the
+      // origin position).
+      //
+      // eg. legacy lndconnect format:
+      // lndconnect:?cert=~/.lnd/tls.cert&macaroon=~/.lnd/admin.macaroon&host=example.com:10009
+      //
+      // eg. current lndconnect format:
+      // lndconnect://example.com:10009?cert=~/.lnd/tls.cert&macaroon=~/.lnd/admin.macaroon
+      const lndconnectUri = encode(decode(connectionString))
+
       return startLnd({
         type: 'custom',
         decoder: 'lnd.lndconnect.v1',
-        lndconnectUri: connectionString,
+        lndconnectUri,
       })
     }
 
