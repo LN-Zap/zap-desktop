@@ -1,3 +1,4 @@
+import config from 'config'
 import delay from '@zap/utils/delay'
 import { setLoading } from './app'
 import { walletSelectors } from './wallet'
@@ -223,9 +224,9 @@ const ACTION_HANDLERS = {
 const initialState = {
   onboarding: false,
   isOnboarded: false,
-  autopilot: CONFIG.lnd.autopilot.active,
-  chain: CONFIG.chain,
-  network: CONFIG.network,
+  autopilot: config.lnd.autopilot.active,
+  chain: config.chain,
+  network: config.network,
   validatingHost: false,
   validatingCert: false,
   validatingMacaroon: false,

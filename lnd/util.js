@@ -3,7 +3,7 @@ import axios from 'axios'
 import { promisify } from 'util'
 import { basename, dirname, join, normalize } from 'path'
 import { platform } from 'os'
-import { app } from 'electron'
+import electron, { remote } from 'electron'
 import isDev from 'electron-is-dev'
 import { credentials, Metadata } from '@grpc/grpc-js'
 import get from 'lodash.get'
@@ -31,6 +31,7 @@ const stat = promisify(fs.stat)
  * @return {String} Path to the lnd binary.
  */
 export const appRootPath = () => {
+  const app = electron.app || remote.app
   return app.getAppPath().indexOf('default_app.asar') < 0 ? normalize(`${app.getAppPath()}/..`) : ''
 }
 

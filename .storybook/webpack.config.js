@@ -1,9 +1,13 @@
 require('@babel/register')
 
+const fs = require('fs')
+const path = require('path')
 const baseConfig = require('../webpack/webpack.config.base')
 const merge = require('webpack-merge')
+const config = require('config')
+const rootDir = path.join(__dirname, '..')
 
-const config = merge.smart(baseConfig, {
+module.exports = merge.smart(baseConfig, {
   default: {
     module: {
       rules: [
@@ -23,5 +27,3 @@ const config = merge.smart(baseConfig, {
     },
   },
 })
-
-module.exports = config

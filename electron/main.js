@@ -4,9 +4,10 @@
  * through IPC.
  *
  * When running `npm run build` or `npm run build-main`, this file is compiled to
- * `/dist/main.prod.js` using webpack. This gives us some performance wins.
+ * `/dist/main.js` using webpack. This gives us some performance wins.
  */
 import { app, BrowserWindow, session } from 'electron'
+import isDev from 'electron-is-dev'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
@@ -16,6 +17,7 @@ import path from 'path'
 import os from 'os'
 import fs from 'fs'
 import bip21 from 'bip21'
+import config from 'config'
 import { mainLog } from '@zap/utils/log'
 import themes from '@zap/renderer/themes'
 import { getDbName } from '@zap/utils/db'
@@ -23,15 +25,6 @@ import ZapMenuBuilder from './menuBuilder'
 import ZapController from './controller'
 import ZapUpdater from './updater'
 import ZapMigrator from './migrator'
-
-// When we run in production mode, this file is processd with webpack and our config is made available in the
-// global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
-// directly without processing with webpack), so we require the config module directly in this case.
-try {
-  global.CONFIG = CONFIG
-} catch (e) {
-  global.CONFIG = require('config')
-}
 
 // Set the Electron userDir to a temporary directory if the ELECTRON_USER_DIR_TEMP env var is set.
 // This provides an easy way to run the app with a completely fresh environment, useful for e2e tests.
@@ -143,7 +136,7 @@ const fetchSettings = () => {
   // Once we have fetched (or failed to fetch) the user settings, destroy the window.
   win.on('load-settings-done', () => process.nextTick(() => win.destroy()))
 
-  const { namespace, domain } = global.CONFIG.db
+  const { namespace, domain } = config.db
   const { NODE_ENV: environment } = process.env
   const dbName = getDbName({
     namespace,
@@ -251,9 +244,9 @@ app.on('ready', async () => {
     backgroundColor: get(theme, 'colors.primaryColor', '#242633'),
     webPreferences: {
       nodeIntegration: false,
-      preload: process.env.HOT
-        ? path.resolve(__dirname, '..', 'dist', 'preload.dev.js')
-        : path.resolve(__dirname, 'preload.prod.js'),
+      preload: isDev
+        ? path.resolve(__dirname, '..', 'dist', 'preload.js')
+        : path.resolve(__dirname, 'preload.js'),
     },
   })
 

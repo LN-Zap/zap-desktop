@@ -1,0 +1,86 @@
+/* eslint global-require: 0, import/no-dynamic-require: 0 */
+import path from 'path'
+import webpack from 'webpack'
+import merge from 'webpack-merge'
+import AddAssetHtmlPlugin from 'add-asset-html-webpack-plugin'
+import CopyWebpackPlugin from 'copy-webpack-plugin'
+import HtmlWebpackPlugin from 'html-webpack-plugin'
+import CspHtmlWebpackPlugin from 'csp-html-webpack-plugin'
+import baseConfig, { rootDir } from '../webpack.config.base'
+import devServer, { publicPath } from './common/devserver'
+import plugins from './common/plugins'
+
+const dll = path.resolve(rootDir, 'dll')
+const manifest = path.resolve(dll, 'renderer.json')
+
+const config = merge.smart(baseConfig, {
+  name: 'renderer',
+  target: 'web',
+  mode: 'development',
+  devtool: 'inline-source-map',
+  entry: {
+    renderer: path.join(rootDir, 'renderer', 'index'),
+  },
+  output: {
+    filename: '[name].js',
+    publicPath,
+  },
+  stats: {
+    children: false,
+  },
+  devServer,
+  plugins: [
+    ...plugins,
+    new HtmlWebpackPlugin({
+      inject: true,
+      template: path.join('renderer', 'app.html'),
+    }),
+    new CspHtmlWebpackPlugin({
+      'default-src': "'self'",
+      'object-src': "'none'",
+      'connect-src': [
+        "'self'",
+        'http://localhost:*',
+        'ws://localhost:*',
+        'https://api.coinbase.com/',
+        'https://testnet-api.smartbit.com.au',
+        'https://tchain.api.btc.com',
+        'https://api.blockcypher.com',
+        'https://bitcoinfees.earn.com',
+        'https://zap.jackmallers.com',
+      ],
+      'img-src': ['http://www.zap.jackmallers.com'],
+      'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
+      'font-src': [
+        "'self'",
+        'data:',
+        'http://localhost:*',
+        'https://s3.amazonaws.com',
+        'https://fonts.gstatic.com',
+      ],
+      'style-src': ["'self'", 'blob:', 'https://s3.amazonaws.com', "'unsafe-inline'"],
+    }),
+    new webpack.DllReferencePlugin({
+      context: process.cwd(),
+      manifest: require(manifest),
+      sourceType: 'var',
+    }),
+    new AddAssetHtmlPlugin({
+      filepath: path.join('dll', 'renderer.dll.js'),
+      includeSourcemap: true,
+    }),
+    new CopyWebpackPlugin([
+      path.join('renderer', 'empty.html'),
+      { from: path.join('electron', 'about'), to: 'about' },
+    ]),
+  ],
+  node: {
+    fs: 'empty',
+    module: 'empty',
+  },
+  optimization: {
+    noEmitOnErrors: true,
+  },
+})
+
+export default config

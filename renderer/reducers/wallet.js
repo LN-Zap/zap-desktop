@@ -1,3 +1,4 @@
+import config from 'config'
 import { createSelector } from 'reselect'
 import { showError } from './notification'
 import { putSetting } from './settings'
@@ -101,7 +102,8 @@ export const initWallets = () => async dispatch => {
   dispatch(setWalletsLoaded())
 
   // Create wallet entry in the database if one doesn't exist already.
-  const fsWallets = await window.Zap.getAllLocalWallets()
+  const { chains, networks } = config
+  const fsWallets = await window.Zap.getAllLocalWallets(chains, networks)
   return fsWallets
     .filter(wallet => wallet.wallet !== 'wallet-tmp')
     .forEach(walletDetails => {

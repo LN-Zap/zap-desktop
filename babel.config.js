@@ -10,7 +10,6 @@ module.exports = {
     [
       '@babel/preset-env',
       {
-        useBuiltIns: 'usage',
         include: ['proposal-object-rest-spread', 'transform-classes', 'transform-destructuring'],
       },
     ],

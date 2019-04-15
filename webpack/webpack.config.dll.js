@@ -1,5 +1,5 @@
 /**
- * Builds the DLL for development electron renderer process
+ * Builds the DLL for development electron renderer process.
  */
 
 import webpack from 'webpack'
@@ -10,13 +10,9 @@ import { dependencies } from '../package.json'
 
 export default merge.smart(baseConfig, {
   context: process.cwd(),
-
   devtool: 'eval',
-
   target: 'web',
-
   mode: 'development',
-
   externals: [
     '@grpc/grpc-js',
     '@grpc/proto-loader',
@@ -30,46 +26,19 @@ export default merge.smart(baseConfig, {
     'rimraf',
     'source-map-support',
   ],
-
-  /**
-   * @HACK: Copy and pasted from renderer dev config. Consider merging these
-   *        rules into the base config. May cause breaking changes.
-   */
-  module: {
-    rules: [
-      // Common Image Formats
-      {
-        test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
-        use: 'url-loader',
-      },
-    ],
-  },
-
   entry: {
     renderer: Object.keys(dependencies),
   },
-
   output: {
     path: path.join(rootDir, 'dll'),
     library: 'renderer',
-    filename: '[name].dev.dll.js',
+    filename: '[name].dll.js',
     libraryTarget: 'var',
   },
-
   plugins: [
     new webpack.DllPlugin({
       path: path.join('dll', '[name].json'),
       name: '[name]',
-    }),
-
-    new webpack.LoaderOptionsPlugin({
-      debug: true,
-      options: {
-        context: path.join(rootDir),
-        output: {
-          path: path.join(rootDir, 'dll'),
-        },
-      },
     }),
   ],
 })
