@@ -1,4 +1,5 @@
-import { promisifiedCall } from '@zap/utils'
+import promisifiedCall from '@zap/utils/promisifiedCall'
+
 /**
  * Attempts to establish a connection to a remote peer
  * @param  {[type]} lnd    [description]

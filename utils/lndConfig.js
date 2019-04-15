@@ -3,13 +3,13 @@ import { app } from 'electron'
 import createDebug from 'debug'
 import untildify from 'untildify'
 import tildify from 'tildify'
-import getPort from 'get-port'
 import lndconnect from 'lndconnect'
 import fs from 'fs'
 import util from 'util'
 import pick from 'lodash.pick'
 import config from 'config'
 import { mainLog } from '@zap/utils/log'
+import getLndListen from '@zap/utils/getLndListen'
 import lndBinaryPath from '@zap/utils/lndBinaryPath'
 
 const readFile = util.promisify(fs.readFile)
@@ -51,18 +51,6 @@ const safeUntildify = val => (typeof val === 'string' ? untildify(val) : val)
  * LndConfig class
  */
 class LndConfig {
-  static getListen = async type => {
-    if (config.lnd[type].host) {
-      const port = await getPort({
-        host: config.lnd[type].host,
-        port: config.lnd[type].port,
-      })
-
-      return `${config.lnd[type].host}:${port}`
-    }
-    return 0
-  }
-
   /**
    * Lnd configuration class.
    *
@@ -207,7 +195,7 @@ class LndConfig {
 
     // If this is a local wallet, set the lnd connection details based on wallet config.
     if (this.type === LNDCONFIG_TYPE_LOCAL) {
-      host = await LndConfig.getListen('rpc')
+      host = await getLndListen('rpc')
       cert = join(this.lndDir, 'tls.cert')
       macaroon = join(this.lndDir, 'data', 'chain', this.chain, this.network, 'admin.macaroon')
       return lndconnect.encode({ host, cert, macaroon })

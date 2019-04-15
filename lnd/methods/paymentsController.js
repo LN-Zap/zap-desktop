@@ -1,4 +1,4 @@
-import { promisifiedCall } from '@zap/utils'
+import promisifiedCall from '@zap/utils/promisifiedCall'
 import pushpayment from '../push/sendpayment'
 
 /**

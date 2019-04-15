@@ -3,7 +3,7 @@ import { spawn } from 'child_process'
 import EventEmitter from 'events'
 import config from 'config'
 import { mainLog, lndLog, lndLogGetLevel } from '@zap/utils/log'
-import { fetchBlockHeight } from './util'
+import fetchBlockHeight from '@zap/utils/fetchBlockHeight'
 import LndConfig from './config'
 
 // Sync statuses

@@ -1,5 +1,5 @@
 import config from 'config'
-import { promisifiedCall } from '@zap/utils'
+import promisifiedCall from '@zap/utils/promisifiedCall'
 import pushinvoices from '../push/subscribeinvoice'
 
 /**

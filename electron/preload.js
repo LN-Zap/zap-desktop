@@ -14,7 +14,7 @@ import config from 'config'
 import { getDb } from '@zap/renderer/store/db'
 import isSubDir from '@zap/utils/isSubDir'
 import { getAllLocalWallets } from '@zap/utils/localWallets'
-import { validateHost } from '@zap/utils/validateHost'
+import validateHost from '@zap/utils/validateHost'
 import { getDbName } from '@zap/utils/db'
 
 const fsReadFile = promisify(fs.readFile)

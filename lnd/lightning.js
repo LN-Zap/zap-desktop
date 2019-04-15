@@ -3,17 +3,15 @@ import { credentials, loadPackageDefinition } from '@grpc/grpc-js'
 import { load } from '@grpc/proto-loader'
 import lndgrpc from 'lnd-grpc'
 import StateMachine from 'javascript-state-machine'
-import { promisifiedCall } from '@zap/utils'
-import { validateHost } from '@zap/utils/validateHost'
+import promisifiedCall from '@zap/utils/promisifiedCall'
+import validateHost from '@zap/utils/validateHost'
 import { mainLog } from '@zap/utils/log'
-import {
-  grpcOptions,
-  lndGpcProtoPath,
-  getDeadline,
-  createSslCreds,
-  createMacaroonCreds,
-  waitForFile,
-} from './util'
+import grpcOptions from '@zap/utils/grpcOptions'
+import lndGrpcProtoPath from '@zap/utils/lndGrpcProtoPath'
+import getDeadline from '@zap/utils/getDeadline'
+import createSslCreds from '@zap/utils/createSslCreds'
+import createMacaroonCreds from '@zap/utils/createMacaroonCreds'
+import waitForFile from '@zap/utils/waitForFile'
 import methods from './methods'
 import subscribeToTransactions from './subscribe/transactions'
 import subscribeToInvoices from './subscribe/invoices'
@@ -105,8 +103,8 @@ class Lightning {
 
     // Determine most relevant proto version and reconnect using the right rpc.proto if we need to.
     const [closestProtoVersion, latestProtoVersion] = await Promise.all([
-      lndgrpc.getClosestProtoVersion(info.version, { path: lndGpcProtoPath() }),
-      lndgrpc.getLatestProtoVersion({ path: lndGpcProtoPath() }),
+      lndgrpc.getClosestProtoVersion(info.version, { path: lndGrpcProtoPath() }),
+      lndgrpc.getLatestProtoVersion({ path: lndGrpcProtoPath() }),
     ])
 
     if (closestProtoVersion !== latestProtoVersion) {
@@ -160,8 +158,8 @@ class Lightning {
 
     // Find the rpc.proto file to use. If no version was supplied, attempt to use the latest version.
     const versionToUse =
-      version || (await lndgrpc.getLatestProtoVersion({ path: lndGpcProtoPath() }))
-    const filepath = join(lndGpcProtoPath(), `${versionToUse}.proto`)
+      version || (await lndgrpc.getLatestProtoVersion({ path: lndGrpcProtoPath() }))
+    const filepath = join(lndGrpcProtoPath(), `${versionToUse}.proto`)
     mainLog.debug('Establishing gRPC connection with proto file %s', filepath)
 
     // Save the version into a read only property that can be read from the outside.

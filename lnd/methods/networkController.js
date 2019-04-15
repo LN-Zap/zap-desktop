@@ -1,4 +1,5 @@
-import { promisifiedCall } from '@zap/utils'
+import promisifiedCall from '@zap/utils/promisifiedCall'
+
 /**
  * [info description]
  * @param  {[type]} lnd [description]
