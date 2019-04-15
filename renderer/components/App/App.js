@@ -46,7 +46,7 @@ function App({
     fetchActivityHistory()
     // fetch node info.
     fetchPeers()
-  }, [])
+  }, [fetchActivityHistory, fetchPeers, setIsWalletOpen])
 
   // Open the pay form when a payment link is used.
   useEffect(() => {
@@ -55,7 +55,7 @@ function App({
         setModals(['PAY_FORM'])
       }
     }
-  }, [payReq, isAppReady])
+  }, [payReq, isAppReady, modals, setModals])
 
   useInterval(fetchData, nextFetchIn)
   useInterval(fetchTransactions, TX_REFETCH_INTERVAL)

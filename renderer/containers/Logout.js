@@ -13,7 +13,7 @@ function Logout({ resetApp, setIsWalletOpen, startOnboarding, stopLnd }) {
     setIsWalletOpen(false)
     resetApp()
     startOnboarding()
-  }, [])
+  }, [resetApp, setIsWalletOpen, startOnboarding, stopLnd])
   return <Redirect to="/" />
 }
 
