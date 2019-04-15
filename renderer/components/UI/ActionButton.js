@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import delay from '@zap/utils/delay'
@@ -19,11 +19,11 @@ const ActionButton = ({ children, hint, onClick, timeout, ...rest }) => {
   const [status, setStatus] = useState(null)
   const buttonRef = useRef()
 
-  async function triggerAction() {
+  const triggerAction = useCallback(async () => {
     await onClick()
     await delay(timeout)
     setStatus('done')
-  }
+  }, [onClick, timeout])
 
   useEffect(() => {
     if (status === 'fetching') {
@@ -31,7 +31,7 @@ const ActionButton = ({ children, hint, onClick, timeout, ...rest }) => {
     } else if (status === 'done') {
       buttonRef.current.blur()
     }
-  }, [status])
+  }, [status, triggerAction])
 
   function handleClick() {
     setStatus('fetching')
