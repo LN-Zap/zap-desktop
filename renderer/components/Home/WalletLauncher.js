@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import config from 'config'
 import { compose } from 'redux'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withRouter } from 'react-router-dom'
@@ -21,7 +22,7 @@ const WalletActionBar = styled(ActionBar)`
   right: 0;
 `
 
-const { maxchannels, minchansize, maxchansize, allocation } = CONFIG.lnd.autopilot
+const { maxchannels, minchansize, maxchansize, allocation } = config.lnd.autopilot
 const autopilotDefaults = {
   autopilotMaxchannels: maxchannels,
   autopilotMinchansize: minchansize,

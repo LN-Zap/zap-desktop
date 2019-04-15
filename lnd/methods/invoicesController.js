@@ -1,14 +1,6 @@
+import config from 'config'
 import { promisifiedCall } from '@zap/utils'
 import pushinvoices from '../push/subscribeinvoice'
-
-// When we run in production mode, this file is processd with webpack and our config is made available in the
-// global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
-// directly without processing with webpack), so we require the config module directly in this case.
-try {
-  global.CONFIG = CONFIG
-} catch (e) {
-  global.CONFIG = require('config')
-}
 
 /**
  * Attempts to add a new invoice to the invoice database.
@@ -22,7 +14,7 @@ export function addInvoice(lnd, { memo, value, private: privateInvoice }) {
     memo,
     value,
     private: privateInvoice,
-    expiry: global.CONFIG.invoices.expire,
+    expiry: config.invoices.expire,
   })
 }
 

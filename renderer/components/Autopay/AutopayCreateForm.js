@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import config from 'config'
 import styled from 'styled-components'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Spring, animated, Transition } from 'react-spring/renderprops.cjs'
@@ -9,7 +10,7 @@ import AutopayCreateSuccess from './AutopayCreateSuccess'
 import AutopayCreateSettings from './AutopayCreateSettings'
 import messages from './messages'
 
-const { min, max, defaultValue } = CONFIG.autopay
+const { min, max, defaultValue } = config.autopay
 
 const Container = styled(animated.div)`
   position: absolute;

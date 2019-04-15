@@ -23,9 +23,6 @@ module.exports = {
     browser: true,
     node: true,
   },
-  globals: {
-    CONFIG: 'readable',
-  },
   rules: {
     camelcase: 0,
     curly: ['error', 'all'],

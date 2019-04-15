@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import config from 'config'
 import '@zap/i18n/locale'
 import translations from '@zap/i18n/translation'
 import EventEmitter from 'events'
@@ -10,7 +11,7 @@ import { getDefaultLocale } from '@zap/i18n'
 import { getDb } from '@zap/renderer/store/db'
 import { getDbName } from '@zap/utils/db'
 
-export const db = getDb(getDbName(CONFIG))
+export const db = getDb(getDbName(config))
 db.open()
 
 window.Zap = {

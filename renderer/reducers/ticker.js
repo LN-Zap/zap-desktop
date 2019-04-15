@@ -1,3 +1,4 @@
+import config from 'config'
 import { createSelector } from 'reselect'
 import get from 'lodash.get'
 import { requestTickers } from '@zap/utils/api'
@@ -16,8 +17,8 @@ export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
 
 // Map for crypto codes to crypto tickers
 const DEFAULT_CRYPTO_UNITS = {
-  bitcoin: CONFIG.units.bitcoin,
-  litecoin: CONFIG.units.litecoin,
+  bitcoin: config.units.bitcoin,
+  litecoin: config.units.litecoin,
 }
 
 // Map for crypto names to crypto tickers

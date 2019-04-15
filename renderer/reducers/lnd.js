@@ -1,3 +1,4 @@
+import config from 'config'
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import { showSystemNotification } from '@zap/utils/notifications'
@@ -281,7 +282,7 @@ export const setUnlockWalletError = (event, unlockWalletError) => dispatch => {
 }
 
 export const fetchSeed = () => async dispatch => {
-  const { chain: defaultChain, network: defaultNetwork } = CONFIG
+  const { chain: defaultChain, network: defaultNetwork } = config
 
   dispatch({ type: FETCH_SEED })
   try {
@@ -312,7 +313,7 @@ export const fetchSeedError = (event, error) => dispatch => {
 
 export const createNewWallet = () => async (dispatch, getState) => {
   const state = getState()
-  const { chain: defaultChain, network: defaultNetwork } = CONFIG
+  const { chain: defaultChain, network: defaultNetwork } = config
 
   // Define the wallet config.
   let wallet = {
@@ -334,7 +335,7 @@ export const createNewWallet = () => async (dispatch, getState) => {
 
 export const recoverOldWallet = () => async (dispatch, getState) => {
   const state = getState()
-  const { chain: defaultChain, network: defaultNetwork } = CONFIG
+  const { chain: defaultChain, network: defaultNetwork } = config
 
   // Define the wallet config.
   let wallet = {

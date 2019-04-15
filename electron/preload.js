@@ -1,6 +1,6 @@
 /**
  * When running `npm run build` or `npm run build-preload`, this file is compiled to
- * `/dist/preload.prod.js` using webpack.
+ * `/dist/preload.js` using webpack.
  */
 import { ipcRenderer, remote, shell } from 'electron'
 import fs from 'fs'
@@ -10,6 +10,7 @@ import assert from 'assert'
 import url from 'url'
 import untildify from 'untildify'
 import rimraf from 'rimraf'
+import config from 'config'
 import { getDb } from '@zap/renderer/store/db'
 import isSubDir from '@zap/utils/isSubDir'
 import { getAllLocalWallets } from '@zap/utils/localWallets'
@@ -130,9 +131,6 @@ function getUserDataDir() {
   return remote.app.getPath('userData')
 }
 
-// Expose global config.
-window.CONFIG = CONFIG
-
 // Provide access to whitelisted environment variables.
 window.env = Object.keys(process.env)
   .filter(key => WHITELISTED_ENV_VARS.includes(key))
@@ -142,7 +140,7 @@ window.env = Object.keys(process.env)
   }, {})
 
 // Initialise the database and make it globally accessible.
-const { namespace, domain } = CONFIG.db
+const { namespace, domain } = config.db
 const { NODE_ENV: environment } = process.env
 const dbName = getDbName({
   namespace,

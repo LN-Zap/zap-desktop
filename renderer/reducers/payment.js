@@ -1,3 +1,4 @@
+import config from 'config'
 import { createSelector } from 'reselect'
 import { send } from 'redux-electron-ipc'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
@@ -149,7 +150,7 @@ export const paymentFailed = (event, { payment_request, error }) => async (dispa
       }
       const retryIndex = maxRetries - remainingRetries + 1
       // add increasing delay
-      await delay(CONFIG.invoices.baseRetryDelay * retryIndex * retryIndex)
+      await delay(config.invoices.baseRetryDelay * retryIndex * retryIndex)
       dispatch(payInvoice(data))
     } else {
       // Ensure payment stays in sending state for at least 2 seconds.

@@ -8,17 +8,9 @@ import lndconnect from 'lndconnect'
 import fs from 'fs'
 import util from 'util'
 import pick from 'lodash.pick'
+import config from 'config'
 import { mainLog } from '@zap/utils/log'
 import { binaryPath } from './util'
-
-// When we run in production mode, this file is processd with webpack and our config is made available in the
-// global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
-// directly without processing with webpack), so we require the config module directly in this case.
-try {
-  global.CONFIG = CONFIG
-} catch (e) {
-  global.CONFIG = require('config')
-}
 
 const readFile = util.promisify(fs.readFile)
 
@@ -60,12 +52,13 @@ const safeUntildify = val => (typeof val === 'string' ? untildify(val) : val)
  */
 class LndConfig {
   static getListen = async type => {
-    if (global.CONFIG.lnd[type].host) {
+    if (config.lnd[type].host) {
       const port = await getPort({
-        host: global.CONFIG.lnd[type].host,
-        port: global.CONFIG.lnd[type].port,
+        host: config.lnd[type].host,
+        port: config.lnd[type].port,
       })
-      return `${global.CONFIG.lnd[type].host}:${port}`
+
+      return `${config.lnd[type].host}:${port}`
     }
     return 0
   }
@@ -144,8 +137,8 @@ class LndConfig {
 
     // Assign default options.
     this.type = 'local'
-    this.chain = global.CONFIG.chain
-    this.network = global.CONFIG.network
+    this.chain = config.chain
+    this.network = config.network
 
     // Set base config.
     const baseConfig = pick(options, ['id', 'type', 'chain', 'network', 'decoder'])
@@ -160,7 +153,7 @@ class LndConfig {
       allocation: autopilotAllocation,
       private: autopilotPrivate,
       minconfs: autopilotMinconfs,
-    } = global.CONFIG.lnd.autopilot
+    } = config.lnd.autopilot
 
     const lndDefaults = {
       name: null,

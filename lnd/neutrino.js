@@ -1,18 +1,10 @@
 import split2 from 'split2'
 import { spawn } from 'child_process'
 import EventEmitter from 'events'
+import config from 'config'
 import { mainLog, lndLog, lndLogGetLevel } from '@zap/utils/log'
 import { fetchBlockHeight } from './util'
 import LndConfig from './config'
-
-// When we run in production mode, this file is processd with webpack and our config is made available in the
-// global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
-// directly without processing with webpack), so we require the config module directly in this case.
-try {
-  global.CONFIG = CONFIG
-} catch (e) {
-  global.CONFIG = require('config')
-}
 
 // Sync statuses
 const CHAIN_SYNC_PENDING = 'chain-sync-pending'
@@ -120,7 +112,7 @@ class Neutrino extends EventEmitter {
     // Configure neutrino backend.
     neutrinoArgs.push('--bitcoin.node=neutrino')
     neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
-    global.CONFIG.lnd.neutrino[this.lndConfig.chain][this.lndConfig.network].forEach(node =>
+    config.lnd.neutrino[this.lndConfig.chain][this.lndConfig.network].forEach(node =>
       neutrinoArgs.push(`--neutrino.connect=${node}`)
     )
 

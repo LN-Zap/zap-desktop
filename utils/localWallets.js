@@ -4,7 +4,6 @@ import assert from 'assert'
 import { join } from 'path'
 import { readdir, existsSync } from 'fs'
 import rimraf from 'rimraf'
-import root from 'window-or-global'
 
 const fsReaddir = promisify(readdir)
 const fsRimraf = promisify(rimraf)
@@ -35,12 +34,10 @@ export async function getLocalWallets(chain, network) {
 /**
  * Get a list of local wallets from the filesystem.
  */
-export async function getAllLocalWallets() {
-  const supportedChains = root.CONFIG.chains
-  const supportedNetworks = root.CONFIG.networks
+export async function getAllLocalWallets(chains = [], networks = []) {
   const configs = []
-  supportedChains.forEach(chain => {
-    supportedNetworks.forEach(network => {
+  chains.forEach(chain => {
+    networks.forEach(network => {
       configs.push({
         chain,
         network,
@@ -70,8 +67,8 @@ export async function purgeLocalWallet(chain, network, wallet) {
 /**
  * Purge all local wallets (triggers a resync)
  */
-export async function purgeAllLocalWallets() {
-  const wallets = await getAllLocalWallets()
+export async function purgeAllLocalWallets(chains = [], networks = []) {
+  const wallets = await getAllLocalWallets(chains, networks)
   for (const wallet of wallets) {
     await purgeLocalWallet(wallet.chain, wallet.network, wallet.wallet)
   }

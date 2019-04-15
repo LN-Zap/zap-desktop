@@ -1,13 +1,5 @@
+import config from 'config'
 import debugLogger from 'debug-logger'
-
-// When we run in production mode, this file is processd with webpack and our config is made available in the
-// global CONFIG object. If this is not set then we must be running in development mode (where this file is loaded
-// directly without processing with webpack), so we require the config module directly in this case.
-try {
-  global.CONFIG = CONFIG
-} catch (e) {
-  global.CONFIG = require('config')
-}
 
 // Enable colours for object inspection.
 debugLogger.inspectOptions = {
@@ -16,10 +8,10 @@ debugLogger.inspectOptions = {
 
 // Enable all zap logs if DEBUG has not been explicitly set.
 if (!process.env.DEBUG) {
-  process.env.DEBUG = global.CONFIG.debug
+  process.env.DEBUG = config.debug
 }
 if (!process.env.DEBUG_LEVEL) {
-  process.env.DEBUG_LEVEL = global.CONFIG.debugLevel
+  process.env.DEBUG_LEVEL = config.debugLevel
 }
 
 // Method to configure a logger instance with a specific namespace suffix.

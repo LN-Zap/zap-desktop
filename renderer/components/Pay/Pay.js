@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import config from 'config'
 import { Box, Flex } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
@@ -294,7 +295,7 @@ class Pay extends React.Component {
           payReq: values.payReq,
           amt: this.amountInSats(),
           feeLimit: getMaxFee(routes),
-          retries: CONFIG.invoices.retryCount,
+          retries: config.invoices.retryCount,
         })
         // Close the form modal once the payment has been sent
         changeFilter('ALL_ACTIVITY')
