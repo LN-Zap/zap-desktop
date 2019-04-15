@@ -2,21 +2,40 @@
  * Base webpack config used across other specific configs
  */
 
+import fs from 'fs'
 import path from 'path'
-import { DefinePlugin, IgnorePlugin } from 'webpack'
+import { IgnorePlugin } from 'webpack'
 import config from 'config'
 
 export const rootDir = path.join(__dirname, '..')
 
+// This will take the config based on the current NODE_ENV and save it to 'dist/config.json'
+// The webpack alias below will then build that file into the client build.
+fs.mkdirSync(path.resolve(rootDir, 'dist'), { recursive: true })
+fs.writeFileSync(path.resolve(rootDir, 'dist/config.json'), JSON.stringify(config))
+
 export default {
   context: rootDir,
 
+  /**
+   * Determine the array of extensions that should be used to resolve modules.
+   */
+  resolve: {
+    modules: [path.resolve(rootDir, 'renderer'), 'node_modules'],
+    // Define an alias that makes the global config available.
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+      config: path.resolve(rootDir, 'dist/config.json'),
+    },
+  },
+
+  plugins: [new IgnorePlugin(/^\.\/locale$/, /moment$/)],
+
   module: {
     rules: [
-      // JSX
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/],
         use: {
           loader: 'babel-loader',
           options: {
@@ -58,23 +77,13 @@ export default {
           },
         },
       },
+      // Common Image Formats
+      {
+        test: /\.(?:ico|gif|png|jpg|jpeg|webp)$/,
+        use: 'url-loader',
+      },
     ],
   },
-
-  /**
-   * Determine the array of extensions that should be used to resolve modules.
-   */
-  resolve: {
-    modules: [path.resolve(rootDir, 'renderer'), 'node_modules'],
-  },
-
-  plugins: [
-    new IgnorePlugin(/^\.\/locale$/, /moment$/),
-
-    // Make config object available at global CONFIG var.
-    // See https://github.com/lorenwest/node-config/wiki/Webpack-Usage#option-1
-    new DefinePlugin({ CONFIG: JSON.stringify(config) }),
-  ],
 
   optimization: {
     namedModules: true,
