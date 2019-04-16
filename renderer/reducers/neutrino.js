@@ -59,7 +59,7 @@ export const neutrinoReset = () => {
 export const initNeutrino = () => async (dispatch, getState) => {
   const neutrino = await neutrinoService
 
-  // Hook up event listeneres error/exit.
+  // Hook up event listeners error/exit.
   neutrino.on(
     'NEUTRINO_EXIT',
     proxyValue(data => {
@@ -70,7 +70,7 @@ export const initNeutrino = () => async (dispatch, getState) => {
       }
     })
   )
-  // Hook up event listeneres for sync progress updates.
+  // Hook up event listeners for sync progress updates.
   neutrino.on(
     'NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT',
     proxyValue(height => dispatch(currentBlockHeight(height)))
@@ -83,7 +83,7 @@ export const initNeutrino = () => async (dispatch, getState) => {
     'NEUTRINO_GOT_LND_CFILTER_HEIGHT',
     proxyValue(height => dispatch(neutrinoCfilterHeight(height)))
   )
-  // Hook up event listeneres for sync status updates.
+  // Hook up event listeners for sync status updates.
   neutrino.on(
     'NEUTRINO_CHAIN_SYNC_PENDING',
     proxyValue(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_PENDING')))

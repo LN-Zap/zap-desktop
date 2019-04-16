@@ -41,8 +41,6 @@ class GrpcService extends EventEmitter {
   /**
    * Initialize the service.
    *
-   * Note: comline doesn't seem to properly support passing args via the constructor
-   *       which is why we do it here.
    * @param  {[type]}  options [description]
    * @return {Promise}         [description]
    */
@@ -130,9 +128,9 @@ class GrpcService extends EventEmitter {
     // Create a new gRPC client instance.
     this.service = new rpc.lnrpc[this.serviceName](host, sslCreds)
 
-    // Wait upto 20 seconds for the gRPC connection to be established.
+    // Wait upto 10 seconds for the gRPC connection to be established.
     return new Promise((resolve, reject) => {
-      this.service.waitForReady(getDeadline(20), err => {
+      this.service.waitForReady(getDeadline(10), err => {
         if (err) {
           this.service.close()
           return reject(err)

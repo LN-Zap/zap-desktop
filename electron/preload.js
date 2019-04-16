@@ -83,7 +83,8 @@ function killLnd() {
 async function generateLndConfigFromWallet(wallet) {
   // Convert wallet config to lnd config.
   wallet.decoder = wallet.decoder || 'lnd.lndconnect.v1'
-  let lndConfig = new LndConfig({
+
+  const lndConfig = new LndConfig({
     ...wallet,
     userDataDir: getUserDataDir(),
     binaryPath: lndBinaryPath(),
@@ -92,10 +93,6 @@ async function generateLndConfigFromWallet(wallet) {
 
   // Wait for the config to become fully initialized.
   await lndConfig.isReady
-
-  // Flatten the config into a plan object so we can pass it between services.
-  // We can not pass a Promise to the Web Worker, so replace with true value.
-  lndConfig = Object.assign({}, lndConfig, { isReady: true })
 
   return lndConfig
 }

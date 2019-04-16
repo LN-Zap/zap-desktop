@@ -44,7 +44,7 @@ class Lightning extends LndGrpcService {
 
     // Verify that the host is valid before creating a gRPC client that is connected to it.
     await validateHost(host)
-    // If we are trying to connect to the internal lnd, wait up to 20 seconds for the macaroon to be generated.
+    // If we are trying to connect to the internal lnd, wait up to 10 seconds for the macaroon to be generated.
     if (type === 'local') {
       await waitForFile(macaroon, 20000)
     }
@@ -119,8 +119,8 @@ class Lightning extends LndGrpcService {
     // Create a new gRPC client instance.
     this.service = new rpc.lnrpc.Lightning(host, creds)
     try {
-      // Wait up to 20 seconds for the gRPC connection to be established.
-      return await promisifiedCall(this.service, this.service.waitForReady, getDeadline(20))
+      // Wait up to 10 seconds for the gRPC connection to be established.
+      return await promisifiedCall(this.service, this.service.waitForReady, getDeadline(10))
     } catch (e) {
       mainLog.warn(e)
       this.service.close()

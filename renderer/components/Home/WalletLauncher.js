@@ -256,7 +256,6 @@ class WalletLauncher extends React.Component {
               lndconnectUri: undefined, // delete uris so the main process re-generates them
               lndconnectQRCode: undefined,
             })
-
             // re-generate lndconnectUri and
             // QR using updated host, cert and macaroon values. This is done in the main process
             result = formToWalletFormat(await generateLndConfigFromWallet(config))

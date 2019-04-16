@@ -72,7 +72,7 @@ class LndConfig {
       },
 
       isReady: {
-        enumerable: true,
+        enumerable: false,
         get() {
           return _isReady.get(this)
         },

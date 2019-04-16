@@ -69,7 +69,7 @@ export const startActiveWallet = () => async (dispatch, getState) => {
  * @param  {Object} wallet Wallet config
  */
 export const startLnd = wallet => async (dispatch, getState) => {
-  const lndConfig = await generateLndConfigFromWallet(wallet)
+  const lndConfig = await dispatch(generateLndConfigFromWallet(wallet))
 
   // Tell the main process to start lnd using th  e supplied connection details.
   dispatch({ type: START_LND, lndConfig })
@@ -154,19 +154,29 @@ export const clearStartLndError = () => {
 /**
  * Disconnect from WalletUnlocker gRPC interface.
  */
-export const disconnectWalletUnlocker = () => async dispatch => {
-  dispatch({ type: DISCONNECT_WALLET_UNLOCKER })
-  const walletUnlocker = await walletUnlockerService
-  await walletUnlocker.disconnect()
+export const disconnectWalletUnlocker = () => async (dispatch, getState) => {
+  const { isStartingWalletUnlocker, isWalletUnlockerGrpcActive } = getState().lnd
+  if (isStartingWalletUnlocker || isWalletUnlockerGrpcActive) {
+    dispatch({ type: DISCONNECT_WALLET_UNLOCKER })
+    const walletUnlocker = await walletUnlockerService
+    if (await walletUnlocker.can('disconnect')) {
+      await walletUnlocker.disconnect()
+    }
+  }
 }
 
 /**
  * Disconnect from Lightning gRPC interface.
  */
-export const disconnectLightningWallet = () => async dispatch => {
-  dispatch({ type: DISCONNECT_LIGHTNING_WALLET })
-  const lightning = await lightningService
-  await lightning.disconnect()
+export const disconnectLightningWallet = () => async (dispatch, getState) => {
+  const { isStartingLightningWallet, isLightningGrpcActive } = getState().lnd
+  if (isStartingLightningWallet || isLightningGrpcActive) {
+    dispatch({ type: DISCONNECT_LIGHTNING_WALLET })
+    const lightning = await lightningService
+    if (await lightning.can('disconnect')) {
+      await lightning.disconnect()
+    }
+  }
 }
 
 /**
@@ -174,20 +184,13 @@ export const disconnectLightningWallet = () => async dispatch => {
  */
 export const stopLnd = () => async (dispatch, getState) => {
   const {
-    lnd: { isStoppingLnd, isWalletUnlockerGrpcActive, isLightningGrpcActive, lndConfig },
+    lnd: { isStoppingLnd, lndConfig },
   } = getState()
 
   if (!isStoppingLnd) {
     dispatch({ type: STOP_LND })
-
-    if (isWalletUnlockerGrpcActive) {
-      await dispatch(disconnectWalletUnlocker())
-    }
-
-    if (isLightningGrpcActive) {
-      await dispatch(disconnectLightningWallet())
-    }
-
+    await dispatch(disconnectWalletUnlocker())
+    await dispatch(disconnectLightningWallet())
     if (lndConfig.type === 'local') {
       await dispatch(stopNeutrino())
     }
@@ -445,7 +448,7 @@ export const walletRecovered = () => dispatch => {
  * Re-generates config that includes updated lndconnectUri and QR
  * host, cert and macaroon values
  */
-export const generateLndConfigFromWallet = async wallet => {
+export const generateLndConfigFromWallet = wallet => async () => {
   return await window.Zap.generateLndConfigFromWallet(wallet)
 }
 
@@ -496,6 +499,7 @@ const ACTION_HANDLERS = {
   }),
   [START_WALLET_UNLOCKER_FAILURE]: state => ({
     ...state,
+    isStartingLnd: false,
     isStartingWalletUnlocker: false,
     isWalletUnlockerGrpcActive: false,
   }),
@@ -515,6 +519,7 @@ const ACTION_HANDLERS = {
   }),
   [START_LIGHTNING_WALLET_FAILURE]: state => ({
     ...state,
+    isStartingLnd: false,
     isStartingLightningWallet: false,
     isLightningGrpcActive: false,
   }),
