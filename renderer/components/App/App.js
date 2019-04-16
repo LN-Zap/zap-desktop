@@ -52,7 +52,7 @@ function App({
   useEffect(() => {
     if (isAppReady && payReq) {
       if (!modals.find(m => m.type === 'PAY_FORM')) {
-        setModals(['PAY_FORM'])
+        setModals([{ type: 'PAY_FORM' }])
       }
     }
   }, [payReq, isAppReady])
