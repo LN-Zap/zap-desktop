@@ -7,7 +7,6 @@ import messages from './messages'
 class WalletRecover extends React.Component {
   static propTypes = {
     recoverOldWallet: PropTypes.func.isRequired,
-    setWalletRecover: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
   }
@@ -31,7 +30,7 @@ class WalletRecover extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, setWalletRecover, recoverOldWallet, ...rest } = this.props
+    const { wizardApi, wizardState, recoverOldWallet, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (
