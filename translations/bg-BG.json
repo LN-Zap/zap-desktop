@@ -398,6 +398,7 @@
   "components.UI.payreq_placeholder": "Поставете заявката за плащане или {chain} адресът тук",
   "components.UI.pubkey_placeholder": "",
   "components.UI.required_field": "",
+  "components.UI.select_placeholder": "",
   "components.UI.transaction_speed_fast": "",
   "components.UI.transaction_speed_fast_description": "",
   "components.UI.transaction_speed_medium": "",

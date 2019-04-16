@@ -398,6 +398,7 @@
   "components.UI.payreq_placeholder": "Paste a Lightning Payment Request or {chain} Address here",
   "components.UI.pubkey_placeholder": "pubkey@host:port",
   "components.UI.required_field": "This is a required field",
+  "components.UI.select_placeholder": "Please select",
   "components.UI.transaction_speed_fast": "Fast",
   "components.UI.transaction_speed_fast_description": "Estimated Delivery: less than 1 hour",
   "components.UI.transaction_speed_medium": "Medium",
