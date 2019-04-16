@@ -90,7 +90,7 @@ class ZapController {
 
   onTerminate() {
     mainLog.debug('[FSM] onTerminate...')
-    this.sendMessage('terminateApp')
+    this.sendMessage('terminateApp', 'terminateAppSuccess')
     ipcMain.on('terminateAppSuccess', () => app.quit())
   }
 
@@ -134,9 +134,9 @@ class ZapController {
   }
 
   _registerIpcListeners() {
-    ipcMain.on('killLnd', async () => {
-      await this.killAllZombieProcesses()
-      this.sendMessage('killLndSuccess')
+    ipcMain.on('killLnd', () => {
+      this.sendMessage('terminateApp', 'killLndSuccess')
+      ipcMain.once('killLndSuccess', this.sendMessage('killLndSuccess'))
     })
     ipcMain.on('processSpawn', (event, { name, pid }) => {
       this.processes[name] = pid
@@ -151,6 +151,7 @@ class ZapController {
    */
   _removeIpcListeners() {
     ipcMain.removeAllListeners('killLnd')
+    ipcMain.removeAllListeners('killLndSuccess')
     ipcMain.removeAllListeners('processSpawn')
     ipcMain.removeAllListeners('processExit')
   }

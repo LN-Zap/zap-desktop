@@ -7,11 +7,9 @@ import {
   cleanElectronEnvironment,
 } from './utils/helpers'
 import Onboarding from './pages/onboarding'
-import Syncing from './pages/syncing'
 import Loading from './pages/loading'
 
 const onboarding = new Onboarding()
-const syncing = new Syncing()
 const loading = new Loading()
 
 fixture('Onboarding (create)')
@@ -80,7 +78,5 @@ test('should create a new wallet', async t => {
 
     // Verify that we show the loading bolt and syncing page.
     .expect(loading.loadingBolt.exists)
-    .ok()
-    .expect(syncing.syncing.exists)
     .ok()
 })

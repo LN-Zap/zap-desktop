@@ -2,7 +2,7 @@ import delay from '@zap/utils/delay'
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import { proxyValue } from 'comlinkjs'
-import { neutrinoService } from 'workers'
+import { neutrinoService, lightningService, walletUnlockerService } from 'workers'
 import { tickerSelectors } from './ticker'
 import { walletSelectors } from './wallet'
 
@@ -58,25 +58,34 @@ export const initApp = () => async (dispatch, getState) => {
 }
 
 /**
- * [terminateApp description]
- * @return {[type]} [description]
+ * IPC handler for 'terminateApp' message
  */
-export const terminateApp = () => async dispatch => {
+export const terminateApp = (event, handler) => async dispatch => {
   dispatch({ type: TERMINATE_APP })
+
+  // Disconnect gRPC streams.
+  const walletUnlocker = await walletUnlockerService
+  if (await walletUnlocker.can('disconnect')) {
+    await walletUnlocker.disconnect()
+  }
+  const lightning = await lightningService
+  if (await lightning.can('disconnect')) {
+    await lightning.disconnect()
+  }
 
   // Kill active neutrino process before terminating.
   const neutrino = await neutrinoService
   if (await neutrino.getPid()) {
-    neutrino.once('NEUTRINO_EXIT', proxyValue(() => dispatch(terminateAppSuccess())))
+    neutrino.once('NEUTRINO_EXIT', proxyValue(() => dispatch(terminateAppSuccess(handler))))
     await neutrino.kill()
   } else {
-    dispatch(terminateAppSuccess())
+    dispatch(terminateAppSuccess(handler))
   }
 }
 
-export const terminateAppSuccess = () => async dispatch => {
+export const terminateAppSuccess = handler => async dispatch => {
   dispatch({ type: TERMINATE_APP_SUCCESS })
-  dispatch(send('terminateAppSuccess'))
+  dispatch(send(handler))
 }
 
 // ------------------------------------

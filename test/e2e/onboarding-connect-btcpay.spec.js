@@ -7,10 +7,8 @@ import {
   cleanElectronEnvironment,
 } from './utils/helpers'
 import Onboarding from './pages/onboarding'
-import Loading from './pages/loading'
 
 const onboarding = new Onboarding()
-const loading = new Loading()
 
 fixture('Onboarding (connect btcpay)')
   .page(getBaseUrl())
@@ -20,7 +18,7 @@ fixture('Onboarding (connect btcpay)')
   })
   .afterEach(async t => {
     await assertNoConsoleErrors(t)
-    await cleanTestEnvironment()
+    await cleanTestEnvironment({ lnd: false })
   })
   .after(async ctx => {
     await cleanElectronEnvironment(ctx)
@@ -41,16 +39,16 @@ test('should connect to an external wallet (btcpay)', async t => {
     .typeText(
       onboarding.connectionStringInput,
       `{
-  "configurations": [
-    {
-      "type": "grpc",
-      "cryptoCode": "BTC",
-      "host": "example.com",
-      "port": "19000",
-      "macaroon": "macaroon"
-    }
-  ]
-}`
+    "configurations": [
+      {
+        "type": "grpc",
+        "cryptoCode": "BTC",
+        "host": "example.com",
+        "port": "19000",
+        "macaroon": "macaroon"
+      }
+    ]
+  }`
     )
     .click(onboarding.nextButton)
 
@@ -58,8 +56,4 @@ test('should connect to an external wallet (btcpay)', async t => {
     .expect(onboarding.connectionConfirm.exists)
     .ok()
     .click(onboarding.nextButton)
-
-    // Verify that we show the loading bolt and then the wallet page.
-    .expect(loading.loadingBolt.exists)
-    .ok()
 })
