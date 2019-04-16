@@ -13324,9 +13324,9 @@ redent@^2.0.0:
     indent-string "^3.0.0"
     strip-indent "^2.0.0"
 
-redux-electron-ipc@LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6:
+"redux-electron-ipc@https://github.com/LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6":
   version "1.2.0"
-  resolved "https://codeload.github.com/LN-Zap/redux-electron-ipc/tar.gz/b513220d085ad3e96e459d7efcdfc37bf75417b6"
+  resolved "https://github.com/LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6"
 
 redux-logger@3.0.6:
   version "3.0.6"
