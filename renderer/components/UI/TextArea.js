@@ -201,12 +201,9 @@ class TextArea extends React.PureComponent {
           field={field}
           fieldState={fieldState}
           onBlur={e => {
-            setTouched()
-            // Make the state aware that the element is now focused.
-            const newHasFocus = document.activeElement === this.inputRef.current
-            if (hasFocus !== newHasFocus) {
-              this.setState({ hasFocus: newHasFocus })
-            }
+            setTouched(true)
+            // Make the state aware that the element is no longer focused.
+            this.setState({ hasFocus: false })
             if (onBlur) {
               onBlur(e)
             }
@@ -218,11 +215,8 @@ class TextArea extends React.PureComponent {
             }
           }}
           onFocus={e => {
-            // Make the state aware that the element is no longer focused.
-            const newHasFocus = document.activeElement === this.inputRef.current
-            if (hasFocus !== newHasFocus) {
-              this.setState({ hasFocus: newHasFocus })
-            }
+            // Make the state aware that the element is now focused.
+            this.setState({ hasFocus: true })
             if (onFocus) {
               onFocus(e)
             }
