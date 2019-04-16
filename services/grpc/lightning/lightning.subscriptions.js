@@ -1,6 +1,10 @@
 import { mainLog } from '@zap/utils/log'
 import { status } from '@grpc/grpc-js'
 
+/**
+ * Call lnd grpc subscribeChannelGraph method and emit events on updates to the stream
+ * @return {Call} Grpc Call
+ */
 function subscribeChannelGraph() {
   const call = this.service.subscribeChannelGraph({})
   call.on('data', data => {
@@ -24,6 +28,10 @@ function subscribeChannelGraph() {
   return call
 }
 
+/**
+ * Call lnd grpc subscribeInvoices method and emit events on updates to the stream
+ * @return {Call} Grpc Call
+ */
 function subscribeInvoices(payload = {}) {
   const call = this.service.subscribeInvoices(payload)
   call.on('data', data => {
@@ -47,6 +55,10 @@ function subscribeInvoices(payload = {}) {
   return call
 }
 
+/**
+ * Call lnd grpc subscribeTransactions method and emit events on updates to the stream
+ * @return {Call} Grpc Call
+ */
 function subscribeTransactions() {
   const call = this.service.subscribeTransactions({})
   call.on('data', data => {

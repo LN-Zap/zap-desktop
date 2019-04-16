@@ -3,8 +3,8 @@ import { mainLog } from '@zap/utils/log'
 import { decodePayReq as bolt11DecodePayReq } from '@zap/utils/crypto'
 
 /**
- * [getInfo description]
- * @return {[type]} [description]
+ * Call lnd grpc getInfo method
+ * @return {Promise<GetInfoResponse}
  */
 async function getInfo() {
   const infoData = await promisifiedCall(this.service, this.service.getInfo)
@@ -25,33 +25,33 @@ async function getInfo() {
 }
 
 /**
- * [newAddress description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc newAddress method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<NewAddressResponse}
  */
 async function newAddress(payload = {}) {
   return promisifiedCall(this.service, this.service.newAddress, payload)
 }
 
 /**
- * [walletBalance description]
- * @return {Promise} [description]
+ * Call lnd grpc walletBalance method
+ * @return {Promise<WalletBalanceResponse}
  */
 async function walletBalance() {
   return promisifiedCall(this.service, this.service.walletBalance, {})
 }
 
 /**
- * [channelBalance description]
- * @return {Promise} [description]
+ * Call lnd grpc channelBalance method
+ * @return {Promise<ChannelBalanceResponse}
  */
 async function channelBalance() {
   return promisifiedCall(this.service, this.service.channelBalance, {})
 }
 
 /**
- * [getBalance description]
- * @return {Promise} [description]
+ * Call lnd grpc walletBalance and channelBalance method and combine result.
+ * @return {Promise<Object>}
  */
 async function getBalance() {
   const [walletBalance, channelBalance] = await Promise.all([
@@ -66,40 +66,40 @@ async function getBalance() {
 }
 
 /**
- * [listPayments description]
- * @return {Promise} [description]
+ * Call lnd grpc listPayments method
+ * @return {Promise<ListPaymentsResponse>}
  */
 async function listPayments() {
   return promisifiedCall(this.service, this.service.listPayments, {})
 }
 
 /**
- * [listInvoices description]
- * @return {Promise} [description]
+ * Call lnd grpc listInvoices method
+ * @return {Promise<ListInvoiceResponse>}
  */
 async function listInvoices() {
   return promisifiedCall(this.service, this.service.listInvoices, {})
 }
 
 /**
- * [getTransactions description]
- * @return {Promise} [description]
+ * Call lnd grpc getTransactions method
+ * @return {Promise<TransactionDetails>}
  */
 async function getTransactions() {
   return promisifiedCall(this.service, this.service.getTransactions, {})
 }
 
 /**
- * [listPeers description]
- * @return {Promise} [description]
+ * Call lnd grpc listPeers method
+ * @return {Promise<ListPeersResponse>}
  */
 async function listPeers() {
   return promisifiedCall(this.service, this.service.listPeers, {})
 }
 
 /**
- * [listChannels description]
- * @return {Promise} [description]
+ * Call lnd grpc listChannels method and extract channels data.
+ * @return {Promise<[Channels]>}
  */
 async function listChannels() {
   const data = await promisifiedCall(this.service, this.service.listChannels, {})
@@ -107,16 +107,16 @@ async function listChannels() {
 }
 
 /**
- * [pendingChannels description]
- * @return {Promise} [description]
+ * Call lnd grpc pendingChannels method
+ * @return {Promise<PendingChannelsResponse>}
  */
 async function pendingChannels() {
   return promisifiedCall(this.service, this.service.pendingChannels, {})
 }
 
 /**
- * [closedChannels description]
- * @return {Promise} [description]
+ * Call lnd grpc closedChannels method and extract channels data.
+ * @return {Promise<[Channels]>}
  */
 async function closedChannels() {
   const data = await promisifiedCall(this.service, this.service.closedChannels, {})
@@ -124,8 +124,8 @@ async function closedChannels() {
 }
 
 /**
- * [getChannels description]
- * @return {Promise} [description]
+ * Call lnd grpc listChannels, pendingChannels and closedChannels method and combine result.
+ * @return {Promise<Object>}
  */
 async function getChannels() {
   const [channels, pendingChannels, closedChannels] = await Promise.all([
@@ -142,47 +142,47 @@ async function getChannels() {
 }
 
 /**
- * [describeGraph description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc describeGraph method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<ChannelGraph>}
  */
 async function describeGraph(payload = {}) {
   return promisifiedCall(this.service, this.service.describeGraph, payload)
 }
 
 /**
- * [decodePayReq description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc decodePayReq method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<PayReq>}
  */
 async function decodePayReq(payload = {}) {
   return promisifiedCall(this.service, this.service.decodePayReq, payload)
 }
 
 /**
- * [lookupInvoice description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc lookupInvoice method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<Invoice>}
  */
 async function lookupInvoice(payload = {}) {
   return promisifiedCall(this.service, this.service.lookupInvoice, payload)
 }
 
 /**
- * [addInvoice description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc addInvoice method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<AddInvoiceResponse>}
  */
 async function addInvoice(payload = {}) {
   return promisifiedCall(this.service, this.service.addInvoice, payload)
 }
 
 /**
- * [createInvoice description]
+ * Call lnd grpc createInvoice method
  * @param  {[type]}  payload [description]
- * @return {Promise}         [description]
+ * @return {Promise<Object>}
  */
-async function reateInvoice(payload) {
+async function createInvoice(payload) {
   const invoice = await this.addInvoice(payload)
   const decodedInvoice = await this.decodePayReq({ pay_req: invoice.payment_request })
 
@@ -197,36 +197,36 @@ async function reateInvoice(payload) {
 }
 
 /**
- * [queryRoutes description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc queryRoutes method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<QueryRoutesResponse>}
  */
 async function queryRoutes(payload = {}) {
   return promisifiedCall(this.service, this.service.queryRoutes, payload)
 }
 
 /**
- * [connectPeer description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc connectPeer method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<ConnectPeerResponse>}
  */
 async function connectPeer(payload = {}) {
   return promisifiedCall(this.service, this.service.connectPeer, payload)
 }
 
 /**
- * [sendCoins description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc sendCoins method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<SendCoinsResponse>}
  */
 async function sendCoins(payload = {}) {
   return promisifiedCall(this.service, this.service.sendCoins, payload)
 }
 
 /**
- * [ensurePeerConnected description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc connectPeer method if not already connected to the peer
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<ConnectPeerResponse|Peer>}
  */
 async function ensurePeerConnected(payload = {}) {
   const { peers } = await this.listPeers()
@@ -238,9 +238,9 @@ async function ensurePeerConnected(payload = {}) {
 }
 
 /**
- * [connectAndOpen description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Connect to peer and open a channel.
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<Object>}
  */
 async function connectAndOpen(payload = {}) {
   const { pubkey, host, localamt, private: privateChannel, satPerByte, spendUnconfirmed } = payload
@@ -262,9 +262,9 @@ async function connectAndOpen(payload = {}) {
 }
 
 /**
- * [openChannel description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc openChannel method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<Object>}
  */
 async function openChannel(payload = {}) {
   const parsePayload = payload => ({
@@ -308,9 +308,9 @@ async function openChannel(payload = {}) {
 }
 
 /**
- * [closeChannel description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc closeChannel method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<Object>}
  */
 async function closeChannel(payload = {}) {
   return new Promise((resolve, reject) => {
@@ -367,9 +367,9 @@ async function closeChannel(payload = {}) {
 }
 
 /**
- * [sendPayment description]
- * @param  {Object}  [payload={}] [description]
- * @return {Promise}              [description]
+ * Call lnd grpc sendPayment method
+ * @param  {Object}  payload rpc payload
+ * @return {Promise<Object>}
  */
 async function sendPayment(payload = {}) {
   return new Promise((resolve, reject) => {
@@ -459,7 +459,7 @@ export default {
   decodePayReq,
   lookupInvoice,
   addInvoice,
-  reateInvoice,
+  createInvoice,
   queryRoutes,
   connectPeer,
   sendCoins,
