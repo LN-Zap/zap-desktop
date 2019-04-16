@@ -398,6 +398,7 @@
   "components.UI.payreq_placeholder": "Pegue la solicitud de pago o la dirección {chain} acá",
   "components.UI.pubkey_placeholder": "",
   "components.UI.required_field": "Este es un campo obligatorio",
+  "components.UI.select_placeholder": "",
   "components.UI.transaction_speed_fast": "",
   "components.UI.transaction_speed_fast_description": "",
   "components.UI.transaction_speed_medium": "",

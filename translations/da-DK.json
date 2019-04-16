@@ -398,6 +398,7 @@
   "components.UI.payreq_placeholder": "Indtast en Lightning Betalings Anmodning eller {chain} Adresse her",
   "components.UI.pubkey_placeholder": "",
   "components.UI.required_field": "Dette er et påkrævet felt",
+  "components.UI.select_placeholder": "",
   "components.UI.transaction_speed_fast": "",
   "components.UI.transaction_speed_fast_description": "",
   "components.UI.transaction_speed_medium": "",

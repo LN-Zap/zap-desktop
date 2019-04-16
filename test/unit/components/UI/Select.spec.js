@@ -5,6 +5,8 @@ import { dark } from 'themes'
 import { ThemeProvider } from 'styled-components'
 import { Select } from 'components/UI'
 
+import { IntlProvider } from 'react-intl'
+
 describe('component.UI.Toggle', () => {
   it('should render correctly', () => {
     const selectItems = [
@@ -17,11 +19,13 @@ describe('component.UI.Toggle', () => {
     ]
     const tree = renderer
       .create(
-        <ThemeProvider theme={dark}>
-          <Form>
-            <Select field="name" items={selectItems} />
-          </Form>
-        </ThemeProvider>
+        <IntlProvider locale="en">
+          <ThemeProvider theme={dark}>
+            <Form>
+              <Select field="name" items={selectItems} />
+            </Form>
+          </ThemeProvider>
+        </IntlProvider>
       )
       .toJSON()
     expect(tree).toMatchSnapshot()

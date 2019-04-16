@@ -398,6 +398,7 @@
   "components.UI.payreq_placeholder": "Füge Zahlungsanfrage oder {chain} Adresse ein",
   "components.UI.pubkey_placeholder": "pubkey@host:port",
   "components.UI.required_field": "Dieses Feld ist ein Pflichtfeld",
+  "components.UI.select_placeholder": "",
   "components.UI.transaction_speed_fast": "Schnell",
   "components.UI.transaction_speed_fast_description": "Voraussichtliche Übermittlung: Weniger als 1 Stunde",
   "components.UI.transaction_speed_medium": "Mittel",

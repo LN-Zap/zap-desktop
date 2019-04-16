@@ -8,6 +8,7 @@ export default defineMessages({
   expired: 'Expired',
   fee: 'Fee',
   fee_unknown: 'unknown',
+  select_placeholder: 'Please select',
   fee_per_byte: 'per byte',
   required_field: 'This is a required field',
   invalid_request: 'Not a valid {chain} request.',

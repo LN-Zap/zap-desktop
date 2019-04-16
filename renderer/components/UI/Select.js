@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
+import { compose } from 'redux'
+import { injectIntl, intlShape } from 'react-intl'
 import styled, { withTheme } from 'styled-components'
 import Downshift from 'downshift'
 import { Box, Flex } from 'rebass'
@@ -10,6 +12,7 @@ import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
 import Text from './Text'
 import { BasicInput } from './Input'
+import messages from './messages'
 
 const SelectOptionList = styled.ul`
   padding: 0;
@@ -80,6 +83,7 @@ class Select extends React.PureComponent {
     fieldState: PropTypes.object.isRequired,
     iconSize: PropTypes.number,
     initialSelectedItem: PropTypes.string,
+    intl: intlShape.isRequired,
     items: PropTypes.array,
     onValueSelected: PropTypes.func,
     theme: PropTypes.object.isRequired,
@@ -132,6 +136,7 @@ class Select extends React.PureComponent {
       color,
       onValueSelected,
       initialSelectedItem,
+      intl,
       ...rest
     } = this.props
     const { setValue, setTouched } = fieldApi
@@ -145,10 +150,9 @@ class Select extends React.PureComponent {
     return (
       <Downshift
         initialInputValue={initialInputValue}
-        // When an item is selected, set the item in the Informed form state.
         initialSelectedItem={initialSelectedItem}
-        // If an invalid value has been typed into the input, set it back to the currently slected item.
         itemToString={itemToString}
+        // When an item is selected, set the item in the Informed form state.
         onInputValueChange={(inputValue, stateAndHelpers) => {
           if (inputValue && inputValue !== itemToString(stateAndHelpers.selectedItem)) {
             fieldApi.setValue(itemToString(stateAndHelpers.selectedItem))
@@ -173,38 +177,59 @@ class Select extends React.PureComponent {
           closeMenu,
           openMenu,
           toggleMenu,
-        }) => (
-          <div style={{ position: 'relative' }}>
-            <Flex alignItems="center">
-              <StyledInput
-                placeholder="Please select"
-                {...rest}
-                {...getInputProps({
-                  onBlur: closeMenu,
-                  onFocus: openMenu,
-                  onMouseDown: toggleMenu,
-                })}
-                fieldApi={fieldApi}
-                fieldState={fieldState}
-                forwardedRef={this.inputRef}
-                initialValue={selectedItem ? selectedItem.value : null}
-              />
-              <Box>
-                {isOpen ? <ArrowIconOpen width={iconSize} /> : <ArrowIconClosed width={iconSize} />}
-              </Box>
-            </Flex>
-            {isOpen && (
-              <SelectOptionList {...getMenuProps({}, { suppressRefError: true })}>
-                {this.renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
-              </SelectOptionList>
-            )}
-          </div>
-        )}
+        }) => {
+          const getInitialValue = () => {
+            if (selectedItem) {
+              return selectedItem.value
+            }
+
+            if (initialSelectedItem) {
+              initialSelectedItem.value
+            }
+
+            return ''
+          }
+          return (
+            <div style={{ position: 'relative' }}>
+              <Flex alignItems="center">
+                <StyledInput
+                  placeholder={intl.formatMessage({ ...messages.select_placeholder })}
+                  {...rest}
+                  initialValue={getInitialValue()}
+                  {...getInputProps({
+                    onBlur: closeMenu,
+                    onFocus: openMenu,
+                    onMouseDown: toggleMenu,
+                  })}
+                  fieldApi={fieldApi}
+                  fieldState={fieldState}
+                  forwardedRef={this.inputRef}
+                />
+                <Box>
+                  {isOpen ? (
+                    <ArrowIconOpen width={iconSize} />
+                  ) : (
+                    <ArrowIconClosed width={iconSize} />
+                  )}
+                </Box>
+              </Flex>
+              {isOpen && (
+                <SelectOptionList {...getMenuProps({}, { suppressRefError: true })}>
+                  {this.renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
+                </SelectOptionList>
+              )}
+            </div>
+          )
+        }}
       </Downshift>
     )
   }
 }
 
-const BasicSelect = withTheme(Select)
+const BasicSelect = compose(
+  injectIntl,
+  withTheme
+)(Select)
+
 export { BasicSelect }
 export default asField(BasicSelect)

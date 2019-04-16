@@ -127,6 +127,7 @@ class Input extends React.Component {
     hasMessage: PropTypes.bool,
     highlightOnValid: PropTypes.bool,
     iconSize: PropTypes.number,
+    initialValue: PropTypes.string,
     isDisabled: PropTypes.bool,
     isReadOnly: PropTypes.bool,
     isRequired: PropTypes.bool,
@@ -151,6 +152,7 @@ class Input extends React.Component {
     highlightOnValid: true,
     iconSize: 46,
     tooltip: null,
+    initialValue: '',
   }
 
   state = {
@@ -193,6 +195,7 @@ class Input extends React.Component {
       className,
       tooltip,
       children,
+      initialValue,
       ...rest
     } = this.props
     const { hasFocus } = this.state
@@ -208,6 +211,13 @@ class Input extends React.Component {
         delete rest[key]
       }
     })
+
+    const getValue = () => {
+      if (typeof value === 'undefined') {
+        return initialValue
+      }
+      return !value && value !== 0 ? '' : value
+    }
 
     return (
       <Flex
@@ -273,7 +283,7 @@ class Input extends React.Component {
             required={isRequired}
             theme={theme}
             type={type}
-            value={!value && value !== 0 ? '' : value}
+            value={getValue()}
           />
           {children}
         </Flex>
