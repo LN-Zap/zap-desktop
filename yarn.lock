@@ -4960,6 +4960,11 @@ cipher-base@^1.0.0, cipher-base@^1.0.1, cipher-base@^1.0.3:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
 
+circular-dependency-plugin@5.0.2:
+  version "5.0.2"
+  resolved "https://registry.yarnpkg.com/circular-dependency-plugin/-/circular-dependency-plugin-5.0.2.tgz#da168c0b37e7b43563fb9f912c1c007c213389ef"
+  integrity sha512-oC7/DVAyfcY3UWKm0sN/oVoDedQDQiw/vIiAnuTWTpE5s0zWf7l3WY417Xw/Fbi/QbAjctAkxgMiS9P0s3zkmA==
+
 class-utils@^0.3.5:
   version "0.3.6"
   resolved "https://registry.yarnpkg.com/class-utils/-/class-utils-0.3.6.tgz#f93369ae8b9a7ce02fd41faad0ca83033190c463"
@@ -13314,9 +13319,9 @@ redent@^2.0.0:
     indent-string "^3.0.0"
     strip-indent "^2.0.0"
 
-redux-electron-ipc@LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6:
+"redux-electron-ipc@https://github.com/LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6":
   version "1.2.0"
-  resolved "https://codeload.github.com/LN-Zap/redux-electron-ipc/tar.gz/b513220d085ad3e96e459d7efcdfc37bf75417b6"
+  resolved "https://github.com/LN-Zap/redux-electron-ipc#b513220d085ad3e96e459d7efcdfc37bf75417b6"
 
 redux-logger@3.0.6:
   version "3.0.6"
