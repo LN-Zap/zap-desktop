@@ -1,0 +1,185 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers neutrinoReducer should handle NEUTRINO_CRASHED 1`] = `
+Object {
+  "blockHeight": 0,
+  "grpcActiveInterface": null,
+  "isNeutrinoCrashed": true,
+  "isNeutrinoRunning": false,
+  "isStartingNeutrino": false,
+  "isStoppingNeutrino": false,
+  "neutrinoBlockHeight": 0,
+  "neutrinoCfilterHeight": 0,
+  "neutrinoCrashCode": 1,
+  "neutrinoCrashLastError": "Some error",
+  "neutrinoCrashSignal": "SIGTERM",
+  "neutrinoFirstBlockHeight": 0,
+  "neutrinoFirstCfilterHeight": 0,
+  "startNeutrinoError": null,
+  "stopNeutrinoError": null,
+  "syncStatus": "pending",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle NEUTRINO_RESET 1`] = `
+Object {
+  "blockHeight": 0,
+  "grpcActiveInterface": null,
+  "isNeutrinoCrashed": false,
+  "isNeutrinoRunning": false,
+  "isStartingNeutrino": false,
+  "isStoppingNeutrino": false,
+  "neutrinoBlockHeight": 0,
+  "neutrinoCfilterHeight": 0,
+  "neutrinoCrashCode": null,
+  "neutrinoCrashLastError": null,
+  "neutrinoCrashSignal": null,
+  "neutrinoFirstBlockHeight": 0,
+  "neutrinoFirstCfilterHeight": 0,
+  "startNeutrinoError": null,
+  "stopNeutrinoError": null,
+  "syncStatus": "pending",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle RECEIVE_CURRENT_BLOCK_HEIGHT 1`] = `
+Object {
+  "blockHeight": 12345,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle RECEIVE_LND_BLOCK_HEIGHT 1`] = `
+Object {
+  "neutrinoBlockHeight": 12345,
+  "neutrinoFirstBlockHeight": 12345,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle RECEIVE_LND_CFILTER_HEIGHT 1`] = `
+Object {
+  "neutrinoCfilterHeight": 12345,
+  "neutrinoFirstCfilterHeight": 12345,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle SET_GRPC_ACTIVE_INTERFACE 1`] = `
+Object {
+  "grpcActiveInterface": "lightning",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle SET_SYNC_STATUS_COMPLETE 1`] = `
+Object {
+  "syncStatus": "complete",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle SET_SYNC_STATUS_IN_PROGRESS 1`] = `
+Object {
+  "syncStatus": "in-progress",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle SET_SYNC_STATUS_PENDING 1`] = `
+Object {
+  "syncStatus": "pending",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle SET_SYNC_STATUS_WAITING 1`] = `
+Object {
+  "syncStatus": "waiting",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle START_NEUTRINO 1`] = `
+Object {
+  "isStartingNeutrino": true,
+  "startNeutrinoError": null,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle START_NEUTRINO_FAILURE 1`] = `
+Object {
+  "isStartingNeutrino": false,
+  "startNeutrinoError": "Some error",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle START_NEUTRINO_SUCCESS 1`] = `
+Object {
+  "isNeutrinoRunning": true,
+  "isStartingNeutrino": false,
+  "startNeutrinoError": null,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle STOP_NEUTRINO 1`] = `
+Object {
+  "isStoppingNeutrino": true,
+  "stopNeutrinoError": null,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle STOP_NEUTRINO_FAILURE 1`] = `
+Object {
+  "blockHeight": 0,
+  "grpcActiveInterface": null,
+  "isNeutrinoCrashed": false,
+  "isNeutrinoRunning": false,
+  "isStartingNeutrino": false,
+  "isStoppingNeutrino": false,
+  "neutrinoBlockHeight": 0,
+  "neutrinoCfilterHeight": 0,
+  "neutrinoCrashCode": null,
+  "neutrinoCrashLastError": null,
+  "neutrinoCrashSignal": null,
+  "neutrinoFirstBlockHeight": 0,
+  "neutrinoFirstCfilterHeight": 0,
+  "startNeutrinoError": null,
+  "stopNeutrinoError": undefined,
+  "syncStatus": "pending",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle STOP_NEUTRINO_SUCCESS 1`] = `
+Object {
+  "blockHeight": 0,
+  "grpcActiveInterface": null,
+  "isNeutrinoCrashed": false,
+  "isNeutrinoRunning": false,
+  "isStartingNeutrino": false,
+  "isStoppingNeutrino": false,
+  "neutrinoBlockHeight": 0,
+  "neutrinoCfilterHeight": 0,
+  "neutrinoCrashCode": null,
+  "neutrinoCrashLastError": null,
+  "neutrinoCrashSignal": null,
+  "neutrinoFirstBlockHeight": 0,
+  "neutrinoFirstCfilterHeight": 0,
+  "startNeutrinoError": null,
+  "stopNeutrinoError": null,
+  "syncStatus": "pending",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle initial state 1`] = `
+Object {
+  "blockHeight": 0,
+  "grpcActiveInterface": null,
+  "isNeutrinoCrashed": false,
+  "isNeutrinoRunning": false,
+  "isStartingNeutrino": false,
+  "isStoppingNeutrino": false,
+  "neutrinoBlockHeight": 0,
+  "neutrinoCfilterHeight": 0,
+  "neutrinoCrashCode": null,
+  "neutrinoCrashLastError": null,
+  "neutrinoCrashSignal": null,
+  "neutrinoFirstBlockHeight": 0,
+  "neutrinoFirstCfilterHeight": 0,
+  "startNeutrinoError": null,
+  "stopNeutrinoError": null,
+  "syncStatus": "pending",
+}
+`;
