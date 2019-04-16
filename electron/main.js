@@ -7,6 +7,7 @@
  * `/dist/main.prod.js` using webpack. This gives us some performance wins.
  */
 import { app, BrowserWindow, session } from 'electron'
+import isDev from 'electron-is-dev'
 import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
@@ -17,6 +18,7 @@ import os from 'os'
 import fs from 'fs'
 import bip21 from 'bip21'
 import { mainLog } from '@zap/utils/log'
+import { appRootPath } from '@zap/lnd/util'
 import themes from '@zap/renderer/themes'
 import { getDbName } from '@zap/utils/db'
 import ZapMenuBuilder from './menuBuilder'
@@ -249,6 +251,9 @@ app.on('ready', async () => {
     minWidth: 900,
     minHeight: 425,
     backgroundColor: get(theme, 'colors.primaryColor', '#242633'),
+    icon: isDev
+      ? path.resolve('resources', 'icon.png')
+      : path.resolve(appRootPath(), 'resources', 'icon.png'),
     webPreferences: {
       nodeIntegration: false,
       preload: process.env.HOT
