@@ -5,7 +5,7 @@ import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass'
 import styled, { keyframes, withTheme } from 'styled-components'
 import CloudLightning from 'components/Icon/CloudLightning'
-import { Heading } from 'components/UI'
+import Heading from 'components/UI/Heading'
 import messages from './messages'
 
 const gradientMotion = keyframes`
