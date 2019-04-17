@@ -312,7 +312,7 @@ export default class ZapMenuBuilder {
         return {
           label: getLanguageName(locale),
           type: 'radio',
-          isChecked: this.locale === locale,
+          checked: this.locale === locale,
           click: () => this.mainWindow.webContents.send('receiveLocale', locale),
         }
       }),
