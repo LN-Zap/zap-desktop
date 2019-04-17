@@ -291,7 +291,7 @@
     "storybook-react-router": "1.0.5",
     "storybook-styled-components": "1.1.3",
     "stylelint": "9.10.1",
-    "stylelint-config-recommended": "2.1.0",
+    "stylelint-config-recommended": "2.2.0",
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-formatter-pretty": "1.0.3",
     "stylelint-processor-styled-components": "1.6.0",
