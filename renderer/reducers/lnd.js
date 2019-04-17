@@ -1,11 +1,15 @@
 import config from 'config'
 import { createSelector } from 'reselect'
 import { lightningService, walletUnlockerService } from 'workers'
+import { proxyValue } from 'comlinkjs'
 import { fetchInfo } from './info'
 import { startNeutrino, stopNeutrino } from './neutrino'
 import { putWallet, setActiveWallet, walletSelectors } from './wallet'
 import { fetchBalance } from './balance'
 import { setSeed } from './onboarding'
+import { receiveInvoiceData } from './invoice'
+import { receiveChannelGraphData } from './channels'
+import { receiveTransactionData } from './transaction'
 
 const LND_METHOD_UNAVAILABLE = 12
 
@@ -48,6 +52,20 @@ export const FETCH_SEED_SUCCESS = 'FETCH_SEED_SUCCESS'
 // ------------------------------------
 // Actions
 // ------------------------------------
+export const initLnd = () => async dispatch => {
+  const lightning = await lightningService
+
+  // Hook up event listeners for stream subscriptions.
+  lightning.on('subscribeInvoices.data', proxyValue(data => dispatch(receiveInvoiceData(data))))
+  lightning.on(
+    'subscribeTransactions.data',
+    proxyValue(data => dispatch(receiveTransactionData(data)))
+  )
+  lightning.on(
+    'subscribeChannelGraph.data',
+    proxyValue(data => dispatch(receiveChannelGraphData(data)))
+  )
+}
 
 /**
  * Start the currently active wallet.

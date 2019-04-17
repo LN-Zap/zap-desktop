@@ -110,13 +110,17 @@ export const createInvoice = (amount, currency, memo) => async (dispatch, getSta
   // need to come with routing hints for private channels
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
 
-  const lightning = await lightningService
-  const invoice = await lightning.createInvoice({
-    value,
-    memo,
-    private: activeWalletSettings.type === 'local',
-  })
-  dispatch(createdInvoice(invoice))
+  try {
+    const lightning = await lightningService
+    const invoice = await lightning.createInvoice({
+      value,
+      memo,
+      private: activeWalletSettings.type === 'local',
+    })
+    dispatch(createdInvoice(invoice))
+  } catch (e) {
+    dispatch(invoiceFailed(e))
+  }
 }
 
 // Receive IPC event for newly created invoice
@@ -130,13 +134,13 @@ export const createdInvoice = invoice => dispatch => {
   dispatch(setInvoice(invoice.payment_request))
 }
 
-export const invoiceFailed = (event, { error }) => dispatch => {
+export const invoiceFailed = ({ error }) => dispatch => {
   dispatch({ type: INVOICE_FAILED })
   dispatch(showError(error))
 }
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices
-export const invoiceUpdate = (event, { invoice }) => dispatch => {
+export const receiveInvoiceData = invoice => dispatch => {
   decorateInvoice(invoice)
 
   dispatch({ type: UPDATE_INVOICE, invoice })

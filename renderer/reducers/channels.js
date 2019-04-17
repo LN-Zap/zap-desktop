@@ -426,11 +426,11 @@ const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1
 })
 
 // IPC event for channel graph data
-export const channelGraphData = (event, data) => (dispatch, getState) => {
+export const receiveChannelGraphData = ({ channel_updates, node_updates }) => (
+  dispatch,
+  getState
+) => {
   const { info, channels } = getState()
-  const {
-    channelGraphData: { channel_updates, node_updates },
-  } = data
 
   // Process node updates.
   if (node_updates.length) {

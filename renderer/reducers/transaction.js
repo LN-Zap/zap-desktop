@@ -148,7 +148,7 @@ export const transactionFailed = ({ addr, error }) => async (dispatch, getState)
 }
 
 // Listener for when a new transaction is pushed from the subscriber
-export const newTransaction = (event, { transaction }) => (dispatch, getState) => {
+export const receiveTransactionData = transaction => (dispatch, getState) => {
   // add the transaction only if we are not already aware of it
   const state = getState()
   if (
