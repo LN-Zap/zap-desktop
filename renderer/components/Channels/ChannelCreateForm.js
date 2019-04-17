@@ -321,6 +321,7 @@ class ChannelCreateForm extends React.Component {
       walletBalance,
       currencyName,
       isQueryingFees,
+      fetchTickers,
       onchainFees,
       onSubmit,
       openChannel,
