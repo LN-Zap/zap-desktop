@@ -101,6 +101,7 @@ class CurrencyFieldGroup extends React.Component {
       isDisabled,
       fiatCurrency,
       fiatCurrencies,
+      forwardedRef,
       initialAmountCrypto,
       initialAmountFiat,
       isRequired,
@@ -118,7 +119,7 @@ class CurrencyFieldGroup extends React.Component {
               <CryptoAmountInput
                 currency={cryptoCurrency}
                 field="amountCrypto"
-                forwardedRef={this.forwardedRef}
+                forwardedRef={forwardedRef}
                 initialValue={initialAmountCrypto}
                 isDisabled={isDisabled}
                 isRequired={isRequired}
