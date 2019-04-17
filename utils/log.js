@@ -20,22 +20,27 @@ const logConfig = name => ({
     trace: {
       prefix: '[TRC]  ',
       namespaceSuffix: `:${name}`,
+      fd: 1,
     },
     debug: {
       prefix: '[DBG]  ',
       namespaceSuffix: `:${name}`,
+      fd: 1,
     },
     log: {
       prefix: '[LOG]  ',
       namespaceSuffix: `:${name}`,
+      fd: 1,
     },
     info: {
       prefix: '[INF]  ',
       namespaceSuffix: `:${name}`,
+      fd: 1,
     },
     warn: {
       prefix: '[WRN]  ',
       namespaceSuffix: `:${name}`,
+      color: debugLogger.colors.red,
     },
     error: {
       prefix: '[ERR]  ',
@@ -46,7 +51,6 @@ const logConfig = name => ({
       prefix: '[CRT]  ',
       namespaceSuffix: `:${name}`,
       level: 6,
-      fd: 2,
     },
   },
 })
