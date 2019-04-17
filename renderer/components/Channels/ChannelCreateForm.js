@@ -33,9 +33,13 @@ import {
  * Animation to handle showing/hiding the amount fields.
  */
 const ShowHide = Keyframes.Spring({
-  show: async next => {
+  show: async (next, cancel, ownProps) => {
     await next({ pointerEvents: 'auto' })
     await next({ opacity: 1 })
+    // Focus the amount input if the current step is the form step.
+    if (ownProps.context.state.step === 'form') {
+      ownProps.context.focusAmountInput()
+    }
   },
   hide: { opacity: 0, pointerEvents: 'none' },
 })
@@ -110,10 +114,21 @@ class ChannelCreateForm extends React.Component {
     onchainFees: {},
   }
 
+  amountInput = React.createRef()
+
   componentDidMount() {
     const { fetchTickers, queryFees } = this.props
     fetchTickers()
     queryFees()
+  }
+
+  /**
+   * Focus the amount input.
+   */
+  focusAmountInput = () => {
+    if (this.amountInput.current) {
+      this.amountInput.current.focus()
+    }
   }
 
   /**
@@ -257,6 +272,7 @@ class ChannelCreateForm extends React.Component {
         <CurrencyFieldGroup
           css={{ height: '88px' }}
           formApi={this.formApi}
+          forwardedRef={this.amountInput}
           isRequired
           validate={this.validateAmount}
           validateOnBlur={formState.submits > 0}
@@ -346,7 +362,7 @@ class ChannelCreateForm extends React.Component {
           return (
             <Panel>
               <Panel.Body css={{ position: 'relative' }}>
-                <ShowHide state={step === 'form' ? 'show' : 'hide'}>
+                <ShowHide context={this} state={step === 'form' ? 'show' : 'hide'}>
                   {styles => (
                     <Box css={{ position: 'absolute' }} style={styles}>
                       {this.renderFormFields()}
@@ -354,7 +370,7 @@ class ChannelCreateForm extends React.Component {
                   )}
                 </ShowHide>
 
-                <ShowHide state={step === 'summary' ? 'show' : 'hide'}>
+                <ShowHide context={this} state={step === 'summary' ? 'show' : 'hide'}>
                   {styles => (
                     <Box style={styles}>{step === 'summary' && this.renderFormSummary()}</Box>
                   )}
