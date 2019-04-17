@@ -10,8 +10,7 @@ import Autopay from 'containers/Autopay'
 import Pay from 'containers/Pay'
 import Request from 'containers/Request'
 import Channels from 'containers/Channels'
-import ChannelCloseDialog from 'containers/Channels/ChannelCloseDialog'
-import ChannelDetail from 'containers/Channels/ChannelDetail'
+import ChannelDetailModal from 'containers/Channels/ChannelDetailModal'
 import ChannelCreate from 'containers/Channels/ChannelCreate'
 import ReceiveModal from 'containers/Wallet/ReceiveModal'
 import ActivityModal from 'containers/Activity/ActivityModal'
@@ -44,12 +43,7 @@ const ModalContent = ({ type, closeModal }) => {
       return <ChannelCreate mx={-4} onSubmit={() => closeModal()} />
 
     case 'CHANNEL_DETAIL':
-      return (
-        <>
-          <ChannelDetail mx={-4} />
-          <ChannelCloseDialog />
-        </>
-      )
+      return <ChannelDetailModal type="CHANNEL_DETAIL" />
   }
 }
 
