@@ -35,11 +35,11 @@ const Invoice = ({ invoice, showActivityModal, currencyName, intl }) => (
     >
       <Text color="superGreen" mb={1} textAlign="right">
         {'+ '}
-        <CryptoValue value={invoice.value} />
+        <CryptoValue value={invoice.finalAmount} />
         <i> {currencyName}</i>
       </Text>
       <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
-        <FiatValue style="currency" value={invoice.value} />
+        <FiatValue style="currency" value={invoice.finalAmount} />
       </Text>
     </Box>
   </Flex>
