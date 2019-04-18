@@ -1,8 +1,7 @@
 import { proxy } from 'comlinkjs'
 
 const Neutrino = proxy(new Worker(`./neutrino.worker.js`))
-const WalletUnlocker = proxy(new Worker('./walletUnlocker.worker.js'))
-const Lightning = proxy(new Worker('./lightning.worker.js'))
+const Grpc = proxy(new Worker('./grpc.worker.js'))
 
 /**
  * [LightningInstance description]
@@ -15,35 +14,17 @@ class NeutrinoInstance {
     return NeutrinoInstance.instance
   }
 }
-const neutrinoService = new NeutrinoInstance()
-Object.freeze(neutrinoService)
+export const neutrinoService = new NeutrinoInstance()
 
 /**
- * [WalletUnlockerInstance description]
+ * [GrpcInstance description]
  */
-class WalletUnlockerInstance {
+class GrpcInstance {
   constructor() {
-    if (!WalletUnlockerInstance.instance) {
-      WalletUnlockerInstance.instance = new WalletUnlocker()
+    if (!GrpcInstance.instance) {
+      GrpcInstance.instance = new Grpc()
     }
-    return WalletUnlockerInstance.instance
+    return GrpcInstance.instance
   }
 }
-const walletUnlockerService = new WalletUnlockerInstance()
-Object.freeze(walletUnlockerService)
-
-/**
- * [LightningInstance description]
- */
-class LightningInstance {
-  constructor() {
-    if (!LightningInstance.instance) {
-      LightningInstance.instance = new Lightning()
-    }
-    return LightningInstance.instance
-  }
-}
-const lightningService = new LightningInstance()
-Object.freeze(lightningService)
-
-export { neutrinoService, lightningService, walletUnlockerService }
+export const grpcService = new GrpcInstance()

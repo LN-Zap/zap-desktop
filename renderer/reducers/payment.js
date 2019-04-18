@@ -3,7 +3,7 @@ import { createSelector } from 'reselect'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { decodePayReq } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 import { showError } from './notification'
@@ -70,8 +70,8 @@ export const sendPayment = data => dispatch => {
 // Send IPC event for payments
 export const fetchPayments = () => async dispatch => {
   dispatch(getPayments())
-  const lightning = await lightningService
-  const payments = await lightning.listPayments()
+  const grpc = await grpcService
+  const payments = await grpc.services.Lightning.listPayments()
   dispatch(receivePayments(payments))
 }
 
@@ -111,8 +111,8 @@ export const payInvoice = ({
 
   // Submit the payment to LND.
   try {
-    const lightning = await lightningService
-    const data = await lightning.sendPayment({
+    const grpc = await grpcService
+    const data = await grpc.services.Lightning.sendPayment({
       payment_request: payReq,
       amt,
       fee_limit: { fixed: feeLimit },

@@ -3,7 +3,7 @@ import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
 import { fetchChannels, channelsSelectors, getChannelData } from './channels'
@@ -53,8 +53,8 @@ export function sendTransaction(data) {
 // Send IPC event for payments
 export const fetchTransactions = () => async dispatch => {
   dispatch(getTransactions())
-  const lightning = await lightningService
-  const transactions = await lightning.getTransactions()
+  const grpc = await grpcService
+  const transactions = await grpc.services.Lightning.getTransactions()
   dispatch(receiveTransactions(transactions))
 }
 
@@ -104,8 +104,8 @@ export const sendCoins = ({
 
   // Submit the transaction to LND.
   try {
-    const lightning = await lightningService
-    const { txid } = await lightning.sendCoins(payload)
+    const grpc = await grpcService
+    const { txid } = await grpc.services.Lightning.sendCoins(payload)
     dispatch(transactionSuccessful({ ...payload, txid }))
   } catch (e) {
     dispatch(

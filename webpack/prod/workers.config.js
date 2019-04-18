@@ -9,8 +9,7 @@ const config = merge.smart(baseConfig, {
   mode: 'development',
   devtool: 'inline-source-map',
   entry: {
-    lightning: path.join(rootDir, 'renderer/workers', 'lightning.worker'),
-    walletUnlocker: path.join(rootDir, 'renderer/workers', 'walletUnlocker.worker'),
+    grpc: path.join(rootDir, 'renderer/workers', 'grpc.worker'),
     neutrino: path.join(rootDir, 'renderer/workers', 'neutrino.worker'),
   },
   output: {

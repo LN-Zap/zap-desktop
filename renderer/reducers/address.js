@@ -1,4 +1,4 @@
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 import { openModal, closeModal } from './modal'
 
 // ------------------------------------
@@ -57,8 +57,8 @@ export const walletAddress = type => async (dispatch, getState) => {
 export const newAddress = type => async dispatch => {
   try {
     dispatch(getAddress())
-    const lightning = await lightningService
-    const data = await lightning.newAddress({ type: addressTypes[type] })
+    const grpc = await grpcService
+    const data = await grpc.services.Lightning.newAddress({ type: addressTypes[type] })
     dispatch(receiveAddressSuccess({ ...data, type }))
   } catch (error) {
     dispatch(newAddressFailure(error))

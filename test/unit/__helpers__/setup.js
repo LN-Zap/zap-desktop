@@ -10,6 +10,5 @@ jest.setTimeout(25000)
 
 jest.mock('workers', () => ({
   neutrinoService: jest.fn(),
-  lightningService: jest.fn(),
-  walletUnlockerService: jest.fn(),
+  grpcService: jest.fn(),
 }))

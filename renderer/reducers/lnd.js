@@ -1,7 +1,7 @@
 import config from 'config'
 import { createSelector } from 'reselect'
-import { lightningService, walletUnlockerService } from 'workers'
 import { proxyValue } from 'comlinkjs'
+import { grpcService } from 'workers'
 import { fetchInfo } from './info'
 import { startNeutrino, stopNeutrino } from './neutrino'
 import { putWallet, setActiveWallet, walletSelectors } from './wallet'
@@ -10,8 +10,6 @@ import { setSeed } from './onboarding'
 import { receiveInvoiceData } from './invoice'
 import { receiveChannelGraphData } from './channels'
 import { receiveTransactionData } from './transaction'
-
-const LND_METHOD_UNAVAILABLE = 12
 
 // ------------------------------------
 // Constants
@@ -25,46 +23,73 @@ export const CLEAR_START_LND_ERROR = 'CLEAR_START_LND_ERROR'
 export const STOP_LND = 'STOP_LND'
 export const STOP_LND_SUCCESS = 'STOP_LND_SUCCESS'
 
-export const START_WALLET_UNLOCKER = 'START_WALLET_UNLOCKER'
-export const START_WALLET_UNLOCKER_SUCCESS = 'START_WALLET_UNLOCKER_SUCCESS'
-export const START_WALLET_UNLOCKER_FAILURE = 'START_WALLET_UNLOCKER_FAILURE'
-export const DISCONNECT_WALLET_UNLOCKER = 'DISCONNECT_WALLET_UNLOCKER'
-
-export const START_LIGHTNING_WALLET = 'START_LIGHTNING_WALLET'
-export const START_LIGHTNING_WALLET_SUCCESS = 'START_LIGHTNING_WALLET_SUCCESS'
-export const START_LIGHTNING_WALLET_FAILURE = 'START_LIGHTNING_WALLET_FAILURE'
-export const DISCONNECT_LIGHTNING_WALLET = 'DISCONNECT_LIGHTNING_WALLET'
-
 export const CREATE_NEW_WALLET = 'CREATE_NEW_WALLET'
 export const CREATE_NEW_WALLET_SUCCESS = 'CREATE_NEW_WALLET_SUCCESS'
 
 export const RECOVER_OLD_WALLET = 'RECOVER_OLD_WALLET'
 export const RECOVER_OLD_WALLET_SUCCESS = 'RECOVER_OLD_WALLET_SUCCESS'
 
-export const UNLOCKING_WALLET = 'UNLOCKING_WALLET'
+export const UNLOCK_WALLET = 'UNLOCK_WALLET'
 export const UNLOCK_WALLET_SUCCESS = 'UNLOCK_WALLET_SUCCESS'
 export const UNLOCK_WALLET_FAILURE = 'UNLOCK_WALLET_FAILURE'
 
 export const FETCH_SEED = 'FETCH_SEED'
-export const FETCH_SEED_ERROR = 'FETCH_SEED_ERROR'
 export const FETCH_SEED_SUCCESS = 'FETCH_SEED_SUCCESS'
+export const FETCH_SEED_FAILURE = 'FETCH_SEED_FAILURE'
+
+export const CONNECT_GRPC = 'CONNECT_GRPC'
+export const CONNECT_GRPC_SUCCESS = 'CONNECT_GRPC_SUCCESS'
+export const CONNECT_GRPC_FAILURE = 'CONNECT_GRPC_FAILURE'
+
+export const START_WALLET_UNLOCKER_SUCCESS = 'START_WALLET_UNLOCKER_SUCCESS'
+export const START_LIGHTNING_WALLET_SUCCESS = 'START_LIGHTNING_WALLET_SUCCESS'
+
+export const DISCONNECT_GRPC = 'DISCONNECT_GRPC'
+export const DISCONNECT_GRPC_SUCCESS = 'DISCONNECT_GRPC_SUCCESS'
+export const DISCONNECT_GRPC_FAILURE = 'DISCONNECT_GRPC_FAILURE'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 export const initLnd = () => async dispatch => {
-  const lightning = await lightningService
+  const grpc = await grpcService
 
   // Hook up event listeners for stream subscriptions.
-  lightning.on('subscribeInvoices.data', proxyValue(data => dispatch(receiveInvoiceData(data))))
-  lightning.on(
-    'subscribeTransactions.data',
-    proxyValue(data => dispatch(receiveTransactionData(data)))
-  )
-  lightning.on(
-    'subscribeChannelGraph.data',
-    proxyValue(data => dispatch(receiveChannelGraphData(data)))
-  )
+  grpc.on('subscribeInvoices.data', proxyValue(data => dispatch(receiveInvoiceData(data))))
+  grpc.on('subscribeTransactions.data', proxyValue(data => dispatch(receiveTransactionData(data))))
+  grpc.on('subscribeChannelGraph.data', proxyValue(data => dispatch(receiveChannelGraphData(data))))
+}
+
+/**
+ * Connect to lnd gRPC service.
+ */
+export const connectGrpcService = () => async dispatch => {
+  dispatch({ type: CONNECT_GRPC })
+  try {
+    const grpc = await grpcService
+    if (await grpc.can('connect')) {
+      await grpc.connect()
+    }
+    dispatch({ type: CONNECT_GRPC_SUCCESS })
+  } catch (error) {
+    dispatch({ type: CONNECT_GRPC_FAILURE, error })
+  }
+}
+
+/**
+ * Disconnect from lnd gRPC service.
+ */
+export const disconnectGrpcService = () => async dispatch => {
+  dispatch({ type: DISCONNECT_GRPC })
+  try {
+    const grpc = await grpcService
+    if (await grpc.can('disconnect')) {
+      await grpc.disconnect()
+    }
+    dispatch({ type: DISCONNECT_GRPC_SUCCESS })
+  } catch (error) {
+    dispatch({ type: DISCONNECT_GRPC_FAILURE, error })
+  }
 }
 
 /**
@@ -86,52 +111,39 @@ export const startActiveWallet = () => async (dispatch, getState) => {
  * Start lnd with the provided wallet config.
  * @param  {Object} wallet Wallet config
  */
-export const startLnd = wallet => async (dispatch, getState) => {
+export const startLnd = wallet => async dispatch => {
   const lndConfig = await dispatch(generateLndConfigFromWallet(wallet))
 
   // Tell the main process to start lnd using th  e supplied connection details.
   dispatch({ type: START_LND, lndConfig })
 
-  return new Promise(async (resolve, reject) => {
-    try {
-      // If we are working with a local wallet, start a local Neutrino instance first.
-      if (lndConfig.type === 'local') {
-        await dispatch(startNeutrino(lndConfig))
-      }
-
-      // Try to connect to the Lightning interface.
-      try {
-        const { grpcActiveInterface } = getState().neutrino
-
-        // Skip this step if we know upfront that the wallet unlocker interface is active.
-        if (grpcActiveInterface === 'walletUnlocker') {
-          const error = new Error('WalletUnlocker is active')
-          error.code = LND_METHOD_UNAVAILABLE
-          throw error
-        }
-
-        // Try to connect to the Lightning interface.
-        await dispatch(startLightningWallet())
-        dispatch(lndStarted())
-        resolve()
-      } catch (e) {
-        // If the Lightning was unavailable, try connecting to the WalletUnlocker interface.
-        if (e.code === LND_METHOD_UNAVAILABLE) {
-          try {
-            await dispatch(startWalletUnlocker())
-            dispatch(lndStarted())
-            return resolve()
-          } catch (e) {
-            throw e
-          }
-        }
-        throw e
-      }
-    } catch (e) {
-      dispatch(startLndError({ host: e.message }))
-      reject(e)
+  try {
+    // If we are working with a local wallet, start a local Neutrino instance first.
+    if (lndConfig.type === 'local') {
+      await dispatch(startNeutrino(lndConfig))
     }
-  })
+
+    // Connect the gRPC services.
+    const grpc = await grpcService
+    await grpc.init(lndConfig)
+    await dispatch(connectGrpcService())
+
+    if (await grpc.is('locked')) {
+      dispatch(walletUnlockerStarted())
+    } else if (await grpc.is('active')) {
+      dispatch(lightningGrpcStarted())
+    }
+
+    // Finalise the action.
+    dispatch(lndStarted())
+  } catch (e) {
+    // If we are working with a local wallet, start a local Neutrino instance first.
+    if (lndConfig.type === 'local') {
+      await dispatch(stopNeutrino())
+    }
+    dispatch(startLndError({ host: e.message }))
+    return Promise.reject(e)
+  }
 }
 
 /**
@@ -170,34 +182,6 @@ export const clearStartLndError = () => {
 }
 
 /**
- * Disconnect from WalletUnlocker gRPC interface.
- */
-export const disconnectWalletUnlocker = () => async (dispatch, getState) => {
-  const { isStartingWalletUnlocker, isWalletUnlockerGrpcActive } = getState().lnd
-  if (isStartingWalletUnlocker || isWalletUnlockerGrpcActive) {
-    dispatch({ type: DISCONNECT_WALLET_UNLOCKER })
-    const walletUnlocker = await walletUnlockerService
-    if (await walletUnlocker.can('disconnect')) {
-      await walletUnlocker.disconnect()
-    }
-  }
-}
-
-/**
- * Disconnect from Lightning gRPC interface.
- */
-export const disconnectLightningWallet = () => async (dispatch, getState) => {
-  const { isStartingLightningWallet, isLightningGrpcActive } = getState().lnd
-  if (isStartingLightningWallet || isLightningGrpcActive) {
-    dispatch({ type: DISCONNECT_LIGHTNING_WALLET })
-    const lightning = await lightningService
-    if (await lightning.can('disconnect')) {
-      await lightning.disconnect()
-    }
-  }
-}
-
-/**
  * Stop lnd.
  */
 export const stopLnd = () => async (dispatch, getState) => {
@@ -207,8 +191,8 @@ export const stopLnd = () => async (dispatch, getState) => {
 
   if (!isStoppingLnd) {
     dispatch({ type: STOP_LND })
-    await dispatch(disconnectWalletUnlocker())
-    await dispatch(disconnectLightningWallet())
+    await dispatch(disconnectGrpcService())
+
     if (lndConfig.type === 'local') {
       await dispatch(stopNeutrino())
     }
@@ -224,23 +208,6 @@ export const stopLnd = () => async (dispatch, getState) => {
  */
 export const lndStopped = () => async dispatch => {
   dispatch({ type: STOP_LND_SUCCESS })
-}
-
-/**
- * Connect to the Lightning gRPC service.
- */
-export const startLightningWallet = () => async (dispatch, getState) => {
-  dispatch({ type: START_LIGHTNING_WALLET })
-  const { lndConfig } = getState().lnd
-  try {
-    const lightning = await lightningService
-    await lightning.init(lndConfig)
-    await lightning.connect()
-    dispatch(lightningGrpcStarted())
-  } catch (error) {
-    dispatch({ type: START_LIGHTNING_WALLET_FAILURE, error })
-    throw error
-  }
 }
 
 /**
@@ -270,35 +237,14 @@ export const lightningGrpcStarted = () => async (dispatch, getState) => {
 }
 
 /**
- * Connect to the WalletUnlocker gRPC service.
- */
-export const startWalletUnlocker = () => async (dispatch, getState) => {
-  dispatch({ type: START_WALLET_UNLOCKER })
-  const { lndConfig } = getState().lnd
-  try {
-    const walletUnlocker = await walletUnlockerService
-    await walletUnlocker.init(lndConfig)
-    await walletUnlocker.connect()
-    dispatch(walletUnlockerStarted())
-  } catch (error) {
-    dispatch({ type: START_WALLET_UNLOCKER_FAILURE, error })
-    throw error
-  }
-}
-
-/**
  * WalletUnlocker connect gRPC callback.
  *
  * Called when connection to WalletUnlocker gRPC interface has been established.
  * (lnd is ready to unlock or create wallet)
  */
-export const walletUnlockerStarted = () => async (dispatch, getState) => {
-  dispatch({ type: START_WALLET_UNLOCKER_SUCCESS })
-
-  // If the lightning interface was previously active, disconnect it.
-  const { isLightningGrpcActive } = getState().lnd
-  if (isLightningGrpcActive) {
-    dispatch(disconnectLightningWallet())
+export const walletUnlockerStarted = () => {
+  return {
+    type: START_WALLET_UNLOCKER_SUCCESS,
   }
 }
 
@@ -306,11 +252,12 @@ export const walletUnlockerStarted = () => async (dispatch, getState) => {
  * Unlock wallet.
  */
 export const unlockWallet = password => async dispatch => {
-  dispatch({ type: UNLOCKING_WALLET })
+  dispatch({ type: UNLOCK_WALLET })
   try {
-    const walletUnlocker = await walletUnlockerService
-    await walletUnlocker.unlockWallet(password)
-    dispatch(startLightningWallet())
+    const grpc = await grpcService
+    await grpc.services.WalletUnlocker.unlockWallet(password)
+    dispatch(walletUnlocked())
+    dispatch(lightningGrpcStarted())
   } catch (e) {
     dispatch(setUnlockWalletError(e.message))
   }
@@ -321,7 +268,6 @@ export const unlockWallet = password => async dispatch => {
  */
 export const walletUnlocked = () => async dispatch => {
   dispatch({ type: UNLOCK_WALLET_SUCCESS })
-  dispatch(disconnectWalletUnlocker())
 }
 
 /**
@@ -350,8 +296,8 @@ export const fetchSeed = () => async dispatch => {
     await dispatch(startLnd(wallet))
 
     // Call genSeed method.
-    const walletUnlocker = await walletUnlockerService
-    const data = await walletUnlocker.genSeed()
+    const grpc = await grpcService
+    const data = await grpc.services.WalletUnlocker.genSeed()
     dispatch(fetchSeedSuccess(data))
   } catch (error) {
     dispatch(fetchSeedError(error))
@@ -372,7 +318,7 @@ export const fetchSeedSuccess = ({ cipher_seed_mnemonic }) => dispatch => {
  */
 export const fetchSeedError = error => dispatch => {
   dispatch({
-    type: FETCH_SEED_ERROR,
+    type: FETCH_SEED_FAILURE,
     error,
   })
   dispatch(stopLnd())
@@ -403,8 +349,8 @@ export const createNewWallet = () => async (dispatch, getState) => {
   await dispatch(startLnd(wallet))
 
   // Call initWallet method.
-  const walletUnlocker = await walletUnlockerService
-  await walletUnlocker.initWallet({
+  const grpc = await grpcService
+  await grpc.services.WalletUnlocker.initWallet({
     wallet_password: state.onboarding.password,
     cipher_seed_mnemonic: state.onboarding.seed,
     recovery_window: 0,
@@ -417,7 +363,6 @@ export const createNewWallet = () => async (dispatch, getState) => {
  */
 export const walletCreated = () => dispatch => {
   dispatch({ type: CREATE_NEW_WALLET_SUCCESS })
-  dispatch(startLightningWallet())
 }
 
 /**
@@ -445,8 +390,8 @@ export const recoverOldWallet = () => async (dispatch, getState) => {
   await dispatch(startLnd(wallet))
 
   // Call initWallet method.
-  const walletUnlocker = await walletUnlockerService
-  await walletUnlocker.initWallet({
+  const grpc = await grpcService
+  await grpc.services.WalletUnlocker.initWallet({
     wallet_password: state.onboarding.password,
     cipher_seed_mnemonic: state.onboarding.seed,
     recovery_window: 2500,
@@ -459,7 +404,6 @@ export const recoverOldWallet = () => async (dispatch, getState) => {
  */
 export const walletRecovered = () => dispatch => {
   dispatch({ type: RECOVER_OLD_WALLET_SUCCESS })
-  dispatch(startLightningWallet())
 }
 
 /**
@@ -480,7 +424,7 @@ const ACTION_HANDLERS = {
     isFetchingSeed: false,
     fetchSeedError: '',
   }),
-  [FETCH_SEED_ERROR]: (state, { error }) => ({
+  [FETCH_SEED_FAILURE]: (state, { error }) => ({
     ...state,
     isFetchingSeed: false,
     fetchSeedError: error,
@@ -506,44 +450,44 @@ const ACTION_HANDLERS = {
     startLndError: null,
   }),
 
-  [START_WALLET_UNLOCKER]: state => ({
+  [CONNECT_GRPC]: state => ({
     ...state,
-    isStartingWalletUnlocker: true,
+    isStartingGrpc: true,
+  }),
+  [CONNECT_GRPC_SUCCESS]: state => ({
+    ...state,
+    isStartingGrpc: false,
   }),
   [START_WALLET_UNLOCKER_SUCCESS]: state => ({
     ...state,
-    isStartingWalletUnlocker: false,
     isWalletUnlockerGrpcActive: true,
-  }),
-  [START_WALLET_UNLOCKER_FAILURE]: state => ({
-    ...state,
-    isStartingLnd: false,
-    isStartingWalletUnlocker: false,
-    isWalletUnlockerGrpcActive: false,
-  }),
-  [DISCONNECT_WALLET_UNLOCKER]: state => ({
-    ...state,
-    isWalletUnlockerGrpcActive: false,
+    isLightningGrpcActive: false,
   }),
 
-  [START_LIGHTNING_WALLET]: state => ({
-    ...state,
-    isStartingLightningWallet: true,
-  }),
   [START_LIGHTNING_WALLET_SUCCESS]: state => ({
     ...state,
-    isStartingLightningWallet: false,
+    isWalletUnlockerGrpcActive: false,
     isLightningGrpcActive: true,
   }),
-  [START_LIGHTNING_WALLET_FAILURE]: state => ({
+  [CONNECT_GRPC_FAILURE]: state => ({
     ...state,
-    isStartingLnd: false,
-    isStartingLightningWallet: false,
-    isLightningGrpcActive: false,
+    isStartingGrpc: false,
   }),
-  [DISCONNECT_LIGHTNING_WALLET]: state => ({
+
+  [DISCONNECT_GRPC]: state => ({
     ...state,
+    isStoppingGrpc: true,
+  }),
+
+  [DISCONNECT_GRPC_SUCCESS]: state => ({
+    ...state,
+    isStoppingGrpc: false,
     isLightningGrpcActive: false,
+    isWalletUnlockerGrpcActive: false,
+  }),
+  [DISCONNECT_GRPC_FAILURE]: state => ({
+    ...state,
+    isStoppingGrpc: false,
   }),
 
   [STOP_LND]: state => ({
@@ -561,7 +505,7 @@ const ACTION_HANDLERS = {
   [RECOVER_OLD_WALLET]: state => ({ ...state, isRecoveringOldWallet: true }),
   [RECOVER_OLD_WALLET_SUCCESS]: state => ({ ...state, isRecoveringOldWallet: false }),
 
-  [UNLOCKING_WALLET]: state => ({ ...state, isUnlockingWallet: true }),
+  [UNLOCK_WALLET]: state => ({ ...state, isUnlockingWallet: true }),
   [UNLOCK_WALLET_SUCCESS]: state => ({
     ...state,
     isUnlockingWallet: false,
@@ -582,11 +526,10 @@ const initialState = {
   isFetchingSeed: false,
   isStartingLnd: false,
   isStoppingLnd: false,
-  isStartingWalletUnlocker: false,
-  isStartingLightningWallet: false,
   isLndActive: false,
   isCreatingNewWallet: false,
   isRecoveringOldWallet: false,
+  isStartingGrpc: false,
   isUnlockingWallet: false,
   isWalletUnlockerGrpcActive: false,
   isLightningGrpcActive: false,
@@ -603,7 +546,6 @@ const initialState = {
 const lndSelectors = {}
 const startLndErrorSelector = state => state.lnd.startLndError
 const isStartingLndSelector = state => state.lnd.isStartingLnd
-const isStartingUnlockerSelector = state => state.lnd.isStartingWalletUnlocker
 
 lndSelectors.startLndHostError = createSelector(
   startLndErrorSelector,
@@ -618,7 +560,6 @@ lndSelectors.startLndMacaroonError = createSelector(
   startLndError => (startLndError ? startLndError.macaroon : null)
 )
 lndSelectors.isStartingLnd = isStartingLndSelector
-lndSelectors.isStartingUnlocker = isStartingUnlockerSelector
 
 export { lndSelectors }
 

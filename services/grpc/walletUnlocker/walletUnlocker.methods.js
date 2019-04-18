@@ -11,14 +11,15 @@ async function genSeed(payload = {}) {
 
 /**
  * UnlockWallet is used at startup of lnd to provide a password to unlock the wallet database
- * @param  {String} password wallet_password should be the current valid passphrase for the daemon
- *     This will be required to decrypt on-disk material that the daemon requires to function properly
+ * @param  {String} password Current valid passphrase for the daemon.
  * @return {Promise<UnlockWalletResponse>}
  */
 async function unlockWallet(password) {
-  return promisifiedCall(this.service, this.service.unlockWallet, {
+  const res = await promisifiedCall(this.service, this.service.unlockWallet, {
     wallet_password: Buffer.from(password),
   })
+  this.emit('UNLOCK_WALLET_SUCCESS')
+  return res
 }
 
 /**

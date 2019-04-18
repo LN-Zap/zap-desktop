@@ -35,13 +35,12 @@
     "storybook:build": "cross-env NODE_ENV=storybook build-storybook",
     "storybook:deploy": "npm run storybook:build && gh-pages -t -d storybook-static -o origin -b gh-pages",
     "test": "npm run lint && npm run lint-styles && npm run build && npm run test-unit && npm run test-e2e",
-    "test-base": "cross-env DISABLE_INIT=true jest",
-    "test-unit": "npm run test-base -- --coverage ./test/unit",
+    "test-unit": "jest --coverage ./test/unit",
     "test-ci": "npm run test-e2e --selector-timeout 500000 --assertion-timeout 10000 && npm run test-unit",
     "pretest-e2e": "npm run build-e2e",
-    "test-e2e": "cross-env ELECTRON_USER_DIR_TEMP=1 testcafe electron:./ ./test/e2e",
+    "test-e2e": "cross-env DISABLE_INIT=1 ELECTRON_USER_DIR_TEMP=1 testcafe electron:./ ./test/e2e",
     "pretest-e2e-live": "npm run build-e2e",
-    "test-e2e-live": "cross-env ELECTRON_USER_DIR_TEMP=1 testcafe-live electron:./ ./test/e2e"
+    "test-e2e-live": "cross-env DISABLE_INIT=1 ELECTRON_USER_DIR_TEMP=1 testcafe-live electron:./ ./test/e2e"
   },
   "config": {
     "style_paths": "renderer/components/**/*.js",

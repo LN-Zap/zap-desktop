@@ -1,4 +1,4 @@
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 import { showError } from './notification'
 
 // ------------------------------------
@@ -27,8 +27,8 @@ export function getPeers() {
 // Send IPC event for peers
 export const fetchPeers = () => async dispatch => {
   dispatch(getPeers())
-  const lightning = await lightningService
-  const peers = await lightning.listPeers()
+  const grpc = await grpcService
+  const peers = await grpc.services.Lightning.listPeers()
   dispatch(receivePeers(peers))
 }
 

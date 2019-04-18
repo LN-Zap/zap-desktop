@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 import { showError } from './notification'
@@ -84,8 +84,8 @@ export function sendInvoice() {
 // Send IPC event for invoices
 export const fetchInvoices = () => async dispatch => {
   dispatch(getInvoices())
-  const lightning = await lightningService
-  const invoices = await lightning.listInvoices()
+  const grpc = await grpcService
+  const invoices = await grpc.services.Lightning.listInvoices()
   dispatch(receiveInvoices(invoices))
 }
 
@@ -111,8 +111,8 @@ export const createInvoice = (amount, currency, memo) => async (dispatch, getSta
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
 
   try {
-    const lightning = await lightningService
-    const invoice = await lightning.createInvoice({
+    const grpc = await grpcService
+    const invoice = await grpc.services.Lightning.createInvoice({
       value,
       memo,
       private: activeWalletSettings.type === 'local',

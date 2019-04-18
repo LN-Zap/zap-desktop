@@ -1,5 +1,5 @@
 import promisifiedCall from '@zap/utils/promisifiedCall'
-import { mainLog } from '@zap/utils/log'
+import { grpcLog } from '@zap/utils/log'
 import { decodePayReq as bolt11DecodePayReq } from '@zap/utils/crypto'
 
 /**
@@ -7,7 +7,7 @@ import { decodePayReq as bolt11DecodePayReq } from '@zap/utils/crypto'
  * @return {Promise<GetInfoResponse}
  */
 async function getInfo() {
-  const infoData = await promisifiedCall(this.service, this.service.getInfo)
+  const infoData = await promisifiedCall(this.service, this.service.getInfo, {})
 
   // Add semver info into info so that we can use it to customise functionality based on active version.
   infoData.semver = this.version
@@ -276,14 +276,14 @@ async function openChannel(payload = {}) {
       const call = this.service.openChannel(payload)
 
       call.on('data', data => {
-        mainLog.info('OPEN_CHANNEL DATA', data)
+        grpcLog.info('OPEN_CHANNEL DATA', data)
         const response = { ...parsePayload(payload), data }
         this.emit('openChannel.data', response)
         resolve(response)
       })
 
       call.on('error', data => {
-        mainLog.error('OPEN_CHANNEL ERROR', data)
+        grpcLog.error('OPEN_CHANNEL ERROR', data)
         const error = new Error(data.message)
         error.payload = parsePayload(payload)
         this.emit('openChannel.error', error)
@@ -291,12 +291,12 @@ async function openChannel(payload = {}) {
       })
 
       call.on('status', status => {
-        mainLog.info('OPEN_CHANNEL STATUS', status)
+        grpcLog.info('OPEN_CHANNEL STATUS', status)
         this.emit('openChannel.status', status)
       })
 
       call.on('end', () => {
-        mainLog.info('OPEN_CHANNEL END')
+        grpcLog.info('OPEN_CHANNEL END')
         this.emit('openChannel.end')
       })
     } catch (e) {
@@ -335,14 +335,14 @@ async function closeChannel(payload = {}) {
       const call = this.service.closeChannel(req)
 
       call.on('data', data => {
-        mainLog.info('CLOSE_CHANNEL DATA', data)
+        grpcLog.info('CLOSE_CHANNEL DATA', data)
         const response = { data, chan_id }
         this.emit('closeChannel.data', response)
         resolve(response)
       })
 
       call.on('error', data => {
-        mainLog.error('CLOSE_CHANNEL ERROR', data)
+        grpcLog.error('CLOSE_CHANNEL ERROR', data)
         const error = new Error(data.message)
         error.payload = { chan_id }
         this.emit('closeChannel.error', error)
@@ -350,12 +350,12 @@ async function closeChannel(payload = {}) {
       })
 
       call.on('status', status => {
-        mainLog.info('CLOSE_CHANNEL STATUS', status)
+        grpcLog.info('CLOSE_CHANNEL STATUS', status)
         this.emit('closeChannel.status', status)
       })
 
       call.on('end', () => {
-        mainLog.info('CLOSE_CHANNEL END')
+        grpcLog.info('CLOSE_CHANNEL END')
         this.emit('closeChannel.end')
       })
     } catch (e) {
@@ -379,7 +379,7 @@ async function sendPayment(payload = {}) {
       call.on('data', data => {
         const isSuccess = !data.payment_error
         if (isSuccess) {
-          mainLog.info('PAYMENT SUCCESS', data)
+          grpcLog.info('PAYMENT SUCCESS', data)
 
           // Convert payment_hash to hex string.
           let paymentHash = data.payment_hash
@@ -412,7 +412,7 @@ async function sendPayment(payload = {}) {
           resolve(res)
         } else {
           // Notify the client if there was a problem sending the payment
-          mainLog.error('PAYMENT ERROR', data)
+          grpcLog.error('PAYMENT ERROR', data)
           const error = new Error(data.payment_error)
           error.payload = payload
           this.emit('sendPayment.error', error)
@@ -423,12 +423,12 @@ async function sendPayment(payload = {}) {
       })
 
       call.on('status', status => {
-        mainLog.info('PAYMENT STATUS', status)
+        grpcLog.info('PAYMENT STATUS', status)
         this.emit('sendPayment.status', status)
       })
 
       call.on('end', () => {
-        mainLog.info('PAYMENT END')
+        grpcLog.info('PAYMENT END')
         this.emit('sendPayment.end')
       })
 
