@@ -6,8 +6,8 @@ import plugins from './common/plugins'
 const config = merge.smart(baseConfig, {
   name: 'workers',
   target: 'electron-renderer',
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: 'production',
+  devtool: 'source-map',
   entry: {
     grpc: path.join(rootDir, 'renderer/workers', 'grpc.worker'),
     neutrino: path.join(rootDir, 'renderer/workers', 'neutrino.worker'),
