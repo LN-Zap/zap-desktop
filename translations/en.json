@@ -106,6 +106,7 @@
   "components.Channels.base_fee_description": "The required number of {currencyName} per kilo-weight that the requester will pay at all times, for both the funding transaction and commitment transaction.",
   "components.Channels.base_fee_label": "Node's Fee Base",
   "components.Channels.capacity": "Capacity",
+  "components.Channels.channel_activity": "Activity",
   "components.Channels.channel_filter_all": "All",
   "components.Channels.channel_filter_closing": "Closing",
   "components.Channels.channel_filter_offline": "Offline",

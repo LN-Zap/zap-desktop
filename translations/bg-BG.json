@@ -106,6 +106,7 @@
   "components.Channels.base_fee_description": "",
   "components.Channels.base_fee_label": "",
   "components.Channels.capacity": "",
+  "components.Channels.channel_activity": "",
   "components.Channels.channel_filter_all": "Всички",
   "components.Channels.channel_filter_closing": "",
   "components.Channels.channel_filter_offline": "",

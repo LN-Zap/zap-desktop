@@ -89,4 +89,5 @@ export default defineMessages({
   transaction_speed_slow: 'Slow',
   transaction_speed_medium: 'Medium',
   transaction_speed_fast: 'Fast',
+  channel_activity: 'Activity',
 })
