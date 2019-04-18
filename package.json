@@ -290,7 +290,7 @@
     "jest": "24.7.1",
     "jest-styled-components": "6.3.1",
     "lint-staged": "8.1.5",
-    "lnd-binary": "0.3.9",
+    "lnd-binary": "0.3.10",
     "minimist": "1.2.0",
     "mock-spawn": "0.2.6",
     "prettier": "1.17.0",
