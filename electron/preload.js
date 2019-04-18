@@ -17,7 +17,7 @@ import { getAllLocalWallets } from '@zap/utils/localWallets'
 import lndBinaryPath from '@zap/utils/lndBinaryPath'
 import lndGrpcProtoPath from '@zap/utils/lndGrpcProtoPath'
 import validateHost from '@zap/utils/validateHost'
-import { getDbName } from '@zap/utils/db'
+import getDbName from '@zap/utils/db'
 import LndConfig from '@zap/utils/lndConfig'
 
 const fsReadFile = promisify(fs.readFile)

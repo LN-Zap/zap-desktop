@@ -9,7 +9,7 @@ import jstz from 'jstimezonedetect'
 import { configureStore } from '@zap/renderer/store/configureStore'
 import { getDefaultLocale } from '@zap/i18n'
 import { getDb } from '@zap/renderer/store/db'
-import { getDbName } from '@zap/utils/db'
+import getDbName from '@zap/utils/db'
 
 export const db = getDb(getDbName(config))
 db.open()
