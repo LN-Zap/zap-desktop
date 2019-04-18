@@ -295,7 +295,7 @@
     "stylelint-config-styled-components": "0.1.1",
     "stylelint-formatter-pretty": "1.0.3",
     "stylelint-processor-styled-components": "1.6.0",
-    "testcafe": "1.1.2",
+    "testcafe": "1.1.3",
     "testcafe-browser-provider-electron": "0.0.8",
     "testcafe-live": "0.1.4",
     "testcafe-react-selectors": "3.1.0",
