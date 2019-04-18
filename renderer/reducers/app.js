@@ -2,7 +2,7 @@ import delay from '@zap/utils/delay'
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
 import { tickerSelectors } from './ticker'
-import { walletSelectors } from './wallet'
+import { setIsWalletOpen, walletSelectors } from './wallet'
 import { stopLnd } from './lnd'
 
 // ------------------------------------
@@ -13,6 +13,7 @@ const initialState = {
   isMounted: false,
   isRunning: false,
   isTerminating: false,
+  isLoggingOut: false,
 }
 
 // ------------------------------------
@@ -21,6 +22,8 @@ const initialState = {
 export const SET_LOADING = 'SET_LOADING'
 export const SET_MOUNTED = 'SET_MOUNTED'
 export const INIT_APP = 'INIT_APP'
+export const LOGOUT = 'LOGOUT'
+export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
 export const RESET_APP = 'RESET_APP'
 export const TERMINATE_APP = 'TERMINATE_APP'
 export const TERMINATE_APP_SUCCESS = 'TERMINATE_APP_SUCCESS'
@@ -47,6 +50,14 @@ export function resetApp() {
   return {
     type: RESET_APP,
   }
+}
+
+export const logout = () => dispatch => {
+  dispatch({ type: LOGOUT })
+  dispatch(setIsWalletOpen(false))
+  dispatch(stopLnd())
+  dispatch(resetApp())
+  dispatch({ type: LOGOUT_SUCCESS })
 }
 
 export const initApp = () => async (dispatch, getState) => {
@@ -80,6 +91,8 @@ const ACTION_HANDLERS = {
   [INIT_APP]: state => ({ ...state, isRunning: true }),
   [SET_LOADING]: (state, { isLoading }) => ({ ...state, isLoading }),
   [SET_MOUNTED]: (state, { isMounted }) => ({ ...state, isMounted }),
+  [LOGOUT]: state => ({ ...state, isLoggingOut: true }),
+  [LOGOUT_SUCCESS]: state => ({ ...state, isLoggingOut: false }),
   [TERMINATE_APP]: state => ({ ...state, isTerminating: true }),
   [TERMINATE_APP_SUCCESS]: state => ({ ...state, isTerminating: false, isRunning: false }),
 }

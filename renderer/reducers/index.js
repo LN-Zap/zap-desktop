@@ -64,8 +64,11 @@ export default history => {
   return (state, action) => {
     // Reset all reducers, except for selected reducers which should persist.
     if (action.type === 'RESET_APP') {
-      const { app, settings, intl, theme, wallet, lnd, neutrino } = state
-      return appReducer({ app, settings, intl, theme, wallet, lnd, neutrino }, action)
+      const { app, settings, intl, theme, wallet, lnd, neutrino, router, ticker } = state
+      return appReducer(
+        { app, settings, intl, theme, wallet, lnd, neutrino, router, ticker },
+        action
+      )
     }
     return appReducer(state, action)
   }

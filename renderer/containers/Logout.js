@@ -2,32 +2,30 @@ import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { stopLnd } from 'reducers/lnd'
-import { resetApp } from 'reducers/app'
-import { setIsWalletOpen } from 'reducers/wallet'
+import { logout } from 'reducers/app'
+import { walletSelectors } from 'reducers/wallet'
 
-function Logout({ resetApp, setIsWalletOpen, stopLnd }) {
+function Logout({ logout, hasWallets }) {
   useEffect(() => {
-    stopLnd()
-    setIsWalletOpen(false)
-    resetApp()
-  }, [resetApp, setIsWalletOpen, stopLnd])
-  return <Redirect to="/" />
+    logout()
+  }, [logout])
+  return <Redirect to={hasWallets ? '/home' : '/onboarding'} />
 }
 
 Logout.propTypes = {
-  resetApp: PropTypes.func.isRequired,
-  setIsWalletOpen: PropTypes.func.isRequired,
-  stopLnd: PropTypes.func.isRequired,
+  hasWallets: PropTypes.bool,
+  logout: PropTypes.func.isRequired,
 }
 
+const mapStateToProps = state => ({
+  hasWallets: walletSelectors.hasWallets(state),
+})
+
 const mapDispatchToProps = {
-  resetApp,
-  stopLnd,
-  setIsWalletOpen,
+  logout,
 }
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(Logout)
