@@ -1,0 +1,199 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers neutrinoReducer should handle CLEAR_START_LND_ERROR 1`] = `
+Object {
+  "startLndError": null,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle CONNECT_GRPC 1`] = `
+Object {
+  "isStartingGrpc": true,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle CONNECT_GRPC_FAILURE 1`] = `
+Object {
+  "isStartingGrpc": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle CONNECT_GRPC_SUCCESS 1`] = `
+Object {
+  "isStartingGrpc": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle CREATE_NEW_WALLET 1`] = `
+Object {
+  "isCreatingNewWallet": true,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle CREATE_NEW_WALLET_SUCCESS 1`] = `
+Object {
+  "isCreatingNewWallet": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle DISCONNECT_GRPC 1`] = `
+Object {
+  "isStoppingGrpc": true,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle DISCONNECT_GRPC_FAILURE 1`] = `
+Object {
+  "isStoppingGrpc": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle DISCONNECT_GRPC_SUCCESS 1`] = `
+Object {
+  "isLightningGrpcActive": false,
+  "isStoppingGrpc": false,
+  "isWalletUnlockerGrpcActive": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle FETCH_SEED 1`] = `
+Object {
+  "isFetchingSeed": true,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle FETCH_SEED_FAILURE 1`] = `
+Object {
+  "fetchSeedError": "some error",
+  "isFetchingSeed": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle FETCH_SEED_SUCCESS 1`] = `
+Object {
+  "fetchSeedError": null,
+  "isFetchingSeed": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle RECOVER_OLD_WALLET 1`] = `
+Object {
+  "isRecoveringOldWallet": true,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle RECOVER_OLD_WALLET_SUCCESS 1`] = `
+Object {
+  "isRecoveringOldWallet": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle START_LIGHTNING_WALLET_SUCCESS 1`] = `
+Object {
+  "isLightningGrpcActive": true,
+  "isWalletUnlockerGrpcActive": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle START_LND 1`] = `
+Object {
+  "isStartingLnd": true,
+  "lndConfig": Object {
+    "chain": "bitcoin",
+    "network": "testnet",
+    "type": "local",
+  },
+}
+`;
+
+exports[`reducers neutrinoReducer should handle START_LND_FAILURE 1`] = `
+Object {
+  "isStartingLnd": false,
+  "startLndError": Object {
+    "cert": "a cert error",
+    "host": "a host error",
+    "macaroon": "a macaroon error",
+  },
+}
+`;
+
+exports[`reducers neutrinoReducer should handle START_LND_SUCCESS 1`] = `
+Object {
+  "isLndActive": true,
+  "isStartingLnd": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle START_WALLET_UNLOCKER_SUCCESS 1`] = `
+Object {
+  "isLightningGrpcActive": false,
+  "isWalletUnlockerGrpcActive": true,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle STOP_LND 1`] = `
+Object {
+  "isStoppingLnd": true,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle STOP_LND_SUCCESS 1`] = `
+Object {
+  "fetchSeedError": null,
+  "isCreatingNewWallet": false,
+  "isFetchingSeed": false,
+  "isLightningGrpcActive": false,
+  "isLndActive": false,
+  "isRecoveringOldWallet": false,
+  "isStartingGrpc": false,
+  "isStartingLnd": false,
+  "isStoppingLnd": false,
+  "isUnlockingWallet": false,
+  "isWalletUnlocked": false,
+  "isWalletUnlockerGrpcActive": false,
+  "lndConfig": Object {},
+  "startLndError": null,
+  "unlockWalletError": null,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle UNLOCK_WALLET 1`] = `
+Object {
+  "isUnlockingWallet": true,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle UNLOCK_WALLET_FAILURE 1`] = `
+Object {
+  "isUnlockingWallet": false,
+  "unlockWalletError": "some error",
+}
+`;
+
+exports[`reducers neutrinoReducer should handle UNLOCK_WALLET_SUCCESS 1`] = `
+Object {
+  "isUnlockingWallet": false,
+  "isWalletUnlocked": true,
+  "unlockWalletError": null,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle initial state 1`] = `
+Object {
+  "fetchSeedError": null,
+  "isCreatingNewWallet": false,
+  "isFetchingSeed": false,
+  "isLightningGrpcActive": false,
+  "isLndActive": false,
+  "isRecoveringOldWallet": false,
+  "isStartingGrpc": false,
+  "isStartingLnd": false,
+  "isStoppingLnd": false,
+  "isUnlockingWallet": false,
+  "isWalletUnlocked": false,
+  "isWalletUnlockerGrpcActive": false,
+  "lndConfig": Object {},
+  "startLndError": null,
+  "unlockWalletError": null,
+}
+`;

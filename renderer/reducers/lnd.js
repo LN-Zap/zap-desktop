@@ -300,7 +300,7 @@ export const fetchSeed = () => async dispatch => {
     const data = await grpc.services.WalletUnlocker.genSeed()
     dispatch(fetchSeedSuccess(data))
   } catch (error) {
-    dispatch(fetchSeedError(error))
+    dispatch(fetchSeedError(error.message))
   }
 }
 
@@ -422,7 +422,7 @@ const ACTION_HANDLERS = {
   [FETCH_SEED_SUCCESS]: state => ({
     ...state,
     isFetchingSeed: false,
-    fetchSeedError: '',
+    fetchSeedError: null,
   }),
   [FETCH_SEED_FAILURE]: (state, { error }) => ({
     ...state,
