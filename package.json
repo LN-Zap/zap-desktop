@@ -349,6 +349,7 @@
     "lodash.debounce": "4.0.8",
     "lodash.get": "4.4.2",
     "lodash.matches": "4.6.0",
+    "lodash.orderby": "4.6.0",
     "lodash.partition": "4.6.0",
     "lodash.pick": "4.4.0",
     "lodash.throttle": "4.1.1",
