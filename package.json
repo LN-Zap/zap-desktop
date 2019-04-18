@@ -154,7 +154,8 @@
     },
     "linux": {
       "category": "Finance",
-      "icon": "resources/icon.png",
+      "packageCategory": "wallet",
+      "icon": "resources/linux",
       "target": [
         {
           "target": "deb",
@@ -170,7 +171,17 @@
             "ia32"
           ]
         }
-      ]
+      ],
+      "desktop": {
+        "Comment": "Zap - Lightning wallet",
+        "Icon": "zap",
+        "Name": "Zap",
+        "Path": "/opt/zap",
+        "StartupNotify": "true",
+        "Terminal": "false",
+        "Type": "Application",
+        "Categories": "P2P;Finance;Security"
+      }
     }
   },
   "repository": {
