@@ -22,6 +22,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
     total_satoshis_sent,
     total_satoshis_received,
     csv_delay,
+    activity,
     num_updates,
     fundingTxTimestamp,
   } = channel
@@ -75,6 +76,12 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
       label: <FormattedMessage {...messages.num_updates_label} />,
       body: <FormattedMessage {...messages.num_updates_description} />,
       value: num_updates,
+    }),
+
+    activity: () => ({
+      label: <FormattedMessage {...messages.channel_activity} />,
+      body: <FormattedMessage {...messages.num_updates_description} />,
+      value: `${Math.round(activity * 100)}%`,
     }),
 
     csv_delay: () => ({
@@ -135,13 +142,14 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
   // Determine which of the properties we will display based on the active view mode.
   const candidateProps =
     viewMode === CHANNEL_DATA_VIEW_MODE_BASIC
-      ? ['channel_point', 'num_updates', 'csv_delay']
+      ? ['channel_point', 'num_updates', 'csv_delay', 'activity']
       : [
           'channel_point',
           'fundingTxTimestamp',
           'closing_txid',
           'num_updates',
           'csv_delay',
+          'activity',
           'total_satoshis_sent',
           'total_satoshis_received',
           'commit_fee',
