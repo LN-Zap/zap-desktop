@@ -13,7 +13,7 @@ const config = merge.smart(baseConfig, {
   name: 'main',
   target: 'electron-main',
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     main: path.join(rootDir, 'electron', 'main'),
   },
