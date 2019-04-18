@@ -2,6 +2,7 @@ import { connect } from 'react-redux'
 import Channels from 'components/Channels'
 import { openModal } from 'reducers/modal'
 import {
+  changeSort,
   changeFilter,
   channelsSelectors,
   fetchChannels,
@@ -21,6 +22,8 @@ const mapStateToProps = state => ({
   currencyName: tickerSelectors.currencyName(state),
   filter: state.channels.filter,
   filters: state.channels.filters,
+  sort: state.channels.sort,
+  sorters: state.channels.sorters,
   networkInfo: infoSelectors.networkInfo(state),
   searchQuery: state.channels.searchQuery,
   selectedChannel: channelsSelectors.selectedChannel(state),
@@ -28,6 +31,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   changeFilter,
+  changeSort,
   closeChannel: showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
