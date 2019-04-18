@@ -8,7 +8,6 @@ import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/con
 import { walletSelectors } from 'reducers/wallet'
 
 const mapStateToProps = state => ({
-  cryptoCurrencyTicker: tickerSelectors.currencyName(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   searchQuery: state.contactsform.searchQuery,
   selectedNodeDisplayName: contactFormSelectors.selectedNodeDisplayName(state),

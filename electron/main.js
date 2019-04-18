@@ -19,6 +19,7 @@ import fs from 'fs'
 import bip21 from 'bip21'
 import config from 'config'
 import { mainLog } from '@zap/utils/log'
+import { appRootPath } from '@zap/lnd/util'
 import themes from '@zap/renderer/themes'
 import { getDbName } from '@zap/utils/db'
 import ZapMenuBuilder from './menuBuilder'
@@ -242,6 +243,9 @@ app.on('ready', async () => {
     minWidth: 900,
     minHeight: 425,
     backgroundColor: get(theme, 'colors.primaryColor', '#242633'),
+    icon: isDev
+      ? path.resolve('resources', 'icon.png')
+      : path.resolve(appRootPath(), 'resources', 'icon.png'),
     webPreferences: {
       nodeIntegration: false,
       nodeIntegrationInWorker: true,
