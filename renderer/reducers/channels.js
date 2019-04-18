@@ -1,6 +1,8 @@
 import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
 import { proxyValue } from 'comlinkjs'
+import orderBy from 'lodash.orderby'
+import { send } from 'redux-electron-ipc'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import { grpcService } from 'workers'
 import config from 'config'
@@ -43,6 +45,14 @@ export const RECEIVE_SUGGESTED_NODES = 'RECEIVE_SUGGESTED_NODES'
 
 export const OPEN_CLOSE_CHANNEL_DIALOG = 'OPEN_CLOSE_CHANNEL_DIALOG'
 export const CLOSE_CLOSE_CHANNEL_DIALOG = 'CLOSE_CLOSE_CHANNEL_DIALOG'
+
+// channel sorters
+const OPEN_DATE = 'OPEN_DATE'
+const REMOTE_BALANCE = 'REMOTE_BALANCE'
+const LOCAL_BALANCE = 'LOCAL_BALANCE'
+const ACTIVITY = 'ACTIVITY'
+const NAME = 'NAME'
+const CAPACITY = 'CAPACITY'
 
 // ------------------------------------
 // Helpers
@@ -132,6 +142,7 @@ const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = [
   return 'open'
 }
 
+const getChannelEffectiveCapacity = c => c.local_balance + c.remote_balance || 0
 /**
  * Decorate a channel object with additional calculated properties.
  *
@@ -145,11 +156,17 @@ const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannels) 
   const channelData = getChannelData(channelObj)
   const status = getStatus(channelObj, closingChannelIds, loadingChannels)
 
+  const getActivity = c => {
+    const capacity = getChannelEffectiveCapacity(c)
+    return capacity ? (c.total_satoshis_sent || 0 + c.total_satoshis_received || 0) / capacity : 0
+  }
+
   const updatedChannelData = {
     ...channelData,
     display_pubkey: getRemoteNodePubKey(channelData),
     display_name: getDisplayName(channelData, nodes),
     display_status: status,
+    activity: getActivity(channelData),
     can_close:
       ['open', 'offline'].includes(status) && !closingChannelIds.includes(channelData.chan_id),
   }
@@ -512,7 +529,6 @@ const ACTION_HANDLERS = {
     ...state,
     filter,
   }),
-
   [CHANGE_CHANNEL_SORT]: (state, { sort }) => ({
     ...state,
     sort,
@@ -576,6 +592,7 @@ const waitingCloseChannelsSelector = state => state.channels.pendingChannels.wai
 const totalLimboBalanceSelector = state => state.channels.pendingChannels.total_limbo_balance
 const closingChannelIdsSelector = state => state.channels.closingChannelIds
 const channelSearchQuerySelector = state => state.channels.searchQuery
+const channelSortSelector = state => state.channels.sort
 const filterSelector = state => state.channels.filter
 const nodesSelector = state => state.network.nodes
 const viewModeSelector = state => state.channels.viewMode
@@ -779,6 +796,23 @@ channelsSelectors.allChannelsRaw = createSelector(
   }
 )
 
+const applyChannelSort = (channels, sort) => {
+  const SORTERS = {
+    [OPEN_DATE]: () => {},
+    [REMOTE_BALANCE]: c => c.remote_balance || 0,
+    [LOCAL_BALANCE]: c => c.local_balance || 0,
+    [ACTIVITY]: c => c.activity,
+    [NAME]: c => c.display_name || '',
+    [CAPACITY]: getChannelEffectiveCapacity,
+  }
+  const sorter = SORTERS[sort]
+
+  const result = sorter
+    ? orderBy(channels, [c => Boolean(c.active), sorter], ['desc', 'asc'])
+    : channels
+  return result
+}
+
 channelsSelectors.currentChannels = createSelector(
   channelsSelectors.allChannels,
   channelsSelectors.activeChannels,
@@ -788,6 +822,7 @@ channelsSelectors.currentChannels = createSelector(
   channelsSelectors.nonActiveChannels,
   filterSelector,
   channelSearchQuerySelector,
+  channelSortSelector,
   (
     allChannelsArr,
     activeChannelsArr,
@@ -796,7 +831,8 @@ channelsSelectors.currentChannels = createSelector(
     pendingClosedChannels,
     nonActiveChannelsArr,
     channelFilter,
-    searchQuery
+    searchQuery,
+    sort
   ) => {
     // Helper function to deliver correct channel array based on filter
     const filteredArray = filterKey => {
@@ -819,7 +855,8 @@ channelsSelectors.currentChannels = createSelector(
     }
     const filterChannel = channel => channelMatchesQuery(channel, searchQuery)
 
-    return filteredArray(channelFilter).filter(filterChannel)
+    const result = filteredArray(channelFilter).filter(filterChannel)
+    return applyChannelSort(result, sort)
   }
 )
 
@@ -868,12 +905,12 @@ const initialState = {
 
   sort: 'OPEN_DATE',
   sorters: [
-    { key: 'OPEN_DATE', name: 'Open date' },
-    { key: 'REMOTE_BALANCE', name: 'Remote balance' },
-    { key: 'LOCAL_BALANCE', name: 'Local balance' },
-    { key: 'ACTIVITY', name: 'Activity' },
-    { key: 'NAME', name: 'Name' },
-    { key: 'CAPACITY', name: 'Capacity' },
+    { key: OPEN_DATE, name: 'Open date' },
+    { key: REMOTE_BALANCE, name: 'Remote balance' },
+    { key: LOCAL_BALANCE, name: 'Local balance' },
+    { key: ACTIVITY, name: 'Activity' },
+    { key: NAME, name: 'Name' },
+    { key: CAPACITY, name: 'Capacity' },
   ],
 
   selectedChannelId: null,
