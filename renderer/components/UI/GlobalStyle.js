@@ -1,5 +1,7 @@
 import { createGlobalStyle } from 'styled-components'
 import reset from 'styled-reset'
+import { rgba } from 'polished'
+import { themeGet } from 'styled-system'
 
 /* eslint-disable max-len */
 const GlobalStyle = createGlobalStyle`
@@ -41,18 +43,19 @@ const GlobalStyle = createGlobalStyle`
   }
 
   ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 10px;
+    height: 10px;
   }
 
-  ::-webkit-scrollbar-track,
-  ::-webkit-scrollbar-corner {
-    background: rgba(0, 0, 0, 0.1);
+  ::-webkit-scrollbar-track {
+    background: ${props => rgba(themeGet('colors.primaryText')(props), 0.12)};
+    box-shadow: inset 0 0 4px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
   }
 
   ::-webkit-scrollbar-thumb {
-    background: rgba(0, 0, 0, 0.3);
-    border-radius: 5px;
+    background: ${props => rgba(themeGet('colors.primaryText')(props), 0.4)};
+    border-radius: 4px;
   }
 
   a {
