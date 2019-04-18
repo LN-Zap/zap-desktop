@@ -35,7 +35,6 @@ class Onboarding extends React.Component {
     fetchSeed: PropTypes.func.isRequired,
     isFetchingSeed: PropTypes.bool,
     isLightningGrpcActive: PropTypes.bool,
-    isOnboarded: PropTypes.bool,
     isWalletUnlockerGrpcActive: PropTypes.bool,
     lndConnect: PropTypes.string,
     name: PropTypes.string,
@@ -280,12 +279,12 @@ class Onboarding extends React.Component {
   }
 
   render() {
-    const { connectionType, isOnboarded } = this.props
+    const { connectionType, isLightningGrpcActive } = this.props
     const steps = this.getSteps()
     const previousStep = this.getPreviousStep()
     const backButtonText = this.getBackButtonText()
 
-    if (isOnboarded) {
+    if (isLightningGrpcActive) {
       return <Redirect to={['create', 'import'].includes(connectionType) ? '/syncing' : '/app'} />
     }
 

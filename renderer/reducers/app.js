@@ -1,5 +1,10 @@
+import delay from '@zap/utils/delay'
+import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
+import { proxyValue } from 'comlinkjs'
+import { neutrinoService, lightningService, walletUnlockerService } from 'workers'
 import { tickerSelectors } from './ticker'
+import { walletSelectors } from './wallet'
 
 // ------------------------------------
 // Initial State
@@ -7,6 +12,8 @@ import { tickerSelectors } from './ticker'
 const initialState = {
   isLoading: true,
   isMounted: false,
+  isRunning: false,
+  isTerminating: false,
 }
 
 // ------------------------------------
@@ -14,11 +21,15 @@ const initialState = {
 // ------------------------------------
 export const SET_LOADING = 'SET_LOADING'
 export const SET_MOUNTED = 'SET_MOUNTED'
+export const INIT_APP = 'INIT_APP'
 export const RESET_APP = 'RESET_APP'
+export const TERMINATE_APP = 'TERMINATE_APP'
+export const TERMINATE_APP_SUCCESS = 'TERMINATE_APP_SUCCESS'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+//
 export function setLoading(isLoading) {
   return {
     type: SET_LOADING,
@@ -39,12 +50,53 @@ export function resetApp() {
   }
 }
 
+export const initApp = () => async (dispatch, getState) => {
+  dispatch({ type: INIT_APP })
+  // add some delay if the app is starting for the first time vs logging out of the the opened wallet
+  await delay(walletSelectors.isWalletOpen(getState()) ? 0 : 1500)
+  dispatch(setLoading(false))
+}
+
+/**
+ * IPC handler for 'terminateApp' message
+ */
+export const terminateApp = (event, handler) => async dispatch => {
+  dispatch({ type: TERMINATE_APP })
+
+  // Disconnect gRPC streams.
+  const walletUnlocker = await walletUnlockerService
+  if (await walletUnlocker.can('disconnect')) {
+    await walletUnlocker.disconnect()
+  }
+  const lightning = await lightningService
+  if (await lightning.can('disconnect')) {
+    await lightning.disconnect()
+  }
+
+  // Kill active neutrino process before terminating.
+  const neutrino = await neutrinoService
+  if (await neutrino.getPid()) {
+    neutrino.once('NEUTRINO_EXIT', proxyValue(() => dispatch(terminateAppSuccess(handler))))
+    await neutrino.kill()
+  } else {
+    dispatch(terminateAppSuccess(handler))
+  }
+}
+
+export const terminateAppSuccess = handler => async dispatch => {
+  dispatch({ type: TERMINATE_APP_SUCCESS })
+  dispatch(send(handler))
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
+  [INIT_APP]: state => ({ ...state, isRunning: true }),
   [SET_LOADING]: (state, { isLoading }) => ({ ...state, isLoading }),
   [SET_MOUNTED]: (state, { isMounted }) => ({ ...state, isMounted }),
+  [TERMINATE_APP]: state => ({ ...state, isTerminating: true }),
+  [TERMINATE_APP_SUCCESS]: state => ({ ...state, isTerminating: false, isRunning: false }),
 }
 
 // ------------------------------------
@@ -56,13 +108,13 @@ appSelectors.isLoading = state => state.app.isLoading
 appSelectors.isMounted = state => state.app.isMounted
 appSelectors.currency = state => state.ticker.currency
 appSelectors.infoLoaded = state => state.info.infoLoaded
-appSelectors.onboarding = state => state.onboarding.onboarding
+appSelectors.isRunning = state => state.app.isRunning
 appSelectors.isWalletsLoaded = state => state.wallet.isWalletsLoaded
 appSelectors.walletBalance = state => state.balance.walletBalance
 appSelectors.channelBalance = state => state.balance.channelBalance
 
 appSelectors.isRootReady = createSelector(
-  appSelectors.onboarding,
+  appSelectors.isRunning,
   appSelectors.isWalletsLoaded,
   (onboarding, isWalletsLoaded) => {
     return Boolean(onboarding && isWalletsLoaded)

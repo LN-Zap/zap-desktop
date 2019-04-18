@@ -14,8 +14,11 @@ import config from 'config'
 import { getDb } from '@zap/renderer/store/db'
 import isSubDir from '@zap/utils/isSubDir'
 import { getAllLocalWallets } from '@zap/utils/localWallets'
+import lndBinaryPath from '@zap/utils/lndBinaryPath'
+import lndGrpcProtoPath from '@zap/utils/lndGrpcProtoPath'
 import validateHost from '@zap/utils/validateHost'
 import { getDbName } from '@zap/utils/db'
+import LndConfig from '@zap/utils/lndConfig'
 
 const fsReadFile = promisify(fs.readFile)
 const fsRimraf = promisify(rimraf)
@@ -68,8 +71,30 @@ function openTestnetFaucet() {
 function killLnd() {
   return new Promise(resolve => {
     ipcRenderer.once('killLndSuccess', resolve)
-    ipcRenderer.send('killLnd', { signal: 'SIGKILL', timeout: 2500 })
+    ipcRenderer.send('killLnd')
   })
+}
+
+/**
+ * Generates an lnd config object from a wallet config.
+ * @param  {Object} wallet Wallet config
+ * @return {Object}        Lnd config
+ */
+async function generateLndConfigFromWallet(wallet) {
+  // Convert wallet config to lnd config.
+  wallet.decoder = wallet.decoder || 'lnd.lndconnect.v1'
+
+  const lndConfig = new LndConfig({
+    ...wallet,
+    userDataDir: getUserDataDir(),
+    binaryPath: lndBinaryPath(),
+    protoPath: lndGrpcProtoPath(),
+  })
+
+  // Wait for the config to become fully initialized.
+  await lndConfig.isReady
+
+  return lndConfig
 }
 
 /**
@@ -158,6 +183,7 @@ window.Zap = {
   openExternal,
   openHelpPage,
   openTestnetFaucet,
+  generateLndConfigFromWallet,
   getWalletDir,
   getAllLocalWallets,
   deleteLocalWallet,

@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect'
-import { send } from 'redux-electron-ipc'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
+import { lightningService } from 'workers'
 import { newAddress } from './address'
 import { fetchBalance } from './balance'
 import { fetchChannels, channelsSelectors, getChannelData } from './channels'
@@ -51,13 +51,15 @@ export function sendTransaction(data) {
 }
 
 // Send IPC event for payments
-export const fetchTransactions = () => dispatch => {
+export const fetchTransactions = () => async dispatch => {
   dispatch(getTransactions())
-  dispatch(send('lnd', { msg: 'transactions' }))
+  const lightning = await lightningService
+  const transactions = await lightning.getTransactions()
+  dispatch(receiveTransactions(transactions))
 }
 
 // Receive IPC event for payments
-export const receiveTransactions = (event, { transactions }) => (dispatch, getState) => {
+export const receiveTransactions = ({ transactions }) => (dispatch, getState) => {
   const state = getState()
 
   const currentAddress = state.address.address
@@ -86,29 +88,37 @@ export const sendCoins = ({
   targetConf,
   satPerByte,
   isCoinSweep,
-}) => dispatch => {
+}) => async dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
   const amount = convert(currency, 'sats', value)
 
-  // submit the transaction to LND
-  const data = {
+  // Add to sendingPayments in the state.
+  const payload = {
     amount: isCoinSweep ? null : amount,
     addr,
     target_conf: targetConf,
     sat_per_byte: satPerByte,
     send_all: isCoinSweep,
   }
-  dispatch(
-    send('lnd', {
-      msg: 'sendCoins',
-      data,
-    })
-  )
-  dispatch(sendTransaction(data))
+  dispatch(sendTransaction(payload))
+
+  // Submit the transaction to LND.
+  try {
+    const lightning = await lightningService
+    const { txid } = await lightning.sendCoins(payload)
+    dispatch(transactionSuccessful({ ...payload, txid }))
+  } catch (e) {
+    dispatch(
+      transactionFailed({
+        error: e.message,
+        addr: payload.addr,
+      })
+    )
+  }
 }
 
 // Receive IPC event for successful payment.
-export const transactionSuccessful = (event, { addr }) => async (dispatch, getState) => {
+export const transactionSuccessful = ({ addr }) => async (dispatch, getState) => {
   const state = getState()
   const { timestamp } = state.transaction.transactionsSending.find(t => t.addr === addr)
 
@@ -126,7 +136,7 @@ export const transactionSuccessful = (event, { addr }) => async (dispatch, getSt
 }
 
 // Receive IPC event for failed payment.
-export const transactionFailed = (event, { addr, error }) => async (dispatch, getState) => {
+export const transactionFailed = ({ addr, error }) => async (dispatch, getState) => {
   const state = getState()
   const { timestamp } = state.transaction.transactionsSending.find(t => t.addr === addr)
 
@@ -138,7 +148,7 @@ export const transactionFailed = (event, { addr, error }) => async (dispatch, ge
 }
 
 // Listener for when a new transaction is pushed from the subscriber
-export const newTransaction = (event, { transaction }) => (dispatch, getState) => {
+export const receiveTransactionData = transaction => (dispatch, getState) => {
   // add the transaction only if we are not already aware of it
   const state = getState()
   if (

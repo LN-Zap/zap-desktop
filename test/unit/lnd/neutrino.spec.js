@@ -1,5 +1,5 @@
-import Neutrino from '@zap/lnd/neutrino'
-import LndConfig from '@zap/lnd/config'
+import Neutrino from '@zap/services/neutrino'
+import LndConfig from '@zap/utils/lndConfig'
 import mockSpawn from 'mock-spawn'
 
 jest.mock('child_process', () => {
@@ -8,17 +8,33 @@ jest.mock('child_process', () => {
     spawn: mockSpawn(),
   }
 })
+const userDataDir = '/some/data/dir'
+const binaryPath = '/some/bin/dir'
+
+const lndOptions = {
+  userDataDir,
+  binaryPath,
+}
 
 const lndConfigOptions = {
+  ...lndOptions,
   type: 'local',
   chain: 'bitcoin',
   network: 'testnet',
 }
 
+const prepareLndConfig = async options => {
+  const config = new LndConfig(options)
+  await config.isReady
+  const neutrino = new Neutrino()
+  neutrino.init(config)
+  return neutrino
+}
+
 describe('Neutrino', function() {
   describe('Constructor', () => {
-    beforeAll(() => {
-      this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
+    beforeAll(async () => {
+      this.neutrino = await prepareLndConfig(lndConfigOptions)
     })
 
     describe('initial values', () => {
@@ -31,17 +47,17 @@ describe('Neutrino', function() {
       it('should set the "isLightningGrpcActive" property to false', () => {
         expect(this.neutrino.isLightningGrpcActive).toEqual(false)
       })
-      it('should set the "chainSyncStatus" property to "chain-sync-pending"', () => {
-        expect(this.neutrino.chainSyncStatus).toEqual('chain-sync-pending')
+      it('should set the "chainSyncStatus" property to "NEUTRINO_CHAIN_SYNC_PENDING"', () => {
+        expect(this.neutrino.chainSyncStatus).toEqual('NEUTRINO_CHAIN_SYNC_PENDING')
       })
       it('should set the "currentBlockHeight" property to 0', () => {
         expect(this.neutrino.currentBlockHeight).toEqual(0)
       })
-      it('should set the "lndBlockHeight" property to 0', () => {
-        expect(this.neutrino.lndBlockHeight).toEqual(0)
+      it('should set the "neutrinoBlockHeight" property to 0', () => {
+        expect(this.neutrino.neutrinoBlockHeight).toEqual(0)
       })
-      it('should set the "lndCfilterHeight" property to 0', () => {
-        expect(this.neutrino.lndCfilterHeight).toEqual(0)
+      it('should set the "neutrinoCfilterHeight" property to 0', () => {
+        expect(this.neutrino.neutrinoCfilterHeight).toEqual(0)
       })
       it('should set the "lastError" property to be null', () => {
         expect(this.neutrino.lastError).toEqual(null)
@@ -51,8 +67,8 @@ describe('Neutrino', function() {
 
   describe('.setState', () => {
     describe('called with new state', () => {
-      beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
+      beforeEach(async () => {
+        this.neutrino = await prepareLndConfig(lndConfigOptions)
         this.callback = jest.fn()
         this.newVal = 'chain-sync-finished'
         this.neutrino.on('chain-sync-finished', this.callback)
@@ -67,11 +83,11 @@ describe('Neutrino', function() {
       })
     })
     describe('called with current state', () => {
-      beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
+      beforeEach(async () => {
+        this.neutrino = await prepareLndConfig(lndConfigOptions)
         this.callback = jest.fn()
-        this.newVal = 'chain-sync-pending'
-        this.neutrino.on('chain-sync-pending', this.callback)
+        this.newVal = 'NEUTRINO_CHAIN_SYNC_PENDING'
+        this.neutrino.on('NEUTRINO_CHAIN_SYNC_PENDING', this.callback)
         this.neutrino.setState(this.newVal)
       })
 
@@ -86,11 +102,11 @@ describe('Neutrino', function() {
 
   describe('.setCurrentBlockHeight', () => {
     describe('called with higher height', () => {
-      beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
+      beforeEach(async () => {
+        this.neutrino = await prepareLndConfig(lndConfigOptions)
         this.callback = jest.fn()
         this.newVal = 100
-        this.neutrino.on('got-current-block-height', this.callback)
+        this.neutrino.on('NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT', this.callback)
         this.neutrino.setCurrentBlockHeight(this.newVal)
       })
 
@@ -103,11 +119,11 @@ describe('Neutrino', function() {
       })
     })
     describe('called with lower height', () => {
-      beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
+      beforeEach(async () => {
+        this.neutrino = await prepareLndConfig(lndConfigOptions)
         this.callback = jest.fn()
         this.newVal = -1
-        this.neutrino.on('got-current-block-height', this.callback)
+        this.neutrino.on('NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT', this.callback)
         this.neutrino.setCurrentBlockHeight(this.newVal)
       })
 
@@ -120,19 +136,19 @@ describe('Neutrino', function() {
     })
   })
 
-  describe('.setLndBlockHeight', () => {
+  describe('.setNeutrinoBlockHeight', () => {
     describe('called with higher height', () => {
-      beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
+      beforeEach(async () => {
+        this.neutrino = await prepareLndConfig(lndConfigOptions)
         this.callback = jest.fn()
         this.newVal = 100
-        this.neutrino.on('got-lnd-block-height', this.callback)
+        this.neutrino.on('NEUTRINO_GOT_LND_BLOCK_HEIGHT', this.callback)
         this.neutrino.setCurrentBlockHeight = jest.fn()
-        this.neutrino.setLndBlockHeight(this.newVal)
+        this.neutrino.setNeutrinoBlockHeight(this.newVal)
       })
 
       it('should change the lnd block height', () => {
-        expect(this.neutrino.lndBlockHeight).toEqual(this.newVal)
+        expect(this.neutrino.neutrinoBlockHeight).toEqual(this.newVal)
       })
       it('should emit an event with the new lnd block height', () => {
         expect(this.callback).toHaveBeenCalledTimes(1)
@@ -144,17 +160,17 @@ describe('Neutrino', function() {
       })
     })
     describe('called with lower height', () => {
-      beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
+      beforeEach(async () => {
+        this.neutrino = await prepareLndConfig(lndConfigOptions)
         this.callback = jest.fn()
         this.newVal = -1
-        this.neutrino.on('got-lnd-block-height', this.callback)
-        this.neutrino.setLndBlockHeight(this.newVal)
+        this.neutrino.on('NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT', this.callback)
+        this.neutrino.setNeutrinoBlockHeight(this.newVal)
         this.neutrino.setCurrentBlockHeight = jest.fn()
       })
 
       it('should not change the lnd block height', () => {
-        expect(this.neutrino.lndBlockHeight).toEqual(0)
+        expect(this.neutrino.neutrinoBlockHeight).toEqual(0)
       })
       it('should not emit an event with the new lnd block height', () => {
         expect(this.callback).not.toHaveBeenCalled()
@@ -167,12 +183,12 @@ describe('Neutrino', function() {
 
   describe('.is', () => {
     describe('called with current state', () => {
-      beforeEach(() => {
-        this.neutrino = new Neutrino(new LndConfig(lndConfigOptions))
+      beforeEach(async () => {
+        this.neutrino = await prepareLndConfig(lndConfigOptions)
       })
 
       it('should returnn true if the current state matches', () => {
-        expect(this.neutrino.is('chain-sync-pending')).toEqual(true)
+        expect(this.neutrino.is('NEUTRINO_CHAIN_SYNC_PENDING')).toEqual(true)
       })
       it('should return false if the current state does not matche', () => {
         expect(this.neutrino.is('some-other-state')).toEqual(false)
@@ -183,9 +199,7 @@ describe('Neutrino', function() {
   describe('.start', () => {
     describe('called when neutrino is not running', () => {
       beforeEach(async () => {
-        const config = new LndConfig(lndConfigOptions)
-        await config.isReady
-        this.neutrino = new Neutrino(config)
+        this.neutrino = await prepareLndConfig(lndConfigOptions)
         await this.neutrino.start()
       })
       it('should set the subprocess object on the `process` property', () => {
@@ -195,9 +209,7 @@ describe('Neutrino', function() {
 
     describe('called when neutrino is already running', () => {
       beforeEach(async () => {
-        const config = new LndConfig(lndConfigOptions)
-        await config.isReady
-        this.neutrino = new Neutrino(config)
+        this.neutrino = await prepareLndConfig(lndConfigOptions)
         this.neutrino.process = mockSpawn()
       })
       it('should throw an error', async () => {

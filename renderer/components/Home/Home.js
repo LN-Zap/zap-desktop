@@ -26,14 +26,15 @@ class Home extends React.Component {
     activeWalletSettings: PropTypes.object,
     clearStartLndError: PropTypes.func.isRequired,
     deleteWallet: PropTypes.func.isRequired,
+    generateLndConfigFromWallet: PropTypes.func.isRequired,
     history: PropTypes.object.isRequired,
     isLightningGrpcActive: PropTypes.bool.isRequired,
+    isNeutrinoRunning: PropTypes.bool.isRequired,
     isStartingLnd: PropTypes.bool,
     isUnlockingWallet: PropTypes.bool,
     isWalletUnlockerGrpcActive: PropTypes.bool.isRequired,
     lndConnect: PropTypes.string,
     putWallet: PropTypes.func.isRequired,
-    refreshLndConnectURI: PropTypes.func.isRequired,
     setActiveWallet: PropTypes.func.isRequired,
     setIsWalletOpen: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
@@ -80,6 +81,7 @@ class Home extends React.Component {
       clearStartLndError,
       showError,
       stopLnd,
+      isNeutrinoRunning,
       isLightningGrpcActive,
       isWalletUnlockerGrpcActive,
       setUnlockWalletError,
@@ -87,7 +89,7 @@ class Home extends React.Component {
       unlockWalletError,
       putWallet,
       showNotification,
-      refreshLndConnectURI,
+      generateLndConfigFromWallet,
     } = this.props
 
     return (
@@ -129,11 +131,12 @@ class Home extends React.Component {
                     key={wallet.id}
                     clearStartLndError={clearStartLndError}
                     deleteWallet={deleteWallet}
+                    generateLndConfigFromWallet={generateLndConfigFromWallet}
                     isLightningGrpcActive={isLightningGrpcActive}
+                    isNeutrinoRunning={isNeutrinoRunning}
                     isStartingLnd={isStartingLnd}
                     isWalletUnlockerGrpcActive={isWalletUnlockerGrpcActive}
                     putWallet={putWallet}
-                    refreshLndConnectURI={refreshLndConnectURI}
                     showError={showError}
                     showNotification={showNotification}
                     startLnd={startLnd}

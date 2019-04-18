@@ -30,7 +30,6 @@ const initialValues = {
   startLndMacaroonError: '',
   password: '',
   seed: [],
-  isOnboarded: false,
   onboarding: true,
 }
 

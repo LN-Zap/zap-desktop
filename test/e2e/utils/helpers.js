@@ -20,7 +20,13 @@ export const deleteUserData = ClientFunction(() =>
 )
 
 // Delete persistent data from indexeddb.
-export const deleteDatabase = ClientFunction(() => window.db.delete())
+export const deleteDatabase = ClientFunction(() => {
+  // Catch unhandled errors, which can happen if an attempt to access the database is made after we have closed it.
+  window.addEventListener('unhandledrejection', event => {
+    event.preventDefault()
+  })
+  return window.db.delete()
+})
 
 // Ensure there are no errors in the console.
 export const assertNoConsoleErrors = async t => {
@@ -32,12 +38,16 @@ export const assertNoConsoleErrors = async t => {
 export const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
 
 // Clean out test environment.
-export const cleanTestEnvironment = async () => {
-  await killLnd()
-  await delay(3000)
-  await killLnd()
-  await deleteDatabase()
-  await delay(3000)
+export const cleanTestEnvironment = async (options = {}) => {
+  const tasks = { lnd: true, db: true, ...options }
+  if (tasks.lnd) {
+    await killLnd()
+    await delay(3000)
+  }
+  if (tasks.db) {
+    await deleteDatabase()
+    await delay(3000)
+  }
 }
 
 // Clean out test environment.

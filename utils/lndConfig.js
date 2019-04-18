@@ -1,5 +1,4 @@
 import { join, isAbsolute } from 'path'
-import { app } from 'electron'
 import createDebug from 'debug'
 import untildify from 'untildify'
 import tildify from 'tildify'
@@ -10,7 +9,6 @@ import pick from 'lodash.pick'
 import config from 'config'
 import { mainLog } from '@zap/utils/log'
 import getLndListen from '@zap/utils/getLndListen'
-import lndBinaryPath from '@zap/utils/lndBinaryPath'
 
 const readFile = util.promisify(fs.readFile)
 
@@ -79,23 +77,17 @@ class LndConfig {
           return _isReady.get(this)
         },
       },
-      binaryPath: {
-        enumerable: false,
-        get() {
-          return lndBinaryPath()
-        },
-      },
       lndDir: {
-        enumerable: false,
+        enumerable: true,
         get() {
           if (this.type === LNDCONFIG_TYPE_LOCAL) {
-            return join(app.getPath('userData'), 'lnd', this.chain, this.network, this.wallet)
+            return join(options.userDataDir, 'lnd', this.chain, this.network, this.wallet)
           }
           return
         },
       },
       host: {
-        enumerable: false,
+        enumerable: true,
         set(host) {
           return this.setConnectionProp('host', host)
         },
@@ -104,7 +96,7 @@ class LndConfig {
         },
       },
       cert: {
-        enumerable: false,
+        enumerable: true,
         set(cert) {
           return this.setConnectionProp('cert', cert)
         },
@@ -113,7 +105,7 @@ class LndConfig {
         },
       },
       macaroon: {
-        enumerable: false,
+        enumerable: true,
         set(macaroon) {
           return this.setConnectionProp('macaroon', macaroon)
         },
@@ -129,7 +121,15 @@ class LndConfig {
     this.network = config.network
 
     // Set base config.
-    const baseConfig = pick(options, ['id', 'type', 'chain', 'network', 'decoder'])
+    const baseConfig = pick(options, [
+      'id',
+      'type',
+      'chain',
+      'network',
+      'decoder',
+      'binaryPath',
+      'protoPath',
+    ])
     Object.assign(this, baseConfig)
 
     // Assign default settings.
@@ -180,7 +180,7 @@ class LndConfig {
         }
         return true
       } catch (e) {
-        mainLog.error('Unable to generate lndconnect uri: %s', e)
+        mainLog.error('Unable to generate lndconnect uri: %o', e)
         return true
       }
     }

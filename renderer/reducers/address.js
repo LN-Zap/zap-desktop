@@ -1,4 +1,4 @@
-import { send } from 'redux-electron-ipc'
+import { lightningService } from 'workers'
 import { openModal, closeModal } from './modal'
 // ------------------------------------
 // Constants
@@ -52,28 +52,30 @@ export const walletAddress = type => async (dispatch, getState) => {
 }
 
 // Send IPC event for getinfo
-export const newAddress = type => dispatch => {
+export const newAddress = type => async dispatch => {
   dispatch(getAddress())
-  dispatch(send('lnd', { msg: 'newaddress', data: { type: addressTypes[type] } }))
+  const lightning = await lightningService
+  const data = await lightning.newAddress({ type: addressTypes[type] })
+  dispatch(receiveAddress({ ...data, type }))
 }
 
 // Receive IPC event for info
-export const receiveAddress = (event, data) => async (dispatch, getState) => {
+export const receiveAddress = ({ type, address }) => async (dispatch, getState) => {
   const state = getState()
   const pubKey = state.info.data.identity_pubkey
 
   // If we know the node's public key, store the address for reuse.
   if (pubKey) {
-    const type = Object.keys(addressTypes).find(key => addressTypes[key] === data.type)
+    const typeName = Object.keys(addressTypes).find(key => addressTypes[key] === type)
     const node = await window.db.nodes.get(pubKey)
     if (node) {
-      await node.setCurrentAddress(type, data.address)
+      await node.setCurrentAddress(typeName, address)
     } else {
-      await window.db.nodes.put({ id: pubKey, addresses: { [type]: data.address } })
+      await window.db.nodes.put({ id: pubKey, addresses: { [typeName]: address } })
     }
   }
 
-  dispatch({ type: RECEIVE_ADDRESS, address: data.address })
+  dispatch({ type: RECEIVE_ADDRESS, address: address })
 }
 
 // ------------------------------------

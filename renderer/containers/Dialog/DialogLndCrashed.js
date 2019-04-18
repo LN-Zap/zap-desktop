@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
 
 import { DialogLndCrashed } from 'components/Dialog'
-import { lndReset, lndSelectors } from 'reducers/lnd'
+import { neutrinoReset, neutrinoSelectors } from 'reducers/neutrino'
 
 const mapStateToProps = state => ({
-  isOpen: lndSelectors.isLndCrashed(state),
-  lndCrashReason: lndSelectors.lndCrashReason(state),
+  isOpen: neutrinoSelectors.isNeutrinoCrashed(state),
+  lndCrashReason: neutrinoSelectors.neutrinoCrashReason(state),
 })
 
 const mapDispatchToProps = {
-  onCancel: lndReset,
+  onCancel: neutrinoReset,
 }
 
 export default connect(

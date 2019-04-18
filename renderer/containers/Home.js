@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { neutrinoSelectors } from 'reducers/neutrino'
 import {
   setActiveWallet,
   walletSelectors,
@@ -12,7 +13,7 @@ import {
   stopLnd,
   startLnd,
   unlockWallet,
-  refreshLndConnectURI,
+  generateLndConfigFromWallet,
   clearStartLndError,
 } from 'reducers/lnd'
 import { showError, showNotification } from 'reducers/notification'
@@ -31,6 +32,7 @@ const mapStateToProps = state => ({
   wallets: state.wallet.wallets,
   activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
+  isNeutrinoRunning: neutrinoSelectors.isNeutrinoRunning(state),
   isLightningGrpcActive: state.lnd.isLightningGrpcActive,
   isWalletUnlockerGrpcActive: state.lnd.isWalletUnlockerGrpcActive,
   startLndError: state.lnd.startLndError,
@@ -51,7 +53,7 @@ const mapDispatchToProps = {
   deleteWallet: showDeleteWalletDialog,
   setIsWalletOpen,
   showError,
-  refreshLndConnectURI,
+  generateLndConfigFromWallet,
 }
 
 export default connect(

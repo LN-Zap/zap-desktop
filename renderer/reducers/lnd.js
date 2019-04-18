@@ -1,368 +1,473 @@
 import config from 'config'
-import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
-import { showSystemNotification } from '@zap/utils/notifications'
-import { fetchBalance } from './balance'
-import { fetchInfo, setHasSynced } from './info'
+import { lightningService, walletUnlockerService } from 'workers'
+import { proxyValue } from 'comlinkjs'
+import { fetchInfo } from './info'
+import { startNeutrino, stopNeutrino } from './neutrino'
 import { putWallet, setActiveWallet, walletSelectors } from './wallet'
-import { onboardingFinished, setSeed } from './onboarding'
+import { fetchBalance } from './balance'
+import { setSeed } from './onboarding'
+import { receiveInvoiceData } from './invoice'
+import { receiveChannelGraphData } from './channels'
+import { receiveTransactionData } from './transaction'
 
-const { ipcRenderer } = window
+const LND_METHOD_UNAVAILABLE = 12
+
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_SYNC_STATUS_PENDING = 'SET_SYNC_STATUS_PENDING'
-export const SET_SYNC_STATUS_WAITING = 'SET_SYNC_STATUS_WAITING'
-export const SET_SYNC_STATUS_IN_PROGRESS = 'SET_SYNC_STATUS_IN_PROGRESS'
-export const SET_SYNC_STATUS_COMPLETE = 'SET_SYNC_STATUS_COMPLETE'
 
-export const RECEIVE_CURRENT_BLOCK_HEIGHT = 'RECEIVE_CURRENT_BLOCK_HEIGHT'
-export const RECEIVE_LND_BLOCK_HEIGHT = 'RECEIVE_LND_BLOCK_HEIGHT'
-export const RECEIVE_LND_CFILTER_HEIGHT = 'RECEIVE_LND_CFILTER_HEIGHT'
-
-export const SET_WALLET_UNLOCKER_ACTIVE = 'SET_WALLET_UNLOCKER_ACTIVE'
-export const SET_LIGHTNING_WALLET_ACTIVE = 'SET_LIGHTNING_WALLET_ACTIVE'
-
-export const STARTING_LND = 'STARTING_LND'
-export const LND_STARTED = 'LND_STARTED'
-export const SET_START_LND_ERROR = 'SET_START_LND_ERROR'
+export const START_LND = 'START_LND'
+export const START_LND_SUCCESS = 'START_LND_SUCCESS'
+export const START_LND_FAILURE = 'START_LND_FAILURE'
 export const CLEAR_START_LND_ERROR = 'CLEAR_START_LND_ERROR'
 
-export const STOPPING_LND = 'STOPPING_LND'
-export const LND_STOPPED = 'LND_STOPPED'
+export const STOP_LND = 'STOP_LND'
+export const STOP_LND_SUCCESS = 'STOP_LND_SUCCESS'
 
-export const LND_CRASHED = 'LND_CRASHED'
-export const LND_RESET = 'LND_RESET'
+export const START_WALLET_UNLOCKER = 'START_WALLET_UNLOCKER'
+export const START_WALLET_UNLOCKER_SUCCESS = 'START_WALLET_UNLOCKER_SUCCESS'
+export const START_WALLET_UNLOCKER_FAILURE = 'START_WALLET_UNLOCKER_FAILURE'
+export const DISCONNECT_WALLET_UNLOCKER = 'DISCONNECT_WALLET_UNLOCKER'
 
-export const CREATING_NEW_WALLET = 'CREATING_NEW_WALLET'
-export const RECOVERING_OLD_WALLET = 'RECOVERING_OLD_WALLET'
+export const START_LIGHTNING_WALLET = 'START_LIGHTNING_WALLET'
+export const START_LIGHTNING_WALLET_SUCCESS = 'START_LIGHTNING_WALLET_SUCCESS'
+export const START_LIGHTNING_WALLET_FAILURE = 'START_LIGHTNING_WALLET_FAILURE'
+export const DISCONNECT_LIGHTNING_WALLET = 'DISCONNECT_LIGHTNING_WALLET'
+
+export const CREATE_NEW_WALLET = 'CREATE_NEW_WALLET'
+export const CREATE_NEW_WALLET_SUCCESS = 'CREATE_NEW_WALLET_SUCCESS'
+
+export const RECOVER_OLD_WALLET = 'RECOVER_OLD_WALLET'
+export const RECOVER_OLD_WALLET_SUCCESS = 'RECOVER_OLD_WALLET_SUCCESS'
 
 export const UNLOCKING_WALLET = 'UNLOCKING_WALLET'
-export const WALLET_UNLOCKED = 'WALLET_UNLOCKED'
-export const SET_UNLOCK_WALLET_ERROR = 'SET_UNLOCK_WALLET_ERROR'
+export const UNLOCK_WALLET_SUCCESS = 'UNLOCK_WALLET_SUCCESS'
+export const UNLOCK_WALLET_FAILURE = 'UNLOCK_WALLET_FAILURE'
 
 export const FETCH_SEED = 'FETCH_SEED'
 export const FETCH_SEED_ERROR = 'FETCH_SEED_ERROR'
 export const FETCH_SEED_SUCCESS = 'FETCH_SEED_SUCCESS'
 
-// track initialization status
-export const START_NEUTRINO = 'START_NEUTRINO'
-export const START_WALLET_UNLOCKER = 'START_WALLET_UNLOCKER'
-
 // ------------------------------------
 // Actions
 // ------------------------------------
+export const initLnd = () => async dispatch => {
+  const lightning = await lightningService
 
-// Receive IPC event for LND sync status change.
-export const lndSyncStatus = (event, status) => async dispatch => {
-  const notifTitle = 'Lightning Node Synced'
-  const notifBody = "Visa who? You're your own payment processor now!"
+  // Hook up event listeners for stream subscriptions.
+  lightning.on('subscribeInvoices.data', proxyValue(data => dispatch(receiveInvoiceData(data))))
+  lightning.on(
+    'subscribeTransactions.data',
+    proxyValue(data => dispatch(receiveTransactionData(data)))
+  )
+  lightning.on(
+    'subscribeChannelGraph.data',
+    proxyValue(data => dispatch(receiveChannelGraphData(data)))
+  )
+}
 
-  switch (status) {
-    case 'waiting':
-      dispatch({ type: SET_SYNC_STATUS_WAITING })
-      break
-    case 'in-progress':
-      dispatch({ type: SET_SYNC_STATUS_IN_PROGRESS })
-      break
-    case 'complete':
-      dispatch({ type: SET_SYNC_STATUS_COMPLETE })
+/**
+ * Start the currently active wallet.
+ */
+export const startActiveWallet = () => async (dispatch, getState) => {
+  const state = getState()
+  const { isLndActive, isStartingLnd, isStoppingLnd } = state.lnd
 
-      // Fetch data now that we know LND is synced
-      dispatch(fetchBalance())
-      dispatch(fetchInfo())
-
-      // Persist the fact that the wallet has been synced at least once.
-      dispatch(setHasSynced(true))
-
-      // HTML 5 desktop notification for the new transaction
-      showSystemNotification(notifTitle, notifBody)
-      break
-    default:
-      dispatch({ type: SET_SYNC_STATUS_PENDING })
+  if (!isLndActive && !isStartingLnd && !isStoppingLnd) {
+    const activeWalletSettings = walletSelectors.activeWalletSettings(state)
+    if (activeWalletSettings) {
+      await dispatch(startLnd(activeWalletSettings))
+    }
   }
 }
 
-export const startNeutrino = (event, value) => ({ type: START_NEUTRINO, value })
-export const startWalletUnlocker = (event, value) => ({ type: START_WALLET_UNLOCKER, value })
+/**
+ * Start lnd with the provided wallet config.
+ * @param  {Object} wallet Wallet config
+ */
+export const startLnd = wallet => async (dispatch, getState) => {
+  const lndConfig = await dispatch(generateLndConfigFromWallet(wallet))
 
-// Connected to Lightning gRPC interface (lnd wallet is connected and unlocked)
-export const lightningWalletStarted = (event, lndConfig) => async dispatch => {
-  dispatch({ type: SET_LIGHTNING_WALLET_ACTIVE })
+  // Tell the main process to start lnd using th  e supplied connection details.
+  dispatch({ type: START_LND, lndConfig })
+
+  return new Promise(async (resolve, reject) => {
+    try {
+      // If we are working with a local wallet, start a local Neutrino instance first.
+      if (lndConfig.type === 'local') {
+        await dispatch(startNeutrino(lndConfig))
+      }
+
+      // Try to connect to the Lightning interface.
+      try {
+        const { grpcActiveInterface } = getState().neutrino
+
+        // Skip this step if we know upfront that the wallet unlocker interface is active.
+        if (grpcActiveInterface === 'walletUnlocker') {
+          const error = new Error('WalletUnlocker is active')
+          error.code = LND_METHOD_UNAVAILABLE
+          throw error
+        }
+
+        // Try to connect to the Lightning interface.
+        await dispatch(startLightningWallet())
+        dispatch(lndStarted())
+        resolve()
+      } catch (e) {
+        // If the Lightning was unavailable, try connecting to the WalletUnlocker interface.
+        if (e.code === LND_METHOD_UNAVAILABLE) {
+          try {
+            await dispatch(startWalletUnlocker())
+            dispatch(lndStarted())
+            return resolve()
+          } catch (e) {
+            throw e
+          }
+        }
+        throw e
+      }
+    } catch (e) {
+      dispatch(startLndError({ host: e.message }))
+      reject(e)
+    }
+  })
+}
+
+/**
+ * Start lnd success callback.
+ *
+ * Called once an active connection to the currenrtly active gRPC interface has been established.
+ */
+export const lndStarted = () => {
+  return { type: START_LND_SUCCESS }
+}
+
+/**
+ * Start lnd error callback.
+ *
+ * Called if there was a problem trying to start and establish a gRPC connection to lnd.
+ *
+ * @param {Object} errors Lnd start errors
+ * @param {String} errors.host Host errors
+ * @param {String} errors.cert Certificate errors
+ * @param {String} errors.macaroon Macaroon errors
+ */
+export const startLndError = errors => {
+  return {
+    type: START_LND_FAILURE,
+    errors,
+  }
+}
+
+/**
+ * Clear all lnd start errors.
+ */
+export const clearStartLndError = () => {
+  return {
+    type: CLEAR_START_LND_ERROR,
+  }
+}
+
+/**
+ * Disconnect from WalletUnlocker gRPC interface.
+ */
+export const disconnectWalletUnlocker = () => async (dispatch, getState) => {
+  const { isStartingWalletUnlocker, isWalletUnlockerGrpcActive } = getState().lnd
+  if (isStartingWalletUnlocker || isWalletUnlockerGrpcActive) {
+    dispatch({ type: DISCONNECT_WALLET_UNLOCKER })
+    const walletUnlocker = await walletUnlockerService
+    if (await walletUnlocker.can('disconnect')) {
+      await walletUnlocker.disconnect()
+    }
+  }
+}
+
+/**
+ * Disconnect from Lightning gRPC interface.
+ */
+export const disconnectLightningWallet = () => async (dispatch, getState) => {
+  const { isStartingLightningWallet, isLightningGrpcActive } = getState().lnd
+  if (isStartingLightningWallet || isLightningGrpcActive) {
+    dispatch({ type: DISCONNECT_LIGHTNING_WALLET })
+    const lightning = await lightningService
+    if (await lightning.can('disconnect')) {
+      await lightning.disconnect()
+    }
+  }
+}
+
+/**
+ * Stop lnd.
+ */
+export const stopLnd = () => async (dispatch, getState) => {
+  const {
+    lnd: { isStoppingLnd, lndConfig },
+  } = getState()
+
+  if (!isStoppingLnd) {
+    dispatch({ type: STOP_LND })
+    await dispatch(disconnectWalletUnlocker())
+    await dispatch(disconnectLightningWallet())
+    if (lndConfig.type === 'local') {
+      await dispatch(stopNeutrino())
+    }
+
+    dispatch(lndStopped())
+  }
+}
+
+/**
+ * Stop lnd success callback.
+ *
+ * Called when lnd+neutrino has fully stopped.
+ */
+export const lndStopped = () => async dispatch => {
+  dispatch({ type: STOP_LND_SUCCESS })
+}
+
+/**
+ * Connect to the Lightning gRPC service.
+ */
+export const startLightningWallet = () => async (dispatch, getState) => {
+  dispatch({ type: START_LIGHTNING_WALLET })
+  const { lndConfig } = getState().lnd
+  try {
+    const lightning = await lightningService
+    await lightning.init(lndConfig)
+    await lightning.connect()
+    dispatch(lightningGrpcStarted())
+  } catch (error) {
+    dispatch({ type: START_LIGHTNING_WALLET_FAILURE, error })
+    throw error
+  }
+}
+
+/**
+ * Lightning gRPC connect callback.
+ *
+ * Called when connection to Lightning gRPC interface has been established.
+ * (lnd wallet is connected and unlocked)
+ */
+export const lightningGrpcStarted = () => async (dispatch, getState) => {
+  dispatch({ type: START_LIGHTNING_WALLET_SUCCESS })
+
+  // We are connected to the lightning interface, so the wallet must now be unlocked.
+  dispatch(walletUnlocked())
+
   // Once we we have established a connection, save the wallet settings
   // after connection was successfully established. This is especially important
   // for the first connection to be sure settings are correct
+  const { lndConfig } = getState().lnd
   if (lndConfig.id !== 'tmp') {
     const wallet = await dispatch(putWallet(lndConfig))
     await dispatch(setActiveWallet(wallet.id))
   }
 
-  // Fetch info from lnd.
+  // Fetch key info from lnd as early as possible.
   dispatch(fetchInfo())
+  dispatch(fetchBalance())
+}
 
-  // Let the onboarding process know that the wallet has started.
-  dispatch(onboardingFinished())
+/**
+ * Connect to the WalletUnlocker gRPC service.
+ */
+export const startWalletUnlocker = () => async (dispatch, getState) => {
+  dispatch({ type: START_WALLET_UNLOCKER })
+  const { lndConfig } = getState().lnd
+  try {
+    const walletUnlocker = await walletUnlockerService
+    await walletUnlocker.init(lndConfig)
+    await walletUnlocker.connect()
+    dispatch(walletUnlockerStarted())
+  } catch (error) {
+    dispatch({ type: START_WALLET_UNLOCKER_FAILURE, error })
+    throw error
+  }
+}
+
+/**
+ * WalletUnlocker connect gRPC callback.
+ *
+ * Called when connection to WalletUnlocker gRPC interface has been established.
+ * (lnd is ready to unlock or create wallet)
+ */
+export const walletUnlockerStarted = () => async (dispatch, getState) => {
+  dispatch({ type: START_WALLET_UNLOCKER_SUCCESS })
+
+  // If the lightning interface was previously active, disconnect it.
+  const { isLightningGrpcActive } = getState().lnd
+  if (isLightningGrpcActive) {
+    dispatch(disconnectLightningWallet())
+  }
+}
+
+/**
+ * Unlock wallet.
+ */
+export const unlockWallet = password => async dispatch => {
+  dispatch({ type: UNLOCKING_WALLET })
+  try {
+    const walletUnlocker = await walletUnlockerService
+    await walletUnlocker.unlockWallet(password)
+    dispatch(startLightningWallet())
+  } catch (e) {
+    dispatch(setUnlockWalletError(e.message))
+  }
+}
+
+/**
+ * Unlock wallet success callback.
+ */
+export const walletUnlocked = () => async dispatch => {
+  dispatch({ type: UNLOCK_WALLET_SUCCESS })
+  dispatch(disconnectWalletUnlocker())
+}
+
+/**
+ * Unlock wallet error callback.
+ */
+export const setUnlockWalletError = unlockWalletError => dispatch => {
+  dispatch({ type: UNLOCK_WALLET_FAILURE, unlockWalletError })
+}
+
+/**
+ * Generate a new seed
+ *
+ * Starts a temporary lnd process and calls it's genSeed method.
+ */
+export const fetchSeed = () => async dispatch => {
+  dispatch({ type: FETCH_SEED })
+  try {
+    // Start a temporary Neutrino instance.
+    const { chain: defaultChain, network: defaultNetwork } = config
+    const wallet = {
+      id: `tmp`,
+      type: 'local',
+      chain: defaultChain,
+      network: defaultNetwork,
+    }
+    await dispatch(startLnd(wallet))
+
+    // Call genSeed method.
+    const walletUnlocker = await walletUnlockerService
+    const data = await walletUnlocker.genSeed()
+    dispatch(fetchSeedSuccess(data))
+  } catch (error) {
+    dispatch(fetchSeedError(error))
+  }
+}
+
+/**
+ * Fetch seed success callback.
+ */
+export const fetchSeedSuccess = ({ cipher_seed_mnemonic }) => dispatch => {
+  dispatch({ type: FETCH_SEED_SUCCESS, seed: cipher_seed_mnemonic })
+  dispatch(setSeed(cipher_seed_mnemonic))
+  dispatch(stopLnd())
+}
+
+/**
+ * Fetch seed error callback.
+ */
+export const fetchSeedError = error => dispatch => {
+  dispatch({
+    type: FETCH_SEED_ERROR,
+    error,
+  })
+  dispatch(stopLnd())
+}
+
+/**
+ * Create a new wallet.
+ */
+export const createNewWallet = () => async (dispatch, getState) => {
+  dispatch({ type: CREATE_NEW_WALLET })
+  const state = getState()
+  const { chain: defaultChain, network: defaultNetwork } = config
+
+  // Define the wallet config.
+  let wallet = {
+    type: 'local',
+    chain: state.onboarding.chain || defaultChain,
+    network: state.onboarding.network || defaultNetwork,
+    autopilot: state.onboarding.autopilot,
+    alias: state.onboarding.alias,
+    name: state.onboarding.name,
+  }
+
+  // Save the wallet config.
+  wallet = await dispatch(putWallet(wallet))
+
+  // Start lnd with the provided wallet config.
+  await dispatch(startLnd(wallet))
+
+  // Call initWallet method.
+  const walletUnlocker = await walletUnlockerService
+  await walletUnlocker.initWallet({
+    wallet_password: state.onboarding.password,
+    cipher_seed_mnemonic: state.onboarding.seed,
+    recovery_window: 0,
+  })
+  dispatch(walletCreated())
+}
+
+/**
+ * Create new wallet success callback.
+ */
+export const walletCreated = () => dispatch => {
+  dispatch({ type: CREATE_NEW_WALLET_SUCCESS })
+  dispatch(startLightningWallet())
+}
+
+/**
+ * Recover an old wallet.
+ */
+export const recoverOldWallet = () => async (dispatch, getState) => {
+  dispatch({ type: RECOVER_OLD_WALLET })
+  const state = getState()
+  const { chain: defaultChain, network: defaultNetwork } = config
+
+  // Define the wallet config.
+  let wallet = {
+    type: 'local',
+    chain: state.onboarding.chain || defaultChain,
+    network: state.onboarding.network || defaultNetwork,
+    autopilot: state.onboarding.autopilot,
+    alias: state.onboarding.alias,
+    name: state.onboarding.name,
+  }
+
+  // Save the wallet config.
+  wallet = await dispatch(putWallet(wallet))
+
+  // Start lnd with the provided wallet config.
+  await dispatch(startLnd(wallet))
+
+  // Call initWallet method.
+  const walletUnlocker = await walletUnlockerService
+  await walletUnlocker.initWallet({
+    wallet_password: state.onboarding.password,
+    cipher_seed_mnemonic: state.onboarding.seed,
+    recovery_window: 2500,
+  })
+  dispatch(walletRecovered())
+}
+
+/**
+ * Recover old wallet success callback.
+ */
+export const walletRecovered = () => dispatch => {
+  dispatch({ type: RECOVER_OLD_WALLET_SUCCESS })
+  dispatch(startLightningWallet())
 }
 
 /**
  * Re-generates config that includes updated lndconnectUri and QR
  * host, cert and macaroon values
  */
-export const refreshLndConnectURI = wallet => dispatch => {
-  dispatch(send('generateLndConfig', wallet))
-
-  return new Promise(resolve => {
-    ipcRenderer.once('receiveLndConfig', (event, config) => {
-      resolve(config)
-    })
-  })
-}
-
-// Connected to WalletUnlocker gRPC interface (lnd is ready to unlock or create wallet)
-export const walletUnlockerStarted = () => async dispatch => {
-  dispatch({ type: SET_WALLET_UNLOCKER_ACTIVE })
-
-  // Let the onboarding process know that the wallet unlocker has started.
-  dispatch(lndWalletUnlockerStarted())
-}
-
-// Receive IPC event for current height.
-export const currentBlockHeight = (event, height) => dispatch => {
-  dispatch({ type: RECEIVE_CURRENT_BLOCK_HEIGHT, blockHeight: height })
-}
-
-// Receive IPC event for LND block height.
-export const lndBlockHeight = (event, height) => dispatch => {
-  dispatch({ type: RECEIVE_LND_BLOCK_HEIGHT, lndBlockHeight: height })
-}
-
-// Receive IPC event for LND cfilter height.
-export const lndCfilterHeight = (event, height) => dispatch => {
-  dispatch({ type: RECEIVE_LND_CFILTER_HEIGHT, lndCfilterHeight: height })
-}
-
-export const startLnd = options => async (dispatch, getState) => {
-  const state = getState().lnd
-  if (
-    state.isWalletUnlockerGrpcActive ||
-    state.isLightningGrpcActive ||
-    state.isStartingLnd ||
-    state.stoppingLnd
-  ) {
-    return
-  }
-
-  // Set default options.
-  options.decoder = options.decoder || 'lnd.lndconnect.v1'
-
-  return new Promise((resolve, reject) => {
-    // Tell the main process to start lnd using the supplied connection details.
-    dispatch({ type: STARTING_LND })
-    dispatch(send('startLnd', options))
-
-    ipcRenderer.once('startLndError', (event, error) => {
-      ipcRenderer.removeListener('startLndSuccess', resolve)
-      reject(error)
-    })
-
-    ipcRenderer.once('startLndSuccess', () => {
-      ipcRenderer.removeListener('startLndError', reject)
-      resolve()
-    })
-  })
-}
-
-export const setStartLndError = errors => ({ type: SET_START_LND_ERROR, errors })
-
-export const clearStartLndError = () => ({ type: CLEAR_START_LND_ERROR })
-
-// Listener for errors connecting to LND gRPC
-export const startLndError = (event, errors) => dispatch => {
-  dispatch(setStartLndError(errors))
-}
-
-export const stopLnd = () => async (dispatch, getState) => {
-  const state = getState().lnd
-  if ((state.isWalletUnlockerGrpcActive || state.isLightningGrpcActive) && !state.stoppingLnd) {
-    dispatch({ type: STOPPING_LND })
-    dispatch(send('stopLnd'))
-  }
-}
-
-export const lndStopped = () => async dispatch => {
-  dispatch({ type: LND_STOPPED })
-}
-
-export const lndStarted = () => async dispatch => {
-  dispatch({ type: LND_STARTED })
-}
-
-export const lndCrashed = (event, { code, signal, lastError }) => async dispatch => {
-  dispatch({ type: LND_CRASHED, code, signal, lastError })
-}
-
-export const lndReset = () => async dispatch => {
-  dispatch({ type: LND_RESET })
-}
-
-export const unlockWallet = password => async dispatch => {
-  dispatch({ type: UNLOCKING_WALLET })
-  dispatch(
-    send('walletUnlocker', {
-      msg: 'unlockWallet',
-      data: { wallet_password: password },
-    })
-  )
-}
-
-/**
- * As soon as we have an active connection to a WalletUnlocker service, attempt to generate a new seed which kicks off
- * the process of creating or unlocking a wallet.
- */
-export const lndWalletUnlockerStarted = () => (dispatch, getState) => {
-  const state = getState()
-
-  // Handle generate seed.
-  if (state.lnd.isFetchingSeed) {
-    dispatch(send('walletUnlocker', { msg: 'genSeed' }))
-  }
-
-  // Handle unlock wallet.
-  else if (state.lnd.isUnlockingWallet) {
-    dispatch(
-      send('walletUnlocker', {
-        msg: 'unlockWallet',
-        data: { wallet_password: state.onboarding.password },
-      })
-    )
-  }
-
-  // Handle create wallet.
-  else if (state.lnd.creatingNewWallet) {
-    dispatch(
-      send('walletUnlocker', {
-        msg: 'initWallet',
-        data: {
-          wallet_password: state.onboarding.password,
-          cipher_seed_mnemonic: state.onboarding.seed,
-        },
-      })
-    )
-  }
-
-  // Handle recover wallet.
-  else if (state.lnd.recoveringOldWallet) {
-    dispatch(
-      send('walletUnlocker', {
-        msg: 'initWallet',
-        data: {
-          wallet_password: state.onboarding.password,
-          cipher_seed_mnemonic: state.onboarding.seed,
-          recovery_window: 250,
-        },
-      })
-    )
-  }
-}
-
-export const walletCreated = () => dispatch => {
-  dispatch({ type: WALLET_UNLOCKED })
-  dispatch(onboardingFinished())
-  dispatch(send('startLightningWallet'))
-}
-
-export const walletUnlocked = () => dispatch => {
-  dispatch({ type: WALLET_UNLOCKED })
-  dispatch(onboardingFinished())
-  dispatch(send('startLightningWallet'))
-}
-
-export const setUnlockWalletError = (event, unlockWalletError) => dispatch => {
-  dispatch({ type: SET_UNLOCK_WALLET_ERROR, unlockWalletError })
-}
-
-export const fetchSeed = () => async dispatch => {
-  const { chain: defaultChain, network: defaultNetwork } = config
-
-  dispatch({ type: FETCH_SEED })
-  try {
-    await dispatch(
-      startLnd({
-        id: `tmp`,
-        type: 'local',
-        chain: defaultChain,
-        network: defaultNetwork,
-      })
-    )
-  } catch (error) {
-    dispatch({ type: FETCH_SEED_ERROR, error })
-  }
-}
-
-// Listener for when LND creates and sends us a generated seed
-export const fetchSeedSuccess = (event, { cipher_seed_mnemonic }) => dispatch => {
-  dispatch({ type: FETCH_SEED_SUCCESS, seed: cipher_seed_mnemonic })
-  dispatch(setSeed(cipher_seed_mnemonic))
-  dispatch(stopLnd())
-}
-
-// Listener for when LND throws an error on seed creation
-export const fetchSeedError = (event, error) => dispatch => {
-  dispatch({ type: FETCH_SEED_ERROR, error })
-}
-
-export const createNewWallet = () => async (dispatch, getState) => {
-  const state = getState()
-  const { chain: defaultChain, network: defaultNetwork } = config
-
-  // Define the wallet config.
-  let wallet = {
-    type: 'local',
-    chain: state.onboarding.chain || defaultChain,
-    network: state.onboarding.network || defaultNetwork,
-    autopilot: state.onboarding.autopilot,
-    alias: state.onboarding.alias,
-    name: state.onboarding.name,
-  }
-
-  // Save the wallet config.
-  wallet = await dispatch(putWallet(wallet))
-
-  // Start Lnd and trigger the wallet to be initialised as soon as the wallet unlocker is available.
-  dispatch({ type: CREATING_NEW_WALLET })
-  await dispatch(startLnd(wallet))
-}
-
-export const recoverOldWallet = () => async (dispatch, getState) => {
-  const state = getState()
-  const { chain: defaultChain, network: defaultNetwork } = config
-
-  // Define the wallet config.
-  let wallet = {
-    type: 'local',
-    chain: state.onboarding.chain || defaultChain,
-    network: state.onboarding.network || defaultNetwork,
-    autopilot: state.onboarding.autopilot,
-    alias: state.onboarding.alias,
-    name: state.onboarding.name,
-  }
-
-  // Save the wallet config.
-  wallet = await dispatch(putWallet(wallet))
-
-  // Start Lnd and trigger the wallet to be recovered as soon as the wallet unlocker is available.
-  dispatch({ type: RECOVERING_OLD_WALLET })
-  await dispatch(startLnd(wallet))
-}
-
-export const startActiveWallet = () => async (dispatch, getState) => {
-  const state = getState()
-  if (!state.lnd.lndStarted && !state.lnd.isStartingLnd) {
-    const activeWalletSettings = walletSelectors.activeWalletSettings(state)
-    if (activeWalletSettings) {
-      await dispatch(startLnd(activeWalletSettings))
-    }
-  }
+export const generateLndConfigFromWallet = wallet => async () => {
+  return await window.Zap.generateLndConfigFromWallet(wallet)
 }
 
 // ------------------------------------
@@ -381,37 +486,17 @@ const ACTION_HANDLERS = {
     fetchSeedError: error,
   }),
 
-  [SET_SYNC_STATUS_PENDING]: state => ({ ...state, syncStatus: 'pending' }),
-  [SET_SYNC_STATUS_WAITING]: state => ({ ...state, syncStatus: 'waiting' }),
-  [SET_SYNC_STATUS_IN_PROGRESS]: state => ({ ...state, syncStatus: 'in-progress' }),
-  [SET_SYNC_STATUS_COMPLETE]: state => ({ ...state, syncStatus: 'complete' }),
-
-  [RECEIVE_CURRENT_BLOCK_HEIGHT]: (state, { blockHeight }) => ({
+  [START_LND]: (state, { lndConfig }) => ({
     ...state,
-    blockHeight,
-  }),
-  [RECEIVE_LND_BLOCK_HEIGHT]: (state, { lndBlockHeight }) => ({
-    ...state,
-    lndBlockHeight,
-    lndFirstBlockHeight: state.lndFirstBlockHeight || lndBlockHeight,
-  }),
-  [RECEIVE_LND_CFILTER_HEIGHT]: (state, { lndCfilterHeight }) => ({
-    ...state,
-    lndCfilterHeight,
-    lndFirstCfilterHeight: state.lndFirstCfilterHeight || lndCfilterHeight,
-  }),
-
-  [STARTING_LND]: state => ({
-    ...state,
+    lndConfig,
     isStartingLnd: true,
-    lndStarted: false,
   }),
-  [LND_STARTED]: state => ({
+  [START_LND_SUCCESS]: state => ({
     ...state,
     isStartingLnd: false,
-    lndStarted: true,
+    isLndActive: true,
   }),
-  [SET_START_LND_ERROR]: (state, { errors }) => ({
+  [START_LND_FAILURE]: (state, { errors }) => ({
     ...state,
     isStartingLnd: false,
     startLndError: errors,
@@ -420,55 +505,74 @@ const ACTION_HANDLERS = {
     ...state,
     startLndError: null,
   }),
-  [SET_WALLET_UNLOCKER_ACTIVE]: state => ({
+
+  [START_WALLET_UNLOCKER]: state => ({
     ...state,
-    isStartingLnd: false,
-    isWalletUnlockerGrpcActive: true,
-    isLightningGrpcActive: false,
+    isStartingWalletUnlocker: true,
   }),
-  [SET_LIGHTNING_WALLET_ACTIVE]: state => ({
+  [START_WALLET_UNLOCKER_SUCCESS]: state => ({
+    ...state,
+    isStartingWalletUnlocker: false,
+    isWalletUnlockerGrpcActive: true,
+  }),
+  [START_WALLET_UNLOCKER_FAILURE]: state => ({
     ...state,
     isStartingLnd: false,
-    isLightningGrpcActive: true,
+    isStartingWalletUnlocker: false,
+    isWalletUnlockerGrpcActive: false,
+  }),
+  [DISCONNECT_WALLET_UNLOCKER]: state => ({
+    ...state,
     isWalletUnlockerGrpcActive: false,
   }),
 
-  [STOPPING_LND]: state => ({
+  [START_LIGHTNING_WALLET]: state => ({
     ...state,
-    stoppingLnd: true,
+    isStartingLightningWallet: true,
   }),
-  [LND_STOPPED]: state => ({
+  [START_LIGHTNING_WALLET_SUCCESS]: state => ({
     ...state,
-    ...initialState,
+    isStartingLightningWallet: false,
+    isLightningGrpcActive: true,
   }),
-  [LND_CRASHED]: (state, { code, signal, lastError }) => ({
+  [START_LIGHTNING_WALLET_FAILURE]: state => ({
     ...state,
-    isLndCrashed: true,
-    lndCrashCode: code,
-    lndCrashSignal: signal,
-    lndCrashLastError: lastError,
+    isStartingLnd: false,
+    isStartingLightningWallet: false,
+    isLightningGrpcActive: false,
   }),
-  [LND_RESET]: state => ({
+  [DISCONNECT_LIGHTNING_WALLET]: state => ({
+    ...state,
+    isLightningGrpcActive: false,
+  }),
+
+  [STOP_LND]: state => ({
+    ...state,
+    isStoppingLnd: true,
+  }),
+  [STOP_LND_SUCCESS]: state => ({
     ...state,
     ...initialState,
   }),
 
-  [CREATING_NEW_WALLET]: state => ({ ...state, creatingNewWallet: true }),
-  [RECOVERING_OLD_WALLET]: state => ({ ...state, recoveringOldWallet: true }),
+  [CREATE_NEW_WALLET]: state => ({ ...state, isCreatingNewWallet: true }),
+  [CREATE_NEW_WALLET_SUCCESS]: state => ({ ...state, isCreatingNewWallet: false }),
+
+  [RECOVER_OLD_WALLET]: state => ({ ...state, isRecoveringOldWallet: true }),
+  [RECOVER_OLD_WALLET_SUCCESS]: state => ({ ...state, isRecoveringOldWallet: false }),
+
   [UNLOCKING_WALLET]: state => ({ ...state, isUnlockingWallet: true }),
-  [WALLET_UNLOCKED]: state => ({
+  [UNLOCK_WALLET_SUCCESS]: state => ({
     ...state,
     isUnlockingWallet: false,
-    unlockWalletError: '',
+    isWalletUnlocked: true,
+    unlockWalletError: null,
   }),
-  [SET_UNLOCK_WALLET_ERROR]: (state, { unlockWalletError }) => ({
+  [UNLOCK_WALLET_FAILURE]: (state, { unlockWalletError }) => ({
     ...state,
     isUnlockingWallet: false,
     unlockWalletError,
   }),
-
-  [START_NEUTRINO]: (state, { value }) => ({ ...state, startNeutrino: value }),
-  [START_WALLET_UNLOCKER]: (state, { value }) => ({ ...state, startWalletUnlocker: value }),
 }
 
 // ------------------------------------
@@ -477,122 +581,44 @@ const ACTION_HANDLERS = {
 const initialState = {
   isFetchingSeed: false,
   isStartingLnd: false,
-  isLndCrashed: false,
-  stoppingLnd: false,
-  lndStarted: false,
-  lndCrashCode: null,
-  lndCrashSignal: null,
-  lndCrashLastError: null,
-  creatingNewWallet: false,
-  recoveringOldWallet: false,
+  isStoppingLnd: false,
+  isStartingWalletUnlocker: false,
+  isStartingLightningWallet: false,
+  isLndActive: false,
+  isCreatingNewWallet: false,
+  isRecoveringOldWallet: false,
   isUnlockingWallet: false,
   isWalletUnlockerGrpcActive: false,
   isLightningGrpcActive: false,
+  isWalletUnlocked: false,
   unlockWalletError: null,
   startLndError: null,
   fetchSeedError: null,
-  syncStatus: 'pending',
-  blockHeight: 0,
-  lndBlockHeight: 0,
-  lndFirstBlockHeight: 0,
-  lndCfilterHeight: 0,
-  lndFirstCfilterHeight: 0,
+  lndConfig: {},
 }
 
 // ------------------------------------
 // Selectors
 // ------------------------------------
 const lndSelectors = {}
-const blockHeightSelector = state => state.lnd.blockHeight
-const lndBlockHeightSelector = state => state.lnd.lndBlockHeight
-const lndFirstBlockHeightSelector = state => state.lnd.lndFirstBlockHeight
-const lndCfilterHeightSelector = state => state.lnd.lndCfilterHeight
-const lndFirstCfilterHeightSelector = state => state.lnd.lndFirstCfilterHeight
 const startLndErrorSelector = state => state.lnd.startLndError
 const isStartingLndSelector = state => state.lnd.isStartingLnd
-const isStartingNeutrinoSelector = state => state.lnd.startNeutrino
-const isStartingUnlockerSelector = state => state.lnd.startWalletUnlocker
-const isLndCrashedSelector = state => state.lnd.isLndCrashed
-const lndCrashCodeSelector = state => state.lnd.lndCrashCode
-const lndCrashSignalSelector = state => state.lnd.lndCrashSignal
-const lndCrashLastErrorSelector = state => state.lnd.lndCrashLastError
+const isStartingUnlockerSelector = state => state.lnd.isStartingWalletUnlocker
 
 lndSelectors.startLndHostError = createSelector(
   startLndErrorSelector,
   startLndError => (startLndError ? startLndError.host : null)
 )
-
 lndSelectors.startLndCertError = createSelector(
   startLndErrorSelector,
   startLndError => (startLndError ? startLndError.cert : null)
 )
-
 lndSelectors.startLndMacaroonError = createSelector(
   startLndErrorSelector,
   startLndError => (startLndError ? startLndError.macaroon : null)
 )
-
-lndSelectors.isStartingLnd = createSelector(
-  isStartingLndSelector,
-  isStarting => isStarting
-)
-
-lndSelectors.isStartingNeutrino = createSelector(
-  isStartingNeutrinoSelector,
-  isStarting => isStarting
-)
-
-lndSelectors.isStartingUnlocker = createSelector(
-  isStartingUnlockerSelector,
-  isStarting => isStarting
-)
-
-lndSelectors.isLndCrashed = createSelector(
-  isLndCrashedSelector,
-  isLndCrashed => isLndCrashed
-)
-
-lndSelectors.lndCrashReason = createSelector(
-  lndCrashCodeSelector,
-  lndCrashSignalSelector,
-  lndCrashLastErrorSelector,
-  (code, signal, error) => ({
-    code,
-    signal,
-    error,
-  })
-)
-
-lndSelectors.syncPercentage = createSelector(
-  blockHeightSelector,
-  lndBlockHeightSelector,
-  lndFirstBlockHeightSelector,
-  lndCfilterHeightSelector,
-  lndFirstCfilterHeightSelector,
-  (blockHeight, lndBlockHeight, lndFirstBlockHeight, lndCfilterHeight, lndFirstCfilterHeight) => {
-    // blocks
-    const blocksToSync = blockHeight - lndFirstBlockHeight
-    const blocksRemaining = blockHeight - lndBlockHeight
-    const blocksDone = blocksToSync - blocksRemaining
-
-    // filters
-    const filtersToSync = blockHeight - lndFirstCfilterHeight
-    const filtersRemaining = blockHeight - lndCfilterHeight
-    const filtersDone = filtersToSync - filtersRemaining
-
-    // totals
-    const totalToSync = blocksToSync + filtersToSync
-    const done = blocksDone + filtersDone
-
-    const percentage = Math.floor((done / totalToSync) * 100)
-
-    if (percentage === Infinity || Number.isNaN(percentage)) {
-      return undefined
-    }
-
-    return parseInt(percentage, 10)
-  }
-)
+lndSelectors.isStartingLnd = isStartingLndSelector
+lndSelectors.isStartingUnlocker = isStartingUnlockerSelector
 
 export { lndSelectors }
 

@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
-import { send } from 'redux-electron-ipc'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
+import { lightningService } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 import { showError } from './notification'
@@ -81,20 +81,16 @@ export function sendInvoice() {
   }
 }
 
-// Send IPC event for a specific invoice
-export const fetchInvoice = payreq => dispatch => {
-  dispatch(getInvoice())
-  dispatch(send('lnd', { msg: 'invoice', data: { payreq } }))
-}
-
 // Send IPC event for invoices
-export const fetchInvoices = () => dispatch => {
+export const fetchInvoices = () => async dispatch => {
   dispatch(getInvoices())
-  dispatch(send('lnd', { msg: 'invoices' }))
+  const lightning = await lightningService
+  const invoices = await lightning.listInvoices()
+  dispatch(receiveInvoices(invoices))
 }
 
 // Receive IPC event for invoices
-export const receiveInvoices = (event, { invoices }) => dispatch => {
+export const receiveInvoices = ({ invoices }) => dispatch => {
   invoices.forEach(decorateInvoice)
   dispatch({ type: RECEIVE_INVOICES, invoices })
 }
@@ -114,16 +110,21 @@ export const createInvoice = (amount, currency, memo) => async (dispatch, getSta
   // need to come with routing hints for private channels
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
 
-  dispatch(
-    send('lnd', {
-      msg: 'createInvoice',
-      data: { value, memo, private: activeWalletSettings.type === 'local' },
+  try {
+    const lightning = await lightningService
+    const invoice = await lightning.createInvoice({
+      value,
+      memo,
+      private: activeWalletSettings.type === 'local',
     })
-  )
+    dispatch(createdInvoice(invoice))
+  } catch (e) {
+    dispatch(invoiceFailed(e))
+  }
 }
 
 // Receive IPC event for newly created invoice
-export const createdInvoice = (event, invoice) => dispatch => {
+export const createdInvoice = invoice => dispatch => {
   decorateInvoice(invoice)
 
   // Add new invoice to invoices list
@@ -133,13 +134,13 @@ export const createdInvoice = (event, invoice) => dispatch => {
   dispatch(setInvoice(invoice.payment_request))
 }
 
-export const invoiceFailed = (event, { error }) => dispatch => {
+export const invoiceFailed = ({ error }) => dispatch => {
   dispatch({ type: INVOICE_FAILED })
   dispatch(showError(error))
 }
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices
-export const invoiceUpdate = (event, { invoice }) => dispatch => {
+export const receiveInvoiceData = invoice => dispatch => {
   decorateInvoice(invoice)
 
   dispatch({ type: UPDATE_INVOICE, invoice })

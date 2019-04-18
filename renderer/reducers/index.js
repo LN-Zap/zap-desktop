@@ -20,6 +20,7 @@ import address from './address'
 import transaction from './transaction'
 import activity from './activity'
 import network from './network'
+import neutrino from './neutrino'
 import modal from './modal'
 import notification from './notification'
 import settings from './settings'
@@ -47,6 +48,7 @@ export default history => {
     lnd,
     modal,
     network,
+    neutrino,
     notification,
     onboarding,
     pay,
@@ -60,10 +62,10 @@ export default history => {
   })
 
   return (state, action) => {
-    // Reset all reducers except for the app, theme, settings, and wallet reducers.
+    // Reset all reducers, except for selected reducers which should persist.
     if (action.type === 'RESET_APP') {
-      const { app, settings, theme, wallet } = state
-      return appReducer({ app, settings, theme, wallet }, action)
+      const { app, settings, intl, theme, wallet, lnd, neutrino } = state
+      return appReducer({ app, settings, intl, theme, wallet, lnd, neutrino }, action)
     }
     return appReducer(state, action)
   }

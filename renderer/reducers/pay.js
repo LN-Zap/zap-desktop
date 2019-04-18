@@ -1,5 +1,5 @@
-import { send } from 'redux-electron-ipc'
 import get from 'lodash.get'
+import { lightningService } from 'workers'
 import { requestFees } from '@zap/utils/api'
 
 // ------------------------------------
@@ -29,12 +29,18 @@ export const queryFees = () => async dispatch => {
   }
 }
 
-export const queryRoutes = (pubKey, amount) => dispatch => {
+export const queryRoutes = (pubKey, amount) => async dispatch => {
   dispatch({ type: QUERY_ROUTES, pubKey })
-  dispatch(send('lnd', { msg: 'queryRoutes', data: { pubkey: pubKey, amount } }))
+  try {
+    const lightning = await lightningService
+    const routes = await lightning.queryRoutes({ pub_key: pubKey, amt: amount })
+    dispatch(queryRoutesSuccess(routes))
+  } catch (e) {
+    dispatch(queryRoutesFailure())
+  }
 }
 
-export const queryRoutesSuccess = (event, { routes }) => dispatch =>
+export const queryRoutesSuccess = ({ routes }) => dispatch =>
   dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
 
 export const queryRoutesFailure = () => dispatch => {

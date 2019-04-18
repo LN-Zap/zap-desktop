@@ -13,7 +13,7 @@ fixture('Onboarding (connect lndconnect)')
   })
   .afterEach(async t => {
     await assertNoConsoleErrors(t)
-    await cleanTestEnvironment()
+    await cleanTestEnvironment({ lnd: false })
   })
 
 test('should connect to an external wallet (lndconnect)', async t => {

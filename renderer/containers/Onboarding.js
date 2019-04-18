@@ -25,7 +25,6 @@ import {
 } from 'reducers/onboarding'
 import {
   setUnlockWalletError,
-  setStartLndError,
   startLnd,
   stopLnd,
   fetchSeed,
@@ -54,7 +53,6 @@ const mapStateToProps = state => ({
   startLndMacaroonError: lndSelectors.startLndMacaroonError(state),
   seed: state.onboarding.seed,
   unlockWalletError: state.lnd.unlockWalletError,
-  isOnboarded: state.onboarding.isOnboarded,
   isFetchingSeed: state.lnd.isFetchingSeed,
 })
 
@@ -66,7 +64,6 @@ const mapDispatchToProps = {
   setConnectionCert,
   setConnectionMacaroon,
   setConnectionString,
-  setStartLndError,
   setName,
   setNetwork,
   setPassword,

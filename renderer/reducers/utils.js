@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import messages from 'components/LoadingBolt/messages'
 import { walletSelectors } from './wallet'
+import { neutrinoSelectors } from './neutrino'
 import { lndSelectors } from './lnd'
 import { appSelectors } from './app'
 import { tickerSelectors } from './ticker'
@@ -52,16 +53,16 @@ export const getLoadingMessage = state => {
     starting_neutrino,
     fetching_tickers,
   } = messages
+  if (neutrinoSelectors.isStartingNeutrino(state)) {
+    return starting_neutrino
+  }
+
   if (lndSelectors.isStartingLnd(state)) {
     return isLocal ? starting_lnd : connecting_to_lnd
   }
 
   if (lndSelectors.isStartingUnlocker(state)) {
     return isLocal ? starting_wallet_unlocker : connecting_to_unlocker
-  }
-
-  if (lndSelectors.isStartingNeutrino(state)) {
-    return starting_neutrino
   }
 
   // path specific messages

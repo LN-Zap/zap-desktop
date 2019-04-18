@@ -1,9 +1,9 @@
 import config from 'config'
 import { createSelector } from 'reselect'
-import { send } from 'redux-electron-ipc'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { decodePayReq } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
+import { lightningService } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 import { showError } from './notification'
@@ -68,13 +68,15 @@ export const sendPayment = data => dispatch => {
 }
 
 // Send IPC event for payments
-export const fetchPayments = () => dispatch => {
+export const fetchPayments = () => async dispatch => {
   dispatch(getPayments())
-  dispatch(send('lnd', { msg: 'payments' }))
+  const lightning = await lightningService
+  const payments = await lightning.listPayments()
+  dispatch(receivePayments(payments))
 }
 
 // Receive IPC event for payments
-export const receivePayments = (event, { payments }) => dispatch => {
+export const receivePayments = ({ payments }) => dispatch => {
   payments.forEach(payment => {
     decoratePayment(payment)
   })
@@ -83,14 +85,46 @@ export const receivePayments = (event, { payments }) => dispatch => {
 
 const decPaymentRetry = paymentRequest => ({ type: DECREASE_PAYMENT_RETRIES, paymentRequest })
 
-export const payInvoice = ({ payReq, amt, feeLimit, isRetry = false, retries = 0 }) => dispatch => {
-  const data = { paymentRequest: payReq, feeLimit, amt }
-  dispatch(send('lnd', { msg: 'sendPayment', data }))
+export const payInvoice = ({
+  payReq,
+  amt,
+  feeLimit,
+  isRetry = false,
+  retries = 0,
+}) => async dispatch => {
   // if it's a retry - only decrease number of retries left
   if (isRetry) {
     dispatch(decPaymentRetry(payReq))
-  } else {
-    dispatch(sendPayment({ ...data, remainingRetries: retries, maxRetries: retries }))
+  }
+  // Otherwise, add to sendingPayments in the state.
+  else {
+    dispatch(
+      sendPayment({
+        paymentRequest: payReq,
+        feeLimit,
+        amt,
+        remainingRetries: retries,
+        maxRetries: retries,
+      })
+    )
+  }
+
+  // Submit the payment to LND.
+  try {
+    const lightning = await lightningService
+    const data = await lightning.sendPayment({
+      payment_request: payReq,
+      amt,
+      fee_limit: { fixed: feeLimit },
+    })
+    dispatch(paymentSuccessful(data))
+  } catch (e) {
+    dispatch(
+      paymentFailed({
+        error: e.message,
+        payment_request: e.payload.payment_request,
+      })
+    )
   }
 }
 
@@ -101,7 +135,7 @@ const getLastSendingEntry = (state, paymentRequest) =>
     .find(p => p.paymentRequest === paymentRequest)
 
 // Receive IPC event for successful payment.
-export const paymentSuccessful = (event, { payment_request }) => async (dispatch, getState) => {
+export const paymentSuccessful = ({ payment_request }) => async (dispatch, getState) => {
   const state = getState()
   const paymentSending = getLastSendingEntry(state, payment_request)
   // If we found a related entery in paymentsSending, gracefully remove it and handle as success case.
@@ -129,7 +163,7 @@ export const paymentSuccessful = (event, { payment_request }) => async (dispatch
 }
 
 // Receive IPC event for failed payment.
-export const paymentFailed = (event, { payment_request, error }) => async (dispatch, getState) => {
+export const paymentFailed = ({ payment_request, error }) => async (dispatch, getState) => {
   const state = getState()
   const paymentSending = getLastSendingEntry(state, payment_request)
   // errors that trigger retry mechanism
