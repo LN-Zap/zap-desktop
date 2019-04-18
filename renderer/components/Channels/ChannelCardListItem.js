@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import isEqual from 'lodash.isequal'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'
@@ -17,8 +18,10 @@ const ClippedText = withEllipsis(Text)
 const Box = styled(BaseBox)(opacity)
 const Flex = styled(BaseFlex)(opacity)
 
+const areEqual = (prevProps, nextProps) => isEqual(prevProps, nextProps)
+
 const ChannelCardListItem = React.memo(
-  ({ intl, channel, currencyName, openModal, setSelectedChannel, networkInfo, ...rest }) => {
+  ({ channel, currencyName, openModal, setSelectedChannel, networkInfo }) => {
     const {
       channel_point,
       display_name,
@@ -29,8 +32,9 @@ const ChannelCardListItem = React.memo(
       active,
     } = channel
     const opacity = active ? 1 : 0.3
+
     return (
-      <Card {...rest}>
+      <Card>
         <Panel>
           <Panel.Header>
             <Flex justifyContent="space-between">
@@ -82,7 +86,8 @@ const ChannelCardListItem = React.memo(
         </Panel>
       </Card>
     )
-  }
+  },
+  areEqual
 )
 
 ChannelCardListItem.displayName = 'ChannelCardListItem'
