@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Flex } from 'rebass'
 import { Button } from 'components/UI'
 import ChannelFilter from './ChannelFilter'
+import ChannelSort from './ChannelSort'
 import ChannelSearch from './ChannelSearch'
 import ChannelsRefresh from './ChannelsRefresh'
 import ChannelsViewSwitcher from './ChannelsViewSwitcher'
@@ -13,9 +14,12 @@ const ChannelsActions = ({
   fetchChannels,
   filter,
   filters,
+  sort,
+  sorters,
   searchQuery,
   channelViewMode,
   changeFilter,
+  changeSort,
   updateChannelSearchQuery,
   setChannelViewMode,
   openModal,
@@ -27,7 +31,7 @@ const ChannelsActions = ({
       placeholder={intl.formatMessage({ ...messages.search_placeholder })}
       searchQuery={searchQuery}
       updateChannelSearchQuery={updateChannelSearchQuery}
-      width={7.5 / 16}
+      width={5.5 / 16}
     />
 
     <ChannelFilter
@@ -37,6 +41,9 @@ const ChannelsActions = ({
       mr={1}
       width={2.5 / 16}
     />
+
+    <ChannelSort changeSort={changeSort} mr={1} sort={sort} sorters={sorters} width={2.5 / 16} />
+
     <ChannelsViewSwitcher
       channelViewMode={channelViewMode}
       ml={3}
@@ -52,6 +59,7 @@ const ChannelsActions = ({
 
 ChannelsActions.propTypes = {
   changeFilter: PropTypes.func.isRequired,
+  changeSort: PropTypes.func.isRequired,
   channelViewMode: PropTypes.string.isRequired,
   fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
@@ -60,6 +68,8 @@ ChannelsActions.propTypes = {
   openModal: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
   setChannelViewMode: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  sorters: PropTypes.array.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
 }
 

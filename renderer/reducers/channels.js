@@ -16,6 +16,9 @@ export const SET_CHANNEL_VIEW_MODE = 'SET_CHANNEL_VIEW_MODE'
 export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
 
 export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
+
+export const CHANGE_CHANNEL_SORT = 'CHANGE_CHANNEL_SORT'
+
 export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 
 export const GET_CHANNELS = 'GET_CHANNELS'
@@ -183,6 +186,12 @@ export function changeFilter(filter) {
   return {
     type: CHANGE_CHANNEL_FILTER,
     filter,
+  }
+}
+export function changeSort(sort) {
+  return {
+    type: CHANGE_CHANNEL_SORT,
+    sort,
   }
 }
 
@@ -491,6 +500,11 @@ const ACTION_HANDLERS = {
   [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({
     ...state,
     filter,
+  }),
+
+  [CHANGE_CHANNEL_SORT]: (state, { sort }) => ({
+    ...state,
+    sort,
   }),
 
   [ADD_LOADING_PUBKEY]: (state, { data }) => ({
@@ -836,6 +850,16 @@ const initialState = {
     { key: 'NON_ACTIVE_CHANNELS', name: 'Offline' },
     { key: 'OPEN_PENDING_CHANNELS', name: 'Pending' },
     { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing' },
+  ],
+
+  sort: 'OPEN_DATE',
+  sorters: [
+    { key: 'OPEN_DATE', name: 'Open date' },
+    { key: 'REMOTE_BALANCE', name: 'Remote balance' },
+    { key: 'LOCAL_BALANCE', name: 'Local balance' },
+    { key: 'ACTIVITY', name: 'Activity' },
+    { key: 'NAME', name: 'Name' },
+    { key: 'CAPACITY', name: 'Capacity' },
   ],
 
   selectedChannelId: null,
