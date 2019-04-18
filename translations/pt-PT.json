@@ -100,6 +100,7 @@
   "components.Channels.base_fee_description": "",
   "components.Channels.base_fee_label": "",
   "components.Channels.capacity": "",
+  "components.Channels.channel_activity": "",
   "components.Channels.channels": "",
   "components.Channels.close_button": "",
   "components.Channels.close_channel_dialog_acknowledgement": "",
