@@ -1,10 +1,12 @@
 import { lightningService } from 'workers'
 import { openModal, closeModal } from './modal'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
 export const GET_ADDRESS = 'GET_ADDRESS'
-export const RECEIVE_ADDRESS = 'RECEIVE_ADDRESS'
+export const GET_ADDRESS_SUCCESS = 'GET_ADDRESS_SUCCESS'
+export const GET_ADDRESS_FAILURE = 'GET_ADDRESS_FAILURE'
 
 export const OPEN_WALLET_MODAL = 'OPEN_WALLET_MODAL'
 export const CLOSE_WALLET_MODAL = 'CLOSE_WALLET_MODAL'
@@ -45,7 +47,7 @@ export const walletAddress = type => async (dispatch, getState) => {
 
   // If we have an address already, use that. Otherwise, generate a new address.
   if (address) {
-    dispatch({ type: RECEIVE_ADDRESS, address })
+    dispatch({ type: GET_ADDRESS_SUCCESS, address })
   } else {
     dispatch(newAddress(type))
   }
@@ -53,14 +55,18 @@ export const walletAddress = type => async (dispatch, getState) => {
 
 // Send IPC event for getinfo
 export const newAddress = type => async dispatch => {
-  dispatch(getAddress())
-  const lightning = await lightningService
-  const data = await lightning.newAddress({ type: addressTypes[type] })
-  dispatch(receiveAddress({ ...data, type }))
+  try {
+    dispatch(getAddress())
+    const lightning = await lightningService
+    const data = await lightning.newAddress({ type: addressTypes[type] })
+    dispatch(receiveAddressSuccess({ ...data, type }))
+  } catch (error) {
+    dispatch(newAddressFailure(error))
+  }
 }
 
 // Receive IPC event for info
-export const receiveAddress = ({ type, address }) => async (dispatch, getState) => {
+export const receiveAddressSuccess = ({ type, address }) => async (dispatch, getState) => {
   const state = getState()
   const pubKey = state.info.data.identity_pubkey
 
@@ -75,16 +81,30 @@ export const receiveAddress = ({ type, address }) => async (dispatch, getState) 
     }
   }
 
-  dispatch({ type: RECEIVE_ADDRESS, address: address })
+  dispatch({ type: GET_ADDRESS_SUCCESS, address: address })
 }
+
+export const newAddressFailure = error => ({
+  type: GET_ADDRESS_FAILURE,
+  newAddressError: error,
+})
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_ADDRESS]: state => ({ ...state, addressLoading: true }),
-  [RECEIVE_ADDRESS]: (state, { address }) => ({ ...state, addressLoading: false, address }),
-
+  [GET_ADDRESS_SUCCESS]: (state, { address }) => ({
+    ...state,
+    addressLoading: false,
+    newAddressError: null,
+    address,
+  }),
+  [GET_ADDRESS_FAILURE]: (state, { newAddressError }) => ({
+    ...state,
+    addressLoading: false,
+    newAddressError,
+  }),
   [OPEN_WALLET_MODAL]: state => ({ ...state, walletModal: true }),
   [CLOSE_WALLET_MODAL]: state => ({ ...state, walletModal: false }),
 }
@@ -95,6 +115,7 @@ const ACTION_HANDLERS = {
 const initialState = {
   addressLoading: false,
   address: '',
+  newAddressError: null,
   walletModal: false,
 }
 
