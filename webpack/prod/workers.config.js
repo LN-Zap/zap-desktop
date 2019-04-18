@@ -6,8 +6,8 @@ import plugins from './common/plugins'
 const config = merge.smart(baseConfig, {
   name: 'workers',
   target: 'electron-renderer',
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: 'production',
+  devtool: 'source-map',
   entry: {
     lightning: path.join(rootDir, 'renderer/workers', 'lightning.worker'),
     walletUnlocker: path.join(rootDir, 'renderer/workers', 'walletUnlocker.worker'),
