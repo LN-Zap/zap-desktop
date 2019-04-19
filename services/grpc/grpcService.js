@@ -6,6 +6,7 @@ import lndgrpc from 'lnd-grpc'
 import StateMachine from 'javascript-state-machine'
 import { grpcLog } from '@zap/utils/log'
 import promisifiedCall from '@zap/utils/promisifiedCall'
+import waitForFile from '@zap/utils/waitForFile'
 import grpcOptions from '@zap/utils/grpcOptions'
 import getDeadline from '@zap/utils/getDeadline'
 import createSslCreds from '@zap/utils/createSslCreds'
@@ -117,7 +118,7 @@ class GrpcService extends EventEmitter {
    * Establish a connection to the Lightning interface.
    */
   async establishConnection(version) {
-    const { host, cert, macaroon, protoPath } = this.lndConfig
+    const { id, type, host, cert, macaroon, protoPath } = this.lndConfig
 
     // Find the most recent rpc.proto file
     const versionToUse = version || (await lndgrpc.getLatestProtoVersion({ path: protoPath }))
@@ -133,6 +134,11 @@ class GrpcService extends EventEmitter {
 
     // Add macaroon to crenentials if service requires macaroons.
     if (this.useMacaroon) {
+      // If we are trying to connect to the internal lnd, wait up to 20 seconds for the macaroon to be generated.
+      if (type === 'local' && id !== 'tmp') {
+        await waitForFile(macaroon, 20000)
+      }
+
       const macaroonCreds = await createMacaroonCreds(macaroon)
       creds = credentials.combineChannelCredentials(creds, macaroonCreds)
     }
