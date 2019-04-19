@@ -25,9 +25,11 @@ export const STOP_LND_SUCCESS = 'STOP_LND_SUCCESS'
 
 export const CREATE_NEW_WALLET = 'CREATE_NEW_WALLET'
 export const CREATE_NEW_WALLET_SUCCESS = 'CREATE_NEW_WALLET_SUCCESS'
+export const CREATE_NEW_WALLET_FAILURE = 'CREATE_NEW_WALLET_FAILURE'
 
 export const RECOVER_OLD_WALLET = 'RECOVER_OLD_WALLET'
 export const RECOVER_OLD_WALLET_SUCCESS = 'RECOVER_OLD_WALLET_SUCCESS'
+export const RECOVER_OLD_WALLET_FAILURE = 'RECOVER_OLD_WALLET_FAILURE'
 
 export const UNLOCK_WALLET = 'UNLOCK_WALLET'
 export const UNLOCK_WALLET_SUCCESS = 'UNLOCK_WALLET_SUCCESS'
@@ -354,33 +356,37 @@ export const fetchSeedError = error => dispatch => {
  */
 export const createNewWallet = () => async (dispatch, getState) => {
   dispatch({ type: CREATE_NEW_WALLET })
-  const state = getState()
-  const { chain: defaultChain, network: defaultNetwork } = config
+  try {
+    const state = getState()
+    const { chain: defaultChain, network: defaultNetwork } = config
 
-  // Define the wallet config.
-  let wallet = {
-    type: 'local',
-    chain: state.onboarding.chain || defaultChain,
-    network: state.onboarding.network || defaultNetwork,
-    autopilot: state.onboarding.autopilot,
-    alias: state.onboarding.alias,
-    name: state.onboarding.name,
+    // Define the wallet config.
+    let wallet = {
+      type: 'local',
+      chain: state.onboarding.chain || defaultChain,
+      network: state.onboarding.network || defaultNetwork,
+      autopilot: state.onboarding.autopilot,
+      alias: state.onboarding.alias,
+      name: state.onboarding.name,
+    }
+
+    // Save the wallet config.
+    wallet = await dispatch(putWallet(wallet))
+
+    // Start lnd with the provided wallet config.
+    await dispatch(startLnd(wallet))
+
+    // Call initWallet method.
+    const grpc = await grpcService
+    await grpc.services.WalletUnlocker.initWallet({
+      wallet_password: state.onboarding.password,
+      cipher_seed_mnemonic: state.onboarding.seed,
+      recovery_window: 0,
+    })
+    dispatch(walletCreated())
+  } catch (error) {
+    dispatch(createNewWalletFailure(error))
   }
-
-  // Save the wallet config.
-  wallet = await dispatch(putWallet(wallet))
-
-  // Start lnd with the provided wallet config.
-  await dispatch(startLnd(wallet))
-
-  // Call initWallet method.
-  const grpc = await grpcService
-  await grpc.services.WalletUnlocker.initWallet({
-    wallet_password: state.onboarding.password,
-    cipher_seed_mnemonic: state.onboarding.seed,
-    recovery_window: 0,
-  })
-  dispatch(walletCreated())
 }
 
 /**
@@ -391,37 +397,49 @@ export const walletCreated = () => ({
 })
 
 /**
+ * Create new wallet success callback.
+ */
+export const createNewWalletFailure = error => ({
+  type: CREATE_NEW_WALLET_FAILURE,
+  error,
+})
+
+/**
  * Recover an old wallet.
  */
 export const recoverOldWallet = () => async (dispatch, getState) => {
   dispatch({ type: RECOVER_OLD_WALLET })
-  const state = getState()
-  const { chain: defaultChain, network: defaultNetwork } = config
+  try {
+    const state = getState()
+    const { chain: defaultChain, network: defaultNetwork } = config
 
-  // Define the wallet config.
-  let wallet = {
-    type: 'local',
-    chain: state.onboarding.chain || defaultChain,
-    network: state.onboarding.network || defaultNetwork,
-    autopilot: state.onboarding.autopilot,
-    alias: state.onboarding.alias,
-    name: state.onboarding.name,
+    // Define the wallet config.
+    let wallet = {
+      type: 'local',
+      chain: state.onboarding.chain || defaultChain,
+      network: state.onboarding.network || defaultNetwork,
+      autopilot: state.onboarding.autopilot,
+      alias: state.onboarding.alias,
+      name: state.onboarding.name,
+    }
+
+    // Save the wallet config.
+    wallet = await dispatch(putWallet(wallet))
+
+    // Start lnd with the provided wallet config.
+    await dispatch(startLnd(wallet))
+
+    // Call initWallet method.
+    const grpc = await grpcService
+    await grpc.services.WalletUnlocker.initWallet({
+      wallet_password: state.onboarding.password,
+      cipher_seed_mnemonic: state.onboarding.seed,
+      recovery_window: 2500,
+    })
+    dispatch(walletRecovered())
+  } catch (error) {
+    dispatch(recoverOldWalletFailure(error))
   }
-
-  // Save the wallet config.
-  wallet = await dispatch(putWallet(wallet))
-
-  // Start lnd with the provided wallet config.
-  await dispatch(startLnd(wallet))
-
-  // Call initWallet method.
-  const grpc = await grpcService
-  await grpc.services.WalletUnlocker.initWallet({
-    wallet_password: state.onboarding.password,
-    cipher_seed_mnemonic: state.onboarding.seed,
-    recovery_window: 2500,
-  })
-  dispatch(walletRecovered())
 }
 
 /**
@@ -429,6 +447,14 @@ export const recoverOldWallet = () => async (dispatch, getState) => {
  */
 export const walletRecovered = () => ({
   type: RECOVER_OLD_WALLET_SUCCESS,
+})
+
+/**
+ * Recover old wallet success callback.
+ */
+export const recoverOldWalletFailure = error => ({
+  type: RECOVER_OLD_WALLET_FAILURE,
+  error,
 })
 
 /**
@@ -527,9 +553,11 @@ const ACTION_HANDLERS = {
 
   [CREATE_NEW_WALLET]: state => ({ ...state, isCreatingNewWallet: true }),
   [CREATE_NEW_WALLET_SUCCESS]: state => ({ ...state, isCreatingNewWallet: false }),
+  [CREATE_NEW_WALLET_FAILURE]: state => ({ ...state, isCreatingNewWallet: false }),
 
   [RECOVER_OLD_WALLET]: state => ({ ...state, isRecoveringOldWallet: true }),
   [RECOVER_OLD_WALLET_SUCCESS]: state => ({ ...state, isRecoveringOldWallet: false }),
+  [RECOVER_OLD_WALLET_FAILURE]: state => ({ ...state, isRecoveringOldWallet: false }),
 
   [UNLOCK_WALLET]: state => ({ ...state, isUnlockingWallet: true }),
   [UNLOCK_WALLET_SUCCESS]: state => ({
