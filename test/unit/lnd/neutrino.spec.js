@@ -211,6 +211,7 @@ describe('Neutrino', function() {
       beforeEach(async () => {
         this.neutrino = await prepareLndConfig(lndConfigOptions)
         this.neutrino.process = mockSpawn()
+        this.neutrino.process.pid = 123
       })
       it('should throw an error', async () => {
         await expect(this.neutrino.start()).rejects.toThrowErrorMatchingInlineSnapshot(

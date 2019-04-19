@@ -74,10 +74,8 @@ class Neutrino extends EventEmitter {
    * @return {Number} PID of the Lnd process that was started.
    */
   async start() {
-    if (this.process) {
-      return Promise.reject(
-        new Error(`Neutrino process with PID ${this.process.pid} already exists.`)
-      )
+    if (this.getPid()) {
+      return Promise.reject(new Error(`Neutrino process with PID ${this.getPid()} already exists.`))
     }
 
     // The height returned from the LND log output may not be the actual current block height (this is the case
@@ -277,6 +275,43 @@ class Neutrino extends EventEmitter {
     })
 
     return this.process.pid
+  }
+
+  /**
+   * Gracefully shutdown LND.
+   */
+  async shutdown(options = {}) {
+    const signal = options.signal || 'SIGINT'
+    const timeout = options.timeout || 10000
+
+    mainLog.info('Shutting down Neutrino...')
+
+    if (!this.getPid()) {
+      mainLog.info('No Neutrino process found.')
+      return
+    }
+
+    await new Promise(async resolve => {
+      // HACK: Sometimes there are errors during the shutdown process that prevent the daemon from shutting down at
+      // all. If we haven't received notification of the process closing within the timeout, kill it.
+      // See https://github.com/lightningnetwork/lnd/pull/1781
+      // See https://github.com/lightningnetwork/lnd/pull/1783
+      const exitHandler = () => {
+        clearTimeout(shutdownTimeout)
+        resolve()
+      }
+      const shutdownTimeout = setTimeout(() => {
+        mainLog.warn('Graceful shutdown failed to complete within 10 seconds. Killing Neutrino.')
+        this.kill('SIGKILL')
+      }, timeout)
+
+      this.once('NEUTRINO_EXIT', exitHandler)
+
+      // Kill the Neutrino process (sends SIGINT to Neutrino process)
+      this.kill(signal)
+    })
+
+    mainLog.info('Neutrino shutdown complete.')
   }
 
   /**

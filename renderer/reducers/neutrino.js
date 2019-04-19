@@ -138,13 +138,8 @@ export const stopNeutrino = () => async dispatch => {
   dispatch({ type: STOP_NEUTRINO })
   try {
     const neutrino = await neutrinoService
-    await neutrino.kill()
-    neutrino.once(
-      'NEUTRINO_EXIT',
-      proxyValue(() => {
-        dispatch(stopNeutrinoSuccess())
-      })
-    )
+    await neutrino.shutdown()
+    dispatch(stopNeutrinoSuccess())
   } catch (e) {
     dispatch(stopNeutrinoFailure(e))
   }
