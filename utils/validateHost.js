@@ -39,7 +39,7 @@ const validateHost = async host => {
       return createError(`${lndHost} is not accessible: ${e.message}`)
     }
   } catch (e) {
-    return createError(`Host is invalid`, 'LND_GRPC_HOST_ERROR')
+    return createError(`Host is invalid: ${e.message}`, 'LND_GRPC_HOST_ERROR')
   }
 }
 
