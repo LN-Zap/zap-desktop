@@ -11,7 +11,6 @@ const StyledList = styled(Grid)`
   overflow-y: overlay !important;
   overflow-x: hidden !important;
 `
-
 const ChannelCardList = ({
   channels,
   currencyName,
@@ -43,7 +42,6 @@ const ChannelCardList = ({
       >
         <ChannelCardListItem
           channel={channel}
-          css={{ height: '100%' }}
           currencyName={currencyName}
           networkInfo={networkInfo}
           openModal={openModal}
@@ -62,6 +60,7 @@ const ChannelCardList = ({
             columnCount={2}
             columnWidth={width / 2}
             height={height}
+            overscanRowCount={5}
             rowCount={Math.ceil(channels.length / 2)}
             rowHeight={ROW_HEIGHT}
             width={width}

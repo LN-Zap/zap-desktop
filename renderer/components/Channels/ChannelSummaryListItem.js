@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import isEqual from 'lodash.isequal'
 import { Box, Flex } from 'rebass'
 import { Card, Heading, Text } from 'components/UI'
 import { withEllipsis } from 'hocs'
@@ -9,6 +10,8 @@ import ChannelStatus from './ChannelStatus'
 
 const ClippedHeading = withEllipsis(Heading.h1)
 const ClippedText = withEllipsis(Text)
+
+const areEqual = (prevProps, nextProps) => isEqual(prevProps, nextProps)
 
 const ChannelSummaryListItem = React.memo(props => {
   const { channel, openModal, setSelectedChannel, ...rest } = props
@@ -58,7 +61,7 @@ const ChannelSummaryListItem = React.memo(props => {
       </Flex>
     </Card>
   )
-})
+}, areEqual)
 
 ChannelSummaryListItem.displayName = 'ChannelSummaryListItem'
 
