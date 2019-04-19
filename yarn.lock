@@ -5419,7 +5419,7 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   dependencies:
     delayed-stream "~1.0.0"
 
-comlinkjs@^3.2.0:
+comlinkjs@3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/comlinkjs/-/comlinkjs-3.2.0.tgz#26874718627f4fbd3e45fe5c39b2ddf001e56bed"
   integrity sha512-2eawZHTjhK5Y1G6RZtSIqLijedIsULYQxnkC4MOhleUPgLRatMhqlflzWClyWRb6cLrLU6oAxDTT/Bl/fw/H7g==
