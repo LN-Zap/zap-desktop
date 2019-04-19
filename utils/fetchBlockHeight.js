@@ -1,9 +1,6 @@
 import axios from 'axios'
 import get from 'lodash.get'
-import root from 'window-or-global'
 import { mainLog } from '@zap/utils/log'
-
-const scheme = (process && process.env.HOT) || (root.env && root.env.HOT) ? '/proxy/' : 'https://'
 
 /**
  * Helper function to get the current block height.
@@ -18,10 +15,6 @@ const fetchBlockHeight = (chain, network) => {
           path: 'blocks[0].height',
         },
         {
-          baseUrl: `${scheme}chain.api.btc.com/v3/block/latest`,
-          path: 'data.height',
-        },
-        {
           baseUrl: `https://api.blockcypher.com/v1/btc/main`,
           path: 'height',
         },
@@ -30,10 +23,6 @@ const fetchBlockHeight = (chain, network) => {
         {
           baseUrl: `https://testnet-api.smartbit.com.au/v1/blockchain/blocks?limit=1`,
           path: 'blocks[0].height',
-        },
-        {
-          baseUrl: `${scheme}tchain.api.btc.com/v3/block/latest`,
-          path: 'data.height',
         },
         {
           baseUrl: `https://api.blockcypher.com/v1/btc/test3`,

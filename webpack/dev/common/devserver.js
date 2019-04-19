@@ -28,11 +28,6 @@ const devServer = {
       pathRewrite: { '^/proxy/api.coinbase.com': '' },
       changeOrigin: true,
     },
-    '/proxy/tchain.api.btc.com': {
-      target: 'https://tchain.api.btc.com',
-      pathRewrite: { '^/proxy/tchain.api.btc.com': '' },
-      changeOrigin: true,
-    },
   },
 
   historyApiFallback: true,
