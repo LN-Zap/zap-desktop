@@ -166,6 +166,7 @@ class GrpcService extends EventEmitter {
    * Connect all services.
    */
   async connectAll() {
+    grpcLog.info('Connecting to all gRPC services')
     await Promise.all(
       Object.keys(this.services).map(serviceName => {
         const service = this.services[serviceName]
@@ -180,6 +181,7 @@ class GrpcService extends EventEmitter {
    * Disconnect all services.
    */
   async disconnectAll() {
+    grpcLog.info('Disconnecting from all gRPC services')
     await Promise.all(
       Object.keys(this.services).map(serviceName => {
         const service = this.services[serviceName]
@@ -220,7 +222,11 @@ class GrpcService extends EventEmitter {
         */
         default:
           grpcLog.warn('Unable to connect to lnd service', e)
-          await this.disconnectAll()
+          try {
+            await this.disconnectAll()
+          } catch (e) {
+            grpcLog.warn('There was a problem disconnecting gRPC services', e)
+          }
           throw e
       }
     }
