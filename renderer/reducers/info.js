@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import get from 'lodash.get'
 import { networks } from '@zap/utils/crypto'
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 import { walletAddress } from './address'
 import { putWallet, walletSelectors } from './wallet'
 import { receiveCryptocurrency } from './ticker'
@@ -80,8 +80,8 @@ export const setHasSynced = hasSynced => async (dispatch, getState) => {
 // Send IPC event for getinfo
 export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
-  const lightning = await lightningService
-  const info = await lightning.getInfo()
+  const grpc = await grpcService
+  const info = await grpc.services.Lightning.getInfo()
   dispatch(receiveInfo(info))
 }
 

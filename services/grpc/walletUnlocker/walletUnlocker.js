@@ -2,13 +2,13 @@ import LndGrpcService from '@zap/services/grpc/grpcService'
 import methods from './walletUnlocker.methods'
 
 /**
- * Creates an LND grpc client lightning service.
+ * Creates an LND grpc client WalletUnlocker service.
  * @returns {WalletUnlocker}
  */
 class WalletUnlocker extends LndGrpcService {
-  constructor() {
-    super()
-    this.serviceName = 'WalletUnlocker'
+  constructor(lndConfig) {
+    super('WalletUnlocker', lndConfig)
+    this.useMacaroon = false
   }
 }
 

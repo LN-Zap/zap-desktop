@@ -2,7 +2,7 @@ import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
 import { proxyValue } from 'comlinkjs'
 import { requestSuggestedNodes } from '@zap/utils/api'
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 import { updateNotification, showWarning, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
@@ -272,8 +272,8 @@ export const fetchSuggestedNodes = () => async dispatch => {
 // Send IPC event for peers
 export const fetchChannels = () => async dispatch => {
   dispatch(getChannels())
-  const lightning = await lightningService
-  const channels = await lightning.getChannels()
+  const grpc = await grpcService
+  const channels = await grpc.services.Lightning.getChannels()
   dispatch(receiveChannels(channels))
 }
 
@@ -308,9 +308,9 @@ export const openChannel = data => async (dispatch, getState) => {
   dispatch(showWarning('Channel opening initiated', { payload: { pubkey }, isProcessing: true }))
 
   // Attempt to open the channel.
-  const lightning = await lightningService
   try {
-    const data = await lightning.connectAndOpen({
+    const grpc = await grpcService
+    const data = await grpc.services.Lightning.connectAndOpen({
       pubkey,
       host,
       localamt,
@@ -319,7 +319,10 @@ export const openChannel = data => async (dispatch, getState) => {
       spendUnconfirmed,
     })
     dispatch(pushchannelupdated(data))
-    lightning.once('openChannel.data', proxyValue(data => dispatch(pushchannelupdated(data))))
+    grpc.services.Lightning.once(
+      'openChannel.data',
+      proxyValue(data => dispatch(pushchannelupdated(data)))
+    )
   } catch (e) {
     dispatch(
       pushchannelerror({
@@ -378,9 +381,9 @@ export const closeChannel = () => async (dispatch, getState) => {
     const [funding_txid, output_index] = channel_point.split(':')
 
     // Attempt to open the channel.
-    const lightning = await lightningService
     try {
-      const data = await lightning.closeChannel({
+      const grpc = await grpcService
+      const data = await grpc.services.Lightning.closeChannel({
         channel_point: {
           funding_txid,
           output_index,
@@ -389,7 +392,7 @@ export const closeChannel = () => async (dispatch, getState) => {
         force: !active,
       })
       dispatch(pushclosechannelupdated(data))
-      lightning.once(
+      grpc.services.Lightning.once(
         'closeChannel.data',
         proxyValue(data => dispatch(pushclosechannelupdated(data)))
       )

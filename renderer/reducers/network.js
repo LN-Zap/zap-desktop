@@ -1,4 +1,4 @@
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 
 // ------------------------------------
 // Constants
@@ -40,8 +40,8 @@ export function getDescribeNetwork() {
 // Send IPC event for describeNetwork
 export const fetchDescribeNetwork = () => async dispatch => {
   dispatch(getDescribeNetwork())
-  const lightning = await lightningService
-  const data = await lightning.describeGraph()
+  const grpc = await grpcService
+  const data = await grpc.services.Lightning.describeGraph()
   dispatch(receiveDescribeNetwork(data))
 }
 

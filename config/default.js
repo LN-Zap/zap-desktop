@@ -7,7 +7,7 @@ const STABLE_VERSION = '0.4.x'
 
 module.exports = {
   // Default debug settings.
-  debug: 'zap:main,zap:lnd,zap:updater',
+  debug: 'zap:main,zap:lnd,zap:updater,zap:grpc',
   debugLevel: 'info',
 
   // Database settings.

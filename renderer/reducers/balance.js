@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 
 // ------------------------------------
 // Constants
@@ -19,8 +19,8 @@ export function getBalance() {
 // Send IPC event for balance
 export const fetchBalance = () => async dispatch => {
   dispatch(getBalance())
-  const lightning = await lightningService
-  const balance = await lightning.getBalance()
+  const grpc = await grpcService
+  const balance = await grpc.services.Lightning.getBalance()
   dispatch(receiveBalance(balance))
 }
 

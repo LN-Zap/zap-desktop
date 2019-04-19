@@ -59,17 +59,25 @@ export const neutrinoReset = () => {
 export const initNeutrino = () => async (dispatch, getState) => {
   const neutrino = await neutrinoService
 
-  // Hook up event listeners error/exit.
+  // Hook up event listeners for process termination.
   neutrino.on(
     'NEUTRINO_EXIT',
     proxyValue(data => {
+      // Remove grpc interface activation listeners.
+      neutrino.removeAllListeners('NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE')
+      neutrino.removeAllListeners('NEUTRINO_LIGHTNING_GRPC_ACTIVE')
+
+      // Notify the main process that the process has terminated.
       dispatch(send('processExit', { name: 'neutrino', ...data }))
+
+      // If the netrino process didn't terminate as a result of us asking it tyo stop then it must have crashed.
       const { isStoppingNeutrino } = getState().neutrino
       if (!isStoppingNeutrino) {
         dispatch(neutrinoCrashed(data))
       }
     })
   )
+
   // Hook up event listeners for sync progress updates.
   neutrino.on(
     'NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT',
@@ -83,6 +91,7 @@ export const initNeutrino = () => async (dispatch, getState) => {
     'NEUTRINO_GOT_LND_CFILTER_HEIGHT',
     proxyValue(height => dispatch(neutrinoCfilterHeight(height)))
   )
+
   // Hook up event listeners for sync status updates.
   neutrino.on(
     'NEUTRINO_CHAIN_SYNC_PENDING',
@@ -108,17 +117,18 @@ export const startNeutrino = lndConfig => async dispatch => {
     // Initialise the Neutrino Web Worker..
     const neutrino = await neutrinoService
     await neutrino.init(lndConfig)
+    dispatch(initNeutrino())
 
     // Start the service and wait for one of the gRPC interfaces to become active.
     await new Promise(async resolve => {
-      neutrino.once(
+      neutrino.on(
         'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE',
         proxyValue(() => {
           dispatch(setGrpcActiveInterface('walletUnlocker'))
           resolve()
         })
       )
-      neutrino.once(
+      neutrino.on(
         'NEUTRINO_LIGHTNING_GRPC_ACTIVE',
         proxyValue(() => {
           dispatch(setGrpcActiveInterface('lightning'))

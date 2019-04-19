@@ -44,25 +44,13 @@ export const getLoadingMessage = state => {
   const activeWallet = walletSelectors.activeWalletSettings(state)
   const isLocal = activeWallet && activeWallet.type === 'local'
 
-  const {
-    loading,
-    starting_lnd,
-    connecting_to_lnd,
-    starting_wallet_unlocker,
-    connecting_to_unlocker,
-    starting_neutrino,
-    fetching_tickers,
-  } = messages
+  const { loading, starting_lnd, connecting_to_lnd, starting_neutrino, fetching_tickers } = messages
   if (neutrinoSelectors.isStartingNeutrino(state)) {
     return starting_neutrino
   }
 
   if (lndSelectors.isStartingLnd(state)) {
     return isLocal ? starting_lnd : connecting_to_lnd
-  }
-
-  if (lndSelectors.isStartingUnlocker(state)) {
-    return isLocal ? starting_wallet_unlocker : connecting_to_unlocker
   }
 
   // path specific messages

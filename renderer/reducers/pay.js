@@ -1,5 +1,5 @@
 import get from 'lodash.get'
-import { lightningService } from 'workers'
+import { grpcService } from 'workers'
 import { requestFees } from '@zap/utils/api'
 
 // ------------------------------------
@@ -32,8 +32,8 @@ export const queryFees = () => async dispatch => {
 export const queryRoutes = (pubKey, amount) => async dispatch => {
   dispatch({ type: QUERY_ROUTES, pubKey })
   try {
-    const lightning = await lightningService
-    const routes = await lightning.queryRoutes({ pub_key: pubKey, amt: amount })
+    const grpc = await grpcService
+    const routes = await grpc.services.Lightning.queryRoutes({ pub_key: pubKey, amt: amount })
     dispatch(queryRoutesSuccess(routes))
   } catch (e) {
     dispatch(queryRoutesFailure())
