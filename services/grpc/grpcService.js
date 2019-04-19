@@ -1,6 +1,6 @@
 import { join } from 'path'
 import EventEmitter from 'events'
-import { credentials, loadPackageDefinition } from '@grpc/grpc-js'
+import { credentials, loadPackageDefinition, status } from '@grpc/grpc-js'
 import { load } from '@grpc/proto-loader'
 import lndgrpc from 'lnd-grpc'
 import StateMachine from 'javascript-state-machine'
@@ -161,14 +161,36 @@ class GrpcService extends EventEmitter {
   /**
    * Unsubscribe from all streams.
    */
-  unsubscribe() {
-    grpcLog.info(`Unsubscribing from ${this.serviceName} gRPC streams`)
-    Object.keys(this.subscriptions).forEach(subscription => {
-      if (this.subscriptions[subscription]) {
-        grpcLog.info(` > Unsubscribing from ${subscription} stream`)
-        this.subscriptions[subscription].cancel()
-      }
+  async unsubscribe() {
+    const activeSubKeys = Object.keys(this.subscriptions)
+    if (activeSubKeys.length) {
+      grpcLog.info(`Unsubscribing from all ${this.serviceName} gRPC streams: %o`, activeSubKeys)
+      const cancellations = activeSubKeys.map(key => this._cancelSubscription(key))
+      return Promise.all(cancellations)
+    }
+  }
+
+  /**
+   * Unsubscribe from a single stream.
+   */
+  async _cancelSubscription(key) {
+    grpcLog.info(`Unsubscribing from ${key} gRPC stream`)
+    const call = this.subscriptions[key]
+
+    // Cancellation status callback handler.
+    const result = new Promise(resolve => {
+      call.on('status', callStatus => {
+        if (callStatus.code === status.CANCELLED) {
+          grpcLog.info(`Unsubscribed from ${key} gRPC stream`)
+          resolve()
+        }
+      })
     })
+
+    // Initiate cancellation request.
+    call.cancel()
+    // Resolve once we recieve confirmation of the call's cancellation.
+    return result
   }
 }
 
