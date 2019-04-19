@@ -192,20 +192,18 @@ export const clearStartLndError = () => {
  * Stop lnd.
  */
 export const stopLnd = () => async (dispatch, getState) => {
-  const {
-    lnd: { isStoppingLnd, lndConfig },
-  } = getState()
+  const { lndConfig } = getState().lnd
+  dispatch({ type: STOP_LND })
 
-  if (!isStoppingLnd) {
-    dispatch({ type: STOP_LND })
-    await dispatch(disconnectGrpcService())
+  // Disconnect from the gRPC service.
+  await dispatch(disconnectGrpcService())
 
-    if (lndConfig.type === 'local') {
-      await dispatch(stopNeutrino())
-    }
-
-    dispatch(lndStopped())
+  // Stop the neutrino process.
+  if (lndConfig.type === 'local') {
+    await dispatch(stopNeutrino())
   }
+
+  dispatch(lndStopped())
 }
 
 /**
