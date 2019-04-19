@@ -2,6 +2,7 @@ import split2 from 'split2'
 import EventEmitter from 'events'
 import { spawn } from 'child_process'
 import config from 'config'
+import delay from '@zap/utils/delay'
 import { mainLog, lndLog, lndLogGetLevel } from '@zap/utils/log'
 import getLndListen from '@zap/utils/getLndListen'
 import fetchBlockHeight from '@zap/utils/fetchBlockHeight'
@@ -20,6 +21,9 @@ export const NEUTRINO_LIGHTNING_GRPC_ACTIVE = 'NEUTRINO_LIGHTNING_GRPC_ACTIVE'
 export const NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT = 'NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT'
 export const NEUTRINO_GOT_LND_BLOCK_HEIGHT = 'NEUTRINO_GOT_LND_BLOCK_HEIGHT'
 export const NEUTRINO_GOT_LND_CFILTER_HEIGHT = 'NEUTRINO_GOT_LND_CFILTER_HEIGHT'
+
+// Constants
+export const NEUTRINO_SHUTDOWN_TIMEOUT = 10000
 
 /**
  * Wrapper class for Lnd to run and monitor it in Neutrino mode.
@@ -278,11 +282,11 @@ class Neutrino extends EventEmitter {
   }
 
   /**
-   * Gracefully shutdown LND.
+   * Shutdown LND.
    */
   async shutdown(options = {}) {
     const signal = options.signal || 'SIGINT'
-    const timeout = options.timeout || 10000
+    const timeout = options.timeout || NEUTRINO_SHUTDOWN_TIMEOUT
 
     mainLog.info('Shutting down Neutrino...')
 
@@ -291,27 +295,41 @@ class Neutrino extends EventEmitter {
       return
     }
 
-    await new Promise(async resolve => {
-      // HACK: Sometimes there are errors during the shutdown process that prevent the daemon from shutting down at
-      // all. If we haven't received notification of the process closing within the timeout, kill it.
-      // See https://github.com/lightningnetwork/lnd/pull/1781
-      // See https://github.com/lightningnetwork/lnd/pull/1783
-      const exitHandler = () => {
-        clearTimeout(shutdownTimeout)
+    await this._shutdownNeutrino(signal, timeout)
+    mainLog.info('Neutrino shutdown complete.')
+  }
+
+  /**
+   * Attempt to gracefully terminate the lnd process. If it fails, force kill it.
+   * @param  {String}  signal  process signal
+   * @param  {Number}  timeout timeout before force killing with SIGKILL
+   * @return {Promise}
+   */
+  async _shutdownNeutrino(signal, timeout) {
+    let hasCompleted = false
+
+    // promisify NEUTRINO_EXIT callback.
+    const neutrinoExitComplete = new Promise(resolve => {
+      this.once(NEUTRINO_EXIT, () => {
+        hasCompleted = true
         resolve()
-      }
-      const shutdownTimeout = setTimeout(() => {
-        mainLog.warn('Graceful shutdown failed to complete within 10 seconds. Killing Neutrino.')
-        this.kill('SIGKILL')
-      }, timeout)
-
-      this.once('NEUTRINO_EXIT', exitHandler)
-
-      // Kill the Neutrino process (sends SIGINT to Neutrino process)
-      this.kill(signal)
+      })
     })
 
-    mainLog.info('Neutrino shutdown complete.')
+    // Force kill process if it has not already exited after `timeout` ms.
+    const forceShutdown = async () => {
+      await delay(timeout)
+      // If graceful shutdown has not completed, we need to force shutdown.
+      if (!hasCompleted) {
+        mainLog.warn('Graceful shutdown failed to complete within 10 seconds. Killing Neutrino.')
+        this.kill('SIGKILL')
+      }
+      return neutrinoExitComplete
+    }
+
+    // Kill the Neutrino process (sends `signal` to Neutrino process).
+    this.kill(signal)
+    return Promise.race([neutrinoExitComplete, forceShutdown()])
   }
 
   /**

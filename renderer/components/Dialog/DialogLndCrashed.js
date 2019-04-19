@@ -20,7 +20,7 @@ const ErrorRow = ({ messageKey, value }) => (
 
 ErrorRow.propTypes = {
   messageKey: PropTypes.string.isRequired,
-  value: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 const DialogLndCrashed = ({ onCancel, lndCrashReason, history, isOpen }) => {
