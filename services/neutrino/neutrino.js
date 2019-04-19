@@ -14,6 +14,7 @@ export const NEUTRINO_CHAIN_SYNC_IN_PROGRESS = 'NEUTRINO_CHAIN_SYNC_IN_PROGRESS'
 export const NEUTRINO_CHAIN_SYNC_COMPLETE = 'NEUTRINO_CHAIN_SYNC_COMPLETE'
 
 // Events
+export const NEUTRINO_SHUTDOWN = 'NEUTRINO_SHUTDOWN'
 export const NEUTRINO_ERROR = 'NEUTRINO_ERROR'
 export const NEUTRINO_EXIT = 'NEUTRINO_EXIT'
 export const NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE = 'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE'
@@ -219,7 +220,7 @@ class Neutrino extends EventEmitter {
           line.match(/Starting cfilters sync at block_height=(\d+)/)
 
         if (match) {
-          // Notify that chhain syncronisation has now started.
+          // Notify that chain syncronisation has now started.
           this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
 
           // This is the latest block that BTCd is aware of.
@@ -286,6 +287,7 @@ class Neutrino extends EventEmitter {
     const timeout = options.timeout || NEUTRINO_SHUTDOWN_TIMEOUT
 
     mainLog.info('Shutting down Neutrino...')
+    this.emit(NEUTRINO_SHUTDOWN)
 
     if (!this.getPid()) {
       mainLog.info('No Neutrino process found.')

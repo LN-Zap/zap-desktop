@@ -48,18 +48,6 @@ export const DISCONNECT_GRPC = 'DISCONNECT_GRPC'
 export const DISCONNECT_GRPC_SUCCESS = 'DISCONNECT_GRPC_SUCCESS'
 export const DISCONNECT_GRPC_FAILURE = 'DISCONNECT_GRPC_FAILURE'
 
-// ------------------------------------
-// Actions
-// ------------------------------------
-export const initLnd = () => async dispatch => {
-  const grpc = await grpcService
-
-  // Hook up event listeners for stream subscriptions.
-  grpc.on('subscribeInvoices.data', proxyValue(data => dispatch(receiveInvoiceData(data))))
-  grpc.on('subscribeTransactions.data', proxyValue(data => dispatch(receiveTransactionData(data))))
-  grpc.on('subscribeChannelGraph.data', proxyValue(data => dispatch(receiveChannelGraphData(data))))
-}
-
 /**
  * Connect to lnd gRPC service.
  */
@@ -70,6 +58,18 @@ export const connectGrpcService = () => async dispatch => {
     if (await grpc.can('connect')) {
       await grpc.connect()
     }
+
+    // Hook up event listeners for stream subscriptions.
+    grpc.on('subscribeInvoices.data', proxyValue(data => dispatch(receiveInvoiceData(data))))
+    grpc.on(
+      'subscribeTransactions.data',
+      proxyValue(data => dispatch(receiveTransactionData(data)))
+    )
+    grpc.on(
+      'subscribeChannelGraph.data',
+      proxyValue(data => dispatch(receiveChannelGraphData(data)))
+    )
+
     dispatch({ type: CONNECT_GRPC_SUCCESS })
   } catch (error) {
     dispatch({ type: CONNECT_GRPC_FAILURE, error })
@@ -83,9 +83,16 @@ export const disconnectGrpcService = () => async dispatch => {
   dispatch({ type: DISCONNECT_GRPC })
   try {
     const grpc = await grpcService
+
+    // Remove event listeners for stream subscriptions.
+    grpc.removeAllListeners('subscribeInvoices.data')
+    grpc.removeAllListeners('subscribeTransactions.data')
+    grpc.removeAllListeners('subscribeChannelGraph.data')
+
     if (await grpc.can('disconnect')) {
       await grpc.disconnect()
     }
+
     dispatch({ type: DISCONNECT_GRPC_SUCCESS })
   } catch (error) {
     dispatch({ type: DISCONNECT_GRPC_FAILURE, error })
@@ -137,7 +144,7 @@ export const startLnd = wallet => async dispatch => {
     // Finalise the action.
     dispatch(lndStarted())
   } catch (e) {
-    // If we are working with a local wallet, start a local Neutrino instance first.
+    // If we are working with a local wallet, stop the neutrino instance.
     if (lndConfig.type === 'local') {
       await dispatch(stopNeutrino())
     }

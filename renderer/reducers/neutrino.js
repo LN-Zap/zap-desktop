@@ -63,10 +63,6 @@ export const initNeutrino = () => async (dispatch, getState) => {
   neutrino.on(
     'NEUTRINO_EXIT',
     proxyValue(data => {
-      // Remove grpc interface activation listeners.
-      neutrino.removeAllListeners('NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE')
-      neutrino.removeAllListeners('NEUTRINO_LIGHTNING_GRPC_ACTIVE')
-
       // Notify the main process that the process has terminated.
       dispatch(send('processExit', { name: 'neutrino', ...data }))
 
@@ -119,8 +115,8 @@ export const startNeutrino = lndConfig => async dispatch => {
     await neutrino.init(lndConfig)
     dispatch(initNeutrino())
 
-    // Start the service and wait for one of the gRPC interfaces to become active.
-    await new Promise(async resolve => {
+    // Wait for one of the gRPC interfaces to become active to resolve.
+    await new Promise(async (resolve, reject) => {
       neutrino.on(
         'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE',
         proxyValue(() => {
@@ -135,23 +131,44 @@ export const startNeutrino = lndConfig => async dispatch => {
           resolve()
         })
       )
+      // If the services shuts down in the middle of starting up, abort the start process.
+      neutrino.on(
+        'NEUTRINO_SHUTDOWN',
+        proxyValue(() => reject(new Error('Nuetrino was shut down mid-startup.')))
+      )
+
       const pid = await neutrino.start()
       dispatch(send('processSpawn', { name: 'neutrino', pid }))
     })
     dispatch({ type: START_NEUTRINO_SUCCESS })
   } catch (e) {
     dispatch({ type: START_NEUTRINO_FAILURE, startNeutrinoError: e })
+    throw e
   }
 }
 
 export const stopNeutrino = () => async dispatch => {
   dispatch({ type: STOP_NEUTRINO })
+  const neutrino = await neutrinoService
   try {
-    const neutrino = await neutrinoService
+    // Remove grpc interface activation listeners.
+    neutrino.removeAllListeners('NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE')
+    neutrino.removeAllListeners('NEUTRINO_LIGHTNING_GRPC_ACTIVE')
+
+    // Shut down the service.
     await neutrino.shutdown()
+
+    // Now that the service has benen shutdown, remove shutdown listeners.
+    neutrino.removeAllListeners('NEUTRINO_SHUTDOWN')
+
     dispatch(stopNeutrinoSuccess())
   } catch (e) {
     dispatch(stopNeutrinoFailure(e))
+  } finally {
+    // Ensure that all start listeners are eventually removed.
+    neutrino.removeAllListeners('NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE')
+    neutrino.removeAllListeners('NEUTRINO_LIGHTNING_GRPC_ACTIVE')
+    neutrino.removeAllListeners('NEUTRINO_SHUTDOWN')
   }
 }
 
