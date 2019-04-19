@@ -27,14 +27,11 @@ class GrpcService extends EventEmitter {
       init: 'ready',
       transitions: [
         { name: 'connect', from: 'ready', to: 'connected' },
-        { name: 'activate', from: 'connected', to: 'active' },
-        { name: 'disconnect', from: ['connected', 'active'], to: 'ready' },
+        { name: 'disconnect', from: 'connected', to: 'ready' },
       ],
       methods: {
         onBeforeConnect: this.onBeforeConnect.bind(this),
         onAfterConnect: this.onAfterConnect.bind(this),
-        onBeforeActivate: this.onBeforeActivate.bind(this),
-        onAfterActivate: this.onAfterActivate.bind(this),
         onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
       },
     })
@@ -51,9 +48,6 @@ class GrpcService extends EventEmitter {
 
   connect(...args) {
     return this.fsm.connect(args)
-  }
-  activate(...args) {
-    return this.fsm.activate(args)
   }
   disconnect(...args) {
     return this.fsm.disconnect(args)
@@ -74,29 +68,18 @@ class GrpcService extends EventEmitter {
    */
   async onBeforeConnect() {
     grpcLog.info(`Connecting to ${this.serviceName} gRPC service`)
-    await this.establishConnection()
+
+    // Establish a connection.
+    const { useMacaroon, waitForMacaroon } = this._getConnectionSettings()
+    await this.establishConnection({ useMacaroon, waitForMacaroon })
   }
 
   /**
    * Log successful connection.
    */
   async onAfterConnect() {
-    grpcLog.info(`Connected to ${this.serviceName} gRPC service`)
-  }
-
-  /**
-   * Subscribe to streams.
-   */
-  async onBeforeActivate() {
-    grpcLog.info(`Activating ${this.serviceName} gRPC service`)
     await this.subscribe()
-  }
-
-  /**
-   * Subscribe to streams.
-   */
-  async onAfterActivate() {
-    grpcLog.info(`Activated ${this.serviceName} gRPC service`)
+    grpcLog.info(`Connected to ${this.serviceName} gRPC service`)
   }
 
   /**
@@ -117,13 +100,14 @@ class GrpcService extends EventEmitter {
   /**
    * Establish a connection to the Lightning interface.
    */
-  async establishConnection(version) {
-    const { id, type, host, cert, macaroon, protoPath } = this.lndConfig
+  async establishConnection(options = {}) {
+    const { version, useMacaroon, waitForMacaroon } = options
+    const { host, cert, macaroon, protoPath } = this.lndConfig
 
     // Find the most recent rpc.proto file
     const versionToUse = version || (await lndgrpc.getLatestProtoVersion({ path: protoPath }))
     const filepath = join(protoPath, `${versionToUse}.proto`)
-    grpcLog.info('Establishing gRPC connection with proto file %s', filepath)
+    grpcLog.info(`Establishing gRPC connection to ${this.serviceName} with proto file %s`, filepath)
 
     // Load gRPC package definition as a gRPC object hierarchy.
     const packageDefinition = await load(filepath, grpcOptions)
@@ -133,12 +117,11 @@ class GrpcService extends EventEmitter {
     let creds = await createSslCreds(cert)
 
     // Add macaroon to crenentials if service requires macaroons.
-    if (this.useMacaroon) {
+    if (useMacaroon) {
       // If we are trying to connect to the internal lnd, wait up to 20 seconds for the macaroon to be generated.
-      if (type === 'local' && id !== 'tmp') {
+      if (waitForMacaroon) {
         await waitForFile(macaroon, 20000)
       }
-
       const macaroonCreds = await createMacaroonCreds(macaroon)
       creds = credentials.combineChannelCredentials(creds, macaroonCreds)
     }
@@ -197,6 +180,16 @@ class GrpcService extends EventEmitter {
     call.cancel()
     // Resolve once we recieve confirmation of the call's cancellation.
     return result
+  }
+
+  _getConnectionSettings() {
+    const { id, type } = this.lndConfig
+    // Don't use macaroons when connecting to the local tmp instance.
+    const useMacaroon = this.useMacaroon && id !== 'tmp'
+    // If connecting to a local instance, wait for the macaroon file to exist.
+    const waitForMacaroon = type === 'local'
+
+    return { waitForMacaroon, useMacaroon }
   }
 }
 

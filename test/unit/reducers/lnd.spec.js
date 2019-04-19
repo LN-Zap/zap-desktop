@@ -18,8 +18,8 @@ import reducer, {
   CONNECT_GRPC,
   CONNECT_GRPC_SUCCESS,
   CONNECT_GRPC_FAILURE,
-  START_WALLET_UNLOCKER_SUCCESS,
-  START_LIGHTNING_WALLET_SUCCESS,
+  LND_WALLET_UNLOCKER_GRPC_ACTIVE,
+  LND_LIGHTNING_GRPC_ACTIVE,
   DISCONNECT_GRPC,
   DISCONNECT_GRPC_SUCCESS,
   DISCONNECT_GRPC_FAILURE,
@@ -176,16 +176,16 @@ describe('reducers', () => {
       expect(reducer({}, action)).toMatchSnapshot()
     })
 
-    it('should handle START_WALLET_UNLOCKER_SUCCESS', () => {
+    it('should handle LND_WALLET_UNLOCKER_GRPC_ACTIVE', () => {
       const action = {
-        type: START_WALLET_UNLOCKER_SUCCESS,
+        type: LND_WALLET_UNLOCKER_GRPC_ACTIVE,
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })
 
-    it('should handle START_LIGHTNING_WALLET_SUCCESS', () => {
+    it('should handle LND_LIGHTNING_GRPC_ACTIVE', () => {
       const action = {
-        type: START_LIGHTNING_WALLET_SUCCESS,
+        type: LND_LIGHTNING_GRPC_ACTIVE,
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })

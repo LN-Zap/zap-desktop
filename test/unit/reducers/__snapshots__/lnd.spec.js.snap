@@ -76,6 +76,20 @@ Object {
 }
 `;
 
+exports[`reducers neutrinoReducer should handle LND_LIGHTNING_GRPC_ACTIVE 1`] = `
+Object {
+  "isLightningGrpcActive": true,
+  "isWalletUnlockerGrpcActive": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle LND_WALLET_UNLOCKER_GRPC_ACTIVE 1`] = `
+Object {
+  "isLightningGrpcActive": false,
+  "isWalletUnlockerGrpcActive": true,
+}
+`;
+
 exports[`reducers neutrinoReducer should handle RECOVER_OLD_WALLET 1`] = `
 Object {
   "isRecoveringOldWallet": true,
@@ -85,13 +99,6 @@ Object {
 exports[`reducers neutrinoReducer should handle RECOVER_OLD_WALLET_SUCCESS 1`] = `
 Object {
   "isRecoveringOldWallet": false,
-}
-`;
-
-exports[`reducers neutrinoReducer should handle START_LIGHTNING_WALLET_SUCCESS 1`] = `
-Object {
-  "isLightningGrpcActive": true,
-  "isWalletUnlockerGrpcActive": false,
 }
 `;
 
@@ -124,13 +131,6 @@ Object {
 }
 `;
 
-exports[`reducers neutrinoReducer should handle START_WALLET_UNLOCKER_SUCCESS 1`] = `
-Object {
-  "isLightningGrpcActive": false,
-  "isWalletUnlockerGrpcActive": true,
-}
-`;
-
 exports[`reducers neutrinoReducer should handle STOP_LND 1`] = `
 Object {
   "isStoppingLnd": true,
@@ -139,21 +139,8 @@ Object {
 
 exports[`reducers neutrinoReducer should handle STOP_LND_SUCCESS 1`] = `
 Object {
-  "fetchSeedError": null,
-  "isCreatingNewWallet": false,
-  "isFetchingSeed": false,
-  "isLightningGrpcActive": false,
   "isLndActive": false,
-  "isRecoveringOldWallet": false,
-  "isStartingGrpc": false,
-  "isStartingLnd": false,
   "isStoppingLnd": false,
-  "isUnlockingWallet": false,
-  "isWalletUnlocked": false,
-  "isWalletUnlockerGrpcActive": false,
-  "lndConfig": Object {},
-  "startLndError": null,
-  "unlockWalletError": null,
 }
 `;
 
@@ -173,7 +160,6 @@ Object {
 exports[`reducers neutrinoReducer should handle UNLOCK_WALLET_SUCCESS 1`] = `
 Object {
   "isUnlockingWallet": false,
-  "isWalletUnlocked": true,
   "unlockWalletError": null,
 }
 `;
@@ -190,7 +176,6 @@ Object {
   "isStartingLnd": false,
   "isStoppingLnd": false,
   "isUnlockingWallet": false,
-  "isWalletUnlocked": false,
   "isWalletUnlockerGrpcActive": false,
   "lndConfig": Object {},
   "startLndError": null,

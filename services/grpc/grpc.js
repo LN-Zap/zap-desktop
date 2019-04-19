@@ -20,16 +20,15 @@ class GrpcService extends EventEmitter {
       init: 'pending',
       transitions: [
         { name: 'init', from: 'pending', to: 'ready' },
-        { name: 'connect', from: 'ready', to: 'connected' },
-        { name: 'activateWalletUnlocker', from: 'connected', to: 'locked' },
-        { name: 'activateLightning', from: ['connected', 'locked'], to: 'active' },
-        { name: 'disconnect', from: ['connected', 'locked', 'active'], to: 'ready' },
+        { name: 'activateWalletUnlocker', from: ['ready', 'active'], to: 'locked' },
+        { name: 'activateLightning', from: ['ready', 'locked'], to: 'active' },
+        { name: 'disconnect', from: ['locked', 'active'], to: 'ready' },
       ],
       methods: {
-        onBeforeConnect: this.onBeforeConnect.bind(this),
-        onAfterConnect: this.onAfterConnect.bind(this),
         onBeforeActivateWalletUnlocker: this.onBeforeActivateWalletUnlocker.bind(this),
+        onAfterActivateWalletUnlocker: this.onAfterActivateWalletUnlocker.bind(this),
         onBeforeActivateLightning: this.onBeforeActivateLightning.bind(this),
+        onAfterActivateLightning: this.onAfterActivateLightning.bind(this),
         onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
         onAfterDisconnect: this.onAfterDisconnect.bind(this),
       },
@@ -53,9 +52,9 @@ class GrpcService extends EventEmitter {
       this.services[instance.serviceName] = instance
     })
 
-    // Set up a listener to move things forward when a wallet has been unlocked.
+    // Activate the lightning interfae as soon as the WalletUnlocker has been unlocked.
     this.services.WalletUnlocker.on('UNLOCK_WALLET_SUCCESS', async () => {
-      this.fsm.activateLightning()
+      this.activateLightning()
     })
   }
 
@@ -66,56 +65,51 @@ class GrpcService extends EventEmitter {
   is(...args) {
     return this.fsm.is(args)
   }
+
   can(...args) {
     return this.fsm.can(args)
   }
-  async connect(...args) {
-    // First, connect to all gRPC services.
-    await this.fsm.connect(args)
 
-    // Once connected, determine the wallet state.
-    const walletState = await this.determineWalletState()
-    grpcLog.info('Determined wallet state as: %s', walletState)
-
-    // Update our state accordingly.
-    switch (walletState) {
-      case WALLET_STATE_LOCKED:
-        await this.fsm.activateWalletUnlocker()
-        break
-
-      case WALLET_STATE_ACTIVE:
-        await this.fsm.activateLightning()
-        break
-    }
-  }
-  async disconnect(...args) {
-    return this.fsm.disconnect(args)
-  }
-
-  // ------------------------------------
-  // FSM Observers
-  // ------------------------------------
-
-  /**
-   * Connect to the gRPC service.
-   */
-  async onBeforeConnect() {
+  async connect() {
     grpcLog.info(`Connecting to lnd gRPC service`)
 
     // Verify that the host is valid.
     const { host } = this.lndConfig
     await validateHost(host)
 
-    // Connect to all services.
-    await this.connectAll()
+    // Probe the services to determine the wallet state.
+    const walletState = await this.determineWalletState()
+
+    // Update our state accordingly.
+    switch (walletState) {
+      case WALLET_STATE_LOCKED:
+        await this.activateWalletUnlocker()
+        break
+
+      case WALLET_STATE_ACTIVE:
+        await this.activateLightning()
+        break
+
+      default:
+        throw new Error('Unable to determine wallet state')
+    }
   }
 
-  /**
-   * Log successful connection.
-   */
-  async onAfterConnect() {
-    grpcLog.info(`Connected to lnd gRPC service`)
+  async disconnect(...args) {
+    return this.fsm.disconnect(args)
   }
+
+  async activateWalletUnlocker(...args) {
+    return this.fsm.activateWalletUnlocker(args)
+  }
+
+  async activateLightning(...args) {
+    return this.fsm.activateLightning(args)
+  }
+
+  // ------------------------------------
+  // FSM Observers
+  // ------------------------------------
 
   /**
    * Disconnect from the gRPC service.
@@ -124,7 +118,6 @@ class GrpcService extends EventEmitter {
     grpcLog.info(`Disconnecting from lnd gRPC service`)
     await this.disconnectAll()
   }
-
   /**
    * Log successful disconnect.
    */
@@ -136,46 +129,25 @@ class GrpcService extends EventEmitter {
    * Rejig connections as needed before activating the wallet unlocker service.
    */
   async onBeforeActivateWalletUnlocker() {
-    if (this.services.Lightning.can('disconnect')) {
-      await this.services.Lightning.disconnect()
-    }
-    if (this.services.WalletUnlocker.can('connect')) {
-      await this.services.WalletUnlocker.connect()
-    }
-    await this.services.WalletUnlocker.activate()
+    await this.services.WalletUnlocker.connect()
+  }
+  async onAfterActivateWalletUnlocker() {
+    this.emit('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
   }
 
   /**
    * Rejig connections as needed before activating the lightning service.
    */
   async onBeforeActivateLightning() {
-    if (this.services.WalletUnlocker.can('disconnect')) {
-      await this.services.WalletUnlocker.disconnect()
-    }
-    if (this.services.Lightning.can('connect')) {
-      await this.services.Lightning.connect()
-    }
-    await this.services.Lightning.activate()
+    await this.services.Lightning.connect()
+  }
+  async onAfterActivateLightning() {
+    this.emit('GRPC_LIGHTNING_SERVICE_ACTIVE')
   }
 
   // ------------------------------------
   // Helpers
   // ------------------------------------
-
-  /**
-   * Connect all services.
-   */
-  async connectAll() {
-    grpcLog.info('Connecting to all gRPC services')
-    await Promise.all(
-      Object.keys(this.services).map(serviceName => {
-        const service = this.services[serviceName]
-        if (service && service.can('connect')) {
-          return service.connect()
-        }
-      })
-    )
-  }
 
   /**
    * Disconnect all services.
@@ -185,7 +157,7 @@ class GrpcService extends EventEmitter {
     await Promise.all(
       Object.keys(this.services).map(serviceName => {
         const service = this.services[serviceName]
-        if (service && service.can('disconnect')) {
+        if (service.can('disconnect')) {
           return service.disconnect()
         }
       })
@@ -193,20 +165,22 @@ class GrpcService extends EventEmitter {
   }
 
   /**
-   * Probe to determine what sate lnd is in.
+   * Probe to determine what state lnd is in.
    */
   async determineWalletState() {
     grpcLog.info('Attempting to determine wallet state')
     try {
+      await this.services.WalletUnlocker.connect()
       await this.services.WalletUnlocker.unlockWallet('null')
-    } catch (e) {
-      switch (e.code) {
+    } catch (error) {
+      switch (error.code) {
         /*
           `UNIMPLEMENTED` indicates that the requested operation is not implemented or not supported/enabled in the
            service. This implies that the wallet is already unlocked, since the WalletUnlocker service is not active.
            See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
          */
         case status.UNIMPLEMENTED:
+          grpcLog.info('Determined wallet state as:', WALLET_STATE_ACTIVE)
           return WALLET_STATE_ACTIVE
 
         /**
@@ -214,20 +188,20 @@ class GrpcService extends EventEmitter {
           This implies that the wallet is waiting to be unlocked.
         */
         case status.UNKNOWN:
+          grpcLog.info('Determined wallet state as:', WALLET_STATE_LOCKED)
           return WALLET_STATE_LOCKED
 
         /**
-          Bubble all other errors back to the caller and abort the connectiopn attempt.
+          Bubble all other errors back to the caller and abort the connection attempt.
           Disconnect all services.
         */
         default:
-          grpcLog.warn('Unable to connect to lnd service', e)
-          try {
-            await this.disconnectAll()
-          } catch (e) {
-            grpcLog.warn('There was a problem disconnecting gRPC services', e)
-          }
-          throw e
+          grpcLog.warn('Unable to determine wallet state', error)
+          throw error
+      }
+    } finally {
+      if (this.services.WalletUnlocker.can('disconnect')) {
+        await this.services.WalletUnlocker.disconnect()
       }
     }
   }

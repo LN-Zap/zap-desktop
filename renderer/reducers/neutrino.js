@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import { neutrinoService } from 'workers'
 import { proxyValue } from 'comlinkjs'
 import { showSystemNotification } from '@zap/utils/notifications'
+import { setHasSynced } from './info'
 
 // ------------------------------------
 // Constants
@@ -59,6 +60,19 @@ export const neutrinoReset = () => {
 export const initNeutrino = () => async (dispatch, getState) => {
   const neutrino = await neutrinoService
 
+  neutrino.on(
+    'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE',
+    proxyValue(() => {
+      dispatch(setGrpcActiveInterface('walletUnlocker'))
+    })
+  )
+  neutrino.on(
+    'NEUTRINO_LIGHTNING_GRPC_ACTIVE',
+    proxyValue(() => {
+      dispatch(setGrpcActiveInterface('lightning'))
+    })
+  )
+
   // Hook up event listeners for process termination.
   neutrino.on(
     'NEUTRINO_EXIT',
@@ -66,7 +80,7 @@ export const initNeutrino = () => async (dispatch, getState) => {
       // Notify the main process that the process has terminated.
       dispatch(send('processExit', { name: 'neutrino', ...data }))
 
-      // If the netrino process didn't terminate as a result of us asking it tyo stop then it must have crashed.
+      // If the netrino process didn't terminate as a result of us asking it TO stop then it must have crashed.
       const { isStoppingNeutrino } = getState().neutrino
       if (!isStoppingNeutrino) {
         dispatch(neutrinoCrashed(data))
@@ -107,95 +121,106 @@ export const initNeutrino = () => async (dispatch, getState) => {
   )
 }
 
-export const startNeutrino = lndConfig => async dispatch => {
-  dispatch({ type: START_NEUTRINO })
-  try {
-    // Initialise the Neutrino Web Worker..
-    const neutrino = await neutrinoService
-    await neutrino.init(lndConfig)
-    dispatch(initNeutrino())
+export const startNeutrino = lndConfig => async (dispatch, getState) => {
+  const { isStartingNeutrino } = getState().neutrino
+  if (isStartingNeutrino) {
+    return
+  }
 
-    // Wait for one of the gRPC interfaces to become active to resolve.
-    await new Promise(async (resolve, reject) => {
-      neutrino.on(
-        'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE',
-        proxyValue(() => {
-          dispatch(setGrpcActiveInterface('walletUnlocker'))
-          resolve()
-        })
-      )
-      neutrino.on(
-        'NEUTRINO_LIGHTNING_GRPC_ACTIVE',
-        proxyValue(() => {
-          dispatch(setGrpcActiveInterface('lightning'))
-          resolve()
-        })
-      )
+  dispatch({ type: START_NEUTRINO })
+
+  const neutrino = await neutrinoService
+  try {
+    // Initialise the Neutrino service.
+    await neutrino.init(lndConfig)
+
+    const waitForWalletUnlocker = new Promise((resolve, reject) => {
       // If the services shuts down in the middle of starting up, abort the start process.
       neutrino.on(
         'NEUTRINO_SHUTDOWN',
-        proxyValue(() => reject(new Error('Nuetrino was shut down mid-startup.')))
+        proxyValue(() => {
+          neutrino.removeAllListeners('NEUTRINO_SHUTDOWN')
+          reject(new Error('Nuetrino was shut down mid-startup.'))
+        })
       )
-
-      const pid = await neutrino.start()
-      dispatch(send('processSpawn', { name: 'neutrino', pid }))
+      // Resolve as soon as the wallet unlocker interfave is active.
+      neutrino.on(
+        'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE',
+        proxyValue(() => {
+          neutrino.removeAllListeners('NEUTRINO_SHUTDOWN')
+          resolve()
+        })
+      )
     })
-    dispatch({ type: START_NEUTRINO_SUCCESS })
-  } catch (e) {
-    dispatch({ type: START_NEUTRINO_FAILURE, startNeutrinoError: e })
-    throw e
+
+    const pid = await neutrino.start()
+
+    // Notify the main process of the pid of the active lnd process.
+    // This allows the main process to force terminate the process if it needs to.
+    dispatch(send('processSpawn', { name: 'neutrino', pid }))
+
+    //Wait for the wallet unlocker service to become available before notifying of a successful start.
+    await waitForWalletUnlocker
+    dispatch(startNeutrinoSuccess())
+  } catch (error) {
+    dispatch(startNeutrinoFailure(error))
+
+    // Rethrow the error so that callers of this method are able to handle errors themselves.
+    throw error
+  } finally {
+    // Finally, Remove the shutdown listener.
+    neutrino.removeAllListeners('NEUTRINO_SHUTDOWN')
   }
 }
 
-export const stopNeutrino = () => async dispatch => {
+export const startNeutrinoSuccess = () => {
+  return { type: START_NEUTRINO_SUCCESS }
+}
+
+export const startNeutrinoFailure = startNeutrinoError => {
+  return { type: START_NEUTRINO_FAILURE, startNeutrinoError }
+}
+
+export const stopNeutrino = () => async (dispatch, getState) => {
+  const { isStoppingNeutrino } = getState().neutrino
+  if (isStoppingNeutrino) {
+    return
+  }
+
   dispatch({ type: STOP_NEUTRINO })
-  const neutrino = await neutrinoService
+
   try {
-    // Remove grpc interface activation listeners.
+    const neutrino = await neutrinoService
+
+    // Remove grpc interface activation listeners prior to shutdown.
     neutrino.removeAllListeners('NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE')
     neutrino.removeAllListeners('NEUTRINO_LIGHTNING_GRPC_ACTIVE')
 
     // Shut down the service.
     await neutrino.shutdown()
 
-    // Now that the service has benen shutdown, remove shutdown listeners.
-    neutrino.removeAllListeners('NEUTRINO_SHUTDOWN')
-
-    dispatch(stopNeutrinoSuccess())
-  } catch (e) {
-    dispatch(stopNeutrinoFailure(e))
-  } finally {
-    // Ensure that all start listeners are eventually removed.
-    neutrino.removeAllListeners('NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE')
-    neutrino.removeAllListeners('NEUTRINO_LIGHTNING_GRPC_ACTIVE')
-    neutrino.removeAllListeners('NEUTRINO_SHUTDOWN')
+    dispatch({ type: STOP_NEUTRINO_SUCCESS })
+  } catch (error) {
+    dispatch({ type: STOP_NEUTRINO_FAILURE, stopNeutrinoError: error })
   }
 }
 
-export const stopNeutrinoSuccess = () => {
-  return { type: STOP_NEUTRINO_SUCCESS }
-}
-
-export const stopNeutrinoFailure = stopNeutrinoError => {
-  return { type: STOP_NEUTRINO_SUCCESS, stopNeutrinoError }
-}
-
-// Receive IPC event for current height.
+// Receive current block height.
 export const currentBlockHeight = height => dispatch => {
   dispatch({ type: RECEIVE_CURRENT_BLOCK_HEIGHT, blockHeight: height })
 }
 
-// Receive IPC event for LND block height.
+// Receive LND block height.
 export const neutrinoBlockHeight = height => dispatch => {
   dispatch({ type: RECEIVE_LND_BLOCK_HEIGHT, neutrinoBlockHeight: height })
 }
 
-// Receive IPC event for LND cfilter height.
+// Receive LND cfilter height.
 export const neutrinoCfilterHeight = height => dispatch => {
   dispatch({ type: RECEIVE_LND_CFILTER_HEIGHT, neutrinoCfilterHeight: height })
 }
 
-// Receive IPC event for LND sync status change.
+// Receive LND sync status change.
 export const neutrinoSyncStatus = status => async dispatch => {
   const notifTitle = 'Lightning Node Synced'
   const notifBody = "Visa who? You're your own payment processor now!"
@@ -210,12 +235,8 @@ export const neutrinoSyncStatus = status => async dispatch => {
     case 'NEUTRINO_CHAIN_SYNC_COMPLETE':
       dispatch({ type: SET_SYNC_STATUS_COMPLETE })
 
-      // // Fetch data now that we know LND is synced
-      // dispatch(fetchInfo())
-      // dispatch(fetchBalance())
-
       // Persist the fact that the wallet has been synced at least once.
-      // dispatch(setHasSynced(true))
+      dispatch(setHasSynced(true))
 
       // HTML 5 desktop notification for the new transaction
       showSystemNotification(notifTitle, notifBody)
