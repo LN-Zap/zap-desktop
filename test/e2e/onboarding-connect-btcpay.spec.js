@@ -7,8 +7,10 @@ import {
   cleanElectronEnvironment,
 } from './utils/helpers'
 import Onboarding from './pages/onboarding'
+import Loading from './pages/loading'
 
 const onboarding = new Onboarding()
+const loading = new Loading()
 
 fixture('Onboarding (connect btcpay)')
   .page(getBaseUrl())
@@ -50,12 +52,17 @@ test('should connect to an external wallet (btcpay)', async t => {
         "cert": "MIICLDCCAdGgAwIBAgIRAKYFvCWmEHf0pLfq2cjcLVowCgYIKoZIzj0EAwIwPjEfMB0GA1UEChMWbG5kIGF1dG9nZW5lcmF0ZWQgY2VydDEbMBkGA1UEAxMSemFwLXRlc3RuZXQxLWxuZC0wMB4XDTE4MDkwMzA4MzI1OFoXDTE5MTAyOTA4MzI1OFowPjEfMB0GA1UEChMWbG5kIGF1dG9nZW5lcmF0ZWQgY2VydDEbMBkGA1UEAxMSemFwLXRlc3RuZXQxLWxuZC0wMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEh4X-3IFky-tnbyR7blabLYLLvuK4UXWqsh48_zuy2CaRZ96Ot-oaeMDjYkR4dEzxhAKIFMoBFvgkW0bL_qDRzKOBrzCBrDAOBgNVHQ8BAf8EBAMCAqQwDwYDVR0TAQH_BAUwAwEB_zCBiAYDVR0RBIGAMH6CEnphcC10ZXN0bmV0MS1sbmQtMIIJbG9jYWxob3N0ghV0ZXN0bmV0MS1sbmQuemFwaHEuaW-CBHVuaXiCCnVuaXhwYWNrZXSHBH8AAAGHEAAAAAAAAAAAAAAAAAAAAAGHBAo0C3mHEP6AAAAAAAAACBSL__7XNwaHBCPEVWswCgYIKoZIzj0EAwIDSQAwRgIhAPfhInyLkbnxYtqa3YTZPnvMWeg9Sp-Pzc_7SHG2TV2jAiEArflwta6DpWRdVm_-dsFiOudmKAYesrhPOy-FqGhv80g"
       }
     ]
-  }`
+  }`,
+      { paste: true }
     )
     .click(onboarding.nextButton)
 
-    // Confirm connection details and submit
+    // Confirm connection details and submit.
     .expect(onboarding.connectionConfirm.exists)
     .ok()
     .click(onboarding.nextButton)
+
+    // Verify that we show the loading bolt and then the wallet page.
+    .expect(loading.loadingBolt.exists)
+    .ok()
 })

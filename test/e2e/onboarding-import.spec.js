@@ -7,8 +7,12 @@ import {
   cleanElectronEnvironment,
 } from './utils/helpers'
 import Onboarding from './pages/onboarding'
+import Syncing from './pages/syncing'
+import Loading from './pages/loading'
 
 const onboarding = new Onboarding()
+const syncing = new Syncing()
+const loading = new Loading()
 
 fixture('Onboarding (import)')
   .page(getBaseUrl())
@@ -85,4 +89,10 @@ test('should import a wallet from an existing seed', async t => {
     .expect(onboarding.autopilot.exists)
     .ok()
     .click(onboarding.nextButton)
+
+    // Verify that we show the loading bolt and syncing page.
+    .expect(loading.loadingBolt.exists)
+    .ok()
+    .expect(syncing.syncing.exists)
+    .ok()
 })
