@@ -9,6 +9,7 @@ import {
   showCloseChannelDialog,
   setSelectedChannel,
   setChannelViewMode,
+  switchSortOrder,
   updateChannelSearchQuery,
 } from 'reducers/channels'
 import { infoSelectors } from 'reducers/info'
@@ -24,6 +25,7 @@ const mapStateToProps = state => ({
   filters: state.channels.filters,
   sort: state.channels.sort,
   sorters: state.channels.sorters,
+  sortOrder: state.channels.sortOrder,
   networkInfo: infoSelectors.networkInfo(state),
   searchQuery: state.channels.searchQuery,
   selectedChannel: channelsSelectors.selectedChannel(state),
@@ -36,6 +38,7 @@ const mapDispatchToProps = {
   setSelectedChannel,
   setChannelViewMode,
   openModal,
+  switchSortOrder,
   updateChannelSearchQuery,
   fetchChannels,
 }

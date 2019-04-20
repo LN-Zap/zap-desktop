@@ -8,6 +8,8 @@ import ChannelSort from './ChannelSort'
 import ChannelSearch from './ChannelSearch'
 import ChannelsRefresh from './ChannelsRefresh'
 import ChannelsViewSwitcher from './ChannelsViewSwitcher'
+import ChannelSortDirectionButton from './ChannelSortDirectionButton'
+
 import messages from './messages'
 
 const ChannelsActions = ({
@@ -16,10 +18,12 @@ const ChannelsActions = ({
   filters,
   sort,
   sorters,
+  sortOrder,
   searchQuery,
   channelViewMode,
   changeFilter,
   changeSort,
+  switchSortOrder,
   updateChannelSearchQuery,
   setChannelViewMode,
   openModal,
@@ -39,14 +43,13 @@ const ChannelsActions = ({
       filter={filter}
       filters={filters}
       mr={1}
-      width={2.5 / 16}
+      width={2.6 / 16}
     />
 
-    <ChannelSort changeSort={changeSort} mr={1} sort={sort} sorters={sorters} width={2.5 / 16} />
-
+    <ChannelSort changeSort={changeSort} mr={1} sort={sort} sorters={sorters} width={2.6 / 16} />
+    <ChannelSortDirectionButton isAsc={sortOrder === 'asc'} onClick={switchSortOrder} />
     <ChannelsViewSwitcher
       channelViewMode={channelViewMode}
-      ml={3}
       setChannelViewMode={setChannelViewMode}
     />
     <ChannelsRefresh bg="blue" ml={2} onClick={fetchChannels} />
@@ -70,6 +73,8 @@ ChannelsActions.propTypes = {
   setChannelViewMode: PropTypes.func.isRequired,
   sort: PropTypes.string.isRequired,
   sorters: PropTypes.array.isRequired,
+  sortOrder: PropTypes.string.isRequired,
+  switchSortOrder: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
 }
 

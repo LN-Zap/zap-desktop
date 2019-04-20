@@ -2,7 +2,6 @@ import { createSelector } from 'reselect'
 import throttle from 'lodash.throttle'
 import { proxyValue } from 'comlinkjs'
 import orderBy from 'lodash.orderby'
-import { send } from 'redux-electron-ipc'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import { lightningService } from 'workers'
 import { updateNotification, showWarning, showError } from './notification'
@@ -20,6 +19,7 @@ export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
 export const CHANGE_CHANNEL_FILTER = 'CHANGE_CHANNEL_FILTER'
 
 export const CHANGE_CHANNEL_SORT = 'CHANGE_CHANNEL_SORT'
+export const CHANGE_CHANNEL_SORT_ORDER = 'CHANGE_CHANNEL_SORT_ORDER'
 
 export const UPDATE_SEARCH_QUERY = 'UPDATE_SEARCH_QUERY'
 
@@ -205,10 +205,35 @@ export function changeFilter(filter) {
     filter,
   }
 }
+
 export function changeSort(sort) {
   return {
     type: CHANGE_CHANNEL_SORT,
     sort,
+  }
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {string} sortOrder asc or desc
+ * @returns action
+ */
+export function changeSortOrder(sortOrder) {
+  return {
+    type: CHANGE_CHANNEL_SORT_ORDER,
+    sortOrder,
+  }
+}
+
+/**
+ * Switches between sort modes (asc<->desc)
+ */
+export function switchSortOrder() {
+  return (dispatch, getState) => {
+    const sortOrder = channelSortOrderSelector(getState())
+    return dispatch(changeSortOrder(sortOrder === 'asc' ? 'desc' : 'asc'))
   }
 }
 
@@ -522,6 +547,10 @@ const ACTION_HANDLERS = {
     ...state,
     sort,
   }),
+  [CHANGE_CHANNEL_SORT_ORDER]: (state, { sortOrder }) => ({
+    ...state,
+    sortOrder,
+  }),
 
   [ADD_LOADING_PUBKEY]: (state, { data }) => ({
     ...state,
@@ -582,6 +611,7 @@ const totalLimboBalanceSelector = state => state.channels.pendingChannels.total_
 const closingChannelIdsSelector = state => state.channels.closingChannelIds
 const channelSearchQuerySelector = state => state.channels.searchQuery
 const channelSortSelector = state => state.channels.sort
+const channelSortOrderSelector = state => state.channels.sortOrder
 const filterSelector = state => state.channels.filter
 const nodesSelector = state => state.network.nodes
 
@@ -782,9 +812,9 @@ channelsSelectors.allChannelsRaw = createSelector(
   }
 )
 
-const applyChannelSort = (channels, sort) => {
+const applyChannelSort = (channels, sort, sortOrder) => {
   const SORTERS = {
-    [OPEN_DATE]: () => {},
+    [OPEN_DATE]: c => c.index,
     [REMOTE_BALANCE]: c => c.remote_balance || 0,
     [LOCAL_BALANCE]: c => c.local_balance || 0,
     [ACTIVITY]: c => c.activity,
@@ -794,7 +824,12 @@ const applyChannelSort = (channels, sort) => {
   const sorter = SORTERS[sort]
 
   const result = sorter
-    ? orderBy(channels, [c => Boolean(c.active), sorter], ['desc', 'asc'])
+    ? orderBy(
+        // add indices to be able to provide reverse initial sorting (which corresponds to sorting by date)
+        channels.map((c, index) => ({ ...c, index })),
+        [c => Boolean(c.active), sorter],
+        ['desc', sortOrder]
+      )
     : channels
   return result
 }
@@ -809,6 +844,7 @@ channelsSelectors.currentChannels = createSelector(
   filterSelector,
   channelSearchQuerySelector,
   channelSortSelector,
+  channelSortOrderSelector,
   (
     allChannelsArr,
     activeChannelsArr,
@@ -818,7 +854,8 @@ channelsSelectors.currentChannels = createSelector(
     nonActiveChannelsArr,
     channelFilter,
     searchQuery,
-    sort
+    sort,
+    sortOrder
   ) => {
     // Helper function to deliver correct channel array based on filter
     const filteredArray = filterKey => {
@@ -842,7 +879,7 @@ channelsSelectors.currentChannels = createSelector(
     const filterChannel = channel => channelMatchesQuery(channel, searchQuery)
 
     const result = filteredArray(channelFilter).filter(filterChannel)
-    return applyChannelSort(result, sort)
+    return applyChannelSort(result, sort, sortOrder)
   }
 )
 
@@ -888,7 +925,7 @@ const initialState = {
     { key: 'OPEN_PENDING_CHANNELS', name: 'Pending' },
     { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing' },
   ],
-
+  sortOrder: 'asc',
   sort: 'OPEN_DATE',
   sorters: [
     { key: OPEN_DATE, name: 'Open date' },

@@ -19,6 +19,8 @@ const ChannelsHeader = ({
   setChannelViewMode,
   searchQuery,
   openModal,
+  sortOrder,
+  switchSortOrder,
   ...rest
 }) => (
   <Box as="header" mb={3} {...rest}>
@@ -35,6 +37,8 @@ const ChannelsHeader = ({
       setChannelViewMode={setChannelViewMode}
       sort={sort}
       sorters={sorters}
+      sortOrder={sortOrder}
+      switchSortOrder={switchSortOrder}
       updateChannelSearchQuery={updateChannelSearchQuery}
     />
   </Box>
@@ -54,6 +58,8 @@ ChannelsHeader.propTypes = {
   setChannelViewMode: PropTypes.func.isRequired,
   sort: PropTypes.string.isRequired,
   sorters: PropTypes.array.isRequired,
+  sortOrder: PropTypes.string.isRequired,
+  switchSortOrder: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
 }
 
