@@ -1,27 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Card, Flex, Box } from 'rebass'
-import X from 'components/Icon/X'
+import { Card, Flex } from 'rebass'
 import Button from './Button'
 import Heading from './Heading'
-
-const CloseButton = ({ onClick }) => (
-  <Flex color="primaryText" justifyContent="space-between">
-    <Box
-      css={{ height: '32px', cursor: 'pointer', opacity: 0.6, '&:hover': { opacity: 1 } }}
-      ml="auto"
-      onClick={onClick}
-      p={2}
-      px={10}
-    >
-      <X height={15} width={15} />
-    </Box>
-  </Flex>
-)
-
-CloseButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-}
+import CloseButton from './CloseButton'
 
 const createButtons = buttons =>
   buttons.map((entry, index) => (
@@ -48,7 +30,7 @@ const Dialog = ({ header, onClose, buttons, width, children }) => {
       boxShadow="0 3px 4px 0 rgba(0, 0, 0, 0.5)"
       width={width}
     >
-      <CloseButton onClick={onClose} />
+      <CloseButton onClick={onClose} size="s" />
       <Flex
         alignItems="center"
         alignSelf="stretch"

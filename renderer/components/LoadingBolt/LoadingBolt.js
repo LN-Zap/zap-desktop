@@ -4,9 +4,9 @@ import { animated, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import styled, { keyframes, withTheme } from 'styled-components'
-import CloudLightning from 'components/Icon/CloudLightning'
+import CloseButton from 'components/UI/CloseButton'
 import Heading from 'components/UI/Heading'
-import X from 'components/Icon/X'
+import CloudLightning from 'components/Icon/CloudLightning'
 import messages from './messages'
 
 const gradientMotion = keyframes`
@@ -58,27 +58,6 @@ const FullHeightContent = styled(Flex)`
   height: 100%;
 `
 
-const LoadingCloseButtonWrapper = styled(Box)`
-  height: 40px;
-  cursor: pointer;
-  opacity: 0.6;
-  &:hover: {
-    opacity: 1;
-  }
-`
-
-const LoadingCloseButton = ({ onClose }) => (
-  <Flex justifyContent="flex-end">
-    <LoadingCloseButtonWrapper onClick={onClose} p={2}>
-      <X height={20} width={20} />
-    </LoadingCloseButtonWrapper>
-  </Flex>
-)
-
-LoadingCloseButton.propTypes = {
-  onClose: PropTypes.func,
-}
-
 class LoadingBolt extends React.PureComponent {
   static propTypes = {
     hasClose: PropTypes.bool,
@@ -111,6 +90,8 @@ class LoadingBolt extends React.PureComponent {
                   alignItems="center"
                   flexDirection="column"
                   justifyContent="center"
+                  pt={3}
+                  px={3}
                 >
                   <CloudLightning height="140px" width="140px" />
                   <Heading.h2 mt={4}>
@@ -118,8 +99,8 @@ class LoadingBolt extends React.PureComponent {
                   </Heading.h2>
                 </FullHeightContent>
                 {hasClose && (
-                  <FullHeightContainer>
-                    <LoadingCloseButton onClose={onClose} />
+                  <FullHeightContainer pt={3} px={3}>
+                    <CloseButton onClick={onClose} />
                   </FullHeightContainer>
                 )}
               </FullPageGradient>

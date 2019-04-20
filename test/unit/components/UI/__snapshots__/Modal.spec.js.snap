@@ -65,6 +65,7 @@ exports[`component.UI.Modal should render correctly 1`] = `
     >
       <div
         className="c3"
+        onClick={null}
       >
         <svg
           height={20}
