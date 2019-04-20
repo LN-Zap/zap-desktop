@@ -14,11 +14,6 @@ export const getUserDataDir = ClientFunction(() => window.Zap.getUserDataDir())
 // Kill the client's active lnd instance, if there is one
 export const killLnd = ClientFunction(() => window.Zap.killLnd())
 
-// Delete wallets that may have been created in the tests.
-export const deleteUserData = ClientFunction(() =>
-  window.Zap.deleteLocalWallet({ chain: 'bitcoin', network: 'testnet', wallet: 'wallet-1' })
-)
-
 // Delete persistent data from indexeddb.
 export const deleteDatabase = ClientFunction(() => {
   // Catch unhandled errors, which can happen if an attempt to access the database is made after we have closed it.
@@ -34,20 +29,10 @@ export const assertNoConsoleErrors = async t => {
   await t.expect(error).eql([])
 }
 
-// Simple delay.
-export const delay = time => new Promise(resolve => setTimeout(() => resolve(), time))
-
 // Clean out test environment.
-export const cleanTestEnvironment = async (options = {}) => {
-  const tasks = { lnd: true, db: true, ...options }
-  if (tasks.lnd) {
-    await killLnd()
-    await delay(3000)
-  }
-  if (tasks.db) {
-    await deleteDatabase()
-    await delay(3000)
-  }
+export const cleanTestEnvironment = async () => {
+  await killLnd()
+  await deleteDatabase()
 }
 
 // Clean out test environment.
