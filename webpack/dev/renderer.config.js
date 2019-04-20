@@ -17,7 +17,7 @@ const config = merge.smart(baseConfig, {
   name: 'renderer',
   target: 'web',
   mode: 'development',
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     renderer: path.join(rootDir, 'renderer', 'index'),
   },

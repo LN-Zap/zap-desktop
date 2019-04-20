@@ -8,7 +8,7 @@ const config = merge.smart(baseConfig, {
   name: 'workers',
   target: 'electron-renderer',
   mode: 'development',
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     grpc: path.join(rootDir, 'renderer/workers', 'grpc.worker'),
     neutrino: path.join(rootDir, 'renderer/workers', 'neutrino.worker'),

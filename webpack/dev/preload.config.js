@@ -8,7 +8,7 @@ const config = merge.smart(baseConfig, {
   name: 'preload',
   target: 'electron-renderer',
   mode: 'development',
-  devtool: 'source-map',
+  devtool: 'cheap-module-eval-source-map',
   entry: {
     preload: path.join(rootDir, 'electron', 'preload'),
   },
