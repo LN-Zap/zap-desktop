@@ -28,6 +28,8 @@ const initialState = {
   },
   searchText: '',
   showExpiredRequests: false,
+  isActivityLoading: false,
+  activityLoadingError: null,
 }
 
 // ------------------------------------
@@ -38,6 +40,9 @@ export const HIDE_ACTIVITY_MODAL = 'HIDE_ACTIVITY_MODAL'
 export const CHANGE_FILTER = 'CHANGE_FILTER'
 export const TOGGLE_EXPIRED_REQUESTS = 'TOGGLE_EXPIRED_REQUESTS'
 export const UPDATE_SEARCH_TEXT = 'UPDATE_SEARCH_TEXT'
+export const FETCH_ACTIVITY_HISTORY = 'FETCH_ACTIVITY_HISTORY'
+export const FETCH_ACTIVITY_HISTORY_SUCCESS = 'FETCH_ACTIVITY_HISTORY_SUCCESS'
+export const FETCH_ACTIVITY_HISTORY_FAILURE = 'FETCH_ACTIVITY_HISTORY_FAILURE'
 
 // ------------------------------------
 // Actions
@@ -84,12 +89,18 @@ export function toggleExpiredRequests() {
  * Transactions
  */
 export const fetchActivityHistory = () => dispatch => {
-  dispatch(fetchDescribeNetwork())
-  dispatch(fetchChannels())
-  dispatch(fetchBalance())
-  dispatch(fetchPayments())
-  dispatch(fetchInvoices())
-  dispatch(fetchTransactions())
+  dispatch({ type: FETCH_ACTIVITY_HISTORY })
+  try {
+    dispatch(fetchDescribeNetwork())
+    dispatch(fetchChannels())
+    dispatch(fetchBalance())
+    dispatch(fetchPayments())
+    dispatch(fetchInvoices())
+    dispatch(fetchTransactions())
+    dispatch({ type: FETCH_ACTIVITY_HISTORY_SUCCESS })
+  } catch (error) {
+    dispatch({ type: FETCH_ACTIVITY_HISTORY_FAILURE, error })
+  }
 }
 
 // ------------------------------------
@@ -107,6 +118,13 @@ const ACTION_HANDLERS = {
     showExpiredRequests: !state.showExpiredRequests,
   }),
   [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText }),
+  [FETCH_ACTIVITY_HISTORY]: state => ({ ...state, isActivityLoading: true }),
+  [FETCH_ACTIVITY_HISTORY_SUCCESS]: state => ({ ...state, isActivityLoading: false }),
+  [FETCH_ACTIVITY_HISTORY_FAILURE]: (state, { error }) => ({
+    ...state,
+    isActivityLoading: false,
+    activityLoadingError: error,
+  }),
 }
 
 // ------------------------------------

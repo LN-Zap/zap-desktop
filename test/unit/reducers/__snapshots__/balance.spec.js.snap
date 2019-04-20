@@ -1,21 +1,23 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers balanceReducer should handle GET_BALANCE 1`] = `
+exports[`reducers balanceReducer should handle FETCH_BALANCE 1`] = `
 Object {
-  "balanceLoading": true,
   "channelBalance": null,
+  "fetchBalanceError": null,
+  "isBalanceLoading": true,
   "walletBalance": null,
   "walletBalanceConfirmed": null,
   "walletBalanceUnconfirmed": null,
 }
 `;
 
-exports[`reducers balanceReducer should handle RECEIVE_BALANCE 1`] = `
+exports[`reducers balanceReducer should handle FETCH_BALANCE_SUCCESS 1`] = `
 Object {
-  "balanceLoading": false,
   "channelBalance": 2,
   "channelBalanceConfirmed": 1,
   "channelBalancePending": 1,
+  "fetchBalanceError": null,
+  "isBalanceLoading": false,
   "walletBalance": 1,
   "walletBalanceConfirmed": 1,
   "walletBalanceUnconfirmed": 1,
@@ -24,8 +26,9 @@ Object {
 
 exports[`reducers balanceReducer should handle initial state 1`] = `
 Object {
-  "balanceLoading": false,
   "channelBalance": null,
+  "fetchBalanceError": null,
+  "isBalanceLoading": false,
   "walletBalance": null,
   "walletBalanceConfirmed": null,
   "walletBalanceUnconfirmed": null,
@@ -34,8 +37,9 @@ Object {
 
 exports[`reducers balanceReducer should handle unknown action type 1`] = `
 Object {
-  "balanceLoading": false,
   "channelBalance": null,
+  "fetchBalanceError": null,
+  "isBalanceLoading": false,
   "walletBalance": null,
   "walletBalanceConfirmed": null,
   "walletBalanceUnconfirmed": null,

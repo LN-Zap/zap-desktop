@@ -7,8 +7,9 @@ import { showError } from './notification'
 export const CONNECT_PEER = 'CONNECT_PEER'
 export const CONNECT_SUCCESS = 'CONNECT_SUCCESS'
 export const CONNECT_FAILURE = 'CONNECT_FAILURE'
-export const GET_PEERS = 'GET_PEERS'
-export const RECEIVE_PEERS = 'RECEIVE_PEERS'
+export const FETCH_PEERS = 'FETCH_PEERS'
+export const FETCH_PEERS_SUCCESS = 'FETCH_PEERS_SUCCESS'
+export const FETCH_PEERS_FAILURE = 'FETCH_PEERS_FAILURE'
 
 // ------------------------------------
 // Actions
@@ -18,22 +19,6 @@ export function connectPeer() {
     type: CONNECT_PEER,
   }
 }
-export function getPeers() {
-  return {
-    type: GET_PEERS,
-  }
-}
-
-// Send IPC event for peers
-export const fetchPeers = () => async dispatch => {
-  dispatch(getPeers())
-  const grpc = await grpcService
-  const peers = await grpc.services.Lightning.listPeers()
-  dispatch(receivePeers(peers))
-}
-
-// Receive IPC event for peers
-export const receivePeers = ({ peers }) => dispatch => dispatch({ type: RECEIVE_PEERS, peers })
 
 // Send IPC receive for successfully connecting to a peer
 export const connectSuccess = peer => dispatch => dispatch({ type: CONNECT_SUCCESS, peer })
@@ -42,6 +27,18 @@ export const connectSuccess = peer => dispatch => dispatch({ type: CONNECT_SUCCE
 export const connectFailure = error => dispatch => {
   dispatch({ type: CONNECT_FAILURE })
   dispatch(showError(error))
+}
+
+// Fetch peers.
+export const fetchPeers = () => async dispatch => {
+  dispatch({ type: FETCH_PEERS })
+  try {
+    const grpc = await grpcService
+    const peers = await grpc.services.Lightning.listPeers()
+    dispatch({ type: FETCH_PEERS_SUCCESS, peers })
+  } catch (error) {
+    dispatch({ type: FETCH_PEERS_FAILURE, error })
+  }
 }
 
 // ------------------------------------
@@ -55,15 +52,21 @@ const ACTION_HANDLERS = {
     peers: [...state.peers, peer],
   }),
   [CONNECT_FAILURE]: state => ({ ...state, connecting: false }),
-  [GET_PEERS]: state => ({ ...state, peersLoading: true }),
-  [RECEIVE_PEERS]: (state, { peers }) => ({ ...state, peersLoading: false, peers }),
+  [FETCH_PEERS]: state => ({ ...state, isPeersLoading: true }),
+  [FETCH_PEERS_SUCCESS]: (state, { peers }) => ({ ...state, isPeersLoading: false, peers }),
+  [FETCH_PEERS_FAILURE]: (state, { error }) => ({
+    ...state,
+    isPeersLoading: false,
+    peersLoadingError: error,
+  }),
 }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  peersLoading: false,
+  isPeersLoading: false,
+  peersLoadingError: null,
   peers: [],
   connecting: false,
   disconnecting: false,
