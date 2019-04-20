@@ -9,11 +9,11 @@ const parseConnectionString = (value, network = 'BTC') => {
   }
   const allConfigs = get(config, 'configurations', [])
   const params = allConfigs.find(c => c.type === 'grpc' && c.cryptoCode === network) || {}
-  const { host, port, macaroon } = params
+  const { host, port, macaroon, cert } = params
   if (!host || !port || !macaroon) {
     throw new Error('Invalid connection string')
   }
-  return { host, port, macaroon }
+  return { host, port, macaroon, cert }
 }
 
 export default parseConnectionString
