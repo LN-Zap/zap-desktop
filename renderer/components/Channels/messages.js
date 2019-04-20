@@ -86,4 +86,6 @@ export default defineMessages({
   node_suggestions_title: 'Suggested Nodes',
   refresh_button_hint: 'Refresh channels list',
   channel_activity: 'Activity',
+  channel_asc_sort: 'Switch to ascending order',
+  channel_desc_sort: 'Switch to descending order',
 })

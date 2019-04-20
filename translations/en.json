@@ -101,6 +101,8 @@
   "components.Channels.base_fee_label": "Node's Fee Base",
   "components.Channels.capacity": "Capacity",
   "components.Channels.channel_activity": "Activity",
+  "components.Channels.channel_asc_sort": "Switch to ascending order",
+  "components.Channels.channel_desc_sort": "Switch to descending order",
   "components.Channels.channels": "Channels",
   "components.Channels.close_button": "Close Channel",
   "components.Channels.close_channel_dialog_acknowledgement": "I understand this is an irreversible action",
