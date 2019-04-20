@@ -1,6 +1,7 @@
 import { ClientFunction } from 'testcafe'
 import path from 'path'
 import rimraf from 'rimraf'
+import delay from '../../../utils/delay'
 
 // Get the path to the index page.
 export const getBaseUrl = () => '../../dist/index.html'
@@ -31,6 +32,9 @@ export const assertNoConsoleErrors = async t => {
 
 // Clean out test environment.
 export const cleanTestEnvironment = async () => {
+  console.log('cleanTestEnvironment')
+  console.log('waiting 3 seconds for app state to settle')
+  await delay(3000)
   await killLnd()
   await deleteDatabase()
 }

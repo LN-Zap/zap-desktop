@@ -135,8 +135,8 @@ class ZapController {
 
   _registerIpcListeners() {
     ipcMain.on('killLnd', () => {
-      this.sendMessage('terminateApp', 'killLndSuccess')
       ipcMain.once('killLndSuccess', () => this.sendMessage('killLndSuccess'))
+      this.sendMessage('terminateApp', 'killLndSuccess')
     })
     ipcMain.on('processSpawn', (event, { name, pid }) => {
       this.processes[name] = pid

@@ -213,10 +213,7 @@ export const clearStartLndError = () => {
  * Stop lnd.
  */
 export const stopLnd = () => async (dispatch, getState) => {
-  const { isStoppingLnd, lndConfig } = getState().lnd
-  if (isStoppingLnd) {
-    return
-  }
+  const { lndConfig } = getState().lnd
 
   dispatch({ type: STOP_LND })
 
