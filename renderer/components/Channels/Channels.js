@@ -35,6 +35,8 @@ class Channels extends React.Component {
     setSelectedChannel: PropTypes.func.isRequired,
     sort: PropTypes.string.isRequired,
     sorters: PropTypes.array.isRequired,
+    sortOrder: PropTypes.string.isRequired,
+    switchSortOrder: PropTypes.func.isRequired,
     updateChannelSearchQuery: PropTypes.func.isRequired,
   }
 
@@ -66,6 +68,8 @@ class Channels extends React.Component {
       updateChannelSearchQuery,
       searchQuery,
       changeSort,
+      sortOrder,
+      switchSortOrder,
       ...rest
     } = this.props
 
@@ -86,6 +90,8 @@ class Channels extends React.Component {
             setChannelViewMode={setChannelViewMode}
             sort={sort}
             sorters={sorters}
+            sortOrder={sortOrder}
+            switchSortOrder={switchSortOrder}
             updateChannelSearchQuery={this.updateChannelSearchQuery}
           />
         </Panel.Header>
