@@ -107,6 +107,8 @@
   "components.Channels.base_fee_label": "Node's Fee Base",
   "components.Channels.capacity": "Capacity",
   "components.Channels.channel_activity": "Activity",
+  "components.Channels.channel_asc_sort": "Switch to ascending order",
+  "components.Channels.channel_desc_sort": "Switch to descending order",
   "components.Channels.channel_filter_all": "All",
   "components.Channels.channel_filter_closing": "Closing",
   "components.Channels.channel_filter_offline": "Offline",
