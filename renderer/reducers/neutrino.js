@@ -20,10 +20,12 @@ export const STOP_NEUTRINO_FAILURE = 'STOP_NEUTRINO_FAILURE'
 export const RECEIVE_CURRENT_BLOCK_HEIGHT = 'RECEIVE_CURRENT_BLOCK_HEIGHT'
 export const RECEIVE_LND_BLOCK_HEIGHT = 'RECEIVE_LND_BLOCK_HEIGHT'
 export const RECEIVE_LND_CFILTER_HEIGHT = 'RECEIVE_LND_CFILTER_HEIGHT'
+export const RECEIVE_LND_RECOVERY_HEIGHT = 'RECEIVE_LND_RECOVERY_HEIGHT'
 
 export const SET_SYNC_STATUS_PENDING = 'SET_SYNC_STATUS_PENDING'
 export const SET_SYNC_STATUS_WAITING = 'SET_SYNC_STATUS_WAITING'
 export const SET_SYNC_STATUS_IN_PROGRESS = 'SET_SYNC_STATUS_IN_PROGRESS'
+export const SET_SYNC_STATUS_RECOVERING = 'SET_SYNC_STATUS_RECOVERING'
 export const SET_SYNC_STATUS_COMPLETE = 'SET_SYNC_STATUS_COMPLETE'
 
 export const SET_GRPC_ACTIVE_INTERFACE = 'SET_GRPC_ACTIVE_INTERFACE'
@@ -101,6 +103,10 @@ export const initNeutrino = () => async (dispatch, getState) => {
     'NEUTRINO_GOT_LND_CFILTER_HEIGHT',
     proxyValue(height => dispatch(neutrinoCfilterHeight(height)))
   )
+  neutrino.on(
+    'NEUTRINO_GOT_WALLET_RECOVERY_HEIGHT',
+    proxyValue(height => dispatch(neutrinoRecoveryHeight(height)))
+  )
 
   // Hook up event listeners for sync status updates.
   neutrino.on(
@@ -114,6 +120,10 @@ export const initNeutrino = () => async (dispatch, getState) => {
   neutrino.on(
     'NEUTRINO_CHAIN_SYNC_IN_PROGRESS',
     proxyValue(() => dispatch(neutrinoSyncStatus('NEUTRINO_CHAIN_SYNC_IN_PROGRESS')))
+  )
+  neutrino.on(
+    'NEUTRINO_WALLET_RECOVERY_IN_PROGRESS',
+    proxyValue(() => dispatch(neutrinoSyncStatus('NEUTRINO_WALLET_RECOVERY_IN_PROGRESS')))
   )
   neutrino.on(
     'NEUTRINO_CHAIN_SYNC_COMPLETE',
@@ -220,17 +230,28 @@ export const neutrinoCfilterHeight = height => dispatch => {
   dispatch({ type: RECEIVE_LND_CFILTER_HEIGHT, neutrinoCfilterHeight: height })
 }
 
+// Receive wallet recovery height.
+export const neutrinoRecoveryHeight = height => dispatch => {
+  dispatch({ type: RECEIVE_LND_RECOVERY_HEIGHT, neutrinoRecoveryHeight: height })
+}
+
 // Receive LND sync status change.
 export const neutrinoSyncStatus = status => async dispatch => {
   const notifTitle = 'Lightning Node Synced'
   const notifBody = "Visa who? You're your own payment processor now!"
 
   switch (status) {
+    case 'NEUTRINO_CHAIN_SYNC_PENDING':
+      dispatch({ type: SET_SYNC_STATUS_PENDING })
+      break
     case 'NEUTRINO_CHAIN_SYNC_WAITING':
       dispatch({ type: SET_SYNC_STATUS_WAITING })
       break
     case 'NEUTRINO_CHAIN_SYNC_IN_PROGRESS':
       dispatch({ type: SET_SYNC_STATUS_IN_PROGRESS })
+      break
+    case 'NEUTRINO_WALLET_RECOVERY_IN_PROGRESS':
+      dispatch({ type: SET_SYNC_STATUS_RECOVERING })
       break
     case 'NEUTRINO_CHAIN_SYNC_COMPLETE':
       dispatch({ type: SET_SYNC_STATUS_COMPLETE })
@@ -241,8 +262,6 @@ export const neutrinoSyncStatus = status => async dispatch => {
       // HTML 5 desktop notification for the new transaction
       showSystemNotification(notifTitle, notifBody)
       break
-    case 'NEUTRINO_CHAIN_SYNC_PENDING':
-      dispatch({ type: SET_SYNC_STATUS_PENDING })
   }
 }
 
@@ -296,11 +315,17 @@ const ACTION_HANDLERS = {
     neutrinoCfilterHeight,
     neutrinoFirstCfilterHeight: state.neutrinoFirstCfilterHeight || neutrinoCfilterHeight,
   }),
+  [RECEIVE_LND_RECOVERY_HEIGHT]: (state, { neutrinoRecoveryHeight }) => ({
+    ...state,
+    neutrinoRecoveryHeight,
+    neutrinoFirstRecoveryHeight: state.neutrinoFirstRecoveryHeight || neutrinoRecoveryHeight,
+  }),
 
   [SET_SYNC_STATUS_PENDING]: state => ({ ...state, syncStatus: 'pending' }),
   [SET_SYNC_STATUS_WAITING]: state => ({ ...state, syncStatus: 'waiting' }),
   [SET_SYNC_STATUS_IN_PROGRESS]: state => ({ ...state, syncStatus: 'in-progress' }),
   [SET_SYNC_STATUS_COMPLETE]: state => ({ ...state, syncStatus: 'complete' }),
+  [SET_SYNC_STATUS_RECOVERING]: state => ({ ...state, syncStatus: 'recovering' }),
 
   [SET_GRPC_ACTIVE_INTERFACE]: (state, { grpcActiveInterface }) => ({
     ...state,
@@ -336,6 +361,8 @@ const initialState = {
   neutrinoBlockHeight: 0,
   neutrinoFirstCfilterHeight: 0,
   neutrinoCfilterHeight: 0,
+  neutrinoRecoveryHeight: 0,
+  neutrinoFirstRecoveryHeight: 0,
   startNeutrinoError: null,
   stopNeutrinoError: null,
   neutrinoCrashCode: null,
@@ -355,6 +382,8 @@ const neutrinoBlockHeightSelector = state => state.neutrino.neutrinoBlockHeight
 const neutrinoFirstBlockHeightSelector = state => state.neutrino.neutrinoFirstBlockHeight
 const neutrinoCfilterHeightSelector = state => state.neutrino.neutrinoCfilterHeight
 const neutrinoFirstCfilterHeightSelector = state => state.neutrino.neutrinoFirstCfilterHeight
+const neutrinoRecoveryHeightSelector = state => state.neutrino.neutrinoRecoveryHeight
+const neutrinoFirstRecoveryHeightSelector = state => state.neutrino.neutrinoFirstRecoveryHeight
 const isNeutrinoCrashedSelector = state => state.neutrino.isNeutrinoCrashed
 const neutrinoCrashCodeSelector = state => state.neutrino.neutrinoCrashCode
 const neutrinoCrashSignalSelector = state => state.neutrino.neutrinoCrashSignal
@@ -367,6 +396,7 @@ neutrinoSelectors.neutrinoSyncStatus = neutrinoSyncStatusSelector
 neutrinoSelectors.blockHeight = blockHeightSelector
 neutrinoSelectors.neutrinoBlockHeight = neutrinoBlockHeightSelector
 neutrinoSelectors.neutrinoCfilterHeight = neutrinoCfilterHeightSelector
+neutrinoSelectors.neutrinoRecoveryHeight = neutrinoRecoveryHeightSelector
 
 neutrinoSelectors.neutrinoSyncPercentage = createSelector(
   blockHeightSelector,
@@ -396,6 +426,26 @@ neutrinoSelectors.neutrinoSyncPercentage = createSelector(
     const done = blocksDone + filtersDone
 
     const percentage = Math.floor((done / totalToSync) * 100)
+
+    if (percentage === Infinity || Number.isNaN(percentage)) {
+      return undefined
+    }
+
+    return parseInt(percentage, 10)
+  }
+)
+
+neutrinoSelectors.neutrinoRecoveryPercentage = createSelector(
+  blockHeightSelector,
+  neutrinoRecoveryHeightSelector,
+  neutrinoFirstRecoveryHeightSelector,
+  (blockHeight, neutrinoRecoveryHeight, neutrinoFirstRecoveryHeight) => {
+    // filters
+    const filtersToSync = blockHeight - neutrinoFirstRecoveryHeight
+    const filtersRemaining = blockHeight - neutrinoRecoveryHeight
+    const filtersDone = filtersToSync - filtersRemaining
+
+    const percentage = Math.floor((filtersDone / filtersToSync) * 100)
 
     if (percentage === Infinity || Number.isNaN(percentage)) {
       return undefined

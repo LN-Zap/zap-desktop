@@ -12,43 +12,58 @@ import messages from './messages'
 const getSyncMessages = ({
   syncStatus,
   syncPercentage,
+  recoveryPercentage,
   neutrinoBlockHeight,
   neutrinoCfilterHeight,
+  neutrinoRecoveryHeight,
   blockHeight,
   intl,
   syncMessageExtraDetail,
   syncMessageDetail,
 }) => {
+  let caption = intl.formatMessage({ ...messages.sync_caption })
   let mainMessage
   let extraDetailMessage = syncMessageExtraDetail
   let detailMessage = syncMessageDetail
 
   if (syncStatus === 'waiting') {
     mainMessage = intl.formatMessage({ ...messages.waiting_for_peers })
-  } else if (syncStatus === 'in-progress') {
+  } else if (['in-progress', 'recovering'].includes(syncStatus)) {
     if (typeof syncPercentage === 'undefined') {
       mainMessage = intl.formatMessage({ ...messages.preparing })
       detailMessage = null
       extraDetailMessage = null
     } else {
-      mainMessage = `${syncPercentage}%`
-      detailMessage = intl.formatMessage(
-        { ...messages.block_progress },
-        {
-          currentBlock: neutrinoBlockHeight.toLocaleString(),
-          totalBlocks: blockHeight.toLocaleString(),
-        }
-      )
-      extraDetailMessage = intl.formatMessage(
-        { ...messages.filter_progress },
-        {
-          currentFilter: neutrinoCfilterHeight.toLocaleString(),
-          totalFilters: blockHeight.toLocaleString(),
-        }
-      )
+      if (syncStatus === 'in-progress') {
+        mainMessage = `${syncPercentage}%`
+        detailMessage = intl.formatMessage(
+          { ...messages.block_progress },
+          {
+            currentBlock: neutrinoBlockHeight.toLocaleString(),
+            totalBlocks: blockHeight.toLocaleString(),
+          }
+        )
+        extraDetailMessage = intl.formatMessage(
+          { ...messages.filter_progress },
+          {
+            currentFilter: neutrinoCfilterHeight.toLocaleString(),
+            totalFilters: blockHeight.toLocaleString(),
+          }
+        )
+      } else if (syncStatus === 'recovering') {
+        caption = intl.formatMessage({ ...messages.recovery_caption })
+        mainMessage = `${recoveryPercentage}%`
+        detailMessage = intl.formatMessage(
+          { ...messages.filter_progress },
+          {
+            currentFilter: neutrinoRecoveryHeight.toLocaleString(),
+            totalFilters: blockHeight.toLocaleString(),
+          }
+        )
+      }
     }
   }
-  return { mainMessage, extraDetailMessage, detailMessage }
+  return { caption, mainMessage, extraDetailMessage, detailMessage }
 }
 
 const Syncing = props => {
@@ -79,10 +94,12 @@ const Syncing = props => {
   const {
     hasSynced,
     syncPercentage,
+    recoveryPercentage,
     address,
     blockHeight,
     neutrinoBlockHeight,
     neutrinoCfilterHeight,
+    neutrinoRecoveryHeight,
     isLightningGrpcActive,
     network,
     showNotification,
@@ -98,11 +115,13 @@ const Syncing = props => {
     return <Redirect to="/app" />
   }
 
-  const { mainMessage, extraDetailMessage, detailMessage } = getSyncMessages({
+  const { caption, mainMessage, extraDetailMessage, detailMessage } = getSyncMessages({
     syncStatus,
     syncPercentage,
+    recoveryPercentage,
     neutrinoBlockHeight,
     neutrinoCfilterHeight,
+    neutrinoRecoveryHeight,
     blockHeight,
     intl,
     syncMessageExtraDetail,
@@ -173,16 +192,27 @@ const Syncing = props => {
           width={9 / 16}
         >
           <Text fontWeight="normal" mb={3}>
-            <FormattedMessage {...messages.sync_caption} />
+            {caption}
           </Text>
           <Heading.h1 mb={2}>{mainMessage}</Heading.h1>
-          <Box bg="grey" css={{ height: '4px' }} mb={2} width={1}>
-            <Box
-              bg="lightningOrange"
-              css={{ height: '100%' }}
-              width={syncPercentage ? `${syncPercentage}%` : 0}
-            />
-          </Box>
+          {syncStatus === 'in-progress' && (
+            <Box bg="grey" css={{ height: '4px' }} mb={2} width={1}>
+              <Box
+                bg="lightningOrange"
+                css={{ height: '100%' }}
+                width={syncPercentage ? `${syncPercentage}%` : 0}
+              />
+            </Box>
+          )}
+          {syncStatus === 'recovering' && (
+            <Box bg="grey" css={{ height: '4px' }} mb={2} width={1}>
+              <Box
+                bg="lightningOrange"
+                css={{ height: '100%' }}
+                width={recoveryPercentage ? `${recoveryPercentage}%` : 0}
+              />
+            </Box>
+          )}
 
           <Text>{detailMessage}</Text>
           <Text>{extraDetailMessage}</Text>
@@ -201,6 +231,8 @@ Syncing.propTypes = {
   network: PropTypes.string,
   neutrinoBlockHeight: PropTypes.number,
   neutrinoCfilterHeight: PropTypes.number,
+  neutrinoRecoveryHeight: PropTypes.number,
+  recoveryPercentage: PropTypes.number,
   setIsWalletOpen: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
   syncPercentage: PropTypes.number,
