@@ -16,6 +16,11 @@ module.exports = {
     domain: isStableVersion(getPackageDetails().version, STABLE_VERSION) ? null : 'next',
   },
 
+  autoupdate: {
+    active: true,
+    channel: 'beta',
+  },
+
   // Supported chains.
   chains: ['bitcoin', 'litecoin'],
 
