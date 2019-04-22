@@ -1,4 +1,5 @@
 import promisifiedCall from '@zap/utils/promisifiedCall'
+import { grpcLog } from '@zap/utils/log'
 
 /**
  * GenSeed is the first method that should be used to instantiate a new lnd instance
@@ -6,6 +7,7 @@ import promisifiedCall from '@zap/utils/promisifiedCall'
  * @return {Promise<GenSeedResponse>}
  */
 async function genSeed(payload = {}) {
+  grpcLog('Calling WalletUnlocker genSeed method with payload: %o', payload)
   return promisifiedCall(this.service, this.service.genSeed, payload)
 }
 
@@ -15,6 +17,7 @@ async function genSeed(payload = {}) {
  * @return {Promise<UnlockWalletResponse>}
  */
 async function unlockWallet(password) {
+  grpcLog('Calling WalletUnlocker unlockWallet method with payload: %o', password)
   const res = await promisifiedCall(this.service, this.service.unlockWallet, {
     wallet_password: Buffer.from(password),
   })
@@ -29,7 +32,9 @@ async function unlockWallet(password) {
  * @param  {Number} recovery_window        Address lookahead when restoring a wallet seed
  * @return {Promise<InitWalletResponse>}
  */
-async function initWallet({ wallet_password, cipher_seed_mnemonic, recovery_window }) {
+async function initWallet(payload = {}) {
+  grpcLog('Calling WalletUnlocker initWallet method with payload: %o', payload)
+  const { wallet_password, cipher_seed_mnemonic, recovery_window } = payload
   return promisifiedCall(this.service, this.service.initWallet, {
     wallet_password: Buffer.from(wallet_password),
     cipher_seed_mnemonic,

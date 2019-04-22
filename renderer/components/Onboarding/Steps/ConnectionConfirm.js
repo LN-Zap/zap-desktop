@@ -81,14 +81,17 @@ class ConnectionConfirm extends React.Component {
     }
 
     // Otherwise, process it as a BtcPayServer connection string.
-    const { host, port, macaroon } = parseConnectionString(connectionString)
+    const { host, port, macaroon, cert } = parseConnectionString(connectionString)
+    const lndconnectUri = encode({
+      host: `${host}:${port}`,
+      macaroon,
+      cert,
+    })
+
     return startLnd({
       type: 'custom',
       decoder: 'lnd.lndconnect.v1',
-      lndconnectUri: encode({
-        host: `${host}:${port}`,
-        macaroon,
-      }),
+      lndconnectUri,
     })
   }
 

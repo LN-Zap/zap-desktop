@@ -41,7 +41,6 @@ class Root extends React.Component {
     isLoading: PropTypes.bool.isRequired,
     isMounted: PropTypes.bool.isRequired,
     loadingMessage: PropTypes.object,
-
     notifications: PropTypes.array.isRequired,
     removeNotification: PropTypes.func.isRequired,
     setMounted: PropTypes.func.isRequired,
@@ -67,6 +66,11 @@ class Root extends React.Component {
   redirectToLogout = () => {
     const { history } = this.props
     history.push('/logout')
+  }
+
+  canLogout = () => {
+    const { history } = this.props
+    return history.location.pathname === '/app'
   }
 
   render() {
@@ -97,7 +101,12 @@ class Root extends React.Component {
             />
             <DialogLndCrashed />
             <ModalStack />
-            <PageWithLoading isLoading={isLoading} loadingMessage={loadingMessage}>
+            <PageWithLoading
+              hasClose={this.canLogout()}
+              isLoading={isLoading}
+              loadingMessage={loadingMessage}
+              onClose={this.redirectToLogout}
+            >
               <Switch>
                 <Route component={Initializer} exact path="/" />
                 <Route component={WalletStarter} exact path="/wallet-starter" />

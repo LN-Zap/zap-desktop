@@ -14,6 +14,7 @@ export const NEUTRINO_CHAIN_SYNC_IN_PROGRESS = 'NEUTRINO_CHAIN_SYNC_IN_PROGRESS'
 export const NEUTRINO_CHAIN_SYNC_COMPLETE = 'NEUTRINO_CHAIN_SYNC_COMPLETE'
 
 // Events
+export const NEUTRINO_SHUTDOWN = 'NEUTRINO_SHUTDOWN'
 export const NEUTRINO_ERROR = 'NEUTRINO_ERROR'
 export const NEUTRINO_EXIT = 'NEUTRINO_EXIT'
 export const NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE = 'NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE'
@@ -85,15 +86,12 @@ class Neutrino extends EventEmitter {
     // The height returned from the LND log output may not be the actual current block height (this is the case
     // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
     // some block explorers so that we have a good starting point.
-    try {
-      const blockHeight = await fetchBlockHeight(this.lndConfig.chain, this.lndConfig.network)
-      this.setCurrentBlockHeight(blockHeight)
-    } catch (err) {
-      mainLog.warn(`Unable to fetch block height: ${err.message}`)
-    }
+    fetchBlockHeight(this.lndConfig.chain, this.lndConfig.network)
+      .then(blockHeight => this.setCurrentBlockHeight(blockHeight))
+      .catch(err => mainLog.warn(`Unable to fetch block height: ${err.message}`))
 
-    const listen = await getLndListen('p2p')
-    const restlisten = await getLndListen('rest')
+    // Get available ports.
+    const [listen, restlisten] = await Promise.all([getLndListen('p2p'), getLndListen('rest')])
 
     mainLog.info('Starting lnd in neutrino mode with config: %o', this.lndConfig)
     mainLog.info(' > binaryPath', this.lndConfig.binaryPath)
@@ -162,8 +160,8 @@ class Neutrino extends EventEmitter {
         code,
         signal
       )
-      this.resetState()
       this.emit(NEUTRINO_EXIT, { code, signal, lastError: this.lastError })
+      this.resetState()
     })
 
     // Listen for when neutrino prints data to stderr.
@@ -222,7 +220,7 @@ class Neutrino extends EventEmitter {
           line.match(/Starting cfilters sync at block_height=(\d+)/)
 
         if (match) {
-          // Notify that chhain syncronisation has now started.
+          // Notify that chain syncronisation has now started.
           this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
 
           // This is the latest block that BTCd is aware of.
@@ -289,6 +287,7 @@ class Neutrino extends EventEmitter {
     const timeout = options.timeout || NEUTRINO_SHUTDOWN_TIMEOUT
 
     mainLog.info('Shutting down Neutrino...')
+    this.emit(NEUTRINO_SHUTDOWN)
 
     if (!this.getPid()) {
       mainLog.info('No Neutrino process found.')

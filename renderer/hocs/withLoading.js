@@ -12,19 +12,26 @@ const withLoading = Component =>
 
     static propTypes = {
       children: PropTypes.node,
+      hasClose: PropTypes.bool,
       isLoading: PropTypes.bool.isRequired,
       loadingMessage: PropTypes.object,
+      onClose: PropTypes.func,
     }
 
     /**
      * Render the loading bolt ontop of the wrapped component for as long as needed.
      */
     render() {
-      const { isLoading, loadingMessage, children, ...rest } = this.props
+      const { isLoading, loadingMessage, onClose, hasClose, children, ...rest } = this.props
       return (
         <>
           <Component {...rest}>{children}</Component>
-          <LoadingBolt isLoading={isLoading} message={loadingMessage} />
+          <LoadingBolt
+            hasClose={hasClose}
+            isLoading={isLoading}
+            message={loadingMessage}
+            onClose={onClose}
+          />
         </>
       )
     }

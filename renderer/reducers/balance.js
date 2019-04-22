@@ -4,45 +4,47 @@ import { grpcService } from 'workers'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const GET_BALANCE = 'GET_BALANCE'
-export const RECEIVE_BALANCE = 'RECEIVE_BALANCE'
+
+export const FETCH_BALANCE = 'FETCH_BALANCE'
+export const FETCH_BALANCE_SUCCESS = 'FETCH_BALANCE_SUCCESS'
+export const FETCH_BALANCE_FAILURE = 'FETCH_BALANCE_FAILURE'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function getBalance() {
-  return {
-    type: GET_BALANCE,
-  }
-}
 
-// Send IPC event for balance
+// Fetch balances.
 export const fetchBalance = () => async dispatch => {
-  dispatch(getBalance())
-  const grpc = await grpcService
-  const balance = await grpc.services.Lightning.getBalance()
-  dispatch(receiveBalance(balance))
-}
-
-// Receive IPC event for balance
-export const receiveBalance = ({ walletBalance, channelBalance }) => dispatch => {
-  dispatch({ type: RECEIVE_BALANCE, walletBalance, channelBalance })
+  try {
+    dispatch({ type: FETCH_BALANCE })
+    const grpc = await grpcService
+    const { walletBalance, channelBalance } = await grpc.services.Lightning.getBalance()
+    dispatch({ type: FETCH_BALANCE_SUCCESS, walletBalance, channelBalance })
+  } catch (error) {
+    dispatch({ type: FETCH_BALANCE_FAILURE, error })
+  }
 }
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
-  [GET_BALANCE]: state => ({ ...state, balanceLoading: true }),
-  [RECEIVE_BALANCE]: (state, { walletBalance, channelBalance }) => ({
+  [FETCH_BALANCE]: state => ({ ...state, isBalanceLoading: true }),
+  [FETCH_BALANCE_SUCCESS]: (state, { walletBalance, channelBalance }) => ({
     ...state,
-    balanceLoading: false,
+    isBalanceLoading: false,
     walletBalance: walletBalance.total_balance,
     walletBalanceConfirmed: walletBalance.confirmed_balance,
     walletBalanceUnconfirmed: walletBalance.unconfirmed_balance,
     channelBalance: channelBalance.balance + channelBalance.pending_open_balance,
     channelBalanceConfirmed: channelBalance.balance,
     channelBalancePending: channelBalance.pending_open_balance,
+  }),
+  [FETCH_BALANCE_FAILURE]: (state, { error }) => ({
+    ...state,
+    isBalanceLoading: false,
+    fetchBalanceError: error,
   }),
 }
 
@@ -70,11 +72,12 @@ export { balanceSelectors }
 // Reducer
 // ------------------------------------
 const initialState = {
-  balanceLoading: false,
+  isBalanceLoading: false,
   walletBalance: null,
   walletBalanceConfirmed: null,
   walletBalanceUnconfirmed: null,
   channelBalance: null,
+  fetchBalanceError: null,
 }
 
 export default function balanceReducer(state = initialState, action) {

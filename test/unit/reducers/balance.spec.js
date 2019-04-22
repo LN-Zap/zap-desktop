@@ -1,4 +1,4 @@
-import balanceReducer, { GET_BALANCE, RECEIVE_BALANCE } from 'reducers/balance'
+import balanceReducer, { FETCH_BALANCE, FETCH_BALANCE_SUCCESS } from 'reducers/balance'
 
 describe('reducers', () => {
   describe('balanceReducer', () => {
@@ -6,11 +6,11 @@ describe('reducers', () => {
       expect(balanceReducer(undefined, {})).toMatchSnapshot()
     })
 
-    it('should handle GET_BALANCE', () => {
-      expect(balanceReducer(undefined, { type: GET_BALANCE })).toMatchSnapshot()
+    it('should handle FETCH_BALANCE', () => {
+      expect(balanceReducer(undefined, { type: FETCH_BALANCE })).toMatchSnapshot()
     })
 
-    it('should handle RECEIVE_BALANCE', () => {
+    it('should handle FETCH_BALANCE_SUCCESS', () => {
       const walletBalance = {
         total_balance: 1,
         confirmed_balance: 1,
@@ -21,7 +21,7 @@ describe('reducers', () => {
         pending_open_balance: 1,
       }
       expect(
-        balanceReducer(undefined, { type: RECEIVE_BALANCE, walletBalance, channelBalance })
+        balanceReducer(undefined, { type: FETCH_BALANCE_SUCCESS, walletBalance, channelBalance })
       ).toMatchSnapshot()
     })
 

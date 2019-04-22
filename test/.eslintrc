@@ -2,8 +2,9 @@
   "env": {
     "jest/globals": true
   },
-  "plugins": [
-    "jest"
-  ],
-  "extends": ["plugin:jest/recommended"]
+  "plugins": ["jest"],
+  "extends": ["plugin:jest/recommended"],
+  "rules": {
+    "no-console": 0
+  }
 }

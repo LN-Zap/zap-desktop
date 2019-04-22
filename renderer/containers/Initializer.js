@@ -6,7 +6,7 @@ import { appSelectors } from 'reducers/app'
 import { initCurrency, initLocale } from 'reducers/locale'
 import { initWallets, walletSelectors } from 'reducers/wallet'
 import { initNeutrino } from 'reducers/neutrino'
-import { initLnd, startActiveWallet } from 'reducers/lnd'
+import { startActiveWallet } from 'reducers/lnd'
 import { initTickers } from 'reducers/ticker'
 import { initAutopay } from 'reducers/autopay'
 import { fetchSuggestedNodes, initChannels } from 'reducers/channels'
@@ -23,7 +23,6 @@ class Initializer extends React.Component {
     initAutopay: PropTypes.func.isRequired,
     initChannels: PropTypes.func.isRequired,
     initCurrency: PropTypes.func.isRequired,
-    initLnd: PropTypes.func.isRequired,
     initLocale: PropTypes.func.isRequired,
     initNeutrino: PropTypes.func.isRequired,
     initTickers: PropTypes.func.isRequired,
@@ -46,10 +45,8 @@ class Initializer extends React.Component {
       initChannels,
       initAutopay,
       initNeutrino,
-      initLnd,
     } = this.props
     initNeutrino()
-    initLnd()
     initTickers()
     initLocale()
     initCurrency()
@@ -112,7 +109,6 @@ const mapDispatchToProps = {
   startActiveWallet,
   fetchSuggestedNodes,
   initNeutrino,
-  initLnd,
   initTickers,
   initCurrency,
   initLocale,

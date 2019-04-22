@@ -66,6 +66,7 @@ exports[`component.UI.Dialog should render correctly with one button 1`] = `
 >
   <CloseButton
     onClick={[Function]}
+    size="s"
   />
   <Styled(styled.div)
     alignItems="center"
@@ -118,6 +119,7 @@ exports[`component.UI.Dialog should render correctly with two buttons 1`] = `
 >
   <CloseButton
     onClick={[Function]}
+    size="s"
   />
   <Styled(styled.div)
     alignItems="center"

@@ -80,7 +80,7 @@ store.dispatch({
   currency: 'btc',
 })
 store.dispatch({
-  type: 'RECEIVE_BALANCE',
+  type: 'FETCH_BALANCE_SUCCESS',
   walletBalance: {
     total_balance: 25238944,
     confirmed_balance: 25145610,

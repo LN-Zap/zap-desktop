@@ -21,7 +21,7 @@ fixture('Onboarding (connect manual)')
   })
   .afterEach(async t => {
     await assertNoConsoleErrors(t)
-    await cleanTestEnvironment({ lnd: false })
+    await cleanTestEnvironment()
   })
   .after(async ctx => {
     await cleanElectronEnvironment(ctx)

@@ -47,3 +47,6 @@ storybook-static
 
 # Local config overrides
 config/local*
+
+# Test failure screenshots
+screenshots
