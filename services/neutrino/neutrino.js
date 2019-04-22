@@ -7,13 +7,13 @@ import { mainLog, lndLog, lndLogGetLevel } from '@zap/utils/log'
 import getLndListen from '@zap/utils/getLndListen'
 import fetchBlockHeight from '@zap/utils/fetchBlockHeight'
 
-// Sync statuses
+// Sync statuses.
 export const NEUTRINO_CHAIN_SYNC_PENDING = 'NEUTRINO_CHAIN_SYNC_PENDING'
 export const NEUTRINO_CHAIN_SYNC_WAITING = 'NEUTRINO_CHAIN_SYNC_WAITING'
 export const NEUTRINO_CHAIN_SYNC_IN_PROGRESS = 'NEUTRINO_CHAIN_SYNC_IN_PROGRESS'
 export const NEUTRINO_CHAIN_SYNC_COMPLETE = 'NEUTRINO_CHAIN_SYNC_COMPLETE'
 
-// Events
+// Events.
 export const NEUTRINO_SHUTDOWN = 'NEUTRINO_SHUTDOWN'
 export const NEUTRINO_ERROR = 'NEUTRINO_ERROR'
 export const NEUTRINO_EXIT = 'NEUTRINO_EXIT'
@@ -23,7 +23,7 @@ export const NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT = 'NEUTRINO_GOT_CURRENT_BLOCK_HEI
 export const NEUTRINO_GOT_LND_BLOCK_HEIGHT = 'NEUTRINO_GOT_LND_BLOCK_HEIGHT'
 export const NEUTRINO_GOT_LND_CFILTER_HEIGHT = 'NEUTRINO_GOT_LND_CFILTER_HEIGHT'
 
-// Constants
+// Constants.
 export const NEUTRINO_SHUTDOWN_TIMEOUT = 10000
 
 /**
@@ -36,6 +36,18 @@ class Neutrino extends EventEmitter {
     this.resetState()
   }
 
+  static incrementIfHigher = (context, property, newVal) => {
+    const { [property]: oldVal } = context
+    if (newVal > oldVal) {
+      context[property] = newVal
+      return true
+    }
+    return false
+  }
+
+  /**
+   * (re)initialise state data.
+   */
   resetState() {
     this.process = null
     this.isWalletUnlockerGrpcActive = false
@@ -49,49 +61,22 @@ class Neutrino extends EventEmitter {
 
   /**
    * Initialize the service.
-   *
-   * Note: comline doesn't seem to properly support passing args via the constructor
-   *       which is why we do it here.
-   * @param  {[type]}  options [description]
-   * @return {Promise}         [description]
+   * @param  {Object} lndConfig LndConfig
    */
-  async init(lndConfig) {
-    // Initialise the lnd config
+  init(lndConfig) {
     mainLog.info(`Initializing Neutrino with options: %o`, lndConfig)
     this.lndConfig = lndConfig
-  }
-
-  static incrementIfHigher = (context, property, newVal) => {
-    const { [property]: oldVal } = context
-    if (newVal > oldVal) {
-      context[property] = newVal
-      return true
-    }
-    return false
-  }
-
-  getPid() {
-    return this.process ? this.process.pid : null
   }
 
   /**
    * Start the Lnd process in Neutrino mode.
    * @return {Number} PID of the Lnd process that was started.
+   * @return {Promise}
    */
   async start() {
     if (this.getPid()) {
       return Promise.reject(new Error(`Neutrino process with PID ${this.getPid()} already exists.`))
     }
-
-    // The height returned from the LND log output may not be the actual current block height (this is the case
-    // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
-    // some block explorers so that we have a good starting point.
-    fetchBlockHeight(this.lndConfig.chain, this.lndConfig.network)
-      .then(blockHeight => this.setCurrentBlockHeight(blockHeight))
-      .catch(err => mainLog.warn(`Unable to fetch block height: ${err.message}`))
-
-    // Get available ports.
-    const [listen, restlisten] = await Promise.all([getLndListen('p2p'), getLndListen('rest')])
 
     mainLog.info('Starting lnd in neutrino mode with config: %o', this.lndConfig)
     mainLog.info(' > binaryPath', this.lndConfig.binaryPath)
@@ -101,41 +86,14 @@ class Neutrino extends EventEmitter {
     mainLog.info(' > cert:', this.lndConfig.cert)
     mainLog.info(' > macaroon:', this.lndConfig.macaroon)
 
-    // Genreate autopilot config.
-    const autopilotArgMap = {
-      autopilotAllocation: '--autopilot.allocation',
-      autopilotMaxchannels: '--autopilot.maxchannels',
-      autopilotMinchansize: '--autopilot.minchansize',
-      autopilotMaxchansize: '--autopilot.maxchansize',
-      autopilotMinconfs: '--autopilot.minconfs',
-    }
-    const autopilotConf = []
-    Object.entries(this.lndConfig).forEach(([key, value]) => {
-      if (Object.keys(autopilotArgMap).includes(key)) {
-        autopilotConf.push(`${autopilotArgMap[key]}=${String(value)}`)
-      }
-    })
+    // The height returned from the LND log output may not be the actual current block height (this is the case
+    // when BTCD is still in the middle of syncing the blockchain) so try to fetch thhe current height from from
+    // some block explorers so that we have a good starting point.
+    fetchBlockHeight(this.lndConfig.chain, this.lndConfig.network)
+      .then(blockHeight => this.setCurrentBlockHeight(blockHeight))
+      .catch(err => mainLog.warn(`Unable to fetch block height: ${err.message}`))
 
-    // Configure lnd.
-    const neutrinoArgs = [
-      `--${this.lndConfig.chain}.active`,
-      `--lnddir=${this.lndConfig.lndDir}`,
-      `--rpclisten=${this.lndConfig.host}`,
-      `--listen=${listen}`,
-      `--restlisten=${restlisten}`,
-      `--routing.assumechanvalid`,
-      `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
-      `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
-      `${this.lndConfig.autopilotPrivate ? '--autopilot.private' : ''}`,
-      ...autopilotConf,
-    ]
-
-    // Configure neutrino backend.
-    neutrinoArgs.push('--bitcoin.node=neutrino')
-    neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
-    config.lnd.neutrino[this.lndConfig.chain][this.lndConfig.network].forEach(node =>
-      neutrinoArgs.push(`--neutrino.connect=${node}`)
-    )
+    const neutrinoArgs = await this.getNeutrinoArgs()
 
     // Log the final config.
     mainLog.info(
@@ -144,143 +102,22 @@ class Neutrino extends EventEmitter {
       neutrinoArgs.filter(v => v != '').join(' ')
     )
 
-    // Spawn lnd process.
+    // Spawn neutrino process.
     this.process = spawn(this.lndConfig.binaryPath, neutrinoArgs)
 
-    // Attach error handler.
-    this.process.on('error', error => {
-      mainLog.error('Neutrino process received "error" event with error: %s', error)
-      this.emit(NEUTRINO_ERROR, { error, lastError: this.lastError })
-    })
+    // Attach event handlers and output stream processors.
+    this.attachEventHandlers(this.process)
+    this.attachStderrProcessors(this.process.stderr)
+    this.attachStdoutProcessors(this.process.stdout)
 
-    // Attach exit handler.
-    this.process.on('exit', (code, signal) => {
-      mainLog.info(
-        'Neutrino process received "exit" event with code %s and signal %s',
-        code,
-        signal
-      )
-      this.emit(NEUTRINO_EXIT, { code, signal, lastError: this.lastError })
-      this.resetState()
-    })
-
-    // Listen for when neutrino prints data to stderr.
-    this.process.stderr.pipe(split2()).on('data', line => {
-      lndLog.error(line)
-      if (line.startsWith('panic:')) {
-        this.lastError = line
-      }
-    })
-
-    // Listen for when neutrino prints data to stdout.
-    this.process.stdout.pipe(split2()).on('data', line => {
-      const level = lndLogGetLevel(line)
-      lndLog[level](line)
-      if (level === 'error') {
-        this.lastError = line.split('[ERR] LTND:')[1]
-      }
-
-      // password RPC server listening (wallet unlocker started).
-      if (line.includes('RPC server listening on') && line.includes('password')) {
-        this.isWalletUnlockerGrpcActive = true
-        this.isLightningGrpcActive = false
-        this.emit(NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE)
-      }
-
-      // RPC server listening (wallet unlocked).
-      if (line.includes('RPC server listening on') && !line.includes('password')) {
-        this.isLightningGrpcActive = true
-        this.isWalletUnlockerGrpcActive = false
-        this.emit(NEUTRINO_LIGHTNING_GRPC_ACTIVE)
-      }
-
-      // If the sync has already completed then we don't need to do anything else.
-      if (this.is(NEUTRINO_CHAIN_SYNC_COMPLETE)) {
-        return
-      }
-
-      if (this.is(NEUTRINO_CHAIN_SYNC_PENDING) || this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)) {
-        // If we can't get a connectionn to the backend.
-        if (
-          line.includes('Waiting for chain backend to finish sync') ||
-          line.includes('Waiting for block headers to sync, then will start cfheaders sync')
-        ) {
-          this.setState(NEUTRINO_CHAIN_SYNC_WAITING)
-        }
-        // If we are still waiting for the back end to finish synncing.
-        if (line.includes('No sync peer candidates available')) {
-          this.setState(NEUTRINO_CHAIN_SYNC_WAITING)
-        }
-      }
-
-      // Lnd syncing has started or resumed.
-      if (this.is(NEUTRINO_CHAIN_SYNC_PENDING) || this.is(NEUTRINO_CHAIN_SYNC_WAITING)) {
-        const match =
-          line.match(/Syncing to block height (\d+)/) ||
-          line.match(/Starting cfilters sync at block_height=(\d+)/)
-
-        if (match) {
-          // Notify that chain syncronisation has now started.
-          this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
-
-          // This is the latest block that BTCd is aware of.
-          const btcdHeight = match[1]
-          this.setCurrentBlockHeight(btcdHeight)
-        }
-      }
-
-      // Lnd as received some updated block data.
-      if (this.is(NEUTRINO_CHAIN_SYNC_WAITING) || this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)) {
-        let height
-        let cfilter
-        let match
-
-        if ((match = line.match(/Caught up to height (\d+)/))) {
-          height = match[1]
-        } else if ((match = line.match(/Processed \d* blocks? in the last.+\(height (\d+)/))) {
-          height = match[1]
-        } else if ((match = line.match(/Difficulty retarget at block height (\d+)/))) {
-          height = match[1]
-        } else if ((match = line.match(/Fetching set of headers from tip \(height=(\d+)/))) {
-          height = match[1]
-        } else if ((match = line.match(/Waiting for filter headers \(height=(\d+)\) to catch/))) {
-          height = match[1]
-        } else if ((match = line.match(/Writing filter headers up to height=(\d+)/))) {
-          height = match[1]
-        } else if ((match = line.match(/Starting cfheaders sync at block_height=(\d+)/))) {
-          height = match[1]
-        } else if ((match = line.match(/Got cfheaders from height=(\d*) to height=(\d+)/))) {
-          cfilter = match[2]
-        } else if ((match = line.match(/Writing filter headers up to height=(\d*)/))) {
-          cfilter = match[1]
-        } else if ((match = line.match(/Verified \d* filter headers? in the.+\(height (\d+)/))) {
-          cfilter = match[1]
-        } else if ((match = line.match(/Fetching filter for height=(\d+)/))) {
-          cfilter = match[1]
-        }
-
-        if (height) {
-          this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
-          this.setNeutrinoBlockHeight(height)
-        }
-
-        if (cfilter) {
-          this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
-          this.setLndCfilterHeight(cfilter)
-        }
-
-        // Lnd syncing has completed.
-        if (line.includes('Chain backend is fully synced')) {
-          this.setState(NEUTRINO_CHAIN_SYNC_COMPLETE)
-        }
-      }
-    })
-
+    // Rewturn the pid.
     return this.process.pid
   }
 
   /**
-   * Shutdown LND.
+   * Shutdown neutrino process.
+   * @param  {Object}  [options={}] Shutdown options.
+   * @return {Promise}
    */
   async shutdown(options = {}) {
     const signal = options.signal || 'SIGINT'
@@ -299,7 +136,7 @@ class Neutrino extends EventEmitter {
   }
 
   /**
-   * Attempt to gracefully terminate the lnd process. If it fails, force kill it.
+   * Attempt to gracefully terminate the neutrino process. If it fails, force kill it.
    * @param  {String}  signal  process signal
    * @param  {Number}  timeout timeout before force killing with SIGKILL
    * @return {Promise}
@@ -332,7 +169,16 @@ class Neutrino extends EventEmitter {
   }
 
   /**
+   * Get the pid of the currently running neutrino process.
+   * @return {Number|null} PID of currently running neutrino process.
+   */
+  getPid() {
+    return this.process ? this.process.pid : null
+  }
+
+  /**
    * Stop the Lnd process.
+   * @param  {String} [signalName='SIGINT'] signal to kill lnd with.
    */
   kill(signalName = 'SIGINT') {
     if (this.process) {
@@ -396,6 +242,279 @@ class Neutrino extends EventEmitter {
     if (changed) {
       this.emit(NEUTRINO_GOT_LND_CFILTER_HEIGHT, heightAsNumber)
       this.setCurrentBlockHeight(heightAsNumber)
+    }
+  }
+
+  /**
+   * Get arguments to pass to lnd based on lnd config.
+   * @return {Promise<Array>} Array of arguments
+   */
+  async getNeutrinoArgs() {
+    // Genreate autopilot config.
+    const autopilotArgMap = {
+      autopilotAllocation: '--autopilot.allocation',
+      autopilotMaxchannels: '--autopilot.maxchannels',
+      autopilotMinchansize: '--autopilot.minchansize',
+      autopilotMaxchansize: '--autopilot.maxchansize',
+      autopilotMinconfs: '--autopilot.minconfs',
+    }
+    const autopilotConf = []
+    Object.entries(this.lndConfig).forEach(([key, value]) => {
+      if (Object.keys(autopilotArgMap).includes(key)) {
+        autopilotConf.push(`${autopilotArgMap[key]}=${String(value)}`)
+      }
+    })
+
+    // Get available ports.
+    const [listen, restlisten] = await Promise.all([getLndListen('p2p'), getLndListen('rest')])
+
+    // Configure lnd.
+    const neutrinoArgs = [
+      `--${this.lndConfig.chain}.active`,
+      `--lnddir=${this.lndConfig.lndDir}`,
+      `--rpclisten=${this.lndConfig.host}`,
+      `--listen=${listen}`,
+      `--restlisten=${restlisten}`,
+      `--routing.assumechanvalid`,
+      `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
+      `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
+      `${this.lndConfig.autopilotPrivate ? '--autopilot.private' : ''}`,
+      ...autopilotConf,
+    ]
+
+    // Configure neutrino backend.
+    neutrinoArgs.push('--bitcoin.node=neutrino')
+    neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
+    config.lnd.neutrino[this.lndConfig.chain][this.lndConfig.network].forEach(node =>
+      neutrinoArgs.push(`--neutrino.connect=${node}`)
+    )
+
+    return neutrinoArgs
+  }
+
+  /**
+   * Attach exit and error handlers to neutrino process.
+   * @param  {Object} process neutrino process.
+   */
+  attachEventHandlers(process) {
+    // Attach error handler.
+    process.on('error', error => {
+      mainLog.error('Neutrino process received "error" event with error: %s', error)
+      this.emit(NEUTRINO_ERROR, { error, lastError: this.lastError })
+    })
+
+    // Attach exit handler.
+    process.on('exit', (code, signal) => {
+      mainLog.info(
+        'Neutrino process received "exit" event with code %s and signal %s',
+        code,
+        signal
+      )
+      this.emit(NEUTRINO_EXIT, { code, signal, lastError: this.lastError })
+      this.resetState()
+    })
+  }
+
+  /**
+   * Listen for and process neutrino stderr data.
+   * @param  {String} line log output line
+   */
+  attachStderrProcessors(stderr) {
+    stderr.pipe(split2()).on('data', line => {
+      lndLog.error(line)
+      if (line.startsWith('panic:')) {
+        this.lastError = line
+      }
+    })
+  }
+
+  /**
+   * Listen for and process neutrino stdout data.
+   * @param  {String} line log output line
+   */
+  attachStdoutProcessors(stdout) {
+    stdout.pipe(split2()).on('data', line => {
+      this.handleErrors(line)
+      this.notifyOnWalletUnlockerActivation(line)
+      this.notifyLightningActivation(line)
+
+      // If the sync has already completed then we don't need to do any more log processing.
+      if (this.is(NEUTRINO_CHAIN_SYNC_COMPLETE)) {
+        return
+      }
+
+      // Listen for things that will move us to waiting state.
+      if (this.is(NEUTRINO_CHAIN_SYNC_PENDING) || this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)) {
+        this.notifyOnSyncWaiting(line)
+      }
+
+      // Listen for things that will take us out of the waiting state.
+      if (this.is(NEUTRINO_CHAIN_SYNC_PENDING) || this.is(NEUTRINO_CHAIN_SYNC_WAITING)) {
+        this.notifyOnSyncStarted(line)
+      }
+
+      // Listen for things that prpgress our sync progress.
+      if (this.is(NEUTRINO_CHAIN_SYNC_WAITING) || this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)) {
+        this.notifyOnSyncProgress(line)
+        this.notifyOnSyncComplete(line)
+      }
+    })
+  }
+
+  /**
+   * Listen for when neutrino prints an error message.
+   * @param  {String} line log output line
+   */
+  handleErrors(line) {
+    const level = lndLogGetLevel(line)
+    lndLog[level](line)
+    if (level === 'error') {
+      this.lastError = line.split('[ERR] LTND:')[1]
+    }
+  }
+
+  /**
+   * Update state if log line indicates WalletUnlocker gRPC became active.
+   * @param  {String} line log output line
+   */
+  notifyOnWalletUnlockerActivation(line) {
+    if (line.includes('RPC server listening on') && line.includes('password')) {
+      this.isWalletUnlockerGrpcActive = true
+      this.isLightningGrpcActive = false
+      this.emit(NEUTRINO_WALLET_UNLOCKER_GRPC_ACTIVE)
+    }
+  }
+
+  /**
+   * Update state if log line indicates Lightning gRPC became active.
+   * @param  {String} line log output line
+   */
+  notifyLightningActivation(line) {
+    if (line.includes('RPC server listening on') && !line.includes('password')) {
+      this.isLightningGrpcActive = true
+      this.isWalletUnlockerGrpcActive = false
+      this.emit(NEUTRINO_LIGHTNING_GRPC_ACTIVE)
+    }
+  }
+
+  /**
+   * Update state if log line indicates we are waiting to sync.
+   * @param  {String} line log output line
+   */
+  notifyOnSyncWaiting(line) {
+    // If we can't get a connection to the backend.
+    // Or if we are still waiting for the back end to finish synncing.
+    if (
+      line.includes('Waiting for chain backend to finish sync') ||
+      line.includes('Waiting for block headers to sync, then will start cfheaders sync') ||
+      line.includes('No sync peer candidates available')
+    ) {
+      this.setState(NEUTRINO_CHAIN_SYNC_WAITING)
+    }
+  }
+
+  /**
+   * Update state if log line indicates synbc has started.
+   * @param  {String} line log output line
+   */
+  notifyOnSyncStarted(line) {
+    const match =
+      line.match(/Syncing to block height (\d+)/) ||
+      line.match(/Starting cfilters sync at block_height=(\d+)/)
+
+    if (match) {
+      // Notify that chain syncronisation has now started.
+      this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
+
+      // This is the latest block that BTCd is aware of.
+      const btcdHeight = match[1]
+      this.setCurrentBlockHeight(btcdHeight)
+    }
+  }
+
+  /**
+   * Update state if log line indicates that progress has been made in the sync process.
+   * @param  {String} line log output line
+   */
+  notifyOnSyncProgress(line) {
+    let height, cfilter
+
+    // Check the log line to see if we can parse the current block header height from it.
+    height = this.getBlockHeaderIncrement(line)
+    if (height) {
+      this.setNeutrinoBlockHeight(height)
+    }
+    // Otherwise, see if we can parse the current cfilter height from it.
+    else {
+      cfilter = this.getCfilterIncrement(line)
+      if (cfilter) {
+        this.setLndCfilterHeight(cfilter)
+      }
+    }
+
+    if (height || cfilter) {
+      this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
+    }
+  }
+
+  /**
+   * Try to determine current block header height from log line.
+   * @param  {String}   line log output line
+   * @return {[String]}      Current block header height, if found
+   */
+  getBlockHeaderIncrement(line) {
+    let match
+    let height
+
+    if ((match = line.match(/Caught up to height (\d+)/))) {
+      height = match[1]
+    } else if ((match = line.match(/Processed \d* blocks? in the last.+\(height (\d+)/))) {
+      height = match[1]
+    } else if ((match = line.match(/Difficulty retarget at block height (\d+)/))) {
+      height = match[1]
+    } else if ((match = line.match(/Fetching set of headers from tip \(height=(\d+)/))) {
+      height = match[1]
+    } else if ((match = line.match(/Waiting for filter headers \(height=(\d+)\) to catch/))) {
+      height = match[1]
+    } else if ((match = line.match(/Writing filter headers up to height=(\d+)/))) {
+      height = match[1]
+    } else if ((match = line.match(/Starting cfheaders sync at block_height=(\d+)/))) {
+      height = match[1]
+    }
+
+    return height
+  }
+
+  /**
+   * Try to determine current cfilter height from log line.
+   * @param  {String}   line log output line
+   * @return {[String]}      Current cfilter height, if found
+   */
+  getCfilterIncrement(line) {
+    let match
+    let cfilter
+
+    if ((match = line.match(/Got cfheaders from height=(\d*) to height=(\d+)/))) {
+      cfilter = match[2]
+    } else if ((match = line.match(/Writing filter headers up to height=(\d*)/))) {
+      cfilter = match[1]
+    } else if ((match = line.match(/Verified \d* filter headers? in the.+\(height (\d+)/))) {
+      cfilter = match[1]
+    } else if ((match = line.match(/Fetching filter for height=(\d+)/))) {
+      cfilter = match[1]
+    }
+
+    return cfilter
+  }
+
+  /**
+   * Update state if log line indicates that sync process has completed.
+   * @param  {String} line log output line
+   */
+  notifyOnSyncComplete(line) {
+    // Lnd syncing has completed.
+    if (line.includes('Chain backend is fully synced')) {
+      this.setState(NEUTRINO_CHAIN_SYNC_COMPLETE)
     }
   }
 }
