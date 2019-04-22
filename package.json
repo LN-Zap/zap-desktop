@@ -117,7 +117,7 @@
         ]
       }
     ],
-    "artifactName": "${productName}-${platform}-${arch}-v${version}.${ext}",
+    "artifactName": "${productName}-${os}-${arch}-v${version}.${ext}",
     "mac": {
       "category": "public.app-category.finance",
       "icon": "resources/icon.icns",
