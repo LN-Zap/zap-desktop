@@ -238,6 +238,19 @@ async function ensurePeerConnected(payload = {}) {
 }
 
 /**
+ * Estimates on-chain fee
+ *
+ * @param {string} address
+ * @param {number} amount amount in satoshis
+ * @param {number} targetConf desired confirmation time
+ * @returns {Promise<EstimateFeeResponse>} {fee_sat, feerate_sat_per_byte}
+ */
+async function estimateFee(address, amount, targetConf) {
+  const payload = { AddrToAmount: { [address]: amount }, target_conf: targetConf }
+  return promisifiedCall(this.service, this.service.estimateFee, payload)
+}
+
+/**
  * Connect to peer and open a channel.
  * @param  {Object}  payload rpc payload
  * @return {Promise<Object>}
@@ -468,4 +481,5 @@ export default {
   openChannel,
   closeChannel,
   sendPayment,
+  estimateFee,
 }
