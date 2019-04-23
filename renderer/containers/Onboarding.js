@@ -29,10 +29,8 @@ import {
   startLnd,
   stopLnd,
   fetchSeed,
-  clearWalletCreateError,
-  clearWalletRecoveryError,
-  createNewWallet,
-  recoverOldWallet,
+  clearCreateWalletError,
+  createWallet,
   clearStartLndError,
   unlockWallet,
   lndSelectors,
@@ -49,8 +47,8 @@ const mapStateToProps = state => ({
   connectionString: state.onboarding.connectionString,
   lndConnect: state.onboarding.lndConnect,
   network: state.onboarding.network,
-  isRecoveringWallet: state.lnd.isRecoveringWallet,
-  walletRecoveryError: state.lnd.walletRecoveryError,
+  isCreatingWallet: state.lnd.isCreatingWallet,
+  createWalletError: state.lnd.createWalletError,
   isLightningGrpcActive: state.lnd.isLightningGrpcActive,
   isWalletUnlockerGrpcActive: state.lnd.isWalletUnlockerGrpcActive,
   passphrase: state.onboarding.passphrase,
@@ -63,8 +61,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
-  clearWalletCreateError,
-  clearWalletRecoveryError,
+  clearCreateWalletError,
   setAlias,
   setAutopilot,
   setConnectionType,
@@ -86,8 +83,7 @@ const mapDispatchToProps = {
   validateCert,
   validateMacaroon,
   fetchSeed,
-  createNewWallet,
-  recoverOldWallet,
+  createWallet,
   resetOnboarding,
   unlockWallet,
 }

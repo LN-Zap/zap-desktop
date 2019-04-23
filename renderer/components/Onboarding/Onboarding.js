@@ -24,26 +24,24 @@ import messages from './messages'
 class Onboarding extends React.Component {
   static propTypes = {
     autopilot: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
+    clearCreateWalletError: PropTypes.func.isRequired,
     clearStartLndError: PropTypes.func.isRequired,
-    clearWalletCreateError: PropTypes.func.isRequired,
-    clearWalletRecoveryError: PropTypes.func.isRequired,
     connectionCert: PropTypes.string,
     connectionHost: PropTypes.string,
     connectionMacaroon: PropTypes.string,
     connectionString: PropTypes.string,
     connectionType: PropTypes.string,
-    createNewWallet: PropTypes.func.isRequired,
+    createWallet: PropTypes.func.isRequired,
+    createWalletError: PropTypes.string,
     fetchSeed: PropTypes.func.isRequired,
-    isCreatingNewWallet: PropTypes.bool,
+    isCreatingWallet: PropTypes.bool,
     isFetchingSeed: PropTypes.bool,
     isLightningGrpcActive: PropTypes.bool,
-    isRecoveringWallet: PropTypes.bool,
     isWalletUnlockerGrpcActive: PropTypes.bool,
     lndConnect: PropTypes.string,
     name: PropTypes.string,
     network: PropTypes.string,
     passphrase: PropTypes.string,
-    recoverOldWallet: PropTypes.func.isRequired,
     resetOnboarding: PropTypes.func.isRequired,
     seed: PropTypes.array,
     setAutopilot: PropTypes.func.isRequired,
@@ -69,8 +67,6 @@ class Onboarding extends React.Component {
     validateCert: PropTypes.func.isRequired,
     validateHost: PropTypes.func.isRequired,
     validateMacaroon: PropTypes.func.isRequired,
-    walletCreateError: PropTypes.string,
-    walletRecoveryError: PropTypes.string,
   }
 
   componentWillUnmount() {
@@ -109,7 +105,7 @@ class Onboarding extends React.Component {
       connectionCert,
       connectionMacaroon,
       connectionString,
-      isCreatingNewWallet,
+      isCreatingWallet,
       isLightningGrpcActive,
       isWalletUnlockerGrpcActive,
       passphrase,
@@ -119,14 +115,11 @@ class Onboarding extends React.Component {
       startLndMacaroonError,
       unlockWalletError,
       isFetchingSeed,
-      isRecoveringWallet,
-      walletCreateError,
-      walletRecoveryError,
+      createWalletError,
       lndConnect,
 
       // DISPATCH
-      clearWalletRecoveryError,
-      clearWalletCreateError,
+      clearCreateWalletError,
       setAutopilot,
       setConnectionType,
       setConnectionHost,
@@ -147,8 +140,7 @@ class Onboarding extends React.Component {
       validateMacaroon,
       fetchSeed,
       resetOnboarding,
-      createNewWallet,
-      recoverOldWallet,
+      createWallet,
       stopLnd,
       unlockWallet,
     } = this.props
@@ -179,10 +171,10 @@ class Onboarding extends React.Component {
             key="WalletCreate"
             component={WalletCreate}
             {...{
-              clearWalletCreateError,
-              isCreatingNewWallet,
-              createNewWallet,
-              walletCreateError,
+              clearCreateWalletError,
+              isCreatingWallet,
+              createWallet,
+              createWalletError,
             }}
           />,
         ]
@@ -207,12 +199,12 @@ class Onboarding extends React.Component {
             key="WalletRecover"
             component={WalletRecover}
             {...{
-              clearWalletRecoveryError,
-              isRecoveringWallet,
+              clearCreateWalletError,
+              isCreatingWallet,
               passphrase,
-              recoverOldWallet,
+              createWallet,
               setPassphrase,
-              walletRecoveryError,
+              createWalletError,
             }}
           />,
         ]

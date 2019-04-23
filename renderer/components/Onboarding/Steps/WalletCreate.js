@@ -4,10 +4,10 @@ import { Form, Spinner, Text } from 'components/UI'
 
 class WalletCreate extends React.Component {
   static propTypes = {
-    clearWalletCreateError: PropTypes.func.isRequired,
-    createNewWallet: PropTypes.func.isRequired,
-    isCreatingNewWallet: PropTypes.bool,
-    walletCreateError: PropTypes.string,
+    clearCreateWalletError: PropTypes.func.isRequired,
+    createWallet: PropTypes.func.isRequired,
+    createWalletError: PropTypes.string,
+    isCreatingWallet: PropTypes.bool,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
   }
@@ -23,27 +23,27 @@ class WalletCreate extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isCreatingNewWallet, walletCreateError } = this.props
+    const { isCreatingWallet, createWalletError, wizardApi } = this.props
 
     // Handle success case.
-    if (!walletCreateError && !isCreatingNewWallet && prevProps.isCreatingNewWallet) {
-      this.handleSuccess()
+    if (!createWalletError && !isCreatingWallet && prevProps.isCreatingWallet) {
+      wizardApi.onSubmit()
     }
 
     // Handle failure case.
-    if (walletCreateError && !isCreatingNewWallet && prevProps.isCreatingNewWallet) {
-      this.handleError()
+    if (createWalletError && !isCreatingWallet && prevProps.isCreatingWallet) {
+      wizardApi.onSubmitFailure()
     }
   }
 
   componentWillUnmount() {
-    const { clearWalletCreateError } = this.props
-    clearWalletCreateError()
+    const { clearCreateWalletError } = this.props
+    clearCreateWalletError()
   }
 
-  handleSubmit = async () => {
-    const { createNewWallet } = this.props
-    await createNewWallet()
+  handleSubmit = () => {
+    const { createWallet } = this.props
+    createWallet()
   }
 
   setFormApi = formApi => {
@@ -51,7 +51,15 @@ class WalletCreate extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, createNewWallet, ...rest } = this.props
+    const {
+      wizardApi,
+      wizardState,
+      createWallet,
+      clearCreateWalletError,
+      createWalletError,
+      isCreatingWallet,
+      ...rest
+    } = this.props
     const { getApi, onChange, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (
@@ -64,13 +72,7 @@ class WalletCreate extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        onSubmit={async values => {
-          try {
-            await this.handleSubmit(values)
-          } catch (e) {
-            wizardApi.onSubmitFailure()
-          }
-        }}
+        onSubmit={this.handleSubmit}
         onSubmitFailure={onSubmitFailure}
       >
         <Text textAlign="center">

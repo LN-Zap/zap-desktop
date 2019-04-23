@@ -8,13 +8,13 @@ const isInvalidPassphrase = error => error === 'invalid passphrase'
 
 class WalletRecover extends React.Component {
   static propTypes = {
-    clearWalletRecoveryError: PropTypes.func.isRequired,
+    clearCreateWalletError: PropTypes.func.isRequired,
+    createWallet: PropTypes.func.isRequired,
+    createWalletError: PropTypes.string,
     intl: intlShape.isRequired,
-    isRecoveringWallet: PropTypes.bool,
+    isCreatingWallet: PropTypes.bool,
     passphrase: PropTypes.string,
-    recoverOldWallet: PropTypes.func.isRequired,
     setPassphrase: PropTypes.func.isRequired,
-    walletRecoveryError: PropTypes.string,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
   }
@@ -30,31 +30,31 @@ class WalletRecover extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isRecoveringWallet, walletRecoveryError } = this.props
+    const { isCreatingWallet, createWalletError } = this.props
 
     // Handle success case.
-    if (!walletRecoveryError && !isRecoveringWallet && prevProps.isRecoveringWallet) {
+    if (!createWalletError && !isCreatingWallet && prevProps.isCreatingWallet) {
       this.handleSuccess()
     }
 
     // Handle failure case.
-    if (walletRecoveryError && !isRecoveringWallet && prevProps.isRecoveringWallet) {
+    if (createWalletError && !isCreatingWallet && prevProps.isCreatingWallet) {
       this.handleError()
     }
   }
 
   componentWillUnmount() {
-    const { clearWalletRecoveryError } = this.props
-    clearWalletRecoveryError()
+    const { clearCreateWalletError } = this.props
+    clearCreateWalletError()
   }
 
   handleSubmit = values => {
-    const { recoverOldWallet, setPassphrase } = this.props
+    const { createWallet, setPassphrase } = this.props
     const { passphrase } = values
     if (passphrase) {
       setPassphrase(passphrase)
     }
-    recoverOldWallet()
+    createWallet({ recover: true })
   }
 
   handleSuccess = () => {
@@ -63,12 +63,12 @@ class WalletRecover extends React.Component {
   }
 
   handleError = () => {
-    const { passphrase, wizardApi, walletRecoveryError } = this.props
+    const { passphrase, wizardApi, createWalletError } = this.props
     wizardApi.onSubmitFailure()
 
     // If the user entered an incorrect passphrase, set the error on the passphrase form element.
-    if (passphrase && walletRecoveryError && isInvalidPassphrase(walletRecoveryError)) {
-      this.formApi.setError('passphrase', walletRecoveryError)
+    if (passphrase && createWalletError && isInvalidPassphrase(createWalletError)) {
+      this.formApi.setError('passphrase', createWalletError)
     }
   }
 
@@ -81,11 +81,11 @@ class WalletRecover extends React.Component {
       wizardApi,
       wizardState,
       passphrase,
-      recoverOldWallet,
+      createWallet,
       setPassphrase,
-      clearWalletRecoveryError,
-      isRecoveringWallet,
-      walletRecoveryError,
+      clearCreateWalletError,
+      isCreatingWallet,
+      createWalletError,
       intl,
       ...rest
     } = this.props
@@ -101,13 +101,7 @@ class WalletRecover extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        onSubmit={async values => {
-          try {
-            await this.handleSubmit(values)
-          } catch (e) {
-            wizardApi.onSubmitFailure()
-          }
-        }}
+        onSubmit={this.handleSubmit}
         onSubmitFailure={onSubmitFailure}
       >
         {({ formState }) => {
@@ -122,16 +116,16 @@ class WalletRecover extends React.Component {
 
               <Bar my={4} />
 
-              {isRecoveringWallet && (
+              {isCreatingWallet && (
                 <Text textAlign="center">
                   <Spinner />
                   <FormattedMessage {...messages.importing_wallet} />
                 </Text>
               )}
 
-              {!isRecoveringWallet && walletRecoveryError && (
+              {!isCreatingWallet && createWalletError && (
                 <>
-                  {isInvalidPassphrase(walletRecoveryError) ? (
+                  {isInvalidPassphrase(createWalletError) ? (
                     <PasswordInput
                       autoComplete="current-password"
                       description={intl.formatMessage({ ...messages.passphrase_description })}
@@ -146,7 +140,7 @@ class WalletRecover extends React.Component {
                       willAutoFocus
                     />
                   ) : (
-                    <Message variant="error">{walletRecoveryError}</Message>
+                    <Message variant="error">{createWalletError}</Message>
                   )}
                 </>
               )}

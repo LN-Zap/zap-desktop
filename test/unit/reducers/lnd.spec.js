@@ -5,14 +5,10 @@ import reducer, {
   CLEAR_START_LND_ERROR,
   STOP_LND,
   STOP_LND_SUCCESS,
-  CREATE_NEW_WALLET,
-  CREATE_NEW_WALLET_SUCCESS,
-  CREATE_NEW_WALLET_FAILURE,
-  CLEAR_CREATE_NEW_WALLET_ERROR,
-  RECOVER_OLD_WALLET,
-  RECOVER_OLD_WALLET_SUCCESS,
-  RECOVER_OLD_WALLET_FAILURE,
-  CLEAR_RECOVER_OLD_WALLET_ERROR,
+  CREATE_WALLET,
+  CREATE_WALLET_SUCCESS,
+  CREATE_WALLET_FAILURE,
+  CLEAR_CREATE_WALLET_ERROR,
   UNLOCK_WALLET,
   UNLOCK_WALLET_SUCCESS,
   UNLOCK_WALLET_FAILURE,
@@ -87,58 +83,30 @@ describe('reducers', () => {
       expect(reducer({}, action)).toMatchSnapshot()
     })
 
-    it('should handle CREATE_NEW_WALLET', () => {
+    it('should handle CREATE_WALLET', () => {
       const action = {
-        type: CREATE_NEW_WALLET,
+        type: CREATE_WALLET,
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })
 
-    it('should handle CREATE_NEW_WALLET_SUCCESS', () => {
+    it('should handle CREATE_WALLET_SUCCESS', () => {
       const action = {
-        type: CREATE_NEW_WALLET_SUCCESS,
+        type: CREATE_WALLET_SUCCESS,
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })
 
-    it('should handle CREATE_NEW_WALLET_FAILURE', () => {
+    it('should handle CREATE_WALLET_FAILURE', () => {
       const action = {
-        type: CREATE_NEW_WALLET_FAILURE,
+        type: CREATE_WALLET_FAILURE,
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })
 
-    it('should handle CLEAR_CREATE_NEW_WALLET_ERROR', () => {
+    it('should handle CLEAR_CREATE_WALLET_ERROR', () => {
       const action = {
-        type: CLEAR_CREATE_NEW_WALLET_ERROR,
-      }
-      expect(reducer({}, action)).toMatchSnapshot()
-    })
-
-    it('should handle RECOVER_OLD_WALLET', () => {
-      const action = {
-        type: RECOVER_OLD_WALLET,
-      }
-      expect(reducer({}, action)).toMatchSnapshot()
-    })
-
-    it('should handle RECOVER_OLD_WALLET_SUCCESS', () => {
-      const action = {
-        type: RECOVER_OLD_WALLET_SUCCESS,
-      }
-      expect(reducer({}, action)).toMatchSnapshot()
-    })
-
-    it('should handle RECOVER_OLD_WALLET_FAILURE', () => {
-      const action = {
-        type: RECOVER_OLD_WALLET_FAILURE,
-      }
-      expect(reducer({}, action)).toMatchSnapshot()
-    })
-
-    it('should handle CLEAR_RECOVER_OLD_WALLET_ERROR', () => {
-      const action = {
-        type: CLEAR_RECOVER_OLD_WALLET_ERROR,
+        type: CLEAR_CREATE_WALLET_ERROR,
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })

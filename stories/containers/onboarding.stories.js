@@ -112,8 +112,7 @@ const validateMacaroon = async value => {
     : Promise.reject(new Error('invalid macaroon (enter "valid")'))
 }
 
-const recoverOldWallet = async () => action('recoverOldWallet')
-const createNewWallet = async () => action('recoverOldWallet')
+const createWallet = async () => action('createWallet')
 
 storiesOf('Containers.Onboarding', module)
   .addParameters({ info: { disable: true } })
@@ -124,9 +123,8 @@ storiesOf('Containers.Onboarding', module)
       <State store={store}>
         <Onboarding
           // DISPATCH
-          createNewWallet={createNewWallet}
+          createWallet={createWallet}
           fetchSeed={fetchSeed}
-          recoverOldWallet={recoverOldWallet}
           resetOnboarding={resetOnboarding}
           setAutopilot={setAutopilot}
           setConnectionCert={setConnectionCert}
