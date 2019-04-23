@@ -85,4 +85,9 @@ export default defineMessages({
   node_search_results_header: '{count, plural, =0 {No results}  other {Search results ({count})}}',
   node_suggestions_title: 'Suggested Nodes',
   refresh_button_hint: 'Refresh channels list',
+  channel_filter_all: 'All',
+  channel_filter_online: 'Online',
+  channel_filter_offline: 'Offline',
+  channel_filter_pending: 'Pending',
+  channel_filter_closing: 'Closing',
 })

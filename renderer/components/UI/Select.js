@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import { compose } from 'redux'
@@ -70,40 +70,45 @@ const StyledInput = styled(BasicInput)`
 
 const itemToString = item => (item ? item.value : '')
 
+const getInitialSelectedItem = (items, initialSelectedItem) => {
+  return initialSelectedItem
+    ? {
+        initialInputValue: itemToString(initialSelectedItem),
+        initialSelectedItem: items.find(i => i.key === initialSelectedItem),
+      }
+    : {}
+}
+
 /**
- * @render react
- * @name Select
+ * Internationalizes select items
+ *
+ * @param {Array} items
+ * @callback messageMapper key=>intl message mapper
+ * @param {intlShape} intl
+ * @returns {Array}
  */
-class Select extends React.PureComponent {
-  static displayName = 'Select'
-
-  static propTypes = {
-    color: PropTypes.string,
-    fieldApi: PropTypes.object.isRequired,
-    fieldState: PropTypes.object.isRequired,
-    iconSize: PropTypes.number,
-    initialSelectedItem: PropTypes.string,
-    intl: intlShape.isRequired,
-    items: PropTypes.array,
-    onValueSelected: PropTypes.func,
-    theme: PropTypes.object.isRequired,
-  }
-
-  static defaultProps = {
-    items: [],
-    iconSize: 8,
-  }
-
-  inputRef = React.createRef()
-
-  blurInput = () => {
-    if (this.inputRef.current) {
-      this.inputRef.current.blur()
+function useIntl(items, messageMapper, intl) {
+  return useMemo(() => {
+    // if messageMapper is not set just original items array
+    // in this case items should already contain value prop for each key
+    if (!messageMapper) {
+      return items
     }
-  }
+    return items.map(({ key }) => {
+      return { key, value: intl.formatMessage({ ...messageMapper(key) }) }
+    })
+  }, [items, messageMapper, intl])
+}
 
-  renderSelectOptions = (highlightedIndex, selectedItem, getItemProps) => {
-    let { items, theme } = this.props
+function Select(props) {
+  const { intl, messageMapper } = props
+  const inputRef = useRef(null)
+  // eslint-disable-next-line react/destructuring-assignment
+  const items = useIntl(props.items, messageMapper, intl)
+  const blurInput = () => inputRef.current && inputRef.current.blur()
+
+  const renderSelectOptions = (highlightedIndex, selectedItem, getItemProps) => {
+    const { theme } = props
 
     return items.map((item, index) => (
       <SelectOptionItem
@@ -126,104 +131,113 @@ class Select extends React.PureComponent {
     ))
   }
 
-  render() {
-    let {
-      fieldApi,
-      fieldState,
-      iconSize,
-      items,
-      theme,
-      color,
-      onValueSelected,
-      initialSelectedItem,
-      intl,
-      ...rest
-    } = this.props
-    const { setValue, setTouched } = fieldApi
+  const {
+    fieldApi,
+    fieldState,
+    iconSize,
+    theme,
+    color,
+    onValueSelected,
+    initialSelectedItem: initialSelectedItemOriginal,
+    ...rest
+  } = props
+  const { setValue, setTouched } = fieldApi
 
-    let initialInputValue
-    if (initialSelectedItem) {
-      initialSelectedItem = items.find(i => i.key === initialSelectedItem)
-      initialInputValue = itemToString(initialSelectedItem)
-    }
+  const { initialInputValue, initialSelectedItem } = getInitialSelectedItem(
+    items,
+    initialSelectedItemOriginal
+  )
 
-    return (
-      <Downshift
-        initialInputValue={initialInputValue}
-        initialSelectedItem={initialSelectedItem}
-        itemToString={itemToString}
-        // When an item is selected, set the item in the Informed form state.
-        onInputValueChange={(inputValue, stateAndHelpers) => {
-          if (inputValue && inputValue !== itemToString(stateAndHelpers.selectedItem)) {
-            fieldApi.setValue(itemToString(stateAndHelpers.selectedItem))
+  return (
+    <Downshift
+      initialInputValue={initialInputValue}
+      initialSelectedItem={initialSelectedItem}
+      itemToString={itemToString}
+      // When an item is selected, set the item in the Informed form state.
+      onInputValueChange={(inputValue, stateAndHelpers) => {
+        if (inputValue && inputValue !== itemToString(stateAndHelpers.selectedItem)) {
+          fieldApi.setValue(itemToString(stateAndHelpers.selectedItem))
+        }
+      }}
+      onSelect={item => {
+        setValue(item.value)
+        setTouched(true)
+        if (onValueSelected) {
+          onValueSelected(item.key)
+        }
+        blurInput()
+      }}
+    >
+      {({
+        getInputProps,
+        getItemProps,
+        getMenuProps,
+        isOpen,
+        highlightedIndex,
+        selectedItem,
+        closeMenu,
+        openMenu,
+        toggleMenu,
+      }) => {
+        const getInitialValue = () => {
+          if (selectedItem) {
+            return selectedItem.value
           }
-        }}
-        onSelect={item => {
-          setValue(item.value)
-          setTouched(true)
-          if (onValueSelected) {
-            onValueSelected(item.key)
-          }
-          this.blurInput()
-        }}
-      >
-        {({
-          getInputProps,
-          getItemProps,
-          getMenuProps,
-          isOpen,
-          highlightedIndex,
-          selectedItem,
-          closeMenu,
-          openMenu,
-          toggleMenu,
-        }) => {
-          const getInitialValue = () => {
-            if (selectedItem) {
-              return selectedItem.value
-            }
 
-            if (initialSelectedItem) {
-              initialSelectedItem.value
-            }
-
-            return ''
+          if (initialSelectedItem) {
+            initialSelectedItem.value
           }
-          return (
-            <div style={{ position: 'relative' }}>
-              <Flex alignItems="center">
-                <StyledInput
-                  placeholder={intl.formatMessage({ ...messages.select_placeholder })}
-                  {...rest}
-                  initialValue={getInitialValue()}
-                  {...getInputProps({
-                    onBlur: closeMenu,
-                    onFocus: openMenu,
-                    onMouseDown: toggleMenu,
-                  })}
-                  fieldApi={fieldApi}
-                  fieldState={fieldState}
-                  forwardedRef={this.inputRef}
-                />
-                <Box>
-                  {isOpen ? (
-                    <ArrowIconOpen width={iconSize} />
-                  ) : (
-                    <ArrowIconClosed width={iconSize} />
-                  )}
-                </Box>
-              </Flex>
-              {isOpen && (
-                <SelectOptionList {...getMenuProps({}, { suppressRefError: true })}>
-                  {this.renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
-                </SelectOptionList>
-              )}
-            </div>
-          )
-        }}
-      </Downshift>
-    )
-  }
+
+          return ''
+        }
+        return (
+          <div style={{ position: 'relative' }}>
+            <Flex alignItems="center">
+              <StyledInput
+                placeholder={intl.formatMessage({ ...messages.select_placeholder })}
+                {...rest}
+                initialValue={getInitialValue()}
+                {...getInputProps({
+                  onBlur: closeMenu,
+                  onFocus: openMenu,
+                  onMouseDown: toggleMenu,
+                })}
+                fieldApi={fieldApi}
+                fieldState={fieldState}
+                forwardedRef={inputRef}
+              />
+              <Box>
+                {isOpen ? <ArrowIconOpen width={iconSize} /> : <ArrowIconClosed width={iconSize} />}
+              </Box>
+            </Flex>
+            {isOpen && (
+              <SelectOptionList {...getMenuProps({}, { suppressRefError: true })}>
+                {renderSelectOptions(highlightedIndex, selectedItem, getItemProps)}
+              </SelectOptionList>
+            )}
+          </div>
+        )
+      }}
+    </Downshift>
+  )
+}
+
+Select.propTypes = {
+  color: PropTypes.string,
+  fieldApi: PropTypes.object.isRequired,
+  fieldState: PropTypes.object.isRequired,
+  iconSize: PropTypes.number,
+  initialSelectedItem: PropTypes.string,
+  intl: intlShape.isRequired,
+  items: PropTypes.array,
+  messageMapper: PropTypes.func,
+  onValueSelected: PropTypes.func,
+  theme: PropTypes.object.isRequired,
+}
+
+Select.defaultProps = {
+  items: [],
+  iconSize: 8,
 }
 
 const BasicSelect = compose(

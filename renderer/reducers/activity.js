@@ -15,12 +15,12 @@ import { fetchChannels } from './channels'
 const initialState = {
   filter: 'ALL_ACTIVITY',
   filters: [
-    { key: 'ALL_ACTIVITY', name: 'All' },
-    { key: 'SENT_ACTIVITY', name: 'Sent' },
-    { key: 'RECEIVED_ACTIVITY', name: 'Received' },
-    { key: 'PENDING_ACTIVITY', name: 'Pending' },
-    { key: 'EXPIRED_ACTIVITY', name: 'Expired' },
-    { key: 'INTERNAL_ACTIVITY', name: 'Internal' },
+    { key: 'ALL_ACTIVITY' },
+    { key: 'SENT_ACTIVITY' },
+    { key: 'RECEIVED_ACTIVITY' },
+    { key: 'PENDING_ACTIVITY' },
+    { key: 'EXPIRED_ACTIVITY' },
+    { key: 'INTERNAL_ACTIVITY' },
   ],
   modal: {
     itemType: null,
