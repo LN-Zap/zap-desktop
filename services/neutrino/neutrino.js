@@ -276,6 +276,7 @@ class Neutrino extends EventEmitter {
       `--listen=${listen}`,
       `--restlisten=${restlisten}`,
       `--routing.assumechanvalid`,
+      '--debuglevel=debug',
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
       `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
       `${this.lndConfig.autopilotPrivate ? '--autopilot.private' : ''}`,

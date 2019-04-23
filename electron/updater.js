@@ -44,10 +44,14 @@ class ZapUpdater {
     this.initAutoUpdate()
   }
 
-  initAutoUpdate() {
-    autoUpdater.checkForUpdates()
-    const oneHour = 60 * 60 * 1000
-    setInterval(() => autoUpdater.checkForUpdates(), oneHour)
+  async initAutoUpdate() {
+    try {
+      await autoUpdater.checkForUpdates()
+      const oneHour = 60 * 60 * 1000
+      setInterval(() => autoUpdater.checkForUpdates(), oneHour)
+    } catch (error) {
+      updaterLog.warn('Cannot check for updates', error.message)
+    }
   }
 }
 
