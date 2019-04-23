@@ -9,6 +9,8 @@ import reducer, {
   CREATE_NEW_WALLET_SUCCESS,
   RECOVER_OLD_WALLET,
   RECOVER_OLD_WALLET_SUCCESS,
+  RECOVER_OLD_WALLET_FAILURE,
+  CLEAR_RECOVER_OLD_WALLET_ERROR,
   UNLOCK_WALLET,
   UNLOCK_WALLET_SUCCESS,
   UNLOCK_WALLET_FAILURE,
@@ -107,6 +109,20 @@ describe('reducers', () => {
     it('should handle RECOVER_OLD_WALLET_SUCCESS', () => {
       const action = {
         type: RECOVER_OLD_WALLET_SUCCESS,
+      }
+      expect(reducer({}, action)).toMatchSnapshot()
+    })
+
+    it('should handle RECOVER_OLD_WALLET_FAILURE', () => {
+      const action = {
+        type: RECOVER_OLD_WALLET_FAILURE,
+      }
+      expect(reducer({}, action)).toMatchSnapshot()
+    })
+
+    it('should handle CLEAR_RECOVER_OLD_WALLET_ERROR', () => {
+      const action = {
+        type: CLEAR_RECOVER_OLD_WALLET_ERROR,
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })

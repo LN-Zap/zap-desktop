@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`reducers neutrinoReducer should handle CLEAR_RECOVER_OLD_WALLET_ERROR 1`] = `
+Object {
+  "walletRecoveryError": null,
+}
+`;
+
 exports[`reducers neutrinoReducer should handle CLEAR_START_LND_ERROR 1`] = `
 Object {
   "startLndError": null,
@@ -92,13 +98,22 @@ Object {
 
 exports[`reducers neutrinoReducer should handle RECOVER_OLD_WALLET 1`] = `
 Object {
-  "isRecoveringOldWallet": true,
+  "isRecoveringWallet": true,
+  "walletRecoveryError": null,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle RECOVER_OLD_WALLET_FAILURE 1`] = `
+Object {
+  "isRecoveringWallet": false,
+  "walletRecoveryError": undefined,
 }
 `;
 
 exports[`reducers neutrinoReducer should handle RECOVER_OLD_WALLET_SUCCESS 1`] = `
 Object {
-  "isRecoveringOldWallet": false,
+  "isRecoveringWallet": false,
+  "walletRecoveryError": null,
 }
 `;
 
@@ -171,7 +186,7 @@ Object {
   "isFetchingSeed": false,
   "isLightningGrpcActive": false,
   "isLndActive": false,
-  "isRecoveringOldWallet": false,
+  "isRecoveringWallet": false,
   "isStartingGrpc": false,
   "isStartingLnd": false,
   "isStoppingLnd": false,
@@ -180,5 +195,6 @@ Object {
   "lndConfig": Object {},
   "startLndError": null,
   "unlockWalletError": null,
+  "walletRecoveryError": null,
 }
 `;
