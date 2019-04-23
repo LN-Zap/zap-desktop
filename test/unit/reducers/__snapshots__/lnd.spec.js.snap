@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`reducers neutrinoReducer should handle CLEAR_CREATE_NEW_WALLET_ERROR 1`] = `
+Object {
+  "walletCreateError": null,
+}
+`;
+
 exports[`reducers neutrinoReducer should handle CLEAR_RECOVER_OLD_WALLET_ERROR 1`] = `
 Object {
   "walletRecoveryError": null,
@@ -33,12 +39,21 @@ Object {
 exports[`reducers neutrinoReducer should handle CREATE_NEW_WALLET 1`] = `
 Object {
   "isCreatingNewWallet": true,
+  "walletCreateError": null,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle CREATE_NEW_WALLET_FAILURE 1`] = `
+Object {
+  "isCreatingNewWallet": false,
+  "walletCreateError": undefined,
 }
 `;
 
 exports[`reducers neutrinoReducer should handle CREATE_NEW_WALLET_SUCCESS 1`] = `
 Object {
   "isCreatingNewWallet": false,
+  "walletCreateError": null,
 }
 `;
 

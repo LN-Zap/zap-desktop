@@ -26,6 +26,7 @@ export const STOP_LND_SUCCESS = 'STOP_LND_SUCCESS'
 export const CREATE_NEW_WALLET = 'CREATE_NEW_WALLET'
 export const CREATE_NEW_WALLET_SUCCESS = 'CREATE_NEW_WALLET_SUCCESS'
 export const CREATE_NEW_WALLET_FAILURE = 'CREATE_NEW_WALLET_FAILURE'
+export const CLEAR_CREATE_NEW_WALLET_ERROR = 'CLEAR_CREATE_NEW_WALLET_ERROR'
 
 export const RECOVER_OLD_WALLET = 'RECOVER_OLD_WALLET'
 export const RECOVER_OLD_WALLET_SUCCESS = 'RECOVER_OLD_WALLET_SUCCESS'
@@ -353,6 +354,10 @@ export const fetchSeedError = error => dispatch => {
  */
 export const createNewWallet = () => async (dispatch, getState) => {
   dispatch({ type: CREATE_NEW_WALLET })
+
+  const grpc = await grpcService
+  let handleLightningActive
+
   try {
     const state = getState()
     const { chain: defaultChain, network: defaultNetwork } = config
@@ -373,16 +378,39 @@ export const createNewWallet = () => async (dispatch, getState) => {
     // Start lnd with the provided wallet config.
     await dispatch(startLnd(wallet))
 
+    // Set up a listener that resolves once the lightning interface has become active.
+    // This is the point where we really know that the wallet has been created and we can connect to it.
+    const waitForLightning = new Promise(resolve => {
+      handleLightningActive = proxyValue(() => resolve())
+      grpc.prependListener('GRPC_LIGHTNING_SERVICE_ACTIVE', handleLightningActive)
+    })
+
     // Call initWallet method.
-    const grpc = await grpcService
     await grpc.services.WalletUnlocker.initWallet({
       wallet_password: state.onboarding.password,
       cipher_seed_mnemonic: state.onboarding.seed,
       recovery_window: 0,
     })
+
+    // Wait for the lightning gRPC interface to become active.
+    await waitForLightning
+
+    // Notify of wallet recovery success.
     dispatch(walletCreated())
   } catch (error) {
-    dispatch(createNewWalletFailure(error.message))
+    // Attempt to clean up from the failed import attempt.
+    try {
+      const { lndConfig } = getState().lnd
+      await dispatch(stopLnd())
+      await dispatch(removeWallet(lndConfig))
+    } finally {
+      // Remove Lightning grpc activation listener.
+      if (handleLightningActive) {
+        grpc.off('GRPC_LIGHTNING_SERVICE_ACTIVE', handleLightningActive)
+      }
+      // Notify of wallet recovery failure.
+      dispatch(createNewWalletFailure(error.message))
+    }
   }
 }
 
@@ -399,6 +427,13 @@ export const walletCreated = () => ({
 export const createNewWalletFailure = error => ({
   type: CREATE_NEW_WALLET_FAILURE,
   error,
+})
+
+/**
+ * Clear wallet create error.
+ */
+export const clearWalletCreateError = () => ({
+  type: CLEAR_CREATE_NEW_WALLET_ERROR,
 })
 
 /**
@@ -583,9 +618,25 @@ const ACTION_HANDLERS = {
     isLndActive: false,
   }),
 
-  [CREATE_NEW_WALLET]: state => ({ ...state, isCreatingNewWallet: true }),
-  [CREATE_NEW_WALLET_SUCCESS]: state => ({ ...state, isCreatingNewWallet: false }),
-  [CREATE_NEW_WALLET_FAILURE]: state => ({ ...state, isCreatingNewWallet: false }),
+  [CREATE_NEW_WALLET]: state => ({
+    ...state,
+    isCreatingNewWallet: true,
+    walletCreateError: null,
+  }),
+  [CREATE_NEW_WALLET_SUCCESS]: state => ({
+    ...state,
+    isCreatingNewWallet: false,
+    walletCreateError: null,
+  }),
+  [CREATE_NEW_WALLET_FAILURE]: (state, { error }) => ({
+    ...state,
+    isCreatingNewWallet: false,
+    walletCreateError: error,
+  }),
+  [CLEAR_CREATE_NEW_WALLET_ERROR]: state => ({
+    ...state,
+    walletCreateError: null,
+  }),
 
   [RECOVER_OLD_WALLET]: state => ({
     ...state,

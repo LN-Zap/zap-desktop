@@ -7,6 +7,8 @@ import reducer, {
   STOP_LND_SUCCESS,
   CREATE_NEW_WALLET,
   CREATE_NEW_WALLET_SUCCESS,
+  CREATE_NEW_WALLET_FAILURE,
+  CLEAR_CREATE_NEW_WALLET_ERROR,
   RECOVER_OLD_WALLET,
   RECOVER_OLD_WALLET_SUCCESS,
   RECOVER_OLD_WALLET_FAILURE,
@@ -95,6 +97,20 @@ describe('reducers', () => {
     it('should handle CREATE_NEW_WALLET_SUCCESS', () => {
       const action = {
         type: CREATE_NEW_WALLET_SUCCESS,
+      }
+      expect(reducer({}, action)).toMatchSnapshot()
+    })
+
+    it('should handle CREATE_NEW_WALLET_FAILURE', () => {
+      const action = {
+        type: CREATE_NEW_WALLET_FAILURE,
+      }
+      expect(reducer({}, action)).toMatchSnapshot()
+    })
+
+    it('should handle CLEAR_CREATE_NEW_WALLET_ERROR', () => {
+      const action = {
+        type: CLEAR_CREATE_NEW_WALLET_ERROR,
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })
