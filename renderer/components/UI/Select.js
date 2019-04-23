@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useMemo } from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import { compose } from 'redux'
@@ -79,13 +79,36 @@ const getInitialSelectedItem = (items, initialSelectedItem) => {
     : {}
 }
 
-function Select(props) {
-  const inputRef = useRef(null)
+/**
+ * Internationalizes select items
+ *
+ * @param {Array} items
+ * @callback messageMapper key=>intl message mapper
+ * @param {intlShape} intl
+ * @returns {Array}
+ */
+function useIntl(items, messageMapper, intl) {
+  return useMemo(() => {
+    // if messageMapper is not set just original items array
+    // in this case items should already contain value prop for each key
+    if (!messageMapper) {
+      return items
+    }
+    return items.map(({ key }) => {
+      return { key, value: intl.formatMessage({ ...messageMapper(key) }) }
+    })
+  }, [items, messageMapper, intl])
+}
 
+function Select(props) {
+  const { intl, messageMapper } = props
+  const inputRef = useRef(null)
+  // eslint-disable-next-line react/destructuring-assignment
+  const items = useIntl(props.items, messageMapper, intl)
   const blurInput = () => inputRef.current && inputRef.current.blur()
 
   const renderSelectOptions = (highlightedIndex, selectedItem, getItemProps) => {
-    let { items, theme } = props
+    const { theme } = props
 
     return items.map((item, index) => (
       <SelectOptionItem
@@ -112,12 +135,10 @@ function Select(props) {
     fieldApi,
     fieldState,
     iconSize,
-    items,
     theme,
     color,
     onValueSelected,
     initialSelectedItem: initialSelectedItemOriginal,
-    intl,
     ...rest
   } = props
   const { setValue, setTouched } = fieldApi
@@ -209,6 +230,7 @@ Select.propTypes = {
   initialSelectedItem: PropTypes.string,
   intl: intlShape.isRequired,
   items: PropTypes.array,
+  messageMapper: PropTypes.func,
   onValueSelected: PropTypes.func,
   theme: PropTypes.object.isRequired,
 }
