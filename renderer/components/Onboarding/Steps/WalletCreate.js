@@ -4,7 +4,10 @@ import { Form, Spinner, Text } from 'components/UI'
 
 class WalletCreate extends React.Component {
   static propTypes = {
+    clearWalletCreateError: PropTypes.func.isRequired,
     createNewWallet: PropTypes.func.isRequired,
+    isCreatingNewWallet: PropTypes.bool,
+    walletCreateError: PropTypes.string,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
   }
@@ -15,12 +18,32 @@ class WalletCreate extends React.Component {
   }
 
   componentDidMount() {
-    this.formApi.submitForm()
+    const { wizardApi } = this.props
+    wizardApi.next()
   }
 
-  handleSubmit = () => {
+  componentDidUpdate(prevProps) {
+    const { isCreatingNewWallet, walletCreateError } = this.props
+
+    // Handle success case.
+    if (!walletCreateError && !isCreatingNewWallet && prevProps.isCreatingNewWallet) {
+      this.handleSuccess()
+    }
+
+    // Handle failure case.
+    if (walletCreateError && !isCreatingNewWallet && prevProps.isCreatingNewWallet) {
+      this.handleError()
+    }
+  }
+
+  componentWillUnmount() {
+    const { clearWalletCreateError } = this.props
+    clearWalletCreateError()
+  }
+
+  handleSubmit = async () => {
     const { createNewWallet } = this.props
-    createNewWallet()
+    await createNewWallet()
   }
 
   setFormApi = formApi => {
@@ -29,7 +52,7 @@ class WalletCreate extends React.Component {
 
   render() {
     const { wizardApi, wizardState, createNewWallet, ...rest } = this.props
-    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onChange, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (
       <Form
@@ -41,10 +64,11 @@ class WalletCreate extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        onSubmit={values => {
-          this.handleSubmit(values)
-          if (onSubmit) {
-            onSubmit(values)
+        onSubmit={async values => {
+          try {
+            await this.handleSubmit(values)
+          } catch (e) {
+            wizardApi.onSubmitFailure()
           }
         }}
         onSubmitFailure={onSubmitFailure}

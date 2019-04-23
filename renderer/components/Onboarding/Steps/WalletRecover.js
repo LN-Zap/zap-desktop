@@ -25,7 +25,8 @@ class WalletRecover extends React.Component {
   }
 
   componentDidMount() {
-    this.formApi.submitForm()
+    const { wizardApi } = this.props
+    wizardApi.next()
   }
 
   componentDidUpdate(prevProps) {
@@ -100,7 +101,13 @@ class WalletRecover extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        onSubmit={this.handleSubmit}
+        onSubmit={async values => {
+          try {
+            await this.handleSubmit(values)
+          } catch (e) {
+            wizardApi.onSubmitFailure()
+          }
+        }}
         onSubmitFailure={onSubmitFailure}
       >
         {({ formState }) => {

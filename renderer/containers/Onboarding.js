@@ -29,6 +29,7 @@ import {
   startLnd,
   stopLnd,
   fetchSeed,
+  clearWalletCreateError,
   clearWalletRecoveryError,
   createNewWallet,
   recoverOldWallet,
@@ -62,6 +63,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = {
+  clearWalletCreateError,
   clearWalletRecoveryError,
   setAlias,
   setAutopilot,

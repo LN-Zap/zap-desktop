@@ -23,9 +23,9 @@ import messages from './messages'
 
 class Onboarding extends React.Component {
   static propTypes = {
-    // STATE
     autopilot: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
     clearStartLndError: PropTypes.func.isRequired,
+    clearWalletCreateError: PropTypes.func.isRequired,
     clearWalletRecoveryError: PropTypes.func.isRequired,
     connectionCert: PropTypes.string,
     connectionHost: PropTypes.string,
@@ -34,6 +34,7 @@ class Onboarding extends React.Component {
     connectionType: PropTypes.string,
     createNewWallet: PropTypes.func.isRequired,
     fetchSeed: PropTypes.func.isRequired,
+    isCreatingNewWallet: PropTypes.bool,
     isFetchingSeed: PropTypes.bool,
     isLightningGrpcActive: PropTypes.bool,
     isRecoveringWallet: PropTypes.bool,
@@ -44,8 +45,6 @@ class Onboarding extends React.Component {
     passphrase: PropTypes.string,
     recoverOldWallet: PropTypes.func.isRequired,
     resetOnboarding: PropTypes.func.isRequired,
-
-    // DISPATCH
     seed: PropTypes.array,
     setAutopilot: PropTypes.func.isRequired,
     setConnectionCert: PropTypes.func.isRequired,
@@ -70,6 +69,7 @@ class Onboarding extends React.Component {
     validateCert: PropTypes.func.isRequired,
     validateHost: PropTypes.func.isRequired,
     validateMacaroon: PropTypes.func.isRequired,
+    walletCreateError: PropTypes.string,
     walletRecoveryError: PropTypes.string,
   }
 
@@ -109,6 +109,7 @@ class Onboarding extends React.Component {
       connectionCert,
       connectionMacaroon,
       connectionString,
+      isCreatingNewWallet,
       isLightningGrpcActive,
       isWalletUnlockerGrpcActive,
       passphrase,
@@ -119,11 +120,13 @@ class Onboarding extends React.Component {
       unlockWalletError,
       isFetchingSeed,
       isRecoveringWallet,
+      walletCreateError,
       walletRecoveryError,
       lndConnect,
 
       // DISPATCH
       clearWalletRecoveryError,
+      clearWalletCreateError,
       setAutopilot,
       setConnectionType,
       setConnectionHost,
@@ -172,7 +175,16 @@ class Onboarding extends React.Component {
             {...{ network, setNetwork, setAutopilot }}
           />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
-          <Wizard.Step key="WalletCreate" component={WalletCreate} {...{ createNewWallet }} />,
+          <Wizard.Step
+            key="WalletCreate"
+            component={WalletCreate}
+            {...{
+              clearWalletCreateError,
+              isCreatingNewWallet,
+              createNewWallet,
+              walletCreateError,
+            }}
+          />,
         ]
         break
 
