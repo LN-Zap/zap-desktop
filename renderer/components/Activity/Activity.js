@@ -105,7 +105,6 @@ class Activity extends Component {
         <Panel.Header my={3}>
           <ActivityActions mx={5} />
         </Panel.Header>
-
         <Panel.Body>{this.renderActivityList()}</Panel.Body>
       </Panel>
     )
