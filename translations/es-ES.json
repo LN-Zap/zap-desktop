@@ -1,4 +1,10 @@
 {
+  "components.Activity.ActivityActions.actiity_filter_all": "",
+  "components.Activity.ActivityActions.actiity_filter_expired": "",
+  "components.Activity.ActivityActions.actiity_filter_internal": "",
+  "components.Activity.ActivityActions.actiity_filter_pending": "",
+  "components.Activity.ActivityActions.actiity_filter_received": "",
+  "components.Activity.ActivityActions.actiity_filter_sent": "",
   "components.Activity.ActivityActions.refresh_button_hint": "Actualizar listado de actividad",
   "components.Activity.ActivityActions.search_placeholder": "Búsqueda de actividad",
   "components.Activity.Invoice.amount": "Monto",
