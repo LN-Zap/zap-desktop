@@ -7,27 +7,21 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
     },
     Object {
       "key": "RECEIVED_ACTIVITY",
-      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
     },
     Object {
       "key": "EXPIRED_ACTIVITY",
-      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
-      "name": "Internal",
     },
   ],
   "isActivityLoading": false,
@@ -47,27 +41,21 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
     },
     Object {
       "key": "RECEIVED_ACTIVITY",
-      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
     },
     Object {
       "key": "EXPIRED_ACTIVITY",
-      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
-      "name": "Internal",
     },
   ],
   "isActivityLoading": false,
@@ -87,27 +75,21 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
     },
     Object {
       "key": "RECEIVED_ACTIVITY",
-      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
     },
     Object {
       "key": "EXPIRED_ACTIVITY",
-      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
-      "name": "Internal",
     },
   ],
   "isActivityLoading": false,
@@ -127,27 +109,21 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_ACTIVITY",
-      "name": "All",
     },
     Object {
       "key": "SENT_ACTIVITY",
-      "name": "Sent",
     },
     Object {
       "key": "RECEIVED_ACTIVITY",
-      "name": "Received",
     },
     Object {
       "key": "PENDING_ACTIVITY",
-      "name": "Pending",
     },
     Object {
       "key": "EXPIRED_ACTIVITY",
-      "name": "Expired",
     },
     Object {
       "key": "INTERNAL_ACTIVITY",
-      "name": "Internal",
     },
   ],
   "isActivityLoading": false,
