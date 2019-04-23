@@ -1,36 +1,27 @@
 import { dialog } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import isDev from 'electron-is-dev'
+import config from 'config'
 import { updaterLog } from '@zap/utils/log'
 import delay from '@zap/utils/delay'
 
 autoUpdater.logger = updaterLog
-
-/**
- * Update Channel
- * supported channels are 'alpha', 'beta' and 'latest'
- * Refer electron-builder docs
- */
-autoUpdater.channel = process.env.AUTOUPDATE_CHANNEL || 'beta'
+autoUpdater.channel = config.autoupdate.channel
 autoUpdater.allowDowngrade = false
 
 /**
- * @class ZapController
+ * @class ZapUpdater
  *
  * The ZapUpdater class manages the electron auto update process.
  */
 class ZapUpdater {
-  /**
-   * Create a new ZapUpdater instance.
-   * @param  {BrowserWindow} mainWindow BrowserWindow instance to interact with
-   */
   constructor(mainWindow) {
     this.mainWindow = mainWindow
   }
 
   init() {
-    // Do not run the updater if we are running in dev mode.
-    if (isDev) {
+    // Do not run the updater if we are running in dev mode or if autoupdates are disabled.
+    if (isDev || !config.autoupdate.active) {
       return
     }
 

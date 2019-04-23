@@ -7,10 +7,19 @@
     "domain": "DB_DOMAIN"
   },
 
+  "autoupdate": {
+    "active": {
+      "__name": "AUTOUPDATE_ACTIVE",
+      "__format": "json"
+    },
+    "channel": "AUTOUPDATE_CHANNEL"
+  },
+
   "chains": {
     "__name": "CHAINS",
     "__format": "json"
   },
+
   "networks": {
     "__name": "NETWORKS",
     "__format": "json"
