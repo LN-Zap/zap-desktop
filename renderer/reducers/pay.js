@@ -1,6 +1,7 @@
 import get from 'lodash.get'
 import { grpcService } from 'workers'
-import { requestFees } from '@zap/utils/api'
+import { estimateFeeRange } from '@zap/utils/fee'
+import config from 'config'
 
 // ------------------------------------
 // Constants
@@ -18,10 +19,22 @@ export const SET_PAY_REQ = 'SET_PAY_REQ'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export const queryFees = () => async dispatch => {
+
+/**
+ * Estimates on-chain fee
+ *
+ * @param {string} [address]
+ * @param {number} [amountInSats] desired amount in satoshis
+ */
+export const queryFees = (address, amountInSats) => async dispatch => {
   dispatch({ type: QUERY_FEES })
   try {
-    const onchainFees = await requestFees()
+    const onchainFees = await estimateFeeRange({
+      address,
+      amountInSats,
+      range: config.lndTargetConfirmations,
+    })
+
     dispatch({ type: QUERY_FEES_SUCCESS, onchainFees })
   } catch (e) {
     const error = get(e, 'response.statusText', e)

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import config from 'config'
+import debounce from 'lodash.debounce'
 import { Box, Flex } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
@@ -137,6 +138,17 @@ class Pay extends React.Component {
 
   amountInput = React.createRef()
   payReqInput = React.createRef()
+
+  updateFees = debounce(() => {
+    const { isOnchain } = this.state
+    if (!isOnchain) {
+      return
+    }
+    const { queryFees } = this.props
+    const formState = this.formApi.getState()
+    const { payReq: address } = formState.values
+    queryFees(address, this.amountInSats())
+  }, 500)
 
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
   componentDidMount() {
@@ -522,6 +534,7 @@ class Pay extends React.Component {
               initialAmountFiat={initialAmountFiat}
               isDisabled={currentStep !== 'amount' || isCoinSweep}
               isRequired
+              onChange={this.updateFees}
             />
 
             {isOnchain && (
