@@ -22,21 +22,23 @@ class WrappedPasswordInputAsField extends React.Component {
   static propTypes = {
     isDisabled: PropTypes.bool,
     isRequired: PropTypes.bool,
+    minLength: PropTypes.number,
     validate: PropTypes.func,
   }
 
   static defaultProps = {
     isDisabled: false,
     isRequired: false,
+    minLength: 8,
   }
 
   validate = value => {
-    const { isDisabled, isRequired } = this.props
+    const { isDisabled, isRequired, minLength } = this.props
     if (isDisabled) {
       return
     }
     try {
-      let validator = yup.string().min(8)
+      let validator = yup.string().min(minLength)
       if (isRequired) {
         validator = validator.required()
       }

@@ -14,6 +14,7 @@ export const SET_AUTOPILOT = 'SET_AUTOPILOT'
 export const SET_CHAIN = 'SET_CHAIN'
 export const SET_NETWORK = 'SET_NETWORK'
 export const SET_PASSWORD = 'SET_PASSWORD'
+export const SET_PASSPHRASE = 'SET_PASSPHRASE'
 export const SET_SEED = 'SET_SEED'
 export const VALIDATING_HOST = 'VALIDATING_HOST'
 export const VALIDATING_CERT = 'VALIDATING_CERT'
@@ -106,6 +107,13 @@ export function setPassword(password) {
   }
 }
 
+export function setPassphrase(passphrase) {
+  return {
+    type: SET_PASSPHRASE,
+    passphrase,
+  }
+}
+
 export function setSeed(seed) {
   return {
     type: SET_SEED,
@@ -183,6 +191,7 @@ const ACTION_HANDLERS = {
   [SET_SEED]: (state, { seed }) => ({ ...state, seed, isFetchingSeed: false }),
   [SET_LNDCONNECT]: (state, { lndConnect }) => ({ ...state, lndConnect }),
   [SET_PASSWORD]: (state, { password }) => ({ ...state, password }),
+  [SET_PASSPHRASE]: (state, { passphrase }) => ({ ...state, passphrase }),
   [VALIDATING_HOST]: (state, { validatingHost }) => ({ ...state, validatingHost }),
   [VALIDATING_CERT]: (state, { validatingCert }) => ({ ...state, validatingCert }),
   [VALIDATING_MACAROON]: (state, { validatingMacaroon }) => ({ ...state, validatingMacaroon }),
@@ -211,6 +220,7 @@ const initialState = {
   alias: '',
   name: '',
   password: '',
+  passphrase: '',
   seed: [],
 }
 

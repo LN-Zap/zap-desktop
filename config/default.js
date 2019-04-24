@@ -73,6 +73,8 @@ module.exports = {
         mainnet: [],
       },
     },
+
+    recoveryWindow: 2500,
   },
 
   // Default curreny units.

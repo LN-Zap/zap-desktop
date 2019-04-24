@@ -1,5 +1,11 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`reducers neutrinoReducer should handle CLEAR_CREATE_WALLET_ERROR 1`] = `
+Object {
+  "createWalletError": null,
+}
+`;
+
 exports[`reducers neutrinoReducer should handle CLEAR_START_LND_ERROR 1`] = `
 Object {
   "startLndError": null,
@@ -24,15 +30,24 @@ Object {
 }
 `;
 
-exports[`reducers neutrinoReducer should handle CREATE_NEW_WALLET 1`] = `
+exports[`reducers neutrinoReducer should handle CREATE_WALLET 1`] = `
 Object {
-  "isCreatingNewWallet": true,
+  "createWalletError": null,
+  "isCreatingWallet": true,
 }
 `;
 
-exports[`reducers neutrinoReducer should handle CREATE_NEW_WALLET_SUCCESS 1`] = `
+exports[`reducers neutrinoReducer should handle CREATE_WALLET_FAILURE 1`] = `
 Object {
-  "isCreatingNewWallet": false,
+  "createWalletError": undefined,
+  "isCreatingWallet": false,
+}
+`;
+
+exports[`reducers neutrinoReducer should handle CREATE_WALLET_SUCCESS 1`] = `
+Object {
+  "createWalletError": null,
+  "isCreatingWallet": false,
 }
 `;
 
@@ -87,18 +102,6 @@ exports[`reducers neutrinoReducer should handle LND_WALLET_UNLOCKER_GRPC_ACTIVE 
 Object {
   "isLightningGrpcActive": false,
   "isWalletUnlockerGrpcActive": true,
-}
-`;
-
-exports[`reducers neutrinoReducer should handle RECOVER_OLD_WALLET 1`] = `
-Object {
-  "isRecoveringOldWallet": true,
-}
-`;
-
-exports[`reducers neutrinoReducer should handle RECOVER_OLD_WALLET_SUCCESS 1`] = `
-Object {
-  "isRecoveringOldWallet": false,
 }
 `;
 
@@ -166,12 +169,12 @@ Object {
 
 exports[`reducers neutrinoReducer should handle initial state 1`] = `
 Object {
+  "createWalletError": null,
   "fetchSeedError": null,
-  "isCreatingNewWallet": false,
+  "isCreatingWallet": false,
   "isFetchingSeed": false,
   "isLightningGrpcActive": false,
   "isLndActive": false,
-  "isRecoveringOldWallet": false,
   "isStartingGrpc": false,
   "isStartingLnd": false,
   "isStoppingLnd": false,

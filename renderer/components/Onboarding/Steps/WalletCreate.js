@@ -4,7 +4,10 @@ import { Form, Spinner, Text } from 'components/UI'
 
 class WalletCreate extends React.Component {
   static propTypes = {
-    createNewWallet: PropTypes.func.isRequired,
+    clearCreateWalletError: PropTypes.func.isRequired,
+    createWallet: PropTypes.func.isRequired,
+    createWalletError: PropTypes.string,
+    isCreatingWallet: PropTypes.bool,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
   }
@@ -15,12 +18,29 @@ class WalletCreate extends React.Component {
   }
 
   componentDidMount() {
-    this.formApi.submitForm()
+    const { wizardApi } = this.props
+    wizardApi.next()
+  }
+
+  componentDidUpdate(prevProps) {
+    const { isCreatingWallet, createWalletError, wizardApi } = this.props
+    if (!isCreatingWallet && prevProps.isCreatingWallet) {
+      if (createWalletError) {
+        wizardApi.onSubmitFailure()
+      } else {
+        wizardApi.onSubmit()
+      }
+    }
+  }
+
+  componentWillUnmount() {
+    const { clearCreateWalletError } = this.props
+    clearCreateWalletError()
   }
 
   handleSubmit = () => {
-    const { createNewWallet } = this.props
-    createNewWallet()
+    const { createWallet } = this.props
+    createWallet()
   }
 
   setFormApi = formApi => {
@@ -28,8 +48,16 @@ class WalletCreate extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, createNewWallet, ...rest } = this.props
-    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
+    const {
+      wizardApi,
+      wizardState,
+      createWallet,
+      clearCreateWalletError,
+      createWalletError,
+      isCreatingWallet,
+      ...rest
+    } = this.props
+    const { getApi, onChange, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     return (
       <Form
@@ -41,12 +69,7 @@ class WalletCreate extends React.Component {
           }
         }}
         onChange={onChange && (formState => onChange(formState, currentItem))}
-        onSubmit={values => {
-          this.handleSubmit(values)
-          if (onSubmit) {
-            onSubmit(values)
-          }
-        }}
+        onSubmit={this.handleSubmit}
         onSubmitFailure={onSubmitFailure}
       >
         <Text textAlign="center">
