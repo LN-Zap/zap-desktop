@@ -24,15 +24,12 @@ class WalletCreate extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { isCreatingWallet, createWalletError, wizardApi } = this.props
-
-    // Handle success case.
-    if (!createWalletError && !isCreatingWallet && prevProps.isCreatingWallet) {
-      wizardApi.onSubmit()
-    }
-
-    // Handle failure case.
-    if (createWalletError && !isCreatingWallet && prevProps.isCreatingWallet) {
-      wizardApi.onSubmitFailure()
+    if (!isCreatingWallet && prevProps.isCreatingWallet) {
+      if (createWalletError) {
+        wizardApi.onSubmitFailure()
+      } else {
+        wizardApi.onSubmit()
+      }
     }
   }
 

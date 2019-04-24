@@ -81,7 +81,8 @@ export const removeWallet = wallet => async dispatch => {
 }
 
 /**
- * Handle wallet delete action.
+ * Handle delete wallet confirmation triggered by a user.
+ * Removes currently active wallet.
  * @return {Promise}
  */
 export const deleteWallet = () => async (dispatch, getState) => {

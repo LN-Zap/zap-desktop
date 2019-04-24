@@ -30,16 +30,17 @@ class WalletRecover extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { isCreatingWallet, createWalletError } = this.props
-
-    // Handle success case.
-    if (!createWalletError && !isCreatingWallet && prevProps.isCreatingWallet) {
-      this.handleSuccess()
-    }
-
-    // Handle failure case.
-    if (createWalletError && !isCreatingWallet && prevProps.isCreatingWallet) {
-      this.handleError()
+    const { isCreatingWallet, createWalletError, passphrase, wizardApi } = this.props
+    if (!isCreatingWallet && prevProps.isCreatingWallet) {
+      if (createWalletError) {
+        wizardApi.onSubmitFailure()
+        // If the user entered an incorrect passphrase, set the error on the passphrase form element.
+        if (passphrase && createWalletError && isInvalidPassphrase(createWalletError)) {
+          this.formApi.setError('passphrase', createWalletError)
+        }
+      } else {
+        wizardApi.onSubmit()
+      }
     }
   }
 
@@ -55,21 +56,6 @@ class WalletRecover extends React.Component {
       setPassphrase(passphrase)
     }
     createWallet({ recover: true })
-  }
-
-  handleSuccess = () => {
-    const { wizardApi } = this.props
-    wizardApi.onSubmit()
-  }
-
-  handleError = () => {
-    const { passphrase, wizardApi, createWalletError } = this.props
-    wizardApi.onSubmitFailure()
-
-    // If the user entered an incorrect passphrase, set the error on the passphrase form element.
-    if (passphrase && createWalletError && isInvalidPassphrase(createWalletError)) {
-      this.formApi.setError('passphrase', createWalletError)
-    }
   }
 
   setFormApi = formApi => {

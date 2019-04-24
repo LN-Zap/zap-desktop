@@ -28,7 +28,7 @@ async function unlockWallet(password) {
 /**
  * InitWallet is used when lnd is starting up for the first time to fully initialize the daemon and its internal wallet
  * @param  {String} wallet_password        Uused to encrypt the wallet
- * @param  {String} aezeed_passphrase      Used to encrypt/decr the generated aezeed cipher seed
+ * @param  {String} aezeed_passphrase      Used to encrypt/decrypt the generated aezeed cipher seed
  * @param  {String} cipher_seed_mnemonic   24-word mnemonic that encodes a prior aezeed cipher seed obtained by the user
  * @param  {Number} recovery_window        Address lookahead when restoring a wallet seed
  * @return {Promise<InitWalletResponse>}
