@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
+import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { contactFormSelectors } from './contactsform'
 import { tickerSelectors } from './ticker'
-
 // Initial State
 const initialState = {
   isCreateModalOpen: false,
@@ -56,6 +56,10 @@ export function setAutopayList(list) {
 
 export function initAutopay() {
   return async dispatch => {
+    if (!isAutopayEnabled()) {
+      return
+    }
+
     let autopayList
     try {
       autopayList = await window.db.autopay.toArray()

@@ -95,6 +95,6 @@ module.exports = {
   },
   // feature flags to enable/disable experimental functionality
   features: {
-    autopay: true,
+    autopay: false,
   },
 }
