@@ -5,6 +5,7 @@ import { load } from '@grpc/proto-loader'
 import lndgrpc from 'lnd-grpc'
 import StateMachine from 'javascript-state-machine'
 import { grpcLog } from '@zap/utils/log'
+import delay from '@zap/utils/delay'
 import promisifiedCall from '@zap/utils/promisifiedCall'
 import waitForFile from '@zap/utils/waitForFile'
 import grpcOptions from '@zap/utils/grpcOptions'
@@ -77,8 +78,17 @@ class GrpcService extends EventEmitter {
   /**
    * Log successful connection.
    */
-  async onAfterConnect() {
-    await this.subscribe()
+  onAfterConnect() {
+    // Wait for 2 seconds before subscribing to grpc streams.
+    // This gives lnd a chance to start up it's services after unlocking a wallet.
+    // We add this delay as in recent versions fo lnd (post 0.6.0), the channel stream is not functional immediately.
+    const subscribeAfterDelay = async () => {
+      await delay(2000)
+      if (this.is('connected')) {
+        this.subscribe()
+      }
+    }
+    subscribeAfterDelay()
     grpcLog.info(`Connected to ${this.serviceName} gRPC service`)
   }
 
