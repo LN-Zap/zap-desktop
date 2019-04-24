@@ -2,11 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Bar, Form, Header, Message, RadioGroup, Radio } from 'components/UI'
+import { isMainnetAsDefault, isMainnetAutopilot } from '@zap/utils/featureFlag'
 import messages from './messages'
 
 class Network extends React.Component {
   static propTypes = {
-    network: PropTypes.string, // eslint-disable-line react/boolean-prop-naming
+    network: PropTypes.string,
     setAutopilot: PropTypes.func.isRequired,
     setNetwork: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
@@ -23,9 +24,7 @@ class Network extends React.Component {
     const { network } = values
     setNetwork(network)
 
-    // It is currently not recommended to use autopilot on mainnet.
-    // If user has selected mainnet, disable it
-    if (network === 'mainnet') {
+    if (network === 'mainnet' && !isMainnetAutopilot()) {
       setAutopilot(false)
     }
   }
@@ -38,6 +37,20 @@ class Network extends React.Component {
     const { wizardApi, wizardState, network, setNetwork, setAutopilot, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
+    const networkTypes = [
+      <Radio
+        key="mainnet"
+        description=<FormattedMessage {...messages.network_mainnet_description} />
+        label={<FormattedMessage {...messages.network_mainnet} />}
+        value="mainnet"
+      />,
+      <Radio
+        key="testnet"
+        description=<FormattedMessage {...messages.network_testnet_description} />
+        label={<FormattedMessage {...messages.network_testnet} />}
+        value="testnet"
+      />,
+    ]
     return (
       <Form
         {...rest}
@@ -68,16 +81,7 @@ class Network extends React.Component {
               />
               <Bar my={4} />
               <RadioGroup field="network" initialValue={network} isRequired name="network">
-                <Radio
-                  description=<FormattedMessage {...messages.network_testnet_description} />
-                  label={<FormattedMessage {...messages.network_testnet} />}
-                  value="testnet"
-                />
-                <Radio
-                  description=<FormattedMessage {...messages.network_mainnet_description} />
-                  label={<FormattedMessage {...messages.network_mainnet} />}
-                  value="mainnet"
-                />
+                {isMainnetAsDefault() ? networkTypes : networkTypes.reverse()}
               </RadioGroup>
 
               {isMainnet && (

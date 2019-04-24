@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Flex, Box } from 'rebass'
 import { Panel, Wizard } from 'components/UI'
+import { isMainnetAutopilot } from '@zap/utils/featureFlag'
 import {
   Autopilot,
   ConnectionType,
@@ -81,7 +82,7 @@ class Onboarding extends React.Component {
    */
   removeAutopilotStepIfMainnet = formSteps => {
     const { network } = this.props
-    if (network === 'mainnet') {
+    if (network === 'mainnet' && !isMainnetAutopilot()) {
       const index = formSteps.findIndex(s => s.key === 'Autopilot')
       if (index >= 0) {
         formSteps.splice(index, 1)

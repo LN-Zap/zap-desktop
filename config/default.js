@@ -31,7 +31,7 @@ module.exports = {
   chain: 'bitcoin',
 
   // Default network for new wallets.
-  network: 'testnet',
+  network: 'mainnet',
 
   // Default settings for lnd.
   lnd: {
@@ -98,10 +98,8 @@ module.exports = {
   // feature flags to enable/disable experimental functionality
   features: {
     autopay: false,
-    // enables/disables mainnet as default network type when creating a wallet
-    mainnetAsDefault: false,
     // enables/disables mainnet lnd autopilot setting
-    mainnetAutopilot: false,
+    mainnetAutopilot: true,
   },
 
   // number of onchain confirmations for the specified periods
