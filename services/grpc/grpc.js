@@ -1,5 +1,7 @@
 import EventEmitter from 'events'
 import StateMachine from 'javascript-state-machine'
+import { proxyValue } from 'comlinkjs'
+import snakecase from 'lodash.snakecase'
 import { status } from '@grpc/grpc-js'
 import validateHost from '@zap/utils/validateHost'
 import { grpcLog } from '@zap/utils/log'
@@ -204,6 +206,45 @@ class GrpcService extends EventEmitter {
         await this.services.WalletUnlocker.disconnect()
       }
     }
+  }
+
+  /**
+   * Wait for a service to become active.
+   * @return {Promise<Object>} Object with `isActive` and `cancel` properties.
+   */
+  /**
+   * Wait for a service to become active.
+   * @param  {String} serviceName Name of service to wait for (Lightning, or WalletUnlocker)
+   * @return {Promise<Object>}     Object with `isActive` and `cancel` properties.
+   */
+  waitForService(serviceName) {
+    let successHandler
+    const activationEventName = `GRPC_${snakecase(serviceName).toUpperCase()}_SERVICE_ACTIVE`
+
+    /**
+     * Promise that resolves when service is active.
+     */
+    const isActive = new Promise(async resolve => {
+      // If the service is already active, return immediately.
+      if (this.services[serviceName].is('connected')) {
+        return resolve()
+      }
+      // Otherwise, wait until we receive an activation event from the gRPC service.
+      successHandler = () => resolve()
+      this.prependOnceListener(activationEventName, successHandler)
+    })
+
+    /**
+     * Method to abort the wait (prevent the isActive from resolving and remove activation event listener).
+     */
+    const cancel = () => {
+      if (successHandler) {
+        this.off(activationEventName, successHandler)
+        successHandler = null
+      }
+    }
+
+    return proxyValue({ isActive, cancel })
   }
 }
 

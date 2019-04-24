@@ -48,43 +48,6 @@ export const DISCONNECT_GRPC_SUCCESS = 'DISCONNECT_GRPC_SUCCESS'
 export const DISCONNECT_GRPC_FAILURE = 'DISCONNECT_GRPC_FAILURE'
 
 // ------------------------------------
-// Helpers
-// ------------------------------------
-
-/**
- * Helper methods to allow waiting for the Lightning interface to become active.
- * @return {Promise<Object>} Object with `isActive` and `cancel` properties.
- */
-export const getGrpcHelpers = async () => {
-  let successHandler
-  const grpc = await grpcService
-
-  return {
-    /**
-     * Wait for lightning to become active.
-     */
-    waitForLightning: () =>
-      new Promise(async resolve => {
-        // If the Lightning service is already active, return immediatly.
-        if (await grpc.is('active')) {
-          return resolve()
-        }
-        // Otherwise, wait until we receive an activation event from the gRPC service.
-        successHandler = proxyValue(() => resolve())
-        grpc.prependOnceListener('GRPC_LIGHTNING_SERVICE_ACTIVE', successHandler)
-      }),
-    /**
-     * Abort the wait (prevent the wait from resolving and remove active event listener).
-     */
-    cancelWaitForLightning: () => {
-      if (successHandler) {
-        grpc.off('GRPC_LIGHTNING_SERVICE_ACTIVE', successHandler)
-      }
-    },
-  }
-}
-
-// ------------------------------------
 // Actions
 // ------------------------------------
 
@@ -394,7 +357,7 @@ export const fetchSeedError = error => dispatch => {
 export const createWallet = ({ recover } = {}) => async (dispatch, getState) => {
   dispatch({ type: CREATE_WALLET })
 
-  const grpcHelpers = await getGrpcHelpers()
+  let waitForLightning
 
   try {
     const state = getState()
@@ -418,6 +381,7 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
 
     // Call initWallet method.
     const grpc = await grpcService
+    waitForLightning = await grpc.waitForService('Lightning')
     await grpc.services.WalletUnlocker.initWallet({
       wallet_password: state.onboarding.password,
       aezeed_passphrase: state.onboarding.passphrase,
@@ -426,7 +390,7 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
     })
 
     // Wait for the lightning gRPC interface to become active.
-    await grpcHelpers.waitForLightning()
+    await waitForLightning.isActive
 
     // Notify of wallet recovery success.
     dispatch(createWalletSuccess())
@@ -438,7 +402,9 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
       await dispatch(removeWallet(lndConfig))
     } finally {
       // Remove Lightning gRPC activation listener.
-      grpcHelpers.cancelWaitForLightning()
+      if (waitForLightning.cancel) {
+        await waitForLightning.cancel()
+      }
       // Notify of wallet recovery failure.
       dispatch(createWalletFailure(error.message))
     }
