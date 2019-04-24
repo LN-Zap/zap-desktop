@@ -93,4 +93,8 @@ module.exports = {
     max: '1500000',
     defaultValue: '150000',
   },
+  // feature flags to enable/disable experimental functionality
+  features: {
+    autopay: false,
+  },
 }

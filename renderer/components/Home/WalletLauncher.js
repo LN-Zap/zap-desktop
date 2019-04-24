@@ -30,7 +30,7 @@ const autopilotDefaults = {
   autopilotAllocation: allocation * 100,
 }
 
-// cleans up autopay settings if autopilot flag is turned
+// cleans up autopilot settings if autopilot flag is turned
 const formatAutopilot = values => {
   const result = Object.assign({}, values)
   if (!values.autopilot) {

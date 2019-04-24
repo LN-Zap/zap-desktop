@@ -9,6 +9,7 @@ import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
 import { Text } from 'components/UI'
 import { FormattedMessage } from 'react-intl'
+import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import messages from './messages'
 
 const StyledText = styled(Text)`
@@ -75,7 +76,7 @@ const WalletMenu = ({ openModal }) => {
   return (
     <Flex as="section">
       <ChannelsMenuItem />
-      <AutopayMenuItem openModal={openModal} />
+      {isAutopayEnabled() && <AutopayMenuItem openModal={openModal} />}
       <Settings ml={4} />
     </Flex>
   )
