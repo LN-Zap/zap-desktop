@@ -137,6 +137,7 @@ Object {
 exports[`reducers neutrinoReducer should handle STOP_LND 1`] = `
 Object {
   "isStoppingLnd": true,
+  "stopLndError": null,
 }
 `;
 
@@ -144,6 +145,7 @@ exports[`reducers neutrinoReducer should handle STOP_LND_SUCCESS 1`] = `
 Object {
   "isLndActive": false,
   "isStoppingLnd": false,
+  "stopLndError": null,
 }
 `;
 

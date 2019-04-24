@@ -22,6 +22,7 @@ export const CLEAR_START_LND_ERROR = 'CLEAR_START_LND_ERROR'
 
 export const STOP_LND = 'STOP_LND'
 export const STOP_LND_SUCCESS = 'STOP_LND_SUCCESS'
+export const STOP_LND_FAILURE = 'STOP_LND_FAILURE'
 
 export const CREATE_WALLET = 'CREATE_WALLET'
 export const CREATE_WALLET_SUCCESS = 'CREATE_WALLET_SUCCESS'
@@ -215,29 +216,27 @@ export const clearStartLndError = () => {
  * Stop lnd.
  */
 export const stopLnd = () => async (dispatch, getState) => {
-  const { lndConfig } = getState().lnd
+  const { isStoppingLnd, lndConfig } = getState().lnd
+  if (isStoppingLnd) {
+    return
+  }
 
   dispatch({ type: STOP_LND })
 
-  // Disconnect from the gRPC service.
-  await dispatch(disconnectGrpcService())
+  try {
+    // Disconnect from the gRPC service.
+    await dispatch(disconnectGrpcService())
 
-  // Stop the neutrino process.
-  if (lndConfig.type === 'local') {
-    await dispatch(stopNeutrino())
+    // Stop the neutrino process.
+    if (lndConfig.type === 'local') {
+      await dispatch(stopNeutrino())
+    }
+
+    dispatch({ type: STOP_LND_SUCCESS })
+  } catch (error) {
+    dispatch({ type: STOP_LND_FAILURE, error })
   }
-
-  dispatch(lndStopped())
 }
-
-/**
- * Stop lnd success callback.
- *
- * Called when lnd+neutrino has fully stopped.
- */
-export const lndStopped = () => ({
-  type: STOP_LND_SUCCESS,
-})
 
 /**
  * Lightning gRPC connect callback.
@@ -520,11 +519,19 @@ const ACTION_HANDLERS = {
   [STOP_LND]: state => ({
     ...state,
     isStoppingLnd: true,
+    stopLndError: null,
   }),
   [STOP_LND_SUCCESS]: state => ({
     ...state,
     isStoppingLnd: false,
     isLndActive: false,
+    stopLndError: null,
+  }),
+  [STOP_LND_FAILURE]: (state, { error }) => ({
+    ...state,
+    isStoppingLnd: false,
+    isLndActive: false,
+    stopLndError: error,
   }),
 
   [CREATE_WALLET]: state => ({
