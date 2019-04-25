@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { compose } from 'redux'
 import { asField } from 'informed'
 import * as yup from 'yup'
-import { withRequiredValidation, withNumberInputMask } from 'hocs'
+import { withInputValidation, withNumberInputMask } from 'hocs'
 import { convert } from '@zap/utils/btc'
 import { formatValue, parseNumber } from '@zap/utils/crypto'
 import { BasicInput } from './Input'
@@ -149,6 +149,6 @@ const BasicCryptoAmountInput = withNumberInputMask(WrappedCryptoAmountInputAsFie
 export { WrappedCryptoAmountInputAsField as BasicCryptoAmountInput }
 
 export default compose(
-  withRequiredValidation,
+  withInputValidation,
   asField
 )(BasicCryptoAmountInput)

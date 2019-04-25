@@ -8,7 +8,7 @@ import styled, { withTheme } from 'styled-components'
 import { styles } from 'styled-system'
 import system from '@rebass/components'
 import { Flex } from 'rebass'
-import { withRequiredValidation } from 'hocs'
+import { withInputValidation } from 'hocs'
 import Message from './Message'
 import Label from './Label'
 import Span from './Span'
@@ -250,6 +250,6 @@ const BasicTextArea = withTheme(TextArea)
 export { BasicTextArea }
 
 export default compose(
-  withRequiredValidation,
+  withInputValidation,
   asField
 )(BasicTextArea)
