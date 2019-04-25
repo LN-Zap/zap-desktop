@@ -99,4 +99,12 @@ module.exports = {
   features: {
     autopay: false,
   },
+
+  // number of onchain confirmations for the specified periods
+  // potentially needs multiple chain support (LTC)
+  lndTargetConfirmations: {
+    fastestConfCount: 1,
+    halfHourConfCount: 3,
+    hourConfCount: 6,
+  },
 }

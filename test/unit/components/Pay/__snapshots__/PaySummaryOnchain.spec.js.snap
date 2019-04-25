@@ -30,7 +30,10 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
   queryFees={
     [MockFunction] {
       "calls": Array [
-        Array [],
+        Array [
+          "mmxyr3LNKbnbrf6jdGXZpCE4EDpMSZRf4c",
+          1000,
+        ],
       ],
       "results": Array [
         Object {
