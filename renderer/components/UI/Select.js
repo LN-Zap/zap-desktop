@@ -160,6 +160,9 @@ function Select(props) {
         }
       }}
       onSelect={item => {
+        if (!item) {
+          return
+        }
         setValue(item.value)
         setTouched(true)
         if (onValueSelected) {
