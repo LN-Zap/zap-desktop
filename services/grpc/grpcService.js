@@ -12,8 +12,6 @@ import getDeadline from '@zap/utils/getDeadline'
 import createSslCreds from '@zap/utils/createSslCreds'
 import createMacaroonCreds from '@zap/utils/createMacaroonCreds'
 
-export const SUPPORTED_SERVICES = ['WalletUnlocker', 'Lightning']
-
 /**
  * Creates an lnd grpc client service.
  * @returns {GrpcService}
