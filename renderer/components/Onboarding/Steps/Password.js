@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Box } from 'rebass'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
-import { Bar, Form, Header, PasswordInput } from 'components/UI'
+import { Bar, Form, Header, Input } from 'components/UI'
 import messages from './messages'
 
 class Password extends React.Component {
@@ -63,13 +63,15 @@ class Password extends React.Component {
               <Bar my={4} />
 
               <Box>
-                <PasswordInput
+                <Input
                   autoComplete="current-password"
                   field="password"
                   isRequired
                   label={<FormattedMessage {...messages.password_label} />}
+                  minLength={8}
                   name="password"
                   placeholder={intl.formatMessage({ ...messages.password_placeholder })}
+                  type="password"
                   validateOnBlur={shouldValidateInline}
                   validateOnChange={shouldValidateInline}
                   willAutoFocus
