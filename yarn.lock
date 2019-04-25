@@ -8938,10 +8938,10 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-informed@2.3.1:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/informed/-/informed-2.3.1.tgz#1b3fff300b5a3b393677eb37a3903f33d4bcd305"
-  integrity sha512-1A74p2HZZlhcuHLJp30+lQ5vsx81K8n2xymvNwKuQF9LsAvJk1B2uYg72LVN6nAHeNDg4m958Q9dNTviPQVDYA==
+informed@2.3.2:
+  version "2.3.2"
+  resolved "https://registry.yarnpkg.com/informed/-/informed-2.3.2.tgz#928a65684b91b095c5218058accdc68726c74161"
+  integrity sha512-qDCQajaDv9G4nWfoRkSTIgPSjvVZgdjEXOILl/+u08J8UiCnIpN+5G0P07Sc/5m0xY03Z7oegHSGeoSLy1WV+w==
   dependencies:
     debug "^4.1.1"
     lodash "^4.17.11"
