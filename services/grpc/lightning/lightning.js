@@ -61,6 +61,7 @@ class Lightning extends GrpcService {
     this.subscriptions['channelGraph'] = this.subscribeChannelGraph()
     this.subscriptions['invoices'] = this.subscribeInvoices()
     this.subscriptions['transactions'] = this.subscribeTransactions()
+    super.subscribe()
   }
 }
 

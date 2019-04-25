@@ -43,7 +43,7 @@
   "config": {
     "style_paths": "renderer/components/**/*.js",
     "lnd-binary": {
-      "binaryVersion": "0.6-beta-1-ga011ccaa",
+      "binaryVersion": "0.6.0-beta-31-g43f1290e",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },

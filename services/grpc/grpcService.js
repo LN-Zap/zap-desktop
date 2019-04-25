@@ -5,6 +5,7 @@ import { load } from '@grpc/proto-loader'
 import lndgrpc from 'lnd-grpc'
 import StateMachine from 'javascript-state-machine'
 import { grpcLog } from '@zap/utils/log'
+import delay from '@zap/utils/delay'
 import promisifiedCall from '@zap/utils/promisifiedCall'
 import waitForFile from '@zap/utils/waitForFile'
 import grpcOptions from '@zap/utils/grpcOptions'
@@ -77,8 +78,17 @@ class GrpcService extends EventEmitter {
   /**
    * Log successful connection.
    */
-  async onAfterConnect() {
-    await this.subscribe()
+  onAfterConnect() {
+    // Wait for 2 seconds before subscribing to grpc streams.
+    // This gives lnd a chance to start up it's services after unlocking a wallet.
+    // We add this delay as in recent versions fo lnd (post 0.6.0), the channel stream is not functional immediately.
+    const subscribeAfterDelay = async () => {
+      await delay(2000)
+      if (this.is('connected')) {
+        this.subscribe()
+      }
+    }
+    subscribeAfterDelay()
     grpcLog.info(`Connected to ${this.serviceName} gRPC service`)
   }
 
@@ -145,6 +155,17 @@ class GrpcService extends EventEmitter {
    */
   subscribe() {
     // this.subscriptions['something'] = this.service.subscribeToSomething()
+    // super.subscribe()
+
+    // Close and clear subscriptions when they emit an end event.
+    const activeSubKeys = Object.keys(this.subscriptions)
+    activeSubKeys.forEach(key => {
+      const call = this.subscriptions[key]
+      call.on('end', () => {
+        grpcLog.info(`gRPC subscription "${this.serviceName}.${key}" ended.`)
+        delete this.subscriptions[key]
+      })
+    })
   }
 
   /**
@@ -152,25 +173,24 @@ class GrpcService extends EventEmitter {
    */
   async unsubscribe() {
     const activeSubKeys = Object.keys(this.subscriptions)
-    if (activeSubKeys.length) {
-      grpcLog.info(`Unsubscribing from all ${this.serviceName} gRPC streams: %o`, activeSubKeys)
-      const cancellations = activeSubKeys.map(key => this._cancelSubscription(key))
-      return Promise.all(cancellations)
-    }
+    grpcLog.info(`Unsubscribing from all ${this.serviceName} gRPC streams: %o`, activeSubKeys)
+    const cancellations = activeSubKeys.map(key => this._cancelSubscription(key))
+    await Promise.all(cancellations)
   }
 
   /**
    * Unsubscribe from a single stream.
    */
   async _cancelSubscription(key) {
-    grpcLog.info(`Unsubscribing from ${key} gRPC stream`)
+    grpcLog.info(`Unsubscribing from ${this.serviceName}.${key} gRPC stream`)
     const call = this.subscriptions[key]
 
     // Cancellation status callback handler.
     const result = new Promise(resolve => {
       call.on('status', callStatus => {
         if (callStatus.code === status.CANCELLED) {
-          grpcLog.info(`Unsubscribed from ${key} gRPC stream`)
+          delete this.subscriptions[key]
+          grpcLog.info(`Unsubscribed from ${this.serviceName}.${key} gRPC stream`)
           resolve()
         }
       })
