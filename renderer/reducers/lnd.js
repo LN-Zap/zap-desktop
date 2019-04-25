@@ -67,9 +67,9 @@ export const connectGrpcService = () => async dispatch => {
 
   try {
     // Hook up event listeners for stream subscriptions.
-    grpc.on('subscribeInvoices.data', handleInvoiceSubscription)
-    grpc.on('subscribeTransactions.data', handleTransactionSubscription)
-    grpc.on('subscribeChannelGraph.data', handleChannelGraphSubscription)
+    grpc.services.Lightning.on('subscribeInvoices.data', handleInvoiceSubscription)
+    grpc.services.Lightning.on('subscribeTransactions.data', handleTransactionSubscription)
+    grpc.services.Lightning.on('subscribeChannelGraph.data', handleChannelGraphSubscription)
 
     // Hook up event listeners to notify when each gRPC service becomes available.
     grpc.on('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE', handleWalletUnlockerActive)
@@ -82,9 +82,9 @@ export const connectGrpcService = () => async dispatch => {
     dispatch({ type: CONNECT_GRPC_FAILURE, error })
 
     // Disconnect event listeners.
-    grpc.off('subscribeInvoices.data', handleInvoiceSubscription)
-    grpc.off('subscribeTransactions.data', handleTransactionSubscription)
-    grpc.off('subscribeChannelGraph.data', handleChannelGraphSubscription)
+    grpc.services.Lightning.off('subscribeInvoices.data', handleInvoiceSubscription)
+    grpc.services.Lightning.off('subscribeTransactions.data', handleTransactionSubscription)
+    grpc.services.Lightning.off('subscribeChannelGraph.data', handleChannelGraphSubscription)
     grpc.off('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE', handleWalletUnlockerActive)
     grpc.off('GRPC_LIGHTNING_SERVICE_ACTIVE', handleLightningActive)
 
