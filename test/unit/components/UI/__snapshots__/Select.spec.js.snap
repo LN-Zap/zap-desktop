@@ -105,7 +105,6 @@ exports[`component.UI.Toggle should render correctly 1`] = `
             onMouseDown={[Function]}
             placeholder="Please select"
             readOnly={false}
-            required={false}
             value=""
             width={1}
           />

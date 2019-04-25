@@ -68,7 +68,6 @@ exports[`component.UI.Input should render correctly 1`] = `
         onChange={[Function]}
         onFocus={[Function]}
         readOnly={false}
-        required={false}
         value=""
         width={1}
       />

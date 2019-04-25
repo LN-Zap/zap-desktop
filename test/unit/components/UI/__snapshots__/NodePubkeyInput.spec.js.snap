@@ -69,7 +69,6 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
         onFocus={[Function]}
         placeholder="pubkey@host:port"
         readOnly={false}
-        required={false}
         type="text"
         value=""
         width={1}
