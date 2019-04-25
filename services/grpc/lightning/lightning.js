@@ -1,14 +1,14 @@
 import { grpcLog } from '@zap/utils/log'
 import lndgrpc from 'lnd-grpc'
-import LndGrpcService from '@zap/services/grpc/grpcService'
+import GrpcService from '@zap/services/grpc/grpcService'
 import subscriptions from './lightning.subscriptions'
 import methods from './lightning.methods'
 
 /**
- * Creates an LND grpc client Lightning service.
- * @returns {Lightning}
+ * Lightning service controller.
+ * @extends GrpcService
  */
-class Lightning extends LndGrpcService {
+class Lightning extends GrpcService {
   constructor(lndConfig) {
     super('Lightning', lndConfig)
   }

@@ -15,8 +15,8 @@ import createMacaroonCreds from '@zap/utils/createMacaroonCreds'
 export const SUPPORTED_SERVICES = ['WalletUnlocker', 'Lightning']
 
 /**
- * Creates an lnd grpc client service.
- * @returns {GrpcService}
+ * Base class for lnd gRPC services.
+ * @extends EventEmitter
  */
 class GrpcService extends EventEmitter {
   constructor(serviceName, lndConfig) {
