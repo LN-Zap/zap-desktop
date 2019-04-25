@@ -72,6 +72,7 @@ const WalletSettingsFormRemote = ({
                   field="host"
                   id="host"
                   initialValue={host}
+                  isRequired
                   justifyContent="right"
                   ml="auto"
                   placeholder={intl.formatMessage({
