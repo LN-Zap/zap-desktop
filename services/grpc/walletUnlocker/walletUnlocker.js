@@ -1,11 +1,11 @@
-import LndGrpcService from '@zap/services/grpc/grpcService'
+import GrpcService from '@zap/services/grpc/grpcService'
 import methods from './walletUnlocker.methods'
 
 /**
- * Creates an LND grpc client WalletUnlocker service.
- * @returns {WalletUnlocker}
+ * WalletUnlocker service controller.
+ * @extends GrpcService
  */
-class WalletUnlocker extends LndGrpcService {
+class WalletUnlocker extends GrpcService {
   constructor(lndConfig) {
     super('WalletUnlocker', lndConfig)
     this.useMacaroon = false

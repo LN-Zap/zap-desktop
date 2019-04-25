@@ -12,10 +12,10 @@ const WALLET_STATE_LOCKED = 'WALLET_STATE_LOCKED'
 const WALLET_STATE_ACTIVE = 'WALLET_STATE_ACTIVE'
 
 /**
- * Creates an lnd grpc client service.
- * @returns {GrpcService}
+ * Wrapper and controller for multiple GrpcService instances.
+ * @extends EventEmitter
  */
-class GrpcService extends EventEmitter {
+class Grpc extends EventEmitter {
   constructor() {
     super()
     this.fsm = new StateMachine({
@@ -248,4 +248,4 @@ class GrpcService extends EventEmitter {
   }
 }
 
-export default GrpcService
+export default Grpc
