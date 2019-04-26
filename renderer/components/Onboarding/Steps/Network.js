@@ -2,13 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Bar, Form, Header, Message, RadioGroup, Radio } from 'components/UI'
-import { isMainnetAsDefault, isMainnetAutopilot } from '@zap/utils/featureFlag'
+import { isMainnetAsDefault } from '@zap/utils/featureFlag'
 import messages from './messages'
 
 class Network extends React.Component {
   static propTypes = {
     network: PropTypes.string,
-    setAutopilot: PropTypes.func.isRequired,
     setNetwork: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
@@ -20,13 +19,9 @@ class Network extends React.Component {
   }
 
   handleSubmit = values => {
-    const { setNetwork, setAutopilot } = this.props
+    const { setNetwork } = this.props
     const { network } = values
     setNetwork(network)
-
-    if (network === 'mainnet' && !isMainnetAutopilot()) {
-      setAutopilot(false)
-    }
   }
 
   setFormApi = formApi => {
@@ -34,7 +29,7 @@ class Network extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, network, setNetwork, setAutopilot, ...rest } = this.props
+    const { wizardApi, wizardState, network, setNetwork, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
     const networkTypes = [

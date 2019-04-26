@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Flex, Box } from 'rebass'
 import { Panel, Wizard } from 'components/UI'
-import { isMainnetAutopilot } from '@zap/utils/featureFlag'
+import { isMainnetAutopilot, isNetworkSelectionEnabled } from '@zap/utils/featureFlag'
 import {
   Autopilot,
   ConnectionType,
@@ -21,6 +21,21 @@ import {
   WalletRecover,
 } from './Steps'
 import messages from './messages'
+
+/**
+ * @param {{key: string}[]} formSteps List of form steps.
+ * @param {Array<Array<[string, boolean]>>} steps array of `step name`, `condition` pairs.
+ * if `condition` then step is removed
+ */
+function removeSteps(formSteps, steps) {
+  return steps.reduce((acc, next) => {
+    const [stepName, condition] = next
+    if (condition) {
+      return acc.filter(s => s.key !== stepName)
+    }
+    return acc
+  }, formSteps)
+}
 
 class Onboarding extends React.Component {
   static propTypes = {
@@ -73,22 +88,6 @@ class Onboarding extends React.Component {
   componentWillUnmount() {
     const { resetOnboarding } = this.props
     resetOnboarding()
-  }
-
-  /**
-   * Remove Autopilot form step if the currently selected network is mainnet.
-   * @param  {{key: string}[]} formSteps List of form steps.
-   * @return {{key: string}[]} Modified list of form steps.
-   */
-  removeAutopilotStepIfMainnet = formSteps => {
-    const { network } = this.props
-    if (network === 'mainnet' && !isMainnetAutopilot()) {
-      const index = formSteps.findIndex(s => s.key === 'Autopilot')
-      if (index >= 0) {
-        formSteps.splice(index, 1)
-      }
-    }
-    return formSteps
   }
 
   /**
@@ -162,11 +161,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="SeedConfirm" component={SeedConfirm} {...{ seed }} />,
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
-          <Wizard.Step
-            key="Network"
-            component={Network}
-            {...{ network, setNetwork, setAutopilot }}
-          />,
+          <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step
             key="WalletCreate"
@@ -190,11 +185,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Recover" component={Recover} {...{ seed, setSeed }} />,
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
-          <Wizard.Step
-            key="Network"
-            component={Network}
-            {...{ network, setNetwork, setAutopilot }}
-          />,
+          <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step
             key="WalletRecover"
@@ -277,9 +268,10 @@ class Onboarding extends React.Component {
 
     // It is currently not recommended to use autopilot on mainnet.
     // If user has selected mainnet, remove the autopilot form step.
-    this.removeAutopilotStepIfMainnet(steps)
-
-    return steps
+    return removeSteps(steps, [
+      ['Autopilot', network === 'mainnet' && !isMainnetAutopilot()],
+      ['Network', !isNetworkSelectionEnabled()],
+    ])
   }
 
   /**

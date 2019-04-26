@@ -37,7 +37,7 @@ module.exports = {
   lnd: {
     // Default autopilot settings.
     autopilot: {
-      active: true,
+      active: false,
       private: true,
       maxchannels: 5,
       minchansize: 20000,
@@ -98,8 +98,10 @@ module.exports = {
   // feature flags to enable/disable experimental functionality
   features: {
     autopay: false,
-    // enables/disables mainnet lnd autopilot setting
-    mainnetAutopilot: true,
+    // enables/disables mainnet lnd autopilot setting selection
+    // if false, autopilot selection won't be available
+    mainnetAutopilot: false,
+    networkSelection: false,
   },
 
   // number of onchain confirmations for the specified periods
