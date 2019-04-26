@@ -2,6 +2,8 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
+import { withFormApi } from 'informed'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import bip39 from 'bip39-en'
 import { Flex } from 'rebass'
@@ -17,7 +19,19 @@ class SeedWord extends React.Component {
     word: PropTypes.string,
   }
 
-  validateWord = value => {
+  /**
+   * Masks the value with a trimmed version.
+   * @param  {string} value Value to check
+   * @return {string}       Trimmed string
+   */
+  mask = value => (value ? value.trim() : value)
+
+  /**
+   * Returns true if a words is ibncluded in the bip39 word list.
+   * @param  {string} value     Value to check
+   * @return {string|undefined} undefined if word is in bip39 word list. The string 'incorrect' otherwise.
+   */
+  validate = value => {
     return !value || !bip39.includes(value) ? 'incorrect' : undefined
   }
 
@@ -32,9 +46,10 @@ class SeedWord extends React.Component {
           field={`word${index}`}
           hasMessage={false}
           initialValue={word}
+          mask={this.mask}
           onPaste={onPaste}
           placeholder={intl.formatMessage({ ...messages.word_placeholder })}
-          validate={this.validateWord}
+          validate={this.validate}
           validateOnChange
           variant="thin"
           willAutoFocus={index === 1}
@@ -44,7 +59,10 @@ class SeedWord extends React.Component {
   }
 }
 
-const SeedWordWithIntl = injectIntl(SeedWord)
+const SeedWordWithIntl = compose(
+  withFormApi,
+  injectIntl
+)(SeedWord)
 
 class Recover extends React.Component {
   static propTypes = {
@@ -86,7 +104,8 @@ class Recover extends React.Component {
 
   render() {
     const { wizardApi, wizardState, seed, setSeed, intl, ...rest } = this.props
-    const { getApi, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
+    const { currentItem } = wizardState
     const indexes = Array.from(Array(24).keys())
 
     return (
@@ -98,6 +117,7 @@ class Recover extends React.Component {
             getApi(formApi)
           }
         }}
+        onChange={onChange && (formState => onChange(formState, currentItem))}
         onSubmit={values => {
           this.handleSubmit(values)
           if (onSubmit) {
