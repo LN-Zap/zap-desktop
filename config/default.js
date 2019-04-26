@@ -1,5 +1,5 @@
-import getPackageDetails from '@zap/utils/getPackageDetails'
-import isStableVersion from '@zap/utils/isStableVersion'
+import getPackageDetails from '../utils/getPackageDetails'
+import isStableVersion from '../utils/isStableVersion'
 
 // The current stable base version.
 // If the current version is in the same range asd this, the default database domain will be used.

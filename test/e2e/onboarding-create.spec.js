@@ -9,6 +9,7 @@ import {
 import Onboarding from './pages/onboarding'
 import Syncing from './pages/syncing'
 import Loading from './pages/loading'
+import { isMainnetAutopilot, isNetworkSelectionEnabled } from '../../utils/featureFlag'
 
 const onboarding = new Onboarding()
 const syncing = new Syncing()
@@ -69,12 +70,12 @@ test('should create a new wallet', async t => {
     .click(onboarding.nextButton)
 
     // Fill out and submit Network form.
-    .expect(onboarding.network.exists)
+    .expect(!isNetworkSelectionEnabled() || onboarding.network.exists)
     .ok()
     .click(onboarding.nextButton)
 
     // Fill out and submit Autopilot form.
-    .expect(onboarding.autopilot.exists)
+    .expect(!isMainnetAutopilot() || onboarding.autopilot.exists)
     .ok()
     .click(onboarding.nextButton)
 
