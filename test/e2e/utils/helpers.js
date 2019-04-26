@@ -1,6 +1,7 @@
 import { ClientFunction } from 'testcafe'
 import path from 'path'
 import rimraf from 'rimraf'
+import os from 'os'
 import ps from 'ps-node'
 import { promisify } from 'util'
 import delay from '../../../utils/delay'
@@ -37,8 +38,12 @@ export const assertNoConsoleErrors = async t => {
 }
 
 const printLndProcesses = async () => {
-  const processes = await psLookup({ command: 'lnd' })
-  console.log('lnd processes', processes)
+  // under windows platform psLookup may cause issues which results
+  // in unpredictable behavior of e2e tests
+  if (os.platform() !== 'win32') {
+    const processes = await psLookup({ command: 'lnd' })
+    console.log('lnd processes', processes)
+  }
 }
 
 // Clean out test environment.
