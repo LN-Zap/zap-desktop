@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import bip39 from 'bip39-en'
 import { Flex } from 'rebass'
+import parseSeed from '@zap/utils/parseSeed'
 import { Bar, Form, Header, Input, Label } from 'components/UI'
 import messages from './messages'
 
@@ -12,6 +13,7 @@ class SeedWord extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     intl: intlShape.isRequired,
+    onPaste: PropTypes.func,
     word: PropTypes.string,
   }
 
@@ -20,7 +22,7 @@ class SeedWord extends React.Component {
   }
 
   render() {
-    const { index, intl, word } = this.props
+    const { index, intl, onPaste, word } = this.props
     return (
       <Flex key={`word${index}`} alignItems="center" as="li" justifyContent="flex-start" my={1}>
         <Label htmlFor={`word${index}`} mb={0} width={35}>
@@ -30,6 +32,7 @@ class SeedWord extends React.Component {
           field={`word${index}`}
           hasMessage={false}
           initialValue={word}
+          onPaste={onPaste}
           placeholder={intl.formatMessage({ ...messages.word_placeholder })}
           validate={this.validateWord}
           validateOnChange
@@ -57,9 +60,24 @@ class Recover extends React.Component {
     wizardState: {},
   }
 
-  handleSubmit = async values => {
+  handleSubmit = values => {
     const { setSeed } = this.props
-    await setSeed(Object.values(values))
+    setSeed(Object.values(values))
+  }
+
+  /**
+   * Parse valid seed from the clipboard and use to set values on all inputs.
+   * @param  {Event} event onPaste event
+   */
+  handlePaste = event => {
+    const seedWords = parseSeed(event.clipboardData.getData('text'))
+    if (seedWords.length === 24) {
+      event.preventDefault()
+      seedWords.forEach((word, index) => {
+        this.formApi.setValue(`word${index + 1}`, word)
+        this.formApi.setTouched(`word${index + 1}`, true)
+      })
+    }
   }
 
   setFormApi = formApi => {
@@ -80,8 +98,8 @@ class Recover extends React.Component {
             getApi(formApi)
           }
         }}
-        onSubmit={async values => {
-          await this.handleSubmit(values)
+        onSubmit={values => {
+          this.handleSubmit(values)
           if (onSubmit) {
             onSubmit(values)
           }
@@ -99,7 +117,12 @@ class Recover extends React.Component {
         <Flex justifyContent="space-between">
           <Flex as="ul" flexDirection="column" mr={2}>
             {indexes.slice(0, 6).map(word => (
-              <SeedWordWithIntl key={word + 1} index={word + 1} word={seed[word]} />
+              <SeedWordWithIntl
+                key={word + 1}
+                index={word + 1}
+                onPaste={word === 0 ? this.handlePaste : null}
+                word={seed[word]}
+              />
             ))}
           </Flex>
           <Flex as="ul" flexDirection="column" mx={2}>
