@@ -216,7 +216,9 @@ class Input extends React.Component {
       if (typeof value === 'undefined') {
         return initialValue
       }
-      return !value && value !== 0 ? '' : value
+      const { fieldState } = this.props
+      const { maskedValue } = fieldState
+      return !maskedValue && maskedValue !== 0 ? '' : maskedValue
     }
 
     return (
