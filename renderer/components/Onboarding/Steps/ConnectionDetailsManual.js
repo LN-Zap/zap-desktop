@@ -199,7 +199,6 @@ class ConnectionDetailsManual extends React.Component {
                 mb={3}
                 name="connectionCert"
                 onBlur={this.validateCert}
-                onValueChange={this.handleConnectionCertChange}
                 validateOnBlur={shouldValidateInline}
                 validateOnChange={shouldValidateInline}
                 width={1}
@@ -213,7 +212,6 @@ class ConnectionDetailsManual extends React.Component {
                 label="Macaroon"
                 name="connectionMacaroon"
                 onBlur={this.validateMacaroon}
-                onValueChange={this.handleConnectionMacaroonChange}
                 validateOnBlur={shouldValidateInline}
                 validateOnChange={shouldValidateInline}
                 width={1}
