@@ -632,6 +632,7 @@ class Pay extends React.Component {
       cryptoCurrency,
       cryptoCurrencyTicker,
       cryptoName,
+      fetchTickers,
       payReq,
       initialAmountCrypto,
       initialAmountFiat,

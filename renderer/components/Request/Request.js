@@ -165,6 +165,7 @@ class Request extends React.Component {
       cryptoCurrency,
       cryptoCurrencyTicker,
       cryptoName,
+      fetchTickers,
       intl,
       isProcessing,
       invoice,
