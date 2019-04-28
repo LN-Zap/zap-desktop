@@ -1,5 +1,5 @@
-import getPackageDetails from '@zap/utils/getPackageDetails'
-import isStableVersion from '@zap/utils/isStableVersion'
+import getPackageDetails from '../utils/getPackageDetails'
+import isStableVersion from '../utils/isStableVersion'
 
 // The current stable base version.
 // If the current version is in the same range asd this, the default database domain will be used.
@@ -31,13 +31,13 @@ module.exports = {
   chain: 'bitcoin',
 
   // Default network for new wallets.
-  network: 'testnet',
+  network: 'mainnet',
 
   // Default settings for lnd.
   lnd: {
     // Default autopilot settings.
     autopilot: {
-      active: true,
+      active: false,
       private: true,
       maxchannels: 5,
       minchansize: 20000,
@@ -98,6 +98,10 @@ module.exports = {
   // feature flags to enable/disable experimental functionality
   features: {
     autopay: false,
+    // enables/disables mainnet lnd autopilot setting selection
+    // if false, autopilot selection won't be available
+    mainnetAutopilot: false,
+    networkSelection: false,
   },
 
   // number of onchain confirmations for the specified periods
