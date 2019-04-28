@@ -322,7 +322,7 @@
     "axios": "0.18.0",
     "bip21": "2.0.2",
     "bip39-en": "1.1.1",
-    "bitcoinjs-lib": "4.0.5",
+    "bitcoinjs-lib": "5.0.3",
     "bolt11": "1.2.5",
     "coininfo": "https://github.com/LN-Zap/coininfo#83b93f6ce772aeb624c2a791022ff9288face0d7",
     "comlinkjs": "3.2.0",
