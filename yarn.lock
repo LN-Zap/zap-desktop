@@ -4519,10 +4519,10 @@ body-parser@1.18.3:
     raw-body "2.3.3"
     type-is "~1.6.16"
 
-bolt11@1.2.4:
-  version "1.2.4"
-  resolved "https://registry.yarnpkg.com/bolt11/-/bolt11-1.2.4.tgz#a6ec990fefa92d835280126bb5f715e2ce7c8374"
-  integrity sha512-Sz8H7aKDA9mksqg1I9divIkTVco6IEo9ATJwPJFaQhxVOB/OiRCaAnj5n7Tj9jbIQhkqadR1hZPQwFVQFfwZ9Q==
+bolt11@1.2.5:
+  version "1.2.5"
+  resolved "https://registry.yarnpkg.com/bolt11/-/bolt11-1.2.5.tgz#47de493954c488789abe90eacd694d9dfe770647"
+  integrity sha512-NbvmUxuMqhnqprIHAdaruC5zQIJQN9gLXUgN+avPn8YLlW3+/Fb3uSyXVImK49+aSrDEIbv3FcixZoTxE5jYnw==
   dependencies:
     "@types/bn.js" "^4.11.3"
     bech32 "^1.1.2"
