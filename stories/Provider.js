@@ -14,6 +14,8 @@ import getDbName from '@zap/utils/db'
 export const db = getDb(getDbName(config))
 db.open()
 
+window.db = db
+
 window.Zap = {
   openExternal: uri => window.open(uri, '_blank'),
 }
