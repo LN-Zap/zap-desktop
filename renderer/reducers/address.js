@@ -72,12 +72,11 @@ export const receiveAddressSuccess = ({ type, address }) => async (dispatch, get
 
   // If we know the node's public key, store the address for reuse.
   if (pubKey) {
-    const typeName = Object.keys(addressTypes).find(key => addressTypes[key] === type)
     const node = await window.db.nodes.get(pubKey)
     if (node) {
-      await node.setCurrentAddress(typeName, address)
+      await node.setCurrentAddress(type, address)
     } else {
-      await window.db.nodes.put({ id: pubKey, addresses: { [typeName]: address } })
+      await window.db.nodes.put({ id: pubKey, addresses: { [type]: address } })
     }
   }
 
