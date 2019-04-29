@@ -2,9 +2,12 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
+import { withFormApi } from 'informed'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import bip39 from 'bip39-en'
 import { Flex } from 'rebass'
+import parseSeed from '@zap/utils/parseSeed'
 import { Bar, Form, Header, Input, Label } from 'components/UI'
 import messages from './messages'
 
@@ -12,15 +15,28 @@ class SeedWord extends React.Component {
   static propTypes = {
     index: PropTypes.number.isRequired,
     intl: intlShape.isRequired,
+    onPaste: PropTypes.func,
     word: PropTypes.string,
   }
 
-  validateWord = value => {
+  /**
+   * Masks the value with a trimmed version.
+   * @param  {string} value Value to check
+   * @return {string}       Trimmed string
+   */
+  mask = value => (value ? value.trim() : value)
+
+  /**
+   * Returns true if a words is ibncluded in the bip39 word list.
+   * @param  {string} value     Value to check
+   * @return {string|undefined} undefined if word is in bip39 word list. The string 'incorrect' otherwise.
+   */
+  validate = value => {
     return !value || !bip39.includes(value) ? 'incorrect' : undefined
   }
 
   render() {
-    const { index, intl, word } = this.props
+    const { index, intl, onPaste, word } = this.props
     return (
       <Flex key={`word${index}`} alignItems="center" as="li" justifyContent="flex-start" my={1}>
         <Label htmlFor={`word${index}`} mb={0} width={35}>
@@ -30,8 +46,10 @@ class SeedWord extends React.Component {
           field={`word${index}`}
           hasMessage={false}
           initialValue={word}
+          mask={this.mask}
+          onPaste={onPaste}
           placeholder={intl.formatMessage({ ...messages.word_placeholder })}
-          validate={this.validateWord}
+          validate={this.validate}
           validateOnChange
           variant="thin"
           willAutoFocus={index === 1}
@@ -41,7 +59,10 @@ class SeedWord extends React.Component {
   }
 }
 
-const SeedWordWithIntl = injectIntl(SeedWord)
+const SeedWordWithIntl = compose(
+  withFormApi,
+  injectIntl
+)(SeedWord)
 
 class Recover extends React.Component {
   static propTypes = {
@@ -57,9 +78,24 @@ class Recover extends React.Component {
     wizardState: {},
   }
 
-  handleSubmit = async values => {
+  handleSubmit = values => {
     const { setSeed } = this.props
-    await setSeed(Object.values(values))
+    setSeed(Object.values(values))
+  }
+
+  /**
+   * Parse valid seed from the clipboard and use to set values on all inputs.
+   * @param  {Event} event onPaste event
+   */
+  handlePaste = event => {
+    const seedWords = parseSeed(event.clipboardData.getData('text'))
+    if (seedWords.length === 24) {
+      event.preventDefault()
+      seedWords.forEach((word, index) => {
+        this.formApi.setValue(`word${index + 1}`, word)
+        this.formApi.setTouched(`word${index + 1}`, true)
+      })
+    }
   }
 
   setFormApi = formApi => {
@@ -68,7 +104,8 @@ class Recover extends React.Component {
 
   render() {
     const { wizardApi, wizardState, seed, setSeed, intl, ...rest } = this.props
-    const { getApi, onSubmit, onSubmitFailure } = wizardApi
+    const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
+    const { currentItem } = wizardState
     const indexes = Array.from(Array(24).keys())
 
     return (
@@ -80,8 +117,9 @@ class Recover extends React.Component {
             getApi(formApi)
           }
         }}
-        onSubmit={async values => {
-          await this.handleSubmit(values)
+        onChange={onChange && (formState => onChange(formState, currentItem))}
+        onSubmit={values => {
+          this.handleSubmit(values)
           if (onSubmit) {
             onSubmit(values)
           }
@@ -99,7 +137,12 @@ class Recover extends React.Component {
         <Flex justifyContent="space-between">
           <Flex as="ul" flexDirection="column" mr={2}>
             {indexes.slice(0, 6).map(word => (
-              <SeedWordWithIntl key={word + 1} index={word + 1} word={seed[word]} />
+              <SeedWordWithIntl
+                key={word + 1}
+                index={word + 1}
+                onPaste={word === 0 ? this.handlePaste : null}
+                word={seed[word]}
+              />
             ))}
           </Flex>
           <Flex as="ul" flexDirection="column" mx={2}>

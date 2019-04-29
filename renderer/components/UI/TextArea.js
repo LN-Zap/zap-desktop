@@ -168,7 +168,7 @@ class TextArea extends React.PureComponent {
     } = this.props
     const { hasFocus } = this.state
     const { setValue, setTouched } = fieldApi
-    const { value } = fieldState
+    const { maskedValue } = fieldState
 
     // Extract any styled-system space props so that we can apply them directly to the wrapper.
     const spaceProps = {}
@@ -227,7 +227,7 @@ class TextArea extends React.PureComponent {
           readOnly={isReadOnly}
           required={isRequired}
           theme={theme}
-          value={!value && value !== 0 ? '' : value}
+          value={!maskedValue && maskedValue !== 0 ? '' : maskedValue}
           {...rest}
         />
         {description && (
