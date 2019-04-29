@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
-import { Button, Form, PasswordInput } from 'components/UI'
-import * as yup from 'yup'
+import { Button, Form, Input } from 'components/UI'
 import WalletHeader from './WalletHeader'
 import messages from './messages'
 /**
@@ -64,18 +63,6 @@ class WalletUnlocker extends React.Component {
     unlockWallet(values.password)
   }
 
-  validatePassword = value => {
-    try {
-      yup
-        .string()
-        .required()
-        .min(8)
-        .validateSync(value)
-    } catch (error) {
-      return error.message
-    }
-  }
-
   render = () => {
     const { intl, isUnlockingWallet, wallet } = this.props
 
@@ -84,7 +71,6 @@ class WalletUnlocker extends React.Component {
         key={`wallet-unlocker-form-${wallet.id}`}
         getApi={this.setFormApi}
         onSubmit={this.onSubmit}
-        onSubmitFailure={this.onSubmitFailure}
         pb={6}
         pt={4}
         px={5}
@@ -94,13 +80,15 @@ class WalletUnlocker extends React.Component {
           <>
             <WalletHeader wallet={wallet} />
 
-            <PasswordInput
+            <Input
               field="password"
               id="password"
+              isRequired
               label={<FormattedMessage {...messages.wallet_unlocker_password_label} />}
+              minLength={8}
               my={3}
               placeholder={intl.formatMessage({ ...messages.wallet_unlocker_password_placeholder })}
-              validate={this.validatePassword}
+              type="password"
               validateOnBlur
               validateOnChange={formState.invalid}
               willAutoFocus

@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { compose } from 'redux'
 import { asField } from 'informed'
 import PropTypes from 'prop-types'
-import { withRequiredValidation, WithOpenDialog } from 'hocs'
+import { withInputValidation, WithOpenDialog } from 'hocs'
 import { BasicInput } from './Input'
 import OpenDialogButton from './OpenDialogButton'
 
@@ -44,6 +44,6 @@ OpenDialogInput.propTypes = {
 export { OpenDialogInput as BasicOpenDialogInput }
 
 export default compose(
-  withRequiredValidation,
+  withInputValidation,
   asField
 )(OpenDialogInput)

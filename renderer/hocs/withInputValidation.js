@@ -7,13 +7,15 @@ import getDisplayName from '@zap/utils/getDisplayName'
  * A HOC that will add validation of a `required` property to a field.
  * @param {React.Component} Component Component to wrap
  */
-const withRequiredValidation = Component =>
+const withInputValidation = Component =>
   class extends React.Component {
     static displayName = `WithRequiredValidation(${getDisplayName(Component)})`
 
     static propTypes = {
       isDisabled: PropTypes.bool,
       isRequired: PropTypes.bool,
+      maxLength: PropTypes.number,
+      minLength: PropTypes.number,
       validate: PropTypes.func,
     }
 
@@ -23,15 +25,22 @@ const withRequiredValidation = Component =>
     }
 
     validate = (value = '') => {
-      const { isDisabled, isRequired } = this.props
+      const { isDisabled, isRequired, minLength, maxLength } = this.props
       if (isDisabled) {
         return
       }
       try {
+        let validator = yup.string()
         if (isRequired) {
-          const validator = yup.string().required()
-          validator.validateSync(value)
+          validator = validator.required()
         }
+        if (minLength) {
+          validator = validator.min(minLength)
+        }
+        if (maxLength) {
+          validator = validator.max(maxLength)
+        }
+        validator.validateSync(value)
       } catch (error) {
         return error.message
       }
@@ -48,4 +57,4 @@ const withRequiredValidation = Component =>
     }
   }
 
-export default withRequiredValidation
+export default withInputValidation

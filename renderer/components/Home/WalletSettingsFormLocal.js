@@ -72,6 +72,7 @@ class WalletSettingsFormLocal extends React.Component {
                 field="name"
                 id="name"
                 justifyContent="right"
+                maxLength={30}
                 ml="auto"
                 placeholder={intl.formatMessage({
                   ...messages.wallet_settings_name_placeholder,

@@ -9,7 +9,7 @@ import { styles } from 'styled-system'
 import system from '@rebass/components'
 import { Flex } from 'rebass'
 import Search from 'components/Icon/Search'
-import { withRequiredValidation } from 'hocs'
+import { withInputValidation } from 'hocs'
 import Message from './Message'
 import Label from './Label'
 import Span from './Span'
@@ -133,6 +133,8 @@ class Input extends React.Component {
     isRequired: PropTypes.bool,
     justifyContent: PropTypes.string,
     label: PropTypes.node,
+    maxLength: PropTypes.number,
+    minLength: PropTypes.number,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     onFocus: PropTypes.func,
@@ -183,6 +185,8 @@ class Input extends React.Component {
       isDisabled,
       isReadOnly,
       isRequired,
+      maxLength,
+      minLength,
       theme,
       type,
       field,
@@ -252,6 +256,8 @@ class Input extends React.Component {
             disabled={isDisabled}
             field={field}
             fieldState={fieldState}
+            maxLength={maxLength}
+            minLength={minLength}
             onBlur={e => {
               // set touched to true to enforce validity highlight
               setTouched(true)
@@ -276,7 +282,6 @@ class Input extends React.Component {
             }}
             pl={type === 'search' ? 35 : null}
             readOnly={isReadOnly}
-            required={isRequired}
             theme={theme}
             type={type}
             value={getValue()}
@@ -304,6 +309,6 @@ const BasicInput = withTheme(Input)
 export { BasicInput }
 
 export default compose(
-  withRequiredValidation,
+  withInputValidation,
   asField
 )(BasicInput)
