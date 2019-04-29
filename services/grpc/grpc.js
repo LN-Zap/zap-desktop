@@ -33,6 +33,7 @@ class Grpc extends EventEmitter {
         onAfterActivateLightning: this.onAfterActivateLightning.bind(this),
         onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
         onAfterDisconnect: this.onAfterDisconnect.bind(this),
+        onLeaveActive: this.onLeaveActive.bind(this),
       },
     })
     this.supportedServices = [WalletUnlocker, Lightning]
@@ -141,10 +142,24 @@ class Grpc extends EventEmitter {
    * Rejig connections as needed before activating the lightning service.
    */
   async onBeforeActivateLightning() {
-    await this.services.Lightning.connect()
+    const { Lightning } = this.services
+    await Lightning.connect()
+    // creates listener that re-emits specified event
+    const forwardEvent = event => data => this.emit(event, data)
+    Lightning.on('subscribeInvoices.data', forwardEvent('subscribeInvoices.data'))
+    Lightning.on('subscribeTransactions.data', forwardEvent('subscribeTransactions.data'))
+    Lightning.on('subscribeChannelGraph.data', forwardEvent('subscribeChannelGraph.data'))
   }
+
   async onAfterActivateLightning() {
     this.emit('GRPC_LIGHTNING_SERVICE_ACTIVE')
+  }
+
+  onLeaveActive() {
+    const { Lightning } = this.services
+    Lightning.removeAllListeners('subscribeInvoices.data')
+    Lightning.removeAllListeners('subscribeTransactions.data')
+    Lightning.removeAllListeners('subscribeChannelGraph.data')
   }
 
   // ------------------------------------
