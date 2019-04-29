@@ -34,6 +34,7 @@ const config = merge.smart(baseConfig, {
         "'self'",
         'https://api.coinbase.com/',
         'https://testnet-api.smartbit.com.au',
+        'https://api.smartbit.com.au',
         'https://api.blockcypher.com',
         'https://bitcoinfees.earn.com',
         'https://zap.jackmallers.com',
