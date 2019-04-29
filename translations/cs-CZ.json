@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Dobijte vaši Zap peněženku",
   "components.Syncing.grab_coffee": "Dejte si kávu a nebo to zkuste později!",
   "components.Syncing.preparing": "Příprava…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Synchronizace blockchainu",
   "components.Syncing.sync_description": "Prosím čekejte, načítají se aktuální data z blockhainu.",
   "components.Syncing.sync_title": "Vítejte zpět do peněženky Zap!",

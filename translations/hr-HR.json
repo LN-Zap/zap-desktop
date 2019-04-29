@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Financirajte svoj Zap novčanik",
   "components.Syncing.grab_coffee": "Možda želite zgrabiti kavu ili pokušajte kasnije!",
   "components.Syncing.preparing": "Priprema...",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Sinkronizacija na blokčein",
   "components.Syncing.sync_description": "Molimo pričekajte dok ne dohvatimo sve vaše najnovije podatke sa blokčeina.",
   "components.Syncing.sync_title": "Dobro došli natrag u vaš Zap novčanik!",

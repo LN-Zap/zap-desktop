@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Approvisionner votre portefeuille Zap",
   "components.Syncing.grab_coffee": "Vous pouvez prendre un café ou réessayer plus tard !",
   "components.Syncing.preparing": "Préparation…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Synchronisation à la blockchain en cours",
   "components.Syncing.sync_description": "Veuillez patienter un peu pendant que nous récupérons toutes vos dernières données depuis la blockchain.",
   "components.Syncing.sync_title": "Bienvenue dans votre portefeuille Zap !",

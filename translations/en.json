@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Fund your wallet",
   "components.Syncing.grab_coffee": "you might want to grab a coffee or try again later!",
   "components.Syncing.preparing": "Preparing…",
+  "components.Syncing.recovery_caption": "Recovering wallet",
   "components.Syncing.sync_caption": "Syncing with the blockchain",
   "components.Syncing.sync_description": "Please wait while we fetch all of your latest data from the blockchain.",
   "components.Syncing.sync_title": "Welcome back to your wallet!",

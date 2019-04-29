@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Fyll din Zap-wallet",
   "components.Syncing.grab_coffee": "gå och hämta kaffe eller försök igen senare!",
   "components.Syncing.preparing": "Förbereder…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Syncar med blockkedjan",
   "components.Syncing.sync_description": "Vänta en stund medan vi hämtar all din senaste data från blockkedjan.",
   "components.Syncing.sync_title": "Välkommen tillbaka till din Zap-wallet!",

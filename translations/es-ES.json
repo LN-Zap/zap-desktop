@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Agregue fondos a su cartera Zap",
   "components.Syncing.grab_coffee": "¡Puede tomar un café o intentarlo más tarde!",
   "components.Syncing.preparing": "Preparando…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Sincronizando la cadena de bloques",
   "components.Syncing.sync_description": "Por favor, espere un momento mientras buscamos todos sus datos más recientes en la cadena de bloques.",
   "components.Syncing.sync_title": "¡Bienvenido de nuevo a su cartera Zap!",

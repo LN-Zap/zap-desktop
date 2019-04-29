@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Поповнити ваш гаманець",
   "components.Syncing.grab_coffee": "ви можете випити чашечку кави чи спробувати пізніше!",
   "components.Syncing.preparing": "Підготовка…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Синхронізація з блокчейном",
   "components.Syncing.sync_description": "Будь ласка, зачекайте деякий час, поки ми завантажуємо ваші останні дані з блокчейну.",
   "components.Syncing.sync_title": "Ласкаво просимо назад до Zap гаманця!",

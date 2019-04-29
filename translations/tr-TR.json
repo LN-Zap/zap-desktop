@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Zap cüzdanınıza para yatırın",
   "components.Syncing.grab_coffee": "Bir çay koymak veya daha sonra yeniden bakmak isteyebilirsiniz gibi görünüyor!",
   "components.Syncing.preparing": "Hazırlanıyor…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Blockchain'e senkronize ediliyor",
   "components.Syncing.sync_description": "Lütfen en son verilerinizi blok zincirinden alırken bir süre bekleyin.",
   "components.Syncing.sync_title": "Zap cüzdanına tekrar hoş geldiniz!",

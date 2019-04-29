@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Envie fundos para sua carteira Zap",
   "components.Syncing.grab_coffee": "Você pode ir tomar um café ou tentar novamente mais tarde!",
   "components.Syncing.preparing": "Preparando…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Sincronizar com a blockchain",
   "components.Syncing.sync_description": "Por favor, aguarde enquanto buscamos todos os seus dados mais recentes na blockchain.",
   "components.Syncing.sync_title": "Bem-vindo de volta à sua carteira Zap!",
