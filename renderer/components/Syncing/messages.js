@@ -6,7 +6,6 @@ export default defineMessages({
   grab_coffee: 'you might want to grab a coffee or try again later!',
   waiting_for_peers: 'Waiting for peers…',
   preparing: 'Preparing…',
-  recovering: 'Recovering…',
   sync_title: 'Welcome back to your wallet!',
   sync_description: 'Please wait while we fetch all of your latest data from the blockchain.',
   fund_title: 'Fund your wallet',
