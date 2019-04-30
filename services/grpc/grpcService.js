@@ -155,6 +155,13 @@ class GrpcService extends EventEmitter {
         grpcLog.info(`gRPC subscription "${this.serviceName}.${key}" ended.`)
         delete this.subscriptions[key]
       })
+
+      call.on('status', callStatus => {
+        if (callStatus.code === status.CANCELLED) {
+          delete this.subscriptions[key]
+          grpcLog.info(`gRPC subscription "${this.serviceName}.${key}" ended.`)
+        }
+      })
     })
   }
 
@@ -199,7 +206,7 @@ class GrpcService extends EventEmitter {
 
     // Initiate cancellation request.
     call.cancel()
-    // Resolve once we recieve confirmation of the call's cancellation.
+    // Resolve once we receive confirmation of the call's cancellation.
     return result
   }
 

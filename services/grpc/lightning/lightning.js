@@ -50,18 +50,24 @@ class Lightning extends GrpcService {
   }
 
   onAfterConnect() {
-    this.subscriptions['channelGraph'] = this.subscribeChannelGraph()
     this.subscriptions['invoices'] = this.subscribeInvoices()
     this.subscriptions['transactions'] = this.subscribeTransactions()
     this.subscriptions['getinfo'] = this.subscribeGetInfo()
-    super.subscribe('invoices', 'transactions', 'getinfo')
-    grpcLog.info(`Connected to ${this.serviceName} gRPC service`)
-  }
+    super.subscribe()
 
-  async subscribeChannelGraph() {
-    grpcLog.info('resubscribeChannelGraph')
-    await this.unsubscribe('channelGraph')
-    return await this.subscribe('channelGraph')
+    // subscribe to graph updates only after sync is complete
+    // this is needed because LND chanRouter waits for chain sync
+    // to complete before accepting subscriptions
+    this.on('subscribeGetInfo.data', data => {
+      const { synced_to_chain } = data
+      if (synced_to_chain && !this.subscriptions['channelGraph']) {
+        grpcLog.info('subscribeChannelGraph')
+        this.subscriptions['channelGraph'] = this.subscribeChannelGraph()
+        super.subscribe('channelGraph')
+      }
+    })
+
+    grpcLog.info(`Connected to ${this.serviceName} gRPC service`)
   }
 }
 
