@@ -261,13 +261,13 @@ class Neutrino extends EventEmitter {
 
     // Configure lnd.
     const lndArgs = [
+      '--debuglevel=debug',
       `--${this.lndConfig.chain}.active`,
       `--lnddir=${this.lndConfig.lndDir}`,
       `--rpclisten=${this.lndConfig.host}`,
       `--listen=${listen}`,
       `--restlisten=${restlisten}`,
-      `--routing.assumechanvalid`,
-      '--debuglevel=debug',
+      `${this.lndConfig.assumechanvalid ? '--routing.assumechanvalid' : ''}`,
       `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
       ...autopilotArgs,
       ...neutrinoArgs,

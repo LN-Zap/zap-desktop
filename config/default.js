@@ -73,6 +73,7 @@ module.exports = {
       },
     },
 
+    assumechanvalid: true,
     recoveryWindow: 2500,
   },
 

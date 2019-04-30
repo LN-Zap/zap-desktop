@@ -134,14 +134,17 @@ class LndConfig {
 
     // Retrieve default autopilot config.
     const {
-      active: autopilot,
-      private: autopilotPrivate,
-      maxchannels: autopilotMaxchannels,
-      minchansize: autopilotMinchansize,
-      maxchansize: autopilotMaxchansize,
-      allocation: autopilotAllocation,
-      minconfs: autopilotMinconfs,
-    } = config.lnd.autopilot
+      autopilot: {
+        active: autopilot,
+        private: autopilotPrivate,
+        maxchannels: autopilotMaxchannels,
+        minchansize: autopilotMinchansize,
+        maxchansize: autopilotMaxchansize,
+        allocation: autopilotAllocation,
+        minconfs: autopilotMinconfs,
+      },
+      assumechanvalid,
+    } = config.lnd
 
     // Assign default settings.
     const lndDefaults = {
@@ -154,6 +157,7 @@ class LndConfig {
       autopilotMaxchansize,
       autopilotAllocation,
       autopilotMinconfs,
+      assumechanvalid,
     }
     // Merge in whitelisted settings.
     const userSettings = pick(options, Object.keys(lndDefaults))
