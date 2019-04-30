@@ -44,7 +44,6 @@ module.exports = {
       maxchansize: 16777215,
       allocation: 0.6,
       minconfs: 0,
-      assumechanvalid: true,
     },
 
     // Default ports.

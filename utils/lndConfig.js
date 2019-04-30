@@ -132,26 +132,27 @@ class LndConfig {
     ])
     Object.assign(this, baseConfig)
 
-    // Assign default settings.
+    // Retrieve default autopilot config.
     const {
       active: autopilot,
+      private: autopilotPrivate,
       maxchannels: autopilotMaxchannels,
       minchansize: autopilotMinchansize,
       maxchansize: autopilotMaxchansize,
       allocation: autopilotAllocation,
-      private: autopilotPrivate,
       minconfs: autopilotMinconfs,
     } = config.lnd.autopilot
 
+    // Assign default settings.
     const lndDefaults = {
       name: null,
       alias: null,
       autopilot,
+      autopilotPrivate,
       autopilotMaxchannels,
       autopilotMinchansize,
       autopilotMaxchansize,
       autopilotAllocation,
-      autopilotPrivate,
       autopilotMinconfs,
     }
     // Merge in whitelisted settings.
