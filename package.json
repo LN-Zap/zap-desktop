@@ -342,7 +342,7 @@
     "javascript-state-machine": "3.1.0",
     "jstimezonedetect": "1.0.6",
     "lnd-grpc": "0.1.22",
-    "lndconnect": "0.2.4",
+    "lndconnect": "0.2.5",
     "lodash.debounce": "4.0.8",
     "lodash.get": "4.4.2",
     "lodash.isequal": "4.5.0",
