@@ -49,19 +49,19 @@ class Lightning extends GrpcService {
     }
   }
 
-  // ------------------------------------
-  // Helpers
-  // ------------------------------------
-
-  /**
-   * Subscribe to all bi-directional streams.
-   */
-  subscribe() {
-    grpcLog.info('Subscribing to Lightning gRPC streams')
+  onAfterConnect() {
     this.subscriptions['channelGraph'] = this.subscribeChannelGraph()
     this.subscriptions['invoices'] = this.subscribeInvoices()
     this.subscriptions['transactions'] = this.subscribeTransactions()
-    super.subscribe()
+    this.subscriptions['getinfo'] = this.subscribeGetInfo()
+    super.subscribe('invoices', 'transactions', 'getinfo')
+    grpcLog.info(`Connected to ${this.serviceName} gRPC service`)
+  }
+
+  async subscribeChannelGraph() {
+    grpcLog.info('resubscribeChannelGraph')
+    await this.unsubscribe('channelGraph')
+    return await this.subscribe('channelGraph')
   }
 }
 

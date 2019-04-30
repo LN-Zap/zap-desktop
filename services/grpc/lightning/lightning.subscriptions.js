@@ -1,6 +1,7 @@
 import { grpcLog } from '@zap/utils/log'
 import { status } from '@grpc/grpc-js'
-
+import methods from './lightning.methods'
+import streamify from './streamify'
 /**
  * Call lnd grpc subscribeChannelGraph method and emit events on updates to the stream
  * @return {Call} Grpc Call
@@ -81,9 +82,21 @@ function subscribeTransactions() {
   })
   return call
 }
+/**
+ * Virtual getInfo stream
+ */
+function subscribeGetInfo() {
+  return streamify.call(this, {
+    command: methods.getInfo.bind(this),
+    dataEventName: 'subscribeGetInfo.data',
+    errorEventName: 'subscribeGetInfo.error',
+    pollInterval: 5000,
+  })
+}
 
 export default {
   subscribeChannelGraph,
   subscribeInvoices,
   subscribeTransactions,
+  subscribeGetInfo,
 }
