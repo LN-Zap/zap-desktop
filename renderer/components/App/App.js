@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
+import createScheduler from '@zap/utils/scheduler'
 import PropTypes from 'prop-types'
 import Activity from 'containers/Activity'
 import Wallet from 'containers/Wallet'
 import { MainContent } from 'components/UI'
-import { useInterval } from 'hooks'
 
 // Bitcoin blocks come on average every 10 mins
 // but we poll a lot more frequently to make UI a little bit more responsive
@@ -18,6 +18,9 @@ const MAX_REFETCH_INTERVAL = 1000 * 60 * 10
 // Amount to increment re-fetch timer by after each fetch.
 const BACKOFF_SCHEDULE = 1.5
 
+// App scheduler / polling service
+const appScheduler = createScheduler()
+
 function App({
   isAppReady,
   modals,
@@ -28,16 +31,32 @@ function App({
   fetchTransactions,
   setModals,
 }) {
-  const [nextFetchIn, setNextFetchIn] = useState(INITIAL_REFETCH_INTERVAL)
   /**
-   * Fetch node data on an exponentially incrementing backoff schedule so that when the app is first mounted, we fetch
-   * node data quite frequently but as time goes on the frequency is reduced down to a maximum of MAX_REFETCH_INTERVAL
+   * App scheduler / polling service setup. Add new app-wide polls here
    */
-  const fetchData = () => {
-    setNextFetchIn(Math.round(Math.min(nextFetchIn * BACKOFF_SCHEDULE, MAX_REFETCH_INTERVAL)))
-    // Fetch information about connected peers.
-    fetchPeers()
-  }
+  useEffect(() => {
+    /**
+     * Fetch node data on an exponentially incrementing backoff schedule so that when the app is first mounted, we fetch
+     * node data quite frequently but as time goes on the frequency is reduced down to a maximum of MAX_REFETCH_INTERVAL
+     */
+    appScheduler.addTask({
+      task: fetchPeers,
+      taskId: 'fetchPeers',
+      baseDelay: INITIAL_REFETCH_INTERVAL,
+      maxDelay: MAX_REFETCH_INTERVAL,
+      backoff: BACKOFF_SCHEDULE,
+    })
+
+    appScheduler.addTask({
+      task: fetchTransactions,
+      taskId: 'fetchTransactions',
+      baseDelay: TX_REFETCH_INTERVAL,
+    })
+
+    return () => {
+      appScheduler.removeAllTasks()
+    }
+  }, [fetchPeers, fetchTransactions])
 
   useEffect(() => {
     // Set wallet open state.
@@ -56,9 +75,6 @@ function App({
       }
     }
   }, [payReq, isAppReady, modals, setModals])
-
-  useInterval(fetchData, nextFetchIn)
-  useInterval(fetchTransactions, TX_REFETCH_INTERVAL)
 
   if (!isAppReady) {
     return null
