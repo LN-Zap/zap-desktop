@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Lade dein Zap Wallet auf",
   "components.Syncing.grab_coffee": "Schnapp dir einen Kaffee oder versuche es später erneut!",
   "components.Syncing.preparing": "Wird vorbereitet…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Synchronisierung mit der Blockchain",
   "components.Syncing.sync_description": "Bitte hab Geduld während wir deine aktuellen Daten aus der Blockchain sammeln.",
   "components.Syncing.sync_title": "Willkommen zurück in deiner Zap Wallet!",

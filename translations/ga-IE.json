@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Maoinigh do sparán Zap",
   "components.Syncing.grab_coffee": "B'fhéidir gur mhaith leat coffee a fháil agus iarracht a dhéanamh arís ina dhiaidh sin!",
   "components.Syncing.preparing": "Ag ullmhú…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Syncing chuig an blockchain",
   "components.Syncing.sync_description": "Fan ar feadh tamaill le do thoil agus faighimid do chuid sonraí is déanaí ón blockchain.",
   "components.Syncing.sync_title": "Fáilte ar ais go dtí do sparán Zap!",

@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Finansier din Zap Wallet",
   "components.Syncing.grab_coffee": "du har måske lyst til at tage en kop kaffe eller prøve igen senere!",
   "components.Syncing.preparing": "Forbereder…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Synkroniser med Blockchainen",
   "components.Syncing.sync_description": "Vent venligst mens vi henter alt dit seneste data fra Blockchainen.",
   "components.Syncing.sync_title": "Velkommen tilbage til din Zap Wallet!",

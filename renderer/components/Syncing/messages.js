@@ -12,6 +12,7 @@ export default defineMessages({
   fund_description: 'Might as well fund your wallet while you’re waiting to sync.',
   fund_link: 'Get testnet coins',
   sync_caption: 'Syncing with the blockchain',
+  recovery_caption: 'Recovering wallet',
   block_progress: 'Block {currentBlock} of {totalBlocks}',
   filter_progress: 'Commitment Filter {currentFilter} of {totalFilters}',
   tutorials_list_description: 'Need help? Have a look at our tutorials',

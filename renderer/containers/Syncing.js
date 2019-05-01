@@ -6,7 +6,7 @@ import { infoSelectors } from 'reducers/info'
 import { neutrinoSelectors } from 'reducers/neutrino'
 import { setIsWalletOpen } from 'reducers/wallet'
 import { showNotification } from 'reducers/notification'
-import { Syncing } from 'components/Syncing'
+import Syncing from 'components/Syncing'
 import { Modal, ModalOverlayStyles } from 'components/UI'
 import { useOnKeydown } from 'hooks'
 
@@ -15,9 +15,11 @@ const mapStateToProps = state => ({
   hasSynced: infoSelectors.hasSynced(state),
   syncStatus: neutrinoSelectors.neutrinoSyncStatus(state),
   syncPercentage: neutrinoSelectors.neutrinoSyncPercentage(state),
+  recoveryPercentage: neutrinoSelectors.neutrinoRecoveryPercentage(state),
   blockHeight: neutrinoSelectors.blockHeight(state),
   neutrinoBlockHeight: neutrinoSelectors.neutrinoBlockHeight(state),
   neutrinoCfilterHeight: neutrinoSelectors.neutrinoCfilterHeight(state),
+  neutrinoRecoveryHeight: neutrinoSelectors.neutrinoRecoveryHeight(state),
   isLightningGrpcActive: state.lnd.isLightningGrpcActive,
   network: state.info.network,
 })

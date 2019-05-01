@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Zapウォレットの資金",
   "components.Syncing.grab_coffee": "コーヒーでも入れるか後でやり直して！",
   "components.Syncing.preparing": "準備中…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "ブロックチェーンに同期中",
   "components.Syncing.sync_description": "ブロックチェーンからの最新データの全てを取得する間、しばらくお待ちください。",
   "components.Syncing.sync_title": "おかえりなさい、Zapウォレットへ！",

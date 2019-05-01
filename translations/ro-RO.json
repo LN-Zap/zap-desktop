@@ -394,6 +394,7 @@
   "components.Syncing.fund_title": "Adauga fonduri pentru portofelul Zap",
   "components.Syncing.grab_coffee": "Poate vrei sa iei o cana de cafea si sa incerci mai tarziu!",
   "components.Syncing.preparing": "Se pregateste…",
+  "components.Syncing.recovery_caption": "",
   "components.Syncing.sync_caption": "Ne sincronizam cu blockchainul",
   "components.Syncing.sync_description": "Te rog sa astepti pana cand sincronizam datele din blockchain.",
   "components.Syncing.sync_title": "Bine ai revenit la portofelul tau Zap!",

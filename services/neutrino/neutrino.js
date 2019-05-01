@@ -12,6 +12,7 @@ export const NEUTRINO_CHAIN_SYNC_PENDING = 'NEUTRINO_CHAIN_SYNC_PENDING'
 export const NEUTRINO_CHAIN_SYNC_WAITING = 'NEUTRINO_CHAIN_SYNC_WAITING'
 export const NEUTRINO_CHAIN_SYNC_IN_PROGRESS = 'NEUTRINO_CHAIN_SYNC_IN_PROGRESS'
 export const NEUTRINO_CHAIN_SYNC_COMPLETE = 'NEUTRINO_CHAIN_SYNC_COMPLETE'
+export const NEUTRINO_WALLET_RECOVERY_IN_PROGRESS = 'NEUTRINO_WALLET_RECOVERY_IN_PROGRESS'
 
 // Events.
 export const NEUTRINO_SHUTDOWN = 'NEUTRINO_SHUTDOWN'
@@ -22,6 +23,7 @@ export const NEUTRINO_LIGHTNING_GRPC_ACTIVE = 'NEUTRINO_LIGHTNING_GRPC_ACTIVE'
 export const NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT = 'NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT'
 export const NEUTRINO_GOT_LND_BLOCK_HEIGHT = 'NEUTRINO_GOT_LND_BLOCK_HEIGHT'
 export const NEUTRINO_GOT_LND_CFILTER_HEIGHT = 'NEUTRINO_GOT_LND_CFILTER_HEIGHT'
+export const NEUTRINO_GOT_WALLET_RECOVERY_HEIGHT = 'NEUTRINO_GOT_WALLET_RECOVERY_HEIGHT'
 
 // Constants.
 export const NEUTRINO_SHUTDOWN_TIMEOUT = 10000
@@ -37,6 +39,9 @@ class Neutrino extends EventEmitter {
   }
 
   static incrementIfHigher = (context, property, newVal) => {
+    if (Number.isNaN(newVal)) {
+      return false
+    }
     const { [property]: oldVal } = context
     if (newVal > oldVal) {
       context[property] = newVal
@@ -56,6 +61,7 @@ class Neutrino extends EventEmitter {
     this.currentBlockHeight = 0
     this.neutrinoBlockHeight = 0
     this.neutrinoCfilterHeight = 0
+    this.neutrinoRecoveryHeight = 0
     this.lastError = null
   }
 
@@ -202,6 +208,7 @@ class Neutrino extends EventEmitter {
    */
   setState(state) {
     if (state !== this.chainSyncStatus) {
+      mainLog.info('Set neutrino state', state)
       this.chainSyncStatus = state
       this.emit(state)
     }
@@ -215,6 +222,7 @@ class Neutrino extends EventEmitter {
     const heightAsNumber = Number(height)
     const changed = Neutrino.incrementIfHigher(this, 'currentBlockHeight', heightAsNumber)
     if (changed) {
+      mainLog.info('Set current block height', heightAsNumber)
       this.emit(NEUTRINO_GOT_CURRENT_BLOCK_HEIGHT, heightAsNumber)
     }
   }
@@ -227,6 +235,7 @@ class Neutrino extends EventEmitter {
     const heightAsNumber = Number(height)
     const changed = Neutrino.incrementIfHigher(this, 'neutrinoBlockHeight', heightAsNumber)
     if (changed) {
+      mainLog.info('Set neutrino block height', heightAsNumber)
       this.emit(NEUTRINO_GOT_LND_BLOCK_HEIGHT, heightAsNumber)
       this.setCurrentBlockHeight(heightAsNumber)
     }
@@ -236,12 +245,26 @@ class Neutrino extends EventEmitter {
    * Set the lnd cfilter height and emit an event to notify others if it has changed.
    * @param {String|Number} height Block height
    */
-  setLndCfilterHeight(height) {
+  setNeutrinoCfilterHeight(height) {
     const heightAsNumber = Number(height)
     const changed = Neutrino.incrementIfHigher(this, 'neutrinoCfilterHeight', heightAsNumber)
     if (changed) {
+      mainLog.info('Set neutrino cfilter height', heightAsNumber)
       this.emit(NEUTRINO_GOT_LND_CFILTER_HEIGHT, heightAsNumber)
       this.setCurrentBlockHeight(heightAsNumber)
+    }
+  }
+
+  /**
+   * Set the current wallet recovery height and emit an event to notify others if it has changed.
+   * @param {String|Number} height Block height
+   */
+  setNeutrinoRecoveryHeight(height) {
+    const heightAsNumber = Number(height)
+    const changed = Neutrino.incrementIfHigher(this, 'neutrinoRecoveryHeight', heightAsNumber)
+    if (changed) {
+      mainLog.info('Set neutrino recovery height', heightAsNumber)
+      this.emit(NEUTRINO_GOT_WALLET_RECOVERY_HEIGHT, heightAsNumber)
     }
   }
 
@@ -343,6 +366,7 @@ class Neutrino extends EventEmitter {
       if (this.is(NEUTRINO_CHAIN_SYNC_COMPLETE)) {
         return
       }
+      this.notifyOnSyncComplete(line)
 
       // Listen for things that will move us to waiting state.
       if (this.is(NEUTRINO_CHAIN_SYNC_PENDING) || this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)) {
@@ -354,10 +378,15 @@ class Neutrino extends EventEmitter {
         this.notifyOnSyncStarted(line)
       }
 
-      // Listen for things that prpgress our sync progress.
-      if (this.is(NEUTRINO_CHAIN_SYNC_WAITING) || this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)) {
+      // Listen for things that indicate sync progress.
+      if (
+        this.is(NEUTRINO_CHAIN_SYNC_WAITING) ||
+        this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS) ||
+        this.is(NEUTRINO_WALLET_RECOVERY_IN_PROGRESS)
+      ) {
         this.notifyOnSyncProgress(line)
-        this.notifyOnSyncComplete(line)
+        this.notifyOnRecoveryStarted(line)
+        this.notifyOnRecoveryProgress(line)
       }
     })
   }
@@ -404,12 +433,7 @@ class Neutrino extends EventEmitter {
    */
   notifyOnSyncWaiting(line) {
     // If we can't get a connection to the backend.
-    // Or if we are still waiting for the back end to finish synncing.
-    if (
-      line.includes('Waiting for chain backend to finish sync') ||
-      line.includes('Waiting for block headers to sync, then will start cfheaders sync') ||
-      line.includes('No sync peer candidates available')
-    ) {
+    if (line.includes('No sync peer candidates available')) {
       this.setState(NEUTRINO_CHAIN_SYNC_WAITING)
     }
   }
@@ -421,15 +445,42 @@ class Neutrino extends EventEmitter {
   notifyOnSyncStarted(line) {
     const match =
       line.match(/Syncing to block height (\d+)/) ||
-      line.match(/Starting cfilters sync at block_height=(\d+)/)
-
+      line.match(/Starting cfilters sync at block_height=(\d+)/) ||
+      line.includes('Waiting for chain backend to finish sync') ||
+      line.includes('Waiting for block headers to sync, then will start cfheaders sync') ||
+      line.includes('Starting rescan from known block')
     if (match) {
-      // Notify that chain syncronisation has now started.
       this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
 
       // This is the latest block that BTCd is aware of.
       const btcdHeight = match[1]
-      this.setCurrentBlockHeight(btcdHeight)
+      if (btcdHeight) {
+        this.setCurrentBlockHeight(btcdHeight)
+      }
+    }
+  }
+
+  /**
+   * Update state if log line indicates wallet recovery has started.
+   * @param  {String} line log output line
+   */
+  notifyOnRecoveryStarted(line) {
+    const match = line.match(/starting recovery of wallet from height=(\d+)/)
+
+    if (match) {
+      this.setState(NEUTRINO_WALLET_RECOVERY_IN_PROGRESS)
+      const recoveryHeight = match[1]
+      this.setNeutrinoRecoveryHeight(recoveryHeight)
+    }
+  }
+
+  /**
+   * Update state if log line indicates that sync process has completed.
+   * @param  {String} line log output line
+   */
+  notifyOnSyncComplete(line) {
+    if (line.includes('Chain backend is fully synced')) {
+      this.setState(NEUTRINO_CHAIN_SYNC_COMPLETE)
     }
   }
 
@@ -449,12 +500,20 @@ class Neutrino extends EventEmitter {
     else {
       cfilter = this.getCfilterIncrement(line)
       if (cfilter) {
-        this.setLndCfilterHeight(cfilter)
+        this.setNeutrinoCfilterHeight(cfilter)
       }
     }
+  }
 
-    if (height || cfilter) {
-      this.setState(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)
+  /**
+   * Update state if log line indicates that progress has been made in the recovery process.
+   * @param  {String} line log output line
+   */
+  notifyOnRecoveryProgress(line) {
+    // Check the log line to see if we can parse the current block header height from it.
+    const height = this.getRecoveryHeightIncrement(line)
+    if (height) {
+      this.setNeutrinoRecoveryHeight(height)
     }
   }
 
@@ -464,8 +523,7 @@ class Neutrino extends EventEmitter {
    * @return {[String]}      Current block header height, if found
    */
   getBlockHeaderIncrement(line) {
-    let match
-    let height
+    let match, height
 
     if ((match = line.match(/Caught up to height (\d+)/))) {
       height = match[1]
@@ -492,8 +550,7 @@ class Neutrino extends EventEmitter {
    * @return {[String]}      Current cfilter height, if found
    */
   getCfilterIncrement(line) {
-    let match
-    let cfilter
+    let match, cfilter
 
     if ((match = line.match(/Got cfheaders from height=(\d*) to height=(\d+)/))) {
       cfilter = match[2]
@@ -509,14 +566,18 @@ class Neutrino extends EventEmitter {
   }
 
   /**
-   * Update state if log line indicates that sync process has completed.
-   * @param  {String} line log output line
+   * Try to determine current recovery height from log line.
+   * @param  {String}   line log output line
+   * @return {[String]}      Current recovery height, if found
    */
-  notifyOnSyncComplete(line) {
-    // Lnd syncing has completed.
-    if (line.includes('Chain backend is fully synced')) {
-      this.setState(NEUTRINO_CHAIN_SYNC_COMPLETE)
+  getRecoveryHeightIncrement(line) {
+    let match, cfilter
+
+    if ((match = line.match(/Fetching filters for heights=\[(\d*), (\d*)\]/))) {
+      cfilter = match[1]
     }
+
+    return cfilter
   }
 }
 
