@@ -99,17 +99,17 @@ class Neutrino extends EventEmitter {
       .then(blockHeight => this.setCurrentBlockHeight(blockHeight))
       .catch(err => mainLog.warn(`Unable to fetch block height: ${err.message}`))
 
-    const neutrinoArgs = await this.getNeutrinoArgs()
+    const lndArgs = await this.getLndArgs()
 
     // Log the final config.
     mainLog.info(
       'Spawning Neutrino process: %s %s',
       this.lndConfig.binaryPath,
-      neutrinoArgs.filter(v => v != '').join(' ')
+      lndArgs.filter(v => v != '').join(' ')
     )
 
     // Spawn neutrino process.
-    this.process = spawn(this.lndConfig.binaryPath, neutrinoArgs)
+    this.process = spawn(this.lndConfig.binaryPath, lndArgs)
 
     // Attach event handlers and output stream processors.
     this.attachEventHandlers(this.process)
@@ -272,41 +272,85 @@ class Neutrino extends EventEmitter {
    * Get arguments to pass to lnd based on lnd config.
    * @return {Promise<Array>} Array of arguments
    */
-  async getNeutrinoArgs() {
-    // Genreate autopilot config.
+  async getLndArgs() {
+    // Get available ports.
+    const [listen, restlisten] = await Promise.all([getLndListen('p2p'), getLndListen('rest')])
+
+    // Get autopilot config.
+    const autopilotArgs = this.getAutopilotArgs()
+
+    // Get neutrino config.
+    const neutrinoArgs = this.getNeutrinoArgs()
+
+    // Configure lnd.
+    const lndArgs = [
+      '--debuglevel=debug',
+      `--${this.lndConfig.chain}.active`,
+      `--lnddir=${this.lndConfig.lndDir}`,
+      `--rpclisten=${this.lndConfig.host}`,
+      `--listen=${listen}`,
+      `--restlisten=${restlisten}`,
+      `${this.lndConfig.assumechanvalid ? '--routing.assumechanvalid' : ''}`,
+      `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
+      ...autopilotArgs,
+      ...neutrinoArgs,
+    ]
+
+    return lndArgs
+  }
+
+  /**
+   * Get autopilot arguments to pass to lnd based on lnd config.
+   * @return {Array} Array of arguments
+   */
+  getAutopilotArgs() {
+    const autopilotArgs = []
+    if (!this.lndConfig.autopilot) {
+      return autopilotArgs
+    }
+
+    // Genreate autopilot config from lnd config.
     const autopilotArgMap = {
+      autopilot: `--autopilot.active`,
+      autopilotPrivate: `--autopilot.private`,
       autopilotAllocation: '--autopilot.allocation',
       autopilotMaxchannels: '--autopilot.maxchannels',
       autopilotMinchansize: '--autopilot.minchansize',
       autopilotMaxchansize: '--autopilot.maxchansize',
       autopilotMinconfs: '--autopilot.minconfs',
     }
-    const autopilotConf = []
+
     Object.entries(this.lndConfig).forEach(([key, value]) => {
       if (Object.keys(autopilotArgMap).includes(key)) {
-        autopilotConf.push(`${autopilotArgMap[key]}=${String(value)}`)
+        const autopilotArgName = autopilotArgMap[key]
+        switch (value) {
+          // If the value is true handle as a simple boolean flag.
+          case true:
+            autopilotArgs.push(autopilotArgName)
+            break
+
+          // If the value is false exclude from the config.
+          case false:
+            break
+
+          // Otherwise apply the config value.
+          default:
+            autopilotArgs.push(`${autopilotArgName}=${String(value)}`)
+            break
+        }
       }
     })
 
-    // Get available ports.
-    const [listen, restlisten] = await Promise.all([getLndListen('p2p'), getLndListen('rest')])
+    return autopilotArgs
+  }
 
-    // Configure lnd.
-    const neutrinoArgs = [
-      `--${this.lndConfig.chain}.active`,
-      `--lnddir=${this.lndConfig.lndDir}`,
-      `--rpclisten=${this.lndConfig.host}`,
-      `--listen=${listen}`,
-      `--restlisten=${restlisten}`,
-      `--routing.assumechanvalid`,
-      '--debuglevel=debug',
-      `${this.lndConfig.alias ? `--alias=${this.lndConfig.alias}` : ''}`,
-      `${this.lndConfig.autopilot ? '--autopilot.active' : ''}`,
-      `${this.lndConfig.autopilotPrivate ? '--autopilot.private' : ''}`,
-      ...autopilotConf,
-    ]
+  /**
+   * Get neutrino arguments to pass to lnd based on lnd config.
+   * @return {Array} Array of arguments
+   */
+  getNeutrinoArgs() {
+    const neutrinoArgs = []
 
-    // Configure neutrino backend.
     neutrinoArgs.push('--bitcoin.node=neutrino')
     neutrinoArgs.push(`--${this.lndConfig.chain}.${this.lndConfig.network}`)
     config.lnd.neutrino[this.lndConfig.chain][this.lndConfig.network].forEach(node =>
