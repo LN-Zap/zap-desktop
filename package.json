@@ -345,6 +345,7 @@
     "lndconnect": "0.2.5",
     "lodash.debounce": "4.0.8",
     "lodash.get": "4.4.2",
+    "lodash.intersection": "4.4.0",
     "lodash.isequal": "4.5.0",
     "lodash.matches": "4.6.0",
     "lodash.merge": "4.6.1",

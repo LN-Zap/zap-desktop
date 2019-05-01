@@ -1,11 +1,11 @@
 import { join } from 'path'
 import EventEmitter from 'events'
+import intersection from 'lodash.intersection'
 import { credentials, loadPackageDefinition, status } from '@grpc/grpc-js'
 import { load } from '@grpc/proto-loader'
 import lndgrpc from 'lnd-grpc'
 import StateMachine from 'javascript-state-machine'
 import { grpcLog } from '@zap/utils/log'
-import delay from '@zap/utils/delay'
 import promisifiedCall from '@zap/utils/promisifiedCall'
 import waitForFile from '@zap/utils/waitForFile'
 import grpcOptions from '@zap/utils/grpcOptions'
@@ -74,23 +74,6 @@ class GrpcService extends EventEmitter {
   }
 
   /**
-   * Log successful connection.
-   */
-  onAfterConnect() {
-    // Wait for 2 seconds before subscribing to grpc streams.
-    // This gives lnd a chance to start up it's services after unlocking a wallet.
-    // We add this delay as in recent versions fo lnd (post 0.6.0), the channel stream is not functional immediately.
-    const subscribeAfterDelay = async () => {
-      await delay(2000)
-      if (this.is('connected')) {
-        this.subscribe()
-      }
-    }
-    subscribeAfterDelay()
-    grpcLog.info(`Connected to ${this.serviceName} gRPC service`)
-  }
-
-  /**
    * Disconnect from the gRPC service.
    */
   async onBeforeDisconnect() {
@@ -151,26 +134,47 @@ class GrpcService extends EventEmitter {
    * Subscribe to streams.
    * Subclasses should implement this and add subscription streams to this.subscriptions.
    */
-  subscribe() {
+
+  /**
+   * @param {...string} services optional list of services to subscribe to. if omitted, uses all services
+   * @services must be a subset of `this.subscriptions`
+   * @memberof GrpcService
+   */
+
+  subscribe(...services) {
     // this.subscriptions['something'] = this.service.subscribeToSomething()
     // super.subscribe()
-
+    const allSubKeys = Object.keys(this.subscriptions)
+    // make sure we are subscribing to known services if a specific list is provided
+    const activeSubKeys =
+      services && services.length ? intersection(allSubKeys, services) : allSubKeys
     // Close and clear subscriptions when they emit an end event.
-    const activeSubKeys = Object.keys(this.subscriptions)
     activeSubKeys.forEach(key => {
       const call = this.subscriptions[key]
       call.on('end', () => {
         grpcLog.info(`gRPC subscription "${this.serviceName}.${key}" ended.`)
         delete this.subscriptions[key]
       })
+
+      call.on('status', callStatus => {
+        if (callStatus.code === status.CANCELLED) {
+          delete this.subscriptions[key]
+          grpcLog.info(`gRPC subscription "${this.serviceName}.${key}" ended.`)
+        }
+      })
     })
   }
 
   /**
    * Unsubscribe from all streams.
+   * @param {...string} services optional list of services to unsubscribe from. if omitted, uses all services
+   * @services must be a subset of `this.subscriptions`
    */
-  async unsubscribe() {
-    const activeSubKeys = Object.keys(this.subscriptions)
+  async unsubscribe(...services) {
+    const allSubKeys = Object.keys(this.subscriptions)
+    // make sure we are unsubscribing from known services if a specific list is provided
+    const activeSubKeys =
+      services && services.length ? intersection(allSubKeys, services) : allSubKeys
     grpcLog.info(`Unsubscribing from all ${this.serviceName} gRPC streams: %o`, activeSubKeys)
     const cancellations = activeSubKeys.map(key => this._cancelSubscription(key))
     await Promise.all(cancellations)
@@ -192,11 +196,17 @@ class GrpcService extends EventEmitter {
           resolve()
         }
       })
+
+      call.on('end', () => {
+        delete this.subscriptions[key]
+        grpcLog.info(`Unsubscribed from ${this.serviceName}.${key} gRPC stream`)
+        resolve()
+      })
     })
 
     // Initiate cancellation request.
     call.cancel()
-    // Resolve once we recieve confirmation of the call's cancellation.
+    // Resolve once we receive confirmation of the call's cancellation.
     return result
   }
 

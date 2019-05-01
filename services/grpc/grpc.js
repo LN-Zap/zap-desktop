@@ -144,11 +144,22 @@ class Grpc extends EventEmitter {
   async onBeforeActivateLightning() {
     const { Lightning } = this.services
     await Lightning.connect()
-    // creates listener that re-emits specified event
-    const forwardEvent = event => data => this.emit(event, data)
-    Lightning.on('subscribeInvoices.data', forwardEvent('subscribeInvoices.data'))
-    Lightning.on('subscribeTransactions.data', forwardEvent('subscribeTransactions.data'))
-    Lightning.on('subscribeChannelGraph.data', forwardEvent('subscribeChannelGraph.data'))
+
+    // setups listener that re-emits specified event
+    const forwardEvent = event => {
+      Lightning.on(event, data => this.emit(event, data))
+    }
+
+    // forwards `data` and `error` events of the specified `base` subscription
+    const forwardAll = baseEvent => {
+      forwardEvent(`${baseEvent}.data`)
+      forwardEvent(`${baseEvent}.error`)
+    }
+
+    forwardAll('subscribeInvoices')
+    forwardAll('subscribeChannelGraph')
+    forwardAll('subscribeTransactions')
+    forwardAll('subscribeGetInfo')
   }
 
   async onAfterActivateLightning() {
@@ -157,9 +168,17 @@ class Grpc extends EventEmitter {
 
   onLeaveActive() {
     const { Lightning } = this.services
-    Lightning.removeAllListeners('subscribeInvoices.data')
-    Lightning.removeAllListeners('subscribeTransactions.data')
-    Lightning.removeAllListeners('subscribeChannelGraph.data')
+
+    // removes `data` and `error` events listeners of the specified `base` subscription
+    const removeAll = baseEvent => {
+      Lightning.removeAllListeners(`${baseEvent}.data`)
+      Lightning.removeAllListeners(`${baseEvent}.error`)
+    }
+
+    removeAll('subscribeInvoices')
+    removeAll('subscribeChannelGraph')
+    removeAll('subscribeTransactions')
+    removeAll('subscribeGetInfo')
   }
 
   // ------------------------------------
