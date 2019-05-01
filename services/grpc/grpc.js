@@ -1,278 +1,211 @@
 import EventEmitter from 'events'
-import StateMachine from 'javascript-state-machine'
+import intersection from 'lodash.intersection'
 import { proxyValue } from 'comlinkjs'
-import snakecase from 'lodash.snakecase'
 import { status } from '@grpc/grpc-js'
-import validateHost from '@zap/utils/validateHost'
+import LndGrpc from 'lnd-grpc'
 import { grpcLog } from '@zap/utils/log'
-import WalletUnlocker from './walletUnlocker'
-import Lightning from './lightning'
+import lightningMethods from './lightning.methods'
+import lightningSubscriptions from './lightning.subscriptions'
 
-const WALLET_STATE_LOCKED = 'WALLET_STATE_LOCKED'
-const WALLET_STATE_ACTIVE = 'WALLET_STATE_ACTIVE'
+const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'
+const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
 
 /**
- * Wrapper and controller for multiple GrpcService instances.
+ * LND gRPC wrapper.
  * @extends EventEmitter
  */
-class Grpc extends EventEmitter {
-  constructor() {
-    super()
-    this.fsm = new StateMachine({
-      init: 'pending',
-      transitions: [
-        { name: 'init', from: 'pending', to: 'ready' },
-        { name: 'activateWalletUnlocker', from: ['ready', 'active'], to: 'locked' },
-        { name: 'activateLightning', from: ['ready', 'locked'], to: 'active' },
-        { name: 'disconnect', from: ['locked', 'active'], to: 'ready' },
-      ],
-      methods: {
-        onBeforeActivateWalletUnlocker: this.onBeforeActivateWalletUnlocker.bind(this),
-        onBeforeActivateLightning: this.onBeforeActivateLightning.bind(this),
-        onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
-        onAfterDisconnect: this.onAfterDisconnect.bind(this),
-        onLeaveActive: this.onLeaveActive.bind(this),
-      },
-    })
-    this.supportedServices = [WalletUnlocker, Lightning]
+class ZapGrpc extends EventEmitter {
+  init(options) {
+    this.options = options
+    this.subscriptions = []
+
+    // Create a new grpc instance using settings from init options.
+    const grpcOptions = this._getConnectionSettings()
+    this.grpc = new LndGrpc(grpcOptions)
+
+    // Set up service accessors.
     this.services = {}
-    this.fsm.init()
+    Object.keys(this.grpc.services).reduce((accumulator, currentValue) => {
+      accumulator[currentValue] = this.grpc.services[currentValue]
+      return accumulator
+    }, this.services)
+
+    const { Lightning } = this.services
+
+    // Inject helper methods.
+    Object.assign(Lightning, lightningMethods)
+    Object.assign(Lightning, lightningSubscriptions)
+
+    // Setup gRPC event forwarders.
+    this.grpc.on('locked', () => {
+      this.emit(GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE)
+    })
+    this.grpc.on('active', () => {
+      this.emit(GRPC_LIGHTNING_SERVICE_ACTIVE)
+      this.subscribeAll()
+    })
+    this.grpc.on('disconnected', () => {
+      this.unsubscribe()
+    })
+
+    // Setup subscription event forwarders.
+    const subscriptions = [
+      'subscribeInvoices',
+      'subscribeChannelGraph',
+      'subscribeTransactions',
+      'subscribeGetInfo',
+    ]
+    subscriptions.forEach(subscription => this._forwardAll(Lightning, subscription))
   }
 
   /**
-   * Initialize the service.
-   * @param {LndConfig} lndConfig configuration.
+   * Initiate gRPC connection.
    */
-  init(lndConfig) {
-    grpcLog.info(`Initializing lnd gRPC with config: %o`, lndConfig)
-    this.lndConfig = lndConfig
-
-    // Instantiate individual services.
-    this.supportedServices.forEach(Service => {
-      const instance = new Service(this.lndConfig)
-      this.services[instance.serviceName] = instance
-    })
-
-    // Activate the lightning interfae as soon as the WalletUnlocker has been unlocked.
-    this.services.WalletUnlocker.on('UNLOCK_WALLET_SUCCESS', async () => {
-      this.activateLightning()
-    })
+  connect(...args) {
+    return this.grpc.connect(args)
   }
 
-  // ------------------------------------
-  // FSM Proxies
-  // ------------------------------------
-
-  is(...args) {
-    return this.fsm.is(args)
-  }
-
-  can(...args) {
-    return this.fsm.can(args)
-  }
-
-  async connect() {
-    grpcLog.info(`Connecting to lnd gRPC service`)
-
-    // Verify that the host is valid.
-    const { host } = this.lndConfig
-    await validateHost(host)
-
-    // Probe the services to determine the wallet state.
-    const walletState = await this.determineWalletState()
-
-    // Update our state accordingly.
-    switch (walletState) {
-      case WALLET_STATE_LOCKED:
-        await this.activateWalletUnlocker()
-        break
-
-      case WALLET_STATE_ACTIVE:
-        await this.activateLightning()
-        break
-
-      default:
-        throw new Error('Unable to determine wallet state')
-    }
-  }
-
+  /**
+   * Disconnect gRPC service.
+   */
   async disconnect(...args) {
-    return this.fsm.disconnect(args)
-  }
-
-  async activateWalletUnlocker(...args) {
-    await this.fsm.activateWalletUnlocker(args)
-    this.emit('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
-  }
-
-  async activateLightning(...args) {
-    await this.fsm.activateLightning(args)
-    this.emit('GRPC_LIGHTNING_SERVICE_ACTIVE')
-  }
-
-  // ------------------------------------
-  // FSM Observers
-  // ------------------------------------
-
-  /**
-   * Disconnect from the gRPC service.
-   */
-  async onBeforeDisconnect() {
-    grpcLog.info(`Disconnecting from lnd gRPC service`)
-    await this.disconnectAll()
-  }
-  /**
-   * Log successful disconnect.
-   */
-  async onAfterDisconnect() {
-    grpcLog.info('Disconnected from lnd gRPC service')
+    if (this.grpc && this.grpc.can('disconnect')) {
+      await this.grpc.disconnect(args)
+    }
   }
 
   /**
-   * Rejig connections as needed before activating the wallet unlocker service.
+   * Wait for grpc service to enter specific sate (proxy method)
    */
-  async onBeforeActivateWalletUnlocker() {
-    await this.services.WalletUnlocker.connect()
+  waitForState(...args) {
+    return proxyValue(this.grpc.waitForState(args))
   }
 
   /**
-   * Rejig connections as needed before activating the lightning service.
+   * Subscribe to all gRPC streams.
    */
-  async onBeforeActivateLightning() {
+  subscribeAll() {
     const { Lightning } = this.services
-    await Lightning.connect()
+    this.subscriptions['invoices'] = Lightning.subscribeInvoices()
+    this.subscriptions['transactions'] = Lightning.subscribeTransactions()
+    this.subscriptions['getinfo'] = Lightning.subscribeGetInfo()
+    this.subscribe()
 
-    // setups listener that re-emits specified event
-    const forwardEvent = event => {
-      Lightning.on(event, data => this.emit(event, data))
-    }
-
-    // forwards `data` and `error` events of the specified `base` subscription
-    const forwardAll = baseEvent => {
-      forwardEvent(`${baseEvent}.data`)
-      forwardEvent(`${baseEvent}.error`)
-    }
-
-    forwardAll('subscribeInvoices')
-    forwardAll('subscribeChannelGraph')
-    forwardAll('subscribeTransactions')
-    forwardAll('subscribeGetInfo')
+    // subscribe to graph updates only after sync is complete
+    // this is needed because LND chanRouter waits for chain sync
+    // to complete before accepting subscriptions
+    this.on('subscribeGetInfo.data', data => {
+      const { synced_to_chain } = data
+      if (synced_to_chain && !this.subscriptions['channelGraph']) {
+        grpcLog.info('subscribeChannelGraph')
+        const { Lightning } = this.services
+        this.subscriptions['channelGraph'] = Lightning.subscribeChannelGraph()
+        this.subscribe('channelGraph')
+      }
+    })
   }
-
-  onLeaveActive() {
-    const { Lightning } = this.services
-
-    // removes `data` and `error` events listeners of the specified `base` subscription
-    const removeAll = baseEvent => {
-      Lightning.removeAllListeners(`${baseEvent}.data`)
-      Lightning.removeAllListeners(`${baseEvent}.error`)
-    }
-
-    removeAll('subscribeInvoices')
-    removeAll('subscribeChannelGraph')
-    removeAll('subscribeTransactions')
-    removeAll('subscribeGetInfo')
-  }
-
-  // ------------------------------------
-  // Helpers
-  // ------------------------------------
 
   /**
-   * Disconnect all services.
+   * @param {...string} services optional list of services to subscribe to. if omitted, uses all services
+   * @services must be a subset of `this.subscriptions`
    */
-  async disconnectAll() {
-    grpcLog.info('Disconnecting from all gRPC services')
-    await Promise.all(
-      Object.keys(this.services).map(serviceName => {
-        const service = this.services[serviceName]
-        if (service.can('disconnect')) {
-          return service.disconnect()
+  subscribe(...services) {
+    const allSubKeys = Object.keys(this.subscriptions)
+    // make sure we are subscribing to known services if a specific list is provided
+    const activeSubKeys =
+      services && services.length ? intersection(allSubKeys, services) : allSubKeys
+    // Close and clear subscriptions when they emit an end event.
+    activeSubKeys.forEach(key => {
+      const call = this.subscriptions[key]
+      if (call) {
+        call.on('end', () => {
+          grpcLog.info(`gRPC subscription "${key}" ended.`)
+          delete this.subscriptions[key]
+        })
+
+        call.on('status', callStatus => {
+          if (callStatus.code === status.CANCELLED) {
+            delete this.subscriptions[key]
+            grpcLog.info(`gRPC subscription "${key}" ended.`)
+          }
+        })
+      }
+    })
+  }
+
+  /**
+   * Unsubscribe from all streams.
+   * @param {...string} services optional list of services to unsubscribe from. if omitted, uses all services
+   * @services must be a subset of `this.subscriptions`
+   */
+  async unsubscribe(...services) {
+    const allSubKeys = Object.keys(this.subscriptions)
+    // make sure we are unsubscribing from known services if a specific list is provided
+    const activeSubKeys =
+      services && services.length ? intersection(allSubKeys, services) : allSubKeys
+    grpcLog.info(`Unsubscribing from all gRPC streams: %o`, activeSubKeys)
+    const cancellations = activeSubKeys.map(key => this.cancelSubscription(key))
+    await Promise.all(cancellations)
+  }
+
+  /**
+   * Unsubscribe from a single stream.
+   */
+  async cancelSubscription(key) {
+    grpcLog.info(`Unsubscribing from ${key} gRPC stream`)
+    const call = this.subscriptions[key]
+
+    // Cancellation status callback handler.
+    const result = new Promise(resolve => {
+      call.on('status', callStatus => {
+        if (callStatus.code === status.CANCELLED) {
+          delete this.subscriptions[key]
+          grpcLog.info(`Unsubscribed from ${key} gRPC stream`)
+          resolve()
         }
       })
-    )
-  }
 
-  /**
-   * Probe to determine what state lnd is in.
-   */
-  async determineWalletState() {
-    grpcLog.info('Attempting to determine wallet state')
-    try {
-      await this.services.WalletUnlocker.connect()
-      await this.services.WalletUnlocker.unlockWallet('null')
-    } catch (error) {
-      switch (error.code) {
-        /*
-          `UNIMPLEMENTED` indicates that the requested operation is not implemented or not supported/enabled in the
-           service. This implies that the wallet is already unlocked, since the WalletUnlocker service is not active.
-           See https://github.com/grpc/grpc-node/blob/master/packages/grpc-native-core/src/constants.js#L129
-         */
-        case status.UNIMPLEMENTED:
-          grpcLog.info('Determined wallet state as:', WALLET_STATE_ACTIVE)
-          return WALLET_STATE_ACTIVE
-
-        /**
-          `UNKNOWN` indicates that unlockWallet was called without an argument which is invalid.
-          This implies that the wallet is waiting to be unlocked.
-        */
-        case status.UNKNOWN:
-          grpcLog.info('Determined wallet state as:', WALLET_STATE_LOCKED)
-          return WALLET_STATE_LOCKED
-
-        /**
-          Bubble all other errors back to the caller and abort the connection attempt.
-          Disconnect all services.
-        */
-        default:
-          grpcLog.warn('Unable to determine wallet state', error)
-          throw error
-      }
-    } finally {
-      if (this.services.WalletUnlocker.can('disconnect')) {
-        await this.services.WalletUnlocker.disconnect()
-      }
-    }
-  }
-
-  /**
-   * Wait for a service to become active.
-   * @return {Promise<Object>} Object with `isActive` and `cancel` properties.
-   */
-  /**
-   * Wait for a service to become active.
-   * @param  {String} serviceName Name of service to wait for (Lightning, or WalletUnlocker)
-   * @return {Promise<Object>}     Object with `isActive` and `cancel` properties.
-   */
-  waitForService(serviceName) {
-    let successHandler
-    const activationEventName = `GRPC_${snakecase(serviceName).toUpperCase()}_SERVICE_ACTIVE`
-
-    /**
-     * Promise that resolves when service is active.
-     */
-    const isActive = new Promise(async resolve => {
-      // If the service is already active, return immediately.
-      if (this.services[serviceName].is('connected')) {
-        return resolve()
-      }
-      // Otherwise, wait until we receive an activation event from the gRPC service.
-      successHandler = () => resolve()
-      this.prependOnceListener(activationEventName, successHandler)
+      call.on('end', () => {
+        delete this.subscriptions[key]
+        grpcLog.info(`Unsubscribed from ${key} gRPC stream`)
+        resolve()
+      })
     })
 
-    /**
-     * Method to abort the wait (prevent the isActive from resolving and remove activation event listener).
-     */
-    const cancel = () => {
-      if (successHandler) {
-        this.off(activationEventName, successHandler)
-        successHandler = null
-      }
-    }
+    // Initiate cancellation request.
+    call.cancel()
+    // Resolve once we receive confirmation of the call's cancellation.
+    return result
+  }
 
-    return proxyValue({ isActive, cancel })
+  /**
+   * Setup listener that re-emits specified event.
+   */
+  _forwardEvent(service, event) {
+    service.on(event, data => this.emit(event, data))
+  }
+
+  /**
+   * Forwards `data` and `error` events of the specified `base` subscription
+   */
+  _forwardAll(service, baseEvent) {
+    this._forwardEvent(service, `${baseEvent}.data`)
+    this._forwardEvent(service, `${baseEvent}.error`)
+  }
+
+  /**
+   * Get connection details based on wallet config.
+   */
+  _getConnectionSettings() {
+    const { id, type, host, cert, macaroon, protoDir } = this.options
+    // Don't use macaroons when connecting to the local tmp instance.
+    const useMacaroon = this.useMacaroon && id !== 'tmp'
+    // If connecting to a local instance, wait for the macaroon file to exist.
+    const waitForMacaroon = type === 'local'
+    const waitForCert = type === 'local'
+
+    return { host, cert, macaroon, waitForMacaroon, waitForCert, useMacaroon, protoDir }
   }
 }
 
-export default Grpc
+export default ZapGrpc

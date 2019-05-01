@@ -1,7 +1,8 @@
-import { grpcLog } from '@zap/utils/log'
 import { status } from '@grpc/grpc-js'
+import { grpcLog } from '@zap/utils/log'
+import streamify from '@zap/utils/streamify'
 import methods from './lightning.methods'
-import streamify from './streamify'
+
 /**
  * Call lnd grpc subscribeChannelGraph method and emit events on updates to the stream
  * @return {Call} Grpc Call

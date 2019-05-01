@@ -278,7 +278,11 @@ export const fetchChannels = () => async dispatch => {
 }
 
 // Receive IPC event for channels
-export const receiveChannels = ({ channels, pendingChannels, closedChannels }) => dispatch => {
+export const receiveChannels = ({
+  channels: { channels },
+  pendingChannels,
+  closedChannels: { channels: closedChannels },
+}) => dispatch => {
   dispatch({ type: RECEIVE_CHANNELS, channels, pendingChannels, closedChannels })
   dispatch(fetchBalance())
 }
