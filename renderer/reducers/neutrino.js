@@ -427,11 +427,7 @@ neutrinoSelectors.neutrinoSyncPercentage = createSelector(
 
     const percentage = Math.floor((done / totalToSync) * 100)
 
-    if (percentage === Infinity || Number.isNaN(percentage)) {
-      return undefined
-    }
-
-    return parseInt(percentage, 10)
+    return Number.isFinite(percentage) ? percentage : undefined
   }
 )
 
@@ -440,18 +436,13 @@ neutrinoSelectors.neutrinoRecoveryPercentage = createSelector(
   neutrinoRecoveryHeightSelector,
   neutrinoFirstRecoveryHeightSelector,
   (blockHeight, neutrinoRecoveryHeight, neutrinoFirstRecoveryHeight) => {
-    // filters
     const filtersToSync = blockHeight - neutrinoFirstRecoveryHeight
     const filtersRemaining = blockHeight - neutrinoRecoveryHeight
     const filtersDone = filtersToSync - filtersRemaining
 
     const percentage = Math.floor((filtersDone / filtersToSync) * 100)
 
-    if (percentage === Infinity || Number.isNaN(percentage)) {
-      return undefined
-    }
-
-    return parseInt(percentage, 10)
+    return Number.isFinite(percentage) ? percentage : undefined
   }
 )
 

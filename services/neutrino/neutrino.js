@@ -39,6 +39,9 @@ class Neutrino extends EventEmitter {
   }
 
   static incrementIfHigher = (context, property, newVal) => {
+    if (Number.isNaN(newVal)) {
+      return false
+    }
     const { [property]: oldVal } = context
     if (newVal > oldVal) {
       context[property] = newVal
@@ -507,10 +510,8 @@ class Neutrino extends EventEmitter {
    * @param  {String} line log output line
    */
   notifyOnRecoveryProgress(line) {
-    let height
-
     // Check the log line to see if we can parse the current block header height from it.
-    height = this.getRecoveryHeightIncrement(line)
+    const height = this.getRecoveryHeightIncrement(line)
     if (height) {
       this.setNeutrinoRecoveryHeight(height)
     }
