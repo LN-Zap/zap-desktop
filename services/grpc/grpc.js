@@ -28,9 +28,7 @@ class Grpc extends EventEmitter {
       ],
       methods: {
         onBeforeActivateWalletUnlocker: this.onBeforeActivateWalletUnlocker.bind(this),
-        onAfterActivateWalletUnlocker: this.onAfterActivateWalletUnlocker.bind(this),
         onBeforeActivateLightning: this.onBeforeActivateLightning.bind(this),
-        onAfterActivateLightning: this.onAfterActivateLightning.bind(this),
         onBeforeDisconnect: this.onBeforeDisconnect.bind(this),
         onAfterDisconnect: this.onAfterDisconnect.bind(this),
         onLeaveActive: this.onLeaveActive.bind(this),
@@ -103,11 +101,13 @@ class Grpc extends EventEmitter {
   }
 
   async activateWalletUnlocker(...args) {
-    return this.fsm.activateWalletUnlocker(args)
+    await this.fsm.activateWalletUnlocker(args)
+    this.emit('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
   }
 
   async activateLightning(...args) {
-    return this.fsm.activateLightning(args)
+    await this.fsm.activateLightning(args)
+    this.emit('GRPC_LIGHTNING_SERVICE_ACTIVE')
   }
 
   // ------------------------------------
@@ -134,9 +134,6 @@ class Grpc extends EventEmitter {
   async onBeforeActivateWalletUnlocker() {
     await this.services.WalletUnlocker.connect()
   }
-  async onAfterActivateWalletUnlocker() {
-    this.emit('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
-  }
 
   /**
    * Rejig connections as needed before activating the lightning service.
@@ -160,10 +157,6 @@ class Grpc extends EventEmitter {
     forwardAll('subscribeChannelGraph')
     forwardAll('subscribeTransactions')
     forwardAll('subscribeGetInfo')
-  }
-
-  async onAfterActivateLightning() {
-    this.emit('GRPC_LIGHTNING_SERVICE_ACTIVE')
   }
 
   onLeaveActive() {
