@@ -98,7 +98,6 @@ class ZapGrpc extends EventEmitter {
     this.on('subscribeGetInfo.data', data => {
       const { synced_to_chain } = data
       if (synced_to_chain && !this.subscriptions['channelGraph']) {
-        grpcLog.info('subscribeChannelGraph')
         const { Lightning } = this.services
         this.subscriptions['channelGraph'] = Lightning.subscribeChannelGraph()
         this.subscribe('channelGraph')

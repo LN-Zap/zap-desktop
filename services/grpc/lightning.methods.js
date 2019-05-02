@@ -153,7 +153,7 @@ async function openChannel(payload = {}) {
       const call = this.service.openChannel(payload)
 
       call.on('data', data => {
-        grpcLog.info('OPEN_CHANNEL DATA', data)
+        grpcLog.debug('OPEN_CHANNEL DATA', data)
         const response = { ...parsePayload(payload), data }
         this.emit('openChannel.data', response)
         resolve(response)
@@ -168,12 +168,12 @@ async function openChannel(payload = {}) {
       })
 
       call.on('status', status => {
-        grpcLog.info('OPEN_CHANNEL STATUS', status)
+        grpcLog.debug('OPEN_CHANNEL STATUS', status)
         this.emit('openChannel.status', status)
       })
 
       call.on('end', () => {
-        grpcLog.info('OPEN_CHANNEL END')
+        grpcLog.debug('OPEN_CHANNEL END')
         this.emit('openChannel.end')
       })
     } catch (e) {
@@ -212,7 +212,7 @@ async function closeChannel(payload = {}) {
       const call = this.service.closeChannel(req)
 
       call.on('data', data => {
-        grpcLog.info('CLOSE_CHANNEL DATA', data)
+        grpcLog.debug('CLOSE_CHANNEL DATA', data)
         const response = { data, chan_id }
         this.emit('closeChannel.data', response)
         resolve(response)
@@ -227,12 +227,12 @@ async function closeChannel(payload = {}) {
       })
 
       call.on('status', status => {
-        grpcLog.info('CLOSE_CHANNEL STATUS', status)
+        grpcLog.debug('CLOSE_CHANNEL STATUS', status)
         this.emit('closeChannel.status', status)
       })
 
       call.on('end', () => {
-        grpcLog.info('CLOSE_CHANNEL END')
+        grpcLog.debug('CLOSE_CHANNEL END')
         this.emit('closeChannel.end')
       })
     } catch (e) {
@@ -256,7 +256,7 @@ async function sendPayment(payload = {}) {
       call.on('data', data => {
         const isSuccess = !data.payment_error
         if (isSuccess) {
-          grpcLog.info('PAYMENT SUCCESS', data)
+          grpcLog.debug('PAYMENT SUCCESS', data)
 
           // Convert payment_hash to hex string.
           let paymentHash = data.payment_hash
@@ -300,12 +300,12 @@ async function sendPayment(payload = {}) {
       })
 
       call.on('status', status => {
-        grpcLog.info('PAYMENT STATUS', status)
+        grpcLog.debug('PAYMENT STATUS', status)
         this.emit('sendPayment.status', status)
       })
 
       call.on('end', () => {
-        grpcLog.info('PAYMENT END')
+        grpcLog.debug('PAYMENT END')
         this.emit('sendPayment.end')
       })
 
