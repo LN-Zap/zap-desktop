@@ -1,6 +1,7 @@
 import promisifiedCall from '@zap/utils/promisifiedCall'
-import { grpcLog } from '@zap/utils/log'
 import { decodePayReq as bolt11DecodePayReq } from '@zap/utils/crypto'
+import { grpcLog } from '@zap/utils/log'
+import { logGrpcCmd } from './helpers'
 
 // ------------------------------------
 // Wrappers / Overrides
@@ -11,7 +12,7 @@ import { decodePayReq as bolt11DecodePayReq } from '@zap/utils/crypto'
  * @return {Promise<GetInfoResponse}
  */
 async function getInfo(payload = {}) {
-  grpcLog.info(`Calling Lightning.getInfo with payload: %o`, payload)
+  logGrpcCmd('Lightning.getInfo', payload)
   const infoData = await promisifiedCall(this.service, this.service.getInfo, payload)
 
   // Add semver info into info so that we can use it to customise functionality based on active version.
@@ -38,7 +39,7 @@ async function getInfo(payload = {}) {
  */
 async function estimateFee(address, amount, targetConf) {
   const payload = { AddrToAmount: { [address]: amount }, target_conf: targetConf }
-  grpcLog.info(`Calling Lightning.estimateFee with payload: %o`, payload)
+  logGrpcCmd('Lightning.estimateFee', payload)
   return promisifiedCall(this.service, this.service.estimateFee, payload)
 }
 

@@ -6,6 +6,7 @@ import LndGrpc from 'lnd-grpc'
 import { grpcLog } from '@zap/utils/log'
 import lightningMethods from './lightning.methods'
 import lightningSubscriptions from './lightning.subscriptions'
+import { forwardAll } from './helpers'
 
 const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'
 const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
@@ -20,7 +21,7 @@ class ZapGrpc extends EventEmitter {
     this.subscriptions = []
 
     // Create a new grpc instance using settings from init options.
-    const grpcOptions = this._getConnectionSettings()
+    const grpcOptions = this.getConnectionSettings()
     this.grpc = new LndGrpc(grpcOptions)
 
     // Set up service accessors.
@@ -55,7 +56,7 @@ class ZapGrpc extends EventEmitter {
       'subscribeTransactions',
       'subscribeGetInfo',
     ]
-    subscriptions.forEach(subscription => this._forwardAll(Lightning, subscription))
+    subscriptions.forEach(subscription => forwardAll(Lightning, subscription, this))
   }
 
   /**
@@ -179,24 +180,9 @@ class ZapGrpc extends EventEmitter {
   }
 
   /**
-   * Setup listener that re-emits specified event.
-   */
-  _forwardEvent(service, event) {
-    service.on(event, data => this.emit(event, data))
-  }
-
-  /**
-   * Forwards `data` and `error` events of the specified `base` subscription
-   */
-  _forwardAll(service, baseEvent) {
-    this._forwardEvent(service, `${baseEvent}.data`)
-    this._forwardEvent(service, `${baseEvent}.error`)
-  }
-
-  /**
    * Get connection details based on wallet config.
    */
-  _getConnectionSettings() {
+  getConnectionSettings() {
     const { id, type, host, cert, macaroon, protoDir } = this.options
     // Don't use macaroons when connecting to the local tmp instance.
     const useMacaroon = this.useMacaroon && id !== 'tmp'
