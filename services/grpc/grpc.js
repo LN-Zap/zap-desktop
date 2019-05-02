@@ -25,17 +25,11 @@ class ZapGrpc extends EventEmitter {
     this.grpc = new LndGrpc(grpcOptions)
 
     // Set up service accessors.
-    this.services = {}
-    Object.keys(this.grpc.services).reduce((accumulator, currentValue) => {
-      accumulator[currentValue] = this.grpc.services[currentValue]
-      return accumulator
-    }, this.services)
-
-    const { Lightning } = this.services
+    this.services = this.grpc.services
 
     // Inject helper methods.
-    Object.assign(Lightning, lightningMethods)
-    Object.assign(Lightning, lightningSubscriptions)
+    Object.assign(this.grpc.services.Lightning, lightningMethods)
+    Object.assign(this.grpc.services.Lightning, lightningSubscriptions)
 
     // Setup gRPC event forwarders.
     this.grpc.on('locked', () => {
@@ -56,7 +50,9 @@ class ZapGrpc extends EventEmitter {
       'subscribeTransactions',
       'subscribeGetInfo',
     ]
-    subscriptions.forEach(subscription => forwardAll(Lightning, subscription, this))
+    subscriptions.forEach(subscription =>
+      forwardAll(this.grpc.services.Lightning, subscription, this)
+    )
   }
 
   /**
