@@ -5,6 +5,7 @@ import locale from './locale'
 import theme from './theme'
 import app from './app'
 import autopay from './autopay'
+import autopilot from './autopilot'
 import onboarding from './onboarding'
 import lnd from './lnd'
 import ticker from './ticker'
@@ -40,6 +41,7 @@ export default history => {
     address,
     app,
     autopay,
+    autopilot,
     balance,
     channels,
     contactsform,
