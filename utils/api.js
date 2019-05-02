@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { mainLog } from '@zap/utils/log'
 
 // When running in development/hot mode we load the renderer js code via webpack dev server, and it is from there that
 // we ultimately initate requests to these remote resources. The end result is that the electron browser window makes a
@@ -36,6 +37,34 @@ export function requestSuggestedNodes() {
     method: 'get',
     url: BASE_URL,
   }).then(response => response.data)
+}
+
+export function requestNodeScores(chain, network) {
+  const chainMap = {
+    bitcoin: 'btc',
+    litecoin: 'ltc',
+  }
+  const networkMap = {
+    mainnet: '',
+    testnet: 'testnet',
+  }
+  const code = chainMap[chain]
+  const suffix = networkMap[network]
+  const chainCode = `${code}${suffix}`
+  const BASE_URL = `https://nodes.lightning.computer/availability/v1/${chainCode}.json`
+  return axios({
+    method: 'get',
+    url: BASE_URL,
+  }).then(response =>
+    response.data.scores.reduce((map, { public_key, score }) => {
+      if (typeof public_key !== 'string' || !Number.isInteger(score)) {
+        mainLog.warn('Invalid node score format!')
+        return map
+      }
+      map[public_key] = score / 100000000.0
+      return map
+    }, {})
+  )
 }
 
 export function requestFees() {
