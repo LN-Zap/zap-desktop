@@ -47,6 +47,7 @@ const config = merge.smart(baseConfig, {
         'https://api.smartbit.com.au',
         'https://api.blockcypher.com',
         'https://bitcoinfees.earn.com',
+        'https://nodes.lightning.computer',
         'https://zap.jackmallers.com',
       ],
       'img-src': ['http://www.zap.jackmallers.com'],
