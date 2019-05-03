@@ -6,10 +6,11 @@ builds:
     goarch:
       - amd64
       - '386'
+    binary: lnd
     ldflags:
       - -X github.com/lightningnetwork/lnd/build.Commit={{.Tag}}
     flags:
-      - -tags="experimental"
+      - -tags=experimental autopilotrpc signrpc walletrpc chainrpc invoicesrpc routerrpc
   - goos:
       - linux
       - darwin
@@ -22,7 +23,7 @@ builds:
     ldflags:
       - -X github.com/lightningnetwork/lnd/build.Commit={{.Tag}}
     flags:
-      - -tags="experimental"
+      - -tags=experimental autopilotrpc signrpc walletrpc chainrpc invoicesrpc routerrpc
 archive:
   name_template: '{{ .ProjectName }}-{{ .Os }}-{{ .Arch }}{{ .Arm }}-v{{ .Version }}'
   format: tar.gz
