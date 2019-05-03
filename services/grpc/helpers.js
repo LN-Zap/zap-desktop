@@ -16,8 +16,16 @@ export function forwardAll(service, baseEvent, target) {
 }
 
 /**
+ * Unforwards `data` and `error` events of the specified `base` subscription.
+ */
+export function unforwardAll(service, baseEvent) {
+  service.removeAllListeners(`${baseEvent}.data`)
+  service.removeAllListeners(`${baseEvent}.error`)
+}
+
+/**
  * Logs a service method invocation.
  */
-export function logGrpcCmd(service, method, payload) {
-  grpcLog.info(`Calling Lightning.getInfo with payload: %o`, payload)
+export function logGrpcCmd(method, payload) {
+  grpcLog.info(`Calling ${method} with payload: %o`, payload)
 }
