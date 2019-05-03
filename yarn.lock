@@ -1265,6 +1265,13 @@
   dependencies:
     semver "^5.5.0"
 
+"@grpc/grpc-js@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.4.0.tgz#b20a6abf1346ce7fd696a042f83d10c94e143881"
+  integrity sha512-UbGDPnstJamJrSiHzCSwSavIX260IfLOZLRJYDqRKJA/jmVZa3hPMWDjhFrcCKDq2MLc/O/nauFED3r4khcZrA==
+  dependencies:
+    semver "^6.0.0"
+
 "@grpc/proto-loader@0.5.0":
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/@grpc/proto-loader/-/proto-loader-0.5.0.tgz#6d21930530db6089ed68a90f10a22b76fdc3387d"
