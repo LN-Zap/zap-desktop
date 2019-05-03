@@ -1,7 +1,6 @@
 import createScheduler from '@zap/utils/scheduler'
 import isEqual from 'lodash.isequal'
 import EventEmitter from 'events'
-import { grpcLog } from '@zap/utils/log'
 
 /**
  * Creates polling stream for the specified LND command
@@ -43,7 +42,6 @@ export default function streamify({
         emitter.emit(errorEventName, result)
       }
     } catch (e) {
-      grpcLog.info(e)
       this.emit(errorEventName, e)
       emitter.emit(errorEventName, e)
       if (cancelOnError) {

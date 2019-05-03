@@ -1,13 +1,19 @@
 import promisifiedCall from '@zap/utils/promisifiedCall'
-import { grpcLog } from '@zap/utils/log'
 import { decodePayReq as bolt11DecodePayReq } from '@zap/utils/crypto'
+import { grpcLog } from '@zap/utils/log'
+import { logGrpcCmd } from './helpers'
+
+// ------------------------------------
+// Wrappers / Overrides
+// ------------------------------------
 
 /**
- * Call lnd grpc getInfo method
+ * Call lnd grpc getInfo method.
  * @return {Promise<GetInfoResponse}
  */
-async function getInfo() {
-  const infoData = await promisifiedCall(this.service, this.service.getInfo, {})
+async function getInfo(payload = {}) {
+  logGrpcCmd('Lightning.getInfo', payload)
+  const infoData = await promisifiedCall(this.service, this.service.getInfo, payload)
 
   // Add semver info into info so that we can use it to customise functionality based on active version.
   infoData.semver = this.version
@@ -25,29 +31,21 @@ async function getInfo() {
 }
 
 /**
- * Call lnd grpc newAddress method
- * @param  {Object}  payload rpc payload
- * @return {Promise<NewAddressResponse}
+ * Estimates on-chain fee.
+ * @param {string} address
+ * @param {number} amount amount in satoshis
+ * @param {number} targetConf desired confirmation time
+ * @returns {Promise<EstimateFeeResponse>} {fee_sat, feerate_sat_per_byte}
  */
-async function newAddress(payload = {}) {
-  return promisifiedCall(this.service, this.service.newAddress, payload)
+async function estimateFee(address, amount, targetConf) {
+  const payload = { AddrToAmount: { [address]: amount }, target_conf: targetConf }
+  logGrpcCmd('Lightning.estimateFee', payload)
+  return promisifiedCall(this.service, this.service.estimateFee, payload)
 }
 
-/**
- * Call lnd grpc walletBalance method
- * @return {Promise<WalletBalanceResponse}
- */
-async function walletBalance() {
-  return promisifiedCall(this.service, this.service.walletBalance, {})
-}
-
-/**
- * Call lnd grpc channelBalance method
- * @return {Promise<ChannelBalanceResponse}
- */
-async function channelBalance() {
-  return promisifiedCall(this.service, this.service.channelBalance, {})
-}
+// ------------------------------------
+// Helpers
+// ------------------------------------
 
 /**
  * Call lnd grpc walletBalance and channelBalance method and combine result.
@@ -66,64 +64,6 @@ async function getBalance() {
 }
 
 /**
- * Call lnd grpc listPayments method
- * @return {Promise<ListPaymentsResponse>}
- */
-async function listPayments() {
-  return promisifiedCall(this.service, this.service.listPayments, {})
-}
-
-/**
- * Call lnd grpc listInvoices method
- * @return {Promise<ListInvoiceResponse>}
- */
-async function listInvoices() {
-  return promisifiedCall(this.service, this.service.listInvoices, {})
-}
-
-/**
- * Call lnd grpc getTransactions method
- * @return {Promise<TransactionDetails>}
- */
-async function getTransactions() {
-  return promisifiedCall(this.service, this.service.getTransactions, {})
-}
-
-/**
- * Call lnd grpc listPeers method
- * @return {Promise<ListPeersResponse>}
- */
-async function listPeers() {
-  return promisifiedCall(this.service, this.service.listPeers, {})
-}
-
-/**
- * Call lnd grpc listChannels method and extract channels data.
- * @return {Promise<[Channels]>}
- */
-async function listChannels() {
-  const data = await promisifiedCall(this.service, this.service.listChannels, {})
-  return data.channels
-}
-
-/**
- * Call lnd grpc pendingChannels method
- * @return {Promise<PendingChannelsResponse>}
- */
-async function pendingChannels() {
-  return promisifiedCall(this.service, this.service.pendingChannels, {})
-}
-
-/**
- * Call lnd grpc closedChannels method and extract channels data.
- * @return {Promise<[Channels]>}
- */
-async function closedChannels() {
-  const data = await promisifiedCall(this.service, this.service.closedChannels, {})
-  return data.channels
-}
-
-/**
  * Call lnd grpc listChannels, pendingChannels and closedChannels method and combine result.
  * @return {Promise<Object>}
  */
@@ -139,42 +79,6 @@ async function getChannels() {
     pendingChannels,
     closedChannels,
   }
-}
-
-/**
- * Call lnd grpc describeGraph method
- * @param  {Object}  payload rpc payload
- * @return {Promise<ChannelGraph>}
- */
-async function describeGraph(payload = {}) {
-  return promisifiedCall(this.service, this.service.describeGraph, payload)
-}
-
-/**
- * Call lnd grpc decodePayReq method
- * @param  {Object}  payload rpc payload
- * @return {Promise<PayReq>}
- */
-async function decodePayReq(payload = {}) {
-  return promisifiedCall(this.service, this.service.decodePayReq, payload)
-}
-
-/**
- * Call lnd grpc lookupInvoice method
- * @param  {Object}  payload rpc payload
- * @return {Promise<Invoice>}
- */
-async function lookupInvoice(payload = {}) {
-  return promisifiedCall(this.service, this.service.lookupInvoice, payload)
-}
-
-/**
- * Call lnd grpc addInvoice method
- * @param  {Object}  payload rpc payload
- * @return {Promise<AddInvoiceResponse>}
- */
-async function addInvoice(payload = {}) {
-  return promisifiedCall(this.service, this.service.addInvoice, payload)
 }
 
 /**
@@ -197,33 +101,6 @@ async function createInvoice(payload) {
 }
 
 /**
- * Call lnd grpc queryRoutes method
- * @param  {Object}  payload rpc payload
- * @return {Promise<QueryRoutesResponse>}
- */
-async function queryRoutes(payload = {}) {
-  return promisifiedCall(this.service, this.service.queryRoutes, payload)
-}
-
-/**
- * Call lnd grpc connectPeer method
- * @param  {Object}  payload rpc payload
- * @return {Promise<ConnectPeerResponse>}
- */
-async function connectPeer(payload = {}) {
-  return promisifiedCall(this.service, this.service.connectPeer, payload)
-}
-
-/**
- * Call lnd grpc sendCoins method
- * @param  {Object}  payload rpc payload
- * @return {Promise<SendCoinsResponse>}
- */
-async function sendCoins(payload = {}) {
-  return promisifiedCall(this.service, this.service.sendCoins, payload)
-}
-
-/**
  * Call lnd grpc connectPeer method if not already connected to the peer
  * @param  {Object}  payload rpc payload
  * @return {Promise<ConnectPeerResponse|Peer>}
@@ -235,19 +112,6 @@ async function ensurePeerConnected(payload = {}) {
     return peer
   }
   return this.connectPeer({ addr: payload })
-}
-
-/**
- * Estimates on-chain fee
- *
- * @param {string} address
- * @param {number} amount amount in satoshis
- * @param {number} targetConf desired confirmation time
- * @returns {Promise<EstimateFeeResponse>} {fee_sat, feerate_sat_per_byte}
- */
-async function estimateFee(address, amount, targetConf) {
-  const payload = { AddrToAmount: { [address]: amount }, target_conf: targetConf }
-  return promisifiedCall(this.service, this.service.estimateFee, payload)
 }
 
 /**
@@ -289,7 +153,7 @@ async function openChannel(payload = {}) {
       const call = this.service.openChannel(payload)
 
       call.on('data', data => {
-        grpcLog.info('OPEN_CHANNEL DATA', data)
+        grpcLog.debug('OPEN_CHANNEL DATA', data)
         const response = { ...parsePayload(payload), data }
         this.emit('openChannel.data', response)
         resolve(response)
@@ -304,12 +168,12 @@ async function openChannel(payload = {}) {
       })
 
       call.on('status', status => {
-        grpcLog.info('OPEN_CHANNEL STATUS', status)
+        grpcLog.debug('OPEN_CHANNEL STATUS', status)
         this.emit('openChannel.status', status)
       })
 
       call.on('end', () => {
-        grpcLog.info('OPEN_CHANNEL END')
+        grpcLog.debug('OPEN_CHANNEL END')
         this.emit('openChannel.end')
       })
     } catch (e) {
@@ -348,7 +212,7 @@ async function closeChannel(payload = {}) {
       const call = this.service.closeChannel(req)
 
       call.on('data', data => {
-        grpcLog.info('CLOSE_CHANNEL DATA', data)
+        grpcLog.debug('CLOSE_CHANNEL DATA', data)
         const response = { data, chan_id }
         this.emit('closeChannel.data', response)
         resolve(response)
@@ -363,12 +227,12 @@ async function closeChannel(payload = {}) {
       })
 
       call.on('status', status => {
-        grpcLog.info('CLOSE_CHANNEL STATUS', status)
+        grpcLog.debug('CLOSE_CHANNEL STATUS', status)
         this.emit('closeChannel.status', status)
       })
 
       call.on('end', () => {
-        grpcLog.info('CLOSE_CHANNEL END')
+        grpcLog.debug('CLOSE_CHANNEL END')
         this.emit('closeChannel.end')
       })
     } catch (e) {
@@ -392,7 +256,7 @@ async function sendPayment(payload = {}) {
       call.on('data', data => {
         const isSuccess = !data.payment_error
         if (isSuccess) {
-          grpcLog.info('PAYMENT SUCCESS', data)
+          grpcLog.debug('PAYMENT SUCCESS', data)
 
           // Convert payment_hash to hex string.
           let paymentHash = data.payment_hash
@@ -436,12 +300,12 @@ async function sendPayment(payload = {}) {
       })
 
       call.on('status', status => {
-        grpcLog.info('PAYMENT STATUS', status)
+        grpcLog.debug('PAYMENT STATUS', status)
         this.emit('sendPayment.status', status)
       })
 
       call.on('end', () => {
-        grpcLog.info('PAYMENT END')
+        grpcLog.debug('PAYMENT END')
         this.emit('sendPayment.end')
       })
 
@@ -456,26 +320,9 @@ async function sendPayment(payload = {}) {
 
 export default {
   getInfo,
-  newAddress,
-  walletBalance,
-  channelBalance,
   getBalance,
-  listPayments,
-  listInvoices,
-  getTransactions,
-  listPeers,
-  listChannels,
-  pendingChannels,
-  closedChannels,
   getChannels,
-  describeGraph,
-  decodePayReq,
-  lookupInvoice,
-  addInvoice,
   createInvoice,
-  queryRoutes,
-  connectPeer,
-  sendCoins,
   ensurePeerConnected,
   connectAndOpen,
   openChannel,

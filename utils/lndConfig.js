@@ -128,7 +128,7 @@ class LndConfig {
       'network',
       'decoder',
       'binaryPath',
-      'protoPath',
+      'protoDir',
     ])
     Object.assign(this, baseConfig)
 

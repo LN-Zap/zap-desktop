@@ -34,7 +34,7 @@ export const fetchPeers = () => async dispatch => {
   dispatch({ type: FETCH_PEERS })
   try {
     const grpc = await grpcService
-    const peers = await grpc.services.Lightning.listPeers()
+    const { peers } = await grpc.services.Lightning.listPeers()
     dispatch({ type: FETCH_PEERS_SUCCESS, peers })
   } catch (error) {
     dispatch({ type: FETCH_PEERS_FAILURE, error })

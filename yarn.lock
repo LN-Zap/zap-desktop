@@ -10439,13 +10439,19 @@ lnd-binary@0.3.10:
     "true-case-path" "^1.0.3"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.1.22:
-  version "0.1.22"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.1.22.tgz#7261918a78915ac69d72ec76830b8c3ca28b88d1"
-  integrity sha512-JUN4KOqg/RuIkvl9qM9XO12yktwlu4DBoHswC+lvgcUW0WnMc3nWfP5UmZMmi/BlKgAW9FaJRauioCgm67pibA==
+lnd-grpc@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.1.tgz#38e6d0392c99446eef4bdf4c2f243a079652b85d"
+  integrity sha512-61RMqOsU4qH0OwK1rJ1Ev3s5neJwCnFhm5wKhvJ+bjPsxxsKZxgVmxIeVuUQR+QEYuB+dsMwT/4iPXObs/zo4w==
   dependencies:
-    debug "^4.1.1"
-    semver "^5.7.0"
+    "@grpc/grpc-js" "0.3.6"
+    "@grpc/proto-loader" "0.5.0"
+    debug "4.1.1"
+    javascript-state-machine "3.1.0"
+    lndconnect "0.2.5"
+    semver "6.0.0"
+    untildify "4.0.0"
+    validator "10.11.0"
 
 lndconnect@0.2.5:
   version "0.2.5"
@@ -14262,7 +14268,7 @@ semver-diff@^2.0.0:
   dependencies:
     semver "^5.0.3"
 
-"semver@2 || 3 || 4 || 5", semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0, semver@^5.7.0:
+"semver@2 || 3 || 4 || 5", semver@^5.0.3, semver@^5.1.0, semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0:
   version "5.7.0"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.7.0.tgz#790a7cf6fea5459bac96110b29b60412dc8ff96b"
   integrity sha512-Ya52jSX2u7QKghxeoFGpLwCtGlt7j0oY9DYb5apt9nPlJ42ID+ulTXESnt/qAQcoSERyZ5sl3LDIOw0nAn/5DA==

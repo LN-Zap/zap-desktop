@@ -15,7 +15,7 @@ import { getDb } from '@zap/renderer/store/db'
 import isSubDir from '@zap/utils/isSubDir'
 import { getAllLocalWallets } from '@zap/utils/localWallets'
 import lndBinaryPath from '@zap/utils/lndBinaryPath'
-import lndGrpcProtoPath from '@zap/utils/lndGrpcProtoPath'
+import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
 import validateHost from '@zap/utils/validateHost'
 import getDbName from '@zap/utils/db'
 import LndConfig from '@zap/utils/lndConfig'
@@ -88,7 +88,7 @@ async function generateLndConfigFromWallet(wallet) {
     ...wallet,
     userDataDir: getUserDataDir(),
     binaryPath: lndBinaryPath(),
-    protoPath: lndGrpcProtoPath(),
+    protoDir: lndGrpcProtoDir(),
   })
 
   // Wait for the config to become fully initialized.
