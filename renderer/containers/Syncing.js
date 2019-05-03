@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import styled, { withTheme } from 'styled-components'
 import { infoSelectors } from 'reducers/info'
+import { addressSelectors } from 'reducers/address'
 import { neutrinoSelectors } from 'reducers/neutrino'
 import { setIsWalletOpen } from 'reducers/wallet'
 import { showNotification } from 'reducers/notification'
@@ -11,7 +12,7 @@ import { Modal, ModalOverlayStyles } from 'components/UI'
 import { useOnKeydown } from 'hooks'
 
 const mapStateToProps = state => ({
-  address: state.address.address,
+  address: addressSelectors.currentAddress(state),
   hasSynced: infoSelectors.hasSynced(state),
   syncStatus: neutrinoSelectors.neutrinoSyncStatus(state),
   syncPercentage: neutrinoSelectors.neutrinoSyncPercentage(state),

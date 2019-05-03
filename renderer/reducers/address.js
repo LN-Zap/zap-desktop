@@ -1,18 +1,22 @@
+import config from 'config'
+import get from 'lodash.get'
+import { createSelector } from 'reselect'
 import { grpcService } from 'workers'
 import { openModal, closeModal } from './modal'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const GET_ADDRESS = 'GET_ADDRESS'
-export const GET_ADDRESS_SUCCESS = 'GET_ADDRESS_SUCCESS'
-export const GET_ADDRESS_FAILURE = 'GET_ADDRESS_FAILURE'
-
+export const FETCH_ADDRESSES = 'FETCH_ADDRESSES'
+export const FETCH_ADDRESSES_SUCCESS = 'FETCH_ADDRESSES_SUCCESS'
+export const NEW_ADDRESS = 'NEW_ADDRESS'
+export const NEW_ADDRESS_SUCCESS = 'NEW_ADDRESS_SUCCESS'
+export const NEW_ADDRESS_FAILURE = 'NEW_ADDRESS_FAILURE'
 export const OPEN_WALLET_MODAL = 'OPEN_WALLET_MODAL'
 export const CLOSE_WALLET_MODAL = 'CLOSE_WALLET_MODAL'
 
 // LND expects types to be sent as int, so this object will allow mapping from string to int
-const addressTypes = {
+const ADDRESS_TYPES = {
   p2wkh: 0,
   np2wkh: 1,
 }
@@ -20,52 +24,54 @@ const addressTypes = {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function getAddress() {
-  return {
-    type: GET_ADDRESS,
-  }
-}
 
 export const openWalletModal = () => dispatch => dispatch(openModal('RECEIVE_MODAL'))
 export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_MODAL'))
 
-// Get our existing address if there is one, otherwise generate a new one.
-export const walletAddress = type => async (dispatch, getState) => {
-  let address
+/**
+ * Initialise addresses.
+ */
+export const initAddresses = () => async (dispatch, getState) => {
+  dispatch({ type: FETCH_ADDRESSES })
 
-  // Wallet addresses are keyed under the node pubKey in our store.
   const state = getState()
+
+  // Get node information (addresses are keyed under the node pubkey).
   const pubKey = state.info.data.identity_pubkey
+  const node = await window.db.nodes.get({ id: pubKey })
 
-  if (pubKey) {
-    const node = await window.db.nodes.get({ id: pubKey })
-    if (node) {
-      address = node.getCurrentAddress(type)
-    }
-  }
+  // Get existing addresses for the node.
+  const addresses = get(node, 'addresses', {})
+  dispatch({ type: FETCH_ADDRESSES_SUCCESS, addresses })
 
-  // If we have an address already, use that. Otherwise, generate a new address.
-  if (address) {
-    dispatch({ type: GET_ADDRESS_SUCCESS, address })
-  } else {
-    dispatch(newAddress(type))
-  }
+  // Ensure that we have an address for all supported address types.
+  await Promise.all(
+    Object.keys(ADDRESS_TYPES).map(type => {
+      if (!addresses[type]) {
+        return dispatch(newAddress(type))
+      }
+    })
+  )
 }
 
-// Send IPC event for getinfo
+/**
+ * Generate a new address.
+ */
 export const newAddress = type => async dispatch => {
+  dispatch({ type: NEW_ADDRESS })
   try {
-    dispatch(getAddress())
     const grpc = await grpcService
-    const data = await grpc.services.Lightning.newAddress({ type: addressTypes[type] })
-    dispatch(receiveAddressSuccess({ ...data, type }))
+    const data = await grpc.services.Lightning.newAddress({ type: ADDRESS_TYPES[type] })
+    await dispatch(newAddressSuccess({ ...data, type }))
   } catch (error) {
     dispatch(newAddressFailure(error))
   }
 }
 
-// Receive IPC event for info
-export const receiveAddressSuccess = ({ type, address }) => async (dispatch, getState) => {
+/**
+ * Generate a new address success callback
+ */
+export const newAddressSuccess = ({ type, address }) => async (dispatch, getState) => {
   const state = getState()
   const pubKey = state.info.data.identity_pubkey
 
@@ -79,11 +85,14 @@ export const receiveAddressSuccess = ({ type, address }) => async (dispatch, get
     }
   }
 
-  dispatch({ type: GET_ADDRESS_SUCCESS, address: address })
+  dispatch({ type: NEW_ADDRESS_SUCCESS, payload: { address, type } })
 }
 
+/**
+ * Generate a new address failure callback
+ */
 export const newAddressFailure = error => ({
-  type: GET_ADDRESS_FAILURE,
+  type: NEW_ADDRESS_FAILURE,
   newAddressError: error,
 })
 
@@ -91,14 +100,18 @@ export const newAddressFailure = error => ({
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [GET_ADDRESS]: state => ({ ...state, addressLoading: true }),
-  [GET_ADDRESS_SUCCESS]: (state, { address }) => ({
+  [FETCH_ADDRESSES_SUCCESS]: (state, { addresses }) => ({
+    ...state,
+    addresses,
+  }),
+  [NEW_ADDRESS]: state => ({ ...state, addressLoading: true }),
+  [NEW_ADDRESS_SUCCESS]: (state, { payload: { address, type } }) => ({
     ...state,
     addressLoading: false,
     newAddressError: null,
-    address,
+    addresses: { ...state.addresses, [type]: address },
   }),
-  [GET_ADDRESS_FAILURE]: (state, { newAddressError }) => ({
+  [NEW_ADDRESS_FAILURE]: (state, { newAddressError }) => ({
     ...state,
     addressLoading: false,
     newAddressError,
@@ -108,11 +121,26 @@ const ACTION_HANDLERS = {
 }
 
 // ------------------------------------
+// Selectors
+// ------------------------------------
+
+const addressSelectors = {}
+addressSelectors.currentAddresses = state => state.address.addresses
+addressSelectors.currentAddress = createSelector(
+  addressSelectors.currentAddresses,
+  currentAddresses => currentAddresses[config.address]
+)
+export { addressSelectors }
+
+// ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
   addressLoading: false,
-  address: '',
+  addresses: {
+    np2wkh: null,
+    p2wkh: null,
+  },
   newAddressError: null,
   walletModal: false,
 }

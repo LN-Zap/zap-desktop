@@ -5,7 +5,7 @@ import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { grpcService } from 'workers'
-import { newAddress } from './address'
+import { addressSelectors, newAddress } from './address'
 import { fetchBalance } from './balance'
 import { fetchChannels, channelsSelectors, getChannelData } from './channels'
 
@@ -63,21 +63,25 @@ export const fetchTransactions = () => async dispatch => {
 export const receiveTransactions = ({ transactions }) => (dispatch, getState) => {
   const state = getState()
 
-  const currentAddress = state.address.address
+  const currentAddresses = addressSelectors.currentAddresses(state)
   let usedAddresses = []
 
   // Decorate transactions with additional metadata.
   transactions.forEach(transaction => {
     decorateTransaction(transaction)
-    // If our current wallet address has been used, generate a new one.
+    // Keep track of used addresses.
     usedAddresses = usedAddresses.concat(transaction.dest_addresses)
   })
 
   dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
 
-  if (usedAddresses.includes(currentAddress)) {
-    dispatch(newAddress(config.address))
-  }
+  // If our current wallet address has been used, generate a new one.
+  Object.entries(currentAddresses).forEach(([type, address]) => {
+    if (usedAddresses.includes(address)) {
+      dispatch(newAddress(type))
+    }
+  })
+
   // fetch new balance
   dispatch(fetchBalance())
 }
