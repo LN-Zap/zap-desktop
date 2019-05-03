@@ -79,6 +79,7 @@ exports[`component.UI.Radio should render correctly 1`] = `
 
 <form
   className=""
+  onKeyDown={[Function]}
   onReset={[Function]}
   onSubmit={[Function]}
 >

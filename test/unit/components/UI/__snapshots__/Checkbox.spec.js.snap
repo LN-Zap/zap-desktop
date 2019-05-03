@@ -82,6 +82,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
 }
 
 <form
+  onKeyDown={[Function]}
   onReset={[Function]}
   onSubmit={[Function]}
 >
