@@ -6,7 +6,7 @@ import LndGrpc from 'lnd-grpc'
 import { grpcLog } from '@zap/utils/log'
 import lightningMethods from './lightning.methods'
 import lightningSubscriptions from './lightning.subscriptions'
-import { forwardAll } from './helpers'
+import { forwardAll, unforwardAll } from './helpers'
 
 const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'
 const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
@@ -16,13 +16,33 @@ const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
  * @extends EventEmitter
  */
 class ZapGrpc extends EventEmitter {
-  init(options) {
-    if (this.options) {
-      throw new Error('Can not reinitialize ZapGrpc instance')
+  static INITIAL_STATE = {
+    options: {},
+    services: {},
+    subscriptions: [],
+  }
+
+  static SUBSCRIPTIONS = [
+    'subscribeInvoices',
+    'subscribeChannelGraph',
+    'subscribeTransactions',
+    'subscribeGetInfo',
+  ]
+
+  constructor() {
+    super()
+    Object.assign(this, ZapGrpc.INITIAL_STATE)
+  }
+
+  /**
+   * Initiate gRPC connection.
+   */
+  connect(options) {
+    if (this.grpc && this.grpc.state !== 'ready') {
+      throw new Error('Can not connect (already connected)')
     }
 
     this.options = options
-    this.subscriptions = []
 
     // Create a new grpc instance using settings from init options.
     const grpcOptions = this.getConnectionSettings()
@@ -32,10 +52,10 @@ class ZapGrpc extends EventEmitter {
     this.services = this.grpc.services
 
     // Inject helper methods.
-    Object.assign(this.grpc.services.Lightning, lightningMethods)
-    Object.assign(this.grpc.services.Lightning, lightningSubscriptions)
+    Object.assign(this.services.Lightning, lightningMethods)
+    Object.assign(this.services.Lightning, lightningSubscriptions)
 
-    // Setup gRPC event forwarders.
+    // Setup gRPC event handlers.
     this.grpc.on('locked', () => {
       this.emit(GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE)
     })
@@ -48,31 +68,37 @@ class ZapGrpc extends EventEmitter {
     })
 
     // Setup subscription event forwarders.
-    const subscriptions = [
-      'subscribeInvoices',
-      'subscribeChannelGraph',
-      'subscribeTransactions',
-      'subscribeGetInfo',
-    ]
-    subscriptions.forEach(subscription =>
-      forwardAll(this.grpc.services.Lightning, subscription, this)
+    ZapGrpc.SUBSCRIPTIONS.forEach(subscription =>
+      forwardAll(this.services.Lightning, subscription, this)
     )
-  }
 
-  /**
-   * Initiate gRPC connection.
-   */
-  connect(...args) {
-    return this.grpc.connect(args)
+    // Connect the service.
+    return this.grpc.connect(options)
   }
 
   /**
    * Disconnect gRPC service.
    */
   async disconnect(...args) {
-    if (this.grpc && this.grpc.can('disconnect')) {
-      await this.grpc.disconnect(args)
+    if (this.grpc) {
+      if (this.grpc.can('disconnect')) {
+        await this.grpc.disconnect(args)
+      }
+      // Remove gRPC event handlers.
+      this.grpc.removeAllListeners('locked')
+      this.grpc.removeAllListeners('active')
+      this.grpc.removeAllListeners('disconnected')
     }
+
+    // Remove subscription event forwarders.
+    ZapGrpc.SUBSCRIPTIONS.forEach(subscription => {
+      if (this.services.Lightning) {
+        unforwardAll(this.services.Lightning, subscription)
+      }
+    })
+
+    // Reset the state.
+    Object.assign(this, ZapGrpc.INITIAL_STATE)
   }
 
   /**

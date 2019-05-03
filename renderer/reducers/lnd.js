@@ -55,7 +55,7 @@ export const DISCONNECT_GRPC_FAILURE = 'DISCONNECT_GRPC_FAILURE'
 /**
  * Connect to lnd gRPC service.
  */
-export const connectGrpcService = () => async dispatch => {
+export const connectGrpcService = lndConfig => async dispatch => {
   dispatch({ type: CONNECT_GRPC })
 
   const grpc = await grpcService
@@ -76,7 +76,7 @@ export const connectGrpcService = () => async dispatch => {
     grpc.on('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE', handleWalletUnlockerActive)
     grpc.on('GRPC_LIGHTNING_SERVICE_ACTIVE', handleLightningActive)
 
-    await grpc.connect()
+    await grpc.connect(lndConfig)
 
     dispatch({ type: CONNECT_GRPC_SUCCESS })
   } catch (error) {
@@ -143,10 +143,6 @@ export const startLnd = wallet => async dispatch => {
     // Tell the main process to start lnd using the supplied connection details.
     dispatch({ type: START_LND, lndConfig })
 
-    // Initialise the gRPC service.
-    const grpc = await grpcService
-    await grpc.init(lndConfig)
-
     // If we are working with a local wallet, start a local Neutrino instance first.
     // This will return once the gRPC interface is available.
     if (lndConfig.type === 'local') {
@@ -154,7 +150,7 @@ export const startLnd = wallet => async dispatch => {
     }
 
     // Connect the gRPC service.
-    await dispatch(connectGrpcService())
+    await dispatch(connectGrpcService(lndConfig))
 
     dispatch(lndStarted())
   } catch (e) {
@@ -391,7 +387,7 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
       await dispatch(removeWallet(lndConfig))
     } finally {
       // Remove Lightning gRPC activation listener.
-      if (waitForState.cancel) {
+      if (waitForState) {
         await waitForState.cancel()
       }
       // Notify of wallet recovery failure.

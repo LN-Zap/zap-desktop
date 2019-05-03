@@ -1,7 +1,7 @@
 import { proxy } from 'comlinkjs'
 
 const Neutrino = proxy(new Worker(`./neutrino.worker.js`))
-const Grpc = proxy(new Worker('./grpc.worker.js'))
+const ZapGrpc = proxy(new Worker('./grpc.worker.js'))
 
 /**
  * [LightningInstance description]
@@ -22,7 +22,7 @@ export const neutrinoService = new NeutrinoInstance()
 class GrpcInstance {
   constructor() {
     if (!GrpcInstance.instance) {
-      GrpcInstance.instance = new Grpc()
+      GrpcInstance.instance = new ZapGrpc()
     }
     return GrpcInstance.instance
   }
