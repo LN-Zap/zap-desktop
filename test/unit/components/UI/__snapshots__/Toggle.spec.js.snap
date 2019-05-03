@@ -63,6 +63,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
 }
 
 <form
+  onKeyDown={[Function]}
   onReset={[Function]}
   onSubmit={[Function]}
 >
