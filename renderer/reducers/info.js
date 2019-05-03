@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import get from 'lodash.get'
+import config from 'config'
 import { networks } from '@zap/utils/crypto'
 import { grpcService } from 'workers'
 import { walletAddress } from './address'
@@ -101,7 +102,7 @@ export const receiveInfo = data => async (dispatch, getState) => {
   }
 
   // Now that we have the node info, get the current wallet address.
-  dispatch(walletAddress('np2wkh'))
+  dispatch(walletAddress(config.address))
 
   // Update the active wallet settings with info discovered from getinfo.
   const chain = get(state, 'info.chain')

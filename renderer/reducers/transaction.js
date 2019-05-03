@@ -1,3 +1,4 @@
+import config from 'config'
 import { createSelector } from 'reselect'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
@@ -75,7 +76,7 @@ export const receiveTransactions = ({ transactions }) => (dispatch, getState) =>
   dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
 
   if (usedAddresses.includes(currentAddress)) {
-    dispatch(newAddress('np2wkh'))
+    dispatch(newAddress(config.address))
   }
   // fetch new balance
   dispatch(fetchBalance())
@@ -172,7 +173,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
         'On-chain Transaction Received!',
         "Lucky you, you just received a new on-chain transaction. I'm jealous."
       )
-      dispatch(newAddress('np2wkh')) // Generate a new address
+      dispatch(newAddress(config.address)) // Generate a new address
     } else {
       showSystemNotification(
         'On-chain Transaction Sent!',

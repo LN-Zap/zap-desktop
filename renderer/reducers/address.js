@@ -15,7 +15,6 @@ export const CLOSE_WALLET_MODAL = 'CLOSE_WALLET_MODAL'
 const addressTypes = {
   p2wkh: 0,
   np2wkh: 1,
-  p2pkh: 2,
 }
 
 // ------------------------------------
