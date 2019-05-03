@@ -17,6 +17,10 @@ const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
  */
 class ZapGrpc extends EventEmitter {
   init(options) {
+    if (this.options) {
+      throw new Error('Can not reinitialize ZapGrpc instance')
+    }
+
     this.options = options
     this.subscriptions = []
 
