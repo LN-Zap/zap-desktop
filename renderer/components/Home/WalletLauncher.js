@@ -45,9 +45,12 @@ const formatAutopilot = values => {
   return result
 }
 
+// Format autopilot, then clean.
+const prepareValues = values => clean(formatAutopilot(Object.assign({}, values)))
+
 // converts form format to db/lnd compatible format
 const formToWalletFormat = values => {
-  const result = Object.assign({}, formatAutopilot(values))
+  const result = prepareValues(values)
   const { autopilot, autopilotAllocation } = result
   if (autopilot && autopilotAllocation) {
     // result expects the autopilot allocation to be a decimal.
@@ -58,7 +61,7 @@ const formToWalletFormat = values => {
 
 // converts db/lnd  format to form compatible format
 const walletToFormFormat = values => {
-  const result = Object.assign({}, formatAutopilot(values))
+  const result = prepareValues(values)
   const { autopilot, autopilotAllocation } = result
   if (autopilot && autopilotAllocation) {
     // Lnd expects the autopilot allocation to be in [0..100]

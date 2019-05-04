@@ -68,6 +68,7 @@ class WalletSettingsFormLocal extends React.Component {
             py={2}
             right={
               <Input
+                allowEmptyString
                 css={{ 'text-align': 'right' }}
                 field="name"
                 id="name"
@@ -96,6 +97,7 @@ class WalletSettingsFormLocal extends React.Component {
             py={2}
             right={
               <Input
+                allowEmptyString
                 css={{ 'text-align': 'right' }}
                 field="alias"
                 id="alias"

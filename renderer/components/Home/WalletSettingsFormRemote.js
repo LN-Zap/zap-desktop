@@ -131,6 +131,7 @@ const WalletSettingsFormRemote = ({
           py={2}
           right={
             <Input
+              allowEmptyString
               css={{ 'text-align': 'right' }}
               field="name"
               id="name"
