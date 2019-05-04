@@ -35,7 +35,8 @@ export function setWalletsLoaded() {
 export const getWallets = () => async dispatch => {
   let wallets
   try {
-    wallets = await window.db.wallets.toArray()
+    const allWallets = await window.db.wallets.toArray()
+    wallets = await Promise.all(allWallets.map(window.Zap.generateLndConfigFromWallet))
   } catch (e) {
     wallets = []
   }

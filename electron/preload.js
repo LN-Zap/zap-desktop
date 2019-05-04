@@ -94,7 +94,11 @@ async function generateLndConfigFromWallet(wallet) {
   // Wait for the config to become fully initialized.
   await lndConfig.isReady
 
-  return lndConfig
+  // lndConfig is an LndConfig class instance that contains methods and properties that are promises such as the
+  // `isReady` prop used above. We convert this to a plain object so that we can store in Redux and freely pass
+  // between the renderer and Web Worker processes without needing to proxy. This also flattens getter method
+  // properties to plan props.
+  return Object.assign({}, lndConfig)
 }
 
 /**
