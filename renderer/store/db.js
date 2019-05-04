@@ -55,10 +55,8 @@ export const getDb = name => {
     type: String,
     network: String,
     chain: String,
-
     decoder: String,
     lndconnectUri: String,
-
     name: String,
     alias: String,
     autopilot: Boolean,
@@ -70,12 +68,35 @@ export const getDb = name => {
     autopilotMinconfs: Number,
   })
 
-  Object.defineProperty(Wallet.prototype, 'wallet', {
-    get: function() {
-      return `wallet-${this.id}`
-    },
+  // Strip out all unknown properties on create.
+  db.wallets.hook('creating', function(primKey, obj) {
+    Object.keys(obj).forEach(key => {
+      if (!Object.keys(db.wallets.schema.instanceTemplate).includes(key)) {
+        delete obj[key]
+      }
+    })
   })
 
+  // Strip out all unknown properties on update.
+  db.wallets.hook('updating', function(modifications, primKey, obj) {
+    return Object.keys({ ...obj, ...modifications }).reduce((acc, cur) => {
+      const isValidKey = Object.keys(db.wallets.schema.instanceTemplate).includes(cur)
+      const isInMods = Object.keys(modifications).includes(cur)
+      let newVal = isInMods ? modifications[cur] : obj[cur]
+      return {
+        ...acc,
+        [cur]: isValidKey ? newVal : undefined,
+      }
+    }, {})
+  })
+
+  // Inject `wallet` property.
+  db.wallets.hook('reading', function(obj) {
+    obj.wallet = `wallet-${obj.id}`
+    return obj
+  })
+
+  // Set up getters for host, cert, and macaroon.
   const props = ['host', 'cert', 'macaroon']
   props.forEach(prop => {
     Object.defineProperty(Wallet.prototype, prop, {
