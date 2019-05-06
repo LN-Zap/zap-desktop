@@ -341,6 +341,11 @@ class Neutrino extends EventEmitter {
       }
     })
 
+    // Add custom heuristics config.
+    Object.entries(config.lnd.autopilot.heuristics).forEach(([key, value]) => {
+      autopilotArgs.push(`--autopilot.heuristic=${key}:${value}`)
+    })
+
     return autopilotArgs
   }
 

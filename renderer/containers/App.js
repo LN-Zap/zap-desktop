@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { fetchPeers } from 'reducers/peers'
 import { setIsWalletOpen } from 'reducers/wallet'
+import { updateAutopilotNodeScores } from 'reducers/autopilot'
 import { fetchActivityHistory } from 'reducers/activity'
 import { fetchTransactions } from 'reducers/transaction'
 import { appSelectors } from 'reducers/app'
@@ -15,6 +16,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   fetchPeers,
+  updateAutopilotNodeScores,
   fetchActivityHistory,
   setIsWalletOpen,
   fetchTransactions,

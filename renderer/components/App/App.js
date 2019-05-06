@@ -9,6 +9,9 @@ import { MainContent } from 'components/UI'
 // but we poll a lot more frequently to make UI a little bit more responsive
 const TX_REFETCH_INTERVAL = 1000 * 60 * 1
 
+// Refresh autopilot scores every hour.
+const AUTOPILOT_SCORES_REFRESH_INTERVAL = 1000 * 60 * 60
+
 // Initial re-fetch after 2 seconds.
 const INITIAL_REFETCH_INTERVAL = 2000
 
@@ -25,6 +28,7 @@ function App({
   isAppReady,
   modals,
   payReq,
+  updateAutopilotNodeScores,
   fetchActivityHistory,
   setIsWalletOpen,
   fetchPeers,
@@ -53,10 +57,16 @@ function App({
       baseDelay: TX_REFETCH_INTERVAL,
     })
 
+    appScheduler.addTask({
+      task: updateAutopilotNodeScores,
+      taskId: 'updateAutopilotNodeScores',
+      baseDelay: AUTOPILOT_SCORES_REFRESH_INTERVAL,
+    })
+
     return () => {
       appScheduler.removeAllTasks()
     }
-  }, [fetchPeers, fetchTransactions])
+  }, [fetchPeers, fetchTransactions, updateAutopilotNodeScores])
 
   useEffect(() => {
     // Set wallet open state.
@@ -65,7 +75,9 @@ function App({
     fetchActivityHistory()
     // fetch node info.
     fetchPeers()
-  }, [fetchActivityHistory, fetchPeers, setIsWalletOpen])
+    // Update autopilot node scores.
+    updateAutopilotNodeScores()
+  }, [fetchActivityHistory, fetchPeers, setIsWalletOpen, updateAutopilotNodeScores])
 
   // Open the pay form when a payment link is used.
   useEffect(() => {
@@ -97,6 +109,7 @@ App.propTypes = {
   payReq: PropTypes.object,
   setIsWalletOpen: PropTypes.func.isRequired,
   setModals: PropTypes.func.isRequired,
+  updateAutopilotNodeScores: PropTypes.func.isRequired,
 }
 
 export default App

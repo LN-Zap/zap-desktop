@@ -47,6 +47,10 @@ module.exports = {
       maxchansize: 16777215,
       allocation: 0.6,
       minconfs: 0,
+      heuristics: {
+        externalscore: 0.95,
+        preferential: 0.05,
+      },
     },
 
     // Default ports.

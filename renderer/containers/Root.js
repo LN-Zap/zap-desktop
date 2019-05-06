@@ -38,6 +38,7 @@ class Root extends React.Component {
     history: PropTypes.object.isRequired,
     initSettings: PropTypes.func.isRequired,
     initTheme: PropTypes.func.isRequired,
+    isAppReady: PropTypes.bool.isRequired,
     isLoading: PropTypes.bool.isRequired,
     isMounted: PropTypes.bool.isRequired,
     loadingMessage: PropTypes.object,
@@ -81,6 +82,7 @@ class Root extends React.Component {
       notifications,
       history,
       isLoading,
+      isAppReady,
       loadingMessage,
     } = this.props
 
@@ -123,7 +125,15 @@ class Root extends React.Component {
                   path="/syncing"
                   render={() => <Syncing onClose={this.redirectToLogout} pb={0} px={0} />}
                 />
-                <Route component={App} path="/app" />
+                <Route
+                  path="/app"
+                  render={() => {
+                    if (!isAppReady) {
+                      return null
+                    }
+                    return <App />
+                  }}
+                />
                 <Route component={Logout} path="/logout" />
               </Switch>
             </PageWithLoading>
@@ -141,6 +151,7 @@ const mapStateToProps = state => ({
   isLoading: isLoading(state) || isLoadingPerPath(state),
   loadingMessage: getLoadingMessage(state),
   isMounted: appSelectors.isMounted(state),
+  isAppReady: appSelectors.isAppReady(state),
 })
 
 const mapDispatchToProps = {
