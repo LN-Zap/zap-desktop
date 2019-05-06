@@ -315,8 +315,6 @@
     "webpack-merge": "4.2.1"
   },
   "dependencies": {
-    "@grpc/grpc-js": "0.4.0",
-    "@grpc/proto-loader": "0.5.0",
     "@hot-loader/react-dom": "16.8.6",
     "@rebass/components": "4.0.0-1",
     "axios": "0.18.0",
@@ -339,7 +337,6 @@
     "history": "4.9.0",
     "informed": "2.6.2",
     "is-electron-renderer": "2.0.1",
-    "javascript-state-machine": "3.1.0",
     "jstimezonedetect": "1.0.6",
     "lnd-grpc": "0.2.4",
     "lndconnect": "0.2.5",
@@ -380,7 +377,6 @@
     "tildify": "2.0.0",
     "untildify": "4.0.0",
     "validator": "10.11.0",
-    "window-or-global": "1.0.1",
     "yup": "0.27.0"
   },
   "main": "./dist/main.js"
