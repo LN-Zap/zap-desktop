@@ -16,6 +16,8 @@ module.exports = {
     domain: isStableVersion(getPackageDetails().version, STABLE_VERSION) ? null : 'next',
   },
 
+  theme: 'dark',
+
   autoupdate: {
     active: true,
     channel: 'beta',
