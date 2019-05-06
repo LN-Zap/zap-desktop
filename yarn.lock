@@ -1607,13 +1607,6 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.2.tgz#63985d3d8b02530e0869962f4da09142ee8e200e"
   integrity sha512-n/VQ4mbfr81aqkx/XmVicOLjviMuy02eenSdJY33SVA7S2J42EU0P1H0mOogfYedb3wXA0d/LVtBrgTSm04WEA==
 
-"@grpc/grpc-js@0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.3.6.tgz#d9b52043907170d38e06711d9477fde29ab46fa8"
-  integrity sha512-SmLNuPGlUur64bNS9aHZguqWDVQ8+Df1CGn+xsh7l6T2wiP5ArOMlywZ3TZo6z/rwKtGQgUJY9ZrPYUmHEXd/Q==
-  dependencies:
-    semver "^5.5.0"
-
 "@grpc/grpc-js@0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.4.0.tgz#b20a6abf1346ce7fd696a042f83d10c94e143881"
@@ -10771,12 +10764,12 @@ lnd-binary@0.3.10:
     "true-case-path" "^1.0.3"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.2.3:
-  version "0.2.3"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.3.tgz#7d20a1c52af650d728a106d960eff5cdcd2ebade"
-  integrity sha512-GS34sX3uFzOraqiU8OrijQv/KBW/vIBPUipJ+v2TlR/W+Jkde7uWV9xbUDY/OY9S++/SS61smuJcFYrDpWi/nw==
+lnd-grpc@0.2.4:
+  version "0.2.4"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.4.tgz#8c31e2d054759dd3fdda9d44200ca0f7dc495d49"
+  integrity sha512-JFOaT7L6hp8up/jEFDJG4P8EBgnIwU9Mr5C6qbLyIJhA18YEAS0vVxwAhDOivxUWP7u78XhfJAwiHDDeRgH1aQ==
   dependencies:
-    "@grpc/grpc-js" "0.3.6"
+    "@grpc/grpc-js" "0.4.0"
     "@grpc/proto-loader" "0.5.0"
     debug "4.1.1"
     javascript-state-machine "3.1.0"
