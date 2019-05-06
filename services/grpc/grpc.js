@@ -27,6 +27,16 @@ class ZapGrpc extends EventEmitter {
     activeSubscriptions: {},
   }
 
+
+  static SUBSCRIPTIONS = [
+    'subscribeInvoices',
+    'subscribeChannelGraph',
+    'subscribeTransactions',
+    'subscribeGetInfo',
+    'subscribeChannelBackups',
+  ]
+
+
   constructor() {
     super()
 
@@ -59,7 +69,6 @@ class ZapGrpc extends EventEmitter {
     // Inject helper methods.
     Object.assign(this.services.Lightning, lightningMethods)
     Object.assign(this.services.Lightning, lightningSubscriptions)
-
     // Setup gRPC event handlers.
     this.grpc.on('locked', () => {
       this.emit(GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE)
@@ -103,7 +112,17 @@ class ZapGrpc extends EventEmitter {
    * Subscribe to all gRPC streams.
    */
   subscribeAll() {
-    this.subscribe('invoices', 'transactions', 'info')
+    const { Lightning } = this.services
+    this.subscriptions['invoices'] = Lightning.subscribeInvoices()
+    this.subscriptions['transactions'] = Lightning.subscribeTransactions()
+    this.subscriptions['getinfo'] = Lightning.subscribeGetInfo()
+    // backup subscription could is unavailable in LND < 0.6
+    const backupSubs = Lightning.subscribeChannelBackups()
+    if (backupSubs) {
+      this.subscriptions['backups'] = backupSubs
+    }
+
+    this.subscribe()
 
     // Subscribe to graph updates only after sync is complete. This is needed because LND chanRouter waits for chain
     // sync to complete before accepting subscriptions.
