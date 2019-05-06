@@ -33,6 +33,9 @@ module.exports = {
   // Default network for new wallets.
   network: 'mainnet',
 
+  // Default address format (p2wkh|np2wkh)
+  address: 'np2wkh',
+
   // Default settings for lnd.
   lnd: {
     // Default autopilot settings.
@@ -95,6 +98,7 @@ module.exports = {
     max: '1500000',
     defaultValue: '150000',
   },
+
   // feature flags to enable/disable experimental functionality
   features: {
     autopay: false,

@@ -1,0 +1,59 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`reducers addressReducer should handle CLOSE_WALLET_MODAL 1`] = `
+Object {
+  "walletModal": false,
+}
+`;
+
+exports[`reducers addressReducer should handle FETCH_ADDRESSES 1`] = `Object {}`;
+
+exports[`reducers addressReducer should handle FETCH_ADDRESSES_SUCCESS 1`] = `
+Object {
+  "addresses": Object {
+    "np2wkh": "375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc",
+    "p2wkh": "bc1q7l2z25nle43ngzzr86p2fwr2xlvtdkzm74e3tz",
+  },
+}
+`;
+
+exports[`reducers addressReducer should handle NEW_ADDRESS 1`] = `
+Object {
+  "addressLoading": true,
+}
+`;
+
+exports[`reducers addressReducer should handle NEW_ADDRESS_FAILURE 1`] = `
+Object {
+  "addressLoading": false,
+  "newAddressError": "some error",
+}
+`;
+
+exports[`reducers addressReducer should handle NEW_ADDRESS_SUCCESS 1`] = `
+Object {
+  "addressLoading": false,
+  "addresses": Object {
+    "np2wkh": "375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc",
+  },
+  "newAddressError": null,
+}
+`;
+
+exports[`reducers addressReducer should handle OPEN_WALLET_MODAL 1`] = `
+Object {
+  "walletModal": true,
+}
+`;
+
+exports[`reducers addressReducer should handle initial state 1`] = `
+Object {
+  "addressLoading": false,
+  "addresses": Object {
+    "np2wkh": null,
+    "p2wkh": null,
+  },
+  "newAddressError": null,
+  "walletModal": false,
+}
+`;

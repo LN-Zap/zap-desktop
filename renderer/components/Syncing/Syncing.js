@@ -63,7 +63,7 @@ const Syncing = ({
 }
 
 Syncing.propTypes = {
-  address: PropTypes.string.isRequired,
+  address: PropTypes.string,
   blockHeight: PropTypes.number,
   hasSynced: PropTypes.bool,
   isLightningGrpcActive: PropTypes.bool,
