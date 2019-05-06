@@ -327,7 +327,7 @@
     "coininfo": "https://github.com/LN-Zap/coininfo#83b93f6ce772aeb624c2a791022ff9288face0d7",
     "comlinkjs": "3.2.0",
     "config": "3.1.0",
-    "connected-react-router": "5.0.1",
+    "connected-react-router": "6.4.0",
     "copy-to-clipboard": "3.2.0",
     "country-data-lookup": "0.0.3",
     "debug": "4.1.1",
