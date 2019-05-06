@@ -1,3 +1,4 @@
+import config from 'config'
 import { createSelector } from 'reselect'
 import { dark, light } from 'themes'
 import { putSetting } from './settings'
@@ -7,7 +8,6 @@ import { putSetting } from './settings'
 // ------------------------------------
 
 export const SET_THEME = 'SET_THEME'
-const DEFAULT_THEME = 'dark'
 
 // ------------------------------------
 // Actions
@@ -15,7 +15,7 @@ const DEFAULT_THEME = 'dark'
 
 export const initTheme = () => async (dispatch, getState) => {
   const state = getState()
-  const userTheme = state.settings.theme || DEFAULT_THEME
+  const userTheme = state.settings.theme || config.theme
   const currentTheme = themeSelectors.currentTheme(state)
 
   if (userTheme !== currentTheme) {
