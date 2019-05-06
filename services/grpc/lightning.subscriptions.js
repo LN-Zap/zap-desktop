@@ -1,3 +1,4 @@
+/* eslint-disable react/no-this-in-sfc */
 import { status } from '@grpc/grpc-js'
 import { grpcLog } from '@zap/utils/log'
 import streamify from '@zap/utils/streamify'
@@ -84,6 +85,36 @@ function subscribeTransactions() {
   return call
 }
 /**
+ * Call lnd grpc subscribeTransactions method and emit events on updates to the stream
+ * @return {Call} Grpc Call
+ */
+function subscribeChannelBackups() {
+  if (this.service.subscribeChannelBackups) {
+    grpcLog.info('subscribeInvoices')
+    const call = this.service.subscribeChannelBackups({})
+    call.on('data', data => {
+      grpcLog.debug('CHANNEL BACKUP: %o', data)
+      this.emit('subscribeChannelBackup.data', data)
+    })
+    call.on('error', error => {
+      if (error.code !== status.CANCELLED) {
+        grpcLog.error('CHANNEL BACKUP: %o', error)
+        this.emit('subscribeChannelBackup.error', error)
+      }
+    })
+    call.on('status', status => {
+      grpcLog.debug('CHANNEL BACKUP: %o', status)
+      this.emit('subscribeChannelBackup.status', status)
+    })
+    call.on('end', () => {
+      grpcLog.debug('CHANNEL BACKUP END')
+      this.emit('subscribeChannelBackup.end')
+    })
+    return call
+  }
+  return null
+}
+/**
  * Virtual getInfo stream
  */
 function subscribeGetInfo() {
@@ -100,4 +131,5 @@ export default {
   subscribeInvoices,
   subscribeTransactions,
   subscribeGetInfo,
+  subscribeChannelBackups,
 }
