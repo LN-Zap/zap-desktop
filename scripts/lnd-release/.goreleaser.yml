@@ -7,6 +7,7 @@ builds:
       - amd64
       - '386'
     binary: lnd
+    main: ./cmd/lnd
     ldflags:
       - -X github.com/lightningnetwork/lnd/build.Commit={{.Tag}}
     flags:
