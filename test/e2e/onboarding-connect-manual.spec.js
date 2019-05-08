@@ -39,9 +39,11 @@ test('should connect to an external wallet (manual)', async t => {
     .expect(onboarding.connectionDetails.exists)
     .ok()
     .click(onboarding.connectionDetailsTabs.manual.button)
-    .typeText(onboarding.hostInput, 'testnet1-lnd.zaphq.io:10009')
-    .typeText(onboarding.certInput, path.join(__dirname, 'fixtures', 'tls.cert'))
-    .typeText(onboarding.macaroonInput, path.join(__dirname, 'fixtures', 'readonly.macaroon'))
+    .typeText(onboarding.hostInput, 'testnet1-lnd.zaphq.io:10009', { paste: true })
+    .typeText(onboarding.certInput, path.join(__dirname, 'fixtures', 'tls.cert'), { paste: true })
+    .typeText(onboarding.macaroonInput, path.join(__dirname, 'fixtures', 'readonly.macaroon'), {
+      paste: true,
+    })
     .click(onboarding.nextButton)
 
     // Confirm connection details and submit

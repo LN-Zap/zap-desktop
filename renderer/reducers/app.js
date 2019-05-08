@@ -70,18 +70,11 @@ export const initApp = () => async (dispatch, getState) => {
 /**
  * IPC handler for 'terminateApp' message
  */
-export const terminateApp = (event, handler) => async dispatch => {
+export const terminateApp = () => async dispatch => {
   dispatch({ type: TERMINATE_APP })
-
-  // Shutdown lnd before terminating.
   await dispatch(stopLnd())
-
-  dispatch(terminateAppSuccess(handler))
-}
-
-export const terminateAppSuccess = handler => async dispatch => {
   dispatch({ type: TERMINATE_APP_SUCCESS })
-  dispatch(send(handler))
+  dispatch(send('terminateAppSuccess'))
 }
 
 // ------------------------------------

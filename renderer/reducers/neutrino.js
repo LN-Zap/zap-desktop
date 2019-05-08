@@ -265,6 +265,15 @@ export const neutrinoSyncStatus = status => async dispatch => {
   }
 }
 
+/**
+ * IPC handler for 'killNeutrino' message
+ */
+export const killNeutrino = (event, signal) => async dispatch => {
+  const neutrino = await neutrinoService
+  await neutrino.shutdown({ signal })
+  dispatch(send('killNeutrinoSuccess'))
+}
+
 // ------------------------------------
 // Action Handlers
 // ------------------------------------

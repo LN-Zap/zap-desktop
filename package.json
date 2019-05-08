@@ -38,7 +38,7 @@
     "test-unit": "jest --coverage ./test/unit",
     "test-ci": "npm run test-e2e && npm run test-unit",
     "pretest-e2e": "npm run build-e2e",
-    "test-e2e": "cross-env DISABLE_INIT=1 ELECTRON_USER_DIR_TEMP=1 testcafe --selector-timeout 30000 --assertion-timeout 30000 --screenshots ./screenshots --screenshots-on-fails electron:./ ./test/e2e"
+    "test-e2e": "cross-env DISABLE_INIT=1 ELECTRON_USER_DIR_TEMP=1 testcafe --selector-timeout 60000 --assertion-timeout 60000 --screenshots ./screenshots --screenshots-on-fails electron:./ ./test/e2e"
   },
   "config": {
     "style_paths": "renderer/components/**/*.js",
