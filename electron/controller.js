@@ -20,9 +20,9 @@ class ZapController {
     this.processes = {}
 
     // Register IPC listeners so that we can react to instructions coming from the app.
-    ipcMain.on('killLnd', () => {
-      ipcMain.once('killLndSuccess', () => this.sendMessage('killLndSuccess'))
-      this.sendMessage('terminateApp', 'killLndSuccess')
+    ipcMain.on('killNeutrino', (event, signal) => {
+      ipcMain.once('killNeutrinoSuccess', () => this.sendMessage('killNeutrinoSuccess'))
+      this.sendMessage('killNeutrino', signal)
     })
     ipcMain.on('processSpawn', (event, { name, pid }) => {
       this.processes[name] = pid
@@ -78,7 +78,7 @@ class ZapController {
     // Send a message to the renderer process telling it to to gracefully shutdown. We register a success callback with
     // it so that we can complete the termination and quit electon once the app has been fully shutdown.
     ipcMain.on('terminateAppSuccess', () => app.quit())
-    this.sendMessage('terminateApp', 'terminateAppSuccess')
+    this.sendMessage('terminateApp')
   }
 
   /**

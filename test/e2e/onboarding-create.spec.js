@@ -7,12 +7,10 @@ import {
   cleanElectronEnvironment,
 } from './utils/helpers'
 import Onboarding from './pages/onboarding'
-import Syncing from './pages/syncing'
 import Loading from './pages/loading'
 import { isMainnetAutopilot, isNetworkSelectionEnabled } from '../../utils/featureFlag'
 
 const onboarding = new Onboarding()
-const syncing = new Syncing()
 const loading = new Loading()
 
 fixture('Onboarding (create)')
@@ -56,17 +54,17 @@ test('should create a new wallet', async t => {
 
   // Fill out and submit SeedConfirm form.
   await t
-    .typeText(onboarding.seeedWordInput1, word1)
-    .typeText(onboarding.seeedWordInput2, word2)
-    .typeText(onboarding.seeedWordInput3, word3)
+    .typeText(onboarding.seeedWordInput1, word1, { paste: true })
+    .typeText(onboarding.seeedWordInput2, word2, { paste: true })
+    .typeText(onboarding.seeedWordInput3, word3, { paste: true })
     .click(onboarding.nextButton)
 
     // Fill out and submit Password form.
-    .typeText(onboarding.passwordInput, 'password')
+    .typeText(onboarding.passwordInput, 'password', { paste: true })
     .click(onboarding.nextButton)
 
     // Fill out and submit Name form.
-    .typeText(onboarding.nameInput, 'My Test Wallet')
+    .typeText(onboarding.nameInput, 'My Test Wallet', { paste: true })
     .click(onboarding.nextButton)
 
     // Fill out and submit Network form.
@@ -81,7 +79,5 @@ test('should create a new wallet', async t => {
 
     // Verify that we show the loading bolt and syncing page.
     .expect(loading.loadingBolt.exists)
-    .ok()
-    .expect(syncing.syncing.exists)
     .ok()
 })

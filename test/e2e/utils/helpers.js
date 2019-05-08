@@ -4,7 +4,6 @@ import rimraf from 'rimraf'
 import os from 'os'
 import ps from 'ps-node'
 import { promisify } from 'util'
-import delay from '../../../utils/delay'
 
 const rimrafPromise = promisify(rimraf)
 const psLookup = promisify(ps.lookup)
@@ -19,7 +18,7 @@ export const getPageTitle = ClientFunction(() => document.title)
 export const getUserDataDir = ClientFunction(() => window.Zap.getUserDataDir())
 
 // Kill the client's active lnd instance, if there is one
-export const killLnd = ClientFunction(() => window.Zap.killLnd())
+export const killNeutrino = ClientFunction(signal => window.Zap.killNeutrino(signal))
 
 // Delete persistent data from indexeddb.
 export const deleteDatabase = ClientFunction(() => {
@@ -49,15 +48,11 @@ const printLndProcesses = async () => {
 // Clean out test environment.
 export const cleanTestEnvironment = async () => {
   console.log('cleanTestEnvironment')
-  console.log('waiting 3 seconds for app state to settle')
-  await delay(3000)
 
   await printLndProcesses()
-
   console.log('killing lnd')
-  await killLnd()
+  await killNeutrino('SIGKILL')
   console.log('lnd killed')
-
   await printLndProcesses()
 
   console.log('deleting database')

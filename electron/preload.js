@@ -68,10 +68,10 @@ function openTestnetFaucet() {
   openExternal('https://coinfaucet.eu/en/btc-testnet/')
 }
 
-function killLnd() {
+function killNeutrino(signal) {
   return new Promise(resolve => {
-    ipcRenderer.once('killLndSuccess', resolve)
-    ipcRenderer.send('killLnd')
+    ipcRenderer.once('killNeutrinoSuccess', resolve)
+    ipcRenderer.send('killNeutrino', signal)
   })
 }
 
@@ -194,7 +194,7 @@ window.Zap = {
   getUserDataDir,
   validateHost,
   fileExists,
-  killLnd,
+  killNeutrino,
 }
 
 // Provide access to ipcRenderer.
