@@ -127,6 +127,7 @@ class ZapGrpc extends EventEmitter {
         const { Lightning } = this.services
         this.subscriptions['channelGraph'] = Lightning.subscribeChannelGraph()
         this.subscribe('channelGraph')
+        this.unsubscribe('getinfo')
       }
     })
   }
