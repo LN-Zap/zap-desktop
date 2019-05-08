@@ -1,5 +1,4 @@
 import { app, ipcMain } from 'electron'
-import StateMachine from 'javascript-state-machine'
 import { mainLog } from '@zap/utils/log'
 import sanitize from '@zap/utils/sanitize'
 
@@ -21,7 +20,16 @@ class ZapController {
     this.processes = {}
 
     // Register IPC listeners so that we can react to instructions coming from the app.
-    this._registerIpcListeners()
+    ipcMain.on('killLnd', () => {
+      ipcMain.once('killLndSuccess', () => this.sendMessage('killLndSuccess'))
+      this.sendMessage('terminateApp', 'killLndSuccess')
+    })
+    ipcMain.on('processSpawn', (event, { name, pid }) => {
+      this.processes[name] = pid
+    })
+    ipcMain.on('processExit', (event, { name }) => {
+      this.processes[name] = null
+    })
   }
 
   /**
@@ -40,18 +48,6 @@ class ZapController {
     this.mainWindow.webContents.on('did-finish-load', () => {
       mainLog.trace('webContents.did-finish-load')
 
-      // Initialise a state machine that we will use to control application state transitions.
-      this.fsm = new StateMachine({
-        transitions: [
-          { name: 'initApp', from: '*', to: 'running' },
-          { name: 'terminate', from: '*', to: 'terminated' },
-        ],
-        methods: {
-          onInitApp: this.onInitApp.bind(this),
-          onTerminate: this.onTerminate.bind(this),
-        },
-      })
-
       // Show the window as soon as the application has finished loading.
       this.mainWindow.show()
       this.mainWindow.focus()
@@ -61,47 +57,34 @@ class ZapController {
     })
   }
 
-  // ------------------------------------
-  // FSM Proxies
-  // ------------------------------------
-
-  initApp(...args) {
-    return this.fsm.initApp(...args)
-  }
-  terminate(...args) {
-    return this.fsm.terminate(...args)
-  }
-  is(...args) {
-    return this.fsm.is(...args)
-  }
-  can(...args) {
-    return this.fsm.can(...args)
-  }
-
-  // ------------------------------------
-  // FSM Callbacks
-  // ------------------------------------
-
-  onInitApp() {
-    mainLog.debug('[FSM] onInitApp...')
-    this.killAllZombieProcesses()
+  /**
+   * Initialise the app.
+   */
+  initApp() {
+    mainLog.debug('initApp...')
+    // In the case the app is reloaded usung ctrl+r the app will aborted instantly without being given a chance to
+    // shutdown any processes spawned by it. Before starting the app again, kill any processes known to have been
+    // started by us.
+    this.killAllSpawnedProcesses()
+    // Send a signal to the renderer process telling it to start it's initialisation.
     this.sendMessage('initApp')
   }
 
-  onTerminate() {
-    mainLog.debug('[FSM] onTerminate...')
-    this.sendMessage('terminateApp', 'terminateAppSuccess')
+  /**
+   * Terminate the app.
+   */
+  terminate() {
+    mainLog.debug('terminate...')
+    // Send a message to the renderer process telling it to to gracefully shutdown. We register a success callback with
+    // it so that we can complete the termination and quit electon once the app has been fully shutdown.
     ipcMain.on('terminateAppSuccess', () => app.quit())
+    this.sendMessage('terminateApp', 'terminateAppSuccess')
   }
-
-  // ------------------------------------
-  // Helpers
-  // ------------------------------------
 
   /**
    * Send a message to the main window.
    * @param  {string} msg message to send.
-   * @param  {[type]} data additional data to accompany the message.
+   * @param  {Object} data additional data to accompany the message.
    */
   sendMessage(msg, data) {
     if (this.mainWindow) {
@@ -118,42 +101,23 @@ class ZapController {
     }
   }
 
-  killAllZombieProcesses() {
+  /**
+   * Terminate any processes known to have been started by the app.
+   */
+  killAllSpawnedProcesses() {
     Object.keys(this.processes).forEach(key => {
       const pid = this.processes[key]
       if (pid) {
-        mainLog.debug(`Killing zombie ${key} process with pid ${pid}`)
+        mainLog.debug(`Killing ${key} process with pid ${pid}`)
         try {
           process.kill(pid)
         } catch (e) {
-          mainLog.warn(`Unable to kill zombie ${key} process with pid ${pid}`)
+          mainLog.warn(`Unable to kill ${key} process with pid ${pid}`)
+        } finally {
+          this.processes[key] = null
         }
-        this.processes[key] = null
       }
     })
-  }
-
-  _registerIpcListeners() {
-    ipcMain.on('killLnd', () => {
-      ipcMain.once('killLndSuccess', () => this.sendMessage('killLndSuccess'))
-      this.sendMessage('terminateApp', 'killLndSuccess')
-    })
-    ipcMain.on('processSpawn', (event, { name, pid }) => {
-      this.processes[name] = pid
-    })
-    ipcMain.on('processExit', ({ name }) => {
-      this.processes[name] = null
-    })
-  }
-
-  /**
-   * Add IPC event listeners...
-   */
-  _removeIpcListeners() {
-    ipcMain.removeAllListeners('killLnd')
-    ipcMain.removeAllListeners('killLndSuccess')
-    ipcMain.removeAllListeners('processSpawn')
-    ipcMain.removeAllListeners('processExit')
   }
 }
 

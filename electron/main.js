@@ -279,12 +279,9 @@ app.on('ready', async () => {
    */
   app.on('before-quit', event => {
     mainLog.trace('app.before-quit')
-    if (zap.is('terminated')) {
-      if (mainWindow) {
-        mainWindow.forceClose = true
-      }
-    } else {
+    if (mainWindow && !mainWindow.forceClose) {
       event.preventDefault()
+      mainWindow.forceClose = true
       zap.terminate()
     }
   })
