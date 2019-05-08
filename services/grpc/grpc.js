@@ -63,9 +63,6 @@ class ZapGrpc extends EventEmitter {
       this.emit(GRPC_LIGHTNING_SERVICE_ACTIVE)
       this.subscribeAll()
     })
-    this.grpc.on('disconnected', () => {
-      this.unsubscribe()
-    })
 
     // Connect the service.
     return this.grpc.connect(options)
@@ -75,6 +72,8 @@ class ZapGrpc extends EventEmitter {
    * Disconnect gRPC service.
    */
   async disconnect(...args) {
+    await this.unsubscribe()
+
     if (this.grpc) {
       if (this.grpc.can('disconnect')) {
         await this.grpc.disconnect(args)
@@ -82,7 +81,6 @@ class ZapGrpc extends EventEmitter {
       // Remove gRPC event handlers.
       this.grpc.removeAllListeners('locked')
       this.grpc.removeAllListeners('active')
-      this.grpc.removeAllListeners('disconnected')
     }
 
     // Reset the state.
