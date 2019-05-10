@@ -16,22 +16,26 @@ const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
  * @extends EventEmitter
  */
 class ZapGrpc extends EventEmitter {
-  static INITIAL_STATE = {
+  /**
+   * State properties that should be reset after a disconnect.
+   * @type {Object}
+   */
+  static VOLATILE_STATE = {
     options: {},
     services: {},
-    subscriptions: [],
+    activeSubscriptions: {},
   }
-
-  static SUBSCRIPTIONS = [
-    'subscribeInvoices',
-    'subscribeChannelGraph',
-    'subscribeTransactions',
-    'subscribeGetInfo',
-  ]
 
   constructor() {
     super()
-    Object.assign(this, ZapGrpc.INITIAL_STATE)
+
+    this.availableSubscriptions = {}
+    this.registerSubscription('invoices', 'Lightning', 'subscribeInvoices')
+    this.registerSubscription('transactions', 'Lightning', 'subscribeTransactions')
+    this.registerSubscription('channelgraph', 'Lightning', 'subscribeChannelGraph')
+    this.registerSubscription('info', 'Lightning', 'subscribeGetInfo')
+
+    Object.assign(this, ZapGrpc.VOLATILE_STATE)
   }
 
   /**
@@ -63,14 +67,6 @@ class ZapGrpc extends EventEmitter {
       this.emit(GRPC_LIGHTNING_SERVICE_ACTIVE)
       this.subscribeAll()
     })
-    this.grpc.on('disconnected', () => {
-      this.unsubscribe()
-    })
-
-    // Setup subscription event forwarders.
-    ZapGrpc.SUBSCRIPTIONS.forEach(subscription =>
-      forwardAll(this.services.Lightning, subscription, this)
-    )
 
     // Connect the service.
     return this.grpc.connect(options)
@@ -80,6 +76,8 @@ class ZapGrpc extends EventEmitter {
    * Disconnect gRPC service.
    */
   async disconnect(...args) {
+    await this.unsubscribe()
+
     if (this.grpc) {
       if (this.grpc.can('disconnect')) {
         await this.grpc.disconnect(args)
@@ -87,18 +85,10 @@ class ZapGrpc extends EventEmitter {
       // Remove gRPC event handlers.
       this.grpc.removeAllListeners('locked')
       this.grpc.removeAllListeners('active')
-      this.grpc.removeAllListeners('disconnected')
     }
 
-    // Remove subscription event forwarders.
-    ZapGrpc.SUBSCRIPTIONS.forEach(subscription => {
-      if (this.services.Lightning) {
-        unforwardAll(this.services.Lightning, subscription)
-      }
-    })
-
     // Reset the state.
-    Object.assign(this, ZapGrpc.INITIAL_STATE)
+    Object.assign(this, ZapGrpc.VOLATILE_STATE)
   }
 
   /**
@@ -112,47 +102,62 @@ class ZapGrpc extends EventEmitter {
    * Subscribe to all gRPC streams.
    */
   subscribeAll() {
-    const { Lightning } = this.services
-    this.subscriptions['invoices'] = Lightning.subscribeInvoices()
-    this.subscriptions['transactions'] = Lightning.subscribeTransactions()
-    this.subscriptions['getinfo'] = Lightning.subscribeGetInfo()
-    this.subscribe()
+    this.subscribe('invoices', 'transactions', 'info')
 
     // subscribe to graph updates only after sync is complete
     // this is needed because LND chanRouter waits for chain sync
-    // to complete before accepting subscriptions
+    // to complete before accepting subscriptions.
     this.on('subscribeGetInfo.data', data => {
       const { synced_to_chain } = data
-      if (synced_to_chain && !this.subscriptions['channelGraph']) {
-        const { Lightning } = this.services
-        this.subscriptions['channelGraph'] = Lightning.subscribeChannelGraph()
-        this.subscribe('channelGraph')
+      if (synced_to_chain && !this.activeSubscriptions.channelgraph) {
+        this.subscribe('channelgraph')
+        this.unsubscribe('info')
       }
     })
   }
 
   /**
-   * @param {...string} services optional list of services to subscribe to. if omitted, uses all services
-   * @services must be a subset of `this.subscriptions`
+   * @param {...string} streams optional list of streams to subscribe to. if omitted, uses all available streams
+   * @streams must be a subset of `this.availableSubscriptions`
    */
-  subscribe(...services) {
-    const allSubKeys = Object.keys(this.subscriptions)
-    // make sure we are subscribing to known services if a specific list is provided
-    const activeSubKeys =
-      services && services.length ? intersection(allSubKeys, services) : allSubKeys
+  subscribe(...streams) {
+    // make sure we are subscribing to known streams if a specific list is provided
+    const allSubKeys = Object.keys(this.availableSubscriptions)
+    const activeSubKeys = streams && streams.length ? intersection(allSubKeys, streams) : allSubKeys
+
+    if (!activeSubKeys.length) {
+      return
+    }
+
+    grpcLog.info(`Subscribing to gRPC streams: %o`, activeSubKeys)
+
     // Close and clear subscriptions when they emit an end event.
     activeSubKeys.forEach(key => {
-      const call = this.subscriptions[key]
-      if (call) {
-        call.on('end', () => {
+      if (this.activeSubscriptions[key]) {
+        grpcLog.warn(`Unable to subscribe to gRPC streams: %s (already active)`, key)
+        return
+      }
+
+      // Set up the subscription.
+      const { serviceName, methodName } = this.availableSubscriptions[key]
+      const service = this.services[serviceName]
+      this.activeSubscriptions[key] = service[methodName]()
+      grpcLog.info(`gRPC subscription "${key}" started.`)
+
+      // Setup subscription event forwarders.
+      forwardAll(service, methodName, this)
+
+      // Set up subscription event listeners to handle when streams close.
+      if (this.activeSubscriptions[key]) {
+        this.activeSubscriptions[key].on('end', () => {
           grpcLog.info(`gRPC subscription "${key}" ended.`)
-          delete this.subscriptions[key]
+          delete this.activeSubscriptions[key]
         })
 
-        call.on('status', callStatus => {
+        this.activeSubscriptions[key].on('status', callStatus => {
           if (callStatus.code === status.CANCELLED) {
-            delete this.subscriptions[key]
-            grpcLog.info(`gRPC subscription "${key}" ended.`)
+            delete this.activeSubscriptions[key]
+            grpcLog.info(`gRPC subscription "${key}" cancelled.`)
           }
         })
       }
@@ -161,45 +166,71 @@ class ZapGrpc extends EventEmitter {
 
   /**
    * Unsubscribe from all streams.
-   * @param {...string} services optional list of services to unsubscribe from. if omitted, uses all services
-   * @services must be a subset of `this.subscriptions`
+   * @param {...string} streams optional list of streams to unsubscribe from. if omitted, uses all active streams.
+   * @streams must be a subset of `this.availableSubscriptions`
    */
-  async unsubscribe(...services) {
-    const allSubKeys = Object.keys(this.subscriptions)
-    // make sure we are unsubscribing from known services if a specific list is provided
-    const activeSubKeys =
-      services && services.length ? intersection(allSubKeys, services) : allSubKeys
-    grpcLog.info(`Unsubscribing from all gRPC streams: %o`, activeSubKeys)
+  async unsubscribe(...streams) {
+    // make sure we are unsubscribing from active services if a specific list is provided
+    const allSubKeys = Object.keys(this.activeSubscriptions)
+    const activeSubKeys = streams && streams.length ? intersection(allSubKeys, streams) : allSubKeys
+
+    if (!activeSubKeys.length) {
+      return
+    }
+
+    grpcLog.info(`Unsubscribing from gRPC streams: %o`, activeSubKeys)
+
     const cancellations = activeSubKeys.map(key => this.cancelSubscription(key))
     await Promise.all(cancellations)
+  }
+
+  /**
+   * Register a stream.
+   * Provide a mapping between a service and a subscription activation helper method.
+   * @param  {string} key         Key used to identify the subscription.
+   * @param  {string} serviceName Name of service that provides the subscription.
+   * @param  {string} methodName  Name of service methods that activates the subscription.
+   */
+  registerSubscription(key, serviceName, methodName) {
+    this.availableSubscriptions[key] = { key, serviceName, methodName }
   }
 
   /**
    * Unsubscribe from a single stream.
    */
   async cancelSubscription(key) {
+    if (!this.activeSubscriptions[key]) {
+      grpcLog.warn(`Unable to unsubscribe from gRPC stream: %s (not active)`, key)
+      return
+    }
+
     grpcLog.info(`Unsubscribing from ${key} gRPC stream`)
-    const call = this.subscriptions[key]
+
+    // Remove subscription event forwarders.
+    const { serviceName, methodName } = this.availableSubscriptions[key]
+    const service = this.services[serviceName]
+    unforwardAll(service, methodName)
 
     // Cancellation status callback handler.
     const result = new Promise(resolve => {
-      call.on('status', callStatus => {
+      this.activeSubscriptions[key].on('status', callStatus => {
         if (callStatus.code === status.CANCELLED) {
-          delete this.subscriptions[key]
+          delete this.activeSubscriptions[key]
           grpcLog.info(`Unsubscribed from ${key} gRPC stream`)
           resolve()
         }
       })
 
-      call.on('end', () => {
-        delete this.subscriptions[key]
+      this.activeSubscriptions[key].on('end', () => {
+        delete this.activeSubscriptions[key]
         grpcLog.info(`Unsubscribed from ${key} gRPC stream`)
         resolve()
       })
     })
 
     // Initiate cancellation request.
-    call.cancel()
+    this.activeSubscriptions[key].cancel()
+
     // Resolve once we receive confirmation of the call's cancellation.
     return result
   }
