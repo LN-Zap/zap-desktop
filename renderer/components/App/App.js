@@ -12,14 +12,14 @@ const TX_REFETCH_INTERVAL = 1000 * 60 * 1
 // Refresh autopilot scores every hour.
 const AUTOPILOT_SCORES_REFRESH_INTERVAL = 1000 * 60 * 60
 
-// Initial re-fetch after 2 seconds.
-const INITIAL_REFETCH_INTERVAL = 2000
+// Initial re-fetch after 30 seconds.
+const PEERS_INITIAL_REFETCH_INTERVAL = 1000 * 30
 
-// Fetch node data no less than once every 10 minutes.
-const MAX_REFETCH_INTERVAL = 1000 * 60 * 10
+// Fetch peers list data no less than once every 10 minutes.
+const PEERS_MAX_REFETCH_INTERVAL = 1000 * 60 * 10
 
 // Amount to increment re-fetch timer by after each fetch.
-const BACKOFF_SCHEDULE = 1.5
+const PEERS_REFETCH_BACKOFF_SCHEDULE = 2
 
 // App scheduler / polling service
 const appScheduler = createScheduler()
@@ -41,14 +41,14 @@ function App({
   useEffect(() => {
     /**
      * Fetch node data on an exponentially incrementing backoff schedule so that when the app is first mounted, we fetch
-     * node data quite frequently but as time goes on the frequency is reduced down to a maximum of MAX_REFETCH_INTERVAL
+     * node data quite frequently but as time goes on the frequency is reduced to a max of PEERS_MAX_REFETCH_INTERVAL
      */
     appScheduler.addTask({
       task: fetchPeers,
       taskId: 'fetchPeers',
-      baseDelay: INITIAL_REFETCH_INTERVAL,
-      maxDelay: MAX_REFETCH_INTERVAL,
-      backoff: BACKOFF_SCHEDULE,
+      baseDelay: PEERS_INITIAL_REFETCH_INTERVAL,
+      maxDelay: PEERS_MAX_REFETCH_INTERVAL,
+      backoff: PEERS_REFETCH_BACKOFF_SCHEDULE,
     })
 
     appScheduler.addTask({
