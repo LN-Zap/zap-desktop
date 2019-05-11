@@ -96,7 +96,7 @@ export const receiveInvoices = ({ invoices }) => dispatch => {
 }
 
 // Send IPC event for creating an invoice
-export const createInvoice = (amount, currency, memo) => async (dispatch, getState) => {
+export const createInvoice = (amount, currency, memo, isPrivate) => async (dispatch, getState) => {
   const state = getState()
 
   // backend needs value in satoshis no matter what currency we are using
@@ -107,7 +107,7 @@ export const createInvoice = (amount, currency, memo) => async (dispatch, getSta
   // Grab the activeWallet type from our local store. If the active connection type is local (light clients using
   // neutrino) we will have to flag private as true when creating this invoice. All light cliets open private channels
   // (both manual and autopilot ones). In order for these clients to receive money through these channels the invoices
-  // need to come with routing hints for private channels
+  // need to come with routing hints for private channels.
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
 
   try {
@@ -115,7 +115,7 @@ export const createInvoice = (amount, currency, memo) => async (dispatch, getSta
     const invoice = await grpc.services.Lightning.createInvoice({
       value,
       memo,
-      private: activeWalletSettings.type === 'local',
+      private: isPrivate || activeWalletSettings.type === 'local',
     })
     dispatch(createdInvoice(invoice))
   } catch (e) {

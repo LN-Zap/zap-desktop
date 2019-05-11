@@ -1,10 +1,23 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box } from 'rebass'
+import { Box, Flex } from 'rebass'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
-import { Bar, Button, Form, Header, Panel, Text, TextArea } from 'components/UI'
+import {
+  Bar,
+  Button,
+  Form,
+  Header,
+  Label,
+  Panel,
+  Span,
+  Text,
+  TextArea,
+  Toggle,
+  Tooltip,
+} from 'components/UI'
 import { CurrencyFieldGroup } from 'containers/UI'
 import Lightning from 'components/Icon/Lightning'
+import Padlock from 'components/Icon/Padlock'
 import RequestSummary from './RequestSummary'
 import messages from './messages'
 
@@ -17,23 +30,17 @@ class Request extends React.Component {
   }
 
   static propTypes = {
-    /** Currently selected cryptocurrency (key). */
+    activeWalletSettings: PropTypes.shape({
+      type: PropTypes.string.isRequired,
+    }).isRequired,
     createInvoice: PropTypes.func.isRequired,
-    /** Human readable chain name */
     cryptoCurrency: PropTypes.string.isRequired,
-    /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
     cryptoName: PropTypes.string.isRequired,
-    /** Fetch fiat ticker data. */
     fetchTickers: PropTypes.func.isRequired,
-    /** Lnd invoice object for the payment request */
     intl: intlShape.isRequired,
-    /** Lightning Payment request. */
     invoice: PropTypes.object,
-    /** Show a notification */
     isProcessing: PropTypes.bool,
-    /** Create an invoice using the supplied details */
     payReq: PropTypes.string,
     showNotification: PropTypes.func.isRequired,
   }
@@ -94,7 +101,7 @@ class Request extends React.Component {
    */
   onSubmit = values => {
     const { cryptoCurrency, createInvoice } = this.props
-    createInvoice(values.amountCrypto, cryptoCurrency, values.memo)
+    createInvoice(values.amountCrypto, cryptoCurrency, values.memo, values.routingHints)
   }
 
   /**
@@ -145,6 +152,7 @@ class Request extends React.Component {
         css={{ resize: 'vertical', 'min-height': '48px' }}
         field="memo"
         label={intl.formatMessage({ ...messages.memo })}
+        mb={3}
         name="memo"
         placeholder={intl.formatMessage({ ...messages.memo_placeholder })}
         rows={3}
@@ -156,11 +164,31 @@ class Request extends React.Component {
     )
   }
 
+  renderRoutingHints = () => (
+    <Flex alignItems="center" justifyContent="space-between">
+      <Flex>
+        <Span color="gray" fontSize="s" mr={2}>
+          <Padlock />
+        </Span>
+        <Flex>
+          <Label htmlFor="routingHints">
+            <FormattedMessage {...messages.routing_hints_label} />
+          </Label>
+          <Tooltip ml={1}>
+            <FormattedMessage {...messages.routing_hints_tooltip} />
+          </Tooltip>
+        </Flex>
+      </Flex>
+      <Toggle field="routingHints" />
+    </Flex>
+  )
+
   /**
    * Form renderer.
    */
   render() {
     const {
+      activeWalletSettings,
       createInvoice,
       cryptoCurrency,
       cryptoCurrencyTicker,
@@ -209,6 +237,7 @@ class Request extends React.Component {
                     {this.renderHelpText()}
                     {this.renderAmountFields()}
                     {this.renderMemoField()}
+                    {activeWalletSettings.type !== 'local' && this.renderRoutingHints()}
                   </React.Fragment>
                 ) : (
                   <RequestSummary
