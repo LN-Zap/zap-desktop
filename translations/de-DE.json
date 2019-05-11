@@ -371,6 +371,8 @@
   "components.Request.paid": "Bezahlt",
   "components.Request.payment_request": "Zahlungsanfrage",
   "components.Request.qrcode": "QR-Code",
+  "components.Request.routing_hints_label": "",
+  "components.Request.routing_hints_tooltip": "",
   "components.Request.status": "Anfragenstatus",
   "components.Request.subtitle": "durch das Lightning Netzwerk",
   "components.Request.title": "Zahlung anfordern",

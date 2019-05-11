@@ -371,6 +371,8 @@
   "components.Request.paid": "Oплаченный",
   "components.Request.payment_request": "",
   "components.Request.qrcode": "QR-код",
+  "components.Request.routing_hints_label": "",
+  "components.Request.routing_hints_tooltip": "",
   "components.Request.status": "Статус запроса",
   "components.Request.subtitle": "",
   "components.Request.title": "Запрос платежа",

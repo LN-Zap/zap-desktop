@@ -371,6 +371,8 @@
   "components.Request.paid": "Zaplaceno",
   "components.Request.payment_request": "",
   "components.Request.qrcode": "",
+  "components.Request.routing_hints_label": "",
+  "components.Request.routing_hints_tooltip": "",
   "components.Request.status": "",
   "components.Request.subtitle": "",
   "components.Request.title": "Vyžádat platbu",
