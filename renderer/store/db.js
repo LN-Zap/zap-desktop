@@ -137,6 +137,8 @@ export const getDb = name => {
     })
     // Save the migrated config overrides.
     await tx.settings.put({ key: 'config', value: newConfig })
+  db.version(5).stores({
+    backup: 'id',
   })
 
   /**

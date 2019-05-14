@@ -103,6 +103,7 @@ async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
     listFiles: apiCall.bind(this, api.listFiles),
     on: emitter.on.bind(emitter),
     off: emitter.off.bind(emitter),
+    removeAllListeners: emitter.removeAllListeners.bind(emitter),
   }
 }
 
