@@ -349,6 +349,7 @@
     "lodash.merge": "4.6.1",
     "lodash.partition": "4.6.0",
     "lodash.pick": "4.4.0",
+    "lodash.set": "4.3.2",
     "lodash.throttle": "4.1.1",
     "lodash.transform": "4.6.0",
     "polished": "3.3.2",
