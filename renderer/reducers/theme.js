@@ -42,7 +42,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 
 const themeSelectors = {}
-const currentThemeSelector = state => state.theme.currentTheme
+const currentThemeSelector = state => settingsSelectors.currentConfig(state).theme
 const themesSelector = state => state.theme.themes
 
 themeSelectors.themes = createSelector(
