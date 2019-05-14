@@ -1,41 +1,59 @@
+import config from 'config'
+import merge from 'lodash.merge'
+import { createSelector } from 'reselect'
+import set from 'lodash.set'
+import difference from '@zap/utils/difference'
+
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 export const SET_SETTINGS = 'SET_SETTINGS'
 export const SET_SETTING = 'SET_SETTING'
+export const UPDATE_CONFIG = 'UPDATE_CONFIG'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function setSettings(settings) {
-  return {
-    type: SET_SETTINGS,
-    settings,
-  }
-}
 
-export function setSetting(key, value) {
-  return {
-    type: SET_SETTING,
-    key,
-    value,
-  }
-}
-
+/**
+ * Fetch the current settings from the database and save into the store.
+ */
 export const initSettings = () => async dispatch => {
-  // Fetch the current settings from the database.
   const settings = await window.db.settings.toArray()
-
-  // Save settings into the store.
-  dispatch(setSettings(settings))
+  dispatch({ type: SET_SETTINGS, settings })
 }
 
+/**
+ * Save an updated setting.
+ * @param  {string} key Key
+ * @param  {*} value Value
+ */
 export const putSetting = (key, value) => async dispatch => {
-  // Save the updasted setting in the store.
-  dispatch(setSetting(key, value))
-
-  // Save the updated setting in the database.
+  dispatch({ type: SET_SETTING, key, value })
   await window.db.settings.put({ key, value })
+}
+
+/**
+ * Save a config property.
+ * @param  {string} path Config path property to set
+ * @param  {*} value Value to set
+ */
+export const putConfig = (path, value) => async (dispatch, getState) => {
+  const currentConfig = settingsSelectors.currentConfig(getState())
+  const updatedConfig = set(Object.assign({}, currentConfig), path, value)
+  await dispatch(saveConfigOverrides(updatedConfig))
+}
+
+/**
+ * Save config overrides.
+ * @param  {Object} values Config object that matches the structure of root config.
+ */
+export const saveConfigOverrides = values => async (dispatch, getState) => {
+  const currentConfig = settingsSelectors.currentConfig(getState())
+  const updatedConfig = merge({}, currentConfig, values)
+  const overrides = difference(updatedConfig, config)
+  await dispatch(putSetting('config', overrides))
 }
 
 // ------------------------------------
@@ -56,10 +74,22 @@ const ACTION_HANDLERS = {
 }
 
 // ------------------------------------
+// Selectors
+// ------------------------------------
+
+const configSelector = state => state.settings.config
+const settingsSelectors = {}
+settingsSelectors.currentConfig = createSelector(
+  configSelector,
+  overrides => merge({}, config, overrides)
+)
+export { settingsSelectors }
+
+// ------------------------------------
 // Reducer
 // ------------------------------------
 const initialState = {
-  settings: {},
+  config: {},
 }
 
 export default function settingsReducer(state = initialState, action) {

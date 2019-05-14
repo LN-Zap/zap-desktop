@@ -6,4 +6,5 @@ export default defineMessages({
   locale: 'Language',
   theme: 'Theme',
   logout: 'Logout',
+  settings: 'Settings',
 })

@@ -225,8 +225,9 @@ app.on('ready', async () => {
   if (!process.env.DISABLE_INIT) {
     try {
       const settings = await fetchSettings()
-      locale = getSetting(settings, 'locale')
-      const themeKey = getSetting(settings, 'theme')
+      const currentConfig = getSetting(settings, 'config')
+      locale = currentConfig.locale || config.locale
+      const themeKey = currentConfig.theme || config.theme
       theme = themes[themeKey]
     } catch (e) {
       mainLog.warn('Unable to determine user locale and theme', e)

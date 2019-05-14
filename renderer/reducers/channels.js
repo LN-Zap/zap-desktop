@@ -3,11 +3,12 @@ import throttle from 'lodash.throttle'
 import { proxyValue } from 'comlinkjs'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import { grpcService } from 'workers'
+import config from 'config'
 import { updateNotification, showWarning, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
 import { getNodeDisplayName, truncateNodePubkey, updateNodeData } from './network'
-import { putSetting } from './settings'
+import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
 // Constants
@@ -164,19 +165,17 @@ const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannels) 
 
 export const initChannels = () => async (dispatch, getState) => {
   const state = getState()
-  const userViewMode = state.settings.channelViewMode
-  const channelViewMode = state.channels.viewMode
-  if (userViewMode && userViewMode !== channelViewMode) {
-    dispatch(setChannelViewMode(userViewMode))
+  const currentConfig = settingsSelectors.currentConfig(state)
+  const currentViewMode = channelsSelectors.viewMode(state)
+
+  if (currentConfig.channels.viewMode !== currentViewMode) {
+    dispatch(setChannelViewMode(currentConfig.channels.viewMode))
   }
 }
 
 export const setChannelViewMode = viewMode => dispatch => {
-  dispatch({
-    type: SET_CHANNEL_VIEW_MODE,
-    viewMode,
-  })
-  dispatch(putSetting('channelViewMode', viewMode))
+  dispatch({ type: SET_CHANNEL_VIEW_MODE, viewMode })
+  dispatch(putConfig('channels.viewMode', viewMode))
 }
 
 export function changeFilter(filter) {
@@ -560,6 +559,9 @@ const closingChannelIdsSelector = state => state.channels.closingChannelIds
 const channelSearchQuerySelector = state => state.channels.searchQuery
 const filterSelector = state => state.channels.filter
 const nodesSelector = state => state.network.nodes
+const viewModeSelector = state => state.channels.viewMode
+
+channelsSelectors.viewMode = viewModeSelector
 
 const channelMatchesQuery = (channelObj, searchQuery) => {
   if (!searchQuery) {
@@ -846,7 +848,7 @@ const initialState = {
   ],
 
   selectedChannelId: null,
-  viewMode: 'CHANNEL_LIST_VIEW_MODE_CARD',
+  viewMode: config.channels.viewMode,
 
   // nodes stored at zap.jackmallers.com/api/v1/suggested-peers manages by JimmyMow
   // we store this node list here and if the user doesnt have any channels

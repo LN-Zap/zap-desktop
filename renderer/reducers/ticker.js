@@ -1,9 +1,8 @@
-import config from 'config'
 import { createSelector } from 'reselect'
 import get from 'lodash.get'
 import { requestTickers } from '@zap/utils/api'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
-import { putSetting } from './settings'
+import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
 // Constants
@@ -13,12 +12,6 @@ export const SET_CRYPTO = 'SET_CRYPTO'
 export const SET_FIAT_TICKER = 'SET_FIAT_TICKER'
 export const GET_TICKERS = 'GET_TICKERS'
 export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
-
-// Map for crypto codes to crypto tickers
-const DEFAULT_CRYPTO_UNITS = {
-  bitcoin: config.units.bitcoin,
-  litecoin: config.units.litecoin,
-}
 
 // Map for crypto names to crypto tickers
 const CRYPTO_NAMES = {
@@ -32,11 +25,11 @@ const CRYPTO_NAMES = {
 
 export const initTickers = () => async (dispatch, getState) => {
   const state = getState()
-  const userTicker = state.settings.fiatTicker
+  const currentConfig = settingsSelectors.currentConfig(state)
   const currentTicker = fiatTickerSelector(state)
 
-  if (userTicker && userTicker !== currentTicker) {
-    dispatch(setFiatTicker(userTicker))
+  if (currentConfig.currency !== currentTicker) {
+    dispatch(setFiatTicker(currentConfig.currency))
   }
 
   await dispatch(fetchTickers())
@@ -47,15 +40,12 @@ export const setCurrency = unit => async (dispatch, getState) => {
     type: SET_CURRENCY,
     currency: unit,
   })
-
   const state = getState()
+  const currentConfig = settingsSelectors.currentConfig(state)
   const chain = cryptoSelector(state)
-  const chainSettings = state.settings[`chain.${chain}`] || {}
-  const savedUnit = chainSettings.unit
-
+  const savedUnit = currentConfig.units[chain]
   if (unit !== savedUnit) {
-    chainSettings.unit = unit || DEFAULT_CRYPTO_UNITS[chain]
-    await dispatch(putSetting(`chain.${chain}`, chainSettings))
+    await dispatch(putConfig(`units.${chain}`, unit))
   }
 }
 
@@ -68,13 +58,10 @@ export function setCrypto(crypto) {
 
 export const setFiatTicker = fiatTicker => async dispatch => {
   // Persist the new fiatTicker in the store.
-  dispatch({
-    type: SET_FIAT_TICKER,
-    fiatTicker,
-  })
+  dispatch({ type: SET_FIAT_TICKER, fiatTicker })
 
   // Persist the new fiatTicker saetting.
-  await dispatch(putSetting('fiatTicker', fiatTicker))
+  await dispatch(putConfig('currency', fiatTicker))
 }
 
 export function getTickers() {
@@ -104,11 +91,10 @@ export const receiveCryptocurrency = chain => async (dispatch, getState) => {
   dispatch(setCrypto(chain))
 
   // Load saved settings for the chain.
-  const state = getState()
-  const chainSettings = state.settings[`chain.${chain}`] || {}
+  const currentConfig = settingsSelectors.currentConfig(getState())
 
   // Set currency unit based on saved setting, or fallback to default value.
-  const unit = get(chainSettings, 'unit', DEFAULT_CRYPTO_UNITS[chain])
+  const unit = get(currentConfig, `units.${chain}`)
   dispatch(setCurrency(unit))
 }
 
@@ -150,6 +136,7 @@ const tickerSelectors = {}
 
 tickerSelectors.currency = currencySelector
 tickerSelectors.tickerLoading = tickerLoadingSelector
+tickerSelectors.fiatTicker = fiatTickerSelector
 
 tickerSelectors.currentTicker = createSelector(
   cryptoSelector,
