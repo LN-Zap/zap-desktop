@@ -9307,12 +9307,11 @@ inflight@^1.0.4:
     once "^1.3.0"
     wrappy "1"
 
-informed@2.6.2:
-  version "2.6.2"
-  resolved "https://registry.yarnpkg.com/informed/-/informed-2.6.2.tgz#93842835d1fb600ebdb833c7cf41f5fe63aa73ce"
-  integrity sha512-l283wRVjwg/ZH4YdnnBU5K2dZSISpDJuOFmiFXNaiLsjlgwMjKbvYnhKlMvKpJ19O9al+GEEyFVcVoSQ3EY2bA==
+informed@2.6.12:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/informed/-/informed-2.6.12.tgz#fe476170735dff96aeea490754b37fec014b7007"
+  integrity sha512-BXf2/2UHQvZWpDP8c5BCuSu/mJVo5enyuSyQwQEs1qXnqsAC3I3x+y/QOTPFkp61R6yVGBiAMtE25xxjrSTYYw==
   dependencies:
-    debug "^4.1.1"
     lodash "^4.17.11"
 
 inherits@2, inherits@2.0.3, inherits@^2.0.1, inherits@^2.0.3, inherits@~2.0.1, inherits@~2.0.3:
