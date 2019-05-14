@@ -2,15 +2,14 @@ import { connect } from 'react-redux'
 import { setLocale } from 'reducers/locale'
 import { setFiatTicker } from 'reducers/ticker'
 import {
-  openSettings,
-  closeSettings,
+  openSettingsMenu,
+  closeSettingsMenu,
   setActiveSubMenu,
   disableSubMenu,
 } from 'reducers/settingsmenu'
 import { setTheme } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
-
-import Settings from 'components/Settings'
+import SettingsMenu from 'components/Settings/SettingsMenu'
 
 const mapStateToProps = state => ({
   activeSubMenu: state.settingsmenu.activeSubMenu,
@@ -21,12 +20,12 @@ const mapStateToProps = state => ({
   currentLocale: state.intl.locale,
   themes: state.theme.themes,
   currentTheme: state.theme.currentTheme,
-  isSettingsOpen: state.settingsmenu.isSettingsOpen,
+  isSettingsMenuOpen: state.settingsmenu.isSettingsMenuOpen,
 })
 
 const mapDispatchToProps = {
-  openSettings,
-  closeSettings,
+  openSettingsMenu,
+  closeSettingsMenu,
   setActiveSubMenu,
   disableSubMenu,
   setFiatTicker,
@@ -37,9 +36,9 @@ const mapDispatchToProps = {
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   activeWalletSettings: stateProps.activeWalletSettings,
   activeSubMenu: stateProps.activeSubMenu,
-  isSettingsOpen: stateProps.isSettingsOpen,
-  openSettings: dispatchProps.openSettings,
-  closeSettings: dispatchProps.closeSettings,
+  isSettingsMenuOpen: stateProps.isSettingsMenuOpen,
+  openSettingsMenu: dispatchProps.openSettingsMenu,
+  closeSettingsMenu: dispatchProps.closeSettingsMenu,
   setActiveSubMenu: dispatchProps.setActiveSubMenu,
   ...ownProps,
 
@@ -69,4 +68,4 @@ export default connect(
   mapStateToProps,
   mapDispatchToProps,
   mergeProps
-)(Settings)
+)(SettingsMenu)

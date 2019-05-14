@@ -3,7 +3,7 @@ import { useOnClickOutside, useOnKeydown } from 'hooks'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import styled from 'styled-components'
-import Settings from 'containers/Settings'
+import SettingsMenu from 'containers/Settings/SettingsMenu'
 import ChannelsMenu from 'containers/Channels/ChannelsMenu'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
@@ -77,7 +77,7 @@ const WalletMenu = ({ openModal }) => {
     <Flex as="section">
       <ChannelsMenuItem />
       {isAutopayEnabled() && <AutopayMenuItem openModal={openModal} />}
-      <Settings ml={4} />
+      <SettingsMenu ml={4} />
     </Flex>
   )
 }

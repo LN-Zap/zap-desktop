@@ -19,7 +19,7 @@ const StyledText = styled(Text)`
   }
 `
 
-class Settings extends React.Component {
+class SettingsMenu extends React.Component {
   menuRef = React.createRef()
   buttonRef = React.createRef()
 
@@ -40,25 +40,25 @@ class Settings extends React.Component {
   }
 
   handleButtonClick = event => {
-    const { isSettingsOpen, closeSettings, openSettings } = this.props
+    const { isSettingsMenuOpen, closeSettingsMenu, openSettingsMenu } = this.props
     if (this.buttonRef && this.buttonRef.contains(event.target)) {
-      isSettingsOpen ? closeSettings() : openSettings()
+      isSettingsMenuOpen ? closeSettingsMenu() : openSettingsMenu()
     }
   }
 
   handleClickOutside = event => {
-    const { isSettingsOpen, closeSettings } = this.props
+    const { isSettingsMenuOpen, closeSettingsMenu } = this.props
     if (
+      isSettingsMenuOpen &&
       this.menuRef &&
-      (this.menuRef && !this.menuRef.contains(event.target)) &&
-      (this.buttonRef && !this.buttonRef.contains(event.target)) &&
-      isSettingsOpen
+      !this.menuRef.contains(event.target) &&
+      (this.buttonRef && !this.buttonRef.contains(event.target))
     ) {
-      closeSettings()
+      closeSettingsMenu()
     }
   }
 
-  renderSettings = () => {
+  renderSettingsMenu = () => {
     const { activeSubMenu, fiatProps, localeProps, themeProps, setActiveSubMenu } = this.props
     switch (activeSubMenu) {
       case 'fiat':
@@ -73,7 +73,7 @@ class Settings extends React.Component {
   }
 
   render() {
-    const { activeWalletSettings, isSettingsOpen, ...rest } = this.props
+    const { activeWalletSettings, isSettingsMenuOpen, ...rest } = this.props
 
     return (
       <Box {...rest}>
@@ -88,25 +88,25 @@ class Settings extends React.Component {
             <StyledText mr={1} textAlign="left">
               <WalletName wallet={activeWalletSettings} />
             </StyledText>
-            {isSettingsOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
+            {isSettingsMenuOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
           </Flex>
         </Flex>
-        <Box ref={this.setWrapperRef}>{isSettingsOpen && this.renderSettings()}</Box>
+        {isSettingsMenuOpen && <Box ref={this.setWrapperRef}>{this.renderSettingsMenu()}</Box>}
       </Box>
     )
   }
 }
 
-Settings.propTypes = {
+SettingsMenu.propTypes = {
   activeSubMenu: PropTypes.string,
   activeWalletSettings: PropTypes.object,
-  closeSettings: PropTypes.func.isRequired,
+  closeSettingsMenu: PropTypes.func.isRequired,
   fiatProps: PropTypes.object.isRequired,
-  isSettingsOpen: PropTypes.bool,
+  isSettingsMenuOpen: PropTypes.bool,
   localeProps: PropTypes.object.isRequired,
-  openSettings: PropTypes.func.isRequired,
+  openSettingsMenu: PropTypes.func.isRequired,
   setActiveSubMenu: PropTypes.func.isRequired,
   themeProps: PropTypes.object.isRequired,
 }
 
-export default Settings
+export default SettingsMenu

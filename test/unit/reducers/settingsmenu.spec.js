@@ -33,7 +33,7 @@ describe('reducers', () => {
       ).toMatchSnapshot()
     })
 
-    it('should correctly closeSettings', () => {
+    it('should correctly closeSettingsMenu', () => {
       expect(
         settingsReducer(undefined, {
           type: CLOSE_SETTINGS,
