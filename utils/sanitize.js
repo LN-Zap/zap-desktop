@@ -1,8 +1,5 @@
+import isObject from '@zap/utils/isObject'
 import truncate from './truncate'
-
-function isObject(x) {
-  return x != null && typeof x === 'object'
-}
 
 /**
  * Sanitize specific object properties (by truncating them).
