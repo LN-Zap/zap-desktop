@@ -159,6 +159,13 @@ infoSelectors.networksSelector = state => state.info.networks
 infoSelectors.infoLoading = state => state.info.infoLoading
 infoSelectors.infoLoaded = state => state.info.infoLoaded
 infoSelectors.hasSynced = state => state.info.hasSynced
+infoSelectors.nodePub = state => {
+  const parseFromDataUri = () => {
+    const uri = get(state.info, 'data.uris[0]')
+    return uri && uri.split('@')[0]
+  }
+  return get(state.info, 'data.identity_pubkey') || parseFromDataUri()
+}
 
 infoSelectors.networkInfo = createSelector(
   infoSelectors.chainSelector,
