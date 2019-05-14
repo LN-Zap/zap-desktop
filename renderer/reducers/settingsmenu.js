@@ -9,13 +9,13 @@ export const DISABLE_SUBMENU = 'DISABLE_SUBMENU'
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function openSettings() {
+export function openSettingsMenu() {
   return {
     type: OPEN_SETTINGS,
   }
 }
 
-export function closeSettings() {
+export function closeSettingsMenu() {
   return {
     type: CLOSE_SETTINGS,
   }
@@ -38,8 +38,8 @@ export function disableSubMenu() {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [OPEN_SETTINGS]: state => ({ ...state, isSettingsOpen: true }),
-  [CLOSE_SETTINGS]: state => ({ ...state, isSettingsOpen: false, activeSubMenu: null }),
+  [OPEN_SETTINGS]: state => ({ ...state, isSettingsMenuOpen: true }),
+  [CLOSE_SETTINGS]: state => ({ ...state, isSettingsMenuOpen: false, activeSubMenu: null }),
   [SET_ACTIVE_SUBMENU]: (state, { activeSubMenu }) => ({ ...state, activeSubMenu }),
   [DISABLE_SUBMENU]: state => ({ ...state, activeSubMenu: null }),
 }
@@ -48,7 +48,7 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 const initialState = {
-  isSettingsOpen: false,
+  isSettingsMenuOpen: false,
   activeSubMenu: null,
 }
 
