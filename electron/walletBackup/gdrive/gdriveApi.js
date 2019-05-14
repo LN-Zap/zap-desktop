@@ -127,10 +127,11 @@ export async function listFiles(drive, params = {}) {
 }
 
 export function createAuthWindow(oAuthClient, scope, windowParams = { width: 500, height: 600 }) {
-  // TODO. disable node int. add preload
   const authWindow = new BrowserWindow({
     ...windowParams,
     show: true,
+    nodeIntegration: false,
+    contextIsolation: true,
   })
 
   const authUrl = createAuthUrl({
