@@ -108,7 +108,8 @@ module.exports = {
   },
 
   channels: {
-    viewMode: 'CHANNEL_LIST_VIEW_MODE_CARD',
+    // Default view mode(card|list)
+    viewMode: 'card',
   },
 
   // feature flags to enable/disable experimental functionality
