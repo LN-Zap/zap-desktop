@@ -150,18 +150,21 @@ app.on('ready', async () => {
   // Get the users preference so that we can:
   //  - set the background colour of the window to avoid unwanted flicker.
   //  - Initialise the Language menu with the users locale selected by default.
+  //  - Enable autoupdates based on user preferences.
+  let autoupdate = {}
   let theme = {}
-  let locale
+  let locale = null
 
   if (!process.env.DISABLE_INIT) {
     try {
       const settings = await fetchSettings()
-      const currentConfig = getSetting(settings, 'config')
-      locale = currentConfig.locale || config.locale
+      const currentConfig = getSetting(settings, 'config') || {}
       const themeKey = currentConfig.theme || config.theme
+      locale = currentConfig.locale || config.locale
+      autoupdate = currentConfig.autoupdate || config.autoupdate
       theme = themes[themeKey]
     } catch (e) {
-      mainLog.warn('Unable to determine user locale and theme', e)
+      mainLog.warn('Unable to determine user settings: %s', e.message)
     }
   }
 
@@ -194,8 +197,7 @@ app.on('ready', async () => {
   }
 
   // Initialise the updater.
-  updater = new ZapUpdater(mainWindow)
-  updater.init()
+  updater = new ZapUpdater(mainWindow, autoupdate)
 
   // Initialise the application.
   zap = new ZapController(mainWindow)
