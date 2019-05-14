@@ -1,4 +1,3 @@
-import config from 'config'
 import { createSelector } from 'reselect'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { convert } from '@zap/utils/btc'
@@ -8,6 +7,7 @@ import { grpcService } from 'workers'
 import { addressSelectors, newAddress } from './address'
 import { fetchBalance } from './balance'
 import { fetchChannels, channelsSelectors, getChannelData } from './channels'
+import { settingsSelectors } from './settings'
 
 // ------------------------------------
 // Constants
@@ -177,7 +177,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
         'On-chain Transaction Received!',
         "Lucky you, you just received a new on-chain transaction. I'm jealous."
       )
-      dispatch(newAddress(config.address)) // Generate a new address
+      dispatch(newAddress(settingsSelectors.currentConfig(state).address)) // Generate a new address
     } else {
       showSystemNotification(
         'On-chain Transaction Sent!',
