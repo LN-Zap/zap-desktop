@@ -285,7 +285,7 @@
     "fake-indexeddb": "2.1.0",
     "gh-pages": "2.0.1",
     "html-webpack-plugin": "3.2.0",
-    "husky": "2.2.0",
+    "husky": "2.3.0",
     "jest": "24.8.0",
     "jest-styled-components": "6.3.1",
     "lint-staged": "8.1.6",
