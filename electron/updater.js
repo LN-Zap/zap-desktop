@@ -1,13 +1,9 @@
-import { dialog } from 'electron'
+import { dialog, ipcMain } from 'electron'
 import { autoUpdater } from 'electron-updater'
 import isDev from 'electron-is-dev'
 import config from 'config'
-import { updaterLog } from '@zap/utils/log'
 import delay from '@zap/utils/delay'
-
-autoUpdater.logger = updaterLog
-autoUpdater.channel = config.autoupdate.channel
-autoUpdater.allowDowngrade = false
+import { updaterLog } from '@zap/utils/log'
 
 /**
  * @class ZapUpdater
@@ -15,15 +11,16 @@ autoUpdater.allowDowngrade = false
  * The ZapUpdater class manages the electron auto update process.
  */
 class ZapUpdater {
-  constructor(mainWindow) {
-    this.mainWindow = mainWindow
-  }
+  constructor(mainWindow, options = {}) {
+    const settings = { ...config.autopilot, options }
 
-  init() {
-    // Do not run the updater if we are running in dev mode or if autoupdates are disabled.
-    if (isDev || !config.autoupdate.active) {
-      return
-    }
+    this.mainWindow = mainWindow
+    this.isActive = false
+    this.timer = null
+
+    autoUpdater.logger = updaterLog
+    autoUpdater.channel = settings.channel
+    autoUpdater.allowDowngrade = false
 
     autoUpdater.on('update-downloaded', () => {
       const opt = {
@@ -41,17 +38,43 @@ class ZapUpdater {
       })
     })
 
-    this.initAutoUpdate()
+    // Enable updates if needed.
+    if (settings.active && !isDev) {
+      this.enableAutoUpdates()
+    }
+
+    ipcMain.on('configureAutoUpdater', (event, settings) => {
+      settings.active ? this.enableAutoUpdates() : this.disableAutoUpdates()
+    })
   }
 
-  async initAutoUpdate() {
+  /**
+   * Enable automatic updates.
+   */
+  enableAutoUpdates() {
+    if (this.isActive || isDev) {
+      return
+    }
     try {
-      await autoUpdater.checkForUpdates()
+      updaterLog.info('Automatic Updates enabled')
+      this.isActive = true
+      autoUpdater.checkForUpdates()
       const oneHour = 60 * 60 * 1000
-      setInterval(() => autoUpdater.checkForUpdates(), oneHour)
+      this.timer = setInterval(() => autoUpdater.checkForUpdates(), oneHour)
     } catch (error) {
       updaterLog.warn('Cannot check for updates', error.message)
     }
+  }
+
+  /**
+   * Disable automatic updates.
+   */
+  disableAutoUpdates() {
+    if (!this.isActive || isDev) {
+      return
+    }
+    clearInterval(this.timer)
+    updaterLog.info('Automatic Updates disabled')
   }
 }
 

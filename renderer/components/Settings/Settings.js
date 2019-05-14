@@ -86,6 +86,7 @@ const FormButtons = props => (
 
 const Settings = ({
   intl,
+  configureAutoUpdater,
   currentConfig,
   onSubmit,
   setLocale,
@@ -99,6 +100,9 @@ const Settings = ({
     // Special handling.
     if (values.locale) {
       await setLocale(values.locale)
+    }
+    if (values.autoupdate) {
+      configureAutoUpdater(values.autoupdate)
     }
 
     // Show a notification.
@@ -224,6 +228,7 @@ const Settings = ({
 }
 
 Settings.propTypes = {
+  configureAutoUpdater: PropTypes.func.isRequired,
   currentConfig: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   onSubmit: PropTypes.func,
