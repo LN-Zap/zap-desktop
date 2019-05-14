@@ -17,6 +17,8 @@ module.exports = {
   },
 
   theme: 'dark',
+  currency: 'USD',
+  locale: 'en',
 
   autoupdate: {
     active: true,
