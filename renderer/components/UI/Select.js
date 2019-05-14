@@ -163,7 +163,7 @@ function Select(props) {
         if (!item) {
           return
         }
-        setValue(item.value)
+        setValue(item.key)
         setTouched(true)
         if (onValueSelected) {
           onValueSelected(item.key)
@@ -193,6 +193,7 @@ function Select(props) {
 
           return ''
         }
+
         return (
           <div style={{ position: 'relative' }}>
             <Flex alignItems="center">
@@ -249,4 +250,45 @@ const BasicSelect = compose(
 )(Select)
 
 export { BasicSelect }
-export default asField(BasicSelect)
+
+const BasicSelectAsField = asField(BasicSelect)
+
+/**
+ * Wrap the select field to make use of parse and format to display items using their mapped values.
+ * This enables us to set the input value as the key, whilst displaying the mapped valued.
+ */
+const WrappedSelect = props => {
+  const { intl, items, messageMapper } = props
+  const mappedItems = useIntl(items, messageMapper, intl)
+
+  /**
+   * Format item by mapping key to value.
+   */
+  const format = value => {
+    if (value == null) {
+      return value
+    }
+    const item = mappedItems.find(item => item.key === value)
+    return item ? item.value : value
+  }
+
+  /**
+   * Parse item by mapping key to key.
+   */
+  const parse = value => {
+    if (value == null) {
+      return value
+    }
+    const item = items.find(item => item.key === value)
+    return item ? item.key : value
+  }
+
+  return <BasicSelectAsField format={format} parse={parse} {...props} />
+}
+
+WrappedSelect.propTypes = {
+  intl: intlShape.isRequired,
+  items: PropTypes.array,
+  messageMapper: PropTypes.func,
+}
+export default injectIntl(WrappedSelect)
