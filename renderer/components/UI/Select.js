@@ -123,7 +123,7 @@ function Select(props) {
       >
         <Flex alignItems="center" pr={2}>
           <Text color="superGreen" textAlign="center" width="20px">
-            {selectedItem.key === item.key && <Check height="0.95em" />}
+            {selectedItem && selectedItem.key === item.key && <Check height="0.95em" />}
           </Text>
           <Text>{item.value}</Text>
         </Flex>
@@ -145,7 +145,7 @@ function Select(props) {
 
   const { initialInputValue, initialSelectedItem } = getInitialSelectedItem(
     items,
-    initialSelectedItemOriginal
+    initialSelectedItemOriginal || fieldState.value
   )
 
   return (
