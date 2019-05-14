@@ -156,15 +156,18 @@ class RequestSummary extends React.Component {
                 <FormattedTime value={invoice.settle_date * 1000} />
               </Text>
             ) : (
-              <Text color={getStatusColor()} fontWeight="normal">
-                {isExpired ? 'Expired ' : 'Expires '}
-                <FormattedRelative
-                  updateInterval={1000}
-                  value={decodedInvoice.timeExpireDateString}
-                />
-                <br />
-                <FormattedMessage {...messages.not_paid} />
-              </Text>
+              <>
+                <Text color={getStatusColor()} fontWeight="normal">
+                  {isExpired ? 'Expired ' : 'Expires '}
+                  <FormattedRelative
+                    updateInterval={1000}
+                    value={decodedInvoice.timeExpireDateString}
+                  />
+                </Text>
+                <Text color={getStatusColor()} fontWeight="normal">
+                  <FormattedMessage {...messages.not_paid} />
+                </Text>
+              </>
             )
           }
         />

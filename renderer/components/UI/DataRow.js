@@ -41,7 +41,9 @@ class DataRow extends React.PureComponent {
             <Text fontWeight="normal">{left}</Text>
           )}
 
-          <Text textAlign="right">{right}</Text>
+          <Flex alignItems="flex-end" flexDirection="column">
+            {right}
+          </Flex>
         </Flex>
         {body && !collapsed && (
           <Text color="gray" mt={2}>

@@ -81,7 +81,7 @@ class ChannelCreateSummary extends React.Component {
             <DataRow
               left={<FormattedMessage {...messages.fee} />}
               right={
-                <Flex alignItems="flex-end" flexDirection="column">
+                <>
                   <Text>
                     <CryptoValue value={fee} />
                     <CryptoSelector mx={2} />
@@ -90,7 +90,7 @@ class ChannelCreateSummary extends React.Component {
                   <Text color="gray">
                     <FormattedMessage {...messages[speedTitleMessageKey]} />
                   </Text>
-                </Flex>
+                </>
               }
             />
           </>
