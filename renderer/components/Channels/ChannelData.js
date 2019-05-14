@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { opacity } from 'styled-system'
 import { Box as BaseBox } from 'rebass'
 import blockExplorer from '@zap/utils/blockExplorer'
-import { Bar, DataRow, Link } from 'components/UI'
+import { Bar, DataRow, Link, Text } from 'components/UI'
 import { Truncate } from 'components/Util'
 import { CryptoValue } from 'containers/UI'
 import { CHANNEL_DATA_VIEW_MODE_BASIC, CHANNEL_DATA_VIEW_MODE_FULL } from './constants'
@@ -47,7 +47,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
       label: <FormattedMessage {...messages.funding_date_label} />,
       body: <FormattedMessage {...messages.funding_date_description} />,
       value: (
-        <>
+        <Text>
           <FormattedDate
             day="2-digit"
             month="short"
@@ -55,7 +55,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
             year="numeric"
           />{' '}
           <FormattedTime value={fundingTxTimestamp * 1000} />
-        </>
+        </Text>
       ),
     }),
 
@@ -74,24 +74,24 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
     num_updates: () => ({
       label: <FormattedMessage {...messages.num_updates_label} />,
       body: <FormattedMessage {...messages.num_updates_description} />,
-      value: num_updates,
+      value: <Text>{num_updates}</Text>,
     }),
 
     csv_delay: () => ({
       label: <FormattedMessage {...messages.csv_delay_label} />,
       body: <FormattedMessage {...messages.csv_delay_description} />,
-      value: csv_delay,
+      value: <Text>{csv_delay}</Text>,
     }),
 
     total_satoshis_sent: () => ({
       label: <FormattedMessage {...messages.total_sent_label} />,
       body: <FormattedMessage {...messages.total_sent_description} />,
       value: (
-        <>
+        <Text>
           <CryptoValue value={total_satoshis_sent} />
           {` `}
           {currencyName}
-        </>
+        </Text>
       ),
     }),
 
@@ -99,11 +99,11 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
       label: <FormattedMessage {...messages.total_received_label} />,
       body: <FormattedMessage {...messages.total_received_description} />,
       value: (
-        <>
+        <Text>
           <CryptoValue value={total_satoshis_received} />
           {` `}
           {currencyName}
-        </>
+        </Text>
       ),
     }),
 
@@ -111,11 +111,11 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
       label: <FormattedMessage {...messages.commit_fee_label} />,
       body: <FormattedMessage {...messages.commit_fee_description} />,
       value: (
-        <>
+        <Text>
           <CryptoValue value={commit_fee} />
           {` `}
           {currencyName}
-        </>
+        </Text>
       ),
     }),
 
@@ -123,11 +123,11 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
       label: <FormattedMessage {...messages.base_fee_label} />,
       body: <FormattedMessage {...messages.base_fee_description} values={{ currencyName }} />,
       value: (
-        <>
+        <Text>
           <CryptoValue value={fee_per_kw} />
           {` `}
           {currencyName}
-        </>
+        </Text>
       ),
     }),
   }

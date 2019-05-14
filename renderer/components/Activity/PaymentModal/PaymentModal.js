@@ -55,14 +55,17 @@ export default class PaymentModal extends React.PureComponent {
             left={<FormattedMessage {...messages.date_sent} />}
             right={
               <>
-                <FormattedDate
-                  day="2-digit"
-                  month="long"
-                  value={item.creation_date * 1000}
-                  year="numeric"
-                />
-                <br />
-                <FormattedTime value={item.creation_date * 1000} />
+                <Text>
+                  <FormattedDate
+                    day="2-digit"
+                    month="long"
+                    value={item.creation_date * 1000}
+                    year="numeric"
+                  />
+                </Text>
+                <Text>
+                  <FormattedTime value={item.creation_date * 1000} />
+                </Text>
               </>
             }
           />
