@@ -1,14 +1,14 @@
 import { send } from 'redux-electron-ipc'
 import { updateIntl } from 'react-intl-redux'
 import translations from '@zap/i18n/translation'
-import { setFiatTicker } from './ticker'
-import { putSetting } from './settings'
+import { setFiatTicker, tickerSelectors } from './ticker'
+import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 
-export const setLocale = locale => (dispatch, getState) => {
+export const setLocale = locale => async (dispatch, getState) => {
   const state = getState()
 
   // Switch the active locale.
@@ -20,7 +20,7 @@ export const setLocale = locale => (dispatch, getState) => {
   )
 
   // Save the new locale setting.
-  dispatch(putSetting('locale', locale))
+  await dispatch(putConfig('locale', locale))
 
   // Let the main process know the locale has changed.
   dispatch(send('setLocale', locale))
@@ -32,19 +32,21 @@ export const receiveLocale = (event, locale) => dispatch => {
 
 export const initLocale = () => async (dispatch, getState) => {
   const state = getState()
-  const userLocale = state.settings.locale
+  const currentConfig = settingsSelectors.currentConfig(state)
   const currentLocale = localeSelectors.currentLocale(state)
 
-  if (userLocale && userLocale !== currentLocale) {
-    dispatch(setLocale(userLocale))
+  if (currentConfig.locale !== currentLocale) {
+    await dispatch(setLocale(currentConfig.locale))
   }
 }
 
 export const initCurrency = () => async (dispatch, getState) => {
   const state = getState()
-  const userCurrency = state.settings.fiatTicker
-  if (userCurrency) {
-    dispatch(setFiatTicker(userCurrency))
+  const currentConfig = settingsSelectors.currentConfig(state)
+  const currentCurrency = tickerSelectors.fiatTicker(state)
+
+  if (currentConfig.currency !== currentCurrency) {
+    await dispatch(setFiatTicker(currentConfig.currency))
   }
 }
 

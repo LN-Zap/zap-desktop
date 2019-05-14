@@ -9,6 +9,7 @@ import {
 } from 'reducers/settingsmenu'
 import { setTheme } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
+import { openModal } from 'reducers/modal'
 import SettingsMenu from 'components/Settings/SettingsMenu'
 
 const mapStateToProps = state => ({
@@ -25,6 +26,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   openSettingsMenu,
+  openModal,
   closeSettingsMenu,
   setActiveSubMenu,
   disableSubMenu,
@@ -37,6 +39,7 @@ const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   activeWalletSettings: stateProps.activeWalletSettings,
   activeSubMenu: stateProps.activeSubMenu,
   isSettingsMenuOpen: stateProps.isSettingsMenuOpen,
+  openModal: dispatchProps.openModal,
   openSettingsMenu: dispatchProps.openSettingsMenu,
   closeSettingsMenu: dispatchProps.closeSettingsMenu,
   setActiveSubMenu: dispatchProps.setActiveSubMenu,

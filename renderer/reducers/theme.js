@@ -1,7 +1,6 @@
-import config from 'config'
 import { createSelector } from 'reselect'
 import { dark, light } from 'themes'
-import { putSetting } from './settings'
+import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
 // Constants
@@ -15,23 +14,20 @@ export const SET_THEME = 'SET_THEME'
 
 export const initTheme = () => async (dispatch, getState) => {
   const state = getState()
-  const userTheme = state.settings.theme || config.theme
+  const currentConfig = settingsSelectors.currentConfig(state)
   const currentTheme = themeSelectors.currentTheme(state)
 
-  if (userTheme !== currentTheme) {
-    dispatch(setTheme(userTheme))
+  if (currentConfig.theme !== currentTheme) {
+    dispatch(setTheme(currentConfig.theme))
   }
 }
 
 export const setTheme = currentTheme => async dispatch => {
   // Persist the new theme in the store.
-  dispatch({
-    type: SET_THEME,
-    currentTheme,
-  })
+  dispatch({ type: SET_THEME, currentTheme })
 
   // Persist the new theme setting.
-  await dispatch(putSetting('theme', currentTheme))
+  await dispatch(putConfig('theme', currentTheme))
 }
 
 // ------------------------------------

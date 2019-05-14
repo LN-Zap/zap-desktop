@@ -59,7 +59,14 @@ class SettingsMenu extends React.Component {
   }
 
   renderSettingsMenu = () => {
-    const { activeSubMenu, fiatProps, localeProps, themeProps, setActiveSubMenu } = this.props
+    const {
+      activeSubMenu,
+      fiatProps,
+      localeProps,
+      themeProps,
+      setActiveSubMenu,
+      openModal,
+    } = this.props
     switch (activeSubMenu) {
       case 'fiat':
         return <Fiat {...fiatProps} />
@@ -68,7 +75,7 @@ class SettingsMenu extends React.Component {
       case 'theme':
         return <Theme {...themeProps} />
       default:
-        return <Menu setActiveSubMenu={setActiveSubMenu} />
+        return <Menu openModal={openModal} setActiveSubMenu={setActiveSubMenu} />
     }
   }
 
@@ -104,6 +111,7 @@ SettingsMenu.propTypes = {
   fiatProps: PropTypes.object.isRequired,
   isSettingsMenuOpen: PropTypes.bool,
   localeProps: PropTypes.object.isRequired,
+  openModal: PropTypes.func.isRequired,
   openSettingsMenu: PropTypes.func.isRequired,
   setActiveSubMenu: PropTypes.func.isRequired,
   themeProps: PropTypes.object.isRequired,

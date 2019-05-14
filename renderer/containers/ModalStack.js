@@ -14,13 +14,18 @@ import ChannelDetailModal from 'containers/Channels/ChannelDetailModal'
 import ChannelCreate from 'containers/Channels/ChannelCreate'
 import ReceiveModal from 'containers/Wallet/ReceiveModal'
 import ActivityModal from 'containers/Activity/ActivityModal'
+import Settings from 'containers/Settings'
 
 const Container = styled(animated.div)`
   ${ModalOverlayStyles}
 `
 
 const ModalContent = ({ type, closeModal }) => {
+  const doCloseModal = () => closeModal()
   switch (type) {
+    case 'SETTINGS_FORM':
+      return <Settings onSubmit={doCloseModal} />
+
     case 'AUTOPAY':
       return <Autopay mx={-4} />
 
@@ -40,7 +45,7 @@ const ModalContent = ({ type, closeModal }) => {
       return <Channels mx={-4} />
 
     case 'CHANNEL_CREATE':
-      return <ChannelCreate mx={-4} onSubmit={() => closeModal()} />
+      return <ChannelCreate mx={-4} onSubmit={doCloseModal} />
 
     case 'CHANNEL_DETAIL':
       return <ChannelDetailModal type="CHANNEL_DETAIL" />

@@ -107,6 +107,10 @@ module.exports = {
     defaultValue: '150000',
   },
 
+  channels: {
+    viewMode: 'CHANNEL_LIST_VIEW_MODE_CARD',
+  },
+
   // feature flags to enable/disable experimental functionality
   features: {
     autopay: false,
