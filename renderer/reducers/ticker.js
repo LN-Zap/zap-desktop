@@ -120,7 +120,8 @@ const currencySelector = state => state.ticker.currency
 const currencyFiltersSelector = state => state.ticker.currencyFilters
 const bitcoinTickerSelector = state => state.ticker.btcTicker
 const litecoinTickerSelector = state => state.ticker.ltcTicker
-const fiatTickerSelector = state => state.ticker.fiatTicker
+const fiatTickerSelector = state => settingsSelectors.currentConfig(state).currency
+const fiatTickersSelector = state => state.ticker.fiatTickers
 const tickerLoadingSelector = state => state.ticker.tickerLoading
 const chainSelector = state => state.info.chain
 const networkSelector = state => state.info.network
@@ -137,6 +138,7 @@ const tickerSelectors = {}
 tickerSelectors.currency = currencySelector
 tickerSelectors.tickerLoading = tickerLoadingSelector
 tickerSelectors.fiatTicker = fiatTickerSelector
+tickerSelectors.fiatTickers = fiatTickersSelector
 
 tickerSelectors.currentTicker = createSelector(
   cryptoSelector,

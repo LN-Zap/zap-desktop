@@ -1,10 +1,10 @@
 import { connect } from 'react-redux'
 import { Dropdown } from 'components/UI'
-import { setFiatTicker } from 'reducers/ticker'
+import { setFiatTicker, tickerSelectors } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
-  activeKey: state.ticker.fiatTicker,
-  items: state.ticker.fiatTickers,
+  activeKey: tickerSelectors.fiatTicker(state),
+  items: tickerSelectors.fiatTickers(state),
 })
 
 const mapDispatchToProps = {
