@@ -45,7 +45,7 @@ Object {
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
-  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
+  "viewMode": "card",
   "viewType": 0,
 }
 `;
@@ -95,7 +95,7 @@ Object {
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
-  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
+  "viewMode": "card",
   "viewType": 0,
 }
 `;
@@ -145,7 +145,7 @@ Object {
     "testnet": Array [],
   },
   "suggestedNodesLoading": false,
-  "viewMode": "CHANNEL_LIST_VIEW_MODE_CARD",
+  "viewMode": "card",
   "viewType": 0,
 }
 `;

@@ -1,36 +1,36 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers settingsReducer should correctly closeSettings 1`] = `
+exports[`reducers settingsReducer should correctly closeSettingsMenu 1`] = `
 Object {
   "activeSubMenu": null,
-  "isSettingsOpen": false,
+  "isSettingsMenuOpen": false,
 }
 `;
 
 exports[`reducers settingsReducer should correctly disableSubmenu 1`] = `
 Object {
   "activeSubMenu": null,
-  "isSettingsOpen": false,
+  "isSettingsMenuOpen": false,
 }
 `;
 
 exports[`reducers settingsReducer should correctly openSettings 1`] = `
 Object {
   "activeSubMenu": null,
-  "isSettingsOpen": true,
+  "isSettingsMenuOpen": true,
 }
 `;
 
 exports[`reducers settingsReducer should correctly setActiveSubmenu 1`] = `
 Object {
   "activeSubMenu": true,
-  "isSettingsOpen": false,
+  "isSettingsMenuOpen": false,
 }
 `;
 
 exports[`reducers settingsReducer should handle initial state 1`] = `
 Object {
   "activeSubMenu": null,
-  "isSettingsOpen": false,
+  "isSettingsMenuOpen": false,
 }
 `;

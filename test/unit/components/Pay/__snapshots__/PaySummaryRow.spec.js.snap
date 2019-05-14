@@ -13,11 +13,12 @@ exports[`component.Form.DataRow should render correctly 1`] = `
     >
       left contnet
     </Text>
-    <Text
-      textAlign="right"
+    <Styled(styled.div)
+      alignItems="flex-end"
+      flexDirection="column"
     >
       right content
-    </Text>
+    </Styled(styled.div)>
   </Styled(styled.div)>
 </styled.div>
 `;
