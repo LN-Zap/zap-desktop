@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { setLocale } from 'reducers/locale'
-import { setFiatTicker } from 'reducers/ticker'
+import { setFiatTicker, tickerSelectors } from 'reducers/ticker'
 import {
   openSettingsMenu,
   closeSettingsMenu,
@@ -15,8 +15,8 @@ import SettingsMenu from 'components/Settings/SettingsMenu'
 const mapStateToProps = state => ({
   activeSubMenu: state.settingsmenu.activeSubMenu,
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
-  fiatTicker: state.ticker.fiatTicker,
-  fiatTickers: state.ticker.fiatTickers,
+  fiatTicker: tickerSelectors.fiatTicker(state),
+  fiatTickers: tickerSelectors.fiatTickers(state),
   locales: state.locale,
   currentLocale: state.intl.locale,
   themes: state.theme.themes,

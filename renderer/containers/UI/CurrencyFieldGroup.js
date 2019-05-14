@@ -6,8 +6,8 @@ const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
   cryptoCurrency: state.ticker.currency,
   cryptoCurrencies: tickerSelectors.currencyFilters(state),
-  fiatCurrencies: state.ticker.fiatTickers,
-  fiatCurrency: state.ticker.fiatTicker,
+  fiatCurrencies: tickerSelectors.fiatTickers(state),
+  fiatCurrency: tickerSelectors.fiatTicker(state),
 })
 
 const mapDispatchToProps = {

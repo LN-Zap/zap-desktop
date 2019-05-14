@@ -6,7 +6,7 @@ import { Span, Value } from 'components/UI'
 
 const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
-  fiatTicker: state.ticker.fiatTicker,
+  fiatTicker: tickerSelectors.fiatTicker(state),
   currency: 'fiat',
 })
 
