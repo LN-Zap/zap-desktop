@@ -1,8 +1,8 @@
-import config from 'config'
 import get from 'lodash.get'
 import { createSelector } from 'reselect'
 import { grpcService } from 'workers'
 import { openModal, closeModal } from './modal'
+import { settingsSelectors } from './settings'
 
 // ------------------------------------
 // Constants
@@ -126,9 +126,11 @@ const ACTION_HANDLERS = {
 
 const addressSelectors = {}
 addressSelectors.currentAddresses = state => state.address.addresses
+addressSelectors.currentConfig = state => settingsSelectors.currentConfig(state)
 addressSelectors.currentAddress = createSelector(
   addressSelectors.currentAddresses,
-  currentAddresses => currentAddresses[config.address]
+  addressSelectors.currentConfig,
+  (currentAddresses, currentConfig) => currentAddresses[currentConfig.address]
 )
 export { addressSelectors }
 
