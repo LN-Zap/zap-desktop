@@ -26,6 +26,7 @@ import notification from './notification'
 import settings from './settings'
 import settingsmenu from './settingsmenu'
 import wallet from './wallet'
+import backup from './backup'
 
 const appReducer = combineReducers({
   // Third party reducers.
@@ -40,6 +41,7 @@ const appReducer = combineReducers({
   autopay,
   autopilot,
   balance,
+  backup,
   channels,
   contactsform,
   info,
