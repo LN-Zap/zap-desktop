@@ -95,6 +95,11 @@ class ChannelCreateForm extends React.Component {
     fetchTickers: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     isQueryingFees: PropTypes.bool,
+    lndTargetConfirmations: PropTypes.shape({
+      fast: PropTypes.number.isRequired,
+      medium: PropTypes.number.isRequired,
+      slow: PropTypes.number.isRequired,
+    }).isRequired,
     onchainFees: PropTypes.shape({
       fast: PropTypes.number,
       medium: PropTypes.number,
@@ -244,7 +249,13 @@ class ChannelCreateForm extends React.Component {
   }
 
   renderFormFields() {
-    const { intl, activeWalletSettings, isQueryingFees, searchQuery } = this.props
+    const {
+      intl,
+      activeWalletSettings,
+      isQueryingFees,
+      lndTargetConfirmations,
+      searchQuery,
+    } = this.props
 
     const formState = this.formApi.getState()
     const { speed } = formState.values
@@ -286,6 +297,7 @@ class ChannelCreateForm extends React.Component {
           field="speed"
           isQueryingFees={isQueryingFees}
           label={intl.formatMessage({ ...messages.fee })}
+          lndTargetConfirmations={lndTargetConfirmations}
           required
         />
 
@@ -337,6 +349,7 @@ class ChannelCreateForm extends React.Component {
       walletBalance,
       currencyName,
       isQueryingFees,
+      lndTargetConfirmations,
       fetchTickers,
       onchainFees,
       onSubmit,

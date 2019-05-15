@@ -7,6 +7,7 @@ import { changeFilter } from 'reducers/activity'
 import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
 import { closeModal } from 'reducers/modal'
+import { settingsSelectors } from 'reducers/settings'
 
 const mapStateToProps = state => ({
   chain: state.info.chain,
@@ -16,6 +17,7 @@ const mapStateToProps = state => ({
   cryptoCurrency: state.ticker.currency,
   cryptoCurrencyTicker: tickerSelectors.currencyName(state),
   isQueryingFees: state.pay.isQueryingFees,
+  lndTargetConfirmations: settingsSelectors.currentConfig(state).lndTargetConfirmations,
   payReq: state.pay.payReq,
   onchainFees: state.pay.onchainFees,
   routes: state.pay.routes,

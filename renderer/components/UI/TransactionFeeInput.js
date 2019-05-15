@@ -18,8 +18,46 @@ import {
 } from './constants'
 
 const speeds = [TRANSACTION_SPEED_SLOW, TRANSACTION_SPEED_MEDIUM, TRANSACTION_SPEED_FAST]
-
-function TransactionFeeInput({ isQueryingFees, initialValue, label, field, formApi, fee }) {
+const speedMessageMap = [
+  {
+    threshold: 2,
+    messageKey: 'transaction_speed_description_fastest',
+  },
+  {
+    threshold: 4,
+    messageKey: 'transaction_speed_description_fast',
+  },
+  {
+    threshold: 12,
+    messageKey: 'transaction_speed_description_medium',
+  },
+  {
+    threshold: 100,
+    messageKey: 'transaction_speed_description_slow',
+  },
+  {
+    threshold: Infinity,
+    messageKey: 'transaction_speed_description_slowest',
+  },
+]
+function TransactionFeeInput({
+  lndTargetConfirmations,
+  isQueryingFees,
+  initialValue,
+  label,
+  field,
+  formApi,
+  fee,
+}) {
+  const CONF_MAP = {
+    [TRANSACTION_SPEED_SLOW]: lndTargetConfirmations.slow,
+    [TRANSACTION_SPEED_MEDIUM]: lndTargetConfirmations.medium,
+    [TRANSACTION_SPEED_FAST]: lndTargetConfirmations.fast,
+  }
+  const value = formApi.getValue(field)
+  const targetConf = CONF_MAP[value]
+  const speedMessageKey =
+    targetConf && speedMessageMap.find(item => targetConf <= item.threshold).messageKey
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Box>
@@ -48,20 +86,20 @@ function TransactionFeeInput({ isQueryingFees, initialValue, label, field, formA
           </Flex>
         )}
 
-        {!isQueryingFees && !fee && <FormattedMessage {...messages.fee_unknown} />}
+        {!isQueryingFees && !Number.isFinite(fee) && <FormattedMessage {...messages.fee_unknown} />}
 
-        {!isQueryingFees && fee && formApi.getValue(field) && (
+        {!isQueryingFees && Number.isFinite(fee) && value && (
           <Flex alignItems="flex-end" flexDirection="column">
             <Box>
               <CryptoValue value={fee} />
               <CryptoSelector mx={2} />
               <FormattedMessage {...messages.fee_per_byte} />
             </Box>
-            <Text color="gray">
-              <FormattedMessage
-                {...messages[formApi.getValue(field).toLowerCase() + '_description']}
-              />
-            </Text>
+            {speedMessageKey && (
+              <Text color="gray">
+                <FormattedMessage {...messages[speedMessageKey]} />
+              </Text>
+            )}
           </Flex>
         )}
       </Box>
@@ -76,6 +114,11 @@ TransactionFeeInput.propTypes = {
   initialValue: PropTypes.string,
   isQueryingFees: PropTypes.bool,
   label: PropTypes.string,
+  lndTargetConfirmations: PropTypes.shape({
+    fast: PropTypes.number.isRequired,
+    medium: PropTypes.number.isRequired,
+    slow: PropTypes.number.isRequired,
+  }).isRequired,
 }
 
 TransactionFeeInput.defaultProps = {

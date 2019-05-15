@@ -69,53 +69,36 @@ const ShowHideAmount = Keyframes.Spring({
 class Pay extends React.Component {
   static propTypes = {
     chain: PropTypes.string.isRequired,
-    /** The currently active chain (bitcoin, litecoin etc) */
     changeFilter: PropTypes.func.isRequired,
-    /** The currently active chain (mainnet, testnet) */
     channelBalance: PropTypes.number.isRequired,
-    /** Human readable chain name */
     closeModal: PropTypes.func.isRequired,
-    /** Current channel balance (in satoshis). */
     cryptoCurrency: PropTypes.string.isRequired,
-    /** Currently selected cryptocurrency (key). */
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoName: PropTypes.string.isRequired,
-    /** Fetch fiat ticker data. */
     fetchTickers: PropTypes.func.isRequired,
-    /** Amount value to populate the amountCrypto field with when the form first loads. */
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    /** Amount value to populate the amountFiat field with when the form first loads. */
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    /** intel-react */
     intl: intlShape.isRequired,
-    /** Boolean indicating wether the form is being processed. If true, form buttons are disabled. */
     isProcessing: PropTypes.bool,
-    /** Payment request to load into the form. */
     isQueryingFees: PropTypes.bool,
-    /** Routing information */
+    lndTargetConfirmations: PropTypes.shape({
+      fast: PropTypes.number.isRequired,
+      medium: PropTypes.number.isRequired,
+      slow: PropTypes.number.isRequired,
+    }).isRequired,
     network: PropTypes.string.isRequired,
-    /** Current wallet balance (in satoshis). */
     onchainFees: PropTypes.shape({
       fast: PropTypes.number,
       medium: PropTypes.number,
       slow: PropTypes.number,
     }),
-
-    /** Payment request to load into the form. */
     payInvoice: PropTypes.func.isRequired,
-    /** Method to close the current modal */
     payReq: PropTypes.object,
     queryFees: PropTypes.func.isRequired,
-    /** Method to process offChain invoice payments. Called when the form is submitted. */
     queryRoutes: PropTypes.func.isRequired,
-    /** Set the current payment request. */
     routes: PropTypes.array,
-    /** Method to process onChain transactions. Called when the form is submitted. */
     sendCoins: PropTypes.func.isRequired,
-    /** Method to collect route information for lightning invoices. */
     setPayReq: PropTypes.func.isRequired,
-    /** If true, lnd will attempt to send all coins available to selected address  */
     walletBalanceConfirmed: PropTypes.number.isRequired,
   }
 
@@ -512,7 +495,13 @@ class Pay extends React.Component {
 
   renderAmountFields = () => {
     const { currentStep, isOnchain } = this.state
-    const { intl, initialAmountCrypto, initialAmountFiat, isQueryingFees } = this.props
+    const {
+      intl,
+      initialAmountCrypto,
+      initialAmountFiat,
+      isQueryingFees,
+      lndTargetConfirmations,
+    } = this.props
     const fee = this.getFee()
 
     const formState = this.formApi.getState()
@@ -555,6 +544,7 @@ class Pay extends React.Component {
                   field="speed"
                   isQueryingFees={isQueryingFees}
                   label={intl.formatMessage({ ...messages.fee })}
+                  lndTargetConfirmations={lndTargetConfirmations}
                   required
                 />
               </>
@@ -638,6 +628,7 @@ class Pay extends React.Component {
       initialAmountFiat,
       isProcessing,
       isQueryingFees,
+      lndTargetConfirmations,
       onchainFees,
       payInvoice,
       sendCoins,

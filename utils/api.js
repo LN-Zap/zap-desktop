@@ -1,5 +1,4 @@
 import axios from 'axios'
-import renameKeys from '@zap/utils/renameKeys'
 import { mainLog } from '@zap/utils/log'
 
 // When running in development/hot mode we load the renderer js code via webpack dev server, and it is from there that
@@ -68,17 +67,38 @@ export function requestNodeScores(chain, network) {
   )
 }
 
-export function requestFees() {
-  const BASE_URL = 'https://bitcoinfees.earn.com/api/v1/fees/recommended'
+export function requestFees(options) {
+  const BASE_URL = 'https://bitcoinfees.earn.com/api/v1/fees/list'
   return axios({
     method: 'get',
     url: BASE_URL,
   }).then(response => {
-    const keysMap = {
-      fastestFee: 'fast',
-      halfHourFee: 'medium',
-      hourFee: 'slow',
+    /**
+     * Get the lowest fee to get in within a given number of target confs
+     * @param  {number} targetConfs The target number of blocks
+     * @return {number|null} The fee rate in satoshi/byte
+     */
+    const getFee = targetConfs => {
+      const targetDelay = targetConfs - 1
+      let feeRange = response.data.fees
+        // Filter out everything where the max delay is less than our target delay.
+        .filter(f => f.maxDelay >= targetDelay)
+        // Only include items with the lowest fee that is closest to our target delay.
+        .reduce((acc, cur, idx, src) => {
+          const lowestDelay = src[src.length - 1].maxDelay
+          if (cur.maxDelay === lowestDelay) {
+            acc.push(cur)
+          }
+          return acc
+        }, [])
+      return feeRange.length ? feeRange[0].maxFee : null
     }
-    return renameKeys(keysMap, response.data)
+
+    const { fast, medium, slow } = options
+    return {
+      fast: getFee(fast),
+      medium: getFee(medium),
+      slow: getFee(slow),
+    }
   })
 }
