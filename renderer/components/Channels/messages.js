@@ -21,10 +21,6 @@ export default defineMessages({
   fee_unknown: 'unknown',
   fee_per_byte: 'per byte',
   total: 'Total',
-  transaction_speed_slow: 'Slow',
-  transaction_speed_medium: 'Medium',
-  transaction_speed_fast: 'Fast',
-  transaction_speed_fast_description: 'Estimated Delivery: less than 1 hour',
   open_channel_form_title: 'Open a Channel',
   open_channel_form_description:
     "To open a channel, enter the desired node's publickey@host, set the amount of BTC you'd like to commit to the channel, and submit.",

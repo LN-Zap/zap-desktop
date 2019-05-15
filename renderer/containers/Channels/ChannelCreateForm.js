@@ -6,6 +6,7 @@ import { queryFees } from 'reducers/pay'
 import { balanceSelectors } from 'reducers/balance'
 import { updateContactFormSearchQuery, contactFormSelectors } from 'reducers/contactsform'
 import { walletSelectors } from 'reducers/wallet'
+import { settingsSelectors } from 'reducers/settings'
 
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
@@ -16,6 +17,7 @@ const mapStateToProps = state => ({
   currencyName: tickerSelectors.currencyName(state),
   isQueryingFees: state.pay.isQueryingFees,
   onchainFees: state.pay.onchainFees,
+  lndTargetConfirmations: settingsSelectors.currentConfig(state).lndTargetConfirmations,
 })
 
 const mapDispatchToProps = {

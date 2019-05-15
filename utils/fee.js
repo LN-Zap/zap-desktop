@@ -51,12 +51,13 @@ export async function estimateFeeRange({
   asRate = true,
   fallback = requestFees,
 }) {
+  const { fast, medium, slow } = range
+
   // lnd fee estimator requires this params
   if (!address || !amountInSats) {
-    return fallback()
+    return fallback({ fast, medium, slow })
   }
 
-  const { fast, medium, slow } = range
   const [fastestFee, mediumFee, slowFee] = await Promise.all([
     estimateLndFee(address, amountInSats, fast),
     estimateLndFee(address, amountInSats, medium),
@@ -64,7 +65,8 @@ export async function estimateFeeRange({
   ])
 
   // check if we have at least one estimate and fill the gap with fallback values otherwise
-  const fallbackFees = !fastestFee || !mediumFee || !slowFee ? await fallback() : {}
+  const fallbackFees =
+    !fastestFee || !mediumFee || !slowFee ? await fallback({ fast, medium, slow }) : {}
 
   // extracts fee from a lnd grpc response
   const getFee = feeObj => {
