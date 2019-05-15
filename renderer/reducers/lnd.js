@@ -10,6 +10,7 @@ import { setSeed } from './onboarding'
 import { receiveInvoiceData } from './invoice'
 import { receiveChannelGraphData } from './channels'
 import { receiveTransactionData } from './transaction'
+import { backupCurrentWallet } from './backup'
 
 // ------------------------------------
 // Helpers
@@ -102,6 +103,7 @@ export const connectGrpcService = lndConfig => async dispatch => {
   const handleInvoiceSubscription = proxyValue(data => dispatch(receiveInvoiceData(data)))
   const handleTransactionSubscription = proxyValue(data => dispatch(receiveTransactionData(data)))
   const handleChannelGraphSubscription = proxyValue(data => dispatch(receiveChannelGraphData(data)))
+  const handleBackupsSubscription = proxyValue(data => dispatch(backupCurrentWallet(data)))
   const handleWalletUnlockerActive = proxyValue(() => dispatch(setWalletUnlockerGrpcActive()))
   const handleLightningActive = proxyValue(() => dispatch(setLightningGrpcActive()))
 
@@ -110,6 +112,7 @@ export const connectGrpcService = lndConfig => async dispatch => {
     grpc.on('subscribeInvoices.data', handleInvoiceSubscription)
     grpc.on('subscribeTransactions.data', handleTransactionSubscription)
     grpc.on('subscribeChannelGraph.data', handleChannelGraphSubscription)
+    grpc.on('subscribeChannelBackups.data', handleBackupsSubscription)
 
     // Hook up event listeners to notify when each gRPC service becomes available.
     grpc.on('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE', handleWalletUnlockerActive)
@@ -125,6 +128,7 @@ export const connectGrpcService = lndConfig => async dispatch => {
     grpc.off('subscribeInvoices.data', handleInvoiceSubscription)
     grpc.off('subscribeTransactions.data', handleTransactionSubscription)
     grpc.off('subscribeChannelGraph.data', handleChannelGraphSubscription)
+    grpc.off('subscribeChannelBackups.data', handleBackupsSubscription)
     grpc.off('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE', handleWalletUnlockerActive)
     grpc.off('GRPC_LIGHTNING_SERVICE_ACTIVE', handleLightningActive)
 
@@ -145,6 +149,7 @@ export const disconnectGrpcService = () => async dispatch => {
     grpc.removeAllListeners('subscribeInvoices.data')
     grpc.removeAllListeners('subscribeTransactions.data')
     grpc.removeAllListeners('subscribeChannelGraph.data')
+    grpc.removeAllListeners('subscribeChannelBackups.data')
     grpc.removeAllListeners('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
     grpc.removeAllListeners('GRPC_LIGHTNING_SERVICE_ACTIVE')
 
@@ -428,6 +433,7 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
 
     // Notify of wallet recovery success.
     dispatch(createWalletSuccess())
+    return wallet
   } catch (error) {
     // Attempt to clean up from failure.
     try {
