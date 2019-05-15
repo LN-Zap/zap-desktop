@@ -3,9 +3,8 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { withFieldApi } from 'informed'
 import styled from 'styled-components'
-import { Box, Flex } from 'rebass'
+import { Flex } from 'rebass'
 import { Form, RadioGroup, Heading, Bar } from 'components/UI'
-import ZapLogo from 'components/Icon/ZapLogoBolt'
 import BaseBackupTypeItem from './BackupTypeItem'
 import messages from './messages'
 
@@ -18,9 +17,8 @@ const Container = styled(Flex)`
   visibility: ${props => (props.lndConnect ? 'hidden' : 'visible')};
 `
 
-class BackupType extends React.Component {
+class SetupBackup extends React.Component {
   static propTypes = {
-    resetOnboarding: PropTypes.func.isRequired,
     setBackupProvider: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
@@ -46,11 +44,7 @@ class BackupType extends React.Component {
     const { currentItem } = wizardState
 
     return (
-      <Container alignItems="center" flexDirection="column" justifyContent="center" pb={7}>
-        <Box mb={5} mt={2}>
-          <ZapLogo height={60} width={60} />
-        </Box>
-
+      <Container alignItems="center" flexDirection="column" justifyContent="center" mt={3}>
         <Form
           {...rest}
           getApi={formApi => {
@@ -105,4 +99,4 @@ class BackupType extends React.Component {
   }
 }
 
-export default BackupType
+export default SetupBackup

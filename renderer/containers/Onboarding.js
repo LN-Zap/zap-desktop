@@ -36,6 +36,8 @@ import {
   lndSelectors,
 } from 'reducers/lnd'
 
+import { initBackupService, setBackupProvider } from 'reducers/backup'
+
 const mapStateToProps = state => ({
   alias: state.onboarding.alias,
   name: state.onboarding.name,
@@ -86,6 +88,8 @@ const mapDispatchToProps = {
   createWallet,
   resetOnboarding,
   unlockWallet,
+  initBackupService,
+  setBackupProvider,
 }
 
 const OnboardingContainer = connect(

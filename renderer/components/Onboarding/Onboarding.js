@@ -19,6 +19,7 @@ import {
   SeedView,
   WalletCreate,
   WalletRecover,
+  SetupBackup,
 } from './Steps'
 import messages from './messages'
 
@@ -50,6 +51,7 @@ class Onboarding extends React.Component {
     createWallet: PropTypes.func.isRequired,
     createWalletError: PropTypes.string,
     fetchSeed: PropTypes.func.isRequired,
+    initBackupService: PropTypes.func.isRequired,
     isCreatingWallet: PropTypes.bool,
     isFetchingSeed: PropTypes.bool,
     isLightningGrpcActive: PropTypes.bool,
@@ -61,6 +63,7 @@ class Onboarding extends React.Component {
     resetOnboarding: PropTypes.func.isRequired,
     seed: PropTypes.array,
     setAutopilot: PropTypes.func.isRequired,
+    setBackupProvider: PropTypes.func.isRequired,
     setConnectionCert: PropTypes.func.isRequired,
     setConnectionHost: PropTypes.func.isRequired,
     setConnectionMacaroon: PropTypes.func.isRequired,
@@ -143,6 +146,8 @@ class Onboarding extends React.Component {
       createWallet,
       stopLnd,
       unlockWallet,
+      initBackupService,
+      setBackupProvider,
     } = this.props
 
     let formSteps = []
@@ -163,6 +168,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
+          <Wizard.Step key="SetupBackup" component={SetupBackup} {...{ setBackupProvider }} />,
           <Wizard.Step
             key="WalletCreate"
             component={WalletCreate}
@@ -171,6 +177,7 @@ class Onboarding extends React.Component {
               isCreatingWallet,
               createWallet,
               createWalletError,
+              initBackupService,
             }}
           />,
         ]
@@ -186,7 +193,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
-          <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
+
           <Wizard.Step
             key="WalletRecover"
             component={WalletRecover}

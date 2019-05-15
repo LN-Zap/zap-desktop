@@ -55,9 +55,11 @@ const RadioCard = ({ fieldApi, icons, value, label, isDisabled, description, ...
       <Heading.h1 color={isDisabled ? 'gray' : 'primaryText'} mb={2} mt={3}>
         {label}
       </Heading.h1>
-      <Text color="gray" textAlign="center">
-        {description}
-      </Text>
+      {description && (
+        <Text color="gray" textAlign="center">
+          {description}
+        </Text>
+      )}
       {isSelected && (
         <Transition
           enter={{ opacity: 1 }}
@@ -83,7 +85,7 @@ const RadioCard = ({ fieldApi, icons, value, label, isDisabled, description, ...
 RadioCard.displayName = 'RadioCard'
 
 RadioCard.propTypes = {
-  description: PropTypes.object.isRequired,
+  description: PropTypes.object,
   fieldApi: PropTypes.object.isRequired,
   icons: PropTypes.object.isRequired,
   isDisabled: PropTypes.bool,
