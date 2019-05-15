@@ -13,8 +13,8 @@ import { animated, Transition } from 'react-spring/renderprops'
 
 const Card = styled(BaseCard)`
   position: relative;
-  height: 210px;
-  width: 160px;
+  height: 215px;
+  width: 170px;
   border-radius: 40px;
   padding: 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
@@ -22,17 +22,17 @@ const Card = styled(BaseCard)`
 const Container = styled(Flex)`
   cursor: pointer;
   position: relative;
-  width: 160px;
+  width: 170px;
 `
 
 const BoltContainer = styled(animated.div)`
   position: absolute;
   top: -38px;
-  left: 9px;
+  left: 12px;
 `
 
 const RadioCard = ({ fieldApi, icons, value, label, description, ...rest }) => {
-  const Icon = icons[value]
+  const { icon: Icon, width: iconWidth, height: iconHeight } = icons[value]
   const isSelected = fieldApi.getValue() === value
   return (
     <Container
@@ -44,7 +44,7 @@ const RadioCard = ({ fieldApi, icons, value, label, description, ...rest }) => {
       <Card mb={3}>
         <Flex alignItems="center" css={{ height: '100%' }} justifyContent="center">
           <Box color={isSelected ? 'lightningOrange' : 'white'}>
-            <Icon height="80px" width="80px" />
+            <Icon height={iconHeight} width={iconWidth} />
           </Box>
         </Flex>
       </Card>
@@ -69,7 +69,7 @@ const RadioCard = ({ fieldApi, icons, value, label, description, ...rest }) => {
             /* eslint-disable react/display-name */
             (styles => (
               <BoltContainer style={styles}>
-                <BoltOnboarding height="290px" width="180px" />
+                <BoltOnboarding height="295px" width="190px" />
               </BoltContainer>
             ))
           }
