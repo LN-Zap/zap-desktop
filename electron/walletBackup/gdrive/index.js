@@ -14,12 +14,25 @@ class BackupService extends EventEmitter {
     super()
   }
 
+  /**
+   * Cleans up current login. Should be called as a cleanup or before calling `login` with another credentials
+   *
+   * @memberof BackupService
+   */
   async logout() {
     const { drive } = this
     drive && drive.removeAllListeners('tokensReceived')
     this.drive = null
   }
 
+  /**
+   * Setups gdrive service for usage. This method must be called before calling any other methods
+   *
+   * @param {Object} tokens google api compliant token desc
+   * `{access_token,expiry_date,refresh_token,scope,token_type}`
+   * @returns
+   * @memberof BackupService
+   */
   async login(tokens) {
     const { redirectUrl, clientId, scope } = config.backup.gdrive
     const { drive } = this
@@ -33,20 +46,41 @@ class BackupService extends EventEmitter {
       mainLog.info('forwardEvent')
       forwardEvent(this.drive, 'tokensReceived', this)
     }
-
-    return true
   }
 
+  /**
+   * Checks if client is setup for interactions. Also tests tokens for validity
+   *
+   * @returns
+   * @memberof BackupService
+   */
   async isLoggedIn() {
     const { drive } = this
-    return await drive.testConnection()
+    return drive && (await drive.testConnection())
   }
 
+  /**
+   * Returns current access tokens
+   *
+   * @returns {Object} current tokens object or null if not logged in
+   * @memberof BackupService
+   */
   getTokens() {
     const { drive } = this
-    return drive.getTokens()
+    return drive && drive.getTokens()
   }
-  getBackupId() {}
+
+  getBackupId() {
+    throw new Error('Not implemented')
+  }
+
+  /**
+   * Loads backup for the specified wallet
+   *
+   * @param {string} walletId
+   * @returns {Buffer} wallet backup as a `Buffer`
+   * @memberof BackupService
+   */
   async loadBackup(walletId) {
     const { drive, getBackupId } = this
     const fileId = getBackupId(walletId)
@@ -57,6 +91,15 @@ class BackupService extends EventEmitter {
     return null
   }
 
+  /**
+   * Saves specified backup
+   *
+   * @param {string} walletId desired file name
+   * @param {string} fileId google drive fileID
+   * @param {Buffer} backup `Buffer` with backup data
+   * @returns {string} google drive fileID
+   * @memberof BackupService
+   */
   async saveBackup(walletId, fileId, backup) {
     const backupExists = async () => {
       try {
@@ -67,17 +110,27 @@ class BackupService extends EventEmitter {
       }
     }
     const { drive } = this
-    // if fileId is provded and backup exists - update it
-    if (fileId && (await backupExists())) {
-      await drive.updateFromBuffer(fileId, backup)
-      return fileId
+    if (drive) {
+      // if fileId is provded and backup exists - update it
+      if (fileId && (await backupExists())) {
+        await drive.updateFromBuffer(fileId, backup)
+        return fileId
+      } else {
+        // create new file
+        const { id } = await drive.uploadFromBuffer(walletId, backup)
+        return id
+      }
     } else {
-      // create new file
-      const { id } = await drive.uploadFromBuffer(walletId, backup)
-      return id
+      mainLog.warn('Attempting to call saveBackup in logged-out state')
     }
   }
 
+  /**
+   * Provider name
+   *
+   * @readonly
+   * @memberof BackupService
+   */
   get name() {
     return 'gdrive'
   }

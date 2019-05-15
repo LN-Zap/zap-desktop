@@ -34,6 +34,7 @@ function App({
   fetchPeers,
   fetchTransactions,
   setModals,
+  backupCurrentWallet,
 }) {
   /**
    * App scheduler / polling service setup. Add new app-wide polls here
@@ -75,9 +76,16 @@ function App({
     fetchActivityHistory()
     // fetch node info.
     fetchPeers()
+    backupCurrentWallet()
     // Update autopilot node scores.
     updateAutopilotNodeScores()
-  }, [fetchActivityHistory, fetchPeers, setIsWalletOpen, updateAutopilotNodeScores])
+  }, [
+    backupCurrentWallet,
+    fetchActivityHistory,
+    fetchPeers,
+    setIsWalletOpen,
+    updateAutopilotNodeScores,
+  ])
 
   // Open the pay form when a payment link is used.
   useEffect(() => {
@@ -101,6 +109,7 @@ function App({
 }
 
 App.propTypes = {
+  backupCurrentWallet: PropTypes.func.isRequired,
   fetchActivityHistory: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,

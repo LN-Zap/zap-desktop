@@ -26,14 +26,6 @@ class ZapGrpc extends EventEmitter {
     activeSubscriptions: {},
   }
 
-  static SUBSCRIPTIONS = [
-    'subscribeInvoices',
-    'subscribeChannelGraph',
-    'subscribeTransactions',
-    'subscribeGetInfo',
-    'subscribeChannelBackups',
-  ]
-
   constructor() {
     super()
 

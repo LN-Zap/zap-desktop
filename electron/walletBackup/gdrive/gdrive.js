@@ -6,7 +6,7 @@ import delay from '@zap/utils/delay'
 import * as api from './gdriveApi'
 
 /**
- *Creates google drive api connection
+ * Creates google drive api connection
  * @param {*} { clientId, authRedirectUrl, scope, tokens }
  * @returns {Object} returns {drive, accessTokens} object. `drive` represent google drive api instance
  */
@@ -51,7 +51,6 @@ async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
   }
 
   let { drive, accessTokens } = await createConnection({ clientId, authRedirectUrl, scope, tokens })
-  // mainLog.info('tokensReceived1')
   postTokensReceived(accessTokens)
 
   /**
@@ -68,12 +67,12 @@ async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
   }
 
   /**
-   * Checks if connection is health and client is ready to process requests
+   * Checks if connection is healthy and client is ready to process requests
    * @returns `true` if client is ready to interact with API `false` otherwise
    */
   async function testConnection() {
     try {
-      await api.listFiles(drive)
+      await api.listFiles(drive, { pageSize: 1 })
       return true
     } catch (e) {
       return false

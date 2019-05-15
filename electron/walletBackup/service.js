@@ -3,10 +3,11 @@ import { mainLog } from '@zap/utils/log'
 import getBackupService from './serviceFactory'
 
 export default function createBackupService(mainWindow) {
+  // helper func to send messages to the renderer process
   const send = (msg, params) => mainWindow.webContents.send(msg, params)
 
   ipcMain.on('initBackupService', async (event, { walletId, tokens, provider }) => {
-    mainLog.info('Initializing backup service powered by: %o', provider)
+    mainLog.info('Initializing backup service powered by: %s for wallet: %s', provider, walletId)
 
     const backupService = getBackupService(provider)
     if (backupService) {
