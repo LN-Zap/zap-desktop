@@ -69,7 +69,7 @@ export const backupCurrentWallet = backup => async (dispatch, getState) => {
     }
     return null
   }
-
+  // returns binary representation of channel backups as a buffer
   const getBackupBuff = backupData =>
     backupData && backupData.multi_chan_backup && backupData.multi_chan_backup.multi_chan_backup
 

@@ -85,12 +85,11 @@ function subscribeTransactions() {
   return call
 }
 /**
- * Call lnd grpc subscribeTransactions method and emit events on updates to the stream
+ * Call lnd grpc subscribeChannelBackups method and emit events on updates to the stream
  * @return {Call} Grpc Call
  */
 function subscribeChannelBackups() {
   if (this.service.subscribeChannelBackups) {
-    grpcLog.info('subscribeChannelBackups')
     const call = this.service.subscribeChannelBackups({})
     call.on('data', data => {
       grpcLog.debug('CHANNEL BACKUP: %o', data)

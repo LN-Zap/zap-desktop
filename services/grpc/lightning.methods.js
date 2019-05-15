@@ -30,6 +30,12 @@ async function getInfo(payload = {}) {
   return infoData
 }
 
+/**
+ * Checks whether specified method is present in gRPC interface
+ *
+ * @param {string} method
+ * @returns true if specified method exists withing service
+ */
 function hasMethod(method) {
   return Boolean(this.service[method])
 }
