@@ -90,7 +90,7 @@ function subscribeTransactions() {
  */
 function subscribeChannelBackups() {
   if (this.service.subscribeChannelBackups) {
-    grpcLog.info('subscribeInvoices')
+    grpcLog.info('subscribeChannelBackups')
     const call = this.service.subscribeChannelBackups({})
     call.on('data', data => {
       grpcLog.debug('CHANNEL BACKUP: %o', data)

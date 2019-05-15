@@ -30,6 +30,10 @@ async function getInfo(payload = {}) {
   return infoData
 }
 
+function hasMethod(method) {
+  return Boolean(this.service[method])
+}
+
 /**
  * Estimates on-chain fee.
  * @param {string} address
@@ -329,4 +333,5 @@ export default {
   closeChannel,
   sendPayment,
   estimateFee,
+  hasMethod,
 }
