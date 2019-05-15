@@ -7,6 +7,7 @@ class WalletCreate extends React.Component {
     clearCreateWalletError: PropTypes.func.isRequired,
     createWallet: PropTypes.func.isRequired,
     createWalletError: PropTypes.string,
+    initBackupService: PropTypes.func.isRequired,
     isCreatingWallet: PropTypes.bool,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
@@ -38,9 +39,13 @@ class WalletCreate extends React.Component {
     clearCreateWalletError()
   }
 
-  handleSubmit = () => {
-    const { createWallet } = this.props
-    createWallet()
+  handleSubmit = async () => {
+    const { createWallet, initBackupService } = this.props
+    // wait until wallet creation is complete to obtain id
+    const config = await createWallet()
+    if (config) {
+      initBackupService(config.id)
+    }
   }
 
   setFormApi = formApi => {
@@ -55,6 +60,7 @@ class WalletCreate extends React.Component {
       clearCreateWalletError,
       createWalletError,
       isCreatingWallet,
+      initBackupService,
       ...rest
     } = this.props
     const { getApi, onChange, onSubmitFailure } = wizardApi
