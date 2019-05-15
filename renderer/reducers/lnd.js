@@ -12,6 +12,45 @@ import { receiveChannelGraphData } from './channels'
 import { receiveTransactionData } from './transaction'
 
 // ------------------------------------
+// Helpers
+// ------------------------------------
+
+const handleLndStartError = (e, lndConfig) => {
+  // Add more detail where we can.
+  if (e.message === 'Failed to connect before the deadline') {
+    e.message += `. Please ensure that lnd's gRPC interface is listening
+    and contactable ${lndConfig && lndConfig.host && `at "${lndConfig.host}"`}
+    and that your TLS certificate is valid for this host.`
+  }
+
+  // Error messages to help identify certain type of errors.
+  const MACAROON_ERROR_MESSAGES = [
+    'cannot determine data format of binary-encoded macaroon',
+    'verification failed: signature mismatch after caveat verification',
+    'unmarshal v2: section extends past end of buffer',
+  ]
+
+  // Try to figure out and categorize the error.
+  const errors = {}
+  if (e.code === 'LND_GRPC_HOST_ERROR') {
+    errors.host = e.message
+  }
+  // There was a problem accessing the ssl cert.
+  else if (e.code === 'LND_GRPC_CERT_ERROR') {
+    errors.cert = e.message
+  }
+  // There was a problem accessing the macaroon file.
+  else if (e.code === 'LND_GRPC_MACAROON_ERROR' || MACAROON_ERROR_MESSAGES.includes(e.message)) {
+    errors.macaroon = e.message
+  }
+  // Other error codes most likely indicate that there is a problem with the host.
+  else {
+    errors.host = `Unable to connect to host: ${e.details || e.message}`
+  }
+  return errors
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 
@@ -137,8 +176,9 @@ export const startActiveWallet = () => async (dispatch, getState) => {
  * @param  {Object} wallet Wallet config
  */
 export const startLnd = wallet => async dispatch => {
+  let lndConfig
   try {
-    const lndConfig = await dispatch(generateLndConfigFromWallet(wallet))
+    lndConfig = await dispatch(generateLndConfigFromWallet(wallet))
 
     // Tell the main process to start lnd using the supplied connection details.
     dispatch({ type: START_LND, lndConfig })
@@ -154,7 +194,8 @@ export const startLnd = wallet => async dispatch => {
 
     dispatch(lndStarted())
   } catch (e) {
-    dispatch(startLndError({ host: e.message }))
+    const errors = handleLndStartError(e, lndConfig)
+    dispatch(startLndError(errors))
     await dispatch(stopLnd())
     return Promise.reject(e)
   }
