@@ -20,7 +20,7 @@ const Card = styled(BaseCard)`
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 `
 const Container = styled(Flex)`
-  cursor: pointer;
+  cursor: ${props => (props.isDisabled ? 'auto' : 'pointer')};
   position: relative;
   width: 170px;
 `
@@ -31,7 +31,7 @@ const BoltContainer = styled(animated.div)`
   left: 12px;
 `
 
-const RadioCard = ({ fieldApi, icons, value, label, description, ...rest }) => {
+const RadioCard = ({ fieldApi, icons, value, label, isDisabled, description, ...rest }) => {
   const { icon: Icon, width: iconWidth, height: iconHeight } = icons[value]
   const isSelected = fieldApi.getValue() === value
   return (
@@ -39,7 +39,8 @@ const RadioCard = ({ fieldApi, icons, value, label, description, ...rest }) => {
       alignItems="center"
       flexDirection="column"
       {...rest}
-      onClick={() => fieldApi.setValue(value)}
+      isDisabled={isDisabled}
+      onClick={() => !isDisabled && fieldApi.setValue(value)}
     >
       <Card mb={3}>
         <Flex alignItems="center" css={{ height: '100%' }} justifyContent="center">
@@ -49,9 +50,9 @@ const RadioCard = ({ fieldApi, icons, value, label, description, ...rest }) => {
         </Flex>
       </Card>
 
-      <Radio px={0} value={value} width={16} />
+      <Radio isDisabled={isDisabled} px={0} value={value} width={16} />
 
-      <Heading.h1 mb={2} mt={3}>
+      <Heading.h1 color={isDisabled ? 'gray' : 'primaryText'} mb={2} mt={3}>
         {label}
       </Heading.h1>
       <Text color="gray" textAlign="center">
@@ -85,6 +86,7 @@ RadioCard.propTypes = {
   description: PropTypes.object.isRequired,
   fieldApi: PropTypes.object.isRequired,
   icons: PropTypes.object.isRequired,
+  isDisabled: PropTypes.bool,
   label: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
 }
