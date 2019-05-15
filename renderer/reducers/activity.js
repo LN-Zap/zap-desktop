@@ -1,6 +1,5 @@
 import { createSelector } from 'reselect'
-import { decodePayReq } from '@zap/utils/crypto'
-
+import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
 import { openModal, closeModal } from './modal'
 import { fetchDescribeNetwork } from './network'
 import { fetchTransactions, transactionsSelectors } from './transaction'
@@ -30,6 +29,20 @@ const initialState = {
   showExpiredRequests: false,
   isActivityLoading: false,
   activityLoadingError: null,
+}
+
+// ------------------------------------
+// Helpers
+// ------------------------------------
+
+/**
+ * Check wether a prop exists and contains a given search string.
+ * @param  {string}  prop Prop name
+ * @return {boolean} Boolean indicating if the prop was found and contains the search string.
+ */
+const propMatches = function(prop) {
+  const { item, searchText } = this
+  return item[prop] && item[prop].includes(searchText)
 }
 
 // ------------------------------------
@@ -141,11 +154,27 @@ const transactionsSelector = state => transactionsSelectors.transactionsSelector
 const transactionsSendingSelector = state => state.transaction.transactionsSending
 const modalItemTypeSelector = state => state.activity.modal.itemType
 const modalItemIdSelector = state => state.activity.modal.itemId
+const nodesSelector = state => state.network.nodes
 
 const invoiceExpired = invoice => {
   const expiresAt = parseInt(invoice.creation_date, 10) + parseInt(invoice.expiry, 10)
   return expiresAt < Math.round(new Date() / 1000)
 }
+
+/**
+ * Augment payments with additional data.
+ */
+const decoratedPaymentsSelector = createSelector(
+  paymentsSelector,
+  nodesSelector,
+  (payments, nodes) =>
+    payments.map(payment => {
+      const destPubKey = payment.path && payment.path[payment.path.length - 1]
+      payment.dest_node_pubkey = destPubKey ? destPubKey : null
+      payment.dest_node_alias = destPubKey ? getNodeAlias(destPubKey, nodes) : null
+      return payment
+    })
+)
 
 /**
  * Map sending payments to something that looks like normal payments.
@@ -191,7 +220,7 @@ const transactionsSending = createSelector(
 )
 
 activitySelectors.activityModalItem = createSelector(
-  paymentsSelector,
+  decoratedPaymentsSelector,
   invoicesSelector,
   transactionsSelector,
   modalItemTypeSelector,
@@ -273,15 +302,35 @@ function groupAll(data) {
     }, [])
 }
 
+/**
+ * Filter activity list by checking various properties against a given search string.
+ * @param  {Array}  data Activity item list
+ * @param  {string} searchText Search text
+ * @return {Array}  Filtered activity list
+ */
 const applySearch = (data, searchText) => {
-  return searchText
-    ? data.filter(
-        item =>
-          (item.tx_hash && item.tx_hash.includes(searchText)) ||
-          (item.payment_hash && item.payment_hash.includes(searchText)) ||
-          (item.payment_request && item.payment_request.includes(searchText))
-      )
-    : data
+  if (!searchText) {
+    return data
+  }
+
+  return data.filter(item => {
+    // Check basic props for a match.
+    const hasPropMatch = [
+      'tx_hash',
+      'payment_hash',
+      'payment_preimage',
+      'payment_request',
+      'dest_node_pubkey',
+      'dest_node_alias',
+    ].some(propMatches, { item, searchText })
+
+    // Check every destination address.
+    const hasAddressMatch =
+      item.dest_addresses && item.dest_addresses.find(addr => addr.includes(searchText))
+
+    // Include the item if at least one search critera matches.
+    return hasPropMatch || hasAddressMatch
+  })
 }
 
 const prepareData = (data, searchText) => {
@@ -292,7 +341,7 @@ const allActivity = createSelector(
   searchSelector,
   paymentsSending,
   transactionsSending,
-  paymentsSelector,
+  decoratedPaymentsSelector,
   transactionsSelector,
   invoicesSelector,
   (searchText, paymentsSending, transactionsSending, payments, transactions, invoices) => {
@@ -313,7 +362,7 @@ const sentActivity = createSelector(
   searchSelector,
   paymentsSending,
   transactionsSending,
-  paymentsSelector,
+  decoratedPaymentsSelector,
   transactionsSelector,
   (searchText, paymentsSending, transactionsSending, payments, transactions) => {
     const allData = [
