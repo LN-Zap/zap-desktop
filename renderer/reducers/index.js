@@ -27,6 +27,7 @@ import notification from './notification'
 import settings from './settings'
 import settingsmenu from './settingsmenu'
 import wallet from './wallet'
+import backup from './backup'
 
 export default history => {
   const appReducer = combineReducers({
@@ -43,6 +44,7 @@ export default history => {
     autopay,
     autopilot,
     balance,
+    backup,
     channels,
     contactsform,
     info,
