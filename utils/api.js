@@ -1,4 +1,5 @@
 import axios from 'axios'
+import renameKeys from '@zap/utils/renameKeys'
 import { mainLog } from '@zap/utils/log'
 
 // When running in development/hot mode we load the renderer js code via webpack dev server, and it is from there that
@@ -72,5 +73,12 @@ export function requestFees() {
   return axios({
     method: 'get',
     url: BASE_URL,
-  }).then(response => response.data)
+  }).then(response => {
+    const keysMap = {
+      fastestFee: 'fast',
+      halfHourFee: 'medium',
+      hourFee: 'slow',
+    }
+    return renameKeys(keysMap, response.data)
+  })
 }

@@ -130,9 +130,9 @@ const initialState = {
   isQueryingRoutes: false,
   isQueryingFees: false,
   onchainFees: {
-    fastestFee: null,
-    halfHourFee: null,
-    hourFee: null,
+    fast: null,
+    medium: null,
+    slow: null,
   },
   payReq: null,
   pubKey: null,

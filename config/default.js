@@ -124,8 +124,8 @@ module.exports = {
   // number of onchain confirmations for the specified periods
   // potentially needs multiple chain support (LTC)
   lndTargetConfirmations: {
-    fastestConfCount: 1,
-    halfHourConfCount: 3,
-    hourConfCount: 6,
+    fast: 1,
+    medium: 3,
+    slow: 6,
   },
 }

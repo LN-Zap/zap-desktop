@@ -21,13 +21,10 @@ export default defineMessages({
   address_description: 'Your preferred address format.',
   address_option_p2wkh: 'Bech 32',
   address_option_np2wkh: 'Wrapped Bech 32',
-  lndTargetConfirmations_hourConfCount_label: 'Target confs (slow).',
-  lndTargetConfirmations_hourConfCount_description:
-    'Number of blocks to target for "slow" transactions',
-  lndTargetConfirmations_halfHourConfCount_label: 'Target confs (medium).',
-  lndTargetConfirmations_halfHourConfCount_description:
-    'Number of blocks to target for "medium" transactions',
-  lndTargetConfirmations_fastestConfCount_label: 'Target confs (fast).',
-  lndTargetConfirmations_fastestConfCount_description:
-    'Number of blocks to target for "fast" transactions',
+  lndTargetConfirmations_slow_label: 'Target confs (slow).',
+  lndTargetConfirmations_slow_description: 'Number of blocks to target for "slow" transactions',
+  lndTargetConfirmations_medium_label: 'Target confs (medium).',
+  lndTargetConfirmations_medium_description: 'Number of blocks to target for "medium" transactions',
+  lndTargetConfirmations_fast_label: 'Target confs (fast).',
+  lndTargetConfirmations_fast_description: 'Number of blocks to target for "fast" transactions',
 })

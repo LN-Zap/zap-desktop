@@ -15,9 +15,9 @@ const data = {
   walletBalanceUnconfirmed: 10002345,
   channelBalance: 25000,
   onchainFees: {
-    fastestFee: 100,
-    halfHourFee: 70,
-    hourFee: 30,
+    fast: 100,
+    medium: 70,
+    slow: 30,
   },
 
   nodes: [

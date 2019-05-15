@@ -182,11 +182,11 @@ const Settings = ({
       <Bar variant="light" />
 
       <DataRow
-        left={<FieldLabel itemKey="lndTargetConfirmations.fastestConfCount" />}
+        left={<FieldLabel itemKey="lndTargetConfirmations.fast" />}
         right={
           <NumberField
-            field="lndTargetConfirmations.fastestConfCount"
-            initialValue={currentConfig.lndTargetConfirmations.fastestConfCount}
+            field="lndTargetConfirmations.fast"
+            initialValue={currentConfig.lndTargetConfirmations.fast}
           />
         }
       />
@@ -194,11 +194,11 @@ const Settings = ({
       <Bar variant="light" />
 
       <DataRow
-        left={<FieldLabel itemKey="lndTargetConfirmations.halfHourConfCount" />}
+        left={<FieldLabel itemKey="lndTargetConfirmations.medium" />}
         right={
           <NumberField
-            field="lndTargetConfirmations.halfHourConfCount"
-            initialValue={currentConfig.lndTargetConfirmations.halfHourConfCount}
+            field="lndTargetConfirmations.medium"
+            initialValue={currentConfig.lndTargetConfirmations.medium}
           />
         }
       />
@@ -206,11 +206,11 @@ const Settings = ({
       <Bar variant="light" />
 
       <DataRow
-        left={<FieldLabel itemKey="lndTargetConfirmations.hourConfCount" />}
+        left={<FieldLabel itemKey="lndTargetConfirmations.slow" />}
         right={
           <NumberField
-            field="lndTargetConfirmations.hourConfCount"
-            initialValue={currentConfig.lndTargetConfirmations.hourConfCount}
+            field="lndTargetConfirmations.slow"
+            initialValue={currentConfig.lndTargetConfirmations.slow}
           />
         }
       />

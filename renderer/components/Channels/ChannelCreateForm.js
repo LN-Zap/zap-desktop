@@ -96,9 +96,9 @@ class ChannelCreateForm extends React.Component {
     intl: intlShape.isRequired,
     isQueryingFees: PropTypes.bool,
     onchainFees: PropTypes.shape({
-      fastestFee: PropTypes.number,
-      halfHourFee: PropTypes.number,
-      hourFee: PropTypes.number,
+      fast: PropTypes.number,
+      medium: PropTypes.number,
+      slow: PropTypes.number,
     }),
     onSubmit: PropTypes.func.isRequired,
     openChannel: PropTypes.func.isRequired,
@@ -145,11 +145,11 @@ class ChannelCreateForm extends React.Component {
 
     switch (speed) {
       case TRANSACTION_SPEED_SLOW:
-        return get(onchainFees, 'hourFee', null)
+        return get(onchainFees, 'slow', null)
       case TRANSACTION_SPEED_MEDIUM:
-        return get(onchainFees, 'halfHourFee', null)
+        return get(onchainFees, 'medium', null)
       case TRANSACTION_SPEED_FAST:
-        return get(onchainFees, 'fastestFee', null)
+        return get(onchainFees, 'fast', null)
     }
   }
 

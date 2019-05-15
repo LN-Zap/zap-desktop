@@ -38,7 +38,7 @@ export async function estimateLndFee(address, amount, targetConf) {
 
 /**
  * Returns fee estimation for the specified range
- * Expected range format is {fastestConfCount, halfHourConfCount, hourConfCount}
+ * Expected range format is {fast, medium, slow}
  * Fee estimation is based on LND endpoint. If it's unavailable then @fallback is used
  * @export
  * @param {*} { address, amountInSats, range, asRate = true, fallback = requestFees }
@@ -56,15 +56,15 @@ export async function estimateFeeRange({
     return fallback()
   }
 
-  const { fastestConfCount, halfHourConfCount, hourConfCount } = range
-  const [fastestFee, halfHourFee, hourFee] = await Promise.all([
-    estimateLndFee(address, amountInSats, fastestConfCount),
-    estimateLndFee(address, amountInSats, halfHourConfCount),
-    estimateLndFee(address, amountInSats, hourConfCount),
+  const { fast, medium, slow } = range
+  const [fastestFee, mediumFee, slowFee] = await Promise.all([
+    estimateLndFee(address, amountInSats, fast),
+    estimateLndFee(address, amountInSats, medium),
+    estimateLndFee(address, amountInSats, slow),
   ])
 
   // check if we have at least one estimate and fill the gap with fallback values otherwise
-  const fallbackFees = !fastestFee || !halfHourFee || !hourFee ? await fallback() : {}
+  const fallbackFees = !fastestFee || !mediumFee || !slowFee ? await fallback() : {}
 
   // extracts fee from a lnd grpc response
   const getFee = feeObj => {
@@ -77,9 +77,9 @@ export async function estimateFeeRange({
   // try to use any info from the gRPC call if it's available
   return merge(
     {
-      fastestFee: getFee(fastestFee),
-      halfHourFee: getFee(halfHourFee),
-      hourFee: getFee(hourFee),
+      fast: getFee(fastestFee),
+      medium: getFee(mediumFee),
+      slow: getFee(slowFee),
     },
     fallbackFees
   )
