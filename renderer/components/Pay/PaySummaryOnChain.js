@@ -24,9 +24,9 @@ class PaySummaryOnChain extends React.Component {
     isQueryingFees: PropTypes.bool,
     /** Current fee information as provided by bitcoinfees.earn.com */
     onchainFees: PropTypes.shape({
-      fastestFee: PropTypes.number,
-      halfHourFee: PropTypes.number,
-      hourFee: PropTypes.number,
+      fast: PropTypes.number,
+      medium: PropTypes.number,
+      slow: PropTypes.number,
     }),
     /** Method to fetch fee information for onchain transactions. */
     queryFees: PropTypes.func.isRequired,
