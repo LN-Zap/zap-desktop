@@ -1,11 +1,8 @@
 import EventEmitter from 'events'
 import config from 'config'
+import { forwardEvent } from '@zap/utils/events'
 import { mainLog } from '@zap/utils/log'
 import createClient from './gdrive'
-
-export function forwardEvent(service, event, target) {
-  service.on(event, data => target.emit(event, data))
-}
 
 class BackupService extends EventEmitter {
   drive = null
