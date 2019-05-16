@@ -300,12 +300,20 @@ export const setWalletUnlockerGrpcActive = () => ({
  */
 export const unlockWallet = password => async dispatch => {
   dispatch({ type: UNLOCK_WALLET })
+  let waitForState
   try {
     const grpc = await grpcService
+    waitForState = await grpc.waitForState('active')
     await grpc.services.WalletUnlocker.unlockWallet({ wallet_password: Buffer.from(password) })
+    await waitForState.isDone
     dispatch(walletUnlocked())
-  } catch (e) {
-    dispatch(setUnlockWalletError(e.message))
+  } catch (error) {
+    // Remove Lightning gRPC activation listener.
+    if (waitForState) {
+      await waitForState.cancel()
+    }
+    // Notify of wallet unlock failure.
+    dispatch(setUnlockWalletError(error.message))
   }
 }
 
