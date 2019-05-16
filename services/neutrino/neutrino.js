@@ -427,14 +427,18 @@ class Neutrino extends EventEmitter {
         this.notifyOnSyncStarted(line)
       }
 
-      // Listen for things that indicate sync progress.
-      if (
-        this.is(NEUTRINO_CHAIN_SYNC_WAITING) ||
-        this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS) ||
-        this.is(NEUTRINO_WALLET_RECOVERY_IN_PROGRESS)
-      ) {
-        this.notifyOnSyncProgress(line)
+      // Listen for things that will move us into the recovery state.
+      if (this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)) {
         this.notifyOnRecoveryStarted(line)
+      }
+
+      // Listen for things that indicate sync progress.
+      if (this.is(NEUTRINO_CHAIN_SYNC_WAITING) || this.is(NEUTRINO_CHAIN_SYNC_IN_PROGRESS)) {
+        this.notifyOnSyncProgress(line)
+      }
+
+      // Listen for things that indicate recovery progress.
+      if (this.is(NEUTRINO_WALLET_RECOVERY_IN_PROGRESS)) {
         this.notifyOnRecoveryProgress(line)
       }
     })
@@ -488,13 +492,14 @@ class Neutrino extends EventEmitter {
   }
 
   /**
-   * Update state if log line indicates synbc has started.
+   * Update state if log line indicates sync has started.
    * @param  {String} line log output line
    */
   notifyOnSyncStarted(line) {
     const match =
       line.match(/Syncing to block height (\d+)/) ||
       line.match(/Starting cfilters sync at block_height=(\d+)/) ||
+      line.match(/Starting cfheaders sync from \(block_height=(\d+)/) ||
       line.includes('Waiting for chain backend to finish sync') ||
       line.includes('Waiting for block headers to sync, then will start cfheaders sync') ||
       line.includes('Starting rescan from known block')
@@ -514,12 +519,8 @@ class Neutrino extends EventEmitter {
    * @param  {String} line log output line
    */
   notifyOnRecoveryStarted(line) {
-    const match = line.match(/starting recovery of wallet from height=(\d+)/)
-
-    if (match) {
+    if (line.includes('RECOVERY MODE ENABLED')) {
       this.setState(NEUTRINO_WALLET_RECOVERY_IN_PROGRESS)
-      const recoveryHeight = match[1]
-      this.setNeutrinoRecoveryHeight(recoveryHeight)
     }
   }
 
@@ -601,7 +602,9 @@ class Neutrino extends EventEmitter {
   getCfilterIncrement(line) {
     let match, cfilter
 
-    if ((match = line.match(/Got cfheaders from height=(\d*) to height=(\d+)/))) {
+    if ((match = line.match(/Starting cfheaders sync from \(block_height=(\d+)/))) {
+      cfilter = match[1]
+    } else if ((match = line.match(/Got cfheaders from height=(\d*) to height=(\d+)/))) {
       cfilter = match[2]
     } else if ((match = line.match(/Writing filter headers up to height=(\d*)/))) {
       cfilter = match[1]
