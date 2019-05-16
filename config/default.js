@@ -119,4 +119,13 @@ module.exports = {
     halfHourConfCount: 3,
     hourConfCount: 6,
   },
+
+  backup: {
+    gdrive: {
+      redirectUrl:
+        'com.zap.backup:com.googleusercontent.apps.495822519525-hjpegnbi493ebcrg4t8e7nfa8c3orr4m',
+      clientId: '495822519525-hjpegnbi493ebcrg4t8e7nfa8c3orr4m.apps.googleusercontent.com',
+      scope: 'https://www.googleapis.com/auth/drive.file',
+    },
+  },
 }
