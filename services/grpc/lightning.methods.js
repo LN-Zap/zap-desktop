@@ -89,11 +89,11 @@ async function getChannels() {
 async function createInvoice(payload) {
   const invoice = await this.addInvoice(payload)
   const decodedInvoice = await this.decodePayReq({ pay_req: invoice.payment_request })
-
   return {
     ...decodedInvoice,
     memo: payload.memo,
     value: payload.value,
+    private: payload.private,
     r_hash: Buffer.from(invoice.r_hash, 'hex').toString('hex'),
     payment_request: invoice.payment_request,
     creation_date: Date.now() / 1000,

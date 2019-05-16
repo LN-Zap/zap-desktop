@@ -371,6 +371,8 @@
   "components.Request.paid": "Plaćeno",
   "components.Request.payment_request": "Zahtjev za plaćanje",
   "components.Request.qrcode": "QR-kod",
+  "components.Request.routing_hints_label": "",
+  "components.Request.routing_hints_tooltip": "",
   "components.Request.status": "Stanje zahtjeva",
   "components.Request.subtitle": "kroz LN mrežu",
   "components.Request.title": "Zahtjev za plaćanjem",

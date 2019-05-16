@@ -371,6 +371,8 @@
   "components.Request.paid": "Pagado",
   "components.Request.payment_request": "Solicitud de Pago",
   "components.Request.qrcode": "Codigo-QR",
+  "components.Request.routing_hints_label": "",
+  "components.Request.routing_hints_tooltip": "",
   "components.Request.status": "Estado de solicitud",
   "components.Request.subtitle": "a través de la red Lightning",
   "components.Request.title": "Solicitud de Pago",

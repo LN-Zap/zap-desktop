@@ -12,6 +12,8 @@ export default defineMessages({
   total: 'Total',
   memo: 'Memo',
   memo_placeholder: 'For example "Dinner last night"',
+  routing_hints_label: 'Include routing hints',
+  routing_hints_tooltip: 'Whether this invoice should include routing hints for private channels.',
   memo_tooltip:
     'Add some describer text to your payment request for the recipient to see when paying.',
   not_paid: 'not paid',

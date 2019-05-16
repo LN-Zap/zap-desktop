@@ -371,6 +371,8 @@
   "components.Request.paid": "paid",
   "components.Request.payment_request": "Payment Request",
   "components.Request.qrcode": "QR-Code",
+  "components.Request.routing_hints_label": "Include routing hints",
+  "components.Request.routing_hints_tooltip": "Whether this invoice should include routing hints for private channels.",
   "components.Request.status": "Request Status",
   "components.Request.subtitle": "through the Lightning Network",
   "components.Request.title": "Request",
