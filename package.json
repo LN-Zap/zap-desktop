@@ -336,6 +336,7 @@
     "downshift": "3.2.10",
     "electron-is-dev": "1.1.0",
     "get-port": "5.0.0",
+    "googleapis": "40.0.0",
     "history": "4.9.0",
     "informed": "2.6.14",
     "is-electron-renderer": "2.0.1",
