@@ -4,6 +4,7 @@ import { proxyValue } from 'comlinkjs'
 import { status } from '@grpc/grpc-js'
 import LndGrpc from 'lnd-grpc'
 import { grpcLog } from '@zap/utils/log'
+import delay from '@zap/utils/delay'
 import lightningMethods from './lightning.methods'
 import lightningSubscriptions from './lightning.subscriptions'
 import { forwardAll, unforwardAll } from './helpers'
@@ -104,14 +105,13 @@ class ZapGrpc extends EventEmitter {
   subscribeAll() {
     this.subscribe('invoices', 'transactions', 'info')
 
-    // subscribe to graph updates only after sync is complete
-    // this is needed because LND chanRouter waits for chain sync
-    // to complete before accepting subscriptions.
-    this.on('subscribeGetInfo.data', data => {
+    // Subscribe to graph updates only after sync is complete. This is needed because LND chanRouter waits for chain
+    // sync to complete before accepting subscriptions.
+    this.on('subscribeGetInfo.data', async data => {
       const { synced_to_chain } = data
       if (synced_to_chain && !this.activeSubscriptions.channelgraph) {
-        this.subscribe('channelgraph')
         this.unsubscribe('info')
+        this.subscribeChannelGraph()
       }
     })
   }
@@ -247,6 +247,42 @@ class ZapGrpc extends EventEmitter {
     const waitForCert = type === 'local'
 
     return { host, cert, macaroon, waitForMacaroon, waitForCert, useMacaroon, protoDir }
+  }
+
+  /**
+   * async subscribeChannelGraph - Set up subscription to the channel graph stream.
+   *
+   * There is no guarentee that it is ready yet as it can take time for lnd to start it once chain sync has finished
+   * so set up a schedular to keep retrying until it works.
+   */
+  subscribeChannelGraph() {
+    const backoff = 2
+    const maxTimeout = 1000 * 60
+    let timeout = 250
+
+    const initSubscription = async () => {
+      if (this.grpc.state !== 'active') {
+        return
+      }
+
+      this.subscribe('channelgraph')
+
+      // If the channel graph subscription fails to start, try again in a bit.
+      if (this.activeSubscriptions.channelgraph) {
+        this.activeSubscriptions.channelgraph.once('error', async error => {
+          if (error.message === 'router not started') {
+            grpcLog.warn('Unable to subscribe to channelgraph. Will try again in %sms', timeout)
+            await delay(timeout)
+            initSubscription()
+            if (timeout <= maxTimeout) {
+              timeout = Math.min(timeout * backoff, maxTimeout)
+            }
+          }
+        })
+      }
+    }
+
+    initSubscription()
   }
 }
 
