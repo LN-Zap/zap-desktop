@@ -161,6 +161,7 @@ export const getDb = name => {
     autopilotMaxchansize: Number,
     autopilotPrivate: Boolean,
     autopilotMinconfs: Number,
+    backup: Object,
   })
 
   // Strip out all unknown properties on create.

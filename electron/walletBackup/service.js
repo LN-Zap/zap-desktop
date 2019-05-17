@@ -8,9 +8,8 @@ export default function createBackupService(mainWindow) {
 
   ipcMain.on('initBackupService', async (event, { walletId, tokens, provider }) => {
     mainLog.info('Initializing backup service powered by: %s for wallet: %s', provider, walletId)
-
-    const backupService = getBackupService(provider)
-    if (backupService) {
+    try {
+      const backupService = getBackupService(provider)
       // cleanup existing instance if any
       backupService.logout()
       const handleTokensReceived = tokens => {
@@ -20,7 +19,7 @@ export default function createBackupService(mainWindow) {
           provider: backupService.name,
           walletId,
         })
-        mainLog.info('Tokens received %o: ', tokens)
+        mainLog.info('Tokens received: %o', tokens)
       }
       // re-subscribe for token updates
       backupService.removeAllListeners('tokensReceived')
@@ -28,6 +27,8 @@ export default function createBackupService(mainWindow) {
 
       await backupService.login(tokens)
       send('backupServiceInitialized', { walletId, provider })
+    } catch (e) {
+      mainLog.warn('Unable to initialize backup service: %o', e)
     }
   })
 
@@ -42,8 +43,8 @@ export default function createBackupService(mainWindow) {
             backupMetadata && backupMetadata.backupId,
             backup
           )
-          mainLog.info('Backup updated. GDrive fileID: %o', backupId)
-          mainWindow.webContents.send('backupSaveSuccess', {
+          mainLog.info('Backup updated. GDrive fileID: %s', backupId)
+          send('saveBackupSuccess', {
             backupId,
             provider: backupService.name,
             walletId,
@@ -51,8 +52,8 @@ export default function createBackupService(mainWindow) {
           mainLog.info(`saveBackup ${walletId} ${nodePub}`)
         }
       } catch (e) {
-        mainLog.warn('Unable to backup wallet %o: ', e)
-        mainWindow.webContents.send('backupSaveError')
+        mainLog.warn('Unable to backup wallet: %o', e)
+        mainWindow.webContents.send('saveBackupError')
       }
     }
   )
