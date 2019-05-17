@@ -6,11 +6,6 @@ import createClient from './gdrive'
 
 class BackupService extends EventEmitter {
   drive = null
-
-  constructor() {
-    super()
-  }
-
   /**
    * Cleans up current login. Should be called as a cleanup or before calling `login` with another credentials
    *
@@ -40,7 +35,6 @@ class BackupService extends EventEmitter {
         scope,
         tokens,
       })
-      mainLog.info('forwardEvent')
       forwardEvent(this.drive, 'tokensReceived', this)
     }
   }

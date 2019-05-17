@@ -1,3 +1,4 @@
+import set from 'lodash.set'
 import { send } from 'redux-electron-ipc'
 import { grpcService } from 'workers'
 import { walletSelectors } from './wallet'
@@ -5,21 +6,23 @@ import { infoSelectors } from './info'
 
 const SET_PROVIDER = 'SET_PROVIDER'
 
-const getDbRec = async walletId => await window.db.backup.get(walletId)
+const dbGet = async walletId => {
+  const wallet = await window.db.wallets.get(walletId)
+  return wallet && wallet.backup
+}
+
 /**
  * Convenience wrapper that tries to update existing DB record and if fails insert new one
+ *
  * @param {string} walletId
  * @param {Object} update
  */
-const setDbRec = async (walletId, update) => {
-  const updated = await window.db.backup.update(walletId, update)
-  if (updated === 0) {
-    try {
-      await window.db.backup.add({ id: walletId, ...update })
-    } catch (e) {
-      // Do nothing if there was an error - this indicates that the item already exists and was unchanged.
-    }
-  }
+const dbUpdate = async (walletId, update) => {
+  return await window.db.wallets.update(walletId, { backup: update })
+}
+
+const dbTransaction = operation => {
+  return window.db.transaction('rw', window.db.wallets, operation)
 }
 
 /**
@@ -29,11 +32,14 @@ const setDbRec = async (walletId, update) => {
  * @param {*} event
  * @param {*} { provider, tokens, walletId }
  */
-export async function backupTokensUpdated(event, { provider, tokens, walletId }) {
-  const backupDesc = (await getDbRec(walletId)) || {}
-  await setDbRec(walletId, {
-    [provider]: { ...backupDesc[provider], tokens },
-  })
+export function backupTokensUpdated(event, { provider, tokens, walletId }) {
+  return async () => {
+    await dbTransaction(async () => {
+      const backupDesc = (await dbGet(walletId)) || {}
+      set(backupDesc, [provider, 'tokens'], tokens)
+      await dbUpdate(walletId, backupDesc)
+    })
+  }
 }
 
 /**
@@ -50,7 +56,7 @@ export function initBackupService(walletId, forceUseTokens = false) {
     const wId = walletId || walletSelectors.activeWallet(getState())
     // returns backup service startup params based on serialized data availability
     const getServiceParams = async () => {
-      const backupDesc = await getDbRec(wId)
+      const backupDesc = await dbGet(wId)
       // attempt to initialize backup service with stored tokens
       if (backupDesc) {
         const { activeProvider } = backupDesc
@@ -76,7 +82,7 @@ export function initBackupService(walletId, forceUseTokens = false) {
 /**
  * Backs up current active wallet
  */
-export const backupCurrentWallet = backup => async (dispatch, getState) => {
+export const backupCurrentWallet = (walletId, backup) => async (dispatch, getState) => {
   const getFreshBackup = async () => {
     const grpc = await grpcService
     if (await grpc.services.Lightning.hasMethod('exportAllChannelBackups')) {
@@ -90,13 +96,12 @@ export const backupCurrentWallet = backup => async (dispatch, getState) => {
 
   try {
     const state = getState()
-    const walletId = walletSelectors.activeWallet(state)
     // there is not current active wallet
     if (!walletId) {
       return
     }
     const nodePub = infoSelectors.nodePub(state)
-    const { activeProvider, ...rest } = (await getDbRec(walletId)) || {}
+    const { activeProvider, ...rest } = (await dbGet(walletId)) || {}
     if (activeProvider) {
       const backupData = backup || (await getFreshBackup())
       if (backupData) {
@@ -113,25 +118,33 @@ export const backupCurrentWallet = backup => async (dispatch, getState) => {
       }
     }
   } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn(e)
     // TODO: add notification that backup has failed and user attention may be required
   }
 }
 
-export const backupSaveSuccess = async (event, { provider, backupId, walletId }) => {
-  const backupDesc = (await getDbRec(walletId)) || {}
-  await setDbRec(walletId, {
-    [provider]: { ...backupDesc[provider], backupId },
+export const saveBackupSuccess = (event, { provider, backupId, walletId }) => async () => {
+  await dbTransaction(async () => {
+    const backupDesc = (await dbGet(walletId)) || {}
+    set(backupDesc, [provider, 'backupId'], backupId)
+    await dbUpdate(walletId, backupDesc)
   })
 }
+
 /**
  * IPC callback for backup service being ready
  */
 export const backupServiceInitialized = (event, { walletId, provider }) => async dispatch => {
-  await setDbRec(walletId, {
-    activeProvider: provider,
+  await dbTransaction(async () => {
+    const backupDesc = (await dbGet(walletId)) || {}
+    backupDesc.activeProvider = provider
+    await dbUpdate(walletId, backupDesc)
   })
-  dispatch(backupCurrentWallet())
+
+  dispatch(backupCurrentWallet(walletId))
 }
+
 /**
  * Set
  * @param {('gdrive'|'local'|'dropbox')} provider - backup service provider to be used in `initBackupService` call

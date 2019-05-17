@@ -103,7 +103,9 @@ export const connectGrpcService = lndConfig => async dispatch => {
   const handleInvoiceSubscription = proxyValue(data => dispatch(receiveInvoiceData(data)))
   const handleTransactionSubscription = proxyValue(data => dispatch(receiveTransactionData(data)))
   const handleChannelGraphSubscription = proxyValue(data => dispatch(receiveChannelGraphData(data)))
-  const handleBackupsSubscription = proxyValue(data => dispatch(backupCurrentWallet(data)))
+  const handleBackupsSubscription = proxyValue(data =>
+    dispatch(backupCurrentWallet(lndConfig.id, data))
+  )
   const handleWalletUnlockerActive = proxyValue(() => dispatch(setWalletUnlockerGrpcActive()))
   const handleLightningActive = proxyValue(() => dispatch(setLightningGrpcActive()))
 
@@ -284,10 +286,7 @@ export const setLightningGrpcActive = () => async (dispatch, getState) => {
   // after connection was successfully established. This is especially important
   // for the first connection to be sure settings are correct
   const { lndConfig } = getState().lnd
-  if (lndConfig.id !== 'tmp') {
-    const wallet = await dispatch(putWallet(lndConfig))
-    await dispatch(setActiveWallet(wallet.id))
-  }
+  await dispatch(setActiveWallet(lndConfig.id))
 }
 
 /**

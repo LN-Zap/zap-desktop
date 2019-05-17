@@ -46,10 +46,6 @@ export const getDb = name => {
     autopay: 'id',
   })
 
-  db.version(4).stores({
-    backup: 'id',
-  })
-
   /**
    * @class Wallet
    * Wallet helper class.
@@ -70,6 +66,7 @@ export const getDb = name => {
     autopilotMaxchansize: Number,
     autopilotPrivate: Boolean,
     autopilotMinconfs: Number,
+    backup: Object,
   })
 
   // Strip out all unknown properties on create.
