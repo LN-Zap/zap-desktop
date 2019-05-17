@@ -20,11 +20,11 @@ function subscribeChannelGraph() {
     }
   })
   call.on('status', status => {
-    grpcLog.debug('CHANNELGRAPH STATUS: %o', status)
+    grpcLog.info('CHANNELGRAPH STATUS: %o', status)
     this.emit('subscribeChannelGraph.status', status)
   })
   call.on('end', () => {
-    grpcLog.debug('CHANNELGRAPH END')
+    grpcLog.info('CHANNELGRAPH END')
     this.emit('subscribeChannelGraph.end')
   })
   return call
@@ -47,11 +47,11 @@ function subscribeInvoices(payload = {}) {
     }
   })
   call.on('status', status => {
-    grpcLog.debug('INVOICES STATUS: %o', status)
+    grpcLog.info('INVOICES STATUS: %o', status)
     this.emit('subscribeInvoices.status', status)
   })
   call.on('end', () => {
-    grpcLog.debug('INVOICES END')
+    grpcLog.info('INVOICES END')
     this.emit('subscribeInvoices.end')
   })
   return call
@@ -74,11 +74,11 @@ function subscribeTransactions() {
     }
   })
   call.on('status', status => {
-    grpcLog.debug('TRANSACTIONS STATUS: %o', status)
+    grpcLog.info('TRANSACTIONS STATUS: %o', status)
     this.emit('subscribeTransactions.status', status)
   })
   call.on('end', () => {
-    grpcLog.debug('TRANSACTIONS END')
+    grpcLog.info('TRANSACTIONS END')
     this.emit('subscribeTransactions.end')
   })
   return call
