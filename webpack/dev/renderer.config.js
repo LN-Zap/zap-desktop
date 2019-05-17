@@ -50,7 +50,7 @@ const config = merge.smart(baseConfig, {
         'https://nodes.lightning.computer',
         'https://zap.jackmallers.com',
       ],
-      'img-src': ['http://www.zap.jackmallers.com'],
+      'img-src': ['http://www.zap.jackmallers.com', 'data:'],
       'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
       'font-src': [
         "'self'",
