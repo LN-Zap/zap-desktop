@@ -5,7 +5,7 @@ import { withFieldApi } from 'informed'
 import styled from 'styled-components'
 import { Flex } from 'rebass'
 import { Form, RadioGroup, Heading, Bar } from 'components/UI'
-import BaseBackupTypeItem from './BackupTypeItem'
+import BaseBackupTypeItem from './components/BackupTypeItem'
 import messages from './messages'
 
 const BackupTypeItem = withFieldApi('backupType')(BaseBackupTypeItem)
@@ -17,7 +17,7 @@ const Container = styled(Flex)`
   visibility: ${props => (props.lndConnect ? 'hidden' : 'visible')};
 `
 
-class SetupBackup extends React.Component {
+class BackupSetup extends React.Component {
   static propTypes = {
     setBackupProvider: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
@@ -99,4 +99,4 @@ class SetupBackup extends React.Component {
   }
 }
 
-export default SetupBackup
+export default BackupSetup

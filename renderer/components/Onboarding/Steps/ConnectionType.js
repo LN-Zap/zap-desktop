@@ -6,7 +6,7 @@ import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 import { Form, RadioGroup } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogoBolt'
-import BaseConnectionTypeItem from './ConnectionTypeItem'
+import BaseConnectionTypeItem from './components/ConnectionTypeItem'
 import messages from './messages'
 
 const ConnectionTypeItem = withFieldApi('connectionType')(BaseConnectionTypeItem)
