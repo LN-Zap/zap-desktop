@@ -19,7 +19,7 @@ import {
   SeedView,
   WalletCreate,
   WalletRecover,
-  SetupBackup,
+  BackupSetup,
 } from './Steps'
 import messages from './messages'
 
@@ -168,7 +168,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
-          <Wizard.Step key="SetupBackup" component={SetupBackup} {...{ setBackupProvider }} />,
+          <Wizard.Step key="BackupSetup" component={BackupSetup} {...{ setBackupProvider }} />,
           <Wizard.Step
             key="WalletCreate"
             component={WalletCreate}
@@ -193,7 +193,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Password" component={Password} {...{ setPassword }} />,
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
-
+          <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step
             key="WalletRecover"
             component={WalletRecover}
