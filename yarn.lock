@@ -1621,10 +1621,10 @@
   dependencies:
     semver "^6.0.0"
 
-"@grpc/proto-loader@0.5.0":
-  version "0.5.0"
-  resolved "https://registry.yarnpkg.com/@grpc/proto-loader/-/proto-loader-0.5.0.tgz#6d21930530db6089ed68a90f10a22b76fdc3387d"
-  integrity sha512-kF5toaC4A7PRjAuIxE0fYAv8WarJ6JELYlmHpkoo4EGTFvXUsQwVfyj2bgPV2023M77s2TtDn36wPMJB0sz8nA==
+"@grpc/proto-loader@0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@grpc/proto-loader/-/proto-loader-0.5.1.tgz#48492b53cdda353110b51a4b02f465974729c76f"
+  integrity sha512-3y0FhacYAwWvyXshH18eDkUI40wT/uGio7MAegzY8lO5+wVsc19+1A7T0pPptae4kl7bdITL+0cHpnAPmryBjQ==
   dependencies:
     lodash.camelcase "^4.3.0"
     protobufjs "^6.8.6"
@@ -10768,13 +10768,13 @@ lnd-binary@0.3.10:
     "true-case-path" "^1.0.3"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.6.tgz#32e56c4e72cf54ec32f6da917cb1a7d7e0bf6439"
-  integrity sha512-xQBwh6RVnl0m+pEaqntzygYWYcqd4mHhbNxO8UriTpQ0kMJSu1jmSYv8dnr3BdFFpDSLTCWf5ZNRUlPgXn9lcA==
+lnd-grpc@0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.7.tgz#fbbdae24984e250e27ffc797e53902628d291c2d"
+  integrity sha512-LlIkf9yA6KaVVWzbCvOR6/NMZaZg9tfNEYbeI724euZ3B7ZkO3VhnAYxWVWdHG06Ni1PJsnKZDipL1Qrpj5MRg==
   dependencies:
     "@grpc/grpc-js" "0.4.0"
-    "@grpc/proto-loader" "0.5.0"
+    "@grpc/proto-loader" "0.5.1"
     debug "4.1.1"
     javascript-state-machine "3.1.0"
     lndconnect "0.2.5"
