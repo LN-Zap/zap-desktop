@@ -241,7 +241,7 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "10.0.1",
     "babel-jest": "24.8.0",
-    "babel-loader": "8.0.5",
+    "babel-loader": "8.0.6",
     "babel-plugin-module-resolver": "3.2.0",
     "babel-plugin-react-intl": "3.0.1",
     "babel-plugin-react-intl-auto": "1.7.0",
