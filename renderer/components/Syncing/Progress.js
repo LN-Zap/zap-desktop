@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Flex } from 'rebass'
 import { useTimeout } from 'hooks'
-import { Heading, Text } from 'components/UI'
+import { Heading, ProgressBar, Text } from 'components/UI'
 import { injectIntl, intlShape } from 'react-intl'
 import messages from './messages'
 
@@ -108,29 +108,17 @@ const Progress = ({
 
   return (
     <Flex alignItems="center" flexDirection="column" justifyContent="center" {...rest}>
-      <Text fontWeight="normal" mb={3}>
+      <Text fontWeight="normal" my={2}>
         {caption}
       </Text>
-      <Heading.h1 mb={2}>{mainMessage}</Heading.h1>
-      {syncStatus === 'in-progress' && (
-        <Box bg="grey" css={{ height: '4px' }} mb={2} width={1}>
-          <Box
-            bg="lightningOrange"
-            css={{ height: '100%' }}
-            width={syncPercentage ? `${syncPercentage}%` : 0}
-          />
-        </Box>
+      <Heading.h1>{mainMessage}</Heading.h1>
+      {['in-progress', 'recovering'].includes(syncStatus) && (
+        <ProgressBar
+          my={2}
+          progress={syncStatus === 'in-progress' ? syncPercentage / 100 : recoveryPercentage / 100}
+          width={500}
+        />
       )}
-      {syncStatus === 'recovering' && (
-        <Box bg="grey" css={{ height: '4px' }} mb={2} width={1}>
-          <Box
-            bg="lightningOrange"
-            css={{ height: '100%' }}
-            width={recoveryPercentage ? `${recoveryPercentage}%` : 0}
-          />
-        </Box>
-      )}
-
       <Text>{detailMessage}</Text>
       <Text>{extraDetailMessage}</Text>
     </Flex>
