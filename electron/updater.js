@@ -3,6 +3,7 @@ import { autoUpdater } from 'electron-updater'
 import isDev from 'electron-is-dev'
 import config from 'config'
 import delay from '@zap/utils/delay'
+import createScheduler from '@zap/utils/scheduler'
 import { updaterLog } from '@zap/utils/log'
 
 /**
@@ -16,7 +17,7 @@ class ZapUpdater {
 
     this.mainWindow = mainWindow
     this.isActive = false
-    this.timer = null
+    this.scheduler = createScheduler()
 
     autoUpdater.logger = updaterLog
     autoUpdater.channel = settings.channel
@@ -60,7 +61,11 @@ class ZapUpdater {
       this.isActive = true
       autoUpdater.checkForUpdates()
       const oneHour = 60 * 60 * 1000
-      this.timer = setInterval(() => autoUpdater.checkForUpdates(), oneHour)
+      this.scheduler.addTask({
+        taskId: 'checkForUpdates',
+        task: () => autoUpdater.checkForUpdates(),
+        baseDelay: oneHour,
+      })
     } catch (error) {
       updaterLog.warn('Cannot check for updates', error.message)
     }
@@ -73,7 +78,7 @@ class ZapUpdater {
     if (!this.isActive || isDev) {
       return
     }
-    clearInterval(this.timer)
+    this.scheduler.removeTask('checkForUpdates')
     updaterLog.info('Automatic Updates disabled')
   }
 }
