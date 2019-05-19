@@ -341,7 +341,7 @@
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.6",
     "lnd-grpc": "0.2.7",
-    "lndconnect": "0.2.5",
+    "lndconnect": "0.2.6",
     "lodash.debounce": "4.0.8",
     "lodash.get": "4.4.2",
     "lodash.intersection": "4.4.0",

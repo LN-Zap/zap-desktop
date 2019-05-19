@@ -10793,6 +10793,17 @@ lndconnect@0.2.5:
     strict-uri-encode "^2.0.0"
     untildify "^3.0.3"
 
+lndconnect@0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.6.tgz#2d275164e81dd9bbb85ce691e4d14b17a582e101"
+  integrity sha512-szCH2G6us77jbZot+YgX3Xc/2vqfXpgveSDrds01/05+gfxkBTBjxaN0tMj9V7D/lMiYvpdxQI5QeYMVafcKmw==
+  dependencies:
+    base64url "^3.0.1"
+    decode-uri-component "^0.2.0"
+    source-map-support "^0.5.12"
+    strict-uri-encode "^2.0.0"
+    untildify "^4.0.0"
+
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"
@@ -16519,7 +16530,7 @@ unset-value@^1.0.0:
     has-value "^0.3.1"
     isobject "^3.0.0"
 
-untildify@4.0.0:
+untildify@4.0.0, untildify@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/untildify/-/untildify-4.0.0.tgz#2bc947b953652487e4600949fb091e3ae8cd919b"
   integrity sha512-KK8xQ1mkzZeg9inewmFVDNkg3l5LUhoq9kN6iWYB/CC9YMG8HA+c1Q8HwDe6dEX7kErrEVNVBO3fWsVq5iDgtw==
