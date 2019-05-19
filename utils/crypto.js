@@ -1,5 +1,5 @@
 import get from 'lodash.get'
-import bitcoin from 'bitcoinjs-lib'
+import { address } from 'bitcoinjs-lib'
 import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'
 
@@ -104,7 +104,7 @@ export const isOnchain = (input, chain, network) => {
   }
 
   try {
-    bitcoin.address.toOutputScript(input, networks[chain][network])
+    address.toOutputScript(input, networks[chain][network])
     return true
   } catch (e) {
     return false
