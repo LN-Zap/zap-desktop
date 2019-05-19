@@ -3,7 +3,7 @@ os: unstable
 environment:
   DEBUG: electron-builder
   matrix:
-    - nodejs_version: '11'
+    - nodejs_version: STABLE
 
 cache:
   - node_modules -> package.json
