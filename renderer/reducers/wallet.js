@@ -164,7 +164,10 @@ const ACTION_HANDLERS = {
 const walletSelectors = {}
 const walletsSelector = state => state.wallet.wallets
 const activeWalletSelector = state => state.settings.activeWallet
+const isWalletsLoadedSelector = state => state.wallet.isWalletsLoaded
 const isWalletOpenSelector = state => state.settings.isWalletOpen
+
+walletSelectors.isWalletsLoaded = isWalletsLoadedSelector
 
 walletSelectors.activeWalletDir = createSelector(
   activeWalletSelector,

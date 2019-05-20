@@ -268,7 +268,7 @@ app.on('ready', async () => {
 
   // Initialise the application.
   zap = new ZapController(mainWindow)
-  zap.init()
+  zap.init({ theme: theme ? theme.name : undefined })
 
   // Initialise the application menus.
   menuBuilder = new ZapMenuBuilder(mainWindow)

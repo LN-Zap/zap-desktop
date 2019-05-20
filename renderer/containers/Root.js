@@ -45,6 +45,7 @@ const Root = ({
   history,
   isLoading,
   isAppReady,
+  isRootReady,
   loadingMessage,
 }) => {
   useEffect(() => {
@@ -62,11 +63,6 @@ const Root = ({
   const redirectToHome = () => history.push('/home')
   const redirectToLogout = () => history.push('/logout')
   const canLogout = () => history.location.pathname === '/app'
-
-  // Wait until we have loaded essential data before displaying anything.
-  if (!theme) {
-    return null
-  }
 
   return (
     <ConnectedRouter history={history}>
@@ -86,31 +82,33 @@ const Root = ({
             loadingMessage={loadingMessage}
             onClose={redirectToLogout}
           >
-            <Switch>
-              <Route component={Initializer} exact path="/" />
-              <Route component={WalletStarter} exact path="/wallet-starter" />
-              <Route component={Home} path="/home" />
-              <Route
-                exact
-                path="/onboarding"
-                render={() => <Onboarding hasWallets={hasWallets} onClose={redirectToHome} />}
-              />
-              <Route
-                exact
-                path="/syncing"
-                render={() => <Syncing onClose={redirectToLogout} pb={0} px={0} />}
-              />
-              <Route
-                path="/app"
-                render={() => {
-                  if (!isAppReady) {
-                    return null
-                  }
-                  return <App />
-                }}
-              />
-              <Route component={Logout} path="/logout" />
-            </Switch>
+            {isRootReady && (
+              <Switch>
+                <Route component={Initializer} exact path="/" />
+                <Route component={WalletStarter} exact path="/wallet-starter" />
+                <Route component={Home} path="/home" />
+                <Route
+                  exact
+                  path="/onboarding"
+                  render={() => <Onboarding hasWallets={hasWallets} onClose={redirectToHome} />}
+                />
+                <Route
+                  exact
+                  path="/syncing"
+                  render={() => <Syncing onClose={redirectToLogout} pb={0} px={0} />}
+                />
+                <Route
+                  path="/app"
+                  render={() => {
+                    if (!isAppReady) {
+                      return null
+                    }
+                    return <App />
+                  }}
+                />
+                <Route component={Logout} path="/logout" />
+              </Switch>
+            )}
           </PageWithLoading>
         </React.Fragment>
       </ThemeProvider>
@@ -127,6 +125,7 @@ Root.propTypes = {
   isAppReady: PropTypes.bool.isRequired,
   isLoading: PropTypes.bool.isRequired,
   isMounted: PropTypes.bool.isRequired,
+  isRootReady: PropTypes.bool.isRequired,
   loadingMessage: PropTypes.object,
   notifications: PropTypes.array.isRequired,
   removeNotification: PropTypes.func.isRequired,
@@ -142,6 +141,7 @@ const mapStateToProps = state => ({
   loadingMessage: getLoadingMessage(state),
   isMounted: appSelectors.isMounted(state),
   isAppReady: appSelectors.isAppReady(state),
+  isRootReady: appSelectors.isRootReady(state),
 })
 
 const mapDispatchToProps = {

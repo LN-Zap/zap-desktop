@@ -25,6 +25,10 @@ export const isLoading = createSelector(
 export const isLoadingPerPath = state => {
   const { pathname } = state.router.location
 
+  if (pathname === '/') {
+    return !appSelectors.isRootReady(state)
+  }
+
   if (pathname === '/app') {
     return !appSelectors.isAppReady(state)
   }

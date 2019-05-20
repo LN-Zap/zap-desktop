@@ -60,7 +60,7 @@ themeSelectors.currentTheme = createSelector(
 themeSelectors.currentThemeSettings = createSelector(
   themesSelector,
   currentThemeSelector,
-  (themes, currentTheme) => themes[currentTheme]
+  (themes, currentTheme) => themes[currentTheme] || themes[DEFAULT_THEME]
 )
 
 export { themeSelectors }

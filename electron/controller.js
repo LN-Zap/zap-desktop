@@ -35,7 +35,7 @@ class ZapController {
   /**
    * Initialize the controller.
    */
-  init() {
+  init(options) {
     // Load the application into the main window.
     if (process.env.HOT) {
       const port = process.env.PORT || 1212
@@ -53,21 +53,21 @@ class ZapController {
       this.mainWindow.focus()
 
       // Start app.
-      this.initApp()
+      this.initApp(options)
     })
   }
 
   /**
    * Initialise the app.
    */
-  initApp() {
+  initApp(options) {
     mainLog.debug('initApp...')
     // In the case the app is reloaded usung ctrl+r the app will aborted instantly without being given a chance to
     // shutdown any processes spawned by it. Before starting the app again, kill any processes known to have been
     // started by us.
     this.killAllSpawnedProcesses()
     // Send a signal to the renderer process telling it to start it's initialisation.
-    this.sendMessage('initApp')
+    this.sendMessage('initApp', options)
   }
 
   /**
