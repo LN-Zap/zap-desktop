@@ -23,6 +23,7 @@ module.exports = {
   autoupdate: {
     active: true,
     channel: 'beta',
+    interval: 60 * 60 * 1000,
   },
 
   // Supported chains.
