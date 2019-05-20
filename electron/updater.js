@@ -60,11 +60,10 @@ class ZapUpdater {
       updaterLog.info('Automatic Updates enabled')
       this.isActive = true
       autoUpdater.checkForUpdates()
-      const oneHour = 60 * 60 * 1000
       this.scheduler.addTask({
         taskId: 'checkForUpdates',
         task: () => autoUpdater.checkForUpdates(),
-        baseDelay: oneHour,
+        baseDelay: config.autoupdate.interval,
       })
     } catch (error) {
       updaterLog.warn('Cannot check for updates', error.message)
