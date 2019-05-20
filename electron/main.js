@@ -248,6 +248,7 @@ app.on('ready', async () => {
       : path.resolve(appRootPath(), 'resources', 'icon.png'),
     webPreferences: {
       nodeIntegration: false,
+      contextIsolation: false,
       nodeIntegrationInWorker: true,
       preload: isDev
         ? path.resolve(__dirname, '..', 'dist', 'preload.js')
