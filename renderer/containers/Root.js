@@ -7,11 +7,11 @@ import { ThemeProvider } from 'styled-components'
 import { hot } from 'react-hot-loader/root'
 
 import { removeNotification, notificationSelectors } from 'reducers/notification'
+import { initDatabase, setLoading, setMounted, appSelectors } from 'reducers/app'
 import { initSettings } from 'reducers/settings'
 import { initTheme, themeSelectors } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
 import { isLoading, isLoadingPerPath, getLoadingMessage } from 'reducers/utils'
-import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalNotification from 'components/GlobalNotification'
@@ -36,6 +36,7 @@ class Root extends React.Component {
   static propTypes = {
     hasWallets: PropTypes.bool,
     history: PropTypes.object.isRequired,
+    initDatabase: PropTypes.func.isRequired,
     initSettings: PropTypes.func.isRequired,
     initTheme: PropTypes.func.isRequired,
     isAppReady: PropTypes.bool.isRequired,
@@ -49,13 +50,14 @@ class Root extends React.Component {
   }
 
   async componentDidMount() {
-    const { initSettings, initTheme, isMounted, setMounted } = this.props
+    const { initDatabase, initSettings, initTheme, isMounted, setMounted } = this.props
 
     // If this is the first time the app has mounted, initialize things.
     if (!isMounted) {
       setMounted(true)
+      await initDatabase()
       await initSettings()
-      initTheme()
+      await initTheme()
     }
   }
 
@@ -156,6 +158,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   removeNotification,
+  initDatabase,
   initSettings,
   initTheme,
   setLoading,

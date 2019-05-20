@@ -1,9 +1,28 @@
 import Dexie from 'dexie'
 import decode from 'lndconnect/decode'
 import encode from 'lndconnect/encode'
+import getDbName from '@zap/utils/db'
+import config from 'config'
 
+/**
+ * Initialise the database and make it globally accessible.
+ */
+export const initDb = () => {
+  const { namespace, domain } = config.db
+  const { NODE_ENV: environment } = process.env
+  const dbName = getDbName({
+    namespace,
+    domain,
+    environment,
+  })
+  window.db = getDb(dbName)
+  return window.db.open()
+}
+
+/**
+ * Define the database.
+ */
 export const getDb = name => {
-  // Define the database.
   const db = new Dexie(name)
 
   db.version(1).stores({

@@ -1,6 +1,7 @@
 import delay from '@zap/utils/delay'
 import { send } from 'redux-electron-ipc'
 import { createSelector } from 'reselect'
+import { initDb } from '@zap/renderer/store/db'
 import { tickerSelectors } from './ticker'
 import { setIsWalletOpen, walletSelectors } from './wallet'
 import { stopLnd } from './lnd'
@@ -21,6 +22,7 @@ const initialState = {
 // ------------------------------------
 export const SET_LOADING = 'SET_LOADING'
 export const SET_MOUNTED = 'SET_MOUNTED'
+export const INIT_DATABASE = 'INIT_DATABASE'
 export const INIT_APP = 'INIT_APP'
 export const LOGOUT = 'LOGOUT'
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS'
@@ -60,6 +62,14 @@ export const logout = () => dispatch => {
   dispatch({ type: LOGOUT_SUCCESS })
 }
 
+export const initDatabase = () => async dispatch => {
+  dispatch({ type: INIT_DATABASE })
+  await initDb()
+}
+
+/**
+ * IPC handler for 'initApp' message
+ */
 export const initApp = () => async (dispatch, getState) => {
   dispatch({ type: INIT_APP })
   // add some delay if the app is starting for the first time vs logging out of the the opened wallet

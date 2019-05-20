@@ -19,7 +19,7 @@ export const initTheme = () => async (dispatch, getState) => {
   const currentTheme = themeSelectors.currentTheme(state)
 
   if (userTheme !== currentTheme) {
-    dispatch(setTheme(userTheme))
+    await dispatch(setTheme(userTheme))
   }
 }
 

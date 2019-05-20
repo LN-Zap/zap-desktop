@@ -10,14 +10,11 @@ import assert from 'assert'
 import url from 'url'
 import untildify from 'untildify'
 import rimraf from 'rimraf'
-import config from 'config'
-import { getDb } from '@zap/renderer/store/db'
 import isSubDir from '@zap/utils/isSubDir'
 import { getAllLocalWallets } from '@zap/utils/localWallets'
 import lndBinaryPath from '@zap/utils/lndBinaryPath'
 import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
 import validateHost from '@zap/utils/validateHost'
-import getDbName from '@zap/utils/db'
 import LndConfig from '@zap/utils/lndConfig'
 
 const fsReadFile = promisify(fs.readFile)
@@ -167,17 +164,6 @@ window.env = Object.keys(process.env)
     obj[key] = process.env[key]
     return obj
   }, {})
-
-// Initialise the database and make it globally accessible.
-const { namespace, domain } = config.db
-const { NODE_ENV: environment } = process.env
-const dbName = getDbName({
-  namespace,
-  domain,
-  environment,
-})
-window.db = getDb(dbName)
-window.db.open()
 
 // Expose a bridging API to by setting an global on `window`.
 //
