@@ -33,6 +33,7 @@ before_install:
     if [ $TRAVIS_OS_NAME == "linux" ]; then
       sudo apt-get install gcc-multilib g++-multilib
     fi
+  - curl -sL https://raw.githubusercontent.com/travis-ci/artifacts/master/install | bash
 
 install:
   - yarn
@@ -57,6 +58,9 @@ after_success:
     test $TRAVIS_PULL_REQUEST = "false" &&
     test $TRAVIS_OS_NAME = "osx" &&
     yarn storybook:deploy -r https://$GH_TOKEN@github.com/$TRAVIS_REPO_SLUG.git
+
+after_failure:
+  - artifacts upload ./screenshots
 
 branches:
   only:
