@@ -10170,14 +10170,13 @@ lndconnect@0.2.5:
     strict-uri-encode "^2.0.0"
     untildify "^3.0.3"
 
-lndconnect@0.2.6:
-  version "0.2.6"
-  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.6.tgz#2d275164e81dd9bbb85ce691e4d14b17a582e101"
-  integrity sha512-szCH2G6us77jbZot+YgX3Xc/2vqfXpgveSDrds01/05+gfxkBTBjxaN0tMj9V7D/lMiYvpdxQI5QeYMVafcKmw==
+lndconnect@0.2.7:
+  version "0.2.7"
+  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.7.tgz#62ed8b1f38fd3bfd6c956c6f6d794169e10e26a4"
+  integrity sha512-+gfE4qWr4elyc7bXrLQRGL2x3qzgSsz5ym0ioJGHF/bgjmAVXXd/vvc1MqgC45zXmw+ctS9RgIobBr+DxQYVlA==
   dependencies:
     base64url "^3.0.1"
     decode-uri-component "^0.2.0"
-    source-map-support "^0.5.12"
     strict-uri-encode "^2.0.0"
     untildify "^4.0.0"
 
