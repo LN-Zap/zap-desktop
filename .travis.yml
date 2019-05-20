@@ -46,9 +46,12 @@ before_script:
     fi
 
 script:
-  - yarn lint-ci || travis_terminate 1
-  - yarn test-ci || travis_terminate 1
-  - yarn coveralls || travis_terminate 1
+  - |
+    set -e
+    yarn lint-ci
+    yarn test-ci
+    yarn coveralls || travis_terminate 1
+    set +e
 
 after_success:
   - test $TRAVIS_REPO_SLUG = 'LN-Zap/zap-desktop' &&
