@@ -10145,10 +10145,10 @@ lnd-binary@0.3.10:
     "true-case-path" "^1.0.3"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.7.tgz#fbbdae24984e250e27ffc797e53902628d291c2d"
-  integrity sha512-LlIkf9yA6KaVVWzbCvOR6/NMZaZg9tfNEYbeI724euZ3B7ZkO3VhnAYxWVWdHG06Ni1PJsnKZDipL1Qrpj5MRg==
+lnd-grpc@0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.8.tgz#d1a3ff273031362b2bdfdf2cf5d7f21605bae450"
+  integrity sha512-sC70MEZniH13HzJTo4X+gm/uAQrHPdxlSgrk2vdFp8SVkJn/CTL0h1+NMrludH5+7xzXsfqeANJ5EZfWHyv1YQ==
   dependencies:
     "@grpc/grpc-js" "0.4.0"
     "@grpc/proto-loader" "0.5.1"
@@ -10156,7 +10156,6 @@ lnd-grpc@0.2.7:
     javascript-state-machine "3.1.0"
     lndconnect "0.2.5"
     semver "6.0.0"
-    source-map-support "0.5.12"
     untildify "4.0.0"
     validator "10.11.0"
 
