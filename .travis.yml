@@ -19,6 +19,9 @@ cache:
     - node_modules
 
 addons:
+  artifacts:
+    paths:
+      - './screenshots'
   apt:
     packages:
       - fluxbox
