@@ -50,7 +50,7 @@
   },
   "sideEffects": false,
   "browserslist": [
-    "electron 4.0"
+    "electron 5.0"
   ],
   "engines": {
     "node": ">=8.11.2",
