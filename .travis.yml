@@ -20,6 +20,7 @@ cache:
 
 addons:
   artifacts:
+    debug: true
     paths:
       - './screenshots'
   apt:
