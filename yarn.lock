@@ -10145,29 +10145,20 @@ lnd-binary@0.3.10:
     "true-case-path" "^1.0.3"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.2.8:
-  version "0.2.8"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.8.tgz#d1a3ff273031362b2bdfdf2cf5d7f21605bae450"
-  integrity sha512-sC70MEZniH13HzJTo4X+gm/uAQrHPdxlSgrk2vdFp8SVkJn/CTL0h1+NMrludH5+7xzXsfqeANJ5EZfWHyv1YQ==
+lnd-grpc@0.2.9:
+  version "0.2.9"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.9.tgz#0d90d9c6554f47e966da56ab5e290df1c7c6de98"
+  integrity sha512-cWESEOm6EbL+xrkLAqY6vW8R2UnYG51ZJ2suf7tt+ncr9Z5DsiTRCvrSsU9xpoyG+DlMMimTMIb99R+FBKunow==
   dependencies:
     "@grpc/grpc-js" "0.4.0"
     "@grpc/proto-loader" "0.5.1"
     debug "4.1.1"
     javascript-state-machine "3.1.0"
-    lndconnect "0.2.5"
+    lndconnect "0.2.7"
+    lodash.defaultsdeep "4.6.0"
     semver "6.0.0"
     untildify "4.0.0"
     validator "10.11.0"
-
-lndconnect@0.2.5:
-  version "0.2.5"
-  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.5.tgz#e2fb48751612c0dcf5255e5c2dd0b31c5946a0d7"
-  integrity sha512-uh5ELLl/CyTdjmTOr0b5RSt0aiwfpDRffQbaPg0ZPC7+HJ8y3C+2e2sNSOk2oRzlhD0HgikuW7QihFXg+Y+xKw==
-  dependencies:
-    base64url "^3.0.1"
-    decode-uri-component "^0.2.0"
-    strict-uri-encode "^2.0.0"
-    untildify "^3.0.3"
 
 lndconnect@0.2.7:
   version "0.2.7"
@@ -10289,6 +10280,11 @@ lodash.debounce@4.0.8, lodash.debounce@^4.0.8:
   version "4.0.8"
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
+
+lodash.defaultsdeep@4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/lodash.defaultsdeep/-/lodash.defaultsdeep-4.6.0.tgz#bec1024f85b1bd96cbea405b23c14ad6443a6f81"
+  integrity sha1-vsECT4WxvZbL6kBbI8FK1kQ6b4E=
 
 lodash.escape@^4.0.1:
   version "4.0.1"
@@ -15911,11 +15907,6 @@ untildify@4.0.0, untildify@^4.0.0:
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/untildify/-/untildify-4.0.0.tgz#2bc947b953652487e4600949fb091e3ae8cd919b"
   integrity sha512-KK8xQ1mkzZeg9inewmFVDNkg3l5LUhoq9kN6iWYB/CC9YMG8HA+c1Q8HwDe6dEX7kErrEVNVBO3fWsVq5iDgtw==
-
-untildify@^3.0.3:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/untildify/-/untildify-3.0.3.tgz#1e7b42b140bcfd922b22e70ca1265bfe3634c7c9"
-  integrity sha512-iSk/J8efr8uPT/Z4eSUywnqyrQU7DSdMfdqK4iWEaUVVmcP5JcnpRqmVMwcwcnmI1ATFNgC5V90u09tBynNFKA==
 
 unzip-response@^2.0.1:
   version "2.0.1"
