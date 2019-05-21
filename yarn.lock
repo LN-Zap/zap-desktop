@@ -4135,16 +4135,16 @@ bip21@2.0.2:
   dependencies:
     qs "^6.3.0"
 
-bip32@^2.0.0:
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/bip32/-/bip32-2.0.2.tgz#7f131b84fb2b84cf8a52aa206def6a8f1037f82b"
-  integrity sha512-Wws0wBYp+KViCTJLLalmOUhefd1puJslme6ks1HPRuEEXGA28HNRVcx6aIGnH0VNYr/NqoUMYf/QakCjbXcElQ==
+bip32@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/bip32/-/bip32-2.0.3.tgz#02575a78e25decec5c31ee950ecd5839508c6d3e"
+  integrity sha512-Tg4dHUXiYBkJyCQq4g++C2PqKcZRveVqy7cKxyl88Uai7MmmknFGaF88odYrXcXk5EMyrlXLuAMC3yEiLxRnNA==
   dependencies:
     "@types/node" "10.12.18"
     bs58check "^2.1.1"
     create-hash "^1.2.0"
     create-hmac "^1.1.7"
-    tiny-secp256k1 "^1.0.0"
+    tiny-secp256k1 "^1.1.0"
     typeforce "^1.11.5"
     wif "^2.0.6"
 
@@ -4186,13 +4186,14 @@ bitcoinjs-lib@^3.3.1:
     varuint-bitcoin "^1.0.4"
     wif "^2.0.1"
 
-"bitcoinjs-lib@https://github.com/bitcoinjs/bitcoinjs-lib#88cfdcc0f1f8fbe46e817247b3286da1872be619":
-  version "5.0.3"
-  resolved "https://github.com/bitcoinjs/bitcoinjs-lib#88cfdcc0f1f8fbe46e817247b3286da1872be619"
+"bitcoinjs-lib@https://github.com/bitcoinjs/bitcoinjs-lib#f9f4707b3429a0d8e3d8e8647cb4fdd677d4c220":
+  version "5.0.4"
+  uid f9f4707b3429a0d8e3d8e8647cb4fdd677d4c220
+  resolved "https://github.com/bitcoinjs/bitcoinjs-lib#f9f4707b3429a0d8e3d8e8647cb4fdd677d4c220"
   dependencies:
     "@types/node" "10.12.18"
     bech32 "^1.1.2"
-    bip32 "^2.0.0"
+    bip32 "^2.0.3"
     bip66 "^1.1.0"
     bitcoin-ops "^1.4.0"
     bs58check "^2.0.0"
@@ -15418,7 +15419,7 @@ tiny-invariant@^1.0.2:
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.0.4.tgz#346b5415fd93cb696b0c4e8a96697ff590f92463"
   integrity sha512-lMhRd/djQJ3MoaHEBrw8e2/uM4rs9YMNk0iOr8rHQ0QdbM7D4l0gFl3szKdeixrlyfm9Zqi4dxHCM2qVG8ND5g==
 
-tiny-secp256k1@^1.0.0, tiny-secp256k1@^1.1.1:
+tiny-secp256k1@^1.1.0, tiny-secp256k1@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/tiny-secp256k1/-/tiny-secp256k1-1.1.1.tgz#53f1613bcbbc161bfc7824a65c08fa5cd0dcba2b"
   integrity sha512-jA9WalQuhKun1svJrAVi9Vu8aUWKMfR7nMV903kHjrHTTY/IFa0petSq+Jk/Mv447dGD9LC8fGsmGRubBbcNng==

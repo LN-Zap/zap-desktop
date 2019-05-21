@@ -320,7 +320,7 @@
     "axios": "0.18.0",
     "bip21": "2.0.2",
     "bip39-en": "1.1.1",
-    "bitcoinjs-lib": "https://github.com/bitcoinjs/bitcoinjs-lib#88cfdcc0f1f8fbe46e817247b3286da1872be619",
+    "bitcoinjs-lib": "https://github.com/bitcoinjs/bitcoinjs-lib#f9f4707b3429a0d8e3d8e8647cb4fdd677d4c220",
     "bolt11": "1.2.5",
     "coininfo": "4.5.0",
     "comlinkjs": "3.2.0",
