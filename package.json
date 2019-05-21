@@ -351,7 +351,7 @@
     "lodash.pick": "4.4.0",
     "lodash.snakecase": "4.1.1",
     "lodash.throttle": "4.1.1",
-    "polished": "3.3.0",
+    "polished": "3.3.2",
     "prop-types": "15.7.2",
     "qrcode.react": "0.9.3",
     "react": "16.8.6",
