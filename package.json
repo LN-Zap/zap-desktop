@@ -20,10 +20,10 @@
     "lint": "npm run lint-base -- .",
     "lint-fix-base": "npm run lint-base -- --fix",
     "lint-fix": "npm run lint-fix-base -- \"./**/*.{js,json,md}\"",
-    "lint-styles-base": "stylelint --custom-formatter=node_modules/stylelint-formatter-pretty",
-    "lint-styles": "npm run lint-styles-base -- $npm_package_config_style_paths",
+    "lint-styles-base": "stylelint --custom-formatter=node_modules/stylelint-formatter-pretty --allow-empty-input",
+    "lint-styles": "npm run lint-styles-base -- \"renderer/components/**/*.js\"",
     "lint-styles-fix-base": "npm run lint-styles-base -- --fix",
-    "lint-styles-fix": "npm run lint-styles-fix-base -- $npm_package_config_style_paths",
+    "lint-styles-fix": "npm run lint-styles-fix-base -- \"renderer/components/**/*.js\"",
     "lint-check": "eslint --print-config .eslintrc.js | eslint-config-prettier-check",
     "lint-ci": "npm run lint && npm run lint-styles",
     "package": "npm run build && npm run fetch-lnd && build",
@@ -43,7 +43,6 @@
     "test-e2e": "cross-env DISABLE_INIT=1 ELECTRON_USER_DIR_TEMP=1 testcafe --selector-timeout 60000 --assertion-timeout 60000 --screenshots ./screenshots --screenshots-on-fails electron:./ ./test/e2e"
   },
   "config": {
-    "style_paths": "renderer/components/**/*.js",
     "lnd-binary": {
       "binaryVersion": "0.6.1-beta-rc1-1-g83adaaa0",
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
