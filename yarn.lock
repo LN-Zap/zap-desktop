@@ -4209,7 +4209,7 @@ bip21@2.0.2:
   dependencies:
     qs "^6.3.0"
 
-bip32@^2.0.0:
+bip32@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/bip32/-/bip32-2.0.3.tgz#02575a78e25decec5c31ee950ecd5839508c6d3e"
   integrity sha512-Tg4dHUXiYBkJyCQq4g++C2PqKcZRveVqy7cKxyl88Uai7MmmknFGaF88odYrXcXk5EMyrlXLuAMC3yEiLxRnNA==
@@ -4239,6 +4239,27 @@ bitcoin-ops@^1.3.0, bitcoin-ops@^1.4.0:
   resolved "https://registry.yarnpkg.com/bitcoin-ops/-/bitcoin-ops-1.4.1.tgz#e45de620398e22fd4ca6023de43974ff42240278"
   integrity sha512-pef6gxZFztEhaE9RY9HmWVmiIHqCb2OyS4HPKkpc6CIiiOa3Qmuoylxc5P2EkU3w+5eTSifI9SEZC88idAIGow==
 
+bitcoinjs-lib@5.0.4:
+  version "5.0.4"
+  resolved "https://registry.yarnpkg.com/bitcoinjs-lib/-/bitcoinjs-lib-5.0.4.tgz#b4fcdd2410c750a054cddda6a7b5b4f997d0091f"
+  integrity sha512-xX+nTIBeTn8p4R4CbQaArvAjSt5gKsYTEWmFcD8hlH6ZDXaACvQVk1m7XpqNGP/84Wpd6FTIZoaYycLYfM95xA==
+  dependencies:
+    "@types/node" "10.12.18"
+    bech32 "^1.1.2"
+    bip32 "^2.0.3"
+    bip66 "^1.1.0"
+    bitcoin-ops "^1.4.0"
+    bs58check "^2.0.0"
+    create-hash "^1.1.0"
+    create-hmac "^1.1.3"
+    merkle-lib "^2.0.10"
+    pushdata-bitcoin "^1.0.1"
+    randombytes "^2.0.1"
+    tiny-secp256k1 "^1.1.1"
+    typeforce "^1.11.3"
+    varuint-bitcoin "^1.0.4"
+    wif "^2.0.1"
+
 bitcoinjs-lib@^3.3.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/bitcoinjs-lib/-/bitcoinjs-lib-3.3.2.tgz#780c9c53ecb1222adb463b58bef26386067b609a"
@@ -4256,26 +4277,6 @@ bitcoinjs-lib@^3.3.1:
     pushdata-bitcoin "^1.0.1"
     randombytes "^2.0.1"
     safe-buffer "^5.0.1"
-    typeforce "^1.11.3"
-    varuint-bitcoin "^1.0.4"
-    wif "^2.0.1"
-
-"bitcoinjs-lib@https://github.com/bitcoinjs/bitcoinjs-lib#88cfdcc0f1f8fbe46e817247b3286da1872be619":
-  version "5.0.3"
-  resolved "https://github.com/bitcoinjs/bitcoinjs-lib#88cfdcc0f1f8fbe46e817247b3286da1872be619"
-  dependencies:
-    "@types/node" "10.12.18"
-    bech32 "^1.1.2"
-    bip32 "^2.0.0"
-    bip66 "^1.1.0"
-    bitcoin-ops "^1.4.0"
-    bs58check "^2.0.0"
-    create-hash "^1.1.0"
-    create-hmac "^1.1.3"
-    merkle-lib "^2.0.10"
-    pushdata-bitcoin "^1.0.1"
-    randombytes "^2.0.1"
-    tiny-secp256k1 "^1.1.1"
     typeforce "^1.11.3"
     varuint-bitcoin "^1.0.4"
     wif "^2.0.1"
