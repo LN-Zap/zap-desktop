@@ -17,13 +17,14 @@ const InnerInput = styled(BasicInput)`
 `
 
 const OpenDialogInput = props => {
+  const { mode, ...rest } = props
   return (
     <WithOpenDialog
       render={({ openDialog }) => (
-        <InnerInput width={1} {...props}>
+        <InnerInput width={1} {...rest}>
           <OpenDialogButton
             onClick={() => {
-              const result = openDialog()
+              const result = openDialog(mode)
               //set value only if something was selected to avoid
               //overriding an existing state
               if (result) {
@@ -39,6 +40,7 @@ const OpenDialogInput = props => {
 
 OpenDialogInput.propTypes = {
   fieldApi: PropTypes.object.isRequired,
+  mode: PropTypes.string,
 }
 
 export { OpenDialogInput as BasicOpenDialogInput }
