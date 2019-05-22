@@ -2,20 +2,15 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { withFieldApi } from 'informed'
-import styled from 'styled-components'
 import { Flex } from 'rebass'
 import { Form, RadioGroup, Heading, Bar } from 'components/UI'
+import { BACKUP_FORM_WIDTH, BACKUP_FORM_HEIGHT } from './components/settings'
 import BaseBackupTypeItem from './components/BackupTypeItem'
+import Container from './components/Container'
+
 import messages from './messages'
 
 const BackupTypeItem = withFieldApi('backupType')(BaseBackupTypeItem)
-
-const Container = styled(Flex)`
-  position: absolute;
-  top: -30px;
-  bottom: 0;
-  visibility: ${props => (props.lndConnect ? 'hidden' : 'visible')};
-`
 
 class BackupSetup extends React.Component {
   static propTypes = {
@@ -46,6 +41,8 @@ class BackupSetup extends React.Component {
     return (
       <Container alignItems="center" flexDirection="column" justifyContent="center" mt={3}>
         <Form
+          height={BACKUP_FORM_HEIGHT}
+          width={BACKUP_FORM_WIDTH}
           {...rest}
           getApi={formApi => {
             this.setFormApi(formApi)
@@ -76,7 +73,6 @@ class BackupSetup extends React.Component {
                 width={1 / 3}
               />
               <BackupTypeItem
-                isDisabled
                 label={<FormattedMessage {...messages.backup_type_local} />}
                 mx={5}
                 value="local"

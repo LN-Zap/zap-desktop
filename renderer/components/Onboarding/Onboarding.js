@@ -20,6 +20,7 @@ import {
   WalletCreate,
   WalletRecover,
   BackupSetup,
+  BackupSetupLocal,
 } from './Steps'
 import messages from './messages'
 
@@ -41,6 +42,7 @@ function removeSteps(formSteps, steps) {
 class Onboarding extends React.Component {
   static propTypes = {
     autopilot: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
+    backupProvider: PropTypes.string.isRequired,
     clearCreateWalletError: PropTypes.func.isRequired,
     clearStartLndError: PropTypes.func.isRequired,
     connectionCert: PropTypes.string,
@@ -51,7 +53,6 @@ class Onboarding extends React.Component {
     createWallet: PropTypes.func.isRequired,
     createWalletError: PropTypes.string,
     fetchSeed: PropTypes.func.isRequired,
-    initBackupService: PropTypes.func.isRequired,
     isCreatingWallet: PropTypes.bool,
     isFetchingSeed: PropTypes.bool,
     isLightningGrpcActive: PropTypes.bool,
@@ -70,12 +71,14 @@ class Onboarding extends React.Component {
     setConnectionString: PropTypes.func.isRequired,
     setConnectionType: PropTypes.func.isRequired,
     setLndconnect: PropTypes.func.isRequired,
+    setLocalPath: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
     setNetwork: PropTypes.func.isRequired,
     setPassphrase: PropTypes.func.isRequired,
     setPassword: PropTypes.func.isRequired,
     setSeed: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
+    setupBackupService: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
     startLndCertError: PropTypes.string,
     startLndHostError: PropTypes.string,
@@ -146,8 +149,9 @@ class Onboarding extends React.Component {
       createWallet,
       stopLnd,
       unlockWallet,
-      initBackupService,
+      setupBackupService,
       setBackupProvider,
+      setLocalPath,
     } = this.props
 
     let formSteps = []
@@ -169,6 +173,7 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step key="BackupSetup" component={BackupSetup} {...{ setBackupProvider }} />,
+          <Wizard.Step key="BackupSetupLocal" component={BackupSetupLocal} {...{ setLocalPath }} />,
           <Wizard.Step
             key="WalletCreate"
             component={WalletCreate}
@@ -177,7 +182,7 @@ class Onboarding extends React.Component {
               isCreatingWallet,
               createWallet,
               createWalletError,
-              initBackupService,
+              setupBackupService,
             }}
           />,
         ]
@@ -273,11 +278,12 @@ class Onboarding extends React.Component {
       ...formSteps,
     ]
 
-    // It is currently not recommended to use autopilot on mainnet.
-    // If user has selected mainnet, remove the autopilot form step.
     return removeSteps(steps, [
+      // It is currently not recommended to use autopilot on mainnet.
+      // If user has selected mainnet, remove the autopilot form step.
       ['Autopilot', network === 'mainnet' && !isMainnetAutopilot()],
       ['Network', !isNetworkSelectionEnabled()],
+      ['BackupSetupLocal', this.shouldRemoveBackupSetupLocalStep()],
     ])
   }
 
@@ -303,6 +309,10 @@ class Onboarding extends React.Component {
     return seed.length > 0 ? 0 : null
   }
 
+  shouldRemoveBackupSetupLocalStep() {
+    const { backupProvider } = this.props
+    return backupProvider != 'local'
+  }
   render() {
     const { connectionType, isLightningGrpcActive } = this.props
     const steps = this.getSteps()

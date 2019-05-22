@@ -5,6 +5,7 @@ import { walletSelectors } from './wallet'
 import { infoSelectors } from './info'
 
 const SET_PROVIDER = 'SET_PROVIDER'
+const SET_LOCAL_PATH = 'SET_LOCAL_PATH'
 
 const dbGet = async walletId => {
   const wallet = await window.db.wallets.get(walletId)
@@ -43,6 +44,37 @@ export function backupTokensUpdated(event, { provider, tokens, walletId }) {
 }
 
 /**
+ * Sets backup related properties into DB and initializes backup service
+ * Should be used once per `walletId` during wallet lifetime
+ * to prepare backup service for the operation
+ * Once backup is setup, `initBackupService` should be used in subsequent sessions
+ * to launch the service
+ *
+ * @export
+ * @param {*} walletId
+ * @returns
+ */
+export function setupBackupService(walletId) {
+  return async (dispatch, getState) => {
+    const { providerSelector, localPathSelector } = backupSelectors
+    const provider = providerSelector(getState())
+    const isLocalStrategy = provider === 'local'
+
+    await updateBackupProvider(walletId, provider)
+    if (isLocalStrategy) {
+      const dir = localPathSelector(getState())
+      // we have backup dir setup in redux, use it to initialize db backup setup
+      if (dir) {
+        updateBackupId({ provider, backupId: dir, walletId })
+        dispatch(setLocalPath(null))
+      }
+    }
+
+    dispatch(initBackupService(walletId, false))
+  }
+}
+
+/**
  * Initializes backup service for the specified wallet. Backup provider must be either set in db
  * or in `state.backup.provider` before calling this routine
  *
@@ -53,26 +85,29 @@ export function backupTokensUpdated(event, { provider, tokens, walletId }) {
  */
 export function initBackupService(walletId, forceUseTokens = false) {
   return async (dispatch, getState) => {
+    const { providerSelector } = backupSelectors
     const wId = walletId || walletSelectors.activeWallet(getState())
+    const isLocalStrategy = () => providerSelector(getState()) === 'local'
+
     // returns backup service startup params based on serialized data availability
     const getServiceParams = async () => {
       const backupDesc = await dbGet(wId)
       // attempt to initialize backup service with stored tokens
       if (backupDesc) {
         const { activeProvider } = backupDesc
-        dispatch(setBackupProvider(activeProvider))
+        await dispatch(setBackupProvider(activeProvider))
         const { tokens } = backupDesc[activeProvider] || {}
         return { walletId: wId, tokens, provider: activeProvider }
       }
 
-      return { walletId: wId, provider: backupSelectors.providerSelector(getState()) }
+      return { walletId: wId, provider: providerSelector(getState()) }
     }
     const params = await getServiceParams()
 
     // do not initialize service if no tokens are available and forceUseToken is enabled
     // this allows to skip backup service initialization for wallets that don't have backup process
     // set up previously
-    if (!params.tokens && forceUseTokens) {
+    if (!isLocalStrategy() && !params.tokens && forceUseTokens) {
       return
     }
 
@@ -125,29 +160,32 @@ export const backupCurrentWallet = (walletId, backup) => async (dispatch, getSta
 }
 
 export const saveBackupSuccess = (event, { provider, backupId, walletId }) => async () => {
-  await dbTransaction(async () => {
-    const backupDesc = (await dbGet(walletId)) || {}
-    set(backupDesc, [provider, 'backupId'], backupId)
-    await dbUpdate(walletId, backupDesc)
-  })
+  await updateBackupId({ provider, backupId, walletId })
 }
 
+export const updateBackupId = async ({ provider, backupId, walletId }) => {
+  const backupDesc = (await dbGet(walletId)) || {}
+  set(backupDesc, [provider, 'backupId'], backupId)
+  await dbUpdate(walletId, backupDesc)
+}
 /**
  * IPC callback for backup service being ready
  */
-export const backupServiceInitialized = (event, { walletId, provider }) => async dispatch => {
+export const backupServiceInitialized = (event, { walletId }) => async dispatch => {
+  dispatch(backupCurrentWallet(walletId))
+}
+
+async function updateBackupProvider(walletId, provider) {
   await dbTransaction(async () => {
     const backupDesc = (await dbGet(walletId)) || {}
     backupDesc.activeProvider = provider
     await dbUpdate(walletId, backupDesc)
   })
-
-  dispatch(backupCurrentWallet(walletId))
 }
 
 /**
  * Set
- * @param {('gdrive'|'local'|'dropbox')} provider - backup service provider to be used in `initBackupService` call
+ * @param {('gdrive'|'local'|'dropbox')} provider  backup service provider to be used in `initBackupService` call
  */
 export const setBackupProvider = provider => {
   return {
@@ -156,10 +194,25 @@ export const setBackupProvider = provider => {
   }
 }
 
+/**
+ * Set
+ * @param {string} localPath local filesystem directory URI
+ */
+export const setLocalPath = localPath => {
+  return {
+    type: SET_LOCAL_PATH,
+    localPath,
+  }
+}
+
 const ACTION_HANDLERS = {
   [SET_PROVIDER]: (state, { provider }) => ({
     ...state,
     provider,
+  }),
+  [SET_LOCAL_PATH]: (state, { localPath }) => ({
+    ...state,
+    localPath,
   }),
 }
 
@@ -170,6 +223,7 @@ const initialState = {
 // Selectors
 const backupSelectors = {}
 backupSelectors.providerSelector = state => state.backup.provider
+backupSelectors.localPathSelector = state => state.backup.localPath
 
 export { backupSelectors }
 
