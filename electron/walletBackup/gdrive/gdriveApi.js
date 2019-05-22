@@ -130,8 +130,10 @@ export function createAuthWindow(oAuthClient, scope, windowParams = { width: 500
   const authWindow = new BrowserWindow({
     ...windowParams,
     show: true,
-    nodeIntegration: false,
-    contextIsolation: true,
+    webPreferences: {
+      nodeIntegration: false,
+      contextIsolation: true,
+    },
   })
 
   const authUrl = createAuthUrl({
