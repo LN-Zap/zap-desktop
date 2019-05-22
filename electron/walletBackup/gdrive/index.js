@@ -1,17 +1,18 @@
 import EventEmitter from 'events'
 import config from 'config'
 import { forwardEvent } from '@zap/utils/events'
+import chainify from '@zap/utils/chainify'
 import { mainLog } from '@zap/utils/log'
 import createClient from './gdrive'
 
 class BackupService extends EventEmitter {
   drive = null
   /**
-   * Cleans up current login. Should be called as a cleanup or before calling `login` with another credentials
+   * Cleans up current login. Should be called as a cleanup or before calling `init` with another credentials
    *
    * @memberof BackupService
    */
-  async logout() {
+  async terminate() {
     const { drive } = this
     drive && drive.removeAllListeners('tokensReceived')
     this.drive = null
@@ -25,7 +26,7 @@ class BackupService extends EventEmitter {
    * @returns
    * @memberof BackupService
    */
-  async login(tokens) {
+  async init(tokens) {
     const { redirectUrl, clientId, scope } = config.backup.gdrive
     const { drive } = this
     if (!drive) {
@@ -91,7 +92,7 @@ class BackupService extends EventEmitter {
    * @returns {string} google drive fileID
    * @memberof BackupService
    */
-  async saveBackup(walletId, fileId, backup) {
+  saveBackup = chainify(async (walletId, fileId, backup) => {
     const backupExists = async () => {
       try {
         await drive.getFileInfo(fileId)
@@ -102,7 +103,7 @@ class BackupService extends EventEmitter {
     }
     const { drive } = this
     if (drive) {
-      // if fileId is provded and backup exists - update it
+      // if fileId is provided and backup exists - update it
       if (fileId && (await backupExists())) {
         await drive.updateFromBuffer(fileId, backup)
         return fileId
@@ -114,7 +115,7 @@ class BackupService extends EventEmitter {
     } else {
       mainLog.warn('Attempting to call saveBackup in logged-out state')
     }
-  }
+  })
 
   /**
    * Provider name
@@ -124,6 +125,14 @@ class BackupService extends EventEmitter {
    */
   get name() {
     return 'gdrive'
+  }
+
+  /**
+   * This service is cloud based and requires tokens to operate
+   * It also emits `tokensReceived` event
+   */
+  get isUsingTokens() {
+    return true
   }
 }
 // singleton backup service
