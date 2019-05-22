@@ -101,4 +101,8 @@ export default defineMessages({
   backup_type_local: 'Local',
   backup_type_dropbox: 'Dropbox',
   backup_type_gdrive: 'Google Drive',
+  backup_local_header: 'Choose directory',
+  backup_path_label: 'Backup directory',
+  backup_path_description: 'Channel backups will be stored here',
+  backup_dir_not_exist: 'Directory does not exist',
 })
