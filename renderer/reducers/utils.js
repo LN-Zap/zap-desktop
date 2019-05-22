@@ -7,6 +7,7 @@ import { appSelectors } from './app'
 import { tickerSelectors } from './ticker'
 import { transactionsSelectors } from './transaction'
 import { channelsSelectors } from './channels'
+
 /**
  * Aggregated isLoading selector that accounts for current wallet and lnd state
  */
@@ -22,8 +23,8 @@ export const isLoading = createSelector(
  * Add custom isLoading rules here
  * @param {} state
  */
-export const isLoadingPerPath = state => {
-  const { pathname } = state.router.location
+export const isLoadingPerPath = (state, location = {}) => {
+  const { pathname } = location
 
   if (pathname === '/') {
     return !appSelectors.isRootReady(state)
@@ -40,11 +41,12 @@ export const isLoadingPerPath = state => {
 
   return false
 }
+
 /*
  * Maps app state to a loading message
  * @param {} state
  */
-export const getLoadingMessage = state => {
+export const getLoadingMessage = (state, location = {}) => {
   const activeWallet = walletSelectors.activeWalletSettings(state)
   const isLocal = activeWallet && activeWallet.type === 'local'
 
@@ -58,7 +60,7 @@ export const getLoadingMessage = state => {
   }
 
   // path specific messages
-  const { pathname } = state.router.location
+  const { pathname } = location
   if (pathname === '/syncing') {
     const { isLightningGrpcActive } = state.lnd
     if (!isLightningGrpcActive) {

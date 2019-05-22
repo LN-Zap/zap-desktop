@@ -1,9 +1,8 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import thunk from 'redux-thunk'
 import { createMemoryHistory } from 'history'
-import { routerActions, routerMiddleware } from 'connected-react-router'
 import { createLogger } from 'redux-logger'
-import createRootReducer from 'reducers'
+import rootReducer from 'reducers'
 import ipc from 'reducers/ipc'
 
 export const history = createMemoryHistory()
@@ -22,10 +21,6 @@ export const configureStore = initialState => {
     collapsed: true,
   })
   middleware.push(logger)
-
-  // Router Middleware
-  const router = routerMiddleware(history)
-  middleware.push(router)
 
   // REDUX action profiling middle ware
   /* eslint-enable no-underscore-dangle */
@@ -49,9 +44,6 @@ export const configureStore = initialState => {
   const composeEnhancers =
     typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
       ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
-          actionCreators: {
-            ...routerActions,
-          },
           stateSanitizer: state => {
             const { invoice, locale, network } = state
             const MAX_NODES = 10
@@ -97,11 +89,11 @@ export const configureStore = initialState => {
   const enhancer = composeEnhancers(...enhancers)
 
   // Create Store
-  const store = createStore(createRootReducer(history), initialState, enhancer)
+  const store = createStore(rootReducer, initialState, enhancer)
 
   if (module.hot) {
     module.hot.accept('reducers', () => {
-      store.replaceReducer(createRootReducer(history))
+      store.replaceReducer(rootReducer)
     })
   }
 

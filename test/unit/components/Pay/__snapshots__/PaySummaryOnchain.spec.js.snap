@@ -68,7 +68,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
               />
             </Text>
           </styled.div>
-          <Connect(WithTheme(Dropdown))
+          <ConnectFunction
             ml={2}
           />
         </Styled(styled.div)>
