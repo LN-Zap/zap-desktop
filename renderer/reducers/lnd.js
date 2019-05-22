@@ -286,7 +286,14 @@ export const setLightningGrpcActive = () => async (dispatch, getState) => {
   // after connection was successfully established. This is especially important
   // for the first connection to be sure settings are correct
   const { lndConfig } = getState().lnd
-  await dispatch(setActiveWallet(lndConfig.id))
+  let walletId = lndConfig.id
+  // no wallet id means wallet is being connected to for the first time
+  // use `putWallet` to update DB and obtain `id`
+  if (!walletId) {
+    ;({ id: walletId } = await dispatch(putWallet(lndConfig)))
+  }
+
+  await dispatch(setActiveWallet(walletId))
 }
 
 /**
