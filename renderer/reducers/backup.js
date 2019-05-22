@@ -51,7 +51,7 @@ export function backupTokensUpdated(event, { provider, tokens, walletId }) {
  * to launch the service
  *
  * @export
- * @param {*} walletId
+ * @param {string} walletId
  * @returns
  */
 export function setupBackupService(walletId) {
@@ -94,10 +94,11 @@ export function initBackupService(walletId, forceUseTokens = false) {
       const backupDesc = await dbGet(wId)
       // attempt to initialize backup service with stored tokens
       if (backupDesc) {
-        const { activeProvider } = backupDesc
-        await dispatch(setBackupProvider(activeProvider))
-        const { tokens } = backupDesc[activeProvider] || {}
-        return { walletId: wId, tokens, provider: activeProvider }
+        const { activeProviders } = backupDesc
+        const [firstProvider] = activeProviders
+        await dispatch(setBackupProvider(firstProvider))
+        const { tokens } = backupDesc[firstProvider] || {}
+        return { walletId: wId, tokens, provider: firstProvider }
       }
 
       return { walletId: wId, provider: providerSelector(getState()) }
@@ -136,18 +137,19 @@ export const backupCurrentWallet = (walletId, backup) => async (dispatch, getSta
       return
     }
     const nodePub = infoSelectors.nodePub(state)
-    const { activeProvider, ...rest } = (await dbGet(walletId)) || {}
-    if (activeProvider) {
+    const { activeProviders, ...rest } = (await dbGet(walletId)) || {}
+    if (activeProviders) {
+      const [firstProvider] = activeProviders
       const backupData = backup || (await getFreshBackup())
-      if (backupData) {
-        const backupMetadata = activeProvider && rest[activeProvider]
+      if (backupData && firstProvider) {
+        const backupMetadata = rest[firstProvider]
         dispatch(
           send('saveBackup', {
             backup: getBackupBuff(backupData),
             walletId,
             backupMetadata,
             nodePub,
-            provider: activeProvider,
+            provider: firstProvider,
           })
         )
       }
@@ -159,10 +161,16 @@ export const backupCurrentWallet = (walletId, backup) => async (dispatch, getSta
   }
 }
 
+/**
+ * IPC callback for successful backup
+ */
 export const saveBackupSuccess = (event, { provider, backupId, walletId }) => async () => {
   await updateBackupId({ provider, backupId, walletId })
 }
 
+/**
+ * updates wallets' backupID in the DB
+ */
 export const updateBackupId = async ({ provider, backupId, walletId }) => {
   const backupDesc = (await dbGet(walletId)) || {}
   set(backupDesc, [provider, 'backupId'], backupId)
@@ -175,10 +183,18 @@ export const backupServiceInitialized = (event, { walletId }) => async dispatch 
   dispatch(backupCurrentWallet(walletId))
 }
 
+/**
+ * updates wallets' backup provider in the DB
+ */
 async function updateBackupProvider(walletId, provider) {
   await dbTransaction(async () => {
     const backupDesc = (await dbGet(walletId)) || {}
-    backupDesc.activeProvider = provider
+    const { activeProviders = [] } = backupDesc
+
+    if (!activeProviders.includes(provider)) {
+      backupDesc.activeProviders = [...activeProviders, provider]
+    }
+
     await dbUpdate(walletId, backupDesc)
   })
 }
