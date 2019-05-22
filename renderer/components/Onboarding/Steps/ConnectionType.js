@@ -2,21 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { withFieldApi } from 'informed'
-import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 import { Form, RadioGroup } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogoBolt'
 import BaseConnectionTypeItem from './components/ConnectionTypeItem'
+import Container from './components/Container'
 import messages from './messages'
 
 const ConnectionTypeItem = withFieldApi('connectionType')(BaseConnectionTypeItem)
-
-const Container = styled(Flex)`
-  position: absolute;
-  top: -30px;
-  bottom: 0;
-  visibility: ${props => (props.lndConnect ? 'hidden' : 'visible')};
-`
 
 class ConnectionType extends React.Component {
   static propTypes = {
