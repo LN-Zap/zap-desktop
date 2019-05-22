@@ -62,6 +62,13 @@ export const updaterLog = debugLogger.config(logConfig('updater'))('zap')
 export const grpcLog = debugLogger.config(logConfig('grpc'))('zap')
 
 let lndLogLevel = null // stored most recent log level for continuity
+
+/**
+ * lndLogGetLevel - Determine the log level for an lnd log message.
+ *
+ * @param {string} msg Log message
+ * @returns {string} Log level
+ */
 export const lndLogGetLevel = msg => {
   // Define a mapping between log level prefixes and log level names.
   const levelMap = {

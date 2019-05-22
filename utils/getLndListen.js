@@ -1,6 +1,12 @@
 import getPort from 'get-port'
 import config from 'config'
 
+/**
+ * getLndListen - Find a port for lnd to listen on.
+ *
+ * @param {string} type Interface type (p2p|grpc|rest)
+ * @returns {string} host:port
+ */
 const getLndListen = async type => {
   if (config.lnd[type].host) {
     const port = await getPort({

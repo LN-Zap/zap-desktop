@@ -4,9 +4,10 @@ import get from 'lodash.get'
 import isBase64url from '@zap/utils/isBase64url'
 
 /**
- * Check for a valid lndconnect uri.
- * @param  {String}  value String to validate.
- * @return {Boolean}       Boolean indicating wether the string is a valid or not.
+ * isValidLndConnectUri - Check for a valid lndconnect uri.
+ *
+ * @param {string} value String to validate
+ * @returns {boolean} Boolean indicating wether the string is a valid or not
  */
 export function isValidLndConnectUri(value) {
   try {
@@ -18,9 +19,10 @@ export function isValidLndConnectUri(value) {
 }
 
 /**
- * Check for a valid BtcPayServer connection string.
- * @param  {String}  value String to validate.
- * @return {Boolean}  Boolean indicating wether the string is a valid or not.
+ * isValidBtcPayConfig - Check for a valid BtcPayServer connection string.
+ *
+ * @param {string} value String to validate
+ * @returns {boolean} Boolean indicating wether the string is a valid or not
  */
 export function isValidBtcPayConfig(value) {
   try {
@@ -35,7 +37,10 @@ export function isValidBtcPayConfig(value) {
 }
 
 /**
- * checks if lndconnect uri contains raw cert or macaroon and not paths
+ * isEmbeddedLndConnectURI - Checks if lndconnect uri contains raw cert or macaroon and not paths.
+ *
+ * @param {string} uri String to check
+ * @returns {boolean} Boolean indicating wether the string is an embedded lndconnect uri
  */
 export function isEmbeddedLndConnectURI(uri) {
   try {

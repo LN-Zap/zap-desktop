@@ -3,14 +3,14 @@
  * `/dist/preload.js` using webpack.
  */
 import { ipcRenderer, remote, shell } from 'electron'
-import fs from 'fs'
 import { join } from 'path'
 import { promisify } from 'util'
 import assert from 'assert'
 import url from 'url'
-import untildify from 'untildify'
 import rimraf from 'rimraf'
 import isSubDir from '@zap/utils/isSubDir'
+import fileExists from '@zap/utils/fileExists'
+import dirExists from '@zap/utils/dirExists'
 import { getAllLocalWallets } from '@zap/utils/localWallets'
 import lndBinaryPath from '@zap/utils/lndBinaryPath'
 import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
@@ -18,7 +18,6 @@ import validateHost from '@zap/utils/validateHost'
 import splitHostname from '@zap/utils/splitHostname'
 import LndConfig from '@zap/utils/lndConfig'
 
-const fsReadFile = promisify(fs.readFile)
 const fsRimraf = promisify(rimraf)
 
 /**
@@ -75,8 +74,9 @@ function killNeutrino(signal) {
 
 /**
  * Generates an lnd config object from a wallet config.
- * @param  {Object} wallet Wallet config
- * @return {Object}        Lnd config
+ *
+ * @param  {object} wallet Wallet config
+ * @returns {object}        Lnd config
  */
 async function generateLndConfigFromWallet(wallet) {
   // Convert wallet config to lnd config.
@@ -101,6 +101,7 @@ async function generateLndConfigFromWallet(wallet) {
 
 /**
  * Returns specified wallet files location
+ *
  * @param {*} chain
  * @param {*} network
  * @param {*} wallet
@@ -111,7 +112,8 @@ function getWalletDir(chain, network, wallet) {
 
 /**
  * Delete a local wallet from the filesystem.
- * @param {Object} location - wallet location desc
+ *
+ * @param {object} location - wallet location desc
  * @param {string} location.chain - chain
  * @param {string} location.network - network
  * @param {string} location.wallet - wallet id
@@ -143,24 +145,6 @@ async function deleteLocalWallet({ chain, network, wallet, dir }) {
   } catch (e) {
     throw new Error(`There was a problem deleting wallet: ${e.message}`)
   }
-}
-
-/**
- * Check that a file exists.
- * @param {string} path Path of file to check for existence.
- * @returns {Promise<Boolean>}
- */
-async function fileExists(path) {
-  return fsReadFile(untildify(path))
-}
-
-/**
- * Check that a dir exists.
- * @param {string} path Path to dir
- * @returns {Boolean}
- */
-function dirExists(path) {
-  return fs.existsSync(untildify(path))
 }
 
 function getUserDataDir() {

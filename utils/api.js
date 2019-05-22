@@ -14,6 +14,12 @@ import { mainLog } from '@zap/utils/log'
 const scheme =
   (process && process.env.HOT) || (window.env && window.env.HOT) ? '/proxy/' : 'https://'
 
+/**
+ * requestTicker - Fetch a ticker from Coinbase.
+ *
+ * @param  {string} id Ticker id
+ * @returns {{currency:string, rates:*}} Ticker data
+ */
 export function requestTicker(id) {
   const BASE_URL = `${scheme}api.coinbase.com/v2/exchange-rates?currency=${id}`
   return axios({
@@ -22,6 +28,12 @@ export function requestTicker(id) {
   }).then(response => response.data)
 }
 
+/**
+ * requestTickers - Fetch multiple tickers from Coinbase.
+ *
+ * @param  {Array} ids Ticker ids to fetch
+ * @returns {{btcTicker:*, ltcTicker:*}} Ticker data
+ */
 export function requestTickers(ids) {
   return axios.all(ids.map(id => requestTicker(id))).then(
     axios.spread((btcTicker, ltcTicker) => ({
@@ -31,6 +43,11 @@ export function requestTickers(ids) {
   )
 }
 
+/**
+ * requestSuggestedNodes - Fetch suggested nodes list.
+ *
+ * @returns {*} Suggested node list
+ */
 export function requestSuggestedNodes() {
   const BASE_URL = `${scheme}zap.jackmallers.com/api/v1/suggested-peers`
   return axios({
@@ -39,6 +56,13 @@ export function requestSuggestedNodes() {
   }).then(response => response.data)
 }
 
+/**
+ * requestNodeScores - Fetch BOS node scores.
+ *
+ * @param  {string} chain Chain name
+ * @param  {string} network Network name
+ * @returns {*} BOS node scores processed into a format that lnd heuristics expects
+ */
 export function requestNodeScores(chain, network) {
   const chainMap = {
     bitcoin: 'btc',
@@ -67,6 +91,13 @@ export function requestNodeScores(chain, network) {
   )
 }
 
+/**
+ * requestFees - Fetch recommended fees from earn.com.
+ *
+ * @param {{fast, medium, slow}} options Options
+ *
+ * @returns {{fastestFee:number, halfHourFee:number, hourFee:number}} Recommended fees
+ */
 export function requestFees(options) {
   const BASE_URL = 'https://bitcoinfees.earn.com/api/v1/fees/list'
   return axios({
@@ -74,9 +105,10 @@ export function requestFees(options) {
     url: BASE_URL,
   }).then(response => {
     /**
-     * Get the lowest fee to get in within a given number of target confs
+     * getFee - Get the lowest fee to get in within a given number of target confs.
+     *
      * @param  {number} targetConfs The target number of blocks
-     * @return {number|null} The fee rate in satoshi/byte
+     * @returns {number|null} The fee rate in satoshi/byte
      */
     const getFee = targetConfs => {
       const targetDelay = targetConfs - 1

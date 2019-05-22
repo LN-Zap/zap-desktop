@@ -38,22 +38,16 @@ export const networks = {
 const _isReady = new WeakMap()
 const _lndconnectQRCode = new WeakMap()
 
-/**
- * Utility methods to clean and prepare data.
- */
+// Utility methods to clean and prepare data.
 const safeTrim = val => (typeof val === 'string' ? val.trim() : val)
 const safeTildify = val => (typeof val === 'string' ? tildify(val) : val)
 const safeUntildify = val => (typeof val === 'string' ? untildify(val) : val)
 
 /**
- * LndConfig class
+ * @class LndConfig
+ * @param {*} options Lnd config options.
  */
 class LndConfig {
-  /**
-   * Lnd configuration class.
-   *
-   * @param {LndConfigOptions} [options] Lnd config options.
-   */
   constructor(options) {
     debug('LndConfig constructor called with options: %o', options)
 
@@ -193,7 +187,10 @@ class LndConfig {
   }
 
   /**
-   * Generate an lndconnect uri based on the config options.
+   * generateLndconnectUri - Generate an lndconnect uri based on the config options.
+   *
+   * @param {*} options Lnd config options
+   * @returns {string} Lndconnect uri
    */
   async generateLndconnectUri(options) {
     let { lndconnectUri, host, cert, macaroon } = options
@@ -218,7 +215,11 @@ class LndConfig {
   }
 
   /**
-   * Generate a flattened lnd connect uri. This will follow any filepaths, read the files and add the decoded content.
+   * generateLndconnectQRCode - Generate a flattened lnd connect uri.
+   *
+   * This will follow any filepaths, read the files and add the decoded content.
+   *
+   * @returns {string} Embedded lndconnect uri.
    */
   async generateLndconnectQRCode() {
     const { decoder, lndconnectUri } = this
@@ -232,7 +233,10 @@ class LndConfig {
   }
 
   /**
-   * Setter helper for connection properties.
+   * setConnectionProp - Setter helper for connection properties.
+   *
+   * @param {string} key key
+   * @param {string} value Value
    */
   setConnectionProp(key, value) {
     if (this.decoder === 'lnd.lndconnect.v1') {
@@ -242,7 +246,10 @@ class LndConfig {
   }
 
   /**
-   * Getter helper for connection keyerties.
+   * getConnectionProp - Getter helper for connection keyerties.
+   *
+   * @param {string} key key
+   * @returns {string} Value
    */
   getConnectionProp(key) {
     if (this.decoder === 'lnd.lndconnect.v1') {
@@ -252,7 +259,10 @@ class LndConfig {
   }
 
   /**
-   * Generate an lndconnect QR code from an lndconenctUri.
+   * qrcodeFromLndconnectUri - Generate an lndconnect QR code from an lndconenctUri.
+   *
+   * @param {string} lndconnectUri Lndconnect Uri
+   * @returns {string} Embedded lndconnect uri
    */
   static async qrcodeFromLndconnectUri(lndconnectUri) {
     const { host, cert, macaroon } = lndconnect.decode(lndconnectUri)

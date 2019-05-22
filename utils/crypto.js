@@ -27,6 +27,13 @@ export const coinTypes = {
   },
 }
 
+/**
+ * decodePayReq - Decodes a payment request.
+ *
+ * @param {string} payReq Payment request
+ * @param {boolean} addDefaults Boolean indicating wether to inject default values (default=true)
+ * @returns {*} Decoded payment request
+ */
 export const decodePayReq = (payReq, addDefaults = true) => {
   const data = lightningRequestReq.decode(payReq)
   const expiry = data.tags.find(t => t.tagName === 'expire_time')
@@ -42,7 +49,11 @@ export const decodePayReq = (payReq, addDefaults = true) => {
 }
 
 /**
- * Turns parsed number into a string.
+ * formatValue - Turns parsed number into a string.
+ *
+ * @param {number|string} integer Integer part
+ * @param {number|string} fractional Fractional part
+ * @returns {*} Formatted value
  */
 export const formatValue = (integer, fractional) => {
   let value
@@ -60,7 +71,11 @@ export const formatValue = (integer, fractional) => {
 }
 
 /**
- * Splits number into integer and fraction.
+ * parseNumber - Splits number into integer and fraction.
+ *
+ * @param {number|string} _value Value to parse
+ * @param {number} precision Decimal precision
+ * @returns {Array} Parsed value
  */
 export const parseNumber = (_value, precision) => {
   let value = String(_value || '')
@@ -93,10 +108,12 @@ export const parseNumber = (_value, precision) => {
 }
 
 /**
- * Test to see if a string is a valid on-chain address.
- * @param {String} input string to check.
- * @param {String} [network='mainnet'] network to check (mainnet, testnet).
- * @return {Boolean} boolean indicating wether the address is a valid on-chain address.
+ * isOnchain - Test to see if a string is a valid on-chain address.
+ *
+ * @param {string} input Value to check
+ * @param {string} chain Chain name
+ * @param {string} network Network name
+ * @returns {boolean} Boolean indicating wether the address is a valid on-chain address
  */
 export const isOnchain = (input, chain, network) => {
   if (!input || !chain || !network) {
@@ -112,11 +129,12 @@ export const isOnchain = (input, chain, network) => {
 }
 
 /**
- * Test to see if a string is a valid lightning address.
- * @param {String} input string to check.
- * @param {String} [network='bitcoin'] chain to check (bitcoin, litecoin).
- * @param {String} [network='mainnet'] network to check (mainnet, testnet, regtest).
- * @return {Boolean} boolean indicating wether the address is a lightning address.
+ * isLn - Test to see if a string is a valid lightning address.
+ *
+ * @param {string} input Value to check
+ * @param {string} chain Chain name
+ * @param {string} network Network name
+ * @returns {boolean} Boolean indicating wether the address is a lightning address
  */
 export const isLn = (input, chain = 'bitcoin', network = 'mainnet') => {
   if (!input || typeof input !== 'string') {
@@ -134,10 +152,11 @@ export const isLn = (input, chain = 'bitcoin', network = 'mainnet') => {
 }
 
 /**
- * Get a nodes alias.
- * @param {String} pubkey pubKey of node to fetch alias for.
- * @param {Array} Node list to search.
- * @return {String} Node alias, if found
+ * getNodeAlias - Get a nodes alias.
+ *
+ * @param {string} pubkey pubKey of node to fetch alias for.
+ * @param {Array} nodes listof nodes to search.
+ * @returns {string} Node alias, if found
  */
 export const getNodeAlias = (pubkey, nodes = []) => {
   const node = nodes.find(n => n.pub_key === pubkey)
@@ -150,9 +169,10 @@ export const getNodeAlias = (pubkey, nodes = []) => {
 }
 
 /**
- * Given a list of routest, find the minimum fee.
- * @param {QueryRoutesResponse} routes
- * @return {Number} minimum fee rounded up to the nearest satoshi.
+ * getMinFee - Given a list of routest, find the minimum fee.
+ *
+ * @param {*} routes List of routes
+ * @returns {number} minimum fee rounded up to the nearest satoshi
  */
 export const getMinFee = (routes = []) => {
   if (!routes || !routes.length) {
@@ -162,9 +182,10 @@ export const getMinFee = (routes = []) => {
 }
 
 /**
- * Given a list of routest, find the maximum fee.
- * @param {QueryRoutesResponse} routes
- * @return {Number} maximum fee.
+ * getMaxFee - Given a list of routest, find the maximum fee.
+ *
+ * @param {*} routes List of routes
+ * @returns {number} maximum fee
  */
 export const getMaxFee = routes => {
   if (!routes || !routes.length) {
@@ -174,9 +195,10 @@ export const getMaxFee = routes => {
 }
 
 /**
- * Given a list of routest, find the maximum and maximum fee.
- * @param {QueryRoutesResponse} routes
- * @return {Object} object with kets `min` and `max`
+ * getFeeRange - Given a list of routest, find the maximum and maximum fee.
+ *
+ * @param {*} routes List of routes
+ * @returns {{min:number, max:number}} object with keys `min` and `max`
  */
 export const getFeeRange = (routes = []) => ({
   min: getMinFee(routes),

@@ -3,17 +3,18 @@ import isEqual from 'lodash.isequal'
 import EventEmitter from 'events'
 
 /**
- * Creates polling stream for the specified LND command
- * streamify must be called in a `EventEmitter` context, meaning `this.emit` should exist.
- * e.g streamify.call(this,{...})
- * @export
- * @param {Object} streamDefinition - stream params
- * @param {function} streamDefinition.command - `grpc` command,
+ * streamify - Creates polling stream for the specified LND command.
+ *
+ * Streamify must be called in a `EventEmitter` context, meaning `this.emit` should exist.
+ * e.g streamify.call(this,{...}).
+ *
+ * @param {*} streamDefinition - stream params
+ * @param {Function} streamDefinition.command - `grpc` command,
  * @param {string} streamDefinition.dataEventName - event name to that it used to dispatch `data` event,
  * @param {string} streamDefinition.errorEventName - event name to that it used to dispatch `error` event,
  * @param {number} streamDefinition.pollInterval - how frequent to execute `command`,
  * @param {boolean} streamDefinition.cancelOnError - if `cancel` should be called when `command` throws an exception,
- * @returns {Object} - returns stream-like object that has `on` and `cancel` methods
+ * @returns {*} - returns stream-like object that has `on` and `cancel` methods
  */
 export default function streamify({
   command,

@@ -4,14 +4,12 @@ import { requestFees } from '@zap/utils/api'
 import { mainLog } from '@zap/utils/log'
 
 /**
- * Returns fee estimation for the specified @address  @amount @targetConf
- * using LND gRPC API.
+ * estimateLndFee - Returns fee estimation for the specified @address @amount & @targetConf using LND gRPC API.
  *
- * @export
- * @param {string} address
- * @param {number} amount amount in satoshis
- * @param {number} targetConf desired confirmation time
- * @returns {Object} {fee_sat, feerate_sat_per_byte} if success or null in case of any error
+ * @param {string} address Address
+ * @param {number} amount Amount in satoshis
+ * @param {number} targetConf Desired confirmation time
+ * @returns {{fee_sat, feerate_sat_per_byte}|null} Fee data if success or null in case of any error
  */
 export async function estimateLndFee(address, amount, targetConf) {
   // lnd fee estimator requires this params
@@ -37,12 +35,13 @@ export async function estimateLndFee(address, amount, targetConf) {
 }
 
 /**
- * Returns fee estimation for the specified range
- * Expected range format is {fast, medium, slow}
- * Fee estimation is based on LND endpoint. If it's unavailable then @fallback is used
- * @export
- * @param {*} { address, amountInSats, range, asRate = true, fallback = requestFees }
- * @returns
+ * estimateFeeRange - Estimate fees for specified range.
+ *
+ * Expected range format is {fastestConfCount, halfHourConfCount, hourConfCount}
+ * Fee estimation is based on LND endpoint. If it's unavailable then @fallback is used.
+ *
+ * @param {{address, amountInSats, range, asRate, fallback}} options Options
+ * @returns {{fastestFee:number, halfHourFee:number, hourFee:number}} Fee data
  */
 export async function estimateFeeRange({
   address,

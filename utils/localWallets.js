@@ -9,7 +9,11 @@ const fsReaddir = promisify(readdir)
 const fsRimraf = promisify(rimraf)
 
 /**
- * Get a list of local wallets from the filesystem for a given chain/network.
+ * getLocalWallets - Get a list of local wallets from the filesystem for a given chain/network.
+ *
+ * @param  {string} chain Chain name
+ * @param  {string} network Network name
+ * @returns {Array} List of wallets
  */
 export async function getLocalWallets(chain, network) {
   try {
@@ -18,7 +22,7 @@ export async function getLocalWallets(chain, network) {
     const walletDir = join(app.getPath('userData'), 'lnd', chain, network)
     const wallets = await fsReaddir(walletDir)
 
-    // Look for tls.cert file inside wallet dir to consider it a wallet candidate
+    // Look for tls.cert file inside wallet dir to consider it a wallet candidate.
     const isWalletDir = wallet => existsSync(join(walletDir, wallet, 'tls.cert'))
     return wallets.filter(isWalletDir).map(wallet => ({
       type: 'local',
@@ -32,7 +36,11 @@ export async function getLocalWallets(chain, network) {
 }
 
 /**
- * Get a list of local wallets from the filesystem.
+ * getAllLocalWallets - Get a list of local wallets from the filesystem.
+ *
+ * @param  {Array} chains = [] List of chain names
+ * @param  {Array} networks = [] List of network names
+ * @returns {Array} List of local wallets matching chains and networks
  */
 export async function getAllLocalWallets(chains = [], networks = []) {
   const configs = []
@@ -55,7 +63,12 @@ export async function getAllLocalWallets(chains = [], networks = []) {
 }
 
 /**
- * Purge a local wallet (triggers a resync)
+ * purgeLocalWallet - Purge a local wallet (triggers a resync).
+ *
+ * @param  {string} chain Chain name
+ * @param  {string} network Network name
+ * @param  {string} wallet Wallet name
+ * @returns {Promise} Promise
  */
 export async function purgeLocalWallet(chain, network, wallet) {
   assert(chain && network && wallet)
@@ -65,7 +78,11 @@ export async function purgeLocalWallet(chain, network, wallet) {
 }
 
 /**
- * Purge all local wallets (triggers a resync)
+ * purgeAllLocalWallets - Purge all local wallets (triggers a resync).
+ *
+ * @param  {Array} chains = [] list of chain names
+ * @param  {Array} networks = [] list of network names
+ * @returns {Promise} Promise
  */
 export async function purgeAllLocalWallets(chains = [], networks = []) {
   const wallets = await getAllLocalWallets(chains, networks)

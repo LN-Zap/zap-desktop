@@ -3,8 +3,9 @@ import isDev from 'electron-is-dev'
 import appRootPath from '@zap/utils/appRootPath'
 
 /**
- * Get the OS specific path to the rpc.proto files that are provided by lnd-grpc.
- * @return {String} Path to the rpc.proto files.
+ * lndGrpcProtoDir - Get the OS specific path to the rpc.proto files that are provided by lnd-grpc.
+ *
+ * @returns {string} Path to the rpc.proto files
  */
 const lndGrpcProtoDir = () => {
   return isDev

@@ -1,3 +1,10 @@
+/**
+ * truncate - Truncate a string by replacing the middle characters with ...
+ *
+ * @param {string} text String to truncate
+ * @param {number} maxlen Length to truncate to
+ * @returns {string} Truncates string
+ */
 const truncate = (text, maxlen = 100) => {
   if (typeof text === 'string') {
     const truncatedText =
