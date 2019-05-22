@@ -35,7 +35,3 @@ on_failure:
 
 deploy_script:
   - cmd: powershell if (($env:appveyor_repo_name -eq 'LN-Zap/zap-desktop') -and (($env:appveyor_repo_branch -eq 'master') -or ($env:appveyor_repo_branch -eq 'next'))) { yarn release --win }
-
-artifacts:
-  - path: screenshots
-    name: Screenshots
