@@ -1,13 +1,21 @@
 import EventEmitter from 'events'
 import { forwardEvent } from '@zap/utils/events'
 
+/**
+ * Base class for backup services that use tokens
+ *
+ * @export
+ * @class TokenBasedBackupService
+ * @extends {EventEmitter}
+ */
 export default class TokenBasedBackupService extends EventEmitter {
+  // backup service connection. represents concrete service API (such as dropbox or google drive)
   connection = null
 
   /**
+   * Initializes backup service connection and registers token listeners
    *
-   *
-   * @param {function} createClient
+   * @param {function} createClient function that instantiates `connection` object
    * @memberof TokenBasedBackupService
    */
   async init(createClient) {
@@ -32,12 +40,12 @@ export default class TokenBasedBackupService extends EventEmitter {
   /**
    * Checks if client is setup for interactions. Also tests tokens for validity
    *
-   * @returns
+   * @returns {boolean} whether service is currently connected
    * @memberof BackupService
    */
   async isLoggedIn() {
     const { connection } = this
-    return connection && (await connection.testConnection())
+    return Boolean(connection && (await connection.testConnection()))
   }
 
   /**
@@ -54,6 +62,9 @@ export default class TokenBasedBackupService extends EventEmitter {
   /**
    * This service is token based and requires tokens to operate
    * It also emits `tokensReceived` event
+   *
+   * @readonly
+   * @memberof TokenBasedBackupService
    */
   get isUsingTokens() {
     return true

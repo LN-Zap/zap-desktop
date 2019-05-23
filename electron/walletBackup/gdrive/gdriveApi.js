@@ -28,10 +28,10 @@ export function createOAuthClient(clientId, redirectUrl) {
  *
  * Updates existing file from buffer
  * @export
- * @param {*} drive - drive instance
- * @param {*} fileId - google drive file id
- * @param {*} buffer - `Buffer` instance
- * @returns
+ * @param {Object} drive drive instance
+ * @param {string} fileId google drive file id
+ * @param {Buffer} buffer `Buffer` instance
+ * @returns {Object}
  */
 export async function updateFromBuffer(drive, fileId, buffer) {
   const res = await drive.files.update({
@@ -44,13 +44,13 @@ export async function updateFromBuffer(drive, fileId, buffer) {
 }
 
 /**
- *
  * Creates new file from buffer
+ *
  * @export
- * @param {*} drive - drive instance
- * @param {*} name - desired file name
- * @param {*} buffer - `Buffer` instance
- * @returns
+ * @param {Object} drive drive instance
+ * @param {string} name desired file name
+ * @param {Buffer} buffer `Buffer` instance
+ * @returns {Object}
  */
 export async function uploadFromBuffer(drive, name, buffer) {
   const res = await drive.files.create({
@@ -68,8 +68,8 @@ export async function uploadFromBuffer(drive, name, buffer) {
  * Retrieves file metadata
  *
  * @export
- * @param {*} drive - drive instance
- * @param {*} fileId - google drive file id
+ * @param {*} drive drive instance
+ * @param {*} fileId google drive file id
  * @returns
  */
 export async function getFileInfo(drive, fileId) {
@@ -80,11 +80,11 @@ export async function getFileInfo(drive, fileId) {
 }
 
 /**
- *
  * Downloads specified file as a `Buffer`
+ *
  * @export
- * @param {*} drive - drive instance
- * @param {*} fileId - google drive file id
+ * @param {*} drive drive instance
+ * @param {*} fileId google drive file id
  * @returns {Buffer}
  */
 export function downloadToBuffer(drive, fileId) {
@@ -126,6 +126,15 @@ export async function listFiles(drive, params = {}) {
   })
 }
 
+/**
+ * Initiates user authentication procedure via google OAuth2
+ *
+ * @export
+ * @param {Object} oAuthClient googleapis OAuth2 client
+ * @param {string} scope google drive access scope
+ * @param {Object} [windowParams={ width: 500, height: 600 }] Electron browser window properties
+ * @returns
+ */
 export function createAuthWindow(oAuthClient, scope, windowParams = { width: 500, height: 600 }) {
   const authWindow = new BrowserWindow({
     ...windowParams,
@@ -177,8 +186,8 @@ export function createAuthWindow(oAuthClient, scope, windowParams = { width: 500
  * Converts auth code to access tokens
  *
  * @export
- * @param {*} oAuthClient - google OAuth2 client instance
- * @param {*} code - auth code obtained through user authorization process
+ * @param {*} oAuthClient google OAuth2 client instance
+ * @param {*} code auth code obtained through user authorization process
  * @returns
  */
 export async function fetchAccessTokens(oAuthClient, code) {

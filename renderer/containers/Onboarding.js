@@ -40,7 +40,7 @@ import {
   setupBackupService,
   setBackupProvider,
   backupSelectors,
-  setLocalPath,
+  setBackupPathLocal,
 } from 'reducers/backup'
 
 const mapStateToProps = state => ({
@@ -96,7 +96,7 @@ const mapDispatchToProps = {
   unlockWallet,
   setupBackupService,
   setBackupProvider,
-  setLocalPath,
+  setBackupPathLocal,
 }
 
 const OnboardingContainer = connect(

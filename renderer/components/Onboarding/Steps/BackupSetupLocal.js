@@ -8,7 +8,8 @@ import messages from './messages'
 
 class BackupSetupLocal extends React.Component {
   static propTypes = {
-    setLocalPath: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
+    setBackupPathLocal: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
   }
@@ -23,8 +24,8 @@ class BackupSetupLocal extends React.Component {
   }
 
   handleSubmit = values => {
-    const { setLocalPath } = this.props
-    setLocalPath(values.path)
+    const { setBackupPathLocal } = this.props
+    setBackupPathLocal(values.path)
   }
 
   setFormApi = formApi => {
@@ -32,7 +33,7 @@ class BackupSetupLocal extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, setLocalPath, ...rest } = this.props
+    const { wizardApi, wizardState, setBackupPathLocal, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 

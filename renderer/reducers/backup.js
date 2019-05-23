@@ -66,7 +66,7 @@ export function setupBackupService(walletId) {
       // we have backup dir setup in redux, use it to initialize db backup setup
       if (dir) {
         updateBackupId({ provider, backupId: dir, walletId })
-        dispatch(setLocalPath(null))
+        dispatch(setBackupPathLocal(null))
       }
     }
 
@@ -115,6 +115,7 @@ export function initBackupService(walletId, forceUseTokens = false) {
     return dispatch(send('initBackupService', params))
   }
 }
+
 /**
  * Backs up current active wallet
  */
@@ -176,6 +177,7 @@ export const updateBackupId = async ({ provider, backupId, walletId }) => {
   set(backupDesc, [provider, 'backupId'], backupId)
   await dbUpdate(walletId, backupDesc)
 }
+
 /**
  * IPC callback for backup service being ready
  */
@@ -214,7 +216,7 @@ export const setBackupProvider = provider => {
  * Set
  * @param {string} localPath local filesystem directory URI
  */
-export const setLocalPath = localPath => {
+export const setBackupPathLocal = localPath => {
   return {
     type: SET_LOCAL_PATH,
     localPath,
@@ -233,7 +235,7 @@ const ACTION_HANDLERS = {
 }
 
 const initialState = {
-  provider: 'gdrive',
+  provider: null,
 }
 
 // Selectors

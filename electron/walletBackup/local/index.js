@@ -20,14 +20,14 @@ class BackupService {
   /**
    * Saves specified backup
    *
-   * @param {string} fileName backup dir path
+   * @param {string} walletId backup dir path
    * @param {string} dir relative  file path
    * @param {Buffer} backup `Buffer` with backup data
    * @returns {string}  file name
    * @memberof BackupService
    */
-  saveBackup = chainify(async (fileName, dir, backup) => {
-    const filePath = `${dir}/${fileName}`
+  saveBackup = chainify(async ({ walletId, fileId: dir, backup }) => {
+    const filePath = `${dir}/${walletId}`
     await writeFileAsync(filePath, backup)
     return dir
   })
@@ -43,7 +43,10 @@ class BackupService {
   }
 
   /**
-   * This service doesn't use tokens and  doesn't emit token events
+   * This service doesn't use tokens and doesn't emit token events
+   *
+   * @readonly
+   * @memberof BackupService
    */
   get isUsingTokens() {
     return false

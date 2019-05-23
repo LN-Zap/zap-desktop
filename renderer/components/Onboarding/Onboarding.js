@@ -64,6 +64,7 @@ class Onboarding extends React.Component {
     resetOnboarding: PropTypes.func.isRequired,
     seed: PropTypes.array,
     setAutopilot: PropTypes.func.isRequired,
+    setBackupPathLocal: PropTypes.func.isRequired,
     setBackupProvider: PropTypes.func.isRequired,
     setConnectionCert: PropTypes.func.isRequired,
     setConnectionHost: PropTypes.func.isRequired,
@@ -71,7 +72,6 @@ class Onboarding extends React.Component {
     setConnectionString: PropTypes.func.isRequired,
     setConnectionType: PropTypes.func.isRequired,
     setLndconnect: PropTypes.func.isRequired,
-    setLocalPath: PropTypes.func.isRequired,
     setName: PropTypes.func.isRequired,
     setNetwork: PropTypes.func.isRequired,
     setPassphrase: PropTypes.func.isRequired,
@@ -151,7 +151,7 @@ class Onboarding extends React.Component {
       unlockWallet,
       setupBackupService,
       setBackupProvider,
-      setLocalPath,
+      setBackupPathLocal,
     } = this.props
 
     let formSteps = []
@@ -173,7 +173,11 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step key="BackupSetup" component={BackupSetup} {...{ setBackupProvider }} />,
-          <Wizard.Step key="BackupSetupLocal" component={BackupSetupLocal} {...{ setLocalPath }} />,
+          <Wizard.Step
+            key="BackupSetupLocal"
+            component={BackupSetupLocal}
+            {...{ setBackupPathLocal }}
+          />,
           <Wizard.Step
             key="WalletCreate"
             component={WalletCreate}

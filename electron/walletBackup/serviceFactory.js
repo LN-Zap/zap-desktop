@@ -1,5 +1,6 @@
 import getGDrive from './gdrive'
 import getLocal from './local'
+import getDropbox from './dropbox'
 
 export const GOOGLE_DRIVE = 'gdrive'
 export const DROPBOX = 'dropbox'
@@ -10,7 +11,7 @@ export default function getBackupService(provider) {
     case GOOGLE_DRIVE:
       return getGDrive()
     case DROPBOX:
-      throw new Error('not implemented')
+      return getDropbox()
     case LOCAL:
       return getLocal()
     default:

@@ -63,24 +63,23 @@ class BackupSetup extends React.Component {
             <FormattedMessage {...messages.backup_header} />
           </Heading.h1>
           <Bar mb={6} />
-          <RadioGroup field="backupType" initialValue="gdrive" isRequired name="backupType">
+          <RadioGroup field="backupType" initialValue="local" isRequired name="backupType">
             <Flex alignItems="space-around" justifyContent="center" mt={3}>
               <BackupTypeItem
-                label={<FormattedMessage {...messages.backup_type_gdrive} />}
+                label={<FormattedMessage {...messages.backup_type_local} />}
                 mb={5}
                 mr={3}
-                value="gdrive"
+                value="local"
                 width={1 / 3}
               />
               <BackupTypeItem
-                label={<FormattedMessage {...messages.backup_type_local} />}
+                label={<FormattedMessage {...messages.backup_type_gdrive} />}
                 mx={5}
-                value="local"
+                value="gdrive"
                 width={1 / 3}
               />
 
               <BackupTypeItem
-                isDisabled
                 label={<FormattedMessage {...messages.backup_type_dropbox} />}
                 mb={5}
                 ml={3}

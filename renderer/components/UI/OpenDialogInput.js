@@ -40,6 +40,9 @@ const OpenDialogInput = props => {
 
 OpenDialogInput.propTypes = {
   fieldApi: PropTypes.object.isRequired,
+  // electron showOpenDialog feature flags
+  // https://electronjs.org/docs/api/dialog
+  // options.properties
   mode: PropTypes.string,
 }
 

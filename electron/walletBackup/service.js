@@ -6,7 +6,7 @@ export default function createBackupService(mainWindow) {
   // helper func to send messages to the renderer process
   const send = (msg, params) => mainWindow.webContents.send(msg, params)
 
-  // setups ipc to listen for backup service token updates and forward updates to
+  // sets up ipc to listen for backup service token updates and forward updates to
   // the renderer process
   const setupTokenUpdateListeners = (walletId, backupService) => {
     const handleTokensReceived = tokens => {
@@ -50,11 +50,11 @@ export default function createBackupService(mainWindow) {
       try {
         const backupService = getBackupService(provider)
         if (backupService) {
-          const backupId = await backupService.saveBackup(
-            nodePub,
-            backupMetadata && backupMetadata.backupId,
-            backup
-          )
+          const backupId = await backupService.saveBackup({
+            walletId: nodePub,
+            fileId: backupMetadata && backupMetadata.backupId,
+            backup,
+          })
           mainLog.info('Backup updated, fileID: %s', backupId)
           send('saveBackupSuccess', {
             backupId,

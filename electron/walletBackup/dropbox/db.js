@@ -4,6 +4,7 @@ import { Dropbox } from 'dropbox/lib'
 
 import delay from '@zap/utils/delay'
 import * as api from './dbApi'
+
 /**
  * Creates dropbox api connection
  * @param {*} { clientId, authRedirectUrl, tokens }
