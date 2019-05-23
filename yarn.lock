@@ -12844,10 +12844,10 @@ react-helmet-async@^0.2.0:
     react-fast-compare "^2.0.2"
     shallowequal "^1.0.2"
 
-react-hot-loader@4.8.7:
-  version "4.8.7"
-  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.8.7.tgz#8bcec3105d4e0e3cba52aa59800568fc9fb3322d"
-  integrity sha512-ctWAu8iwp37qd4w1qhjN6neDA1e5bSmAUY46L2l5SeK+i8AfzX+7lrpaLW4TJVaiBv5MlqIzA1ClNnvlvsy5Lg==
+react-hot-loader@4.8.8:
+  version "4.8.8"
+  resolved "https://registry.yarnpkg.com/react-hot-loader/-/react-hot-loader-4.8.8.tgz#71e3c7ba301556aa24c52cef2f6ed0af82395eea"
+  integrity sha512-58bgeS7So8V93MhhnKogbraor8xdrTncil+b6IoIXkTIr3blJNAE7bU4tn/iJvy2J7rjxQmKFRaxKrWdKUZpqg==
   dependencies:
     fast-levenshtein "^2.0.6"
     global "^4.3.0"
