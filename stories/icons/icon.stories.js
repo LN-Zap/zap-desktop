@@ -32,6 +32,7 @@ import Help2 from 'components/Icon/Help2'
 import IconPlus from 'components/Icon/IconPlus'
 import LayoutCards from 'components/Icon/LayoutCards'
 import LayoutList from 'components/Icon/LayoutList'
+import Logout from 'components/Icon/Logout'
 import Lightning from 'components/Icon/Lightning'
 import LightningChannel from 'components/Icon/LightningChannel'
 import Litecoin from 'components/Icon/Litecoin'
@@ -91,6 +92,7 @@ const zapIconsList = {
   Help2,
   LayoutCards,
   LayoutList,
+  Logout,
   IconPlus,
   Lightning,
   LightningChannel,
