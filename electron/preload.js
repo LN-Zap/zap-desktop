@@ -147,11 +147,20 @@ async function deleteLocalWallet({ chain, network, wallet, dir }) {
 
 /**
  * Check that a file exists.
- * @param {string} path Path of file to check gor existence.
+ * @param {string} path Path of file to check for existence.
  * @returns {Promise<Boolean>}
  */
 async function fileExists(path) {
   return fsReadFile(untildify(path))
+}
+
+/**
+ * Check that a dir exists.
+ * @param {string} path Path to dir
+ * @returns {Boolean}
+ */
+function dirExists(path) {
+  return fs.existsSync(untildify(path))
 }
 
 function getUserDataDir() {
@@ -181,6 +190,7 @@ window.Zap = {
   getUserDataDir,
   validateHost,
   fileExists,
+  dirExists,
   killNeutrino,
   splitHostname,
 }

@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import debounce from 'lodash.debounce'
 import { Form, OpenDialogInput, Heading, Bar } from 'components/UI'
 import { BACKUP_FORM_WIDTH, BACKUP_FORM_HEIGHT } from './components/settings'
 import Container from './components/Container'
@@ -19,9 +20,19 @@ class BackupSetupLocal extends React.Component {
     wizardState: {},
   }
 
-  validatePath = () => {
-    return true
-  }
+  validatePath = debounce(async () => {
+    const { intl } = this.props
+    const value = this.formApi.getValue('path')
+    if (!value) {
+      return
+    }
+    const dirExists = await window.Zap.dirExists(value)
+    if (dirExists) {
+      this.formApi.setError('path', undefined)
+    } else {
+      this.formApi.setError('path', intl.formatMessage({ ...messages.backup_dir_not_exist }))
+    }
+  }, 300)
 
   handleSubmit = values => {
     const { setBackupPathLocal } = this.props
@@ -40,6 +51,7 @@ class BackupSetupLocal extends React.Component {
     return (
       <Container alignItems="center" flexDirection="column" justifyContent="center" mt={3}>
         <Form
+          asyncValidators={[this.validatePath]}
           height={BACKUP_FORM_HEIGHT}
           width={BACKUP_FORM_WIDTH}
           {...rest}
@@ -71,8 +83,8 @@ class BackupSetupLocal extends React.Component {
             mode="openDirectory"
             name="path"
             onBlur={this.validatePath}
+            onChange={this.validatePath}
             validateOnBlur
-            validateOnChange
             width={1}
           />
         </Form>
@@ -81,4 +93,4 @@ class BackupSetupLocal extends React.Component {
   }
 }
 
-export default BackupSetupLocal
+export default injectIntl(BackupSetupLocal)
