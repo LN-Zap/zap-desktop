@@ -1,23 +1,10 @@
-import EventEmitter from 'events'
 import config from 'config'
-import { forwardEvent } from '@zap/utils/events'
 import chainify from '@zap/utils/chainify'
 import { mainLog } from '@zap/utils/log'
+import TokenBasedBackupService from '../base/TokenBasedBackupService'
 import createClient from './gdrive'
 
-class BackupService extends EventEmitter {
-  drive = null
-  /**
-   * Cleans up current login. Should be called as a cleanup or before calling `init` with another credentials
-   *
-   * @memberof BackupService
-   */
-  async terminate() {
-    const { drive } = this
-    drive && drive.removeAllListeners('tokensReceived')
-    this.drive = null
-  }
-
+class BackupService extends TokenBasedBackupService {
   /**
    * Setups gdrive service for usage. This method must be called before calling any other methods
    *
@@ -26,40 +13,17 @@ class BackupService extends EventEmitter {
    * @returns
    * @memberof BackupService
    */
+
   async init(tokens) {
-    const { redirectUrl, clientId, scope } = config.backup.gdrive
-    const { drive } = this
-    if (!drive) {
-      this.drive = await createClient({
+    const { redirectUrl, scope, clientId } = config.backup.gdrive
+    await super.init(
+      createClient.bind(null, {
         clientId,
         authRedirectUrl: redirectUrl,
         scope,
         tokens,
       })
-      forwardEvent(this.drive, 'tokensReceived', this)
-    }
-  }
-
-  /**
-   * Checks if client is setup for interactions. Also tests tokens for validity
-   *
-   * @returns
-   * @memberof BackupService
-   */
-  async isLoggedIn() {
-    const { drive } = this
-    return drive && (await drive.testConnection())
-  }
-
-  /**
-   * Returns current access tokens
-   *
-   * @returns {Object} current tokens object or null if not logged in
-   * @memberof BackupService
-   */
-  getTokens() {
-    const { drive } = this
-    return drive && drive.getTokens()
+    )
   }
 
   getBackupId() {
@@ -74,10 +38,10 @@ class BackupService extends EventEmitter {
    * @memberof BackupService
    */
   async loadBackup(walletId) {
-    const { drive, getBackupId } = this
+    const { connection, getBackupId } = this
     const fileId = getBackupId(walletId)
     if (fileId) {
-      const backup = await drive.downloadToBuffer(fileId)
+      const backup = await connection.downloadToBuffer(fileId)
       return backup
     }
     return null
@@ -92,24 +56,25 @@ class BackupService extends EventEmitter {
    * @returns {string} google drive fileID
    * @memberof BackupService
    */
-  saveBackup = chainify(async (walletId, fileId, backup) => {
+  saveBackup = chainify(async ({ walletId, fileId, backup }) => {
+    const { connection } = this
     const backupExists = async () => {
       try {
-        await drive.getFileInfo(fileId)
+        await connection.getFileInfo(fileId)
         return true
       } catch (e) {
         return false
       }
     }
-    const { drive } = this
-    if (drive) {
+
+    if (connection) {
       // if fileId is provided and backup exists - update it
       if (fileId && (await backupExists())) {
-        await drive.updateFromBuffer(fileId, backup)
+        await connection.updateFromBuffer(fileId, backup)
         return fileId
       } else {
         // create new file
-        const { id } = await drive.uploadFromBuffer(walletId, backup)
+        const { id } = await connection.uploadFromBuffer(walletId, backup)
         return id
       }
     } else {
@@ -125,14 +90,6 @@ class BackupService extends EventEmitter {
    */
   get name() {
     return 'gdrive'
-  }
-
-  /**
-   * This service is cloud based and requires tokens to operate
-   * It also emits `tokensReceived` event
-   */
-  get isUsingTokens() {
-    return true
   }
 }
 // singleton backup service

@@ -8,7 +8,7 @@ import * as api from './gdriveApi'
 /**
  * Creates google drive api connection
  * @param {*} { clientId, authRedirectUrl, scope, tokens }
- * @returns {Object} returns {drive, accessTokens} object. `drive` represent google drive api instance
+ * @returns {Object} returns {drive, accessTokens} object. `drive` represents google drive api instance
  */
 function createConnection({ clientId, authRedirectUrl, scope, tokens }) {
   const oAuthClient = api.createOAuthClient(clientId, authRedirectUrl)
