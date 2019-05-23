@@ -1,107 +1,109 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
-import styled from 'styled-components'
-import { StatusIndicator, Text } from 'components/UI'
+import { withRouter } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
+import { getLanguageName } from '@zap/i18n'
+import { Flex } from 'rebass'
+import { Dropmenu, StatusIndicator } from 'components/UI'
 import { WalletName } from 'components/Util'
-import AngleUp from 'components/Icon/AngleUp'
-import AngleDown from 'components/Icon/AngleDown'
-import Menu from './Menu'
-import Fiat from './Fiat'
-import Locale from './Locale'
-import Theme from './Theme'
+import Logout from 'components/Icon/Logout'
+import Settings from 'components/Icon/Settings'
+import messages from './messages'
 
-const StyledText = styled(Text)`
-  cursor: pointer;
-  transition: all 0.25s;
-  &:hover {
-    opacity: 0.6;
-  }
-`
-
-class SettingsMenu extends React.Component {
-  menuRef = React.createRef()
-  buttonRef = React.createRef()
-
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside)
-  }
-
-  setButtonRef = node => {
-    this.buttonRef = node
-  }
-
-  setWrapperRef = node => {
-    this.menuRef = node
-  }
-
-  handleButtonClick = event => {
-    const { isSettingsMenuOpen, closeSettingsMenu, openSettingsMenu } = this.props
-    if (this.buttonRef && this.buttonRef.contains(event.target)) {
-      isSettingsMenuOpen ? closeSettingsMenu() : openSettingsMenu()
+const buildLocaleMenu = localeProps => {
+  const { locales, setLocale, currentLocale } = localeProps
+  return Object.keys(locales).map(lang => {
+    return {
+      id: `locale-${lang}`,
+      title: getLanguageName(lang),
+      onClick: () => setLocale(lang),
+      isSelected: currentLocale === lang,
+      hasIndent: true,
     }
-  }
+  })
+}
 
-  handleClickOutside = event => {
-    const { isSettingsMenuOpen, closeSettingsMenu } = this.props
-    if (
-      isSettingsMenuOpen &&
-      this.menuRef &&
-      !this.menuRef.contains(event.target) &&
-      (this.buttonRef && !this.buttonRef.contains(event.target))
-    ) {
-      closeSettingsMenu()
+const buildThemeMenu = themeProps => {
+  const { themes, setTheme, currentTheme } = themeProps
+  return Object.keys(themes).map(theme => {
+    return {
+      id: `currency-${theme}`,
+      title: <FormattedMessage {...messages[`theme_option_${theme}`]} />,
+      onClick: () => setTheme(theme),
+      isSelected: currentTheme === theme,
+      hasIndent: true,
     }
-  }
+  })
+}
 
-  renderSettingsMenu = () => {
-    const {
-      activeSubMenu,
-      fiatProps,
-      localeProps,
-      themeProps,
-      setActiveSubMenu,
-      openModal,
-    } = this.props
-    switch (activeSubMenu) {
-      case 'fiat':
-        return <Fiat {...fiatProps} />
-      case 'locale':
-        return <Locale {...localeProps} />
-      case 'theme':
-        return <Theme {...themeProps} />
-      default:
-        return <Menu openModal={openModal} setActiveSubMenu={setActiveSubMenu} />
+const buildCurrencyMenu = fiatProps => {
+  const { fiatTickers, setFiatTicker, fiatTicker } = fiatProps
+  return fiatTickers.map(currency => {
+    return {
+      id: `currency-${currency}`,
+      title: currency,
+      onClick: () => setFiatTicker(currency),
+      isSelected: fiatTicker === currency,
+      hasIndent: true,
     }
-  }
+  })
+}
 
-  render() {
-    const { activeWalletSettings, isSettingsMenuOpen, ...rest } = this.props
+const SettingsMenu = ({
+  localeProps,
+  themeProps,
+  fiatProps,
+  activeWalletSettings,
+  openModal,
+  history,
+  ...rest
+}) => {
+  const logout = () => history.push('/logout')
+  const openSettings = () => openModal('SETTINGS_FORM')
 
-    return (
-      <Box {...rest}>
-        <Flex
-          ref={this.setButtonRef}
-          alignItems="center"
-          css={{ cursor: 'pointer' }}
-          onClick={this.handleButtonClick}
-        >
-          <StatusIndicator mr={2} variant="online" />
-          <Flex alignItems="center">
-            <StyledText mr={1} textAlign="left">
-              <WalletName wallet={activeWalletSettings} />
-            </StyledText>
-            {isSettingsMenuOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
-          </Flex>
-        </Flex>
-        {isSettingsMenuOpen && <Box ref={this.setWrapperRef}>{this.renderSettingsMenu()}</Box>}
-      </Box>
-    )
-  }
+  const items = [
+    {
+      id: 'logout',
+      title: (
+        <FormattedMessage
+          {...messages[activeWalletSettings.type === 'local' ? 'logout_title' : 'disconnect_title']}
+        />
+      ),
+      icon: <Logout />,
+      onClick: logout,
+    },
+    {
+      id: 'settings',
+      title: <FormattedMessage {...messages.settings_title} />,
+      icon: <Settings />,
+      onClick: openSettings,
+    },
+    { id: 'bar1', type: 'bar' },
+    {
+      id: 'locale',
+      title: <FormattedMessage {...messages.locale_title} />,
+      submenu: buildLocaleMenu(localeProps),
+    },
+    {
+      id: 'theme',
+      title: <FormattedMessage {...messages.theme_title} />,
+      submenu: buildThemeMenu(themeProps),
+    },
+    {
+      id: 'currency',
+      title: <FormattedMessage {...messages.currency_title} />,
+      submenu: buildCurrencyMenu(fiatProps),
+    },
+  ]
+
+  return (
+    <Dropmenu items={items} justify="right" {...rest}>
+      <Flex alignItems="center">
+        <StatusIndicator mr={2} variant="online" />
+        <WalletName wallet={activeWalletSettings} />
+      </Flex>
+    </Dropmenu>
+  )
 }
 
 SettingsMenu.propTypes = {
@@ -109,6 +111,9 @@ SettingsMenu.propTypes = {
   activeWalletSettings: PropTypes.object,
   closeSettingsMenu: PropTypes.func.isRequired,
   fiatProps: PropTypes.object.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
   isSettingsMenuOpen: PropTypes.bool,
   localeProps: PropTypes.object.isRequired,
   openModal: PropTypes.func.isRequired,
@@ -117,4 +122,4 @@ SettingsMenu.propTypes = {
   themeProps: PropTypes.object.isRequired,
 }
 
-export default SettingsMenu
+export default withRouter(SettingsMenu)
