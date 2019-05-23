@@ -24,12 +24,9 @@ DropdownContainer.defaultProps = {
  * Button
  */
 const ButtonBox = styled(Box)(opacity)
-const DropdownButton = styled(ButtonBox)({
+export const DropdownButton = styled(ButtonBox)({
   appearance: 'none',
   display: 'inline-block',
-  textAlign: 'center',
-  lineHeight: 'inherit',
-  textDecoration: 'none',
   border: 'none',
   outline: 'none',
   background: 'transparent',
@@ -42,6 +39,8 @@ DropdownButton.defaultProps = {
   p: 0,
   textAlign: 'left',
   justify: 'left',
+  fontSize: 'm',
+  lineHeight: 'normal',
 }
 
 /**
@@ -192,7 +191,9 @@ class Dropdown extends React.Component {
               <Text mr={1} textAlign="left">
                 {selectedItem ? selectedItem.name : activeKey}{' '}
               </Text>
-              {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
+              <Flex color="gray">
+                {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
+              </Flex>
             </Flex>
           </DropdownButton>
           {isOpen && (
