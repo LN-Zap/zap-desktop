@@ -1,16 +1,30 @@
 import { useEffect } from 'react'
 
 /**
- * React hook that calls a handler when a clik event comes from outside of a ref.
+ * isInside - Check if an event comes from a nested element.
+ *
+ * @param  {object} ref Element reference
+ * @returns {boolean} Boolean indicating wether event originates from nested element
  */
-export default function useOnClickOutside(ref, handler) {
+function isInside(ref) {
+  return !ref.current || ref.current.contains(this.target)
+}
+
+/**
+ * useOnClickOutside - React hook that calls a handler when a click event comes from outside of a ref.
+ *
+ * @param  {[object]|object} refOrRefList Element reference or list of element references
+ * @param  {Function} handler Handler
+ */
+export default function useOnClickOutside(refOrRefList, handler) {
+  const refList = Array.from(refOrRefList)
+
   useEffect(() => {
     const listener = event => {
       // Do nothing if clicking ref's element or descendent elements
-      if (!ref.current || ref.current.contains(event.target)) {
+      if (refList.some(isInside, event)) {
         return
       }
-
       handler(event)
     }
 
@@ -21,5 +35,5 @@ export default function useOnClickOutside(ref, handler) {
       document.removeEventListener('mousedown', listener)
       document.removeEventListener('touchstart', listener)
     }
-  }, [ref, handler])
+  }, [refOrRefList, handler, refList])
 }
