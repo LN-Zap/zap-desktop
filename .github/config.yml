@@ -3,13 +3,13 @@
 # Comment to be posted to on first time issues
 newIssueWelcomeComment: |
   👋 Thanks for opening your first issue here! If you're reporting a 🐞 bug, please make sure you include steps to reproduce it.
-  To help make it easier for us to investigate your issue, please follow the [contributing guidelines](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md).
+  To help make it easier for us to investigate your issue, please follow the [contributing guidelines](https://github.com/LN-Zap/zap-desktop/blob/master/docs/CONTRIBUTING.md).
 # Configuration for new-pr-welcome - https://github.com/behaviorbot/new-pr-welcome
 
 # Comment to be posted to on PRs from first time contributors in your repository
 newPRWelcomeComment: |
   ⚡️ Thanks for opening this pull request! ⚡️
-  We use [conventional commits](https://github.com/LN-Zap/zap-desktop/blob/master/CONTRIBUTING.md#committing-and-pushing-changes) to streamline the release process. Before your pull request can be merged, you should **squash your commits and reword your commit messages** to follow the conventional commit message format.
+  We use [conventional commits](https://github.com/LN-Zap/zap-desktop/blob/master/docs/CONTRIBUTING.md#committing-and-pushing-changes) to streamline the release process. Before your pull request can be merged, you should **squash your commits and reword your commit messages** to follow the conventional commit message format.
   Examples of commit messages with semantic prefixes:
   - `fix(ui): ensure search input is cleared after submit`
   - `feat(wallet): add new transaction detail view`
