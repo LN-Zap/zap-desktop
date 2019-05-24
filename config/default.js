@@ -137,5 +137,10 @@ module.exports = {
       clientId: '495822519525-hjpegnbi493ebcrg4t8e7nfa8c3orr4m.apps.googleusercontent.com',
       scope: 'https://www.googleapis.com/auth/drive.file',
     },
+
+    dropbox: {
+      redirectUrl: 'http://localhost/zapdropbox',
+      clientId: 'yox444ow4051e1c',
+    },
   },
 }
