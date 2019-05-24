@@ -4,8 +4,23 @@ import { FormattedMessage } from 'react-intl'
 import encode from 'lndconnect/encode'
 import decode from 'lndconnect/decode'
 import parseConnectionString from '@zap/utils/btcpayserver'
+import { isIpV6, stripIpV6Port } from '@zap/utils/ipv6'
+
 import { Bar, Form, Header, Span, Text } from 'components/UI'
 import messages from './messages'
+
+/**
+ * Removes port from a host string
+ *
+ * @param {string} host
+ * @returns host without a port part
+ */
+function sanitizeHost(host) {
+  if (isIpV6(host)) {
+    return stripIpV6Port(host)
+  }
+  return host.split(':')[0]
+}
 
 class ConnectionConfirm extends React.Component {
   static propTypes = {
@@ -165,7 +180,7 @@ class ConnectionConfirm extends React.Component {
           <>
             <Text>
               <FormattedMessage {...messages.verify_host_title} />{' '}
-              <Span color="superGreen">{hostname.split(':')[0]}</Span>?{' '}
+              <Span color="superGreen">{sanitizeHost(hostname)}</Span>?{' '}
             </Text>
             <Text mt={2}>
               <FormattedMessage {...messages.verify_host_description} />
