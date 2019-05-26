@@ -1,4 +1,5 @@
 export useCloseOnUnmount from './useCloseOnUnmount'
+export useComponentSize from './useComponentSize'
 export useOnClickOutside from './useOnClickOutside'
 export useOnKeydown from './useOnKeydown'
 export useDebounce from './useDebounce'
