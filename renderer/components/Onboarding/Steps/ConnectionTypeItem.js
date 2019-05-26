@@ -49,7 +49,7 @@ const ConnectionTypeItem = ({ fieldApi, value, label, description, ...rest }) =>
     >
       <Card mb={3}>
         <Flex alignItems="center" css={{ height: '100%' }} justifyContent="center">
-          <Box color={isSelected ? 'lightningOrange' : 'white'}>
+          <Box color={isSelected ? 'lightningOrange' : 'gray'}>
             <Icon height="80px" width="80px" />
           </Box>
         </Flex>
