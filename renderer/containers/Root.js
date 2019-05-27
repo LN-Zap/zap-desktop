@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Route, Switch } from 'react-router-dom'
@@ -7,11 +7,11 @@ import { ThemeProvider } from 'styled-components'
 import { hot } from 'react-hot-loader/root'
 
 import { removeNotification, notificationSelectors } from 'reducers/notification'
+import { initDatabase, setLoading, setMounted, appSelectors } from 'reducers/app'
 import { initSettings } from 'reducers/settings'
 import { initTheme, themeSelectors } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
 import { isLoading, isLoadingPerPath, getLoadingMessage } from 'reducers/utils'
-import { setLoading, setMounted, appSelectors } from 'reducers/app'
 
 import { Page, Titlebar, GlobalStyle } from 'components/UI'
 import GlobalNotification from 'components/GlobalNotification'
@@ -32,83 +32,57 @@ const PageWithLoading = withLoading(Page)
 /**
  * Root component that deals with mounting the app and managing top level routing.
  */
-class Root extends React.Component {
-  static propTypes = {
-    hasWallets: PropTypes.bool,
-    history: PropTypes.object.isRequired,
-    initSettings: PropTypes.func.isRequired,
-    initTheme: PropTypes.func.isRequired,
-    isAppReady: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired,
-    isMounted: PropTypes.bool.isRequired,
-    loadingMessage: PropTypes.object,
-    notifications: PropTypes.array.isRequired,
-    removeNotification: PropTypes.func.isRequired,
-    setMounted: PropTypes.func.isRequired,
-    theme: PropTypes.object,
-  }
-
-  async componentDidMount() {
-    const { initSettings, initTheme, isMounted, setMounted } = this.props
-
-    // If this is the first time the app has mounted, initialize things.
-    if (!isMounted) {
-      setMounted(true)
-      await initSettings()
-      initTheme()
+const Root = ({
+  initDatabase,
+  initSettings,
+  initTheme,
+  isMounted,
+  setMounted,
+  hasWallets,
+  removeNotification,
+  theme,
+  notifications,
+  history,
+  isLoading,
+  isAppReady,
+  isRootReady,
+  loadingMessage,
+}) => {
+  useEffect(() => {
+    async function init() {
+      if (!isMounted) {
+        setMounted(true)
+        await initDatabase()
+        await initSettings()
+        await initTheme()
+      }
     }
-  }
+    init()
+  }, [initDatabase, initSettings, initTheme, isMounted, setMounted])
 
-  redirectToHome = () => {
-    const { history } = this.props
-    history.push('/home')
-  }
+  const redirectToHome = () => history.push('/home')
+  const redirectToLogout = () => history.push('/logout')
+  const canLogout = () => history.location.pathname === '/app'
 
-  redirectToLogout = () => {
-    const { history } = this.props
-    history.push('/logout')
-  }
-
-  canLogout = () => {
-    const { history } = this.props
-    return history.location.pathname === '/app'
-  }
-
-  render() {
-    const {
-      hasWallets,
-      removeNotification,
-      theme,
-      notifications,
-      history,
-      isLoading,
-      isAppReady,
-      loadingMessage,
-    } = this.props
-
-    // Wait until we have loaded essential data before displaying anything.
-    if (!theme) {
-      return null
-    }
-
-    return (
-      <ConnectedRouter history={history}>
-        <ThemeProvider theme={theme}>
-          <React.Fragment>
-            <GlobalStyle />
-            <Titlebar />
-            <GlobalNotification
-              notifications={notifications}
-              removeNotification={removeNotification}
-            />
-            <DialogLndCrashed />
-            <ModalStack />
-            <PageWithLoading
-              hasClose={this.canLogout()}
-              isLoading={isLoading}
-              loadingMessage={loadingMessage}
-              onClose={this.redirectToLogout}
-            >
+  return (
+    <ConnectedRouter history={history}>
+      <ThemeProvider theme={theme}>
+        <React.Fragment>
+          <GlobalStyle />
+          <Titlebar />
+          <GlobalNotification
+            notifications={notifications}
+            removeNotification={removeNotification}
+          />
+          <DialogLndCrashed />
+          <ModalStack />
+          <PageWithLoading
+            hasClose={canLogout()}
+            isLoading={isLoading}
+            loadingMessage={loadingMessage}
+            onClose={redirectToLogout}
+          >
+            {isRootReady && (
               <Switch>
                 <Route component={Initializer} exact path="/" />
                 <Route component={WalletStarter} exact path="/wallet-starter" />
@@ -116,14 +90,12 @@ class Root extends React.Component {
                 <Route
                   exact
                   path="/onboarding"
-                  render={() => (
-                    <Onboarding hasWallets={hasWallets} onClose={this.redirectToHome} />
-                  )}
+                  render={() => <Onboarding hasWallets={hasWallets} onClose={redirectToHome} />}
                 />
                 <Route
                   exact
                   path="/syncing"
-                  render={() => <Syncing onClose={this.redirectToLogout} pb={0} px={0} />}
+                  render={() => <Syncing onClose={redirectToLogout} pb={0} px={0} />}
                 />
                 <Route
                   path="/app"
@@ -136,12 +108,29 @@ class Root extends React.Component {
                 />
                 <Route component={Logout} path="/logout" />
               </Switch>
-            </PageWithLoading>
-          </React.Fragment>
-        </ThemeProvider>
-      </ConnectedRouter>
-    )
-  }
+            )}
+          </PageWithLoading>
+        </React.Fragment>
+      </ThemeProvider>
+    </ConnectedRouter>
+  )
+}
+
+Root.propTypes = {
+  hasWallets: PropTypes.bool,
+  history: PropTypes.object.isRequired,
+  initDatabase: PropTypes.func.isRequired,
+  initSettings: PropTypes.func.isRequired,
+  initTheme: PropTypes.func.isRequired,
+  isAppReady: PropTypes.bool.isRequired,
+  isLoading: PropTypes.bool.isRequired,
+  isMounted: PropTypes.bool.isRequired,
+  isRootReady: PropTypes.bool.isRequired,
+  loadingMessage: PropTypes.object,
+  notifications: PropTypes.array.isRequired,
+  removeNotification: PropTypes.func.isRequired,
+  setMounted: PropTypes.func.isRequired,
+  theme: PropTypes.object,
 }
 
 const mapStateToProps = state => ({
@@ -152,10 +141,12 @@ const mapStateToProps = state => ({
   loadingMessage: getLoadingMessage(state),
   isMounted: appSelectors.isMounted(state),
   isAppReady: appSelectors.isAppReady(state),
+  isRootReady: appSelectors.isRootReady(state),
 })
 
 const mapDispatchToProps = {
   removeNotification,
+  initDatabase,
   initSettings,
   initTheme,
   setLoading,

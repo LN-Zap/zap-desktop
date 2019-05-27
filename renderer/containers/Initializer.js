@@ -2,7 +2,6 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { appSelectors } from 'reducers/app'
 import { initCurrency, initLocale } from 'reducers/locale'
 import { initWallets, walletSelectors } from 'reducers/wallet'
 import { initNeutrino } from 'reducers/neutrino'
@@ -27,8 +26,8 @@ class Initializer extends React.Component {
     initNeutrino: PropTypes.func.isRequired,
     initTickers: PropTypes.func.isRequired,
     initWallets: PropTypes.func.isRequired,
-    isRootReady: PropTypes.bool.isRequired,
     isWalletOpen: PropTypes.bool,
+    isWalletsLoaded: PropTypes.bool.isRequired,
     lndConnect: PropTypes.string,
   }
 
@@ -64,14 +63,14 @@ class Initializer extends React.Component {
     const {
       activeWallet,
       activeWalletSettings,
-      isRootReady,
+      isWalletsLoaded,
       isWalletOpen,
       hasWallets,
       lndConnect,
     } = this.props
 
     // still initializing - no location change
-    if (!isRootReady) {
+    if (!isWalletsLoaded) {
       return null
     }
 
@@ -102,7 +101,7 @@ const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   hasWallets: walletSelectors.hasWallets(state),
   isWalletOpen: walletSelectors.isWalletOpen(state),
-  isRootReady: appSelectors.isRootReady(state),
+  isWalletsLoaded: walletSelectors.isWalletsLoaded(state),
 })
 
 const mapDispatchToProps = {
