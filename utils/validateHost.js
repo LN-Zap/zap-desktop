@@ -3,6 +3,7 @@ import { promisify } from 'util'
 import isFQDN from 'validator/lib/isFQDN'
 import isIP from 'validator/lib/isIP'
 import isPort from 'validator/lib/isPort'
+import splitHostname from '@zap/utils/splitHostname'
 
 const dnsLookup = promisify(dns.lookup)
 
@@ -19,7 +20,7 @@ const validateHost = async host => {
   }
 
   try {
-    const [lndHost, lndPort] = host.split(':')
+    const { host: lndHost, port: lndPort } = splitHostname(host)
 
     // If the hostname starts with a number, ensure that it is a valid IP address.
     if (!isFQDN(lndHost, { require_tld: false }) && !isIP(lndHost)) {
