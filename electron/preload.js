@@ -15,6 +15,7 @@ import { getAllLocalWallets } from '@zap/utils/localWallets'
 import lndBinaryPath from '@zap/utils/lndBinaryPath'
 import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
 import validateHost from '@zap/utils/validateHost'
+import splitHostname from '@zap/utils/splitHostname'
 import LndConfig from '@zap/utils/lndConfig'
 
 const fsReadFile = promisify(fs.readFile)
@@ -181,6 +182,7 @@ window.Zap = {
   validateHost,
   fileExists,
   killNeutrino,
+  splitHostname,
 }
 
 // Provide access to ipcRenderer.
