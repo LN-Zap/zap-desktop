@@ -40,15 +40,15 @@ const createThemeVariant = (name, colors) => {
 
   const cards = {
     success: {
-      backgroundColor: colors.pineGreen,
+      backgroundColor: colors.mutedGreen,
       color: colors.superGreen,
     },
     warning: {
-      backgroundColor: colors.lightningBrown,
+      backgroundColor: colors.mutedOrange,
       color: colors.lightningOrange,
     },
     error: {
-      backgroundColor: colors.mudBrown,
+      backgroundColor: colors.mutedRed,
       color: colors.superRed,
     },
   }
