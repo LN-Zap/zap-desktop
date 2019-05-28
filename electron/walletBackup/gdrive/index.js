@@ -4,7 +4,7 @@ import { mainLog } from '@zap/utils/log'
 import TokenBasedBackupService from '../base/TokenBasedBackupService'
 import createClient from './gdrive'
 
-class BackupService extends TokenBasedBackupService {
+export default class BackupService extends TokenBasedBackupService {
   /**
    * Setups gdrive service for usage. This method must be called before calling any other methods
    *
@@ -91,15 +91,4 @@ class BackupService extends TokenBasedBackupService {
   get name() {
     return 'gdrive'
   }
-}
-// singleton backup service
-
-let backupService
-
-export default function getBackupService() {
-  if (!backupService) {
-    backupService = new BackupService()
-  }
-
-  return backupService
 }

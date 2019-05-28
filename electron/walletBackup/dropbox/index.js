@@ -1,13 +1,12 @@
 import config from 'config'
-
 import chainify from '@zap/utils/chainify'
 import { mainLog } from '@zap/utils/log'
 import TokenBasedBackupService from '../base/TokenBasedBackupService'
 import createClient from './db'
 
-class BackupService extends TokenBasedBackupService {
+export default class BackupService extends TokenBasedBackupService {
   /**
-   * Setups gdrive service for usage. This method must be called before calling any other methods
+   * Sets up dropbox  service for usage. This method must be called before calling any other methods
    *
    * @param {Object} tokens google api compliant token desc
    * `{access_token,expiry_date,refresh_token,scope,token_type}`
@@ -73,15 +72,4 @@ class BackupService extends TokenBasedBackupService {
   get name() {
     return 'dropbox'
   }
-}
-// singleton backup service
-
-let backupService
-
-export default function getBackupService() {
-  if (!backupService) {
-    backupService = new BackupService()
-  }
-
-  return backupService
 }

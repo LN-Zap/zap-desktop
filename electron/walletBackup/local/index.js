@@ -4,7 +4,7 @@ import chainify from '@zap/utils/chainify'
 
 const writeFileAsync = promisify(fs.writeFile)
 
-class BackupService {
+export default class BackupService {
   terminate() {
     // no-op
   }
@@ -21,7 +21,7 @@ class BackupService {
    * Saves specified backup
    *
    * @param {string} walletId backup dir path
-   * @param {string} dir relative  file path
+   * @param {string} dir relative file path
    * @param {Buffer} backup `Buffer` with backup data
    * @returns {string}  file name
    * @memberof BackupService
@@ -51,15 +51,4 @@ class BackupService {
   get isUsingTokens() {
     return false
   }
-}
-
-// singleton backup service
-
-let backupService
-
-export default function getBackupService() {
-  if (!backupService) {
-    backupService = new BackupService()
-  }
-  return backupService
 }
