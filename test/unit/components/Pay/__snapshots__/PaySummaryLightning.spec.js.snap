@@ -52,7 +52,7 @@ exports[`component.Form.PaySummaryLightning should render correctly 1`] = `
               />
             </Text>
           </styled.div>
-          <ConnectFunction
+          <Connect(WithTheme(Dropdown))
             ml={2}
           />
         </Styled(styled.div)>
