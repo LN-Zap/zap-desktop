@@ -3,12 +3,15 @@ import merge from 'lodash.merge'
 import { createSelector } from 'reselect'
 import set from 'lodash.set'
 import difference from '@zap/utils/difference'
+import { showError } from './notification'
 
 // ------------------------------------
 // Constants
 // ------------------------------------
+export const INIT_SETTINGS = 'INIT_SETTINGS'
+export const INIT_SETTINGS_SUCCESS = 'INIT_SETTINGS_SUCCESS'
+export const INIT_SETTINGS_FAILURE = 'INIT_SETTINGS_FAILURE'
 
-export const SET_SETTINGS = 'SET_SETTINGS'
 export const SET_SETTING = 'SET_SETTING'
 export const UPDATE_CONFIG = 'UPDATE_CONFIG'
 
@@ -17,15 +20,29 @@ export const UPDATE_CONFIG = 'UPDATE_CONFIG'
 // ------------------------------------
 
 /**
- * Fetch the current settings from the database and save into the store.
+ * initSettings - Fetch the current settings from the database and save into the store.
+ *
+ * Should be called once when the app first loads.
  */
 export const initSettings = () => async dispatch => {
-  const settings = await window.db.settings.toArray()
-  dispatch({ type: SET_SETTINGS, settings })
+  dispatch({ type: INIT_SETTINGS })
+  try {
+    const allSettings = await window.db.settings.toArray()
+    const settings = allSettings.reduce((obj, item) => {
+      obj[item.key] = item.value
+      return obj
+    }, {})
+    dispatch({ type: INIT_SETTINGS_SUCCESS, settings })
+  } catch (e) {
+    dispatch({ type: INIT_SETTINGS_FAILURE, initSettingsError: e })
+    // TODO: i18n compatibility.
+    dispatch(showError(`Unable to load settings: ${e.message}`, { timeout: 0 }))
+  }
 }
 
 /**
  * Save an updated setting.
+ *
  * @param  {string} key Key
  * @param  {*} value Value
  */
@@ -36,6 +53,7 @@ export const putSetting = (key, value) => async dispatch => {
 
 /**
  * Save a config property.
+ *
  * @param  {string} path Config path property to set
  * @param  {*} value Value to set
  */
@@ -47,7 +65,8 @@ export const putConfig = (path, value) => async (dispatch, getState) => {
 
 /**
  * Save config overrides.
- * @param  {Object} values Config object that matches the structure of root config.
+ *
+ * @param  {object} values Config object that matches the structure of root config.
  */
 export const saveConfigOverrides = values => async (dispatch, getState) => {
   const currentConfig = settingsSelectors.currentConfig(getState())
@@ -60,25 +79,23 @@ export const saveConfigOverrides = values => async (dispatch, getState) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_SETTINGS]: (state, { settings }) => ({
+  [INIT_SETTINGS]: state => ({ ...state }),
+  [INIT_SETTINGS_SUCCESS]: (state, { settings }) => ({
     ...state,
-    ...settings.reduce((obj, item) => {
-      obj[item.key] = item.value
-      return obj
-    }, {}),
+    ...settings,
+    isSettingsLoaded: true,
   }),
-  [SET_SETTING]: (state, { key, value }) => ({
-    ...state,
-    ...{ ...state.settings, [key]: value },
-  }),
+  [INIT_SETTINGS_FAILURE]: (state, { initSettingsError }) => ({ ...state, initSettingsError }),
+  [SET_SETTING]: (state, { key, value }) => ({ ...state, ...{ ...state.settings, [key]: value } }),
 }
 
 // ------------------------------------
 // Selectors
 // ------------------------------------
-
+const isSettingsLoadedSelector = state => state.settings.isSettingsLoaded
 const configSelector = state => state.settings.config
 const settingsSelectors = {}
+settingsSelectors.isSettingsLoaded = isSettingsLoadedSelector
 settingsSelectors.currentConfig = createSelector(
   configSelector,
   overrides => merge({}, config, overrides)
@@ -87,8 +104,10 @@ export { settingsSelectors }
 
 // ------------------------------------
 // Reducer
-// ------------------------------------
+// ------------------------------------\
 const initialState = {
+  isSettingsLoaded: false,
+  initSettingsError: null,
   config: {},
 }
 

@@ -16,6 +16,7 @@ const initialState = {
   isMounted: false,
   isRunning: false,
   isDatabaseReady: false,
+  isSettingsLoaded: false,
   isTerminating: false,
   isLoggingOut: false,
   initDatabaseError: null,
@@ -128,6 +129,7 @@ const appSelectors = {}
 appSelectors.isLoading = state => state.app.isLoading
 appSelectors.isMounted = state => state.app.isMounted
 appSelectors.isDatabaseReady = state => state.app.isDatabaseReady
+appSelectors.isSettingsLoaded = state => state.settings.isSettingsLoaded
 appSelectors.currency = state => state.ticker.currency
 appSelectors.infoLoaded = state => state.info.infoLoaded
 appSelectors.isRunning = state => state.app.isRunning
@@ -137,8 +139,9 @@ appSelectors.channelBalance = state => state.balance.channelBalance
 appSelectors.isRootReady = createSelector(
   appSelectors.isRunning,
   appSelectors.isDatabaseReady,
-  (isRunning, isDatabaseReady) => {
-    return Boolean(isRunning && isDatabaseReady)
+  appSelectors.isSettingsLoaded,
+  (isRunning, isDatabaseReady, isSettingsLoaded) => {
+    return Boolean(isRunning && isDatabaseReady && isSettingsLoaded)
   }
 )
 
