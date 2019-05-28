@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-import { connectRouter } from 'connected-react-router'
 import { intlReducer as intl } from 'react-intl-redux'
 import locale from './locale'
 import theme from './theme'
@@ -28,50 +27,44 @@ import settings from './settings'
 import settingsmenu from './settingsmenu'
 import wallet from './wallet'
 
-export default history => {
-  const appReducer = combineReducers({
-    // Third party reducers.
-    intl,
-    locale,
-    router: connectRouter(history),
-    theme,
+const appReducer = combineReducers({
+  // Third party reducers.
+  intl,
+  locale,
+  theme,
 
-    // Custom reducers
-    activity,
-    address,
-    app,
-    autopay,
-    autopilot,
-    balance,
-    channels,
-    contactsform,
-    info,
-    invoice,
-    lnd,
-    modal,
-    network,
-    neutrino,
-    notification,
-    onboarding,
-    pay,
-    payment,
-    peers,
-    settings,
-    settingsmenu,
-    ticker,
-    transaction,
-    wallet,
-  })
+  // Custom reducers
+  activity,
+  address,
+  app,
+  autopay,
+  autopilot,
+  balance,
+  channels,
+  contactsform,
+  info,
+  invoice,
+  lnd,
+  modal,
+  network,
+  neutrino,
+  notification,
+  onboarding,
+  pay,
+  payment,
+  peers,
+  settings,
+  settingsmenu,
+  ticker,
+  transaction,
+  wallet,
+})
 
-  return (state, action) => {
-    // Reset all reducers, except for selected reducers which should persist.
-    if (action.type === 'RESET_APP') {
-      const { app, settings, intl, theme, wallet, lnd, neutrino, router, ticker } = state
-      return appReducer(
-        { app, settings, intl, theme, wallet, lnd, neutrino, router, ticker },
-        action
-      )
-    }
-    return appReducer(state, action)
+export default (state, action) => {
+  // Reset all reducers, except for selected reducers which should persist.
+  if (action.type === 'RESET_APP') {
+    const { app, settings, intl, theme, wallet, lnd, neutrino, ticker } = state
+    return appReducer({ app, settings, intl, theme, wallet, lnd, neutrino, ticker }, action)
   }
+  return appReducer(state, action)
 }
