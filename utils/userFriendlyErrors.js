@@ -4,6 +4,12 @@ const userFriendlyErrors = {
  Their public key may have changed or the server may no longer be responding.",
 }
 
+/**
+ * errorToUserFriendly - Convert a hard to understand error message into a more user friendly message.
+ *
+ * @param {string} error Error message
+ * @returns {string} Converted error message
+ */
 const errorToUserFriendly = (error = '') => {
   const errorString = userFriendlyErrors[error] || error || ''
 

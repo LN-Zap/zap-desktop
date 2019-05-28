@@ -1,6 +1,8 @@
 /**
- * Checks whether specified string is base64 url encoded
- * @returns {boolean}
+ * isBase64url - Checks whether specified string is base64 url encoded.
+ *
+ * @param  {string}   str Parent directory
+ * @returns {boolean} Boolean indicating wether str is a base64url encoded
  */
 const isBase64url = str => {
   try {
@@ -11,4 +13,5 @@ const isBase64url = str => {
     return false
   }
 }
-module.exports = isBase64url
+
+export default isBase64url

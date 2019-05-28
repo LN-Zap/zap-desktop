@@ -1,5 +1,12 @@
 import semver from 'semver'
 
+/**
+ * isStableVersion - Check if app is running the current stable version.
+ *
+ * @param  {string}  version Version to check
+ * @param  {string}  stableVersion Current stable version
+ * @returns {boolean} Boolean indicating wether version has the same major and minor version as stableVersion
+ */
 const isStableVersion = (version, stableVersion) => {
   const current = semver.coerce(version)
   const stable = semver.coerce(stableVersion)

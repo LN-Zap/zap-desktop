@@ -1,5 +1,7 @@
 /**
- * Generates uniq id.
+ * genId - Generates a unique id.
+ *
+ * @returns {string} Unique id
  */
 const genId = () =>
   Math.random()

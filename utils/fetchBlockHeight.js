@@ -3,8 +3,11 @@ import get from 'lodash.get'
 import { mainLog } from '@zap/utils/log'
 
 /**
- * Helper function to get the current block height.
- * @return {Number} The current block height.
+ * fetchBlockHeight - Fetch the current block height.
+ *
+ * @param {string} chain Chain name
+ * @param {string} network Network name
+ * @returns {number} The current block height.
  */
 const fetchBlockHeight = (chain, network) => {
   const allSources = {

@@ -1,10 +1,10 @@
 import delay from './delay'
 
 /**
- * Recursive timeout function
+ * retry - Recursive timeout function.
  *
- * @param {*} { task, baseDelay, maxDelay, checkIsCancelled, backoff }
- * @returns
+ * @param {{ task, baseDelay, maxDelay, checkIsCancelled, backoff }} options Options
+ * @returns {Promise} Promise
  */
 async function retry({
   getTask,
@@ -37,15 +37,19 @@ async function retry({
 }
 
 /**
- * Creates scheduler instance. It is allowed to have unlimited scheduler instances
- * Schedulers allow to add and remove tasks with flat or backoff schedules
+ * createScheduler - Creates scheduler instance. It is allowed to have unlimited scheduler instances.
+ *
+ * Schedulers allow to add and remove tasks with flat or backoff schedules.
+ *
+ * @returns {*} Schedular
  */
 export default function createScheduler() {
   const taskList = {}
 
   /**
-   * Physically removes `taskDefinition` from the execution queue
-   * @param {string|function} task - either original callback or `taskId`
+   * onCancelComplete - Physically removes `taskDefinition` from the execution queue.
+   *
+   * @param {string|Function} task - either original callback or `taskId`
    */
   const onCancelComplete = task => {
     const taskDesc = findTask(task)
@@ -58,8 +62,10 @@ export default function createScheduler() {
   }
 
   /**
-   * Searches for the `taskDefinition` is in the execution queue
-   * @param {string|function} task - either original callback or `taskId`
+   * findTask - Searches for the `taskDefinition` is in the execution queue.
+   *
+   * @param {string|Function} task - either original callback or `taskId`
+   * @returns {*} Task definition
    */
   const findTask = task => {
     // search by taskId first
@@ -73,15 +79,16 @@ export default function createScheduler() {
   }
 
   /**
-   * Enqueues `task` for the continuous execution
-   * @param {Object} taskDefinition - task configuration
-   * @param {function} taskDefinition.task - task callback
-   * @param {string} taskDefinition.taskId - unique task identifier. Is required if there is an
+   * addTask - Enqueues `task` for the continuous execution.
+   *
+   * @param {*} taskDefinition task configuration
+   * @param {Function} taskDefinition.task task callback
+   * @param {string} taskDefinition.taskId unique task identifier. Is required if there is an
    * intention to replace `task`
-   * @param {number} taskDefinition.baseDelay - base delay in ms
-   * @param {number} taskDefinition.backoff - delay multiplier. Is multiplies `baseDelay` to
+   * @param {number} taskDefinition.baseDelay base delay in ms
+   * @param {number} taskDefinition.backoff delay multiplier. Is multiplies `baseDelay` to
    * produce next iteration delay. Use 1 for constant delay
-   * @param {number} taskDefinition.maxDelay - maximum delay. Only useful if `@backoff` is set
+   * @param {number} taskDefinition.maxDelay maximum delay. Only useful if `@backoff` is set
    */
   const addTask = ({ task, taskId, baseDelay, maxDelay, backoff = 1 }) => {
     const getTask = () => {
@@ -105,8 +112,10 @@ export default function createScheduler() {
   }
 
   /**
-   * Removes `task` from the execution queue
-   * @param {string|function} task - either original callback or `taskId`
+   * removeTask - Removes `task` from the execution queue.
+   *
+   * @param {string|Function} task - either original callback or `taskId`
+   * @returns {boolean} Boolean indicating wether the task was removed
    */
   const removeTask = task => {
     const taskDesc = findTask(task)
@@ -118,15 +127,17 @@ export default function createScheduler() {
   }
 
   /**
-   * Clears the entire execution queue
+   * removeAllTasks - Clears the entire execution queue.
    */
   const removeAllTasks = () => {
     Object.keys(taskList).forEach(removeTask)
   }
 
   /**
-   * Checks whether `task` is in the execution queue
-   * @param {string|function} task - either original callback or `taskId`
+   * isScheduled - Checks whether `task` is in the execution queue.
+   *
+   * @param {string|Function} task - either original callback or `taskId`
+   * @returns {boolean} Boolean indicating wether the task is scheduled
    */
   const isScheduled = task => {
     const taskDesc = findTask(task)

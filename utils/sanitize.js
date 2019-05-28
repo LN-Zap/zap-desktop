@@ -2,14 +2,14 @@ import isObject from '@zap/utils/isObject'
 import truncate from './truncate'
 
 /**
- * Sanitize specific object properties (by truncating them).
+ * sanitize - Sanitize specific object properties (by truncating them).
  *
  * NOTE: This method takes a rudimentary approach to modifying the object properties that could have unintended
  * side-effects, such as removing prototype data.
  *
- * @param  {Object} data sanitize (truncate) object properties.
- * @param  {Array} properties list of object properties to sanitize.
- * @return {Object} cloned object with sanitized properties.
+ * @param  {*} data sanitize (truncate) object properties
+ * @param  {Array} properties list of object properties to sanitize
+ * @returns {*} cloned object with sanitized properties
  */
 const sanitize = (data, properties = []) => {
   let sanitizedData

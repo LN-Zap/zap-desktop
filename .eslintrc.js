@@ -9,6 +9,7 @@ module.exports = {
   extends: [
     'airbnb',
     'eslint:recommended',
+    'plugin:jsdoc/recommended',
     'plugin:react/recommended',
     'plugin:testcafe/recommended',
     'plugin:import/errors',
@@ -44,6 +45,10 @@ module.exports = {
     // 'sort-imports': 'error',
     'import/no-extraneous-dependencies': 0,
     'import/prefer-default-export': 0,
+    'jsdoc/match-description': [
+      'warn',
+      { matchDescription: '^(.* - )([A-Z]|[`\\d_])([\\s\\S]*[.?!`])?$' },
+    ],
     'jsx-a11y/anchor-is-valid': ['error', { components: [] }],
     'jsx-a11y/no-static-element-interactions': 0,
     'jsx-a11y/no-noninteractive-element-interactions': 0,
@@ -89,6 +94,7 @@ module.exports = {
     'promise',
     'testcafe',
     'compat',
+    'jsdoc',
     'react',
     'react-hooks',
   ],

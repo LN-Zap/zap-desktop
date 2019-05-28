@@ -1,3 +1,9 @@
+/**
+ * parseSeed - Show a system notification.
+ *
+ * @param {string} seed Seed to parse
+ * @returns {Array} List of seed words
+ */
 const parseSeed = seed => {
   if (typeof seed === 'string') {
     return (
