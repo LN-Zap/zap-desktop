@@ -5,7 +5,7 @@ import { initDb } from '@zap/renderer/store/db'
 import { showError } from 'reducers/notification'
 import { tickerSelectors } from './ticker'
 import { setIsWalletOpen, walletSelectors } from './wallet'
-import { setTheme } from './theme'
+import { setTheme, themeSelectors } from './theme'
 import { stopLnd } from './lnd'
 
 // ------------------------------------
@@ -84,8 +84,10 @@ export const initDatabase = () => async dispatch => {
  */
 export const initApp = (event, options = {}) => async (dispatch, getState) => {
   dispatch({ type: INIT_APP, options })
+
+  // Set the theme from incoming init options if the theme is not already set.
   if (options.theme) {
-    dispatch(setTheme(options.theme))
+    !themeSelectors.currentTheme(getState()) && dispatch(setTheme(options.theme))
   }
   // add some delay if the app is starting for the first time vs logging out of the the opened wallet
   await delay(walletSelectors.isWalletOpen(getState()) ? 0 : 1500)
