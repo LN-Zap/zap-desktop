@@ -6857,10 +6857,10 @@ eslint-plugin-jest@22.6.4:
   resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-22.6.4.tgz#2895b047dd82f90f43a58a25cf136220a21c9104"
   integrity sha512-36OqnZR/uMCDxXGmTsqU4RwllR0IiB/XF8GW3ODmhsjiITKuI0GpgultWFt193ipN3HARkaIcKowpE6HBvRHNg==
 
-eslint-plugin-jsdoc@6.0.2:
-  version "6.0.2"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-6.0.2.tgz#75c8fbd482968a2f9eeeffa4b70b63072fc351d6"
-  integrity sha512-cW1LMP8AWKdy6qPUXSgx1GfwNGQoroCSUeXkz7VBuavPsvKk4UvCY3pBUhcPRWvmc9MydTco+vqfj+/KBCysaQ==
+eslint-plugin-jsdoc@6.0.3:
+  version "6.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-6.0.3.tgz#b0fd65905dc2df5233699662515bda833e9432d4"
+  integrity sha512-J5aHmFxxWi/82xcmnJLjfcwiJR1uu13jK4AhRFY0KoK0ItcuPoKesvW6O4gjgdIn82Y5Bd4enWTkiop/wslDcw==
   dependencies:
     comment-parser "^0.5.4"
     jsdoctypeparser "3.1.0"
