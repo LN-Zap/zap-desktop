@@ -36,6 +36,13 @@ import {
   lndSelectors,
 } from 'reducers/lnd'
 
+import {
+  setupBackupService,
+  setBackupProvider,
+  backupSelectors,
+  setBackupPathLocal,
+} from 'reducers/backup'
+
 const mapStateToProps = state => ({
   alias: state.onboarding.alias,
   name: state.onboarding.name,
@@ -58,6 +65,7 @@ const mapStateToProps = state => ({
   seed: state.onboarding.seed,
   unlockWalletError: state.lnd.unlockWalletError,
   isFetchingSeed: state.lnd.isFetchingSeed,
+  backupProvider: backupSelectors.providerSelector(state),
 })
 
 const mapDispatchToProps = {
@@ -86,6 +94,9 @@ const mapDispatchToProps = {
   createWallet,
   resetOnboarding,
   unlockWallet,
+  setupBackupService,
+  setBackupProvider,
+  setBackupPathLocal,
 }
 
 const OnboardingContainer = connect(

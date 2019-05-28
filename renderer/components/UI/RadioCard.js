@@ -2,67 +2,64 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
-import { Card as BaseCard, Radio, Text, Heading } from 'components/UI'
+import Radio from 'components/UI/Radio'
+import Text from 'components/UI/Text'
+import Heading from 'components/UI/Heading'
+import BaseCard from 'components/UI/Card'
 
-import ConnectOnboarding from 'components/Icon/ConnectOnboarding'
-import ImportOnboarding from 'components/Icon/ImportOnboarding'
-import PlusOnboarding from 'components/Icon/PlusOnboarding'
 import BoltOnboarding from 'components/Icon/BoltOnboarding'
 
-import { animated, Transition } from 'react-spring/renderprops.cjs'
+import { animated, Transition } from 'react-spring/renderprops'
 
 const Card = styled(BaseCard)`
   position: relative;
-  height: 210px;
-  width: 160px;
+  height: 215px;
+  width: 170px;
   border-radius: 40px;
   padding: 0;
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 `
 const Container = styled(Flex)`
-  cursor: pointer;
+  cursor: ${props => (props.isDisabled ? 'auto' : 'pointer')};
   position: relative;
-  width: 160px;
+  width: 170px;
 `
 
 const BoltContainer = styled(animated.div)`
   position: absolute;
   top: -38px;
-  left: 9px;
+  left: 12px;
 `
 
-const ICONS = {
-  create: PlusOnboarding,
-  custom: ConnectOnboarding,
-  import: ImportOnboarding,
-}
-
-const ConnectionTypeItem = ({ fieldApi, value, label, description, ...rest }) => {
-  const Icon = ICONS[value] || PlusOnboarding
+const RadioCard = ({ fieldApi, icons, value, label, isDisabled, description, ...rest }) => {
+  const { icon: Icon, width: iconWidth, height: iconHeight } = icons[value]
   const isSelected = fieldApi.getValue() === value
   return (
     <Container
       alignItems="center"
       flexDirection="column"
       {...rest}
-      onClick={() => fieldApi.setValue(value)}
+      isDisabled={isDisabled}
+      onClick={() => !isDisabled && fieldApi.setValue(value)}
     >
       <Card mb={3}>
         <Flex alignItems="center" css={{ height: '100%' }} justifyContent="center">
           <Box color={isSelected ? 'lightningOrange' : 'gray'}>
-            <Icon height="80px" width="80px" />
+            <Icon height={iconHeight} width={iconWidth} />
           </Box>
         </Flex>
       </Card>
 
-      <Radio px={0} value={value} width={16} />
+      <Radio isDisabled={isDisabled} px={0} value={value} width={16} />
 
-      <Heading.h1 mb={2} mt={3}>
+      <Heading.h1 color={isDisabled ? 'gray' : 'primaryText'} mb={2} mt={3}>
         {label}
       </Heading.h1>
-      <Text color="gray" textAlign="center">
-        {description}
-      </Text>
+      {description && (
+        <Text color="gray" textAlign="center">
+          {description}
+        </Text>
+      )}
       {isSelected && (
         <Transition
           enter={{ opacity: 1 }}
@@ -75,7 +72,7 @@ const ConnectionTypeItem = ({ fieldApi, value, label, description, ...rest }) =>
             /* eslint-disable react/display-name */
             (styles => (
               <BoltContainer style={styles}>
-                <BoltOnboarding height="290px" width="180px" />
+                <BoltOnboarding height="295px" width="190px" />
               </BoltContainer>
             ))
           }
@@ -85,13 +82,15 @@ const ConnectionTypeItem = ({ fieldApi, value, label, description, ...rest }) =>
   )
 }
 
-ConnectionTypeItem.displayName = 'ConnectionTypeItem'
+RadioCard.displayName = 'RadioCard'
 
-ConnectionTypeItem.propTypes = {
-  description: PropTypes.object.isRequired,
+RadioCard.propTypes = {
+  description: PropTypes.object,
   fieldApi: PropTypes.object.isRequired,
+  icons: PropTypes.object.isRequired,
+  isDisabled: PropTypes.bool,
   label: PropTypes.object.isRequired,
   value: PropTypes.string.isRequired,
 }
 
-export default ConnectionTypeItem
+export default RadioCard

@@ -1,22 +1,20 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { FormattedMessage } from 'react-intl'
 import { withFieldApi } from 'informed'
-import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 import { Form, RadioGroup } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogoBolt'
-import BaseConnectionTypeItem from './ConnectionTypeItem'
+import BaseConnectionTypeItem from './components/ConnectionTypeItem'
+import BaseContainer from './components/Container'
 import messages from './messages'
 
-const ConnectionTypeItem = withFieldApi('connectionType')(BaseConnectionTypeItem)
-
-const Container = styled(Flex)`
-  position: absolute;
-  top: -30px;
-  bottom: 0;
+const Container = styled(BaseContainer)`
   visibility: ${props => (props.lndConnect ? 'hidden' : 'visible')};
 `
+
+const ConnectionTypeItem = withFieldApi('connectionType')(BaseConnectionTypeItem)
 
 class ConnectionType extends React.Component {
   static propTypes = {
@@ -77,7 +75,12 @@ class ConnectionType extends React.Component {
     const { currentItem } = wizardState
 
     return (
-      <Container alignItems="center" flexDirection="column" justifyContent="center">
+      <Container
+        alignItems="center"
+        flexDirection="column"
+        justifyContent="center"
+        lndConnect={lndConnect}
+      >
         <Box mb={6}>
           <ZapLogo height={60} width={60} />
         </Box>

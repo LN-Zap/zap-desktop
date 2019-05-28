@@ -5,6 +5,7 @@ import { updateAutopilotNodeScores } from 'reducers/autopilot'
 import { fetchActivityHistory } from 'reducers/activity'
 import { fetchTransactions } from 'reducers/transaction'
 import { appSelectors } from 'reducers/app'
+import { initBackupService } from 'reducers/backup'
 import { setModals, modalSelectors } from 'reducers/modal'
 import App from 'components/App'
 
@@ -21,6 +22,7 @@ const mapDispatchToProps = {
   setIsWalletOpen,
   fetchTransactions,
   setModals,
+  initBackupService,
 }
 
 export default connect(

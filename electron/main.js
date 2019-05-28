@@ -23,6 +23,7 @@ import appRootPath from '@zap/utils/appRootPath'
 import themes from '@zap/renderer/themes'
 import ZapMenuBuilder from './menuBuilder'
 import ZapController from './controller'
+import createBackupService from './walletBackup/service'
 import ZapUpdater from './updater'
 import ZapMigrator from './migrator'
 import fetchSettings from './utils/fetchSettings'
@@ -203,6 +204,9 @@ app.on('ready', async () => {
   // Initialise the application.
   zap = new ZapController(mainWindow)
   zap.init({ theme: theme ? theme.name : undefined })
+
+  // initialize backup system
+  createBackupService(mainWindow)
 
   // Initialise the application menus.
   menuBuilder = new ZapMenuBuilder(mainWindow)

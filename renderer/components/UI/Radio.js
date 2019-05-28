@@ -65,7 +65,16 @@ const Wrapper = styled(Box)`
     background: ${props => props.theme.colors.lightningOrange};
   }
 `
-const Radio = ({ value, label, description, fontWeight, onChange, onBlur, ...rest }) => (
+const Radio = ({
+  value,
+  label,
+  description,
+  fontWeight,
+  onChange,
+  onBlur,
+  isDisabled,
+  ...rest
+}) => (
   <Wrapper>
     <Label
       className="container"
@@ -76,7 +85,13 @@ const Radio = ({ value, label, description, fontWeight, onChange, onBlur, ...res
       {...rest}
     >
       <Text>{label}</Text>
-      <InformedRadio id={value} onBlur={onBlur} onChange={onChange} value={value} />
+      <InformedRadio
+        disabled={isDisabled}
+        id={value}
+        onBlur={onBlur}
+        onChange={onChange}
+        value={value}
+      />
       <span className="selection" />
       {description && (
         <Text color="gray" mt={2}>
@@ -90,6 +105,7 @@ const Radio = ({ value, label, description, fontWeight, onChange, onBlur, ...res
 Radio.propTypes = {
   description: PropTypes.node,
   fontWeight: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  isDisabled: PropTypes.bool,
   label: PropTypes.node,
   onBlur: PropTypes.func,
   onChange: PropTypes.func,

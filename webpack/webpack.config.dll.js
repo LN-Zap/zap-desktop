@@ -25,6 +25,7 @@ export default merge.smart(baseConfig, {
     'redux-electron-ipc',
     'rimraf',
     'source-map-support',
+    'googleapis',
   ],
   entry: {
     renderer: Object.keys(dependencies),

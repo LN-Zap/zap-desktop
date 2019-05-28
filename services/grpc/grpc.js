@@ -5,9 +5,9 @@ import { status } from '@grpc/grpc-js'
 import LndGrpc from 'lnd-grpc'
 import { grpcLog } from '@zap/utils/log'
 import delay from '@zap/utils/delay'
+import { forwardAll, unforwardAll } from '@zap/utils/events'
 import lightningMethods from './lightning.methods'
 import lightningSubscriptions from './lightning.subscriptions'
-import { forwardAll, unforwardAll } from './helpers'
 
 const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'
 const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
@@ -35,6 +35,7 @@ class ZapGrpc extends EventEmitter {
     this.registerSubscription('transactions', 'Lightning', 'subscribeTransactions')
     this.registerSubscription('channelgraph', 'Lightning', 'subscribeChannelGraph')
     this.registerSubscription('info', 'Lightning', 'subscribeGetInfo')
+    this.registerSubscription('backups', 'Lightning', 'subscribeChannelBackups')
 
     Object.assign(this, ZapGrpc.VOLATILE_STATE)
   }
@@ -59,7 +60,6 @@ class ZapGrpc extends EventEmitter {
     // Inject helper methods.
     Object.assign(this.services.Lightning, lightningMethods)
     Object.assign(this.services.Lightning, lightningSubscriptions)
-
     // Setup gRPC event handlers.
     this.grpc.on('locked', () => {
       this.emit(GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE)
@@ -103,7 +103,7 @@ class ZapGrpc extends EventEmitter {
    * Subscribe to all gRPC streams.
    */
   subscribeAll() {
-    this.subscribe('invoices', 'transactions', 'info')
+    this.subscribe('invoices', 'transactions', 'info', 'backups')
 
     // Subscribe to graph updates only after sync is complete. This is needed because LND chanRouter waits for chain
     // sync to complete before accepting subscriptions.

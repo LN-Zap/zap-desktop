@@ -31,6 +31,16 @@ async function getInfo(payload = {}) {
 }
 
 /**
+ * Checks whether specified method is present in gRPC interface
+ *
+ * @param {string} method
+ * @returns true if specified method exists withing service
+ */
+function hasMethod(method) {
+  return Boolean(this.service[method])
+}
+
+/**
  * Estimates on-chain fee.
  * @param {string} address
  * @param {number} amount amount in satoshis
@@ -329,4 +339,5 @@ export default {
   closeChannel,
   sendPayment,
   estimateFee,
+  hasMethod,
 }
