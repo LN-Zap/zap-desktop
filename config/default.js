@@ -39,7 +39,7 @@ module.exports = {
   network: 'mainnet',
 
   // Default address format (p2wkh|np2wkh)
-  address: 'np2wkh',
+  address: 'p2wkh',
 
   // Default settings for lnd.
   lnd: {
