@@ -86,4 +86,7 @@ export default defineMessages({
   channel_filter_offline: 'Offline',
   channel_filter_pending: 'Pending',
   channel_filter_closing: 'Closing',
+  transaction_speed_slow: 'Slow',
+  transaction_speed_medium: 'Medium',
+  transaction_speed_fast: 'Fast',
 })
