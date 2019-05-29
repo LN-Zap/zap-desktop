@@ -6,6 +6,8 @@ export default defineMessages({
   settings_subtitle: 'Global settings',
   save: 'Save',
   cancel: 'Cancel',
+  button_save: 'Save',
+  button_cancel: 'Cancel',
   submit_success: 'Settings have been updated.',
   autoupdate_active_label: 'Autoupdate',
   autoupdate_active_description: 'Automatically download and install updates.',

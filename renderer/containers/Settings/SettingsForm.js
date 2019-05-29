@@ -1,13 +1,9 @@
 import { connect } from 'react-redux'
-import Settings from 'components/Settings'
-import { saveConfigOverrides, settingsSelectors } from 'reducers/settings'
+import SettingsForm from 'components/Settings/SettingsForm'
+import { saveConfigOverrides } from 'reducers/settings'
 import { showNotification } from 'reducers/notification'
 import { setLocale } from 'reducers/locale'
 import { configureAutoUpdater } from 'reducers/autoupdate'
-
-const mapStateToProps = state => ({
-  currentConfig: settingsSelectors.currentConfig(state),
-})
 
 const mapDispatchToProps = {
   configureAutoUpdater,
@@ -17,6 +13,6 @@ const mapDispatchToProps = {
 }
 
 export default connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
-)(Settings)
+)(SettingsForm)
