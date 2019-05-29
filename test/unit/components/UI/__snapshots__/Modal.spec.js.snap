@@ -5,12 +5,14 @@ exports[`component.UI.Modal should render correctly 1`] = `
   padding-top: 16px;
   padding-left: 16px;
   padding-right: 16px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
 .c4 {
-  padding-bottom: 32px;
-  padding-left: 32px;
-  padding-right: 32px;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;

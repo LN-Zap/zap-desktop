@@ -14,7 +14,7 @@ import ChannelDetailModal from 'containers/Channels/ChannelDetailModal'
 import ChannelCreate from 'containers/Channels/ChannelCreate'
 import ReceiveModal from 'containers/Wallet/ReceiveModal'
 import ActivityModal from 'containers/Activity/ActivityModal'
-import Settings from 'containers/Settings'
+import SettingsPage from 'containers/Settings/SettingsPage'
 
 const Container = styled(animated.div)`
   ${ModalOverlayStyles}
@@ -23,32 +23,68 @@ const Container = styled(animated.div)`
 const ModalContent = ({ type, closeModal }) => {
   const doCloseModal = () => closeModal()
   switch (type) {
-    case 'SETTINGS_FORM':
-      return <Settings onSubmit={doCloseModal} />
+    case 'SETTINGS':
+      return (
+        <Modal onClose={closeModal}>
+          <SettingsPage />
+        </Modal>
+      )
 
     case 'AUTOPAY':
-      return <Autopay mx={-4} />
+      return (
+        <Modal onClose={closeModal} pt={4}>
+          <Autopay />
+        </Modal>
+      )
 
     case 'PAY_FORM':
-      return <Pay mx="auto" width={9 / 16} />
+      return (
+        <Modal onClose={closeModal} p={4}>
+          <Pay mx="auto" width={9 / 16} />
+        </Modal>
+      )
 
     case 'REQUEST_FORM':
-      return <Request mx="auto" width={9 / 16} />
+      return (
+        <Modal onClose={closeModal} p={4}>
+          <Request mx="auto" width={9 / 16} />
+        </Modal>
+      )
 
     case 'RECEIVE_MODAL':
-      return <ReceiveModal mx="auto" width={9 / 16} />
+      return (
+        <Modal onClose={closeModal}>
+          <ReceiveModal mx="auto" width={9 / 16} />/
+        </Modal>
+      )
 
     case 'ACTIVITY_MODAL':
-      return <ActivityModal mx="auto" width={9 / 16} />
+      return (
+        <Modal onClose={closeModal} p={4}>
+          <ActivityModal mx="auto" width={9 / 16} />
+        </Modal>
+      )
 
     case 'CHANNELS':
-      return <Channels mx={-4} />
+      return (
+        <Modal onClose={closeModal} pt={4}>
+          <Channels />
+        </Modal>
+      )
 
     case 'CHANNEL_CREATE':
-      return <ChannelCreate mx={-4} onSubmit={doCloseModal} />
+      return (
+        <Modal onClose={closeModal} pt={4} px={4}>
+          <ChannelCreate mx={-4} onSubmit={doCloseModal} />
+        </Modal>
+      )
 
     case 'CHANNEL_DETAIL':
-      return <ChannelDetailModal type="CHANNEL_DETAIL" />
+      return (
+        <Modal onClose={closeModal} p={4}>
+          <ChannelDetailModal type="CHANNEL_DETAIL" />
+        </Modal>
+      )
   }
 }
 
@@ -57,6 +93,12 @@ ModalContent.propTypes = {
   type: PropTypes.string.isRequired,
 }
 
+/**
+ * ModalStack - Render modqals from the modal stack.
+ *
+ * @param {{ modals, closeModal }} props Props
+ * @returns {Node} Node
+ */
 function ModalStack(props) {
   const { modals, closeModal } = props
 
@@ -75,9 +117,7 @@ function ModalStack(props) {
         /* eslint-disable react/display-name */
         (styles => (
           <Container style={styles}>
-            <Modal onClose={() => closeModal(modal.id)}>
-              <ModalContent closeModal={closeModal} type={modal.type} />
-            </Modal>
+            <ModalContent closeModal={() => closeModal()} type={modal.type} />
           </Container>
         ))
       }

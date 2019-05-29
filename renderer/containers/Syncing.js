@@ -43,7 +43,7 @@ function SyncingModal({ onClose, ...rest }) {
   useOnKeydown('Escape', onClose)
   return (
     <ModalOverlay>
-      <Modal hasClose onClose={onClose} {...rest}>
+      <Modal hasClose onClose={onClose} {...rest} p={4}>
         <SyncingContainer />
       </Modal>
     </ModalOverlay>

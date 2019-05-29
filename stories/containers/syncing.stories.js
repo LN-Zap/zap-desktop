@@ -16,7 +16,7 @@ storiesOf('Containers.Syncing', module)
   .addDecorator(story => <Window>{story()}</Window>)
   .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => (
-    <Modal hasHeader onClose={linkTo('Containers.Home', 'Home')} pb={0} px={0}>
+    <Modal hasLogo onClose={linkTo('Containers.Home', 'Home')} pb={0} px={0}>
       {story()}
     </Modal>
   ))
