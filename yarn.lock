@@ -13479,12 +13479,12 @@ realpath-native@^1.1.0:
   dependencies:
     util.promisify "^1.0.0"
 
-rebass@3.0.0-9:
-  version "3.0.0-9"
-  resolved "https://registry.yarnpkg.com/rebass/-/rebass-3.0.0-9.tgz#86da0b51c4c509270a57746464a4aac0c5a168ac"
-  integrity sha512-nvcCWdq1XbVtvbVBUbKYqh+Y4pnJ9pA4Kvt21/cQdsqmfobkWigfmHFGLE9xnuC+zxkezRDGA+KbSV34Pk3kVw==
+rebass@3.1.1:
+  version "3.1.1"
+  resolved "https://registry.yarnpkg.com/rebass/-/rebass-3.1.1.tgz#b318d2f4ed1bb35532392a97e0984474f160122a"
+  integrity sha512-c/mFtt5luxoVHwsRSx5sD27DzLoEIO1gQKSal1RPsj+cf4jfkei3l00eULTm2HA0er0r8fRNZJKTE8AJVc+GRQ==
   dependencies:
-    styled-system "^3.1.4"
+    styled-system "^4.0.8"
 
 recast@^0.14.7:
   version "0.14.7"
@@ -15043,13 +15043,21 @@ styled-reset@2.0.13:
     opencollective "^1.0.3"
     opencollective-postinstall "2.0.2"
 
-styled-system@^3.0.1, styled-system@^3.1.4:
+styled-system@^3.0.1:
   version "3.2.1"
   resolved "https://registry.yarnpkg.com/styled-system/-/styled-system-3.2.1.tgz#491e1e6f88d7ee021f6f49376f12852cde8007cb"
   integrity sha512-ag0Yp7UeVHHc3t+1uM3jvlljaZYzwqpbJ8hMrFvpaKfUd8xsB9JeQXLwMpEsz8iLx8Lz/+9j0coWFZjmw8MogQ==
   dependencies:
     "@babel/runtime" "^7.1.2"
     prop-types "^15.6.2"
+
+styled-system@^4.0.8:
+  version "4.2.4"
+  resolved "https://registry.yarnpkg.com/styled-system/-/styled-system-4.2.4.tgz#8909f91396c30b92295b4eddec5f7b89f8c8d767"
+  integrity sha512-44X7n09gDvwx7yjquEXsjiNALK0dxGgAJdpO5cb/PdL+D4mhSLKWig4/EhH4vHJLbwu/kumURHyvKxygaBfg0A==
+  dependencies:
+    "@babel/runtime" "^7.4.2"
+    prop-types "^15.7.2"
 
 stylelint-config-recommended@2.2.0:
   version "2.2.0"
