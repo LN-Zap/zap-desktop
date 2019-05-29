@@ -19,7 +19,7 @@ import {
 import ZapLogo from 'components/Icon/ZapLogo'
 import SettingsForm from 'containers/Settings/SettingsForm'
 import { FieldGroupWallet, FieldGroupGeneral } from './SettingsFields'
-import { SettingsContext } from './Settings'
+import SettingsContext from './SettingsContext'
 import messages from './messages'
 
 const SettingsProvider = SettingsContext.Provider

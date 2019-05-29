@@ -5,7 +5,7 @@ import { Box } from 'rebass'
 import { Bar, DataRow, Input, Label, Toggle, Select, Text } from 'components/UI'
 import { currencies, locales, getLanguageName } from '@zap/i18n'
 import messages from './messages'
-import { SettingsContext } from './Settings'
+import SettingsContext from './SettingsContext'
 
 const localeItems = locales.map(lang => ({
   key: lang,

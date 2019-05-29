@@ -1,4 +1,5 @@
-import Settings from './Settings'
-
-export default Settings
 export SettingsMenu from './SettingsMenu'
+export SettingsContext from './SettingsContext'
+export { FieldGroupGeneral, FieldGroupWallet } from './SettingsFields'
+export SettingsForm from './SettingsForm'
+export SettingsPage from './SettingsPage'
