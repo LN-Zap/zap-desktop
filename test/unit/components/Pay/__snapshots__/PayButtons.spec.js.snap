@@ -12,6 +12,7 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
       isActive={false}
       isDisabled={false}
       isProcessing={false}
+      justify="center"
       onClick={[Function]}
       px={0}
       size="medium"
@@ -38,6 +39,7 @@ exports[`component.Form.PayButtons should render correctly with default props 1`
     isActive={false}
     isDisabled={false}
     isProcessing={false}
+    justify="center"
     mx="auto"
     size="medium"
     type="submit"
