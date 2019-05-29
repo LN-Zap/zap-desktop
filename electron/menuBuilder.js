@@ -92,6 +92,12 @@ export default class ZapMenuBuilder {
       submenu: [
         buildAboutMenu(),
         { type: 'separator' },
+        {
+          label: 'Preferences...',
+          accelerator: 'Command+,',
+          click: () => this.mainWindow.webContents.send('openPreferences'),
+        },
+        { type: 'separator' },
         { label: 'Hide Zap', accelerator: 'Command+H', selector: 'hide:' },
         {
           label: 'Hide Others',
@@ -225,6 +231,12 @@ export default class ZapMenuBuilder {
             click: () => {
               this.mainWindow.close()
             },
+          },
+          { type: 'separator' },
+          {
+            label: '&Preferences...',
+            accelerator: 'Ctrl+,',
+            click: () => this.mainWindow.webContents.send('openPreferences'),
           },
         ],
       },
