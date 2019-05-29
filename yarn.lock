@@ -5122,10 +5122,10 @@ coffeescript@^2.3.1:
   resolved "https://registry.yarnpkg.com/coffeescript/-/coffeescript-2.4.1.tgz#815fd337df0a34d49e74a98a6ebea9c3e7930f70"
   integrity sha512-34GV1aHrsMpTaO3KfMJL40ZNuvKDR/g98THHnE9bQj8HjMaZvSrLik99WWqyMhRtbe8V5hpx5iLgdcSvM/S2wg==
 
-coininfo@4.5.0:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/coininfo/-/coininfo-4.5.0.tgz#f56e7c093425d8f4f6e99454796698dd7c9246e8"
-  integrity sha512-9YnPekCDaFSJl/yG27dEkCbHF09CO3Cz38A2TMcFZRMcaCy2l38B2nQK/rdz8zLqOLVzzE/e0MpcWMxvyEncGA==
+coininfo@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/coininfo/-/coininfo-5.0.0.tgz#34e12cd91fbbfc4291cc973a7dd3d32707da9302"
+  integrity sha512-lgY3qKrzVlTp/9gNaozhnHmqQDYp2NW9hH1vqZV1i0zp1k1LB3WyFzGCiIhUbugXj8gQyrEDiYlK3vqEMz7skg==
   dependencies:
     safe-buffer "^5.1.1"
 
