@@ -1,43 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { intlShape, injectIntl } from 'react-intl'
-import { NavLink } from 'react-router-dom'
+import { withRouter, Link } from 'react-router-dom'
 import { Box } from 'rebass'
-import { Text } from 'components/UI'
+import { Text, MenuItem } from 'components/UI'
 import { WalletName } from 'components/Util'
 import messages from './messages'
 
-const WalletGroup = ({ setActiveWallet, title, wallets, ...rest }) => (
-  <Box {...rest}>
-    <Text fontWeight="normal" mb={3}>
+const WalletGroup = withRouter(({ location, setActiveWallet, title, wallets, ...rest }) => (
+  <Box p={2} {...rest}>
+    <Text css={{ 'text-transform': 'uppercase' }} fontWeight="normal" mb={2} px={3}>
       {title}
     </Text>
     {wallets.map(wallet => (
-      <Text
+      <Link
         key={wallet.id}
-        css={{
-          a: { opacity: 0.6, '&:hover': { opacity: 1 }, '&.selected': { opacity: 1 } },
+        style={{
+          display: 'block',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
         }}
-        mb={1}
+        to={`/home/wallet/${wallet.id}`}
       >
-        <NavLink
-          activeClassName="selected"
-          activeStyle={{ fontWeight: 'normal' }}
+        <MenuItem
+          isActive={location.pathname.startsWith(`/home/wallet/${wallet.id}`)}
           onClick={() => setActiveWallet(wallet.id)}
-          style={{
-            display: 'block',
-            whiteSpace: 'nowrap',
-            overflow: 'hidden',
-            textOverflow: 'ellipsis',
-          }}
-          to={`/home/wallet/${wallet.id}`}
         >
           <WalletName wallet={wallet} />
-        </NavLink>
-      </Text>
+        </MenuItem>
+      </Link>
     ))}
   </Box>
-)
+))
 
 WalletGroup.propTypes = {
   setActiveWallet: PropTypes.func.isRequired,
