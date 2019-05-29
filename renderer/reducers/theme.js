@@ -34,7 +34,7 @@ export const setTheme = currentTheme => async dispatch => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_THEME]: (state, { currentTheme }) => ({ ...state, currentTheme }),
+  [SET_THEME]: state => ({ ...state }),
 }
 
 // ------------------------------------
@@ -66,7 +66,6 @@ export { themeSelectors }
 // ------------------------------------
 
 const initialState = {
-  currentTheme: null,
   themes: { dark, light },
 }
 
