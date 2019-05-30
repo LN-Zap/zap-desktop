@@ -2,8 +2,7 @@ import { defineMessages } from 'react-intl'
 
 /* eslint-disable max-len */
 export default defineMessages({
-  settings_title: 'Settings',
-  settings_subtitle: 'Global settings',
+  settings_title: 'Preferences',
   save: 'Save',
   cancel: 'Cancel',
   button_save: 'Save',

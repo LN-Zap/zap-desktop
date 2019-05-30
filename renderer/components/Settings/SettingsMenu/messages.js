@@ -4,7 +4,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   disconnect_title: 'Disconnect',
   logout_title: 'Logout',
-  settings_title: 'Settings',
+  settings_title: 'Preferences',
   theme_title: 'Theme',
   theme_option_dark: 'Dark',
   theme_option_light: 'Light',
