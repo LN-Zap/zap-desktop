@@ -15,7 +15,7 @@ export default class TokenBasedBackupService extends EventEmitter {
   /**
    * Initializes backup service connection and registers token listeners
    *
-   * @param {function} createClient function that instantiates `connection` object
+   * @param {Function} createClient function that instantiates `connection` object
    * @memberof TokenBasedBackupService
    */
   async init(createClient) {
@@ -51,7 +51,7 @@ export default class TokenBasedBackupService extends EventEmitter {
   /**
    * Returns current access tokens
    *
-   * @returns {Object} current tokens object or null if not logged in
+   * @returns {object} current tokens object or null if not logged in
    * @memberof BackupService
    */
   getTokens() {

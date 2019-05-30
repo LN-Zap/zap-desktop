@@ -64,8 +64,9 @@ export const hideDeleteWalletDialog = () => ({ type: CLOSE_DELETE_WALLET_DIALOG 
 
 /**
  * Remove a wallet entry.
- * @param  {Object} wallet Wallet entry.
- * @return {Promise}
+ *
+ * @param  {object} wallet Wallet entry.
+ * @returns {Promise}
  */
 export const removeWallet = wallet => async dispatch => {
   // Delete the wallet from the filesystem.
@@ -84,7 +85,8 @@ export const removeWallet = wallet => async dispatch => {
 /**
  * Handle delete wallet confirmation triggered by a user.
  * Removes currently active wallet.
- * @return {Promise}
+ *
+ * @returns {Promise}
  */
 export const deleteWallet = () => async (dispatch, getState) => {
   try {

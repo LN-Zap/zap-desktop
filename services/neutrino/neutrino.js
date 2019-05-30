@@ -30,7 +30,8 @@ export const NEUTRINO_SHUTDOWN_TIMEOUT = 10000
 
 /**
  * Wrapper class for Lnd to run and monitor it in Neutrino mode.
- * @extends EventEmitter
+ *
+ * @augments EventEmitter
  */
 class Neutrino extends EventEmitter {
   constructor() {
@@ -67,7 +68,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Initialize the service.
-   * @param  {Object} lndConfig LndConfig
+   *
+   * @param  {object} lndConfig LndConfig
    */
   init(lndConfig) {
     mainLog.info(`Initializing Neutrino with options: %o`, lndConfig)
@@ -76,7 +78,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Start the Lnd process in Neutrino mode.
-   * @return {Number} PID of the Lnd process that was started.
+   *
+   * @returnssssssssssssssssss {number} PID of the Lnd process that was started.
    * @return {Promise}
    */
   async start() {
@@ -122,8 +125,9 @@ class Neutrino extends EventEmitter {
 
   /**
    * Shutdown neutrino process.
-   * @param  {Object}  [options={}] Shutdown options.
-   * @return {Promise}
+   *
+   * @param  {object}  [options={}] Shutdown options.
+   * @returns {Promise}
    */
   async shutdown(options = {}) {
     const signal = options.signal || 'SIGINT'
@@ -143,9 +147,10 @@ class Neutrino extends EventEmitter {
 
   /**
    * Attempt to gracefully terminate the neutrino process. If it fails, force kill it.
-   * @param  {String}  signal  process signal
-   * @param  {Number}  timeout timeout before force killing with SIGKILL
-   * @return {Promise}
+   *
+   * @param  {string}  signal  process signal
+   * @param  {number}  timeout timeout before force killing with SIGKILL
+   * @returns {Promise}
    */
   async _shutdownNeutrino(signal, timeout) {
     let hasCompleted = false
@@ -176,7 +181,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Get the pid of the currently running neutrino process.
-   * @return {Number|null} PID of currently running neutrino process.
+   *
+   * @returns {number|null} PID of currently running neutrino process.
    */
   getPid() {
     return this.process ? this.process.pid : null
@@ -184,7 +190,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Stop the Lnd process.
-   * @param  {String} [signalName='SIGINT'] signal to kill lnd with.
+   *
+   * @param  {string} [signalName='SIGINT'] signal to kill lnd with.
    */
   kill(signalName = 'SIGINT') {
     if (this.process) {
@@ -195,8 +202,9 @@ class Neutrino extends EventEmitter {
 
   /**
    * Check if the current state matches the pasted in state.
-   * @param  {String} state State to compare against the current state.
-   * @return {Boolean} Boolean indicating if the current state matches the passed in state.
+   *
+   * @param  {string} state State to compare against the current state.
+   * @returns {boolean} Boolean indicating if the current state matches the passed in state.
    */
   is(state) {
     return this.chainSyncStatus === state
@@ -204,7 +212,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Set the current state and emit an event to notify others if the state as changed.
-   * @param {String} state Target state.
+   *
+   * @param {string} state Target state.
    */
   setState(state) {
     if (state !== this.chainSyncStatus) {
@@ -216,7 +225,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Set the current block height and emit an event to notify others if it has changed.
-   * @param {String|Number} height Block height
+   *
+   * @param {string|number} height Block height
    */
   setCurrentBlockHeight(height) {
     const heightAsNumber = Number(height)
@@ -229,7 +239,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Set the lnd block height and emit an event to notify others if it has changed.
-   * @param {String|Number} height Block height
+   *
+   * @param {string|number} height Block height
    */
   setNeutrinoBlockHeight(height) {
     const heightAsNumber = Number(height)
@@ -243,7 +254,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Set the lnd cfilter height and emit an event to notify others if it has changed.
-   * @param {String|Number} height Block height
+   *
+   * @param {string|number} height Block height
    */
   setNeutrinoCfilterHeight(height) {
     const heightAsNumber = Number(height)
@@ -257,7 +269,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Set the current wallet recovery height and emit an event to notify others if it has changed.
-   * @param {String|Number} height Block height
+   *
+   * @param {string|number} height Block height
    */
   setNeutrinoRecoveryHeight(height) {
     const heightAsNumber = Number(height)
@@ -270,7 +283,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Get arguments to pass to lnd based on lnd config.
-   * @return {Promise<Array>} Array of arguments
+   *
+   * @returns {Promise<Array>} Array of arguments
    */
   async getLndArgs() {
     // Get available ports.
@@ -301,7 +315,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Get autopilot arguments to pass to lnd based on lnd config.
-   * @return {Array} Array of arguments
+   *
+   * @returns {Array} Array of arguments
    */
   getAutopilotArgs() {
     const autopilotArgs = []
@@ -351,7 +366,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Get neutrino arguments to pass to lnd based on lnd config.
-   * @return {Array} Array of arguments
+   *
+   * @returns {Array} Array of arguments
    */
   getNeutrinoArgs() {
     const neutrinoArgs = []
@@ -367,7 +383,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Attach exit and error handlers to neutrino process.
-   * @param  {Object} process neutrino process.
+   *
+   * @param  {object} process neutrino process.
    */
   attachEventHandlers(process) {
     // Attach error handler.
@@ -390,7 +407,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Listen for and process neutrino stderr data.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   attachStderrProcessors(stderr) {
     stderr.pipe(split2()).on('data', line => {
@@ -403,7 +421,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Listen for and process neutrino stdout data.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   attachStdoutProcessors(stdout) {
     stdout.pipe(split2()).on('data', line => {
@@ -446,7 +465,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Listen for when neutrino prints an error message.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   handleErrors(line) {
     const level = lndLogGetLevel(line)
@@ -458,7 +478,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Update state if log line indicates WalletUnlocker gRPC became active.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   notifyOnWalletUnlockerActivation(line) {
     if (line.includes('RPC server listening on') && line.includes('password')) {
@@ -470,7 +491,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Update state if log line indicates Lightning gRPC became active.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   notifyLightningActivation(line) {
     if (line.includes('RPC server listening on') && !line.includes('password')) {
@@ -482,7 +504,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Update state if log line indicates we are waiting to sync.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   notifyOnSyncWaiting(line) {
     // If we can't get a connection to the backend.
@@ -493,7 +516,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Update state if log line indicates sync has started.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   notifyOnSyncStarted(line) {
     const match =
@@ -516,7 +540,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Update state if log line indicates wallet recovery has started.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   notifyOnRecoveryStarted(line) {
     if (line.includes('RECOVERY MODE ENABLED')) {
@@ -526,7 +551,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Update state if log line indicates that sync process has completed.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   notifyOnSyncComplete(line) {
     if (line.includes('Chain backend is fully synced')) {
@@ -536,7 +562,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Update state if log line indicates that progress has been made in the sync process.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   notifyOnSyncProgress(line) {
     let height, cfilter
@@ -557,7 +584,8 @@ class Neutrino extends EventEmitter {
 
   /**
    * Update state if log line indicates that progress has been made in the recovery process.
-   * @param  {String} line log output line
+   *
+   * @param  {string} line log output line
    */
   notifyOnRecoveryProgress(line) {
     // Check the log line to see if we can parse the current block header height from it.
@@ -569,8 +597,9 @@ class Neutrino extends EventEmitter {
 
   /**
    * Try to determine current block header height from log line.
-   * @param  {String}   line log output line
-   * @return {[String]}      Current block header height, if found
+   *
+   * @param  {string}   line log output line
+   * @returns {[String]}      Current block header height, if found
    */
   getBlockHeaderIncrement(line) {
     let match, height
@@ -596,8 +625,9 @@ class Neutrino extends EventEmitter {
 
   /**
    * Try to determine current cfilter height from log line.
-   * @param  {String}   line log output line
-   * @return {[String]}      Current cfilter height, if found
+   *
+   * @param  {string}   line log output line
+   * @returns {[String]}      Current cfilter height, if found
    */
   getCfilterIncrement(line) {
     let match, cfilter
@@ -619,8 +649,9 @@ class Neutrino extends EventEmitter {
 
   /**
    * Try to determine current recovery height from log line.
-   * @param  {String}   line log output line
-   * @return {[String]}      Current recovery height, if found
+   *
+   * @param  {string}   line log output line
+   * @returns {[String]}      Current recovery height, if found
    */
   getRecoveryHeightIncrement(line) {
     let match, cfilter

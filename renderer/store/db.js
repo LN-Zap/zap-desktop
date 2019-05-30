@@ -217,8 +217,9 @@ export const getDb = name => {
 
   /**
    * Get current address of a given type.
-   * @param  {String} type type of address to fetch.
-   * @return {String} current address of requested type, if one exists.
+   *
+   * @param  {string} type type of address to fetch.
+   * @returns {string} current address of requested type, if one exists.
    */
   Node.prototype.getCurrentAddress = function(type) {
     return Dexie.getByKeyPath(this, `addresses.${type}`)
@@ -226,9 +227,10 @@ export const getDb = name => {
 
   /**
    * Set current address of a given type.
-   * @param  {String} type type of address to save.
-   * @param  {String} address address to save.
-   * @return {Node} updated node instance.
+   *
+   * @param  {string} type type of address to save.
+   * @param  {string} address address to save.
+   * @returns {Node} updated node instance.
    */
   Node.prototype.setCurrentAddress = function(type, address) {
     Dexie.setByKeyPath(this, `addresses.${type}`, address)

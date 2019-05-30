@@ -61,8 +61,8 @@ contactFormSelectors.suggestedNodes = createSelector(
 )
 
 /**
- * @param {array} suggestedNodes
- * @return search results compatible version of suggested nodes array
+ * @param {Array} suggestedNodes
+ * @returns search results compatible version of suggested nodes array
  */
 const fromSuggestedToRegular = suggestedNodes =>
   suggestedNodes &&

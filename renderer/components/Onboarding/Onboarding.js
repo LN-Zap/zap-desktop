@@ -98,7 +98,8 @@ class Onboarding extends React.Component {
 
   /**
    * Dynamically generte form steps to use in the onboarding Wizzard.
-   * @return {[Wizzard.Step]} A list of WizardSteps.
+   *
+   * @returns {[Wizzard.Step]} A list of WizardSteps.
    */
   getSteps = () => {
     const {

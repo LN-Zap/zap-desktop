@@ -10,6 +10,7 @@ import sanitize from '@zap/utils/sanitize'
 class ZapController {
   /**
    * Create a new ZapController instance.
+   *
    * @param {BrowserWindow} mainWindow BrowserWindow instance to interact with.
    */
   constructor(mainWindow) {
@@ -83,8 +84,9 @@ class ZapController {
 
   /**
    * Send a message to the main window.
+   *
    * @param  {string} msg message to send.
-   * @param  {Object} data additional data to accompany the message.
+   * @param  {object} data additional data to accompany the message.
    */
   sendMessage(msg, data) {
     if (this.mainWindow) {

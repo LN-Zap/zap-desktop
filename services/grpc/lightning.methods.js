@@ -9,7 +9,8 @@ import { logGrpcCmd } from './helpers'
 
 /**
  * Call lnd grpc getInfo method.
- * @return {Promise<GetInfoResponse}
+ *
+ * @returns {Promise<GetInfoResponse}
  */
 async function getInfo(payload = {}) {
   logGrpcCmd('Lightning.getInfo', payload)
@@ -42,6 +43,7 @@ function hasMethod(method) {
 
 /**
  * Estimates on-chain fee.
+ *
  * @param {string} address
  * @param {number} amount amount in satoshis
  * @param {number} targetConf desired confirmation time
@@ -59,7 +61,8 @@ async function estimateFee(address, amount, targetConf) {
 
 /**
  * Call lnd grpc walletBalance and channelBalance method and combine result.
- * @return {Promise<Object>}
+ *
+ * @returns {Promise<object>}
  */
 async function getBalance() {
   const [walletBalance, channelBalance] = await Promise.all([
@@ -75,7 +78,8 @@ async function getBalance() {
 
 /**
  * Call lnd grpc listChannels, pendingChannels and closedChannels method and combine result.
- * @return {Promise<Object>}
+ *
+ * @returns {Promise<object>}
  */
 async function getChannels() {
   const [channels, pendingChannels, closedChannels] = await Promise.all([
@@ -93,8 +97,9 @@ async function getChannels() {
 
 /**
  * Call lnd grpc createInvoice method
+ *
  * @param  {[type]}  payload [description]
- * @return {Promise<Object>}
+ * @returns {Promise<object>}
  */
 async function createInvoice(payload) {
   const invoice = await this.addInvoice(payload)
@@ -112,8 +117,9 @@ async function createInvoice(payload) {
 
 /**
  * Call lnd grpc connectPeer method if not already connected to the peer
- * @param  {Object}  payload rpc payload
- * @return {Promise<ConnectPeerResponse|Peer>}
+ *
+ * @param  {object}  payload rpc payload
+ * @returns {Promise<ConnectPeerResponse|Peer>}
  */
 async function ensurePeerConnected(payload = {}) {
   const { peers } = await this.listPeers()
@@ -126,8 +132,9 @@ async function ensurePeerConnected(payload = {}) {
 
 /**
  * Connect to peer and open a channel.
- * @param  {Object}  payload rpc payload
- * @return {Promise<Object>}
+ *
+ * @param  {object}  payload rpc payload
+ * @returns {Promise<object>}
  */
 async function connectAndOpen(payload = {}) {
   const { pubkey, host, localamt, private: privateChannel, satPerByte, spendUnconfirmed } = payload
@@ -150,8 +157,9 @@ async function connectAndOpen(payload = {}) {
 
 /**
  * Call lnd grpc openChannel method
- * @param  {Object}  payload rpc payload
- * @return {Promise<Object>}
+ *
+ * @param  {object}  payload rpc payload
+ * @returns {Promise<object>}
  */
 async function openChannel(payload = {}) {
   const parsePayload = payload => ({
@@ -196,8 +204,9 @@ async function openChannel(payload = {}) {
 
 /**
  * Call lnd grpc closeChannel method
- * @param  {Object}  payload rpc payload
- * @return {Promise<Object>}
+ *
+ * @param  {object}  payload rpc payload
+ * @returns {Promise<object>}
  */
 async function closeChannel(payload = {}) {
   return new Promise((resolve, reject) => {
@@ -255,8 +264,9 @@ async function closeChannel(payload = {}) {
 
 /**
  * Call lnd grpc sendPayment method
- * @param  {Object}  payload rpc payload
- * @return {Promise<Object>}
+ *
+ * @param  {object}  payload rpc payload
+ * @returns {Promise<object>}
  */
 async function sendPayment(payload = {}) {
   return new Promise((resolve, reject) => {

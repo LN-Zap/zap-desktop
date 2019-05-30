@@ -83,6 +83,7 @@ const clean = obj => {
 
 /**
  * Shallowly compares two objects using == operator. Only @whiteList props are compared
+ *
  * @param {*} obj1
  * @param {*} obj2
  * @param {*} whiteList
@@ -206,6 +207,7 @@ class WalletLauncher extends React.Component {
   /**
    * Saves current lnd config based on current form state
    * Returns the actual config that was saved
+   *
    * @memberof WalletLauncher
    */
   saveSettings = async () => {

@@ -7,8 +7,9 @@ import * as api from './gdriveApi'
 
 /**
  * Creates google drive api connection
+ *
  * @param {*} { clientId, authRedirectUrl, scope, tokens }
- * @returns {Object} returns {drive, accessTokens} object. `drive` represents google drive api instance
+ * @returns {object} returns {drive, accessTokens} object. `drive` represents google drive api instance
  */
 function createConnection({ clientId, authRedirectUrl, scope, tokens }) {
   const oAuthClient = api.createOAuthClient(clientId, authRedirectUrl)
@@ -33,12 +34,12 @@ function createConnection({ clientId, authRedirectUrl, scope, tokens }) {
 
 /**
  *
- * @param {Object} params - client params
+ * @param {object} params - client params
  * @param {string} params.clientId - google client ID. Obtained through developer console
  * @param {string} params.authRedirectUrl - authorized callback URL
  * @param {string} params.scope - google drive permissions scope
  * @param {string} params.tokens - existing tokens. If omitted authentication process will start on creation
- * @returns {Object} - google drive client
+ * @returns {object} - google drive client
  */
 async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
   // provides access to basic event emitter functionality
@@ -68,6 +69,7 @@ async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
 
   /**
    * Checks if connection is healthy and client is ready to process requests
+   *
    * @returns `true` if client is ready to interact with API `false` otherwise
    */
   async function testConnection() {

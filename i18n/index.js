@@ -65,7 +65,8 @@ const debug = (...args) => {
 
 /**
  * Get the most appropriate language code.
- * @return {string} Language code.
+ *
+ * @returns {string} Language code.
  */
 export const getDefaultLocale = () => {
   const defaultLocale = window.navigator.language || 'en-US'
@@ -83,7 +84,8 @@ export const getDefaultLocale = () => {
 
 /**
  * Get the most appropriate language code.
- * @return {string} Language code.
+ *
+ * @returns {string} Language code.
  */
 export const getLanguageName = lang => {
   const customNames = {
@@ -104,7 +106,8 @@ export const getLanguageName = lang => {
 
 /**
  * Get the most appropriate currency code.
- * @return {string} Currency code.
+ *
+ * @returns {string} Currency code.
  */
 export const getDefaultCurrency = () => {
   const defaultLocale = getDefaultLocale()

@@ -21,15 +21,17 @@ class SeedWord extends React.Component {
 
   /**
    * Masks the value with a trimmed version.
+   *
    * @param  {string} value Value to check
-   * @return {string}       Trimmed string
+   * @returns {string}       Trimmed string
    */
   mask = value => (value ? value.trim() : value)
 
   /**
    * Returns true if a words is ibncluded in the bip39 word list.
+   *
    * @param  {string} value     Value to check
-   * @return {string|undefined} undefined if word is in bip39 word list. The string 'incorrect' otherwise.
+   * @returns {string|undefined} undefined if word is in bip39 word list. The string 'incorrect' otherwise.
    */
   validate = value => {
     return !value || !bip39.includes(value) ? 'incorrect' : undefined
@@ -85,6 +87,7 @@ class Recover extends React.Component {
 
   /**
    * Parse valid seed from the clipboard and use to set values on all inputs.
+   *
    * @param  {Event} event onPaste event
    */
   handlePaste = event => {

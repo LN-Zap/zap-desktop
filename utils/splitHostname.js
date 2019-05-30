@@ -2,8 +2,9 @@ import { parse } from 'url'
 
 /**
  * Splits hostname into a host+port
+ *
  * @param {string} host
- * @returns {Object} {host,port}
+ * @returns {object} {host,port}
  */
 export default function splitHostname(host) {
   const { hostname = host, port } = parse(`http://${host}`)

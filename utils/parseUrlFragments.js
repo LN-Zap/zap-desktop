@@ -3,7 +3,7 @@
  *
  * @export
  * @param {string} hash
- * @returns {Object} <key, value> param map
+ * @returns {object} <key, value> param map
  */
 export default function parseUrlFragments(hash) {
   return hash

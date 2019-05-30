@@ -20,6 +20,7 @@ function openDialog(mode = 'openFile') {
 
 /**
  * Render prop that allows children to call native select directory dialog
+ *
  * @param {*} param0
  */
 const WithOpenDialog = ({ render }) => render({ openDialog })

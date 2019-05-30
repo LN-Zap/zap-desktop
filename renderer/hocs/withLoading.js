@@ -4,6 +4,7 @@ import LoadingBolt from 'components/LoadingBolt'
 
 /**
  * A HOC that will display the LoadingBolt component whilast the wrapped component is loading.
+ *
  * @param {React.Component} Component Component to wrap
  */
 const withLoading = Component =>

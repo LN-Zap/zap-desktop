@@ -25,7 +25,7 @@ export function getFileInfo(dbx, path) {
  * Downloads specified file as a `Buffer`
  *
  * @export
- * @param {Object} dbx dropbox instance
+ * @param {object} dbx dropbox instance
  * @param {string} path path to file
  * @returns {Buffer}
  */
@@ -38,11 +38,11 @@ export async function downloadToBuffer(dbx, path) {
  * Creates new file from buffer
  *
  * @export
- * @param {Object} dbx dropbox instance
+ * @param {object} dbx dropbox instance
  * @param {string} path path to file
  * @param {Buffer} buffer `Buffer` instance
  * @param {string} mode file write mode
- * @returns {Object}
+ * @returns {object}
  */
 export function uploadFromBuffer(dbx, path, buffer, mode = 'overwrite') {
   return dbx.filesUpload({ path, contents: buffer, mode })
@@ -52,7 +52,7 @@ export function uploadFromBuffer(dbx, path, buffer, mode = 'overwrite') {
  * Returns list of files metadata
  *
  * @export
- * @param {Object} dbx dropbox instance
+ * @param {object} dbx dropbox instance
  * @param {*} [params={}] {path, cursor,...} query params
  * @returns {Array}
  */
@@ -70,8 +70,8 @@ export async function listFiles(dbx, params = {}) {
  * @export
  * @param {string} clientId dropbox client id
  * @param {string} redirectUrl redirect url registered with the specified client id
- * @param {Object} [windowParams={ width: 500, height: 700 }] Electron browser window properties
- * @returns {Object} tokens object if operations was successful or error otherwise
+ * @param {object} [windowParams={ width: 500, height: 700 }] Electron browser window properties
+ * @returns {object} tokens object if operations was successful or error otherwise
  */
 export function createAuthWindow(
   clientId,

@@ -7,8 +7,9 @@ import * as api from './dbApi'
 
 /**
  * Creates dropbox api connection
+ *
  * @param {*} { clientId, authRedirectUrl, tokens }
- * @returns {Object} returns {client, accessTokens} object. `client` represents dropbox api instance
+ * @returns {object} returns {client, accessTokens} object. `client` represents dropbox api instance
  */
 async function createConnection({ clientId, authRedirectUrl, tokens }) {
   const accessTokens = tokens || (await api.createAuthWindow(clientId, authRedirectUrl))
@@ -18,11 +19,11 @@ async function createConnection({ clientId, authRedirectUrl, tokens }) {
 
 /**
  *
- * @param {Object} params - client params
+ * @param {object} params - client params
  * @param {string} params.clientId - dropbox client ID. Obtained through developer console
  * @param {string} params.authRedirectUrl - authorized callback URL
  * @param {string} params.tokens - existing tokens. If omitted authentication process will start on creation
- * @returns {Object} - dropbox client
+ * @returns {object} - dropbox client
  */
 async function createClient({ clientId, authRedirectUrl, tokens }) {
   // provides access to basic event emitter functionality
@@ -51,6 +52,7 @@ async function createClient({ clientId, authRedirectUrl, tokens }) {
 
   /**
    * Checks if connection is healthy and client is ready to process requests
+   *
    * @returns `true` if client is ready to interact with API `false` otherwise
    */
   async function testConnection() {

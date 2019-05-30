@@ -7,6 +7,7 @@ const forcePositiveNumber = amount => (amount >= 0 ? amount * 1 : amount * -1)
 
 /**
  * Renders a satoshi amount into a specific currency/unit.
+ *
  * @param {[type]} value         Amount in satoshis.
  * @param {[type]} currency      Currency to display as (btc, bits, sats, msats, fiat).
  * @param {[type]} currentTicker Current fiat ticker info.
