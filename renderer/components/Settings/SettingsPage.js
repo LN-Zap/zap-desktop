@@ -1,33 +1,30 @@
-import React, { useState, useContext } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { useFormState, useFormApi } from 'informed'
 import styled from 'styled-components'
-import { Box } from 'rebass'
-import difference from '@zap/utils/difference'
+import { Flex, Box } from 'rebass'
 import merge from 'lodash.merge'
+import difference from '@zap/utils/difference'
 import { ActionBar, Button, Heading, MainContent, MenuItem, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import SettingsForm from 'containers/Settings/SettingsForm'
-import { FieldGroupWallet, FieldGroupGeneral } from './SettingsFields'
-import SettingsContext from './SettingsContext'
+import SettingsFieldsWallet from './SettingsFieldsWallet'
+import SettingsFieldsGeneral from './SettingsFieldsGeneral'
 import messages from './messages'
-
-const SettingsProvider = SettingsContext.Provider
 
 const items = [
   {
     id: 'general',
-    title: 'General',
+    title: <FormattedMessage {...messages.fieldgroup_general} />,
   },
   {
     id: 'wallet',
-    title: 'Wallet',
+    title: <FormattedMessage {...messages.fieldgroup_wallet} />,
   },
 ]
 
-const SettingsMenu = ({ items, setGroup, ...rest }) => {
-  const { group } = useContext(SettingsContext)
+const SettingsMenu = ({ items, group, setGroup, ...rest }) => {
   return (
     <Box {...rest} p={2}>
       {items.map(({ id, title }) => (
@@ -40,6 +37,7 @@ const SettingsMenu = ({ items, setGroup, ...rest }) => {
 }
 
 SettingsMenu.propTypes = {
+  group: PropTypes.string,
   items: PropTypes.array.isRequired,
   setGroup: PropTypes.func.isRequired,
 }
@@ -72,8 +70,7 @@ const SettingsActionBarButtons = () => {
   )
 }
 
-const SettingsActions = () => {
-  const { currentConfig } = useContext(SettingsContext)
+const SettingsActions = ({ currentConfig }) => {
   const formState = useFormState()
   const updatedConfig = merge({}, currentConfig, formState.values)
   const overrides = difference(updatedConfig, currentConfig)
@@ -87,35 +84,37 @@ const SettingsActions = () => {
   return <SettingsActionBar buttons={<SettingsActionBarButtons currentConfig={currentConfig} />} />
 }
 
-const SettingsPage = ({ currentConfig }) => {
+SettingsActions.propTypes = {
+  currentConfig: PropTypes.object.isRequired,
+}
+
+const SettingsPage = ({ currentConfig, ...rest }) => {
   const [group, setGroup] = useState('general')
 
   return (
-    <SettingsProvider value={{ group, currentConfig }}>
-      <>
-        <Sidebar.medium pt={40}>
-          <Panel>
-            <Panel.Header mb={40} px={4}>
-              <ZapLogo height="32px" width="70px" />
-            </Panel.Header>
-            <Panel.Body css={{ 'overflow-y': 'overlay' }}>
-              <SettingsMenu items={items} setGroup={setGroup} />
-            </Panel.Body>
-          </Panel>
-        </Sidebar.medium>
-        <MainContent mt={6} px={5}>
-          <Heading.h1 fontSize={60}>
-            <FormattedMessage {...messages.settings_title} />
-          </Heading.h1>
+    <Flex width={1} {...rest}>
+      <Sidebar.medium pt={40}>
+        <Panel>
+          <Panel.Header mb={40} px={4}>
+            <ZapLogo height="32px" width="70px" />
+          </Panel.Header>
+          <Panel.Body css={{ 'overflow-y': 'overlay' }}>
+            <SettingsMenu group={group} items={items} setGroup={setGroup} />
+          </Panel.Body>
+        </Panel>
+      </Sidebar.medium>
+      <MainContent mt={4} px={5}>
+        <Heading.h1 fontSize={60}>
+          <FormattedMessage {...messages.settings_title} />
+        </Heading.h1>
 
-          <SettingsForm>
-            <FieldGroupGeneral />
-            <FieldGroupWallet />
-            <SettingsActions />
-          </SettingsForm>
-        </MainContent>
-      </>
-    </SettingsProvider>
+        <SettingsForm>
+          {group === 'general' && <SettingsFieldsGeneral currentConfig={currentConfig} />}
+          {group === 'wallet' && <SettingsFieldsWallet currentConfig={currentConfig} />}
+          <SettingsActions currentConfig={currentConfig} />
+        </SettingsForm>
+      </MainContent>
+    </Flex>
   )
 }
 

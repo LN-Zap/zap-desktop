@@ -11,27 +11,33 @@ const SettingsForm = ({
   setLocale,
   saveConfigOverrides,
   showNotification,
+  showError,
   children,
 }) => {
   const handleSubmit = async values => {
-    // Save the updated settings.
-    await saveConfigOverrides(values)
+    try {
+      // Save the updated settings.
+      await saveConfigOverrides(values)
 
-    // Special handling.
-    if (values.locale) {
-      await setLocale(values.locale)
-    }
-    if (values.autoupdate) {
-      configureAutoUpdater(values.autoupdate)
-    }
+      // Special handling.
+      if (values.locale) {
+        await setLocale(values.locale)
+      }
+      if (values.autoupdate) {
+        configureAutoUpdater(values.autoupdate)
+      }
 
-    // Show a notification.
-    const message = intl.formatMessage({ ...messages.submit_success })
-    showNotification(message)
+      // Show a notification.
+      const message = intl.formatMessage({ ...messages.submit_success })
+      showNotification(message)
 
-    // Finally, run any user supplied submit handler.
-    if (onSubmit) {
-      onSubmit(values)
+      // Finally, run any user supplied submit handler.
+      if (onSubmit) {
+        onSubmit(values)
+      }
+    } catch (e) {
+      const message = intl.formatMessage({ ...messages.submit_error })
+      showError(`${message} ${e.message}`)
     }
   }
 
@@ -45,6 +51,7 @@ SettingsForm.propTypes = {
   onSubmit: PropTypes.func,
   saveConfigOverrides: PropTypes.func.isRequired,
   setLocale: PropTypes.func.isRequired,
+  showError: PropTypes.func.isRequired,
   showNotification: PropTypes.func.isRequired,
 }
 export default injectIntl(SettingsForm)

@@ -1,5 +1,5 @@
 export SettingsMenu from './SettingsMenu'
-export SettingsContext from './SettingsContext'
-export { FieldGroupGeneral, FieldGroupWallet } from './SettingsFields'
 export SettingsForm from './SettingsForm'
+export SettingsFieldsWallet from './SettingsFieldsWallet'
+export SettingsFieldsGeneral from './SettingsFieldsGeneral'
 export SettingsPage from './SettingsPage'

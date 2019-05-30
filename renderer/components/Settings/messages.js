@@ -9,6 +9,7 @@ export default defineMessages({
   button_save: 'Save',
   button_cancel: 'Cancel',
   submit_success: 'Settings have been updated.',
+  submit_error: 'There was a problem saving your preferences.',
   autoupdate_active_label: 'Autoupdate',
   autoupdate_active_description: 'Automatically download and install updates.',
   locale_label: 'Language',
@@ -30,4 +31,6 @@ export default defineMessages({
     'Number of blocks to target for "medium" sending speed.',
   lndTargetConfirmations_fast_label: 'Target confirmations (fast)',
   lndTargetConfirmations_fast_description: 'Number of blocks to target for "fast" sending speed.',
+  fieldgroup_general: 'General',
+  fieldgroup_wallet: 'Wallet',
 })
