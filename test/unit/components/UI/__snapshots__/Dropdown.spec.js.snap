@@ -12,6 +12,14 @@ exports[`component.Dropdown should render correctly 1`] = `
   align-items: center;
 }
 
+.c4 {
+  color: gray;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
 .c3 {
   margin-right: 4px;
   font-size: m;
@@ -36,14 +44,11 @@ exports[`component.Dropdown should render correctly 1`] = `
 .c1 {
   margin: 0px;
   padding: 0px;
+  font-size: m;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
   display: inline-block;
-  text-align: center;
-  line-height: inherit;
-  -webkit-text-decoration: none;
-  text-decoration: none;
   border: none;
   outline: none;
   background: transparent;
@@ -64,6 +69,7 @@ exports[`component.Dropdown should render correctly 1`] = `
   >
     <button
       className="c1"
+      fontSize="m"
       onClick={[Function]}
       type="button"
     >
@@ -78,16 +84,21 @@ exports[`component.Dropdown should render correctly 1`] = `
           BTC
            
         </div>
-        <svg
-          height="1em"
-          viewBox="6.295 8.295 12 7.41"
-          width="0.6em"
+        <div
+          className="c4"
+          color="gray"
         >
-          <path
-            d="M18.295 9.705l-1.41-1.41-4.59 4.58-4.59-4.58-1.41 1.41 6 6z"
-            fill="currentColor"
-          />
-        </svg>
+          <svg
+            height="1em"
+            viewBox="6.295 8.295 12 7.41"
+            width="0.6em"
+          >
+            <path
+              d="M18.295 9.705l-1.41-1.41-4.59 4.58-4.59-4.58-1.41 1.41 6 6z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
       </div>
     </button>
   </div>

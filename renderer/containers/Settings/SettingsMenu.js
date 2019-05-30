@@ -7,7 +7,7 @@ import {
   setActiveSubMenu,
   disableSubMenu,
 } from 'reducers/settingsmenu'
-import { setTheme } from 'reducers/theme'
+import { setTheme, themeSelectors } from 'reducers/theme'
 import { walletSelectors } from 'reducers/wallet'
 import { openModal } from 'reducers/modal'
 import SettingsMenu from 'components/Settings/SettingsMenu'
@@ -20,7 +20,7 @@ const mapStateToProps = state => ({
   locales: state.locale,
   currentLocale: state.intl.locale,
   themes: state.theme.themes,
-  currentTheme: state.theme.currentTheme,
+  currentTheme: themeSelectors.currentTheme(state),
   isSettingsMenuOpen: state.settingsmenu.isSettingsMenuOpen,
 })
 

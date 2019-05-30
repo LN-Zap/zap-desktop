@@ -10,6 +10,7 @@ import { configureStore } from '@zap/renderer/store/configureStore'
 import { getDefaultLocale } from '@zap/i18n'
 import { getDb } from '@zap/renderer/store/db'
 import getDbName from '@zap/utils/db'
+import { setTheme } from 'reducers/theme'
 
 export const db = getDb(getDbName(config))
 db.open()
@@ -48,6 +49,8 @@ export const Provider = ({ story }) => {
 Provider.propTypes = {
   story: PropTypes.any.isRequired,
 }
+
+store.dispatch(setTheme('dark'))
 
 store.dispatch({
   type: 'RECEIVE_INFO',

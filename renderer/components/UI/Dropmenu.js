@@ -1,0 +1,381 @@
+import React, { useRef, useState, useContext } from 'react'
+import PropTypes from 'prop-types'
+import { Box, Flex } from 'rebass'
+import styled, { withTheme } from 'styled-components'
+import { themeGet, px } from 'styled-system'
+import { useOnClickOutside, useOnKeydown, useScroll, useComponentSize } from 'hooks'
+import AngleRight from 'components/Icon/AngleRight'
+import AngleUp from 'components/Icon/AngleUp'
+import AngleDown from 'components/Icon/AngleDown'
+import Check from 'components/Icon/Check'
+import Bar from './Bar'
+import Card from './Card'
+import Span from './Span'
+import { DropdownButton } from './Dropdown'
+
+/**
+ * getColor - Get color based on hover state.
+ *
+ * @param  {*} props Props
+ * @returns {string} Color
+ */
+function getColor(props) {
+  return props.isHovered
+    ? themeGet('colors.lightningOrange')(props)
+    : themeGet('colors.primaryText')(props)
+}
+
+/**
+ * getMutedColor - Get muted color based on hover state.
+ *
+ * @param  {*} props Props
+ * @returns {string} Color
+ */
+function getMutedColor(props) {
+  return props.isHovered
+    ? themeGet('colors.lightningOrange')(props)
+    : themeGet('colors.gray')(props)
+}
+
+const MenuContext = React.createContext({})
+const MenuProvider = MenuContext.Provider
+
+const RefType = PropTypes.oneOfType([
+  PropTypes.func,
+  PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
+])
+
+const MenuItemsType = PropTypes.arrayOf(
+  PropTypes.shape({
+    content: PropTypes.node,
+    description: PropTypes.node,
+    icon: PropTypes.Object,
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+    onClick: PropTypes.function,
+    submenu: PropTypes.array,
+    title: PropTypes.node,
+  })
+)
+
+const MenuButton = ({ children }) => (
+  <MenuButtonContent alignItems="center" justifyContent="space-between" p={2}>
+    {children}
+  </MenuButtonContent>
+)
+
+MenuButton.propTypes = {
+  children: PropTypes.node,
+}
+
+const MenuButtonContent = styled(Flex)`
+  cursor: pointer;
+  border-radius: 5px;
+  &:hover {
+    background-color: ${themeGet('colors.tertiaryColor')};
+  }
+`
+
+const MenuButtonText = styled(Flex)`
+  color: ${getColor};
+`
+
+const MenuButtonTextMuted = styled(Flex)`
+  color: ${getMutedColor};
+`
+
+const DropmenuItem = ({
+  title,
+  description,
+  isSelected,
+  hasIndent,
+  icon,
+  onClick,
+  submenu,
+  ...rest
+}) => {
+  const { justify, width } = useContext(MenuContext)
+  const ref = useRef(null)
+  const [isHovered, setHovered] = useState(false)
+  const { left, top } = useComponentSize(ref)
+
+  return (
+    <Box
+      {...rest}
+      ref={ref}
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <MenuButton isHovered={isHovered}>
+        <Box>
+          <Flex alignItems="center">
+            {(hasIndent || (isSelected && !icon)) && (
+              <Flex color="superGreen" textAlign="center" width="20px">
+                {isSelected && <Check height="0.95em" />}
+              </Flex>
+            )}
+            {icon && (
+              <MenuButtonTextMuted isHovered={isHovered} mr={2}>
+                {isSelected ? <Span color="superGreen">{icon}</Span> : icon}
+              </MenuButtonTextMuted>
+            )}
+            <MenuButtonText isHovered={isHovered}>{title}</MenuButtonText>
+          </Flex>
+          {description && <MenuButtonTextMuted mt={1}>{description}</MenuButtonTextMuted>}
+        </Box>
+        {submenu && (
+          <MenuButtonTextMuted isHovered={isHovered}>
+            <AngleRight height="8px" />
+          </MenuButtonTextMuted>
+        )}
+      </MenuButton>
+      {submenu && isHovered && (
+        <DropmenuSubmenu
+          items={submenu}
+          left={justify === 'right' ? left - width : left + width}
+          top={top}
+        />
+      )}
+    </Box>
+  )
+}
+
+DropmenuItem.propTypes = {
+  description: PropTypes.node,
+  hasIndent: PropTypes.bool,
+  icon: PropTypes.node,
+  isSelected: PropTypes.bool,
+  onClick: PropTypes.func,
+  submenu: PropTypes.array,
+  title: PropTypes.node.isRequired,
+}
+
+const DropmenuButton = ({ isOpen, children, ...rest }) => {
+  const [isHovered, setHovered] = useState(false)
+
+  return (
+    <DropdownButton
+      type="button"
+      {...rest}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <MenuButtonText isHovered={isHovered || isOpen}>
+        <Flex alignItems="flex-end">
+          <Box mr={1}>{children}</Box>
+          <MenuButtonTextMuted isHovered={isHovered || isOpen}>
+            {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
+          </MenuButtonTextMuted>
+        </Flex>
+      </MenuButtonText>
+    </DropdownButton>
+  )
+}
+
+DropmenuButton.propTypes = {
+  children: PropTypes.node,
+  isOpen: PropTypes.bool,
+  onClick: PropTypes.func,
+}
+
+const DropmenuListScrollerBase = styled(Flex)`
+  position: absolute;
+  bottom: ${props => (props.direction === 'down' ? 0 : 'auto')};
+  top: ${props => (props.direction === 'up' ? 0 : 'auto')};
+  transition: all 0.25s;
+  opacity: ${props => props.opacity};
+  pointer-events: none;
+`
+
+const DropmenuListScroller = props => (
+  <DropmenuListScrollerBase
+    bg="primaryColor"
+    color="lightningOrange"
+    justifyContent="center"
+    p={2}
+    width={1}
+    {...props}
+  />
+)
+
+DropmenuListScroller.propTypes = {
+  direction: PropTypes.oneOf(['up', 'down']).isRequired,
+  opacity: PropTypes.number,
+}
+
+DropmenuListScroller.defaultProps = {
+  opacity: 1,
+}
+
+const DropmenuListItem = ({ item }) => {
+  const { type, content, ...rest } = item
+
+  const renderContent = () => {
+    switch (type) {
+      case 'content':
+        return (
+          <Box as="li">
+            <Box p={1}>{content}</Box>
+          </Box>
+        )
+      case 'bar':
+        return (
+          <Box as="li">
+            <Bar mx={-1} my={1} variant="light" />
+          </Box>
+        )
+      default:
+        return (
+          <Box as="li">
+            <DropmenuItem {...rest} />
+          </Box>
+        )
+    }
+  }
+
+  return renderContent()
+}
+
+const DropmenuList = React.forwardRef((props, forwardRef) => {
+  const { width } = useContext(MenuContext)
+  const ref = useRef(null)
+  const { scrollableHeight, isScrollbarVisible } = useComponentSize(ref)
+  const { y: scrollY = 0 } = useScroll(ref) || {}
+  const hasTopScroll = isScrollbarVisible && scrollY
+  const hasBottomScroll = isScrollbarVisible && scrollY < scrollableHeight
+
+  return (
+    <Card
+      ref={ref}
+      as="ul"
+      css={{
+        'max-height': '450px',
+        'overflow-x': 'hidden',
+        'overflow-y': 'auto',
+        '&::-webkit-scrollbar': {
+          display: 'none',
+        },
+      }}
+      p={1}
+      width={width}
+    >
+      <DropmenuListScroller direction="up" opacity={hasTopScroll ? 1 : 0}>
+        <AngleUp />
+      </DropmenuListScroller>
+      <Box ref={forwardRef} {...props} m={isScrollbarVisible ? 2 : 0} />
+      <DropmenuListScroller direction="down" opacity={hasBottomScroll ? 1 : 0}>
+        <AngleDown />
+      </DropmenuListScroller>
+    </Card>
+  )
+})
+
+DropmenuList.displayName = 'DropmenuList'
+
+const DropmenuListWithTheme = withTheme(DropmenuList)
+
+const DropmenuContent = ({ menuRef, items }) => {
+  return (
+    <DropmenuListWithTheme ref={menuRef}>
+      {items.map((item, index) => (
+        <DropmenuListItem key={item.id || index} item={item} />
+      ))}
+    </DropmenuListWithTheme>
+  )
+}
+
+DropmenuContent.propTypes = {
+  items: MenuItemsType,
+  menuRef: RefType,
+}
+
+const DropmenuSubmenuWrapper = styled(Box)`
+  position: absolute;
+  z-index: 10;
+  top: ${props => px(props.top)};
+  left: ${props => px(props.left)};
+`
+
+const DropmenuSubmenu = props => {
+  const { top, left, ...rest } = props
+  return (
+    <DropmenuSubmenuWrapper left={left} top={top}>
+      <DropmenuContent {...rest} />
+    </DropmenuSubmenuWrapper>
+  )
+}
+
+DropmenuSubmenu.propTypes = {
+  left: PropTypes.number,
+  top: PropTypes.number,
+}
+
+DropmenuSubmenu.defaultProps = {
+  top: 0,
+  left: 0,
+}
+
+const DropmenuMenu = ({ menuRef, ...rest }) => {
+  const { justify } = useContext(MenuContext)
+  return (
+    <Box css={{ position: 'relative' }}>
+      <Flex css={{ position: 'absolute', 'z-index': '1', right: justify === 'right' ? 0 : null }}>
+        <DropmenuContent {...rest} menuRef={menuRef} />
+      </Flex>
+    </Box>
+  )
+}
+
+DropmenuMenu.propTypes = {
+  menuRef: RefType,
+}
+
+const Dropmenu = ({ children, items, width, justify, ...rest }) => {
+  // State to track menu open state.
+  const [isOpen, setIsOpen] = useState(false)
+  const toggleMenu = () => setIsOpen(!isOpen)
+
+  // Close the menu if the user clicks outside our elements.
+  const buttonRef = useRef(null)
+  const menuRef = useRef(null)
+  useOnClickOutside([buttonRef, menuRef], () => setIsOpen(false))
+
+  // Close the menu if the escape key is pressed.
+  useOnKeydown('Escape', () => setIsOpen(false))
+
+  return (
+    <MenuProvider value={{ width, justify }}>
+      <Flex
+        alignItems={justify === 'right' ? 'flex-end' : 'flex-start'}
+        flexDirection="column"
+        {...rest}
+      >
+        {children && (
+          <Box ref={buttonRef}>
+            <DropmenuButton isOpen={isOpen} mb={1} onClick={toggleMenu}>
+              {children}
+            </DropmenuButton>
+          </Box>
+        )}
+        {(!children || isOpen) && (
+          <DropmenuMenu items={items} justify={justify} menuRef={menuRef} />
+        )}
+      </Flex>
+    </MenuProvider>
+  )
+}
+
+Dropmenu.propTypes = {
+  children: PropTypes.node,
+  items: MenuItemsType,
+  justify: PropTypes.oneOf(['left', 'right']),
+  width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+}
+
+Dropmenu.defaultProps = {
+  width: 265,
+  justify: 'left',
+  items: [],
+}
+
+export default Dropmenu

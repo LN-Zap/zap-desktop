@@ -1,7 +1,7 @@
 import React from 'react'
 
 const SvgOrbit = props => (
-  <svg viewBox="0 0 200 200" {...props} height="1em" width="1em">
+  <svg height="1em" viewBox="0 0 200 200" width="1em" {...props}>
     <g transform="rotate(135 100 100)">
       <circle cx={20} cy={100} fill="#fd9800" r={15} />
       <path
