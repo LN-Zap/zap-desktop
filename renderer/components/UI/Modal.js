@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 import CloseButton from 'components/UI/CloseButton'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Panel from './Panel'
+import Page from './Page'
 
 export const ModalOverlayStyles = () => `
   z-index: 1000;
@@ -12,6 +14,14 @@ export const ModalOverlayStyles = () => `
   bottom: 0;
   left: 0;
   right: 0;
+`
+
+export const ModalHeader = styled(Panel.Header)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
 `
 
 const ModalLogo = ({ hasLogo }) => (
@@ -32,19 +42,6 @@ ModalLogo.defaultProps = {
   hasLogo: true,
 }
 
-const ModalHeader = props => (
-  <Panel.Header
-    css={{ position: 'absolute', top: 0, left: 0, right: 0, 'z-index': '1' }}
-    pt={3}
-    px={3}
-    {...props}
-  />
-)
-
-const ModalBody = props => (
-  <Panel.Body css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }} {...props} />
-)
-
 /**
  * @name Modal
  * @param {*} props Props
@@ -52,15 +49,16 @@ const ModalBody = props => (
  */
 const Modal = props => {
   const { children, onClose, hasClose, hasLogo, ...rest } = props
+
   return (
     <Panel bg="primaryColor" color="primaryText">
       {(hasClose || hasLogo) && (
-        <ModalHeader>
+        <ModalHeader pt={3} px={3}>
           {hasClose && <CloseButton onClick={onClose} />}
           {hasLogo && <ModalLogo hasLogo={hasLogo} />}
         </ModalHeader>
       )}
-      <ModalBody {...rest}>{children}</ModalBody>
+      <Page {...rest}>{children}</Page>
     </Panel>
   )
 }

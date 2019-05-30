@@ -99,7 +99,7 @@ class Home extends React.Component {
             <Panel.Header mb={40} px={4}>
               <ZapLogo height="32px" width="70px" />
             </Panel.Header>
-            <Panel.Body css={{ 'overflow-y': 'auto' }}>
+            <Panel.Body css={{ 'overflow-y': 'overlay' }}>
               <WalletsMenu
                 activeWallet={activeWallet}
                 setActiveWallet={setActiveWallet}
@@ -107,7 +107,7 @@ class Home extends React.Component {
               />
             </Panel.Body>
             <Panel.Footer>
-              <Bar />
+              <Bar variant="light" />
               <Box px={4} py={2}>
                 <CreateWalletButton history={history} width={1} />
               </Box>
@@ -115,7 +115,7 @@ class Home extends React.Component {
           </Panel>
         </Sidebar.medium>
 
-        <MainContent bg="transparent" css={{ position: 'relative' }}>
+        <MainContent mt={4} px={5}>
           <Switch>
             <Route
               exact

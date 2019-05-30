@@ -36,7 +36,7 @@ class ChannelCreate extends React.Component {
           <Panel.Body css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
             <Flex alignItems="center" css={{ height: '100%' }} flexDirection="column">
               {isSearchValidNodeAddress ? (
-                <ChannelCreateForm onSubmit={onSubmit} width={9 / 16} {...rest} />
+                <ChannelCreateForm mx="auto" onSubmit={onSubmit} width={9 / 16} />
               ) : (
                 <>
                   <ChannelNodeSearch width={9 / 16} />

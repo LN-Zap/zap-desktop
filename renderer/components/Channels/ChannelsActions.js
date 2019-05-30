@@ -52,7 +52,7 @@ const ChannelsActions = ({
       channelViewMode={channelViewMode}
       setChannelViewMode={setChannelViewMode}
     />
-    <ChannelsRefresh bg="blue" ml={2} onClick={fetchChannels} />
+    <ChannelsRefresh ml={2} onClick={fetchChannels} />
 
     <Button ml="auto" onClick={() => openModal('CHANNEL_CREATE')}>
       <FormattedMessage {...messages.create_new_button_text} />

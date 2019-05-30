@@ -330,26 +330,24 @@ class Onboarding extends React.Component {
 
     return (
       <Wizard steps={steps}>
-        <Flex css={{ height: '100%' }}>
-          <Panel width={1}>
-            <Panel.Body mx="auto" width={9 / 16}>
-              <Wizard.Steps />
-            </Panel.Body>
+        <Panel width={1}>
+          <Panel.Body mx="auto" width={9 / 16}>
+            <Wizard.Steps />
+          </Panel.Body>
 
-            <Panel.Footer>
-              <Flex justifyContent="space-between">
-                <Box>
-                  <Wizard.BackButton navigateTo={previousStep}>{backButtonText}</Wizard.BackButton>
-                </Box>
-                <Box ml="auto">
-                  <Wizard.NextButton>
-                    <FormattedMessage {...messages.next} />
-                  </Wizard.NextButton>
-                </Box>
-              </Flex>
-            </Panel.Footer>
-          </Panel>
-        </Flex>
+          <Panel.Footer>
+            <Flex justifyContent="space-between">
+              <Box>
+                <Wizard.BackButton navigateTo={previousStep}>{backButtonText}</Wizard.BackButton>
+              </Box>
+              <Box ml="auto">
+                <Wizard.NextButton>
+                  <FormattedMessage {...messages.next} />
+                </Wizard.NextButton>
+              </Box>
+            </Flex>
+          </Panel.Footer>
+        </Panel>
       </Wizard>
     )
   }

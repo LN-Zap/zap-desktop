@@ -6,16 +6,7 @@ import styled from 'styled-components'
 import { Box } from 'rebass'
 import difference from '@zap/utils/difference'
 import merge from 'lodash.merge'
-import {
-  ActionBar,
-  Button,
-  Heading,
-  MainContent,
-  MenuItem,
-  Page,
-  Panel,
-  Sidebar,
-} from 'components/UI'
+import { ActionBar, Button, Heading, MainContent, MenuItem, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import SettingsForm from 'containers/Settings/SettingsForm'
 import { FieldGroupWallet, FieldGroupGeneral } from './SettingsFields'
@@ -96,23 +87,23 @@ const SettingsActions = () => {
   return <SettingsActionBar buttons={<SettingsActionBarButtons currentConfig={currentConfig} />} />
 }
 
-const SettingsPage = ({ currentConfig, ...rest }) => {
+const SettingsPage = ({ currentConfig }) => {
   const [group, setGroup] = useState('general')
 
   return (
     <SettingsProvider value={{ group, currentConfig }}>
-      <Page {...rest}>
+      <>
         <Sidebar.medium pt={40}>
           <Panel>
             <Panel.Header mb={40} px={4}>
               <ZapLogo height="32px" width="70px" />
             </Panel.Header>
-            <Panel.Body css={{ 'overflow-y': 'auto' }}>
+            <Panel.Body css={{ 'overflow-y': 'overlay' }}>
               <SettingsMenu items={items} setGroup={setGroup} />
             </Panel.Body>
           </Panel>
         </Sidebar.medium>
-        <MainContent bg="transparent" css={{ position: 'relative' }} mt={6} px={5} width={1}>
+        <MainContent mt={6} px={5}>
           <Heading.h1 fontSize={60}>
             <FormattedMessage {...messages.settings_title} />
           </Heading.h1>
@@ -123,7 +114,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
             <SettingsActions />
           </SettingsForm>
         </MainContent>
-      </Page>
+      </>
     </SettingsProvider>
   )
 }

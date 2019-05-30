@@ -1,5 +1,5 @@
 import React from 'react'
-import BackgroundPrimary from './BackgroundPrimary'
+import { Box } from 'rebass'
 
 /**
  * @render react
@@ -7,6 +7,13 @@ import BackgroundPrimary from './BackgroundPrimary'
  * @example
  * <MainContent>Some content</MainContent>
  */
-const MainContent = ({ ...rest }) => <BackgroundPrimary as="article" width={1} {...rest} />
+const MainContent = props => (
+  <Box
+    as="article"
+    css={{ height: '100%', 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}
+    width={1}
+    {...props}
+  />
+)
 
 export default MainContent

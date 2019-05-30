@@ -21,7 +21,6 @@ const Container = styled(animated.div)`
 `
 
 const ModalContent = ({ type, closeModal }) => {
-  const doCloseModal = () => closeModal()
   switch (type) {
     case 'SETTINGS':
       return (
@@ -32,8 +31,8 @@ const ModalContent = ({ type, closeModal }) => {
 
     case 'AUTOPAY':
       return (
-        <Modal onClose={closeModal} pt={4}>
-          <Autopay />
+        <Modal onClose={closeModal} p={4}>
+          <Autopay width={1} />
         </Modal>
       )
 
@@ -53,8 +52,8 @@ const ModalContent = ({ type, closeModal }) => {
 
     case 'RECEIVE_MODAL':
       return (
-        <Modal onClose={closeModal}>
-          <ReceiveModal mx="auto" width={9 / 16} />/
+        <Modal onClose={closeModal} p={4}>
+          <ReceiveModal mx="auto" width={9 / 16} />
         </Modal>
       )
 
@@ -68,21 +67,21 @@ const ModalContent = ({ type, closeModal }) => {
     case 'CHANNELS':
       return (
         <Modal onClose={closeModal} pt={4}>
-          <Channels />
+          <Channels width={1} />
         </Modal>
       )
 
     case 'CHANNEL_CREATE':
       return (
-        <Modal onClose={closeModal} pt={4} px={4}>
-          <ChannelCreate mx={-4} onSubmit={doCloseModal} />
+        <Modal onClose={closeModal} py={4}>
+          <ChannelCreate onSubmit={closeModal} width={1} />
         </Modal>
       )
 
     case 'CHANNEL_DETAIL':
       return (
         <Modal onClose={closeModal} p={4}>
-          <ChannelDetailModal type="CHANNEL_DETAIL" />
+          <ChannelDetailModal type="CHANNEL_DETAIL" width={1} />
         </Modal>
       )
   }
@@ -101,6 +100,7 @@ ModalContent.propTypes = {
  */
 function ModalStack(props) {
   const { modals, closeModal } = props
+  const doCloseModal = () => closeModal()
 
   useOnKeydown('Escape', closeModal)
 
@@ -117,7 +117,7 @@ function ModalStack(props) {
         /* eslint-disable react/display-name */
         (styles => (
           <Container style={styles}>
-            <ModalContent closeModal={() => closeModal()} type={modal.type} />
+            <ModalContent closeModal={doCloseModal} type={modal.type} />
           </Container>
         ))
       }

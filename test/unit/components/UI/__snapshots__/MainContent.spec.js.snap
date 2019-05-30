@@ -3,20 +3,13 @@
 exports[`component.UI.MainContent should render correctly 1`] = `
 .c0 {
   width: 100%;
-  color: primaryText;
-  background-color: primaryColor;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-flex-direction: column;
-  -ms-flex-direction: column;
-  flex-direction: column;
+  height: 100%;
+  overflow-y: overlay;
+  overflow-x: hidden;
 }
 
 <article
   className="c0"
-  color="primaryText"
   width={1}
 />
 `;

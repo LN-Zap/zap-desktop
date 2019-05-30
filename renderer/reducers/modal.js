@@ -18,13 +18,17 @@ export const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
 export const SET_MODALS = 'SET_MODALS'
 
 const createModalData = (type, options) => ({ id: genId(), type, options })
+
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function openModal(type, options) {
-  return {
-    type: OPEN_MODAL,
-    modal: createModalData(type, options),
+export const openModal = (type, options) => (dispatch, getState) => {
+  const modals = modalSelectors.getModalState(getState())
+  if (!modals.find(m => m.type === type)) {
+    dispatch({
+      type: OPEN_MODAL,
+      modal: createModalData(type, options),
+    })
   }
 }
 
