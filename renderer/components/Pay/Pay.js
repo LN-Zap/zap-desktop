@@ -264,7 +264,8 @@ class Pay extends React.Component {
 
   /**
    * Form submit handler.
-   * @param  {Object} values submitted form values.
+   *
+   * @param  {object} values submitted form values.
    */
   onSubmit = values => {
     const { currentStep, isOnchain } = this.state
@@ -485,6 +486,7 @@ class Pay extends React.Component {
                 validateOnBlur
                 validateOnChange
                 width={1}
+                willAutoFocus
               />
             </React.Fragment>
           )}
