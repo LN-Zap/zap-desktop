@@ -5,6 +5,7 @@ import getDisplayName from '@zap/utils/getDisplayName'
 
 /**
  * A HOC that will add validation of a `required` property to a field.
+ *
  * @param {React.Component} Component Component to wrap
  */
 const withInputValidation = Component =>

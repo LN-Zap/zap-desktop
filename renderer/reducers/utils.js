@@ -21,6 +21,7 @@ export const isLoading = createSelector(
 /**
  * Allows to specify custom loading condition on a per router path basis
  * Add custom isLoading rules here
+ *
  * @param {} state
  */
 export const isLoadingPerPath = (state, location = {}) => {

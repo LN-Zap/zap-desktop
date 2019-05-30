@@ -16,7 +16,7 @@ const dbGet = async walletId => {
  * Convenience wrapper that tries to update existing DB record and if fails insert new one
  *
  * @param {string} walletId
- * @param {Object} update
+ * @param {object} update
  */
 const dbUpdate = async (walletId, update) => {
   return await window.db.wallets.update(walletId, { backup: update })
@@ -203,6 +203,7 @@ async function updateBackupProvider(walletId, provider) {
 
 /**
  * Set
+ *
  * @param {('gdrive'|'local'|'dropbox')} provider  backup service provider to be used in `initBackupService` call
  */
 export const setBackupProvider = provider => {
@@ -214,6 +215,7 @@ export const setBackupProvider = provider => {
 
 /**
  * Set
+ *
  * @param {string} localPath local filesystem directory URI
  */
 export const setBackupPathLocal = localPath => {

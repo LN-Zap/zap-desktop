@@ -48,8 +48,9 @@ export const CLOSE_CLOSE_CHANNEL_DIALOG = 'CLOSE_CLOSE_CHANNEL_DIALOG'
 /**
  * Get the channel data from aq channel object.
  * If this is a pending channel, the channel data will be stored under the `channel` key.
- * @param  {Object} channelObj Channel object
- * @return {Object} Channel data
+ *
+ * @param  {object} channelObj Channel object
+ * @returns {object} Channel data
  */
 export const getChannelData = channelObj => channelObj.channel || channelObj
 
@@ -59,9 +60,10 @@ export const getChannelData = channelObj => channelObj.channel || channelObj
  * This will either be:
  *  - the alias of the node at the other end of the channel
  *  - a shortened public key.
- * @param  {Object} channel Channel object.
+ *
+ * @param  {object} channel Channel object.
  * @param  {Array} nodes Array of nodes.
- * @return {String} Channel display name.
+ * @returns {string} Channel display name.
  */
 const getDisplayName = (channel, nodes) => {
   const remoteNodePubkey = getRemoteNodePubKey(channel)
@@ -76,8 +78,9 @@ const getDisplayName = (channel, nodes) => {
  * due to inconsistent API vals the remote nodes pubkey will be under remote_pubkey for active channels and
  * remote_node_pub for pending channels.
  * we have
+ *
  * @param  {[type]} channel [description]
- * @return {[type]}         [description]
+ * @returns {[type]}         [description]
  */
 const getRemoteNodePubKey = channel => {
   return channel.node_pubkey || channel.remote_pubkey || channel.remote_node_pub
@@ -85,9 +88,10 @@ const getRemoteNodePubKey = channel => {
 
 /**
  * Determine the status of a channel.
- * @param  {Object} channel Channel object.
+ *
+ * @param  {object} channel Channel object.
  * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing.
- * @return {String} Channel status name.
+ * @returns {string} Channel status name.
  */
 const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = []) => {
   const channelData = getChannelData(channelObj)
@@ -127,10 +131,11 @@ const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = [
 
 /**
  * Decorate a channel object with additional calculated properties.
- * @param  {Object} channelObj Channel object.
+ *
+ * @param  {object} channelObj Channel object.
  * @param  {Array} nodes Array of node data.
  * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing.
- * @return {Object} Decorated channel object.
+ * @returns {object} Decorated channel object.
  */
 const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannels) => {
   // If this is a pending channel, the channel data will be stored under the `channel` key.

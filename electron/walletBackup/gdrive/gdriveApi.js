@@ -27,11 +27,12 @@ export function createOAuthClient(clientId, redirectUrl) {
 /**
  *
  * Updates existing file from buffer
+ *
  * @export
- * @param {Object} drive drive instance
+ * @param {object} drive drive instance
  * @param {string} fileId google drive file id
  * @param {Buffer} buffer `Buffer` instance
- * @returns {Object}
+ * @returns {object}
  */
 export async function updateFromBuffer(drive, fileId, buffer) {
   const res = await drive.files.update({
@@ -47,10 +48,10 @@ export async function updateFromBuffer(drive, fileId, buffer) {
  * Creates new file from buffer
  *
  * @export
- * @param {Object} drive drive instance
+ * @param {object} drive drive instance
  * @param {string} name desired file name
  * @param {Buffer} buffer `Buffer` instance
- * @returns {Object}
+ * @returns {object}
  */
 export async function uploadFromBuffer(drive, name, buffer) {
   const res = await drive.files.create({
@@ -130,9 +131,9 @@ export async function listFiles(drive, params = {}) {
  * Initiates user authentication procedure via google OAuth2
  *
  * @export
- * @param {Object} oAuthClient googleapis OAuth2 client
+ * @param {object} oAuthClient googleapis OAuth2 client
  * @param {string} scope google drive access scope
- * @param {Object} [windowParams={ width: 500, height: 600 }] Electron browser window properties
+ * @param {object} [windowParams={ width: 500, height: 600 }] Electron browser window properties
  * @returns
  */
 export function createAuthWindow(oAuthClient, scope, windowParams = { width: 500, height: 600 }) {

@@ -37,8 +37,9 @@ const initialState = {
 
 /**
  * Check wether a prop exists and contains a given search string.
+ *
  * @param  {string}  prop Prop name
- * @return {boolean} Boolean indicating if the prop was found and contains the search string.
+ * @returns {boolean} Boolean indicating if the prop was found and contains the search string.
  */
 const propMatches = function(prop) {
   const { item, searchText } = this
@@ -270,6 +271,7 @@ const months = [
 
 /**
  * Sorts data by date and inserts grouping titles
+ *
  * @param {*} data
  */
 function groupAll(data) {
@@ -304,9 +306,10 @@ function groupAll(data) {
 
 /**
  * Filter activity list by checking various properties against a given search string.
+ *
  * @param  {Array}  data Activity item list
  * @param  {string} searchText Search text
- * @return {Array}  Filtered activity list
+ * @returns {Array}  Filtered activity list
  */
 const applySearch = (data, searchText) => {
   if (!searchText) {

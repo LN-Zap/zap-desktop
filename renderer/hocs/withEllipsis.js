@@ -4,6 +4,7 @@ import styled from 'styled-components'
 
 /**
  * A HOC that will applies an overflow and ellipsis to to an element.
+ *
  * @param {React.Component} Component Component to wrap
  */
 const withEllipsis = Component => {

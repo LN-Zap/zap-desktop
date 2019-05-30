@@ -166,6 +166,7 @@ class ZapGrpc extends EventEmitter {
 
   /**
    * Unsubscribe from all streams.
+   *
    * @param {...string} streams optional list of streams to unsubscribe from. if omitted, uses all active streams.
    * @streams must be a subset of `this.availableSubscriptions`
    */
@@ -187,6 +188,7 @@ class ZapGrpc extends EventEmitter {
   /**
    * Register a stream.
    * Provide a mapping between a service and a subscription activation helper method.
+   *
    * @param  {string} key         Key used to identify the subscription.
    * @param  {string} serviceName Name of service that provides the subscription.
    * @param  {string} methodName  Name of service methods that activates the subscription.

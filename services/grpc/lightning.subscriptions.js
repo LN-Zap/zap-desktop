@@ -6,7 +6,8 @@ import methods from './lightning.methods'
 
 /**
  * Call lnd grpc subscribeChannelGraph method and emit events on updates to the stream
- * @return {Call} Grpc Call
+ *
+ * @returns {Call} Grpc Call
  */
 function subscribeChannelGraph() {
   const call = this.service.subscribeChannelGraph({})
@@ -33,7 +34,8 @@ function subscribeChannelGraph() {
 
 /**
  * Call lnd grpc subscribeInvoices method and emit events on updates to the stream
- * @return {Call} Grpc Call
+ *
+ * @returns {Call} Grpc Call
  */
 function subscribeInvoices(payload = {}) {
   const call = this.service.subscribeInvoices(payload)
@@ -60,7 +62,8 @@ function subscribeInvoices(payload = {}) {
 
 /**
  * Call lnd grpc subscribeTransactions method and emit events on updates to the stream
- * @return {Call} Grpc Call
+ *
+ * @returns {Call} Grpc Call
  */
 function subscribeTransactions() {
   const call = this.service.subscribeTransactions({})
@@ -86,7 +89,8 @@ function subscribeTransactions() {
 }
 /**
  * Call lnd grpc subscribeChannelBackups method and emit events on updates to the stream
- * @return {Call} Grpc Call
+ *
+ * @returns {Call} Grpc Call
  */
 function subscribeChannelBackups() {
   if (this.service.subscribeChannelBackups) {

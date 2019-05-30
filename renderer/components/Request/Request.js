@@ -97,7 +97,8 @@ class Request extends React.Component {
 
   /**
    * Form submit handler.
-   * @param  {Object} values submitted form values.
+   *
+   * @param  {object} values submitted form values.
    */
   onSubmit = values => {
     const { cryptoCurrency, createInvoice } = this.props
