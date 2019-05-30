@@ -384,7 +384,7 @@
   "components.Request.subtitle": "durch das Lightning Netzwerk",
   "components.Request.title": "Zahlung anfordern",
   "components.Request.total": "Insgesamt",
-  "components.Settings.SettingsMenu.currency_title": "Fiat-Währung",
+  "components.Settings.SettingsMenu.currency_title": "",
   "components.Settings.SettingsMenu.disconnect_title": "",
   "components.Settings.SettingsMenu.locale_title": "Sprache",
   "components.Settings.SettingsMenu.logout_title": "Abmelden",
