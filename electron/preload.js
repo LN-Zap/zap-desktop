@@ -25,11 +25,15 @@ const fsRimraf = promisify(rimraf)
  * @type {Array}
  */
 const WHITELISTED_DOMAINS = [
-  'coinfaucet.eu',
-  'ln-zap.github.io',
   'blockstream.info',
+  'coinfaucet.eu',
+  'insight.litecore.io',
+  'live.blockcypher.com',
+  'ln-zap.github.io',
   'testnet.litecore.io',
+  'testnet.smartbit.com.au',
   'litecore.io',
+  'www.smartbit.com.au',
 ]
 
 /**
