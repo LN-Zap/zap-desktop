@@ -384,7 +384,7 @@
   "components.Request.subtitle": "",
   "components.Request.title": "Begär betalning",
   "components.Request.total": "",
-  "components.Settings.SettingsMenu.currency_title": "Fiat-valuta",
+  "components.Settings.SettingsMenu.currency_title": "",
   "components.Settings.SettingsMenu.disconnect_title": "",
   "components.Settings.SettingsMenu.locale_title": "Språk",
   "components.Settings.SettingsMenu.logout_title": "",
