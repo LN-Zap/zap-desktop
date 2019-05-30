@@ -125,14 +125,12 @@ class TextArea extends React.PureComponent {
     theme: PropTypes.object.isRequired,
     tooltip: PropTypes.string,
     variant: PropTypes.string,
+    willAutoFocus: PropTypes.bool,
   }
 
   static defaultProps = {
-    description: null,
-    label: null,
     hasMessage: true,
     highlightOnValid: true,
-    tooltip: null,
   }
 
   state = {
@@ -143,6 +141,13 @@ class TextArea extends React.PureComponent {
     super(props)
     const { forwardedRef } = this.props
     this.inputRef = forwardedRef || React.createRef()
+  }
+
+  componentDidMount() {
+    const { willAutoFocus } = this.props
+    if (willAutoFocus) {
+      this.inputRef.current.focus()
+    }
   }
 
   render() {
