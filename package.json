@@ -338,7 +338,7 @@
     "get-port": "5.0.0",
     "googleapis": "40.0.0",
     "history": "4.9.0",
-    "informed": "2.7.2",
+    "informed": "2.7.6",
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.6",
     "lnd-grpc": "0.2.9",
