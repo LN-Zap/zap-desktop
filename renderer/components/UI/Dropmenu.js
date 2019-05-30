@@ -77,6 +77,7 @@ const MenuButtonContent = styled(Flex)`
 
 const MenuButtonText = styled(Flex)`
   color: ${getColor};
+  user-select: none;
 `
 
 const MenuButtonTextMuted = styled(Flex)`
@@ -179,12 +180,11 @@ DropmenuButton.propTypes = {
 }
 
 const DropmenuListScrollerBase = styled(Flex)`
-  position: absolute;
-  bottom: ${props => (props.direction === 'down' ? 0 : 'auto')};
-  top: ${props => (props.direction === 'up' ? 0 : 'auto')};
   transition: all 0.25s;
   opacity: ${props => props.opacity};
-  pointer-events: none;
+  cursor: pointer;
+  z-index: 1;
+  position: relative;
 `
 
 const DropmenuListScroller = props => (
@@ -236,36 +236,65 @@ const DropmenuListItem = ({ item }) => {
   return renderContent()
 }
 
+const DropmenuListScrollContainer = styled(Box)`
+  z-index: 0;
+  max-height: 450px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+`
+
+const DropmenuListUpScroller = styled(DropmenuListScroller)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: ${props => (props.hasTopScroll ? 'auto' : 0)};
+  z-index: ${props => (props.hasTopScroll ? 1 : -1)};
+`
+
 const DropmenuList = React.forwardRef((props, forwardRef) => {
+  const SCROLL_STEP = 29
   const { width } = useContext(MenuContext)
   const ref = useRef(null)
   const { scrollableHeight, isScrollbarVisible } = useComponentSize(ref)
   const { y: scrollY = 0 } = useScroll(ref) || {}
-  const hasTopScroll = isScrollbarVisible && scrollY
-  const hasBottomScroll = isScrollbarVisible && scrollY < scrollableHeight
+  const hasTopScroll = Boolean(isScrollbarVisible && scrollY)
+  const hasBottomScroll = Boolean(isScrollbarVisible && scrollY < scrollableHeight - SCROLL_STEP)
 
+  const scrollDown = () => {
+    ref.current.scrollTop += SCROLL_STEP
+  }
+  // prevent underlying text from selecting when double clicking elements inside menu list
+  const preventDefault = e => e.preventDefault()
+  const scrollUp = () => {
+    ref.current.scrollTop -= SCROLL_STEP
+  }
   return (
-    <Card
-      ref={ref}
-      as="ul"
-      css={{
-        'max-height': '450px',
-        'overflow-x': 'hidden',
-        'overflow-y': 'auto',
-        '&::-webkit-scrollbar': {
-          display: 'none',
-        },
-      }}
-      p={1}
-      width={width}
-    >
-      <DropmenuListScroller direction="up" opacity={hasTopScroll ? 1 : 0}>
+    <Card css={{ position: 'relative' }} onMouseDown={preventDefault} p={0} width={width}>
+      <DropmenuListUpScroller
+        direction="up"
+        hasTopScroll={hasTopScroll}
+        onClick={scrollUp}
+        opacity={hasTopScroll ? 1 : 0}
+      >
         <AngleUp />
-      </DropmenuListScroller>
-      <Box ref={forwardRef} {...props} m={isScrollbarVisible ? 2 : 0} />
-      <DropmenuListScroller direction="down" opacity={hasBottomScroll ? 1 : 0}>
-        <AngleDown />
-      </DropmenuListScroller>
+      </DropmenuListUpScroller>
+      <DropmenuListScrollContainer ref={ref} as="ul" p={1}>
+        <Box ref={forwardRef} {...props} />
+      </DropmenuListScrollContainer>
+      {isScrollbarVisible && (
+        <DropmenuListScroller
+          direction="down"
+          onClick={scrollDown}
+          opacity={hasBottomScroll ? 1 : 0}
+        >
+          <AngleDown />
+        </DropmenuListScroller>
+      )}
     </Card>
   )
 })
@@ -292,6 +321,8 @@ DropmenuContent.propTypes = {
 const DropmenuSubmenuWrapper = styled(Box)`
   position: absolute;
   z-index: 10;
+  height: 0;
+  width: 0;
   top: ${props => px(props.top)};
   left: ${props => px(props.left)};
 `
