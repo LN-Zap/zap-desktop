@@ -307,7 +307,7 @@
     "stylelint-formatter-pretty": "1.0.3",
     "stylelint-processor-styled-components": "1.7.0",
     "testcafe": "1.2.0",
-    "testcafe-browser-provider-electron": "0.0.8",
+    "testcafe-browser-provider-electron": "0.0.10",
     "testcafe-react-selectors": "3.1.0",
     "url-loader": "1.1.2",
     "webpack": "4.32.2",
