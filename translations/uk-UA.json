@@ -384,7 +384,7 @@
   "components.Request.subtitle": "",
   "components.Request.title": "Запит на оплату",
   "components.Request.total": "",
-  "components.Settings.SettingsMenu.currency_title": "Fiat валюта",
+  "components.Settings.SettingsMenu.currency_title": "",
   "components.Settings.SettingsMenu.disconnect_title": "",
   "components.Settings.SettingsMenu.locale_title": "Мова",
   "components.Settings.SettingsMenu.logout_title": "",
