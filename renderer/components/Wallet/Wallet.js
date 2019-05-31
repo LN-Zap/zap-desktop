@@ -7,7 +7,7 @@ import WalletMenu from './WalletMenu'
 import WalletLogo from './WalletLogo'
 
 const Wallet = ({ totalBalance, networkInfo, openWalletModal, openModal }) => (
-  <Box bg="secondaryColor" pb={3} pt={4} px={5}>
+  <Box bg="secondaryColor" pb={3} pt={4} px={4}>
     <Flex alignItems="flex-end" as="header" justifyContent="space-between" mt={2}>
       <WalletLogo networkInfo={networkInfo} />
       <WalletMenu openModal={openModal} />
