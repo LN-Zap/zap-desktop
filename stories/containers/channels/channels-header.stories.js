@@ -1,7 +1,6 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { number } from '@storybook/addon-knobs'
-import { ChannelsHeader } from 'components/Channels'
+import ChannelsHeader from 'containers/Channels/ChannelsHeader'
 import { Provider } from '../../Provider'
 
 storiesOf('Containers.Channels', module)
@@ -13,7 +12,6 @@ storiesOf('Containers.Channels', module)
         sections: [
           {
             sectionFn: () => {
-              const channelBalance = number('Channel', 2343455)
               const channels = [
                 {
                   key: 1,
@@ -25,7 +23,7 @@ storiesOf('Containers.Channels', module)
                   key: 3,
                 },
               ]
-              return <ChannelsHeader channelBalance={channelBalance} channels={channels} />
+              return <ChannelsHeader channels={channels} />
             },
           },
         ],
