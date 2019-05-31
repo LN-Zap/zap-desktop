@@ -247,7 +247,7 @@
     "babel-plugin-styled-components": "1.8.0",
     "babel-plugin-transform-react-pure-class-to-function": "1.0.1",
     "babel-plugin-transform-react-remove-prop-types": "0.4.24",
-    "browserslist": "4.6.0",
+    "browserslist": "4.6.1",
     "circular-dependency-plugin": "5.0.2",
     "clean-webpack-plugin": "2.0.2",
     "concurrently": "4.1.0",
