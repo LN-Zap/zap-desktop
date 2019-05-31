@@ -1,14 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
-import { Flex } from 'rebass'
-import { Button, Card } from 'components/UI'
+import { Box, Flex } from 'rebass'
+import { ButtonCreate, Card } from 'components/UI'
 import ChannelFilter from './ChannelFilter'
 import ChannelSort from './ChannelSort'
 import ChannelSearch from './ChannelSearch'
 import ChannelsRefresh from './ChannelsRefresh'
 import ChannelsViewButtons from './ChannelsViewButtons'
 import ChannelSortDirectionButton from './ChannelSortDirectionButton'
+import ChannelCount from './ChannelCount'
 
 import messages from './messages'
 
@@ -20,6 +21,7 @@ const ChannelsActions = ({
   sorters,
   sortOrder,
   searchQuery,
+  channels,
   channelViewMode,
   changeFilter,
   changeSort,
@@ -30,8 +32,8 @@ const ChannelsActions = ({
   intl,
   ...rest
 }) => (
-  <Flex alignItems="flex-end" as="header" flexDirection="column" {...rest}>
-    <Card mb={2} px={3} py={2} width={1}>
+  <Box {...rest}>
+    <Card px={3} py={2} width={1}>
       <Flex alignItems="center" as="section" justifyContent="space-between">
         <ChannelSearch
           placeholder={intl.formatMessage({ ...messages.search_placeholder })}
@@ -55,15 +57,19 @@ const ChannelsActions = ({
         </Flex>
       </Flex>
     </Card>
-    <Button ml="auto" onClick={() => openModal('CHANNEL_CREATE')}>
-      <FormattedMessage {...messages.create_new_button_text} />
-    </Button>
-  </Flex>
+    <Flex alignItems="center" as="section" justifyContent="space-between" mb={1} mt={2}>
+      <ChannelCount channels={channels} mr={4} />
+      <ButtonCreate justify="right" ml="auto" onClick={() => openModal('CHANNEL_CREATE')}>
+        <FormattedMessage {...messages.create_new_button_text} />
+      </ButtonCreate>
+    </Flex>
+  </Box>
 )
 
 ChannelsActions.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   changeSort: PropTypes.func.isRequired,
+  channels: PropTypes.array.isRequired,
   channelViewMode: PropTypes.string.isRequired,
   fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,

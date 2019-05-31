@@ -28,6 +28,7 @@ const ChannelsHeader = ({
     <ChannelsActions
       changeFilter={changeFilter}
       changeSort={changeSort}
+      channels={channels}
       channelViewMode={channelViewMode}
       fetchChannels={fetchChannels}
       filter={filter}

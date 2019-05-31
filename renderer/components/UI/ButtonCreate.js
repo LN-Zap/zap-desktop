@@ -10,7 +10,7 @@ const IconWrapper = props => <Text color="lightningOrange" {...props} />
 const ContentWrapper = props => <Text fontWeight="light" lineHeight="22px" {...props} />
 
 const ButtonCreate = ({ children, justify, ...rest }) => (
-  <Button size="small" variant="secondary" {...rest}>
+  <Button py={0} size="small" variant="secondary" {...rest}>
     <Flex alignItem="center">
       {justify === 'left' && (
         <>
