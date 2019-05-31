@@ -82,7 +82,7 @@ class ConnectionType extends React.Component {
         lndConnect={lndConnect}
       >
         <Box mb={6}>
-          <ZapLogo height={60} width={60} />
+          <ZapLogo height={56} width={56} />
         </Box>
 
         <Form

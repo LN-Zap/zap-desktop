@@ -6,7 +6,7 @@ import ZapLogo from 'components/Icon/ZapLogo'
 
 const WalletLogo = ({ networkInfo }) => (
   <Flex alignItems="center" as="section">
-    <ZapLogo height="32px" width="70px" />
+    <ZapLogo height={28} width={28} />
     {networkInfo.id !== 'mainnet' && (
       <Text color="superGreen" fontSize="xs" ml={2}>
         {networkInfo.name}

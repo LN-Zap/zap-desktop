@@ -28,7 +28,7 @@ const ModalLogo = ({ hasLogo }) => (
   <Flex justifyContent="space-between" px={3}>
     {hasLogo && (
       <Box color="primaryText">
-        <ZapLogo height="32px" width="70px" />
+        <ZapLogo height={28} width={28} />
       </Box>
     )}
   </Flex>
