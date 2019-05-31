@@ -1,5 +1,5 @@
 {
-  "components.Activity.ActivityActions.refresh_button_hint": "Aktualisiere Aktivitätenliste",
+  "components.Activity.ActivityActions.refresh_button_hint": "Liste der Aktivitäten aktualisieren",
   "components.Activity.ActivityActions.search_placeholder": "Suche Aktivität",
   "components.Activity.Invoice.amount": "Betrag",
   "components.Activity.Invoice.received": "Erhaltene Zahlung",
