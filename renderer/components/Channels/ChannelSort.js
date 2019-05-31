@@ -1,6 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Select } from 'components/UI'
+import { FormattedMessage } from 'react-intl'
+import { Flex } from 'rebass'
+import { Form, Label, Select } from 'components/UI'
+import messages from './messages'
 
 const ChannelSort = ({ changeSort, sort, sorters, ...rest }) => {
   // Reformat channel filters the way that Select element expects them to be.
@@ -13,15 +16,20 @@ const ChannelSort = ({ changeSort, sort, sorters, ...rest }) => {
 
   return (
     <Form {...rest}>
-      <Select
-        field="channel-sort"
-        highlightOnValid={false}
-        id="channel-filter"
-        initialSelectedItem={sort}
-        items={items}
-        onValueSelected={changeSort}
-        width={1}
-      />
+      <Flex alignItems="center">
+        <Label fontWeight="light" htmlFor="channel-sort" mr={2}>
+          <FormattedMessage {...messages.channel_sort_label} />
+        </Label>
+        <Select
+          field="channel-sort"
+          fontWeight="normal"
+          highlightOnValid={false}
+          id="channel-filter"
+          initialSelectedItem={sort}
+          items={items}
+          onValueSelected={changeSort}
+        />
+      </Flex>
     </Form>
   )
 }

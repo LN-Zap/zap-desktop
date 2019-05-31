@@ -92,4 +92,6 @@ export default defineMessages({
   channel_activity: 'Activity',
   channel_asc_sort: 'Switch to ascending order',
   channel_desc_sort: 'Switch to descending order',
+  channel_sort_label: 'Sort by:',
+  channel_filter_label: 'Show:',
 })

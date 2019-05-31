@@ -2,12 +2,12 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Flex } from 'rebass'
-import { Button } from 'components/UI'
+import { Button, Card } from 'components/UI'
 import ChannelFilter from './ChannelFilter'
 import ChannelSort from './ChannelSort'
 import ChannelSearch from './ChannelSearch'
 import ChannelsRefresh from './ChannelsRefresh'
-import ChannelsViewSwitcher from './ChannelsViewSwitcher'
+import ChannelsViewButtons from './ChannelsViewButtons'
 import ChannelSortDirectionButton from './ChannelSortDirectionButton'
 
 import messages from './messages'
@@ -30,30 +30,31 @@ const ChannelsActions = ({
   intl,
   ...rest
 }) => (
-  <Flex alignItems="center" as="section" {...rest}>
-    <ChannelSearch
-      placeholder={intl.formatMessage({ ...messages.search_placeholder })}
-      searchQuery={searchQuery}
-      updateChannelSearchQuery={updateChannelSearchQuery}
-      width={5.5 / 16}
-    />
-
-    <ChannelFilter
-      changeFilter={changeFilter}
-      filter={filter}
-      filters={filters}
-      mr={1}
-      width={2.6 / 16}
-    />
-
-    <ChannelSort changeSort={changeSort} mr={1} sort={sort} sorters={sorters} width={2.6 / 16} />
-    <ChannelSortDirectionButton isAsc={sortOrder === 'asc'} onClick={switchSortOrder} />
-    <ChannelsViewSwitcher
-      channelViewMode={channelViewMode}
-      setChannelViewMode={setChannelViewMode}
-    />
-    <ChannelsRefresh ml={2} onClick={fetchChannels} />
-
+  <Flex alignItems="flex-end" as="header" flexDirection="column" {...rest}>
+    <Card mb={2} px={3} py={2} width={1}>
+      <Flex alignItems="center" as="section" justifyContent="space-between">
+        <ChannelSearch
+          placeholder={intl.formatMessage({ ...messages.search_placeholder })}
+          searchQuery={searchQuery}
+          updateChannelSearchQuery={updateChannelSearchQuery}
+          width={1 / 3}
+        />
+        <Flex alignItems="center" as="section" justifyContent="flex-end" width={2 / 3}>
+          <ChannelFilter changeFilter={changeFilter} filter={filter} filters={filters} mx={3} />
+          <ChannelSort changeSort={changeSort} ml={3} sort={sort} sorters={sorters} />
+          <ChannelSortDirectionButton
+            isAsc={sortOrder === 'asc'}
+            mr={3}
+            onClick={switchSortOrder}
+          />
+          <ChannelsViewButtons
+            channelViewMode={channelViewMode}
+            setChannelViewMode={setChannelViewMode}
+          />
+          <ChannelsRefresh ml={2} onClick={fetchChannels} />
+        </Flex>
+      </Flex>
+    </Card>
     <Button ml="auto" onClick={() => openModal('CHANNEL_CREATE')}>
       <FormattedMessage {...messages.create_new_button_text} />
     </Button>
