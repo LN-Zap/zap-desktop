@@ -486,6 +486,7 @@ class Pay extends React.Component {
                 validateOnBlur
                 validateOnChange
                 width={1}
+                willAutoFocus
               />
             </React.Fragment>
           )}
