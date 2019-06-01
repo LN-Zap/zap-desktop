@@ -6,7 +6,6 @@ import ChannelsActions from './ChannelsActions'
 
 const ChannelsHeader = ({
   channels,
-  channelBalance,
   channelViewMode,
   changeFilter,
   fetchChannels,
@@ -21,10 +20,19 @@ const ChannelsHeader = ({
   openModal,
   sortOrder,
   switchSortOrder,
+  sendCapacity,
+  receiveCapacity,
   ...rest
 }) => (
   <Box as="header" mb={3} {...rest}>
-    <ChannelsInfo channelBalance={channelBalance} channels={channels} mb={3} />
+    <ChannelsInfo
+      channels={channels}
+      mb={2}
+      pt={3}
+      px={4}
+      receiveCapacity={receiveCapacity}
+      sendCapacity={sendCapacity}
+    />
     <ChannelsActions
       changeFilter={changeFilter}
       changeSort={changeSort}
@@ -48,14 +56,15 @@ const ChannelsHeader = ({
 ChannelsHeader.propTypes = {
   changeFilter: PropTypes.func.isRequired,
   changeSort: PropTypes.func.isRequired,
-  channelBalance: PropTypes.number.isRequired,
   channels: PropTypes.array,
   channelViewMode: PropTypes.string.isRequired,
   fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
   filters: PropTypes.array.isRequired,
   openModal: PropTypes.func.isRequired,
+  receiveCapacity: PropTypes.number.isRequired,
   searchQuery: PropTypes.string,
+  sendCapacity: PropTypes.number.isRequired,
   setChannelViewMode: PropTypes.func.isRequired,
   sort: PropTypes.string.isRequired,
   sorters: PropTypes.array.isRequired,

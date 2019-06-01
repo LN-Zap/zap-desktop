@@ -17,7 +17,8 @@ import { tickerSelectors } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   channels: channelsSelectors.allChannels(state),
-  channelBalance: state.balance.channelBalance,
+  sendCapacity: channelsSelectors.sendCapacity(state),
+  receiveCapacity: channelsSelectors.receiveCapacity(state),
   channelViewMode: state.channels.viewMode,
   currencyName: tickerSelectors.currencyName(state),
   filter: state.channels.filter,
