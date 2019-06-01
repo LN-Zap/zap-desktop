@@ -4,7 +4,7 @@ import { themeGet } from 'styled-system'
 import { withTheme } from 'styled-components'
 import { tint } from 'polished'
 
-const Segment = ({ color, amount = 0, rotate, ...rest }) => {
+const Segment = ({ color, strokeWidth, amount = 0, rotate, ...rest }) => {
   const radius = 17.5
   const circumference = 2 * Math.PI * radius
   return (
@@ -17,7 +17,7 @@ const Segment = ({ color, amount = 0, rotate, ...rest }) => {
       stroke={color}
       strokeDasharray={circumference}
       strokeDashoffset={circumference * (1 - amount)}
-      strokeWidth="1"
+      strokeWidth={strokeWidth}
       transform={`rotate(-${rotate} 20 20)`}
       {...rest}
     />
@@ -28,9 +28,10 @@ Segment.propTypes = {
   amount: PropTypes.number.isRequired,
   color: PropTypes.string.isRequired,
   rotate: PropTypes.number.isRequired,
+  strokeWidth: PropTypes.number.isRequired,
 }
 
-const Donut = withTheme(({ data, text, ...rest }) => {
+const Donut = withTheme(({ data, text, strokeWidth, ...rest }) => {
   const initialRotation = 90
   let cumRotation = initialRotation
 
@@ -87,6 +88,7 @@ const Donut = withTheme(({ data, text, ...rest }) => {
               }
               filter={segment.withGlow ? `url(#glow-${segment.key})` : null}
               rotate={segment.rotate}
+              strokeWidth={strokeWidth}
             />
           </React.Fragment>
         )
@@ -112,12 +114,14 @@ Donut.propTypes = {
     })
   ),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  strokeWidth: PropTypes.number,
   text: PropTypes.node,
   width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 }
 
 Donut.defaultProps = {
   data: [],
+  strokeWidth: 1,
 }
 
 Donut.displayName = 'Donut'
