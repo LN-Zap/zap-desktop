@@ -17,6 +17,7 @@ class Channels extends React.Component {
   static propTypes = {
     allChannels: PropTypes.array,
     changeFilter: PropTypes.func.isRequired,
+    changeSort: PropTypes.func.isRequired,
     channelBalance: PropTypes.number.isRequired,
     channels: PropTypes.array,
     channelViewMode: PropTypes.string.isRequired,
@@ -32,6 +33,10 @@ class Channels extends React.Component {
     searchQuery: PropTypes.string,
     setChannelViewMode: PropTypes.func.isRequired,
     setSelectedChannel: PropTypes.func.isRequired,
+    sort: PropTypes.string.isRequired,
+    sorters: PropTypes.array.isRequired,
+    sortOrder: PropTypes.string.isRequired,
+    switchSortOrder: PropTypes.func.isRequired,
     updateChannelSearchQuery: PropTypes.func.isRequired,
   }
 
@@ -54,12 +59,17 @@ class Channels extends React.Component {
       fetchChannels,
       filter,
       filters,
+      sort,
+      sorters,
       networkInfo,
       setChannelViewMode,
       openModal,
       setSelectedChannel,
       updateChannelSearchQuery,
       searchQuery,
+      changeSort,
+      sortOrder,
+      switchSortOrder,
       ...rest
     } = this.props
 
@@ -68,6 +78,7 @@ class Channels extends React.Component {
         <Panel.Header mx={4}>
           <ChannelsHeader
             changeFilter={changeFilter}
+            changeSort={changeSort}
             channelBalance={channelBalance}
             channels={allChannels}
             channelViewMode={channelViewMode}
@@ -77,6 +88,10 @@ class Channels extends React.Component {
             openModal={openModal}
             searchQuery={searchQuery}
             setChannelViewMode={setChannelViewMode}
+            sort={sort}
+            sorters={sorters}
+            sortOrder={sortOrder}
+            switchSortOrder={switchSortOrder}
             updateChannelSearchQuery={this.updateChannelSearchQuery}
           />
         </Panel.Header>

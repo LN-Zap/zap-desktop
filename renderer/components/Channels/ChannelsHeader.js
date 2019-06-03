@@ -12,16 +12,22 @@ const ChannelsHeader = ({
   fetchChannels,
   filter,
   filters,
+  sort,
+  sorters,
+  changeSort,
   updateChannelSearchQuery,
   setChannelViewMode,
   searchQuery,
   openModal,
+  sortOrder,
+  switchSortOrder,
   ...rest
 }) => (
   <Box as="header" mb={3} {...rest}>
     <ChannelsInfo channelBalance={channelBalance} channels={channels} mb={3} />
     <ChannelsActions
       changeFilter={changeFilter}
+      changeSort={changeSort}
       channelViewMode={channelViewMode}
       fetchChannels={fetchChannels}
       filter={filter}
@@ -29,6 +35,10 @@ const ChannelsHeader = ({
       openModal={openModal}
       searchQuery={searchQuery}
       setChannelViewMode={setChannelViewMode}
+      sort={sort}
+      sorters={sorters}
+      sortOrder={sortOrder}
+      switchSortOrder={switchSortOrder}
       updateChannelSearchQuery={updateChannelSearchQuery}
     />
   </Box>
@@ -36,6 +46,7 @@ const ChannelsHeader = ({
 
 ChannelsHeader.propTypes = {
   changeFilter: PropTypes.func.isRequired,
+  changeSort: PropTypes.func.isRequired,
   channelBalance: PropTypes.number.isRequired,
   channels: PropTypes.array,
   channelViewMode: PropTypes.string.isRequired,
@@ -45,6 +56,10 @@ ChannelsHeader.propTypes = {
   openModal: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
   setChannelViewMode: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  sorters: PropTypes.array.isRequired,
+  sortOrder: PropTypes.string.isRequired,
+  switchSortOrder: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
 }
 

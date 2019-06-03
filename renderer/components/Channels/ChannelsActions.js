@@ -4,18 +4,26 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Flex } from 'rebass'
 import { Button } from 'components/UI'
 import ChannelFilter from './ChannelFilter'
+import ChannelSort from './ChannelSort'
 import ChannelSearch from './ChannelSearch'
 import ChannelsRefresh from './ChannelsRefresh'
 import ChannelsViewSwitcher from './ChannelsViewSwitcher'
+import ChannelSortDirectionButton from './ChannelSortDirectionButton'
+
 import messages from './messages'
 
 const ChannelsActions = ({
   fetchChannels,
   filter,
   filters,
+  sort,
+  sorters,
+  sortOrder,
   searchQuery,
   channelViewMode,
   changeFilter,
+  changeSort,
+  switchSortOrder,
   updateChannelSearchQuery,
   setChannelViewMode,
   openModal,
@@ -27,7 +35,7 @@ const ChannelsActions = ({
       placeholder={intl.formatMessage({ ...messages.search_placeholder })}
       searchQuery={searchQuery}
       updateChannelSearchQuery={updateChannelSearchQuery}
-      width={7.5 / 16}
+      width={5.5 / 16}
     />
 
     <ChannelFilter
@@ -35,11 +43,13 @@ const ChannelsActions = ({
       filter={filter}
       filters={filters}
       mr={1}
-      width={2.5 / 16}
+      width={2.6 / 16}
     />
+
+    <ChannelSort changeSort={changeSort} mr={1} sort={sort} sorters={sorters} width={2.6 / 16} />
+    <ChannelSortDirectionButton isAsc={sortOrder === 'asc'} onClick={switchSortOrder} />
     <ChannelsViewSwitcher
       channelViewMode={channelViewMode}
-      ml={3}
       setChannelViewMode={setChannelViewMode}
     />
     <ChannelsRefresh bg="blue" ml={2} onClick={fetchChannels} />
@@ -52,6 +62,7 @@ const ChannelsActions = ({
 
 ChannelsActions.propTypes = {
   changeFilter: PropTypes.func.isRequired,
+  changeSort: PropTypes.func.isRequired,
   channelViewMode: PropTypes.string.isRequired,
   fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
@@ -60,6 +71,10 @@ ChannelsActions.propTypes = {
   openModal: PropTypes.func.isRequired,
   searchQuery: PropTypes.string,
   setChannelViewMode: PropTypes.func.isRequired,
+  sort: PropTypes.string.isRequired,
+  sorters: PropTypes.array.isRequired,
+  sortOrder: PropTypes.string.isRequired,
+  switchSortOrder: PropTypes.func.isRequired,
   updateChannelSearchQuery: PropTypes.func.isRequired,
 }
 

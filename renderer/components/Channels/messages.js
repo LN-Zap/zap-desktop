@@ -89,4 +89,7 @@ export default defineMessages({
   transaction_speed_slow: 'Slow',
   transaction_speed_medium: 'Medium',
   transaction_speed_fast: 'Fast',
+  channel_activity: 'Activity',
+  channel_asc_sort: 'Switch to ascending order',
+  channel_desc_sort: 'Switch to descending order',
 })
