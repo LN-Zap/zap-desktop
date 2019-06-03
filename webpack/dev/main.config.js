@@ -7,7 +7,7 @@ import merge from 'webpack-merge'
 import { EnvironmentPlugin } from 'webpack'
 import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import baseConfig, { rootDir } from '../webpack.config.base'
-import devServer, { publicPath } from './common/devserver'
+import { publicPath } from './common/devserver'
 
 const config = merge.smart(baseConfig, {
   name: 'main',
@@ -21,7 +21,6 @@ const config = merge.smart(baseConfig, {
     filename: '[name].js',
     publicPath,
   },
-  devServer,
   plugins: [
     new EnvironmentPlugin({
       NODE_ENV: 'development',

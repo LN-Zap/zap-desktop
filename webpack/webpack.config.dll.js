@@ -22,6 +22,7 @@ export default merge.smart(baseConfig, {
     'get-port',
     'lndconnect',
     'lnd-grpc',
+    'react-hot-loader',
     'redux-electron-ipc',
     'rimraf',
     'source-map-support',

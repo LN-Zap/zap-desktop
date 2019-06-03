@@ -24,7 +24,6 @@ export default {
     modules: [path.resolve(rootDir, 'renderer'), 'node_modules'],
     // Define an alias that makes the global config available.
     alias: {
-      'react-dom': '@hot-loader/react-dom',
       config: path.resolve(rootDir, 'dist/config.json'),
     },
   },
