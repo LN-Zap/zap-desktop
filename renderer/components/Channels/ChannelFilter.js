@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Flex } from 'rebass'
-import { Form, Label, Select } from 'components/UI'
+import { Dropdown, Label } from 'components/UI'
 import messages from './messages'
 
 const messageMapper = key => {
@@ -18,23 +18,18 @@ const messageMapper = key => {
 }
 
 const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => (
-  <Form {...rest}>
-    <Flex alignItems="center">
-      <Label fontWeight="light" htmlFor="channel-filter" mr={2}>
-        <FormattedMessage {...messages.channel_filter_label} />
-      </Label>
-      <Select
-        field="channel-filter"
-        fontWeight="normal"
-        highlightOnValid={false}
-        id="channel-filter"
-        initialSelectedItem={filter}
-        items={filters}
-        messageMapper={messageMapper}
-        onValueSelected={changeFilter}
-      />
-    </Flex>
-  </Form>
+  <Flex alignItems="baseline" {...rest}>
+    <Label fontWeight="light" htmlFor="channel-filter" mr={2}>
+      <FormattedMessage {...messages.channel_filter_label} />
+    </Label>
+    <Dropdown
+      activeKey={filter}
+      id="channel-filter"
+      items={filters}
+      messageMapper={messageMapper}
+      onChange={changeFilter}
+    />
+  </Flex>
 )
 
 ChannelFilter.propTypes = {
