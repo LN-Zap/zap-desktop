@@ -16,30 +16,34 @@ export const ModalOverlayStyles = () => `
   right: 0;
 `
 
-export const ModalHeader = styled(Panel.Header)`
+export const ModalHeader = styled(Flex)`
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1;
+  pointer-events: none;
 `
 
-const ModalLogo = ({ hasLogo }) => (
-  <Flex justifyContent="space-between" px={3}>
-    {hasLogo && (
-      <Box color="primaryText">
-        <ZapLogo height={28} width={28} />
-      </Box>
-    )}
-  </Flex>
+export const ModalCloseWrapper = styled(Box)`
+  pointer-events: auto;
+  display: inline-block;
+`
+
+const ModalLogo = () => (
+  <Box color="primaryText" m={2}>
+    <ZapLogo height="32px" width="70px" />
+  </Box>
 )
 
-ModalLogo.propTypes = {
-  hasLogo: PropTypes.bool,
-}
+const ModalClose = ({ onClick }) => (
+  <ModalCloseWrapper color="primaryText">
+    <CloseButton onClick={onClick} />
+  </ModalCloseWrapper>
+)
 
-ModalLogo.defaultProps = {
-  hasLogo: true,
+ModalClose.propTypes = {
+  onClick: PropTypes.func,
 }
 
 /**
@@ -53,9 +57,9 @@ const Modal = props => {
   return (
     <Panel bg="primaryColor" color="primaryText">
       {(hasClose || hasLogo) && (
-        <ModalHeader pt={3} px={3}>
-          {hasClose && <CloseButton onClick={onClose} />}
-          {hasLogo && <ModalLogo hasLogo={hasLogo} />}
+        <ModalHeader justifyContent={hasLogo ? 'space-between' : 'flex-end'} pt={3} px={3}>
+          {hasLogo && <ModalLogo />}
+          {hasClose && <ModalClose onClick={onClose} />}
         </ModalHeader>
       )}
       <Page {...rest}>{children}</Page>
