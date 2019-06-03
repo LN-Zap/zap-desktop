@@ -910,6 +910,34 @@ channelsSelectors.selectedChannel = createSelector(
   }
 )
 
+channelsSelectors.capacity = createSelector(
+  channelsSelectors.allChannelsRaw,
+  allChannels => {
+    let send = 0
+    let receive = 0
+    allChannels.forEach(channel => {
+      const channelData = getChannelData(channel)
+      if (channelData.local_balance) {
+        send += channelData.local_balance
+      }
+      if (channelData.remote_balance) {
+        receive += channelData.remote_balance
+      }
+    })
+    return { send, receive }
+  }
+)
+
+channelsSelectors.sendCapacity = createSelector(
+  channelsSelectors.capacity,
+  capacity => capacity.send
+)
+
+channelsSelectors.receiveCapacity = createSelector(
+  channelsSelectors.capacity,
+  capacity => capacity.receive
+)
+
 export { channelsSelectors }
 
 // ------------------------------------
