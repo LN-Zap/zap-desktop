@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
 import { opacity } from 'styled-system'
+import { useOnClickOutside } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
@@ -113,109 +114,78 @@ export const MenuItem = withTheme(
   )
 )
 
-/**
- * @render react
- * @name Dropdown
- * @example
- * <Dropdown items={[
- *    {name: 'Item 1', key: 'key1'},
- *    {name: 'Item 2', key: 'key2'}
- *  ]} activeKey="key1" />
- */
-class Dropdown extends React.Component {
-  state = {
-    isOpen: false,
-  }
+const Dropdown = ({ activeKey, items, justify, theme, buttonOpacity, onChange, ...rest }) => {
+  // State to track dropdown open state.
+  const [isOpen, setIsOpen] = useState(false)
+  const toggleMenu = () => setIsOpen(!isOpen)
 
-  static propTypes = {
-    activeKey: PropTypes.string.isRequired,
-    buttonOpacity: PropTypes.number,
-    items: PropTypes.array.isRequired,
-    justify: PropTypes.string,
-    onChange: PropTypes.func,
-    theme: PropTypes.object.isRequired,
-  }
+  // Close the dropdown if the user clicks outside our elements.
+  const wrapperRef = useRef(null)
+  useOnClickOutside([wrapperRef], () => setIsOpen(false))
 
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside)
-  }
-
-  setWrapperRef = node => {
-    this.wrapperRef = node
-  }
-
-  handleClick = key => {
-    const { onChange, activeKey } = this.props
+  const handleClick = key => {
     if (key !== activeKey) {
       if (onChange) {
         onChange(key)
       }
     }
-    this.setState({ isOpen: false })
+    setIsOpen(false)
   }
 
-  handleClickOutside = event => {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      this.setState({ isOpen: false })
-    }
-  }
-
-  toggleMenu = () => {
-    const { isOpen } = this.state
-    this.setState({ isOpen: !isOpen })
-  }
-
-  render() {
-    const { isOpen } = this.state
-    let { activeKey, items, justify, theme, buttonOpacity, ...rest } = this.props
-    // coerce array of strings into array of objects.
-    items = items.map(item => {
-      if (typeof item === 'string') {
-        return {
-          name: item,
-          key: item,
-        }
+  // coerce array of strings into array of objects.
+  const itemsArray = items.map(item => {
+    if (typeof item === 'string') {
+      return {
+        name: item,
+        key: item,
       }
-      return item
-    })
-    const selectedItem = items.find(c => c.key === activeKey)
-    return (
-      <div style={{ display: 'inline-block' }}>
-        <DropdownContainer ref={this.setWrapperRef} {...rest}>
-          <DropdownButton onClick={this.toggleMenu} opacity={buttonOpacity} type="button">
-            <Flex alignItems="center">
-              <Text mr={1} textAlign="left">
-                {selectedItem ? selectedItem.name : activeKey}{' '}
-              </Text>
-              <Flex color="gray">
-                {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
-              </Flex>
+    }
+    return item
+  })
+
+  const selectedItem = itemsArray.find(c => c.key === activeKey)
+
+  return (
+    <div style={{ display: 'inline-block' }}>
+      <DropdownContainer {...rest} ref={wrapperRef}>
+        <DropdownButton onClick={toggleMenu} opacity={buttonOpacity} type="button">
+          <Flex alignItems="center">
+            <Text mr={1} textAlign="left">
+              {selectedItem ? selectedItem.name : activeKey}{' '}
+            </Text>
+            <Flex color="gray">
+              {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
             </Flex>
-          </DropdownButton>
-          {isOpen && (
-            <MenuContainer>
-              <Menu justify={justify}>
-                {items.map(item => {
-                  return (
-                    <MenuItem
-                      key={item.key}
-                      active={activeKey === item.key}
-                      item={item}
-                      onClick={() => this.handleClick(item.key)}
-                    />
-                  )
-                })}
-              </Menu>
-            </MenuContainer>
-          )}
-        </DropdownContainer>
-      </div>
-    )
-  }
+          </Flex>
+        </DropdownButton>
+        {isOpen && (
+          <MenuContainer>
+            <Menu justify={justify}>
+              {itemsArray.map(item => {
+                return (
+                  <MenuItem
+                    key={item.key}
+                    active={activeKey === item.key}
+                    item={item}
+                    onClick={() => handleClick(item.key)}
+                  />
+                )
+              })}
+            </Menu>
+          </MenuContainer>
+        )}
+      </DropdownContainer>
+    </div>
+  )
+}
+
+Dropdown.propTypes = {
+  activeKey: PropTypes.string.isRequired,
+  buttonOpacity: PropTypes.number,
+  items: PropTypes.array.isRequired,
+  justify: PropTypes.string,
+  onChange: PropTypes.func,
+  theme: PropTypes.object.isRequired,
 }
 
 export default withTheme(Dropdown)
