@@ -40,6 +40,34 @@ Object {
   },
   "searchQuery": null,
   "selectedChannelId": null,
+  "sort": "OPEN_DATE",
+  "sortOrder": "asc",
+  "sorters": Array [
+    Object {
+      "key": "OPEN_DATE",
+      "name": "Open date",
+    },
+    Object {
+      "key": "REMOTE_BALANCE",
+      "name": "Remote balance",
+    },
+    Object {
+      "key": "LOCAL_BALANCE",
+      "name": "Local balance",
+    },
+    Object {
+      "key": "ACTIVITY",
+      "name": "Activity",
+    },
+    Object {
+      "key": "NAME",
+      "name": "Name",
+    },
+    Object {
+      "key": "CAPACITY",
+      "name": "Capacity",
+    },
+  ],
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
@@ -90,6 +118,34 @@ Object {
   ],
   "searchQuery": null,
   "selectedChannelId": null,
+  "sort": "OPEN_DATE",
+  "sortOrder": "asc",
+  "sorters": Array [
+    Object {
+      "key": "OPEN_DATE",
+      "name": "Open date",
+    },
+    Object {
+      "key": "REMOTE_BALANCE",
+      "name": "Remote balance",
+    },
+    Object {
+      "key": "LOCAL_BALANCE",
+      "name": "Local balance",
+    },
+    Object {
+      "key": "ACTIVITY",
+      "name": "Activity",
+    },
+    Object {
+      "key": "NAME",
+      "name": "Name",
+    },
+    Object {
+      "key": "CAPACITY",
+      "name": "Capacity",
+    },
+  ],
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
@@ -140,6 +196,34 @@ Object {
   },
   "searchQuery": null,
   "selectedChannelId": null,
+  "sort": "OPEN_DATE",
+  "sortOrder": "asc",
+  "sorters": Array [
+    Object {
+      "key": "OPEN_DATE",
+      "name": "Open date",
+    },
+    Object {
+      "key": "REMOTE_BALANCE",
+      "name": "Remote balance",
+    },
+    Object {
+      "key": "LOCAL_BALANCE",
+      "name": "Local balance",
+    },
+    Object {
+      "key": "ACTIVITY",
+      "name": "Activity",
+    },
+    Object {
+      "key": "NAME",
+      "name": "Name",
+    },
+    Object {
+      "key": "CAPACITY",
+      "name": "Capacity",
+    },
+  ],
   "suggestedNodes": Object {
     "mainnet": Array [],
     "testnet": Array [],
