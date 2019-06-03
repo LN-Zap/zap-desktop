@@ -39,25 +39,21 @@ const ChannelsActions = ({
           placeholder={intl.formatMessage({ ...messages.search_placeholder })}
           searchQuery={searchQuery}
           updateChannelSearchQuery={updateChannelSearchQuery}
-          width={1 / 3}
+          width={5 / 12}
         />
-        <Flex alignItems="center" as="section" justifyContent="flex-end" width={2 / 3}>
+        <Flex alignItems="center" as="section" justifyContent="flex-end" width={7 / 12}>
           <ChannelFilter changeFilter={changeFilter} filter={filter} filters={filters} mx={3} />
-          <ChannelSort changeSort={changeSort} ml={3} sort={sort} sorters={sorters} />
-          <ChannelSortDirectionButton
-            isAsc={sortOrder === 'asc'}
-            mr={3}
-            onClick={switchSortOrder}
-          />
+          <ChannelSort changeSort={changeSort} mx={3} sort={sort} sorters={sorters} />
+          <ChannelSortDirectionButton isAsc={sortOrder === 'asc'} onClick={switchSortOrder} />
+          <ChannelsRefresh onClick={fetchChannels} />
           <ChannelsViewButtons
             channelViewMode={channelViewMode}
             setChannelViewMode={setChannelViewMode}
           />
-          <ChannelsRefresh ml={2} onClick={fetchChannels} />
         </Flex>
       </Flex>
     </Card>
-    <Flex alignItems="center" as="section" justifyContent="space-between" mb={1} mt={2}>
+    <Flex alignItems="center" as="section" justifyContent="space-between" my={3}>
       <ChannelCount channels={channels} mr={4} />
       <ButtonCreate justify="right" ml="auto" onClick={() => openModal('CHANNEL_CREATE')}>
         <FormattedMessage {...messages.create_new_button_text} />

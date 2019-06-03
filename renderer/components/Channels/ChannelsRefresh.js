@@ -9,6 +9,7 @@ const ChannelsRefresh = injectIntl(({ intl, onClick, ...rest }) => (
   <ActionButton
     hint={intl.formatMessage({ ...messages.refresh_button_hint })}
     onClick={onClick}
+    px={2}
     {...rest}
   >
     <Sync height="16px" width="16px" />

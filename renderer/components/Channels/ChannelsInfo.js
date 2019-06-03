@@ -9,11 +9,10 @@ import messages from './messages'
 
 const ChannelsInfo = ({ channels, receiveCapacity, sendCapacity, ...rest }) => (
   <Card pb={2} pt={2} px={3} width={1} {...rest}>
-    <Flex alignItems="center" as="section" justifyContent="space-between">
+    <Flex alignItems="center" as="section" justifyContent="space-between" mt={2}>
       <Flex alignItems="center" as="section">
         <ChannelsSummaryDonut
           mr={3}
-          my={1}
           receiveCapacity={receiveCapacity}
           sendCapacity={sendCapacity}
           width={40}

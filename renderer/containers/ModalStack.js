@@ -66,7 +66,7 @@ const ModalContent = ({ type, closeModal }) => {
 
     case 'CHANNELS':
       return (
-        <Modal onClose={closeModal} pt={4}>
+        <Modal onClose={closeModal}>
           <Channels width={1} />
         </Modal>
       )

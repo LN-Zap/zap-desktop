@@ -24,7 +24,7 @@ const ChannelsHeader = ({
   receiveCapacity,
   ...rest
 }) => (
-  <Box as="header" mb={3} {...rest}>
+  <Box as="header" {...rest}>
     <ChannelsInfo
       channels={channels}
       mb={2}
@@ -41,6 +41,7 @@ const ChannelsHeader = ({
       fetchChannels={fetchChannels}
       filter={filter}
       filters={filters}
+      mx={4}
       openModal={openModal}
       searchQuery={searchQuery}
       setChannelViewMode={setChannelViewMode}

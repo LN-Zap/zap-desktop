@@ -48,7 +48,7 @@ class Channels extends React.Component {
 
     return (
       <Panel {...rest}>
-        <Panel.Header mx={4}>
+        <Panel.Header>
           <ChannelsHeader updateChannelSearchQuery={this.updateChannelSearchQuery} />
         </Panel.Header>
         <Panel.Body css={{ overflow: 'hidden' }}>

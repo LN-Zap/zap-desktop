@@ -65,13 +65,11 @@ const ChannelsViewButtons = ({ channelViewMode, setChannelViewMode, ...rest }) =
       active={channelViewMode === CHANNEL_LIST_VIEW_MODE_CARD}
       onClick={() => setChannelViewMode(CHANNEL_LIST_VIEW_MODE_CARD)}
       px={2}
-      py={1}
     />
     <ListButton
       active={channelViewMode === CHANNEL_LIST_VIEW_MODE_SUMMARY}
       onClick={() => setChannelViewMode(CHANNEL_LIST_VIEW_MODE_SUMMARY)}
       px={2}
-      py={1}
     />
   </Flex>
 )

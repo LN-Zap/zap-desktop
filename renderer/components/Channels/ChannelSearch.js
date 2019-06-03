@@ -5,6 +5,7 @@ import { Form, Input } from 'components/UI'
 const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...rest }) => (
   <Form {...rest}>
     <Input
+      border={0}
       field="channel-search"
       highlightOnValid={false}
       id="channel-search"
@@ -13,6 +14,7 @@ const ChannelSearch = ({ searchQuery, placeholder, updateChannelSearchQuery, ...
       onValueChange={updateChannelSearchQuery}
       placeholder={placeholder}
       type="search"
+      variant="thin"
     />
   </Form>
 )
