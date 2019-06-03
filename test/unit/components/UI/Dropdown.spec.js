@@ -1,20 +1,21 @@
 import React from 'react'
 import { Dropdown } from 'components/UI'
 import renderer from 'react-test-renderer'
+import { IntlProvider } from 'react-intl'
 import { dark } from 'themes'
 
 const currencies = [
   {
     key: 'btc',
-    name: 'BTC',
+    value: 'BTC',
   },
   {
     key: 'bits',
-    name: 'bits',
+    value: 'bits',
   },
   {
     key: 'sats',
-    name: 'satoshis',
+    value: 'satoshis',
   },
 ]
 
@@ -23,7 +24,11 @@ const setCurrency = jest.fn()
 describe('component.Dropdown', () => {
   it('should render correctly', () => {
     const tree = renderer
-      .create(<Dropdown activeKey="btc" items={currencies} onClick={setCurrency} theme={dark} />)
+      .create(
+        <IntlProvider locale="en">
+          <Dropdown activeKey="btc" items={currencies} onClick={setCurrency} theme={dark} />
+        </IntlProvider>
+      )
       .toJSON()
     expect(tree).toMatchSnapshot()
   })

@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import { injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
 import { opacity } from 'styled-system'
-import { useOnClickOutside } from 'hooks'
+import { useOnClickOutside, useIntl } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
@@ -104,7 +105,7 @@ export const MenuItem = withTheme(
             {active && <Check height="0.95em" />}
           </Text>
         )}
-        <Text mr={2}>{item.name}</Text>
+        <Text mr={2}>{item.value}</Text>
 
         <Flex alignItems="center" color="gray" justifyContent="flex-end" ml="auto" width="20px">
           {hasChildren && <AngleRight height="8px" />}
@@ -114,70 +115,74 @@ export const MenuItem = withTheme(
   )
 )
 
-const Dropdown = ({ activeKey, items, justify, theme, buttonOpacity, onChange, ...rest }) => {
-  // State to track dropdown open state.
-  const [isOpen, setIsOpen] = useState(false)
-  const toggleMenu = () => setIsOpen(!isOpen)
+const Dropdown = injectIntl(
+  ({ activeKey, intl, items, justify, theme, buttonOpacity, onChange, messageMapper, ...rest }) => {
+    // State to track dropdown open state.
+    const [isOpen, setIsOpen] = useState(false)
+    const toggleMenu = () => setIsOpen(!isOpen)
 
-  // Close the dropdown if the user clicks outside our elements.
-  const wrapperRef = useRef(null)
-  useOnClickOutside([wrapperRef], () => setIsOpen(false))
+    // Close the dropdown if the user clicks outside our elements.
+    const wrapperRef = useRef(null)
+    useOnClickOutside([wrapperRef], () => setIsOpen(false))
 
-  const handleClick = key => {
-    if (key !== activeKey) {
-      if (onChange) {
-        onChange(key)
+    // coerce array of strings into array of objects.
+    let itemsArray = items.map(item => {
+      if (typeof item === 'string') {
+        return {
+          value: item,
+          key: item,
+        }
       }
-    }
-    setIsOpen(false)
-  }
+      return item
+    })
 
-  // coerce array of strings into array of objects.
-  const itemsArray = items.map(item => {
-    if (typeof item === 'string') {
-      return {
-        name: item,
-        key: item,
+    itemsArray = useIntl(itemsArray, messageMapper, intl)
+
+    const selectedItem = itemsArray.find(c => c.key === activeKey)
+
+    const handleClick = key => {
+      if (key !== activeKey) {
+        if (onChange) {
+          onChange(key)
+        }
       }
+      setIsOpen(false)
     }
-    return item
-  })
 
-  const selectedItem = itemsArray.find(c => c.key === activeKey)
-
-  return (
-    <div style={{ display: 'inline-block' }}>
-      <DropdownContainer {...rest} ref={wrapperRef}>
-        <DropdownButton onClick={toggleMenu} opacity={buttonOpacity} type="button">
-          <Flex alignItems="center">
-            <Text mr={1} textAlign="left">
-              {selectedItem ? selectedItem.name : activeKey}{' '}
-            </Text>
-            <Flex color="gray">
-              {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
+    return (
+      <div style={{ display: 'inline-block' }}>
+        <DropdownContainer {...rest} ref={wrapperRef}>
+          <DropdownButton onClick={toggleMenu} opacity={buttonOpacity} type="button">
+            <Flex alignItems="center">
+              <Text mr={1} textAlign="left">
+                {selectedItem ? selectedItem.value : activeKey}{' '}
+              </Text>
+              <Flex color="gray">
+                {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
+              </Flex>
             </Flex>
-          </Flex>
-        </DropdownButton>
-        {isOpen && (
-          <MenuContainer>
-            <Menu justify={justify}>
-              {itemsArray.map(item => {
-                return (
-                  <MenuItem
-                    key={item.key}
-                    active={activeKey === item.key}
-                    item={item}
-                    onClick={() => handleClick(item.key)}
-                  />
-                )
-              })}
-            </Menu>
-          </MenuContainer>
-        )}
-      </DropdownContainer>
-    </div>
-  )
-}
+          </DropdownButton>
+          {isOpen && (
+            <MenuContainer>
+              <Menu justify={justify}>
+                {itemsArray.map(item => {
+                  return (
+                    <MenuItem
+                      key={item.key}
+                      active={activeKey === item.key}
+                      item={item}
+                      onClick={() => handleClick(item.key)}
+                    />
+                  )
+                })}
+              </Menu>
+            </MenuContainer>
+          )}
+        </DropdownContainer>
+      </div>
+    )
+  }
+)
 
 Dropdown.propTypes = {
   activeKey: PropTypes.string.isRequired,

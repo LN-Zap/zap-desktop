@@ -24,29 +24,29 @@ const store = new Store({
   cryptoCurrencies: [
     {
       key: 'btc',
-      name: 'BTC',
+      value: 'BTC',
     },
     {
       key: 'bits',
-      name: 'bits',
+      value: 'bits',
     },
     {
       key: 'sats',
-      name: 'satoshis',
+      value: 'satoshis',
     },
   ],
   fiatCurrencies: [
     {
       key: 'usd',
-      name: 'USD',
+      value: 'USD',
     },
     {
       key: 'eur',
-      name: 'EUR',
+      value: 'EUR',
     },
     {
       key: 'gbp',
-      name: 'GBP',
+      value: 'GBP',
     },
   ],
 })
