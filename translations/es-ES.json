@@ -29,6 +29,7 @@
   "components.Activity.Payment.status_processing": "Procesando su pago...",
   "components.Activity.Payment.status_success": "Su pago ha sido exitoso",
   "components.Activity.Payment.type": "Pago de Lightning",
+  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "Cantidad",
   "components.Activity.PaymentModal.current_value": "Valor actual",
   "components.Activity.PaymentModal.date_sent": "Fecha enviado",

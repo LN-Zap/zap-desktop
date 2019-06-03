@@ -29,6 +29,7 @@
   "components.Activity.Payment.status_processing": "Zap 正在处理您的付款。这可能需要01:00 分钟。",
   "components.Activity.Payment.status_success": "您的付款已成功",
   "components.Activity.Payment.type": "闪电网络支付",
+  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "数量",
   "components.Activity.PaymentModal.current_value": "",
   "components.Activity.PaymentModal.date_sent": "发送日期",

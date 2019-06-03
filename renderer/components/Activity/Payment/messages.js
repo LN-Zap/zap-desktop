@@ -8,4 +8,5 @@ export default defineMessages({
   status_processing: 'Processing your payment...',
   status_success: 'Your payment was successful.',
   status_error: 'There was a problem sending your payment.',
+  unknown: 'Unknown',
 })
