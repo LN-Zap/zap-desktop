@@ -24,7 +24,7 @@ try {
     `rm -rf ${TMP_DIR} &&\
      mkdir ${TMP_DIR} &&\
      cp ${iconPath} ${TMP_DIR} &&\
-     npx @svgr/cli --icon -d ${OUTPUT_DIR} ${TMP_DIR} &&\
+     svgr --icon -d ${OUTPUT_DIR} ${TMP_DIR} &&\
      npm run lint-fix-base -- renderer/components/Icon/${getIconName()}
    `,
     { stdio: [0, 1, 2] }
