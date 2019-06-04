@@ -11,20 +11,7 @@ storiesOf('Containers.Channels', module)
       {
         sections: [
           {
-            sectionFn: () => {
-              const channels = [
-                {
-                  key: 1,
-                },
-                {
-                  key: 2,
-                },
-                {
-                  key: 3,
-                },
-              ]
-              return <ChannelsHeader channels={channels} />
-            },
+            sectionFn: () => <ChannelsHeader />,
           },
         ],
       },

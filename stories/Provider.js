@@ -96,3 +96,31 @@ store.dispatch({
     pending_open_balance: 47238944,
   },
 })
+store.dispatch({
+  type: 'RECEIVE_CHANNELS',
+  channels: [
+    {
+      local_balance: 12345,
+      remote_balance: 67890,
+      remote_pubkey: '1231231231234',
+    },
+    {
+      local_balance: 12345,
+      remote_balance: 67890,
+      remote_pubkey: '1231231231234',
+    },
+    {
+      local_balance: 12345,
+      remote_balance: 67890,
+      remote_pubkey: '1231231231234',
+    },
+  ],
+  pendingChannels: {
+    total_limbo_balance: null,
+    pending_open_channels: [],
+    pending_closing_channels: [],
+    pending_force_closing_channels: [],
+    waiting_close_channels: [],
+  },
+  closedChannels: [],
+})
