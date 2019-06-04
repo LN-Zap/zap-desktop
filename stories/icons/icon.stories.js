@@ -46,6 +46,7 @@ import Plus from 'components/Icon/Plus'
 import PlusCircle from 'components/Icon/PlusCircle'
 import Qrcode from 'components/Icon/Qrcode'
 import Receive from 'components/Icon/Receive'
+import Refresh from 'components/Icon/Refresh'
 import Search from 'components/Icon/Search'
 import Send from 'components/Icon/Send'
 import Settings from 'components/Icon/Settings'
@@ -107,6 +108,7 @@ const zapIconsList = {
   PlusCircle,
   Qrcode,
   Receive,
+  Refresh,
   Search,
   Send,
   Settings,
