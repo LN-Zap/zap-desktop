@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedTime, injectIntl, intlShape } from 'react-intl'
 import { decodePayReq } from '@zap/utils/crypto'
+import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { Box, Flex } from 'rebass'
 import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
@@ -24,7 +25,7 @@ const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
       if (node && node.alias.length) {
         return node.alias
       }
-      return pubkey.substring(0, 10)
+      return truncateNodePubkey(pubkey)
     }
 
     // If all else fails, return the string 'unknown'.

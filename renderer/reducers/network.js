@@ -1,4 +1,5 @@
 import { grpcService } from 'workers'
+import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 
 // ------------------------------------
 // Constants
@@ -18,8 +19,6 @@ export const getNodeDisplayName = node => {
 
   return truncateNodePubkey(node.pub_key)
 }
-
-export const truncateNodePubkey = pubkey => pubkey.substring(0, 10)
 
 // ------------------------------------
 // Actions
