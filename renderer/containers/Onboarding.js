@@ -111,7 +111,7 @@ function OnboardingModal({ hasWallets, onClose }) {
   useOnKeydown('Escape', onClose)
   return (
     <ModalOverlay>
-      <Modal hasClose={hasWallets} onClose={onClose} pt={hasWallets ? 0 : 4}>
+      <Modal hasClose={hasWallets} onClose={onClose} p={4}>
         <OnboardingContainer />
       </Modal>
     </ModalOverlay>

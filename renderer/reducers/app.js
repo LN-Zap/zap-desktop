@@ -7,6 +7,7 @@ import { tickerSelectors } from './ticker'
 import { setIsWalletOpen, walletSelectors } from './wallet'
 import { setTheme, themeSelectors } from './theme'
 import { stopLnd } from './lnd'
+import { openModal } from './modal'
 
 // ------------------------------------
 // Initial State
@@ -103,6 +104,13 @@ export const terminateApp = () => async dispatch => {
   await dispatch(stopLnd())
   dispatch({ type: TERMINATE_APP_SUCCESS })
   dispatch(send('terminateAppSuccess'))
+}
+
+/**
+ * openPreferences - IPC handler for 'openPreferences' message.
+ */
+export const openPreferences = () => dispatch => {
+  dispatch(openModal('SETTINGS'))
 }
 
 // ------------------------------------

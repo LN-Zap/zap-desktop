@@ -94,29 +94,28 @@ class Home extends React.Component {
 
     return (
       <>
-        <Sidebar.medium pl={4} pt={40}>
+        <Sidebar.medium pt={40}>
           <Panel>
-            <Panel.Header>
+            <Panel.Header mb={40} px={4}>
               <ZapLogo height="32px" width="70px" />
             </Panel.Header>
-            <Panel.Body css={{ 'overflow-y': 'auto' }}>
+            <Panel.Body css={{ 'overflow-y': 'overlay' }}>
               <WalletsMenu
                 activeWallet={activeWallet}
-                mt={30}
                 setActiveWallet={setActiveWallet}
                 wallets={wallets}
               />
             </Panel.Body>
             <Panel.Footer>
-              <Bar mx={-4} />
-              <Box py={2}>
+              <Bar variant="light" />
+              <Box px={4} py={2}>
                 <CreateWalletButton history={history} width={1} />
               </Box>
             </Panel.Footer>
           </Panel>
         </Sidebar.medium>
 
-        <MainContent css={{ position: 'relative' }}>
+        <MainContent mt={4} px={5}>
           <Switch>
             <Route
               exact

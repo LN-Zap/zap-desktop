@@ -1,9 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import { Box, Flex } from 'rebass'
 import CloseButton from 'components/UI/CloseButton'
 import ZapLogo from 'components/Icon/ZapLogo'
 import Panel from './Panel'
+import Page from './Page'
 
 export const ModalOverlayStyles = () => `
   z-index: 1000;
@@ -14,9 +16,17 @@ export const ModalOverlayStyles = () => `
   right: 0;
 `
 
-const ModalHeader = ({ hasHeader }) => (
+export const ModalHeader = styled(Panel.Header)`
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+`
+
+const ModalLogo = ({ hasLogo }) => (
   <Flex justifyContent="space-between" px={3}>
-    {hasHeader && (
+    {hasLogo && (
       <Box color="primaryText">
         <ZapLogo height="32px" width="70px" />
       </Box>
@@ -24,31 +34,31 @@ const ModalHeader = ({ hasHeader }) => (
   </Flex>
 )
 
-ModalHeader.propTypes = {
-  hasHeader: PropTypes.bool,
+ModalLogo.propTypes = {
+  hasLogo: PropTypes.bool,
 }
 
-ModalHeader.defaultProps = {
-  hasHeader: true,
+ModalLogo.defaultProps = {
+  hasLogo: true,
 }
 
 /**
- * @render react
  * @name Modal
- * @example
- * <Modal>Some content</Modal>
+ * @param {*} props Props
+ * @returns {*} Component
  */
 const Modal = props => {
-  const { children, onClose, hasClose, hasHeader, ...rest } = props
+  const { children, onClose, hasClose, hasLogo, ...rest } = props
+
   return (
     <Panel bg="primaryColor" color="primaryText">
-      <Panel.Header pt={3} px={3}>
-        {hasClose && <CloseButton onClick={onClose} />}
-        {hasHeader && <ModalHeader hasHeader={hasHeader} />}
-      </Panel.Header>
-      <Panel.Body pb={4} px={4} {...rest} css={{ 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}>
-        {children}
-      </Panel.Body>
+      {(hasClose || hasLogo) && (
+        <ModalHeader pt={3} px={3}>
+          {hasClose && <CloseButton onClick={onClose} />}
+          {hasLogo && <ModalLogo hasLogo={hasLogo} />}
+        </ModalHeader>
+      )}
+      <Page {...rest}>{children}</Page>
     </Panel>
   )
 }
@@ -56,7 +66,7 @@ const Modal = props => {
 Modal.propTypes = {
   children: PropTypes.node,
   hasClose: PropTypes.bool,
-  hasHeader: PropTypes.bool,
+  hasLogo: PropTypes.bool,
   onClose: PropTypes.func,
 }
 

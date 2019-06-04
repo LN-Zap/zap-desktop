@@ -1,21 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Modal should render correctly 1`] = `
-.c1 {
+.c2 {
   padding-top: 16px;
   padding-left: 16px;
   padding-right: 16px;
-}
-
-.c4 {
-  padding-bottom: 32px;
-  padding-left: 32px;
-  padding-right: 32px;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  overflow-y: overlay;
-  overflow-x: hidden;
 }
 
 .c0 {
@@ -31,7 +20,7 @@ exports[`component.UI.Modal should render correctly 1`] = `
   flex-direction: column;
 }
 
-.c2 {
+.c3 {
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -42,15 +31,38 @@ exports[`component.UI.Modal should render correctly 1`] = `
   justify-content: flex-end;
 }
 
-.c3 {
+.c5 {
+  color: primaryText;
+  background-color: primaryColor;
+  position: relative;
+  height: 100%;
+  overflow: hidden;
+  min-width: 900px;
+  min-height: 425px;
+  box-shadow: 0 20px 70px rgba(0,0,0,0.55);
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.c4 {
   padding: 8px;
   height: 40px;
   cursor: pointer;
   opacity: 0.6;
 }
 
-.c3:hover: {
+.c4:hover: {
   opacity: 1;
+}
+
+.c1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
 <article
@@ -58,13 +70,13 @@ exports[`component.UI.Modal should render correctly 1`] = `
   color="primaryText"
 >
   <header
-    className="c1"
+    className="c1 c2"
   >
     <div
-      className="c2"
+      className="c3"
     >
       <div
-        className="c3"
+        className="c4"
       >
         <svg
           height={20}
@@ -90,8 +102,9 @@ exports[`component.UI.Modal should render correctly 1`] = `
       </div>
     </div>
   </header>
-  <section
-    className="c4"
+  <article
+    className="c5"
+    color="primaryText"
   />
 </article>
 `;

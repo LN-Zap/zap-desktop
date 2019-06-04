@@ -1,14 +1,21 @@
 import React from 'react'
-import BackgroundTertiary from './BackgroundTertiary'
+import styled from 'styled-components'
+import { Flex } from 'rebass'
 
-/**
- * @render react
- * @name Sidebar
- * @example
- * <Sidebar>Some content</Sidebar>
- */
+const SidebarBox = styled(Flex)`
+  overflow: hidden;
+  box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.5);
+`
+
 const Sidebar = ({ ...props }) => (
-  <BackgroundTertiary as="aside" css={{ overflow: 'hidden' }} width={3 / 12} {...props} />
+  <SidebarBox
+    as="aside"
+    bg="primaryColor"
+    color="primaryText"
+    flexDirection="column"
+    width={3 / 12}
+    {...props}
+  />
 )
 
 Sidebar.small = props => <Sidebar {...props} width={4 / 16} />

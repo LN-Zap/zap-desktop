@@ -32,6 +32,7 @@ exports[`component.UI.Button should render correctly 1`] = `
   font-weight: 300;
   line-height: '18px';
   white-space: nowrap;
+  text-align: center;
 }
 
 .c0:disabled {

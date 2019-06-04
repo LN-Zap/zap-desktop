@@ -6,7 +6,7 @@ import { closeAllModals } from 'reducers/modal'
 import ChannelCloseDialog from './ChannelCloseDialog'
 import ChannelDetail from './ChannelDetail'
 
-function ChannelDetailModal({ channel, type, closeAllModals }) {
+function ChannelDetailModal({ channel, type, closeAllModals, ...rest }) {
   // if selected channel is no longer available, close the modal
   // this is needed to handle external state changes like channel closing
   // initiated either by a 3rd party or a user
@@ -18,7 +18,7 @@ function ChannelDetailModal({ channel, type, closeAllModals }) {
 
   return (
     <>
-      <ChannelDetail mx={-4} />
+      <ChannelDetail {...rest} />
       <ChannelCloseDialog />
     </>
   )

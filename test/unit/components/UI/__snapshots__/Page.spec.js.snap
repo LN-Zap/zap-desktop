@@ -2,6 +2,7 @@
 
 exports[`component.UI.Page should render correctly 1`] = `
 .c0 {
+  color: primaryText;
   background-color: primaryColor;
   position: relative;
   height: 100%;
@@ -17,5 +18,6 @@ exports[`component.UI.Page should render correctly 1`] = `
 
 <article
   className="c0"
+  color="primaryText"
 />
 `;

@@ -367,7 +367,7 @@ class WalletLauncher extends React.Component {
   }
 
   render() {
-    const { wallet, isStartingLnd, isNeutrinoRunning } = this.props
+    const { wallet, isStartingLnd, isNeutrinoRunning, ...rest } = this.props
     const actionBarButtons = formState => (
       <>
         <Button key="cancel" mr={6} onClick={this.resetForm} type="button" variant="secondary">
@@ -388,7 +388,7 @@ class WalletLauncher extends React.Component {
     const walletConverted = walletToFormFormat(wallet)
 
     return (
-      <Box css={{ height: '100%', 'overflow-y': 'overlay' }} pb={6} pt={4} px={5}>
+      <Box {...rest}>
         <Form getApi={this.setFormApi} initialValues={walletConverted} onSubmit={this.saveSettings}>
           {({ formState }) => (
             <Box>

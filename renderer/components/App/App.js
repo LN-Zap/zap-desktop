@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import createScheduler from '@zap/utils/scheduler'
 import PropTypes from 'prop-types'
-import Activity from 'containers/Activity'
 import Wallet from 'containers/Wallet'
-import { MainContent } from 'components/UI'
+import { Box } from 'rebass'
+import Activity from 'containers/Activity'
 
 // Bitcoin blocks come on average every 10 mins
 // but we poll a lot more frequently to make UI a little bit more responsive
@@ -103,10 +103,10 @@ function App({
   }
 
   return (
-    <MainContent>
+    <Box as="article" width={1}>
       <Wallet />
       <Activity />
-    </MainContent>
+    </Box>
   )
 }
 

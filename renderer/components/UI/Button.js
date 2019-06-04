@@ -10,6 +10,7 @@ const Wrapper = styled(BaseButton)`
   font-weight: 300;
   line-height: '18px';
   white-space: nowrap;
+  text-align: ${({ justify }) => justify};
   &:disabled {
     opacity: 0.5;
   }
@@ -43,6 +44,8 @@ const Button = React.forwardRef((props, ref) => {
     size.x = 0
   }
 
+  const fontWeight = variant === 'menu' && !isActive ? 'light ' : 'normal'
+
   const borderRadius = variant === 'secondary' ? 0 : 5
 
   //support custom styled and styled-components
@@ -64,12 +67,12 @@ const Button = React.forwardRef((props, ref) => {
       {isProcessing ? (
         <Flex alignItems="center">
           {isProcessing && <Spinner />}
-          <Text fontFamily="sans" fontWeight="normal" ml={2}>
+          <Text fontFamily="sans" fontWeight={fontWeight} ml={2}>
             {children}
           </Text>
         </Flex>
       ) : (
-        <Text fontFamily="sans" fontWeight="normal">
+        <Text fontFamily="sans" fontWeight={fontWeight}>
           {children}
         </Text>
       )}
@@ -85,6 +88,7 @@ Button.propTypes = {
   isActive: PropTypes.bool,
   isDisabled: PropTypes.bool,
   isProcessing: PropTypes.bool,
+  justify: PropTypes.oneOf(['left', 'right', 'center']),
   size: PropTypes.oneOf(['small', 'medium']),
   variant: PropTypes.string,
 }
@@ -94,6 +98,7 @@ Button.defaultProps = {
   isActive: false,
   isDisabled: false,
   size: 'medium',
+  justify: 'center',
   variant: 'normal',
 }
 

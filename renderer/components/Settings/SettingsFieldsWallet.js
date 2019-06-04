@@ -1,0 +1,59 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import get from 'lodash.get'
+import { Bar, DataRow, Select } from 'components/UI'
+import { FieldLabel, NumberField } from './SettingsFieldHelpers'
+import messages from './messages'
+
+const addressItems = [{ key: 'p2wkh' }, { key: 'np2wkh' }]
+const addressMessageMapper = key => {
+  const filters = {
+    p2wkh: messages.address_option_p2wkh,
+    np2wkh: messages.address_option_np2wkh,
+  }
+  return filters[key]
+}
+
+const SettingsFieldsWallet = ({ currentConfig }) => {
+  const renderNumberDataRow = path => (
+    <DataRow
+      left={<FieldLabel itemKey={path} />}
+      right={<NumberField field={path} initialValue={get(currentConfig, path)} />}
+    />
+  )
+
+  return (
+    <>
+      <DataRow
+        left={<FieldLabel itemKey="address" />}
+        right={
+          <Select
+            field="address"
+            highlightOnValid={false}
+            initialSelectedItem={currentConfig.address}
+            items={addressItems}
+            messageMapper={addressMessageMapper}
+          />
+        }
+      />
+
+      <Bar variant="light" />
+
+      {renderNumberDataRow('lndTargetConfirmations.fast')}
+
+      <Bar variant="light" />
+
+      {renderNumberDataRow('lndTargetConfirmations.medium')}
+
+      <Bar variant="light" />
+
+      {renderNumberDataRow('lndTargetConfirmations.slow')}
+    </>
+  )
+}
+
+SettingsFieldsWallet.propTypes = {
+  currentConfig: PropTypes.object.isRequired,
+}
+
+export default SettingsFieldsWallet

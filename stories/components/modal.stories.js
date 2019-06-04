@@ -13,10 +13,10 @@ storiesOf('Components', module).addWithChapters('Modal', {
       sections: [
         {
           sectionFn: () => {
-            const hasHeader = boolean('With header', false)
+            const hasLogo = boolean('With header', false)
             return (
               <Page>
-                <Modal hasHeader={hasHeader} onClose={action('clicked')}>
+                <Modal hasLogo={hasLogo} onClose={action('clicked')}>
                   <Text>
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                     incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis

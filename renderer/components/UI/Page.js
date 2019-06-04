@@ -12,6 +12,7 @@ const Page = ({ css, ...rest }) => (
   <Flex
     as="article"
     bg="primaryColor"
+    color="primaryText"
     css={Object.assign(
       {
         position: 'relative',

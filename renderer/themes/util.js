@@ -32,6 +32,20 @@ const createThemeVariant = (name, colors) => {
         opacity: 1,
       },
     },
+    menu: {
+      color: colors.primaryText,
+      backgroundColor: colors.primaryColor,
+      '&.active': {
+        color: colors.lightningOrange,
+        backgroundColor: colors.highlight,
+      },
+      '&:hover:enabled': {
+        backgroundColor: colors.highlight,
+      },
+      '&:focus': {
+        backgroundColor: colors.highlight,
+      },
+    },
     danger: {
       backgroundColor: colors.superRed,
       color: colors.white,

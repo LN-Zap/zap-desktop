@@ -59,7 +59,7 @@ const SettingsMenu = ({
   ...rest
 }) => {
   const logout = () => history.push('/logout')
-  const openSettings = () => openModal('SETTINGS_FORM')
+  const openSettings = () => openModal('SETTINGS')
 
   const items = [
     {

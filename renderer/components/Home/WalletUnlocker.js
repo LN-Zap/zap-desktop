@@ -64,17 +64,14 @@ class WalletUnlocker extends React.Component {
   }
 
   render = () => {
-    const { intl, isUnlockingWallet, wallet } = this.props
+    const { intl, isUnlockingWallet, wallet, ...rest } = this.props
 
     return (
       <Form
         key={`wallet-unlocker-form-${wallet.id}`}
         getApi={this.setFormApi}
         onSubmit={this.onSubmit}
-        pb={6}
-        pt={4}
-        px={5}
-        width={1}
+        {...rest}
       >
         {({ formState }) => (
           <>
