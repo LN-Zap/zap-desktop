@@ -4,6 +4,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   search_placeholder: 'Search Activity',
   refresh_button_hint: 'Refresh activity list',
+  actiity_filter_label: 'Show:',
   actiity_filter_all: 'All',
   actiity_filter_sent: 'Sent',
   actiity_filter_received: 'Received',

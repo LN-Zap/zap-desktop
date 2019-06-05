@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Form, Select } from 'components/UI'
+import { FormattedMessage } from 'react-intl'
+import { Flex } from 'rebass'
+import { Dropdown, Label } from 'components/UI'
 import messages from './messages'
 
 const messageMapper = key => {
@@ -17,17 +19,19 @@ const messageMapper = key => {
 }
 
 const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => (
-  <Form {...rest}>
-    <Select
-      field="activity-filter"
+  <Flex alignItems="baseline" {...rest}>
+    <Label fontWeight="light" htmlFor="channel-filter" mr={2}>
+      <FormattedMessage {...messages.actiity_filter_label} />
+    </Label>
+    <Dropdown
+      activeKey={filter}
       highlightOnValid={false}
       id="activity-filter"
-      initialValue={filter}
       items={filters}
       messageMapper={messageMapper}
-      onValueSelected={changeFilter}
+      onChange={changeFilter}
     />
-  </Form>
+  </Flex>
 )
 
 ActivityFilter.propTypes = {

@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Box, Flex } from 'rebass'
+import { Flex } from 'rebass'
+import { Card } from 'components/UI'
 import WalletBalance from './WalletBalance'
 import WalletButtons from './WalletButtons'
 import WalletMenu from './WalletMenu'
 import WalletLogo from './WalletLogo'
 
 const Wallet = ({ totalBalance, networkInfo, openWalletModal, openModal }) => (
-  <Box bg="secondaryColor" pb={3} pt={4} px={4}>
+  <Card bg="secondaryColor" pb={3} pt={4} px={5}>
     <Flex alignItems="flex-end" as="header" justifyContent="space-between" mt={2}>
       <WalletLogo networkInfo={networkInfo} />
       <WalletMenu openModal={openModal} />
@@ -17,7 +18,7 @@ const Wallet = ({ totalBalance, networkInfo, openWalletModal, openModal }) => (
       <WalletBalance openWalletModal={openWalletModal} totalBalance={totalBalance} />
       <WalletButtons openModal={openModal} />
     </Flex>
-  </Box>
+  </Card>
 )
 
 Wallet.propTypes = {
