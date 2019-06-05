@@ -42,7 +42,7 @@ function removeSteps(formSteps, steps) {
 class Onboarding extends React.Component {
   static propTypes = {
     autopilot: PropTypes.bool, // eslint-disable-line react/boolean-prop-naming
-    backupProvider: PropTypes.string.isRequired,
+    backupProvider: PropTypes.string,
     clearCreateWalletError: PropTypes.func.isRequired,
     clearStartLndError: PropTypes.func.isRequired,
     connectionCert: PropTypes.string,
