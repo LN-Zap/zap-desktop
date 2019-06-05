@@ -252,7 +252,7 @@
     "clean-webpack-plugin": "2.0.2",
     "concurrently": "4.1.0",
     "copy-webpack-plugin": "5.0.3",
-    "coveralls": "3.0.3",
+    "coveralls": "3.0.4",
     "cross-env": "5.2.0",
     "cross-spawn": "6.0.5",
     "csp-html-webpack-plugin": "3.0.2",
