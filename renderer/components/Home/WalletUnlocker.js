@@ -64,7 +64,16 @@ class WalletUnlocker extends React.Component {
   }
 
   render = () => {
-    const { intl, isUnlockingWallet, wallet, ...rest } = this.props
+    const {
+      intl,
+      isLightningGrpcActive,
+      isUnlockingWallet,
+      setUnlockWalletError,
+      unlockWallet,
+      unlockWalletError,
+      wallet,
+      ...rest
+    } = this.props
 
     return (
       <Form
