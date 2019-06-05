@@ -5671,10 +5671,10 @@ crypto-random-string@^1.0.0:
   resolved "https://registry.yarnpkg.com/crypto-random-string/-/crypto-random-string-1.0.0.tgz#a230f64f568310e1498009940790ec99545bca7e"
   integrity sha1-ojD2T1aDEOFJgAmUB5DsmVRbyn4=
 
-csp-html-webpack-plugin@3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/csp-html-webpack-plugin/-/csp-html-webpack-plugin-3.0.1.tgz#dd217fa133571a6a1f7818b00292fb8f6ef83bb9"
-  integrity sha512-oUzxLZqyDIpnCUmWdER1aCqz7D1CwSf9xiK6688sc5dBcwYoWTW5KVziTnbV72zsuQbkIhyvn7653Gorb6Ni3A==
+csp-html-webpack-plugin@3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/csp-html-webpack-plugin/-/csp-html-webpack-plugin-3.0.2.tgz#46589d9c1622968af3d279a3a3ce64de4c7fa4e4"
+  integrity sha512-78aCKk1GMJN0j63VG7BOeybFbYgV3pZtCWYITHBhUG9m4GbiHDV1NRiQrPogQSoDplDyjuuX6vejgloPbA2pJQ==
   dependencies:
     cheerio "^1.0.0-rc.2"
     lodash "^4.17.11"
