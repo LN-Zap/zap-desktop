@@ -1,9 +1,13 @@
 import React from 'react'
+import styled from 'styled-components'
+import { height } from 'styled-system'
 import { Card as BaseCard } from 'rebass'
+
+const StyledCard = styled(BaseCard)(height)
 
 const Card = React.forwardRef((props, ref) => {
   return (
-    <BaseCard
+    <StyledCard
       ref={ref}
       as="section"
       bg="primaryColor"
