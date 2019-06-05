@@ -115,7 +115,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
   />
   <DataRow
     left={
-      <ForwardRef>
+      <ForwardRef(styled.div)>
         <Text>
           <FormattedMessage
             defaultMessage="Fee"
@@ -133,7 +133,7 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
             values={Object {}}
           />
         </Text>
-      </ForwardRef>
+      </ForwardRef(styled.div)>
     }
     right={
       <FormattedMessage
