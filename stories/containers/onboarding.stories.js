@@ -117,28 +117,29 @@ const createWallet = async () => action('createWallet')
 storiesOf('Containers.Onboarding', module)
   .addParameters({ info: { disable: true } })
   .addDecorator(story => <Window>{story()}</Window>)
-  .addDecorator(story => <Modal onClose={linkTo('Containers.Home', 'Home')}>{story()}</Modal>)
   .add('Onboarding', () => {
     return (
-      <State store={store}>
-        <Onboarding
-          // DISPATCH
-          createWallet={createWallet}
-          fetchSeed={fetchSeed}
-          resetOnboarding={resetOnboarding}
-          setAutopilot={setAutopilot}
-          setConnectionCert={setConnectionCert}
-          setConnectionHost={setConnectionHost}
-          setConnectionMacaroon={setConnectionMacaroon}
-          setConnectionType={setConnectionType}
-          setName={setName}
-          setPassword={setPassword}
-          startLnd={startLnd}
-          stopLnd={stopLnd}
-          validateCert={validateCert}
-          validateHost={validateHost}
-          validateMacaroon={validateMacaroon}
-        />
-      </State>
+      <Modal onClose={linkTo('Containers.Home', 'Home')} p={4}>
+        <State store={store}>
+          <Onboarding
+            // DISPATCH
+            createWallet={createWallet}
+            fetchSeed={fetchSeed}
+            resetOnboarding={resetOnboarding}
+            setAutopilot={setAutopilot}
+            setConnectionCert={setConnectionCert}
+            setConnectionHost={setConnectionHost}
+            setConnectionMacaroon={setConnectionMacaroon}
+            setConnectionType={setConnectionType}
+            setName={setName}
+            setPassword={setPassword}
+            startLnd={startLnd}
+            stopLnd={stopLnd}
+            validateCert={validateCert}
+            validateHost={validateHost}
+            validateMacaroon={validateMacaroon}
+          />
+        </State>
+      </Modal>
     )
   })

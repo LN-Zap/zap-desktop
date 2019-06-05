@@ -13,9 +13,8 @@ import { Window } from '../helpers'
 
 storiesOf('Containers.Activity', module)
   .addParameters({ info: { disable: true } })
-  .addDecorator(story => <Window>{story()}</Window>)
   .addDecorator(story => <Provider story={story()} />)
-  .addDecorator(story => <Modal>{story()}</Modal>)
+  .addDecorator(story => <Window>{story()}</Window>)
   .add('InvoiceModal', () => {
     const encoded = lightningPayReq.encode({
       coinType: 'testnet',
@@ -51,12 +50,14 @@ storiesOf('Containers.Activity', module)
       tx_hash: '1ae44a23c141a2892c55eb3fe9de45195d88e89b36b5070e10df92d4130e4028',
     }
     return (
-      <InvoiceModal
-        item={invoice}
-        mx="auto"
-        showNotification={action('showNotification')}
-        width={9 / 16}
-      />
+      <Modal p={4}>
+        <InvoiceModal
+          item={invoice}
+          mx="auto"
+          showNotification={action('showNotification')}
+          width={9 / 16}
+        />
+      </Modal>
     )
   })
   .add('PaymentModal', () => {
@@ -65,7 +66,11 @@ storiesOf('Containers.Activity', module)
       creation_date: Math.round(new Date().getTime() / 1000),
       payment_preimage: '46914421ed5eafea1ec40726338bc5059e80e128660b9c7c8a5817e59429af30',
     }
-    return <PaymentModal item={payment} mx="auto" width={9 / 16} />
+    return (
+      <Modal p={4}>
+        <PaymentModal item={payment} mx="auto" width={9 / 16} />
+      </Modal>
+    )
   })
   .add('TransactionModal', () => {
     const transaction = {
@@ -79,11 +84,13 @@ storiesOf('Containers.Activity', module)
       tx_hash: '1ae44a23c141a2892c55eb3fe9de45195d88e89b36b5070e10df92d4130e4028',
     }
     return (
-      <TransactionModal
-        item={transaction}
-        mx="auto"
-        networkInfo={infoSelectors.networkInfo(store.getState())}
-        width={9 / 16}
-      />
+      <Modal p={4}>
+        <TransactionModal
+          item={transaction}
+          mx="auto"
+          networkInfo={infoSelectors.networkInfo(store.getState())}
+          width={9 / 16}
+        />
+      </Modal>
     )
   })

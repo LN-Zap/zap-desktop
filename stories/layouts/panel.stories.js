@@ -1,15 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import { storiesOf } from '@storybook/react'
-import { Page, Panel } from 'components/UI'
-import { Content } from '../helpers'
-
-const Wrapper = ({ children }) => (
-  <Page css={{ height: '500px', 'min-height': '500px' }}>{children}</Page>
-)
-Wrapper.propTypes = {
-  children: PropTypes.node,
-}
+import { Panel } from 'components/UI'
+import { Window, Content } from '../helpers'
 
 storiesOf('Layouts', module).addWithChapters('Panel', {
   subtitle: 'For pages with a fixed header and footer.',
@@ -19,7 +11,7 @@ storiesOf('Layouts', module).addWithChapters('Panel', {
       sections: [
         {
           sectionFn: () => (
-            <Wrapper>
+            <Window>
               <Panel width={1}>
                 <Panel.Header bg="green">
                   <Content>Panel Header</Content>
@@ -31,7 +23,7 @@ storiesOf('Layouts', module).addWithChapters('Panel', {
                   <Content>Panel Footer</Content>
                 </Panel.Footer>
               </Panel>
-            </Wrapper>
+            </Window>
           ),
         },
       ],
