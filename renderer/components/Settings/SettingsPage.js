@@ -103,7 +103,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
           </Panel.Body>
         </Panel>
       </Sidebar.medium>
-      <MainContent mt={4} px={5}>
+      <MainContent px={5} py={4}>
         <Heading.h1 fontSize={60}>
           <FormattedMessage {...messages.settings_title} />
         </Heading.h1>

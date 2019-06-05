@@ -115,7 +115,7 @@ class Home extends React.Component {
           </Panel>
         </Sidebar.medium>
 
-        <MainContent mt={4} px={5}>
+        <MainContent px={5} py={4}>
           <Switch>
             <Route
               exact
