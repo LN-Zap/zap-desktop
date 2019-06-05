@@ -21,7 +21,7 @@ const Flex = styled(BaseFlex)(opacity)
 const areEqual = (prevProps, nextProps) => isEqual(prevProps, nextProps)
 
 const ChannelCardListItem = React.memo(
-  ({ channel, currencyName, openModal, setSelectedChannel, networkInfo }) => {
+  ({ channel, currencyName, openModal, setSelectedChannel, networkInfo, ...rest }) => {
     const {
       channel_point,
       display_name,
@@ -34,7 +34,7 @@ const ChannelCardListItem = React.memo(
     const opacity = active ? 1 : 0.3
 
     return (
-      <Card>
+      <Card {...rest}>
         <Panel>
           <Panel.Header>
             <Flex justifyContent="space-between">

@@ -43,6 +43,7 @@ const ChannelCardList = ({
         <ChannelCardListItem
           channel={channel}
           currencyName={currencyName}
+          height="100%"
           networkInfo={networkInfo}
           openModal={openModal}
           setSelectedChannel={setSelectedChannel}
