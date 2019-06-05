@@ -384,7 +384,7 @@
   "components.Request.subtitle": "",
   "components.Request.title": "Αίτηση πληρωμής",
   "components.Request.total": "",
-  "components.Settings.SettingsMenu.currency_title": "",
+  "components.Settings.SettingsMenu.currency_title": "Κυβερνητικό νόμισμα",
   "components.Settings.SettingsMenu.disconnect_title": "",
   "components.Settings.SettingsMenu.locale_title": "Γλώσσα",
   "components.Settings.SettingsMenu.logout_title": "",

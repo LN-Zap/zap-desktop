@@ -384,7 +384,7 @@
   "components.Request.subtitle": "a través de la red Lightning",
   "components.Request.title": "Solicitud de Pago",
   "components.Request.total": "Monto",
-  "components.Settings.SettingsMenu.currency_title": "",
+  "components.Settings.SettingsMenu.currency_title": "Moneda fiduciaria",
   "components.Settings.SettingsMenu.disconnect_title": "",
   "components.Settings.SettingsMenu.locale_title": "Idioma",
   "components.Settings.SettingsMenu.logout_title": "Cerrar sesión",

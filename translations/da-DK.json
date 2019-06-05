@@ -384,7 +384,7 @@
   "components.Request.subtitle": "gennem Lightning Network",
   "components.Request.title": "Anmod",
   "components.Request.total": "",
-  "components.Settings.SettingsMenu.currency_title": "",
+  "components.Settings.SettingsMenu.currency_title": "Fiat Valuta",
   "components.Settings.SettingsMenu.disconnect_title": "",
   "components.Settings.SettingsMenu.locale_title": "Sprog",
   "components.Settings.SettingsMenu.logout_title": "Log ud",

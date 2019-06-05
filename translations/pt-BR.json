@@ -384,7 +384,7 @@
   "components.Request.subtitle": "",
   "components.Request.title": "Solicitar Pagamento",
   "components.Request.total": "",
-  "components.Settings.SettingsMenu.currency_title": "",
+  "components.Settings.SettingsMenu.currency_title": "Moeda Fiduciária",
   "components.Settings.SettingsMenu.disconnect_title": "",
   "components.Settings.SettingsMenu.locale_title": "Língua",
   "components.Settings.SettingsMenu.logout_title": "",
