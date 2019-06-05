@@ -6,7 +6,7 @@ import plugins from './common/plugins'
 
 const config = merge.smart(baseConfig, {
   name: 'preload',
-  target: 'electron-renderer',
+  target: 'electron-preload',
   mode: 'development',
   devtool: 'cheap-module-eval-source-map',
   entry: {
