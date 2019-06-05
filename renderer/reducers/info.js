@@ -5,6 +5,7 @@ import { grpcService } from 'workers'
 import { initAddresses } from './address'
 import { putWallet, walletSelectors } from './wallet'
 import { receiveCryptocurrency } from './ticker'
+import { settingsSelectors } from './settings'
 
 // ------------------------------------
 // Constants
@@ -18,14 +19,22 @@ const networkInfo = {
     mainnet: {
       id: 'mainnet',
       name: 'Mainnet',
-      explorerUrl: 'https://blockstream.info',
+      explorerUrls: {
+        blockstream: 'https://blockstream.info',
+        blockcypher: 'https://live.blockcypher.com/btc',
+        smartbit: 'https://www.smartbit.com.au',
+      },
       bitcoinJsNetwork: networks.bitcoin.mainnet,
       unitPrefix: '',
     },
     testnet: {
       id: 'testnet',
       name: 'Testnet',
-      explorerUrl: 'https://blockstream.info/testnet',
+      explorerUrls: {
+        blockstream: 'https://blockstream.info/testnet',
+        blockcypher: 'https://live.blockcypher.com/btc-testnet',
+        smartbit: 'https://testnet.smartbit.com.au',
+      },
       bitcoinJsNetwork: networks.bitcoin.testnet,
       unitPrefix: 't',
     },
@@ -34,14 +43,22 @@ const networkInfo = {
     mainnet: {
       id: 'mainnet',
       name: 'Mainnet',
-      explorerUrl: 'https://insight.litecore.io',
+      explorerUrls: {
+        blockstream: 'https://insight.litecore.io', // not supported, default to insight.
+        blockcypher: 'https://live.blockcypher.com/ltc',
+        smartbit: 'https://insight.litecore.io', // not supported, default to insight.
+      },
       bitcoinJsNetwork: networks.litecoin.mainnet,
       unitPrefix: '',
     },
     testnet: {
       id: 'testnet',
       name: 'Testnet',
-      explorerUrl: 'https://testnet.litecore.io',
+      explorerUrls: {
+        blockstream: 'https://testnet.litecore.io', // not supported, default to insight.
+        blockcypher: 'https://testnet.litecore.io', // not supported, default to insight.
+        smartbit: 'https://testnet.litecore.io', // not supported, default to insight.
+      },
       bitcoinJsNetwork: networks.litecoin.testnet,
       unitPrefix: 't',
     },
@@ -159,6 +176,7 @@ infoSelectors.networksSelector = state => state.info.networks
 infoSelectors.infoLoading = state => state.info.infoLoading
 infoSelectors.infoLoaded = state => state.info.infoLoaded
 infoSelectors.hasSynced = state => state.info.hasSynced
+
 infoSelectors.nodePub = state => {
   const parseFromDataUri = () => {
     const uri = get(state.info, 'data.uris[0]')
@@ -171,7 +189,12 @@ infoSelectors.networkInfo = createSelector(
   infoSelectors.chainSelector,
   infoSelectors.networkSelector,
   infoSelectors.networksSelector,
-  (chain, network, networks) => get(networks, `${chain}.${network}`)
+  settingsSelectors.currentConfig,
+  (chain, network, networks, currentConfig) => {
+    const networkInfo = get(networks, `${chain}.${network}`, {})
+    networkInfo.explorerUrl = networkInfo.explorerUrls[currentConfig.blockExplorer]
+    return networkInfo
+  }
 )
 
 export { infoSelectors }

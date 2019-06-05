@@ -14,6 +14,16 @@ const addressMessageMapper = key => {
   return filters[key]
 }
 
+const blockExplorerItems = [{ key: 'blockstream' }, { key: 'blockcypher' }, { key: 'smartbit' }]
+const blockExplorerMessageMapper = key => {
+  const filters = {
+    blockstream: messages.blockExplorer_option_blockstream,
+    blockcypher: messages.blockExplorer_option_blockcypher,
+    smartbit: messages.blockExplorer_option_smartbit,
+  }
+  return filters[key]
+}
+
 const SettingsFieldsWallet = ({ currentConfig }) => {
   const renderNumberDataRow = path => (
     <DataRow
@@ -33,6 +43,21 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
             initialSelectedItem={currentConfig.address}
             items={addressItems}
             messageMapper={addressMessageMapper}
+          />
+        }
+      />
+
+      <Bar variant="light" />
+
+      <DataRow
+        left={<FieldLabel itemKey="blockExplorer" />}
+        right={
+          <Select
+            field="blockExplorer"
+            highlightOnValid={false}
+            initialSelectedItem={currentConfig.blockExplorer}
+            items={blockExplorerItems}
+            messageMapper={blockExplorerMessageMapper}
           />
         }
       />

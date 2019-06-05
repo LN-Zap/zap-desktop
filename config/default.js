@@ -95,6 +95,9 @@ module.exports = {
     litecoin: 'lits',
   },
 
+  // Default block explorer (blockstream|blockcypher|smartbit|insight)
+  blockExplorer: 'blockstream',
+
   // Default invoice settings
   invoices: {
     expire: 86400,
