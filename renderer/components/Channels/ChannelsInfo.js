@@ -7,30 +7,37 @@ import ChannelsCapacity from './ChannelsCapacity'
 import ChannelsSummaryDonut from './ChannelsSummaryDonut'
 import messages from './messages'
 
-const ChannelsInfo = ({ channels, receiveCapacity, sendCapacity, ...rest }) => (
-  <Card pb={2} pt={2} px={3} width={1} {...rest}>
-    <Flex alignItems="center" as="section" justifyContent="space-between" mt={2}>
-      <Flex alignItems="center" as="section">
-        <ChannelsSummaryDonut
-          mr={3}
-          receiveCapacity={receiveCapacity}
-          sendCapacity={sendCapacity}
-          width={40}
-        />
-        <ChannelsCapacity
-          capacity={sendCapacity}
-          message={<FormattedMessage {...messages.total_capacity_send} />}
-          mr={3}
-        />
-        <ChannelsCapacity
-          capacity={receiveCapacity}
-          color="superBlue"
-          message={<FormattedMessage {...messages.total_capacity_receive} />}
-        />
+const ChannelsInfo = ({ channels, receiveCapacity, sendCapacity, ...rest }) => {
+  const hasCapacity = Boolean(receiveCapacity || sendCapacity)
+  return (
+    <Card pb={2} pt={2} px={3} width={1} {...rest}>
+      <Flex alignItems="center" as="section" justifyContent="space-between" mt={2}>
+        <Flex alignItems="center" as="section">
+          {hasCapacity && (
+            <ChannelsSummaryDonut
+              mr={3}
+              receiveCapacity={receiveCapacity}
+              sendCapacity={sendCapacity}
+              width={40}
+            />
+          )}
+          <ChannelsCapacity
+            capacity={sendCapacity}
+            message={<FormattedMessage {...messages.total_capacity_send} />}
+            mr={3}
+            my={2}
+          />
+          <ChannelsCapacity
+            capacity={receiveCapacity}
+            color="superBlue"
+            message={<FormattedMessage {...messages.total_capacity_receive} />}
+            my={2}
+          />
+        </Flex>
       </Flex>
-    </Flex>
-  </Card>
-)
+    </Card>
+  )
+}
 
 ChannelsInfo.propTypes = {
   channels: PropTypes.array,
