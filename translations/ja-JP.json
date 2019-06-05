@@ -396,7 +396,7 @@
   "components.Request.subtitle": "",
   "components.Request.title": "支払請求",
   "components.Request.total": "",
-  "components.Settings.SettingsMenu.currency_title": "フィアットの通貨",
+  "components.Settings.SettingsMenu.currency_title": "",
   "components.Settings.SettingsMenu.disconnect_title": "",
   "components.Settings.SettingsMenu.locale_title": "言語",
   "components.Settings.SettingsMenu.logout_title": "",
