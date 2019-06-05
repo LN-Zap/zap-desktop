@@ -40,7 +40,7 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
           <Select
             field="address"
             highlightOnValid={false}
-            initialSelectedItem={currentConfig.address}
+            initialValue={currentConfig.address}
             items={addressItems}
             messageMapper={addressMessageMapper}
           />
@@ -55,7 +55,7 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
           <Select
             field="blockExplorer"
             highlightOnValid={false}
-            initialSelectedItem={currentConfig.blockExplorer}
+            initialValue={currentConfig.blockExplorer}
             items={blockExplorerItems}
             messageMapper={blockExplorerMessageMapper}
           />
