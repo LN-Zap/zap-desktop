@@ -29,6 +29,7 @@
   "components.Activity.Payment.status_processing": "",
   "components.Activity.Payment.status_success": "",
   "components.Activity.Payment.type": "Lightning плащане",
+  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "",
   "components.Activity.PaymentModal.current_value": "",
   "components.Activity.PaymentModal.date_sent": "",

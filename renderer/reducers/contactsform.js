@@ -1,7 +1,8 @@
 import get from 'lodash.get'
 import { createSelector } from 'reselect'
 import partition from 'lodash.partition'
-import { getNodeDisplayName, truncateNodePubkey } from './network'
+import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
+import { getNodeDisplayName } from './network'
 
 // Initial State
 const initialState = {

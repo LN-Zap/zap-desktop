@@ -29,6 +29,7 @@
   "components.Activity.Payment.status_processing": "Zap procesuira vaše plaćanje. Ovo može potrajati do jedne minute.",
   "components.Activity.Payment.status_success": "Vaše plaćanje je bilo uspješno.",
   "components.Activity.Payment.type": "LN plaćanje",
+  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "Iznos",
   "components.Activity.PaymentModal.current_value": "Trenutna vrijednost",
   "components.Activity.PaymentModal.date_sent": "Datum slanja",

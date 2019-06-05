@@ -29,6 +29,7 @@
   "components.Activity.Payment.status_processing": "Tá Zap ag próiseáil d'íocaíochta. Is féidir é seo a dhéanamh go dtí 01:00 nóiméad.",
   "components.Activity.Payment.status_success": "D'éirigh le d'íocaíocht.",
   "components.Activity.Payment.type": "Íocaíocht lightning",
+  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "Méid",
   "components.Activity.PaymentModal.current_value": "Luach reatha",
   "components.Activity.PaymentModal.date_sent": "Dáta a seoladh",

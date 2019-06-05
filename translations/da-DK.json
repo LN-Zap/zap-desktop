@@ -29,6 +29,7 @@
   "components.Activity.Payment.status_processing": "Zap behandler din betaling. Dette kan tage op til 01:00 min.",
   "components.Activity.Payment.status_success": "Din betaling var succesfuld.",
   "components.Activity.Payment.type": "Lightning betaling",
+  "components.Activity.Payment.unknown": "",
   "components.Activity.PaymentModal.amount": "Beløb",
   "components.Activity.PaymentModal.current_value": "Nuværende værdi",
   "components.Activity.PaymentModal.date_sent": "Dato sendt",
