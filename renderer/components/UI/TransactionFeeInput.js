@@ -40,6 +40,7 @@ const speedMessageMap = [
     messageKey: 'transaction_speed_description_slowest',
   },
 ]
+
 function TransactionFeeInput({
   lndTargetConfirmations,
   isQueryingFees,
@@ -49,15 +50,7 @@ function TransactionFeeInput({
   formApi,
   fee,
 }) {
-  const CONF_MAP = {
-    [TRANSACTION_SPEED_SLOW]: lndTargetConfirmations.slow,
-    [TRANSACTION_SPEED_MEDIUM]: lndTargetConfirmations.medium,
-    [TRANSACTION_SPEED_FAST]: lndTargetConfirmations.fast,
-  }
   const value = formApi.getValue(field)
-  const targetConf = CONF_MAP[value]
-  const speedMessageKey =
-    targetConf && speedMessageMap.find(item => targetConf <= item.threshold).messageKey
   return (
     <Flex alignItems="center" justifyContent="space-between">
       <Box>
@@ -95,16 +88,39 @@ function TransactionFeeInput({
               <CryptoSelector mx={2} />
               <FormattedMessage {...messages.fee_per_byte} />
             </Box>
-            {speedMessageKey && (
-              <Text color="gray">
-                <FormattedMessage {...messages[speedMessageKey]} />
-              </Text>
-            )}
+            <TransactionSpeedDesc
+              color="gray"
+              lndTargetConfirmations={lndTargetConfirmations}
+              speed={value}
+            />
           </Flex>
         )}
       </Box>
     </Flex>
   )
+}
+
+export function TransactionSpeedDesc({ lndTargetConfirmations, speed, ...rest }) {
+  const CONF_MAP = {
+    [TRANSACTION_SPEED_SLOW]: lndTargetConfirmations.slow,
+    [TRANSACTION_SPEED_MEDIUM]: lndTargetConfirmations.medium,
+    [TRANSACTION_SPEED_FAST]: lndTargetConfirmations.fast,
+  }
+  const targetConf = CONF_MAP[speed]
+  const speedMessageKey =
+    targetConf && speedMessageMap.find(item => targetConf <= item.threshold).messageKey
+  return (
+    speedMessageKey && (
+      <Text {...rest}>
+        <FormattedMessage {...messages[speedMessageKey]} />
+      </Text>
+    )
+  )
+}
+
+TransactionSpeedDesc.propTypes = {
+  lndTargetConfirmations: PropTypes.object.isRequired,
+  speed: PropTypes.string.isRequired,
 }
 
 TransactionFeeInput.propTypes = {

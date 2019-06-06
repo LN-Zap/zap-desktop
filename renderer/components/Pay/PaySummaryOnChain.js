@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 import BigArrowRight from 'components/Icon/BigArrowRight'
-import { Bar, DataRow, Spinner, Text } from 'components/UI'
+import { Bar, DataRow, Spinner, Text, TransactionSpeedDesc } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
@@ -22,6 +22,7 @@ class PaySummaryOnChain extends React.Component {
     isCoinSweep: PropTypes.bool,
     /** Boolean indicating wether routing information is currently being fetched. */
     isQueryingFees: PropTypes.bool,
+    lndTargetConfirmations: PropTypes.object.isRequired,
     /** Current fee information as provided by bitcoinfees.earn.com */
     onchainFees: PropTypes.shape({
       fast: PropTypes.number,
@@ -52,11 +53,11 @@ class PaySummaryOnChain extends React.Component {
       onchainFees,
       isQueryingFees,
       isCoinSweep,
+      lndTargetConfirmations,
       fee,
       speed,
       ...rest
     } = this.props
-
     return (
       <Box {...rest}>
         <Box py={3}>
@@ -115,9 +116,11 @@ class PaySummaryOnChain extends React.Component {
                 <Text>
                   {fee} satoshis <FormattedMessage {...messages.fee_per_byte} />
                 </Text>
-                <Text fontSize="s">
-                  <FormattedMessage {...messages[speed.toLowerCase() + '_description']} />
-                </Text>
+                <TransactionSpeedDesc
+                  fontSize="s"
+                  lndTargetConfirmations={lndTargetConfirmations}
+                  speed={speed}
+                />
               </React.Fragment>
             ) : (
               <FormattedMessage {...messages.fee_unknown} />
