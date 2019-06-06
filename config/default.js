@@ -1,6 +1,5 @@
 import getPackageDetails from '../utils/getPackageDetails'
 import isStableVersion from '../utils/isStableVersion'
-
 // The current stable base version.
 // If the current version is in the same range asd this, the default database domain will be used.
 const STABLE_VERSION = '0.4.x'
@@ -70,7 +69,7 @@ module.exports = {
       port: [8080, 8081, 8082, 8083, 8084, 8085, 8086, 8087, 8088, 8089],
     },
     p2p: {
-      host: '0.0.0.0',
+      host: '', // disable p2p
       port: [9735, 9734, 9733, 9732, 9731, 9736, 9737, 9738, 9739],
     },
 
@@ -89,7 +88,7 @@ module.exports = {
     recoveryWindow: 2500,
   },
 
-  // Default curreny units.
+  // Default currency units.
   units: {
     bitcoin: 'sats',
     litecoin: 'lits',
