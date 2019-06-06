@@ -2,6 +2,7 @@
   "components.Activity.ActivityActions.actiity_filter_all": "Tout",
   "components.Activity.ActivityActions.actiity_filter_expired": "Expiré",
   "components.Activity.ActivityActions.actiity_filter_internal": "Interne",
+  "components.Activity.ActivityActions.actiity_filter_label": "",
   "components.Activity.ActivityActions.actiity_filter_pending": "En attente",
   "components.Activity.ActivityActions.actiity_filter_received": "Reçu",
   "components.Activity.ActivityActions.actiity_filter_sent": "Envoyé",

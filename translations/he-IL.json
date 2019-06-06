@@ -2,6 +2,7 @@
   "components.Activity.ActivityActions.actiity_filter_all": "",
   "components.Activity.ActivityActions.actiity_filter_expired": "",
   "components.Activity.ActivityActions.actiity_filter_internal": "",
+  "components.Activity.ActivityActions.actiity_filter_label": "",
   "components.Activity.ActivityActions.actiity_filter_pending": "",
   "components.Activity.ActivityActions.actiity_filter_received": "",
   "components.Activity.ActivityActions.actiity_filter_sent": "",
