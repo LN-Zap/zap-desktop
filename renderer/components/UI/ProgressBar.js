@@ -7,14 +7,15 @@ import { tint } from 'polished'
 
 const SystemCard = system({ extend: BaseCard }, 'height')
 
-const EmptyBar = ({ children, ...rest }) => (
-  <SystemCard borderRadius={8} color="primaryText" height={10} {...rest}>
+const EmptyBar = ({ children, height, ...rest }) => (
+  <SystemCard borderRadius={100} color="primaryText" height={height} {...rest}>
     {children}
   </SystemCard>
 )
 
 EmptyBar.propTypes = {
   children: PropTypes.node,
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
 }
 
 const FilledBar = styled(EmptyBar)`
@@ -26,21 +27,28 @@ const FilledBar = styled(EmptyBar)`
   margin-left: ${props => (props.justify === 'right' ? 'auto' : 'none')};
 `
 
-const ProgressBar = ({ progress, color, bg, justify, ...rest }) => (
-  <EmptyBar bg={bg} {...rest}>
-    {progress > 0 && <FilledBar bg={color} justify={justify} width={progress} />}
+const ProgressBar = ({ progress, color, height, bg, justify, children, ...rest }) => (
+  <EmptyBar bg={bg} {...rest} height={height}>
+    {progress > 0 && (
+      <FilledBar bg={color} height={height} justify={justify} width={progress}>
+        {children}
+      </FilledBar>
+    )}
   </EmptyBar>
 )
 
 ProgressBar.propTypes = {
   bg: PropTypes.string,
+  children: PropTypes.node,
   color: PropTypes.string,
+  height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   justify: PropTypes.string,
   progress: PropTypes.number,
 }
 
 ProgressBar.defaultProps = {
   progress: 0,
+  height: 10,
   bg: 'tertiaryColor',
   color: 'lightningOrange',
   justify: 'left',

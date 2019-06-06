@@ -1,4 +1,4 @@
-import React, { useRef, useMemo } from 'react'
+import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import { compose } from 'redux'
@@ -7,6 +7,7 @@ import styled, { withTheme } from 'styled-components'
 import Downshift from 'downshift'
 import { Box, Flex } from 'rebass'
 import system from '@rebass/components'
+import { useIntl } from 'hooks'
 import Check from 'components/Icon/Check'
 import AngleUp from 'components/Icon/AngleUp'
 import AngleDown from 'components/Icon/AngleDown'
@@ -77,27 +78,6 @@ const getInitialSelectedItem = (items, initialSelectedItem) => {
         initialSelectedItem: items.find(i => i.key === initialSelectedItem),
       }
     : {}
-}
-
-/**
- * Internationalizes select items
- *
- * @param {Array} items
- * @callback messageMapper key=>intl message mapper
- * @param {intlShape} intl
- * @returns {Array}
- */
-function useIntl(items, messageMapper, intl) {
-  return useMemo(() => {
-    // if messageMapper is not set just original items array
-    // in this case items should already contain value prop for each key
-    if (!messageMapper) {
-      return items
-    }
-    return items.map(({ key }) => {
-      return { key, value: intl.formatMessage({ ...messageMapper(key) }) }
-    })
-  }, [items, messageMapper, intl])
 }
 
 function Select(props) {

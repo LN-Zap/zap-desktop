@@ -910,6 +910,34 @@ channelsSelectors.selectedChannel = createSelector(
   }
 )
 
+channelsSelectors.capacity = createSelector(
+  channelsSelectors.allChannelsRaw,
+  allChannels => {
+    let send = 0
+    let receive = 0
+    allChannels.forEach(channel => {
+      const channelData = getChannelData(channel)
+      if (channelData.local_balance) {
+        send += channelData.local_balance
+      }
+      if (channelData.remote_balance) {
+        receive += channelData.remote_balance
+      }
+    })
+    return { send, receive }
+  }
+)
+
+channelsSelectors.sendCapacity = createSelector(
+  channelsSelectors.capacity,
+  capacity => capacity.send
+)
+
+channelsSelectors.receiveCapacity = createSelector(
+  channelsSelectors.capacity,
+  capacity => capacity.receive
+)
+
 export { channelsSelectors }
 
 // ------------------------------------
@@ -934,21 +962,21 @@ const initialState = {
 
   filter: 'ALL_CHANNELS',
   filters: [
-    { key: 'ALL_CHANNELS', name: 'All' },
-    { key: 'ACTIVE_CHANNELS', name: 'Online' },
-    { key: 'NON_ACTIVE_CHANNELS', name: 'Offline' },
-    { key: 'OPEN_PENDING_CHANNELS', name: 'Pending' },
-    { key: 'CLOSING_PENDING_CHANNELS', name: 'Closing' },
+    { key: 'ALL_CHANNELS', value: 'All' },
+    { key: 'ACTIVE_CHANNELS', value: 'Online' },
+    { key: 'NON_ACTIVE_CHANNELS', value: 'Offline' },
+    { key: 'OPEN_PENDING_CHANNELS', value: 'Pending' },
+    { key: 'CLOSING_PENDING_CHANNELS', value: 'Closing' },
   ],
   sortOrder: 'asc',
   sort: 'OPEN_DATE',
   sorters: [
-    { key: OPEN_DATE, name: 'Open date' },
-    { key: REMOTE_BALANCE, name: 'Remote balance' },
-    { key: LOCAL_BALANCE, name: 'Local balance' },
-    { key: ACTIVITY, name: 'Activity' },
-    { key: NAME, name: 'Name' },
-    { key: CAPACITY, name: 'Capacity' },
+    { key: OPEN_DATE, value: 'Open date' },
+    { key: REMOTE_BALANCE, value: 'Remote balance' },
+    { key: LOCAL_BALANCE, value: 'Local balance' },
+    { key: ACTIVITY, value: 'Activity' },
+    { key: NAME, value: 'Name' },
+    { key: CAPACITY, value: 'Capacity' },
   ],
 
   selectedChannelId: null,

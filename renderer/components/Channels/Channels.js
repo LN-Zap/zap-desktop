@@ -4,7 +4,7 @@ import debounce from 'lodash.debounce'
 import styled from 'styled-components'
 import { Panel } from 'components/UI'
 import PersistentTabControl from 'components/TabControl/PersistentTabControl'
-import ChannelsHeader from './ChannelsHeader'
+import ChannelsHeader from 'containers/Channels/ChannelsHeader'
 import ChannelCardList from './ChannelCardList'
 import ChannelSummaryList from './ChannelSummaryList'
 import { CHANNEL_LIST_VIEW_MODE_CARD } from './constants'
@@ -15,33 +15,19 @@ const StyledPersistentTabControl = styled(PersistentTabControl)`
 
 class Channels extends React.Component {
   static propTypes = {
-    allChannels: PropTypes.array,
-    changeFilter: PropTypes.func.isRequired,
-    changeSort: PropTypes.func.isRequired,
-    channelBalance: PropTypes.number.isRequired,
     channels: PropTypes.array,
     channelViewMode: PropTypes.string.isRequired,
     currencyName: PropTypes.string.isRequired,
-    fetchChannels: PropTypes.func.isRequired,
-    filter: PropTypes.string.isRequired,
-    filters: PropTypes.array.isRequired,
     networkInfo: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
     }),
     openModal: PropTypes.func.isRequired,
-    searchQuery: PropTypes.string,
-    setChannelViewMode: PropTypes.func.isRequired,
     setSelectedChannel: PropTypes.func.isRequired,
-    sort: PropTypes.string.isRequired,
-    sorters: PropTypes.array.isRequired,
-    sortOrder: PropTypes.string.isRequired,
-    switchSortOrder: PropTypes.func.isRequired,
     updateChannelSearchQuery: PropTypes.func.isRequired,
   }
 
   static defaultProps = {
-    allChannels: [],
     channels: [],
   }
 
@@ -50,50 +36,20 @@ class Channels extends React.Component {
 
   render() {
     const {
-      allChannels,
       channels,
-      channelBalance,
-      changeFilter,
       channelViewMode,
       currencyName,
-      fetchChannels,
-      filter,
-      filters,
-      sort,
-      sorters,
       networkInfo,
-      setChannelViewMode,
       openModal,
       setSelectedChannel,
       updateChannelSearchQuery,
-      searchQuery,
-      changeSort,
-      sortOrder,
-      switchSortOrder,
       ...rest
     } = this.props
 
     return (
       <Panel {...rest}>
-        <Panel.Header mx={4}>
-          <ChannelsHeader
-            changeFilter={changeFilter}
-            changeSort={changeSort}
-            channelBalance={channelBalance}
-            channels={allChannels}
-            channelViewMode={channelViewMode}
-            fetchChannels={fetchChannels}
-            filter={filter}
-            filters={filters}
-            openModal={openModal}
-            searchQuery={searchQuery}
-            setChannelViewMode={setChannelViewMode}
-            sort={sort}
-            sorters={sorters}
-            sortOrder={sortOrder}
-            switchSortOrder={switchSortOrder}
-            updateChannelSearchQuery={this.updateChannelSearchQuery}
-          />
+        <Panel.Header>
+          <ChannelsHeader updateChannelSearchQuery={this.updateChannelSearchQuery} />
         </Panel.Header>
         <Panel.Body css={{ overflow: 'hidden' }}>
           <StyledPersistentTabControl

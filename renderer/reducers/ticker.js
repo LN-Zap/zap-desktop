@@ -230,29 +230,29 @@ const initialState = {
     bitcoin: [
       {
         key: 'btc',
-        name: 'BTC',
+        value: 'BTC',
       },
       {
         key: 'bits',
-        name: 'bits',
+        value: 'bits',
       },
       {
         key: 'sats',
-        name: 'satoshis',
+        value: 'satoshis',
       },
     ],
     litecoin: [
       {
         key: 'ltc',
-        name: 'LTC',
+        value: 'LTC',
       },
       {
         key: 'phots',
-        name: 'photons',
+        value: 'photons',
       },
       {
         key: 'lits',
-        name: 'litoshis',
+        value: 'litoshis',
       },
     ],
   },

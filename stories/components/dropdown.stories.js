@@ -14,15 +14,15 @@ storiesOf('Components', module).addWithChapters('Dropdown', {
             const items = [
               {
                 key: 'btc',
-                name: 'BTC',
+                value: 'BTC',
               },
               {
                 key: 'bits',
-                name: 'bits',
+                value: 'bits',
               },
               {
                 key: 'sats',
-                name: 'satoshis',
+                value: 'satoshis',
               },
             ]
             return <Dropdown activeKey={activeKey} items={items} onChange={action('onChange')} />
@@ -35,15 +35,15 @@ storiesOf('Components', module).addWithChapters('Dropdown', {
             const items = [
               {
                 key: 'usd',
-                name: 'USD',
+                value: 'USD',
               },
               {
                 key: 'eur',
-                name: 'EUR',
+                value: 'EUR',
               },
               {
                 key: 'gbp',
-                name: 'GBP',
+                value: 'GBP',
               },
             ]
             return (

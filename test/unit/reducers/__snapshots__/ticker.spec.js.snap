@@ -9,29 +9,29 @@ Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
-        "name": "BTC",
+        "value": "BTC",
       },
       Object {
         "key": "bits",
-        "name": "bits",
+        "value": "bits",
       },
       Object {
         "key": "sats",
-        "name": "satoshis",
+        "value": "satoshis",
       },
     ],
     "litecoin": Array [
       Object {
         "key": "ltc",
-        "name": "LTC",
+        "value": "LTC",
       },
       Object {
         "key": "phots",
-        "name": "photons",
+        "value": "photons",
       },
       Object {
         "key": "lits",
-        "name": "litoshis",
+        "value": "litoshis",
       },
     ],
   },
@@ -76,29 +76,29 @@ Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
-        "name": "BTC",
+        "value": "BTC",
       },
       Object {
         "key": "bits",
-        "name": "bits",
+        "value": "bits",
       },
       Object {
         "key": "sats",
-        "name": "satoshis",
+        "value": "satoshis",
       },
     ],
     "litecoin": Array [
       Object {
         "key": "ltc",
-        "name": "LTC",
+        "value": "LTC",
       },
       Object {
         "key": "phots",
-        "name": "photons",
+        "value": "photons",
       },
       Object {
         "key": "lits",
-        "name": "litoshis",
+        "value": "litoshis",
       },
     ],
   },
@@ -143,29 +143,29 @@ Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
-        "name": "BTC",
+        "value": "BTC",
       },
       Object {
         "key": "bits",
-        "name": "bits",
+        "value": "bits",
       },
       Object {
         "key": "sats",
-        "name": "satoshis",
+        "value": "satoshis",
       },
     ],
     "litecoin": Array [
       Object {
         "key": "ltc",
-        "name": "LTC",
+        "value": "LTC",
       },
       Object {
         "key": "phots",
-        "name": "photons",
+        "value": "photons",
       },
       Object {
         "key": "lits",
-        "name": "litoshis",
+        "value": "litoshis",
       },
     ],
   },
@@ -210,29 +210,29 @@ Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
-        "name": "BTC",
+        "value": "BTC",
       },
       Object {
         "key": "bits",
-        "name": "bits",
+        "value": "bits",
       },
       Object {
         "key": "sats",
-        "name": "satoshis",
+        "value": "satoshis",
       },
     ],
     "litecoin": Array [
       Object {
         "key": "ltc",
-        "name": "LTC",
+        "value": "LTC",
       },
       Object {
         "key": "phots",
-        "name": "photons",
+        "value": "photons",
       },
       Object {
         "key": "lits",
-        "name": "litoshis",
+        "value": "litoshis",
       },
     ],
   },
@@ -277,29 +277,29 @@ Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
-        "name": "BTC",
+        "value": "BTC",
       },
       Object {
         "key": "bits",
-        "name": "bits",
+        "value": "bits",
       },
       Object {
         "key": "sats",
-        "name": "satoshis",
+        "value": "satoshis",
       },
     ],
     "litecoin": Array [
       Object {
         "key": "ltc",
-        "name": "LTC",
+        "value": "LTC",
       },
       Object {
         "key": "phots",
-        "name": "photons",
+        "value": "photons",
       },
       Object {
         "key": "lits",
-        "name": "litoshis",
+        "value": "litoshis",
       },
     ],
   },

@@ -23,7 +23,7 @@ const createThemeVariant = (name, colors) => {
       '&.active': {
         opacity: 1,
       },
-      backgroundColor: 'transparent',
+      backgroundColor: 'inherit',
       color: colors.primaryText,
       '&:hover:enabled': {
         opacity: 1,

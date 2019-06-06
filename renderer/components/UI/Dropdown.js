@@ -1,8 +1,10 @@
-import React from 'react'
+import React, { useRef, useState } from 'react'
 import PropTypes from 'prop-types'
+import { injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
 import { opacity } from 'styled-system'
+import { useOnClickOutside, useIntl } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
 import AngleUp from 'components/Icon/AngleUp'
@@ -103,7 +105,7 @@ export const MenuItem = withTheme(
             {active && <Check height="0.95em" />}
           </Text>
         )}
-        <Text mr={2}>{item.name}</Text>
+        <Text mr={2}>{item.value}</Text>
 
         <Flex alignItems="center" color="gray" justifyContent="flex-end" ml="auto" width="20px">
           {hasChildren && <AngleRight height="8px" />}
@@ -113,83 +115,47 @@ export const MenuItem = withTheme(
   )
 )
 
-/**
- * @render react
- * @name Dropdown
- * @example
- * <Dropdown items={[
- *    {name: 'Item 1', key: 'key1'},
- *    {name: 'Item 2', key: 'key2'}
- *  ]} activeKey="key1" />
- */
-class Dropdown extends React.Component {
-  state = {
-    isOpen: false,
-  }
+const Dropdown = injectIntl(
+  ({ activeKey, intl, items, justify, theme, buttonOpacity, onChange, messageMapper, ...rest }) => {
+    // State to track dropdown open state.
+    const [isOpen, setIsOpen] = useState(false)
+    const toggleMenu = () => setIsOpen(!isOpen)
 
-  static propTypes = {
-    activeKey: PropTypes.string.isRequired,
-    buttonOpacity: PropTypes.number,
-    items: PropTypes.array.isRequired,
-    justify: PropTypes.string,
-    onChange: PropTypes.func,
-    theme: PropTypes.object.isRequired,
-  }
+    // Close the dropdown if the user clicks outside our elements.
+    const wrapperRef = useRef(null)
+    useOnClickOutside([wrapperRef], () => setIsOpen(false))
 
-  componentDidMount() {
-    document.addEventListener('mousedown', this.handleClickOutside)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('mousedown', this.handleClickOutside)
-  }
-
-  setWrapperRef = node => {
-    this.wrapperRef = node
-  }
-
-  handleClick = key => {
-    const { onChange, activeKey } = this.props
-    if (key !== activeKey) {
-      if (onChange) {
-        onChange(key)
-      }
-    }
-    this.setState({ isOpen: false })
-  }
-
-  handleClickOutside = event => {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
-      this.setState({ isOpen: false })
-    }
-  }
-
-  toggleMenu = () => {
-    const { isOpen } = this.state
-    this.setState({ isOpen: !isOpen })
-  }
-
-  render() {
-    const { isOpen } = this.state
-    let { activeKey, items, justify, theme, buttonOpacity, ...rest } = this.props
     // coerce array of strings into array of objects.
-    items = items.map(item => {
+    let itemsArray = items.map(item => {
       if (typeof item === 'string') {
         return {
-          name: item,
+          value: item,
           key: item,
         }
       }
       return item
     })
-    const selectedItem = items.find(c => c.key === activeKey)
+
+    itemsArray = useIntl(itemsArray, messageMapper, intl)
+
+    const selectedItem = itemsArray.find(c => c.key === activeKey)
+
+    const handleClick = key => {
+      if (key !== activeKey) {
+        if (onChange) {
+          onChange(key)
+        }
+      }
+      setIsOpen(false)
+    }
+
     return (
       <div style={{ display: 'inline-block' }}>
-        <DropdownContainer ref={this.setWrapperRef} {...rest}>
-          <DropdownButton onClick={this.toggleMenu} opacity={buttonOpacity} type="button">
+        <DropdownContainer {...rest} ref={wrapperRef}>
+          <DropdownButton onClick={toggleMenu} opacity={buttonOpacity} type="button">
             <Flex alignItems="center">
               <Text mr={1} textAlign="left">
-                {selectedItem ? selectedItem.name : activeKey}{' '}
+                {selectedItem ? selectedItem.value : activeKey}{' '}
               </Text>
               <Flex color="gray">
                 {isOpen ? <AngleUp width="0.6em" /> : <AngleDown width="0.6em" />}
@@ -199,13 +165,13 @@ class Dropdown extends React.Component {
           {isOpen && (
             <MenuContainer>
               <Menu justify={justify}>
-                {items.map(item => {
+                {itemsArray.map(item => {
                   return (
                     <MenuItem
                       key={item.key}
                       active={activeKey === item.key}
                       item={item}
-                      onClick={() => this.handleClick(item.key)}
+                      onClick={() => handleClick(item.key)}
                     />
                   )
                 })}
@@ -216,6 +182,15 @@ class Dropdown extends React.Component {
       </div>
     )
   }
+)
+
+Dropdown.propTypes = {
+  activeKey: PropTypes.string.isRequired,
+  buttonOpacity: PropTypes.number,
+  items: PropTypes.array.isRequired,
+  justify: PropTypes.string,
+  onChange: PropTypes.func,
+  theme: PropTypes.object.isRequired,
 }
 
 export default withTheme(Dropdown)

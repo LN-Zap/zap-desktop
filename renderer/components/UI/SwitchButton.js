@@ -34,7 +34,7 @@ IconButton.propTypes = {
 }
 
 const SwitchButton = ({ isSwitched, onClick, ...rest }) => (
-  <IconButton {...rest} isSwitched={isSwitched} onClick={onClick} px={2} py={1} />
+  <IconButton {...rest} isSwitched={isSwitched} onClick={onClick} px={2} />
 )
 
 SwitchButton.propTypes = {

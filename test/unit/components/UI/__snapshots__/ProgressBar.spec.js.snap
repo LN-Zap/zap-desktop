@@ -3,9 +3,11 @@
 exports[`component.UI.ProgressBar should render correctly (50%) 1`] = `
 <EmptyBar
   bg="tertiaryColor"
+  height={10}
 >
   <ProgressBar__FilledBar
     bg="lightningOrange"
+    height={10}
     justify="left"
     width={0.5}
   />
@@ -15,9 +17,11 @@ exports[`component.UI.ProgressBar should render correctly (50%) 1`] = `
 exports[`component.UI.ProgressBar should render correctly (100%) 1`] = `
 <EmptyBar
   bg="tertiaryColor"
+  height={10}
 >
   <ProgressBar__FilledBar
     bg="lightningOrange"
+    height={10}
     justify="left"
     width={1}
   />
@@ -27,9 +31,11 @@ exports[`component.UI.ProgressBar should render correctly (100%) 1`] = `
 exports[`component.UI.ProgressBar should render correctly (blue) 1`] = `
 <EmptyBar
   bg="tertiaryColor"
+  height={10}
 >
   <ProgressBar__FilledBar
     bg="superBlue"
+    height={10}
     justify="left"
     width={0.5}
   />
@@ -39,15 +45,18 @@ exports[`component.UI.ProgressBar should render correctly (blue) 1`] = `
 exports[`component.UI.ProgressBar should render correctly (default) 1`] = `
 <EmptyBar
   bg="tertiaryColor"
+  height={10}
 />
 `;
 
 exports[`component.UI.ProgressBar should render correctly (right justify) 1`] = `
 <EmptyBar
   bg="tertiaryColor"
+  height={10}
 >
   <ProgressBar__FilledBar
     bg="lightningOrange"
+    height={10}
     justify="right"
     width={0.5}
   />

@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
-import Sync from 'components/Icon/Sync'
+import Refresh from 'components/Icon/Refresh'
 import { ActionButton } from 'components/UI'
 import messages from './messages'
 
@@ -11,7 +11,7 @@ const ActivityRefresh = injectIntl(({ intl, onClick, ...rest }) => (
     onClick={onClick}
     {...rest}
   >
-    <Sync height="16px" width="16px" />
+    <Refresh height="16px" width="16px" />
   </ActionButton>
 ))
 

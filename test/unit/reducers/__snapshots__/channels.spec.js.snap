@@ -11,23 +11,23 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
-      "name": "All",
+      "value": "All",
     },
     Object {
       "key": "ACTIVE_CHANNELS",
-      "name": "Online",
+      "value": "Online",
     },
     Object {
       "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline",
+      "value": "Offline",
     },
     Object {
       "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending",
+      "value": "Pending",
     },
     Object {
       "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing",
+      "value": "Closing",
     },
   ],
   "loadingChannels": Array [],
@@ -45,27 +45,27 @@ Object {
   "sorters": Array [
     Object {
       "key": "OPEN_DATE",
-      "name": "Open date",
+      "value": "Open date",
     },
     Object {
       "key": "REMOTE_BALANCE",
-      "name": "Remote balance",
+      "value": "Remote balance",
     },
     Object {
       "key": "LOCAL_BALANCE",
-      "name": "Local balance",
+      "value": "Local balance",
     },
     Object {
       "key": "ACTIVITY",
-      "name": "Activity",
+      "value": "Activity",
     },
     Object {
       "key": "NAME",
-      "name": "Name",
+      "value": "Name",
     },
     Object {
       "key": "CAPACITY",
-      "name": "Capacity",
+      "value": "Capacity",
     },
   ],
   "suggestedNodes": Object {
@@ -92,23 +92,23 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
-      "name": "All",
+      "value": "All",
     },
     Object {
       "key": "ACTIVE_CHANNELS",
-      "name": "Online",
+      "value": "Online",
     },
     Object {
       "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline",
+      "value": "Offline",
     },
     Object {
       "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending",
+      "value": "Pending",
     },
     Object {
       "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing",
+      "value": "Closing",
     },
   ],
   "loadingChannels": Array [],
@@ -123,27 +123,27 @@ Object {
   "sorters": Array [
     Object {
       "key": "OPEN_DATE",
-      "name": "Open date",
+      "value": "Open date",
     },
     Object {
       "key": "REMOTE_BALANCE",
-      "name": "Remote balance",
+      "value": "Remote balance",
     },
     Object {
       "key": "LOCAL_BALANCE",
-      "name": "Local balance",
+      "value": "Local balance",
     },
     Object {
       "key": "ACTIVITY",
-      "name": "Activity",
+      "value": "Activity",
     },
     Object {
       "key": "NAME",
-      "name": "Name",
+      "value": "Name",
     },
     Object {
       "key": "CAPACITY",
-      "name": "Capacity",
+      "value": "Capacity",
     },
   ],
   "suggestedNodes": Object {
@@ -167,23 +167,23 @@ Object {
   "filters": Array [
     Object {
       "key": "ALL_CHANNELS",
-      "name": "All",
+      "value": "All",
     },
     Object {
       "key": "ACTIVE_CHANNELS",
-      "name": "Online",
+      "value": "Online",
     },
     Object {
       "key": "NON_ACTIVE_CHANNELS",
-      "name": "Offline",
+      "value": "Offline",
     },
     Object {
       "key": "OPEN_PENDING_CHANNELS",
-      "name": "Pending",
+      "value": "Pending",
     },
     Object {
       "key": "CLOSING_PENDING_CHANNELS",
-      "name": "Closing",
+      "value": "Closing",
     },
   ],
   "loadingChannels": Array [],
@@ -201,27 +201,27 @@ Object {
   "sorters": Array [
     Object {
       "key": "OPEN_DATE",
-      "name": "Open date",
+      "value": "Open date",
     },
     Object {
       "key": "REMOTE_BALANCE",
-      "name": "Remote balance",
+      "value": "Remote balance",
     },
     Object {
       "key": "LOCAL_BALANCE",
-      "name": "Local balance",
+      "value": "Local balance",
     },
     Object {
       "key": "ACTIVITY",
-      "name": "Activity",
+      "value": "Activity",
     },
     Object {
       "key": "NAME",
-      "name": "Name",
+      "value": "Name",
     },
     Object {
       "key": "CAPACITY",
-      "name": "Capacity",
+      "value": "Capacity",
     },
   ],
   "suggestedNodes": Object {
