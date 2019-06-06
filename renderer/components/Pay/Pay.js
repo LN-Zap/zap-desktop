@@ -559,7 +559,7 @@ class Pay extends React.Component {
 
   renderSummary = () => {
     const { currentStep, isOnchain } = this.state
-    const { routes } = this.props
+    const { routes, lndTargetConfirmations } = this.props
 
     const formState = this.formApi.getState()
     const { speed, payReq, isCoinSweep } = formState.values
@@ -579,6 +579,7 @@ class Pay extends React.Component {
             amount={amount}
             fee={this.getFee()}
             isCoinSweep={isCoinSweep}
+            lndTargetConfirmations={lndTargetConfirmations}
             mt={-3}
             speed={speed}
           />
