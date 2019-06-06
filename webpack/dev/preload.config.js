@@ -1,7 +1,7 @@
 import path from 'path'
 import merge from 'webpack-merge'
 import baseConfig, { rootDir } from '../webpack.config.base'
-import devServer, { publicPath } from './common/devserver'
+import { publicPath } from './common/devserver'
 import plugins from './common/plugins'
 
 const config = merge.smart(baseConfig, {
@@ -16,7 +16,6 @@ const config = merge.smart(baseConfig, {
     filename: '[name].js',
     publicPath,
   },
-  devServer,
   plugins,
   node: {
     __dirname: false,

@@ -9,7 +9,6 @@ const devServer = {
   hot: true,
   publicPath,
   headers: { 'Access-Control-Allow-Origin': '*' },
-  writeToDisk: true,
 
   watchOptions: {
     aggregateTimeout: 300,

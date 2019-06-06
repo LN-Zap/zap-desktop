@@ -4,12 +4,12 @@
 
 import CleanWebpackPlugin from 'clean-webpack-plugin'
 
+import preloadConfig from './dev/preload.config'
 import mainConfig from './dev/main.config'
 import workersConfig from './dev/workers.config'
-import rendererConfig from './dev/renderer.config'
 
 mainConfig.plugins.unshift(
   new CleanWebpackPlugin({ cleanOnceBeforeBuildPatterns: ['**/*', '!config.json', '!preload.js'] })
 )
 
-export default [mainConfig, workersConfig, rendererConfig]
+export default [preloadConfig, mainConfig, workersConfig]

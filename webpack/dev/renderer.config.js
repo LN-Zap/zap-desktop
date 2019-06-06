@@ -29,6 +29,11 @@ const config = merge.smart(baseConfig, {
     children: false,
   },
   devServer,
+  resolve: {
+    alias: {
+      'react-dom': '@hot-loader/react-dom',
+    },
+  },
   plugins: [
     ...plugins,
     new HtmlWebpackPlugin({
