@@ -24,6 +24,7 @@ class WalletUnlocker extends React.Component {
     isLightningGrpcActive: PropTypes.bool.isRequired,
     isUnlockingWallet: PropTypes.bool,
     setUnlockWalletError: PropTypes.func.isRequired,
+    staticContext: PropTypes.object,
     unlockWallet: PropTypes.func.isRequired,
     unlockWalletError: PropTypes.string,
     wallet: PropTypes.object.isRequired,
@@ -72,9 +73,9 @@ class WalletUnlocker extends React.Component {
       unlockWallet,
       unlockWalletError,
       wallet,
+      staticContext,
       ...rest
     } = this.props
-
     return (
       <Form
         key={`wallet-unlocker-form-${wallet.id}`}
