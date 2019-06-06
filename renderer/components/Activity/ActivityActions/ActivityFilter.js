@@ -22,7 +22,7 @@ const ActivityFilter = ({ changeFilter, filter, filters, ...rest }) => (
       field="activity-filter"
       highlightOnValid={false}
       id="activity-filter"
-      initialSelectedItem={filter}
+      initialValue={filter}
       items={filters}
       messageMapper={messageMapper}
       onValueSelected={changeFilter}

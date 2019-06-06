@@ -33,7 +33,7 @@ const SettingsFieldsGeneral = ({ currentConfig }) => {
           <Select
             field="locale"
             highlightOnValid={false}
-            initialSelectedItem={currentConfig.locale}
+            initialValue={currentConfig.locale}
             items={localeItems}
           />
         }
@@ -47,7 +47,7 @@ const SettingsFieldsGeneral = ({ currentConfig }) => {
           <Select
             field="currency"
             highlightOnValid={false}
-            initialSelectedItem={currentConfig.currency}
+            initialValue={currentConfig.currency}
             items={currencyItems}
           />
         }
@@ -61,7 +61,7 @@ const SettingsFieldsGeneral = ({ currentConfig }) => {
           <Select
             field="theme"
             highlightOnValid={false}
-            initialSelectedItem={currentConfig.theme}
+            initialValue={currentConfig.theme}
             items={themeItems}
             messageMapper={themeMessageMapper}
           />
