@@ -9,8 +9,8 @@ import { infoSelectors } from 'reducers/info'
 const mapStateToProps = state => ({
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   chainName: infoSelectors.chainName(state),
-  cryptoCurrency: tickerSelectors.cryptoUnit(state),
-  cryptoCurrencyTicker: tickerSelectors.cryptoName(state),
+  cryptoUnit: tickerSelectors.cryptoUnit(state),
+  cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   isProcessing: state.invoice.invoiceLoading,
   payReq: state.invoice.invoice,
   invoice: invoiceSelectors.invoice(state),

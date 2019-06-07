@@ -6,7 +6,7 @@ import { balanceSelectors } from 'reducers/balance'
 import { channelsSelectors } from 'reducers/channels'
 
 const mapStateToProps = state => ({
-  cryptoName: tickerSelectors.cryptoName(state),
+  cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   lightningBalance: balanceSelectors.channelBalanceConfirmed(state),
   pendingBalance: balanceSelectors.channelBalancePending(state),
   onchainBalance: balanceSelectors.walletBalance(state),

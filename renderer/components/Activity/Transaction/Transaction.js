@@ -6,7 +6,7 @@ import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Transaction = ({ transaction, showActivityModal, cryptoName, intl }) => {
+const Transaction = ({ transaction, showActivityModal, cryptoUnitName, intl }) => {
   const amount = transaction.amount || transaction.limboAmount || 0
   const isIncoming = transaction.received || transaction.limboAmount > 0
   let type = isIncoming ? 'received' : 'sent'
@@ -72,7 +72,7 @@ const Transaction = ({ transaction, showActivityModal, cryptoName, intl }) => {
           <Text color={isIncoming ? 'superGreen' : null} mb={1} textAlign="right">
             {isIncoming ? `+ ` : `- `}
             <CryptoValue value={amount} />
-            <i> {cryptoName}</i>
+            <i> {cryptoUnitName}</i>
           </Text>
           <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
             <FiatValue style="currency" value={amount} />
@@ -86,7 +86,7 @@ const Transaction = ({ transaction, showActivityModal, cryptoName, intl }) => {
 Transaction.displayName = 'Transaction'
 
 Transaction.propTypes = {
-  cryptoName: PropTypes.string.isRequired,
+  cryptoUnitName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   showActivityModal: PropTypes.func.isRequired,
   transaction: PropTypes.object.isRequired,

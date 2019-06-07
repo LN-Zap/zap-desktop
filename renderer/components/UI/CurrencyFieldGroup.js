@@ -11,8 +11,8 @@ import messages from './messages'
 const CurrencyFieldGroup = React.forwardRef(
   (
     {
-      cryptoCurrency,
-      cryptoCurrencies,
+      cryptoUnit,
+      cryptoUnits,
       currentTicker,
       isDisabled,
       fiatCurrency,
@@ -38,7 +38,7 @@ const CurrencyFieldGroup = React.forwardRef(
      */
     const handleAmountCryptoChange = value => {
       const lastPrice = currentTicker[fiatCurrency]
-      const amount = convert(cryptoCurrency, 'fiat', value, lastPrice)
+      const amount = convert(cryptoUnit, 'fiat', value, lastPrice)
       formApi.setValue('amountFiat', amount)
     }
 
@@ -49,7 +49,7 @@ const CurrencyFieldGroup = React.forwardRef(
      */
     const handleAmountFiatChange = e => {
       const lastPrice = currentTicker[fiatCurrency]
-      const value = convert('fiat', cryptoCurrency, e.target.value, lastPrice)
+      const value = convert('fiat', cryptoUnit, e.target.value, lastPrice)
       formApi.setValue('amountCrypto', value)
     }
 
@@ -77,7 +77,7 @@ const CurrencyFieldGroup = React.forwardRef(
           <Flex width={6 / 13}>
             <Box width={150}>
               <CryptoAmountInput
-                currency={cryptoCurrency}
+                cryptoUnit={cryptoUnit}
                 field="amountCrypto"
                 forwardedRef={ref}
                 initialValue={initialAmountCrypto}
@@ -93,8 +93,8 @@ const CurrencyFieldGroup = React.forwardRef(
               />
             </Box>
             <Dropdown
-              activeKey={cryptoCurrency}
-              items={cryptoCurrencies}
+              activeKey={cryptoUnit}
+              items={cryptoUnits}
               ml={2}
               mt={36}
               onChange={handleCryptoCurrencyChange}
@@ -135,13 +135,13 @@ const CurrencyFieldGroup = React.forwardRef(
 CurrencyFieldGroup.displayName = 'CurrencyFieldGroup'
 
 CurrencyFieldGroup.propTypes = {
-  cryptoCurrencies: PropTypes.arrayOf(
+  cryptoUnit: PropTypes.string.isRequired,
+  cryptoUnits: PropTypes.arrayOf(
     PropTypes.shape({
       key: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     })
   ).isRequired,
-  cryptoCurrency: PropTypes.string.isRequired,
   currentTicker: PropTypes.object.isRequired,
   fiatCurrencies: PropTypes.array.isRequired,
   fiatCurrency: PropTypes.string.isRequired,

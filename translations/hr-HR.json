@@ -105,7 +105,7 @@
   "components.Channels.ChannelsMenu.summary_row_pending_title": "Na čekanju",
   "components.Channels.ChannelsMenu.title": "Kanali",
   "components.Channels.back_button": "Nazad",
-  "components.Channels.base_fee_description": "Potreban broj {cryptoName} po kilo-težini koje će podnositelj zahtjeva platiti svo vrijeme, za oboje transakciju financiranja i transakciju obaveze.",
+  "components.Channels.base_fee_description": "Potreban broj {cryptoUnitName} po kilo-težini koje će podnositelj zahtjeva platiti svo vrijeme, za oboje transakciju financiranja i transakciju obaveze.",
   "components.Channels.base_fee_label": "Baza naknade za čvor",
   "components.Channels.capacity": "Kapacitet",
   "components.Channels.channel_activity": "",

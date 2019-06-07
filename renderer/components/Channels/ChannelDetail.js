@@ -9,7 +9,7 @@ import { CHANNEL_DATA_VIEW_MODE_FULL } from './constants'
 
 const ChannelDetail = ({
   channel,
-  cryptoName,
+  cryptoUnitName,
   closeChannel,
   setSelectedChannel,
   networkInfo,
@@ -35,7 +35,7 @@ const ChannelDetail = ({
         />
         <ChannelData
           channel={channel}
-          cryptoName={cryptoName}
+          cryptoUnitName={cryptoUnitName}
           mx="auto"
           networkInfo={networkInfo}
           viewMode={CHANNEL_DATA_VIEW_MODE_FULL}
@@ -53,7 +53,7 @@ const ChannelDetail = ({
 ChannelDetail.propTypes = {
   channel: PropTypes.object,
   closeChannel: PropTypes.func.isRequired,
-  cryptoName: PropTypes.string.isRequired,
+  cryptoUnitName: PropTypes.string.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

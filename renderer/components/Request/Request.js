@@ -35,8 +35,8 @@ class Request extends React.Component {
     }).isRequired,
     chainName: PropTypes.string.isRequired,
     createInvoice: PropTypes.func.isRequired,
-    cryptoCurrency: PropTypes.string.isRequired,
-    cryptoCurrencyTicker: PropTypes.string.isRequired,
+    cryptoUnit: PropTypes.string.isRequired,
+    cryptoUnitName: PropTypes.string.isRequired,
     fetchTickers: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     invoice: PropTypes.object,
@@ -101,8 +101,8 @@ class Request extends React.Component {
    * @param  {object} values submitted form values.
    */
   onSubmit = values => {
-    const { cryptoCurrency, createInvoice } = this.props
-    createInvoice(values.amountCrypto, cryptoCurrency, values.memo, values.routingHints)
+    const { cryptoUnit, createInvoice } = this.props
+    createInvoice(values.amountCrypto, cryptoUnit, values.memo, values.routingHints)
   }
 
   /**
@@ -122,13 +122,13 @@ class Request extends React.Component {
   }
 
   renderHelpText = () => {
-    const { chainName, cryptoCurrencyTicker } = this.props
+    const { chainName, cryptoUnitName } = this.props
     return (
       <Box mb={4}>
         <Text textAlign="justify">
           <FormattedMessage
             {...messages.description}
-            values={{ chain: chainName, ticker: cryptoCurrencyTicker }}
+            values={{ chain: chainName, ticker: cryptoUnitName }}
           />
         </Text>
       </Box>
@@ -194,8 +194,8 @@ class Request extends React.Component {
     const {
       activeWalletSettings,
       createInvoice,
-      cryptoCurrency,
-      cryptoCurrencyTicker,
+      cryptoUnit,
+      cryptoUnitName,
       chainName,
       fetchTickers,
       intl,
@@ -222,7 +222,7 @@ class Request extends React.Component {
           if (formState.values.amountCrypto) {
             nextButtonText = `${intl.formatMessage({
               ...messages.button_text,
-            })} ${formState.values.amountCrypto} ${cryptoCurrencyTicker}`
+            })} ${formState.values.amountCrypto} ${cryptoUnitName}`
           }
 
           return (
@@ -233,7 +233,7 @@ class Request extends React.Component {
                   subtitle={<FormattedMessage {...messages.subtitle} />}
                   title={`${intl.formatMessage({
                     ...messages.title,
-                  })} ${chainName} (${cryptoCurrencyTicker})`}
+                  })} ${chainName} (${cryptoUnitName})`}
                 />
                 <Bar mt={2} />
               </Panel.Header>

@@ -79,7 +79,7 @@ class Neutrino extends EventEmitter {
   /**
    * Start the Lnd process in Neutrino mode.
    *
-   * @returnssssssssssssssssss {number} PID of the Lnd process that was started.
+   * @returnssssssssssssssssssssssssssssssssssssssssssssssssssssssssss {number} PID of the Lnd process that was started.
    * @return {Promise}
    */
   async start() {

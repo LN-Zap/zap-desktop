@@ -2,7 +2,8 @@
 
 exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
 <styled.div
-  cryptoCurrencies={
+  cryptoUnit="btc"
+  cryptoUnits={
     Array [
       Object {
         "key": "btc",
@@ -18,7 +19,6 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
       },
     ]
   }
-  cryptoCurrency="btc"
   currentTicker={
     Object {
       "EUR": 5656.01,

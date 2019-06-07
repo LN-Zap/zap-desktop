@@ -16,7 +16,7 @@ import { BasicInput } from './Input'
  */
 class CryptoAmountInput extends React.Component {
   static propTypes = {
-    currency: PropTypes.string.isRequired,
+    cryptoUnit: PropTypes.string.isRequired,
     fieldApi: PropTypes.object.isRequired,
     fieldState: PropTypes.object.isRequired,
     isRequired: PropTypes.bool,
@@ -28,12 +28,12 @@ class CryptoAmountInput extends React.Component {
    * Reformat the value when the currency unit has changed.
    */
   componentDidUpdate(prevProps) {
-    const { currency, fieldApi, fieldState } = this.props
+    const { cryptoUnit, fieldApi, fieldState } = this.props
     // Reformat the value when the currency unit has changed.
-    if (currency !== prevProps.currency) {
+    if (cryptoUnit !== prevProps.cryptoUnit) {
       const { fieldApi } = this.props
       let { value } = fieldState
-      const convertedValue = convert(prevProps.currency, currency, value)
+      const convertedValue = convert(prevProps.cryptoUnit, cryptoUnit, value)
       const [integer, fractional] = parseNumber(convertedValue, this.getRules().precision)
       value = formatValue(integer, fractional)
       fieldApi.setValue(value)
@@ -46,7 +46,7 @@ class CryptoAmountInput extends React.Component {
       const [integer, fractional] = parseNumber(valueAfter, this.getRules().precision)
       // Handle a corner case for the satoshis. sat number must be integer so
       // explicitly getting rid of fractional part (to avoid things like "1000." )
-      const isSats = ['sats', 'lits'].includes(currency)
+      const isSats = ['sats', 'lits'].includes(cryptoUnit)
       const formattedValue = formatValue(integer, isSats ? null : fractional)
       if (formattedValue !== valueAfter) {
         fieldApi.setValue(formattedValue)
@@ -55,8 +55,8 @@ class CryptoAmountInput extends React.Component {
   }
 
   getRules = () => {
-    const { currency } = this.props
-    switch (currency) {
+    const { cryptoUnit } = this.props
+    switch (cryptoUnit) {
       case 'btc':
       case 'ltc':
         return {

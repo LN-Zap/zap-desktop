@@ -17,7 +17,7 @@ class Channels extends React.Component {
   static propTypes = {
     channels: PropTypes.array,
     channelViewMode: PropTypes.string.isRequired,
-    cryptoName: PropTypes.string.isRequired,
+    cryptoUnitName: PropTypes.string.isRequired,
     networkInfo: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
@@ -38,7 +38,7 @@ class Channels extends React.Component {
     const {
       channels,
       channelViewMode,
-      cryptoName,
+      cryptoUnitName,
       networkInfo,
       openModal,
       setSelectedChannel,
@@ -61,14 +61,14 @@ class Channels extends React.Component {
           >
             <ChannelCardList
               channels={channels}
-              cryptoName={cryptoName}
+              cryptoUnitName={cryptoUnitName}
               networkInfo={networkInfo}
               openModal={openModal}
               setSelectedChannel={setSelectedChannel}
             />
             <ChannelSummaryList
               channels={channels}
-              cryptoName={cryptoName}
+              cryptoUnitName={cryptoUnitName}
               networkInfo={networkInfo}
               openModal={openModal}
               setSelectedChannel={setSelectedChannel}

@@ -89,13 +89,13 @@ export const receiveTransactions = ({ transactions }) => (dispatch, getState) =>
 export const sendCoins = ({
   value,
   addr,
-  currency,
+  cryptoUnit,
   targetConf,
   satPerByte,
   isCoinSweep,
 }) => async dispatch => {
   // backend needs amount in satoshis no matter what currency we are using
-  const amount = convert(currency, 'sats', value)
+  const amount = convert(cryptoUnit, 'sats', value)
 
   // Add to sendingPayments in the state.
   const payload = {

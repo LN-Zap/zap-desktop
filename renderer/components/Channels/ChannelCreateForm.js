@@ -63,20 +63,20 @@ FormButtons.propTypes = {
   onBack: PropTypes.func.isRequired,
 }
 
-const FormFooter = ({ walletBalance, cryptoName }) => (
+const FormFooter = ({ walletBalance, cryptoUnitName }) => (
   <Box>
     <Text textAlign="center">
       <FormattedMessage {...messages.open_channel_form_onchain_balance} />
       {` `}
       <CryptoValue value={walletBalance} />
       {` `}
-      {cryptoName}
+      {cryptoUnitName}
     </Text>
   </Box>
 )
 
 FormFooter.propTypes = {
-  cryptoName: PropTypes.string.isRequired,
+  cryptoUnitName: PropTypes.string.isRequired,
   walletBalance: PropTypes.number.isRequired,
 }
 
@@ -90,8 +90,8 @@ class ChannelCreateForm extends React.Component {
     activeWalletSettings: PropTypes.shape({
       type: PropTypes.string.isRequired,
     }).isRequired,
-    cryptoName: PropTypes.string.isRequired,
-    currency: PropTypes.string.isRequired,
+    cryptoUnit: PropTypes.string.isRequired,
+    cryptoUnitName: PropTypes.string.isRequired,
     fetchTickers: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     isQueryingFees: PropTypes.bool,
@@ -190,11 +190,11 @@ class ChannelCreateForm extends React.Component {
    * Open a channel using the supplied details.
    */
   onSubmit = values => {
-    const { currency, openChannel } = this.props
+    const { cryptoUnit, openChannel } = this.props
     const { amountCrypto, nodePubkey } = values
 
     // Convert amount to satoshis.
-    const amountInSatoshis = convert(currency, 'sats', amountCrypto)
+    const amountInSatoshis = convert(cryptoUnit, 'sats', amountCrypto)
 
     // Extract node details.
     const [pubkey, host] = nodePubkey.split('@')
@@ -228,9 +228,9 @@ class ChannelCreateForm extends React.Component {
       return
     }
 
-    const { intl, currency, walletBalance } = this.props
+    const { intl, cryptoUnit, walletBalance } = this.props
     const fee = this.getFee()
-    const amount = convert(currency, 'sats', value)
+    const amount = convert(cryptoUnit, 'sats', value)
 
     // FIXME: The fee here is a per byte fee, however what we realy need is the projected fee for the transaction.
     // This is not currently available in lnd, but will be in it's upcoming fee estimation API.
@@ -326,12 +326,12 @@ class ChannelCreateForm extends React.Component {
   }
 
   renderFormSummary() {
-    const { currency, selectedNodeDisplayName } = this.props
+    const { cryptoUnit, selectedNodeDisplayName } = this.props
 
     const formState = this.formApi.getState()
     const { speed, amountCrypto, nodePubkey } = formState.values
     const fee = this.getFee()
-    const amount = convert(currency, 'sats', amountCrypto)
+    const amount = convert(cryptoUnit, 'sats', amountCrypto)
 
     return (
       <ChannelCreateSummary
@@ -349,7 +349,7 @@ class ChannelCreateForm extends React.Component {
       intl,
       activeWalletSettings,
       walletBalance,
-      cryptoName,
+      cryptoUnitName,
       isQueryingFees,
       lndTargetConfirmations,
       fetchTickers,
@@ -417,13 +417,13 @@ class ChannelCreateForm extends React.Component {
                           : 'open_channel_summary_next_button_text'
                       ]}
                       values={{
-                        amount: `${amountCrypto} ${cryptoName}`,
+                        amount: `${amountCrypto} ${cryptoUnitName}`,
                       }}
                     />
                   }
                   onBack={this.onBack}
                 />
-                <FormFooter cryptoName={cryptoName} walletBalance={walletBalance} />
+                <FormFooter cryptoUnitName={cryptoUnitName} walletBalance={walletBalance} />
               </Panel.Footer>
             </Panel>
           )

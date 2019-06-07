@@ -131,15 +131,15 @@ storiesOf('Forms', module)
   .add('CryptoAmountInput', () => (
     <Form>
       <Box my={4}>
-        <CryptoAmountInput currency="btc" field="cryptoBtc" label="BTC" width={150} />
+        <CryptoAmountInput cryptoUnit="btc" field="cryptoBtc" label="BTC" width={150} />
       </Box>
 
       <Box my={4}>
-        <CryptoAmountInput currency="bits" field="cryptoBits" label="Bits" width={150} />
+        <CryptoAmountInput cryptoUnit="bits" field="cryptoBits" label="Bits" width={150} />
       </Box>
 
       <Box my={4}>
-        <CryptoAmountInput currency="sats" field="cryptoSats" label="Sats" width={150} />
+        <CryptoAmountInput cryptoUnit="sats" field="cryptoSats" label="Sats" width={150} />
       </Box>
     </Form>
   ))

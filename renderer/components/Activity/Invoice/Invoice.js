@@ -6,7 +6,7 @@ import { Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Invoice = ({ invoice, showActivityModal, cryptoName, intl }) => (
+const Invoice = ({ invoice, showActivityModal, cryptoUnitName, intl }) => (
   <Flex
     alignItems="center"
     justifyContent="space-between"
@@ -36,7 +36,7 @@ const Invoice = ({ invoice, showActivityModal, cryptoName, intl }) => (
       <Text color="superGreen" mb={1} textAlign="right">
         {'+ '}
         <CryptoValue value={invoice.finalAmount} />
-        <i> {cryptoName}</i>
+        <i> {cryptoUnitName}</i>
       </Text>
       <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
         <FiatValue style="currency" value={invoice.finalAmount} />
@@ -46,7 +46,7 @@ const Invoice = ({ invoice, showActivityModal, cryptoName, intl }) => (
 )
 
 Invoice.propTypes = {
-  cryptoName: PropTypes.string.isRequired,
+  cryptoUnitName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   invoice: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,

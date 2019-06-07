@@ -3,7 +3,7 @@
 exports[`reducers tickerReducer should correctly getTicker 1`] = `
 Object {
   "btcTicker": null,
-  "cryptoFilters": Object {
+  "cryptoUnits": Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
@@ -67,7 +67,7 @@ Object {
 exports[`reducers tickerReducer should correctly receiveTicker 1`] = `
 Object {
   "btcTicker": undefined,
-  "cryptoFilters": Object {
+  "cryptoUnits": Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
@@ -131,7 +131,7 @@ Object {
 exports[`reducers tickerReducer should handle initial state 1`] = `
 Object {
   "btcTicker": null,
-  "cryptoFilters": Object {
+  "cryptoUnits": Object {
     "bitcoin": Array [
       Object {
         "key": "btc",

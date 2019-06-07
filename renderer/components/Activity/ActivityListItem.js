@@ -33,13 +33,13 @@ ActivityIcon.propTypes = {
 export default class ActivityListItem extends PureComponent {
   static propTypes = {
     activity: PropTypes.object.isRequired,
-    cryptoName: PropTypes.string,
+    cryptoUnitName: PropTypes.string,
     currentTicker: PropTypes.object,
     ticker: PropTypes.object.isRequired,
   }
 
   render() {
-    const { activity, cryptoName, currentTicker, ticker, ...rest } = this.props
+    const { activity, cryptoUnitName, currentTicker, ticker, ...rest } = this.props
     return (
       <Flex alignItems="center" justifyContent="space-between" {...rest}>
         <Text color="gray" mr={10} textAlign="center" width={24}>

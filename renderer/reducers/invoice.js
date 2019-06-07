@@ -96,11 +96,14 @@ export const receiveInvoices = ({ invoices }) => dispatch => {
 }
 
 // Send IPC event for creating an invoice
-export const createInvoice = (amount, currency, memo, isPrivate) => async (dispatch, getState) => {
+export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
+  dispatch,
+  getState
+) => {
   const state = getState()
 
   // backend needs value in satoshis no matter what currency we are using
-  const value = convert(currency, 'sats', amount)
+  const value = convert(cryptoUnit, 'sats', amount)
 
   dispatch(sendInvoice())
 

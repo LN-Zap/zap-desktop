@@ -4,7 +4,7 @@ import { tickerSelectors, setCryptoUnit } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   activeKey: tickerSelectors.cryptoUnit(state),
-  items: tickerSelectors.cryptoFilters(state),
+  items: tickerSelectors.cryptoUnits(state),
 })
 
 const mapDispatchToProps = {

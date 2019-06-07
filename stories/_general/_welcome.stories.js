@@ -21,7 +21,7 @@ import { Column, Group, Element } from '../helpers'
 const store = new Store({
   crypto: 'btc',
   fiat: 'usd',
-  cryptoCurrencies: [
+  cryptoUnits: [
     {
       key: 'btc',
       value: 'BTC',

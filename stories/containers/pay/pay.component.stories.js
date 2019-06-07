@@ -74,8 +74,8 @@ storiesOf('Containers.Pay', module)
               return (
                 <PaySummaryLightning
                   // State
-                  cryptoCurrency={tickerSelectors.cryptoUnit(state)}
-                  cryptoCurrencyTicker={tickerSelectors.cryptoName(state)}
+                  cryptoUnit={tickerSelectors.cryptoUnit(state)}
+                  cryptoUnitName={tickerSelectors.cryptoUnitName(state)}
                   maxFee={18}
                   minFee={12}
                   nodes={data.nodes}
@@ -97,8 +97,8 @@ storiesOf('Containers.Pay', module)
                   // State
                   address={text('Address', 'mmxyr3LNKbnbrf6jdGXZpCE4EDpMSZRf4c')}
                   amount={number('Amount (satoshis)', 10000)}
-                  cryptoCurrency={tickerSelectors.cryptoUnit(state)}
-                  cryptoCurrencyTicker={tickerSelectors.cryptoName(state)}
+                  cryptoUnit={tickerSelectors.cryptoUnit(state)}
+                  cryptoUnitName={tickerSelectors.cryptoUnitName(state)}
                   onchainFees={data.onchainFees}
                   // Dispatch
                   queryFees={mockQueryFees}

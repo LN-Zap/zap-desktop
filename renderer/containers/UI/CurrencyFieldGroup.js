@@ -4,8 +4,8 @@ import { tickerSelectors, setCryptoUnit, setFiatTicker } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
-  cryptoCurrency: tickerSelectors.cryptoUnit(state),
-  cryptoCurrencies: tickerSelectors.cryptoFilters(state),
+  cryptoUnit: tickerSelectors.cryptoUnit(state),
+  cryptoUnits: tickerSelectors.cryptoUnits(state),
   fiatCurrencies: tickerSelectors.fiatTickers(state),
   fiatCurrency: tickerSelectors.fiatTicker(state),
 })

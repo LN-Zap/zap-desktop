@@ -15,7 +15,7 @@ class PaySummaryOnChain extends React.Component {
     /** Amount to send (in satoshis). */
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
     /** Ticker symbol of the currently selected cryptocurrency. */
-    cryptoCurrencyTicker: PropTypes.string.isRequired,
+    cryptoUnitName: PropTypes.string.isRequired,
     /** Fee in sats per byte */
     fee: PropTypes.number,
     /** Boolean indicating wether transaction is a coin sweep. */
@@ -49,7 +49,7 @@ class PaySummaryOnChain extends React.Component {
     const {
       amount,
       address,
-      cryptoCurrencyTicker,
+      cryptoUnitName,
       onchainFees,
       isQueryingFees,
       isCoinSweep,

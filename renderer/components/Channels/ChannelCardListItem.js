@@ -21,7 +21,7 @@ const Flex = styled(BaseFlex)(opacity)
 const areEqual = (prevProps, nextProps) => isEqual(prevProps, nextProps)
 
 const ChannelCardListItem = React.memo(
-  ({ channel, cryptoName, openModal, setSelectedChannel, networkInfo, ...rest }) => {
+  ({ channel, cryptoUnitName, openModal, setSelectedChannel, networkInfo, ...rest }) => {
     const {
       channel_point,
       display_name,
@@ -66,7 +66,7 @@ const ChannelCardListItem = React.memo(
             <ChannelData
               as="section"
               channel={channel}
-              cryptoName={cryptoName}
+              cryptoUnitName={cryptoUnitName}
               networkInfo={networkInfo}
               opacity={opacity}
             />
@@ -94,7 +94,7 @@ ChannelCardListItem.displayName = 'ChannelCardListItem'
 
 ChannelCardListItem.propTypes = {
   channel: PropTypes.object.isRequired,
-  cryptoName: PropTypes.string.isRequired,
+  cryptoUnitName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
