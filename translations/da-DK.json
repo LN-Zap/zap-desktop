@@ -2,6 +2,7 @@
   "components.Activity.ActivityActions.actiity_filter_all": "Alt",
   "components.Activity.ActivityActions.actiity_filter_expired": "Udløbet",
   "components.Activity.ActivityActions.actiity_filter_internal": "",
+  "components.Activity.ActivityActions.actiity_filter_label": "",
   "components.Activity.ActivityActions.actiity_filter_pending": "Afventer",
   "components.Activity.ActivityActions.actiity_filter_received": "Modtaget",
   "components.Activity.ActivityActions.actiity_filter_sent": "Sendt",

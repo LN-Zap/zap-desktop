@@ -48,7 +48,7 @@ const ActionButton = ({ children, hint, onClick, timeout, ...rest }) => {
       variant="secondary"
       {...rest}
     >
-      {status === 'fetching' ? <Spinner /> : children}
+      {status === 'fetching' ? <Spinner height="16px" width="16px" /> : children}
     </StyledButton>
   )
 }

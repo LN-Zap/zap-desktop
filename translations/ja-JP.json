@@ -2,6 +2,7 @@
   "components.Activity.ActivityActions.actiity_filter_all": "全て",
   "components.Activity.ActivityActions.actiity_filter_expired": "",
   "components.Activity.ActivityActions.actiity_filter_internal": "",
+  "components.Activity.ActivityActions.actiity_filter_label": "",
   "components.Activity.ActivityActions.actiity_filter_pending": "保留中",
   "components.Activity.ActivityActions.actiity_filter_received": "受け取った",
   "components.Activity.ActivityActions.actiity_filter_sent": "送信した",

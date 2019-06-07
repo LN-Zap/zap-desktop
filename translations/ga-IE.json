@@ -2,6 +2,7 @@
   "components.Activity.ActivityActions.actiity_filter_all": "Gach",
   "components.Activity.ActivityActions.actiity_filter_expired": "Deireadh",
   "components.Activity.ActivityActions.actiity_filter_internal": "Inmheánach",
+  "components.Activity.ActivityActions.actiity_filter_label": "",
   "components.Activity.ActivityActions.actiity_filter_pending": "Ar feitheamh",
   "components.Activity.ActivityActions.actiity_filter_received": "Faighte",
   "components.Activity.ActivityActions.actiity_filter_sent": "Seolta",

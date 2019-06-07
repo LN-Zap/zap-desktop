@@ -102,8 +102,8 @@ class Activity extends Component {
 
     return (
       <Panel>
-        <Panel.Header my={3}>
-          <ActivityActions mx={5} />
+        <Panel.Header my={3} px={4}>
+          <ActivityActions />
         </Panel.Header>
         <Panel.Body>{this.renderActivityList()}</Panel.Body>
       </Panel>

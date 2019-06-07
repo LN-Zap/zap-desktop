@@ -2,6 +2,7 @@
   "components.Activity.ActivityActions.actiity_filter_all": "Sve",
   "components.Activity.ActivityActions.actiity_filter_expired": "Isteklo",
   "components.Activity.ActivityActions.actiity_filter_internal": "Unutarnje",
+  "components.Activity.ActivityActions.actiity_filter_label": "",
   "components.Activity.ActivityActions.actiity_filter_pending": "Na čekanju",
   "components.Activity.ActivityActions.actiity_filter_received": "Primljeno",
   "components.Activity.ActivityActions.actiity_filter_sent": "Poslano",

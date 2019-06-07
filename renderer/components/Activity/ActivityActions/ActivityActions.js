@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { injectIntl, intlShape } from 'react-intl'
 import { Flex } from 'rebass'
+import { Card } from 'components/UI'
 import ActivityFilter from './ActivityFilter'
 import ActivityRefresh from './ActivityRefresh'
 import ActivitySearch from './ActivitySearch'
@@ -18,26 +19,21 @@ const ActivityActions = ({
   intl,
   ...rest
 }) => (
-  <Flex alignItems="center" as="nav" {...rest}>
-    <ActivitySearch
-      placeholder={intl.formatMessage({ ...messages.search_placeholder })}
-      searchQuery={searchQuery}
-      updateActivitySearchQuery={updateActivitySearchQuery}
-      width={13 / 16}
-    />
+  <Card px={3} py={2} width={1} {...rest}>
+    <Flex alignItems="center" as="section" justifyContent="space-between">
+      <ActivitySearch
+        placeholder={intl.formatMessage({ ...messages.search_placeholder })}
+        searchQuery={searchQuery}
+        updateActivitySearchQuery={updateActivitySearchQuery}
+        width={2 / 3}
+      />
+      <Flex alignItems="center" as="section" justifyContent="flex-end" width={1 / 3}>
+        <ActivityFilter changeFilter={changeFilter} filter={filter} filters={filters} mx={3} />
 
-    <ActivityFilter
-      changeFilter={changeFilter}
-      filter={filter}
-      filters={filters}
-      mr={1}
-      width={2.5 / 16}
-    />
-
-    <Flex alignItems="center" as="section" ml={3}>
-      <ActivityRefresh onClick={fetchActivityHistory} />
+        <ActivityRefresh mx={3} onClick={fetchActivityHistory} />
+      </Flex>
     </Flex>
-  </Flex>
+  </Card>
 )
 
 ActivityActions.propTypes = {
