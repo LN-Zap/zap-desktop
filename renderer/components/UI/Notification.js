@@ -44,7 +44,9 @@ class Notification extends React.Component {
       <Card
         borderRadius="5px"
         boxShadow="0 3px 4px 0 rgba(30, 30, 30, 0.5)"
-        css={{ cursor: 'pointer' }}
+        css={`
+          cursor: pointer;
+        `}
         px={3}
         py={3}
         {...this.props}

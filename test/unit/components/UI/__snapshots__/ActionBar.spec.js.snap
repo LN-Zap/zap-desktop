@@ -2,9 +2,10 @@
 
 exports[`component.UI.ActionBar should render correctly 1`] = `
 .c0 {
+  box-sizing: border-box;
+  padding-top: 8px;
   padding-bottom: 8px;
   padding-right: 64px;
-  padding-top: 8px;
   background-color: secondaryColor;
   display: -webkit-box;
   display: -webkit-flex;
@@ -20,17 +21,19 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
 }
 
 .c2 {
+  box-sizing: border-box;
   font-family: sans;
   font-weight: normal;
 }
 
 .c1 {
-  margin: 0px;
+  box-sizing: border-box;
+  margin: 0;
   margin-right: 128px;
-  padding-left: 0px;
-  padding-right: 0px;
   padding-top: 16px;
   padding-bottom: 16px;
+  padding-left: 0;
+  padding-right: 0;
   font-size: inherit;
   color: white;
   background-color: blue;
@@ -44,7 +47,8 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   text-decoration: none;
   font-weight: bold;
   border: 0;
-  border-radius: 0px;
+  border-radius: 0;
+  border-radius: 0;
   -webkit-transition: all 0.25s;
   transition: all 0.25s;
   outline: none;
@@ -63,12 +67,13 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
 }
 
 .c3 {
-  margin: 0px;
-  margin-right: 0px;
-  padding-left: 64px;
-  padding-right: 64px;
+  box-sizing: border-box;
+  margin: 0;
+  margin-right: 0;
   padding-top: 16px;
   padding-bottom: 16px;
+  padding-left: 64px;
+  padding-right: 64px;
   font-size: inherit;
   color: white;
   background-color: blue;
@@ -82,6 +87,7 @@ exports[`component.UI.ActionBar should render correctly 1`] = `
   text-decoration: none;
   font-weight: bold;
   border: 0;
+  border-radius: 5px;
   border-radius: 5px;
   -webkit-transition: all 0.25s;
   transition: all 0.25s;

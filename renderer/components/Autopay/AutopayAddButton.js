@@ -19,11 +19,19 @@ const AutopayAddButton = props => {
       bg="lightningOrange"
       borderRadius="50%"
       boxShadow={`0 0 24px 0 ${themeGet('colors.lightningOrange')(props)}`}
-      css={{ height: '35px' }}
+      css={`
+        height: 35px;
+      `}
       width={35}
       {...props}
     >
-      <Flex alignItems="center" css={{ height: '100%' }} justifyContent="center">
+      <Flex
+        alignItems="center"
+        css={`
+          height: 100%;
+        `}
+        justifyContent="center"
+      >
         <Text fontSize="xl">+</Text>
       </Flex>
     </Gradient>

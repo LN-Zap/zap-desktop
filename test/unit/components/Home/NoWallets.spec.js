@@ -1,7 +1,7 @@
 import React from 'react'
 import { shallow } from 'enzyme'
 import toJSON from 'enzyme-to-json'
-import { NoWallets } from 'components/Home'
+import NoWallets from 'components/Home/NoWallets'
 
 const history = { push: jest.fn() }
 

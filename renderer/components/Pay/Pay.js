@@ -469,10 +469,10 @@ class Pay extends React.Component {
             <React.Fragment>
               <LightningInvoiceInput
                 chain={chain}
-                css={{
-                  resize: 'vertical',
-                  'min-height': '48px',
-                }}
+                css={`
+                  resize: vertical;
+                  min-height: 48px;
+                `}
                 field="payReq"
                 forwardedRef={this.payReqInput}
                 initialValue={payReq && payReq.address}
@@ -644,7 +644,9 @@ class Pay extends React.Component {
     } = this.props
     return (
       <Form
-        css={{ height: '100%' }}
+        css={`
+          height: 100%;
+        `}
         width={1}
         {...rest}
         getApi={this.setFormApi}

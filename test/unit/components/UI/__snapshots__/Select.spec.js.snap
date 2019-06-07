@@ -1,7 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`component.UI.Toggle should render correctly 1`] = `
+.c4 {
+  box-sizing: border-box;
+}
+
 .c0 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -13,6 +18,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
 }
 
 .c2 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -47,7 +53,7 @@ exports[`component.UI.Toggle should render correctly 1`] = `
   cursor: pointer;
 }
 
-.c4 {
+.c5 {
   margin-left: -24px;
   width: 8px;
   pointer-events: none;
@@ -112,10 +118,10 @@ exports[`component.UI.Toggle should render correctly 1`] = `
         </div>
       </div>
       <div
-        className=""
+        className="c4"
       >
         <svg
-          className="c4"
+          className="c5"
           height="1em"
           viewBox="6.295 8.295 12 7.41"
           width={8}

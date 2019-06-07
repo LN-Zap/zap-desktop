@@ -12,16 +12,22 @@ exports[`component.UI.Radio should render correctly 1`] = `
 }
 
 .c2 {
+  box-sizing: border-box;
   font-size: 13px;
   color: #ffffff;
   line-height: 1.4;
 }
 
 .c3 {
+  box-sizing: border-box;
   margin-top: 8px;
   font-size: 13px;
   color: #959595;
   line-height: 1.4;
+}
+
+.c0 {
+  box-sizing: border-box;
 }
 
 .c0 .container {

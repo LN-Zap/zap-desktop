@@ -14,10 +14,10 @@ const Swatch = ({ name, color }) => (
         // bg={color}
         borderRadius={8}
         boxShadow="0 2px 6px rgba(0, 0, 0, 0.3)"
-        css={{
-          background: color,
-          height: '50px',
-        }}
+        css={`
+          background: ${color};
+          height: 50px;
+        `}
         mr={21}
         width={50}
       />

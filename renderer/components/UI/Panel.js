@@ -10,7 +10,13 @@ const PanelHeader = ({ children, ...rest }) => (
 PanelHeader.propTypes = { children: PropTypes.node }
 
 const PanelBody = ({ children, css, ...rest }) => (
-  <Box {...rest} as="section" css={Object.assign({ flex: 1 }, css)}>
+  <Box
+    {...rest}
+    as="section"
+    css={`
+      flex: 1;
+    `}
+  >
     {children}
   </Box>
 )
@@ -36,7 +42,15 @@ class Panel extends React.Component {
   render() {
     const { children, ...rest } = this.props
     return (
-      <Flex {...rest} as="article" css={{ height: '100%' }} flexDirection="column" {...rest}>
+      <Flex
+        {...rest}
+        as="article"
+        css={`
+          height: 100%;
+        `}
+        flexDirection="column"
+        {...rest}
+      >
         {children}
       </Flex>
     )

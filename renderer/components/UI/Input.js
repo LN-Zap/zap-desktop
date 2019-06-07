@@ -237,7 +237,12 @@ class Input extends React.Component {
             <Label htmlFor={field}>
               {label}
               {isRequired && (
-                <Span css={{ 'vertical-align': 'top' }} fontSize="s">
+                <Span
+                  css={`
+                    vertical-align: top;
+                  `}
+                  fontSize="s"
+                >
                   {' '}
                   *
                 </Span>

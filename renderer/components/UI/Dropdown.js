@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
-import { opacity } from 'styled-system'
+import { themeGet, opacity } from 'styled-system'
 import { useOnClickOutside, useIntl } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
@@ -74,26 +74,26 @@ Menu.defaultProps = {
   bg: 'secondaryColor',
 }
 
+const MenuItemText = styled(Box)`
+  cursor: pointer;
+  white-space: nowrap;
+  &:hover {
+    background-color: ${themeGet('colors.primaryColor')};
+  }
+`
+
+MenuItemText.defaultProps = {
+  as: 'li',
+  px: 2,
+  py: 2,
+}
+
 /**
  * MenuItem
  */
 export const MenuItem = withTheme(
   ({ item, onClick, active, theme, hasParent, hasChildren, ...rest }) => (
-    <Text
-      key={item.key}
-      as="li"
-      css={{
-        cursor: 'pointer',
-        'white-space': 'nowrap',
-        '&:hover': {
-          'background-color': theme.colors.primaryColor,
-        },
-      }}
-      onClick={() => onClick(item.key)}
-      px={2}
-      py={2}
-      {...rest}
-    >
+    <MenuItemText key={item.key} onClick={() => onClick(item.key)} {...rest}>
       <Flex alignItems="center" pr={2}>
         {hasParent && (
           <Flex alignItems="center" color="gray" width="20px">
@@ -111,7 +111,7 @@ export const MenuItem = withTheme(
           {hasChildren && <AngleRight height="8px" />}
         </Flex>
       </Flex>
-    </Text>
+    </MenuItemText>
   )
 )
 

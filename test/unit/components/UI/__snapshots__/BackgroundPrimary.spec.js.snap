@@ -2,6 +2,7 @@
 
 exports[`component.UI.BackgroundPrimary should render correctly 1`] = `
 .c0 {
+  box-sizing: border-box;
   color: primaryText;
   background-color: primaryColor;
   display: -webkit-box;

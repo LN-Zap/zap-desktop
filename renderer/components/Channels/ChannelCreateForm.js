@@ -281,7 +281,9 @@ class ChannelCreateForm extends React.Component {
         <Bar my={3} variant="light" />
 
         <CurrencyFieldGroup
-          css={{ height: '88px' }}
+          css={`
+            height: 88px;
+          `}
           formApi={this.formApi}
           forwardedRef={this.amountInput}
           isRequired
@@ -364,7 +366,9 @@ class ChannelCreateForm extends React.Component {
 
     return (
       <Form
-        css={{ height: '100%' }}
+        css={`
+          height: 100%;
+        `}
         {...rest}
         getApi={this.setFormApi}
         onSubmit={this.handleSubmit}
@@ -374,10 +378,19 @@ class ChannelCreateForm extends React.Component {
 
           return (
             <Panel>
-              <Panel.Body css={{ position: 'relative' }}>
+              <Panel.Body
+                css={`
+                  position: relative;
+                `}
+              >
                 <ShowHide context={this} state={step === 'form' ? 'show' : 'hide'}>
                   {styles => (
-                    <Box css={{ position: 'absolute' }} style={styles}>
+                    <Box
+                      css={`
+                        position: absolute;
+                      `}
+                      style={styles}
+                    >
                       {this.renderFormFields()}
                     </Box>
                   )}

@@ -2,6 +2,7 @@
 
 exports[`component.UI.Checkbox should render correctly 1`] = `
 .c4 {
+  box-sizing: border-box;
   margin-left: 8px;
   display: -webkit-box;
   display: -webkit-flex;
@@ -17,12 +18,14 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
 }
 
 .c5 {
+  box-sizing: border-box;
   font-size: 13px;
   color: #ffffff;
   line-height: 1.4;
 }
 
 .c6 {
+  box-sizing: border-box;
   margin-top: 8px;
   font-size: 13px;
   color: #959595;
@@ -30,6 +33,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
 }
 
 .c3 {
+  box-sizing: border-box;
   width: 18px;
   color: #242633;
   display: -webkit-box;
@@ -51,6 +55,7 @@ exports[`component.UI.Checkbox should render correctly 1`] = `
 }
 
 .c0 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

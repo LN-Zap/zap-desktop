@@ -11,7 +11,9 @@ storiesOf('Containers.Channels', module)
   .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => (
     <Window>
-      <Modal onClose={action('clicked')}>{story()}</Modal>
+      <Modal onClose={action('clicked')} p={4}>
+        {story()}
+      </Modal>
     </Window>
   ))
   .add('ChannelCreateForm', () => <ChannelCreateForm mx="auto" width={9 / 16} />)

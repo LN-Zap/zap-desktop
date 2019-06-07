@@ -11,7 +11,12 @@ const RadioGroup = ({ label, field, description, isRequired, children, ...rest }
       <Label htmlFor={field} mb={2}>
         {label}
         {isRequired && (
-          <Span css={{ 'vertical-align': 'top' }} fontSize="s">
+          <Span
+            css={`
+              vertical-align: top;
+            `}
+            fontSize="s"
+          >
             {' '}
             *
           </Span>

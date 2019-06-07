@@ -2,6 +2,7 @@
 
 exports[`component.UI.MainContent should render correctly 1`] = `
 .c0 {
+  box-sizing: border-box;
   width: 100%;
   height: 100%;
   overflow-y: overlay;

@@ -2,16 +2,18 @@
 
 exports[`component.UI.Button should render correctly 1`] = `
 .c1 {
+  box-sizing: border-box;
   font-family: sans;
   font-weight: normal;
 }
 
 .c0 {
-  margin: 0px;
-  padding-left: 64px;
-  padding-right: 64px;
+  box-sizing: border-box;
+  margin: 0;
   padding-top: 16px;
   padding-bottom: 16px;
+  padding-left: 64px;
+  padding-right: 64px;
   font-size: inherit;
   color: white;
   background-color: blue;
@@ -25,6 +27,7 @@ exports[`component.UI.Button should render correctly 1`] = `
   text-decoration: none;
   font-weight: bold;
   border: 0;
+  border-radius: 5px;
   border-radius: 5px;
   -webkit-transition: all 0.25s;
   transition: all 0.25s;

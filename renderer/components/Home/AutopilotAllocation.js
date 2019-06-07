@@ -20,7 +20,9 @@ const AutopilotAllocation = ({ fieldState, fieldApi, sliderWidthNumber }) => {
         step="1"
       />
       <BasicInput
-        css={{ 'text-align': 'right' }}
+        css={`
+          text-align: right;
+        `}
         field="autopilotAllocation"
         fieldApi={fieldApi}
         fieldState={fieldState}

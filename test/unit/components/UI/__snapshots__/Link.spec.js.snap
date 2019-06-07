@@ -2,18 +2,13 @@
 
 exports[`component.UI.Link should render correctly 1`] = `
 .c0 {
-  font-size: m;
-  color: primaryText;
   cursor: pointer;
   -webkit-text-decoration: underline;
   text-decoration: underline;
-  line-height: normal;
 }
 
 <a
   className="c0"
-  color="primaryText"
-  fontSize="m"
 >
   Link text
 </a>

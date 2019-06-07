@@ -18,7 +18,14 @@ class Link extends React.PureComponent {
   render() {
     const { children } = this.props
     return (
-      <Text as="a" css={{ cursor: 'pointer', 'text-decoration': 'underline' }} {...this.props}>
+      <Text
+        as="a"
+        css={`
+          cursor: pointer;
+          text-decoration: underline;
+        `}
+        {...this.props}
+      >
         {children}
       </Text>
     )

@@ -28,6 +28,11 @@ const props = {
     },
   ],
   fiatCurrency: 'USD',
+  lndTargetConfirmations: {
+    fast: 100,
+    medium: 80,
+    slow: 60,
+  },
   queryFees: jest.fn(),
   setCryptoCurrency: jest.fn(),
 }

@@ -40,12 +40,30 @@ const Syncing = ({
 
       <Panel.Body mb={3} mx="auto" width={9 / 16}>
         {!hasSynced && address && address.length && (
-          <Address address={address} css={{ height: '100%' }} showNotification={showNotification} />
+          <Address
+            address={address}
+            css={`
+              height: 100%;
+            `}
+            showNotification={showNotification}
+          />
         )}
-        {hasSynced && <Tutorials css={{ height: '100%' }} />}
+        {hasSynced && (
+          <Tutorials
+            css={`
+              height: 100%;
+            `}
+          />
+        )}
       </Panel.Body>
 
-      <Panel.Footer bg="secondaryColor" css={{ 'min-height': '160px' }} p={3}>
+      <Panel.Footer
+        bg="secondaryColor"
+        css={`
+          min-height: 160px;
+        `}
+        p={3}
+      >
         <Progress
           blockHeight={blockHeight}
           mx="auto"

@@ -5,7 +5,14 @@ import { BackgroundPrimary, BackgroundTertiary, BackgroundSecondary, Page } from
 import { Content } from '../helpers'
 
 const Wrapper = ({ children }) => (
-  <Page css={{ height: '50px', 'min-height': '200px' }}>{children}</Page>
+  <Page
+    css={`
+      height: 50px;
+      min-height: 200px;
+    `}
+  >
+    {children}
+  </Page>
 )
 Wrapper.propTypes = {
   children: PropTypes.node,
@@ -21,9 +28,9 @@ storiesOf('Components', module).addWithChapters('Background', {
           },
           sectionFn: () => (
             <BackgroundPrimary
-              css={{
-                height: '100%',
-              }}
+              css={`
+                height: 100%;
+              `}
               width={1}
             >
               <Content>BackgroundPrimary</Content>
@@ -36,9 +43,9 @@ storiesOf('Components', module).addWithChapters('Background', {
           },
           sectionFn: () => (
             <BackgroundSecondary
-              css={{
-                height: '100%',
-              }}
+              css={`
+                height: 100%;
+              `}
               width={1}
             >
               <Content>BackgroundSecondary</Content>
@@ -51,9 +58,9 @@ storiesOf('Components', module).addWithChapters('Background', {
           },
           sectionFn: () => (
             <BackgroundTertiary
-              css={{
-                height: '100%',
-              }}
+              css={`
+                height: 100%;
+              `}
               width={1}
             >
               <Content>BackgroundTertiary</Content>

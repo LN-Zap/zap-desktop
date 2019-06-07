@@ -20,11 +20,19 @@ const AutopayLimitBadge = ({ limit, limitCurrency, ...rest }) => {
       bg="lightningOrange"
       borderRadius="14px"
       boxShadow={`0 0 24px 0 ${themeGet('colors.lightningOrange')(rest)}`}
-      css={{ height: '27px' }}
+      css={`
+        height: 27px;
+      `}
       px={2}
       {...rest}
     >
-      <Flex alignItems="center" css={{ height: '100%' }} justifyContent="center">
+      <Flex
+        alignItems="center"
+        css={`
+          height: 100%;
+        `}
+        justifyContent="center"
+      >
         <Box color="white">
           {limit} {limitCurrency}
         </Box>

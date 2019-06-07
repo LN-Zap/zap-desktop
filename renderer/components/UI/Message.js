@@ -29,7 +29,7 @@ class Message extends React.Component {
   renderIcon = () => {
     const { variant } = this.props
     return (
-      <Box css={{ height: '14px' }} mr={1} width="14px">
+      <Box mr={1} width="14px">
         {variant === 'success' && <Success height="14px" width="14px" />}
         {variant === 'warning' && <Warning height="14px" width="14px" />}
         {variant === 'error' && <Error height="14px" width="14px" />}

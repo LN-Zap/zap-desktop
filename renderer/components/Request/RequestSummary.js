@@ -124,7 +124,9 @@ class RequestSummary extends React.Component {
               <FormattedMessage {...messages.payment_request} />
               <Text
                 className="hint--bottom-left"
-                css={{ 'word-wrap': 'break-word' }}
+                css={`
+                  word-wrap: break-word;
+                `}
                 data-hint={payReq}
                 fontSize="xs"
                 fontWeight="light"

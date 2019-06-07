@@ -51,7 +51,11 @@ class Channels extends React.Component {
         <Panel.Header>
           <ChannelsHeader updateChannelSearchQuery={this.updateChannelSearchQuery} />
         </Panel.Header>
-        <Panel.Body css={{ overflow: 'hidden' }}>
+        <Panel.Body
+          css={`
+            overflow: hidden;
+          `}
+        >
           <StyledPersistentTabControl
             activeTab={channelViewMode === CHANNEL_LIST_VIEW_MODE_CARD ? 0 : 1}
           >

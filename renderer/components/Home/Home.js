@@ -11,7 +11,14 @@ import WalletsMenu from './WalletsMenu'
 import WalletUnlocker from './WalletUnlocker'
 
 const NoMatch = ({ history, wallets }) => (
-  <Flex alignItems="center" css={{ height: '100%' }} flexDirection="column" justifyContent="center">
+  <Flex
+    alignItems="center"
+    css={`
+      height: 100%;
+    `}
+    flexDirection="column"
+    justifyContent="center"
+  >
     <NoWallets history={history} wallets={wallets} />
   </Flex>
 )
@@ -99,7 +106,11 @@ class Home extends React.Component {
             <Panel.Header mb={40} px={4}>
               <ZapLogo height={28} width={28} />
             </Panel.Header>
-            <Panel.Body css={{ 'overflow-y': 'overlay' }}>
+            <Panel.Body
+              css={`
+                overflow-y: overlay;
+              `}
+            >
               <WalletsMenu
                 activeWallet={activeWallet}
                 setActiveWallet={setActiveWallet}

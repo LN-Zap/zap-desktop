@@ -13,13 +13,8 @@ const showNotification = () => ({})
 
 storiesOf('Containers.Syncing', module)
   .addParameters({ info: { disable: true } })
-  .addDecorator(story => <Window>{story()}</Window>)
   .addDecorator(story => <Provider story={story()} />)
-  .addDecorator(story => (
-    <Modal hasLogo onClose={linkTo('Containers.Home', 'Home')} pb={0} px={0}>
-      {story()}
-    </Modal>
-  ))
+  .addDecorator(story => <Window>{story()}</Window>)
   .add('Syncing', () => {
     const state = store.getState()
     const hasSynced = boolean('Has synced', false)
@@ -28,20 +23,23 @@ storiesOf('Containers.Syncing', module)
     const recoveryPercentage = number('Recovery Percentage', 30)
     const network = select('Network', ['mainnet', 'testnet'], 'mainnet')
     return (
-      <Syncing
-        address="2MxZ2z7AodL6gxEgwL5tkq2imDBhkBMq2Jc"
-        blockHeight={neutrinoSelectors.blockHeight(state)}
-        hasSynced={hasSynced}
-        isLightningGrpcActive={state.lnd.isLightningGrpcActive}
-        network={network}
-        neutrinoBlockHeight={neutrinoSelectors.neutrinoBlockHeight(state)}
-        neutrinoCfilterHeight={neutrinoSelectors.neutrinoCfilterHeight(state)}
-        neutrinoRecoveryHeight={neutrinoSelectors.neutrinoRecoveryHeight(state)}
-        recoveryPercentage={recoveryPercentage}
-        setIsWalletOpen={setIsWalletOpen}
-        showNotification={showNotification}
-        syncPercentage={syncPercentage}
-        syncStatus={syncStatus}
-      />
+      <Modal hasLogo onClose={linkTo('Containers.Home', 'Home')} pt={4}>
+        <Syncing
+          address="2MxZ2z7AodL6gxEgwL5tkq2imDBhkBMq2Jc"
+          blockHeight={neutrinoSelectors.blockHeight(state)}
+          hasSynced={hasSynced}
+          isLightningGrpcActive={state.lnd.isLightningGrpcActive}
+          network={network}
+          neutrinoBlockHeight={neutrinoSelectors.neutrinoBlockHeight(state)}
+          neutrinoCfilterHeight={neutrinoSelectors.neutrinoCfilterHeight(state)}
+          neutrinoRecoveryHeight={neutrinoSelectors.neutrinoRecoveryHeight(state)}
+          p={4}
+          recoveryPercentage={recoveryPercentage}
+          setIsWalletOpen={setIsWalletOpen}
+          showNotification={showNotification}
+          syncPercentage={syncPercentage}
+          syncStatus={syncStatus}
+        />
+      </Modal>
     )
   })

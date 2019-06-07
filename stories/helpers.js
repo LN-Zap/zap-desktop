@@ -4,7 +4,14 @@ import { Box, Flex } from 'rebass'
 import { Bar, Heading, Page } from '@zap/renderer/components/UI'
 import lightningPayReq from 'bolt11'
 
-export const Window = props => <Page css={{ height: 'calc(100vh - 120px)' }} {...props} />
+export const Window = props => (
+  <Page
+    css={`
+      height: calc(100vh - 40px);
+    `}
+    {...props}
+  />
+)
 export const Column = props => <Box mr={5} width={1 / 2} {...props} />
 export const Group = ({ title, children, hasBar = true }) => (
   <Box mb={4}>
@@ -22,7 +29,13 @@ Group.propTypes = {
 }
 export const Element = props => <Box py={1} {...props} />
 export const Content = ({ children }) => (
-  <Flex alignItems="center" css={{ height: '100%' }} justifyContent="center">
+  <Flex
+    alignItems="center"
+    css={`
+      height: 100%;
+    `}
+    justifyContent="center"
+  >
     <Heading>{children}</Heading>
   </Flex>
 )

@@ -10,7 +10,11 @@ import { Box } from 'rebass'
 const MainContent = props => (
   <Box
     as="article"
-    css={{ height: '100%', 'overflow-y': 'overlay', 'overflow-x': 'hidden' }}
+    css={`
+      height: 100%;
+      overflow-y: overlay;
+      overflow-x: hidden;
+    `}
     width={1}
     {...props}
   />

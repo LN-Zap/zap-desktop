@@ -9,7 +9,14 @@ import messages from './messages'
 
 const WalletGroup = withRouter(({ location, setActiveWallet, title, wallets, ...rest }) => (
   <Box p={2} {...rest}>
-    <Text css={{ 'text-transform': 'uppercase' }} fontWeight="normal" mb={2} px={3}>
+    <Text
+      css={`
+        text-transform: uppercase;
+      `}
+      fontWeight="normal"
+      mb={2}
+      px={3}
+    >
       {title}
     </Text>
     {wallets.map(wallet => (

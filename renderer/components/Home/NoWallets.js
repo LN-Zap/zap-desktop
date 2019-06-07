@@ -7,7 +7,14 @@ import CreateWalletButton from './CreateWalletButton'
 import messages from './messages'
 
 const NoWallets = ({ history, wallets }) => (
-  <Flex alignItems="center" css={{ height: '100%' }} flexDirection="column" justifyContent="center">
+  <Flex
+    alignItems="center"
+    css={`
+      height: 100%;
+    `}
+    flexDirection="column"
+    justifyContent="center"
+  >
     {wallets.length === 0 ? (
       <>
         <Heading.h4>

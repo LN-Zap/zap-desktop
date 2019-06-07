@@ -1,16 +1,11 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { MainContent } from 'components/UI'
-import Wallet from 'containers/Wallet'
+import SettingsPage from 'containers/Settings/SettingsPage'
 import { Provider } from '../Provider'
 import { Window } from '../helpers'
 
-storiesOf('Containers.Wallet', module)
+storiesOf('Containers.SettingsPage', module)
   .addParameters({ info: { disable: true } })
   .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => <Window>{story()}</Window>)
-  .add('Wallet', () => (
-    <MainContent>
-      <Wallet />
-    </MainContent>
-  ))
+  .add('SettingsPage', () => <SettingsPage />)

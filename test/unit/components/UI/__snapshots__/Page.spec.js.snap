@@ -2,18 +2,19 @@
 
 exports[`component.UI.Page should render correctly 1`] = `
 .c0 {
+  box-sizing: border-box;
   color: primaryText;
   background-color: primaryColor;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
   position: relative;
   height: 100%;
   overflow: hidden;
   min-width: 900px;
   min-height: 425px;
   box-shadow: 0 20px 70px rgba(0,0,0,0.55);
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
 }
 
 <article

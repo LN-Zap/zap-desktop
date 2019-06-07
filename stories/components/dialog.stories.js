@@ -6,7 +6,7 @@ import Globe from 'components/Icon/Globe'
 
 storiesOf('Components', module)
   .addDecorator(story => (
-    <Page css={{ backgroundColor: '#313340' }} pl={4}>
+    <Page bg="secondaryColor" pl={4}>
       {story()}
     </Page>
   ))

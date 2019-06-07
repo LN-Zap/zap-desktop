@@ -25,7 +25,9 @@ FieldLabel.propTypes = {
 
 export const NumberField = props => (
   <Input
-    css={{ 'text-align': 'right' }}
+    css={`
+      text-align: right;
+    `}
     highlightOnValid={false}
     isRequired
     min="1"

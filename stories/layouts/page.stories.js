@@ -1,7 +1,7 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { Page, MainContent, Sidebar } from 'components/UI'
-import { Content } from '../helpers'
+import { MainContent, Sidebar } from 'components/UI'
+import { Window, Content } from '../helpers'
 
 storiesOf('Layouts', module).addWithChapters('Page', {
   subtitle: 'The outer most application wrapper.',
@@ -10,30 +10,30 @@ storiesOf('Layouts', module).addWithChapters('Page', {
     {
       sections: [
         {
-          title: 'Page with small left sidebar',
+          title: 'Page with medium left sidebar',
 
           sectionFn: () => (
-            <Page>
-              <Sidebar.small bg="green">
+            <Window>
+              <Sidebar.medium bg="green">
                 <Content>Sidebar</Content>
-              </Sidebar.small>
+              </Sidebar.medium>
               <MainContent bg="blue">
                 <Content>MainContent</Content>
               </MainContent>
-            </Page>
+            </Window>
           ),
         },
         {
           title: 'Page with large right sidebar',
           sectionFn: () => (
-            <Page>
+            <Window>
               <MainContent bg="blue">
                 <Content>MainContent</Content>
               </MainContent>
               <Sidebar.large bg="green">
                 <Content>Sidebar</Content>
               </Sidebar.large>
-            </Page>
+            </Window>
           ),
         },
       ],

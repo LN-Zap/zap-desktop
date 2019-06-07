@@ -124,3 +124,17 @@ store.dispatch({
   },
   closedChannels: [],
 })
+store.dispatch({
+  type: 'SET_WALLETS',
+  wallets: [
+    {
+      id: 1,
+      type: 'local',
+    },
+  ],
+})
+store.dispatch({
+  type: 'SET_SETTING',
+  key: 'activeWallet',
+  value: 1,
+})

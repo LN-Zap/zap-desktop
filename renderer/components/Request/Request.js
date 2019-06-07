@@ -150,7 +150,10 @@ class Request extends React.Component {
     const { intl } = this.props
     return (
       <TextArea
-        css={{ resize: 'vertical', 'min-height': '48px' }}
+        css={`
+          resize: vertical;
+          min-height: 48px;
+        `}
         field="memo"
         label={intl.formatMessage({ ...messages.memo })}
         mb={3}
@@ -205,7 +208,9 @@ class Request extends React.Component {
     const { currentStep } = this.state
     return (
       <Form
-        css={{ height: '100%' }}
+        css={`
+          height: 100%;
+        `}
         width={1}
         {...rest}
         getApi={this.setFormApi}
