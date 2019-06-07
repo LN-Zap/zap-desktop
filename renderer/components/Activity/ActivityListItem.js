@@ -35,12 +35,11 @@ export default class ActivityListItem extends PureComponent {
     activity: PropTypes.object.isRequired,
     currencyName: PropTypes.string,
     currentTicker: PropTypes.object,
-    showActivityModal: PropTypes.func.isRequired,
     ticker: PropTypes.object.isRequired,
   }
 
   render() {
-    const { activity, currencyName, currentTicker, ticker, showActivityModal, ...rest } = this.props
+    const { activity, currencyName, currentTicker, ticker, ...rest } = this.props
     return (
       <Flex alignItems="center" justifyContent="space-between" {...rest}>
         <Text color="gray" mr={10} textAlign="center" width={24}>

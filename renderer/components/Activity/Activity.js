@@ -40,7 +40,7 @@ class Activity extends Component {
   }
 
   renderActivityList = () => {
-    const { currentActivity, currencyName, ticker, currentTicker, showActivityModal } = this.props
+    const { currentActivity, currencyName, ticker, currentTicker } = this.props
 
     if (!currencyName) {
       return null
@@ -64,7 +64,6 @@ class Activity extends Component {
                   activity: currentActivity[index],
                   currencyName,
                   currentTicker,
-                  showActivityModal,
                   ticker,
                 }}
               />
@@ -117,7 +116,6 @@ Activity.propTypes = {
   currentActivity: PropTypes.array.isRequired,
   currentTicker: PropTypes.object,
   intl: intlShape.isRequired,
-  showActivityModal: PropTypes.func.isRequired,
   ticker: PropTypes.object.isRequired,
 }
 
