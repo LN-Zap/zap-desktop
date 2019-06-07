@@ -83,6 +83,8 @@ const Transaction = ({ transaction, showActivityModal, currencyName, intl }) => 
   )
 }
 
+Transaction.displayName = 'Transaction'
+
 Transaction.propTypes = {
   currencyName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
