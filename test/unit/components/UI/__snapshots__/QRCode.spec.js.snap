@@ -2,6 +2,7 @@
 
 exports[`component.UI.QRCode should render correctly 1`] = `
 .c0 {
+  box-sizing: border-box;
   position: relative;
   width: 180px;
   height: 180px;
@@ -9,13 +10,17 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 }
 
 .c1 {
+  box-sizing: border-box;
   position: relative;
   width: 180px;
   height: 180px;
 }
 
 .c2 {
-  border: 1px solid;
+  box-sizing: border-box;
+  border: 1px;
+  border-color: #fd9800;
+  border-radius: 10%;
   border-color: #fd9800;
   border-radius: 10%;
   position: absolute;
@@ -29,7 +34,10 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 }
 
 .c3 {
-  border: 1px solid;
+  box-sizing: border-box;
+  border: 1px;
+  border-color: #fd9800;
+  border-radius: 10%;
   border-color: #fd9800;
   border-radius: 10%;
   position: absolute;
@@ -43,7 +51,10 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 }
 
 .c4 {
-  border: 1px solid;
+  box-sizing: border-box;
+  border: 1px;
+  border-color: #fd9800;
+  border-radius: 10%;
   border-color: #fd9800;
   border-radius: 10%;
   position: absolute;
@@ -57,7 +68,10 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 }
 
 .c5 {
-  border: 1px solid;
+  box-sizing: border-box;
+  border: 1px;
+  border-color: #fd9800;
+  border-radius: 10%;
   border-color: #fd9800;
   border-radius: 10%;
   position: absolute;
@@ -71,6 +85,7 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 }
 
 .c6 {
+  box-sizing: border-box;
   border-style: solid;
   border-color: white;
   position: absolute;
@@ -83,6 +98,7 @@ exports[`component.UI.QRCode should render correctly 1`] = `
 }
 
 .c8 {
+  box-sizing: border-box;
   background-color: white;
   border-style: solid;
   border-color: white;

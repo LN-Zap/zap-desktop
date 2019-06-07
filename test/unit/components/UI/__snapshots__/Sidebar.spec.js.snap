@@ -2,6 +2,7 @@
 
 exports[`component.UI.Sidebar should render correctly 1`] = `
 .c0 {
+  box-sizing: border-box;
   width: 25%;
   color: primaryText;
   background-color: primaryColor;

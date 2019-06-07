@@ -2,17 +2,23 @@
 
 exports[`component.UI.Panel should render correctly 1`] = `
 .c1 {
+  box-sizing: border-box;
+}
+
+.c3 {
+  box-sizing: border-box;
+  padding-top: auto;
+}
+
+.c2 {
+  box-sizing: border-box;
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
 }
 
-.c2 {
-  padding-top: auto;
-}
-
 .c0 {
-  height: 100%;
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -20,23 +26,24 @@ exports[`component.UI.Panel should render correctly 1`] = `
   -webkit-flex-direction: column;
   -ms-flex-direction: column;
   flex-direction: column;
+  height: 100%;
 }
 
 <article
   className="c0"
 >
   <header
-    className=""
+    className="c1"
   >
     Header here
   </header>
   <section
-    className="c1"
+    className="c2"
   >
     Body here
   </section>
   <footer
-    className="c2"
+    className="c3"
   >
     Footer here
   </footer>

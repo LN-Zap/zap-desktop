@@ -2,7 +2,8 @@
 
 exports[`component.UI.Heading should render correctly 1`] = `
 .c0 {
-  margin: 0px;
+  box-sizing: border-box;
+  margin: 0;
   font-size: xl;
   color: primaryText;
   font-weight: light;

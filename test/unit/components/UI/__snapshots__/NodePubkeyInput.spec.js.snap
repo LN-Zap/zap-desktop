@@ -2,6 +2,7 @@
 
 exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
 .c0 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;
@@ -12,6 +13,7 @@ exports[`component.UI.NodePubkeyInput should render correctly 1`] = `
 }
 
 .c1 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

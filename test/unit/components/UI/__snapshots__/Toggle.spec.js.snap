@@ -2,6 +2,7 @@
 
 exports[`component.UI.Toggle should render correctly 1`] = `
 .c1 {
+  box-sizing: border-box;
   display: -webkit-box;
   display: -webkit-flex;
   display: -ms-flexbox;

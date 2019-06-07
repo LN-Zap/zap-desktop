@@ -9,11 +9,6 @@ exports[`component.UI.Message should render correctly with default props 1`] = `
     alignItems="flex-start"
   >
     <styled.div
-      css={
-        Object {
-          "height": "14px",
-        }
-      }
       mr={1}
       width="14px"
     />
