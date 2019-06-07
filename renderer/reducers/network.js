@@ -23,10 +23,10 @@ export const getNodeDisplayName = node => {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function updateNodeData(nodeData) {
+export function updateNodeData(data) {
   return {
     type: UPDATE_NODE_DATA,
-    nodeData,
+    data,
   }
 }
 
@@ -80,7 +80,7 @@ const mergeNodeUpdates = (state, nodeData) => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [UPDATE_NODE_DATA]: (state, { nodeData }) => nodeData.reduce(mergeNodeUpdates, state),
+  [UPDATE_NODE_DATA]: (state, { data }) => data.flat().reduce(mergeNodeUpdates, state),
   [GET_DESCRIBE_NETWORK]: state => ({ ...state, networkLoading: true }),
   [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes }) => ({
     ...state,
