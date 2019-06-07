@@ -12,7 +12,7 @@ const ChannelsMenu = ({
   channelCount,
   pendingBalance,
   onchainBalance,
-  currencyName,
+  cryptoName,
   ...rest
 }) => {
   const items = [
@@ -34,7 +34,7 @@ const ChannelsMenu = ({
       id: 'summary',
       content: (
         <ChannelsMenuSummary
-          currencyName={currencyName}
+          cryptoName={cryptoName}
           lightningBalance={lightningBalance}
           onchainBalance={onchainBalance}
           pb={3}
@@ -71,7 +71,7 @@ const ChannelsMenu = ({
 
 ChannelsMenu.propTypes = {
   channelCount: PropTypes.number.isRequired,
-  currencyName: PropTypes.string.isRequired,
+  cryptoName: PropTypes.string.isRequired,
   lightningBalance: PropTypes.number.isRequired,
   onchainBalance: PropTypes.number.isRequired,
   openModal: PropTypes.func.isRequired,

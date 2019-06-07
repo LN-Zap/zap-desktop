@@ -40,9 +40,9 @@ class Activity extends Component {
   }
 
   renderActivityList = () => {
-    const { currentActivity, currencyName, ticker, currentTicker } = this.props
+    const { currentActivity, cryptoName, ticker, currentTicker } = this.props
 
-    if (!currencyName) {
+    if (!cryptoName) {
       return null
     }
 
@@ -62,7 +62,7 @@ class Activity extends Component {
               <ActivityListItem
                 {...{
                   activity: currentActivity[index],
-                  currencyName,
+                  cryptoName,
                   currentTicker,
                   ticker,
                 }}
@@ -112,7 +112,7 @@ class Activity extends Component {
 
 Activity.propTypes = {
   activity: PropTypes.object.isRequired,
-  currencyName: PropTypes.string,
+  cryptoName: PropTypes.string,
   currentActivity: PropTypes.array.isRequired,
   currentTicker: PropTypes.object,
   intl: intlShape.isRequired,

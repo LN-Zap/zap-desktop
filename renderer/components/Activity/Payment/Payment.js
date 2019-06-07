@@ -8,7 +8,7 @@ import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
+const Payment = ({ payment, showActivityModal, nodes, cryptoName, intl }) => {
   const displayNodeName = payment => {
     // First try to get the pubkey from payment.path
     let pubkey = payment.path && payment.path[payment.path.length - 1]
@@ -81,7 +81,7 @@ const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
           <Text mb={1} textAlign="right">
             {'- '}
             <CryptoValue value={payment.value} />
-            <i> {currencyName}</i>
+            <i> {cryptoName}</i>
           </Text>
           <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
             <FiatValue style="currency" value={payment.value} />
@@ -93,7 +93,7 @@ const Payment = ({ payment, showActivityModal, nodes, currencyName, intl }) => {
 }
 
 Payment.propTypes = {
-  currencyName: PropTypes.string.isRequired,
+  cryptoName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
   nodes: PropTypes.array.isRequired,
   payment: PropTypes.object.isRequired,

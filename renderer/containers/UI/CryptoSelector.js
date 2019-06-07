@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import Dropdown from 'components/UI/Dropdown'
-import { tickerSelectors, setCurrency } from 'reducers/ticker'
+import { tickerSelectors, setCryptoUnit } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
-  activeKey: state.ticker.currency,
-  items: tickerSelectors.currencyFilters(state),
+  activeKey: tickerSelectors.cryptoUnit(state),
+  items: tickerSelectors.cryptoFilters(state),
 })
 
 const mapDispatchToProps = {
-  onChange: setCurrency,
+  onChange: setCryptoUnit,
 }
 
 export default connect(

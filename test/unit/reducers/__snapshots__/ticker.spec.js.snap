@@ -3,9 +3,7 @@
 exports[`reducers tickerReducer should correctly getTicker 1`] = `
 Object {
   "btcTicker": null,
-  "crypto": null,
-  "currency": null,
-  "currencyFilters": Object {
+  "cryptoFilters": Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
@@ -61,7 +59,6 @@ Object {
     "TWB",
     "UAH",
   ],
-  "fromCurrency": null,
   "ltcTicker": null,
   "tickerLoading": true,
 }
@@ -70,9 +67,7 @@ Object {
 exports[`reducers tickerReducer should correctly receiveTicker 1`] = `
 Object {
   "btcTicker": undefined,
-  "crypto": null,
-  "currency": null,
-  "currencyFilters": Object {
+  "cryptoFilters": Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
@@ -128,142 +123,7 @@ Object {
     "TWB",
     "UAH",
   ],
-  "fromCurrency": null,
   "ltcTicker": undefined,
-  "tickerLoading": false,
-}
-`;
-
-exports[`reducers tickerReducer should correctly setCrypto 1`] = `
-Object {
-  "btcTicker": null,
-  "crypto": "foo",
-  "currency": null,
-  "currencyFilters": Object {
-    "bitcoin": Array [
-      Object {
-        "key": "btc",
-        "value": "BTC",
-      },
-      Object {
-        "key": "bits",
-        "value": "bits",
-      },
-      Object {
-        "key": "sats",
-        "value": "satoshis",
-      },
-    ],
-    "litecoin": Array [
-      Object {
-        "key": "ltc",
-        "value": "LTC",
-      },
-      Object {
-        "key": "phots",
-        "value": "photons",
-      },
-      Object {
-        "key": "lits",
-        "value": "litoshis",
-      },
-    ],
-  },
-  "fiatTicker": "USD",
-  "fiatTickers": Array [
-    "USD",
-    "EUR",
-    "JPY",
-    "GBP",
-    "CAD",
-    "KRW",
-    "AUD",
-    "BRL",
-    "CHF",
-    "CLP",
-    "CNY",
-    "DKK",
-    "HKD",
-    "INR",
-    "ISK",
-    "NZD",
-    "PLN",
-    "RUB",
-    "SEK",
-    "SGD",
-    "THB",
-    "TWB",
-    "UAH",
-  ],
-  "fromCurrency": null,
-  "ltcTicker": null,
-  "tickerLoading": false,
-}
-`;
-
-exports[`reducers tickerReducer should correctly setCurrency 1`] = `
-Object {
-  "btcTicker": null,
-  "crypto": null,
-  "currency": "foo",
-  "currencyFilters": Object {
-    "bitcoin": Array [
-      Object {
-        "key": "btc",
-        "value": "BTC",
-      },
-      Object {
-        "key": "bits",
-        "value": "bits",
-      },
-      Object {
-        "key": "sats",
-        "value": "satoshis",
-      },
-    ],
-    "litecoin": Array [
-      Object {
-        "key": "ltc",
-        "value": "LTC",
-      },
-      Object {
-        "key": "phots",
-        "value": "photons",
-      },
-      Object {
-        "key": "lits",
-        "value": "litoshis",
-      },
-    ],
-  },
-  "fiatTicker": "USD",
-  "fiatTickers": Array [
-    "USD",
-    "EUR",
-    "JPY",
-    "GBP",
-    "CAD",
-    "KRW",
-    "AUD",
-    "BRL",
-    "CHF",
-    "CLP",
-    "CNY",
-    "DKK",
-    "HKD",
-    "INR",
-    "ISK",
-    "NZD",
-    "PLN",
-    "RUB",
-    "SEK",
-    "SGD",
-    "THB",
-    "TWB",
-    "UAH",
-  ],
-  "fromCurrency": null,
-  "ltcTicker": null,
   "tickerLoading": false,
 }
 `;
@@ -271,9 +131,7 @@ Object {
 exports[`reducers tickerReducer should handle initial state 1`] = `
 Object {
   "btcTicker": null,
-  "crypto": null,
-  "currency": null,
-  "currencyFilters": Object {
+  "cryptoFilters": Object {
     "bitcoin": Array [
       Object {
         "key": "btc",
@@ -329,7 +187,6 @@ Object {
     "TWB",
     "UAH",
   ],
-  "fromCurrency": null,
   "ltcTicker": null,
   "tickerLoading": false,
 }

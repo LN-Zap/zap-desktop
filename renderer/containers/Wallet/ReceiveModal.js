@@ -9,7 +9,7 @@ import { showNotification } from 'reducers/notification'
 
 const mapStateToProps = state => ({
   networkInfo: infoSelectors.networkInfo(state),
-  cryptoName: tickerSelectors.currencyAddressName(state),
+  chainName: tickerSelectors.cryptoAddressName(state),
   pubkey: get(state.info, 'data.uris[0]') || get(state.info, 'data.identity_pubkey'),
   address: addressSelectors.currentAddress(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),

@@ -33,10 +33,10 @@ class Request extends React.Component {
     activeWalletSettings: PropTypes.shape({
       type: PropTypes.string.isRequired,
     }).isRequired,
+    chainName: PropTypes.string.isRequired,
     createInvoice: PropTypes.func.isRequired,
     cryptoCurrency: PropTypes.string.isRequired,
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    cryptoName: PropTypes.string.isRequired,
     fetchTickers: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     invoice: PropTypes.object,
@@ -122,13 +122,13 @@ class Request extends React.Component {
   }
 
   renderHelpText = () => {
-    const { cryptoName, cryptoCurrencyTicker } = this.props
+    const { chainName, cryptoCurrencyTicker } = this.props
     return (
       <Box mb={4}>
         <Text textAlign="justify">
           <FormattedMessage
             {...messages.description}
-            values={{ chain: cryptoName, ticker: cryptoCurrencyTicker }}
+            values={{ chain: chainName, ticker: cryptoCurrencyTicker }}
           />
         </Text>
       </Box>
@@ -196,7 +196,7 @@ class Request extends React.Component {
       createInvoice,
       cryptoCurrency,
       cryptoCurrencyTicker,
-      cryptoName,
+      chainName,
       fetchTickers,
       intl,
       isProcessing,
@@ -233,7 +233,7 @@ class Request extends React.Component {
                   subtitle={<FormattedMessage {...messages.subtitle} />}
                   title={`${intl.formatMessage({
                     ...messages.title,
-                  })} ${cryptoName} (${cryptoCurrencyTicker})`}
+                  })} ${chainName} (${cryptoCurrencyTicker})`}
                 />
                 <Bar mt={2} />
               </Panel.Header>

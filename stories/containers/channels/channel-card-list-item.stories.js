@@ -50,7 +50,7 @@ storiesOf('Containers.Channels', module)
               const stateProps = {
                 channel,
                 networkInfo: infoSelectors.networkInfo(state),
-                currencyName: tickerSelectors.currencyName(state),
+                cryptoName: tickerSelectors.cryptoName(state),
               }
               const dispatchProps = {
                 setSelectedChannel,

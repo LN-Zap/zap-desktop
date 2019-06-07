@@ -74,7 +74,7 @@ class ReceiveModal extends React.PureComponent {
     const {
       pubkey,
       address,
-      cryptoName,
+      chainName,
       activeWalletSettings,
       networkInfo,
       intl,
@@ -82,7 +82,7 @@ class ReceiveModal extends React.PureComponent {
     } = this.props
     const { qrCodeType, reveal } = this.state
 
-    if (!cryptoName) {
+    if (!chainName) {
       return null
     }
 
@@ -110,7 +110,7 @@ class ReceiveModal extends React.PureComponent {
       { key: QRCODE_TYPE_PUBKEY, name: <FormattedMessage {...messages.node_pubkey} /> },
       {
         key: QRCODE_TYPE_ADDRESS,
-        name: <FormattedMessage {...messages.wallet_address} values={{ chain: cryptoName }} />,
+        name: <FormattedMessage {...messages.wallet_address} values={{ chain: chainName }} />,
       },
     ]
     if (activeWalletSettings.lndconnectQRCode) {
@@ -187,7 +187,7 @@ ReceiveModal.propTypes = {
     type: PropTypes.string.isRequired,
   }).isRequired,
   address: PropTypes.string,
-  cryptoName: PropTypes.string,
+  chainName: PropTypes.string,
   intl: intlShape.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,

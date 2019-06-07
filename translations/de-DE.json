@@ -105,7 +105,7 @@
   "components.Channels.ChannelsMenu.summary_row_pending_title": "Ausstehend",
   "components.Channels.ChannelsMenu.title": "Kanäle",
   "components.Channels.back_button": "Zurück",
-  "components.Channels.base_fee_description": "Die erforderliche Anzahl von {currencyName} pro Kilo-Gewicht, das der Antragsteller jederzeit für sowohl den Transaktions- und Engagement Finanzierungstransaktion zahlt.",
+  "components.Channels.base_fee_description": "Die erforderliche Anzahl von {cryptoName} pro Kilo-Gewicht, das der Antragsteller jederzeit für sowohl den Transaktions- und Engagement Finanzierungstransaktion zahlt.",
   "components.Channels.base_fee_label": "Node Basisgebühr",
   "components.Channels.capacity": "Kapazität",
   "components.Channels.channel_activity": "Aktivität",

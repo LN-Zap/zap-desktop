@@ -105,7 +105,7 @@
   "components.Channels.ChannelsMenu.summary_row_pending_title": "Pendiente",
   "components.Channels.ChannelsMenu.title": "Canales",
   "components.Channels.back_button": "Atras",
-  "components.Channels.base_fee_description": "El número requerido de {currencyName} por kilo-byte que el solicitante pagará en todo momento, tanto para la transacción de financiamiento como para la transacción de compromiso",
+  "components.Channels.base_fee_description": "El número requerido de {cryptoName} por kilo-byte que el solicitante pagará en todo momento, tanto para la transacción de financiamiento como para la transacción de compromiso",
   "components.Channels.base_fee_label": "Comisión baseee del Nodo",
   "components.Channels.capacity": "Capacidad",
   "components.Channels.channel_activity": "",

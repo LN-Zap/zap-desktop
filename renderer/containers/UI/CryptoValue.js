@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import Span from 'components/UI/Span'
 import Value from 'components/UI/Value'
+import { tickerSelectors } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
-  currency: state.ticker.currency,
+  currency: tickerSelectors.cryptoUnit(state),
 })
 
 const ConnectedValue = connect(mapStateToProps)(Value)

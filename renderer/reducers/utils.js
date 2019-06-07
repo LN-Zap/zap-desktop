@@ -70,7 +70,7 @@ export const getLoadingMessage = (state, location = {}) => {
   }
 
   if (pathname === '/app') {
-    if (!(tickerSelectors.currentTicker(state) && tickerSelectors.currencyName(state))) {
+    if (!(tickerSelectors.currentTicker(state) && tickerSelectors.cryptoName(state))) {
       return fetching_tickers
     }
   }

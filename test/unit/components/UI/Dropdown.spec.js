@@ -19,14 +19,14 @@ const currencies = [
   },
 ]
 
-const setCurrency = jest.fn()
+const setCryptoUnit = jest.fn()
 
 describe('component.Dropdown', () => {
   it('should render correctly', () => {
     const tree = renderer
       .create(
         <IntlProvider locale="en">
-          <Dropdown activeKey="btc" items={currencies} onClick={setCurrency} theme={dark} />
+          <Dropdown activeKey="btc" items={currencies} onClick={setCryptoUnit} theme={dark} />
         </IntlProvider>
       )
       .toJSON()

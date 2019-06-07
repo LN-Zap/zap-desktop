@@ -63,20 +63,20 @@ FormButtons.propTypes = {
   onBack: PropTypes.func.isRequired,
 }
 
-const FormFooter = ({ walletBalance, currencyName }) => (
+const FormFooter = ({ walletBalance, cryptoName }) => (
   <Box>
     <Text textAlign="center">
       <FormattedMessage {...messages.open_channel_form_onchain_balance} />
       {` `}
       <CryptoValue value={walletBalance} />
       {` `}
-      {currencyName}
+      {cryptoName}
     </Text>
   </Box>
 )
 
 FormFooter.propTypes = {
-  currencyName: PropTypes.string.isRequired,
+  cryptoName: PropTypes.string.isRequired,
   walletBalance: PropTypes.number.isRequired,
 }
 
@@ -90,8 +90,8 @@ class ChannelCreateForm extends React.Component {
     activeWalletSettings: PropTypes.shape({
       type: PropTypes.string.isRequired,
     }).isRequired,
+    cryptoName: PropTypes.string.isRequired,
     currency: PropTypes.string.isRequired,
-    currencyName: PropTypes.string.isRequired,
     fetchTickers: PropTypes.func.isRequired,
     intl: intlShape.isRequired,
     isQueryingFees: PropTypes.bool,
@@ -349,7 +349,7 @@ class ChannelCreateForm extends React.Component {
       intl,
       activeWalletSettings,
       walletBalance,
-      currencyName,
+      cryptoName,
       isQueryingFees,
       lndTargetConfirmations,
       fetchTickers,
@@ -417,13 +417,13 @@ class ChannelCreateForm extends React.Component {
                           : 'open_channel_summary_next_button_text'
                       ]}
                       values={{
-                        amount: `${amountCrypto} ${currencyName}`,
+                        amount: `${amountCrypto} ${cryptoName}`,
                       }}
                     />
                   }
                   onBack={this.onBack}
                 />
-                <FormFooter currencyName={currencyName} walletBalance={walletBalance} />
+                <FormFooter cryptoName={cryptoName} walletBalance={walletBalance} />
               </Panel.Footer>
             </Panel>
           )

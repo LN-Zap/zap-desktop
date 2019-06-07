@@ -11,13 +11,7 @@ const StyledList = styled(Grid)`
   overflow-y: overlay !important;
   overflow-x: hidden !important;
 `
-const ChannelCardList = ({
-  channels,
-  currencyName,
-  openModal,
-  setSelectedChannel,
-  networkInfo,
-}) => {
+const ChannelCardList = ({ channels, cryptoName, openModal, setSelectedChannel, networkInfo }) => {
   const ROW_PADDING_BOTTOM = 3
   // current row height + margin bottom
   const ROW_HEIGHT = 446 + baseSpace[ROW_PADDING_BOTTOM]
@@ -42,7 +36,7 @@ const ChannelCardList = ({
       >
         <ChannelCardListItem
           channel={channel}
-          currencyName={currencyName}
+          cryptoName={cryptoName}
           height="100%"
           networkInfo={networkInfo}
           openModal={openModal}
@@ -74,7 +68,7 @@ const ChannelCardList = ({
 
 ChannelCardList.propTypes = {
   channels: PropTypes.array,
-  currencyName: PropTypes.string.isRequired,
+  cryptoName: PropTypes.string.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

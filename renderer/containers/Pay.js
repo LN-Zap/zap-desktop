@@ -8,14 +8,15 @@ import { sendCoins } from 'reducers/transaction'
 import { payInvoice } from 'reducers/payment'
 import { closeModal } from 'reducers/modal'
 import { settingsSelectors } from 'reducers/settings'
+import { infoSelectors } from 'reducers/info'
 
 const mapStateToProps = state => ({
   chain: state.info.chain,
   network: state.info.network,
-  cryptoName: tickerSelectors.cryptoName(state),
+  chainName: infoSelectors.chainName(state),
   channelBalance: balanceSelectors.channelBalance(state),
-  cryptoCurrency: state.ticker.currency,
-  cryptoCurrencyTicker: tickerSelectors.currencyName(state),
+  cryptoCurrency: tickerSelectors.cryptoUnit(state),
+  cryptoCurrencyTicker: tickerSelectors.cryptoName(state),
   isQueryingFees: state.pay.isQueryingFees,
   lndTargetConfirmations: settingsSelectors.currentConfig(state).lndTargetConfirmations,
   payReq: state.pay.payReq,

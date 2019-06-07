@@ -1,17 +1,17 @@
 import { connect } from 'react-redux'
 import { CurrencyFieldGroup } from 'components/UI'
-import { tickerSelectors, setCurrency, setFiatTicker } from 'reducers/ticker'
+import { tickerSelectors, setCryptoUnit, setFiatTicker } from 'reducers/ticker'
 
 const mapStateToProps = state => ({
   currentTicker: tickerSelectors.currentTicker(state),
-  cryptoCurrency: state.ticker.currency,
-  cryptoCurrencies: tickerSelectors.currencyFilters(state),
+  cryptoCurrency: tickerSelectors.cryptoUnit(state),
+  cryptoCurrencies: tickerSelectors.cryptoFilters(state),
   fiatCurrencies: tickerSelectors.fiatTickers(state),
   fiatCurrency: tickerSelectors.fiatTicker(state),
 })
 
 const mapDispatchToProps = {
-  setCryptoCurrency: setCurrency,
+  setCryptoCurrency: setCryptoUnit,
   setFiatCurrency: setFiatTicker,
 }
 

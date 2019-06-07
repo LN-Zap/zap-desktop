@@ -105,7 +105,7 @@
   "components.Channels.ChannelsMenu.summary_row_pending_title": "En attente",
   "components.Channels.ChannelsMenu.title": "",
   "components.Channels.back_button": "Précédant",
-  "components.Channels.base_fee_description": "Le nombre requis de {currencyName} par poids-octet que le demandeur va payer toutes les fois, pour la transaction de financement ainsi que celle d'engagement.",
+  "components.Channels.base_fee_description": "Le nombre requis de {cryptoName} par poids-octet que le demandeur va payer toutes les fois, pour la transaction de financement ainsi que celle d'engagement.",
   "components.Channels.base_fee_label": "Frais de base pour la node",
   "components.Channels.capacity": "Capacité",
   "components.Channels.channel_activity": "",

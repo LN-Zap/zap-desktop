@@ -3,6 +3,14 @@
 exports[`reducers infoReducer should correctly getInfo 1`] = `
 Object {
   "chain": null,
+  "chains": Object {
+    "bitcoin": Object {
+      "name": "Bitcoin",
+    },
+    "litecoin": Object {
+      "name": "Litecoin",
+    },
+  },
   "data": Object {},
   "hasSynced": undefined,
   "infoLoaded": false,
@@ -216,6 +224,14 @@ Object {
 exports[`reducers infoReducer should correctly receiveInfo 1`] = `
 Object {
   "chain": "bitcoin",
+  "chains": Object {
+    "bitcoin": Object {
+      "name": "Bitcoin",
+    },
+    "litecoin": Object {
+      "name": "Litecoin",
+    },
+  },
   "data": Object {
     "chains": Array [
       Object {
@@ -437,6 +453,14 @@ Object {
 exports[`reducers infoReducer should handle initial state 1`] = `
 Object {
   "chain": null,
+  "chains": Object {
+    "bitcoin": Object {
+      "name": "Bitcoin",
+    },
+    "litecoin": Object {
+      "name": "Litecoin",
+    },
+  },
   "data": Object {},
   "hasSynced": undefined,
   "infoLoaded": false,

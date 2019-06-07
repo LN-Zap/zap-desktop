@@ -7,17 +7,8 @@ import { putConfig, settingsSelectors } from './settings'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SET_CURRENCY = 'SET_CURRENCY'
-export const SET_CRYPTO = 'SET_CRYPTO'
-export const SET_FIAT_TICKER = 'SET_FIAT_TICKER'
 export const GET_TICKERS = 'GET_TICKERS'
 export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
-
-// Map for crypto names to crypto tickers
-const CRYPTO_NAMES = {
-  bitcoin: 'Bitcoin',
-  litecoin: 'Litecoin',
-}
 
 // ------------------------------------
 // Actions
@@ -35,32 +26,17 @@ export const initTickers = () => async (dispatch, getState) => {
   await dispatch(fetchTickers())
 }
 
-export const setCurrency = unit => async (dispatch, getState) => {
-  dispatch({
-    type: SET_CURRENCY,
-    currency: unit,
-  })
+export const setCryptoUnit = unit => async (dispatch, getState) => {
   const state = getState()
   const currentConfig = settingsSelectors.currentConfig(state)
-  const chain = cryptoSelector(state)
+  const chain = chainSelector(state)
   const savedUnit = currentConfig.units[chain]
   if (unit !== savedUnit) {
     await dispatch(putConfig(`units.${chain}`, unit))
   }
 }
 
-export function setCrypto(crypto) {
-  return {
-    type: SET_CRYPTO,
-    crypto,
-  }
-}
-
 export const setFiatTicker = fiatTicker => async dispatch => {
-  // Persist the new fiatTicker in the store.
-  dispatch({ type: SET_FIAT_TICKER, fiatTicker })
-
-  // Persist the new fiatTicker saetting.
   await dispatch(putConfig('currency', fiatTicker))
 }
 
@@ -86,25 +62,10 @@ export const fetchTickers = () => async dispatch => {
   return tickers
 }
 
-// Receive IPC event for receiveCryptocurrency
-export const receiveCryptocurrency = chain => async (dispatch, getState) => {
-  dispatch(setCrypto(chain))
-
-  // Load saved settings for the chain.
-  const currentConfig = settingsSelectors.currentConfig(getState())
-
-  // Set currency unit based on saved setting, or fallback to default value.
-  const unit = get(currentConfig, `units.${chain}`)
-  dispatch(setCurrency(unit))
-}
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SET_CURRENCY]: (state, { currency }) => ({ ...state, fromCurrency: state.currency, currency }),
-  [SET_CRYPTO]: (state, { crypto }) => ({ ...state, crypto }),
-  [SET_FIAT_TICKER]: (state, { fiatTicker }) => ({ ...state, fiatTicker }),
   [GET_TICKERS]: state => ({ ...state, tickerLoading: true }),
   [RECIEVE_TICKERS]: (state, { btcTicker, ltcTicker }) => ({
     ...state,
@@ -115,9 +76,7 @@ const ACTION_HANDLERS = {
 }
 
 // Selectors
-const cryptoSelector = state => state.ticker.crypto
-const currencySelector = state => state.ticker.currency
-const currencyFiltersSelector = state => state.ticker.currencyFilters
+const cryptoFiltersSelector = state => state.ticker.cryptoFilters
 const bitcoinTickerSelector = state => state.ticker.btcTicker
 const litecoinTickerSelector = state => state.ticker.ltcTicker
 const fiatTickerSelector = state => settingsSelectors.currentConfig(state).currency
@@ -135,17 +94,24 @@ const networkInfoSelector = createSelector(
 
 const tickerSelectors = {}
 
-tickerSelectors.currency = currencySelector
 tickerSelectors.tickerLoading = tickerLoadingSelector
 tickerSelectors.fiatTicker = fiatTickerSelector
 tickerSelectors.fiatTickers = fiatTickersSelector
 
+tickerSelectors.cryptoUnit = createSelector(
+  settingsSelectors.currentConfig,
+  chainSelector,
+  (currentConfig, chain) => {
+    return get(currentConfig, `units.${chain}`, null)
+  }
+)
+
 tickerSelectors.currentTicker = createSelector(
-  cryptoSelector,
+  chainSelector,
   bitcoinTickerSelector,
   litecoinTickerSelector,
-  (crypto, btcTicker, ltcTicker) => {
-    switch (crypto) {
+  (chain, btcTicker, ltcTicker) => {
+    switch (chain) {
       case 'bitcoin':
         return btcTicker
       case 'litecoin':
@@ -156,50 +122,45 @@ tickerSelectors.currentTicker = createSelector(
   }
 )
 
-tickerSelectors.cryptoName = createSelector(
-  cryptoSelector,
-  crypto => CRYPTO_NAMES[crypto]
-)
-
-tickerSelectors.currencyFilters = createSelector(
-  cryptoSelector,
+tickerSelectors.cryptoFilters = createSelector(
+  chainSelector,
   networkInfoSelector,
-  currencyFiltersSelector,
-  (crypto, networkInfo, currencyFilters) => {
-    if (!crypto || !networkInfo) {
+  cryptoFiltersSelector,
+  (chain, networkInfo, cryptoFilters) => {
+    if (!chain || !networkInfo) {
       return []
     }
-    return currencyFilters[crypto].map(item => ({
+    return cryptoFilters[chain].map(item => ({
       ...item,
-      name: `${networkInfo.unitPrefix}${item.name}`,
+      name: `${networkInfo.unitPrefix}${item.value}`,
     }))
   }
 )
 
 // selector for currency address name e.g BTC, tBTC etc
-tickerSelectors.currencyAddressName = createSelector(
-  cryptoSelector,
-  tickerSelectors.currencyFilters,
-  (crypto, currencyFilters = []) => {
+tickerSelectors.cryptoAddressName = createSelector(
+  chainSelector,
+  tickerSelectors.cryptoFilters,
+  (chain, cryptoFilters = []) => {
     // assume first entry is as a currency ticker name (e.g BTC, LTC etc)
-    const [selectedCurrency] = currencyFilters
+    const [selectedCurrency] = cryptoFilters
     if (selectedCurrency) {
-      return selectedCurrency.name
+      return selectedCurrency.value
     }
     // fallback in case something is very wrong
-    return crypto
+    return chain
   }
 )
 
-tickerSelectors.currencyName = createSelector(
-  currencySelector,
-  tickerSelectors.currencyFilters,
-  (currency, currencyFilters = []) => {
-    let unit = currency
-    const selectedCurrency = currencyFilters.find(c => c.key === currency)
+tickerSelectors.cryptoName = createSelector(
+  tickerSelectors.cryptoUnit,
+  tickerSelectors.cryptoFilters,
+  (unit, cryptoFilters = []) => {
+    const selectedCurrency = cryptoFilters.find(c => c.key === unit)
     if (selectedCurrency) {
-      unit = selectedCurrency.name
+      return selectedCurrency.value
     }
+    // fallback in case something is very wrong
     return unit
   }
 )
@@ -208,8 +169,8 @@ tickerSelectors.currencyName = createSelector(
  * Returns autopay limit currency unit name
  */
 tickerSelectors.autopayCurrencyName = createSelector(
-  tickerSelectors.currencyFilters,
-  currencyFilters => currencyFilters && currencyFilters[currencyFilters.length - 1].name
+  tickerSelectors.cryptoFilters,
+  cryptoFilters => cryptoFilters && cryptoFilters[cryptoFilters.length - 1].value
 )
 
 export { tickerSelectors }
@@ -219,14 +180,11 @@ export { tickerSelectors }
 // ------------------------------------
 const initialState = {
   tickerLoading: false,
-  currency: null,
-  fromCurrency: null,
-  crypto: null,
   btcTicker: null,
   ltcTicker: null,
   fiatTicker: getDefaultCurrency(),
   fiatTickers: currencies,
-  currencyFilters: {
+  cryptoFilters: {
     bitcoin: [
       {
         key: 'btc',

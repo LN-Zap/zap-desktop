@@ -69,12 +69,12 @@ const ShowHideAmount = Keyframes.Spring({
 class Pay extends React.Component {
   static propTypes = {
     chain: PropTypes.string.isRequired,
+    chainName: PropTypes.string.isRequired,
     changeFilter: PropTypes.func.isRequired,
     channelBalance: PropTypes.number.isRequired,
     closeModal: PropTypes.func.isRequired,
     cryptoCurrency: PropTypes.string.isRequired,
     cryptoCurrencyTicker: PropTypes.string.isRequired,
-    cryptoName: PropTypes.string.isRequired,
     fetchTickers: PropTypes.func.isRequired,
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -415,7 +415,7 @@ class Pay extends React.Component {
   }
 
   renderHelpText = () => {
-    const { cryptoName, cryptoCurrencyTicker, payReq } = this.props
+    const { chainName, cryptoCurrencyTicker, payReq } = this.props
     const { currentStep, previousStep } = this.state
 
     // Do not render the help text if the form has just loadad with an initial payment request.
@@ -440,7 +440,7 @@ class Pay extends React.Component {
                 <Text textAlign="justify">
                   <FormattedMessage
                     {...messages.description}
-                    values={{ chain: cryptoName, ticker: cryptoCurrencyTicker }}
+                    values={{ chain: chainName, ticker: cryptoCurrencyTicker }}
                   />
                 </Text>
               </Box>
@@ -624,7 +624,7 @@ class Pay extends React.Component {
       closeModal,
       cryptoCurrency,
       cryptoCurrencyTicker,
-      cryptoName,
+      chainName,
       fetchTickers,
       payReq,
       initialAmountCrypto,
@@ -692,7 +692,7 @@ class Pay extends React.Component {
                 <PayHeader
                   title={
                     <>
-                      <FormattedMessage {...messages.send} /> {cryptoName} ({cryptoCurrencyTicker})
+                      <FormattedMessage {...messages.send} /> {chainName} ({cryptoCurrencyTicker})
                     </>
                   }
                   type={isLn ? 'offchain' : isOnchain ? 'onchain' : null}

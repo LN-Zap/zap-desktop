@@ -9,7 +9,7 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = state => ({
-  currencyName: tickerSelectors.currencyName(state),
+  cryptoName: tickerSelectors.cryptoName(state),
   nodes: state.network.nodes,
 })
 

@@ -6,7 +6,7 @@ import { tickerSelectors } from 'reducers/ticker'
 import { decoratedSelectedChannel } from 'reducers/utils'
 
 const mapStateToProps = state => ({
-  currencyName: tickerSelectors.currencyName(state),
+  cryptoName: tickerSelectors.cryptoName(state),
   networkInfo: infoSelectors.networkInfo(state),
   channel: decoratedSelectedChannel(state),
 })
