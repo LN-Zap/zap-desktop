@@ -192,7 +192,12 @@ class TextArea extends React.PureComponent {
             <Label htmlFor={field} mb={2}>
               {label}
               {isRequired && (
-                <Span css={{ 'vertical-align': 'top' }} fontSize="s">
+                <Span
+                  css={`
+                    vertical-align: top;
+                  `}
+                  fontSize="s"
+                >
                   {' '}
                   *
                 </Span>

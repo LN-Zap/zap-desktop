@@ -30,7 +30,13 @@ class DataRow extends React.PureComponent {
       <Box py={3} {...rest}>
         <Flex alignItems="center" justifyContent="space-between">
           {body ? (
-            <Flex alignItems="center" css={{ cursor: 'pointer' }} onClick={this.toggleBody}>
+            <Flex
+              alignItems="center"
+              css={`
+                cursor: pointer;
+              `}
+              onClick={this.toggleBody}
+            >
               <Flex alignItems="center" flexDirection="column" mr={2} width={8}>
                 {collapsed ? <AngleRight height="8px" /> : <AngleDown width="8px" />}
               </Flex>

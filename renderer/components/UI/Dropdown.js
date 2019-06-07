@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
-import { opacity } from 'styled-system'
+import { themeGet, opacity } from 'styled-system'
 import { useOnClickOutside, useIntl } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
@@ -82,13 +82,13 @@ export const MenuItem = withTheme(
     <Text
       key={item.key}
       as="li"
-      css={{
-        cursor: 'pointer',
-        'white-space': 'nowrap',
-        '&:hover': {
-          'background-color': theme.colors.primaryColor,
-        },
-      }}
+      css={`
+        cursor: pointer;
+        white-space: nowrap;
+        &:hover: {
+          background-color: ${themeGet('colors.primaryColor')};
+        }
+      `}
       onClick={() => onClick(item.key)}
       px={2}
       py={2}
