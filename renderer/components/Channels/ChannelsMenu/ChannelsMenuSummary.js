@@ -61,7 +61,9 @@ const ChannelsMenuSummary = ({
         </>
       }
       color="gray"
-      css={{ opacity: 0.5 }}
+      css={`
+        opacity: 0.5;
+      `}
       title={<FormattedMessage {...messages.summary_row_onchain_title} />}
     />
   </Box>

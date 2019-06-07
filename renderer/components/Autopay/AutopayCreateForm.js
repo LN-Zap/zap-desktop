@@ -119,7 +119,11 @@ const AutopayCreateForm = props => {
               </Heading.h1>
               <Bar my={2} />
             </Panel.Header>
-            <Panel.Body css={{ height: isEditMode ? '250px' : '195px' }}>
+            <Panel.Body
+              css={`
+                height: ${isEditMode ? '250px' : '195px'};
+              `}
+            >
               <Spring
                 native
                 to={{

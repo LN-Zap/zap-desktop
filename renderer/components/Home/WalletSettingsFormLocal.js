@@ -69,7 +69,9 @@ class WalletSettingsFormLocal extends React.Component {
             right={
               <Input
                 allowEmptyString
-                css={{ 'text-align': 'right' }}
+                css={`
+                  text-align: right;
+                `}
                 field="name"
                 id="name"
                 justifyContent="right"
@@ -98,7 +100,9 @@ class WalletSettingsFormLocal extends React.Component {
             right={
               <Input
                 allowEmptyString
-                css={{ 'text-align': 'right' }}
+                css={`
+                  text-align: right;
+                `}
                 field="alias"
                 id="alias"
                 justifyContent="right"
@@ -153,7 +157,9 @@ class WalletSettingsFormLocal extends React.Component {
                 py={2}
                 right={
                   <Input
-                    css={{ 'text-align': 'right' }}
+                    css={`
+                      text-align: right;
+                    `}
                     field="autopilotMaxchannels"
                     id="autopilotMaxchannels"
                     initialValue={autopilotMaxchannels || autopilotDefaults.autopilotMaxchannels}
@@ -176,7 +182,9 @@ class WalletSettingsFormLocal extends React.Component {
                 py={2}
                 right={
                   <Input
-                    css={{ 'text-align': 'right' }}
+                    css={`
+                      text-align: right;
+                    `}
                     field="autopilotMinchansize"
                     id="autopilotMinchansize"
                     initialValue={autopilotMinchansize || autopilotDefaults.autopilotMinchansize}
@@ -200,7 +208,9 @@ class WalletSettingsFormLocal extends React.Component {
                 py={2}
                 right={
                   <Input
-                    css={{ 'text-align': 'right' }}
+                    css={`
+                      text-align: right;
+                    `}
                     field="autopilotMaxchansize"
                     id="autopilotMaxchansize"
                     initialValue={autopilotMaxchansize || autopilotDefaults.autopilotMaxchansize}

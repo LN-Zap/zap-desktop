@@ -68,7 +68,6 @@ class SeedView extends React.Component {
     return (
       <Form
         {...rest}
-        css={{ width: '100%' }}
         getApi={formApi => {
           this.setFormApi(formApi)
           if (getApi) {
@@ -78,6 +77,7 @@ class SeedView extends React.Component {
         onChange={onChange && (formState => onChange(formState, currentItem))}
         onSubmit={onSubmit}
         onSubmitFailure={onSubmitFailure}
+        width={1}
       >
         {() => (
           <>

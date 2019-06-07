@@ -42,7 +42,13 @@ const WalletMenu = ({ openModal }) => {
     <Flex as="section">
       <ChannelsMenu />
       {isAutopayEnabled() && <AutopayMenuItem openModal={openModal} />}
-      <SettingsMenu css={{ position: 'relative', 'z-index': '40' }} ml={4} />
+      <SettingsMenu
+        css={`
+          position: relative;
+          z-index: 40;
+        `}
+        ml={4}
+      />
     </Flex>
   )
 }
