@@ -4,7 +4,6 @@ import { ChannelCreateSummary } from 'components/Channels'
 import { Provider } from '../../Provider'
 
 storiesOf('Containers.Channels', module)
-  .addParameters({ info: { disable: true } })
   .addDecorator(story => <Provider story={story()} />)
   .addWithChapters('ChannelCreateSummary', {
     chapters: [

@@ -81,7 +81,6 @@ const setUnlockWalletError = async unlockWalletError => store.set({ unlockWallet
 const setActiveWallet = async activeWallet => store.set({ activeWallet })
 
 storiesOf('Containers.Home', module)
-  .addParameters({ info: { disable: true } })
   .addDecorator(
     StoryRouter({
       '/onboarding': linkTo('Containers.Onboarding', 'Onboarding'),

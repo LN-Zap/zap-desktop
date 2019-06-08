@@ -4,7 +4,6 @@ import ChannelsMenu from 'containers/Channels/ChannelsMenu'
 import { Provider } from '../../Provider'
 
 storiesOf('Containers.Channels', module)
-  .addParameters({ info: { disable: true } })
   .addDecorator(story => <Provider story={story()} />)
   .addWithChapters('ChannelsMenu', {
     chapters: [

@@ -12,7 +12,6 @@ const setIsWalletOpen = () => ({})
 const showNotification = () => ({})
 
 storiesOf('Containers.Syncing', module)
-  .addParameters({ info: { disable: true } })
   .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => <Window>{story()}</Window>)
   .add('Syncing', () => {

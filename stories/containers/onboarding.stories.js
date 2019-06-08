@@ -115,7 +115,6 @@ const validateMacaroon = async value => {
 const createWallet = async () => action('createWallet')
 
 storiesOf('Containers.Onboarding', module)
-  .addParameters({ info: { disable: true } })
   .addDecorator(story => <Window>{story()}</Window>)
   .add('Onboarding', () => {
     return (

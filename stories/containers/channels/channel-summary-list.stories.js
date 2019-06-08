@@ -103,7 +103,6 @@ const setSelectedChannel = action('setSelectedChannel')
 const openModal = action('openModal')
 
 storiesOf('Containers.Channels', module)
-  .addParameters({ info: { disable: true } })
   .addDecorator(story => <Provider story={story()} />)
   .addWithChapters('ChannelSummaryList', {
     chapters: [
