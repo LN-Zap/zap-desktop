@@ -200,10 +200,13 @@ walletSelectors.hasWallets = createSelector(
   walletSelectors.wallets,
   wallets => wallets.length > 0
 )
-
 walletSelectors.isWalletOpen = createSelector(
   isWalletOpenSelector,
   isOpen => isOpen
+)
+walletSelectors.lndconnectQRCode = createSelector(
+  walletSelectors.activeWalletSettings,
+  activeWallet => activeWallet.lndconnectQRCode
 )
 
 export { walletSelectors }
