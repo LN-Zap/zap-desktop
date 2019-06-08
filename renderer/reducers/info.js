@@ -4,7 +4,6 @@ import { networks } from '@zap/utils/crypto'
 import { grpcService } from 'workers'
 import { initAddresses } from './address'
 import { putWallet, walletSelectors } from './wallet'
-import { receiveCryptocurrency } from './ticker'
 import { settingsSelectors } from './settings'
 
 // ------------------------------------
@@ -13,57 +12,6 @@ import { settingsSelectors } from './settings'
 export const GET_INFO = 'GET_INFO'
 export const RECEIVE_INFO = 'RECEIVE_INFO'
 export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
-
-const networkInfo = {
-  bitcoin: {
-    mainnet: {
-      id: 'mainnet',
-      name: 'Mainnet',
-      explorerUrls: {
-        blockstream: 'https://blockstream.info',
-        blockcypher: 'https://live.blockcypher.com/btc',
-        smartbit: 'https://www.smartbit.com.au',
-      },
-      bitcoinJsNetwork: networks.bitcoin.mainnet,
-      unitPrefix: '',
-    },
-    testnet: {
-      id: 'testnet',
-      name: 'Testnet',
-      explorerUrls: {
-        blockstream: 'https://blockstream.info/testnet',
-        blockcypher: 'https://live.blockcypher.com/btc-testnet',
-        smartbit: 'https://testnet.smartbit.com.au',
-      },
-      bitcoinJsNetwork: networks.bitcoin.testnet,
-      unitPrefix: 't',
-    },
-  },
-  litecoin: {
-    mainnet: {
-      id: 'mainnet',
-      name: 'Mainnet',
-      explorerUrls: {
-        blockstream: 'https://insight.litecore.io', // not supported, default to insight.
-        blockcypher: 'https://live.blockcypher.com/ltc',
-        smartbit: 'https://insight.litecore.io', // not supported, default to insight.
-      },
-      bitcoinJsNetwork: networks.litecoin.mainnet,
-      unitPrefix: '',
-    },
-    testnet: {
-      id: 'testnet',
-      name: 'Testnet',
-      explorerUrls: {
-        blockstream: 'https://testnet.litecore.io', // not supported, default to insight.
-        blockcypher: 'https://testnet.litecore.io', // not supported, default to insight.
-        smartbit: 'https://testnet.litecore.io', // not supported, default to insight.
-      },
-      bitcoinJsNetwork: networks.litecoin.testnet,
-      unitPrefix: 't',
-    },
-  },
-}
 
 // ------------------------------------
 // Actions
@@ -108,8 +56,6 @@ export const receiveInfo = data => async (dispatch, getState) => {
   dispatch({ type: RECEIVE_INFO, data })
 
   const state = getState()
-
-  dispatch(receiveCryptocurrency(data.chains[0].chain))
 
   // Now that we have the node info, load it's sync state.
   const node = await window.db.nodes.get({ id: data.identity_pubkey })
@@ -165,12 +111,70 @@ const initialState = {
   chain: null,
   network: null,
   data: {},
-  networks: networkInfo,
+  networks: {
+    bitcoin: {
+      mainnet: {
+        id: 'mainnet',
+        name: 'Mainnet',
+        explorerUrls: {
+          blockstream: 'https://blockstream.info',
+          blockcypher: 'https://live.blockcypher.com/btc',
+          smartbit: 'https://www.smartbit.com.au',
+        },
+        bitcoinJsNetwork: networks.bitcoin.mainnet,
+        unitPrefix: '',
+      },
+      testnet: {
+        id: 'testnet',
+        name: 'Testnet',
+        explorerUrls: {
+          blockstream: 'https://blockstream.info/testnet',
+          blockcypher: 'https://live.blockcypher.com/btc-testnet',
+          smartbit: 'https://testnet.smartbit.com.au',
+        },
+        bitcoinJsNetwork: networks.bitcoin.testnet,
+        unitPrefix: 't',
+      },
+    },
+    litecoin: {
+      mainnet: {
+        id: 'mainnet',
+        name: 'Mainnet',
+        explorerUrls: {
+          blockstream: 'https://insight.litecore.io', // not supported, default to insight.
+          blockcypher: 'https://live.blockcypher.com/ltc',
+          smartbit: 'https://insight.litecore.io', // not supported, default to insight.
+        },
+        bitcoinJsNetwork: networks.litecoin.mainnet,
+        unitPrefix: '',
+      },
+      testnet: {
+        id: 'testnet',
+        name: 'Testnet',
+        explorerUrls: {
+          blockstream: 'https://testnet.litecore.io', // not supported, default to insight.
+          blockcypher: 'https://testnet.litecore.io', // not supported, default to insight.
+          smartbit: 'https://testnet.litecore.io', // not supported, default to insight.
+        },
+        bitcoinJsNetwork: networks.litecoin.testnet,
+        unitPrefix: 't',
+      },
+    },
+  },
+  chains: {
+    bitcoin: {
+      name: 'Bitcoin',
+    },
+    litecoin: {
+      name: 'Litecoin',
+    },
+  },
 }
 
 // Selectors
 const infoSelectors = {}
 infoSelectors.chainSelector = state => state.info.chain
+infoSelectors.chainsSelector = state => state.info.chains
 infoSelectors.networkSelector = state => state.info.network
 infoSelectors.networksSelector = state => state.info.networks
 infoSelectors.infoLoading = state => state.info.infoLoading
@@ -195,6 +199,12 @@ infoSelectors.networkInfo = createSelector(
     networkInfo.explorerUrl = networkInfo.explorerUrls[currentConfig.blockExplorer]
     return networkInfo
   }
+)
+
+infoSelectors.chainName = createSelector(
+  infoSelectors.chainSelector,
+  infoSelectors.chainsSelector,
+  (chain, chains) => get(chains, `${chain}.name`, null)
 )
 
 export { infoSelectors }

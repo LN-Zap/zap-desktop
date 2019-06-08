@@ -13,7 +13,7 @@ import messages from './messages'
 
 const Box = styled(BaseBox)(opacity)
 
-const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) => {
+const ChannelData = ({ channel, cryptoUnitName, networkInfo, viewMode, ...rest }) => {
   const {
     channel_point,
     closing_txid,
@@ -97,7 +97,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
         <Text>
           <CryptoValue value={total_satoshis_sent} />
           {` `}
-          {currencyName}
+          {cryptoUnitName}
         </Text>
       ),
     }),
@@ -109,7 +109,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
         <Text>
           <CryptoValue value={total_satoshis_received} />
           {` `}
-          {currencyName}
+          {cryptoUnitName}
         </Text>
       ),
     }),
@@ -121,19 +121,19 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
         <Text>
           <CryptoValue value={commit_fee} />
           {` `}
-          {currencyName}
+          {cryptoUnitName}
         </Text>
       ),
     }),
 
     fee_per_kw: () => ({
       label: <FormattedMessage {...messages.base_fee_label} />,
-      body: <FormattedMessage {...messages.base_fee_description} values={{ currencyName }} />,
+      body: <FormattedMessage {...messages.base_fee_description} values={{ cryptoUnitName }} />,
       value: (
         <Text>
           <CryptoValue value={fee_per_kw} />
           {` `}
-          {currencyName}
+          {cryptoUnitName}
         </Text>
       ),
     }),
@@ -193,7 +193,7 @@ const ChannelData = ({ channel, currencyName, networkInfo, viewMode, ...rest }) 
 
 ChannelData.propTypes = {
   channel: PropTypes.object.isRequired,
-  currencyName: PropTypes.string.isRequired,
+  cryptoUnitName: PropTypes.string.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

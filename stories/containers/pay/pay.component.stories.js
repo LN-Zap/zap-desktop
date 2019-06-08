@@ -9,7 +9,7 @@ import { tickerSelectors } from 'reducers/ticker'
 import { Provider, store } from '../../Provider'
 
 const data = {
-  cryptoName: 'Bitcoin',
+  chainName: 'Bitcoin',
   walletBalance: 47238944,
   walletBalanceConfirmed: 37236599,
   walletBalanceUnconfirmed: 10002345,
@@ -74,8 +74,8 @@ storiesOf('Containers.Pay', module)
               return (
                 <PaySummaryLightning
                   // State
-                  cryptoCurrency={state.ticker.currency}
-                  cryptoCurrencyTicker={tickerSelectors.currencyName(state)}
+                  cryptoUnit={tickerSelectors.cryptoUnit(state)}
+                  cryptoUnitName={tickerSelectors.cryptoUnitName(state)}
                   maxFee={18}
                   minFee={12}
                   nodes={data.nodes}
@@ -97,8 +97,8 @@ storiesOf('Containers.Pay', module)
                   // State
                   address={text('Address', 'mmxyr3LNKbnbrf6jdGXZpCE4EDpMSZRf4c')}
                   amount={number('Amount (satoshis)', 10000)}
-                  cryptoCurrency={state.ticker.currency}
-                  cryptoCurrencyTicker={tickerSelectors.currencyName(state)}
+                  cryptoUnit={tickerSelectors.cryptoUnit(state)}
+                  cryptoUnitName={tickerSelectors.cryptoUnitName(state)}
                   onchainFees={data.onchainFees}
                   // Dispatch
                   queryFees={mockQueryFees}

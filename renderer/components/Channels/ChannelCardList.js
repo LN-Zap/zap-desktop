@@ -13,7 +13,7 @@ const StyledList = styled(Grid)`
 `
 const ChannelCardList = ({
   channels,
-  currencyName,
+  cryptoUnitName,
   openModal,
   setSelectedChannel,
   networkInfo,
@@ -42,7 +42,7 @@ const ChannelCardList = ({
       >
         <ChannelCardListItem
           channel={channel}
-          currencyName={currencyName}
+          cryptoUnitName={cryptoUnitName}
           height="100%"
           networkInfo={networkInfo}
           openModal={openModal}
@@ -74,7 +74,7 @@ const ChannelCardList = ({
 
 ChannelCardList.propTypes = {
   channels: PropTypes.array,
-  currencyName: PropTypes.string.isRequired,
+  cryptoUnitName: PropTypes.string.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,

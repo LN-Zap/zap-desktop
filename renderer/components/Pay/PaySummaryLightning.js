@@ -15,7 +15,7 @@ class PaySummaryLightning extends React.Component {
     /** Amount to send (in satoshis). */
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Ticker symbol of the currently selected cryptocurrency. */
-    cryptoCurrencyTicker: PropTypes.string.isRequired,
+    cryptoUnitName: PropTypes.string.isRequired,
     /** Boolean indicating wether routing information is currently being fetched. */
     isQueryingRoutes: PropTypes.bool,
     /** Maximum fee for the payment */
@@ -38,7 +38,7 @@ class PaySummaryLightning extends React.Component {
   render() {
     const {
       amount,
-      cryptoCurrencyTicker,
+      cryptoUnitName,
       isQueryingRoutes,
       maxFee,
       minFee,
@@ -133,7 +133,7 @@ class PaySummaryLightning extends React.Component {
           left={<FormattedMessage {...messages.total} />}
           right={
             <React.Fragment>
-              <CryptoValue value={amountInSatoshis + maxFee} /> {cryptoCurrencyTicker}
+              <CryptoValue value={amountInSatoshis + maxFee} /> {cryptoUnitName}
             </React.Fragment>
           }
         />

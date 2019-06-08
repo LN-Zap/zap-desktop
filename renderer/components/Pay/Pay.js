@@ -69,12 +69,12 @@ const ShowHideAmount = Keyframes.Spring({
 class Pay extends React.Component {
   static propTypes = {
     chain: PropTypes.string.isRequired,
+    chainName: PropTypes.string.isRequired,
     changeFilter: PropTypes.func.isRequired,
     channelBalance: PropTypes.number.isRequired,
     closeModal: PropTypes.func.isRequired,
-    cryptoCurrency: PropTypes.string.isRequired,
-    cryptoCurrencyTicker: PropTypes.string.isRequired,
-    cryptoName: PropTypes.string.isRequired,
+    cryptoUnit: PropTypes.string.isRequired,
+    cryptoUnitName: PropTypes.string.isRequired,
     fetchTickers: PropTypes.func.isRequired,
     initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     initialAmountFiat: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
@@ -239,26 +239,24 @@ class Pay extends React.Component {
 
   setCoinSweep = isEnabled => {
     if (isEnabled) {
-      const { cryptoCurrency, walletBalanceConfirmed } = this.props
-      let onChainBalance = convert('sats', cryptoCurrency, walletBalanceConfirmed)
+      const { cryptoUnit, walletBalanceConfirmed } = this.props
+      let onChainBalance = convert('sats', cryptoUnit, walletBalanceConfirmed)
       this.formApi.setValue('amountCrypto', onChainBalance.toString())
     }
   }
 
   amountInSats = () => {
     const { isLn, isOnchain, invoice } = this.state
-    const { cryptoCurrency } = this.props
+    const { cryptoUnit } = this.props
     const amount = this.formApi.getValue('amountCrypto')
 
     if (isLn && invoice) {
       const { satoshis, millisatoshis } = invoice
       return (
-        satoshis ||
-        convert('msats', 'sats', millisatoshis) ||
-        convert(cryptoCurrency, 'sats', amount)
+        satoshis || convert('msats', 'sats', millisatoshis) || convert(cryptoUnit, 'sats', amount)
       )
     } else if (isOnchain) {
-      return convert(cryptoCurrency, 'sats', amount)
+      return convert(cryptoUnit, 'sats', amount)
     }
   }
 
@@ -270,7 +268,7 @@ class Pay extends React.Component {
   onSubmit = values => {
     const { currentStep, isOnchain } = this.state
     const {
-      cryptoCurrency,
+      cryptoUnit,
       payInvoice,
       routes,
       sendCoins,
@@ -287,7 +285,7 @@ class Pay extends React.Component {
         sendCoins({
           addr: values.payReq,
           value: values.amountCrypto,
-          currency: cryptoCurrency,
+          cryptoUnit: cryptoUnit,
           satPerByte: satPerByte,
           isCoinSweep: values.isCoinSweep,
         })
@@ -415,7 +413,7 @@ class Pay extends React.Component {
   }
 
   renderHelpText = () => {
-    const { cryptoName, cryptoCurrencyTicker, payReq } = this.props
+    const { chainName, cryptoUnitName, payReq } = this.props
     const { currentStep, previousStep } = this.state
 
     // Do not render the help text if the form has just loadad with an initial payment request.
@@ -440,7 +438,7 @@ class Pay extends React.Component {
                 <Text textAlign="justify">
                   <FormattedMessage
                     {...messages.description}
-                    values={{ chain: cryptoName, ticker: cryptoCurrencyTicker }}
+                    values={{ chain: chainName, ticker: cryptoUnitName }}
                   />
                 </Text>
               </Box>
@@ -622,9 +620,9 @@ class Pay extends React.Component {
       channelBalance,
       changeFilter,
       closeModal,
-      cryptoCurrency,
-      cryptoCurrencyTicker,
-      cryptoName,
+      cryptoUnit,
+      cryptoUnitName,
+      chainName,
       fetchTickers,
       payReq,
       initialAmountCrypto,
@@ -681,7 +679,7 @@ class Pay extends React.Component {
                   {` `}
                   <CryptoValue value={amountInSats} />
                   {` `}
-                  {cryptoCurrencyTicker}
+                  {cryptoUnitName}
                 </>
               )
             }
@@ -692,7 +690,7 @@ class Pay extends React.Component {
                 <PayHeader
                   title={
                     <>
-                      <FormattedMessage {...messages.send} /> {cryptoName} ({cryptoCurrencyTicker})
+                      <FormattedMessage {...messages.send} /> {chainName} ({cryptoUnitName})
                     </>
                   }
                   type={isLn ? 'offchain' : isOnchain ? 'onchain' : null}
@@ -738,12 +736,12 @@ class Pay extends React.Component {
                           <Text fontSize="xs" textAlign="center">
                             <CryptoValue value={walletBalanceConfirmed} />
                             {` `}
-                            {cryptoCurrencyTicker} (onchain),
+                            {cryptoUnitName} (onchain),
                           </Text>
                           <Text fontSize="xs" textAlign="center">
                             <CryptoValue value={channelBalance} />
                             {` `}
-                            {cryptoCurrencyTicker} (in channels)
+                            {cryptoUnitName} (in channels)
                           </Text>
                         </React.Fragment>
                       )}

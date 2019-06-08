@@ -4,7 +4,7 @@ import { tickerSelectors } from 'reducers/ticker'
 import { queryFees } from 'reducers/pay'
 
 const mapStateToProps = state => ({
-  cryptoCurrencyTicker: tickerSelectors.currencyName(state),
+  cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   isQueryingFees: state.pay.isQueryingFees,
   nodes: state.network.nodes,
   onchainFees: state.pay.onchainFees,

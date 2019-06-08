@@ -9,9 +9,9 @@ const props = {
     EUR: 5656.01,
     GBP: 5052.73,
   },
-  cryptoCurrency: 'btc',
-  cryptoCurrencyTicker: 'BTC',
-  cryptoCurrencies: [
+  cryptoUnit: 'btc',
+  cryptoUnitName: 'BTC',
+  cryptoUnits: [
     {
       key: 'btc',
       name: 'BTC',

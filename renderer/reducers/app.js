@@ -138,7 +138,7 @@ appSelectors.isLoading = state => state.app.isLoading
 appSelectors.isMounted = state => state.app.isMounted
 appSelectors.isDatabaseReady = state => state.app.isDatabaseReady
 appSelectors.isSettingsLoaded = state => state.settings.isSettingsLoaded
-appSelectors.currency = state => state.ticker.currency
+appSelectors.currency = state => tickerSelectors.cryptoUnit(state)
 appSelectors.infoLoaded = state => state.info.infoLoaded
 appSelectors.isRunning = state => state.app.isRunning
 appSelectors.walletBalance = state => state.balance.walletBalance
@@ -155,7 +155,7 @@ appSelectors.isRootReady = createSelector(
 
 appSelectors.isAppReady = createSelector(
   appSelectors.infoLoaded,
-  tickerSelectors.currency,
+  tickerSelectors.cryptoUnit,
   tickerSelectors.currentTicker,
   appSelectors.walletBalance,
   appSelectors.channelBalance,

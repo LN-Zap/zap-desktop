@@ -10,7 +10,7 @@ const mapDispatchToProps = {
 const mapStateToProps = state => ({
   activity: state.activity,
   currentActivity: activitySelectors.currentActivity(state)(state),
-  currencyName: tickerSelectors.currencyName(state),
+  cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   currentTicker: tickerSelectors.currentTicker(state),
   ticker: state.ticker,
 })

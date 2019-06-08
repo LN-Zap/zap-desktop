@@ -65,7 +65,7 @@ export default defineMessages({
     'The amount to be paid in fees for the current set of commitment transactions.',
   base_fee_label: "Node's Fee Base",
   base_fee_description:
-    'The required number of {currencyName} per kilo-weight that the requester will pay at all times, for both the funding transaction and commitment transaction.',
+    'The required number of {cryptoUnitName} per kilo-weight that the requester will pay at all times, for both the funding transaction and commitment transaction.',
   close_channel_dialog_close_text: 'Close',
   close_channel_dialog_force_close_text: 'Force Close',
   close_channel_dialog_cancel_text: 'Cancel',

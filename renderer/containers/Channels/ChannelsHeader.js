@@ -20,7 +20,7 @@ const mapStateToProps = state => ({
   sendCapacity: channelsSelectors.sendCapacity(state),
   receiveCapacity: channelsSelectors.receiveCapacity(state),
   channelViewMode: state.channels.viewMode,
-  currencyName: tickerSelectors.currencyName(state),
+  cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   filter: state.channels.filter,
   filters: state.channels.filters,
   sort: state.channels.sort,

@@ -22,7 +22,7 @@ SummaryRow.propTypes = {
 }
 
 const ChannelsMenuSummary = ({
-  currencyName,
+  cryptoUnitName,
   lightningBalance,
   onchainBalance,
   pendingBalance,
@@ -33,7 +33,7 @@ const ChannelsMenuSummary = ({
       body={
         <>
           <CryptoValue mr={1} value={lightningBalance} />
-          {currencyName}
+          {cryptoUnitName}
         </>
       }
       color="lightningOrange"
@@ -44,7 +44,7 @@ const ChannelsMenuSummary = ({
         body={
           <>
             <CryptoValue mr={1} value={pendingBalance} />
-            {currencyName}
+            {cryptoUnitName}
           </>
         }
         color="gray"
@@ -57,7 +57,7 @@ const ChannelsMenuSummary = ({
       body={
         <>
           <CryptoValue mr={1} value={onchainBalance} />
-          {currencyName}
+          {cryptoUnitName}
         </>
       }
       color="gray"
@@ -70,7 +70,7 @@ const ChannelsMenuSummary = ({
 )
 
 ChannelsMenuSummary.propTypes = {
-  currencyName: PropTypes.string.isRequired,
+  cryptoUnitName: PropTypes.string.isRequired,
   lightningBalance: PropTypes.number.isRequired,
   onchainBalance: PropTypes.number.isRequired,
   pendingBalance: PropTypes.number.isRequired,

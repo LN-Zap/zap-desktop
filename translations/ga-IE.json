@@ -105,7 +105,7 @@
   "components.Channels.ChannelsMenu.summary_row_pending_title": "Ar feitheamh",
   "components.Channels.ChannelsMenu.title": "Cainéil",
   "components.Channels.back_button": "Ar ais",
-  "components.Channels.base_fee_description": "An líon riachtanach {currencyName} an cileagram a íocfaidh an t-iarrthóir i gcónaí, le haghaidh an idirbhirt maoinithe agus an idirbhirt tiomantais.",
+  "components.Channels.base_fee_description": "An líon riachtanach {cryptoUnitName} an cileagram a íocfaidh an t-iarrthóir i gcónaí, le haghaidh an idirbhirt maoinithe agus an idirbhirt tiomantais.",
   "components.Channels.base_fee_label": "Bonn Táillí Node",
   "components.Channels.capacity": "Cumas",
   "components.Channels.channel_activity": "",

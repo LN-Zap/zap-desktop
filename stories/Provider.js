@@ -11,6 +11,7 @@ import { getDefaultLocale } from '@zap/i18n'
 import { getDb } from '@zap/renderer/store/db'
 import getDbName from '@zap/utils/db'
 import { setTheme } from 'reducers/theme'
+import { setCryptoUnit } from 'reducers/ticker'
 
 export const db = getDb(getDbName(config))
 db.open()
@@ -51,6 +52,7 @@ Provider.propTypes = {
 }
 
 store.dispatch(setTheme('dark'))
+store.dispatch(setCryptoUnit('btc'))
 
 store.dispatch({
   type: 'RECEIVE_INFO',
@@ -75,14 +77,6 @@ store.dispatch({
     GBP: '23.605',
     USD: '30.775',
   },
-})
-store.dispatch({
-  type: 'SET_CRYPTO',
-  crypto: 'bitcoin',
-})
-store.dispatch({
-  type: 'SET_CURRENCY',
-  currency: 'btc',
 })
 store.dispatch({
   type: 'FETCH_BALANCE_SUCCESS',
