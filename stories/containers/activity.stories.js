@@ -12,7 +12,6 @@ import { Provider, store } from '../Provider'
 import { Window } from '../helpers'
 
 storiesOf('Containers.Activity', module)
-  .addParameters({ info: { disable: true } })
   .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => <Window>{story()}</Window>)
   .add('InvoiceModal', () => {

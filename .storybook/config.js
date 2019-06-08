@@ -3,7 +3,6 @@ import { addParameters, addDecorator, configure, setAddon } from '@storybook/rea
 import { withThemes } from 'storybook-styled-components'
 import { withTheme } from 'styled-components'
 import { themes } from '@storybook/theming'
-import { withInfo } from '@storybook/addon-info'
 import chaptersAddon, { setDefaults } from 'react-storybook-addon-chapters'
 import { withConsole } from '@storybook/addon-console'
 import { withKnobs } from '@storybook/addon-knobs'
@@ -39,19 +38,6 @@ setIntlConfig({
   getMessages: locale => translations[locale],
 })
 
-// Info
-addDecorator(
-  withInfo({
-    styles: {
-      button: {
-        base: {
-          background: dark.colors.lightningOrange,
-        },
-      },
-    },
-  })
-)
-
 // Intl
 addDecorator(withIntl)
 
@@ -67,8 +53,8 @@ addDecorator(withKnobs)
 // Options
 addParameters({
   options: {
-    name: 'Zap',
-    url: 'https://ln-zap.github.io/zap-desktop',
+    brandTitle: 'Zap',
+    brandUrl: 'https://ln-zap.github.io/zap-desktop',
     theme: themes.dark,
     hierarchySeparator: /\./,
   },

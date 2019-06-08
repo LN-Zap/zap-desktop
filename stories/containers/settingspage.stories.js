@@ -5,7 +5,6 @@ import { Provider } from '../Provider'
 import { Window } from '../helpers'
 
 storiesOf('Containers.SettingsPage', module)
-  .addParameters({ info: { disable: true } })
   .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => <Window>{story()}</Window>)
   .add('SettingsPage', () => <SettingsPage />)

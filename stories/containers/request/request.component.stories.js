@@ -44,7 +44,6 @@ const payReq = text(
 )
 
 storiesOf('Containers.Request', module)
-  .addParameters({ info: { disable: true } })
   .addDecorator(story => <Provider story={story()} />)
   .add('RequestSummary', () => {
     return (
