@@ -1,10 +1,9 @@
 import { connect } from 'react-redux'
 import { tickerSelectors } from 'reducers/ticker'
-import { showActivityModal, toggleExpiredRequests, activitySelectors } from 'reducers/activity'
+import { toggleExpiredRequests, activitySelectors } from 'reducers/activity'
 import Activity from 'components/Activity'
 
 const mapDispatchToProps = {
-  showActivityModal,
   toggleExpiredRequests,
 }
 
