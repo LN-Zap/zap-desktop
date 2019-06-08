@@ -1,7 +1,6 @@
 import { createSelector } from 'reselect'
-import throttle from 'lodash.throttle'
 import { proxyValue } from 'comlinkjs'
-import orderBy from 'lodash.orderby'
+import { orderBy, throttle } from 'lodash'
 import { requestSuggestedNodes } from '@zap/utils/api'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { grpcService } from 'workers'

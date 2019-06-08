@@ -1,5 +1,4 @@
-import transform from 'lodash.transform'
-import isEqual from 'lodash.isequal'
+import { isEqual, transform } from 'lodash'
 import isObject from '@zap/utils/isObject'
 
 /**

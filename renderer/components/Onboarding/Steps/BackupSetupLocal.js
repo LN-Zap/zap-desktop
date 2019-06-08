@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
-import debounce from 'lodash.debounce'
+import { debounce } from 'lodash'
 import { Form, OpenDialogInput, Heading, Bar } from 'components/UI'
 import { BACKUP_FORM_WIDTH, BACKUP_FORM_HEIGHT } from './components/settings'
 import Container from './components/Container'

@@ -1,5 +1,5 @@
 import axios from 'axios'
-import get from 'lodash.get'
+import { get } from 'lodash'
 import { mainLog } from '@zap/utils/log'
 
 /**

@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import isEqual from 'lodash.isequal'
+import { isEqual } from 'lodash'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'

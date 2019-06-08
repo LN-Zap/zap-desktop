@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import debounce from 'lodash.debounce'
+import { debounce } from 'lodash'
 import styled from 'styled-components'
 import { Panel } from 'components/UI'
 import PersistentTabControl from 'components/TabControl/PersistentTabControl'
