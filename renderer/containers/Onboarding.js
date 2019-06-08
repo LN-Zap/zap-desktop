@@ -107,19 +107,20 @@ const OnboardingContainer = connect(
 const ModalOverlay = styled.div`
   ${ModalOverlayStyles}
 `
-function OnboardingModal({ hasWallets, onClose }) {
+function OnboardingModal({ hasWallets, onClose, ...rest }) {
   useOnKeydown('Escape', onClose)
+
   return (
     <ModalOverlay>
       <Modal hasClose={hasWallets} onClose={onClose} p={4}>
-        <OnboardingContainer />
+        <OnboardingContainer {...rest} />
       </Modal>
     </ModalOverlay>
   )
 }
 
 OnboardingModal.propTypes = {
-  hasWallets: PropTypes.bool.isRequired,
+  hasWallets: PropTypes.bool,
   onClose: PropTypes.func.isRequired,
 }
 

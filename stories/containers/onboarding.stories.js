@@ -2,38 +2,10 @@ import React from 'react'
 import { storiesOf } from '@storybook/react'
 import { action } from '@storybook/addon-actions'
 import { linkTo } from '@storybook/addon-links'
-import { State, Store } from '@sambego/storybook-state'
 import delay from '@zap/utils/delay'
-import { Modal } from 'components/UI'
-import { Onboarding } from 'components/Onboarding'
+import Onboarding from 'containers/Onboarding'
 import { Window } from '../helpers'
-
-const initialValues = {
-  name: '',
-  connectionType: 'local',
-  connectionHost: '',
-  connectionCert: '',
-  connectionMacaroon: '',
-  connectionString: `{
-  "configurations": [
-    {
-      "type": "grpc",
-      "cryptoCode": "BTC",
-      "host": "host",
-      "port": "19000",
-      "macaroon": "macaroon"
-    }
-  ]
-}`,
-  startLndHostError: '',
-  startLndCertError: '',
-  startLndMacaroonError: '',
-  password: '',
-  seed: [],
-  onboarding: true,
-}
-
-const store = new Store(initialValues)
+import { Provider, store } from '../Provider'
 
 // State
 const setConnectionType = connectionType => store.set({ connectionType })
@@ -43,11 +15,9 @@ const setConnectionMacaroon = connectionMacaroon => store.set({ connectionMacaro
 const setName = name => store.set({ name })
 const setAutopilot = autopilot => store.set({ autopilot })
 const setPassword = password => store.set({ password })
-const resetOnboarding = () => {
-  store.set(initialValues)
-}
 
 const fetchSeed = async () => {
+  console.log('fetchSeed....')
   store.set({ isFetchingSeed: true })
   await delay(1000)
   store.set({
@@ -115,30 +85,26 @@ const validateMacaroon = async value => {
 const createWallet = async () => action('createWallet')
 
 storiesOf('Containers.Onboarding', module)
+  .addDecorator(story => <Provider story={story()} />)
   .addDecorator(story => <Window>{story()}</Window>)
   .add('Onboarding', () => {
     return (
-      <Modal onClose={linkTo('Containers.Home', 'Home')} p={4}>
-        <State store={store}>
-          <Onboarding
-            // DISPATCH
-            createWallet={createWallet}
-            fetchSeed={fetchSeed}
-            resetOnboarding={resetOnboarding}
-            setAutopilot={setAutopilot}
-            setConnectionCert={setConnectionCert}
-            setConnectionHost={setConnectionHost}
-            setConnectionMacaroon={setConnectionMacaroon}
-            setConnectionType={setConnectionType}
-            setName={setName}
-            setPassword={setPassword}
-            startLnd={startLnd}
-            stopLnd={stopLnd}
-            validateCert={validateCert}
-            validateHost={validateHost}
-            validateMacaroon={validateMacaroon}
-          />
-        </State>
-      </Modal>
+      <Onboarding
+        createWallet={createWallet}
+        fetchSeed={fetchSeed}
+        onClose={linkTo('Containers.Home', 'Home')}
+        setAutopilot={setAutopilot}
+        setConnectionCert={setConnectionCert}
+        setConnectionHost={setConnectionHost}
+        setConnectionMacaroon={setConnectionMacaroon}
+        setConnectionType={setConnectionType}
+        setName={setName}
+        setPassword={setPassword}
+        startLnd={startLnd}
+        stopLnd={stopLnd}
+        validateCert={validateCert}
+        validateHost={validateHost}
+        validateMacaroon={validateMacaroon}
+      />
     )
   })

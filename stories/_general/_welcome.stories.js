@@ -1,6 +1,5 @@
 import React from 'react'
 import { storiesOf } from '@storybook/react'
-import { StateDecorator, Store } from '@sambego/storybook-state'
 import { Flex } from 'rebass'
 import {
   Button,
@@ -17,42 +16,10 @@ import {
   Tooltip,
 } from 'components/UI'
 import { Column, Group, Element } from '../helpers'
-
-const store = new Store({
-  crypto: 'btc',
-  fiat: 'usd',
-  cryptoUnits: [
-    {
-      key: 'btc',
-      value: 'BTC',
-    },
-    {
-      key: 'bits',
-      value: 'bits',
-    },
-    {
-      key: 'sats',
-      value: 'satoshis',
-    },
-  ],
-  fiatCurrencies: [
-    {
-      key: 'usd',
-      value: 'USD',
-    },
-    {
-      key: 'eur',
-      value: 'EUR',
-    },
-    {
-      key: 'gbp',
-      value: 'GBP',
-    },
-  ],
-})
+import { Provider } from '../Provider'
 
 storiesOf('General', module)
-  .addDecorator(StateDecorator(store))
+  .addDecorator(story => <Provider story={story()} />)
   .addWithChapters('Zap Style Guide', {
     subtitle: 'Reusable components for Zap.',
     info: `The Zap style guide showcases and documents our library of reusable React components. Below is a sample of
@@ -169,9 +136,8 @@ storiesOf('General', module)
                   <Group title="Dropdown">
                     <Element>
                       <Dropdown
-                        activeKey={store.get('fiat')}
-                        items={store.get('fiatCurrencies')}
-                        onChange={fiat => store.set({ fiat })}
+                        activeKey="key1"
+                        items={[{ key: 'key1', value: 'Key 1' }, { key: 'key2', value: 'Key 2' }]}
                       />
                     </Element>
                   </Group>
