@@ -1,4 +1,4 @@
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { createSelector } from 'reselect'
 import { grpcService } from 'workers'
 import { openModal, closeModal } from './modal'

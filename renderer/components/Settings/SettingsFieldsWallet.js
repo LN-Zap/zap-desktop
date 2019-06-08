@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { Bar, DataRow, Select } from 'components/UI'
 import { FieldLabel, NumberField } from './SettingsFieldHelpers'
 import messages from './messages'

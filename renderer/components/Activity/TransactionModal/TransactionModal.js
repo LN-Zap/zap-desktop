@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { FormattedDate, FormattedTime, FormattedMessage, FormattedNumber } from 'react-intl'
 import { Flex } from 'rebass'
 import blockExplorer from '@zap/utils/blockExplorer'

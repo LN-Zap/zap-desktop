@@ -1,6 +1,6 @@
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
-import { matches } from 'lodash'
+import matches from 'lodash/matches'
 
 // ------------------------------------
 // Initial State

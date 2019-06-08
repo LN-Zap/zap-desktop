@@ -1,5 +1,6 @@
 import config from 'config'
-import { merge, set } from 'lodash'
+import merge from 'lodash/merge'
+import set from 'lodash/set'
 import { createSelector } from 'reselect'
 import difference from '@zap/utils/difference'
 import { showError } from './notification'

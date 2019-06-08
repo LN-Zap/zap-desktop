@@ -1,4 +1,4 @@
-import { camelCase } from 'lodash'
+import camelCase from 'lodash/camelCase'
 
 const { execSync } = require('child_process')
 const path = require('path')

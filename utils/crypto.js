@@ -1,4 +1,4 @@
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { address } from 'bitcoinjs-lib'
 import lightningRequestReq from 'bolt11'
 import coininfo from 'coininfo'

@@ -1,4 +1,4 @@
-import { matches } from 'lodash'
+import matches from 'lodash/matches'
 
 import genId from '@zap/utils/genId'
 

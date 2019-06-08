@@ -1,4 +1,4 @@
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { grpcService } from 'workers'
 import { estimateFeeRange } from '@zap/utils/fee'
 import { settingsSelectors } from './settings'

@@ -12,7 +12,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import path from 'path'
 import os from 'os'
 import fs from 'fs'

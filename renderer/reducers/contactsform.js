@@ -1,4 +1,5 @@
-import { get, partition } from 'lodash'
+import get from 'lodash/get'
+import partition from 'lodash/partition'
 import { createSelector } from 'reselect'
 
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'

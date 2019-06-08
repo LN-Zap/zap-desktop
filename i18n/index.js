@@ -1,4 +1,4 @@
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { lookup } from 'country-data-lookup'
 import createDebug from 'debug'
 import isRenderer from 'is-electron-renderer'
