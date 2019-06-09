@@ -362,7 +362,7 @@
   "components.UI.invalid_lnd_connection_string": "",
   "components.UI.invalid_request": "Ní iarraidh {chain} bailí.",
   "components.UI.lnd_connection_string_placeholder": "",
-  "components.UI.payreq_placeholder": "Greamaigh iarratas íocaíochta nó seoladh {chain} anseo",
+  "components.UI.payreq_placeholder": "Greamaigh iarratas íocaíochta Lightning nó {chain} seoladh anseo",
   "components.UI.pubkey_placeholder": "",
   "components.UI.required_field": "Is réimse riachtanach é seo",
   "components.UI.transaction_speed_fast": "",
