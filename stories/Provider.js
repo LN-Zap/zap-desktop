@@ -57,12 +57,26 @@ store.dispatch(setCryptoUnit('btc'))
 store.dispatch({
   type: 'RECEIVE_INFO',
   data: {
+    uris: ['0228e4b5e03a05f700411a8b556fa00d4d76095551c686befb9b7041aaff15cc3e@80.27.24.23:9735'],
     chains: [
       {
         chain: 'bitcoin',
         network: 'mainnet',
       },
     ],
+    identity_pubkey: '0228e4b5e03a05f700411a8b556fa00d4d76095551c686befb9b7041aaff15cc3e',
+    alias: 'AwesomeNode',
+    num_pending_channels: 0,
+    num_active_channels: 3,
+    num_peers: 4,
+    block_height: 580083,
+    block_hash: '0000000000000000001e693c35a480daa93a3a2b0dfbe1968eb48cdcb8ce6648',
+    synced_to_chain: true,
+    testnet: false,
+    best_header_timestamp: 1560161416,
+    version: '0.6.1-beta commit=v0.6.1-beta',
+    num_inactive_channels: 0,
+    semver: '0.6.0-beta',
   },
 })
 store.dispatch({
@@ -125,10 +139,16 @@ store.dispatch({
       id: 1,
       type: 'local',
     },
+    {
+      id: 2,
+      type: 'custom',
+      lndconnectQRCode:
+        'lndconnect://88.26.26.27:10009?cert=MIICfzCCAiWgAwIBAgIRAJFXtYFouMo9heS0kJEiCfMwCgYIKoZIzj0EAwIwPzEfMB0GA1UEChMWbG5kIGF1dG9nZW5lcmF0ZWQgY2VydDEcMBoGA1UEAxMTdGhlZGVhdGhtYWNoaW5lLmxhbjAeFw0xOTA1MjcyMTQyMjhaFw0yMDA3MjEyMTQyMjhaMD8xHzAdBgNVBAoTFmxuZCBhdXRvZ2VuZXJhdGVkIGNlcnQxHDAaBgNVBAMTE3RoZWRlYXRobWFjaGluZS5sYW4wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQIkZTqG-ruD94D68mpLQo7HHou60zoVba9H9EeZWp6gy3pmGMh_OcMiC4OT6PEqKKvY7JUz-NpSD7gV84QAV-wo4IBADCB_TAOBgNVHQ8BAf8EBAMCAqQwDwYDVR0TAQH_BAUwAwEB_zCB2QYDVR0RBIHRMIHOghN0aGVkZWF0aG1hY2hpbmUubGFugglsb2NhbGhvc3SCBHVuaXiCCnVuaXhwYWNrZXSHBH8AAAGHEAAAAAAAAAAAAAAAAAAAAAGHEP6AAAAAAAAAAAAAAAAAAAGHEP6AAAAAAAAABItrqArkQJOHBMCoVvOHEP6AAAAAAAAAUCUS__7MYdmHEP6AAAAAAAAAvfZB3_0jh1-HEP6AAAAAAAAA6yXmoc6giXmHEP6AAAAAAAAAmOLLADrG5kaHEP6AAAAAAAAArt5I__4AESIwCgYIKoZIzj0EAwIDSAAwRQIhAJvRxxXqIHJjgZVsq6HBoss13y8hgZXJMC9fZdPgpQclAiBqEq5VEu10MGpazB7b4xjtar4E0-fHj2Kwd-9RZ1X2ww&macaroon=AgEDbG5kAs8BAwoQ6_AmRbMbkuKoUaZ_1tHQtRIBMBoWCgdhZGRyZXNzEgRyZWFkEgV3cml0ZRoTCgRpbmZvEgRyZWFkEgV3cml0ZRoXCghpbnZvaWNlcxIEcmVhZBIFd3JpdGUaFgoHbWVzc2FnZRIEcmVhZBIFd3JpdGUaFwoIb2ZmY2hhaW4SBHJlYWQSBXdyaXRlGhYKB29uY2hhaW4SBHJlYWQSBXdyaXRlGhQKBXBlZXJzEgRyZWFkEgV3cml0ZRoSCgZzaWduZXISCGdlbmVyYXRlAAAGINqE8YgOZWtcib2v_4es_RWTM8kfpexgVtvQnq_xXGd3',
+    },
   ],
 })
 store.dispatch({
   type: 'SET_SETTING',
   key: 'activeWallet',
-  value: 1,
+  value: 2,
 })
