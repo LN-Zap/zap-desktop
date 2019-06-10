@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { setLocale } from 'reducers/locale'
 import { setFiatTicker, tickerSelectors } from 'reducers/ticker'
+import { infoSelectors } from 'reducers/info'
 import {
   openSettingsMenu,
   closeSettingsMenu,
@@ -22,6 +23,7 @@ const mapStateToProps = state => ({
   themes: state.theme.themes,
   currentTheme: themeSelectors.currentTheme(state),
   isSettingsMenuOpen: state.settingsmenu.isSettingsMenuOpen,
+  isWalletReady: infoSelectors.isSyncedToChain(state),
 })
 
 const mapDispatchToProps = {
@@ -37,6 +39,7 @@ const mapDispatchToProps = {
 
 const mergeProps = (stateProps, dispatchProps, ownProps) => ({
   activeWalletSettings: stateProps.activeWalletSettings,
+  isWalletReady: stateProps.isWalletReady,
   activeSubMenu: stateProps.activeSubMenu,
   isSettingsMenuOpen: stateProps.isSettingsMenuOpen,
   openModal: dispatchProps.openModal,

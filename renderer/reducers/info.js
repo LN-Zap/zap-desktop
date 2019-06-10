@@ -180,6 +180,7 @@ infoSelectors.networksSelector = state => state.info.networks
 infoSelectors.infoLoading = state => state.info.infoLoading
 infoSelectors.infoLoaded = state => state.info.infoLoaded
 infoSelectors.hasSynced = state => state.info.hasSynced
+infoSelectors.isSyncedToChain = state => get(state.info, 'data.synced_to_chain', false)
 
 infoSelectors.nodePub = state => {
   const parseFromDataUri = () => {
