@@ -120,12 +120,12 @@ function subscribeChannelBackups() {
 /**
  * Virtual getInfo stream
  */
-function subscribeGetInfo() {
+function subscribeGetInfo({ pollInterval = 5000 } = {}) {
   return streamify.call(this, {
     command: methods.getInfo.bind(this),
     dataEventName: 'subscribeGetInfo.data',
     errorEventName: 'subscribeGetInfo.error',
-    pollInterval: 5000,
+    pollInterval,
   })
 }
 

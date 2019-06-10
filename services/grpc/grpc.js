@@ -111,7 +111,9 @@ class ZapGrpc extends EventEmitter {
     this.on('subscribeGetInfo.data', async data => {
       const { synced_to_chain } = data
       if (synced_to_chain && !this.activeSubscriptions.channelgraph) {
-        this.unsubscribe('info')
+        // reduce poll interval to once a minute after synced_to_chain is true
+        await this.unsubscribe('info')
+        this.subscribe({ name: 'info', params: { pollInterval: 60000 } })
         this.subscribeChannelGraph()
       }
     })
