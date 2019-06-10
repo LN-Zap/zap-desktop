@@ -7,4 +7,6 @@ import { Window } from '../helpers'
 storiesOf('Containers.SettingsMenu', module)
   .addDecorator(story => <Window>{story()}</Window>)
   .addDecorator(story => <Provider story={story()} />)
-  .add('SettingsMenu', () => <SettingsMenu activeWalletSettings={{ id: 1, type: 'local' }} />)
+  .add('SettingsMenu', () => (
+    <SettingsMenu activeWalletSettings={{ id: 1, type: 'local' }} isWalletReady />
+  ))
