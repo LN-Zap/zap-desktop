@@ -3,42 +3,35 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { useFormState, useFormApi } from 'informed'
 import styled from 'styled-components'
-import { Flex, Box } from 'rebass'
+import { Flex } from 'rebass'
 import merge from 'lodash/merge'
 import difference from '@zap/utils/difference'
-import { ActionBar, Button, Heading, MainContent, MenuItem, Panel, Sidebar } from 'components/UI'
+import { ActionBar, Button, Heading, MainContent, Menu, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import SettingsForm from 'containers/Settings/SettingsForm'
 import SettingsFieldsWallet from './SettingsFieldsWallet'
 import SettingsFieldsGeneral from './SettingsFieldsGeneral'
 import messages from './messages'
 
-const items = [
-  {
-    id: 'general',
-    title: <FormattedMessage {...messages.fieldgroup_general} />,
-  },
-  {
-    id: 'wallet',
-    title: <FormattedMessage {...messages.fieldgroup_wallet} />,
-  },
-]
+const SettingsMenu = ({ group, setGroup, ...rest }) => {
+  const items = [
+    {
+      id: 'general',
+      title: <FormattedMessage {...messages.fieldgroup_general} />,
+      onClick: () => setGroup('general'),
+    },
+    {
+      id: 'wallet',
+      title: <FormattedMessage {...messages.fieldgroup_wallet} />,
+      onClick: () => setGroup('wallet'),
+    },
+  ]
 
-const SettingsMenu = ({ items, group, setGroup, ...rest }) => {
-  return (
-    <Box {...rest} p={2}>
-      {items.map(({ id, title }) => (
-        <MenuItem key={id} isActive={id === group} onClick={() => setGroup(id)}>
-          {title}
-        </MenuItem>
-      ))}
-    </Box>
-  )
+  return <Menu items={items} p={2} selectedItem={group} {...rest} />
 }
 
 SettingsMenu.propTypes = {
   group: PropTypes.string,
-  items: PropTypes.array.isRequired,
   setGroup: PropTypes.func.isRequired,
 }
 
@@ -103,7 +96,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
               overflow-y: overlay;
             `}
           >
-            <SettingsMenu group={group} items={items} setGroup={setGroup} />
+            <SettingsMenu group={group} setGroup={setGroup} />
           </Panel.Body>
         </Panel>
       </Sidebar.medium>
