@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled, { withTheme } from 'styled-components'
+import { px } from 'styled-system'
 import { Box, Card } from 'rebass'
 import QRCode from 'qrcode.react'
 
@@ -8,6 +9,7 @@ const QRCODE_SIZE_SMALL = 'small'
 const QRCODE_SIZE_MEDIUM = 'medium'
 const QRCODE_SIZE_LARGE = 'large'
 const QRCODE_SIZE_XLARGE = 'xlarge'
+const QRCODE_SIZE_XXLARGE = 'xxlarge'
 
 const Container = styled(Card)`
   position: relative;
@@ -20,40 +22,36 @@ const CropWrapper = styled(Card)`
   width: ${props => props.size * 1.2}px;
   height: ${props => props.size * 1.2}px;
 `
-const TopLeft = styled(Card)`
-  position: absolute;
-  top: 0;
-  left: 0;
+
+const CornerCard = styled(Card)`
   display: inline-block;
   width: ${props => props.size * 1.2}px;
   height: ${props => props.size * 1.2}px;
+  border: ${({ border }) => px(border)} solid
+    ${({ theme, borderColor }) => theme.colors[borderColor]};
+`
+const TopLeft = styled(CornerCard)`
+  position: absolute;
+  top: 0;
+  left: 0;
   clip-path: polygon(0 0, 25% 0, 25% 25%, 0 25%);
 `
-const TopRight = styled(Card)`
+const TopRight = styled(CornerCard)`
   position: absolute;
   top: 0;
   right: 0;
-  display: inline-block;
-  width: ${props => props.size * 1.2}px;
-  height: ${props => props.size * 1.2}px;
   clip-path: polygon(75% 0, 100% 0%, 100% 25%, 75% 25%);
 `
-const BottomLeft = styled(Card)`
+const BottomLeft = styled(CornerCard)`
   position: absolute;
   bottom: 0;
   left: 0;
-  display: inline-block;
-  width: ${props => props.size * 1.2}px;
-  height: ${props => props.size * 1.2}px;
   clip-path: polygon(0 75%, 25% 75%, 25% 100%, 0 100%);
 `
-const BottomRight = styled(Card)`
+const BottomRight = styled(CornerCard)`
   position: absolute;
   bottom: 0;
   right: 0;
-  display: inline-block;
-  width: ${props => props.size * 1.2}px;
-  height: ${props => props.size * 1.2}px;
   clip-path: polygon(75% 75%, 100% 75%, 100% 100%, 75% 100%);
 `
 const CodeWrapper = styled(Box)`
@@ -130,6 +128,10 @@ class ZapQRCode extends React.PureComponent {
         break
       case QRCODE_SIZE_XLARGE:
         size = 250
+        border = 2
+        break
+      case QRCODE_SIZE_XXLARGE:
+        size = 300
         border = 2
         break
     }
