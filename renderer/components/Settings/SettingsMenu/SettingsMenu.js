@@ -8,6 +8,7 @@ import { Dropmenu, StatusIndicator } from 'components/UI'
 import { WalletName } from 'components/Util'
 import Logout from 'components/Icon/Logout'
 import Settings from 'components/Icon/Settings'
+import User from 'components/Icon/User'
 import messages from './messages'
 
 const buildLocaleMenu = localeProps => {
@@ -61,8 +62,21 @@ const SettingsMenu = ({
 }) => {
   const logout = () => history.push('/logout')
   const openSettings = () => openModal('SETTINGS')
+  const openProfile = () => openModal('PROFILE')
 
   const items = [
+    {
+      id: 'settings',
+      title: <FormattedMessage {...messages.settings_title} />,
+      icon: <Settings />,
+      onClick: openSettings,
+    },
+    {
+      id: 'profile',
+      title: <FormattedMessage {...messages.profile_title} />,
+      icon: <User />,
+      onClick: openProfile,
+    },
     {
       id: 'logout',
       title: (
@@ -72,12 +86,6 @@ const SettingsMenu = ({
       ),
       icon: <Logout />,
       onClick: logout,
-    },
-    {
-      id: 'settings',
-      title: <FormattedMessage {...messages.settings_title} />,
-      icon: <Settings />,
-      onClick: openSettings,
     },
     { id: 'bar1', type: 'bar' },
     {

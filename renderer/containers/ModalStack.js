@@ -15,6 +15,7 @@ import ChannelCreate from 'containers/Channels/ChannelCreate'
 import ReceiveModal from 'containers/Wallet/ReceiveModal'
 import ActivityModal from 'containers/Activity/ActivityModal'
 import SettingsPage from 'containers/Settings/SettingsPage'
+import ProfilePage from 'containers/Profile/ProfilePage'
 
 const Container = styled(animated.div)`
   ${ModalOverlayStyles}
@@ -26,6 +27,13 @@ const ModalContent = ({ type, closeModal }) => {
       return (
         <Modal onClose={closeModal}>
           <SettingsPage />
+        </Modal>
+      )
+
+    case 'PROFILE':
+      return (
+        <Modal onClose={closeModal}>
+          <ProfilePage />
         </Modal>
       )
 
