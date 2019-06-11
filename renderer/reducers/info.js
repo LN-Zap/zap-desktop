@@ -50,10 +50,14 @@ export const fetchInfo = () => async dispatch => {
   dispatch(receiveInfo(info))
 }
 
+export function setInfo(data) {
+  return { type: RECEIVE_INFO, data }
+}
+
 // Receive IPC event for info
 export const receiveInfo = data => async (dispatch, getState) => {
   // Save the node info.
-  dispatch({ type: RECEIVE_INFO, data })
+  dispatch(setInfo(data))
 
   const state = getState()
 
