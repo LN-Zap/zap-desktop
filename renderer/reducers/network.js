@@ -27,6 +27,11 @@ export function updateNodeData(data) {
   return {
     type: UPDATE_NODE_DATA,
     data,
+    // enable debounce for this action
+    debounce: {
+      wait: 2000,
+      maxWait: 5000,
+    },
   }
 }
 
