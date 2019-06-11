@@ -4,6 +4,7 @@ import { createMemoryHistory } from 'history'
 import { createLogger } from 'redux-logger'
 import rootReducer from 'reducers'
 import ipc from 'reducers/ipc'
+import debounceMiddleware from './middleware/debounceMiddleware'
 
 export const history = createMemoryHistory()
 
@@ -14,12 +15,14 @@ export const configureStore = initialState => {
 
   // Thunk Middleware
   middleware.push(thunk)
-
+  // Debounce Middleware
+  middleware.push(debounceMiddleware)
   // Logging Middleware
   const logger = createLogger({
     level: 'info',
     collapsed: true,
   })
+
   middleware.push(logger)
 
   // REDUX action profiling middle ware
