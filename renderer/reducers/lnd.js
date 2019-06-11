@@ -2,7 +2,7 @@ import config from 'config'
 import { createSelector } from 'reselect'
 import { proxyValue } from 'comlinkjs'
 import { grpcService } from 'workers'
-import { fetchInfo } from './info'
+import { fetchInfo, setInfo } from './info'
 import { startNeutrino, stopNeutrino } from './neutrino'
 import { putWallet, removeWallet, setActiveWallet, walletSelectors } from './wallet'
 import { fetchBalance } from './balance'
@@ -92,6 +92,16 @@ export const DISCONNECT_GRPC_FAILURE = 'DISCONNECT_GRPC_FAILURE'
 // Actions
 // ------------------------------------
 
+function unsubFromGrpcEvents(grpc) {
+  grpc.removeAllListeners('subscribeInvoices.data')
+  grpc.removeAllListeners('subscribeTransactions.data')
+  grpc.removeAllListeners('subscribeChannelGraph.data')
+  grpc.removeAllListeners('subscribeGetInfo.data')
+  grpc.removeAllListeners('subscribeChannelBackups.data')
+  grpc.removeAllListeners('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
+  grpc.removeAllListeners('GRPC_LIGHTNING_SERVICE_ACTIVE')
+}
+
 /**
  * Connect to lnd gRPC service.
  */
@@ -101,6 +111,7 @@ export const connectGrpcService = lndConfig => async dispatch => {
   const grpc = await grpcService
 
   const handleInvoiceSubscription = proxyValue(data => dispatch(receiveInvoiceData(data)))
+  const handleGetInfoSubscription = proxyValue(data => dispatch(setInfo(data)))
   const handleTransactionSubscription = proxyValue(data => dispatch(receiveTransactionData(data)))
   const handleChannelGraphSubscription = proxyValue(data => dispatch(receiveChannelGraphData(data)))
   const handleBackupsSubscription = proxyValue(data =>
@@ -115,6 +126,7 @@ export const connectGrpcService = lndConfig => async dispatch => {
     grpc.on('subscribeTransactions.data', handleTransactionSubscription)
     grpc.on('subscribeChannelGraph.data', handleChannelGraphSubscription)
     grpc.on('subscribeChannelBackups.data', handleBackupsSubscription)
+    grpc.on('subscribeGetInfo.data', handleGetInfoSubscription)
 
     // Hook up event listeners to notify when each gRPC service becomes available.
     grpc.on('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE', handleWalletUnlockerActive)
@@ -125,15 +137,8 @@ export const connectGrpcService = lndConfig => async dispatch => {
     dispatch({ type: CONNECT_GRPC_SUCCESS })
   } catch (error) {
     dispatch({ type: CONNECT_GRPC_FAILURE, error })
-
     // Disconnect event listeners.
-    grpc.off('subscribeInvoices.data', handleInvoiceSubscription)
-    grpc.off('subscribeTransactions.data', handleTransactionSubscription)
-    grpc.off('subscribeChannelGraph.data', handleChannelGraphSubscription)
-    grpc.off('subscribeChannelBackups.data', handleBackupsSubscription)
-    grpc.off('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE', handleWalletUnlockerActive)
-    grpc.off('GRPC_LIGHTNING_SERVICE_ACTIVE', handleLightningActive)
-
+    unsubFromGrpcEvents(grpc)
     // Rethrow the error so that callers of this method are able to handle errors themselves.
     throw error
   }
@@ -146,17 +151,9 @@ export const disconnectGrpcService = () => async dispatch => {
   dispatch({ type: DISCONNECT_GRPC })
   try {
     const grpc = await grpcService
-
     // Disconnect event listeners.
-    grpc.removeAllListeners('subscribeInvoices.data')
-    grpc.removeAllListeners('subscribeTransactions.data')
-    grpc.removeAllListeners('subscribeChannelGraph.data')
-    grpc.removeAllListeners('subscribeChannelBackups.data')
-    grpc.removeAllListeners('GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE')
-    grpc.removeAllListeners('GRPC_LIGHTNING_SERVICE_ACTIVE')
-
+    unsubFromGrpcEvents(grpc)
     await grpc.disconnect()
-
     dispatch({ type: DISCONNECT_GRPC_SUCCESS })
   } catch (error) {
     dispatch({ type: DISCONNECT_GRPC_FAILURE, error })

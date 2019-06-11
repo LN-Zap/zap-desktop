@@ -5,6 +5,7 @@ import { status } from '@grpc/grpc-js'
 import LndGrpc from 'lnd-grpc'
 import { grpcLog } from '@zap/utils/log'
 import delay from '@zap/utils/delay'
+import isObject from '@zap/utils/isObject'
 import { forwardAll, unforwardAll } from '@zap/utils/events'
 import lightningMethods from './lightning.methods'
 import lightningSubscriptions from './lightning.subscriptions'
@@ -110,20 +111,43 @@ class ZapGrpc extends EventEmitter {
     this.on('subscribeGetInfo.data', async data => {
       const { synced_to_chain } = data
       if (synced_to_chain && !this.activeSubscriptions.channelgraph) {
-        this.unsubscribe('info')
+        // reduce poll interval to once a minute after synced_to_chain is true
+        await this.unsubscribe('info')
+        this.subscribe({ name: 'info', params: { pollInterval: 60000 } })
         this.subscribeChannelGraph()
       }
     })
   }
 
   /**
-   * @param {...string} streams optional list of streams to subscribe to. if omitted, uses all available streams
+   * @param {...string|object} streams optional list of streams to subscribe to. if omitted, uses all available streams
+   * if `stream` is to be called with params array element must be of {name, params} format
    * @streams must be a subset of `this.availableSubscriptions`
    */
   subscribe(...streams) {
+    // some of the streams may have params
+    // create a map <streamName, params> out of them
+    const getSubscriptionParams = streams => {
+      if (!(streams && streams.length)) {
+        return {}
+      }
+      return streams.reduce((acc, next) => {
+        if (isObject(next)) {
+          acc[next.name] = next.params
+        }
+        return acc
+      }, {})
+    }
+    // flattens @streams into an Array<string> of stream names to subscribe to
+    const getSubscriptionsNames = streams =>
+      streams && streams.map(entry => (isObject(entry) ? entry.name : entry))
     // make sure we are subscribing to known streams if a specific list is provided
     const allSubKeys = Object.keys(this.availableSubscriptions)
-    const activeSubKeys = streams && streams.length ? intersection(allSubKeys, streams) : allSubKeys
+
+    const params = getSubscriptionParams(streams)
+    const subNames = getSubscriptionsNames(streams)
+    const activeSubKeys =
+      subNames && subNames.length ? intersection(allSubKeys, subNames) : allSubKeys
 
     if (!activeSubKeys.length) {
       return
@@ -141,7 +165,8 @@ class ZapGrpc extends EventEmitter {
       // Set up the subscription.
       const { serviceName, methodName } = this.availableSubscriptions[key]
       const service = this.services[serviceName]
-      this.activeSubscriptions[key] = service[methodName]()
+      const subscriptionParams = params[key] || {}
+      this.activeSubscriptions[key] = service[methodName](subscriptionParams)
       grpcLog.info(`gRPC subscription "${key}" started.`)
 
       // Setup subscription event forwarders.

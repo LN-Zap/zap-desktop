@@ -55,6 +55,7 @@ const SettingsMenu = ({
   fiatProps,
   activeWalletSettings,
   openModal,
+  isWalletReady,
   history,
   ...rest
 }) => {
@@ -99,7 +100,7 @@ const SettingsMenu = ({
   return (
     <Dropmenu items={items} justify="right" {...rest}>
       <Flex alignItems="center">
-        <StatusIndicator mr={2} variant="online" />
+        <StatusIndicator mr={2} variant={isWalletReady ? 'online' : 'loading'} />
         <WalletName wallet={activeWalletSettings} />
       </Flex>
     </Dropmenu>
@@ -117,6 +118,7 @@ SettingsMenu.propTypes = {
     push: PropTypes.func.isRequired,
   }),
   isSettingsMenuOpen: PropTypes.bool,
+  isWalletReady: PropTypes.bool.isRequired,
   localeProps: PropTypes.object.isRequired,
   openModal: PropTypes.func.isRequired,
   openSettingsMenu: PropTypes.func.isRequired,
