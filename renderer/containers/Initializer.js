@@ -8,7 +8,7 @@ import { initNeutrino } from 'reducers/neutrino'
 import { startActiveWallet } from 'reducers/lnd'
 import { initTickers } from 'reducers/ticker'
 import { initAutopay } from 'reducers/autopay'
-import { fetchSuggestedNodes, initChannels } from 'reducers/channels'
+import { initChannels } from 'reducers/channels'
 
 /**
  * Root component that deals with mounting the app and managing top level routing.
@@ -17,7 +17,6 @@ class Initializer extends React.Component {
   static propTypes = {
     activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
-    fetchSuggestedNodes: PropTypes.func.isRequired,
     hasWallets: PropTypes.bool,
     initAutopay: PropTypes.func.isRequired,
     initChannels: PropTypes.func.isRequired,
@@ -36,7 +35,6 @@ class Initializer extends React.Component {
    */
   componentDidMount() {
     const {
-      fetchSuggestedNodes,
       initTickers,
       initLocale,
       initCurrency,
@@ -52,7 +50,6 @@ class Initializer extends React.Component {
     initAutopay()
     initWallets()
     initChannels()
-    fetchSuggestedNodes()
   }
 
   /**
@@ -106,7 +103,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   startActiveWallet,
-  fetchSuggestedNodes,
   initNeutrino,
   initTickers,
   initCurrency,

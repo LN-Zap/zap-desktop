@@ -35,6 +35,7 @@ function App({
   fetchTransactions,
   setModals,
   initBackupService,
+  fetchSuggestedNodes,
 }) {
   /**
    * App scheduler / polling service setup. Add new app-wide polls here
@@ -78,12 +79,14 @@ function App({
     fetchPeers()
     // Update autopilot node scores.
     updateAutopilotNodeScores()
+    fetchSuggestedNodes()
     // initialize backup service in forceUseTokens mode to avoid
     // launching it for wallets that don't have backup setup
     initBackupService(undefined, true)
   }, [
     fetchActivityHistory,
     fetchPeers,
+    fetchSuggestedNodes,
     initBackupService,
     setIsWalletOpen,
     updateAutopilotNodeScores,
@@ -113,6 +116,7 @@ function App({
 App.propTypes = {
   fetchActivityHistory: PropTypes.func.isRequired,
   fetchPeers: PropTypes.func.isRequired,
+  fetchSuggestedNodes: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
   initBackupService: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
