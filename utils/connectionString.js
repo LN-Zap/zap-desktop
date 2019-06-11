@@ -1,6 +1,6 @@
 import decode from 'lndconnect/decode'
 import parse from 'lndconnect/parse'
-import get from 'lodash.get'
+import get from 'lodash/get'
 import isBase64url from '@zap/utils/isBase64url'
 
 /**

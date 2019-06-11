@@ -1,5 +1,6 @@
+import camelCase from 'lodash/camelCase'
+
 const { execSync } = require('child_process')
-const camelCase = require('lodash.camelcase')
 const path = require('path')
 
 const OUTPUT_DIR = 'renderer/components/Icon'

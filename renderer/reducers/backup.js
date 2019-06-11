@@ -1,4 +1,4 @@
-import set from 'lodash.set'
+import set from 'lodash/set'
 import { send } from 'redux-electron-ipc'
 import { grpcService } from 'workers'
 import { walletSelectors } from './wallet'

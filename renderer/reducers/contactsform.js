@@ -1,6 +1,7 @@
-import get from 'lodash.get'
+import get from 'lodash/get'
+import partition from 'lodash/partition'
 import { createSelector } from 'reselect'
-import partition from 'lodash.partition'
+
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { getNodeDisplayName } from './network'
 

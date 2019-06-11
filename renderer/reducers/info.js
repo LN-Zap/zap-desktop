@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import get from 'lodash.get'
+import get from 'lodash/get'
 import { networks } from '@zap/utils/crypto'
 import { grpcService } from 'workers'
 import { initAddresses } from './address'

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import get from 'lodash.get'
+import get from 'lodash/get'
 import ReceiveModal from 'components/Wallet/ReceiveModal'
 import { addressSelectors, closeWalletModal } from 'reducers/address'
 import { walletSelectors } from 'reducers/wallet'

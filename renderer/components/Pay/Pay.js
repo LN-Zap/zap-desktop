@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import config from 'config'
-import debounce from 'lodash.debounce'
+import debounce from 'lodash/debounce'
+import get from 'lodash/get'
 import { Box, Flex } from 'rebass'
 import { animated, Keyframes, Transition } from 'react-spring/renderprops.cjs'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { decodePayReq, getMinFee, getMaxFee, isOnchain, isLn } from '@zap/utils/crypto'
-import get from 'lodash.get'
 import { convert } from '@zap/utils/btc'
 import {
   Bar,

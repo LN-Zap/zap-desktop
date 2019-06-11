@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import isEqual from 'lodash.isequal'
+import isEqual from 'lodash/isEqual'
 import { Box, Flex } from 'rebass'
 import { Card, Heading, Text } from 'components/UI'
 import { withEllipsis } from 'hocs'

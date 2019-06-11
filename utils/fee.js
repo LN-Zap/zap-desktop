@@ -1,4 +1,4 @@
-import merge from 'lodash.merge'
+import merge from 'lodash/merge'
 import { grpcService } from 'workers'
 import { requestFees } from '@zap/utils/api'
 import { mainLog } from '@zap/utils/log'

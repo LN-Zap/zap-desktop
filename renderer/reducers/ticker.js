@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import get from 'lodash.get'
+import get from 'lodash/get'
 import { requestTickers } from '@zap/utils/api'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
 import { putConfig, settingsSelectors } from './settings'

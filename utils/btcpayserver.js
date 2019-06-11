@@ -1,4 +1,4 @@
-import get from 'lodash.get'
+import get from 'lodash/get'
 
 /**
  * parseConnectionString - Parse a BTCPay Server style connection string.
