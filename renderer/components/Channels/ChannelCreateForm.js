@@ -359,6 +359,7 @@ class ChannelCreateForm extends React.Component {
       queryFees,
       searchQuery,
       selectedNodeDisplayName,
+      cryptoUnit,
       updateContactFormSearchQuery,
       ...rest
     } = this.props
