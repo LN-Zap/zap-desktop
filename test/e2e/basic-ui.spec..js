@@ -90,19 +90,26 @@ test('provide access to basic wallet functionality', async t => {
     .click(wallet.payForm.closeButton)
 
     // test manage channels
-    .click(wallet.mainMenu)
+    .click(wallet.ChannelsMenu)
     .click(wallet.manageChannels)
     .expect(wallet.channelsForm.modal.exists)
     .ok()
     .click(wallet.channelsForm.closeButton)
 
     // test create channel
-    .click(wallet.mainMenu)
+    .click(wallet.ChannelsMenu)
     .click(wallet.createChannel)
     .expect(wallet.createChannels.modal.exists)
     .ok()
     .click(wallet.createChannels.closeButton)
     .click(wallet.channelsForm.closeButton)
+
+    // test profile
+    .click(wallet.settingsMenu)
+    .click(wallet.profileMenuItem)
+    .expect(wallet.profile.modal.exists)
+    .ok()
+    .click(wallet.profile.closeButton)
 
     // test preferences
     .click(wallet.settingsMenu)
