@@ -7,6 +7,8 @@ import { fetchTransactions } from 'reducers/transaction'
 import { appSelectors } from 'reducers/app'
 import { initBackupService } from 'reducers/backup'
 import { setModals, modalSelectors } from 'reducers/modal'
+import { fetchSuggestedNodes } from 'reducers/channels'
+
 import App from 'components/App'
 
 const mapStateToProps = state => ({
@@ -23,6 +25,7 @@ const mapDispatchToProps = {
   fetchTransactions,
   setModals,
   initBackupService,
+  fetchSuggestedNodes,
 }
 
 export default connect(
