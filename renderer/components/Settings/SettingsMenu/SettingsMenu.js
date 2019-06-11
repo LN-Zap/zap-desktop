@@ -89,6 +89,11 @@ const SettingsMenu = ({
     },
     { id: 'bar1', type: 'bar' },
     {
+      id: 'currency',
+      title: <FormattedMessage {...messages.currency_title} />,
+      submenu: buildCurrencyMenu(fiatProps),
+    },
+    {
       id: 'locale',
       title: <FormattedMessage {...messages.locale_title} />,
       submenu: buildLocaleMenu(localeProps),
@@ -97,11 +102,6 @@ const SettingsMenu = ({
       id: 'theme',
       title: <FormattedMessage {...messages.theme_title} />,
       submenu: buildThemeMenu(themeProps),
-    },
-    {
-      id: 'currency',
-      title: <FormattedMessage {...messages.currency_title} />,
-      submenu: buildCurrencyMenu(fiatProps),
     },
   ]
 
