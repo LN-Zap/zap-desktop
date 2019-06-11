@@ -265,7 +265,9 @@ class LndConfig {
    * @returns {string} Embedded lndconnect uri
    */
   static async qrcodeFromLndconnectUri(lndconnectUri) {
-    const { host, cert, macaroon } = lndconnect.decode(lndconnectUri)
+    let { host, cert, macaroon } = lndconnect.decode(lndconnectUri)
+    cert = safeUntildify(cert)
+    macaroon = safeUntildify(macaroon)
     const [certData, macaroonData] = await Promise.all([
       isAbsolute(cert) ? readFile(cert) : cert,
       isAbsolute(macaroon) ? readFile(macaroon) : macaroon,
