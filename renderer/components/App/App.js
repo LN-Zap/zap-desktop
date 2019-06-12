@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import createScheduler from '@zap/utils/scheduler'
 import PropTypes from 'prop-types'
 import Wallet from 'containers/Wallet'
-import { Box } from 'rebass'
+import { Flex } from 'rebass'
 import Activity from 'containers/Activity'
 
 // Bitcoin blocks come on average every 10 mins
@@ -106,10 +106,10 @@ function App({
   }
 
   return (
-    <Box as="article" width={1}>
+    <Flex as="article" flexDirection="column" width={1}>
       <Wallet />
       <Activity />
-    </Box>
+    </Flex>
   )
 }
 
