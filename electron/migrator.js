@@ -3,6 +3,7 @@ import { join } from 'path'
 import { promisify } from 'util'
 import { app } from 'electron'
 import migration_1 from './migrations/purge-local-wallets'
+import migration_2 from './migrations/delete-tmp-wallets'
 
 const fsWriteFile = promisify(writeFile)
 const fsReadFile = promisify(readFile)
@@ -23,6 +24,10 @@ class ZapMigrator {
       {
         id: 1,
         up: migration_1,
+      },
+      {
+        id: 2,
+        up: migration_2,
       },
     ]
   }
