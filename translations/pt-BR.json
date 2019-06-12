@@ -391,7 +391,7 @@
   "components.Profile.ProfilePaneConnect.lndconnect_warning": "",
   "components.Profile.ProfilePaneNodeInfo.copy_pubkey": "",
   "components.Profile.ProfilePaneNodeInfo.node_pubkey_description": "",
-  "components.Profile.ProfilePaneNodeInfo.node_pubkey_title": "",
+  "components.Profile.ProfilePaneNodeInfo.node_pubkey_title": "Pubkey do nó",
   "components.Profile.ProfilePaneNodeInfo.node_version": "",
   "components.Profile.ProfilePaneNodeInfo.nodeinfo_pane_title": "",
   "components.Profile.ProfilePaneNodeInfo.pubkey_copied_notification_description": "",
