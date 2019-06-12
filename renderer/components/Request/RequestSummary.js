@@ -152,10 +152,23 @@ class RequestSummary extends React.Component {
           left={<FormattedMessage {...messages.status} />}
           right={
             invoice.settled ? (
-              <Text color={getStatusColor()} fontWeight="normal">
+              <Text
+                color={getStatusColor()}
+                css={`
+                  word-break: break-all;
+                  text-transform: capitalize;
+                `}
+                fontWeight="normal"
+                textAlign="right"
+              >
                 <FormattedMessage {...messages.paid} />
-                {` `}
-                <FormattedTime value={invoice.settle_date * 1000} />
+                <br />
+                <FormattedTime
+                  day="2-digit"
+                  month="long"
+                  value={invoice.settle_date * 1000}
+                  year="numeric"
+                />
               </Text>
             ) : (
               <>
