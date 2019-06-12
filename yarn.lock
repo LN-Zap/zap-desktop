@@ -1262,10 +1262,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.2.tgz#63985d3d8b02530e0869962f4da09142ee8e200e"
   integrity sha512-n/VQ4mbfr81aqkx/XmVicOLjviMuy02eenSdJY33SVA7S2J42EU0P1H0mOogfYedb3wXA0d/LVtBrgTSm04WEA==
 
-"@grpc/grpc-js@0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.4.0.tgz#b20a6abf1346ce7fd696a042f83d10c94e143881"
-  integrity sha512-UbGDPnstJamJrSiHzCSwSavIX260IfLOZLRJYDqRKJA/jmVZa3hPMWDjhFrcCKDq2MLc/O/nauFED3r4khcZrA==
+"@grpc/grpc-js@0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.4.3.tgz#d2d71278d42709631793f4a451b7398197d44033"
+  integrity sha512-09qiFMBh90YZ4P5RFzvpSUvBi9DmftvTaP+mmmTzigps0It5YxuwQNqDAo9pI7SWom/6A5ybxv2CUGNk86+FCg==
   dependencies:
     semver "^6.0.0"
 
@@ -10412,20 +10412,20 @@ lnd-binary@0.3.10:
     "true-case-path" "^1.0.3"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.2.9:
-  version "0.2.9"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.9.tgz#0d90d9c6554f47e966da56ab5e290df1c7c6de98"
-  integrity sha512-cWESEOm6EbL+xrkLAqY6vW8R2UnYG51ZJ2suf7tt+ncr9Z5DsiTRCvrSsU9xpoyG+DlMMimTMIb99R+FBKunow==
+lnd-grpc@0.2.10:
+  version "0.2.10"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.10.tgz#40ec5616324baec49a3c2dfb2ccd6a11a3bea8d3"
+  integrity sha512-oE0LN07Zu65fdSKlFpgQLvDbyQrX38rJq/aeBevA8XOAOpGZVMJK0h6yTBJGA9ihxdaf5acv/uxquakqXH+kwg==
   dependencies:
-    "@grpc/grpc-js" "0.4.0"
+    "@grpc/grpc-js" "0.4.3"
     "@grpc/proto-loader" "0.5.1"
     debug "4.1.1"
     javascript-state-machine "3.1.0"
     lndconnect "0.2.7"
     lodash.defaultsdeep "4.6.0"
-    semver "6.0.0"
+    semver "6.1.1"
     untildify "4.0.0"
-    validator "10.11.0"
+    validator "11.0.0"
 
 lndconnect@0.2.7:
   version "0.2.7"
@@ -16430,11 +16430,6 @@ validate-npm-package-license@^3.0.1:
   dependencies:
     spdx-correct "^3.0.0"
     spdx-expression-parse "^3.0.0"
-
-validator@10.11.0:
-  version "10.11.0"
-  resolved "https://registry.yarnpkg.com/validator/-/validator-10.11.0.tgz#003108ea6e9a9874d31ccc9e5006856ccd76b228"
-  integrity sha512-X/p3UZerAIsbBfN/IwahhYaBbY68EN/UQBWHtsbXGT5bfrH/p4NQzUCG1kF/rtKaNpnJ7jAu6NGTdSNtyNIXMw==
 
 validator@11.0.0:
   version "11.0.0"
