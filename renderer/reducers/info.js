@@ -184,15 +184,27 @@ infoSelectors.networksSelector = state => state.info.networks
 infoSelectors.infoLoading = state => state.info.infoLoading
 infoSelectors.infoLoaded = state => state.info.infoLoaded
 infoSelectors.hasSynced = state => state.info.hasSynced
-infoSelectors.isSyncedToChain = state => get(state.info, 'data.synced_to_chain', false)
+infoSelectors.isSyncedToChain = state => get(state, 'info.data.synced_to_chain', false)
+infoSelectors.lndVersion = state => get(state, 'info.data.version')
+infoSelectors.identityPubkey = state => get(state, 'info.data.identity_pubkey')
+infoSelectors.nodeUri = state => get(state, 'info.data.uris[0]')
 
-infoSelectors.nodePub = state => {
-  const parseFromDataUri = () => {
-    const uri = get(state.info, 'data.uris[0]')
-    return uri && uri.split('@')[0]
+// Get the node pubkey. If not set, try to extract it from the node uri.
+infoSelectors.nodePubkey = createSelector(
+  infoSelectors.nodeUri,
+  infoSelectors.identityPubkey,
+  (nodeUri, identityPubkey) => {
+    const parseFromDataUri = () => nodeUri && nodeUri.split('@')[0]
+    return identityPubkey || parseFromDataUri()
   }
-  return get(state.info, 'data.identity_pubkey') || parseFromDataUri()
-}
+)
+
+// Get the node uri or pubkey.
+infoSelectors.nodeUriOrPubkey = createSelector(
+  infoSelectors.nodeUri,
+  infoSelectors.nodePubkey,
+  (nodeUri, nodePubkey) => nodeUri || nodePubkey
+)
 
 infoSelectors.networkInfo = createSelector(
   infoSelectors.chainSelector,

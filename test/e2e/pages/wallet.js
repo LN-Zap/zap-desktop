@@ -11,23 +11,24 @@ class Wallet {
   channelsForm = new Modal('CHANNELS')
   createChannels = new Modal('CHANNEL_CREATE')
   preferences = new Modal('SETTINGS')
+  profile = new Modal('PROFILE')
   activityModal = new Modal('ACTIVITY_MODAL')
   requestModal = new Modal('REQUEST_FORM')
-  mainMenu = ReactSelector('ChannelsMenu')
+  ChannelsMenu = ReactSelector('ChannelsMenu')
   settingsMenu = ReactSelector('SettingsMenu')
   txHistoryItem = ReactSelector('Transaction')
     .nth(0)
     .child(0)
   preferencesMenuItem = this.settingsMenu.findReact('DropmenuItem').withProps({ id: 'settings' })
-  manageChannels = this.mainMenu.findReact('DropmenuItem').withProps({ id: 'manage' })
-  createChannel = this.mainMenu.findReact('DropmenuItem').withProps({ id: 'create' })
+  profileMenuItem = this.settingsMenu.findReact('DropmenuItem').withProps({ id: 'profile' })
+  manageChannels = this.ChannelsMenu.findReact('DropmenuItem').withProps({ id: 'manage' })
+  createChannel = this.ChannelsMenu.findReact('DropmenuItem').withProps({ id: 'create' })
 }
 
 /**
- * Creates modal selector of the specified `type`
+ * Modal - Creates modal selector of the specified `type`
  *
- * @param {string} type
- * @returns
+ * @param {string} type Modal type
  */
 function Modal(type) {
   this.modal = ReactSelector('ModalContent').withProps({ type })

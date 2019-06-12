@@ -137,7 +137,7 @@ export const backupCurrentWallet = (walletId, backup) => async (dispatch, getSta
     if (!walletId) {
       return
     }
-    const nodePub = infoSelectors.nodePub(state)
+    const nodePub = infoSelectors.nodePubkey(state)
     const { activeProviders, ...rest } = (await dbGet(walletId)) || {}
     if (activeProviders) {
       const [firstProvider] = activeProviders
