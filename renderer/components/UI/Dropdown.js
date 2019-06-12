@@ -154,7 +154,13 @@ const Dropdown = injectIntl(
         <DropdownContainer {...rest} ref={wrapperRef}>
           <DropdownButton onClick={toggleMenu} opacity={buttonOpacity} type="button">
             <Flex alignItems="center">
-              <Text mr={1} textAlign="left">
+              <Text
+                css={`
+                  white-space: nowrap;
+                `}
+                mr={1}
+                textAlign="left"
+              >
                 {selectedItem ? selectedItem.value : activeKey}{' '}
               </Text>
               <Flex color="gray">
