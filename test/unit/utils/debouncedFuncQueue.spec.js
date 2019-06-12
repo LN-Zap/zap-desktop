@@ -8,7 +8,7 @@ describe('debouncedFuncQueue', () => {
       result = params.reduce((acc, next) => acc + next, 0)
     }
 
-    const debounced = createDebouncedQueue(action, 100)
+    const debounced = createDebouncedQueue(action, 50)
     debounced(1)
     debounced(2)
     debounced(3)
@@ -40,7 +40,7 @@ describe('debouncedFuncQueue', () => {
       result = params.reduce((acc, next) => acc + next, 0)
     }
 
-    const debounced = createDebouncedQueue(action, 10, 50)
+    const debounced = createDebouncedQueue(action, 10, 30)
     debounced(1)
     debounced(2)
     debounced(3)
