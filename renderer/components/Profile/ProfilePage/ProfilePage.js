@@ -29,7 +29,7 @@ const ProfilePage = ({ activeWalletSettings }) => {
         </Panel>
       </Sidebar.medium>
 
-      <MainContent pb={2} pt={4} px={5}>
+      <MainContent pb={2} pl={5} pr={6} pt={4}>
         <Heading.h1 fontSize={60} mb={2}>
           <FormattedMessage {...messages.profile_page_title} />
         </Heading.h1>
