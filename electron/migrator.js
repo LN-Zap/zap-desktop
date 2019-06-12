@@ -14,7 +14,9 @@ const fsReadFile = promisify(readFile)
  */
 class ZapMigrator {
   /**
-   * Registry of migration scripts.
+   * allMigrations - Registry of migration scripts.
+   *
+   * @returns {Array} List of migrations
    */
   allMigrations() {
     return [
@@ -26,14 +28,18 @@ class ZapMigrator {
   }
 
   /**
-   * Path to migration log file.
+   * logFile - Path to migration log file.
+   *
+   * @returns {string} Path to migration log file
    */
   logFile() {
     return join(app.getPath('userData'), 'last-migration.json')
   }
 
   /**
-   * Run all pending migration scripts.
+   * up - Run all pending migration scripts.
+   *
+   * @returns {undefined}
    */
   async up() {
     const migrations = await this.checkForMigrations()
@@ -44,7 +50,9 @@ class ZapMigrator {
   }
 
   /**
-   * Check for all pending migrations.
+   * checkForMigrations - Check for all pending migrations.
+   *
+   * @returns {Array} List of pending migrations
    */
   async checkForMigrations() {
     const lastMigration = await this.getLastMigration()
@@ -54,7 +62,9 @@ class ZapMigrator {
   }
 
   /**
-   * Fetch details of the last migration tha successfully ran.
+   * getLastMigration - Fetch details of the last migration that successfully ran.
+   *
+   * @returns {object} Details of last migration that successfully ran
    */
   async getLastMigration() {
     try {
@@ -66,7 +76,10 @@ class ZapMigrator {
   }
 
   /**
-   * Save details of the last migration tha successfully ran.
+   * setLastMigration - Save details of the last migration tha successfully ran.
+   *
+   * @param {number} id Migration Id
+   * @returns {undefined}
    */
   async setLastMigration(id) {
     const data = {
