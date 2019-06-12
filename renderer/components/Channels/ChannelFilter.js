@@ -19,7 +19,14 @@ const messageMapper = key => {
 
 const ChannelFilter = ({ changeFilter, filter, filters, ...rest }) => (
   <Flex alignItems="baseline" {...rest}>
-    <Label fontWeight="light" htmlFor="channel-filter" mr={2}>
+    <Label
+      css={`
+        white-space: nowrap;
+      `}
+      fontWeight="light"
+      htmlFor="channel-filter"
+      mr={2}
+    >
       <FormattedMessage {...messages.channel_filter_label} />
     </Label>
     <Dropdown
