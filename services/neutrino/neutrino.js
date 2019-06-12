@@ -569,7 +569,7 @@ class Neutrino extends EventEmitter {
     }
     // Otherwise, see if we can parse the current cfilter height from it.
     else {
-      cfilter = this.getCfilterIncrement(line)
+      cfilter = this.getCfilterIncrement(line) || this.getRecoveryHeightIncrement(line)
       if (cfilter) {
         this.setNeutrinoCfilterHeight(cfilter)
       }
