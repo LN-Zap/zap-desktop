@@ -6,7 +6,6 @@ import { initCurrency, initLocale } from 'reducers/locale'
 import { initWallets, walletSelectors } from 'reducers/wallet'
 import { initNeutrino } from 'reducers/neutrino'
 import { startActiveWallet } from 'reducers/lnd'
-
 import { initAutopay } from 'reducers/autopay'
 import { initChannels } from 'reducers/channels'
 

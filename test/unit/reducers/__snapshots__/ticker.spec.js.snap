@@ -2,7 +2,6 @@
 
 exports[`reducers tickerReducer should correctly getTicker 1`] = `
 Object {
-  "btcTicker": null,
   "cryptoUnits": Object {
     "bitcoin": Array [
       Object {
@@ -59,14 +58,13 @@ Object {
     "TWB",
     "UAH",
   ],
-  "ltcTicker": null,
+  "rates": null,
   "tickerLoading": true,
 }
 `;
 
 exports[`reducers tickerReducer should correctly receiveTicker 1`] = `
 Object {
-  "btcTicker": undefined,
   "cryptoUnits": Object {
     "bitcoin": Array [
       Object {
@@ -123,14 +121,13 @@ Object {
     "TWB",
     "UAH",
   ],
-  "ltcTicker": undefined,
+  "rates": undefined,
   "tickerLoading": false,
 }
 `;
 
 exports[`reducers tickerReducer should handle initial state 1`] = `
 Object {
-  "btcTicker": null,
   "cryptoUnits": Object {
     "bitcoin": Array [
       Object {
@@ -187,7 +184,7 @@ Object {
     "TWB",
     "UAH",
   ],
-  "ltcTicker": null,
+  "rates": null,
   "tickerLoading": false,
 }
 `;

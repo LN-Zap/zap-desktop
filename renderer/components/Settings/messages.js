@@ -34,7 +34,6 @@ export default defineMessages({
   lndTargetConfirmations_fast_description: 'Number of blocks to target for "fast" sending speed.',
   fieldgroup_general: 'General',
   fieldgroup_wallet: 'Wallet',
-
   rateProvider_label: 'Rate provider',
   rateProvider_description: 'Your preferred rate provider.',
 })

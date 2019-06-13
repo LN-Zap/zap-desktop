@@ -83,7 +83,6 @@ function createConfig(coin, currency) {
       apiUrl: formatUrl(`api.coinbase.com/v2/exchange-rates?currency=${coin}`),
       parser: response => response.data.data.rates,
     },
-
     bitstamp: {
       name: 'Bitstamp',
       id: 'bitstamp',
