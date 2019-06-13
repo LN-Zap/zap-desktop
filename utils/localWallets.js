@@ -4,9 +4,25 @@ import assert from 'assert'
 import { join } from 'path'
 import { readdir, existsSync } from 'fs'
 import rimraf from 'rimraf'
+import isSubDir from '@zap/utils/isSubDir'
 
 const fsReaddir = promisify(readdir)
 const fsRimraf = promisify(rimraf)
+
+const app = electron.app || remote.app
+
+/**
+ * getWalletDir - Returns specified wallet files location.
+ *
+ * @param {string} chain Chain
+ * @param {string} network Network
+ * @param {string} wallet Wallet
+ * @returns {string} Path to wallet directory
+ */
+export function getWalletDir(chain, network, wallet = '') {
+  const res = join(app.getPath('userData'), `lnd/${chain}/${network}/${wallet}`)
+  return res
+}
 
 /**
  * getLocalWallets - Get a list of local wallets from the filesystem for a given chain/network.
@@ -18,10 +34,8 @@ const fsRimraf = promisify(rimraf)
 export async function getLocalWallets(chain, network) {
   try {
     assert(chain && network)
-    const app = electron.app || remote.app
-    const walletDir = join(app.getPath('userData'), 'lnd', chain, network)
+    const walletDir = getWalletDir(chain, network)
     const wallets = await fsReaddir(walletDir)
-
     // Look for tls.cert file inside wallet dir to consider it a wallet candidate.
     const isWalletDir = wallet => existsSync(join(walletDir, wallet, 'tls.cert'))
     return wallets.filter(isWalletDir).map(wallet => ({
@@ -72,7 +86,6 @@ export async function getAllLocalWallets(chains = [], networks = []) {
  */
 export async function purgeLocalWallet(chain, network, wallet) {
   assert(chain && network && wallet)
-  const app = electron.app || remote.app
   const walletDir = join(app.getPath('userData'), 'lnd', chain, network, wallet)
   await fsRimraf(join(walletDir, 'data/chain', chain, network, '*.bin'))
 }
@@ -88,5 +101,46 @@ export async function purgeAllLocalWallets(chains = [], networks = []) {
   const wallets = await getAllLocalWallets(chains, networks)
   for (const wallet of wallets) {
     await purgeLocalWallet(wallet.chain, wallet.network, wallet.wallet)
+  }
+}
+
+/**
+ * deleteLocalWallet - Delete a local wallet from the filesystem.
+ *
+ * @param {object} location - wallet location desc
+ * @param {string} location.chain - chain
+ * @param {string} location.network - network
+ * @param {string} location.wallet - wallet id
+ * @param {string} location.dir - Direct location
+ * @param {string} location.dir - Direct location
+ *
+ * Must either specify @dir or @chain and @network and @wallet
+ *
+ * @returns {undefined}
+ */
+export async function deleteLocalWallet({ chain, network, wallet, dir }) {
+  // returns wallet location based on arguments configuration
+  const getDir = () => {
+    if (typeof dir === 'string') {
+      return dir
+    }
+
+    try {
+      assert(chain && network && wallet)
+      return getWalletDir(chain, network, wallet)
+    } catch (err) {
+      throw new Error(`Unknown wallet: (chain: ${chain}, network: ${network}, wallet: ${wallet}`)
+    }
+  }
+
+  try {
+    const walletDir = getDir()
+    // for security considerations make sure dir we are removing is actually a wallet dir
+    if (!isSubDir(join(app.getPath('userData'), 'lnd'), walletDir)) {
+      throw new Error('Invalid directory specified')
+    }
+    return fsRimraf(walletDir, { disableGlob: true })
+  } catch (e) {
+    throw new Error(`There was a problem deleting wallet: ${e.message}`)
   }
 }
