@@ -13,7 +13,7 @@ exports[`component.Dropdown should render correctly 1`] = `
   align-items: center;
 }
 
-.c4 {
+.c5 {
   box-sizing: border-box;
   color: gray;
   display: -webkit-box;
@@ -22,7 +22,7 @@ exports[`component.Dropdown should render correctly 1`] = `
   display: flex;
 }
 
-.c3 {
+.c4 {
   box-sizing: border-box;
   margin-right: 4px;
   font-size: m;
@@ -61,6 +61,10 @@ exports[`component.Dropdown should render correctly 1`] = `
   cursor: pointer;
 }
 
+.c3 {
+  white-space: nowrap;
+}
+
 <div
   style={
     Object {
@@ -82,7 +86,7 @@ exports[`component.Dropdown should render correctly 1`] = `
         className="c2"
       >
         <div
-          className="c3"
+          className="c3 c4"
           color="primaryText"
           fontSize="m"
         >
@@ -90,7 +94,7 @@ exports[`component.Dropdown should render correctly 1`] = `
            
         </div>
         <div
-          className="c4"
+          className="c5"
           color="gray"
         >
           <svg

@@ -25,9 +25,9 @@ const ActivityActions = ({
         placeholder={intl.formatMessage({ ...messages.search_placeholder })}
         searchQuery={searchQuery}
         updateActivitySearchQuery={updateActivitySearchQuery}
-        width={2 / 3}
+        width={1}
       />
-      <Flex alignItems="center" as="section" justifyContent="flex-end" width={1 / 3}>
+      <Flex alignItems="center" as="section" justifyContent="flex-end">
         <ActivityFilter changeFilter={changeFilter} filter={filter} filters={filters} mx={3} />
 
         <ActivityRefresh mx={3} onClick={fetchActivityHistory} />
