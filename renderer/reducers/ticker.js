@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
-import { requestTickers } from '@zap/utils/api'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
+import { requestTickerWithFallback } from '@zap/utils/fiat/exchange'
+import { infoSelectors } from './info'
 import { putConfig, settingsSelectors } from './settings'
-
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -54,10 +54,14 @@ export function recieveTickers({ btcTicker, ltcTicker }) {
   }
 }
 
-export const fetchTickers = () => async dispatch => {
+export const fetchTickers = () => async (dispatch, getState) => {
+  const state = getState()
+  const chain = infoSelectors.chainSelector(state) === 'bitcoin' ? 'BTC' : 'LTC'
+  const currentConfig = settingsSelectors.currentConfig(state)
+  const currency = fiatTickerSelector(state)
   dispatch(getTickers())
-  const tickers = await requestTickers(['btc', 'ltc'])
-  dispatch(recieveTickers(tickers))
+  const tickers = await requestTickerWithFallback(currentConfig.rateProvider, chain, currency)
+  dispatch(recieveTickers({ btcTicker: tickers }))
 
   return tickers
 }
@@ -67,11 +71,10 @@ export const fetchTickers = () => async dispatch => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_TICKERS]: state => ({ ...state, tickerLoading: true }),
-  [RECIEVE_TICKERS]: (state, { btcTicker, ltcTicker }) => ({
+  [RECIEVE_TICKERS]: (state, { btcTicker }) => ({
     ...state,
     tickerLoading: false,
     btcTicker,
-    ltcTicker,
   }),
 }
 
