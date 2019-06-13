@@ -29,7 +29,7 @@ Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchTextSelector": "",
+  "searchText": null,
 }
 `;
 
@@ -81,7 +81,7 @@ Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchTextSelector": "",
+  "searchText": null,
 }
 `;
 
@@ -114,6 +114,6 @@ Object {
     "itemId": undefined,
     "itemType": undefined,
   },
-  "searchTextSelector": "",
+  "searchText": null,
 }
 `;

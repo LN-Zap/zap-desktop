@@ -15,7 +15,7 @@ const ActivityActions = ({
   searchText,
   changeFilter,
   fetchActivityHistory,
-  updateActivitySearchQuery,
+  updateSearchText,
   intl,
   ...rest
 }) => (
@@ -24,7 +24,7 @@ const ActivityActions = ({
       <ActivitySearch
         placeholder={intl.formatMessage({ ...messages.search_placeholder })}
         searchText={searchText}
-        updateActivitySearchQuery={updateActivitySearchQuery}
+        updateSearchText={updateSearchText}
         width={1}
       />
       <Flex alignItems="center" as="section" justifyContent="flex-end">
@@ -43,7 +43,7 @@ ActivityActions.propTypes = {
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
   searchText: PropTypes.string,
-  updateActivitySearchQuery: PropTypes.func.isRequired,
+  updateSearchText: PropTypes.func.isRequired,
 }
 
 export default injectIntl(ActivityActions)

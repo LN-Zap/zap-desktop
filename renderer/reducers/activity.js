@@ -1,10 +1,10 @@
 import { createSelector } from 'reselect'
-import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
+import { decodePayReq } from '@zap/utils/crypto'
 import { openModal, closeModal } from './modal'
 import { fetchDescribeNetwork } from './network'
 import { fetchTransactions, transactionsSelectors } from './transaction'
-import { fetchPayments } from './payment'
-import { fetchInvoices } from './invoice'
+import { fetchPayments, paymentSelectors } from './payment'
+import { fetchInvoices, invoiceSelectors } from './invoice'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 
@@ -25,7 +25,7 @@ const initialState = {
     itemType: null,
     itemId: null,
   },
-  searchTextSelector: '',
+  searchText: null,
   isActivityLoading: false,
   activityLoadingError: null,
 }
@@ -170,6 +170,10 @@ const applySearch = (data, searchTextSelector) => {
   })
 }
 
+const prepareData = (data, searchText) => {
+  return groupAll(applySearch(data, searchText))
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -212,13 +216,13 @@ export function changeFilter(filter) {
 /**
  * updateSearchText - Set the current activity search string.
  *
- * @param {string} searchTextSelector Search string to apply
+ * @param {string} searchText Search string to apply
  * @returns {undefined}
  */
-export function updateSearchText(searchTextSelector) {
+export function updateSearchText(searchText = null) {
   return {
     type: UPDATE_SEARCH_TEXT,
-    searchTextSelector,
+    searchText,
   }
 }
 
@@ -253,7 +257,7 @@ const ACTION_HANDLERS = {
   }),
   [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { itemType: null, itemId: null } }),
   [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter }),
-  [UPDATE_SEARCH_TEXT]: (state, { searchTextSelector }) => ({ ...state, searchTextSelector }),
+  [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText }),
   [FETCH_ACTIVITY_HISTORY]: state => ({ ...state, isActivityLoading: true }),
   [FETCH_ACTIVITY_HISTORY_SUCCESS]: state => ({ ...state, isActivityLoading: false }),
   [FETCH_ACTIVITY_HISTORY_FAILURE]: (state, { error }) => ({
@@ -270,34 +274,18 @@ const ACTION_HANDLERS = {
 const activitySelectors = {}
 const filterSelector = state => state.activity.filter
 const filtersSelector = state => state.activity.filters
-const searchTextSelector = state => state.activity.searchTextSelector
+const searchTextSelector = state => state.activity.searchText
 const modalItemTypeSelector = state => state.activity.modal.itemType
 const modalItemIdSelector = state => state.activity.modal.itemId
-const paymentsSelector = state => state.payment.payments
-const paymentsSendingSelector = state => state.payment.paymentsSending
-const invoicesSelector = state => state.invoice.invoices
-const transactionsSelector = state => transactionsSelectors.transactionsSelector(state)
-const transactionsSendingSelector = state => state.transaction.transactionsSending
-const nodesSelector = state => state.network.nodes
+const paymentsSelector = state => paymentSelectors.decoratedPaymentsSelector(state)
+const paymentsSendingSelector = state => paymentSelectors.paymentsSending(state)
+const invoicesSelector = state => invoiceSelectors.invoices(state)
+const transactionsSelector = state => transactionsSelectors.decoratedTransactionsSelector(state)
+const transactionsSendingSelector = state => transactionsSelectors.transactionsSending(state)
 
 activitySelectors.filter = filterSelector
 activitySelectors.filters = filtersSelector
 activitySelectors.searchText = searchTextSelector
-
-/**
- * Augment payments with additional data.
- */
-const decoratedPaymentsSelector = createSelector(
-  paymentsSelector,
-  nodesSelector,
-  (payments, nodes) =>
-    payments.map(payment => {
-      const destPubKey = payment.path && payment.path[payment.path.length - 1]
-      payment.dest_node_pubkey = destPubKey ? destPubKey : null
-      payment.dest_node_alias = destPubKey ? getNodeAlias(destPubKey, nodes) : null
-      return payment
-    })
-)
 
 /**
  * Map sending payments to something that looks like normal payments.
@@ -343,7 +331,7 @@ const transactionsSending = createSelector(
 )
 
 activitySelectors.activityModalItem = createSelector(
-  decoratedPaymentsSelector,
+  paymentsSelector,
   invoicesSelector,
   transactionsSelector,
   modalItemTypeSelector,
@@ -362,18 +350,14 @@ activitySelectors.activityModalItem = createSelector(
   }
 )
 
-const prepareData = (data, searchTextSelector) => {
-  return groupAll(applySearch(data, searchTextSelector))
-}
-
 const allActivity = createSelector(
   searchTextSelector,
-  paymentsSending,
-  transactionsSending,
-  decoratedPaymentsSelector,
+  paymentsSendingSelector,
+  transactionsSendingSelector,
+  paymentsSelector,
   transactionsSelector,
   invoicesSelector,
-  (searchTextSelector, paymentsSending, transactionsSending, payments, transactions, invoices) => {
+  (searchText, paymentsSending, transactionsSending, payments, transactions, invoices) => {
     const allData = [
       ...paymentsSending,
       ...transactionsSending,
@@ -383,7 +367,7 @@ const allActivity = createSelector(
       ),
       ...invoices.filter(invoice => invoice.settled || !invoiceExpired(invoice)),
     ]
-    return prepareData(allData, searchTextSelector)
+    return prepareData(allData, searchText)
   }
 )
 
@@ -391,9 +375,9 @@ const sentActivity = createSelector(
   searchTextSelector,
   paymentsSending,
   transactionsSending,
-  decoratedPaymentsSelector,
+  paymentsSelector,
   transactionsSelector,
-  (searchTextSelector, paymentsSending, transactionsSending, payments, transactions) => {
+  (searchText, paymentsSending, transactionsSending, payments, transactions) => {
     const allData = [
       ...paymentsSending,
       ...transactionsSending,
@@ -406,7 +390,7 @@ const sentActivity = createSelector(
           !transaction.isPending
       ),
     ]
-    return prepareData(allData, searchTextSelector)
+    return prepareData(allData, searchText)
   }
 )
 
@@ -414,7 +398,7 @@ const receivedActivity = createSelector(
   searchTextSelector,
   invoicesSelector,
   transactionsSelector,
-  (searchTextSelector, invoices, transactions) => {
+  (searchText, invoices, transactions) => {
     const allData = [
       ...invoices.filter(invoice => invoice.settled),
       ...transactions.filter(
@@ -425,7 +409,7 @@ const receivedActivity = createSelector(
           !transaction.isPending
       ),
     ]
-    return prepareData(allData, searchTextSelector)
+    return prepareData(allData, searchText)
   }
 )
 
@@ -435,34 +419,34 @@ const pendingActivity = createSelector(
   transactionsSending,
   transactionsSelector,
   invoicesSelector,
-  (searchTextSelector, paymentsSending, transactionsSending, transactions, invoices) => {
+  (searchText, paymentsSending, transactionsSending, transactions, invoices) => {
     const allData = [
       ...paymentsSending,
       ...transactionsSending,
       ...transactions.filter(transaction => transaction.isPending),
       ...invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice)),
     ]
-    return prepareData(allData, searchTextSelector)
+    return prepareData(allData, searchText)
   }
 )
 
 const expiredActivity = createSelector(
   searchTextSelector,
   invoicesSelector,
-  (searchTextSelector, invoices) => {
+  (searchText, invoices) => {
     const allData = invoices.filter(invoice => !invoice.settled && invoiceExpired(invoice))
-    return prepareData(allData, searchTextSelector)
+    return prepareData(allData, searchText)
   }
 )
 
 const internalActivity = createSelector(
   searchTextSelector,
   transactionsSelector,
-  (searchTextSelector, transactions) => {
+  (searchText, transactions) => {
     const allData = transactions.filter(
       transaction => transaction.isFunding || (transaction.isClosing && !transaction.isPending)
     )
-    return prepareData(allData, searchTextSelector)
+    return prepareData(allData, searchText)
   }
 )
 

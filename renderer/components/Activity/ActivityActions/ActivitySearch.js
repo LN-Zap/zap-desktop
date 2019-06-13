@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { useDebounce } from 'hooks'
 import { Form, Input } from 'components/UI'
 
-const ActivitySearch = ({ searchText, placeholder, updateActivitySearchQuery, ...rest }) => {
+const ActivitySearch = ({ searchText, placeholder, updateSearchText, ...rest }) => {
   const [value, setValue] = useState()
-  useDebounce(updateActivitySearchQuery, value)
+  useDebounce(updateSearchText, value)
 
   return (
     <Form {...rest}>
@@ -28,7 +28,7 @@ const ActivitySearch = ({ searchText, placeholder, updateActivitySearchQuery, ..
 ActivitySearch.propTypes = {
   placeholder: PropTypes.string.isRequired,
   searchText: PropTypes.string,
-  updateActivitySearchQuery: PropTypes.func.isRequired,
+  updateSearchText: PropTypes.func.isRequired,
 }
 
 export default ActivitySearch

@@ -6,7 +6,7 @@ import { ActivityModal } from 'components/Activity/ActivityModal'
 
 const mapStateToProps = state => ({
   item: activitySelectors.activityModalItem(state),
-  network: state.info.network,
+  network: infoSelectors.networkSelector(state),
   networkInfo: infoSelectors.networkInfo(state),
 })
 
