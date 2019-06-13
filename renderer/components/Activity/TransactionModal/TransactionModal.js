@@ -1,23 +1,32 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
-import { FormattedDate, FormattedTime, FormattedMessage, FormattedNumber } from 'react-intl'
+import {
+  FormattedDate,
+  FormattedTime,
+  FormattedMessage,
+  FormattedNumber,
+  injectIntl,
+  intlShape,
+} from 'react-intl'
 import { Flex } from 'rebass'
 import blockExplorer from '@zap/utils/blockExplorer'
-import { Bar, DataRow, Header, Link, Panel, Span, Text } from 'components/UI'
+import { Bar, CopyButton, DataRow, Header, Link, Panel, Span, Text } from 'components/UI'
 import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Onchain from 'components/Icon/Onchain'
 import Padlock from 'components/Icon/Padlock'
 import messages from './messages'
 
-export default class TransactionModal extends React.PureComponent {
+class TransactionModal extends React.PureComponent {
   static propTypes = {
+    intl: intlShape.isRequired,
     item: PropTypes.object.isRequired,
     networkInfo: PropTypes.shape({
       id: PropTypes.string,
       name: PropTypes.string,
     }),
+    showNotification: PropTypes.func.isRequired,
   }
 
   showBlock = hash => {
@@ -35,8 +44,28 @@ export default class TransactionModal extends React.PureComponent {
     return networkInfo && blockExplorer.showTransaction(networkInfo, hash)
   }
 
+  notifyOfCopy = value => {
+    const { intl, showNotification } = this.props
+    showNotification(intl.formatMessage({ ...messages.copied_to_clipbpard }, { value }))
+  }
+
+  notifyOfCopyBlock = () => {
+    const { intl } = this.props
+    this.notifyOfCopy(intl.formatMessage({ ...messages.block_id }))
+  }
+
+  notifyOfCopyAddress = () => {
+    const { intl } = this.props
+    this.notifyOfCopy(intl.formatMessage({ ...messages.address }))
+  }
+
+  notifyOfCopyTransaction = () => {
+    const { intl } = this.props
+    this.notifyOfCopy(intl.formatMessage({ ...messages.tx_hash }))
+  }
+
   render() {
-    const { item, ...rest } = this.props
+    const { intl, item, showNotification, ...rest } = this.props
     const destAddress = get(item, 'dest_addresses[0]')
     const amount = item.amount || item.limboAmount || 0
     const isIncoming = item.received || item.limboAmount > 0
@@ -114,13 +143,21 @@ export default class TransactionModal extends React.PureComponent {
               <DataRow
                 left={<FormattedMessage {...messages.address} />}
                 right={
-                  <Link
-                    className="hint--bottom-left"
-                    data-hint={destAddress}
-                    onClick={() => this.showAddress(destAddress)}
-                  >
-                    <Truncate text={destAddress} />
-                  </Link>
+                  <Flex>
+                    <CopyButton
+                      hint={intl.formatMessage({ ...messages.copy_to_clipboard })}
+                      mr={2}
+                      onCopy={this.notifyOfCopyAddress}
+                      value={destAddress}
+                    />
+                    <Link
+                      className="hint--bottom-left"
+                      data-hint={destAddress}
+                      onClick={() => this.showAddress(destAddress)}
+                    >
+                      <Truncate text={destAddress} />
+                    </Link>
+                  </Flex>
                 }
               />
             </>
@@ -148,16 +185,24 @@ export default class TransactionModal extends React.PureComponent {
             right={
               item.block_height ? (
                 <>
-                  <Link
-                    className="hint--bottom-left"
-                    data-hint={item.block_hash}
-                    onClick={() => this.showBlock(item.block_hash)}
-                  >
-                    <FormattedMessage
-                      {...messages.block_height}
-                      values={{ height: item.block_height }}
+                  <Flex>
+                    <CopyButton
+                      hint={intl.formatMessage({ ...messages.copy_to_clipboard })}
+                      mr={2}
+                      onCopy={this.notifyOfCopyBlock}
+                      value={item.block_hash}
                     />
-                  </Link>
+                    <Link
+                      className="hint--bottom-left"
+                      data-hint={item.block_hash}
+                      onClick={() => this.showBlock(item.block_hash)}
+                    >
+                      <FormattedMessage
+                        {...messages.block_height}
+                        values={{ height: item.block_height }}
+                      />
+                    </Link>
+                  </Flex>
 
                   {item.maturityHeight && (
                     <Flex alignItems="center" mt={1}>
@@ -184,13 +229,21 @@ export default class TransactionModal extends React.PureComponent {
           <DataRow
             left={<FormattedMessage {...messages.tx_hash} />}
             right={
-              <Link
-                className="hint--bottom-left"
-                data-hint={item.tx_hash}
-                onClick={() => this.showTransaction(item.tx_hash)}
-              >
-                <Truncate text={item.tx_hash} />
-              </Link>
+              <Flex>
+                <CopyButton
+                  hint={intl.formatMessage({ ...messages.copy_to_clipboard })}
+                  mr={2}
+                  onCopy={this.notifyOfCopyTransaction}
+                  value={item.tx_hash}
+                />
+                <Link
+                  className="hint--bottom-left"
+                  data-hint={item.tx_hash}
+                  onClick={() => this.showTransaction(item.tx_hash)}
+                >
+                  <Truncate text={item.tx_hash} />
+                </Link>
+              </Flex>
             }
           />
         </Panel.Body>
@@ -198,3 +251,5 @@ export default class TransactionModal extends React.PureComponent {
     )
   }
 }
+
+export default injectIntl(TransactionModal)

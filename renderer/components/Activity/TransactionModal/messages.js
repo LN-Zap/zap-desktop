@@ -14,5 +14,8 @@ export default defineMessages({
   block_height: 'Confirmed in block {height}',
   maturity_height: 'Locked until block {height} ',
   tx_hash: 'Transaction ID',
+  block_id: 'Block ID',
   unconfirmed: 'Unconfirmed',
+  copied_to_clipbpard: '{value} has been copied to your clipboard',
+  copy_to_clipboard: 'Copy to clipboard',
 })
