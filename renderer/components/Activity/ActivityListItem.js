@@ -8,6 +8,8 @@ import ChainLink from 'components/Icon/ChainLink'
 import Clock from 'components/Icon/Clock'
 import Zap from 'components/Icon/Zap'
 import { Text } from 'components/UI'
+import ActivityPlaceholderItem from './ActivityPlaceholderItem'
+import ActivityPlaceholderGroup from './ActivityPlaceholderGroup'
 
 const ZapIcon = () => <Zap height="1.6em" width="1.6em" />
 
@@ -15,6 +17,8 @@ const ACTIVITY_ITEM_TYPES = {
   transaction: Transaction,
   invoice: Invoice,
   payment: Payment,
+  placeholderItem: ActivityPlaceholderItem,
+  placeholderGroup: ActivityPlaceholderGroup,
 }
 
 const ActivityIcon = ({ activity }) => {

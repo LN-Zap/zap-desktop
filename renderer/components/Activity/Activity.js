@@ -7,6 +7,7 @@ import { FormattedDate } from 'react-intl'
 import { Box } from 'rebass'
 import { Bar, Heading, Panel } from 'components/UI'
 import ActivityActions from 'containers/Activity/ActivityActions'
+import ActivityPlaceholderList from 'containers/Activity/ActivityPlaceholderList'
 import ActivityListItem from './ActivityListItem'
 
 const StyledList = styled(List)`
@@ -41,6 +42,10 @@ class Activity extends Component {
 
   renderActivityList = () => {
     let { currentActivity } = this.props
+
+    if (currentActivity.length === 0) {
+      return <ActivityPlaceholderList mt={4} pr={4} />
+    }
 
     const renderRow = ({ index, key, style, parent }) => {
       const item = currentActivity[index]
