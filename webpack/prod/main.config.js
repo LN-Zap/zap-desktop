@@ -4,9 +4,8 @@
 
 import path from 'path'
 import merge from 'webpack-merge'
-import { EnvironmentPlugin } from 'webpack'
-import { BundleAnalyzerPlugin } from 'webpack-bundle-analyzer'
 import baseConfig, { rootDir } from '../webpack.config.base'
+import plugins from './common/plugins'
 
 const config = merge.smart(baseConfig, {
   name: 'main',
@@ -20,15 +19,7 @@ const config = merge.smart(baseConfig, {
     filename: '[name].js',
     path: path.join(rootDir, 'dist'),
   },
-  plugins: [
-    new EnvironmentPlugin({
-      NODE_ENV: 'development',
-    }),
-    new BundleAnalyzerPlugin({
-      analyzerMode: process.env.OPEN_ANALYZER === 'true' ? 'server' : 'disabled',
-      openAnalyzer: process.env.OPEN_ANALYZER === 'true',
-    }),
-  ],
+  plugins,
   node: {
     __dirname: false,
     __filename: false,
