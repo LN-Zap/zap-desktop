@@ -85,7 +85,7 @@ export function sendInvoice() {
 export const fetchInvoices = () => async dispatch => {
   dispatch(getInvoices())
   const grpc = await grpcService
-  const invoices = await grpc.services.Lightning.listInvoices()
+  const invoices = await grpc.services.Lightning.listInvoices({ num_max_invoices: 2500 })
   dispatch(receiveInvoices(invoices))
 }
 
