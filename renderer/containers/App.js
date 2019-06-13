@@ -8,6 +8,7 @@ import { appSelectors } from 'reducers/app'
 import { initBackupService } from 'reducers/backup'
 import { setModals, modalSelectors } from 'reducers/modal'
 import { fetchSuggestedNodes } from 'reducers/channels'
+import { initTickers } from 'reducers/ticker'
 
 import App from 'components/App'
 
@@ -24,6 +25,7 @@ const mapDispatchToProps = {
   setIsWalletOpen,
   fetchTransactions,
   setModals,
+  initTickers,
   initBackupService,
   fetchSuggestedNodes,
 }

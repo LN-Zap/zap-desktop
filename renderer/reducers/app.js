@@ -156,13 +156,10 @@ appSelectors.isRootReady = createSelector(
 appSelectors.isAppReady = createSelector(
   appSelectors.infoLoaded,
   tickerSelectors.cryptoUnit,
-  tickerSelectors.currentTicker,
   appSelectors.walletBalance,
   appSelectors.channelBalance,
-  (infoLoaded, currency, currentTicker, walletBalance, channelBalance) => {
-    return Boolean(
-      infoLoaded && currency && currentTicker && channelBalance !== null && walletBalance !== null
-    )
+  (infoLoaded, currency, walletBalance, channelBalance) => {
+    return Boolean(infoLoaded && currency && channelBalance !== null && walletBalance !== null)
   }
 )
 
