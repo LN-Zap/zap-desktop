@@ -1,8 +1,11 @@
-import activityReducer, {
+import reducer, {
   SHOW_ACTIVITY_MODAL,
   HIDE_ACTIVITY_MODAL,
   CHANGE_FILTER,
   UPDATE_SEARCH_TEXT,
+  FETCH_ACTIVITY_HISTORY,
+  FETCH_ACTIVITY_HISTORY_SUCCESS,
+  FETCH_ACTIVITY_HISTORY_FAILURE,
 } from 'reducers/activity'
 
 describe('reducers', () => {
@@ -23,22 +26,49 @@ describe('reducers', () => {
       expect(UPDATE_SEARCH_TEXT).toEqual('UPDATE_SEARCH_TEXT')
     })
 
-    it('should correctly showActivityModal', () => {
-      expect(activityReducer(undefined, { type: SHOW_ACTIVITY_MODAL })).toMatchSnapshot()
+    it('should have FETCH_ACTIVITY_HISTORY', () => {
+      expect(FETCH_ACTIVITY_HISTORY).toEqual('FETCH_ACTIVITY_HISTORY')
     })
 
-    it('should correctly hideActivityModal', () => {
-      expect(
-        activityReducer(undefined, { type: HIDE_ACTIVITY_MODAL, invoices: [1, 2] })
-      ).toMatchSnapshot()
+    it('should have FETCH_ACTIVITY_HISTORY_SUCCESS', () => {
+      expect(FETCH_ACTIVITY_HISTORY_SUCCESS).toEqual('FETCH_ACTIVITY_HISTORY_SUCCESS')
     })
 
-    it('should correctly changeFilter', () => {
-      expect(activityReducer(undefined, { type: CHANGE_FILTER })).toMatchSnapshot()
+    it('should have FETCH_ACTIVITY_HISTORY_FAILURE', () => {
+      expect(FETCH_ACTIVITY_HISTORY_FAILURE).toEqual('FETCH_ACTIVITY_HISTORY_FAILURE')
     })
 
-    it('should correctly updateSearchText', () => {
-      expect(activityReducer(undefined, { type: UPDATE_SEARCH_TEXT })).toMatchSnapshot()
+    it('should handle SHOW_ACTIVITY_MODAL', () => {
+      expect(reducer(undefined, { type: SHOW_ACTIVITY_MODAL })).toMatchSnapshot()
+    })
+
+    it('should handle HIDE_ACTIVITY_MODAL', () => {
+      expect(reducer(undefined, { type: HIDE_ACTIVITY_MODAL, invoices: [1, 2] })).toMatchSnapshot()
+    })
+
+    it('should handle CHANGE_FILTER', () => {
+      expect(reducer(undefined, { type: CHANGE_FILTER })).toMatchSnapshot()
+    })
+
+    it('should handle FETCH_ACTIVITY_HISTORY', () => {
+      const action = {
+        type: FETCH_ACTIVITY_HISTORY,
+      }
+      expect(reducer({}, action)).toMatchSnapshot()
+    })
+
+    it('should handle FETCH_ACTIVITY_HISTORY_SUCCESS', () => {
+      const action = {
+        type: FETCH_ACTIVITY_HISTORY_SUCCESS,
+      }
+      expect(reducer({}, action)).toMatchSnapshot()
+    })
+
+    it('should handle FETCH_ACTIVITY_HISTORY_FAILURE', () => {
+      const action = {
+        type: FETCH_ACTIVITY_HISTORY_FAILURE,
+      }
+      expect(reducer({}, action)).toMatchSnapshot()
     })
   })
 })

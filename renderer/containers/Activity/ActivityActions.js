@@ -1,5 +1,10 @@
 import { connect } from 'react-redux'
-import { changeFilter, fetchActivityHistory, updateSearchText } from 'reducers/activity'
+import {
+  changeFilter,
+  fetchActivityHistory,
+  updateSearchText,
+  activitySelectors,
+} from 'reducers/activity'
 import ActivityActions from 'components/Activity/ActivityActions'
 
 const mapDispatchToProps = {
@@ -9,9 +14,9 @@ const mapDispatchToProps = {
 }
 
 const mapStateToProps = state => ({
-  filter: state.activity.filter,
-  filters: state.activity.filters,
-  searchQuery: state.activity.searchText,
+  filter: activitySelectors.filter(state),
+  filters: activitySelectors.filters(state),
+  searchText: activitySelectors.searchText(state),
 })
 
 export default connect(
