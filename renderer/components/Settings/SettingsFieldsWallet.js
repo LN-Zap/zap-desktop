@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import get from 'lodash/get'
 import { Bar, DataRow, Select } from 'components/UI'
+
 import { FieldLabel, NumberField } from './SettingsFieldHelpers'
 import messages from './messages'
 
@@ -24,7 +25,9 @@ const blockExplorerMessageMapper = key => {
   return filters[key]
 }
 
-const SettingsFieldsWallet = ({ currentConfig }) => {
+const rateProviderMessageMapper = key => messages[`rateProvider_option_${key}`]
+
+const SettingsFieldsWallet = ({ currentConfig, rateProviderItems }) => {
   const renderNumberDataRow = path => (
     <DataRow
       left={<FieldLabel itemKey={path} />}
@@ -47,8 +50,6 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
         }
       />
 
-      <Bar variant="light" />
-
       <DataRow
         left={<FieldLabel itemKey="blockExplorer" />}
         right={
@@ -58,6 +59,19 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
             initialValue={currentConfig.blockExplorer}
             items={blockExplorerItems}
             messageMapper={blockExplorerMessageMapper}
+          />
+        }
+      />
+      <Bar variant="light" />
+      <DataRow
+        left={<FieldLabel itemKey="rateProvider" />}
+        right={
+          <Select
+            field="rateProvider"
+            highlightOnValid={false}
+            initialValue={currentConfig.rateProvider}
+            items={rateProviderItems}
+            messageMapper={rateProviderMessageMapper}
           />
         }
       />
@@ -79,6 +93,7 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
 
 SettingsFieldsWallet.propTypes = {
   currentConfig: PropTypes.object.isRequired,
+  rateProviderItems: PropTypes.array.isRequired,
 }
 
 export default SettingsFieldsWallet

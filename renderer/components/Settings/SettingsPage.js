@@ -81,7 +81,7 @@ SettingsActions.propTypes = {
   currentConfig: PropTypes.object.isRequired,
 }
 
-const SettingsPage = ({ currentConfig, ...rest }) => {
+const SettingsPage = ({ currentConfig, rateProviderItems, fetchTickers, ...rest }) => {
   const [group, setGroup] = useState('general')
 
   return (
@@ -105,9 +105,14 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
           <FormattedMessage {...messages.settings_title} />
         </Heading.h1>
 
-        <SettingsForm>
+        <SettingsForm onSubmit={fetchTickers}>
           {group === 'general' && <SettingsFieldsGeneral currentConfig={currentConfig} />}
-          {group === 'wallet' && <SettingsFieldsWallet currentConfig={currentConfig} />}
+          {group === 'wallet' && (
+            <SettingsFieldsWallet
+              currentConfig={currentConfig}
+              rateProviderItems={rateProviderItems}
+            />
+          )}
           <SettingsActions currentConfig={currentConfig} />
         </SettingsForm>
       </MainContent>
@@ -117,6 +122,8 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
 
 SettingsPage.propTypes = {
   currentConfig: PropTypes.object.isRequired,
+  fetchTickers: PropTypes.func.isRequired,
+  rateProviderItems: PropTypes.array.isRequired,
 }
 
 export default SettingsPage

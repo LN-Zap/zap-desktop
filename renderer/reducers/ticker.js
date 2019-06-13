@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
-import { requestTickerWithFallback } from '@zap/utils/fiat/rateProvider'
+import { requestTickerWithFallback, getSupportedProviders } from '@zap/utils/fiat/rateProvider'
 import { infoSelectors } from './info'
 import { putConfig, settingsSelectors } from './settings'
 // ------------------------------------
@@ -161,6 +161,12 @@ tickerSelectors.cryptoUnitName = createSelector(
 tickerSelectors.autopayCurrencyName = createSelector(
   tickerSelectors.cryptoUnits,
   cryptoUnits => cryptoUnits && cryptoUnits[cryptoUnits.length - 1].value
+)
+
+tickerSelectors.rateProviderSelector = createSelector(
+  fiatTickerSelector,
+  infoSelectors.chainSelector,
+  (currency, chain) => getSupportedProviders(chain === 'bitcoin' ? 'BTC' : 'LTC', currency)
 )
 
 export { tickerSelectors }
