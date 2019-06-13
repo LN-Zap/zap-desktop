@@ -145,7 +145,6 @@ const ACTION_HANDLERS = {
 // Selectors
 // ------------------------------------
 const activitySelectors = {}
-const filtersSelector = state => state.activity.filters
 const filterSelector = state => state.activity.filter
 const searchSelector = state => state.activity.searchText
 const paymentsSelector = state => state.payment.payments
@@ -452,12 +451,6 @@ const FILTERS = {
 activitySelectors.currentActivity = createSelector(
   filterSelector,
   filter => FILTERS[filter]
-)
-
-activitySelectors.nonActiveFilters = createSelector(
-  filtersSelector,
-  filterSelector,
-  (filters, filter) => filters.filter(f => f.key !== filter)
 )
 
 export { activitySelectors }
