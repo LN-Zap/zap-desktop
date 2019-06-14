@@ -11,6 +11,12 @@ import { Text } from 'components/UI'
 
 const ZapIcon = () => <Zap height="1.6em" width="1.6em" />
 
+const ACTIVITY_ITEM_TYPES = {
+  transaction: Transaction,
+  invoice: Invoice,
+  payment: Payment,
+}
+
 const ActivityIcon = ({ activity }) => {
   switch (activity.type) {
     case 'transaction':
@@ -29,15 +35,15 @@ ActivityIcon.propTypes = {
 }
 
 const ActivityListItem = ({ activity, ...rest }) => {
+  const ListItem = ACTIVITY_ITEM_TYPES[activity.type]
+  const listItemProps = { [activity.type]: activity }
   return (
     <Flex alignItems="center" justifyContent="space-between" {...rest}>
       <Text color="gray" mr={10} textAlign="center" width={24}>
         <ActivityIcon activity={activity} />
       </Text>
       <Box css={activity.sending ? null : { cursor: 'pointer' }} width={1}>
-        {activity.type === 'transaction' && <Transaction transaction={activity} />}
-        {activity.type === 'invoice' && <Invoice invoice={activity} />}
-        {activity.type === 'payment' && <Payment payment={activity} />}
+        <ListItem {...listItemProps} />
       </Box>
     </Flex>
   )
