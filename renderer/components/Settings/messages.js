@@ -25,6 +25,8 @@ export default defineMessages({
   address_option_np2wkh: 'Segwit',
   blockExplorer_label: 'Block explorer',
   blockExplorer_description: 'Your preferred block explorer.',
+  invoices_expire_label: 'Invoice expiry',
+  invoices_expire_description: 'Amount of time (seconds) before invoices expire.',
   lndTargetConfirmations_slow_label: 'Target confirmations (slow)',
   lndTargetConfirmations_slow_description: 'Number of blocks to target for "slow" sending speed.',
   lndTargetConfirmations_medium_label: 'Target confirmations (medium)',

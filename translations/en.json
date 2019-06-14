@@ -442,6 +442,8 @@
   "components.Settings.currency_label": "Fiat currency",
   "components.Settings.fieldgroup_general": "General",
   "components.Settings.fieldgroup_wallet": "Wallet",
+  "components.Settings.invoices_expire_description": "Amount of time (seconds) before invoices expire.",
+  "components.Settings.invoices_expire_label": "Invoice expiry",
   "components.Settings.lndTargetConfirmations_fast_description": "Number of blocks to target for \"fast\" sending speed.",
   "components.Settings.lndTargetConfirmations_fast_label": "Target confirmations (fast)",
   "components.Settings.lndTargetConfirmations_medium_description": "Number of blocks to target for \"medium\" sending speed.",

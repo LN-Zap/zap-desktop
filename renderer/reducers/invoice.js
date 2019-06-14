@@ -6,6 +6,7 @@ import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 import { showError } from './notification'
 import { walletSelectors } from './wallet'
+import { settingsSelectors } from './settings'
 
 // ------------------------------------
 // Constants
@@ -112,6 +113,7 @@ export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
   // (both manual and autopilot ones). In order for these clients to receive money through these channels the invoices
   // need to come with routing hints for private channels.
   const activeWalletSettings = walletSelectors.activeWalletSettings(state)
+  const currentConfig = settingsSelectors.currentConfig(state)
 
   try {
     const grpc = await grpcService
@@ -119,6 +121,7 @@ export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
       value,
       memo,
       private: isPrivate || activeWalletSettings.type === 'local',
+      expiry: currentConfig.invoices.expire,
     })
     dispatch(createdInvoice(invoice))
   } catch (e) {
