@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import map from 'lodash/map'
 import get from 'lodash/get'
 import { Bar, DataRow, Select } from 'components/UI'
+import { getSupportedProviders } from '@zap/utils/fiat/rateProvider'
 import { FieldLabel, NumberField } from './SettingsFieldHelpers'
 import messages from './messages'
 
@@ -14,13 +16,21 @@ const addressMessageMapper = key => {
   return filters[key]
 }
 
+const getRateProviders = () => {
+  const providers = getSupportedProviders()
+  // pluck key and name from config
+  return map(providers, ({ id, name }) => ({ key: id, value: name }))
+}
+
+const rateProviders = getRateProviders()
+
 const blockExplorerItems = [
   { key: 'blockstream', value: 'Blockstream' },
   { key: 'blockcypher', value: 'Blockcypher' },
   { key: 'smartbit', value: 'Smartbit' },
 ]
 
-const SettingsFieldsWallet = ({ currentConfig, rateProviderItems }) => {
+const SettingsFieldsWallet = ({ currentConfig }) => {
   const renderNumberDataRow = path => (
     <DataRow
       left={<FieldLabel itemKey={path} />}
@@ -62,7 +72,7 @@ const SettingsFieldsWallet = ({ currentConfig, rateProviderItems }) => {
             field="rateProvider"
             highlightOnValid={false}
             initialValue={currentConfig.rateProvider}
-            items={rateProviderItems}
+            items={rateProviders}
           />
         }
       />
@@ -84,12 +94,6 @@ const SettingsFieldsWallet = ({ currentConfig, rateProviderItems }) => {
 
 SettingsFieldsWallet.propTypes = {
   currentConfig: PropTypes.object.isRequired,
-  rateProviderItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ).isRequired,
 }
 
 export default SettingsFieldsWallet

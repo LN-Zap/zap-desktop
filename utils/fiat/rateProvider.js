@@ -119,7 +119,7 @@ function createConfig(coin, currency) {
     config,
     ({ disabled, coins, currencies }) =>
       !disabled &&
-      coins.includes(coin) &&
+      (!coin || coins.includes(coin)) &&
       (!currencies || !currency || currencies.includes(currency))
   )
 }
@@ -136,6 +136,11 @@ function createConfig(coin, currency) {
 export async function requestTicker(provider, coin, currency) {
   const config = createConfig(coin, currency)
   const { apiUrl, parser } = config[provider] || {}
+
+  if (!(apiUrl && parser)) {
+    return {}
+  }
+
   return await axios
     .get(apiUrl)
     .then(parser)
@@ -144,6 +149,7 @@ export async function requestTicker(provider, coin, currency) {
 
 /**
  * getSupportedProviders - get list of supported providers  for the specified `coin` and `currency`
+ * if called with undefined `coin` and/or `currency` - returns all enabled providers.
  *
  * @export
  * @param {('BTC'|'LTC')} coin

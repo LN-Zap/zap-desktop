@@ -81,7 +81,7 @@ SettingsActions.propTypes = {
   currentConfig: PropTypes.object.isRequired,
 }
 
-const SettingsPage = ({ currentConfig, rateProviderItems, ...rest }) => {
+const SettingsPage = ({ currentConfig, ...rest }) => {
   const [group, setGroup] = useState('general')
 
   return (
@@ -107,12 +107,7 @@ const SettingsPage = ({ currentConfig, rateProviderItems, ...rest }) => {
 
         <SettingsForm>
           {group === 'general' && <SettingsFieldsGeneral currentConfig={currentConfig} />}
-          {group === 'wallet' && (
-            <SettingsFieldsWallet
-              currentConfig={currentConfig}
-              rateProviderItems={rateProviderItems}
-            />
-          )}
+          {group === 'wallet' && <SettingsFieldsWallet currentConfig={currentConfig} />}
           <SettingsActions currentConfig={currentConfig} />
         </SettingsForm>
       </MainContent>
@@ -122,12 +117,6 @@ const SettingsPage = ({ currentConfig, rateProviderItems, ...rest }) => {
 
 SettingsPage.propTypes = {
   currentConfig: PropTypes.object.isRequired,
-  rateProviderItems: PropTypes.arrayOf(
-    PropTypes.shape({
-      key: PropTypes.string.isRequired,
-      value: PropTypes.string.isRequired,
-    })
-  ).isRequired,
 }
 
 export default SettingsPage
