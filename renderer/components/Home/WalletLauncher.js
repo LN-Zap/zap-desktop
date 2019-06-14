@@ -7,6 +7,7 @@ import { withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
 import styled from 'styled-components'
 import parse from 'lndconnect/parse'
+import { getWalletRedirect } from 'reducers/utils'
 import { isValidBtcPayConfig, isEmbeddedLndConnectURI } from '@zap/utils/connectionString'
 import parseConnectionString from '@zap/utils/btcpayserver'
 import { Bar, Button, Text, ActionBar, Form } from 'components/UI'
@@ -184,7 +185,7 @@ class WalletLauncher extends React.Component {
 
     // If the wallet unlocker became active, switch to the login screen
     if (isWalletUnlockerGrpcActive && !prevProps.isWalletUnlockerGrpcActive) {
-      history.push(`/home/wallet/${wallet.id}/unlock`)
+      history.push(getWalletRedirect(wallet, '/unlock'))
     }
 
     // If an active wallet connection has been established, switch to the app.
@@ -195,12 +196,6 @@ class WalletLauncher extends React.Component {
         history.push('/app')
       }
     }
-  }
-
-  launchWallet = () => {
-    const { startLnd, wallet } = this.props
-    // discard settings edits and just launch current saved config
-    return startLnd(wallet)
   }
 
   /**
@@ -391,19 +386,6 @@ class WalletLauncher extends React.Component {
         <Form getApi={this.setFormApi} initialValues={walletConverted} onSubmit={this.saveSettings}>
           {({ formState }) => (
             <Box>
-              <Flex alignItems="flex-end" flexDirection="column" py={3}>
-                <Button
-                  isDisabled={isStartingLnd || isNeutrinoRunning}
-                  isProcessing={isStartingLnd}
-                  mb={3}
-                  onClick={this.launchWallet}
-                  size="small"
-                  type="button"
-                >
-                  <FormattedMessage {...messages.launch_wallet_button_text} />
-                </Button>
-              </Flex>
-
               {wallet.type === 'local' ? (
                 <WalletSettingsFormLocal
                   autopilotDefaults={autopilotDefaults}

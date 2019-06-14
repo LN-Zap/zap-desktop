@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import { intlShape, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Box } from 'rebass'
+import { getWalletRedirect } from 'reducers/utils'
 import { Text, Menu } from 'components/UI'
 import { WalletName } from 'components/Util'
 import messages from './messages'
@@ -42,7 +43,7 @@ const WalletGroup = withRouter(
           title: <WalletName wallet={wallet} />,
           onClick: () => {
             setActiveWallet(wallet.id)
-            history.push(`/home/wallet/${wallet.id}`)
+            history.push(getWalletRedirect(wallet))
           },
         }
       })

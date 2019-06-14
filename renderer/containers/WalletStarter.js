@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
+import { getWalletRedirect } from 'reducers/utils'
 import { startActiveWallet } from 'reducers/lnd'
 import { Redirect } from 'react-router'
 import { walletSelectors } from 'reducers/wallet'
@@ -11,7 +12,6 @@ import { walletSelectors } from 'reducers/wallet'
  */
 class WalletStarter extends Component {
   static propTypes = {
-    activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
     isLightningGrpcActive: PropTypes.bool,
     isWalletUnlockerGrpcActive: PropTypes.bool,
@@ -28,7 +28,6 @@ class WalletStarter extends Component {
 
   getLocation() {
     const {
-      activeWallet,
       activeWalletSettings,
       isLightningGrpcActive,
       startLndError,
@@ -37,12 +36,12 @@ class WalletStarter extends Component {
 
     // If there was a problem starting lnd, switch to the wallet launcher.
     if (startLndError) {
-      return `/home/wallet/${activeWallet}`
+      return getWalletRedirect(activeWalletSettings)
     }
 
     // If the wallet unlocker became active, switch to the login screen.
     if (isWalletUnlockerGrpcActive) {
-      return `/home/wallet/${activeWallet}/unlock`
+      return getWalletRedirect(activeWalletSettings, '/unlock')
     }
 
     // If an active wallet connection has been established, switch to the app.
@@ -61,7 +60,6 @@ class WalletStarter extends Component {
 }
 
 const mapStateToProps = state => ({
-  activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   hasWallets: walletSelectors.hasWallets(state),
   isLightningGrpcActive: state.lnd.isLightningGrpcActive,

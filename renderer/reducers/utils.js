@@ -44,6 +44,14 @@ export const isLoadingPerPath = (state, location = {}) => {
 }
 
 /*
+ * getWalletRedirect Get a wallet redirect object.
+ */
+export const getWalletRedirect = (wallet, subpath = '') => ({
+  pathname: `/home/wallet/${wallet.id}${subpath}`,
+  state: { wallet },
+})
+
+/*
  * Maps app state to a loading message
  * @param {} state
  */

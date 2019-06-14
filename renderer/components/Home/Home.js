@@ -1,8 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
+import { FormattedMessage } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { Bar, HeaderBar, MainContent, Panel, Sidebar } from 'components/UI'
+import { getWalletRedirect } from 'reducers/utils'
+import { Bar, Button, HeaderBar, MainContent, Panel, Sidebar } from 'components/UI'
 import { WalletName } from 'components/Util'
 import ZapLogo from 'components/Icon/ZapLogo'
 import CreateWalletButton from './CreateWalletButton'
@@ -10,6 +12,7 @@ import NoWallets from './NoWallets'
 import WalletLauncher from './WalletLauncher'
 import WalletsMenu from './WalletsMenu'
 import WalletUnlocker from './WalletUnlocker'
+import messages from './messages'
 
 const NoMatch = ({ history, wallets }) => (
   <Flex
@@ -42,6 +45,7 @@ class Home extends React.Component {
     isUnlockingWallet: PropTypes.bool,
     isWalletUnlockerGrpcActive: PropTypes.bool.isRequired,
     lndConnect: PropTypes.string,
+    location: PropTypes.object.isRequired,
     putWallet: PropTypes.func.isRequired,
     setActiveWallet: PropTypes.func.isRequired,
     setIsWalletOpen: PropTypes.func.isRequired,
@@ -62,7 +66,7 @@ class Home extends React.Component {
   componentDidMount() {
     const { activeWallet, activeWalletSettings, history, setIsWalletOpen } = this.props
     if (activeWallet && activeWalletSettings && history.location.pathname === '/home') {
-      history.push(`/home/wallet/${activeWallet}`)
+      history.push(getWalletRedirect(activeWalletSettings))
     }
 
     setIsWalletOpen(false)
@@ -73,6 +77,12 @@ class Home extends React.Component {
     if (lndConnect && lndConnect !== prevProps.lndConnect) {
       history.push(`/onboarding`)
     }
+  }
+
+  launchWallet = () => {
+    const { startLnd, location: state = {} } = this.props
+    const { wallet } = state
+    return startLnd(wallet)
   }
 
   render() {
@@ -134,7 +144,18 @@ class Home extends React.Component {
             <Panel.Header>
               {activeWalletSettings && (
                 <HeaderBar>
-                  <WalletName wallet={activeWalletSettings} />
+                  <Flex alignItems="center" justifyContent="space-between" width={1}>
+                    <WalletName wallet={activeWalletSettings} />
+                    <Button
+                      isDisabled={isStartingLnd || isNeutrinoRunning}
+                      isProcessing={isStartingLnd}
+                      onClick={this.launchWallet}
+                      size="small"
+                      type="button"
+                    >
+                      <FormattedMessage {...messages.launch_wallet_button_text} />
+                    </Button>
+                  </Flex>
                 </HeaderBar>
               )}
             </Panel.Header>

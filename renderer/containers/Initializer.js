@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
+import { getWalletRedirect } from 'reducers/utils'
 import { initCurrency, initLocale } from 'reducers/locale'
 import { initWallets, walletSelectors } from 'reducers/wallet'
 import { initNeutrino } from 'reducers/neutrino'
@@ -14,7 +15,6 @@ import { initChannels } from 'reducers/channels'
  */
 class Initializer extends React.Component {
   static propTypes = {
-    activeWallet: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     activeWalletSettings: PropTypes.object,
     hasWallets: PropTypes.bool,
     initAutopay: PropTypes.func.isRequired,
@@ -55,7 +55,6 @@ class Initializer extends React.Component {
    */
   getLocation() {
     const {
-      activeWallet,
       activeWalletSettings,
       isWalletsLoaded,
       isWalletOpen,
@@ -75,7 +74,7 @@ class Initializer extends React.Component {
 
     // we have either an open wallet or active wallet settings
     if (activeWalletSettings) {
-      return isWalletOpen ? '/wallet-starter' : `/home/wallet/${activeWallet}`
+      return isWalletOpen ? '/wallet-starter' : getWalletRedirect(activeWalletSettings)
     }
 
     // If we have at least one wallet send the user to the homepage.
@@ -91,7 +90,6 @@ class Initializer extends React.Component {
 
 const mapStateToProps = state => ({
   lndConnect: state.onboarding.lndConnect,
-  activeWallet: walletSelectors.activeWallet(state),
   activeWalletSettings: walletSelectors.activeWalletSettings(state),
   hasWallets: walletSelectors.hasWallets(state),
   isWalletOpen: walletSelectors.isWalletOpen(state),
