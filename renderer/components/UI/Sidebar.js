@@ -1,8 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Flex } from 'rebass'
+import { Card } from 'rebass'
 
-const SidebarBox = styled(Flex)`
+const SidebarBox = styled(Card)`
   overflow: hidden;
   box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.5);
 `
@@ -11,8 +11,11 @@ const Sidebar = ({ ...props }) => (
   <SidebarBox
     as="aside"
     bg="primaryColor"
+    boxShadow="0 2px 24px 0 rgba(0, 0, 0, 0.5)"
     color="primaryText"
-    flexDirection="column"
+    css={`
+      z-index: 1;
+    `}
     width={3 / 12}
     {...props}
   />
