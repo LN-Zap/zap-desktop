@@ -75,7 +75,7 @@ function createConfig(coin, currency) {
     LTC: 'LTC',
   }
   const config = {
-    cosinbase: {
+    coinbase: {
       coins: ['BTC', 'LTC'],
       name: 'Coinbase',
       id: 'coinbase',
@@ -118,7 +118,9 @@ function createConfig(coin, currency) {
   return pickBy(
     config,
     ({ disabled, coins, currencies }) =>
-      !disabled && coins.includes(coin) && (!currencies || currencies.includes(currency))
+      !disabled &&
+      coins.includes(coin) &&
+      (!currencies || !currency || currencies.includes(currency))
   )
 }
 
@@ -165,8 +167,9 @@ export function getSupportedProviders(coin, currency) {
  */
 export async function requestTickerWithFallback(provider, coin, currency, fallback = 'coinbase') {
   const result = await requestTicker(provider, coin, currency)
+
   if (!result[currency] && provider !== fallback) {
-    return await requestTicker(fallback, coin)
+    return await requestTicker(fallback, coin, currency)
   }
   return result
 }

@@ -38,6 +38,7 @@ export const setCryptoUnit = unit => async (dispatch, getState) => {
 
 export const setFiatTicker = fiatTicker => async dispatch => {
   await dispatch(putConfig('currency', fiatTicker))
+  dispatch(fetchTickers())
 }
 
 export function getTickers() {
@@ -164,9 +165,8 @@ tickerSelectors.autopayCurrencyName = createSelector(
 )
 
 tickerSelectors.rateProviderSelector = createSelector(
-  fiatTickerSelector,
   infoSelectors.chainSelector,
-  (currency, chain) => getSupportedProviders(chain === 'bitcoin' ? 'BTC' : 'LTC', currency)
+  chain => getSupportedProviders(chain === 'bitcoin' ? 'BTC' : 'LTC')
 )
 
 export { tickerSelectors }
