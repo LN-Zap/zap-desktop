@@ -2,27 +2,24 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { themeGet } from 'styled-system'
-import { Flex, Box } from 'rebass'
+import { Flex } from 'rebass'
 import X from 'components/Icon/X'
 
-const CloseButtonWrapper = styled(Box)`
+const CloseButtonWrapper = styled(Flex)`
   height: ${({ size }) => (size === 's' ? 32 : 40)}px;
   cursor: pointer;
-  color: ${themeGet('colors.primaryText')};
   opacity: 0.6;
-  &:hover: {
-    opacity: 1;
+  &:hover {
+    color: ${themeGet('colors.lightningOrange')};
   }
 `
 
 const CloseButton = ({ onClick, size, ...rest }) => {
   const actualSize = size === 's' ? 15 : 20
   return (
-    <Flex justifyContent="flex-end" {...rest}>
-      <CloseButtonWrapper onClick={onClick} p={2}>
-        <X height={actualSize} width={actualSize} />
-      </CloseButtonWrapper>
-    </Flex>
+    <CloseButtonWrapper justifyContent="flex-end" onClick={onClick} p={2} {...rest}>
+      <X height={actualSize} width={actualSize} />
+    </CloseButtonWrapper>
   )
 }
 
