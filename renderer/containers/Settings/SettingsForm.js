@@ -4,6 +4,7 @@ import { saveConfigOverrides } from 'reducers/settings'
 import { showNotification, showError } from 'reducers/notification'
 import { setLocale } from 'reducers/locale'
 import { configureAutoUpdater } from 'reducers/autoupdate'
+import { fetchTickers } from 'reducers/ticker'
 
 const mapDispatchToProps = {
   configureAutoUpdater,
@@ -11,6 +12,7 @@ const mapDispatchToProps = {
   showNotification,
   showError,
   setLocale,
+  fetchTickers,
 }
 
 export default connect(
