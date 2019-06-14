@@ -39,6 +39,11 @@ const Button = React.forwardRef((props, ref) => {
     },
   }
 
+  const spinnerSize = {
+    width: size === 'small' ? '10px' : null,
+    height: size === 'small' ? '10px' : null,
+  }
+
   size = sizes[size] || sizes['medium']
   if (variant === 'secondary') {
     size.x = 0
@@ -48,7 +53,7 @@ const Button = React.forwardRef((props, ref) => {
 
   const borderRadius = variant === 'secondary' ? 0 : 5
 
-  //support custom styled and styled-components
+  // Support custom styled and styled-components
   const wrapperClasses = [className, isActive ? 'active' : null]
     .filter(cls => Boolean(cls))
     .join(' ')
@@ -66,7 +71,7 @@ const Button = React.forwardRef((props, ref) => {
     >
       {isProcessing ? (
         <Flex alignItems="center">
-          {isProcessing && <Spinner />}
+          {isProcessing && <Spinner {...spinnerSize} />}
           <Text fontFamily="sans" fontWeight={fontWeight} ml={2}>
             {children}
           </Text>
