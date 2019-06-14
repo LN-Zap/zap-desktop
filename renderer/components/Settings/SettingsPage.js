@@ -3,10 +3,10 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { useFormState, useFormApi } from 'informed'
 import styled from 'styled-components'
-import { Flex } from 'rebass'
+import { Box, Flex } from 'rebass'
 import merge from 'lodash/merge'
 import difference from '@zap/utils/difference'
-import { ActionBar, Button, Heading, MainContent, Menu, Panel, Sidebar } from 'components/UI'
+import { ActionBar, Button, HeaderBar, MainContent, Menu, Panel, Sidebar } from 'components/UI'
 import ZapLogo from 'components/Icon/ZapLogo'
 import SettingsForm from 'containers/Settings/SettingsForm'
 import SettingsFieldsWallet from './SettingsFieldsWallet'
@@ -74,7 +74,11 @@ const SettingsActions = ({ currentConfig }) => {
     return null
   }
 
-  return <SettingsActionBar buttons={<SettingsActionBarButtons currentConfig={currentConfig} />} />
+  return (
+    <Box mt={60}>
+      <SettingsActionBar buttons={<SettingsActionBarButtons currentConfig={currentConfig} />} />
+    </Box>
+  )
 }
 
 SettingsActions.propTypes = {
@@ -88,7 +92,7 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
     <Flex width={1} {...rest}>
       <Sidebar.medium pt={40}>
         <Panel>
-          <Panel.Header mb={40} px={4}>
+          <Panel.Header mb={30} px={4}>
             <ZapLogo height={28} width={28} />
           </Panel.Header>
           <Panel.Body
@@ -100,16 +104,21 @@ const SettingsPage = ({ currentConfig, ...rest }) => {
           </Panel.Body>
         </Panel>
       </Sidebar.medium>
-      <MainContent pb={2} pl={5} pr={6} pt={4}>
-        <Heading.h1 fontSize={60}>
-          <FormattedMessage {...messages.settings_title} />
-        </Heading.h1>
-
-        <SettingsForm>
-          {group === 'general' && <SettingsFieldsGeneral currentConfig={currentConfig} />}
-          {group === 'wallet' && <SettingsFieldsWallet currentConfig={currentConfig} />}
-          <SettingsActions currentConfig={currentConfig} />
-        </SettingsForm>
+      <MainContent>
+        <Panel>
+          <Panel.Header>
+            <HeaderBar>
+              <FormattedMessage {...messages.settings_title} />
+            </HeaderBar>
+          </Panel.Header>
+          <Panel.Body css={{ 'overflow-y': 'overlay' }} mt={5} pb={2} px={5}>
+            <SettingsForm>
+              {group === 'general' && <SettingsFieldsGeneral currentConfig={currentConfig} />}
+              {group === 'wallet' && <SettingsFieldsWallet currentConfig={currentConfig} />}
+              <SettingsActions currentConfig={currentConfig} />
+            </SettingsForm>
+          </Panel.Body>
+        </Panel>
       </MainContent>
     </Flex>
   )
