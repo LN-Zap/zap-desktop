@@ -2,7 +2,7 @@ import axios from 'axios'
 import { mainLog } from '@zap/utils/log'
 
 // When running in development/hot mode we load the renderer js code via webpack dev server, and it is from there that
-// we ultimately initate requests to these remote resources. The end result is that the electron browser window makes a
+// we ultimately initiate requests to these remote resources. The end result is that the electron browser window makes a
 // request to localhost (to webpack dev server), which in turn makes a request to the remote resource. If the remote
 // resource in question has a restrictive `Access-Control-Allow-Origin` header, this may cause the electron browser
 // window to not allow loading the remote content.
@@ -13,35 +13,6 @@ import { mainLog } from '@zap/utils/log'
 // defined on the webpack dev server.
 const scheme =
   (process && process.env.HOT) || (window.env && window.env.HOT) ? '/proxy/' : 'https://'
-
-/**
- * requestTicker - Fetch a ticker from Coinbase.
- *
- * @param  {string} id Ticker id
- * @returns {{currency:string, rates:*}} Ticker data
- */
-export function requestTicker(id) {
-  const BASE_URL = `${scheme}api.coinbase.com/v2/exchange-rates?currency=${id}`
-  return axios({
-    method: 'get',
-    url: BASE_URL,
-  }).then(response => response.data)
-}
-
-/**
- * requestTickers - Fetch multiple tickers from Coinbase.
- *
- * @param  {Array} ids Ticker ids to fetch
- * @returns {{btcTicker:*, ltcTicker:*}} Ticker data
- */
-export function requestTickers(ids) {
-  return axios.all(ids.map(id => requestTicker(id))).then(
-    axios.spread((btcTicker, ltcTicker) => ({
-      btcTicker: btcTicker.data.rates,
-      ltcTicker: ltcTicker.data.rates,
-    }))
-  )
-}
 
 /**
  * requestSuggestedNodes - Fetch suggested nodes list.

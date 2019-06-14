@@ -12,6 +12,7 @@ const SettingsForm = ({
   saveConfigOverrides,
   showNotification,
   showError,
+  fetchTickers,
   children,
 }) => {
   const handleSubmit = async values => {
@@ -25,6 +26,9 @@ const SettingsForm = ({
       }
       if (values.autoupdate) {
         configureAutoUpdater(values.autoupdate)
+      }
+      if (values.rateProvider) {
+        fetchTickers()
       }
 
       // Show a notification.
@@ -47,6 +51,7 @@ const SettingsForm = ({
 SettingsForm.propTypes = {
   children: PropTypes.node,
   configureAutoUpdater: PropTypes.func.isRequired,
+  fetchTickers: PropTypes.func.isRequired,
   intl: intlShape.isRequired,
   onSubmit: PropTypes.func,
   saveConfigOverrides: PropTypes.func.isRequired,

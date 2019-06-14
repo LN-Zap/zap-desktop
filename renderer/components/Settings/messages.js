@@ -25,9 +25,6 @@ export default defineMessages({
   address_option_np2wkh: 'Segwit',
   blockExplorer_label: 'Block explorer',
   blockExplorer_description: 'Your preferred block explorer.',
-  blockExplorer_option_blockstream: 'Blockstream',
-  blockExplorer_option_blockcypher: 'BlockCypher',
-  blockExplorer_option_smartbit: 'Smartbit',
   lndTargetConfirmations_slow_label: 'Target confirmations (slow)',
   lndTargetConfirmations_slow_description: 'Number of blocks to target for "slow" sending speed.',
   lndTargetConfirmations_medium_label: 'Target confirmations (medium)',
@@ -37,4 +34,6 @@ export default defineMessages({
   lndTargetConfirmations_fast_description: 'Number of blocks to target for "fast" sending speed.',
   fieldgroup_general: 'General',
   fieldgroup_wallet: 'Wallet',
+  rateProvider_label: 'Rate provider',
+  rateProvider_description: 'Your preferred rate provider.',
 })

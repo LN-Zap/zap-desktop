@@ -81,15 +81,10 @@ store.dispatch({
 })
 store.dispatch({
   type: 'RECIEVE_TICKERS',
-  btcTicker: {
+  rates: {
     EUR: '2992.105',
     GBP: '2612.025',
     USD: '3412.015',
-  },
-  ltcTicker: {
-    EUR: '27.005',
-    GBP: '23.605',
-    USD: '30.775',
   },
 })
 store.dispatch({

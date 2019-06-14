@@ -1,9 +1,9 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
-import { requestTickers } from '@zap/utils/api'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
+import { requestTickerWithFallback } from '@zap/utils/fiat/rateProvider'
+import { infoSelectors } from './info'
 import { putConfig, settingsSelectors } from './settings'
-
 // ------------------------------------
 // Constants
 // ------------------------------------
@@ -38,6 +38,7 @@ export const setCryptoUnit = unit => async (dispatch, getState) => {
 
 export const setFiatTicker = fiatTicker => async dispatch => {
   await dispatch(putConfig('currency', fiatTicker))
+  dispatch(fetchTickers())
 }
 
 export function getTickers() {
@@ -46,20 +47,23 @@ export function getTickers() {
   }
 }
 
-export function recieveTickers({ btcTicker, ltcTicker }) {
+export function recieveTickers({ rates }) {
   return {
     type: RECIEVE_TICKERS,
-    btcTicker,
-    ltcTicker,
+    rates,
   }
 }
 
-export const fetchTickers = () => async dispatch => {
+export const fetchTickers = () => async (dispatch, getState) => {
+  const state = getState()
+  const chain = infoSelectors.chainSelector(state) === 'bitcoin' ? 'BTC' : 'LTC'
+  const currentConfig = settingsSelectors.currentConfig(state)
+  const currency = fiatTickerSelector(state)
   dispatch(getTickers())
-  const tickers = await requestTickers(['btc', 'ltc'])
-  dispatch(recieveTickers(tickers))
+  const rates = await requestTickerWithFallback(currentConfig.rateProvider, chain, currency)
+  dispatch(recieveTickers({ rates }))
 
-  return tickers
+  return rates
 }
 
 // ------------------------------------
@@ -67,18 +71,16 @@ export const fetchTickers = () => async dispatch => {
 // ------------------------------------
 const ACTION_HANDLERS = {
   [GET_TICKERS]: state => ({ ...state, tickerLoading: true }),
-  [RECIEVE_TICKERS]: (state, { btcTicker, ltcTicker }) => ({
+  [RECIEVE_TICKERS]: (state, { rates }) => ({
     ...state,
     tickerLoading: false,
-    btcTicker,
-    ltcTicker,
+    rates,
   }),
 }
 
 // Selectors
 const cryptoUnitsSelector = state => state.ticker.cryptoUnits
-const bitcoinTickerSelector = state => state.ticker.btcTicker
-const litecoinTickerSelector = state => state.ticker.ltcTicker
+const ratesSelector = state => state.ticker.rates
 const fiatTickerSelector = state => settingsSelectors.currentConfig(state).currency
 const fiatTickersSelector = state => state.ticker.fiatTickers
 const tickerLoadingSelector = state => state.ticker.tickerLoading
@@ -107,19 +109,8 @@ tickerSelectors.cryptoUnit = createSelector(
 )
 
 tickerSelectors.currentTicker = createSelector(
-  chainSelector,
-  bitcoinTickerSelector,
-  litecoinTickerSelector,
-  (chain, btcTicker, ltcTicker) => {
-    switch (chain) {
-      case 'bitcoin':
-        return btcTicker
-      case 'litecoin':
-        return ltcTicker
-      default:
-        return null
-    }
-  }
+  ratesSelector,
+  rates => rates || {}
 )
 
 tickerSelectors.cryptoUnits = createSelector(
@@ -180,8 +171,7 @@ export { tickerSelectors }
 // ------------------------------------
 const initialState = {
   tickerLoading: false,
-  btcTicker: null,
-  ltcTicker: null,
+  rates: null,
   fiatTicker: getDefaultCurrency(),
   fiatTickers: currencies,
   cryptoUnits: {

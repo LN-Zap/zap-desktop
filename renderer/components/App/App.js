@@ -36,6 +36,7 @@ function App({
   setModals,
   initBackupService,
   fetchSuggestedNodes,
+  initTickers,
 }) {
   /**
    * App scheduler / polling service setup. Add new app-wide polls here
@@ -80,6 +81,7 @@ function App({
     // Update autopilot node scores.
     updateAutopilotNodeScores()
     fetchSuggestedNodes()
+    initTickers()
     // initialize backup service in forceUseTokens mode to avoid
     // launching it for wallets that don't have backup setup
     initBackupService(undefined, true)
@@ -88,6 +90,7 @@ function App({
     fetchPeers,
     fetchSuggestedNodes,
     initBackupService,
+    initTickers,
     setIsWalletOpen,
     updateAutopilotNodeScores,
   ])
@@ -119,6 +122,7 @@ App.propTypes = {
   fetchSuggestedNodes: PropTypes.func.isRequired,
   fetchTransactions: PropTypes.func.isRequired,
   initBackupService: PropTypes.func.isRequired,
+  initTickers: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
   modals: PropTypes.array.isRequired,
   payReq: PropTypes.object,

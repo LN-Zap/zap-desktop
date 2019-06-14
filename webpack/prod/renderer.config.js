@@ -33,6 +33,9 @@ const config = merge.smart(baseConfig, {
       'connect-src': [
         "'self'",
         'https://api.coinbase.com/',
+        'https://api.kraken.com/',
+        'https://bitstamp.net/',
+        'https://api.bitfinex.com/',
         'https://testnet-api.smartbit.com.au',
         'https://api.smartbit.com.au',
         'https://api.blockcypher.com',

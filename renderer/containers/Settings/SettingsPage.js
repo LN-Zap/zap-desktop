@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+
 import SettingsPage from 'components/Settings/SettingsPage'
 import { settingsSelectors } from 'reducers/settings'
 

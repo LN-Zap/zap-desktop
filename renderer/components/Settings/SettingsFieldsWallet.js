@@ -1,7 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import map from 'lodash/map'
 import get from 'lodash/get'
 import { Bar, DataRow, Select } from 'components/UI'
+import { getSupportedProviders } from '@zap/utils/fiat/rateProvider'
 import { FieldLabel, NumberField } from './SettingsFieldHelpers'
 import messages from './messages'
 
@@ -14,15 +16,19 @@ const addressMessageMapper = key => {
   return filters[key]
 }
 
-const blockExplorerItems = [{ key: 'blockstream' }, { key: 'blockcypher' }, { key: 'smartbit' }]
-const blockExplorerMessageMapper = key => {
-  const filters = {
-    blockstream: messages.blockExplorer_option_blockstream,
-    blockcypher: messages.blockExplorer_option_blockcypher,
-    smartbit: messages.blockExplorer_option_smartbit,
-  }
-  return filters[key]
+const getRateProviders = () => {
+  const providers = getSupportedProviders()
+  // pluck key and name from config
+  return map(providers, ({ id, name }) => ({ key: id, value: name }))
 }
+
+const rateProviders = getRateProviders()
+
+const blockExplorerItems = [
+  { key: 'blockstream', value: 'Blockstream' },
+  { key: 'blockcypher', value: 'Blockcypher' },
+  { key: 'smartbit', value: 'Smartbit' },
+]
 
 const SettingsFieldsWallet = ({ currentConfig }) => {
   const renderNumberDataRow = path => (
@@ -47,8 +53,6 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
         }
       />
 
-      <Bar variant="light" />
-
       <DataRow
         left={<FieldLabel itemKey="blockExplorer" />}
         right={
@@ -57,7 +61,18 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
             highlightOnValid={false}
             initialValue={currentConfig.blockExplorer}
             items={blockExplorerItems}
-            messageMapper={blockExplorerMessageMapper}
+          />
+        }
+      />
+      <Bar variant="light" />
+      <DataRow
+        left={<FieldLabel itemKey="rateProvider" />}
+        right={
+          <Select
+            field="rateProvider"
+            highlightOnValid={false}
+            initialValue={currentConfig.rateProvider}
+            items={rateProviders}
           />
         }
       />
