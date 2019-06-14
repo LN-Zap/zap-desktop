@@ -90,6 +90,7 @@ const SystemInput = styled(
     'borderColor',
     'borderRadius',
     'fontFamily',
+    'textAlign',
     'fontSize',
     'fontWeight',
     'width'
