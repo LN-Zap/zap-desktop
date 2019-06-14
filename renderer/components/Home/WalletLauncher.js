@@ -423,7 +423,7 @@ class WalletLauncher extends React.Component {
               <Bar my={2} />
 
               <Flex justifyContent="center" my={4}>
-                <Button onClick={this.handleDelete} size="small" type="button">
+                <Button onClick={this.handleDelete} size="small" type="button" variant="danger">
                   <FormattedMessage {...messages.delete_wallet_button_text} />
                 </Button>
               </Flex>
