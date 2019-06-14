@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { withRouter } from 'react-router-dom'
 import { Button, Form, Input } from 'components/UI'
-import WalletHeader from './WalletHeader'
 import messages from './messages'
+
 /**
  * @render react
  * @name WalletUnlocker
@@ -85,8 +85,6 @@ class WalletUnlocker extends React.Component {
       >
         {({ formState }) => (
           <>
-            <WalletHeader wallet={wallet} />
-
             <Input
               field="password"
               id="password"

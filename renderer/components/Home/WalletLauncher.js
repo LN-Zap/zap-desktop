@@ -9,10 +9,9 @@ import styled from 'styled-components'
 import parse from 'lndconnect/parse'
 import { isValidBtcPayConfig, isEmbeddedLndConnectURI } from '@zap/utils/connectionString'
 import parseConnectionString from '@zap/utils/btcpayserver'
-import { Bar, Button, Heading, Text, ActionBar, Form } from 'components/UI'
+import { Bar, Button, Text, ActionBar, Form } from 'components/UI'
 import WalletSettingsFormLocal from './WalletSettingsFormLocal'
 import WalletSettingsFormRemote from './WalletSettingsFormRemote'
-import WalletHeader from './WalletHeader'
 import messages from './messages'
 
 const WalletActionBar = styled(ActionBar)`
@@ -392,35 +391,24 @@ class WalletLauncher extends React.Component {
         <Form getApi={this.setFormApi} initialValues={walletConverted} onSubmit={this.saveSettings}>
           {({ formState }) => (
             <Box>
-              <Flex alignItems="center" mb={4}>
-                <Box mr={3} width="75%">
-                  <WalletHeader wallet={wallet} />
-                </Box>
-                <Flex flexDirection="column" justifyContent="flex-end" ml="auto">
-                  <Button
-                    isDisabled={isStartingLnd || isNeutrinoRunning}
-                    isProcessing={isStartingLnd}
-                    ml={2}
-                    onClick={this.launchWallet}
-                    size="small"
-                    type="button"
-                  >
-                    <FormattedMessage {...messages.launch_wallet_button_text} />
-                  </Button>
-                </Flex>
+              <Flex alignItems="flex-end" flexDirection="column" py={3}>
+                <Button
+                  isDisabled={isStartingLnd || isNeutrinoRunning}
+                  isProcessing={isStartingLnd}
+                  mb={3}
+                  onClick={this.launchWallet}
+                  size="small"
+                  type="button"
+                >
+                  <FormattedMessage {...messages.launch_wallet_button_text} />
+                </Button>
               </Flex>
 
               {wallet.type === 'local' ? (
-                <>
-                  <Heading.h1 mb={5}>
-                    <FormattedMessage {...messages.settings_title} />
-                  </Heading.h1>
-
-                  <WalletSettingsFormLocal
-                    autopilotDefaults={autopilotDefaults}
-                    wallet={walletConverted}
-                  />
-                </>
+                <WalletSettingsFormLocal
+                  autopilotDefaults={autopilotDefaults}
+                  wallet={walletConverted}
+                />
               ) : (
                 <WalletSettingsFormRemote
                   isEmbeddedConnectionString={isEmbeddedLndConnectURI(wallet.lndconnectUri)}
@@ -440,7 +428,11 @@ class WalletLauncher extends React.Component {
                 </Button>
               </Flex>
 
-              {this.hasChanges() && <WalletActionBar buttons={actionBarButtons(formState)} />}
+              {this.hasChanges() && (
+                <Box mt={60}>
+                  <WalletActionBar buttons={actionBarButtons(formState)} />
+                </Box>
+              )}
             </Box>
           )}
         </Form>

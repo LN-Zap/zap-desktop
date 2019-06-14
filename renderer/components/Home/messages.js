@@ -5,6 +5,7 @@ export default defineMessages({
   chain: 'Chain',
   network: 'Network',
   host: 'Host',
+  section_actions_title: 'Actions',
   section_basic_title: 'Basic',
   section_autopilot_title: 'Autopilot',
   section_naming_title: 'Naming',

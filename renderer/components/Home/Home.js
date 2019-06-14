@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Redirect, Route, Switch, withRouter } from 'react-router-dom'
 import { Box, Flex } from 'rebass'
-import { Bar, MainContent, Panel, Sidebar } from 'components/UI'
+import { Bar, HeaderBar, MainContent, Panel, Sidebar } from 'components/UI'
+import { WalletName } from 'components/Util'
 import ZapLogo from 'components/Icon/ZapLogo'
 import CreateWalletButton from './CreateWalletButton'
 import NoWallets from './NoWallets'
@@ -78,6 +79,7 @@ class Home extends React.Component {
     const {
       history,
       activeWallet,
+      activeWalletSettings,
       deleteWallet,
       startLnd,
       startLndError,
@@ -97,13 +99,14 @@ class Home extends React.Component {
       putWallet,
       showNotification,
       generateLndConfigFromWallet,
+      ...rest
     } = this.props
 
     return (
-      <>
+      <Flex width={1} {...rest}>
         <Sidebar.medium pt={40}>
           <Panel>
-            <Panel.Header mb={40} px={4}>
+            <Panel.Header mb={30} px={4}>
               <ZapLogo height={28} width={28} />
             </Panel.Header>
             <Panel.Body
@@ -126,62 +129,73 @@ class Home extends React.Component {
           </Panel>
         </Sidebar.medium>
 
-        <MainContent pb={2} pl={5} pr={6} pt={4}>
-          <Switch>
-            <Route
-              exact
-              path="/home/wallet/:walletId"
-              render={({ match: { params } }) => {
-                const wallet = wallets.find(wallet => wallet.id == params.walletId)
-                if (!wallet) {
-                  return <Redirect to="/home" />
-                }
-                return (
-                  <WalletLauncher
-                    key={wallet.id}
-                    clearStartLndError={clearStartLndError}
-                    deleteWallet={deleteWallet}
-                    generateLndConfigFromWallet={generateLndConfigFromWallet}
-                    isLightningGrpcActive={isLightningGrpcActive}
-                    isNeutrinoRunning={isNeutrinoRunning}
-                    isStartingLnd={isStartingLnd}
-                    isWalletUnlockerGrpcActive={isWalletUnlockerGrpcActive}
-                    putWallet={putWallet}
-                    showError={showError}
-                    showNotification={showNotification}
-                    startLnd={startLnd}
-                    startLndError={startLndError}
-                    stopLnd={stopLnd}
-                    wallet={wallet}
-                  />
-                )
-              }}
-            />
-            <Route
-              exact
-              path="/home/wallet/:walletId/unlock"
-              render={({ match: { params } }) => {
-                const wallet = wallets.find(wallet => wallet.id == params.walletId)
-                if (!wallet) {
-                  return <Redirect to="/home" />
-                }
-                return (
-                  <WalletUnlocker
-                    key={wallet.id}
-                    isLightningGrpcActive={isLightningGrpcActive}
-                    isUnlockingWallet={isUnlockingWallet}
-                    setUnlockWalletError={setUnlockWalletError}
-                    unlockWallet={unlockWallet}
-                    unlockWalletError={unlockWalletError}
-                    wallet={wallet}
-                  />
-                )
-              }}
-            />
-            <Route render={() => <NoMatch history={history} wallets={wallets} />} />
-          </Switch>
+        <MainContent>
+          <Panel>
+            <Panel.Header>
+              {activeWalletSettings && (
+                <HeaderBar>
+                  <WalletName wallet={activeWalletSettings} />
+                </HeaderBar>
+              )}
+            </Panel.Header>
+            <Panel.Body css={{ 'overflow-y': 'overlay' }} mt={5} pb={2} px={5}>
+              <Switch>
+                <Route
+                  exact
+                  path="/home/wallet/:walletId"
+                  render={({ match: { params } }) => {
+                    const wallet = wallets.find(wallet => wallet.id == params.walletId)
+                    if (!wallet) {
+                      return <Redirect to="/home" />
+                    }
+                    return (
+                      <WalletLauncher
+                        key={wallet.id}
+                        clearStartLndError={clearStartLndError}
+                        deleteWallet={deleteWallet}
+                        generateLndConfigFromWallet={generateLndConfigFromWallet}
+                        isLightningGrpcActive={isLightningGrpcActive}
+                        isNeutrinoRunning={isNeutrinoRunning}
+                        isStartingLnd={isStartingLnd}
+                        isWalletUnlockerGrpcActive={isWalletUnlockerGrpcActive}
+                        putWallet={putWallet}
+                        showError={showError}
+                        showNotification={showNotification}
+                        startLnd={startLnd}
+                        startLndError={startLndError}
+                        stopLnd={stopLnd}
+                        wallet={wallet}
+                      />
+                    )
+                  }}
+                />
+                <Route
+                  exact
+                  path="/home/wallet/:walletId/unlock"
+                  render={({ match: { params } }) => {
+                    const wallet = wallets.find(wallet => wallet.id == params.walletId)
+                    if (!wallet) {
+                      return <Redirect to="/home" />
+                    }
+                    return (
+                      <WalletUnlocker
+                        key={wallet.id}
+                        isLightningGrpcActive={isLightningGrpcActive}
+                        isUnlockingWallet={isUnlockingWallet}
+                        setUnlockWalletError={setUnlockWalletError}
+                        unlockWallet={unlockWallet}
+                        unlockWalletError={unlockWalletError}
+                        wallet={wallet}
+                      />
+                    )
+                  }}
+                />
+                <Route render={() => <NoMatch history={history} wallets={wallets} />} />
+              </Switch>
+            </Panel.Body>
+          </Panel>
         </MainContent>
-      </>
+      </Flex>
     )
   }
 }
