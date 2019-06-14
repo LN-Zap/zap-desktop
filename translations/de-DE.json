@@ -230,6 +230,7 @@
   "components.Home.no_wallets_message": "Leider haben Sie keine Wallets 😢",
   "components.Home.saved_error": "Da ist was schiefgelaufen",
   "components.Home.saved_notification": "Einstellungen aktualisiert",
+  "components.Home.section_actions_title": "",
   "components.Home.section_autopilot_title": "Autopilot",
   "components.Home.section_basic_title": "Basis",
   "components.Home.section_connection_details": "Verbindungsdetails",

@@ -230,6 +230,7 @@
   "components.Home.no_wallets_message": "Desafortunadamente no has creado monedero 😢",
   "components.Home.saved_error": "Ha ocurrido un error",
   "components.Home.saved_notification": "Configuraciónes actualizadas",
+  "components.Home.section_actions_title": "",
   "components.Home.section_autopilot_title": "Piloto automático",
   "components.Home.section_basic_title": "Básico",
   "components.Home.section_connection_details": "Detalles de conexión",

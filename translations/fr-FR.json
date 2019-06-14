@@ -230,6 +230,7 @@
   "components.Home.no_wallets_message": "Malheureusement, vous n'avez pas de portefeuilles 😢",
   "components.Home.saved_error": "Erreur lors de l'enregistrement",
   "components.Home.saved_notification": "Paramètres enregistrés avec succès",
+  "components.Home.section_actions_title": "",
   "components.Home.section_autopilot_title": "Autopilot",
   "components.Home.section_basic_title": "Base",
   "components.Home.section_connection_details": "Détails de la connexion",

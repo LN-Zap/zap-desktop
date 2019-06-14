@@ -230,6 +230,7 @@
   "components.Home.no_wallets_message": "Du har desværre ikke nogen Wallet 😢",
   "components.Home.saved_error": "",
   "components.Home.saved_notification": "",
+  "components.Home.section_actions_title": "",
   "components.Home.section_autopilot_title": "",
   "components.Home.section_basic_title": "Grundlæggende",
   "components.Home.section_connection_details": "Forbindelses detaljer",

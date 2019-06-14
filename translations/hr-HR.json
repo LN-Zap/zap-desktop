@@ -230,6 +230,7 @@
   "components.Home.no_wallets_message": "Nažalost nemate niti jedan volet",
   "components.Home.saved_error": "Nešto je pošlo po zlu",
   "components.Home.saved_notification": "Postavke su ažurirane",
+  "components.Home.section_actions_title": "",
   "components.Home.section_autopilot_title": "Autopilot",
   "components.Home.section_basic_title": "Osnovno",
   "components.Home.section_connection_details": "Detalji veze",

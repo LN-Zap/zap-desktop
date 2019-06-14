@@ -230,6 +230,7 @@
   "components.Home.no_wallets_message": "",
   "components.Home.saved_error": "Произошла ошибка",
   "components.Home.saved_notification": "Настройки были сохранены",
+  "components.Home.section_actions_title": "",
   "components.Home.section_autopilot_title": "",
   "components.Home.section_basic_title": "",
   "components.Home.section_connection_details": "",
