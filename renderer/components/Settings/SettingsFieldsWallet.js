@@ -88,6 +88,10 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
       <Bar variant="light" />
 
       {renderNumberDataRow('lndTargetConfirmations.slow')}
+
+      <Bar variant="light" />
+
+      {renderNumberDataRow('invoices.expire')}
     </>
   )
 }
