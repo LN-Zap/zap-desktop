@@ -25,15 +25,14 @@ FieldLabel.propTypes = {
 
 export const NumberField = props => (
   <Input
-    css={`
-      text-align: right;
-    `}
     highlightOnValid={false}
     isRequired
+    justifyContent="flex-end"
     min="1"
     step="1"
+    textAlign="right"
     type="number"
-    width={80}
+    width={100}
     {...props}
   />
 )
