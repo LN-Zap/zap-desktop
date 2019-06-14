@@ -1,6 +1,5 @@
 import axios from 'axios'
 import pickBy from 'lodash/pickBy'
-import map from 'lodash/map'
 
 /**
  * coindeskParser - parser CoindDesk ticker data.
@@ -150,9 +149,7 @@ export async function requestTicker(provider, coin, currency) {
  * @returns {Array<string>} list of supported rate providers
  */
 export function getSupportedProviders(coin, currency) {
-  const config = createConfig(coin, currency)
-  const result = map(config, 'id')
-  return result
+  return createConfig(coin, currency)
 }
 
 /**

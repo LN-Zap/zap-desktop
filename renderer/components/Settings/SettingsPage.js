@@ -122,7 +122,12 @@ const SettingsPage = ({ currentConfig, rateProviderItems, ...rest }) => {
 
 SettingsPage.propTypes = {
   currentConfig: PropTypes.object.isRequired,
-  rateProviderItems: PropTypes.array.isRequired,
+  rateProviderItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 }
 
 export default SettingsPage

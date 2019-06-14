@@ -24,8 +24,6 @@ const blockExplorerMessageMapper = key => {
   return filters[key]
 }
 
-const rateProviderMessageMapper = key => messages[`rateProvider_option_${key}`]
-
 const SettingsFieldsWallet = ({ currentConfig, rateProviderItems }) => {
   const renderNumberDataRow = path => (
     <DataRow
@@ -70,7 +68,6 @@ const SettingsFieldsWallet = ({ currentConfig, rateProviderItems }) => {
             highlightOnValid={false}
             initialValue={currentConfig.rateProvider}
             items={rateProviderItems}
-            messageMapper={rateProviderMessageMapper}
           />
         }
       />
@@ -92,7 +89,12 @@ const SettingsFieldsWallet = ({ currentConfig, rateProviderItems }) => {
 
 SettingsFieldsWallet.propTypes = {
   currentConfig: PropTypes.object.isRequired,
-  rateProviderItems: PropTypes.array.isRequired,
+  rateProviderItems: PropTypes.arrayOf(
+    PropTypes.shape({
+      key: PropTypes.string.isRequired,
+      value: PropTypes.string.isRequired,
+    })
+  ).isRequired,
 }
 
 export default SettingsFieldsWallet
