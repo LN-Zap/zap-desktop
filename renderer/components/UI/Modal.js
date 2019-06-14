@@ -35,13 +35,13 @@ const ModalCloseWrapper = styled(Box)`
 `
 
 const ModalLogo = () => (
-  <Box color="primaryText" m={2}>
+  <Box m={2}>
     <ZapLogo height="32px" width="70px" />
   </Box>
 )
 
 const ModalClose = ({ onClick }) => (
-  <ModalCloseWrapper color="primaryText">
+  <ModalCloseWrapper>
     <CloseButton onClick={onClick} />
   </ModalCloseWrapper>
 )
@@ -61,7 +61,7 @@ const Modal = props => {
   return (
     <ModalContentWrapper bg="primaryColor" color="primaryText">
       {(hasClose || hasLogo) && (
-        <ModalHeader justifyContent={hasLogo ? 'space-between' : 'flex-end'} pt={3} px={3}>
+        <ModalHeader justifyContent={hasLogo ? 'space-between' : 'flex-end'} pt={2} px={2}>
           {hasLogo && <ModalLogo />}
           {hasClose && <ModalClose onClick={onClose} />}
         </ModalHeader>
