@@ -69,17 +69,15 @@ class WalletSettingsFormLocal extends React.Component {
             right={
               <Input
                 allowEmptyString
-                css={`
-                  text-align: right;
-                `}
                 field="name"
                 id="name"
-                justifyContent="right"
+                justifyContent="flex-end"
                 maxLength={30}
                 ml="auto"
                 placeholder={intl.formatMessage({
                   ...messages.wallet_settings_name_placeholder,
                 })}
+                textAlign="right"
                 width={1}
               />
             }
@@ -100,16 +98,14 @@ class WalletSettingsFormLocal extends React.Component {
             right={
               <Input
                 allowEmptyString
-                css={`
-                  text-align: right;
-                `}
                 field="alias"
                 id="alias"
-                justifyContent="right"
+                justifyContent="flex-end"
                 ml="auto"
                 placeholder={intl.formatMessage({
                   ...messages.wallet_settings_alias_placeholder,
                 })}
+                textAlign="right"
                 width={1}
               />
             }
@@ -157,16 +153,14 @@ class WalletSettingsFormLocal extends React.Component {
                 py={2}
                 right={
                   <Input
-                    css={`
-                      text-align: right;
-                    `}
                     field="autopilotMaxchannels"
                     id="autopilotMaxchannels"
                     initialValue={autopilotMaxchannels || autopilotDefaults.autopilotMaxchannels}
-                    justifyContent="right"
+                    justifyContent="flex-end"
                     min="1"
                     ml="auto"
                     step="1"
+                    textAlign="right"
                     type="number"
                     width={150}
                   />
@@ -182,17 +176,15 @@ class WalletSettingsFormLocal extends React.Component {
                 py={2}
                 right={
                   <Input
-                    css={`
-                      text-align: right;
-                    `}
                     field="autopilotMinchansize"
                     id="autopilotMinchansize"
                     initialValue={autopilotMinchansize || autopilotDefaults.autopilotMinchansize}
-                    justifyContent="right"
+                    justifyContent="flex-end"
                     max={autopilotDefaults.autopilotMaxchansize}
                     min={autopilotDefaults.autopilotMinchansize}
                     ml="auto"
                     step="1"
+                    textAlign="right"
                     type="number"
                     width={150}
                   />
@@ -208,17 +200,15 @@ class WalletSettingsFormLocal extends React.Component {
                 py={2}
                 right={
                   <Input
-                    css={`
-                      text-align: right;
-                    `}
                     field="autopilotMaxchansize"
                     id="autopilotMaxchansize"
                     initialValue={autopilotMaxchansize || autopilotDefaults.autopilotMaxchansize}
-                    justifyContent="right"
+                    justifyContent="flex-end"
                     max={autopilotDefaults.autopilotMaxchansize}
                     min={autopilotDefaults.autopilotMinchansize}
                     ml="auto"
                     step="1"
+                    textAlign="right"
                     type="number"
                     width={150}
                   />

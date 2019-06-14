@@ -68,18 +68,16 @@ const WalletSettingsFormRemote = ({
               py={2}
               right={
                 <Input
-                  css={`
-                    text-align: right;
-                  `}
                   field="host"
                   id="host"
                   initialValue={host}
                   isRequired
-                  justifyContent="right"
+                  justifyContent="flex-end"
                   ml="auto"
                   placeholder={intl.formatMessage({
                     ...messages.hostname_title,
                   })}
+                  textAlign="right"
                   width={300}
                 />
               }
@@ -134,17 +132,15 @@ const WalletSettingsFormRemote = ({
           right={
             <Input
               allowEmptyString
-              css={`
-                text-align: right;
-              `}
               field="name"
               id="name"
-              justifyContent="right"
+              justifyContent="flex-end"
               maxLength={30}
               ml="auto"
               placeholder={intl.formatMessage({
                 ...messages.wallet_settings_name_placeholder,
               })}
+              textAlign="right"
               width={300}
             />
           }
