@@ -14,15 +14,11 @@ const addressMessageMapper = key => {
   return filters[key]
 }
 
-const blockExplorerItems = [{ key: 'blockstream' }, { key: 'blockcypher' }, { key: 'smartbit' }]
-const blockExplorerMessageMapper = key => {
-  const filters = {
-    blockstream: messages.blockExplorer_option_blockstream,
-    blockcypher: messages.blockExplorer_option_blockcypher,
-    smartbit: messages.blockExplorer_option_smartbit,
-  }
-  return filters[key]
-}
+const blockExplorerItems = [
+  { key: 'blockstream', value: 'Blockstream' },
+  { key: 'blockcypher', value: 'Blockcypher' },
+  { key: 'smartbit', value: 'Smartbit' },
+]
 
 const SettingsFieldsWallet = ({ currentConfig, rateProviderItems }) => {
   const renderNumberDataRow = path => (
@@ -55,7 +51,6 @@ const SettingsFieldsWallet = ({ currentConfig, rateProviderItems }) => {
             highlightOnValid={false}
             initialValue={currentConfig.blockExplorer}
             items={blockExplorerItems}
-            messageMapper={blockExplorerMessageMapper}
           />
         }
       />
