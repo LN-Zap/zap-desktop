@@ -25,7 +25,7 @@ export default class ActivityModal extends React.PureComponent {
     const MODAL_COMPONENTS = {
       transaction: {
         component: TransactionModal,
-        props: { item, networkInfo },
+        props: { item, networkInfo, showNotification },
       },
       payment: {
         component: PaymentModal,
