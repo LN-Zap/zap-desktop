@@ -442,6 +442,8 @@
   "components.Settings.currency_label": "Airgeadra fiat",
   "components.Settings.fieldgroup_general": "Ginearálta",
   "components.Settings.fieldgroup_wallet": "Sparán",
+  "components.Settings.invoices_expire_description": "",
+  "components.Settings.invoices_expire_label": "",
   "components.Settings.lndTargetConfirmations_fast_description": "Líon na mbloic le díriú orthu ar luas \"tapa\" seolta.",
   "components.Settings.lndTargetConfirmations_fast_label": "Sprioc-dhearbhuithe (tapa)",
   "components.Settings.lndTargetConfirmations_medium_description": "Líon na mbloic le díriú ar luas seolta \"meánach\".",

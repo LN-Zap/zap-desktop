@@ -442,6 +442,8 @@
   "components.Settings.currency_label": "",
   "components.Settings.fieldgroup_general": "",
   "components.Settings.fieldgroup_wallet": "",
+  "components.Settings.invoices_expire_description": "",
+  "components.Settings.invoices_expire_label": "",
   "components.Settings.lndTargetConfirmations_fast_description": "",
   "components.Settings.lndTargetConfirmations_fast_label": "",
   "components.Settings.lndTargetConfirmations_medium_description": "",

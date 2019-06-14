@@ -442,6 +442,8 @@
   "components.Settings.currency_label": "Fiat-Währung",
   "components.Settings.fieldgroup_general": "Allgemein",
   "components.Settings.fieldgroup_wallet": "Wallet",
+  "components.Settings.invoices_expire_description": "",
+  "components.Settings.invoices_expire_label": "",
   "components.Settings.lndTargetConfirmations_fast_description": "Anzahl der Blöcke, die für die \"schnelle\" Sendegeschwindigkeit angestrebt werden.",
   "components.Settings.lndTargetConfirmations_fast_label": "Zielbestätigungen (schnell)",
   "components.Settings.lndTargetConfirmations_medium_description": "Anzahl der Blöcke, die für die \"mittlere\" Sendegeschwindigkeit angestrebt werden.",
