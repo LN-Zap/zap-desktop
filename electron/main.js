@@ -99,8 +99,8 @@ const handleBitcoinLink = input => {
  * Handler for lightning: links
  */
 const handleLightningLink = input => {
-  const payReq = input.split(':')[1]
-  zap.sendMessage('lightningPaymentUri', { payReq })
+  const address = input.split(':')[1]
+  zap.sendMessage('lightningPaymentUri', { address })
   mainWindow.show()
 }
 

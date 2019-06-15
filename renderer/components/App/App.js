@@ -27,7 +27,7 @@ const appScheduler = createScheduler()
 function App({
   isAppReady,
   modals,
-  payReq,
+  redirectPayReq,
   updateAutopilotNodeScores,
   fetchActivityHistory,
   setIsWalletOpen,
@@ -97,12 +97,12 @@ function App({
 
   // Open the pay form when a payment link is used.
   useEffect(() => {
-    if (isAppReady && payReq) {
+    if (isAppReady && redirectPayReq) {
       if (!modals.find(m => m.type === 'PAY_FORM')) {
         setModals([{ type: 'PAY_FORM' }])
       }
     }
-  }, [payReq, isAppReady, modals, setModals])
+  }, [redirectPayReq, isAppReady, modals, setModals])
 
   if (!isAppReady) {
     return null
@@ -125,7 +125,7 @@ App.propTypes = {
   initTickers: PropTypes.func.isRequired,
   isAppReady: PropTypes.bool.isRequired,
   modals: PropTypes.array.isRequired,
-  payReq: PropTypes.object,
+  redirectPayReq: PropTypes.object,
   setIsWalletOpen: PropTypes.func.isRequired,
   setModals: PropTypes.func.isRequired,
   updateAutopilotNodeScores: PropTypes.func.isRequired,

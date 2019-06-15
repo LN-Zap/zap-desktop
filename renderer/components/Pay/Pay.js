@@ -93,17 +93,17 @@ class Pay extends React.Component {
       slow: PropTypes.number,
     }),
     payInvoice: PropTypes.func.isRequired,
-    payReq: PropTypes.object,
     queryFees: PropTypes.func.isRequired,
     queryRoutes: PropTypes.func.isRequired,
+    redirectPayReq: PropTypes.object,
     routes: PropTypes.array,
     sendCoins: PropTypes.func.isRequired,
-    setPayReq: PropTypes.func.isRequired,
+    setRedirectPayReq: PropTypes.func.isRequired,
     walletBalanceConfirmed: PropTypes.number.isRequired,
   }
 
   static defaultProps = {
-    payReq: null,
+    redirectPayReq: null,
     initialAmountCrypto: null,
     initialAmountFiat: null,
     isProcessing: false,
@@ -114,7 +114,6 @@ class Pay extends React.Component {
   state = {
     currentStep: 'address',
     previousStep: null,
-    isPayReqSetOnMount: false,
     isLn: null,
     isOnchain: null,
   }
@@ -135,24 +134,21 @@ class Pay extends React.Component {
 
   // Set a flag so that we can trigger form submission in componentDidUpdate once the form is loaded.
   componentDidMount() {
-    const { fetchTickers, payReq, queryFees } = this.props
-    if (payReq) {
-      this.setState({ isPayReqSetOnMount: true })
-    }
+    const { fetchTickers, queryFees } = this.props
     fetchTickers()
     queryFees()
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { payReq, queryRoutes } = this.props
-    const { currentStep, isPayReqSetOnMount, invoice, isOnchain } = this.state
-
-    const { address, amount } = payReq || {}
+    const { redirectPayReq, queryRoutes, setRedirectPayReq } = this.props
+    const { currentStep, invoice, isOnchain } = this.state
+    const { address, amount } = redirectPayReq || {}
     const { payReq: prevPayReq } = prevProps || {}
     const { address: prevAddress, amount: prevAmount } = prevPayReq || {}
 
-    // If isPayReqSetOnMount was set in the when the component mounted, reset the form and submit as new.
-    if (isPayReqSetOnMount && isPayReqSetOnMount !== prevState.isPayReqSetOnMount) {
+    // If redirectPayReq is set, clear it and then use it's values to autopopulate and submit the form.
+    if (redirectPayReq) {
+      setRedirectPayReq(null)
       return this.autoFillForm(address, amount)
     }
 
@@ -189,11 +185,6 @@ class Pay extends React.Component {
       const { payeeNodeKey } = invoice
       queryRoutes(payeeNodeKey, this.amountInSats())
     }
-  }
-
-  componentWillUnmount() {
-    const { setPayReq } = this.props
-    setPayReq(null)
   }
 
   /**
@@ -272,9 +263,9 @@ class Pay extends React.Component {
       payInvoice,
       routes,
       sendCoins,
+      setRedirectPayReq,
       changeFilter,
       closeModal,
-      setPayReq,
     } = this.props
     if (currentStep === 'summary') {
       if (isOnchain) {
@@ -300,7 +291,7 @@ class Pay extends React.Component {
           retries: config.invoices.retryCount,
         })
         // clear payment request
-        setPayReq(null)
+        setRedirectPayReq(null)
         // Close the form modal once the payment has been sent
         changeFilter('ALL_ACTIVITY')
         closeModal()
@@ -413,11 +404,11 @@ class Pay extends React.Component {
   }
 
   renderHelpText = () => {
-    const { chainName, cryptoUnitName, payReq } = this.props
+    const { chainName, cryptoUnitName, redirectPayReq } = this.props
     const { currentStep, previousStep } = this.state
 
     // Do not render the help text if the form has just loadad with an initial payment request.
-    if (payReq && !previousStep) {
+    if (redirectPayReq && !previousStep) {
       return null
     }
 
@@ -451,7 +442,7 @@ class Pay extends React.Component {
 
   renderAddressField = () => {
     const { currentStep, isLn } = this.state
-    const { chain, payReq, network, intl } = this.props
+    const { chain, redirectPayReq, network, intl } = this.props
 
     const payReq_label =
       currentStep === 'address'
@@ -473,7 +464,7 @@ class Pay extends React.Component {
                 `}
                 field="payReq"
                 forwardedRef={this.payReqInput}
-                initialValue={payReq && payReq.address}
+                initialValue={redirectPayReq && redirectPayReq.address}
                 isReadOnly={currentStep !== 'address'}
                 isRequired
                 label={intl.formatMessage({ ...messages[payReq_label] })}
@@ -624,7 +615,7 @@ class Pay extends React.Component {
       cryptoUnitName,
       chainName,
       fetchTickers,
-      payReq,
+      redirectPayReq,
       initialAmountCrypto,
       initialAmountFiat,
       isProcessing,
@@ -633,7 +624,7 @@ class Pay extends React.Component {
       onchainFees,
       payInvoice,
       sendCoins,
-      setPayReq,
+      setRedirectPayReq,
       queryFees,
       queryRoutes,
       routes,

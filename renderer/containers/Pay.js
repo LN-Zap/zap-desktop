@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
 import { Pay } from 'components/Pay'
 import { fetchTickers, tickerSelectors } from 'reducers/ticker'
-import { setPayReq, queryFees, queryRoutes } from 'reducers/pay'
+import { setRedirectPayReq, queryFees, queryRoutes } from 'reducers/pay'
 import { balanceSelectors } from 'reducers/balance'
 import { changeFilter } from 'reducers/activity'
 import { sendCoins } from 'reducers/transaction'
@@ -19,7 +19,7 @@ const mapStateToProps = state => ({
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
   isQueryingFees: state.pay.isQueryingFees,
   lndTargetConfirmations: settingsSelectors.currentConfig(state).lndTargetConfirmations,
-  payReq: state.pay.payReq,
+  redirectPayReq: state.pay.redirectPayReq,
   onchainFees: state.pay.onchainFees,
   routes: state.pay.routes,
   walletBalanceConfirmed: balanceSelectors.walletBalanceConfirmed(state),
@@ -30,7 +30,7 @@ const mapDispatchToProps = {
   closeModal,
   fetchTickers,
   payInvoice,
-  setPayReq,
+  setRedirectPayReq,
   sendCoins,
   queryFees,
   queryRoutes,
