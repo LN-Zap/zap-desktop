@@ -41,6 +41,7 @@ export default defineMessages({
   close_button: 'Close Channel',
   force_close_button: 'Force Close Channel',
   unknown: 'Unknown',
+  transaction_id: 'Transaction ID',
   funding_date_label: 'Channel opening date',
   funding_date_description: 'Channel funding transaction date and time.',
   funding_transaction_id_label: 'Funding Transaction',

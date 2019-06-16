@@ -1,19 +1,19 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
+import { FormattedDate, FormattedTime, FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import styled from 'styled-components'
 import { opacity } from 'styled-system'
-import { Box as BaseBox } from 'rebass'
+import { Box as BaseBox, Flex } from 'rebass'
 import blockExplorer from '@zap/utils/blockExplorer'
 import { Bar, DataRow, Link, Text } from 'components/UI'
 import { Truncate } from 'components/Util'
-import { CryptoValue } from 'containers/UI'
+import { CopyButton, CryptoValue } from 'containers/UI'
 import { CHANNEL_DATA_VIEW_MODE_BASIC, CHANNEL_DATA_VIEW_MODE_FULL } from './constants'
 import messages from './messages'
 
 const Box = styled(BaseBox)(opacity)
 
-const ChannelData = ({ channel, cryptoUnitName, networkInfo, viewMode, ...rest }) => {
+const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...rest }) => {
   const {
     channel_point,
     closing_txid,
@@ -35,11 +35,19 @@ const ChannelData = ({ channel, cryptoUnitName, networkInfo, viewMode, ...rest }
         label: <FormattedMessage {...messages.funding_transaction_id_label} />,
         body: <FormattedMessage {...messages.funding_transaction_id_description} />,
         value: (
-          <Link
-            onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, fundingTxid)}
-          >
-            <Truncate maxlen={25} text={fundingTxid} />
-          </Link>
+          <Flex>
+            <CopyButton
+              mr={2}
+              name={intl.formatMessage({ ...messages.transaction_id })}
+              size="0.7em"
+              value={fundingTxid}
+            />
+            <Link
+              onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, fundingTxid)}
+            >
+              <Truncate maxlen={25} text={fundingTxid} />
+            </Link>
+          </Flex>
         ),
       }
     },
@@ -64,11 +72,19 @@ const ChannelData = ({ channel, cryptoUnitName, networkInfo, viewMode, ...rest }
       label: <FormattedMessage {...messages.closing_transaction_id_label} />,
       body: <FormattedMessage {...messages.closing_transaction_id_description} />,
       value: (
-        <Link
-          onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, closing_txid)}
-        >
-          <Truncate maxlen={25} text={closing_txid} />
-        </Link>
+        <Flex>
+          <CopyButton
+            mr={2}
+            name={intl.formatMessage({ ...messages.transaction_id })}
+            size="0.7em"
+            value={closing_txid}
+          />
+          <Link
+            onClick={() => networkInfo && blockExplorer.showTransaction(networkInfo, closing_txid)}
+          >
+            <Truncate maxlen={25} text={closing_txid} />
+          </Link>
+        </Flex>
       ),
     }),
 
@@ -194,6 +210,7 @@ const ChannelData = ({ channel, cryptoUnitName, networkInfo, viewMode, ...rest }
 ChannelData.propTypes = {
   channel: PropTypes.object.isRequired,
   cryptoUnitName: PropTypes.string.isRequired,
+  intl: intlShape.isRequired,
   networkInfo: PropTypes.shape({
     id: PropTypes.string,
     name: PropTypes.string,
@@ -205,4 +222,4 @@ ChannelData.defaultProps = {
   viewMode: CHANNEL_DATA_VIEW_MODE_BASIC,
 }
 
-export default ChannelData
+export default injectIntl(ChannelData)
