@@ -4,6 +4,7 @@ import { defineMessages } from 'react-intl'
 export default defineMessages({
   amount: 'Amount',
   calculating: 'calculating',
+  copy_to_clipboard: 'Copy to clipboard',
   expires: 'Expires',
   expired: 'Expired',
   fee: 'Fee',
