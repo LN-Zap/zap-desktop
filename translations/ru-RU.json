@@ -58,8 +58,6 @@
   "components.Activity.TransactionModal.amount": "",
   "components.Activity.TransactionModal.block_height": "",
   "components.Activity.TransactionModal.block_id": "",
-  "components.Activity.TransactionModal.copied_to_clipbpard": "",
-  "components.Activity.TransactionModal.copy_to_clipboard": "",
   "components.Activity.TransactionModal.current_value": "",
   "components.Activity.TransactionModal.date_confirmed": "",
   "components.Activity.TransactionModal.fee": "Комиссия",
@@ -191,6 +189,7 @@
   "components.Channels.total_received_label": "",
   "components.Channels.total_sent_description": "",
   "components.Channels.total_sent_label": "",
+  "components.Channels.transaction_id": "",
   "components.Channels.transaction_speed_fast": "",
   "components.Channels.transaction_speed_medium": "",
   "components.Channels.transaction_speed_slow": "",
@@ -482,6 +481,7 @@
   "components.Syncing.waiting_for_peers": "Ожидание подключений…",
   "components.UI.amount": "",
   "components.UI.calculating": "",
+  "components.UI.copy_to_clipboard": "",
   "components.UI.expired": "",
   "components.UI.expires": "",
   "components.UI.fee": "",
@@ -514,5 +514,6 @@
   "components.Wallet.payment_success": "Платеж успешно отправлен",
   "components.Wallet.request": "Запрос",
   "components.Wallet.sending_tx": "Отправка вашей транзакции…",
-  "components.Wallet.transaction_success": "Транзакция успешно отправлена"
+  "components.Wallet.transaction_success": "Транзакция успешно отправлена",
+  "containers.UI.copied_to_clipbpard": ""
 }

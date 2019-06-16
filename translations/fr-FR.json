@@ -58,8 +58,6 @@
   "components.Activity.TransactionModal.amount": "Montant",
   "components.Activity.TransactionModal.block_height": "Confirmée dans le bloc {height}",
   "components.Activity.TransactionModal.block_id": "",
-  "components.Activity.TransactionModal.copied_to_clipbpard": "",
-  "components.Activity.TransactionModal.copy_to_clipboard": "",
   "components.Activity.TransactionModal.current_value": "Valeur courante",
   "components.Activity.TransactionModal.date_confirmed": "Date de la confirmation",
   "components.Activity.TransactionModal.fee": "Frais totaux",
@@ -191,6 +189,7 @@
   "components.Channels.total_received_label": "Montant reçu au total",
   "components.Channels.total_sent_description": "La valeur totale que vous avez envoyé dance ce canal.",
   "components.Channels.total_sent_label": "Montant envoyé au total",
+  "components.Channels.transaction_id": "",
   "components.Channels.transaction_speed_fast": "Rapide",
   "components.Channels.transaction_speed_medium": "Moyenne",
   "components.Channels.transaction_speed_slow": "Lente",
@@ -482,6 +481,7 @@
   "components.Syncing.waiting_for_peers": "En attente de paires…",
   "components.UI.amount": "Montant",
   "components.UI.calculating": "calculation",
+  "components.UI.copy_to_clipboard": "",
   "components.UI.expired": "Expiré",
   "components.UI.expires": "Expire",
   "components.UI.fee": "Frais",
@@ -514,5 +514,6 @@
   "components.Wallet.payment_success": "Paiement envoyé avec succès",
   "components.Wallet.request": "Demande",
   "components.Wallet.sending_tx": "Envoi de votre transaction…",
-  "components.Wallet.transaction_success": "Transaction effectuée avec succès"
+  "components.Wallet.transaction_success": "Transaction effectuée avec succès",
+  "containers.UI.copied_to_clipbpard": ""
 }

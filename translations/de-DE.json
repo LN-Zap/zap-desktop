@@ -58,8 +58,6 @@
   "components.Activity.TransactionModal.amount": "Betrag",
   "components.Activity.TransactionModal.block_height": "Im Block {height} bestätigt",
   "components.Activity.TransactionModal.block_id": "",
-  "components.Activity.TransactionModal.copied_to_clipbpard": "",
-  "components.Activity.TransactionModal.copy_to_clipboard": "",
   "components.Activity.TransactionModal.current_value": "Aktueller Wert",
   "components.Activity.TransactionModal.date_confirmed": "Bestätigungsdatum",
   "components.Activity.TransactionModal.fee": "Gebühr",
@@ -191,6 +189,7 @@
   "components.Channels.total_received_label": "Insgesamt erhaltenes Geld",
   "components.Channels.total_sent_description": "Der Gesamtwert, den Sie innerhalb dieses Kanals gesendet haben.",
   "components.Channels.total_sent_label": "Insgesamt gesendetes Geld",
+  "components.Channels.transaction_id": "",
   "components.Channels.transaction_speed_fast": "Schnell",
   "components.Channels.transaction_speed_medium": "Mittel",
   "components.Channels.transaction_speed_slow": "Langsam",
@@ -482,6 +481,7 @@
   "components.Syncing.waiting_for_peers": "Warte auf Verbindungen…",
   "components.UI.amount": "Betrag",
   "components.UI.calculating": "berechne",
+  "components.UI.copy_to_clipboard": "",
   "components.UI.expired": "Abgelaufen",
   "components.UI.expires": "Endet",
   "components.UI.fee": "Gebühr",
@@ -514,5 +514,6 @@
   "components.Wallet.payment_success": "Zahlung erfolgreich gesendet",
   "components.Wallet.request": "Anfrage",
   "components.Wallet.sending_tx": "Sende deine Transaktion…",
-  "components.Wallet.transaction_success": "Transaktion erfolgreich gesendet"
+  "components.Wallet.transaction_success": "Transaktion erfolgreich gesendet",
+  "containers.UI.copied_to_clipbpard": ""
 }
