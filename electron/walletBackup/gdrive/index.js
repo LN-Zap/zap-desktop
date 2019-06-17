@@ -26,25 +26,31 @@ export default class BackupService extends TokenBasedBackupService {
     )
   }
 
-  getBackupId() {
-    throw new Error('Not implemented')
+  async findBackup(walletId) {
+    const { connection } = this
+    if (connection) {
+      const searchParams = {
+        orderBy: 'modifiedTime desc',
+        fields: 'files(id, name, modifiedTime, size)',
+        q: `name='${walletId}'`,
+        pageSize: 1,
+      }
+      const {
+        data: { files },
+      } = await connection.listFiles(searchParams)
+      if (files && files.length) {
+        const [backupFile] = files
+        return await super.loadBackup(backupFile.id)
+      }
+    }
   }
 
-  /**
-   * Loads backup for the specified wallet
-   *
-   * @param {string} walletId
-   * @returns {Buffer} wallet backup as a `Buffer`
-   * @memberof BackupService
-   */
-  async loadBackup(walletId) {
-    const { connection, getBackupId } = this
-    const fileId = getBackupId(walletId)
-    if (fileId) {
-      const backup = await connection.downloadToBuffer(fileId)
-      return backup
-    }
-    return null
+  async loadBackup({ walletId }) {
+    return this.findBackup(walletId)
+  }
+
+  getBackupId() {
+    throw new Error('Not implemented')
   }
 
   /**
