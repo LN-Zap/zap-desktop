@@ -18,6 +18,18 @@ export default class BackupService {
   }
 
   /**
+   * Loads backup for the specified wallet
+   *
+   * @param {string} walletId
+   * @returns {Buffer} wallet backup as a `Buffer`
+   * @memberof BackupService
+   */
+  async loadBackup({ walletId, fileId: dir }) {
+    const filePath = `${dir}/${walletId}`
+    return Promise.resolve(fs.readFileSync(filePath))
+  }
+
+  /**
    * Saves specified backup
    *
    * @param {string} walletId backup dir path

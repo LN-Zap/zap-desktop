@@ -49,6 +49,22 @@ export default class TokenBasedBackupService extends EventEmitter {
   }
 
   /**
+   * Loads backup for the specified wallet
+   *
+   * @param {string} fileId
+   * @returns {Buffer} wallet backup as a `Buffer`
+   * @memberof BackupService
+   */
+  async loadBackup(fileId) {
+    const { connection } = this
+    if (connection) {
+      const backup = await connection.downloadToBuffer(fileId)
+      return backup
+    }
+    return null
+  }
+
+  /**
    * Returns current access tokens
    *
    * @returns {object} current tokens object or null if not logged in
