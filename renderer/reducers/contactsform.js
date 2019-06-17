@@ -3,7 +3,7 @@ import partition from 'lodash/partition'
 import { createSelector } from 'reselect'
 
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
-import { getNodeDisplayName } from './network'
+import { getNodeDisplayName, networkSelectors } from './network'
 
 // Initial State
 const initialState = {
@@ -35,7 +35,7 @@ const ACTION_HANDLERS = {
 // Selector
 // ------------------------------------
 const contactFormSelectors = {}
-const networkNodesSelector = state => state.network.nodes
+const networkNodesSelector = state => networkSelectors.nodes(state)
 const searchQuerySelector = state => state.contactsform.searchQuery
 const peersSelector = state => state.peers.peers
 const contactable = node => node.addresses.length > 0

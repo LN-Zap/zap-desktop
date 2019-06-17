@@ -244,19 +244,30 @@ const ACTION_HANDLERS = {
 
 const transactionsSelectors = {}
 const transactionsSelector = state => state.transaction.transactions
+const transactionsSendingSelector = state => state.transaction.transactionsSending
+
+transactionsSelectors.transactions = createSelector(
+  transactionsSelector,
+  transactions => transactions
+)
+
+transactionsSelectors.transactionsSending = createSelector(
+  transactionsSendingSelector,
+  transactionsSending => transactionsSending
+)
 
 transactionsSelectors.rawTransactionsSelector = createSelector(
   transactionsSelector,
   txs => txs
 )
 
-transactionsSelectors.transactionsSelector = createSelector(
-  transactionsSelector,
+transactionsSelectors.decoratedTransactionsSelector = createSelector(
+  transactionsSelectors.transactions,
   channelsSelectors.allChannelsRaw,
   channelsSelectors.closingPendingChannelsRaw,
   channelsSelectors.pendingOpenChannelsRaw,
-  (transactions, allChannelsRaw, closingPendingChannelsRaw, pendingOpenChannelsRaw) =>
-    transactions.map(transaction => {
+  (transactions, allChannelsRaw, closingPendingChannelsRaw, pendingOpenChannelsRaw) => {
+    return transactions.map(transaction => {
       const fundedChannel = allChannelsRaw.find(channelObj => {
         const channelData = getChannelData(channelObj)
         const channelPoint = channelData.channel_point
@@ -281,6 +292,7 @@ transactionsSelectors.transactionsSelector = createSelector(
         maturityHeight: pendingChannel && pendingChannel.maturity_height,
       }
     })
+  }
 )
 
 export { transactionsSelectors }

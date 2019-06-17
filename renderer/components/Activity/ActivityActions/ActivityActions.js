@@ -12,10 +12,10 @@ import messages from './messages'
 const ActivityActions = ({
   filter,
   filters,
-  searchQuery,
+  searchText,
   changeFilter,
   fetchActivityHistory,
-  updateActivitySearchQuery,
+  updateSearchText,
   intl,
   ...rest
 }) => (
@@ -23,8 +23,8 @@ const ActivityActions = ({
     <Flex alignItems="center" as="section" justifyContent="space-between">
       <ActivitySearch
         placeholder={intl.formatMessage({ ...messages.search_placeholder })}
-        searchQuery={searchQuery}
-        updateActivitySearchQuery={updateActivitySearchQuery}
+        searchText={searchText}
+        updateSearchText={updateSearchText}
         width={1}
       />
       <Flex alignItems="center" as="section" justifyContent="flex-end">
@@ -42,8 +42,8 @@ ActivityActions.propTypes = {
   filter: PropTypes.string.isRequired,
   filters: PropTypes.array.isRequired,
   intl: intlShape.isRequired,
-  searchQuery: PropTypes.string,
-  updateActivitySearchQuery: PropTypes.func.isRequired,
+  searchText: PropTypes.string,
+  updateSearchText: PropTypes.func.isRequired,
 }
 
 export default injectIntl(ActivityActions)

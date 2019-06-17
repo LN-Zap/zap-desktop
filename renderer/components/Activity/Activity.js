@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { space } from 'styled-system'
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
-import { FormattedDate, injectIntl, intlShape } from 'react-intl'
+import { FormattedDate } from 'react-intl'
 import { Box } from 'rebass'
 import { Bar, Heading, Panel } from 'components/UI'
 import ActivityActions from 'containers/Activity/ActivityActions'
@@ -40,11 +40,7 @@ class Activity extends Component {
   }
 
   renderActivityList = () => {
-    const { currentActivity, cryptoUnitName, ticker, currentTicker } = this.props
-
-    if (!cryptoUnitName) {
-      return null
-    }
+    let { currentActivity } = this.props
 
     const renderRow = ({ index, key, style, parent }) => {
       const item = currentActivity[index]
@@ -59,14 +55,7 @@ class Activity extends Component {
                 <Bar my={1} />
               </Box>
             ) : (
-              <ActivityListItem
-                {...{
-                  activity: currentActivity[index],
-                  cryptoUnitName,
-                  currentTicker,
-                  ticker,
-                }}
-              />
+              <ActivityListItem activity={currentActivity[index]} />
             )}
           </div>
         </CellMeasurer>
@@ -93,12 +82,6 @@ class Activity extends Component {
   }
 
   render() {
-    const { currentTicker } = this.props
-
-    if (!currentTicker) {
-      return null
-    }
-
     return (
       <Panel>
         <Panel.Header my={3} px={4}>
@@ -111,12 +94,7 @@ class Activity extends Component {
 }
 
 Activity.propTypes = {
-  activity: PropTypes.object.isRequired,
-  cryptoUnitName: PropTypes.string,
   currentActivity: PropTypes.array.isRequired,
-  currentTicker: PropTypes.object,
-  intl: intlShape.isRequired,
-  ticker: PropTypes.object.isRequired,
 }
 
-export default injectIntl(Activity)
+export default Activity

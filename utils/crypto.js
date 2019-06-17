@@ -159,8 +159,11 @@ export const isLn = (input, chain = 'bitcoin', network = 'mainnet') => {
  * @returns {string} Node alias, if found
  */
 export const getNodeAlias = (pubkey, nodes = []) => {
-  const node = nodes.find(n => n.pub_key === pubkey)
+  if (!pubkey) {
+    return null
+  }
 
+  const node = nodes.find(n => n.pub_key === pubkey)
   if (node && node.alias.length) {
     return node.alias
   }

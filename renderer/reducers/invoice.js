@@ -11,8 +11,6 @@ import { settingsSelectors } from './settings'
 // ------------------------------------
 // Constants
 // ------------------------------------
-export const SEARCH_INVOICES = 'SEARCH_INVOICES'
-
 export const SET_INVOICE = 'SET_INVOICE'
 
 export const GET_INVOICE = 'GET_INVOICE'
@@ -43,12 +41,6 @@ const decorateInvoice = invoice => {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function searchInvoices(invoicesSearchText) {
-  return {
-    type: SEARCH_INVOICES,
-    invoicesSearchText,
-  }
-}
 
 export function setInvoice(invoice) {
   return {
@@ -169,8 +161,6 @@ export const receiveInvoiceData = invoice => dispatch => {
 // Action Handlers
 // ------------------------------------
 const ACTION_HANDLERS = {
-  [SEARCH_INVOICES]: (state, { invoicesSearchText }) => ({ ...state, invoicesSearchText }),
-
   [SET_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
 
   [GET_INVOICE]: state => ({ ...state, invoiceLoading: true }),
@@ -211,20 +201,18 @@ const ACTION_HANDLERS = {
 const invoiceSelectors = {}
 const invoiceSelector = state => state.invoice.invoice
 const invoicesSelector = state => state.invoice.invoices
-const invoicesSearchTextSelector = state => state.invoice.invoicesSearchText
 
-invoiceSelectors.invoiceModalOpen = createSelector(
-  invoiceSelector,
-  invoice => !!invoice
-)
+invoiceSelectors.invoice = invoiceSelector
 
 invoiceSelectors.invoices = createSelector(
   invoicesSelector,
-  invoicesSearchTextSelector,
-  (invoices, invoicesSearchText) =>
-    invoices.filter(invoice => invoice.memo && invoice.memo.includes(invoicesSearchText))
+  invoices => invoices
 )
 
+invoiceSelectors.invoiceModalOpen = createSelector(
+  invoiceSelector,
+  invoice => Boolean(invoice)
+)
 invoiceSelectors.invoice = createSelector(
   invoicesSelector,
   invoiceSelector,
@@ -240,7 +228,6 @@ const initialState = {
   invoiceLoading: false,
   invoices: [],
   invoice: null,
-  invoicesSearchText: '',
   data: {},
   formInvoice: {
     payreq: '',

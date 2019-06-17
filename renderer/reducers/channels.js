@@ -9,7 +9,7 @@ import config from 'config'
 import { updateNotification, showWarning, showError } from './notification'
 import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
-import { getNodeDisplayName, updateNodeData } from './network'
+import { getNodeDisplayName, updateNodeData, networkSelectors } from './network'
 import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
@@ -624,7 +624,7 @@ const channelSearchQuerySelector = state => state.channels.searchQuery
 const channelSortSelector = state => state.channels.sort
 const channelSortOrderSelector = state => state.channels.sortOrder
 const filterSelector = state => state.channels.filter
-const nodesSelector = state => state.network.nodes
+const nodesSelector = state => networkSelectors.nodes(state)
 const viewModeSelector = state => state.channels.viewMode
 
 channelsSelectors.viewMode = viewModeSelector

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`reducers activityReducer should correctly changeFilter 1`] = `
+exports[`reducers activityReducer should handle CHANGE_FILTER 1`] = `
 Object {
   "activityLoadingError": null,
   "filter": undefined,
@@ -29,12 +29,30 @@ Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchText": "",
-  "showExpiredRequests": false,
+  "searchText": null,
 }
 `;
 
-exports[`reducers activityReducer should correctly hideActivityModal 1`] = `
+exports[`reducers activityReducer should handle FETCH_ACTIVITY_HISTORY 1`] = `
+Object {
+  "isActivityLoading": true,
+}
+`;
+
+exports[`reducers activityReducer should handle FETCH_ACTIVITY_HISTORY_FAILURE 1`] = `
+Object {
+  "activityLoadingError": undefined,
+  "isActivityLoading": false,
+}
+`;
+
+exports[`reducers activityReducer should handle FETCH_ACTIVITY_HISTORY_SUCCESS 1`] = `
+Object {
+  "isActivityLoading": false,
+}
+`;
+
+exports[`reducers activityReducer should handle HIDE_ACTIVITY_MODAL 1`] = `
 Object {
   "activityLoadingError": null,
   "filter": "ALL_ACTIVITY",
@@ -63,12 +81,11 @@ Object {
     "itemId": null,
     "itemType": null,
   },
-  "searchText": "",
-  "showExpiredRequests": false,
+  "searchText": null,
 }
 `;
 
-exports[`reducers activityReducer should correctly showActivityModal 1`] = `
+exports[`reducers activityReducer should handle SHOW_ACTIVITY_MODAL 1`] = `
 Object {
   "activityLoadingError": null,
   "filter": "ALL_ACTIVITY",
@@ -97,41 +114,6 @@ Object {
     "itemId": undefined,
     "itemType": undefined,
   },
-  "searchText": "",
-  "showExpiredRequests": false,
-}
-`;
-
-exports[`reducers activityReducer should correctly updateSearchText 1`] = `
-Object {
-  "activityLoadingError": null,
-  "filter": "ALL_ACTIVITY",
-  "filters": Array [
-    Object {
-      "key": "ALL_ACTIVITY",
-    },
-    Object {
-      "key": "SENT_ACTIVITY",
-    },
-    Object {
-      "key": "RECEIVED_ACTIVITY",
-    },
-    Object {
-      "key": "PENDING_ACTIVITY",
-    },
-    Object {
-      "key": "EXPIRED_ACTIVITY",
-    },
-    Object {
-      "key": "INTERNAL_ACTIVITY",
-    },
-  ],
-  "isActivityLoading": false,
-  "modal": Object {
-    "itemId": null,
-    "itemType": null,
-  },
-  "searchText": undefined,
-  "showExpiredRequests": false,
+  "searchText": null,
 }
 `;

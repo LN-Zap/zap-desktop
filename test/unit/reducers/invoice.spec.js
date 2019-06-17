@@ -1,5 +1,4 @@
 import invoiceReducer, {
-  SEARCH_INVOICES,
   SET_INVOICE,
   GET_INVOICE,
   RECEIVE_INVOICE,
@@ -15,10 +14,6 @@ describe('reducers', () => {
   describe('invoiceReducer', () => {
     it('should handle initial state', () => {
       expect(invoiceReducer(undefined, {})).toMatchSnapshot()
-    })
-
-    it('should have SEARCH_INVOICES', () => {
-      expect(SEARCH_INVOICES).toEqual('SEARCH_INVOICES')
     })
 
     it('should have SET_INVOICE', () => {
@@ -55,12 +50,6 @@ describe('reducers', () => {
 
     it('should have INVOICE_FAILED', () => {
       expect(INVOICE_FAILED).toEqual('INVOICE_FAILED')
-    })
-
-    it('should correctly searchInvoices', () => {
-      expect(
-        invoiceReducer(undefined, { type: SEARCH_INVOICES, invoicesSearchText: 'foo' })
-      ).toMatchSnapshot()
     })
 
     it('should correctly setInvoice', () => {

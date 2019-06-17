@@ -10,7 +10,6 @@ const mapDispatchToProps = {
 
 const mapStateToProps = state => ({
   cryptoUnitName: tickerSelectors.cryptoUnitName(state),
-  nodes: state.network.nodes,
 })
 
 export default connect(

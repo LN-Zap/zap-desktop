@@ -1,11 +1,12 @@
 import config from 'config'
 import { createSelector } from 'reselect'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
-import { decodePayReq } from '@zap/utils/crypto'
+import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
 import delay from '@zap/utils/delay'
 import { grpcService } from 'workers'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
+import { networkSelectors } from './network'
 import { showError } from './notification'
 
 // ------------------------------------
@@ -261,13 +262,44 @@ const ACTION_HANDLERS = {
   },
 }
 
-const modalPaymentSelector = state => state.payment.payment
-
 const paymentSelectors = {}
+const modalPaymentSelector = state => state.payment.payment
+const paymentsSelector = state => state.payment.payments
+const paymentsSendingSelector = state => state.payment.paymentsSending
+const nodesSelector = state => networkSelectors.nodes(state)
+
+paymentSelectors.payments = createSelector(
+  paymentsSelector,
+  payments => payments
+)
+
+paymentSelectors.paymentsSending = createSelector(
+  paymentsSendingSelector,
+  paymentsSending => paymentsSending
+)
 
 paymentSelectors.paymentModalOpen = createSelector(
   modalPaymentSelector,
   payment => !!payment
+)
+
+paymentSelectors.decoratedPaymentsSelector = createSelector(
+  paymentsSelector,
+  nodesSelector,
+  (payments, nodes) =>
+    payments.map(payment => {
+      const destPubKey = payment.path && payment.path[payment.path.length - 1]
+      const decoration = destPubKey
+        ? {
+            dest_node_pubkey: destPubKey,
+            dest_node_alias: getNodeAlias(destPubKey, nodes),
+          }
+        : {}
+      return {
+        ...payment,
+        ...decoration,
+      }
+    })
 )
 
 export { paymentSelectors }

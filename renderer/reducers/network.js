@@ -1,3 +1,4 @@
+import { createSelector } from 'reselect'
 import { grpcService } from 'workers'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 
@@ -93,6 +94,16 @@ const ACTION_HANDLERS = {
     nodes,
   }),
 }
+
+const networkSelectors = {}
+const nodesSelector = state => state.network.nodes
+
+networkSelectors.nodes = createSelector(
+  nodesSelector,
+  nodes => nodes
+)
+
+export { networkSelectors }
 
 // ------------------------------------
 // Initial State
