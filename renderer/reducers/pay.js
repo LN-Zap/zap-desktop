@@ -14,7 +14,7 @@ export const QUERY_ROUTES = 'QUERY_ROUTES'
 export const QUERY_ROUTES_SUCCESS = 'QUERY_ROUTES_SUCCESS'
 export const QUERY_ROUTES_FAILURE = 'QUERY_ROUTES_FAILURE'
 
-export const SET_PAY_REQ = 'SET_PAY_REQ'
+export const SET_REDIRECT_PAY_REQ = 'SET_REDIRECT_PAY_REQ'
 
 // ------------------------------------
 // Actions
@@ -60,19 +60,19 @@ export const queryRoutesFailure = () => dispatch => {
   dispatch({ type: QUERY_ROUTES_FAILURE })
 }
 
-export function setPayReq(payReq) {
+export function setRedirectPayReq(redirectPayReq) {
   return {
-    type: SET_PAY_REQ,
-    payReq,
+    type: SET_REDIRECT_PAY_REQ,
+    redirectPayReq,
   }
 }
 
 export const bitcoinPaymentUri = (event, { address, options: { amount } }) => dispatch => {
-  dispatch(setPayReq({ address, amount }))
+  dispatch(setRedirectPayReq({ address, amount }))
 }
 
-export const lightningPaymentUri = (event, { payReq: address }) => dispatch => {
-  dispatch(setPayReq({ address }))
+export const lightningPaymentUri = (event, { address }) => dispatch => {
+  dispatch(setRedirectPayReq({ address }))
 }
 
 // ------------------------------------
@@ -117,9 +117,9 @@ const ACTION_HANDLERS = {
     queryRoutesError: error,
     routes: [],
   }),
-  [SET_PAY_REQ]: (state, { payReq }) => ({
+  [SET_REDIRECT_PAY_REQ]: (state, { redirectPayReq }) => ({
     ...state,
-    payReq,
+    redirectPayReq,
   }),
 }
 
@@ -134,10 +134,10 @@ const initialState = {
     medium: null,
     slow: null,
   },
-  payReq: null,
   pubKey: null,
   queryFeesError: null,
   queryRoutesError: null,
+  redirectPayReq: null,
   routes: [],
 }
 

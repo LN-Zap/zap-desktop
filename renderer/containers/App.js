@@ -14,7 +14,7 @@ import App from 'components/App'
 
 const mapStateToProps = state => ({
   isAppReady: appSelectors.isAppReady(state),
-  payReq: state.pay.payReq,
+  redirectPayReq: state.pay.redirectPayReq,
   modals: modalSelectors.getModalState(state),
 })
 
