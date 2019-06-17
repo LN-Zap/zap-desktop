@@ -1,7 +1,16 @@
 import merge from 'lodash/merge'
+import mapValues from 'lodash/mapValues'
 import { grpcService } from 'workers'
 import { requestFees } from '@zap/utils/api'
 import { mainLog } from '@zap/utils/log'
+
+/**
+ * sanitizeFeeRange - Sanitize a fee rate object ensuring that all fees are at least 1.
+ *
+ * @param  {object} fees Fee rate object
+ * @returns {object} Sanitized fee rate object
+ */
+const sanitizeFeeRange = fees => mapValues(fees, fee => Math.max(1, fee))
 
 /**
  * estimateLndFee - Returns fee estimation for the specified @address @amount & @targetConf using LND gRPC API.
@@ -22,7 +31,7 @@ export async function estimateLndFee(address, amount, targetConf) {
     const fees = await grpc.services.Lightning.estimateFee(address, amount, targetConf)
     // check if we actually got a meaningful response
     if (fees && fees.fee_sat) {
-      return fees
+      return sanitizeFeeRange(fees)
     }
 
     return null
@@ -54,7 +63,8 @@ export async function estimateFeeRange({
 
   // lnd fee estimator requires this params
   if (!address || !amountInSats) {
-    return fallback({ fast, medium, slow })
+    const feeRange = await fallback({ fast, medium, slow })
+    return sanitizeFeeRange(feeRange)
   }
 
   const [fastestFee, mediumFee, slowFee] = await Promise.all([
@@ -76,7 +86,7 @@ export async function estimateFeeRange({
   }
 
   // try to use any info from the gRPC call if it's available
-  return merge(
+  const feeRange = merge(
     {
       fast: getFee(fastestFee),
       medium: getFee(mediumFee),
@@ -84,4 +94,6 @@ export async function estimateFeeRange({
     },
     fallbackFees
   )
+
+  return sanitizeFeeRange(feeRange)
 }
