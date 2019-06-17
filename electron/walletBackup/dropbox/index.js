@@ -25,6 +25,17 @@ export default class BackupService extends TokenBasedBackupService {
   }
 
   /**
+   * Loads backup for the specified wallet
+   *
+   * @param {string} walletId
+   * @returns {Buffer} wallet backup as a `Buffer`
+   * @memberof BackupService
+   */
+  async loadBackup({ walletId }) {
+    return await super.loadBackup(`/${walletId}`)
+  }
+
+  /**
    * Saves specified backup
    *
    * @param {string} walletId desired file name
