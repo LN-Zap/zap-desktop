@@ -1,5 +1,7 @@
 import axios from 'axios'
 import pickBy from 'lodash/pickBy'
+import uniq from 'lodash/uniq'
+import { mainLog } from '@zap/utils/log'
 
 /**
  * coindeskParser - Parses CoindDesk ticker data.
@@ -135,6 +137,7 @@ function createConfig(coin, currency) {
  * if something went wrong
  */
 export async function requestTicker(provider, coin, currency) {
+  mainLog.info('Fetching %s/%s ticker from %s', coin, currency, provider)
   const config = createConfig(coin, currency)
   const { apiUrl, parser } = config[provider] || {}
 
@@ -167,14 +170,24 @@ export function getSupportedProviders(coin, currency) {
  * @param {string} provider Provider of interest
  * @param {('BTC'|'LTC')} coin Crypto currency of interest
  * @param {string} currency Fiat currency of interest
- * @param {string} fallback Fallback provider name
  * @returns {Promise} Promise that resolves to {[currency]:rate} Object. Or empty object if something went wrong
  */
-export async function requestTickerWithFallback(provider, coin, currency, fallback = 'coinbase') {
-  const result = await requestTicker(provider, coin, currency)
+export async function requestTickerWithFallback(provider, coin, currency) {
+  const fallbackProviders = Object.keys(getSupportedProviders(coin, currency))
+  const allProviders = uniq([provider].concat(fallbackProviders))
 
-  if (!result[currency] && provider !== fallback) {
-    return await requestTicker(fallback, coin, currency)
+  // Try each provider sequentially until we get a result.
+  let result = {}
+  for await (const currentProvider of allProviders) {
+    result = await requestTicker(currentProvider, coin, currency)
+
+    // If we got the result we were looking for abort early.
+    if (result[currency]) {
+      break
+    }
+    // Otherwise warn arn move onto the next provider.
+    mainLog.warn('Unable to fetch %s/%s ticker from %s', coin, currency, currentProvider)
   }
+
   return result
 }
