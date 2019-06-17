@@ -15,7 +15,7 @@ const createThemeVariant = (name, colors) => {
     },
     primary: {
       backgroundImage: `linear-gradient(to left,
-        ${colors.superBlue}, ${tint(0.2, colors.lightningOrange)})`,
+        ${colors.lightningOrange}, ${tint(0.2, colors.lightningOrange)})`,
       color: colors.white,
     },
     secondary: {
