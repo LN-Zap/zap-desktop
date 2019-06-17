@@ -9,6 +9,7 @@ module.exports = {
   extends: [
     'airbnb',
     'eslint:recommended',
+    'plugin:compat/recommended',
     'plugin:jsdoc/recommended',
     'plugin:react/recommended',
     'plugin:testcafe/recommended',
@@ -27,7 +28,6 @@ module.exports = {
   rules: {
     camelcase: 0,
     curly: ['error', 'all'],
-    'compat/compat': 'error',
     'comma-dangle': ['error', 'always-multiline'],
     // 'prettier/prettier': 0,
     'react/boolean-prop-naming': ['error', { rule: '^(is|has|will|(.*)On)[A-Z]([A-Za-z0-9]?)+' }],
