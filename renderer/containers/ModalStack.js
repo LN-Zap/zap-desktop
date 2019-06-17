@@ -39,7 +39,7 @@ const ModalContent = ({ type, closeModal }) => {
 
     case 'AUTOPAY':
       return (
-        <Modal onClose={closeModal} p={4}>
+        <Modal onClose={closeModal} pt={4}>
           <Autopay width={1} />
         </Modal>
       )
