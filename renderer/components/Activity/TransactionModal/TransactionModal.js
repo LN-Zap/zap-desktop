@@ -11,8 +11,8 @@ import {
 } from 'react-intl'
 import { Flex } from 'rebass'
 import blockExplorer from '@zap/utils/blockExplorer'
-import { Bar, CopyButton, DataRow, Header, Link, Panel, Span, Text } from 'components/UI'
-import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
+import { Bar, DataRow, Header, Link, Panel, Span, Text } from 'components/UI'
+import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Onchain from 'components/Icon/Onchain'
 import Padlock from 'components/Icon/Padlock'
@@ -42,26 +42,6 @@ class TransactionModal extends React.PureComponent {
   showTransaction = hash => {
     const { networkInfo } = this.props
     return networkInfo && blockExplorer.showTransaction(networkInfo, hash)
-  }
-
-  notifyOfCopy = value => {
-    const { intl, showNotification } = this.props
-    showNotification(intl.formatMessage({ ...messages.copied_to_clipbpard }, { value }))
-  }
-
-  notifyOfCopyBlock = () => {
-    const { intl } = this.props
-    this.notifyOfCopy(intl.formatMessage({ ...messages.block_id }))
-  }
-
-  notifyOfCopyAddress = () => {
-    const { intl } = this.props
-    this.notifyOfCopy(intl.formatMessage({ ...messages.address }))
-  }
-
-  notifyOfCopyTransaction = () => {
-    const { intl } = this.props
-    this.notifyOfCopy(intl.formatMessage({ ...messages.tx_hash }))
   }
 
   render() {
@@ -145,9 +125,9 @@ class TransactionModal extends React.PureComponent {
                 right={
                   <Flex>
                     <CopyButton
-                      hint={intl.formatMessage({ ...messages.copy_to_clipboard })}
                       mr={2}
-                      onCopy={this.notifyOfCopyAddress}
+                      name={intl.formatMessage({ ...messages.address })}
+                      size="0.7em"
                       value={destAddress}
                     />
                     <Link
@@ -187,9 +167,9 @@ class TransactionModal extends React.PureComponent {
                 <>
                   <Flex>
                     <CopyButton
-                      hint={intl.formatMessage({ ...messages.copy_to_clipboard })}
                       mr={2}
-                      onCopy={this.notifyOfCopyBlock}
+                      name={intl.formatMessage({ ...messages.block_id })}
+                      size="0.7em"
                       value={item.block_hash}
                     />
                     <Link
@@ -231,9 +211,9 @@ class TransactionModal extends React.PureComponent {
             right={
               <Flex>
                 <CopyButton
-                  hint={intl.formatMessage({ ...messages.copy_to_clipboard })}
                   mr={2}
-                  onCopy={this.notifyOfCopyTransaction}
+                  name={intl.formatMessage({ ...messages.tx_hash })}
+                  size="0.7em"
                   value={item.tx_hash}
                 />
                 <Link

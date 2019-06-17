@@ -58,8 +58,6 @@
   "components.Activity.TransactionModal.amount": "Amount",
   "components.Activity.TransactionModal.block_height": "Confirmed in block {height}",
   "components.Activity.TransactionModal.block_id": "Block ID",
-  "components.Activity.TransactionModal.copied_to_clipbpard": "{value} has been copied to your clipboard",
-  "components.Activity.TransactionModal.copy_to_clipboard": "Copy to clipboard",
   "components.Activity.TransactionModal.current_value": "Current value",
   "components.Activity.TransactionModal.date_confirmed": "Date of confirmation",
   "components.Activity.TransactionModal.fee": "Total fee",
@@ -191,6 +189,7 @@
   "components.Channels.total_received_label": "Total Money Received",
   "components.Channels.total_sent_description": "The total value you've sent within this channel.",
   "components.Channels.total_sent_label": "Total Money Sent",
+  "components.Channels.transaction_id": "Transaction ID",
   "components.Channels.transaction_speed_fast": "Fast",
   "components.Channels.transaction_speed_medium": "Medium",
   "components.Channels.transaction_speed_slow": "Slow",
@@ -482,6 +481,7 @@
   "components.Syncing.waiting_for_peers": "Waiting for peers…",
   "components.UI.amount": "Amount",
   "components.UI.calculating": "calculating",
+  "components.UI.copy_to_clipboard": "Copy to clipboard",
   "components.UI.expired": "Expired",
   "components.UI.expires": "Expires",
   "components.UI.fee": "Fee",
@@ -514,5 +514,6 @@
   "components.Wallet.payment_success": "Successfully sent payment",
   "components.Wallet.request": "Request",
   "components.Wallet.sending_tx": "Sending your transaction…",
-  "components.Wallet.transaction_success": "Successfully sent transaction"
+  "components.Wallet.transaction_success": "Successfully sent transaction",
+  "containers.UI.copied_to_clipbpard": "{name} has been copied to your clipboard"
 }
