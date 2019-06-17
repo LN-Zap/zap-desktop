@@ -10,7 +10,7 @@ import { setSeed } from './onboarding'
 import { receiveInvoiceData } from './invoice'
 import { receiveChannelGraphData } from './channels'
 import { receiveTransactionData } from './transaction'
-import { backupCurrentWallet } from './backup'
+import { backupCurrentWallet, setupBackupService} from './backup'
 
 // ------------------------------------
 // Helpers
@@ -177,8 +177,7 @@ export const startActiveWallet = () => async (dispatch, getState) => {
 
 /**
  * Start lnd with the provided wallet config.
- *
- * @param  {object} wallet Wallet config
+ * @param  {Object} wallet Wallet config
  */
 export const startLnd = wallet => async dispatch => {
   let lndConfig
@@ -220,10 +219,10 @@ export const lndStarted = () => {
  *
  * Called if there was a problem trying to start and establish a gRPC connection to lnd.
  *
- * @param {object} errors Lnd start errors
- * @param {string} errors.host Host errors
- * @param {string} errors.cert Certificate errors
- * @param {string} errors.macaroon Macaroon errors
+ * @param {Object} errors Lnd start errors
+ * @param {String} errors.host Host errors
+ * @param {String} errors.cert Certificate errors
+ * @param {String} errors.macaroon Macaroon errors
  */
 export const startLndError = errors => {
   return {
@@ -390,10 +389,9 @@ export const fetchSeedError = error => dispatch => {
 
 /**
  * Create a new wallet using settings from the onboarding state.
- *
- * @param  {object} options Options
- * @param  {object} options.recover Boolean indicating weather this is a recovery
- * @returns {Promise}
+ * @param  {Object} options Options
+ * @param  {Object} options.recover Boolean indicating weather this is a recovery
+ * @return {Promise}
  */
 export const createWallet = ({ recover } = {}) => async (dispatch, getState) => {
   dispatch({ type: CREATE_WALLET })
@@ -438,6 +436,7 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
 
     // Notify of wallet recovery success.
     dispatch(createWalletSuccess())
+    dispatch(setupBackupService(wallet.id, recover))
     return wallet
   } catch (error) {
     // Attempt to clean up from failure.
