@@ -14,6 +14,7 @@ const BackupTypeItem = withFieldApi('backupType')(BaseBackupTypeItem)
 
 class BackupSetup extends React.Component {
   static propTypes = {
+    isRestoreMode: PropTypes.bool,
     setBackupProvider: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
@@ -34,7 +35,7 @@ class BackupSetup extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, setBackupProvider, ...rest } = this.props
+    const { wizardApi, wizardState, setBackupProvider, isRestoreMode, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 

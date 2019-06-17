@@ -78,7 +78,6 @@ class Onboarding extends React.Component {
     setPassword: PropTypes.func.isRequired,
     setSeed: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
-    setupBackupService: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
     startLndCertError: PropTypes.string,
     startLndHostError: PropTypes.string,
@@ -150,7 +149,6 @@ class Onboarding extends React.Component {
       createWallet,
       stopLnd,
       unlockWallet,
-      setupBackupService,
       setBackupProvider,
       setBackupPathLocal,
     } = this.props
@@ -173,7 +171,12 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
-          <Wizard.Step key="BackupSetup" component={BackupSetup} {...{ setBackupProvider }} />,
+          <Wizard.Step
+            key="BackupSetup"
+            component={BackupSetup}
+            isRestoreMode
+            {...{ setBackupProvider }}
+          />,
           <Wizard.Step
             key="BackupSetupLocal"
             component={BackupSetupLocal}
@@ -187,7 +190,6 @@ class Onboarding extends React.Component {
               isCreatingWallet,
               createWallet,
               createWalletError,
-              setupBackupService,
             }}
           />,
         ]
@@ -204,6 +206,17 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
+          <Wizard.Step
+            key="BackupSetup"
+            component={BackupSetup}
+            isRestoreMode
+            {...{ setBackupProvider }}
+          />,
+          <Wizard.Step
+            key="BackupSetupLocal"
+            component={BackupSetupLocal}
+            {...{ setBackupPathLocal }}
+          />,
           <Wizard.Step
             key="WalletRecover"
             component={WalletRecover}
