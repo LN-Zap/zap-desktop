@@ -44,6 +44,33 @@ export default function createBackupService(mainWindow) {
     }
   })
 
+  ipcMain.on('queryBackup', async (event, { walletId, backupId, nodePub, provider }) => {
+    mainLog.info(
+      'Query backup provider:%s, walletId:%s nodePub:%s backupId:%s',
+      provider,
+      walletId,
+      nodePub,
+      backupId
+    )
+    try {
+      const backupService = getBackupService(provider)
+      if (backupService) {
+        const backup = await backupService.loadBackup({
+          walletId: nodePub,
+          fileId: backupId,
+        })
+        send('queryWalletBackupSuccess', { backup, walletId })
+      }
+    } catch (e) {
+      send('queryWalletBackupFailure', { walletId })
+      mainLog.warn(
+        `Unable to query backup for wallet %s using provider %s:  %o`,
+        walletId,
+        provider
+      )
+    }
+  })
+
   ipcMain.on(
     'saveBackup',
     async (event, { backup, walletId, provider, backupMetadata, nodePub }) => {
