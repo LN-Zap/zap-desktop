@@ -4,6 +4,8 @@ import { mainLog } from '@zap/utils/log'
 import TokenBasedBackupService from '../base/TokenBasedBackupService'
 import createClient from './db'
 
+const resolveBackupPath = walletId => `/${walletId}/${config.backup.filename}`
+
 export default class BackupService extends TokenBasedBackupService {
   /**
    * Sets up dropbox  service for usage. This method must be called before calling any other methods
@@ -32,7 +34,7 @@ export default class BackupService extends TokenBasedBackupService {
    * @memberof BackupService
    */
   async loadBackup({ walletId }) {
-    return await super.loadBackup(`/${walletId}`)
+    return await super.loadBackup(resolveBackupPath(walletId))
   }
 
   /**
@@ -46,7 +48,7 @@ export default class BackupService extends TokenBasedBackupService {
   saveBackup = chainify(async ({ walletId, backup }) => {
     const { connection } = this
     if (connection) {
-      const { id } = await connection.uploadFromBuffer(`/${walletId}`, backup)
+      const { id } = await connection.uploadFromBuffer(resolveBackupPath(walletId), backup)
       return id
     } else {
       mainLog.warn('Attempting to call saveBackup in logged-out state')
