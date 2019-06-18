@@ -1,11 +1,10 @@
-import axios from 'axios'
 import pickBy from 'lodash/pickBy'
 
 /**
- * coindeskParser - parser CoindDesk ticker data.
+ * coindeskParser - Parses CoindDesk ticker data.
  *
- * @param {*} data
- * @returns
+ * @param {object} data Ticker data
+ * @returns {object} Price data from Coinbase
  */
 function coindeskParser(data) {
   const { bpi } = data
@@ -16,11 +15,11 @@ function coindeskParser(data) {
 }
 
 /**
- * bitstampParser - parser Bitstamp ticker data.
+ * bitstampParser - Parses Bitstamp ticker data.
  *
- * @param {string} currency
- * @param {object} data
- * @returns {object}
+ * @param {string} currency Currency name
+ * @param {object} data Ticker data
+ * @returns {object} Price data from Bitstamp
  */
 function bitstampParser(currency, data) {
   return {
@@ -29,11 +28,11 @@ function bitstampParser(currency, data) {
 }
 
 /**
- * krakenParser - parser Kraken ticker data.
+ * krakenParser - Parses Kraken ticker data.
  *
- * @param {string} currency
- * @param {object} data
- * @returns {object}
+ * @param {string} currency Currency name
+ * @param {object} data Ticker data
+ * @returns {object} Price data from Kraken
  */
 function krakenParser(currency, data) {
   const tickerData = data.data.result
@@ -46,11 +45,11 @@ function krakenParser(currency, data) {
 }
 
 /**
- * bitfinexParser - parser Bitfinex ticker data.
+ * bitfinexParser - Parses Bitfinex ticker data.
  *
- * @param {string} currency
- * @param {object} data
- * @returns {object}
+ * @param {string} currency Currency name
+ * @param {object} data Ticker data
+ * @returns {object} Price data from Bitfinex
  */
 function bitfinexParser(currency, data) {
   return {
@@ -59,12 +58,13 @@ function bitfinexParser(currency, data) {
 }
 
 /**
- * createConfig - creates provider config for the specified `coin` and `currency`.
+ * createConfig - Creates provider config for the specified `coin` and `currency`.
  *
- * @export
- * @returns {object}
+ * @param {('BTC'|'LTC')} coin Crypto currency of interest
+ * @param {string} currency Fiat currency of interest
+ * @returns {object} Config object
  */
-function createConfig(coin, currency) {
+export function createConfig(coin, currency) {
   const scheme =
     (process && process.env.HOT) || (window.env && window.env.HOT) ? '/proxy/' : 'https://'
 
@@ -125,57 +125,13 @@ function createConfig(coin, currency) {
 }
 
 /**
- * requestTicker - returns ticker for the specified `coin` and `currency` using `provider`.
- *
- * @param {string} provider
- * @param {('BTC'|'LTC')} coin
- * @param {string} currency  fiat currency of interest
- * @returns {Promise} promise that resolves to {[currency]:rate} Object. Or empty object
- * if something went wrong
- */
-export async function requestTicker(provider, coin, currency) {
-  const config = createConfig(coin, currency)
-  const { apiUrl, parser } = config[provider] || {}
-
-  if (!(apiUrl && parser)) {
-    return {}
-  }
-
-  return await axios
-    .get(apiUrl)
-    .then(parser)
-    .catch(() => ({}))
-}
-
-/**
- * getSupportedProviders - get list of supported providers  for the specified `coin` and `currency`
+ * getSupportedProviders - Get list of supported providers for the specified `coin` and `currency`
  * if called with undefined `coin` and/or `currency` - returns all enabled providers.
  *
- * @export
- * @param {('BTC'|'LTC')} coin
- * @param {string} currency - fiat currency of interest
- * @returns {Array<string>} list of supported rate providers
+ * @param {('BTC'|'LTC')} coin Crypto currency of interest
+ * @param {string} currency Fiat currency of interest
+ * @returns {object} Details of supported rate providers
  */
 export function getSupportedProviders(coin, currency) {
   return createConfig(coin, currency)
-}
-
-/**
- * requestTickerWithFallback - returns ticker for the specified `coin` and `currency` using `provider`
- * falls back to `fallback` if operation was unsuccessful.
- *
- * @param {string} provider
- * @param {('BTC'|'LTC')} coin
- * @param {string} currency - fiat currency of interest
- * @param {string} fallback - fallback provider name
- * @returns {Promise} promise that resolves to {[currency]:rate} Object. Or empty object
- * if something went wrong
- */
-export async function requestTickerWithFallback(provider, coin, currency, fallback = 'coinbase') {
-  const result = await requestTicker(provider, coin, currency)
-
-  if (!result[currency] && provider !== fallback) {
-    return await requestTicker(fallback, coin, currency)
-  }
-  return result
 }
