@@ -268,6 +268,7 @@
   "components.Onboarding.Steps.back": "atrás",
   "components.Onboarding.Steps.backup_dir_not_exist": "",
   "components.Onboarding.Steps.backup_header": "",
+  "components.Onboarding.Steps.backup_import_header": "",
   "components.Onboarding.Steps.backup_local_header": "",
   "components.Onboarding.Steps.backup_path_description": "",
   "components.Onboarding.Steps.backup_path_label": "",

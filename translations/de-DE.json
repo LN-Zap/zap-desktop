@@ -268,6 +268,7 @@
   "components.Onboarding.Steps.back": "Zurück",
   "components.Onboarding.Steps.backup_dir_not_exist": "Verzeichnis existiert nicht",
   "components.Onboarding.Steps.backup_header": "Sichern Sie Ihre Kanäle",
+  "components.Onboarding.Steps.backup_import_header": "",
   "components.Onboarding.Steps.backup_local_header": "Verzeichnis wählen",
   "components.Onboarding.Steps.backup_path_description": "Kanal Backup wird hier gespeichert",
   "components.Onboarding.Steps.backup_path_label": "Sicherungsverzeichnis",
