@@ -57,6 +57,7 @@ export const sendPayment = data => dispatch => {
 
   const payment = {
     ...data,
+    type: 'payment',
     status: 'sending',
     creation_date: Math.round(new Date() / 1000),
     payment_hash: paymentHashTag.data,

@@ -352,7 +352,7 @@ activitySelectors.activityModalItem = createSelector(
 
 const allActivity = createSelector(
   searchTextSelector,
-  paymentsSendingSelector,
+  paymentsSending,
   transactionsSendingSelector,
   paymentsSelector,
   transactionsSelector,
