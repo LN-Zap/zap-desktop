@@ -50,7 +50,6 @@ class Autopilot extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         <Header
-          align="left"
           subtitle={<FormattedMessage {...messages.autopilot_description} />}
           title={<FormattedMessage {...messages.autopilot_title} />}
         />

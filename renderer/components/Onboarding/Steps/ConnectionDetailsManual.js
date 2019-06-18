@@ -169,7 +169,6 @@ class ConnectionDetailsManual extends React.Component {
           return (
             <>
               <Header
-                align="left"
                 subtitle={<FormattedMessage {...messages.connection_details_custom_description} />}
                 title={<FormattedMessage {...messages.connection_details_custom_title} />}
               />

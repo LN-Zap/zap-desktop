@@ -79,7 +79,6 @@ class SeedConfirm extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         <Header
-          align="left"
           subtitle={
             <>
               <Span fontWeight="normal">

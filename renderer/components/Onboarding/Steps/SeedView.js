@@ -82,7 +82,6 @@ class SeedView extends React.Component {
         {() => (
           <>
             <Header
-              align="left"
               subtitle={
                 <>
                   <Span fontWeight="normal">

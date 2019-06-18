@@ -57,7 +57,6 @@ class Alias extends React.Component {
           return (
             <>
               <Header
-                align="left"
                 subtitle={<FormattedMessage {...messages.alias_description} />}
                 title={<FormattedMessage {...messages.alias_title} />}
               />

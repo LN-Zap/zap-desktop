@@ -130,7 +130,6 @@ class Recover extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         <Header
-          align="left"
           subtitle={<FormattedMessage {...messages.import_description} />}
           title={<FormattedMessage {...messages.import_title} />}
         />

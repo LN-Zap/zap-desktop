@@ -59,7 +59,7 @@ class BackupSetup extends React.Component {
           }}
           onSubmitFailure={onSubmitFailure}
         >
-          <Heading.h1 mb={3}>
+          <Heading.h1 mb={3} textAlign="center">
             <FormattedMessage {...messages.backup_header} />
           </Heading.h1>
           <Bar mb={6} />

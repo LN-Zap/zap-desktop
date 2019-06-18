@@ -55,7 +55,6 @@ class Password extends React.Component {
           return (
             <>
               <Header
-                align="left"
                 subtitle={<FormattedMessage {...messages.create_wallet_password_description} />}
                 title={<FormattedMessage {...messages.create_wallet_password_title} />}
               />

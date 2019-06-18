@@ -150,7 +150,6 @@ class ConnectionConfirm extends React.Component {
         onSubmitFailure={onSubmitFailure}
       >
         <Header
-          align="left"
           subtitle={<FormattedMessage {...messages.confirm_connection_description} />}
           title={<FormattedMessage {...messages.confirm_connection_title} />}
         />
