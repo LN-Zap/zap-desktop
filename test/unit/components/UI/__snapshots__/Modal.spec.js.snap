@@ -21,10 +21,6 @@ exports[`component.UI.Modal should render correctly 1`] = `
   opacity: 0.6;
 }
 
-.c4:hover: {
-  opacity: 1;
-}
-
 .c5 {
   box-sizing: border-box;
   color: primaryText;
