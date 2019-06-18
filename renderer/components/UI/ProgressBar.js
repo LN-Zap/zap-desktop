@@ -25,6 +25,7 @@ const FilledBar = styled(EmptyBar)`
     ${props => props.theme.colors[props.bg]}
   );
   margin-left: ${props => (props.justify === 'right' ? 'auto' : 'none')};
+  transition: all 0.25s;
 `
 
 const ProgressBar = ({ progress, color, height, bg, justify, children, ...rest }) => (

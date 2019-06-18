@@ -8,6 +8,7 @@ import reducer, {
   RECEIVE_CURRENT_BLOCK_HEIGHT,
   RECEIVE_LND_BLOCK_HEIGHT,
   RECEIVE_LND_CFILTER_HEIGHT,
+  RECEIVE_LND_RECOVERY_HEIGHT,
   SET_SYNC_STATUS_PENDING,
   SET_SYNC_STATUS_WAITING,
   SET_SYNC_STATUS_IN_PROGRESS,
@@ -77,7 +78,7 @@ describe('reducers', () => {
     it('should handle RECEIVE_LND_BLOCK_HEIGHT', () => {
       const action = {
         type: RECEIVE_LND_BLOCK_HEIGHT,
-        neutrinoBlockHeight: 12345,
+        data: [{ height: 12345 }],
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })
@@ -85,7 +86,15 @@ describe('reducers', () => {
     it('should handle RECEIVE_LND_CFILTER_HEIGHT', () => {
       const action = {
         type: RECEIVE_LND_CFILTER_HEIGHT,
-        neutrinoCfilterHeight: 12345,
+        data: [{ height: 12345 }],
+      }
+      expect(reducer({}, action)).toMatchSnapshot()
+    })
+
+    it('should handle RECEIVE_LND_RECOVERY_HEIGHT', () => {
+      const action = {
+        type: RECEIVE_LND_RECOVERY_HEIGHT,
+        data: [{ height: 12345 }],
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })
