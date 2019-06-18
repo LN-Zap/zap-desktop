@@ -84,8 +84,8 @@ export async function getFileInfo(drive, fileId) {
 /**
  * createFolder - Creates a folder with the specified `name`.
  *
- * @param {*} drive
- * @param {*} name
+ * @param {object} drive drive instance
+ * @param {string} name folder name
  * @returns
  */
 export async function createFolder(drive, name) {
@@ -102,8 +102,8 @@ export async function createFolder(drive, name) {
  * Downloads specified file as a `Buffer`
  *
  * @export
- * @param {*} drive drive instance
- * @param {*} fileId google drive file id
+ * @param {Objcect} drive drive instance
+ * @param {string} fileId google drive file id
  * @returns {Buffer}
  */
 export function downloadToBuffer(drive, fileId) {
@@ -132,7 +132,7 @@ export function downloadToBuffer(drive, fileId) {
  * Returns list of files metadata
  *
  * @export
- * @param {*} drive
+ * @param {object} drive drive instance
  * @param {*} [params={}] query params
  * @returns {Array}
  */

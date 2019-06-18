@@ -29,15 +29,35 @@ export default class BackupService extends TokenBasedBackupService {
   async findBackup(walletId) {
     const { connection } = this
     if (connection) {
+      // returns the most recent file in specified `parentId` folder
+      const firstChild = async parentId => {
+        const {
+          data: { files },
+        } = await connection.listFiles({
+          orderBy: 'modifiedTime desc',
+          fields: 'files(id,name, parents)',
+          q: `'${parentId}' in parents and name='${config.backup.filename}'`,
+          pageSize: 1,
+        })
+        return files
+      }
+
+      // locate backup folder first
       const searchParams = {
         orderBy: 'modifiedTime desc',
         fields: 'files(id, name, modifiedTime, size)',
         q: `name='${walletId}'`,
         pageSize: 1,
       }
+
       const {
-        data: { files },
+        data: { files: folders = [] },
       } = await connection.listFiles(searchParams)
+
+      // use parent folder id to find the file
+      const [{ id: parentId } = {}] = folders
+      const files = parentId && (await firstChild(parentId))
+
       if (files && files.length) {
         const [backupFile] = files
         return await super.loadBackup(backupFile.id)
@@ -47,10 +67,6 @@ export default class BackupService extends TokenBasedBackupService {
 
   async loadBackup({ walletId }) {
     return this.findBackup(walletId)
-  }
-
-  getBackupId() {
-    throw new Error('Not implemented')
   }
 
   /**
@@ -79,8 +95,12 @@ export default class BackupService extends TokenBasedBackupService {
         await connection.updateFromBuffer(fileId, backup)
         return fileId
       } else {
+        // create new folder
+        const { id: folderId } = await connection.createFolder(walletId)
         // create new file
-        const { id } = await connection.uploadFromBuffer(walletId, backup)
+        const { id } = await connection.uploadFromBuffer(config.backup.filename, backup, {
+          parents: [folderId],
+        })
         return id
       }
     } else {
