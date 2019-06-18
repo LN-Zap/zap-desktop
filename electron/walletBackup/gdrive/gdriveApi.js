@@ -53,10 +53,11 @@ export async function updateFromBuffer(drive, fileId, buffer) {
  * @param {Buffer} buffer `Buffer` instance
  * @returns {object}
  */
-export async function uploadFromBuffer(drive, name, buffer) {
+export async function uploadFromBuffer(drive, name, buffer, options = {}) {
   const res = await drive.files.create({
     requestBody: {
       name,
+      ...options,
     },
     media: {
       body: bufferToStream(buffer),
