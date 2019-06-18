@@ -10,7 +10,7 @@ import { setSeed } from './onboarding'
 import { receiveInvoiceData } from './invoice'
 import { receiveChannelGraphData } from './channels'
 import { receiveTransactionData } from './transaction'
-import { backupCurrentWallet, setupBackupService} from './backup'
+import { backupCurrentWallet, setupBackupService } from './backup'
 
 // ------------------------------------
 // Helpers
@@ -177,7 +177,8 @@ export const startActiveWallet = () => async (dispatch, getState) => {
 
 /**
  * Start lnd with the provided wallet config.
- * @param  {Object} wallet Wallet config
+ *
+ * @param  {object} wallet Wallet config
  */
 export const startLnd = wallet => async dispatch => {
   let lndConfig
@@ -219,10 +220,10 @@ export const lndStarted = () => {
  *
  * Called if there was a problem trying to start and establish a gRPC connection to lnd.
  *
- * @param {Object} errors Lnd start errors
- * @param {String} errors.host Host errors
- * @param {String} errors.cert Certificate errors
- * @param {String} errors.macaroon Macaroon errors
+ * @param {object} errors Lnd start errors
+ * @param {string} errors.host Host errors
+ * @param {string} errors.cert Certificate errors
+ * @param {string} errors.macaroon Macaroon errors
  */
 export const startLndError = errors => {
   return {
@@ -389,9 +390,10 @@ export const fetchSeedError = error => dispatch => {
 
 /**
  * Create a new wallet using settings from the onboarding state.
- * @param  {Object} options Options
- * @param  {Object} options.recover Boolean indicating weather this is a recovery
- * @return {Promise}
+ *
+ * @param  {object} options Options
+ * @param  {object} options.recover Boolean indicating weather this is a recovery
+ * @returns {Promise}
  */
 export const createWallet = ({ recover } = {}) => async (dispatch, getState) => {
   dispatch({ type: CREATE_WALLET })

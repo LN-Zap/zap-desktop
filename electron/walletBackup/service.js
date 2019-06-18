@@ -66,7 +66,8 @@ export default function createBackupService(mainWindow) {
       mainLog.warn(
         `Unable to query backup for wallet %s using provider %s:  %o`,
         walletId,
-        provider
+        provider,
+        e
       )
     }
   })

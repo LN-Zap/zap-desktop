@@ -10,6 +10,7 @@ import {
   saveBackupSuccess,
   backupServiceInitialized,
   queryWalletBackupSuccess,
+  queryWalletBackupFailure,
 } from './backup'
 
 const ipc = createIpc({
@@ -25,6 +26,7 @@ const ipc = createIpc({
   backupTokensUpdated,
   backupServiceInitialized,
   queryWalletBackupSuccess,
+  queryWalletBackupFailure,
 })
 
 export default ipc
