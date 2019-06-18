@@ -81,6 +81,23 @@ export async function getFileInfo(drive, fileId) {
 }
 
 /**
+ * createFolder - Creates a folder with the specified `name`.
+ *
+ * @param {*} drive
+ * @param {*} name
+ * @returns
+ */
+export async function createFolder(drive, name) {
+  const res = await drive.files.create({
+    requestBody: {
+      name,
+      mimeType: 'application/vnd.google-apps.folder',
+    },
+  })
+  return res.data
+}
+
+/**
  * Downloads specified file as a `Buffer`
  *
  * @export
