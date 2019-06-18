@@ -123,6 +123,7 @@ module.exports = {
     // if false, autopilot selection won't be available
     mainnetAutopilot: false,
     networkSelection: false,
+    scbRestore: true,
   },
 
   // number of onchain confirmations for the specified periods

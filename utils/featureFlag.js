@@ -35,3 +35,13 @@ export function isMainnetAutopilot() {
 export function isNetworkSelectionEnabled() {
   return config.features.networkSelection
 }
+
+/**
+ * isSCBRestoreEnabled - Check if SCB restore feature is enabled.
+ *
+ * @export
+ * @returns
+ */
+export function isSCBRestoreEnabled() {
+  return config.features.scbRestore
+}
