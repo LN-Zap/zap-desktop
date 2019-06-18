@@ -1,7 +1,10 @@
 import fs from 'fs'
+import path from 'path'
 import { promisify } from 'util'
 import chainify from '@zap/utils/chainify'
+import config from 'config'
 
+const mkdirAsync = promisify(fs.mkdir)
 const writeFileAsync = promisify(fs.writeFile)
 
 export default class BackupService {
@@ -25,7 +28,7 @@ export default class BackupService {
    * @memberof BackupService
    */
   async loadBackup({ walletId, fileId: dir }) {
-    const filePath = `${dir}/${walletId}`
+    const filePath = path.join(dir, walletId, config.backup.filename)
     return Promise.resolve(fs.readFileSync(filePath))
   }
 
@@ -39,8 +42,9 @@ export default class BackupService {
    * @memberof BackupService
    */
   saveBackup = chainify(async ({ walletId, fileId: dir, backup }) => {
-    const filePath = `${dir}/${walletId}`
-    await writeFileAsync(filePath, backup)
+    const filePath = path.join(dir, walletId)
+    await mkdirAsync(filePath, { recursive: true })
+    await writeFileAsync(path.join(filePath, config.backup.filename), backup)
     return dir
   })
 
