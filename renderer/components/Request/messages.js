@@ -20,8 +20,7 @@ export default defineMessages({
   paid: 'paid',
   qrcode: 'QR-Code',
   status: 'Request Status',
-  title: 'Request',
-  subtitle: 'through the Lightning Network',
+  title: 'Receive',
   description:
-    'You can request {chain} ({ticker}) through the Lightning Network. Just enter the Amount you want to request in the field below. Zap will generate a QR-Code and a Lightning invoice after.',
+    'Zap will generate a QR-Code and a lightning invoice so that you can receive {chain} ({ticker}) through the Lightning Network.',
 })

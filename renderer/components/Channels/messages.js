@@ -78,7 +78,7 @@ export default defineMessages({
   close_channel_notification: 'Channel closing initiated',
   connect: 'Connect',
   node_search_form_description:
-    'Make funds available for sending over the Lightning Network by opening channels to other nodes on the network.',
+    'Open channels to other nodes on the network to start using the Lightning Network.',
   node_search_placeholder: 'Search the network',
   node_search_description: 'Search for nodes by name, public key, or paste their pubkey@host',
   node_search_results_header: '{count, plural, =0 {No results}  other {Search results ({count})}}',
@@ -99,6 +99,8 @@ export default defineMessages({
   transaction_speed_medium: 'Medium',
   transaction_speed_fast: 'Fast',
   channel_activity: 'Activity',
+  channel_activity_description:
+    'The total percent of sent + received funds divided by the total capacity of the channel. A channel with activity over 100% means that the total amount of sent + received funds exceeds the total capacity of the channel. This metric is designed to show how effective a given channel is.',
   channel_asc_sort: 'Switch to ascending order',
   channel_desc_sort: 'Switch to descending order',
   channel_sort_label: 'Sort by:',

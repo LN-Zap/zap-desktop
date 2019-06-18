@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
-import { Bar, Form, Header, Input, Label } from 'components/UI'
+import { Bar, Form, Header, Input, Label, Span } from 'components/UI'
 import messages from './messages'
 
 class SeedConfirm extends React.Component {
@@ -81,14 +81,19 @@ class SeedConfirm extends React.Component {
         <Header
           align="left"
           subtitle={
-            <FormattedMessage
-              {...messages.retype_seed_description}
-              values={{
-                word1: seedWordIndexes[0],
-                word2: seedWordIndexes[1],
-                word3: seedWordIndexes[2],
-              }}
-            />
+            <>
+              <Span fontWeight="normal">
+                <FormattedMessage {...messages.retype_seed_description_primary} />
+              </Span>{' '}
+              <FormattedMessage
+                {...messages.retype_seed_description_secondary}
+                values={{
+                  word1: seedWordIndexes[0],
+                  word2: seedWordIndexes[1],
+                  word3: seedWordIndexes[2],
+                }}
+              />
+            </>
           }
           title={<FormattedMessage {...messages.retype_seed_title} />}
         />

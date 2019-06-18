@@ -9,11 +9,6 @@ exports[`component.Pay.PayHeader generic should render correctly 1`] = `
       width="45px"
     />
   }
-  subtitle={
-    <span>
-       
-    </span>
-  }
   title="Send Bitcoin"
 />
 `;

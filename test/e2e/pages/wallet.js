@@ -3,7 +3,7 @@ import { ReactSelector } from 'testcafe-react-selectors'
 class Wallet {
   wallet = ReactSelector('Wallet')
   payButton = ReactSelector('WalletButtons Button').withText('Pay')
-  requestButton = ReactSelector('WalletButtons Button').withText('Request')
+  requestButton = ReactSelector('WalletButtons Button').withText('Receive')
   identityButton = ReactSelector('WalletBalance Button')
   payForm = new Modal('PAY_FORM')
   rayReqTextArea = this.payForm.modal.findReact('textarea')

@@ -96,7 +96,7 @@ const ChannelData = ({ channel, cryptoUnitName, intl, networkInfo, viewMode, ...
 
     activity: () => ({
       label: <FormattedMessage {...messages.channel_activity} />,
-      body: <FormattedMessage {...messages.num_updates_description} />,
+      body: <FormattedMessage {...messages.channel_activity_description} />,
       value: `${Math.round(activity * 100)}%`,
     }),
 

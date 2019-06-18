@@ -31,7 +31,6 @@ class PayHeader extends React.PureComponent {
         break
       default:
         logo = <Send height="45px" width="45px" />
-        subtitle = <span>&nbsp;</span>
     }
 
     return <Header logo={logo} subtitle={subtitle} title={title} />
