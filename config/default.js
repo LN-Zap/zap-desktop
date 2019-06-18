@@ -129,8 +129,8 @@ module.exports = {
   // potentially needs multiple chain support (LTC)
   lndTargetConfirmations: {
     fast: 1,
-    medium: 3,
-    slow: 6,
+    medium: 6,
+    slow: 60,
   },
 
   backup: {
