@@ -134,6 +134,7 @@ module.exports = {
   },
 
   backup: {
+    filename: 'channels.backup',
     gdrive: {
       redirectUrl:
         'com.zap.backup:com.googleusercontent.apps.495822519525-hjpegnbi493ebcrg4t8e7nfa8c3orr4m',
