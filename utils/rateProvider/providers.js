@@ -1,7 +1,4 @@
-import axios from 'axios'
 import pickBy from 'lodash/pickBy'
-import uniq from 'lodash/uniq'
-import { mainLog } from '@zap/utils/log'
 
 /**
  * coindeskParser - Parses CoindDesk ticker data.
@@ -67,7 +64,7 @@ function bitfinexParser(currency, data) {
  * @param {string} currency Fiat currency of interest
  * @returns {object} Config object
  */
-function createConfig(coin, currency) {
+export function createConfig(coin, currency) {
   const scheme =
     (process && process.env.HOT) || (window.env && window.env.HOT) ? '/proxy/' : 'https://'
 
@@ -128,30 +125,6 @@ function createConfig(coin, currency) {
 }
 
 /**
- * requestTicker - Returns ticker for the specified `coin` and `currency` using `provider`.
- *
- * @param {string} provider Provider of interest
- * @param {('BTC'|'LTC')} coin Crypto currency of interest
- * @param {string} currency  Fiat currency of interest
- * @returns {Promise} Promise that resolves to {[currency]:rate} Object. Or empty object
- * if something went wrong
- */
-export async function requestTicker(provider, coin, currency) {
-  mainLog.info('Fetching %s/%s ticker from %s', coin, currency, provider)
-  const config = createConfig(coin, currency)
-  const { apiUrl, parser } = config[provider] || {}
-
-  if (!(apiUrl && parser)) {
-    return {}
-  }
-
-  return await axios
-    .get(apiUrl)
-    .then(parser)
-    .catch(() => ({}))
-}
-
-/**
  * getSupportedProviders - Get list of supported providers for the specified `coin` and `currency`
  * if called with undefined `coin` and/or `currency` - returns all enabled providers.
  *
@@ -161,33 +134,4 @@ export async function requestTicker(provider, coin, currency) {
  */
 export function getSupportedProviders(coin, currency) {
   return createConfig(coin, currency)
-}
-
-/**
- * requestTickerWithFallback - Returns ticker for the specified `coin` and `currency` using `provider`
- * falls back to `fallback` if operation was unsuccessful.
- *
- * @param {string} provider Provider of interest
- * @param {('BTC'|'LTC')} coin Crypto currency of interest
- * @param {string} currency Fiat currency of interest
- * @returns {Promise} Promise that resolves to {[currency]:rate} Object. Or empty object if something went wrong
- */
-export async function requestTickerWithFallback(provider, coin, currency) {
-  const fallbackProviders = Object.keys(getSupportedProviders(coin, currency))
-  const allProviders = uniq([provider].concat(fallbackProviders))
-
-  // Try each provider sequentially until we get a result.
-  let result = {}
-  for await (const currentProvider of allProviders) {
-    result = await requestTicker(currentProvider, coin, currency)
-
-    // If we got the result we were looking for abort early.
-    if (result[currency]) {
-      break
-    }
-    // Otherwise warn arn move onto the next provider.
-    mainLog.warn('Unable to fetch %s/%s ticker from %s', coin, currency, currentProvider)
-  }
-
-  return result
 }

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import { Bar, DataRow, Select } from 'components/UI'
-import { getSupportedProviders } from '@zap/utils/fiat/rateProvider'
+import { getSupportedProviders } from '@zap/utils/rateProvider'
 import { FieldLabel, NumberField } from './SettingsFieldHelpers'
 import messages from './messages'
 

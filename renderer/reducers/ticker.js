@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect'
 import get from 'lodash/get'
 import { currencies, getDefaultCurrency } from '@zap/i18n'
-import { requestTickerWithFallback } from '@zap/utils/fiat/rateProvider'
+import { requestTickerWithFallback } from '@zap/utils/rateProvider'
 import { infoSelectors } from './info'
 import { putConfig, settingsSelectors } from './settings'
 // ------------------------------------
