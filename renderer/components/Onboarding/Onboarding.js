@@ -4,7 +4,11 @@ import { Redirect } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Flex, Box } from 'rebass'
 import { Panel, Wizard } from 'components/UI'
-import { isMainnetAutopilot, isNetworkSelectionEnabled } from '@zap/utils/featureFlag'
+import {
+  isMainnetAutopilot,
+  isNetworkSelectionEnabled,
+  isSCBRestoreEnabled,
+} from '@zap/utils/featureFlag'
 import {
   Autopilot,
   ConnectionType,
@@ -302,6 +306,7 @@ class Onboarding extends React.Component {
       ['Autopilot', network === 'mainnet' && !isMainnetAutopilot()],
       ['Network', !isNetworkSelectionEnabled()],
       ['BackupSetupLocal', this.shouldRemoveBackupSetupLocalStep()],
+      ['BackupSetup', this.shouldRemoveBackupSetupStep()],
     ])
   }
 
@@ -327,10 +332,20 @@ class Onboarding extends React.Component {
     return seed.length > 0 ? 0 : null
   }
 
+  isSCBRestoreDisabled() {
+    const { connectionType } = this.props
+    return connectionType === 'import' && !isSCBRestoreEnabled()
+  }
+
+  shouldRemoveBackupSetupStep() {
+    return this.isSCBRestoreDisabled()
+  }
+
   shouldRemoveBackupSetupLocalStep() {
     const { backupProvider } = this.props
-    return backupProvider != 'local'
+    return backupProvider != 'local' || this.isSCBRestoreDisabled()
   }
+
   render() {
     const { connectionType, isLightningGrpcActive } = this.props
     const steps = this.getSteps()

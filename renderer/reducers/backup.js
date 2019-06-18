@@ -1,6 +1,7 @@
 import set from 'lodash/set'
 import { send } from 'redux-electron-ipc'
 import { grpcService } from 'workers'
+import { isSCBRestoreEnabled } from '@zap/utils/featureFlag'
 import { walletSelectors } from './wallet'
 import { infoSelectors } from './info'
 import { showError, showNotification } from './notification'
@@ -281,7 +282,7 @@ export const setBackupPathLocal = localPath => {
 export const setRestoreMode = value => {
   return {
     type: SET_RESTORE_MODE,
-    value,
+    value: isSCBRestoreEnabled() && value,
   }
 }
 
