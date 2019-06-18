@@ -33,6 +33,24 @@ export const SET_GRPC_ACTIVE_INTERFACE = 'SET_GRPC_ACTIVE_INTERFACE'
 export const NEUTRINO_CRASHED = 'NEUTRINO_CRASHED'
 export const NEUTRINO_RESET = 'NEUTRINO_RESET'
 
+const SYNC_DEBOUNCE = {
+  wait: 500,
+  maxWait: 1000,
+}
+
+// ------------------------------------
+// Helpers
+// ------------------------------------
+
+const processHeightUpdates = data => {
+  if (!data || !data.length) {
+    return {}
+  }
+  const { height: first } = data[0]
+  const { height: last } = data[data.length - 1]
+  return { first, last }
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -217,22 +235,37 @@ export const stopNeutrino = () => async (dispatch, getState) => {
 
 // Receive current block height.
 export const currentBlockHeight = height => dispatch => {
-  dispatch({ type: RECEIVE_CURRENT_BLOCK_HEIGHT, blockHeight: height })
+  dispatch({
+    type: RECEIVE_CURRENT_BLOCK_HEIGHT,
+    blockHeight: height,
+  })
 }
 
 // Receive LND block height.
 export const neutrinoBlockHeight = height => dispatch => {
-  dispatch({ type: RECEIVE_LND_BLOCK_HEIGHT, neutrinoBlockHeight: height })
+  dispatch({
+    type: RECEIVE_LND_BLOCK_HEIGHT,
+    data: { height },
+    debounce: SYNC_DEBOUNCE,
+  })
 }
 
 // Receive LND cfilter height.
 export const neutrinoCfilterHeight = height => dispatch => {
-  dispatch({ type: RECEIVE_LND_CFILTER_HEIGHT, neutrinoCfilterHeight: height })
+  dispatch({
+    type: RECEIVE_LND_CFILTER_HEIGHT,
+    data: { height },
+    debounce: SYNC_DEBOUNCE,
+  })
 }
 
 // Receive wallet recovery height.
 export const neutrinoRecoveryHeight = height => dispatch => {
-  dispatch({ type: RECEIVE_LND_RECOVERY_HEIGHT, neutrinoRecoveryHeight: height })
+  dispatch({
+    type: RECEIVE_LND_RECOVERY_HEIGHT,
+    data: { height },
+    debounce: SYNC_DEBOUNCE,
+  })
 }
 
 // Receive LND sync status change.
@@ -314,21 +347,30 @@ const ACTION_HANDLERS = {
     ...state,
     blockHeight,
   }),
-  [RECEIVE_LND_BLOCK_HEIGHT]: (state, { neutrinoBlockHeight }) => ({
-    ...state,
-    neutrinoBlockHeight,
-    neutrinoFirstBlockHeight: state.neutrinoFirstBlockHeight || neutrinoBlockHeight,
-  }),
-  [RECEIVE_LND_CFILTER_HEIGHT]: (state, { neutrinoCfilterHeight }) => ({
-    ...state,
-    neutrinoCfilterHeight,
-    neutrinoFirstCfilterHeight: state.neutrinoFirstCfilterHeight || neutrinoCfilterHeight,
-  }),
-  [RECEIVE_LND_RECOVERY_HEIGHT]: (state, { neutrinoRecoveryHeight }) => ({
-    ...state,
-    neutrinoRecoveryHeight,
-    neutrinoFirstRecoveryHeight: state.neutrinoFirstRecoveryHeight || neutrinoRecoveryHeight,
-  }),
+  [RECEIVE_LND_BLOCK_HEIGHT]: (state, { data }) => {
+    const { first, last } = processHeightUpdates(data)
+    return {
+      ...state,
+      neutrinoBlockHeight: last,
+      neutrinoFirstBlockHeight: Math.min(state.neutrinoFirstBlockHeight || first, first),
+    }
+  },
+  [RECEIVE_LND_CFILTER_HEIGHT]: (state, { data }) => {
+    const { first, last } = processHeightUpdates(data)
+    return {
+      ...state,
+      neutrinoCfilterHeight: last,
+      neutrinoFirstCfilterHeight: Math.min(state.neutrinoFirstCfilterHeight || first, first),
+    }
+  },
+  [RECEIVE_LND_RECOVERY_HEIGHT]: (state, { data }) => {
+    const { first, last } = processHeightUpdates(data)
+    return {
+      ...state,
+      neutrinoRecoveryHeight: last,
+      neutrinoFirstRecoveryHeight: Math.min(state.neutrinoFirstRecoveryHeight || first, first),
+    }
+  },
 
   [SET_SYNC_STATUS_PENDING]: state => ({ ...state, syncStatus: 'pending' }),
   [SET_SYNC_STATUS_WAITING]: state => ({ ...state, syncStatus: 'waiting' }),

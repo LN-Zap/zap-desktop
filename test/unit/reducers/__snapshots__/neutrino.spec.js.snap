@@ -66,6 +66,13 @@ Object {
 }
 `;
 
+exports[`reducers neutrinoReducer should handle RECEIVE_LND_RECOVERY_HEIGHT 1`] = `
+Object {
+  "neutrinoFirstRecoveryHeight": 12345,
+  "neutrinoRecoveryHeight": 12345,
+}
+`;
+
 exports[`reducers neutrinoReducer should handle SET_GRPC_ACTIVE_INTERFACE 1`] = `
 Object {
   "grpcActiveInterface": "lightning",
