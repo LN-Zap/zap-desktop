@@ -79,7 +79,6 @@ class Login extends React.Component {
           return (
             <>
               <Header
-                align="left"
                 subtitle={<FormattedMessage {...messages.login_description} />}
                 title={<FormattedMessage {...messages.login_title} />}
               />

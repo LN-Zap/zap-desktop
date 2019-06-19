@@ -57,7 +57,6 @@ class Name extends React.Component {
           return (
             <>
               <Header
-                align="left"
                 subtitle={<FormattedMessage {...messages.wallet_name_description} />}
                 title={<FormattedMessage {...messages.wallet_name_title} />}
               />

@@ -70,7 +70,6 @@ class Network extends React.Component {
           return (
             <>
               <Header
-                align="left"
                 subtitle={<FormattedMessage {...messages.network_description} />}
                 title={<FormattedMessage {...messages.network_title} />}
               />

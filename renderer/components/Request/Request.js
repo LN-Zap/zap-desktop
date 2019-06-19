@@ -230,7 +230,6 @@ class Request extends React.Component {
               <Panel.Header>
                 <Header
                   logo={<Lightning height="45px" width="45px" />}
-                  subtitle={<FormattedMessage {...messages.subtitle} />}
                   title={`${intl.formatMessage({
                     ...messages.title,
                   })} ${chainName} (${cryptoUnitName})`}

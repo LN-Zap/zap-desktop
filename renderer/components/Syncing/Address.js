@@ -15,6 +15,9 @@ const Address = ({ address, intl, showNotification, ...rest }) => {
 
   return (
     <Flex alignItems="center" {...rest} flexDirection="column" justifyContent="center">
+      <Text my={3}>
+        <FormattedMessage {...messages.fund_title} />
+      </Text>
       <QRCode mx="auto" size="small" value={address} />
       <Text my={3}>{address}</Text>
       <Button mx="auto" onClick={() => copyToClipboard(address)} size="small">

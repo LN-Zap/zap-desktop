@@ -28,10 +28,13 @@ const NoWallets = ({ history, wallets }) => (
         </Heading.h4>
       </>
     )}
-    <Heading.h4 mt={2}>
+    <Heading.h4 my={1}>
+      - <FormattedMessage {...messages.or} /> -
+    </Heading.h4>
+    <Heading.h4>
       <FormattedMessage {...messages.create_wallet_prompt} />
     </Heading.h4>
-    <CreateWalletButton history={history} p={3} />
+    <CreateWalletButton history={history} mt={3} p={3} />
   </Flex>
 )
 NoWallets.propTypes = {

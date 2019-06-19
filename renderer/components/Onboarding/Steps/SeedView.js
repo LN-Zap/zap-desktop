@@ -3,7 +3,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Flex } from 'rebass'
-import { Bar, Form, Header, Input, Message, Spinner, Text } from 'components/UI'
+import { Bar, Form, Header, Input, Message, Span, Spinner, Text } from 'components/UI'
 import messages from './messages'
 
 const SeedWord = ({ index, word }) => (
@@ -82,8 +82,14 @@ class SeedView extends React.Component {
         {() => (
           <>
             <Header
-              align="left"
-              subtitle={<FormattedMessage {...messages.save_seed_description} />}
+              subtitle={
+                <>
+                  <Span fontWeight="normal">
+                    <FormattedMessage {...messages.save_seed_description_primary} />
+                  </Span>{' '}
+                  <FormattedMessage {...messages.save_seed_description_secondary} />
+                </>
+              }
               title={<FormattedMessage {...messages.save_seed_title} />}
             />
             <Bar my={4} />

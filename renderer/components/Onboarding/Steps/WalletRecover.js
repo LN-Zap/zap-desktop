@@ -95,7 +95,6 @@ class WalletRecover extends React.Component {
           return (
             <>
               <Header
-                align="left"
                 subtitle={<FormattedMessage {...messages.importing_wallet_subtitle} />}
                 title={<FormattedMessage {...messages.importing_wallet_title} />}
               />

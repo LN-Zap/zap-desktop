@@ -13,7 +13,7 @@ const NewWalletHeader = ({ network }) => (
         </Link>
       )
     }
-    title={<FormattedMessage {...messages.fund_title} />}
+    title={<FormattedMessage {...messages.fund_heading} />}
   />
 )
 

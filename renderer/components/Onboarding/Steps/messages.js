@@ -29,7 +29,7 @@ export default defineMessages({
   connection_string_invalid: 'Invalid Connection String',
   connection_title: 'How will you connect to the Lightning Network?',
   create_wallet_password_description:
-    'Looks like you are new here. Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future',
+    'Set a password to encrypt your wallet. This password will be needed to unlock Zap in the future.',
   create_wallet_password_title: 'Welcome!',
   custom: 'Custom',
   default: 'Default',
@@ -65,11 +65,12 @@ export default defineMessages({
   passphrase_placeholder: 'Enter your cipher seed passphrase',
   passphrase_description:
     'Your seed is encrypted. Please enter the passphrase that you set when creating the wallet.',
-  retype_seed_description:
-    "Your seed is important! If you lose your seed you'll have no way to recover your wallet. To make sure that you have properly saved your seed, please retype words {word1}, {word2} & {word3}",
+  retype_seed_description_primary: 'Your seed is important!',
+  retype_seed_description_secondary:
+    "If you lose your seed you'll have no way to recover your wallet. To make sure that you have properly saved your seed, please retype words {word1}, {word2} & {word3}",
   retype_seed_title: 'Retype your seed',
-  save_seed_description:
-    'Please save these 24 words securely! This will allow you to recover your wallet in the future',
+  save_seed_description_primary: 'Please save these 24 words securely!',
+  save_seed_description_secondary: 'This will allow you to recover your wallet.',
   save_seed_title: 'Save your wallet seed',
   seed_warning:
     'Keep this private! If someone gains access to this list they can steal your money.',
@@ -88,8 +89,8 @@ export default defineMessages({
   verify_host_description: 'Please check the hostname carefully.',
   verify_host_title: 'Are you sure you want to connect to',
   wallet_name_description:
-    'Set a name for your wallet to help you identify it in Zap. This is for internal purposes only and will not be broadcast on the Lightning Network.',
-  wallet_name_title: 'What do you want to call this wallet?',
+    'This is for internal purposes only and will not be broadcasted on the Lightning Network.',
+  wallet_name_title: 'Name your wallet',
   wallet_name_label: 'Wallet Name',
   word_placeholder: 'word',
   generating_seed: 'Generating Seed...',
@@ -97,7 +98,7 @@ export default defineMessages({
   importing_wallet_title: 'Importing wallet',
   importing_wallet_subtitle:
     'Please wait whilst we start the wallet import process. This should only take a moment.',
-  backup_header: 'Backup Your Channels',
+  backup_header: 'Backup your channels',
   backup_type_local: 'Local',
   backup_type_dropbox: 'Dropbox',
   backup_type_gdrive: 'Google Drive',
