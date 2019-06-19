@@ -189,7 +189,7 @@
   "components.Channels.total_received_label": "Monto recibido",
   "components.Channels.total_sent_description": "El monto total que has enviado en este canal.",
   "components.Channels.total_sent_label": "Monto total enviado",
-  "components.Channels.transaction_id": "",
+  "components.Channels.transaction_id": "Identificador de transacción",
   "components.Channels.transaction_speed_fast": "Rápido",
   "components.Channels.transaction_speed_medium": "Mediano",
   "components.Channels.transaction_speed_slow": "Lento",
