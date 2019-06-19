@@ -31,7 +31,7 @@ class Steps extends React.Component {
               {...animationProps}
             >
               {item => props => (
-                <Flex justifyContent="center" style={props}>
+                <Flex justifyContent="center" style={props} {...this.props}>
                   {item}
                 </Flex>
               )}
