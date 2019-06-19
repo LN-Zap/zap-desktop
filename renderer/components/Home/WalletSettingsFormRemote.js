@@ -78,7 +78,7 @@ const WalletSettingsFormRemote = ({
                     ...messages.hostname_title,
                   })}
                   textAlign="right"
-                  width={300}
+                  width={250}
                 />
               }
             />
@@ -91,7 +91,7 @@ const WalletSettingsFormRemote = ({
                 />
               }
               py={2}
-              right={<OpenDialogInput field="cert" initialValue={cert} name="cert" width={300} />}
+              right={<OpenDialogInput field="cert" initialValue={cert} name="cert" width={250} />}
             />
             <DataRow
               left={
@@ -107,7 +107,7 @@ const WalletSettingsFormRemote = ({
                   field="macaroon"
                   initialValue={macaroon}
                   name="macaroon"
-                  width={300}
+                  width={250}
                 />
               }
             />
@@ -141,7 +141,7 @@ const WalletSettingsFormRemote = ({
                 ...messages.wallet_settings_name_placeholder,
               })}
               textAlign="right"
-              width={300}
+              width={250}
             />
           }
         />
