@@ -264,7 +264,7 @@
     "enzyme-to-json": "3.3.5",
     "eslint": "5.16.0",
     "eslint-config-airbnb": "17.1.0",
-    "eslint-config-prettier": "4.3.0",
+    "eslint-config-prettier": "5.0.0",
     "eslint-formatter-pretty": "2.1.1",
     "eslint-import-resolver-babel-module": "5.1.0",
     "eslint-import-resolver-webpack": "0.11.1",
