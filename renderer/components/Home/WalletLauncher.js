@@ -287,24 +287,8 @@ class WalletLauncher extends React.Component {
   }
 
   resetForm = () => {
-    const { wallet } = this.props
     const { formApi } = this
-    // for remote wallets manually reset cert, macaroon and host since they are derived from
-    // lndconnect uri
-    const resetValues =
-      wallet.type === 'local'
-        ? wallet
-        : Object.assign({}, { ...parseLndConnectURI(wallet.lndconnectUri) }, wallet)
-
-    formApi.setValues(walletToFormFormat(resetValues))
-
-    // reset errors
-    if (formApi.getTouched('lndconnectUri')) {
-      formApi.setTouched('lndconnectUri', false)
-    }
-    if (formApi.getError('lndconnectUri')) {
-      formApi.setError('lndconnectUri', undefined)
-    }
+    formApi.reset()
   }
 
   setFormApi = formApi => {
