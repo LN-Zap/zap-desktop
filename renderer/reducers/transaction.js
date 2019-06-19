@@ -42,6 +42,7 @@ export function getTransactions() {
 
 export function sendTransaction(data) {
   const transaction = Object.assign({}, data, {
+    type: 'transaction',
     status: 'sending',
     timestamp: Math.round(new Date() / 1000),
   })
