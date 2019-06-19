@@ -8,13 +8,13 @@ import WalletMenu from './WalletMenu'
 import WalletLogo from './WalletLogo'
 
 const Wallet = ({ totalBalance, networkInfo, openWalletModal, openModal }) => (
-  <Card bg="secondaryColor" pb={3} pt={4} px={5}>
-    <Flex alignItems="flex-end" as="header" justifyContent="space-between" mt={2}>
+  <Card bg="secondaryColor" p={0} pb={3} pt={4}>
+    <Flex alignItems="flex-end" as="header" justifyContent="space-between" mt={2} px={4}>
       <WalletLogo networkInfo={networkInfo} />
       <WalletMenu openModal={openModal} />
     </Flex>
 
-    <Flex alignItems="flex-end" as="header" justifyContent="space-between" mb={3} mt={4}>
+    <Flex alignItems="flex-end" as="header" justifyContent="space-between" mb={3} mt={4} px={5}>
       <WalletBalance openWalletModal={openWalletModal} totalBalance={totalBalance} />
       <WalletButtons openModal={openModal} />
     </Flex>
