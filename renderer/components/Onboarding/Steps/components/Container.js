@@ -3,7 +3,7 @@ import { Flex } from 'rebass'
 
 const Container = styled(Flex)`
   position: absolute;
-  top: -30px;
+  top: 0;
   bottom: 0;
 `
 
