@@ -27,10 +27,10 @@ function LndConnectionStringEditor({ formApi, field, hideStringMessage, ...rest 
   return (
     <Box>
       <LndConnectionStringInput
+        rows={10}
         {...rest}
         field={field}
         isReadOnly={isDisabled}
-        rows={12}
         value={getValue(isDisabled)}
       />
       <Flex alignItems="center" justifyContent="space-between" mt={3}>

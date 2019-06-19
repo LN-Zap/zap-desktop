@@ -78,7 +78,7 @@ class WalletSettingsFormLocal extends React.Component {
                   ...messages.wallet_settings_name_placeholder,
                 })}
                 textAlign="right"
-                width={1}
+                width={250}
               />
             }
           />
@@ -106,7 +106,7 @@ class WalletSettingsFormLocal extends React.Component {
                   ...messages.wallet_settings_alias_placeholder,
                 })}
                 textAlign="right"
-                width={1}
+                width={250}
               />
             }
           />
