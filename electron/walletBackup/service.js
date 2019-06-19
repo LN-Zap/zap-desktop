@@ -59,6 +59,11 @@ export default function createBackupService(mainWindow) {
           walletId: nodePub,
           locationHint,
         })
+        if (backup) {
+          mainLog.info('Backup found  %o', backup)
+        } else {
+          mainLog.info('Backup not found')
+        }
         send('queryWalletBackupSuccess', { backup, walletId })
       }
     } catch (e) {

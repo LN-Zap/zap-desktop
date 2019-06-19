@@ -26,7 +26,15 @@ export default class BackupService extends TokenBasedBackupService {
     )
   }
 
-  async findBackup(walletId) {
+  /**
+   * findBackupId - Searches for an existing backup file id for the specified `walletId`.
+   *
+   * @param {string} walletId
+   * @returns {Promise<string>} promise that resolves to fileId or null if backup
+   * was not found
+   * @memberof BackupService
+   */
+  async findBackupId(walletId) {
     const { connection } = this
     if (connection) {
       // returns the most recent file in specified `parentId` folder
@@ -60,9 +68,23 @@ export default class BackupService extends TokenBasedBackupService {
 
       if (files && files.length) {
         const [backupFile] = files
-        return await super.loadBackup(backupFile.id)
+        return backupFile.id
       }
     }
+    return null
+  }
+
+  /**
+   * findBackup - Searches for an existing backup file for the specified `walletId`.
+   *
+   * @param {string} walletId
+   * @returns {Promise<Buffer>} promise that resolves to backup buffer or null if backup
+   * was not found
+   * @memberof BackupService
+   */
+  async findBackup(walletId) {
+    const fileId = await this.findBackupId(walletId)
+    return fileId && (await super.loadBackup(fileId))
   }
 
   async loadBackup({ walletId }) {
@@ -78,20 +100,29 @@ export default class BackupService extends TokenBasedBackupService {
    * @returns {string} google drive fileID
    * @memberof BackupService
    */
-  saveBackup = chainify(async ({ walletId, locationHint: fileId, backup }) => {
-    const { connection } = this
-    const backupExists = async () => {
+  saveBackup = chainify(async ({ walletId, locationHint, backup }) => {
+    const backupExists = async id => {
       try {
-        await connection.getFileInfo(fileId)
+        if (!id) {
+          return false
+        }
+        await connection.getFileInfo(id)
         return true
       } catch (e) {
         return false
       }
     }
+    // if locationHint is not set or file it's pointing to doesn't exist,
+    // try to find potentially existing backup file
+    const fileId = (await backupExists(locationHint))
+      ? locationHint
+      : await this.findBackupId(walletId)
+
+    const { connection } = this
 
     if (connection) {
       // if fileId is provided and backup exists - update it
-      if (fileId && (await backupExists())) {
+      if (fileId) {
         await connection.updateFromBuffer(fileId, backup)
         return fileId
       } else {
