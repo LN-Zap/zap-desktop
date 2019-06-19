@@ -189,7 +189,7 @@
   "components.Channels.total_received_label": "",
   "components.Channels.total_sent_description": "",
   "components.Channels.total_sent_label": "",
-  "components.Channels.transaction_id": "",
+  "components.Channels.transaction_id": "交易 ID",
   "components.Channels.transaction_speed_fast": "",
   "components.Channels.transaction_speed_medium": "",
   "components.Channels.transaction_speed_slow": "",
