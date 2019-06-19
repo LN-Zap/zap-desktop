@@ -68,3 +68,21 @@ export default class BackupService {
     return false
   }
 }
+
+/**
+ *
+ *
+ * @export
+ * @param {*} nodePub
+ * @param {*} dir
+ * @returns
+ */
+export function normalizeBackupDir(nodePub, dir) {
+  // use parent dir if the child dir (which is named `nodePub`) is selected as backup root
+  // to avoid recursion
+  if (dir.indexOf(nodePub) >= 0) {
+    return path.join(dir, '..')
+  }
+
+  return dir
+}

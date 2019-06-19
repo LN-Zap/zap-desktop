@@ -6,6 +6,8 @@ import { walletSelectors } from './wallet'
 import { infoSelectors } from './info'
 import { showError, showNotification } from './notification'
 
+const { normalizeBackupDir } = window.Zap
+
 const SET_PROVIDER = 'SET_PROVIDER'
 const SET_LOCAL_PATH = 'SET_LOCAL_PATH'
 const SET_RESTORE_MODE = 'SET_RESTORE_MODE'
@@ -76,7 +78,8 @@ export function setupBackupService(walletId, isRestoreMode) {
       const dir = localPathSelector(getState())
       // we have backup dir setup in redux, use it to initialize db backup setup
       if (dir) {
-        updateLocationHint({ provider, locationHint: dir, walletId })
+        const nodePub = infoSelectors.nodePubkey(getState())
+        updateLocationHint({ provider, locationHint: normalizeBackupDir(nodePub, dir), walletId })
         dispatch(setBackupPathLocal(null))
       }
     }
@@ -298,7 +301,7 @@ export const queryWalletBackup = (walletId, provider) => async (dispatch, getSta
 
 export const queryWalletBackupSuccess = (event, { walletId, backup }) => async dispatch => {
   try {
-    dispatch(restoreWallet(backup))
+    await dispatch(restoreWallet(backup))
     dispatch(setRestoreMode(false))
     await setRestoreState(walletId, RESTORE_STATE_COMPLETE)
   } catch (e) {
