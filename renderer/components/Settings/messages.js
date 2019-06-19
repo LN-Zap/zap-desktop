@@ -2,6 +2,13 @@ import { defineMessages } from 'react-intl'
 
 /* eslint-disable max-len */
 export default defineMessages({
+  durationUnitSeconds: '{value} {value, plural, one {second} other {seconds}}',
+  durationUnitMinutes: '{value} {value, plural, one {minute} other {minutes}}',
+  durationUnitHours: '{value} {value, plural, one {hour} other {hours}}',
+  durationUnitDays: '{value} {value, plural, one {day} other {days}}',
+  durationUnitWeeks: '{value} {value, plural, one {week} other {weeks}}',
+  durationUnitMonths: '{value} {value, plural, one {month} other {months}}',
+  durationUnitYears: '{value} {value, plural, one {year} other {years}}',
   settings_title: 'Preferences',
   save: 'Save',
   cancel: 'Cancel',
