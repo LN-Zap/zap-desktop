@@ -52,6 +52,7 @@ const WalletSettingsFormRemote = ({
             placeholder={intl.formatMessage({
               ...messages.connection_string,
             })}
+            rows={6}
             validateOnBlur
             validateOnChange
           />
