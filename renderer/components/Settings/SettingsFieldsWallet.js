@@ -30,6 +30,16 @@ const blockExplorerItems = [
   { key: 'smartbit', value: 'Smartbit' },
 ]
 
+const invoicesExpireItems = [
+  { key: 60, value: '1 minute' },
+  { key: 600, value: '10 minutes' },
+  { key: 3600, value: '1 hour' },
+  { key: 86400, value: '1 day' },
+  { key: 604800, value: '1 week' },
+  { key: 2629746, value: '1 month' },
+  { key: 31556952, value: '1 year' },
+]
+
 const SettingsFieldsWallet = ({ currentConfig }) => {
   const renderNumberDataRow = path => (
     <DataRow
@@ -90,8 +100,17 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
       {renderNumberDataRow('lndTargetConfirmations.slow')}
 
       <Bar variant="light" />
-
-      {renderNumberDataRow('invoices.expire')}
+      <DataRow
+        left={<FieldLabel itemKey="invoices.expire" />}
+        right={
+          <Select
+            field="invoices.expire"
+            highlightOnValid={false}
+            initialValue={currentConfig.invoices.expire}
+            items={invoicesExpireItems}
+          />
+        }
+      />
     </>
   )
 }
