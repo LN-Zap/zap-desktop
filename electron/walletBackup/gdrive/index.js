@@ -78,7 +78,7 @@ export default class BackupService extends TokenBasedBackupService {
    * @returns {string} google drive fileID
    * @memberof BackupService
    */
-  saveBackup = chainify(async ({ walletId, fileId, backup }) => {
+  saveBackup = chainify(async ({ walletId, locationHint: fileId, backup }) => {
     const { connection } = this
     const backupExists = async () => {
       try {

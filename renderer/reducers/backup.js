@@ -76,7 +76,7 @@ export function setupBackupService(walletId, isRestoreMode) {
       const dir = localPathSelector(getState())
       // we have backup dir setup in redux, use it to initialize db backup setup
       if (dir) {
-        updateBackupId({ provider, backupId: dir, walletId })
+        updateLocationHint({ provider, locationHint: dir, walletId })
         dispatch(setBackupPathLocal(null))
       }
     }
@@ -206,17 +206,17 @@ export const backupCurrentWallet = (walletId, backup) => async (dispatch, getSta
 /**
  * saveBackupSuccess - IPC callback for successful backup.
  */
-export const saveBackupSuccess = (event, { provider, backupId, walletId }) => async () => {
-  await updateBackupId({ provider, backupId, walletId })
+export const saveBackupSuccess = (event, { provider, locationHint, walletId }) => async () => {
+  await updateLocationHint({ provider, locationHint, walletId })
 }
 
 /**
- * updateBackupId - updates wallets' backupID in the DB.
+ * updateLocationHint - updates wallets' locationHint in the DB.
  */
-export const updateBackupId = async ({ provider, backupId, walletId }) => {
+export const updateLocationHint = async ({ provider, locationHint, walletId }) => {
   await dbTransaction(async () => {
     const backupDesc = (await dbGet(walletId)) || {}
-    set(backupDesc, [provider, 'backupId'], backupId)
+    set(backupDesc, [provider, 'locationHint'], locationHint)
     await dbUpdate(walletId, backupDesc)
   })
 }
@@ -291,14 +291,15 @@ export const queryWalletBackup = (walletId, provider) => async (dispatch, getSta
   if (backupDesc[provider]) {
     const state = getState()
     const nodePub = infoSelectors.nodePubkey(state)
-    const { backupId } = backupDesc[provider]
-    dispatch(send('queryBackup', { walletId, backupId, nodePub, provider }))
+    const { locationHint } = backupDesc[provider]
+    dispatch(send('queryBackup', { walletId, locationHint, nodePub, provider }))
   }
 }
 
 export const queryWalletBackupSuccess = (event, { walletId, backup }) => async dispatch => {
   try {
     dispatch(restoreWallet(backup))
+    dispatch(setRestoreMode(false))
     await setRestoreState(walletId, RESTORE_STATE_COMPLETE)
   } catch (e) {
     await setRestoreState(walletId, RESTORE_STATE_ERROR)

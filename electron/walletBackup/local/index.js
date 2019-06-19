@@ -27,7 +27,7 @@ export default class BackupService {
    * @returns {Buffer} wallet backup as a `Buffer`
    * @memberof BackupService
    */
-  async loadBackup({ walletId, fileId: dir }) {
+  async loadBackup({ walletId, locationHint: dir }) {
     const filePath = path.join(dir, walletId, config.backup.filename)
     return Promise.resolve(fs.readFileSync(filePath))
   }
@@ -41,7 +41,7 @@ export default class BackupService {
    * @returns {string}  file name
    * @memberof BackupService
    */
-  saveBackup = chainify(async ({ walletId, fileId: dir, backup }) => {
+  saveBackup = chainify(async ({ walletId, locationHint: dir, backup }) => {
     const filePath = path.join(dir, walletId)
     await mkdirAsync(filePath, { recursive: true })
     await writeFileAsync(path.join(filePath, config.backup.filename), backup)

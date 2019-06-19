@@ -44,20 +44,20 @@ export default function createBackupService(mainWindow) {
     }
   })
 
-  ipcMain.on('queryBackup', async (event, { walletId, backupId, nodePub, provider }) => {
+  ipcMain.on('queryBackup', async (event, { walletId, locationHint, nodePub, provider }) => {
     mainLog.info(
-      'Query backup provider:%s, walletId:%s nodePub:%s backupId:%s',
+      'Query backup provider:%s, walletId:%s nodePub:%s locationHint:%s',
       provider,
       walletId,
       nodePub,
-      backupId
+      locationHint
     )
     try {
       const backupService = getBackupService(provider)
       if (backupService) {
         const backup = await backupService.loadBackup({
           walletId: nodePub,
-          fileId: backupId,
+          locationHint,
         })
         send('queryWalletBackupSuccess', { backup, walletId })
       }
@@ -78,14 +78,14 @@ export default function createBackupService(mainWindow) {
       try {
         const backupService = getBackupService(provider)
         if (backupService) {
-          const backupId = await backupService.saveBackup({
+          const locationHint = await backupService.saveBackup({
             walletId: nodePub,
-            fileId: backupMetadata && backupMetadata.backupId,
+            locationHint: backupMetadata && backupMetadata.locationHint,
             backup,
           })
-          mainLog.info('Backup updated, fileID: %s', backupId)
+          mainLog.info('Backup updated, locationHint: %s', locationHint)
           send('saveBackupSuccess', {
-            backupId,
+            locationHint,
             provider: backupService.name,
             walletId,
           })
