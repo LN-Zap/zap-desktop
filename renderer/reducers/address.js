@@ -3,6 +3,7 @@ import { createSelector } from 'reselect'
 import { grpcService } from 'workers'
 import { openModal, closeModal } from './modal'
 import { settingsSelectors } from './settings'
+import { showError } from './notification'
 
 // ------------------------------------
 // Reducer
@@ -120,6 +121,8 @@ export const newAddressSuccess = (addressType, address) => async (dispatch, getS
  * @returns {undefined}
  */
 export const newAddressFailure = (addressType, error) => dispatch => {
+  // TODO: i18n compatibility.
+  dispatch(showError(`Unable to get ${addressType} address: ${error}`))
   dispatch({
     type: NEW_ADDRESS_FAILURE,
     addressType,
