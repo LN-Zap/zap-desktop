@@ -299,6 +299,7 @@
   "components.Onboarding.Steps.connection_uri_lndconnect_description": "",
   "components.Onboarding.Steps.create_wallet_password_description": "Izgleda da ste novi ovdje. Postavite lozinku za šifriranje novčanika. Ova lozinka će biti potrebna za otključati Zapa u budućnosti",
   "components.Onboarding.Steps.create_wallet_password_title": "Dobrodošli!",
+  "components.Onboarding.Steps.creating_wallet": "",
   "components.Onboarding.Steps.custom": "Prilagođeno",
   "components.Onboarding.Steps.default": "Zadano",
   "components.Onboarding.Steps.default_description": "Odabirom zadanog načina rada učinit ćemo sve za vas automatski. Samo kliknite i nastavite!",
