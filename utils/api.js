@@ -71,6 +71,7 @@ export function requestNodeScores(chain, network) {
  */
 export function requestFees(options) {
   const BASE_URL = 'https://bitcoinfees.earn.com/api/v1/fees/list'
+  mainLog.info('Fetching fees from: %s', BASE_URL)
   return axios({
     method: 'get',
     url: BASE_URL,

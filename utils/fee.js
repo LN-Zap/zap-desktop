@@ -3,6 +3,7 @@ import mapValues from 'lodash/mapValues'
 import { grpcService } from 'workers'
 import { requestFees } from '@zap/utils/api'
 import { mainLog } from '@zap/utils/log'
+import { createError, UNSUPPORTED } from '@zap/utils/error'
 
 /**
  * sanitizeFeeRange - Sanitize a fee rate object ensuring that all fees are at least 1.
@@ -27,8 +28,14 @@ export async function estimateLndFee(address, amount, targetConf) {
   }
 
   try {
+    mainLog.info('Fetching fees from lnd: %o', { address, amount, targetConf })
     const grpc = await grpcService
+    if (!(await grpc.services.Lightning.hasMethod('estimateFee'))) {
+      throw createError('Method "estimateFee" is not supported by this version of lnd', UNSUPPORTED)
+    }
+
     const fees = await grpc.services.Lightning.estimateFee(address, amount, targetConf)
+
     // check if we actually got a meaningful response
     if (fees && fees.fee_sat) {
       return sanitizeFeeRange(fees)
@@ -36,7 +43,7 @@ export async function estimateLndFee(address, amount, targetConf) {
 
     return null
   } catch (e) {
-    mainLog.warn(`estimate fee error: ${e}`)
+    mainLog.warn(`Unable to fetch fees from lnd: %o`, e)
     // something went wrong. potentially we are running LND <0.6 and this methods is unsupported
     // or tx output is dust or any other error. Use fallback instead
     return null
@@ -64,6 +71,7 @@ export async function estimateFeeRange({
   // lnd fee estimator requires this params
   if (!address || !amountInSats) {
     const feeRange = await fallback({ fast, medium, slow })
+    mainLog.info('Estimated fee range as: %o', feeRange)
     return sanitizeFeeRange(feeRange)
   }
 
@@ -95,5 +103,6 @@ export async function estimateFeeRange({
     fallbackFees
   )
 
+  mainLog.info('Estimated fee range as: %o', feeRange)
   return sanitizeFeeRange(feeRange)
 }
