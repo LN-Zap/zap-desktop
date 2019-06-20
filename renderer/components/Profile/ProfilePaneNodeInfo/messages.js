@@ -9,4 +9,8 @@ export default defineMessages({
   node_pubkey_description:
     'Node pubkey (short for public key) is the public address of your node. This is your unique identifier, generated from your seed.',
   node_version: 'Node Version',
+  backup_method: 'Backup Method',
+  backup_method_gdrive: 'Google Drive',
+  backup_method_local: 'Backup to local file',
+  backup_method_dropbox: 'Dropbox',
 })
