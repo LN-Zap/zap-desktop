@@ -473,6 +473,7 @@
   "components.Syncing.fund_heading": "",
   "components.Syncing.fund_link": "Recevoir des coins TestNet",
   "components.Syncing.fund_title": "Approvisionner votre portefeuille Zap",
+  "components.Syncing.generating_address": "",
   "components.Syncing.grab_coffee": "Vous pouvez prendre un café ou réessayer plus tard !",
   "components.Syncing.preparing": "Préparation…",
   "components.Syncing.recovery_caption": "",
