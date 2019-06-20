@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { injectIntl, intlShape } from 'react-intl'
 import map from 'lodash/map'
 import get from 'lodash/get'
 import { Bar, DataRow, Select } from 'components/UI'
@@ -30,7 +31,23 @@ const blockExplorerItems = [
   { key: 'smartbit', value: 'Smartbit' },
 ]
 
-const SettingsFieldsWallet = ({ currentConfig }) => {
+/**
+ * getInvoicesExpireItems - Get list of supported invoice expire times.
+ *
+ * @param {intlShape} intl react-intl module
+ * @returns {Array} Expire times
+ */
+const getInvoicesExpireItems = intl => [
+  { key: 60, value: intl.formatMessage({ ...messages.durationUnitMinutes }, { value: 1 }) },
+  { key: 600, value: intl.formatMessage({ ...messages.durationUnitMinutes }, { value: 10 }) },
+  { key: 3600, value: intl.formatMessage({ ...messages.durationUnitHours }, { value: 1 }) },
+  { key: 86400, value: intl.formatMessage({ ...messages.durationUnitDays }, { value: 1 }) },
+  { key: 604800, value: intl.formatMessage({ ...messages.durationUnitWeeks }, { value: 1 }) },
+  { key: 2629746, value: intl.formatMessage({ ...messages.durationUnitMonths }, { value: 1 }) },
+  { key: 31536000, value: intl.formatMessage({ ...messages.durationUnitYears }, { value: 1 }) },
+]
+
+const SettingsFieldsWallet = ({ currentConfig, intl }) => {
   const renderNumberDataRow = path => (
     <DataRow
       left={<FieldLabel itemKey={path} />}
@@ -90,14 +107,24 @@ const SettingsFieldsWallet = ({ currentConfig }) => {
       {renderNumberDataRow('lndTargetConfirmations.slow')}
 
       <Bar variant="light" />
-
-      {renderNumberDataRow('invoices.expire')}
+      <DataRow
+        left={<FieldLabel itemKey="invoices.expire" />}
+        right={
+          <Select
+            field="invoices.expire"
+            highlightOnValid={false}
+            initialValue={currentConfig.invoices.expire}
+            items={getInvoicesExpireItems(intl)}
+          />
+        }
+      />
     </>
   )
 }
 
 SettingsFieldsWallet.propTypes = {
   currentConfig: PropTypes.object.isRequired,
+  intl: intlShape.isRequired,
 }
 
-export default SettingsFieldsWallet
+export default injectIntl(SettingsFieldsWallet)

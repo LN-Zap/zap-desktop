@@ -2,6 +2,13 @@ import { defineMessages } from 'react-intl'
 
 /* eslint-disable max-len */
 export default defineMessages({
+  durationUnitSeconds: '{value} {value, plural, one {second} other {seconds}}',
+  durationUnitMinutes: '{value} {value, plural, one {minute} other {minutes}}',
+  durationUnitHours: '{value} {value, plural, one {hour} other {hours}}',
+  durationUnitDays: '{value} {value, plural, one {day} other {days}}',
+  durationUnitWeeks: '{value} {value, plural, one {week} other {weeks}}',
+  durationUnitMonths: '{value} {value, plural, one {month} other {months}}',
+  durationUnitYears: '{value} {value, plural, one {year} other {years}}',
   settings_title: 'Preferences',
   save: 'Save',
   cancel: 'Cancel',
@@ -26,7 +33,7 @@ export default defineMessages({
   blockExplorer_label: 'Block explorer',
   blockExplorer_description: 'Your preferred block explorer.',
   invoices_expire_label: 'Invoice expiry',
-  invoices_expire_description: 'Amount of time (seconds) before invoices expire.',
+  invoices_expire_description: 'Amount of time before invoices expire.',
   lndTargetConfirmations_slow_label: 'Target confirmations (slow)',
   lndTargetConfirmations_slow_description: 'Number of blocks to target for "slow" sending speed.',
   lndTargetConfirmations_medium_label: 'Target confirmations (medium)',

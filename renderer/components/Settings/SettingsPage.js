@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { useFormState, useFormApi } from 'informed'
 import styled from 'styled-components'
-import { Flex } from 'rebass'
+import { Box, Flex } from 'rebass'
 import merge from 'lodash/merge'
 import difference from '@zap/utils/difference'
 import { ActionBar, Button, Heading, MainContent, Menu, Panel, Sidebar } from 'components/UI'
@@ -74,7 +74,11 @@ const SettingsActions = ({ currentConfig }) => {
     return null
   }
 
-  return <SettingsActionBar buttons={<SettingsActionBarButtons currentConfig={currentConfig} />} />
+  return (
+    <Box mt={80}>
+      <SettingsActionBar buttons={<SettingsActionBarButtons currentConfig={currentConfig} />} />
+    </Box>
+  )
 }
 
 SettingsActions.propTypes = {

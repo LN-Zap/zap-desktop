@@ -125,14 +125,14 @@ export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
       private: isPrivate || activeWalletSettings.type === 'local',
       expiry: currentConfig.invoices.expire,
     })
-    dispatch(createdInvoice(invoice))
-  } catch (e) {
-    dispatch(invoiceFailed(e))
+    dispatch(createInvoiceSuccess(invoice))
+  } catch (error) {
+    dispatch(createInvoiceFailure(error))
   }
 }
 
 // Receive IPC event for newly created invoice
-export const createdInvoice = invoice => dispatch => {
+export const createInvoiceSuccess = invoice => dispatch => {
   const decoratedInvoice = decorateInvoice(invoice)
 
   // Add new invoice to invoices list
@@ -142,9 +142,9 @@ export const createdInvoice = invoice => dispatch => {
   dispatch(setInvoice(decoratedInvoice.payment_request))
 }
 
-export const invoiceFailed = ({ error }) => dispatch => {
-  dispatch({ type: INVOICE_FAILED })
-  dispatch(showError(error))
+export const createInvoiceFailure = error => dispatch => {
+  dispatch({ type: INVOICE_FAILED, createInvoiceError: error.message })
+  dispatch(showError(error.message))
 }
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices
@@ -236,6 +236,7 @@ export { invoiceSelectors }
 // ------------------------------------
 const initialState = {
   invoiceLoading: false,
+  createInvoiceError: null,
   invoices: [],
   invoice: null,
   data: {},

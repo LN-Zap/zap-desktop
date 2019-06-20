@@ -440,7 +440,11 @@ class WalletLauncher extends React.Component {
                 </Button>
               </Flex>
 
-              {this.hasChanges() && <WalletActionBar buttons={actionBarButtons(formState)} />}
+              {this.hasChanges() && (
+                <Box mt={80}>
+                  <WalletActionBar buttons={actionBarButtons(formState)} />
+                </Box>
+              )}
             </Box>
           )}
         </Form>
