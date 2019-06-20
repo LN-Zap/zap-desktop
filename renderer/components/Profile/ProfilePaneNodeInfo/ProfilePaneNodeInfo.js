@@ -5,12 +5,30 @@ import { Box } from 'rebass'
 import { Bar, CopyBox, DataRow, QRCode, Text } from 'components/UI'
 import messages from './messages'
 
+/**
+ * backupMethodMessageMapper - Returns intl message for the specified provider.
+ *
+ * @param {string} provider
+ * @param {intlShape} intl
+ * @returns
+ */
+function backupMethodMessageMapper(provider, intl) {
+  const MAP = {
+    gdrive: messages.backup_method_gdrive,
+    dropbox: messages.backup_method_dropbox,
+    local: messages.backup_method_local,
+  }
+  const intlMsg = MAP[provider]
+  return intlMsg && intl.formatMessage({ ...intlMsg })
+}
+
 const ProfilePaneNodeInfo = ({
   intl,
   activeWalletSettings,
   nodeUriOrPubkey,
   lndVersion,
   showNotification,
+  backupProvider,
   ...rest
 }) => {
   const notifyOfCopy = () =>
@@ -56,12 +74,24 @@ const ProfilePaneNodeInfo = ({
         py={2}
         right={lndVersion}
       />
+      {backupProvider && (
+        <DataRow
+          left={
+            <Text fontWeight="normal">
+              <FormattedMessage {...messages.backup_method} />
+            </Text>
+          }
+          py={2}
+          right={backupMethodMessageMapper(backupProvider, intl)}
+        />
+      )}
     </Box>
   )
 }
 
 ProfilePaneNodeInfo.propTypes = {
   activeWalletSettings: PropTypes.object.isRequired,
+  backupProvider: PropTypes.string,
   intl: intlShape.isRequired,
   lndVersion: PropTypes.string,
   nodeUriOrPubkey: PropTypes.string.isRequired,
