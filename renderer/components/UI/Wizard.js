@@ -270,7 +270,7 @@ class Wizard extends React.Component {
     const { onSkip } = this.getCurrentStepProps()
     // skip either if it was confirmed or if there is no `onSkip` handler
     // meaning confirmation is not needed
-    return skipConfirmed || !onSkip ? this.handleNext() : onSkip()
+    return skipConfirmed || !onSkip ? this.nextStep() : onSkip()
   }
 
   navigateTo = stepId => {
