@@ -31,11 +31,21 @@ export const UPDATE_INVOICE = 'UPDATE_INVOICE'
 // Helpers
 // ------------------------------------
 
-// Decorate invoice object with custom/computed properties.
+/**
+ * decorateInvoice - Decorate invoice object with custom/computed properties.
+ *
+ * @param  {object} invoice Invoice
+ * @returns {object} Decorated invoice
+ */
 const decorateInvoice = invoice => {
-  invoice.type = 'invoice'
-  invoice.finalAmount = invoice.amt_paid_sat ? invoice.amt_paid_sat : invoice.value
-  return invoice
+  const decoration = {
+    type: 'invoice',
+    finalAmount: invoice.amt_paid_sat ? invoice.amt_paid_sat : invoice.value,
+  }
+  return {
+    ...invoice,
+    ...decoration,
+  }
 }
 
 // ------------------------------------
@@ -84,8 +94,8 @@ export const fetchInvoices = () => async dispatch => {
 
 // Receive IPC event for invoices
 export const receiveInvoices = ({ invoices }) => dispatch => {
-  invoices.forEach(decorateInvoice)
-  dispatch({ type: RECEIVE_INVOICES, invoices })
+  const decoratedInvoicves = invoices.map(decorateInvoice)
+  dispatch({ type: RECEIVE_INVOICES, invoices: decoratedInvoicves })
 }
 
 // Send IPC event for creating an invoice
@@ -123,13 +133,13 @@ export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
 
 // Receive IPC event for newly created invoice
 export const createdInvoice = invoice => dispatch => {
-  decorateInvoice(invoice)
+  const decoratedInvoice = decorateInvoice(invoice)
 
   // Add new invoice to invoices list
-  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
+  dispatch({ type: INVOICE_SUCCESSFUL, invoice: decoratedInvoice })
 
   // Set current invoice to newly created invoice.
-  dispatch(setInvoice(invoice.payment_request))
+  dispatch(setInvoice(decoratedInvoice.payment_request))
 }
 
 export const invoiceFailed = ({ error }) => dispatch => {
@@ -139,9 +149,9 @@ export const invoiceFailed = ({ error }) => dispatch => {
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices
 export const receiveInvoiceData = invoice => dispatch => {
-  decorateInvoice(invoice)
+  const decoratedInvoice = decorateInvoice(invoice)
 
-  dispatch({ type: UPDATE_INVOICE, invoice })
+  dispatch({ type: UPDATE_INVOICE, invoice: decoratedInvoice })
 
   // Fetch new balance
   dispatch(fetchBalance())
@@ -149,7 +159,7 @@ export const receiveInvoiceData = invoice => dispatch => {
   // Fetch updated channels.
   dispatch(fetchChannels())
 
-  if (invoice.settled) {
+  if (decoratedInvoice.settled) {
     // HTML 5 desktop notification for the invoice update
     const notifTitle = "You've been Zapped"
     const notifBody = 'Congrats, someone just paid an invoice of yours'

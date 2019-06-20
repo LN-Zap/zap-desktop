@@ -24,11 +24,21 @@ export const ADD_TRANSACTION = 'ADD_TRANSACTION'
 // Helpers
 // ------------------------------------
 
-// Decorate transaction object with custom/computed properties.
+/**
+ * decorateTransaction - Decorate transaction object with custom/computed properties.
+ *
+ * @param  {object} transaction Transaction
+ * @returns {object} Decorated transaction
+ */
 const decorateTransaction = transaction => {
-  transaction.type = 'transaction'
-  transaction.received = transaction.amount > 0
-  return transaction
+  const decoration = {
+    type: 'transaction',
+    received: transaction.amount > 0,
+  }
+  return {
+    ...transaction,
+    ...decoration,
+  }
 }
 
 // ------------------------------------
@@ -68,13 +78,13 @@ export const receiveTransactions = ({ transactions }) => (dispatch, getState) =>
   let usedAddresses = []
 
   // Decorate transactions with additional metadata.
-  transactions.forEach(transaction => {
-    decorateTransaction(transaction)
+  const decoratedTransactions = transactions.map(transaction => {
     // Keep track of used addresses.
     usedAddresses = usedAddresses.concat(transaction.dest_addresses)
+    return decorateTransaction(transaction)
   })
 
-  dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
+  dispatch({ type: RECEIVE_TRANSACTIONS, transactions: decoratedTransactions })
 
   // If our current wallet address has been used, generate a new one.
   Object.entries(currentAddresses).forEach(([type, address]) => {
@@ -162,9 +172,9 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
     !state.transaction.transactions ||
     !state.transaction.transactions.find(tx => tx.tx_hash === transaction.tx_hash)
   ) {
-    decorateTransaction(transaction)
+    const decoratedTransaction = decorateTransaction(transaction)
 
-    dispatch({ type: ADD_TRANSACTION, transaction })
+    dispatch({ type: ADD_TRANSACTION, transaction: decoratedTransaction })
 
     // Refetch transactions.
     dispatch(fetchTransactions())
@@ -173,7 +183,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
     dispatch(fetchChannels())
 
     // HTML 5 desktop notification for the new transaction
-    if (transaction.received) {
+    if (decoratedTransaction.received) {
       showSystemNotification(
         'On-chain Transaction Received!',
         "Lucky you, you just received a new on-chain transaction. I'm jealous."
