@@ -35,6 +35,7 @@ describe('reducers', () => {
     it('should handle NEW_ADDRESS', () => {
       const action = {
         type: NEW_ADDRESS,
+        addressType: 'p2wkh',
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })
@@ -42,10 +43,8 @@ describe('reducers', () => {
     it('should handle NEW_ADDRESS_SUCCESS', () => {
       const action = {
         type: NEW_ADDRESS_SUCCESS,
-        payload: {
-          type: 'np2wkh',
-          address: '375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc',
-        },
+        addressType: 'np2wkh',
+        address: '375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc',
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })
@@ -53,7 +52,8 @@ describe('reducers', () => {
     it('should handle NEW_ADDRESS_FAILURE', () => {
       const action = {
         type: NEW_ADDRESS_FAILURE,
-        newAddressError: 'some error',
+        addressType: 'np2wkh',
+        error: 'some error',
       }
       expect(reducer({}, action)).toMatchSnapshot()
     })

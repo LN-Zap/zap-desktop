@@ -475,6 +475,7 @@
   "components.Syncing.fund_heading": "Welcome!",
   "components.Syncing.fund_link": "Get testnet coins",
   "components.Syncing.fund_title": "Fund your wallet",
+  "components.Syncing.generating_address": "Generating addresses…",
   "components.Syncing.grab_coffee": "you might want to grab a coffee or try again later!",
   "components.Syncing.preparing": "Preparing…",
   "components.Syncing.recovery_caption": "Recovering wallet",
