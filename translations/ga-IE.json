@@ -268,6 +268,7 @@
   "components.Onboarding.Steps.back": "ar ais",
   "components.Onboarding.Steps.backup_dir_not_exist": "Níl an t-eolaire ann",
   "components.Onboarding.Steps.backup_header": "Cúltaca do Chainéilí",
+  "components.Onboarding.Steps.backup_import_header": "",
   "components.Onboarding.Steps.backup_local_header": "Roghnaigh eolaire",
   "components.Onboarding.Steps.backup_path_description": "Stórálfar na cúltaca cainéal anseo",
   "components.Onboarding.Steps.backup_path_label": "Eolaire cúltaca",
