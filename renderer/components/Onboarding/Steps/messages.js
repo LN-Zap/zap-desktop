@@ -108,4 +108,5 @@ export default defineMessages({
   backup_path_label: 'Backup directory',
   backup_path_description: 'Channel backups will be stored here',
   backup_dir_not_exist: 'Directory does not exist',
+  backup_skip_error: 'An error has occured',
 })
