@@ -2,7 +2,7 @@ import styled, { withTheme } from 'styled-components'
 import { Flex } from 'rebass'
 
 const Overlay = styled(Flex)`
-  position: absolute;
+  position: ${props => (props.position ? props.position : 'absolute')};
   z-index: 99999;
   background-color: ${props => props.theme.colors.primaryColor + 'CC'};
   top: 0;
