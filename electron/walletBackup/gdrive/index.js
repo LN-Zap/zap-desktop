@@ -26,25 +26,69 @@ export default class BackupService extends TokenBasedBackupService {
     )
   }
 
-  getBackupId() {
-    throw new Error('Not implemented')
+  /**
+   * findBackupId - Searches for an existing backup file id for the specified `walletId`.
+   *
+   * @param {string} walletId
+   * @returns {Promise<string>} promise that resolves to fileId or null if backup
+   * was not found
+   * @memberof BackupService
+   */
+  async findBackupId(walletId) {
+    const { connection } = this
+    if (connection) {
+      // returns the most recent file in specified `parentId` folder
+      const firstChild = async parentId => {
+        const {
+          data: { files },
+        } = await connection.listFiles({
+          orderBy: 'modifiedTime desc',
+          fields: 'files(id,name, parents)',
+          q: `'${parentId}' in parents and name='${config.backup.filename}'`,
+          pageSize: 1,
+        })
+        return files
+      }
+
+      // locate backup folder first
+      const searchParams = {
+        orderBy: 'modifiedTime desc',
+        fields: 'files(id, name, modifiedTime, size)',
+        q: `name='${walletId}'`,
+        pageSize: 1,
+      }
+
+      const {
+        data: { files: folders = [] },
+      } = await connection.listFiles(searchParams)
+
+      // use parent folder id to find the file
+      const [{ id: parentId } = {}] = folders
+      const files = parentId && (await firstChild(parentId))
+
+      if (files && files.length) {
+        const [backupFile] = files
+        return backupFile.id
+      }
+    }
+    return null
   }
 
   /**
-   * Loads backup for the specified wallet
+   * findBackup - Searches for an existing backup file for the specified `walletId`.
    *
    * @param {string} walletId
-   * @returns {Buffer} wallet backup as a `Buffer`
+   * @returns {Promise<Buffer>} promise that resolves to backup buffer or null if backup
+   * was not found
    * @memberof BackupService
    */
-  async loadBackup(walletId) {
-    const { connection, getBackupId } = this
-    const fileId = getBackupId(walletId)
-    if (fileId) {
-      const backup = await connection.downloadToBuffer(fileId)
-      return backup
-    }
-    return null
+  async findBackup(walletId) {
+    const fileId = await this.findBackupId(walletId)
+    return fileId && (await super.loadBackup(fileId))
+  }
+
+  async loadBackup({ walletId }) {
+    return this.findBackup(walletId)
   }
 
   /**
@@ -56,25 +100,38 @@ export default class BackupService extends TokenBasedBackupService {
    * @returns {string} google drive fileID
    * @memberof BackupService
    */
-  saveBackup = chainify(async ({ walletId, fileId, backup }) => {
-    const { connection } = this
-    const backupExists = async () => {
+  saveBackup = chainify(async ({ walletId, locationHint, backup }) => {
+    const backupExists = async id => {
       try {
-        await connection.getFileInfo(fileId)
+        if (!id) {
+          return false
+        }
+        await connection.getFileInfo(id)
         return true
       } catch (e) {
         return false
       }
     }
+    // if locationHint is not set or file it's pointing to doesn't exist,
+    // try to find potentially existing backup file
+    const fileId = (await backupExists(locationHint))
+      ? locationHint
+      : await this.findBackupId(walletId)
+
+    const { connection } = this
 
     if (connection) {
       // if fileId is provided and backup exists - update it
-      if (fileId && (await backupExists())) {
+      if (fileId) {
         await connection.updateFromBuffer(fileId, backup)
         return fileId
       } else {
+        // create new folder
+        const { id: folderId } = await connection.createFolder(walletId)
         // create new file
-        const { id } = await connection.uploadFromBuffer(walletId, backup)
+        const { id } = await connection.uploadFromBuffer(config.backup.filename, backup, {
+          parents: [folderId],
+        })
         return id
       }
     } else {

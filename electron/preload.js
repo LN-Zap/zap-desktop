@@ -12,7 +12,7 @@ import lndGrpcProtoDir from '@zap/utils/lndGrpcProtoDir'
 import validateHost from '@zap/utils/validateHost'
 import splitHostname from '@zap/utils/splitHostname'
 import LndConfig from '@zap/utils/lndConfig'
-
+import { normalizeBackupDir } from './walletBackup/local'
 /**
  * List of domains that we will allow users to be redirected to.
  * @type {Array}
@@ -126,6 +126,7 @@ window.Zap = {
   dirExists,
   killNeutrino,
   splitHostname,
+  normalizeBackupDir,
 }
 
 // Provide access to ipcRenderer.

@@ -1,7 +1,5 @@
 import validateHost from '@zap/utils/validateHost'
 
-jest.mock('dns')
-
 describe('Utils', function() {
   describe('validateHost', () => {
     it('should resolve true for valid hostnames', async () => {

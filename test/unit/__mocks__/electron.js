@@ -9,6 +9,9 @@ module.exports = {
     getLocale: jest.fn(),
   },
   remote: {
+    dialog: {
+      showOpenDialog: jest.fn(),
+    },
     app: {
       getLocale: jest.fn(),
     },

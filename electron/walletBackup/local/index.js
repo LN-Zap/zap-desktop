@@ -1,7 +1,10 @@
 import fs from 'fs'
+import path from 'path'
 import { promisify } from 'util'
 import chainify from '@zap/utils/chainify'
+import config from 'config'
 
+const mkdirAsync = promisify(fs.mkdir)
 const writeFileAsync = promisify(fs.writeFile)
 
 export default class BackupService {
@@ -18,6 +21,18 @@ export default class BackupService {
   }
 
   /**
+   * Loads backup for the specified wallet
+   *
+   * @param {string} walletId
+   * @returns {Buffer} wallet backup as a `Buffer`
+   * @memberof BackupService
+   */
+  async loadBackup({ walletId, locationHint: dir }) {
+    const filePath = path.join(dir, walletId, config.backup.filename)
+    return Promise.resolve(fs.readFileSync(filePath))
+  }
+
+  /**
    * Saves specified backup
    *
    * @param {string} walletId backup dir path
@@ -26,9 +41,10 @@ export default class BackupService {
    * @returns {string}  file name
    * @memberof BackupService
    */
-  saveBackup = chainify(async ({ walletId, fileId: dir, backup }) => {
-    const filePath = `${dir}/${walletId}`
-    await writeFileAsync(filePath, backup)
+  saveBackup = chainify(async ({ walletId, locationHint: dir, backup }) => {
+    const filePath = path.join(dir, walletId)
+    await mkdirAsync(filePath, { recursive: true })
+    await writeFileAsync(path.join(filePath, config.backup.filename), backup)
     return dir
   })
 
@@ -51,4 +67,22 @@ export default class BackupService {
   get isUsingTokens() {
     return false
   }
+}
+
+/**
+ *
+ *
+ * @export
+ * @param {*} nodePub
+ * @param {*} dir
+ * @returns
+ */
+export function normalizeBackupDir(nodePub, dir) {
+  // use parent dir if the child dir (which is named `nodePub`) is selected as backup root
+  // to avoid recursion
+  if (dir.indexOf(nodePub) >= 0) {
+    return path.join(dir, '..')
+  }
+
+  return dir
 }

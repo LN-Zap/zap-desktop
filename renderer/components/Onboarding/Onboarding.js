@@ -4,7 +4,11 @@ import { Redirect } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Flex, Box } from 'rebass'
 import { Panel, Wizard } from 'components/UI'
-import { isMainnetAutopilot, isNetworkSelectionEnabled } from '@zap/utils/featureFlag'
+import {
+  isMainnetAutopilot,
+  isNetworkSelectionEnabled,
+  isSCBRestoreEnabled,
+} from '@zap/utils/featureFlag'
 import {
   Autopilot,
   ConnectionType,
@@ -78,7 +82,6 @@ class Onboarding extends React.Component {
     setPassword: PropTypes.func.isRequired,
     setSeed: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
-    setupBackupService: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
     startLndCertError: PropTypes.string,
     startLndHostError: PropTypes.string,
@@ -150,7 +153,6 @@ class Onboarding extends React.Component {
       createWallet,
       stopLnd,
       unlockWallet,
-      setupBackupService,
       setBackupProvider,
       setBackupPathLocal,
     } = this.props
@@ -173,7 +175,12 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
-          <Wizard.Step key="BackupSetup" component={BackupSetup} {...{ setBackupProvider }} />,
+          <Wizard.Step
+            key="BackupSetup"
+            component={BackupSetup}
+            isRestoreMode
+            {...{ setBackupProvider }}
+          />,
           <Wizard.Step
             key="BackupSetupLocal"
             component={BackupSetupLocal}
@@ -187,7 +194,6 @@ class Onboarding extends React.Component {
               isCreatingWallet,
               createWallet,
               createWalletError,
-              setupBackupService,
             }}
           />,
         ]
@@ -204,6 +210,17 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Name" component={Name} {...{ name, setName }} />,
           <Wizard.Step key="Network" component={Network} {...{ network, setNetwork }} />,
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
+          <Wizard.Step
+            key="BackupSetup"
+            component={BackupSetup}
+            isRestoreMode
+            {...{ setBackupProvider }}
+          />,
+          <Wizard.Step
+            key="BackupSetupLocal"
+            component={BackupSetupLocal}
+            {...{ setBackupPathLocal }}
+          />,
           <Wizard.Step
             key="WalletRecover"
             component={WalletRecover}
@@ -289,6 +306,7 @@ class Onboarding extends React.Component {
       ['Autopilot', network === 'mainnet' && !isMainnetAutopilot()],
       ['Network', !isNetworkSelectionEnabled()],
       ['BackupSetupLocal', this.shouldRemoveBackupSetupLocalStep()],
+      ['BackupSetup', this.shouldRemoveBackupSetupStep()],
     ])
   }
 
@@ -314,10 +332,20 @@ class Onboarding extends React.Component {
     return seed.length > 0 ? 0 : null
   }
 
+  isSCBRestoreDisabled() {
+    const { connectionType } = this.props
+    return connectionType === 'import' && !isSCBRestoreEnabled()
+  }
+
+  shouldRemoveBackupSetupStep() {
+    return this.isSCBRestoreDisabled()
+  }
+
   shouldRemoveBackupSetupLocalStep() {
     const { backupProvider } = this.props
-    return backupProvider != 'local'
+    return backupProvider != 'local' || this.isSCBRestoreDisabled()
   }
+
   render() {
     const { connectionType, isLightningGrpcActive } = this.props
     const steps = this.getSteps()

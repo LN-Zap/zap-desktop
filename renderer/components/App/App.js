@@ -84,7 +84,7 @@ function App({
     initTickers()
     // initialize backup service in forceUseTokens mode to avoid
     // launching it for wallets that don't have backup setup
-    initBackupService(undefined, true)
+    initBackupService()
   }, [
     fetchActivityHistory,
     fetchPeers,

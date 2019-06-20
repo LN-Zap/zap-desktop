@@ -53,10 +53,11 @@ export async function updateFromBuffer(drive, fileId, buffer) {
  * @param {Buffer} buffer `Buffer` instance
  * @returns {object}
  */
-export async function uploadFromBuffer(drive, name, buffer) {
+export async function uploadFromBuffer(drive, name, buffer, options = {}) {
   const res = await drive.files.create({
     requestBody: {
       name,
+      ...options,
     },
     media: {
       body: bufferToStream(buffer),
@@ -81,11 +82,28 @@ export async function getFileInfo(drive, fileId) {
 }
 
 /**
+ * createFolder - Creates a folder with the specified `name`.
+ *
+ * @param {object} drive drive instance
+ * @param {string} name folder name
+ * @returns
+ */
+export async function createFolder(drive, name) {
+  const res = await drive.files.create({
+    requestBody: {
+      name,
+      mimeType: 'application/vnd.google-apps.folder',
+    },
+  })
+  return res.data
+}
+
+/**
  * Downloads specified file as a `Buffer`
  *
  * @export
- * @param {*} drive drive instance
- * @param {*} fileId google drive file id
+ * @param {Objcect} drive drive instance
+ * @param {string} fileId google drive file id
  * @returns {Buffer}
  */
 export function downloadToBuffer(drive, fileId) {
@@ -114,16 +132,17 @@ export function downloadToBuffer(drive, fileId) {
  * Returns list of files metadata
  *
  * @export
- * @param {*} drive
+ * @param {object} drive drive instance
  * @param {*} [params={}] query params
  * @returns {Array}
  */
 export async function listFiles(drive, params = {}) {
-  const { pageToken, fields = 'nextPageToken, files(id, name)', pageSize = 10 } = params
+  const { pageToken, fields = 'nextPageToken, files(id, name)', pageSize = 10, ...rest } = params
   return await drive.files.list({
     pageSize,
     pageToken,
     fields,
+    ...rest,
   })
 }
 

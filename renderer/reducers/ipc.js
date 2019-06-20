@@ -5,7 +5,13 @@ import { receiveLocale } from './locale'
 
 import { bitcoinPaymentUri, lightningPaymentUri } from './pay'
 import { lndconnectUri } from './onboarding'
-import { backupTokensUpdated, saveBackupSuccess, backupServiceInitialized } from './backup'
+import {
+  backupTokensUpdated,
+  saveBackupSuccess,
+  backupServiceInitialized,
+  queryWalletBackupSuccess,
+  queryWalletBackupFailure,
+} from './backup'
 
 const ipc = createIpc({
   initApp,
@@ -19,6 +25,8 @@ const ipc = createIpc({
   saveBackupSuccess,
   backupTokensUpdated,
   backupServiceInitialized,
+  queryWalletBackupSuccess,
+  queryWalletBackupFailure,
 })
 
 export default ipc

@@ -13,9 +13,10 @@ export default class TokenBasedBackupService extends EventEmitter {
   connection = null
 
   /**
-   * Initializes backup service connection and registers token listeners
+   * init - Initializes backup service connection and registers token listeners.
    *
    * @param {Function} createClient function that instantiates `connection` object
+   * @returns
    * @memberof TokenBasedBackupService
    */
   async init(createClient) {
@@ -27,8 +28,10 @@ export default class TokenBasedBackupService extends EventEmitter {
   }
 
   /**
-   * Cleans up current login. Should be called as a cleanup or before calling `init` with another credentials
+   * terminate - Cleans up current login. Should be called as a cleanup or before calling `init`
+   * with another credentials.
    *
+   * @returns
    * @memberof BackupService
    */
   async terminate() {
@@ -38,7 +41,7 @@ export default class TokenBasedBackupService extends EventEmitter {
   }
 
   /**
-   * Checks if client is setup for interactions. Also tests tokens for validity
+   * isLoggedIn - Checks if client is setup for interactions. Also tests tokens for validity.
    *
    * @returns {boolean} whether service is currently connected
    * @memberof BackupService
@@ -49,7 +52,23 @@ export default class TokenBasedBackupService extends EventEmitter {
   }
 
   /**
-   * Returns current access tokens
+   * loadBackup - Loads backup for the specified wallet.
+   *
+   * @param {string} fileId
+   * @returns {Buffer} wallet backup as a `Buffer`
+   * @memberof BackupService
+   */
+  async loadBackup(fileId) {
+    const { connection } = this
+    if (connection) {
+      const backup = await connection.downloadToBuffer(fileId)
+      return backup
+    }
+    return null
+  }
+
+  /**
+   * getTokens - Returns current access tokens.
    *
    * @returns {object} current tokens object or null if not logged in
    * @memberof BackupService
@@ -60,9 +79,10 @@ export default class TokenBasedBackupService extends EventEmitter {
   }
 
   /**
-   * This service is token based and requires tokens to operate
-   * It also emits `tokensReceived` event
+   * isUsingTokens - This service is token based and requires tokens to operate
+   * It also emits `tokensReceived` event.
    *
+   * @returns {boolean}
    * @readonly
    * @memberof TokenBasedBackupService
    */

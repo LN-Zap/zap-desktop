@@ -14,6 +14,7 @@ const BackupTypeItem = withFieldApi('backupType')(BaseBackupTypeItem)
 
 class BackupSetup extends React.Component {
   static propTypes = {
+    isRestoreMode: PropTypes.bool,
     setBackupProvider: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
@@ -34,7 +35,7 @@ class BackupSetup extends React.Component {
   }
 
   render() {
-    const { wizardApi, wizardState, setBackupProvider, ...rest } = this.props
+    const { wizardApi, wizardState, setBackupProvider, isRestoreMode, ...rest } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
@@ -60,7 +61,9 @@ class BackupSetup extends React.Component {
           onSubmitFailure={onSubmitFailure}
         >
           <Heading.h1 mb={3} textAlign="center">
-            <FormattedMessage {...messages.backup_header} />
+            <FormattedMessage
+              {...(isRestoreMode ? messages.backup_import_header : messages.backup_header)}
+            />
           </Heading.h1>
           <Bar mb={6} />
           <RadioGroup field="backupType" initialValue="local" isRequired name="backupType">

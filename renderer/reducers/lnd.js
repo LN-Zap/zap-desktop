@@ -10,7 +10,7 @@ import { setSeed } from './onboarding'
 import { receiveInvoiceData } from './invoice'
 import { receiveChannelGraphData } from './channels'
 import { receiveTransactionData } from './transaction'
-import { backupCurrentWallet } from './backup'
+import { backupCurrentWallet, setupBackupService } from './backup'
 
 // ------------------------------------
 // Helpers
@@ -438,6 +438,7 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
 
     // Notify of wallet recovery success.
     dispatch(createWalletSuccess())
+    dispatch(setupBackupService(wallet.id, recover))
     return wallet
   } catch (error) {
     // Attempt to clean up from failure.

@@ -268,6 +268,7 @@
   "components.Onboarding.Steps.back": "back",
   "components.Onboarding.Steps.backup_dir_not_exist": "Directory does not exist",
   "components.Onboarding.Steps.backup_header": "Backup your channels",
+  "components.Onboarding.Steps.backup_import_header": "Import channel backup",
   "components.Onboarding.Steps.backup_local_header": "Choose directory",
   "components.Onboarding.Steps.backup_path_description": "Channel backups will be stored here",
   "components.Onboarding.Steps.backup_path_label": "Backup directory",

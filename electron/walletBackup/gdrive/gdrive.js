@@ -100,6 +100,7 @@ async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
     downloadToBuffer: apiCall.bind(this, api.downloadToBuffer),
     uploadFromBuffer: apiCall.bind(this, api.uploadFromBuffer),
     updateFromBuffer: apiCall.bind(this, api.updateFromBuffer),
+    createFolder: apiCall.bind(this, api.createFolder),
     getFileInfo: apiCall.bind(this, api.getFileInfo),
     listFiles: apiCall.bind(this, api.listFiles),
     on: emitter.on.bind(emitter),

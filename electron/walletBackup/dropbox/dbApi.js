@@ -65,18 +65,18 @@ export async function listFiles(dbx, params = {}) {
 }
 
 /**
- * Initiates user authentication procedure via dropbox OAuth2 implicit mode
+ * createAuthWindow - Initiates user authentication procedure via dropbox OAuth2 implicit mode.
  *
  * @export
  * @param {string} clientId dropbox client id
  * @param {string} redirectUrl redirect url registered with the specified client id
- * @param {object} [windowParams={ width: 500, height: 700 }] Electron browser window properties
+ * @param {object} [windowParams={ width: 700, height: 700 }] Electron browser window properties
  * @returns {object} tokens object if operations was successful or error otherwise
  */
 export function createAuthWindow(
   clientId,
   redirectUrl,
-  windowParams = { width: 500, height: 700 }
+  windowParams = { width: 700, height: 700 }
 ) {
   const authWindow = new BrowserWindow({
     ...windowParams,

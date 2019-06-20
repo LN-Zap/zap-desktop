@@ -44,20 +44,53 @@ export default function createBackupService(mainWindow) {
     }
   })
 
+  ipcMain.on('queryBackup', async (event, { walletId, locationHint, nodePub, provider }) => {
+    mainLog.info(
+      'Query backup provider:%s, walletId:%s nodePub:%s locationHint:%s',
+      provider,
+      walletId,
+      nodePub,
+      locationHint
+    )
+    try {
+      const backupService = getBackupService(provider)
+      if (backupService) {
+        const backup = await backupService.loadBackup({
+          walletId: nodePub,
+          locationHint,
+        })
+        if (backup) {
+          mainLog.info('Backup found  %o', backup)
+        } else {
+          mainLog.info('Backup not found')
+        }
+        send('queryWalletBackupSuccess', { backup, walletId })
+      }
+    } catch (e) {
+      send('queryWalletBackupFailure', { walletId })
+      mainLog.warn(
+        `Unable to query backup for wallet %s using provider %s:  %o`,
+        walletId,
+        provider,
+        e
+      )
+    }
+  })
+
   ipcMain.on(
     'saveBackup',
     async (event, { backup, walletId, provider, backupMetadata, nodePub }) => {
       try {
         const backupService = getBackupService(provider)
         if (backupService) {
-          const backupId = await backupService.saveBackup({
+          const locationHint = await backupService.saveBackup({
             walletId: nodePub,
-            fileId: backupMetadata && backupMetadata.backupId,
+            locationHint: backupMetadata && backupMetadata.locationHint,
             backup,
           })
-          mainLog.info('Backup updated, fileID: %s', backupId)
+          mainLog.info('Backup updated, locationHint: %s', locationHint)
           send('saveBackupSuccess', {
-            backupId,
+            locationHint,
             provider: backupService.name,
             walletId,
           })
