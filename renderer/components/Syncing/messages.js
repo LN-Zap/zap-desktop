@@ -21,4 +21,5 @@ export default defineMessages({
   copy_address: 'Copy address',
   address_copied_notification_title: 'Address copied',
   address_copied_notification_description: 'Payment address has been copied to your clipboard',
+  generating_address: 'Generating addresses…',
 })

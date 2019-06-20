@@ -19,6 +19,7 @@ const Syncing = ({
   neutrinoBlockHeight,
   neutrinoCfilterHeight,
   neutrinoRecoveryHeight,
+  isAddressLoading,
   isLightningGrpcActive,
   network,
   showNotification,
@@ -39,20 +40,20 @@ const Syncing = ({
       </Panel.Header>
 
       <Panel.Body mb={3} mx="auto" width={9 / 16}>
-        {!hasSynced && address && address.length && (
+        {hasSynced ? (
+          <Tutorials
+            css={`
+              height: 100%;
+            `}
+          />
+        ) : (
           <Address
             address={address}
             css={`
               height: 100%;
             `}
+            isAddressLoading={isAddressLoading}
             showNotification={showNotification}
-          />
-        )}
-        {hasSynced && (
-          <Tutorials
-            css={`
-              height: 100%;
-            `}
           />
         )}
       </Panel.Body>
@@ -84,6 +85,7 @@ Syncing.propTypes = {
   address: PropTypes.string,
   blockHeight: PropTypes.number,
   hasSynced: PropTypes.bool,
+  isAddressLoading: PropTypes.bool,
   isLightningGrpcActive: PropTypes.bool,
   network: PropTypes.string,
   neutrinoBlockHeight: PropTypes.number,

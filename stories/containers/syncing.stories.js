@@ -17,6 +17,7 @@ storiesOf('Containers.Syncing', module)
   .add('Syncing', () => {
     const state = store.getState()
     const hasSynced = boolean('Has synced', false)
+    const isAddressLoading = boolean('Address loading', false)
     const syncPercentage = number('Sync Percentage', 30)
     const syncStatus = select('Sync Status', ['waiting', 'in-progress', 'complete'], 'in-progress')
     const recoveryPercentage = number('Recovery Percentage', 30)
@@ -27,6 +28,7 @@ storiesOf('Containers.Syncing', module)
           address="2MxZ2z7AodL6gxEgwL5tkq2imDBhkBMq2Jc"
           blockHeight={neutrinoSelectors.blockHeight(state)}
           hasSynced={hasSynced}
+          isAddressLoading={isAddressLoading}
           isLightningGrpcActive={state.lnd.isLightningGrpcActive}
           network={network}
           neutrinoBlockHeight={neutrinoSelectors.neutrinoBlockHeight(state)}

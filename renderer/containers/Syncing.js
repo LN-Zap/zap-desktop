@@ -21,6 +21,7 @@ const mapStateToProps = state => ({
   neutrinoBlockHeight: neutrinoSelectors.neutrinoBlockHeight(state),
   neutrinoCfilterHeight: neutrinoSelectors.neutrinoCfilterHeight(state),
   neutrinoRecoveryHeight: neutrinoSelectors.neutrinoRecoveryHeight(state),
+  isAddressLoading: addressSelectors.isAddressLoading(state),
   isLightningGrpcActive: state.lnd.isLightningGrpcActive,
   network: state.info.network,
 })

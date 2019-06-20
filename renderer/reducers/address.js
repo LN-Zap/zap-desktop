@@ -173,12 +173,18 @@ const ACTION_HANDLERS = {
 
 const addressSelectors = {}
 
+addressSelectors.addressesLoading = state => state.address.addressesLoading
 addressSelectors.currentAddresses = state => state.address.addresses
 addressSelectors.currentConfig = state => settingsSelectors.currentConfig(state)
 addressSelectors.currentAddress = createSelector(
   addressSelectors.currentAddresses,
   addressSelectors.currentConfig,
   (currentAddresses, currentConfig) => currentAddresses[currentConfig.address]
+)
+addressSelectors.isAddressLoading = createSelector(
+  addressSelectors.addressesLoading,
+  addressSelectors.currentConfig,
+  (addressesLoading, currentConfig) => addressesLoading[currentConfig.address]
 )
 
 export { addressSelectors }
