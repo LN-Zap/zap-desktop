@@ -298,6 +298,7 @@
   "components.Onboarding.Steps.connection_uri_lndconnect_description": "",
   "components.Onboarding.Steps.create_wallet_password_description": "Det ser ud som om du er ny her. Indtast et adgangskode for at kryptere din tegnebog. Denne adgangskode vil være nødvendig for at låse Zap op i fremtiden",
   "components.Onboarding.Steps.create_wallet_password_title": "Velkommen!",
+  "components.Onboarding.Steps.creating_wallet": "",
   "components.Onboarding.Steps.custom": "Brugerdefinerede",
   "components.Onboarding.Steps.default": "Standard",
   "components.Onboarding.Steps.default_description": "Ved at vælge standard mode klarer vi alt for dig. Bare klik og kom igang!",

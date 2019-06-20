@@ -1,6 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { FormattedMessage } from 'react-intl'
 import { Form, Spinner, Text } from 'components/UI'
+import messages from './messages'
 
 class WalletCreate extends React.Component {
   static propTypes = {
@@ -80,7 +82,7 @@ class WalletCreate extends React.Component {
       >
         <Text textAlign="center">
           <Spinner />
-          Creating wallet...
+          <FormattedMessage {...messages.creating_wallet} />
         </Text>
       </Form>
     )

@@ -298,6 +298,7 @@
   "components.Onboarding.Steps.connection_uri_lndconnect_description": "",
   "components.Onboarding.Steps.create_wallet_password_description": "",
   "components.Onboarding.Steps.create_wallet_password_title": "",
+  "components.Onboarding.Steps.creating_wallet": "",
   "components.Onboarding.Steps.custom": "Προσαρμοσμένη",
   "components.Onboarding.Steps.default": "Προεπιλογή",
   "components.Onboarding.Steps.default_description": "",

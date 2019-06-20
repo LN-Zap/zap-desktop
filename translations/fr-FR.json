@@ -298,6 +298,7 @@
   "components.Onboarding.Steps.connection_uri_lndconnect_description": "Collez un URI de connexion LND. Vous pouvez en générer un en utilisant \"lndconnect\". Exemple: \"lndconnect://1.2.3.4:10009?cert=x&macaroon=y\"",
   "components.Onboarding.Steps.create_wallet_password_description": "On dirait que vous êtes nouveau ici. Configurez un mot de passe pour encrypter votre portefeuille. Ce mot de passe sera nécessaire pour déverrouiller Zap dans le futur",
   "components.Onboarding.Steps.create_wallet_password_title": "Bienvenue!",
+  "components.Onboarding.Steps.creating_wallet": "",
   "components.Onboarding.Steps.custom": "Personnalisé",
   "components.Onboarding.Steps.default": "Par défaut",
   "components.Onboarding.Steps.default_description": "En sélectionnant le mode par défaut, nous allons tout faire pour vous. Cliquez et démarrer!",

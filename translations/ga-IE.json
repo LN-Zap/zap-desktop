@@ -298,6 +298,7 @@
   "components.Onboarding.Steps.connection_uri_lndconnect_description": "",
   "components.Onboarding.Steps.create_wallet_password_description": "",
   "components.Onboarding.Steps.create_wallet_password_title": "",
+  "components.Onboarding.Steps.creating_wallet": "",
   "components.Onboarding.Steps.custom": "Saincheaptha",
   "components.Onboarding.Steps.default": "Réamhshocrú",
   "components.Onboarding.Steps.default_description": "Trí roghnú an modh díbhliantúil, déanfaimid gach rud ar do shon. Just cliceáil agus téigh!",

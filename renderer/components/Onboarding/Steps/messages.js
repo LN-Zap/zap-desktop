@@ -93,8 +93,9 @@ export default defineMessages({
   wallet_name_title: 'Name your wallet',
   wallet_name_label: 'Wallet Name',
   word_placeholder: 'word',
-  generating_seed: 'Generating Seed...',
-  importing_wallet: 'Importing wallet...',
+  generating_seed: 'Generating seed…',
+  creating_wallet: 'Creating wallet…',
+  importing_wallet: 'Importing wallet…',
   importing_wallet_title: 'Importing wallet',
   importing_wallet_subtitle:
     'Please wait whilst we start the wallet import process. This should only take a moment.',
