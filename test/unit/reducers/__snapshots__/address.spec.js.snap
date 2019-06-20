@@ -19,24 +19,28 @@ Object {
 
 exports[`reducers addressReducer should handle NEW_ADDRESS 1`] = `
 Object {
-  "addressLoading": true,
+  "addressesLoading": Object {
+    "p2wkh": true,
+  },
 }
 `;
 
 exports[`reducers addressReducer should handle NEW_ADDRESS_FAILURE 1`] = `
 Object {
-  "addressLoading": false,
-  "newAddressError": "some error",
+  "addressesLoading": Object {
+    "np2wkh": false,
+  },
 }
 `;
 
 exports[`reducers addressReducer should handle NEW_ADDRESS_SUCCESS 1`] = `
 Object {
-  "addressLoading": false,
   "addresses": Object {
     "np2wkh": "375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc",
   },
-  "newAddressError": null,
+  "addressesLoading": Object {
+    "np2wkh": false,
+  },
 }
 `;
 
@@ -48,12 +52,14 @@ Object {
 
 exports[`reducers addressReducer should handle initial state 1`] = `
 Object {
-  "addressLoading": false,
   "addresses": Object {
     "np2wkh": null,
     "p2wkh": null,
   },
-  "newAddressError": null,
+  "addressesLoading": Object {
+    "np2wkh": false,
+    "p2wkh": false,
+  },
   "walletModal": false,
 }
 `;

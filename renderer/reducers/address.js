@@ -5,6 +5,21 @@ import { openModal, closeModal } from './modal'
 import { settingsSelectors } from './settings'
 
 // ------------------------------------
+// Reducer
+// ------------------------------------
+const initialState = {
+  addressesLoading: {
+    np2wkh: false,
+    p2wkh: false,
+  },
+  addresses: {
+    np2wkh: null,
+    p2wkh: null,
+  },
+  walletModal: false,
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 export const FETCH_ADDRESSES = 'FETCH_ADDRESSES'
@@ -29,7 +44,9 @@ export const openWalletModal = () => dispatch => dispatch(openModal('RECEIVE_MOD
 export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_MODAL'))
 
 /**
- * Initialise addresses.
+ * initAddresses - Initialise addresses.
+ *
+ * @returns {undefined}
  */
 export const initAddresses = () => async (dispatch, getState) => {
   dispatch({ type: FETCH_ADDRESSES })
@@ -55,23 +72,30 @@ export const initAddresses = () => async (dispatch, getState) => {
 }
 
 /**
- * Generate a new address.
+ * newAddress - Generate a new address.
+ *
+ * @param {'p2wkh'|'np2wkh'} addressType Address type
+ * @returns {undefined}
  */
-export const newAddress = type => async dispatch => {
-  dispatch({ type: NEW_ADDRESS })
+export const newAddress = addressType => async dispatch => {
+  dispatch({ type: NEW_ADDRESS, addressType })
   try {
     const grpc = await grpcService
-    const data = await grpc.services.Lightning.newAddress({ type: ADDRESS_TYPES[type] })
-    await dispatch(newAddressSuccess({ ...data, type }))
+    const data = await grpc.services.Lightning.newAddress({ type: ADDRESS_TYPES[addressType] })
+    await dispatch(newAddressSuccess(addressType, data.address))
   } catch (error) {
-    dispatch(newAddressFailure(error))
+    dispatch(newAddressFailure(addressType, error.message))
   }
 }
 
 /**
- * Generate a new address success callback
+ * newAddressSuccess - Generate new address success callback.
+ *
+ * @param {string} addressType Address type
+ * @param {string} address Address
+ * @returns {undefined}
  */
-export const newAddressSuccess = ({ type, address }) => async (dispatch, getState) => {
+export const newAddressSuccess = (addressType, address) => async (dispatch, getState) => {
   const state = getState()
   const pubKey = state.info.data.identity_pubkey
 
@@ -79,22 +103,29 @@ export const newAddressSuccess = ({ type, address }) => async (dispatch, getStat
   if (pubKey) {
     const node = await window.db.nodes.get(pubKey)
     if (node) {
-      await node.setCurrentAddress(type, address)
+      await node.setCurrentAddress(addressType, address)
     } else {
-      await window.db.nodes.put({ id: pubKey, addresses: { [type]: address } })
+      await window.db.nodes.put({ id: pubKey, addresses: { [addressType]: address } })
     }
   }
 
-  dispatch({ type: NEW_ADDRESS_SUCCESS, payload: { address, type } })
+  dispatch({ type: NEW_ADDRESS_SUCCESS, addressType, address })
 }
 
 /**
- * Generate a new address failure callback
+ * newAddressFailure - Generate new address failure callback.
+ *
+ * @param {string} addressType Address type
+ * @param {string} error Error message
+ * @returns {undefined}
  */
-export const newAddressFailure = error => ({
-  type: NEW_ADDRESS_FAILURE,
-  newAddressError: error,
-})
+export const newAddressFailure = (addressType, error) => dispatch => {
+  dispatch({
+    type: NEW_ADDRESS_FAILURE,
+    addressType,
+    error,
+  })
+}
 
 // ------------------------------------
 // Action Handlers
@@ -104,17 +135,30 @@ const ACTION_HANDLERS = {
     ...state,
     addresses,
   }),
-  [NEW_ADDRESS]: state => ({ ...state, addressLoading: true }),
-  [NEW_ADDRESS_SUCCESS]: (state, { payload: { address, type } }) => ({
+  [NEW_ADDRESS]: (state, { addressType }) => ({
     ...state,
-    addressLoading: false,
-    newAddressError: null,
-    addresses: { ...state.addresses, [type]: address },
+    addressesLoading: {
+      ...state.addressesLoading,
+      [addressType]: true,
+    },
   }),
-  [NEW_ADDRESS_FAILURE]: (state, { newAddressError }) => ({
+  [NEW_ADDRESS_SUCCESS]: (state, { addressType, address }) => ({
     ...state,
-    addressLoading: false,
-    newAddressError,
+    addressesLoading: {
+      ...state.addressesLoading,
+      [addressType]: false,
+    },
+    addresses: {
+      ...state.addresses,
+      [addressType]: address,
+    },
+  }),
+  [NEW_ADDRESS_FAILURE]: (state, { addressType }) => ({
+    ...state,
+    addressesLoading: {
+      ...state.addressesLoading,
+      [addressType]: false,
+    },
   }),
   [OPEN_WALLET_MODAL]: state => ({ ...state, walletModal: true }),
   [CLOSE_WALLET_MODAL]: state => ({ ...state, walletModal: false }),
@@ -125,6 +169,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 
 const addressSelectors = {}
+
 addressSelectors.currentAddresses = state => state.address.addresses
 addressSelectors.currentConfig = state => settingsSelectors.currentConfig(state)
 addressSelectors.currentAddress = createSelector(
@@ -132,21 +177,20 @@ addressSelectors.currentAddress = createSelector(
   addressSelectors.currentConfig,
   (currentAddresses, currentConfig) => currentAddresses[currentConfig.address]
 )
+
 export { addressSelectors }
 
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  addressLoading: false,
-  addresses: {
-    np2wkh: null,
-    p2wkh: null,
-  },
-  newAddressError: null,
-  walletModal: false,
-}
 
+/**
+ * addressReducer - Address reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function addressReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
