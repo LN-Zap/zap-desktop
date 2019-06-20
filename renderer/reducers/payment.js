@@ -24,10 +24,20 @@ export const DECREASE_PAYMENT_RETRIES = 'DECREASE_PAYMENT_RETRIES'
 // Helpers
 // ------------------------------------
 
-// Decorate transaction object with custom/computed properties.
+/**
+ * decoratePayment - Decorate payment object with custom/computed properties.
+ *
+ * @param  {object} payment Payment
+ * @returns {object} Decorated payment
+ */
 const decoratePayment = payment => {
-  payment.type = 'payment'
-  return payment
+  const decoration = {
+    type: 'payment',
+  }
+  return {
+    ...payment,
+    ...decoration,
+  }
 }
 
 // ------------------------------------
@@ -79,10 +89,8 @@ export const fetchPayments = () => async dispatch => {
 
 // Receive IPC event for payments
 export const receivePayments = ({ payments }) => dispatch => {
-  payments.forEach(payment => {
-    decoratePayment(payment)
-  })
-  dispatch({ type: RECEIVE_PAYMENTS, payments })
+  const decoratedPayments = payments.map(decoratePayment)
+  dispatch({ type: RECEIVE_PAYMENTS, payments: decoratedPayments })
 }
 
 const decPaymentRetry = paymentRequest => ({ type: DECREASE_PAYMENT_RETRIES, paymentRequest })
