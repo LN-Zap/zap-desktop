@@ -32,7 +32,7 @@ export default class PaymentModal extends React.PureComponent {
             right={
               <Flex alignItems="center">
                 <CryptoSelector mr={2} />
-                <CryptoValue fontSize="xxl" value={item.value} />
+                <CryptoValue fontSize="xxl" value={item.value_sat} />
               </Flex>
             }
           />
@@ -44,7 +44,7 @@ export default class PaymentModal extends React.PureComponent {
             right={
               <Flex alignItems="center">
                 <FiatSelector mr={2} />
-                <FiatValue value={item.value} />
+                <FiatValue value={item.value_sat} />
               </Flex>
             }
           />

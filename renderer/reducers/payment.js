@@ -2,6 +2,7 @@ import config from 'config'
 import { createSelector } from 'reselect'
 import errorToUserFriendly from '@zap/utils/userFriendlyErrors'
 import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
+import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import { grpcService } from 'workers'
 import { fetchBalance } from './balance'
@@ -28,12 +29,43 @@ export const DECREASE_PAYMENT_RETRIES = 'DECREASE_PAYMENT_RETRIES'
  * decoratePayment - Decorate payment object with custom/computed properties.
  *
  * @param  {object} payment Payment
+ * @param  {Array} nodes Nodes
  * @returns {object} Decorated payment
  */
-const decoratePayment = payment => {
+const decoratePayment = (payment, nodes = []) => {
+  // Add basic type information.
   const decoration = {
     type: 'payment',
   }
+
+  // Older versions of lnd provided the sat amount in `value`.
+  // This is now deprecated in favor of `value_sat` and `value_msat`.
+  // Patch data returned from older clients to match the current format for consistency.
+  const { value } = payment
+  if (value && (!payment.value_sat || !payment.value_msat)) {
+    Object.assign(decoration, {
+      value_sat: value,
+      value_msat: convert('sats', 'msats', value),
+    })
+  }
+
+  // First try to get the pubkey from payment.path
+  let pubkey = payment.path && payment.path[payment.path.length - 1]
+
+  // If we don't have a pubkey, try to get it from the payment request.
+  if (!pubkey && payment.payment_request) {
+    const paymentRequest = decodePayReq(payment.payment_request)
+    pubkey = paymentRequest.payeeNodeKey
+  }
+
+  // Try to add some info about the destination of the payment.
+  if (pubkey) {
+    Object.assign(decoration, {
+      dest_node_pubkey: pubkey,
+      dest_node_alias: getNodeAlias(pubkey, nodes),
+    })
+  }
+
   return {
     ...payment,
     ...decoration,
@@ -67,8 +99,8 @@ export const sendPayment = data => dispatch => {
 
   const payment = {
     ...data,
-    type: 'payment',
     status: 'sending',
+    isSending: true,
     creation_date: Math.round(new Date() / 1000),
     payment_hash: paymentHashTag.data,
   }
@@ -89,8 +121,7 @@ export const fetchPayments = () => async dispatch => {
 
 // Receive IPC event for payments
 export const receivePayments = ({ payments }) => dispatch => {
-  const decoratedPayments = payments.map(decoratePayment)
-  dispatch({ type: RECEIVE_PAYMENTS, payments: decoratedPayments })
+  dispatch({ type: RECEIVE_PAYMENTS, payments })
 }
 
 const decPaymentRetry = paymentRequest => ({ type: DECREASE_PAYMENT_RETRIES, paymentRequest })
@@ -112,7 +143,7 @@ export const payInvoice = ({
       sendPayment({
         paymentRequest: payReq,
         feeLimit,
-        amt,
+        value: amt,
         remainingRetries: retries,
         maxRetries: retries,
       })
@@ -279,36 +310,19 @@ const nodesSelector = state => networkSelectors.nodes(state)
 
 paymentSelectors.payments = createSelector(
   paymentsSelector,
-  payments => payments
+  nodesSelector,
+  (payments, nodes) => payments.map(payment => decoratePayment(payment, nodes))
 )
 
 paymentSelectors.paymentsSending = createSelector(
   paymentsSendingSelector,
-  paymentsSending => paymentsSending
+  nodesSelector,
+  (paymentsSending, nodes) => paymentsSending.map(payment => decoratePayment(payment, nodes))
 )
 
 paymentSelectors.paymentModalOpen = createSelector(
   modalPaymentSelector,
   payment => !!payment
-)
-
-paymentSelectors.decoratedPaymentsSelector = createSelector(
-  paymentsSelector,
-  nodesSelector,
-  (payments, nodes) =>
-    payments.map(payment => {
-      const destPubKey = payment.path && payment.path[payment.path.length - 1]
-      const decoration = destPubKey
-        ? {
-            dest_node_pubkey: destPubKey,
-            dest_node_alias: getNodeAlias(destPubKey, nodes),
-          }
-        : {}
-      return {
-        ...payment,
-        ...decoration,
-      }
-    })
 )
 
 export { paymentSelectors }
