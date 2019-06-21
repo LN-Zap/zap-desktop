@@ -48,20 +48,7 @@ export const FETCH_ACTIVITY_HISTORY_FAILURE = 'FETCH_ACTIVITY_HISTORY_FAILURE'
 
 // getMonth() returns the month in 0 index (0 for Jan), so we create an arr of the
 // string representation we want for the UI
-const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'April',
-  'May',
-  'June',
-  'July',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-]
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 /**
  * propMatches - Check wether a prop exists and contains a given search string.
@@ -167,14 +154,7 @@ const applySearch = (data, searchTextSelector) => {
 }
 
 const prepareData = (data, searchText) => {
-  const addDate = entry => {
-    const timestamp = returnTimestamp(entry)
-    const d = new Date(timestamp * 1000)
-    const date = d.getDate()
-    return { ...entry, date: `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`, timestamp }
-  }
-  const dataWithDate = data.map(addDate)
-  return groupAll(applySearch(dataWithDate, searchText))
+  return groupAll(applySearch(data, searchText))
 }
 
 // ------------------------------------
@@ -353,15 +333,23 @@ activitySelectors.activityModalItem = createSelector(
   }
 )
 
-const allActivity = createSelector(
-  searchTextSelector,
+// decorates activity entry with date and timestamp fields
+const addDate = entry => {
+  const timestamp = returnTimestamp(entry)
+  const d = new Date(timestamp * 1000)
+  const date = d.getDate()
+  return { ...entry, date: `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`, timestamp }
+}
+
+// pre-search compound activity list
+const allActivityRaw = createSelector(
   paymentsSending,
   transactionsSending,
   paymentsSelector,
   transactionsSelector,
   invoicesSelector,
-  (searchText, paymentsSending, transactionsSending, payments, transactions, invoices) => {
-    const allData = [
+  (paymentsSending, transactionsSending, payments, transactions, invoices) => {
+    return [
       ...paymentsSending,
       ...transactionsSending,
       ...payments,
@@ -369,7 +357,14 @@ const allActivity = createSelector(
         transaction => !transaction.isFunding && !transaction.isClosing && !transaction.isPending
       ),
       ...invoices.filter(invoice => invoice.settled || !invoiceExpired(invoice)),
-    ]
+    ].map(addDate)
+  }
+)
+
+const allActivity = createSelector(
+  searchTextSelector,
+  allActivityRaw,
+  (searchText, allData) => {
     return prepareData(allData, searchText)
   }
 )
