@@ -48,20 +48,7 @@ export const FETCH_ACTIVITY_HISTORY_FAILURE = 'FETCH_ACTIVITY_HISTORY_FAILURE'
 
 // getMonth() returns the month in 0 index (0 for Jan), so we create an arr of the
 // string representation we want for the UI
-const months = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'April',
-  'May',
-  'June',
-  'July',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-]
+const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 /**
  * propMatches - Check wether a prop exists and contains a given search string.
@@ -70,8 +57,8 @@ const months = [
  * @returns {boolean} Boolean indicating if the prop was found and contains the search string
  */
 const propMatches = function(prop) {
-  const { item, searchTextSelector } = this
-  return item[prop] && item[prop].includes(searchTextSelector)
+  const { item, searchTextSelector = '' } = this
+  return item[prop] && item[prop].toLowerCase().includes(searchTextSelector.toLowerCase())
 }
 
 /**
@@ -112,26 +99,19 @@ function groupAll(data) {
   // according too https://stackoverflow.com/a/11252167/3509860
   // this provides an accurate measurement including handling of DST
   const daysBetween = (t1, t2) => Math.round((t2 - t1) / 86400)
-
-  const createTitle = entry => {
-    const d = new Date(returnTimestamp(entry) * 1000)
-    const date = d.getDate()
-    return `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`
-  }
-
   return data
-    .sort((a, b) => returnTimestamp(b) - returnTimestamp(a))
+    .sort((a, b) => b.timestamp - a.timestamp)
     .reduce((acc, next) => {
       const prev = acc[acc.length - 1]
       //check if need insert a group title
       if (prev) {
-        const days = daysBetween(returnTimestamp(next), returnTimestamp(prev))
+        const days = daysBetween(next.timestamp, prev.timestamp)
         if (days >= 1) {
-          acc.push({ title: createTitle(next) })
+          acc.push({ title: next.date })
         }
       } else {
         //This is a very first row. Insert title here too
-        acc.push({ title: createTitle(next) })
+        acc.push({ title: next.date })
       }
       acc.push(next)
       return acc
@@ -153,6 +133,9 @@ const applySearch = (data, searchTextSelector) => {
   return data.filter(item => {
     // Check basic props for a match.
     const hasPropMatch = [
+      'date',
+      'type',
+      'memo',
       'tx_hash',
       'payment_hash',
       'payment_preimage',
@@ -165,7 +148,7 @@ const applySearch = (data, searchTextSelector) => {
     const hasAddressMatch =
       item.dest_addresses && item.dest_addresses.find(addr => addr.includes(searchTextSelector))
 
-    // Include the item if at least one search critera matches.
+    // Include the item if at least one search criteria matches.
     return hasPropMatch || hasAddressMatch
   })
 }
@@ -350,15 +333,23 @@ activitySelectors.activityModalItem = createSelector(
   }
 )
 
-const allActivity = createSelector(
-  searchTextSelector,
+// decorates activity entry with date and timestamp fields
+const addDate = entry => {
+  const timestamp = returnTimestamp(entry)
+  const d = new Date(timestamp * 1000)
+  const date = d.getDate()
+  return { ...entry, date: `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`, timestamp }
+}
+
+// pre-search compound activity list
+const allActivityRaw = createSelector(
   paymentsSending,
   transactionsSending,
   paymentsSelector,
   transactionsSelector,
   invoicesSelector,
-  (searchText, paymentsSending, transactionsSending, payments, transactions, invoices) => {
-    const allData = [
+  (paymentsSending, transactionsSending, payments, transactions, invoices) => {
+    return [
       ...paymentsSending,
       ...transactionsSending,
       ...payments,
@@ -366,7 +357,14 @@ const allActivity = createSelector(
         transaction => !transaction.isFunding && !transaction.isClosing && !transaction.isPending
       ),
       ...invoices.filter(invoice => invoice.settled || !invoiceExpired(invoice)),
-    ]
+    ].map(addDate)
+  }
+)
+
+const allActivity = createSelector(
+  searchTextSelector,
+  allActivityRaw,
+  (searchText, allData) => {
     return prepareData(allData, searchText)
   }
 )
