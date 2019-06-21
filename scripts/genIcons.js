@@ -1,7 +1,6 @@
 import camelCase from 'lodash/camelCase'
-
-const { execSync } = require('child_process')
-const path = require('path')
+import { execSync } from 'child_process'
+import path from 'path'
 
 const OUTPUT_DIR = 'renderer/components/Icon'
 const TMP_DIR = 'icon_gen_temp'
@@ -9,9 +8,9 @@ const TMP_DIR = 'icon_gen_temp'
 const iconPath = process.argv[2] || ''
 
 /**
- * Converts iconPath to pascal case icon name
+ * getIconName - Converts iconPath to pascal case icon name.
  *
- * @returns {string}
+ * @returns {string} Icon name
  */
 function getIconName() {
   const [icon] = path.basename(iconPath).split('.')
