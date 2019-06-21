@@ -1,12 +1,13 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { withFieldApi } from 'informed'
 import { Flex } from 'rebass'
 import { Form, RadioGroup, Heading, Bar } from 'components/UI'
 import { BACKUP_FORM_WIDTH, BACKUP_FORM_HEIGHT } from './components/settings'
 import BaseBackupTypeItem from './components/BackupTypeItem'
 import Container from './components/Container'
+import SkipBackupsDialog from './components/SkipBackupsDialog'
 
 import messages from './messages'
 
@@ -14,8 +15,12 @@ const BackupTypeItem = withFieldApi('backupType')(BaseBackupTypeItem)
 
 class BackupSetup extends React.Component {
   static propTypes = {
+    hideSkipBackupDialog: PropTypes.func.isRequired,
+    intl: intlShape.isRequired,
     isRestoreMode: PropTypes.bool,
+    isSkipBackupDialogOpen: PropTypes.bool,
     setBackupProvider: PropTypes.func.isRequired,
+    showError: PropTypes.func.isRequired,
     wizardApi: PropTypes.object,
     wizardState: PropTypes.object,
   }
@@ -34,23 +39,39 @@ class BackupSetup extends React.Component {
     this.formApi = formApi
   }
 
+  onSkip = () => {
+    const { setBackupProvider, wizardApi, hideSkipBackupDialog, showError, intl } = this.props
+    try {
+      setBackupProvider(null)
+      hideSkipBackupDialog()
+      wizardApi.skip(true)
+    } catch (e) {
+      const message = intl.formatMessage({ ...messages.backup_skip_error })
+      showError(`${message}: ${e.message}`)
+    }
+  }
+
   render() {
-    const { wizardApi, wizardState, setBackupProvider, isRestoreMode, ...rest } = this.props
+    const {
+      wizardApi,
+      wizardState,
+      isRestoreMode,
+      isSkipBackupDialogOpen,
+      hideSkipBackupDialog,
+    } = this.props
     const { getApi, onChange, onSubmit, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
 
     return (
       <Container alignItems="center" flexDirection="column" justifyContent="center" mt={3}>
         <Form
-          height={BACKUP_FORM_HEIGHT}
-          width={BACKUP_FORM_WIDTH}
-          {...rest}
           getApi={formApi => {
             this.setFormApi(formApi)
             if (getApi) {
               getApi(formApi)
             }
           }}
+          height={BACKUP_FORM_HEIGHT}
           onChange={onChange && (formState => onChange(formState, currentItem))}
           onSubmit={values => {
             this.handleSubmit(values)
@@ -59,6 +80,7 @@ class BackupSetup extends React.Component {
             }
           }}
           onSubmitFailure={onSubmitFailure}
+          width={BACKUP_FORM_WIDTH}
         >
           <Heading.h1 mb={3} textAlign="center">
             <FormattedMessage
@@ -92,9 +114,15 @@ class BackupSetup extends React.Component {
             </Flex>
           </RadioGroup>
         </Form>
+        <SkipBackupsDialog
+          isOpen={isSkipBackupDialogOpen}
+          isRestoreMode={isRestoreMode}
+          onCancel={hideSkipBackupDialog}
+          onSkip={this.onSkip}
+        />
       </Container>
     )
   }
 }
 
-export default BackupSetup
+export default injectIntl(BackupSetup)

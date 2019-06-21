@@ -57,9 +57,11 @@ class Onboarding extends React.Component {
     createWallet: PropTypes.func.isRequired,
     createWalletError: PropTypes.string,
     fetchSeed: PropTypes.func.isRequired,
+    hideSkipBackupDialog: PropTypes.func.isRequired,
     isCreatingWallet: PropTypes.bool,
     isFetchingSeed: PropTypes.bool,
     isLightningGrpcActive: PropTypes.bool,
+    isSkipBackupDialogOpen: PropTypes.bool,
     isWalletUnlockerGrpcActive: PropTypes.bool,
     lndConnect: PropTypes.string,
     name: PropTypes.string,
@@ -82,6 +84,8 @@ class Onboarding extends React.Component {
     setPassword: PropTypes.func.isRequired,
     setSeed: PropTypes.func.isRequired,
     setUnlockWalletError: PropTypes.func.isRequired,
+    showError: PropTypes.func.isRequired,
+    showSkipBackupDialog: PropTypes.func.isRequired,
     startLnd: PropTypes.func.isRequired,
     startLndCertError: PropTypes.string,
     startLndHostError: PropTypes.string,
@@ -155,6 +159,10 @@ class Onboarding extends React.Component {
       unlockWallet,
       setBackupProvider,
       setBackupPathLocal,
+      showSkipBackupDialog,
+      isSkipBackupDialogOpen,
+      hideSkipBackupDialog,
+      showError,
     } = this.props
 
     let formSteps = []
@@ -177,8 +185,12 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step
             key="BackupSetup"
+            canSkip
             component={BackupSetup}
-            isRestoreMode
+            hideSkipBackupDialog={hideSkipBackupDialog}
+            isSkipBackupDialogOpen={isSkipBackupDialogOpen}
+            onSkip={showSkipBackupDialog}
+            showError={showError}
             {...{ setBackupProvider }}
           />,
           <Wizard.Step
@@ -212,8 +224,13 @@ class Onboarding extends React.Component {
           <Wizard.Step key="Autopilot" component={Autopilot} {...{ autopilot, setAutopilot }} />,
           <Wizard.Step
             key="BackupSetup"
+            canSkip
             component={BackupSetup}
+            hideSkipBackupDialog={hideSkipBackupDialog}
             isRestoreMode
+            isSkipBackupDialogOpen={isSkipBackupDialogOpen}
+            onSkip={showSkipBackupDialog}
+            showError={showError}
             {...{ setBackupProvider }}
           />,
           <Wizard.Step
@@ -343,7 +360,7 @@ class Onboarding extends React.Component {
 
   shouldRemoveBackupSetupLocalStep() {
     const { backupProvider } = this.props
-    return backupProvider != 'local' || this.isSCBRestoreDisabled()
+    return !backupProvider || backupProvider != 'local' || this.isSCBRestoreDisabled()
   }
 
   render() {
@@ -375,6 +392,9 @@ class Onboarding extends React.Component {
                 <Wizard.BackButton navigateTo={previousStep}>{backButtonText}</Wizard.BackButton>
               </Box>
               <Box ml="auto">
+                <Wizard.SkipButton>
+                  <FormattedMessage {...messages.skip} />
+                </Wizard.SkipButton>
                 <Wizard.NextButton>
                   <FormattedMessage {...messages.next} />
                 </Wizard.NextButton>

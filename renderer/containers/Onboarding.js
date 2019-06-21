@@ -23,6 +23,8 @@ import {
   validateCert,
   validateMacaroon,
   resetOnboarding,
+  showSkipBackupDialog,
+  hideSkipBackupDialog,
 } from 'reducers/onboarding'
 import {
   setUnlockWalletError,
@@ -37,6 +39,7 @@ import {
 } from 'reducers/lnd'
 
 import { setBackupProvider, backupSelectors, setBackupPathLocal } from 'reducers/backup'
+import { showError } from 'reducers/notification'
 
 const mapStateToProps = state => ({
   alias: state.onboarding.alias,
@@ -45,6 +48,7 @@ const mapStateToProps = state => ({
   connectionType: state.onboarding.connectionType,
   connectionHost: state.onboarding.connectionHost,
   connectionCert: state.onboarding.connectionCert,
+  isSkipBackupDialogOpen: state.onboarding.isSkipBackupDialogOpen,
   connectionMacaroon: state.onboarding.connectionMacaroon,
   connectionString: state.onboarding.connectionString,
   lndConnect: state.onboarding.lndConnect,
@@ -73,6 +77,7 @@ const mapDispatchToProps = {
   setConnectionMacaroon,
   setConnectionString,
   setName,
+  showError,
   setNetwork,
   setPassword,
   setPassphrase,
@@ -91,6 +96,8 @@ const mapDispatchToProps = {
   unlockWallet,
   setBackupProvider,
   setBackupPathLocal,
+  showSkipBackupDialog,
+  hideSkipBackupDialog,
 }
 
 const OnboardingContainer = connect(

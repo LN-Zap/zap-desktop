@@ -43,6 +43,38 @@ class Steps extends React.Component {
   }
 }
 
+// eslint-disable-next-line jsdoc/require-jsdoc
+function SkipButton({ children }) {
+  return (
+    <WizardContext.Consumer>
+      {({ wizardApi, wizardState }) => {
+        if (!wizardApi.canSkip()) {
+          return null
+        }
+
+        return (
+          <Button
+            isDisabled={wizardState.isSubmitting}
+            isProcessing={wizardState.isSubmitting}
+            mr={3}
+            onClick={() => wizardApi.skip()}
+            type="button"
+            variant="secondary"
+          >
+            <Flex>
+              <Box mr={1}>{children}</Box>
+            </Flex>
+          </Button>
+        )
+      }}
+    </WizardContext.Consumer>
+  )
+}
+
+SkipButton.propTypes = {
+  children: PropTypes.node,
+}
+
 class NextButton extends React.Component {
   static propTypes = {
     children: PropTypes.node,
@@ -166,6 +198,7 @@ class Wizard extends React.Component {
   static Steps = Steps
   static Step = Step
   static NextButton = NextButton
+  static SkipButton = SkipButton
   static BackButton = BackButton
   static Debug = Debug
 
@@ -227,6 +260,19 @@ class Wizard extends React.Component {
     }
   }
 
+  getCurrentStepProps = () => {
+    const { currentStep } = this.state
+    const { steps } = this.props
+    return steps[currentStep].props
+  }
+
+  handleSkip = skipConfirmed => {
+    const { onSkip } = this.getCurrentStepProps()
+    // skip either if it was confirmed or if there is no `onSkip` handler
+    // meaning confirmation is not needed
+    return skipConfirmed || !onSkip ? this.nextStep() : onSkip()
+  }
+
   navigateTo = stepId => {
     const { steps } = this.props
     this.setState({
@@ -259,6 +305,17 @@ class Wizard extends React.Component {
     this.setFormApi(formApi)
   }
 
+  /**
+   * canSkip - Checks wheter current step is skipable.
+   *
+   * @returns {boolean} true if current step can be skipped
+   * @memberof Wizard
+   */
+  canSkip = () => {
+    const { canSkip } = this.getCurrentStepProps()
+    return Boolean(canSkip)
+  }
+
   onChange = (formState, stepId) => {
     const { currentItem } = this.state
     if (currentItem && stepId === currentItem) {
@@ -275,11 +332,13 @@ class Wizard extends React.Component {
           wizardApi: {
             previous: this.handlePrevious,
             next: this.handleNext,
+            skip: this.handleSkip,
             navigateTo: this.navigateTo,
             onSubmit: this.onSubmit,
             onSubmitFailure: this.onSubmitFailure,
             onChange: this.onChange,
             getApi: this.getApi,
+            canSkip: this.canSkip,
             getState: () => this.state,
           },
           wizardState: this.state,

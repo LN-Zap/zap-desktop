@@ -21,6 +21,8 @@ export const VALIDATING_CERT = 'VALIDATING_CERT'
 export const VALIDATING_MACAROON = 'VALIDATING_MACAROON'
 export const RESET_ONBOARDING = 'RESET_ONBOARDING'
 export const SET_LNDCONNECT = 'SET_LNDCONNECT'
+export const OPEN_SKIP_BACKUP_DIALOG = 'OPEN_SKIP_BACKUP_DIALOG'
+export const CLOSE_SKIP_BACKUP_DIALOG = 'CLOSE_SKIP_BACKUP_DIALOG'
 
 // ------------------------------------
 // Actions
@@ -29,6 +31,9 @@ export const SET_LNDCONNECT = 'SET_LNDCONNECT'
 export const resetOnboarding = () => dispatch => {
   dispatch({ type: RESET_ONBOARDING })
 }
+
+export const showSkipBackupDialog = () => ({ type: OPEN_SKIP_BACKUP_DIALOG })
+export const hideSkipBackupDialog = () => ({ type: CLOSE_SKIP_BACKUP_DIALOG })
 
 export function setConnectionString(connectionString) {
   return {
@@ -196,6 +201,14 @@ const ACTION_HANDLERS = {
   [VALIDATING_CERT]: (state, { validatingCert }) => ({ ...state, validatingCert }),
   [VALIDATING_MACAROON]: (state, { validatingMacaroon }) => ({ ...state, validatingMacaroon }),
   [RESET_ONBOARDING]: state => ({ ...state, ...initialState }),
+  [OPEN_SKIP_BACKUP_DIALOG]: state => ({
+    ...state,
+    isSkipBackupDialogOpen: true,
+  }),
+  [CLOSE_SKIP_BACKUP_DIALOG]: state => ({
+    ...state,
+    isSkipBackupDialogOpen: false,
+  }),
 }
 
 // ------------------------------------
@@ -203,6 +216,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 
 const initialState = {
+  isSkipBackupDialogOpen: false,
   isOnboarding: false,
   isOnboarded: false,
   autopilot: config.lnd.autopilot.active,
