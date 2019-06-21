@@ -21,6 +21,7 @@ const scheme =
  */
 export function requestSuggestedNodes() {
   const BASE_URL = `${scheme}zap.jackmallers.com/api/v1/suggested-peers`
+  mainLog.info('Fetching suggested nodes from: %s', BASE_URL)
   return axios({
     method: 'get',
     url: BASE_URL,
@@ -47,6 +48,7 @@ export function requestNodeScores(chain, network) {
   const suffix = networkMap[network]
   const chainCode = `${code}${suffix}`
   const BASE_URL = `https://nodes.lightning.computer/availability/v1/${chainCode}.json`
+  mainLog.info('Fetching node scores from: %s', BASE_URL)
   return axios({
     method: 'get',
     url: BASE_URL,
