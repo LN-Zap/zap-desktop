@@ -71,7 +71,7 @@ const months = [
  */
 const propMatches = function(prop) {
   const { item, searchTextSelector = '' } = this
-  return item[prop] && item[prop].toLowerCase().includes(searchTextSelector)
+  return item[prop] && item[prop].toLowerCase().includes(searchTextSelector.toLowerCase())
 }
 
 /**
@@ -112,26 +112,19 @@ function groupAll(data) {
   // according too https://stackoverflow.com/a/11252167/3509860
   // this provides an accurate measurement including handling of DST
   const daysBetween = (t1, t2) => Math.round((t2 - t1) / 86400)
-
-  const createTitle = entry => {
-    const d = new Date(returnTimestamp(entry) * 1000)
-    const date = d.getDate()
-    return `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`
-  }
-
   return data
-    .sort((a, b) => returnTimestamp(b) - returnTimestamp(a))
+    .sort((a, b) => b.timestamp - a.timestamp)
     .reduce((acc, next) => {
       const prev = acc[acc.length - 1]
       //check if need insert a group title
       if (prev) {
-        const days = daysBetween(returnTimestamp(next), returnTimestamp(prev))
+        const days = daysBetween(next.timestamp, prev.timestamp)
         if (days >= 1) {
-          acc.push({ title: createTitle(next) })
+          acc.push({ title: next.date })
         }
       } else {
         //This is a very first row. Insert title here too
-        acc.push({ title: createTitle(next) })
+        acc.push({ title: next.date })
       }
       acc.push(next)
       return acc
@@ -153,13 +146,15 @@ const applySearch = (data, searchTextSelector) => {
   return data.filter(item => {
     // Check basic props for a match.
     const hasPropMatch = [
+      'date',
+      'type',
+      'memo',
       'tx_hash',
       'payment_hash',
       'payment_preimage',
       'payment_request',
       'dest_node_pubkey',
       'dest_node_alias',
-      'memo',
     ].some(propMatches, { item, searchTextSelector })
 
     // Check every destination address.
@@ -172,7 +167,14 @@ const applySearch = (data, searchTextSelector) => {
 }
 
 const prepareData = (data, searchText) => {
-  return groupAll(applySearch(data, searchText))
+  const addDate = entry => {
+    const timestamp = returnTimestamp(entry)
+    const d = new Date(timestamp * 1000)
+    const date = d.getDate()
+    return { ...entry, date: `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`, timestamp }
+  }
+  const dataWithDate = data.map(addDate)
+  return groupAll(applySearch(dataWithDate, searchText))
 }
 
 // ------------------------------------
