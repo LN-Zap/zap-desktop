@@ -262,7 +262,7 @@ const modalItemIdSelector = state => state.activity.modal.itemId
 const paymentsSelector = state => paymentSelectors.payments(state)
 const paymentsSendingSelector = state => paymentSelectors.paymentsSending(state)
 const invoicesSelector = state => invoiceSelectors.invoices(state)
-const transactionsSelector = state => transactionsSelectors.decoratedTransactionsSelector(state)
+const transactionsSelector = state => transactionsSelectors.transactions(state)
 const transactionsSendingSelector = state => transactionsSelectors.transactionsSending(state)
 
 activitySelectors.filter = filterSelector

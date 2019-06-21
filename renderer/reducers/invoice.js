@@ -38,10 +38,25 @@ export const UPDATE_INVOICE = 'UPDATE_INVOICE'
  * @returns {object} Decorated invoice
  */
 const decorateInvoice = invoice => {
+  // Add basic type information.
   const decoration = {
     type: 'invoice',
-    finalAmount: invoice.amt_paid_sat ? invoice.amt_paid_sat : invoice.value,
   }
+
+  // Older versions of lnd provided the sat amount in `value`.
+  // This is now deprecated in favor of `value_sat` and `value_msat`.
+  // Patch data returned from older clients to match the current format for consistency.
+  const { amt_paid } = invoice
+  if (amt_paid && (!invoice.amt_paid_sat || !invoice.amt_paid_msat)) {
+    Object.assign(decoration, {
+      amt_paid_sat: amt_paid,
+      amt_paid_msat: convert('sats', 'msats', amt_paid),
+    })
+  }
+
+  // Add a `finalAmount` prop which shows the amount paid if set, or the invoice value if not.
+  decoration.finalAmount = invoice.amt_paid_sat ? invoice.amt_paid_sat : invoice.value
+
   return {
     ...invoice,
     ...decoration,
@@ -94,8 +109,7 @@ export const fetchInvoices = () => async dispatch => {
 
 // Receive IPC event for invoices
 export const receiveInvoices = ({ invoices }) => dispatch => {
-  const decoratedInvoicves = invoices.map(decorateInvoice)
-  dispatch({ type: RECEIVE_INVOICES, invoices: decoratedInvoicves })
+  dispatch({ type: RECEIVE_INVOICES, invoices })
 }
 
 // Send IPC event for creating an invoice
@@ -133,13 +147,11 @@ export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
 
 // Receive IPC event for newly created invoice
 export const createInvoiceSuccess = invoice => dispatch => {
-  const decoratedInvoice = decorateInvoice(invoice)
-
   // Add new invoice to invoices list
-  dispatch({ type: INVOICE_SUCCESSFUL, invoice: decoratedInvoice })
+  dispatch({ type: INVOICE_SUCCESSFUL, invoice })
 
   // Set current invoice to newly created invoice.
-  dispatch(setInvoice(decoratedInvoice.payment_request))
+  dispatch(setInvoice(invoice.payment_request))
 }
 
 export const createInvoiceFailure = error => dispatch => {
@@ -149,9 +161,7 @@ export const createInvoiceFailure = error => dispatch => {
 
 // Listen for invoice updates pushed from backend from subscribeToInvoices
 export const receiveInvoiceData = invoice => dispatch => {
-  const decoratedInvoice = decorateInvoice(invoice)
-
-  dispatch({ type: UPDATE_INVOICE, invoice: decoratedInvoice })
+  dispatch({ type: UPDATE_INVOICE, invoice })
 
   // Fetch new balance
   dispatch(fetchBalance())
@@ -159,7 +169,7 @@ export const receiveInvoiceData = invoice => dispatch => {
   // Fetch updated channels.
   dispatch(fetchChannels())
 
-  if (decoratedInvoice.settled) {
+  if (invoice.settled) {
     // HTML 5 desktop notification for the invoice update
     const notifTitle = "You've been Zapped"
     const notifBody = 'Congrats, someone just paid an invoice of yours'
@@ -212,11 +222,9 @@ const invoiceSelectors = {}
 const invoiceSelector = state => state.invoice.invoice
 const invoicesSelector = state => state.invoice.invoices
 
-invoiceSelectors.invoice = invoiceSelector
-
 invoiceSelectors.invoices = createSelector(
   invoicesSelector,
-  invoices => invoices
+  invoices => invoices.map(decorateInvoice)
 )
 
 invoiceSelectors.invoiceModalOpen = createSelector(
@@ -224,7 +232,7 @@ invoiceSelectors.invoiceModalOpen = createSelector(
   invoice => Boolean(invoice)
 )
 invoiceSelectors.invoice = createSelector(
-  invoicesSelector,
+  invoiceSelectors.invoices,
   invoiceSelector,
   (invoices, invoice) => invoices.find(item => item.payment_request === invoice)
 )

@@ -83,7 +83,7 @@ export const getLoadingMessage = (state, location = {}) => {
  * such as funding  tx timestamp
  */
 export const decoratedSelectedChannel = createSelector(
-  transactionsSelectors.rawTransactionsSelector,
+  transactionsSelectors.transactions,
   channelsSelectors.selectedChannel,
   (transactions, channelData) => {
     if (channelData && channelData.channel_point) {
