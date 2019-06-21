@@ -70,8 +70,8 @@ const months = [
  * @returns {boolean} Boolean indicating if the prop was found and contains the search string
  */
 const propMatches = function(prop) {
-  const { item, searchTextSelector } = this
-  return item[prop] && item[prop].includes(searchTextSelector)
+  const { item, searchTextSelector = '' } = this
+  return item[prop] && item[prop].toLowerCase().includes(searchTextSelector)
 }
 
 /**
