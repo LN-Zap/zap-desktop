@@ -159,13 +159,14 @@ const applySearch = (data, searchTextSelector) => {
       'payment_request',
       'dest_node_pubkey',
       'dest_node_alias',
+      'memo',
     ].some(propMatches, { item, searchTextSelector })
 
     // Check every destination address.
     const hasAddressMatch =
       item.dest_addresses && item.dest_addresses.find(addr => addr.includes(searchTextSelector))
 
-    // Include the item if at least one search critera matches.
+    // Include the item if at least one search criteria matches.
     return hasPropMatch || hasAddressMatch
   })
 }
