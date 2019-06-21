@@ -116,6 +116,7 @@ class BackupSetup extends React.Component {
         </Form>
         <SkipBackupsDialog
           isOpen={isSkipBackupDialogOpen}
+          isRestoreMode={isRestoreMode}
           onCancel={hideSkipBackupDialog}
           onSkip={this.onSkip}
         />

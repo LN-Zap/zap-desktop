@@ -8,7 +8,7 @@ import { Dialog, Text, Heading, Button, Checkbox, Form, DialogOverlay } from 'co
 import { useCloseOnUnmount } from 'hooks'
 import messages from './messages'
 
-const DialogWrapper = ({ intl, isOpen, onSkip, onCancel }) => {
+const DialogWrapper = ({ intl, isOpen, isRestoreMode, onSkip, onCancel }) => {
   useCloseOnUnmount(isOpen, onCancel)
 
   if (!isOpen) {
@@ -43,6 +43,14 @@ const DialogWrapper = ({ intl, isOpen, onSkip, onCancel }) => {
   )
 
   const handleSubmit = () => onSkip()
+  const checkboxText = intl.formatMessage({
+    ...(isRestoreMode
+      ? messages.skip_backup_dialog_restore_warning_acknowledgement
+      : messages.skip_backup_dialog_warning_acknowledgement),
+  })
+  const warningMessage = isRestoreMode
+    ? messages.skip_backup_dialog_restore_warning
+    : messages.skip_backup_dialog_warning
 
   return (
     <DialogOverlay alignItems="center" justifyContent="center" position="fixed">
@@ -51,14 +59,10 @@ const DialogWrapper = ({ intl, isOpen, onSkip, onCancel }) => {
           <Flex alignItems="center" flexDirection="column">
             <Flex alignItems="flex-start" flexDirection="column">
               <Text color="gray" mb={2} width={550}>
-                <FormattedMessage {...messages.skip_backup_dialog_warning} />
+                <FormattedMessage {...warningMessage} />
               </Text>
             </Flex>
-            <Checkbox
-              field={checkboxFieldName}
-              label={intl.formatMessage({ ...messages.skip_backup_dialog_warning_acknowledgement })}
-              mt={4}
-            />
+            <Checkbox field={checkboxFieldName} label={checkboxText} mt={4} />
           </Flex>
         </Dialog>
       </Form>
@@ -69,6 +73,7 @@ const DialogWrapper = ({ intl, isOpen, onSkip, onCancel }) => {
 DialogWrapper.propTypes = {
   intl: intlShape.isRequired,
   isOpen: PropTypes.bool.isRequired,
+  isRestoreMode: PropTypes.bool,
   onCancel: PropTypes.func.isRequired,
   onSkip: PropTypes.func.isRequired,
 }

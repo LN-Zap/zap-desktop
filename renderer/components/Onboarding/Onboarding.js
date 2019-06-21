@@ -188,7 +188,6 @@ class Onboarding extends React.Component {
             canSkip
             component={BackupSetup}
             hideSkipBackupDialog={hideSkipBackupDialog}
-            isRestoreMode
             isSkipBackupDialogOpen={isSkipBackupDialogOpen}
             onSkip={showSkipBackupDialog}
             showError={showError}
