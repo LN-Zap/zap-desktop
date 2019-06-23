@@ -288,7 +288,7 @@
     "jest": "24.8.0",
     "jest-styled-components": "6.3.3",
     "lint-staged": "8.2.1",
-    "lnd-binary": "0.3.10",
+    "lnd-binary": "0.3.11",
     "minimist": "1.2.0",
     "mock-spawn": "0.2.6",
     "prettier": "1.18.2",
