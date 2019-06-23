@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Box } from 'rebass'
-import { Input, Label, Text } from 'components/UI'
+import { IntegerInput, Label, Text } from 'components/UI'
 import messages from './messages'
 
 export const FieldLabel = ({ itemKey, ...rest }) => {
@@ -23,15 +23,17 @@ FieldLabel.propTypes = {
   itemKey: PropTypes.string.isRequired,
 }
 
-export const NumberField = props => (
-  <Input
+export const PositiveIntegerField = props => (
+  <IntegerInput
     highlightOnValid={false}
     isRequired
     justifyContent="flex-end"
-    min="1"
+    max={9999}
+    min={1}
     step="1"
     textAlign="right"
-    type="number"
+    validateOnBlur
+    validateOnChange
     width={100}
     {...props}
   />

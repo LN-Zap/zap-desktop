@@ -5,7 +5,7 @@ import map from 'lodash/map'
 import get from 'lodash/get'
 import { Bar, DataRow, Select } from 'components/UI'
 import { getSupportedProviders } from '@zap/utils/rateProvider'
-import { FieldLabel, NumberField } from './SettingsFieldHelpers'
+import { FieldLabel, PositiveIntegerField } from './SettingsFieldHelpers'
 import messages from './messages'
 
 const addressItems = [{ key: 'p2wkh' }, { key: 'np2wkh' }]
@@ -51,7 +51,7 @@ const SettingsFieldsWallet = ({ currentConfig, intl }) => {
   const renderNumberDataRow = path => (
     <DataRow
       left={<FieldLabel itemKey={path} />}
-      right={<NumberField field={path} initialValue={get(currentConfig, path)} />}
+      right={<PositiveIntegerField field={path} initialValue={get(currentConfig, path)} />}
     />
   )
 
