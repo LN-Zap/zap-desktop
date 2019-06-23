@@ -5,6 +5,8 @@ import { isValidLndConnectUri, isValidBtcPayConfig } from '@zap/utils/connection
 import TextArea from './TextArea'
 import messages from './messages'
 
+const mask = value => value && value.trim()
+
 /**
  * @render react
  * @name LndConnectionStringInput
@@ -58,6 +60,7 @@ class LndConnectionStringInput extends React.Component {
           word-break: break-all;
         `}
         initialValue={initialValue}
+        mask={mask}
         placeholder={intl.formatMessage({ ...messages.lnd_connection_string_placeholder })}
         {...rest}
         spellCheck="false"
