@@ -5,6 +5,10 @@ environment:
   matrix:
     - nodejs_version: STABLE
 
+init:
+  - ps: Install-Product node $env:nodejs_version
+  - cmd: set NODE_OPTIONS=--max-old-space-size=1024
+
 cache:
   - node_modules -> package.json
 
@@ -22,7 +26,6 @@ clone_depth: 1
 skip_branch_with_pr: true
 
 install:
-  - ps: Install-Product node $env:nodejs_version
   - set CI=true
   - yarn
 
