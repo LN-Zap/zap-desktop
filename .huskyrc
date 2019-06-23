@@ -1,5 +1,6 @@
 {
   "hooks": {
     "commit-msg": "commitlint --env HUSKY_GIT_PARAMS",
+    "pre-push": "npm run lint"
   }
 }
