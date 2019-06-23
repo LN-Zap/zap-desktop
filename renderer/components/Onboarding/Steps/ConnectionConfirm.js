@@ -46,7 +46,7 @@ class ConnectionConfirm extends React.Component {
       connectionString,
       startLnd,
     } = this.props
-
+    connectionString = connectionString && connectionString.trim()
     // If we have a hostname, assume we are using the custom form in which host, cer and macaroon paths are supplied.
     if (connectionHost) {
       return startLnd({
@@ -123,11 +123,12 @@ class ConnectionConfirm extends React.Component {
     }
     // Otherwise, if we have a connection uri, parse the host details from that.
     else if (connectionString) {
-      if (connectionString.startsWith('lndconnect:')) {
-        const { host } = decode(connectionString)
+      const conString = connectionString.trim()
+      if (conString.startsWith('lndconnect:')) {
+        const { host } = decode(conString)
         hostname = host
       } else {
-        const { host } = parseConnectionString(connectionString)
+        const { host } = parseConnectionString(conString)
         hostname = host
       }
     }
