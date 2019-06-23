@@ -1,20 +1,21 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormattedDate, FormattedTime, FormattedMessage } from 'react-intl'
+import { FormattedDate, FormattedTime, FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Flex } from 'rebass'
 import { Bar, DataRow, Header, Panel, Text } from 'components/UI'
-import { CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
+import { CopyButton, CryptoSelector, CryptoValue, FiatSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import Lightning from 'components/Icon/Lightning'
 import messages from './messages'
 
-export default class PaymentModal extends React.PureComponent {
+class PaymentModal extends React.PureComponent {
   static propTypes = {
+    intl: intlShape.isRequired,
     item: PropTypes.object.isRequired,
   }
 
   render() {
-    const { item, ...rest } = this.props
+    const { item, intl, ...rest } = this.props
     return (
       <Panel {...rest}>
         <Panel.Header>
@@ -75,9 +76,17 @@ export default class PaymentModal extends React.PureComponent {
           <DataRow
             left={<FormattedMessage {...messages.preimage} />}
             right={
-              <Text className="hint--bottom-left" data-hint={item.payment_preimage}>
-                <Truncate text={item.payment_preimage} />
-              </Text>
+              <Flex>
+                <CopyButton
+                  mr={2}
+                  name={intl.formatMessage({ ...messages.preimage })}
+                  size="0.7em"
+                  value={item.payment_preimage}
+                />
+                <Text className="hint--bottom-left" data-hint={item.payment_preimage}>
+                  <Truncate text={item.payment_preimage} />
+                </Text>
+              </Flex>
             }
           />
         </Panel.Body>
@@ -85,3 +94,5 @@ export default class PaymentModal extends React.PureComponent {
     )
   }
 }
+
+export default injectIntl(PaymentModal)
