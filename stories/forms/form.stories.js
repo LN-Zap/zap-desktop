@@ -13,6 +13,7 @@ import {
   LightningInvoiceInput,
   LndConnectionStringInput,
   NodePubkeyInput,
+  IntegerInput,
   MainContent,
   Page,
   Radio,
@@ -79,6 +80,30 @@ storiesOf('Forms', module)
           initialValue="This is a read only field"
           isReadOnly
           label="Read only field"
+        />
+      </Form>
+    </>
+  ))
+  .add('IntegerInput', () => (
+    <>
+      <Form mb={4}>
+        <IntegerInput field="fieldName" id="field-name" label="Number field" />
+      </Form>
+      <Form mb={4}>
+        <IntegerInput
+          field="fieldName"
+          id="field-name"
+          label="Number field with min value"
+          min={0}
+        />
+      </Form>
+      <Form mb={4}>
+        <IntegerInput
+          field="fieldName"
+          id="field-name"
+          isRequired
+          label="Number field with min value (required)"
+          min={0}
         />
       </Form>
     </>
