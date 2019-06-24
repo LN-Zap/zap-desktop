@@ -7,7 +7,6 @@ import parseConnectionString from '@zap/utils/btcpayserver'
 import { Bar, Form, Header, Span, Text } from 'components/UI'
 import messages from './messages'
 
-const { splitHostname } = window.Zap
 class ConnectionConfirm extends React.Component {
   static propTypes = {
     connectionCert: PropTypes.string,
@@ -166,7 +165,7 @@ class ConnectionConfirm extends React.Component {
           <>
             <Text>
               <FormattedMessage {...messages.verify_host_title} />{' '}
-              <Span color="superGreen">{splitHostname(hostname).host}</Span>?{' '}
+              <Span color="superGreen">{window.Zap.splitHostname(hostname).host}</Span>?{' '}
             </Text>
             <Text mt={2}>
               <FormattedMessage {...messages.verify_host_description} />
