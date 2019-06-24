@@ -35,7 +35,7 @@
   "components.Activity.PaymentModal.current_value": "Luach reatha",
   "components.Activity.PaymentModal.date_sent": "Dáta a seoladh",
   "components.Activity.PaymentModal.fee": "Táille",
-  "components.Activity.PaymentModal.preimage": "Preimage Íocaíochta",
+  "components.Activity.PaymentModal.preimage": "Preimage íocaíochta",
   "components.Activity.PaymentModal.subtitle": "Íocaíocht Lightning",
   "components.Activity.PaymentModal.title_sent": "Seolta",
   "components.Activity.Transaction.amount": "Méid na hidirbhearta",

@@ -35,7 +35,7 @@
   "components.Activity.PaymentModal.current_value": "Nuværende værdi",
   "components.Activity.PaymentModal.date_sent": "Dato sendt",
   "components.Activity.PaymentModal.fee": "Gebyr",
-  "components.Activity.PaymentModal.preimage": "Betalings Preimage",
+  "components.Activity.PaymentModal.preimage": "Betalings preimage",
   "components.Activity.PaymentModal.subtitle": "Lightning Betaling",
   "components.Activity.PaymentModal.title_sent": "Sendt",
   "components.Activity.Transaction.amount": "Transaktions beløb",

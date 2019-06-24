@@ -35,7 +35,7 @@
   "components.Activity.PaymentModal.current_value": "Current value",
   "components.Activity.PaymentModal.date_sent": "Date sent",
   "components.Activity.PaymentModal.fee": "Total fee",
-  "components.Activity.PaymentModal.preimage": "Payment Preimage",
+  "components.Activity.PaymentModal.preimage": "Payment preimage",
   "components.Activity.PaymentModal.subtitle": "Lightning Payment",
   "components.Activity.PaymentModal.title_sent": "Sent",
   "components.Activity.Transaction.amount": "Transaction amount",
