@@ -79,6 +79,13 @@ class ZapController {
     // Send a message to the renderer process telling it to to gracefully shutdown. We register a success callback with
     // it so that we can complete the termination and quit electon once the app has been fully shutdown.
     ipcMain.on('terminateAppSuccess', () => app.quit())
+
+    ipcMain.on('terminateAppFailed', (event, e) => {
+      mainLog.info('terminateAppFailed: %o', e)
+      this.killAllSpawnedProcesses()
+      app.quit()
+    })
+
     this.sendMessage('terminateApp')
   }
 
