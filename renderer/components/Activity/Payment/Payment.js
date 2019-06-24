@@ -1,42 +1,38 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedTime, injectIntl, intlShape } from 'react-intl'
-import { decodePayReq } from '@zap/utils/crypto'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { Box, Flex } from 'rebass'
 import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
 import messages from './messages'
 
-const Payment = ({ payment, showActivityModal, nodes, cryptoUnitName, intl }) => {
-  const displayNodeName = payment => {
-    // First try to get the pubkey from payment.path
-    let pubkey = payment.path && payment.path[payment.path.length - 1]
-
-    // If we don't have a pubkey, try to get it from the payment request.
-    if (!pubkey && payment.payment_request) {
-      const paymentRequest = decodePayReq(payment.payment_request)
-      pubkey = paymentRequest.payeeNodeKey
-    }
-
-    // If we know the pubkey, try to lookup its alias.
-    if (pubkey) {
-      const node = nodes.find(n => pubkey === n.pub_key)
-      if (node && node.alias.length) {
-        return node.alias
-      }
-      return truncateNodePubkey(pubkey)
-    }
-
-    // If all else fails, return the string 'unknown'.
-    return intl.formatMessage({ ...messages.unknown })
+/**
+ * getDisplayNodeName - Given a payment object devise the most appropriate display name.
+ *
+ * @param  {object} payment Payment
+ * @param {intlShape} intl react-intl module
+ * @returns {string} Display name
+ */
+const getDisplayNodeName = (payment, intl) => {
+  const { dest_node_alias, dest_node_pubkey } = payment
+  if (dest_node_alias) {
+    return dest_node_alias
+  }
+  if (dest_node_pubkey) {
+    return truncateNodePubkey(dest_node_pubkey)
   }
 
+  // If all else fails, return the string 'unknown'.
+  return intl.formatMessage({ ...messages.unknown })
+}
+
+const Payment = ({ payment, showActivityModal, cryptoUnitName, intl }) => {
   return (
     <Flex
       alignItems="center"
       justifyContent="space-between"
-      onClick={payment.sending ? null : () => showActivityModal('PAYMENT', payment.payment_hash)}
+      onClick={payment.isSending ? null : () => showActivityModal('PAYMENT', payment.payment_hash)}
       py={2}
     >
       <Box
@@ -44,8 +40,8 @@ const Payment = ({ payment, showActivityModal, nodes, cryptoUnitName, intl }) =>
         data-hint={intl.formatMessage({ ...messages.type })}
         width={3 / 4}
       >
-        <Text mb={1}>{displayNodeName(payment)}</Text>
-        {payment.sending ? (
+        <Text mb={1}>{getDisplayNodeName(payment, intl)}</Text>
+        {payment.isSending ? (
           <>
             {payment.status === 'sending' && (
               <Message variant="processing">
@@ -80,11 +76,11 @@ const Payment = ({ payment, showActivityModal, nodes, cryptoUnitName, intl }) =>
         <Box css={payment.status == 'failed' ? { opacity: 0.3 } : null}>
           <Text mb={1} textAlign="right">
             {'- '}
-            <CryptoValue value={payment.value} />
+            <CryptoValue value={payment.value_sat} />
             <i> {cryptoUnitName}</i>
           </Text>
           <Text color="gray" fontSize="xs" fontWeight="normal" textAlign="right">
-            <FiatValue style="currency" value={payment.value} />
+            <FiatValue style="currency" value={payment.value_sat} />
           </Text>
         </Box>
       </Box>
@@ -95,7 +91,6 @@ const Payment = ({ payment, showActivityModal, nodes, cryptoUnitName, intl }) =>
 Payment.propTypes = {
   cryptoUnitName: PropTypes.string.isRequired,
   intl: intlShape.isRequired,
-  nodes: PropTypes.array.isRequired,
   payment: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
 }

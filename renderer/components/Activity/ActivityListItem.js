@@ -42,7 +42,7 @@ const ActivityListItem = ({ activity, ...rest }) => {
       <Text color="gray" mr={10} textAlign="center" width={24}>
         <ActivityIcon activity={activity} />
       </Text>
-      <Box css={activity.sending ? null : { cursor: 'pointer' }} width={1}>
+      <Box css={activity.isSending ? null : { cursor: 'pointer' }} width={1}>
         <ListItem {...listItemProps} />
       </Box>
     </Flex>

@@ -1,5 +1,4 @@
 import { createSelector } from 'reselect'
-import { decodePayReq } from '@zap/utils/crypto'
 import { openModal, closeModal } from './modal'
 import { fetchDescribeNetwork } from './network'
 import { fetchTransactions, transactionsSelectors } from './transaction'
@@ -260,38 +259,15 @@ const filtersSelector = state => state.activity.filters
 const searchTextSelector = state => state.activity.searchText
 const modalItemTypeSelector = state => state.activity.modal.itemType
 const modalItemIdSelector = state => state.activity.modal.itemId
-const paymentsSelector = state => paymentSelectors.decoratedPaymentsSelector(state)
+const paymentsSelector = state => paymentSelectors.payments(state)
 const paymentsSendingSelector = state => paymentSelectors.paymentsSending(state)
 const invoicesSelector = state => invoiceSelectors.invoices(state)
-const transactionsSelector = state => transactionsSelectors.decoratedTransactionsSelector(state)
+const transactionsSelector = state => transactionsSelectors.transactions(state)
 const transactionsSendingSelector = state => transactionsSelectors.transactionsSending(state)
 
 activitySelectors.filter = filterSelector
 activitySelectors.filters = filtersSelector
 activitySelectors.searchText = searchTextSelector
-
-/**
- * Map sending payments to something that looks like normal payments.
- */
-const paymentsSending = createSelector(
-  paymentsSendingSelector,
-  paymentsSending => {
-    const payments = paymentsSending.map(payment => {
-      const invoice = decodePayReq(payment.paymentRequest)
-      return {
-        type: 'payment',
-        creation_date: payment.creation_date,
-        value: payment.amt,
-        path: [invoice.payeeNodeKey],
-        payment_hash: invoice.tags.find(t => t.tagName === 'payment_hash').data,
-        sending: true,
-        status: payment.status,
-        error: payment.error,
-      }
-    })
-    return payments
-  }
-)
 
 /**
  * Map sending transactions to something that looks like normal transactions.
@@ -343,7 +319,7 @@ const addDate = entry => {
 
 // pre-search compound activity list
 const allActivityRaw = createSelector(
-  paymentsSending,
+  paymentsSendingSelector,
   transactionsSending,
   paymentsSelector,
   transactionsSelector,
@@ -371,7 +347,7 @@ const allActivity = createSelector(
 
 const sentActivity = createSelector(
   searchTextSelector,
-  paymentsSending,
+  paymentsSendingSelector,
   transactionsSending,
   paymentsSelector,
   transactionsSelector,
@@ -413,7 +389,7 @@ const receivedActivity = createSelector(
 
 const pendingActivity = createSelector(
   searchTextSelector,
-  paymentsSending,
+  paymentsSendingSelector,
   transactionsSending,
   transactionsSelector,
   invoicesSelector,

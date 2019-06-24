@@ -51,11 +51,12 @@ export function getTransactions() {
 }
 
 export function sendTransaction(data) {
-  const transaction = Object.assign({}, data, {
-    type: 'transaction',
+  const transaction = {
+    ...data,
     status: 'sending',
-    timestamp: Math.round(new Date() / 1000),
-  })
+    isSending: true,
+    time_stamp: Math.round(new Date() / 1000),
+  }
   return {
     type: SEND_TRANSACTION,
     transaction,
@@ -77,14 +78,12 @@ export const receiveTransactions = ({ transactions }) => (dispatch, getState) =>
   const currentAddresses = addressSelectors.currentAddresses(state)
   let usedAddresses = []
 
-  // Decorate transactions with additional metadata.
-  const decoratedTransactions = transactions.map(transaction => {
-    // Keep track of used addresses.
+  // Keep track of used addresses.
+  transactions.forEach(transaction => {
     usedAddresses = usedAddresses.concat(transaction.dest_addresses)
-    return decorateTransaction(transaction)
   })
 
-  dispatch({ type: RECEIVE_TRANSACTIONS, transactions: decoratedTransactions })
+  dispatch({ type: RECEIVE_TRANSACTIONS, transactions })
 
   // If our current wallet address has been used, generate a new one.
   Object.entries(currentAddresses).forEach(([type, address]) => {
@@ -172,9 +171,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
     !state.transaction.transactions ||
     !state.transaction.transactions.find(tx => tx.tx_hash === transaction.tx_hash)
   ) {
-    const decoratedTransaction = decorateTransaction(transaction)
-
-    dispatch({ type: ADD_TRANSACTION, transaction: decoratedTransaction })
+    dispatch({ type: ADD_TRANSACTION, transaction })
 
     // Refetch transactions.
     dispatch(fetchTransactions())
@@ -183,7 +180,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
     dispatch(fetchChannels())
 
     // HTML 5 desktop notification for the new transaction
-    if (decoratedTransaction.received) {
+    if (transaction.received) {
       showSystemNotification(
         'On-chain Transaction Received!',
         "Lucky you, you just received a new on-chain transaction. I'm jealous."
@@ -257,52 +254,46 @@ const transactionsSelectors = {}
 const transactionsSelector = state => state.transaction.transactions
 const transactionsSendingSelector = state => state.transaction.transactionsSending
 
-transactionsSelectors.transactions = createSelector(
-  transactionsSelector,
-  transactions => transactions
-)
-
 transactionsSelectors.transactionsSending = createSelector(
   transactionsSendingSelector,
-  transactionsSending => transactionsSending
+  transactionsSending => transactionsSending.map(transaction => decorateTransaction(transaction))
 )
 
-transactionsSelectors.rawTransactionsSelector = createSelector(
+transactionsSelectors.transactions = createSelector(
   transactionsSelector,
-  txs => txs
-)
-
-transactionsSelectors.decoratedTransactionsSelector = createSelector(
-  transactionsSelectors.transactions,
   channelsSelectors.allChannelsRaw,
   channelsSelectors.closingPendingChannelsRaw,
   channelsSelectors.pendingOpenChannelsRaw,
   (transactions, allChannelsRaw, closingPendingChannelsRaw, pendingOpenChannelsRaw) => {
-    return transactions.map(transaction => {
-      const fundedChannel = allChannelsRaw.find(channelObj => {
-        const channelData = getChannelData(channelObj)
-        const channelPoint = channelData.channel_point
-        return channelPoint ? transaction.tx_hash === channelPoint.split(':')[0] : null
-      })
-      const closedChannel = allChannelsRaw.find(channelObj => {
-        const channelData = getChannelData(channelObj)
-        return [channelData.closing_tx_hash, channelObj.closing_txid].includes(transaction.tx_hash)
-      })
-      const pendingChannel = [...closingPendingChannelsRaw, ...pendingOpenChannelsRaw].find(
-        channelObj => {
-          return channelObj.closing_txid === transaction.tx_hash
+    return transactions
+      .map(transaction => decorateTransaction(transaction))
+      .map(transaction => {
+        const fundedChannel = allChannelsRaw.find(channelObj => {
+          const channelData = getChannelData(channelObj)
+          const channelPoint = channelData.channel_point
+          return channelPoint ? transaction.tx_hash === channelPoint.split(':')[0] : null
+        })
+        const closedChannel = allChannelsRaw.find(channelObj => {
+          const channelData = getChannelData(channelObj)
+          return [channelData.closing_tx_hash, channelObj.closing_txid].includes(
+            transaction.tx_hash
+          )
+        })
+        const pendingChannel = [...closingPendingChannelsRaw, ...pendingOpenChannelsRaw].find(
+          channelObj => {
+            return channelObj.closing_txid === transaction.tx_hash
+          }
+        )
+        return {
+          ...transaction,
+          closeType: closedChannel ? closedChannel.close_type : null,
+          isFunding: Boolean(fundedChannel),
+          isClosing: Boolean(closedChannel),
+          isPending: Boolean(pendingChannel),
+          limboAmount: pendingChannel && pendingChannel.limbo_balance,
+          maturityHeight: pendingChannel && pendingChannel.maturity_height,
         }
-      )
-      return {
-        ...transaction,
-        closeType: closedChannel ? closedChannel.close_type : null,
-        isFunding: Boolean(fundedChannel),
-        isClosing: Boolean(closedChannel),
-        isPending: Boolean(pendingChannel),
-        limboAmount: pendingChannel && pendingChannel.limbo_balance,
-        maturityHeight: pendingChannel && pendingChannel.maturity_height,
-      }
-    })
+      })
   }
 )
 
