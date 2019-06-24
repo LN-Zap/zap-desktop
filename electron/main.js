@@ -270,15 +270,26 @@ app.on('ready', async () => {
   // When the window is closed, just hide it unless we are force closing.
   mainWindow.on('close', event => {
     mainLog.trace('mainWindow.close')
-    if (os.platform() === 'darwin' && !mainWindow.forceClose) {
-      event.preventDefault()
-      if (mainWindow.isFullScreen()) {
-        mainWindow.once('leave-full-screen', () => {
+    // On Mac, when the user closes the window we just want to hide it so that they can open from the dock later.
+    if (os.platform() === 'darwin') {
+      if (!mainWindow.forceClose) {
+        event.preventDefault()
+        if (mainWindow.isFullScreen()) {
+          mainWindow.once('leave-full-screen', () => {
+            mainWindow.hide()
+          })
+          mainWindow.setFullScreen(false)
+        } else {
           mainWindow.hide()
-        })
-        mainWindow.setFullScreen(false)
-      } else {
+        }
+      }
+    }
+    // On Windows/Linux, we quit the app when the window is closed.
+    else {
+      if (!mainWindow.forceClose) {
+        event.preventDefault()
         mainWindow.hide()
+        app.quit()
       }
     }
   })
