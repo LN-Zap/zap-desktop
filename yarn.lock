@@ -1276,14 +1276,6 @@
   dependencies:
     semver "^6.0.0"
 
-"@grpc/proto-loader@0.5.1":
-  version "0.5.1"
-  resolved "https://registry.yarnpkg.com/@grpc/proto-loader/-/proto-loader-0.5.1.tgz#48492b53cdda353110b51a4b02f465974729c76f"
-  integrity sha512-3y0FhacYAwWvyXshH18eDkUI40wT/uGio7MAegzY8lO5+wVsc19+1A7T0pPptae4kl7bdITL+0cHpnAPmryBjQ==
-  dependencies:
-    lodash.camelcase "^4.3.0"
-    protobufjs "^6.8.6"
-
 "@hot-loader/react-dom@16.8.6":
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/@hot-loader/react-dom/-/react-dom-16.8.6.tgz#7923ba27db1563a7cc48d4e0b2879a140df461ea"
@@ -1444,6 +1436,14 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^12.0.9"
+
+"@ln-zap/proto-loader@0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@ln-zap/proto-loader/-/proto-loader-0.5.1.tgz#246f1a3c54f906e0f825a0890b56a426de122d15"
+  integrity sha512-zkupXayub2dPaqYXVlxF0rilQQuLtRd7qHcS8vwWl6DOVZIki9uCd2wmnhtuh5FieGsFmc1yfXt9LeuENHhjVw==
+  dependencies:
+    lodash.camelcase "^4.3.0"
+    protobufjs "^6.8.6"
 
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
@@ -10813,13 +10813,13 @@ lnd-binary@0.3.11:
     "true-case-path" "^2.0.0"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.2.10:
-  version "0.2.10"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.2.10.tgz#40ec5616324baec49a3c2dfb2ccd6a11a3bea8d3"
-  integrity sha512-oE0LN07Zu65fdSKlFpgQLvDbyQrX38rJq/aeBevA8XOAOpGZVMJK0h6yTBJGA9ihxdaf5acv/uxquakqXH+kwg==
+lnd-grpc@0.3.0-1:
+  version "0.3.0-1"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.0-1.tgz#cc6c33c463b575166f63c7056af1892c405d9909"
+  integrity sha512-KLdqfkgRVCSV2k/dl+UDsOKspHJ2JITTwDDCuXZMtBdvsY/x6pUpElRaqXUjiJJxA/KmUMCrMCBbkAwRuOCS8Q==
   dependencies:
     "@grpc/grpc-js" "0.4.3"
-    "@grpc/proto-loader" "0.5.1"
+    "@ln-zap/proto-loader" "0.5.1"
     debug "4.1.1"
     javascript-state-machine "3.1.0"
     lndconnect "0.2.7"
