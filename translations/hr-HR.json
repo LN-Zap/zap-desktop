@@ -35,7 +35,7 @@
   "components.Activity.PaymentModal.current_value": "Trenutna vrijednost",
   "components.Activity.PaymentModal.date_sent": "Datum slanja",
   "components.Activity.PaymentModal.fee": "Naknada",
-  "components.Activity.PaymentModal.preimage": "Skica plaćanja",
+  "components.Activity.PaymentModal.preimage": "",
   "components.Activity.PaymentModal.subtitle": "LN plaćanje",
   "components.Activity.PaymentModal.title_sent": "Poslano",
   "components.Activity.Transaction.amount": "Iznos transakcije",
