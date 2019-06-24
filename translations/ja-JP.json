@@ -35,7 +35,7 @@
   "components.Activity.PaymentModal.current_value": "現在値",
   "components.Activity.PaymentModal.date_sent": "送信日",
   "components.Activity.PaymentModal.fee": "フィー",
-  "components.Activity.PaymentModal.preimage": "支払いプレイメージ",
+  "components.Activity.PaymentModal.preimage": "",
   "components.Activity.PaymentModal.subtitle": "ライトニングペイメンツ",
   "components.Activity.PaymentModal.title_sent": "送信した",
   "components.Activity.Transaction.amount": "数量",
