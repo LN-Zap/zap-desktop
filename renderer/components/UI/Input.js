@@ -32,7 +32,7 @@ function mapDefaultBorderColor(props) {
   } = props
   let borderColor = gray
 
-  if (!props.highlightOnValid) {
+  if (isFieldValid(fieldState) && !props.highlightOnValid) {
     return borderColor
   }
 
