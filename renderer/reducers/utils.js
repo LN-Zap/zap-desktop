@@ -19,10 +19,12 @@ export const isLoading = createSelector(
 )
 
 /**
- * Allows to specify custom loading condition on a per router path basis
- * Add custom isLoading rules here
+ * isLoadingPerPath - Allows to specify custom loading condition on a per router path basis
+ * Add custom isLoading rules here.
  *
- * @param {} state
+ * @param {object} state Redux state
+ * @param {object} location React Router location object
+ * @returns {boolean} Boolean indicating the loading state for path
  */
 export const isLoadingPerPath = (state, location = {}) => {
   const { pathname } = location

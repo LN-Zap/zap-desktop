@@ -35,14 +35,41 @@ export const QUERY_ROUTES_FAILURE = 'QUERY_ROUTES_FAILURE'
 export const SET_REDIRECT_PAY_REQ = 'SET_REDIRECT_PAY_REQ'
 
 // ------------------------------------
+// IPC
+// ------------------------------------
+
+/**
+ * lightningPaymentUri - Initiate lightning payment flow.
+ *
+ * @param  {event} event Event
+ * @param  {{ address }} address Address (payment request)
+ * @returns {undefined}
+ */
+export const lightningPaymentUri = (event, { address }) => dispatch => {
+  dispatch(setRedirectPayReq({ address }))
+}
+
+/**
+ * bitcoinPaymentUri - Initiate bitcoin payment flow.
+ *
+ * @param  {event} event Event
+ * @param  {{ address, options }} options, decoded bip21 payment url
+ * @returns {undefined}
+ */
+export const bitcoinPaymentUri = (event, { address, options: { amount } }) => dispatch => {
+  dispatch(setRedirectPayReq({ address, amount }))
+}
+
+// ------------------------------------
 // Actions
 // ------------------------------------
 
 /**
- * Estimates on-chain fee
+ * queryFees - Estimates on-chain fee.
  *
- * @param {string} [address]
- * @param {number} [amountInSats] desired amount in satoshis
+ * @param {string} address Destination address
+ * @param {number} amountInSats desired amount in satoshis
+ * @returns {Function} Thunk
  */
 export const queryFees = (address, amountInSats) => async (dispatch, getState) => {
   dispatch({ type: QUERY_FEES })
@@ -60,37 +87,35 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
   }
 }
 
+/**
+ * queryRoutes - Find valid routes to make a payment to a node.
+ *
+ * @param {string} pubKey Destination node pubkey
+ * @param {number} amount desired amount in satoshis
+ * @returns {Function} Thunk
+ */
 export const queryRoutes = (pubKey, amount) => async dispatch => {
   dispatch({ type: QUERY_ROUTES, pubKey })
   try {
     const grpc = await grpcService
     const routes = await grpc.services.Lightning.queryRoutes({ pub_key: pubKey, amt: amount })
-    dispatch(queryRoutesSuccess(routes))
+    dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
   } catch (e) {
-    dispatch(queryRoutesFailure())
+    dispatch({ type: QUERY_ROUTES_FAILURE })
   }
 }
 
-export const queryRoutesSuccess = ({ routes }) => dispatch =>
-  dispatch({ type: QUERY_ROUTES_SUCCESS, routes })
-
-export const queryRoutesFailure = () => dispatch => {
-  dispatch({ type: QUERY_ROUTES_FAILURE })
-}
-
+/**
+ * setRedirectPayReq - Set payment request to initiate payment flow to a specific address / payment request.
+ *
+ * @param {{address, amount}} redirectPayReq Payment request details
+ * @returns {object} Action
+ */
 export function setRedirectPayReq(redirectPayReq) {
   return {
     type: SET_REDIRECT_PAY_REQ,
     redirectPayReq,
   }
-}
-
-export const bitcoinPaymentUri = (event, { address, options: { amount } }) => dispatch => {
-  dispatch(setRedirectPayReq({ address, amount }))
-}
-
-export const lightningPaymentUri = (event, { address }) => dispatch => {
-  dispatch(setRedirectPayReq({ address }))
 }
 
 // ------------------------------------

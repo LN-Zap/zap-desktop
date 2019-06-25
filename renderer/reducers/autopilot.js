@@ -24,7 +24,11 @@ export const UPDATE_AUTOPILOT_NODE_SCORES_FAILURE = 'UPDATE_AUTOPILOT_NODE_SCORE
 // Actions
 // ------------------------------------
 
-// Fetch autopilot node scores.
+/**
+ * updateAutopilotNodeScores - Fetch autopilot node scores.
+ *
+ * @returns {Function} Thunk
+ */
 export const updateAutopilotNodeScores = () => async (dispatch, getState) => {
   const state = getState()
 

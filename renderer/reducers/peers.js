@@ -1,5 +1,4 @@
 import { grpcService } from 'workers'
-import { showError } from './notification'
 
 // ------------------------------------
 // Initial State
@@ -17,9 +16,6 @@ const initialState = {
 // Constants
 // ------------------------------------
 
-export const CONNECT_PEER = 'CONNECT_PEER'
-export const CONNECT_SUCCESS = 'CONNECT_SUCCESS'
-export const CONNECT_FAILURE = 'CONNECT_FAILURE'
 export const FETCH_PEERS = 'FETCH_PEERS'
 export const FETCH_PEERS_SUCCESS = 'FETCH_PEERS_SUCCESS'
 export const FETCH_PEERS_FAILURE = 'FETCH_PEERS_FAILURE'
@@ -28,22 +24,11 @@ export const FETCH_PEERS_FAILURE = 'FETCH_PEERS_FAILURE'
 // Actions
 // ------------------------------------
 
-export function connectPeer() {
-  return {
-    type: CONNECT_PEER,
-  }
-}
-
-// Send IPC receive for successfully connecting to a peer
-export const connectSuccess = peer => dispatch => dispatch({ type: CONNECT_SUCCESS, peer })
-
-// Send IPC receive for unsuccessfully connecting to a peer
-export const connectFailure = error => dispatch => {
-  dispatch({ type: CONNECT_FAILURE })
-  dispatch(showError(error))
-}
-
-// Fetch peers.
+/**
+ * fetchPeers - Fetch list of all connected peers.
+ *
+ * @returns {Function} Thunk
+ */
 export const fetchPeers = () => async dispatch => {
   dispatch({ type: FETCH_PEERS })
   try {
@@ -60,13 +45,6 @@ export const fetchPeers = () => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [CONNECT_PEER]: state => ({ ...state, connecting: true }),
-  [CONNECT_SUCCESS]: (state, { peer }) => ({
-    ...state,
-    connecting: false,
-    peers: [...state.peers, peer],
-  }),
-  [CONNECT_FAILURE]: state => ({ ...state, connecting: false }),
   [FETCH_PEERS]: state => ({ ...state, isPeersLoading: true }),
   [FETCH_PEERS_SUCCESS]: (state, { peers }) => ({ ...state, isPeersLoading: false, peers }),
   [FETCH_PEERS_FAILURE]: (state, { error }) => ({

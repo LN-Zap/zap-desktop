@@ -85,6 +85,12 @@ const decorateInvoice = invoice => {
 // Actions
 // ------------------------------------
 
+/**
+ * setInvoice - Set the active invoice.
+ *
+ * @param {object} invoice Invoice
+ * @returns {object} Action
+ */
 export function setInvoice(invoice) {
   return {
     type: SET_INVOICE,
@@ -92,12 +98,23 @@ export function setInvoice(invoice) {
   }
 }
 
+/**
+ * getInvoice - Fetch an invoice from lnd.
+ *
+ * @returns {object} Action
+ */
 export function getInvoice() {
   return {
     type: GET_INVOICE,
   }
 }
 
+/**
+ * receiveInvoice - Receive an invoice from lnd.
+ *
+ * @param {object} invoice Invoice data.
+ * @returns {object} Action
+ */
 export function receiveInvoice(invoice) {
   return {
     type: RECEIVE_INVOICE,
@@ -105,19 +122,33 @@ export function receiveInvoice(invoice) {
   }
 }
 
+/**
+ * getInvoices - Fetch details of all invoices.
+ *
+ * @returns {object} Action
+ */
 export function getInvoices() {
   return {
     type: GET_INVOICES,
   }
 }
 
+/**
+ * sendInvoice - Send an inveoice.
+ *
+ * @returns {object} Action
+ */
 export function sendInvoice() {
   return {
     type: SEND_INVOICE,
   }
 }
 
-// Send IPC event for invoices
+/**
+ * fetchInvoices - Fetch details of all invoices.
+ *
+ * @returns {object} Action
+ */
 export const fetchInvoices = () => async dispatch => {
   dispatch(getInvoices())
   const grpc = await grpcService
@@ -125,12 +156,25 @@ export const fetchInvoices = () => async dispatch => {
   dispatch(receiveInvoices(invoices))
 }
 
-// Receive IPC event for invoices
+/**
+ * receiveInvoices - Receive details of all invoice.
+ *
+ * @param {Array} data List of invoices
+ * @returns {object} Action
+ */
 export const receiveInvoices = ({ invoices }) => dispatch => {
   dispatch({ type: RECEIVE_INVOICES, invoices })
 }
 
-// Send IPC event for creating an invoice
+/**
+ * createInvoice - Create an invoice.
+ *
+ * @param {number} amount Amount
+ * @param {string} cryptoUnit Crypto unit (sats, bits, btc)
+ * @param {string} memo Memo
+ * @param {boolean} isPrivate Set to true to include routing hints
+ * @returns {Function} Thunk
+ */
 export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
   dispatch,
   getState
@@ -163,7 +207,12 @@ export const createInvoice = (amount, cryptoUnit, memo, isPrivate) => async (
   }
 }
 
-// Receive IPC event for newly created invoice
+/**
+ * createInvoiceSuccess - Create invoice success handler.
+ *
+ * @param {object} invoice Invoice
+ * @returns {Function} Thunk
+ */
 export const createInvoiceSuccess = invoice => dispatch => {
   // Add new invoice to invoices list
   dispatch({ type: INVOICE_SUCCESSFUL, invoice })
@@ -172,12 +221,23 @@ export const createInvoiceSuccess = invoice => dispatch => {
   dispatch(setInvoice(invoice.payment_request))
 }
 
+/**
+ * createInvoiceFailure - Create invoice error handler.
+ *
+ * @param {Error} error Error
+ * @returns {Function} Thunk
+ */
 export const createInvoiceFailure = error => dispatch => {
   dispatch({ type: INVOICE_FAILED, createInvoiceError: error.message })
   dispatch(showError(error.message))
 }
 
-// Listen for invoice updates pushed from backend from subscribeToInvoices
+/**
+ * receiveInvoiceData - Listen for invoice updates pushed from backend from invoices stream.
+ *
+ * @param {object} invoice Invoice
+ * @returns {Function} Thunk
+ */
 export const receiveInvoiceData = invoice => dispatch => {
   dispatch({ type: UPDATE_INVOICE, invoice })
 

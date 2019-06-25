@@ -11,7 +11,11 @@ export const CONFIGURE_AUTOUPDATER = 'CONFIGURE_AUTOUPDATER'
 // ------------------------------------
 
 /**
- * Tell the main process to reconfigure the autoupdater.
+ * configureAutoUpdater - Tell the main process to reconfigure the autoupdater.
+ *
+ * @param {{ active }} settings AutoUpdater settings
+ *
+ * @returns {Function} Thunk
  */
 export const configureAutoUpdater = settings => dispatch => {
   dispatch({ type: CONFIGURE_AUTOUPDATER, settings })

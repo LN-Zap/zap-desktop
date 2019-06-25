@@ -123,7 +123,7 @@ const CAPACITY = 'CAPACITY'
 // ------------------------------------
 
 /**
- * Get the channel data from aq channel object.
+ * getChannelData - Get the channel data from aq channel object.
  * If this is a pending channel, the channel data will be stored under the `channel` key.
  *
  * @param  {object} channelObj Channel object
@@ -132,15 +132,15 @@ const CAPACITY = 'CAPACITY'
 export const getChannelData = channelObj => channelObj.channel || channelObj
 
 /**
- * Get a name to display for the channel.
+ * getDisplayName - Get a name to display for the channel.
  *
  * This will either be:
  *  - the alias of the node at the other end of the channel
  *  - a shortened public key.
  *
- * @param  {object} channel Channel object.
- * @param  {Array} nodes Array of nodes.
- * @returns {string} Channel display name.
+ * @param  {object} channel Channel object
+ * @param  {Array} nodes Array of nodes
+ * @returns {string} Channel display name
  */
 const getDisplayName = (channel, nodes) => {
   const remoteNodePubkey = getRemoteNodePubKey(channel)
@@ -150,25 +150,25 @@ const getDisplayName = (channel, nodes) => {
 }
 
 /**
- * Get the remote pubkey depending on what type of channel.
+ * getRemoteNodePubKey - Get the remote pubkey depending on what type of channel.
  *
  * due to inconsistent API vals the remote nodes pubkey will be under remote_pubkey for active channels and
- * remote_node_pub for pending channels.
- * we have
+ * remote_node_pub for pending channels we have.
  *
- * @param  {[type]} channel [description]
- * @returns {[type]}         [description]
+ * @param  {object} channel Channel object
+ * @returns {string} Channel remote pubKey
  */
 const getRemoteNodePubKey = channel => {
   return channel.node_pubkey || channel.remote_pubkey || channel.remote_node_pub
 }
 
 /**
- * Determine the status of a channel.
+ * getStatus - Determine the status of a channel.
  *
- * @param  {object} channel Channel object.
- * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing.
- * @returns {string} Channel status name.
+ * @param  {object} channelObj Channel object
+ * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing
+ * @param  {Array} loadingChannelPubKeys List of channel ids that we are in the process of opening
+ * @returns {string} Channel status name
  */
 const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = []) => {
   const channelData = getChannelData(channelObj)
@@ -206,19 +206,27 @@ const getStatus = (channelObj, closingChannelIds = [], loadingChannelPubKeys = [
   return 'open'
 }
 
-const getChannelEffectiveCapacity = c => c.local_balance + c.remote_balance || 0
 /**
- * Decorate a channel object with additional calculated properties.
+ * getChannelEffectiveCapacity - Get the effective capacity (local + remote balance) for a channel.
  *
- * @param  {object} channelObj Channel object.
- * @param  {Array} nodes Array of node data.
- * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing.
- * @returns {object} Decorated channel object.
+ * @param  {object} channel Channel object
+ * @returns {number} Effective capacity
  */
-const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannels) => {
+const getChannelEffectiveCapacity = channel => channel.local_balance + channel.remote_balance || 0
+
+/**
+ * decorateChannel - Decorate a channel object with additional calculated properties.
+ *
+ * @param  {object} channelObj Channel object
+ * @param  {Array} nodes Array of node data
+ * @param  {Array} closingChannelIds List of channel ids that we are in the process of closing
+ * @param  {Array} loadingChannelPubKeys List of channel ids that we are in the process of opening
+ * @returns {object} Decorated channel object
+ */
+const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannelPubKeys) => {
   // If this is a pending channel, the channel data will be stored under the `channel` key.
   const channelData = getChannelData(channelObj)
-  const status = getStatus(channelObj, closingChannelIds, loadingChannels)
+  const status = getStatus(channelObj, closingChannelIds, loadingChannelPubKeys)
 
   const getActivity = c => {
     const capacity = getChannelEffectiveCapacity(c)
@@ -252,6 +260,11 @@ const decorateChannel = (channelObj, nodes, closingChannelIds, loadingChannels) 
 // Actions
 // ------------------------------------
 
+/**
+ * initChannels - Initialise channels.
+ *
+ * @returns {Function} Thunk
+ */
 export const initChannels = () => async (dispatch, getState) => {
   const state = getState()
   const currentConfig = settingsSelectors.currentConfig(state)
@@ -262,11 +275,23 @@ export const initChannels = () => async (dispatch, getState) => {
   }
 }
 
+/**
+ * setChannelViewMode - Set the current channels list view mode.
+ *
+ * @param {'list'|'card'} viewMode View mode
+ * @returns {Function} Thunk
+ */
 export const setChannelViewMode = viewMode => dispatch => {
   dispatch({ type: SET_CHANNEL_VIEW_MODE, viewMode })
   dispatch(putConfig('channels.viewMode', viewMode))
 }
 
+/**
+ * changeFilter - Set the current channels list filter.
+ *
+ * @param {string} filter Filter Id
+ * @returns {object} Action
+ */
 export function changeFilter(filter) {
   return {
     type: CHANGE_CHANNEL_FILTER,
@@ -274,6 +299,12 @@ export function changeFilter(filter) {
   }
 }
 
+/**
+ * changeSort - Set the current channels list sort.
+ *
+ * @param {string} sort Sort Id
+ * @returns {object} Action
+ */
 export function changeSort(sort) {
   return {
     type: CHANGE_CHANNEL_SORT,
@@ -282,11 +313,10 @@ export function changeSort(sort) {
 }
 
 /**
+ * changeSortOrder - Set the current channels list sort order.
  *
- *
- * @export
- * @param {string} sortOrder asc or desc
- * @returns action
+ * @param {'asc'|'desc'} sortOrder Sort order
+ * @returns {object} Action
  */
 export function changeSortOrder(sortOrder) {
   return {
@@ -296,7 +326,9 @@ export function changeSortOrder(sortOrder) {
 }
 
 /**
- * Switches between sort modes (asc<->desc)
+ * switchSortOrder - Switches between sort modes (asc<->desc).
+ *
+ * @returns {Function} Thunk
  */
 export function switchSortOrder() {
   return (dispatch, getState) => {
@@ -305,18 +337,34 @@ export function switchSortOrder() {
   }
 }
 
+/**
+ * getChannels - Initialte fetch of channel data.
+ *
+ * @returns {object} Action
+ */
 export function getChannels() {
   return {
     type: GET_CHANNELS,
   }
 }
 
+/**
+ * closingChannel - Initialte channel close action.
+ *
+ * @returns {object} Action
+ */
 export function closingChannel() {
   return {
     type: CLOSING_CHANNEL,
   }
 }
 
+/**
+ * updateChannelSearchQuery - Set the current channel serach string.
+ *
+ * @param {string} searchQuery Search query
+ * @returns {object} Action
+ */
 export function updateChannelSearchQuery(searchQuery) {
   return {
     type: UPDATE_SEARCH_QUERY,
@@ -324,6 +372,12 @@ export function updateChannelSearchQuery(searchQuery) {
   }
 }
 
+/**
+ * addLoadingChannel - Add a channel to the list of currently loading channels.
+ *
+ * @param {object} data Channel loading object
+ * @returns {object} Action
+ */
 export function addLoadingChannel(data) {
   return {
     type: ADD_LOADING_PUBKEY,
@@ -331,6 +385,12 @@ export function addLoadingChannel(data) {
   }
 }
 
+/**
+ * removeLoadingChannel - Remove an item from list of currently loading channels.
+ *
+ * @param {string} pubkey Channel Pubkey
+ * @returns {object} Action
+ */
 export function removeLoadingChannel(pubkey) {
   return {
     type: REMOVE_LOADING_PUBKEY,
@@ -338,6 +398,12 @@ export function removeLoadingChannel(pubkey) {
   }
 }
 
+/**
+ * addClosingChanId - Add a channel id to to the list of currently closing channels.
+ *
+ * @param {string} chanId Channel Id
+ * @returns {object} Action
+ */
 export function addClosingChanId(chanId) {
   return {
     type: ADD_ClOSING_CHAN_ID,
@@ -345,6 +411,12 @@ export function addClosingChanId(chanId) {
   }
 }
 
+/**
+ * removeClosingChanId - Remove an item from list of currently closing channels.
+ *
+ * @param {string} chanId Channel Id
+ * @returns {object} Action
+ */
 export function removeClosingChanId(chanId) {
   return {
     type: REMOVE_ClOSING_CHAN_ID,
@@ -352,6 +424,12 @@ export function removeClosingChanId(chanId) {
   }
 }
 
+/**
+ * setSelectedChannel - Set the currently selected channel.
+ *
+ * @param {string} selectedChannelId Channel Id
+ * @returns {object} Action
+ */
 export function setSelectedChannel(selectedChannelId) {
   return {
     type: SET_SELECTED_CHANNEL,
@@ -359,18 +437,34 @@ export function setSelectedChannel(selectedChannelId) {
   }
 }
 
+/**
+ * getSuggestedNodes - Initiate fetch of the suggested nodes list.
+ *
+ * @returns {object} Action
+ */
 export function getSuggestedNodes() {
   return {
     type: GET_SUGGESTED_NODES,
   }
 }
 
+/**
+ * receiveSuggestedNodesError - Error handler for issues fetching the suggested nodes list.
+ *
+ * @returns {object} Action
+ */
 export function receiveSuggestedNodesError() {
   return {
     type: RECEIVE_SUGGESTED_NODES_ERROR,
   }
 }
 
+/**
+ * receiveSuggestedNodes - Success handler for fetching the suggested nodes list.
+ *
+ * @param {object[]} suggestedNodes List of suggested nodes
+ * @returns {object} Action
+ */
 export function receiveSuggestedNodes(suggestedNodes) {
   return {
     type: RECEIVE_SUGGESTED_NODES,
@@ -378,6 +472,11 @@ export function receiveSuggestedNodes(suggestedNodes) {
   }
 }
 
+/**
+ * fetchSuggestedNodes - Fetch suggested node list.
+ *
+ * @returns {Function} Thunk
+ */
 export const fetchSuggestedNodes = () => async dispatch => {
   dispatch(getSuggestedNodes())
   try {
@@ -388,7 +487,11 @@ export const fetchSuggestedNodes = () => async dispatch => {
   }
 }
 
-// Send IPC event for peers
+/**
+ * fetchChannels - Fetch channel data from lnd.
+ *
+ * @returns {Function} Thunk
+ */
 export const fetchChannels = () => async dispatch => {
   dispatch(getChannels())
   const grpc = await grpcService
@@ -396,7 +499,12 @@ export const fetchChannels = () => async dispatch => {
   dispatch(receiveChannels(channels))
 }
 
-// Receive IPC event for channels
+/**
+ * receiveChannels - Receive channels data from lnd.
+ *
+ * @param {object} data Details of all current channels
+ * @returns {Function} Thunk
+ */
 export const receiveChannels = ({
   channels: { channels },
   pendingChannels,
@@ -406,7 +514,12 @@ export const receiveChannels = ({
   dispatch(fetchBalance())
 }
 
-// Send IPC event for opening a channel
+/**
+ * openChannel - Send open channel request to lnd.
+ *
+ * @param {object} data New channel config
+ * @returns {Function} Thunk
+ */
 export const openChannel = data => async (dispatch, getState) => {
   const { pubkey, host, localamt, satPerByte, isPrivate, spendUnconfirmed = true } = data
 
@@ -456,7 +569,12 @@ export const openChannel = data => async (dispatch, getState) => {
   }
 }
 
-// Receive IPC event for updated channel
+/**
+ * pushchannelupdated - Receive a channel update notification from lnd.
+ *
+ * @param {object} data Channel update notification
+ * @returns {Function} Thunk
+ */
 export const pushchannelupdated = ({ node_pubkey, data }) => dispatch => {
   dispatch(fetchChannels())
   if (data.update === 'chan_pending') {
@@ -474,7 +592,12 @@ export const pushchannelupdated = ({ node_pubkey, data }) => dispatch => {
   }
 }
 
-// Receive IPC event for channel error
+/**
+ * pushchannelerror - Receive a channel error notification from lnd.
+ *
+ * @param {object} data Channel error notification
+ * @returns {Function} Thunk
+ */
 export const pushchannelerror = ({ node_pubkey, error }) => dispatch => {
   dispatch(removeLoadingChannel(node_pubkey))
   dispatch(
@@ -489,10 +612,29 @@ export const pushchannelerror = ({ node_pubkey, error }) => dispatch => {
   )
 }
 
-export const showCloseChannelDialog = () => ({ type: OPEN_CLOSE_CHANNEL_DIALOG })
-export const hideCloseChannelDialog = () => ({ type: CLOSE_CLOSE_CHANNEL_DIALOG })
+/**
+ * showCloseChannelDialog - Show the channel close dialog.
+ *
+ * @returns {object} Action
+ */
+export const showCloseChannelDialog = () => ({
+  type: OPEN_CLOSE_CHANNEL_DIALOG,
+})
 
-// Send IPC event for closing a channel
+/**
+ * hideCloseChannelDialog - Hide the channel close dialog.
+ *
+ * @returns {object} Action
+ */
+export const hideCloseChannelDialog = () => ({
+  type: CLOSE_CLOSE_CHANNEL_DIALOG,
+})
+
+/**
+ * closeChannel - Close the currently selected channel.
+ *
+ * @returns {Function} Thunk
+ */
 export const closeChannel = () => async (dispatch, getState) => {
   const selectedChannel = channelsSelectors.selectedChannel(getState())
 
@@ -530,28 +672,42 @@ export const closeChannel = () => async (dispatch, getState) => {
   }
 }
 
-// Receive IPC event for updated closing channel
+/**
+ * pushclosechannelupdated - Receive a channel cloase update notification from lnd.
+ *
+ * @param {object} data Channel close update notification
+ * @returns {Function} Thunk
+ */
 export const pushclosechannelupdated = ({ chan_id }) => dispatch => {
   dispatch(fetchChannels())
   dispatch(removeClosingChanId(chan_id))
 }
 
-// Receive IPC event for closing channel error
+/**
+ * pushclosechannelerror - Receive a channel cloase error notification from lnd.
+ *
+ * @param {object} data Channel close error notification
+ * @returns {Function} Thunk
+ */
 export const pushclosechannelerror = ({ error, chan_id }) => dispatch => {
   dispatch(showError(error))
   dispatch(removeClosingChanId(chan_id))
 }
 
 /**
- * Throttled dispatch to fetchChannels.
- * Calls fetchChannels no more than once per second.
+ * throttledFetchChannels - Throttled dispatch to fetchChannels (calls fetchChannels no more than once per second).
  */
 const throttledFetchChannels = throttle(dispatch => dispatch(fetchChannels()), 1000, {
   leading: true,
   trailing: true,
 })
 
-// gRPC event for channel graph data
+/**
+ * receiveChannelGraphData - Receive channel graph data from lnd.
+ *
+ * @param {object} data Channel graph
+ * @returns {Function} Thunk
+ */
 export const receiveChannelGraphData = ({ channel_updates, node_updates }) => (
   dispatch,
   getState
@@ -591,9 +747,6 @@ export const receiveChannelGraphData = ({ channel_updates, node_updates }) => (
     throttledFetchChannels(dispatch)
   }
 }
-
-// IPC event for channel graph status
-export const channelGraphStatus = () => () => {}
 
 // ------------------------------------
 // Action Handlers

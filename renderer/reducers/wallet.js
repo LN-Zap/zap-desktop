@@ -29,6 +29,12 @@ export const PUT_WALLET = 'PUT_WALLET'
 // Actions
 // ------------------------------------
 
+/**
+ * setWallets - Populate wallets list.
+ *
+ * @param {Array} wallets List of wallet configs
+ * @returns {object} Action
+ */
 export function setWallets(wallets) {
   return {
     type: SET_WALLETS,
@@ -36,12 +42,22 @@ export function setWallets(wallets) {
   }
 }
 
+/**
+ * setWalletsLoaded - Set wallts loaded state.
+ *
+ * @returns {object} Action
+ */
 export function setWalletsLoaded() {
   return {
     type: SET_WALLETS_LOADED,
   }
 }
 
+/**
+ * getWallets - Fetch all wallet configs.
+ *
+ * @returns {Function} Thunk
+ */
 export const getWallets = () => async dispatch => {
   let wallets
   try {
@@ -54,14 +70,32 @@ export const getWallets = () => async dispatch => {
   return wallets
 }
 
+/**
+ * setActiveWallet - Set the currently active wallet.
+ *
+ * @param {number} activeWallet Wallet Id
+ * @returns {Function} Thunk
+ */
 export const setActiveWallet = activeWallet => async dispatch => {
   dispatch(putSetting('activeWallet', activeWallet))
 }
 
+/**
+ * setActiveWallet - Set the currently active wallet.
+ *
+ * @param {boolean} isWalletOpen Boolean indicating wither currently active wallet is open.
+ * @returns {Function} Thunk
+ */
 export const setIsWalletOpen = isWalletOpen => async dispatch => {
   dispatch(putSetting('isWalletOpen', isWalletOpen))
 }
 
+/**
+ * putWallet - Create/Update a wallet config.
+ *
+ * @param {object} wallet Wallet config
+ * @returns {Function} Thunk
+ */
 export const putWallet = wallet => async dispatch => {
   dispatch({ type: PUT_WALLET, wallet })
   wallet.id = await window.db.wallets.put(wallet)
@@ -69,14 +103,29 @@ export const putWallet = wallet => async dispatch => {
   return wallet
 }
 
-export const showDeleteWalletDialog = () => ({ type: OPEN_DELETE_WALLET_DIALOG })
-export const hideDeleteWalletDialog = () => ({ type: CLOSE_DELETE_WALLET_DIALOG })
+/**
+ * showDeleteWalletDialog - Show the delete wallet dialog.
+ *
+ * @returns {object} Action
+ */
+export const showDeleteWalletDialog = () => ({
+  type: OPEN_DELETE_WALLET_DIALOG,
+})
 
 /**
- * Remove a wallet entry.
+ * hideDeleteWalletDialog - Hide the delete wallet dialog.
  *
- * @param  {object} wallet Wallet entry.
- * @returns {Promise}
+ * @returns {object} Action
+ */
+export const hideDeleteWalletDialog = () => ({
+  type: CLOSE_DELETE_WALLET_DIALOG,
+})
+
+/**
+ * removeWallet - Remove a wallet config.
+ *
+ * @param  {object} wallet Wallet config.
+ * @returns {Function} Thunk
  */
 export const removeWallet = wallet => async dispatch => {
   // Delete the wallet from the filesystem.
@@ -93,10 +142,10 @@ export const removeWallet = wallet => async dispatch => {
 }
 
 /**
- * Handle delete wallet confirmation triggered by a user.
+ * deleteWallet - Handle delete wallet confirmation triggered by a user.
  * Removes currently active wallet.
  *
- * @returns {Promise}
+ * @returns {Function} Thunk
  */
 export const deleteWallet = () => async (dispatch, getState) => {
   try {
@@ -122,6 +171,11 @@ export const deleteWallet = () => async (dispatch, getState) => {
   }
 }
 
+/**
+ * initWallets - Loads wallet configs from the database and filesystem.
+ *
+ * @returns {Function} Thunk
+ */
 export const initWallets = () => async dispatch => {
   // Fetch wallet details.
   const dbWallets = await dispatch(getWallets())

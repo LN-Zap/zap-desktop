@@ -67,7 +67,13 @@ const SYNC_DEBOUNCE = {
 // Helpers
 // ------------------------------------
 
-const processHeightUpdates = data => {
+/**
+ * parseHeightUpdates - Get the first and last e4ntry in a list of block heights.
+ *
+ * @param  {Array} data List of height updates
+ * @returns {{ first, last }} First and last height in list
+ */
+const parseHeightUpdates = data => {
   if (!data || !data.length) {
     return {}
   }
@@ -77,9 +83,32 @@ const processHeightUpdates = data => {
 }
 
 // ------------------------------------
+// IPC
+// ------------------------------------
+
+/**
+ * killNeutrino - IPC handler for 'killNeutrino' message.
+ *
+ * @param {object} event Event
+ * @param {string} signal Kill signal
+ * @returns {Function} Thunk
+ */
+export const killNeutrino = (event, signal) => async dispatch => {
+  const neutrino = await neutrinoService
+  await neutrino.shutdown({ signal })
+  dispatch(send('killNeutrinoSuccess'))
+}
+
+// ------------------------------------
 // Actions
 // ------------------------------------
 
+/**
+ * setGrpcActiveInterface - Set the current grpc active interface.
+ *
+ * @param {string} grpcActiveInterface Name of currently active interace
+ * @returns {object} Action
+ */
 export const setGrpcActiveInterface = grpcActiveInterface => {
   return {
     type: SET_GRPC_ACTIVE_INTERFACE,
@@ -87,6 +116,15 @@ export const setGrpcActiveInterface = grpcActiveInterface => {
   }
 }
 
+/**
+ * neutrinoCrashed - Signal a neutrino crash.
+ *
+ * @param {object} options Options
+ * @param {string} options.code Exit code
+ * @param {string} options.code Exit signal code
+ * @param {string} options.lastError Last message output to lnd's stderror stream
+ * @returns {object} Action
+ */
 export const neutrinoCrashed = ({ code, signal, lastError }) => {
   return {
     type: NEUTRINO_CRASHED,
@@ -96,12 +134,23 @@ export const neutrinoCrashed = ({ code, signal, lastError }) => {
   }
 }
 
+/**
+ * neutrinoReset - Reset Neutrino reducer to its initial state.
+ *
+ * @returns {object} Action
+ */
 export const neutrinoReset = () => {
   return {
     type: NEUTRINO_RESET,
   }
 }
 
+/**
+ * initNeutrino - Initialise neutrino service.
+ * Attaches event handlers.
+ *
+ * @returns {Function} Thunk
+ */
 export const initNeutrino = () => async (dispatch, getState) => {
   const neutrino = await neutrinoService
 
@@ -174,6 +223,12 @@ export const initNeutrino = () => async (dispatch, getState) => {
   )
 }
 
+/**
+ * startNeutrino - Start neutrino process.
+ *
+ * @param  {object} lndConfig Lnd config instance
+ * @returns {Function} Thunk
+ */
 export const startNeutrino = lndConfig => async (dispatch, getState) => {
   const { isStartingNeutrino } = getState().neutrino
   if (isStartingNeutrino) {
@@ -226,14 +281,30 @@ export const startNeutrino = lndConfig => async (dispatch, getState) => {
   }
 }
 
+/**
+ * startNeutrinoSuccess - Start neutrino success handler.
+ *
+ * @returns {object} Action
+ */
 export const startNeutrinoSuccess = () => {
   return { type: START_NEUTRINO_SUCCESS }
 }
 
+/**
+ * startNeutrinoFailure - Start neutrino error handler.
+ *
+ * @param {string} startNeutrinoError Error message
+ * @returns {object} Action
+ */
 export const startNeutrinoFailure = startNeutrinoError => {
   return { type: START_NEUTRINO_FAILURE, startNeutrinoError }
 }
 
+/**
+ * stopNeutrino - Stop neutrino process.
+ *
+ * @returns {Function} Thunk
+ */
 export const stopNeutrino = () => async (dispatch, getState) => {
   const { isStoppingNeutrino } = getState().neutrino
   if (isStoppingNeutrino) {
@@ -258,42 +329,59 @@ export const stopNeutrino = () => async (dispatch, getState) => {
   }
 }
 
-// Receive current block height.
-export const currentBlockHeight = height => dispatch => {
-  dispatch({
-    type: RECEIVE_CURRENT_BLOCK_HEIGHT,
-    blockHeight: height,
-  })
-}
+/**
+ * currentBlockHeight - Receive current block height.
+ *
+ * @param  {number} height Block height
+ * @returns {object} Action
+ */
+export const currentBlockHeight = height => ({
+  type: RECEIVE_CURRENT_BLOCK_HEIGHT,
+  blockHeight: height,
+})
 
-// Receive LND block height.
-export const neutrinoBlockHeight = height => dispatch => {
-  dispatch({
-    type: RECEIVE_LND_BLOCK_HEIGHT,
-    data: { height },
-    debounce: SYNC_DEBOUNCE,
-  })
-}
+/**
+ * neutrinoBlockHeight - Receive current neutrino sync block height.
+ *
+ * @param  {number} height Block height
+ * @returns {object} Action
+ */
+export const neutrinoBlockHeight = height => ({
+  type: RECEIVE_LND_BLOCK_HEIGHT,
+  data: { height },
+  debounce: SYNC_DEBOUNCE,
+})
 
-// Receive LND cfilter height.
-export const neutrinoCfilterHeight = height => dispatch => {
-  dispatch({
-    type: RECEIVE_LND_CFILTER_HEIGHT,
-    data: { height },
-    debounce: SYNC_DEBOUNCE,
-  })
-}
+/**
+ * neutrinoBlockHeight - Receive current neutrino sync cfilter height.
+ *
+ * @param  {number} height Block height
+ * @returns {object} Action
+ */
+export const neutrinoCfilterHeight = height => ({
+  type: RECEIVE_LND_CFILTER_HEIGHT,
+  data: { height },
+  debounce: SYNC_DEBOUNCE,
+})
 
-// Receive wallet recovery height.
-export const neutrinoRecoveryHeight = height => dispatch => {
-  dispatch({
-    type: RECEIVE_LND_RECOVERY_HEIGHT,
-    data: { height },
-    debounce: SYNC_DEBOUNCE,
-  })
-}
+/**
+ * neutrinoBlockHeight - Receive current neutrino recovery height.
+ *
+ * @param  {number} height Block height
+ * @returns {object} Action
+ */
+export const neutrinoRecoveryHeight = height => ({
+  type: RECEIVE_LND_RECOVERY_HEIGHT,
+  data: { height },
+  debounce: SYNC_DEBOUNCE,
+})
 
-// Receive LND sync status change.
+/**
+ * neutrinoBlockHeight - Receive LND sync status change.
+ *
+ * @param  {string} status Neutrino service sync state.
+ * @returns {Function} Thunk
+ */
 export const neutrinoSyncStatus = status => async dispatch => {
   const notifTitle = 'Lightning Node Synced'
   const notifBody = "Visa who? You're your own payment processor now!"
@@ -321,15 +409,6 @@ export const neutrinoSyncStatus = status => async dispatch => {
       showSystemNotification(notifTitle, notifBody)
       break
   }
-}
-
-/**
- * IPC handler for 'killNeutrino' message
- */
-export const killNeutrino = (event, signal) => async dispatch => {
-  const neutrino = await neutrinoService
-  await neutrino.shutdown({ signal })
-  dispatch(send('killNeutrinoSuccess'))
 }
 
 // ------------------------------------
@@ -374,7 +453,7 @@ const ACTION_HANDLERS = {
     blockHeight,
   }),
   [RECEIVE_LND_BLOCK_HEIGHT]: (state, { data }) => {
-    const { first, last } = processHeightUpdates(data)
+    const { first, last } = parseHeightUpdates(data)
     return {
       ...state,
       neutrinoBlockHeight: last,
@@ -382,7 +461,7 @@ const ACTION_HANDLERS = {
     }
   },
   [RECEIVE_LND_CFILTER_HEIGHT]: (state, { data }) => {
-    const { first, last } = processHeightUpdates(data)
+    const { first, last } = parseHeightUpdates(data)
     return {
       ...state,
       neutrinoCfilterHeight: last,
@@ -390,7 +469,7 @@ const ACTION_HANDLERS = {
     }
   },
   [RECEIVE_LND_RECOVERY_HEIGHT]: (state, { data }) => {
-    const { first, last } = processHeightUpdates(data)
+    const { first, last } = parseHeightUpdates(data)
     return {
       ...state,
       neutrinoRecoveryHeight: last,

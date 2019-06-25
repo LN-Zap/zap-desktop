@@ -26,7 +26,11 @@ export const FETCH_BALANCE_FAILURE = 'FETCH_BALANCE_FAILURE'
 // Actions
 // ------------------------------------
 
-// Fetch balances.
+/**
+ * fetchBalance - Fetch balances.
+ *
+ * @returns {Function} Thunk
+ */
 export const fetchBalance = () => async dispatch => {
   try {
     dispatch({ type: FETCH_BALANCE })

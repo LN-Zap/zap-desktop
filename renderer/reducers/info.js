@@ -89,12 +89,23 @@ export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
 // Actions
 // ------------------------------------
 
+/**
+ * getInfo - Initiate fetch of node info from lnd.
+ *
+ * @returns {object} Action
+ */
 export function getInfo() {
   return {
     type: GET_INFO,
   }
 }
 
+/**
+ * setHasSynced - Register that the currently connected node has fully synced at least once.
+ *
+ * @param {boolean} hasSynced Boolean indicating the node has completed a full sync of the blockchain
+ * @returns {Function} Thunk
+ */
 export const setHasSynced = hasSynced => async (dispatch, getState) => {
   dispatch({ type: SET_HAS_SYNCED, hasSynced })
 
@@ -115,7 +126,11 @@ export const setHasSynced = hasSynced => async (dispatch, getState) => {
   }
 }
 
-// Send IPC event for getinfo
+/**
+ * fetchInfo - Fetch node info for the currently connected node.
+ *
+ * @returns {Function} Thunk
+ */
 export const fetchInfo = () => async dispatch => {
   dispatch(getInfo())
   const grpc = await grpcService
@@ -123,11 +138,22 @@ export const fetchInfo = () => async dispatch => {
   dispatch(receiveInfo(info))
 }
 
+/**
+ * setInfo - Set node info for the currently connected node.
+ *
+ * @param {object} data Node info
+ * @returns {object} Action
+ */
 export function setInfo(data) {
   return { type: RECEIVE_INFO, data }
 }
 
-// Receive IPC event for info
+/**
+ * receiveInfo - Receive node info from lnd.
+ *
+ * @param {object} data Node info
+ * @returns {Function} Thunk
+ */
 export const receiveInfo = data => async (dispatch, getState) => {
   // Save the node info.
   dispatch(setInfo(data))

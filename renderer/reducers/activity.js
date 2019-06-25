@@ -166,7 +166,7 @@ const prepareData = (data, searchText) => {
  *
  * @param {string} itemType Item type
  * @param {string} itemId Item id
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const showActivityModal = (itemType, itemId) => dispatch => {
   dispatch({ type: SHOW_ACTIVITY_MODAL, itemType, itemId })
@@ -176,7 +176,7 @@ export const showActivityModal = (itemType, itemId) => dispatch => {
 /**
  * hideActivityModal - Hide the activity modal.
  *
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const hideActivityModal = () => dispatch => {
   dispatch({ type: HIDE_ACTIVITY_MODAL })
@@ -187,7 +187,7 @@ export const hideActivityModal = () => dispatch => {
  * changeFilter - Set the current activity filter.
  *
  * @param {string} filter Filter to apply
- * @returns {undefined}
+ * @returns {object} Action
  */
 export function changeFilter(filter) {
   return {
@@ -200,7 +200,7 @@ export function changeFilter(filter) {
  * updateSearchText - Set the current activity search string.
  *
  * @param {string} searchText Search string to apply
- * @returns {undefined}
+ * @returns {object} Action
  */
 export function updateSearchText(searchText = null) {
   return {
@@ -212,7 +212,7 @@ export function updateSearchText(searchText = null) {
 /**
  * fetchActivityHistory - Fetch user activity history, including Balance, Payments, Invoices, Transactions etc.
  *
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const fetchActivityHistory = () => dispatch => {
   dispatch({ type: FETCH_ACTIVITY_HISTORY })

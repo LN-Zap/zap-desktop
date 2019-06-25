@@ -49,7 +49,7 @@ export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_M
 /**
  * initAddresses - Initialise addresses.
  *
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const initAddresses = () => async (dispatch, getState) => {
   dispatch({ type: FETCH_ADDRESSES })
@@ -78,7 +78,7 @@ export const initAddresses = () => async (dispatch, getState) => {
  * newAddress - Generate a new address.
  *
  * @param {'p2wkh'|'np2wkh'} addressType Address type
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const newAddress = addressType => async dispatch => {
   dispatch({ type: NEW_ADDRESS, addressType })
@@ -96,7 +96,7 @@ export const newAddress = addressType => async dispatch => {
  *
  * @param {string} addressType Address type
  * @param {string} address Address
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const newAddressSuccess = (addressType, address) => async (dispatch, getState) => {
   const state = getState()
@@ -120,7 +120,7 @@ export const newAddressSuccess = (addressType, address) => async (dispatch, getS
  *
  * @param {string} addressType Address type
  * @param {string} error Error message
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const newAddressFailure = (addressType, error) => dispatch => {
   // TODO: i18n compatibility.

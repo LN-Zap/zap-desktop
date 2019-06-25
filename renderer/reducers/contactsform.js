@@ -19,9 +19,32 @@ const initialState = {
 export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUERY'
 
 // ------------------------------------
+// Helpers
+// ------------------------------------
+
+/**
+ *fromSuggestedToRegular - Converts suggested nodes to a list of entries compatible with contact search results.
+ *
+ * @param {Array} suggestedNodes Suggested nodes list
+ * @returns {Array} search results compatible version of suggested nodes array
+ */
+const fromSuggestedToRegular = suggestedNodes =>
+  suggestedNodes &&
+  suggestedNodes.map(node => ({
+    ...node,
+    addresses: [{ addr: node.host }],
+  }))
+
+// ------------------------------------
 // Actions
 // ------------------------------------
 
+/**
+ * updateContactFormSearchQuery - Set the current contacts serach string.
+ *
+ * @param {string} searchQuery Search query
+ * @returns {object} Action
+ */
 export function updateContactFormSearchQuery(searchQuery) {
   return {
     type: UPDATE_CONTACT_FORM_SEARCH_QUERY,
@@ -69,16 +92,6 @@ contactFormSelectors.suggestedNodes = createSelector(
   }
 )
 
-/**
- * @param {Array} suggestedNodes
- * @returns search results compatible version of suggested nodes array
- */
-const fromSuggestedToRegular = suggestedNodes =>
-  suggestedNodes &&
-  suggestedNodes.map(node => ({
-    ...node,
-    addresses: [{ addr: node.host }],
-  }))
 contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
   searchQuerySelector,

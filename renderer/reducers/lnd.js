@@ -109,10 +109,11 @@ const handleLndStartError = (e, lndConfig) => {
   return errors
 }
 
-// ------------------------------------
-// Actions
-// ------------------------------------
-
+/**
+ * unsubFromGrpcEvents - Unsubscribe from grpc events.
+ *
+ * @param  {object} grpc Lnd Grpc instance
+ */
 function unsubFromGrpcEvents(grpc) {
   grpc.removeAllListeners('subscribeInvoices.data')
   grpc.removeAllListeners('subscribeTransactions.data')
@@ -123,8 +124,15 @@ function unsubFromGrpcEvents(grpc) {
   grpc.removeAllListeners('GRPC_LIGHTNING_SERVICE_ACTIVE')
 }
 
+// ------------------------------------
+// Actions
+// ------------------------------------
+
 /**
- * Connect to lnd gRPC service.
+ * connectGrpcService - Connect to lnd gRPC service.
+ *
+ * @param  {object} lndConfig LndConfig object
+ * @returns {Function} Thunk
  */
 export const connectGrpcService = lndConfig => async dispatch => {
   dispatch({ type: CONNECT_GRPC })
@@ -166,7 +174,9 @@ export const connectGrpcService = lndConfig => async dispatch => {
 }
 
 /**
- * Disconnect from lnd gRPC service.
+ * disconnectGrpcService - Disconnect from lnd gRPC service.
+ *
+ * @returns {Function} Thunk
  */
 export const disconnectGrpcService = () => async dispatch => {
   dispatch({ type: DISCONNECT_GRPC })
@@ -182,7 +192,9 @@ export const disconnectGrpcService = () => async dispatch => {
 }
 
 /**
- * Start the currently active wallet.
+ * startActiveWallet - Start the currently active wallet..
+ *
+ * @returns {Function} Thunk
  */
 export const startActiveWallet = () => async (dispatch, getState) => {
   const state = getState()
@@ -197,9 +209,10 @@ export const startActiveWallet = () => async (dispatch, getState) => {
 }
 
 /**
- * Start lnd with the provided wallet config.
+ * startLnd - Start lnd with the provided wallet config.
  *
  * @param  {object} wallet Wallet config
+ * @returns {Function} Thunk
  */
 export const startLnd = wallet => async dispatch => {
   let lndConfig
@@ -228,16 +241,17 @@ export const startLnd = wallet => async dispatch => {
 }
 
 /**
- * Start lnd success callback.
- *
+ * lndStarted - Start lnd success callback.
  * Called once an active connection to the currenrtly active gRPC interface has been established.
+ *
+ * @returns {Function} Thunk
  */
 export const lndStarted = () => {
   return { type: START_LND_SUCCESS }
 }
 
 /**
- * Start lnd error callback.
+ * startLndError - Start lnd error callback.
  *
  * Called if there was a problem trying to start and establish a gRPC connection to lnd.
  *
@@ -245,6 +259,7 @@ export const lndStarted = () => {
  * @param {string} errors.host Host errors
  * @param {string} errors.cert Certificate errors
  * @param {string} errors.macaroon Macaroon errors
+ * @returns {object} Action
  */
 export const startLndError = errors => {
   return {
@@ -254,7 +269,9 @@ export const startLndError = errors => {
 }
 
 /**
- * Clear all lnd start errors.
+ * clearStartLndError - Clear all lnd start errors.
+ *
+ * @returns {object} Action
  */
 export const clearStartLndError = () => {
   return {
@@ -263,7 +280,9 @@ export const clearStartLndError = () => {
 }
 
 /**
- * Stop lnd.
+ * stopLnd - Stop lnd.
+ *
+ * @returns {object} Action
  */
 export const stopLnd = () => async (dispatch, getState) => {
   const { isStoppingLnd, lndConfig } = getState().lnd
@@ -289,10 +308,12 @@ export const stopLnd = () => async (dispatch, getState) => {
 }
 
 /**
- * Lightning gRPC connect callback.
+ * setLightningGrpcActive - Lightning gRPC connect callback.
  *
  * Called when connection to Lightning gRPC interface has been established.
- * (lnd wallet is connected and unlocked)
+ * (lnd wallet is connected and unlocked).
+ *
+ * @returns {Function} Thunk
  */
 export const setLightningGrpcActive = () => async (dispatch, getState) => {
   // Fetch key info from lnd as early as possible.
@@ -316,17 +337,22 @@ export const setLightningGrpcActive = () => async (dispatch, getState) => {
 }
 
 /**
- * WalletUnlocker connect gRPC callback.
+ * setWalletUnlockerGrpcActive - WalletUnlocker connect gRPC callback.
  *
  * Called when connection to WalletUnlocker gRPC interface has been established.
- * (lnd is ready to unlock or create wallet)
+ * (lnd is ready to unlock or create wallet).
+ *
+ * @returns {Function} Thunk
  */
 export const setWalletUnlockerGrpcActive = () => ({
   type: LND_WALLET_UNLOCKER_GRPC_ACTIVE,
 })
 
 /**
- * Unlock wallet.
+ * unlockWallet - WalletUnlocker connect gRPC callback.
+ *
+ * @param {string} password Password
+ * @returns {Function} Thunk
  */
 export const unlockWallet = password => async dispatch => {
   dispatch({ type: UNLOCK_WALLET })
@@ -341,14 +367,19 @@ export const unlockWallet = password => async dispatch => {
 }
 
 /**
- * Unlock wallet success callback.
+ * walletUnlocked - Unlock wallet success callback.
+ *
+ * @returns {object} Action
  */
 export const walletUnlocked = () => ({
   type: UNLOCK_WALLET_SUCCESS,
 })
 
 /**
- * Unlock wallet error callback.
+ * setUnlockWalletError - Unlock wallet error callback.
+ *
+ * @param {string} unlockWalletError Error message
+ * @returns {object} Action
  */
 export const setUnlockWalletError = unlockWalletError => ({
   type: UNLOCK_WALLET_FAILURE,
@@ -356,9 +387,11 @@ export const setUnlockWalletError = unlockWalletError => ({
 })
 
 /**
- * Generate a new seed
+ * fetchSeed - Generate a new seed
  *
  * Starts a temporary lnd process and calls it's genSeed method.
+ *
+ * @returns {Function} Thunk
  */
 export const fetchSeed = () => async dispatch => {
   dispatch({ type: FETCH_SEED })
@@ -376,23 +409,29 @@ export const fetchSeed = () => async dispatch => {
     // Call genSeed method.
     const grpc = await grpcService
     const data = await grpc.services.WalletUnlocker.genSeed()
-    dispatch(fetchSeedSuccess(data))
+    dispatch(fetchSeedSuccess(data.cipher_seed_mnemonic))
   } catch (error) {
     dispatch(fetchSeedError(error.message))
   }
 }
 
 /**
- * Fetch seed success callback.
+ * fetchSeedSuccess - Fetch seed success callback.
+ *
+ * @param {Array} cipher_seed_mnemonic Mnemonic seed
+ * @returns {Function} Thunk
  */
-export const fetchSeedSuccess = ({ cipher_seed_mnemonic }) => dispatch => {
+export const fetchSeedSuccess = cipher_seed_mnemonic => dispatch => {
   dispatch({ type: FETCH_SEED_SUCCESS, seed: cipher_seed_mnemonic })
   dispatch(setSeed(cipher_seed_mnemonic))
   dispatch(stopLnd())
 }
 
 /**
- * Fetch seed error callback.
+ * fetchSeedError - Fetch seed error callback.
+ *
+ * @param {string} error Error message
+ * @returns {Function} Thunk
  */
 export const fetchSeedError = error => dispatch => {
   dispatch({
@@ -403,11 +442,11 @@ export const fetchSeedError = error => dispatch => {
 }
 
 /**
- * Create a new wallet using settings from the onboarding state.
+ * createWallet - Create a new wallet using settings from the onboarding state.
  *
  * @param  {object} options Options
  * @param  {object} options.recover Boolean indicating weather this is a recovery
- * @returns {Promise}
+ * @returns {Function} Thunk
  */
 export const createWallet = ({ recover } = {}) => async (dispatch, getState) => {
   dispatch({ type: CREATE_WALLET })
@@ -461,14 +500,20 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
 }
 
 /**
- * Create new wallet success callback.
+ * createWalletSuccess - Create new wallet success callback.
+ *
+ * @returns {object} Action
  */
 export const createWalletSuccess = () => ({
   type: CREATE_WALLET_SUCCESS,
 })
 
 /**
- * Create new wallet success callback.
+ * createWalletFailure - Create new wallet error callback.
+ *
+ * @param {string} error Error message
+ *
+ * @returns {object} Action
  */
 export const createWalletFailure = error => ({
   type: CREATE_WALLET_FAILURE,
@@ -476,15 +521,20 @@ export const createWalletFailure = error => ({
 })
 
 /**
- * Clear wallet create error.
+ * clearCreateWalletError - Clear wallet create error.
+ *
+ * @returns {object} Action
  */
 export const clearCreateWalletError = () => ({
   type: CLEAR_CREATE_WALLET_ERROR,
 })
 
 /**
- * Re-generates config that includes updated lndconnectUri and QR
- * host, cert and macaroon values
+ * generateLndConfigFromWallet - Re-generates config that includes updated lndconnectUri and QR
+ * host, cert and macaroon values.
+ *
+ * @param {object} wallet Wallet config
+ * @returns {Function} Thunk
  */
 export const generateLndConfigFromWallet = wallet => async () => {
   return await window.Zap.generateLndConfigFromWallet(wallet)

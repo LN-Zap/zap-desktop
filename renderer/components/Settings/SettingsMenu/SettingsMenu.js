@@ -130,7 +130,6 @@ SettingsMenu.propTypes = {
   localeProps: PropTypes.object.isRequired,
   openModal: PropTypes.func.isRequired,
   openSettingsMenu: PropTypes.func.isRequired,
-  setActiveSubMenu: PropTypes.func.isRequired,
   themeProps: PropTypes.object.isRequired,
 }
 

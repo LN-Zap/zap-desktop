@@ -84,10 +84,49 @@ const decoratePayment = (payment, nodes = []) => {
   }
 }
 
+/**
+ * getLastSendingEntry - Find the latest temporary paymentsSending entry for the payment.
+ *
+ * @param  {object} state Redux state
+ * @param  {string} paymentRequest Payment request
+ * @returns {object} sendingPayments entry
+ */
+const getLastSendingEntry = (state, paymentRequest) =>
+  [...state.payment.paymentsSending]
+    .sort((a, b) => b.creation_date - a.creation_date)
+    .find(p => p.paymentRequest === paymentRequest)
+
+/**
+ * handleDecreaseRetries - Decreases number of retries left for the given @paymentRequest.
+ *
+ * @param  {object} state Redux state
+ * @param  {{ paymentRequest }} paymentRequest Payment request
+ * @returns {object} Updated state
+ */
+const handleDecreaseRetries = (state, { paymentRequest }) => {
+  const paymentsSending = state.paymentsSending.map(payment => {
+    if (payment.paymentRequest === paymentRequest) {
+      return { ...payment, remainingRetries: payment.remainingRetries - 1 }
+    }
+    return payment
+  })
+
+  return {
+    ...state,
+    paymentsSending,
+  }
+}
+
 // ------------------------------------
 // Actions
 // ------------------------------------
 
+/**
+ * setPayment - Set the current in progress payment.
+ *
+ * @param  {object} payment Payment
+ * @returns {object} Action
+ */
 export function setPayment(payment) {
   return {
     type: SET_PAYMENT,
@@ -95,12 +134,23 @@ export function setPayment(payment) {
   }
 }
 
+/**
+ * getPayments - Initiate fetching all payments.
+ *
+ * @returns {object} Action
+ */
 export function getPayments() {
   return {
     type: GET_PAYMENTS,
   }
 }
 
+/**
+ * sendPayment - After initiating a lightning payment, store details of it in paymentSending array.
+ *
+ * @param {object} data Payment data
+ * @returns {Function} Thunk
+ */
 export const sendPayment = data => dispatch => {
   const invoice = decodePayReq(data.paymentRequest)
   const paymentHashTag = invoice.tags ? invoice.tags.find(t => t.tagName === 'payment_hash') : null
@@ -124,7 +174,11 @@ export const sendPayment = data => dispatch => {
   })
 }
 
-// Send IPC event for payments
+/**
+ * fetchPayments - Fetch details of all lightning payments.
+ *
+ * @returns {Function} Thunk
+ */
 export const fetchPayments = () => async dispatch => {
   dispatch(getPayments())
   const grpc = await grpcService
@@ -132,13 +186,39 @@ export const fetchPayments = () => async dispatch => {
   dispatch(receivePayments(payments))
 }
 
-// Receive IPC event for payments
+/**
+ * receivePayments - Fetch payments success callback.
+ *
+ * @param {{payments}} List of payments.
+ * @returns {Function} Thunk
+ */
 export const receivePayments = ({ payments }) => dispatch => {
   dispatch({ type: RECEIVE_PAYMENTS, payments })
 }
 
-const decPaymentRetry = paymentRequest => ({ type: DECREASE_PAYMENT_RETRIES, paymentRequest })
+/**
+ * decPaymentRetry - Decrement payment request retry count.
+ *
+ * @param {object} paymentRequest Lightning payment request.
+ * @returns {Function} Thunk
+ */
+const decPaymentRetry = paymentRequest => ({
+  type: DECREASE_PAYMENT_RETRIES,
+  paymentRequest,
+})
 
+/**
+ * payInvoice - Pay a lightniung invoice.
+ * Controller code that wraps the send action and schedules automatic retries in the case of a failure.
+ *
+ * @param {object} options Options
+ * @param {string} options.payReq Payment request
+ * @param {number} options.amt Payment amount (in sats)
+ * @param {number} options.feeLimit The max fee to apply
+ * @param {boolean} options.isRetry Boolean indicating wether this is a retry attempt
+ * @param {number} options.retries Number of remaining retries
+ * @returns {Function} Thunk
+ */
 export const payInvoice = ({
   payReq,
   amt,
@@ -182,13 +262,12 @@ export const payInvoice = ({
   }
 }
 
-// Find the latest temporary paymentsSending entry for the payment.
-const getLastSendingEntry = (state, paymentRequest) =>
-  [...state.payment.paymentsSending]
-    .sort((a, b) => b.creation_date - a.creation_date)
-    .find(p => p.paymentRequest === paymentRequest)
-
-// Receive IPC event for successful payment.
+/**
+ * paymentSuccessful - Success handler for payInvoice.
+ *
+ * @param {{payment_request}} payment_request Payment request
+ * @returns {Function} Thunk
+ */
 export const paymentSuccessful = ({ payment_request }) => async (dispatch, getState) => {
   const state = getState()
   const paymentSending = getLastSendingEntry(state, payment_request)
@@ -216,7 +295,14 @@ export const paymentSuccessful = ({ payment_request }) => async (dispatch, getSt
   dispatch(fetchChannels())
 }
 
-// Receive IPC event for failed payment.
+/**
+ * paymentFailed - Error handler for payInvoice.
+ *
+ * @param {object} details Details
+ * @param {string} details.payment_request Payment request
+ * @param {string} details.error Error message
+ * @returns {Function} Thunk
+ */
 export const paymentFailed = ({ payment_request, error }) => async (dispatch, getState) => {
   const state = getState()
   const paymentSending = getLastSendingEntry(state, payment_request)
@@ -247,21 +333,6 @@ export const paymentFailed = ({ payment_request, error }) => async (dispatch, ge
       // Mark the payment as failed.
       dispatch({ type: PAYMENT_FAILED, paymentRequest, error: errorToUserFriendly(error) })
     }
-  }
-}
-
-// Decreases number of retries left for the given @paymentRequest
-const handleDecreaseRetries = (state, { paymentRequest }) => {
-  const paymentsSending = state.paymentsSending.map(payment => {
-    if (payment.paymentRequest === paymentRequest) {
-      return { ...payment, remainingRetries: payment.remainingRetries - 1 }
-    }
-    return payment
-  })
-
-  return {
-    ...state,
-    paymentsSending,
   }
 }
 

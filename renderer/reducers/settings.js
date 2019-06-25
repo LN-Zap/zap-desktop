@@ -32,8 +32,9 @@ export const UPDATE_CONFIG = 'UPDATE_CONFIG'
 
 /**
  * initSettings - Fetch the current settings from the database and save into the store.
- *
  * Should be called once when the app first loads.
+ *
+ * @returns {Function} Thunk
  */
 export const initSettings = () => async dispatch => {
   dispatch({ type: INIT_SETTINGS })
@@ -52,10 +53,11 @@ export const initSettings = () => async dispatch => {
 }
 
 /**
- * Save an updated setting.
+ * putSetting - Save an updated setting.
  *
  * @param  {string} key Key
  * @param  {*} value Value
+ * @returns {Function} Thunk
  */
 export const putSetting = (key, value) => async dispatch => {
   dispatch({ type: SET_SETTING, key, value })
@@ -63,10 +65,11 @@ export const putSetting = (key, value) => async dispatch => {
 }
 
 /**
- * Save a config property.
+ * putConfig - Save a config property.
  *
  * @param  {string} path Config path property to set
  * @param  {*} value Value to set
+ * @returns {Function} Thunk
  */
 export const putConfig = (path, value) => async (dispatch, getState) => {
   const currentConfig = settingsSelectors.currentConfig(getState())
@@ -75,9 +78,10 @@ export const putConfig = (path, value) => async (dispatch, getState) => {
 }
 
 /**
- * Save config overrides.
+ * saveConfigOverrides - Save config overrides.
  *
  * @param  {object} values Config object that matches the structure of root config.
+ * @returns {Function} Thunk
  */
 export const saveConfigOverrides = values => async (dispatch, getState) => {
   const currentConfig = settingsSelectors.currentConfig(getState())

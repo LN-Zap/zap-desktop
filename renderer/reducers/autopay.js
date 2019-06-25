@@ -33,6 +33,14 @@ export const RESET_EDIT_MODE = 'RESET_EDIT_MODE'
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * enableAutopay - Enable autopay upto a certain amount for a givem merchant.
+ *
+ * @param {string} merchantId Merchant Id
+ * @param {string} limit Autopay limit
+ * @returns {Function} Thunk
+ */
 export function enableAutopay(merchantId, limit) {
   return async dispatch => {
     await window.db.autopay.put({ id: merchantId, limit })
@@ -43,6 +51,12 @@ export function enableAutopay(merchantId, limit) {
   }
 }
 
+/**
+ * disableAutopay - Disable autopay for a givem merchant.
+ *
+ * @param {string} merchantId Merchant Id
+ * @returns {Function} Thunk
+ */
 export function disableAutopay(merchantId) {
   return async dispatch => {
     await window.db.autopay.delete(merchantId)
@@ -53,6 +67,12 @@ export function disableAutopay(merchantId) {
   }
 }
 
+/**
+ * setAutopayList - Set list of enabled autopay merchants.
+ *
+ * @param {Array} list List of enabled autopay merchants
+ * @returns {object} Action
+ */
 export function setAutopayList(list) {
   return {
     type: SET_AUTOPAY_LIST,
@@ -60,6 +80,11 @@ export function setAutopayList(list) {
   }
 }
 
+/**
+ * initAutopay - Initialize autopay module.
+ *
+ * @returns {Function} Thunk
+ */
 export function initAutopay() {
   return async dispatch => {
     if (!isAutopayEnabled()) {
@@ -77,6 +102,12 @@ export function initAutopay() {
   }
 }
 
+/**
+ * setSelectedMerchant - Set the currently selected autopay merchant.
+ *
+ * @param {string} merchantId Merchant Id
+ * @returns {object} Action
+ */
 export function setSelectedMerchant(merchantId) {
   return {
     type: SET_SELECTED_MERCHANT,
@@ -84,18 +115,37 @@ export function setSelectedMerchant(merchantId) {
   }
 }
 
+/**
+ * updateAutopaySearchQuery - Set the current autopay merchant search query.
+ *
+ * @param {string} searchQuery Search query
+ * @returns {object} Action
+ */
 export function updateAutopaySearchQuery(searchQuery) {
   return {
     type: UPDATE_AUTOPAY_SEARCH_QUERY,
     searchQuery,
   }
 }
+
+/**
+ * resetEditMode - Disable autopay edit mode.
+ *
+ * @returns {object} Action
+ */
 export function resetEditMode() {
   return {
     type: RESET_EDIT_MODE,
   }
 }
 
+/**
+ * openAutopayCreateModal - Open the autopay create modal for a given merchant.
+ *
+ * @param {string} merchantId Merchant Id
+ * @param {boolean} isEditMode Boolean indicating wether the modal is in edit mode
+ * @returns {object} Action
+ */
 export function openAutopayCreateModal(merchantId, isEditMode = false) {
   return dispatch => {
     dispatch(setSelectedMerchant(merchantId))
@@ -107,6 +157,12 @@ export function openAutopayCreateModal(merchantId, isEditMode = false) {
     })
   }
 }
+
+/**
+ * closeAutopayCreateModal - Close the autopay create modal.
+ *
+ * @returns {object} Thunk
+ */
 export function closeAutopayCreateModal() {
   return dispatch => {
     dispatch(setSelectedMerchant())
@@ -114,8 +170,16 @@ export function closeAutopayCreateModal() {
   }
 }
 
+// ------------------------------------
+// Helpers
+// ------------------------------------
+
 /**
- * Adds or replaces (if it already exists) autopay entry
+ * addAutopayEntry - Add or replaces (if it already exists) an autopay entry.
+ *
+ * @param {object} state State data
+ * @param {{data}} data autopay configuration
+ * @returns {object} Updated state data with additional autopay entry
  */
 function addAutopayEntry(state, { data }) {
   const { list } = state
@@ -126,12 +190,26 @@ function addAutopayEntry(state, { data }) {
   }
 }
 
+/**
+ * removeAutopayEntry - Removes an autopay entry.
+ *
+ * @param {object} state State data
+ * @param {{merchantId}} merchantId Merchant Id
+ * @returns {object} Updated state data with autopay entry removed
+ */
 function removeAutopayEntry(state, { merchantId }) {
   const list = { ...state.list }
   delete list[merchantId]
   return { ...state, list }
 }
 
+/**
+ * setAutopayListFromArray - Populate the autopay list from a list of autopay configurations.
+ *
+ * @param {object} state State data
+ * @param {{list}} listList of autopay configurations
+ * @returns {object} Updated state data with updated autopay list
+ */
 function setAutopayListFromArray(state, { list }) {
   const mapped = list.reduce((acc, next) => {
     acc[next.id] = next
@@ -146,6 +224,7 @@ function setAutopayListFromArray(state, { list }) {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [UPDATE_AUTOPAY_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
   [SET_SELECTED_MERCHANT]: (state, { selectedMerchantId }) => ({ ...state, selectedMerchantId }),
@@ -161,8 +240,9 @@ const ACTION_HANDLERS = {
 }
 
 // ------------------------------------
-// Selector
+// Selectors
 // ------------------------------------
+
 const autopaySelectors = {}
 autopaySelectors.searchQuery = state => state.autopay.searchQuery
 autopaySelectors.autopayList = state => state.autopay.list
