@@ -317,7 +317,7 @@ const addDate = entry => {
   return { ...entry, date: `${months[d.getMonth()]} ${date}, ${d.getFullYear()}`, timestamp }
 }
 
-// pre-search compound activity list
+// All activity: pre-search
 const allActivityRaw = createSelector(
   paymentsSendingSelector,
   transactionsSending,
@@ -337,22 +337,21 @@ const allActivityRaw = createSelector(
   }
 )
 
+// All activity: post search
 const allActivity = createSelector(
   searchTextSelector,
   allActivityRaw,
-  (searchText, allData) => {
-    return prepareData(allData, searchText)
-  }
+  (searchText, activity) => prepareData(activity, searchText)
 )
 
-const sentActivity = createSelector(
-  searchTextSelector,
+// Sent activity: pre-search
+const sentActivityRaw = createSelector(
   paymentsSendingSelector,
   transactionsSending,
   paymentsSelector,
   transactionsSelector,
-  (searchText, paymentsSending, transactionsSending, payments, transactions) => {
-    const allData = [
+  (paymentsSending, transactionsSending, payments, transactions) => {
+    return [
       ...paymentsSending,
       ...transactionsSending,
       ...payments,
@@ -363,17 +362,23 @@ const sentActivity = createSelector(
           !transaction.isClosing &&
           !transaction.isPending
       ),
-    ]
-    return prepareData(allData, searchText)
+    ].map(addDate)
   }
 )
 
-const receivedActivity = createSelector(
+// Sent activity: post-search
+const sentActivity = createSelector(
   searchTextSelector,
+  sentActivityRaw,
+  (searchText, activity) => prepareData(activity, searchText)
+)
+
+// Received activity: pre-search
+const receivedActivityRaw = createSelector(
   invoicesSelector,
   transactionsSelector,
-  (searchText, invoices, transactions) => {
-    const allData = [
+  (invoices, transactions) => {
+    return [
       ...invoices.filter(invoice => invoice.settled),
       ...transactions.filter(
         transaction =>
@@ -382,46 +387,72 @@ const receivedActivity = createSelector(
           !transaction.isClosing &&
           !transaction.isPending
       ),
-    ]
-    return prepareData(allData, searchText)
+    ].map(addDate)
   }
 )
 
-const pendingActivity = createSelector(
+// Received activity: post-search
+const receivedActivity = createSelector(
   searchTextSelector,
+  receivedActivityRaw,
+  (searchText, activity) => prepareData(activity, searchText)
+)
+
+// Pending activity: pre-search
+const pendingActivityRaw = createSelector(
   paymentsSendingSelector,
   transactionsSending,
   transactionsSelector,
   invoicesSelector,
-  (searchText, paymentsSending, transactionsSending, transactions, invoices) => {
-    const allData = [
+  (paymentsSending, transactionsSending, transactions, invoices) => {
+    return [
       ...paymentsSending,
       ...transactionsSending,
       ...transactions.filter(transaction => transaction.isPending),
       ...invoices.filter(invoice => !invoice.settled && !invoiceExpired(invoice)),
-    ]
-    return prepareData(allData, searchText)
+    ].map(addDate)
   }
 )
 
+// Pending activity: post-search
+const pendingActivity = createSelector(
+  searchTextSelector,
+  pendingActivityRaw,
+  (searchText, activity) => prepareData(activity, searchText)
+)
+
+// Expired activity: pre-search
+const expiredActivityRaw = createSelector(
+  invoicesSelector,
+  invoices => {
+    return invoices.filter(invoice => !invoice.settled && invoiceExpired(invoice)).map(addDate)
+  }
+)
+
+// Expired activity: post-search
 const expiredActivity = createSelector(
   searchTextSelector,
-  invoicesSelector,
-  (searchText, invoices) => {
-    const allData = invoices.filter(invoice => !invoice.settled && invoiceExpired(invoice))
-    return prepareData(allData, searchText)
+  expiredActivityRaw,
+  (searchText, activity) => prepareData(activity, searchText)
+)
+
+// Internal activity: pre-search
+const internalActivityRaw = createSelector(
+  transactionsSelector,
+  transactions => {
+    return transactions
+      .filter(
+        transaction => transaction.isFunding || (transaction.isClosing && !transaction.isPending)
+      )
+      .map(addDate)
   }
 )
 
+// Internal activity: post-search
 const internalActivity = createSelector(
   searchTextSelector,
-  transactionsSelector,
-  (searchText, transactions) => {
-    const allData = transactions.filter(
-      transaction => transaction.isFunding || (transaction.isClosing && !transaction.isPending)
-    )
-    return prepareData(allData, searchText)
-  }
+  internalActivityRaw,
+  (searchText, activity) => prepareData(activity, searchText)
 )
 
 const FILTERS = {
