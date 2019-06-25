@@ -6,27 +6,30 @@ import rootReducer from 'reducers'
 import ipc from 'reducers/ipc'
 import debounceMiddleware from './middleware/debounceMiddleware'
 
-export const history = createMemoryHistory({ basename: window.location.pathname })
+export const history = createMemoryHistory({
+  basename: window.location.pathname,
+})
 
-export function configureStore(initialState) {
-  const middleware = []
+const logger = createLogger({
+  level: 'info',
+  collapsed: true,
+})
+
+/**
+ * configureStore - Configure redux store.
+ *
+ * @param  {object} initialState Initial state
+ * @returns {object} Configured store
+ */
+export const configureStore = initialState => {
   const enhancers = []
 
-  middleware.push(thunk)
-  // Debounce Middleware
-  middleware.push(debounceMiddleware)
-  // Logging Middleware
-  const logger = createLogger({
-    level: 'info',
-    collapsed: true,
-  })
+  // Apply Middleware.
+  enhancers.push(applyMiddleware(thunk, debounceMiddleware, logger, ipc))
 
-  middleware.push(logger)
-
-  middleware.push(ipc)
-
-  enhancers.push(applyMiddleware(...middleware))
+  // Apply Compose Enhancers.
   const enhancer = compose(...enhancers)
 
+  // Create Store.
   return createStore(rootReducer, initialState, enhancer)
 }
