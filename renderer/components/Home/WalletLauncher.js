@@ -198,10 +198,15 @@ class WalletLauncher extends React.Component {
     }
   }
 
-  launchWallet = () => {
-    const { startLnd, wallet } = this.props
-    // discard settings edits and just launch current saved config
-    return startLnd(wallet)
+  launchWallet = async () => {
+    try {
+      const { startLnd, wallet } = this.props
+      // discard settings edits and just launch current saved config
+      return await startLnd(wallet)
+    } catch (e) {
+      // this error is handled via startLndErrors mechanism
+      // so should be ignored
+    }
   }
 
   /**
