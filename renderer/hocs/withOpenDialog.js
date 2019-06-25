@@ -3,8 +3,10 @@
  */
 
 /**
+ * openDialog - Open electron dialog.
  *
  * @param {string} mode electron dialog.showOpenDialog compatible mode
+ * @returns {string[]} an array of file paths chosen by the user
  */
 function openDialog(mode = 'openFile') {
   const result = window.showOpenDialog({
@@ -19,10 +21,11 @@ function openDialog(mode = 'openFile') {
 }
 
 /**
- * Render prop that allows children to call native select directory dialog
+ * WithOpenDialog - Render prop that allows children to call native select directory dialog
  *
- * @param {*} param0
+ * @param {Function} render Render method
  */
+
 const WithOpenDialog = ({ render }) => render({ openDialog })
 
 export default WithOpenDialog

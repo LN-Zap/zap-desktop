@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import LoadingBolt from 'components/LoadingBolt'
 
 /**
- * A HOC that will display the LoadingBolt component whilast the wrapped component is loading.
+ * withLoading - A HOC that will display the LoadingBolt component whilast the wrapped component is loading.
  *
  * @param {React.Component} Component Component to wrap
+ * @returns {React.Component} Wrapped component
  */
 const withLoading = Component =>
   class extends React.Component {
@@ -19,9 +20,6 @@ const withLoading = Component =>
       onClose: PropTypes.func,
     }
 
-    /**
-     * Render the loading bolt ontop of the wrapped component for as long as needed.
-     */
     render() {
       const { isLoading, loadingMessage, onClose, hasClose, children, ...rest } = this.props
       return (

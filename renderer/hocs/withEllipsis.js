@@ -3,9 +3,10 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 /**
- * A HOC that will applies an overflow and ellipsis to to an element.
+ * withEllipsis - A HOC that will applies an overflow and ellipsis to to an element.
  *
  * @param {React.Component} Component Component to wrap
+ * @returns {React.Component} Wrapped component
  */
 const withEllipsis = Component => {
   const StyledComponent = styled(Component)`
