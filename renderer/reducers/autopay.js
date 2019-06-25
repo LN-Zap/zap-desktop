@@ -2,7 +2,11 @@ import { createSelector } from 'reselect'
 import { isAutopayEnabled } from '@zap/utils/featureFlag'
 import { contactFormSelectors } from './contactsform'
 import { tickerSelectors } from './ticker'
+
+// ------------------------------------
 // Initial State
+// ------------------------------------
+
 const initialState = {
   isCreateModalOpen: false,
   searchQuery: null,
@@ -10,8 +14,10 @@ const initialState = {
   list: {}, // current enabled autopay entries
 }
 
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const UPDATE_AUTOPAY_SEARCH_QUERY = 'UPDATE_AUTOPAY_SEARCH_QUERY'
 export const OPEN_AUTOPAY_CREATE_MODAL = 'OPEN_AUTOPAY_CREATE_MODAL'
 export const CLOSE_AUTOPAY_CREATE_MODAL = 'CLOSE_AUTOPAY_CREATE_MODAL'
@@ -229,6 +235,14 @@ export { autopaySelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
+/**
+ * autopayReducer - Autopay reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function autopayReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

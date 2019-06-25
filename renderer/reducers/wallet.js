@@ -4,8 +4,18 @@ import { showError } from './notification'
 import { putSetting } from './settings'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isWalletsLoaded: false,
+  wallets: [],
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const SET_WALLETS = 'SET_WALLETS'
 export const SET_WALLETS_LOADED = 'SET_WALLETS_LOADED'
 export const DELETE_WALLET = 'DELETE_WALLET'
@@ -146,6 +156,7 @@ export const initWallets = () => async dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [SET_WALLETS]: (state, { wallets }) => ({ ...state, wallets }),
   [SET_WALLETS_LOADED]: state => ({ ...state, isWalletsLoaded: true }),
@@ -215,11 +226,13 @@ export { walletSelectors }
 // Reducer
 // ------------------------------------
 
-const initialState = {
-  isWalletsLoaded: false,
-  wallets: [],
-}
-
+/**
+ * walletReducer - Wallet reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function walletReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

@@ -10,6 +10,7 @@ import { fetchChannels } from './channels'
 // ------------------------------------
 // Initial State
 // ------------------------------------
+
 const initialState = {
   filter: 'ALL_ACTIVITY',
   filters: [

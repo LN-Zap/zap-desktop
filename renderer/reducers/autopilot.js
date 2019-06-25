@@ -3,6 +3,16 @@ import { requestNodeScores } from '@zap/utils/api'
 import { infoSelectors } from './info'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isFetchingNodeScores: false,
+  fetchNodeScoresError: null,
+  scores: {},
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 
@@ -61,12 +71,14 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  isFetchingNodeScores: false,
-  fetchNodeScoresError: null,
-  scores: {},
-}
 
+/**
+ * autopilotReducer - Autopilot reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function autopilotReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

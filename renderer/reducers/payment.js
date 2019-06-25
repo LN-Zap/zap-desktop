@@ -11,8 +11,20 @@ import { networkSelectors } from './network'
 import { showError } from './notification'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  paymentLoading: false,
+  payment: null,
+  payments: [],
+  paymentsSending: [],
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const SET_PAYMENT = 'SET_PAYMENT'
 export const GET_PAYMENTS = 'GET_PAYMENTS'
 export const RECEIVE_PAYMENTS = 'RECEIVE_PAYMENTS'
@@ -75,6 +87,7 @@ const decoratePayment = (payment, nodes = []) => {
 // ------------------------------------
 // Actions
 // ------------------------------------
+
 export function setPayment(payment) {
   return {
     type: SET_PAYMENT,
@@ -255,6 +268,7 @@ const handleDecreaseRetries = (state, { paymentRequest }) => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
   [RECEIVE_PAYMENTS]: (state, { payments }) => ({
@@ -302,6 +316,10 @@ const ACTION_HANDLERS = {
   },
 }
 
+// ------------------------------------
+// Selectors
+// ------------------------------------
+
 const paymentSelectors = {}
 const modalPaymentSelector = state => state.payment.payment
 const paymentsSelector = state => state.payment.payments
@@ -330,13 +348,14 @@ export { paymentSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  paymentLoading: false,
-  payment: null,
-  payments: [],
-  paymentsSending: [],
-}
 
+/**
+ * paymentReducer - Payment reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function paymentReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

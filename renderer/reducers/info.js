@@ -7,8 +7,80 @@ import { putWallet, walletSelectors } from './wallet'
 import { settingsSelectors } from './settings'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  infoLoading: false,
+  infoLoaded: false,
+  hasSynced: undefined,
+  chain: null,
+  network: null,
+  data: {},
+  networks: {
+    bitcoin: {
+      mainnet: {
+        id: 'mainnet',
+        name: 'Mainnet',
+        explorerUrls: {
+          blockstream: 'https://blockstream.info',
+          blockcypher: 'https://live.blockcypher.com/btc',
+          smartbit: 'https://www.smartbit.com.au',
+        },
+        bitcoinJsNetwork: networks.bitcoin.mainnet,
+        unitPrefix: '',
+      },
+      testnet: {
+        id: 'testnet',
+        name: 'Testnet',
+        explorerUrls: {
+          blockstream: 'https://blockstream.info/testnet',
+          blockcypher: 'https://live.blockcypher.com/btc-testnet',
+          smartbit: 'https://testnet.smartbit.com.au',
+        },
+        bitcoinJsNetwork: networks.bitcoin.testnet,
+        unitPrefix: 't',
+      },
+    },
+    litecoin: {
+      mainnet: {
+        id: 'mainnet',
+        name: 'Mainnet',
+        explorerUrls: {
+          blockstream: 'https://insight.litecore.io', // not supported, default to insight.
+          blockcypher: 'https://live.blockcypher.com/ltc',
+          smartbit: 'https://insight.litecore.io', // not supported, default to insight.
+        },
+        bitcoinJsNetwork: networks.litecoin.mainnet,
+        unitPrefix: '',
+      },
+      testnet: {
+        id: 'testnet',
+        name: 'Testnet',
+        explorerUrls: {
+          blockstream: 'https://testnet.litecore.io', // not supported, default to insight.
+          blockcypher: 'https://testnet.litecore.io', // not supported, default to insight.
+          smartbit: 'https://testnet.litecore.io', // not supported, default to insight.
+        },
+        bitcoinJsNetwork: networks.litecoin.testnet,
+        unitPrefix: 't',
+      },
+    },
+  },
+  chains: {
+    bitcoin: {
+      name: 'Bitcoin',
+    },
+    litecoin: {
+      name: 'Litecoin',
+    },
+  },
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const GET_INFO = 'GET_INFO'
 export const RECEIVE_INFO = 'RECEIVE_INFO'
 export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
@@ -16,6 +88,7 @@ export const SET_HAS_SYNCED = 'SET_HAS_SYNCED'
 // ------------------------------------
 // Actions
 // ------------------------------------
+
 export function getInfo() {
   return {
     type: GET_INFO,
@@ -85,6 +158,7 @@ export const receiveInfo = data => async (dispatch, getState) => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [SET_HAS_SYNCED]: (state, { hasSynced }) => ({
     ...state,
@@ -106,76 +180,9 @@ const ACTION_HANDLERS = {
 }
 
 // ------------------------------------
-// Reducer
-// ------------------------------------
-const initialState = {
-  infoLoading: false,
-  infoLoaded: false,
-  hasSynced: undefined,
-  chain: null,
-  network: null,
-  data: {},
-  networks: {
-    bitcoin: {
-      mainnet: {
-        id: 'mainnet',
-        name: 'Mainnet',
-        explorerUrls: {
-          blockstream: 'https://blockstream.info',
-          blockcypher: 'https://live.blockcypher.com/btc',
-          smartbit: 'https://www.smartbit.com.au',
-        },
-        bitcoinJsNetwork: networks.bitcoin.mainnet,
-        unitPrefix: '',
-      },
-      testnet: {
-        id: 'testnet',
-        name: 'Testnet',
-        explorerUrls: {
-          blockstream: 'https://blockstream.info/testnet',
-          blockcypher: 'https://live.blockcypher.com/btc-testnet',
-          smartbit: 'https://testnet.smartbit.com.au',
-        },
-        bitcoinJsNetwork: networks.bitcoin.testnet,
-        unitPrefix: 't',
-      },
-    },
-    litecoin: {
-      mainnet: {
-        id: 'mainnet',
-        name: 'Mainnet',
-        explorerUrls: {
-          blockstream: 'https://insight.litecore.io', // not supported, default to insight.
-          blockcypher: 'https://live.blockcypher.com/ltc',
-          smartbit: 'https://insight.litecore.io', // not supported, default to insight.
-        },
-        bitcoinJsNetwork: networks.litecoin.mainnet,
-        unitPrefix: '',
-      },
-      testnet: {
-        id: 'testnet',
-        name: 'Testnet',
-        explorerUrls: {
-          blockstream: 'https://testnet.litecore.io', // not supported, default to insight.
-          blockcypher: 'https://testnet.litecore.io', // not supported, default to insight.
-          smartbit: 'https://testnet.litecore.io', // not supported, default to insight.
-        },
-        bitcoinJsNetwork: networks.litecoin.testnet,
-        unitPrefix: 't',
-      },
-    },
-  },
-  chains: {
-    bitcoin: {
-      name: 'Bitcoin',
-    },
-    litecoin: {
-      name: 'Litecoin',
-    },
-  },
-}
-
 // Selectors
+// ------------------------------------
+
 const infoSelectors = {}
 infoSelectors.chainSelector = state => state.info.chain
 infoSelectors.chainsSelector = state => state.info.chains
@@ -244,6 +251,17 @@ infoSelectors.chainName = createSelector(
 
 export { infoSelectors }
 
+// ------------------------------------
+// Reducer
+// ------------------------------------
+
+/**
+ * infoReducer - Info reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function infoReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

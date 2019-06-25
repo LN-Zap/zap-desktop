@@ -6,6 +6,31 @@ import { showSystemNotification } from '@zap/utils/notifications'
 import { setHasSynced } from './info'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isNeutrinoRunning: false,
+  isStartingNeutrino: false,
+  isStoppingNeutrino: false,
+  isNeutrinoCrashed: false,
+  grpcActiveInterface: null,
+  blockHeight: 0,
+  neutrinoFirstBlockHeight: 0,
+  neutrinoBlockHeight: 0,
+  neutrinoFirstCfilterHeight: 0,
+  neutrinoCfilterHeight: 0,
+  neutrinoRecoveryHeight: 0,
+  neutrinoFirstRecoveryHeight: 0,
+  startNeutrinoError: null,
+  stopNeutrinoError: null,
+  neutrinoCrashCode: null,
+  neutrinoCrashSignal: null,
+  neutrinoCrashLastError: null,
+  syncStatus: 'pending',
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 
@@ -310,6 +335,7 @@ export const killNeutrino = (event, signal) => async dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [START_NEUTRINO]: state => ({
     ...state,
@@ -399,32 +425,9 @@ const ACTION_HANDLERS = {
 }
 
 // ------------------------------------
-// Reducer
-// ------------------------------------
-const initialState = {
-  isNeutrinoRunning: false,
-  isStartingNeutrino: false,
-  isStoppingNeutrino: false,
-  isNeutrinoCrashed: false,
-  grpcActiveInterface: null,
-  blockHeight: 0,
-  neutrinoFirstBlockHeight: 0,
-  neutrinoBlockHeight: 0,
-  neutrinoFirstCfilterHeight: 0,
-  neutrinoCfilterHeight: 0,
-  neutrinoRecoveryHeight: 0,
-  neutrinoFirstRecoveryHeight: 0,
-  startNeutrinoError: null,
-  stopNeutrinoError: null,
-  neutrinoCrashCode: null,
-  neutrinoCrashSignal: null,
-  neutrinoCrashLastError: null,
-  syncStatus: 'pending',
-}
-
-// ------------------------------------
 // Selectors
 // ------------------------------------
+
 const isStartingNeutrinoSelector = state => state.neutrino.isStartingNeutrino
 const isNeutrinoRunningSelector = state => state.neutrino.isNeutrinoRunning
 const neutrinoSyncStatusSelector = state => state.neutrino.syncStatus
@@ -515,7 +518,14 @@ export { neutrinoSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-//
+
+/**
+ * neutrinoReducer - Neutrino reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function neutrinoReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

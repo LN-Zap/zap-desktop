@@ -13,42 +13,24 @@ import { receiveTransactionData } from './transaction'
 import { backupCurrentWallet, setupBackupService } from './backup'
 
 // ------------------------------------
-// Helpers
+// Initial State
 // ------------------------------------
 
-const handleLndStartError = (e, lndConfig) => {
-  // Add more detail where we can.
-  if (e.message === 'Failed to connect before the deadline') {
-    e.message += `. Please ensure that lnd's gRPC interface is listening
-    and contactable ${lndConfig && lndConfig.host && `at "${lndConfig.host}"`}
-    and that your TLS certificate is valid for this host.`
-  }
-
-  // Error messages to help identify certain type of errors.
-  const MACAROON_ERROR_MESSAGES = [
-    'cannot determine data format of binary-encoded macaroon',
-    'verification failed: signature mismatch after caveat verification',
-    'unmarshal v2: section extends past end of buffer',
-  ]
-
-  // Try to figure out and categorize the error.
-  const errors = {}
-  if (e.code === 'LND_GRPC_HOST_ERROR') {
-    errors.host = e.message
-  }
-  // There was a problem accessing the ssl cert.
-  else if (e.code === 'LND_GRPC_CERT_ERROR') {
-    errors.cert = e.message
-  }
-  // There was a problem accessing the macaroon file.
-  else if (e.code === 'LND_GRPC_MACAROON_ERROR' || MACAROON_ERROR_MESSAGES.includes(e.message)) {
-    errors.macaroon = e.message
-  }
-  // Other error codes most likely indicate that there is a problem with the host.
-  else {
-    errors.host = `Unable to connect to host: ${e.details || e.message}`
-  }
-  return errors
+const initialState = {
+  isFetchingSeed: false,
+  isStartingLnd: false,
+  isStoppingLnd: false,
+  isLndActive: false,
+  isCreatingWallet: false,
+  createWalletError: null,
+  isStartingGrpc: false,
+  isUnlockingWallet: false,
+  isWalletUnlockerGrpcActive: false,
+  isLightningGrpcActive: false,
+  unlockWalletError: null,
+  startLndError: null,
+  fetchSeedError: null,
+  lndConfig: {},
 }
 
 // ------------------------------------
@@ -87,6 +69,45 @@ export const LND_LIGHTNING_GRPC_ACTIVE = 'LND_LIGHTNING_GRPC_ACTIVE'
 export const DISCONNECT_GRPC = 'DISCONNECT_GRPC'
 export const DISCONNECT_GRPC_SUCCESS = 'DISCONNECT_GRPC_SUCCESS'
 export const DISCONNECT_GRPC_FAILURE = 'DISCONNECT_GRPC_FAILURE'
+
+// ------------------------------------
+// Helpers
+// ------------------------------------
+
+const handleLndStartError = (e, lndConfig) => {
+  // Add more detail where we can.
+  if (e.message === 'Failed to connect before the deadline') {
+    e.message += `. Please ensure that lnd's gRPC interface is listening
+    and contactable ${lndConfig && lndConfig.host && `at "${lndConfig.host}"`}
+    and that your TLS certificate is valid for this host.`
+  }
+
+  // Error messages to help identify certain type of errors.
+  const MACAROON_ERROR_MESSAGES = [
+    'cannot determine data format of binary-encoded macaroon',
+    'verification failed: signature mismatch after caveat verification',
+    'unmarshal v2: section extends past end of buffer',
+  ]
+
+  // Try to figure out and categorize the error.
+  const errors = {}
+  if (e.code === 'LND_GRPC_HOST_ERROR') {
+    errors.host = e.message
+  }
+  // There was a problem accessing the ssl cert.
+  else if (e.code === 'LND_GRPC_CERT_ERROR') {
+    errors.cert = e.message
+  }
+  // There was a problem accessing the macaroon file.
+  else if (e.code === 'LND_GRPC_MACAROON_ERROR' || MACAROON_ERROR_MESSAGES.includes(e.message)) {
+    errors.macaroon = e.message
+  }
+  // Other error codes most likely indicate that there is a problem with the host.
+  else {
+    errors.host = `Unable to connect to host: ${e.details || e.message}`
+  }
+  return errors
+}
 
 // ------------------------------------
 // Actions
@@ -472,6 +493,7 @@ export const generateLndConfigFromWallet = wallet => async () => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [FETCH_SEED]: state => ({ ...state, isFetchingSeed: true }),
   [FETCH_SEED_SUCCESS]: state => ({
@@ -597,28 +619,9 @@ const ACTION_HANDLERS = {
 }
 
 // ------------------------------------
-// Reducer
-// ------------------------------------
-const initialState = {
-  isFetchingSeed: false,
-  isStartingLnd: false,
-  isStoppingLnd: false,
-  isLndActive: false,
-  isCreatingWallet: false,
-  createWalletError: null,
-  isStartingGrpc: false,
-  isUnlockingWallet: false,
-  isWalletUnlockerGrpcActive: false,
-  isLightningGrpcActive: false,
-  unlockWalletError: null,
-  startLndError: null,
-  fetchSeedError: null,
-  lndConfig: {},
-}
-
-// ------------------------------------
 // Selectors
 // ------------------------------------
+
 const lndSelectors = {}
 const startLndErrorSelector = state => state.lnd.startLndError
 const isStartingLndSelector = state => state.lnd.isStartingLnd
@@ -642,7 +645,14 @@ export { lndSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-//
+
+/**
+ * lndReducer - Lnd reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function lndReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

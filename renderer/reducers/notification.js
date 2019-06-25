@@ -5,6 +5,7 @@ import matches from 'lodash/matches'
 // ------------------------------------
 // Initial State
 // ------------------------------------
+
 const initialState = {
   notifications: [],
 }
@@ -12,10 +13,15 @@ const initialState = {
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 const NOTIFICATION_TIMEOUT = 10000
 export const ENQUEUE_NOTIFICATION = 'ENQUEUE_NOTIFICATION'
 export const REMOVE_NOTIFICATION = 'REMOVE_NOTIFICATION'
 export const UPDATE_NOTIFICATION = 'UPDATE_NOTIFICATION'
+
+// ------------------------------------
+// Actions
+// ------------------------------------
 
 const createNotification = (options = {}) => {
   const { timeout = NOTIFICATION_TIMEOUT, variant = 'success' } = options
@@ -26,9 +32,7 @@ const createNotification = (options = {}) => {
     id: genId(),
   }
 }
-// ------------------------------------
-// Actions
-// ------------------------------------
+
 export const enqueueNotification = options => async dispatch => {
   // Create a new notification using the options provided.
   const notification = createNotification(options)
@@ -90,6 +94,7 @@ export const showWarning = (message, options = {}) => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [ENQUEUE_NOTIFICATION]: (state, { notification }) => ({
     ...state,
@@ -134,6 +139,14 @@ export { notificationSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
+/**
+ * notificationReducer - Notification reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function notificationReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

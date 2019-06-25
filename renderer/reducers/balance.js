@@ -2,6 +2,19 @@ import { createSelector } from 'reselect'
 import { grpcService } from 'workers'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isBalanceLoading: false,
+  walletBalance: null,
+  walletBalanceConfirmed: null,
+  walletBalanceUnconfirmed: null,
+  channelBalance: null,
+  fetchBalanceError: null,
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 
@@ -48,7 +61,10 @@ const ACTION_HANDLERS = {
   }),
 }
 
+// ------------------------------------
 // Selectors
+// ------------------------------------
+
 const balanceSelectors = {}
 balanceSelectors.channelBalance = state => state.balance.channelBalance
 balanceSelectors.channelBalanceConfirmed = state => state.balance.channelBalanceConfirmed
@@ -71,15 +87,14 @@ export { balanceSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  isBalanceLoading: false,
-  walletBalance: null,
-  walletBalanceConfirmed: null,
-  walletBalanceUnconfirmed: null,
-  channelBalance: null,
-  fetchBalanceError: null,
-}
 
+/**
+ * balanceReducer - Balance reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function balanceReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

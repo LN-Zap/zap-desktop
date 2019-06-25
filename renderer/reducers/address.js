@@ -6,8 +6,9 @@ import { settingsSelectors } from './settings'
 import { showError } from './notification'
 
 // ------------------------------------
-// Reducer
+// Initial State
 // ------------------------------------
+
 const initialState = {
   addressesLoading: {
     np2wkh: false,
@@ -23,6 +24,7 @@ const initialState = {
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 export const FETCH_ADDRESSES = 'FETCH_ADDRESSES'
 export const FETCH_ADDRESSES_SUCCESS = 'FETCH_ADDRESSES_SUCCESS'
 export const NEW_ADDRESS = 'NEW_ADDRESS'
@@ -133,6 +135,7 @@ export const newAddressFailure = (addressType, error) => dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [FETCH_ADDRESSES_SUCCESS]: (state, { addresses }) => ({
     ...state,

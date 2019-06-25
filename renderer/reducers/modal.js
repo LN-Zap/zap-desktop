@@ -5,6 +5,7 @@ import genId from '@zap/utils/genId'
 // ------------------------------------
 // Initial State
 // ------------------------------------
+
 const initialState = {
   modals: [],
 }
@@ -12,16 +13,18 @@ const initialState = {
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 export const OPEN_MODAL = 'OPEN_MODAL'
 export const CLOSE_MODAL = 'CLOSE_MODAL'
 export const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
 export const SET_MODALS = 'SET_MODALS'
 
-const createModalData = (type, options) => ({ id: genId(), type, options })
-
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+const createModalData = (type, options) => ({ id: genId(), type, options })
+
 export const openModal = (type, options) => (dispatch, getState) => {
   const modals = modalSelectors.getModalState(getState())
   if (!modals.find(m => m.type === type)) {
@@ -79,6 +82,7 @@ export function setModals(modalList = []) {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [OPEN_MODAL]: (state, { modal }) => ({
     ...state,
@@ -118,6 +122,14 @@ export { modalSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
+/**
+ * modalReducer - Modal reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function modalReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

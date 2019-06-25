@@ -4,6 +4,24 @@ import { estimateFeeRange } from '@zap/utils/fee'
 import { settingsSelectors } from './settings'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+const initialState = {
+  isQueryingRoutes: false,
+  isQueryingFees: false,
+  onchainFees: {
+    fast: null,
+    medium: null,
+    slow: null,
+  },
+  pubKey: null,
+  queryFeesError: null,
+  queryRoutesError: null,
+  redirectPayReq: null,
+  routes: [],
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 export const QUERY_FEES = 'QUERY_FEES'
@@ -78,6 +96,7 @@ export const lightningPaymentUri = (event, { address }) => dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [QUERY_FEES]: state => ({
     ...state,
@@ -124,27 +143,17 @@ const ACTION_HANDLERS = {
 }
 
 // ------------------------------------
-// Initial State
-// ------------------------------------
-const initialState = {
-  isQueryingRoutes: false,
-  isQueryingFees: false,
-  onchainFees: {
-    fast: null,
-    medium: null,
-    slow: null,
-  },
-  pubKey: null,
-  queryFeesError: null,
-  queryRoutesError: null,
-  redirectPayReq: null,
-  routes: [],
-}
-
-// ------------------------------------
 // Reducer
 // ------------------------------------
-export default function activityReducer(state = initialState, action) {
+
+/**
+ * payReducer - Pay reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
+export default function payReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

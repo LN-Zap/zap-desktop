@@ -1,22 +1,27 @@
 import get from 'lodash/get'
 import partition from 'lodash/partition'
 import { createSelector } from 'reselect'
-
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { getNodeDisplayName, networkSelectors } from './network'
 
+// ------------------------------------
 // Initial State
+// ------------------------------------
+
 const initialState = {
   searchQuery: null,
 }
 
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUERY'
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+
 export function updateContactFormSearchQuery(searchQuery) {
   return {
     type: UPDATE_CONTACT_FORM_SEARCH_QUERY,
@@ -27,13 +32,15 @@ export function updateContactFormSearchQuery(searchQuery) {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [UPDATE_CONTACT_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 }
 
 // ------------------------------------
-// Selector
+// Selectors
 // ------------------------------------
+
 const contactFormSelectors = {}
 const networkNodesSelector = state => networkSelectors.nodes(state)
 const searchQuerySelector = state => state.contactsform.searchQuery
@@ -141,6 +148,14 @@ export { contactFormSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
+/**
+ * contactFormReducer - Contactsform reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function contactFormReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

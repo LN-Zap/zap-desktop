@@ -13,8 +13,71 @@ import { getNodeDisplayName, updateNodeData, networkSelectors } from './network'
 import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  channelsLoading: false,
+  loadingChannels: [],
+  channels: [],
+  pendingChannels: {
+    total_limbo_balance: null,
+    pending_open_channels: [],
+    pending_closing_channels: [],
+    pending_force_closing_channels: [],
+    waiting_close_channels: [],
+  },
+  closedChannels: [],
+  closingChannelIds: [],
+  closingChannel: false,
+  searchQuery: null,
+  viewType: 0,
+
+  filter: 'ALL_CHANNELS',
+  filters: [
+    { key: 'ALL_CHANNELS', value: 'All' },
+    { key: 'ACTIVE_CHANNELS', value: 'Online' },
+    { key: 'NON_ACTIVE_CHANNELS', value: 'Offline' },
+    { key: 'OPEN_PENDING_CHANNELS', value: 'Pending' },
+    { key: 'CLOSING_PENDING_CHANNELS', value: 'Closing' },
+  ],
+  sortOrder: 'asc',
+  sort: 'OPEN_DATE',
+  sorters: [
+    { key: 'OPEN_DATE', value: 'Open date' },
+    { key: 'REMOTE_BALANCE', value: 'Remote balance' },
+    { key: 'LOCAL_BALANCE', value: 'Local balance' },
+    { key: 'ACTIVITY', value: 'Activity' },
+    { key: 'NAME', value: 'Name' },
+    { key: 'CAPACITY', value: 'Capacity' },
+  ],
+
+  selectedChannelId: null,
+  viewMode: config.channels.viewMode,
+
+  // nodes stored at zap.jackmallers.com/api/v1/suggested-peers manages by JimmyMow
+  // we store this node list here and if the user doesnt have any channels
+  // we show them this list in case they wanna use our suggestions to connect
+  // to the network and get started
+  // **** Example ****
+  // {
+  //   pubkey: "02212d3ec887188b284dbb7b2e6eb40629a6e14fb049673f22d2a0aa05f902090e",
+  //   host: "testnet-lnd.yalls.org",
+  //   nickname: "Yalls",
+  //   description: "Top up prepaid mobile phones with bitcoin and altcoins in USA and around the world"
+  // }
+  // ****
+  suggestedNodes: {
+    mainnet: [],
+    testnet: [],
+  },
+  suggestedNodesLoading: false,
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const SET_CHANNEL_VIEW_MODE = 'SET_CHANNEL_VIEW_MODE'
 export const SET_SELECTED_CHANNEL = 'SET_SELECTED_CHANNEL'
 
@@ -535,6 +598,7 @@ export const channelGraphStatus = () => () => {}
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [SET_CHANNEL_VIEW_MODE]: (state, { viewMode }) => ({ ...state, viewMode }),
   [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
@@ -606,6 +670,10 @@ const ACTION_HANDLERS = {
     isCloseDialogOpen: false,
   }),
 }
+
+// ------------------------------------
+// Selectors
+// ------------------------------------
 
 const channelsSelectors = {}
 const channelsSelector = state => state.channels.channels
@@ -942,64 +1010,14 @@ export { channelsSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  channelsLoading: false,
-  loadingChannels: [],
-  channels: [],
-  pendingChannels: {
-    total_limbo_balance: null,
-    pending_open_channels: [],
-    pending_closing_channels: [],
-    pending_force_closing_channels: [],
-    waiting_close_channels: [],
-  },
-  closedChannels: [],
-  closingChannelIds: [],
-  closingChannel: false,
-  searchQuery: null,
-  viewType: 0,
 
-  filter: 'ALL_CHANNELS',
-  filters: [
-    { key: 'ALL_CHANNELS', value: 'All' },
-    { key: 'ACTIVE_CHANNELS', value: 'Online' },
-    { key: 'NON_ACTIVE_CHANNELS', value: 'Offline' },
-    { key: 'OPEN_PENDING_CHANNELS', value: 'Pending' },
-    { key: 'CLOSING_PENDING_CHANNELS', value: 'Closing' },
-  ],
-  sortOrder: 'asc',
-  sort: 'OPEN_DATE',
-  sorters: [
-    { key: OPEN_DATE, value: 'Open date' },
-    { key: REMOTE_BALANCE, value: 'Remote balance' },
-    { key: LOCAL_BALANCE, value: 'Local balance' },
-    { key: ACTIVITY, value: 'Activity' },
-    { key: NAME, value: 'Name' },
-    { key: CAPACITY, value: 'Capacity' },
-  ],
-
-  selectedChannelId: null,
-  viewMode: config.channels.viewMode,
-
-  // nodes stored at zap.jackmallers.com/api/v1/suggested-peers manages by JimmyMow
-  // we store this node list here and if the user doesnt have any channels
-  // we show them this list in case they wanna use our suggestions to connect
-  // to the network and get started
-  // **** Example ****
-  // {
-  //   pubkey: "02212d3ec887188b284dbb7b2e6eb40629a6e14fb049673f22d2a0aa05f902090e",
-  //   host: "testnet-lnd.yalls.org",
-  //   nickname: "Yalls",
-  //   description: "Top up prepaid mobile phones with bitcoin and altcoins in USA and around the world"
-  // }
-  // ****
-  suggestedNodes: {
-    mainnet: [],
-    testnet: [],
-  },
-  suggestedNodesLoading: false,
-}
-
+/**
+ * channelsReducer - Channels reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function channelsReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

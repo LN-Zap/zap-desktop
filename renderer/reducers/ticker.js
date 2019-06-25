@@ -4,9 +4,52 @@ import { currencies, getDefaultCurrency } from '@zap/i18n'
 import { requestTickerWithFallback } from '@zap/utils/rateProvider'
 import { infoSelectors } from './info'
 import { putConfig, settingsSelectors } from './settings'
+
+// ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  tickerLoading: false,
+  rates: null,
+  fiatTicker: getDefaultCurrency(),
+  fiatTickers: currencies,
+  cryptoUnits: {
+    bitcoin: [
+      {
+        key: 'btc',
+        value: 'BTC',
+      },
+      {
+        key: 'bits',
+        value: 'bits',
+      },
+      {
+        key: 'sats',
+        value: 'satoshis',
+      },
+    ],
+    litecoin: [
+      {
+        key: 'ltc',
+        value: 'LTC',
+      },
+      {
+        key: 'phots',
+        value: 'photons',
+      },
+      {
+        key: 'lits',
+        value: 'litoshis',
+      },
+    ],
+  },
+}
+
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 export const GET_TICKERS = 'GET_TICKERS'
 export const RECIEVE_TICKERS = 'RECIEVE_TICKERS'
 
@@ -69,6 +112,7 @@ export const fetchTickers = () => async (dispatch, getState) => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [GET_TICKERS]: state => ({ ...state, tickerLoading: true }),
   [RECIEVE_TICKERS]: (state, { rates }) => ({
@@ -78,7 +122,10 @@ const ACTION_HANDLERS = {
   }),
 }
 
+// ------------------------------------
 // Selectors
+// ------------------------------------
+
 const cryptoUnitsSelector = state => state.ticker.cryptoUnits
 const ratesSelector = state => state.ticker.rates
 const fiatTickerSelector = state => settingsSelectors.currentConfig(state).currency
@@ -169,43 +216,14 @@ export { tickerSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  tickerLoading: false,
-  rates: null,
-  fiatTicker: getDefaultCurrency(),
-  fiatTickers: currencies,
-  cryptoUnits: {
-    bitcoin: [
-      {
-        key: 'btc',
-        value: 'BTC',
-      },
-      {
-        key: 'bits',
-        value: 'bits',
-      },
-      {
-        key: 'sats',
-        value: 'satoshis',
-      },
-    ],
-    litecoin: [
-      {
-        key: 'ltc',
-        value: 'LTC',
-      },
-      {
-        key: 'phots',
-        value: 'photons',
-      },
-      {
-        key: 'lits',
-        value: 'litoshis',
-      },
-    ],
-  },
-}
 
+/**
+ * tickerReducer - Ticker reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function tickerReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

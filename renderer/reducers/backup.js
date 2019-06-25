@@ -6,6 +6,19 @@ import { walletSelectors } from './wallet'
 import { infoSelectors } from './info'
 import { showError, showNotification } from './notification'
 
+// ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  provider: null,
+  isRestoreMode: false,
+}
+
+// ------------------------------------
+// Constants
+// ------------------------------------
+
 const SET_PROVIDER = 'SET_PROVIDER'
 const SET_LOCAL_PATH = 'SET_LOCAL_PATH'
 const SET_RESTORE_MODE = 'SET_RESTORE_MODE'
@@ -327,6 +340,10 @@ export const restoreWallet = backup => async dispatch => {
   }
 }
 
+// ------------------------------------
+// Action Handlers
+// ------------------------------------
+
 const ACTION_HANDLERS = {
   [SET_PROVIDER]: (state, { provider }) => ({
     ...state,
@@ -342,12 +359,10 @@ const ACTION_HANDLERS = {
   }),
 }
 
-const initialState = {
-  provider: null,
-  isRestoreMode: false,
-}
-
+// ------------------------------------
 // Selectors
+// ------------------------------------
+
 const backupSelectors = {}
 backupSelectors.providerSelector = state => state.backup.provider
 backupSelectors.localPathSelector = state => state.backup.localPath
@@ -355,6 +370,17 @@ backupSelectors.restoreModeSelector = state => state.backup.isRestoreMode
 
 export { backupSelectors }
 
+// ------------------------------------
+// Reducer
+// ------------------------------------
+
+/**
+ * backupReducer - Backup reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function backupReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

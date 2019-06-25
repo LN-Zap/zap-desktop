@@ -3,8 +3,18 @@ import { grpcService } from 'workers'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  networkLoading: false,
+  nodes: [],
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const GET_DESCRIBE_NETWORK = 'GET_DESCRIBE_NETWORK'
 export const RECEIVE_DESCRIBE_NETWORK = 'RECEIVE_DESCRIBE_NETWORK'
 export const UPDATE_NODE_DATA = 'UPDATE_NODE_DATA'
@@ -24,6 +34,7 @@ export const getNodeDisplayName = node => {
 // ------------------------------------
 // Actions
 // ------------------------------------
+
 export function updateNodeData(data) {
   return {
     type: UPDATE_NODE_DATA,
@@ -85,6 +96,7 @@ const mergeNodeUpdates = (state, nodeData) => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [UPDATE_NODE_DATA]: (state, { data }) => data.flat().reduce(mergeNodeUpdates, state),
   [GET_DESCRIBE_NETWORK]: state => ({ ...state, networkLoading: true }),
@@ -94,6 +106,10 @@ const ACTION_HANDLERS = {
     nodes,
   }),
 }
+
+// ------------------------------------
+// Selectors
+// ------------------------------------
 
 const networkSelectors = {}
 const nodesSelector = state => state.network.nodes
@@ -106,17 +122,17 @@ networkSelectors.nodes = createSelector(
 export { networkSelectors }
 
 // ------------------------------------
-// Initial State
-// ------------------------------------
-const initialState = {
-  networkLoading: false,
-  nodes: [],
-}
-
-// ------------------------------------
 // Reducer
 // ------------------------------------
-export default function activityReducer(state = initialState, action) {
+
+/**
+ * networkReducer - Network reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
+export default function networkReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

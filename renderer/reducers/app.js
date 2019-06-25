@@ -12,6 +12,7 @@ import { openModal } from './modal'
 // ------------------------------------
 // Initial State
 // ------------------------------------
+
 const initialState = {
   isLoading: true,
   isMounted: false,
@@ -26,6 +27,7 @@ const initialState = {
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 export const SET_LOADING = 'SET_LOADING'
 export const SET_MOUNTED = 'SET_MOUNTED'
 export const INIT_DATABASE = 'INIT_DATABASE'
@@ -41,7 +43,7 @@ export const TERMINATE_APP_SUCCESS = 'TERMINATE_APP_SUCCESS'
 // ------------------------------------
 // Actions
 // ------------------------------------
-//
+
 export function setLoading(isLoading) {
   return {
     type: SET_LOADING,
@@ -120,6 +122,7 @@ export const openPreferences = () => dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [INIT_APP]: state => ({ ...state, isRunning: true }),
   [INIT_DATABASE]: state => ({ ...state }),
@@ -172,7 +175,15 @@ export { appSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function loadingReducer(state = initialState, action) {
+
+/**
+ * appReducer - App reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
+export default function appReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

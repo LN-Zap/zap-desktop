@@ -1,8 +1,36 @@
 import config from 'config'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isSkipBackupDialogOpen: false,
+  isOnboarding: false,
+  isOnboarded: false,
+  autopilot: config.lnd.autopilot.active,
+  chain: config.chain,
+  network: config.network,
+  validatingHost: false,
+  validatingCert: false,
+  validatingMacaroon: false,
+  lndConnect: null,
+  connectionType: 'create',
+  connectionString: '',
+  connectionHost: '',
+  connectionCert: '',
+  connectionMacaroon: '',
+  alias: '',
+  name: '',
+  password: '',
+  passphrase: '',
+  seed: [],
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const SET_CONNECTION_TYPE = 'SET_CONNECTION_TYPE'
 export const SET_CONNECTION_URI = 'SET_CONNECTION_URI'
 export const SET_CONNECTION_HOST = 'SET_CONNECTION_HOST'
@@ -182,6 +210,7 @@ export const lndconnectUri = (event, lndConnect) => dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [SET_CONNECTION_TYPE]: (state, { connectionType }) => ({ ...state, connectionType }),
   [SET_CONNECTION_URI]: (state, { connectionString }) => ({ ...state, connectionString }),
@@ -215,32 +244,13 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 
-const initialState = {
-  isSkipBackupDialogOpen: false,
-  isOnboarding: false,
-  isOnboarded: false,
-  autopilot: config.lnd.autopilot.active,
-  chain: config.chain,
-  network: config.network,
-  validatingHost: false,
-  validatingCert: false,
-  validatingMacaroon: false,
-  lndConnect: null,
-  connectionType: 'create',
-  connectionString: '',
-  connectionHost: '',
-  connectionCert: '',
-  connectionMacaroon: '',
-  alias: '',
-  name: '',
-  password: '',
-  passphrase: '',
-  seed: [],
-}
-
-// ------------------------------------
-// Reducer
-// ------------------------------------
+/**
+ * onboardingReducer - Onboarding reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function onboardingReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

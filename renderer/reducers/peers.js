@@ -2,8 +2,21 @@ import { grpcService } from 'workers'
 import { showError } from './notification'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isPeersLoading: false,
+  peersLoadingError: null,
+  peers: [],
+  connecting: false,
+  disconnecting: false,
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const CONNECT_PEER = 'CONNECT_PEER'
 export const CONNECT_SUCCESS = 'CONNECT_SUCCESS'
 export const CONNECT_FAILURE = 'CONNECT_FAILURE'
@@ -14,6 +27,7 @@ export const FETCH_PEERS_FAILURE = 'FETCH_PEERS_FAILURE'
 // ------------------------------------
 // Actions
 // ------------------------------------
+
 export function connectPeer() {
   return {
     type: CONNECT_PEER,
@@ -44,6 +58,7 @@ export const fetchPeers = () => async dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [CONNECT_PEER]: state => ({ ...state, connecting: true }),
   [CONNECT_SUCCESS]: (state, { peer }) => ({
@@ -64,14 +79,14 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  isPeersLoading: false,
-  peersLoadingError: null,
-  peers: [],
-  connecting: false,
-  disconnecting: false,
-}
 
+/**
+ * peersReducer - Peers reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function peersReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

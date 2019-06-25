@@ -3,6 +3,14 @@ import { dark, light } from 'themes'
 import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  themes: { dark, light },
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 
@@ -33,6 +41,7 @@ export const setTheme = currentTheme => async dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [SET_THEME]: state => ({ ...state }),
 }
@@ -65,10 +74,13 @@ export { themeSelectors }
 // Reducer
 // ------------------------------------
 
-const initialState = {
-  themes: { dark, light },
-}
-
+/**
+ * themeReducer - Theme reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function themeReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

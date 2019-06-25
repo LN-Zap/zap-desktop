@@ -10,8 +10,19 @@ import { fetchChannels, channelsSelectors, getChannelData } from './channels'
 import { settingsSelectors } from './settings'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  transactionLoading: false,
+  transactions: [],
+  transactionsSending: [],
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const GET_TRANSACTIONS = 'GET_TRANSACTIONS'
 export const RECEIVE_TRANSACTIONS = 'RECEIVE_TRANSACTIONS'
 export const SEND_TRANSACTION = 'SEND_TRANSACTION'
@@ -44,6 +55,7 @@ const decorateTransaction = transaction => {
 // ------------------------------------
 // Actions
 // ------------------------------------
+
 export function getTransactions() {
   return {
     type: GET_TRANSACTIONS,
@@ -198,6 +210,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [GET_TRANSACTIONS]: state => ({ ...state, transactionLoading: true }),
   [SEND_TRANSACTION]: (state, { transaction }) => ({
@@ -249,6 +262,10 @@ const ACTION_HANDLERS = {
     }
   },
 }
+
+// ------------------------------------
+// Selectors
+// ------------------------------------
 
 const transactionsSelectors = {}
 const transactionsSelector = state => state.transaction.transactions
@@ -302,12 +319,14 @@ export { transactionsSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  transactionLoading: false,
-  transactions: [],
-  transactionsSending: [],
-}
 
+/**
+ * transactionReducer - Transaction reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function transactionReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

@@ -50,6 +50,10 @@ export const initCurrency = () => async (dispatch, getState) => {
   }
 }
 
+// ------------------------------------
+// Selectors
+// ------------------------------------
+
 export const localeSelectors = {
   currentLocale: state => state.intl.locale,
 }
@@ -57,6 +61,14 @@ export const localeSelectors = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
+/**
+ * localeReducer - Locale reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function localeReducer(state = translations) {
   return state
 }

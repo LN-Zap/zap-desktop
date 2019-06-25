@@ -9,8 +9,26 @@ import { walletSelectors } from './wallet'
 import { settingsSelectors } from './settings'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  invoiceLoading: false,
+  createInvoiceError: null,
+  invoices: [],
+  invoice: null,
+  data: {},
+  formInvoice: {
+    payreq: '',
+    r_hash: '',
+    amount: '0',
+  },
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const SET_INVOICE = 'SET_INVOICE'
 
 export const GET_INVOICE = 'GET_INVOICE'
@@ -180,6 +198,7 @@ export const receiveInvoiceData = invoice => dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [SET_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
 
@@ -218,6 +237,10 @@ const ACTION_HANDLERS = {
   },
 }
 
+// ------------------------------------
+// Selectors
+// ------------------------------------
+
 const invoiceSelectors = {}
 const invoiceSelector = state => state.invoice.invoice
 const invoicesSelector = state => state.invoice.invoices
@@ -242,19 +265,14 @@ export { invoiceSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  invoiceLoading: false,
-  createInvoiceError: null,
-  invoices: [],
-  invoice: null,
-  data: {},
-  formInvoice: {
-    payreq: '',
-    r_hash: '',
-    amount: '0',
-  },
-}
 
+/**
+ * invoiceReducer - Invoice reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function invoiceReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

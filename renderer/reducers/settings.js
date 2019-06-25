@@ -6,8 +6,19 @@ import difference from '@zap/utils/difference'
 import { showError } from './notification'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isSettingsLoaded: false,
+  initSettingsError: null,
+  config: {},
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const INIT_SETTINGS = 'INIT_SETTINGS'
 export const INIT_SETTINGS_SUCCESS = 'INIT_SETTINGS_SUCCESS'
 export const INIT_SETTINGS_FAILURE = 'INIT_SETTINGS_FAILURE'
@@ -78,6 +89,7 @@ export const saveConfigOverrides = values => async (dispatch, getState) => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [INIT_SETTINGS]: state => ({ ...state }),
   [INIT_SETTINGS_SUCCESS]: (state, { settings }) => ({
@@ -92,6 +104,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Selectors
 // ------------------------------------
+
 const isSettingsLoadedSelector = state => state.settings.isSettingsLoaded
 const configSelector = state => state.settings.config
 const settingsSelectors = {}
@@ -104,13 +117,15 @@ export { settingsSelectors }
 
 // ------------------------------------
 // Reducer
-// ------------------------------------\
-const initialState = {
-  isSettingsLoaded: false,
-  initSettingsError: null,
-  config: {},
-}
+// ------------------------------------
 
+/**
+ * settingsReducer - Settings reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Final state
+ */
 export default function settingsReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
