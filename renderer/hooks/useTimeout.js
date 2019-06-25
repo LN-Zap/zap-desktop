@@ -1,16 +1,10 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Timeout callback
+ * useTimeout - React hook that triggers @callback after @delay timout.
  *
- * @callback intervalCallback
- */
-
-/**
- * @export
- * @callback
- * @param {?number} delay timeout delay. Pass null to pause
- * @param {intervalCallback} callback A callback to run
+ * @param {Function} callback Callback to run after timeout
+ * @param {[number]} delay Delay. Pass null to pause
  */
 export default function useTimeout(callback, delay) {
   const savedCallback = useRef()
@@ -22,7 +16,7 @@ export default function useTimeout(callback, delay) {
 
   // Set up the timeout.
   useEffect(() => {
-    function tick() {
+    const tick = () => {
       savedCallback.current()
     }
     if (delay !== null) {
