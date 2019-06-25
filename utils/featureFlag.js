@@ -39,8 +39,7 @@ export function isNetworkSelectionEnabled() {
 /**
  * isSCBRestoreEnabled - Check if SCB restore feature is enabled.
  *
- * @export
- * @returns
+ * @returns {boolean} Boolean indicating wether SCB Restore is enabled
  */
 export function isSCBRestoreEnabled() {
   return config.features.scbRestore

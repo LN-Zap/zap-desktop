@@ -2,11 +2,11 @@
  * chainifies promise-returning function that enqueues function
  * calls preventing concurrent calls
  *
- * @param {funciton} fn function that returns a Promise
+ * @param {Function} fn function that returns a Promise
  * @returns {Function} function that returns a promise that resolves when original function
  * is called
  */
-export default function chainify(fn) {
+const chainify = fn => {
   let currentTask = Promise.resolve()
   return function(...args) {
     const cb = () => fn(...args)
@@ -15,3 +15,5 @@ export default function chainify(fn) {
     return currentTask
   }
 }
+
+export default chainify

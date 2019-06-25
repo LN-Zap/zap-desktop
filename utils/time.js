@@ -1,9 +1,10 @@
 /**
- * returns unix time
+ * getUnixTime - Get Unix timestamp.
  *
- * @returns {number}
+ * @returns {number} Unix timestamp
  */
-export default function getUnixTime() {
-  const date = new Date()
-  return date.getTime()
+const getUnixTime = () => {
+  return new Date().getTime()
 }
+
+export default getUnixTime
