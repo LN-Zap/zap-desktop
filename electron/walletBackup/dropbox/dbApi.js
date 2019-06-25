@@ -4,30 +4,35 @@ import { Dropbox } from 'dropbox/lib'
 import { parse } from 'url'
 import parseUrlFragments from '@zap/utils/parseUrlFragments'
 
+/**
+ * createAuthUrl - Creates a dropbox authentication url.
+ *
+ * @param {string} clientId Dropbox client id
+ * @param {string} redirectUrl Redirect url
+ * @returns {string} Dropbox authentication url
+ */
 function createAuthUrl(clientId, redirectUrl) {
   const dbx = new Dropbox({ clientId, fetch })
   return dbx.getAuthenticationUrl(redirectUrl)
 }
 
 /**
- * Retrieves file metadata
+ * getFileInfo - Retrieves file metadata.
  *
- * @export
- * @param {*} drive  drive instance
- * @param {*} path dropbox file name
- * @returns
+ * @param {object} dbx  Drive instance
+ * @param {string} path Dropbox file name
+ * @returns {object} File info
  */
 export function getFileInfo(dbx, path) {
   return dbx.filesGetMetadata({ path })
 }
 
 /**
- * Downloads specified file as a `Buffer`
+ * downloadToBuffer - Downloads specified file as a `Buffer`.
  *
- * @export
- * @param {object} dbx dropbox instance
- * @param {string} path path to file
- * @returns {Buffer}
+ * @param {object} dbx Dropbox instance
+ * @param {string} path Path to file
+ * @returns {Buffer} File data
  */
 export async function downloadToBuffer(dbx, path) {
   const { fileBinary } = await dbx.filesDownload({ path })
@@ -35,26 +40,24 @@ export async function downloadToBuffer(dbx, path) {
 }
 
 /**
- * Creates new file from buffer
+ * uploadFromBuffer - Creates new file from buffer.
  *
- * @export
  * @param {object} dbx dropbox instance
  * @param {string} path path to file
  * @param {Buffer} buffer `Buffer` instance
  * @param {string} mode file write mode
- * @returns {object}
+ * @returns {object} File info
  */
 export function uploadFromBuffer(dbx, path, buffer, mode = 'overwrite') {
   return dbx.filesUpload({ path, contents: buffer, mode })
 }
 
 /**
- * Returns list of files metadata
+ * listFiles - Returns list of files metadata.
  *
- * @export
  * @param {object} dbx dropbox instance
  * @param {*} [params={}] {path, cursor,...} query params
- * @returns {Array}
+ * @returns {Array} File listing
  */
 export async function listFiles(dbx, params = {}) {
   const { path = '', cursor, ...rest } = params
@@ -67,7 +70,6 @@ export async function listFiles(dbx, params = {}) {
 /**
  * createAuthWindow - Initiates user authentication procedure via dropbox OAuth2 implicit mode.
  *
- * @export
  * @param {string} clientId dropbox client id
  * @param {string} redirectUrl redirect url registered with the specified client id
  * @param {object} [windowParams={ width: 700, height: 700 }] Electron browser window properties

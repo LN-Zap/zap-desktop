@@ -6,7 +6,7 @@ import createClient from './gdrive'
 
 export default class BackupService extends TokenBasedBackupService {
   /**
-   * Setups gdrive service for usage. This method must be called before calling any other methods
+   * init - Setups gdrive service for usage. This method must be called before calling any other methods
    *
    * @param {Object} tokens google api compliant token desc
    * `{access_token,expiry_date,refresh_token,scope,token_type}`
@@ -29,7 +29,7 @@ export default class BackupService extends TokenBasedBackupService {
   /**
    * findBackupId - Searches for an existing backup file id for the specified `walletId`.
    *
-   * @param {string} walletId
+   * @param {string} walletId Wallet id
    * @returns {Promise<string>} promise that resolves to fileId or null if backup
    * was not found
    * @memberof BackupService
@@ -77,7 +77,7 @@ export default class BackupService extends TokenBasedBackupService {
   /**
    * findBackup - Searches for an existing backup file for the specified `walletId`.
    *
-   * @param {string} walletId
+   * @param {string} walletId Wallet id
    * @returns {Promise<Buffer>} promise that resolves to backup buffer or null if backup
    * was not found
    * @memberof BackupService
@@ -87,6 +87,13 @@ export default class BackupService extends TokenBasedBackupService {
     return fileId && (await super.loadBackup(fileId))
   }
 
+  /**
+   * loadBackup - Loads backup for the specified wallet.
+   *
+   * @param {string} walletId Wallet Id
+   * @returns {Buffer} Wallet backup as a `Buffer`
+   * @memberof BackupService
+   */
   async loadBackup({ walletId }) {
     return this.findBackup(walletId)
   }
@@ -139,12 +146,7 @@ export default class BackupService extends TokenBasedBackupService {
     }
   })
 
-  /**
-   * Provider name
-   *
-   * @readonly
-   * @memberof BackupService
-   */
+  // Define the name of this backup service.
   get name() {
     return 'gdrive'
   }
