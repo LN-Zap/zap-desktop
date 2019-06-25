@@ -9,9 +9,9 @@ import sanitize from '@zap/utils/sanitize'
  */
 class ZapController {
   /**
-   * Create a new ZapController instance.
+   * constructor - Create a new ZapController instance.
    *
-   * @param {BrowserWindow} mainWindow BrowserWindow instance to interact with.
+   * @param {object} mainWindow BrowserWindow instance to interact with.
    */
   constructor(mainWindow) {
     // Variable to hold the main window instance.
@@ -34,7 +34,9 @@ class ZapController {
   }
 
   /**
-   * Initialize the controller.
+   * init - Initialize the controller.
+   *
+   * @param  {[object]} options Options to pass through to the renderer
    */
   init(options) {
     // Load the application into the main window.
@@ -59,7 +61,9 @@ class ZapController {
   }
 
   /**
-   * Initialise the app.
+   * initApp - Initialise the app.
+   *
+   * @param  {[object]} options Options to pass through to the renderer
    */
   initApp(options) {
     mainLog.debug('initApp...')
@@ -72,7 +76,7 @@ class ZapController {
   }
 
   /**
-   * Terminate the app.
+   * terminate - Terminate the app.
    */
   terminate() {
     mainLog.debug('terminate...')
@@ -90,7 +94,7 @@ class ZapController {
   }
 
   /**
-   * Send a message to the main window.
+   * sendMessage - Send a message to the main window.
    *
    * @param  {string} msg message to send.
    * @param  {object} data additional data to accompany the message.
@@ -111,7 +115,7 @@ class ZapController {
   }
 
   /**
-   * Terminate any processes known to have been started by the app.
+   * killAllSpawnedProcesses - Terminate any processes known to have been started by the app.
    */
   killAllSpawnedProcesses() {
     Object.keys(this.processes).forEach(key => {

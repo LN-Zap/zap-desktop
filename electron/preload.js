@@ -36,7 +36,9 @@ const WHITELISTED_DOMAINS = [
 const WHITELISTED_ENV_VARS = ['DEBUG', 'DEBUG_LEVEL', 'DEBUG_PROD', 'NODE_ENV', 'HOT']
 
 /**
- * Open an external web page. Only allow whitelisted domains.
+ * openExternal - Open an external web page. Only allow whitelisted domains.
+ *
+ * @param {string} urlString URL to open
  */
 function openExternal(urlString) {
   const parsedUrl = url.parse(urlString)
@@ -49,19 +51,25 @@ function openExternal(urlString) {
 }
 
 /**
- * Open the help page in a new browser window.
+ * openHelpPage - Open the help page in a new browser window.
  */
 function openHelpPage() {
   openExternal('https://ln-zap.github.io/zap-tutorials/zap-desktop-getting-started')
 }
 
 /**
- * Open a testnet faucet in a new browser window.
+ * openTestnetFaucet - Open a testnet faucet in a new browser window.
  */
 function openTestnetFaucet() {
   openExternal('https://coinfaucet.eu/en/btc-testnet/')
 }
 
+/**
+ * killNeutrino - Kill Neutrino process.
+ *
+ * @param  {[string]} signal Signal to send to neutrino process
+ * @returns {Promise} Promise that resolves when the neutrino process has been killed
+ */
 function killNeutrino(signal) {
   return new Promise(resolve => {
     ipcRenderer.once('killNeutrinoSuccess', resolve)
@@ -70,7 +78,7 @@ function killNeutrino(signal) {
 }
 
 /**
- * Generates an lnd config object from a wallet config.
+ * generateLndConfigFromWallet - Generates an lnd config object from a wallet config.
  *
  * @param  {object} wallet Wallet config
  * @returns {object}        Lnd config
@@ -96,6 +104,11 @@ async function generateLndConfigFromWallet(wallet) {
   return Object.assign({}, lndConfig)
 }
 
+/**
+ * getUserDataDir - Get the electron user data directory.
+ *
+ * @returns {string} Electron user data directory.
+ */
 function getUserDataDir() {
   return remote.app.getPath('userData')
 }

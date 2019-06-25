@@ -52,7 +52,9 @@ let protocolUrl
 mainLog.time('Time until app is ready')
 
 /**
- * Handler for open-link events.
+ * handleOpenUrl - Handler for open-link events.
+ *
+ * @param {string} urlToOpen Url to open
  */
 const handleOpenUrl = (urlToOpen = '') => {
   // If we already have the mainWindow, handle the link right away.
@@ -83,7 +85,9 @@ const handleOpenUrl = (urlToOpen = '') => {
 }
 
 /**
- * Handler for lndconnect: links
+ * handleBitcoinLink - Handler for bitcoin: links.
+ *
+ * @param {string} input Bitcoin link
  */
 const handleBitcoinLink = input => {
   try {
@@ -96,7 +100,9 @@ const handleBitcoinLink = input => {
 }
 
 /**
- * Handler for lightning: links
+ * handleLightningLink - Handler for lightning: links.
+ *
+ * @param {string} input Lightning link
  */
 const handleLightningLink = input => {
   const address = input.split(':')[1]
@@ -105,7 +111,9 @@ const handleLightningLink = input => {
 }
 
 /**
- * Handler for lndconnect: links
+ * handleLndconnectLink - Handler for lndconnect: links.
+ *
+ * @param {string} input LndConnect link
  */
 const handleLndconnectLink = input => {
   try {
@@ -117,7 +125,11 @@ const handleLndconnectLink = input => {
 }
 
 /**
- * Helper method to fetch a a settings property value.'
+ * getSetting - Helper method to fetch a a settings property value.
+ *
+ * @param {object} store dexie `settings` key/value table
+ * @param {string} key Key of setting to to fetch
+ * @returns {any|null} Value of fetched setting
  */
 const getSetting = (store, key) => {
   const setting = store.find(s => s.key === key)
@@ -125,7 +137,7 @@ const getSetting = (store, key) => {
 }
 
 /**
- * If we are not able to get a single instnace lock, quit immediately.
+ * singleInstanceLock - If we are not able to get a single instnace lock, quit immediately.
  */
 const singleInstanceLock = app.requestSingleInstanceLock()
 if (!singleInstanceLock) {
@@ -205,12 +217,12 @@ app.on('ready', async () => {
   zap = new ZapController(mainWindow)
   zap.init({ theme: theme ? theme.name : undefined })
 
-  // initialize backup system
-  createBackupService(mainWindow)
-
   // Initialise the application menus.
   menuBuilder = new ZapMenuBuilder(mainWindow)
   menuBuilder.buildMenu(locale)
+
+  // Initialize backup system
+  createBackupService(mainWindow)
 
   /**
    * Add application event listener:
