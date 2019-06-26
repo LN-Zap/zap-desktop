@@ -2,7 +2,7 @@ import getPackageDetails from '../utils/getPackageDetails'
 import isStableVersion from '../utils/isStableVersion'
 // The current stable base version.
 // If the current version is in the same range asd this, the default database domain will be used.
-const STABLE_VERSION = '0.4.x'
+const STABLE_VERSION = '0.5.x'
 
 module.exports = {
   // Default debug settings.
