@@ -5,6 +5,7 @@ import { status } from '@grpc/grpc-js'
 import LndGrpc from 'lnd-grpc'
 import { grpcLog } from '@zap/utils/log'
 import delay from '@zap/utils/delay'
+import promiseTimeout from '@zap/utils/promiseTimeout'
 import isObject from '@zap/utils/isObject'
 import { forwardAll, unforwardAll } from '@zap/utils/events'
 import lightningMethods from './lightning.methods'
@@ -70,8 +71,22 @@ class ZapGrpc extends EventEmitter {
       this.subscribeAll()
     })
 
-    // Connect the service.
     return this.grpc.connect(options)
+    // Connect the service.
+  }
+  async unlock(password) {
+    try {
+      const TIMEOUT = 1000 * 60
+      const { grpc } = this
+      await promiseTimeout(
+        TIMEOUT,
+        grpc.services.WalletUnlocker.unlockWallet({ wallet_password: Buffer.from(password) })
+      )
+      return await promiseTimeout(TIMEOUT, grpc.activateLightning())
+    } catch (e) {
+      grpcLog.debug(`Error when trying to connect to LND grpc: %o`, e)
+      throw e
+    }
   }
 
   /**
