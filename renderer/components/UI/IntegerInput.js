@@ -20,13 +20,14 @@ const isNumericRegex = /^\d+$/
 const isNumeric = value => isNumericRegex.test(value)
 
 /**
- * stripLeadingZero - Strip leading zeros.
+ * convertToNumber - Convert value to number.
  *
- * @param  {number|string} value Value
- * @returns {string} Number as string with leading zeros removed
+ * @param  {string} value Value
+ * @returns {number} Value as number
  */
-const stripLeadingZero = value => {
-  return value && String(value).replace(/^0+(?=\d)/, '')
+const convertToNumber = value => {
+  const valueAsNumber = Number(value)
+  return Number.isNaN(valueAsNumber) ? undefined : valueAsNumber
 }
 
 /**
@@ -122,7 +123,7 @@ class WrappedIntegerInputAsField extends React.Component {
     return (
       <IntegerInputAsField
         {...this.props}
-        mask={stripLeadingZero}
+        mask={convertToNumber}
         onKeyDown={preventNonNumeric}
         onPaste={preventNonNumericOnPaste}
         validate={this.validate}
