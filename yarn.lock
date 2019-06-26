@@ -5607,10 +5607,10 @@ commander@~2.19.0:
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
   integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
 
-comment-parser@^0.5.4:
-  version "0.5.4"
-  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-0.5.4.tgz#089840b9cccacad2b769b231ed43081d501b9487"
-  integrity sha512-0h7W6Y1Kb6zKQMJqdX41C5qf9ITCVIsD2qP2RaqDF3GFkXFrmuAuv5zUOuo19YzyC9scjBNpqzuaRQ2Sy5pxMQ==
+comment-parser@^0.5.5:
+  version "0.5.5"
+  resolved "https://registry.yarnpkg.com/comment-parser/-/comment-parser-0.5.5.tgz#c2584cae7c2f0afc773e96b2ee98f8c10cbd693d"
+  integrity sha512-oB3TinFT+PV3p8UwDQt71+HkG03+zwPwikDlKU6ZDmql6QX2zFlQ+G0GGSDqyJhdZi4PSlzFBm+YJ+ebOX3Vgw==
 
 common-tags@^1.8.0:
   version "1.8.0"
@@ -7271,12 +7271,14 @@ eslint-plugin-jest@22.6.4:
   resolved "https://registry.yarnpkg.com/eslint-plugin-jest/-/eslint-plugin-jest-22.6.4.tgz#2895b047dd82f90f43a58a25cf136220a21c9104"
   integrity sha512-36OqnZR/uMCDxXGmTsqU4RwllR0IiB/XF8GW3ODmhsjiITKuI0GpgultWFt193ipN3HARkaIcKowpE6HBvRHNg==
 
-eslint-plugin-jsdoc@8.1.0:
-  version "8.1.0"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-8.1.0.tgz#c0d5911b7b86d4185e4a9577446a3959376f48e9"
-  integrity sha512-YVHgZz1zc7M0jDyNRD//ehkK3cMIRRqH0xv78V/7ZpIfuLvIKgk57fA5d8WN6dVZ+pDU4zNgvWftRV6Dbh84Cg==
+eslint-plugin-jsdoc@8.7.0:
+  version "8.7.0"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-jsdoc/-/eslint-plugin-jsdoc-8.7.0.tgz#ef61bb7966138576b23aacf249e958e9a0a012ff"
+  integrity sha512-4UzO2Yw+5s1DOfQCTaasUx8Ng/h6/nTtrO3gGiCD086pOAcDFkbVHKdGrGnGuXd90MPDE9bHD92xJ5ke3cMrRA==
   dependencies:
-    comment-parser "^0.5.4"
+    comment-parser "^0.5.5"
+    debug "^4.1.1"
+    flat-map-polyfill "^0.3.8"
     jsdoctypeparser "4.0.0"
     lodash "^4.17.11"
 
@@ -8009,6 +8011,11 @@ flat-cache@^2.0.1:
     flatted "^2.0.0"
     rimraf "2.6.3"
     write "1.0.3"
+
+flat-map-polyfill@^0.3.8:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/flat-map-polyfill/-/flat-map-polyfill-0.3.8.tgz#4ec0bfb7c70e2962f00db03548d3620471fd8697"
+  integrity sha512-ZfmD5MnU7GglUEhiky9C7yEPaNq1/wh36RDohe+Xr3nJVdccwHbdTkFIYvetcdsoAckUKT51fuf44g7Ni5Doyg==
 
 flat@^4.1.0:
   version "4.1.0"
