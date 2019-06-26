@@ -5,6 +5,7 @@ import { decodePayReq, getNodeAlias } from '@zap/utils/crypto'
 import { convert } from '@zap/utils/btc'
 import delay from '@zap/utils/delay'
 import { grpcService } from 'workers'
+import createReducer from './utils/createReducer'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
 import { networkSelectors } from './network'
@@ -95,27 +96,6 @@ const getLastSendingEntry = (state, paymentRequest) =>
   [...state.payment.paymentsSending]
     .sort((a, b) => b.creation_date - a.creation_date)
     .find(p => p.paymentRequest === paymentRequest)
-
-/**
- * handleDecreaseRetries - Decreases number of retries left for the given @paymentRequest.
- *
- * @param  {object} state Redux state
- * @param  {{ paymentRequest }} paymentRequest Payment request
- * @returns {object} Updated state
- */
-const handleDecreaseRetries = (state, { paymentRequest }) => {
-  const paymentsSending = state.paymentsSending.map(payment => {
-    if (payment.paymentRequest === paymentRequest) {
-      return { ...payment, remainingRetries: payment.remainingRetries - 1 }
-    }
-    return payment
-  })
-
-  return {
-    ...state,
-    paymentsSending,
-  }
-}
 
 // ------------------------------------
 // Actions
@@ -341,48 +321,43 @@ export const paymentFailed = ({ payment_request, error }) => async (dispatch, ge
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [GET_PAYMENTS]: state => ({ ...state, paymentLoading: true }),
-  [RECEIVE_PAYMENTS]: (state, { payments }) => ({
-    ...state,
-    paymentLoading: false,
-    payments,
-    paymentsSending: state.paymentsSending.filter(
+  [GET_PAYMENTS]: state => {
+    state.paymentLoading = true
+  },
+  [RECEIVE_PAYMENTS]: (state, { payments }) => {
+    state.paymentLoading = false
+    state.payments = payments
+    state.paymentsSending = state.paymentsSending.filter(
       item => !payments.find(p => p.payment_hash === item.payment_hash)
-    ),
-  }),
-  [SET_PAYMENT]: (state, { payment }) => ({ ...state, payment }),
-  [SEND_PAYMENT]: (state, { payment }) => ({
-    ...state,
-    paymentsSending: [...state.paymentsSending, payment],
-  }),
-  [DECREASE_PAYMENT_RETRIES]: handleDecreaseRetries,
+    )
+  },
+  [SET_PAYMENT]: (state, { payment }) => {
+    state.payment = payment
+  },
+  [SEND_PAYMENT]: (state, { payment }) => {
+    state.paymentsSending.push(payment)
+  },
+
+  [DECREASE_PAYMENT_RETRIES]: (state, { paymentRequest }) => {
+    const { paymentsSending } = state
+    const item = paymentsSending.find(item => item.paymentRequest === paymentRequest)
+    if (item) {
+      item.remainingRetries -= 1
+    }
+  },
   [PAYMENT_SUCCESSFUL]: (state, { paymentRequest }) => {
-    return {
-      ...state,
-      paymentsSending: state.paymentsSending.map(item => {
-        if (item.paymentRequest !== paymentRequest) {
-          return item
-        }
-        return {
-          ...item,
-          status: 'successful',
-        }
-      }),
+    const { paymentsSending } = state
+    const item = paymentsSending.find(item => item.paymentRequest === paymentRequest)
+    if (item) {
+      item.status = 'successful'
     }
   },
   [PAYMENT_FAILED]: (state, { paymentRequest, error }) => {
-    return {
-      ...state,
-      paymentsSending: state.paymentsSending.map(item => {
-        if (item.paymentRequest !== paymentRequest) {
-          return item
-        }
-        return {
-          ...item,
-          status: 'failed',
-          error,
-        }
-      }),
+    const { paymentsSending } = state
+    const item = paymentsSending.find(item => item.paymentRequest === paymentRequest)
+    if (item) {
+      item.status = 'failed'
+      item.error = error
     }
   },
 }
@@ -416,19 +391,4 @@ paymentSelectors.paymentModalOpen = createSelector(
 
 export { paymentSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * paymentReducer - Payment reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function paymentReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
