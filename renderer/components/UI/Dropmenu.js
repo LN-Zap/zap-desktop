@@ -158,6 +158,7 @@ const DropmenuButton = ({ isOpen, children, ...rest }) => {
     <DropdownButton
       type="button"
       {...rest}
+      fontWeight="light"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
     >

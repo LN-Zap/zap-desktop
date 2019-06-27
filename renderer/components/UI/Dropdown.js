@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { injectIntl } from 'react-intl'
 import { Box, Flex } from 'rebass'
 import styled, { withTheme } from 'styled-components'
-import { themeGet, opacity } from 'styled-system'
+import { themeGet, opacity, fontWeight } from 'styled-system'
 import { useOnClickOutside, useIntl } from 'hooks'
 import AngleLeft from 'components/Icon/AngleLeft'
 import AngleRight from 'components/Icon/AngleRight'
@@ -25,17 +25,19 @@ DropdownContainer.defaultProps = {
 /**
  * Button
  */
-const ButtonBox = styled(Box)(opacity)
-export const DropdownButton = styled(ButtonBox)({
-  appearance: 'none',
-  display: 'inline-block',
-  border: 'none',
-  outline: 'none',
-  background: 'transparent',
-  color: 'inherit',
-  cursor: 'pointer',
-  fontFamily: themeGet('fonts.sans'),
-})
+export const DropdownButton = styled(Box)`
+  ${opacity}
+  ${fontWeight}
+  appearance:none;
+  display: inline-block;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  font-family: ${themeGet('fonts.sans')};
+`
+
 DropdownButton.defaultProps = {
   as: 'button',
   m: 0,
@@ -44,6 +46,7 @@ DropdownButton.defaultProps = {
   justify: 'left',
   fontSize: 'm',
   lineHeight: 'normal',
+  fontWeight: 'normal',
 }
 
 /**
@@ -153,7 +156,12 @@ const Dropdown = injectIntl(
     return (
       <div style={{ display: 'inline-block' }}>
         <DropdownContainer {...rest} ref={wrapperRef}>
-          <DropdownButton onClick={toggleMenu} opacity={buttonOpacity} type="button">
+          <DropdownButton
+            fontWeight="normal"
+            onClick={toggleMenu}
+            opacity={buttonOpacity}
+            type="button"
+          >
             <Flex alignItems="center">
               <Text
                 css={`
