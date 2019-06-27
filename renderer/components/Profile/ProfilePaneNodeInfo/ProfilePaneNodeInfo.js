@@ -1,6 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
+import { clean } from 'semver'
 import { Box } from 'rebass'
 import { Bar, CopyBox, DataRow, QRCode, Text } from 'components/UI'
 import messages from './messages'
@@ -25,10 +26,11 @@ function backupMethodMessageMapper(provider, intl) {
 const ProfilePaneNodeInfo = ({
   intl,
   activeWalletSettings,
+  commitString,
   nodeUriOrPubkey,
-  lndVersion,
   showNotification,
   backupProvider,
+  versionString,
   ...rest
 }) => {
   const notifyOfCopy = () =>
@@ -72,7 +74,16 @@ const ProfilePaneNodeInfo = ({
           </Text>
         }
         py={2}
-        right={lndVersion}
+        right={
+          <>
+            <Text>{versionString}</Text>
+            {commitString && clean(commitString) !== versionString && (
+              <Text color="grey" fontSize="s">
+                {commitString}
+              </Text>
+            )}
+          </>
+        }
       />
       {backupProvider && (
         <DataRow
@@ -92,10 +103,11 @@ const ProfilePaneNodeInfo = ({
 ProfilePaneNodeInfo.propTypes = {
   activeWalletSettings: PropTypes.object.isRequired,
   backupProvider: PropTypes.string,
+  commitString: PropTypes.string,
   intl: intlShape.isRequired,
-  lndVersion: PropTypes.string,
   nodeUriOrPubkey: PropTypes.string.isRequired,
   showNotification: PropTypes.func.isRequired,
+  versionString: PropTypes.string.isRequired,
 }
 
 export default injectIntl(ProfilePaneNodeInfo)

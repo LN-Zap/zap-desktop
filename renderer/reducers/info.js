@@ -185,9 +185,27 @@ infoSelectors.infoLoading = state => state.info.infoLoading
 infoSelectors.infoLoaded = state => state.info.infoLoaded
 infoSelectors.hasSynced = state => state.info.hasSynced
 infoSelectors.isSyncedToChain = state => get(state, 'info.data.synced_to_chain', false)
-infoSelectors.lndVersion = state => get(state, 'info.data.version')
+infoSelectors.version = state => get(state, 'info.data.version')
 infoSelectors.identityPubkey = state => get(state, 'info.data.identity_pubkey')
 infoSelectors.nodeUri = state => get(state, 'info.data.uris[0]')
+
+// Extract the version string from the version.
+infoSelectors.versionString = createSelector(
+  infoSelectors.version,
+  version => version && version.split(' ')[0]
+)
+
+// Extract the commit string from the version.
+infoSelectors.commitString = createSelector(
+  infoSelectors.version,
+  version => {
+    if (!version) {
+      return
+    }
+    const commitString = version.split(' ')[1]
+    return commitString ? commitString.replace('commit=', '') : undefined
+  }
+)
 
 // Get the node pubkey. If not set, try to extract it from the node uri.
 infoSelectors.nodePubkey = createSelector(
