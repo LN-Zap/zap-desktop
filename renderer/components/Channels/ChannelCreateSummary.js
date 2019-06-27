@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 import BigArrowRight from 'components/Icon/BigArrowRight'
-import { Bar, DataRow, Text } from 'components/UI'
+import { Bar, DataRow, Text, TransactionSpeedDesc } from 'components/UI'
 import { CryptoValueSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import { withEllipsis } from 'hocs'
@@ -20,6 +20,7 @@ class ChannelCreateSummary extends React.Component {
   static propTypes = {
     amount: PropTypes.number,
     fee: PropTypes.number.isRequired,
+    lndTargetConfirmations: PropTypes.object.isRequired,
     nodeDisplayName: PropTypes.string,
     nodePubkey: PropTypes.string.isRequired,
     speed: PropTypes.oneOf([
@@ -30,9 +31,16 @@ class ChannelCreateSummary extends React.Component {
   }
 
   render() {
-    const { amount, fee, speed, nodePubkey, nodeDisplayName, ...rest } = this.props
-    const speedTitleMessageKey = speed.toLowerCase()
-    const pubkey = nodePubkey.split('@')[0]
+    const {
+      amount,
+      fee,
+      speed,
+      nodePubkey,
+      nodeDisplayName,
+      lndTargetConfirmations,
+      ...rest
+    } = this.props
+    const [pubkey] = nodePubkey.split('@')
 
     return (
       <Box {...rest}>
@@ -84,9 +92,11 @@ class ChannelCreateSummary extends React.Component {
                     </Text>
                   </Flex>
 
-                  <Text color="gray">
-                    <FormattedMessage {...messages[speedTitleMessageKey]} />
-                  </Text>
+                  <TransactionSpeedDesc
+                    fontSize="s"
+                    lndTargetConfirmations={lndTargetConfirmations}
+                    speed={speed}
+                  />
                 </>
               }
             />

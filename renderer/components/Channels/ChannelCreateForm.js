@@ -326,7 +326,7 @@ class ChannelCreateForm extends React.Component {
   }
 
   renderFormSummary() {
-    const { cryptoUnit, selectedNodeDisplayName } = this.props
+    const { cryptoUnit, selectedNodeDisplayName, lndTargetConfirmations } = this.props
 
     const formState = this.formApi.getState()
     const { speed, amountCrypto, nodePubkey } = formState.values
@@ -337,6 +337,7 @@ class ChannelCreateForm extends React.Component {
       <ChannelCreateSummary
         amount={amount}
         fee={fee}
+        lndTargetConfirmations={lndTargetConfirmations}
         nodeDisplayName={selectedNodeDisplayName}
         nodePubkey={nodePubkey}
         speed={speed}
