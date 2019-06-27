@@ -16,8 +16,8 @@ async function getInfo(payload = {}) {
   logGrpcCmd('Lightning.getInfo', payload)
   const infoData = await promisifiedCall(this.service, this.service.getInfo, payload)
 
-  // Add semver info into info so that we can use it to customise functionality based on active version.
-  infoData.semver = this.version
+  // Add grpc proto version into info so that it can be used by the client.
+  infoData.grpcProtoVersion = this.version
 
   // In older versions `chain` was a simple string and there was a separate boolean to indicate the network.
   // Convert it to the current format for consistency.
