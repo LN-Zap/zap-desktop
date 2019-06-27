@@ -54,24 +54,10 @@ exports[`component.Form.PaySummaryOnchain should render correctly 1`] = `
       <styled.div
         width={0.45454545454545453}
       >
-        <Styled(styled.div)
-          alignItems="baseline"
-          flexWrap="wrap"
-        >
-          <styled.div>
-            <Text
-              fontSize="xxl"
-              textAlign="left"
-            >
-              <CryptoValue
-                value={1000}
-              />
-            </Text>
-          </styled.div>
-          <Connect(WithTheme(InjectIntl(Component)))
-            ml={2}
-          />
-        </Styled(styled.div)>
+        <CryptoValueSelector
+          fontSize="xxl"
+          value={1000}
+        />
         <Text
           color="gray"
         >
