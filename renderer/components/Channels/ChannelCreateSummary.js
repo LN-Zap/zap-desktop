@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 import BigArrowRight from 'components/Icon/BigArrowRight'
-import { Bar, DataRow, Text } from 'components/UI'
-import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
+import { Bar, DataRow, Text, TransactionSpeedDesc } from 'components/UI'
+import { CryptoValueSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import { withEllipsis } from 'hocs'
 import {
@@ -20,6 +20,7 @@ class ChannelCreateSummary extends React.Component {
   static propTypes = {
     amount: PropTypes.number,
     fee: PropTypes.number.isRequired,
+    lndTargetConfirmations: PropTypes.object.isRequired,
     nodeDisplayName: PropTypes.string,
     nodePubkey: PropTypes.string.isRequired,
     speed: PropTypes.oneOf([
@@ -30,21 +31,23 @@ class ChannelCreateSummary extends React.Component {
   }
 
   render() {
-    const { amount, fee, speed, nodePubkey, nodeDisplayName, ...rest } = this.props
-    const speedTitleMessageKey = speed.toLowerCase()
-    const pubkey = nodePubkey.split('@')[0]
+    const {
+      amount,
+      fee,
+      speed,
+      nodePubkey,
+      nodeDisplayName,
+      lndTargetConfirmations,
+      ...rest
+    } = this.props
+    const [pubkey] = nodePubkey.split('@')
 
     return (
       <Box {...rest}>
         <Box py={3}>
           <Flex alignItems="center">
             <Box width={5 / 11}>
-              <Flex alignItems="baseline" flexWrap="wrap">
-                <Text fontSize="xxl" textAlign="left">
-                  <CryptoValue value={amount} />
-                </Text>
-                <CryptoSelector ml={2} />
-              </Flex>
+              <CryptoValueSelector fontSize="xxl" value={amount} />
               <Text color="gray">
                 {'≈ '}
                 <FiatValue style="currency" value={amount} />
@@ -82,14 +85,18 @@ class ChannelCreateSummary extends React.Component {
               left={<FormattedMessage {...messages.fee} />}
               right={
                 <>
-                  <Text>
-                    <CryptoValue value={fee} />
-                    <CryptoSelector mx={2} />
-                    <FormattedMessage {...messages.fee_per_byte} />
-                  </Text>
-                  <Text color="gray">
-                    <FormattedMessage {...messages[speedTitleMessageKey]} />
-                  </Text>
+                  <Flex>
+                    <CryptoValueSelector mr={2} value={fee} />
+                    <Text>
+                      <FormattedMessage {...messages.fee_per_byte} />
+                    </Text>
+                  </Flex>
+
+                  <TransactionSpeedDesc
+                    fontSize="s"
+                    lndTargetConfirmations={lndTargetConfirmations}
+                    speed={speed}
+                  />
                 </>
               }
             />

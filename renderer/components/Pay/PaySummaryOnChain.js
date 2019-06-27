@@ -4,7 +4,7 @@ import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 import BigArrowRight from 'components/Icon/BigArrowRight'
 import { Bar, DataRow, Spinner, Text, TransactionSpeedDesc } from 'components/UI'
-import { CryptoSelector, CryptoValue, FiatValue } from 'containers/UI'
+import { CryptoValueSelector, FiatValue } from 'containers/UI'
 import { Truncate } from 'components/Util'
 import messages from './messages'
 
@@ -63,14 +63,7 @@ class PaySummaryOnChain extends React.Component {
         <Box py={3}>
           <Flex alignItems="center">
             <Box width={5 / 11}>
-              <Flex alignItems="baseline" flexWrap="wrap">
-                <Box>
-                  <Text fontSize="xxl" textAlign="left">
-                    <CryptoValue value={amount} />
-                  </Text>
-                </Box>
-                <CryptoSelector ml={2} />
-              </Flex>
+              <CryptoValueSelector fontSize="xxl" value={amount} />
               <Text color="gray">
                 {' ≈ '}
                 <FiatValue style="currency" value={amount} />
@@ -112,16 +105,20 @@ class PaySummaryOnChain extends React.Component {
                 <Spinner color="lightningOrange" />
               </Flex>
             ) : fee ? (
-              <React.Fragment>
-                <Text>
-                  {fee} satoshis <FormattedMessage {...messages.fee_per_byte} />
-                </Text>
+              <>
+                <Flex>
+                  <CryptoValueSelector mr={2} value={fee} />
+                  <Text>
+                    <FormattedMessage {...messages.fee_per_byte} />
+                  </Text>
+                </Flex>
+
                 <TransactionSpeedDesc
                   fontSize="s"
                   lndTargetConfirmations={lndTargetConfirmations}
                   speed={speed}
                 />
-              </React.Fragment>
+              </>
             ) : (
               <FormattedMessage {...messages.fee_unknown} />
             )
