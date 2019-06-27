@@ -428,7 +428,7 @@
   "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Niet betaald",
   "components.Request.paid": "Betaald",
-  "components.Request.payment_request": "",
+  "components.Request.payment_request": "Verzoek betaling",
   "components.Request.qrcode": "",
   "components.Request.routing_hints_label": "",
   "components.Request.routing_hints_tooltip": "",
