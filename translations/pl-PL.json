@@ -428,7 +428,7 @@
   "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "",
   "components.Request.paid": "",
-  "components.Request.payment_request": "",
+  "components.Request.payment_request": "Żądanie płatności",
   "components.Request.qrcode": "",
   "components.Request.routing_hints_label": "",
   "components.Request.routing_hints_tooltip": "",
