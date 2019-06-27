@@ -428,7 +428,7 @@
   "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Neachitat",
   "components.Request.paid": "Plătit",
-  "components.Request.payment_request": "",
+  "components.Request.payment_request": "Solicitarea de plată",
   "components.Request.qrcode": "",
   "components.Request.routing_hints_label": "",
   "components.Request.routing_hints_tooltip": "",
