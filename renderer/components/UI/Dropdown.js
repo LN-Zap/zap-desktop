@@ -34,6 +34,7 @@ export const DropdownButton = styled(ButtonBox)({
   background: 'transparent',
   color: 'inherit',
   cursor: 'pointer',
+  fontFamily: themeGet('fonts.sans'),
 })
 DropdownButton.defaultProps = {
   as: 'button',
