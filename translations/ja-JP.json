@@ -428,7 +428,7 @@
   "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "支払われていません。",
   "components.Request.paid": "支払った",
-  "components.Request.payment_request": "",
+  "components.Request.payment_request": "支払い要求",
   "components.Request.qrcode": "",
   "components.Request.routing_hints_label": "",
   "components.Request.routing_hints_tooltip": "",
