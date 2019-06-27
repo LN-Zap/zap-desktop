@@ -428,7 +428,7 @@
   "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "未支付",
   "components.Request.paid": "已支付",
-  "components.Request.payment_request": "",
+  "components.Request.payment_request": "支付请求",
   "components.Request.qrcode": "",
   "components.Request.routing_hints_label": "",
   "components.Request.routing_hints_tooltip": "",
