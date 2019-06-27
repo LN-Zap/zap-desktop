@@ -428,7 +428,7 @@
   "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Inte betalad",
   "components.Request.paid": "Betald",
-  "components.Request.payment_request": "",
+  "components.Request.payment_request": "Betalningsbegäran",
   "components.Request.qrcode": "",
   "components.Request.routing_hints_label": "",
   "components.Request.routing_hints_tooltip": "",
