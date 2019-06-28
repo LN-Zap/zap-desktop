@@ -391,8 +391,6 @@ export const fetchSeedError = error => dispatch => {
 export const createWallet = ({ recover } = {}) => async (dispatch, getState) => {
   dispatch({ type: CREATE_WALLET })
 
-  let waitForState
-
   try {
     const state = getState()
     const { chain: defaultChain, network: defaultNetwork } = config
@@ -415,9 +413,7 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
 
     // Call initWallet method.
     const grpc = await grpcService
-    waitForState = await grpc.waitForState('active')
-
-    await grpc.services.WalletUnlocker.initWallet({
+    await grpc.initWallet({
       wallet_password: Buffer.from(state.onboarding.password),
       aezeed_passphrase: state.onboarding.passphrase
         ? Buffer.from(state.onboarding.passphrase)
@@ -425,9 +421,6 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
       cipher_seed_mnemonic: state.onboarding.seed,
       recovery_window: recover ? config.lnd.recoveryWindow : 0,
     })
-
-    // Wait for the lightning gRPC interface to become active.
-    await waitForState.isDone
 
     // Notify of wallet recovery success.
     dispatch(createWalletSuccess())
@@ -440,10 +433,6 @@ export const createWallet = ({ recover } = {}) => async (dispatch, getState) => 
       await dispatch(stopLnd())
       await dispatch(removeWallet(lndConfig))
     } finally {
-      // Remove Lightning gRPC activation listener.
-      if (waitForState) {
-        await waitForState.cancel()
-      }
       // Notify of wallet recovery failure.
       dispatch(createWalletFailure(error.message))
     }
