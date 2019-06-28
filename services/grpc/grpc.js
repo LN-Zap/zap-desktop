@@ -14,6 +14,9 @@ import lightningSubscriptions from './lightning.subscriptions'
 const GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE = 'GRPC_WALLET_UNLOCKER_SERVICE_ACTIVE'
 const GRPC_LIGHTNING_SERVICE_ACTIVE = 'GRPC_LIGHTNING_SERVICE_ACTIVE'
 
+// Timeout for WalletUnlocker actions.
+const WALLET_UNLOCKER_TIMEOUT = 1000 * 60
+
 /**
  * LND gRPC wrapper.
  * @extends EventEmitter
@@ -71,20 +74,46 @@ class ZapGrpc extends EventEmitter {
       this.subscribeAll()
     })
 
-    return this.grpc.connect(options)
     // Connect the service.
+    return this.grpc.connect(options)
   }
+
+  /**
+   * unlock - Unlock gRPC service.
+   *
+   * @param {string} password Password
+   * @returns {Promise} Promise that resolves after unlocking a wallet and connecting to the Lightning interface.
+   */
   async unlock(password) {
     try {
-      const TIMEOUT = 1000 * 60
       const { grpc } = this
       await promiseTimeout(
-        TIMEOUT,
+        WALLET_UNLOCKER_TIMEOUT,
         grpc.services.WalletUnlocker.unlockWallet({ wallet_password: Buffer.from(password) })
       )
-      return await promiseTimeout(TIMEOUT, grpc.activateLightning())
+      return await promiseTimeout(WALLET_UNLOCKER_TIMEOUT, grpc.activateLightning())
     } catch (e) {
       grpcLog.debug(`Error when trying to connect to LND grpc: %o`, e)
+      throw e
+    }
+  }
+
+  /**
+   * initWallet - Create / Restore wallet.
+   *
+   * @param {object} payload Payload
+   * @returns {Promise} Promise that resolves after creating wallet and connecting to the Lightning interface.
+   */
+  async initWallet(payload) {
+    try {
+      const { grpc } = this
+      await promiseTimeout(
+        WALLET_UNLOCKER_TIMEOUT,
+        grpc.services.WalletUnlocker.initWallet(payload)
+      )
+      return await promiseTimeout(WALLET_UNLOCKER_TIMEOUT, grpc.activateLightning())
+    } catch (e) {
+      grpcLog.debug(`Error when trying to create wallet: %o`, e)
       throw e
     }
   }
