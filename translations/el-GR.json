@@ -428,7 +428,7 @@
   "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Δεν καταβάλλεται",
   "components.Request.paid": "Καταβάλλεται",
-  "components.Request.payment_request": "Αίτηση πληρωμής",
+  "components.Request.payment_request": "",
   "components.Request.qrcode": "",
   "components.Request.routing_hints_label": "",
   "components.Request.routing_hints_tooltip": "",
