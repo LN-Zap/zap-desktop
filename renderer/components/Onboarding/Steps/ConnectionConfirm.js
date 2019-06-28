@@ -48,7 +48,7 @@ class ConnectionConfirm extends React.Component {
     connectionString = connectionString && connectionString.trim()
     // If we have a hostname, assume we are using the custom form in which host, cer and macaroon paths are supplied.
     if (connectionHost) {
-      return startLnd({
+      return await startLnd({
         type: 'custom',
         decoder: 'lnd.lndconnect.v1',
         lndconnectUri: encode({
@@ -73,7 +73,7 @@ class ConnectionConfirm extends React.Component {
       // lndconnect://example.com:10009?cert=~/.lnd/tls.cert&macaroon=~/.lnd/admin.macaroon
       const lndconnectUri = encode(decode(connectionString))
 
-      return startLnd({
+      return await startLnd({
         type: 'custom',
         decoder: 'lnd.lndconnect.v1',
         lndconnectUri,
@@ -88,7 +88,7 @@ class ConnectionConfirm extends React.Component {
       cert,
     })
 
-    return startLnd({
+    return await startLnd({
       type: 'custom',
       decoder: 'lnd.lndconnect.v1',
       lndconnectUri,
@@ -139,7 +139,7 @@ class ConnectionConfirm extends React.Component {
         onSubmit={async values => {
           try {
             await this.handleSubmit(values)
-            if (onSubmit) {
+            if (onSubmit && !isLightningGrpcActive) {
               onSubmit(values)
             }
           } catch (e) {

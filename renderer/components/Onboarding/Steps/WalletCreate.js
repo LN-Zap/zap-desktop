@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage } from 'react-intl'
 import { Form, Spinner, Text } from 'components/UI'
+import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
 
 class WalletCreate extends React.Component {
@@ -29,8 +30,6 @@ class WalletCreate extends React.Component {
     if (!isCreatingWallet && prevProps.isCreatingWallet) {
       if (createWalletError) {
         wizardApi.onSubmitFailure()
-      } else {
-        wizardApi.onSubmit()
       }
     }
   }
@@ -42,8 +41,12 @@ class WalletCreate extends React.Component {
 
   handleSubmit = async () => {
     const { createWallet } = this.props
-    // wait until wallet creation is complete to obtain id
-    createWallet()
+    return await createWallet()
+  }
+
+  resetOnboarding = () => {
+    const { wizardApi } = this.props
+    wizardApi.navigateTo(0)
   }
 
   setFormApi = formApi => {
@@ -62,6 +65,7 @@ class WalletCreate extends React.Component {
     } = this.props
     const { getApi, onChange, onSubmitFailure } = wizardApi
     const { currentItem } = wizardState
+
     return (
       <Form
         {...rest}
@@ -79,6 +83,11 @@ class WalletCreate extends React.Component {
           <Spinner />
           <FormattedMessage {...messages.creating_wallet} />
         </Text>
+        <ErrorDialog
+          error={createWalletError}
+          isOpen={Boolean(createWalletError)}
+          onClose={this.resetOnboarding}
+        />
       </Form>
     )
   }
