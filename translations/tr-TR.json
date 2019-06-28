@@ -428,7 +428,7 @@
   "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Ödenmeyen",
   "components.Request.paid": "Ödenen",
-  "components.Request.payment_request": "Ödeme talebi",
+  "components.Request.payment_request": "",
   "components.Request.qrcode": "",
   "components.Request.routing_hints_label": "",
   "components.Request.routing_hints_tooltip": "",
