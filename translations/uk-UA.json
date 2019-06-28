@@ -428,7 +428,7 @@
   "components.Request.memo_tooltip": "",
   "components.Request.not_paid": "Не сплачені",
   "components.Request.paid": "Сплачені",
-  "components.Request.payment_request": "Запит оплати",
+  "components.Request.payment_request": "",
   "components.Request.qrcode": "",
   "components.Request.routing_hints_label": "",
   "components.Request.routing_hints_tooltip": "",
