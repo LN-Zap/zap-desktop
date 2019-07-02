@@ -7,24 +7,10 @@ Object {
 }
 `;
 
-exports[`reducers settingsReducer should correctly disableSubmenu 1`] = `
-Object {
-  "activeSubMenu": null,
-  "isSettingsMenuOpen": false,
-}
-`;
-
 exports[`reducers settingsReducer should correctly openSettings 1`] = `
 Object {
   "activeSubMenu": null,
   "isSettingsMenuOpen": true,
-}
-`;
-
-exports[`reducers settingsReducer should correctly setActiveSubmenu 1`] = `
-Object {
-  "activeSubMenu": true,
-  "isSettingsMenuOpen": false,
 }
 `;
 
