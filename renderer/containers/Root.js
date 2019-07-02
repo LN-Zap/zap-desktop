@@ -29,9 +29,7 @@ import WalletStarter from './WalletStarter'
 // Wrap the page with our isLoading HOC so that the app displays the loading graphic when it first mounts.
 const PageWithLoading = withLoading(Page)
 
-/**
- * Root component that deals with mounting the app and managing top level routing.
- */
+// Root component that deals with mounting the app and managing top level routing.
 const Root = ({
   initDatabase,
   initSettings,
@@ -49,6 +47,9 @@ const Root = ({
   loadingMessage,
 }) => {
   useEffect(() => {
+    /**
+     * init - Run async app initializers.
+     */
     async function init() {
       if (!isMounted) {
         setMounted(true)

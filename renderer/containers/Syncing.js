@@ -40,7 +40,7 @@ const ModalOverlay = styled.div`
   ${ModalOverlayStyles}
 `
 
-function SyncingModal({ onClose, ...rest }) {
+const SyncingModal = ({ onClose, ...rest }) => {
   useOnKeydown('Escape', onClose)
   return (
     <ModalOverlay>

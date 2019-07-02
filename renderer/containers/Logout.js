@@ -5,7 +5,7 @@ import { Redirect } from 'react-router'
 import { logout } from 'reducers/app'
 import { walletSelectors } from 'reducers/wallet'
 
-function Logout({ logout, hasWallets }) {
+const Logout = ({ logout, hasWallets }) => {
   useEffect(() => {
     logout()
   }, [logout])

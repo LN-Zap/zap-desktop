@@ -108,7 +108,7 @@ const OnboardingContainer = connect(
 const ModalOverlay = styled.div`
   ${ModalOverlayStyles}
 `
-function OnboardingModal({ hasWallets, onClose, ...rest }) {
+const OnboardingModal = ({ hasWallets, onClose, ...rest }) => {
   useOnKeydown('Escape', onClose)
 
   return (

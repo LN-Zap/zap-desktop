@@ -29,9 +29,7 @@ class Initializer extends React.Component {
     lndConnect: PropTypes.string,
   }
 
-  /**
-   * Initialize app state.
-   */
+  // Initialize app state.
   componentDidMount() {
     const {
       initLocale,
@@ -51,8 +49,9 @@ class Initializer extends React.Component {
   }
 
   /**
-   * Returns current location based on app initialization state and referrer
-   * or null if there is no location change
+   * getLocation - Returns current location based on app initialization state and referrer.
+   *
+   * @returns {string|null} redirect path or null if there is no location change
    */
   getLocation() {
     const {
