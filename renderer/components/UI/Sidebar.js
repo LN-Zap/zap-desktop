@@ -5,6 +5,7 @@ import { Flex } from 'rebass'
 const SidebarBox = styled(Flex)`
   overflow: hidden;
   box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.5);
+  z-index: 1;
 `
 
 const Sidebar = ({ ...props }) => (
