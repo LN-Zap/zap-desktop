@@ -5,7 +5,9 @@ import getDbName from '@zap/utils/db'
 import config from 'config'
 
 /**
- * Initialise the database and make it globally accessible.
+ * initDb - Initialise the database and make it globally accessible.
+ *
+ * @returns {Promise} Resolves once database connection is open
  */
 export const initDb = () => {
   const { namespace, domain } = config.db
@@ -20,7 +22,10 @@ export const initDb = () => {
 }
 
 /**
- * Define the database.
+ * getDb - Define the database.
+ *
+ * @param {string} name Database name
+ * @returns {object} Dexie database schema
  */
 export const getDb = name => {
   const db = new Dexie(name)
@@ -216,7 +221,7 @@ export const getDb = name => {
   })
 
   /**
-   * Get current address of a given type.
+   * getCurrentAddress - Get current address of a given type.
    *
    * @param  {string} type type of address to fetch.
    * @returns {string} current address of requested type, if one exists.
@@ -226,7 +231,7 @@ export const getDb = name => {
   }
 
   /**
-   * Set current address of a given type.
+   * setCurrentAddress - Set current address of a given type.
    *
    * @param  {string} type type of address to save.
    * @param  {string} address address to save.

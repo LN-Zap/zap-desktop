@@ -18,21 +18,19 @@ import messages from '@zap/translations/en.json'
 const intlProvider = new IntlProvider({ locale: 'en', messages }, {})
 const { intl } = intlProvider.getChildContext()
 
-/**
- * When using React-Intl `injectIntl` on components, props.intl is required.
- */
-function nodeWithIntlProp(node) {
+// nodeWithIntlProp - When using React-Intl `injectIntl` on components, props.intl is required.
+const nodeWithIntlProp = node => {
   return React.cloneElement(node, { intl })
 }
 
-export function shallowWithIntl(node, { context, ...additionalOptions } = {}) {
+export const shallowWithIntl = (node, { context, ...additionalOptions } = {}) => {
   return shallow(nodeWithIntlProp(node), {
     context: Object.assign({}, context, { intl }),
     ...additionalOptions,
   })
 }
 
-export function mountWithIntl(node, { context, childContextTypes, ...additionalOptions } = {}) {
+export const mountWithIntl = (node, { context, childContextTypes, ...additionalOptions } = {}) => {
   return mount(nodeWithIntlProp(node), {
     context: Object.assign({}, context, { intl }),
     childContextTypes: Object.assign({}, { intl: intlShape }, childContextTypes),

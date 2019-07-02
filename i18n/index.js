@@ -3,7 +3,7 @@ import { lookup } from 'country-data-lookup'
 import createDebug from 'debug'
 import isRenderer from 'is-electron-renderer'
 
-// Defaine list of language that we will support.
+// Define list of language that we will support.
 export const locales = [
   'bg',
   'cs',
@@ -64,9 +64,9 @@ const debug = (...args) => {
 }
 
 /**
- * Get the most appropriate language code.
+ * getDefaultLocale - Get the most appropriate language code.
  *
- * @returns {string} Language code.
+ * @returns {string} Language code
  */
 export const getDefaultLocale = () => {
   const defaultLocale = window.navigator.language || 'en-US'
@@ -83,9 +83,10 @@ export const getDefaultLocale = () => {
 }
 
 /**
- * Get the most appropriate language code.
+ * getLanguageName - Get the most appropriate language code.
  *
- * @returns {string} Language code.
+ * @param {string} lang Language code
+ * @returns {string} Language name
  */
 export const getLanguageName = lang => {
   const customNames = {
@@ -105,7 +106,7 @@ export const getLanguageName = lang => {
 }
 
 /**
- * Get the most appropriate currency code.
+ * getDefaultCurrency - Get the most appropriate currency code.
  *
  * @returns {string} Currency code.
  */
