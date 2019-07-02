@@ -127,18 +127,14 @@ class ChannelCreateForm extends React.Component {
     queryFees()
   }
 
-  /**
-   * Focus the amount input.
-   */
+  // focusAmountInput Focus the amount input.
   focusAmountInput = () => {
     if (this.amountInput.current) {
       this.amountInput.current.focus()
     }
   }
 
-  /**
-   * Get the current per byte fee based on the form values.
-   */
+  // Get the current per byte fee based on the form values.
   getFee = () => {
     const formState = this.formApi.getState()
     const { speed } = formState.values
@@ -186,9 +182,7 @@ class ChannelCreateForm extends React.Component {
     }
   }
 
-  /**
-   * Open a channel using the supplied details.
-   */
+  // Open a channel using the supplied details.
   onSubmit = values => {
     const { cryptoUnit, openChannel } = this.props
     const { amountCrypto, nodePubkey } = values
@@ -212,17 +206,13 @@ class ChannelCreateForm extends React.Component {
     })
   }
 
-  /**
-   * Clear the current search query.
-   */
+  // Clear the current search query.
   clearSearchQuery = () => {
     const { updateContactFormSearchQuery } = this.props
     updateContactFormSearchQuery(null)
   }
 
-  /**
-   * Custom validation for the amount input.
-   */
+  // Custom validation for the amount input.
   validateAmount = value => {
     if (!value) {
       return
@@ -241,9 +231,7 @@ class ChannelCreateForm extends React.Component {
     }
   }
 
-  /**
-   * Store the formApi on the component context to make it available at this.formApi.
-   */
+  // Store the formApi on the component context to make it available at this.formApi.
   setFormApi = formApi => {
     this.formApi = formApi
   }

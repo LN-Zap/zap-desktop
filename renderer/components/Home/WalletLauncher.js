@@ -82,11 +82,12 @@ const clean = obj => {
 }
 
 /**
- * Shallowly compares two objects using == operator. Only @whiteList props are compared
+ * unsafeShallowCompare - Shallowly compares two objects using == operator. Only @whiteList props are compared.
  *
- * @param {*} obj1
- * @param {*} obj2
- * @param {*} whiteList
+ * @param {*} obj1 Object 1 to compare
+ * @param {*} obj2 Object 2 to compare
+ * @param {*} whiteList of props to compare
+ * @returns {boolean} True if compared props all match
  */
 const unsafeShallowCompare = (obj1, obj2, whiteList) => {
   return Object.keys(whiteList).every(key => obj1[key] == obj2[key])
@@ -104,7 +105,10 @@ const getLndConnectType = lndconnectUri => {
 }
 
 /**
- * Parses lndconnect uri and returns decoded cert, macaroon and host
+ * parseLndConnectURI - Parses lndconnect uri and returns decoded cert, macaroon and host.
+ *
+ * @param {string} uri Lndconnect uri
+ * @returns {{host, cert, macaroon}} Host/Cert/Macaroon as parsed from lnd connect string
  */
 const parseLndConnectURI = uri => {
   const parseBtcPayString = uri => {
@@ -163,9 +167,7 @@ class WalletLauncher extends React.Component {
     }
   }
 
-  /**
-   * Redirect to the login page when we establish a connection to lnd.
-   */
+  // Redirect to the login page when we establish a connection to lnd.
   componentDidUpdate(prevProps) {
     const {
       history,
@@ -210,10 +212,9 @@ class WalletLauncher extends React.Component {
   }
 
   /**
-   * Saves current lnd config based on current form state
-   * Returns the actual config that was saved
+   * saveSettings - Saves current lnd config based on current form state.
    *
-   * @memberof WalletLauncher
+   * @returns {object} The actual config that was saved
    */
   saveSettings = async () => {
     const {

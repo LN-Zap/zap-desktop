@@ -68,7 +68,6 @@ const preventNonNumericOnPaste = e => {
 }
 
 /**
- * @render react
  * @name IntegerInput
  */
 class IntegerInput extends React.Component {
@@ -132,5 +131,4 @@ class WrappedIntegerInputAsField extends React.Component {
   }
 }
 
-export { IntegerInput }
 export default WrappedIntegerInputAsField

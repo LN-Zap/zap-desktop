@@ -8,7 +8,6 @@ import Error from 'components/Icon/Error'
 import Spinner from './Spinner'
 
 /**
- * @render react
  * @name Notification
  * @example
  * <Notification variant="success">Success message</Success/>

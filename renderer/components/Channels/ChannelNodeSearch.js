@@ -63,7 +63,9 @@ class ChannelNodeSearch extends React.PureComponent {
   updateContactFormSearchQuery = debounce(this.props.updateContactFormSearchQuery, 300)
 
   /**
-   * Handle connect to node click.
+   * handleClickConnect - Handle connect to node click.
+   *
+   * @param {object} node Node
    */
   handleClickConnect = node => {
     const { updateContactFormSearchQuery } = this.props
@@ -71,14 +73,18 @@ class ChannelNodeSearch extends React.PureComponent {
   }
 
   /**
-   * Handle search input update.
+   * handleSearchUpdated - Handle search input update.
+   *
+   * @param {string} value Search string
    */
   handleSearchUpdated = value => {
     this.updateContactFormSearchQuery(value)
   }
 
   /**
-   * Store the formApi on the component context to make it available at this.formApi.
+   * setFormApi - Store the formApi on the component context to make it available at this.formApi.
+   *
+   * @param {object} formApi Informed formApi
    */
   setFormApi = formApi => {
     this.formApi = formApi

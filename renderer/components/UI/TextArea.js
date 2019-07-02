@@ -15,11 +15,11 @@ import Span from './Span'
 import Text from './Text'
 import Tooltip from './Tooltip'
 
-function isFieldValid({ value, error, asyncError, touched }) {
+const isFieldValid = ({ value, error, asyncError, touched }) => {
   return value && !error && !asyncError && touched
 }
 
-function mapDefaultBorderColor(props) {
+const mapDefaultBorderColor = props => {
   const {
     isDisabled,
     isReadOnly,
@@ -46,7 +46,7 @@ function mapDefaultBorderColor(props) {
   return borderColor
 }
 
-function mapFocusBorderColor(props) {
+const mapFocusBorderColor = props => {
   const {
     fieldState,
     theme: {
@@ -98,7 +98,6 @@ const SystemTextArea = styled(
 `
 
 /**
- * @render react
  * @name TextArea
  * @example
  * <TextArea />

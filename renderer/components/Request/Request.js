@@ -21,9 +21,6 @@ import Padlock from 'components/Icon/Padlock'
 import RequestSummary from './RequestSummary'
 import messages from './messages'
 
-/**
- * Request form.
- */
 class Request extends React.Component {
   state = {
     currentStep: 'form',
@@ -67,14 +64,16 @@ class Request extends React.Component {
   }
 
   /**
-   * Liost of enabled form steps.
+   * steps - Get list of enabled form steps.
+   *
+   * @returns {Array} list of enabled form steps.
    */
   steps = () => {
     return ['form', 'summary']
   }
 
   /**
-   * Go back to previous form step.
+   * previousStep - Go back to previous form step.
    */
   previousStep = () => {
     const { currentStep } = this.state
@@ -85,7 +84,7 @@ class Request extends React.Component {
   }
 
   /**
-   * Progress to next form step.
+   * nextStep - Progress to next form step.
    */
   nextStep = () => {
     const { currentStep } = this.state
@@ -96,7 +95,7 @@ class Request extends React.Component {
   }
 
   /**
-   * Form submit handler.
+   * onSubmit - Form submit handler.
    *
    * @param  {object} values submitted form values.
    */
@@ -106,14 +105,16 @@ class Request extends React.Component {
   }
 
   /**
-   * Store the formApi on the component context to make it available at this.formApi.
+   * setFormApi - Store the formApi on the component context to make it available at this.formApi.
+   *
+   * @param {object} formApi Informed formApi
    */
   setFormApi = formApi => {
     this.formApi = formApi
   }
 
   /**
-   * Focus the amount input.
+   * focusAmountInput - Focus the amount input.
    */
   focusAmountInput = () => {
     if (this.amountInput.current) {
@@ -187,9 +188,6 @@ class Request extends React.Component {
     </Flex>
   )
 
-  /**
-   * Form renderer.
-   */
   render() {
     const {
       activeWalletSettings,

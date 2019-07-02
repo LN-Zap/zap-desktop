@@ -3,7 +3,6 @@ import PropTypes from 'prop-types'
 import Text from './Text'
 
 /**
- * @render react
  * @name Link
  * @example
  * <Link>Some text</Link>

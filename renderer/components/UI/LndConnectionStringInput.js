@@ -7,16 +7,6 @@ import messages from './messages'
 
 const mask = value => value && value.trim()
 
-/**
- * @render react
- * @name LndConnectionStringInput
- * @example
- * <LndConnectionStringInput
-     field="testnet"
-     id="testnet"
-     validateOnChange
-     validateOnBlur />
- */
 class LndConnectionStringInput extends React.Component {
   static displayName = 'LndConnectionStringInput'
 
@@ -34,7 +24,7 @@ class LndConnectionStringInput extends React.Component {
   }
 
   /**
-   * Check for a valid lndconnect uri or BtcPayServer connection string.
+   * validate - Check for a valid lndconnect uri or BtcPayServer connection string.
    *
    * @param  {string}  value String to validate.
    * @returns {boolean}       Boolean indicating wether the string is a valid or not.

@@ -8,7 +8,7 @@ import Toggle from './Toggle'
 import Span from './Span'
 import Label from './Label'
 
-function LndConnectionStringEditor({ formApi, field, hideStringMessage, ...rest }) {
+const LndConnectionStringEditor = ({ formApi, field, hideStringMessage, ...rest }) => {
   const isDisabled = formApi.getValue('hideLndConnectUri')
 
   const getValue = isDisabled => {

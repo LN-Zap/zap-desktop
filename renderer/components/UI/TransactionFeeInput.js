@@ -41,7 +41,7 @@ const speedMessageMap = [
   },
 ]
 
-function TransactionFeeInput({
+const TransactionFeeInput = ({
   lndTargetConfirmations,
   isQueryingFees,
   initialValue,
@@ -49,7 +49,7 @@ function TransactionFeeInput({
   field,
   formApi,
   fee,
-}) {
+}) => {
   const value = formApi.getValue(field)
   return (
     <Flex alignItems="center" justifyContent="space-between">
@@ -100,7 +100,7 @@ function TransactionFeeInput({
   )
 }
 
-export function TransactionSpeedDesc({ lndTargetConfirmations, speed, ...rest }) {
+export const TransactionSpeedDesc = ({ lndTargetConfirmations, speed, ...rest }) => {
   const CONF_MAP = {
     [TRANSACTION_SPEED_SLOW]: lndTargetConfirmations.slow,
     [TRANSACTION_SPEED_MEDIUM]: lndTargetConfirmations.medium,

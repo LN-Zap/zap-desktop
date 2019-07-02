@@ -63,9 +63,6 @@ const ShowHideAmount = Keyframes.Spring({
   remove: { opacity: 0, height: 0, display: 'none', immediate: true },
 })
 
-/**
- * Payment form (onchain & offchain)
- */
 class Pay extends React.Component {
   static propTypes = {
     chain: PropTypes.string.isRequired,
@@ -188,7 +185,11 @@ class Pay extends React.Component {
   }
 
   /**
-   * Autofill the form and submit to the latest possible point.
+   * autoFillForm - Autofill the form and submit to the latest possible point.
+   *
+   * @param {string} address Destination address
+   * @param {number} amount Payment amount
+   *
    */
   autoFillForm = (address, amount) => {
     if (address && amount) {
@@ -207,7 +208,9 @@ class Pay extends React.Component {
   }
 
   /**
-   * Get the current per byte fee based on the form values.
+   * getFee - Get the current per byte fee based on the form values.
+   *
+   * @returns {number} Fee rate for currently selected conf speed
    */
   getFee = () => {
     const formState = this.formApi.getState()
@@ -252,7 +255,7 @@ class Pay extends React.Component {
   }
 
   /**
-   * Form submit handler.
+   * onSubmit - Form submit handler.
    *
    * @param  {object} values submitted form values.
    */
@@ -302,14 +305,16 @@ class Pay extends React.Component {
   }
 
   /**
-   * Store the formApi on the component context to make it available at this.formApi.
+   * setFormApi - Store the formApi on the component context to make it available at this.formApi.
+   *
+   * @param {object} formApi Informed formApi
    */
   setFormApi = formApi => {
     this.formApi = formApi
   }
 
   /**
-   * Focus the payReq input.
+   * focusPayReqInput - Focus the payReq input.
    */
   focusPayReqInput = () => {
     if (this.payReqInput.current) {
@@ -318,7 +323,7 @@ class Pay extends React.Component {
   }
 
   /**
-   * Focus the amount input.
+   * focusAmountInput - Focus the amount input.
    */
   focusAmountInput = () => {
     if (this.amountInput.current) {
@@ -327,7 +332,9 @@ class Pay extends React.Component {
   }
 
   /**
-   * List of enabled form steps.
+   * steps - List of enabled form steps.
+   *
+   * @returns {Array} List of enabled form steps
    */
   steps = () => {
     const { isLn, isOnchain, invoice } = this.state
@@ -348,7 +355,7 @@ class Pay extends React.Component {
   }
 
   /**
-   * Go back to previous form step.
+   * previousStep - Go back to previous form step.
    */
   previousStep = () => {
     const { currentStep } = this.state
@@ -359,7 +366,7 @@ class Pay extends React.Component {
   }
 
   /**
-   * Progress to next form step.
+   * nextStep - Progress to next form step.
    */
   nextStep = () => {
     const { currentStep } = this.state
@@ -371,7 +378,9 @@ class Pay extends React.Component {
   }
 
   /**
-   * Set isLn/isOnchain state based on payReq value.
+   * handlePayReqChange - Set isLn/isOnchain state based on payReq value.
+   *
+   * @param {string} payReq Payment request
    */
   handlePayReqChange = payReq => {
     const { chain, network } = this.props
@@ -600,9 +609,6 @@ class Pay extends React.Component {
     )
   }
 
-  /**
-   * Form renderer.
-   */
   render() {
     const { currentStep, invoice, isLn, isOnchain } = this.state
     const {

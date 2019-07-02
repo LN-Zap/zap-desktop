@@ -2,7 +2,6 @@ import React from 'react'
 import { Box } from 'rebass'
 
 /**
- * @render react
  * @name BackgroundSecondary
  * @example
  * <BackgroundSecondary />

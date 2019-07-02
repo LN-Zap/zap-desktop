@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 
 /**
- * @render react
  * @name Titlebar
  * @example
  * <Titlebar/>

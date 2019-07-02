@@ -7,10 +7,6 @@ import { BasicInput } from './Input'
 import Message from './Message'
 import messages from './messages'
 
-/**
- * @render react
- * @name NodePubkeyInput
- */
 class NodePubkeyInput extends React.Component {
   static propTypes = {
     intl: intlShape.isRequired,

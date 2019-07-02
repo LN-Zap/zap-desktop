@@ -13,12 +13,6 @@ const rotate360 = keyframes`
   }
 `
 
-/**
- * @render react
- * @name Spinner
- * @example
- * <Spinner />
- */
 const renderSpinner = Element => {
   return styled(Element)`
     animation: ${rotate360} 1s linear infinite;
