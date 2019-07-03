@@ -5,6 +5,7 @@ import { Flex } from 'rebass'
 const SidebarBox = styled(Flex)`
   overflow: hidden;
   box-shadow: 0 2px 24px 0 rgba(0, 0, 0, 0.5);
+  z-index: 1;
 `
 
 const Sidebar = ({ ...props }) => (
@@ -13,13 +14,13 @@ const Sidebar = ({ ...props }) => (
     bg="primaryColor"
     color="primaryText"
     flexDirection="column"
-    width={3 / 12}
+    width={4 / 12}
     {...props}
   />
 )
 
-Sidebar.small = props => <Sidebar {...props} width={4 / 16} />
-Sidebar.medium = props => <Sidebar {...props} width={5 / 16} />
+Sidebar.small = props => <Sidebar {...props} width={3 / 16} />
+Sidebar.medium = props => <Sidebar {...props} width={4 / 16} />
 Sidebar.large = props => <Sidebar {...props} width={6 / 16} />
 
 Sidebar.small.displayName = 'Sidebar Small'

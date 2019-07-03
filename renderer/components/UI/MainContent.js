@@ -14,8 +14,8 @@ const MainContent = props => (
       height: 100%;
       overflow-y: overlay;
       overflow-x: hidden;
+      flex: 1;
     `}
-    width={1}
     {...props}
   />
 )
