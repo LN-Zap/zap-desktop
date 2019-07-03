@@ -274,8 +274,6 @@ export const stopLnd = () => async (dispatch, getState) => {
  * (lnd wallet is connected and unlocked)
  */
 export const setLightningGrpcActive = () => async (dispatch, getState) => {
-  dispatch({ type: LND_LIGHTNING_GRPC_ACTIVE })
-
   // Fetch key info from lnd as early as possible.
   dispatch(fetchInfo())
   dispatch(fetchBalance())
@@ -292,6 +290,8 @@ export const setLightningGrpcActive = () => async (dispatch, getState) => {
   }
 
   await dispatch(setActiveWallet(walletId))
+
+  dispatch({ type: LND_LIGHTNING_GRPC_ACTIVE })
 }
 
 /**

@@ -3,7 +3,7 @@
 exports[`component.UI.Sidebar should render correctly 1`] = `
 .c0 {
   box-sizing: border-box;
-  width: 25%;
+  width: 33.33333333333333%;
   color: primaryText;
   background-color: primaryColor;
   display: -webkit-box;
@@ -15,11 +15,12 @@ exports[`component.UI.Sidebar should render correctly 1`] = `
   flex-direction: column;
   overflow: hidden;
   box-shadow: 0 2px 24px 0 rgba(0,0,0,0.5);
+  z-index: 1;
 }
 
 <aside
   className="c0"
   color="primaryText"
-  width={0.25}
+  width={0.3333333333333333}
 />
 `;
