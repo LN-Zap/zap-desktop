@@ -15,7 +15,7 @@ const isNumericRegex = /^\d+$/
  * isNumeric - Test if a string contains only numeric values.
  *
  * @param  {string} value Value
- * @returns {boolean} Boolean indicating wether value is numeric
+ * @returns {boolean} Boolean indicating whether value is numeric
  */
 const isNumeric = value => isNumericRegex.test(value)
 

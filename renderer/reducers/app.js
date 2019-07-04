@@ -47,7 +47,7 @@ export const TERMINATE_APP_SUCCESS = 'TERMINATE_APP_SUCCESS'
 /**
  * setLoading - Set app loading state.
  *
- * @param {boolean} isLoading Boolean indicating wether the app is loading
+ * @param {boolean} isLoading Boolean indicating whether the app is loading
  * @returns {object} Action
  */
 export function setLoading(isLoading) {
@@ -60,7 +60,7 @@ export function setLoading(isLoading) {
 /**
  * setLoading - Set app mount state.
  *
- * @param {boolean} isMounted Boolean indicating wether the app has been mounted
+ * @param {boolean} isMounted Boolean indicating whether the app has been mounted
  * @returns {object} Action
  */
 export function setMounted(isMounted) {
@@ -220,7 +220,7 @@ export { appSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function appReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

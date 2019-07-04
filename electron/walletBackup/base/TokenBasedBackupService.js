@@ -80,7 +80,7 @@ export default class TokenBasedBackupService extends EventEmitter {
    * isUsingTokens - This service is token based and requires tokens to operate
    * It also emits `tokensReceived` event.
    *
-   * @returns {boolean} Boolean indicating wether service uses tokens
+   * @returns {boolean} Boolean indicating whether service uses tokens
    * @readonly
    * @memberof TokenBasedBackupService
    */

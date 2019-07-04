@@ -123,10 +123,10 @@ export const receiveTransactions = ({ transactions }) => (dispatch, getState) =>
  * @param  {object}  options Options
  * @param  {number}  options.value Number of units to send
  * @param  {string}  options.addr Destination address
- * @param  {string}  options.cryptoUnit Crypto unit that value is donated in (will be converted to sats prior to send)
+ * @param  {string}  options.cryptoUnit Crypto unit that value is denominated in (converted to sats prior to send)
  * @param  {number}  options.targetConf Number of blocks to target for conf time
  * @param  {number}  options.satPerByte Sat per byte fee rate to apply
- * @param  {boolean} options.isCoinSweep Boolean indicating wether this is a coin sweep (will send all funds).
+ * @param  {boolean} options.isCoinSweep Boolean indicating whether this is a coin sweep (will send all funds).
  * @returns {Function} Thunk
  */
 export const sendCoins = ({
@@ -363,7 +363,7 @@ export { transactionsSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function transactionReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

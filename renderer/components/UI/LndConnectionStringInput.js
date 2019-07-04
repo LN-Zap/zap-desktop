@@ -27,7 +27,7 @@ class LndConnectionStringInput extends React.Component {
    * validate - Check for a valid lndconnect uri or BtcPayServer connection string.
    *
    * @param  {string}  value String to validate.
-   * @returns {boolean}       Boolean indicating wether the string is a valid or not.
+   * @returns {boolean}       Boolean indicating whether the string is a valid or not.
    */
   validate = value => {
     const { intl } = this.props

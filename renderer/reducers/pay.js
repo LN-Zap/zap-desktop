@@ -43,7 +43,7 @@ export const SET_REDIRECT_PAY_REQ = 'SET_REDIRECT_PAY_REQ'
  *
  * @param  {event} event Event
  * @param  {{ address }} address Address (payment request)
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const lightningPaymentUri = (event, { address }) => dispatch => {
   dispatch(setRedirectPayReq({ address }))
@@ -53,8 +53,8 @@ export const lightningPaymentUri = (event, { address }) => dispatch => {
  * bitcoinPaymentUri - Initiate bitcoin payment flow.
  *
  * @param  {event} event Event
- * @param  {{ address, options }} options, decoded bip21 payment url
- * @returns {undefined}
+ * @param  {{ address, options }} options Decoded bip21 payment url
+ * @returns {Function} Thunk
  */
 export const bitcoinPaymentUri = (event, { address, options: { amount } }) => dispatch => {
   dispatch(setRedirectPayReq({ address, amount }))
@@ -91,7 +91,7 @@ export const queryFees = (address, amountInSats) => async (dispatch, getState) =
  * queryRoutes - Find valid routes to make a payment to a node.
  *
  * @param {string} pubKey Destination node pubkey
- * @param {number} amount desired amount in satoshis
+ * @param {number} amount Desired amount in satoshis
  * @returns {Function} Thunk
  */
 export const queryRoutes = (pubKey, amount) => async dispatch => {
@@ -176,7 +176,7 @@ const ACTION_HANDLERS = {
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function payReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

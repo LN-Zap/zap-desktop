@@ -35,7 +35,7 @@ export const RESET_EDIT_MODE = 'RESET_EDIT_MODE'
 // ------------------------------------
 
 /**
- * enableAutopay - Enable autopay upto a certain amount for a givem merchant.
+ * enableAutopay - Enable autopay upto a certain amount for a given merchant.
  *
  * @param {string} merchantId Merchant Id
  * @param {string} limit Autopay limit
@@ -52,7 +52,7 @@ export function enableAutopay(merchantId, limit) {
 }
 
 /**
- * disableAutopay - Disable autopay for a givem merchant.
+ * disableAutopay - Disable autopay for a given merchant.
  *
  * @param {string} merchantId Merchant Id
  * @returns {Function} Thunk
@@ -143,7 +143,7 @@ export function resetEditMode() {
  * openAutopayCreateModal - Open the autopay create modal for a given merchant.
  *
  * @param {string} merchantId Merchant Id
- * @param {boolean} isEditMode Boolean indicating wether the modal is in edit mode
+ * @param {boolean} isEditMode Boolean indicating whether the modal is in edit mode
  * @returns {object} Action
  */
 export function openAutopayCreateModal(merchantId, isEditMode = false) {
@@ -178,7 +178,7 @@ export function closeAutopayCreateModal() {
  * addAutopayEntry - Add or replaces (if it already exists) an autopay entry.
  *
  * @param {object} state State data
- * @param {{data}} data autopay configuration
+ * @param {{data}} data Autopay configuration
  * @returns {object} Updated state data with additional autopay entry
  */
 function addAutopayEntry(state, { data }) {
@@ -207,7 +207,7 @@ function removeAutopayEntry(state, { merchantId }) {
  * setAutopayListFromArray - Populate the autopay list from a list of autopay configurations.
  *
  * @param {object} state State data
- * @param {{list}} listList of autopay configurations
+ * @param {{list}} list List of autopay configurations
  * @returns {object} Updated state data with updated autopay list
  */
 function setAutopayListFromArray(state, { list }) {
@@ -321,7 +321,7 @@ export { autopaySelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function autopayReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

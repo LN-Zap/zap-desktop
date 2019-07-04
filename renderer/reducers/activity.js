@@ -51,7 +51,7 @@ export const FETCH_ACTIVITY_HISTORY_FAILURE = 'FETCH_ACTIVITY_HISTORY_FAILURE'
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
 /**
- * propMatches - Check wether a prop exists and contains a given search string.
+ * propMatches - Check whether a prop exists and contains a given search string.
  *
  * @param  {string}  prop Prop name
  * @returns {boolean} Boolean indicating if the prop was found and contains the search string
@@ -62,7 +62,7 @@ const propMatches = function(prop) {
 }
 
 /**
- * invoiceExpired - Check wether an invoice is expired.
+ * invoiceExpired - Check whether an invoice is expired.
  *
  * @param  {object}  invoice Invoice
  * @returns {boolean} Boolean indicating if the invoice has expired
@@ -481,7 +481,7 @@ export { activitySelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function activityReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

@@ -215,7 +215,7 @@ const decPaymentRetry = paymentRequest => ({
  * @param {string} options.payReq Payment request
  * @param {number} options.amt Payment amount (in sats)
  * @param {number} options.feeLimit The max fee to apply
- * @param {boolean} options.isRetry Boolean indicating wether this is a retry attempt
+ * @param {boolean} options.isRetry Boolean indicating whether this is a retry attempt
  * @param {number} options.retries Number of remaining retries
  * @returns {Function} Thunk
  */
@@ -425,7 +425,7 @@ export { paymentSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function paymentReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

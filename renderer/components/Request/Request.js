@@ -66,7 +66,7 @@ class Request extends React.Component {
   /**
    * steps - Get list of enabled form steps.
    *
-   * @returns {Array} list of enabled form steps.
+   * @returns {Array} List of enabled form steps.
    */
   steps = () => {
     return ['form', 'summary']

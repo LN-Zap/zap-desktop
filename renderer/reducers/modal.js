@@ -60,7 +60,7 @@ export const openModal = (type, options) => (dispatch, getState) => {
 /**
  * closeModal - Close a specific modal (or the top modal if id is ommitted).
  *
- * @param  {string} id Id  modal to close
+ * @param  {string} id Id modal to close
  * @returns {object} Action
  */
 export function closeModal(id) {
@@ -168,7 +168,7 @@ export { modalSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function modalReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

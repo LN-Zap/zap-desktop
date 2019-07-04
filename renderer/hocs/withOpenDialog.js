@@ -6,7 +6,7 @@
  * openDialog - Open electron dialog.
  *
  * @param {string} mode electron dialog.showOpenDialog compatible mode
- * @returns {string[]} an array of file paths chosen by the user
+ * @returns {string[]} An array of file paths chosen by the user
  */
 function openDialog(mode = 'openFile') {
   const result = window.showOpenDialog({

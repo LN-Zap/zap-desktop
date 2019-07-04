@@ -28,7 +28,7 @@ class SeedWord extends React.Component {
   mask = value => (value ? value.trim() : value)
 
   /**
-   * validate - Returns true if a words is ibncluded in the bip39 word list.
+   * validate - Check if a word is included in the bip39 word list.
    *
    * @param  {string} value     Value to check
    * @returns {string|undefined} undefined if word is in bip39 word list. The string 'incorrect' otherwise.

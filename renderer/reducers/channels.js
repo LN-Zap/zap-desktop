@@ -278,7 +278,7 @@ export const initChannels = () => async (dispatch, getState) => {
 /**
  * setChannelViewMode - Set the current channels list view mode.
  *
- * @param {'list'|'card'} viewMode View mode
+ * @param {('list'|'card')} viewMode View mode
  * @returns {Function} Thunk
  */
 export const setChannelViewMode = viewMode => dispatch => {
@@ -315,7 +315,7 @@ export function changeSort(sort) {
 /**
  * changeSortOrder - Set the current channels list sort order.
  *
- * @param {'asc'|'desc'} sortOrder Sort order
+ * @param {('asc'|'desc')} sortOrder Sort order
  * @returns {object} Action
  */
 export function changeSortOrder(sortOrder) {
@@ -726,7 +726,7 @@ export const receiveChannelGraphData = ({ channel_updates, node_updates }) => (
       const channel_update = channel_updates[i]
       const { advertising_node, connecting_node } = channel_update
 
-      // Determine wether this update affected our node or any of our channels.
+      // Determine whether this update affected our node or any of our channels.
       if (
         info.data.identity_pubkey === advertising_node ||
         info.data.identity_pubkey === connecting_node ||
@@ -1169,7 +1169,7 @@ export { channelsSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function channelsReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

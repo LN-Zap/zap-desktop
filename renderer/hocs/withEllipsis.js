@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
 /**
- * withEllipsis - A HOC that will applies an overflow and ellipsis to to an element.
+ * withEllipsis - A HOC that will apply an overflow and ellipsis to an element.
  *
  * @param {React.Component} Component Component to wrap
  * @returns {React.Component} Wrapped component

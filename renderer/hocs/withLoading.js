@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import LoadingBolt from 'components/LoadingBolt'
 
 /**
- * withLoading - A HOC that will display the LoadingBolt component whilast the wrapped component is loading.
+ * withLoading - A HOC that will display the LoadingBolt component whilst the wrapped component is loading.
  *
  * @param {React.Component} Component Component to wrap
  * @returns {React.Component} Wrapped component

@@ -11,7 +11,7 @@ import messages from './messages'
  *
  * @param {string} provider Provider
  * @param {intlShape} intl Intl
- * @returns {string} intl message
+ * @returns {string} Intl message
  */
 function backupMethodMessageMapper(provider, intl) {
   const MAP = {

@@ -285,7 +285,7 @@ export { walletSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function walletReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

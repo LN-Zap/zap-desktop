@@ -117,7 +117,7 @@ export const setFiatTicker = fiatTicker => async dispatch => {
 }
 
 /**
- * fetchTickers - Fetch all fiat tickers from currently active fiat tickert provider.
+ * fetchTickers - Fetch all fiat tickers from currently active fiat ticker provider.
  *
  * @returns {Function} Thunk
  */
@@ -244,7 +244,7 @@ export { tickerSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function tickerReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

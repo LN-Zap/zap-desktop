@@ -257,7 +257,7 @@ class Pay extends React.Component {
   /**
    * onSubmit - Form submit handler.
    *
-   * @param  {object} values submitted form values.
+   * @param  {object} values Submitted form values.
    */
   onSubmit = values => {
     const { currentStep, isOnchain } = this.state
@@ -655,7 +655,7 @@ class Pay extends React.Component {
           // convert entered amount to satoshis
           let amountInSats = this.amountInSats()
 
-          // Determine wether we have enough funds available.
+          // Determine whether we have enough funds available.
           let hasEnoughFunds = true
           if (isLn && invoice) {
             hasEnoughFunds = amountInSats <= channelBalance

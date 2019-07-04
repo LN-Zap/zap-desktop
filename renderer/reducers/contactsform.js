@@ -26,7 +26,7 @@ export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUER
  *fromSuggestedToRegular - Converts suggested nodes to a list of entries compatible with contact search results.
  *
  * @param {Array} suggestedNodes Suggested nodes list
- * @returns {Array} search results compatible version of suggested nodes array
+ * @returns {Array} Search results compatible version of suggested nodes array
  */
 const fromSuggestedToRegular = suggestedNodes =>
   suggestedNodes &&
@@ -167,7 +167,7 @@ export { contactFormSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function contactFormReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

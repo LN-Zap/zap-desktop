@@ -77,7 +77,7 @@ export const initAddresses = () => async (dispatch, getState) => {
 /**
  * newAddress - Generate a new address.
  *
- * @param {'p2wkh'|'np2wkh'} addressType Address type
+ * @param {('p2wkh'|'np2wkh')} addressType Address type
  * @returns {Function} Thunk
  */
 export const newAddress = addressType => async dispatch => {
@@ -201,7 +201,7 @@ export { addressSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function addressReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

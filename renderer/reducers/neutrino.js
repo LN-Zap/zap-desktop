@@ -603,7 +603,7 @@ export { neutrinoSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function neutrinoReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

@@ -201,7 +201,7 @@ export function setAutopilot(autopilot) {
 /**
  * setName - Set the blockchain to connect to.
  *
- * @param {'bitcoin'|'litecoin'} chain Chain name
+ * @param {('bitcoin'|'litecoin')} chain Chain name
  * @returns {object} Action
  */
 export function setChain(chain) {
@@ -214,7 +214,7 @@ export function setChain(chain) {
 /**
  * setNetwork - Set the network to connect to.
  *
- * @param {'testnet'|'mainnet'} network Network name
+ * @param {('testnet'|'mainnet')} network Network name
  * @returns {object} Action
  */
 export function setNetwork(network) {
@@ -253,7 +253,7 @@ export function setPassphrase(passphrase) {
 /**
  * setSeed - Set the seed.
  *
- * @param {Array} seed seed
+ * @param {Array} seed Seed
  * @returns {object} Action
  */
 export function setSeed(seed) {
@@ -378,7 +378,7 @@ const ACTION_HANDLERS = {
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function onboardingReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

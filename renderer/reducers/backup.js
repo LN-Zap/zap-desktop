@@ -35,7 +35,7 @@ const RESTORE_STATE_ERROR = 'error'
  * canBackup - Checks if we are allowed to update existing backups.
  *
  * @param {string} walletId Wallet Id
- * @returns {boolean} Boolean indicatin wether a wallet can backup from its current state.
+ * @returns {boolean} Boolean indicatin whether a wallet can backup from its current state.
  */
 const canBackup = async walletId => {
   const backupDesc = (await dbGet(walletId)) || {}
@@ -202,7 +202,7 @@ export const setRestoreMode = value => {
  * to launch the service.
  *
  * @param {string} walletId Wallet Id
- * @param {boolean} isRestoreMode Boolean indcation wether this is a restore
+ * @param {boolean} isRestoreMode Boolean indcation whether this is a restore
  * @returns {Function} Thunk
  */
 export const setupBackupService = async (walletId, isRestoreMode) => {
@@ -449,7 +449,7 @@ export { backupSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function backupReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
