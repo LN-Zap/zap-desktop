@@ -6,8 +6,19 @@ import difference from '@zap/utils/difference'
 import { showError } from './notification'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isSettingsLoaded: false,
+  initSettingsError: null,
+  config: {},
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const INIT_SETTINGS = 'INIT_SETTINGS'
 export const INIT_SETTINGS_SUCCESS = 'INIT_SETTINGS_SUCCESS'
 export const INIT_SETTINGS_FAILURE = 'INIT_SETTINGS_FAILURE'
@@ -21,8 +32,9 @@ export const UPDATE_CONFIG = 'UPDATE_CONFIG'
 
 /**
  * initSettings - Fetch the current settings from the database and save into the store.
- *
  * Should be called once when the app first loads.
+ *
+ * @returns {Function} Thunk
  */
 export const initSettings = () => async dispatch => {
   dispatch({ type: INIT_SETTINGS })
@@ -41,10 +53,11 @@ export const initSettings = () => async dispatch => {
 }
 
 /**
- * Save an updated setting.
+ * putSetting - Save an updated setting.
  *
  * @param  {string} key Key
  * @param  {*} value Value
+ * @returns {Function} Thunk
  */
 export const putSetting = (key, value) => async dispatch => {
   dispatch({ type: SET_SETTING, key, value })
@@ -52,10 +65,11 @@ export const putSetting = (key, value) => async dispatch => {
 }
 
 /**
- * Save a config property.
+ * putConfig - Save a config property.
  *
  * @param  {string} path Config path property to set
  * @param  {*} value Value to set
+ * @returns {Function} Thunk
  */
 export const putConfig = (path, value) => async (dispatch, getState) => {
   const currentConfig = settingsSelectors.currentConfig(getState())
@@ -64,9 +78,10 @@ export const putConfig = (path, value) => async (dispatch, getState) => {
 }
 
 /**
- * Save config overrides.
+ * saveConfigOverrides - Save config overrides.
  *
  * @param  {object} values Config object that matches the structure of root config.
+ * @returns {Function} Thunk
  */
 export const saveConfigOverrides = values => async (dispatch, getState) => {
   const currentConfig = settingsSelectors.currentConfig(getState())
@@ -78,6 +93,7 @@ export const saveConfigOverrides = values => async (dispatch, getState) => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [INIT_SETTINGS]: state => ({ ...state }),
   [INIT_SETTINGS_SUCCESS]: (state, { settings }) => ({
@@ -92,6 +108,7 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Selectors
 // ------------------------------------
+
 const isSettingsLoadedSelector = state => state.settings.isSettingsLoaded
 const configSelector = state => state.settings.config
 const settingsSelectors = {}
@@ -104,13 +121,15 @@ export { settingsSelectors }
 
 // ------------------------------------
 // Reducer
-// ------------------------------------\
-const initialState = {
-  isSettingsLoaded: false,
-  initSettingsError: null,
-  config: {},
-}
+// ------------------------------------
 
+/**
+ * settingsReducer - Settings reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
 export default function settingsReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

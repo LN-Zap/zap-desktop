@@ -10,8 +10,19 @@ import { fetchChannels, channelsSelectors, getChannelData } from './channels'
 import { settingsSelectors } from './settings'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  transactionLoading: false,
+  transactions: [],
+  transactionsSending: [],
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const GET_TRANSACTIONS = 'GET_TRANSACTIONS'
 export const RECEIVE_TRANSACTIONS = 'RECEIVE_TRANSACTIONS'
 export const SEND_TRANSACTION = 'SEND_TRANSACTION'
@@ -44,12 +55,13 @@ const decorateTransaction = transaction => {
 // ------------------------------------
 // Actions
 // ------------------------------------
-export function getTransactions() {
-  return {
-    type: GET_TRANSACTIONS,
-  }
-}
 
+/**
+ * sendTransaction - Store details of sending in progress onchain transaction.
+ *
+ * @param  {object} data Transaction data
+ * @returns {object} Action
+ */
 export function sendTransaction(data) {
   const transaction = {
     ...data,
@@ -63,15 +75,24 @@ export function sendTransaction(data) {
   }
 }
 
-// Send IPC event for payments
+/**
+ * fetchTransactions - Fetch details of all transactions.
+ *
+ * @returns {Function} Thunk
+ */
 export const fetchTransactions = () => async dispatch => {
-  dispatch(getTransactions())
+  dispatch({ type: GET_TRANSACTIONS })
   const grpc = await grpcService
   const transactions = await grpc.services.Lightning.getTransactions()
   dispatch(receiveTransactions(transactions))
 }
 
-// Receive IPC event for payments
+/**
+ * receiveTransactions - Success callback for fetch transactions.
+ *
+ * @param {{transactions}} List of transaction.
+ * @returns {Function} Thunk
+ */
 export const receiveTransactions = ({ transactions }) => (dispatch, getState) => {
   const state = getState()
 
@@ -96,6 +117,18 @@ export const receiveTransactions = ({ transactions }) => (dispatch, getState) =>
   dispatch(fetchBalance())
 }
 
+/**
+ * sendCoins - Send an onchain transaction.
+ *
+ * @param  {object}  options Options
+ * @param  {number}  options.value Number of units to send
+ * @param  {string}  options.addr Destination address
+ * @param  {string}  options.cryptoUnit Crypto unit that value is denominated in (converted to sats prior to send)
+ * @param  {number}  options.targetConf Number of blocks to target for conf time
+ * @param  {number}  options.satPerByte Sat per byte fee rate to apply
+ * @param  {boolean} options.isCoinSweep Boolean indicating whether this is a coin sweep (will send all funds).
+ * @returns {Function} Thunk
+ */
 export const sendCoins = ({
   value,
   addr,
@@ -132,7 +165,12 @@ export const sendCoins = ({
   }
 }
 
-// Receive IPC event for successful payment.
+/**
+ * transactionSuccessful - Success handler for sendCoins.
+ *
+ * @param  {{ string }} addr Destination address
+ * @returns {Function} Thunk
+ */
 export const transactionSuccessful = ({ addr }) => async (dispatch, getState) => {
   const state = getState()
   const { timestamp } = state.transaction.transactionsSending.find(t => t.addr === addr)
@@ -150,7 +188,14 @@ export const transactionSuccessful = ({ addr }) => async (dispatch, getState) =>
   dispatch({ type: TRANSACTION_COMPLETE, addr })
 }
 
-// Receive IPC event for failed payment.
+/**
+ * transactionSuccessful - Error handler for sendCoins.
+ *
+ * @param  {object} details Details
+ * @param  {{ string }} details.addr Destination address
+ * @param  {{ string }} details.error Error message
+ * @returns {Function} Thunk
+ */
 export const transactionFailed = ({ addr, error }) => async (dispatch, getState) => {
   const state = getState()
   const { timestamp } = state.transaction.transactionsSending.find(t => t.addr === addr)
@@ -162,7 +207,12 @@ export const transactionFailed = ({ addr, error }) => async (dispatch, getState)
   dispatch({ type: TRANSACTION_FAILED, addr, error: errorToUserFriendly(error) })
 }
 
-// Listener for when a new transaction is pushed from the subscriber
+/**
+ * receiveTransactionData - Listener for when a new transaction is pushed from the subscriber.
+ *
+ * @param  {object} transaction Transaction
+ * @returns {Function} Thunk
+ */
 export const receiveTransactionData = transaction => (dispatch, getState) => {
   // add the transaction only if we are not already aware of it
   const state = getState()
@@ -198,6 +248,7 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [GET_TRANSACTIONS]: state => ({ ...state, transactionLoading: true }),
   [SEND_TRANSACTION]: (state, { transaction }) => ({
@@ -249,6 +300,10 @@ const ACTION_HANDLERS = {
     }
   },
 }
+
+// ------------------------------------
+// Selectors
+// ------------------------------------
 
 const transactionsSelectors = {}
 const transactionsSelector = state => state.transaction.transactions
@@ -302,12 +357,14 @@ export { transactionsSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  transactionLoading: false,
-  transactions: [],
-  transactionsSending: [],
-}
 
+/**
+ * transactionReducer - Transaction reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
 export default function transactionReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

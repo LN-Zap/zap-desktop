@@ -21,9 +21,9 @@ export default class BackupService {
   }
 
   /**
-   * Loads backup for the specified wallet
+   * loadBackup - Loads backup for the specified wallet.
    *
-   * @param {string} walletId
+   * @param {string} walletId Wallet id
    * @returns {Buffer} wallet backup as a `Buffer`
    * @memberof BackupService
    */
@@ -48,34 +48,23 @@ export default class BackupService {
     return dir
   })
 
-  /**
-   * Provider name
-   *
-   * @readonly
-   * @memberof BackupService
-   */
+  // Define the name of this backup service.
   get name() {
     return 'local'
   }
 
-  /**
-   * This service doesn't use tokens and doesn't emit token events
-   *
-   * @readonly
-   * @memberof BackupService
-   */
+  // This service doesn't use tokens and doesn't emit token events.
   get isUsingTokens() {
     return false
   }
 }
 
 /**
+ * normalizeBackupDir - Normalize backup directory path.
  *
- *
- * @export
- * @param {*} nodePub
- * @param {*} dir
- * @returns
+ * @param {string} nodePub Node Pubkey
+ * @param {string} dir Backup directory path
+ * @returns {string} Normalized backup directory
  */
 export function normalizeBackupDir(nodePub, dir) {
   // use parent dir if the child dir (which is named `nodePub`) is selected as backup root

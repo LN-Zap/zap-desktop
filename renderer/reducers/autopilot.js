@@ -3,6 +3,16 @@ import { requestNodeScores } from '@zap/utils/api'
 import { infoSelectors } from './info'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isFetchingNodeScores: false,
+  fetchNodeScoresError: null,
+  scores: {},
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 
@@ -14,7 +24,11 @@ export const UPDATE_AUTOPILOT_NODE_SCORES_FAILURE = 'UPDATE_AUTOPILOT_NODE_SCORE
 // Actions
 // ------------------------------------
 
-// Fetch autopilot node scores.
+/**
+ * updateAutopilotNodeScores - Fetch autopilot node scores.
+ *
+ * @returns {Function} Thunk
+ */
 export const updateAutopilotNodeScores = () => async (dispatch, getState) => {
   const state = getState()
 
@@ -61,12 +75,14 @@ const ACTION_HANDLERS = {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  isFetchingNodeScores: false,
-  fetchNodeScoresError: null,
-  scores: {},
-}
 
+/**
+ * autopilotReducer - Autopilot reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
 export default function autopilotReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

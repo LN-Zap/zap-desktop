@@ -2,7 +2,7 @@
  * isBase64url - Checks whether specified string is base64 url encoded.
  *
  * @param  {string}   str Parent directory
- * @returns {boolean} Boolean indicating wether str is a base64url encoded
+ * @returns {boolean} Boolean indicating whether str is a base64url encoded
  */
 const isBase64url = str => {
   try {

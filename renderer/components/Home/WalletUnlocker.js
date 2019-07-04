@@ -5,14 +5,7 @@ import { withRouter } from 'react-router-dom'
 import { Button, Form, Input } from 'components/UI'
 import WalletHeader from './WalletHeader'
 import messages from './messages'
-/**
- * @render react
- * @name WalletUnlocker
- * @example
- * <WalletUnlocker
-     wallet={{ ... }}
-     unlockWallet={() => {}}>
- */
+
 class WalletUnlocker extends React.Component {
   static displayName = 'WalletUnlocker'
 

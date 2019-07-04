@@ -3,6 +3,14 @@ import { dark, light } from 'themes'
 import { putConfig, settingsSelectors } from './settings'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  themes: { dark, light },
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 
@@ -12,6 +20,11 @@ export const SET_THEME = 'SET_THEME'
 // Actions
 // ------------------------------------
 
+/**
+ * initTheme - Initialise the theme system with the currently active theme.
+ *
+ * @returns {Function} Thunk
+ */
 export const initTheme = () => async (dispatch, getState) => {
   const state = getState()
   const currentConfig = settingsSelectors.currentConfig(state)
@@ -22,6 +35,12 @@ export const initTheme = () => async (dispatch, getState) => {
   }
 }
 
+/**
+ * setTheme - Sey the currently active theme.
+ *
+ * @param {string} currentTheme Theme name
+ * @returns {Function} Thunk
+ */
 export const setTheme = currentTheme => async dispatch => {
   // Persist the new theme in the store.
   dispatch({ type: SET_THEME, currentTheme })
@@ -33,6 +52,7 @@ export const setTheme = currentTheme => async dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [SET_THEME]: state => ({ ...state }),
 }
@@ -65,10 +85,13 @@ export { themeSelectors }
 // Reducer
 // ------------------------------------
 
-const initialState = {
-  themes: { dark, light },
-}
-
+/**
+ * themeReducer - Theme reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
 export default function themeReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

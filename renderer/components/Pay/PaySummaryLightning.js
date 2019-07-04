@@ -16,7 +16,7 @@ class PaySummaryLightning extends React.Component {
     amount: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     /** Ticker symbol of the currently selected cryptocurrency. */
     cryptoUnitName: PropTypes.string.isRequired,
-    /** Boolean indicating wether routing information is currently being fetched. */
+    /** Boolean indicating whether routing information is currently being fetched. */
     isQueryingRoutes: PropTypes.bool,
     /** Maximum fee for the payment */
     maxFee: PropTypes.number,

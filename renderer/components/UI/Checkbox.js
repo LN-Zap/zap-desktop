@@ -35,7 +35,7 @@ const CheckboxOutline = styled(Flex)`
   background-color: ${mapOutlineBackgroundColor};
 `
 
-function mapContainerBorderColor(props) {
+const mapContainerBorderColor = props => {
   const {
     isDisabled,
     theme: {

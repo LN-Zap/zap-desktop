@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
 import { Redirect } from 'react-router'
-import { initCurrency, initLocale } from 'reducers/locale'
+import { initLocale } from 'reducers/locale'
+import { initCurrency } from 'reducers/ticker'
 import { initWallets, walletSelectors } from 'reducers/wallet'
 import { initNeutrino } from 'reducers/neutrino'
 import { startActiveWallet } from 'reducers/lnd'
@@ -28,9 +29,7 @@ class Initializer extends React.Component {
     lndConnect: PropTypes.string,
   }
 
-  /**
-   * Initialize app state.
-   */
+  // Initialize app state.
   componentDidMount() {
     const {
       initLocale,
@@ -50,8 +49,9 @@ class Initializer extends React.Component {
   }
 
   /**
-   * Returns current location based on app initialization state and referrer
-   * or null if there is no location change
+   * getLocation - Returns current location based on app initialization state and referrer.
+   *
+   * @returns {string|null} redirect path or null if there is no location change
    */
   getLocation() {
     const {

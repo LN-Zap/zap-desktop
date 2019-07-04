@@ -1,13 +1,13 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Allows to add drag scroll behavior to react components
+ * useScrollDrag - Allows to add drag scroll behavior to react components.
+ *
  * @param {boolean} isReversed scroll direction
  * @returns {Array} [scroller, onMouseDown, wrappedOnClick]
  * scroller - ref to a scroller object that needs to be used as ref in desired scrollable node
  * wrappedOnClick -  wrapper function that must be applied to onClick handlers
  */
-
 const useScrollDrag = isReversed => {
   // parent scroller ref
   const scroller = useRef()

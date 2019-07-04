@@ -6,13 +6,20 @@ import delay from '@zap/utils/delay'
 import * as api from './gdriveApi'
 
 /**
- * Creates google drive api connection
+ * createConnection - Creates google drive api connection.
  *
  * @param {*} { clientId, authRedirectUrl, scope, tokens }
  * @returns {object} returns {drive, accessTokens} object. `drive` represents google drive api instance
  */
 function createConnection({ clientId, authRedirectUrl, scope, tokens }) {
   const oAuthClient = api.createOAuthClient(clientId, authRedirectUrl)
+
+  /**
+   * createDriveInstance - Create gdrive api connection.
+   *
+   * @param  {object} tokens Tokens
+   * @returns {object} Gdrive api connection
+   */
   async function createDriveInstance(tokens) {
     const result = { accessTokens: tokens }
     if (tokens) {
@@ -33,6 +40,7 @@ function createConnection({ clientId, authRedirectUrl, scope, tokens }) {
 }
 
 /**
+ * createClient - Creates gdrive api client.
  *
  * @param {object} params - client params
  * @param {string} params.clientId - google client ID. Obtained through developer console
@@ -44,6 +52,12 @@ function createConnection({ clientId, authRedirectUrl, scope, tokens }) {
 async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
   // provides access to basic event emitter functionality
   const emitter = new EventEmitter()
+
+  /**
+   * postTokensReceived - Emit `tokensReceived` after tokens have been received.
+   *
+   * @param {object} tokens Tokens
+   */
   async function postTokensReceived(tokens) {
     // schedule event posting for the next event loop iteration
     // to give listeners chance to subscribe before the first update
@@ -55,7 +69,7 @@ async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
   postTokensReceived(accessTokens)
 
   /**
-   * Attempts to re-create connection to get new access tokens
+   * refreshAuth - Attempts to re-create connection to get new access tokens.
    */
   async function refreshAuth() {
     const { drive: client, accessTokens } = await createConnection({
@@ -68,9 +82,9 @@ async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
   }
 
   /**
-   * Checks if connection is healthy and client is ready to process requests
+   * testConnection - Checks if connection is healthy and client is ready to process requests.
    *
-   * @returns `true` if client is ready to interact with API `false` otherwise
+   * @returns {boolean} `true` if client is ready to interact with API `false` otherwise
    */
   async function testConnection() {
     try {
@@ -81,8 +95,13 @@ async function createClient({ clientId, authRedirectUrl, scope, tokens }) {
     }
   }
 
-  // wrap api calls to catch errors that are potentially caused with
-  // expired/incorrect tokens
+  /**
+   * apiCall - Wrap api calls to catch errors that are potentially caused with expired/incorrect tokens.
+   *
+   * @param  {Function} method Method to call
+   * @param  {...object} args Additional arguments to pass to call the method with
+   * @returns {any} Result of calling the api method
+   */
   function apiCall(method, ...args) {
     try {
       return method.call(null, drive, ...args)

@@ -4,7 +4,7 @@ import { useEffect } from 'react'
  * isInside - Check if an event comes from a nested element.
  *
  * @param  {object} ref Element reference
- * @returns {boolean} Boolean indicating wether event originates from nested element
+ * @returns {boolean} Boolean indicating whether event originates from nested element
  */
 function isInside(ref) {
   return !ref.current || ref.current.contains(this.target)

@@ -11,7 +11,7 @@ const dnsLookup = promisify(dns.lookup)
  * validateHost - Helper function to check a hostname in the format hostname:port.
  *
  * @param {string} host A hostname + optional port in the format [hostname]:[port?]
- * @returns {Promise<boolean>} Boolean indicating wether host is valid
+ * @returns {Promise<boolean>} Boolean indicating whether host is valid
  */
 const validateHost = async host => {
   const createError = (msg, code) => {

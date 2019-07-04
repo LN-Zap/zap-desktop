@@ -50,7 +50,7 @@ class ZapUpdater {
   }
 
   /**
-   * Enable automatic updates.
+   * enableAutoUpdates - Enable automatic updates.
    */
   enableAutoUpdates() {
     if (this.isActive || isDev) {
@@ -71,7 +71,7 @@ class ZapUpdater {
   }
 
   /**
-   * Disable automatic updates.
+   * disableAutoUpdates - Disable automatic updates.
    */
   disableAutoUpdates() {
     if (!this.isActive || isDev) {

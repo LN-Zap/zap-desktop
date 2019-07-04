@@ -8,7 +8,7 @@ import CryptoSelector from './CryptoSelector'
  * CryptValueSelector - Crypto value with denomination selector.
  *
  * @param {object} { fontSize, value }
- * @returns
+ * @returns {object} Component
  */
 export default function CryptoValueSelector({ fontSize, value, ...rest }) {
   return (

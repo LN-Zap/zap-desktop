@@ -6,12 +6,14 @@ import { convert } from '@zap/utils/btc'
 const forcePositiveNumber = amount => (amount >= 0 ? amount * 1 : amount * -1)
 
 /**
- * Renders a satoshi amount into a specific currency/unit.
+ * Value - Renders a satoshi amount into a specific currency/unit.
  *
- * @param {[type]} value         Amount in satoshis.
- * @param {[type]} currency      Currency to display as (btc, bits, sats, msats, fiat).
- * @param {[type]} currentTicker Current fiat ticker info.
- * @param {[type]} fiatTicker    Key of fiat ticker to use for fiat conversions.
+ * @param {object} options Options
+ * @param {number} options.value Amount in satoshis.
+ * @param {string} options.currency Currency to display as (btc, bits, sats, msats, fiat).
+ * @param {object} options.currentTicker Current fiat ticker info.
+ * @param {object} options.fiatTicker Key of fiat ticker to use for fiat conversions.
+ * @returns {object} Component
  */
 const Value = ({ value, currency, currentTicker, fiatTicker, style }) => {
   let price

@@ -2,7 +2,6 @@ import React from 'react'
 import { Box } from 'rebass'
 
 /**
- * @render react
  * @name BackgroundTertiary
  * @example
  * <BackgroundTertiary />

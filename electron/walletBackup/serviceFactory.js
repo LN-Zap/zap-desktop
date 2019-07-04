@@ -17,10 +17,10 @@ const services = {
 const singletonGet = createSingletonFactory(services)
 
 /**
- * Singleton backup factory
+ * getBackupService - Singleton backup factory.
  *
- * @param {('gdrive'|'dropbox'|'local')} provider
- * @returns {object|null} backup service instance
+ * @param {('gdrive'|'dropbox'|'local')} provider Provider name
+ * @returns {object|null} Backup service instance
  */
 export default function getBackupService(provider) {
   const result = singletonGet(provider)

@@ -1,22 +1,50 @@
 import get from 'lodash/get'
 import partition from 'lodash/partition'
 import { createSelector } from 'reselect'
-
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { getNodeDisplayName, networkSelectors } from './network'
 
+// ------------------------------------
 // Initial State
+// ------------------------------------
+
 const initialState = {
   searchQuery: null,
 }
 
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const UPDATE_CONTACT_FORM_SEARCH_QUERY = 'UPDATE_CONTACT_FORM_SEARCH_QUERY'
+
+// ------------------------------------
+// Helpers
+// ------------------------------------
+
+/**
+ *fromSuggestedToRegular - Converts suggested nodes to a list of entries compatible with contact search results.
+ *
+ * @param {Array} suggestedNodes Suggested nodes list
+ * @returns {Array} Search results compatible version of suggested nodes array
+ */
+const fromSuggestedToRegular = suggestedNodes =>
+  suggestedNodes &&
+  suggestedNodes.map(node => ({
+    ...node,
+    addresses: [{ addr: node.host }],
+  }))
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * updateContactFormSearchQuery - Set the current contacts serach string.
+ *
+ * @param {string} searchQuery Search query
+ * @returns {object} Action
+ */
 export function updateContactFormSearchQuery(searchQuery) {
   return {
     type: UPDATE_CONTACT_FORM_SEARCH_QUERY,
@@ -27,13 +55,15 @@ export function updateContactFormSearchQuery(searchQuery) {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [UPDATE_CONTACT_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
 }
 
 // ------------------------------------
-// Selector
+// Selectors
 // ------------------------------------
+
 const contactFormSelectors = {}
 const networkNodesSelector = state => networkSelectors.nodes(state)
 const searchQuerySelector = state => state.contactsform.searchQuery
@@ -62,16 +92,6 @@ contactFormSelectors.suggestedNodes = createSelector(
   }
 )
 
-/**
- * @param {Array} suggestedNodes
- * @returns search results compatible version of suggested nodes array
- */
-const fromSuggestedToRegular = suggestedNodes =>
-  suggestedNodes &&
-  suggestedNodes.map(node => ({
-    ...node,
-    addresses: [{ addr: node.host }],
-  }))
 contactFormSelectors.filteredNetworkNodes = createSelector(
   networkNodesSelector,
   searchQuerySelector,
@@ -141,6 +161,14 @@ export { contactFormSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
+/**
+ * contactFormReducer - Contactsform reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
 export default function contactFormReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

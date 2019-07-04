@@ -7,7 +7,6 @@ import { opacity } from 'styled-system'
 const StyledText = styled(BaseText)(opacity)
 
 /**
- * @render react
  * @name Text
  * @example
  * <Text>Some text</Text>

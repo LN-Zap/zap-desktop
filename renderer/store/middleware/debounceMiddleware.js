@@ -5,12 +5,13 @@ import createDebouncedQueue from '@zap/utils/debouncedFuncQueue'
 const queues = {}
 
 /**
- * Creates a debounced queue for the specified action
+ * createDebouncedAction - Creates a debounced queue for the specified action.
  *
- * @param {Function} dispatch
- * @param {string} type
- * @param {number} wait The number of milliseconds to delay
- * @param {number} maxWait The maximum time `action` is allowed to be delayed before it's invoked
+ * @param {{ dispatch, type, wait, maxWait }} Action Action
+ * @param {Function} Action.dispatch Redux dispatcher
+ * @param {string} Action.type Action type
+ * @param {number} Action.wait The number of milliseconds to delay
+ * @param {number} Action.maxWait The maximum time `action` is allowed to be delayed before it's invoked
  * @returns {object} {promise, action} `promise` resolves when action is finally dispatched
  */
 function createDebouncedAction({ dispatch, type, wait, maxWait }) {
@@ -39,9 +40,9 @@ function createDebouncedAction({ dispatch, type, wait, maxWait }) {
  * If an action is set to be debounced the middleware accumulates action parameters and
  * dispatches it in a {type, data:[accumulated_params]} form
  * In order for an action to be compliant it needs to:
- * 1. Be plain (no thunks are currently supported)
- * 2. Use single `data` arg as action parameter
- * 3. Have {debounce:{wait, [maxWait]}} object in action params
+ * 1. Be plain (no thunks are currently supported).
+ * 2. Use single `data` arg as action parameter.
+ * 3. Have {debounce:{wait, [maxWait]}} object in action params.
  *
  * @example
  * {
@@ -51,7 +52,7 @@ function createDebouncedAction({ dispatch, type, wait, maxWait }) {
  *    wait: 3000,
  *   }
  * }
- * @returns {Function}
+ * @returns {Function} debounced action.
  */
 const middleware = () => dispatch => action => {
   const { debounce: { wait, maxWait } = {}, data, type } = action

@@ -3,6 +3,15 @@ import PropTypes from 'prop-types'
 import { asField } from 'informed'
 import styled, { withTheme } from 'styled-components'
 
+/**
+ * makelongshadow - Helper method to create the box-shadow for slider-thumb.
+ * This is a hack around the fact that slider-thumb only supports a single color.
+ *
+ * @param  {string} color Color
+ * @param  {string} size  Sioze
+ * @param  {number} width Shadow width
+ * @returns {string} Shadow css
+ */
 function makelongshadow(color, size, width) {
   let val = `4px 0px 0 ${size} ${color}`
   for (let i = 5; i < width; i++) {

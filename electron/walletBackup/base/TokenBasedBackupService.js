@@ -16,7 +16,6 @@ export default class TokenBasedBackupService extends EventEmitter {
    * init - Initializes backup service connection and registers token listeners.
    *
    * @param {Function} createClient function that instantiates `connection` object
-   * @returns
    * @memberof TokenBasedBackupService
    */
   async init(createClient) {
@@ -31,7 +30,6 @@ export default class TokenBasedBackupService extends EventEmitter {
    * terminate - Cleans up current login. Should be called as a cleanup or before calling `init`
    * with another credentials.
    *
-   * @returns
    * @memberof BackupService
    */
   async terminate() {
@@ -54,7 +52,7 @@ export default class TokenBasedBackupService extends EventEmitter {
   /**
    * loadBackup - Loads backup for the specified wallet.
    *
-   * @param {string} fileId
+   * @param {string} fileId File identifier of backup to load
    * @returns {Buffer} wallet backup as a `Buffer`
    * @memberof BackupService
    */
@@ -82,7 +80,7 @@ export default class TokenBasedBackupService extends EventEmitter {
    * isUsingTokens - This service is token based and requires tokens to operate
    * It also emits `tokensReceived` event.
    *
-   * @returns {boolean}
+   * @returns {boolean} Boolean indicating whether service uses tokens
    * @readonly
    * @memberof TokenBasedBackupService
    */

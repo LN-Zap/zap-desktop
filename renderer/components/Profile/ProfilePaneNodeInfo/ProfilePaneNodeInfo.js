@@ -9,9 +9,9 @@ import messages from './messages'
 /**
  * backupMethodMessageMapper - Returns intl message for the specified provider.
  *
- * @param {string} provider
- * @param {intlShape} intl
- * @returns
+ * @param {string} provider Provider
+ * @param {intlShape} intl Intl
+ * @returns {string} Intl message
  */
 function backupMethodMessageMapper(provider, intl) {
   const MAP = {

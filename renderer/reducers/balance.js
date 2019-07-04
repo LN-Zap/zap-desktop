@@ -2,6 +2,19 @@ import { createSelector } from 'reselect'
 import { grpcService } from 'workers'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isBalanceLoading: false,
+  walletBalance: null,
+  walletBalanceConfirmed: null,
+  walletBalanceUnconfirmed: null,
+  channelBalance: null,
+  fetchBalanceError: null,
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
 
@@ -13,7 +26,11 @@ export const FETCH_BALANCE_FAILURE = 'FETCH_BALANCE_FAILURE'
 // Actions
 // ------------------------------------
 
-// Fetch balances.
+/**
+ * fetchBalance - Fetch balances.
+ *
+ * @returns {Function} Thunk
+ */
 export const fetchBalance = () => async dispatch => {
   try {
     dispatch({ type: FETCH_BALANCE })
@@ -48,7 +65,10 @@ const ACTION_HANDLERS = {
   }),
 }
 
+// ------------------------------------
 // Selectors
+// ------------------------------------
+
 const balanceSelectors = {}
 balanceSelectors.channelBalance = state => state.balance.channelBalance
 balanceSelectors.channelBalanceConfirmed = state => state.balance.channelBalanceConfirmed
@@ -71,15 +91,14 @@ export { balanceSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {
-  isBalanceLoading: false,
-  walletBalance: null,
-  walletBalanceConfirmed: null,
-  walletBalanceUnconfirmed: null,
-  channelBalance: null,
-  fetchBalanceError: null,
-}
 
+/**
+ * balanceReducer - Balance reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
 export default function balanceReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

@@ -29,9 +29,12 @@ import {
 import messages from './messages'
 
 /**
- * @param {{key: string}[]} formSteps List of form steps.
- * @param {Array<Array<[string, boolean]>>} steps array of `step name`, `condition` pairs.
+ * removeSteps - Remove for steps based on a set of conditions.
+ *
+ * @param {{key: string}[]} formSteps List of form steps
+ * @param {Array<Array<[string, boolean]>>} steps array of `step name`, `condition` pairs
  * if `condition` then step is removed
+ * @returns {object} Updated list of form steps
  */
 function removeSteps(formSteps, steps) {
   return steps.reduce((acc, next) => {
@@ -126,9 +129,9 @@ class Onboarding extends React.Component {
   }
 
   /**
-   * Dynamically generte form steps to use in the onboarding Wizzard.
+   * getSteps - Dynamically generte form steps to use in the onboarding Wizzard.
    *
-   * @returns {[Wizzard.Step]} A list of WizardSteps.
+   * @returns {Array} A list of WizardSteps.
    */
   getSteps = () => {
     const {
@@ -350,8 +353,10 @@ class Onboarding extends React.Component {
   }
 
   /**
-   * If we have already started the create new wallet process and generated a seed, change the text on the back button
-   * since it will act as a reset button in this case.
+   * getBackButtonText - If we have already started the create new wallet process and generated a seed, change the
+   * text on the back button since it will act as a reset button in this case.
+   *
+   * @returns {object} Button text
    */
   getBackButtonText = () => {
     const { seed } = this.props
@@ -363,8 +368,10 @@ class Onboarding extends React.Component {
   }
 
   /**
-   * If we have already started the create new wallet process and generated a seed, configure the back button to
-   * navigate back to step 1.
+   * getPreviousStep - If we have already started the create new wallet process and generated a seed, configure the back
+   * button to navigate back to step 1.
+   *
+   * @returns {number} Step index
    */
   getPreviousStep = () => {
     const { seed } = this.props

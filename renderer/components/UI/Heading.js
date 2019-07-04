@@ -6,7 +6,6 @@ import { opacity } from 'styled-system'
 const StyledHeading = styled(BaseHeading)(opacity)
 
 /**
- * @render react
  * @name Heading
  * @example
  * <Heading />

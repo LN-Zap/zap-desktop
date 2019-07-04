@@ -55,9 +55,7 @@ class Home extends React.Component {
     wallets: PropTypes.array.isRequired,
   }
 
-  /**
-   * If there is an active wallet ensure it is selected on mount.
-   */
+  // If there is an active wallet ensure it is selected on mount.
   componentDidMount() {
     const { activeWallet, activeWalletSettings, history, setIsWalletOpen } = this.props
     if (activeWallet && activeWalletSettings && history.location.pathname === '/home') {

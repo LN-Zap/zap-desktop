@@ -6,8 +6,9 @@ import { settingsSelectors } from './settings'
 import { showError } from './notification'
 
 // ------------------------------------
-// Reducer
+// Initial State
 // ------------------------------------
+
 const initialState = {
   addressesLoading: {
     np2wkh: false,
@@ -23,6 +24,7 @@ const initialState = {
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 export const FETCH_ADDRESSES = 'FETCH_ADDRESSES'
 export const FETCH_ADDRESSES_SUCCESS = 'FETCH_ADDRESSES_SUCCESS'
 export const NEW_ADDRESS = 'NEW_ADDRESS'
@@ -47,7 +49,7 @@ export const closeWalletModal = () => dispatch => dispatch(closeModal('RECEIVE_M
 /**
  * initAddresses - Initialise addresses.
  *
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const initAddresses = () => async (dispatch, getState) => {
   dispatch({ type: FETCH_ADDRESSES })
@@ -75,8 +77,8 @@ export const initAddresses = () => async (dispatch, getState) => {
 /**
  * newAddress - Generate a new address.
  *
- * @param {'p2wkh'|'np2wkh'} addressType Address type
- * @returns {undefined}
+ * @param {('p2wkh'|'np2wkh')} addressType Address type
+ * @returns {Function} Thunk
  */
 export const newAddress = addressType => async dispatch => {
   dispatch({ type: NEW_ADDRESS, addressType })
@@ -94,7 +96,7 @@ export const newAddress = addressType => async dispatch => {
  *
  * @param {string} addressType Address type
  * @param {string} address Address
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const newAddressSuccess = (addressType, address) => async (dispatch, getState) => {
   const state = getState()
@@ -118,7 +120,7 @@ export const newAddressSuccess = (addressType, address) => async (dispatch, getS
  *
  * @param {string} addressType Address type
  * @param {string} error Error message
- * @returns {undefined}
+ * @returns {Function} Thunk
  */
 export const newAddressFailure = (addressType, error) => dispatch => {
   // TODO: i18n compatibility.
@@ -133,6 +135,7 @@ export const newAddressFailure = (addressType, error) => dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [FETCH_ADDRESSES_SUCCESS]: (state, { addresses }) => ({
     ...state,
@@ -198,7 +201,7 @@ export { addressSelectors }
  *
  * @param  {object} state = initialState Initial state
  * @param  {object} action Action
- * @returns {object} Final state
+ * @returns {object} Next state
  */
 export default function addressReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]

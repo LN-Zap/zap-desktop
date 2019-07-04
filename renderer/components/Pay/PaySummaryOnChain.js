@@ -18,9 +18,9 @@ class PaySummaryOnChain extends React.Component {
     cryptoUnitName: PropTypes.string.isRequired,
     /** Fee in sats per byte */
     fee: PropTypes.number,
-    /** Boolean indicating wether transaction is a coin sweep. */
+    /** Boolean indicating whether transaction is a coin sweep. */
     isCoinSweep: PropTypes.bool,
-    /** Boolean indicating wether routing information is currently being fetched. */
+    /** Boolean indicating whether routing information is currently being fetched. */
     isQueryingFees: PropTypes.bool,
     lndTargetConfirmations: PropTypes.object.isRequired,
     /** Current fee information as provided by bitcoinfees.earn.com */

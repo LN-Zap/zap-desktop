@@ -7,17 +7,6 @@ import { BasicTextArea } from './TextArea'
 import Message from './Message'
 import messages from './messages'
 
-/**
- * @render react
- * @name LightningInvoiceInput
- * @example
- * <LightningInvoiceInput
-     network="testnet"
-     field="testnet"
-     id="testnet"
-     validateOnChange
-     validateOnBlur />
- */
 class LightningInvoiceInput extends React.Component {
   static displayName = 'LightningInvoiceInput'
 

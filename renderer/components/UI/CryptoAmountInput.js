@@ -10,10 +10,6 @@ import { convert } from '@zap/utils/btc'
 import { formatValue, parseNumber } from '@zap/utils/crypto'
 import { BasicInput } from './Input'
 
-/**
- * @render react
- * @name CryptoAmountInput
- */
 class CryptoAmountInput extends React.Component {
   static propTypes = {
     cryptoUnit: PropTypes.string.isRequired,
@@ -24,9 +20,6 @@ class CryptoAmountInput extends React.Component {
     onChange: PropTypes.func,
   }
 
-  /**
-   * Reformat the value when the currency unit has changed.
-   */
   componentDidUpdate(prevProps) {
     const { cryptoUnit, fieldApi, fieldState } = this.props
     // Reformat the value when the currency unit has changed.

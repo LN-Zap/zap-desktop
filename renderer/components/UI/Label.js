@@ -16,7 +16,6 @@ const SystemLabel = system(
 )
 
 /**
- * @render react
  * @name Label
  * @example
  * <Label />

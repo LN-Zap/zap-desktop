@@ -5,12 +5,13 @@ import streamify from '@zap/utils/streamify'
 import methods from './lightning.methods'
 
 /**
- * Call lnd grpc subscribeChannelGraph method and emit events on updates to the stream
+ * subscribeChannelGraph - Call lnd grpc subscribeChannelGraph method and emit events on updates to the stream.
  *
- * @returns {Call} Grpc Call
+ * @param {object} payload Payload
+ * @returns {object} Grpc Call
  */
-function subscribeChannelGraph() {
-  const call = this.service.subscribeChannelGraph({})
+function subscribeChannelGraph(payload = {}) {
+  const call = this.service.subscribeChannelGraph(payload)
   call.on('data', data => {
     grpcLog.debug('CHANNELGRAPH DATA: %o', data)
     this.emit('subscribeChannelGraph.data', data)
@@ -33,9 +34,10 @@ function subscribeChannelGraph() {
 }
 
 /**
- * Call lnd grpc subscribeInvoices method and emit events on updates to the stream
+ * subscribeInvoices - Call lnd grpc subscribeInvoices method and emit events on updates to the stream.
  *
- * @returns {Call} Grpc Call
+ * @param {object} payload Payload
+ * @returns {object} Grpc Call
  */
 function subscribeInvoices(payload = {}) {
   const call = this.service.subscribeInvoices(payload)
@@ -61,12 +63,13 @@ function subscribeInvoices(payload = {}) {
 }
 
 /**
- * Call lnd grpc subscribeTransactions method and emit events on updates to the stream
+ * subscribeTransactions - Call lnd grpc subscribeTransactions method and emit events on updates to the stream.
  *
- * @returns {Call} Grpc Call
+ * @param {object} payload Payload
+ * @returns {object} Grpc Call
  */
-function subscribeTransactions() {
-  const call = this.service.subscribeTransactions({})
+function subscribeTransactions(payload = {}) {
+  const call = this.service.subscribeTransactions(payload)
   call.on('data', data => {
     grpcLog.debug('TRANSACTIONS DATA: %o', data)
     this.emit('subscribeTransactions.data', data)
@@ -88,13 +91,14 @@ function subscribeTransactions() {
   return call
 }
 /**
- * Call lnd grpc subscribeChannelBackups method and emit events on updates to the stream
+ * subscribeChannelBackups - Call lnd grpc subscribeChannelBackups method and emit events on updates to the stream.
  *
- * @returns {Call} Grpc Call
+ * @param {object} payload Payload
+ * @returns {object} Grpc Call
  */
-function subscribeChannelBackups() {
+function subscribeChannelBackups(payload = {}) {
   if (this.service.subscribeChannelBackups) {
-    const call = this.service.subscribeChannelBackups({})
+    const call = this.service.subscribeChannelBackups(payload)
     call.on('data', data => {
       grpcLog.debug('CHANNEL BACKUP: %o', data)
       this.emit('subscribeChannelBackup.data', data)
@@ -117,8 +121,12 @@ function subscribeChannelBackups() {
   }
   return null
 }
+
 /**
- * Virtual getInfo stream
+ * subscribeGetInfo - Virtual getInfo stream.
+ *
+ * @param {{pollInterval}} options Subscription options
+ * @returns {object} polling stream for the LND getInfo command
  */
 function subscribeGetInfo({ pollInterval = 5000 } = {}) {
   return streamify.call(this, {

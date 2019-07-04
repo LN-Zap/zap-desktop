@@ -2,6 +2,12 @@
 
 import { useCallback, useState, useLayoutEffect } from 'react'
 
+/**
+ * getSize - Get the size of an element.
+ *
+ * @param {object} el Element to measure
+ * @returns {object} Element size
+ */
 function getSize(el) {
   if (!el) {
     return {
@@ -30,6 +36,12 @@ function getSize(el) {
   }
 }
 
+/**
+ * useComponentSize - React hook for determining the size of a component.
+ *
+ * @param {object} ref Component reference
+ * @returns {object} Component size
+ */
 function useComponentSize(ref) {
   let [ComponentSize, setComponentSize] = useState(getSize(ref ? ref.current : {}))
 
