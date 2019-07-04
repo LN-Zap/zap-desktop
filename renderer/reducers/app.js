@@ -8,6 +8,7 @@ import { setIsWalletOpen, walletSelectors } from './wallet'
 import { setTheme, themeSelectors } from './theme'
 import { stopLnd } from './lnd'
 import { openModal } from './modal'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -163,16 +164,35 @@ export const openPreferences = () => dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [INIT_APP]: state => ({ ...state, isRunning: true }),
-  [INIT_DATABASE]: state => ({ ...state }),
-  [INIT_DATABASE_SUCCESS]: state => ({ ...state, isDatabaseReady: true }),
-  [INIT_DATABASE_FAILURE]: (state, { initDatabaseError }) => ({ ...state, initDatabaseError }),
-  [SET_LOADING]: (state, { isLoading }) => ({ ...state, isLoading }),
-  [SET_MOUNTED]: (state, { isMounted }) => ({ ...state, isMounted }),
-  [LOGOUT]: state => ({ ...state, isLoggingOut: true }),
-  [LOGOUT_SUCCESS]: state => ({ ...state, isLoggingOut: false }),
-  [TERMINATE_APP]: state => ({ ...state, isTerminating: true }),
-  [TERMINATE_APP_SUCCESS]: state => ({ ...state, isTerminating: false, isRunning: false }),
+  [INIT_APP]: state => {
+    state.isRunning = true
+  },
+  [INIT_DATABASE]: () => {}, //no state change
+  [INIT_DATABASE_SUCCESS]: state => {
+    state.isDatabaseReady = true
+  },
+  [INIT_DATABASE_FAILURE]: (state, { initDatabaseError }) => {
+    state.initDatabaseError = initDatabaseError
+  },
+  [SET_LOADING]: (state, { isLoading }) => {
+    state.isLoading = isLoading
+  },
+  [SET_MOUNTED]: (state, { isMounted }) => {
+    state.isMounted = isMounted
+  },
+  [LOGOUT]: state => {
+    state.isLoggingOut = true
+  },
+  [LOGOUT_SUCCESS]: state => {
+    state.isLoggingOut = false
+  },
+  [TERMINATE_APP]: state => {
+    state.isTerminating = true
+  },
+  [TERMINATE_APP_SUCCESS]: state => {
+    state.isTerminating = false
+    state.isRunning = false
+  },
 }
 
 // ------------------------------------
@@ -211,19 +231,4 @@ appSelectors.isAppReady = createSelector(
 
 export { appSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * appReducer - App reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function appReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
