@@ -4,6 +4,7 @@ import { grpcService } from 'workers'
 import { openModal, closeModal } from './modal'
 import { settingsSelectors } from './settings'
 import { showError } from './notification'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -137,37 +138,25 @@ export const newAddressFailure = (addressType, error) => dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [FETCH_ADDRESSES_SUCCESS]: (state, { addresses }) => ({
-    ...state,
-    addresses,
-  }),
-  [NEW_ADDRESS]: (state, { addressType }) => ({
-    ...state,
-    addressesLoading: {
-      ...state.addressesLoading,
-      [addressType]: true,
-    },
-  }),
-  [NEW_ADDRESS_SUCCESS]: (state, { addressType, address }) => ({
-    ...state,
-    addressesLoading: {
-      ...state.addressesLoading,
-      [addressType]: false,
-    },
-    addresses: {
-      ...state.addresses,
-      [addressType]: address,
-    },
-  }),
-  [NEW_ADDRESS_FAILURE]: (state, { addressType }) => ({
-    ...state,
-    addressesLoading: {
-      ...state.addressesLoading,
-      [addressType]: false,
-    },
-  }),
-  [OPEN_WALLET_MODAL]: state => ({ ...state, walletModal: true }),
-  [CLOSE_WALLET_MODAL]: state => ({ ...state, walletModal: false }),
+  [FETCH_ADDRESSES_SUCCESS]: (state, { addresses }) => {
+    state.addresses = addresses
+  },
+  [NEW_ADDRESS]: (state, { addressType }) => {
+    state.addressesLoading[addressType] = true
+  },
+  [NEW_ADDRESS_SUCCESS]: (state, { addressType, address }) => {
+    state.addressesLoading[addressType] = false
+    state.addresses[addressType] = address
+  },
+  [NEW_ADDRESS_FAILURE]: (state, { addressType }) => {
+    state.addressesLoading[addressType] = false
+  },
+  [OPEN_WALLET_MODAL]: state => {
+    state.walletModal = true
+  },
+  [CLOSE_WALLET_MODAL]: state => {
+    state.walletModal = false
+  },
 }
 
 // ------------------------------------
@@ -192,19 +181,4 @@ addressSelectors.isAddressLoading = createSelector(
 
 export { addressSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * addressReducer - Address reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function addressReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
