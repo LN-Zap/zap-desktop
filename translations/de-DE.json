@@ -272,7 +272,7 @@
   "components.Onboarding.Steps.backup_local_header": "Verzeichnis wählen",
   "components.Onboarding.Steps.backup_path_description": "Kanal Backup wird hier gespeichert",
   "components.Onboarding.Steps.backup_path_label": "Sicherungsverzeichnis",
-  "components.Onboarding.Steps.backup_skip_error": "Ein Fehler ist aufgetreten",
+  "components.Onboarding.Steps.backup_skip_error": "",
   "components.Onboarding.Steps.backup_type_dropbox": "Dropbox",
   "components.Onboarding.Steps.backup_type_gdrive": "Google Drive",
   "components.Onboarding.Steps.backup_type_local": "Lokal",
