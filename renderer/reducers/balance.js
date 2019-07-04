@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
 import { grpcService } from 'workers'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -47,22 +48,22 @@ export const fetchBalance = () => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [FETCH_BALANCE]: state => ({ ...state, isBalanceLoading: true }),
-  [FETCH_BALANCE_SUCCESS]: (state, { walletBalance, channelBalance }) => ({
-    ...state,
-    isBalanceLoading: false,
-    walletBalance: walletBalance.total_balance,
-    walletBalanceConfirmed: walletBalance.confirmed_balance,
-    walletBalanceUnconfirmed: walletBalance.unconfirmed_balance,
-    channelBalance: channelBalance.balance + channelBalance.pending_open_balance,
-    channelBalanceConfirmed: channelBalance.balance,
-    channelBalancePending: channelBalance.pending_open_balance,
-  }),
-  [FETCH_BALANCE_FAILURE]: (state, { error }) => ({
-    ...state,
-    isBalanceLoading: false,
-    fetchBalanceError: error,
-  }),
+  [FETCH_BALANCE]: state => {
+    state.isBalanceLoading = true
+  },
+  [FETCH_BALANCE_SUCCESS]: (state, { walletBalance, channelBalance }) => {
+    state.isBalanceLoading = false
+    state.walletBalance = walletBalance.total_balance
+    state.walletBalanceConfirmed = walletBalance.confirmed_balance
+    state.walletBalanceUnconfirmed = walletBalance.unconfirmed_balance
+    state.channelBalance = channelBalance.balance + channelBalance.pending_open_balance
+    state.channelBalanceConfirmed = channelBalance.balance
+    state.channelBalancePending = channelBalance.pending_open_balance
+  },
+  [FETCH_BALANCE_FAILURE]: (state, { error }) => {
+    state.isBalanceLoading = false
+    state.fetchBalanceError = error
+  },
 }
 
 // ------------------------------------
@@ -88,19 +89,4 @@ balanceSelectors.totalBalance = createSelector(
 
 export { balanceSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * balanceReducer - Balance reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function balanceReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
