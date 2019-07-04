@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Flex, Box } from 'rebass'
 import { Panel, Wizard } from 'components/UI'
+import { withRouter } from 'react-router-dom'
 import {
   isMainnetAutopilot,
   isNetworkSelectionEnabled,
@@ -58,6 +58,9 @@ class Onboarding extends React.Component {
     createWalletError: PropTypes.string,
     fetchSeed: PropTypes.func.isRequired,
     hideSkipBackupDialog: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }),
     isCreatingWallet: PropTypes.bool,
     isFetchingSeed: PropTypes.bool,
     isLightningGrpcActive: PropTypes.bool,
@@ -96,6 +99,25 @@ class Onboarding extends React.Component {
     validateCert: PropTypes.func.isRequired,
     validateHost: PropTypes.func.isRequired,
     validateMacaroon: PropTypes.func.isRequired,
+  }
+
+  componentDidUpdate(prevProps) {
+    const {
+      isCreatingWallet,
+      createWalletError,
+      connectionType,
+      isLightningGrpcActive,
+      history,
+    } = this.props
+    if (connectionType === 'custom') {
+      if (isLightningGrpcActive) {
+        history.push('/app')
+      }
+    } else {
+      if (!isCreatingWallet && prevProps.isCreatingWallet && !createWalletError) {
+        history.push('/syncing')
+      }
+    }
   }
 
   componentWillUnmount() {
@@ -364,14 +386,9 @@ class Onboarding extends React.Component {
   }
 
   render() {
-    const { connectionType, isLightningGrpcActive } = this.props
     const steps = this.getSteps()
     const previousStep = this.getPreviousStep()
     const backButtonText = this.getBackButtonText()
-
-    if (isLightningGrpcActive) {
-      return <Redirect to={['create', 'import'].includes(connectionType) ? '/syncing' : '/app'} />
-    }
 
     return (
       <Wizard steps={steps}>
@@ -407,4 +424,4 @@ class Onboarding extends React.Component {
   }
 }
 
-export default Onboarding
+export default withRouter(Onboarding)

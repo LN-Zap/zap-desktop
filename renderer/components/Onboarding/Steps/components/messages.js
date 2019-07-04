@@ -11,4 +11,9 @@ export default defineMessages({
   skip_backup_dialog_warning_header: 'Are you sure?',
   skip_backup_dialog_warning_acknowledgement: 'I do not want to set up my channel backup',
   skip_backup_dialog_restore_warning_acknowledgement: 'I do not want to recover channel funds',
+  error_dialog_header: 'An error has occurred',
+  error_dialog_create_wallet_error_desc: 'The following error has ocurred when creating a wallet:',
+  error_dialog_recover_wallet_error_desc:
+    'The following error has occurred when recovering a wallet:',
+  error_dialog_close_text: 'Close',
 })
