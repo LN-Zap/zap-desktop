@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Redirect } from 'react-router-dom'
 import { FormattedMessage } from 'react-intl'
 import { Flex, Box } from 'rebass'
 import { Panel, Wizard } from 'components/UI'
+import { withRouter } from 'react-router-dom'
 import {
   isMainnetAutopilot,
   isNetworkSelectionEnabled,
@@ -29,9 +29,12 @@ import {
 import messages from './messages'
 
 /**
- * @param {{key: string}[]} formSteps List of form steps.
- * @param {Array<Array<[string, boolean]>>} steps array of `step name`, `condition` pairs.
+ * removeSteps - Remove for steps based on a set of conditions.
+ *
+ * @param {{key: string}[]} formSteps List of form steps
+ * @param {Array<Array<[string, boolean]>>} steps array of `step name`, `condition` pairs
  * if `condition` then step is removed
+ * @returns {object} Updated list of form steps
  */
 function removeSteps(formSteps, steps) {
   return steps.reduce((acc, next) => {
@@ -58,6 +61,9 @@ class Onboarding extends React.Component {
     createWalletError: PropTypes.string,
     fetchSeed: PropTypes.func.isRequired,
     hideSkipBackupDialog: PropTypes.func.isRequired,
+    history: PropTypes.shape({
+      push: PropTypes.func.isRequired,
+    }),
     isCreatingWallet: PropTypes.bool,
     isFetchingSeed: PropTypes.bool,
     isLightningGrpcActive: PropTypes.bool,
@@ -98,15 +104,34 @@ class Onboarding extends React.Component {
     validateMacaroon: PropTypes.func.isRequired,
   }
 
+  componentDidUpdate(prevProps) {
+    const {
+      isCreatingWallet,
+      createWalletError,
+      connectionType,
+      isLightningGrpcActive,
+      history,
+    } = this.props
+    if (connectionType === 'custom') {
+      if (isLightningGrpcActive) {
+        history.push('/app')
+      }
+    } else {
+      if (!isCreatingWallet && prevProps.isCreatingWallet && !createWalletError) {
+        history.push('/syncing')
+      }
+    }
+  }
+
   componentWillUnmount() {
     const { resetOnboarding } = this.props
     resetOnboarding()
   }
 
   /**
-   * Dynamically generte form steps to use in the onboarding Wizzard.
+   * getSteps - Dynamically generte form steps to use in the onboarding Wizzard.
    *
-   * @returns {[Wizzard.Step]} A list of WizardSteps.
+   * @returns {Array} A list of WizardSteps.
    */
   getSteps = () => {
     const {
@@ -328,8 +353,10 @@ class Onboarding extends React.Component {
   }
 
   /**
-   * If we have already started the create new wallet process and generated a seed, change the text on the back button
-   * since it will act as a reset button in this case.
+   * getBackButtonText - If we have already started the create new wallet process and generated a seed, change the
+   * text on the back button since it will act as a reset button in this case.
+   *
+   * @returns {object} Button text
    */
   getBackButtonText = () => {
     const { seed } = this.props
@@ -341,8 +368,10 @@ class Onboarding extends React.Component {
   }
 
   /**
-   * If we have already started the create new wallet process and generated a seed, configure the back button to
-   * navigate back to step 1.
+   * getPreviousStep - If we have already started the create new wallet process and generated a seed, configure the back
+   * button to navigate back to step 1.
+   *
+   * @returns {number} Step index
    */
   getPreviousStep = () => {
     const { seed } = this.props
@@ -364,14 +393,9 @@ class Onboarding extends React.Component {
   }
 
   render() {
-    const { connectionType, isLightningGrpcActive } = this.props
     const steps = this.getSteps()
     const previousStep = this.getPreviousStep()
     const backButtonText = this.getBackButtonText()
-
-    if (isLightningGrpcActive) {
-      return <Redirect to={['create', 'import'].includes(connectionType) ? '/syncing' : '/app'} />
-    }
 
     return (
       <Wizard steps={steps}>
@@ -407,4 +431,4 @@ class Onboarding extends React.Component {
   }
 }
 
-export default Onboarding
+export default withRouter(Onboarding)

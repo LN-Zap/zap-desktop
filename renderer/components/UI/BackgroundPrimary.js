@@ -2,7 +2,6 @@ import React from 'react'
 import { Flex } from 'rebass'
 
 /**
- * @render react
  * @name BackgroundPrimary
  * @example
  * <BackgroundPrimary />

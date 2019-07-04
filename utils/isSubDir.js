@@ -5,7 +5,7 @@ const { relative, isAbsolute } = require('path')
  *
  * @param  {string}  parent Parent directory
  * @param  {string}  dir    Subdirectory to check for
- * @returns {boolean}       Boolean indicating wether dir is a subdirectory of parent
+ * @returns {boolean}       Boolean indicating whether dir is a subdirectory of parent
  */
 const isSubDir = (parent, dir) => {
   const isRelative = relative(parent, dir)

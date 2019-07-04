@@ -6,6 +6,19 @@ import { walletSelectors } from './wallet'
 import { infoSelectors } from './info'
 import { showError, showNotification } from './notification'
 
+// ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  provider: null,
+  isRestoreMode: false,
+}
+
+// ------------------------------------
+// Constants
+// ------------------------------------
+
 const SET_PROVIDER = 'SET_PROVIDER'
 const SET_LOCAL_PATH = 'SET_LOCAL_PATH'
 const SET_RESTORE_MODE = 'SET_RESTORE_MODE'
@@ -14,34 +27,66 @@ const RESTORE_STATE_STARTED = 'started'
 const RESTORE_STATE_COMPLETE = 'complete'
 const RESTORE_STATE_ERROR = 'error'
 
+// ------------------------------------
+// Helpers
+// ------------------------------------
+
+/**
+ * canBackup - Checks if we are allowed to update existing backups.
+ *
+ * @param {string} walletId Wallet Id
+ * @returns {boolean} Boolean indicatin whether a wallet can backup from its current state.
+ */
+const canBackup = async walletId => {
+  const backupDesc = (await dbGet(walletId)) || {}
+  const { channelsRestoreState } = backupDesc
+  return !channelsRestoreState || channelsRestoreState === RESTORE_STATE_COMPLETE
+}
+
+/**
+ * dbGet - Get database config for a wallet.
+ *
+ * @param {string} walletId Wallet Id
+ * @returns {Function} Thunk
+ */
 const dbGet = async walletId => {
   const wallet = await window.db.wallets.get(walletId)
   return wallet && wallet.backup
 }
 
 /**
- * dbUpdate - Convenience wrapper that tries to update existing DB record and if
- * fails insert new one.
+ * dbUpdate - Update existing DB record and if fails insert new one.
  *
- * @param {string} walletId
- * @param {object} update
+ * @param {string} walletId Wallet Id
+ * @param {object} update Updates to apply
+ * @returns {Function} Thunk
  */
 const dbUpdate = async (walletId, update) => {
   return await window.db.wallets.update(walletId, { backup: update })
 }
 
+/**
+ * dbTransaction - Get database config for a wallet.
+ *
+ * @param {Function} operation Database transaction
+ * @returns {Promise} Promise that resolves once the transaction has completed
+ */
 const dbTransaction = operation => {
   return window.db.transaction('rw', window.db.wallets, operation)
 }
 
+// ------------------------------------
+// IPC
+// ------------------------------------
+
 /**
- * IPC callback for backup service tokens update event
+ * backupTokensUpdated - IPC callback for backup service tokens update event.
  *
- * @export
- * @param {*} event
- * @param {*} { provider, tokens, walletId }
+ * @param {object} event Event
+ * @param {{provider, tokens, walletId}} options Options
+ * @returns {Function} Thunk
  */
-export function backupTokensUpdated(event, { provider, tokens, walletId }) {
+export const backupTokensUpdated = (event, { provider, tokens, walletId }) => {
   return async () => {
     await dbTransaction(async () => {
       const backupDesc = (await dbGet(walletId)) || {}
@@ -52,18 +97,115 @@ export function backupTokensUpdated(event, { provider, tokens, walletId }) {
 }
 
 /**
+ * backupServiceInitialized - IPC callback for backup service being ready.
+ *
+ * @param {object} event Event
+ * @param {{walletId}} options Options
+ * @returns {Function} Thunk
+ */
+export const backupServiceInitialized = (event, { walletId }) => async (dispatch, getState) => {
+  const state = getState()
+  const isRestoreMode = backupSelectors.restoreModeSelector(state)
+  // service is in restore mode
+  if (isRestoreMode) {
+    dispatch(queryWalletBackup(walletId, backupSelectors.providerSelector(state)))
+  } else {
+    dispatch(backupCurrentWallet(walletId))
+  }
+}
+
+/**
+ * saveBackupSuccess - IPC callback for successful backup.
+ *
+ * @param {object} event Event
+ * @param {{ provider, locationHint, walletId }} options Options
+ * @returns {Function} Thunk
+ */
+export const saveBackupSuccess = (event, { provider, locationHint, walletId }) => async () => {
+  await updateLocationHint({ provider, locationHint, walletId })
+}
+
+/**
+ * queryWalletBackupSuccess - Success callback for queryWalletBackup.
+ *
+ * @param {object} event Event
+ * @param {{ walletId, backup }} options Options
+ * @returns {Function} Thunk
+ */
+export const queryWalletBackupSuccess = (event, { walletId, backup }) => async dispatch => {
+  try {
+    await dispatch(restoreWallet(backup))
+    dispatch(setRestoreMode(false))
+    await setRestoreState(walletId, RESTORE_STATE_COMPLETE)
+  } catch (e) {
+    await setRestoreState(walletId, RESTORE_STATE_ERROR)
+  }
+}
+
+/**
+ * queryWalletBackupFailure - Error callback for queryWalletBackup.
+ *
+ * @returns {Function} Thunk
+ */
+export const queryWalletBackupFailure = () => async dispatch => {
+  // TODO add intl support
+  dispatch(showError(`Unable to find backup file`))
+}
+
+// ------------------------------------
+// Actions
+// ------------------------------------
+
+/**
+ * setBackupProvider - Sets current backup provider.
+ *
+ * @param {('gdrive'|'local'|'dropbox')} provider backup service provider to be used in `initBackupService` call
+ * @returns {object} Action
+ */
+export const setBackupProvider = provider => {
+  return {
+    type: SET_PROVIDER,
+    provider,
+  }
+}
+
+/**
+ * setBackupPathLocal - Sets backup path for the local strategy.
+ *
+ * @param {string} localPath local filesystem directory URI
+ * @returns {object} Action
+ */
+export const setBackupPathLocal = localPath => {
+  return {
+    type: SET_LOCAL_PATH,
+    localPath,
+  }
+}
+/**
+ * setRestoreMode - Turns restore mode on/off.
+ *
+ * @param {boolean} value true if restore mode is active
+ * @returns {object} Action
+ */
+export const setRestoreMode = value => {
+  return {
+    type: SET_RESTORE_MODE,
+    value: isSCBRestoreEnabled() && value,
+  }
+}
+
+/**
  * setupBackupService - Sets backup related properties into DB and initializes backup service.
  * Should be used once per `walletId` during wallet lifetime
  * to prepare backup service for the operation
  * once backup is setup, `initBackupService` should be used in subsequent sessions
  * to launch the service.
  *
- * @export
- * @param {string} walletId
- * @param {boolean} setupBackupService
- * @returns
+ * @param {string} walletId Wallet Id
+ * @param {boolean} isRestoreMode Boolean indcation whether this is a restore
+ * @returns {Function} Thunk
  */
-export function setupBackupService(walletId, isRestoreMode) {
+export const setupBackupService = async (walletId, isRestoreMode) => {
   return async (dispatch, getState) => {
     const { providerSelector, localPathSelector } = backupSelectors
     const provider = providerSelector(getState())
@@ -96,25 +238,13 @@ export function setupBackupService(walletId, isRestoreMode) {
 }
 
 /**
- * canBackup - Checks if we are allowed to update existing backups.
- *
- * @param {string} walletId
- * @returns {boolean}
- */
-async function canBackup(walletId) {
-  const backupDesc = (await dbGet(walletId)) || {}
-  const { channelsRestoreState } = backupDesc
-  return !channelsRestoreState || channelsRestoreState === RESTORE_STATE_COMPLETE
-}
-
-/**
  * setRestoreState - Sets current restore state.
  *
- * @param {string} walletId
- * @param {(RESTORE_STATE_STARTED|RESTORE_STATE_COMPLETE|RESTORE_STATE_ERROR)} state
- * @returns {Promise}
+ * @param {string} walletId Wallet Id
+ * @param {(RESTORE_STATE_STARTED|RESTORE_STATE_COMPLETE|RESTORE_STATE_ERROR)} state State
+ * @returns {Function} Thunk
  */
-async function setRestoreState(walletId, state) {
+const setRestoreState = async (walletId, state) => {
   return await dbTransaction(async () => {
     const backupDesc = (await dbGet(walletId)) || {}
     backupDesc.channelsRestoreState = state
@@ -127,11 +257,10 @@ async function setRestoreState(walletId, state) {
  * or in `state.backup.provider` before calling this routine. Also starts SCB recovery if there is one pending.
  * Should be called after sync is complete e.g `synced_to_chain` is true.
  *
- * @export
- * @param {string} walletId - wallet identifier. if not specified uses current active wallet
- * @returns {Function}
+ * @param {string} walletId Wallet identifier. if not specified uses current active wallet
+ * @returns {Function} Thunk
  */
-export function initBackupService(walletId) {
+export const initBackupService = walletId => {
   return async (dispatch, getState) => {
     const wId = walletId || walletSelectors.activeWallet(getState())
     const backupDesc = await dbGet(wId)
@@ -159,7 +288,11 @@ export function initBackupService(walletId) {
 }
 
 /**
- * backupCurrentWallet - Backs up current active wallet
+ * backupCurrentWallet - Backs up current active wallet.
+ *
+ * @param {string} walletId Wallet identifier. if not specified uses current active wallet
+ * @param {object} backup Backup data
+ * @returns {Function} Thunk
  */
 export const backupCurrentWallet = (walletId, backup) => async (dispatch, getState) => {
   const getFreshBackup = async () => {
@@ -207,14 +340,10 @@ export const backupCurrentWallet = (walletId, backup) => async (dispatch, getSta
 }
 
 /**
- * saveBackupSuccess - IPC callback for successful backup.
- */
-export const saveBackupSuccess = (event, { provider, locationHint, walletId }) => async () => {
-  await updateLocationHint({ provider, locationHint, walletId })
-}
-
-/**
- * updateLocationHint - updates wallets' locationHint in the DB.
+ * updateLocationHint - Updates wallets' locationHint in the DB.
+ *
+ * @param {{ provider, locationHint, walletId }} options Options
+ *  @returns {Function} Thunk
  */
 export const updateLocationHint = async ({ provider, locationHint, walletId }) => {
   return await dbTransaction(async () => {
@@ -225,21 +354,11 @@ export const updateLocationHint = async ({ provider, locationHint, walletId }) =
 }
 
 /**
- * backupServiceInitialized - IPC callback for backup service being ready.
- */
-export const backupServiceInitialized = (event, { walletId }) => async (dispatch, getState) => {
-  const state = getState()
-  const isRestoreMode = backupSelectors.restoreModeSelector(state)
-  // service is in restore mode
-  if (isRestoreMode) {
-    dispatch(queryWalletBackup(walletId, backupSelectors.providerSelector(state)))
-  } else {
-    dispatch(backupCurrentWallet(walletId))
-  }
-}
-
-/**
- * updateBackupProvider - updates wallets' backup provider in the DB.
+ * updateBackupProvider - Updates wallet's backup provider in the DB.
+ *
+ * @param {string} walletId Wallet identifier
+ * @param {string} provider Provider name
+ * @returns {Function} Thunk
  */
 async function updateBackupProvider(walletId, provider) {
   await dbTransaction(async () => {
@@ -255,40 +374,12 @@ async function updateBackupProvider(walletId, provider) {
 }
 
 /**
- * setBackupProvider - sets current backup provider.
+ * queryWalletBackup - Query a backup provider for a wallet.
  *
- * @param {('gdrive'|'local'|'dropbox')} provider  backup service provider to be used in `initBackupService` call
+ * @param {string} walletId Wallet identifier
+ * @param {string} provider Provider name
+ * @returns {Function} Thunk
  */
-export const setBackupProvider = provider => {
-  return {
-    type: SET_PROVIDER,
-    provider,
-  }
-}
-
-/**
- * setBackupPathLocal - sets backup path for the local strategy.
- *
- * @param {string} localPath local filesystem directory URI
- */
-export const setBackupPathLocal = localPath => {
-  return {
-    type: SET_LOCAL_PATH,
-    localPath,
-  }
-}
-/**
- * setRestoreMode - turns restore mode on/off.
- *
- * @param {boolean} value true if restore mode is active
- */
-export const setRestoreMode = value => {
-  return {
-    type: SET_RESTORE_MODE,
-    value: isSCBRestoreEnabled() && value,
-  }
-}
-
 export const queryWalletBackup = (walletId, provider) => async (dispatch, getState) => {
   const backupDesc = (await dbGet(walletId)) || {}
   if (backupDesc[provider]) {
@@ -299,20 +390,12 @@ export const queryWalletBackup = (walletId, provider) => async (dispatch, getSta
   }
 }
 
-export const queryWalletBackupSuccess = (event, { walletId, backup }) => async dispatch => {
-  try {
-    await dispatch(restoreWallet(backup))
-    dispatch(setRestoreMode(false))
-    await setRestoreState(walletId, RESTORE_STATE_COMPLETE)
-  } catch (e) {
-    await setRestoreState(walletId, RESTORE_STATE_ERROR)
-  }
-}
-export const queryWalletBackupFailure = () => async dispatch => {
-  // TODO add intl support
-  dispatch(showError(`Unable to find backup file`))
-}
-
+/**
+ * restoreWallet - Restore a wallet backup.
+ *
+ * @param {object} backup Restore a channel backup
+ * @returns {Function} Thunk
+ */
 export const restoreWallet = backup => async dispatch => {
   try {
     const grpc = await grpcService
@@ -326,6 +409,10 @@ export const restoreWallet = backup => async dispatch => {
     dispatch(showError(`Backup import has failed: ${e.message}`))
   }
 }
+
+// ------------------------------------
+// Action Handlers
+// ------------------------------------
 
 const ACTION_HANDLERS = {
   [SET_PROVIDER]: (state, { provider }) => ({
@@ -342,12 +429,10 @@ const ACTION_HANDLERS = {
   }),
 }
 
-const initialState = {
-  provider: null,
-  isRestoreMode: false,
-}
-
+// ------------------------------------
 // Selectors
+// ------------------------------------
+
 const backupSelectors = {}
 backupSelectors.providerSelector = state => state.backup.provider
 backupSelectors.localPathSelector = state => state.backup.localPath
@@ -355,6 +440,17 @@ backupSelectors.restoreModeSelector = state => state.backup.isRestoreMode
 
 export { backupSelectors }
 
+// ------------------------------------
+// Reducer
+// ------------------------------------
+
+/**
+ * backupReducer - Backup reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
 export default function backupReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

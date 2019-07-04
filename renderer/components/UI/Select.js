@@ -80,7 +80,7 @@ const getInitialSelectedItem = (items, initialSelectedItem) => {
     : {}
 }
 
-function Select(props) {
+const Select = props => {
   const { intl, messageMapper } = props
   const inputRef = useRef(null)
   // eslint-disable-next-line react/destructuring-assignment
@@ -233,16 +233,17 @@ export { BasicSelect }
 
 const BasicSelectAsField = asField(BasicSelect)
 
-/**
- * Wrap the select field to make use of parse and format to display items using their mapped values.
- * This enables us to set the input value as the key, whilst displaying the mapped valued.
- */
+// Wrap the select field to make use of parse and format to display items using their mapped values.
+// This enables us to set the input value as the key, whilst displaying the mapped valued.
 const WrappedSelect = props => {
   const { intl, items, messageMapper } = props
   const mappedItems = useIntl(items, messageMapper, intl)
 
   /**
-   * Format item by mapping key to value.
+   * format - Format item by mapping key to value.
+   *
+   * @param {string} value Value to format
+   * @returns {string} Mapped value
    */
   const format = value => {
     if (value == null) {
@@ -253,7 +254,10 @@ const WrappedSelect = props => {
   }
 
   /**
-   * Parse item by mapping key to key.
+   * parse - Parse item by mapping key to key.
+   *
+   * @param {string} value Value to format
+   * @returns {string} Mapped value
    */
   const parse = value => {
     if (value == null) {

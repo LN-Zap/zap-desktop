@@ -12,6 +12,7 @@ import { openModal } from './modal'
 // ------------------------------------
 // Initial State
 // ------------------------------------
+
 const initialState = {
   isLoading: true,
   isMounted: false,
@@ -26,6 +27,7 @@ const initialState = {
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 export const SET_LOADING = 'SET_LOADING'
 export const SET_MOUNTED = 'SET_MOUNTED'
 export const INIT_DATABASE = 'INIT_DATABASE'
@@ -41,7 +43,13 @@ export const TERMINATE_APP_SUCCESS = 'TERMINATE_APP_SUCCESS'
 // ------------------------------------
 // Actions
 // ------------------------------------
-//
+
+/**
+ * setLoading - Set app loading state.
+ *
+ * @param {boolean} isLoading Boolean indicating whether the app is loading
+ * @returns {object} Action
+ */
 export function setLoading(isLoading) {
   return {
     type: SET_LOADING,
@@ -49,6 +57,12 @@ export function setLoading(isLoading) {
   }
 }
 
+/**
+ * setLoading - Set app mount state.
+ *
+ * @param {boolean} isMounted Boolean indicating whether the app has been mounted
+ * @returns {object} Action
+ */
 export function setMounted(isMounted) {
   return {
     type: SET_MOUNTED,
@@ -56,12 +70,22 @@ export function setMounted(isMounted) {
   }
 }
 
+/**
+ * resetApp - Reset app state.
+ *
+ * @returns {object} Action
+ */
 export function resetApp() {
   return {
     type: RESET_APP,
   }
 }
 
+/**
+ * logout - Perform wallet logout.
+ *
+ * @returns {Function} Thunk
+ */
 export const logout = () => dispatch => {
   dispatch({ type: LOGOUT })
   dispatch(setIsWalletOpen(false))
@@ -70,6 +94,11 @@ export const logout = () => dispatch => {
   dispatch({ type: LOGOUT_SUCCESS })
 }
 
+/**
+ * initDatabase - Initialize app database.
+ *
+ * @returns {Function} Thunk
+ */
 export const initDatabase = () => async dispatch => {
   dispatch({ type: INIT_DATABASE })
   try {
@@ -81,8 +110,16 @@ export const initDatabase = () => async dispatch => {
   }
 }
 
+// ------------------------------------
+// IPC
+// ------------------------------------
+
 /**
- * IPC handler for 'initApp' message.
+ * initApp - IPC handler for 'initApp' message.
+ *
+ * @param {object} event Event
+ * @param {object} options Options
+ * @returns {Function} Thunk
  */
 export const initApp = (event, options = {}) => async (dispatch, getState) => {
   dispatch({ type: INIT_APP, options })
@@ -97,7 +134,9 @@ export const initApp = (event, options = {}) => async (dispatch, getState) => {
 }
 
 /**
- * IPC handler for 'terminateApp' message
+ * terminateApp - IPC handler for 'terminateApp' message.
+ *
+ * @returns {Function} Thunk
  */
 export const terminateApp = () => async dispatch => {
   try {
@@ -112,6 +151,8 @@ export const terminateApp = () => async dispatch => {
 
 /**
  * openPreferences - IPC handler for 'openPreferences' message.
+ *
+ * @returns {Function} Thunk
  */
 export const openPreferences = () => dispatch => {
   dispatch(openModal('SETTINGS'))
@@ -120,6 +161,7 @@ export const openPreferences = () => dispatch => {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [INIT_APP]: state => ({ ...state, isRunning: true }),
   [INIT_DATABASE]: state => ({ ...state }),
@@ -172,7 +214,15 @@ export { appSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
-export default function loadingReducer(state = initialState, action) {
+
+/**
+ * appReducer - App reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
+export default function appReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
   return handler ? handler(state, action) : state

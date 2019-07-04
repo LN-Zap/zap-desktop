@@ -8,11 +8,10 @@ const resolveBackupPath = walletId => `/${walletId}/${config.backup.filename}`
 
 export default class BackupService extends TokenBasedBackupService {
   /**
-   * Sets up dropbox  service for usage. This method must be called before calling any other methods
+   * init - Sets up dropbox service for usage. This method must be called before calling any other methods.
    *
    * @param {object} tokens google api compliant token desc
    * `{access_token,expiry_date,refresh_token,scope,token_type}`
-   * @returns
    * @memberof BackupService
    */
   async init(tokens) {
@@ -27,10 +26,10 @@ export default class BackupService extends TokenBasedBackupService {
   }
 
   /**
-   * Loads backup for the specified wallet
+   * loadBackup - Loads backup for the specified wallet.
    *
-   * @param {string} walletId
-   * @returns {Buffer} wallet backup as a `Buffer`
+   * @param {string} walletId Wallet Id
+   * @returns {Buffer} Wallet backup as a `Buffer`
    * @memberof BackupService
    */
   async loadBackup({ walletId }) {
@@ -38,7 +37,7 @@ export default class BackupService extends TokenBasedBackupService {
   }
 
   /**
-   * Saves specified backup
+   * saveBackup - Saves specified backup.
    *
    * @param {string} walletId desired file name
    * @param {Buffer} backup `Buffer` with backup data
@@ -55,12 +54,7 @@ export default class BackupService extends TokenBasedBackupService {
     }
   })
 
-  /**
-   * Provider name
-   *
-   * @readonly
-   * @memberof BackupService
-   */
+  // Define the name of this backup service.
   get name() {
     return 'dropbox'
   }

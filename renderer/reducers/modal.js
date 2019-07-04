@@ -5,6 +5,7 @@ import genId from '@zap/utils/genId'
 // ------------------------------------
 // Initial State
 // ------------------------------------
+
 const initialState = {
   modals: [],
 }
@@ -12,16 +13,40 @@ const initialState = {
 // ------------------------------------
 // Constants
 // ------------------------------------
+
 export const OPEN_MODAL = 'OPEN_MODAL'
 export const CLOSE_MODAL = 'CLOSE_MODAL'
 export const CLOSE_ALL_MODALS = 'CLOSE_ALL_MODALS'
 export const SET_MODALS = 'SET_MODALS'
 
-const createModalData = (type, options) => ({ id: genId(), type, options })
+// ------------------------------------
+// Helpers
+// ------------------------------------
+//
+/**
+ * createModalData - Create base data for new modal.
+ *
+ * @param  {string} type Modal type
+ * @param  {object} options Modal options
+ * @returns {object} Base data for new modal
+ */
+const createModalData = (type, options) => ({
+  id: genId(),
+  type,
+  options,
+})
 
 // ------------------------------------
 // Actions
 // ------------------------------------
+
+/**
+ * openModal - Open a specific modal.
+ *
+ * @param  {string} type Name of modal to open
+ * @param  {object} options Options to apply to the modal
+ * @returns {Function} Thunk
+ */
 export const openModal = (type, options) => (dispatch, getState) => {
   const modals = modalSelectors.getModalState(getState())
   if (!modals.find(m => m.type === type)) {
@@ -32,6 +57,12 @@ export const openModal = (type, options) => (dispatch, getState) => {
   }
 }
 
+/**
+ * closeModal - Close a specific modal (or the top modal if id is ommitted).
+ *
+ * @param  {string} id Id modal to close
+ * @returns {object} Action
+ */
 export function closeModal(id) {
   return {
     type: CLOSE_MODAL,
@@ -39,6 +70,12 @@ export function closeModal(id) {
   }
 }
 
+/**
+ * closeModal - Close a specific modal (or the top modal if id is ommitted).
+ *
+ * @param  {object} predicate Set of attributes used to find modals to close
+ * @returns {object} Action
+ */
 export function closeAllModals(predicate) {
   return (dispatch, getState) => {
     // returns a specific list of modal ids that have to be closed
@@ -68,6 +105,12 @@ export function closeAllModals(predicate) {
   }
 }
 
+/**
+ * setModals - The list of current open modals.
+ *
+ * @param  {Array} modalList List of modals
+ * @returns {object} Action
+ */
 export function setModals(modalList = []) {
   const modals = modalList.map(({ type, options }) => createModalData(type, options))
   return {
@@ -79,6 +122,7 @@ export function setModals(modalList = []) {
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [OPEN_MODAL]: (state, { modal }) => ({
     ...state,
@@ -118,6 +162,14 @@ export { modalSelectors }
 // ------------------------------------
 // Reducer
 // ------------------------------------
+
+/**
+ * modalReducer - Modal reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
 export default function modalReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 

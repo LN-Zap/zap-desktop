@@ -19,7 +19,7 @@ const Container = styled(animated.div)`
   width: 100%;
 `
 
-function getButtonText(isActive, isEditMode) {
+const getButtonText = (isActive, isEditMode) => {
   if (isEditMode) {
     return messages.edit_button_text
   }

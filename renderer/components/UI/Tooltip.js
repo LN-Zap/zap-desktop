@@ -26,7 +26,6 @@ const StyledTooltipWrapper = styled(Card)`
 StyledTooltipWrapper.displayName = 'TooltipWrapper'
 
 /**
- * @render react
  * @name Tooltip
  * @example
  * <Tooltip>Some explanation text here</Tooltip>

@@ -15,7 +15,7 @@ const isNumericRegex = /^\d+$/
  * isNumeric - Test if a string contains only numeric values.
  *
  * @param  {string} value Value
- * @returns {boolean} Boolean indicating wether value is numeric
+ * @returns {boolean} Boolean indicating whether value is numeric
  */
 const isNumeric = value => isNumericRegex.test(value)
 
@@ -68,7 +68,6 @@ const preventNonNumericOnPaste = e => {
 }
 
 /**
- * @render react
  * @name IntegerInput
  */
 class IntegerInput extends React.Component {
@@ -132,5 +131,4 @@ class WrappedIntegerInputAsField extends React.Component {
   }
 }
 
-export { IntegerInput }
 export default WrappedIntegerInputAsField

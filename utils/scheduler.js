@@ -115,7 +115,7 @@ export default function createScheduler() {
    * removeTask - Removes `task` from the execution queue.
    *
    * @param {string|Function} task - either original callback or `taskId`
-   * @returns {boolean} Boolean indicating wether the task was removed
+   * @returns {boolean} Boolean indicating whether the task was removed
    */
   const removeTask = task => {
     const taskDesc = findTask(task)
@@ -137,7 +137,7 @@ export default function createScheduler() {
    * isScheduled - Checks whether `task` is in the execution queue.
    *
    * @param {string|Function} task - either original callback or `taskId`
-   * @returns {boolean} Boolean indicating wether the task is scheduled
+   * @returns {boolean} Boolean indicating whether the task is scheduled
    */
   const isScheduled = task => {
     const taskDesc = findTask(task)

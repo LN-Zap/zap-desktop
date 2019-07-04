@@ -9,12 +9,6 @@ import Spinner from './Spinner'
 const indicatorStyle = variant({ key: 'statuses' })
 const StyledStatusIndicator = styled(Box)(indicatorStyle)
 
-/**
- * @render react
- * @name StatusIndicator
- * @example
- * <StatusIndicator variant="online" />
- */
 const StatusIndicator = ({ variant, ...rest }) => (
   <StyledStatusIndicator variant={variant} {...rest}>
     {['loading'].includes(variant) ? (

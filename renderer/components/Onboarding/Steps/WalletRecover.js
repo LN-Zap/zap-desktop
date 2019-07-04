@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { Bar, Form, Header, Message, Input, Spinner, Text } from 'components/UI'
+import ErrorDialog from './components/ErrorDialog'
 import messages from './messages'
 
 const isInvalidPassphrase = error => error === 'invalid passphrase'
@@ -49,13 +50,18 @@ class WalletRecover extends React.Component {
     clearCreateWalletError()
   }
 
-  handleSubmit = values => {
+  handleSubmit = async values => {
     const { createWallet, setPassphrase } = this.props
     const { passphrase } = values
     if (passphrase) {
       setPassphrase(passphrase)
     }
-    createWallet({ recover: true })
+    await createWallet({ recover: true })
+  }
+
+  resetOnboarding = () => {
+    const { wizardApi } = this.props
+    wizardApi.navigateTo(0)
   }
 
   setFormApi = formApi => {
@@ -129,6 +135,12 @@ class WalletRecover extends React.Component {
                   )}
                 </>
               )}
+              <ErrorDialog
+                error={createWalletError}
+                isOpen={Boolean(createWalletError)}
+                isRestoreMode
+                onClose={this.resetOnboarding}
+              />
             </>
           )
         }}

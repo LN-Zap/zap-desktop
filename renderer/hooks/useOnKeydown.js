@@ -1,9 +1,13 @@
 import { useEffect } from 'react'
+
 /**
- * React hook that triggers @action when @key is pressed
+ * useOnKeydown - React hook that triggers @action when @key is pressed.
+ *
+ * @param {string} key Key pressed
+ * @param {Function} action Action to perform on keydown
  */
 export default function useOnKeydown(key, action) {
-  function onKeyDown(e) {
+  const onKeyDown = e => {
     if (e.key === key && action) {
       action()
     }

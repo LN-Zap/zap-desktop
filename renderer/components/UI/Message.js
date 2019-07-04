@@ -11,12 +11,6 @@ import Spinner from './Spinner'
 const messageStyle = variant({ key: 'messages' })
 const StyledMessage = styled(Text)(messageStyle)
 
-/**
- * @render react
- * @name Message
- * @example
- * <Message message="Error message" />
- */
 class Message extends React.Component {
   static displayName = 'Message'
 

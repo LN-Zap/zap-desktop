@@ -31,7 +31,7 @@ export const coinTypes = {
  * decodePayReq - Decodes a payment request.
  *
  * @param {string} payReq Payment request
- * @param {boolean} addDefaults Boolean indicating wether to inject default values (default=true)
+ * @param {boolean} addDefaults Boolean indicating whether to inject default values (default=true)
  * @returns {*} Decoded payment request
  */
 export const decodePayReq = (payReq, addDefaults = true) => {
@@ -113,7 +113,7 @@ export const parseNumber = (_value, precision) => {
  * @param {string} input Value to check
  * @param {string} chain Chain name
  * @param {string} network Network name
- * @returns {boolean} Boolean indicating wether the address is a valid on-chain address
+ * @returns {boolean} Boolean indicating whether the address is a valid on-chain address
  */
 export const isOnchain = (input, chain, network) => {
   if (!input || !chain || !network) {
@@ -134,7 +134,7 @@ export const isOnchain = (input, chain, network) => {
  * @param {string} input Value to check
  * @param {string} chain Chain name
  * @param {string} network Network name
- * @returns {boolean} Boolean indicating wether the address is a lightning address
+ * @returns {boolean} Boolean indicating whether the address is a lightning address
  */
 export const isLn = (input, chain = 'bitcoin', network = 'mainnet') => {
   if (!input || typeof input !== 'string') {

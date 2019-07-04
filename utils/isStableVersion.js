@@ -5,7 +5,7 @@ import semver from 'semver'
  *
  * @param  {string}  version Version to check
  * @param  {string}  stableVersion Current stable version
- * @returns {boolean} Boolean indicating wether version has the same major and minor version as stableVersion
+ * @returns {boolean} Boolean indicating whether version has the same major and minor version as stableVersion
  */
 const isStableVersion = (version, stableVersion) => {
   const current = semver.coerce(version)

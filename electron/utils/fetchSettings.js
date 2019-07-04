@@ -4,8 +4,11 @@ import { mainLog } from '@zap/utils/log'
 import getDbName from '@zap/utils/db'
 
 /**
- * Fetch user settings from indexedDb.
+ * fetchSettings - Fetch user settings from indexedDb.
+ *
  * We do this by starting up a new browser window and accessing indexedDb from within it.
+ *
+ * @returns {Promise<object>} Object representing the indexedDb Settings table
  */
 const fetchSettings = () => {
   const win = new BrowserWindow({

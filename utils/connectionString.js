@@ -7,7 +7,7 @@ import isBase64url from '@zap/utils/isBase64url'
  * isValidLndConnectUri - Check for a valid lndconnect uri.
  *
  * @param {string} value String to validate
- * @returns {boolean} Boolean indicating wether the string is a valid or not
+ * @returns {boolean} Boolean indicating whether the string is a valid or not
  */
 export function isValidLndConnectUri(value) {
   try {
@@ -22,7 +22,7 @@ export function isValidLndConnectUri(value) {
  * isValidBtcPayConfig - Check for a valid BtcPayServer connection string.
  *
  * @param {string} value String to validate
- * @returns {boolean} Boolean indicating wether the string is a valid or not
+ * @returns {boolean} Boolean indicating whether the string is a valid or not
  */
 export function isValidBtcPayConfig(value) {
   try {
@@ -40,7 +40,7 @@ export function isValidBtcPayConfig(value) {
  * isEmbeddedLndConnectURI - Checks if lndconnect uri contains raw cert or macaroon and not paths.
  *
  * @param {string} uri String to check
- * @returns {boolean} Boolean indicating wether the string is an embedded lndconnect uri
+ * @returns {boolean} Boolean indicating whether the string is an embedded lndconnect uri
  */
 export function isEmbeddedLndConnectURI(uri) {
   try {

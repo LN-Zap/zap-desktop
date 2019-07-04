@@ -86,7 +86,6 @@ const Code = styled(QRCode)`
 `
 
 /**
- * @render react
  * @name QRCode
  * @example
  * <QRCode value="103456789" />

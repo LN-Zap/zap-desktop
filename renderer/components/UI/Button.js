@@ -21,7 +21,6 @@ const Wrapper = styled(BaseButton)`
 Wrapper.displayName = 'Button'
 
 /**
- * @render react
  * @name Button
  * @example
  * <Button><Basic button</Button>

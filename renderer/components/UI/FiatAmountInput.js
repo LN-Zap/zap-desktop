@@ -10,7 +10,6 @@ import { withNumberInputMask } from 'hocs'
 import { BasicInput } from './Input'
 
 /**
- * @render react
  * @name FiatAmountInput
  */
 class FiatAmountInput extends React.Component {

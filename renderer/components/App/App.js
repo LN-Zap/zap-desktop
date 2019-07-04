@@ -24,7 +24,7 @@ const PEERS_REFETCH_BACKOFF_SCHEDULE = 2
 // App scheduler / polling service
 const appScheduler = createScheduler()
 
-function App({
+const App = ({
   isAppReady,
   modals,
   redirectPayReq,
@@ -37,7 +37,7 @@ function App({
   initBackupService,
   fetchSuggestedNodes,
   initTickers,
-}) {
+}) => {
   /**
    * App scheduler / polling service setup. Add new app-wide polls here
    */

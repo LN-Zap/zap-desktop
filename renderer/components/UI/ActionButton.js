@@ -33,7 +33,7 @@ const ActionButton = ({ children, hint, onClick, timeout, ...rest }) => {
     }
   }, [status, triggerAction])
 
-  function handleClick() {
+  const handleClick = () => {
     setStatus('fetching')
   }
 

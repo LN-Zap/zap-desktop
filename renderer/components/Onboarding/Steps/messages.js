@@ -89,7 +89,7 @@ export default defineMessages({
   verify_host_description: 'Please check the hostname carefully.',
   verify_host_title: 'Are you sure you want to connect to',
   wallet_name_description:
-    'This is for internal purposes only and will not be broadcasted on the Lightning Network.',
+    'This is for your convenience only and will not be broadcasted on the Lightning Network.',
   wallet_name_title: 'Name your wallet',
   wallet_name_label: 'Wallet Name',
   word_placeholder: 'word',
@@ -108,5 +108,5 @@ export default defineMessages({
   backup_path_label: 'Backup directory',
   backup_path_description: 'Channel backups will be stored here',
   backup_dir_not_exist: 'Directory does not exist',
-  backup_skip_error: 'An error has occured',
+  backup_skip_error: 'An error has occurred',
 })

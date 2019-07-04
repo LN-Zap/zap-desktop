@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import Label from './Label'
 import Text from './Text'
 
-export default function RowLabel({ nameMessage, descMessage, htmlFor }) {
+const RowLabel = ({ nameMessage, descMessage, htmlFor }) => {
   return (
     <>
       <Label htmlFor={htmlFor} mb={2}>
@@ -22,3 +22,5 @@ RowLabel.propTypes = {
   htmlFor: PropTypes.string,
   nameMessage: PropTypes.object.isRequired,
 }
+
+export default RowLabel

@@ -1,8 +1,36 @@
 import config from 'config'
 
 // ------------------------------------
+// Initial State
+// ------------------------------------
+
+const initialState = {
+  isSkipBackupDialogOpen: false,
+  isOnboarding: false,
+  isOnboarded: false,
+  autopilot: config.lnd.autopilot.active,
+  chain: config.chain,
+  network: config.network,
+  validatingHost: false,
+  validatingCert: false,
+  validatingMacaroon: false,
+  lndConnect: null,
+  connectionType: 'create',
+  connectionString: '',
+  connectionHost: '',
+  connectionCert: '',
+  connectionMacaroon: '',
+  alias: '',
+  name: '',
+  password: '',
+  passphrase: '',
+  seed: [],
+}
+
+// ------------------------------------
 // Constants
 // ------------------------------------
+
 export const SET_CONNECTION_TYPE = 'SET_CONNECTION_TYPE'
 export const SET_CONNECTION_URI = 'SET_CONNECTION_URI'
 export const SET_CONNECTION_HOST = 'SET_CONNECTION_HOST'
@@ -25,6 +53,22 @@ export const OPEN_SKIP_BACKUP_DIALOG = 'OPEN_SKIP_BACKUP_DIALOG'
 export const CLOSE_SKIP_BACKUP_DIALOG = 'CLOSE_SKIP_BACKUP_DIALOG'
 
 // ------------------------------------
+// IPC
+// ------------------------------------
+
+/**
+ * lndconnectUri - Set the lndconnect uri.
+ * Used to initiate new wallet creation.
+ *
+ * @param {object} event Event
+ * @param {string} lndConnect LND Connect URI
+ * @returns {Function} Thunk
+ */
+export const lndconnectUri = (event, lndConnect) => dispatch => {
+  dispatch(setLndconnect(lndConnect))
+}
+
+// ------------------------------------
 // Actions
 // ------------------------------------
 
@@ -32,9 +76,30 @@ export const resetOnboarding = () => dispatch => {
   dispatch({ type: RESET_ONBOARDING })
 }
 
-export const showSkipBackupDialog = () => ({ type: OPEN_SKIP_BACKUP_DIALOG })
-export const hideSkipBackupDialog = () => ({ type: CLOSE_SKIP_BACKUP_DIALOG })
+/**
+ * showSkipBackupDialog - Show the skip backup dialog.
+ *
+ * @returns {object} Action
+ */
+export const showSkipBackupDialog = () => ({
+  type: OPEN_SKIP_BACKUP_DIALOG,
+})
 
+/**
+ * hideSkipBackupDialog - Hide the skip backup dialog.
+ *
+ * @returns {object} Action
+ */
+export const hideSkipBackupDialog = () => ({
+  type: CLOSE_SKIP_BACKUP_DIALOG,
+})
+
+/**
+ * setConnectionString - Set the connection string.
+ *
+ * @param {string} connectionString Connection string
+ * @returns {object} Action
+ */
 export function setConnectionString(connectionString) {
   return {
     type: SET_CONNECTION_URI,
@@ -42,6 +107,12 @@ export function setConnectionString(connectionString) {
   }
 }
 
+/**
+ * setConnectionType - Set the connection type.
+ *
+ * @param {string} connectionType Connection type
+ * @returns {object} Action
+ */
 export function setConnectionType(connectionType) {
   return {
     type: SET_CONNECTION_TYPE,
@@ -49,6 +120,12 @@ export function setConnectionType(connectionType) {
   }
 }
 
+/**
+ * setConnectionHost - Set the connection host.
+ *
+ * @param {string} connectionHost Connection host
+ * @returns {object} Action
+ */
 export function setConnectionHost(connectionHost) {
   return {
     type: SET_CONNECTION_HOST,
@@ -56,6 +133,12 @@ export function setConnectionHost(connectionHost) {
   }
 }
 
+/**
+ * setConnectionCert - Set the connection cert.
+ *
+ * @param {string} connectionCert Connection cert
+ * @returns {object} Action
+ */
 export function setConnectionCert(connectionCert) {
   return {
     type: SET_CONNECTION_CERT,
@@ -63,6 +146,12 @@ export function setConnectionCert(connectionCert) {
   }
 }
 
+/**
+ * setConnectionMacaroon - Set the connection macaroon.
+ *
+ * @param {string} connectionMacaroon Connection macaroon
+ * @returns {object} Action
+ */
 export function setConnectionMacaroon(connectionMacaroon) {
   return {
     type: SET_CONNECTION_MACAROON,
@@ -70,6 +159,12 @@ export function setConnectionMacaroon(connectionMacaroon) {
   }
 }
 
+/**
+ * setAlias - Set the node alias.
+ *
+ * @param {string} alias Alias
+ * @returns {object} Action
+ */
 export function setAlias(alias) {
   return {
     type: SET_ALIAS,
@@ -77,6 +172,12 @@ export function setAlias(alias) {
   }
 }
 
+/**
+ * setName - Set the wallet name.
+ *
+ * @param {string} name Name
+ * @returns {object} Action
+ */
 export function setName(name) {
   return {
     type: SET_NAME,
@@ -84,6 +185,12 @@ export function setName(name) {
   }
 }
 
+/**
+ * setAutopilot - Set autopilot status.
+ *
+ * @param {boolean} autopilot Boolean indicating autopilot status
+ * @returns {object} Action
+ */
 export function setAutopilot(autopilot) {
   return {
     type: SET_AUTOPILOT,
@@ -91,6 +198,12 @@ export function setAutopilot(autopilot) {
   }
 }
 
+/**
+ * setName - Set the blockchain to connect to.
+ *
+ * @param {('bitcoin'|'litecoin')} chain Chain name
+ * @returns {object} Action
+ */
 export function setChain(chain) {
   return {
     type: SET_CHAIN,
@@ -98,6 +211,12 @@ export function setChain(chain) {
   }
 }
 
+/**
+ * setNetwork - Set the network to connect to.
+ *
+ * @param {('testnet'|'mainnet')} network Network name
+ * @returns {object} Action
+ */
 export function setNetwork(network) {
   return {
     type: SET_NETWORK,
@@ -105,6 +224,12 @@ export function setNetwork(network) {
   }
 }
 
+/**
+ * setNetwork - Set the password used to unlock the wallet.
+ *
+ * @param {string} password Password
+ * @returns {object} Action
+ */
 export function setPassword(password) {
   return {
     type: SET_PASSWORD,
@@ -112,6 +237,12 @@ export function setPassword(password) {
   }
 }
 
+/**
+ * setNetwork - Set the password used to encrypt the seed.
+ *
+ * @param {string} passphrase Passphrase
+ * @returns {object} Action
+ */
 export function setPassphrase(passphrase) {
   return {
     type: SET_PASSPHRASE,
@@ -119,6 +250,12 @@ export function setPassphrase(passphrase) {
   }
 }
 
+/**
+ * setSeed - Set the seed.
+ *
+ * @param {Array} seed Seed
+ * @returns {object} Action
+ */
 export function setSeed(seed) {
   return {
     type: SET_SEED,
@@ -126,6 +263,12 @@ export function setSeed(seed) {
   }
 }
 
+/**
+ * setLndconnect - Set the lndconnect string.
+ *
+ * @param {string} lndConnect LndConnect string
+ * @returns {object} Action
+ */
 export function setLndconnect(lndConnect) {
   return {
     type: SET_LNDCONNECT,
@@ -133,6 +276,12 @@ export function setLndconnect(lndConnect) {
   }
 }
 
+/**
+ * validateHost - Validate that a host can be connected to.
+ *
+ * @param {string} host Host to validate
+ * @returns {Function} Thunk
+ */
 export const validateHost = host => async dispatch => {
   try {
     dispatch({ type: VALIDATING_HOST, validatingHost: true })
@@ -145,6 +294,12 @@ export const validateHost = host => async dispatch => {
   }
 }
 
+/**
+ * validateHost - Validate a cart can be found on disk.
+ *
+ * @param {string} certPath Cert file to validate
+ * @returns {Function} Thunk
+ */
 export const validateCert = certPath => async dispatch => {
   try {
     dispatch({ type: VALIDATING_CERT, validatingCert: true })
@@ -160,6 +315,12 @@ export const validateCert = certPath => async dispatch => {
   }
 }
 
+/**
+ * validateMacaroon - Validate a macaroon can be found on disk.
+ *
+ * @param {string} macaroonPath Macaroon file to validate
+ * @returns {Function} Thunk
+ */
 export const validateMacaroon = macaroonPath => async dispatch => {
   try {
     dispatch({ type: VALIDATING_MACAROON, validatingMacaroon: true })
@@ -175,13 +336,10 @@ export const validateMacaroon = macaroonPath => async dispatch => {
   }
 }
 
-export const lndconnectUri = (event, lndConnect) => dispatch => {
-  dispatch(setLndconnect(lndConnect))
-}
-
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
+
 const ACTION_HANDLERS = {
   [SET_CONNECTION_TYPE]: (state, { connectionType }) => ({ ...state, connectionType }),
   [SET_CONNECTION_URI]: (state, { connectionString }) => ({ ...state, connectionString }),
@@ -215,32 +373,13 @@ const ACTION_HANDLERS = {
 // Reducer
 // ------------------------------------
 
-const initialState = {
-  isSkipBackupDialogOpen: false,
-  isOnboarding: false,
-  isOnboarded: false,
-  autopilot: config.lnd.autopilot.active,
-  chain: config.chain,
-  network: config.network,
-  validatingHost: false,
-  validatingCert: false,
-  validatingMacaroon: false,
-  lndConnect: null,
-  connectionType: 'create',
-  connectionString: '',
-  connectionHost: '',
-  connectionCert: '',
-  connectionMacaroon: '',
-  alias: '',
-  name: '',
-  password: '',
-  passphrase: '',
-  seed: [],
-}
-
-// ------------------------------------
-// Reducer
-// ------------------------------------
+/**
+ * onboardingReducer - Onboarding reducer.
+ *
+ * @param  {object} state = initialState Initial state
+ * @param  {object} action Action
+ * @returns {object} Next state
+ */
 export default function onboardingReducer(state = initialState, action) {
   const handler = ACTION_HANDLERS[action.type]
 
