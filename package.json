@@ -48,7 +48,9 @@
       "binarySite": "https://github.com/LN-Zap/lnd/releases/download"
     }
   },
-  "sideEffects": false,
+  "sideEffects": [
+    "./i18n/locale.js"
+  ],
   "browserslist": [
     "electron 5.0"
   ],
