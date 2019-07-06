@@ -27,7 +27,7 @@
   "components.Activity.Payment.amount": "Iznos",
   "components.Activity.Payment.fee": "Naknada",
   "components.Activity.Payment.status_error": "Došlo je do greške prilikom slanja vašg plaćanja.",
-  "components.Activity.Payment.status_processing": "Zap procesuira vaše plaćanje. Ovo može potrajati do jedne minute.",
+  "components.Activity.Payment.status_processing": "Zap procesuira vaše plaćanje...",
   "components.Activity.Payment.status_success": "Vaše plaćanje je bilo uspješno.",
   "components.Activity.Payment.type": "LN plaćanje",
   "components.Activity.Payment.unknown": "",
