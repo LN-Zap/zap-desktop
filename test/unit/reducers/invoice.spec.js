@@ -64,12 +64,6 @@ describe('reducers', () => {
       expect(invoiceReducer(undefined, { type: RECEIVE_INVOICE, invoice: 'foo' })).toMatchSnapshot()
     })
 
-    it('should correctly receiveFormInvoice', () => {
-      expect(
-        invoiceReducer(undefined, { type: RECEIVE_FORM_INVOICE, formInvoice: { payreq: 'foo' } })
-      ).toMatchSnapshot()
-    })
-
     it('should correctly getInvoices', () => {
       expect(invoiceReducer(undefined, { type: GET_INVOICES })).toMatchSnapshot()
     })
