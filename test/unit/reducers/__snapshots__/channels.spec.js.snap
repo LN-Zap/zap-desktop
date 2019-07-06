@@ -75,7 +75,6 @@ Object {
   "suggestedNodesError": null,
   "suggestedNodesLoading": false,
   "viewMode": "card",
-  "viewType": 0,
 }
 `;
 
@@ -154,7 +153,6 @@ Object {
   "suggestedNodesError": null,
   "suggestedNodesLoading": false,
   "viewMode": "card",
-  "viewType": 0,
 }
 `;
 
@@ -233,6 +231,5 @@ Object {
   "suggestedNodesError": null,
   "suggestedNodesLoading": false,
   "viewMode": "card",
-  "viewType": 0,
 }
 `;

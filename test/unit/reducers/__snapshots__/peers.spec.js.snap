@@ -2,8 +2,6 @@
 
 exports[`reducers peersReducer should correctly getPeers 1`] = `
 Object {
-  "connecting": false,
-  "disconnecting": false,
   "isPeersLoading": true,
   "peers": Array [],
   "peersLoadingError": null,
@@ -12,8 +10,6 @@ Object {
 
 exports[`reducers peersReducer should correctly receivePeers 1`] = `
 Object {
-  "connecting": false,
-  "disconnecting": false,
   "isPeersLoading": false,
   "peers": "foo",
   "peersLoadingError": null,
@@ -22,8 +18,6 @@ Object {
 
 exports[`reducers peersReducer should handle initial state 1`] = `
 Object {
-  "connecting": false,
-  "disconnecting": false,
   "isPeersLoading": false,
   "peers": Array [],
   "peersLoadingError": null,
