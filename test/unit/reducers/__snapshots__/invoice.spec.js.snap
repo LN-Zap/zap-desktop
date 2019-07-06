@@ -4,11 +4,6 @@ exports[`reducers invoiceReducer should correctly getInvoice 1`] = `
 Object {
   "createInvoiceError": null,
   "data": Object {},
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
   "invoice": null,
   "invoiceLoading": true,
   "invoices": Array [],
@@ -19,11 +14,6 @@ exports[`reducers invoiceReducer should correctly getInvoices 1`] = `
 Object {
   "createInvoiceError": null,
   "data": Object {},
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
   "invoice": null,
   "invoiceLoading": true,
   "invoices": Array [],
@@ -34,11 +24,6 @@ exports[`reducers invoiceReducer should correctly invcoiceFailed 1`] = `
 Object {
   "createInvoiceError": null,
   "data": null,
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
   "invoice": null,
   "invoiceLoading": false,
   "invoices": Array [],
@@ -49,26 +34,6 @@ exports[`reducers invoiceReducer should correctly invcoiceSuccessful 1`] = `
 Object {
   "createInvoiceError": null,
   "data": Object {},
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
-  "invoice": null,
-  "invoiceLoading": false,
-  "invoices": Array [],
-}
-`;
-
-exports[`reducers invoiceReducer should correctly receiveFormInvoice 1`] = `
-Object {
-  "createInvoiceError": null,
-  "data": Object {},
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
   "invoice": null,
   "invoiceLoading": false,
   "invoices": Array [],
@@ -79,11 +44,6 @@ exports[`reducers invoiceReducer should correctly receiveInvoice 1`] = `
 Object {
   "createInvoiceError": null,
   "data": Object {},
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
   "invoice": "foo",
   "invoiceLoading": false,
   "invoices": Array [],
@@ -94,11 +54,6 @@ exports[`reducers invoiceReducer should correctly receiveInvoices 1`] = `
 Object {
   "createInvoiceError": null,
   "data": Object {},
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
   "invoice": null,
   "invoiceLoading": false,
   "invoices": Array [
@@ -112,11 +67,6 @@ exports[`reducers invoiceReducer should correctly sendInvoice 1`] = `
 Object {
   "createInvoiceError": null,
   "data": Object {},
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
   "invoice": null,
   "invoiceLoading": true,
   "invoices": Array [],
@@ -127,11 +77,6 @@ exports[`reducers invoiceReducer should correctly setInvoice 1`] = `
 Object {
   "createInvoiceError": null,
   "data": Object {},
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
   "invoice": "foo",
   "invoiceLoading": false,
   "invoices": Array [],
@@ -142,11 +87,6 @@ exports[`reducers invoiceReducer should handle initial state 1`] = `
 Object {
   "createInvoiceError": null,
   "data": Object {},
-  "formInvoice": Object {
-    "amount": "0",
-    "payreq": "",
-    "r_hash": "",
-  },
   "invoice": null,
   "invoiceLoading": false,
   "invoices": Array [],
