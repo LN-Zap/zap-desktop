@@ -31,7 +31,6 @@ const initialState = {
   closingChannelIds: [],
   closingChannel: false,
   searchQuery: null,
-  viewType: 0,
 
   filter: 'ALL_CHANNELS',
   filters: [
