@@ -8,8 +8,6 @@ const initialState = {
   isPeersLoading: false,
   peersLoadingError: null,
   peers: [],
-  connecting: false,
-  disconnecting: false,
 }
 
 // ------------------------------------
