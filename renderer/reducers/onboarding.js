@@ -6,8 +6,6 @@ import config from 'config'
 
 const initialState = {
   isSkipBackupDialogOpen: false,
-  isOnboarding: false,
-  isOnboarded: false,
   autopilot: config.lnd.autopilot.active,
   chain: config.chain,
   network: config.network,

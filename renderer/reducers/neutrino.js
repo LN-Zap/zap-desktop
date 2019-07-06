@@ -405,7 +405,7 @@ export const neutrinoSyncStatus = status => async dispatch => {
       // Persist the fact that the wallet has been synced at least once.
       dispatch(setHasSynced(true))
 
-      // HTML 5 desktop notification for the new transaction
+      // HTML 5 desktop notification for sync completion
       showSystemNotification(notifTitle, notifBody)
       break
   }

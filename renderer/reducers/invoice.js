@@ -18,11 +18,6 @@ const initialState = {
   invoices: [],
   invoice: null,
   data: {},
-  formInvoice: {
-    payreq: '',
-    r_hash: '',
-    amount: '0',
-  },
 }
 
 // ------------------------------------
