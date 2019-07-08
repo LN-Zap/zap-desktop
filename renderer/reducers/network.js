@@ -1,6 +1,7 @@
 import { createSelector } from 'reselect'
 import { grpcService } from 'workers'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -31,29 +32,19 @@ export const UPDATE_NODE_DATA = 'UPDATE_NODE_DATA'
  * @param  {object} nodeData Node data
  * @returns {object} Updated state
  */
-const mergeNodeUpdate = (state, nodeData) => {
-  const { nodes: originalNodes } = state
+const mergeNodeUpdates = (state, nodeData) => {
+  const { nodes } = state
   // Check if this is an existing node
-  const index = originalNodes.findIndex(item => item.pub_key === nodeData.identity_key)
+  const index = nodes.findIndex(item => item.pub_key === nodeData.identity_key)
   // If we didn't find the node, add it to the end of the nodes list.
   // Otherwise update existing.
-  const nodes =
-    index < 0
-      ? [...originalNodes, nodeData]
-      : [
-          ...originalNodes.slice(0, index),
-          {
-            ...originalNodes[index],
-            ...nodeData,
-            last_update: Math.round(new Date() / 1000),
-          },
-          ...originalNodes.slice(index + 1),
-        ]
-
-  return {
-    ...state,
-    nodes,
+  if (index < 0) {
+    nodes.push(nodeData)
+  } else {
+    nodes[index] = { ...nodes[index], ...nodeData, last_update: Math.round(new Date() / 1000) }
   }
+
+  return state
 }
 
 /**
@@ -123,23 +114,22 @@ export const fetchDescribeNetwork = () => async dispatch => {
  * @param {{ nodes }} nodes List of nodes describing the network topology
  * @returns {object} Action
  */
-export const receiveDescribeNetwork = ({ nodes }) => ({
-  type: RECEIVE_DESCRIBE_NETWORK,
-  nodes,
-})
+export const receiveDescribeNetwork = ({ nodes }) => dispatch =>
+  dispatch({ type: RECEIVE_DESCRIBE_NETWORK, nodes })
 
 // ------------------------------------
 // Action Handlers
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [UPDATE_NODE_DATA]: (state, { data }) => data.flat().reduce(mergeNodeUpdate, state),
-  [GET_DESCRIBE_NETWORK]: state => ({ ...state, networkLoading: true }),
-  [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes }) => ({
-    ...state,
-    networkLoading: false,
-    nodes,
-  }),
+  [UPDATE_NODE_DATA]: (state, { data }) => data.flat().reduce(mergeNodeUpdates, state),
+  [GET_DESCRIBE_NETWORK]: state => {
+    state.networkLoading = true
+  },
+  [RECEIVE_DESCRIBE_NETWORK]: (state, { nodes }) => {
+    state.networkLoading = false
+    state.nodes = nodes
+  },
 }
 
 // ------------------------------------
@@ -156,19 +146,4 @@ networkSelectors.nodes = createSelector(
 
 export { networkSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * networkReducer - Network reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function networkReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
