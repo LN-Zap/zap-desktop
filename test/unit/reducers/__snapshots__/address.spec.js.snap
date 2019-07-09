@@ -2,6 +2,14 @@
 
 exports[`reducers addressReducer should handle CLOSE_WALLET_MODAL 1`] = `
 Object {
+  "addresses": Object {
+    "np2wkh": null,
+    "p2wkh": null,
+  },
+  "addressesLoading": Object {
+    "np2wkh": false,
+    "p2wkh": false,
+  },
   "walletModal": false,
 }
 `;
@@ -14,22 +22,39 @@ Object {
     "np2wkh": "375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc",
     "p2wkh": "bc1q7l2z25nle43ngzzr86p2fwr2xlvtdkzm74e3tz",
   },
+  "addressesLoading": Object {
+    "np2wkh": false,
+    "p2wkh": false,
+  },
+  "walletModal": false,
 }
 `;
 
 exports[`reducers addressReducer should handle NEW_ADDRESS 1`] = `
 Object {
+  "addresses": Object {
+    "np2wkh": null,
+    "p2wkh": null,
+  },
   "addressesLoading": Object {
+    "np2wkh": false,
     "p2wkh": true,
   },
+  "walletModal": false,
 }
 `;
 
 exports[`reducers addressReducer should handle NEW_ADDRESS_FAILURE 1`] = `
 Object {
+  "addresses": Object {
+    "np2wkh": null,
+    "p2wkh": null,
+  },
   "addressesLoading": Object {
     "np2wkh": false,
+    "p2wkh": false,
   },
+  "walletModal": false,
 }
 `;
 
@@ -37,15 +62,26 @@ exports[`reducers addressReducer should handle NEW_ADDRESS_SUCCESS 1`] = `
 Object {
   "addresses": Object {
     "np2wkh": "375WLnZzkEwKddQW22SGyhCfXNFz32Gvfc",
+    "p2wkh": null,
   },
   "addressesLoading": Object {
     "np2wkh": false,
+    "p2wkh": false,
   },
+  "walletModal": false,
 }
 `;
 
 exports[`reducers addressReducer should handle OPEN_WALLET_MODAL 1`] = `
 Object {
+  "addresses": Object {
+    "np2wkh": null,
+    "p2wkh": null,
+  },
+  "addressesLoading": Object {
+    "np2wkh": false,
+    "p2wkh": false,
+  },
   "walletModal": true,
 }
 `;
