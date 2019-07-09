@@ -1269,10 +1269,10 @@
   resolved "https://registry.yarnpkg.com/@emotion/weak-memoize/-/weak-memoize-0.2.2.tgz#63985d3d8b02530e0869962f4da09142ee8e200e"
   integrity sha512-n/VQ4mbfr81aqkx/XmVicOLjviMuy02eenSdJY33SVA7S2J42EU0P1H0mOogfYedb3wXA0d/LVtBrgTSm04WEA==
 
-"@grpc/grpc-js@0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.4.3.tgz#d2d71278d42709631793f4a451b7398197d44033"
-  integrity sha512-09qiFMBh90YZ4P5RFzvpSUvBi9DmftvTaP+mmmTzigps0It5YxuwQNqDAo9pI7SWom/6A5ybxv2CUGNk86+FCg==
+"@grpc/grpc-js@0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-0.5.0.tgz#6456963b8f1687734aa62d413ee4e17af0ff9a03"
+  integrity sha512-8p1hvS/shVHSTB0UFMTM126jNSVhf0HWiFU3LO+D8+jg7jrRBOh9dbfXxasG8p6kM0oR8ELB7bRbmS8yOycxyA==
   dependencies:
     semver "^6.0.0"
 
@@ -10695,25 +10695,35 @@ lnd-binary@0.3.11:
     "true-case-path" "^2.0.0"
     unzip-stream "^0.3.0"
 
-lnd-grpc@0.3.0-3:
-  version "0.3.0-3"
-  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.0-3.tgz#dd62d6165da1a4ca13f46d0336ed73b5ac183a2a"
-  integrity sha512-UuTaB21+HO+yZHkyyRWhy+QhGnblAd/ah3xCzDynJoqbmsncdF0+xihX1gXaang+jK2sxBfNjTo73Eh4YMqttw==
+lnd-grpc@0.3.0-4:
+  version "0.3.0-4"
+  resolved "https://registry.yarnpkg.com/lnd-grpc/-/lnd-grpc-0.3.0-4.tgz#37161b2033820c6d726d29875c0ebc0bffa2ad1c"
+  integrity sha512-0Aeoi/w5I85A6MY5S9CNJ1Tl04+FbnrCALreQtjWmZnEzMcf6A7A815OUU6+0MZ3jMqt648FX/uUYSvhaHa2Zg==
   dependencies:
-    "@grpc/grpc-js" "0.4.3"
+    "@grpc/grpc-js" "0.5.0"
     "@ln-zap/proto-loader" "0.5.1"
     debug "4.1.1"
     javascript-state-machine "3.1.0"
-    lndconnect "0.2.7"
+    lndconnect "0.2.8"
     lodash.defaultsdeep "4.6.0"
-    semver "6.1.1"
+    semver "6.2.0"
     untildify "4.0.0"
-    validator "11.0.0"
+    validator "11.1.0"
 
 lndconnect@0.2.7:
   version "0.2.7"
   resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.7.tgz#62ed8b1f38fd3bfd6c956c6f6d794169e10e26a4"
   integrity sha512-+gfE4qWr4elyc7bXrLQRGL2x3qzgSsz5ym0ioJGHF/bgjmAVXXd/vvc1MqgC45zXmw+ctS9RgIobBr+DxQYVlA==
+  dependencies:
+    base64url "^3.0.1"
+    decode-uri-component "^0.2.0"
+    strict-uri-encode "^2.0.0"
+    untildify "^4.0.0"
+
+lndconnect@0.2.8:
+  version "0.2.8"
+  resolved "https://registry.yarnpkg.com/lndconnect/-/lndconnect-0.2.8.tgz#d0b64f3ecdb4981f4a0fe3584050849cf1ebb6e0"
+  integrity sha512-Im/PTTBodHf+debwxXESIAcVjRwfFhi2ZLvVwuqrG8jyzfll6JWoQ3uYwSG1MILeY7cuC3gLBuPM6kNGaN9drg==
   dependencies:
     base64url "^3.0.1"
     decode-uri-component "^0.2.0"
@@ -14558,6 +14568,11 @@ semver@6.1.1, semver@^6.0.0, semver@^6.1.0, semver@^6.1.1:
   resolved "https://registry.yarnpkg.com/semver/-/semver-6.1.1.tgz#53f53da9b30b2103cd4f15eab3a18ecbcb210c9b"
   integrity sha512-rWYq2e5iYW+fFe/oPPtYJxYgjBm8sC4rmoGdUOgBB7VnwKt6HrL793l2voH1UlsyYZpJ4g0wfjnTEO1s1NP2eQ==
 
+semver@6.2.0:
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/semver/-/semver-6.2.0.tgz#4d813d9590aaf8a9192693d6c85b9344de5901db"
+  integrity sha512-jdFC1VdUGT/2Scgbimf7FSx9iJLXoqfglSF+gJeuNWVpiE37OIbc1jywR/GJyFdz3mnkz2/id0L0J/cr0izR5A==
+
 send@0.17.1:
   version "0.17.1"
   resolved "https://registry.yarnpkg.com/send/-/send-0.17.1.tgz#c1d8b059f7900f7466dd4938bdc44e11ddb376c8"
@@ -16647,6 +16662,11 @@ validator@11.0.0:
   version "11.0.0"
   resolved "https://registry.yarnpkg.com/validator/-/validator-11.0.0.tgz#fb10128bfb1fd14ce4ed36b79fc94289eae70667"
   integrity sha512-+wnGLYqaKV2++nUv60uGzUJyJQwYVOin6pn1tgEiFCeCQO60yeu3Og9/yPccbBX574kxIcEJicogkzx6s6eyag==
+
+validator@11.1.0:
+  version "11.1.0"
+  resolved "https://registry.yarnpkg.com/validator/-/validator-11.1.0.tgz#ac18cac42e0aa5902b603d7a5d9b7827e2346ac4"
+  integrity sha512-qiQ5ktdO7CD6C/5/mYV4jku/7qnqzjrxb3C/Q5wR3vGGinHTgJZN/TdFT3ZX4vXhX2R1PXx42fB1cn5W+uJ4lg==
 
 value-equal@^0.4.0:
   version "0.4.0"

@@ -11,11 +11,12 @@ import { logGrpcCmd } from './helpers'
  * getInfo - Call lnd grpc getInfo method.
  *
  * @param {object} payload Payload
+ * @param {object} options Grpc call options
  * @returns {Promise} GetInfoResponse
  */
-async function getInfo(payload = {}) {
+async function getInfo(payload = {}, options = {}) {
   logGrpcCmd('Lightning.getInfo', payload)
-  const infoData = await promisifiedCall(this.service, this.service.getInfo, payload)
+  const infoData = await promisifiedCall(this.service, this.service.getInfo, payload, options)
 
   // Add grpc proto version into info so that it can be used by the client.
   infoData.grpcProtoVersion = this.version
