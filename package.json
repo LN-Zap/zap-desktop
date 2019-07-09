@@ -341,7 +341,7 @@
     "informed": "2.11.1",
     "is-electron-renderer": "2.0.1",
     "jstimezonedetect": "1.0.6",
-    "lnd-grpc": "0.3.0-3",
+    "lnd-grpc": "0.3.0-4",
     "lndconnect": "0.2.7",
     "lodash": "4.17.11",
     "node-fetch": "2.6.0",

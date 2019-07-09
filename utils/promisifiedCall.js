@@ -8,6 +8,6 @@ import { promisify } from 'util'
  * @param {*} args Arguments to pass call method with
  * @returns {Function} Promisified method
  */
-export default function promisifiedCall(thisArg, method, args) {
-  return promisify(method).call(thisArg, args)
+export default function promisifiedCall(thisArg, method, ...args) {
+  return promisify(method).call(thisArg, ...args)
 }
