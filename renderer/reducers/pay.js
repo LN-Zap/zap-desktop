@@ -2,6 +2,7 @@ import get from 'lodash/get'
 import { grpcService } from 'workers'
 import { estimateFeeRange } from '@zap/utils/fee'
 import { settingsSelectors } from './settings'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -123,63 +124,41 @@ export function setRedirectPayReq(redirectPayReq) {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [QUERY_FEES]: state => ({
-    ...state,
-    isQueryingFees: true,
-    onchainFees: {},
-    queryFeesError: null,
-  }),
-  [QUERY_FEES_SUCCESS]: (state, { onchainFees }) => ({
-    ...state,
-    isQueryingFees: false,
-    onchainFees,
-    queryFeesError: null,
-  }),
-  [QUERY_FEES_FAILURE]: (state, { error }) => ({
-    ...state,
-    isQueryingFees: false,
-    onchainFees: {},
-    queryFeesError: error,
-  }),
-  [QUERY_ROUTES]: (state, { pubKey }) => ({
-    ...state,
-    isQueryingRoutes: true,
-    pubKey,
-    queryRoutesError: null,
-    routes: [],
-  }),
-  [QUERY_ROUTES_SUCCESS]: (state, { routes }) => ({
-    ...state,
-    isQueryingRoutes: false,
-    queryRoutesError: null,
-    routes,
-  }),
-  [QUERY_ROUTES_FAILURE]: (state, { error }) => ({
-    ...state,
-    isQueryingRoutes: false,
-    pubKey: null,
-    queryRoutesError: error,
-    routes: [],
-  }),
-  [SET_REDIRECT_PAY_REQ]: (state, { redirectPayReq }) => ({
-    ...state,
-    redirectPayReq,
-  }),
+  [QUERY_FEES]: state => {
+    state.isQueryingFees = true
+    state.onchainFees = {}
+    state.queryFeesError = null
+  },
+  [QUERY_FEES_SUCCESS]: (state, { onchainFees }) => {
+    state.isQueryingFees = false
+    state.onchainFees = onchainFees
+    state.queryFeesError = null
+  },
+  [QUERY_FEES_FAILURE]: (state, { error }) => {
+    state.isQueryingFees = false
+    state.onchainFees = {}
+    state.queryFeesError = error
+  },
+  [QUERY_ROUTES]: (state, { pubKey }) => {
+    state.isQueryingRoutes = true
+    state.pubKey = pubKey
+    state.queryRoutesError = null
+    state.routes = []
+  },
+  [QUERY_ROUTES_SUCCESS]: (state, { routes }) => {
+    state.isQueryingRoutes = false
+    state.queryRoutesError = null
+    state.pubKey.routes = routes
+  },
+  [QUERY_ROUTES_FAILURE]: (state, { error }) => {
+    state.isQueryingRoutes = false
+    state.pubKey = null
+    state.queryRoutesError = error
+    state.routes = []
+  },
+  [SET_REDIRECT_PAY_REQ]: (state, { redirectPayReq }) => {
+    state.redirectPayReq = redirectPayReq
+  },
 }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * payReducer - Pay reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function payReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
