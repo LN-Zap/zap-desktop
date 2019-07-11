@@ -4,6 +4,7 @@ import { Box, Flex } from 'rebass'
 import { FormattedMessage } from 'react-intl'
 import { convert } from '@zap/utils/btc'
 import CryptoAmountInput from './CryptoAmountInput'
+import Span from './Span'
 import Dropdown from './Dropdown'
 import FiatAmountInput from './FiatAmountInput'
 import messages from './messages'
@@ -11,10 +12,12 @@ import messages from './messages'
 const CurrencyFieldGroup = React.forwardRef(
   (
     {
+      cryptoLabel,
       cryptoUnit,
       cryptoUnits,
       currentTicker,
       isDisabled,
+      fiatLabel,
       fiatCurrency,
       fiatCurrencies,
       formApi,
@@ -34,12 +37,12 @@ const CurrencyFieldGroup = React.forwardRef(
     /**
      * handleAmountCryptoChange - Set the amountFiat field whenever the crypto amount changes.
      *
-     * @param {string} value Value
+     * @param {Event} e Event
      */
-    const handleAmountCryptoChange = value => {
+    const handleAmountCryptoChange = e => {
       const lastPrice = currentTicker[fiatCurrency]
-      const amount = convert(cryptoUnit, 'fiat', value, lastPrice)
-      formApi.setValue('amountFiat', amount)
+      const value = convert(cryptoUnit, 'fiat', e.target.value, lastPrice)
+      formApi.setValue('amountFiat', value)
     }
 
     /**
@@ -83,9 +86,9 @@ const CurrencyFieldGroup = React.forwardRef(
                 initialValue={initialAmountCrypto}
                 isDisabled={isDisabled}
                 isRequired={isRequired}
-                label={<FormattedMessage {...messages.amount} />}
+                label={cryptoLabel || <FormattedMessage {...messages.amount} />}
                 name="amountCrypto"
-                onValueChange={handleAmountCryptoChange}
+                onChange={handleAmountCryptoChange}
                 validate={validate}
                 validateOnBlur={validateOnBlur}
                 validateOnChange={validateOnChange}
@@ -96,11 +99,11 @@ const CurrencyFieldGroup = React.forwardRef(
               activeKey={cryptoUnit}
               items={cryptoUnits}
               ml={2}
-              mt={36}
+              mt={40}
               onChange={handleCryptoCurrencyChange}
             />
           </Flex>
-          <Flex justifyContent="center" mt={38} width={1 / 11}>
+          <Flex justifyContent="center" mt={42} width={1 / 11}>
             =
           </Flex>
           <Flex width={6 / 13}>
@@ -111,7 +114,7 @@ const CurrencyFieldGroup = React.forwardRef(
                 field="amountFiat"
                 initialValue={initialAmountFiat}
                 isDisabled={isDisabled}
-                label="&nbsp;"
+                label={fiatLabel || <Span>&nbsp;</Span>}
                 name="amountFiat"
                 onChange={handleAmountFiatChange}
                 width={150}
@@ -122,7 +125,7 @@ const CurrencyFieldGroup = React.forwardRef(
               activeKey={fiatCurrency}
               items={fiatCurrencies}
               ml={2}
-              mt={36}
+              mt={40}
               onChange={handleFiatCurrencyChange}
             />
           </Flex>
@@ -135,6 +138,7 @@ const CurrencyFieldGroup = React.forwardRef(
 CurrencyFieldGroup.displayName = 'CurrencyFieldGroup'
 
 CurrencyFieldGroup.propTypes = {
+  cryptoLabel: PropTypes.node,
   cryptoUnit: PropTypes.string.isRequired,
   cryptoUnits: PropTypes.arrayOf(
     PropTypes.shape({
@@ -145,6 +149,7 @@ CurrencyFieldGroup.propTypes = {
   currentTicker: PropTypes.object.isRequired,
   fiatCurrencies: PropTypes.array.isRequired,
   fiatCurrency: PropTypes.string.isRequired,
+  fiatLabel: PropTypes.node,
   formApi: PropTypes.object.isRequired,
   forwardedRef: PropTypes.object,
   initialAmountCrypto: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),

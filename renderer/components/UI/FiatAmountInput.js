@@ -1,12 +1,10 @@
-/* eslint-disable react/no-multi-comp */
-
 import React from 'react'
 import PropTypes from 'prop-types'
+import { compose } from 'redux'
 import { asField } from 'informed'
-import * as yup from 'yup'
 import { convert } from '@zap/utils/btc'
 import { formatValue, parseNumber } from '@zap/utils/crypto'
-import { withNumberInputMask } from 'hocs'
+import { withNumberInputMask, withNumberValidation } from 'hocs'
 import { BasicInput } from './Input'
 
 /**
@@ -44,6 +42,7 @@ class FiatAmountInput extends React.Component {
     // If the value has changed, reformat it if needed.
     const valueBefore = prevProps.fieldState.value
     const valueAfter = fieldState.value
+
     if (valueAfter !== valueBefore) {
       const [integer, fractional] = parseNumber(valueAfter, this.getRules().precision)
       const formattedValue = formatValue(integer, fractional)
@@ -56,6 +55,7 @@ class FiatAmountInput extends React.Component {
   getRules() {
     return {
       precision: 2,
+      step: '0.01',
       placeholder: '0.00',
       pattern: '[0-9]*.?[0-9]{0,2}?',
     }
@@ -68,57 +68,28 @@ class FiatAmountInput extends React.Component {
         {...this.props}
         pattern={rules.pattern}
         placeholder={rules.placeholder}
-        type="text"
+        step={rules.step}
+        type="number"
       />
     )
   }
 }
 
-const FiatAmountInputAsField = FiatAmountInput
+const FiatAmountInputAsField = compose(
+  withNumberValidation,
+  asField,
+  withNumberInputMask
+)(FiatAmountInput)
 
-class WrappedFiatAmountInputAsField extends React.Component {
-  static propTypes = {
-    isDisabled: PropTypes.bool,
-    isRequired: PropTypes.bool,
-    validate: PropTypes.func,
-  }
+// Wrap the select field to apply conditional validation.
+const WrappedFiatAmountInputAsField = props => {
+  const { isRequired } = props
 
-  static defaultProps = {
-    isDisabled: false,
-    isRequired: false,
-  }
-
-  validate = value => {
-    const { isDisabled, isRequired } = this.props
-    if (isDisabled) {
-      return
-    }
-    try {
-      let validator = yup
-        .number()
-        .positive()
-        .min(0)
-        .typeError('A number is required')
-      if (isRequired) {
-        validator = validator.required().moreThan(0)
-      }
-      validator.validateSync(Number(value))
-    } catch (error) {
-      return error.message
-    }
-
-    // Run any additional validation provided by the caller.
-    const { validate } = this.props
-    if (validate) {
-      return validate(value)
-    }
-  }
-
-  render() {
-    return <FiatAmountInputAsField validate={this.validate} {...this.props} />
-  }
+  return <FiatAmountInputAsField moreThan={isRequired ? 0 : null} {...props} />
 }
 
-const BasicFiatAmountInput = withNumberInputMask(WrappedFiatAmountInputAsField)
-export { BasicFiatAmountInput }
-export default asField(BasicFiatAmountInput)
+WrappedFiatAmountInputAsField.propTypes = {
+  isRequired: PropTypes.bool,
+}
+
+export default WrappedFiatAmountInputAsField
