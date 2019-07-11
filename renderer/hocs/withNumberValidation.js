@@ -3,21 +3,25 @@ import PropTypes from 'prop-types'
 import * as yup from 'yup'
 import getDisplayName from '@zap/utils/getDisplayName'
 
+const isEmptyAmount = amount => amount === undefined || amount === null || amount === ''
+
 /**
- * withInputValidation - A HOC that will add validation of a `required` property to a field.
+ * withNumberValidation - A HOC that will add validation of a `required` property to a field.
  *
  * @param {React.Component} Component Component to wrap
  * @returns {React.Component} Wrapped component
  */
-const withInputValidation = Component =>
+const withNumberValidation = Component =>
   class extends React.Component {
-    static displayName = `WithInputValidation(${getDisplayName(Component)})`
+    static displayName = `WithNumberValidation(${getDisplayName(Component)})`
 
     static propTypes = {
       isDisabled: PropTypes.bool,
       isRequired: PropTypes.bool,
-      maxLength: PropTypes.number,
-      minLength: PropTypes.number,
+      lessThan: PropTypes.number,
+      max: PropTypes.number,
+      min: PropTypes.number,
+      moreThan: PropTypes.number,
       validate: PropTypes.func,
     }
 
@@ -26,21 +30,27 @@ const withInputValidation = Component =>
       isRequired: false,
     }
 
-    validate = (value = '') => {
-      const { isDisabled, isRequired, minLength, maxLength } = this.props
+    validate = (value = 0) => {
+      const { isDisabled, isRequired, min, max, moreThan, lessThan } = this.props
       if (isDisabled) {
         return
       }
       try {
-        let validator = yup.string()
+        let validator = yup.number().typeError('A number is required')
         if (isRequired) {
           validator = validator.required()
         }
-        if (minLength) {
-          validator = validator.min(minLength)
+        if (!isEmptyAmount(min)) {
+          validator = validator.min(min)
         }
-        if (maxLength) {
-          validator = validator.max(maxLength)
+        if (!isEmptyAmount(max)) {
+          validator = validator.max(max)
+        }
+        if (!isEmptyAmount(moreThan)) {
+          validator = validator.moreThan(moreThan)
+        }
+        if (!isEmptyAmount(lessThan)) {
+          validator = validator.lessThan(lessThan)
         }
         validator.validateSync(value)
       } catch (error) {
@@ -59,4 +69,4 @@ const withInputValidation = Component =>
     }
   }
 
-export default withInputValidation
+export default withNumberValidation
