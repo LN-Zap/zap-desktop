@@ -15,9 +15,8 @@ const onboarding = new Onboarding()
 const loading = new Loading()
 const wallet = new Wallet()
 
-const payReq = `lntb10n1pw04dvwpp5n5w6ha6hygccxa9aeqzgtpfxacdk8a5f0m35yeyk08gx\
-9g9sfcusdqqcqzpgxq97zvuq57g878u9ckerngw4hmmf3a47ujlfd699g6p98a50s9hdcs3v4pkksqkpqhk4\
-hj2pcaleng7f8u9etpyewxnr54trlje48r90hp29gdgp8eq446`
+// eslint-disable-next-line max-len
+const payReq = `lntb10n1pw04dvwpp5n5w6ha6hygccxa9aeqzgtpfxacdk8a5f0m35yeyk08gx9g9sfcusdqqcqzpgxq97zvuq57g878u9ckerngw4hmmf3a47ujlfd699g6p98a50s9hdcs3v4pkksqkpqhk4hj2pcaleng7f8u9etpyewxnr54trlje48r90hp29gdgp8eq446`
 
 const address = `tb1qxmjjcuc3d30d3wvgq5l2ezkxa4v95tmn2dspxs`
 
