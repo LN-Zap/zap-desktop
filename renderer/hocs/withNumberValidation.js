@@ -11,27 +11,18 @@ const isEmptyAmount = amount => amount === undefined || amount === null || amoun
  * @param {React.Component} Component Component to wrap
  * @returns {React.Component} Wrapped component
  */
-const withNumberValidation = Component =>
-  class extends React.Component {
-    static displayName = `WithNumberValidation(${getDisplayName(Component)})`
-
-    static propTypes = {
-      isDisabled: PropTypes.bool,
-      isRequired: PropTypes.bool,
-      lessThan: PropTypes.number,
-      max: PropTypes.number,
-      min: PropTypes.number,
-      moreThan: PropTypes.number,
-      validate: PropTypes.func,
-    }
-
-    static defaultProps = {
-      isDisabled: false,
-      isRequired: false,
-    }
-
-    validate = (value = 0) => {
-      const { isDisabled, isRequired, min, max, moreThan, lessThan } = this.props
+const withNumberValidation = Component => {
+  const WrappedComponent = ({
+    isDisabled,
+    isRequired,
+    lessThan,
+    max,
+    min,
+    moreThan,
+    validate,
+    ...rest
+  }) => {
+    const handleValidate = value => {
       if (isDisabled) {
         return
       }
@@ -58,15 +49,39 @@ const withNumberValidation = Component =>
       }
 
       // Run any additional validation provided by the caller.
-      const { validate } = this.props
       if (validate) {
         return validate(value)
       }
     }
 
-    render() {
-      return <Component {...this.props} validate={this.validate} />
-    }
+    return (
+      <Component
+        {...rest}
+        isDisabled={isDisabled}
+        isRequired={isRequired}
+        validate={handleValidate}
+      />
+    )
   }
+
+  WrappedComponent.propTypes = {
+    isDisabled: PropTypes.bool,
+    isRequired: PropTypes.bool,
+    lessThan: PropTypes.number,
+    max: PropTypes.number,
+    min: PropTypes.number,
+    moreThan: PropTypes.number,
+    validate: PropTypes.func,
+  }
+
+  WrappedComponent.defaultProps = {
+    isDisabled: false,
+    isRequired: false,
+  }
+
+  WrappedComponent.displayName = `WithNumberValidation(${getDisplayName(Component)})`
+
+  return WrappedComponent
+}
 
 export default withNumberValidation
