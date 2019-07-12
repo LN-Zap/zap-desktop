@@ -2,7 +2,7 @@
 
 <p align='center'>
   <a href='https://zap.jackmallers.com'>
-    <img src='https://i.imgur.com/sfmOvhq.png' alt='screenshot' />
+    <img src='https://i.imgur.com/ZDX64qw.png' alt='screenshot' />
   </a>
 </p>
 
