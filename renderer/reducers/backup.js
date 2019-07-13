@@ -205,36 +205,36 @@ export const setRestoreMode = value => {
  * @param {boolean} isRestoreMode Boolean indcation whether this is a restore
  * @returns {Function} Thunk
  */
-export const setupBackupService = async (walletId, isRestoreMode) => {
-  return async (dispatch, getState) => {
-    const { providerSelector, localPathSelector } = backupSelectors
-    const provider = providerSelector(getState())
-    // provider is not chosen -> service initialization is skipped
-    if (!provider) {
-      return
-    }
-    const isLocalStrategy = provider === 'local'
+export const setupBackupService = (walletId, isRestoreMode) => async (dispatch, getState) => {
+  const { providerSelector, localPathSelector } = backupSelectors
+  const provider = providerSelector(getState())
 
-    if (isRestoreMode) {
-      await setRestoreState(walletId, RESTORE_STATE_STARTED)
-    }
-    await updateBackupProvider(walletId, provider)
-    if (isLocalStrategy) {
-      const dir = localPathSelector(getState())
-      // we have backup dir setup in redux, use it to initialize db backup setup
-      if (dir) {
-        const nodePub = infoSelectors.nodePubkey(getState())
-        updateLocationHint({
-          provider,
-          locationHint: window.Zap.normalizeBackupDir(nodePub, dir),
-          walletId,
-        })
-        dispatch(setBackupPathLocal(null))
-      }
-    }
-
-    return dispatch(send('initBackupService', { walletId, provider }))
+  // provider is not chosen -> service initialization is skipped
+  if (!provider) {
+    return
   }
+
+  const isLocalStrategy = provider === 'local'
+
+  if (isRestoreMode) {
+    await setRestoreState(walletId, RESTORE_STATE_STARTED)
+  }
+  await updateBackupProvider(walletId, provider)
+  if (isLocalStrategy) {
+    const dir = localPathSelector(getState())
+    // we have backup dir setup in redux, use it to initialize db backup setup
+    if (dir) {
+      const nodePub = infoSelectors.nodePubkey(getState())
+      updateLocationHint({
+        provider,
+        locationHint: window.Zap.normalizeBackupDir(nodePub, dir),
+        walletId,
+      })
+      dispatch(setBackupPathLocal(null))
+    }
+  }
+
+  dispatch(send('initBackupService', { walletId, provider }))
 }
 
 /**
@@ -260,31 +260,30 @@ const setRestoreState = async (walletId, state) => {
  * @param {string} walletId Wallet identifier. if not specified uses current active wallet
  * @returns {Function} Thunk
  */
-export const initBackupService = walletId => {
-  return async (dispatch, getState) => {
-    const wId = walletId || walletSelectors.activeWallet(getState())
-    const backupDesc = await dbGet(wId)
+export const initBackupService = walletId => async (dispatch, getState) => {
+  const wId = walletId || walletSelectors.activeWallet(getState())
+  const backupDesc = await dbGet(wId)
 
-    // do not initialize service if it wasn't setup previously
-    if (!backupDesc) {
-      return
-    }
-    const { channelsRestoreState } = backupDesc
-    // initiate restore mode if it's pending
-    dispatch(setRestoreMode(channelsRestoreState === RESTORE_STATE_STARTED))
-    // returns backup service startup params based on serialized data availability
-    const getServiceParams = async () => {
-      // attempt to initialize backup service with stored tokens
-      const { activeProviders } = backupDesc
-      const [firstProvider] = activeProviders
-
-      await dispatch(setBackupProvider(firstProvider))
-      const { tokens } = backupDesc[firstProvider] || {}
-      return { walletId: wId, tokens, provider: firstProvider }
-    }
-    const params = await getServiceParams()
-    return dispatch(send('initBackupService', params))
+  // do not initialize service if it wasn't setup previously
+  if (!backupDesc) {
+    return
   }
+
+  const { channelsRestoreState } = backupDesc
+  // initiate restore mode if it's pending
+  dispatch(setRestoreMode(channelsRestoreState === RESTORE_STATE_STARTED))
+  // returns backup service startup params based on serialized data availability
+  const getServiceParams = async () => {
+    // attempt to initialize backup service with stored tokens
+    const { activeProviders } = backupDesc
+    const [firstProvider] = activeProviders
+
+    await dispatch(setBackupProvider(firstProvider))
+    const { tokens } = backupDesc[firstProvider] || {}
+    return { walletId: wId, tokens, provider: firstProvider }
+  }
+  const params = await getServiceParams()
+  dispatch(send('initBackupService', params))
 }
 
 /**
