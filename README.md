@@ -14,7 +14,7 @@
 [![Build status](https://img.shields.io/appveyor/ci/LN-Zap/zap-desktop/master.svg?style=flat-green&label=windows&logo=appveyor)](https://ci.appveyor.com/project/LN-Zap/zap-desktop/branch/master)
 [![GitHub license](https://img.shields.io/github/license/LN-Zap/zap-desktop.svg?style=flat-green)](LICENSE)
 
-Zap is a free Lightning Network wallet focused on user experience and ease of use, with the overall goal of helping the cryptocurrency community scale Bitcoin and other cryptocurrencies.
+Zap is a free Lightning Network wallet focused on user experience and ease of use, with the overall goal of helping the cryptocurrency community scale Bitcoin.
 
 The UI for Zap is created using
 [Electron](https://electron.atom.io/) + [React](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux/tree/master/docs).
