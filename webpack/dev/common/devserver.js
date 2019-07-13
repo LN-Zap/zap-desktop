@@ -31,7 +31,6 @@ const devServer = {
   },
 
   proxy: {
-    ...createProxy({ url: 'zap.jackmallers.com' }),
     ...createProxy({ url: 'api.coinbase.com' }),
     // bitstamp uses some weird cookie header that crashes WDS
     ...createProxy({ url: 'www.bitstamp.net', options: { onProxyRes: deleteCookieHeader } }),
