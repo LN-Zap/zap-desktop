@@ -114,6 +114,8 @@ module.exports = {
   channels: {
     // Default view mode(card|list)
     viewMode: 'card',
+    // JSON feed for suggested nodes list
+    suggestedNodes: 'https://resources.zaphq.io/api/v1/suggested-nodes',
   },
 
   // feature flags to enable/disable experimental functionality

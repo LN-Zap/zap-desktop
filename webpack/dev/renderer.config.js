@@ -56,9 +56,9 @@ const config = merge.smart(baseConfig, {
         'https://api.blockcypher.com',
         'https://bitcoinfees.earn.com',
         'https://nodes.lightning.computer',
-        'https://zap.jackmallers.com',
+        'https://resources.zaphq.io',
       ],
-      'img-src': ['http://www.zap.jackmallers.com', 'data:'],
+      'img-src': ['http://resources.zaphq.io', 'data:'],
       'script-src': ["'self'", 'http://localhost:*', "'unsafe-eval'"],
       'font-src': [
         "'self'",
