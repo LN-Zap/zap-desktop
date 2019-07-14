@@ -1,18 +1,6 @@
 import axios from 'axios'
+import config from 'config'
 import { mainLog } from '@zap/utils/log'
-
-// When running in development/hot mode we load the renderer js code via webpack dev server, and it is from there that
-// we ultimately initiate requests to these remote resources. The end result is that the electron browser window makes a
-// request to localhost (to webpack dev server), which in turn makes a request to the remote resource. If the remote
-// resource in question has a restrictive `Access-Control-Allow-Origin` header, this may cause the electron browser
-// window to not allow loading the remote content.
-//
-// See https://enable-cors.org/
-//
-// In order to mitigate the CORS issue, we instead access these remote resources through a local proxy that we have
-// defined on the webpack dev server.
-const scheme =
-  (process && process.env.HOT) || (window.env && window.env.HOT) ? '/proxy/' : 'https://'
 
 /**
  * requestSuggestedNodes - Fetch suggested nodes list.
@@ -20,7 +8,7 @@ const scheme =
  * @returns {*} Suggested node list
  */
 export function requestSuggestedNodes() {
-  const BASE_URL = `${scheme}zap.jackmallers.com/api/v1/suggested-peers`
+  const BASE_URL = config.channels.suggestedNodes
   mainLog.info('Fetching suggested nodes from: %s', BASE_URL)
   return axios({
     method: 'get',

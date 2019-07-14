@@ -54,23 +54,12 @@ const initialState = {
   selectedChannelId: null,
   viewMode: config.channels.viewMode,
 
-  // nodes stored at zap.jackmallers.com/api/v1/suggested-peers manages by JimmyMow
-  // we store this node list here and if the user doesnt have any channels
-  // we show them this list in case they wanna use our suggestions to connect
-  // to the network and get started
-  // **** Example ****
-  // {
-  //   pubkey: "02212d3ec887188b284dbb7b2e6eb40629a6e14fb049673f22d2a0aa05f902090e",
-  //   host: "testnet-lnd.yalls.org",
-  //   nickname: "Yalls",
-  //   description: "Top up prepaid mobile phones with bitcoin and altcoins in USA and around the world"
-  // }
-  // ****
   suggestedNodes: {
     mainnet: [],
     testnet: [],
   },
   suggestedNodesLoading: false,
+  suggestedNodesError: null,
 }
 
 // ------------------------------------
@@ -450,11 +439,13 @@ export function getSuggestedNodes() {
 /**
  * receiveSuggestedNodesError - Error handler for issues fetching the suggested nodes list.
  *
+ * @param {string} error Error message
  * @returns {object} Action
  */
-export function receiveSuggestedNodesError() {
+export function receiveSuggestedNodesError(error) {
   return {
     type: RECEIVE_SUGGESTED_NODES_ERROR,
+    error,
   }
 }
 
@@ -481,8 +472,8 @@ export const fetchSuggestedNodes = () => async dispatch => {
   try {
     const suggestedNodes = await requestSuggestedNodes()
     dispatch(receiveSuggestedNodes(suggestedNodes))
-  } catch (e) {
-    dispatch(receiveSuggestedNodesError())
+  } catch (error) {
+    dispatch(receiveSuggestedNodesError(error.message))
   }
 }
 
@@ -799,15 +790,21 @@ const ACTION_HANDLERS = {
 
   [SET_SELECTED_CHANNEL]: (state, { selectedChannelId }) => ({ ...state, selectedChannelId }),
 
-  [GET_SUGGESTED_NODES]: state => ({ ...state, suggestedNodesLoading: true }),
+  [GET_SUGGESTED_NODES]: state => ({
+    ...state,
+    suggestedNodesLoading: true,
+    suggestedNodesError: null,
+  }),
   [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => ({
     ...state,
     suggestedNodesLoading: false,
+    suggestedNodesError: null,
     suggestedNodes,
   }),
-  [RECEIVE_SUGGESTED_NODES_ERROR]: state => ({
+  [RECEIVE_SUGGESTED_NODES_ERROR]: (state, { error }) => ({
     ...state,
     suggestedNodesLoading: false,
+    suggestedNodesError: error,
     suggestedNodes: {
       mainnet: [],
       testnet: [],

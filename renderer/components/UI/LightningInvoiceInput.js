@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, intlShape, injectIntl } from 'react-intl'
 import { asField } from 'informed'
-import { isOnchain, isLn } from '@zap/utils/crypto'
+import { isOnchain, isLn, decodePayReq } from '@zap/utils/crypto'
 import { BasicTextArea } from './TextArea'
 import Message from './Message'
 import messages from './messages'
@@ -30,11 +30,31 @@ class LightningInvoiceInput extends React.Component {
       chainName += ` (${network})`
     }
 
+    // Ensure we have a value.
     if (isRequired && (!value || value.trim() === '')) {
       return intl.formatMessage({ ...messages.required_field })
     }
-    if (value && !isLn(value, chain, network) && !isOnchain(value, chain, network)) {
-      return intl.formatMessage({ ...messages.invalid_request }, { chain: chainName })
+
+    if (value) {
+      const invoiceIsLn = isLn(value, chain, network)
+      const invoiceIsOnchain = isOnchain(value, chain, network)
+
+      // Ensure we have a valid invoice or address.
+      if (!invoiceIsLn && !invoiceIsOnchain) {
+        return intl.formatMessage({ ...messages.invalid_request }, { chain: chainName })
+      }
+
+      // If we have a LN invoice, ensure the invoice has an amount.
+      if (invoiceIsLn) {
+        try {
+          const invoice = decodePayReq(value)
+          if (!invoice || (!invoice.satoshis || !invoice.millisatoshis)) {
+            throw new Error('Invalid invoice')
+          }
+        } catch (e) {
+          return intl.formatMessage({ ...messages.invalid_request }, { chain: chainName })
+        }
+      }
     }
   }
 

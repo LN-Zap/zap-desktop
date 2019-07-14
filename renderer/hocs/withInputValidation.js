@@ -11,7 +11,7 @@ import getDisplayName from '@zap/utils/getDisplayName'
  */
 const withInputValidation = Component =>
   class extends React.Component {
-    static displayName = `WithRequiredValidation(${getDisplayName(Component)})`
+    static displayName = `WithInputValidation(${getDisplayName(Component)})`
 
     static propTypes = {
       isDisabled: PropTypes.bool,
