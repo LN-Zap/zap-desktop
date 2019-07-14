@@ -7,6 +7,7 @@ import { fetchChannels } from './channels'
 import { showError } from './notification'
 import { walletSelectors } from './wallet'
 import { settingsSelectors } from './settings'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -255,40 +256,50 @@ export const receiveInvoiceData = invoice => dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_INVOICE]: (state, { invoice }) => ({ ...state, invoice }),
+  [SET_INVOICE]: (state, { invoice }) => {
+    state.invoice = invoice
+  },
 
-  [GET_INVOICE]: state => ({ ...state, invoiceLoading: true }),
-  [RECEIVE_INVOICE]: (state, { invoice }) => ({ ...state, invoiceLoading: false, invoice }),
-  [RECEIVE_FORM_INVOICE]: state => ({ ...state, invoiceLoading: false }),
+  [GET_INVOICE]: state => {
+    state.invoiceLoading = true
+  },
+  [RECEIVE_INVOICE]: (state, { invoice }) => {
+    state.invoiceLoading = false
+    state.invoice = invoice
+  },
+  [RECEIVE_FORM_INVOICE]: state => {
+    state.invoiceLoading = false
+  },
 
-  [GET_INVOICES]: state => ({ ...state, invoiceLoading: true }),
-  [RECEIVE_INVOICES]: (state, { invoices }) => ({ ...state, invoiceLoading: false, invoices }),
+  [GET_INVOICES]: state => {
+    state.invoiceLoading = true
+  },
+  [RECEIVE_INVOICES]: (state, { invoices }) => {
+    state.invoiceLoading = false
+    state.invoices = invoices
+  },
 
-  [SEND_INVOICE]: state => ({ ...state, invoiceLoading: true }),
-  [INVOICE_SUCCESSFUL]: state => ({
-    ...state,
-    invoiceLoading: false,
-  }),
-  [INVOICE_FAILED]: state => ({ ...state, invoiceLoading: false, data: null }),
+  [SEND_INVOICE]: state => {
+    state.invoiceLoading = true
+  },
+  [INVOICE_SUCCESSFUL]: state => {
+    state.invoiceLoading = false
+  },
+  [INVOICE_FAILED]: state => {
+    state.invoiceLoading = false
+    state.data = null
+  },
 
   [UPDATE_INVOICE]: (state, action) => {
-    let isNew = true
-    const updatedInvoices = state.invoices.map(invoice => {
-      if (invoice.r_hash.toString('hex') === action.invoice.r_hash.toString('hex')) {
-        isNew = false
-        return {
-          ...invoice,
-          ...action.invoice,
-        }
-      }
-      return invoice
-    })
-
-    if (isNew) {
-      updatedInvoices.push(action.invoice)
+    const invoiceIndex = state.invoices.findIndex(
+      invoice => invoice.r_hash.toString('hex') === action.invoice.r_hash.toString('hex')
+    )
+    // update if exists or add new otherwise
+    if (invoiceIndex >= 0) {
+      state.invoices[invoiceIndex] = { ...state.invoices[invoiceIndex], ...action.invoice }
+    } else {
+      state.invoices.push(action.invoice)
     }
-
-    return { ...state, invoices: updatedInvoices }
   },
 }
 
@@ -317,19 +328,4 @@ invoiceSelectors.invoice = createSelector(
 
 export { invoiceSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * invoiceReducer - Invoice reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function invoiceReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
