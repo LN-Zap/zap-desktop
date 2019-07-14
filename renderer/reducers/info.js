@@ -5,6 +5,7 @@ import { grpcService } from 'workers'
 import { initAddresses } from './address'
 import { putWallet, walletSelectors } from './wallet'
 import { settingsSelectors } from './settings'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -186,25 +187,20 @@ export const receiveInfo = data => async (dispatch, getState) => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_HAS_SYNCED]: (state, { hasSynced }) => ({
-    ...state,
-    hasSynced,
-  }),
-  [GET_INFO]: state => ({ ...state, infoLoading: true }),
+  [SET_HAS_SYNCED]: (state, { hasSynced }) => {
+    state.hasSynced = hasSynced
+  },
+  [GET_INFO]: state => {
+    state.infoLoading = true
+  },
   [RECEIVE_INFO]: (state, { data }) => {
-    const chain = get(data, 'chains[0].chain')
-    const network = get(data, 'chains[0].network')
-    return {
-      ...state,
-      infoLoading: false,
-      infoLoaded: true,
-      chain,
-      network,
-      data,
-    }
+    state.infoLoading = false
+    state.infoLoaded = true
+    state.data = data
+    state.chain = get(data, 'chains[0].chain')
+    state.network = get(data, 'chains[0].network')
   },
 }
-
 // ------------------------------------
 // Selectors
 // ------------------------------------
@@ -277,19 +273,4 @@ infoSelectors.chainName = createSelector(
 
 export { infoSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * infoReducer - Info reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function infoReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)

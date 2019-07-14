@@ -6,6 +6,7 @@ import { fetchPayments, paymentSelectors } from './payment'
 import { fetchInvoices, invoiceSelectors } from './invoice'
 import { fetchBalance } from './balance'
 import { fetchChannels } from './channels'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -234,20 +235,28 @@ export const fetchActivityHistory = () => dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SHOW_ACTIVITY_MODAL]: (state, { itemType, itemId }) => ({
-    ...state,
-    modal: { itemType, itemId },
-  }),
-  [HIDE_ACTIVITY_MODAL]: state => ({ ...state, modal: { itemType: null, itemId: null } }),
-  [CHANGE_FILTER]: (state, { filter }) => ({ ...state, filter }),
-  [UPDATE_SEARCH_TEXT]: (state, { searchText }) => ({ ...state, searchText }),
-  [FETCH_ACTIVITY_HISTORY]: state => ({ ...state, isActivityLoading: true }),
-  [FETCH_ACTIVITY_HISTORY_SUCCESS]: state => ({ ...state, isActivityLoading: false }),
-  [FETCH_ACTIVITY_HISTORY_FAILURE]: (state, { error }) => ({
-    ...state,
-    isActivityLoading: false,
-    activityLoadingError: error,
-  }),
+  [SHOW_ACTIVITY_MODAL]: (state, { itemType, itemId }) => {
+    state.modal = { itemType, itemId }
+  },
+  [HIDE_ACTIVITY_MODAL]: state => {
+    state.modal = { itemType: null, itemId: null }
+  },
+  [CHANGE_FILTER]: (state, { filter }) => {
+    state.filter = filter
+  },
+  [UPDATE_SEARCH_TEXT]: (state, { searchText }) => {
+    state.searchText = searchText
+  },
+  [FETCH_ACTIVITY_HISTORY]: state => {
+    state.isActivityLoading = true
+  },
+  [FETCH_ACTIVITY_HISTORY_SUCCESS]: state => {
+    state.isActivityLoading = false
+  },
+  [FETCH_ACTIVITY_HISTORY_FAILURE]: (state, { error }) => {
+    state.isActivityLoading = false
+    state.activityLoadingError = error
+  },
 }
 
 // ------------------------------------
@@ -472,19 +481,4 @@ activitySelectors.currentActivity = createSelector(
 
 export { activitySelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * activityReducer - Activity reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function activityReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)

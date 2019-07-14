@@ -1,7 +1,7 @@
 import delay from '@zap/utils/delay'
 import genId from '@zap/utils/genId'
 import matches from 'lodash/matches'
-
+import createReducer from './utils/createReducer'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -148,35 +148,20 @@ export function removeNotification(id) {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [ENQUEUE_NOTIFICATION]: (state, { notification }) => ({
-    ...state,
-    notifications: [...state.notifications, notification],
-  }),
+  [ENQUEUE_NOTIFICATION]: (state, { notification }) => {
+    state.notifications.push(notification)
+  },
 
   [UPDATE_NOTIFICATION]: (state, { id, options }) => {
     const index = state.notifications.findIndex(n => n.id === id)
-    const notifications =
-      index >= 0
-        ? [
-            ...state.notifications.slice(0, index),
-            {
-              ...state.notifications[index],
-              ...options,
-            },
-            ...state.notifications.slice(index + 1),
-          ]
-        : state.notifications
-
-    return {
-      ...state,
-      notifications,
+    if (index >= 0) {
+      state.notifications[index] = { ...state.notifications[index], ...options }
     }
   },
 
-  [REMOVE_NOTIFICATION]: (state, { id }) => ({
-    ...state,
-    notifications: state.notifications.filter(item => item.id !== id),
-  }),
+  [REMOVE_NOTIFICATION]: (state, { id }) => {
+    state.notifications = state.notifications.filter(item => item.id !== id)
+  },
 }
 
 // ------------------------------------
@@ -188,19 +173,4 @@ notificationSelectors.getNotificationState = state => state.notification.notific
 
 export { notificationSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * notificationReducer - Notification reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function notificationReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
