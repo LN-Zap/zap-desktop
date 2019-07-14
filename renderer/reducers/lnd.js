@@ -11,6 +11,7 @@ import { receiveInvoiceData } from './invoice'
 import { receiveChannelGraphData } from './channels'
 import { receiveTransactionData } from './transaction'
 import { backupCurrentWallet, setupBackupService } from './backup'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -545,127 +546,111 @@ export const generateLndConfigFromWallet = wallet => async () => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [FETCH_SEED]: state => ({ ...state, isFetchingSeed: true }),
-  [FETCH_SEED_SUCCESS]: state => ({
-    ...state,
-    isFetchingSeed: false,
-    fetchSeedError: null,
-  }),
-  [FETCH_SEED_FAILURE]: (state, { error }) => ({
-    ...state,
-    isFetchingSeed: false,
-    fetchSeedError: error,
-  }),
+  [FETCH_SEED]: state => {
+    state.isFetchingSeed = true
+  },
+  [FETCH_SEED_SUCCESS]: state => {
+    state.isFetchingSeed = false
+    state.fetchSeedError = null
+  },
 
-  [START_LND]: (state, { lndConfig }) => ({
-    ...state,
-    lndConfig,
-    isStartingLnd: true,
-  }),
-  [START_LND_SUCCESS]: state => ({
-    ...state,
-    isStartingLnd: false,
-    isLndActive: true,
-  }),
-  [START_LND_FAILURE]: (state, { errors }) => ({
-    ...state,
-    isStartingLnd: false,
-    startLndError: errors,
-  }),
-  [CLEAR_START_LND_ERROR]: state => ({
-    ...state,
-    startLndError: null,
-  }),
+  [FETCH_SEED_FAILURE]: (state, { error }) => {
+    state.isFetchingSeed = false
+    state.fetchSeedError = error
+  },
 
-  [CONNECT_GRPC]: state => ({
-    ...state,
-    isStartingGrpc: true,
-  }),
-  [CONNECT_GRPC_SUCCESS]: state => ({
-    ...state,
-    isStartingGrpc: false,
-  }),
-  [LND_WALLET_UNLOCKER_GRPC_ACTIVE]: state => ({
-    ...state,
-    isWalletUnlockerGrpcActive: true,
-    isLightningGrpcActive: false,
-  }),
+  [START_LND]: (state, { lndConfig }) => {
+    state.lndConfig = lndConfig
+    state.isStartingLnd = true
+  },
 
-  [LND_LIGHTNING_GRPC_ACTIVE]: state => ({
-    ...state,
-    isWalletUnlockerGrpcActive: false,
-    isLightningGrpcActive: true,
-  }),
-  [CONNECT_GRPC_FAILURE]: state => ({
-    ...state,
-    isStartingGrpc: false,
-  }),
+  [START_LND_SUCCESS]: state => {
+    state.isStartingLnd = false
+    state.isLndActive = true
+  },
 
-  [DISCONNECT_GRPC]: state => ({
-    ...state,
-    isStoppingGrpc: true,
-  }),
+  [START_LND_FAILURE]: (state, { errors }) => {
+    state.isStartingLnd = false
+    state.startLndError = errors
+  },
 
-  [DISCONNECT_GRPC_SUCCESS]: state => ({
-    ...state,
-    isStoppingGrpc: false,
-    isLightningGrpcActive: false,
-    isWalletUnlockerGrpcActive: false,
-  }),
-  [DISCONNECT_GRPC_FAILURE]: state => ({
-    ...state,
-    isStoppingGrpc: false,
-  }),
+  [CLEAR_START_LND_ERROR]: state => {
+    state.startLndError = null
+  },
 
-  [STOP_LND]: state => ({
-    ...state,
-    isStoppingLnd: true,
-    stopLndError: null,
-  }),
-  [STOP_LND_SUCCESS]: state => ({
-    ...state,
-    isStoppingLnd: false,
-    isLndActive: false,
-    stopLndError: null,
-  }),
-  [STOP_LND_FAILURE]: (state, { error }) => ({
-    ...state,
-    isStoppingLnd: false,
-    isLndActive: false,
-    stopLndError: error,
-  }),
+  [CONNECT_GRPC]: state => {
+    state.isStartingGrpc = true
+  },
+  [CONNECT_GRPC_SUCCESS]: state => {
+    state.isStartingGrpc = false
+  },
+  [LND_WALLET_UNLOCKER_GRPC_ACTIVE]: state => {
+    state.isWalletUnlockerGrpcActive = true
+    state.isLightningGrpcActive = false
+  },
 
-  [CREATE_WALLET]: state => ({
-    ...state,
-    isCreatingWallet: true,
-    createWalletError: null,
-  }),
-  [CREATE_WALLET_SUCCESS]: state => ({
-    ...state,
-    isCreatingWallet: false,
-    createWalletError: null,
-  }),
-  [CREATE_WALLET_FAILURE]: (state, { error }) => ({
-    ...state,
-    isCreatingWallet: false,
-    createWalletError: error,
-  }),
-  [CLEAR_CREATE_WALLET_ERROR]: state => ({
-    ...state,
-    createWalletError: null,
-  }),
+  [LND_LIGHTNING_GRPC_ACTIVE]: state => {
+    state.isWalletUnlockerGrpcActive = false
+    state.isLightningGrpcActive = true
+  },
+  [CONNECT_GRPC_FAILURE]: state => {
+    state.isStartingGrpc = false
+  },
 
-  [UNLOCK_WALLET]: state => ({ ...state, isUnlockingWallet: true }),
-  [UNLOCK_WALLET_SUCCESS]: state => ({
-    ...state,
-    isUnlockingWallet: false,
-    unlockWalletError: null,
-  }),
-  [UNLOCK_WALLET_FAILURE]: (state, { unlockWalletError }) => ({
-    ...state,
-    isUnlockingWallet: false,
-    unlockWalletError,
-  }),
+  [DISCONNECT_GRPC]: state => {
+    state.isStoppingGrpc = true
+  },
+
+  [DISCONNECT_GRPC_SUCCESS]: state => {
+    state.isStoppingGrpc = false
+    state.isLightningGrpcActive = false
+    state.isWalletUnlockerGrpcActive = false
+  },
+  [DISCONNECT_GRPC_FAILURE]: state => {
+    state.isStoppingGrpc = false
+  },
+
+  [STOP_LND]: state => {
+    state.isStoppingLnd = true
+    state.stopLndError = null
+  },
+  [STOP_LND_SUCCESS]: state => {
+    state.isStoppingLnd = false
+    state.isLndActive = false
+    state.stopLndError = null
+  },
+  [STOP_LND_FAILURE]: (state, { error }) => {
+    state.isStoppingLnd = false
+    state.isLndActive = false
+    state.stopLndError = error
+  },
+
+  [CREATE_WALLET]: state => {
+    state.isCreatingWallet = true
+    state.createWalletError = null
+  },
+  [CREATE_WALLET_SUCCESS]: state => {
+    state.isCreatingWallet = false
+    state.createWalletError = null
+  },
+  [CREATE_WALLET_FAILURE]: (state, { error }) => {
+    state.isCreatingWallet = false
+    state.createWalletError = error
+  },
+  [CLEAR_CREATE_WALLET_ERROR]: state => {
+    state.createWalletError = null
+  },
+
+  [UNLOCK_WALLET]: state => {
+    state.isUnlockingWallet = true
+  },
+  [UNLOCK_WALLET_SUCCESS]: state => {
+    ;(state.isUnlockingWallet = false), (state.unlockWalletError = null)
+  },
+  [UNLOCK_WALLET_FAILURE]: (state, { unlockWalletError }) => {
+    state.isUnlockingWallet = false
+    state.unlockWalletError = unlockWalletError
+  },
 }
 
 // ------------------------------------
@@ -692,19 +677,4 @@ lndSelectors.isStartingLnd = isStartingLndSelector
 
 export { lndSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * lndReducer - Lnd reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function lndReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
