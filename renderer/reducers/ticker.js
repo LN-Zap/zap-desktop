@@ -205,7 +205,7 @@ tickerSelectors.cryptoAddressName = createSelector(
     // assume first entry is as a currency ticker name (e.g BTC, LTC etc)
     const [selectedUnit] = cryptoUnits
     if (selectedUnit) {
-      return selectedUnit.value
+      return selectedUnit.name
     }
     // fallback in case something is very wrong
     return chain
@@ -218,7 +218,7 @@ tickerSelectors.cryptoUnitName = createSelector(
   (unit, cryptoUnits = []) => {
     const selectedUnit = cryptoUnits.find(c => c.key === unit)
     if (selectedUnit) {
-      return selectedUnit.value
+      return selectedUnit.name
     }
     // fallback in case something is very wrong
     return unit
