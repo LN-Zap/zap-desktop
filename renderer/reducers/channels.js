@@ -11,6 +11,7 @@ import { fetchBalance } from './balance'
 import { walletSelectors } from './wallet'
 import { getNodeDisplayName, updateNodeData, networkSelectors } from './network'
 import { putConfig, settingsSelectors } from './settings'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -743,81 +744,80 @@ export const receiveChannelGraphData = ({ channel_updates, node_updates }) => (
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_CHANNEL_VIEW_MODE]: (state, { viewMode }) => ({ ...state, viewMode }),
-  [GET_CHANNELS]: state => ({ ...state, channelsLoading: true }),
-  [RECEIVE_CHANNELS]: (state, { channels, pendingChannels, closedChannels }) => ({
-    ...state,
-    channelsLoading: false,
-    channels,
-    pendingChannels,
-    closedChannels,
-  }),
+  [SET_CHANNEL_VIEW_MODE]: (state, { viewMode }) => {
+    state.viewMode = viewMode
+  },
+  [GET_CHANNELS]: state => {
+    state.channelsLoading = true
+  },
+  [RECEIVE_CHANNELS]: (state, { channels, pendingChannels, closedChannels }) => {
+    state.channelsLoading = false
+    state.channels = channels
+    state.pendingChannels = pendingChannels
+    state.closedChannels = closedChannels
+  },
 
-  [CLOSING_CHANNEL]: state => ({ ...state, closingChannel: true }),
+  [CLOSING_CHANNEL]: state => {
+    state.closingChannel = true
+  },
 
-  [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
+  [UPDATE_SEARCH_QUERY]: (state, { searchQuery }) => {
+    state.searchQuery = searchQuery
+  },
 
-  [CHANGE_CHANNEL_FILTER]: (state, { filter }) => ({
-    ...state,
-    filter,
-  }),
-  [CHANGE_CHANNEL_SORT]: (state, { sort }) => ({
-    ...state,
-    sort,
-  }),
-  [CHANGE_CHANNEL_SORT_ORDER]: (state, { sortOrder }) => ({
-    ...state,
-    sortOrder,
-  }),
+  [CHANGE_CHANNEL_FILTER]: (state, { filter }) => {
+    state.filter = filter
+  },
+  [CHANGE_CHANNEL_SORT]: (state, { sort }) => {
+    state.sort = sort
+  },
+  [CHANGE_CHANNEL_SORT_ORDER]: (state, { sortOrder }) => {
+    state.sortOrder = sortOrder
+  },
 
-  [ADD_LOADING_PUBKEY]: (state, { data }) => ({
-    ...state,
-    loadingChannels: [data, ...state.loadingChannels],
-  }),
-  [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => ({
-    ...state,
-    loadingChannels: state.loadingChannels.filter(data => data.node_pubkey !== pubkey),
-  }),
+  [ADD_LOADING_PUBKEY]: (state, { data }) => {
+    state.loadingChannels.unshift(data)
+  },
+  [REMOVE_LOADING_PUBKEY]: (state, { pubkey }) => {
+    state.loadingChannels = state.loadingChannels.filter(data => data.node_pubkey !== pubkey)
+  },
 
-  [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => ({
-    ...state,
-    closingChannelIds: [chanId, ...state.closingChannelIds],
-  }),
-  [REMOVE_ClOSING_CHAN_ID]: (state, { chanId }) => ({
-    ...state,
-    closingChannelIds: state.closingChannelIds.filter(closingChanId => closingChanId !== chanId),
-  }),
+  [ADD_ClOSING_CHAN_ID]: (state, { chanId }) => {
+    state.closingChannelIds.unshift(chanId)
+  },
+  [REMOVE_ClOSING_CHAN_ID]: (state, { chanId }) => {
+    state.closingChannelIds = state.closingChannelIds.filter(
+      closingChanId => closingChanId !== chanId
+    )
+  },
 
-  [SET_SELECTED_CHANNEL]: (state, { selectedChannelId }) => ({ ...state, selectedChannelId }),
+  [SET_SELECTED_CHANNEL]: (state, { selectedChannelId }) => {
+    state.selectedChannelId = selectedChannelId
+  },
 
-  [GET_SUGGESTED_NODES]: state => ({
-    ...state,
-    suggestedNodesLoading: true,
-    suggestedNodesError: null,
-  }),
-  [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => ({
-    ...state,
-    suggestedNodesLoading: false,
-    suggestedNodesError: null,
-    suggestedNodes,
-  }),
-  [RECEIVE_SUGGESTED_NODES_ERROR]: (state, { error }) => ({
-    ...state,
-    suggestedNodesLoading: false,
-    suggestedNodesError: error,
-    suggestedNodes: {
+  [GET_SUGGESTED_NODES]: state => {
+    state.suggestedNodesLoading = true
+    state.suggestedNodesError = null
+  },
+  [RECEIVE_SUGGESTED_NODES]: (state, { suggestedNodes }) => {
+    state.suggestedNodesLoading = false
+    state.suggestedNodesError = null
+    state.suggestedNodes = suggestedNodes
+  },
+  [RECEIVE_SUGGESTED_NODES_ERROR]: (state, { error }) => {
+    state.suggestedNodesLoading = false
+    state.suggestedNodesError = error
+    state.suggestedNodes = {
       mainnet: [],
       testnet: [],
-    },
-  }),
-  [OPEN_CLOSE_CHANNEL_DIALOG]: state => ({
-    ...state,
-    isCloseDialogOpen: true,
-  }),
-  [CLOSE_CLOSE_CHANNEL_DIALOG]: state => ({
-    ...state,
-    isCloseDialogOpen: false,
-  }),
+    }
+  },
+  [OPEN_CLOSE_CHANNEL_DIALOG]: state => {
+    state.isCloseDialogOpen = true
+  },
+  [CLOSE_CLOSE_CHANNEL_DIALOG]: state => {
+    state.isCloseDialogOpen = false
+  },
 }
 
 // ------------------------------------
@@ -1156,19 +1156,4 @@ channelsSelectors.receiveCapacity = createSelector(
 
 export { channelsSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * channelsReducer - Channels reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function channelsReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
