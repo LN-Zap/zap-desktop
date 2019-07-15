@@ -3,11 +3,13 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import { space } from 'styled-system'
 import { List, AutoSizer, CellMeasurer, CellMeasurerCache } from 'react-virtualized'
-import { FormattedDate } from 'react-intl'
+import { FormattedDate, injectIntl, intlShape } from 'react-intl'
 import { Box } from 'rebass'
 import { Bar, Heading, Panel } from 'components/UI'
 import ActivityActions from 'containers/Activity/ActivityActions'
 import ActivityListItem from './ActivityListItem'
+import ErrorDetailsDialog from './ErrorDetailsDialog'
+import messages from './messages'
 
 const StyledList = styled(List)`
   ${space}
@@ -37,6 +39,11 @@ class Activity extends Component {
       this.updateList()
     }
     this._prevListWidth = width
+  }
+
+  onErrorDetailsCopy = () => {
+    const { showNotification, intl } = this.props
+    showNotification(intl.formatMessage({ ...messages.error_copied }))
   }
 
   renderActivityList = () => {
@@ -82,12 +89,24 @@ class Activity extends Component {
   }
 
   render() {
+    const { isErrorDialogOpen, hideErrorDetailsDialog, errorDialogDetails } = this.props
+
     return (
       <Panel>
         <Panel.Header my={3} px={4}>
           <ActivityActions />
         </Panel.Header>
-        <Panel.Body>{this.renderActivityList()}</Panel.Body>
+        <Panel.Body>
+          <>
+            {this.renderActivityList()}
+            <ErrorDetailsDialog
+              error={errorDialogDetails}
+              isOpen={isErrorDialogOpen}
+              onClose={hideErrorDetailsDialog}
+              onCopy={this.onErrorDetailsCopy}
+            />
+          </>
+        </Panel.Body>
       </Panel>
     )
   }
@@ -95,6 +114,11 @@ class Activity extends Component {
 
 Activity.propTypes = {
   currentActivity: PropTypes.array.isRequired,
+  errorDialogDetails: PropTypes.object,
+  hideErrorDetailsDialog: PropTypes.func.isRequired,
+  intl: intlShape.isRequired,
+  isErrorDialogOpen: PropTypes.bool,
+  showNotification: PropTypes.func.isRequired,
 }
 
-export default Activity
+export default injectIntl(Activity)

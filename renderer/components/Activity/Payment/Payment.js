@@ -1,10 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, FormattedTime, injectIntl, intlShape } from 'react-intl'
+
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { Box, Flex } from 'rebass'
 import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
+import ErrorLink from '../ErrorLink'
 import messages from './messages'
 
 /**
@@ -27,7 +29,7 @@ const getDisplayNodeName = (payment, intl) => {
   return intl.formatMessage({ ...messages.unknown })
 }
 
-const Payment = ({ payment, showActivityModal, cryptoUnitName, intl }) => {
+const Payment = ({ payment, showActivityModal, cryptoUnitName, showErrorDetailsDialog, intl }) => {
   return (
     <Flex
       alignItems="center"
@@ -54,11 +56,9 @@ const Payment = ({ payment, showActivityModal, cryptoUnitName, intl }) => {
               </Message>
             )}
             {payment.status === 'failed' && (
-              <Message variant="error">
+              <ErrorLink onClick={() => showErrorDetailsDialog({ details: payment.error })}>
                 <FormattedMessage {...messages.status_error} />
-                {` `}
-                {payment.error}
-              </Message>
+              </ErrorLink>
             )}
           </>
         ) : (
@@ -93,6 +93,7 @@ Payment.propTypes = {
   intl: intlShape.isRequired,
   payment: PropTypes.object.isRequired,
   showActivityModal: PropTypes.func.isRequired,
+  showErrorDetailsDialog: PropTypes.func.isRequired,
 }
 
 export default injectIntl(Payment)
