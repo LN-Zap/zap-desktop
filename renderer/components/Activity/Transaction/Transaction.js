@@ -4,6 +4,7 @@ import { FormattedTime, FormattedMessage, injectIntl, intlShape } from 'react-in
 import { Box, Flex } from 'rebass'
 import { Message, Text } from 'components/UI'
 import { CryptoValue, FiatValue } from 'containers/UI'
+import ErrorLink from '../ErrorLink'
 import messages from './messages'
 
 const Transaction = ({ transaction, showActivityModal, cryptoUnitName, intl }) => {
@@ -51,9 +52,9 @@ const Transaction = ({ transaction, showActivityModal, cryptoUnitName, intl }) =
               </Message>
             )}
             {transaction.status === 'failed' && (
-              <Message variant="error">
-                <FormattedMessage {...messages.status_error} /> {transaction.error}
-              </Message>
+              <ErrorLink>
+                <FormattedMessage {...messages.status_error} />
+              </ErrorLink>
             )}
           </>
         ) : (
