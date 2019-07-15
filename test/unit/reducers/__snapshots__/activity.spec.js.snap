@@ -3,6 +3,7 @@
 exports[`reducers activityReducer should handle CHANGE_FILTER 1`] = `
 Object {
   "activityLoadingError": null,
+  "errorDialogDetails": null,
   "filter": undefined,
   "filters": Array [
     Object {
@@ -55,6 +56,7 @@ Object {
 exports[`reducers activityReducer should handle HIDE_ACTIVITY_MODAL 1`] = `
 Object {
   "activityLoadingError": null,
+  "errorDialogDetails": null,
   "filter": "ALL_ACTIVITY",
   "filters": Array [
     Object {
@@ -88,6 +90,7 @@ Object {
 exports[`reducers activityReducer should handle SHOW_ACTIVITY_MODAL 1`] = `
 Object {
   "activityLoadingError": null,
+  "errorDialogDetails": null,
   "filter": "ALL_ACTIVITY",
   "filters": Array [
     Object {
