@@ -19,6 +19,7 @@ const ChannelsActions = ({
   filters,
   sort,
   sorters,
+  currentChannelCount,
   sortOrder,
   searchQuery,
   channels,
@@ -54,7 +55,7 @@ const ChannelsActions = ({
       </Flex>
     </Card>
     <Flex alignItems="center" as="section" justifyContent="space-between" my={3}>
-      <ChannelCount channels={channels} mr={4} />
+      <ChannelCount count={currentChannelCount} mr={4} />
       <ButtonCreate justify="right" ml="auto" onClick={() => openModal('CHANNEL_CREATE')}>
         <FormattedMessage {...messages.create_new_button_text} />
       </ButtonCreate>
@@ -67,6 +68,7 @@ ChannelsActions.propTypes = {
   changeSort: PropTypes.func.isRequired,
   channels: PropTypes.array.isRequired,
   channelViewMode: PropTypes.string.isRequired,
+  currentChannelCount: PropTypes.number.isRequired,
   fetchChannels: PropTypes.func.isRequired,
   filter: PropTypes.string.isRequired,
   filters: PropTypes.array.isRequired,
