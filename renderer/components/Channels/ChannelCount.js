@@ -5,19 +5,19 @@ import { Flex } from 'rebass'
 import { Text } from 'components/UI'
 import messages from './messages'
 
-const ChannelCount = ({ channels, ...rest }) => {
+const ChannelCount = ({ count, ...rest }) => {
   return (
     <Flex alignItems="center" as="section" {...rest}>
       <Text fontWeight="normal" mr={2}>
         <FormattedMessage {...messages.channels} />
       </Text>
-      <Text>{channels.length}</Text>
+      <Text>{count}</Text>
     </Flex>
   )
 }
 
 ChannelCount.propTypes = {
-  channels: PropTypes.array.isRequired,
+  count: PropTypes.number.isRequired,
 }
 
 export default ChannelCount
