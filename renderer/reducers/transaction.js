@@ -8,6 +8,7 @@ import { addressSelectors, newAddress } from './address'
 import { fetchBalance } from './balance'
 import { fetchChannels, channelsSelectors, getChannelData } from './channels'
 import { settingsSelectors } from './settings'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -250,54 +251,34 @@ export const receiveTransactionData = transaction => (dispatch, getState) => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [GET_TRANSACTIONS]: state => ({ ...state, transactionLoading: true }),
-  [SEND_TRANSACTION]: (state, { transaction }) => ({
-    ...state,
-    transactionsSending: [...state.transactionsSending, transaction],
-  }),
-  [RECEIVE_TRANSACTIONS]: (state, { transactions }) => ({
-    ...state,
-    transactionLoading: false,
-    transactions,
-  }),
-  [ADD_TRANSACTION]: (state, { transaction }) => ({
-    ...state,
-    transactions: [transaction, ...state.transactions],
-  }),
+  [GET_TRANSACTIONS]: state => {
+    state.transactionLoading = true
+  },
+  [SEND_TRANSACTION]: (state, { transaction }) => {
+    state.transactionsSending.push(transaction)
+  },
+  [RECEIVE_TRANSACTIONS]: (state, { transactions }) => {
+    state.transactionLoading = false
+    state.transactions = transactions
+  },
+  [ADD_TRANSACTION]: (state, { transaction }) => {
+    state.transactions.unshift(transaction)
+  },
   [TRANSACTION_SUCCESSFUL]: (state, { addr }) => {
-    return {
-      ...state,
-      transactionsSending: state.transactionsSending.map(item => {
-        if (item.addr !== addr) {
-          return item
-        }
-        return {
-          ...item,
-          status: 'successful',
-        }
-      }),
+    const txIndex = state.transactionsSending.findIndex(item => item.addr === addr)
+    if (txIndex >= 0) {
+      state.transactionsSending[txIndex].status = 'successful'
     }
   },
   [TRANSACTION_FAILED]: (state, { addr, error }) => {
-    return {
-      ...state,
-      transactionsSending: state.transactionsSending.map(item => {
-        if (item.addr !== addr) {
-          return item
-        }
-        return {
-          ...item,
-          status: 'failed',
-          error,
-        }
-      }),
+    const txIndex = state.transactionsSending.findIndex(item => item.addr === addr)
+    if (txIndex >= 0) {
+      state.transactionsSending[txIndex].status = 'failed'
+      state.transactionsSending[txIndex].error = error
     }
   },
   [TRANSACTION_COMPLETE]: (state, { addr }) => {
-    return {
-      ...state,
-      transactionsSending: state.transactionsSending.filter(item => item.addr !== addr),
-    }
+    state.transactionsSending = state.transactionsSending.filter(item => item.addr !== addr)
   },
 }
 
@@ -354,19 +335,4 @@ transactionsSelectors.transactions = createSelector(
 
 export { transactionsSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * transactionReducer - Transaction reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function transactionReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
