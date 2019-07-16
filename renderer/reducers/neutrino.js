@@ -4,6 +4,7 @@ import { neutrinoService } from 'workers'
 import { proxyValue } from 'comlinkjs'
 import { showSystemNotification } from '@zap/utils/notifications'
 import { setHasSynced } from './info'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -416,28 +417,26 @@ export const neutrinoSyncStatus = status => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [START_NEUTRINO]: state => ({
-    ...state,
-    isStartingNeutrino: true,
-    startNeutrinoError: null,
-  }),
-  [START_NEUTRINO_SUCCESS]: state => ({
-    ...state,
-    isStartingNeutrino: false,
-    isNeutrinoRunning: true,
-    startNeutrinoError: null,
-  }),
-  [START_NEUTRINO_FAILURE]: (state, { startNeutrinoError }) => ({
-    ...state,
-    isStartingNeutrino: false,
-    startNeutrinoError,
-  }),
+  [START_NEUTRINO]: state => {
+    state.isStartingNeutrino = true
+    state.startNeutrinoError = null
+  },
 
-  [STOP_NEUTRINO]: state => ({
-    ...state,
-    isStoppingNeutrino: true,
-    stopNeutrinoError: null,
-  }),
+  [START_NEUTRINO_SUCCESS]: state => {
+    state.isStartingNeutrino = false
+    state.isNeutrinoRunning = true
+    state.startNeutrinoError = null
+  },
+
+  [START_NEUTRINO_FAILURE]: (state, { startNeutrinoError }) => {
+    state.isStartingNeutrino = false
+    state.startNeutrinoError = startNeutrinoError
+  },
+
+  [STOP_NEUTRINO]: state => {
+    state.isStoppingNeutrino = true
+    state.stopNeutrinoError = null
+  },
   [STOP_NEUTRINO_SUCCESS]: state => ({
     ...state,
     ...initialState,
@@ -448,45 +447,44 @@ const ACTION_HANDLERS = {
     stopNeutrinoError,
   }),
 
-  [RECEIVE_CURRENT_BLOCK_HEIGHT]: (state, { blockHeight }) => ({
-    ...state,
-    blockHeight,
-  }),
+  [RECEIVE_CURRENT_BLOCK_HEIGHT]: (state, { blockHeight }) => {
+    state.blockHeight = blockHeight
+  },
   [RECEIVE_LND_BLOCK_HEIGHT]: (state, { data }) => {
     const { first, last } = parseHeightUpdates(data)
-    return {
-      ...state,
-      neutrinoBlockHeight: last,
-      neutrinoFirstBlockHeight: Math.min(state.neutrinoFirstBlockHeight || first, first),
-    }
+    state.neutrinoBlockHeight = last
+    state.neutrinoFirstBlockHeight = Math.min(state.neutrinoFirstBlockHeight || first, first)
   },
   [RECEIVE_LND_CFILTER_HEIGHT]: (state, { data }) => {
     const { first, last } = parseHeightUpdates(data)
-    return {
-      ...state,
-      neutrinoCfilterHeight: last,
-      neutrinoFirstCfilterHeight: Math.min(state.neutrinoFirstCfilterHeight || first, first),
-    }
+    state.neutrinoCfilterHeight = last
+    state.neutrinoFirstCfilterHeight = Math.min(state.neutrinoFirstCfilterHeight || first, first)
   },
   [RECEIVE_LND_RECOVERY_HEIGHT]: (state, { data }) => {
     const { first, last } = parseHeightUpdates(data)
-    return {
-      ...state,
-      neutrinoRecoveryHeight: last,
-      neutrinoFirstRecoveryHeight: Math.min(state.neutrinoFirstRecoveryHeight || first, first),
-    }
+    state.neutrinoRecoveryHeight = last
+    state.neutrinoFirstRecoveryHeight = Math.min(state.neutrinoFirstRecoveryHeight || first, first)
   },
 
-  [SET_SYNC_STATUS_PENDING]: state => ({ ...state, syncStatus: 'pending' }),
-  [SET_SYNC_STATUS_WAITING]: state => ({ ...state, syncStatus: 'waiting' }),
-  [SET_SYNC_STATUS_IN_PROGRESS]: state => ({ ...state, syncStatus: 'in-progress' }),
-  [SET_SYNC_STATUS_COMPLETE]: state => ({ ...state, syncStatus: 'complete' }),
-  [SET_SYNC_STATUS_RECOVERING]: state => ({ ...state, syncStatus: 'recovering' }),
+  [SET_SYNC_STATUS_PENDING]: state => {
+    state.syncStatus = 'pending'
+  },
+  [SET_SYNC_STATUS_WAITING]: state => {
+    state.syncStatus = 'waiting'
+  },
+  [SET_SYNC_STATUS_IN_PROGRESS]: state => {
+    state.syncStatus = 'in-progress'
+  },
+  [SET_SYNC_STATUS_COMPLETE]: state => {
+    state.syncStatus = 'complete'
+  },
+  [SET_SYNC_STATUS_RECOVERING]: state => {
+    state.syncStatus = 'recovering'
+  },
 
-  [SET_GRPC_ACTIVE_INTERFACE]: (state, { grpcActiveInterface }) => ({
-    ...state,
-    grpcActiveInterface,
-  }),
+  [SET_GRPC_ACTIVE_INTERFACE]: (state, { grpcActiveInterface }) => {
+    state.grpcActiveInterface = grpcActiveInterface
+  },
 
   [NEUTRINO_CRASHED]: (state, { code, signal, lastError }) => ({
     ...state,
@@ -594,19 +592,4 @@ neutrinoSelectors.neutrinoCrashReason = createSelector(
 
 export { neutrinoSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * neutrinoReducer - Neutrino reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function neutrinoReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
