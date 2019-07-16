@@ -1,4 +1,5 @@
 import { grpcService } from 'workers'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -43,28 +44,17 @@ export const fetchPeers = () => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [FETCH_PEERS]: state => ({ ...state, isPeersLoading: true }),
-  [FETCH_PEERS_SUCCESS]: (state, { peers }) => ({ ...state, isPeersLoading: false, peers }),
-  [FETCH_PEERS_FAILURE]: (state, { error }) => ({
-    ...state,
-    isPeersLoading: false,
-    peersLoadingError: error,
-  }),
+  [FETCH_PEERS]: state => {
+    state.isPeersLoading = true
+  },
+  [FETCH_PEERS_SUCCESS]: (state, { peers }) => {
+    state.isPeersLoading = false
+    state.peers = peers
+  },
+  [FETCH_PEERS_FAILURE]: (state, { error }) => {
+    state.isPeersLoading = false
+    state.peersLoadingError = error
+  },
 }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * peersReducer - Peers reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function peersReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
