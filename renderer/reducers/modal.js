@@ -1,7 +1,7 @@
 import matches from 'lodash/matches'
 
 import genId from '@zap/utils/genId'
-
+import createReducer from './utils/createReducer'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -124,30 +124,22 @@ export function setModals(modalList = []) {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [OPEN_MODAL]: (state, { modal }) => ({
-    ...state,
-    modals: [...state.modals, modal],
-  }),
+  [OPEN_MODAL]: (state, { modal }) => {
+    state.modals.push(modal)
+  },
   [CLOSE_MODAL]: (state, { id }) => {
     if (id) {
-      return {
-        ...state,
-        modals: state.modals.filter(item => item.id !== id),
-      }
-    }
-    return {
-      ...state,
-      modals: [...state.modals.slice(0, -1)],
+      state.modals = state.modals.filter(item => item.id !== id)
+    } else {
+      state.modals.pop()
     }
   },
-  [CLOSE_ALL_MODALS]: state => ({
-    ...state,
-    modals: [],
-  }),
-  [SET_MODALS]: (state, { modals }) => ({
-    ...state,
-    modals,
-  }),
+  [CLOSE_ALL_MODALS]: state => {
+    state.modals = []
+  },
+  [SET_MODALS]: (state, { modals }) => {
+    state.modals = modals
+  },
 }
 
 // ------------------------------------
@@ -159,19 +151,4 @@ modalSelectors.getModalState = state => state.modal.modals
 
 export { modalSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * modalReducer - Modal reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function modalReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
