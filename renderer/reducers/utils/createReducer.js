@@ -10,7 +10,7 @@ import produce from 'immer'
 const createReducer = (initialState, actionHandlers) => (state = initialState, action) => {
   return produce(state, draft => {
     const handler = actionHandlers[action.type]
-    handler && handler(draft, action)
+    return handler && handler(draft, action)
   })
 }
 
