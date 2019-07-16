@@ -4,6 +4,7 @@ import { currencies, getDefaultCurrency } from '@zap/i18n'
 import { requestTickerWithFallback } from '@zap/utils/rateProvider'
 import { infoSelectors } from './info'
 import { putConfig, settingsSelectors } from './settings'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -136,12 +137,13 @@ export const fetchTickers = () => async (dispatch, getState) => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [GET_TICKERS]: state => ({ ...state, tickerLoading: true }),
-  [RECIEVE_TICKERS]: (state, { rates }) => ({
-    ...state,
-    tickerLoading: false,
-    rates,
-  }),
+  [GET_TICKERS]: state => {
+    state.tickerLoading = true
+  },
+  [RECIEVE_TICKERS]: (state, { rates }) => {
+    state.tickerLoading = false
+    state.rates = rates
+  },
 }
 
 // ------------------------------------
@@ -235,19 +237,4 @@ tickerSelectors.autopayCurrencyName = createSelector(
 
 export { tickerSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * tickerReducer - Ticker reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function tickerReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
