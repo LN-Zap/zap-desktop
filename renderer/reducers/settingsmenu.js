@@ -1,3 +1,5 @@
+import createReducer from './utils/createReducer'
+
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -44,23 +46,13 @@ export function closeSettingsMenu() {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [OPEN_SETTINGS]: state => ({ ...state, isSettingsMenuOpen: true }),
-  [CLOSE_SETTINGS]: state => ({ ...state, isSettingsMenuOpen: false, activeSubMenu: null }),
+  [OPEN_SETTINGS]: state => {
+    state.isSettingsMenuOpen = true
+  },
+  [CLOSE_SETTINGS]: state => {
+    state.isSettingsMenuOpen = false
+    state.activeSubMenu = null
+  },
 }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * settingsmenuReducer - Settingsmenu reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function settingsmenuReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
