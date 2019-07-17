@@ -181,6 +181,7 @@
   "components.Channels.remote_balance": "Remote Kontostand",
   "components.Channels.remote_pubkey": "Remote PubKey",
   "components.Channels.search_placeholder": "Suche Kanäle",
+  "components.Channels.show_all": "",
   "components.Channels.total": "Insgesamt",
   "components.Channels.total_capacity": "Gesamtkapazität",
   "components.Channels.total_capacity_receive": "Kann insgesamt erhalten",

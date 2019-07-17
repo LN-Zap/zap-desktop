@@ -181,6 +181,7 @@
   "components.Channels.remote_balance": "Udaljeni saldo",
   "components.Channels.remote_pubkey": "Udaljeni PubKey",
   "components.Channels.search_placeholder": "Pretraživanje kanala",
+  "components.Channels.show_all": "",
   "components.Channels.total": "Ukupno",
   "components.Channels.total_capacity": "Ukupni kapacitet",
   "components.Channels.total_capacity_receive": "",

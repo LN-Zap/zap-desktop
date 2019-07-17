@@ -181,6 +181,7 @@
   "components.Channels.remote_balance": "Balance Remoto",
   "components.Channels.remote_pubkey": "Pubkey Remoto",
   "components.Channels.search_placeholder": "Buscar Canales",
+  "components.Channels.show_all": "",
   "components.Channels.total": "Total",
   "components.Channels.total_capacity": "Capacidad Total",
   "components.Channels.total_capacity_receive": "",
