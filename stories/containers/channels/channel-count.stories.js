@@ -11,7 +11,7 @@ storiesOf('Containers.Channels', module)
         sections: [
           {
             sectionFn: () => {
-              return <ChannelCount count={5} />
+              return <ChannelCount count={5} totalCount={10} />
             },
           },
         ],
