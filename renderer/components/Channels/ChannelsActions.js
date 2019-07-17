@@ -2,7 +2,9 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
 import { Box, Flex } from 'rebass'
-import { ButtonCreate, Card } from 'components/UI'
+import { ButtonCreate, Card, Text } from 'components/UI'
+import { themeGet } from 'styled-system'
+import styled from 'styled-components'
 import ChannelFilter from './ChannelFilter'
 import ChannelSort from './ChannelSort'
 import ChannelSearch from './ChannelSearch'
@@ -12,6 +14,27 @@ import ChannelSortDirectionButton from './ChannelSortDirectionButton'
 import ChannelCount from './ChannelCount'
 
 import messages from './messages'
+
+const ResetSearchText = styled(Text)`
+  &:hover {
+    color: ${themeGet('colors.lightningOrange')};
+  }
+  cursor: pointer;
+`
+
+const ResetSearch = ({ onClick }) => {
+  return (
+    <ResetSearchText color="gray" onClick={onClick}>
+      {`(`}
+      <FormattedMessage {...messages.show_all} />
+      {`)`}
+    </ResetSearchText>
+  )
+}
+
+ResetSearch.propTypes = {
+  onClick: PropTypes.func.isRequired,
+}
 
 const ChannelsActions = ({
   fetchChannels,
@@ -55,7 +78,18 @@ const ChannelsActions = ({
       </Flex>
     </Card>
     <Flex alignItems="center" as="section" justifyContent="space-between" my={3}>
-      <ChannelCount count={currentChannelCount} mr={4} />
+      <Flex mr={4}>
+        <ChannelCount count={currentChannelCount} totalCount={channels.length} />
+        {currentChannelCount !== channels.length && (
+          <ResetSearch
+            onClick={() => {
+              changeFilter('ALL_CHANNELS')
+              updateChannelSearchQuery(null)
+            }}
+          />
+        )}
+      </Flex>
+
       <ButtonCreate justify="right" ml="auto" onClick={() => openModal('CHANNEL_CREATE')}>
         <FormattedMessage {...messages.create_new_button_text} />
       </ButtonCreate>
