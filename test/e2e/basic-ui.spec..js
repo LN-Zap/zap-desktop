@@ -46,7 +46,7 @@ test('provide access to basic wallet functionality', async t => {
     .expect(onboarding.connectionDetails.exists)
     .ok()
     .click(onboarding.connectionDetailsTabs.manual.button)
-    .typeText(onboarding.hostInput, 'testnet1-lnd.zaphq.io:10009', { paste: true })
+    .typeText(onboarding.hostInput, 'testnet4-lnd.zaphq.io:10009', { paste: true })
     .typeText(onboarding.certInput, path.join(__dirname, 'fixtures', 'tls.cert'), { paste: true })
     .typeText(onboarding.macaroonInput, path.join(__dirname, 'fixtures', 'readonly.macaroon'), {
       paste: true,
