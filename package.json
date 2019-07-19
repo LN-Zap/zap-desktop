@@ -343,7 +343,7 @@
     "jstimezonedetect": "1.0.6",
     "lnd-grpc": "0.3.0-4",
     "lndconnect": "0.2.7",
-    "lodash": "4.17.13",
+    "lodash": "4.17.14",
     "node-fetch": "2.6.0",
     "polished": "3.4.1",
     "prop-types": "15.7.2",
@@ -373,6 +373,9 @@
     "untildify": "4.0.0",
     "validator": "11.0.0",
     "yup": "0.27.0"
+  },
+  "resolutions": {
+    "lodash": "4.17.14"
   },
   "main": "./dist/main.js"
 }
