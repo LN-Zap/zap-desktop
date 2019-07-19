@@ -3,7 +3,7 @@ import partition from 'lodash/partition'
 import { createSelector } from 'reselect'
 import truncateNodePubkey from '@zap/utils/truncateNodePubkey'
 import { getNodeDisplayName, networkSelectors } from './network'
-
+import createReducer from './utils/createReducer'
 // ------------------------------------
 // Initial State
 // ------------------------------------
@@ -57,7 +57,9 @@ export function updateContactFormSearchQuery(searchQuery) {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [UPDATE_CONTACT_FORM_SEARCH_QUERY]: (state, { searchQuery }) => ({ ...state, searchQuery }),
+  [UPDATE_CONTACT_FORM_SEARCH_QUERY]: (state, { searchQuery }) => {
+    state.searchQuery = searchQuery
+  },
 }
 
 // ------------------------------------
@@ -158,19 +160,4 @@ contactFormSelectors.selectedNodeDisplayName = createSelector(
 
 export { contactFormSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * contactFormReducer - Contactsform reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function contactFormReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)

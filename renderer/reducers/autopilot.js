@@ -1,6 +1,7 @@
 import { grpcService } from 'workers'
 import { requestNodeScores } from '@zap/utils/api'
 import { infoSelectors } from './info'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -63,28 +64,16 @@ export const updateAutopilotNodeScores = () => async (dispatch, getState) => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [UPDATE_AUTOPILOT_NODE_SCORES]: state => ({ ...state, isBalanceLoading: true }),
-  [UPDATE_AUTOPILOT_NODE_SCORES_SUCCESS]: (state, { scores }) => ({ ...state, scores }),
-  [UPDATE_AUTOPILOT_NODE_SCORES_FAILURE]: (state, { error }) => ({
-    ...state,
-    isFetchingNodeScores: false,
-    fetchNodeScoresError: error,
-  }),
+  [UPDATE_AUTOPILOT_NODE_SCORES]: state => {
+    state.isBalanceLoading = true
+  },
+  [UPDATE_AUTOPILOT_NODE_SCORES_SUCCESS]: (state, { scores }) => {
+    state.scores = scores
+  },
+  [UPDATE_AUTOPILOT_NODE_SCORES_FAILURE]: (state, { error }) => {
+    state.isFetchingNodeScores = false
+    state.fetchNodeScoresError = error
+  },
 }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * autopilotReducer - Autopilot reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function autopilotReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)

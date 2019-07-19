@@ -3,8 +3,8 @@ import produce from 'immer'
 /**
  * createReducer - Creates immer compatible reducer.
  *
- * @param {object} initialState
- * @param {object} actionHandlers
+ * @param {object} initialState  initial redux state
+ * @param {object} actionHandlers <action_name, reducer> map
  * @returns {Function} immer compatible reducer function
  */
 const createReducer = (initialState, actionHandlers) => (state = initialState, action) => {

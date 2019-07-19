@@ -5,6 +5,7 @@ import { isSCBRestoreEnabled } from '@zap/utils/featureFlag'
 import { walletSelectors } from './wallet'
 import { infoSelectors } from './info'
 import { showError, showNotification } from './notification'
+import createReducer from './utils/createReducer'
 
 // ------------------------------------
 // Initial State
@@ -414,18 +415,15 @@ export const restoreWallet = backup => async dispatch => {
 // ------------------------------------
 
 const ACTION_HANDLERS = {
-  [SET_PROVIDER]: (state, { provider }) => ({
-    ...state,
-    provider,
-  }),
-  [SET_LOCAL_PATH]: (state, { localPath }) => ({
-    ...state,
-    localPath,
-  }),
-  [SET_RESTORE_MODE]: (state, { value }) => ({
-    ...state,
-    isRestoreMode: value,
-  }),
+  [SET_PROVIDER]: (state, { provider }) => {
+    state.provider = provider
+  },
+  [SET_LOCAL_PATH]: (state, { localPath }) => {
+    state.localPath = localPath
+  },
+  [SET_RESTORE_MODE]: (state, { value }) => {
+    state.isRestoreMode = value
+  },
 }
 
 // ------------------------------------
@@ -439,19 +437,4 @@ backupSelectors.restoreModeSelector = state => state.backup.isRestoreMode
 
 export { backupSelectors }
 
-// ------------------------------------
-// Reducer
-// ------------------------------------
-
-/**
- * backupReducer - Backup reducer.
- *
- * @param  {object} state = initialState Initial state
- * @param  {object} action Action
- * @returns {object} Next state
- */
-export default function backupReducer(state = initialState, action) {
-  const handler = ACTION_HANDLERS[action.type]
-
-  return handler ? handler(state, action) : state
-}
+export default createReducer(initialState, ACTION_HANDLERS)
